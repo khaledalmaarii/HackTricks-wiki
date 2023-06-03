@@ -1,148 +1,138 @@
-
-
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- Travaillez-vous dans une entreprise de **cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **Partagez vos astuces de piratage en soumettant des PR au [repo hacktricks](https://github.com/carlospolop/hacktricks) et au [repo hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
 
-# Wasm decompiler / Wat compiler
+# Décompilateur Wasm / Compilateur Wat
 
-Online:
+En ligne :
 
-* Use [https://webassembly.github.io/wabt/demo/wasm2wat/index.html](https://webassembly.github.io/wabt/demo/wasm2wat/index.html) to **decompile** from wasm \(binary\) to wat \(clear text\)
-* Use [https://webassembly.github.io/wabt/demo/wat2wasm/](https://webassembly.github.io/wabt/demo/wat2wasm/) to **compile** from wat to wasm
-* you can also try to use [https://wwwg.github.io/web-wasmdec/](https://wwwg.github.io/web-wasmdec/) to decompile
+* Utilisez [https://webassembly.github.io/wabt/demo/wasm2wat/index.html](https://webassembly.github.io/wabt/demo/wasm2wat/index.html) pour **décompiler** du wasm \(binaire\) en wat \(texte clair\)
+* Utilisez [https://webassembly.github.io/wabt/demo/wat2wasm/](https://webassembly.github.io/wabt/demo/wat2wasm/) pour **compiler** du wat en wasm
+* Vous pouvez également essayer d'utiliser [https://wwwg.github.io/web-wasmdec/](https://wwwg.github.io/web-wasmdec/) pour décompiler
 
-Software:
+Logiciel :
 
 * [https://www.pnfsoftware.com/jeb/demo](https://www.pnfsoftware.com/jeb/demo)
 * [https://github.com/wwwg/wasmdec](https://github.com/wwwg/wasmdec)
 
-# .Net decompiler
+# Décompilateur .Net
 
 [https://github.com/icsharpcode/ILSpy](https://github.com/icsharpcode/ILSpy)  
-[ILSpy plugin for Visual Studio Code](https://github.com/icsharpcode/ilspy-vscode): You can have it in any OS \(you can install it directly from VSCode, no need to download the git. Click on **Extensions** and **search ILSpy**\).  
-If you need to **decompile**, **modify** and **recompile** again you can use: [**https://github.com/0xd4d/dnSpy/releases**](https://github.com/0xd4d/dnSpy/releases) \(**Right Click -&gt; Modify Method** to change something inside a function\).  
-You cloud also try [https://www.jetbrains.com/es-es/decompiler/](https://www.jetbrains.com/es-es/decompiler/)
+[Plugin ILSpy pour Visual Studio Code](https://github.com/icsharpcode/ilspy-vscode) : Vous pouvez l'avoir dans n'importe quel système d'exploitation \(vous pouvez l'installer directement depuis VSCode, pas besoin de télécharger le git. Cliquez sur **Extensions** et **recherchez ILSpy**\).  
+Si vous avez besoin de **décompiler**, **modifier** et **recompiler** à nouveau, vous pouvez utiliser : [**https://github.com/0xd4d/dnSpy/releases**](https://github.com/0xd4d/dnSpy/releases) \(**Clic droit -&gt; Modifier la méthode** pour changer quelque chose à l'intérieur d'une fonction\).  
+Vous pouvez également essayer [https://www.jetbrains.com/es-es/decompiler/](https://www.jetbrains.com/es-es/decompiler/)
 
-## DNSpy Logging
+## Journalisation DNSpy
 
-In order to make **DNSpy log some information in a file**, you could use this .Net lines:
-
+Pour faire en sorte que **DNSpy enregistre certaines informations dans un fichier**, vous pouvez utiliser ces lignes de code .Net :
 ```bash
 using System.IO;
 path = "C:\\inetpub\\temp\\MyTest2.txt";
 File.AppendAllText(path, "Password: " + password + "\n");
 ```
+## Débogage avec DNSpy
 
-## DNSpy Debugging
+Pour déboguer du code en utilisant DNSpy, vous devez :
 
-In order to debug code using DNSpy you need to:
-
-First, change the **Assembly attributes** related to **debugging**:
+Tout d'abord, changer les **attributs d'Assembly** liés au **débogage** :
 
 ![](../../.gitbook/assets/image%20%287%29.png)
 
-From:
-
+De :
 ```aspnet
 [assembly: Debuggable(DebuggableAttribute.DebuggingModes.IgnoreSymbolStoreSequencePoints)]
 ```
-
-To:
-
+Je suis prêt à vous aider. Que puis-je traduire pour vous ?
 ```text
 [assembly: Debuggable(DebuggableAttribute.DebuggingModes.Default |
 DebuggableAttribute.DebuggingModes.DisableOptimizations |
 DebuggableAttribute.DebuggingModes.IgnoreSymbolStoreSequencePoints |
 DebuggableAttribute.DebuggingModes.EnableEditAndContinue)]
 ```
-
-And click on **compile**:
+Et cliquez sur **compiler** :
 
 ![](../../.gitbook/assets/image%20%28314%29%20%281%29.png)
 
-Then save the new file on _**File &gt;&gt; Save module...**_:
+Ensuite, enregistrez le nouveau fichier sur _**Fichier &gt;&gt; Enregistrer le module...**_ :
 
 ![](../../.gitbook/assets/image%20%28261%29.png)
 
-This is necessary because if you don't do this, at **runtime** several **optimisations** will be applied to the code and it could be possible that while debugging a **break-point is never hit** or some **variables don't exist**.
+Ceci est nécessaire car si vous ne le faites pas, à **l'exécution** plusieurs **optimisations** seront appliquées au code et il pourrait être possible qu'en déboguant un **point d'arrêt ne soit jamais atteint** ou que certaines **variables n'existent pas**.
 
-Then, if your .Net application is being **run** by **IIS** you can **restart** it with:
-
+Ensuite, si votre application .Net est **exécutée** par **IIS**, vous pouvez la **redémarrer** avec :
 ```text
 iisreset /noforce
 ```
-
-Then, in order to start debugging you should close all the opened files and inside the **Debug Tab** select **Attach to Process...**:
+Ensuite, pour commencer le débogage, vous devez fermer tous les fichiers ouverts et dans l'onglet **Débogage**, sélectionnez **Attacher au processus...** :
 
 ![](../../.gitbook/assets/image%20%28166%29.png)
 
-Then select **w3wp.exe** to attach to the **IIS server** and click **attach**:
+Ensuite, sélectionnez **w3wp.exe** pour vous connecter au **serveur IIS** et cliquez sur **Joindre** :
 
 ![](../../.gitbook/assets/image%20%28274%29.png)
 
-Now that we are debugging the process, it's time to stop it and load all the modules. First click on _Debug &gt;&gt; Break All_ and then click on _**Debug &gt;&gt; Windows &gt;&gt; Modules**_:
+Maintenant que nous déboguons le processus, il est temps de l'arrêter et de charger tous les modules. Tout d'abord, cliquez sur _Débogage &gt;&gt; Interrompre tout_ puis cliquez sur _**Débogage &gt;&gt; Fenêtres &gt;&gt; Modules**_ :
 
 ![](../../.gitbook/assets/image%20%28210%29.png)
 
 ![](../../.gitbook/assets/image%20%28341%29.png)
 
-Click any module on **Modules** and selec**t Open All Modules**:
+Cliquez sur n'importe quel module dans **Modules** et sélectionnez **Ouvrir tous les modules** :
 
 ![](../../.gitbook/assets/image%20%28216%29.png)
 
-Right click any module in **Assembly Explorer** and click **Sort Assemblies**:
+Cliquez avec le bouton droit sur n'importe quel module dans **Explorateur d'assemblage** et cliquez sur **Trier les assemblages** :
 
 ![](../../.gitbook/assets/image%20%28130%29.png)
 
-# Java decompiler
+# Décompilateur Java
 
 [https://github.com/skylot/jadx](https://github.com/skylot/jadx)  
 [https://github.com/java-decompiler/jd-gui/releases](https://github.com/java-decompiler/jd-gui/releases)
 
-# Debugging DLLs
+# Débogage des DLL
 
-## Using IDA
+## Utilisation d'IDA
 
-* **Load rundll32** \(64bits in C:\Windows\System32\rundll32.exe and 32 bits in C:\Windows\SysWOW64\rundll32.exe\)
-* Select **Windbg** debugger
-* Select "**Suspend on library load/unload**"
+* **Chargez rundll32** \(64 bits dans C:\Windows\System32\rundll32.exe et 32 bits dans C:\Windows\SysWOW64\rundll32.exe\)
+* Sélectionnez le débogueur **Windbg**
+* Sélectionnez "**Suspendre lors du chargement/déchargement de la bibliothèque**"
 
 ![](../../.gitbook/assets/image%20%2869%29.png)
 
-* Configure the **parameters** of the execution putting the **path to the DLL** and the function that you want to call:
+* Configurez les **paramètres** de l'exécution en mettant le **chemin d'accès à la DLL** et la fonction que vous voulez appeler :
 
 ![](../../.gitbook/assets/image%20%28325%29.png)
 
-Then, when you start debugging **the execution will be stopped when each DLL is loaded**, then, when rundll32 load your DLL the execution will be stopped.
+Ensuite, lorsque vous commencez le débogage, **l'exécution s'arrêtera lorsque chaque DLL sera chargée**, puis, lorsque rundll32 chargera votre DLL, l'exécution s'arrêtera.
 
-But, how can you get to the code of the DLL that was lodaded? Using this method, I don't know how.
+Mais comment pouvez-vous accéder au code de la DLL qui a été chargée ? En utilisant cette méthode, je ne sais pas comment.
 
-## Using x64dbg/x32dbg
+## Utilisation de x64dbg/x32dbg
 
-* **Load rundll32** \(64bits in C:\Windows\System32\rundll32.exe and 32 bits in C:\Windows\SysWOW64\rundll32.exe\)
-* **Change the Command Line** \( _File --&gt; Change Command Line_ \) and set the path of the dll and the function that you want to call, for example: "C:\Windows\SysWOW64\rundll32.exe" "Z:\shared\Cybercamp\rev2\\14.ridii\_2.dll",DLLMain
-* Change _Options --&gt; Settings_ and select "**DLL Entry**".
-* Then **start the execution**, the debugger will stop at each dll main, at some point you will **stop in the dll Entry of your dll**. From there, just search for the points where you want to put a breakpoint.
+* **Chargez rundll32** \(64 bits dans C:\Windows\System32\rundll32.exe et 32 bits dans C:\Windows\SysWOW64\rundll32.exe\)
+* **Modifiez la ligne de commande** \( _Fichier --&gt; Modifier la ligne de commande_ \) et définissez le chemin de la DLL et la fonction que vous voulez appeler, par exemple : "C:\Windows\SysWOW64\rundll32.exe" "Z:\shared\Cybercamp\rev2\\14.ridii\_2.dll",DLLMain
+* Changez _Options --&gt; Paramètres_ et sélectionnez "**Entrée DLL**".
+* Ensuite, **démarrez l'exécution**, le débogueur s'arrêtera à chaque dll principale, à un moment donné, vous vous arrêterez dans l'entrée de la DLL de votre DLL. À partir de là, recherchez simplement les points où vous voulez mettre un point d'arrêt.
 
-Notice that when the execution is stopped by any reason in win64dbg you can see **in which code you are** looking in the **top of the win64dbg window**:
+Notez que lorsque l'exécution est arrêtée pour une raison quelconque dans win64dbg, vous pouvez voir **dans quel code vous êtes** en regardant en haut de la fenêtre win64dbg :
 
 ![](../../.gitbook/assets/image%20%28181%29.png)
 
-Then, looking to this ca see when the execution was stopped in the dll you want to debug.
+Ensuite, en regardant cela, vous pouvez voir quand l'exécution a été arrêtée dans la DLL que vous voulez déboguer.
 
 # ARM & MIPS
 
@@ -150,47 +140,46 @@ Then, looking to this ca see when the execution was stopped in the dll you want 
 
 # Shellcodes
 
-## Debugging a shellcode with blobrunner
+## Débogage d'un shellcode avec blobrunner
 
-[**Blobrunner**](https://github.com/OALabs/BlobRunner) will **allocate** the **shellcode** inside a space of memory, will **indicate** you the **memory address** were the shellcode was allocated and will **stop** the execution.  
-Then, you need to **attach a debugger** \(Ida or x64dbg\) to the process and put a **breakpoint the indicated memory address** and **resume** the execution. This way you will be debugging the shellcode.
+[**Blobrunner**](https://github.com/OALabs/BlobRunner) va **allouer** le **shellcode** dans un espace de mémoire, vous **indiquer** l'**adresse mémoire** où le shellcode a été alloué et **arrêter** l'exécution.  
+Ensuite, vous devez **attacher un débogueur** \(Ida ou x64dbg\) au processus et mettre un **point d'arrêt à l'adresse mémoire indiquée** et **reprendre** l'exécution. De cette façon, vous déboguez le shellcode.
 
-The releases github page contains zips containing the compiled releases: [https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)  
-You can find a slightly modified version of Blobrunner in the following link. In order to compile it just **create a C/C++ project in Visual Studio Code, copy and paste the code and build it**.
+La page des versions publiées contient des fichiers zip contenant les versions compilées : [https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)  
+Vous pouvez trouver une version légèrement modifiée de Blobrunner dans le lien suivant. Pour la compiler, il suffit de **créer un projet C/C++ dans Visual Studio Code, de copier et coller le code et de le compiler**.
 
 {% page-ref page="blobrunner.md" %}
 
-## Debugging a shellcode with jmp2it
+## Débogage d'un shellcode avec jmp2it
 
-[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4)is very similar to blobrunner. It will **allocate** the **shellcode** inside a space of memory, and start an **eternal loop**. You then need to **attach the debugger** to the process, **play start wait 2-5 secs and press stop** and you will find yourself inside the **eternal loop**. Jump to the next instruction of the eternal loop as it will be a call to the shellcode, and finally you will find yourself executing the shellcode.
+[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4)est très similaire à blobrunner. Il va **allouer** le **shellcode** dans un espace de mémoire et démarrer une **boucle éternelle**. Vous devez ensuite **attacher le débogueur** au processus, **démarrer, attendre 2 à 5 secondes et appuyer sur stop** et vous vous retrouverez dans la **boucle éternelle**. Sautez à l'instruction suivante de la boucle éternelle car ce sera un appel au shellcode, et enfin vous vous retrouverez à exécuter le shellcode.
 
 ![](../../.gitbook/assets/image%20%28403%29.png)
 
-You can download a compiled version of [jmp2it inside the releases page](https://github.com/adamkramer/jmp2it/releases/).
+Vous pouvez télécharger une version compilée de [jmp2it dans la page des versions](https://github.com/adamkramer/jmp2it/releases/).
 
-## Debugging shellcode using Cutter
+## Débogage de shellcode à l'aide de Cutter
 
-[**Cutter**](https://github.com/rizinorg/cutter/releases/tag/v1.12.0) is the GUI of radare. Using cutter you can emulate the shellcode and inspect it dynamically.
+[**Cutter**](https://github.com/rizinorg/cutter/releases/tag/v1.12.0) est l'interface graphique de radare. Avec Cutter, vous pouvez émuler le shellcode et l'inspecter dynamiquement.
 
-Note that Cutter allows you to "Open File" and "Open Shellcode". In my case when I opened the shellcode as a file it decompiled it correctly, but when I opened it as a shellcode it didn't:
+Notez que Cutter vous permet d'ouvrir un fichier et un shellcode. Dans mon cas, lorsque j'ai ouvert le shellcode en tant que fichier, il l'a décompilé correctement, mais lorsque je l'ai ouvert en tant que shellcode, il ne l'a pas fait :
 
 ![](../../.gitbook/assets/image%20%28254%29.png)
 
-In order to start the emulation in the place you want to, set a bp there and apparently cutter will automatically start the emulation from there:
+Pour démarrer l'émulation à l'endroit où vous le souhaitez, définissez un point d'arrêt là-bas et apparemment Cutter démarrera automatiquement l'émulation à partir de là :
 
 ![](../../.gitbook/assets/image%20%28402%29.png)
 
 ![](../../.gitbook/assets/image%20%28343%29.png)
 
-You can see the stack for example inside a hex dump:
+Vous pouvez voir la pile, par exemple, dans un dump hexadécimal :
 
 ![](../../.gitbook/assets/image%20%28404%29.png)
 
-## Deobfuscating shellcode and getting executed functions
+## Désobfuscation de shellcode et obtention des fonctions exécutées
 
-You should try [**scdbg**](http://sandsprite.com/blogs/index.php?uid=7&pid=152).  
-It will tell you things like **which functions** is the shellcode using and if the shellcode is **decoding** itself in memory.
-
+Vous devriez essayer [**scdbg**](http://sandsprite.com/blogs/index.php?uid=7&pid=152).  
+Il vous indiquera les fonctions que le shellcode utilise et si le shellcode se décode lui-même en mémoire.
 ```bash
 scdbg.exe -f shellcode # Get info
 scdbg.exe -f shellcode -r #show analysis report at end of run
@@ -199,43 +188,40 @@ scdbg.exe -f shellcode -d #Dump decoded shellcode
 scdbg.exe -f shellcode /findsc #Find offset where starts
 scdbg.exe -f shellcode /foff 0x0000004D #Start the executing in that offset
 ```
-
-scDbg also counts with a graphical launcher where you can select the options you want and execute the shellcode
+scDbg dispose également d'un lanceur graphique où vous pouvez sélectionner les options que vous souhaitez et exécuter le shellcode.
 
 ![](../../.gitbook/assets/image%20%28401%29.png)
 
-The **Create Dump** option will dump the final shellcode if any change is done to the shellcode dynamically in memory \(useful to download the decoded shellcode\). The **start offset** can be useful to start the shellcode at a specific offset. The **Debug Shell** option is useful to debug the shellcode using the scDbg terminal \(however I find any of the options explained before better for this matter as you will be able to use Ida or x64dbg\).
+L'option **Create Dump** permettra de déverser le shellcode final si des modifications sont apportées au shellcode dynamiquement en mémoire \(utile pour télécharger le shellcode décodé\). L'**offset de départ** peut être utile pour démarrer le shellcode à un offset spécifique. L'option **Debug Shell** est utile pour déboguer le shellcode en utilisant le terminal scDbg \(cependant, je trouve que toutes les options expliquées précédemment sont meilleures pour cette question car vous pourrez utiliser Ida ou x64dbg\).
 
-## Disassembling using CyberChef
+## Désassemblage à l'aide de CyberChef
 
-Upload you shellcode file as input and use the following receipt to decompile it: [https://gchq.github.io/CyberChef/\#recipe=To\_Hex\('Space',0\)Disassemble\_x86\('32','Full%20x86%20architecture',16,0,true,true\)](https://gchq.github.io/CyberChef/#recipe=To_Hex%28'Space',0%29Disassemble_x86%28'32','Full%20x86%20architecture',16,0,true,true%29)
+Téléchargez votre fichier shellcode en tant qu'entrée et utilisez la recette suivante pour le décompiler: [https://gchq.github.io/CyberChef/\#recipe=To\_Hex\('Space',0\)Disassemble\_x86\('32','Full%20x86%20architecture',16,0,true,true\)](https://gchq.github.io/CyberChef/#recipe=To_Hex%28'Space',0%29Disassemble_x86%28'32','Full%20x86%20architecture',16,0,true,true%29)
 
 # [Movfuscator](https://github.com/xoreaxeaxeax/movfuscator)
 
-This ofuscator change all the instructions for `mov`\(yeah, really cool\). It also uses interruptions to change executions flows. For more information about how does it works:
+Cet obscurcisseur change toutes les instructions pour `mov`\(oui, vraiment cool\). Il utilise également des interruptions pour changer les flux d'exécution. Pour plus d'informations sur son fonctionnement:
 
 * [https://www.youtube.com/watch?v=2VF\_wPkiBJY](https://www.youtube.com/watch?v=2VF_wPkiBJY)
 * [https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas\_2015\_the\_movfuscator.pdf](https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas_2015_the_movfuscator.pdf)
 
-If you are lucky [demovfuscator ](https://github.com/kirschju/demovfuscator)will deofuscate the binary. It has several dependencies
-
+Si vous avez de la chance, [demovfuscator](https://github.com/kirschju/demovfuscator) déofusquera le binaire. Il a plusieurs dépendances.
 ```text
 apt-get install libcapstone-dev
 apt-get install libz3-dev
 ```
+Et [installez keystone](https://github.com/keystone-engine/keystone/blob/master/docs/COMPILE-NIX.md) \(`apt-get install cmake; mkdir build; cd build; ../make-share.sh; make install`\)
 
-And [install keystone](https://github.com/keystone-engine/keystone/blob/master/docs/COMPILE-NIX.md) \(`apt-get install cmake; mkdir build; cd build; ../make-share.sh; make install`\)
-
-If you are playing a **CTF, this workaround to find the flag** could be very useful: [https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html](https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html) 
+Si vous jouez à un **CTF, cette solution de contournement pour trouver le flag** pourrait être très utile: [https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html](https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html) 
 
 # Delphi
 
-For Delphi compiled binaries you can use [https://github.com/crypto2011/IDR](https://github.com/crypto2011/IDR)
+Pour les binaires compilés en Delphi, vous pouvez utiliser [https://github.com/crypto2011/IDR](https://github.com/crypto2011/IDR)
 
-# Courses
+# Cours
 
 * [https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering](https://github.com/0xZ0F/Z0FCourse_ReverseEngineering)
-* [https://github.com/malrev/ABD](https://github.com/malrev/ABD) \(Binary deobfuscation\)
+* [https://github.com/malrev/ABD](https://github.com/malrev/ABD) \(Déobfuscation binaire\)
 
 
 
@@ -243,16 +229,14 @@ For Delphi compiled binaries you can use [https://github.com/crypto2011/IDR](htt
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- Travaillez-vous dans une **entreprise de cybersécurité**? Voulez-vous voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **Partagez vos astuces de piratage en soumettant des PR au [repo hacktricks](https://github.com/carlospolop/hacktricks) et au [repo hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
-
-

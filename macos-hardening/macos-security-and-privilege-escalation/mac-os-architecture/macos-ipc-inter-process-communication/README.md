@@ -1,60 +1,60 @@
-# macOS IPC - Inter Process Communication
+# macOS IPC - Communication inter-processus
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## Mach messaging via Ports
+## Messagerie Mach via des ports
 
-Mach uses **tasks** as the **smallest unit** for sharing resources, and each task can contain **multiple threads**. These **tasks and threads are mapped 1:1 to POSIX processes and threads**.
+Mach utilise des **tâches** comme **unité la plus petite** pour partager des ressources, et chaque tâche peut contenir **plusieurs threads**. Ces **tâches et threads sont mappés 1:1 sur les processus et threads POSIX**.
 
-Communication between tasks occurs via Mach Inter-Process Communication (IPC), utilizing one-way communication channels. **Messages are transferred between ports**, which act like **message queues** managed by the kernel.
+La communication entre les tâches se fait via la communication inter-processus (IPC) de Mach, en utilisant des canaux de communication unidirectionnels. **Les messages sont transférés entre les ports**, qui agissent comme des **files d'attente de messages** gérées par le noyau.
 
-Port rights, which define what operations a task can perform, are key to this communication. The possible **port rights** are:
+Les droits de port, qui définissent les opérations qu'une tâche peut effectuer, sont essentiels à cette communication. Les **droits de port** possibles sont :
 
-* **Receive right**, which allows receiving messages sent to the port. Mach ports are MPSC (multiple-producer, single-consumer) queues, which means that there may only ever be **one receive right for each port** in the whole system (unlike with pipes, where multiple processes can all hold file descriptors to the read end of one pipe).
-  * A **task with the Receive** right can receive messages and **create Send rights**, allowing it to send messages. Originally only the **own task has Receive right over its por**t.
-* **Send right**, which allows sending messages to the port.
-* **Send-once right**, which allows sending one message to the port and then disappears.
-* **Port set right**, which denotes a _port set_ rather than a single port. Dequeuing a message from a port set dequeues a message from one of the ports it contains. Port sets can be used to listen on several ports simultaneously, a lot like `select`/`poll`/`epoll`/`kqueue` in Unix.
-* **Dead name**, which is not an actual port right, but merely a placeholder. When a port is destroyed, all existing port rights to the port turn into dead names.
+* **Droit de réception**, qui permet de recevoir des messages envoyés au port. Les ports Mach sont des files d'attente MPSC (multiple-producteur, unique-consommateur), ce qui signifie qu'il ne peut y avoir qu'un seul droit de réception pour chaque port dans tout le système (contrairement aux pipes, où plusieurs processus peuvent tous détenir des descripteurs de fichier pour l'extrémité de lecture d'un pipe).
+  * Une **tâche avec le droit de réception** peut recevoir des messages et **créer des droits d'envoi**, lui permettant d'envoyer des messages. À l'origine, seule la **propre tâche a le droit de réception sur son port**.
+* **Droit d'envoi**, qui permet d'envoyer des messages au port.
+* **Droit d'envoi unique**, qui permet d'envoyer un message au port puis de disparaître.
+* **Droit d'ensemble de ports**, qui indique un _ensemble de ports_ plutôt qu'un seul port. Le défilement d'un message à partir d'un ensemble de ports défile un message à partir de l'un des ports qu'il contient. Les ensembles de ports peuvent être utilisés pour écouter plusieurs ports simultanément, un peu comme `select`/`poll`/`epoll`/`kqueue` dans Unix.
+* **Nom mort**, qui n'est pas un droit de port réel, mais simplement un espace réservé. Lorsqu'un port est détruit, tous les droits de port existants sur le port deviennent des noms morts.
 
-**Tasks can transfer SEND rights to others**, enabling them to send messages back. **SEND rights can also be cloned, so a task can duplicate and give the right to a third task**. This, combined with an intermediary process known as the **bootstrap server**, allows for effective communication between tasks.
+**Les tâches peuvent transférer des droits d'ENVOI à d'autres**, leur permettant d'envoyer des messages en retour. **Les droits d'ENVOI peuvent également être clonés, de sorte qu'une tâche peut dupliquer et donner le droit à une troisième tâche**. Cela, combiné à un processus intermédiaire connu sous le nom de **serveur d'amorçage**, permet une communication efficace entre les tâches.
 
-#### Steps:
+#### Étapes :
 
-As it's mentioned, in order to establish the communication channel, the **bootstrap server** (**launchd** in mac) is involved.
+Comme mentionné, pour établir le canal de communication, le **serveur d'amorçage** (**launchd** sur Mac) est impliqué.
 
-1. Task **A** initiates a **new port**, obtaining a **RECEIVE right** in the process.
-2. Task **A**, being the holder of the RECEIVE right, **generates a SEND right for the port**.
-3. Task **A** establishes a **connection** with the **bootstrap server**, providing the **port's service name** and the **SEND right** through a procedure known as the bootstrap register.
-4. Task **B** interacts with the **bootstrap server** to execute a bootstrap **lookup for the service** name. If successful, the **server duplicates the SEND right** received from Task A and **transmits it to Task B**.
-5. Upon acquiring a SEND right, Task **B** is capable of **formulating** a **message** and dispatching it **to Task A**.
+1. La tâche **A** initie un **nouveau port**, obtenant un **droit de réception** dans le processus.
+2. La tâche **A**, étant le détenteur du droit de réception, **génère un droit d'envoi pour le port**.
+3. La tâche **A** établit une **connexion** avec le **serveur d'amorçage**, fournissant le **nom de service du port** et le **droit d'envoi** via une procédure connue sous le nom d'enregistrement d'amorçage.
+4. La tâche **B** interagit avec le **serveur d'amorçage** pour exécuter une **recherche d'amorçage pour le service**. Si elle réussit, le **serveur duplique le droit d'envoi** reçu de la tâche A et **le transmet à la tâche B**.
+5. Après avoir acquis un droit d'envoi, la tâche **B** est capable de **formuler** un **message** et de l'envoyer **à la tâche A**.
 
-The bootstrap server **cannot authenticate** the service name claimed by a task. This means a **task** could potentially **impersonate any system task**, such as falsely **claiming an authorization service name** and then approving every request.
+Le serveur d'amorçage ne peut pas authentifier le nom de service revendiqué par une tâche. Cela signifie qu'une **tâche** pourrait potentiellement **usurper n'importe quelle tâche système**, en revendiquant faussement un nom de service d'autorisation, puis en approuvant chaque demande.
 
-Then, Apple stores the **names of system-provided services** in secure configuration files, located in **SIP-protected** directories: `/System/Library/LaunchDaemons` and `/System/Library/LaunchAgents`. Alongside each service name, the **associated binary is also stored**. The bootstrap server, will create and hold a **RECEIVE right for each of these service names**.
+Ensuite, Apple stocke les **noms des services fournis par le système** dans des fichiers de configuration sécurisés, situés dans des répertoires protégés par SIP : `/System/Library/LaunchDaemons` et `/System/Library/LaunchAgents`. À côté de chaque nom de service, le **binaire associé est également stocké**. Le serveur d'amorçage créera et conservera un **droit de réception pour chacun de ces noms de service**.
 
-For these predefined services, the **lookup process differs slightly**. When a service name is being looked up, launchd starts the service dynamically. The new workflow is as follows:
+Pour ces services prédéfinis, le **processus de recherche diffère légèrement**. Lorsqu'un nom de service est recherché, launchd démarre le service de manière dynamique. Le nouveau flux de travail est le suivant :
 
-* Task **B** initiates a bootstrap **lookup** for a service name.
-* **launchd** checks if the task is running and if it isn’t, **starts** it.
-* Task **A** (the service) performs a **bootstrap check-in**. Here, the **bootstrap** server creates a SEND right, retains it, and **transfers the RECEIVE right to Task A**.
-* launchd duplicates the **SEND right and sends it to Task B**.
+* La tâche **B** initie une **recherche d'amorçage** pour un nom de service.
+* **launchd** vérifie si la tâche est en cours d'exécution et si ce n'est pas le cas, **la démarre**.
+* La tâche **A** (le service) effectue un **enregistrement de vérification d'amorçage**. Ici, le **serveur d'amorçage crée un droit d'envoi, le retient et transfère le droit de réception à la tâche A**.
+* launchd duplique le **droit d'envoi et l'envoie à la tâche B**.
 
-However, this process only applies to predefined system tasks. Non-system tasks still operate as described originally, which could potentially allow for impersonation.
+Cependant, ce processus ne s'applique qu'aux tâches système prédéfinies. Les tâches non système fonctionnent toujours comme décrit initialement, ce qui pourrait potentiellement permettre l'usurpation.
 
-### Code example
+### Exemple de code
 
-Note how the **sender** **allocates** a port, create a **send right** for the name `org.darlinghq.example` and send it to the **bootstrap server** while the sender asked for the **send right** of that name and used it to **send a message**.
+Notez comment l'**expéditeur** **alloue** un port, crée un **droit d'envoi** pour le nom `org.darlinghq.example` et l'envoie au **serveur d'amorçage** tandis que l'expéditeur a demandé le **droit d'envoi** de ce nom et l'a utilisé pour **envoyer un message**.
 
 {% tabs %}
 {% tab title="receiver.c" %}
@@ -125,7 +125,7 @@ int main() {
 ```
 {% endtab %}
 
-{% tab title="sender.c" %}
+{% tab title="receiver.c" %}
 ```c
 // Code from https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html
 // gcc sender.c -o sender
@@ -178,31 +178,31 @@ int main() {
 }
 ```
 {% endtab %}
-{% endtabs %}
+{% tab title="Privileged Ports" %}
 
-### Privileged Ports
+### Ports Privilégiés
 
-* **Host port**: If a process has **Send** privilege over this port he can get **information** about the **system** (e.g. `host_processor_info`).
-* **Host priv port**: A process with **Send** right over this port can perform **privileged actions** like loading a kernel extension. The **process need to be root** to get tis permission.
-  * Moreover, in order to call **`kext_request`** API it's needed to have the entitlement **`com.apple.private.kext`** which is only given to Apple binaries.
-* **Task name port:** An unprivileged version of the _task port_. It references the task, but does not allow controlling it. The only thing that seems to be available through it is `task_info()`.
-* **Task port** (aka kernel port)**:** With Send permission over this port it's possible to control the task (read/write memory, create threads...).
-  * Call `mach_task_self()` to **get the name** for this port for the caller task. This port is only **inherited** across **`exec()`**; a new task created with `fork()` gets a new task port (as a special case, a task also gets a new task port after `exec()`ing a suid binary). The only way to spawn a task and get its port is to perform the ["port swap dance"](https://robert.sesek.com/2014/1/changes\_to\_xnu\_mach\_ipc.html) while doing a `fork()`.
-  * These are the restrictions to access the port (from `macos_task_policy` from the binary `AppleMobileFileIntegrity`):
-    * If the app has **`com.apple.security.get-task-allow` entitlement** processes from the **same user can access the task port** (commonly added by Xcode for debugging). The **notarization** process won't allow it to production releases.
-    * Apps the **`com.apple.system-task-ports`** entitlement can get the **task port for any** process, except the kernel. In older versions it was called **`task_for_pid-allow`**. This is only granted to Apple applications.
-    * **Root can access task ports** of applications **not** compiled with a **hardened** runtime (and not from Apple).
+* **Port hôte**: Si un processus a le privilège **Envoyer** sur ce port, il peut obtenir des **informations** sur le **système** (par exemple, `host_processor_info`).
+* **Port privilégié hôte**: Un processus avec le droit **Envoyer** sur ce port peut effectuer des actions **privilégiées** comme charger une extension de noyau. Le **processus doit être root** pour obtenir cette permission.
+  * De plus, pour appeler l'API **`kext_request`**, il est nécessaire d'avoir l'entitlement **`com.apple.private.kext`**, qui n'est donné qu'aux binaires Apple.
+* **Port de nom de tâche**: Une version non privilégiée du _port de tâche_. Il fait référence à la tâche, mais ne permet pas de la contrôler. La seule chose qui semble être disponible à travers elle est `task_info()`.
+* **Port de tâche** (alias port de noyau)**:** Avec la permission Envoyer sur ce port, il est possible de contrôler la tâche (lire/écrire la mémoire, créer des threads...).
+  * Appelez `mach_task_self()` pour **obtenir le nom** de ce port pour la tâche appelante. Ce port n'est **hérité** qu'à travers **`exec()`**; une nouvelle tâche créée avec `fork()` obtient un nouveau port de tâche (dans un cas particulier, une tâche obtient également un nouveau port de tâche après avoir exécuté un binaire suid). La seule façon de lancer une tâche et d'obtenir son port est d'effectuer la ["danse d'échange de port"](https://robert.sesek.com/2014/1/changes\_to\_xnu\_mach\_ipc.html) tout en faisant un `fork()`.
+  * Voici les restrictions d'accès au port (à partir de `macos_task_policy` du binaire `AppleMobileFileIntegrity`):
+    * Si l'application a l'entitlement **`com.apple.security.get-task-allow`**, les processus de l'**utilisateur peuvent accéder au port de tâche** (communément ajouté par Xcode pour le débogage). Le processus de **notarisation** ne le permettra pas pour les versions de production.
+    * Les applications ayant l'entitlement **`com.apple.system-task-ports`** peuvent obtenir le **port de tâche pour n'importe quel** processus, sauf le noyau. Dans les versions plus anciennes, il était appelé **`task_for_pid-allow`**. Cela n'est accordé qu'aux applications Apple.
+    * **Root peut accéder aux ports de tâche** des applications **non** compilées avec un **runtime renforcé** (et non pas d'Apple).
 
-### Shellcode Process Injection via Task port
+### Injection de code Shell via le port de tâche
 
-You can grab a shellcode from:
+Vous pouvez récupérer un code shell à partir de :
 
 {% content-ref url="../../macos-apps-inspecting-debugging-and-fuzzing/arm64-basic-assembly.md" %}
 [arm64-basic-assembly.md](../../macos-apps-inspecting-debugging-and-fuzzing/arm64-basic-assembly.md)
 {% endcontent-ref %}
 
-{% tabs %}
-{% tab title="mysleep.m" %}
+{% endtab %}
+{% endtabs %}
 ```objectivec
 // clang -framework Foundation mysleep.m -o mysleep
 // codesign --entitlements entitlements.plist -s - mysleep
@@ -219,6 +219,14 @@ int main(int argc, const char * argv[]) {
 {% endtab %}
 
 {% tab title="entitlements.plist" %}
+
+Le fichier `entitlements.plist` est un fichier de configuration qui spécifie les autorisations et les privilèges accordés à une application macOS. Il est utilisé pour définir les capacités de l'application, telles que l'accès aux fichiers, aux services système et aux ressources réseau. Les développeurs peuvent inclure ce fichier dans leur application pour spécifier les autorisations nécessaires pour que l'application fonctionne correctement.
+
+Les autorisations spécifiées dans le fichier `entitlements.plist` sont vérifiées par le système d'exploitation lors de l'exécution de l'application. Si l'application tente d'accéder à une ressource pour laquelle elle n'a pas les autorisations nécessaires, elle sera bloquée.
+
+Les développeurs peuvent également utiliser le fichier `entitlements.plist` pour activer des fonctionnalités spéciales, telles que l'accès à des fonctionnalités de débogage ou la possibilité d'exécuter des scripts shell. Cependant, l'utilisation de ces fonctionnalités peut également introduire des vulnérabilités de sécurité dans l'application.
+
+Il est important de noter que le fichier `entitlements.plist` peut également être utilisé pour restreindre les autorisations d'une application, ce qui peut aider à renforcer la sécurité de l'application et à réduire les risques de fuite de données ou d'escalade de privilèges.
 ```xml
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -231,12 +239,11 @@ int main(int argc, const char * argv[]) {
 {% endtab %}
 {% endtabs %}
 
-**Compile** the previous program and add the **entitlements** to be able to inject code with the same user (if not you will need to use **sudo**).
+**Compilez** le programme précédent et ajoutez les **droits** nécessaires pour pouvoir injecter du code avec le même utilisateur (sinon vous devrez utiliser **sudo**).
 
 <details>
 
 <summary>injector.m</summary>
-
 ```objectivec
 // gcc -framework Foundation -framework Appkit sc_injector.m -o sc_injector
 
@@ -393,23 +400,20 @@ int main(int argc, const char * argv[]) {
     return 0;
 }
 ```
-
 </details>
-
 ```bash
 gcc -framework Foundation -framework Appkit sc_inject.m -o sc_inject
 ./inject <pid-of-mysleep>
 ```
+### Injection de processus Dylib via le port de tâche
 
-### Dylib Process Injection via Task port
+Dans macOS, les **threads** peuvent être manipulés via **Mach** ou en utilisant l'API **posix `pthread`**. Le thread que nous avons généré dans l'injection précédente a été généré en utilisant l'API Mach, donc **il n'est pas conforme à posix**.
 
-In macOS **threads** might be manipulated via **Mach** or using **posix `pthread` api**. The thread we generated in the previos injection, was generated using Mach api, so **it's not posix compliant**.
+Il était possible d'**injecter un simple shellcode** pour exécuter une commande car il **n'avait pas besoin de travailler avec des API conformes à posix**, seulement avec Mach. Des injections **plus complexes** nécessiteraient que le **thread** soit également **conforme à posix**.
 
-It was possible to **inject a simple shellcode** to execute a command because it **didn't need to work with posix** compliant apis, only with Mach. **More complex injections** would need the **thread** to be also **posix compliant**.
+&#x20;Par conséquent, pour **améliorer le shellcode**, il devrait appeler **`pthread_create_from_mach_thread`** qui va **créer un pthread valide**. Ensuite, ce nouveau pthread pourrait **appeler dlopen** pour **charger notre dylib** à partir du système.
 
-&#x20;Therefore, to **improve the shellcode** it should call **`pthread_create_from_mach_thread`** which will **create a valid pthread**. Then, this new pthread could **call dlopen** to **load our dylib** from the system.
-
-You can find **example dylibs** in (for example the one that generates a log and then you can listen to it):
+Vous pouvez trouver des **dylibs d'exemple** dans (par exemple celui qui génère un journal que vous pouvez ensuite écouter) :
 
 {% content-ref url="../../macos-dyld-hijacking-and-dyld_insert_libraries.md" %}
 [macos-dyld-hijacking-and-dyld\_insert\_libraries.md](../../macos-dyld-hijacking-and-dyld\_insert\_libraries.md)
@@ -418,7 +422,6 @@ You can find **example dylibs** in (for example the one that generates a log and
 <details>
 
 <summary>dylib_injector.m</summary>
-
 ```objectivec
 // gcc -framework Foundation -framework Appkit dylib_injector.m -o dylib_injector
 // Based on http://newosxbook.com/src.jl?tree=listings&file=inject.c
@@ -689,46 +692,42 @@ int main(int argc, const char * argv[])
 
 }
 ```
-
 </details>
-
 ```bash
 gcc -framework Foundation -framework Appkit dylib_injector.m -o dylib_injector
 ./inject <pid-of-mysleep> </path/to/lib.dylib>
 ```
-
 ## XPC
 
-### Basic Information
+### Informations de base
 
-XPC, which stands for XNU (the kernel used by macOS) inter-Process Communication, is a framework for **communication between processes** on macOS and iOS. XPC provides a mechanism for making **safe, asynchronous method calls between different processes** on the system. It's a part of Apple's security paradigm, allowing for the **creation of privilege-separated applications** where each **component** runs with **only the permissions it needs** to do its job, thereby limiting the potential damage from a compromised process.
+XPC, qui signifie Communication inter-processus XNU (le noyau utilisé par macOS), est un framework pour la **communication entre processus** sur macOS et iOS. XPC fournit un mécanisme pour effectuer des **appels de méthode asynchrones et sûrs entre différents processus** sur le système. C'est une partie du paradigme de sécurité d'Apple, permettant la **création d'applications à privilèges séparés** où chaque **composant** s'exécute avec **seulement les autorisations dont il a besoin** pour faire son travail, limitant ainsi les dommages potentiels d'un processus compromis.
 
-XPC uses a form of Inter-Process Communication (IPC), which is a set of methods for different programs running on the same system to send data back and forth.
+XPC utilise une forme de communication inter-processus (IPC), qui est un ensemble de méthodes pour que différents programmes s'exécutant sur le même système puissent s'envoyer des données.
 
-The primary benefits of XPC include:
+Les principaux avantages de XPC comprennent :
 
-1. **Security**: By separating work into different processes, each process can be granted only the permissions it needs. This means that even if a process is compromised, it has limited ability to do harm.
-2. **Stability**: XPC helps isolate crashes to the component where they occur. If a process crashes, it can be restarted without affecting the rest of the system.
-3. **Performance**: XPC allows for easy concurrency, as different tasks can be run simultaneously in different processes.
+1. **Sécurité** : En séparant le travail en différents processus, chaque processus peut se voir accorder uniquement les autorisations dont il a besoin. Cela signifie que même si un processus est compromis, il a une capacité limitée à causer des dommages.
+2. **Stabilité** : XPC aide à isoler les plantages dans le composant où ils se produisent. Si un processus plante, il peut être redémarré sans affecter le reste du système.
+3. **Performance** : XPC permet une concurrence facile, car différentes tâches peuvent être exécutées simultanément dans différents processus.
 
-The only **drawback** is that **separating an application is several processes** making them communicate via XPC is **less efficient**. But in todays systems this isn't almost noticeable and the benefits are much better.
+Le seul **inconvénient** est que **séparer une application en plusieurs processus** les faisant communiquer via XPC est **moins efficace**. Mais dans les systèmes d'aujourd'hui, cela n'est presque pas perceptible et les avantages sont bien meilleurs.
 
-An example can be seen in QuickTime Player, where a component using XPC is responsible for video decoding. The component is specifically designed to perform computational tasks, thus, in the event of a breach, it wouldn't provide any useful gains to the attacker, such as access to files or the network.
+Un exemple peut être vu dans QuickTime Player, où un composant utilisant XPC est responsable du décodage vidéo. Le composant est spécifiquement conçu pour effectuer des tâches de calcul, ainsi, en cas de violation, il ne fournirait pas de gains utiles à l'attaquant, tels que l'accès aux fichiers ou au réseau.
 
-### Application Specific XPC services
+### Services XPC spécifiques à l'application
 
-The XPC components of an applications are **inside the application itself.** For example, in Safari you can find them in **`/Applications/Safari.app/Contents/XPCServices`**. They have extension **`.xpc`** (like **`com.apple.Safari.SandboxBroker.xpc`**) and are **also bundles** with the main binary inside of it: `/Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/MacOS/com.apple.Safari.SandboxBroker`
+Les composants XPC d'une application sont **à l'intérieur de l'application elle-même**. Par exemple, dans Safari, vous pouvez les trouver dans **`/Applications/Safari.app/Contents/XPCServices`**. Ils ont l'extension **`.xpc`** (comme **`com.apple.Safari.SandboxBroker.xpc`**) et sont **également des bundles** avec le binaire principal à l'intérieur : `/Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/MacOS/com.apple.Safari.SandboxBroker`
 
-As you might be thinking a **XPC component will have different entitlements and privileges** than the other XPC components or the main app binary. EXCEPT if an XPC service is configured with [**JoinExistingSession**](https://developer.apple.com/documentation/bundleresources/information\_property\_list/xpcservice/joinexistingsession) set to “True” in its **Info.plist** file. In this case, the XPC service will run in the same security session as the application that called it.
+Comme vous pouvez le penser, un **composant XPC aura des autorisations et des privilèges différents** des autres composants XPC ou du binaire principal de l'application. SAUF si un service XPC est configuré avec [**JoinExistingSession**](https://developer.apple.com/documentation/bundleresources/information\_property\_list/xpcservice/joinexistingsession) défini sur "True" dans son fichier **Info.plist**. Dans ce cas, le service XPC s'exécutera dans la même session de sécurité que l'application qui l'a appelé.
 
-XPC services are **started** by **launchd** when required and **shut down** once all tasks are **complete** to free system resources. **Application-specific XPC components can only be utilized by the application**, thereby reducing the risk associated with potential vulnerabilities.
+Les services XPC sont **démarrés** par **launchd** lorsque cela est nécessaire et **arrêtés** une fois que toutes les tâches sont **terminées** pour libérer les ressources système. **Les composants XPC spécifiques à l'application ne peuvent être utilisés que par l'application**, réduisant ainsi le risque associé aux vulnérabilités potentielles.
 
-### System Wide XPC services
+### Services XPC à l'échelle du système
 
-**System-wide XPC services** are accessible to all users. These services, either launchd or Mach-type, need to be **defined in plist** files located in specified directories such as **`/System/Library/LaunchDaemons`**, **`/Library/LaunchDaemons`**, **`/System/Library/LaunchAgents`**, or **`/Library/LaunchAgents`**.
+Les **services XPC à l'échelle du système** sont accessibles à tous les utilisateurs. Ces services, soit launchd soit de type Mach, doivent être **définis dans des fichiers plist** situés dans des répertoires spécifiés tels que **`/System/Library/LaunchDaemons`**, **`/Library/LaunchDaemons`**, **`/System/Library/LaunchAgents`** ou **`/Library/LaunchAgents`**.
 
-These plists files will have a key called **`MachServices`** with the name of the service, and a key called **`Program`** with the path to the binary:
-
+Ces fichiers plist auront une clé appelée **`MachServices`** avec le nom du service, et une clé appelée **`Program`** avec le chemin d'accès au binaire :
 ```xml
 cat /Library/LaunchDaemons/com.jamf.management.daemon.plist
 
@@ -762,30 +761,29 @@ cat /Library/LaunchDaemons/com.jamf.management.daemon.plist
 </dict>
 </plist>
 ```
+Ceux dans **`LaunchDameons`** sont exécutés par root. Donc, si un processus non privilégié peut communiquer avec l'un d'entre eux, il pourrait être capable d'escalader les privilèges.
 
-The ones in **`LaunchDameons`** are run by root. So if an unprivileged process can talk with one of these it could be able to escalate privileges.
+### Messages d'événements XPC
 
-### XPC Event Messages
+Les applications peuvent **s'abonner** à différents **messages d'événements**, leur permettant d'être **initiées à la demande** lorsque de tels événements se produisent. La **configuration** de ces services est effectuée dans des fichiers **plist de launchd**, situés dans les **mêmes répertoires que les précédents** et contenant une clé supplémentaire **`LaunchEvent`**.
 
-Applications can **subscribe** to different event **messages**, enabling them to be **initiated on-demand** when such events happen. The **setup** for these services is done in l**aunchd plist files**, located in the **same directories as the previous ones** and containing an extra **`LaunchEvent`** key.
+### Vérification du processus de connexion XPC
 
-### XPC Connecting Process Check
-
-When a process tries to call a method from via an XPC connection, the **XPC service should check if that process is allowed to connect**. Here are the common ways to check that and the common pitfalls:
+Lorsqu'un processus essaie d'appeler une méthode via une connexion XPC, le **service XPC doit vérifier si ce processus est autorisé à se connecter**. Voici les moyens courants de vérifier cela et les pièges courants :
 
 {% content-ref url="macos-xpc-connecting-process-check.md" %}
 [macos-xpc-connecting-process-check.md](macos-xpc-connecting-process-check.md)
 {% endcontent-ref %}
 
-### XPC Authorization
+### Autorisation XPC
 
-Apple also allows apps to **configure some rights and how to get them** so if the calling process have them it would be **allowed to call a method** from the XPC service:
+Apple permet également aux applications de **configurer certains droits et la manière de les obtenir** afin que si le processus appelant les possède, il serait **autorisé à appeler une méthode** du service XPC :
 
 {% content-ref url="macos-xpc-authorization.md" %}
 [macos-xpc-authorization.md](macos-xpc-authorization.md)
 {% endcontent-ref %}
 
-### C Code Example
+### Exemple de code C
 
 {% tabs %}
 {% tab title="xpc_server.c" %}
@@ -845,6 +843,113 @@ int main(int argc, const char *argv[]) {
 {% endtab %}
 
 {% tab title="xpc_client.c" %}
+
+# Communication inter-processus (IPC) sur macOS
+
+macOS utilise plusieurs mécanismes pour permettre la communication inter-processus (IPC) entre les processus. Les deux principaux mécanismes sont les sockets de domaine Unix et les connexions XPC.
+
+## XPC
+
+XPC est un framework d'Apple qui permet la communication inter-processus. Il est utilisé par de nombreux processus système et applications tierces. Les connexions XPC sont établies entre un client et un démon. Le client envoie des messages au démon et le démon répond avec des messages.
+
+### XPC Endpoint
+
+Un point de terminaison XPC est un objet qui représente un processus qui peut recevoir des messages XPC. Un point de terminaison XPC est créé en appelant la fonction `xpc_endpoint_create()`.
+
+```c
+xpc_endpoint_t xpc_endpoint_create(void);
+```
+
+### XPC Connection
+
+Une connexion XPC est un objet qui représente une connexion entre un client et un démon. Une connexion XPC est créée en appelant la fonction `xpc_connection_create()`.
+
+```c
+xpc_connection_t xpc_connection_create(const char *name, dispatch_queue_t targetq);
+```
+
+Le paramètre `name` est le nom du démon avec lequel la connexion doit être établie. Le paramètre `targetq` est la file d'attente sur laquelle les messages reçus doivent être traités.
+
+### XPC Message
+
+Un message XPC est un objet qui représente un message envoyé entre un client et un démon. Un message XPC est créé en appelant la fonction `xpc_dictionary_create()`.
+
+```c
+xpc_object_t xpc_dictionary_create(const char *const *keys, const xpc_object_t *values, size_t count);
+```
+
+Le paramètre `keys` est un tableau de chaînes de caractères représentant les clés du dictionnaire. Le paramètre `values` est un tableau d'objets XPC représentant les valeurs du dictionnaire. Le paramètre `count` est le nombre d'éléments dans les tableaux `keys` et `values`.
+
+### Envoyer un message XPC
+
+Pour envoyer un message XPC, vous devez d'abord créer une connexion XPC en appelant `xpc_connection_create()`. Ensuite, vous devez configurer la connexion en appelant `xpc_connection_set_event_handler()` pour spécifier la fonction de rappel qui sera appelée lorsque des messages seront reçus.
+
+```c
+void xpc_connection_set_event_handler(xpc_connection_t connection, xpc_handler_t handler);
+```
+
+La fonction de rappel doit avoir la signature suivante :
+
+```c
+void (^xpc_handler_t)(xpc_object_t object);
+```
+
+La fonction de rappel est appelée avec un objet XPC représentant le message reçu.
+
+Enfin, vous pouvez envoyer un message XPC en appelant `xpc_connection_send_message()`.
+
+```c
+void xpc_connection_send_message(xpc_connection_t connection, xpc_object_t message);
+```
+
+Le paramètre `message` est l'objet XPC représentant le message à envoyer.
+
+### Recevoir un message XPC
+
+Pour recevoir des messages XPC, vous devez configurer la connexion XPC en appelant `xpc_connection_set_event_handler()` pour spécifier la fonction de rappel qui sera appelée lorsque des messages seront reçus.
+
+```c
+void xpc_connection_set_event_handler(xpc_connection_t connection, xpc_handler_t handler);
+```
+
+La fonction de rappel doit avoir la signature suivante :
+
+```c
+void (^xpc_handler_t)(xpc_object_t object);
+```
+
+La fonction de rappel est appelée avec un objet XPC représentant le message reçu.
+
+### Exemple
+
+Voici un exemple de code qui envoie un message XPC à un démon et affiche la réponse :
+
+```c
+#include <stdio.h>
+#include <xpc/xpc.h>
+
+void handler(xpc_object_t object) {
+    printf("Received response: %s\n", xpc_copy_description(object));
+}
+
+int main(int argc, const char * argv[]) {
+    xpc_connection_t connection = xpc_connection_create_mach_service("com.example.demo", NULL, 0);
+    xpc_connection_set_event_handler(connection, ^(xpc_object_t object) {
+        handler(object);
+        xpc_release(object);
+    });
+    xpc_connection_resume(connection);
+
+    xpc_object_t message = xpc_dictionary_create(NULL, NULL, 0);
+    xpc_dictionary_set_string(message, "command", "hello");
+    xpc_connection_send_message(connection, message);
+
+    dispatch_main();
+    return 0;
+}
+```
+
+Dans cet exemple, nous créons une connexion XPC avec le démon `com.example.demo`. Nous configurons la connexion pour appeler la fonction de rappel `handler()` lorsque des messages sont reçus. Nous envoyons ensuite un message XPC au démon en spécifiant la commande `hello`. La réponse du démon est affichée dans la fonction de rappel `handler()`.
 ```c
 // gcc xpc_client.c -o xpc_client
 
@@ -876,6 +981,12 @@ int main(int argc, const char *argv[]) {
 {% endtab %}
 
 {% tab title="xyz.hacktricks.service.plist" %}
+
+Le fichier `xyz.hacktricks.service.plist` est un fichier de configuration de service qui peut être utilisé pour lancer un service personnalisé sur macOS. Il est généralement placé dans `/Library/LaunchDaemons/` ou `/Library/LaunchAgents/` et est lu par le démon `launchd` lors du démarrage du système ou lorsqu'un utilisateur se connecte.
+
+Le fichier plist contient des informations sur le service, telles que son nom, son chemin d'accès, ses arguments de ligne de commande, son utilisateur et son groupe, ainsi que des informations sur la façon dont le service doit être géré par `launchd`.
+
+Pour créer un service personnalisé, vous pouvez créer un fichier plist avec les informations nécessaires, le placer dans le répertoire approprié et charger le service avec la commande `launchctl load`.
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
@@ -898,7 +1009,6 @@ int main(int argc, const char *argv[]) {
 ```
 {% endtab %}
 {% endtabs %}
-
 ```bash
 # Compile the server & client
 gcc xpc_server.c -o xpc_server
@@ -918,8 +1028,7 @@ sudo launchctl load /Library/LaunchDaemons/xyz.hacktricks.service.plist
 sudo launchctl unload /Library/LaunchDaemons/xyz.hacktricks.service.plist
 sudo rm /Library/LaunchDaemons/xyz.hacktricks.service.plist /tmp/xpc_server
 ```
-
-### ObjectiveC Code Example
+### Exemple de code ObjectiveC
 
 {% tabs %}
 {% tab title="oc_xpc_server.m" %}
@@ -974,7 +1083,7 @@ int main(void) {
 ```
 {% endtab %}
 
-{% tab title="oc_xpc_client.m" %}
+{% tab title="oc_xpc_server.m" %}
 ```objectivec
 // gcc -framework Foundation oc_xpc_client.m -o oc_xpc_client
 #include <Foundation/Foundation.h>
@@ -999,7 +1108,66 @@ int main(void) {
 ```
 {% endtab %}
 
-{% tab title="Untitled" %}
+{% tab title="macOS IPC (Inter-Process Communication)" %}
+# macOS IPC (Inter-Process Communication)
+
+## Introduction
+
+Inter-Process Communication (IPC) is a mechanism that allows processes to communicate with each other and synchronize their actions. macOS provides several IPC mechanisms that can be used by processes to communicate with each other. In this section, we will discuss some of the most commonly used IPC mechanisms in macOS.
+
+## Mach Ports
+
+Mach ports are a type of IPC mechanism that is used by macOS to implement inter-process communication. Mach ports are endpoints that can be used by processes to send and receive messages. Each Mach port has a unique identifier that is used to identify the port. Processes can create Mach ports and use them to communicate with other processes.
+
+Mach ports can be used for various purposes, such as:
+
+- Sending messages between processes
+- Sharing memory between processes
+- Synchronizing actions between processes
+
+Mach ports can be created using the `mach_port_allocate()` function. Once a Mach port is created, it can be used to send and receive messages using the `mach_msg()` function.
+
+## XPC
+
+XPC is a high-level IPC mechanism that is used by macOS to implement inter-process communication. XPC provides a simple and secure way for processes to communicate with each other. XPC is based on a client-server model, where the client sends requests to the server and the server responds to the requests.
+
+XPC provides several benefits over other IPC mechanisms, such as:
+
+- Automatic serialization and deserialization of messages
+- Automatic memory management
+- Automatic error handling
+- Sandboxing support
+
+XPC can be used for various purposes, such as:
+
+- Launching and managing daemons
+- Sharing data between processes
+- Synchronizing actions between processes
+
+XPC can be used in both Objective-C and Swift applications. XPC APIs are available in the `xpc` framework.
+
+## Distributed Objects
+
+Distributed Objects is an IPC mechanism that is used by macOS to implement inter-process communication. Distributed Objects allows objects to be shared between processes. Distributed Objects is based on the Remote Procedure Call (RPC) model, where a client sends a message to a server and the server responds to the message.
+
+Distributed Objects provides several benefits over other IPC mechanisms, such as:
+
+- Automatic serialization and deserialization of messages
+- Automatic memory management
+- Support for distributed garbage collection
+- Support for distributed notifications
+
+Distributed Objects can be used for various purposes, such as:
+
+- Sharing objects between processes
+- Synchronizing actions between processes
+- Implementing distributed applications
+
+Distributed Objects can be used in both Objective-C and Swift applications. Distributed Objects APIs are available in the `Foundation` framework.
+
+## Conclusion
+
+In this section, we discussed some of the most commonly used IPC mechanisms in macOS. Mach ports, XPC, and Distributed Objects are all powerful IPC mechanisms that can be used by processes to communicate with each other and synchronize their actions. When choosing an IPC mechanism, it is important to consider the specific requirements of the application and choose the mechanism that best meets those requirements.
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
@@ -1021,8 +1189,12 @@ int main(void) {
 </plist>
 ```
 {% endtab %}
-{% endtabs %}
+{% endtabs %} 
 
+devrait être traduit en :
+
+{% endtab %}
+{% endtabs %}
 ```bash
 # Compile the server & client
 gcc -framework Foundation oc_xpc_server.m -o oc_xpc_server
@@ -1042,8 +1214,7 @@ sudo launchctl load /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist
 sudo launchctl unload /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist
 sudo rm /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist /tmp/oc_xpc_server
 ```
-
-## References
+## Références
 
 * [https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html](https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html)
 
@@ -1051,10 +1222,10 @@ sudo rm /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist /tmp/oc_xpc_server
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

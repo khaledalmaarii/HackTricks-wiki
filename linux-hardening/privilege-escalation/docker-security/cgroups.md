@@ -1,29 +1,28 @@
-# CGroups
+## CGroups
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Travaillez-vous dans une entreprise de **cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## Basic Information
+## Informations de base
 
-**Linux control groups**, also known as cgroups, are a Linux kernel feature that allows you to **limit**, police, and prioritize **system resources** for a collection of processes. Cgroups provide a way to **manage and isolate the resource usage** (CPU, memory, disk I/O, network, etc.) of groups of processes in a system. This can be useful for many purposes, such as limiting the resources available to a particular group of processes, isolating certain types of workloads from others, or prioritizing the use of system resources between different groups of processes.
+Les **groupes de contrôle Linux**, également connus sous le nom de cgroups, sont une fonctionnalité du noyau Linux qui vous permet de **limiter**, de contrôler et de prioriser les **ressources système** pour une collection de processus. Les cgroups fournissent un moyen de **gérer et d'isoler l'utilisation des ressources** (CPU, mémoire, E/S de disque, réseau, etc.) de groupes de processus dans un système. Cela peut être utile pour de nombreuses fins, telles que la limitation des ressources disponibles pour un groupe particulier de processus, l'isolation de certains types de charges de travail des autres, ou la priorisation de l'utilisation des ressources système entre différents groupes de processus.
 
-There are **two versions of cgroups**, 1 and 2, and both are currently in use and can be configured simultaneously on a system. The most **significant difference** between cgroups version 1 and **version 2** is that the latter introduced a new hierarchical organization for cgroups, where groups can be arranged in a **tree-like structure** with parent-child relationships. This allows for a more flexible and fine-grained control over the allocation of resources between different groups of processes.
+Il existe **deux versions de cgroups**, 1 et 2, et les deux sont actuellement utilisées et peuvent être configurées simultanément sur un système. La **différence la plus significative** entre la version 1 et la **version 2** des cgroups est que cette dernière a introduit une nouvelle organisation hiérarchique pour les cgroups, où les groupes peuvent être disposés dans une structure **arborescente** avec des relations parent-enfant. Cela permet un contrôle plus flexible et plus fin de l'allocation des ressources entre différents groupes de processus.
 
-In addition to the new hierarchical organization, cgroups version 2 also introduced **several other changes and improvements**, such as support for **new resource controllers**, better support for legacy applications, and improved performance.
+En plus de la nouvelle organisation hiérarchique, la version 2 des cgroups a également introduit **plusieurs autres changements et améliorations**, tels que le support de **nouveaux contrôleurs de ressources**, un meilleur support pour les applications héritées et des performances améliorées.
 
-Overall, cgroups **version 2 offers more features and better performance** than version 1, but the latter may still be used in certain scenarios where compatibility with older systems is a concern.
+Dans l'ensemble, la version 2 des cgroups **offre plus de fonctionnalités et de meilleures performances** que la version 1, mais cette dernière peut encore être utilisée dans certains scénarios où la compatibilité avec les anciens systèmes est une préoccupation.
 
-You can list the v1 and v2 cgroups for any process by looking at its cgroup file in /proc/\<pid>. You can start by looking at your shell’s cgroups with this command:
-
+Vous pouvez lister les cgroups v1 et v2 pour n'importe quel processus en regardant son fichier cgroup dans /proc/\<pid>. Vous pouvez commencer par regarder les cgroups de votre shell avec cette commande :
 ```shell-session
 $ cat /proc/self/cgroup
 12:rdma:/
@@ -38,69 +37,52 @@ $ cat /proc/self/cgroup
 1:name=systemd:/user.slice/user-1000.slice/session-2.scope
 0::/user.slice/user-1000.slice/session-2.scope
 ```
+Ne soyez pas alarmé si la **sortie est considérablement plus courte** sur votre système; cela signifie simplement que vous avez probablement **seulement des cgroups v2**. Chaque ligne de sortie commence par un numéro et représente un cgroup différent. Voici quelques points à prendre en compte pour la lecture :
 
-Don’t be alarmed if the **output is significantly shorter** on your system; this just means that you probably **have only cgroups v2**. Every line of output here starts with a number and is a different cgroup. Here are some pointers on how to read it:
+* Les numéros 2 à 12 sont pour les cgroups v1. Les **contrôleurs** pour ceux-ci sont listés à côté du numéro.
+* Le numéro 1 est également pour la **version 1**, mais il n'a pas de contrôleur. Ce cgroup est uniquement destiné à des **fins de gestion** (dans ce cas, systemd l'a configuré).
+* La dernière ligne, le **numéro 0**, est pour les **cgroups v2**. Aucun contrôleur n'est visible ici. Sur un système qui n'a pas de cgroups v1, ce sera la seule ligne de sortie.
+* Les **noms sont hiérarchiques et ressemblent à des parties de chemins de fichiers**. Vous pouvez voir dans cet exemple que certains des cgroups sont nommés /user.slice et d'autres /user.slice/user-1000.slice/session-2.scope.
+* Le nom /testcgroup a été créé pour montrer que dans les cgroups v1, les cgroups pour un processus peuvent être complètement indépendants.
+* Les noms sous user.slice qui incluent session sont des sessions de connexion, attribuées par systemd. Vous les verrez lorsque vous regarderez les cgroups d'un shell. Les cgroups pour vos services système seront sous system.slice.
 
-* **Numbers 2–12 are for cgroups v1**. The **controllers** for those are listed next to the number.
-* **Number 1** is also for **version 1**, but it does not have a controller. This cgroup is for **management purposes** only (in this case, systemd configured it).
-* The last line, **number 0**, is for **cgroups v2**. No controllers are visible here. On a system that doesn’t have cgroups v1, this will be the only line of output.
-* **Names are hierarchical and look like parts of file paths**. You can see in this example that some of the cgroups are named /user.slice and others /user.slice/user-1000.slice/session-2.scope.
-* The name /testcgroup was created to show that in cgroups v1, the cgroups for a process can be completely independent.
-* **Names under user.slice** that include session are login sessions, assigned by systemd. You’ll see them when you’re looking at a shell’s cgroups. The **cgroups** for your **system services** will be **under system.slice**.
+### Visualisation des cgroups
 
-### Viewing cgroups
-
-Cgroups are typically **accessed through the filesystem**. This is in contrast to the traditional Unix system call interface for interacting with the kernel.\
-To explore the cgroup setup of a shell, you can look in the `/proc/self/cgroup` file to find the shell's cgroup, and then navigate to the `/sys/fs/cgroup` (or `/sys/fs/cgroup/unified`) directory and look for a **directory with the same name as the cgroup**. Changing to this directory and looking around will allow you to see the various **settings and resource usage information for the cgroup**.
+Les cgroups sont généralement **accessibles via le système de fichiers**. Cela contraste avec l'interface d'appel système Unix traditionnelle pour interagir avec le noyau.\
+Pour explorer la configuration des cgroups d'un shell, vous pouvez regarder dans le fichier `/proc/self/cgroup` pour trouver le cgroup du shell, puis naviguer vers le répertoire `/sys/fs/cgroup` (ou `/sys/fs/cgroup/unified`) et chercher un **répertoire portant le même nom que le cgroup**. En changeant de répertoire et en regardant autour, vous pourrez voir les différents **paramètres et informations d'utilisation des ressources pour le cgroup**.
 
 <figure><img src="../../../.gitbook/assets/image (10).png" alt=""><figcaption></figcaption></figure>
 
-Among the many files that can be here, **the primary cgroup interface files begin with `cgroup`**. Start by looking at `cgroup.procs` (using cat is fine), which lists the processes in the cgroup. A similar file, `cgroup.threads`, also includes threads.
+Parmi les nombreux fichiers qui peuvent être ici, **les fichiers d'interface de cgroup principaux commencent par `cgroup`**. Commencez par regarder `cgroup.procs` (utiliser cat est bien), qui liste les processus dans le cgroup. Un fichier similaire, `cgroup.threads`, inclut également les threads.
 
 <figure><img src="../../../.gitbook/assets/image (1) (1) (5).png" alt=""><figcaption></figcaption></figure>
 
-Most cgroups used for shells have these two controllers, which can control the **amount of memory** used and the **total number of processes in the cgroup**. To interact with a controller, look for the **files that match the controller prefix**. For example, if you want to see the number of threads running in the cgroup, consult pids.current:
+La plupart des cgroups utilisés pour les shells ont ces deux contrôleurs, qui peuvent contrôler la **quantité de mémoire** utilisée et le **nombre total de processus dans le cgroup**. Pour interagir avec un contrôleur, cherchez les **fichiers qui correspondent au préfixe du contrôleur**. Par exemple, si vous voulez voir le nombre de threads en cours d'exécution dans le cgroup, consultez pids.current :
 
 <figure><img src="../../../.gitbook/assets/image (3) (5).png" alt=""><figcaption></figcaption></figure>
 
-A value of **max means that this cgroup has no specific limit**, but because cgroups are hierarchical, a cgroup back down the subdirectory chain might limit it.
+Une valeur de **max signifie que ce cgroup n'a pas de limite spécifique**, mais parce que les cgroups sont hiérarchiques, un cgroup en aval de la chaîne de sous-répertoires pourrait le limiter.
 
-### Manipulating and Creating cgroups
+### Manipulation et création de cgroups
 
-To put a process into a cgroup, **write its PID to its `cgroup.procs` file as root:**
-
+Pour mettre un processus dans un cgroup, **écrivez son PID dans son fichier `cgroup.procs` en tant que root :**
 ```shell-session
 # echo pid > cgroup.procs
 ```
-
-This is how many changes to cgroups work. For example, if you want to **limit the maximum number of PIDs of a cgroup** (to, say, 3,000 PIDs), do it as follows:
-
+Voici comment fonctionnent les modifications apportées aux cgroups. Par exemple, si vous souhaitez **limiter le nombre maximal de PIDs d'un cgroup** (à, disons, 3 000 PIDs), procédez comme suit :
 ```shell-session
 # echo 3000 > pids.max
 ```
+**La création de cgroups est plus délicate**. Techniquement, c'est aussi simple que de créer un sous-répertoire quelque part dans l'arborescence des cgroups ; lorsque vous le faites, le noyau crée automatiquement les fichiers d'interface. Si un cgroup n'a pas de processus, vous pouvez supprimer le cgroup avec rmdir même si les fichiers d'interface sont présents. Ce qui peut vous tromper, ce sont les règles régissant les cgroups, notamment :
 
-**Creating cgroups is trickier**. Technically, it’s as easy as creating a subdirectory somewhere in the cgroup tree; when you do so, the kernel automatically creates the interface files. If a cgroup has no processes, you can remove the cgroup with rmdir even with the interface files present. What can trip you up are the rules governing cgroups, including:
+* Vous ne pouvez mettre des **processus que dans des cgroups de niveau supérieur ("feuille")**. Par exemple, si vous avez des cgroups nommés /my-cgroup et /my-cgroup/my-subgroup, vous ne pouvez pas mettre de processus dans /my-cgroup, mais /my-cgroup/my-subgroup est correct. (Une exception est si les cgroups n'ont pas de contrôleurs, mais ne creusons pas plus loin.)
+* Un cgroup **ne peut pas avoir de contrôleur qui n'est pas dans son cgroup parent**.
+* Vous devez **spécifier explicitement les contrôleurs pour les cgroups enfants**. Vous le faites via le fichier `cgroup.subtree_control`; par exemple, si vous voulez qu'un cgroup enfant ait les contrôleurs cpu et pids, écrivez +cpu +pids dans ce fichier.
 
-* You can put **processes only in outer-level (“leaf”) cgroups**. For example, if you have cgroups named /my-cgroup and /my-cgroup/my-subgroup, you can’t put processes in /my-cgroup, but /my-cgroup/my-subgroup is okay. (An exception is if the cgroups have no controllers, but let’s not dig further.)
-* A cgroup **can’t have a controller that isn’t in its parent cgroup**.
-* You must explicitly **specify controllers for child cgroups**. You do this through the `cgroup.subtree_control` file; for example, if you want a child cgroup to have the cpu and pids controllers, write +cpu +pids to this file.
+Une exception à ces règles est le **cgroup racine** situé en bas de la hiérarchie. Vous pouvez **placer des processus dans ce cgroup**. Une raison pour laquelle vous pourriez vouloir le faire est de détacher un processus du contrôle de systemd.
 
-An exception to these rules is the **root cgroup** found at the bottom of the hierarchy. You can **place processes in this cgroup**. One reason you might want to do this is to detach a process from systemd’s control.
-
-Even with no controllers enabled, you can see the CPU usage of a cgroup by looking at its cpu.stat file:
+Même sans contrôleurs activés, vous pouvez voir l'utilisation du CPU d'un cgroup en regardant son fichier cpu.stat :
 
 <figure><img src="../../../.gitbook/assets/image (2) (6) (3).png" alt=""><figcaption></figcaption></figure>
 
-Because this is the accumulated CPU usage over the entire lifespan of the cgroup, you can see how a service consumes processor time even if it spawns many subprocesses that eventually terminate.
-
-<details>
-
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
-
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
-
-</details>
+Étant donné que c'est l'utilisation accumulée du CPU sur toute la durée de vie du cgroup, vous pouvez voir comment un service consomme du temps processeur même s'il génère de nombreux sous-processus qui finissent par se terminer.

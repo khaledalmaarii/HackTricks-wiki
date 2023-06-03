@@ -1,316 +1,203 @@
-
-
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) **groupe Discord** ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **Partagez vos astuces de piratage en soumettant des PR au [repo hacktricks](https://github.com/carlospolop/hacktricks) et au [repo hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
 
-# Basic Terminology
+# Terminologie de base
 
-* **Smart contract**: Smart contracts are simply **programs stored on a blockchain that run when predetermined conditions are met**. They typically are used to automate the **execution** of an **agreement** so that all participants can be immediately certain of the outcome, without any intermediary’s involvement or time loss. (From [here](https://www.ibm.com/topics/smart-contracts)).
-  * Basically, a smart contract is a **piece of code** that is going to be executed when people access and accept the contract. Smart contracts **run in blockchains** (so the results are stored inmutable) and can be read by the people before accepting them.
-* **dApps**: **Decentralised applications** are implemented on top of **smart** **contracts**. They usually have a front-end where the user can interact with the app, the **back-end** is public (so it can be audited) and is implemented as a **smart contract**. Sometimes the use of a database is needed, Ethereum blockchain allocates certain storage to each account.
-* **Tokens & coins**: A **coin** is a cryptocurrency that act as **digital** **money** and a **token** is something that **represents** some **value** but it's not a coin.
-  * **Utility Tokens**: These tokens allow the user to **access certain service later** (it's something that have some value in a specific environment).
-  * **Security Tokens**: These represents the **ownership** or some asset.
-* **DeFi**: **Decentralized Finance**.
-* **DEX: Decentralized Exchange Platforms**.
-* **DAOs**: **Decentralized Autonomous Organizations**.
+* **Smart contract**: Les smart contracts sont simplement des **programmes stockés sur une blockchain qui s'exécutent lorsque des conditions prédéterminées sont remplies**. Ils sont généralement utilisés pour automatiser l'**exécution** d'un **accord** afin que tous les participants puissent être immédiatement certains du résultat, sans l'intervention ou la perte de temps d'un intermédiaire. (De [ici](https://www.ibm.com/topics/smart-contracts)).
+  * En gros, un smart contract est un **morceau de code** qui sera exécuté lorsque les gens accèdent et acceptent le contrat. Les smart contracts **s'exécutent dans les blockchains** (donc les résultats sont stockés de manière immuable) et peuvent être lus par les gens avant de les accepter.
+* **dApps**: Les **applications décentralisées** sont implémentées sur le dessus des **smart contracts**. Elles ont généralement une interface utilisateur où l'utilisateur peut interagir avec l'application, le **back-end** est public (afin qu'il puisse être audité) et est implémenté sous forme de **smart contract**. Parfois, l'utilisation d'une base de données est nécessaire, la blockchain Ethereum alloue un certain stockage à chaque compte.
+* **Tokens & coins**: Une **coin** est une crypto-monnaie qui agit comme de l'**argent numérique** et un **token** est quelque chose qui **représente** une certaine **valeur** mais ce n'est pas une pièce de monnaie.
+  * **Tokens utilitaires**: Ces tokens permettent à l'utilisateur d'**accéder à certains services plus tard** (c'est quelque chose qui a une certaine valeur dans un environnement spécifique).
+  * **Tokens de sécurité**: Ils représentent la **propriété** ou un actif.
+* **DeFi**: **Finance décentralisée**.
+* **DEX: Plateformes d'échange décentralisées**.
+* **DAOs**: **Organisations autonomes décentralisées**.
 
-# Consensus Mechanisms
+# Mécanismes de consensus
 
-For a blockchain transaction to be recognized, it must be **appended** to the **blockchain**. Validators (miners) carry out this appending; in most protocols, they **receive a reward** for doing so. For the blockchain to remain secure, it must have a mechanism to **prevent a malicious user or group from taking over a majority of validation**.
+Pour qu'une transaction de blockchain soit reconnue, elle doit être **ajoutée** à la **blockchain**. Les validateurs (mineurs) effectuent cet ajout ; dans la plupart des protocoles, ils **reçoivent une récompense** pour le faire. Pour que la blockchain reste sécurisée, elle doit avoir un mécanisme pour **empêcher un utilisateur ou un groupe malveillant de prendre le contrôle de la majorité de la validation**.
 
-Proof of work, another commonly used consensus mechanism, uses a validation of computational prowess to verify transactions, requiring a potential attacker to acquire a large fraction of the computational power of the validator network.
+La preuve de travail, un autre mécanisme de consensus couramment utilisé, utilise une validation de la puissance de calcul pour vérifier les transactions, exigeant qu'un attaquant potentiel acquière une grande fraction de la puissance de calcul du réseau de validation.
 
-## Proof Of Work (PoW)
+## Preuve de travail (PoW)
 
-This uses a **validation of computational prowess** to verify transactions, requiring a potential attacker to acquire a large fraction of the computational power of the validator network.\
-The **miners** will **select several transactions** and then start **computing the Proof Of Work**. The **miner with the greatest computation resources** is more probably to **finish** **earlier** the Proof of Work and get the fees of all the transactions.
+Cela utilise une **validation de la puissance de calcul** pour vérifier les transactions, exigeant qu'un attaquant potentiel acquière une grande fraction de la puissance de calcul du réseau de validation.\
+Les **mineurs** vont **sélectionner plusieurs transactions** et commencer à **calculer la preuve de travail**. Le **mineur avec les plus grandes ressources de calcul** est plus susceptible de **terminer plus tôt** la preuve de travail et d'obtenir les frais de toutes les transactions.
 
-## Proof Of Stake (PoS)
+## Preuve d'enjeu (PoS)
 
-PoS accomplishes this by **requiring that validators have some quantity of blockchain tokens**, requiring **potential attackers to acquire a large fraction of the tokens** on the blockchain to mount an attack.\
-In this kind of consensus, the more tokens a miner has, the more probably it will be that the miner will be asked to create the next block.\
-Compared with PoW, this greatly **reduced the energy consumption** the miners are expending.
+PoS y parvient en **exigeant que les validateurs aient une certaine quantité de jetons de blockchain**, exigeant que **les attaquants potentiels acquièrent une grande fraction des jetons** sur la blockchain pour monter une attaque.\
+Dans ce type de consensus, plus un mineur a de jetons, plus il est probable qu'il sera invité à créer le prochain bloc.\
+Comparé à PoW, cela a considérablement **réduit la consommation d'énergie** que les mineurs dépensent.
 
 # Bitcoin
 
 ## Transactions
 
-A simple **transaction** is a **movement of money** from an address to another one.\
-An **address** in bitcoin is the hash of the **public** **key**, therefore, someone in order to make a transaction from an address he needs to know the private key associated to that public key (the address).\
-Then, when a **transaction** is performed, it's **signed** with the private key of the address to show that the transaction is **legit**.
+Une **transaction** simple est un **mouvement d'argent** d'une adresse à une autre.\
+Une **adresse** en bitcoin est le hachage de la **clé publique**, donc, pour qu'une transaction soit effectuée, il faut connaître la clé privée associée à cette clé publique (l'adresse).\
+Ensuite, lorsqu'une **transaction** est effectuée, elle est **signée** avec la clé privée de l'adresse pour montrer que la transaction est **légitime**.
 
-The first part of producing a digital signature in Bitcoin can be represented mathematically in the following way:\
+La première partie de la production d'une signature numérique en Bitcoin peut être représentée mathématiquement de la manière suivante :\
 _**Sig**_ = _**Fsig**_(_**Fhash**_(_**m**_),_**dA**_)
 
-Where:
+Où :
 
-* \_d\_A is the signing **private key**
-* _m_ is the **transaction**
-* Fhash is the hashing function
-* Fsig is the signing algorithm
-* Sig is the resulting signature
+* \_d\_
+## Détection d'adresse de changement UTXO
 
-The signing function (Fsig) produces a signature (Sig) that comprises of two values: R and S:
+**UTXO** signifie **Unspent Transaction Outputs** (sorties de transaction non dépensées). Dans une transaction qui utilise la sortie d'une transaction précédente en tant qu'entrée, **toute la sortie doit être dépensée** (pour éviter les attaques de double dépense). Par conséquent, si l'intention était de **envoyer** seulement **une partie** de l'argent de cette sortie à une adresse et de **garder** l'**autre** **partie**, **2 sorties différentes** apparaîtront : celle **prévue** et une **nouvelle adresse de changement aléatoire** où le reste de l'argent sera enregistré.
 
-* Sig = (R, S)
+Ensuite, un observateur peut supposer que **la nouvelle adresse de changement générée appartient au propriétaire de l'UTXO**.
 
-Once R and S have been calculated, they are serialized into a byte stream that is encoded using an international standard encoding scheme that is known as the Distinguished Encoding Rules (or DER). In order to verify that the signature is valid, a signature verification algorithm is used. Verification of a digital signature requires the following:
+## Réseaux sociaux et forums
 
-* Signature (R and S)
-* Transaction hash
-* The public key that corresponds to the private key that was used to create the signature
+Certaines personnes donnent des données sur leurs adresses bitcoin sur différents sites web sur Internet. **Cela rend assez facile l'identification du propriétaire d'une adresse**.
 
-Verification of a signature effectively means that only the owner of the private key (that generated the public key) could have produced the signature on the transaction. The signature verification algorithm will return ‘TRUE’ if the signature is indeed valid.
+## Graphes de transaction
 
-### Multisignature Transactions
+En représentant les transactions sous forme de graphes, il est possible de savoir avec une certaine probabilité où l'argent d'un compte se trouvait. Par conséquent, il est possible de savoir quelque chose sur les **utilisateurs** qui sont **liés** dans la blockchain.
 
-A multi-signature **address** is an address that is associated with more than one ECDSA private key. The simplest type is an m-of-n address - it is associated with n private keys, and sending bitcoins from this address requires signatures from at least m keys. A multi-signature **transaction** is one that sends funds from a multi-signature address.
+## **Heuristique d'entrée inutile**
 
-### Transactions Fields
-
-Each bitcoin transaction has several fields:
-
-* **Inputs**: The amount and address **from** where **bitcoins** are **being** transferred
-* **Outputs**: The address and amounts that each **transferred** to **each** **output**
-* **Fee:** The amount of **money** that is **payed** to the **miner** of the transaction
-* **Script\_sig**: Script signature of the transaction
-* **Script\_type**: Type of transaction
-
-There are **2 main types** of transactions:
-
-* **P2PKH: "Pay To Public Key Hash"**: This is how transactions are made. You are requiring the **sender** to supply a valid **signature** (from the private key) and **public** **key**. The transaction output script will use the signature and public key and through some cryptographic functions will check **if it matches** with the public key hash, if it does, then the **funds** will be **spendable**. This method conceals your public key in the form of a hash for extra security.
-* **P2SH: "Pay To Script Hash":** The outputs of a transaction are just **scripts** (this means the person how want this money send a script) that, if are **executed with specific parameters, will result in a boolean of `true` or `false`**. If a miner runs the output script with the supplied parameters and results in `true`, the **money will be sent to your desired output**. `P2SH` is used for **multi-signature** wallets making the output scripts **logic that checks for multiple signatures before accepting the transaction**. `P2SH` can also be used to allow anyone, or no one, to spend the funds. If the output script of a P2SH transaction is just `1` for true, then attempting to spend the output without supplying parameters will just result in `1` making the money spendable by anyone who tries. This also applies to scripts that return `0`, making the output spendable by no one.
-
-## Lightning Network
-
-This protocol helps to **perform several transactions to a channe**l and **just** **sent** the **final** **state** to the blockchain to save it.\
-This **improves** bitcoin blockchain **speed** (it just on allow 7 payments per second) and it allows to create **transactions more difficult to trace** as the channel is created via nodes of the bitcoin blockchain:
-
-![](<../../.gitbook/assets/image (611).png>)
-
-Normal use of the Lightning Network consists of **opening a payment channel** by committing a funding transaction to the relevant base blockchain (layer 1), followed by making **any number** of Lightning Network **transactions** that update the tentative distribution of the channel's funds **without broadcasting those to the blockchain**, optionally followed by closing the payment channel by **broadcasting** the **final** **version** of the settlement transaction to distribute the channel's funds.
-
-Note that any of the both members of the channel can stop and send the final state of the channel to the blockchain at any time.
-
-# Bitcoin Privacy Attacks
-
-## Common Input
-
-Theoretically the inputs of one transaction can belong to different users, but in reality that is unusual as it requires extra steps. Therefore, very often it can be assumed that **2 input addresses in the same transaction belongs to the same owner**.
-
-## UTXO Change Address Detection
-
-**UTXO** means **Unspent Transaction Outputs** (UTXOs). In a transaction that uses the output from a previous transaction as an input, the **whole output need to be spent** (to avoid double-spend attacks). Therefore, if the intention was to **send** just **part** of the money from that output to an address and **keep** the **other** **part**, **2 different outputs** will appear: the **intended** one and a **random new change address** where the rest of the money will be saved.
-
-Then, a watcher can make the assumption that **the new change address generated belong to the owner of the UTXO**.
-
-## Social Networks & Forums
-
-Some people gives data about theirs bitcoin addresses in different webs on Internet. **This make pretty easy to identify the owner of an address**.
-
-## Transaction Graphs
-
-By representing the transactions in graphs, i**t's possible to know with certain probability to where the money of an account were**. Therefore, it's possible to know something about **users** that are **related** in the blockchain.
-
-## **Unnecessary input heuristic**
-
-Also called the "optimal change heuristic". Consider this bitcoin transaction. It has two inputs worth 2 BTC and 3 BTC and two outputs worth 4 BTC and 1 BTC.
-
+Aussi appelée "heuristique de changement optimal". Considérez cette transaction bitcoin. Elle a deux entrées valant 2 BTC et 3 BTC et deux sorties valant 4 BTC et 1 BTC.
 ```
 2 btc --> 4 btc
 3 btc     1 btc
 ```
+En supposant qu'une des sorties est le changement et l'autre sortie est le paiement. Il y a deux interprétations : la sortie de paiement est soit la sortie de 4 BTC, soit la sortie de 1 BTC. Mais si la sortie de 1 BTC est le montant du paiement, alors l'entrée de 3 BTC est inutile, car le portefeuille aurait pu dépenser seulement l'entrée de 2 BTC et payer des frais de transaction plus bas pour le faire. Cela indique que la véritable sortie de paiement est de 4 BTC et que 1 BTC est la sortie de changement.
 
-Assuming one of the outputs is change and the other output is the payment. There are two interpretations: the payment output is either the 4 BTC output or the 1 BTC output. But if the 1 BTC output is the payment amount then the 3 BTC input is unnecessary, as the wallet could have spent only the 2 BTC input and paid lower miner fees for doing so. This is an indication that the real payment output is 4 BTC and that 1 BTC is the change output.
-
-This is an issue for transactions which have more than one input. One way to fix this leak is to add more inputs until the change output is higher than any input, for example:
-
+Ceci est un problème pour les transactions qui ont plus d'une entrée. Une façon de corriger cette fuite est d'ajouter plus d'entrées jusqu'à ce que la sortie de changement soit supérieure à toute entrée, par exemple :
 ```
 2 btc --> 4 btc
 3 btc     6 btc
 5 btc
 ```
+## Réutilisation forcée d'adresse
 
-## Forced address reuse
+La **réutilisation forcée d'adresse** ou **réutilisation d'adresse incitative** est lorsque l'attaquant paie une petite somme de bitcoins à des adresses qui ont déjà été utilisées sur la chaîne de blocs. L'attaquant espère que les utilisateurs ou leur logiciel de portefeuille **utiliseront les paiements comme entrées pour une transaction plus importante qui révélera d'autres adresses via l'heuristique de propriété d'entrée commune**. Ces paiements peuvent être compris comme un moyen de contraindre le propriétaire de l'adresse à une réutilisation involontaire d'adresse.
 
-**Forced address reuse** or **incentivized address reuse** is when an adversary pays an (often small) amount of bitcoin to addresses that have already been used on the block chain. The adversary hopes that users or their wallet software **will use the payments as inputs to a larger transaction which will reveal other addresses via the the common-input-ownership** heuristic. These payments can be understood as a way to coerce the address owner into unintentional address reuse.
+Cette attaque est parfois incorrectement appelée une **attaque de poussière**.
 
-This attack is sometimes incorrectly called a **dust attack**.
+Le comportement correct des portefeuilles est de ne pas dépenser les pièces qui ont atterri sur des adresses vides déjà utilisées.
 
-The correct behaviour by wallets is to not spend coins that have landed on an already-used empty addresses.
+## Autres analyses de blockchain
 
-## Other Blockchain Analysis
+* **Montants de paiement exacts**: Pour éviter les transactions avec un changement, le paiement doit être égal à l'UTXO (ce qui est très improbable). Par conséquent, une **transaction sans adresse de changement est probablement un transfert entre 2 adresses du même utilisateur**.
+* **Nombres ronds**: Dans une transaction, si l'une des sorties est un "**nombre rond**", il est très probable que ce soit un **paiement à un humain qui a mis ce** "nombre rond" **de prix**, donc l'autre partie doit être le reste.
+* **Empreinte de portefeuille:** Un analyste attentif peut parfois déduire quel logiciel a créé une certaine transaction, car les **différents logiciels de portefeuille ne créent pas toujours des transactions exactement de la même manière**. L'empreinte de portefeuille peut être utilisée pour détecter les sorties de changement car une sortie de changement est celle dépensée avec la même empreinte de portefeuille.
+* **Corrélations de montants et de temps**: Si la personne qui a effectué la transaction **divulgue** l'**heure** et/ou le **montant** de la transaction, cela peut être facilement **découvert**.
 
-* **Exact Payment Amounts**: In order to avoid transactions with a change, the payment needs to be equal to the UTXO (which is highly unexpected). Therefore, a **transaction with no change address are probably transfer between 2 addresses of the same user**.
-* **Round Numbers**: In a transaction, if one of the outputs is a "**round number**", it's highly probable that this is a **payment to a human that put that** "round number" **price**, so the other part must be the leftover.
-* **Wallet fingerprinting:** A careful analyst sometimes deduce which software created a certain transaction, because the many **different wallet softwares don't always create transactions in exactly the same way**. Wallet fingerprinting can be used to detect change outputs because a change output is the one spent with the same wallet fingerprint.
-* **Amount & Timing correlations**: If the person that performed the transaction **discloses** the **time** and/or **amount** of the transaction, it can be easily **discoverable**.
+## Analyse de trafic
 
-## Traffic analysis
+Certaines organisations qui **espionnent votre trafic** peuvent voir que vous communiquez dans le réseau Bitcoin.\
+Si l'attaquant voit une transaction ou un bloc **sortir de votre nœud qui n'est pas entré auparavant**, il peut savoir avec une quasi-certitude que **la transaction a été effectuée par vous ou que le bloc a été miné par vous**. Comme les connexions Internet sont impliquées, l'attaquant pourra **lier l'adresse IP aux informations Bitcoin découvertes**.
 
-Some organisation **sniffing your traffic** can see you communicating in the bitcoin network.\
-If the adversary sees a transaction or block **coming out of your node which did not previously enter**, then it can know with near-certainty that **the transaction was made by you or the block was mined by you**. As internet connections are involved, the adversary will be able to **link the IP address with the discovered bitcoin information**.
+Un attaquant qui n'est pas en mesure d'espionner tout le trafic Internet mais qui a **beaucoup de nœuds Bitcoin** pour rester **plus proche** des sources pourrait être en mesure de connaître les adresses IP qui annoncent des transactions ou des blocs.\
+De plus, certains portefeuilles rebroadcastent périodiquement leurs transactions non confirmées afin qu'elles se propagent plus largement dans le réseau et soient exploitées.
 
-An attacker that isn't able to sniff all the Internet traffic but that has **a lot of Bitcoin nodes** in order to stay **closer** to the s**o**urces could be able to know the IP address that are announcing transactions or blocks.\
-Also, some wallets periodically rebroadcast their unconfirmed transactions so that they are more likely to propagate widely through the network and be mined.
+## Autres attaques pour trouver des informations sur le propriétaire des adresses
 
-## Other attacks to find info about the owner of addresses
+Pour plus d'attaques, lire [https://en.bitcoin.it/wiki/Privacy](https://en.bitcoin.it/wiki/Privacy)
 
-For more attacks read [https://en.bitcoin.it/wiki/Privacy](https://en.bitcoin.it/wiki/Privacy)
+# Bitcoins anonymes
 
-# Anonymous Bitcoins
+## Obtenir des Bitcoins anonymement
 
-## Obtaining Bitcoins Anonymously
+* **Transactions en espèces:** Acheter des bitcoins en espèces.
+* **Substitut d'espèces:** Acheter des cartes-cadeaux ou similaires et les échanger contre des bitcoins en ligne.
+* **Minage:** Le minage est le moyen le plus anonyme d'obtenir des bitcoins. Cela s'applique au minage en solo car les [pools de minage](https://en.bitcoin.it/wiki/Pooled\_mining) connaissent généralement l'adresse IP du hacheur.
+* **Vol:** En théorie, une autre façon d'obtenir des bitcoins anonymes est de les voler.
 
-* **Cash trades:** Buy bitcoin using cash.
-* **Cash substitute:** Buy gift cards or similar and exchange them for bitcoin online.
-* **Mining:** Mining is the most anonymous way to obtain bitcoin. This applies to solo-mining as [mining pools](https://en.bitcoin.it/wiki/Pooled\_mining) generally know the hasher's IP address.
-* **Stealing:** In theory another way of obtaining anonymous bitcoin is to steal them.
+## Mélangeurs
 
-## Mixers
+Un utilisateur **enverrait des bitcoins à un service de mélange** et le service **enverrait des bitcoins différents à l'utilisateur**, moins des frais. En théorie, un adversaire observant la blockchain serait **incapable de lier** les transactions entrantes et sortantes.
 
-A user would **send bitcoins to a mixing service** and the service would **send different bitcoins back to the user**, minus a fee. In theory an adversary observing the blockchain would be **unable to link** the incoming and outgoing transactions.
-
-However, the user needs to trust the mixing service to return the bitcoin and also to not be saving logs about the relations between the money received and sent.\
-Some other services can be also used as mixers, like Bitcoin casinos where you can send bitcoins and retrieve them later.
+Cependant, l'utilisateur doit faire confiance au service de mélange pour retourner les bitcoins et aussi pour ne pas enregistrer de journaux sur les relations entre l'argent reçu et envoyé.\
+D'autres services peuvent également être utilisés comme mélangeurs, comme les casinos Bitcoin où vous pouvez envoyer des bitcoins et les récupérer plus tard.
 
 ## CoinJoin
 
-**CoinJoin** will **mix several transactions of different users into just one** in order to make more **difficult** for an observer to find out **which input is related to which output**.\
-This offers a new level of privacy, however, **some** **transactions** where some input and output amounts are correlated or are very different from the rest of the inputs and outputs **can still be correlated** by the external observer.
+**CoinJoin** va **mélanger plusieurs transactions de différents utilisateurs en une seule** afin de rendre plus **difficile** pour un observateur de trouver **quelle entrée est liée à quelle sortie**.\
+Cela offre un nouveau niveau de confidentialité, cependant, **certaines** **transactions** où certains montants d'entrée et de sortie sont corrélés ou sont très différents du reste des entrées et sorties **peuvent encore être corrélées** par l'observateur externe.
 
-Examples of (likely) CoinJoin transactions IDs on bitcoin's blockchain are `402d3e1df685d1fdf82f36b220079c1bf44db227df2d676625ebcbee3f6cb22a` and `85378815f6ee170aa8c26694ee2df42b99cff7fa9357f073c1192fff1f540238`.
+Des exemples d'identifiants de transactions CoinJoin (probables) sur la blockchain de Bitcoin sont `402d3e1df685d1fdf82f36b220079c1bf44db227df2d676625ebcbee3f6cb22a` et `85378815f6ee170aa8c26694ee2df42b99cff7fa9357f073c1192fff1f540238`.
 
 [**https://coinjoin.io/en**](https://coinjoin.io/en)\
-**Similar to coinjoin but better and for ethereum you have** [**Tornado Cash**](https://tornado.cash) **(the money is given from miners, so it jus appear in your waller).**
+**Similaire à CoinJoin mais mieux et pour Ethereum, vous avez** [**Tornado Cash**](https://tornado.cash) **(l'argent est donné par les mineurs, donc il apparaît simplement dans votre portefeuille).**
 
 ## PayJoin
 
-The type of CoinJoin discussed in the previous section can be easily identified as such by checking for the multiple outputs with the same value.
+Le type de CoinJoin discuté dans la section précédente peut être facilement identifié comme tel en vérifiant les sorties multiples avec la même valeur.
 
-PayJoin (also called pay-to-end-point or P2EP) is a special type of CoinJoin between two parties where one party pays the other. The transaction then **doesn't have the distinctive multiple outputs** with the same value, and so is not obviously visible as an equal-output CoinJoin. Consider this transaction:
-
+PayJoin (également appelé pay-to-end-point ou P2EP) est un type spécial de CoinJoin entre deux parties où une partie paie l'autre. La transaction **n'a alors pas les sorties multiples distinctives** avec la même valeur, et donc n'est pas clairement visible comme un CoinJoin à sortie égale. Considérez cette transaction:
 ```
 2 btc --> 3 btc
 5 btc     4 btc
 ```
+Il est possible d'interpréter cette transaction comme une simple transaction payant quelque part avec de la monnaie restante (ignorons pour l'instant la question de savoir quelle sortie est un paiement et laquelle est un changement). Une autre façon d'interpréter cette transaction est que les 2 BTC en entrée appartiennent à un marchand et que les 5 BTC appartiennent à leur client, et que cette transaction implique que le client paie 1 BTC au marchand. Il n'y a aucun moyen de dire quelle de ces deux interprétations est correcte. Le résultat est une transaction de coinjoin qui rompt l'heuristique de propriété d'entrée commune et améliore la confidentialité, mais qui est également **indétectable et indiscernable de toute transaction bitcoin régulière**.
 
-It could be interpreted as a simple transaction paying to somewhere with leftover change (ignore for now the question of which output is payment and which is change). Another way to interpret this transaction is that the 2 BTC input is owned by a merchant and 5 BTC is owned by their customer, and that this transaction involves the customer paying 1 BTC to the merchant. There is no way to tell which of these two interpretations is correct. The result is a coinjoin transaction that breaks the common-input-ownership heuristic and improves privacy, but is also **undetectable and indistinguishable from any regular bitcoin transaction**.
+Si les transactions PayJoin devenaient même modérément utilisées, cela rendrait l'heuristique de propriété d'entrée commune complètement défectueuse en pratique. Comme elles sont indétectables, nous ne saurions même pas si elles sont utilisées aujourd'hui. Comme les entreprises de surveillance de transactions dépendent principalement de cette heuristique, depuis 2019, il y a une grande excitation autour de l'idée de PayJoin.
 
-If PayJoin transactions became even moderately used then it would make the **common-input-ownership heuristic be completely flawed in practice**. As they are undetectable we wouldn't even know whether they are being used today. As transaction surveillance companies mostly depend on that heuristic, as of 2019 there is great excitement about the PayJoin idea.
+# Bonnes pratiques de confidentialité Bitcoin
 
-# Bitcoin Privacy Good Practices
+## Synchronisation de portefeuille
 
-## Wallet Synchronization
+Les portefeuilles Bitcoin doivent obtenir des informations sur leur solde et leur historique. À la fin de 2018, les solutions les plus pratiques et les plus privées existantes sont d'utiliser un **portefeuille de nœud complet** (qui est maximale privé) et un **filtrage de bloc côté client** (qui est très bon).
 
-Bitcoin wallets must somehow obtain information about their balance and history. As of late-2018 the most practical and private existing solutions are to use a **full node wallet** (which is maximally private) and **client-side block filtering** (which is very good).
-
-* **Full node:** Full nodes download the entire blockchain which contains every on-chain [transaction](https://en.bitcoin.it/wiki/Transaction) that has ever happened in bitcoin. So an adversary watching the user's internet connection will not be able to learn which transactions or addresses the user is interested in.
-* **Client-side block filtering:** Client-side block filtering works by having **filters** created that contains all the **addresses** for every transaction in a block. The filters can test whether an **element is in the set**; false positives are possible but not false negatives. A lightweight wallet would **download** all the filters for every **block** in the **blockchain** and check for matches with its **own** **addresses**. Blocks which contain matches would be downloaded in full from the peer-to-peer network, and those blocks would be used to obtain the wallet's history and current balance.
+* **Nœud complet :** Les nœuds complets téléchargent l'intégralité de la blockchain qui contient toutes les [transactions](https://en.bitcoin.it/wiki/Transaction) sur la chaîne de blocs qui ont jamais eu lieu dans Bitcoin. Ainsi, un adversaire qui surveille la connexion Internet de l'utilisateur ne pourra pas savoir quelles transactions ou adresses l'utilisateur recherche.
+* **Filtrage de bloc côté client :** Le filtrage de bloc côté client fonctionne en créant des **filtres** qui contiennent toutes les **adresses** pour chaque transaction dans un bloc. Les filtres peuvent tester si un **élément est dans l'ensemble** ; les faux positifs sont possibles mais pas les faux négatifs. Un portefeuille léger **téléchargerait** tous les filtres pour chaque **bloc** dans la **blockchain** et vérifierait les correspondances avec ses propres **adresses**. Les blocs qui contiennent des correspondances seraient téléchargés en entier depuis le réseau pair-à-pair, et ces blocs seraient utilisés pour obtenir l'historique et le solde actuel du portefeuille.
 
 ## Tor
 
-Bitcoin network uses a peer-to-peer network, which means that other peers can learn your IP address. This is why it's recommend to **connect through Tor every time you want to interact with the bitcoin network**.
+Le réseau Bitcoin utilise un réseau pair-à-pair, ce qui signifie que d'autres pairs peuvent apprendre votre adresse IP. C'est pourquoi il est recommandé de **se connecter via Tor chaque fois que vous voulez interagir avec le réseau Bitcoin**.
 
-## Avoiding address reuse
+## Éviter la réutilisation d'adresses
 
-**Addresses being used more than once is very damaging to privacy because that links together more blockchain transactions with proof that they were created by the same entity**. The most private and secure way to use bitcoin is to send a brand **new address to each person who pays you**. After the received coins have been spent the address should never be used again. Also, a brand new bitcoin address should be demanded when sending bitcoin. All good bitcoin wallets have a user interface which discourages address reuse.
+**La réutilisation d'adresses est très dommageable pour la confidentialité car cela relie plus de transactions blockchain avec la preuve qu'elles ont été créées par la même entité**. La façon la plus privée et la plus sûre d'utiliser Bitcoin est d'envoyer une **nouvelle adresse à chaque personne qui vous paie**. Après que les pièces reçues ont été dépensées, l'adresse ne doit jamais être réutilisée. De plus, une nouvelle adresse Bitcoin doit être demandée lors de l'envoi de Bitcoin. Tous les bons portefeuilles Bitcoin ont une interface utilisateur qui décourage la réutilisation d'adresses.
 
-## Multiple transactions
+## Transactions multiples
 
-**Paying** someone with **more than one on-chain transaction** can greatly reduce the power of amount-based privacy attacks such as amount correlation and round numbers. For example, if the user wants to pay 5 BTC to somebody and they don't want the 5 BTC value to be easily searched for, then they can send two transactions for the value of 2 BTC and 3 BTC which together add up to 5 BTC.
+**Payer** quelqu'un avec **plus d'une transaction sur la chaîne de blocs** peut grandement réduire la puissance des attaques de confidentialité basées sur le montant, telles que la corrélation des montants et les nombres ronds. Par exemple, si l'utilisateur veut payer 5 BTC à quelqu'un et qu'il ne veut pas que la valeur de 5 BTC soit facilement recherchée, il peut envoyer deux transactions pour la valeur de 2 BTC et 3 BTC qui ensemble s'élèvent à 5 BTC.
 
-## Change avoidance
+## Éviter le changement
 
-Change avoidance is where transaction inputs and outputs are carefully chosen to not require a change output at all. **Not having a change output is excellent for privacy**, as it breaks change detection heuristics.
+L'évitement du changement consiste à choisir soigneusement les entrées et les sorties de transaction pour ne pas nécessiter de sortie de changement du tout. **Ne pas avoir de sortie de changement est excellent pour la confidentialité**, car cela rompt les heuristiques de détection de changement.
 
-## Multiple change outputs
+## Sorties de changement multiples
 
-If change avoidance is not an option then **creating more than one change output can improve privacy**. This also breaks change detection heuristics which usually assume there is only a single change output. As this method uses more block space than usual, change avoidance is preferable.
+Si l'évitement du changement n'est pas une option, **la création de plus d'une sortie de changement peut améliorer la confidentialité**. Cela rompt également les heuristiques de détection de changement qui supposent généralement qu'il n'y a qu'une seule sortie de changement. Comme cette méthode utilise plus d'espace de bloc que d'habitude, l'évitement du changement est préférable.
 
 # Monero
 
-When Monero was developed, the gaping need for **complete anonymity** was what it sought to resolve, and to a large extent, it has filled that void.
+Lorsque Monero a été développé, le besoin béant d'**anonymat complet** était ce qu'il cherchait à résoudre, et dans une large mesure, il a comblé ce vide.
 
 # Ethereum
 
-## Gas
+## Gaz
 
-Gas refers to the unit that measures the **amount** of **computational** **effort** required to execute specific operations on the Ethereum network. Gas refers to the **fee** required to successfully conduct a **transaction** on Ethereum.
+Le gaz fait référence à l'unité qui mesure la **quantité d'effort de calcul** requise pour exécuter des opérations spécifiques sur le réseau Ethereum. Le gaz fait référence aux **frais** requis pour effectuer avec succès une **transaction** sur Ethereum.
 
-Gas prices are denoted in **gwei**, which itself is a denomination of ETH - each gwei is equal to **0.000000001 ETH** (10-9 ETH). For example, instead of saying that your gas costs 0.000000001 ether, you can say your gas costs 1 gwei. The word 'gwei' itself means 'giga-wei', and it is equal to **1,000,000,000 wei**. Wei itself is the **smallest unit of ETH**.
+Les prix du gaz sont exprimés en **gwei**, qui est lui-même une dénomination d'ETH - chaque gwei est égal à **0,000000001 ETH** (10-9 ETH). Par exemple, au lieu de dire que votre gaz coûte 0,000000001 ether, vous pouvez dire que votre gaz coûte 1 gwei. Le mot 'gwei' lui-même signifie 'giga-wei', et il est égal à **1 000 000 000 wei**. Wei lui-même est la **plus petite unité d'ETH**.
 
-To calculate the gas that a transaction is going to cost read this example:
+Pour calculer le gaz qu'une transaction va coûter, lisez cet exemple :
 
-Let’s say Jordan has to pay Taylor 1 ETH. In the transaction the gas limit is 21,000 units and the base fee is 100 gwei. Jordan includes a tip of 10 gwei.
+Supposons que Jordan doit payer à Taylor 1 ETH. Dans la transaction, la limite de gaz est de 21 000 unités et le tarif de base est de 100 gwei. Jordan inclut un pourboire de 10 gwei.
 
-Using the formula above we can calculate this as `21,000 * (100 + 10) = 2,310,000 gwei` or 0.00231 ETH.
+En utilisant la formule ci-dessus, nous pouvons calculer cela comme `21 000 * (100 + 10) = 2 310 000 gwei` ou 0,00231 ETH.
 
-When Jordan sends the money, 1.00231 ETH will be deducted from Jordan's account. Taylor will be credited 1.0000 ETH. Miner receives the tip of 0.00021 ETH. Base fee of 0.0021 ETH is burned.
-
-Additionally, Jordan can also set a max fee (`maxFeePerGas`) for the transaction. The difference between the max fee and the actual fee is refunded to Jordan, i.e. `refund = max fee - (base fee + priority fee)`. Jordan can set a maximum amount to pay for the transaction to execute and not worry about overpaying "beyond" the base fee when the transaction is executed.
-
-As the base fee is calculated by the network based on demand for block space, this last param: maxFeePerGas helps to control the maximum fee that is going to be payed.
-
-## Transactions
-
-Notice that in the **Ethereum** network a transaction is performed between 2 addresses and these can be **user or smart contract addresses**.\
-**Smart Contracts** are stored in the distributed ledger via a **special** **transaction**.
-
-Transactions, which change the state of the EVM, need to be broadcast to the whole network. Any node can broadcast a request for a transaction to be executed on the EVM; after this happens, a **miner** will **execute** the **transaction** and propagate the resulting state change to the rest of the network.\
-Transactions require a **fee** and must be mined to become valid.
-
-A submitted transaction includes the following information:
-
-* `recipient` – the receiving address (if an externally-owned account, the transaction will transfer value. If a contract account, the transaction will execute the contract code)
-* `signature` – the identifier of the sender. This is generated when the sender's private key signs the transaction and confirms the sender has authorised this transaction
-* `value` – amount of ETH to transfer from sender to recipient (in WEI, a denomination of ETH)
-* `data` – optional field to include arbitrary data
-* `gasLimit` – the maximum amount of gas units that can be consumed by the transaction. Units of gas represent computational steps
-* `maxPriorityFeePerGas` - the maximum amount of gas to be included as a tip to the miner
-* `maxFeePerGas` - the maximum amount of gas willing to be paid for the transaction (inclusive of `baseFeePerGas` and `maxPriorityFeePerGas`)
-
-Note that there isn't any field for the origin address, this is because this can be extrapolated from the signature.
-
-# References
-
-* [https://en.wikipedia.org/wiki/Proof\_of\_stake](https://en.wikipedia.org/wiki/Proof\_of\_stake)
-* [https://www.mycryptopedia.com/public-key-private-key-explained/](https://www.mycryptopedia.com/public-key-private-key-explained/)
-* [https://bitcoin.stackexchange.com/questions/3718/what-are-multi-signature-transactions](https://bitcoin.stackexchange.com/questions/3718/what-are-multi-signature-transactions)
-* [https://ethereum.org/en/developers/docs/transactions/](https://ethereum.org/en/developers/docs/transactions/)
-* [https://ethereum.org/en/developers/docs/gas/](https://ethereum.org/en/developers/docs/gas/)
-* [https://en.bitcoin.it/wiki/Privacy](https://en.bitcoin.it/wiki/Privacy#Forced\_address\_reuse)
-
-
-<details>
-
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
-
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
-
-</details>
-
-
+Lorsque Jordan envoie l'argent, 1,00231 ETH seront déduits du compte de Jordan. Taylor sera crédité de 1,0000 ETH. Le mineur reçoit le pourboire de 0,00021 ETH. Les frais de base de 0

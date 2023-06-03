@@ -1,32 +1,31 @@
-# macOS Auto Start Locations
+# Emplacements de démarrage automatique de macOS
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-Here are locations on the system that could lead to the **execution** of a binary **without** **user** **interaction**.
+Voici les emplacements sur le système qui pourraient conduire à l'**exécution** d'un binaire **sans** **interaction** **utilisateur**.
 
 ### Launchd
 
-**`launchd`** is the **first** **process** executed by OX S kernel at startup and the last one to finish at shut down. It should always have the **PID 1**. This process will **read and execute** the configurations indicated in the **ASEP** **plists** in:
+**`launchd`** est le **premier** **processus** exécuté par le noyau OX S au démarrage et le dernier à se terminer à l'arrêt. Il doit toujours avoir le **PID 1**. Ce processus **lira et exécutera** les configurations indiquées dans les **plists ASEP** dans :
 
-* `/Library/LaunchAgents`: Per-user agents installed by the admin
-* `/Library/LaunchDaemons`: System-wide daemons installed by the admin
-* `/System/Library/LaunchAgents`: Per-user agents provided by Apple.
-* `/System/Library/LaunchDaemons`: System-wide daemons provided by Apple.
+* `/Library/LaunchAgents` : Agents par utilisateur installés par l'administrateur
+* `/Library/LaunchDaemons` : Daemons système installés par l'administrateur
+* `/System/Library/LaunchAgents` : Agents par utilisateur fournis par Apple.
+* `/System/Library/LaunchDaemons` : Daemons système fournis par Apple.
 
-When a user logs in the plists located in `/Users/$USER/Library/LaunchAgents` and `/Users/$USER/Library/LaunchDemons` are started with the **logged users permissions**.
+Lorsqu'un utilisateur se connecte, les plists situés dans `/Users/$USER/Library/LaunchAgents` et `/Users/$USER/Library/LaunchDemons` sont démarrés avec les **permissions des utilisateurs connectés**.
 
-The **main difference between agents and daemons is that agents are loaded when the user logs in and the daemons are loaded at system startup** (as there are services like ssh that needs to be executed before any user access the system). Also agents may use GUI while daemons need to run in the background.
-
+La **principale différence entre les agents et les daemons est que les agents sont chargés lorsque l'utilisateur se connecte et les daemons sont chargés au démarrage du système** (car il y a des services comme ssh qui doivent être exécutés avant que tout utilisateur n'accède au système). Les agents peuvent également utiliser l'interface graphique tandis que les daemons doivent s'exécuter en arrière-plan.
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN">
@@ -49,58 +48,48 @@ The **main difference between agents and daemons is that agents are loaded when 
 </dict>
 </plist>
 ```
+Il y a des cas où un **agent doit être exécuté avant que l'utilisateur ne se connecte**, ceux-ci sont appelés **PreLoginAgents**. Par exemple, cela est utile pour fournir une technologie d'assistance à la connexion. Ils peuvent également être trouvés dans `/Library/LaunchAgents` (voir [**ici**](https://github.com/HelmutJ/CocoaSampleCode/tree/master/PreLoginAgents) un exemple).
 
-There are cases where an **agent needs to be executed before the user logins**, these are called **PreLoginAgents**. For example, this is useful to provide assistive technology at login. They can be found also in `/Library/LaunchAgents`(see [**here**](https://github.com/HelmutJ/CocoaSampleCode/tree/master/PreLoginAgents) an example).
+\{% hint style="info" %\} Les nouveaux fichiers de configuration de Daemons ou Agents seront **chargés après le prochain redémarrage ou en utilisant** `launchctl load <target.plist>` Il est **également possible de charger des fichiers .plist sans cette extension** avec `launchctl -F <file>` (cependant, ces fichiers plist ne seront pas automatiquement chargés après le redémarrage).\
+Il est également possible de **décharger** avec `launchctl unload <target.plist>` (le processus pointé par celui-ci sera terminé),
 
-\{% hint style="info" %\} New Daemons or Agents config files will be **loaded after next reboot or using** `launchctl load <target.plist>` It's **also possible to load .plist files without that extension** with `launchctl -F <file>` (however those plist files won't be automatically loaded after reboot).\
-It's also possible to **unload** with `launchctl unload <target.plist>` (the process pointed by it will be terminated),
+Pour **s'assurer** qu'il n'y a **rien** (comme une substitution) **empêchant** un **Agent** ou un **Daemon** **de** **s'exécuter**, exécutez : `sudo launchctl load -w /System/Library/LaunchDaemos/com.apple.smdb.plist` \{% endhint %\}
 
-To **ensure** that there isn't **anything** (like an override) **preventing** an **Agent** or **Daemon** **from** **running** run: `sudo launchctl load -w /System/Library/LaunchDaemos/com.apple.smdb.plist` \{% endhint %\}
-
-List all the agents and daemons loaded by the current user:
-
+Listez tous les agents et démons chargés par l'utilisateur actuel :
 ```bash
 launchctl list
 ```
-
 ### Cron
 
-List the cron jobs of the **current user** with:
-
+Listez les tâches cron de l'**utilisateur actuel** avec:
 ```bash
 crontab -l
 ```
+Vous pouvez également voir toutes les tâches cron des utilisateurs dans **`/usr/lib/cron/tabs/`** et **`/var/at/tabs/`** (nécessite des privilèges root).
 
-You can also see all the cron jobs of the users in **`/usr/lib/cron/tabs/`** and **`/var/at/tabs/`** (needs root).
-
-In MacOS several folders executing scripts with **certain frequency** can be found in:
-
+Dans MacOS, plusieurs dossiers exécutant des scripts avec **une certaine fréquence** peuvent être trouvés dans:
 ```bash
 ls -lR /usr/lib/cron/tabs/ /private/var/at/jobs /etc/periodic/
 ```
+Vous pouvez trouver les tâches **cron** régulières, les tâches **at** (peu utilisées) et les tâches **périodiques** (principalement utilisées pour nettoyer les fichiers temporaires). Les tâches périodiques quotidiennes peuvent être exécutées par exemple avec: `periodic daily`.
 
-There you can find the regular **cron** **jobs**, the **at** **jobs** (not very used) and the **periodic** **jobs** (mainly used for cleaning temporary files). The daily periodic jobs can be executed for example with: `periodic daily`.
-
-The periodic scripts (**`/etc/periodic`**) are executed because of the **launch daemons** configured in `/System/Library/LaunchDaemons/com.apple.periodic*`. Note that if a script is stored in `/etc/periodic/` as a way to **escalate privilege**s, it will be **executed** as the **owner of the file**.
-
+Les scripts périodiques (**`/etc/periodic`**) sont exécutés en raison des **daemons de lancement** configurés dans `/System/Library/LaunchDaemons/com.apple.periodic*`. Notez que si un script est stocké dans `/etc/periodic/` comme moyen d'**escalader les privilèges**, il sera **exécuté** en tant que **propriétaire du fichier**.
 ```bash
 ls -l /System/Library/LaunchDaemons/com.apple.periodic*
 -rw-r--r--  1 root  wheel  887 May 13 00:29 /System/Library/LaunchDaemons/com.apple.periodic-daily.plist
 -rw-r--r--  1 root  wheel  895 May 13 00:29 /System/Library/LaunchDaemons/com.apple.periodic-monthly.plist
 -rw-r--r--  1 root  wheel  891 May 13 00:29 /System/Library/LaunchDaemons/com.apple.periodic-weekly.plist
 ```
-
 ### kext
 
-In order to install a KEXT as a startup item, it needs to be **installed in one of the following locations**:
+Afin d'installer un KEXT en tant qu'élément de démarrage, il doit être **installé dans l'un des emplacements suivants** :
 
 * `/System/Library/Extensions`
-  * KEXT files built into the OS X operating system.
+  * Fichiers KEXT intégrés au système d'exploitation OS X.
 * `/Library/Extensions`
-  * KEXT files installed by 3rd party software
+  * Fichiers KEXT installés par des logiciels tiers.
 
-You can list currently loaded kext files with:
-
+Vous pouvez lister les fichiers kext actuellement chargés avec :
 ```bash
 kextstat #List loaded kext
 kextload /path/to/kext.kext #Load a new one based on path
@@ -108,14 +97,12 @@ kextload -b com.apple.driver.ExampleBundle #Load a new one based on path
 kextunload /path/to/kext.kext
 kextunload -b com.apple.driver.ExampleBundle
 ```
+Pour plus d'informations sur les [**extensions de noyau, consultez cette section**](macos-security-and-privilege-escalation/mac-os-architecture#i-o-kit-drivers).
 
-For more information about [**kernel extensions check this section**](macos-security-and-privilege-escalation/mac-os-architecture#i-o-kit-drivers).
+### **Éléments de connexion**
 
-### **Login Items**
-
-In System Preferences -> Users & Groups -> **Login Items** you can find **items to be executed when the user logs in**.\
-It it's possible to list them, add and remove from the command line:
-
+Dans Préférences Système -> Utilisateurs et groupes -> **Éléments de connexion**, vous pouvez trouver les **éléments à exécuter lorsque l'utilisateur se connecte**.\
+Il est possible de les lister, d'en ajouter et d'en supprimer depuis la ligne de commande :
 ```bash
 #List all items:
 osascript -e 'tell application "System Events" to get the name of every login item'
@@ -126,32 +113,26 @@ osascript -e 'tell application "System Events" to make login item at end with pr
 #Remove an item:
 osascript -e 'tell application "System Events" to delete login item "itemname"' 
 ```
-
-These items are stored in the file /Users/\<username>/Library/Application Support/com.apple.backgroundtaskmanagementagent
+Ces éléments sont stockés dans le fichier /Users/\<username>/Library/Application Support/com.apple.backgroundtaskmanagementagent
 
 ### At
 
-“At tasks” are used to **schedule tasks at specific times**.\
-These tasks differ from cron in that **they are one time tasks** t**hat get removed after executing**. However, they will **survive a system restart** so they can’t be ruled out as a potential threat.
+Les "tâches At" sont utilisées pour **planifier des tâches à des moments spécifiques**.\
+Ces tâches diffèrent de cron en ce qu'elles sont des tâches ponctuelles qui sont supprimées après leur exécution. Cependant, elles **survivent à un redémarrage du système** et ne peuvent donc pas être exclues en tant que menace potentielle.
 
-By **default** they are **disabled** but the **root** user can **enable** **them** with:
-
+Par **défaut**, elles sont **désactivées**, mais l'utilisateur **root** peut les **activer** avec:
 ```bash
 sudo launchctl load -F /System/Library/LaunchDaemons/com.apple.atrun.plist
 ```
-
-This will create a file at 13:37:
-
+Cela créera un fichier à 13h37 :
 ```bash
 echo hello > /tmp/hello | at 1337
 ```
+Si les tâches AT ne sont pas activées, les tâches créées ne seront pas exécutées.
 
-If AT tasks aren't enabled the created tasks won't be executed.
+### Hooks de connexion/déconnexion
 
-### Login/Logout Hooks
-
-They are deprecated but can be used to execute commands when a user logs in.
-
+Ils sont obsolètes mais peuvent être utilisés pour exécuter des commandes lorsqu'un utilisateur se connecte.
 ```bash
 cat > $HOME/hook.sh << EOF
 #!/bin/bash
@@ -160,9 +141,7 @@ EOF
 chmod +x $HOME/hook.sh
 defaults write com.apple.loginwindow LoginHook /Users/$USER/hook.sh
 ```
-
-This setting is stored in `/Users/$USER/Library/Preferences/com.apple.loginwindow.plist`
-
+Cette configuration est stockée dans `/Users/$USER/Library/Preferences/com.apple.loginwindow.plist`
 ```bash
 defaults read /Users/$USER/Library/Preferences/com.apple.loginwindow.plist
 {
@@ -173,41 +152,35 @@ defaults read /Users/$USER/Library/Preferences/com.apple.loginwindow.plist
     oneTimeSSMigrationComplete = 1;
 }
 ```
-
-To delete it:
-
+Pour le supprimer :
 ```bash
 defaults delete com.apple.loginwindow LoginHook
 ```
+Dans l'exemple précédent, nous avons créé et supprimé un **LoginHook**, il est également possible de créer un **LogoutHook**.
 
-In the previous example we have created and deleted a **LoginHook**, it's also possible to create a **LogoutHook**.
-
-The root user one is stored in `/private/var/root/Library/Preferences/com.apple.loginwindow.plist`
+Celui de l'utilisateur root est stocké dans `/private/var/root/Library/Preferences/com.apple.loginwindow.plist`
 
 ### Emond
 
-Apple introduced a logging mechanism called **emond**. It appears it was never fully developed, and development may have been **abandoned** by Apple for other mechanisms, but it remains **available**.
+Apple a introduit un mécanisme de journalisation appelé **emond**. Il semble qu'il n'ait jamais été entièrement développé et que le développement ait été **abandonné** par Apple au profit d'autres mécanismes, mais il reste **disponible**.
 
-This little-known service may **not be much use to a Mac admin**, but to a threat actor one very good reason would be to use it as a **persistence mechanism that most macOS admins probably wouldn't know** to look for. Detecting malicious use of emond shouldn't be difficult, as the System LaunchDaemon for the service looks for scripts to run in only one place:
-
+Ce service peu connu peut **ne pas être très utile pour un administrateur Mac**, mais pour un acteur de menace, une très bonne raison serait de l'utiliser comme un mécanisme de **persistance que la plupart des administrateurs macOS ne connaissent probablement pas**. Détecter l'utilisation malveillante d'emond ne devrait pas être difficile, car le System LaunchDaemon du service ne recherche des scripts à exécuter qu'à un seul endroit :
 ```bash
 ls -l /private/var/db/emondClients
 ```
-
 {% hint style="danger" %}
-**As this isn't used much, anything in that folder should be suspicious**
+**Comme cela n'est pas beaucoup utilisé, tout ce qui se trouve dans ce dossier doit être considéré comme suspect**
 {% endhint %}
 
-### Startup Items
+### Éléments de démarrage
 
-\{% hint style="danger" %\} **This is deprecated, so nothing should be found in the following directories.** \{% endhint %\}
+\{% hint style="danger" %\} **Ceci est obsolète, donc rien ne devrait être trouvé dans les répertoires suivants.** \{% endhint %\}
 
-A **StartupItem** is a **directory** that gets **placed** in one of these two folders. `/Library/StartupItems/` or `/System/Library/StartupItems/`
+Un **élément de démarrage** est un **répertoire** qui est **placé** dans l'un de ces deux dossiers : `/Library/StartupItems/` ou `/System/Library/StartupItems/`
 
-After placing a new directory in one of these two locations, **two more items** need to be placed inside that directory. These two items are a **rc script** **and a plist** that holds a few settings. This plist must be called “**StartupParameters.plist**”.
-
-{% tabs %}
-{% tab title="StartupParameters.plist" %}
+Après avoir placé un nouveau répertoire dans l'un de ces deux emplacements, **deux autres éléments** doivent être placés à l'intérieur de ce répertoire. Ces deux éléments sont un **script rc** et un **plist** qui contient quelques paramètres. Ce plist doit être appelé "**StartupParameters.plist**". 
+{% endtab %}
+{% tab title="StartupParameters.plist" %\}
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -227,6 +200,80 @@ After placing a new directory in one of these two locations, **two more items** 
 {% endtab %}
 
 {% tab title="superservicename" %}
+
+## Emplacement de démarrage automatique de macOS
+
+### Emplacements de démarrage automatique
+
+Les emplacements de démarrage automatique de macOS sont les suivants:
+
+* `/Library/LaunchAgents/`
+* `/Library/LaunchDaemons/`
+* `/System/Library/LaunchAgents/`
+* `/System/Library/LaunchDaemons/`
+* `~/Library/LaunchAgents/`
+
+Les deux premiers emplacements sont utilisés pour les services système, tandis que les deux derniers sont utilisés pour les services utilisateur.
+
+### Comment fonctionnent les emplacements de démarrage automatique
+
+Les emplacements de démarrage automatique contiennent des fichiers de configuration de service qui indiquent à macOS comment démarrer et gérer les services. Les fichiers de configuration peuvent être écrits en XML ou en format binaire.
+
+Les fichiers de configuration de service peuvent être utilisés pour démarrer des programmes, des scripts ou des commandes au démarrage de macOS ou lorsqu'un utilisateur se connecte.
+
+### Comment trouver les emplacements de démarrage automatique
+
+Pour trouver les emplacements de démarrage automatique, vous pouvez utiliser la commande `launchctl`. Par exemple, pour lister tous les services en cours d'exécution, vous pouvez utiliser la commande suivante:
+
+```bash
+sudo launchctl list
+```
+
+Pour lister tous les services dans un emplacement de démarrage automatique spécifique, vous pouvez utiliser la commande suivante:
+
+```bash
+sudo launchctl list <emplacement>
+```
+
+### Comment désactiver les services de démarrage automatique
+
+Pour désactiver un service de démarrage automatique, vous pouvez utiliser la commande `launchctl`. Par exemple, pour désactiver le service `com.apple.AirPlayXPCHelper`, vous pouvez utiliser la commande suivante:
+
+```bash
+sudo launchctl unload -w /System/Library/LaunchAgents/com.apple.AirPlayXPCHelper.plist
+```
+
+### Comment ajouter un service de démarrage automatique
+
+Pour ajouter un service de démarrage automatique, vous devez créer un fichier de configuration de service dans l'un des emplacements de démarrage automatique et y ajouter les informations de configuration appropriées. Par exemple, pour créer un service de démarrage automatique qui exécute un script Python au démarrage de macOS, vous pouvez créer un fichier `com.example.myservice.plist` dans le dossier `~/Library/LaunchAgents/` avec le contenu suivant:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.example.myservice</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/python</string>
+        <string>/path/to/myscript.py</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+</dict>
+</plist>
+```
+
+Une fois que vous avez créé le fichier de configuration de service, vous pouvez charger le service en utilisant la commande `launchctl`. Par exemple, pour charger le service `com.example.myservice`, vous pouvez utiliser la commande suivante:
+
+```bash
+launchctl load ~/Library/LaunchAgents/com.example.myservice.plist
+```
+
+### Conclusion
+
+Les emplacements de démarrage automatique de macOS sont un moyen pratique de démarrer des services au démarrage de macOS ou lorsqu'un utilisateur se connecte. En comprenant comment fonctionnent les emplacements de démarrage automatique et comment les utiliser, vous pouvez personnaliser le comportement de macOS pour répondre à vos besoins.
 ```bash
 #!/bin/sh
 . /etc/rc.common
@@ -251,11 +298,10 @@ RunService "$1"
 ### /etc/rc.common
 
 {% hint style="danger" %}
-**This isn't working in modern MacOS versions**
+**Cela ne fonctionne pas dans les versions modernes de MacOS**
 {% endhint %}
 
-It's also possible to place here **commands that will be executed at startup.** Example os regular rc.common script:
-
+Il est également possible de placer ici **des commandes qui seront exécutées au démarrage.** Exemple de script rc.common régulier :
 ```bash
 #
 # Common setup for startup scripts.
@@ -348,18 +394,15 @@ RunService ()
     esac
 }
 ```
+### Profils
 
-### Profiles
+Les profils de configuration peuvent forcer un utilisateur à utiliser certains paramètres de navigateur, des paramètres de proxy DNS ou des paramètres VPN. De nombreux autres payloads sont possibles, ce qui les rend propices à l'abus.
 
-Configuration profiles can force a user to use certain browser settings, DNS proxy settings, or VPN settings. Many other payloads are possible which make them ripe for abuse.
-
-You can enumerate them running:
-
+Vous pouvez les énumérer en exécutant:
 ```bash
 ls -Rl /Library/Managed\ Preferences/
 ```
-
-### Other persistence techniques and tools
+### Autres techniques et outils de persistance
 
 * [https://github.com/cedowens/Persistent-Swift](https://github.com/cedowens/Persistent-Swift)
 * [https://github.com/D00MFist/PersistentJXA](https://github.com/D00MFist/PersistentJXA)
@@ -368,10 +411,10 @@ ls -Rl /Library/Managed\ Preferences/
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Travaillez-vous dans une entreprise de **cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

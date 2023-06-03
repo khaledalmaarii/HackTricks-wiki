@@ -1,24 +1,45 @@
-
-
-<details>
-
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
-
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
-
-</details>
-
-
 # Installation
 
+## Introduction
+
+`angr` is a Python framework for analyzing binaries. It combines both static and dynamic symbolic ("concolic") analysis, making it applicable to a variety of tasks.
+
+## Installation
+
+### Dependencies
+
+`angr` requires Python 3.6 or later. It also requires several Python packages, which can be installed via `pip`:
+
+```bash
+pip install angr
+```
+
+### Optional Dependencies
+
+`angr` has several optional dependencies that can be installed via `pip`:
+
+- `angr-management`: a GUI for `angr`
+- `angr-doc`: documentation for `angr`
+- `angr-dev`: development tools for `angr`
+
+To install all of the optional dependencies, run:
+
+```bash
+pip install angr[angr-management,angr-doc,angr-dev]
+```
+
+## Usage
+
+Once `angr` is installed, you can use it in your Python scripts by importing it:
+
+```python
+import angr
+```
+
+## Resources
+
+- [angr documentation](https://docs.angr.io/)
+- [angr GitHub repository](https://github.com/angr/angr)
 ```bash
 sudo apt-get install python3-dev libffi-dev build-essential
 python3 -m pip install --user virtualenv
@@ -26,9 +47,71 @@ python3 -m venv ang
 source ang/bin/activate
 pip install angr
 ```
+# Actions de base
 
-# Basic Actions
+## Load a binary
 
+## Charger un binaire
+
+To load a binary into an angr project, you can use the `angr.Project` constructor.
+
+Pour charger un binaire dans un projet angr, vous pouvez utiliser le constructeur `angr.Project`.
+
+```python
+import angr
+
+project = angr.Project("/path/to/binary")
+```
+
+## Find entry point
+
+## Trouver le point d'entrée
+
+To find the entry point of a binary, you can use the `entry_state` property of the angr project.
+
+Pour trouver le point d'entrée d'un binaire, vous pouvez utiliser la propriété `entry_state` du projet angr.
+
+```python
+entry_point = project.entry_state.addr
+```
+
+## Find functions
+
+## Trouver des fonctions
+
+To find all the functions in a binary, you can use the `project.kb.functions` property.
+
+Pour trouver toutes les fonctions dans un binaire, vous pouvez utiliser la propriété `project.kb.functions`.
+
+```python
+functions = project.kb.functions
+```
+
+## Find basic blocks
+
+## Trouver des blocs de base
+
+To find all the basic blocks in a function, you can use the `blocks` property of the function.
+
+Pour trouver tous les blocs de base dans une fonction, vous pouvez utiliser la propriété `blocks` de la fonction.
+
+```python
+function = project.kb.functions.get("function_name")
+basic_blocks = function.blocks
+```
+
+## Find instructions
+
+## Trouver des instructions
+
+To find all the instructions in a basic block, you can use the `capstone.insns` property of the basic block.
+
+Pour trouver toutes les instructions dans un bloc de base, vous pouvez utiliser la propriété `capstone.insns` du bloc de base.
+
+```python
+basic_block = function.get_block(0x1234)
+instructions = basic_block.capstone.insns
+```
 ```python
 import angr
 import monkeyhex # this will format numerical results in hexadecimal
@@ -46,11 +129,9 @@ proj.filename #Get filename "/bin/true"
 #Usually you won't need to use them but you could
 angr.Project('examples/fauxware/fauxware', main_opts={'backend': 'blob', 'arch': 'i386'}, lib_opts={'libc.so.6': {'backend': 'elf'}})
 ```
+# Informations sur les objets chargés et principaux
 
-# Loaded and Main object information
-
-## Loaded Data
-
+## Données chargées
 ```python
 #LOADED DATA
 proj.loader #<Loaded true, maps [0x400000:0x5004000]>
@@ -73,9 +154,7 @@ proj.loader.all_elf_objects #Get all ELF objects loaded (Linux)
 proj.loader.all_pe_objects #Get all binaries loaded (Windows)
 proj.loader.find_object_containing(0x400000)#Get object loaded in an address "<ELF Object fauxware, maps [0x400000:0x60105f]>"
 ```
-
-## Main Object
-
+## Objectif principal
 ```python
 #Main Object (main binary loaded)
 obj = proj.loader.main_object #<ELF Object true, maps [0x400000:0x60721f]>
@@ -89,9 +168,7 @@ obj.find_section_containing(obj.entry) #Get section by address
 obj.plt['strcmp'] #Get plt address of a funcion (0x400550)
 obj.reverse_plt[0x400550] #Get function from plt address ('strcmp')
 ```
-
-## Symbols and Relocations
-
+## Symboles et Réadressages
 ```python
 strcmp = proj.loader.find_symbol('strcmp') #<Symbol "strcmp" in libc.so.6 at 0x1089cd0>
 
@@ -108,9 +185,7 @@ main_strcmp.is_export #False
 main_strcmp.is_import #True
 main_strcmp.resolvedby #<Symbol "strcmp" in libc.so.6 at 0x1089cd0>
 ```
-
-## Blocks
-
+## Blocs
 ```python
 #Blocks
 block = proj.factory.block(proj.entry) #Get the block of the entrypoint fo the binary
@@ -118,11 +193,9 @@ block.pp() #Print disassembly of the block
 block.instructions #"0xb" Get number of instructions
 block.instruction_addrs #Get instructions addresses "[0x401670, 0x401672, 0x401675, 0x401676, 0x401679, 0x40167d, 0x40167e, 0x40167f, 0x401686, 0x40168d, 0x401694]"
 ```
+# Analyse Dynamique
 
-# Dynamic Analysis
-
-## Simulation Manager, States 
-
+## Gestionnaire de Simulation, États
 ```python
 #Live States
 #This is useful to modify content in a live analysis
@@ -145,15 +218,13 @@ simgr = proj.factory.simulation_manager(state) #Start
 simgr.step() #Execute one step
 simgr.active[0].regs.rip #Get RIP from the last state
 ```
+## Appel de fonctions
 
-## Calling functions
+* Vous pouvez passer une liste d'arguments via `args` et un dictionnaire de variables d'environnement via `env` dans `entry_state` et `full_init_state`. Les valeurs dans ces structures peuvent être des chaînes de caractères ou des vecteurs de bits, et seront sérialisées dans l'état en tant qu'arguments et environnement pour l'exécution simulée. Par défaut, `args` est une liste vide, donc si le programme que vous analysez s'attend à trouver au moins un `argv[0]`, vous devez toujours le fournir !
+* Si vous souhaitez que `argc` soit symbolique, vous pouvez passer un vecteur de bits symbolique en tant que `argc` aux constructeurs `entry_state` et `full_init_state`. Cependant, soyez prudent : si vous faites cela, vous devez également ajouter une contrainte à l'état résultant que votre valeur pour argc ne peut pas être supérieure au nombre d'arguments que vous avez passés dans `args`.
+* Pour utiliser l'état d'appel, vous devez l'appeler avec `.call_state(addr, arg1, arg2, ...)`, où `addr` est l'adresse de la fonction que vous voulez appeler et `argN` est le N-ième argument de cette fonction, soit en tant qu'entier, chaîne de caractères ou tableau Python, soit en tant que vecteur de bits. Si vous voulez allouer de la mémoire et réellement passer un pointeur vers un objet, vous devez l'envelopper dans un PointerWrapper, c'est-à-dire `angr.PointerWrapper("point to me!")`. Les résultats de cette API peuvent être un peu imprévisibles, mais nous y travaillons.
 
-* You can pass a list of arguments through `args` and a dictionary of environment variables through `env` into `entry_state` and `full_init_state`. The values in these structures can be strings or bitvectors, and will be serialized into the state as the arguments and environment to the simulated execution. The default `args` is an empty list, so if the program you're analyzing expects to find at least an `argv[0]`, you should always provide that!
-* If you'd like to have `argc` be symbolic, you can pass a symbolic bitvector as `argc` to the `entry_state` and `full_init_state` constructors. Be careful, though: if you do this, you should also add a constraint to the resulting state that your value for argc cannot be larger than the number of args you passed into `args`.
-* To use the call state, you should call it with `.call_state(addr, arg1, arg2, ...)`, where `addr` is the address of the function you want to call and `argN` is the Nth argument to that function, either as a python integer, string, or array, or a bitvector. If you want to have memory allocated and actually pass in a pointer to an object, you should wrap it in an PointerWrapper, i.e. `angr.PointerWrapper("point to me!")`. The results of this API can be a little unpredictable, but we're working on it.
-
-## BitVectors
-
+## Vecteurs de bits
 ```python
 #BitVectors
 state = proj.factory.entry_state()
@@ -162,9 +233,17 @@ state.solver.eval(bv) #Convert BV to python int
 bv.zero_extend(30) #Will add 30 zeros on the left of the bitvector
 bv.sign_extend(30) #Will add 30 zeros or ones on the left of the BV extending the sign
 ```
+## BitVectors symboliques et contraintes
 
-## Symbolic BitVectors & Constraints
+Les BitVectors symboliques sont des variables qui représentent des bits. Les contraintes sont des équations ou des inégalités qui lient ces variables. Les contraintes peuvent être utilisées pour restreindre les valeurs possibles des variables symboliques. 
 
+Par exemple, si nous avons une variable symbolique `x` qui représente un octet, nous pouvons ajouter une contrainte `x < 10` pour limiter les valeurs possibles de `x` à des nombres inférieurs à 10. 
+
+Les contraintes peuvent également être utilisées pour modéliser des conditions de programme. Par exemple, si nous avons une instruction `if (x == 0)`, nous pouvons ajouter une contrainte `x == 0` pour représenter le chemin d'exécution où la condition est vraie. 
+
+Les contraintes peuvent être combinées à l'aide d'opérateurs logiques tels que `&` (et), `|` (ou) et `~` (non). Par exemple, nous pouvons combiner les contraintes `x < 10` et `x > 5` en utilisant l'opérateur `&` pour obtenir la contrainte `5 < x < 10`. 
+
+Les BitVectors symboliques et les contraintes sont utilisés dans angr pour représenter l'état d'un programme à un moment donné. En utilisant des contraintes, angr peut explorer toutes les branches possibles d'un programme et trouver des chemins d'exécution qui mènent à des états souhaités, tels que des fuites de données ou des points d'entrée de fonctions sensibles.
 ```python
 x = state.solver.BVS("x", 64) #Symbolic variable BV of length 64
 y = state.solver.BVS("y", 64)
@@ -198,9 +277,15 @@ solver.eval_exact(expression, n) #n solutions to the given expression, throwing 
 solver.min(expression) #minimum possible solution to the given expression.
 solver.max(expression) #maximum possible solution to the given expression.
 ```
-
 ## Hooking
 
+Le hooking est une technique qui permet de modifier le comportement d'un programme en interceptant et en modifiant les appels de fonctions. Cette technique est souvent utilisée pour contourner les protections de sécurité ou pour effectuer des analyses de programmes.
+
+Il existe plusieurs types de hooking, notamment le hooking d'importation, le hooking d'exportation et le hooking de fonction. Le hooking d'importation consiste à remplacer une fonction importée par une autre fonction, tandis que le hooking d'exportation consiste à remplacer une fonction exportée par une autre fonction. Le hooking de fonction consiste à intercepter les appels d'une fonction spécifique et à les rediriger vers une autre fonction.
+
+Le hooking peut être réalisé à l'aide de différentes techniques, telles que l'injection de code, la modification de la table des fonctions virtuelles (VFT) ou la modification de la table des adresses de fonctions (IAT). Cependant, le hooking peut être détecté par des techniques de détection de hooking, telles que la vérification de l'intégrité du code ou la surveillance des appels de fonctions.
+
+Dans le contexte de l'analyse de programmes, le hooking peut être utilisé pour tracer les appels de fonctions et pour collecter des informations sur le comportement du programme. Cependant, il est important de noter que le hooking peut également être utilisé à des fins malveillantes, telles que l'installation de logiciels malveillants ou la collecte de données sensibles.
 ```python
 >>> stub_func = angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained'] # this is a CLASS
 >>> proj.hook(0x10000, stub_func())  # hook with an instance of the class
@@ -218,29 +303,22 @@ True
 >>> proj.is_hooked(0x20000)
 True
 ```
+De plus, vous pouvez utiliser `proj.hook_symbol(name, hook)` en fournissant le nom d'un symbole en tant que premier argument pour accrocher l'adresse où le symbole se trouve.
 
-Furthermore, you can use `proj.hook_symbol(name, hook)`, providing the name of a symbol as the first argument, to hook the address where the symbol lives
-
-# Examples
-
-
-
-
+# Exemples
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **Partagez vos astuces de piratage en soumettant des PR au [repo hacktricks](https://github.com/carlospolop/hacktricks) et au [repo hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
-
-

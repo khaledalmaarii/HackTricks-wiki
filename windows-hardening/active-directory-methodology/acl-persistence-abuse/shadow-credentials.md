@@ -1,111 +1,47 @@
-# Shadow Credentials
+# Credentials Shadow
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs.
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live).
+* **Partagez vos astuces de piratage en soumettant des PR au [repo hacktricks](https://github.com/carlospolop/hacktricks) et au [repo hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
-## Intro <a href="#3f17" id="3f17"></a>
+## Introduction <a href="#3f17" id="3f17"></a>
 
-Check the original post for [**all the information about this technique**](https://posts.specterops.io/shadow-credentials-abusing-key-trust-account-mapping-for-takeover-8ee1a53566ab).
+Consultez le post original pour [**toutes les informations sur cette technique**](https://posts.specterops.io/shadow-credentials-abusing-key-trust-account-mapping-for-takeover-8ee1a53566ab).
 
-As **summary**: if you can write to the **msDS-KeyCredentialLink** property of a user/computer, you can retrieve the **NT hash of that object**.
+En **résumé** : si vous pouvez écrire dans la propriété **msDS-KeyCredentialLink** d'un utilisateur/ordinateur, vous pouvez récupérer le **hachage NT de cet objet**.
 
-This is because you will be able to set **public-private key authentication credentials** for the object and use them to obtain a **special Service Ticket that contains its NTLM hash** inside the Privilege Attribute Certificate (PAC) in an encrypted NTLM\_SUPPLEMENTAL\_CREDENTIAL entity that you can decrypt.
+Cela est possible car vous pourrez définir des **informations d'identification d'authentification clé publique-privée** pour l'objet et les utiliser pour obtenir un **ticket de service spécial qui contient son hachage NTLM** à l'intérieur du certificat d'attribut de privilège (PAC) dans une entité chiffrée NTLM\_SUPPLEMENTAL\_CREDENTIAL que vous pouvez décrypter.
 
-### Requirements <a href="#2de4" id="2de4"></a>
+### Exigences <a href="#2de4" id="2de4"></a>
 
-This technique requires the following:
+Cette technique nécessite les éléments suivants :
 
-* At least one Windows Server 2016 Domain Controller.
-* A digital certificate for Server Authentication installed on the Domain Controller.
-* Windows Server 2016 Functional Level in Active Directory.
-* Compromise an account with the delegated rights to write to the msDS-KeyCredentialLink attribute of the target object.
+* Au moins un contrôleur de domaine Windows Server 2016.
+* Un certificat numérique pour l'authentification du serveur installé sur le contrôleur de domaine.
+* Niveau fonctionnel Windows Server 2016 dans Active Directory.
+* Compromettre un compte avec les droits délégués pour écrire dans l'attribut msDS-KeyCredentialLink de l'objet cible.
 
-## Abuse
+## Abus
 
-Abusing Key Trust for computer objects requires additional steps after obtaining a TGT and the NTLM hash for the account. There are generally two options:
+L'abus de Key Trust pour les objets informatiques nécessite des étapes supplémentaires après l'obtention d'un TGT et du hachage NTLM pour le compte. Il y a généralement deux options :
 
-1. Forge an **RC4 silver ticket** to impersonate privileged users to the corresponding host.
-2. Use the TGT to call **S4U2Self** to impersonate **privileged users** to the corresponding host. This option requires modifying the obtained Service Ticket to include a service class in the service name.
+1. Forger un **ticket argent RC4** pour se faire passer pour des utilisateurs privilégiés sur l'hôte correspondant.
+2. Utilisez le TGT pour appeler **S4U2Self** pour se faire passer pour des **utilisateurs privilégiés** sur l'hôte correspondant. Cette option nécessite de modifier le ticket de service obtenu pour inclure une classe de service dans le nom du service.
 
-Key Trust abuse has the added benefit that it doesn’t delegate access to another account which could get compromised — it is **restricted to the private key generated by the attacker**. In addition, it doesn’t require creating a computer account that may be hard to clean up until privilege escalation is achieved.
+L'abus de Key Trust présente l'avantage supplémentaire de ne pas déléguer l'accès à un autre compte qui pourrait être compromis - il est **restreint à la clé privée générée par l'attaquant**. De plus, il ne nécessite pas la création d'un compte informatique qui peut être difficile à nettoyer jusqu'à ce que l'élévation de privilèges soit réalisée.
 
 Whisker
 
-Alongside this post I am releasing a tool called “ [Whisker](https://github.com/eladshamir/Whisker) “. Based on code from Michael’s DSInternals, Whisker provides a C# wrapper for performing this attack on engagements. Whisker updates the target object using LDAP, while DSInternals allows updating objects using both LDAP and RPC with the Directory Replication Service (DRS) Remote Protocol.
+Aux côtés de ce post, je publie un outil appelé " [Whisker](https://github.com/eladshamir/Whisker) ". Basé sur le code de DSInternals de Michael, Whisker fournit une enveloppe C# pour effectuer cette attaque lors d'engagements. Whisker met à jour l'objet cible en utilisant LDAP, tandis que DSInternals permet de mettre à jour les objets à la fois en utilisant LDAP et RPC avec le service de réplication d'annuaire (DRS) Remote Protocol.
 
-[Whisker](https://github.com/eladshamir/Whisker) has four functions:
+[Whisker](https://github.com/eladshamir/Whisker) a quatre fonctions :
 
-* Add — This function generates a public-private key pair and adds a new key credential to the target object as if the user enrolled to WHfB from a new device.
-* List — This function lists all the entries of the msDS-KeyCredentialLink attribute of the target object.
-* Remove — This function removes a key credential from the target object specified by a DeviceID GUID.
-* Clear — This function removes all the values from the msDS-KeyCredentialLink attribute of the target object. If the target object is legitimately using WHfB, it will break.
-
-## [Whisker](https://github.com/eladshamir/Whisker) <a href="#7e2e" id="7e2e"></a>
-
-Whisker is a C# tool for taking over Active Directory user and computer accounts by manipulating their `msDS-KeyCredentialLink` attribute, effectively adding "Shadow Credentials" to the target account.
-
-[**Whisker**](https://github.com/eladshamir/Whisker) has four functions:
-
-* **Add** — This function generates a public-private key pair and adds a new key credential to the target object as if the user enrolled to WHfB from a new device.
-* **List** — This function lists all the entries of the msDS-KeyCredentialLink attribute of the target object.
-* **Remove** — This function removes a key credential from the target object specified by a DeviceID GUID.
-* **Clear** — This function removes all the values from the msDS-KeyCredentialLink attribute of the target object. If the target object is legitimately using WHfB, it will break.
-
-### Add
-
-Add a new value to the **`msDS-KeyCredentialLink`** attribute of a target object:
-
-* `/target:<samAccountName>`: Required. Set the target name. Computer objects should end with a '$' sign.
-* `/domain:<FQDN>`: Optional. Set the target Fully Qualified Domain Name (FQDN). If not provided, will try to resolve the FQDN of the current user.
-* `/dc:<IP/HOSTNAME>`: Optional. Set the target Domain Controller (DC). If not provided, will try to target the Primary Domain Controller (PDC).
-* `/path:<PATH>`: Optional. Set the path to store the generated self-signed certificate for authentication. If not provided, the certificate will be printed as a Base64 blob.
-* `/password:<PASWORD>`: Optional. Set the password for the stored self-signed certificate. If not provided, a random password will be generated.
-
-Example: **`Whisker.exe add /target:computername$ /domain:constoso.local /dc:dc1.contoso.local /path:C:\path\to\file.pfx /password:P@ssword1`**
-
-{% hint style="info" %}
-More options on the [**Readme**](https://github.com/eladshamir/Whisker).
-{% endhint %}
-
-## [ShadowSpray](https://github.com/Dec0ne/ShadowSpray/)
-
-In several cases, the group "Everyone" / "Authenticated Users" / "Domain Users" or some other **wide group** contains almost all the users in the domain has some `GenericWrite`/`GenericAll` DACLs **over other objects** in the domain. [**ShadowSpray**](https://github.com/Dec0ne/ShadowSpray/) tries to **abuse** therefore **ShadowCredentials** over all of them
-
-It goes something like this:
-
-1. **Login** to the domain with the supplied credentials (Or use the current session).
-2. Check that the **domain functional level is 2016** (Otherwise stop since the Shadow Credentials attack won't work)
-3. Gather a **list of all the objects** in the domain (users and computers) from LDAP.
-4. **For every object** in the list do the following:
-   1. Try to **add KeyCredential** to the object's `msDS-KeyCredentialLink` attribute.
-   2. If the above is **successful**, use **PKINIT** to request a **TGT** using the added KeyCredential.
-   3. If the above is **successful**, perform an **UnPACTheHash** attack to reveal the user/computer **NT hash**.
-   4. If **`--RestoreShadowCred`** was specified: Remove the added KeyCredential (clean up after yourself...)
-5. If **`--Recursive`** was specified: Do the **same process** using each of the user/computer **accounts we successfully owned**.
-
-## References
-
-* [https://posts.specterops.io/shadow-credentials-abusing-key-trust-account-mapping-for-takeover-8ee1a53566ab](https://posts.specterops.io/shadow-credentials-abusing-key-trust-account-mapping-for-takeover-8ee1a53566ab)
-* [https://github.com/eladshamir/Whisker](https://github.com/eladshamir/Whisker)
-* [https://github.com/Dec0ne/ShadowSpray/](https://github.com/Dec0ne/ShadowSpray/)
-
-<details>
-
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
-
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
-
-</details>
+* Ajouter - Cette fonction génère une paire de clés publique-privée et ajoute une nouvelle clé d'informations d'identification à l'objet cible comme si

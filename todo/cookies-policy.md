@@ -1,45 +1,45 @@
-# Cookies Policy
+# Politique de cookies
 
-Last updated: 02/04/2023
+Dernière mise à jour : 02/04/2023
 
 ### Introduction
 
-This Cookies Policy applies to the following websites owned and operated by HackTricks team ("HackTricks", "we", "us" or "our"):
+Cette politique de cookies s'applique aux sites Web suivants appartenant et exploités par l'équipe HackTricks ("HackTricks", "nous", "nos" ou "notre") :
 
 * hacktricks.xyz
 * [www.hacktricks.xyz](http://www.hacktricks.xyz/)
 * book.hacktricks.xyz
 * cloud.hacktricks.xyz
 
-By using any of these websites, you agree to the use of cookies in accordance with this Cookies Policy. If you do not agree, please disable cookies in your browser settings or refrain from using our websites.
+En utilisant l'un de ces sites Web, vous acceptez l'utilisation de cookies conformément à cette politique de cookies. Si vous n'êtes pas d'accord, veuillez désactiver les cookies dans les paramètres de votre navigateur ou vous abstenir d'utiliser nos sites Web.
 
-### What are cookies?
+### Qu'est-ce que les cookies ?
 
-Cookies are small text files that are stored on your computer or mobile device when you visit a website. They are widely used to make websites work, improve their functionality, and provide a more personalized user experience.
+Les cookies sont de petits fichiers texte qui sont stockés sur votre ordinateur ou votre appareil mobile lorsque vous visitez un site Web. Ils sont largement utilisés pour faire fonctionner les sites Web, améliorer leur fonctionnalité et offrir une expérience utilisateur plus personnalisée.
 
-### How we use cookies
+### Comment nous utilisons les cookies
 
-We use cookies on our websites for the following purposes:
+Nous utilisons des cookies sur nos sites Web à des fins suivantes :
 
-1. Essential cookies: These cookies are necessary for the basic functionality of our websites, such as enabling user authentication, maintaining security, and remembering your preferences.
-2. Performance cookies: These cookies help us understand how visitors interact with our websites, by collecting and reporting information anonymously. This allows us to improve our website performance and user experience.
-3. Functionality cookies: These cookies enable our websites to remember choices you make, such as your language or region, to provide a more personalized experience.
-4. Targeting/advertising cookies: These cookies are used to deliver relevant ads and marketing communications based on your interests, browsing history, and interactions with our websites.
+1. Cookies essentiels : Ces cookies sont nécessaires pour la fonctionnalité de base de nos sites Web, tels que l'authentification de l'utilisateur, le maintien de la sécurité et la mémorisation de vos préférences.
+2. Cookies de performance : Ces cookies nous aident à comprendre comment les visiteurs interagissent avec nos sites Web, en collectant et en rapportant des informations de manière anonyme. Cela nous permet d'améliorer les performances de notre site Web et l'expérience utilisateur.
+3. Cookies de fonctionnalité : Ces cookies permettent à nos sites Web de mémoriser les choix que vous faites, tels que votre langue ou votre région, pour offrir une expérience plus personnalisée.
+4. Cookies de ciblage/publicité : Ces cookies sont utilisés pour diffuser des publicités et des communications marketing pertinentes en fonction de vos intérêts, de votre historique de navigation et de vos interactions avec nos sites Web.
 
-Moreover, the pages book.hacktricks.xyz and cloud.hacktricks.xyz are hosted in Gitbook. You can find more information about Gitbooks cookies in [https://gitbook-1652864889.teamtailor.com/cookie-policy](https://gitbook-1652864889.teamtailor.com/cookie-policy).
+De plus, les pages book.hacktricks.xyz et cloud.hacktricks.xyz sont hébergées sur Gitbook. Vous pouvez trouver plus d'informations sur les cookies de Gitbook à l'adresse suivante : [https://gitbook-1652864889.teamtailor.com/cookie-policy](https://gitbook-1652864889.teamtailor.com/cookie-policy).
 
-### Third-party cookies
+### Cookies tiers
 
-In addition to our own cookies, we may also use third-party cookies to report website usage statistics, deliver advertisements, and enable social media sharing buttons. The use of third-party cookies is subject to their respective privacy policies.
+En plus de nos propres cookies, nous pouvons également utiliser des cookies tiers pour signaler les statistiques d'utilisation du site Web, diffuser des publicités et activer les boutons de partage sur les réseaux sociaux. L'utilisation de cookies tiers est soumise à leurs politiques de confidentialité respectives.
 
-Managing cookies
+Gestion des cookies
 
-Most web browsers allow you to manage cookies through their settings. You can choose to block, delete, or limit the use of cookies on your device. However, please note that disabling cookies may affect the functionality and performance of our websites.
+La plupart des navigateurs Web vous permettent de gérer les cookies via leurs paramètres. Vous pouvez choisir de bloquer, de supprimer ou de limiter l'utilisation des cookies sur votre appareil. Cependant, veuillez noter que la désactivation des cookies peut affecter la fonctionnalité et les performances de nos sites Web.
 
-Changes to this Cookies Policy
+Modifications de cette politique de cookies
 
-We may update this Cookies Policy from time to time to reflect changes in our practices or relevant laws. We encourage you to periodically review this page for the latest information on our cookie practices.
+Nous pouvons mettre à jour cette politique de cookies de temps à autre pour refléter les changements dans nos pratiques ou les lois pertinentes. Nous vous encourageons à consulter périodiquement cette page pour obtenir les dernières informations sur nos pratiques en matière de cookies.
 
-### Contact us
+### Contactez-nous
 
-If you have any questions or concerns about this Cookies Policy, please contact us at [support@hacktricks.xyz](mailto:support@hacktricks.xyz)
+Si vous avez des questions ou des préoccupations concernant cette politique de cookies, veuillez nous contacter à l'adresse suivante : [support@hacktricks.xyz](mailto:support@hacktricks.xyz)

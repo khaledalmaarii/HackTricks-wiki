@@ -1,9 +1,8 @@
 # Rust Basics
 
-### Generic Types
+### Types Génériques
 
-Create a struct where 1 of their values could be any type
-
+Créez une structure où l'une de ses valeurs peut être de n'importe quel type.
 ```rust
 struct Wrapper<T> {
     value: T,
@@ -18,24 +17,20 @@ impl<T> Wrapper<T> {
 Wrapper::new(42).value
 Wrapper::new("Foo").value, "Foo"
 ```
-
 ### Option, Some & None
 
-The Option type means that the value might by of type Some (there is something) or None:
-
+Le type Option signifie que la valeur peut être de type Some (il y a quelque chose) ou None (il n'y a rien):
 ```rust
 pub enum Option<T> {
     None,
     Some(T),
 }
 ```
-
-You can use functions such as `is_some()` or `is_none()` to check the value of the Option.
+Vous pouvez utiliser des fonctions telles que `is_some()` ou `is_none()` pour vérifier la valeur de l'Option.
 
 ### Macros
 
-Macros are more powerful than functions because they expand to produce more code than the code you’ve written manually. For example, a function signature must declare the number and type of parameters the function has. Macros, on the other hand, can take a variable number of parameters: we can call `println!("hello")` with one argument or `println!("hello {}", name)` with two arguments. Also, macros are expanded before the compiler interprets the meaning of the code, so a macro can, for example, implement a trait on a given type. A function can’t, because it gets called at runtime and a trait needs to be implemented at compile time.
-
+Les macros sont plus puissantes que les fonctions car elles se développent pour produire plus de code que le code que vous avez écrit manuellement. Par exemple, une signature de fonction doit déclarer le nombre et le type de paramètres que la fonction possède. Les macros, en revanche, peuvent prendre un nombre variable de paramètres : nous pouvons appeler `println!("hello")` avec un argument ou `println!("hello {}", name)` avec deux arguments. De plus, les macros sont développées avant que le compilateur n'interprète la signification du code, de sorte qu'une macro peut, par exemple, implémenter un trait sur un type donné. Une fonction ne le peut pas, car elle est appelée à l'exécution et un trait doit être implémenté à la compilation.
 ```rust
 macro_rules! my_macro {
     () => {
@@ -60,9 +55,7 @@ mod macros {
     }
 }
 ```
-
-### Iterate
-
+### Itérer
 ```rust
 // Iterate through a vector
 let my_fav_fruits = vec!["banana", "raspberry"];
@@ -79,9 +72,7 @@ for (key, hashvalue) in &*map {
 for key in map.keys() {
 for value in map.values() {
 ```
-
-### Recursive Box
-
+### Boîte récursive
 ```rust
 enum List {
     Cons(i32, List),
@@ -90,11 +81,9 @@ enum List {
 
 let list = Cons(1, Cons(2, Cons(3, Nil)));
 ```
+### Conditionnels
 
-### Conditionals
-
-#### if
-
+#### si
 ```rust
 let n = 5;
 if n < 0 {
@@ -105,9 +94,9 @@ if n < 0 {
     print!("{} is zero", n);
 }
 ```
-
 #### match
 
+Le mot-clé `match` est utilisé en Rust pour effectuer des opérations de correspondance de motifs. Il est souvent utilisé pour effectuer des opérations de contrôle de flux en fonction de la valeur d'une variable. Le `match` est similaire à un `switch` en C ou en Java, mais il est plus puissant et plus sûr car il garantit que toutes les possibilités sont couvertes.
 ```rust
 match number {
     // Match a single value
@@ -130,9 +119,7 @@ let binary = match boolean {
     // TODO ^ Try commenting out one of these arms
 };
 ```
-
-#### loop (infinite)
-
+#### Boucle (infinie)
 ```rust
 loop {
     count += 1;
@@ -147,9 +134,17 @@ loop {
     }
 }
 ```
-
 #### while
 
+Le mot-clé `while` est utilisé en Rust pour créer des boucles qui s'exécutent tant qu'une condition est vraie. La syntaxe de base ressemble à ceci:
+
+```rust
+while condition {
+    // code à exécuter tant que la condition est vraie
+}
+```
+
+La condition est une expression booléenne qui est évaluée à chaque itération de la boucle. Si la condition est vraie, le code à l'intérieur des accolades est exécuté. Une fois que le code est terminé, la condition est à nouveau évaluée et le processus se répète jusqu'à ce que la condition soit fausse.
 ```rust
 let mut n = 1;
 while n < 101 {
@@ -163,9 +158,7 @@ while n < 101 {
     n += 1;
 }
 ```
-
-#### for
-
+#### pour
 ```rust
 for n in 1..101 {
     if n % 15 == 0 {
@@ -213,9 +206,9 @@ for name in names.iter_mut() {
     }
 }
 ```
-
 #### if let
 
+#### si let
 ```rust
 let optional_word = Some(String::from("rustlings"));
 if let word = optional_word {
@@ -224,9 +217,9 @@ if let word = optional_word {
     println!("The optional word doesn't contain anything");
 }
 ```
-
 #### while let
 
+#### tant que
 ```rust
 let mut optional = Some(0);
 // This reads: "while `let` destructures `optional` into
@@ -243,11 +236,9 @@ while let Some(i) = optional {
     // explicitly handling the failing case.
 }
 ```
-
 ### Traits
 
-Create a new method for a type
-
+Créer une nouvelle méthode pour un type
 ```rust
 trait AppendBar {
     fn append_bar(self) -> Self;
@@ -263,9 +254,9 @@ let s = String::from("Foo");
 let s = s.append_bar();
 println!("s: {}", s);
 ```
-
 ### Tests
 
+Les tests sont une partie importante de tout projet de développement de logiciels. Ils permettent de s'assurer que le code fonctionne correctement et qu'il n'y a pas de bugs ou d'erreurs. Les tests peuvent être effectués manuellement ou automatiquement à l'aide d'outils de test. Les tests automatisés sont généralement préférables car ils sont plus rapides et plus fiables que les tests manuels. Les tests doivent être effectués à chaque étape du processus de développement, de la conception à la mise en production. Cela garantit que le code est testé à chaque étape et que les erreurs sont détectées et corrigées rapidement.
 ```rust
 #[cfg(test)]
 mod tests {
@@ -277,13 +268,11 @@ mod tests {
     }
 }
 ```
-
 ### Threading
 
 #### Arc
 
-An Arc can use Clone to create more references over the object to pass them to the threads. When the last reference pointer to a value is out of scope, the variable is dropped.
-
+Un Arc peut utiliser Clone pour créer plus de références sur l'objet afin de les passer aux threads. Lorsque la dernière référence pointant vers une valeur est hors de portée, la variable est supprimée.
 ```rust
 use std::sync::Arc;
 let apple = Arc::new("the same apple");
@@ -294,11 +283,9 @@ for _ in 0..10 {
     });
 }
 ```
-
 #### Threads
 
-In this case we will pass the thread a variable it will be able to modify
-
+Dans ce cas, nous passerons à la thread une variable qu'elle pourra modifier.
 ```rust
 fn main() {
     let status = Arc::new(Mutex::new(JobStatus { jobs_completed: 0 }));
@@ -316,3 +303,4 @@ fn main() {
     }
 }
 ```
+

@@ -1,41 +1,38 @@
-# AD CS Domain Persistence
+# AD CS Persistence de domaine
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **Partagez vos astuces de piratage en soumettant des PR au [repo hacktricks](https://github.com/carlospolop/hacktricks) et au [repo hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
-## Forging Certificates with Stolen CA Certificates - DPERSIST1
+## Falsification de certificats avec des certificats CA volés - DPERSIST1
 
-How can you tell that a certificate is a CA certificate?
+Comment pouvez-vous dire qu'un certificat est un certificat CA ?
 
-* The CA certificate exists on the **CA server itself**, with its **private key protected by machine DPAPI** (unless the OS uses a TPM/HSM/other hardware for protection).
-* The **Issuer** and **Subject** for the cert are both set to the **distinguished name of the CA**.
-* CA certificates (and only CA certs) **have a “CA Version” extension**.
-* There are **no EKUs**
+* Le certificat CA existe sur le **serveur CA lui-même**, avec sa **clé privée protégée par DPAPI de la machine** (sauf si le système d'exploitation utilise un TPM/HSM/autre matériel pour la protection).
+* L'**émetteur** et le **sujet** du certificat sont tous deux définis sur le **nom distinctif du CA**.
+* Les certificats CA (et uniquement les certificats CA) **ont une extension "Version CA"**.
+* Il n'y a **pas d'EKU**.
 
-The built-in GUI supported way to **extract this certificate private key** is with `certsrv.msc` on the CA server.\
-However, this certificate **isn't different** from other certificates stored in the system, so for example check the [**THEFT2 technique**](certificate-theft.md#user-certificate-theft-via-dpapi-theft2) to see how to **extract** them.
+La façon prise en charge par l'interface graphique intégrée pour **extraire cette clé privée de certificat** est avec `certsrv.msc` sur le serveur CA.\
+Cependant, ce certificat n'est pas différent des autres certificats stockés dans le système, donc par exemple, vérifiez la technique [**THEFT2**](certificate-theft.md#user-certificate-theft-via-dpapi-theft2) pour voir comment les **extraire**.
 
-You can also get the cert and private key using [**certipy**](https://github.com/ly4k/Certipy):
-
+Vous pouvez également obtenir le certificat et la clé privée en utilisant [**certipy**](https://github.com/ly4k/Certipy) :
 ```bash
 certipy ca 'corp.local/administrator@ca.corp.local' -hashes :123123.. -backup
 ```
-
-Once you have the **CA cert** with the private key in `.pfx` format you can use [**ForgeCert**](https://github.com/GhostPack/ForgeCert)  to create valid certificates:
-
+Une fois que vous avez le **certificat CA** avec la clé privée au format `.pfx`, vous pouvez utiliser [**ForgeCert**](https://github.com/GhostPack/ForgeCert) pour créer des certificats valides :
 ```bash
 # Create new certificate with ForgeCert
 ForgeCert.exe --CaCertPath ca.pfx --CaCertPassword Password123! --Subject "CN=User" --SubjectAltName localadmin@theshire.local --NewCertPath localadmin.pfx --NewCertPassword Password123!
@@ -49,49 +46,48 @@ Rubeus.exe asktgt /user:localdomain /certificate:C:\ForgeCert\localadmin.pfx /pa
 # User new certi with certipy to authenticate
 certipy auth -pfx administrator_forged.pfx -dc-ip 172.16.126.128
 ```
-
 {% hint style="warning" %}
-**Note**: The target **user** specified when forging the certificate needs to be **active/enabled** in AD and **able to authenticate** since an authentication exchange will still occur as this user. Trying to forge a certificate for the krbtgt account, for example, will not work.
+**Note**: L'utilisateur cible spécifié lors de la falsification du certificat doit être **actif / activé** dans AD et **capable de s'authentifier** car un échange d'authentification aura toujours lieu en tant qu'utilisateur. Essayer de falsifier un certificat pour le compte krbtgt, par exemple, ne fonctionnera pas.
 {% endhint %}
 
-This forged certificate will be **valid** until the end date specified and as **long as the root CA certificate is valid** (usually from 5 to **10+ years**). It's also valid for **machines**, so combined with **S4U2Self**, an attacker can **maintain persistence on any domain machine** for as long as the CA certificate is valid.\
-Moreover, the **certificates generated** with this method **cannot be revoked** as CA is not aware of them.
+Ce certificat falsifié sera **valide** jusqu'à la date de fin spécifiée et aussi longtemps que le certificat de CA racine est valide (généralement de 5 à **10+ ans**). Il est également valide pour les **machines**, donc combiné avec **S4U2Self**, un attaquant peut **maintenir une persistance sur n'importe quelle machine de domaine** aussi longtemps que le certificat de CA est valide.\
+De plus, les **certificats générés** avec cette méthode **ne peuvent pas être révoqués** car la CA n'en est pas consciente.
 
-## Trusting Rogue CA Certificates - DPERSIST2
+## Faire confiance aux certificats CA malveillants - DPERSIST2
 
-The object `NTAuthCertificates` defines one or more **CA certificates** in its `cacertificate` **attribute** and AD uses it: During authentication, the **domain controller** checks if **`NTAuthCertificates`** object **contains** an entry for the **CA specified** in the authenticating **certificate’s** Issuer field. If **it is, authentication proceeds**.
+L'objet `NTAuthCertificates` définit un ou plusieurs **certificats CA** dans son attribut `cacertificate` et AD l'utilise : lors de l'authentification, le **contrôleur de domaine** vérifie si l'objet **`NTAuthCertificates`** contient une entrée pour le **CA spécifié** dans le champ **Émetteur** du certificat d'authentification. Si c'est le cas, l'authentification se poursuit.
 
-An attacker could generate a **self-signed CA certificate** and **add** it to the **`NTAuthCertificates`** object. Attackers can do this if they have **control** over the **`NTAuthCertificates`** AD object (in default configurations only **Enterprise Admin** group members and members of the **Domain Admins** or **Administrators** in the **forest root’s domain** have these permissions). With the elevated access, one can **edit** the **`NTAuthCertificates`** object from any system with `certutil.exe -dspublish -f C:\Temp\CERT.crt NTAuthCA126` , or using the [**PKI Health Tool**](https://docs.microsoft.com/en-us/troubleshoot/windows-server/windows-security/import-third-party-ca-to-enterprise-ntauth-store#method-1---import-a-certificate-by-using-the-pki-health-tool).&#x20;
+Un attaquant pourrait générer un **certificat CA auto-signé** et l'**ajouter** à l'objet **`NTAuthCertificates`**. Les attaquants peuvent le faire s'ils ont **le contrôle** sur l'objet AD **`NTAuthCertificates`** (dans les configurations par défaut, seuls les membres du groupe **Enterprise Admin** et les membres des groupes **Domain Admins** ou **Administrateurs** dans le domaine racine de la forêt ont ces autorisations). Avec l'accès élevé, on peut **modifier** l'objet **`NTAuthCertificates`** depuis n'importe quel système avec `certutil.exe -dspublish -f C:\Temp\CERT.crt NTAuthCA126`, ou en utilisant l'outil [**PKI Health Tool**](https://docs.microsoft.com/en-us/troubleshoot/windows-server/windows-security/import-third-party-ca-to-enterprise-ntauth-store#method-1---import-a-certificate-by-using-the-pki-health-tool).&#x20;
 
-The specified certificate should **work with the previously detailed forgery method with ForgeCert** to generate certificates on demand.
+Le certificat spécifié devrait **fonctionner avec la méthode de falsification détaillée précédemment avec ForgeCert** pour générer des certificats à la demande.
 
-## Malicious Misconfiguration - DPERSIST3
+## Mauvaise configuration malveillante - DPERSIST3
 
-There is a myriad of opportunities for **persistence** via **security descriptor modifications of AD CS** components. Any scenario described in the “[Domain Escalation](domain-escalation.md)” section could be maliciously implemented by an attacker with elevated access, as well as addition of “control rights'' (i.e., WriteOwner/WriteDACL/etc.) to sensitive components. This includes:
+Il existe une myriade d'opportunités pour la **persistance** via les **modifications de descripteur de sécurité des composants AD CS**. Tout scénario décrit dans la section "[Escalade de domaine](domain-escalation.md)" pourrait être mis en œuvre de manière malveillante par un attaquant ayant un accès élevé, ainsi que l'ajout de "droits de contrôle" (c'est-à-dire WriteOwner/WriteDACL/etc.) à des composants sensibles. Cela inclut :
 
-* **CA server’s AD computer** object
-* The **CA server’s RPC/DCOM server**
-* Any **descendant AD object or container** in the container **`CN=Public Key Services,CN=Services,CN=Configuration,DC=<DOMAIN>,DC=<COM>`** (e.g., the Certificate Templates container, Certification Authorities container, the NTAuthCertificates object, etc.)
-* **AD groups delegated rights to control AD CS by default or by the current organization** (e.g., the built-in Cert Publishers group and any of its members)
+* L'objet **ordinateur AD** du serveur CA
+* Le **serveur RPC/DCOM du serveur CA**
+* Tout **objet ou conteneur AD descendant** dans le conteneur **`CN=Public Key Services,CN=Services,CN=Configuration,DC=<DOMAIN>,DC=<COM>`** (par exemple, le conteneur de modèles de certificats, le conteneur d'autorités de certification, l'objet NTAuthCertificates, etc.)
+* **Groupes AD délégués pour contrôler AD CS par défaut ou par l'organisation actuelle** (par exemple, le groupe Cert Publishers intégré et l'un de ses membres)
 
-For example, an attacker with **elevated permissions** in the domain could add the **`WriteOwner`** permission to the default **`User`** certificate template, where the attacker is the principal for the right. To abuse this at a later point, the attacker would first modify the ownership of the **`User`** template to themselves, and then would **set** **`mspki-certificate-name-flag`** to **1** on the template to enable **`ENROLLEE_SUPPLIES_SUBJECT`** (i.e., allowing a user to supply a Subject Alternative Name in the request). The attacker could then **enroll** in the **template**, specifying a **domain administrator** name as an alternative name, and use the resulting certificate for authentication as the DA.
+Par exemple, un attaquant ayant des **permissions élevées** dans le domaine pourrait ajouter la permission **`WriteOwner`** au modèle de certificat **`User`** par défaut, où l'attaquant est le principal pour le droit. Pour abuser de cela à un moment ultérieur, l'attaquant modifierait d'abord la propriété du modèle **`User`** pour qu'elle leur appartienne, puis **définirait** **`mspki-certificate-name-flag`** sur **1** sur le modèle pour activer **`ENROLLEE_SUPPLIES_SUBJECT`** (c'est-à-dire permettant à un utilisateur de fournir un nom alternatif de sujet dans la demande). L'attaquant pourrait ensuite s'**inscrire** dans le **modèle**, en spécifiant un nom d'administrateur de domaine comme nom alternatif, et utiliser le certificat résultant pour l'authentification en tant que DA.
 
-## References
+## Références
 
-* All the information of this page was taken from [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)
+* Toutes les informations de cette page ont été prises à partir de [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **Partagez vos astuces de piratage en soumettant des PR au repo [hacktricks](https://github.com/carlospolop/hacktricks) et [hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>

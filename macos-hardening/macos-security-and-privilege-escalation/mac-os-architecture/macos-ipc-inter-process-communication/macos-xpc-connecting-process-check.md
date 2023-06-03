@@ -1,43 +1,41 @@
-# macOS XPC Connecting Process Check
+# Vérification de la connexion de processus XPC sur macOS
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## XPC Connecting Process Check
+## Vérification de la connexion de processus XPC
 
-When a connection is stablished to an XPC service, the server will check if the connection is allowed. These are the checks it would usually perform:
+Lorsqu'une connexion est établie vers un service XPC, le serveur vérifie si la connexion est autorisée. Voici les vérifications qu'il effectue généralement :
 
-1. Check if the connecting **process is signed with an Apple-signed** certificate (only given out by Apple).
-   * If this **isn't verified**, an attacker could can create a **fake certificate** to match any other check.
-2. Check if the connecting process is signed with the **organization’s certificate**, (team ID verification).
-   * If this **isn't verified**, **any developer certificate** from Apple can be used for signing, and connect to the service.
-3. Check if the connecting process **contains a proper bundle ID**.
-4. Check if the connecting process has a **proper software version number**.
-   * If this **isn't verified,** an old, insecure clients, vulnerable to process injection could be used to connect to the XPC service even with the other checks in place.
-5. Check if the connecting process has an **entitlement** that allows it to connect to the service. This is applicable for Apple binaries.
-6. The **verification** must be **based** on the connecting **client’s audit token** **instead** of its process ID (**PID**) since the former prevents PID reuse attacks.
-   * Developers rarely use the audit token API call since it’s **private**, so Apple could **change** at any time. Additionally, private API usage is not allowed in Mac App Store apps.
+1. Vérifier si le **processus de connexion est signé avec un certificat signé par Apple** (uniquement fourni par Apple).
+   * Si cela n'est pas vérifié, un attaquant peut créer un **faux certificat** pour correspondre à toute autre vérification.
+2. Vérifier si le processus de connexion est signé avec le **certificat de l'organisation** (vérification de l'ID d'équipe).
+   * Si cela n'est pas vérifié, **n'importe quel certificat de développeur** d'Apple peut être utilisé pour la signature et la connexion au service.
+3. Vérifier si le processus de connexion **contient un identifiant de bundle approprié**.
+4. Vérifier si le processus de connexion a un **numéro de version logicielle approprié**.
+   * Si cela n'est pas vérifié, des clients anciens et non sécurisés, vulnérables à l'injection de processus, peuvent être utilisés pour se connecter au service XPC même si les autres vérifications sont en place.
+5. Vérifier si le processus de connexion possède une **autorisation** qui lui permet de se connecter au service. Cela s'applique aux binaires Apple.
+6. La **vérification** doit être **basée** sur le **jeton d'audit du client de connexion** plutôt que sur son identifiant de processus (**PID**) car le premier empêche les attaques de réutilisation de PID.
+   * Les développeurs utilisent rarement l'appel d'API de jeton d'audit car il est **privé**, donc Apple pourrait **le changer** à tout moment. De plus, l'utilisation d'API privées n'est pas autorisée dans les applications Mac App Store.
 
-For more information about the PID reuse attack check:
+Pour plus d'informations sur la vérification de l'attaque de réutilisation de PID :
 
 {% content-ref url="macos-pid-reuse.md" %}
 [macos-pid-reuse.md](macos-pid-reuse.md)
 {% endcontent-ref %}
 
-### Code Examples
+### Exemples de code
 
-The server will implement this **verification** in a function called **`shouldAcceptNewConnection`**.
-
-{% code overflow="wrap" %}
+Le serveur implémentera cette **vérification** dans une fonction appelée **`shouldAcceptNewConnection`**.
 ```objectivec
 - (BOOL)listener:(NSXPCListener *)listener shouldAcceptNewConnection:(NSXPCConnection *)newConnection {
     //Check connection
@@ -46,9 +44,9 @@ The server will implement this **verification** in a function called **`shouldAc
 ```
 {% endcode %}
 
-The object NSXPCConnection has a **private** property **`auditToken`** (the one that should be used but could change) and a the **public** property **`processIdentifier`** (the one that shouldn't be used).
+L'objet NSXPCConnection a une propriété **`auditToken`** **privée** (celle qui devrait être utilisée mais qui pourrait changer) et une propriété **`processIdentifier`** **publique** (celle qui ne devrait pas être utilisée).
 
-The connecting process could be verified with something like:
+Le processus de connexion peut être vérifié avec quelque chose comme:
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -68,7 +66,7 @@ SecCodeCheckValidity(code, kSecCSDefaultFlags, requirementRef);
 ```
 {% endcode %}
 
-If a developer doesn't want to check the version of the client, he could check that the client is not vulnerable to process injection at least:
+Si un développeur ne veut pas vérifier la version du client, il pourrait au moins vérifier que le client n'est pas vulnérable à l'injection de processus :
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -91,10 +89,10 @@ if ((csFlags & (cs_hard | cs_require_lv)) {
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Travaillez-vous dans une entreprise de **cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) **groupe Discord** ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

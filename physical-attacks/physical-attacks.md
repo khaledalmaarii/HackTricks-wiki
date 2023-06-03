@@ -1,164 +1,156 @@
-# Physical Attacks
+# Attaques physiques
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **Partagez vos astuces de piratage en soumettant des PR au [repo hacktricks](https://github.com/carlospolop/hacktricks) et au [repo hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
-## BIOS password
+## Mot de passe BIOS
 
-### The battery
+### La batterie
 
-Most of the **motherbords** have a **battery**. If you **remove** it **30min** the settings of the BIOS will be **restarted** (password included).
+La plupart des **cartes mères** ont une **batterie**. Si vous la **retirez** pendant **30 minutes**, les paramètres du BIOS seront **réinitialisés** (mot de passe inclus).
 
-### Jumper CMOS
+### Cavalier CMOS
 
-Most of the **motherboards** have a **jumper** that can restart the settings. This jumper connects a central pin with another, if you **connect thoses pins the motherbord will be reseted**.
+La plupart des **cartes mères** ont un **cavalier** qui peut réinitialiser les paramètres. Ce cavalier connecte une broche centrale avec une autre, si vous **connectez ces broches, la carte mère sera réinitialisée**.
 
-### Live Tools
+### Outils en direct
 
-If you could **run** for example a **Kali** Linux from a Live CD/USB you could use tools like _**killCmos**_ or _**CmosPWD**_ (this last one is included in Kali) you could try to **recover the password of the BIOS**.
+Si vous pouvez **exécuter** par exemple un **Kali** Linux à partir d'un CD/USB en direct, vous pouvez utiliser des outils comme _**killCmos**_ ou _**CmosPWD**_ (ce dernier est inclus dans Kali) pour **récupérer le mot de passe du BIOS**.
 
-### Online BIOS password recovery
+### Récupération de mot de passe BIOS en ligne
 
-Put the password of the BIOS **3 times wrong**, then the BIOS will **show an error messag**e and it will be blocked.\
-Visit the page [https://bios-pw.org](https://bios-pw.org) and **introduce the error code** shown by the BIOS and you could be lucky and get a **valid password** (the **same search could show you different passwords and more than 1 could be valid**).
+Entrez le mot de passe du BIOS **3 fois de suite de manière incorrecte**, puis le BIOS affichera un **message d'erreur** et sera bloqué.\
+Visitez la page [https://bios-pw.org](https://bios-pw.org) et **entrez le code d'erreur** affiché par le BIOS et vous pourriez avoir de la chance et obtenir un **mot de passe valide** (la **même recherche peut vous montrer différents mots de passe et plus d'un peut être valide**).
 
 ## UEFI
 
-To check the settings of the UEFI and perform some kind of attack you should try [chipsec](https://github.com/chipsec/chipsec/blob/master/chipsec-manual.pdf).\
-Using this tool you could easily disable the Secure Boot:
-
+Pour vérifier les paramètres de l'UEFI et effectuer une attaque, vous devriez essayer [chipsec](https://github.com/chipsec/chipsec/blob/master/chipsec-manual.pdf).\
+En utilisant cet outil, vous pouvez facilement désactiver le Secure Boot :
 ```
 python chipsec_main.py -module exploits.secure.boot.pk
 ```
-
 ## RAM
 
 ### Cold boot
 
-The **RAM memory is persistent from 1 to 2 minutes** from the time the computer is powered off. If you apply **cold** (liquid nitrogen, for example) on the memory card you can extend this time up to **10 minutes**.
+La mémoire **RAM est persistante de 1 à 2 minutes** à partir du moment où l'ordinateur est éteint. Si vous appliquez du **froid** (de l'azote liquide, par exemple) sur la carte mémoire, vous pouvez prolonger cette durée jusqu'à **10 minutes**.
 
-Then, you can do a **memory dump** (using tools like dd.exe, mdd.exe, Memoryze, win32dd.exe or DumpIt) to analyze the memory.
+Ensuite, vous pouvez effectuer un **dump de mémoire** (en utilisant des outils tels que dd.exe, mdd.exe, Memoryze, win32dd.exe ou DumpIt) pour analyser la mémoire.
 
-You should **analyze** the memory **using volatility**.
+Vous devez **analyser** la mémoire **en utilisant Volatility**.
 
 ### [INCEPTION](https://github.com/carmaa/inception)
 
-Inception is a **physical memory manipulation** and hacking tool exploiting PCI-based DMA. The tool can attack over **FireWire**, **Thunderbolt**, **ExpressCard**, PC Card and any other PCI/PCIe HW interfaces.\
-**Connect** your computer to the victim computer over one of those **interfaces** and **INCEPTION** will try to **patch** the **pyshical memory** to give you **access**.
+Inception est un outil de **manipulation de mémoire physique** et de piratage exploitant la DMA basée sur PCI. L'outil peut attaquer via **FireWire**, **Thunderbolt**, **ExpressCard**, PC Card et toutes les autres interfaces HW PCI/PCIe.\
+**Connectez** votre ordinateur à l'ordinateur de la victime via l'une de ces **interfaces** et **INCEPTION** essaiera de **patcher** la **mémoire physique** pour vous donner **accès**.
 
-**If INCEPTION succeeds, any password introduced will be vaid.**
+**Si INCEPTION réussit, tout mot de passe introduit sera valide.**
 
-**It doesn't work with Windows10.**
+**Il ne fonctionne pas avec Windows10.**
 
 ## Live CD/USB
 
-### Sticky Keys and more
+### Sticky Keys et plus
 
-* **SETHC:** _sethc.exe_ is invoked when SHIFT is pressed 5 times
-* **UTILMAN:** _Utilman.exe_ is invoked by pressing WINDOWS+U
-* **OSK:** _osk.exe_ is invoked by pressing WINDOWS+U, then launching the on-screen keyboard
-* **DISP:** _DisplaySwitch.exe_ is invoked by pressing WINDOWS+P
+* **SETHC:** _sethc.exe_ est invoqué lorsque SHIFT est pressé 5 fois
+* **UTILMAN:** _Utilman.exe_ est invoqué en appuyant sur WINDOWS+U
+* **OSK:** _osk.exe_ est invoqué en appuyant sur WINDOWS+U, puis en lançant le clavier à l'écran
+* **DISP:** _DisplaySwitch.exe_ est invoqué en appuyant sur WINDOWS+P
 
-These binaries are located inside _**C:\Windows\System32**_. You can **change** any of them for a **copy** of the binary **cmd.exe** (also in the same folder) and any time that you invoke any of those binaries a command prompt as **SYSTEM** will appear.
+Ces binaires sont situés dans _**C:\Windows\System32**_. Vous pouvez **modifier** n'importe lequel d'entre eux pour une **copie** du binaire **cmd.exe** (également dans le même dossier) et chaque fois que vous invoquez l'un de ces binaires, une invite de commande en tant que **SYSTEM** apparaîtra.
 
-### Modifying SAM
+### Modification de SAM
 
-You can use the tool _**chntpw**_ to **modify the** _**SAM**_ **file** of a mounted Windows filesystem. Then, you could change the password of the Administrator user, for example.\
-This tool is available in KALI.
-
+Vous pouvez utiliser l'outil _**chntpw**_ pour **modifier le fichier** _**SAM**_ d'un système de fichiers Windows monté. Ensuite, vous pourriez changer le mot de passe de l'utilisateur Administrateur, par exemple.\
+Cet outil est disponible dans KALI.
 ```
 chntpw -h
 chntpw -l <path_to_SAM>
 ```
-
-**Inside a Linux system you could modify the** _**/etc/shadow**_ **or** _**/etc/passwd**_ **file.**
+**À l'intérieur d'un système Linux, vous pouvez modifier les fichiers** _**/etc/shadow**_ **ou** _**/etc/passwd**_.
 
 ### **Kon-Boot**
 
-**Kon-Boot** is one of the best tools around which can log you into Windows without knowing the password. It works by **hooking into the system BIOS and temporarily changing the contents of the Windows kernel** while booting (new versions work also with **UEFI**). It then allows you to enter **anything as the password** during login. The next time you start the computer without Kon-Boot, the original password will be back, the temporary changes will be discarded and the system will behave as if nothing has happened.\
-Read More: [https://www.raymond.cc/blog/login-to-windows-administrator-and-linux-root-account-without-knowing-or-changing-current-password/](https://www.raymond.cc/blog/login-to-windows-administrator-and-linux-root-account-without-knowing-or-changing-current-password/)
+**Kon-Boot** est l'un des meilleurs outils disponibles qui peut vous connecter à Windows sans connaître le mot de passe. Il fonctionne en **s'accrochant au BIOS du système et en modifiant temporairement le contenu du noyau Windows** lors du démarrage (les nouvelles versions fonctionnent également avec **UEFI**). Il vous permet ensuite d'entrer **n'importe quoi comme mot de passe** lors de la connexion. La prochaine fois que vous démarrez l'ordinateur sans Kon-Boot, le mot de passe d'origine sera de retour, les modifications temporaires seront supprimées et le système se comportera comme si rien ne s'était passé.\
+En savoir plus: [https://www.raymond.cc/blog/login-to-windows-administrator-and-linux-root-account-without-knowing-or-changing-current-password/](https://www.raymond.cc/blog/login-to-windows-administrator-and-linux-root-account-without-knowing-or-changing-current-password/)
 
-It is a live CD/USB that can **patch the memory** so you **won't need to know the password to login**.\
-Kon-Boot also performs the **StickyKeys** trick so you could press _**Shift**_ **5 times to get an Administrator cmd**.
+C'est un CD/USB en direct qui peut **modifier la mémoire** afin que vous **n'ayez pas besoin de connaître le mot de passe pour vous connecter**.\
+Kon-Boot effectue également le tour de **StickyKeys** pour que vous puissiez appuyer sur _**Shift**_ **5 fois pour obtenir une invite de commande d'administrateur**.
 
-## **Running Windows**
+## **Exécution de Windows**
 
-### Initial shortcuts
+### Raccourcis initiaux
 
-### Booting shortcuts
+### Raccourcis de démarrage
 
 * supr - BIOS
-* f8 - Recovery mode
+* f8 - Mode de récupération
 * _supr_ - BIOS ini
-* _f8_ - Recovery mode
-* _Shitf_ (after the windows banner) - Go to login page instead of autologon (avoid autologon)
+* _f8_ - Mode de récupération
+* _Shitf_ (après la bannière Windows) - Aller à la page de connexion au lieu de l'autologon (éviter l'autologon)
 
 ### **BAD USBs**
 
-#### **Rubber Ducky tutorials**
+#### **Tutoriels Rubber Ducky**
 
-* [Tutorial 1](https://github.com/hak5darren/USB-Rubber-Ducky/wiki/Tutorials)
-* [Tutorial 2](https://blog.hartleybrody.com/rubber-ducky-guide/)
+* [Tutoriel 1](https://github.com/hak5darren/USB-Rubber-Ducky/wiki/Tutorials)
+* [Tutoriel 2](https://blog.hartleybrody.com/rubber-ducky-guide/)
 
 #### **Teensyduino**
 
-* [Payloads and tutorials](https://github.com/Screetsec/Pateensy)
+* [Payloads et tutoriels](https://github.com/Screetsec/Pateensy)
 
-There are also tons of tutorials about **how to create your own bad USB**.
+Il existe également des tonnes de tutoriels sur **comment créer votre propre BAD USB**.
 
-### Volume Shadow Copy
+### Copie d'ombre de volume
 
-With administrators privileges and powershell you could make a copy of the SAM file.[ See this code](../windows-hardening/basic-powershell-for-pentesters/#volume-shadow-copy).
+Avec des privilèges d'administrateur et PowerShell, vous pouvez faire une copie du fichier SAM. [Voir ce code](../windows-hardening/basic-powershell-for-pentesters/#volume-shadow-copy).
 
-## Bypassing Bitlocker
+## Contournement de Bitlocker
 
-Bitlocker uses **2 passwords**. The one used by the **user**, and the **recovery** password (48 digits).
+Bitlocker utilise **2 mots de passe**. Celui utilisé par l'**utilisateur**, et le mot de passe de **récupération** (48 chiffres).
 
-If you are lucky and inside the current session of Windows exists the file _**C:\Windows\MEMORY.DMP**_ (It is a memory dump) you could try to **search inside of it the recovery password**. You can **get this file** and a **copy of the filesytem** and then use _Elcomsoft Forensic Disk Decryptor_ to get the content (this will only work if the password is inside the memory dump). You could also **force the memory dump** using _**NotMyFault**_ of _Sysinternals,_ but this will reboot the system and has to be executed as Administrator.
+Si vous avez de la chance et que le fichier _**C:\Windows\MEMORY.DMP**_ (c'est un vidage de mémoire) existe dans la session actuelle de Windows, vous pouvez essayer de **rechercher à l'intérieur le mot de passe de récupération**. Vous pouvez **obtenir ce fichier** et une **copie du système de fichiers** et ensuite utiliser _Elcomsoft Forensic Disk Decryptor_ pour obtenir le contenu (cela ne fonctionnera que si le mot de passe est dans le vidage de mémoire). Vous pouvez également **forcer le vidage de mémoire** en utilisant _**NotMyFault**_ de _Sysinternals_, mais cela redémarrera le système et doit être exécuté en tant qu'administrateur.
 
-You could also try a **bruteforce attack** using _**Passware Kit Forensic**_.
+Vous pouvez également essayer une **attaque de force brute** en utilisant _**Passware Kit Forensic**_.
 
-### Social Engineering
+### Ingénierie sociale
 
-Finally, you could make the user add a new recovery password making him executed as administrator:
-
+Enfin, vous pouvez faire ajouter un nouveau mot de passe de récupération à l'utilisateur en le faisant exécuter en tant qu'administrateur:
 ```bash
 schtasks /create /SC ONLOGON /tr "c:/windows/system32/manage-bde.exe -protectors -add c: -rp 000000-000000-000000-000000-000000-000000-000000-000000" /tn tarea /RU SYSTEM /f
 ```
+Cela ajoutera une nouvelle clé de récupération (composée de 48 zéros) lors de la prochaine connexion.
 
-This will add a new recovery key (composed of 48 zeros) in the next login.
-
-To check the valid recovery keys you can execute:
-
+Pour vérifier les clés de récupération valides, vous pouvez exécuter:
 ```
 manage-bde -protectors -get c:
 ```
-
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- Travaillez-vous dans une entreprise de **cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) **groupe Discord** ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **Partagez vos astuces de piratage en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et au [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>

@@ -1,112 +1,88 @@
-
-
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- Travaillez-vous dans une entreprise de cybersécurité ? Voulez-vous voir votre entreprise annoncée dans HackTricks ? ou voulez-vous avoir accès à la dernière version de PEASS ou télécharger HackTricks en PDF ? Consultez les [PLANS D'ABONNEMENT](https://github.com/sponsors/carlospolop) !
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- Découvrez [La famille PEASS](https://opensea.io/collection/the-peass-family), notre collection d'[NFTs](https://opensea.io/collection/the-peass-family) exclusifs.
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- Obtenez le [swag officiel PEASS & HackTricks](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- Rejoignez le [groupe Discord](https://discord.gg/hRep4RUj7f) ou le [groupe Telegram](https://t.me/peass) ou suivez-moi sur Twitter [🐦](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[@carlospolopm](https://twitter.com/hacktricks_live).
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- Partagez vos astuces de piratage en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et au [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
 
-Apple devices manufactured after 2010 generally have **12-character alphanumeric** serial numbers, with the **first three digits representing the manufacturing location**, the following **two** indicating the **year** and **week** of manufacture, the next **three** digits providing a **unique** **identifier**, and the **last** **four** digits representing the **model number**.
+Les appareils Apple fabriqués après 2010 ont généralement des numéros de série alphanumériques de **12 caractères**, les **trois premiers chiffres représentant le lieu de fabrication**, les deux suivants indiquant l'**année** et la **semaine** de fabrication, les trois chiffres suivants fournissant un **identifiant unique**, et les **quatre derniers chiffres** représentant le **numéro de modèle**.
 
-Serial number example: **C02L13ECF8J2**
+Exemple de numéro de série : **C02L13ECF8J2**
 
-## **3 - Manufacturing locations**
+## **3 - Lieux de fabrication**
 
-| Code | Factory |
+| Code | Usine |
 | :--- | :--- |
 | FC | Fountain Colorado, USA |
-| F | Fremont, California, USA |
+| F | Fremont, Californie, USA |
 | XA, XB, QP, G8 | USA |
-| RN | Mexico |
-| CK | Cork, Ireland |
-| VM | Foxconn, Pardubice, Czech Republic |
-| SG, E | Singapore |
-| MB | Malaysia |
-| PT, CY | Korea |
-| EE, QT, UV | Taiwan |
-| FK, F1, F2 | Foxconn – Zhengzhou, China |
-| W8 | Shanghai China |
-| DL, DM | Foxconn – China |
-| DN | Foxconn, Chengdu, China |
-| YM, 7J | Hon Hai/Foxconn, China |
-| 1C, 4H, WQ, F7 | China |
-| C0 | Tech Com – Quanta Computer Subsidiary, China |
-| C3 | Foxxcon, Shenzhen, China |
-| C7 | Pentragon, Changhai, China |
-| RM | Refurbished/remanufactured |
+| RN | Mexique |
+| CK | Cork, Irlande |
+| VM | Foxconn, Pardubice, République tchèque |
+| SG, E | Singapour |
+| MB | Malaisie |
+| PT, CY | Corée |
+| EE, QT, UV | Taïwan |
+| FK, F1, F2 | Foxconn - Zhengzhou, Chine |
+| W8 | Shanghai Chine |
+| DL, DM | Foxconn - Chine |
+| DN | Foxconn, Chengdu, Chine |
+| YM, 7J | Hon Hai/Foxconn, Chine |
+| 1C, 4H, WQ, F7 | Chine |
+| C0 | Tech Com - Filiale de Quanta Computer, Chine |
+| C3 | Foxxcon, Shenzhen, Chine |
+| C7 | Pentagone, Changhai, Chine |
+| RM | Remis à neuf/remanufacturé |
 
-## 1 - Year of manufacturing
+## 1 - Année de fabrication
 
-| Code | Release |
+| Code | Sortie |
 | :--- | :--- |
-| C | 2010/2020 \(1st half\) |
-| D | 2010/2020 \(2nd half\) |
-| F | 2011/2021 \(1st half\) |
-| G | 2011/2021 \(2nd half\) |
-| H | 2012/... \(1st half\) |
-| J | 2012 \(2nd half\) |
-| K | 2013 \(1st half\) |
-| L | 2013 \(2nd half\) |
-| M | 2014 \(1st half\) |
-| N | 2014 \(2nd half\) |
-| P | 2015 \(1st half\) |
-| Q | 2015 \(2nd half\) |
-| R | 2016 \(1st half\) |
-| S | 2016 \(2nd half\) |
-| T | 2017 \(1st half\) |
-| V | 2017 \(2nd half\) |
-| W | 2018 \(1st half\) |
-| X | 2018 \(2nd half\) |
-| Y | 2019 \(1st half\) |
-| Z | 2019 \(2nd half\) |
+| C | 2010/2020 \(1ère moitié\) |
+| D | 2010/2020 \(2ème moitié\) |
+| F | 2011/2021 \(1ère moitié\) |
+| G | 2011/2021 \(2ème moitié\) |
+| H | 2012/... \(1ère moitié\) |
+| J | 2012 \(2ème moitié\) |
+| K | 2013 \(1ère moitié\) |
+| L | 2013 \(2ème moitié\) |
+| M | 2014 \(1ère moitié\) |
+| N | 2014 \(2ème moitié\) |
+| P | 2015 \(1ère moitié\) |
+| Q | 2015 \(2ème moitié\) |
+| R | 2016 \(1ère moitié\) |
+| S | 2016 \(2ème moitié\) |
+| T | 2017 \(1ère moitié\) |
+| V | 2017 \(2ème moitié\) |
+| W | 2018 \(1ère moitié\) |
+| X | 2018 \(2ème moitié\) |
+| Y | 2019 \(1ère moitié\) |
+| Z | 2019 \(2ème moitié\) |
 
-## 1 - Week of manufacturing
+## 1 - Semaine de fabrication
 
-The fifth character represent the week in which the device was manufactured. There are 28 possible characters in this spot: **the digits 1-9 are used to represent the first through ninth weeks**, and the **characters C through Y**, **excluding** the vowels A, E, I, O, and U, and the letter S, represent the **tenth through twenty-seventh weeks**. For devices manufactured in the **second half of the year, add 26** to the number represented by the fifth character of the serial number. For example, a product with a serial number whose fourth and fifth digits are “JH” was manufactured in the 40th week of 2012.
+Le cinquième caractère représente la semaine de fabrication de l'appareil. Il y a 28 caractères possibles à cet endroit : **les chiffres de 1 à 9 sont utilisés pour représenter les première à neuvième semaines**, et les **caractères C à Y**, **à l'exception** des voyelles A, E, I, O et U, et de la lettre S, représentent les **dixième à vingt-septième semaines**. Pour les appareils fabriqués dans la **deuxième moitié de l'année, ajoutez 26** au nombre représenté par le cinquième caractère du numéro de série. Par exemple, un produit dont les quatrième et cinquième chiffres sont "JH" a été fabriqué dans la 40ème semaine de 2012.
 
-## 3 - Uniq Code
+## 3 - Code d'identification unique
 
-The next three digits are an identifier code which **serves to differentiate each Apple device of the same model** which is manufactured in the same location and during the same week of the same year, ensuring that each device has a different serial number. 
+Les trois chiffres suivants sont un code d'identification qui **sert à différencier chaque appareil Apple du même modèle** qui est fabriqué dans le même lieu et pendant la même semaine de la même année, en veillant à ce que chaque appareil ait un numéro de série différent.
 
-## 4 - Serial number
+## 4 - Numéro de série
 
-The last four digits of the serial number represent the **product’s model**.
+Les quatre derniers chiffres du numéro de série représentent le **modèle du produit**.
 
-## Reference
+## Référence
 
 {% embed url="https://beetstech.com/blog/decode-meaning-behind-apple-serial-number" %}
 
-
-
-
-
-
-
 <details>
-
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
-
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
-
-</details>
-
-

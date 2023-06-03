@@ -1,60 +1,48 @@
-# macOS Kernel Extensions
+# Extensions de noyau macOS
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## Basic Information
+## Informations de base
 
-Kernel extensions (Kexts) are **bundles** using **`.kext` extension** that are **loaded directly into the kernel space** of macOS, providing additional functionality to the core operating system.
+Les extensions de noyau (Kexts) sont des **bundles** utilisant l'extension **`.kext`** qui sont **chargés directement dans l'espace du noyau** de macOS, fournissant des fonctionnalités supplémentaires au système d'exploitation de base.
 
-### Requirements
+### Exigences
 
-Obviously, this is so powerful, it's complicated to load a kernel extension. These are the requirements of a kernel extension to be loaded:
+Évidemment, c'est tellement puissant qu'il est compliqué de charger une extension de noyau. Voici les exigences pour qu'une extension de noyau soit chargée :
 
-* Going into **recovery mode** Kexts need to be **allowed to be loaded**:
+* En allant en mode de récupération, les Kexts doivent être **autorisés à être chargés** :
 
 <figure><img src="../../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-* The Kext must be **signed with a kernel code signing certificate**, which can only be granted by **Apple**. Who will be **reviewing** in detail the **company** and the **reasons** why this is needed.
-* The Kext also needs to be **notarized**, Apple will be able to check it for malware.
-* Then, the **root user** is the one that can load the Kext and the files inside the bundle must belong to root.
-* Finally, once trying to load it, the [**user will be prompted for confirmation**](https://developer.apple.com/library/archive/technotes/tn2459/\_index.html) and if accepted, the computer must **reboot** to load it.
+* Le Kext doit être **signé avec un certificat de signature de code de noyau**, qui ne peut être accordé que par **Apple**. Qui va **examiner** en détail la **société** et les **raisons** pour lesquelles cela est nécessaire.
+* Le Kext doit également être **notarisé**, Apple pourra le vérifier pour les logiciels malveillants.
+* Ensuite, l'utilisateur **root** est celui qui peut charger le Kext et les fichiers à l'intérieur du bundle doivent appartenir à root.
+* Enfin, une fois que l'on essaie de le charger, l'[**utilisateur sera invité à confirmer**](https://developer.apple.com/library/archive/technotes/tn2459/\_index.html) et si cela est accepté, l'ordinateur doit **redémarrer** pour le charger.
 
-### Loading Process
+### Processus de chargement
 
-Back in Catalina it was like this: It's interesting to note that the **verification** process occurs on **userland**. However, only applications with the entitlement **`com.apple.private.security.kext-management`** can **ask the kernel** to **load an extension:** kextcache, kextload, kextutil, kextd, syspolicyd
+De retour à Catalina, c'était comme ça : Il est intéressant de noter que le processus de **vérification** se produit sur **userland**. Cependant, seules les applications avec l'entitlement **`com.apple.private.security.kext-management`** peuvent **demander au noyau** de **charger une extension** : kextcache, kextload, kextutil, kextd, syspolicyd
 
-1. **`kextutil`** cli **starts** the verification process to load an extension
-   * It'll talk to **`kextd`** sending using a Mach service
-2. **`kextd`** will check several things, such as the signature
-   * It'll talk to **`syspolicyd`** to check if the extension can be loaded
-3. **`syspolicyd`** **asks** the **user** if the extension hasn't be loaded previously
-   * **`syspolicyd`** will indicate the result to **`kextd`**
-4. **`kextd`** will finally be able to indicate the **kernel to load the extension**
+1. **`kextutil`** cli **démarre** le processus de vérification pour charger une extension
+   * Il parlera à **`kextd`** en envoyant en utilisant un service Mach
+2. **`kextd`** vérifiera plusieurs choses, telles que la signature
+   * Il parlera à **`syspolicyd`** pour vérifier si l'extension peut être chargée
+3. **`syspolicyd`** **demandera** à l'**utilisateur** si l'extension n'a pas été chargée précédemment
+   * **`syspolicyd`** indiquera le résultat à **`kextd`**
+4. **`kextd`** pourra enfin indiquer au **noyau de charger l'extension**
 
-If kextd is not available, kextutil can perform the same checks.
+Si kextd n'est pas disponible, kextutil peut effectuer les mêmes vérifications.
 
-## References
+## Références
 
 * [https://www.makeuseof.com/how-to-enable-third-party-kernel-extensions-apple-silicon-mac/](https://www.makeuseof.com/how-to-enable-third-party-kernel-extensions-apple-silicon-mac/)
-
-<details>
-
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
-
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
-
-</details>

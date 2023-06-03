@@ -1,39 +1,22 @@
-# macOS Basic Objective-C
-
-<details>
-
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
-
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
-
-</details>
-
 ## Objective-C
 
 {% hint style="danger" %}
-Note that programs written in Objective-C **retain** their class declarations **when** **compiled** into [Mach-O binaries](macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md). Such class declarations **include** the name and type of:
+Notez que les programmes écrits en Objective-C **conservent** leurs déclarations de classe **lorsqu'ils** sont compilés en [binaires Mach-O](macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md). Ces déclarations de classe **incluent** le nom et le type de :
 {% endhint %}
 
-* The class
-* The class methods
-* The class instance variables
+* La classe
+* Les méthodes de classe
+* Les variables d'instance de classe
 
-You can get this information using [**class-dump**](https://github.com/nygard/class-dump):
-
+Vous pouvez obtenir ces informations en utilisant [**class-dump**](https://github.com/nygard/class-dump) :
 ```bash
 class-dump Kindle.app
 ```
+Notez que ces noms peuvent être obscurcis pour rendre la rétro-ingénierie du binaire plus difficile.
 
-Note that this names could be obfuscated to make the reversing of the binary more difficult.
+## Classes, méthodes et objets
 
-## Classes, Methods & Objects
-
-### Interface, Properties & Methods
-
+### Interface, propriétés et méthodes
 ```objectivec
 // Declare the interface of the class
 @interface MyVehicle : NSObject
@@ -48,9 +31,7 @@ Note that this names could be obfuscated to make the reversing of the binary mor
 
 @end
 ```
-
-### **Class**
-
+### **Classe**
 ```objectivec
 @implementation MyVehicle : NSObject
 
@@ -66,11 +47,9 @@ Note that this names could be obfuscated to make the reversing of the binary mor
 
 @end
 ```
+### **Objet et Appel de Méthode**
 
-### **Object & Call Method**
-
-To create an instance of a class the **`alloc`** method is called which **allocate memory** for each **property** and **zero** those allocations. Then **`init`** is called, which **initilize the properties** to the **required values**.
-
+Pour créer une instance d'une classe, la méthode **`alloc`** est appelée, ce qui **alloue de la mémoire** pour chaque **propriété** et **initialise à zéro** ces allocations. Ensuite, **`init`** est appelé, ce qui **initialise les propriétés** aux **valeurs requises**.
 ```objectivec
 // Something like this:
 MyVehicle *newVehicle = [[MyVehicle alloc] init];
@@ -82,19 +61,15 @@ MyVehicle *newVehicle = [MyVehicle new];
 // [myClassInstance nameOfTheMethodFirstParam:param1 secondParam:param2]
 [newVehicle addWheels:4];
 ```
+### **Méthodes de classe**
 
-### **Class Methods**
-
-Class methods are defined with the **plus sign** (+) not the hyphen (-) that is used with instance methods. Like the **NSString** class method **`stringWithString`**:
-
+Les méthodes de classe sont définies avec le **signe plus** (+) et non le trait d'union (-) utilisé avec les méthodes d'instance. Comme la méthode de classe **`stringWithString`** de la classe **NSString**:
 ```objectivec
 + (id)stringWithString:(NSString *)aString;
 ```
-
 ### Setter & Getter
 
-To **set** & **get** properties, you could do it with a **dot notation** or like if you were **calling a method**:
-
+Pour **définir** et **obtenir** des propriétés, vous pouvez le faire avec une **notation pointée** ou comme si vous appeliez une **méthode** :
 ```objectivec
 // Set
 newVehicle.numberOfWheels = 2;
@@ -104,24 +79,20 @@ newVehicle.numberOfWheels = 2;
 NSLog(@"Number of wheels: %i", newVehicle.numberOfWheels);
 NSLog(@"Number of wheels: %i", [newVehicle numberOfWheels]);
 ```
+### **Variables d'instance**
 
-### **Instance Variables**
-
-Alternatively to setter & getter methods you can use instance variables. These variables have the same name as the properties but starting with a "\_":
-
+En alternative aux méthodes setter et getter, vous pouvez utiliser des variables d'instance. Ces variables ont le même nom que les propriétés, mais commencent par un "\_":
 ```objectivec
 - (void)makeLongTruck {
     _numberOfWheels = +10000;
     NSLog(@"Number of wheels: %i", self.numberOfLeaves);
 }
 ```
+### Protocoles
 
-### Protocols
+Les protocoles sont des ensembles de déclarations de méthodes (sans propriétés). Une classe qui implémente un protocole implémente les méthodes déclarées.
 
-Protocols are set of method declarations (without properties). A class that implements a protocol implement the declared methods.
-
-There are 2 types of methods: **mandatory** and **optional**. By **default** a method is **mandatory** (but you can also indicate it with a **`@required`** tag). To indicate that a method is optional use **`@optional`**.
-
+Il existe 2 types de méthodes : **obligatoires** et **optionnelles**. Par **défaut**, une méthode est **obligatoire** (mais vous pouvez également l'indiquer avec une balise **`@required`**). Pour indiquer qu'une méthode est optionnelle, utilisez **`@optional`**.
 ```objectivec
 @protocol myNewProtocol
 - (void) method1; //mandatory
@@ -131,9 +102,7 @@ There are 2 types of methods: **mandatory** and **optional**. By **default** a m
 - (void) method3; //optional
 @end
 ```
-
-### All together
-
+### Tout ensemble
 ```objectivec
 // gcc -framework Foundation test_obj.m -o test_obj
 #import <Foundation/Foundation.h>
@@ -183,10 +152,9 @@ int main() {
     [mySuperCar makeLongTruck];
 }
 ```
+### Classes de base
 
-### Basic Classes
-
-#### String
+#### Chaîne de caractères
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -197,7 +165,7 @@ NSString *bookPublicationYear = [NSString stringWithCString:"1951" encoding:NSUT
 ```
 {% endcode %}
 
-Basic classes are **immutable**, so to append a string to an existing one a **new NSString needs to be created**.
+Les classes de base sont **immuables**, donc pour ajouter une chaîne de caractères à une chaîne existante, **une nouvelle NSString doit être créée**. 
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -205,7 +173,7 @@ NSString *bookDescription = [NSString stringWithFormat:@"%@ by %@ was published 
 ```
 {% endcode %}
 
-Or you could also use a **mutable** string class:
+Ou vous pouvez également utiliser une classe de chaîne **mutable** : 
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -218,7 +186,7 @@ NSMutableString *mutableString = [NSMutableString stringWithString:@"The book "]
 ```
 {% endcode %}
 
-#### Number
+#### Nombre
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -239,9 +207,7 @@ NSNumber *piDouble = @3.1415926535; // equivalent to [NSNumber numberWithDouble:
 NSNumber *yesNumber = @YES; // equivalent to [NSNumber numberWithBool:YES]
 NSNumber *noNumber = @NO; // equivalent to [NSNumber numberWithBool:NO]
 ```
-{% endcode %}
-
-#### Array, Sets & Dictionary
+#### Tableau, Ensembles & Dictionnaire
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -291,11 +257,9 @@ NSMutableDictionary *mutFruitColorsDictionary = [NSMutableDictionary dictionaryW
 ```
 {% endcode %}
 
-### Blocks
+### Blocs
 
-Blocks are **functions that behaves as objects** so they can be passed to functions or **stored** in **arrays** or **dictionaries**. Also, they can **represent a value if they are given values** so it's similar to lambdas.
-
-{% code overflow="wrap" %}
+Les blocs sont des **fonctions qui se comportent comme des objets** et peuvent donc être passés en paramètre de fonctions ou **stockés** dans des **tableaux** ou des **dictionnaires**. De plus, ils peuvent **représenter une valeur s'ils sont donnés des valeurs**, ce qui est similaire aux lambdas.
 ```objectivec
 returnType (^blockName)(argumentType1, argumentType2, ...) = ^(argumentType1 param1, argumentType2 param2, ...){
     //Perform operations here
@@ -310,8 +274,7 @@ NSLog(@"3+4 = %d", suma(3,4));
 ```
 {% endcode %}
 
-It's also possible to **define a block type to be used as a parameter** in functions:
-
+Il est également possible de **définir un type de bloc à utiliser en tant que paramètre** dans les fonctions :
 ```objectivec
 // Define the block type
 typedef void (^callbackLogger)(void);
@@ -333,8 +296,7 @@ genericLogger(^{
     NSLog(@"%@", @"This is my second block");
 });
 ```
-
-### Files
+### Fichiers
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -363,15 +325,13 @@ if ([fileManager removeItemAtPath:@"/path/to/file1.txt" error:nil]) {
 ```
 {% endcode %}
 
-It's also possible to manage files **using `NSURL` objects instead of `NSString`** objects. The method names are similar, but **with `URL` instead of `Path`**.
-
+Il est également possible de gérer les fichiers **en utilisant des objets `NSURL` au lieu d'objets `NSString`**. Les noms des méthodes sont similaires, mais **avec `URL` au lieu de `Path`**.
 ```objectivec
 NSURL *fileSrc = [NSURL fileURLWithPath:@"/path/to/file1.txt"];
 NSURL *fileDst = [NSURL fileURLWithPath:@"/path/to/file2.txt"];
 [fileManager moveItemAtURL:fileSrc toURL:fileDst error: nil];
 ```
-
-Most basic classes has a method `writeToFile:<path> atomically:<YES> encoding:<encoding> error:nil` defined that allows them to be directly be written to a file:
+La plupart des classes de base ont une méthode `writeToFile:<path> atomically:<YES> encoding:<encoding> error:nil` définie qui leur permet d'être directement écrites dans un fichier :
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -384,10 +344,10 @@ NSString* tmp = @"something temporary";
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Travaillez-vous dans une entreprise de **cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) **groupe Discord** ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live).
+* **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

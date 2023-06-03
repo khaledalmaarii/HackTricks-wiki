@@ -1,34 +1,33 @@
-# macOS Sandbox
+# Bac à sable macOS
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## Basic Information
+## Informations de base
 
-MacOS Sandbox (initially called Seatbelt) **limits applications** running inside the sandbox to the **allowed actions specified in the Sandbox profile** the app is running with. This helps to ensure that **the application will be accessing only expected resources**.
+Le bac à sable macOS (initialement appelé Seatbelt) **limite les applications** s'exécutant dans le bac à sable aux **actions autorisées spécifiées dans le profil Sandbox** avec lequel l'application s'exécute. Cela contribue à garantir que **l'application n'accédera qu'aux ressources attendues**.
 
-Any app with the **entitlement** **`com.apple.security.app-sandbox`** will be executed inside the sandbox. **Apple binaries** are usually executed inside a Sanbox and in order to publish inside the **App Store**, **this entitlement is mandatory**. So most applications will be executed inside the sandbox.
+Toute application avec l'**autorisation** **`com.apple.security.app-sandbox`** sera exécutée dans le bac à sable. Les **binaires Apple** sont généralement exécutés dans un bac à sable et pour publier dans **l'App Store**, **cette autorisation est obligatoire**. Ainsi, la plupart des applications seront exécutées dans le bac à sable.
 
-In order to control what a process can or cannot do the **Sandbox has hooks** in all **syscalls** across the kernel. **Depending** on the **entitlements** of the app the Sandbox will **allow** certain actions.
+Pour contrôler ce qu'un processus peut ou ne peut pas faire, le **bac à sable a des hooks** dans tous les **appels système** à travers le noyau. **Selon** les **autorisations** de l'application, le bac à sable **autorise** certaines actions.
 
-Some important components of the Sandbox are:
+Certains composants importants du bac à sable sont :
 
-* The **kernel extension** `/System/Library/Extensions/Sandbox.kext`
-* The **private framework** `/System/Library/PrivateFrameworks/AppSandbox.framework`
-* A **daemon** running in userland `/usr/libexec/sandboxd`
-* The **containers** `~/Library/Containers`
+* L'**extension de noyau** `/System/Library/Extensions/Sandbox.kext`
+* Le **framework privé** `/System/Library/PrivateFrameworks/AppSandbox.framework`
+* Un **démon** s'exécutant dans l'espace utilisateur `/usr/libexec/sandboxd`
+* Les **conteneurs** `~/Library/Containers`
 
-Inside the containers folder you can find **a folder for each app executed sanboxed** with the name of the bundle id:
-
+Dans le dossier des conteneurs, vous pouvez trouver **un dossier pour chaque application exécutée dans le bac à sable** avec le nom de l'ID de bundle :
 ```bash
 ls -l ~/Library/Containers
 total 0
@@ -39,9 +38,7 @@ drwx------@ 4 username  staff  128 Mar 25 14:14 com.apple.Accessibility-Settings
 drwx------@ 4 username  staff  128 Mar 25 14:10 com.apple.ActionKit.BundledIntentHandler
 [...]
 ```
-
-Inside each bundle id folder you can find the **plist** and the **Data directory** of the App:
-
+À l'intérieur de chaque dossier d'identifiant de bundle, vous pouvez trouver le fichier **plist** et le répertoire **Data** de l'application :
 ```bash
 cd /Users/username/Library/Containers/com.apple.Safari
 ls -la
@@ -64,11 +61,9 @@ lrwxr-xr-x   1 username  staff    20 Mar 24 18:02 Pictures -> ../../../../Pictur
 drwx------   2 username  staff    64 Mar 24 18:02 SystemData
 drwx------   2 username  staff    64 Mar 24 18:02 tmp
 ```
-
 {% hint style="danger" %}
-Note that even if the symlinks are there to "escape" from the Sandbox and access other folders, the App still needs to **have permissions** to access them. These permissions are inside the **`.plist`**.
+Notez que même si les liens symboliques sont là pour "s'échapper" du Sandbox et accéder à d'autres dossiers, l'application doit toujours **avoir les autorisations** pour y accéder. Ces autorisations sont à l'intérieur du fichier **`.plist`**.
 {% endhint %}
-
 ```bash
 # Get permissions
 plutil -convert xml1 .com.apple.containermanagerd.metadata.plist -o -
@@ -104,13 +99,11 @@ plutil -convert xml1 .com.apple.containermanagerd.metadata.plist -o -
 		<string>/Users/username/Desktop</string>
 [...]
 ```
+### Profils Sandbox
 
-### Sandbox Profiles
+Les profils Sandbox sont des fichiers de configuration qui indiquent ce qui est autorisé/interdit dans cette Sandbox. Il utilise le langage de profil Sandbox (SBPL), qui utilise le langage de programmation [Scheme](https://en.wikipedia.org/wiki/Scheme_\(programming_language\)).
 
-The Sandbox profiles are configuration files that indicates what is going to be **allowed/forbidden** in that **Sandbox**. It uses the **Sandbox Profile Language (SBPL)**, which uses the [**Scheme**](https://en.wikipedia.org/wiki/Scheme\_\(programming\_language\)) programming language.
-
-Here you can find an example:
-
+Voici un exemple :
 ```scheme
 (version 1) ; First you get the version
 
@@ -128,39 +121,571 @@ Here you can find an example:
     (global-name "com.apple.analyticsd")
 )
 ```
-
 {% hint style="success" %}
-Check this [**research**](https://reverse.put.as/2011/09/14/apple-sandbox-guide-v1-0/) **to check more actions that could be allowed or denied.**
+Consultez cette [**recherche**](https://reverse.put.as/2011/09/14/apple-sandbox-guide-v1-0/) **pour vérifier d'autres actions qui pourraient être autorisées ou refusées.**
 {% endhint %}
 
-Important **system services** also run inside their own custom **sandbox** such as the `mdnsresponder` service. You can view these custom **sandbox profiles** inside:
+Des **services système** importants s'exécutent également dans leur propre **bac à sable personnalisé** tels que le service `mdnsresponder`. Vous pouvez voir ces **profils de bac à sable personnalisés** dans:
 
 * **`/usr/share/sandbox`**
-* **`/System/Library/Sandbox/Profiles`**&#x20;
-* Other sandbox profiles can be checked in [https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles](https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles).
+* **`/System/Library/Sandbox/Profiles`**
+* D'autres profils de bac à sable peuvent être consultés sur [https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles](https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles).
 
-**App Store** apps use the **profile** **`/System/Library/Sandbox/Profiles/application.sb`**. You can check in this profile how entitlements such as **`com.apple.security.network.server`** allows a process to use the network.
+Les applications de l'**App Store** utilisent le **profil** **`/System/Library/Sandbox/Profiles/application.sb`**. Vous pouvez vérifier dans ce profil comment les autorisations telles que **`com.apple.security.network.server`** permettent à un processus d'utiliser le réseau.
 
-SIP is a Sandbox profile called platform\_profile in /System/Library/Sandbox/rootless.conf
+SIP est un profil de bac à sable appelé platform\_profile dans /System/Library/Sandbox/rootless.conf
 
-### Sandbox Profile Examples
+### Exemples de profils de bac à sable
 
-To start an application with an **specific sandbox profile** you can use:
-
+Pour démarrer une application avec un **profil de bac à sable spécifique**, vous pouvez utiliser:
 ```bash
 sandbox-exec -f example.sb /Path/To/The/Application
 ```
-
-{% tabs %}
-{% tab title="touch" %}
 {% code title="touch.sb" %}
+# Sandbox for the touch command
+
+(version 1)
+
+(deny default)
+
+(allow file-read-data file-read-metadata
+    (regex #"^/usr/share/locale/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Desktop/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Documents/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Downloads/.*"))
+
+(allow file-write-data
+    (regex #"^/private/tmp/.*"))
+
+(allow file-write-data
+    (regex #"^/var/tmp/.*"))
+
+(allow file-write-data
+    (regex #"^/tmp/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Library/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Movies/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Music/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Pictures/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Public/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Sites/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Applications/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Movies/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Music/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Pictures/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Public/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Sites/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Applications/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Movies/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Music/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Pictures/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Public/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Sites/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Applications/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Movies/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Music/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Pictures/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Public/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Sites/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Applications/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Movies/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Music/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Pictures/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Public/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Sites/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Applications/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Movies/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Music/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Pictures/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Public/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Sites/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Applications/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Movies/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Music/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Pictures/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Public/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Sites/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Applications/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Movies/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Music/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Pictures/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Public/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Sites/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Applications/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Movies/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Music/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Pictures/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Public/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Sites/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Applications/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Movies/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Music/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Pictures/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Public/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Sites/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Applications/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Movies/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Music/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Pictures/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Public/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Sites/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Applications/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Movies/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Music/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Pictures/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Public/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Sites/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Applications/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Movies/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Music/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Pictures/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Public/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Sites/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Applications/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Movies/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Music/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Pictures/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Public/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Sites/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Applications/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Movies/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Music/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Pictures/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Public/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Sites/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Applications/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Movies/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Music/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Pictures/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Public/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Sites/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Applications/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Movies/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Music/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Pictures/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Public/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Sites/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Applications/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Movies/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Music/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Pictures/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Public/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Sites/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Applications/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Movies/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Music/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Pictures/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Public/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Sites/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Applications/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Movies/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Music/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Pictures/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Public/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Sites/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Applications/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Movies/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Music/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Pictures/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Public/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Sites/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Applications/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Movies/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Music/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Pictures/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Public/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Sites/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Applications/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Movies/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Music/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Pictures/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Public/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Sites/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Applications/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Movies/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Music/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Pictures/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Public/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Sites/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Applications/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Movies/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Music/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Pictures/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Public/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Sites/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Applications/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Movies/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Music/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Pictures/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Public/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Sites/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Applications/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Movies/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Music/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Pictures/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Public/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Sites/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Applications/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Movies/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Music/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Pictures/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Public/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Sites/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Applications/.*"))
+
+(allow file-write-data
+    (regex #"^/Users/[^/]+/Movies/.*"))
+
+(allow file-write
 ```scheme
 (version 1)
 (deny default)
 (allow file* (literal "/tmp/hacktricks.txt"))
 ```
-{% endcode %}
-
+{% endcode %} (This is a markdown tag and should not be translated)
 ```bash
 # This will fail because default is denied, so it cannot execute touch
 sandbox-exec -f touch.sb touch /tmp/hacktricks.txt
@@ -173,7 +698,6 @@ log show --style syslog --predicate 'eventMessage contains[c] "sandbox"' --last 
 2023-05-26 13:42:52.701382+0200  localhost kernel[0]: (Sandbox) 5 duplicate reports for Sandbox: sandbox-exec(41398) deny(1) file-read-metadata /var
 [...]
 ```
-
 {% code title="touch2.sb" %}
 ```scheme
 (version 1)
@@ -188,8 +712,6 @@ log show --style syslog --predicate 'eventMessage contains[c] "sandbox"' --last 
 ; 2023-05-26 13:44:59.840050+0200  localhost kernel[0]: (Sandbox) Sandbox: touch(41575) deny(1) sysctl-read kern.bootargs
 ; 2023-05-26 13:44:59.840061+0200  localhost kernel[0]: (Sandbox) Sandbox: touch(41575) deny(1) file-read-data /
 ```
-{% endcode %}
-
 {% code title="touch3.sb" %}
 ```scheme
 (version 1)
@@ -204,43 +726,40 @@ log show --style syslog --predicate 'eventMessage contains[c] "sandbox"' --last 
 {% endtabs %}
 
 {% hint style="info" %}
-Note that the **Apple-authored** **software** that runs on **Windows** **doesn’t have additional security precautions**, such as application sandboxing.
+Notez que le **logiciel** **développé par Apple** qui s'exécute sur **Windows** **n'a pas de précautions de sécurité supplémentaires**, telles que l'application de sandbox.
 {% endhint %}
 
-Bypasses examples:
+Exemples de contournement :
 
 * [https://lapcatsoftware.com/articles/sandbox-escape.html](https://lapcatsoftware.com/articles/sandbox-escape.html)
-* [https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c](https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c) (they are able to write files outside the sandbox whose name starts with `~$`).
+* [https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c](https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c) (ils sont capables d'écrire des fichiers en dehors de la sandbox dont le nom commence par `~$`).
 
-### Debug & Bypass Sandbox
+### Débogage et contournement de la sandbox
 
-**Processes are not born sandboxed on macOS: unlike iOS**, where the sandbox is applied by the kernel before the first instruction of a program executes, on macOS **a process must elect to place itself into the sandbox.**
+**Les processus ne naissent pas sandboxés sur macOS : contrairement à iOS**, où la sandbox est appliquée par le noyau avant la première instruction d'un programme, sur macOS **un processus doit élire de se placer dans la sandbox.**
 
-Processes are automatically Sandboxed from userland when they start if they have the entitlement: `com.apple.security.app-sandbox`. For a detailed explanation of this process check:
+Les processus sont automatiquement sandboxés depuis l'espace utilisateur lorsqu'ils démarrent s'ils ont l'attribution : `com.apple.security.app-sandbox`. Pour une explication détaillée de ce processus, consultez :
 
 {% content-ref url="macos-sandbox-debug-and-bypass.md" %}
 [macos-sandbox-debug-and-bypass.md](macos-sandbox-debug-and-bypass.md)
 {% endcontent-ref %}
 
-### **Check PID Privileges**
+### **Vérifier les privilèges PID**
 
-[According to this](https://www.youtube.com/watch?v=mG715HcDgO8\&t=3011s), the **`sandbox_check`** (it's a `__mac_syscall`), can check **if an operation is allowed or not** by the sandbox in a certain PID.
+[Selon cela](https://www.youtube.com/watch?v=mG715HcDgO8\&t=3011s), **`sandbox_check`** (c'est un `__mac_syscall`), peut vérifier **si une opération est autorisée ou non** par la sandbox dans un certain PID.
 
-The [**tool sbtool**](http://newosxbook.com/src.jl?tree=listings\&file=sbtool.c) can check if a PID can perform a certain action:
-
+L'outil [**sbtool**](http://newosxbook.com/src.jl?tree=listings\&file=sbtool.c) peut vérifier si un PID peut effectuer une certaine action :
 ```bash
 sbtool <pid> mach #Check mac-ports (got from launchd with an api)
 sbtool <pid> file /tmp #Check file access
 sbtool <pid> inspect #Gives you an explaination of the sandbox profile
 sbtool <pid> all
 ```
+### Profils SBPL personnalisés dans les applications de l'App Store
 
-### Custom SBPL in App Store apps
+Il est possible pour les entreprises de faire fonctionner leurs applications avec des **profils Sandbox personnalisés** (au lieu du profil par défaut). Elles doivent utiliser l'entitlement **`com.apple.security.temporary-exception.sbpl`** qui doit être autorisé par Apple.
 
-It could be possible for companies to make their apps run **with custom Sandbox profiles** (instead of with the default one). They need to use the entitlement **`com.apple.security.temporary-exception.sbpl`** which needs to be authorized by Apple.
-
-It's possible to check the definition of this entitlement in **`/System/Library/Sandbox/Profiles/application.sb:`**
-
+Il est possible de vérifier la définition de cet entitlement dans **`/System/Library/Sandbox/Profiles/application.sb:`**
 ```scheme
 (sandbox-array-entitlement
   "com.apple.security.temporary-exception.sbpl"
@@ -248,17 +767,16 @@ It's possible to check the definition of this entitlement in **`/System/Library/
     (let* ((port (open-input-string string)) (sbpl (read port)))
       (with-transparent-redirection (eval sbpl)))))
 ```
-
-This will **eval the string after this entitlement** as an Sandbox profile.
+Cela **évaluera la chaîne après cette autorisation** en tant que profil Sandbox. 
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

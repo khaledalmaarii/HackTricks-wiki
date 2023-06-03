@@ -1,36 +1,17 @@
+# Informations de base
 
+**Seccomp** ou mode de calcul sécurisé, en résumé, est une fonctionnalité du noyau Linux qui peut agir comme un **filtre de syscall**.\
+Seccomp a 2 modes.
 
-<details>
+**seccomp** (abréviation de **mode de calcul sécurisé**) est une fonctionnalité de sécurité informatique dans le **noyau Linux**. seccomp permet à un processus de passer dans un état "sécurisé" où **il ne peut effectuer aucun appel système sauf** `exit()`, `sigreturn()`, `read()` et `write()` aux descripteurs de fichiers **déjà ouverts**. S'il tente d'effectuer d'autres appels système, le **noyau** **terminera** le **processus** avec SIGKILL ou SIGSYS. En ce sens, il ne virtualise pas les ressources du système mais isole complètement le processus de celles-ci.
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+Le mode seccomp est **activé via l'appel système `prctl(2)`** en utilisant l'argument `PR_SET_SECCOMP`, ou (depuis le noyau Linux 3.17) via l'appel système `seccomp(2)`. Le mode seccomp était activé en écrivant dans un fichier, `/proc/self/seccomp`, mais cette méthode a été supprimée en faveur de `prctl()`. Dans certaines versions du noyau, seccomp désactive l'instruction x86 `RDTSC`, qui renvoie le nombre de cycles de processeur écoulés depuis la mise sous tension, utilisée pour la synchronisation de haute précision.
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+**seccomp-bpf** est une extension de seccomp qui permet **le filtrage des appels système en utilisant une politique configurable** implémentée à l'aide de règles de filtre de paquets Berkeley. Il est utilisé par OpenSSH et vsftpd ainsi que par les navigateurs Web Google Chrome/Chromium sur Chrome OS et Linux. (À cet égard, seccomp-bpf atteint une fonctionnalité similaire, mais avec plus de flexibilité et de meilleures performances, à l'ancien systrace - qui semble ne plus être pris en charge pour Linux.)
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+## **Mode original/strict**
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
-
-</details>
-
-
-# Basic Information
-
-**Seccomp **or Secure Computing mode, in summary, is a feature of Linux kernel which can act as **syscall filter**.\
-Seccomp has 2 modes.
-
-**seccomp** (short for **secure computing mode**) is a computer security facility in the **Linux** **kernel**. seccomp allows a process to make a one-way transition into a "secure" state where **it cannot make any system calls except** `exit()`, `sigreturn()`, `read()` and `write()` to **already-open** file descriptors. Should it attempt any other system calls, the **kernel** will **terminate** the **process** with SIGKILL or SIGSYS. In this sense, it does not virtualize the system's resources but isolates the process from them entirely.
-
-seccomp mode is **enabled via the `prctl(2)` system call** using the `PR_SET_SECCOMP` argument, or (since Linux kernel 3.17) via the `seccomp(2)` system call. seccomp mode used to be enabled by writing to a file, `/proc/self/seccomp`, but this method was removed in favor of `prctl()`. In some kernel versions, seccomp disables the `RDTSC` x86 instruction, which returns the number of elapsed processor cycles since power-on, used for high-precision timing.
-
-**seccomp-bpf** is an extension to seccomp that allows **filtering of system calls using a configurable policy** implemented using Berkeley Packet Filter rules. It is used by OpenSSH and vsftpd as well as the Google Chrome/Chromium web browsers on Chrome OS and Linux. (In this regard seccomp-bpf achieves similar functionality, but with more flexibility and higher performance, to the older systrace—which seems to be no longer supported for Linux.)
-
-## **Original/Strict Mode**
-
-In this mode** **Seccomp **only allow the syscalls**  `exit()`, `sigreturn()`, `read()` and `write()` to already-open file descriptors. If any other syscall is made, the process is killed using SIGKILL
+Dans ce mode, **Seccomp ne permet que les appels système** `exit()`, `sigreturn()`, `read()` et `write()` aux descripteurs de fichiers déjà ouverts. Si un autre appel système est effectué, le processus est tué en utilisant SIGKILL.
 
 {% code title="seccomp_strict.c" %}
 ```c
@@ -64,11 +45,9 @@ int main(int argc, char **argv)
     printf("You will not see this message--the process will be killed first\n");
 }
 ```
-{% endcode %}
-
 ## Seccomp-bpf
 
-This mode allows f**iltering of system calls using a configurable policy** implemented using Berkeley Packet Filter rules.
+Ce mode permet de filtrer les appels système à l'aide d'une politique configurable implémentée à l'aide de règles Berkeley Packet Filter. 
 
 {% code title="seccomp_bpf.c" %}
 ```c
@@ -120,49 +99,26 @@ void main(void) {
 ```
 {% endcode %}
 
-# Seccomp in Docker
+# Seccomp dans Docker
 
-**Seccomp-bpf** is supported by **Docker **to restrict the **syscalls **from the containers effectively decreasing the surface area. You can find the **syscalls blocked **by **default **in [https://docs.docker.com/engine/security/seccomp/](https://docs.docker.com/engine/security/seccomp/) and the **default seccomp profile **can be found here [https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json).\
-You can run a docker container with a **different seccomp** policy with:
-
+**Seccomp-bpf** est pris en charge par **Docker** pour restreindre les **appels système** des conteneurs, réduisant ainsi efficacement la surface d'attaque. Vous pouvez trouver les **appels système bloqués** par **défaut** dans [https://docs.docker.com/engine/security/seccomp/](https://docs.docker.com/engine/security/seccomp/) et le **profil seccomp par défaut** peut être trouvé ici [https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json).\
+Vous pouvez exécuter un conteneur Docker avec une **politique seccomp différente** avec:
 ```bash
 docker run --rm \
              -it \
              --security-opt seccomp=/path/to/seccomp/profile.json \
              hello-world
 ```
-
-If you want for example to **forbid **a container of executing some **syscall **like` uname` you could download the default profile from [https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json) and just **remove the `uname` string from the list**.\
-If you want to make sure that **some binary doesn't work inside a a docker container** you could use strace to list the syscalls the binary is using and then forbid them.\
-In the following example the **syscalls **of `uname` are discovered:
-
+Si vous voulez par exemple **interdire** à un conteneur d'exécuter certains **appels système** tels que `uname`, vous pouvez télécharger le profil par défaut depuis [https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json) et simplement **supprimer la chaîne `uname` de la liste**.\
+Si vous voulez vous assurer qu'**un binaire ne fonctionne pas à l'intérieur d'un conteneur Docker**, vous pouvez utiliser strace pour lister les appels système utilisés par le binaire, puis les interdire.\
+Dans l'exemple suivant, les **appels système** de `uname` sont découverts:
 ```bash
 docker run -it --security-opt seccomp=default.json modified-ubuntu strace uname
 ```
-
 {% hint style="info" %}
-If you are using **Docker just to launch an application**, you can **profile** it with **`strace`** and **just allow the syscalls** it needs
+Si vous utilisez **Docker uniquement pour lancer une application**, vous pouvez **profil**er avec **`strace`** et **autoriser uniquement les appels système** dont elle a besoin.
 {% endhint %}
 
-## Deactivate it in Docker
+## Désactiver seccomp dans Docker
 
-Launch a container with the flag: **`--security-opt seccomp=unconfined`**
-
-
-<details>
-
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
-
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
-
-</details>
-
-
+Lancez un conteneur avec le flag : **`--security-opt seccomp=unconfined`**

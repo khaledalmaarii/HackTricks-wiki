@@ -1,128 +1,100 @@
+En raison du manque de prise en charge de l'espace de noms, l'exposition de `/proc` et `/sys` offre une source de surface d'attaque et de divulgation d'informations significative. De nombreux fichiers dans `procfs` et `sysfs` offrent un risque d'évasion de conteneur, de modification de l'hôte ou de divulgation d'informations de base qui pourraient faciliter d'autres attaques.
 
-
-<details>
-
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
-
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
-
-</details>
-
-
-(_**This info was taken from**_ [_**https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts**_](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts))
-
-Due to the lack of namespace support, the exposure of `/proc` and `/sys` offers a source of significant attack surface and information disclosure. Numerous files within the `procfs` and `sysfs` offer a risk for container escape, host modification or basic information disclosure which could facilitate other attacks.
-
-In order to abuse these techniques might be enough just to **miss-configure something like `-v /proc:/host/proc`** as AppArmor does not protect `/host/proc` because **AppArmor is path based**
+Pour exploiter ces techniques, il pourrait suffire de **mal configurer quelque chose comme `-v /proc:/host/proc`** car AppArmor ne protège pas `/host/proc` car **AppArmor est basé sur le chemin d'accès**.
 
 # procfs
 
 ## /proc/sys
 
-`/proc/sys` typically allows access to modify kernel variables, often controlled through `sysctl(2)`.
+`/proc/sys` permet généralement d'accéder à la modification des variables du noyau, souvent contrôlées via `sysctl(2)`.
 
 ### /proc/sys/kernel/core\_pattern
 
-[/proc/sys/kernel/core\_pattern](https://man7.org/linux/man-pages/man5/core.5.html) defines a program which is executed on core-file generation (typically a program crash) and is passed the core file as standard input if the first character of this file is a pipe symbol `|`. This program is run by the root user and will allow up to 128 bytes of command line arguments. This would allow trivial code execution within the container host given any crash and core file generation (which can be simply discarded during a myriad of malicious actions).
-
+[/proc/sys/kernel/core\_pattern](https://man7.org/linux/man-pages/man5/core.5.html) définit un programme qui est exécuté lors de la génération de fichiers de base (généralement un plantage de programme) et reçoit le fichier de base en entrée standard si le premier caractère de ce fichier est un symbole de tuyau `|`. Ce programme est exécuté par l'utilisateur root et permettra jusqu'à 128 octets d'arguments de ligne de commande. Cela permettrait une exécution de code trivial dans l'hôte de conteneur donné n'importe quel plantage et génération de fichier de base (qui peut être simplement jeté pendant une myriade d'actions malveillantes).
 ```bash
 [ -w /proc/sys/kernel/core_pattern ] && echo Yes #For testing
 cd /proc/sys/kernel
 echo "|$overlay/shell.sh" > core_pattern
 sleep 5 && ./crash &
 ```
-
 ### /proc/sys/kernel/modprobe
 
-[/proc/sys/kernel/modprobe](https://man7.org/linux/man-pages/man5/proc.5.html) contains the path to the kernel module loader, which is called when loading a kernel module such as via the [modprobe](https://man7.org/linux/man-pages/man8/modprobe.8.html) command. Code execution can be gained by performing any action which will trigger the kernel to attempt to load a kernel module (such as using the crypto-API to load a currently unloaded crypto-module, or using ifconfig to load a networking module for a device not currently used).
-
+[/proc/sys/kernel/modprobe](https://man7.org/linux/man-pages/man5/proc.5.html) contient le chemin d'accès au chargeur de module du noyau, qui est appelé lors du chargement d'un module du noyau tel que via la commande [modprobe](https://man7.org/linux/man-pages/man8/modprobe.8.html). L'exécution de code peut être obtenue en effectuant toute action qui déclenchera le noyau pour tenter de charger un module du noyau (comme l'utilisation de l'API de cryptographie pour charger un module de cryptographie actuellement non chargé, ou l'utilisation de ifconfig pour charger un module de réseau pour un périphérique actuellement non utilisé).
 ```bash
 # Check if you can directly access modprobe
 ls -l `cat /proc/sys/kernel/modprobe`
 ```
-
 ### /proc/sys/vm/panic\_on\_oom
 
-[/proc/sys/vm/panic\_on\_oom](https://man7.org/linux/man-pages/man5/proc.5.html) is a global flag that determines whether the kernel will panic when an Out of Memory (OOM) condition is hit (rather than invoking the OOM killer). This is more of a Denial of Service (DoS) attack than container escape, but it no less exposes an ability which should only be available to the host
+[/proc/sys/vm/panic\_on\_oom](https://man7.org/linux/man-pages/man5/proc.5.html) est un indicateur global qui détermine si le noyau doit paniquer lorsqu'une condition de mémoire insuffisante (OOM) est atteinte (plutôt que d'invoquer l'OOM killer). Cela relève davantage d'une attaque de déni de service (DoS) que d'une évasion de conteneur, mais cela expose néanmoins une capacité qui ne devrait être disponible que pour l'hôte.
 
 ### /proc/sys/fs
 
-[/proc/sys/fs](https://man7.org/linux/man-pages/man5/proc.5.html) directory contains an array of options and information concerning various aspects of the file system, including quota, file handle, inode, and dentry information. Write access to this directory would allow various denial-of-service attacks against the host.
+Le répertoire [/proc/sys/fs](https://man7.org/linux/man-pages/man5/proc.5.html) contient un ensemble d'options et d'informations concernant divers aspects du système de fichiers, notamment les quotas, les poignées de fichiers, les inodes et les informations d'entrée de répertoire. L'accès en écriture à ce répertoire permettrait diverses attaques de déni de service contre l'hôte.
 
 ### /proc/sys/fs/binfmt\_misc
 
-[/proc/sys/fs/binfmt\_misc](https://man7.org/linux/man-pages/man5/proc.5.html) allows executing miscellaneous binary formats, which typically means various **interpreters can be registered for non-native binary** formats (such as Java) based on their magic number. You can make the kernel execute a binary registering it as handlers.\
-You can find an exploit in [https://github.com/toffan/binfmt\_misc](https://github.com/toffan/binfmt\_misc): _Poor man's rootkit, leverage_ [_binfmt\_misc_](https://github.com/torvalds/linux/raw/master/Documentation/admin-guide/binfmt-misc.rst)_'s_ [_credentials_](https://github.com/torvalds/linux/blame/3bdb5971ffc6e87362787c770353eb3e54b7af30/Documentation/binfmt\_misc.txt#L62) _option to escalate privilege through any suid binary (and to get a root shell) if `/proc/sys/fs/binfmt_misc/register` is writeable._
+[/proc/sys/fs/binfmt\_misc](https://man7.org/linux/man-pages/man5/proc.5.html) permet d'exécuter des formats binaires divers, ce qui signifie généralement que divers interprètes peuvent être enregistrés pour des formats binaires non natifs (tels que Java) en fonction de leur numéro magique. Vous pouvez faire exécuter un binaire par le noyau en l'enregistrant comme gestionnaire.\
+Vous pouvez trouver une exploitation dans [https://github.com/toffan/binfmt\_misc](https://github.com/toffan/binfmt\_misc) : _Poor man's rootkit, leverage_ [_binfmt\_misc_](https://github.com/torvalds/linux/raw/master/Documentation/admin-guide/binfmt-misc.rst) _option de_ [_credentials_](https://github.com/torvalds/linux/blame/3bdb5971ffc6e87362787c770353eb3e54b7af30/Documentation/binfmt\_misc.txt#L62) _pour escalader les privilèges via n'importe quel binaire suid (et obtenir un shell root) si `/proc/sys/fs/binfmt_misc/register` est accessible en écriture._
 
-For a more in depth explanation of this technique check [https://www.youtube.com/watch?v=WBC7hhgMvQQ](https://www.youtube.com/watch?v=WBC7hhgMvQQ)
+Pour une explication plus détaillée de cette technique, consultez [https://www.youtube.com/watch?v=WBC7hhgMvQQ](https://www.youtube.com/watch?v=WBC7hhgMvQQ)
 
 ## /proc/config.gz
 
-[/proc/config.gz](https://man7.org/linux/man-pages/man5/proc.5.html) depending on `CONFIG_IKCONFIG_PROC` settings, this exposes a compressed version of the kernel configuration options for the running kernel. This may allow a compromised or malicious container to easily discover and target vulnerable areas enabled in the kernel.
+[/proc/config.gz](https://man7.org/linux/man-pages/man5/proc.5.html) en fonction des paramètres `CONFIG_IKCONFIG_PROC`, cela expose une version compressée des options de configuration du noyau pour le noyau en cours d'exécution. Cela peut permettre à un conteneur compromis ou malveillant de découvrir et de cibler facilement des zones vulnérables activées dans le noyau.
 
 ## /proc/sysrq-trigger
 
-`Sysrq` is an old mechanism which can be invoked via a special `SysRq` keyboard combination. This can allow an immediate reboot of the system, issue of `sync(2)`, remounting all filesystems as read-only, invoking kernel debuggers, and other operations.
+`Sysrq` est un ancien mécanisme qui peut être invoqué via une combinaison spéciale de touches `SysRq`. Cela peut permettre un redémarrage immédiat du système, l'émission de `sync(2)`, le remontage de tous les systèmes de fichiers en lecture seule, l'invocation de débogueurs de noyau et d'autres opérations.
 
-If the guest is not properly isolated, it can trigger the [sysrq](https://www.kernel.org/doc/html/v4.11/admin-guide/sysrq.html) commands by writing characters to `/proc/sysrq-trigger` file.
-
+Si l'invité n'est pas correctement isolé, il peut déclencher les commandes [sysrq](https://www.kernel.org/doc/html/v4.11/admin-guide/sysrq.html) en écrivant des caractères dans le fichier `/proc/sysrq-trigger`.
 ```bash
 # Reboot the host
 echo b > /proc/sysrq-trigger
 ```
-
 ## /proc/kmsg
 
-[/proc/kmsg](https://man7.org/linux/man-pages/man5/proc.5.html) can expose kernel ring buffer messages typically accessed via `dmesg`. Exposure of this information can aid in kernel exploits, trigger kernel address leaks (which could be used to help defeat the kernel Address Space Layout Randomization (KASLR)), and be a source of general information disclosure about the kernel, hardware, blocked packets and other system details.
+[/proc/kmsg](https://man7.org/linux/man-pages/man5/proc.5.html) peut exposer les messages du tampon circulaire du noyau généralement accessibles via `dmesg`. L'exposition de ces informations peut aider à exploiter le noyau, déclencher des fuites d'adresses du noyau (qui pourraient être utilisées pour aider à vaincre la randomisation de l'espace d'adressage du noyau (KASLR)) et être une source de divulgation d'informations générales sur le noyau, le matériel, les paquets bloqués et autres détails du système.
 
 ## /proc/kallsyms
 
-[/proc/kallsyms](https://man7.org/linux/man-pages/man5/proc.5.html) contains a list of kernel exported symbols and their address locations for dynamic and loadable modules. This also includes the location of the kernel's image in physical memory, which is helpful for kernel exploit development. From these locations, the base address or offset of the kernel can be located, which can be used to overcome kernel Address Space Layout Randomization (KASLR).
+[/proc/kallsyms](https://man7.org/linux/man-pages/man5/proc.5.html) contient une liste de symboles exportés du noyau et de leurs emplacements d'adresse pour les modules dynamiques et chargeables. Cela inclut également l'emplacement de l'image du noyau en mémoire physique, ce qui est utile pour le développement d'exploits du noyau. À partir de ces emplacements, l'adresse de base ou le décalage du noyau peut être localisé, ce qui peut être utilisé pour vaincre la randomisation de l'espace d'adressage du noyau (KASLR).
 
-For systems with `kptr_restrict` set to `1` or `2`, this file will exist but not provide any address information (although the order in which the symbols are listed is identical to the order in memory).
+Pour les systèmes avec `kptr_restrict` défini sur `1` ou `2`, ce fichier existera mais ne fournira aucune information d'adresse (bien que l'ordre dans lequel les symboles sont répertoriés soit identique à l'ordre en mémoire).
 
 ## /proc/\[pid]/mem
 
-[/proc/\[pid\]/mem](https://man7.org/linux/man-pages/man5/proc.5.html) exposes interfaces to the kernel memory device `/dev/mem`. While the PID Namespace may protect from some attacks via this `procfs` vector, this area of has been historically vulnerable, then thought safe and again found to be [vulnerable](https://git.zx2c4.com/CVE-2012-0056/about/) for privilege escalation.
+[/proc/\[pid\]/mem](https://man7.org/linux/man-pages/man5/proc.5.html) expose des interfaces au périphérique de mémoire du noyau `/dev/mem`. Bien que l'espace de noms PID puisse protéger contre certaines attaques via ce vecteur `procfs`, cette zone a historiquement été vulnérable, puis considérée comme sûre et à nouveau trouvée [vulnérable](https://git.zx2c4.com/CVE-2012-0056/about/) pour l'escalade de privilèges.
 
 ## /proc/kcore
 
-[/proc/kcore](https://man7.org/linux/man-pages/man5/proc.5.html) represents the physical memory of the system and is in an ELF core format (typically found in core dump files). It does not allow writing to said memory. The ability to read this file (restricted to privileged users) can leak memory contents from the host system and other containers.
+[/proc/kcore](https://man7.org/linux/man-pages/man5/proc.5.html) représente la mémoire physique du système et est dans un format de noyau ELF (typiquement trouvé dans les fichiers de vidage de noyau). Il n'autorise pas l'écriture dans ladite mémoire. La capacité de lire ce fichier (restreint aux utilisateurs privilégiés) peut divulguer le contenu de la mémoire du système hôte et d'autres conteneurs.
 
-The large reported file size represents the maximum amount of physically addressable memory for the architecture, and can cause problems when reading it (or crashes depending on the fragility of the software).
+La taille de fichier signalée représente la quantité maximale de mémoire physiquement adressable pour l'architecture, et peut causer des problèmes lors de sa lecture (ou des plantages en fonction de la fragilité du logiciel).
 
 [Dumping /proc/kcore in 2019](https://schlafwandler.github.io/posts/dumping-/proc/kcore/)
 
 ## /proc/kmem
 
-`/proc/kmem` is an alternate interface for [/dev/kmem](https://man7.org/linux/man-pages/man4/kmem.4.html) (direct access to which is blocked by the cgroup device whitelist), which is a character device file representing kernel virtual memory. It allows both reading and writing, allowing direct modification of kernel memory.
+`/proc/kmem` est une interface alternative pour [/dev/kmem](https://man7.org/linux/man-pages/man4/kmem.4.html) (l'accès direct à celui-ci est bloqué par la liste blanche du périphérique cgroup), qui est un fichier de périphérique de caractères représentant la mémoire virtuelle du noyau. Il permet à la fois la lecture et l'écriture, permettant la modification directe de la mémoire du noyau.
 
 ## /proc/mem
 
-`/proc/mem` is an alternate interface for [/dev/mem](https://man7.org/linux/man-pages/man4/kmem.4.html) (direct access to which is blocked by the cgroup device whitelist), which is a character device file representing physical memory of the system. It allows both reading and writing, allowing modification of all memory. (It requires slightly more finesse than `kmem`, as virtual addresses need to be resolved to physical addresses first).
+`/proc/mem` est une interface alternative pour [/dev/mem](https://man7.org/linux/man-pages/man4/kmem.4.html) (l'accès direct à celui-ci est bloqué par la liste blanche du périphérique cgroup), qui est un fichier de périphérique de caractères représentant la mémoire physique du système. Il permet à la fois la lecture et l'écriture, permettant la modification de toute la mémoire. (Il nécessite légèrement plus de finesse que `kmem`, car les adresses virtuelles doivent d'abord être résolues en adresses physiques).
 
 ## /proc/sched\_debug
 
-`/proc/sched_debug` is a special file returns process scheduling information for the entire system. This information includes process names and process IDs from all namespaces in addition to process cgroup identifiers. This effectively bypasses the PID namespace protections and is other/world readable, so it can be exploited in unprivileged containers as well.
+`/proc/sched_debug` est un fichier spécial qui renvoie des informations de planification de processus pour l'ensemble du système. Ces informations comprennent les noms de processus et les identifiants de processus de tous les espaces de noms en plus des identificateurs de cgroup de processus. Cela contourne efficacement les protections de l'espace de noms PID et peut être exploité dans des conteneurs non privilégiés également.
 
 ## /proc/\[pid]/mountinfo
 
-[/proc/\[pid\]/mountinfo](https://man7.org/linux/man-pages/man5/proc.5.html) contains information about mount points in the process's mount namespace. It exposes the location of the container `rootfs` or image.
+[/proc/\[pid\]/mountinfo](https://man7.org/linux/man-pages/man5/proc.5.html) contient des informations sur les points de montage dans l'espace de noms de montage du processus. Il expose l'emplacement de `rootfs` ou de l'image du conteneur.
 
 # sysfs
 
 ## /sys/kernel/uevent\_helper
 
-`uevents` are events triggered by the kernel when a device is added or removed. Notably, the path for the `uevent_helper` can be modified by writing to `/sys/kernel/uevent_helper`. Then, when a `uevent` is triggered (which can also be done from userland by writing to files such as `/sys/class/mem/null/uevent`), the malicious `uevent_helper` gets executed.
-
+Les `uevents` sont des événements déclenchés par le noyau lorsqu'un périphérique est ajouté ou supprimé. Notamment, le chemin pour le `uevent_helper` peut être modifié en écrivant dans `/sys/kernel/uevent_helper`. Ensuite, lorsqu'un `uevent` est déclenché (ce qui peut également être fait depuis l'espace utilisateur en écrivant dans des fichiers tels que `/sys/class/mem/null/uevent`), le `uevent_helper` malveillant est exécuté.
 ```bash
 # Creates a payload
 cat "#!/bin/sh" > /evil-helper
@@ -141,51 +113,48 @@ echo change > /sys/class/mem/null/uevent
 # Reads the output
 cat /output
 ```
-
 ## /sys/class/thermal
 
-Access to ACPI and various hardware settings for temperature control, typically found in laptops or gaming motherboards. This may allow for DoS attacks against the container host, which may even lead to physical damage.
+Accès à ACPI et divers paramètres matériels pour le contrôle de la température, généralement trouvés dans les ordinateurs portables ou les cartes mères de jeux. Cela peut permettre des attaques DoS contre l'hôte du conteneur, ce qui peut même entraîner des dommages physiques.
 
 ## /sys/kernel/vmcoreinfo
 
-This file can leak kernel addresses which could be used to defeat KASLR.
+Ce fichier peut divulguer des adresses de noyau qui pourraient être utilisées pour vaincre KASLR.
 
 ## /sys/kernel/security
 
-In `/sys/kernel/security` mounted the `securityfs` interface, which allows configuration of Linux Security Modules. This allows configuration of [AppArmor policies](https://gitlab.com/apparmor/apparmor/-/wikis/Kernel\_interfaces#securityfs-syskernelsecurityapparmor), and so access to this may allow a container to disable its MAC system.
+Dans `/sys/kernel/security` est montée l'interface `securityfs`, qui permet la configuration des modules de sécurité Linux. Cela permet la configuration des politiques [AppArmor](https://gitlab.com/apparmor/apparmor/-/wikis/Kernel\_interfaces#securityfs-syskernelsecurityapparmor), et donc l'accès à cela peut permettre à un conteneur de désactiver son système MAC.
 
 ## /sys/firmware/efi/vars
 
-`/sys/firmware/efi/vars` exposes interfaces for interacting with EFI variables in NVRAM. While this is not typically relevant for most servers, EFI is becoming more and more popular. Permission weaknesses have even lead to some bricked laptops.
+`/sys/firmware/efi/vars` expose des interfaces pour interagir avec les variables EFI dans la NVRAM. Bien que cela ne soit pas généralement pertinent pour la plupart des serveurs, EFI devient de plus en plus populaire. Des faiblesses de permission ont même conduit à certains ordinateurs portables bloqués.
 
 ## /sys/firmware/efi/efivars
 
-`/sys/firmware/efi/efivars` provides an interface to write to the NVRAM used for UEFI boot arguments. Modifying them can render the host machine unbootable.
+`/sys/firmware/efi/efivars` fournit une interface pour écrire dans la NVRAM utilisée pour les arguments de démarrage UEFI. Les modifier peut rendre la machine hôte incapable de démarrer.
 
 ## /sys/kernel/debug
 
-`debugfs` provides a "no rules" interface by which the kernel (or kernel modules) can create debugging interfaces accessible to userland. It has had a number of security issues in the past, and the "no rules" guidelines behind the filesystem have often clashed with security constraints.
+`debugfs` fournit une interface "sans règles" par laquelle le noyau (ou les modules de noyau) peuvent créer des interfaces de débogage accessibles à l'espace utilisateur. Il a eu un certain nombre de problèmes de sécurité dans le passé, et les directives "sans règles" derrière le système de fichiers ont souvent été en conflit avec les contraintes de sécurité.
 
-# References
+# Références
 
-* [Understanding and Hardening Linux Containers](https://research.nccgroup.com/wp-content/uploads/2020/07/ncc\_group\_understanding\_hardening\_linux\_containers-1-1.pdf)
-* [Abusing Privileged and Unprivileged Linux Containers](https://www.nccgroup.com/globalassets/our-research/us/whitepapers/2016/june/container\_whitepaper.pdf)
+* [Comprendre et renforcer les conteneurs Linux](https://research.nccgroup.com/wp-content/uploads/2020/07/ncc\_group\_understanding\_hardening\_linux\_containers-1-1.pdf)
+* [Abus des conteneurs Linux privilégiés et non privilégiés](https://www.nccgroup.com/globalassets/our-research/us/whitepapers/2016/june/container\_whitepaper.pdf)
 
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **Partagez vos astuces de piratage en soumettant des PR au [repo hacktricks](https://github.com/carlospolop/hacktricks) et au [repo hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
-
-

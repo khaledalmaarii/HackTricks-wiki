@@ -1,55 +1,55 @@
-# Phishing Methodology
+# Méthodologie de phishing
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) **groupe Discord** ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## Methodology
+## Méthodologie
 
-1. Recon the victim
-   1. Select the **victim domain**.
-   2. Perform some basic web enumeration **searching for login portals** used by the victim and **decide** which one you will **impersonate**.
-   3. Use some **OSINT** to **find emails**.
-2. Prepare the environment
-   1. **Buy the domain** you are going to use for the phishing assessment
-   2. **Configure the email service** related records (SPF, DMARC, DKIM, rDNS)
-   3. Configure the VPS with **gophish**
-3. Prepare the campaign
-   1. Prepare the **email template**
-   2. Prepare the **web page** to steal the credentials
-4. Launch the campaign!
+1. Reconnaissance de la victime
+   1. Sélectionnez le **domaine de la victime**.
+   2. Effectuez une **énumération web de base** en **recherchant les portails de connexion** utilisés par la victime et **décidez** lequel vous allez **usurper**.
+   3. Utilisez un peu d'**OSINT** pour **trouver des adresses e-mail**.
+2. Préparez l'environnement
+   1. **Achetez le domaine** que vous allez utiliser pour l'évaluation de phishing
+   2. **Configurez le service de messagerie électronique** en relation avec les enregistrements (SPF, DMARC, DKIM, rDNS)
+   3. Configurez le VPS avec **gophish**
+3. Préparez la campagne
+   1. Préparez le **modèle d'e-mail**
+   2. Préparez la **page web** pour voler les informations d'identification
+4. Lancez la campagne !
 
-## Generate similar domain names or buy a trusted domain
+## Générer des noms de domaine similaires ou acheter un domaine de confiance
 
-### Domain Name Variation Techniques
+### Techniques de variation de nom de domaine
 
-* **Keyword**: The domain name **contains** an important **keyword** of the original domain (e.g., zelster.com-management.com).
-* **hypened subdomain**: Change the **dot for a hyphen** of a subdomain (e.g., www-zelster.com).
-* **New TLD**: Same domain using a **new TLD** (e.g., zelster.org)
-* **Homoglyph**: It **replaces** a letter in the domain name with **letters that look similar** (e.g., zelfser.com).
-* **Transposition:** It **swaps two letters** within the domain name (e.g., zelster.com).
-* **Singularization/Pluralization**: Adds or removes “s” at the end of the domain name (e.g., zeltsers.com).
-* **Omission**: It **removes one** of the letters from the domain name (e.g., zelser.com).
-* **Repetition:** It **repeats one** of the letters in the domain name (e.g., zeltsser.com).
-* **Replacement**: Like homoglyph but less stealthy. It replaces one of the letters in the domain name, perhaps with a letter in proximity of the original letter on the keyboard (e.g, zektser.com).
-* **Subdomained**: Introduce a **dot** inside the domain name (e.g., ze.lster.com).
-* **Insertion**: It **inserts a letter** into the domain name (e.g., zerltser.com).
-* **Missing dot**: Append the TLD to the domain name. (e.g., zelstercom.com)
+* **Mot-clé**: Le nom de domaine **contient** un **mot-clé** important du domaine d'origine (par exemple, zelster.com-management.com).
+* **Sous-domaine avec tiret**: Remplacez le **point par un tiret** d'un sous-domaine (par exemple, www-zelster.com).
+* **Nouvelle TLD**: Même domaine en utilisant une **nouvelle TLD** (par exemple, zelster.org)
+* **Homoglyphe**: Il **remplace** une lettre dans le nom de domaine par des **lettres qui se ressemblent** (par exemple, zelfser.com).
+* **Transposition**: Il **échange deux lettres** dans le nom de domaine (par exemple, zelster.com).
+* **Singulier/Pluriel**: Ajoute ou supprime un "s" à la fin du nom de domaine (par exemple, zeltsers.com).
+* **Omission**: Il **supprime une** des lettres du nom de domaine (par exemple, zelser.com).
+* **Répétition**: Il **répète une** des lettres dans le nom de domaine (par exemple, zeltsser.com).
+* **Remplacement**: Comme homoglyphe mais moins discret. Il remplace l'une des lettres du nom de domaine, peut-être par une lettre à proximité de la lettre d'origine sur le clavier (par exemple, zektser.com).
+* **Sous-domaine**: Introduire un **point** à l'intérieur du nom de domaine (par exemple, ze.lster.com).
+* **Insertion**: Il **insère une lettre** dans le nom de domaine (par exemple, zerltser.com).
+* **Point manquant**: Ajoutez le TLD au nom de domaine. (par exemple, zelstercom.com)
 
-**Automatic Tools**
+**Outils automatiques**
 
 * [**dnstwist**](https://github.com/elceef/dnstwist)
 * [**urlcrazy**](https://github.com/urbanadventurer/urlcrazy)
 
-**Websites**
+**Sites Web**
 
 * [https://dnstwist.it/](https://dnstwist.it)
 * [https://dnstwister.report/](https://dnstwister.report)
@@ -57,54 +57,42 @@
 
 ### Bitflipping
 
-In the world of computing, everything is stored in bits (zeros and ones) in memory behind the scenes.\
-This applies to domains too. For example, _windows.com_ becomes _01110111..._ in the volatile memory of your computing device.\
-However, what if one of these bits got automatically flipped due to a solar flare, cosmic rays, or a hardware error? That is one of the 0's becomes a 1 and vice versa.\
-Applying this concept to DNS request, it's possible that the **domain requested** that arrives to the DNS server **isn't the same as the domain initially requested.**
+Dans le monde de l'informatique, tout est stocké en bits (zéros et uns) en mémoire en arrière-plan.\
+Cela s'applique également aux domaines. Par exemple, _windows.com_ devient _01110111..._ dans la mémoire volatile de votre appareil informatique.\
+Cependant, que se passe-t-il si l'un de ces bits est automatiquement inversé en raison d'une éruption solaire, de rayons cosmiques ou d'une erreur matérielle ? C'est-à-dire qu'un des 0 devient un 1 et vice versa.\
+En appliquant ce concept à la demande DNS, il est possible que le **domaine demandé** qui arrive au serveur DNS **ne soit pas le même que le domaine initialement demandé**.
 
-For example a 1 bit modification in the domain windows.com can transform it into _windnws.com._\
-**Attackers may register as many bit-flipping domains as possible related to the victim in order to redirect legitimate users to their infrastructure**.
+Par exemple, une modification de 1 bit dans le domaine windows.com peut le transformer en _windnws.com._\
+**Les attaquants peuvent enregistrer autant de domaines de basculement de bits que possible liés à la victime afin de rediriger les utilisateurs légitimes vers leur infrastructure**.
 
-For more information read [https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/](https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/)
+Pour plus d'informations, consultez [https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/](https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/)
 
-### Buy a trusted domain
+### Acheter un domaine de confiance
 
-You can search in [https://www.expireddomains.net/](https://www.expireddomains.net) for a expired domain that you could use.\
-In order to make sure that the expired domain that you are going to buy **has already a good SEO** you could search how is it categorized in:
+Vous pouvez rechercher sur [https://www.expireddomains.net/](https://www.expireddomains.net) un domaine expiré que vous pourriez utiliser.\
+Afin de vous assurer que le domaine expiré que vous allez acheter **a déjà un bon référencement naturel**, vous pouvez vérifier comment il est catégorisé dans :
 
 * [http://www.fortiguard.com/webfilter](http://www.fortiguard.com/webfilter)
 * [https://urlfiltering.paloaltonetworks.com/query/](https://urlfiltering.paloaltonetworks.com/query/)
 
-## Discovering Emails
+## Découverte d'adresses e-mail
 
-* [https://github.com/laramies/theHarvester](https://github.com/laramies/theHarvester) (100% free)
-* [https://phonebook.cz/](https://phonebook.cz) (100% free)
+* [https://github.com/laramies/theHarvester](https://github.com/laramies/theHarvester) (100% gratuit)
+* [https://phonebook.cz/](https://phonebook.cz) (100% gratuit)
 * [https://maildb.io/](https://maildb.io)
 * [https://hunter.io/](https://hunter.io)
 * [https://anymailfinder.com/](https://anymailfinder.com)
 
-In order to **discover more** valid email addresses or **verify the ones** you have already discovered you can check if you can brute-force them smtp servers of the victim. [Learn how to verify/discover email address here](../../network-services-pentesting/pentesting-smtp/#username-bruteforce-enumeration).\
-Moreover, don't forget that if the users use **any web portal to access their mails**, you can check if it's vulnerable to **username brute force**, and exploit the vulnerability if possible.
-
-## Configuring GoPhish
-
-### Installation
-
-You can download it from [https://github.com/gophish/gophish/releases/tag/v0.11.0](https://github.com/gophish/gophish/releases/tag/v0.11.0)
-
-Download and decompress it inside `/opt/gophish` and execute `/opt/gophish/gophish`\
-You will be given a password for the admin user in port 3333 in the output. Therefore, access that port and use those credentials to change the admin password. You may need to tunnel that port to local:
-
+Afin de **découvrir plus** d'adresses e-mail valides ou de **vérifier celles** que vous avez déjà découvertes, vous pouvez vérifier si vous pouvez les brute-force sur les serveurs SMTP de la victime. [Apprenez comment vérifier/découvrir une adresse e-mail ici](../../network-services-pentesting/pentesting-smtp/#username-bruteforce-enumeration).\
+De plus, n'oubliez pas que si les utilisateurs utilisent **n'importe quel portail web pour accéder à leurs e-mails**, vous pouvez vérifier s'il est vulnérable à la **brute force de nom d'utilisateur**, et explo
 ```bash
 ssh -L 3333:127.0.0.1:3333 <user>@<ip>
 ```
-
 ### Configuration
 
-**TLS certificate configuration**
+**Configuration du certificat TLS**
 
-Before this step you should have **already bought the domain** you are going to use and it must be **pointing** to the **IP of the VPS** where you are configuring **gophish**.
-
+Avant cette étape, vous devez **avoir déjà acheté le domaine** que vous allez utiliser et il doit être **redirigé** vers l'**adresse IP du VPS** où vous configurez **gophish**.
 ```bash
 DOMAIN="<domain>"
 wget https://dl.eff.org/certbot-auto
@@ -120,38 +108,34 @@ mkdir /opt/gophish/ssl_keys
 cp "/etc/letsencrypt/live/$DOMAIN/privkey.pem" /opt/gophish/ssl_keys/key.pem
 cp "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" /opt/gophish/ssl_keys/key.crt​
 ```
+**Configuration de messagerie**
 
-**Mail configuration**
+Commencez par installer : `apt-get install postfix`
 
-Start installing: `apt-get install postfix`
-
-Then add the domain to the following files:
+Ensuite, ajoutez le domaine aux fichiers suivants :
 
 * **/etc/postfix/virtual\_domains**
 * **/etc/postfix/transport**
 * **/etc/postfix/virtual\_regexp**
 
-**Change also the values of the following variables inside /etc/postfix/main.cf**
+**Modifiez également les valeurs des variables suivantes dans /etc/postfix/main.cf**
 
 `myhostname = <domain>`\
 `mydestination = $myhostname, <domain>, localhost.com, localhost`
 
-Finally modify the files **`/etc/hostname`** and **`/etc/mailname`** to your domain name and **restart your VPS.**
+Enfin, modifiez les fichiers **`/etc/hostname`** et **`/etc/mailname`** avec votre nom de domaine et **redémarrez votre VPS.**
 
-Now, create a **DNS A record** of `mail.<domain>` pointing to the **ip address** of the VPS and a **DNS MX** record pointing to `mail.<domain>`
+Maintenant, créez un **enregistrement DNS A** de `mail.<domain>` pointant vers l'**adresse IP** du VPS et un **enregistrement DNS MX** pointant vers `mail.<domain>`
 
-Now lets test to send an email:
-
+Maintenant, testons l'envoi d'un e-mail :
 ```bash
 apt install mailutils
 echo "This is the body of the email" | mail -s "This is the subject line" test@email.com
 ```
+**Configuration de Gophish**
 
-**Gophish configuration**
-
-Stop the execution of gophish and lets configure it.\
-Modify `/opt/gophish/config.json` to the following (note the use of https):
-
+Arrêtez l'exécution de Gophish et configurez-le.\
+Modifiez `/opt/gophish/config.json` comme suit (notez l'utilisation de https):
 ```bash
 {
         "admin_server": {
@@ -176,11 +160,9 @@ Modify `/opt/gophish/config.json` to the following (note the use of https):
         }
 }
 ```
+**Configurer le service gophish**
 
-**Configure gophish service**
-
-In order to create the gophish service so it can be started automatically and managed a service you can create the file `/etc/init.d/gophish` with the following content:
-
+Afin de créer le service gophish pour qu'il puisse être démarré automatiquement et géré en tant que service, vous pouvez créer le fichier `/etc/init.d/gophish` avec le contenu suivant :
 ```bash
 #!/bin/bash
 # /etc/init.d/gophish
@@ -227,9 +209,7 @@ case $1 in
     start|stop|status) "$1" ;;
 esac
 ```
-
-Finish configuring the service and checking it doing:
-
+Terminer la configuration du service et vérifiez-le en faisant :
 ```bash
 mkdir /var/log/gophish
 chmod +x /etc/init.d/gophish
@@ -240,68 +220,59 @@ service gophish status
 ss -l | grep "3333\|443"
 service gophish stop
 ```
+## Configuration du serveur de messagerie et du domaine
 
-## Configuring mail server and domain
+### Attendez
 
-### Wait
+Plus un domaine est ancien, moins il est probable qu'il soit considéré comme du spam. Vous devriez donc attendre le plus longtemps possible (au moins une semaine) avant l'évaluation du phishing.\
+Notez que même si vous devez attendre une semaine, vous pouvez tout configurer maintenant.
 
-The older a domain is the less probable it's going to be caught as spam. Then you should wait as much time as possible (at least 1week) before the phishing assessment.\
-Note that even if you have to wait a week you can finish configuring everything now.
+### Configuration de l'enregistrement DNS inversé (rDNS)
 
-### Configure Reverse DNS (rDNS) record
+Définissez un enregistrement rDNS (PTR) qui résout l'adresse IP du VPS en nom de domaine.
 
-Set a rDNS (PTR) record that resolves the IP address of the VPS to the domain name.
+### Enregistrement de la politique d'expéditeur (SPF)
 
-### Sender Policy Framework (SPF) Record
+Vous devez **configurer un enregistrement SPF pour le nouveau domaine**. Si vous ne savez pas ce qu'est un enregistrement SPF, [**lisez cette page**](../../network-services-pentesting/pentesting-smtp/#spf).
 
-You must **configure a SPF record for the new domain**. If you don't know what is a SPF record [**read this page**](../../network-services-pentesting/pentesting-smtp/#spf).
-
-You can use [https://www.spfwizard.net/](https://www.spfwizard.net) to generate your SPF policy (use the IP of the VPS machine)
+Vous pouvez utiliser [https://www.spfwizard.net/](https://www.spfwizard.net) pour générer votre politique SPF (utilisez l'adresse IP de la machine VPS)
 
 ![](<../../.gitbook/assets/image (388).png>)
 
-This is the content that must be set inside a TXT record inside the domain:
-
+Ceci est le contenu qui doit être défini dans un enregistrement TXT à l'intérieur du domaine:
 ```bash
 v=spf1 mx a ip4:ip.ip.ip.ip ?all
 ```
+### Enregistrement DMARC (Domain-based Message Authentication, Reporting & Conformance)
 
-### Domain-based Message Authentication, Reporting & Conformance (DMARC) Record
+Vous devez **configurer un enregistrement DMARC pour le nouveau domaine**. Si vous ne savez pas ce qu'est un enregistrement DMARC, [**lisez cette page**](../../network-services-pentesting/pentesting-smtp/#dmarc).
 
-You must **configure a DMARC record for the new domain**. If you don't know what is a DMARC record [**read this page**](../../network-services-pentesting/pentesting-smtp/#dmarc).
-
-You have to create a new DNS TXT record pointing the hostname `_dmarc.<domain>` with the following content:
-
+Vous devez créer un nouvel enregistrement DNS TXT pointant vers le nom d'hôte `_dmarc.<domain>` avec le contenu suivant :
 ```bash
 v=DMARC1; p=none
 ```
-
 ### DomainKeys Identified Mail (DKIM)
 
-You must **configure a DKIM for the new domain**. If you don't know what is a DMARC record [**read this page**](../../network-services-pentesting/pentesting-smtp/#dkim).
+Vous devez **configurer un DKIM pour le nouveau domaine**. Si vous ne savez pas ce qu'est un enregistrement DMARC, [**lisez cette page**](../../network-services-pentesting/pentesting-smtp/#dkim).
 
-This tutorial is based on: [https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy)
+Ce tutoriel est basé sur : [https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy)
 
 {% hint style="info" %}
-You need to concatenate both B64 values that the DKIM key generates:
-
+Vous devez concaténer les deux valeurs B64 que la clé DKIM génère :
 ```
 v=DKIM1; h=sha256; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0wPibdqPtzYk81njjQCrChIcHzxOp8a1wjbsoNtka2X9QXCZs+iXkvw++QsWDtdYu3q0Ofnr0Yd/TmG/Y2bBGoEgeE+YTUG2aEgw8Xx42NLJq2D1pB2lRQPW4IxefROnXu5HfKSm7dyzML1gZ1U0pR5X4IZCH0wOPhIq326QjxJZm79E1nTh3xj" "Y9N/Dt3+fVnIbMupzXE216TdFuifKM6Tl6O/axNsbswMS1TH812euno8xRpsdXJzFlB9q3VbMkVWig4P538mHolGzudEBg563vv66U8D7uuzGYxYT4WS8NVm3QBMg0QKPWZaKp+bADLkOSB9J2nUpk4Aj9KB5swIDAQAB
 ```
 {% endhint %}
 
-### Test your email configuration score
+### Testez votre score de configuration d'e-mail
 
-You can do that using [https://www.mail-tester.com/](https://www.mail-tester.com)\
-Just access the page and send an email to the address they give you:
-
+Vous pouvez le faire en utilisant [https://www.mail-tester.com/](https://www.mail-tester.com)\
+Accédez simplement à la page et envoyez un e-mail à l'adresse qu'ils vous donnent:
 ```bash
 echo "This is the body of the email" | mail -s "This is the subject line" test-iimosa79z@srv1.mail-tester.com
 ```
-
-You can also c**heck your email configuration** sending an email to `check-auth@verifier.port25.com` and **reading the response** (for this you will need to **open** port **25** and see the response in the file _/var/mail/root_ if you send the email a as root).\
-Check that you pass all the tests:
-
+Vous pouvez également **vérifier la configuration de votre e-mail** en envoyant un e-mail à `check-auth@verifier.port25.com` et **en lisant la réponse** (pour cela, vous devrez **ouvrir** le port **25** et voir la réponse dans le fichier _/var/mail/root_ si vous envoyez l'e-mail en tant que root).\
+Vérifiez que vous réussissez tous les tests :
 ```bash
 ==========================================================
 Summary of Results
@@ -312,45 +283,41 @@ DKIM check:         pass
 Sender-ID check:    pass
 SpamAssassin check: ham
 ```
-
-Alternatively, you can send a **message to a Gmail address that you control**, **view** the received **email’s headers** in your Gmail inbox, `dkim=pass` should be present in the `Authentication-Results` header field.
-
+Alternativement, vous pouvez envoyer un **message à une adresse Gmail que vous contrôlez**, **afficher** les **en-têtes de l'email** reçu dans votre boîte de réception Gmail, `dkim=pass` doit être présent dans le champ d'en-tête `Authentication-Results`.
 ```
 Authentication-Results: mx.google.com;
        spf=pass (google.com: domain of contact@example.com designates --- as permitted sender) smtp.mail=contact@example.com;
        dkim=pass header.i=@example.com;
 ```
+### Retrait de la liste noire de Spamhouse
 
-### ​Removing from Spamhouse Blacklist
+La page www.mail-tester.com peut vous indiquer si votre domaine est bloqué par Spamhouse. Vous pouvez demander le retrait de votre domaine/IP à l'adresse suivante : [https://www.spamhaus.org/lookup/](https://www.spamhaus.org/lookup/)
 
-The page www.mail-tester.com can indicate you if you your domain is being blocked by spamhouse. You can request your domain/IP to be removed at: ​[https://www.spamhaus.org/lookup/](https://www.spamhaus.org/lookup/)
+### Retrait de la liste noire de Microsoft
 
-### Removing from Microsoft Blacklist
+Vous pouvez demander le retrait de votre domaine/IP à l'adresse suivante : [https://sender.office.com/](https://sender.office.com).
 
-​​You can request your domain/IP to be removed at [https://sender.office.com/](https://sender.office.com).
+## Créer et lancer une campagne GoPhish
 
-## Create & Launch GoPhish Campaign
+### Profil d'envoi
 
-### Sending Profile
+* Définissez un **nom pour identifier** le profil de l'expéditeur
+* Décidez à partir de quel compte vous allez envoyer les e-mails de phishing. Suggestions : _noreply, support, servicedesk, salesforce..._
+* Vous pouvez laisser les champs nom d'utilisateur et mot de passe vides, mais assurez-vous de cocher la case Ignorer les erreurs de certificat
 
-* Set some **name to identify** the sender profile
-* Decide from which account are you going to send the phishing emails. Suggestions: _noreply, support, servicedesk, salesforce..._
-* You can leave blank the username and password, but make sure to check the Ignore Certificate Errors
-
-![](<../../.gitbook/assets/image (253) (1) (2) (1) (1) (2) (2) (3) (3) (5) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (11).png>)
+![](<../../.gitbook/assets/image (253) (1) (2) (1) (1) (2) (2) (3) (3) (5) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (11).png>)
 
 {% hint style="info" %}
-It's recommended to use the "**Send Test Email**" functionality to test that everything is working.\
-I would recommend to **send the test emails to 10min mails addresses** in order to avoid getting blacklisted making tests.
+Il est recommandé d'utiliser la fonctionnalité "**Envoyer un e-mail de test**" pour tester que tout fonctionne.\
+Je recommande d'**envoyer les e-mails de test à des adresses 10min mails** afin d'éviter d'être mis sur liste noire lors des tests.
 {% endhint %}
 
-### Email Template
+### Modèle d'e-mail
 
-* Set some **name to identify** the template
-* Then write a **subject** (nothing estrange, just something you could expect to read in a regular email)
-* Make sure you have checked "**Add Tracking Image**"
-* Write the **email template** (you can use variables like in the following example):
-
+* Définissez un **nom pour identifier** le modèle
+* Ensuite, écrivez un **objet** (rien d'étrange, juste quelque chose que vous pourriez vous attendre à lire dans un e-mail régulier)
+* Assurez-vous d'avoir coché "**Ajouter une image de suivi**"
+* Écrivez le **modèle d'e-mail** (vous pouvez utiliser des variables comme dans l'exemple suivant) :
 ```markup
 <html>
 <head>
@@ -371,70 +338,69 @@ WRITE HERE SOME SIGNATURE OF SOMEONE FROM THE COMPANY
 </body>
 </html>
 ```
+Notez que **afin d'augmenter la crédibilité de l'e-mail**, il est recommandé d'utiliser une signature provenant d'un e-mail du client. Suggestions :
 
-Note that **in order to increase the credibility of the email**, it's recommended to use some signature from an email from the client. Suggestions:
-
-* Send an email to a **non existent address** and check if the response has any signature.
-* Search for **public emails** like info@ex.com or press@ex.com or public@ex.com and send them an email and wait for the response.
-* Try to contact **some valid discovered** email and wait for the response
+* Envoyez un e-mail à une **adresse inexistante** et vérifiez si la réponse contient une signature.
+* Recherchez des e-mails **publics** tels que info@ex.com ou press@ex.com ou public@ex.com et envoyez-leur un e-mail et attendez la réponse.
+* Essayez de contacter **un e-mail valide découvert** et attendez la réponse.
 
 ![](<../../.gitbook/assets/image (393).png>)
 
 {% hint style="info" %}
-The Email Template also allows to **attach files to send**. If you would also like to steal NTLM challenges using some specially crafted files/documents [read this page](../../windows-hardening/ntlm/places-to-steal-ntlm-creds.md).
+Le modèle d'e-mail permet également de **joindre des fichiers à envoyer**. Si vous souhaitez également voler des défis NTLM en utilisant des fichiers/documents spécialement conçus [lisez cette page](../../windows-hardening/ntlm/places-to-steal-ntlm-creds.md).
 {% endhint %}
 
-### Landing Page
+### Page d'atterrissage
 
-* Write a **name**
-* **Write the HTML code** of the web page. Note that you can **import** web pages.
-* Mark **Capture Submitted Data** and **Capture Passwords**
-* Set a **redirection**
+* Écrivez un **nom**
+* **Écrivez le code HTML** de la page web. Notez que vous pouvez **importer** des pages web.
+* Cochez **Capture Submitted Data** et **Capture Passwords**
+* Définissez une **redirection**
 
 ![](<../../.gitbook/assets/image (394).png>)
 
 {% hint style="info" %}
-Usually you will need to modify the HTML code of the page and make some tests in local (maybe using some Apache server) **until you like the results.** Then, write that HTML code in the box.\
-Note that if you need to **use some static resources** for the HTML (maybe some CSS and JS pages) you can save them in _**/opt/gophish/static/endpoint**_ and then access them from _**/static/\<filename>**_
+Vous devrez généralement modifier le code HTML de la page et effectuer des tests en local (peut-être en utilisant un serveur Apache) **jusqu'à ce que vous soyez satisfait des résultats**. Ensuite, écrivez ce code HTML dans la boîte.\
+Notez que si vous avez besoin d'**utiliser des ressources statiques** pour le HTML (peut-être des pages CSS et JS), vous pouvez les enregistrer dans _**/opt/gophish/static/endpoint**_ et y accéder depuis _**/static/\<filename>**_
 {% endhint %}
 
 {% hint style="info" %}
-For the redirection you could **redirect the users to the legit main web page** of the victim, or redirect them to _/static/migration.html_ for example, put some **spinning wheel (**[**https://loading.io/**](https://loading.io)**) for 5 seconds and then indicate that the process was successful**.
+Pour la redirection, vous pouvez **rediriger les utilisateurs vers la page web principale légitime** de la victime, ou les rediriger vers _/static/migration.html_ par exemple, mettre une **roue tournante (**[**https://loading.io/**](https://loading.io)**) pendant 5 secondes, puis indiquer que le processus a réussi**.
 {% endhint %}
 
-### Users & Groups
+### Utilisateurs et groupes
 
-* Set a name
-* **Import the data** (note that in order to use the template for the example you need the firstname, last name and email address of each user)
+* Définissez un nom
+* **Importez les données** (notez que pour utiliser le modèle pour l'exemple, vous avez besoin du prénom, du nom de famille et de l'adresse e-mail de chaque utilisateur)
 
 ![](<../../.gitbook/assets/image (395).png>)
 
-### Campaign
+### Campagne
 
-Finally, create a campaign selecting a name, the email template, the landing page, the URL, the sending profile and the group. Note that the URL will be the link sent to the victims
+Enfin, créez une campagne en sélectionnant un nom, le modèle d'e-mail, la page d'atterrissage, l'URL, le profil d'envoi et le groupe. Notez que l'URL sera le lien envoyé aux victimes.
 
-Note that the **Sending Profile allow to send a test email to see how will the final phishing email looks like**:
+Notez que le **profil d'envoi permet d'envoyer un e-mail de test pour voir à quoi ressemblera l'e-mail de phishing final** :
 
 ![](<../../.gitbook/assets/image (396).png>)
 
 {% hint style="info" %}
-I would recommend to **send the test emails to 10min mails addresses** in order to avoid getting blacklisted making tests.
+Je recommanderais d'**envoyer les e-mails de test à des adresses de 10 minutes** afin d'éviter d'être mis sur liste noire lors des tests.
 {% endhint %}
 
-Once everything is ready, just launch the campaign!
+Une fois que tout est prêt, lancez simplement la campagne !
 
-## Website Cloning
+## Clonage de site web
 
-If for any reason you want to clone the website check the following page:
+Si pour une raison quelconque vous voulez cloner le site web, consultez la page suivante :
 
 {% content-ref url="clone-a-website.md" %}
 [clone-a-website.md](clone-a-website.md)
 {% endcontent-ref %}
 
-## Backdoored Documents & Files
+## Documents et fichiers piégés
 
-In some phishing assessments (mainly for Red Teams) you will want to also **send files containing some kind of backdoor** (maybe a C2 or maybe just something that will trigger an authentication).\
-Check out the following page for some examples:
+Dans certaines évaluations de phishing (principalement pour les équipes rouges), vous voudrez également **envoyer des fichiers contenant une sorte de porte dérobée** (peut-être un C2 ou peut-être juste quelque chose qui déclenchera une authentification).\
+Consultez la page suivante pour quelques exemples :
 
 {% content-ref url="phishing-documents.md" %}
 [phishing-documents.md](phishing-documents.md)
@@ -444,51 +410,39 @@ Check out the following page for some examples:
 
 ### Via Proxy MitM
 
-The previous attack is pretty clever as you are faking a real website and gathering the information set by the user. Unfortunately, if the user didn't put the correct password or if the application you faked is configured with 2FA, **this information won't allow you to impersonate the tricked user**.
+L'attaque précédente est assez astucieuse car vous simulez un vrai site web et recueillez les informations définies par l'utilisateur. Malheureusement, si l'utilisateur n'a pas mis le bon mot de passe ou si l'application que vous avez simulée est configurée avec 2FA, **ces informations ne vous permettront pas d'usurper l'utilisateur trompé**.
 
-This is where tools like [**evilginx2**](https://github.com/kgretzky/evilginx2) or [**CredSniper**](https://github.com/ustayready/CredSniper) are useful. This tool will allow you to generate a MitM like attack. Basically, the attacks works in the following way:
+C'est là que des outils comme [**evilginx2**](https://github.com/kgretzky/evilginx2) ou [**CredSniper**](https://github.com/ustayready/CredSniper) sont utiles. Cet outil vous permettra de générer une attaque de type MitM. Fondamentalement, les attaques fonctionnent de la manière suivante :
 
-1. You **impersonate the login** form of the real webpage.
-2. The user **send** his **credentials** to your fake page and the tool send those to the real webpage, **checking if the credentials work**.
-3. If the account is configured with **2FA**, the MitM page will ask for it and once the **user introduces** it the tool will send it to the real web page.
-4. Once the user is authenticated you (as attacker) will have **captured the credentials, the 2FA, the cookie and any information** of every interaction your while the tool is performing a MitM.
+1. Vous **usurpez le formulaire de connexion** de la vraie page web.
+2. L'utilisateur **envoie** ses **informations d'identification** à votre page de faux et l'outil les envoie à la vraie page web, **vérifiant si les informations d'identification fonctionnent**.
+3. Si le compte est configuré avec **2FA**, la page MitM demandera celui-ci et une fois que l'utilisateur l'aura introduit, l'outil l'enverra à la vraie page web.
+4. Une fois que l'utilisateur est authentifié, vous (en tant qu'attaquant) aurez **capturé les informations d'identification, le 2FA, le cookie et toute information** de chaque interaction pendant que l'outil effectue une attaque MitM.
 
 ### Via VNC
 
-What if instead of **sending the victim to a malicious page** with the same looks as the original one, you send him to a **VNC session with a browser connected to the real web page**? You will be able to see what he does, steal the password, the MFA used, the cookies...\
-You can do this with [**EvilnVNC**](https://github.com/JoelGMSec/EvilnoVNC)
+Et si au lieu d'**envoyer la victime sur une page malveillante** avec le même aspect que l'originale, vous l'envoyez vers une **session VNC avec un navigateur connecté à la vraie page web** ? Vous pourrez voir ce qu'il fait, voler le mot de passe, le MFA utilisé, les cookies...\
+Vous pouvez le faire avec [**EvilnVNC**](https://github.com/JoelGMSec/EvilnoVNC)
 
-## Detecting the detection
+## Détection de la détection
 
-Obviously one of the best ways to know if you have been busted is to **search your domain inside blacklists**. If it appears listed, somehow your domain was detected as suspicions.\
-One easy way to check if you domain appears in any blacklist is to use [https://malwareworld.com/](https://malwareworld.com)
+Évidemment, l'une des meilleures façons de savoir si vous avez été repéré est de **rechercher votre domaine dans des listes noires**. S'il apparaît dans la liste, votre domaine a été détecté comme suspect.\
+Un moyen facile de vérifier si votre domaine apparaît dans une liste noire consiste à utiliser [https://malwareworld.com/](https://malwareworld.com)
 
-However, there are other ways to know if the victim is **actively looking for suspicions phishing activity in the wild** as explained in:
+Cependant, il existe d'autres moyens de savoir si la victime **cherche activement une activité de phishing suspecte dans la nature** comme expliqué dans :
 
 {% content-ref url="detecting-phising.md" %}
 [detecting-phising.md](detecting-phising.md)
 {% endcontent-ref %}
 
-You can **buy a domain with a very similar name** to the victims domain **and/or generate a certificate** for a **subdomain** of a domain controlled by you **containing** the **keyword** of the victim's domain. If the **victim** perform any kind of **DNS or HTTP interaction** with them, you will know that **he is actively looking** for suspicious domains and you will need to be very stealth.
+Vous pouvez **acheter un domaine avec un nom très similaire** à celui de la victime et/ou générer un certificat pour un **sous-domaine** d'un domaine contrôlé par vous **contenant** le **mot-clé** du domaine de la victime. Si la **victime** effectue une quelconque **interaction DNS ou HTTP** avec eux, vous saurez qu'elle **cherche activement** des domaines suspects et vous devrez être très discret.
 
-### Evaluate the phishing
+### Évaluer le phishing
 
-Use [**Phishious** ](https://github.com/Rices/Phishious)to evaluate if your email is going to end in the spam folder or if it's going to be blocked or successful.
+Utilisez [**Phishious** ](https://github.com/Rices/Phishious) pour évaluer si votre e-mail va finir dans le dossier spam ou s'il sera bloqué ou réussi.
 
-## References
+## Références
 
 * [https://zeltser.com/domain-name-variations-in-phishing/](https://zeltser.com/domain-name-variations-in-phishing/)
 * [https://0xpatrik.com/phishing-domains/](https://0xpatrik.com/phishing-domains/)
-* [https://darkbyte.net/robando-sesiones-y-bypasseando-2fa-con-evilnovnc/](https://darkbyte.net/robando-sesiones-y-bypasseando-2fa-con-evilnovnc/)
-
-<details>
-
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
-
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
-
-</details>
+* [https://darkbyte.net/robando-sesiones-y-bypasseando-2fa-con-evilnovnc/](https://darkbyte.net/robando
