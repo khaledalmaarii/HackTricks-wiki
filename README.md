@@ -1,6 +1,6 @@
 ---
 description: >-
-  Bienvenue sur la page où vous trouverez chaque astuce / technique de piratage / quoi que ce soit que j'ai appris des CTF, des applications de la vie réelle, de la lecture de recherches et de l'actualité.
+  Bienvenue sur le wiki où vous trouverez chaque astuce / technique de piratage / tout ce que j'ai appris des CTF, des applications de la vie réelle, de la lecture de recherches et de l'actualité.
 ---
 
 # HackTricks
@@ -10,14 +10,14 @@ description: >-
 _Logos et design de mouvement Hacktricks par_ [_@ppiernacho_](https://www.instagram.com/ppieranacho/)_._
 
 {% hint style="info" %}
-**Bienvenue sur la page où vous trouverez chaque astuce / technique de piratage / quoi que ce soit que j'ai appris des CTF, des applications de la vie réelle, de la lecture de recherches et de l'actualité.**
+**Bienvenue sur le wiki où vous trouverez chaque astuce / technique de piratage / tout ce que j'ai appris des CTF, des applications de la vie réelle, de la lecture de recherches et de l'actualité.**
 {% endhint %}
 
 Ici, vous pouvez trouver une petite **introduction:**
 
-## [**Méthodologie de Pentesting**](generic-methodologies-and-resources/pentesting-methodology.md)
+## [**Méthodologie de test d'intrusion**](generic-methodologies-and-resources/pentesting-methodology.md)
 
-Ici, vous trouverez le **flux typique** que **vous devez suivre lors du pentesting** d'une ou plusieurs **machines**.
+Ici, vous trouverez le **flux typique** que **vous devez suivre lors du test d'intrusion** d'une ou plusieurs **machines**.
 
 **Cliquez sur le titre pour commencer!**
 
@@ -25,9 +25,9 @@ Ici, vous trouverez le **flux typique** que **vous devez suivre lors du pentesti
 
 ### [STM Cyber](https://www.stmcyber.com)
 
-![](<.gitbook/assets/image (642) (1) (1) (1).png>)
+![](<.gitbook/assets/image (638) (2) (1).png>)
 
-[**STM Cyber**](https://www.stmcyber.com) est une excellente entreprise de cybersécurité dont le slogan est **HACK THE UNHACKABLE**. Ils effectuent leurs propres recherches et développent leurs propres outils de piratage pour **offrir plusieurs services de cybersécurité précieux** tels que le pentesting, les équipes rouges et la formation.
+[**STM Cyber**](https://www.stmcyber.com) est une excellente entreprise de cybersécurité dont le slogan est **HACK THE UNHACKABLE**. Ils effectuent leurs propres recherches et développent leurs propres outils de piratage pour **offrir plusieurs services de cybersécurité précieux** tels que des tests de pénétration, des équipes rouges et une formation.
 
 Vous pouvez consulter leur **blog** sur [**https://blog.stmcyber.com**](https://blog.stmcyber.com)
 
@@ -45,9 +45,9 @@ Vous pouvez consulter leur **blog** sur [**https://blog.stmcyber.com**](https://
 
 ![](.gitbook/assets/i3.png)
 
-**Intigriti** est la plateforme de **bug bounty n°1 en Europe** et de piratage éthique.
+**Intigriti** est la plateforme de **bug bounty n°1 en Europe** et d'hacking éthique.
 
-Conseil de bug bounty: **inscrivez-vous** à **Intigriti**, une plateforme de **bug bounty premium créée par des pirates pour des pirates**! Rejoignez-nous sur [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) aujourd'hui et commencez à gagner des primes allant jusqu'à **100 000 $**!
+Astuce de bug bounty: **inscrivez-vous** à **Intigriti**, une plateforme de **bug bounty premium créée par des pirates pour des pirates**! Rejoignez-nous sur [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) aujourd'hui et commencez à gagner des primes allant jusqu'à **100 000 $**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
@@ -58,7 +58,7 @@ Conseil de bug bounty: **inscrivez-vous** à **Intigriti**, une plateforme de **
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour créer et **automatiser facilement des flux de travail** alimentés par les outils communautaires les plus avancés au monde.
 
-Obtenez un accès aujourd'hui:
+Obtenez l'accès aujourd'hui:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -80,4 +80,4 @@ Obtenez un accès aujourd'hui:
 
 <figure><img src=".gitbook/assets/logo.svg" alt=""><figcaption></figcaption></figure>
 
-[**WebSec**](https://websec.nl) est
+[**WebSec**](https://websec.nl) est une entreprise de cybersécurité profession
