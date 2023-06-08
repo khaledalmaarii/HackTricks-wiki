@@ -7,7 +7,7 @@
 * Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) **groupe Discord** ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live).
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
@@ -18,16 +18,16 @@ Les extensions de noyau (Kexts) sont des **bundles** utilisant l'extension **`.k
 
 ### Exigences
 
-Évidemment, c'est tellement puissant qu'il est compliqué de charger une extension de noyau. Voici les exigences pour qu'une extension de noyau soit chargée :
+Évidemment, c'est tellement puissant qu'il est compliqué de charger une extension de noyau. Voici les exigences d'une extension de noyau pour être chargée :
 
 * En allant en mode de récupération, les Kexts doivent être **autorisés à être chargés** :
 
-<figure><img src="../../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
 
-* Le Kext doit être **signé avec un certificat de signature de code de noyau**, qui ne peut être accordé que par **Apple**. Qui va **examiner** en détail la **société** et les **raisons** pour lesquelles cela est nécessaire.
+* Le Kext doit être **signé avec un certificat de signature de code de noyau**, qui ne peut être accordé que par **Apple**. Qui va **examiner** en détail l'**entreprise** et les **raisons** pour lesquelles cela est nécessaire.
 * Le Kext doit également être **notarisé**, Apple pourra le vérifier pour les logiciels malveillants.
-* Ensuite, l'utilisateur **root** est celui qui peut charger le Kext et les fichiers à l'intérieur du bundle doivent appartenir à root.
-* Enfin, une fois que l'on essaie de le charger, l'[**utilisateur sera invité à confirmer**](https://developer.apple.com/library/archive/technotes/tn2459/\_index.html) et si cela est accepté, l'ordinateur doit **redémarrer** pour le charger.
+* Ensuite, l'**utilisateur root** est celui qui peut charger le Kext et les fichiers à l'intérieur du bundle doivent appartenir à root.
+* Enfin, une fois qu'on essaie de le charger, l'[**utilisateur sera invité à confirmer**](https://developer.apple.com/library/archive/technotes/tn2459/\_index.html) et si c'est accepté, l'ordinateur doit **redémarrer** pour le charger.
 
 ### Processus de chargement
 

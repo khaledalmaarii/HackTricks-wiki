@@ -1,4 +1,16 @@
-# Binaires universels et format Mach-O
+# macOS Binaires universels et format Mach-O
+
+<details>
+
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+
+* Travaillez-vous dans une entreprise de **cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+
+</details>
 
 ## Informations de base
 
@@ -21,15 +33,15 @@ Recherchez le fichier avec : `mdfind fat.h | grep -i mach-o | grep -E "fat.h$"`
 </strong>
 struct fat_header {
 <strong>	uint32_t	magic;		/* FAT_MAGIC or FAT_MAGIC_64 */
-</strong><strong>	uint32_t	nfat_arch;	/* number of structs that follow */
+</strong><strong>	uint32_t	nfat_arch;	/* nombre de structures qui suivent */
 </strong>};
 
 struct fat_arch {
-	cpu_type_t	cputype;	/* cpu specifier (int) */
-	cpu_subtype_t	cpusubtype;	/* machine specifier (int) */
-	uint32_t	offset;		/* file offset to this object file */
-	uint32_t	size;		/* size of this object file */
-	uint32_t	align;		/* alignment as a power of 2 */
+	cpu_type_t	cputype;	/* spécificateur de CPU (int) */
+	cpu_subtype_t	cpusubtype;	/* spécificateur de machine (int) */
+	uint32_t	offset;		/* décalage de fichier vers ce fichier objet */
+	uint32_t	size;		/* taille de ce fichier objet */
+	uint32_t	align;		/* alignement en puissance de 2 */
 };
 </code></pre>
 
@@ -70,7 +82,7 @@ Comme vous pouvez le penser, un binaire universel compilé pour 2 architectures 
 
 ## En-tête Mach-O
 
-L'en-tête contient des informations de base sur le fichier, telles que les octets magiques pour l'identifier comme un fichier Mach-O et des informations sur l'architecture cible. Vous pouvez le trouver dans : `mdfind loader.h | grep -i mach-o | grep -E "loader.h$"`
+L'en-tête contient des informations de base sur le fichier, telles que les octets magiques pour l'identifier en tant que fichier Mach-O et des informations sur l'architecture cible. Vous pouvez le trouver dans : `mdfind loader.h | grep -i mach-o | grep -E "loader.h$"`
 ```c
 #define	MH_MAGIC	0xfeedface	/* the mach magic number */
 #define MH_CIGAM	0xcefaedfe	/* NXSwapInt(MH_MAGIC) */
@@ -116,7 +128,7 @@ Ou en utilisant [Mach-O View](https://sourceforge.net/projects/machoview/):
 ## **Commandes de chargement Mach-O**
 
 Cela spécifie la **disposition du fichier en mémoire**. Il contient l'**emplacement de la table des symboles**, le contexte du thread principal au début de l'exécution et les **bibliothèques partagées** requises.\
-Les commandes indiquent essentiellement au chargeur dynamique **(dyld) comment charger le binaire en mémoire.**
+Les commandes instruisent essentiellement le chargeur dynamique **(dyld) sur la façon de charger le binaire en mémoire.**
 
 Les commandes de chargement commencent toutes par une structure **load\_command**, définie dans le **`loader.h`** précédemment mentionné:
 ```objectivec
@@ -139,7 +151,7 @@ Il existe **différents types** de segments, tels que le segment **\_\_TEXT**, q
 
 **Chaque segment** peut être **divisé** en plusieurs **sections**. La **structure de commande de chargement** contient des **informations** sur **ces sections** dans le segment respectif.
 
-Dans l'en-tête, vous trouverez d'abord l'**en-tête de segment** :
+Dans l'en-tête, vous trouvez d'abord l'**en-tête de segment** :
 
 <pre class="language-c"><code class="lang-c">struct segment_command_64 { /* pour les architectures 64 bits */
 	uint32_t	cmd;		/* LC_SEGMENT_64 */
@@ -248,11 +260,11 @@ Certaines bibliothèques potentiellement liées à des logiciels malveillants so
 
 * **DiskArbitration** : Surveillance des lecteurs USB
 * **AVFoundation** : Capture audio et vidéo
-* **CoreWLAN** : Analyses Wifi.
+* **CoreWLAN** : Scans Wifi.
 
 {% hint style="info" %}
-Un binaire Mach-O peut contenir un ou plusieurs **constructeurs**, qui seront **exécutés avant** l'adresse spécifiée dans **LC\_MAIN**.\
-Les décalages de tous les constructeurs sont stockés dans la section **\_\_mod\_init\_func** du segment **\_\_DATA\_CONST**.
+Un binaire Mach-O peut contenir un ou **plusieurs** **constructeurs**, qui seront **exécutés** **avant** l'adresse spécifiée dans **LC\_MAIN**.\
+Les décalages de tous les constructeurs sont contenus dans la section **\_\_mod\_init\_func** du segment **\_\_DATA\_CONST**.
 {% endhint %}
 
 ## **Données Mach-O**
@@ -273,7 +285,7 @@ Cela inclut :
 
 Pour vérifier cela, vous pouvez utiliser l'outil [**Mach-O View**](https://sourceforge.net/projects/machoview/) :
 
-<figure><img src="../../../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (2) (1) (4).png" alt=""><figcaption></figcaption></figure>
 
 Ou depuis la ligne de commande :
 ```bash

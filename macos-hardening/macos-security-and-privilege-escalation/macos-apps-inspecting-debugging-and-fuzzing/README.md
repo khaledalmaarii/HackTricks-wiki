@@ -21,7 +21,34 @@ otool -tv /bin/ps #Decompile application
 ```
 ### objdump
 
+### Description
+`objdump` is a command-line utility that allows you to inspect the contents of an object file. It can be used to disassemble executable files, shared libraries, and object files. 
+
+### Usage
+```
+objdump -d <file>
+```
+
+### Example
+```
+$ objdump -d /usr/bin/ls
+```
+
+### Translation
 ### objdump
+
+### Description
+`objdump` est une utilité en ligne de commande qui vous permet d'inspecter le contenu d'un fichier objet. Il peut être utilisé pour désassembler des fichiers exécutables, des bibliothèques partagées et des fichiers objet.
+
+### Usage
+```
+objdump -d <fichier>
+```
+
+### Example
+```
+$ objdump -d /usr/bin/ls
+```
 ```bash
 objdump -m --dylibs-used /bin/ls #List dynamically linked libraries
 objdump -m -h /bin/ls # Get headers information
@@ -48,7 +75,7 @@ ARCH=x86_64 jtool2 --sig /System/Applications/Automator.app/Contents/MacOS/Autom
 ```
 ### Codesign
 
-Codesign est une commande qui permet de signer numériquement des fichiers sur macOS. Cela garantit que le fichier n'a pas été modifié depuis sa signature et que l'identité de l'auteur est vérifiée. Les développeurs peuvent utiliser cette commande pour signer leurs applications et les distribuer en toute sécurité. Les attaquants peuvent également utiliser cette commande pour signer des fichiers malveillants et tromper les utilisateurs en leur faisant croire qu'ils sont sûrs. Il est donc important de vérifier la signature des fichiers avant de les exécuter.
+Codesign est un outil de ligne de commande fourni avec Xcode qui permet de signer numériquement les fichiers d'application macOS. La signature numérique permet de garantir l'authenticité et l'intégrité des fichiers d'application. Les développeurs peuvent utiliser codesign pour signer leurs applications avant de les distribuer aux utilisateurs finaux. Les administrateurs système peuvent également utiliser codesign pour vérifier l'authenticité des applications installées sur un système macOS.
 ```bash
 # Get signer
 codesign -vv -d /bin/ls 2>&1 | grep -E "Authority|TeamIdentifier"
@@ -68,11 +95,11 @@ codesign -s <cert-name-keychain> toolsdemo
 ### SuspiciousPackage
 
 [**SuspiciousPackage**](https://mothersruin.com/software/SuspiciousPackage/get.html) est un outil utile pour inspecter les fichiers **.pkg** (installateurs) et voir ce qu'il y a à l'intérieur avant de l'installer.\
-Ces installateurs ont des scripts bash `preinstall` et `postinstall` que les auteurs de logiciels malveillants utilisent généralement pour **persister** le **malware**.
+Ces installateurs ont des scripts bash `preinstall` et `postinstall` que les auteurs de logiciels malveillants utilisent généralement pour **persister** **le** **logiciel malveillant**.
 
 ### hdiutil
 
-Cet outil permet de **monter** des images disque Apple (**.dmg**) pour les inspecter avant d'exécuter quoi que ce soit :
+Cet outil permet de **monter** les images disque Apple (**.dmg**) pour les inspecter avant d'exécuter quoi que ce soit :
 ```bash
 hdiutil attach ~/Downloads/Firefox\ 58.0.2.dmg
 ```
@@ -92,8 +119,8 @@ Les paramètres que cette fonction attend sont :
 
 | **Argument**      | **Registre**                                                    | **(pour) objc\_msgSend**                                |
 | ----------------- | --------------------------------------------------------------- | ------------------------------------------------------ |
-| **1er argument**  | **rdi**                                                         | **self: objet sur lequel la méthode est invoquée** |
-| **2ème argument**  | **rsi**                                                         | **op: nom de la méthode**                             |
+| **1er argument**  | **rdi**                                                         | **self : objet sur lequel la méthode est invoquée** |
+| **2ème argument**  | **rsi**                                                         | **op : nom de la méthode**                             |
 | **3ème argument**  | **rdx**                                                         | **1er argument de la méthode**                         |
 | **4ème argument**  | **rcx**                                                         | **2ème argument de la méthode**                         |
 | **5ème argument**  | **r8**                                                          | **3ème argument de la méthode**                         |
@@ -113,7 +140,7 @@ Notez que pour déboguer des binaires, **SIP doit être désactivé** (`csrutil 
 {% endhint %}
 
 {% hint style="warning" %}
-Notez que pour **instrumenter des binaires système**, (comme `cloudconfigurationd`) sur macOS, **SIP doit être désactivé** (juste supprimer la signature ne fonctionnera pas).
+Notez que pour **instrumenter les binaires système**, (tels que `cloudconfigurationd`) sur macOS, **SIP doit être désactivé** (la simple suppression de la signature ne fonctionnera pas).
 {% endhint %}
 
 ### Hopper
@@ -124,21 +151,19 @@ Dans le panneau de gauche de Hopper, il est possible de voir les symboles (**Lab
 
 #### Panneau central
 
-Dans le panneau central, vous pouvez voir le **code désassemblé**. Et vous pouvez le voir sous forme de désassemblage **brut**, sous forme de **graphique**, sous forme de **décompilé** et sous forme de **binaire** en cliquant sur l'icône respective :
+Dans le panneau central, vous pouvez voir le **code désassemblé**. Et vous pouvez le voir sous forme de désassemblage **brut**, sous forme de **graphique**, sous forme de **décompilé** et sous forme **binaire** en cliquant sur l'icône respective :
 
 <figure><img src="../../../.gitbook/assets/image (2) (6).png" alt=""><figcaption></figcaption></figure>
 
 En cliquant avec le bouton droit de la souris sur un objet de code, vous pouvez voir les **références à/depuis cet objet** ou même changer son nom (cela ne fonctionne pas dans le pseudocode décompilé) :
 
-<figure><img src="../../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 De plus, dans le **milieu en bas, vous pouvez écrire des commandes python**.
 
 #### Panneau de droite
 
-Dans le panneau de droite, vous pouvez voir des informations intéressantes telles que l'**historique de navigation** (pour savoir comment vous êtes arrivé à la situation actuelle), le **graphique d'appel** où vous pouvez voir toutes les **fonctions qui appellent cette fonction** et toutes les fonctions que **cette fonction appelle**, et des informations sur les **variables locales**.
-
-### dtruss
+Dans le panneau de droite, vous pouvez voir des informations intéressantes telles que l'**historique de navigation** (pour savoir comment vous êtes arrivé à la situation actuelle), le **graphique d'appel** où vous pouvez voir toutes les **fonctions qui appellent cette fonction** et toutes les fonctions que **cette fonction appelle**, et les informations sur les **variables locales**.
 ```bash
 dtruss -c ls #Get syscalls of ls
 dtruss -c -p 1000 #get syscalls of PID 1000
@@ -151,7 +176,7 @@ ktrace trace -s -S -t c -c ls | grep "ls("
 ```
 ### dtrace
 
-Il permet aux utilisateurs d'accéder aux applications à un niveau extrêmement **bas** et offre un moyen aux utilisateurs de **tracer** les **programmes** et même de changer leur flux d'exécution. Dtrace utilise des **sondes** qui sont **placées dans tout le noyau** et se trouvent à des emplacements tels que le début et la fin des appels système.
+Il permet aux utilisateurs d'accéder aux applications à un niveau extrêmement **bas** et fournit un moyen aux utilisateurs de **tracer** les **programmes** et même de changer leur flux d'exécution. Dtrace utilise des **sondes** qui sont **placées dans tout le noyau** et se trouvent à des emplacements tels que le début et la fin des appels système.
 
 DTrace utilise la fonction **`dtrace_probe_create`** pour créer une sonde pour chaque appel système. Ces sondes peuvent être déclenchées au **point d'entrée et de sortie de chaque appel système**. L'interaction avec DTrace se fait via /dev/dtrace qui n'est disponible que pour l'utilisateur root.
 
@@ -236,7 +261,7 @@ fs_usage -w -f network curl #This tracks network actions
 ### TaskExplorer
 
 [**Taskexplorer**](https://objective-see.com/products/taskexplorer.html) est utile pour voir les **bibliothèques** utilisées par un binaire, les **fichiers** qu'il utilise et les **connexions réseau**.\
-Il vérifie également les processus binaires avec **virustotal** et affiche des informations sur le binaire.
+Il vérifie également les processus binaires par rapport à **virustotal** et affiche des informations sur le binaire.
 
 ### lldb
 
@@ -267,7 +292,7 @@ lldb -n malware.bin --waitfor
 | **parray**                    | parray 3 (char \*\*)$x1 # Vérifiez le tableau de 3 composants dans le registre x1                                                                                                                                                                                                                                                                                                                                                           |
 
 {% hint style="info" %}
-Lors de l'appel de la fonction **`objc_sendMsg`**, le registre **rsi** contient le **nom de la méthode** sous forme de chaîne terminée par un caractère nul ("C"). Pour afficher le nom via lldb, faites :
+Lors de l'appel de la fonction **`objc_sendMsg`**, le registre **rsi** contient le **nom de la méthode** sous forme de chaîne de caractères terminée par un caractère nul ("C"). Pour afficher le nom via lldb, faites :
 
 `(lldb) x/s $rsi: 0x1000f1576: "startMiningWithPort:password:coreCount:slowMemory:currency:"`
 
@@ -330,7 +355,7 @@ sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist
 ```
 ### Gestionnaires internes
 
-[**Consultez cette section**](../#file-extensions-apps) pour savoir comment trouver quelle application est responsable de **la gestion du schéma ou du protocole spécifié**.
+[**Consultez cette section**](../#file-extensions-apps) pour savoir comment vous pouvez trouver quelle application est responsable de **la gestion du schéma ou du protocole spécifié**.
 
 ### Énumération des processus réseau
 
@@ -341,7 +366,7 @@ dtrace -n 'syscall::recv*:entry { printf("-> %s (pid=%d)", execname, pid); }' >>
 sort -u recv.log > procs.txt
 cat procs.txt
 ```
-Ou utilisez `netstat` ou `lsof`
+### Utilisez `netstat` ou `lsof`
 
 ### Plus d'informations sur le fuzzing MacOS
 
@@ -359,7 +384,7 @@ Ou utilisez `netstat` ou `lsof`
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une entreprise de **cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Travaillez-vous dans une entreprise de **cybersécurité** ? Voulez-vous voir votre entreprise annoncée dans HackTricks ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**

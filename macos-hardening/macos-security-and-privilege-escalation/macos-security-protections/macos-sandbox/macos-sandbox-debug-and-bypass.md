@@ -1,4 +1,4 @@
-# Débogage et contournement du bac à sable macOS
+# Débogage et contournement de la Sandbox macOS
 
 <details>
 
@@ -12,26 +12,26 @@
 
 </details>
 
-## Processus de chargement du bac à sable
+## Processus de chargement de la Sandbox
 
-<figure><img src="../../../../.gitbook/assets/image.png" alt=""><figcaption><p>Image de <a href="http://newosxbook.com/files/HITSB.pdf">http://newosxbook.com/files/HITSB.pdf</a></p></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (2).png" alt=""><figcaption><p>Image de <a href="http://newosxbook.com/files/HITSB.pdf">http://newosxbook.com/files/HITSB.pdf</a></p></figcaption></figure>
 
-Dans l'image précédente, il est possible d'observer **comment le bac à sable sera chargé** lorsqu'une application avec l'entitlement **`com.apple.security.app-sandbox`** est exécutée.
+Dans l'image précédente, il est possible d'observer **comment la Sandbox sera chargée** lorsqu'une application avec l'entitlement **`com.apple.security.app-sandbox`** est exécutée.
 
 Le compilateur liera `/usr/lib/libSystem.B.dylib` au binaire.
 
-Ensuite, **`libSystem.B`** appellera d'autres fonctions jusqu'à ce que **`xpc_pipe_routine`** envoie les entitlements de l'application à **`securityd`**. Securityd vérifie si le processus doit être mis en quarantaine à l'intérieur du bac à sable, et si c'est le cas, il sera mis en quarantaine.\
-Enfin, le bac à sable sera activé par un appel à **`__sandbox_ms`** qui appellera **`__mac_syscall`**.
+Ensuite, **`libSystem.B`** appellera d'autres fonctions jusqu'à ce que **`xpc_pipe_routine`** envoie les entitlements de l'application à **`securityd`**. Securityd vérifie si le processus doit être mis en quarantaine à l'intérieur de la Sandbox, et si c'est le cas, il sera mis en quarantaine.\
+Enfin, la Sandbox sera activée par un appel à **`__sandbox_ms`** qui appellera **`__mac_syscall`**.
 
 ## Possibles contournements
 
-### Exécuter un binaire sans bac à sable
+### Exécuter un binaire sans Sandbox
 
-Si vous exécutez un binaire qui ne sera pas mis en bac à sable à partir d'un binaire mis en bac à sable, il **s'exécutera dans le bac à sable du processus parent**.
+Si vous exécutez un binaire qui ne sera pas mis en sandbox à partir d'un binaire sandboxé, il **s'exécutera dans la sandbox du processus parent**.
 
-### Débogage et contournement du bac à sable avec lldb
+### Débogage et contournement de la Sandbox avec lldb
 
-Compilons une application qui devrait être mise en bac à sable :
+Compilons une application qui devrait être mise en sandbox :
 
 {% tabs %}
 {% tab title="sand.c" %}
@@ -43,68 +43,47 @@ int main() {
 ```
 {% endtab %}
 
-{% tab title="sandbox-exec.c" %}
+{% tab title="macOS Sandbox Debug and Bypass" %}
 
-## macOS Sandbox Debug and Bypass
+# macOS Sandbox Debug and Bypass
 
-### Debugging
+The macOS sandbox is a powerful security feature that restricts the actions that a process can perform on a system. However, like any security feature, it is not perfect and can be bypassed or debugged in certain situations.
 
-#### Debugging with `sandbox-exec`
+## Debugging the macOS Sandbox
 
-The `sandbox-exec` command can be used to debug a sandbox profile. To do so, we need to create a profile that allows us to execute a shell and then run `sandbox-exec` with that profile. For example, the following profile allows us to execute a shell and access the network:
+Debugging the macOS sandbox can be useful for understanding how it works and for finding vulnerabilities that can be exploited to bypass it. There are several tools and techniques that can be used to debug the macOS sandbox, including:
 
-```
-(version 1)
-(deny default)
-(allow process-exec (regex "^/bin/bash$"))
-(allow file-read* (regex #"^/usr/share/locale/.*"))
-(allow file-read* (regex #"^/usr/share/nls/.*"))
-(allow file-read* (regex #"^/usr/share/zoneinfo/.*"))
-(allow file-read* (regex #"^/etc/localtime$"))
-(allow file-read* (regex #"^/etc/nsswitch.conf$"))
-(allow file-read* (regex #"^/etc/resolv.conf$"))
-(allow file-read* (regex #"^/etc/services$"))
-(allow file-read* (regex #"^/etc/hosts$"))
-(allow network*)
-```
+### 1. `sandbox-exec`
 
-We can save this profile to a file called `debug.sb` and then run `sandbox-exec` with it:
+The `sandbox-exec` command can be used to run a process in a sandbox and to print out information about the sandbox as the process runs. This can be useful for understanding how the sandbox works and for identifying any issues that may be present.
 
-```
-$ sandbox-exec -f debug.sb /bin/bash
-```
+### 2. `sandboxd`
 
-This will start a shell with the sandbox profile applied. We can then use the shell to run commands and see which ones are allowed or denied by the sandbox.
+The `sandboxd` daemon is responsible for enforcing the macOS sandbox. It can be run in debug mode using the `-d` flag, which will cause it to print out information about the sandbox as it enforces it. This can be useful for understanding how the sandbox works and for identifying any issues that may be present.
 
-#### Debugging with `sandboxd`
+### 3. `DYLD_INSERT_LIBRARIES`
 
-The `sandboxd` daemon is responsible for enforcing sandbox profiles. We can use the `sandboxd` command to start a new instance of the daemon with a specific profile. For example, the following command starts a new instance of `sandboxd` with the `debug.sb` profile:
+The `DYLD_INSERT_LIBRARIES` environment variable can be used to inject a dynamic library into a process. This can be used to intercept and modify system calls made by the process, including those related to the sandbox. By intercepting and modifying these calls, it may be possible to bypass the sandbox.
 
-```
-$ sudo sandboxd -f debug.sb
-```
+## Bypassing the macOS Sandbox
 
-This will start a new instance of `sandboxd` with the `debug.sb` profile applied. We can then use the `sandbox-exec` command to execute commands within the sandbox.
+Bypassing the macOS sandbox can be difficult, but it is not impossible. There are several techniques that can be used to bypass the sandbox, including:
 
-### Bypassing
+### 1. Exploiting Vulnerabilities
 
-#### Bypassing with `sandbox-exec`
+Like any software, the macOS sandbox is not perfect and may contain vulnerabilities that can be exploited to bypass it. Finding and exploiting these vulnerabilities can be difficult, but it is a viable option for bypassing the sandbox.
 
-The `sandbox-exec` command can be used to bypass a sandbox profile by specifying a different profile or by disabling the sandbox altogether. For example, the following command starts a shell with the `debug.sb` profile, but also allows us to access the file system:
+### 2. `task_for_pid`
 
-```
-$ sandbox-exec -f debug.sb -n -p '(deny file-read*) (allow file-read* (regex #"^/"))' /bin/bash
-```
+The `task_for_pid` API can be used to gain elevated privileges on a system. By using this API, it may be possible to bypass the sandbox and perform actions that would otherwise be restricted.
 
-This command starts a shell with the `debug.sb` profile, but also adds a new rule that allows us to read any file on the file system. The `-n` option disables the default profile, and the `-p` option adds a new profile to the sandbox.
+### 3. `DYLD_INSERT_LIBRARIES`
 
-#### Bypassing with `sandboxd`
+As mentioned earlier, the `DYLD_INSERT_LIBRARIES` environment variable can be used to inject a dynamic library into a process. By doing so, it may be possible to bypass the sandbox by intercepting and modifying system calls made by the process.
 
-The `sandboxd` daemon can be bypassed by modifying the system's sandbox configuration files. These files are located in the `/usr/share/sandbox` directory and define the default sandbox profiles for various system processes.
+## Conclusion
 
-For example, the `com.apple.WebKit.WebContent.sb` file defines the sandbox profile for the `WebKit` process. We can modify this file to disable certain sandbox restrictions or to add new rules that allow us to bypass the sandbox altogether.
-
-However, modifying these files requires root privileges and can potentially break system functionality. It should only be done as a last resort and with extreme caution.
+The macOS sandbox is a powerful security feature that can help protect a system from malicious activity. However, it is not perfect and can be bypassed or debugged in certain situations. By understanding how the sandbox works and by using the appropriate tools and techniques, it may be possible to bypass or debug the sandbox and perform actions that would otherwise be restricted.
 ```xml
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
 <dict>
@@ -117,83 +96,47 @@ However, modifying these files requires root privileges and can potentially brea
 
 {% tab title="Info.plist" %}
 
-# Debugging
+# Debugging and Bypassing macOS Sandboxes
 
-## Debugging a Sandbox
+The macOS sandbox is a powerful security feature that restricts the access of applications to sensitive system resources. However, it is not foolproof and can be bypassed by attackers with the right knowledge and tools.
 
-When a process is running inside a sandbox, it is not possible to attach a debugger to it. However, there are some techniques to debug a sandboxed process:
+## Debugging Sandboxed Applications
 
-### ptrace
+Debugging a sandboxed application can be challenging due to the restrictions placed on it. However, there are a few techniques that can be used to debug a sandboxed application:
 
-ptrace is a system call that allows a process to trace another process. This system call is blocked by the sandbox, but there are some ways to bypass it. One of them is to use a kernel extension that disables the sandbox. Another one is to use a vulnerability to escape the sandbox and then use ptrace.
+### Attaching to a Running Process
 
-### dyld\_insert\_library
+One way to debug a sandboxed application is to attach to a running process. This can be done using a debugger such as `lldb` or `gdb`. To attach to a running process, you will need to know the process ID (PID) of the application. This can be obtained using the `ps` command in the Terminal.
 
-dyld\_insert\_library is a function that allows a process to load a dynamic library into another process. This function is also blocked by the sandbox, but there are some ways to bypass it. One of them is to use a kernel extension that disables the sandbox. Another one is to use a vulnerability to escape the sandbox and then use dyld\_insert\_library.
+Once you have the PID, you can attach to the process using the following command:
 
-### Xcode
+```bash
+$ lldb -p <PID>
+```
 
-Xcode is an integrated development environment (IDE) for macOS. It includes a debugger that can be used to debug sandboxed processes. To use Xcode to debug a sandboxed process, you need to:
+### Injecting a Debugger
 
-1. Open Xcode.
-2. Go to File &gt; New &gt; Project.
-3. Select "Command Line Tool" and click "Next".
-4. Enter a name for the project and select a directory to save it.
-5. Click "Create".
-6. Go to Product &gt; Scheme &gt; Edit Scheme.
-7. Select "Run" from the left panel.
-8. Select "Info" from the top panel.
-9. Select "Debug executable" from the "Launch" dropdown.
-10. Enter the path to the sandboxed executable in the "Executable" field.
-11. Click "Close".
-12. Go to Product &gt; Run.
+Another way to debug a sandboxed application is to inject a debugger into the process. This can be done using a tool such as `ptrace` or `mach_inject`. Once the debugger is injected, you can use it to debug the application as you would with any other process.
 
-Xcode will launch the sandboxed process and attach the debugger to it.
+## Bypassing Sandboxes
 
-## Debugging a Sandbox Escape
+Bypassing a sandboxed application can be done using a variety of techniques. Some of the most common techniques include:
 
-When a sandbox escape is used to gain root privileges, it is possible to attach a debugger to any process running as root. To do this, you need to:
+### Exploiting a Vulnerability
 
-1. Open Terminal.
-2. Type "sudo debugserver -f /path/to/executable pid" (replace "/path/to/executable" with the path to the executable you want to debug and "pid" with the process ID of the executable).
-3. Open Xcode.
-4. Go to File &gt; New &gt; Project.
-5. Select "Command Line Tool" and click "Next".
-6. Enter a name for the project and select a directory to save it.
-7. Click "Create".
-8. Go to Product &gt; Scheme &gt; Edit Scheme.
-9. Select "Run" from the left panel.
-10. Select "Info" from the top panel.
-11. Select "Debug executable" from the "Launch" dropdown.
-12. Enter the path to the executable in the "Executable" field.
-13. Click "Close".
-14. Go to Product &gt; Run.
+One way to bypass a sandboxed application is to exploit a vulnerability in the application or in the system itself. This can allow an attacker to gain elevated privileges and bypass the sandbox.
 
-Xcode will launch the executable and attach the debugger to it.
+### Using a Known Exploit
 
-## Bypassing a Sandbox
+Another way to bypass a sandboxed application is to use a known exploit. This can be a vulnerability that has already been discovered and publicly disclosed, or it can be a tool or technique that is commonly used to bypass sandboxes.
 
-There are some techniques to bypass a sandbox:
+### Reverse Engineering the Sandbox
 
-### Vulnerabilities
+Finally, an attacker can attempt to reverse engineer the sandbox itself to find weaknesses or vulnerabilities that can be exploited. This can be a time-consuming process, but it can be very effective if done correctly.
 
-If there is a vulnerability in the sandbox, it can be used to escape it. There are many types of vulnerabilities that can be used to escape a sandbox, such as memory corruption vulnerabilities, logic vulnerabilities, and configuration vulnerabilities.
+## Conclusion
 
-### Kernel Extensions
-
-Kernel extensions can be used to disable the sandbox. However, kernel extensions are not signed by default on macOS, so they cannot be loaded unless the user disables System Integrity Protection (SIP).
-
-### Code Injection
-
-Code injection can be used to bypass a sandbox by injecting code into a process that is running outside the sandbox. There are many techniques to inject code into a process, such as dyld\_insert\_library, mach\_inject, and mach\_override.
-
-### Environment Variables
-
-Environment variables can be used to bypass a sandbox by changing the behavior of a process. For example, the DYLD\_INSERT\_LIBRARY environment variable can be used to load a dynamic library into a process.
-
-### Configuration Files
-
-Configuration files can be used to bypass a sandbox by changing the behavior of a process. For example, the Info.plist file can be used to specify entitlements that are not allowed by the sandbox.
+The macOS sandbox is a powerful security feature that can help protect your system from malicious applications. However, it is not foolproof and can be bypassed by attackers with the right knowledge and tools. As a developer or security professional, it is important to be aware of these techniques and to take steps to mitigate the risks they pose.
 ```xml
 <plist version="1.0">
 <dict>
@@ -222,14 +165,14 @@ codesign -s <cert-name> --entitlements entitlements.xml sand
 {% endcode %}
 
 {% hint style="danger" %}
-L'application va essayer de **lire** le fichier **`~/Desktop/del.txt`**, que le **Sandbox n'autorisera pas**.\
-Créez un fichier là-bas car une fois que le Sandbox est contourné, il pourra le lire:
+L'application va essayer de **lire** le fichier **`~/Desktop/del.txt`**, que le **bac à sable n'autorisera pas**.\
+Créez un fichier là-bas car une fois que le bac à sable est contourné, il pourra le lire :
 ```bash
 echo "Sandbox Bypassed" > ~/Desktop/del.txt
 ```
 {% endhint %}
 
-Déboguons l'application d'échecs pour voir quand le Sandbox est chargé:
+Déboguons l'application d'échecs pour voir quand le Sandbox est chargé :
 ```bash
 # Load app in debugging
 lldb ./sand
@@ -307,12 +250,12 @@ Sandbox Bypassed!
 Process 2517 exited with status = 0 (0x00000000)
 ```
 {% hint style="warning" %}
-Même si le Sandbox est contourné, TCC demandera à l'utilisateur s'il souhaite autoriser le processus à lire des fichiers depuis le bureau.
+**Même si le Sandbox est contourné, TCC** demandera à l'utilisateur s'il veut autoriser le processus à lire les fichiers du bureau.
 {% endhint %}
 
 ### Abus d'autres processus
 
-Si vous êtes capable de **compromettre d'autres processus** fonctionnant dans des Sandboxes moins restrictives (ou sans Sandboxes), vous pourrez vous échapper vers leurs Sandboxes :
+Si à partir du processus Sandbox, vous êtes capable de **compromettre d'autres processus** fonctionnant dans des Sandbox moins restrictives (ou sans Sandbox), vous pourrez vous échapper vers leurs Sandbox :
 
 {% content-ref url="../../macos-proces-abuse/" %}
 [macos-proces-abuse](../../macos-proces-abuse/)
@@ -320,7 +263,7 @@ Si vous êtes capable de **compromettre d'autres processus** fonctionnant dans d
 
 ### Contournement d'interposition
 
-Pour plus d'informations sur l'**interposition**, consultez :
+Pour plus d'informations sur **l'interposition**, consultez :
 
 {% content-ref url="../../mac-os-architecture/macos-function-hooking.md" %}
 [macos-function-hooking.md](../../mac-os-architecture/macos-function-hooking.md)
@@ -350,7 +293,7 @@ DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
 _libsecinit_initializer called
 Sandbox Bypassed!
 ```
-#### Interposer `__mac_syscall` pour éviter le Sandbox
+#### Interposer `__mac_syscall` pour empêcher le Sandbox
 
 {% code title="interpose.c" %}
 ```c
@@ -412,14 +355,14 @@ ld: dynamic executables or dylibs must link with libSystem.dylib for architectur
 ```
 ### Abus des emplacements de démarrage automatique
 
-Si un processus sandboxé peut **écrire** dans un emplacement où **plus tard une application non sandboxée va exécuter le binaire**, il pourra **s'échapper simplement en y plaçant** le binaire. Un bon exemple de ce type d'emplacements sont `~/Library/LaunchAgents` ou `/System/Library/LaunchDaemons`.
+Si un processus sandboxé peut **écrire** dans un endroit où **plus tard une application non sandboxée va exécuter le binaire**, il pourra **s'échapper simplement en y plaçant** le binaire. Un bon exemple de ce type d'emplacements sont `~/Library/LaunchAgents` ou `/System/Library/LaunchDaemons`.
 
-Pour cela, vous pourriez même avoir besoin de **2 étapes** : pour faire fonctionner un processus avec un sandbox **plus permissif** (`file-read*`, `file-write*`) exécutez votre code qui écrira en un endroit où il sera **exécuté sans sandbox**.
+Pour cela, vous pourriez même avoir besoin de **2 étapes** : faire en sorte qu'un processus avec un sandbox **plus permissif** (`file-read*`, `file-write*`) exécute votre code qui écrira effectivement dans un endroit où il sera **exécuté sans sandbox**.
 
 Consultez cette page sur les **emplacements de démarrage automatique** :
 
 {% content-ref url="broken-reference" %}
-[Lien brisé](broken-reference)
+[Lien cassé](broken-reference)
 {% endcontent-ref %}
 
 ## Références
@@ -433,7 +376,7 @@ Consultez cette page sur les **emplacements de démarrage automatique** :
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).

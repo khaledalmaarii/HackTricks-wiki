@@ -15,9 +15,9 @@ _Logos et design de mouvement Hacktricks par_ [_@ppiernacho_](https://www.instag
 
 Ici, vous pouvez trouver une petite **introduction:**
 
-## [**Méthodologie de test d'intrusion**](generic-methodologies-and-resources/pentesting-methodology.md)
+## [**Méthodologie de pentest**](generic-methodologies-and-resources/pentesting-methodology.md)
 
-Ici, vous trouverez le **flux typique** que **vous devez suivre lors du test d'intrusion** d'une ou plusieurs **machines**.
+Ici, vous trouverez le **flux typique** que **vous devez suivre lors du pentest** d'une ou plusieurs **machines**.
 
 **Cliquez sur le titre pour commencer!**
 
@@ -25,9 +25,9 @@ Ici, vous trouverez le **flux typique** que **vous devez suivre lors du test d'i
 
 ### [STM Cyber](https://www.stmcyber.com)
 
-![](<.gitbook/assets/image (638) (2) (1).png>)
+![](<.gitbook/assets/image (642) (1) (1) (1).png>)
 
-[**STM Cyber**](https://www.stmcyber.com) est une excellente entreprise de cybersécurité dont le slogan est **HACK THE UNHACKABLE**. Ils effectuent leurs propres recherches et développent leurs propres outils de piratage pour **offrir plusieurs services de cybersécurité précieux** tels que des tests de pénétration, des équipes rouges et une formation.
+[**STM Cyber**](https://www.stmcyber.com) est une excellente entreprise de cybersécurité dont le slogan est **HACK THE UNHACKABLE**. Ils effectuent leurs propres recherches et développent leurs propres outils de piratage pour **offrir plusieurs services de cybersécurité précieux** tels que le pentest, les équipes rouges et la formation.
 
 Vous pouvez consulter leur **blog** sur [**https://blog.stmcyber.com**](https://blog.stmcyber.com)
 
@@ -45,7 +45,7 @@ Vous pouvez consulter leur **blog** sur [**https://blog.stmcyber.com**](https://
 
 ![](.gitbook/assets/i3.png)
 
-**Intigriti** est la plateforme de **bug bounty n°1 en Europe** et d'hacking éthique.
+**Intigriti** est la plateforme de **bug bounty n°1 en Europe** et de piratage éthique.
 
 Astuce de bug bounty: **inscrivez-vous** à **Intigriti**, une plateforme de **bug bounty premium créée par des pirates pour des pirates**! Rejoignez-nous sur [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) aujourd'hui et commencez à gagner des primes allant jusqu'à **100 000 $**!
 
@@ -58,7 +58,7 @@ Astuce de bug bounty: **inscrivez-vous** à **Intigriti**, une plateforme de **b
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour créer et **automatiser facilement des flux de travail** alimentés par les outils communautaires les plus avancés au monde.
 
-Obtenez l'accès aujourd'hui:
+Obtenez un accès aujourd'hui:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -80,4 +80,4 @@ Obtenez l'accès aujourd'hui:
 
 <figure><img src=".gitbook/assets/logo.svg" alt=""><figcaption></figcaption></figure>
 
-[**WebSec**](https://websec.nl) est une entreprise de cybersécurité profession
+[**WebSec**](https://websec.nl) est une entreprise de cybersécurité professionnelle basée à
