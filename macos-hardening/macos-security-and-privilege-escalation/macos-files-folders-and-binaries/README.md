@@ -1,10 +1,10 @@
-# Fichiers, Dossiers, Binaires et Mémoire de macOS
+# macOS Fichiers, Dossiers, Binaires et Mémoire
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -24,7 +24,7 @@
 * **/sbin** : Binaires système essentiels (liés à l'administration)
 * **/System** : Fichier pour faire fonctionner OS X. Vous devriez trouver ici principalement des fichiers spécifiques à Apple (pas de tiers).
 * **/tmp** : Les fichiers sont supprimés après 3 jours (c'est un lien symbolique vers /private/tmp)
-* **/Users** : Répertoire personnel des utilisateurs.
+* **/Users** : Répertoire personnel pour les utilisateurs.
 * **/usr** : Configuration et binaires système
 * **/var** : Fichiers journaux
 * **/Volumes** : Les lecteurs montés apparaîtront ici.
@@ -35,7 +35,7 @@
 * Les **applications système** sont situées sous `/System/Applications`
 * Les **applications installées** sont généralement installées dans `/Applications` ou dans `~/Applications`
 * Les **données d'application** peuvent être trouvées dans `/Library/Application Support` pour les applications s'exécutant en tant que root et `~/Library/Application Support` pour les applications s'exécutant en tant qu'utilisateur.
-* Les **daemons** d'applications tierces **nécessitant de s'exécuter en tant que root** sont généralement situés dans `/Library/PrivilegedHelperTools/`
+* Les **daemons** d'applications **tiers** qui **doivent s'exécuter en tant que root** sont généralement situés dans `/Library/PrivilegedHelperTools/`
 * Les applications **sandboxed** sont mappées dans le dossier `~/Library/Containers`. Chaque application a un dossier nommé selon l'ID de bundle de l'application (`com.apple.Safari`).
 * Le **noyau** est situé dans `/System/Library/Kernels/kernel`
 * Les **extensions de noyau d'Apple** sont situées dans `/System/Library/Extensions`
@@ -47,6 +47,12 @@ macOS stocke des informations telles que des mots de passe à plusieurs endroits
 
 {% content-ref url="macos-sensitive-locations.md" %}
 [macos-sensitive-locations.md](macos-sensitive-locations.md)
+{% endcontent-ref %}
+
+### Installateurs pkg vulnérables
+
+{% content-ref url="macos-installer-packages-pkg.md" %}
+[macos-installer-packages-pkg.md](macos-installer-packages-pkg.md)
 {% endcontent-ref %}
 
 ## Extensions spécifiques à OS X
@@ -61,7 +67,7 @@ macOS stocke des informations telles que des mots de passe à plusieurs endroits
     * `plutil -convert xml1 ~/Library/Preferences/com.apple.screensaver.plist -o -`
     * `plutil -convert json ~/Library/Preferences/com.apple.screensaver.plist -o -`
 * **`.app`** : Applications Apple qui suivent la structure de répertoire (c'est un bundle).
-* **`.dylib`** : Bibliothèques dynamiques (comme les fichiers DLL de Windows)
+* **`.dylib`** : Bibliothèques dynamiques (comme les fichiers DLL Windows)
 * **`.pkg`** : Sont identiques à xar (format d'archive extensible). La commande installer peut être utilisée pour installer le contenu de ces fichiers.
 * **`.DS_Store`** : Ce fichier est présent dans chaque répertoire, il enregistre les attributs et les personnalisations du répertoire.
 * **`.Spotlight-V100`** : Ce dossier apparaît sur le répertoire racine de chaque volume du système.
@@ -84,9 +90,7 @@ Dans un **dossier**, **la lecture** permet de **lister** celui-ci, **l'écriture
 
 ### Modificateurs de drapeaux
 
-Il existe des drapeaux qui peuvent être définis dans les fichiers qui feront que le fichier se comportera différemment. Vous pouvez **vérifier les drapeaux** des fichiers à l'intérieur d'un répertoire avec `ls -lO /path/directory`
-
-* **`uchg`** : Connu sous le nom de **drapeau uchange** empêchera toute
+Il existe des d
 ```bash
 ls -ld Movies
 drwx------+   7 username  staff     224 15 Apr 19:42 Movies
@@ -101,9 +105,9 @@ Vous pouvez trouver **tous les fichiers avec des ACL** avec (c'est trèèès len
 ```bash
 ls -RAle / 2>/dev/null | grep -E -B1 "\d: "
 ```
-### Fourches de ressources | ADS de macOS
+### Fourches de ressources | ADS macOS
 
-Il s'agit d'un moyen d'obtenir des **flux de données alternatifs dans les machines MacOS**. Vous pouvez enregistrer du contenu à l'intérieur d'un attribut étendu appelé **com.apple.ResourceFork** à l'intérieur d'un fichier en le sauvegardant dans **file/..namedfork/rsrc**.
+Il s'agit d'un moyen d'obtenir des **flux de données alternatifs dans les machines MacOS**. Vous pouvez enregistrer du contenu à l'intérieur d'un attribut étendu appelé **com.apple.ResourceFork** à l'intérieur d'un fichier en l'enregistrant dans **file/..namedfork/rsrc**.
 ```bash
 echo "Hello" > a.txt
 echo "Hello Mac ADS" > a.txt/..namedfork/rsrc
@@ -114,7 +118,7 @@ com.apple.ResourceFork: Hello Mac ADS
 ls -l a.txt #The file length is still q
 -rw-r--r--@ 1 username  wheel  6 17 Jul 01:15 a.txt
 ```
-Vous pouvez **trouver tous les fichiers contenant cet attribut étendu** avec:
+Vous pouvez **trouver tous les fichiers contenant cet attribut étendu** avec :
 
 {% code overflow="wrap" %}
 ```bash
@@ -141,7 +145,7 @@ Les fichiers `/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/S
 Les catégories possibles comprennent les suivantes :
 
 * **LSRiskCategorySafe** : **Totalement** **sûr** ; Safari s'ouvrira automatiquement après le téléchargement
-* **LSRiskCategoryNeutral** : Aucun avertissement, mais **non ouvert automatiquement**
+* **LSRiskCategoryNeutral** : Pas d'avertissement, mais **non ouvert automatiquement**
 * **LSRiskCategoryUnsafeExecutable** : **Déclenche** un **avertissement** "Ce fichier est une application..."
 * **LSRiskCategoryMayContainUnsafeExecutable** : Cela concerne des choses comme les archives qui contiennent un exécutable. Il **déclenche un avertissement à moins que Safari puisse déterminer que tous les contenus sont sûrs ou neutres**.
 
@@ -161,7 +165,7 @@ Les catégories possibles comprennent les suivantes :
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).

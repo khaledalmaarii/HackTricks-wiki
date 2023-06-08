@@ -1,10 +1,10 @@
-# Sécurité et élévation de privilèges sur macOS
+# Sécurité et élévation de privilèges macOS
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une entreprise de **cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -18,15 +18,15 @@
 
 🐞 Lisez les tutoriels de bugs web3
 
-🔔 Soyez informé des nouveaux programmes de primes pour bugs
+🔔 Recevez des notifications sur les nouveaux programmes de primes de bugs
 
 💬 Participez aux discussions de la communauté
 
 ## Base de MacOS
 
-Si vous n'êtes pas familier avec macOS, vous devriez commencer par apprendre les bases de macOS :
+Si vous n'êtes pas familier avec macOS, vous devriez commencer par apprendre les bases de macOS:&#x20;
 
-* Fichiers et autorisations spéciaux de **macOS** :
+* Fichiers et autorisations spéciaux de **macOS:**
 
 {% content-ref url="macos-files-folders-and-binaries/" %}
 [macos-files-folders-and-binaries](macos-files-folders-and-binaries/)
@@ -44,7 +44,7 @@ Si vous n'êtes pas familier avec macOS, vous devriez commencer par apprendre le
 [macos-applefs.md](macos-applefs.md)
 {% endcontent-ref %}
 
-* L'**architecture** du **noyau** de Mac
+* L'**architecture** du **noyau**
 
 {% content-ref url="mac-os-architecture/" %}
 [mac-os-architecture](mac-os-architecture/)
@@ -58,7 +58,7 @@ Si vous n'êtes pas familier avec macOS, vous devriez commencer par apprendre le
 
 ### MacOS MDM
 
-Dans les entreprises, les systèmes **macOS** sont très probablement gérés avec un MDM. Par conséquent, du point de vue d'un attaquant, il est intéressant de savoir **comment cela fonctionne** :
+Dans les entreprises, les systèmes **macOS** sont très probablement **gérés avec un MDM**. Par conséquent, du point de vue d'un attaquant, il est intéressant de savoir **comment cela fonctionne**:
 
 {% content-ref url="macos-mdm/" %}
 [macos-mdm](macos-mdm/)
@@ -70,7 +70,7 @@ Dans les entreprises, les systèmes **macOS** sont très probablement gérés av
 [macos-apps-inspecting-debugging-and-fuzzing](macos-apps-inspecting-debugging-and-fuzzing/)
 {% endcontent-ref %}
 
-## Protections de sécurité de MacOS
+## Protections de sécurité MacOS
 
 {% content-ref url="macos-security-protections/" %}
 [macos-security-protections](macos-security-protections/)
@@ -89,6 +89,12 @@ Cela pourrait se produire dans les situations suivantes :
 * Le fichier utilisé est à l'intérieur d'un répertoire appartenant à root mais l'utilisateur a un accès en écriture dessus en raison d'un groupe (l'utilisateur pourrait créer le fichier)
 
 Être capable de **créer un fichier** qui va être **utilisé par root**, permet à un utilisateur de **tirer parti de son contenu** ou même de créer des **liens symboliques/hardlinks** pour le pointer vers un autre endroit.
+
+Pour ce type de vulnérabilités, n'oubliez pas de **vérifier les installateurs `.pkg`** vulnérables :
+
+{% content-ref url="macos-files-folders-and-binaries/macos-installer-packages-pkg.md" %}
+[macos-installer-packages-pkg.md](macos-files-folders-and-binaries/macos-installer-packages-pkg.md)
+{% endcontent-ref %}
 
 ### Abus de privilèges et d'attributions via l'abus de processus
 
@@ -112,11 +118,11 @@ Différentes applications peuvent être enregistrées pour ouvrir des protocoles
 
 TODO: Créer une page à ce sujet
 
-## Élévation de privilèges sur MacOS
+## Élévation de privilèges MacOS
 
 ### CVE-2020-9771 - Contournement de TCC et élévation de privilèges de mount\_apfs
 
-**N'importe quel utilisateur** (même non privilégié) peut créer et monter un instantané de la machine à remonter le temps et **accéder à TOUS les fichiers** de cet instantané.\
+**N'importe quel utilisateur** (même non privilégié) peut créer et monter une capture d'écran de Time Machine et **accéder à TOUS les fichiers** de cette capture d'écran.\
 Le **seul privilège** nécessaire est que l'application utilisée (comme `Terminal`) ait un accès **Full Disk Access** (FDA) (`kTCCServiceSystemPolicyAllfiles`) qui doit être accordé par un administrateur. 
 
 {% code overflow="wrap" %}
@@ -149,12 +155,12 @@ Une explication plus détaillée peut être [**trouvée dans le rapport original
 [macos-sensitive-locations.md](macos-files-folders-and-binaries/macos-sensitive-locations.md)
 {% endcontent-ref %}
 
-### Privilège d'escalade Linux
+### Linux Privesc
 
-Tout d'abord, veuillez noter que **la plupart des astuces d'escalade de privilèges affectant Linux/Unix affecteront également les machines MacOS**. Voir donc :
+Tout d'abord, veuillez noter que **la plupart des astuces sur l'élévation de privilèges affectant Linux/Unix affecteront également les machines MacOS**. Voir donc :
 
 {% content-ref url="../../linux-hardening/privilege-escalation/" %}
-[privilege-escalation](../../linux-hardening/privilege-escalation/)
+[élévation de privilèges](../../linux-hardening/privilege-escalation/)
 {% endcontent-ref %}
 
 ## Références
