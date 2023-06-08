@@ -51,8 +51,8 @@ macOS stocke des informations telles que des mots de passe à plusieurs endroits
 
 ### Installateurs pkg vulnérables
 
-{% content-ref url="macos-installer-packages-pkg.md" %}
-[macos-installer-packages-pkg.md](macos-installer-packages-pkg.md)
+{% content-ref url="macos-installers-abuse.md" %}
+[macos-installers-abuse.md](macos-installers-abuse.md)
 {% endcontent-ref %}
 
 ## Extensions spécifiques à OS X
@@ -90,7 +90,7 @@ Dans un **dossier**, **la lecture** permet de **lister** celui-ci, **l'écriture
 
 ### Modificateurs de drapeaux
 
-Il existe des d
+Il existe des drapeaux qui peuvent être dé
 ```bash
 ls -ld Movies
 drwx------+   7 username  staff     224 15 Apr 19:42 Movies

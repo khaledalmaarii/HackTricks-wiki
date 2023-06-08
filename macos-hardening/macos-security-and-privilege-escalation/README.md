@@ -78,7 +78,7 @@ Dans les entreprises, les systèmes **macOS** sont très probablement **gérés 
 
 ## Surface d'attaque
 
-### Autorisations de fichier
+### Autorisations de fichiers
 
 Si un **processus s'exécutant en tant que root écrit** un fichier qui peut être contrôlé par un utilisateur, l'utilisateur pourrait l'utiliser pour **escalader les privilèges**.\
 Cela pourrait se produire dans les situations suivantes :
@@ -92,13 +92,13 @@ Cela pourrait se produire dans les situations suivantes :
 
 Pour ce type de vulnérabilités, n'oubliez pas de **vérifier les installateurs `.pkg`** vulnérables :
 
-{% content-ref url="macos-files-folders-and-binaries/macos-installer-packages-pkg.md" %}
-[macos-installer-packages-pkg.md](macos-files-folders-and-binaries/macos-installer-packages-pkg.md)
+{% content-ref url="macos-files-folders-and-binaries/macos-installers-abuse.md" %}
+[macos-installers-abuse.md](macos-files-folders-and-binaries/macos-installers-abuse.md)
 {% endcontent-ref %}
 
 ### Abus de privilèges et d'attributions via l'abus de processus
 
-Si un processus peut **injecter du code dans un autre processus avec des privilèges ou des attributions supérieurs** ou le contacter pour effectuer des actions de privilèges, il pourrait escalader les privilèges et contourner les mesures de défense telles que [Sandbox](macos-security-protections/macos-sandbox/) ou [TCC](macos-security-protections/macos-tcc/).
+Si un processus peut **injecter du code dans un autre processus avec des privilèges ou des attributions supérieurs** ou le contacter pour effectuer des actions de privilèges, il peut escalader les privilèges et contourner les mesures de défense telles que [Sandbox](macos-security-protections/macos-sandbox/) ou [TCC](macos-security-protections/macos-tcc/).
 
 {% content-ref url="macos-proces-abuse/" %}
 [macos-proces-abuse](macos-proces-abuse/)
@@ -106,7 +106,7 @@ Si un processus peut **injecter du code dans un autre processus avec des privil�
 
 ### Applications d'extension de fichier
 
-Des applications étranges enregistrées par des extensions de fichier pourraient être abusées :
+Des applications étranges enregistrées par des extensions de fichier peuvent être abusées :
 
 {% content-ref url="macos-file-extension-apps.md" %}
 [macos-file-extension-apps.md](macos-file-extension-apps.md)
@@ -175,9 +175,9 @@ Tout d'abord, veuillez noter que **la plupart des astuces sur l'élévation de p
 
 [**Suivez HackenProof**](https://bit.ly/3xrrDrL) **pour en savoir plus sur les bugs web3**
 
-🐞 Lire des tutoriels sur les bugs web3
+🐞 Lire les tutoriels de bugs web3
 
-🔔 Recevoir des notifications sur les nouveaux programmes de primes pour bugs
+🔔 Recevoir des notifications sur les nouveaux bug bounties
 
 💬 Participer aux discussions de la communauté
 
