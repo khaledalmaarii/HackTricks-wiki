@@ -16,7 +16,7 @@ javascriptCopy code/usr
 * /usr/local
 * /usr/share/man
 ```
-Indique que le répertoire **`/usr`** est généralement protégé par SIP. Cependant, des modifications sont autorisées dans les trois sous-répertoires spécifiés (`/usr/libexec/cups`, `/usr/local` et `/usr/share/man`), car ils sont répertoriés avec un astérisque en tête (\*).
+Indique que le répertoire **`/usr`** est généralement protégé par SIP. Cependant, des modifications sont autorisées dans les trois sous-répertoires spécifiés (`/usr/libexec/cups`, `/usr/local` et `/usr/share/man`), car ils sont répertoriés avec un astérisque (\*) en tête.
 
 Pour vérifier si un répertoire ou un fichier est protégé par SIP, vous pouvez utiliser la commande **`ls -lOd`** pour vérifier la présence du drapeau **`restricted`** ou **`sunlnk`**. Par exemple:
 ```bash
@@ -52,6 +52,15 @@ SIP impose également plusieurs autres restrictions. Par exemple, il interdit le
 
 ## Contournements de SIP
 
+### Prix
+
+Si un attaquant parvient à contourner SIP, voici ce qu'il gagnera :
+
+* Lire les e-mails, les messages, l'historique de Safari... de tous les utilisateurs
+* Accorder des autorisations pour la webcam, le microphone ou tout autre chose (en écrivant directement sur la base de données TCC protégée par SIP)
+* Persistance : il pourrait enregistrer un logiciel malveillant dans un emplacement protégé par SIP et même toot ne pourra pas le supprimer. Il pourrait également altérer MRT.
+* Facilité de chargement des extensions de noyau (d'autres protections hardcore sont toujours en place pour cela).
+
 ### Packages d'installation
 
 Les **packages d'installation signés avec le certificat d'Apple** peuvent contourner ses protections. Cela signifie que même les packages signés par des développeurs standard seront bloqués s'ils tentent de modifier les répertoires protégés par SIP.
@@ -66,11 +75,11 @@ Une faille potentielle est que si un fichier est spécifié dans **`rootless.con
 L'entitlement **`com.apple.rootless.install.heritable`** permet de contourner SIP
 {% endhint %}
 
-[**Des chercheurs de ce billet de blog**](https://www.microsoft.com/en-us/security/blog/2021/10/28/microsoft-finds-new-macos-vulnerability-shrootless-that-could-bypass-system-integrity-protection/) ont découvert une vulnérabilité dans le mécanisme de protection de l'intégrité du système (SIP) de macOS, appelée vulnérabilité 'Shrootless'. Cette vulnérabilité concerne le démon `system_installd`, qui possède un entitlement, **`com.apple.rootless.install.heritable`**, qui permet à l'un de ses processus enfants de contourner les restrictions du système de fichiers de SIP.
+[**Les chercheurs de ce billet de blog**](https://www.microsoft.com/en-us/security/blog/2021/10/28/microsoft-finds-new-macos-vulnerability-shrootless-that-could-bypass-system-integrity-protection/) ont découvert une vulnérabilité dans le mécanisme de protection de l'intégrité du système (SIP) de macOS, appelée vulnérabilité 'Shrootless'. Cette vulnérabilité concerne le démon `system_installd`, qui a un entitlement, **`com.apple.rootless.install.heritable`**, qui permet à l'un de ses processus enfants de contourner les restrictions du système de fichiers de SIP.
 
-Les chercheurs ont découvert que lors de l'installation d'un package signé par Apple (.pkg), **`system_installd`** **exécute** tous les scripts **post-installation** inclus dans le package. Ces scripts sont exécutés par le shell par défaut, **`zsh`**, qui exécute automatiquement les commandes du fichier **`/etc/zshenv`**, s'il existe, même en mode non interactif. Cette fonctionnalité pourrait être exploitée par des attaquants : en créant un fichier malveillant `/etc/zshenv` et en attendant que `system_installd` invoque `zsh`, ils pourraient effectuer des opérations arbitraires sur l'appareil.
+Les chercheurs ont découvert que lors de l'installation d'un package signé par Apple (.pkg), **`system_installd`** **exécute** tous les scripts **post-installation** inclus dans le package. Ces scripts sont exécutés par le shell par défaut, **`zsh`**, qui exécute automatiquement les commandes du fichier **`/etc/zshenv`**, s'il existe, même en mode non interactif. Ce comportement pourrait être exploité par des attaquants : en créant un fichier malveillant `/etc/zshenv` et en attendant que `system_installd` invoque `zsh`, ils pourraient effectuer des opérations arbitraires sur l'appareil.
 
-De plus, il a été découvert que **`/etc/zshenv` pourrait être utilisé comme technique d'attaque générale**, pas seulement pour contourner SIP. Chaque profil utilisateur possède un fichier `~/.zshenv`, qui se comporte de la même manière que `/etc/zshenv` mais ne nécessite pas de permissions root. Ce fichier pourrait être utilisé comme mécanisme de persistance, se déclenchant à chaque démarrage de `zsh`, ou comme mécanisme d'élévation de privilèges. Si un utilisateur admin élève ses privilèges en utilisant `sudo -s` ou `sudo <commande>`, le fichier `~/.zshenv` serait déclenché, permettant ainsi une élévation de privilèges effective.
+De plus, il a été découvert que **`/etc/zshenv` pourrait être utilisé comme technique d'attaque générale**, pas seulement pour contourner SIP. Chaque profil utilisateur a un fichier `~/.zshenv`, qui se comporte de la même manière que `/etc/zshenv` mais ne nécessite pas de permissions root. Ce fichier pourrait être utilisé comme mécanisme de persistance, se déclenchant à chaque fois que `zsh` démarre, ou comme mécanisme d'élévation de privilèges. Si un utilisateur admin élève ses privilèges en utilisant `sudo -s` ou `sudo <commande>`, le fichier `~/.zshenv` serait déclenché, permettant ainsi une élévation de privilèges effective.
 
 ### **com.apple.rootless.install**
 
@@ -78,17 +87,17 @@ De plus, il a été découvert que **`/etc/zshenv` pourrait être utilisé comme
 L'entitlement **`com.apple.rootless.install`** permet de contourner SIP
 {% endhint %}
 
-À partir de [**CVE-2022-26712**](https://jhftss.github.io/CVE-2022-26712-The-POC-For-SIP-Bypass-Is-Even-Tweetable/), le service XPC système `/System/Library/PrivateFrameworks/ShoveService.framework/Versions/A/XPCServices/SystemShoveService.xpc` possède l'entitlement **`com.apple.rootless.install`**, qui accorde au processus l'autorisation de contourner les restrictions de SIP. Il **expose également une méthode pour déplacer des fichiers sans aucune vérification de sécurité.**
+De [**CVE-2022-26712**](https://jhftss.github.io/CVE-2022-26712-The-POC-For-SIP-Bypass-Is-Even-Tweetable/) Le service XPC système `/System/Library/PrivateFrameworks/ShoveService.framework/Versions/A/XPCServices/SystemShoveService.xpc` a l'entitlement **`com.apple.rootless.install`**, qui accorde au processus l'autorisation de contourner les restrictions de SIP. Il **expose également une méthode pour déplacer des fichiers sans aucune vérification de sécurité.**
 
-## Instantanés de système scellés
+## Instantanés scellés du système
 
-Les instantanés de système scellés sont une fonctionnalité introduite par Apple dans **macOS Big Sur (macOS 11)** dans le cadre de son mécanisme de protection de l'intégrité du système (SIP) pour fournir une couche de sécurité et de stabilité supplémentaire au système. Ce sont essentiellement des versions en lecture seule du volume système.
+Les instantanés scellés du système sont une fonctionnalité introduite par Apple dans **macOS Big Sur (macOS 11)** dans le cadre de son mécanisme de protection de l'intégrité du système (SIP) pour fournir une couche de sécurité et de stabilité supplémentaire au système. Ce sont essentiellement des versions en lecture seule du volume système.
 
 Voici un aperçu plus détaillé :
 
-1. **Système immuable** : les instantanés de système scellés rendent le volume système de macOS "immuable", ce qui signifie qu'il ne peut pas être modifié. Cela empêche toute modification non autorisée ou accidentelle du système qui pourrait compromettre la sécurité ou la stabilité du système.
-2. **Mises à jour du logiciel système** : lorsque vous installez des mises à jour ou des mises à niveau de macOS, macOS crée un nouvel instantané système. Le volume de démarrage de macOS utilise ensuite **APFS (Apple File System)** pour passer à ce nouvel instantané. Tout le processus de mise à jour devient plus sûr et plus fiable, car le système peut toujours revenir à l'instantané précédent en cas de problème pendant la mise à jour.
-3. **Séparation des données** : en conjonction avec le concept de séparation des volumes de données et de système introduit dans macOS Catalina, la fonctionnalité d'instantanés de système scellés garantit que toutes vos données et paramètres sont stockés sur un volume "**Données**" séparé. Cette séparation rend vos données indépendantes du système, ce qui simplifie le processus de mise à jour du système et améliore la sécurité du système.
+1. **Système immuable** : Les instantanés scellés du système rendent le volume système de macOS "immuable", ce qui signifie qu'il ne peut pas être modifié. Cela empêche toute modification non autorisée ou accidentelle du système qui pourrait compromettre la sécurité ou la stabilité du système.
+2. **Mises à jour du logiciel système** : Lorsque vous installez des mises à jour ou des mises à niveau de macOS, macOS crée un nouvel instantané système. Le volume de démarrage de macOS utilise ensuite **APFS (Apple File System)** pour passer à ce nouvel instantané. Tout le processus de mise à jour devient plus sûr et plus fiable car le système peut toujours revenir à l'instantané précédent en cas de problème pendant la mise à jour.
+3. **Séparation des données** : En conjonction avec le concept de séparation des volumes de données et de système introduit dans macOS Catalina, la fonctionnalité des instantanés scellés du système garantit que toutes vos données et paramètres sont stockés sur un volume "**Données**" séparé. Cette séparation rend vos données indépendantes du système, ce qui simplifie le processus de mise à jour du système et améliore la sécurité du système.
 
 N'oubliez pas que ces instantanés sont gérés automatiquement par macOS et ne prennent pas d'espace supplémentaire sur votre disque, grâce aux capacités de partage d'espace d'APFS. Il est également important de noter que ces instantanés sont différents des **instantanés Time Machine**, qui sont des sauvegardes accessibles par l'utilisateur de l'ensemble du système.
 
@@ -132,7 +141,7 @@ Il est également possible de vérifier que le scellement est activé en exécut
 csrutil authenticated-root status
 Authenticated Root status: enabled
 ```
-De plus, il est monté en **lecture seule**:
+De plus, il est monté en **lecture seule** :
 ```
 mount
 /dev/disk3s1s1 on / (apfs, sealed, local, read-only, journaled)
@@ -141,10 +150,10 @@ mount
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une entreprise de **cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Travaillez-vous dans une entreprise de **cybersécurité** ? Voulez-vous voir votre entreprise annoncée dans HackTricks ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) **groupe Discord** ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live).
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) **groupe Discord** ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-moi** sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live).
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
