@@ -15,9 +15,9 @@ _Logos et design de mouvement Hacktricks par_ [_@ppiernacho_](https://www.instag
 
 Ici, vous pouvez trouver une petite **introduction:**
 
-## [**Méthodologie de pentest**](generic-methodologies-and-resources/pentesting-methodology.md)
+## [**Méthodologie de Pentesting**](generic-methodologies-and-resources/pentesting-methodology.md)
 
-Ici, vous trouverez le **flux typique** que **vous devez suivre lors du pentest** d'une ou plusieurs **machines**.
+Ici, vous trouverez le **flux typique** que **vous devez suivre lors du pentesting** d'une ou plusieurs **machines**.
 
 **Cliquez sur le titre pour commencer!**
 
@@ -27,7 +27,7 @@ Ici, vous trouverez le **flux typique** que **vous devez suivre lors du pentest*
 
 ![](<.gitbook/assets/image (642) (1) (1) (1).png>)
 
-[**STM Cyber**](https://www.stmcyber.com) est une excellente entreprise de cybersécurité dont le slogan est **HACK THE UNHACKABLE**. Ils effectuent leurs propres recherches et développent leurs propres outils de piratage pour **offrir plusieurs services de cybersécurité précieux** tels que le pentest, les équipes rouges et la formation.
+[**STM Cyber**](https://www.stmcyber.com) est une excellente entreprise de cybersécurité dont le slogan est **HACK THE UNHACKABLE**. Ils effectuent leurs propres recherches et développent leurs propres outils de piratage pour **offrir plusieurs services de cybersécurité précieux** tels que le pentesting, les équipes rouges et la formation.
 
 Vous pouvez consulter leur **blog** sur [**https://blog.stmcyber.com**](https://blog.stmcyber.com)
 
@@ -70,7 +70,7 @@ Obtenez un accès aujourd'hui:
 
 🐞 Lire des tutoriels de bugs web3
 
-🔔 Recevoir des notifications sur les nouveaux bug bounties
+🔔 Recevez des notifications sur les nouveaux bug bounties
 
 💬 Participer aux discussions de la communauté
 
@@ -80,4 +80,4 @@ Obtenez un accès aujourd'hui:
 
 <figure><img src=".gitbook/assets/logo.svg" alt=""><figcaption></figcaption></figure>
 
-[**WebSec**](https://websec.nl) est une entreprise de cybersécurité professionnelle basée à
+[**WebSec**](https://websec.nl) est une entreprise de cybersécurité professionnelle

@@ -37,13 +37,18 @@ $ objdump -h /Applications/Calculator.app/Contents/MacOS/Calculator
 /Applications/Calculator.app/Contents/MacOS/Calculator:     file format Mach-O 64-bit x86-64
 Sections:
 Idx Name          Size      Address          Type
-  0 __text        00000f3c  0000000100000f40  TEXT
-  1 __stubs       00000048  0000000100001f7c  TEXT
-  2 __stub_helper 00000018  0000000100001fc4  TEXT
-  3 __cstring     0000001a  0000000100001fdc  DATA
-  4 __unwind_info 000000b0  0000000100001ff8  DATA
-  5 __DATA        00000020  00000001000020a8  DATA
-  6 __LINKEDIT    000000b8  00000001000020c8  DATA
+  0 __text        0000d000  0000000100001000  TEXT
+  1 __stubs       00000080  000000010000e000  TEXT
+  2 __stub_helper 00000030  000000010000e080  TEXT
+  3 __cstring     00000a1c  000000010000e0b0  DATA
+  4 __unwind_info 000002d8  000000010000f0cc  DATA
+  5 __DATA        00000020  0000000100010000  DATA
+  6 __got         00000008  0000000100010020  DATA
+  7 __la_symbol_p 00000008  0000000100010028  DATA
+  8 __mod_init_f 00000008  0000000100010030  DATA
+  9 __mod_term_f 00000008  0000000100010038  DATA
+ 10 __const       00000008  0000000100010040  DATA
+ 11 __bss         00000008  0000000100010048  BSS
 ```
 
 ```
@@ -54,170 +59,62 @@ $ objdump -d /Applications/Calculator.app/Contents/MacOS/Calculator
 
 Disassembly of section __text:
 
-0000000100000f40 <_start>:
-   100000f40:  55                      pushq  %rbp
-   100000f41:  48 89 e5                movq   %rsp, %rbp
-   100000f44:  48 83 ec 10             subq   $16, %rsp
-   100000f48:  48 c7 c0 00 00 00 00    movq   $0, %rax
-   100000f4f:  48 c7 c7 01 00 00 00    movq   $1, %rdi
-   100000f56:  48 c7 c2 00 00 00 00    movq   $0, %rdx
-   100000f5d:  0f 05                   syscall
-   100000f5f:  48 31 ff                xorq   %rdi, %rdi
-   100000f62:  48 c7 c0 3c 00 00 00    movq   $60, %rax
-   100000f69:  0f 05                   syscall
-   100000f6b:  0a                      .byte 0xa
-   100000f6c:  00 00                   addb   %al, (%rax)
-   100000f6e:  00 00                   addb   %al, (%rax)
-   100000f70:  00 00                   addb   %al, (%rax)
-   100000f72:  00 00                   addb   %al, (%rax)
-   100000f74:  00 00                   addb   %al, (%rax)
-   100000f76:  00 00                   addb   %al, (%rax)
-   100000f78:  00 00                   addb   %al, (%rax)
-   100000f7a:  00 00                   addb   %al, (%rax)
-   100000f7c:  00 00                   addb   %al, (%rax)
-   100000f7e:  00 00                   addb   %al, (%rax)
-   100000f80:  00 00                   addb   %al, (%rax)
-   100000f82:  00 00                   addb   %al, (%rax)
-   100000f84:  00 00                   addb   %al, (%rax)
-   100000f86:  00 00                   addb   %al, (%rax)
-   100000f88:  00 00                   addb   %al, (%rax)
-   100000f8a:  00 00                   addb   %al, (%rax)
-   100000f8c:  00 00                   addb   %al, (%rax)
-   100000f8e:  00 00                   addb   %al, (%rax)
-   100000f90:  00 00                   addb   %al, (%rax)
-   100000f92:  00 00                   addb   %al, (%rax)
-   100000f94:  00 00                   addb   %al, (%rax)
-   100000f96:  00 00                   addb   %al, (%rax)
-   100000f98:  00 00                   addb   %al, (%rax)
-   100000f9a:  00 00                   addb   %al, (%rax)
-   100000f9c:  00 00                   addb   %al, (%rax)
-   100000f9e:  00 00                   addb   %al, (%rax)
-   100000fa0:  00 00                   addb   %al, (%rax)
-   100000fa2:  00 00                   addb   %al, (%rax)
-   100000fa4:  00 00                   addb   %al, (%rax)
-   100000fa6:  00 00                   addb   %al, (%rax)
-   100000fa8:  00 00                   addb   %al, (%rax)
-   100000faa:  00 00                   addb   %al, (%rax)
-   100000fac:  00 00                   addb   %al, (%rax)
-   100000fae:  00 00                   addb   %al, (%rax)
-   100000fb0:  00 00                   addb   %al, (%rax)
-   100000fb2:  00 00                   addb   %al, (%rax)
-   100000fb4:  00 00                   addb   %al, (%rax)
-   100000fb6:  00 00                   addb   %al, (%rax)
-   100000fb8:  00 00                   addb   %al, (%rax)
-   100000fba:  00 00                   addb   %al, (%rax)
-   100000fbc:  00 00                   addb   %al, (%rax)
-   100000fbe:  00 00                   addb   %al, (%rax)
-   100000fc0:  00 00                   addb   %al, (%rax)
-   100000fc2:  00 00                   addb   %al, (%rax)
-   100000fc4:  00 00                   addb   %al, (%rax)
-   100000fc6:  00 00                   addb   %al, (%rax)
-   100000fc8:  00 00                   addb   %al, (%rax)
-   100000fca:  00 00                   addb   %al, (%rax)
-   100000fcc:  00 00                   addb   %al, (%rax)
-   100000fce:  00 00                   addb   %al, (%rax)
-   100000fd0:  00 00                   addb   %al, (%rax)
-   100000fd2:  00 00                   addb   %al, (%rax)
-   100000fd4:  00 00                   addb   %al, (%rax)
-   100000fd6:  00 00                   addb   %al, (%rax)
-   100000fd8:  00 00                   addb   %al, (%rax)
-   100000fda:  00 00                   addb   %al, (%rax)
-   100000fdc:  00 00                   addb   %al, (%rax)
-   100000fde:  00 00                   addb   %al, (%rax)
-   100000fe0:  00 00                   addb   %al, (%rax)
-   100000fe2:  00 00                   addb   %al, (%rax)
-   100000fe4:  00 00                   addb   %al, (%rax)
-   100000fe6:  00 00                   addb   %al, (%rax)
-   100000fe8:  00 00                   addb   %al, (%rax)
-   100000fea:  00 00                   addb   %al, (%rax)
-   100000fec:  00 00                   addb   %al, (%rax)
-   100000fee:  00 00                   addb   %al, (%rax)
-   100000ff0:  00 00                   addb   %al, (%rax)
-   100000ff2:  00 00                   addb   %al, (%rax)
-   100000ff4:  00 00                   addb   %al, (%rax)
-   100000ff6:  00 00                   addb   %al, (%rax)
-   100000ff8:  00 00                   addb   %al, (%rax)
-   100000ffa:  00 00                   addb   %al, (%rax)
-   100000ffc:  00 00                   addb   %al, (%rax)
-   100000ffe:  00 00                   addb   %al, (%rax)
-   100001000:  00 00                   addb   %al, (%rax)
-   100001002:  00 00                   addb   %al, (%rax)
-   100001004:  00 00                   addb   %al, (%rax)
-   100001006:  00 00                   addb   %al, (%rax)
-   100001008:  00 00                   addb   %al, (%rax)
-   10000100a:  00 00                   addb   %al, (%rax)
-   10000100c:  00 00                   addb   %al, (%rax)
-   10000100e:  00 00                   addb   %al, (%rax)
-   100001010:  00 00                   addb   %al, (%rax)
-   100001012:  00 00                   addb   %al, (%rax)
-   100001014:  00 00                   addb   %al, (%rax)
-   100001016:  00 00                   addb   %al, (%rax)
-   100001018:  00 00                   addb   %al, (%rax)
-   10000101a:  00 00                   addb   %al, (%rax)
-   10000101c:  00 00                   addb   %al, (%rax)
-   10000101e:  00 00                   addb   %al, (%rax)
-   100001020:  00 00                   addb   %al, (%rax)
-   100001022:  00 00                   addb   %al, (%rax)
-   100001024:  00 00                   addb   %al, (%rax)
-   100001026:  00 00                   addb   %al, (%rax)
-   100001028:  00 00                   addb   %al, (%rax)
-   10000102a:  00 00                   addb   %al, (%rax)
-   10000102c:  00 00                   addb   %al, (%rax)
-   10000102e:  00 00                   addb   %al, (%rax)
-   100001030:  00 00                   addb   %al, (%rax)
-   100001032:  00 00                   addb   %al, (%rax)
-   100001034:  00 00                   addb   %al, (%rax)
-   100001036:  00 00                   addb   %al, (%rax)
-   100001038:  00 00                   addb   %al, (%rax)
-   10000103a:  00 00                   addb   %al, (%rax)
-   10000103c:  00 00                   addb   %al, (%rax)
-   10000103e:  00 00                   addb   %al, (%rax)
-   100001040:  00 00                   addb   %al, (%rax)
-   100001042:  00 00                   addb   %al, (%rax)
-   100001044:  00 00                   addb   %al, (%rax)
-   100001046:  00 00                   addb   %al, (%rax)
-   100001048:  00 00                   addb   %al, (%rax)
-   10000104a:  00 00                   addb   %al, (%rax)
-   10000104c:  00 00                   addb   %al, (%rax)
-   10000104e:  00 00                   addb   %al, (%rax)
-   100001050:  00 00                   addb   %al, (%rax)
-   100001052:  00 00                   addb   %al, (%rax)
-   100001054:  00 00                   addb   %al, (%rax)
-   100001056:  00 00                   addb   %al, (%rax)
-   100001058:  00 00                   addb   %al, (%rax)
-   10000105a:  00 00                   addb   %al, (%rax)
-   10000105c:  00 00                   addb   %al, (%rax)
-   10000105e:  00 00                   addb   %al, (%rax)
-   100001060:  00 00                   addb   %al, (%rax)
-   100001062:  00 00                   addb   %al, (%rax)
-   100001064:  00 00                   addb   %al, (%rax)
-   100001066:  00 00                   addb   %al, (%rax)
-   100001068:  00 00                   addb   %al, (%rax)
-   10000106a:  00 00                   addb   %al, (%rax)
-   10000106c:  00 00                   addb   %al, (%rax)
-   10000106e:  00 00                   addb   %al, (%rax)
-   100001070:  00 00                   addb   %al, (%rax)
-   100001072:  00 00                   addb   %al, (%rax)
-   100001074:  00 00                   addb   %al, (%rax)
-   100001076:  00 00                   addb   %al, (%rax)
-   100001078:  00 00                   addb   %al, (%rax)
-   10000107a:  00 00                   addb   %al, (%rax)
-   10000107c:  00 00                   addb   %al, (%rax)
-   10000107e:  00 00                   addb   %al, (%rax)
-   100001080:  00 00                   addb   %al, (%rax)
-   100001082:  00 00                   addb   %al, (%rax)
-   100001084:  00 00                   addb   %al, (%rax)
-   100001086:  00 00                   addb   %al, (%rax)
-   100001088:  00 00                   addb   %al, (%rax)
-   10000108a:  00 00                   addb   %al, (%rax)
-   10000108c:  00 00                   addb   %al, (%rax)
-   10000108e:  00 00                   addb   %al, (%rax)
-   100001090:  00 00                   addb   %al, (%rax)
-   100001092:  00 00                   addb   %al, (%rax)
-   100001094:  00 00                   addb   %al, (%rax)
-   100001096:  00 00                   addb   %al, (%rax)
-   100001098:  00 00                   addb   %al, (%rax)
-   10000109a:
+0000000100001000 <_start>:
+    100001000:  55                      push   %rbp
+    100001001:  48 89 e5                mov    %rsp,%rbp
+    100001004:  48 83 ec 10             sub    $0x10,%rsp
+    100001008:  48 8d 05 8d 00 00 00    lea    0x8d(%rip),%rax        # 10000109c <_dyld_private>
+    10000100f:  48 89 45 f8             mov    %rax,-0x8(%rbp)
+    100001013:  48 8b 05 7e 00 00 00    mov    0x7e(%rip),%rax        # 100001096 <_dyld_func_lookup>
+    10000101a:  48 8d 55 f8             lea    -0x8(%rbp),%rdx
+    10000101e:  48 89 d6                mov    %rdx,%rsi
+    100001021:  ff d0                   callq  *%rax
+    100001023:  48 8d 05 6d 00 00 00    lea    0x6d(%rip),%rax        # 100001096 <_dyld_func_lookup>
+    10000102a:  48 8d 55 f8             lea    -0x8(%rbp),%rdx
+    10000102e:  48 89 d6                mov    %rdx,%rsi
+    100001031:  ff d0                   callq  *%rax
+    100001033:  48 8d 05 5b 00 00 00    lea    0x5b(%rip),%rax        # 100001094 <_dyld_register_func_for_remove_image>
+    10000103a:  48 8d 55 f8             lea    -0x8(%rbp),%rdx
+    10000103e:  48 89 d6                mov    %rdx,%rsi
+    100001041:  ff d0                   callq  *%rax
+    100001043:  48 8d 05 49 00 00 00    lea    0x49(%rip),%rax        # 100001093 <_dyld_register_func_for_add_image>
+    10000104a:  48 8d 55 f8             lea    -0x8(%rbp),%rdx
+    10000104e:  48 89 d6                mov    %rdx,%rsi
+    100001051:  ff d0                   callq  *%rax
+    100001053:  48 8d 05 37 00 00 00    lea    0x37(%rip),%rax        # 100001091 <_dyld_image_count>
+    10000105a:  48 8d 55 f8             lea    -0x8(%rbp),%rdx
+    10000105e:  48 89 d6                mov    %rdx,%rsi
+    100001061:  ff d0                   callq  *%rax
+    100001063:  48 8d 05 25 00 00 00    lea    0x25(%rip),%rax        # 10000108f <_dyld_get_image_name>
+    10000106a:  48 8d 55 f8             lea    -0x8(%rbp),%rdx
+    10000106e:  48 89 d6                mov    %rdx,%rsi
+    100001071:  ff d0                   callq  *%rax
+    100001073:  48 8d 05 13 00 00 00    lea    0x13(%rip),%rax        # 100001087 <_dyld_get_image_header>
+    10000107a:  48 8d 55 f8             lea    -0x8(%rbp),%rdx
+    10000107e:  48 89 d6                mov    %rdx,%rsi
+    100001081:  ff d0                   callq  *%rax
+    100001083:  31 c0                   xor    %eax,%eax
+    100001085:  c9                      leaveq
+    100001086:  c3                      retq
+    100001087:  55                      push   %rbp
+    100001088:  48 89 e5                mov    %rsp,%rbp
+    10000108b:  48 8b 05 00 00 00 00    mov    0x0(%rip),%rax        # 100001092 <_dyld_image_header_containing_address>
+    100001092:  c9                      leaveq
+    100001093:  c3                      retq
+    100001094:  55                      push   %rbp
+    100001095:  c9                      leaveq
+    100001096:  c3                      retq
+    100001097:  55                      push   %rbp
+    100001098:  c9                      leaveq
+    100001099:  c3                      retq
+    10000109a:  55                      push   %rbp
+    10000109b:  c9                      leaveq
+    10000109c:  2f 75 73 72 2f 62 69 6e 2f 65 6e 76 20 20 20 20  /usr/bin/env    
+    1000010ac:  2d 73 68 0a             -sh.
+```
+
+### Remarks
+`objdump` is a powerful tool for inspecting the contents of an executable file. It can be used to analyze the file's structure and to disassemble its machine code. This can be useful for reverse engineering and vulnerability research. However, it should be used with caution, as it can also be used by attackers to analyze and exploit vulnerabilities in a target application.
 ```bash
 objdump -m --dylibs-used /bin/ls #List dynamically linked libraries
 objdump -m -h /bin/ls # Get headers information
@@ -244,7 +141,7 @@ ARCH=x86_64 jtool2 --sig /System/Applications/Automator.app/Contents/MacOS/Autom
 ```
 ### Codesign
 
-Codesign est un outil de ligne de commande fourni avec Xcode qui permet de signer numériquement les fichiers exécutables et les bibliothèques partagées. La signature numérique garantit que le fichier n'a pas été modifié depuis sa signature et qu'il provient d'un développeur de confiance. Les développeurs peuvent utiliser codesign pour signer leurs applications avant de les distribuer, ce qui permet aux utilisateurs de vérifier l'authenticité de l'application avant de l'exécuter. Les attaquants peuvent également utiliser codesign pour signer des fichiers malveillants afin de contourner les mécanismes de sécurité de macOS.
+Codesign est un outil de ligne de commande fourni avec Xcode qui permet de signer numériquement les fichiers exécutables et les bibliothèques partagées. La signature numérique permet de garantir l'authenticité et l'intégrité du fichier signé. Les développeurs peuvent utiliser codesign pour signer leurs applications macOS avant de les distribuer aux utilisateurs finaux. Les administrateurs système peuvent également utiliser codesign pour vérifier l'authenticité des applications installées sur un système macOS.
 ```bash
 # Get signer
 codesign -vv -d /bin/ls 2>&1 | grep -E "Authority|TeamIdentifier"
@@ -326,13 +223,13 @@ Dans le panneau central, vous pouvez voir le **code désassemblé**. Et vous pou
 
 En cliquant avec le bouton droit de la souris sur un objet de code, vous pouvez voir les **références à/depuis cet objet** ou même changer son nom (cela ne fonctionne pas dans le pseudocode décompilé) :
 
-<figure><img src="../../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (2).png" alt=""><figcaption></figcaption></figure>
 
 De plus, dans le **milieu en bas, vous pouvez écrire des commandes python**.
 
 #### Panneau de droite
 
-Dans le panneau de droite, vous pouvez voir des informations intéressantes telles que l'**historique de navigation** (pour savoir comment vous êtes arrivé à la situation actuelle), le **graphique d'appel** où vous pouvez voir toutes les **fonctions qui appellent cette fonction** et toutes les fonctions que **cette fonction appelle**, et des informations sur les **variables locales**.
+Dans le panneau de droite, vous pouvez voir des informations intéressantes telles que l'**historique de navigation** (pour savoir comment vous êtes arrivé à la situation actuelle), le **graphique d'appel** où vous pouvez voir toutes les **fonctions qui appellent cette fonction** et toutes les fonctions que **cette fonction appelle**, et les informations sur les **variables locales**.
 ```bash
 dtruss -c ls #Get syscalls of ls
 dtruss -c -p 1000 #get syscalls of PID 1000
@@ -430,7 +327,7 @@ fs_usage -w -f network curl #This tracks network actions
 ### TaskExplorer
 
 [**Taskexplorer**](https://objective-see.com/products/taskexplorer.html) est utile pour voir les **bibliothèques** utilisées par un binaire, les **fichiers** qu'il utilise et les **connexions réseau**.\
-Il vérifie également les processus binaires par rapport à **virustotal** et affiche des informations sur le binaire.
+Il vérifie également les processus binaires avec **virustotal** et affiche des informations sur le binaire.
 
 ### lldb
 
@@ -461,7 +358,7 @@ lldb -n malware.bin --waitfor
 | **parray**                    | parray 3 (char \*\*)$x1 # Vérifiez le tableau de 3 composants dans le registre x1                                                                                                                                                                                                                                                                                                                                                           |
 
 {% hint style="info" %}
-Lors de l'appel de la fonction **`objc_sendMsg`**, le registre **rsi** contient le **nom de la méthode** sous forme de chaîne de caractères terminée par un caractère nul ("C"). Pour afficher le nom via lldb, faites :
+Lors de l'appel de la fonction **`objc_sendMsg`**, le registre **rsi** contient le **nom de la méthode** sous forme de chaîne terminée par un caractère nul ("C"). Pour afficher le nom via lldb, faites :
 
 `(lldb) x/s $rsi: 0x1000f1576: "startMiningWithPort:password:coreCount:slowMemory:currency:"`
 
