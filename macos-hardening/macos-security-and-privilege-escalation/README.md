@@ -1,4 +1,4 @@
-# Sécurité et élévation de privilèges macOS
+# Sécurité et élévation de privilèges sur macOS
 
 <details>
 
@@ -16,9 +16,9 @@
 
 [**Suivez HackenProof**](https://bit.ly/3xrrDrL) **pour en savoir plus sur les bugs web3**
 
-🐞 Lisez les tutoriels de bugs web3
+🐞 Lisez les tutoriels sur les bugs web3
 
-🔔 Recevez des notifications sur les nouveaux programmes de primes de bugs
+🔔 Recevez des notifications sur les nouveaux programmes de primes pour bugs
 
 💬 Participez aux discussions de la communauté
 
@@ -26,7 +26,7 @@
 
 Si vous n'êtes pas familier avec macOS, vous devriez commencer par apprendre les bases de macOS:&#x20;
 
-* Fichiers et autorisations spéciaux de **macOS:**
+* Fichiers et autorisations spéciaux de **macOS** :
 
 {% content-ref url="macos-files-folders-and-binaries/" %}
 [macos-files-folders-and-binaries](macos-files-folders-and-binaries/)
@@ -58,7 +58,7 @@ Si vous n'êtes pas familier avec macOS, vous devriez commencer par apprendre le
 
 ### MacOS MDM
 
-Dans les entreprises, les systèmes **macOS** sont très probablement **gérés avec un MDM**. Par conséquent, du point de vue d'un attaquant, il est intéressant de savoir **comment cela fonctionne**:
+Dans les entreprises, les systèmes **macOS** sont très probablement gérés avec un MDM. Par conséquent, du point de vue d'un attaquant, il est intéressant de savoir **comment cela fonctionne** :
 
 {% content-ref url="macos-mdm/" %}
 [macos-mdm](macos-mdm/)
@@ -70,7 +70,7 @@ Dans les entreprises, les systèmes **macOS** sont très probablement **gérés 
 [macos-apps-inspecting-debugging-and-fuzzing](macos-apps-inspecting-debugging-and-fuzzing/)
 {% endcontent-ref %}
 
-## Protections de sécurité MacOS
+## Protections de sécurité de MacOS
 
 {% content-ref url="macos-security-protections/" %}
 [macos-security-protections](macos-security-protections/)
@@ -78,7 +78,7 @@ Dans les entreprises, les systèmes **macOS** sont très probablement **gérés 
 
 ## Surface d'attaque
 
-### Autorisations de fichiers
+### Autorisations de fichier
 
 Si un **processus s'exécutant en tant que root écrit** un fichier qui peut être contrôlé par un utilisateur, l'utilisateur pourrait l'utiliser pour **escalader les privilèges**.\
 Cela pourrait se produire dans les situations suivantes :
@@ -104,21 +104,15 @@ Si un processus peut **injecter du code dans un autre processus avec des privil�
 [macos-proces-abuse](macos-proces-abuse/)
 {% endcontent-ref %}
 
-### Applications d'extension de fichier
+### Gestionnaires d'applications d'extension de fichier et de schéma d'URL
 
-Des applications étranges enregistrées par des extensions de fichier peuvent être abusées :
+Des applications étranges enregistrées par des extensions de fichier peuvent être abusées et différentes applications peuvent être enregistrées pour ouvrir des protocoles spécifiques.
 
 {% content-ref url="macos-file-extension-apps.md" %}
 [macos-file-extension-apps.md](macos-file-extension-apps.md)
 {% endcontent-ref %}
 
-### Applications de gestionnaire d'URL
-
-Différentes applications peuvent être enregistrées pour ouvrir des protocoles spécifiques. Ils pourraient être abusés.
-
-TODO: Créer une page à ce sujet
-
-## Élévation de privilèges MacOS
+## Élévation de privilèges sur MacOS
 
 ### CVE-2020-9771 - Contournement de TCC et élévation de privilèges de mount\_apfs
 
@@ -177,7 +171,7 @@ Tout d'abord, veuillez noter que **la plupart des astuces sur l'élévation de p
 
 🐞 Lire les tutoriels de bugs web3
 
-🔔 Recevoir des notifications sur les nouveaux bug bounties
+🔔 Recevoir des notifications sur les nouveaux programmes de primes pour bugs
 
 💬 Participer aux discussions de la communauté
 

@@ -22,33 +22,10 @@ otool -tv /bin/ps #Decompile application
 ### objdump
 
 ### Description
-`objdump` is a command-line utility that allows you to inspect the contents of an object file. It can be used to disassemble executable files, shared libraries, and object files. 
-
-### Usage
-```
-objdump -d <file>
-```
-
-### Example
-```
-$ objdump -d /usr/bin/ls
-```
-
-### Translation
-### objdump
+`objdump` is a command-line tool that allows you to inspect binary files and object files. It can display information about the headers, sections, symbols, and relocations of a binary file. It can also disassemble the machine code of a binary file into assembly code.
 
 ### Description
-`objdump` est une utilité en ligne de commande qui vous permet d'inspecter le contenu d'un fichier objet. Il peut être utilisé pour désassembler des fichiers exécutables, des bibliothèques partagées et des fichiers objet.
-
-### Usage
-```
-objdump -d <fichier>
-```
-
-### Example
-```
-$ objdump -d /usr/bin/ls
-```
+`objdump` est un outil en ligne de commande qui vous permet d'inspecter les fichiers binaires et les fichiers objets. Il peut afficher des informations sur les en-têtes, les sections, les symboles et les relocalisations d'un fichier binaire. Il peut également désassembler le code machine d'un fichier binaire en code assembleur.
 ```bash
 objdump -m --dylibs-used /bin/ls #List dynamically linked libraries
 objdump -m -h /bin/ls # Get headers information
@@ -75,7 +52,7 @@ ARCH=x86_64 jtool2 --sig /System/Applications/Automator.app/Contents/MacOS/Autom
 ```
 ### Codesign
 
-Codesign est un outil de ligne de commande fourni avec Xcode qui permet de signer numériquement les fichiers d'application macOS. La signature numérique permet de garantir l'authenticité et l'intégrité des fichiers d'application. Les développeurs peuvent utiliser codesign pour signer leurs applications avant de les distribuer aux utilisateurs finaux. Les administrateurs système peuvent également utiliser codesign pour vérifier l'authenticité des applications installées sur un système macOS.
+Codesign est un outil de ligne de commande fourni avec Xcode qui permet de signer numériquement les fichiers exécutables et les bibliothèques partagées. La signature numérique garantit que le fichier n'a pas été modifié depuis sa signature et qu'il provient d'un développeur de confiance. Les développeurs peuvent utiliser codesign pour signer leurs applications avant de les distribuer, et les utilisateurs peuvent utiliser codesign pour vérifier l'authenticité des applications qu'ils téléchargent.
 ```bash
 # Get signer
 codesign -vv -d /bin/ls 2>&1 | grep -E "Authority|TeamIdentifier"
@@ -140,7 +117,7 @@ Notez que pour déboguer des binaires, **SIP doit être désactivé** (`csrutil 
 {% endhint %}
 
 {% hint style="warning" %}
-Notez que pour **instrumenter les binaires système**, (tels que `cloudconfigurationd`) sur macOS, **SIP doit être désactivé** (la simple suppression de la signature ne fonctionnera pas).
+Notez que pour **instrumenter les binaires système** (tels que `cloudconfigurationd`) sur macOS, **SIP doit être désactivé** (la simple suppression de la signature ne fonctionnera pas).
 {% endhint %}
 
 ### Hopper
@@ -265,7 +242,7 @@ Il vérifie également les processus binaires par rapport à **virustotal** et a
 
 ### lldb
 
-**lldb** est l'outil de **débogage** de binaire **macOS** de facto.
+**lldb** est l'outil de **débogage** binaire de **macOS** de facto.
 ```bash
 lldb ./malware.bin
 lldb -p 1122
@@ -278,7 +255,7 @@ lldb -n malware.bin --waitfor
 | **continue (c)**              | Continue l'exécution du processus en cours de débogage.                                                                                                                                                                                                                                                                                                                                                                               |
 | **nexti (n / ni)**            | Exécute l'instruction suivante. Cette commande sautera les appels de fonction.                                                                                                                                                                                                                                                                                                                                                 |
 | **stepi (s / si)**            | Exécute l'instruction suivante. Contrairement à la commande nexti, cette commande entrera dans les appels de fonction.                                                                                                                                                                                                                                                                                                                       |
-| **finish (f)**                | Exécute le reste des instructions dans la fonction ("frame") en cours, retourne et s'arrête.                                                                                                                                                                                                                                                                                                                                   |
+| **finish (f)**                | Exécute le reste des instructions dans la fonction ("frame") actuelle, retourne et s'arrête.                                                                                                                                                                                                                                                                                                                                   |
 | **control + c**               | Interrompt l'exécution. Si le processus a été exécuté (r) ou continué (c), cela provoquera l'arrêt du processus ... où qu'il soit en train d'être exécuté.                                                                                                                                                                                                                                                                             |
 | **breakpoint (b)**            | <p>b main</p><p>b -[NSDictionary objectForKey:]</p><p>b 0x0000000100004bd9</p><p>br l #Liste des points d'arrêt</p><p>br e/dis &#x3C;num> #Activer/Désactiver le point d'arrêt</p><p>breakpoint delete &#x3C;num><br>b set -n main --shlib &#x3C;lib_name></p>                                                                                                                                                                               |
 | **help**                      | <p>help breakpoint #Obtenir de l'aide sur la commande breakpoint</p><p>help memory write #Obtenir de l'aide pour écrire dans la mémoire</p>                                                                                                                                                                                                                                                                                                         |
@@ -287,8 +264,8 @@ lldb -n malware.bin --waitfor
 | **x/i \<reg/memory address>** | Affiche la mémoire sous forme d'instruction d'assemblage.                                                                                                                                                                                                                                                                                                                                                                               |
 | **x/b \<reg/memory address>** | Affiche la mémoire sous forme de byte.                                                                                                                                                                                                                                                                                                                                                                                               |
 | **print object (po)**         | <p>Cela affichera l'objet référencé par le paramètre</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>Notez que la plupart des API ou méthodes Objective-C d'Apple renvoient des objets et doivent donc être affichées via la commande "print object" (po). Si po ne produit pas de sortie significative, utilisez <code>x/b</code></p> |
-| **memory**                    | <p>memory read 0x000....<br>memory read $x0+0xf2a<br>memory write 0x100600000 -s 4 0x41414141 #Écrire AAAA à cette adresse<br>memory write -f s $rip+0x11f+7 "AAAA" #Écrire AAAA à l'adresse</p>                                                                                                                                                                                                                            |
-| **disassembly**               | <p>dis #Désassemble la fonction en cours<br>dis -c 6 #Désassemble 6 lignes<br>dis -c 0x100003764 -e 0x100003768 # De l'une à l'autre<br>dis -p -c 4 # Commence à l'adresse actuelle à désassembler</p>                                                                                                                                                                                                                                 |
+| **memory**                    | <p>memory read 0x000....<br>memory read $x0+0xf2a<br>memory write 0x100600000 -s 4 0x41414141 #Écrire AAAA dans cette adresse<br>memory write -f s $rip+0x11f+7 "AAAA" #Écrire AAAA dans l'adresse</p>                                                                                                                                                                                                                            |
+| **disassembly**               | <p>dis #Désassemble la fonction actuelle<br>dis -c 6 #Désassemble 6 lignes<br>dis -c 0x100003764 -e 0x100003768 # De l'une à l'autre<br>dis -p -c 4 # Commence à l'adresse actuelle à désassembler</p>                                                                                                                                                                                                                                 |
 | **parray**                    | parray 3 (char \*\*)$x1 # Vérifiez le tableau de 3 composants dans le registre x1                                                                                                                                                                                                                                                                                                                                                           |
 
 {% hint style="info" %}
@@ -355,7 +332,11 @@ sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist
 ```
 ### Gestionnaires internes
 
-[**Consultez cette section**](../#file-extensions-apps) pour savoir comment vous pouvez trouver quelle application est responsable de **la gestion du schéma ou du protocole spécifié**.
+**Consultez la page suivante** pour savoir comment trouver quelle application est responsable de **la gestion du schéma ou du protocole spécifié :**
+
+{% content-ref url="../macos-file-extension-apps.md" %}
+[macos-file-extension-apps.md](../macos-file-extension-apps.md)
+{% endcontent-ref %}
 
 ### Énumération des processus réseau
 
