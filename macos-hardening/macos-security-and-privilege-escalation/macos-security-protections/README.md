@@ -48,11 +48,11 @@ codesign -s <cert-name-keychain> toolsdemo
 ```
 ### Notarisation
 
-Le processus de notarisation d'Apple sert de mesure de sécurité supplémentaire pour protéger les utilisateurs des logiciels potentiellement dangereux. Il implique que le développeur soumette son application à l'examen du service de notarisation d'Apple, qui ne doit pas être confondu avec l'examen de l'application. Ce service est un système automatisé qui examine le logiciel soumis pour détecter la présence de contenu malveillant et tout problème potentiel de signature de code.
+Le processus de notarisation d'Apple sert de mesure de sécurité supplémentaire pour protéger les utilisateurs des logiciels potentiellement dangereux. Il implique que le développeur soumette son application à l'examen du service de notarisation d'Apple, qui ne doit pas être confondu avec l'examen de l'application. Ce service est un système automatisé qui examine le logiciel soumis à la recherche de contenu malveillant et de tout problème potentiel de signature de code.
 
 Si le logiciel passe cette inspection sans soulever de préoccupations, le service de notarisation génère un ticket de notarisation. Le développeur est alors tenu de joindre ce ticket à son logiciel, un processus appelé "agrafage". De plus, le ticket de notarisation est également publié en ligne où Gatekeeper, la technologie de sécurité d'Apple, peut y accéder.
 
-Lors de la première installation ou exécution du logiciel par l'utilisateur, l'existence du ticket de notarisation - qu'il soit agrafé à l'exécutable ou trouvé en ligne - informe Gatekeeper que le logiciel a été notarisé par Apple. Par conséquent, Gatekeeper affiche un message descriptif dans la boîte de dialogue de lancement initial, indiquant que le logiciel a été vérifié pour la présence de contenu malveillant par Apple. Ce processus renforce ainsi la confiance des utilisateurs dans la sécurité des logiciels qu'ils installent ou exécutent sur leurs systèmes.
+Lors de la première installation ou exécution du logiciel par l'utilisateur, l'existence du ticket de notarisation - qu'il soit agrafé à l'exécutable ou trouvé en ligne - informe Gatekeeper que le logiciel a été notarisé par Apple. Par conséquent, Gatekeeper affiche un message descriptif dans la boîte de dialogue de lancement initial, indiquant que le logiciel a été vérifié pour la présence de contenu malveillant par Apple. Ce processus renforce ainsi la confiance de l'utilisateur dans la sécurité du logiciel qu'il installe ou exécute sur son système.
 
 ### Fichiers en quarantaine
 
@@ -70,6 +70,8 @@ Par conséquent, ces vérifications ne sont effectuées que lors de l'exécution
 
 {% hint style="warning" %}
 Notez que Safari et d'autres navigateurs Web et applications sont ceux qui doivent marquer les fichiers téléchargés.
+
+De plus, les fichiers créés par des processus sandboxés se voient également attribuer cet attribut pour empêcher les évasions de sandbox.
 {% endhint %}
 
 Il est possible de vérifier son statut et d'activer/désactiver (nécessite des privilèges d'administrateur) avec:
@@ -105,12 +107,14 @@ xattr -d com.apple.quarantine portada.png
 #You can also remove this attribute from every file with
 find . -iname '*' -print0 | xargs -0 xattr -d com.apple.quarantine
 ```
-Et trouvez tous les fichiers mis en quarantaine avec:
+Et trouvez tous les fichiers mis en quarantaine avec :
 
 {% code overflow="wrap" %}
 ```bash
 find / -exec ls -ld {} \; 2>/dev/null | grep -E "[x\-]@ " | awk '{printf $9; printf "\n"}' | xargs -I {} xattr -lv {} | grep "com.apple.quarantine"
 ```
+{% endcode %}
+
 ## XProtect
 
 XProtect est une fonctionnalité **anti-malware** intégrée à macOS. Elle fait partie du système de sécurité d'Apple qui fonctionne silencieusement en arrière-plan pour protéger votre Mac contre les malwares connus et les plug-ins malveillants.
@@ -127,6 +131,8 @@ Vous pouvez obtenir des informations sur la dernière mise à jour de XProtect e
 ```bash
 system_profiler SPInstallHistoryDataType 2>/dev/null | grep -A 4 "XProtectPlistConfigData" | tail -n 5
 ```
+{% endcode %}
+
 ## MRT - Outil de suppression de logiciels malveillants
 
 L'outil de suppression de logiciels malveillants (MRT) est une autre partie de l'infrastructure de sécurité de macOS. Comme son nom l'indique, la fonction principale de MRT est de **supprimer les logiciels malveillants connus des systèmes infectés**.

@@ -22,99 +22,27 @@ otool -tv /bin/ps #Decompile application
 ### objdump
 
 ### Description
-`objdump` is a command-line utility that allows you to inspect the contents of an executable file. It can display information about the file's sections, symbols, and relocations. It can also disassemble the file's machine code into assembly language.
+`objdump` is a command-line tool that allows you to inspect binary files and object files. It can display information about the headers, sections, symbols, and relocations of a binary file. It can also disassemble the machine code of a binary file into assembly code.
 
-### Usage
-```
-$ objdump -h <executable>
-$ objdump -d <executable>
-```
-
-### Example
-```
-$ objdump -h /Applications/Calculator.app/Contents/MacOS/Calculator
-
-/Applications/Calculator.app/Contents/MacOS/Calculator:     file format Mach-O 64-bit x86-64
-Sections:
-Idx Name          Size      Address          Type
-  0 __text        0000d000  0000000100001000  TEXT
-  1 __stubs       00000080  000000010000e000  TEXT
-  2 __stub_helper 00000030  000000010000e080  TEXT
-  3 __cstring     00000a1c  000000010000e0b0  DATA
-  4 __unwind_info 000002d8  000000010000f0cc  DATA
-  5 __DATA        00000020  0000000100010000  DATA
-  6 __got         00000008  0000000100010020  DATA
-  7 __la_symbol_p 00000008  0000000100010028  DATA
-  8 __mod_init_f 00000008  0000000100010030  DATA
-  9 __mod_term_f 00000008  0000000100010038  DATA
- 10 __const       00000008  0000000100010040  DATA
- 11 __bss         00000008  0000000100010048  BSS
-```
+### Utilisation
+To use `objdump`, simply run the command followed by the path to the binary file you want to inspect. For example:
 
 ```
-$ objdump -d /Applications/Calculator.app/Contents/MacOS/Calculator
-
-/Applications/Calculator.app/Contents/MacOS/Calculator:     file format Mach-O 64-bit x86-64
-
-
-Disassembly of section __text:
-
-0000000100001000 <_start>:
-    100001000:  55                      push   %rbp
-    100001001:  48 89 e5                mov    %rsp,%rbp
-    100001004:  48 83 ec 10             sub    $0x10,%rsp
-    100001008:  48 8d 05 8d 00 00 00    lea    0x8d(%rip),%rax        # 10000109c <_dyld_private>
-    10000100f:  48 89 45 f8             mov    %rax,-0x8(%rbp)
-    100001013:  48 8b 05 7e 00 00 00    mov    0x7e(%rip),%rax        # 100001096 <_dyld_func_lookup>
-    10000101a:  48 8d 55 f8             lea    -0x8(%rbp),%rdx
-    10000101e:  48 89 d6                mov    %rdx,%rsi
-    100001021:  ff d0                   callq  *%rax
-    100001023:  48 8d 05 6d 00 00 00    lea    0x6d(%rip),%rax        # 100001096 <_dyld_func_lookup>
-    10000102a:  48 8d 55 f8             lea    -0x8(%rbp),%rdx
-    10000102e:  48 89 d6                mov    %rdx,%rsi
-    100001031:  ff d0                   callq  *%rax
-    100001033:  48 8d 05 5b 00 00 00    lea    0x5b(%rip),%rax        # 100001094 <_dyld_register_func_for_remove_image>
-    10000103a:  48 8d 55 f8             lea    -0x8(%rbp),%rdx
-    10000103e:  48 89 d6                mov    %rdx,%rsi
-    100001041:  ff d0                   callq  *%rax
-    100001043:  48 8d 05 49 00 00 00    lea    0x49(%rip),%rax        # 100001093 <_dyld_register_func_for_add_image>
-    10000104a:  48 8d 55 f8             lea    -0x8(%rbp),%rdx
-    10000104e:  48 89 d6                mov    %rdx,%rsi
-    100001051:  ff d0                   callq  *%rax
-    100001053:  48 8d 05 37 00 00 00    lea    0x37(%rip),%rax        # 100001091 <_dyld_image_count>
-    10000105a:  48 8d 55 f8             lea    -0x8(%rbp),%rdx
-    10000105e:  48 89 d6                mov    %rdx,%rsi
-    100001061:  ff d0                   callq  *%rax
-    100001063:  48 8d 05 25 00 00 00    lea    0x25(%rip),%rax        # 10000108f <_dyld_get_image_name>
-    10000106a:  48 8d 55 f8             lea    -0x8(%rbp),%rdx
-    10000106e:  48 89 d6                mov    %rdx,%rsi
-    100001071:  ff d0                   callq  *%rax
-    100001073:  48 8d 05 13 00 00 00    lea    0x13(%rip),%rax        # 100001087 <_dyld_get_image_header>
-    10000107a:  48 8d 55 f8             lea    -0x8(%rbp),%rdx
-    10000107e:  48 89 d6                mov    %rdx,%rsi
-    100001081:  ff d0                   callq  *%rax
-    100001083:  31 c0                   xor    %eax,%eax
-    100001085:  c9                      leaveq
-    100001086:  c3                      retq
-    100001087:  55                      push   %rbp
-    100001088:  48 89 e5                mov    %rsp,%rbp
-    10000108b:  48 8b 05 00 00 00 00    mov    0x0(%rip),%rax        # 100001092 <_dyld_image_header_containing_address>
-    100001092:  c9                      leaveq
-    100001093:  c3                      retq
-    100001094:  55                      push   %rbp
-    100001095:  c9                      leaveq
-    100001096:  c3                      retq
-    100001097:  55                      push   %rbp
-    100001098:  c9                      leaveq
-    100001099:  c3                      retq
-    10000109a:  55                      push   %rbp
-    10000109b:  c9                      leaveq
-    10000109c:  2f 75 73 72 2f 62 69 6e 2f 65 6e 76 20 20 20 20  /usr/bin/env    
-    1000010ac:  2d 73 68 0a             -sh.
+$ objdump -x /path/to/binary
 ```
 
-### Remarks
-`objdump` is a powerful tool for inspecting the contents of an executable file. It can be used to analyze the file's structure and to disassemble its machine code. This can be useful for reverse engineering and vulnerability research. However, it should be used with caution, as it can also be used by attackers to analyze and exploit vulnerabilities in a target application.
+This will display the headers of the binary file.
+
+You can also use the `-d` option to disassemble the machine code:
+
+```
+$ objdump -d /path/to/binary
+```
+
+This will display the assembly code of the binary file.
+
+### Conclusion
+`objdump` is a powerful tool for inspecting binary files and object files. It can help you understand how a binary file works and how it is structured. It can also help you identify vulnerabilities and potential attack vectors in a binary file.
 ```bash
 objdump -m --dylibs-used /bin/ls #List dynamically linked libraries
 objdump -m -h /bin/ls # Get headers information
@@ -141,7 +69,7 @@ ARCH=x86_64 jtool2 --sig /System/Applications/Automator.app/Contents/MacOS/Autom
 ```
 ### Codesign
 
-Codesign est un outil de ligne de commande fourni avec Xcode qui permet de signer numériquement les fichiers exécutables et les bibliothèques partagées. La signature numérique permet de garantir l'authenticité et l'intégrité du fichier signé. Les développeurs peuvent utiliser codesign pour signer leurs applications macOS avant de les distribuer aux utilisateurs finaux. Les administrateurs système peuvent également utiliser codesign pour vérifier l'authenticité des applications installées sur un système macOS.
+Codesign est un outil de ligne de commande fourni avec Xcode qui permet de signer numériquement les fichiers exécutables et les bibliothèques partagées. La signature numérique garantit que le fichier n'a pas été modifié depuis sa signature et qu'il provient d'une source fiable. Les développeurs peuvent utiliser codesign pour signer leurs applications avant de les distribuer, et les utilisateurs peuvent utiliser codesign pour vérifier l'authenticité des applications qu'ils téléchargent.
 ```bash
 # Get signer
 codesign -vv -d /bin/ls 2>&1 | grep -E "Authority|TeamIdentifier"
@@ -206,8 +134,14 @@ Notez que pour déboguer des binaires, **SIP doit être désactivé** (`csrutil 
 {% endhint %}
 
 {% hint style="warning" %}
-Notez que pour **instrumenter les binaires système** (tels que `cloudconfigurationd`) sur macOS, **SIP doit être désactivé** (la simple suppression de la signature ne fonctionnera pas).
+Notez que pour **instrumenter les binaires système**, (tels que `cloudconfigurationd`) sur macOS, **SIP doit être désactivé** (la simple suppression de la signature ne fonctionnera pas).
 {% endhint %}
+
+### Journaux unifiés
+
+MacOS génère de nombreux journaux qui peuvent être très utiles lors de l'exécution d'une application pour comprendre **ce qu'elle fait**.
+
+De plus, il y a des journaux qui contiendront la balise `<private>` pour **masquer** certaines informations **identifiables** de l'utilisateur ou de l'ordinateur. Cependant, il est possible d'**installer un certificat pour divulguer ces informations**. Suivez les explications à partir de [**ici**](https://superuser.com/questions/1532031/how-to-show-private-data-in-macos-unified-log).
 
 ### Hopper
 
@@ -358,7 +292,7 @@ lldb -n malware.bin --waitfor
 | **parray**                    | parray 3 (char \*\*)$x1 # Vérifiez le tableau de 3 composants dans le registre x1                                                                                                                                                                                                                                                                                                                                                           |
 
 {% hint style="info" %}
-Lors de l'appel de la fonction **`objc_sendMsg`**, le registre **rsi** contient le **nom de la méthode** sous forme de chaîne terminée par un caractère nul ("C"). Pour afficher le nom via lldb, faites :
+Lors de l'appel de la fonction **`objc_sendMsg`**, le registre **rsi** contient le **nom de la méthode** sous forme de chaîne "C" terminée par un caractère nul. Pour afficher le nom via lldb, faites :
 
 `(lldb) x/s $rsi: 0x1000f1576: "startMiningWithPort:password:coreCount:slowMemory:currency:"`
 

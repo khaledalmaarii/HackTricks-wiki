@@ -14,9 +14,9 @@
 
 ## Informations de base
 
-Le bac à sable macOS (initialement appelé Seatbelt) **limite les applications** s'exécutant dans le bac à sable aux **actions autorisées spécifiées dans le profil Sandbox** avec lequel l'application s'exécute. Cela contribue à garantir que **l'application n'accédera qu'aux ressources attendues**.
+Le bac à sable macOS (initialement appelé Seatbelt) **limite les applications** s'exécutant à l'intérieur du bac à sable aux **actions autorisées spécifiées dans le profil Sandbox** avec lequel l'application s'exécute. Cela aide à garantir que **l'application n'accédera qu'aux ressources attendues**.
 
-Toute application avec l'**autorisation** **`com.apple.security.app-sandbox`** sera exécutée dans le bac à sable. Les **binaires Apple** sont généralement exécutés dans un bac à sable et pour publier dans **l'App Store**, **cette autorisation est obligatoire**. Ainsi, la plupart des applications seront exécutées dans le bac à sable.
+Toute application avec l'**autorisation** **`com.apple.security.app-sandbox`** sera exécutée à l'intérieur du bac à sable. Les **binaires Apple** sont généralement exécutés à l'intérieur d'un bac à sable et pour publier dans **l'App Store**, **cette autorisation est obligatoire**. Donc, la plupart des applications seront exécutées à l'intérieur du bac à sable.
 
 Pour contrôler ce qu'un processus peut ou ne peut pas faire, le **bac à sable a des hooks** dans tous les **appels système** à travers le noyau. **Selon** les **autorisations** de l'application, le bac à sable **autorise** certaines actions.
 
@@ -27,7 +27,7 @@ Certains composants importants du bac à sable sont :
 * Un **démon** s'exécutant dans l'espace utilisateur `/usr/libexec/sandboxd`
 * Les **conteneurs** `~/Library/Containers`
 
-Dans le dossier des conteneurs, vous pouvez trouver **un dossier pour chaque application exécutée dans le bac à sable** avec le nom de l'ID de bundle :
+À l'intérieur du dossier des conteneurs, vous pouvez trouver **un dossier pour chaque application exécutée dans un bac à sable** avec le nom de l'ID de bundle :
 ```bash
 ls -l ~/Library/Containers
 total 0
@@ -101,9 +101,9 @@ plutil -convert xml1 .com.apple.containermanagerd.metadata.plist -o -
 ```
 ### Profils Sandbox
 
-Les profils Sandbox sont des fichiers de configuration qui indiquent ce qui est autorisé/interdit dans cette Sandbox. Il utilise le langage de profil Sandbox (SBPL), qui utilise le langage de programmation [Scheme](https://en.wikipedia.org/wiki/Scheme_\(programming_language\)).
+Les profils Sandbox sont des fichiers de configuration qui indiquent ce qui est **autorisé/interdit** dans cette **Sandbox**. Il utilise le langage de profil Sandbox (SBPL), qui utilise le langage de programmation [**Scheme**](https://en.wikipedia.org/wiki/Scheme\_\(programming\_language\)).
 
-Voici un exemple :
+Voici un exemple:
 ```scheme
 (version 1) ; First you get the version
 
@@ -128,10 +128,10 @@ Consultez cette [**recherche**](https://reverse.put.as/2011/09/14/apple-sandbox-
 Des **services système** importants s'exécutent également dans leur propre **bac à sable personnalisé** tels que le service `mdnsresponder`. Vous pouvez voir ces **profils de bac à sable personnalisés** dans:
 
 * **`/usr/share/sandbox`**
-* **`/System/Library/Sandbox/Profiles`**
+* **`/System/Library/Sandbox/Profiles`**&#x20;
 * D'autres profils de bac à sable peuvent être consultés sur [https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles](https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles).
 
-Les applications de l'**App Store** utilisent le **profil** **`/System/Library/Sandbox/Profiles/application.sb`**. Vous pouvez vérifier dans ce profil comment les autorisations telles que **`com.apple.security.network.server`** permettent à un processus d'utiliser le réseau.
+Les applications **App Store** utilisent le **profil** **`/System/Library/Sandbox/Profiles/application.sb`**. Vous pouvez vérifier dans ce profil comment les autorisations telles que **`com.apple.security.network.server`** permettent à un processus d'utiliser le réseau.
 
 SIP est un profil de bac à sable appelé platform\_profile dans /System/Library/Sandbox/rootless.conf
 
@@ -148,544 +148,67 @@ sandbox-exec -f example.sb /Path/To/The/Application
 
 (deny default)
 
+(allow file-write-data file-write* (regex #"^/private/var/tmp/.*"))
+
 (allow file-read-data file-read-metadata
-    (regex #"^/usr/share/locale/.*"))
+    (regex #"^/usr/share/locale/.*")
+    (regex #"^/private/var/tmp/.*")
+    (regex #"^/usr/share/icu/.*")
+    (regex #"^/usr/share/zoneinfo/.*")
+    (regex #"^/etc/localtime$")
+    (regex #"^/usr/share/terminfo/.*")
+    (regex #"^/usr/share/zoneinfo/.*"))
 
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Desktop/.*"))
+(allow process-exec (regex #"^/usr/bin/touch$"))
 
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Documents/.*"))
+(allow sysctl-read)
 
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Downloads/.*"))
+(allow signal (target self))
 
-(allow file-write-data
-    (regex #"^/private/tmp/.*"))
+(allow network*)
 
-(allow file-write-data
-    (regex #"^/var/tmp/.*"))
+(allow mach*)
+{% endcode %}
+{% endtab %}
+{% endtabs %}
 
-(allow file-write-data
-    (regex #"^/tmp/.*"))
+{% tabs %}
+{% tab title="ls" %}
+{% code title="ls.sb" %}
+# Sandbox for the ls command
 
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Library/.*"))
+(version 1)
 
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Movies/.*"))
+(deny default)
 
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Music/.*"))
+(allow file-read-data file-read-metadata
+    (regex #"^/usr/share/locale/.*")
+    (regex #"^/usr/share/terminfo/.*")
+    (regex #"^/usr/share/icu/.*")
+    (regex #"^/usr/share/zoneinfo/.*")
+    (regex #"^/etc/localtime$")
+    (regex #"^/usr/share/zoneinfo/.*"))
 
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Pictures/.*"))
+(allow process-exec (regex #"^/bin/ls$"))
 
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Public/.*"))
+(allow sysctl-read)
 
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Sites/.*"))
+(allow signal (target self))
 
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Applications/.*"))
+(allow network*)
 
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Movies/.*"))
+(allow mach*)
+{% endcode %}
+{% endtab %}
+{% endtabs %}
 
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Music/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Pictures/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Public/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Sites/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Applications/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Movies/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Music/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Pictures/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Public/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Sites/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Applications/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Movies/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Music/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Pictures/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Public/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Sites/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Applications/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Movies/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Music/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Pictures/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Public/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Sites/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Applications/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Movies/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Music/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Pictures/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Public/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Sites/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Applications/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Movies/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Music/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Pictures/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Public/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Sites/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Applications/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Movies/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Music/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Pictures/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Public/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Sites/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Applications/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Movies/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Music/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Pictures/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Public/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Sites/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Applications/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Movies/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Music/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Pictures/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Public/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Sites/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Applications/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Movies/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Music/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Pictures/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Public/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Sites/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Applications/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Movies/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Music/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Pictures/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Public/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Sites/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Applications/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Movies/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Music/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Pictures/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Public/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Sites/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Applications/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Movies/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Music/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Pictures/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Public/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Sites/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Applications/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Movies/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Music/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Pictures/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Public/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Sites/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Applications/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Movies/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Music/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Pictures/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Public/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Sites/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Applications/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Movies/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Music/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Pictures/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Public/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Sites/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Applications/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Movies/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Music/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Pictures/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Public/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Sites/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Applications/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Movies/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Music/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Pictures/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Public/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Sites/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Applications/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Movies/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Music/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Pictures/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Public/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Sites/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Applications/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Movies/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Music/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Pictures/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Public/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Sites/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Applications/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Movies/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Music/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Pictures/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Public/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Sites/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Applications/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Movies/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Music/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Pictures/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Public/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Sites/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Applications/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Movies/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Music/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Pictures/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Public/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Sites/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Applications/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Movies/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Music/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Pictures/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Public/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Sites/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Applications/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Movies/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Music/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Pictures/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Public/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Sites/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Applications/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Movies/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Music/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Pictures/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Public/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Sites/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Applications/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Movies/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Music/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Pictures/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Public/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Sites/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Applications/.*"))
-
-(allow file-write-data
-    (regex #"^/Users/[^/]+/Movies/.*"))
-
-(allow file-write
+Les fichiers ci-dessus sont des exemples de fichiers de configuration de bac à sable pour les commandes `touch` et `ls` sur macOS. Les fichiers de configuration de bac à sable sont utilisés pour définir les autorisations pour les processus qui s'exécutent dans un environnement de bac à sable. Les autorisations sont définies en utilisant des règles qui spécifient les actions autorisées ou interdites pour les processus. Les règles sont basées sur des expressions régulières qui spécifient les chemins d'accès aux fichiers et aux ressources système. Les fichiers de configuration de bac à sable sont utilisés pour renforcer la sécurité du système en limitant les actions que les processus peuvent effectuer.
 ```scheme
 (version 1)
 (deny default)
 (allow file* (literal "/tmp/hacktricks.txt"))
 ```
-{% endcode %} (This is a markdown tag and should not be translated)
+{% endcode %}
 ```bash
 # This will fail because default is denied, so it cannot execute touch
 sandbox-exec -f touch.sb touch /tmp/hacktricks.txt
@@ -712,7 +235,280 @@ log show --style syslog --predicate 'eventMessage contains[c] "sandbox"' --last 
 ; 2023-05-26 13:44:59.840050+0200  localhost kernel[0]: (Sandbox) Sandbox: touch(41575) deny(1) sysctl-read kern.bootargs
 ; 2023-05-26 13:44:59.840061+0200  localhost kernel[0]: (Sandbox) Sandbox: touch(41575) deny(1) file-read-data /
 ```
+{% endcode %}
+
 {% code title="touch3.sb" %}
+
+# Sandbox profile for touch3
+
+(version 1)
+
+# Allow reading and writing to the user's Downloads folder
+(allow file-read* file-write* (subpath "/Users/<username>/Downloads"))
+
+# Allow reading and writing to the user's Documents folder
+(allow file-read* file-write* (subpath "/Users/<username>/Documents"))
+
+# Allow reading and writing to the user's Desktop folder
+(allow file-read* file-write* (subpath "/Users/<username>/Desktop"))
+
+# Allow reading and writing to the user's Pictures folder
+(allow file-read* file-write* (subpath "/Users/<username>/Pictures"))
+
+# Allow reading and writing to the user's Music folder
+(allow file-read* file-write* (subpath "/Users/<username>/Music"))
+
+# Allow reading and writing to the user's Movies folder
+(allow file-read* file-write* (subpath "/Users/<username>/Movies"))
+
+# Allow reading and writing to the user's Public folder
+(allow file-read* file-write* (subpath "/Users/<username>/Public"))
+
+# Allow reading and writing to the user's Sites folder
+(allow file-read* file-write* (subpath "/Users/<username>/Sites"))
+
+# Allow reading and writing to the user's Applications folder
+(allow file-read* file-write* (subpath "/Applications"))
+
+# Allow reading and writing to the user's Library folder
+(allow file-read* file-write* (subpath "/Library"))
+
+# Allow reading and writing to the user's System folder
+(allow file-read* file-write* (subpath "/System"))
+
+# Allow reading and writing to the user's private/tmp folder
+(allow file-read* file-write* (subpath "/private/tmp"))
+
+# Allow reading and writing to the user's private/var/tmp folder
+(allow file-read* file-write* (subpath "/private/var/tmp"))
+
+# Allow reading and writing to the user's private/var/folders folder
+(allow file-read* file-write* (subpath "/private/var/folders"))
+
+# Allow reading and writing to the user's private/var/db folder
+(allow file-read* file-write* (subpath "/private/var/db"))
+
+# Allow reading and writing to the user's private/var/spool folder
+(allow file-read* file-write* (subpath "/private/var/spool"))
+
+# Allow reading and writing to the user's private/var/at folder
+(allow file-read* file-write* (subpath "/private/var/at"))
+
+# Allow reading and writing to the user's private/var/cron folder
+(allow file-read* file-write* (subpath "/private/var/cron"))
+
+# Allow reading and writing to the user's private/var/lib folder
+(allow file-read* file-write* (subpath "/private/var/lib"))
+
+# Allow reading and writing to the user's private/var/log folder
+(allow file-read* file-write* (subpath "/private/var/log"))
+
+# Allow reading and writing to the user's private/var/spool/cron folder
+(allow file-read* file-write* (subpath "/private/var/spool/cron"))
+
+# Allow reading and writing to the user's private/var/spool/cups folder
+(allow file-read* file-write* (subpath "/private/var/spool/cups"))
+
+# Allow reading and writing to the user's private/var/spool/fax folder
+(allow file-read* file-write* (subpath "/private/var/spool/fax"))
+
+# Allow reading and writing to the user's private/var/spool/lpd folder
+(allow file-read* file-write* (subpath "/private/var/spool/lpd"))
+
+# Allow reading and writing to the user's private/var/spool/mqueue folder
+(allow file-read* file-write* (subpath "/private/var/spool/mqueue"))
+
+# Allow reading and writing to the user's private/var/spool/samba folder
+(allow file-read* file-write* (subpath "/private/var/spool/samba"))
+
+# Allow reading and writing to the user's private/var/spool/uucp folder
+(allow file-read* file-write* (subpath "/private/var/spool/uucp"))
+
+# Allow reading and writing to the user's private/var/tmp folder
+(allow file-read* file-write* (subpath "/private/var/tmp"))
+
+# Allow reading and writing to the user's private/var/audit folder
+(allow file-read* file-write* (subpath "/private/var/audit"))
+
+# Allow reading and writing to the user's private/var/db/launchd.db folder
+(allow file-read* file-write* (subpath "/private/var/db/launchd.db"))
+
+# Allow reading and writing to the user's private/var/db/mds folder
+(allow file-read* file-write* (subpath "/private/var/db/mds"))
+
+# Allow reading and writing to the user's private/var/db/uuidtext folder
+(allow file-read* file-write* (subpath "/private/var/db/uuidtext"))
+
+# Allow reading and writing to the user's private/var/db/dhcpclient folder
+(allow file-read* file-write* (subpath "/private/var/db/dhcpclient"))
+
+# Allow reading and writing to the user's private/var/db/displaypolicy folder
+(allow file-read* file-write* (subpath "/private/var/db/displaypolicy"))
+
+# Allow reading and writing to the user's private/var/db/dslocal folder
+(allow file-read* file-write* (subpath "/private/var/db/dslocal"))
+
+# Allow reading and writing to the user's private/var/db/fseventsd folder
+(allow file-read* file-write* (subpath "/private/var/db/fseventsd"))
+
+# Allow reading and writing to the user's private/var/db/locationd folder
+(allow file-read* file-write* (subpath "/private/var/db/locationd"))
+
+# Allow reading and writing to the user's private/var/db/lockdown folder
+(allow file-read* file-write* (subpath "/private/var/db/lockdown"))
+
+# Allow reading and writing to the user's private/var/db/racoon folder
+(allow file-read* file-write* (subpath "/private/var/db/racoon"))
+
+# Allow reading and writing to the user's private/var/db/RemoteManagement folder
+(allow file-read* file-write* (subpath "/private/var/db/RemoteManagement"))
+
+# Allow reading and writing to the user's private/var/db/SystemPolicy folder
+(allow file-read* file-write* (subpath "/private/var/db/SystemPolicy"))
+
+# Allow reading and writing to the user's private/var/db/timed folder
+(allow file-read* file-write* (subpath "/private/var/db/timed"))
+
+# Allow reading and writing to the user's private/var/db/TimeZone folder
+(allow file-read* file-write* (subpath "/private/var/db/TimeZone"))
+
+# Allow reading and writing to the user's private/var/db/uuidtext folder
+(allow file-read* file-write* (subpath "/private/var/db/uuidtext"))
+
+# Allow reading and writing to the user's private/var/db/wifi folder
+(allow file-read* file-write* (subpath "/private/var/db/wifi"))
+
+# Allow reading and writing to the user's private/var/db/ConfigurationProfiles folder
+(allow file-read* file-write* (subpath "/private/var/db/ConfigurationProfiles"))
+
+# Allow reading and writing to the user's private/var/db/PowerLog folder
+(allow file-read* file-write* (subpath "/private/var/db/PowerLog"))
+
+# Allow reading and writing to the user's private/var/db/lockdown folder
+(allow file-read* file-write* (subpath "/private/var/db/lockdown"))
+
+# Allow reading and writing to the user's private/var/db/lockdown-SC folder
+(allow file-read* file-write* (subpath "/private/var/db/lockdown-SC"))
+
+# Allow reading and writing to the user's private/var/db/lockdown-SP folder
+(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP"))
+
+# Allow reading and writing to the user's private/var/db/lockdown-SP-strict folder
+(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-strict"))
+
+# Allow reading and writing to the user's private/var/db/lockdown-SP-xpc folder
+(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-xpc"))
+
+# Allow reading and writing to the user's private/var/db/lockdown-SP-xpc-strict folder
+(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-xpc-strict"))
+
+# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent folder
+(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent"))
+
+# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-strict folder
+(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent-strict"))
+
+# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-xpc folder
+(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent-xpc"))
+
+# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-xpc-strict folder
+(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent-xpc-strict"))
+
+# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-xpc-strict-mp folder
+(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent-xpc-strict-mp"))
+
+# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-efi folder
+(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-efi"))
+
+# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-efi-internal folder
+(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-efi-internal"))
+
+# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-internal folder
+(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-internal"))
+
+# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-internal-efi folder
+(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-internal-efi"))
+
+# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-internal-efi-protected folder
+(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-internal-efi-protected"))
+
+# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-internal-protected folder
+(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-internal-protected"))
+
+# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-protected folder
+(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-protected"))
+
+# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-xpc-strict-protected folder
+(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent-xpc-strict-protected"))
+
+# Allow reading and writing to the user's private/var/db/lockdown-SP-xpc folder
+(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-xpc"))
+
+# Allow reading and writing to the user's private/var/db/lockdown-SP-xpc-strict folder
+(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-xpc-strict"))
+
+# Allow reading and writing to the user's private/var/db/lockdown-SP-xpc-strict-mp folder
+(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-xpc-strict-mp"))
+
+# Allow reading and writing to the user's private/var/db/lockdown-SP-xpc-strict-mp-efi folder
+(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-xpc-strict-mp-efi"))
+
+# Allow reading and writing to the user's private/var/db/lockdown-SP-xpc-strict-mp-efi-internal folder
+(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-xpc-strict-mp-efi-internal"))
+
+# Allow reading and writing to the user's private/var/db/lockdown-SP-xpc-strict-mp-internal folder
+(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-xpc-strict-mp-internal"))
+
+# Allow reading and writing to the user's private/var/db/lockdown-SP-xpc-strict-mp-internal-efi folder
+(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-xpc-strict-mp-internal-efi"))
+
+# Allow reading and writing to the user's private/var/db/lockdown-SP-xpc-strict-mp-internal-efi-protected folder
+(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-xpc-strict-mp-internal-efi-protected"))
+
+# Allow reading and writing to the user's private/var/db/lockdown-SP-xpc-strict-mp-internal-protected folder
+(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-xpc-strict-mp-internal-protected"))
+
+# Allow reading and writing to the user's private/var/db/lockdown-SP-xpc-strict-mp-protected folder
+(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-xpc-strict-mp-protected"))
+
+# Allow reading and writing to the user's private/var/db/lockdown-SP-xpc-strict-protected folder
+(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-xpc-strict-protected"))
+
+# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent folder
+(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent"))
+
+# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-strict folder
+(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent-strict"))
+
+# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-xpc folder
+(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent-xpc"))
+
+# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-xpc-strict folder
+(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent-xpc-strict"))
+
+# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-xpc-strict-mp folder
+(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent-xpc-strict-mp"))
+
+# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-efi folder
+(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-efi"))
+
+# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-efi-internal folder
+(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-efi-internal"))
+
+# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-internal folder
+(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-internal"))
+
+# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-internal-efi folder
+(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-internal-efi"))
+
+# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-internal-efi-protected folder
+(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-internal-efi-protected"))
+
+# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-internal-protected folder
+(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-internal-protected"))
+
+# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-protected folder
+(allow file-read* file-write* (subpath "/
 ```scheme
 (version 1)
 (deny default)
@@ -740,8 +536,8 @@ Exemples de contournement :
 
 Les processus sont automatiquement sandboxés depuis l'espace utilisateur lorsqu'ils démarrent s'ils ont l'attribution : `com.apple.security.app-sandbox`. Pour une explication détaillée de ce processus, consultez :
 
-{% content-ref url="macos-sandbox-debug-and-bypass.md" %}
-[macos-sandbox-debug-and-bypass.md](macos-sandbox-debug-and-bypass.md)
+{% content-ref url="macos-sandbox-debug-and-bypass/" %}
+[macos-sandbox-debug-and-bypass](macos-sandbox-debug-and-bypass/)
 {% endcontent-ref %}
 
 ### **Vérifier les privilèges PID**
@@ -755,11 +551,11 @@ sbtool <pid> file /tmp #Check file access
 sbtool <pid> inspect #Gives you an explaination of the sandbox profile
 sbtool <pid> all
 ```
-### Profils SBPL personnalisés dans les applications de l'App Store
+### Profils SBPL personnalisés dans les applications App Store
 
-Il est possible pour les entreprises de faire fonctionner leurs applications avec des **profils Sandbox personnalisés** (au lieu du profil par défaut). Elles doivent utiliser l'entitlement **`com.apple.security.temporary-exception.sbpl`** qui doit être autorisé par Apple.
+Il pourrait être possible pour les entreprises de faire fonctionner leurs applications avec des **profils Sandbox personnalisés** (au lieu du profil par défaut). Elles doivent utiliser l'attribution **`com.apple.security.temporary-exception.sbpl`** qui doit être autorisée par Apple.
 
-Il est possible de vérifier la définition de cet entitlement dans **`/System/Library/Sandbox/Profiles/application.sb:`**
+Il est possible de vérifier la définition de cette attribution dans **`/System/Library/Sandbox/Profiles/application.sb:`**
 ```scheme
 (sandbox-array-entitlement
   "com.apple.security.temporary-exception.sbpl"
@@ -767,7 +563,7 @@ Il est possible de vérifier la définition de cet entitlement dans **`/System/L
     (let* ((port (open-input-string string)) (sbpl (read port)))
       (with-transparent-redirection (eval sbpl)))))
 ```
-Cela **évaluera la chaîne après cette autorisation** en tant que profil Sandbox. 
+Cela **évaluera la chaîne de caractères après cette autorisation** en tant que profil Sandbox. 
 
 <details>
 
