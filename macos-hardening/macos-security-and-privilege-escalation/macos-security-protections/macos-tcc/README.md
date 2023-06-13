@@ -4,7 +4,7 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une entreprise de **cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Travaillez-vous dans une entreprise de cybersécurité ? Voulez-vous voir votre entreprise annoncée dans HackTricks ? ou voulez-vous avoir accès à la dernière version de PEASS ou télécharger HackTricks en PDF ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -72,11 +72,35 @@ sqlite> select * from access where client LIKE "%telegram%" and auth_value=0;
 
 macOS TCC (Transparency, Consent, and Control) est un cadre de sécurité qui aide à protéger la confidentialité de l'utilisateur en limitant l'accès des applications aux données sensibles telles que les contacts, les calendriers, les photos et le microphone. Les applications doivent demander l'autorisation de l'utilisateur avant de pouvoir accéder à ces données.
 
-Le TCC est implémenté en utilisant une base de données système appelée `tcc.db`. Cette base de données contient des informations sur les autorisations accordées aux applications pour accéder aux données sensibles. Les autorisations sont stockées sous forme de chaînes de caractères cryptées dans la base de données.
+Le TCC est implémenté en utilisant une base de données système appelée `tcc.db`. Cette base de données contient des informations sur les autorisations accordées aux applications pour accéder aux données sensibles. Les autorisations sont stockées sous forme de chaînes de caractères dans la table `access`.
 
-Le TCC est conçu pour être résistant aux attaques de type "escalade de privilèges". Les applications ne peuvent pas simplement ajouter des autorisations à la base de données TCC sans l'autorisation de l'utilisateur. Cela rend plus difficile pour les attaquants de contourner les protections de sécurité de macOS en exploitant des vulnérabilités dans les applications.
+Les autorisations TCC sont divisées en plusieurs catégories, notamment:
 
-Cependant, il est important de noter que le TCC n'est pas une solution de sécurité complète. Il ne peut pas empêcher toutes les fuites de données ou les attaques de type "escalade de privilèges". Les utilisateurs doivent toujours être vigilants et prendre des mesures pour protéger leurs données sensibles.
+- Contacts
+- Calendrier
+- Rappels
+- Photos
+- Caméra
+- Microphone
+- Automation d'assistance
+- Automation d'accessibilité
+- Automation de l'entrée de clavier
+
+Les autorisations TCC peuvent être gérées à partir de l'onglet Confidentialité des Préférences Système. Les utilisateurs peuvent voir quelles applications ont accès à leurs données sensibles et peuvent révoquer l'accès si nécessaire.
+
+Les développeurs peuvent également demander des autorisations TCC dans leurs applications en utilisant le cadre `EventKit`, `Photos`, `AVFoundation`, `CoreLocation`, `Contacts`, `Speech`, `ScriptingBridge`, `Accessibility`, `Input Monitoring`, et `AppleEvents`.
+
+## Élévation de privilèges TCC
+
+Le TCC est conçu pour empêcher les applications d'accéder aux données sensibles sans l'autorisation de l'utilisateur. Cependant, il existe des moyens d'escalader les privilèges TCC pour contourner ces restrictions.
+
+L'une des méthodes courantes d'escalade de privilèges TCC consiste à utiliser une application tierce pour modifier la base de données `tcc.db`. En modifiant les autorisations stockées dans la base de données, une application peut obtenir un accès non autorisé aux données sensibles.
+
+Les attaquants peuvent également utiliser des techniques de phishing pour tromper les utilisateurs en leur faisant croire qu'ils accordent des autorisations à une application légitime. En réalité, l'application malveillante utilise ces autorisations pour accéder aux données sensibles de l'utilisateur.
+
+## Conclusion
+
+Le TCC est un cadre de sécurité important pour la protection de la confidentialité de l'utilisateur sur macOS. Les utilisateurs doivent être conscients des autorisations accordées aux applications et doivent révoquer l'accès si nécessaire. Les développeurs doivent également utiliser les autorisations TCC de manière responsable et ne pas essayer d'escalader les privilèges pour accéder aux données sensibles de l'utilisateur.
 ```bash
 sqlite3 /Library/Application\ Support/com.apple.TCC/TCC.db
 sqlite> .schema
@@ -230,7 +254,7 @@ Les scripts **`.terminal`** sont des fichiers plist tels que celui-ci avec la co
 </dict>
 </plist>
 ```
-Une application pourrait écrire un script terminal dans un emplacement tel que /tmp et le lancer avec une commande telle que:
+Une application pourrait écrire un script terminal dans un emplacement tel que /tmp et le lancer avec une commande telle que :
 ```objectivec
 // Write plist in /tmp/tcc.terminal
 [...]
@@ -367,7 +391,7 @@ $> ls ~/Documents
 
 Les notes avaient accès aux emplacements protégés par TCC, mais lorsqu'une note est créée, elle est **créée dans un emplacement non protégé**. Ainsi, vous pouvez demander aux notes de copier un fichier protégé dans une note (donc dans un emplacement non protégé) et ensuite accéder au fichier :
 
-<figure><img src="../../../../.gitbook/assets/image (15).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
 ### CVE-2023-26818 - Telegram
 

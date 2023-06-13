@@ -45,19 +45,29 @@ Les backdoors sont des outils très utiles pour les pentesters et les attaquants
 
 ### Salseo
 
-Salseo est un backdoor pour les systèmes Windows qui utilise une technique appelée « DLL hijacking ». Cette technique consiste à remplacer une DLL légitime par une DLL malveillante qui sera chargée par une application tierce. Salseo utilise cette technique pour se charger dans l'application « Salsa20 », qui est un algorithme de chiffrement utilisé par de nombreuses applications.
+Salseo est un backdoor pour les systèmes Windows qui utilise le protocole HTTP pour communiquer avec le serveur de commande et de contrôle (C&C). Il est écrit en C++ et utilise la bibliothèque Boost pour les opérations réseau.
 
-Une fois que Salseo est chargé dans l'application, il peut être utilisé pour exécuter des commandes à distance, télécharger et exécuter des fichiers, et même prendre le contrôle complet du système compromis.
+#### Fonctionnalités
 
-### Utilisation de Salseo
+Salseo a les fonctionnalités suivantes :
 
-Pour utiliser Salseo, vous devez d'abord le compiler à l'aide de Visual Studio. Une fois que vous avez compilé le backdoor, vous devez le placer dans le même répertoire que l'application « Salsa20 ». Ensuite, vous devez renommer le backdoor en utilisant le nom de la DLL légitime que vous souhaitez remplacer.
+- Téléchargement et exécution de fichiers
+- Capture d'écran
+- Enregistrement audio
+- Enregistrement vidéo
+- Envoi de fichiers
+- Exécution de commandes système
+- Injection de DLL
+- Suppression de fichiers
+- Désinstallation
 
-Par exemple, si vous souhaitez remplacer la DLL « salsa20.dll », vous devez renommer le backdoor en « salsa20.dll ». Ensuite, lorsque l'application « Salsa20 » sera lancée, elle chargera la DLL malveillante à la place de la DLL légitime.
+#### Utilisation
 
-### Conclusion
+Pour utiliser Salseo, vous devez d'abord compiler le code source en utilisant Visual Studio. Ensuite, vous devez configurer le serveur C&C en modifiant les paramètres dans le fichier de configuration. Enfin, vous devez exécuter le backdoor sur le système cible.
 
-Salseo est un backdoor puissant pour les systèmes Windows qui utilise une technique de DLL hijacking pour se charger dans une application tierce. Il peut être utilisé pour exécuter des commandes à distance, télécharger et exécuter des fichiers, et même prendre le contrôle complet du système compromis. Les pentesters et les attaquants doivent être conscients de cette technique et prendre des mesures pour la prévenir.
+#### Conclusion
+
+Salseo est un backdoor puissant pour les systèmes Windows. Il est facile à utiliser et dispose de nombreuses fonctionnalités utiles pour les pentesters et les attaquants. Cependant, il est important de noter que l'utilisation de backdoors pour des activités malveillantes est illégale et peut entraîner des conséquences graves.
 ```
 EncrypterAssembly.exe <FILE> <PASSWORD> <OUTPUT_FILE>
 EncrypterAssembly.exe EvilSalsax.dll password evilsalsa.dll.txt
@@ -105,7 +115,7 @@ Ouvrez le projet SalseoLoader à l'aide de Visual Studio.
 
 ### Ajoutez avant la fonction principale: \[DllExport]
 
-![](<../.gitbook/assets/image (2) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (2) (1) (1) (1) (1).png>)
 
 ### Installez DllExport pour ce projet
 
@@ -117,7 +127,7 @@ Ouvrez le projet SalseoLoader à l'aide de Visual Studio.
 
 ![](<../.gitbook/assets/image (4) (1) (1) (1).png>)
 
-Les fichiers suivants sont apparus dans votre dossier de projet: **DllExport.bat** et **DllExport\_Configure.bat**
+Dans le dossier de votre projet, les fichiers suivants sont apparus: **DllExport.bat** et **DllExport\_Configure.bat**
 
 ### **Désinstallez** DllExport
 
@@ -194,7 +204,7 @@ rundll32.exe SalseoLoader.dll,main
 * Travaillez-vous dans une entreprise de **cybersécurité** ? Voulez-vous voir votre entreprise annoncée dans HackTricks ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) **groupe Discord** ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) **groupe Discord** ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
