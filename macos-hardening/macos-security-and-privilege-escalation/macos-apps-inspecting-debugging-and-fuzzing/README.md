@@ -22,27 +22,30 @@ otool -tv /bin/ps #Decompile application
 ### objdump
 
 ### Description
-`objdump` is a command-line tool that allows you to inspect binary files and object files. It can display information about the headers, sections, symbols, and relocations of a binary file. It can also disassemble the machine code of a binary file into assembly code.
+`objdump` is a command-line utility that allows you to inspect the contents of an executable file. It can be used to disassemble machine code, display information about the file's sections and symbols, and more.
 
-### Utilisation
-To use `objdump`, simply run the command followed by the path to the binary file you want to inspect. For example:
-
+### Usage
 ```
-$ objdump -x /path/to/binary
+objdump [options] file
 ```
 
-This will display the headers of the binary file.
-
-You can also use the `-d` option to disassemble the machine code:
-
+### Example
 ```
-$ objdump -d /path/to/binary
+$ objdump -d /usr/bin/sudo
 ```
 
-This will display the assembly code of the binary file.
+### Options
+Some common options for `objdump` include:
 
-### Conclusion
-`objdump` is a powerful tool for inspecting binary files and object files. It can help you understand how a binary file works and how it is structured. It can also help you identify vulnerabilities and potential attack vectors in a binary file.
+- `-d`: Disassemble the executable's machine code.
+- `-h`: Display information about the file's sections.
+- `-t`: Display information about the file's symbols.
+- `-x`: Display all header information.
+- `-S`: Display source code intermixed with disassembly.
+- `-M`: Specify the architecture of the executable (e.g. `-M x86_64` for 64-bit Intel).
+
+### References
+- [objdump man page](https://linux.die.net/man/1/objdump)
 ```bash
 objdump -m --dylibs-used /bin/ls #List dynamically linked libraries
 objdump -m -h /bin/ls # Get headers information
@@ -69,7 +72,7 @@ ARCH=x86_64 jtool2 --sig /System/Applications/Automator.app/Contents/MacOS/Autom
 ```
 ### Codesign
 
-Codesign est un outil de ligne de commande fourni avec Xcode qui permet de signer numériquement les fichiers exécutables et les bibliothèques partagées. La signature numérique garantit que le fichier n'a pas été modifié depuis sa signature et qu'il provient d'une source fiable. Les développeurs peuvent utiliser codesign pour signer leurs applications avant de les distribuer, et les utilisateurs peuvent utiliser codesign pour vérifier l'authenticité des applications qu'ils téléchargent.
+Codesign est un outil de ligne de commande fourni avec Xcode qui permet de signer numériquement les fichiers d'application macOS. La signature numérique permet de garantir l'authenticité et l'intégrité des fichiers d'application. Les développeurs peuvent utiliser codesign pour signer leurs applications avant de les distribuer aux utilisateurs finaux. Les administrateurs système peuvent également utiliser codesign pour vérifier l'authenticité des applications installées sur un système macOS.
 ```bash
 # Get signer
 codesign -vv -d /bin/ls 2>&1 | grep -E "Authority|TeamIdentifier"
@@ -261,7 +264,7 @@ fs_usage -w -f network curl #This tracks network actions
 ### TaskExplorer
 
 [**Taskexplorer**](https://objective-see.com/products/taskexplorer.html) est utile pour voir les **bibliothèques** utilisées par un binaire, les **fichiers** qu'il utilise et les **connexions réseau**.\
-Il vérifie également les processus binaires avec **virustotal** et affiche des informations sur le binaire.
+Il vérifie également les processus binaires par rapport à **virustotal** et affiche des informations sur le binaire.
 
 ### lldb
 
@@ -278,7 +281,7 @@ lldb -n malware.bin --waitfor
 | **continue (c)**              | Continue l'exécution du processus en cours de débogage.                                                                                                                                                                                                                                                                                                                                                                               |
 | **nexti (n / ni)**            | Exécute l'instruction suivante. Cette commande sautera les appels de fonction.                                                                                                                                                                                                                                                                                                                                                 |
 | **stepi (s / si)**            | Exécute l'instruction suivante. Contrairement à la commande nexti, cette commande entrera dans les appels de fonction.                                                                                                                                                                                                                                                                                                                       |
-| **finish (f)**                | Exécute le reste des instructions dans la fonction ("frame") actuelle, retourne et s'arrête.                                                                                                                                                                                                                                                                                                                                   |
+| **finish (f)**                | Exécute le reste des instructions dans la fonction ("frame") en cours, retourne et s'arrête.                                                                                                                                                                                                                                                                                                                                   |
 | **control + c**               | Interrompt l'exécution. Si le processus a été exécuté (r) ou continué (c), cela provoquera l'arrêt du processus ... où qu'il soit en train d'être exécuté.                                                                                                                                                                                                                                                                             |
 | **breakpoint (b)**            | <p>b main</p><p>b -[NSDictionary objectForKey:]</p><p>b 0x0000000100004bd9</p><p>br l #Liste des points d'arrêt</p><p>br e/dis &#x3C;num> #Activer/Désactiver le point d'arrêt</p><p>breakpoint delete &#x3C;num><br>b set -n main --shlib &#x3C;lib_name></p>                                                                                                                                                                               |
 | **help**                      | <p>help breakpoint #Obtenir de l'aide sur la commande breakpoint</p><p>help memory write #Obtenir de l'aide pour écrire dans la mémoire</p>                                                                                                                                                                                                                                                                                                         |
@@ -288,11 +291,11 @@ lldb -n malware.bin --waitfor
 | **x/b \<reg/memory address>** | Affiche la mémoire sous forme de byte.                                                                                                                                                                                                                                                                                                                                                                                               |
 | **print object (po)**         | <p>Cela affichera l'objet référencé par le paramètre</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>Notez que la plupart des API ou méthodes Objective-C d'Apple renvoient des objets et doivent donc être affichées via la commande "print object" (po). Si po ne produit pas de sortie significative, utilisez <code>x/b</code></p> |
 | **memory**                    | <p>memory read 0x000....<br>memory read $x0+0xf2a<br>memory write 0x100600000 -s 4 0x41414141 #Écrire AAAA à cette adresse<br>memory write -f s $rip+0x11f+7 "AAAA" #Écrire AAAA à l'adresse</p>                                                                                                                                                                                                                            |
-| **disassembly**               | <p>dis #Désassemble la fonction actuelle<br>dis -c 6 #Désassemble 6 lignes<br>dis -c 0x100003764 -e 0x100003768 # De l'une à l'autre<br>dis -p -c 4 # Commence à l'adresse actuelle à désassembler</p>                                                                                                                                                                                                                                 |
+| **disassembly**               | <p>dis #Désassemble la fonction en cours<br>dis -c 6 #Désassemble 6 lignes<br>dis -c 0x100003764 -e 0x100003768 # De l'une à l'autre<br>dis -p -c 4 # Commence à l'adresse actuelle à désassembler</p>                                                                                                                                                                                                                                 |
 | **parray**                    | parray 3 (char \*\*)$x1 # Vérifiez le tableau de 3 composants dans le registre x1                                                                                                                                                                                                                                                                                                                                                           |
 
 {% hint style="info" %}
-Lors de l'appel de la fonction **`objc_sendMsg`**, le registre **rsi** contient le **nom de la méthode** sous forme de chaîne "C" terminée par un caractère nul. Pour afficher le nom via lldb, faites :
+Lors de l'appel de la fonction **`objc_sendMsg`**, le registre **rsi** contient le **nom de la méthode** sous forme de chaîne terminée par un caractère nul ("C"). Pour afficher le nom via lldb, faites :
 
 `(lldb) x/s $rsi: 0x1000f1576: "startMiningWithPort:password:coreCount:slowMemory:currency:"`
 
@@ -372,6 +375,16 @@ cat procs.txt
 ```
 Ou utilisez `netstat` ou `lsof`
 
+### Libgmalloc
+
+<figure><img src="../../../.gitbook/assets/Pasted Graphic 14.png" alt=""><figcaption></figcaption></figure>
+
+{% code overflow="wrap" %}
+```bash
+lldb -o "target create `which some-binary`" -o "settings set target.env-vars DYLD_INSERT_LIBRARIES=/usr/lib/libgmalloc.dylib" -o "run arg1 arg2" -o "bt" -o "reg read" -o "dis -s \$pc-32 -c 24 -m -F intel" -o "quit"
+```
+{% endcode %}
+
 ### Fuzzers
 
 #### [AFL++](https://github.com/AFLplusplus/AFLplusplus)
@@ -380,9 +393,9 @@ Fonctionne pour les outils CLI
 
 #### [Litefuzz](https://github.com/sec-tools/litefuzz)
 
-Il fonctionne "**juste"** avec les outils GUI de macOS. Notez que certaines applications macOS ont des exigences spécifiques telles que des noms de fichiers uniques, la bonne extension, la nécessité de lire les fichiers à partir du sandbox (`~/Library/Containers/com.apple.Safari/Data`)...
+Il fonctionne "**juste"** avec les outils GUI macOS. Notez que certaines applications macOS ont des exigences spécifiques telles que des noms de fichiers uniques, la bonne extension, la nécessité de lire les fichiers à partir du sandbox (`~/Library/Containers/com.apple.Safari/Data`)...
 
-Quelques exemples:
+Quelques exemples : 
 
 {% code overflow="wrap" %}
 ```bash
@@ -428,7 +441,7 @@ litefuzz -s -a tcp://localhost:5900 -i input/screenshared-session --reportcrash 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * Travaillez-vous dans une entreprise de **cybersécurité** ? Voulez-vous voir votre entreprise annoncée dans HackTricks ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).

@@ -48,15 +48,15 @@ codesign -s <cert-name-keychain> toolsdemo
 ```
 ### Notarisation
 
-Le processus de notarisation d'Apple sert de mesure de sécurité supplémentaire pour protéger les utilisateurs des logiciels potentiellement dangereux. Il implique que le développeur soumette son application à l'examen du service de notarisation d'Apple, qui ne doit pas être confondu avec l'examen de l'application. Ce service est un système automatisé qui examine le logiciel soumis à la recherche de contenu malveillant et de tout problème potentiel de signature de code.
+Le processus de notarisation d'Apple sert de protection supplémentaire pour protéger les utilisateurs des logiciels potentiellement dangereux. Il implique que le développeur soumette son application à l'examen du service de notarisation d'Apple, qui ne doit pas être confondu avec l'examen de l'application. Ce service est un système automatisé qui examine le logiciel soumis pour détecter la présence de contenu malveillant et tout problème potentiel de signature de code.
 
 Si le logiciel passe cette inspection sans soulever de préoccupations, le service de notarisation génère un ticket de notarisation. Le développeur est alors tenu de joindre ce ticket à son logiciel, un processus appelé "agrafage". De plus, le ticket de notarisation est également publié en ligne où Gatekeeper, la technologie de sécurité d'Apple, peut y accéder.
 
-Lors de la première installation ou exécution du logiciel par l'utilisateur, l'existence du ticket de notarisation - qu'il soit agrafé à l'exécutable ou trouvé en ligne - informe Gatekeeper que le logiciel a été notarisé par Apple. Par conséquent, Gatekeeper affiche un message descriptif dans la boîte de dialogue de lancement initial, indiquant que le logiciel a été vérifié pour la présence de contenu malveillant par Apple. Ce processus renforce ainsi la confiance de l'utilisateur dans la sécurité du logiciel qu'il installe ou exécute sur son système.
+Lors de la première installation ou exécution du logiciel par l'utilisateur, l'existence du ticket de notarisation - qu'il soit agrafé à l'exécutable ou trouvé en ligne - informe Gatekeeper que le logiciel a été notarisé par Apple. Par conséquent, Gatekeeper affiche un message descriptif dans la boîte de dialogue de lancement initial, indiquant que le logiciel a été vérifié pour la présence de contenu malveillant par Apple. Ce processus renforce ainsi la confiance des utilisateurs dans la sécurité des logiciels qu'ils installent ou exécutent sur leurs systèmes.
 
 ### Fichiers en quarantaine
 
-Lors du téléchargement d'une application ou d'un fichier, des applications macOS spécifiques telles que les navigateurs Web ou les clients de messagerie électronique attachent un attribut de fichier étendu, communément appelé "drapeau de quarantaine", au fichier téléchargé. Cet attribut sert de mesure de sécurité pour marquer le fichier comme provenant d'une source non fiable (Internet) et potentiellement risqué. Cependant, toutes les applications n'attachent pas cet attribut, par exemple, les logiciels clients BitTorrent courants contournent généralement ce processus.
+Lors du téléchargement d'une application ou d'un fichier, des applications spécifiques de macOS telles que les navigateurs Web ou les clients de messagerie électronique attachent un attribut de fichier étendu, communément appelé "drapeau de quarantaine", au fichier téléchargé. Cet attribut agit comme une mesure de sécurité pour marquer le fichier comme provenant d'une source non fiable (Internet) et potentiellement porteur de risques. Cependant, toutes les applications n'attachent pas cet attribut, par exemple, les logiciels clients BitTorrent courants contournent généralement ce processus.
 
 La présence d'un drapeau de quarantaine signale la fonctionnalité de sécurité Gatekeeper de macOS lorsque l'utilisateur tente d'exécuter le fichier.
 
@@ -137,20 +137,24 @@ system_profiler SPInstallHistoryDataType 2>/dev/null | grep -A 4 "XProtectPlistC
 
 L'outil de suppression de logiciels malveillants (MRT) est une autre partie de l'infrastructure de sécurité de macOS. Comme son nom l'indique, la fonction principale de MRT est de **supprimer les logiciels malveillants connus des systèmes infectés**.
 
-Une fois que des logiciels malveillants sont détectés sur un Mac (soit par XProtect, soit par d'autres moyens), MRT peut être utilisé pour **supprimer automatiquement les logiciels malveillants**. MRT fonctionne silencieusement en arrière-plan et s'exécute généralement chaque fois que le système est mis à jour ou lorsqu'une nouvelle définition de logiciel malveillant est téléchargée.
+Une fois que le logiciel malveillant est détecté sur un Mac (soit par XProtect, soit par d'autres moyens), MRT peut être utilisé pour **supprimer automatiquement le logiciel malveillant**. MRT fonctionne silencieusement en arrière-plan et s'exécute généralement chaque fois que le système est mis à jour ou lorsqu'une nouvelle définition de logiciel malveillant est téléchargée (il semble que les règles que MRT utilise pour détecter les logiciels malveillants soient à l'intérieur du binaire).
 
 Bien que XProtect et MRT fassent tous deux partie des mesures de sécurité de macOS, ils remplissent des fonctions différentes :
 
 * **XProtect** est un outil préventif. Il **vérifie les fichiers lorsqu'ils sont téléchargés** (via certaines applications), et s'il détecte des types de logiciels malveillants connus, il **empêche l'ouverture du fichier**, empêchant ainsi le logiciel malveillant d'infecter votre système en premier lieu.
-* **MRT**, en revanche, est un **outil réactif**. Il fonctionne après la détection de logiciels malveillants sur un système, dans le but de supprimer le logiciel incriminé pour nettoyer le système.
+* **MRT**, en revanche, est un outil **réactif**. Il fonctionne après la détection de logiciels malveillants sur un système, dans le but de supprimer le logiciel incriminé pour nettoyer le système.
 
 ## Limitation des processus
 
 ### SIP - Protection de l'intégrité du système
 
+{% content-ref url="macos-sip.md" %}
+[macos-sip.md](macos-sip.md)
+{% endcontent-ref %}
+
 ### Bac à sable
 
-Le bac à sable de MacOS **limite les applications** s'exécutant à l'intérieur du bac à sable aux **actions autorisées spécifiées dans le profil de bac à sable** avec lequel l'application s'exécute. Cela aide à garantir que **l'application n'accédera qu'aux ressources attendues**.
+Le bac à sable de macOS **limite les applications** s'exécutant à l'intérieur du bac à sable aux **actions autorisées spécifiées dans le profil de bac à sable** avec lequel l'application s'exécute. Cela aide à garantir que **l'application n'accédera qu'aux ressources attendues**.
 
 {% content-ref url="macos-sandbox/" %}
 [macos-sandbox](macos-sandbox/)

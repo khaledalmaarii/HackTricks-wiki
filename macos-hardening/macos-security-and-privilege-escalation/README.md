@@ -24,7 +24,7 @@
 
 ## Base de MacOS
 
-Si vous n'êtes pas familier avec macOS, vous devriez commencer par apprendre les bases de macOS:&#x20;
+Si vous n'êtes pas familier avec macOS, vous devriez commencer par apprendre les bases de macOS :
 
 * Fichiers et autorisations spéciaux de **macOS** :
 
@@ -58,10 +58,10 @@ Si vous n'êtes pas familier avec macOS, vous devriez commencer par apprendre le
 
 ### MacOS MDM
 
-Dans les entreprises, les systèmes **macOS** sont très probablement gérés avec un MDM. Par conséquent, du point de vue d'un attaquant, il est intéressant de savoir **comment cela fonctionne** :
+Dans les entreprises, les systèmes **macOS** sont très probablement **gérés avec un MDM**. Par conséquent, du point de vue d'un attaquant, il est intéressant de savoir **comment cela fonctionne** :
 
-{% content-ref url="macos-mdm/" %}
-[macos-mdm](macos-mdm/)
+{% content-ref url="../macos-red-teaming/macos-mdm/" %}
+[macos-mdm](../macos-red-teaming/macos-mdm/)
 {% endcontent-ref %}
 
 ### MacOS - Inspection, débogage et fuzzing
@@ -104,7 +104,7 @@ Si un processus peut **injecter du code dans un autre processus avec des privil�
 [macos-proces-abuse](macos-proces-abuse/)
 {% endcontent-ref %}
 
-### Gestionnaires d'applications d'extension de fichier et de schéma d'URL
+### Extensions de fichier et gestionnaires d'applications de schéma d'URL
 
 Des applications étranges enregistrées par des extensions de fichier peuvent être abusées et différentes applications peuvent être enregistrées pour ouvrir des protocoles spécifiques.
 
