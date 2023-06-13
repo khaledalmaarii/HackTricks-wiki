@@ -14,11 +14,11 @@
 
 ## **Informations de base**
 
-**TCC (Transparency, Consent, and Control)** est un mécanisme dans macOS pour **limiter et contrôler l'accès des applications à certaines fonctionnalités**, généralement d'un point de vue de la confidentialité. Cela peut inclure des choses telles que les services de localisation, les contacts, les photos, le microphone, la caméra, l'accessibilité, l'accès complet au disque et bien plus encore.
+**TCC (Transparence, Consentement et Contrôle)** est un mécanisme dans macOS pour **limiter et contrôler l'accès des applications à certaines fonctionnalités**, généralement d'un point de vue de la confidentialité. Cela peut inclure des choses telles que les services de localisation, les contacts, les photos, le microphone, la caméra, l'accessibilité, l'accès complet au disque et bien plus encore.
 
 Du point de vue de l'utilisateur, il voit TCC en action **lorsqu'une application veut accéder à l'une des fonctionnalités protégées par TCC**. Lorsque cela se produit, l'**utilisateur est invité** avec une boîte de dialogue lui demandant s'il souhaite autoriser l'accès ou non.
 
-Il est également possible de **donner aux applications l'accès** aux fichiers par des **intentions explicites** des utilisateurs, par exemple lorsque l'utilisateur **glisse et dépose un fichier dans un programme** (évidemment, le programme doit y avoir accès).
+Il est également possible de **donner aux applications l'accès** aux fichiers par des **intentions explicites** des utilisateurs, par exemple lorsque l'utilisateur **glisse-dépose un fichier dans un programme** (évidemment, le programme doit y avoir accès).
 
 ![Un exemple de boîte de dialogue TCC](https://rainforest.engineering/images/posts/macos-tcc/tcc-prompt.png?1620047855)
 
@@ -30,7 +30,7 @@ Les autorisations sont **héritées du parent** de l'application et les **autori
 
 ### Base de données TCC
 
-Les sélections sont ensuite stockées dans la base de données TCC à l'échelle du système dans **`/Library/Application Support/com.apple.TCC/TCC.db`** ou dans **`$HOME/Library/Application Support/com.apple.TCC/TCC.db`** pour les préférences par utilisateur. La base de données est **protégée contre la modification avec SIP** (System Integrity Protection), mais vous pouvez les lire en accordant **un accès complet au disque**.
+Les sélections sont ensuite stockées dans la base de données TCC à l'échelle du système dans **`/Library/Application Support/com.apple.TCC/TCC.db`** ou dans **`$HOME/Library/Application Support/com.apple.TCC/TCC.db`** pour les préférences par utilisateur. La base de données est **protégée contre la modification avec SIP** (Protection de l'intégrité du système), mais vous pouvez les lire en accordant **un accès complet au disque**.
 
 {% hint style="info" %}
 L'**interface utilisateur du centre de notification** peut apporter des **changements dans la base de données TCC du système** :
@@ -44,7 +44,7 @@ com.apple.rootless.storage.TCC
 ```
 {% endcode %}
 
-Cependant, les utilisateurs peuvent **supprimer ou interroger les règles** avec l'utilitaire en ligne de commande **`tccutil`**.
+Cependant, les utilisateurs peuvent **supprimer ou interroger des règles** avec l'utilitaire en ligne de commande **`tccutil`**.
 {% endhint %}
 
 {% tabs %}
@@ -67,7 +67,18 @@ sqlite> select * from access where client LIKE "%telegram%" and auth_value=0;
 ```
 {% endtab %}
 
-{% tab title="Base de données système" %}
+{% tab title="macOS TCC" %}
+# Protection de la confidentialité de macOS
+
+macOS TCC (Transparency, Consent, and Control) est un cadre de sécurité qui aide à protéger la confidentialité de l'utilisateur en limitant l'accès des applications aux données sensibles telles que les contacts, les calendriers, les photos et le microphone. Les applications doivent demander l'autorisation de l'utilisateur avant de pouvoir accéder à ces données.
+
+Le TCC est géré par le démon `tccd` et stocké dans la base de données `tcc.db` dans `/Library/Application Support/com.apple.TCC/`. La base de données contient des entrées pour chaque application qui a demandé l'autorisation d'accéder à des données sensibles, ainsi que l'état de l'autorisation (accordée ou refusée) pour chaque application.
+
+Les autorisations TCC peuvent être gérées via l'interface utilisateur graphique (préférences Système > Sécurité et confidentialité > Confidentialité) ou via la ligne de commande à l'aide de la commande `tccutil`. Les autorisations peuvent également être modifiées en modifiant directement la base de données TCC.
+
+Les attaquants peuvent contourner les protections TCC en utilisant des techniques d'escalade de privilèges pour obtenir un accès root et modifier la base de données TCC pour accorder des autorisations à des applications malveillantes. Les attaquants peuvent également utiliser des vulnérabilités dans les applications pour contourner les autorisations TCC et accéder aux données sensibles sans autorisation.
+
+Pour renforcer la protection de la confidentialité de macOS, il est recommandé de suivre les bonnes pratiques de sécurité, telles que la mise à jour régulière du système d'exploitation et des applications, l'utilisation d'un logiciel antivirus et l'installation uniquement d'applications provenant de sources fiables.
 ```bash
 sqlite3 /Library/Application\ Support/com.apple.TCC/TCC.db
 sqlite> .schema
@@ -88,10 +99,10 @@ sqlite> select * from access where client LIKE "%telegram%" and auth_value=0;
 {% endtabs %}
 
 {% hint style="success" %}
-En vérifiant les deux bases de données, vous pouvez vérifier les autorisations qu'une application a autorisées, interdites ou n'a pas (elle demandera l'autorisation).
+En vérifiant les deux bases de données, vous pouvez vérifier les autorisations qu'une application a autorisées, interdites ou qu'elle n'a pas (elle demandera l'autorisation).
 {% endhint %}
 
-* La **`auth_value`** peut avoir différentes valeurs : denied(0), unknown(1), allowed(2) ou limited(3).
+* La **`auth_value`** peut avoir différentes valeurs : denied(0), unknown(1), allowed(2), ou limited(3).
 * La **`auth_reason`** peut prendre les valeurs suivantes : Error(1), User Consent(2), User Set(3), System Set(4), Service Policy(5), MDM Policy(6), Override Policy(7), Missing usage string(8), Prompt Timeout(9), Preflight Unknown(10), Entitled(11), App Type Policy(12)
 * Pour plus d'informations sur les **autres champs** de la table, [**consultez ce billet de blog**](https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive).
 
@@ -120,10 +131,10 @@ csreq -t -r /tmp/telegram_csreq.bin
 
 ### Attributions
 
-Les applications **n'ont pas seulement besoin** de **demander** et d'obtenir l'accès à certaines ressources, elles doivent également **avoir les autorisations pertinentes**.\
+Les applications **n'ont pas seulement besoin** de **demander** et d'obtenir **l'accès** à certaines ressources, elles doivent également **avoir les autorisations pertinentes**.\
 Par exemple, **Telegram** a l'autorisation `com.apple.security.device.camera` pour demander **l'accès à la caméra**. Une **application** qui **n'a pas cette autorisation ne pourra pas** accéder à la caméra (et l'utilisateur ne sera même pas invité à donner les autorisations).
 
-Cependant, pour que les applications **accèdent** à certains dossiers de l'utilisateur, tels que `~/Desktop`, `~/Downloads` et `~/Documents`, elles **n'ont pas besoin** d'avoir des **autorisations spécifiques**. Le système gérera l'accès de manière transparente et **invitera l'utilisateur** si nécessaire.
+Cependant, pour que les applications **accèdent** à certains dossiers utilisateur, tels que `~/Desktop`, `~/Downloads` et `~/Documents`, elles **n'ont pas besoin** d'avoir des **autorisations spécifiques**. Le système gérera l'accès de manière transparente et **invitera l'utilisateur** si nécessaire.
 
 Les applications d'Apple **ne génèrent pas de pop-ups**. Elles contiennent des **droits préalablement accordés** dans leur liste d'autorisations, ce qui signifie qu'elles ne **généreront jamais de pop-up**, **ni** n'apparaîtront dans l'une des **bases de données TCC**. Par exemple:
 ```bash
@@ -162,7 +173,7 @@ otool -l /System/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal| gr
     uuid 769FD8F1-90E0-3206-808C-A8947BEBD6C3
 ```
 {% hint style="info" %}
-Il est curieux que l'attribut **`com.apple.macl`** soit géré par le **bac à sable**, et non par tccd.
+Il est curieux que l'attribut **`com.apple.macl`** soit géré par le **bac à sable**, et non par tccd
 {% endhint %}
 
 L'attribut étendu `com.apple.macl` **ne peut pas être effacé** comme les autres attributs étendus car il est **protégé par SIP**. Cependant, comme [**expliqué dans cet article**](https://www.brunerd.com/blog/2020/01/07/track-and-tackle-com-apple-macl/), il est possible de le désactiver en **compressant** le fichier, en le **supprimant** et en le **décompressant**.
@@ -262,7 +273,7 @@ tell application "iTerm"
     end tell
 end tell
 ```
-{% endcode %} (This is a markdown tag and should not be translated)
+{% endcode %} (This is not a text to be translated, it's a markdown tag)
 ```bash
 osascript iterm.script
 ```
@@ -280,7 +291,7 @@ do shell script "rm " & POSIX path of (copyFile as alias)
 ```
 ### Abus de processus
 
-Si vous parvenez à **injecter du code dans un processus**, vous pourrez abuser des permissions TCC de ce processus.
+Si vous parvenez à **injecter du code dans un processus**, vous pourrez abuser des autorisations TCC de ce processus.
 
 Consultez les techniques d'abus de processus sur la page suivante :
 
@@ -292,9 +303,9 @@ Voir quelques exemples dans les sections suivantes :
 
 ### CVE-2020-29621 - Coreaudiod
 
-Le binaire **`/usr/sbin/coreaudiod`** avait les entitlements `com.apple.security.cs.disable-library-validation` et `com.apple.private.tcc.manager`. Le premier permettant l'**injection de code** et le second lui donnant accès à **gérer TCC**.
+Le binaire **`/usr/sbin/coreaudiod`** avait les autorisations `com.apple.security.cs.disable-library-validation` et `com.apple.private.tcc.manager`. Le premier permettant l'**injection de code** et le second lui donnant accès à **gérer TCC**.
 
-Ce binaire permettait de charger des **plug-ins tiers** à partir du dossier `/Library/Audio/Plug-Ins/HAL`. Par conséquent, il était possible de **charger un plugin et d'abuser des permissions TCC** avec ce PoC :
+Ce binaire permettait de charger des **plug-ins tiers** à partir du dossier `/Library/Audio/Plug-Ins/HAL`. Par conséquent, il était possible de **charger un plugin et d'abuser des autorisations TCC** avec ce PoC :
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <Security/Security.h>
@@ -354,9 +365,15 @@ X'fade0c000000003000000001000000060000000200000012636f6d2e6170706c652e5465726d69
 # list Documents directory without prompting the end user
 $> ls ~/Documents
 ```
+### CVE-2021-30761
+
+Les notes avaient accès aux emplacements protégés par TCC, mais lorsqu'une note est créée, elle est **créée dans un emplacement non protégé**. Ainsi, vous pouvez demander aux notes de copier un fichier protégé dans une note (donc dans un emplacement non protégé) et ensuite accéder au fichier :
+
+<figure><img src="../../../../.gitbook/assets/image (8).png" alt=""><figcaption></figcaption></figure>
+
 ### CVE-2023-26818 - Telegram
 
-Telegram avait les entitlements `com.apple.security.cs.allow-dyld-environment-variables` et `com.apple.security.cs.disable-library-validation`, il était donc possible de l'exploiter pour **accéder à ses permissions** telles que l'enregistrement avec la caméra. Vous pouvez [**trouver la charge utile dans l'article**](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/).
+Telegram avait les entitlements `com.apple.security.cs.allow-dyld-environment-variables` et `com.apple.security.cs.disable-library-validation`, il était donc possible de l'exploiter pour **obtenir l'accès à ses permissions** telles que l'enregistrement avec la caméra. Vous pouvez [**trouver la charge utile dans le writeup**](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/).
 
 ## Références
 
@@ -364,12 +381,13 @@ Telegram avait les entitlements `com.apple.security.cs.allow-dyld-environment-va
 * [**https://wojciechregula.blog/post/play-the-music-and-bypass-tcc-aka-cve-2020-29621/**](https://wojciechregula.blog/post/play-the-music-and-bypass-tcc-aka-cve-2020-29621/)
 * [**https://medium.com/@mattshockl/cve-2020-9934-bypassing-the-os-x-transparency-consent-and-control-tcc-framework-for-4e14806f1de8**](https://medium.com/@mattshockl/cve-2020-9934-bypassing-the-os-x-transparency-consent-and-control-tcc-framework-for-4e14806f1de8)
 * [**https://www.sentinelone.com/labs/bypassing-macos-tcc-user-privacy-protections-by-accident-and-design/**](https://www.sentinelone.com/labs/bypassing-macos-tcc-user-privacy-protections-by-accident-and-design/)
+* [**https://www.youtube.com/watch?v=W9GxnP8c8FU**](https://www.youtube.com/watch?v=W9GxnP8c8FU)
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**

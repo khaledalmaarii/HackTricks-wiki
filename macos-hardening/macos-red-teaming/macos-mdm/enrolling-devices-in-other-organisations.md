@@ -1,44 +1,41 @@
+# Inscription des appareils dans d'autres organisations
+
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Travaillez-vous dans une entreprise de cybersécurité? Voulez-vous voir votre entreprise annoncée dans HackTricks? ou voulez-vous avoir accès à la dernière version de PEASS ou télécharger HackTricks en PDF? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-
-- Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-
-- Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-
-- **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-
-- **Partagez vos astuces de piratage en soumettant des PR au [repo hacktricks](https://github.com/carlospolop/hacktricks) et au [repo hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
+## Introduction
 
-# Introduction
-
-Comme [**mentionné précédemment**](./#what-is-mdm-mobile-device-management), pour essayer d'inscrire un appareil dans une organisation, **seul un numéro de série appartenant à cette organisation est nécessaire**. Une fois l'appareil inscrit, plusieurs organisations installeront des données sensibles sur le nouvel appareil: des certificats, des applications, des mots de passe WiFi, des configurations VPN [et ainsi de suite](https://developer.apple.com/enterprise/documentation/Configuration-Profile-Reference.pdf).\
+Comme [**mentionné précédemment**](./#what-is-mdm-mobile-device-management), pour essayer d'inscrire un appareil dans une organisation, **seul un numéro de série appartenant à cette organisation est nécessaire**. Une fois l'appareil inscrit, plusieurs organisations installeront des données sensibles sur le nouvel appareil : des certificats, des applications, des mots de passe WiFi, des configurations VPN [et ainsi de suite](https://developer.apple.com/enterprise/documentation/Configuration-Profile-Reference.pdf).\
 Par conséquent, cela pourrait être un point d'entrée dangereux pour les attaquants si le processus d'inscription n'est pas correctement protégé.
 
 **La recherche suivante est tirée de** [**https://duo.com/labs/research/mdm-me-maybe**](https://duo.com/labs/research/mdm-me-maybe)
 
-# Inverser le processus
+## Inverser le processus
 
-## Binaires impliqués dans DEP et MDM
+### Binaires impliqués dans DEP et MDM
 
-Au cours de notre recherche, nous avons exploré les éléments suivants:
+Au cours de notre recherche, nous avons exploré les éléments suivants :
 
-* **`mdmclient`**: Utilisé par le système d'exploitation pour communiquer avec un serveur MDM. Sur macOS 10.13.3 et antérieur, il peut également être utilisé pour déclencher une vérification DEP.
-* **`profiles`**: Un utilitaire qui peut être utilisé pour installer, supprimer et afficher des profils de configuration sur macOS. Il peut également être utilisé pour déclencher une vérification DEP sur macOS 10.13.4 et plus récent.
-* **`cloudconfigurationd`**: Le démon client d'inscription de l'appareil, qui est responsable de la communication avec l'API DEP et de la récupération des profils d'inscription de l'appareil.
+* **`mdmclient`** : Utilisé par le système d'exploitation pour communiquer avec un serveur MDM. Sur macOS 10.13.3 et antérieurs, il peut également être utilisé pour déclencher une vérification DEP.
+* **`profiles`** : Un utilitaire qui peut être utilisé pour installer, supprimer et afficher des profils de configuration sur macOS. Il peut également être utilisé pour déclencher une vérification DEP sur macOS 10.13.4 et plus récent.
+* **`cloudconfigurationd`** : Le démon client d'inscription de l'appareil, qui est responsable de la communication avec l'API DEP et de la récupération des profils d'inscription de l'appareil.
 
-Lorsque vous utilisez `mdmclient` ou `profiles` pour initier une vérification DEP, les fonctions `CPFetchActivationRecord` et `CPGetActivationRecord` sont utilisées pour récupérer l'_Activation Record_. `CPFetchActivationRecord` délègue le contrôle à `cloudconfigurationd` via [XPC](https://developer.apple.com/documentation/xpc), qui récupère ensuite l'_Activation Record_ depuis l'API DEP.
+Lorsque `mdmclient` ou `profiles` est utilisé pour initier une vérification DEP, les fonctions `CPFetchActivationRecord` et `CPGetActivationRecord` sont utilisées pour récupérer l'_Activation Record_. `CPFetchActivationRecord` délègue le contrôle à `cloudconfigurationd` via [XPC](https://developer.apple.com/documentation/xpc), qui récupère ensuite l'_Activation Record_ depuis l'API DEP.
 
 `CPGetActivationRecord` récupère l'_Activation Record_ depuis le cache, si disponible. Ces fonctions sont définies dans le framework de profils de configuration privé, situé à `/System/Library/PrivateFrameworks/Configuration Profiles.framework`.
 
-## Inverser le protocole Tesla et le schéma Absinthe
+### Ingénierie inverse du protocole Tesla et du schéma Absinthe
 
-Pendant le processus de vérification DEP, `cloudconfigurationd` demande un _Activation Record_ à _iprofiles.apple.com/macProfile_. La charge utile de la demande est un dictionnaire JSON contenant deux paires clé-valeur:
+Pendant le processus de vérification DEP, `cloudconfigurationd` demande un _Activation Record_ à _iprofiles.apple.com/macProfile_. La charge utile de la requête est un dictionnaire JSON contenant deux paires clé-valeur :
 ```
 {
 "sn": "",
@@ -58,11 +55,11 @@ rsi = @selector(startConfigurationFetch);
 rsi = @selector(sendConfigurationInfoToRemote);
 rsi = @selector(sendFailureNoticeToRemote);
 ```
-Puisque le schéma **Absinthe** semble être utilisé pour authentifier les demandes de service DEP, le **reverse engineering** de ce schéma nous permettrait de faire nos propres demandes authentifiées à l'API DEP. Cependant, cela s'est avéré **chronophage**, principalement en raison du nombre d'étapes impliquées dans l'authentification des demandes. Au lieu de renverser complètement le fonctionnement de ce schéma, nous avons opté pour explorer d'autres méthodes d'insertion de numéros de série arbitraires dans la demande de _Activation Record_.
+Puisque le schéma **Absinthe** semble être utilisé pour authentifier les demandes de service DEP, le **reverse engineering** de ce schéma nous permettrait de faire nos propres demandes authentifiées à l'API DEP. Cependant, cela s'est avéré être **chronophage**, principalement en raison du nombre d'étapes impliquées dans l'authentification des demandes. Au lieu de renverser complètement le fonctionnement de ce schéma, nous avons opté pour explorer d'autres méthodes d'insertion de numéros de série arbitraires dans la demande de _Activation Record_.
 
-## MITMing DEP Requests
+### MITMing DEP Requests
 
-Nous avons exploré la faisabilité de la mise en proxy des demandes réseau vers _iprofiles.apple.com_ avec [Charles Proxy](https://www.charlesproxy.com). Notre objectif était d'inspecter la charge utile envoyée à _iprofiles.apple.com/macProfile_, puis d'insérer un numéro de série arbitraire et de rejouer la demande. Comme mentionné précédemment, la charge utile soumise à ce point final par `cloudconfigurationd` est au format [JSON](https://www.json.org) et contient deux paires clé-valeur.
+Nous avons exploré la faisabilité de la mise en proxy des demandes réseau vers _iprofiles.apple.com_ avec [Charles Proxy](https://www.charlesproxy.com). Notre objectif était d'inspecter la charge utile envoyée à _iprofiles.apple.com/macProfile_, puis d'insérer un numéro de série arbitraire et de rejouer la demande. Comme mentionné précédemment, la charge utile soumise à ce point d'extrémité par `cloudconfigurationd` est au format [JSON](https://www.json.org) et contient deux paires clé-valeur.
 ```
 {
 "action": "RequestProfileConfiguration",
@@ -109,7 +106,7 @@ Avec SSL Proxying activé pour _iprofiles.apple.com_ et `cloudconfigurationd` co
 
 Cependant, étant donné que la charge utile incluse dans le corps de la requête HTTP POST à _iprofiles.apple.com/macProfile_ est signée et chiffrée avec Absinthe, (`NACSign`), **il n'est pas possible de modifier la charge utile JSON en clair pour inclure un numéro de série arbitraire sans avoir également la clé pour la décrypter**. Bien qu'il soit possible d'obtenir la clé car elle reste en mémoire, nous avons plutôt continué à explorer `cloudconfigurationd` avec le débogueur [LLDB](https://lldb.llvm.org).
 
-## Instrumentation des binaires système qui interagissent avec DEP
+### Instrumentation des binaires système qui interagissent avec DEP
 
 La dernière méthode que nous avons explorée pour automatiser le processus de soumission de numéros de série arbitraires à _iprofiles.apple.com/macProfile_ était d'instrumenter les binaires natifs qui interagissent directement ou indirectement avec l'API DEP. Cela a impliqué une exploration initiale de `mdmclient`, `profiles` et `cloudconfigurationd` dans [Hopper v4](https://www.hopperapp.com) et [Ida Pro](https://www.hex-rays.com/products/ida/), ainsi que de longues sessions de débogage avec `lldb`.
 
@@ -160,7 +157,7 @@ rax = r14;
 return rax;
 }
 ```
-Le numéro de série du système est récupéré à partir de [`IORegistry`](https://developer.apple.com/documentation/installerjs/ioregistry), sauf si la valeur de retour de `sub_10002000f` est différente de zéro, auquel cas elle est définie sur la chaîne statique "2222XXJREUF". En examinant cette fonction, il semble vérifier si le "mode de test de stress du serveur" est activé.
+Le numéro de série du système est récupéré à partir de [`IORegistry`](https://developer.apple.com/documentation/installerjs/ioregistry), sauf si la valeur de retour de `sub_10002000f` est différente de zéro, auquel cas il est défini sur la chaîne statique "2222XXJREUF". En examinant cette fonction, il semble vérifier si le "mode de test de stress du serveur" est activé.
 ```
 void sub_1000321ca(void * _block) {
 if (sub_10002406f() != 0x0) {
@@ -333,7 +330,7 @@ SupervisorHostCertificates =     (
 ```
 Avec seulement quelques commandes `lldb`, nous pouvons insérer avec succès un numéro de série arbitraire et obtenir un profil DEP qui inclut diverses données spécifiques à l'organisation, y compris l'URL d'inscription MDM de l'organisation. Comme discuté, cette URL d'inscription pourrait être utilisée pour inscrire un appareil malveillant maintenant que nous connaissons son numéro de série. Les autres données pourraient être utilisées pour l'ingénierie sociale d'une inscription malveillante. Une fois inscrit, l'appareil pourrait recevoir un certain nombre de certificats, de profils, d'applications, de configurations VPN, etc.
 
-## Automatisation de l'instrumentation `cloudconfigurationd` avec Python
+### Automatisation de l'instrumentation `cloudconfigurationd` avec Python
 
 Une fois que nous avons eu la preuve de concept initiale démontrant comment récupérer un profil DEP valide en utilisant simplement un numéro de série, nous avons cherché à automatiser ce processus pour montrer comment un attaquant pourrait exploiter cette faiblesse de l'authentification.
 
@@ -347,13 +344,13 @@ Cela a rendu relativement facile la création d'un script de notre preuve de con
 
 ![Notification DEP.](https://duo.com/img/asset/aW1nL2xhYnMvcmVzZWFyY2gvaW1nL2RlcF9ub3RpZmljYXRpb24ucG5n?w=800\&fit=contain\&s=4f7b95efd02245f9953487dcaac6a961)
 
-## Impact
+### Impact
 
 Il existe plusieurs scénarios dans lesquels le programme d'enregistrement des appareils d'Apple pourrait être utilisé de manière abusive, ce qui pourrait conduire à la divulgation d'informations sensibles sur une organisation. Les deux scénarios les plus évidents impliquent l'obtention d'informations sur l'organisation à laquelle un appareil appartient, qui peuvent être récupérées à partir du profil DEP. Le deuxième consiste à utiliser ces informations pour effectuer un enregistrement DEP et MDM frauduleux. Chacun de ces scénarios est discuté plus en détail ci-dessous.
 
-### Divulgation d'informations
+#### Divulgation d'informations
 
-Comme mentionné précédemment, une partie du processus d'enregistrement DEP consiste à demander et recevoir un _Activation Record_ (ou profil DEP) à partir de l'API DEP. En fournissant un numéro de série système enregistré dans DEP valide, nous sommes en mesure de récupérer les informations suivantes (soit imprimées sur `stdout`, soit écrites dans le journal `ManagedClient`, selon la version de macOS).
+Comme mentionné précédemment, une partie du processus d'enregistrement DEP consiste à demander et recevoir un _Activation Record_ (ou profil DEP) à partir de l'API DEP. En fournissant un numéro de série système enregistré dans DEP valide, nous sommes en mesure de récupérer les informations suivantes (soit imprimées sur `stdout` ou écrites dans le journal `ManagedClient`, selon la version de macOS).
 ```
 Activation record: {
 AllowPairing = 1;
@@ -384,12 +381,12 @@ SupervisorHostCertificates =     (
 );
 }
 ```
-Bien que certaines de ces informations puissent être disponibles publiquement pour certaines organisations, avoir un numéro de série d'un appareil appartenant à l'organisation ainsi que les informations obtenues à partir du profil DEP pourraient être utilisés contre le service d'assistance ou l'équipe informatique de l'organisation pour effectuer toute une série d'attaques d'ingénierie sociale, telles que la demande de réinitialisation de mot de passe ou l'aide à l'inscription d'un appareil dans le serveur MDM de l'entreprise.
+Bien que certaines de ces informations puissent être disponibles publiquement pour certaines organisations, avoir un numéro de série d'un appareil appartenant à l'organisation ainsi que les informations obtenues à partir du profil DEP pourraient être utilisés contre le service d'assistance ou l'équipe informatique de l'organisation pour effectuer un certain nombre d'attaques d'ingénierie sociale, telles que la demande de réinitialisation de mot de passe ou d'aide à l'inscription d'un appareil dans le serveur MDM de l'entreprise.
 
-### Inscription DEP frauduleuse
+#### Inscription DEP frauduleuse
 
-Le [protocole MDM d'Apple](https://developer.apple.com/enterprise/documentation/MDM-Protocol-Reference.pdf) prend en charge - mais n'exige pas - l'authentification de l'utilisateur avant l'inscription MDM via [l'authentification de base HTTP](https://en.wikipedia.org/wiki/Basic\_access\_authentication). **Sans authentification, tout ce qui est nécessaire pour inscrire un appareil dans un serveur MDM via DEP est un numéro de série DEP valide et enregistré**. Ainsi, un attaquant qui obtient un tel numéro de série (soit par [OSINT](https://en.wikipedia.org/wiki/Open-source\_intelligence), l'ingénierie sociale, ou par force brute) sera en mesure d'inscrire un appareil de sa propre possession comme s'il appartenait à l'organisation, tant qu'il n'est pas actuellement inscrit dans le serveur MDM. Essentiellement, si un attaquant est capable de remporter la course en initiant l'inscription DEP avant le vrai appareil, il est capable d'assumer l'identité de cet appareil.
+Le protocole MDM d'Apple prend en charge - mais n'exige pas - l'authentification de l'utilisateur avant l'inscription MDM via l'authentification de base HTTP. **Sans authentification, tout ce qui est nécessaire pour inscrire un appareil dans un serveur MDM via DEP est un numéro de série DEP valide**. Ainsi, un attaquant qui obtient un tel numéro de série (soit par OSINT, ingénierie sociale ou par force brute) pourra inscrire un appareil qui lui appartient comme s'il appartenait à l'organisation, tant qu'il n'est pas actuellement inscrit dans le serveur MDM. Essentiellement, si un attaquant est capable de remporter la course en initiant l'inscription DEP avant le vrai appareil, il est capable d'assumer l'identité de cet appareil.
 
-Les organisations peuvent - et le font - utiliser MDM pour déployer des informations sensibles telles que des certificats d'appareil et d'utilisateur, des données de configuration VPN, des agents d'inscription, des profils de configuration et diverses autres données internes et secrets organisationnels. De plus, certaines organisations choisissent de ne pas exiger l'authentification de l'utilisateur dans le cadre de l'inscription MDM. Cela présente divers avantages, tels qu'une meilleure expérience utilisateur et de ne pas avoir à [exposer le serveur d'authentification interne au serveur MDM pour gérer les inscriptions MDM qui ont lieu en dehors du réseau d'entreprise](https://docs.simplemdm.com/article/93-ldap-authentication-with-apple-dep).
+Les organisations peuvent - et le font - utiliser MDM pour déployer des informations sensibles telles que des certificats d'appareil et d'utilisateur, des données de configuration VPN, des agents d'inscription, des profils de configuration et diverses autres données internes et secrets organisationnels. De plus, certaines organisations choisissent de ne pas exiger l'authentification de l'utilisateur dans le cadre de l'inscription MDM. Cela présente divers avantages, tels qu'une meilleure expérience utilisateur et le fait de ne pas avoir à exposer le serveur d'authentification interne au serveur MDM pour gérer les inscriptions MDM qui ont lieu en dehors du réseau d'entreprise.
 
 Cela pose un problème lors de l'utilisation de DEP pour amorcer l'inscription MDM, car un attaquant serait en mesure d'inscrire n'importe quel point final de son choix dans le serveur MDM de l'organisation. De plus, une fois qu'un attaquant a réussi à inscrire un point final de son choix dans MDM, il peut obtenir un accès privilégié qui pourrait être utilisé pour pivoter davantage dans le réseau.
