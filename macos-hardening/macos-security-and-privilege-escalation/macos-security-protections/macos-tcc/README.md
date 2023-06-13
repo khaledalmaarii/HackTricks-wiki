@@ -4,7 +4,7 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une entreprise de cybersécurité ? Voulez-vous voir votre entreprise annoncée dans HackTricks ? ou voulez-vous avoir accès à la dernière version de PEASS ou télécharger HackTricks en PDF ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Travaillez-vous dans une entreprise de **cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -72,13 +72,11 @@ sqlite> select * from access where client LIKE "%telegram%" and auth_value=0;
 
 macOS TCC (Transparency, Consent, and Control) est un cadre de sécurité qui aide à protéger la confidentialité de l'utilisateur en limitant l'accès des applications aux données sensibles telles que les contacts, les calendriers, les photos et le microphone. Les applications doivent demander l'autorisation de l'utilisateur avant de pouvoir accéder à ces données.
 
-Le TCC est géré par le démon `tccd` et stocké dans la base de données `tcc.db` dans `/Library/Application Support/com.apple.TCC/`. La base de données contient des entrées pour chaque application qui a demandé l'autorisation d'accéder à des données sensibles, ainsi que l'état de l'autorisation (accordée ou refusée) pour chaque application.
+Le TCC est implémenté en utilisant une base de données système appelée `tcc.db`. Cette base de données contient des informations sur les autorisations accordées aux applications pour accéder aux données sensibles. Les autorisations sont stockées sous forme de chaînes de caractères cryptées dans la base de données.
 
-Les autorisations TCC peuvent être gérées via l'interface utilisateur graphique (préférences Système > Sécurité et confidentialité > Confidentialité) ou via la ligne de commande à l'aide de la commande `tccutil`. Les autorisations peuvent également être modifiées en modifiant directement la base de données TCC.
+Le TCC est conçu pour être résistant aux attaques de type "escalade de privilèges". Les applications ne peuvent pas simplement ajouter des autorisations à la base de données TCC sans l'autorisation de l'utilisateur. Cela rend plus difficile pour les attaquants de contourner les protections de sécurité de macOS en exploitant des vulnérabilités dans les applications.
 
-Les attaquants peuvent contourner les protections TCC en utilisant des techniques d'escalade de privilèges pour obtenir un accès root et modifier la base de données TCC pour accorder des autorisations à des applications malveillantes. Les attaquants peuvent également utiliser des vulnérabilités dans les applications pour contourner les autorisations TCC et accéder aux données sensibles sans autorisation.
-
-Pour renforcer la protection de la confidentialité de macOS, il est recommandé de suivre les bonnes pratiques de sécurité, telles que la mise à jour régulière du système d'exploitation et des applications, l'utilisation d'un logiciel antivirus et l'installation uniquement d'applications provenant de sources fiables.
+Cependant, il est important de noter que le TCC n'est pas une solution de sécurité complète. Il ne peut pas empêcher toutes les fuites de données ou les attaques de type "escalade de privilèges". Les utilisateurs doivent toujours être vigilants et prendre des mesures pour protéger leurs données sensibles.
 ```bash
 sqlite3 /Library/Application\ Support/com.apple.TCC/TCC.db
 sqlite> .schema
@@ -182,7 +180,7 @@ L'attribut étendu `com.apple.macl` **ne peut pas être effacé** comme les autr
 
 ### Contournement d'écriture
 
-Ce n'est pas un contournement, c'est juste la façon dont TCC fonctionne : **il ne protège pas contre l'écriture**. Si le Terminal **n'a pas accès à la lecture du bureau d'un utilisateur, il peut toujours y écrire** :
+Ce n'est pas un contournement, c'est juste la façon dont TCC fonctionne : **il ne protège pas contre l'écriture**. Si le Terminal **n'a pas accès à la lecture du Bureau d'un utilisateur, il peut toujours y écrire** :
 ```shell-session
 username@hostname ~ % ls Desktop 
 ls: Desktop: Operation not permitted
@@ -291,7 +289,7 @@ do shell script "rm " & POSIX path of (copyFile as alias)
 ```
 ### Abus de processus
 
-Si vous parvenez à **injecter du code dans un processus**, vous pourrez abuser des autorisations TCC de ce processus.
+Si vous parvenez à **injecter du code dans un processus**, vous pourrez abuser des autorisations TCC de ce processus. 
 
 Consultez les techniques d'abus de processus sur la page suivante :
 
@@ -369,7 +367,7 @@ $> ls ~/Documents
 
 Les notes avaient accès aux emplacements protégés par TCC, mais lorsqu'une note est créée, elle est **créée dans un emplacement non protégé**. Ainsi, vous pouvez demander aux notes de copier un fichier protégé dans une note (donc dans un emplacement non protégé) et ensuite accéder au fichier :
 
-<figure><img src="../../../../.gitbook/assets/image (8).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (15).png" alt=""><figcaption></figcaption></figure>
 
 ### CVE-2023-26818 - Telegram
 

