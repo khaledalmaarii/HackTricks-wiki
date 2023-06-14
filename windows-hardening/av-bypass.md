@@ -234,7 +234,7 @@ Il est important de noter que les exécutables signés avec un certificat de sig
 
 Un moyen très efficace d'empêcher vos charges utiles d'obtenir la marque du Web est de les emballer dans une sorte de conteneur comme un ISO. Cela se produit parce que la marque du Web (MOTW) **ne peut pas** être appliquée aux volumes **non NTFS**.
 
-<figure><img src="../.gitbook/assets/image (12).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (12) (2).png" alt=""><figcaption></figcaption></figure>
 
 [**PackMyPayload**](https://github.com/mgeeky/PackMyPayload/) est un outil qui emballe les charges utiles dans des conteneurs de sortie pour éviter la marque du Web.
 
@@ -274,7 +274,7 @@ La plupart des frameworks C2 (sliver, Covenant, metasploit, CobaltStrike, Havoc,
 
 * **Fork\&Run**
 
-Cela implique de **lancer un nouveau processus sacrificiel**, d'injecter votre code malveillant de post-exploitation dans ce nouveau processus, d'exécuter votre code malveillant et, une fois terminé, de tuer le nouveau processus. Cela présente à la fois des avantages et des inconvénients. L'avantage de la méthode fork and run est que l'exécution se produit **en dehors** de notre processus d'implant de Beacon. Cela signifie que si quelque chose dans notre action de post-exploitation se passe mal ou est détecté, il y a une **beaucoup plus grande chance** que notre **implant survive.** L'inconvénient est que vous avez une **plus grande chance** de vous faire prendre par des **détections comportementales**.
+Cela implique de **lancer un nouveau processus sacrificiel**, d'injecter votre code malveillant de post-exploitation dans ce nouveau processus, d'exécuter votre code malveillant et, une fois terminé, de tuer le nouveau processus. Cela présente à la fois des avantages et des inconvénients. L'avantage de la méthode fork and run est que l'exécution se produit **en dehors** de notre processus d'implant de Beacon. Cela signifie que si quelque chose dans notre action de post-exploitation se passe mal ou est détecté, il y a une **beaucoup plus grande chance** que notre **implant survive.** L'inconvénient est que vous avez une **plus grande chance** de vous faire prendre par les **détections comportementales**.
 
 <figure><img src="../.gitbook/assets/image (7) (1) (3).png" alt=""><figcaption></figcaption></figure>
 
@@ -331,7 +331,7 @@ netsh advfirewall set allprofiles state off
 ```
 ### UltraVNC
 
-Téléchargez-le depuis: [http://www.uvnc.com/downloads/ultravnc.html](http://www.uvnc.com/downloads/ultravnc.html) (vous voulez les téléchargements binaires, pas l'installation)
+Téléchargez-le à partir de: [http://www.uvnc.com/downloads/ultravnc.html](http://www.uvnc.com/downloads/ultravnc.html) (vous voulez les téléchargements binaires, pas l'installation)
 
 **SUR L'HÔTE**: Exécutez _**winvnc.exe**_ et configurez le serveur:
 
@@ -347,13 +347,13 @@ L'**attaquant** doit **exécuter à l'intérieur** de son **hôte** le binaire `
 
 **ATTENTION:** Pour maintenir la discrétion, vous ne devez pas faire certaines choses
 
-* Ne démarrez pas `winvnc` s'il est déjà en cours d'exécution ou vous déclencherez une [fenêtre contextuelle](https://i.imgur.com/1SROTTl.png). Vérifiez s'il fonctionne avec `tasklist | findstr winvnc`
+* Ne démarrez pas `winvnc` s'il est déjà en cours d'exécution ou vous déclencherez une [fenêtre contextuelle](https://i.imgur.com/1SROTTl.png). Vérifiez s'il est en cours d'exécution avec `tasklist | findstr winvnc`
 * Ne démarrez pas `winvnc` sans `UltraVNC.ini` dans le même répertoire ou cela provoquera l'ouverture de [la fenêtre de configuration](https://i.imgur.com/rfMQWcf.png)
 * Ne lancez pas `winvnc -h` pour obtenir de l'aide ou vous déclencherez une [fenêtre contextuelle](https://i.imgur.com/oc18wcu.png)
 
 ### GreatSCT
 
-Téléchargez-le depuis: [https://github.com/GreatSCT/GreatSCT](https://github.com/GreatSCT/GreatSCT)
+Téléchargez-le à partir de: [https://github.com/GreatSCT/GreatSCT](https://github.com/GreatSCT/GreatSCT)
 ```
 git clone https://github.com/GreatSCT/GreatSCT.git
 cd GreatSCT/setup/
@@ -363,23 +363,27 @@ cd ..
 ```
 # Contournement des antivirus
 
-Lors de la création d'un payload, il est important de s'assurer qu'il ne sera pas détecté par les antivirus. Les antivirus utilisent des signatures pour détecter les malwares, il est donc important de modifier le payload pour qu'il ne corresponde pas à ces signatures.
+Lorsque vous effectuez un test de pénétration, il est important de savoir comment contourner les antivirus pour pouvoir exécuter des charges utiles sur la machine cible. Dans cette section, nous allons examiner quelques techniques courantes pour contourner les antivirus.
 
 ## Encodage
 
-L'encodage est une technique courante pour contourner les antivirus. Il s'agit de modifier le payload en utilisant un algorithme d'encodage pour qu'il ne corresponde plus à la signature de l'antivirus. Il existe de nombreux outils pour encoder des payloads, tels que `msfvenom` et `Veil-Evasion`.
+L'encodage est une technique courante pour contourner les antivirus. L'idée est de prendre une charge utile existante et de l'encoder de manière à ce qu'elle ne soit pas détectée par l'antivirus. Il existe de nombreux outils d'encodage disponibles, tels que `msfvenom`, qui peuvent être utilisés pour encoder des charges utiles.
 
-## FUD
+## FUD (Fully Undetectable)
 
-FUD signifie "Fully Undetectable" (complètement indétectable). Il s'agit d'un état dans lequel le payload ne peut pas être détecté par les antivirus. Pour atteindre cet état, il est nécessaire de modifier le payload de manière à ce qu'il ne corresponde à aucune signature d'antivirus connue. Cela peut être réalisé en utilisant des techniques d'encodage, de cryptage et de polymorphisme.
+Le FUD (Fully Undetectable) est un terme utilisé pour décrire une charge utile qui n'est pas détectée par les antivirus. Pour atteindre cet objectif, il est souvent nécessaire d'utiliser des techniques d'encodage avancées et de modifier la charge utile pour qu'elle ne corresponde pas à une signature connue de l'antivirus.
+
+## Injection de code
+
+L'injection de code est une technique courante pour contourner les antivirus. L'idée est d'injecter du code dans un processus légitime en cours d'exécution sur la machine cible. Cette technique peut être utilisée pour exécuter une charge utile sans déclencher l'alerte de l'antivirus.
 
 ## Polymorphisme
 
-Le polymorphisme est une technique qui consiste à modifier le code du payload à chaque exécution, de sorte qu'il ne corresponde pas à la signature de l'antivirus. Cette technique est très efficace pour contourner les antivirus, car elle rend le payload unique à chaque exécution.
+Le polymorphisme est une technique avancée pour contourner les antivirus. L'idée est de modifier la charge utile à chaque exécution de manière à ce qu'elle ne corresponde pas à une signature connue de l'antivirus. Cette technique nécessite une connaissance approfondie de la structure interne de l'antivirus et est souvent utilisée par des attaquants expérimentés.
 
 ## Conclusion
 
-Le contournement des antivirus est un aspect important de la création de payloads. Les techniques d'encodage, de FUD et de polymorphisme sont toutes efficaces pour atteindre cet objectif. Il est important de tester le payload avec plusieurs antivirus pour s'assurer qu'il est indétectable.
+Contourner les antivirus est un élément clé de tout test de pénétration réussi. En utilisant les techniques décrites dans cette section, vous devriez être en mesure de contourner la plupart des antivirus et d'exécuter des charges utiles sur la machine cible.
 ```
 use 1
 list #Listing available payloads
@@ -483,7 +487,7 @@ namespace ConnectBack
 ```
 [https://gist.githubusercontent.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc/raw/1b6c32ef6322122a98a1912a794b48788edf6bad/Simple\_Rev\_Shell.cs](https://gist.githubusercontent.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc/raw/1b6c32ef6322122a98a1912a794b48788edf6bad/Simple\_Rev\_Shell.cs)
 
-### Utilisation du compilateur C#
+### Utilisation de C# pour le compilateur
 ```
 C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Workflow.Compiler.exe REV.txt.txt REV.shell.txt
 ```
@@ -553,7 +557,7 @@ https://github.com/praetorian-code/vulcan
 * Travaillez-vous dans une entreprise de **cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) **groupe Discord** ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

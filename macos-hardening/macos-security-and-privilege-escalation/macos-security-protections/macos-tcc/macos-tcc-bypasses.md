@@ -30,13 +30,17 @@ L'**attribut étendu `com.apple.macl`** est ajouté au nouveau **fichier** pour 
 
 ### Contournement SSH
 
-Par défaut, un accès via **SSH** aura un accès **"Accès complet au disque"**. Pour le désactiver, vous devez le faire figurer dans la liste mais désactivé (le supprimer de la liste ne supprimera pas ces privilèges) :
+Par défaut, un accès via **SSH** aura un accès **"Accès complet au disque"**. Pour le désactiver, vous devez l'avoir répertorié mais désactivé (le supprimer de la liste ne supprimera pas ces privilèges) :
 
 ![](<../../../../.gitbook/assets/image (569).png>)
 
 Ici, vous pouvez trouver des exemples de la façon dont certains **malwares ont pu contourner cette protection** :
 
 * [https://www.jamf.com/blog/zero-day-tcc-bypass-discovered-in-xcsset-malware/](https://www.jamf.com/blog/zero-day-tcc-bypass-discovered-in-xcsset-malware/)
+
+{% hint style="danger" %}
+Notez que maintenant, pour pouvoir activer SSH, vous avez besoin d'un **Accès complet au disque**
+{% endhint %}
 
 ### Gérer les extensions - CVE-2022-26767
 
@@ -46,9 +50,9 @@ Par conséquent, un utilisateur pourrait **enregistrer une application malveilla
 
 ### iCloud
 
-Avec l'entitlement **`com.apple.private.icloud-account-access`**, il est possible de communiquer avec le service XPC **`com.apple.iCloudHelper`** qui **fournira des jetons iCloud**.
+Avec l'attribution **`com.apple.private.icloud-account-access`**, il est possible de communiquer avec le service XPC **`com.apple.iCloudHelper`** qui **fournira des jetons iCloud**.
 
-**iMovie** et **Garageband** avaient cet entitlement et d'autres qui le permettaient.
+**iMovie** et **Garageband** avaient cette attribution et d'autres qui le permettaient.
 
 ### kTCCServiceAppleEvents / Automation
 
@@ -133,7 +137,7 @@ $> ls ~/Documents
 ```
 ### CVE-2021-30761 - Notes
 
-Notes avait accès aux emplacements protégés par TCC, mais lorsqu'une note est créée, elle est **créée dans un emplacement non protégé**. Ainsi, vous pouvez demander à Notes de copier un fichier protégé dans une note (donc dans un emplacement non protégé) et ensuite accéder au fichier :
+Notes avait accès aux emplacements protégés par TCC, mais lorsqu'une note est créée, elle est **créée dans un emplacement non protégé**. Ainsi, vous pourriez demander à Notes de copier un fichier protégé dans une note (donc dans un emplacement non protégé) et ensuite accéder au fichier :
 
 <figure><img src="../../../../.gitbook/assets/image (11).png" alt=""><figcaption></figcaption></figure>
 
@@ -141,7 +145,7 @@ Notes avait accès aux emplacements protégés par TCC, mais lorsqu'une note est
 
 Le binaire `/usr/libexec/lsd` avec la bibliothèque `libsecurity_translocate` avait l'entitlement `com.apple.private.nullfs_allow` qui lui permettait de créer un montage **nullfs** et avait l'entitlement `com.apple.private.tcc.allow` avec **`kTCCServiceSystemPolicyAllFiles`** pour accéder à tous les fichiers.
 
-Il était possible d'ajouter l'attribut de mise en quarantaine à "Library", d'appeler le service XPC **`com.apple.security.translocation`** et ensuite il mapperait Library à **`$TMPDIR/AppTranslocation/d/d/Library`** où tous les documents à l'intérieur de Library pouvaient être **accessibles**.
+Il était possible d'ajouter l'attribut de mise en quarantaine à "Library", d'appeler le service XPC **`com.apple.security.translocation`** et ensuite il mapperait Library à **`$TMPDIR/AppTranslocation/d/d/Library`** où tous les documents à l'intérieur de Library pourraient être **accessibles**.
 
 ### SQL Tracing
 
@@ -158,11 +162,11 @@ En tant que root, vous pouvez activer ce service et l'agent ARD aura un accès c
 
 ## Par plugins
 
-Les plugins sont du code supplémentaire généralement sous forme de bibliothèques ou de plist, qui seront chargés par l'application principale et s'exécuteront sous son contexte. Par conséquent, si l'application principale avait accès aux fichiers restreints TCC (via des autorisations accordées ou des privilèges), le code personnalisé l'aura également.
+Les plugins sont des codes supplémentaires généralement sous forme de bibliothèques ou de plist, qui seront chargés par l'application principale et s'exécuteront sous son contexte. Par conséquent, si l'application principale avait accès aux fichiers restreints TCC (via des autorisations ou des privilèges accordés), le code personnalisé l'aura également.
 
 ### CVE-2020-27937 - Utilitaire de répertoire
 
-L'application `/System/Library/CoreServices/Applications/Directory Utility.app` avait le privilège `kTCCServiceSystemPolicySysAdminFiles`, chargeait des plugins avec l'extension `.daplug` et n'avait pas le runtime renforcé.
+L'application `/System/Library/CoreServices/Applications/Directory Utility.app` avait le privilège `kTCCServiceSystemPolicySysAdminFiles`, chargé des plugins avec l'extension `.daplug` et n'avait pas le runtime renforcé.
 
 Pour armer cette CVE, le `NFSHomeDirectory` est modifié (en abusant du privilège précédent) afin de pouvoir prendre le contrôle de la base de données TCC des utilisateurs pour contourner TCC.
 
@@ -172,7 +176,7 @@ Pour plus d'informations, consultez le [**rapport original**](https://wojciechre
 
 Le binaire `/usr/sbin/coreaudiod` avait les privilèges `com.apple.security.cs.disable-library-validation` et `com.apple.private.tcc.manager`. Le premier permet l'injection de code et le second lui donne accès à la gestion de TCC.
 
-Ce binaire permettait de charger des **plug-ins tiers** à partir du dossier `/Library/Audio/Plug-Ins/HAL`. Par conséquent, il était possible de charger un plugin et d'abuser des autorisations TCC avec ce PoC :
+Ce binaire permettait de charger des plug-ins tiers à partir du dossier `/Library/Audio/Plug-Ins/HAL`. Par conséquent, il était possible de charger un plugin et d'abuser des autorisations TCC avec ce PoC :
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <Security/Security.h>
@@ -201,7 +205,7 @@ __attribute__((constructor)) static void constructor(int argc, const char **argv
 ```
 Pour plus d'informations, consultez le [**rapport original**](https://wojciechregula.blog/post/play-the-music-and-bypass-tcc-aka-cve-2020-29621/).
 
-### Plug-ins de la couche d'abstraction des périphériques (DAL)
+### Plug-ins de couche d'abstraction de périphérique (DAL)
 
 Les applications système qui ouvrent un flux de caméra via Core Media I/O (applications avec **`kTCCServiceCamera`**) chargent **dans le processus ces plugins** situés dans `/Library/CoreMediaIO/Plug-Ins/DAL` (non restreint par SIP).
 
@@ -255,11 +259,11 @@ Telegram avait les entitlements `com.apple.security.cs.allow-dyld-environment-va
 
 ## Par des invocations ouvertes
 
-Il est possible d'invoquer l'ouverture dans un environnement sandboxé&#x20;
+Il est possible d'ouvrir des invocations dans un environnement sandboxé.
 
 ### Scripts Terminal
 
-Il est courant de donner un **accès complet au disque (FDA)** au terminal, du moins sur les ordinateurs utilisés par les personnes techniques. Et il est possible d'invoquer des scripts **`.terminal`** avec cela.
+Il est courant de donner un **accès complet au disque (FDA)** au terminal, du moins sur les ordinateurs utilisés par les professionnels de la technologie. Et il est possible d'inviter des scripts **`.terminal`** en l'utilisant.
 
 Les scripts **`.terminal`** sont des fichiers plist tels que celui-ci avec la commande à exécuter dans la clé **`CommandString`**:
 ```xml
@@ -369,7 +373,7 @@ Le dossier **`/var/db/locationd/` n'était pas protégé contre le montage DMG**
 
 <figure><img src="../../../../.gitbook/assets/image (9).png" alt=""><figcaption></figcaption></figure>
 
-## Référence
+## Références
 
 * [**https://medium.com/@mattshockl/cve-2020-9934-bypassing-the-os-x-transparency-consent-and-control-tcc-framework-for-4e14806f1de8**](https://medium.com/@mattshockl/cve-2020-9934-bypassing-the-os-x-transparency-consent-and-control-tcc-framework-for-4e14806f1de8)
 * [**https://www.sentinelone.com/labs/bypassing-macos-tcc-user-privacy-protections-by-accident-and-design/**](https://www.sentinelone.com/labs/bypassing-macos-tcc-user-privacy-protections-by-accident-and-design/)
@@ -380,7 +384,7 @@ Le dossier **`/var/db/locationd/` n'était pas protégé contre le montage DMG**
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
