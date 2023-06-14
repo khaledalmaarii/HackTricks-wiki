@@ -14,7 +14,7 @@
 
 ## Processus de chargement de la Sandbox
 
-<figure><img src="../../../../../.gitbook/assets/image (2).png" alt=""><figcaption><p>Image de <a href="http://newosxbook.com/files/HITSB.pdf">http://newosxbook.com/files/HITSB.pdf</a></p></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (2) (1).png" alt=""><figcaption><p>Image de <a href="http://newosxbook.com/files/HITSB.pdf">http://newosxbook.com/files/HITSB.pdf</a></p></figcaption></figure>
 
 Dans l'image précédente, il est possible d'observer **comment la sandbox sera chargée** lorsqu'une application avec l'entitlement **`com.apple.security.app-sandbox`** est exécutée.
 
@@ -115,19 +115,17 @@ Debugging the macOS sandbox can be a useful technique for understanding how it w
 
 Bypassing the macOS sandbox can be a difficult task, but it is not impossible. There are several techniques that can be used to bypass the sandbox, including:
 
-- **Exploiting a vulnerability**: If a vulnerability exists in the sandbox or in a process running in the sandbox, it may be possible to exploit it to bypass the sandbox.
+- **Exploiting sandbox vulnerabilities**: The sandbox is not perfect and can contain vulnerabilities that can be exploited to bypass it. These vulnerabilities can be found by analyzing the sandbox code or by fuzzing the sandbox.
 
-- **Using a signed binary**: If a binary is signed with a valid Apple Developer ID, it may be possible to bypass the sandbox.
+- **Exploiting kernel vulnerabilities**: The sandbox relies on the kernel to enforce its policies. If there are vulnerabilities in the kernel, they can be exploited to bypass the sandbox.
 
-- **Using a kernel exploit**: If a kernel exploit exists that allows an attacker to gain root privileges, it may be possible to bypass the sandbox.
+- **Exploiting third-party applications**: Third-party applications that are not sandboxed can be exploited to bypass the sandbox. For example, an attacker could exploit a vulnerability in a web browser to execute code outside of the sandbox.
 
-- **Using a virtual machine**: If a virtual machine is used to run a process, it may be possible to bypass the sandbox.
-
-- **Using a debugger**: If a debugger is attached to a process running in the sandbox, it may be possible to bypass the sandbox.
+- **Exploiting configuration issues**: The sandbox relies on configuration files to enforce its policies. If there are configuration issues, they can be exploited to bypass the sandbox.
 
 ## Conclusion
 
-The macOS sandbox is a powerful security feature that can help prevent malicious code from executing on a system. However, it is not foolproof and can be bypassed by attackers who have the knowledge and skills to do so. By understanding how the sandbox works and the techniques that can be used to bypass it, you can better protect your system from potential attacks.
+The macOS sandbox is a powerful security feature that can help prevent malicious code from executing on a system. However, it is not foolproof and can be bypassed by attackers who have the knowledge and skills to do so. By understanding how the sandbox works and the techniques that can be used to bypass it, you can better protect your system from attacks.
 
 {% endtab %}
 ```xml
@@ -248,7 +246,7 @@ Même si le Sandbox est contourné, TCC demandera à l'utilisateur s'il veut aut
 
 ### Abus d'autres processus
 
-Si à partir du processus Sandbox, vous êtes capable de compromettre d'autres processus fonctionnant dans des Sandbox moins restrictives (ou sans Sandbox), vous pourrez vous échapper vers leurs Sandbox :
+Si vous êtes capable de **compromettre d'autres processus** fonctionnant dans des Sandboxes moins restrictives (ou sans Sandboxes), vous pourrez vous échapper vers leurs Sandboxes :
 
 {% content-ref url="../../../macos-proces-abuse/" %}
 [macos-proces-abuse](../../../macos-proces-abuse/)

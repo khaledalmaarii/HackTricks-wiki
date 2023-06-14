@@ -24,7 +24,7 @@ Pour plus d'informations sur ce qu'est un iButton, consultez :
 
 La partie **bleue** de l'image suivante est la façon dont vous devez **placer le vrai iButton** pour que le Flipper puisse le **lire**. La partie **verte** est la façon dont vous devez **toucher le lecteur** avec le Flipper zero pour **émuler correctement un iButton**.
 
-<figure><img src="../../../.gitbook/assets/image (20) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (20).png" alt=""><figcaption></figcaption></figure>
 
 ## Actions
 

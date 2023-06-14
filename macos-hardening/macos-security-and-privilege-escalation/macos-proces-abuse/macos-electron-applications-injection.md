@@ -18,7 +18,7 @@ require('child_process').execSync('/System/Applications/Calculator.app/Contents/
 {% endcode %}
 
 {% hint style="danger" %}
-Notez que maintenant les applications Electron **renforcées** ignoreront les paramètres de noeud (tels que --inspect) lorsqu'elles sont lancées à moins que la variable d'environnement **`ELECTRON_RUN_AS_NODE`** ne soit définie.
+Notez que maintenant les applications Electron **renforcées** avec **RunAsNode** désactivé **ignoreront les paramètres de node** (tels que --inspect) lorsqu'elles seront lancées à moins que la variable d'environnement **`ELECTRON_RUN_AS_NODE`** ne soit définie.
 
 Cependant, vous pouvez toujours utiliser le paramètre electron `--remote-debugging-port=9229`, mais la charge utile précédente ne fonctionnera pas pour exécuter d'autres processus.
 {% endhint %}
@@ -26,7 +26,7 @@ Cependant, vous pouvez toujours utiliser le paramètre electron `--remote-debugg
 ## `NODE_OPTIONS`
 
 {% hint style="warning" %}
-Cette variable d'environnement ne fonctionnerait que si l'application Electron n'a pas été correctement renforcée et l'autorise. Si elle est renforcée, vous devrez également utiliser la **variable d'environnement `ELECTRON_RUN_AS_NODE`**.
+Cette variable d'environnement ne fonctionnerait que si l'application Electron n'a pas été correctement renforcée et qu'elle l'autorise. Si elle est renforcée, vous devrez également utiliser la **variable d'environnement `ELECTRON_RUN_AS_NODE`**.
 {% endhint %}
 
 Avec cette combinaison, vous pouvez stocker la charge utile dans un fichier différent et exécuter ce fichier:

@@ -1,4 +1,4 @@
-## Réutilisation de PID macOS
+## Réutilisation de PID sur macOS
 
 <details>
 
@@ -14,18 +14,18 @@
 
 ## Réutilisation de PID
 
-Lorsqu'un service **XPC macOS** vérifie le processus appelé en fonction du **PID** et non du **jeton d'audit**, il est vulnérable à une attaque de réutilisation de PID. Cette attaque est basée sur une **condition de course** où une **exploitation** va **envoyer des messages à XPC** en **abusant** de la fonctionnalité et juste **après**, exécuter **`posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ)`** avec le binaire **autorisé**.
+Lorsqu'un service **XPC** de macOS vérifie le processus appelé en fonction du **PID** et non du **jeton d'audit**, il est vulnérable à une attaque de réutilisation de PID. Cette attaque repose sur une **condition de concurrence** où une **exploitation** va **envoyer des messages à XPC** en **abusant** de la fonctionnalité et juste **après**, exécuter **`posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ)`** avec le binaire **autorisé**.
 
-Cette fonction fera en sorte que le binaire **autorisé possède le PID** mais le **message XPC malveillant aura été envoyé** juste avant. Ainsi, si le service **XPC utilise le PID** pour **authentifier** l'expéditeur et le vérifie **APRÈS** l'exécution de **`posix_spawn`**, il pensera que cela vient d'un processus **autorisé**.
+Cette fonction fera en sorte que le binaire **autorisé possède le PID**, mais le **message XPC malveillant aura été envoyé** juste avant. Ainsi, si le service **XPC utilise le PID** pour **authentifier** l'expéditeur et le vérifie **APRÈS** l'exécution de **`posix_spawn`**, il pensera qu'il provient d'un processus **autorisé**.
 
-### Exemple d'exploit
+### Exemple d'exploitation
 
 Si vous trouvez la fonction **`shouldAcceptNewConnection`** ou une fonction appelée par celle-ci **appelant** **`processIdentifier`** et ne faisant pas appel à **`auditToken`**. Il est très probable qu'elle vérifie le PID du processus et non le jeton d'audit.\
 Comme par exemple dans cette image (prise de la référence) :
 
-<figure><img src="../../../../.gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (4) (1).png" alt=""><figcaption></figcaption></figure>
 
-Vérifiez cet exemple d'exploit (encore une fois, pris de la référence) pour voir les 2 parties de l'exploit :
+Vérifiez cet exemple d'exploitation (encore une fois, pris de la référence) pour voir les 2 parties de l'exploitation :
 
 * Une qui **génère plusieurs forks**
 * **Chaque fork** enverra la **charge utile** au service XPC tout en exécutant **`posix_spawn`** juste après l'envoi du message.

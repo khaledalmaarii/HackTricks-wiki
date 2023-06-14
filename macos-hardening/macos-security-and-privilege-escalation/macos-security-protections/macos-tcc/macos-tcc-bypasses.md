@@ -135,7 +135,7 @@ $> ls ~/Documents
 
 Notes avait accès aux emplacements protégés par TCC, mais lorsqu'une note est créée, elle est **créée dans un emplacement non protégé**. Ainsi, vous pouvez demander à Notes de copier un fichier protégé dans une note (donc dans un emplacement non protégé) et ensuite accéder au fichier :
 
-<figure><img src="../../../../.gitbook/assets/image (18).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (11).png" alt=""><figcaption></figcaption></figure>
 
 ### CVE-2021-XXXX - Translocation
 
@@ -158,11 +158,11 @@ En tant que root, vous pouvez activer ce service et l'agent ARD aura un accès c
 
 ## Par plugins
 
-Les plugins sont des codes supplémentaires généralement sous forme de bibliothèques ou de plist, qui seront chargés par l'application principale et s'exécuteront sous son contexte. Par conséquent, si l'application principale avait accès aux fichiers restreints TCC (via des autorisations ou des privilèges accordés), le code personnalisé l'aura également.
+Les plugins sont du code supplémentaire généralement sous forme de bibliothèques ou de plist, qui seront chargés par l'application principale et s'exécuteront sous son contexte. Par conséquent, si l'application principale avait accès aux fichiers restreints TCC (via des autorisations ou des privilèges accordés), le code personnalisé l'aura également.
 
 ### CVE-2020-27937 - Utilitaire de répertoire
 
-L'application `/System/Library/CoreServices/Applications/Directory Utility.app` avait le privilège `kTCCServiceSystemPolicySysAdminFiles`, chargé des plugins avec l'extension `.daplug` et n'avait pas le runtime renforcé.
+L'application `/System/Library/CoreServices/Applications/Directory Utility.app` avait le privilège `kTCCServiceSystemPolicySysAdminFiles`, chargeait des plugins avec l'extension `.daplug` et n'avait pas le runtime renforcé.
 
 Pour armer cette CVE, le `NFSHomeDirectory` est modifié (en abusant du privilège précédent) afin de pouvoir prendre le contrôle de la base de données TCC des utilisateurs pour contourner TCC.
 
@@ -211,7 +211,7 @@ Plusieurs applications Apple étaient vulnérables à cela.
 
 ## Par injection de processus
 
-Il existe différentes techniques pour injecter du code à l'intérieur d'un processus et abuser de ses privilèges TCC :
+Il existe différentes techniques pour injecter du code dans un processus et abuser de ses privilèges TCC :
 
 {% content-ref url="../../macos-proces-abuse/" %}
 [macos-proces-abuse](../../macos-proces-abuse/)
@@ -255,11 +255,11 @@ Telegram avait les entitlements `com.apple.security.cs.allow-dyld-environment-va
 
 ## Par des invocations ouvertes
 
-Il est possible d'inviter à ouvrir dans un environnement sandboxé.
+Il est possible d'invoquer l'ouverture dans un environnement sandboxé.
 
 ### Scripts Terminal
 
-Il est courant de donner un **accès complet au disque (FDA)** au terminal, du moins sur les ordinateurs utilisés par les professionnels de la technologie. Et il est possible d'inviter des scripts **`.terminal`** à l'aide de celui-ci.
+Il est courant de donner un **accès complet au disque (FDA)** au terminal, du moins sur les ordinateurs utilisés par les personnes techniques. Et il est possible d'invoquer des scripts **`.terminal`** avec cela.
 
 Les scripts **`.terminal`** sont des fichiers plist tels que celui-ci avec la commande à exécuter dans la clé **`CommandString`**:
 ```xml
@@ -367,7 +367,7 @@ Le dossier **`/var/db/locationd/` n'était pas protégé contre le montage DMG**
 
 À plusieurs reprises, des fichiers stockent des informations sensibles telles que des e-mails, des numéros de téléphone, des messages... dans des emplacements non protégés (ce qui compte comme une vulnérabilité chez Apple).
 
-<figure><img src="../../../../.gitbook/assets/image (16).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (7).png" alt=""><figcaption></figcaption></figure>
 
 ## Référence
 

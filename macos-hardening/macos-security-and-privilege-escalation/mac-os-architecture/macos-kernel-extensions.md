@@ -22,7 +22,7 @@ Les extensions de noyau (Kexts) sont des **bundles** utilisant l'extension **`.k
 
 * En allant en mode de récupération, les Kexts doivent être **autorisés à être chargés** :
 
-<figure><img src="../../../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 * Le Kext doit être **signé avec un certificat de signature de code de noyau**, qui ne peut être accordé que par **Apple**. Qui va **examiner** en détail la **société** et les **raisons** pour lesquelles cela est nécessaire.
 * Le Kext doit également être **notarisé**, Apple pourra le vérifier pour les logiciels malveillants.
