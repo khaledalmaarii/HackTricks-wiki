@@ -14,7 +14,7 @@
 
 ## Processus de chargement de la Sandbox
 
-<figure><img src="../../../../../.gitbook/assets/image (2) (1).png" alt=""><figcaption><p>Image de <a href="http://newosxbook.com/files/HITSB.pdf">http://newosxbook.com/files/HITSB.pdf</a></p></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (2).png" alt=""><figcaption><p>Image de <a href="http://newosxbook.com/files/HITSB.pdf">http://newosxbook.com/files/HITSB.pdf</a></p></figcaption></figure>
 
 Dans l'image précédente, il est possible d'observer **comment la sandbox sera chargée** lorsqu'une application avec l'entitlement **`com.apple.security.app-sandbox`** est exécutée.
 
@@ -107,65 +107,27 @@ Debugging the macOS sandbox can be a useful technique for understanding how it w
 
 - **sandbox-exec**: This is a command-line tool that can be used to run a process in a sandbox and monitor its behavior. It can be used to identify sandbox violations and other issues.
 
-- **lldb**: This is a debugger that can be used to attach to a process and monitor its behavior. It can be used to identify sandbox violations and other issues.
+- **lldb**: This is a debugger that can be used to attach to a process and debug it. It can be used to identify sandbox violations and other issues.
 
-- **dtrace**: This is a dynamic tracing tool that can be used to monitor system calls and other events. It can be used to identify sandbox violations and other issues.
+- **dtrace**: This is a dynamic tracing tool that can be used to monitor system activity. It can be used to identify sandbox violations and other issues.
 
 ## Bypassing the macOS Sandbox
 
 Bypassing the macOS sandbox can be a difficult task, but it is not impossible. There are several techniques that can be used to bypass the sandbox, including:
 
-- **Exploiting sandbox vulnerabilities**: The sandbox is not perfect and can contain vulnerabilities that can be exploited to bypass it. These vulnerabilities can be found by analyzing the sandbox code or by fuzzing the sandbox.
+- **Exploiting a vulnerability**: If a vulnerability exists in the sandbox or in a process running in the sandbox, it may be possible to exploit it to bypass the sandbox.
 
-- **Exploiting kernel vulnerabilities**: The sandbox relies on the kernel to enforce its policies. If a vulnerability exists in the kernel, it can be exploited to bypass the sandbox.
+- **Using a signed binary**: If a binary is signed with a valid Apple Developer ID, it may be possible to bypass the sandbox.
 
-- **Exploiting application vulnerabilities**: Applications that run in the sandbox can contain vulnerabilities that can be exploited to bypass the sandbox. These vulnerabilities can be found by analyzing the application code or by fuzzing the application.
+- **Using a kernel exploit**: If a kernel exploit exists that allows an attacker to gain root privileges, it may be possible to bypass the sandbox.
 
-- **Using third-party libraries**: Third-party libraries that are not sandboxed can be used to bypass the sandbox. These libraries can be loaded into the sandboxed process and used to perform actions that are not allowed by the sandbox.
+- **Using a virtual machine**: If a virtual machine is used to run a process, it may be possible to bypass the sandbox.
 
-- **Using system calls**: The sandbox restricts the system calls that a process can make. However, some system calls may not be restricted or may have weaknesses that can be exploited to bypass the sandbox.
-
-## Conclusion
-
-The macOS sandbox is a powerful security feature that can help prevent malicious code from executing on a system. However, it is not foolproof and can be bypassed by attackers who have the knowledge and skills to do so. By understanding how the sandbox works and the techniques that can be used to bypass it, you can better protect your system from these types of attacks.
-
-{% endtab %}
-
-{% tab title="Info.plist" %}
-
-# Débogage et contournement du bac à sable macOS
-
-Le bac à sable macOS est une fonctionnalité de sécurité puissante qui restreint les actions qu'un processus peut effectuer sur un système. Il est utilisé pour appliquer des politiques de sécurité et empêcher l'exécution de code malveillant sur un système. Cependant, le bac à sable n'est pas infaillible et peut être contourné par des attaquants qui ont les connaissances et les compétences nécessaires.
-
-Ce guide couvrira certaines des techniques qui peuvent être utilisées pour déboguer et contourner le bac à sable macOS.
-
-## Débogage du bac à sable macOS
-
-Le débogage du bac à sable macOS peut être une technique utile pour comprendre son fonctionnement et identifier les vulnérabilités potentielles. Il existe plusieurs outils qui peuvent être utilisés pour déboguer le bac à sable, notamment :
-
-- **sandbox-exec** : Il s'agit d'un outil en ligne de commande qui peut être utilisé pour exécuter un processus dans un bac à sable et surveiller son comportement. Il peut être utilisé pour identifier les violations du bac à sable et d'autres problèmes.
-
-- **lldb** : Il s'agit d'un débogueur qui peut être utilisé pour se connecter à un processus et surveiller son comportement. Il peut être utilisé pour identifier les violations du bac à sable et d'autres problèmes.
-
-- **dtrace** : Il s'agit d'un outil de traçage dynamique qui peut être utilisé pour surveiller les appels système et autres événements. Il peut être utilisé pour identifier les violations du bac à sable et d'autres problèmes.
-
-## Contournement du bac à sable macOS
-
-Le contournement du bac à sable macOS peut être une tâche difficile, mais pas impossible. Il existe plusieurs techniques qui peuvent être utilisées pour contourner le bac à sable, notamment :
-
-- **Exploitation des vulnérabilités du bac à sable** : Le bac à sable n'est pas parfait et peut contenir des vulnérabilités qui peuvent être exploitées pour le contourner. Ces vulnérabilités peuvent être trouvées en analysant le code du bac à sable ou en effectuant un fuzzing du bac à sable.
-
-- **Exploitation des vulnérabilités du noyau** : Le bac à sable repose sur le noyau pour appliquer ses politiques. Si une vulnérabilité existe dans le noyau, elle peut être exploitée pour contourner le bac à sable.
-
-- **Exploitation des vulnérabilités de l'application** : Les applications qui s'exécutent dans le bac à sable peuvent contenir des vulnérabilités qui peuvent être exploitées pour contourner le bac à sable. Ces vulnérabilités peuvent être trouvées en analysant le code de l'application ou en effectuant un fuzzing de l'application.
-
-- **Utilisation de bibliothèques tierces** : Les bibliothèques tierces qui ne sont pas mises en bac à sable peuvent être utilisées pour contourner le bac à sable. Ces bibliothèques peuvent être chargées dans le processus mis en bac à sable et utilisées pour effectuer des actions qui ne sont pas autorisées par le bac à sable.
-
-- **Utilisation d'appels système** : Le bac à sable restreint les appels système qu'un processus peut effectuer. Cependant, certains appels système peuvent ne pas être restreints ou peuvent avoir des faiblesses qui peuvent être exploitées pour contourner le bac à sable.
+- **Using a debugger**: If a debugger is attached to a process running in the sandbox, it may be possible to bypass the sandbox.
 
 ## Conclusion
 
-Le bac à sable macOS est une fonctionnalité de sécurité puissante qui peut aider à empêcher l'exécution de code malveillant sur un système. Cependant, il n'est pas infaillible et peut être contourné par des attaquants qui ont les connaissances et les compétences nécessaires. En comprenant comment fonctionne le bac à sable et les techniques qui peuvent être utilisées pour le contourner, vous pouvez mieux protéger votre système contre ce type d'attaques.
+The macOS sandbox is a powerful security feature that can help prevent malicious code from executing on a system. However, it is not foolproof and can be bypassed by attackers who have the knowledge and skills to do so. By understanding how the sandbox works and the techniques that can be used to bypass it, you can better protect your system from potential attacks.
 
 {% endtab %}
 ```xml
@@ -358,7 +320,7 @@ __attribute__((used)) static const struct interpose_sym interposers[] __attribut
     { (const void *)my_mac_syscall, (const void *)__mac_syscall },
 };
 ```
-{% endcode %} (This is not a text to be translated, it's a markdown tag)
+{% endcode %} (This is not a text to be translated, it's a markdown tag indicating the end of a code block)
 ```bash
 DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
 

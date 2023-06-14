@@ -64,7 +64,7 @@ Index Refs Address            Size       Wired      Name (Version) UUID <Linked 
     9    2 0xffffff8003317000 0xe000     0xe000     com.apple.kec.Libm (1) 6C1342CC-1D74-3D0F-BC43-97D5AD38200A <5>
    10   12 0xffffff8003544000 0x92000    0x92000    com.apple.kec.corecrypto (11.1) F5F1255F-6552-3CF4-A9DB-D60EFDEB4A9A <8 7 6 5 3 1>
 ```
-Jusqu'au numéro 9, les pilotes répertoriés sont **chargés à l'adresse 0**. Cela signifie qu'il ne s'agit pas de pilotes réels mais **d'une partie du noyau et qu'ils ne peuvent pas être déchargés**.
+Jusqu'au numéro 9, les pilotes répertoriés sont **chargés à l'adresse 0**. Cela signifie qu'il ne s'agit pas de vrais pilotes mais **d'une partie du noyau et qu'ils ne peuvent pas être déchargés**.
 
 Pour trouver des extensions spécifiques, vous pouvez utiliser:
 ```bash
@@ -82,12 +82,20 @@ kextunload com.apple.iokit.IOReportFamily
 [macos-ipc-inter-process-communication](macos-ipc-inter-process-communication/)
 {% endcontent-ref %}
 
-## Extensions de noyau macOS
+## Extensions du noyau macOS
 
-macOS est **très restrictif pour charger des extensions de noyau** (.kext) en raison des privilèges élevés avec lesquels le code s'exécutera. En fait, par défaut, il est pratiquement impossible (à moins qu'une méthode de contournement ne soit trouvée).
+macOS est **très restrictif pour charger les extensions du noyau** (.kext) en raison des privilèges élevés avec lesquels le code s'exécutera. En fait, par défaut, c'est pratiquement impossible (à moins qu'une faille ne soit trouvée).
 
 {% content-ref url="macos-kernel-extensions.md" %}
 [macos-kernel-extensions.md](macos-kernel-extensions.md)
+{% endcontent-ref %}
+
+### Extensions système macOS
+
+Au lieu d'utiliser des extensions du noyau, macOS a créé les extensions système, qui offrent des API de niveau utilisateur pour interagir avec le noyau. De cette façon, les développeurs peuvent éviter d'utiliser des extensions du noyau.
+
+{% content-ref url="macos-system-extensions.md" %}
+[macos-system-extensions.md](macos-system-extensions.md)
 {% endcontent-ref %}
 
 ## Références

