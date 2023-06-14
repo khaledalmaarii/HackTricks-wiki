@@ -70,7 +70,7 @@ Obtenez un accès aujourd'hui:
 
 🐞 Lire des tutoriels de bugs web3
 
-🔔 Recevez des notifications sur les nouveaux bug bounties
+🔔 Recevoir des notifications sur les nouveaux bug bounties
 
 💬 Participer aux discussions de la communauté
 
@@ -80,4 +80,4 @@ Obtenez un accès aujourd'hui:
 
 <figure><img src=".gitbook/assets/logo.svg" alt=""><figcaption></figcaption></figure>
 
-[**WebSec**](https://websec.nl) est une entreprise de cybersécurité professionnelle
+[**WebSec**](https://websec.nl) est une entreprise de cybersécur

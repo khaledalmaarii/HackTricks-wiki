@@ -1,4 +1,4 @@
-# Extensions système macOS
+## Extensions système macOS
 
 <details>
 
@@ -14,7 +14,7 @@
 
 ## Extensions système / Framework de sécurité des points de terminaison
 
-Contrairement aux extensions du noyau, les **extensions système s'exécutent dans l'espace utilisateur** plutôt que dans l'espace du noyau, réduisant ainsi le risque de plantage du système en raison d'un dysfonctionnement de l'extension.
+Contrairement aux extensions de noyau, les **extensions système s'exécutent dans l'espace utilisateur** plutôt que dans l'espace du noyau, réduisant ainsi le risque de plantage du système en raison d'un dysfonctionnement de l'extension.
 
 <figure><img src="../../../.gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
 
@@ -22,11 +22,11 @@ Il existe trois types d'extensions système : les extensions **DriverKit**, les 
 
 ### **Extensions DriverKit**
 
-DriverKit est un remplacement des extensions du noyau qui **fournit une assistance matérielle**. Il permet aux pilotes de périphériques (tels que les pilotes USB, série, NIC et HID) de s'exécuter dans l'espace utilisateur plutôt que dans l'espace du noyau. Le framework DriverKit comprend des **versions d'espace utilisateur de certaines classes I/O Kit**, et le noyau transfère les événements normaux de l'I/O Kit vers l'espace utilisateur, offrant ainsi un environnement plus sûr pour l'exécution de ces pilotes.
+DriverKit est un remplacement des extensions de noyau qui **fournissent une assistance matérielle**. Il permet aux pilotes de périphériques (tels que les pilotes USB, série, NIC et HID) de s'exécuter dans l'espace utilisateur plutôt que dans l'espace du noyau. Le framework DriverKit comprend des **versions d'espace utilisateur de certaines classes I/O Kit**, et le noyau transfère les événements normaux de l'I/O Kit vers l'espace utilisateur, offrant ainsi un environnement plus sûr pour l'exécution de ces pilotes.
 
 ### **Extensions Network**
 
-Les extensions réseau fournissent la possibilité de personnaliser les comportements réseau. Il existe plusieurs types d'extensions réseau :
+Les extensions réseau offrent la possibilité de personnaliser les comportements réseau. Il existe plusieurs types d'extensions réseau :
 
 * **Proxy d'application** : cela est utilisé pour créer un client VPN qui implémente un protocole VPN personnalisé orienté flux. Cela signifie qu'il gère le trafic réseau en fonction des connexions (ou flux) plutôt que des paquets individuels.
 * **Tunnel de paquets** : cela est utilisé pour créer un client VPN qui implémente un protocole VPN personnalisé orienté paquet. Cela signifie qu'il gère le trafic réseau en fonction des paquets individuels.
@@ -40,30 +40,30 @@ Endpoint Security est un framework fourni par Apple dans macOS qui fournit un en
 
 Ce framework fournit une **collection d'API pour surveiller et contrôler l'activité du système**, telle que les exécutions de processus, les événements du système de fichiers, les événements réseau et du noyau.
 
-Le cœur de ce framework est implémenté dans le noyau, en tant qu'extension du noyau (KEXT) située dans **`/System/Library/Extensions/EndpointSecurity.kext`**. Cette KEXT est composée de plusieurs composants clés :
+Le cœur de ce framework est implémenté dans le noyau, en tant qu'extension de noyau (KEXT) située dans **`/System/Library/Extensions/EndpointSecurity.kext`**. Cette KEXT est composée de plusieurs composants clés :
 
-* **EndpointSecurityDriver** : cela agit comme le "point d'entrée" pour l'extension du noyau. C'est le principal point d'interaction entre le système d'exploitation et le framework Endpoint Security.
+* **EndpointSecurityDriver** : cela agit comme le "point d'entrée" pour l'extension de noyau. C'est le principal point d'interaction entre le système d'exploitation et le framework Endpoint Security.
 * **EndpointSecurityEventManager** : ce composant est responsable de la mise en œuvre des hooks du noyau. Les hooks du noyau permettent au framework de surveiller les événements du système en interceptant les appels système.
 * **EndpointSecurityClientManager** : cela gère la communication avec les clients de l'espace utilisateur, en suivant les clients connectés et qui ont besoin de recevoir des notifications d'événements.
 * **EndpointSecurityMessageManager** : cela envoie des messages et des notifications d'événements aux clients de l'espace utilisateur.
 
 Les événements que le framework Endpoint Security peut surveiller sont catégorisés en :
 
-* Événements de fichiers
+* Événements de fichier
 * Événements de processus
 * Événements de socket
-* Événements du noyau (tels que le chargement/déchargement d'une extension du noyau ou l'ouverture d'un périphérique I/O Kit)
+* Événements du noyau (tels que le chargement/déchargement d'une extension de noyau ou l'ouverture d'un périphérique I/O Kit)
 
 ### Architecture du framework de sécurité des points de terminaison
 
-<figure><img src="../../../.gitbook/assets/image (6).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (8).png" alt=""><figcaption></figcaption></figure>
 
 La **communication de l'espace utilisateur** avec le framework Endpoint Security se fait via la classe IOUserClient. Deux sous-classes différentes sont utilisées, en fonction du type d'appelant :
 
 * **EndpointSecurityDriverClient** : cela nécessite l'attribution `com.apple.private.endpoint-security.manager`, qui n'est détenue que par le processus système `endpointsecurityd`.
 * **EndpointSecurityExternalClient** : cela nécessite l'attribution `com.apple.developer.endpoint-security.client`. Cela serait généralement utilisé par des logiciels de sécurité tiers qui ont besoin d'interagir avec le framework Endpoint Security.
 
-Les extensions Endpoint Security : **`libEndpointSecurity.dylib`** est la bibliothèque C que les extensions système utilisent pour communiquer avec le noyau. Cette bibliothèque utilise l'I/O Kit (`IOKit`) pour communiquer avec l'extension Endpoint Security KEXT.
+Les extensions de sécurité des points de terminaison : **`libEndpointSecurity.dylib`** est la bibliothèque C que les extensions système utilisent pour communiquer avec le noyau. Cette bibliothèque utilise l'I/O Kit (`IOKit`) pour communiquer avec la KEXT Endpoint Security.
 
 **`endpointsecurityd`** est un démon système clé impliqué dans la gestion et le lancement des extensions système de sécurité des points de terminaison, en particulier pendant le processus de démarrage précoce. Seules les extensions système marquées avec **`NSEndpointSecurityEarlyBoot`** dans leur fichier `Info.plist` reçoivent ce traitement de démarrage précoce.
 

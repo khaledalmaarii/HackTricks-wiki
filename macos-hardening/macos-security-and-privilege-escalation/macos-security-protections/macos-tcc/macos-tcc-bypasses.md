@@ -158,7 +158,7 @@ En tant que root, vous pouvez activer ce service et l'agent ARD aura un accès c
 
 ## Par plugins
 
-Les plugins sont du code supplémentaire généralement sous forme de bibliothèques ou de plist, qui seront chargés par l'application principale et s'exécuteront sous son contexte. Par conséquent, si l'application principale avait accès aux fichiers restreints TCC (via des autorisations ou des privilèges accordés), le code personnalisé l'aura également.
+Les plugins sont du code supplémentaire généralement sous forme de bibliothèques ou de plist, qui seront chargés par l'application principale et s'exécuteront sous son contexte. Par conséquent, si l'application principale avait accès aux fichiers restreints TCC (via des autorisations accordées ou des privilèges), le code personnalisé l'aura également.
 
 ### CVE-2020-27937 - Utilitaire de répertoire
 
@@ -211,7 +211,7 @@ Plusieurs applications Apple étaient vulnérables à cela.
 
 ## Par injection de processus
 
-Il existe différentes techniques pour injecter du code dans un processus et abuser de ses privilèges TCC :
+Il existe différentes techniques pour injecter du code à l'intérieur d'un processus et abuser de ses privilèges TCC :
 
 {% content-ref url="../../macos-proces-abuse/" %}
 [macos-proces-abuse](../../macos-proces-abuse/)
@@ -255,7 +255,7 @@ Telegram avait les entitlements `com.apple.security.cs.allow-dyld-environment-va
 
 ## Par des invocations ouvertes
 
-Il est possible d'invoquer l'ouverture dans un environnement sandboxé.
+Il est possible d'invoquer l'ouverture dans un environnement sandboxé&#x20;
 
 ### Scripts Terminal
 
@@ -367,7 +367,7 @@ Le dossier **`/var/db/locationd/` n'était pas protégé contre le montage DMG**
 
 À plusieurs reprises, des fichiers stockent des informations sensibles telles que des e-mails, des numéros de téléphone, des messages... dans des emplacements non protégés (ce qui compte comme une vulnérabilité chez Apple).
 
-<figure><img src="../../../../.gitbook/assets/image (7).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (9).png" alt=""><figcaption></figcaption></figure>
 
 ## Référence
 

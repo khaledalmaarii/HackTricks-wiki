@@ -37,7 +37,7 @@ $ cat /proc/self/cgroup
 1:name=systemd:/user.slice/user-1000.slice/session-2.scope
 0::/user.slice/user-1000.slice/session-2.scope
 ```
-Ne soyez pas alarmé si la **sortie est considérablement plus courte** sur votre système; cela signifie simplement que vous avez probablement **seulement des cgroups v2**. Chaque ligne de sortie commence par un numéro et représente un cgroup différent. Voici quelques points à prendre en compte pour la lecture :
+Ne soyez pas alarmé si la **sortie est considérablement plus courte** sur votre système; cela signifie simplement que vous avez probablement **seulement des cgroups v2**. Chaque ligne de sortie commence par un numéro et est un cgroup différent. Voici quelques points à prendre en compte pour la lecture :
 
 * Les numéros 2 à 12 sont pour les cgroups v1. Les **contrôleurs** pour ceux-ci sont listés à côté du numéro.
 * Le numéro 1 est également pour la **version 1**, mais il n'a pas de contrôleur. Ce cgroup est uniquement destiné à des **fins de gestion** (dans ce cas, systemd l'a configuré).
@@ -49,9 +49,9 @@ Ne soyez pas alarmé si la **sortie est considérablement plus courte** sur votr
 ### Visualisation des cgroups
 
 Les cgroups sont généralement **accessibles via le système de fichiers**. Cela contraste avec l'interface d'appel système Unix traditionnelle pour interagir avec le noyau.\
-Pour explorer la configuration des cgroups d'un shell, vous pouvez regarder dans le fichier `/proc/self/cgroup` pour trouver le cgroup du shell, puis naviguer vers le répertoire `/sys/fs/cgroup` (ou `/sys/fs/cgroup/unified`) et chercher un **répertoire portant le même nom que le cgroup**. En changeant de répertoire et en regardant autour, vous pourrez voir les différents **paramètres et informations d'utilisation des ressources pour le cgroup**.
+Pour explorer la configuration des cgroups d'un shell, vous pouvez regarder dans le fichier `/proc/self/cgroup` pour trouver le cgroup du shell, puis naviguer vers le répertoire `/sys/fs/cgroup` (ou `/sys/fs/cgroup/unified`) et chercher un **répertoire portant le même nom que le cgroup**. En changeant de répertoire et en regardant autour de vous, vous pourrez voir les différents **paramètres et informations d'utilisation des ressources pour le cgroup**.
 
-<figure><img src="../../../.gitbook/assets/image (10).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (10) (2).png" alt=""><figcaption></figcaption></figure>
 
 Parmi les nombreux fichiers qui peuvent être ici, **les fichiers d'interface de cgroup principaux commencent par `cgroup`**. Commencez par regarder `cgroup.procs` (utiliser cat est bien), qui liste les processus dans le cgroup. Un fichier similaire, `cgroup.threads`, inclut également les threads.
 
@@ -69,20 +69,20 @@ Pour mettre un processus dans un cgroup, **écrivez son PID dans son fichier `cg
 ```shell-session
 # echo pid > cgroup.procs
 ```
-Voici comment fonctionnent les modifications apportées aux cgroups. Par exemple, si vous souhaitez **limiter le nombre maximal de PIDs d'un cgroup** (à, disons, 3 000 PIDs), procédez comme suit :
+Voici comment fonctionnent les modifications apportées aux cgroups. Par exemple, si vous souhaitez **limiter le nombre maximal de PIDs d'un cgroup** (disons à 3 000 PIDs), procédez comme suit :
 ```shell-session
 # echo 3000 > pids.max
 ```
 **La création de cgroups est plus délicate**. Techniquement, c'est aussi simple que de créer un sous-répertoire quelque part dans l'arborescence des cgroups ; lorsque vous le faites, le noyau crée automatiquement les fichiers d'interface. Si un cgroup n'a pas de processus, vous pouvez supprimer le cgroup avec rmdir même si les fichiers d'interface sont présents. Ce qui peut vous tromper, ce sont les règles régissant les cgroups, notamment :
 
-* Vous ne pouvez mettre des **processus que dans des cgroups de niveau supérieur ("feuille")**. Par exemple, si vous avez des cgroups nommés /my-cgroup et /my-cgroup/my-subgroup, vous ne pouvez pas mettre de processus dans /my-cgroup, mais /my-cgroup/my-subgroup est correct. (Une exception est si les cgroups n'ont pas de contrôleurs, mais ne creusons pas plus loin.)
+* Vous ne pouvez mettre **des processus que dans des cgroups de niveau supérieur ("feuille")**. Par exemple, si vous avez des cgroups nommés /my-cgroup et /my-cgroup/my-subgroup, vous ne pouvez pas mettre de processus dans /my-cgroup, mais /my-cgroup/my-subgroup est correct. (Une exception est si les cgroups n'ont pas de contrôleurs, mais ne creusons pas plus loin.)
 * Un cgroup **ne peut pas avoir de contrôleur qui n'est pas dans son cgroup parent**.
-* Vous devez **spécifier explicitement les contrôleurs pour les cgroups enfants**. Vous le faites via le fichier `cgroup.subtree_control`; par exemple, si vous voulez qu'un cgroup enfant ait les contrôleurs cpu et pids, écrivez +cpu +pids dans ce fichier.
+* Vous devez explicitement **spécifier les contrôleurs pour les cgroups enfants**. Vous faites cela via le fichier `cgroup.subtree_control`; par exemple, si vous voulez qu'un cgroup enfant ait les contrôleurs cpu et pids, écrivez +cpu +pids dans ce fichier.
 
-Une exception à ces règles est le **cgroup racine** situé en bas de la hiérarchie. Vous pouvez **placer des processus dans ce cgroup**. Une raison pour laquelle vous pourriez vouloir le faire est de détacher un processus du contrôle de systemd.
+Une exception à ces règles est le **cgroup racine** trouvé en bas de la hiérarchie. Vous pouvez **placer des processus dans ce cgroup**. Une raison pour laquelle vous pourriez vouloir le faire est de détacher un processus du contrôle de systemd.
 
 Même sans contrôleurs activés, vous pouvez voir l'utilisation du CPU d'un cgroup en regardant son fichier cpu.stat :
 
 <figure><img src="../../../.gitbook/assets/image (2) (6) (3).png" alt=""><figcaption></figcaption></figure>
 
-Étant donné que c'est l'utilisation accumulée du CPU sur toute la durée de vie du cgroup, vous pouvez voir comment un service consomme du temps processeur même s'il génère de nombreux sous-processus qui finissent par se terminer.
+Comme il s'agit de l'utilisation accumulée du CPU sur toute la durée de vie du cgroup, vous pouvez voir comment un service consomme du temps processeur même s'il génère de nombreux sous-processus qui finissent par se terminer.
