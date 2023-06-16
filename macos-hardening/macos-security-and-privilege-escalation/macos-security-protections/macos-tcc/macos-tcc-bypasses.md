@@ -54,9 +54,11 @@ Avec l'attribution **`com.apple.private.icloud-account-access`**, il est possibl
 
 **iMovie** et **Garageband** avaient cette attribution et d'autres qui le permettaient.
 
+Pour plus d'**informations** sur l'exploit pour **obtenir des jetons iCloud** à partir de cette attribution, consultez la présentation : [**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=\_6e2LhmxVc0)
+
 ### kTCCServiceAppleEvents / Automation
 
-Une application avec la permission **`kTCCServiceAppleEvents`** sera capable de **contrôler d'autres applications**. Cela signifie qu'elle pourrait être capable d'**abuser des autorisations accordées aux autres applications**.
+Une application avec l'autorisation **`kTCCServiceAppleEvents`** sera capable de **contrôler d'autres applications**. Cela signifie qu'elle pourrait être capable d'**abuser des autorisations accordées aux autres applications**.
 
 Pour plus d'informations sur les scripts Apple, consultez :
 
@@ -162,11 +164,11 @@ En tant que root, vous pouvez activer ce service et l'agent ARD aura un accès c
 
 ## Par plugins
 
-Les plugins sont des codes supplémentaires généralement sous forme de bibliothèques ou de plist, qui seront chargés par l'application principale et s'exécuteront sous son contexte. Par conséquent, si l'application principale avait accès aux fichiers restreints TCC (via des autorisations ou des privilèges accordés), le code personnalisé l'aura également.
+Les plugins sont du code supplémentaire généralement sous forme de bibliothèques ou de plist, qui seront chargés par l'application principale et s'exécuteront sous son contexte. Par conséquent, si l'application principale avait accès aux fichiers restreints TCC (via des autorisations accordées ou des privilèges), le code personnalisé l'aura également.
 
 ### CVE-2020-27937 - Utilitaire de répertoire
 
-L'application `/System/Library/CoreServices/Applications/Directory Utility.app` avait le privilège `kTCCServiceSystemPolicySysAdminFiles`, chargé des plugins avec l'extension `.daplug` et n'avait pas le runtime renforcé.
+L'application `/System/Library/CoreServices/Applications/Directory Utility.app` avait le privilège `kTCCServiceSystemPolicySysAdminFiles`, chargeait des plugins avec l'extension `.daplug` et n'avait pas le runtime renforcé.
 
 Pour armer cette CVE, le `NFSHomeDirectory` est modifié (en abusant du privilège précédent) afin de pouvoir prendre le contrôle de la base de données TCC des utilisateurs pour contourner TCC.
 
@@ -176,7 +178,7 @@ Pour plus d'informations, consultez le [**rapport original**](https://wojciechre
 
 Le binaire `/usr/sbin/coreaudiod` avait les privilèges `com.apple.security.cs.disable-library-validation` et `com.apple.private.tcc.manager`. Le premier permet l'injection de code et le second lui donne accès à la gestion de TCC.
 
-Ce binaire permettait de charger des plug-ins tiers à partir du dossier `/Library/Audio/Plug-Ins/HAL`. Par conséquent, il était possible de charger un plugin et d'abuser des autorisations TCC avec ce PoC :
+Ce binaire permettait de charger des **plug-ins tiers** à partir du dossier `/Library/Audio/Plug-Ins/HAL`. Par conséquent, il était possible de charger un plugin et d'abuser des autorisations TCC avec ce PoC :
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <Security/Security.h>
@@ -205,7 +207,7 @@ __attribute__((constructor)) static void constructor(int argc, const char **argv
 ```
 Pour plus d'informations, consultez le [**rapport original**](https://wojciechregula.blog/post/play-the-music-and-bypass-tcc-aka-cve-2020-29621/).
 
-### Plug-ins de couche d'abstraction de périphérique (DAL)
+### Plug-ins de la couche d'abstraction des périphériques (DAL)
 
 Les applications système qui ouvrent un flux de caméra via Core Media I/O (applications avec **`kTCCServiceCamera`**) chargent **dans le processus ces plugins** situés dans `/Library/CoreMediaIO/Plug-Ins/DAL` (non restreint par SIP).
 
