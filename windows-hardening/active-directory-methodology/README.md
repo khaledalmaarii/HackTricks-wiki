@@ -16,7 +16,7 @@
 
 Active Directory permet aux administrateurs réseau de créer et de gérer des domaines, des utilisateurs et des objets au sein d'un réseau. Par exemple, un administrateur peut créer un groupe d'utilisateurs et leur donner des privilèges d'accès spécifiques à certains répertoires sur le serveur. À mesure que le réseau se développe, Active Directory fournit un moyen d'organiser un grand nombre d'utilisateurs en groupes et sous-groupes logiques, tout en fournissant un contrôle d'accès à chaque niveau.
 
-La structure de l'Active Directory comprend trois niveaux principaux : 1) les domaines, 2) les arbres et 3) les forêts. Plusieurs objets (utilisateurs ou périphériques) qui utilisent tous la même base de données peuvent être regroupés dans un seul domaine. Plusieurs domaines peuvent être combinés en un seul groupe appelé arbre. Plusieurs arbres peuvent être regroupés en une collection appelée forêt. Chacun de ces niveaux peut se voir attribuer des droits d'accès spécifiques et des privilèges de communication.
+La structure Active Directory comprend trois niveaux principaux : 1) les domaines, 2) les arbres et 3) les forêts. Plusieurs objets (utilisateurs ou périphériques) qui utilisent tous la même base de données peuvent être regroupés dans un seul domaine. Plusieurs domaines peuvent être combinés en un seul groupe appelé arbre. Plusieurs arbres peuvent être regroupés en une collection appelée forêt. Chacun de ces niveaux peut se voir attribuer des droits d'accès spécifiques et des privilèges de communication.
 
 Les principaux concepts d'un Active Directory :
 
@@ -54,7 +54,8 @@ Si vous avez simplement accès à un environnement AD mais que vous n'avez pas d
 * **Pentester le réseau :**
   * Analysez le réseau, trouvez les machines et les ports ouverts et essayez d'**exploiter les vulnérabilités** ou d'**extraire des informations d'identification** à partir d'elles (par exemple, [les imprimantes pourraient être des cibles très intéressantes](ad-information-in-printers.md)).
   * L'énumération DNS peut donner des informations sur les serveurs clés du domaine tels que le web, les imprimantes, les partages, le VPN, les médias, etc.
-    * `gobuster dns -d domain.local -t 25 -w /opt/Seclist/Discovery/D
+    * `gobuster dns -d domain.local -t 25 -w /opt/Seclist/Discovery/DNS/subdomain-top2000.txt`
+  * Jetez
 ```bash
 ./kerbrute_linux_amd64 userenum -d lab.ropnop.com --dc 10.10.10.10 usernames.txt #From https://github.com/ropnop/kerbrute/releases
 
@@ -80,12 +81,12 @@ Invoke-PasswordSprayOWA -ExchHostname [ip] -UserList .\valid.txt -Password Summe
 Get-GlobalAddressList -ExchHostname [ip] -UserName [domain]\[username] -Password Summer2021 -OutFile gal.txt
 ```
 {% hint style="warning" %}
-Vous pouvez trouver des listes de noms d'utilisateurs dans [**ce dépôt Github**](https://github.com/danielmiessler/SecLists/tree/master/Usernames/Names) et dans celui-ci ([**statistically-likely-usernames**](https://github.com/insidetrust/statistically-likely-usernames)).
+Vous pouvez trouver des listes de noms d'utilisateur dans [**ce dépôt Github**](https://github.com/danielmiessler/SecLists/tree/master/Usernames/Names) et dans celui-ci ([**statistically-likely-usernames**](https://github.com/insidetrust/statistically-likely-usernames)).
 
-Cependant, vous devriez avoir le **nom des personnes travaillant dans l'entreprise** à partir de l'étape de reconnaissance que vous auriez dû effectuer avant cela. Avec le nom et le prénom, vous pouvez utiliser le script [**namemash.py**](https://gist.github.com/superkojiman/11076951) pour générer des noms d'utilisateurs potentiellement valides.
+Cependant, vous devriez avoir le **nom des personnes travaillant dans l'entreprise** à partir de l'étape de reconnaissance que vous auriez dû effectuer avant cela. Avec le nom et le prénom, vous pouvez utiliser le script [**namemash.py**](https://gist.github.com/superkojiman/11076951) pour générer des noms d'utilisateur potentiellement valides.
 {% endhint %}
 
-### Connaître un ou plusieurs noms d'utilisateurs
+### Connaître un ou plusieurs noms d'utilisateur
 
 Ok, donc vous savez que vous avez déjà un nom d'utilisateur valide mais pas de mot de passe... Alors essayez :
 
@@ -107,19 +108,19 @@ Vous pourriez être en mesure d'**obtenir** certains **hashes de challenge** à 
 
 ### NTML Relay
 
-Si vous avez réussi à énumérer l'annuaire actif, vous aurez **plus d'adresses e-mail et une meilleure compréhension du réseau**. Vous pourriez être en mesure de forcer des [**attaques de relais NTML**](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md#relay-attack) \*\*\*\* pour accéder à l'environnement AD.
+Si vous avez réussi à énumérer l'annuaire actif, vous aurez **plus d'e-mails et une meilleure compréhension du réseau**. Vous pourriez être en mesure de forcer des attaques de relais NTML [**relay attacks**](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md#relay-attack) \*\*\*\* pour accéder à l'environnement AD.
 
 ### Vol de crédits NTLM
 
-Si vous pouvez **accéder à d'autres PC ou partages** avec l'utilisateur **null ou guest**, vous pouvez **placer des fichiers** (comme un fichier SCF) qui, s'ils sont accédés d'une certaine manière, déclencheront une authentification NTML contre vous afin que vous puissiez **voler** le **challenge NTLM** pour le craquer :
+Si vous pouvez **accéder à d'autres PC ou partages** avec l'utilisateur **null ou guest**, vous pouvez **placer des fichiers** (comme un fichier SCF) qui, s'ils sont accédés de quelque manière que ce soit, déclencheront une authentification NTML contre vous afin que vous puissiez **voler** le **challenge NTLM** pour le craquer :
 
 {% content-ref url="../ntlm/places-to-steal-ntlm-creds.md" %}
 [places-to-steal-ntlm-creds.md](../ntlm/places-to-steal-ntlm-creds.md)
 {% endcontent-ref %}
 
-## Énumération de l'Active Directory AVEC des crédits/session
+## Énumération de l'Active Directory AVEC des informations d'identification/session
 
-Pour cette phase, vous devez avoir **compromis les crédits ou une session d'un compte de domaine valide**. Si vous avez des crédits valides ou une session en tant qu'utilisateur de domaine, **vous devez vous rappeler que les options données précédemment sont toujours des options pour compromettre d'autres utilisateurs**.
+Pour cette phase, vous devez avoir **compromis les informations d'identification ou une session d'un compte de domaine valide**. Si vous avez des informations d'identification valides ou une session en tant qu'utilisateur de domaine, **vous devez vous rappeler que les options données précédemment sont toujours des options pour compromettre d'autres utilisateurs**.
 
 Avant de commencer l'énumération authentifiée, vous devez savoir ce qu'est le **problème de double saut Kerberos**.
 
@@ -131,9 +132,9 @@ Avant de commencer l'énumération authentifiée, vous devez savoir ce qu'est le
 
 Avoir compromis un compte est une **grande étape pour commencer à compromettre l'ensemble du domaine**, car vous allez être en mesure de commencer l'**énumération de l'Active Directory** :
 
-En ce qui concerne [**ASREPRoast**](asreproast.md), vous pouvez maintenant trouver tous les utilisateurs vulnérables possibles, et en ce qui concerne [**Password Spraying**](password-spraying.md), vous pouvez obtenir une **liste de tous les noms d'utilisateurs** et essayer le mot de passe du compte compromis, les mots de passe vides et les nouveaux mots de passe prometteurs.
+En ce qui concerne [**ASREPRoast**](asreproast.md), vous pouvez maintenant trouver tous les utilisateurs vulnérables possibles, et en ce qui concerne [**Password Spraying**](password-spraying.md), vous pouvez obtenir une **liste de tous les noms d'utilisateur** et essayer le mot de passe du compte compromis, les mots de passe vides et les nouveaux mots de passe prometteurs.
 
-* Vous pouvez utiliser le [**CMD pour effectuer une reconnaissance de base**](../basic-cmd-for-pentesters.md#domain-info)
+* Vous pouvez utiliser [**CMD pour effectuer une reconnaissance de base**](../basic-cmd-for-pentesters.md#domain-info)
 * Vous pouvez également utiliser [**powershell pour la reconnaissance**](../basic-powershell-for-pentesters/) qui sera plus furtif
 * Vous pouvez également [**utiliser powerview**](../basic-powershell-for-pentesters/powerview.md) pour extraire des informations plus détaillées
 * Un autre outil incroyable pour la reconnaissance dans un annuaire actif est [**BloodHound**](bloodhound.md). Il n'est **pas très furtif** (selon les méthodes de collecte que vous utilisez), mais **si cela ne vous dérange pas**, vous devriez absolument l'essayer. Trouvez où les utilisateurs peuvent se connecter en RDP, trouvez le chemin vers d'autres groupes, etc.
@@ -153,7 +154,7 @@ En ce qui concerne [**ASREPRoast**](asreproast.md), vous pouvez maintenant trouv
 
 ### Kerberoast
 
-L'objectif de Kerberoasting est de récolter des **tickets TGS pour les services qui s'exécutent au nom des comptes d'utilisateurs de domaine**. Une
+L'objectif de Kerberoasting est de collecter des **tickets TGS pour les services qui s'exécutent au nom des comptes d'utilisateurs de domaine**. Une partie de ces tickets TGS sont **chiffrés avec
 ```bash
 ## List all tickets (if not admin, only current user tickets)
 .\Rubeus.exe triage
@@ -163,17 +164,17 @@ L'objectif de Kerberoasting est de récolter des **tickets TGS pour les services
 ```
 ### NTML Relay
 
-Si vous avez réussi à énumérer l'Active Directory, vous aurez **plus d'e-mails et une meilleure compréhension du réseau**. Vous pourriez être en mesure de forcer des [**attaques de relais NTML**](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md#relay-attack)**.**
+Si vous avez réussi à énumérer l'annuaire actif, vous aurez **plus d'e-mails et une meilleure compréhension du réseau**. Vous pourriez être en mesure de forcer des [attaques de relais NTML](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md#relay-attack)**.**
 
 ### **Recherche de crédits dans les partages d'ordinateurs**
 
-Maintenant que vous avez des informations d'identification de base, vous devriez vérifier si vous pouvez **trouver** des **fichiers intéressants partagés dans l'AD**. Vous pourriez le faire manuellement, mais c'est une tâche très ennuyeuse et répétitive (surtout si vous trouvez des centaines de documents que vous devez vérifier).
+Maintenant que vous avez des informations d'identification de base, vous devriez vérifier si vous pouvez **trouver** des **fichiers intéressants partagés dans l'AD**. Vous pourriez le faire manuellement, mais c'est une tâche très ennuyeuse et répétitive (et plus encore si vous trouvez des centaines de documents que vous devez vérifier).
 
 [**Suivez ce lien pour en savoir plus sur les outils que vous pourriez utiliser.**](../../network-services-pentesting/pentesting-smb.md#domain-shared-folders-search)
 
 ### Vol de crédits NTLM
 
-Si vous pouvez **accéder à d'autres PC ou partages**, vous pouvez **placer des fichiers** (comme un fichier SCF) qui, s'ils sont accédés d'une manière ou d'une autre, déclencheront une **authentification NTML contre vous** afin que vous puissiez **voler** le **défi NTLM** pour le casser :
+Si vous pouvez **accéder à d'autres PC ou partages**, vous pouvez **placer des fichiers** (comme un fichier SCF) qui, s'ils sont accédés de quelque manière que ce soit, déclencheront une **authentification NTML contre vous** afin que vous puissiez **voler** le **défi NTLM** pour le casser :
 
 {% content-ref url="../ntlm/places-to-steal-ntlm-creds.md" %}
 [places-to-steal-ntlm-creds.md](../ntlm/places-to-steal-ntlm-creds.md)
@@ -231,11 +232,11 @@ crackmapexec smb --local-auth 10.10.10.10/23 -u administrator -H 10298e182387f9c
 Notez que cela est assez **bruyant** et que **LAPS** le **mitigerait**.
 {% endhint %}
 
-### Abus MSSQL et liens de confiance
+### Abus MSSQL & Liens de confiance
 
 Si un utilisateur a des privilèges pour **accéder aux instances MSSQL**, il pourrait être en mesure de l'utiliser pour **exécuter des commandes** dans l'hôte MSSQL (s'il s'exécute en tant que SA), **voler** le **hash NetNTLM** ou même effectuer une **attaque de relais**.\
 De plus, si une instance MSSQL est approuvée (lien de base de données) par une autre instance MSSQL. Si l'utilisateur a des privilèges sur la base de données approuvée, il pourra **utiliser la relation de confiance pour exécuter des requêtes également dans l'autre instance**. Ces relations de confiance peuvent être enchaînées et à un moment donné, l'utilisateur pourrait être en mesure de trouver une base de données mal configurée où il peut exécuter des commandes.\
-**Les liens entre les bases de données fonctionnent même à travers les relations de forêt.**
+**Les liens entre les bases de données fonctionnent même à travers les relations de confiance forestières.**
 
 {% content-ref url="abusing-ad-mssql.md" %}
 [abusing-ad-mssql.md](abusing-ad-mssql.md)
@@ -243,9 +244,9 @@ De plus, si une instance MSSQL est approuvée (lien de base de données) par une
 
 ### Délégation non contrainte
 
-Si vous trouvez un objet d'ordinateur avec l'attribut [ADS\_UF\_TRUSTED\_FOR\_DELEGATION](https://msdn.microsoft.com/en-us/library/aa772300\(v=vs.85\).aspx) et que vous avez des privilèges de domaine sur l'ordinateur, vous pourrez extraire les TGT de la mémoire de chaque utilisateur qui se connecte à l'ordinateur.\
+Si vous trouvez un objet informatique avec l'attribut [ADS\_UF\_TRUSTED\_FOR\_DELEGATION](https://msdn.microsoft.com/en-us/library/aa772300\(v=vs.85\).aspx) et que vous avez des privilèges de domaine sur l'ordinateur, vous pourrez extraire les TGT de la mémoire de chaque utilisateur qui se connecte à l'ordinateur.\
 Ainsi, si un **administrateur de domaine se connecte à l'ordinateur**, vous pourrez extraire son TGT et vous faire passer pour lui en utilisant [Pass the Ticket](pass-the-ticket.md).\
-Grâce à la délégation contrainte, vous pourriez même **compromettre automatiquement un serveur d'impression** (espérons que ce sera un DC).
+Grâce à la délégation contrainte, vous pourriez même **compromettre automatiquement un serveur d'impression** (avec un peu de chance, ce sera un DC).
 
 {% content-ref url="unconstrained-delegation.md" %}
 [unconstrained-delegation.md](unconstrained-delegation.md)
@@ -283,7 +284,7 @@ Si vous pouvez trouver un **service Spooler d'impression en écoute** à l'inté
 
 ### Abus de sessions tierces
 
-Si **d'autres utilisateurs accèdent** à la **machine compromise**, il est possible de **recueillir des informations d'identification à partir de la mémoire
+Si **d'autres utilisateurs accèdent** à la **machine compromise**, il est possible de **recueillir des informations d'identification à partir de la mémoire** et même **injecter des bal
 ### Différentes relations de confiance
 
 Il est important de noter qu'une confiance peut être à sens unique ou à double sens. Dans les options à double sens, les deux domaines se feront confiance, mais dans la relation de confiance à sens unique, l'un des domaines sera le domaine de confiance et l'autre le domaine de confiance. Dans ce dernier cas, vous ne pourrez accéder qu'aux ressources à l'intérieur du domaine de confiance à partir du domaine de confiance.
@@ -295,7 +296,7 @@ Si le domaine A fait confiance au domaine B, A est le domaine de confiance et B 
 * **Parent-Enfant** - faisant partie de la même forêt - un domaine enfant conserve une confiance transitive à deux sens implicite avec son parent. C'est probablement le type de confiance le plus courant que vous rencontrerez.
 * **Liaison croisée** - alias une "confiance de raccourci" entre les domaines enfants pour améliorer les temps de référence. Normalement, les références dans une forêt complexe doivent filtrer jusqu'à la racine de la forêt, puis redescendre vers le domaine cible, donc pour un scénario géographiquement étalé, les liaisons croisées peuvent être utiles pour réduire les temps d'authentification.
 * **Externe** - une confiance implicitement non transitive créée entre des domaines disparates. "Les confiances externes fournissent un accès aux ressources dans un domaine en dehors de la forêt qui n'est pas déjà rejoint par une confiance de forêt." Les confiances externes appliquent le filtrage SID, une protection de sécurité couverte plus tard dans ce post.
-* **Racine d'arbre** - une confiance transitive implicite à deux sens entre la racine de la forêt et la nouvelle racine d'arbre que vous ajoutez. Je n'ai pas rencontré de confiance racine d'arbre trop souvent, mais d'après la documentation de Microsoft, elles sont créées lorsque vous créez une nouvelle arborescence de domaine dans une forêt. Ce sont des confiances intra-forêt, et elles préservent la transitivité à deux sens tout en permettant à l'arbre d'avoir un nom de domaine distinct (au lieu de enfant.parent.com).
+* **Racine d'arbre** - une confiance transitive implicite à deux sens entre le domaine racine de la forêt et la nouvelle racine d'arbre que vous ajoutez. Je n'ai pas rencontré de confiance racine d'arbre trop souvent, mais d'après la documentation de Microsoft, elles sont créées lorsque vous créez un nouvel arbre de domaine dans une forêt. Ce sont des confiances intra-forêt, et elles préservent la transitivité à deux sens tout en permettant à l'arbre d'avoir un nom de domaine séparé (au lieu de enfant.parent.com).
 * **Forêt** - une confiance transitive entre deux domaines racine de forêt. Les confiances de forêt appliquent également le filtrage SID.
 * **MIT** - une confiance avec un domaine Kerberos non-Windows conforme à [RFC4120](https://tools.ietf.org/html/rfc4120). J'espère plonger plus en profondeur dans les confiances MIT à l'avenir.
 
@@ -313,9 +314,9 @@ Si le domaine A fait confiance au domaine B, A est le domaine de confiance et B 
 
 Il existe trois **principales** façons pour les principaux de sécurité (utilisateurs/groupes/ordinateurs) d'un domaine d'avoir accès aux ressources dans un autre domaine étranger/de confiance :
 
-* Ils peuvent être ajoutés à des **groupes locaux** sur des machines individuelles, c'est-à-dire le groupe "Administrateurs" local sur un serveur.
+* Ils peuvent être ajoutés à des **groupes locaux** sur des machines individuelles, c'est-à-dire le groupe local "Administrateurs" sur un serveur.
 * Ils peuvent être ajoutés à des **groupes dans le domaine étranger**. Il y a quelques mises en garde en fonction du type de confiance et de la portée du groupe, décrites brièvement.
-* Ils peuvent être ajoutés en tant que principaux dans une **liste de contrôle d'accès**, plus intéressant pour nous en tant que principaux dans les **ACE** dans un **DACL**. Pour plus d'informations sur les ACL/DACL/ACE, consultez le document blanc "[An ACE Up The Sleeve](https://specterops.io/assets/resources/an\_ace\_up\_the\_sleeve.pdf)".
+* Ils peuvent être ajoutés en tant que principaux dans une **liste de contrôle d'accès**, plus intéressant pour nous en tant que principaux dans les **entrées ACE** dans un **DACL**. Pour plus d'informations sur les ACL/DACL/ACE, consultez le document blanc "[An ACE Up The Sleeve](https://specterops.io/assets/resources/an\_ace\_up\_the\_sleeve.pdf)".
 ```
 Get-DomainTrust
 
@@ -346,14 +347,35 @@ Escaladez en tant qu'administrateur d'entreprise vers le domaine enfant/parent e
 
 #### Exploitation de Configuration NC en écriture
 
-Le Configuration NC est le référentiel principal pour les informations de configuration d'une forêt et est répliqué sur chaque DC de la forêt. De plus, chaque DC inscriptible (pas les DC en lecture seule) de la forêt détient une copie inscriptible de la Configuration NC. L'exploitation de cela nécessite l'exécution en tant que SYSTEM sur un DC (enfant).
+La Configuration NC est le référentiel principal pour les informations de configuration d'une forêt et est répliquée sur chaque DC de la forêt. De plus, chaque DC inscriptible (pas les DC en lecture seule) de la forêt détient une copie inscriptible de la Configuration NC. L'exploitation de cela nécessite l'exécution en tant que SYSTEM sur un DC (enfant).
 
-Il est possible de compromettre le domaine racine de diverses manières. Exemples :
+Il est possible de compromettre le domaine racine de diverses manières couvertes ci-dessous.
 
-* [Lier une GPO au site du DC racine](https://improsec.com/tech-blog/sid-filter-as-security-boundary-between-domains-part-4-bypass-sid-filtering-research)
-* [Compromettre gMSA](https://improsec.com/tech-blog/sid-filter-as-security-boundary-between-domains-part-5-golden-gmsa-trust-attack-from-child-to-parent)
-* [Attaque de schéma](https://improsec.com/tech-blog/sid-filter-as-security-boundary-between-domains-part-6-schema-change-trust-attack-from-child-to-parent)
-* Exploiter ADCS - Créer/modifier un modèle de certificat pour permettre l'authentification en tant que n'importe quel utilisateur (par exemple, les administrateurs d'entreprise)
+##### Lier GPO au site du DC racine
+Le conteneur Sites dans Configuration NC contient tous les sites des ordinateurs joints au domaine dans l'AD forest. Il est possible de lier des GPO aux sites lors de l'exécution en tant que SYSTEM sur n'importe quel DC de la forêt, y compris le(s) site(s) des DC racines de la forêt, et ainsi les compromettre.
+
+Plus de détails peuvent être lus ici [Bypass SID filtering research](https://improsec.com/tech-blog/sid-filter-as-security-boundary-between-domains-part-4-bypass-sid-filtering-research).
+
+##### Compromettre n'importe quel gMSA dans la forêt
+L'attaque dépend des gMSA privilégiés dans le domaine ciblé.
+
+La clé KDS Root, qui est utilisée pour calculer le mot de passe des gMSA dans la forêt, est stockée dans Configuration NC. Lors de l'exécution en tant que SYSTEM sur n'importe quel DC de la forêt, on peut lire la clé KDS Root et calculer le mot de passe de n'importe quel gMSA dans la forêt.
+
+Plus de détails peuvent être lus ici : [Golden gMSA trust attack from child to parent](https://improsec.com/tech-blog/sid-filter-as-security-boundary-between-domains-part-5-golden-gmsa-trust-attack-from-child-to-parent).
+
+##### Attaque de modification de schéma
+L'attaque nécessite que l'attaquant attende la création de nouveaux objets AD privilégiés.
+
+Lors de l'exécution en tant que SYSTEM sur n'importe quel DC de la forêt, on peut accorder à n'importe quel utilisateur un contrôle total sur toutes les classes dans le schéma AD. Ce contrôle peut être abusé pour créer un ACE dans le descripteur de sécurité par défaut de n'importe quel objet AD qui accorde un contrôle total à un principal compromis. Toutes les nouvelles instances des types d'objets AD modifiés auront cet ACE.
+
+Plus de détails peuvent être lus ici : [Schema change trust attack from child to parent](https://improsec.com/tech-blog/sid-filter-as-security-boundary-between-domains-part-6-schema-change-trust-attack-from-child-to-parent).
+
+##### De DA à EA avec ADCS ESC5
+Les attaques ADCS ESC5 (Vulnerable PKI Object Access Control) abusent du contrôle sur les objets PKI pour créer un modèle de certificat vulnérable qui peut être abusé pour s'authentifier en tant que n'importe quel utilisateur de la forêt. Étant donné que tous les objets PKI sont stockés dans Configuration NC, on peut exécuter ESC5 s'ils ont compromis n'importe quel DC inscriptible (enfant) de la forêt.
+
+Plus de détails peuvent être lus ici : [From DA to EA with ESC5](https://posts.specterops.io/from-da-to-ea-with-esc5-f9f045aa105c)
+
+Dans le cas où la forêt AD n'a pas ADCS, l'attaquant peut créer les composants nécessaires comme décrit ici : [Escalating from child domain’s admins to enterprise admins in 5 minutes by abusing AD CS, a follow up](https://www.pkisolutions.com/escalating-from-child-domains-admins-to-enterprise-admins-in-5-minutes-by-abusing-ad-cs-a-follow-up/).
 
 ### Domaine de forêt externe - Unidirectionnel (entrant) ou bidirectionnel
 ```powershell
@@ -366,7 +388,7 @@ TrustDirection  : Inbound          --> Inboud trust
 WhenCreated     : 2/19/2021 10:50:56 PM
 WhenChanged     : 2/19/2021 10:50:56 PM
 ```
-Dans ce scénario, **votre domaine est de confiance** par un domaine externe vous donnant des **permissions indéterminées** sur celui-ci. Vous devrez trouver **quels principaux de votre domaine ont quel accès sur le domaine externe** et ensuite essayer de l'exploiter :
+Dans ce scénario, **votre domaine est approuvé** par un domaine externe vous donnant des **permissions indéterminées** sur celui-ci. Vous devrez trouver **quels principaux de votre domaine ont quel accès sur le domaine externe** et ensuite essayer de l'exploiter :
 
 {% content-ref url="external-forest-domain-oneway-inbound.md" %}
 [external-forest-domain-oneway-inbound.md](external-forest-domain-oneway-inbound.md)
@@ -386,15 +408,15 @@ WhenChanged     : 2/19/2021 10:15:24 PM
 ```
 Dans ce scénario, **votre domaine** accorde une certaine **confiance** à un principal provenant de **différents domaines**.
 
-Cependant, lorsqu'un **domaine est approuvé** par le domaine de confiance, le domaine approuvé **crée un utilisateur** avec un **nom prévisible** qui utilise comme **mot de passe le mot de passe de confiance**. Ce qui signifie qu'il est possible d'**accéder à un utilisateur du domaine de confiance pour accéder au domaine approuvé** afin de l'énumérer et d'essayer d'escalader davantage de privilèges :
+Cependant, lorsqu'un **domaine est de confiance** pour le domaine de confiance, le domaine de confiance **crée un utilisateur** avec un **nom prévisible** qui utilise comme **mot de passe le mot de passe de confiance**. Ce qui signifie qu'il est possible d'**accéder à un utilisateur du domaine de confiance pour entrer dans le domaine de confiance** pour l'énumérer et essayer d'escalader plus de privilèges :
 
 {% content-ref url="external-forest-domain-one-way-outbound.md" %}
 [external-forest-domain-one-way-outbound.md](external-forest-domain-one-way-outbound.md)
 {% endcontent-ref %}
 
-Une autre façon de compromettre le domaine approuvé est de trouver un [**lien de confiance SQL**](abusing-ad-mssql.md#mssql-trusted-links) créé dans la **direction opposée** de la confiance de domaine (ce qui n'est pas très courant).
+Une autre façon de compromettre le domaine de confiance est de trouver un [**lien de confiance SQL**](abusing-ad-mssql.md#mssql-trusted-links) créé dans la **direction opposée** de la confiance de domaine (ce qui n'est pas très courant).
 
-Une autre façon de compromettre le domaine approuvé est d'attendre dans une machine où un **utilisateur du domaine approuvé peut accéder** pour se connecter via **RDP**. Ensuite, l'attaquant pourrait injecter du code dans le processus de session RDP et **accéder au domaine d'origine de la victime** à partir de là.\
+Une autre façon de compromettre le domaine de confiance est d'attendre dans une machine où un **utilisateur du domaine de confiance peut accéder** pour se connecter via **RDP**. Ensuite, l'attaquant pourrait injecter du code dans le processus de session RDP et **accéder au domaine d'origine de la victime** à partir de là.\
 De plus, si la **victime a monté son disque dur**, à partir du processus de session RDP, l'attaquant pourrait stocker des **backdoors** dans le **dossier de démarrage du disque dur**. Cette technique s'appelle **RDPInception.**
 
 {% content-ref url="rdp-sessions-abuse.md" %}
@@ -405,9 +427,9 @@ De plus, si la **victime a monté son disque dur**, à partir du processus de se
 
 **Filtrage SID :**
 
-* Éviter les attaques qui abusent de l'attribut d'historique SID à travers la confiance de la forêt.
-* Activé par défaut sur toutes les confiances inter-forêts. Les confiances intra-forêts sont considérées comme sécurisées par défaut (MS considère que la forêt et non le domaine est une limite de sécurité).
-* Cependant, étant donné que le filtrage SID a le potentiel de perturber les applications et l'accès des utilisateurs, il est souvent désactivé.
+* Éviter les attaques qui abusent de l'attribut d'historique SID à travers la confiance de forêt.
+* Activé par défaut sur toutes les confiances inter-forêts. Les confiances intra-forêts sont considérées comme sécurisées par défaut (MS considère que la forêt et non le domaine est une frontière de sécurité).
+* Cependant, étant donné que le filtrage SID a le potentiel de casser les applications et l'accès utilisateur, il est souvent désactivé.
 * Authentification sélective
   * Dans une confiance inter-forêt, si l'authentification sélective est configurée, les utilisateurs entre les confiances ne seront pas automatiquement authentifiés. L'accès individuel aux domaines et serveurs dans le domaine/forêt de confiance doit être donné.
 * Ne prévient pas l'exploitation de la NC de configuration inscriptible et l'attaque de compte de confiance.
@@ -430,10 +452,10 @@ De plus, si la **victime a monté son disque dur**, à partir du processus de se
 ### Tromperie
 
 * Le mot de passe n'expire pas
-* Approuvé pour la délégation
+* Fait confiance pour la délégation
 * Utilisateurs avec SPN
 * Mot de passe dans la description
-* Utilisateurs qui sont membres de groupes à haut privilège
+* Utilisateurs qui sont membres de groupes à haute privilège
 * Utilisateurs avec des droits ACL sur d'autres utilisateurs, groupes ou conteneurs
 * Objets d'ordinateur
 * ...
@@ -464,7 +486,7 @@ ATA ne se plaint que lorsque vous essayez d'énumérer des sessions dans le DC, 
 
 #### Création d'impersonnations de tickets (Over pass the hash, golden ticket...)
 
-Créez toujours les tickets en utilisant les clés **aes** également car ce que ATA identifie comme malveillant est la dégradation en NTLM.
+Créez toujours les tickets en utilisant les clés **aes** également parce que ce que ATA identifie comme malveillant est la dégradation en NTLM.
 
 #### DCSync
 
