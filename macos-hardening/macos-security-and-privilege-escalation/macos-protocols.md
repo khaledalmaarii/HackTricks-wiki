@@ -20,15 +20,15 @@ printf "\nThe following services are OFF if '0', or ON otherwise:\nScreen Sharin
 ```
 ### Pentesting ARD
 
-(Cette partie a été tirée de [**cet article de blog**](https://lockboxx.blogspot.com/2019/07/macos-red-teaming-206-ard-apple-remote.html))
+(Cette partie a été [**prise de ce billet de blog**](https://lockboxx.blogspot.com/2019/07/macos-red-teaming-206-ard-apple-remote.html))
 
-C'est essentiellement un [VNC](https://fr.wikipedia.org/wiki/Virtual_Network_Computing) modifié avec quelques **fonctionnalités spécifiques à macOS**.\
-Cependant, l'option **Partage d'écran** est juste un serveur VNC **basique**. Il y a également une option avancée ARD ou Gestion à distance pour **définir un mot de passe de contrôle d'écran** qui rendra ARD **compatible avec les clients VNC**. Cependant, cette méthode d'authentification présente une faiblesse qui **limite** ce **mot de passe** à un **tampon d'authentification de 8 caractères**, ce qui le rend très facile à **forcer par la méthode brute** avec un outil comme [Hydra](https://thudinh.blogspot.com/2017/09/brute-forcing-passwords-with-thc-hydra.html) ou [GoRedShell](https://github.com/ahhh/GoRedShell/) (il n'y a également **aucune limite de taux par défaut**).\
+C'est essentiellement un [VNC](https://fr.wikipedia.org/wiki/Virtual_Network_Computing) modifié avec quelques **fonctionnalités spécifiques à macOS supplémentaires**.\
+Cependant, l'option **Partage d'écran** est juste un serveur VNC **basique**. Il y a également une option avancée ARD ou Gestion à distance pour **définir un mot de passe de contrôle d'écran** qui rendra ARD **compatible avec les clients VNC**. Cependant, cette méthode d'authentification présente une faiblesse qui **limite** ce **mot de passe** à un **tampon d'authentification de 8 caractères**, le rendant très facile à **forcer par la méthode brute** avec un outil comme [Hydra](https://thudinh.blogspot.com/2017/09/brute-forcing-passwords-with-thc-hydra.html) ou [GoRedShell](https://github.com/ahhh/GoRedShell/) (il n'y a également **aucune limite de taux par défaut**).\
 Vous pouvez identifier les instances **vulnérables de Partage d'écran** ou de Gestion à distance avec **nmap**, en utilisant le script `vnc-info`, et si le service prend en charge `VNC Authentication (2)`, alors il est probablement **vulnérable à la force brute**. Le service tronquera tous les mots de passe envoyés sur le fil jusqu'à 8 caractères, de sorte que si vous définissez l'authentification VNC sur "password", à la fois "passwords" et "password123" s'authentifieront.
 
-<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (9).png" alt=""><figcaption></figcaption></figure>
 
-Si vous voulez l'activer pour escalader les privilèges (accepter les invites TCC), accéder avec une interface graphique ou espionner l'utilisateur, il est possible de l'activer avec:
+Si vous voulez l'activer pour escalader les privilèges (accepter les invites TCC), accéder avec une GUI ou espionner l'utilisateur, il est possible de l'activer avec:
 
 {% code overflow="wrap" %}
 ```bash
@@ -52,7 +52,7 @@ Le réseau Zero Configuration, tel que Bonjour fournit :
 L'appareil obtiendra une **adresse IP dans la plage 169.254/16** et vérifiera si un autre appareil utilise cette adresse IP. Si ce n'est pas le cas, il conservera l'adresse IP. Les Mac conservent une entrée dans leur table de routage pour ce sous-réseau : `netstat -rn | grep 169`
 
 Pour le DNS, le protocole **Multicast DNS (mDNS) est utilisé**. Les [**services mDNS** écoutent sur le port **5353/UDP**](../../network-services-pentesting/5353-udp-multicast-dns-mdns.md), utilisent des **requêtes DNS régulières** et utilisent l'**adresse multicast 224.0.0.251** au lieu d'envoyer la demande simplement à une adresse IP. Toute machine écoutant ces demandes répondra, généralement à une adresse multicast, de sorte que tous les appareils peuvent mettre à jour leurs tables.\
-Chaque appareil **sélectionnera son propre nom** lors de l'accès au réseau, l'appareil choisira un nom **terminé en .local** (peut être basé sur le nom d'hôte ou un nom complètement aléatoire).
+Chaque appareil **sélectionnera son propre nom** lors de l'accès au réseau, l'appareil choisira un nom **terminé par .local** (peut être basé sur le nom d'hôte ou un nom complètement aléatoire).
 
 Pour **découvrir des services, DNS Service Discovery (DNS-SD)** est utilisé.
 
@@ -79,7 +79,7 @@ dns-sd -R "Index" _http._tcp . 80 path=/index.html
 #Search HTTP services
 dns-sd -B _http._tcp
 ```
-Lorsqu'un nouveau service est démarré, **le nouveau service diffuse sa présence à tout le monde** sur le sous-réseau. Le récepteur n'a pas besoin de demander; il doit simplement être à l'écoute.
+Lorsqu'un nouveau service est démarré, **il diffuse sa présence à tous** sur le sous-réseau. L'auditeur n'a pas besoin de demander; il doit simplement être à l'écoute.
 
 Vous pouvez utiliser [**cet outil**](https://apps.apple.com/us/app/discovery-dns-sd-browser/id1381004916?mt=12) pour voir les **services proposés** dans votre réseau local actuel.\
 Ou vous pouvez écrire vos propres scripts en python avec [**python-zeroconf**](https://github.com/jstasiak/python-zeroconf):

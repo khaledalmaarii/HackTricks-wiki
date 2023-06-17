@@ -157,6 +157,8 @@ Tout d'abord, veuillez noter que **la plupart des astuces sur l'élévation de p
 [élévation de privilèges](../../linux-hardening/privilege-escalation/)
 {% endcontent-ref %}
 
+## Applications de défense MacOS
+
 ## Références
 
 * [**OS X Incident Response: Scripting and Analysis**](https://www.amazon.com/OS-Incident-Response-Scripting-Analysis-ebook/dp/B01FHOHHVS)

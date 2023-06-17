@@ -141,7 +141,7 @@ $> ls ~/Documents
 
 Notes avait accès aux emplacements protégés par TCC, mais lorsqu'une note est créée, elle est **créée dans un emplacement non protégé**. Ainsi, vous pourriez demander à Notes de copier un fichier protégé dans une note (donc dans un emplacement non protégé) et ensuite accéder au fichier :
 
-<figure><img src="../../../../.gitbook/assets/image (11).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (6).png" alt=""><figcaption></figcaption></figure>
 
 ### CVE-2021-XXXX - Translocation
 
@@ -217,7 +217,7 @@ Plusieurs applications Apple étaient vulnérables à cela.
 
 ## Par injection de processus
 
-Il existe différentes techniques pour injecter du code à l'intérieur d'un processus et abuser de ses privilèges TCC :
+Il existe différentes techniques pour injecter du code dans un processus et abuser de ses privilèges TCC :
 
 {% content-ref url="../../macos-proces-abuse/" %}
 [macos-proces-abuse](../../macos-proces-abuse/)
@@ -261,11 +261,11 @@ Telegram avait les entitlements `com.apple.security.cs.allow-dyld-environment-va
 
 ## Par des invocations ouvertes
 
-Il est possible d'ouvrir des invocations dans un environnement sandboxé.
+Il est possible d'invoquer l'ouverture dans un environnement sandboxé&#x20;
 
 ### Scripts Terminal
 
-Il est courant de donner un **accès complet au disque (FDA)** au terminal, du moins sur les ordinateurs utilisés par les professionnels de la technologie. Et il est possible d'inviter des scripts **`.terminal`** en l'utilisant.
+Il est courant de donner un **accès complet au disque (FDA)** au terminal, du moins sur les ordinateurs utilisés par les personnes techniques. Et il est possible d'invoquer des scripts **`.terminal`** avec cela.
 
 Les scripts **`.terminal`** sont des fichiers plist tels que celui-ci avec la commande à exécuter dans la clé **`CommandString`**:
 ```xml
@@ -373,7 +373,7 @@ Le dossier **`/var/db/locationd/` n'était pas protégé contre le montage DMG**
 
 À plusieurs reprises, des fichiers stockent des informations sensibles telles que des e-mails, des numéros de téléphone, des messages... dans des emplacements non protégés (ce qui compte comme une vulnérabilité chez Apple).
 
-<figure><img src="../../../../.gitbook/assets/image (9).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
 
 ## Références
 

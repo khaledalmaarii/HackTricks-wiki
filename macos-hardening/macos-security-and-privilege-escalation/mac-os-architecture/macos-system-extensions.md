@@ -4,7 +4,7 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une entreprise de **cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs.
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com).
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -16,17 +16,17 @@
 
 Contrairement aux extensions de noyau, les **extensions système s'exécutent dans l'espace utilisateur** plutôt que dans l'espace du noyau, réduisant ainsi le risque de plantage du système en raison d'un dysfonctionnement de l'extension.
 
-<figure><img src="../../../.gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
 
 Il existe trois types d'extensions système : les extensions **DriverKit**, les extensions **Network** et les extensions **Endpoint Security**.
 
 ### **Extensions DriverKit**
 
-DriverKit est un remplacement des extensions de noyau qui **fournissent une assistance matérielle**. Il permet aux pilotes de périphériques (tels que les pilotes USB, série, NIC et HID) de s'exécuter dans l'espace utilisateur plutôt que dans l'espace du noyau. Le framework DriverKit comprend des **versions d'espace utilisateur de certaines classes I/O Kit**, et le noyau transfère les événements normaux de l'I/O Kit vers l'espace utilisateur, offrant ainsi un environnement plus sûr pour l'exécution de ces pilotes.
+DriverKit est un remplacement des extensions de noyau qui **fournit une assistance matérielle**. Il permet aux pilotes de périphériques (tels que les pilotes USB, série, NIC et HID) de s'exécuter dans l'espace utilisateur plutôt que dans l'espace du noyau. Le framework DriverKit comprend des **versions d'espace utilisateur de certaines classes I/O Kit**, et le noyau transfère les événements normaux de l'I/O Kit vers l'espace utilisateur, offrant ainsi un environnement plus sûr pour l'exécution de ces pilotes.
 
 ### **Extensions Network**
 
-Les extensions réseau offrent la possibilité de personnaliser les comportements réseau. Il existe plusieurs types d'extensions réseau :
+Les extensions réseau fournissent la possibilité de personnaliser les comportements réseau. Il existe plusieurs types d'extensions réseau :
 
 * **Proxy d'application** : cela est utilisé pour créer un client VPN qui implémente un protocole VPN personnalisé orienté flux. Cela signifie qu'il gère le trafic réseau en fonction des connexions (ou flux) plutôt que des paquets individuels.
 * **Tunnel de paquets** : cela est utilisé pour créer un client VPN qui implémente un protocole VPN personnalisé orienté paquet. Cela signifie qu'il gère le trafic réseau en fonction des paquets individuels.
@@ -40,7 +40,7 @@ Endpoint Security est un framework fourni par Apple dans macOS qui fournit un en
 
 Ce framework fournit une **collection d'API pour surveiller et contrôler l'activité du système**, telle que les exécutions de processus, les événements du système de fichiers, les événements réseau et du noyau.
 
-Le cœur de ce framework est implémenté dans le noyau, en tant qu'extension de noyau (KEXT) située dans **`/System/Library/Extensions/EndpointSecurity.kext`**. Cette KEXT est composée de plusieurs composants clés :
+Le cœur de ce framework est implémenté dans le noyau, en tant qu'extension de noyau (KEXT) située à **`/System/Library/Extensions/EndpointSecurity.kext`**. Cette KEXT est composée de plusieurs composants clés :
 
 * **EndpointSecurityDriver** : cela agit comme le "point d'entrée" pour l'extension de noyau. C'est le principal point d'interaction entre le système d'exploitation et le framework Endpoint Security.
 * **EndpointSecurityEventManager** : ce composant est responsable de la mise en œuvre des hooks du noyau. Les hooks du noyau permettent au framework de surveiller les événements du système en interceptant les appels système.
@@ -56,7 +56,7 @@ Les événements que le framework Endpoint Security peut surveiller sont catégo
 
 ### Architecture du framework de sécurité des points de terminaison
 
-<figure><img src="../../../.gitbook/assets/image (8).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 La **communication de l'espace utilisateur** avec le framework Endpoint Security se fait via la classe IOUserClient. Deux sous-classes différentes sont utilisées, en fonction du type d'appelant :
 
