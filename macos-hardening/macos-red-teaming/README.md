@@ -68,12 +68,12 @@ Ce fichier contient essentiellement l'URL :
 plutil -convert xml1 -o - /Library/Preferences/com.jamfsoftware.jamf.plist
 
 [...]
-	<key>is_virtual_machine</key>
-	<false/>
-	<key>jss_url</key>
-	<string>https://halbornasd.jamfcloud.com/</string>
-	<key>last_management_framework_change_id</key>
-	<integer>4</integer>
+<key>is_virtual_machine</key>
+<false/>
+<key>jss_url</key>
+<string>https://halbornasd.jamfcloud.com/</string>
+<key>last_management_framework_change_id</key>
+<integer>4</integer>
 [...]
 ```
 {% endcode %}
@@ -138,7 +138,7 @@ Il existe également des outils préparés pour MacOS pour énumérer automatiqu
 
 * [**Machound**](https://github.com/XMCyber/MacHound) : MacHound est une extension de l'outil d'audit Bloodhound permettant de collecter et d'ingérer des relations Active Directory sur des hôtes MacOS.
 * [**Bifrost**](https://github.com/its-a-feature/bifrost) : Bifrost est un projet Objective-C conçu pour interagir avec les API Heimdal krb5 sur macOS. Le but du projet est de permettre de meilleurs tests de sécurité autour de Kerberos sur les appareils macOS en utilisant des API natives sans nécessiter d'autres frameworks ou packages sur la cible.
-* [**Orchard**](https://github.com/its-a-feature/Orchard) : Outil JavaScript pour l'automatisation (JXA) pour l'énumération Active Directory.
+* [**Orchard**](https://github.com/its-a-feature/Orchard) : Outil JavaScript pour l'automatisation (JXA) pour effectuer une énumération Active Directory.
 
 ### Informations de domaine
 ```bash
@@ -185,7 +185,7 @@ Plus d'informations sur [https://its-a-feature.github.io/posts/2018/01/Active-Di
 
 ## Accéder au trousseau
 
-Le trousseau contient très probablement des informations sensibles qui, s'il est accédé sans générer de prompt, pourrait aider à faire avancer un exercice de red team :
+Le trousseau contient très probablement des informations sensibles qui, s'il est accédé sans générer de prompt, pourraient aider à faire avancer un exercice de red team :
 
 {% content-ref url="macos-keychain.md" %}
 [macos-keychain.md](macos-keychain.md)
@@ -193,7 +193,7 @@ Le trousseau contient très probablement des informations sensibles qui, s'il es
 
 ## Services externes
 
-Le Red Teaming sur MacOS est différent d'un Red Teaming régulier sur Windows car généralement **MacOS est intégré à plusieurs plateformes externes directement**. Une configuration courante de MacOS est d'accéder à l'ordinateur en utilisant des **identifiants synchronisés OneLogin, et d'accéder à plusieurs services externes** (comme github, aws...) via OneLogin :
+Le Red Teaming sur MacOS est différent du Red Teaming régulier sur Windows car généralement **MacOS est intégré à plusieurs plateformes externes directement**. Une configuration courante de MacOS consiste à accéder à l'ordinateur en utilisant des **identifiants synchronisés OneLogin, et à accéder à plusieurs services externes** (comme github, aws...) via OneLogin :
 
 ![](<../../.gitbook/assets/image (563).png>)
 
@@ -201,9 +201,9 @@ Le Red Teaming sur MacOS est différent d'un Red Teaming régulier sur Windows c
 
 ### Safari
 
-Lorsqu'un fichier est téléchargé dans Safari, s'il s'agit d'un fichier "sûr", il sera **automatiquement ouvert**. Par exemple, si vous **téléchargez un fichier zip**, il sera automatiquement décompressé :
+Lorsqu'un fichier est téléchargé dans Safari, s'il s'agit d'un fichier "sûr", il sera **automatiquement ouvert**. Ainsi, par exemple, si vous **téléchargez un fichier zip**, il sera automatiquement décompressé :
 
-<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (12).png" alt=""><figcaption></figcaption></figure>
 
 ## Références
 
