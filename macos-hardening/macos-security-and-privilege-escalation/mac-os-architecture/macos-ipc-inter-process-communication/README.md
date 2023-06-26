@@ -1,4 +1,4 @@
-## IPC Mach - Communication inter-processus
+# IPC Mach - Communication inter-processus
 
 Mach utilise des **tâches** comme **unité la plus petite** pour partager des ressources, et chaque tâche peut contenir **plusieurs threads**. Ces **tâches et threads sont mappés 1:1 sur les processus et threads POSIX**.
 
