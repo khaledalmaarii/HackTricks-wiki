@@ -1,4 +1,4 @@
-## Injection d'applications .Net sur macOS
+## Injection d'applications .NET sur macOS
 
 <details>
 
@@ -21,7 +21,7 @@ Il crée 2 noms de tuyaux par processus .Net dans [dbgtransportsession.cpp#L127]
 
 Ainsi, si vous allez dans le répertoire **`$TMPDIR`** de l'utilisateur, vous pourrez trouver des **fifos de débogage** que vous pourriez utiliser pour déboguer des applications .Net :
 
-<figure><img src="../../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
 
 La fonction [**DbgTransportSession::TransportWorker**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L1259) gérera la communication à partir d'un débogueur.
 
@@ -173,7 +173,7 @@ Ensuite, afin de déclencher l'exécution, il serait nécessaire de connaître u
 
 Dans les versions x64, cela est simple en utilisant la technique de **recherche de signature** similaire à celle de mimikatz pour rechercher dans **`libcorclr.dll`** une référence au symbole **`_hlpDynamicFuncTable`**, que nous pouvons déréférencer :
 
-<figure><img src="../../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
 
 Il ne reste plus qu'à trouver une adresse à partir de laquelle commencer notre recherche de signature. Pour ce faire, nous exploitons une autre fonction de débogage exposée, **`MT_GetDCB`**. Cela renvoie un certain nombre d'informations utiles sur le processus cible, mais dans notre cas, nous sommes intéressés par un champ renvoyé contenant l'**adresse d'une fonction d'aide**, **`m_helperRemoteStartAddr`**. En utilisant cette adresse, nous savons exactement **où `libcorclr.dll` est situé** dans la mémoire du processus cible et nous pouvons commencer notre recherche de la TFD.
 
@@ -184,15 +184,3 @@ Le code POC complet utilisé pour l'injection dans PowerShell peut être trouvé
 ## Références
 
 * Cette technique a été prise sur [https://blog.xpnsec.com/macos-injection-via-third-party-frameworks/](https://blog.xpnsec.com/macos-injection-via-third-party-frameworks/)
-
-<details>
-
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
-
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
-
-</details>
