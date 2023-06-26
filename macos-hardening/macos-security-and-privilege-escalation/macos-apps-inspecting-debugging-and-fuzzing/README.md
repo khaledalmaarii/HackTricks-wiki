@@ -72,7 +72,7 @@ ARCH=x86_64 jtool2 --sig /System/Applications/Automator.app/Contents/MacOS/Autom
 ```
 ### Codesign
 
-Codesign est un outil de ligne de commande fourni avec Xcode qui permet de signer numériquement les fichiers d'application macOS. La signature numérique permet de garantir l'authenticité et l'intégrité des fichiers d'application. Les développeurs peuvent utiliser codesign pour signer leurs applications avant de les distribuer aux utilisateurs finaux. Les administrateurs système peuvent également utiliser codesign pour vérifier l'authenticité des applications installées sur un système macOS.
+Codesign est un outil de ligne de commande fourni avec Xcode qui permet de signer numériquement les fichiers exécutables et les bibliothèques partagées. La signature numérique permet de garantir l'authenticité et l'intégrité du fichier signé. Les développeurs peuvent utiliser codesign pour signer leurs applications macOS avant de les distribuer aux utilisateurs finaux. Les administrateurs système peuvent également utiliser codesign pour vérifier l'authenticité des applications installées sur un système macOS.
 ```bash
 # Get signer
 codesign -vv -d /bin/ls 2>&1 | grep -E "Authority|TeamIdentifier"
@@ -104,13 +104,31 @@ Il sera monté dans `/Volumes`
 
 ### Objective-C
 
+#### Métadonnées
+
+{% hint style="danger" %}
+Notez que les programmes écrits en Objective-C **conservent** leurs déclarations de classe **lorsqu'ils** sont compilés en [binaires Mach-O](../macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md). Ces déclarations de classe **incluent** le nom et le type de :
+{% endhint %}
+
+* La classe
+* Les méthodes de classe
+* Les variables d'instance de classe
+
+Vous pouvez obtenir ces informations en utilisant [**class-dump**](https://github.com/nygard/class-dump) :
+```bash
+class-dump Kindle.app
+```
+Notez que ces noms peuvent être obscurcis pour rendre la rétro-ingénierie du binaire plus difficile.
+
+#### Appel de fonction
+
 Lorsqu'une fonction est appelée dans un binaire qui utilise Objective-C, le code compilé, au lieu d'appeler cette fonction, appellera **`objc_msgSend`**. Qui appellera la fonction finale :
 
 ![](<../../../.gitbook/assets/image (560).png>)
 
 Les paramètres que cette fonction attend sont :
 
-* Le premier paramètre (**self**) est "un pointeur qui pointe vers l'**instance de la classe qui doit recevoir le message**". Ou plus simplement, c'est l'objet sur lequel la méthode est invoquée. Si la méthode est une méthode de classe, il s'agira d'une instance de l'objet de classe (dans son ensemble), tandis que pour une méthode d'instance, self pointera vers une instance instanciée de la classe en tant qu'objet.
+* Le premier paramètre (**self**) est "un pointeur qui pointe vers l'**instance de la classe qui doit recevoir le message**". Ou plus simplement, c'est l'objet sur lequel la méthode est invoquée. Si la méthode est une méthode de classe, il s'agira d'une instance de l'objet de la classe (dans son ensemble), tandis que pour une méthode d'instance, self pointera vers une instance instanciée de la classe en tant qu'objet.
 * Le deuxième paramètre, (**op**), est "le sélecteur de la méthode qui gère le message". Encore une fois, plus simplement, il s'agit simplement du **nom de la méthode**.
 * Les paramètres restants sont toutes les **valeurs requises par la méthode** (op).
 
@@ -124,10 +142,28 @@ Les paramètres que cette fonction attend sont :
 | **6ème argument**  | **r9**                                                          | **4ème argument de la méthode**                         |
 | **7ème+ argument** | <p><strong>rsp+</strong><br><strong>(sur la pile)</strong></p> | **5ème+ argument de la méthode**                        |
 
+### Swift
+
+Avec les binaires Swift, étant donné qu'il y a une compatibilité Objective-C, il est parfois possible d'extraire des déclarations à l'aide de [class-dump](https://github.com/nygard/class-dump/), mais pas toujours.
+
+Avec les lignes de commande **`jtool -l`** ou **`otool -l`**, il est possible de trouver plusieurs sections qui commencent par le préfixe **`__swift5`** :
+```bash
+jtool2 -l /Applications/Stocks.app/Contents/MacOS/Stocks
+LC 00: LC_SEGMENT_64              Mem: 0x000000000-0x100000000    __PAGEZERO
+LC 01: LC_SEGMENT_64              Mem: 0x100000000-0x100028000    __TEXT
+[...]
+Mem: 0x100026630-0x100026d54        __TEXT.__swift5_typeref
+Mem: 0x100026d60-0x100027061        __TEXT.__swift5_reflstr
+Mem: 0x100027064-0x1000274cc        __TEXT.__swift5_fieldmd
+Mem: 0x1000274cc-0x100027608        __TEXT.__swift5_capture
+[...]
+```
+Vous pouvez trouver plus d'informations sur les [**informations stockées dans ces sections dans ce billet de blog**](https://knight.sc/reverse%20engineering/2019/07/17/swift-metadata.html).
+
 ### Binaires compressés
 
-* Vérifier l'entropie élevée
-* Vérifier les chaînes (s'il n'y a presque aucune chaîne compréhensible, compressée)
+* Vérifiez l'entropie élevée
+* Vérifiez les chaînes (s'il n'y a presque aucune chaîne compréhensible, compressée)
 * Le packer UPX pour MacOS génère une section appelée "\_\_XHDR"
 
 ## Analyse dynamique
@@ -137,14 +173,14 @@ Notez que pour déboguer des binaires, **SIP doit être désactivé** (`csrutil 
 {% endhint %}
 
 {% hint style="warning" %}
-Notez que pour **instrumenter les binaires système**, (tels que `cloudconfigurationd`) sur macOS, **SIP doit être désactivé** (la simple suppression de la signature ne fonctionnera pas).
+Notez que pour **instrumenter des binaires système**, (tels que `cloudconfigurationd`) sur macOS, **SIP doit être désactivé** (la suppression de la signature ne fonctionnera pas).
 {% endhint %}
 
 ### Journaux unifiés
 
 MacOS génère de nombreux journaux qui peuvent être très utiles lors de l'exécution d'une application pour comprendre **ce qu'elle fait**.
 
-De plus, il y a des journaux qui contiendront la balise `<private>` pour **masquer** certaines informations **identifiables** de l'utilisateur ou de l'ordinateur. Cependant, il est possible d'**installer un certificat pour divulguer ces informations**. Suivez les explications à partir de [**ici**](https://superuser.com/questions/1532031/how-to-show-private-data-in-macos-unified-log).
+De plus, il existe des journaux qui contiendront la balise `<private>` pour **masquer** certaines informations **identifiables** de l'utilisateur ou de l'ordinateur. Cependant, il est possible d'**installer un certificat pour divulguer ces informations**. Suivez les explications à partir de [**ici**](https://superuser.com/questions/1532031/how-to-show-private-data-in-macos-unified-log).
 
 ### Hopper
 
@@ -154,11 +190,11 @@ Dans le panneau de gauche de Hopper, il est possible de voir les symboles (**Lab
 
 #### Panneau central
 
-Dans le panneau central, vous pouvez voir le **code désassemblé**. Et vous pouvez le voir sous forme de désassemblage **brut**, sous forme de **graphique**, sous forme de **décompilé** et sous forme **binaire** en cliquant sur l'icône respective :
+Dans le panneau central, vous pouvez voir le **code désassemblé**. Et vous pouvez le voir sous forme de désassemblage **brut**, sous forme de **graphique**, de **décompilé** et de **binaire** en cliquant sur l'icône respective :
 
 <figure><img src="../../../.gitbook/assets/image (2) (6).png" alt=""><figcaption></figcaption></figure>
 
-En cliquant avec le bouton droit de la souris sur un objet de code, vous pouvez voir les **références à/depuis cet objet** ou même changer son nom (cela ne fonctionne pas dans le pseudocode décompilé) :
+En cliquant avec le bouton droit sur un objet de code, vous pouvez voir les **références vers/depuis cet objet** ou même changer son nom (cela ne fonctionne pas dans le pseudocode décompilé) :
 
 <figure><img src="../../../.gitbook/assets/image (1) (1) (2).png" alt=""><figcaption></figcaption></figure>
 
@@ -167,6 +203,8 @@ De plus, dans le **milieu en bas, vous pouvez écrire des commandes python**.
 #### Panneau de droite
 
 Dans le panneau de droite, vous pouvez voir des informations intéressantes telles que l'**historique de navigation** (pour savoir comment vous êtes arrivé à la situation actuelle), le **graphique d'appel** où vous pouvez voir toutes les **fonctions qui appellent cette fonction** et toutes les fonctions que **cette fonction appelle**, et les informations sur les **variables locales**.
+
+### dtruss
 ```bash
 dtruss -c ls #Get syscalls of ls
 dtruss -c -p 1000 #get syscalls of PID 1000
@@ -186,12 +224,12 @@ DTrace utilise la fonction **`dtrace_probe_create`** pour créer une sonde pour 
 Les sondes disponibles de dtrace peuvent être obtenues avec:
 ```bash
 dtrace -l | head
-   ID   PROVIDER            MODULE                          FUNCTION NAME
-    1     dtrace                                                     BEGIN
-    2     dtrace                                                     END
-    3     dtrace                                                     ERROR
-   43    profile                                                     profile-97
-   44    profile                                                     profile-199
+ID   PROVIDER            MODULE                          FUNCTION NAME
+1     dtrace                                                     BEGIN
+2     dtrace                                                     END
+3     dtrace                                                     ERROR
+43    profile                                                     profile-97
+44    profile                                                     profile-199
 ```
 Le nom de la sonde se compose de quatre parties : le fournisseur, le module, la fonction et le nom (`fbt:mach_kernel:ptrace:entry`). Si vous ne spécifiez pas une partie du nom, Dtrace l'appliquera comme un joker.
 
@@ -216,17 +254,17 @@ syscall:::entry
 }
 
 #Log every syscall of a PID
-sudo dtrace -s script.d 1234 
+sudo dtrace -s script.d 1234
 ```
 
 ```bash
 syscall::open:entry
 {
-    printf("%s(%s)", probefunc, copyinstr(arg0));
+printf("%s(%s)", probefunc, copyinstr(arg0));
 }
 syscall::close:entry
 {
-        printf("%s(%d)\n", probefunc, arg0);
+printf("%s(%d)\n", probefunc, arg0);
 }
 
 #Log files opened and closed by a process
@@ -236,11 +274,11 @@ sudo dtrace -s b.d -c "cat /etc/hosts"
 ```bash
 syscall:::entry
 {
-        ;
+;
 }
 syscall:::return
 {
-        printf("=%d\n", arg1);
+printf("=%d\n", arg1);
 }
 
 #Log sys calls with values
@@ -264,11 +302,15 @@ fs_usage -w -f network curl #This tracks network actions
 ### TaskExplorer
 
 [**Taskexplorer**](https://objective-see.com/products/taskexplorer.html) est utile pour voir les **bibliothèques** utilisées par un binaire, les **fichiers** qu'il utilise et les **connexions réseau**.\
-Il vérifie également les processus binaires par rapport à **virustotal** et affiche des informations sur le binaire.
+Il vérifie également les processus binaires contre **virustotal** et affiche des informations sur le binaire.
+
+## PT\_DENY\_ATTACH <a href="#page-title" id="page-title"></a>
+
+Dans [**cet article de blog**](https://knight.sc/debugging/2019/06/03/debugging-apple-binaries-that-use-pt-deny-attach.html), vous pouvez trouver un exemple sur la façon de **déboguer un démon en cours d'exécution** qui a utilisé **`PT_DENY_ATTACH`** pour empêcher le débogage même si SIP était désactivé.
 
 ### lldb
 
-**lldb** est l'outil de **débogage** binaire de **macOS** de facto.
+**lldb** est l'outil de facto pour le **débogage** de binaire **macOS**.
 ```bash
 lldb ./malware.bin
 lldb -p 1122
@@ -313,21 +355,21 @@ Lors de l'appel de la fonction **`objc_sendMsg`**, le registre **rsi** contient 
 * En jouant avec les valeurs de **`hw.logicalcpu`** et **`hw.physicalcpu`**, certains malwares essaient de détecter s'il s'agit d'une VM.
 * Certains malwares peuvent également **détecter** si la machine est basée sur VMware en fonction de l'adresse MAC (00:50:56).
 * Il est également possible de savoir si un processus est en cours de débogage avec un code simple tel que :
-  * `if(P_TRACED == (info.kp_proc.p_flag & P_TRACED)){ //processus en cours de débogage }`
+* `if(P_TRACED == (info.kp_proc.p_flag & P_TRACED)){ //processus en cours de débogage }`
 * Il peut également invoquer l'appel système **`ptrace`** avec le drapeau **`PT_DENY_ATTACH`**. Cela **empêche** un débogueur de s'attacher et de tracer.
-  * Vous pouvez vérifier si la fonction **`sysctl`** ou **`ptrace`** est **importée** (mais le malware pourrait l'importer dynamiquement)
-  * Comme indiqué dans cet article, "[Defeating Anti-Debug Techniques: macOS ptrace variants](https://alexomara.com/blog/defeating-anti-debug-techniques-macos-ptrace-variants/)":\
-    "_Le message Process # exited with **status = 45 (0x0000002d)** est généralement un signe révélateur que la cible de débogage utilise **PT\_DENY\_ATTACH**_"
+* Vous pouvez vérifier si la fonction **`sysctl`** ou **`ptrace`** est **importée** (mais le malware pourrait l'importer dynamiquement)
+* Comme indiqué dans cet article, "[Defeating Anti-Debug Techniques: macOS ptrace variants](https://alexomara.com/blog/defeating-anti-debug-techniques-macos-ptrace-variants/)":\
+"_Le message Process # exited with **status = 45 (0x0000002d)** est généralement un signe révélateur que la cible de débogage utilise **PT\_DENY\_ATTACH**_"
 
 ## Fuzzing
 
 ### [ReportCrash](https://ss64.com/osx/reportcrash.html)
 
-ReportCrash **analyse les processus en cours de plantage et enregistre un rapport de plantage sur le disque**. Un rapport de plantage contient des informations qui peuvent aider un développeur à diagnostiquer la cause d'un plantage.\
-Pour les applications et autres processus **exécutés dans le contexte de lancement par utilisateur**, ReportCrash s'exécute en tant que LaunchAgent et enregistre les rapports de plantage dans `~/Library/Logs/DiagnosticReports/` de l'utilisateur.\
-Pour les démons, les autres processus **exécutés dans le contexte de lancement système** et les autres processus privilégiés, ReportCrash s'exécute en tant que LaunchDaemon et enregistre les rapports de plantage dans `/Library/Logs/DiagnosticReports` du système.
+ReportCrash **analyse les processus en cours de crash et enregistre un rapport de crash sur le disque**. Un rapport de crash contient des informations qui peuvent aider un développeur à diagnostiquer la cause d'un crash.\
+Pour les applications et autres processus **exécutés dans le contexte de lancement par utilisateur**, ReportCrash s'exécute en tant que LaunchAgent et enregistre les rapports de crash dans `~/Library/Logs/DiagnosticReports/` de l'utilisateur.\
+Pour les démons, les autres processus **exécutés dans le contexte de lancement système** et les autres processus privilégiés, ReportCrash s'exécute en tant que LaunchDaemon et enregistre les rapports de crash dans `/Library/Logs/DiagnosticReports` du système.
 
-Si vous êtes préoccupé par le fait que les rapports de plantage soient envoyés à Apple, vous pouvez les désactiver. Sinon, les rapports de plantage peuvent être utiles pour **déterminer comment un serveur a planté**.
+Si vous êtes préoccupé par le fait que les rapports de crash soient envoyés à Apple, vous pouvez les désactiver. Sinon, les rapports de crash peuvent être utiles pour **déterminer comment un serveur a planté**.
 ```bash
 #To disable crash reporting:
 launchctl unload -w /System/Library/LaunchAgents/com.apple.ReportCrash.plist
@@ -395,7 +437,7 @@ Fonctionne pour les outils CLI
 
 Il fonctionne "**juste"** avec les outils GUI macOS. Notez que certaines applications macOS ont des exigences spécifiques telles que des noms de fichiers uniques, la bonne extension, la nécessité de lire les fichiers à partir du sandbox (`~/Library/Containers/com.apple.Safari/Data`)...
 
-Quelques exemples : 
+Quelques exemples: 
 
 {% code overflow="wrap" %}
 ```bash
@@ -421,8 +463,6 @@ litefuzz -lk -c "smbutil view smb://localhost:4455" -a tcp://localhost:4455 -i i
 # screensharingd (using pcap capture)
 litefuzz -s -a tcp://localhost:5900 -i input/screenshared-session --reportcrash screensharingd -p -n 100000
 ```
-{% endcode %}
-
 ### Plus d'informations sur le fuzzing MacOS
 
 * [https://www.youtube.com/watch?v=T5xfL9tEg44](https://www.youtube.com/watch?v=T5xfL9tEg44)

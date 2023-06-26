@@ -1,10 +1,10 @@
-# Extensions système macOS
+## Extensions système macOS
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -14,7 +14,7 @@
 
 ## Extensions système / Framework de sécurité des points de terminaison
 
-Contrairement aux extensions de noyau, les **extensions système s'exécutent dans l'espace utilisateur** plutôt que dans l'espace du noyau, réduisant ainsi le risque de plantage du système en raison d'un dysfonctionnement de l'extension.
+Contrairement aux extensions de noyau, les **extensions système s'exécutent dans l'espace utilisateur** plutôt que dans l'espace noyau, réduisant ainsi le risque de plantage du système en raison d'un dysfonctionnement de l'extension.
 
 <figure><img src="../../../.gitbook/assets/image (1) (3).png" alt=""><figcaption></figcaption></figure>
 
@@ -22,7 +22,7 @@ Il existe trois types d'extensions système : les extensions **DriverKit**, les 
 
 ### **Extensions DriverKit**
 
-DriverKit est un remplacement pour les extensions de noyau qui **fournissent une assistance matérielle**. Il permet aux pilotes de périphériques (comme les pilotes USB, série, NIC et HID) de s'exécuter dans l'espace utilisateur plutôt que dans l'espace du noyau. Le framework DriverKit inclut des **versions d'espace utilisateur de certaines classes I/O Kit**, et le noyau transfère les événements normaux de l'I/O Kit vers l'espace utilisateur, offrant ainsi un environnement plus sûr pour l'exécution de ces pilotes.
+DriverKit est un remplacement pour les extensions de noyau qui **fournissent une assistance matérielle**. Il permet aux pilotes de périphériques (comme les pilotes USB, série, NIC et HID) de s'exécuter dans l'espace utilisateur plutôt que dans l'espace noyau. Le framework DriverKit comprend des **versions d'espace utilisateur de certaines classes I/O Kit**, et le noyau transfère les événements normaux de l'I/O Kit vers l'espace utilisateur, offrant ainsi un environnement plus sûr pour l'exécution de ces pilotes.
 
 ### **Extensions Network**
 
@@ -43,13 +43,13 @@ Ce framework fournit une **collection d'API pour surveiller et contrôler l'acti
 Le cœur de ce framework est implémenté dans le noyau, en tant qu'extension de noyau (KEXT) située à **`/System/Library/Extensions/EndpointSecurity.kext`**. Cette KEXT est composée de plusieurs composants clés :
 
 * **EndpointSecurityDriver** : cela agit comme le "point d'entrée" pour l'extension de noyau. C'est le principal point d'interaction entre le système d'exploitation et le framework Endpoint Security.
-* **EndpointSecurityEventManager** : ce composant est responsable de la mise en œuvre des hooks du noyau. Les hooks du noyau permettent au framework de surveiller les événements du système en interceptant les appels système.
+* **EndpointSecurityEventManager** : ce composant est responsable de la mise en œuvre des hooks de noyau. Les hooks de noyau permettent au framework de surveiller les événements du système en interceptant les appels système.
 * **EndpointSecurityClientManager** : cela gère la communication avec les clients de l'espace utilisateur, en suivant les clients connectés et qui ont besoin de recevoir des notifications d'événements.
 * **EndpointSecurityMessageManager** : cela envoie des messages et des notifications d'événements aux clients de l'espace utilisateur.
 
 Les événements que le framework Endpoint Security peut surveiller sont catégorisés en :
 
-* Événements de fichiers
+* Événements de fichier
 * Événements de processus
 * Événements de socket
 * Événements du noyau (tels que le chargement/déchargement d'une extension de noyau ou l'ouverture d'un périphérique I/O Kit)
@@ -63,9 +63,9 @@ La **communication de l'espace utilisateur** avec le framework Endpoint Security
 * **EndpointSecurityDriverClient** : cela nécessite l'attribution `com.apple.private.endpoint-security.manager`, qui n'est détenue que par le processus système `endpointsecurityd`.
 * **EndpointSecurityExternalClient** : cela nécessite l'attribution `com.apple.developer.endpoint-security.client`. Cela serait généralement utilisé par des logiciels de sécurité tiers qui ont besoin d'interagir avec le framework Endpoint Security.
 
-Les extensions système Endpoint Security : **`libEndpointSecurity.dylib`** est la bibliothèque C que les extensions système utilisent pour communiquer avec le noyau. Cette bibliothèque utilise l'I/O Kit (`IOKit`) pour communiquer avec la KEXT Endpoint Security.
+Les extensions de sécurité des points de terminaison : **`libEndpointSecurity.dylib`** est la bibliothèque C que les extensions système utilisent pour communiquer avec le noyau. Cette bibliothèque utilise l'I/O Kit (`IOKit`) pour communiquer avec la KEXT Endpoint Security.
 
-**`endpointsecurityd`** est un démon système clé impliqué dans la gestion et le lancement des extensions système de sécurité des points de terminaison, en particulier pendant le processus de démarrage initial. Seules les extensions système marquées avec **`NSEndpointSecurityEarlyBoot`** dans leur fichier `Info.plist` reçoivent ce traitement de démarrage initial.
+**`endpointsecurityd`** est un démon système clé impliqué dans la gestion et le lancement des extensions système de sécurité des points de terminaison, en particulier pendant le processus de démarrage précoce. Seules les extensions système marquées avec **`NSEndpointSecurityEarlyBoot`** dans leur fichier `Info.plist` reçoivent ce traitement de démarrage précoce.
 
 Un autre démon système, **`sysextd`**, **valide les extensions système** et les déplace dans les emplacements système appropriés. Il demande ensuite au démon pertinent de charger l'extension. Le **`SystemExtensions.framework`** est responsable de l'activation et de la désactivation des extensions système.
 ## Contournement d'ESF
@@ -85,6 +85,7 @@ Finalement, cela a été corrigé en donnant la nouvelle permission **`kTCCServi
 ## Références
 
 * [**OBTS v3.0: "Endpoint Security & Insecurity" - Scott Knight**](https://www.youtube.com/watch?v=jaVkpM1UqOs)
+* [**https://knight.sc/reverse%20engineering/2019/08/24/system-extension-internals.html**](https://knight.sc/reverse%20engineering/2019/08/24/system-extension-internals.html)
 
 <details>
 
