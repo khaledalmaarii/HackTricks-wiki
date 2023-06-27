@@ -1,6 +1,5 @@
 ---
-description: >-
-Bienvenue sur le wiki où vous trouverez chaque astuce/technique/piratage que j'ai appris des CTF, des applications de la vie réelle, de la lecture de recherches et de l'actualité.
+description: Bienvenue sur le wiki où vous trouverez chaque astuce/technique/piratage que j'ai appris des CTF, des applications de la vie réelle, de la lecture de recherches et de l'actualité.
 ---
 
 # HackTricks
