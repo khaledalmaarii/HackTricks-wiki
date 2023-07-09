@@ -1,23 +1,18 @@
----
-description: >-
-Bienvenue sur le wiki où vous trouverez chaque astuce/technique de piratage/quoi que ce soit que j'ai appris des CTF, des applications de la vie réelle, de la lecture de recherches et de l'actualité.
----
-
 # HackTricks
 
 <figure><img src=".gitbook/assets/hack tricks gif.gif" alt="" width="563"><figcaption></figcaption></figure>
 
-_Logos et design de Hacktricks par_ [_@ppiernacho_](https://www.instagram.com/ppieranacho/)_._
+_Logos et motion design de Hacktricks par_ [_@ppiernacho_](https://www.instagram.com/ppieranacho/)_._
 
 {% hint style="info" %}
-**Bienvenue sur le wiki où vous trouverez chaque astuce/technique de piratage/quoi que ce soit que j'ai appris des CTF, des applications de la vie réelle, de la lecture de recherches et de l'actualité.**
+**Bienvenue sur le wiki où vous trouverez tous les trucs/techniques de piratage que j'ai appris grâce aux CTF, aux applications réelles, à la lecture de recherches et de nouvelles.**
 {% endhint %}
 
 Ici, vous pouvez trouver une petite **introduction** :
 
 ## [**Méthodologie de pentest**](generic-methodologies-and-resources/pentesting-methodology.md)
 
-Ici, vous trouverez le **flux typique** que **vous devriez suivre lors d'un pentest** sur une ou plusieurs **machines**.
+Ici, vous trouverez le **flux typique** que **vous devez suivre lors d'un pentest** sur une ou plusieurs **machines**.
 
 **Cliquez sur le titre pour commencer !**
 
@@ -37,7 +32,7 @@ Vous pouvez consulter leur **blog** sur [**https://blog.stmcyber.com**](https://
 
 <figure><img src=".gitbook/assets/image (1) (3) (3).png" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com) est l'événement le plus important en matière de cybersécurité en **Espagne** et l'un des plus importants en **Europe**. Avec pour mission de promouvoir les connaissances techniques, ce congrès est un point de rencontre bouillonnant pour les professionnels de la technologie et de la cybersécurité dans toutes les disciplines.
+[**RootedCON**](https://www.rootedcon.com) est l'événement le plus important en matière de cybersécurité en **Espagne** et l'un des plus importants en **Europe**. Avec **pour mission de promouvoir les connaissances techniques**, ce congrès est un point de rencontre bouillonnant pour les professionnels de la technologie et de la cybersécurité dans toutes les disciplines.
 
 {% embed url="https://www.rootedcon.com/" %}
 
@@ -47,7 +42,7 @@ Vous pouvez consulter leur **blog** sur [**https://blog.stmcyber.com**](https://
 
 **Intigriti** est la plateforme de piratage éthique et de **bug bounty n°1 en Europe**.
 
-Astuce de bug bounty : **inscrivez-vous** à **Intigriti**, une plateforme premium de **bug bounty créée par des pirates, pour des pirates** ! Rejoignez-nous sur [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) dès aujourd'hui et commencez à gagner des primes allant jusqu'à **100 000 $** !
+**Astuce de bug bounty** : **inscrivez-vous** à **Intigriti**, une plateforme premium de **bug bounty créée par des pirates, pour des pirates** ! Rejoignez-nous sur [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) dès aujourd'hui et commencez à gagner des primes allant jusqu'à **100 000 $** !
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
@@ -56,7 +51,7 @@ Astuce de bug bounty : **inscrivez-vous** à **Intigriti**, une plateforme premi
 <figure><img src=".gitbook/assets/image (9) (1) (2).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour créer et automatiser facilement des flux de travail alimentés par les outils communautaires les plus avancés au monde.
+Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour créer et **automatiser facilement des flux de travail** alimentés par les outils communautaires les plus avancés au monde.
 
 Accédez dès aujourd'hui :
 
@@ -82,9 +77,9 @@ Accédez dès aujourd'hui :
 
 [**WebSec**](https://websec.nl) est une entreprise de cybersécurité professionnelle basée à **Amsterdam** qui aide à **protéger** les entreprises **du monde entier** contre les dernières menaces en matière de cybersécurité en fournissant des services de **sécurité offensive** avec une approche **moderne**.
 
-WebSec est une entreprise de sécurité **tout-en-un**, ce qui signifie qu'ils font tout : Pentesting, audits de sécurité, formations à la sensibilisation, campagnes de phishing, examen de code, développement d'exploits, externalisation d'experts en sécurité et bien plus encore.
+WebSec est une **entreprise de sécurité tout-en-un**, ce qui signifie qu'ils font tout : Pentesting, audits de sécurité, formations à la sensibilisation, campagnes de phishing, examen de code, développement d'exploits, externalisation d'experts en sécurité et bien plus encore.
 
-Une autre chose intéressante à propos de WebSec est que, contrairement à la moyenne de l'industrie, WebSec est **très confiant dans ses compétences**, à tel point qu'ils **garantissent les meilleurs résultats de qualité**, comme indiqué sur leur site web "**Si nous ne pouvons pas le pirater, vous ne le payez pas !**". Pour plus d'informations, consultez leur [**site web**](https://websec.nl/en/) et leur [**blog**](https://websec.nl/blog/) !
+Une autre chose intéressante à propos de WebSec est que, contrairement à la moyenne de l'industrie, WebSec est **très confiant dans ses compétences**, à tel point qu'ils **garantissent les meilleurs résultats de qualité**, il est indiqué sur leur site web "**Si nous ne pouvons pas le pirater, vous ne le payez pas !**". Pour plus d'informations, consultez leur [**site web**](https://websec.nl/en/) et leur [**blog**](https://websec.nl/blog/) !
 
 En plus de ce qui précède, WebSec est également un **supporter engagé de HackTricks**.
 
