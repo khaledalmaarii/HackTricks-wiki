@@ -14,12 +14,12 @@
 
 <figure><img src="../.gitbook/assets/image (7) (2).png" alt=""><figcaption></figcaption></figure>
 
-<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (3).png" alt=""><figcaption></figcaption></figure>
 
 **HackenProof est la plateforme des primes de bugs cryptographiques.**
 
 **Obtenez des récompenses sans délai**\
-Les primes HackenProof sont lancées uniquement lorsque les clients déposent le budget de récompense. Vous recevrez la récompense après la vérification du bug.
+Les primes HackenProof ne sont lancées que lorsque les clients déposent le budget de récompense. Vous recevrez la récompense après la vérification du bug.
 
 **Acquérez de l'expérience en pentest web3**\
 Les protocoles blockchain et les contrats intelligents sont le nouvel Internet ! Maîtrisez la sécurité web3 dès ses débuts.
@@ -40,7 +40,7 @@ Gagnez des points de réputation avec chaque bug vérifié et conquérez le somm
 * [ ] Vérifiez les [**variables d'environnement**](privilege-escalation/#env-info), des détails sensibles ?
 * [ ] Recherchez des [**exploits du noyau**](privilege-escalation/#kernel-exploits) **en utilisant des scripts** (DirtyCow ?)
 * [ ] **Vérifiez** si la [**version de sudo est vulnérable**](privilege-escalation/#sudo-version)
-* [ ] [**Échec de la vérification de la signature Dmesg**](privilege-escalation/#dmesg-signature-verification-failed)
+* [ ] [**Échec de la vérification de la signature de Dmesg**](privilege-escalation/#dmesg-signature-verification-failed)
 * [ ] Plus d'énumération du système ([date, statistiques du système, informations sur le processeur, imprimantes](privilege-escalation/#more-system-enumeration))
 * [ ] [Énumérez davantage de défenses](privilege-escalation/#enumerate-possible-defenses)
 
@@ -113,7 +113,7 @@ Gagnez des points de réputation avec chaque bug vérifié et conquérez le somm
 
 * [ ] Pouvez-vous exécuter **n'importe quelle commande avec sudo** ? Pouvez-vous l'utiliser pour LIRE, ÉCRIRE ou EXÉCUTER quoi que ce soit en tant que root ? ([**GTFOBins**](https://gtfobins.github.io))
 * [ ] Y a-t-il un **binaire SUID exploitable** ? ([**GTFOBins**](https://gtfobins.github.io))
-* [ ] Les [**commandes sudo** sont-elles **limitées** par **le chemin d'accès** ? Pouvez-vous **contourner** les restrictions](privilege-escalation/#sudo-execution-bypassing-paths) ?
+* [ ] Les [**commandes sudo** sont-elles **limitées** par **le chemin d'accès** ? pouvez-vous **contourner** les restrictions](privilege-escalation/#sudo-execution-bypassing-paths) ?
 * [ ] [**Binaire Sudo/SUID sans chemin indiqué**](privilege-escalation/#sudo-command-suid-binary-without-command-path) ?
 * [ ] [**Binaire SUID avec chemin spécifié**](privilege-escalation/#suid-binary-with-command-path) ? Contournement
 * [ ] [**Vulnérabilité LD\_PRELOAD**](privilege-escalation/#ld\_preload)
@@ -146,7 +146,7 @@ Gagnez des points de réputation avec chaque bug vérifié et conquérez le somm
 * [ ] **Fichiers de profil** - Lire des données sensibles ? Écrire pour l'élévation des privilèges ?
 * [ ] **Fichiers passwd/shadow** - Lire des données sensibles ? Écrire pour l'élévation des privilèges ?
 * [ ] Vérifiez les **dossiers couramment intéressants** pour les données sensibles
-* [ ] **Emplacement étrange/Fichiers appartenant**, vous pouvez avoir accès ou modifier des fichiers exécutables
+* [ ] **Emplacement étrange/Fichiers possédés**, vous pouvez avoir accès à des fichiers exécutables ou les modifier
 * [ ] **Modifié** dans les dernières minutes
 * [ ] **Fichiers de base de données SQLite**
 * [ ] **Fichiers cachés**
@@ -163,22 +163,22 @@ Gagnez des points de réputation avec chaque bug vérifié et conquérez le somm
 * [ ] Pouvez-vous **modifier /etc/sysconfig/network-scripts/** ? Exploitation de Centos/Redhat
 * [ ] Pouvez-vous [**écrire dans les fichiers ini, int.d, systemd ou rc.d**](privilege-escalation/#init-init-d-systemd-and-rc-d) ?
 
-### [**Autres astuces**](privilege-escalation/#other-tricks)
+### [Autres astuces](privilege-escalation/#other-tricks)
 
-* [ ] Pouvez-vous **abuser de NFS pour escalader les privilèges**](privilege-escalation/#nfs-privilege-escalation) ?
+* [ ] Pouvez-vous **exploiter NFS pour escalader les privilèges**](privilege-escalation/#nfs-privilege-escalation) ?
 * [ ] Avez-vous besoin de **vous échapper d'un shell restrictif**](privilege-escalation/#escaping-from-restricted-shells) ?
 
-<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (3).png" alt=""><figcaption></figcaption></figure>
 
 **HackenProof est la plateforme des primes de bugs cryptographiques.**
 
 **Obtenez des récompenses sans délai**\
 Les primes HackenProof sont lancées uniquement lorsque les clients déposent le budget de récompense. Vous recevrez la récompense après la vérification du bogue.
 
-**Acquérez de l'expérience en pentesting web3**\
-Les protocoles blockchain et les contrats intelligents sont le nouvel Internet ! Maîtrisez la sécurité web3 à ses débuts.
+**Acquérez de l'expérience en pentest web3**\
+Les protocoles blockchain et les contrats intelligents sont le nouvel Internet ! Maîtrisez la sécurité web3 dès ses débuts.
 
-**Devenez la légende des hackers web3**\
+**Devenez une légende du hacking web3**\
 Gagnez des points de réputation avec chaque bogue vérifié et conquérez le sommet du classement hebdomadaire.
 
 [**Inscrivez-vous sur HackenProof**](https://hackenproof.com/register) et commencez à gagner grâce à vos hacks !

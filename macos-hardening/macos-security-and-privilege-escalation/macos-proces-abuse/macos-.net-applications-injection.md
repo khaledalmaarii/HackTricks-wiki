@@ -47,7 +47,7 @@ DWORD         m_dwMinorVersion;
 BYTE                    m_sMustBeZero[8];
 }
 ```
-Dans le cas d'une demande de nouvelle session, cette structure est remplie comme suit:
+Dans le cas d'une nouvelle demande de session, cette structure est remplie comme suit:
 ```c
 static const DWORD kCurrentMajorVersion = 2;
 static const DWORD kCurrentMinorVersion = 0;
@@ -169,13 +169,13 @@ La première chose à faire est d'identifier, par exemple, une région de mémoi
 vmmap -pages [pid]
 vmmap -pages 35829 | grep "rwx/rwx"
 ```
-Ensuite, pour déclencher l'exécution, il serait nécessaire de connaître un endroit où un pointeur de fonction est stocké pour le remplacer. Il est possible de remplacer un pointeur dans la **Table des fonctions dynamiques (TFD)**, utilisée par le runtime .NET Core pour fournir des fonctions d'aide à la compilation JIT. Une liste des pointeurs de fonction pris en charge peut être trouvée dans [`jithelpers.h`](https://github.com/dotnet/runtime/blob/6072e4d3a7a2a1493f514cdf4be75a3d56580e84/src/coreclr/src/inc/jithelpers.h).
+Ensuite, pour déclencher l'exécution, il serait nécessaire de connaître un endroit où un pointeur de fonction est stocké pour le remplacer. Il est possible de remplacer un pointeur dans la **Table dynamique des fonctions (DFT)**, utilisée par le runtime .NET Core pour fournir des fonctions d'aide à la compilation JIT. Une liste des pointeurs de fonction pris en charge peut être trouvée dans [`jithelpers.h`](https://github.com/dotnet/runtime/blob/6072e4d3a7a2a1493f514cdf4be75a3d56580e84/src/coreclr/src/inc/jithelpers.h).
 
 Dans les versions x64, cela est simple en utilisant la technique de **recherche de signature** similaire à mimikatz pour rechercher dans **`libcorclr.dll`** une référence au symbole **`_hlpDynamicFuncTable`**, que nous pouvons déréférencer :
 
-<figure><img src="../../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
 
-Il ne reste plus qu'à trouver une adresse à partir de laquelle commencer notre recherche de signature. Pour cela, nous exploitons une autre fonction de débogueur exposée, **`MT_GetDCB`**. Cela renvoie plusieurs informations utiles sur le processus cible, mais dans notre cas, nous nous intéressons à un champ renvoyant l'**adresse d'une fonction d'aide**, **`m_helperRemoteStartAddr`**. En utilisant cette adresse, nous savons exactement **où `libcorclr.dll` est situé** dans la mémoire du processus cible et nous pouvons commencer notre recherche de la TFD.
+Il ne reste plus qu'à trouver une adresse à partir de laquelle commencer notre recherche de signature. Pour cela, nous exploitons une autre fonction de débogueur exposée, **`MT_GetDCB`**. Cela renvoie plusieurs informations utiles sur le processus cible, mais dans notre cas, nous nous intéressons à un champ renvoyant l'**adresse d'une fonction d'aide**, **`m_helperRemoteStartAddr`**. En utilisant cette adresse, nous savons exactement **où `libcorclr.dll` est situé** dans la mémoire du processus cible et nous pouvons commencer notre recherche de la DFT.
 
 En connaissant cette adresse, il est possible de remplacer le pointeur de fonction par notre propre shellcode.
 

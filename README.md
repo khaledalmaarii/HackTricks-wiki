@@ -42,7 +42,7 @@ Vous pouvez consulter leur **blog** sur [**https://blog.stmcyber.com**](https://
 
 **Intigriti** est la plateforme de piratage éthique et de **bug bounty n°1 en Europe**.
 
-**Astuce de bug bounty** : **inscrivez-vous** à **Intigriti**, une plateforme premium de **bug bounty créée par des pirates, pour des pirates** ! Rejoignez-nous sur [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) dès aujourd'hui et commencez à gagner des primes allant jusqu'à **100 000 $** !
+**Astuce de bug bounty** : **inscrivez-vous** sur **Intigriti**, une plateforme premium de **bug bounty créée par des pirates, pour des pirates** ! Rejoignez-nous sur [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) dès aujourd'hui et commencez à gagner des primes allant jusqu'à **100 000 $** !
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
@@ -59,18 +59,18 @@ Accédez dès aujourd'hui :
 
 ### [HACKENPROOF](https://bit.ly/3xrrDrL)
 
-<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (1) (3).png" alt=""><figcaption></figcaption></figure>
 
-**HackenProof est la référence en matière de primes pour les bugs de cryptographie.**
+**HackenProof est la plateforme de tous les bug bounties cryptographiques.**
 
 **Obtenez une récompense sans délai**\
-Les primes HackenProof ne sont lancées que lorsque leurs clients déposent le budget de récompense. Vous recevrez la récompense après la vérification du bug.
+Les primes HackenProof ne sont lancées que lorsque leurs clients déposent le budget de récompense. Vous recevrez la récompense après la vérification du bogue.
 
 **Acquérez de l'expérience en pentest web3**\
 Les protocoles blockchain et les contrats intelligents sont le nouvel Internet ! Maîtrisez la sécurité web3 à ses débuts.
 
-**Devenez la légende du hacker web3**\
-Gagnez des points de réputation avec chaque bug vérifié et conquérez le sommet du classement hebdomadaire.
+**Devenez la légende du pirate web3**\
+Gagnez des points de réputation avec chaque bogue vérifié et conquérez le sommet du classement hebdomadaire.
 
 [**Inscrivez-vous sur HackenProof**](https://hackenproof.com/register) et commencez à gagner grâce à vos piratages !
 
@@ -84,7 +84,7 @@ Gagnez des points de réputation avec chaque bug vérifié et conquérez le somm
 
 [**WebSec**](https://websec.nl) est une entreprise de cybersécurité professionnelle basée à **Amsterdam** qui aide à **protéger** les entreprises **du monde entier** contre les dernières menaces en matière de cybersécurité en fournissant des services de **sécurité offensive** avec une approche **moderne**.
 
-WebSec est une **entreprise de sécurité tout-en-un**, ce qui signifie qu'ils font tout : Pentest, audits de **sécurité**, formations à la sensibilisation, campagnes de phishing, examen de code, développement d'exploits, externalisation d'experts en sécurité et bien plus encore.
+WebSec est une **entreprise de sécurité tout-en-un**, ce qui signifie qu'elle fait tout : Pentest, audits de **sécurité**, formations à la sensibilisation, campagnes de phishing, examen de code, développement d'exploits, externalisation d'experts en sécurité et bien plus encore.
 
 Une autre chose intéressante à propos de WebSec est que, contrairement à la moyenne de l'industrie, WebSec est **très confiant dans ses compétences**, à tel point qu'ils **garantissent les meilleurs résultats de qualité**, comme indiqué sur leur site web "**Si nous ne pouvons pas le pirater, vous ne le payez pas !**". Pour plus d'informations, consultez leur [**site web**](https://websec.nl/en/) et leur [**blog**](https://websec.nl/blog/) !
 
@@ -96,7 +96,7 @@ En plus de ce qui précède, WebSec est également un **supporter engagé de Hac
 
 <figure><img src=".gitbook/assets/image (1) (1) (2) (4) (1).png" alt=""><figcaption></figcaption></figure>
 
-[**DragonJAR est une entreprise de cybersécurité offensive de premier plan**](https://www.dragonjar.org/) **basée en Colombie**. DragonJAR propose [des services complets de cybersécurité offensive, tels que le **pentest**](https://www.dragonjar.org/servicios-de-seguridad-informatica) dans divers domaines et pratiquement **toute technologie**, des simulations d'attaque **Red Team**, des tests de sécurité **physique**, des tests de résistance, de l'ingénierie sociale, des audits de sécurité du **code source** et des formations en cybersécurité. De plus, ils organisent la **DragonJAR Security Conference**, [un congrès international de cybersécurité](https://www.dragonjarcon.org/) qui se tient depuis plus d'une décennie, devenant une vitrine pour les dernières recherches en matière de sécurité en espagnol et d'une grande pertinence dans la région.
+[**DragonJAR est une entreprise de cybersécurité offensive de premier plan**](https://www.dragonjar.org/) **basée en Colombie**. DragonJAR propose [des services complets de cybersécurité offensive, tels que le **pentest**](https://www.dragonjar.org/servicios-de-seguridad-informatica) dans divers domaines et pratiquement **toute technologie**, des simulations d'attaque **Red Team**, des tests de sécurité **physique**, des tests de résistance, de l'ingénierie sociale, une revue de sécurité du **code source** et une formation en cybersécurité. De plus, ils organisent la **DragonJAR Security Conference**, [un congrès international de cybersécurité](https://www.dragonjarcon.org/) qui se tient depuis plus d'une décennie, devenant une vitrine pour les dernières recherches en matière de sécurité en espagnol et d'une grande pertinence dans la région.
 
 [**DragonJAR es una empresa líder en ciberseguridad ofensiva**](https://www.dragonjar.org/) **ubicada en Colombia**, DragonJAR ofrece [servicios integrales de seguridad informática ofensiva, como **pentesting**](https://www.dragonjar.org/servicios-de-seguridad-informatica) en diversas áreas y prácticamente **cualquier tecnología**, simulaciones de ataque **Red Team**, pruebas de seguridad **física**, **pruebas de estrés**, ingeniería social, revisión de seguridad en **código fuente** y capacitación en seguridad informática. Asimismo, organiza la **DragonJAR Security Conference**, [un congreso internacional de seguridad informática](https://www.dragonjarcon.org/) que se ha realizado durante más de una década, convirtiéndose en el escaparate para las últimas investigaciones de seguridad en español y de gran relevancia en la región.
 ### [SYN CUBES](https://www.syncubes.com/)

