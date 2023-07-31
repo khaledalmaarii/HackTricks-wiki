@@ -14,7 +14,7 @@
 
 <figure><img src="../.gitbook/assets/image (7) (2).png" alt=""><figcaption></figcaption></figure>
 
-<figure><img src="../.gitbook/assets/image (1) (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 **HackenProof est la plateforme des primes de bugs cryptographiques.**
 
@@ -35,12 +35,12 @@ Gagnez des points de réputation avec chaque bug vérifié et conquérez le somm
 
 ### [Informations système](privilege-escalation/#system-information)
 
-* [ ] Obtenez les **informations sur le système d'exploitation**
+* [ ] Obtenez les informations sur le **système d'exploitation**
 * [ ] Vérifiez le [**PATH**](privilege-escalation/#path), un **dossier inscriptible** ?
 * [ ] Vérifiez les [**variables d'environnement**](privilege-escalation/#env-info), des détails sensibles ?
 * [ ] Recherchez des [**exploits du noyau**](privilege-escalation/#kernel-exploits) **en utilisant des scripts** (DirtyCow ?)
-* [ ] **Vérifiez** si la [**version de sudo est vulnérable**](privilege-escalation/#sudo-version)
-* [ ] [**Échec de la vérification de la signature de Dmesg**](privilege-escalation/#dmesg-signature-verification-failed)
+* [ ] **Vérifiez** si la version de [**sudo est vulnérable**](privilege-escalation/#sudo-version)
+* [ ] [**Échec de la vérification de la signature Dmesg**](privilege-escalation/#dmesg-signature-verification-failed)
 * [ ] Plus d'énumération du système ([date, statistiques du système, informations sur le processeur, imprimantes](privilege-escalation/#more-system-enumeration))
 * [ ] [Énumérez davantage de défenses](privilege-escalation/#enumerate-possible-defenses)
 
@@ -57,9 +57,9 @@ Gagnez des points de réputation avec chaque bug vérifié et conquérez le somm
 
 ### [Processus](privilege-escalation/#processes)
 
-* [ ] Un **logiciel inconnu est-il en cours d'exécution** ?
+* [ ] Un logiciel **inconnu est en cours d'exécution** ?
 * [ ] Un logiciel s'exécute-t-il avec **plus de privilèges qu'il ne devrait en avoir** ?
-* [ ] Recherchez des **exploits des processus en cours d'exécution** (en particulier la version en cours d'exécution).
+* [ ] Recherchez des **exploits des processus en cours d'exécution** (surtout la version en cours d'exécution).
 * [ ] Pouvez-vous **modifier le binaire** de n'importe quel processus en cours d'exécution ?
 * [ ] **Surveillez les processus** et vérifiez si un processus intéressant s'exécute fréquemment.
 * [ ] Pouvez-vous **lire** la **mémoire de certains processus** intéressants (où des mots de passe pourraient être enregistrés) ?
@@ -125,11 +125,11 @@ Gagnez des points de réputation avec chaque bug vérifié et conquérez le somm
 
 ### [Capacités](privilege-escalation/#capabilities)
 
-* [ ] Est-ce que n'importe quel binaire a une **capacité inattendue** ?
+* [ ] Certains binaires ont-ils des **capacités inattendues** ?
 
-### [ACLs](privilege-escalation/#acls)
+### [ACL](privilege-escalation/#acls)
 
-* [ ] Est-ce que n'importe quel fichier a une **ACL inattendue** ?
+* [ ] Certains fichiers ont-ils des **ACL inattendues** ?
 
 ### [Sessions shell ouvertes](privilege-escalation/#open-shell-sessions)
 
@@ -145,8 +145,8 @@ Gagnez des points de réputation avec chaque bug vérifié et conquérez le somm
 
 * [ ] **Fichiers de profil** - Lire des données sensibles ? Écrire pour l'élévation des privilèges ?
 * [ ] **Fichiers passwd/shadow** - Lire des données sensibles ? Écrire pour l'élévation des privilèges ?
-* [ ] Vérifiez les **dossiers couramment intéressants** pour les données sensibles
-* [ ] **Emplacement étrange/Fichiers possédés**, vous pouvez avoir accès à des fichiers exécutables ou les modifier
+* [ ] Vérifiez les dossiers **couramment intéressants** pour les données sensibles
+* [ ] **Emplacement étrange/Fichiers appartenant**, vous pouvez avoir accès ou modifier des fichiers exécutables
 * [ ] **Modifié** dans les dernières minutes
 * [ ] **Fichiers de base de données SQLite**
 * [ ] **Fichiers cachés**
@@ -165,10 +165,10 @@ Gagnez des points de réputation avec chaque bug vérifié et conquérez le somm
 
 ### [Autres astuces](privilege-escalation/#other-tricks)
 
-* [ ] Pouvez-vous **exploiter NFS pour escalader les privilèges**](privilege-escalation/#nfs-privilege-escalation) ?
-* [ ] Avez-vous besoin de **vous échapper d'un shell restrictif**](privilege-escalation/#escaping-from-restricted-shells) ?
+* [ ] Pouvez-vous [**exploiter NFS pour escalader les privilèges**](privilege-escalation/#nfs-privilege-escalation) ?
+* [ ] Avez-vous besoin de [**vous échapper d'un shell restrictif**](privilege-escalation/#escaping-from-restricted-shells) ?
 
-<figure><img src="../.gitbook/assets/image (1) (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 **HackenProof est la plateforme des primes de bugs cryptographiques.**
 
@@ -190,7 +190,7 @@ Gagnez des points de réputation avec chaque bogue vérifié et conquérez le so
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * Vous travaillez dans une **entreprise de cybersécurité** ? Vous souhaitez voir votre **entreprise annoncée dans HackTricks** ? ou souhaitez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PRs au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).

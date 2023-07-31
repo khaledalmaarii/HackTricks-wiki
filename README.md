@@ -42,7 +42,7 @@ Vous pouvez consulter leur **blog** sur [**https://blog.stmcyber.com**](https://
 
 **Intigriti** est la plateforme de piratage éthique et de **bug bounty n°1 en Europe**.
 
-**Astuce de bug bounty** : **inscrivez-vous** sur **Intigriti**, une plateforme premium de **bug bounty créée par des pirates, pour des pirates** ! Rejoignez-nous sur [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) dès aujourd'hui et commencez à gagner des primes allant jusqu'à **100 000 $** !
+**Astuce de bug bounty** : **inscrivez-vous** à **Intigriti**, une plateforme premium de **bug bounty créée par des pirates, pour des pirates** ! Rejoignez-nous sur [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) dès aujourd'hui et commencez à gagner des primes allant jusqu'à **100 000 $** !
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
@@ -59,9 +59,9 @@ Accédez dès aujourd'hui :
 
 ### [HACKENPROOF](https://bit.ly/3xrrDrL)
 
-<figure><img src=".gitbook/assets/image (1) (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-**HackenProof est la plateforme de tous les bug bounties cryptographiques.**
+**HackenProof est la référence en matière de bug bounty crypto.**
 
 **Obtenez une récompense sans délai**\
 Les primes HackenProof ne sont lancées que lorsque leurs clients déposent le budget de récompense. Vous recevrez la récompense après la vérification du bogue.
@@ -69,7 +69,7 @@ Les primes HackenProof ne sont lancées que lorsque leurs clients déposent le b
 **Acquérez de l'expérience en pentest web3**\
 Les protocoles blockchain et les contrats intelligents sont le nouvel Internet ! Maîtrisez la sécurité web3 à ses débuts.
 
-**Devenez la légende du pirate web3**\
+**Devenez une légende du pirate web3**\
 Gagnez des points de réputation avec chaque bogue vérifié et conquérez le sommet du classement hebdomadaire.
 
 [**Inscrivez-vous sur HackenProof**](https://hackenproof.com/register) et commencez à gagner grâce à vos piratages !
@@ -84,7 +84,7 @@ Gagnez des points de réputation avec chaque bogue vérifié et conquérez le so
 
 [**WebSec**](https://websec.nl) est une entreprise de cybersécurité professionnelle basée à **Amsterdam** qui aide à **protéger** les entreprises **du monde entier** contre les dernières menaces en matière de cybersécurité en fournissant des services de **sécurité offensive** avec une approche **moderne**.
 
-WebSec est une **entreprise de sécurité tout-en-un**, ce qui signifie qu'elle fait tout : Pentest, audits de **sécurité**, formations à la sensibilisation, campagnes de phishing, examen de code, développement d'exploits, externalisation d'experts en sécurité et bien plus encore.
+WebSec est une **entreprise de sécurité tout-en-un**, ce qui signifie qu'ils font tout : Pentest, audits de **sécurité**, formations à la sensibilisation, campagnes de phishing, examen de code, développement d'exploits, externalisation d'experts en sécurité et bien plus encore.
 
 Une autre chose intéressante à propos de WebSec est que, contrairement à la moyenne de l'industrie, WebSec est **très confiant dans ses compétences**, à tel point qu'ils **garantissent les meilleurs résultats de qualité**, comme indiqué sur leur site web "**Si nous ne pouvons pas le pirater, vous ne le payez pas !**". Pour plus d'informations, consultez leur [**site web**](https://websec.nl/en/) et leur [**blog**](https://websec.nl/blog/) !
 

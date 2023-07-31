@@ -16,7 +16,7 @@
 
 Contrairement aux extensions du noyau, les **extensions système s'exécutent dans l'espace utilisateur** au lieu de l'espace du noyau, réduisant ainsi le risque de plantage du système en cas de dysfonctionnement de l'extension.
 
-<figure><img src="../../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Il existe trois types d'extensions système : les extensions **DriverKit**, les extensions **Network** et les extensions **Endpoint Security**.
 
@@ -36,18 +36,18 @@ Les extensions réseau permettent de personnaliser les comportements réseau. Il
 
 ## Cadre de sécurité de point de terminaison
 
-Endpoint Security est un framework fourni par Apple dans macOS qui fournit un ensemble d'API pour la sécurité du système. Il est destiné à être utilisé par **les fournisseurs de sécurité et les développeurs pour construire des produits qui peuvent surveiller et contrôler l'activité du système** afin d'identifier et de se protéger contre les activités malveillantes.
+Endpoint Security est un cadre fourni par Apple dans macOS qui fournit un ensemble d'API pour la sécurité du système. Il est destiné à être utilisé par **les fournisseurs de sécurité et les développeurs pour créer des produits qui peuvent surveiller et contrôler l'activité du système** afin d'identifier et de se protéger contre les activités malveillantes.
 
-Ce framework fournit une **collection d'API pour surveiller et contrôler l'activité du système**, telle que l'exécution des processus, les événements du système de fichiers, les événements réseau et du noyau.
+Ce cadre fournit une **collection d'API pour surveiller et contrôler l'activité du système**, telle que l'exécution des processus, les événements du système de fichiers, les événements réseau et du noyau.
 
-Le cœur de ce framework est implémenté dans le noyau, en tant qu'extension du noyau (KEXT) située à **`/System/Library/Extensions/EndpointSecurity.kext`**. Cette KEXT est composée de plusieurs composants clés :
+Le cœur de ce cadre est implémenté dans le noyau, en tant qu'extension du noyau (KEXT) située à **`/System/Library/Extensions/EndpointSecurity.kext`**. Ce KEXT est composé de plusieurs composants clés :
 
-* **EndpointSecurityDriver** : il agit comme le "point d'entrée" de l'extension du noyau. C'est le principal point d'interaction entre le système d'exploitation et le framework Endpoint Security.
-* **EndpointSecurityEventManager** : ce composant est responsable de la mise en œuvre des hooks du noyau. Les hooks du noyau permettent au framework de surveiller les événements du système en interceptant les appels système.
+* **EndpointSecurityDriver** : il agit comme le "point d'entrée" de l'extension du noyau. C'est le principal point d'interaction entre le système d'exploitation et le cadre Endpoint Security.
+* **EndpointSecurityEventManager** : ce composant est responsable de la mise en œuvre des hooks du noyau. Les hooks du noyau permettent au cadre de surveiller les événements du système en interceptant les appels système.
 * **EndpointSecurityClientManager** : il gère la communication avec les clients de l'espace utilisateur, en suivant les clients connectés et qui ont besoin de recevoir des notifications d'événements.
 * **EndpointSecurityMessageManager** : il envoie des messages et des notifications d'événements aux clients de l'espace utilisateur.
 
-Les événements que le framework Endpoint Security peut surveiller sont catégorisés en :
+Les événements que le cadre Endpoint Security peut surveiller sont catégorisés en :
 
 * Événements de fichiers
 * Événements de processus
@@ -56,14 +56,14 @@ Les événements que le framework Endpoint Security peut surveiller sont catégo
 
 ### Architecture du cadre de sécurité de point de terminaison
 
-<figure><img src="../../../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (8).png" alt=""><figcaption></figcaption></figure>
 
-La **communication avec l'espace utilisateur** du framework Endpoint Security se fait via la classe IOUserClient. Deux sous-classes différentes sont utilisées, en fonction du type d'appelant :
+La **communication avec l'espace utilisateur** du cadre Endpoint Security se fait via la classe IOUserClient. Deux sous-classes différentes sont utilisées, en fonction du type d'appelant :
 
-* **EndpointSecurityDriverClient** : cela nécessite l'attribution `com.apple.private.endpoint-security.manager`, qui est détenue uniquement par le processus système `endpointsecurityd`.
-* **EndpointSecurityExternalClient** : cela nécessite l'attribution `com.apple.developer.endpoint-security.client`. Cela serait généralement utilisé par des logiciels de sécurité tiers qui ont besoin d'interagir avec le framework Endpoint Security.
+* **EndpointSecurityDriverClient** : cela nécessite l'autorisation `com.apple.private.endpoint-security.manager`, qui est détenue uniquement par le processus système `endpointsecurityd`.
+* **EndpointSecurityExternalClient** : cela nécessite l'autorisation `com.apple.developer.endpoint-security.client`. Cela serait généralement utilisé par des logiciels de sécurité tiers qui ont besoin d'interagir avec le cadre Endpoint Security.
 
-Les extensions de sécurité de point de terminaison : **`libEndpointSecurity.dylib`** est la bibliothèque C que les extensions système utilisent pour communiquer avec le noyau. Cette bibliothèque utilise I/O Kit (`IOKit`) pour communiquer avec l'extension Endpoint Security KEXT.
+Les extensions de sécurité de point de terminaison : **`libEndpointSecurity.dylib`** est la bibliothèque C utilisée par les extensions système pour communiquer avec le noyau. Cette bibliothèque utilise I/O Kit (`IOKit`) pour communiquer avec l'extension Endpoint Security KEXT.
 
 **`endpointsecurityd`** est un démon système clé impliqué dans la gestion et le lancement des extensions système de sécurité de point de terminaison, en particulier pendant le processus de démarrage initial. Seules les extensions système marquées avec **`NSEndpointSecurityEarlyBoot`** dans leur fichier `Info.plist` reçoivent ce traitement de démarrage initial.
 
@@ -78,7 +78,7 @@ Le problème est que l'application de sécurité doit avoir les **permissions d'
 ```bash
 tccutil reset All
 ```
-Pour **plus d'informations** sur cette contournement et les contournements connexes, consultez la présentation [#OBTS v5.0 : "Le talon d'Achille de EndpointSecurity" - Fitzl Csaba](https://www.youtube.com/watch?v=lQO7tvNCoTI)
+Pour **plus d'informations** sur cette contournement et les contournements connexes, consultez la présentation [#OBTS v5.0 : "Le talon d'Achille d'EndpointSecurity" - Fitzl Csaba](https://www.youtube.com/watch?v=lQO7tvNCoTI)
 
 Finalement, cela a été résolu en donnant la nouvelle permission **`kTCCServiceEndpointSecurityClient`** à l'application de sécurité gérée par **`tccd`** afin que `tccutil` ne supprime pas ses autorisations, l'empêchant ainsi de s'exécuter.
 
