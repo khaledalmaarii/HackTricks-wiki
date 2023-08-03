@@ -1,61 +1,56 @@
-
-
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- 你在一个**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或者 [**电报群组**](https://t.me/peass) 或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
 
 </details>
 
 
-# Integrity Levels
+# 完整性级别
 
-From Windows Vista, all **protected objects are labeled with an integrity level**. Most user and system files and registry keys on the system have a default label of “medium” integrity. The primary exception is a set of specific folders and files writeable by Internet Explorer 7 at Low integrity. **Most processes** run by **standard users** are labeled with **medium integrity** (even the ones started by a user inside the administrators group), and most **services** are labeled with **System integrity**. The root directory is protected by a high-integrity label.\
-Note that **a process with a lower integrity level can’t write to an object with a higher integrity level.**\
-There are several levels of integrity:
+从Windows Vista开始，所有**受保护的对象都带有完整性级别标签**。系统上的大多数用户和系统文件以及注册表键都具有“中等”完整性的默认标签。主要例外是一组特定的文件夹和文件，这些文件夹和文件可由Internet Explorer 7以低完整性进行写入。**大多数由标准用户运行的进程**都带有**中等完整性**（即使是由管理员组内的用户启动的进程），而大多数**服务**都带有**系统完整性**。根目录受到高完整性标签的保护。\
+请注意，**具有较低完整性级别的进程无法写入具有较高完整性级别的对象**。\
+有几个完整性级别：
 
-* **Untrusted** – processes that are logged on anonymously are automatically designated as Untrusted. _Example: Chrome_
-* **Low** – The Low integrity level is the level used by default for interaction with the Internet. As long as Internet Explorer is run in its default state, Protected Mode, all files and processes associated with it are assigned the Low integrity level. Some folders, such as the **Temporary Internet Folder**, are also assigned the **Low integrity** level by default. However,  note that a **low integrity process** is very **restricted**, it **cannot** write to the **registry** and it’s limited from writing to **most locations** in the current user’s profile.  _Example: Internet Explorer or Microsoft Edge_
-* **Medium** – Medium is the context that **most objects will run in**. Standard users receive the Medium integrity level, and any object not explicitly designated with a lower or higher integrity level is Medium by default. Not that a user inside the Administrators group by default will use medium integrity levels.
-* **High** – **Administrators** are granted the High integrity level. This ensures that Administrators are capable of interacting with and modifying objects assigned Medium or Low integrity levels, but can also act on other objects with a High integrity level, which standard users can not do. _Example: "Run as Administrator"_
-* **System** – As the name implies, the System integrity level is reserved for the system. The Windows kernel and core services are granted the System integrity level. Being even higher than the High integrity level of Administrators protects these core functions from being affected or compromised even by Administrators. Example: Services
-* **Installer** – The Installer integrity level is a special case and is the highest of all integrity levels. By virtue of being equal to or higher than all other WIC integrity levels, objects assigned the Installer integrity level are also able to uninstall all other objects.
+* **不受信任** - 匿名登录的进程会自动被指定为不受信任。_示例：Chrome_
+* **低** - 低完整性级别是与互联网交互的默认级别。只要以其默认状态运行Internet Explorer（即受保护模式），与其关联的所有文件和进程都被分配为低完整性级别。某些文件夹（例如**临时互联网文件夹**）也默认分配为**低完整性**级别。但是，请注意，**低完整性进程**非常**受限**，它**无法**写入**注册表**，并且在当前用户配置文件的**大多数位置**上受到限制。_示例：Internet Explorer或Microsoft Edge_
+* **中等** - 中等是**大多数对象将运行的上下文**。标准用户接收中等完整性级别，并且任何未明确指定较低或较高完整性级别的对象默认为中等级别。请注意，默认情况下，管理员组内的用户将使用中等完整性级别。
+* **高** - **管理员**被授予高完整性级别。这确保管理员能够与分配为中等或低完整性级别的对象进行交互和修改，但也可以对具有高完整性级别的其他对象进行操作，而标准用户则无法执行此操作。_示例：“以管理员身份运行”_
+* **系统** - 如其名称所示，系统完整性级别为系统保留。Windows内核和核心服务被授予系统完整性级别。比管理员的高完整性级别更高，这样可以保护这些核心功能免受管理员的影响或损害。示例：服务
+* **安装程序** - 安装程序完整性级别是一种特殊情况，也是所有完整性级别中最高的级别。通过与所有其他WIC完整性级别相等或更高，被分配安装程序完整性级别的对象也能够卸载所有其他对象。
 
-You can get the integrity level of a process using **Process Explorer** from **Sysinternals**, accessing the **properties** of the process and viewing the "**Security**" tab:
+您可以使用**Sysinternals**的**Process Explorer**访问进程的**属性**并查看“**安全**”选项卡来获取进程的完整性级别：
 
 ![](<../../.gitbook/assets/image (318).png>)
 
-You can also get your **current integrity level** using `whoami /groups`
+您还可以使用`whoami /groups`命令获取**当前的完整性级别**。
 
 ![](<../../.gitbook/assets/image (319).png>)
 
-## Integrity Levels in File-system
+## 文件系统中的完整性级别
 
-A object inside the file-system may need an **minimum integrity level requirement** and if a process doesn't have this integrity process it won't be able to interact with it.\
-For example, lets **create a regular from a regular user console file and check the permissions**:
-
+文件系统中的对象可能需要**最低完整性级别要求**，如果进程没有此完整性级别，则无法与其进行交互。\
+例如，让我们**从常规用户控制台创建一个文件并检查权限**：
 ```
 echo asd >asd.txt
 icacls asd.txt
 asd.txt BUILTIN\Administrators:(I)(F)
-        DESKTOP-IDJHTKP\user:(I)(F)
-        NT AUTHORITY\SYSTEM:(I)(F)
-        NT AUTHORITY\INTERACTIVE:(I)(M,DC)
-        NT AUTHORITY\SERVICE:(I)(M,DC)
-        NT AUTHORITY\BATCH:(I)(M,DC)
+DESKTOP-IDJHTKP\user:(I)(F)
+NT AUTHORITY\SYSTEM:(I)(F)
+NT AUTHORITY\INTERACTIVE:(I)(M,DC)
+NT AUTHORITY\SERVICE:(I)(M,DC)
+NT AUTHORITY\BATCH:(I)(M,DC)
 ```
-
-Now, lets assign a minimum integrity level of **High** to the file. This **must be done from a console** running as **administrator** as a **regular console** will be running in Medium Integrity level and **won't be allowed** to assign High Integrity level to an object:
-
+现在，让我们将文件的最低完整性级别设置为**高**。这个操作**必须在以管理员身份运行的控制台**中进行，因为**普通控制台**运行在中等完整性级别，**无法**将高完整性级别分配给一个对象：
 ```
 icacls asd.txt /setintegritylevel(oi)(ci) High
 processed file: asd.txt
@@ -63,16 +58,14 @@ Successfully processed 1 files; Failed processing 0 files
 
 C:\Users\Public>icacls asd.txt
 asd.txt BUILTIN\Administrators:(I)(F)
-        DESKTOP-IDJHTKP\user:(I)(F)
-        NT AUTHORITY\SYSTEM:(I)(F)
-        NT AUTHORITY\INTERACTIVE:(I)(M,DC)
-        NT AUTHORITY\SERVICE:(I)(M,DC)
-        NT AUTHORITY\BATCH:(I)(M,DC)
-        Mandatory Label\High Mandatory Level:(NW)
+DESKTOP-IDJHTKP\user:(I)(F)
+NT AUTHORITY\SYSTEM:(I)(F)
+NT AUTHORITY\INTERACTIVE:(I)(M,DC)
+NT AUTHORITY\SERVICE:(I)(M,DC)
+NT AUTHORITY\BATCH:(I)(M,DC)
+Mandatory Label\High Mandatory Level:(NW)
 ```
-
-This is where things get interesting. You can see that the user `DESKTOP-IDJHTKP\user` has **FULL privileges** over the file (indeed this was the user that created the file), however, due to the minimum integrity level implemented he won't be able to modify the file anymore unless he is running inside a High Integrity Level (note that he will be able to read it):
-
+这就是事情变得有趣的地方。你可以看到用户`DESKTOP-IDJHTKP\user`对该文件拥有**完全权限**（确实是该用户创建了该文件），然而，由于实施了最低完整性级别，除非他在高完整性级别下运行，否则他将无法修改该文件（请注意，他仍然可以读取它）：
 ```
 echo 1234 > asd.txt
 Access is denied.
@@ -81,52 +74,46 @@ del asd.txt
 C:\Users\Public\asd.txt
 Access is denied.
 ```
-
 {% hint style="info" %}
-**Therefore, when a file has a minimum integrity level, in order to modify it you need to be running at least in that integrity level.**
+**因此，当一个文件具有最低完整性级别时，为了修改它，你需要至少以该完整性级别运行。**
 {% endhint %}
 
-## Integrity Levels in Binaries
+## 二进制文件的完整性级别
 
-I made a copy of `cmd.exe` in `C:\Windows\System32\cmd-low.exe` and set it an **integrity level of low from an administrator console:**
-
+我在管理员控制台中将 `cmd.exe` 复制到 `C:\Windows\System32\cmd-low.exe` 并将其设置为**低完整性级别：**
 ```
 icacls C:\Windows\System32\cmd-low.exe
 C:\Windows\System32\cmd-low.exe NT AUTHORITY\SYSTEM:(I)(F)
-                                BUILTIN\Administrators:(I)(F)
-                                BUILTIN\Users:(I)(RX)
-                                APPLICATION PACKAGE AUTHORITY\ALL APPLICATION PACKAGES:(I)(RX)
-                                APPLICATION PACKAGE AUTHORITY\ALL RESTRICTED APP PACKAGES:(I)(RX)
-                                Mandatory Label\Low Mandatory Level:(NW)
+BUILTIN\Administrators:(I)(F)
+BUILTIN\Users:(I)(RX)
+APPLICATION PACKAGE AUTHORITY\ALL APPLICATION PACKAGES:(I)(RX)
+APPLICATION PACKAGE AUTHORITY\ALL RESTRICTED APP PACKAGES:(I)(RX)
+Mandatory Label\Low Mandatory Level:(NW)
 ```
-
-Now, when I run `cmd-low.exe` it will **run under a low-integrity level** instead of a medium one:
+现在，当我运行`cmd-low.exe`时，它将以低完整性级别而不是中等级别运行：
 
 ![](<../../.gitbook/assets/image (320).png>)
 
-For curious people, if you assign high integrity level to a binary (`icacls C:\Windows\System32\cmd-high.exe /setintegritylevel high`) it won't run with high integrity level automatically (if you invoke it from a medium integrity level --by default-- it will run under a medium integrity level).
+对于好奇的人，如果你给一个二进制文件分配了高完整性级别（`icacls C:\Windows\System32\cmd-high.exe /setintegritylevel high`），它不会自动以高完整性级别运行（如果你从中等完整性级别调用它，默认情况下它将以中等完整性级别运行）。
 
-## Integrity Levels in Processes
+## 进程中的完整性级别
 
-Not all files and folders have a minimum integrity level, **but all processes are running under an integrity level**. And similar to what happened with the file-system, **if a process wants to write inside another process it must have at least the same integrity level**. This means that a process with low integrity level can’t open a handle with full access to a process with medium integrity level.
+并非所有文件和文件夹都有最低完整性级别，**但所有进程都在一个完整性级别下运行**。与文件系统发生的情况类似，**如果一个进程想要在另一个进程内写入，它必须至少具有相同的完整性级别**。这意味着具有低完整性级别的进程无法以完全访问权限打开具有中等完整性级别的进程的句柄。
 
-Due to the restrictions commented in this and the previous section, from a security point of view, it's always **recommended to run a process in the lower level of integrity possible**.
-
+基于安全性考虑，始终建议以尽可能低的完整性级别运行进程。
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者你想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- 发现我们的独家[NFT收藏品](https://opensea.io/collection/the-peass-family)——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
 
 </details>
-
-

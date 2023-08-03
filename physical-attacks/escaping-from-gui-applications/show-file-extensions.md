@@ -1,80 +1,66 @@
-
-
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- 你在一家**网络安全公司**工作吗？想要在 HackTricks 中看到你的**公司广告**吗？或者想要**获取最新版本的 PEASS 或下载 HackTricks 的 PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass)，或者在 **Twitter** 上**关注**我 [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **通过向 [hacktricks 仓库](https://github.com/carlospolop/hacktricks) 和 [hacktricks-cloud 仓库](https://github.com/carlospolop/hacktricks-cloud) 提交 PR 来分享你的黑客技巧**。
 
 </details>
 
 
-## How to Show File Extensions in Windows XP
+## 如何在 Windows XP 中显示文件扩展名
 
-1. Open Windows Explorer. You can do this by clicking "My Computer" from the Start Menu. Note that this is NOT the same thing as Internet Explorer.
-2. Click the "Tools" menu on the menu bar in Explorer (the menu bar is at the top of the Explorer window, underneath the window title). Click the "Folder Options" item in the popup menu that appears.
-3. A dialog box appears. Click the "View" tab at the top of the window.
-4. Look for a setting "Hide file extensions for known file types" and uncheck the box beside it to disable it.
-5. Click the button "Apply to All Folders". Then click "Apply" and then "OK".
+1. 打开 Windows Explorer。你可以通过从开始菜单中点击“我的电脑”来实现。请注意，这与 Internet Explorer 不是同一件事。
+2. 在 Explorer 的菜单栏上点击“工具”菜单（菜单栏位于 Explorer 窗口的顶部，窗口标题下方）。在弹出菜单中点击“文件夹选项”项。
+3. 一个对话框会出现。点击窗口顶部的“视图”选项卡。
+4. 寻找一个名为“隐藏已知文件类型的扩展名”的设置，并取消旁边的复选框以禁用它。
+5. 点击“应用于所有文件夹”按钮。然后点击“应用”和“确定”。
 
-## Displaying the File Extension in Windows Vista and Windows 7
+## 在 Windows Vista 和 Windows 7 中显示文件扩展名
 
-1. Click the Start menu. This is the round icon that is on the bottom left corner of your screen.
-2. Type "folder options" (without the quotes). Click the line "Folder Options" that appears at the top of the Start menu.
-3. A dialog box with the title "Folder Options" will appear. Click the "View" tab at the top of the window.
-4. Click to uncheck the box for "Hide extensions for known file types".
-5. Click the "OK" button at the bottom of the dialog box.
+1. 点击开始菜单。这是位于屏幕左下角的圆形图标。
+2. 输入“文件夹选项”（不包括引号）。点击出现在开始菜单顶部的“文件夹选项”行。
+3. 一个标题为“文件夹选项”的对话框将出现。点击窗口顶部的“视图”选项卡。
+4. 点击取消选中“隐藏已知文件类型的扩展名”的复选框。
+5. 点击对话框底部的“确定”按钮。
 
-## How to Show File Extensions in Windows 8
+## 如何在 Windows 8 中显示文件扩展名
 
-1. Invoke the start screen. One way to do this is to move your mouse to the bottom left corner of your screen. In Windows 8, there's no indication that this will cause the start screen to appear, but it will.
-2. Type "folder options" (without the quotes). I know that there is no blank field in the start screen to suggest that you can actually type anything. Like many things in Windows 8, arcane knowledge is needed to operate the system.
-3.  On the left side of the screen, you will get the disappointing message "No apps match your search". The start screen search facility in Windows 8 can only find something for you if you already know where to find it and can tell it where it is.
+1. 调出开始屏幕。一种方法是将鼠标移动到屏幕左下角。在 Windows 8 中，没有任何迹象表明这会导致开始屏幕出现，但实际上会出现。
+2. 输入“文件夹选项”（不包括引号）。我知道开始屏幕上没有空白字段来提示你实际上可以输入任何内容。就像 Windows 8 中的许多其他事物一样，需要掌握一些奥秘的知识来操作系统。
+3. 屏幕左侧将显示令人失望的消息“没有与您的搜索匹配的应用程序”。在 Windows 8 的开始屏幕搜索功能中，只有当您已经知道在哪里找到它并且可以告诉它在哪里时，它才能为您找到某个东西。
 
-    Click the line "Settings" on the right side of the screen.
-4. The left side of the screen now shows "Folder Options" as one of the possible results. Click it.
-5. A window with the title "Folder Options" will appear. Click the "View" tab at the top of that dialog box.
-6. Look for the line "Hide extensions of known file types" and click the box beside it to remove the tick.
-7. Click the "OK" button.
+点击屏幕右侧的“设置”行。
+4. 屏幕左侧现在显示“文件夹选项”作为可能的结果之一。点击它。
+5. 一个标题为“文件夹选项”的窗口将出现。点击对话框顶部的“视图”选项卡。
+6. 寻找一行“隐藏已知文件类型的扩展名”，并点击旁边的复选框以取消选中。
+7. 点击“确定”按钮。
 
-## How to Show File Extensions in Windows 10
+## 如何在 Windows 10 中显示文件扩展名
 
-1. Click the icon on the task bar at the bottom of the screen to invoke the Start menu. (The icon is the one that looks like a white version of the Windows logo.)
-2. Type "folder options" (without the quotation marks). There is no blank field on the screen to suggest that you can type anything, but you can. Just type it.
-3. Click the "File Explorer Options" item that appears in the "Best match" list that appears.
-4. A dialog box with the title "File Explorer Options" will appear. Click the "View" tab at the top of the window.
-5. Scroll to find the item "Hide extensions for known file types" and click the box next to it to remove the tick.
-6. Click the "OK" button.
+1. 点击任务栏底部的图标以调出开始菜单。（该图标看起来像一个白色版本的 Windows 徽标。）
+2. 输入“文件夹选项”（不包括引号）。屏幕上没有空白字段来提示您可以输入任何内容，但您可以。只需输入即可。
+3. 点击“最佳匹配”列表中出现的“文件资源管理器选项”项。
+4. 一个标题为“文件资源管理器选项”的对话框将出现。点击窗口顶部的“视图”选项卡。
+5. 滚动查找“隐藏已知文件类型的扩展名”项目，并点击旁边的复选框以取消选中。
+6. 点击“确定”按钮。
 
-That's it. You should now be able to see the true extensions of the files in your Explorer windows.
+就是这样。现在您应该能够在您的资源管理器窗口中看到文件的真实扩展名了。
 
-Copyright © 2008-2018 by Christopher Heng. All rights reserved. Get more "How To" guides and tutorials from [https://www.howtohaven.com/](https://www.howtohaven.com).
+版权所有 © 2008-2018 Christopher Heng。从[https://www.howtohaven.com/](https://www.howtohaven.com)获取更多“如何”指南和教程。
 
-**This article can be found at** [**https://www.howtohaven.com/system/show-file-extensions-in-windows-explorer.shtml**](https://www.howtohaven.com/system/show-file-extensions-in-windows-explorer.shtml)
-
+**本文可在**[**https://www.howtohaven.com/system/show-file-extensions-in-windows-explorer.shtml**](https://www.howtohaven.com/system/show-file-extensions-in-windows-explorer.shtml)**找到**。
 
 <details>
+- **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass)，或在 **Twitter** 上 **关注** 我 [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
-
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **通过向 [hacktricks 仓库](https://github.com/carlospolop/hacktricks) 和 [hacktricks-cloud 仓库](https://github.com/carlospolop/hacktricks-cloud) 提交 PR 来分享你的黑客技巧**。
 
 </details>
-
-

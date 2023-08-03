@@ -3,8 +3,8 @@
 ![](<../../.gitbook/assets/image (9) (1) (2).png>)
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。\
+立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -12,193 +12,189 @@ Get Access Today:
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* 你在**网络安全公司**工作吗？你想在HackTricks中看到你的公司广告吗？或者你想获得最新版本的PEASS或下载PDF格式的HackTricks吗？查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks衣物**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
 
 </details>
 
-## **Access Control List (ACL)**
+## **访问控制列表（ACL）**
 
-An **ACL is an ordered list of ACEs** that define the protections that apply to an object and its properties. Each **ACE** identifies a security **principal** and specifies a **set of access** rights that are allowed, denied, or audited for that security principal.
+ACL是一个有序的ACE列表，用于定义对象及其属性的保护措施。每个ACE标识一个安全主体，并指定该安全主体被允许、拒绝或审计的一组访问权限。
 
-An object’s security descriptor can contain **two ACLs**:
+对象的安全描述符可以包含两个ACL：
 
-1. A **DACL** that **identifies** the **users** and **groups** that are **allowed** or **denied** access
-2. A **SACL** that controls **how** access is **audited**
+1. 一个DACL，用于标识被允许或拒绝访问的用户和组
+2. 一个SACL，用于控制访问的审计方式
 
-When a user tries to access a file, the Windows system runs an AccessCheck and compares the security descriptor with the users access token and evaluates if the user is granted access and what kind of access depending on the ACEs set.
+当用户尝试访问文件时，Windows系统会运行AccessCheck，并将安全描述符与用户的访问令牌进行比较，评估用户是否被授予访问权限以及访问权限的种类，这取决于设置的ACE。
 
-### **Discretionary Access Control List (DACL)**
+### **自主访问控制列表（DACL）**
 
-A DACL (often mentioned as the ACL) identify the users and groups that are assigned or denied access permissions on an object. It contains a list of paired ACEs (Account + Access Right) to the securable object.
+DACL（通常称为ACL）标识被分配或拒绝对对象的访问权限的用户和组。它包含一个对可保护对象的配对ACE（帐户+访问权限）的列表。
 
-### **System Access Control List (SACL)**
+### **系统访问控制列表（SACL）**
 
-SACLs makes it possible to monitor access to secured objects. ACEs in a SACL determine **what types of access is logged in the Security Event Log**. With monitoring tools this could raise an alarm to the right people if malicious users tries to access the secured object, and in an incident scenario we can use the logs to trace the steps back in time. And last, you can enable logging for troubleshoot access issues.
+SACL使得监视对受保护对象的访问成为可能。SACL中的ACE确定在安全事件日志中记录哪些类型的访问。使用监视工具，如果恶意用户尝试访问受保护的对象，这可能会向相关人员发出警报，并且在事件发生的情况下，我们可以使用日志追溯步骤。最后，您可以启用日志记录以排除访问问题。
 
-## How the System Uses ACLs
+## 系统如何使用ACL
 
-Each **user logged** onto the system **holds an access token with security information** for that logon session. The system creates an access token when the user logs on. **Every process executed** on behalf of the user **has a copy of the access token**. The token identifies the user, the user's groups, and the user's privileges. A token also contains a logon SID (Security Identifier) that identifies the current logon session.
+每个登录到系统的用户都持有一个包含安全信息的访问令牌。当用户登录时，系统会创建一个访问令牌。代表用户执行的每个进程都有一个访问令牌的副本。令牌标识用户、用户的组和用户的特权。令牌还包含一个登录SID（安全标识符），用于标识当前的登录会话。
 
-When a thread tries to access a securable object, the LSASS (Local Security Authority) either grants or denies access. To do this, the **LSASS searches the DACL** (Discretionary Access Control List) in the SDS data stream, looking for ACEs that apply to the thread.
+当线程尝试访问可保护对象时，LSASS（本地安全性机构）要么授予访问权限，要么拒绝访问。为此，LSASS搜索SDS数据流中的DACL（自主访问控制列表），查找适用于线程的ACE。
 
-**Each ACE in the object's DACL** specifies the access rights that are allowed or denied for a security principal or logon session. If the object's owner has not created any ACEs in the DACL for that object, the system grants access right away.
+对象的DACL中的每个ACE指定了允许或拒绝给定安全主体或登录会话的访问权限。如果对象的所有者没有为该对象创建任何DACL中的ACE，系统会立即授予访问权限。
 
-If the LSASS finds ACEs, it compares the trustee SID in each ACE to the trustee SIDs that are identified in the thread's access token.
+如果LSASS找到ACE，它会将每个ACE中的受托人SID与线程访问令牌中标识的受托人SID进行比较。
 
 ### ACEs
 
-There are **`three` main types of ACEs** that can be applied to all securable objects in AD:
+在AD中，可以应用于所有可保护对象的ACE有三种主要类型：
 
-| **ACE**                  | **Description**                                                                                                                                                            |
+| **ACE**                  | **描述**                                                                                                                                                            |
 | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **`Access denied ACE`**  | Used within a DACL to show that a user or group is explicitly denied access to an object                                                                                   |
-| **`Access allowed ACE`** | Used within a DACL to show that a user or group is explicitly granted access to an object                                                                                  |
-| **`System audit ACE`**   | Used within a SACL to generate audit logs when a user or group attempts to access an object. It records whether access was granted or not and what type of access occurred |
+| **`拒绝访问ACE`**  | 在DACL中使用，表示用户或组明确被拒绝访问对象                                                                                   |
+| **`允许访问ACE`** | 在DACL中使用，表示用户或组明确被授予访问对象                                                                                  |
+| **`系统审计ACE`**   | 在SACL中使用，当用户或组尝试访问对象时生成审计日志。记录访问是否被授予以及发生的访问类型 |
 
-Each ACE is made up of the following `four` components:
+每个ACE由以下四个组成部分组成：
 
-1. The security identifier (SID) of the user/group that has access to the object (or principal name graphically)
-2. A flag denoting the type of ACE (access denied, allowed, or system audit ACE)
-3. A set of flags that specify whether or not child containers/objects can inherit the given ACE entry from the primary or parent object
-4. An [access mask](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-dtyp/7a53f60e-e730-4dfe-bbe9-b21b62eb790b?redirectedfrom=MSDN) which is a 32-bit value that defines the rights granted to an object
+1. 具有访问对象权限的用户/组的安全标识符（SID）（或以图形方式表示的主体名称）
+2. 表示ACE类型的标志（拒绝访问、允许访问或系统审计ACE）
+3. 一组指定子容器/对象是否可以从主对象或父对象继承给定ACE条目的标志
+4. 一个[访问掩码](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-dtyp/7a53f60e-e730-4dfe-bbe9-b21b62eb790b?redirectedfrom=MSDN)，它是一个32位值，定义了授予对象的权限
 
-The system examines each ACE in sequence until one of the following events occurs:
+系统按顺序检查每个ACE，直到发生以下事件之一：
 
-* **An access-denied ACE explicitly denies** any of the requested access rights to one of the trustees listed in the thread's access token.
-* **One or more access-allowed ACEs** for trustees listed in the thread's access token explicitly grant all the requested access rights.
-* All ACEs have been checked and there is still at least **one requested access** right that has **not been explicitly allowed**, in which case, access is implicitly **denied**.
+* **拒绝访问ACE明确拒绝**线程访问令牌中列出的受托人的任何请求的访问权限。
+* 线程访问令牌中列出的受托人的**一个或多个允许访问ACE**明确授予所有请求的访问权限。
+* 已检查所有ACE，并且仍然至少有一个请求的访问权限**未明确允许**，在这种情况下，访问将被隐式**拒绝**。
+### ACE的顺序
 
-### Order of ACEs
+因为当请求的访问权限被明确授予或拒绝时，系统会停止检查ACE，所以DACL中ACE的顺序很重要。
 
-Because the **system stops checking ACEs when the requested access is explicitly granted or denied**, the order of ACEs in a DACL is important.
+DACL中ACE的首选顺序被称为“规范”顺序。对于Windows 2000和Windows Server 2003，规范顺序如下：
 
-The preferred order of ACEs in a DACL is called the "canonical" order. For Windows 2000 and Windows Server 2003, the canonical order is the following:
+1. 所有**显式**ACE放置在任何**继承**ACE之前的一个组中。
+2. 在**显式**ACE组内，**拒绝访问**ACE放在**允许访问**ACE之前。
+3. 在**继承**组内，首先是从**子对象的父对象继承的ACE**，然后是从**祖父对象继承的ACE**，以此类推。之后，**拒绝访问**ACE放在**允许访问**ACE之前。
 
-1. All **explicit** ACEs are placed in a group **before** any **inherited** ACEs.
-2. Within the group of **explicit** ACEs, **access-denied** ACEs are placed **before access-allowed** ACEs.
-3. Within the **inherited** group, ACEs that are inherited from the **child object's parent come first**, and **then** ACEs inherited from the **grandparent**, **and so** on up the tree of objects. After that, **access-denied** ACEs are placed **before access-allowed** ACEs.
+下图显示了ACE的规范顺序：
 
-The following figure shows the canonical order of ACEs:
-
-### Canonical order of ACEs
+### ACE的规范顺序
 
 ![ACE](https://www.ntfs.com/images/screenshots/ACEs.gif)
 
-The canonical order ensures that the following takes place:
+规范顺序确保了以下情况发生：
 
-* An explicit **access-denied ACE is enforced regardless of any explicit access-allowed ACE**. This means that the object's owner can define permissions that allow access to a group of users and deny access to a subset of that group.
-* All **explicit ACEs are processed before any inherited ACE**. This is consistent with the concept of discretionary access control: access to a child object (for example a file) is at the discretion of the child's owner, not the owner of the parent object (for example a folder). The owner of a child object can define permissions directly on the child. The result is that the effects of inherited permissions are modified.
-
-
+* 显式的**拒绝访问ACE会被强制执行，而不管是否有显式的允许访问ACE**。这意味着对象的所有者可以定义允许一组用户访问并拒绝该组的子集的权限。
+* 所有**显式ACE在任何继承ACE之前被处理**。这与自由访问控制的概念一致：对于子对象（例如文件）的访问取决于子对象的所有者，而不是父对象（例如文件夹）的所有者。子对象的所有者可以直接在子对象上定义权限。结果是继承权限的效果被修改。
 
 ![](<../../.gitbook/assets/image (9) (1) (2).png>)
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和自动化由全球**最先进**的社区工具提供支持的工作流程。\
+立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-### GUI Example
+### GUI示例
 
-This is the classic security tab of a folder showing the ACL, DACL and ACEs:
+这是一个显示ACL、DACL和ACE的文件夹的经典安全选项卡：
 
 ![](../../.gitbook/assets/classicsectab.jpg)
 
-If we click the **Advanced button** we will get more options like inheritance:
+如果我们点击**高级按钮**，我们将获得更多选项，如继承：
 
 ![](../../.gitbook/assets/aceinheritance.jpg)
 
-And if you add or edit a Security Principal:
+如果您添加或编辑安全主体：
 
 ![](../../.gitbook/assets/editseprincipalpointers1.jpg)
 
-And last we have the SACL in the Auditing tab:
+最后，我们在审核选项卡中有SACL：
 
 ![](../../.gitbook/assets/audit-tab.jpg)
 
-### Example: Explicit access-denied to a group
+### 示例：显式拒绝访问给一个组
 
-In this example, the access-allowed group is Everyone and the access-denied group is Marketing, a subset of Everyone.
+在这个示例中，允许访问的组是Everyone，拒绝访问的组是Marketing，是Everyone的一个子集。
 
-You want to deny the Marketing group access to a Cost folder. If the Cost folder's ACEs are in canonical order, the ACE that denies Marketing comes before the ACE that allows Everyone.
+您想要拒绝Marketing组访问Cost文件夹。如果Cost文件夹的ACE按照规范顺序排列，拒绝Marketing的ACE会在允许Everyone的ACE之前。
 
-During an access check, the operating system steps through the ACEs in the order in which they appear in the object's DACL, so that the deny ACE is processed before the allow ACE. As a result, users who are members of the Marketing group are denied access. Everyone else is allowed access to the object.
+在访问检查期间，操作系统按照它们在对象的DACL中出现的顺序依次处理ACE，因此拒绝的ACE在允许的ACE之前被处理。结果，属于Marketing组的用户被拒绝访问。其他人可以访问该对象。
 
-### Example: Explicit before inherited
+### 示例：显式优先于继承
 
-In this example, the Cost folder has an inheritable ACE that denies access to Marketing (the parent object). In other words, all users who are members (or children) of the Marketing group are denied access by inheritance.
+在这个示例中，Cost文件夹有一个可继承的ACE，拒绝Marketing（父对象）的访问。换句话说，属于Marketing组的所有用户（或子对象）都被继承拒绝访问。
 
-You want to allow access to Bob, who is the Marketing director. As a member of the Marketing group, Bob is denied access to the Cost folder by inheritance. The owner of the child object (user Bob) defines an explicit ACE that allows access to the Cost folder. If the child object's ACEs are in canonical order, the explicit ACE that allows Bob access comes before any inherited ACE, including the inherited ACE that denies access to the Marketing group.
+您想要允许Marketing总监Bob访问Cost文件夹。作为Marketing组的成员，Bob被继承拒绝访问Cost文件夹。子对象（用户Bob）的所有者定义了一个显式ACE，允许访问Cost文件夹。如果子对象的ACE按照规范顺序排列，允许Bob访问的显式ACE会在任何继承的ACE之前，包括继承拒绝Marketing组访问的ACE。
 
-During an access check, the operating system reaches the ACE that allows Bob access before it gets to the ACE that denies access to the Marketing group. As a result, Bob is allowed access to the object even though he is a member of the Marketing group. Other members of the Marketing group are denied access.
+在访问检查期间，操作系统在到达拒绝Marketing组访问的ACE之前就到达了允许Bob访问的ACE。结果，尽管Bob是Marketing组的成员，他仍然被允许访问该对象。其他Marketing组的成员被拒绝访问。
 
-### Access Control Entries
+### 访问控制条目
 
-As stated previously, an ACL (Access Control List) is an ordered list of ACEs (Access Control Entries). Each ACE contains the following:
+如前所述，ACL（访问控制列表）是ACE（访问控制条目）的有序列表。每个ACE包含以下内容：
 
-* A SID (Security Identifier) that identifies a particular user or group.
-* An access mask that specifies access rights.
-* A set of bit flags that determine whether or not child objects can inherit the ACE.
-* A flag that indicates the type of ACE.
+* 用于标识特定用户或组的SID（安全标识符）。
+* 指定访问权限的访问掩码。
+* 一组位标志，确定子对象是否可以继承该ACE。
+* 指示ACE类型的标志。
 
-ACEs are fundamentally alike. What sets them apart is the degree of control they offer over inheritance and object access. There are two types of ACE:
+ACE在本质上是相似的。它们的区别在于它们对继承和对象访问提供的控制程度。有两种类型的ACE：
 
-* Generic type that are attached to all securable objects.
-* Object-specific type that can occur only in ACLs for Active Directory objects.
+* 通用类型，附加到所有可安全对象。
+* 对于Active Directory对象的ACL中才能出现的特定对象类型。
 
-### Generic ACE
+### 通用ACE
 
-A generic ACE offers limited control over the kinds of child objects that can inherit them. Essentially, they can distinguish only between containers and noncontainers.
+通用ACE对可以继承它们的子对象类型的控制有限。基本上，它们只能区分容器和非容器之间的区别。
 
-For example, the DACL (Discretionary Access Control List) on a Folder object in NTFS can include a generic ACE that allows a group of users to list the folder's contents. Because listing a folder's contents is an operation that can be performed only on a Container object, the ACE that allows the operation can be flagged as a CONTAINER\_INHERIT\_ACE. Only Container objects in the folder (that is, only other Folder objects) inherit the ACE. Noncontainer objects (that is, File objects) do not inherit the ACE of the parent object.
+例如，在NTFS的文件夹对象上的DACL（自由访问控制列表）可以包括一个通用ACE，允许一组用户列出文件夹的内容。因为列出文件夹的内容是只能在容器对象上执行的操作，所以允许该操作的ACE可以被标记为CONTAINER\_INHERIT\_ACE。只有文件夹中的容器对象（即其他文件夹对象）继承父对象的ACE。非容器对象（即文件对象）不继承父对象的ACE。
 
-A generic ACE applies to an entire object. If a generic ACE gives a particular user Read access, the user can read all the information that is associated with the object — both data and properties. This is not a serious limitation for most object types. File objects, for example, have few properties, which are all used for describing characteristics of the object rather than for storing information. Most of the information in a File object is stored as object data; therefore, there is little need for separate controls on a file's properties.
+通用ACE适用于整个对象。如果通用ACE给了特定用户读取权限，该用户可以读取与对象关联的所有信息，包括数据和属性。对于大多数对象类型来说，这不是一个严重的限制。例如，文件对象只有少数属性，这些属性都用于描述对象的特性，而不是存储信息。文件对象中的大部分信息都存储为对象数据；因此，对文件属性进行单独控制的需求很小。
 
-### Object-specific ACE
+### 特定对象ACE
 
-An object-specific ACE offers a greater degree of control over the types of child objects that can inherit them.
+特定对象ACE对可以继承它们的子对象类型提供了更高程度的控制。
 
-For example, an OU (Organizational Unit) object's ACL can have an object-specific ACE that is marked for inheritance only by User objects. Other types of objects, such as Computer objects, will not inherit the ACE.
+例如，OU（组织单位）对象的ACL可以有一个特定对象ACE，只标记为User对象继承。其他类型的对象，如计算机对象，将不会继承该ACE。
 
-This capability is why object-specific ACEs are called object-specific. Their inheritance can be limited to specific types of child objects.
+这就是为什么特定对象ACE被称为特定对象的原因。它们的继承可以限制在特定类型的子对象上。
 
-There are similar differences in how the two categories of ACE types control access to objects.
+这两种类别的ACE类型在控制对对象的访问方面有类似的差异。
 
-An object-specific ACE can apply to any individual property of an object or to a set of properties for that object. This type of ACE is used only in an ACL for Active Directory objects, which, unlike other object types, store most of their information in properties. It is often desirable to place independent controls on each property of an Active Directory object, and object-specific ACEs make that possible.
+特定对象ACE可以应用于对象的任何单个属性或该对象的一组属性。这种类型的ACE仅在Active Directory对象的ACL中使用，与其他对象类型不同，Active Directory对象将大部分信息存储在属性中。通常希望对Active Directory对象的每个属性都放置独立的控制，而特定对象ACE使这成为可能。
 
-For example, when you define permissions for a User object, you can use one object-specific ACE to allow Principal Self (that is, the user) Write access to the Phone-Home-Primary (homePhone) property, and you can use other object-specific ACEs to deny Principal Self access to the Logon-Hours (logonHours) property and other properties that set restrictions on the user account.
+例如，当您为User对象定义权限时，可以使用一个特定对象ACE允许Principal Self（即用户）对Phone-Home-Primary（homePhone）属性进行写访问，并使用其他特定对象ACE拒绝Principal Self对Logon-Hours（logonHours）属性和设置用户帐户限制的其他属性的访问。
 
-The table below shows the layout of each ACE.
+下表显示了每个ACE的布局。
+### 访问控制项布局
 
-### Access Control Entry Layout
-
-| ACE Field   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| ACE字段    | 描述                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Type        | Flag that indicates the type of ACE. Windows 2000 and Windows Server 2003 support six types of ACE: Three generic ACE types that are attached to all securable objects. Three object-specific ACE types that can occur for Active Directory objects.                                                                                                                                                                                                                                                            |
-| Flags       | Set of bit flags that control inheritance and auditing.                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| Size        | Number of bytes of memory that are allocated for the ACE.                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| Access mask | 32-bit value whose bits correspond to access rights for the object. Bits can be set either on or off, but the setting's meaning depends on the ACE type. For example, if the bit that corresponds to the right to read permissions is turned on, and the ACE type is Deny, the ACE denies the right to read the object's permissions. If the same bit is set on but the ACE type is Allow, the ACE grants the right to read the object's permissions. More details of the Access mask appear in the next table. |
-| SID         | Identifies a user or group whose access is controlled or monitored by this ACE.                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| 类型        | 表示ACE类型的标志。Windows 2000和Windows Server 2003支持六种类型的ACE：附加到所有可安全对象的三种通用ACE类型。可能出现在Active Directory对象中的三种特定对象ACE类型。                                                                                                                                                                                                                                                                                                                                 |
+| 标志        | 一组位标志，用于控制继承和审核。                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| 大小        | 为ACE分配的内存字节数。                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| 访问掩码    | 32位值，其位对应于对象的访问权限。位可以设置为打开或关闭，但设置的含义取决于ACE类型。例如，如果打开了对应于读取权限的位，并且ACE类型为拒绝，则ACE拒绝读取对象的权限。如果相同的位被设置为打开，但ACE类型为允许，则ACE授予读取对象权限的权利。访问掩码的更多详细信息请参见下表。                                                                                                                                                                                                                          |
+| SID         | 标识由此ACE控制或监视其访问权限的用户或组。                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 
-### Access Mask Layout
+### 访问掩码布局
 
-| Bit (Range) | Meaning                            | Description/Example                       |
+| 位（范围） | 含义                               | 描述/示例                                 |
 | ----------- | ---------------------------------- | ----------------------------------------- |
-| 0 - 15      | Object Specific Access Rights      | Read data, Execute, Append data           |
-| 16 - 22     | Standard Access Rights             | Delete, Write ACL, Write Owner            |
-| 23          | Can access security ACL            |                                           |
-| 24 - 27     | Reserved                           |                                           |
-| 28          | Generic ALL (Read, Write, Execute) | Everything below                          |
-| 29          | Generic Execute                    | All things necessary to execute a program |
-| 30          | Generic Write                      | All things necessary to write to a file   |
-| 31          | Generic Read                       | All things necessary to read a file       |
+| 0 - 15      | 对象特定访问权限                   | 读取数据，执行，追加数据                   |
+| 16 - 22     | 标准访问权限                       | 删除，写ACL，写所有者                      |
+| 23          | 可访问安全ACL                      |                                           |
+| 24 - 27     | 保留                               |                                           |
+| 28          | 通用ALL（读取，写入，执行）         | 以下所有内容                               |
+| 29          | 通用执行                           | 执行程序所需的所有内容                     |
+| 30          | 通用写入                           | 写入文件所需的所有内容                     |
+| 31          | 通用读取                           | 读取文件所需的所有内容                     |
 
-## References
+## 参考资料
 
 * [https://www.ntfs.com/ntfs-permissions-acl-use.htm](https://www.ntfs.com/ntfs-permissions-acl-use.htm)
 * [https://secureidentity.se/acl-dacl-sacl-and-the-ace/](https://secureidentity.se/acl-dacl-sacl-and-the-ace/)
@@ -207,18 +203,18 @@ The table below shows the layout of each ACE.
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* 您在**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想获得最新版本的PEASS或下载PDF格式的HackTricks吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks衣物**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享您的黑客技巧**。
 
 </details>
 
 ![](<../../.gitbook/assets/image (9) (1) (2).png>)
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和**自动化工作流程**，使用全球**最先进**的社区工具。\
+立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

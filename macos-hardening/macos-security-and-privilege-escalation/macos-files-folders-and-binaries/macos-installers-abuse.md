@@ -1,35 +1,34 @@
-# macOS Installers Abuse
+# macOS安装程序滥用
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
 
-## Pkg Basic Information
+## Pkg基本信息
 
-A macOS **installer package** (also known as a `.pkg` file) is a file format used by macOS to **distribute software**. These files are like a **box that contains everything a piece of software** needs to install and run correctly.
+macOS **安装程序包**（也称为`.pkg`文件）是macOS用于**分发软件**的文件格式。这些文件就像一个**包含了软件安装和运行所需的一切**的盒子。
 
-The package file itself is an archive that holds a **hierarchy of files and directories that will be installed on the target** computer. It can also include **scripts** to perform tasks before and after the installation, like setting up configuration files or cleaning up old versions of the software.
+安装程序包本身是一个存档文件，其中包含了将要安装在目标计算机上的**文件和目录的层次结构**。它还可以包括在安装之前和之后执行任务的**脚本**，例如设置配置文件或清理旧版本的软件。
 
-### Hierarchy
+### 层次结构
 
 <figure><img src="../../../.gitbook/assets/Pasted Graphic.png" alt=""><figcaption></figcaption></figure>
 
-* **Distribution (xml)**: Customizations (title, welcome text…) and script/installation checks
-* **PackageInfo (xml)**: Info, install requirements, install location, paths to scripts to run
-* **Bill of materials (bom)**: List of files to install, update or remove with file permissions
-* **Payload (CPIO archive gzip compresses)**: Files to install in the `install-location` from PackageInfo
-* **Scripts (CPIO archive gzip compressed)**: Pre and post install scripts and more resources extracted to a temp directory for execution.
+* **Distribution (xml)**: 自定义内容（标题，欢迎文本...）和脚本/安装检查
+* **PackageInfo (xml)**: 信息，安装要求，安装位置，运行脚本的路径
+* **Bill of materials (bom)**: 要安装、更新或删除的文件列表及其文件权限
+* **Payload (CPIO归档gzip压缩)**: 要安装在PackageInfo中的`install-location`中的文件
+* **Scripts (CPIO归档gzip压缩)**: 预安装和后安装脚本以及更多资源，提取到临时目录以供执行。
 
-### Decompress
-
+### 解压缩
 ```bash
 # Tool to directly get the files inside a package
 pkgutil —expand "/path/to/package.pkg" "/path/to/out/dir"
@@ -43,60 +42,57 @@ xar -xf "/path/to/package.pkg"
 cat Scripts | gzip -dc | cpio -i
 cpio -i < Scripts
 ```
+## DMG基本信息
 
-## DMG Basic Information
+DMG文件，或称为Apple Disk Images，是苹果的macOS使用的磁盘映像文件格式。DMG文件实际上是一个可挂载的磁盘映像（它包含自己的文件系统），其中包含通常经过压缩和有时加密的原始块数据。当您打开一个DMG文件时，macOS会将其挂载为一个物理磁盘，使您能够访问其内容。
 
-DMG files, or Apple Disk Images, are a file format used by Apple's macOS for disk images. A DMG file is essentially a **mountable disk image** (it contains its own filesystem) that contains raw block data typically compressed and sometimes encrypted. When you open a DMG file, macOS **mounts it as if it were a physical disk**, allowing you to access its contents.
-
-### Hierarchy
+### 层次结构
 
 <figure><img src="../../../.gitbook/assets/image (12) (2).png" alt=""><figcaption></figcaption></figure>
 
-The hierarchy of a DMG file can be different based on the content. However, for application DMGs, it usually follows this structure:
+DMG文件的层次结构可以根据内容的不同而不同。然而，对于应用程序DMG文件，它通常遵循以下结构：
 
-* Top Level: This is the root of the disk image. It often contains the application and possibly a link to the Applications folder.
-  * Application (.app): This is the actual application. In macOS, an application is typically a package that contains many individual files and folders that make up the application.
-  * Applications Link: This is a shortcut to the Applications folder in macOS. The purpose of this is to make it easy for you to install the application. You can drag the .app file to this shortcut to install the app.
+* 顶层：这是磁盘映像的根目录。它通常包含应用程序以及可能链接到应用程序文件夹的链接。
+* 应用程序（.app）：这是实际的应用程序。在macOS中，应用程序通常是一个包，其中包含许多组成应用程序的单个文件和文件夹。
+* 应用程序链接：这是指向macOS中应用程序文件夹的快捷方式。其目的是使您能够轻松安装应用程序。您可以将.app文件拖到此快捷方式以安装应用程序。
 
-## Privesc via pkg abuse
+## 通过pkg滥用提权
 
-### Execution from public directories
+### 从公共目录执行
 
-If a pre or post installation script is for example executing from **`/var/tmp/Installerutil`**, and attacker could control that script so he escalate privileges whenever it's executed. Or another similar example:
+如果一个预安装或后安装脚本例如从**`/var/tmp/Installerutil`**执行，并且攻击者可以控制该脚本，那么他可以在每次执行时提升权限。或者另一个类似的例子：
 
 <figure><img src="../../../.gitbook/assets/Pasted Graphic 5.png" alt=""><figcaption></figcaption></figure>
 
 ### AuthorizationExecuteWithPrivileges
 
-This is a [public function](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg) that several installers and updaters will call to **execute something as root**. This function accepts the **path** of the **file** to **execute** as parameter, however, if an attacker could **modify** this file, he will be able to **abuse** its execution with root to **escalate privileges**.
-
+这是一个[公共函数](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg)，许多安装程序和更新程序将调用它来以root权限执行某些操作。该函数接受要执行的文件的路径作为参数，然而，如果攻击者可以修改此文件，他将能够滥用其以root权限执行，从而提升权限。
 ```bash
 # Breakpoint in the function to check wich file is loaded
 (lldb) b AuthorizationExecuteWithPrivileges
 # You could also check FS events to find this missconfig
 ```
+有关更多信息，请查看此演讲：[https://www.youtube.com/watch?v=lTOItyjTTkw](https://www.youtube.com/watch?v=lTOItyjTTkw)
 
-For more info check this talk: [https://www.youtube.com/watch?v=lTOItyjTTkw](https://www.youtube.com/watch?v=lTOItyjTTkw)
+### 通过挂载执行
 
-### Execution by mounting
+如果安装程序写入`/tmp/fixedname/bla/bla`，则可以使用无所有者的方式在`/tmp/fixedname`上**创建一个挂载点**，从而可以在安装过程中**修改任何文件**以滥用安装过程。
 
-If an installer writes to `/tmp/fixedname/bla/bla`, it's possible to **create a mount** over `/tmp/fixedname` with noowners so you could **modify any file during the installation** to abuse the installation process.
+一个例子是**CVE-2021-26089**，它成功地**覆盖了一个周期性脚本**以获取以root权限执行的能力。有关更多信息，请参阅演讲：[**OBTS v4.0: "Mount(ain) of Bugs" - Csaba Fitzl**](https://www.youtube.com/watch?v=jSYPazD4VcE)
 
-An example of this is **CVE-2021-26089** which managed to **overwrite a periodic script** to get execution as root. For more information take a look to the talk: [**OBTS v4.0: "Mount(ain) of Bugs" - Csaba Fitzl**](https://www.youtube.com/watch?v=jSYPazD4VcE)
+## pkg作为恶意软件
 
-## pkg as malware
+### 空负载
 
-### Empty Payload
+可以只生成一个没有任何负载的**`.pkg`**文件，其中包含**预安装和后安装脚本**。
 
-It's possible to just generate a **`.pkg`** file with **pre and post-install scripts** without any payload.
+### Distribution xml中的JS
 
-### JS in Distribution xml
-
-It's possible to add **`<script>`** tags in the **distribution xml** file of the package and that code will get executed and it can **execute commands** using **`system.run`**:
+可以在软件包的**distribution xml**文件中添加**`<script>`**标签，该代码将被执行，并且可以使用**`system.run`**来**执行命令**：
 
 <figure><img src="../../../.gitbook/assets/image (14).png" alt=""><figcaption></figcaption></figure>
 
-## References
+## 参考资料
 
 * [**DEF CON 27 - Unpacking Pkgs A Look Inside Macos Installer Packages And Common Security Flaws**](https://www.youtube.com/watch?v=iASSG0\_zobQ)
 * [**OBTS v4.0: "The Wild World of macOS Installers" - Tony Lambert**](https://www.youtube.com/watch?v=Eow5uNHtmIg)
@@ -105,10 +101,10 @@ It's possible to add **`<script>`** tags in the **distribution xml** file of the
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* 你在一家**网络安全公司**工作吗？想要在HackTricks中**为你的公司做广告**吗？或者你想要**获取最新版本的PEASS或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>

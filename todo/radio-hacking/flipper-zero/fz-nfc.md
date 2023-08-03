@@ -4,86 +4,85 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* 你在一个**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[NFT收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
 
-## Intro <a href="#9wrzi" id="9wrzi"></a>
+## 简介 <a href="#9wrzi" id="9wrzi"></a>
 
-For info about RFID and NFC check the following page:
+有关RFID和NFC的信息，请查看以下页面：
 
 {% content-ref url="../../../radio-hacking/pentesting-rfid.md" %}
 [pentesting-rfid.md](../../../radio-hacking/pentesting-rfid.md)
 {% endcontent-ref %}
 
-## Supported NFC cards <a href="#9wrzi" id="9wrzi"></a>
+## 支持的NFC卡 <a href="#9wrzi" id="9wrzi"></a>
 
 {% hint style="danger" %}
-Apart from NFC cards Flipper Zero supports **other type of High-frequency cards** such as several **Mifare** Classic and Ultralight and **NTAG**.
+除了NFC卡外，Flipper Zero还支持其他类型的高频卡，如几种Mifare Classic和Ultralight以及NTAG。
 {% endhint %}
 
-New types of NFC cards will be added to the list of supported cards. Flipper Zero supports the following **NFC cards type A** (ISO 14443A):
+新类型的NFC卡将被添加到支持的卡列表中。Flipper Zero支持以下**NFC卡类型A**（ISO 14443A）：
 
-* ﻿**Bank cards (EMV)** — only read UID, SAK, and ATQA without saving.
-* ﻿**Unknown cards** — read (UID, SAK, ATQA) and emulate an UID.
+* ﻿**银行卡（EMV）** - 仅读取UID、SAK和ATQA，不保存。
+* ﻿**未知卡** - 读取（UID、SAK、ATQA）并模拟UID。
 
-For **NFC cards type B, type F, and type V**, Flipper Zero is able to read an UID without saving it.
+对于**NFC卡类型B、类型F和类型V**，Flipper Zero能够读取UID而不保存。
 
-### NFC cards type A <a href="#uvusf" id="uvusf"></a>
+### NFC卡类型A <a href="#uvusf" id="uvusf"></a>
 
-#### Bank card (EMV) <a href="#kzmrp" id="kzmrp"></a>
+#### 银行卡（EMV） <a href="#kzmrp" id="kzmrp"></a>
 
-Flipper Zero can only read an UID, SAK, ATQA, and stored data on bank cards **without saving**.
+Flipper Zero只能读取银行卡的UID、SAK、ATQA和存储的数据**而不保存**。
 
-Bank card reading screenFor bank cards, Flipper Zero can only read data **without saving and emulating it**.
+银行卡读取屏幕对于银行卡，Flipper Zero只能读取数据**而不保存和模拟**。
 
 <figure><img src="https://cdn.flipperzero.one/Monosnap_Miro_2022-08-17_12-26-31.png?auto=format&#x26;ixlib=react-9.1.1&#x26;h=916&#x26;w=2662" alt=""><figcaption></figcaption></figure>
 
-#### Unknown cards <a href="#37eo8" id="37eo8"></a>
+#### 未知卡 <a href="#37eo8" id="37eo8"></a>
 
-When Flipper Zero is **unable to determine NFC card's type**, then only an **UID, SAK, and ATQA** can be **read and saved**.
+当Flipper Zero**无法确定NFC卡的类型**时，只能**读取和保存**UID、SAK和ATQA。
 
-Unknown card reading screenFor unknown NFC cards, Flipper Zero can emulate only an UID.
+未知卡读取屏幕对于未知的NFC卡，Flipper Zero只能模拟UID。
 
 <figure><img src="https://cdn.flipperzero.one/Monosnap_Miro_2022-08-17_12-27-53.png?auto=format&#x26;ixlib=react-9.1.1&#x26;h=932&#x26;w=2634" alt=""><figcaption></figcaption></figure>
 
-### NFC cards types B, F, and V <a href="#wyg51" id="wyg51"></a>
+### NFC卡类型B、F和V <a href="#wyg51" id="wyg51"></a>
 
-For **NFC cards types B, F, and V**, Flipper Zero can only **read and display an UID** without saving it.
+对于**NFC卡类型B、F和V**，Flipper Zero只能读取和显示UID而不保存。
 
 <figure><img src="https://archbee.imgix.net/3StCFqarJkJQZV-7N79yY/zBU55Fyj50TFO4U7S-OXH_screenshot-2022-08-12-at-182540.png?auto=format&#x26;ixlib=react-9.1.1&#x26;h=1080&#x26;w=2704" alt=""><figcaption></figcaption></figure>
 
-## Actions
+## 操作
 
-For an intro about NFC [**read this page**](../../../radio-hacking/pentesting-rfid.md#high-frequency-rfid-tags-13.56-mhz).
+有关NFC的简介，请[**阅读此页面**](../../../radio-hacking/pentesting-rfid.md#high-frequency-rfid-tags-13.56-mhz)。
 
-### Read
+### 读取
 
-Flipper Zero can **read NFC cards**, however, it **doesn't understand all the protocols** that are based on ISO 14443. However, since **UID is a low-level attribute**, you might find yourself in a situation when **UID is already read, but the high-level data transfer protocol is still unknown**. You can read, emulate and manually input UID using Flipper for the primitive readers that use UID for authorization.
+Flipper Zero可以**读取NFC卡**，但是它**不理解所有基于ISO 14443的协议**。然而，由于**UID是一个低级属性**，你可能会遇到这样的情况，即**UID已经被读取，但高级数据传输协议仍然未知**。你可以使用Flipper读取、模拟和手动输入UID，用于使用UID进行授权的原始读卡器。
 
-#### Reading the UID VS Reading the Data Inside <a href="#reading-the-uid-vs-reading-the-data-inside" id="reading-the-uid-vs-reading-the-data-inside"></a>
+#### 读取UID与读取内部数据的区别 <a href="#reading-the-uid-vs-reading-the-data-inside" id="reading-the-uid-vs-reading-the-data-inside"></a>
 
 <figure><img src="../../../.gitbook/assets/image (26).png" alt=""><figcaption></figcaption></figure>
 
-In Flipper, reading 13.56 MHz tags can be divided into two parts:
+在Flipper中，读取13.56 MHz标签可以分为两个部分：
 
-* **Low-level read** — reads only the UID, SAK, and ATQA. Flipper tries to guess the high-level protocol based on this data read from the card. You can't be 100% certain with this, as it is just an assumption based on certain factors.
-* **High-level read** — reads the data from the card's memory using a specific high-level protocol. That would be reading the data on a Mifare Ultralight, reading the sectors from a Mifare Classic, or reading the card's attributes from PayPass/Apple Pay.
+* **低级读取** - 仅读取UID、SAK和ATQA。Flipper根据从卡中读取的这些数据尝试猜测高级协议。由于这只是基于某些因素的假设，你无法百分之百确定。
+* **高级读取** - 使用特定的高级协议从卡的存储器中读取数据。这可能是读取Mifare Ultralight上的数据，读取Mifare Classic的扇区，或者读取PayPass/Apple Pay的卡属性。
+### 读取特定卡片
 
-### Read Specific
+如果Flipper Zero无法从低级数据中找到卡片类型，在`额外操作`中，您可以选择`读取特定卡片类型`并**手动指定您想要读取的卡片类型**。
 
-In case Flipper Zero isn't capable of finding the type of card from the low level data, in `Extra Actions` you can select `Read Specific Card Type` and **manually** **indicate the type of card you would like to read**.
+#### EMV银行卡（PayPass，payWave，Apple Pay，Google Pay）<a href="#emv-bank-cards-paypass-paywave-apple-pay-google-pay" id="emv-bank-cards-paypass-paywave-apple-pay-google-pay"></a>
 
-#### EMV Bank Cards (PayPass, payWave, Apple Pay, Google Pay) <a href="#emv-bank-cards-paypass-paywave-apple-pay-google-pay" id="emv-bank-cards-paypass-paywave-apple-pay-google-pay"></a>
+除了简单地读取UID外，您还可以从银行卡中提取更多数据。可以**获取完整的卡号**（卡片正面的16位数字），**有效期**，在某些情况下甚至可以获取**持卡人姓名**以及**最近交易的列表**。\
+但是，您**无法通过这种方式读取CVV**（卡片背面的3位数字）。此外，**银行卡受到重放攻击的保护**，因此使用Flipper复制它，然后尝试模拟支付是行不通的。
 
-Apart from simply reading the UID, you can extract a lot more data from a bank card. It's possible to **get the full card number** (the 16 digits on the front of the card), **validity date**, and in some cases even the **owner's name** along with a list of the **most recent transactions**.\
-However, you **can't read the CVV this way** (the 3 digits on the back of the card). Also **bank cards are protected from replay attacks**, so copying it with Flipper and then trying to emulate it to pay for something won't work.
-
-## References
+## 参考资料
 
 * [https://blog.flipperzero.one/rfid/](https://blog.flipperzero.one/rfid/)
 
@@ -91,10 +90,10 @@ However, you **can't read the CVV this way** (the 3 digits on the back of the ca
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* 您在**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想要访问**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧。**
 
 </details>

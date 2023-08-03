@@ -1,102 +1,101 @@
-# Detecting Phising
+# 检测钓鱼网站
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **通过向[hacktricks仓库](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud仓库](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
 
 </details>
 
-## Introduction
+## 简介
 
-To detect a phishing attempt it's important to **understand the phishing techniques that are being used nowadays**. On the parent page of this post, you can find this information, so if you aren't aware of which techniques are being used today I recommend you to go to the parent page and read at least that section.
+要检测钓鱼尝试，重要的是**了解当前使用的钓鱼技术**。在本文的父页面上，您可以找到这些信息，因此如果您不知道当前使用的技术，请去父页面至少阅读该部分。
 
-This post is based on the idea that the **attackers will try to somehow mimic or use the victim's domain name**. If your domain is called `example.com` and you are phished using a completely different domain name for some reason like `youwonthelottery.com`, these techniques aren't going to uncover it.
+本文基于这样一个想法，即**攻击者将尝试模仿或使用受害者的域名**。如果您的域名为`example.com`，而您被钓鱼使用完全不同的域名，例如`youwonthelottery.com`，这些技术将无法发现。
 
-## Domain name variations
+## 域名变体
 
-It's kind of **easy** to **uncover** those **phishing** attempts that will use a **similar domain** name inside the email.\
-It's enough to **generate a list of the most probable phishing names** that an attacker may use and **check** if it's **registered** or just check if there is any **IP** using it.
+发现在电子邮件中使用**类似域名**的**钓鱼**尝试是相当**容易**的。\
+只需**生成一个最可能的钓鱼名称列表**，攻击者可能会使用这些名称，并**检查**它是否已**注册**，或者只需检查是否有任何**IP**在使用它。
 
-### Finding suspicious domains
+### 查找可疑域名
 
-For this purpose, you can use any of the following tools. Note that these tolls will also perform DNS requests automatically to check if the domain has any IP assigned to it:
+为此，您可以使用以下任何工具。请注意，这些工具还将自动执行DNS请求，以检查该域名是否有任何分配给它的IP：
 
 * [**dnstwist**](https://github.com/elceef/dnstwist)
 * [**urlcrazy**](https://github.com/urbanadventurer/urlcrazy)
 
-### Bitflipping
+### 位翻转
 
-In the world of computing, everything is stored in bits (zeros and ones) in memory behind the scenes.\
-This applies to domains too. For example, _windows.com_ becomes _01110111..._ in the volatile memory of your computing device.\
-However, what if one of these bits got automatically flipped due to a solar flare, cosmic rays, or a hardware error? That is one of the 0's becomes a 1 and vice versa.\
-Applying this concept to DNS requests, it's possible that the **domain requested** that arrives at the DNS server **isn't the same as the domain initially requested.**
+在计算世界中，所有内容都以位（零和一）存储在内存中。\
+域名也是如此。例如，_windows.com_在计算设备的易失性内存中变为_01110111..._。\
+然而，如果其中一个位由于太阳耀斑、宇宙射线或硬件错误而自动翻转会怎样呢？也就是说，其中的一个0变为1，反之亦然。\
+将这个概念应用到DNS请求中，可能发生的情况是**到达DNS服务器的请求域名与最初请求的域名不同**。
 
-For example, a 1 bit modification in the domain microsoft.com can transform it into _windnws.com._\
-**Attackers may register as many bit-flipping domains as possible related to the victim to redirect legitimate users to their infrastructure**.
+例如，对域名microsoft.com进行1位修改，可以将其转换为_windnws.com_。\
+**攻击者可能会注册尽可能多的与受害者相关的位翻转域名，以将合法用户重定向到他们的基础设施**。
 
-For more information read [https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/](https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/)
+有关更多信息，请阅读[https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/](https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/)
 
-**All possible bit-flipping domain names should be also monitored.**
+**还应监视所有可能的位翻转域名。**
 
-### Basic checks
+### 基本检查
 
-Once you have a list of potential suspicious domain names you should **check** them (mainly the ports HTTP and HTTPS) to **see if they are using some login form similar** to someone of the victim's domain.\
-You could also check port 3333 to see if it's open and running an instance of `gophish`.\
-It's also interesting to know **how old each discovered suspicions domain is**, the younger it's the riskier it is.\
-You can also get **screenshots** of the HTTP and/or HTTPS suspicious web page to see if it's suspicious and in that case **access it to take a deeper look**.
+一旦您有了潜在可疑域名列表，您应该**检查**它们（主要是HTTP和HTTPS端口），以**查看它们是否使用与受害者域名相似的登录表单**。\
+您还可以检查端口3333，看看是否打开并运行了一个`gophish`实例。\
+了解每个发现的可疑域名的**年龄**也很有趣，年龄越小，风险越大。\
+您还可以获取HTTP和/或HTTPS可疑网页的**屏幕截图**，以查看是否可疑，并在这种情况下**访问它以进行更深入的查看**。
 
-### Advanced checks
+### 高级检查
 
-If you want to go one step further I would recommend you to **monitor those suspicious domains and search for more** once in a while (every day? it only takes a few seconds/minutes). You should also **check** the open **ports** of the related IPs and **search for instances of `gophish` or similar tools** (yes, attackers also make mistakes) and **monitor the HTTP and HTTPS web pages of the suspicious domains and subdomains** to see if they have copied any login form from the victim's web pages.\
-In order to **automate this** I would recommend having a list of login forms of the victim's domains, spider the suspicious web pages and comparing each login form found inside the suspicious domains with each login form of the victim's domain using something like `ssdeep`.\
-If you have located the login forms of the suspicious domains, you can try to **send junk credentials** and **check if it's redirecting you to the victim's domain**.
+如果您想更进一步，我建议您**定期监视这些可疑域名并搜索更多**（每天一次？只需要几秒钟/几分钟）。您还应该**检查**相关IP的**开放端口**，并**搜索`gophish`或类似工具的实例**（是的，攻击者也会犯错误），并**监视可疑域名和子域名的HTTP和HTTPS网页**，以查看它们是否复制了受害者网页的任何登录表单。\
+为了**自动化**这个过程，我建议您拥有受害者域名的登录表单列表，爬取可疑网页，并使用类似`ssdeep`的工具将每个可疑域名中找到的每个登录表单与受害者域名的每个登录表单进行比较。\
+如果找到了可疑域名的登录表单，您可以尝试**发送垃圾凭据**并**检查是否将您重定向到受害者域名**。
+## 使用关键词的域名
 
-## Domain names using keywords
+父页面还提到了一种域名变体技术，即将**受害者的域名放在更大的域名中**（例如，paypal.com的paypal-financial.com）。
 
-The parent page also mentions a domain name variation technique that consists of putting the **victim's domain name inside a bigger domain** (e.g. paypal-financial.com for paypal.com).
+### 证书透明度
 
-### Certificate Transparency
+虽然无法采用之前的“暴力破解”方法，但实际上可以通过证书透明度揭示此类钓鱼企图。每当CA发出证书时，详细信息都会公开。这意味着通过阅读证书透明度或监视它，**可以找到使用关键词的域名**。例如，如果攻击者生成了一个[https://paypal-financial.com](https://paypal-financial.com)的证书，通过查看证书，可以找到关键词“paypal”，并知道正在使用可疑的电子邮件。
 
-It's not possible to take the previous "Brute-Force" approach but it's actually **possible to uncover such phishing attempts** also thanks to certificate transparency. Every time a certificate is emitted by a CA, the details are made public. This means that by reading the certificate transparency or even monitoring it, it's **possible to find domains that are using a keyword inside its name** For example, if an attacker generates a certificate of [https://paypal-financial.com](https://paypal-financial.com), seeing the certificate it's possible to find the keyword "paypal" and know that suspicious email is being used.
-
-The post [https://0xpatrik.com/phishing-domains/](https://0xpatrik.com/phishing-domains/) suggests that you can use Censys to search for certificates affecting a specific keyword and filter by date (only "new" certificates) and by the CA issuer "Let's Encrypt":
+文章[https://0xpatrik.com/phishing-domains/](https://0xpatrik.com/phishing-domains/)建议您可以使用Censys搜索影响特定关键词的证书，并按日期（仅“新”证书）和CA发行者“Let's Encrypt”进行过滤：
 
 ![](<../../.gitbook/assets/image (390).png>)
 
-However, you can do "the same" using the free web [**crt.sh**](https://crt.sh). You can **search for the keyword** and the **filter** the results **by date and CA** if you wish.
+但是，您也可以使用免费的网站[**crt.sh**](https://crt.sh)来做“相同的事情”。您可以**搜索关键词**，并根据需要**按日期和CA进行筛选**结果。
 
 ![](<../../.gitbook/assets/image (391).png>)
 
-Using this last option you can even use the field Matching Identities to see if any identity from the real domain matches any of the suspicious domains (note that a suspicious domain can be a false positive).
+使用最后一种选项，您甚至可以使用匹配身份字段查看真实域与任何可疑域是否匹配（请注意，可疑域可能是误报）。
 
-**Another alternative** is the fantastic project called [**CertStream**](https://medium.com/cali-dog-security/introducing-certstream-3fc13bb98067). CertStream provides a real-time stream of newly generated certificates which you can use to detect specified keywords in (near) real-time. In fact, there is a project called [**phishing\_catcher**](https://github.com/x0rz/phishing\_catcher) that does just that.
+**另一种选择**是名为[**CertStream**](https://medium.com/cali-dog-security/introducing-certstream-3fc13bb98067)的出色项目。CertStream提供了新生成的证书的实时流，您可以使用它来实时检测指定关键词。实际上，有一个名为[**phishing\_catcher**](https://github.com/x0rz/phishing\_catcher)的项目就是这样做的。
 
-### **New domains**
+### **新域名**
 
-**One last alternative** is to gather a list of **newly registered domains** for some TLDs ([Whoxy](https://www.whoxy.com/newly-registered-domains/) provides such service) and **check the keywords in these domains**. However, long domains usually use one or more subdomains, therefore the keyword won't appear inside the FLD and you won't be able to find the phishing subdomain.
+**最后一种选择**是收集一些TLD的**新注册域名列表**（[Whoxy](https://www.whoxy.com/newly-registered-domains/)提供此类服务），并**检查这些域名中的关键词**。但是，长域名通常使用一个或多个子域，因此关键词不会出现在FLD中，您将无法找到钓鱼子域。
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- 您在**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想获得最新版本的PEASS或下载PDF格式的HackTricks吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- 获取[**官方PEASS和HackTricks衣物**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享您的黑客技巧**。
 
 </details>

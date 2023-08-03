@@ -1,151 +1,145 @@
-
-
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- 你在一家**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者你想要获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- 发现我们的独家[**NFT收藏品The PEASS Family**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **通过向[hacktricks仓库](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud仓库](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
 
 </details>
 
 
 ## smss.exe
 
-**Session Manager**.\
-Session 0 starts **csrss.exe** and **wininit.exe** (**OS** **services**) while Session 1 starts **csrss.exe** and **winlogon.exe** (**User** **session**). However, you should see **only one process** of that **binary** without children in the processes tree.
+**会话管理器**。\
+会话0启动**csrss.exe**和**wininit.exe**（**操作系统服务**），而会话1启动**csrss.exe**和**winlogon.exe**（**用户会话**）。然而，在进程树中，你应该只看到一个没有子进程的该二进制文件的进程。
 
-Also, sessions apart from 0 and 1 may mean that RDP sessions are occurring.
+此外，除了0和1之外的会话可能意味着正在发生RDP会话。
 
 
 ## csrss.exe
 
-**Client/Server Run Subsystem Process**.\
-It manages **processes** and **threads**, makes the **Windows** **API** available for other processes and also **maps drive letters**, create **temp files**, and handles the **shutdown** **process**.
+**客户端/服务器运行子系统进程**。\
+它管理**进程**和**线程**，为其他进程提供**Windows API**，还**映射驱动器字母**，创建**临时文件**，处理**关机过程**。
 
-There is one **running in Session 0 and another one in Session 1** (so **2 processes** in the processes tree). Another one is created **per new Session**.
+在会话0和会话1中各有一个（因此进程树中有2个进程）。每个新会话都会创建另一个进程。
 
 
 ## winlogon.exe
 
-**Windows Logon Process**.\
-It's responsible for user **logon**/**logoffs**. It launches **logonui.exe** to ask for username and password and then calls **lsass.exe** to verify them.
+**Windows登录进程**。\
+它负责用户的**登录**/**注销**。它启动**logonui.exe**以请求用户名和密码，然后调用**lsass.exe**进行验证。
 
-Then it launches **userinit.exe** which is specified in **`HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon`** with key **Userinit**.
+然后它启动**userinit.exe**，该文件在**`HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon`**中的**Userinit**键中指定。
 
-Mover over, the previous registry should have **explorer.exe** in the **Shell key** or it might be abused as a **malware persistence method**.
+此外，上述注册表中的**Shell键**应该包含**explorer.exe**，否则可能被滥用为**恶意软件持久化方法**。
 
 
 ## wininit.exe
 
-**Windows Initialization Process**. \
-It launches **services.exe**, **lsass.exe**, and **lsm.exe** in Session 0. There should only be 1 process.
+**Windows初始化进程**。\
+它在会话0中启动**services.exe**、**lsass.exe**和**lsm.exe**。应该只有一个进程。
 
 
 ## userinit.exe
 
-**Userinit Logon Application**.\
-Loads the **ntduser.dat in HKCU** and initialises the **user** **environment** and runs **logon** **scripts** and **GPO**.
+**Userinit登录应用程序**。\
+加载**HKCU**中的**ntuser.dat**，初始化**用户环境**，运行**登录脚本**和**GPO**。
 
-It launches **explorer.exe**.
+它启动**explorer.exe**。
 
 
 ## lsm.exe
 
-**Local Session Manager**.\
-It works with smss.exe to manipulate user sessions: Logon/logoff, shell start, lock/unlock desktop, etc.
+**本地会话管理器**。\
+它与smss.exe一起操作用户会话：登录/注销、启动shell、锁定/解锁桌面等。
 
-After W7 lsm.exe was transformed into a service (lsm.dll).
+在Windows 7之后，lsm.exe被转换为一个服务（lsm.dll）。
 
-There should only be 1 process in W7 and from them a service running the DLL.
+在Windows 7中应该只有一个进程，其中一个服务运行该DLL。
 
 
 ## services.exe
 
-**Service Control Manager**.\
-It **loads** **services** configured as **auto-start** and **drivers**.
+**服务控制管理器**。\
+它**加载**配置为**自动启动**的**服务**和**驱动程序**。
 
-It's the parent process of **svchost.exe**, **dllhost.exe**, **taskhost.exe**, **spoolsv.exe** and many more.
+它是**svchost.exe**、**dllhost.exe**、**taskhost.exe**、**spoolsv.exe**等进程的父进程。
 
-Services are defined in `HKLM\SYSTEM\CurrentControlSet\Services` and this process maintains a DB in memory of service info that can be queried by sc.exe.
+服务在`HKLM\SYSTEM\CurrentControlSet\Services`中定义，该进程在内存中维护一个服务信息的数据库，可以通过sc.exe查询。
 
-Note how **some** **services** are going to be running in a **process of their own** and others are going to be **sharing a svchost.exe process**.
+请注意，**某些服务**将在**自己的进程中运行**，而其他服务将在**共享的svchost.exe进程中运行**。
 
-There should only be 1 process.
+应该只有一个进程。
 
 
 ## lsass.exe
 
-**Local Security Authority Subsystem**.\
-It's responsible for the user **authentication** and create the **security** **tokens**. It uses authentication packages located in `HKLM\System\CurrentControlSet\Control\Lsa`.
+**本地安全机构子系统**。\
+它负责用户的**身份验证**并创建**安全令牌**。它使用位于`HKLM\System\CurrentControlSet\Control\Lsa`中的身份验证包。
 
-It writes to the **Security** **event** **log** and there should only be 1 process.
+它将写入**安全事件日志**，应该只有一个进程。
 
-Keep in mind that this process is highly attacked to dump passwords.
+请记住，这个进程很容易受到密码转储的攻击。
 
 
 ## svchost.exe
 
-**Generic Service Host Process**.\
-It hosts multiple DLL services in one shared process.
+**通用服务主机进程**。\
+它在一个共享进程中托管多个DLL服务。
 
-Usually, you will find that **svchost.exe** is launched with the `-k` flag. This will launch a query to the registry **HKEY\_LOCAL\_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Svchost** where there will be a key with the argument mentioned in -k that will contain the services to launch in the same process.
+通常，你会发现**svchost.exe**是以`-k`标志启动的。这将在注册表**HKEY\_LOCAL\_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Svchost**中发起一个查询，其中将有一个带有-k参数的键，其中包含要在同一进程中启动的服务。
 
-For example: `-k UnistackSvcGroup` will launch: `PimIndexMaintenanceSvc MessagingService WpnUserService CDPUserSvc UnistoreSvc UserDataSvc OneSyncSvc`
+例如：`-k UnistackSvcGroup`将启动：`PimIndexMaintenanceSvc MessagingService WpnUserService CDPUserSvc UnistoreSvc UserDataSvc OneSyncSvc`
 
-If the **flag `-s`** is also used with an argument, then svchost is asked to **only launch the specified service** in this argument.
+如果还使用了**`-s`标志**和一个参数，那么svchost将被要求**仅启动指定的服务**。
 
-There will be several processes of `svchost.exe`. If any of them is **not using the `-k` flag**, then that's very suspicious. If you find that **services.exe is not the parent**, that's also very suspicious.
-
-
+将会有多个`svchost.exe`进程。如果其中任何一个**没有使用`-k`标志**，那就非常可疑。如果你发现**services.exe不是父进程**，那也非常可疑。
 ## taskhost.exe
 
-This process act as a host for processes running from DLLs. It also loads the services that are running from DLLs.
+此进程作为从DLL运行的进程的主机。它还加载从DLL运行的服务。
 
-In W8 this is called taskhostex.exe and in W10 taskhostw.exe.
+在W8中，它被称为taskhostex.exe，在W10中被称为taskhostw.exe。
 
 
 ## explorer.exe
 
-This is the process responsible for the **user's desktop** and launching files via file extensions.
+这个进程负责**用户的桌面**和通过文件扩展名启动文件。
 
-**Only 1** process should be spawned **per logged on user.**
+**每个登录的用户**只应该生成**一个**进程。
 
-This is run from **userinit.exe** which should be terminated, so **no parent** should appear for this process.
+这是从**userinit.exe**运行的，应该被终止，所以这个进程**不应该有父进程**。
 
 
-# Catching Malicious Processes
+# 捕获恶意进程
 
-* Is it running from the expected path? (No Windows binaries run from temp location)
-* Is it communicating with weird IPs?
-* Check digital signatures (Microsoft artifacts should be signed)
-* Is it spelled correctly?
-* Is running under the expected SID?
-* Is the parent process the expected one (if any)?
-* Are the children processes the expecting ones? (no cmd.exe, wscript.exe, powershell.exe..?)
+* 它是否从预期的路径运行？（没有Windows二进制文件从临时位置运行）
+* 它是否与奇怪的IP通信？
+* 检查数字签名（Microsoft的工件应该是有签名的）
+* 拼写是否正确？
+* 是否在预期的SID下运行？
+* 父进程是否是预期的（如果有的话）？
+* 子进程是否是预期的？（没有cmd.exe，wscript.exe，powershell.exe等）
 
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- 发现我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- 获得[**官方PEASS和HackTricks的衣物**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
 
 </details>
-
-

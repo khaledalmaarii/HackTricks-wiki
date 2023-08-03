@@ -1,87 +1,86 @@
-# macOS Proces Abuse
+# macOS进程滥用
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[NFT收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
 
-## MacOS Process Abuse
+## macOS进程滥用
 
-MacOS, like any other operating system, provides a variety of methods and mechanisms for **processes to interact, communicate, and share data**. While these techniques are essential for efficient system functioning, they can also be abused by threat actors to **perform malicious activities**.
+与任何其他操作系统一样，macOS提供了各种方法和机制，用于进程之间的**交互、通信和共享数据**。虽然这些技术对于系统的高效运行至关重要，但黑客也可以滥用这些技术来**执行恶意活动**。
 
-### Library Injection
+### 库注入
 
-Library Injection is a technique wherein an attacker **forces a process to load a malicious library**. Once injected, the library runs in the context of the target process, providing the attacker with the same permissions and access as the process.
+库注入是一种技术，攻击者通过它**强制一个进程加载恶意库**。一旦注入，该库在目标进程的上下文中运行，为攻击者提供与进程相同的权限和访问权限。
 
 {% content-ref url="macos-library-injection/" %}
 [macos-library-injection](macos-library-injection/)
 {% endcontent-ref %}
 
-### Function Hooking
+### 函数挂钩
 
-Function Hooking involves **intercepting function calls** or messages within a software code. By hooking functions, an attacker can **modify the behavior** of a process, observe sensitive data, or even gain control over the execution flow.
+函数挂钩涉及**拦截软件代码中的函数调用**或消息。通过挂钩函数，攻击者可以**修改进程的行为**，观察敏感数据，甚至控制执行流程。
 
 {% content-ref url="../mac-os-architecture/macos-function-hooking.md" %}
 [macos-function-hooking.md](../mac-os-architecture/macos-function-hooking.md)
 {% endcontent-ref %}
 
-### Inter Process Communication
+### 进程间通信
 
-Inter Process Communication (IPC) refers to different methods by which separate processes **share and exchange data**. While IPC is fundamental for many legitimate applications, it can also be misused to subvert process isolation, leak sensitive information, or perform unauthorized actions.
+进程间通信（IPC）是指不同进程之间**共享和交换数据**的不同方法。虽然IPC对于许多合法应用程序至关重要，但它也可以被滥用以破坏进程隔离、泄露敏感信息或执行未经授权的操作。
 
 {% content-ref url="../mac-os-architecture/macos-ipc-inter-process-communication/" %}
 [macos-ipc-inter-process-communication](../mac-os-architecture/macos-ipc-inter-process-communication/)
 {% endcontent-ref %}
 
-### Electron Applications Injection
+### Electron应用程序注入
 
-Electron applications executed with specific env variables could be vulnerable to process injection:
+使用特定的环境变量执行的Electron应用程序可能容易受到进程注入的攻击：
 
 {% content-ref url="macos-electron-applications-injection.md" %}
 [macos-electron-applications-injection.md](macos-electron-applications-injection.md)
 {% endcontent-ref %}
 
-### .Net Applications Injection
+### .Net应用程序注入
 
-It's possible to inject code into .Net applications by **abusing the .Net debugging functionality** (not protected by macOS protections such as runtime hardening).
+可以通过**滥用.NET调试功能**（不受macOS运行时加固等保护措施保护）将代码注入到.NET应用程序中。
 
 {% content-ref url="macos-.net-applications-injection.md" %}
 [macos-.net-applications-injection.md](macos-.net-applications-injection.md)
 {% endcontent-ref %}
 
-### Python Injection
+### Python注入
 
-If the environment variable **`PYTHONINSPECT`** is set, the python process will drop into a python cli once it's finished.
+如果环境变量**`PYTHONINSPECT`**被设置，Python进程将在完成后进入Python命令行界面。
 
-Other env variables such as **`PYTHONPATH`** and **`PYTHONHOME`** could also be useful to make a python command execute arbitrary scode.
+其他环境变量，如**`PYTHONPATH`**和**`PYTHONHOME`**，也可以用于执行任意代码的Python命令。
 
-Note that executables compiled with **`pyinstaller`** won't use these environmental variables even if they are running using an embedded python.
+请注意，使用**`pyinstaller`**编译的可执行文件即使使用嵌入的Python运行，也不会使用这些环境变量。
 
-## Detection
+## 检测
 
 ### Shield
 
-[**Shield**](https://theevilbit.github.io/shield/) ([**Github**](https://github.com/theevilbit/Shield)) is an open source application that can **detect and block process injection** actions:
+[**Shield**](https://theevilbit.github.io/shield/)（[**Github**](https://github.com/theevilbit/Shield)）是一个开源应用程序，可以**检测和阻止进程注入**操作：
 
-* Using **Environmental Variables**: It will monitor the presence of any of the following environmental variables: **`DYLD_INSERT_LIBRARIES`**, **`CFNETWORK_LIBRARY_PATH`**, **`RAWCAMERA_BUNDLE_PATH`** and **`ELECTRON_RUN_AS_NODE`**
-* Using **`task_for_pid`** calls: To find when one process wants to get the **task port of another** which allows to inject code in the process.
-* **Electron apps params**: Someone can use **`--inspect`**, **`--inspect-brk`** and **`--remote-debugging-port`** command line argument to start an Electron app in debugging mode, and thus inject code to it.
-* Using **symlinks** or **hardlinks**: Typically the most common abuse is to **place a link with our user privileges**, and **point it to a higher privilege** location. The detection is very simple for both hardlink and symlinks. If the process creating the link has a **different privilege level** than the target file, we create an **alert**. Unfortunately in the case of symlinks blocking is not possible, as we don’t have information about the destination of the link prior creation. This is a limitation of Apple’s EndpointSecuriy framework.
+* 使用**环境变量**：它将监视以下任何环境变量的存在：**`DYLD_INSERT_LIBRARIES`**、**`CFNETWORK_LIBRARY_PATH`**、**`RAWCAMERA_BUNDLE_PATH`**和**`ELECTRON_RUN_AS_NODE`**
+* 使用**`task_for_pid`**调用：查找一个进程是否想要获取另一个进程的**任务端口**，从而允许在该进程中注入代码。
+* **Electron应用程序参数**：某人可以使用**`--inspect`**、**`--inspect-brk`**和**`--remote-debugging-port`**命令行参数以调试模式启动Electron应用程序，从而向其注入代码。
+* 使用**符号链接**或**硬链接**：通常最常见的滥用是**使用我们的用户权限**放置一个链接，并将其指向更高权限的位置。对于硬链接和符号链接，检测非常简单。如果创建链接的进程具有**不同的权限级别**，我们会创建一个**警报**。不幸的是，在符号链接的情况下，无法阻止，因为在创建之前我们没有关于链接目标的信息。这是Apple的EndpointSecuriy框架的一个限制。
+### 其他进程发起的调用
 
-### Calls made by other processes
+在[**这篇博文**](https://knight.sc/reverse%20engineering/2019/04/15/detecting-task-modifications.html)中，你可以找到如何使用函数**`task_name_for_pid`**来获取关于其他**在进程中注入代码的进程**的信息。
 
-In [**this blog post**](https://knight.sc/reverse%20engineering/2019/04/15/detecting-task-modifications.html) you can find how it's possible to use the function **`task_name_for_pid`** to get information about other **processes injecting code in a process** and then getting information about that other process.
+请注意，要调用该函数，您需要具有与运行该进程的用户ID相同的UID或者是**root**（它返回有关进程的信息，而不是注入代码的方法）。
 
-Note that to call that function you need to be **the same uid** as the one running the process or **root** (and it returns info about the process, not a way to inject code).
-
-## References
+## 参考资料
 
 * [https://theevilbit.github.io/shield/](https://theevilbit.github.io/shield/)
 * [https://medium.com/@metnew/why-electron-apps-cant-store-your-secrets-confidentially-inspect-option-a49950d6d51f](https://medium.com/@metnew/why-electron-apps-cant-store-your-secrets-confidentially-inspect-option-a49950d6d51f)
@@ -90,10 +89,10 @@ Note that to call that function you need to be **the same uid** as the one runni
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者你想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧。**
 
 </details>

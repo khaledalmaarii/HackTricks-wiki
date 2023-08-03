@@ -1,41 +1,38 @@
-# AD CS Domain Persistence
+# AD CS域持久性
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
 
 </details>
 
-## Forging Certificates with Stolen CA Certificates - DPERSIST1
+## 使用窃取的CA证书伪造证书 - DPERSIST1
 
-How can you tell that a certificate is a CA certificate?
+如何判断证书是否为CA证书？
 
-* The CA certificate exists on the **CA server itself**, with its **private key protected by machine DPAPI** (unless the OS uses a TPM/HSM/other hardware for protection).
-* The **Issuer** and **Subject** for the cert are both set to the **distinguished name of the CA**.
-* CA certificates (and only CA certs) **have a “CA Version” extension**.
-* There are **no EKUs**
+* CA证书存在于**CA服务器本身**上，其**私钥由机器DPAPI保护**（除非操作系统使用TPM/HSM/其他硬件进行保护）。
+* 证书的**颁发者**和**主题**都设置为**CA的可分辨名称**。
+* CA证书（仅限CA证书）**具有“CA版本”扩展**。
+* 没有**扩展密钥用途（EKUs）**。
 
-The built-in GUI supported way to **extract this certificate private key** is with `certsrv.msc` on the CA server.\
-However, this certificate **isn't different** from other certificates stored in the system, so for example check the [**THEFT2 technique**](certificate-theft.md#user-certificate-theft-via-dpapi-theft2) to see how to **extract** them.
+内置的GUI支持的方法来**提取此证书的私钥**是在CA服务器上使用`certsrv.msc`。\
+然而，这个证书与系统中存储的其他证书**没有区别**，所以例如可以查看[**THEFT2技术**](certificate-theft.md#user-certificate-theft-via-dpapi-theft2)来了解如何**提取**它们。
 
-You can also get the cert and private key using [**certipy**](https://github.com/ly4k/Certipy):
-
+您还可以使用[**certipy**](https://github.com/ly4k/Certipy)获取证书和私钥：
 ```bash
 certipy ca 'corp.local/administrator@ca.corp.local' -hashes :123123.. -backup
 ```
-
-Once you have the **CA cert** with the private key in `.pfx` format you can use [**ForgeCert**](https://github.com/GhostPack/ForgeCert)  to create valid certificates:
-
+一旦你拥有了以 `.pfx` 格式保存的 **CA 证书**和私钥，你可以使用 [**ForgeCert**](https://github.com/GhostPack/ForgeCert) 来创建有效的证书：
 ```bash
 # Create new certificate with ForgeCert
 ForgeCert.exe --CaCertPath ca.pfx --CaCertPassword Password123! --Subject "CN=User" --SubjectAltName localadmin@theshire.local --NewCertPath localadmin.pfx --NewCertPassword Password123!
@@ -49,49 +46,48 @@ Rubeus.exe asktgt /user:localdomain /certificate:C:\ForgeCert\localadmin.pfx /pa
 # User new certi with certipy to authenticate
 certipy auth -pfx administrator_forged.pfx -dc-ip 172.16.126.128
 ```
-
 {% hint style="warning" %}
-**Note**: The target **user** specified when forging the certificate needs to be **active/enabled** in AD and **able to authenticate** since an authentication exchange will still occur as this user. Trying to forge a certificate for the krbtgt account, for example, will not work.
+**注意**：在伪造证书时，目标**用户**需要在AD中处于**活动/启用**状态并且能够进行身份验证，因为身份验证交换仍将以该用户的身份进行。例如，试图伪造krbtgt帐户的证书将不起作用。
 {% endhint %}
 
-This forged certificate will be **valid** until the end date specified and as **long as the root CA certificate is valid** (usually from 5 to **10+ years**). It's also valid for **machines**, so combined with **S4U2Self**, an attacker can **maintain persistence on any domain machine** for as long as the CA certificate is valid.\
-Moreover, the **certificates generated** with this method **cannot be revoked** as CA is not aware of them.
+这个伪造的证书将在指定的结束日期之前**有效**，并且只要根CA证书有效（通常为5到**10+年**）。它也适用于**机器**，因此结合**S4U2Self**，攻击者可以在CA证书有效的情况下**在任何域机器上保持持久性**。\
+此外，使用此方法生成的**证书无法撤销**，因为CA不知道它们的存在。
 
-## Trusting Rogue CA Certificates - DPERSIST2
+## 信任恶意CA证书 - DPERSIST2
 
-The object `NTAuthCertificates` defines one or more **CA certificates** in its `cacertificate` **attribute** and AD uses it: During authentication, the **domain controller** checks if **`NTAuthCertificates`** object **contains** an entry for the **CA specified** in the authenticating **certificate’s** Issuer field. If **it is, authentication proceeds**.
+对象`NTAuthCertificates`在其`cacertificate`**属性**中定义了一个或多个**CA证书**，AD在使用它时：在身份验证期间，**域控制器**会检查**`NTAuthCertificates`**对象是否包含用于认证**证书**的发行者字段中指定的**CA**的条目。如果**是的，身份验证将继续进行**。
 
-An attacker could generate a **self-signed CA certificate** and **add** it to the **`NTAuthCertificates`** object. Attackers can do this if they have **control** over the **`NTAuthCertificates`** AD object (in default configurations only **Enterprise Admin** group members and members of the **Domain Admins** or **Administrators** in the **forest root’s domain** have these permissions). With the elevated access, one can **edit** the **`NTAuthCertificates`** object from any system with `certutil.exe -dspublish -f C:\Temp\CERT.crt NTAuthCA126` , or using the [**PKI Health Tool**](https://docs.microsoft.com/en-us/troubleshoot/windows-server/windows-security/import-third-party-ca-to-enterprise-ntauth-store#method-1---import-a-certificate-by-using-the-pki-health-tool).&#x20;
+攻击者可以生成一个**自签名的CA证书**并将其添加到**`NTAuthCertificates`**对象中。如果攻击者对**`NTAuthCertificates`**AD对象具有**控制权**（在默认配置中，只有**企业管理员**组成员和**域管理员**或**管理员**在**森林根域**中的成员具有这些权限），则可以执行此操作。通过提升的访问权限，可以使用`certutil.exe -dspublish -f C:\Temp\CERT.crt NTAuthCA126`从任何系统编辑**`NTAuthCertificates`**对象，或使用[**PKI Health Tool**](https://docs.microsoft.com/en-us/troubleshoot/windows-server/windows-security/import-third-party-ca-to-enterprise-ntauth-store#method-1---import-a-certificate-by-using-the-pki-health-tool)。
 
-The specified certificate should **work with the previously detailed forgery method with ForgeCert** to generate certificates on demand.
+指定的证书应该与之前详细介绍的伪造方法**ForgeCert**一起使用，以便根据需要生成证书。
 
-## Malicious Misconfiguration - DPERSIST3
+## 恶意配置错误 - DPERSIST3
 
-There is a myriad of opportunities for **persistence** via **security descriptor modifications of AD CS** components. Any scenario described in the “[Domain Escalation](domain-escalation.md)” section could be maliciously implemented by an attacker with elevated access, as well as addition of “control rights'' (i.e., WriteOwner/WriteDACL/etc.) to sensitive components. This includes:
+通过对AD CS组件的**安全描述符修改**，可以利用各种机会进行**持久性**。在“[域升级](domain-escalation.md)”部分中描述的任何场景都可以由具有提升访问权限的攻击者恶意实施，以及向敏感组件添加“控制权限”（即WriteOwner/WriteDACL等）。这包括：
 
-* **CA server’s AD computer** object
-* The **CA server’s RPC/DCOM server**
-* Any **descendant AD object or container** in the container **`CN=Public Key Services,CN=Services,CN=Configuration,DC=<DOMAIN>,DC=<COM>`** (e.g., the Certificate Templates container, Certification Authorities container, the NTAuthCertificates object, etc.)
-* **AD groups delegated rights to control AD CS by default or by the current organization** (e.g., the built-in Cert Publishers group and any of its members)
+* **CA服务器的AD计算机**对象
+* **CA服务器的RPC/DCOM服务器**
+* 容器**`CN=Public Key Services,CN=Services,CN=Configuration,DC=<DOMAIN>,DC=<COM>`**中的任何**后代AD对象或容器**（例如，证书模板容器、证书颁发机构容器、NTAuthCertificates对象等）
+* **默认情况下或当前组织**授予控制AD CS权限的**AD组**（例如，内置的Cert Publishers组及其任何成员）
 
-For example, an attacker with **elevated permissions** in the domain could add the **`WriteOwner`** permission to the default **`User`** certificate template, where the attacker is the principal for the right. To abuse this at a later point, the attacker would first modify the ownership of the **`User`** template to themselves, and then would **set** **`mspki-certificate-name-flag`** to **1** on the template to enable **`ENROLLEE_SUPPLIES_SUBJECT`** (i.e., allowing a user to supply a Subject Alternative Name in the request). The attacker could then **enroll** in the **template**, specifying a **domain administrator** name as an alternative name, and use the resulting certificate for authentication as the DA.
+例如，具有域中的**提升权限**的攻击者可以将**`WriteOwner`**权限添加到默认的**`User`**证书模板中，其中攻击者是该权限的主体。为了在以后滥用此权限，攻击者首先会将**`User`**模板的所有权修改为自己，然后将模板上的**`mspki-certificate-name-flag`**设置为**1**，以启用**`ENROLLEE_SUPPLIES_SUBJECT`**（即允许用户在请求中提供替代名称）。然后，攻击者可以在模板中**注册**，指定一个**域管理员**名称作为替代名称，并使用生成的证书进行身份验证。
 
-## References
+## 参考资料
 
-* All the information of this page was taken from [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)
+* 此页面的所有信息均来自[https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- 你在**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者想要获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- 发现我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
 
 </details>

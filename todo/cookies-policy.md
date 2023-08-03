@@ -1,45 +1,45 @@
-# Cookies Policy
+# Cookies政策
 
-Last updated: 02/04/2023
+最后更新日期：02/04/2023
 
-### Introduction
+### 简介
 
-This Cookies Policy applies to the following websites owned and operated by HackTricks team ("HackTricks", "we", "us" or "our"):
+本Cookies政策适用于由HackTricks团队（以下简称"HackTricks"、"我们"或"我们的"）拥有和运营的以下网站：
 
 * hacktricks.xyz
 * [www.hacktricks.xyz](http://www.hacktricks.xyz/)
 * book.hacktricks.xyz
 * cloud.hacktricks.xyz
 
-By using any of these websites, you agree to the use of cookies in accordance with this Cookies Policy. If you do not agree, please disable cookies in your browser settings or refrain from using our websites.
+通过使用这些网站之一，您同意根据本Cookies政策使用cookies。如果您不同意，请在浏览器设置中禁用cookies或不使用我们的网站。
 
-### What are cookies?
+### 什么是cookies？
 
-Cookies are small text files that are stored on your computer or mobile device when you visit a website. They are widely used to make websites work, improve their functionality, and provide a more personalized user experience.
+Cookies是在您访问网站时存储在计算机或移动设备上的小型文本文件。它们被广泛用于使网站正常运行，改善其功能，并提供更个性化的用户体验。
 
-### How we use cookies
+### 我们如何使用cookies
 
-We use cookies on our websites for the following purposes:
+我们在我们的网站上使用cookies，用于以下目的：
 
-1. Essential cookies: These cookies are necessary for the basic functionality of our websites, such as enabling user authentication, maintaining security, and remembering your preferences.
-2. Performance cookies: These cookies help us understand how visitors interact with our websites, by collecting and reporting information anonymously. This allows us to improve our website performance and user experience.
-3. Functionality cookies: These cookies enable our websites to remember choices you make, such as your language or region, to provide a more personalized experience.
-4. Targeting/advertising cookies: These cookies are used to deliver relevant ads and marketing communications based on your interests, browsing history, and interactions with our websites.
+1. 基本cookies：这些cookies对于我们网站的基本功能是必需的，例如启用用户身份验证、维护安全性和记住您的偏好设置。
+2. 性能cookies：这些cookies通过匿名收集和报告信息，帮助我们了解访问者与我们的网站的互动方式。这使我们能够改善我们的网站性能和用户体验。
+3. 功能cookies：这些cookies使我们的网站能够记住您的选择，例如您的语言或地区，以提供更个性化的体验。
+4. 定向/广告cookies：这些cookies根据您的兴趣、浏览历史和与我们的网站的互动，用于提供相关的广告和营销通信。
 
-Moreover, the pages book.hacktricks.xyz and cloud.hacktricks.xyz are hosted in Gitbook. You can find more information about Gitbooks cookies in [https://gitbook-1652864889.teamtailor.com/cookie-policy](https://gitbook-1652864889.teamtailor.com/cookie-policy).
+此外，book.hacktricks.xyz和cloud.hacktricks.xyz页面托管在Gitbook上。您可以在[https://gitbook-1652864889.teamtailor.com/cookie-policy](https://gitbook-1652864889.teamtailor.com/cookie-policy)找到有关Gitbooks cookies的更多信息。
 
-### Third-party cookies
+### 第三方cookies
 
-In addition to our own cookies, we may also use third-party cookies to report website usage statistics, deliver advertisements, and enable social media sharing buttons. The use of third-party cookies is subject to their respective privacy policies.
+除了我们自己的cookies外，我们还可能使用第三方cookies来报告网站使用统计数据、提供广告和启用社交媒体分享按钮。第三方cookies的使用受其各自的隐私政策约束。
 
-Managing cookies
+管理cookies
 
-Most web browsers allow you to manage cookies through their settings. You can choose to block, delete, or limit the use of cookies on your device. However, please note that disabling cookies may affect the functionality and performance of our websites.
+大多数网络浏览器允许您通过其设置管理cookies。您可以选择在设备上阻止、删除或限制使用cookies。但请注意，禁用cookies可能会影响我们网站的功能和性能。
 
-Changes to this Cookies Policy
+本Cookies政策的变更
 
-We may update this Cookies Policy from time to time to reflect changes in our practices or relevant laws. We encourage you to periodically review this page for the latest information on our cookie practices.
+我们可能会不时更新本Cookies政策，以反映我们的做法或相关法律的变化。我们鼓励您定期查看此页面，以获取有关我们的cookie做法的最新信息。
 
-### Contact us
+### 联系我们
 
-If you have any questions or concerns about this Cookies Policy, please contact us at [support@hacktricks.xyz](mailto:support@hacktricks.xyz)
+如果您对本Cookies政策有任何问题或疑虑，请通过[support@hacktricks.xyz](mailto:support@hacktricks.xyz)与我们联系。

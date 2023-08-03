@@ -1,91 +1,91 @@
-# Browser Artifacts
+# 浏览器遗留痕迹
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* 你在一家**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者你想要获得**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
 
 ![](<../.gitbook/assets/image (9) (1) (2).png>)
 
 \
-Use [**Trickest**](https://trickest.io/) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+使用[**Trickest**](https://trickest.io/)可以轻松构建和自动化由全球**最先进**的社区工具提供支持的工作流程。\
+立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## Browsers Artifacts <a href="#3def" id="3def"></a>
+## 浏览器遗留痕迹 <a href="#3def" id="3def"></a>
 
-When we talk about browser artifacts we talk about, navigation history, bookmarks, list of downloaded files, cache data, etc.
+当我们谈论浏览器遗留痕迹时，我们指的是浏览历史、书签、下载文件列表、缓存数据等。
 
-These artifacts are files stored inside specific folders in the operating system.
+这些遗留痕迹是存储在操作系统特定文件夹中的文件。
 
-Each browser stores its files in a different place than other browsers and they all have different names, but they all store (most of the time) the same type of data (artifacts).
+每个浏览器将其文件存储在与其他浏览器不同的位置，并且它们都有不同的名称，但它们（大多数情况下）存储相同类型的数据（遗留痕迹）。
 
-Let us take a look at the most common artifacts stored by browsers.
+让我们来看看浏览器存储的最常见的遗留痕迹。
 
-* **Navigation History:** Contains data about the navigation history of the user. Can be used to track down if the user has visited some malicious sites for example
-* **Autocomplete Data:** This is the data that the browser suggests based on what you search for the most. Can be used in tandem with the navigation history to get more insight.
-* **Bookmarks:** Self Explanatory.
-* **Extensions and Add ons:** Self Explanatory.
-* **Cache:** When navigating websites, the browser creates all sorts of cache data (images, javascript files…etc) for many reasons. For example to speed the loading time of websites. These cache files can be a great source of data during a forensic investigation.
-* **Logins:** Self Explanatory.
-* **Favicons:** They are the little icons found in tabs, urls, bookmarks and the such. They can be used as another source to get more information about the website or places the user visited.
-* **Browser Sessions:** Self Explanatory.
-* **Downloads**: Self Explanatory.
-* **Form Data:** Anything typed inside forms is oftentimes stored by the browser, so the next time the user enters something inside of a form the browser can suggest previously entered data.
-* **Thumbnails:** Self Explanatory.
-* **Custom Dictionary.txt**: Words added to the dictionary by the user.
+* **浏览历史：** 包含用户的浏览历史数据。可以用于追踪用户是否访问过某些恶意网站。
+* **自动完成数据：** 这是浏览器根据您最常搜索的内容提供的数据。可以与浏览历史一起使用，以获取更多信息。
+* **书签：** 不言自明。
+* **扩展和插件：** 不言自明。
+* **缓存：** 在浏览网站时，浏览器会为许多原因创建各种缓存数据（图像、JavaScript文件等），例如加快网站的加载时间。这些缓存文件在取证调查中可以成为重要的数据来源。
+* **登录信息：** 不言自明。
+* **网站图标：** 它们是在选项卡、URL、书签等处找到的小图标。它们可以用作获取有关网站或用户访问过的位置的更多信息的另一个来源。
+* **浏览器会话：** 不言自明。
+* **下载：** 不言自明。
+* **表单数据：** 浏览器通常会存储在表单中输入的任何内容，以便下次用户在表单中输入内容时，浏览器可以提供先前输入的数据。
+* **缩略图：** 不言自明。
+* **自定义字典.txt：** 用户添加到字典中的单词。
 
 ## Firefox
 
-Firefox create the profiles folder in \~/_**.mozilla/firefox/**_ (Linux), in **/Users/$USER/Library/Application Support/Firefox/Profiles/** (MacOS), _**%userprofile%\AppData\Roaming\Mozilla\Firefox\Profiles\\**_ (Windows)_**.**_\
-Inside this folder, the file _**profiles.ini**_ should appear with the name(s) of the user profile(s).\
-Each profile has a "**Path**" variable with the name of the folder where its data is going to be stored. The folder should be **present in the same directory where the \_profiles.ini**\_\*\* exist\*\*. If it isn't, then, probably it was deleted.
+Firefox在\~/_**.mozilla/firefox/**_（Linux）中创建配置文件文件夹，在**/Users/$USER/Library/Application Support/Firefox/Profiles/**（MacOS）中创建配置文件文件夹，在_**%userprofile%\AppData\Roaming\Mozilla\Firefox\Profiles\\**_（Windows）中创建配置文件文件夹。\
+在此文件夹中，应该出现名为_**profiles.ini**_的文件，其中包含用户配置文件的名称。\
+每个配置文件都有一个名为“**Path**”的变量，其中包含其数据将存储的文件夹的名称。该文件夹应该**存在于与\_profiles.ini**\_\*\*相同的目录中\*\*。如果不存在，则可能已被删除。
 
-Inside the folder **of each profile** (_\~/.mozilla/firefox/\<ProfileName>/_) path you should be able to find the following interesting files:
+在每个配置文件的文件夹（_\~/.mozilla/firefox/\<ProfileName>/_）路径中，您应该能够找到以下有趣的文件：
 
-* _**places.sqlite**_ : History (moz\_\_places), bookmarks (moz\_bookmarks), and downloads (moz\_\_annos). In Windows the tool [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html) can be used to read the history inside _**places.sqlite**_.
-  * Query to dump history: `select datetime(lastvisitdate/1000000,'unixepoch') as visit_date, url, title, visit_count, visit_type FROM moz_places,moz_historyvisits WHERE moz_places.id = moz_historyvisits.place_id;`
-    * Note that a link type is a number that indicates:
-      * 1: User followed a link
-      * 2: User wrote the URL
-      * 3: User used a favorite
-      * 4: Loaded from Iframe
-      * 5: Accessed via HTTP redirect 301
-      * 6: Accessed via HTTP redirect 302
-      * 7: Downloaded file
-      * 8: User followed a link inside an Iframe
-  * Query to dump downloads: `SELECT datetime(lastModified/1000000,'unixepoch') AS down_date, content as File, url as URL FROM moz_places, moz_annos WHERE moz_places.id = moz_annos.place_id;`
-  *
-* _**bookmarkbackups/**_ : Bookmarks backups
-* _**formhistory.sqlite**_ : **Web form data** (like emails)
-* _**handlers.json**_ : Protocol handlers (like, which app is going to handle _mailto://_ protocol)
-* _**persdict.dat**_ : Words added to the dictionary
-* _**addons.json**_ and \_**extensions.sqlite** \_ : Installed addons and extensions
-* _**cookies.sqlite**_ : Contains **cookies.** [**MZCookiesView**](https://www.nirsoft.net/utils/mzcv.html) can be used in Windows to inspect this file.
-*   _**cache2/entries**_ or _**startupCache**_ : Cache data (\~350MB). Tricks like **data carving** can also be used to obtain the files saved in the cache. [MozillaCacheView](https://www.nirsoft.net/utils/mozilla\_cache\_viewer.html) can be used to see the **files saved in the cache**.
+* _**places.sqlite**_：历史记录（moz\_\_places）、书签（moz\_bookmarks）和下载文件（moz\_\_annos）。在Windows中，可以使用工具[BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html)来读取_**places.sqlite**_中的历史记录。
+* 转储历史的查询：`select datetime(lastvisitdate/1000000,'unixepoch') as visit_date, url, title, visit_count, visit_type FROM moz_places,moz_historyvisits WHERE moz_places.id = moz_historyvisits.place_id;`
+* 注意，链接类型是一个指示数字，表示：
+* 1：用户点击链接
+* 2：用户输入URL
+* 3：用户使用收藏夹
+* 4：从Iframe加载
+* 5：通过HTTP重定向301访问
+* 6：通过HTTP重定向302访问
+* 7：下载文件
+* 8：用户在Iframe中点击链接
+* 转储下载的查询：`SELECT datetime(lastModified/1000000,'unixepoch') AS down_date, content as File, url as URL FROM moz_places, moz_annos WHERE moz_places.id = moz_annos.place_id;`
+*
+* _**bookmarkbackups/**_：书签备份
+* _**formhistory.sqlite**_：**Web表单数据**（例如电子邮件）
+* _**handlers.json**_：协议处理程序（例如，哪个应用程序将处理_mailto://_协议）
+* _**persdict.dat**_：用户添加到字典中的单词
+* _**addons.json**_和_**extensions.sqlite**_：已安装的插件和扩展
+* _**cookies.sqlite**_：包含**cookies**。在Windows中，可以使用[MZCookiesView](https://www.nirsoft.net/utils/mzcv.html)来检查此文件。
+* _**cache2/entries**_或_**startupCache**_：缓存数据（约350MB）。还可以使用数据刻录等技巧来获取缓存中保存的文件。可以使用[MozillaCacheView](https://www.nirsoft.net/utils/mozilla\_cache\_viewer.html)来查看**缓存中保存的文件**。
 
-    Information that can be obtained:
+可以获取的信息：
 
-    * URL, fetch Count, Filename, Content type, File size, Last modified time, Last fetched time, Server Last Modified, Server Response
-* _**favicons.sqlite**_ : Favicons
-* _**prefs.js**_ : Settings and Preferences
-* _**downloads.sqlite**_ : Old downloads database (now it's inside places.sqlite)
-* _**thumbnails/**_ : Thumbnails
-* _**logins.json**_ : Encrypted usernames and passwords
-* **Browser’s built-in anti-phishing:** `grep 'browser.safebrowsing' ~/Library/Application Support/Firefox/Profiles/*/prefs.js`
-  * Will return “safebrowsing.malware.enabled” and “phishing.enabled” as false if the safe search settings have been disabled
-* _**key4.db**_ or _**key3.db**_ : Master key?
+* URL、获取次数、文件名、内容类型、文件大小、上次修改时间、上次获取时间、服务器上的最后修改时间、服务器响应
+* _**favicons.sqlite**_：网站图标
+* _**prefs.js**_：设置和首选项
+* _**downloads.sqlite**_：旧的下载数据库（现在已经在places.sqlite中）
+* _**thumbnails/**_：缩略图
+* _**logins.json**_ : 加密的用户名和密码
+* **浏览器内置的反钓鱼功能:** `grep 'browser.safebrowsing' ~/Library/Application Support/Firefox/Profiles/*/prefs.js`
+* 如果安全搜索设置已被禁用，则返回“safebrowsing.malware.enabled”和“phishing.enabled”为false
+* _**key4.db**_ 或 _**key3.db**_ : 主密钥？
 
-To try to decrypt the master password, you can use [https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt)\
-With the following script and call you can specify a password file to brute force:
+为了尝试解密主密码，您可以使用[https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt)\
+使用以下脚本和调用，您可以指定一个密码文件进行暴力破解：
 
 {% code title="brute.sh" %}
 ```bash
@@ -94,8 +94,8 @@ With the following script and call you can specify a password file to brute forc
 #./brute.sh top-passwords.txt 2>/dev/null | grep -A2 -B2 "chrome:"
 passfile=$1
 while read pass; do
-  echo "Trying $pass"
-  echo "$pass" | python firefox_decrypt.py
+echo "Trying $pass"
+echo "$pass" | python firefox_decrypt.py
 done < $passfile
 ```
 {% endcode %}
@@ -104,175 +104,173 @@ done < $passfile
 
 ## Google Chrome
 
-Google Chrome creates the profile inside the home of the user _**\~/.config/google-chrome/**_ (Linux), in _**C:\Users\XXX\AppData\Local\Google\Chrome\User Data\\**_ (Windows), or in \_**/Users/$USER/Library/Application Support/Google/Chrome/** \_ (MacOS).\
-Most of the information will be saved inside the _**Default/**_ or _**ChromeDefaultData/**_ folders inside the paths indicated before. Here you can find the following interesting files:
+Google Chrome在用户的主目录下创建配置文件，路径为_**\~/.config/google-chrome/**_（Linux），_**C:\Users\XXX\AppData\Local\Google\Chrome\User Data\\**_（Windows），或者_**/Users/$USER/Library/Application Support/Google/Chrome/**_（MacOS）。大部分信息保存在之前提到的路径下的_Default/_或者_ChromeDefaultData/_文件夹中。在这里，你可以找到以下有趣的文件：
 
-* _**History**_: URLs, downloads and even searched keywords. In Windows, you can use the tool [ChromeHistoryView](https://www.nirsoft.net/utils/chrome\_history\_view.html) to read the history. The "Transition Type" column means:
-  * Link: User clicked on a link
-  * Typed: The url was written
-  * Auto Bookmark
-  * Auto Subframe: Add
-  * Start page: Home page
-  * Form Submit: A form was filled and sent
-  * Reloaded
-* _**Cookies**_: Cookies. [ChromeCookiesView](https://www.nirsoft.net/utils/chrome\_cookies\_view.html) can be used to inspect the cookies.
-* _**Cache**_: Cache. In Windows, you can use the tool [ChromeCacheView](https://www.nirsoft.net/utils/chrome\_cache\_view.html) to inspect the ca
-* _**Bookmarks**_: Bookmarks
-* _**Web Data**_: Form History
-* _**Favicons**_: Favicons
-* _**Login Data**_: Login information (usernames, passwords...)
-* _**Current Session**_ and _**Current Tabs**_: Current session data and current tabs
-* _**Last Session**_ and _**Last Tabs**_: These files hold sites that were active in the browser when Chrome was last closed.
-* _**Extensions**_: Extensions and addons folder
-* **Thumbnails** : Thumbnails
-* **Preferences**: This file contains a plethora of good information such as plugins, extensions, sites using geolocation, popups, notifications, DNS prefetching, certificate exceptions, and much more. If you’re trying to research whether or not a specific Chrome setting was enabled, you will likely find that setting in here.
-* **Browser’s built-in anti-phishing:** `grep 'safebrowsing' ~/Library/Application Support/Google/Chrome/Default/Preferences`
-  * You can simply grep for “**safebrowsing**” and look for `{"enabled: true,"}` in the result to indicate anti-phishing and malware protection is on.
+* _**History**_：URL、下载记录甚至搜索关键词。在Windows中，你可以使用工具[ChromeHistoryView](https://www.nirsoft.net/utils/chrome\_history\_view.html)来查看历史记录。"Transition Type"列的含义如下：
+* Link：用户点击了链接
+* Typed：URL被手动输入
+* Auto Bookmark
+* Auto Subframe：添加
+* Start page：主页
+* Form Submit：填写并提交表单
+* Reloaded
+* _**Cookies**_：Cookies。可以使用[ChromeCookiesView](https://www.nirsoft.net/utils/chrome\_cookies\_view.html)来查看Cookies。
+* _**Cache**_：缓存。在Windows中，可以使用工具[ChromeCacheView](https://www.nirsoft.net/utils/chrome\_cache\_view.html)来查看缓存。
+* _**Bookmarks**_：书签
+* _**Web Data**_：表单历史
+* _**Favicons**_：网站图标
+* _**Login Data**_：登录信息（用户名、密码等）
+* _**Current Session**_和_**Current Tabs**_：当前会话数据和当前标签页
+* _**Last Session**_和_**Last Tabs**_：这些文件保存了在关闭Chrome时活动的网站。
+* _**Extensions**_：扩展和插件文件夹
+* **Thumbnails**：缩略图
+* **Preferences**：该文件包含了大量有用的信息，如插件、扩展、使用地理位置的网站、弹出窗口、通知、DNS预取、证书异常等。如果你想研究某个特定的Chrome设置是否启用，你很可能会在这里找到该设置。
+* **浏览器内置的反钓鱼功能**：`grep 'safebrowsing' ~/Library/Application Support/Google/Chrome/Default/Preferences`
+* 你可以简单地使用grep搜索“**safebrowsing**”，并在结果中查找`{"enabled: true,"}`来判断反钓鱼和恶意软件保护是否开启。
 
-## **SQLite DB Data Recovery**
+## **SQLite数据库数据恢复**
 
-As you can observe in the previous sections, both Chrome and Firefox use **SQLite** databases to store the data. It's possible to **recover deleted entries using the tool** [**sqlparse**](https://github.com/padfoot999/sqlparse) **or** [**sqlparse\_gui**](https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases).
+正如前面的部分所示，Chrome和Firefox都使用**SQLite**数据库来存储数据。可以使用工具[**sqlparse**](https://github.com/padfoot999/sqlparse)或者[**sqlparse\_gui**](https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases)来**恢复已删除的条目**。
 
 ## **Internet Explorer 11**
 
-Internet Explorer stores **data** and **metadata** in different locations. The metadata will allow finding the data.
+Internet Explorer将**数据**和**元数据**存储在不同的位置。元数据可以帮助找到数据。
 
-The **metadata** can be found in the folder `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` where VX can be V01, V16, or V24.\
-In the previous folder, you can also find the file V01.log. In case the **modified time** of this file and the WebcacheVX.data file **are different** you may need to run the command `esentutl /r V01 /d` to **fix** possible **incompatibilities**.
+元数据可以在文件夹`%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data`中找到，其中VX可以是V01、V16或V24。\
+在上述文件夹中，还可以找到文件V01.log。如果此文件的**修改时间**和WebcacheVX.data文件的**不同**，可能需要运行命令`esentutl /r V01 /d`来**修复**可能的**不兼容性**。
 
-Once **recovered** this artifact (It's an ESE database, photorec can recover it with the options Exchange Database or EDB) you can use the program [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html) to open it. Once **opened**, go to the table named "**Containers**".
+一旦**恢复**了这个工件（它是一个ESE数据库，可以使用photorec工具并选择Exchange Database或EDB选项来恢复），你可以使用程序[ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html)来打开它。打开后，转到名为“**Containers**”的表。
 
 ![](<../../../.gitbook/assets/image (446).png>)
 
-Inside this table, you can find in which other tables or containers each part of the stored information is saved. Following that, you can find the **locations of the data** stored by the browsers and the **metadata** that is inside.
+在这个表中，你可以找到存储信息的每个部分在哪些其他表或容器中。然后，你可以找到浏览器存储的数据的位置以及其中的元数据。
 
-**Note that this table indicates metadata of the cache for other Microsoft tools also (e.g. skype)**
+**请注意，此表还指示了其他Microsoft工具（如Skype）的缓存元数据**
 
-### Cache
+### 缓存
 
-You can use the tool [IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) to inspect the cache. You need to indicate the folder where you have extracted the cache date.
+可以使用工具[IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html)来查看缓存。你需要指定提取缓存数据的文件夹。
 
-#### Metadata
+#### 元数据
 
-The metadata information about the cache stores:
+关于缓存的元数据存储了以下信息：
 
-* Filename in the disc
-* SecureDIrectory: Location of the file inside the cache directories
-* AccessCount: Number of times it was saved in the cache
-* URL: The url origin
-* CreationTime: First time it was cached
-* AccessedTime: Time when the cache was used
-* ModifiedTime: Last webpage version
-* ExpiryTime: Time when the cache will expire
+* 文件名
+* SecureDIrectory：缓存目录中文件的位置
+* AccessCount：文件在缓存中保存的次数
+* URL：源URL
+* CreationTime：缓存的第一次时间
+* AccessedTime：缓存被使用的时间
+* ModifiedTime：最后的网页版本
+* ExpiryTime：缓存过期的时间
 
-#### Files
+#### 文件
 
-The cache information can be found in _**%userprofile%\Appdata\Local\Microsoft\Windows\Temporary Internet Files\Content.IE5**_ and _**%userprofile%\Appdata\Local\Microsoft\Windows\Temporary Internet Files\Content.IE5\low**_
+缓存信息可以在_**%userprofile%\Appdata\Local\Microsoft\Windows\Temporary Internet Files\Content.IE5**_和_**%userprofile%\Appdata\Local\Microsoft\Windows\Temporary Internet Files\Content.IE5\low**_中找到。
 
-The information inside these folders is a **snapshot of what the user was seeing**. The caches have a size of **250 MB** and the timestamps indicate when the page was visited (first time, creation date of the NTFS, last time, modification time of the NTFS).
+这些文件夹中的信息是用户所见的页面的**快照**。缓存的大小为**250 MB**，时间戳指示了页面的访问时间（第一次访问时间、NTFS的创建日期、最后一次访问时间、NTFS的修改时间）。
 
 ### Cookies
 
-You can use the tool [IECookiesView](https://www.nirsoft.net/utils/iecookies.html) to inspect the cookies. You need to indicate the folder where you have extracted the cookies.
+可以使用工具[IECookiesView](https://www.nirsoft.net/utils/iecookies.html)来查看Cookies。你需要指定提取Cookies的文件夹。
 
-#### **Metadata**
+#### **元数据**
 
-The metadata information about the cookies stored:
+关于Cookies的元数据存储了以下信息：
 
-* Cookie name in the filesystem
+* 文件系统中的Cookie名称
 * URL
-* AccessCount: Number of times the cookies have been sent to the server
-* CreationTime: First time the cookie was created
-* ModifiedTime: Last time the cookie was modified
-* AccessedTime: Last time the cookie was accessed
-* ExpiryTime: Time of expiration of the cookie
+* AccessCount：Cookie被发送到服务器的次数
+* CreationTime：Cookie的创建时间
+* ModifiedTime：Cookie的最后修改时间
+* AccessedTime：Cookie的最后访问时间
+* ExpiryTime：Cookie的过期时间
 
-#### Files
+#### 文件
 
-The cookies data can be found in _**%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies**_ and _**%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies\low**_
+Cookies数据可以在_**%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies**_和_**%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies\low**_中找到。
 
-Session cookies will reside in memory and persistent cookie in the disk.
+会话Cookie存储在内存中，持久Cookie存储在磁盘中。
+### 下载
 
-### Downloads
+#### **元数据**
 
-#### **Metadata**
-
-Checking the tool [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html) you can find the container with the metadata of the downloads:
+检查工具[ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html)，您可以找到包含下载元数据的容器：
 
 ![](<../../../.gitbook/assets/image (445).png>)
 
-Getting the information of the column "ResponseHeaders" you can transform from hex that information and obtain the URL, the file type and the location of the downloaded file.
+通过获取“ResponseHeaders”列的信息，您可以将该信息从十六进制转换为URL、文件类型和下载文件的位置。
 
-#### Files
+#### 文件
 
-Look in the path _**%userprofile%\Appdata\Roaming\Microsoft\Windows\IEDownloadHistory**_
+查看路径_**%userprofile%\Appdata\Roaming\Microsoft\Windows\IEDownloadHistory**_
 
-### **History**
+### **历史记录**
 
-The tool [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html) can be used to read the history. But first, you need to indicate the browser in advanced options and the location of the extracted history files.
+可以使用工具[BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html)来读取历史记录。但首先，您需要在高级选项中指定浏览器和提取的历史记录文件的位置。
 
-#### **Metadata**
+#### **元数据**
 
-* ModifiedTime: First time a URL is found
-* AccessedTime: Last time
-* AccessCount: Number of times accessed
+* ModifiedTime：找到URL的第一次时间
+* AccessedTime：最后一次时间
+* AccessCount：访问次数
 
-#### **Files**
+#### **文件**
 
-Search in _**userprofile%\Appdata\Local\Microsoft\Windows\History\History.IE5**_ and _**userprofile%\Appdata\Local\Microsoft\Windows\History\Low\History.IE5**_
+在_**userprofile%\Appdata\Local\Microsoft\Windows\History\History.IE5**_和_**userprofile%\Appdata\Local\Microsoft\Windows\History\Low\History.IE5**_中搜索
 
-### **Typed URLs**
+### **键入的URL**
 
-This information can be found inside the registry NTDUSER.DAT in the path:
+此信息可以在注册表NTDUSER.DAT的路径中找到：
 
 * _**Software\Microsoft\InternetExplorer\TypedURLs**_
-  * Stores the last 50 URLs typed by the user
+* 存储用户输入的最后50个URL
 * _**Software\Microsoft\InternetExplorer\TypedURLsTime**_
-  * last time the URL was typed
+* URL最后一次输入的时间
 
 ## Microsoft Edge
 
-For analyzing Microsoft Edge artifacts all the **explanations about cache and locations from the previous section (IE 11) remain valid** with the only difference that the base locating, in this case, is _**%userprofile%\Appdata\Local\Packages**_ (as can be observed in the following paths):
+要分析Microsoft Edge的工件，所有关于缓存和位置的解释（IE 11中的）仍然有效，唯一的区别是基本定位在这种情况下是_**%userprofile%\Appdata\Local\Packages**_（如下面的路径所示）：
 
-* Profile Path: _**C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge\_XXX\AC**_
-* History, Cookies and Downloads: _**C:\Users\XX\AppData\Local\Microsoft\Windows\WebCache\WebCacheV01.dat**_
-* Settings, Bookmarks, and Reading List: _**C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge\_XXX\AC\MicrosoftEdge\User\Default\DataStore\Data\nouser1\XXX\DBStore\spartan.edb**_
-* Cache: _**C:\Users\XXX\AppData\Local\Packages\Microsoft.MicrosoftEdge\_XXX\AC#!XXX\MicrosoftEdge\Cache**_
-* Last active sessions: _**C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge\_XXX\AC\MicrosoftEdge\User\Default\Recovery\Active**_
+* 配置文件路径：_**C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge\_XXX\AC**_
+* 历史记录、Cookie和下载：_**C:\Users\XX\AppData\Local\Microsoft\Windows\WebCache\WebCacheV01.dat**_
+* 设置、书签和阅读列表：_**C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge\_XXX\AC\MicrosoftEdge\User\Default\DataStore\Data\nouser1\XXX\DBStore\spartan.edb**_
+* 缓存：_**C:\Users\XXX\AppData\Local\Packages\Microsoft.MicrosoftEdge\_XXX\AC#!XXX\MicrosoftEdge\Cache**_
+* 最后活动的会话：_**C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge\_XXX\AC\MicrosoftEdge\User\Default\Recovery\Active**_
 
 ## **Safari**
 
-The databases can be found in `/Users/$User/Library/Safari`
+数据库可以在`/Users/$User/Library/Safari`中找到
 
-* **History.db**: The tables `history_visits` _and_ `history_items` contains information about the history and timestamps.
-  * `sqlite3 ~/Library/Safari/History.db "SELECT h.visit_time, i.url FROM history_visits h INNER JOIN history_items i ON h.history_item = i.id"`
-* **Downloads.plist**: Contains the info about the downloaded files.
-* **Book-marks.plis**t: URLs bookmarked.
-* **TopSites.plist**: List of the most visited websites that the user browses to.
-* **Extensions.plist**: To retrieve an old-style list of Safari browser extensions.
-  * `plutil -p ~/Library/Safari/Extensions/Extensions.plist| grep "Bundle Directory Name" | sort --ignore-case`
-  * `pluginkit -mDvvv -p com.apple.Safari.extension`
-* **UserNotificationPermissions.plist**: Domains that are allowed to push notifications.
-  * `plutil -p ~/Library/Safari/UserNotificationPermissions.plist | grep -a3 '"Permission" => 1'`
-* **LastSession.plist**: Tabs that were opened the last time the user exited Safari.
-  * `plutil -p ~/Library/Safari/LastSession.plist | grep -iv sessionstate`
-* **Browser’s built-in anti-phishing:** `defaults read com.apple.Safari WarnAboutFraudulentWebsites`
-  * The reply should be 1 to indicate the setting is active
+* **History.db**：表`history_visits`和`history_items`包含有关历史记录和时间戳的信息。
+* `sqlite3 ~/Library/Safari/History.db "SELECT h.visit_time, i.url FROM history_visits h INNER JOIN history_items i ON h.history_item = i.id"`
+* **Downloads.plist**：包含有关已下载文件的信息。
+* **Book-marks.plist**：已收藏的URL。
+* **TopSites.plist**：用户浏览的最常访问的网站列表。
+* **Extensions.plist**：检索Safari浏览器扩展的旧式列表。
+* `plutil -p ~/Library/Safari/Extensions/Extensions.plist| grep "Bundle Directory Name" | sort --ignore-case`
+* `pluginkit -mDvvv -p com.apple.Safari.extension`
+* **UserNotificationPermissions.plist**：允许推送通知的域。
+* `plutil -p ~/Library/Safari/UserNotificationPermissions.plist | grep -a3 '"Permission" => 1'`
+* **LastSession.plist**：用户退出Safari时打开的标签。
+* `plutil -p ~/Library/Safari/LastSession.plist | grep -iv sessionstate`
+* **浏览器内置的反钓鱼功能**：`defaults read com.apple.Safari WarnAboutFraudulentWebsites`
+* 回复应为1，表示该设置处于活动状态
 
 ## Opera
 
-The databases can be found in `/Users/$USER/Library/Application Support/com.operasoftware.Opera`
+数据库可以在`/Users/$USER/Library/Application Support/com.operasoftware.Opera`中找到
 
-Opera **stores browser history and download data in the exact same format as Google Chrome**. This applies to the file names as well as the table names.
+Opera以与Google Chrome完全相同的格式存储浏览器历史记录和下载数据。这适用于文件名和表名。
 
-* **Browser’s built-in anti-phishing:** `grep --color 'fraud_protection_enabled' ~/Library/Application Support/com.operasoftware.Opera/Preferences`
-  * **fraud\_protection\_enabled** should be **true**
+* **浏览器内置的反钓鱼功能**：`grep --color 'fraud_protection_enabled' ~/Library/Application Support/com.operasoftware.Opera/Preferences`
+* **fraud\_protection\_enabled**应为**true**
 
 ![](<../.gitbook/assets/image (9) (1) (2).png>)
 
 \
-Use [**Trickest**](https://trickest.io/) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+使用[**Trickest**](https://trickest.io/)可以轻松构建和自动化由全球**最先进的**社区工具提供支持的工作流程。\
+立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -280,10 +278,10 @@ Get Access Today:
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* 您在**网络安全公司**工作吗？您想在HackTricks中看到您的公司广告吗？或者您想获得最新版本的PEASS或以PDF格式下载HackTricks吗？请查看[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[NFT](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks衣物**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧。**
 
 </details>

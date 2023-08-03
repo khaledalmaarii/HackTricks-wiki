@@ -4,134 +4,122 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* 你在一个**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
 
-## **Basic Information**
+## **基本信息**
 
-**System Integrity Protection (SIP)** is a security technology in macOS that safeguards certain system directories from unauthorized access, even for the root user. It prevents modifications to these directories, including creation, alteration, or deletion of files. The main directories that SIP protects are:
+**系统完整性保护（SIP）**是macOS中的一项安全技术，它保护某些系统目录免受未经授权的访问，即使对于root用户也是如此。它防止对这些目录进行修改，包括创建、修改或删除文件。SIP保护的主要目录包括：
 
 * **/System**
 * **/bin**
 * **/sbin**
 * **/usr**
 
-The protection rules for these directories and their subdirectories are specified in the **`/System/Library/Sandbox/rootless.conf`** file. In this file, paths starting with an asterisk (\*) represent exceptions to SIP's restrictions.
+这些目录及其子目录的保护规则在**`/System/Library/Sandbox/rootless.conf`**文件中指定。在该文件中，以星号（\*）开头的路径表示SIP限制的例外情况。
 
-For instance, the following configuration:
-
+例如，以下配置：
 ```javascript
 javascriptCopy code/usr
 * /usr/libexec/cups
 * /usr/local
 * /usr/share/man
 ```
+表明**`/usr`**目录通常受到SIP的保护。然而，三个指定的子目录（`/usr/libexec/cups`，`/usr/local`和`/usr/share/man`）允许进行修改，因为它们在前面有一个星号（\*）。
 
-indicates that the **`/usr`** directory is generally protected by SIP. However, modifications are allowed in the three subdirectories specified (`/usr/libexec/cups`, `/usr/local`, and `/usr/share/man`), as they are listed with a leading asterisk (\*).
-
-To verify whether a directory or file is protected by SIP, you can use the **`ls -lOd`** command to check for the presence of the **`restricted`** or **`sunlnk`** flag. For example:
-
+要验证目录或文件是否受到SIP的保护，可以使用**`ls -lOd`**命令来检查是否存在**`restricted`**或**`sunlnk`**标志。例如：
 ```bash
 ls -lOd /usr/libexec/cups
 drwxr-xr-x  11 root  wheel  sunlnk 352 May 13 00:29 /usr/libexec/cups
 ```
+在这种情况下，**`sunlnk`** 标志表示 `/usr/libexec/cups` 目录本身不能被删除，但其中的文件可以被创建、修改或删除。
 
-In this case, the **`sunlnk`** flag signifies that the `/usr/libexec/cups` directory itself cannot be deleted, though files within it can be created, modified, or deleted.
-
-On the other hand:
-
+另一方面：
 ```bash
 ls -lOd /usr/libexec
 drwxr-xr-x  338 root  wheel  restricted 10816 May 13 00:29 /usr/libexec
 ```
+这里，**`restricted`** 标志表示 `/usr/libexec` 目录受到 SIP 保护。在受 SIP 保护的目录中，文件无法被创建、修改或删除。
 
-Here, the **`restricted`** flag indicates that the `/usr/libexec` directory is protected by SIP. In a SIP-protected directory, files cannot be created, modified, or deleted.
+### SIP 状态
 
-### SIP Status
-
-You can check if SIP is enabled on your system with the following command:
-
+您可以使用以下命令检查系统是否启用了 SIP：
 ```bash
 csrutil status
 ```
-
-If you need to disable SIP, you must restart your computer in recovery mode (by pressing Command+R during startup), then execute the following command:
-
+如果您需要禁用SIP，您必须在恢复模式下重新启动计算机（在启动过程中按下Command+R），然后执行以下命令：
 ```bash
 csrutil disable
 ```
-
-If you wish to keep SIP enabled but remove debugging protections, you can do so with:
-
+如果您希望保持SIP启用状态但移除调试保护，可以使用以下方法：
 ```bash
 csrutil enable --without debug
 ```
+### 其他限制
 
-### Other Restrictions
+SIP还有一些其他限制。例如，它禁止加载未签名的内核扩展（kexts），并阻止对macOS系统进程进行调试。它还阻止像dtrace这样的工具检查系统进程。
 
-SIP also imposes several other restrictions. For instance, it disallows the **loading of unsigned kernel extensions** (kexts) and prevents the **debugging** of macOS system processes. It also inhibits tools like dtrace from inspecting system processes.
+## SIP绕过
 
-## SIP Bypasses
+### 价格
 
-### Prices
+如果攻击者成功绕过SIP，他将获得以下收益：
 
-If an attacker manages to bypass SIP this is what he will earn:
+* 阅读所有用户的邮件、消息、Safari历史记录等
+* 授予摄像头、麦克风或其他权限（通过直接覆盖SIP保护的TCC数据库）
+* 持久性：他可以将恶意软件保存在SIP保护的位置，甚至管理员也无法删除它。此外，他还可以篡改MRT。
+* 更容易加载内核扩展（仍然有其他强大的保护措施）
 
-* Read mail, messages, Safari history... of all users
-* Grant permissions for webcam, microphone or anything (by directly writing over the SIP protected TCC database)
-* Persistence: He could save a malware in a SIP protected location and not even toot will be able to delete it. Also he could tamper with MRT.
-* Easiness to load kernel extensions (still other hardcore protections in place for this).
+### 安装程序包
 
-### Installer Packages
+**使用Apple的证书签名的安装程序包**可以绕过其保护。这意味着即使是由标准开发人员签名的包，如果它们试图修改SIP保护的目录，也将被阻止。
 
-**Installer packages signed with Apple's certificate** can bypass its protections. This means that even packages signed by standard developers will be blocked if they attempt to modify SIP-protected directories.
+### 不存在的SIP文件
 
-### Unexistent SIP file
-
-One potential loophole is that if a file is specified in **`rootless.conf` but does not currently exist**, it can be created. Malware could exploit this to **establish persistence** on the system. For example, a malicious program could create a .plist file in `/System/Library/LaunchDaemons` if it is listed in `rootless.conf` but not present.
+一个潜在的漏洞是，如果一个文件在**`rootless.conf`中被指定，但当前不存在**，它可以被创建。恶意软件可以利用这一点在系统上建立持久性。例如，如果在`rootless.conf`中列出了`/System/Library/LaunchDaemons`中的.plist文件但不存在，那么恶意程序可以在那里创建一个.plist文件。
 
 ### com.apple.rootless.install.heritable
 
 {% hint style="danger" %}
-The entitlement **`com.apple.rootless.install.heritable`** allows to bypass SIP
+权限**`com.apple.rootless.install.heritable`**可以绕过SIP
 {% endhint %}
 
-[**Researchers from this blog post**](https://www.microsoft.com/en-us/security/blog/2021/10/28/microsoft-finds-new-macos-vulnerability-shrootless-that-could-bypass-system-integrity-protection/) discovered a vulnerability in macOS's System Integrity Protection (SIP) mechanism, dubbed the 'Shrootless' vulnerability. This vulnerability centers around the `system_installd` daemon, which has an entitlement, **`com.apple.rootless.install.heritable`**, that allows any of its child processes to bypass SIP's file system restrictions.
+[**来自这篇博文的研究人员**](https://www.microsoft.com/en-us/security/blog/2021/10/28/microsoft-finds-new-macos-vulnerability-shrootless-that-could-bypass-system-integrity-protection/)发现了macOS的系统完整性保护（SIP）机制的一个漏洞，被称为“Shrootless”漏洞。这个漏洞围绕着`system_installd`守护程序展开，它具有一个名为**`com.apple.rootless.install.heritable`**的权限，允许其任何子进程绕过SIP的文件系统限制。
 
-Researchers found that during the installation of an Apple-signed package (.pkg file), **`system_installd`** **runs** any **post-install** scripts included in the package. These scripts are executed by the default shell, **`zsh`**, which automatically **runs** commands from the **`/etc/zshenv`** file, if it exists, even in non-interactive mode. This behavior could be exploited by attackers: by creating a malicious `/etc/zshenv` file and waiting for `system_installd` to invoke `zsh`, they could perform arbitrary operations on the device.
+研究人员发现，在安装由苹果签名的包（.pkg文件）时，`system_installd`会运行包中包含的任何**post-install**脚本。这些脚本由默认的shell **`zsh`**执行，即使在非交互模式下，它也会自动运行**`/etc/zshenv`**文件中的命令，如果该文件存在。攻击者可以利用这个行为：通过创建一个恶意的`/etc/zshenv`文件，并等待`system_installd`调用`zsh`，他们可以在设备上执行任意操作。
 
-Moreover, it was discovered that **`/etc/zshenv` could be used as a general attack technique**, not just for a SIP bypass. Each user profile has a `~/.zshenv` file, which behaves the same way as `/etc/zshenv` but doesn't require root permissions. This file could be used as a persistence mechanism, triggering every time `zsh` starts, or as an elevation of privilege mechanism. If an admin user elevates to root using `sudo -s` or `sudo <command>`, the `~/.zshenv` file would be triggered, effectively elevating to root.
+此外，还发现**`/etc/zshenv`可以用作一般的攻击技术**，不仅仅是用于绕过SIP。每个用户配置文件都有一个`~/.zshenv`文件，它的行为与`/etc/zshenv`相同，但不需要root权限。这个文件可以用作持久性机制，每次`zsh`启动时触发，或者用作权限提升机制。如果管理员用户使用`sudo -s`或`sudo <command>`提升为root用户，`~/.zshenv`文件将被触发，有效地提升为root用户。
 
-In [**CVE-2022-22583**](https://perception-point.io/blog/technical-analysis-cve-2022-22583/) it was discovered that the same **`system_installd`** process could still be abused because it was putting the **post-install script inside a random named folder protected by SIP inside `/tmp`**. The thing is that **`/tmp` itself isn't protected by SIP**, so it was possible to **mount** a **virtual image on it**, then the **installer** would put in there the **post-install script**, **unmount** the virtual image, **recreate** all the **folders** and **add** the **post installation** script with the **payload** to execute.
+在[**CVE-2022-22583**](https://perception-point.io/blog/technical-analysis-cve-2022-22583/)中发现，同样的**`system_installd`**进程仍然可以被滥用，因为它将**post-install脚本放在了SIP保护的随机命名文件夹中的`/tmp`**中。问题在于**`/tmp`本身没有受到SIP的保护**，所以可以在其上**挂载**一个**虚拟映像**，然后**安装程序**会将**post-install脚本**放在其中，**卸载**虚拟映像，**重新创建**所有**文件夹**，并**添加**带有**要执行的payload的post-installation脚本**。
 
 ### **com.apple.rootless.install**
 
 {% hint style="danger" %}
-The entitlement **`com.apple.rootless.install`** allows to bypass SIP
+权限**`com.apple.rootless.install`**可以绕过SIP
 {% endhint %}
 
-From [**CVE-2022-26712**](https://jhftss.github.io/CVE-2022-26712-The-POC-For-SIP-Bypass-Is-Even-Tweetable/) The system XPC service `/System/Library/PrivateFrameworks/ShoveService.framework/Versions/A/XPCServices/SystemShoveService.xpc` has the entitlement **`com.apple.rootless.install`**, which grants the process permission to bypass SIP restrictions. It also **exposes a method to move files without any security check.**
+从[**CVE-2022-26712**](https://jhftss.github.io/CVE-2022-26712-The-POC-For-SIP-Bypass-Is-Even-Tweetable/)中得知，系统XPC服务`/System/Library/PrivateFrameworks/ShoveService.framework/Versions/A/XPCServices/SystemShoveService.xpc`具有权限**`com.apple.rootless.install`**，它允许进程绕过SIP的限制。它还**公开了一种在没有任何安全检查的情况下移动文件的方法**。
 
-## Sealed System Snapshots
+## 封闭系统快照
 
-Sealed System Snapshots are a feature introduced by Apple in **macOS Big Sur (macOS 11)** as a part of its **System Integrity Protection (SIP)** mechanism to provide an additional layer of security and system stability. They are essentially read-only versions of the system volume.
+封闭系统快照是苹果在**macOS Big Sur（macOS 11）**中引入的一个功能，作为其**系统完整性保护（SIP）**机制的一部分，提供了额外的安全性和系统稳定性。它们本质上是系统卷的只读版本。
 
-Here's a more detailed look:
+以下是更详细的介绍：
 
-1. **Immutable System**: Sealed System Snapshots make the macOS system volume "immutable", meaning that it cannot be modified. This prevents any unauthorized or accidental changes to the system that could compromise security or system stability.
-2. **System Software Updates**: When you install macOS updates or upgrades, macOS creates a new system snapshot. The macOS startup volume then uses **APFS (Apple File System)** to switch to this new snapshot. The entire process of applying updates becomes safer and more reliable as the system can always revert to the previous snapshot if something goes wrong during the update.
-3. **Data Separation**: In conjunction with the concept of Data and System volume separation introduced in macOS Catalina, the Sealed System Snapshot feature makes sure that all your data and settings are stored on a separate "**Data**" volume. This separation makes your data independent from the system, which simplifies the process of system updates and enhances system security.
+1. **不可变系统**：封闭系统快照使macOS系统卷变为“不可变”，意味着它不能被修改。这可以防止任何未经授权或意外的对系统的更改，从而可能危及安全性或系统稳定性。
+2. **系统软件更新**：当您安装macOS更新或升级时，macOS会创建一个新的系统快照。然后，macOS启动卷使用**APFS（Apple文件系统）**切换到这个新的快照。如果在更新过程中出现问题，系统始终可以恢复到先前的快照，使应用更新的整个过程更加安全可靠。
+3. **数据分离**：结合在macOS Catalina中引入的数据和系统卷分离的概念，封闭系统快照功能确保所有数据和设置存储在单独的“**数据**”卷上。这种分离使您的数据与系统独立，简化了系统更新的过程，并增强了系统安全性。
 
-Remember that these snapshots are automatically managed by macOS and don't take up additional space on your disk, thanks to the space sharing capabilities of APFS. It’s also important to note that these snapshots are different from **Time Machine snapshots**, which are user-accessible backups of the entire system.
+请记住，这些快照由macOS自动管理，并且由于APFS的空间共享功能，它们不会占用额外的磁盘空间。还需要注意的是，这些快照与**Time Machine快照**不同，后者是用户可访问的整个系统的备份。
 
-### Check Snapshots
+### 检查快照
 
-The command **`diskutil apfs list`** lists the **details of the APFS volumes** and their layout:
+命令**`diskutil apfs list`**列出了APFS卷的详细信息和布局：
 
 <pre><code>+-- Container disk3 966B902E-EDBA-4775-B743-CF97A0556A13
 |   ====================================================
@@ -150,42 +138,33 @@ The command **`diskutil apfs list`** lists the **details of the APFS volumes** a
 |   |   APFS Volume Disk (Role):   disk3s1 (System)
 |   |   Name:                      Macintosh HD (Case-insensitive)
 |   |   Mount Point:               /System/Volumes/Update/mnt1
-|   |   Capacity Consumed:         12819210240 B (12.8 GB)
-|   |   Sealed:                    Broken
-|   |   FileVault:                 Yes (Unlocked)
-|   |   Encrypted:                 No
-|   |   |
-|   |   Snapshot:                  FAA23E0C-791C-43FF-B0E7-0E1C0810AC61
-|   |   Snapshot Disk:             disk3s1s1
-|   |   Snapshot Mount Point:      /
-<strong>|   |   Snapshot Sealed:           Yes
+|   |   Capacity Consumed:         128192102
+|   |   快照磁盘:             disk3s1s1
+|   |   快照挂载点:      /
+<strong>|   |   快照已封存:           是
 </strong>[...]
 </code></pre>
 
-In the previous output it's possible to see that **macOS System volume snapshot is sealed** (cryptographically signed by the OS). SO, if SIP is bypassed and modifies it, the **OS won't boot anymore**.
+在上面的输出中，可以看到**macOS系统卷快照已被封存**（由操作系统进行了加密签名）。因此，如果绕过SIP并对其进行修改，**操作系统将无法启动**。
 
-It's also possible to verify that seal is enabled by running:
-
+还可以通过运行以下命令来验证封存是否已启用：
 ```
 csrutil authenticated-root status
 Authenticated Root status: enabled
 ```
-
-Moreover, it's mounted as **read-only**:
-
+此外，它被挂载为**只读**：
 ```
 mount
 /dev/disk3s1s1 on / (apfs, sealed, local, read-only, journaled)
 ```
-
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* 你在一家**网络安全公司**工作吗？想要在 HackTricks 中**宣传你的公司**吗？或者你想要**获取最新版本的 PEASS 或下载 HackTricks 的 PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass)，或者**关注**我在**推特**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向** [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享你的黑客技巧。**
 
 </details>

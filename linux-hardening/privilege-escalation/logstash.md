@@ -1,83 +1,77 @@
-
-
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
 
 </details>
 
 
-# Basic Information
+# 基本信息
 
-Logstash  is used for collecting, transforming and outputting logs. This is realized by using **pipelines**, which contain input, filter and output modules. The service gets interesting when having compromised a machine which is running Logstash as a service.
+Logstash用于收集、转换和输出日志。这是通过使用**管道**来实现的，管道包含输入、过滤和输出模块。当入侵了一台运行Logstash服务的机器时，该服务变得有趣起来。
 
-## Pipelines
+## 管道
 
-The pipeline configuration file **/etc/logstash/pipelines.yml** specifies the locations of active pipelines:
-
+管道配置文件**/etc/logstash/pipelines.yml**指定了活动管道的位置：
 ```bash
 # This file is where you define your pipelines. You can define multiple.
 # For more information on multiple pipelines, see the documentation:
 # https://www.elastic.co/guide/en/logstash/current/multiple-pipelines.html
 
 - pipeline.id: main
-  path.config: "/etc/logstash/conf.d/*.conf"
+path.config: "/etc/logstash/conf.d/*.conf"
 - pipeline.id: example
-  path.config: "/usr/share/logstash/pipeline/1*.conf"
-  pipeline.workers: 6
+path.config: "/usr/share/logstash/pipeline/1*.conf"
+pipeline.workers: 6
 ```
+在这里，您可以找到包含配置的管道的 **.conf** 文件的路径。如果使用了 **Elasticsearch 输出模块**，则 **管道** 很可能包含用于 Elasticsearch 实例的有效凭据。由于 Logstash 需要将数据写入 Elasticsearch，这些凭据通常具有更高的权限。如果使用了通配符，Logstash 尝试运行位于该文件夹中与通配符匹配的所有管道。
 
-In here you can find the paths to the **.conf** files, which contain the configured pipelines. If the **Elasticsearch output module** is used, **pipelines** are likely to **contain** valid **credentials** for an Elasticsearch instance. Those credentials have often more privileges, since Logstash has to write data to Elasticsearch. If wildcards are used, Logstash tries to run all pipelines located in that folder matching the wildcard.
+## 使用可写管道进行权限提升
 
-## Privesc with writable pipelines
+在尝试提升自己的权限之前，您应该检查运行 logstash 服务的用户，因为这将是您之后将拥有的用户。默认情况下，logstash 服务以 **logstash** 用户的权限运行。
 
-Before trying to elevate your own privileges you should check which user is running the logstash service, since this will be the user, you will be owning afterwards. Per default the logstash service runs with the privileges of the **logstash** user.
+检查您是否具有以下所需权限之一：
 
-Check whether you have **one** of the required rights:
+* 您对管道 **.conf** 文件具有 **写权限**，或者
+* **/etc/logstash/pipelines.yml** 包含通配符，并且您被允许写入指定的文件夹
 
-* You have **write permissions** on a pipeline **.conf** file **or**
-* **/etc/logstash/pipelines.yml** contains a wildcard and you are allowed to write into the specified folder
+此外，必须满足以下要求之一：
 
-Further **one** of the requirements must be met:
+* 您能够重新启动 logstash 服务，或者
+* **/etc/logstash/logstash.yml** 包含条目 **config.reload.automatic: true**
 
-* You are able to restart the logstash service **or**
-* **/etc/logstash/logstash.yml** contains the entry **config.reload.automatic: true**
-
-If a wildcard is specified, try to create a file matching that wildcard. Following content can be written into the file to execute commands:
-
+如果指定了通配符，请尝试创建与该通配符匹配的文件。可以将以下内容写入文件以执行命令：
 ```bash
 input {
-  exec {
-    command => "whoami"
-    interval => 120
-  }
+exec {
+command => "whoami"
+interval => 120
+}
 }
 
 output {
-  file {
-    path => "/tmp/output.log"
-    codec => rubydebug
-  }
+file {
+path => "/tmp/output.log"
+codec => rubydebug
+}
 }
 ```
+**间隔**参数指定了以秒为单位的时间。在这个例子中，**whoami**命令每120秒执行一次。命令的输出保存在**/tmp/output.log**中。
 
-The **interval** specifies the time in seconds. In this example the **whoami** command is executed every 120 seconds. The output of the command is saved into **/tmp/output.log**.
+如果**/etc/logstash/logstash.yml**文件包含了**config.reload.automatic: true**的设置，你只需要等待命令执行，因为Logstash会自动识别新的管道配置文件或现有管道配置的任何更改。否则，触发一次logstash服务的重启。
 
-If **/etc/logstash/logstash.yml** contains the entry **config.reload.automatic: true** you only have to wait until the command gets executed, since Logstash will automatically recognize new pipeline configuration files or any changes in existing pipeline configurations. Otherwise trigger a restart of the logstash service.
+如果没有使用通配符，你可以将这些更改应用到现有的管道配置中。**确保不要破坏任何东西！**
 
-If no wildcard is used, you can apply those changes to an existing pipeline configuration. **Make sure you do not break things!**
-
-# References
+# 参考资料
 
 * [https://insinuator.net/2021/01/pentesting-the-elk-stack/](https://insinuator.net/2021/01/pentesting-the-elk-stack/)
 
@@ -86,16 +80,14 @@ If no wildcard is used, you can apply those changes to an existing pipeline conf
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者你想要**获取最新版本的PEASS或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- 发现我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
 
 </details>
-
-

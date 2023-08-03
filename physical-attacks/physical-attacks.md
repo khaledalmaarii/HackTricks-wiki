@@ -1,164 +1,156 @@
-# Physical Attacks
+# 物理攻击
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- 你在一家**网络安全公司**工作吗？想要在 HackTricks 中**宣传你的公司**吗？或者你想要**获取最新版本的 PEASS 或下载 HackTricks 的 PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- 发现我们的独家 NFT 收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **通过向[hacktricks 仓库](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud 仓库](https://github.com/carlospolop/hacktricks-cloud)提交 PR 来分享你的黑客技巧**。
 
 </details>
 
-## BIOS password
+## BIOS 密码
 
-### The battery
+### 电池
 
-Most of the **motherbords** have a **battery**. If you **remove** it **30min** the settings of the BIOS will be **restarted** (password included).
+大多数**主板**都有一个**电池**。如果你**拆下**它**30分钟**，BIOS 的设置将会**重置**（包括密码）。
 
-### Jumper CMOS
+### CMOS 跳线
 
-Most of the **motherboards** have a **jumper** that can restart the settings. This jumper connects a central pin with another, if you **connect thoses pins the motherbord will be reseted**.
+大多数**主板**都有一个可以重置设置的**跳线**。这个跳线将一个中心引脚与另一个引脚连接起来，如果你**连接这些引脚，主板将被重置**。
 
-### Live Tools
+### 实时工具
 
-If you could **run** for example a **Kali** Linux from a Live CD/USB you could use tools like _**killCmos**_ or _**CmosPWD**_ (this last one is included in Kali) you could try to **recover the password of the BIOS**.
+如果你能够从 Live CD/USB 上**运行**例如 Kali Linux，你可以使用像 _**killCmos**_ 或 _**CmosPWD**_（后者已包含在 Kali 中）这样的工具来**恢复 BIOS 的密码**。
 
-### Online BIOS password recovery
+### 在线 BIOS 密码恢复
 
-Put the password of the BIOS **3 times wrong**, then the BIOS will **show an error messag**e and it will be blocked.\
-Visit the page [https://bios-pw.org](https://bios-pw.org) and **introduce the error code** shown by the BIOS and you could be lucky and get a **valid password** (the **same search could show you different passwords and more than 1 could be valid**).
+将 BIOS 的密码**连续输错 3 次**，然后 BIOS 将**显示一个错误消息**并被锁定。\
+访问页面[https://bios-pw.org](https://bios-pw.org)并**输入 BIOS 显示的错误代码**，你可能会有幸得到一个**有效的密码**（**相同的搜索可能会显示不同的密码，而且可能有多个密码有效**）。
 
 ## UEFI
 
-To check the settings of the UEFI and perform some kind of attack you should try [chipsec](https://github.com/chipsec/chipsec/blob/master/chipsec-manual.pdf).\
-Using this tool you could easily disable the Secure Boot:
-
+要检查 UEFI 的设置并执行某种攻击，你可以尝试使用 [chipsec](https://github.com/chipsec/chipsec/blob/master/chipsec-manual.pdf)。\
+使用这个工具，你可以轻松地禁用 Secure Boot：
 ```
 python chipsec_main.py -module exploits.secure.boot.pk
 ```
-
 ## RAM
 
-### Cold boot
+### 冷启动攻击
 
-The **RAM memory is persistent from 1 to 2 minutes** from the time the computer is powered off. If you apply **cold** (liquid nitrogen, for example) on the memory card you can extend this time up to **10 minutes**.
+**RAM内存在计算机关闭后的1到2分钟内是持久的**。如果你在内存卡上应用**冷却**（例如液氮），你可以将这个时间延长到**10分钟**。
 
-Then, you can do a **memory dump** (using tools like dd.exe, mdd.exe, Memoryze, win32dd.exe or DumpIt) to analyze the memory.
+然后，你可以使用**dd.exe、mdd.exe、Memoryze、win32dd.exe或DumpIt**等工具进行**内存转储**，以便分析内存。
 
-You should **analyze** the memory **using volatility**.
+你应该使用**volatility**来**分析**内存。
 
 ### [INCEPTION](https://github.com/carmaa/inception)
 
-Inception is a **physical memory manipulation** and hacking tool exploiting PCI-based DMA. The tool can attack over **FireWire**, **Thunderbolt**, **ExpressCard**, PC Card and any other PCI/PCIe HW interfaces.\
-**Connect** your computer to the victim computer over one of those **interfaces** and **INCEPTION** will try to **patch** the **pyshical memory** to give you **access**.
+Inception是一款利用基于PCI的DMA进行**物理内存操作**和黑客攻击的工具。该工具可以通过**FireWire、Thunderbolt、ExpressCard、PC Card**和任何其他PCI/PCIe硬件接口进行攻击。\
+将你的计算机通过其中一个**接口**连接到受害者的计算机上，**INCEPTION**将尝试**修改****物理内存**以便给你**访问权限**。
 
-**If INCEPTION succeeds, any password introduced will be vaid.**
+**如果INCEPTION成功，任何输入的密码都将有效。**
 
-**It doesn't work with Windows10.**
+**它不适用于Windows10。**
 
 ## Live CD/USB
 
-### Sticky Keys and more
+### Sticky Keys和更多
 
-* **SETHC:** _sethc.exe_ is invoked when SHIFT is pressed 5 times
-* **UTILMAN:** _Utilman.exe_ is invoked by pressing WINDOWS+U
-* **OSK:** _osk.exe_ is invoked by pressing WINDOWS+U, then launching the on-screen keyboard
-* **DISP:** _DisplaySwitch.exe_ is invoked by pressing WINDOWS+P
+* **SETHC：**在按下SHIFT键5次时调用_sethc.exe_
+* **UTILMAN：**通过按下WINDOWS+U调用_Utilman.exe_
+* **OSK：**通过按下WINDOWS+U，然后启动屏幕键盘来调用_osk.exe_
+* **DISP：**通过按下WINDOWS+P调用_DisplaySwitch.exe_
 
-These binaries are located inside _**C:\Windows\System32**_. You can **change** any of them for a **copy** of the binary **cmd.exe** (also in the same folder) and any time that you invoke any of those binaries a command prompt as **SYSTEM** will appear.
+这些二进制文件位于_**C:\Windows\System32**_目录下。你可以将其中任何一个更改为二进制文件**cmd.exe**的副本（同样位于相同目录下），每当你调用其中任何一个二进制文件时，一个作为**SYSTEM**的命令提示符将出现。
 
-### Modifying SAM
+### 修改SAM
 
-You can use the tool _**chntpw**_ to **modify the** _**SAM**_ **file** of a mounted Windows filesystem. Then, you could change the password of the Administrator user, for example.\
-This tool is available in KALI.
-
+你可以使用工具_**chntpw**_来**修改**已挂载的Windows文件系统的_**SAM文件**_。然后，你可以更改管理员用户的密码，例如。\
+这个工具在KALI中可用。
 ```
 chntpw -h
 chntpw -l <path_to_SAM>
 ```
-
-**Inside a Linux system you could modify the** _**/etc/shadow**_ **or** _**/etc/passwd**_ **file.**
+**在Linux系统中，您可以修改** _**/etc/shadow**_ **或** _**/etc/passwd**_ **文件。**
 
 ### **Kon-Boot**
 
-**Kon-Boot** is one of the best tools around which can log you into Windows without knowing the password. It works by **hooking into the system BIOS and temporarily changing the contents of the Windows kernel** while booting (new versions work also with **UEFI**). It then allows you to enter **anything as the password** during login. The next time you start the computer without Kon-Boot, the original password will be back, the temporary changes will be discarded and the system will behave as if nothing has happened.\
-Read More: [https://www.raymond.cc/blog/login-to-windows-administrator-and-linux-root-account-without-knowing-or-changing-current-password/](https://www.raymond.cc/blog/login-to-windows-administrator-and-linux-root-account-without-knowing-or-changing-current-password/)
+**Kon-Boot**是一款最好的工具之一，可以在不知道密码的情况下登录Windows。它通过在启动时**钩入系统BIOS并临时更改Windows内核的内容**来工作（新版本也适用于**UEFI**）。然后，它允许您在登录时输入**任何密码**。下次您在没有Kon-Boot的情况下启动计算机时，原始密码将恢复，临时更改将被丢弃，系统将表现得好像什么都没有发生。\
+阅读更多：[https://www.raymond.cc/blog/login-to-windows-administrator-and-linux-root-account-without-knowing-or-changing-current-password/](https://www.raymond.cc/blog/login-to-windows-administrator-and-linux-root-account-without-knowing-or-changing-current-password/)
 
-It is a live CD/USB that can **patch the memory** so you **won't need to know the password to login**.\
-Kon-Boot also performs the **StickyKeys** trick so you could press _**Shift**_ **5 times to get an Administrator cmd**.
+它是一个可以**修补内存**的Live CD/USB，因此您**无需知道密码即可登录**。\
+Kon-Boot还执行**StickyKeys**技巧，因此您可以按下_**Shift**_** 5次以获取管理员命令提示符**。
 
-## **Running Windows**
+## **运行Windows**
 
-### Initial shortcuts
+### 初始快捷方式
 
-### Booting shortcuts
+### 启动快捷方式
 
 * supr - BIOS
-* f8 - Recovery mode
+* f8 - 恢复模式
 * _supr_ - BIOS ini
-* _f8_ - Recovery mode
-* _Shitf_ (after the windows banner) - Go to login page instead of autologon (avoid autologon)
+* _f8_ - 恢复模式
+* _Shitf_（在Windows标志后）- 转到登录页面而不是自动登录（避免自动登录）
 
-### **BAD USBs**
+### **恶意USB**
 
-#### **Rubber Ducky tutorials**
+#### **Rubber Ducky教程**
 
-* [Tutorial 1](https://github.com/hak5darren/USB-Rubber-Ducky/wiki/Tutorials)
-* [Tutorial 2](https://blog.hartleybrody.com/rubber-ducky-guide/)
+* [教程1](https://github.com/hak5darren/USB-Rubber-Ducky/wiki/Tutorials)
+* [教程2](https://blog.hartleybrody.com/rubber-ducky-guide/)
 
 #### **Teensyduino**
 
-* [Payloads and tutorials](https://github.com/Screetsec/Pateensy)
+* [Payloads和教程](https://github.com/Screetsec/Pateensy)
 
-There are also tons of tutorials about **how to create your own bad USB**.
+还有很多关于**如何创建自己的恶意USB**的教程。
 
-### Volume Shadow Copy
+### 阴影副本
 
-With administrators privileges and powershell you could make a copy of the SAM file.[ See this code](../windows-hardening/basic-powershell-for-pentesters/#volume-shadow-copy).
+使用管理员权限和PowerShell，您可以制作SAM文件的副本。[查看此代码](../windows-hardening/basic-powershell-for-pentesters/#volume-shadow-copy)。
 
-## Bypassing Bitlocker
+## 绕过Bitlocker
 
-Bitlocker uses **2 passwords**. The one used by the **user**, and the **recovery** password (48 digits).
+Bitlocker使用**2个密码**。一个是由**用户**使用的密码，另一个是**恢复**密码（48位数字）。
 
-If you are lucky and inside the current session of Windows exists the file _**C:\Windows\MEMORY.DMP**_ (It is a memory dump) you could try to **search inside of it the recovery password**. You can **get this file** and a **copy of the filesytem** and then use _Elcomsoft Forensic Disk Decryptor_ to get the content (this will only work if the password is inside the memory dump). You could also **force the memory dump** using _**NotMyFault**_ of _Sysinternals,_ but this will reboot the system and has to be executed as Administrator.
+如果您很幸运，并且在当前Windows会话中存在文件_**C:\Windows\MEMORY.DMP**_（它是一个内存转储），您可以尝试在其中搜索恢复密码。您可以**获取此文件**和**文件系统的副本**，然后使用_Elcomsoft Forensic Disk Decryptor_获取内容（仅当密码在内存转储中时才有效）。您还可以使用_Sysinternals_的_NotMyFault_强制进行内存转储，但这将重新启动系统，并且必须以管理员身份执行。
 
-You could also try a **bruteforce attack** using _**Passware Kit Forensic**_.
+您还可以尝试使用_**Passware Kit Forensic**_进行**暴力破解攻击**。
 
-### Social Engineering
+### 社交工程
 
-Finally, you could make the user add a new recovery password making him executed as administrator:
-
+最后，您可以让用户添加一个新的恢复密码，使其以管理员身份执行：
 ```bash
 schtasks /create /SC ONLOGON /tr "c:/windows/system32/manage-bde.exe -protectors -add c: -rp 000000-000000-000000-000000-000000-000000-000000-000000" /tn tarea /RU SYSTEM /f
 ```
+这将在下次登录时添加一个由48个零组成的新恢复密钥。
 
-This will add a new recovery key (composed of 48 zeros) in the next login.
-
-To check the valid recovery keys you can execute:
-
+要检查有效的恢复密钥，可以执行以下操作：
 ```
 manage-bde -protectors -get c:
 ```
-
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- 你在一家**网络安全公司**工作吗？想要在 HackTricks 中**宣传你的公司**吗？或者你想要**获取最新版本的 PEASS 或下载 HackTricks 的 PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass)，或者**关注**我在**推特**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **通过向 [hacktricks 仓库](https://github.com/carlospolop/hacktricks) 和 [hacktricks-cloud 仓库](https://github.com/carlospolop/hacktricks-cloud) 提交 PR 来分享你的黑客技巧**。
 
 </details>

@@ -1,45 +1,45 @@
-# macOS Security & Privilege Escalation
+# macOS安全与权限提升
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
 
 <figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-**HackenProof is home to all crypto bug bounties.**
+**HackenProof是所有加密漏洞赏金的家园。**
 
-**Get rewarded without delays**\
-HackenProof bounties launch only when their customers deposit the reward budget. You'll get the reward after the bug is verified.
+**即时获得奖励**\
+HackenProof的赏金只有在客户存入奖励预算后才会启动。在漏洞经过验证后，您将获得奖励。
 
-**Get experience in web3 pentesting**\
-Blockchain protocols and smart contracts are the new Internet! Master web3 security at its rising days.
+**在web3渗透测试中积累经验**\
+区块链协议和智能合约是新的互联网！在其崛起之时掌握web3安全。
 
-**Become the web3 hacker legend**\
-Gain reputation points with each verified bug and conquer the top of the weekly leaderboard.
+**成为web3黑客传奇**\
+每次验证的漏洞都会获得声誉积分，并登上每周排行榜的榜首。
 
-[**Sign up on HackenProof**](https://hackenproof.com/register) start earning from your hacks!
+[**在HackenProof上注册**](https://hackenproof.com/register) 从您的黑客行动中获利！
 
 {% embed url="https://hackenproof.com/register" %}
 
-## Basic MacOS
+## 基本的MacOS
 
-If you are not familiar with macOS, you should start learning the basics of macOS:
+如果您对macOS不熟悉，您应该开始学习macOS的基础知识：
 
-* Special macOS **files & permissions:**
+* 特殊的macOS**文件和权限：**
 
 {% content-ref url="macos-files-folders-and-binaries/" %}
 [macos-files-folders-and-binaries](macos-files-folders-and-binaries/)
 {% endcontent-ref %}
 
-* Common macOS **users**
+* 常见的macOS**用户**
 
 {% content-ref url="macos-users.md" %}
 [macos-users.md](macos-users.md)
@@ -51,13 +51,13 @@ If you are not familiar with macOS, you should start learning the basics of macO
 [macos-applefs.md](macos-applefs.md)
 {% endcontent-ref %}
 
-* The **architecture** of the k**ernel**
+* **内核**的**架构**
 
 {% content-ref url="mac-os-architecture/" %}
 [mac-os-architecture](mac-os-architecture/)
 {% endcontent-ref %}
 
-* Common macOS n**etwork services & protocols**
+* 常见的macOS**网络服务和协议**
 
 {% content-ref url="macos-protocols.md" %}
 [macos-protocols.md](macos-protocols.md)
@@ -65,68 +65,65 @@ If you are not familiar with macOS, you should start learning the basics of macO
 
 ### MacOS MDM
 
-In companies **macOS** systems are highly probably going to be **managed with a MDM**. Therefore, from the perspective of an attacker is interesting to know **how that works**:
+在公司中，**macOS**系统很可能会通过MDM进行**管理**。因此，从攻击者的角度来看，了解**它是如何工作的**是很有意义的：
 
 {% content-ref url="../macos-red-teaming/macos-mdm/" %}
 [macos-mdm](../macos-red-teaming/macos-mdm/)
 {% endcontent-ref %}
 
-### MacOS - Inspecting, Debugging and Fuzzing
+### MacOS - 检查、调试和模糊测试
 
 {% content-ref url="macos-apps-inspecting-debugging-and-fuzzing/" %}
 [macos-apps-inspecting-debugging-and-fuzzing](macos-apps-inspecting-debugging-and-fuzzing/)
 {% endcontent-ref %}
 
-## MacOS Security Protections
+## MacOS安全保护
 
 {% content-ref url="macos-security-protections/" %}
 [macos-security-protections](macos-security-protections/)
 {% endcontent-ref %}
 
-## Attack Surface
+## 攻击面
 
-### File Permissions
+### 文件权限
 
-If a **process running as root writes** a file that can be controlled by a user, the user could abuse this to **escalate privileges**.\
-This could occur in the following situations:
+如果以**root身份运行的进程**写入一个可以被用户控制的文件，用户可以利用这一点来**提升权限**。\
+这种情况可能发生在以下情况下：
 
-* File used was already created by a user (owned by the user)
-* File used is writable by the user because of a group
-* File used is inside a directory owned by the user (the user could create the file)
-* File used is inside a directory owned by root but user has write access over it because of a group (the user could create the file)
+* 使用的文件已经由用户创建（由用户拥有）
+* 使用的文件由于一个组的原因可被用户写入
+* 使用的文件位于用户拥有的目录中（用户可以创建文件）
+* 使用的文件位于由root拥有但用户具有写入权限的目录中（用户可以创建文件）
 
-Being able to **create a file** that is going to be **used by root**, allows a user to **take advantage of its content** or even create **symlinks/hardlinks** to point it to another place.
+能够**创建一个将被root使用的文件**，允许用户**利用其内容**，甚至创建**符号链接/硬链接**将其指向另一个位置。
 
-For this kind of vulnerabilities don't forget to **check vulnerable `.pkg` installers**:
+对于这种类型的漏洞，不要忘记**检查易受攻击的`.pkg`安装程序**：
 
 {% content-ref url="macos-files-folders-and-binaries/macos-installers-abuse.md" %}
 [macos-installers-abuse.md](macos-files-folders-and-binaries/macos-installers-abuse.md)
 {% endcontent-ref %}
 
-### Entitlements and Privileges abuse via process abuse
+### 权限滥用和特权滥用通过进程滥用
 
-If a process can **inject code in another process with better privileges or entitlements** or contact it to perform privileges actions, he could escalate privileges and bypass defensive meassures such as [Sandbox](macos-security-protections/macos-sandbox/) or [TCC](macos-security-protections/macos-tcc/).
+如果一个进程可以**向具有更高特权或权限的另一个进程注入代码**或与其联系以执行特权操作，它可以提升权限并绕过防御措施，如[Sandbox](macos-security-protections/macos-sandbox/)或[TCC](macos-security-protections/macos-tcc/)。
 
 {% content-ref url="macos-proces-abuse/" %}
 [macos-proces-abuse](macos-proces-abuse/)
 {% endcontent-ref %}
+### 文件扩展名和URL方案应用程序处理程序
 
-### File Extension & URL scheme app handlers
-
-Weird apps registered by file extensions could be abused and different applications can be register to open specific protocols
+通过文件扩展名注册的奇怪应用程序可能会被滥用，并且可以注册不同的应用程序来打开特定的协议。
 
 {% content-ref url="macos-file-extension-apps.md" %}
 [macos-file-extension-apps.md](macos-file-extension-apps.md)
 {% endcontent-ref %}
 
-## MacOS Privilege Escalation
+## MacOS权限提升
 
-### CVE-2020-9771 - mount\_apfs TCC bypass and privilege escalation
+### CVE-2020-9771 - mount\_apfs TCC绕过和权限提升
 
-**Any user** (even unprivileged ones) can create and mount a time machine snapshot an **access ALL the files** of that snapshot.\
-The **only privileged** needed is for the application used (like `Terminal`) to have **Full Disk Access** (FDA) access (`kTCCServiceSystemPolicyAllfiles`) which need to be granted by an admin.
-
-{% code overflow="wrap" %}
+**任何用户**（即使是非特权用户）都可以创建和挂载时间机器快照，并**访问该快照的所有文件**。\
+唯一需要的特权是所使用的应用程序（如`Terminal`）具有**完全磁盘访问权限**（FDA）（`kTCCServiceSystemPolicyAllfiles`），需要由管理员授予。
 ```bash
 # Create snapshot
 tmutil localsnapshot
@@ -148,27 +145,27 @@ ls /tmp/snap/Users/admin_user # This will work
 ```
 {% endcode %}
 
-A more detailed explanation can be [**found in the original report**](https://theevilbit.github.io/posts/cve\_2020\_9771/)**.**
+更详细的解释可以在[**原始报告中找到**](https://theevilbit.github.io/posts/cve\_2020\_9771/)**。**
 
-### Sensitive Information
+### 敏感信息
 
 {% content-ref url="macos-files-folders-and-binaries/macos-sensitive-locations.md" %}
 [macos-sensitive-locations.md](macos-files-folders-and-binaries/macos-sensitive-locations.md)
 {% endcontent-ref %}
 
-### Linux Privesc
+### Linux提权
 
-First of all, please note that **most of the tricks about privilege escalation affecting Linux/Unix will affect also MacOS** machines. So see:
+首先，请注意**大多数关于特权提升的技巧都会影响MacOS机器**。所以请参考：
 
 {% content-ref url="../../linux-hardening/privilege-escalation/" %}
 [privilege-escalation](../../linux-hardening/privilege-escalation/)
 {% endcontent-ref %}
 
-## MacOS Defensive Apps
+## MacOS防御应用程序
 
-## References
+## 参考资料
 
-* [**OS X Incident Response: Scripting and Analysis**](https://www.amazon.com/OS-Incident-Response-Scripting-Analysis-ebook/dp/B01FHOHHVS)
+* [**OS X事件响应：脚本和分析**](https://www.amazon.com/OS-Incident-Response-Scripting-Analysis-ebook/dp/B01FHOHHVS)
 * [**https://taomm.org/vol1/analysis.html**](https://taomm.org/vol1/analysis.html)
 * [**https://github.com/NicolasGrimonpont/Cheatsheet**](https://github.com/NicolasGrimonpont/Cheatsheet)
 * [**https://assets.sentinelone.com/c/sentinal-one-mac-os-?x=FvGtLJ**](https://assets.sentinelone.com/c/sentinal-one-mac-os-?x=FvGtLJ)
@@ -176,18 +173,18 @@ First of all, please note that **most of the tricks about privilege escalation a
 
 <figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-**HackenProof is home to all crypto bug bounties.**
+**HackenProof是所有加密漏洞赏金的家园。**
 
-**Get rewarded without delays**\
-HackenProof bounties launch only when their customers deposit the reward budget. You'll get the reward after the bug is verified.
+**即时获得奖励**\
+HackenProof的赏金只有在客户存入奖励预算后才会启动。在漏洞经过验证后，您将获得奖励。
 
-**Get experience in web3 pentesting**\
-Blockchain protocols and smart contracts are the new Internet! Master web3 security at its rising days.
+**在web3渗透测试中积累经验**\
+区块链协议和智能合约是新的互联网！在其兴起的日子里掌握web3安全。
 
-**Become the web3 hacker legend**\
-Gain reputation points with each verified bug and conquer the top of the weekly leaderboard.
+**成为web3黑客传奇**\
+每次验证的漏洞都会获得声誉积分，并占领每周排行榜的榜首。
 
-[**Sign up on HackenProof**](https://hackenproof.com/register) start earning from your hacks!
+[**在HackenProof上注册**](https://hackenproof.com/register)开始从您的黑客行动中获利！
 
 {% embed url="https://hackenproof.com/register" %}
 
@@ -195,10 +192,10 @@ Gain reputation points with each verified bug and conquer the top of the weekly 
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* 您在**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[NFT收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧。**
 
 </details>

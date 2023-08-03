@@ -1,95 +1,86 @@
-# Active Directory Methodology
+# Active Directory 方法论
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* 你在一家 **网络安全公司** 工作吗？你想在 HackTricks 中看到你的 **公司广告** 吗？或者你想获得 **PEASS 的最新版本或下载 HackTricks 的 PDF** 吗？请查看 [**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 集合 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或 **关注** 我的 **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **通过向** [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享你的黑客技巧。**
 
 </details>
 
-## Basic overview
+## 基本概述
 
-Active Directory allows network administrators to create and manage domains, users, and objects within a network. For example, an admin can create a group of users and give them specific access privileges to certain directories on the server. As a network grows, Active Directory provides a way to organize a large number of users into logical groups and subgroups, while providing access control at each level.
+Active Directory 允许网络管理员在网络中创建和管理域、用户和对象。例如，管理员可以创建一个用户组，并为他们在服务器上的特定目录提供特定的访问权限。随着网络的增长，Active Directory 提供了一种将大量用户组织成逻辑组和子组的方式，并在每个级别提供访问控制。
 
-The Active Directory structure includes three main tiers: 1) domains, 2) trees, and 3) forests. Several objects (users or devices) that all use the same database may be grouped in to a single domain. Multiple domains can be combined into a single group called a tree. Multiple trees may be grouped into a collection called a forest. Each one of these levels can be assigned specific access rights and communication privileges.
+Active Directory 结构包括三个主要层次：1) 域，2) 树，和 3) 林。多个使用相同数据库的对象（用户或设备）可以分组到一个单独的域中。多个域可以组合成一个称为树的单个组。多个树可以组合成一个称为林的集合。每个级别都可以分配特定的访问权限和通信特权。
 
-Main concepts of an Active Directory:
+Active Directory 提供了几种不同的服务，这些服务属于 "Active Directory 域服务" 或 AD DS 的范畴。这些服务包括：
 
-1. **Directory** – Contains all the information about the objects of the Active directory
-2. **Object** – An object references almost anything inside the directory (a user, group, shared folder...)
-3. **Domain** – The objects of the directory are contained inside the domain. Inside a "forest" more than one domain can exist and each of them will have their own objects collection.
-4. **Tree** – Group of domains with the same root. Example: _dom.local, email.dom.local, www.dom.local_
-5. **Forest** – The forest is the highest level of the organization hierarchy and is composed by a group of trees. The trees are connected by trust relationships.
+1. **域服务** - 存储集中化数据并管理用户和域之间的通信；包括登录认证和搜索功能
+2. **证书服务** - 创建、分发和管理安全证书
+3. **轻量级目录服务** - 使用开放的 (LDAP) 协议支持目录启用的应用程序
+4. **目录联合服务** - 提供单点登录 (SSO)，以在单个会话中对多个 Web 应用程序进行用户身份验证
+5. **权限管理** - 通过防止未经授权的使用和分发数字内容来保护版权信息
+6. **DNS 服务** - 用于解析域名。
 
-Active Directory provides several different services, which fall under the umbrella of "Active Directory Domain Services," or AD DS. These services include:
+AD DS 包含在 Windows Server 中（包括 Windows Server 10）并设计用于管理客户端系统。虽然运行常规版本的 Windows 的系统没有 AD DS 的管理功能，但它们支持 Active Directory。这意味着任何 Windows 计算机都可以连接到 Windows 工作组，只要用户具有正确的登录凭据。\
+**来源：**[**https://techterms.com/definition/active\_directory**](https://techterms.com/definition/active\_directory)
 
-1. **Domain Services** – stores centralized data and manages communication between users and domains; includes login authentication and search functionality
-2. **Certificate Services** – creates, distributes, and manages secure certificates
-3. **Lightweight Directory Services** – supports directory-enabled applications using the open (LDAP) protocol
-4. **Directory Federation Services** – provides single-sign-on (SSO) to authenticate a user in multiple web applications in a single session
-5. **Rights Management** – protects copyrighted information by preventing unauthorized use and distribution of digital content
-6. **DNS Service** – Used to resolve domain names.
+### **Kerberos 认证**
 
-AD DS is included with Windows Server (including Windows Server 10) and is designed to manage client systems. While systems running the regular version of Windows do not have the administrative features of AD DS, they do support Active Directory. This means any Windows computer can connect to a Windows workgroup, provided the user has the correct login credentials.\
-**From:** [**https://techterms.com/definition/active\_directory**](https://techterms.com/definition/active\_directory)
+要学习如何**攻击 AD**，你需要**深入了解** Kerberos 认证过程。\
+[**如果你还不知道它是如何工作的，请阅读此页面。**](kerberos-authentication.md)
 
-### **Kerberos Authentication**
+## 速查表
 
-To learn how to **attack an AD** you need to **understand** really good the **Kerberos authentication process**.\
-[**Read this page if you still don't know how it works.**](kerberos-authentication.md)
+你可以访问 [https://wadcoms.github.io/](https://wadcoms.github.io) 查看可以运行以枚举/利用 AD 的命令。
 
-## Cheat Sheet
+## 侦察 Active Directory（无凭证/会话）
 
-You can take a lot to [https://wadcoms.github.io/](https://wadcoms.github.io) to have a quick view of which commands you can run to enumerate/exploit an AD.
+如果你只能访问 AD 环境，但没有任何凭证/会话，你可以：
 
-## Recon Active Directory (No creds/sessions)
-
-If you just have access to an AD environment but you don't have any credentials/sessions you could:
-
-* **Pentest the network:**
-  * Scan the network, find machines and open ports and try to **exploit vulnerabilities** or **extract credentials** from them (for example, [printers could be very interesting targets](ad-information-in-printers.md).
-  * Enumerating DNS could give information about key servers in the domain as web, printers, shares, vpn, media, etc.
-    * `gobuster dns -d domain.local -t 25 -w /opt/Seclist/Discovery/DNS/subdomain-top2000.txt`
-  * Take a look to the General [**Pentesting Methodology**](../../generic-methodologies-and-resources/pentesting-methodology.md) to find more information about how to do this.
-* **Check for null and Guest access on smb services** (this won't work on modern Windows versions):
-  * `enum4linux -a -u "" -p "" <DC IP> && enum4linux -a -u "guest" -p "" <DC IP>`
-  * `smbmap -u "" -p "" -P 445 -H <DC IP> && smbmap -u "guest" -p "" -P 445 -H <DC IP>`
-  * `smbclient -U '%' -L //<DC IP> && smbclient -U 'guest%' -L //`
-  * A more detailed guide on how to enumerate a SMB server can be found here:
+* **渗透测试网络：**
+* 扫描网络，查找机器和打开的端口，并尝试从中**利用漏洞**或**提取凭证**（例如，[打印机可能是非常有趣的目标](ad-information-in-printers.md)）。
+* 枚举 DNS 可以提供关于域中的关键服务器（如 Web、打印机、共享、VPN、媒体等）的信息。
+* `gobuster dns -d domain.local -t 25 -w /opt/Seclist/Discovery/DNS/subdomain-top2000.txt`
+* 查看通用的[**渗透测试方法论**](../../generic-methodologies-and-resources/pentesting-methodology.md)以获取更多关于如何执行此操作的信息。
+* **检查 smb 服务上的空和 Guest 访问**（这在现代 Windows 版本上不起作用）：
+* `enum4linux -a -u "" -p "" <DC IP> && enum4linux -a -u "guest" -p "" <DC IP>`
+* `smbmap -u "" -p "" -P 445 -H <DC IP> && smbmap -u "guest" -p "" -P 445 -H <DC IP>`
+* `smbclient -U '%' -L //<DC IP> && smbclient -U 'guest%' -L //`
+* 关于如何枚举 SMB 服务器的更详细指南可以在这里找到：
 
 {% content-ref url="../../network-services-pentesting/pentesting-smb.md" %}
 [pentesting-smb.md](../../network-services-pentesting/pentesting-smb.md)
 {% endcontent-ref %}
 
-* **Enumerate Ldap**
-  * `nmap -n -sV --script "ldap* and not brute" -p 389 <DC IP>`
-  * A more detailed guide on how to enumerate LDAP can be found here (pay **special attention to the anonymous access**):
+* **枚举 Ldap**
+* `nmap -n -sV --script "ldap* and not brute" -p 389 <DC IP>`
+* 关于如何枚举 LDAP 的更详细指南可以在这里找到（特别注意匿名访问）：
 
 {% content-ref url="../../network-services-pentesting/pentesting-ldap.md" %}
 [pentesting-ldap.md](../../network-services-pentesting/pentesting-ldap.md)
 {% endcontent-ref %}
 
-* **Poison the network**
-  * Gather credentials [**impersonating services with Responder**](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md)
-  * Access host by [**abusing the relay attack**](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md#relay-attack)
-  * Gather credentials **exposing** [**fake UPnP services with evil-S**](../../generic-methodologies-and-resources/pentesting-network/spoofing-ssdp-and-upnp-devices.md)[**SDP**](https://medium.com/@nickvangilder/exploiting-multifunction-printers-during-a-penetration-test-engagement-28d3840d8856)
-* [**OSINT**](https://book.hacktricks.xyz/external-recon-methodology):
-  * Extract usernames/names from internal documents, social media, services (mainly web) inside the domain environments and also from the publicly available.
-  * If you find the complete names of company workers, you could try different AD **username conventions (**[**read this**](https://activedirectorypro.com/active-directory-user-naming-convention/)). The most common conventions are: _NameSurname_, _Name.Surname_, _NamSur_ (3letters of each), _Nam.Sur_, _NSurname_, _N.Surname_, _SurnameName_, _Surname.Name_, _SurnameN_, _Surname.N_, 3 _random letters and 3 random numbers_ (abc123).
-  * Tools:
-    * [w0Tx/generate-ad-username](https://github.com/w0Tx/generate-ad-username)
-    * [urbanadventurer/username-anarchy](https://github.com/urbanadventurer/username-anarchy)
+* **中毒网络**
+* 收集凭证[**模拟 Responder 服务**](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md)
+* 通过[滥用中继攻击](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md#relay-attack)访问主机
+* 使用[evil-S**SDP](https://medium.com/@nickvangilder/exploiting-multifunction-printers-during-a-penetration-test-engagement-28d3840d8856)暴露虚假UPnP服务来收集凭据
+* [OSINT](https://book.hacktricks.xyz/external-recon-methodology):
+* 从内部文档、社交媒体、域环境内的服务（主要是Web）以及公开可用的地方提取用户名/姓名
+* 如果找到公司员工的完整姓名，可以尝试不同的AD用户名约定（[阅读此处](https://activedirectorypro.com/active-directory-user-naming-convention/)）。最常见的约定有：_NameSurname_，_Name.Surname_，_NamSur_（每个字母的前3个字母），_Nam.Sur_，_NSurname_，_N.Surname_，_SurnameName_，_Surname.Name_，_SurnameN_，_Surname.N_，3个_随机字母和3个随机数字_（abc123）。
+* 工具：
+* [w0Tx/generate-ad-username](https://github.com/w0Tx/generate-ad-username)
+* [urbanadventurer/username-anarchy](https://github.com/urbanadventurer/username-anarchy)
 
-### User enumeration
+### 用户枚举
 
-* **Anonymous SMB/LDAP enum:** Check the [**pentesting SMB**](../../network-services-pentesting/pentesting-smb.md) and [**pentesting LDAP**](../../network-services-pentesting/pentesting-ldap.md) pages.
-* **Kerbrute enum**: When an **invalid username is requested** the server will respond using the **Kerberos error** code _KRB5KDC\_ERR\_C\_PRINCIPAL\_UNKNOWN_, allowing us to determine that the username was invalid. **Valid usernames** will illicit either the **TGT in a AS-REP** response or the error _KRB5KDC\_ERR\_PREAUTH\_REQUIRED_, indicating that the user is required to perform pre-authentication.
-
+* **匿名SMB/LDAP枚举：**请查看[**渗透测试SMB**](../../network-services-pentesting/pentesting-smb.md)和[**渗透测试LDAP**](../../network-services-pentesting/pentesting-ldap.md)页面。
+* **Kerbrute枚举：**当请求一个**无效的用户名**时，服务器将使用Kerberos错误代码_KRB5KDC\_ERR\_C\_PRINCIPAL\_UNKNOWN_进行响应，从而使我们能够确定用户名无效。**有效的用户名**将引发AS-REP响应中的TGT或错误_KRB5KDC\_ERR\_PREAUTH\_REQUIRED_，表示用户需要执行预身份验证。
 ```bash
 ./kerbrute_linux_amd64 userenum -d lab.ropnop.com --dc 10.10.10.10 usernames.txt #From https://github.com/ropnop/kerbrute/releases
 
@@ -100,11 +91,9 @@ msf> use auxiliary/gather/kerberos_enumusers
 
 crackmapexec smb dominio.es  -u '' -p '' --users | awk '{print $4}' | uniq
 ```
+* **OWA（Outlook Web Access）服务器**
 
-* **OWA (Outlook Web Access) Server**
-
-If you found one of these servers in the network you can also perform **user enumeration against it**. For example, you could use the tool [**MailSniper**](https://github.com/dafthack/MailSniper):
-
+如果在网络中发现了其中一个服务器，您还可以对其执行**用户枚举**。例如，您可以使用工具[**MailSniper**](https://github.com/dafthack/MailSniper)：
 ```bash
 ipmo C:\Tools\MailSniper\MailSniper.ps1
 # Get info about the domain
@@ -116,102 +105,99 @@ Invoke-PasswordSprayOWA -ExchHostname [ip] -UserList .\valid.txt -Password Summe
 # Get addresses list from the compromised mail
 Get-GlobalAddressList -ExchHostname [ip] -UserName [domain]\[username] -Password Summer2021 -OutFile gal.txt
 ```
-
 {% hint style="warning" %}
-You can find lists of usernames in [**this github repo**](https://github.com/danielmiessler/SecLists/tree/master/Usernames/Names) \*\*\*\* and this one ([**statistically-likely-usernames**](https://github.com/insidetrust/statistically-likely-usernames)).
+您可以在[**此 GitHub 仓库**](https://github.com/danielmiessler/SecLists/tree/master/Usernames/Names)和[**此仓库**](https://github.com/insidetrust/statistically-likely-usernames)中找到用户名列表。
 
-However, you should have the **name of the people working on the company** from the recon step you should have performed before this. With the name and surname you could used the script [**namemash.py**](https://gist.github.com/superkojiman/11076951) to generate potential valid usernames.
+然而，您应该从之前的侦察步骤中获得的公司员工的姓名。有了名字和姓氏，您可以使用脚本[**namemash.py**](https://gist.github.com/superkojiman/11076951)生成潜在的有效用户名。
 {% endhint %}
 
-### Knowing one or several usernames
+### 已知一个或多个用户名
 
-Ok, so you know you have already a valid username but no passwords... Then try:
+好的，所以您知道已经有一个有效的用户名，但没有密码...然后尝试：
 
-* [**ASREPRoast**](asreproast.md): If a user **doesn't have** the attribute _DONT\_REQ\_PREAUTH_ you can **request a AS\_REP message** for that user that will contain some data encrypted by a derivation of the password of the user.
-* [**Password Spraying**](password-spraying.md): Let's try the most **common passwords** with each of the discovered users, maybe some user is using a bad password (keep in mind the password policy!).
-  * Note that you can also **spray OWA servers** to try to get access to the users mail servers.
+* [**ASREPRoast**](asreproast.md)：如果用户**没有**属性_DONT\_REQ\_PREAUTH_，您可以为该用户**请求一个 AS\_REP 消息**，该消息将包含由用户密码的派生加密的一些数据。
+* [**密码喷洒**](password-spraying.md)：尝试使用已发现的每个用户的**常见密码**，也许某个用户正在使用弱密码（请记住密码策略！）。
+* 请注意，您还可以**喷洒 OWA 服务器**，以尝试访问用户的邮件服务器。
 
 {% content-ref url="password-spraying.md" %}
 [password-spraying.md](password-spraying.md)
 {% endcontent-ref %}
 
-### LLMNR/NBT-NS Poisoning
+### LLMNR/NBT-NS 毒化
 
-You might be able to **obtain** some challenge **hashes** to crack **poisoning** some protocols of the **network**:
+您可以通过**毒化**网络的一些协议来**获取**一些挑战**哈希**以破解：
 
 {% content-ref url="../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md" %}
 [spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md)
 {% endcontent-ref %}
 
-### NTML Relay
+### NTML 中继
 
-If you have managed to enumerate the active directory you will have **more emails and a better understanding of the network**. You might be able to to force NTML [**relay attacks**](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md#relay-attack) \*\*\*\* to get access to the AD env.
+如果您已经枚举了活动目录，您将拥有**更多的电子邮件和对网络的更好了解**。您可以尝试强制进行 NTML [**中继攻击**](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md#relay-attack)以访问 AD 环境。
 
-### Steal NTLM Creds
+### 窃取 NTML 凭证
 
-If you can **access other PCs or shares** with the **null or guest user** you could **place files** (like a SCF file) that if somehow accessed will t**rigger an NTML authentication against you** so you can **steal** the **NTLM challenge** to crack it:
+如果您可以使用**空用户或访客用户**访问其他计算机或共享资源，您可以**放置文件**（如 SCF 文件），如果以某种方式访问，将**触发针对您的 NTML 认证**，以便您可以**窃取** NTML 挑战并破解它：
 
 {% content-ref url="../ntlm/places-to-steal-ntlm-creds.md" %}
 [places-to-steal-ntlm-creds.md](../ntlm/places-to-steal-ntlm-creds.md)
 {% endcontent-ref %}
 
-## Enumerating Active Directory WITH credentials/session
+## 使用凭证/会话枚举 Active Directory
 
-For this phase you need to have **compromised the credentials or a session of a valid domain account.** If you have some valid credentials or a shell as a domain user, **you should remember that the options given before are still options to compromise other users**.
+在此阶段，您需要**获取有效域帐户的凭证或会话**。如果您拥有一些有效凭证或作为域用户的 shell，**您应该记住之前给出的选项仍然是获取其他用户凭证的选项**。
 
-Before start the authenticated enumeration you should know what is the **Kerberos double hop problem.**
+在开始经过身份验证的枚举之前，您应该了解**Kerberos 双跳问题**。
 
 {% content-ref url="kerberos-double-hop-problem.md" %}
 [kerberos-double-hop-problem.md](kerberos-double-hop-problem.md)
 {% endcontent-ref %}
 
-### Enumeration
+### 枚举
 
-Having compromised an account is a **big step to start compromising the whole domain**, because you are going to be able to start the **Active Directory Enumeration:**
+获得一个帐户是开始入侵整个域的**重要一步**，因为您将能够开始**枚举 Active Directory**：
 
-Regarding [**ASREPRoast**](asreproast.md) you can now find every possible vulnerable user, and regarding [**Password Spraying**](password-spraying.md) you can get a **list of all the usernames** and try the password of the compromised account, empty passwords and new promising passwords.
+关于[**ASREPRoast**](asreproast.md)，您现在可以找到每个可能的易受攻击的用户，关于[**密码喷洒**](password-spraying.md)，您可以获得**所有用户名的列表**并尝试使用被入侵帐户的密码、空密码和新的有希望的密码。
 
-* You could use the [**CMD to perform a basic recon**](../basic-cmd-for-pentesters.md#domain-info)
-* You can also use [**powershell for recon**](../basic-powershell-for-pentesters/) which will be stealthier
-* You ca also [**use powerview**](../basic-powershell-for-pentesters/powerview.md) to extract more detailed information
-* Another amazing tool for recon in an active directory is [**BloodHound**](bloodhound.md). It is **not very stealthy** (depending on the collection methods you use), but **if you don't care** about that, you should totally give it a try. Find where users can RDP, find path to other groups, etc.
-  * **Other automated AD enumeration tools are:** [**AD Explorer**](bloodhound.md#ad-explorer)**,** [**ADRecon**](bloodhound.md#adrecon)**,** [**Group3r**](bloodhound.md#group3r)**,** [**PingCastle**](bloodhound.md#pingcastle)**.**
-* \*\*\*\*[**DNS records of the AD**](ad-dns-records.md) \*\*\*\* as they might contain interesting information.
-* A **tool with GUI** that you can use to enumerate the directory is **AdExplorer.exe** from **SysInternal** Suite.
-* You can also search in the LDAP database with **ldapsearch** to look for credentials in fields _userPassword_ & _unixUserPassword_, or even for _Description_. cf. [Password in AD User comment on PayloadsAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Active%20Directory%20Attack.md#password-in-ad-user-comment) for other methods.
-* If you are using **Linux**, you could also enumerate the domain using [**pywerview**](https://github.com/the-useless-one/pywerview).
-* You could also try automated tools as:
-  * [**tomcarver16/ADSearch**](https://github.com/tomcarver16/ADSearch)
-  * [**61106960/adPEAS**](https://github.com/61106960/adPEAS)
-*   **Extracting all domain users**
+* 您可以使用[**CMD 进行基本侦察**](../basic-cmd-for-pentesters.md#domain-info)
+* 您还可以使用[**用于侦察的 PowerShell**](../basic-powershell-for-pentesters/)，这将更隐蔽
+* 您还可以使用[**powerview**](../basic-powershell-for-pentesters/powerview.md)提取更详细的信息
+* 在活动目录中进行侦察的另一个很棒的工具是[**BloodHound**](bloodhound.md)。它**不太隐蔽**（取决于您使用的收集方法），但**如果您不在意**，您应该完全尝试一下。找到用户可以进行 RDP 的位置，找到到其他组的路径等。
+* **其他自动化的 AD 枚举工具有：**[**AD Explorer**](bloodhound.md#ad-explorer)**、**[**ADRecon**](bloodhound.md#adrecon)**、**[**Group3r**](bloodhound.md#group3r)**、**[**PingCastle**](bloodhound.md#pingcastle)**。**
+* [**AD 的 DNS 记录**](ad-dns-records.md)可能包含有趣的信息。
+* 一个可以用于枚举目录的**带有图形界面的工具**是来自**SysInternal**套件的**AdExplorer.exe**。
+* 您还可以使用**ldapsearch**在 LDAP 数据库中搜索以查找字段_userPassword_和_unixUserPassword_中的凭据，甚至可以搜索_Description_字段。参见[PayloadsAllTheThings 上的 AD 用户注释中的密码](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Active%20Directory%20Attack.md#password-in-ad-user-comment)以获取其他方法。
+* 如果您使用的是**Linux**，您还可以使用[**pywerview**](https://github.com/the-useless-one/pywerview)枚举域。
+* 您还可以尝试自动化工具，如：
+* [**tomcarver16/ADSearch**](https://github.com/tomcarver16/ADSearch)
+* [**61106960/adPEAS**](https://github.com/61106960/adPEAS)
+*   **提取所有域用户**
 
-    It's very easy to obtain all the domain usernames from Windows (`net user /domain` ,`Get-DomainUser` or `wmic useraccount get name,sid`). In Linux, you can use: `GetADUsers.py -all -dc-ip 10.10.10.110 domain.com/username` or `enum4linux -a -u "user" -p "password" <DC IP>`
+从 Windows（`net user /domain`、`Get-DomainUser`或`wmic useraccount get name,sid`）中获取所有域用户名非常容易。在 Linux 中，您可以使用：`GetADUsers.py -all -dc-ip 10.10.10.110 domain.com/username`或`enum4linux -a -u "user" -p "password" <DC IP>`
 
-> Even if this Enumeration section looks small this is the most important part of all. Access the links (mainly the one of cmd, powershell, powerview and BloodHound), learn how to enumerate a domain and practice until you feel comfortable. During an assessment, this will be the key moment to find your way to DA or to decide that nothing can be done.
-
+> 即使此枚举部分看起来很小，但这是最重要的部分。访问链接（主要是 cmd、powershell、powerview 和 BloodHound），学习如何枚举域并进行实践，直到您感到舒适。在评估过程中，这将是找到 DA 的关键时刻，或者决定无法做任何事情的时刻。
 ### Kerberoast
 
-The goal of Kerberoasting is to harvest **TGS tickets for services that run on behalf of domain user accounts**. Part of these TGS tickets are **encrypted wit keys derived from user passwords**. As a consequence, their credentials could be **cracked offline**.\
-More about this in:
+Kerberoast的目标是收集代表域用户帐户运行的服务的TGS票据。这些TGS票据的一部分使用从用户密码派生的密钥进行加密。因此，它们的凭据可以在离线环境中被破解。
+了解更多信息：
 
 {% content-ref url="kerberoast.md" %}
 [kerberoast.md](kerberoast.md)
 {% endcontent-ref %}
 
-### Remote connexion (RDP, SSH, FTP, Win-RM, etc)
+### 远程连接（RDP，SSH，FTP，Win-RM等）
 
-Once you have obtained some credentials you could check if you have access to any **machine**. For that matter, you could use **CrackMapExec** to attempt connecting on several servers with different protocols, accordingly to your ports scans.
+一旦您获得了一些凭据，您可以检查是否可以访问任何机器。为此，您可以使用CrackMapExec尝试使用不同协议连接到多个服务器，根据您的端口扫描结果。
 
-### Local Privilege Escalation
+### 本地权限提升
 
-If you have compromised credentials or a session as a regular domain user and you have **access** with this user to **any machine in the domain** you should try to find your way to **escalate privileges locally and looting for credentials**. This is because only with local administrator privileges you will be able to **dump hashes of other users** in memory (LSASS) and locally (SAM).
+如果您拥有被入侵的凭据或作为常规域用户的会话，并且您可以使用此用户访问域中的任何机器，您应该尝试找到提升本地权限和窃取凭据的方法。这是因为只有具有本地管理员权限，您才能在内存（LSASS）和本地（SAM）中转储其他用户的哈希。
 
-There is a complete page in this book about [**local privilege escalation in Windows**](../windows-local-privilege-escalation/) and a [**checklist**](../checklist-windows-privilege-escalation.md). Also, don't forget to use [**WinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite).
+本书中有一整页关于[Windows中的本地权限提升](../windows-local-privilege-escalation/)和一个[检查清单](../checklist-windows-privilege-escalation.md)。此外，不要忘记使用[WinPEAS](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite)。
 
-### Current Session Tickets
+### 当前会话票据
 
-It's very **unlikely** that you will find **tickets** in the current user **giving you permission to access** unexpected resources, but you could check:
-
+很不可能在当前用户中找到授予您访问意外资源的票据，但您可以进行检查：
 ```bash
 ## List all tickets (if not admin, only current user tickets)
 .\Rubeus.exe triage
@@ -219,20 +205,19 @@ It's very **unlikely** that you will find **tickets** in the current user **givi
 .\Rubeus.exe dump /service:krbtgt /luid:<luid> /nowrap
 [IO.File]::WriteAllBytes("ticket.kirbi", [Convert]::FromBase64String("<BASE64_TICKET>"))
 ```
-
 ### NTML Relay
 
-If you have managed to enumerate the active directory you will have **more emails and a better understanding of the network**. You might be able to to force NTML [**relay attacks**](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md#relay-attack)**.**
+如果你已经成功枚举了活动目录，你将会有更多的电子邮件和对网络的更好理解。你可能能够强制进行NTML中继攻击。
 
-### **Looks for Creds in Computer Shares**
+### 在计算机共享中查找凭据
 
-Now that you have some basic credentials you should check if you can **find** any **interesting files being shared inside the AD**. You could do that manually but it's a very boring repetitive task (and more if you find hundreds of docs you need to check).
+现在你已经获得了一些基本凭据，你应该检查是否可以在AD内找到任何有趣的共享文件。你可以手动进行，但这是一项非常乏味重复的任务（如果你找到了数百个需要检查的文档，那就更加乏味了）。
 
-[**Follow this link to learn about tools you could use.**](../../network-services-pentesting/pentesting-smb.md#domain-shared-folders-search)
+[**点击此链接了解你可以使用的工具。**](../../network-services-pentesting/pentesting-smb.md#domain-shared-folders-search)
 
-### Steal NTLM Creds
+### 窃取NTLM凭据
 
-If you can **access other PCs or shares** you could **place files** (like a SCF file) that if somehow accessed will t**rigger an NTML authentication against you** so you can **steal** the **NTLM challenge** to crack it:
+如果你可以访问其他计算机或共享，你可以放置一些文件（如SCF文件），如果以某种方式访问，将会对你发起NTML身份验证，以便你可以窃取NTLM挑战并破解它：
 
 {% content-ref url="../ntlm/places-to-steal-ntlm-creds.md" %}
 [places-to-steal-ntlm-creds.md](../ntlm/places-to-steal-ntlm-creds.md)
@@ -240,112 +225,110 @@ If you can **access other PCs or shares** you could **place files** (like a SCF 
 
 ### CVE-2021-1675/CVE-2021-34527 PrintNightmare
 
-This vulnerability allowed any authenticated user to **compromise the domain controller**.
+此漏洞允许任何经过身份验证的用户**危害域控制器**。
 
 {% content-ref url="printnightmare.md" %}
 [printnightmare.md](printnightmare.md)
 {% endcontent-ref %}
 
-## Privilege escalation on Active Directory WITH privileged credentials/session
+## 使用特权凭据/会话提升Active Directory
 
-**For the following techniques a regular domain user is not enough, you need some special privileges/credentials to perform these attacks.**
+**对于以下技术，普通域用户是不够的，你需要一些特殊的权限/凭据来执行这些攻击。**
 
-### Hash extraction
+### 提取哈希
 
-Hopefully you have managed to **compromise some local admin** account using [AsRepRoast](asreproast.md), [Password Spraying](password-spraying.md), [Kerberoast](kerberoast.md), [Responder](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md) including relaying, [EvilSSDP](../../generic-methodologies-and-resources/pentesting-network/spoofing-ssdp-and-upnp-devices.md), [escalating privileges locally](../windows-local-privilege-escalation/).\
-Then, its time to dump all the hashes in memory and locally.\
-[**Read this page about different ways to obtain the hashes.**](broken-reference)
+希望你已经成功**破解了一些本地管理员**账户，使用[AsRepRoast](asreproast.md)，[Password Spraying](password-spraying.md)，[Kerberoast](kerberoast.md)，[Responder](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md)包括中继，[EvilSSDP](../../generic-methodologies-and-resources/pentesting-network/spoofing-ssdp-and-upnp-devices.md)，[提升本地权限](../windows-local-privilege-escalation/)。\
+然后，是时候将所有哈希值转储到内存和本地了。\
+[**阅读此页面了解不同获取哈希值的方法。**](broken-reference)
 
-### Pass the Hash
+### 传递哈希
 
-**Once you have the hash of a user**, you can use it to **impersonate** it.\
-You need to use some **tool** that will **perform** the **NTLM authentication using** that **hash**, **or** you could create a new **sessionlogon** and **inject** that **hash** inside the **LSASS**, so when any **NTLM authentication is performed**, that **hash will be used.** The last option is what mimikatz does.\
-[**Read this page for more information.**](../ntlm/#pass-the-hash)
+**一旦你获得了用户的哈希值**，你可以使用它来**冒充**该用户。\
+你需要使用一些**工具**来**使用**该**哈希值**执行**NTLM身份验证**，或者你可以创建一个新的**sessionlogon**并将该**哈希值**注入**LSASS**，这样当执行任何**NTLM身份验证**时，将使用该**哈希值**。这是mimikatz所做的最后选择。\
+[**阅读此页面获取更多信息。**](../ntlm/#pass-the-hash)
 
-### Over Pass the Hash/Pass the Key
+### 超越传递哈希/传递密钥
 
-This attack aims to **use the user NTLM hash to request Kerberos tickets**, as an alternative to the common Pass The Hash over NTLM protocol. Therefore, this could be especially **useful in networks where NTLM protocol is disabled** and only **Kerberos is allowed** as authentication protocol.
+这种攻击旨在使用用户NTLM哈希请求Kerberos票据，作为常规Pass The Hash over NTLM协议的替代方法。因此，在禁用NTLM协议并只允许Kerberos作为认证协议的网络中，这可能特别有用。
 
 {% content-ref url="over-pass-the-hash-pass-the-key.md" %}
 [over-pass-the-hash-pass-the-key.md](over-pass-the-hash-pass-the-key.md)
 {% endcontent-ref %}
 
-### Pass the Ticket
+### 传递票据
 
-This attack is similar to Pass the Key, but instead of using hashes to request a ticket, the **ticket itself is stolen** and used to authenticate as its owner.
+这种攻击类似于传递密钥，但不是使用哈希值请求票据，而是窃取票据并用其所有者的身份进行身份验证。
 
 {% content-ref url="pass-the-ticket.md" %}
 [pass-the-ticket.md](pass-the-ticket.md)
 {% endcontent-ref %}
 
-### Credentials Reuse
+### 凭据重用
 
-If you have the **hash** or **password** of a **local administrato**r you should try to **login locally** to other **PCs** with it.
-
+如果你有一个**本地管理员的哈希值**或**密码**，你应该尝试使用它在其他计算机上进行本地登录。
 ```bash
 # Local Auth Spray (once you found some local admin pass or hash)
 ## --local-auth flag indicate to only try 1 time per machine
 crackmapexec smb --local-auth 10.10.10.10/23 -u administrator -H 10298e182387f9cab376ecd08491764a0 | grep +
 ```
-
 {% hint style="warning" %}
-Note that this is quite **noisy** and **LAPS** would **mitigate** it.
+请注意，这可能会产生很多**噪音**，而且**LAPS**可以**减轻**这种情况。
 {% endhint %}
 
-### MSSQL Abuse & Trusted Links
+### MSSQL滥用和可信链接
 
-If a user has privileges to **access MSSQL instances**, he could be able to use it to **execute commands** in the MSSQL host (if running as SA), **steal** the NetNTLM **hash** or even perform a **relay** **attack**.\
-Also, if a MSSQL instance is trusted (database link) by a different MSSQL instance. If the user has privileges over the trusted database, he is going to be able to **use the trust relationship to execute queries also in the other instance**. These trusts can be chained and at some point the user might be able to find a misconfigured database where he can execute commands.\
-**The links between databases work even across forest trusts.**
+如果用户具有**访问MSSQL实例的权限**，他可能能够使用它在MSSQL主机中**执行命令**（如果作为SA运行），**窃取**NetNTLM **哈希**，甚至执行**中继** **攻击**。\
+此外，如果一个MSSQL实例被另一个MSSQL实例信任（数据库链接）。如果用户对受信任的数据库具有权限，他将能够**使用信任关系在其他实例中执行查询**。这些信任可以链接在一起，用户可能能够找到一个配置错误的数据库，从而可以在其中执行命令。\
+**数据库之间的链接甚至可以跨域信任工作。**
 
 {% content-ref url="abusing-ad-mssql.md" %}
 [abusing-ad-mssql.md](abusing-ad-mssql.md)
 {% endcontent-ref %}
 
-### Unconstrained Delegation
+### 无限制委派
 
-If you find any Computer object with the attribute [ADS\_UF\_TRUSTED\_FOR\_DELEGATION](https://msdn.microsoft.com/en-us/library/aa772300\(v=vs.85\).aspx) and you have domain privileges in the computer, you will be able to dump TGTs from memory of every users that logins onto the computer.\
-So, if a **Domain Admin logins onto the computer**, you will be able to dump his TGT and impersonate him using [Pass the Ticket](pass-the-ticket.md).\
-Thanks to constrained delegation you could even **automatically compromise a Print Server** (hopefully it will be a DC).
+如果您找到任何具有属性[ADS\_UF\_TRUSTED\_FOR\_DELEGATION](https://msdn.microsoft.com/en-us/library/aa772300\(v=vs.85\).aspx)的计算机对象，并且您在计算机上具有域权限，则可以从每个登录到计算机的用户的内存中转储TGT。\
+因此，如果**域管理员登录到计算机**，您将能够转储他的TGT并使用[传递票证](pass-the-ticket.md)冒充他。\
+通过受限委派，您甚至可以**自动攻击打印服务器**（希望它是一个DC）。
 
 {% content-ref url="unconstrained-delegation.md" %}
 [unconstrained-delegation.md](unconstrained-delegation.md)
 {% endcontent-ref %}
 
-### Constrained Delegation
+### 受限委派
 
-If a user or computer is allowed for "Constrained Delegation" it will be able to **impersonate any user to access some services in a computer**.\
-Then, if you **compromise the hash** of this user/computer you will be able to **impersonate any user** (even domain admins) to access some services.
+如果允许用户或计算机进行“受限委派”，它将能够**冒充任何用户以访问计算机中的某些服务**。\
+然后，如果您**破解**了此用户/计算机的哈希，您将能够**冒充任何用户**（甚至是域管理员）以访问某些服务。
 
 {% content-ref url="constrained-delegation.md" %}
 [constrained-delegation.md](constrained-delegation.md)
 {% endcontent-ref %}
 
-### Resourced-based Constrain Delegation
+### 基于资源的受限委派
 
-It's possible to gain code execution with **elevated privileges on a remote computer if you have WRITE privilege** on that computer's AD object.
+如果您对远程计算机的AD对象具有**写入权限**，则可以在该计算机上以**提升的权限执行代码**。
 
 {% content-ref url="resource-based-constrained-delegation.md" %}
 [resource-based-constrained-delegation.md](resource-based-constrained-delegation.md)
 {% endcontent-ref %}
 
-### ACLs Abuse
+### ACL滥用
 
-The compromised user could have some **interesting privileges over some domain objects** that could let you **move** laterally/**escalate** privileges.
+被入侵的用户可能对某些域对象具有一些**有趣的权限**，这可能使您能够**横向移动**/**提升**权限。
 
 {% content-ref url="acl-persistence-abuse/" %}
 [acl-persistence-abuse](acl-persistence-abuse/)
 {% endcontent-ref %}
 
-### Printer Spooler service abuse
+### 打印机打印池服务滥用
 
-If you can find any **Spool service listening** inside the domain, you may be able to **abuse** is to **obtain new credentials** and **escalate privileges**.\
-[**More information about how to abuse Spooler services here.**](printers-spooler-service-abuse.md)
+如果您可以找到域内的任何**打印池服务监听**，您可能能够**滥用**它以**获取新的凭据**和**提升权限**。\
+[**在此处了解有关如何滥用打印池服务的更多信息。**](printers-spooler-service-abuse.md)
 
-### Third party sessions abuse
+### 第三方会话滥用
 
-If **other users** **access** the **compromised** machine, it's possible to **gather credentials from memory** and even **inject beacons in their processes** to impersonate them.\
-Usually users will access the system via RDP, so here you have how to performa couple of attacks over third party RDP sessions:
+如果**其他用户**访问**被入侵的**计算机，您可以从内存中**获取凭据**，甚至**在其进程中注入信标**以冒充他们。\
+通常，用户将通过RDP访问系统，因此您可以了解如何对第三方RDP会话执行一些攻击：
 
 {% content-ref url="rdp-sessions-abuse.md" %}
 [rdp-sessions-abuse.md](rdp-sessions-abuse.md)
@@ -353,142 +336,145 @@ Usually users will access the system via RDP, so here you have how to performa c
 
 ### LAPS
 
-**LAPS** allows you to **manage the local Administrator password** (which is **randomised**, unique, and **changed regularly**) on domain-joined computers. These passwords are centrally stored in Active Directory and restricted to authorised users using ACLs. If you have **enough permission to read these passwords you could move to other computers**.
+**LAPS**允许您**管理域加入计算机上的本地管理员密码**（该密码是**随机**、**唯一**且**定期更改**的）。这些密码以集中方式存储在Active Directory中，并使用ACLs限制授权用户。如果您有**足够的权限读取这些密码，您可以转移到其他计算机**。
 
 {% content-ref url="laps.md" %}
 [laps.md](laps.md)
 {% endcontent-ref %}
 
-### Certificate Theft
+### 证书窃取
 
-Gathering certificates from the compromised machine could be a way to escalate privileges inside the environment:
+从被入侵的计算机收集证书可能是升级环境中的权限的一种方式：
 
 {% content-ref url="ad-certificates/certificate-theft.md" %}
 [certificate-theft.md](ad-certificates/certificate-theft.md)
 {% endcontent-ref %}
 
-### Certificate Templates Abuse
+### 证书模板滥用
 
-If vulnerable templates are configured it's possible to abuse them to escalate privileges:
+如果配置了易受攻击的模板，则可以滥用它们以提升权限：
 
 {% content-ref url="ad-certificates/domain-escalation.md" %}
 [domain-escalation.md](ad-certificates/domain-escalation.md)
 {% endcontent-ref %}
 
-## Post-exploitation with high privilege account
+## 具有高权限帐户的后渗透
 
-### Dumping Domain Credentials
+### 转储域凭据
 
-Once you get **Domain Admin** or even better **Enterprise Admin** privileges, you can **dump** the **domain database**: _ntds.dit_.
+一旦获得**域管理员**甚至更好的**企业管理员**权限，您可以**转储**域数据库：_ntds.dit_。
 
-[**More information about DCSync attack can be found here**](dcsync.md).
+[**在此处了解有关DCSync攻击的更多信息**](dcsync.md)。
 
-[**More information about how to steal the NTDS.dit can be found here**](broken-reference)
+[**在此处了解有关如何窃取NTDS.dit的更多信息**](broken-reference)
 
-### Privesc as Persistence
+### 权限提升作为持久性
 
-Some of the techniques discussed before can be used for persistence.\
-For example you could:
+之前讨论的一些技术可以用于持久性。\
+例如，您可以：
 
-*   Make users vulnerable to [**Kerberoast**](kerberoast.md)
+*   使用户容易受到[**Kerberoast**](kerberoast.md)的攻击
 
-    ```powershell
-    Set-DomainObject -Identity <username> -Set @{serviceprincipalname="fake/NOTHING"}r
-    ```
-*   Make users vulnerable to [**ASREPRoast**](asreproast.md)
+```powershell
+Set-DomainObject -Identity <username> -Set @{serviceprincipalname="fake/NOTHING"}r
+```
+*   使用户容易受到[**ASREPRoast**](asreproast.md)的攻击
 
-    ```powershell
-    Set-DomainObject -Identity <username> -XOR @{UserAccountControl=4194304}
-    ```
-*   Grant [**DCSync**](./#dcsync) privileges to a user
+```powershell
+Set-DomainObject -Identity <username> -XOR @{UserAccountControl=4194304}
+```
+*   授予用户[**DCSync**](./#dcsync)权限
 
-    ```powershell
-    Add-DomainObjectAcl -TargetIdentity "DC=SUB,DC=DOMAIN,DC=LOCAL" -PrincipalIdentity bfarmer -Rights DCSync
-    ```
+```powershell
+Add-DomainObjectAcl -TargetIdentity "DC=SUB,DC=DOMAIN,DC=LOCAL" -PrincipalIdentity bfarmer -Rights DCSync
+```
 
-### Silver Ticket
+### 银票证
 
-The Silver ticket attack is based on **crafting a valid TGS for a service once the NTLM hash of service is owned** (like the **PC account hash**). Thus, it is possible to **gain access to that service** by forging a custom TGS **as any user** (like privileged access to a computer).
+银票证攻击是基于**拥有服务的NTLM哈希**（如**PC帐户哈希**）来**构造有效的TGS**。因此，可以通过伪造自定义TGS**作为任何用户**（如对计算机的特权访问）来**访问该服务**。
 
 {% content-ref url="silver-ticket.md" %}
 [silver-ticket.md](silver-ticket.md)
 {% endcontent-ref %}
+### 黄金票据
 
-### Golden Ticket
-
-A valid **TGT as any user** can be created **using the NTLM hash of the krbtgt AD account**. The advantage of forging a TGT instead of TGS is being **able to access any service** (or machine) in the domain ad the impersonated user.
+可以使用krbtgt AD账户的NTLM哈希值创建一个有效的TGT，而不管是哪个用户。与伪造TGS相比，伪造TGT的优势在于能够以冒名顶替的用户身份访问域中的任何服务（或机器）。
 
 {% content-ref url="golden-ticket.md" %}
 [golden-ticket.md](golden-ticket.md)
 {% endcontent-ref %}
 
-### Diamond Ticket
+### 钻石票据
 
-These are like golden tickets forged in a way that **bypasses common golden tickets detection mechanisms.**
+这些票据就像以一种绕过常见黄金票据检测机制的方式伪造的黄金票据。
 
 {% content-ref url="diamond-ticket.md" %}
 [diamond-ticket.md](diamond-ticket.md)
 {% endcontent-ref %}
 
-### **Certificates Account Persistence**
+### 证书账户持久性
 
-**Having certificates of an account or being able to request them** is a very good way to be able to persist in the users account (even if he changes the password):
+拥有一个账户的证书或能够请求这些证书是一种非常好的方式，可以在用户账户中持久存在（即使用户更改了密码）：
 
 {% content-ref url="ad-certificates/account-persistence.md" %}
 [account-persistence.md](ad-certificates/account-persistence.md)
 {% endcontent-ref %}
 
-### **Certificates Domain Persistence**
+### 证书域持久性
 
-**Using certificates is also possible to persist with high privileges inside the domain:**
+使用证书也可以在域中以高权限持久存在：
 
 {% content-ref url="ad-certificates/domain-persistence.md" %}
 [domain-persistence.md](ad-certificates/domain-persistence.md)
 {% endcontent-ref %}
 
-### AdminSDHolder Group
+### AdminSDHolder组
 
-The Access Control List (ACL) of the **AdminSDHolder** object is used as a template to **copy** **permissions** to **all “protected groups”** in Active Directory and their members. Protected groups include privileged groups such as Domain Admins, Administrators, Enterprise Admins, and Schema Admins, Backup Operators and krbtgt.\
-By default, the ACL of this group is copied inside all the "protected groups". This is done to avoid intentional or accidental changes to these critical groups. However, if an attacker **modifies the ACL** of the group **AdminSDHolder** for example, giving full permissions to a regular user, this user will have full permissions on all the groups inside the protected group (in an hour).\
-And if someone tries to delete this user from the Domain Admins (for example) in an hour or less, the user will be back in the group.\
-[**More information about AdminDSHolder Group here.**](privileged-groups-and-token-privileges.md#adminsdholder-group)
+“AdminSDHolder”对象的访问控制列表（ACL）被用作将权限复制到Active Directory中的所有“受保护组”及其成员的模板。受保护组包括特权组，如域管理员、管理员、企业管理员和模式管理员、备份操作员和krbtgt。
 
-### DSRM Credentials
+默认情况下，此组的ACL会被复制到所有“受保护组”中。这样做是为了防止对这些关键组的故意或意外更改。然而，如果攻击者修改了“AdminSDHolder”组的ACL，例如，给一个普通用户完全权限，那么这个用户将在受保护组中的所有组上拥有完全权限（在一个小时内）。
 
-There is a **local administrator** account inside each **DC**. Having admin privileges in this machine, you can use mimikatz to **dump the local Administrator hash**. Then, modifying a registry to **activate this password** so you can remotely access to this local Administrator user.
+如果有人在一个小时内或更短的时间内尝试从域管理员中删除此用户，那么该用户将重新加入该组。
+
+[有关AdminSDHolder组的更多信息，请点击此处。](privileged-groups-and-token-privileges.md#adminsdholder-group)
+
+### DSRM凭据
+
+每个DC中都有一个本地管理员账户。如果在该机器上拥有管理员权限，可以使用mimikatz来转储本地管理员哈希值。然后，修改注册表以激活此密码，以便可以远程访问此本地管理员用户。
 
 {% content-ref url="dsrm-credentials.md" %}
 [dsrm-credentials.md](dsrm-credentials.md)
 {% endcontent-ref %}
 
-### ACL Persistence
+### ACL持久性
 
-You could **give** some **special permissions** to a **user** over some specific domain objects that will let the user **escalate privileges in the future**.
+您可以为某些特定的域对象授予某个用户一些特殊权限，以便用户将来可以提升权限。
 
 {% content-ref url="acl-persistence-abuse/" %}
 [acl-persistence-abuse](acl-persistence-abuse/)
 {% endcontent-ref %}
 
-### Security Descriptors
+### 安全描述符
 
-The **security descriptors** are used to **store** the **permissions** an **object** have **over** an **object**. If you can just **make** a **little change** in the **security descriptor** of an object, you can obtain very interesting privileges over that object without needing to be member of a privileged group.
+安全描述符用于存储对象对对象的权限。如果您只是对对象的安全描述符进行一点点的更改，就可以在不需要成为特权组成员的情况下获得对该对象的非常有趣的权限。
 
 {% content-ref url="security-descriptors.md" %}
 [security-descriptors.md](security-descriptors.md)
 {% endcontent-ref %}
 
-### Skeleton Key
+### 骷髅钥匙
 
-**Modify LSASS** in memory to create a **master password** that will work for any account in the domain.
+在内存中修改LSASS以创建一个适用于域中任何账户的主密码。
 
 {% content-ref url="skeleton-key.md" %}
 [skeleton-key.md](skeleton-key.md)
 {% endcontent-ref %}
 
-### Custom SSP
+### 自定义SSP
 
-[Learn what is a SSP (Security Support Provider) here.](../authentication-credentials-uac-and-efs.md#security-support-provider-interface-sspi)\
-You can create you **own SSP** to **capture** in **clear text** the **credentials** used to access the machine.\\
+[在这里了解什么是SSP（安全支持提供程序）。](../authentication-credentials-uac-and-efs.md#security-support-provider-interface-sspi)
+
+您可以创建自己的SSP，以明文方式捕获用于访问机器的凭据。
 
 {% content-ref url="custom-ssp.md" %}
 [custom-ssp.md](custom-ssp.md)
@@ -496,72 +482,73 @@ You can create you **own SSP** to **capture** in **clear text** the **credential
 
 ### DCShadow
 
-It registers a **new Domain Controller** in the AD and uses it to **push attributes** (SIDHistory, SPNs...) on specified objects **without** leaving any **logs** regarding the **modifications**. You **need DA** privileges and be inside the **root domain**.\
-Note that if you use wrong data, pretty ugly logs will appear.
+它在AD中注册一个新的域控制器，并使用它来在指定的对象上推送属性（SIDHistory、SPN等），而不会留下任何关于修改的日志。您需要DA权限并位于根域中。
+
+请注意，如果使用错误的数据，将会出现相当丑陋的日志。
 
 {% content-ref url="dcshadow.md" %}
 [dcshadow.md](dcshadow.md)
 {% endcontent-ref %}
 
-### LAPS Persistence
+### LAPS持久性
 
-Previously we have discussed about how to escalate privileges if you have **enough permission to read LAPS passwords**. However, these passwords can also be used to **maintain persistence**.\
-Check:
+之前我们已经讨论过如果有足够的权限来读取LAPS密码，如何升级权限。然而，这些密码也可以用于保持持久性。
+
+请查看：
 
 {% content-ref url="laps.md" %}
 [laps.md](laps.md)
 {% endcontent-ref %}
 
-## Forest Privilege Escalation - Domain Trusts
+## 森林权限提升 - 域信任
 
-Microsoft considers that the **domain isn't a Security Boundary**, the **Forest is the security Boundary**. This means that **if you compromise a domain inside a Forest you might be able to compromise the entire Forest**.
+微软认为域不是安全边界，而是森林是安全边界。这意味着如果您入侵了森林中的一个域，您可能能够入侵整个森林。
 
-### Basic Information
+### 基本信息
 
-At a high level, a [**domain trust**](http://technet.microsoft.com/en-us/library/cc759554\(v=ws.10\).aspx) establishes the ability for **users in one domain to authenticate** to resources or act as a [security principal](https://technet.microsoft.com/en-us/library/cc780957\(v=ws.10\).aspx) **in another domain**.
+在高层次上，[域信任](http://technet.microsoft.com/en-us/library/cc759554\(v=ws.10\).aspx)建立了一个能够使一个域中的用户对资源进行身份验证或充当另一个域中的安全主体的能力。
 
-Essentially, all a trust does is **linking up the authentication systems of two domains** and allowing authentication traffic to flow between them through a system of referrals.\
-When **2 domains trust each other they exchange keys**, these **keys** are going to be **saved** in the **DCs** of **each domains** (**2 keys per trust direction, latest and previous**) and the keys will be the base of the trust.
+基本上，信任所做的就是将两个域的身份验证系统连接起来，并通过引荐系统允许身份验证流量在它们之间流动。
 
-When a **user** tries to **access** a **service** on the **trusting domain** it will request an **inter-realm TGT** to the DC of its domain. The DC wills serve the client this **TGT** which would be **encrypted/signed** with the **inter-realm** **key** (the key both domains **exchanged**). Then, the **client** will **access** the **DC of the other domain** and will **request** a **TGS** for the service using the **inter-realm TGT**. The **DC** of the trusting domain will **check** the **key** used, if it's ok, it will **trust everything in that ticket** and will serve the TGS to the client.
+当两个域相互信任时，它们会交换密钥，这些密钥将保存在每个域的DC中（每个信任方向有2个密钥，最新的和之前的），这些密钥将成为信任的基础。
+
+当用户尝试访问受信任域上的服务时，它将向其域的DC请求一个域间TGT。DC将为客户端提供此TGT，该TGT将使用域间密钥（两个域交换的密钥）进行加密/签名。然后，客户端将访问另一个域的DC，并使用域间TGT请求该服务的TGS。受信任域的DC将检查所使用的密钥，如果正确，它将信任该票据中的所有内容，并向客户端提供TGS。
 
 ![](<../../.gitbook/assets/image (166) (1).png>)
+### 不同的信任关系
 
-### Different trusts
+需要注意的是，**信任可以是单向的或双向的**。在双向选项中，两个域都会相互信任，但在**单向**信任关系中，一个域将成为**被信任**域，另一个域将成为**信任**域。在后一种情况下，**您只能从被信任的域中访问信任的域内的资源**。
 
-It's important to notice that **a trust can be 1 way or 2 ways**. In the 2 ways options, both domains will trust each other, but in the **1 way** trust relation one of the domains will be the **trusted** and the other the **trusting** domain. In the last case, **you will only be able to access resources inside the trusting domain from the trusted one**.
+如果域A信任域B，则A是信任域，B是被信任域。此外，在**域A**中，这将是一个**出站信任**；在**域B**中，这将是一个**入站信任**。
 
-If Domain A trusts Domain B, A is the trusting domain and B ins the trusted one. Moreover, in **Domain A**, this would be an **Outbound trust**; and in **Domain B**, this would be an **Inbound trust**.
+**不同的信任关系**
 
-**Different trusting relationships**
+* **父子关系** - 属于同一森林 - 子域与其父域保持隐式的双向可传递信任关系。这可能是您遇到的最常见的信任类型。
+* **交叉链接** - 即子域之间的“快捷信任”，用于改善引用时间。通常，在复杂的森林中，引用必须上溯到森林根，然后再返回到目标域，因此在地理分散的场景中，交叉链接可以减少认证时间。
+* **外部** - 在不同的域之间创建的隐式非传递性信任。"[外部信任提供对森林之外的域中资源的访问，该域尚未通过森林信任加入。](https://technet.microsoft.com/en-us/library/cc773178\(v=ws.10\).aspx)" 外部信任强制执行SID过滤，这是本文稍后介绍的一种安全保护措施。
+* **树根** - 森林根域与您正在添加的新树根之间的隐式双向可传递信任。我并不经常遇到树根信任，但根据[Microsoft文档](https://technet.microsoft.com/en-us/library/cc773178\(v=ws.10\).aspx)所述，当您在森林中创建一个新的域树时，它们会被创建。这些是森林内的信任关系，它们[保持双向传递性](https://technet.microsoft.com/en-us/library/cc757352\(v=ws.10\).aspx)，同时允许树具有单独的域名（而不是child.parent.com）。
+* **森林** - 两个森林根域之间的传递性信任。森林信任还强制执行SID过滤。
+* **MIT** - 与非Windows [RFC4120兼容](https://tools.ietf.org/html/rfc4120) 的Kerberos域的信任。我希望将来能更深入地研究MIT信任。
 
-* **Parent-Child** – part of the same forest – a child domain retains an implicit two-way transitive trust with its parent. This is probably the most common type of trust that you’ll encounter.
-* **Cross-link** – aka a “shortcut trust” between child domains to improve referral times. Normally referrals in a complex forest have to filter up to the forest root and then back down to the target domain, so for a geographically spread out scenario, cross-links can make sense to cut down on authentication times.
-* **External** – an implicitly non-transitive trust created between disparate domains. “[External trusts provide access to resources in a domain outside of the forest that is not already joined by a forest trust.](https://technet.microsoft.com/en-us/library/cc773178\(v=ws.10\).aspx)” External trusts enforce SID filtering, a security protection covered later in this post.
-* **Tree-root** – an implicit two-way transitive trust between the forest root domain and the new tree root you’re adding. I haven’t encountered tree-root trusts too often, but from the [Microsoft documentation](https://technet.microsoft.com/en-us/library/cc773178\(v=ws.10\).aspx), they’re created when you create a new domain tree in a forest. These are intra-forest trusts, and they [preserve two-way transitivity](https://technet.microsoft.com/en-us/library/cc757352\(v=ws.10\).aspx) while allowing the tree to have a separate domain name (instead of child.parent.com).
-* **Forest** – a transitive trust between two forest root domain. Forest trusts also enforce SID filtering.
-* **MIT** – a trust with a non-Windows [RFC4120-compliant](https://tools.ietf.org/html/rfc4120) Kerberos domain. I hope to dive more into MIT trusts in the future.
+#### **信任关系**中的其他差异
 
-#### Other differences in **trusting relationships**
+* 信任关系也可以是**可传递的**（A信任B，B信任C，那么A信任C）或**不可传递的**。
+* 信任关系可以设置为**双向信任**（两者互相信任）或**单向信任**（只有其中一个信任另一个）。
 
-* A trust relationship can also be **transitive** (A trust B, B trust C, then A trust C) or **non-transitive**.
-* A trust relationship can be set up as **bidirectional trust** (both trust each other) or as **one-way trust** (only one of them trust the other).
+### 攻击路径
 
-### Attack Path
+1. **枚举**信任关系
+2. 检查任何**安全主体**（用户/组/计算机）是否可以访问**其他域**的资源，可能是通过ACE条目或在其他域的组中。寻找**跨域关系**（信任可能是为此创建的）。
+1. 在这种情况下，kerberoast可能是另一个选择。
+3. **入侵**可以通过域进行**枢轴**的**帐户**。
 
-1. **Enumerate** the trusting relationships
-2. Check if any **security principal** (user/group/computer) has **access** to resources of the **other domain**, maybe by ACE entries or by being in groups of the other domain. Look for **relationships across domains** (the trust was created for this probably).
-   1. kerberoast in this case could be another option.
-3. **Compromise** the **accounts** which can **pivot** through domains.
+有三种**主要**方式，使来自一个域的安全主体（用户/组/计算机）可以访问另一个外部/信任域中的资源：
 
-There are three **main** ways that security principals (users/groups/computer) from one domain can have access into resources in another foreign/trusting domain:
+* 他们可以被添加到个别计算机上的**本地组**中，例如服务器上的本地“Administrators”组。
+* 他们可以被添加到**外部域中的组**中。根据信任类型和组范围，可能会有一些注意事项，稍后会进行描述。
+* 他们可以作为主体添加到**访问控制列表**中，对我们来说最有趣的是作为**DACL**中的**ACE**的主体。有关ACLs/DACLs/ACEs的更多背景信息，请查看“[An ACE Up The Sleeve](https://specterops.io/assets/resources/an\_ace\_up\_the\_sleeve.pdf)”白皮书。
 
-* They can be added to **local groups** on individual machines, i.e. the local “Administrators” group on a server.
-* They can be added to **groups in the foreign domain**. There are some caveats depending on trust type and group scope, described shortly.
-* They can be added as principals in an **access control list**, most interesting for us as principals in **ACEs** in a **DACL**. For more background on ACLs/DACLs/ACEs, check out the “[An ACE Up The Sleeve](https://specterops.io/assets/resources/an\_ace\_up\_the\_sleeve.pdf)” whitepaper.
-
-### Child-to-Parent forest privilege escalation
-
+### 子域到父域的提权
 ```
 Get-DomainTrust
 
@@ -573,11 +560,9 @@ TrustDirection  : Bidirectional       --> Trust direction (2ways in this case)
 WhenCreated     : 2/19/2021 1:28:00 PM
 WhenChanged     : 2/19/2021 1:28:00 PM
 ```
-
 {% hint style="warning" %}
-There are **2 trusted keys**, one for _Child --> Parent_ and another one for _Parent_ --> _Child_.\
-You can the one used by the current domain them with:
-
+有**2个受信任的密钥**，一个用于_子级 --> 父级_，另一个用于_父级_ --> _子级_。\
+您可以使用以下命令找到当前域使用的密钥：
 ```bash
 Invoke-Mimikatz -Command '"lsadump::trust /patch"' -ComputerName dc.my.domain.local
 Invoke-Mimikatz -Command '"lsadump::dcsync /user:dcorp\mcorp$"'
@@ -586,65 +571,62 @@ Invoke-Mimikatz -Command '"lsadump::dcsync /user:dcorp\mcorp$"'
 
 #### SID-History Injection
 
-Escalate as Enterprise admin to the child/parent domain abusing the trust with SID-History injection:
+利用SID-History注入，将企业管理员权限提升到子/父域，滥用与SID-History注入相关的信任关系：
 
 {% content-ref url="sid-history-injection.md" %}
 [sid-history-injection.md](sid-history-injection.md)
 {% endcontent-ref %}
 
-#### Exploit writeable Configuration NC
+#### 利用可写的配置NC进行攻击
 
-The Configuration NC is the primary repository for configuration information for a forest and is replicated to every DC in the forest. Additionally, every writable DC (not read-only DCs) in the forest holds a writable copy of the Configuration NC. Exploiting this require running as SYSTEM on a (child) DC.
+配置NC是一个森林中用于存储配置信息的主要存储库，并且会被复制到森林中的每个DC。此外，森林中的每个可写DC（而不是只读DC）都持有配置NC的可写副本。利用此漏洞需要在（子）DC上以SYSTEM权限运行。
 
-It is possible to compromise the root domain in various ways covered below.
+可以通过以下多种方式来攻击根域。
 
-##### Link GPO to root DC site
-The Sites container in Configuration NC contains all sites of the domain-joined computers in the AD forest. It is possible to link GPOs to sites when running as SYSTEM on any DC in the forest, including the site(s) of the forest root DCs, and thereby compromise these.
+##### 将GPO链接到根DC站点
+配置NC中的Sites容器包含AD森林中加入域计算机的所有站点。在以任何DC的SYSTEM权限运行时，可以将GPO链接到站点，包括森林根DC的站点，从而对其进行攻击。
 
-More details can be read here [Bypass SID filtering research](https://improsec.com/tech-blog/sid-filter-as-security-boundary-between-domains-part-4-bypass-sid-filtering-research).
+可以在此处阅读更多详细信息：[绕过SID过滤的研究](https://improsec.com/tech-blog/sid-filter-as-security-boundary-between-domains-part-4-bypass-sid-filtering-research)。
 
-##### Compromise any gMSA in the forest
-The attack depends on privileged gMSAs in the targeted domain.
+##### 攻击森林中的任何gMSA
+该攻击依赖于目标域中的特权gMSA。
 
-The KDS Root key, which is used to calculate the password of gMSAs in the forest, is stored in the Configuration NC. When running as SYSTEM on any DC in the forest, one can read out the KDS Root key and calculate the password of any gMSA in the forest. 
+KDS根密钥用于计算森林中gMSA的密码，并存储在配置NC中。在森林中的任何DC上以SYSTEM权限运行时，可以读取KDS根密钥并计算森林中任何gMSA的密码。
 
-More details can be read here: [Golden gMSA trust attack from child to parent](https://improsec.com/tech-blog/sid-filter-as-security-boundary-between-domains-part-5-golden-gmsa-trust-attack-from-child-to-parent).
+可以在此处阅读更多详细信息：[从子域到父域的Golden gMSA信任攻击](https://improsec.com/tech-blog/sid-filter-as-security-boundary-between-domains-part-5-golden-gmsa-trust-attack-from-child-to-parent)。
 
-##### Schema change attack
-The attack requires the attacker to wait for new privileged AD objects to be created.
+##### 模式更改攻击
+该攻击要求攻击者等待创建新的特权AD对象。
 
-When running as SYSTEM on any DC in the forest, one can grant any user full control over all classes in the AD Schema. That control can be abused to create an ACE in the default security descriptor of any AD object that grants full control to a compromised principal. All new instances of the modified AD object types will have this ACE. 
+在森林中的任何DC上以SYSTEM权限运行时，可以授予任何用户对AD模式中的所有类的完全控制。可以滥用该控制来在任何AD对象的默认安全描述符中创建一个ACE，该ACE授予被攻陷的主体完全控制权限。修改后的AD对象类型的所有新实例都将具有此ACE。
 
-More details can be read here: [Schema change trust attack from child to parent](https://improsec.com/tech-blog/sid-filter-as-security-boundary-between-domains-part-6-schema-change-trust-attack-from-child-to-parent).
+可以在此处阅读更多详细信息：[从子域到父域的模式更改信任攻击](https://improsec.com/tech-blog/sid-filter-as-security-boundary-between-domains-part-6-schema-change-trust-attack-from-child-to-parent)。
 
-##### From DA to EA with ADCS ESC5
-The ADCS ESC5 (Vulnerable PKI Object Access Control) attacks abuse control over PKI objects to create a vulnerable certificate template that can be abused to authenticate as any user in the forest. Since all the PKI objects are stored in the Configuration NC, one can execute ESC5 if they have compromised any writable (child) DC in the forest.
+##### 通过ADCS ESC5从DA提升到EA
+ADCS ESC5（易受攻击的PKI对象访问控制）攻击滥用对PKI对象的控制，创建一个易受攻击的证书模板，可以滥用该模板以任何用户的身份进行身份验证。由于所有PKI对象都存储在配置NC中，因此如果攻击者已经攻陷了森林中的任何可写（子）DC，则可以执行ESC5攻击。
 
-More details can be read here: [From DA to EA with ESC5](https://posts.specterops.io/from-da-to-ea-with-esc5-f9f045aa105c)
+可以在此处阅读更多详细信息：[从DA到EA的ESC5攻击](https://posts.specterops.io/from-da-to-ea-with-esc5-f9f045aa105c)
 
-In case the AD forest does not have ADCS, the attacker can create the necessary components as described here: [Escalating from child domain’s admins to enterprise admins in 5 minutes by abusing AD CS, a follow up](https://www.pkisolutions.com/escalating-from-child-domains-admins-to-enterprise-admins-in-5-minutes-by-abusing-ad-cs-a-follow-up/).
+如果AD森林没有ADCS，则攻击者可以按照此处描述的方式创建必要的组件：[通过滥用AD CS在5分钟内从子域管理员提升到企业管理员](https://www.pkisolutions.com/escalating-from-child-domains-admins-to-enterprise-admins-in-5-minutes-by-abusing-ad-cs-a-follow-up/)。
 
-### External Forest Domain - One-Way (Inbound) or bidirectional
-
+### 外部森林域 - 单向（入站）或双向
 ```powershell
 Get-DomainTrust
 SourceName      : a.domain.local   --> Current domain
 TargetName      : domain.external  --> Destination domain
 TrustType       : WINDOWS-ACTIVE_DIRECTORY
-TrustAttributes : 
+TrustAttributes :
 TrustDirection  : Inbound          --> Inboud trust
 WhenCreated     : 2/19/2021 10:50:56 PM
 WhenChanged     : 2/19/2021 10:50:56 PM
 ```
-
-In this scenario **your domain is trusted** by an external one giving you **undetermined permissions** over it. You will need to find **which principals of your domain have which access over the external domain** and then try to exploit it:
+在这种情况下，**您的域受到外部域的信任**，使您对其具有**未确定的权限**。您需要找出**您的域中的哪些主体对外部域具有哪些访问权限**，然后尝试利用它：
 
 {% content-ref url="external-forest-domain-oneway-inbound.md" %}
 [external-forest-domain-oneway-inbound.md](external-forest-domain-oneway-inbound.md)
 {% endcontent-ref %}
 
-### External Forest Domain - One-Way (Outbound)
-
+### 外部森林域 - 单向（出站）
 ```powershell
 Get-DomainTrust -Domain current.local
 
@@ -656,100 +638,98 @@ TrustDirection  : Outbound        --> Outbound trust
 WhenCreated     : 2/19/2021 10:15:24 PM
 WhenChanged     : 2/19/2021 10:15:24 PM
 ```
+在这种情况下，**你的域**正在将一些**特权**委派给来自**不同域**的主体。
 
-In this scenario **your domain** is **trusting** some **privileges** to principal from a **different domains**.
-
-However, when a **domain is trusted** by the trusting domain, the trusted domain **creates a user** with a **predictable name** that uses as **password the trusted password**. Which means that it's possible to **access a user from the trusting domain to get inside the trusted one** to enumerate it and try to escalate more privileges:
+然而，当一个**域被信任**时，被信任的域会**创建一个用户**，使用信任密码作为**密码**。这意味着可以通过访问来自信任域的用户来进入被信任域，对其进行枚举并尝试提升更多的特权：
 
 {% content-ref url="external-forest-domain-one-way-outbound.md" %}
 [external-forest-domain-one-way-outbound.md](external-forest-domain-one-way-outbound.md)
 {% endcontent-ref %}
 
-Another way to compromise the trusted domain is to find a [**SQL trusted link**](abusing-ad-mssql.md#mssql-trusted-links) created in the **opposite direction** of the domain trust (which isn't very common).
+入侵被信任域的另一种方法是找到在域信任的**相反方向**上创建的[**SQL信任链接**](abusing-ad-mssql.md#mssql-trusted-links)（这种情况并不常见）。
 
-Another way to compromise the trusted domain is to wait in a machine where a **user from the trusted domain can access** to login via **RDP**. Then, the attacker could inject code in the RDP session process and **access the origin domain of the victim** from there.\
-Moreover, if the **victim mounted his hard drive**, from the **RDP session** process the attacker could store **backdoors** in the **startup folder of the hard drive**. This technique is called **RDPInception.**
+入侵被信任域的另一种方法是在一个**被信任域的用户可以访问的机器上等待**，然后攻击者可以在RDP会话进程中注入代码，并从那里访问受害者的原始域。此外，如果**受害者挂载了他的硬盘**，攻击者可以在**硬盘的启动文件夹**中存储**后门**。这种技术被称为**RDPInception**。
 
 {% content-ref url="rdp-sessions-abuse.md" %}
 [rdp-sessions-abuse.md](rdp-sessions-abuse.md)
 {% endcontent-ref %}
 
-### Domain trust abuse mitigation
+### 防止域信任滥用
 
-**SID Filtering:**
+**SID过滤：**
 
-* Avoid attacks which abuse SID history attribute across forest trust.
-* Enabled by default on all inter-forest trusts. Intra-forest trusts are assumed secured by default (MS considers forest and not the domain to be a security boundary).
-* But, since SID filtering has potential to break applications and user access, it is often disabled.
-* Selective Authentication
-  * In an inter-forest trust, if Selective Authentication is configured, users between the trusts will not be automatically authenticated. Individual access to domains and servers in the trusting domain/forest should be given.
-* Does not prevent writeable Configration NC exploitation and trust account attack.
+* 避免滥用跨域信任中的SID历史属性的攻击。
+* 所有域间信任默认启用。域内信任默认被视为安全（微软认为森林而不是域是安全边界）。
+* 但是，由于SID过滤可能破坏应用程序和用户访问，它经常被禁用。
+* 选择性身份验证
+* 在域间信任中，如果配置了选择性身份验证，则不会自动对信任域之间的用户进行身份验证。应该给予信任域/森林中的域和服务器个别访问权限。
+* 无法防止可写配置NC的利用和信任账户攻击。
 
-[**More information about domain trusts in ired.team.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/child-domain-da-to-ea-in-parent-domain)
+[**在ired.team上了解有关域信任的更多信息。**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/child-domain-da-to-ea-in-parent-domain)
 
-## AD -> Cloud & Cloud -> AD
+## AD -> 云 & 云 -> AD
 
 {% embed url="https://cloud.hacktricks.xyz/pentesting-cloud/azure-security/az-lateral-movements/azure-ad-connect-hybrid-identity" %}
 
-## Some General Defenses
+## 一些常规防御措施
 
-[**Learn more about how to protect credentials here.**](../stealing-credentials/credentials-protections.md)\
-**Please, find some migrations against each technique in the description of the technique.**
+[**在这里了解如何保护凭据。**](../stealing-credentials/credentials-protections.md)\
+**请在每种技术的描述中找到一些对抗措施。**
 
-* Not allow Domain Admins to login on any other hosts apart from Domain Controllers
-* Never run a service with DA privileges
-* If you need domain admin privileges, limit the time: `Add-ADGroupMember -Identity ‘Domain Admins’ -Members newDA -MemberTimeToLive (New-TimeSpan -Minutes 20)`
+* 不允许域管理员登录除域控制器之外的任何其他主机
+* 永远不要以DA权限运行服务
+* 如果需要域管理员权限，请限制时间：`Add-ADGroupMember -Identity ‘Domain Admins’ -Members newDA -MemberTimeToLive (New-TimeSpan -Minutes 20)`
 
-### Deception
+### 诱骗
 
-* Password does not expire
-* Trusted for Delegation
-* Users with SPN
-* Password in description
-* Users who are members of high privilege groups
-* Users with ACL rights over other users, groups or containers
-* Computer objects
+* 密码不过期
+* 可信任的委派
+* 具有SPN的用户
+* 描述中的密码
+* 高特权组的成员用户
+* 具有其他用户、组或容器的ACL权限的用户
+* 计算机对象
 * ...
 * [https://github.com/samratashok/Deploy-Deception](https://github.com/samratashok/Deploy-Deception)
-  * `Create-DecoyUser -UserFirstName user -UserLastName manager-uncommon -Password Pass@123 | DeployUserDeception -UserFlag PasswordNeverExpires -GUID d07da11f-8a3d-42b6-b0aa-76c962be719a -Verbose`
+* `Create-DecoyUser -UserFirstName user -UserLastName manager-uncommon -Password Pass@123 | DeployUserDeception -UserFlag PasswordNeverExpires -GUID d07da11f-8a3d-42b6-b0aa-76c962be719a -Verbose`
 
-## How to identify deception
+## 如何识别诱骗
 
-**For user objects:**
+**对于用户对象：**
 
-* ObjectSID (different from the domain)
-* lastLogon, lastlogontimestamp
-* Logoncount (very low number is suspicious)
+* ObjectSID（与域不同）
+* lastLogon、lastlogontimestamp
+* Logoncount（非常低的数字是可疑的）
 * whenCreated
-* Badpwdcount (very low number is suspicious)
+* Badpwdcount（非常低的数字是可疑的）
 
-**General:**
+**常规：**
 
-* Some solutions fill with information in all the possible attributes. For example, compare the attributes of a computer object with the attribute of a 100% real computer object like DC. Or users against the RID 500 (default admin).
-* Check if something is too good to be true
+* 一些解决方案会在所有可能的属性中填充信息。例如，将计算机对象的属性与100%真实的计算机对象（如DC）的属性进行比较。或者将用户与RID 500（默认管理员）进行比较。
+* 检查是否有太好以至于难以置信的东西
 * [https://github.com/JavelinNetworks/HoneypotBuster](https://github.com/JavelinNetworks/HoneypotBuster)
 
-### Bypassing Microsoft ATA detection
+### 绕过Microsoft ATA检测
 
-#### User enumeration
+#### 用户枚举
 
-ATA only complains when you try to enumerate sessions in the DC, so if you don't look for sessions in the DC but in the rest of the hosts, you probably won't get detected.
+ATA只在尝试枚举DC中的会话时才会报警，因此如果你不在DC中寻找会话而是在其他主机中寻找，你可能不会被检测到。
 
-#### Tickets impersonation creation (Over pass the hash, golden ticket...)
+#### 伪造票据创建（通过哈希传递、黄金票据等）
 
-Always create the tickets using the **aes** keys also because what ATA identifies as malicious is the degradation to NTLM.
+始终使用**aes**密钥创建票据，因为ATA识别为恶意的是降级为NTLM的过程。
 
 #### DCSync
 
-If you don't execute this from a Domain Controller, ATA is going to catch you, sorry.
+如果你不是从域控制器上执行此操作，ATA将会捕捉到你，抱歉。
 
-## More Tools
+## 更多工具
 
-* [Powershell script to do domain auditing automation](https://github.com/phillips321/adaudit)
-* [Python script to enumerate active directory](https://github.com/ropnop/windapsearch)
-* [Python script to enumerate active directory](https://github.com/CroweCybersecurity/ad-ldap-enum)
+* [用于域审计自动化的PowerShell脚本](https://github.com/phillips321/adaudit)
+* [用于枚举Active Directory的Python脚本](https://github.com/ropnop/windapsearch)
+* [用于枚举Active Directory的Python脚本](https://github.com/CroweCybersecurity/ad-ldap-enum)
 
-## References
+## 参考资料
 
 * [http://www.harmj0y.net/blog/redteaming/a-guide-to-attacking-domain-trusts/](http://www.harmj0y.net/blog/redteaming/a-guide-to-attacking-domain-trusts/)
 
@@ -757,10 +737,10 @@ If you don't execute this from a Domain Controller, ATA is going to catch you, s
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* 你在**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[NFT收藏品](https://opensea.io/collection/the-peass-family)——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass)，或者在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>

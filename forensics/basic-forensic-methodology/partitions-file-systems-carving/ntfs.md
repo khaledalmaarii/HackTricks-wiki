@@ -6,215 +6,214 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* 你在一家**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者你想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[NFT收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
 
 ## **NTFS**
 
-**NTFS** (**New Technology File System**) is a proprietary journaling file system developed by Microsoft.
+**NTFS**（**新技术文件系统**）是由Microsoft开发的专有日志文件系统。
 
-The cluster is the smallest unit of size in NTFS and the size of the cluster depends on the size of a partition.
+在NTFS中，簇是最小的大小单位，簇的大小取决于分区的大小。
 
-| Partition size           | Sectors per cluster | Cluster size |
-| ------------------------ | ------------------- | ------------ |
-| 512MB or less            | 1                   | 512 bytes    |
-| 513MB-1024MB (1GB)       | 2                   | 1KB          |
-| 1025MB-2048MB (2GB)      | 4                   | 2KB          |
-| 2049MB-4096MB (4GB)      | 8                   | 4KB          |
-| 4097MB-8192MB (8GB)      | 16                  | 8KB          |
-| 8193MB-16,384MB (16GB)   | 32                  | 16KB         |
-| 16,385MB-32,768MB (32GB) | 64                  | 32KB         |
-| Greater than 32,768MB    | 128                 | 64KB         |
+| 分区大小                | 每簇扇区数 | 簇大小   |
+| ----------------------- | ---------- | -------- |
+| 512MB或更小              | 1          | 512字节  |
+| 513MB-1024MB（1GB）      | 2          | 1KB      |
+| 1025MB-2048MB（2GB）     | 4          | 2KB      |
+| 2049MB-4096MB（4GB）     | 8          | 4KB      |
+| 4097MB-8192MB（8GB）     | 16         | 8KB      |
+| 8193MB-16,384MB（16GB）  | 32         | 16KB     |
+| 16,385MB-32,768MB（32GB）| 64         | 32KB     |
+| 大于32,768MB             | 128        | 64KB     |
 
-### **Slack-Space**
+### **闲置空间**
 
-As the **smallest** size unit of NTFS is a **cluster**. Each file will be occupying several complete clusters. Then, it's highly probable that **each file occupies more space than necessary**. These **unused** **spaces** **booked** by a file which is called a **slacking** **space** and people could take advantage of this area to **hide** **information**.
+由于NTFS的最小单位是**簇**，每个文件将占用多个完整的簇。因此，**每个文件占用的空间很可能比必要的空间多**。这些文件预留的**未使用空间**称为**闲置空间**，人们可以利用这个区域来**隐藏信息**。
 
 ![](<../../../.gitbook/assets/image (498).png>)
 
-### **NTFS boot sector**
+### **NTFS引导扇区**
 
-When you format an NTFS volume, the format program allocates the first 16 sectors for the Boot metadata file. The first sector is a boot sector with a "bootstrap" code and the following 15 sectors are the boot sector's IPL (Initial Program Loader). To increase file system reliability the very last sector of an NTFS partition contains a spare copy of the boot sector.
+当你格式化一个NTFS卷时，格式化程序会为引导元数据文件分配前16个扇区。第一个扇区是引导扇区，包含“引导程序”代码，接下来的15个扇区是引导扇区的IPL（初始程序加载器）。为了增加文件系统的可靠性，NTFS分区的最后一个扇区包含引导扇区的备用副本。
 
-### **Master File Table (MFT)**
+### **主文件表（MFT）**
 
-The NTFS file system contains a file called the Master File Table (MFT). There is at least **one entry in the MFT for every file on an NTFS file system** volume, including the MFT itself. All information about a file, including its **size, time and date stamps, permissions, and data content**, is stored either in MFT entries or in space outside the MFT that is described by MFT entries.
+NTFS文件系统包含一个称为主文件表（MFT）的文件。在NTFS文件系统卷上，至少有**一个MFT条目与每个文件对应**，包括MFT本身。关于文件的所有信息，包括**大小、时间和日期戳、权限和数据内容**，都存储在MFT条目或由MFT条目描述的MFT之外的空间中。
 
-As **files are added** to an NTFS file system volume, more entries are added to the MFT and the **MFT increases in size**. When **files** are **deleted** from an NTFS file system volume, their **MFT entries are marked as free** and may be reused. However, disk space that has been allocated for these entries is not reallocated, and the size of the MFT does not decrease.
+当文件被添加到NTFS文件系统卷时，MFT中会添加更多的条目，MFT的大小也会增加。当文件从NTFS文件系统卷中被删除时，它们的MFT条目被标记为可重用。然而，为这些条目分配的磁盘空间不会被重新分配，MFT的大小也不会减小。
 
-The NTFS file system **reserves space for the MFT to keep the MFT as contiguous as possible** as it grows. The space reserved by the NTFS file system for the MFT in each volume is called the **MFT zone**. Space for files and directories is also allocated from this space, but only after all of the volume space outside of the MFT zone has been allocated.
+NTFS文件系统为了尽可能地使MFT连续，保留了MFT的空间。NTFS文件系统在每个卷中为MFT保留的空间称为**MFT区域**。文件和目录的空间也从这个空间中分配，但只有在MFT区域之外的卷空间全部分配完之后才会分配。
 
-Depending on the average file size and other variables, **either the reserved MFT zone or the unreserved space on the disk may be allocated first as the disk fills to capacity**. Volumes with a small number of relatively large files will allocate the unreserved space first, while volumes with a large number of relatively small files allocate the MFT zone first. In either case, fragmentation of the MFT starts to take place when one region or the other becomes fully allocated. If the unreserved space is completely allocated, space for user files and directories will be allocated from the MFT zone. If the MFT zone is completely allocated, space for new MFT entries will be allocated from the unreserved space.
+根据平均文件大小和其他变量的不同，**在磁盘填满容量时，可能会首先分配保留的MFT区域或磁盘上的未保留空间**。具有相对较大文件数量的卷会首先分配未保留空间，而具有相对较小文件数量的卷会首先分配MFT区域。在任一情况下，当其中一个区域完全分配时，MFT的碎片化就开始发生。如果未保留空间完全分配，用户文件和目录的空间将从MFT区域分配。如果MFT区域完全分配，新的MFT条目的空间将从未保留空间分配。
 
-NTFS file systems also generate a **$MFTMirror**. This is a **copy** of the **first 4 entries** of the MFT: $MFT, $MFT Mirror, $Log, $Volume.
+NTFS文件系统还会生成一个**$MFTMirror**。这是MFT的**前4个条目的副本**：$MFT、$MFT Mirror、$Log、$Volume。
 
-NTFS reserves the first 16 records of the table for special information:
+NTFS为表的前16个记录保留了特殊信息：
 
-| System File           | File Name | MFT Record | Purpose of the File                                                                                                                                                                                                           |
-| --------------------- | --------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Master file table     | $Mft      | 0          | Contains one base file record for each file and folder on an NTFS volume. If the allocation information for a file or folder is too large to fit within a single record, other file records are allocated as well.            |
-| Master file table 2   | $MftMirr  | 1          | A duplicate image of the first four records of the MFT. This file guarantees access to the MFT in case of a single-sector failure.                                                                                            |
-| Log file              | $LogFile  | 2          | Contains a list of transaction steps used for NTFS recoverability. Log file size depends on the volume size and can be as large as 4 MB. It is used by Windows NT/2000 to restore consistency to NTFS after a system failure. |
-| Volume                | $Volume   | 3          | Contains information about the volume, such as the volume label and the volume version.                                                                                                                                       |
-| Attribute definitions | $AttrDef  | 4          | A table of attribute names, numbers, and descriptions.                                                                                                                                                                        |
-| Root file name index  | $         | 5          | The root folder.                                                                                                                                                                                                              |
-| Cluster bitmap        | $Bitmap   | 6          | A representation of the volume showing which clusters are in use.                                                                                                                                                             |
-| Boot sector           | $Boot     | 7          | Includes the BPB used to mount the volume and additional bootstrap loader code used if the volume is bootable.                                                                                                                |
-| Bad cluster file      | $BadClus  | 8          | Contains bad clusters for the volume.                                                                                                                                                                                         |
-| Security file         | $Secure   | 9          | Contains unique security descriptors for all files within a volume.                                                                                                                                                           |
-| Upcase table          | $Upcase   | 10         | Converts lowercase characters to matching Unicode uppercase characters.                                                                                                                                                       |
-| NTFS extension file   | $Extend   | 11         | Used for various optional extensions such as quotas, reparse point data, and object identifiers.                                                                                                                              |
-|                       |           | 12-15      | Reserved for future use.                                                                                                                                                                                                      |
-| Quota management file | $Quota    | 24         | Contains user assigned quota limits on the volume space.                                                                                                                                                                      |
-| Object Id file        | $ObjId    | 25         | Contains file object IDs.                                                                                                                                                                                                     |
-| Reparse point file    | $Reparse  | 26         | This file contains information about files and folders on the volume including reparse point data.                                                                                                                            |
+| 系统文件             | 文件名    | MFT记录 | 文件的目的                                                                                      |
+| -------------------- | --------- | -------- | ----------------------------------------------------------------------------------------------- |
+| 主文件表             | $Mft      | 0        | 包含NTFS卷上每个文件和文件夹的一个基本文件记录。如果一个文件或文件夹的分配信息太大，无法适应单个记录中，将分配其他文件记录。 |
+| 主文件表2           | $MftMirr  | 1        | MFT的前四个记录的重复镜像。这个文件在单个扇区故障的情况下保证对MFT的访问。                          |
+| 日志文件             | $LogFile  | 2        | 包含用于NTFS可恢复性的事务步骤列表。日志文件的大小取决于卷的大小，最大可以达到4MB。它被Windows NT/2000用于在系统故障后恢复NTFS的一致性。 |
+| 卷                  | $Volume   | 3        | 包含有关卷的信息，如卷标和卷版本。                                                              |
+| 属性定义             | $AttrDef  | 4        | 属性名称、编号和描述的表。                                                                      |
+| 根文件名索引         | $         | 5        | 根文件夹。                                                                                      |
+| 簇位图               | $Bitmap   | 6        | 表示卷中哪些簇正在使用的表示。                                                                  |
+| 引导扇区              | $Boot     | 7          | 包含用于挂载卷的BPB以及如果卷可引导，则使用的附加引导加载程序代码。                                                                                                                |
+| 坏簇文件              | $BadClus  | 8          | 包含卷的坏簇。                                                                                                                                                                      |
+| 安全文件              | $Secure   | 9          | 包含卷内所有文件的唯一安全描述符。                                                                                                                                                  |
+| 大写表                | $Upcase   | 10         | 将小写字符转换为相应的Unicode大写字符。                                                                                                                                             |
+| NTFS扩展文件          | $Extend   | 11         | 用于各种可选扩展，如配额、重解析点数据和对象标识符。                                                                                                                                |
+|                       |           | 12-15      | 保留供将来使用。                                                                                                                                                                    |
+| 配额管理文件          | $Quota    | 24         | 包含用户分配的卷空间配额限制。                                                                                                                                                      |
+| 对象ID文件            | $ObjId    | 25         | 包含文件对象ID。                                                                                                                                                                   |
+| 重解析点文件          | $Reparse  | 26         | 此文件包含有关卷上的文件和文件夹的信息，包括重解析点数据。                                                                                                                            |
 
-### Each entry of the MFT looks like the following:
+### MFT的每个条目如下所示：
 
 ![](<../../../.gitbook/assets/image (499).png>)
 
-Note how each entry starts with "FILE". Each entry occupies 1024 bits. So after 1024 bit from the start of an MFT entry, you will find the next one.
+请注意，每个条目以"FILE"开头。每个条目占用1024位。因此，在MFT条目的开头后的1024位之后，您将找到下一个条目。
 
-Using the [**Active Disk Editor**](https://www.disk-editor.org/index.html) it's very easy to inspect the entry of a file in the MFT. Just right click on the file and then click "Inspect File Record"
+使用[**Active Disk Editor**](https://www.disk-editor.org/index.html)非常容易检查MFT中文件的条目。只需右键单击文件，然后单击"Inspect File Record"。
 
 ![](<../../../.gitbook/assets/image (500).png>)
 
 ![](<../../../.gitbook/assets/image (501).png>)
 
-Checking the **"In use**" flag it's very easy to know if a file was deleted (a value of **0x0 means deleted**).
+通过检查**"In use"**标志，可以很容易地知道文件是否已删除（值为**0x0表示已删除**）。
 
 ![](<../../../.gitbook/assets/image (510).png>)
 
-It's also possible to recover deleted files using FTKImager:
+还可以使用FTKImager恢复已删除的文件：
 
 ![](<../../../.gitbook/assets/image (502).png>)
 
-### MFT Attributes
+### MFT属性
 
-Each MFT entry has several attributes as the following image indicates:
+每个MFT条目都有多个属性，如下图所示：
 
 ![](<../../../.gitbook/assets/image (506).png>)
 
-Each attribute indicates some entry information identified by the type:
+每个属性都表示某些由类型标识符标识的条目信息：
 
-| Type Identifier | Name                     | Description                                                                                                       |
-| --------------- | ------------------------ | ----------------------------------------------------------------------------------------------------------------- |
-| 16              | $STANDARD\_INFORMATION   | General information, such as flags; the last accessed, written, and created times; and the owner and security ID. |
-| 32              | $ATTRIBUTE\_LIST         | List where other attributes for a file can be found.                                                              |
-| 48              | $FILE\_NAME              | File name, in Unicode, and the last accessed, written, and created times.                                         |
-| 64              | $VOLUME\_VERSION         | Volume information. Exists only in version 1.2 (Windows NT).                                                      |
-| 64              | $OBJECT\_ID              | A 16-byte unique identifier for the file or directory. Exists only in versions 3.0+ and after (Windows 2000+).    |
-| 80              | $SECURITY\_ DESCRIPTOR   | The access control and security properties of the file.                                                           |
-| 96              | $VOLUME\_NAME            | Volume name.                                                                                                      |
-| 112             | $VOLUME\_ INFORMATION    | File system version and other flags.                                                                              |
-| 128             | $DATA                    | File contents.                                                                                                    |
-| 144             | $INDEX\_ROOT             | Root node of an index tree.                                                                                       |
-| 160             | $INDEX\_ALLOCATION       | Nodes of an index tree rooted in $INDEX\_ROOT attribute.                                                          |
-| 176             | $BITMAP                  | A bitmap for the $MFT file and for indexes.                                                                       |
-| 192             | $SYMBOLIC\_LINK          | Soft link information. Exists only in version 1.2 (Windows NT).                                                   |
-| 192             | $REPARSE\_POINT          | Contains data about a reparse point, which is used as a soft link in version 3.0+ (Windows 2000+).                |
-| 208             | $EA\_INFORMATION         | Used for backward compatibility with OS/2 applications (HPFS).                                                    |
-| 224             | $EA                      | Used for backward compatibility with OS/2 applications (HPFS).                                                    |
-| 256             | $LOGGED\_UTILITY\_STREAM | Contains keys and information about encrypted attributes in version 3.0+ (Windows 2000+).                         |
+| 类型标识符 | 名称                     | 描述                                                                                                             |
+| ---------- | ------------------------ | ---------------------------------------------------------------------------------------------------------------- |
+| 16         | $STANDARD\_INFORMATION   | 一般信息，如标志；最后访问、写入和创建时间；所有者和安全ID。                                                      |
+| 32         | $ATTRIBUTE\_LIST         | 文件的其他属性所在的列表。                                                                                       |
+| 48         | $FILE\_NAME              | 文件名，以Unicode表示，以及最后访问、写入和创建时间。                                                             |
+| 64         | $VOLUME\_VERSION         | 卷信息。仅存在于版本1.2（Windows NT）。                                                                           |
+| 64         | $OBJECT\_ID              | 文件或目录的16字节唯一标识符。仅存在于版本3.0+和之后（Windows 2000+）。                                             |
+| 80         | $SECURITY\_ DESCRIPTOR   | 文件的访问控制和安全属性。                                                                                       |
+| 96         | $VOLUME\_NAME            | 卷名称。                                                                                                          |
+| 112        | $VOLUME\_ INFORMATION    | 文件系统版本和其他标志。                                                                                         |
+| 128        | $DATA                    | 文件内容。                                                                                                        |
+| 144        | $INDEX\_ROOT             | 索引树的根节点。                                                                                                 |
+| 160        | $INDEX\_ALLOCATION       | 以$INDEX\_ROOT属性为根的索引树的节点。                                                                             |
+| 176        | $BITMAP                  | 用于$MFT文件和索引的位图。                                                                                        |
+| 192        | $SYMBOLIC\_LINK          | 软链接信息。仅存在于版本1.2（Windows NT）。                                                                       |
+| 192        | $REPARSE\_POINT          | 包含有关重解析点的数据，用作版本3.0+（Windows 2000+）中的软链接。                                                  |
+| 208        | $EA\_INFORMATION         | 用于与OS/2应用程序（HPFS）向后兼容。                                                                              |
+| 224        | $EA                      | 用于与OS/2应用程序（HPFS）向后兼容。                                                                              |
+| 256        | $LOGGED\_UTILITY\_STREAM | 包含版本3.0+（Windows 2000+）中加密属性的键和信息。                                                               |
 
-For example the **type 48 (0x30)** identifies the **file name**:
+例如，**类型48（0x30）**标识**文件名**：
 
 ![](<../../../.gitbook/assets/image (508).png>)
 
-It is also useful to understand that **these attributes can be resident** (meaning, they exist within a given MFT record) or **nonresident** (meaning, they exist outside a given MFT record, elsewhere on the disk, and are simply referenced within the record). For example, if the attribute **$Data is resident**, this means that the **whole file is saved in the MFT**, if it's nonresident, then the content of the file is in another part of the file system.
+还有一点很有用，就是**这些属性可以是驻留的**（意味着它们存在于给定的MFT记录中），或者是**非驻留的**（意味着它们存在于磁盘上的MFT记录之外的其他位置，并且仅在记录中引用）。例如，如果属性**$Data是驻留的**，这意味着**整个文件保存在MFT中**，如果是非驻留的，则文件的内容在文件系统的其他部分。
 
-Some interesting attributes:
+一些有趣的属性：
 
-* [$STANDARD\_INFORMATION](https://flatcap.org/linux-ntfs/ntfs/attributes/standard\_information.html) (among others):
-  * Creation date
-  * Modification date
-  * Access date
-  * MFT update date
-  * DOS File permissions
-* [$FILE\_NAME](https://flatcap.org/linux-ntfs/ntfs/attributes/file\_name.html) (among others):
-  * File name
-  * Creation date
-  * Modification date
-  * Access date
-  * MFT update date
-  * Allocated size
-  * Real size
-  * [File reference](https://flatcap.org/linux-ntfs/ntfs/concepts/file\_reference.html) to the parent directory.
-* [$Data](https://flatcap.org/linux-ntfs/ntfs/attributes/data.html) (among others):
-  * Contains the file's data or the indication of the sectors where the data resides. In the following example, the attribute data is not resident so the attribute gives information about the sectors where the data resides.
+* [$STANDARD\_INFORMATION](https://flatcap.org/linux-ntfs/ntfs/attributes/standard\_information.html)（以及其他）：
+* 创建日期
+* 修改日期
+* 访问日期
+* MFT更新日期
+* DOS文件权限
+* [$FILE\_NAME](https://flatcap.org/linux-ntfs/ntfs/attributes/file\_name.html)（以及其他）：
+* 文件名
+* 创建日期
+* 修改日期
+* 访问日期
+* MFT更新日期
+* 分配大小
+* 实际大小
+* [文件引用](https://flatcap.org/linux-ntfs/ntfs/concepts/file\_reference.html)指向父目录。
+* [$Data](https://flatcap.org/linux-ntfs/ntfs/attributes/data.html)（以及其他）：
+* 包含文件的数据或数据所在扇区的指示。在下面的示例中，属性数据不是驻留的，因此属性提供了有关数据所在扇区的信息。
 
 ![](<../../../.gitbook/assets/image (507) (1) (1).png>)
 
 ![](<../../../.gitbook/assets/image (509).png>)
-
-### NTFS timestamps
+### NTFS时间戳
 
 ![](<../../../.gitbook/assets/image (512).png>)
 
-Another useful tool to analyze the MFT is [**MFT2csv**](https://github.com/jschicht/Mft2Csv) (select the mft file or the image and press dump all and extract to extract all the objects).\
-This program will extract all the MFT data and present it in CSV format. It can also be used to dump files.
+分析MFT的另一个有用工具是[MFT2csv](https://github.com/jschicht/Mft2Csv)（选择mft文件或镜像，按下dump all and extract以提取所有对象）。\
+该程序将以CSV格式提取所有MFT数据并呈现出来。它还可以用于转储文件。
 
 ![](<../../../.gitbook/assets/image (513).png>)
 
 ### $LOGFILE
 
-The file **`$LOGFILE`** contains **logs** about the **actions** that have been **performed** **to** **files**. It also **saves** the **action** it would need to perform in case of a **redo** and the action needed to **go back** to the **previous** **state**.\
-These logs are useful for the MFT to rebuild the file system in case some kind of error happened. The maximum size of this file is **65536KB**.
+文件**`$LOGFILE`**包含有关对文件执行的操作的日志。它还保存了在发生错误时需要执行的操作以及返回到先前状态所需的操作。\
+这些日志对于MFT在发生某种错误时重建文件系统很有用。此文件的最大大小为**65536KB**。
 
-To inspect the `$LOGFILE` you need to extract it and inspect the `$MFT` previously with [**MFT2csv**](https://github.com/jschicht/Mft2Csv).\
-Then run [**LogFileParser**](https://github.com/jschicht/LogFileParser) against this file and select the exported `$LOGFILE` file and the CVS of the inspection of the `$MFT`. You will obtain a CSV file with the logs of the file system activity recorded by the `$LOGFILE` log.
+要检查`$LOGFILE`，您需要先使用[MFT2csv](https://github.com/jschicht/Mft2Csv)提取并检查`$MFT`。\
+然后运行[LogFileParser](https://github.com/jschicht/LogFileParser)对该文件进行操作，并选择导出的`$LOGFILE`文件和`$MFT`检查的CSV文件。您将获得一个包含由`$LOGFILE`日志记录的文件系统活动日志的CSV文件。
 
 ![](<../../../.gitbook/assets/image (515).png>)
 
-Filtering by filenames you can see **all the actions performed against a file**:
+通过文件名过滤，您可以查看**针对文件执行的所有操作**：
 
 ![](<../../../.gitbook/assets/image (514).png>)
 
 ### $USNJnrl
 
-The file `$EXTEND/$USNJnrl/$J` is an alternate data stream of the file `$EXTEND$USNJnrl`. This artifact contains a **registry of changes produced inside the NTFS volume with more detail than `$LOGFILE`**.
+文件`$EXTEND/$USNJnrl/$J`是文件`$EXTEND$USNJnrl`的备用数据流。此工件包含比`$LOGFILE`更详细的NTFS卷内更改的注册表。
 
-To inspect this file you can use the tool [**UsnJrnl2csv**](https://github.com/jschicht/UsnJrnl2Csv).
+要检查此文件，您可以使用工具[UsnJrnl2csv](https://github.com/jschicht/UsnJrnl2Csv)。
 
-Filtering by the filename it's possible to see **all the actions performed against a file**. Also, you can find the `MFTReference` in the parent folder. Then looking at that `MFTReference` you can find **information from the parent folder.**
+通过文件名过滤，可以查看**针对文件执行的所有操作**。此外，您还可以在父文件夹中找到`MFTReference`。然后查看该`MFTReference`，您可以找到来自父文件夹的信息。
 
 ![](<../../../.gitbook/assets/image (516).png>)
 
 ### $I30
 
-Every **directory** in the file system contains an **`$I30`** **attribute** that must be maintained whenever there are changes to the directory's contents. When files or folders are removed from the directory, the **`$I30`** index records are re-arranged accordingly. However, **re-arranging of the index records may leave remnants of the deleted file/folder entry within the slack space**. This can be useful in forensics analysis for identifying files that may have existed on the drive.
+文件系统中的每个**目录**都包含一个必须在目录内容发生更改时维护的**`$I30`属性**。当文件或文件夹从目录中删除时，`$I30`索引记录将相应重新排列。然而，**重新排列索引记录可能会在未使用的空间中留下已删除的文件/文件夹条目的残留**。这对于鉴定可能存在于驱动器上的文件在取证分析中很有用。
 
-You can get the `$I30` file of a directory from the **FTK Imager** and inspect it with the tool [Indx2Csv](https://github.com/jschicht/Indx2Csv).
+您可以使用**FTK Imager**获取目录的`$I30`文件，并使用工具[Indx2Csv](https://github.com/jschicht/Indx2Csv)进行检查。
 
 ![](<../../../.gitbook/assets/image (519).png>)
 
-With this data, you can find **information about the file changes performed inside the folder** but note that the deletion time of a file isn't saved inside this log. However, you can see that **last modified date** of the **`$I30` file**, and if the **last action performed** over the directory is the **deletion** of a file, the times may be the same.
+通过这些数据，您可以找到**在文件夹内执行的文件更改的信息**，但请注意，文件的删除时间不会保存在此日志中。但是，您可以查看**`$I30`文件**的**最后修改日期**，如果对目录执行的**最后一个操作**是文件的**删除**，则时间可能相同。
 
 ### $Bitmap
 
-The **`$BitMap`** is a special file within the NTFS file system. This file keeps **track of all of the used and unused clusters** on an NTFS volume. When a file takes up space on the NTFS volume the location used is marked out in the `$BitMap`.
+**`$BitMap`**是NTFS文件系统中的一个特殊文件。该文件跟踪NTFS卷上所有已使用和未使用的簇。当文件占用NTFS卷上的空间时，所使用的位置将在`$BitMap`中标记出来。
 
 ![](<../../../.gitbook/assets/image (523).png>)
 
-### ADS (Alternate Data Stream)
+### ADS（备用数据流）
 
-Alternate data streams allow files to contain more than one stream of data. Every file has at least one data stream. In Windows, this default data stream is called `:$DATA`.\
-In this [page you can see different ways to create/access/discover alternate data streams](../../../windows-hardening/basic-cmd-for-pentesters.md#alternate-data-streams-cheatsheet-ads-alternate-data-stream) from the console. In the past, this cause a vulnerability in IIS as people were able to access the source code of a page by accessing the `:$DATA` stream like `http://www.alternate-data-streams.com/default.asp::$DATA`.
+备用数据流允许文件包含多个数据流。每个文件至少有一个数据流。在Windows中，默认数据流称为`:$DATA`。\
+在此[页面上，您可以查看有关如何在控制台中创建/访问/发现备用数据流](../../../windows-hardening/basic-cmd-for-pentesters.md#alternate-data-streams-cheatsheet-ads-alternate-data-stream)的不同方法。过去，这在IIS中导致了一个漏洞，因为人们可以通过访问`:$DATA`流（如`http://www.alternate-data-streams.com/default.asp::$DATA`）来访问页面的源代码。
 
-Using the tool [**AlternateStreamView**](https://www.nirsoft.net/utils/alternate\_data\_streams.html) you can search and export all the files with some ADS.
+使用工具[AlternateStreamView](https://www.nirsoft.net/utils/alternate\_data\_streams.html)，您可以搜索和导出所有带有某些ADS的文件。
 
 ![](<../../../.gitbook/assets/image (518).png>)
 
-Using the FTK imager and double clicking on a file with ADS you can **access the ADS data**:
+使用FTK Imager并双击带有ADS的文件，您可以**访问ADS数据**：
 
 ![](<../../../.gitbook/assets/image (517).png>)
 
-If you find an ADS called **`Zone.Identifier`** (see the above image), this usually contains **information about how the file was downloaded**. There would be a "ZoneId" field with the following info:
+如果您找到名为**`Zone.Identifier`**的ADS（请参见上图），通常会包含有关文件下载方式的信息。其中将有一个名为"ZoneId"的字段，其中包含以下信息：
 
 * Zone ID = 0 -> Mycomputer
 * Zone ID = 1 -> Intranet
@@ -222,10 +221,10 @@ If you find an ADS called **`Zone.Identifier`** (see the above image), this usua
 * Zone ID = 3 -> Internet
 * Zone ID = 4 -> Untrusted
 
-Moreover, different software may store additional information:
+此外，不同的软件可能存储其他信息：
 
-| Software                                                            | Info                                                                         |
-| ------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| 软件                                                               | 信息                                                                         |
+| ------------------------------------------------------------------ | ---------------------------------------------------------------------------- |
 | Google Chrome, Opera, Vivaldi,                                      | ZoneId=3, ReferrerUrl, HostUrl                                               |
 | Microsoft Edge                                                      | ZoneId=3, LastWriterPackageFamilyName=Microsoft.MicrosoftEdge\_8wekyb3d8bbwe |
 | Firefox, Tor browser, Outlook2016, Thunderbird, Windows Mail, Skype | ZoneId=3                                                                     |
@@ -235,10 +234,10 @@ Moreover, different software may store additional information:
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* 您在**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想获得最新版本的PEASS或下载PDF格式的HackTricks吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[NFT](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks衣物**](https://peass.creator-spring.com)
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) **或者** [**telegram 群组**](https://t.me/peass) **或者在 Twitter 上关注我** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向** [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享你的黑客技巧。**
 
 </details>

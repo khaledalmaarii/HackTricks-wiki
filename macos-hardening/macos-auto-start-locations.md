@@ -1,106 +1,95 @@
-# macOS Auto Start Locations
+# macOS自动启动位置
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
 
-Here are locations on the system that could lead to the **execution** of a binary **without** **user** **interaction**.
+以下是系统中可能导致二进制文件**在没有用户交互的情况下**执行的位置。
 
 ### Launchd
 
-**`launchd`** is the **first** **process** executed by OX S kernel at startup and the last one to finish at shut down. It should always have the **PID 1**. This process will **read and execute** the configurations indicated in the **ASEP** **plists** in:
+**`launchd`**是在启动时由OS X内核执行的**第一个进程**，也是在关机时最后一个完成的进程。它应该始终具有**PID 1**。此进程将**读取和执行**在以下位置指定的**ASEP** **plists**中的配置：
 
-* `/Library/LaunchAgents`: Per-user agents installed by the admin
-* `/Library/LaunchDaemons`: System-wide daemons installed by the admin
-* `/System/Library/LaunchAgents`: Per-user agents provided by Apple.
-* `/System/Library/LaunchDaemons`: System-wide daemons provided by Apple.
+* `/Library/LaunchAgents`：由管理员安装的每个用户代理
+* `/Library/LaunchDaemons`：由管理员安装的系统级守护程序
+* `/System/Library/LaunchAgents`：由Apple提供的每个用户代理。
+* `/System/Library/LaunchDaemons`：由Apple提供的系统级守护程序。
 
-When a user logs in the plists located in `/Users/$USER/Library/LaunchAgents` and `/Users/$USER/Library/LaunchDemons` are started with the **logged users permissions**.
+当用户登录时，位于`/Users/$USER/Library/LaunchAgents`和`/Users/$USER/Library/LaunchDemons`的plists将以**登录用户的权限**启动。
 
-The **main difference between agents and daemons is that agents are loaded when the user logs in and the daemons are loaded at system startup** (as there are services like ssh that needs to be executed before any user access the system). Also agents may use GUI while daemons need to run in the background.
-
+**代理和守护程序的主要区别在于代理在用户登录时加载，而守护程序在系统启动时加载**（因为有一些服务（如ssh）需要在任何用户访问系统之前执行）。此外，代理可以使用GUI，而守护程序需要在后台运行。
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN">
 <plist version="1.0">
 <dict>
-    <key>Label</key>
-        <string>com.apple.someidentifier</string>
-    <key>ProgramArguments</key>
-    <array>
-        <string>/Users/username/malware</string>
-    </array>
-    <key>RunAtLoad</key><true/> <!--Execute at system startup-->
-    <key>StartInterval</key>
-    <integer>800</integer> <!--Execute each 800s-->
-    <key>KeepAlive</key>
-    <dict>
-        <key>SuccessfulExit</key></false> <!--Re-execute if exit unsuccessful-->
-        <!--If previous is true, then re-execute in successful exit-->
-    </dict>
+<key>Label</key>
+<string>com.apple.someidentifier</string>
+<key>ProgramArguments</key>
+<array>
+<string>/Users/username/malware</string>
+</array>
+<key>RunAtLoad</key><true/> <!--Execute at system startup-->
+<key>StartInterval</key>
+<integer>800</integer> <!--Execute each 800s-->
+<key>KeepAlive</key>
+<dict>
+<key>SuccessfulExit</key></false> <!--Re-execute if exit unsuccessful-->
+<!--If previous is true, then re-execute in successful exit-->
+</dict>
 </dict>
 </plist>
 ```
+有些情况下，需要在用户登录之前执行一个代理程序，这被称为**PreLoginAgents**。例如，这在登录时提供辅助技术时非常有用。它们也可以在`/Library/LaunchAgents`目录中找到（参见[**这里**](https://github.com/HelmutJ/CocoaSampleCode/tree/master/PreLoginAgents)的示例）。
 
-There are cases where an **agent needs to be executed before the user logins**, these are called **PreLoginAgents**. For example, this is useful to provide assistive technology at login. They can be found also in `/Library/LaunchAgents`(see [**here**](https://github.com/HelmutJ/CocoaSampleCode/tree/master/PreLoginAgents) an example).
+\{% hint style="info" %\}新的守护程序或代理程序配置文件将在下次重启后加载，或使用`launchctl load <target.plist>`命令加载。也可以使用`launchctl -F <file>`命令加载没有扩展名的.plist文件（但这些.plist文件在重启后不会自动加载）。
+也可以使用`launchctl unload <target.plist>`命令卸载（指向它的进程将被终止）。
 
-\{% hint style="info" %\} New Daemons or Agents config files will be **loaded after next reboot or using** `launchctl load <target.plist>` It's **also possible to load .plist files without that extension** with `launchctl -F <file>` (however those plist files won't be automatically loaded after reboot).\
-It's also possible to **unload** with `launchctl unload <target.plist>` (the process pointed by it will be terminated),
+为了确保没有任何东西（如覆盖）阻止代理程序或守护程序运行，请运行：`sudo launchctl load -w /System/Library/LaunchDaemos/com.apple.smdb.plist` \{% endhint %\}
 
-To **ensure** that there isn't **anything** (like an override) **preventing** an **Agent** or **Daemon** **from** **running** run: `sudo launchctl load -w /System/Library/LaunchDaemos/com.apple.smdb.plist` \{% endhint %\}
-
-List all the agents and daemons loaded by the current user:
-
+列出当前用户加载的所有代理程序和守护程序：
 ```bash
 launchctl list
 ```
-
 ### Cron
 
-List the cron jobs of the **current user** with:
-
+使用以下命令列出**当前用户**的cron作业：
 ```bash
 crontab -l
 ```
+您还可以在**`/usr/lib/cron/tabs/`**和**`/var/at/tabs/`**（需要root权限）中查看用户的所有cron作业。
 
-You can also see all the cron jobs of the users in **`/usr/lib/cron/tabs/`** and **`/var/at/tabs/`** (needs root).
-
-In MacOS several folders executing scripts with **certain frequency** can be found in:
-
+在MacOS中，可以找到以**特定频率**执行脚本的几个文件夹：
 ```bash
 ls -lR /usr/lib/cron/tabs/ /private/var/at/jobs /etc/periodic/
 ```
+在这里，您可以找到常规的cron作业、at作业（不常用）和周期性作业（主要用于清理临时文件）。例如，可以使用`periodic daily`来执行每日周期性作业。
 
-There you can find the regular **cron** **jobs**, the **at** **jobs** (not very used) and the **periodic** **jobs** (mainly used for cleaning temporary files). The daily periodic jobs can be executed for example with: `periodic daily`.
-
-The periodic scripts (**`/etc/periodic`**) are executed because of the **launch daemons** configured in `/System/Library/LaunchDaemons/com.apple.periodic*`. Note that if a script is stored in `/etc/periodic/` as a way to **escalate privilege**s, it will be **executed** as the **owner of the file**.
-
+周期性脚本（`/etc/periodic`）是由在`/System/Library/LaunchDaemons/com.apple.periodic*`中配置的**启动守护程序**执行的。请注意，如果将脚本存储在`/etc/periodic/`中以提升特权，它将作为文件的所有者来执行。
 ```bash
 ls -l /System/Library/LaunchDaemons/com.apple.periodic*
 -rw-r--r--  1 root  wheel  887 May 13 00:29 /System/Library/LaunchDaemons/com.apple.periodic-daily.plist
 -rw-r--r--  1 root  wheel  895 May 13 00:29 /System/Library/LaunchDaemons/com.apple.periodic-monthly.plist
 -rw-r--r--  1 root  wheel  891 May 13 00:29 /System/Library/LaunchDaemons/com.apple.periodic-weekly.plist
 ```
-
 ### kext
 
-In order to install a KEXT as a startup item, it needs to be **installed in one of the following locations**:
+为了将KEXT安装为启动项，它需要被安装在以下位置之一：
 
 * `/System/Library/Extensions`
-  * KEXT files built into the OS X operating system.
+* 内置于OS X操作系统中的KEXT文件。
 * `/Library/Extensions`
-  * KEXT files installed by 3rd party software
+* 第三方软件安装的KEXT文件
 
-You can list currently loaded kext files with:
-
+您可以使用以下命令列出当前加载的kext文件：
 ```bash
 kextstat #List loaded kext
 kextload /path/to/kext.kext #Load a new one based on path
@@ -108,50 +97,42 @@ kextload -b com.apple.driver.ExampleBundle #Load a new one based on path
 kextunload /path/to/kext.kext
 kextunload -b com.apple.driver.ExampleBundle
 ```
+有关[**内核扩展的更多信息，请查看此部分**](macos-security-and-privilege-escalation/mac-os-architecture#i-o-kit-drivers)。
 
-For more information about [**kernel extensions check this section**](macos-security-and-privilege-escalation/mac-os-architecture#i-o-kit-drivers).
+### **登录项**
 
-### **Login Items**
-
-In System Preferences -> Users & Groups -> **Login Items** you can find **items to be executed when the user logs in**.\
-It it's possible to list them, add and remove from the command line:
-
+在“系统偏好设置” -> “用户与群组” -> **登录项**中，您可以找到**用户登录时要执行的项目**。\
+可以通过命令行列出、添加和删除它们：
 ```bash
 #List all items:
 osascript -e 'tell application "System Events" to get the name of every login item'
 
 #Add an item:
-osascript -e 'tell application "System Events" to make login item at end with properties {path:"/path/to/itemname", hidden:false}' 
+osascript -e 'tell application "System Events" to make login item at end with properties {path:"/path/to/itemname", hidden:false}'
 
 #Remove an item:
-osascript -e 'tell application "System Events" to delete login item "itemname"' 
+osascript -e 'tell application "System Events" to delete login item "itemname"'
 ```
-
-These items are stored in the file /Users/\<username>/Library/Application Support/com.apple.backgroundtaskmanagementagent
+这些项目存储在文件 /Users/\<username>/Library/Application Support/com.apple.backgroundtaskmanagementagent
 
 ### At
 
-“At tasks” are used to **schedule tasks at specific times**.\
-These tasks differ from cron in that **they are one time tasks** t**hat get removed after executing**. However, they will **survive a system restart** so they can’t be ruled out as a potential threat.
+“At 任务”用于**在特定时间安排任务**。\
+这些任务与 cron 不同，它们是**一次性任务**，在执行后会被删除。但是，它们会**在系统重启后保留**，因此不能排除它们作为潜在威胁的可能性。
 
-By **default** they are **disabled** but the **root** user can **enable** **them** with:
-
+**默认情况下**，它们是**禁用的**，但是**root 用户**可以通过以下方式**启用它们**：
 ```bash
 sudo launchctl load -F /System/Library/LaunchDaemons/com.apple.atrun.plist
 ```
-
-This will create a file at 13:37:
-
+这将在13:37创建一个文件：
 ```bash
 echo hello > /tmp/hello | at 1337
 ```
+如果未启用AT任务，则创建的任务将不会被执行。
 
-If AT tasks aren't enabled the created tasks won't be executed.
+### 登录/注销挂钩
 
-### Login/Logout Hooks
-
-They are deprecated but can be used to execute commands when a user logs in.
-
+它们已被弃用，但可以用于在用户登录时执行命令。
 ```bash
 cat > $HOME/hook.sh << EOF
 #!/bin/bash
@@ -160,51 +141,44 @@ EOF
 chmod +x $HOME/hook.sh
 defaults write com.apple.loginwindow LoginHook /Users/$USER/hook.sh
 ```
-
-This setting is stored in `/Users/$USER/Library/Preferences/com.apple.loginwindow.plist`
-
+这个设置存储在 `/Users/$USER/Library/Preferences/com.apple.loginwindow.plist` 文件中。
 ```bash
 defaults read /Users/$USER/Library/Preferences/com.apple.loginwindow.plist
 {
-    LoginHook = "/Users/username/hook.sh";
-    MiniBuddyLaunch = 0;
-    TALLogoutReason = "Shut Down";
-    TALLogoutSavesState = 0;
-    oneTimeSSMigrationComplete = 1;
+LoginHook = "/Users/username/hook.sh";
+MiniBuddyLaunch = 0;
+TALLogoutReason = "Shut Down";
+TALLogoutSavesState = 0;
+oneTimeSSMigrationComplete = 1;
 }
 ```
-
-To delete it:
-
+要删除它：
 ```bash
 defaults delete com.apple.loginwindow LoginHook
 ```
+在前面的例子中，我们创建并删除了一个**LoginHook**，同样也可以创建一个**LogoutHook**。
 
-In the previous example we have created and deleted a **LoginHook**, it's also possible to create a **LogoutHook**.
-
-The root user one is stored in `/private/var/root/Library/Preferences/com.apple.loginwindow.plist`
+root用户的Hook存储在`/private/var/root/Library/Preferences/com.apple.loginwindow.plist`中。
 
 ### Emond
 
-Apple introduced a logging mechanism called **emond**. It appears it was never fully developed, and development may have been **abandoned** by Apple for other mechanisms, but it remains **available**.
+苹果引入了一个名为**emond**的日志记录机制。看起来它从未完全开发，苹果可能已经**放弃**了它以使用其他机制，但它仍然**可用**。
 
-This little-known service may **not be much use to a Mac admin**, but to a threat actor one very good reason would be to use it as a **persistence mechanism that most macOS admins probably wouldn't know** to look for. Detecting malicious use of emond shouldn't be difficult, as the System LaunchDaemon for the service looks for scripts to run in only one place:
-
+这个鲜为人知的服务对于Mac管理员来说可能**没有太多用处**，但对于威胁行为者来说，一个非常好的理由是将其用作**持久性机制，大多数macOS管理员可能不知道**去寻找。检测emond的恶意使用不应该很困难，因为该服务的系统LaunchDaemon只会在一个地方寻找要运行的脚本：
 ```bash
 ls -l /private/var/db/emondClients
 ```
-
 {% hint style="danger" %}
-**As this isn't used much, anything in that folder should be suspicious**
+**由于这个功能很少使用，所以该文件夹中的任何内容都应该是可疑的**
 {% endhint %}
 
-### Startup Items
+### 启动项
 
-\{% hint style="danger" %\} **This is deprecated, so nothing should be found in the following directories.** \{% endhint %\}
+\{% hint style="danger" %\} **此功能已被弃用，因此不应在以下目录中找到任何内容。** \{% endhint %\}
 
-A **StartupItem** is a **directory** that gets **placed** in one of these two folders. `/Library/StartupItems/` or `/System/Library/StartupItems/`
+**StartupItem** 是一个**目录**，它被放置在以下两个文件夹之一中：`/Library/StartupItems/` 或 `/System/Library/StartupItems/`
 
-After placing a new directory in one of these two locations, **two more items** need to be placed inside that directory. These two items are a **rc script** **and a plist** that holds a few settings. This plist must be called “**StartupParameters.plist**”.
+在这两个位置之一放置一个新的目录后，还需要在该目录中放置**两个更多的项目**。这两个项目是一个**rc脚本**和一个包含一些设置的**plist**。这个plist必须被命名为“**StartupParameters.plist**”。
 
 {% tabs %}
 {% tab title="StartupParameters.plist" %}
@@ -213,34 +187,32 @@ After placing a new directory in one of these two locations, **two more items** 
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>Description</key>
-        <string>This is a description of this service</string>
-    <key>OrderPreference</key>
-        <string>None</string> <!--Other req services to execute before this -->
-    <key>Provides</key>
-    <array>
-        <string>superservicename</string> <!--Name of the services provided by this file -->
-    </array>
+<key>Description</key>
+<string>This is a description of this service</string>
+<key>OrderPreference</key>
+<string>None</string> <!--Other req services to execute before this -->
+<key>Provides</key>
+<array>
+<string>superservicename</string> <!--Name of the services provided by this file -->
+</array>
 </dict>
 </plist>
 ```
-{% endtab %}
-
-{% tab title="superservicename" %}
+{% tab title="超级服务名称" %}
 ```bash
 #!/bin/sh
 . /etc/rc.common
 
 StartService(){
-    touch /tmp/superservicestarted
+touch /tmp/superservicestarted
 }
 
 StopService(){
-    rm /tmp/superservicestarted
+rm /tmp/superservicestarted
 }
 
 RestartService(){
-    echo "Restarting"
+echo "Restarting"
 }
 
 RunService "$1"
@@ -251,11 +223,10 @@ RunService "$1"
 ### /etc/rc.common
 
 {% hint style="danger" %}
-**This isn't working in modern MacOS versions**
+**这在现代 MacOS 版本中不起作用**
 {% endhint %}
 
-It's also possible to place here **commands that will be executed at startup.** Example os regular rc.common script:
-
+还可以在这里放置**在启动时执行的命令**。以下是一个常规的 rc.common 脚本示例：
 ```bash
 #
 # Common setup for startup scripts.
@@ -295,16 +266,16 @@ PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/libexec:/System/Library/CoreServices; ex
 #
 CheckForNetwork()
 {
-    local test
+local test
 
-    if [ -z "${NETWORKUP:=}" ]; then
-	test=$(ifconfig -a inet 2>/dev/null | sed -n -e '/127.0.0.1/d' -e '/0.0.0.0/d' -e '/inet/p' | wc -l)
-	if [ "${test}" -gt 0 ]; then
-	    NETWORKUP="-YES-"
-	else
-	    NETWORKUP="-NO-"
-	fi
-    fi
+if [ -z "${NETWORKUP:=}" ]; then
+test=$(ifconfig -a inet 2>/dev/null | sed -n -e '/127.0.0.1/d' -e '/0.0.0.0/d' -e '/inet/p' | wc -l)
+if [ "${test}" -gt 0 ]; then
+NETWORKUP="-YES-"
+else
+NETWORKUP="-NO-"
+fi
+fi
 }
 
 alias ConsoleMessage=echo
@@ -314,25 +285,25 @@ alias ConsoleMessage=echo
 #
 GetPID ()
 {
-    local program="$1"
-    local pidfile="${PIDFILE:=/var/run/${program}.pid}"
-    local     pid=""
+local program="$1"
+local pidfile="${PIDFILE:=/var/run/${program}.pid}"
+local     pid=""
 
-    if [ -f "${pidfile}" ]; then
-	pid=$(head -1 "${pidfile}")
-	if ! kill -0 "${pid}" 2> /dev/null; then
-	    echo "Bad pid file $pidfile; deleting."
-	    pid=""
-	    rm -f "${pidfile}"
-	fi
-    fi
+if [ -f "${pidfile}" ]; then
+pid=$(head -1 "${pidfile}")
+if ! kill -0 "${pid}" 2> /dev/null; then
+echo "Bad pid file $pidfile; deleting."
+pid=""
+rm -f "${pidfile}"
+fi
+fi
 
-    if [ -n "${pid}" ]; then
-	echo "${pid}"
-	return 0
-    else
-	return 1
-    fi
+if [ -n "${pid}" ]; then
+echo "${pid}"
+return 0
+else
+return 1
+fi
 }
 
 #
@@ -340,26 +311,23 @@ GetPID ()
 #
 RunService ()
 {
-    case $1 in
-      start  ) StartService   ;;
-      stop   ) StopService    ;;
-      restart) RestartService ;;
-      *      ) echo "$0: unknown argument: $1";;
-    esac
+case $1 in
+start  ) StartService   ;;
+stop   ) StopService    ;;
+restart) RestartService ;;
+*      ) echo "$0: unknown argument: $1";;
+esac
 }
 ```
+### 配置文件
 
-### Profiles
+配置文件可以强制用户使用特定的浏览器设置、DNS代理设置或VPN设置。还有许多其他的有效载荷可以被滥用。
 
-Configuration profiles can force a user to use certain browser settings, DNS proxy settings, or VPN settings. Many other payloads are possible which make them ripe for abuse.
-
-You can enumerate them running:
-
+您可以运行以下命令来枚举它们：
 ```bash
 ls -Rl /Library/Managed\ Preferences/
 ```
-
-### Other persistence techniques and tools
+### 其他持久化技术和工具
 
 * [https://github.com/cedowens/Persistent-Swift](https://github.com/cedowens/Persistent-Swift)
 * [https://github.com/D00MFist/PersistentJXA](https://github.com/D00MFist/PersistentJXA)
@@ -368,10 +336,10 @@ ls -Rl /Library/Managed\ Preferences/
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* 你在一个**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者你想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**Telegram群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>

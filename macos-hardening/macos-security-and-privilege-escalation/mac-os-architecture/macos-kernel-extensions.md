@@ -1,62 +1,62 @@
-# Extensiones de Kernel de macOS
+# macOS内核扩展
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* ¿Trabajas en una **empresa de ciberseguridad**? ¿Quieres ver tu **empresa anunciada en HackTricks**? ¿O quieres tener acceso a la **última versión de PEASS o descargar HackTricks en PDF**? ¡Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Obtén el [**swag oficial de PEASS y HackTricks**](https://peass.creator-spring.com)
-* **Únete al** [**💬**](https://emojipedia.org/speech-balloon/) **grupo de Discord** o al [**grupo de telegram**](https://t.me/peass) o **sígueme** en **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live).
-* **Comparte tus trucos de hacking enviando PR a** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **y** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* 你在一家**网络安全公司**工作吗？想要在HackTricks上宣传你的**公司**吗？或者想要获得**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们独家的[**The PEASS Family**](https://opensea.io/collection/the-peass-family) NFT收藏品
+* 获得[**PEASS和HackTricks的官方商品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) **Discord群**或[**Telegram群**](https://t.me/peass)，或在**Twitter**上**关注我**[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)。
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **发送PR来分享你的黑客技巧**。
 
 </details>
 
-## Información básica
+## 基本信息
 
-Las extensiones de kernel (Kexts) son **paquetes** con extensión **`.kext`** que se **cargan directamente en el espacio del kernel** de macOS, proporcionando funcionalidades adicionales al sistema operativo principal.
+内核扩展（Kexts）是具有**`.kext`**扩展名的**包**，直接加载到macOS的内核空间中，为主要操作系统提供额外的功能。
 
-### Requisitos
+### 要求
 
-Obviamente, esto es tan poderoso que es complicado cargar una extensión de kernel. Estos son los requisitos que debe cumplir una extensión de kernel para ser cargada:
+显然，加载内核扩展是一项强大的功能。以下是加载内核扩展所需满足的要求：
 
-* Al entrar en **modo de recuperación**, las extensiones de kernel deben estar **permitidas para ser cargadas**:
+* 在**恢复模式**下，内核扩展必须被**允许加载**：
 
 <figure><img src="../../../.gitbook/assets/image (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-* La extensión de kernel debe estar **firmada con un certificado de firma de código de kernel**, que solo puede ser otorgado por **Apple**. Quien revisará en detalle la **empresa** y las **razones** por las que se necesita.
-* La extensión de kernel también debe estar **notarizada**, Apple podrá verificarla en busca de malware.
-* Luego, el **usuario root** es el que puede cargar la extensión de kernel y los archivos dentro del paquete deben pertenecer a root.
-* Durante el proceso de carga, el paquete debe ser preparado en una ubicación protegida sin raíz: `/Library/StagedExtensions` (requiere la concesión `com.apple.rootless.storage.KernelExtensionManagement`)
-* Finalmente, al intentar cargarlo, el [**usuario recibirá una solicitud de confirmación**](https://developer.apple.com/library/archive/technotes/tn2459/\_index.html) y, si se acepta, la computadora debe **reiniciarse** para cargarlo.
+* 内核扩展必须使用**内核代码签名证书进行签名**，该证书只能由**Apple**颁发。Apple将详细审查**公司**和**所需原因**。
+* 内核扩展还必须经过**公证**，Apple可以检查其中是否存在恶意软件。
+* 然后，**root用户**可以加载内核扩展，包中的文件必须属于root用户。
+* 在加载过程中，包必须准备在受保护的非根目录位置：`/Library/StagedExtensions`（需要授予`com.apple.rootless.storage.KernelExtensionManagement`权限）
+* 最后，在尝试加载时，[**用户将收到确认请求**](https://developer.apple.com/library/archive/technotes/tn2459/\_index.html)，如果接受，则需要**重新启动**计算机以加载它。
 
-### Proceso de carga
+### 加载过程
 
-En Catalina era así: Es interesante destacar que el proceso de **verificación** ocurre en **userland**. Sin embargo, solo las aplicaciones con la concesión **`com.apple.private.security.kext-management`** pueden **solicitar al kernel** que **cargue una extensión:** kextcache, kextload, kextutil, kextd, syspolicyd
+在Catalina中是这样的：值得注意的是，**验证**过程发生在**用户空间**中。然而，只有具有**`com.apple.private.security.kext-management`**权限的应用程序才能**请求内核**加载扩展：kextcache、kextload、kextutil、kextd、syspolicyd
 
-1. **`kextutil`** cli **inicia** el proceso de verificación para cargar una extensión
-* Hablará con **`kextd`** enviando usando un servicio Mach
-2. **`kextd`** comprobará varias cosas, como la firma
-* Hablará con **`syspolicyd`** para comprobar si se puede cargar la extensión
-3. **`syspolicyd`** **preguntará** al **usuario** si la extensión no se ha cargado previamente
-* **`syspolicyd`** indicará el resultado a **`kextd`**
-4. **`kextd`** finalmente podrá indicar al **kernel que cargue la extensión**
+1. **`kextutil`**命令行工具**启动**验证过程以加载扩展
+* 通过Mach服务与**`kextd`**通信
+2. **`kextd`**将检查多个事项，如签名
+* 通过**`syspolicyd`**检查是否可以加载扩展
+3. **`syspolicyd`**将向**用户**询问是否之前未加载过该扩展
+* **`syspolicyd`**将结果告知**`kextd`**
+4. **`kextd`**最终可以通知内核加载扩展
 
-Si kextd no está disponible, kextutil puede realizar las mismas comprobaciones.
+如果kextd不可用，kextutil可以执行相同的检查。
 
-## Referencias
+## 参考资料
 
 * [https://www.makeuseof.com/how-to-enable-third-party-kernel-extensions-apple-silicon-mac/](https://www.makeuseof.com/how-to-enable-third-party-kernel-extensions-apple-silicon-mac/)
 * [https://www.youtube.com/watch?v=hGKOskSiaQo](https://www.youtube.com/watch?v=hGKOskSiaQo)
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* ¿Trabajas en una **empresa de ciberseguridad**? ¿Quieres ver tu **empresa anunciada en HackTricks**? ¿O quieres tener acceso a la **última versión de PEASS o descargar HackTricks en PDF**? ¡Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Obtén el [**swag oficial de PEASS y HackTricks**](https://peass.creator-spring.com)
-* **Únete al** [**💬**](https://emojipedia.org/speech-balloon/) **grupo de Discord** o al [**grupo de telegram**](https://t.me/peass) o **sígueme** en **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live).
-* **Comparte tus trucos de hacking enviando PR a** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **y** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* 你在一家**网络安全公司**工作吗？想要在HackTricks上宣传你的**公司**吗？或者想要获得**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们独家的[**The PEASS Family**](https://opensea.io/collection/the-peass-family) NFT收藏品
+* 获得[**PEASS和HackTricks的官方商品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) **Discord群**或[**Telegram群**](https://t.me/peass)，或在**Twitter**上**关注我**[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)。
+* **通过向** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **发送PR来分享你的黑客技巧。**
 
 </details>

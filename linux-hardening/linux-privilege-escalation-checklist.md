@@ -1,14 +1,14 @@
-# Checklist - Linux Privilege Escalation
+# Linux特权升级清单
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).​
+* 你在一家**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者你想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
 
@@ -16,173 +16,172 @@
 
 <figure><img src="../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-**HackenProof is home to all crypto bug bounties.**
+**HackenProof是所有加密货币赏金计划的家园。**
 
-**Get rewarded without delays**\
-HackenProof bounties launch only when their customers deposit the reward budget. You'll get the reward after the bug is verified.
+**即时获得奖励**\
+HackenProof的赏金计划只有在客户存入奖励预算后才会启动。在漏洞验证后，您将获得奖励。
 
-**Get experience in web3 pentesting**\
-Blockchain protocols and smart contracts are the new Internet! Master web3 security at its rising days.
+**在web3渗透测试中积累经验**\
+区块链协议和智能合约是新的互联网！在其崛起之时掌握web3安全。
 
-**Become the web3 hacker legend**\
-Gain reputation points with each verified bug and conquer the top of the weekly leaderboard.
+**成为web3黑客传奇**\
+每次验证的漏洞都会获得声望积分，并占据每周排行榜的榜首。
 
-[**Sign up on HackenProof**](https://hackenproof.com/register) start earning from your hacks!
+[**在HackenProof上注册**](https://hackenproof.com/register)开始从您的黑客行动中获利！
 
 {% embed url="https://hackenproof.com/register" %}
 
-### **Best tool to look for Linux local privilege escalation vectors:** [**LinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS)
+### **寻找Linux本地特权升级向量的最佳工具：** [**LinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS)
 
-### [System Information](privilege-escalation/#system-information)
+### [系统信息](privilege-escalation/#system-information)
 
-* [ ] Get **OS information**
-* [ ] Check the [**PATH**](privilege-escalation/#path), any **writable folder**?
-* [ ] Check [**env variables**](privilege-escalation/#env-info), any sensitive detail?
-* [ ] Search for [**kernel exploits**](privilege-escalation/#kernel-exploits) **using scripts** (DirtyCow?)
-* [ ] **Check** if the [**sudo version** is vulnerable](privilege-escalation/#sudo-version)
-* [ ] [**Dmesg** signature verification failed](privilege-escalation/#dmesg-signature-verification-failed)
-* [ ] More system enum ([date, system stats, cpu info, printers](privilege-escalation/#more-system-enumeration))
-* [ ] [Enumerate more defenses](privilege-escalation/#enumerate-possible-defenses)
+* [ ] 获取**操作系统信息**
+* [ ] 检查[**PATH**](privilege-escalation/#path)，是否有**可写入的文件夹**？
+* [ ] 检查[**环境变量**](privilege-escalation/#env-info)，是否有敏感信息？
+* [ ] 使用脚本搜索[**内核漏洞**](privilege-escalation/#kernel-exploits)（DirtyCow等）
+* [ ] **检查**[**sudo版本**是否存在漏洞](privilege-escalation/#sudo-version)
+* [ ] [**Dmesg**签名验证失败](privilege-escalation/#dmesg-signature-verification-failed)
+* [ ] 更多系统枚举（日期、系统统计、CPU信息、打印机等）（privilege-escalation/#more-system-enumeration）
+* [ ] [枚举更多防御措施](privilege-escalation/#enumerate-possible-defenses)
 
-### [Drives](privilege-escalation/#drives)
+### [驱动器](privilege-escalation/#drives)
 
-* [ ] **List mounted** drives
-* [ ] **Any unmounted drive?**
-* [ ] **Any creds in fstab?**
+* [ ] 列出已挂载的驱动器
+* [ ] 是否有未挂载的驱动器？
+* [ ] fstab中是否有凭据？
 
-### [**Installed Software**](privilege-escalation/#installed-software)
+### [**已安装的软件**](privilege-escalation/#installed-software)
 
-* [ ] **Check for**[ **useful software**](privilege-escalation/#useful-software) **installed**
-* [ ] **Check for** [**vulnerable software**](privilege-escalation/#vulnerable-software-installed) **installed**
+* [ ] 检查是否安装了[**有用的软件**](privilege-escalation/#useful-software)
+* [ ] 检查是否安装了[**存在漏洞的软件**](privilege-escalation/#vulnerable-software-installed)
 
-### [Processes](privilege-escalation/#processes)
+### [进程](privilege-escalation/#processes)
 
-* [ ] Is any **unknown software running**?
-* [ ] Is any software running with **more privileges than it should have**?
-* [ ] Search for **exploits of running processes** (especially the version running).
-* [ ] Can you **modify the binary** of any running process?
-* [ ] **Monitor processes** and check if any interesting process is running frequently.
-* [ ] Can you **read** some interesting **process memory** (where passwords could be saved)?
+* [ ] 是否有运行的**未知软件**？
+* [ ] 是否有以**比应有权限更高的权限**运行的软件？
+* [ ] 搜索正在运行的进程的**漏洞**（特别是正在运行的版本）。
+* [ ] 是否可以**修改**任何正在运行的进程的二进制文件？
+* [ ] **监视进程**，检查是否频繁运行某个有趣的进程。
+* [ ] 是否可以**读取**一些有趣的**进程内存**（可能保存密码的位置）？
 
-### [Scheduled/Cron jobs?](privilege-escalation/#scheduled-jobs)
+### [计划任务/定时任务？](privilege-escalation/#scheduled-jobs)
 
-* [ ] Is the [**PATH** ](privilege-escalation/#cron-path)being modified by some cron and you can **write** in it?
-* [ ] Any [**wildcard** ](privilege-escalation/#cron-using-a-script-with-a-wildcard-wildcard-injection)in a cron job?
-* [ ] Some [**modifiable script** ](privilege-escalation/#cron-script-overwriting-and-symlink)is being **executed** or is inside **modifiable folder**?
-* [ ] Have you detected that some **script** could be or are being [**executed** very **frequently**](privilege-escalation/#frequent-cron-jobs)? (every 1, 2 or 5 minutes)
+* [ ] 是否有某个cron修改了[**PATH** ](privilege-escalation/#cron-path)，并且您可以在其中**写入**？
+* [ ] 定时任务中是否有[**通配符** ](privilege-escalation/#cron-using-a-script-with-a-wildcard-wildcard-injection)？
+* [ ] 是否有正在**执行的可修改脚本**，或者位于**可修改文件夹**中的脚本？
+* [ ] 是否已经发现某个脚本可能正在被[**频繁执行**](privilege-escalation/#frequent-cron-jobs)？（每1、2或5分钟）
 
-### [Services](privilege-escalation/#services)
+### [服务](privilege-escalation/#services)
 
-* [ ] Any **writable .service** file?
-* [ ] Any **writable binary** executed by a **service**?
-* [ ] Any **writable folder in systemd PATH**?
+* [ ] 是否有可写的.service文件？
+* [ ] 是否有由服务执行的可写二进制文件？
+* [ ] systemd PATH中是否有可写文件夹？
+### [定时器](privilege-escalation/#timers)
 
-### [Timers](privilege-escalation/#timers)
+* [ ] 有**可写的定时器**吗？
 
-* [ ] Any **writable timer**?
+### [套接字](privilege-escalation/#sockets)
 
-### [Sockets](privilege-escalation/#sockets)
-
-* [ ] Any **writable .socket** file?
-* [ ] Can you **communicate with any socket**?
-* [ ] **HTTP sockets** with interesting info?
+* [ ] 有**可写的 .socket 文件**吗？
+* [ ] 可以**与任何套接字进行通信**吗？
+* [ ] 有包含有趣信息的**HTTP套接字**吗？
 
 ### [D-Bus](privilege-escalation/#d-bus)
 
-* [ ] Can you **communicate with any D-Bus**?
+* [ ] 可以**与任何D-Bus进行通信**吗？
 
-### [Network](privilege-escalation/#network)
+### [网络](privilege-escalation/#network)
 
-* [ ] Enumerate the network to know where you are
-* [ ] **Open ports you couldn't access before** getting a shell inside the machine?
-* [ ] Can you **sniff traffic** using `tcpdump`?
+* [ ] 枚举网络以了解自己的位置
+* [ ] 在机器内部获取shell之前，是否**打开了以前无法访问的端口**？
+* [ ] 可以使用 `tcpdump` **嗅探流量**吗？
 
-### [Users](privilege-escalation/#users)
+### [用户](privilege-escalation/#users)
 
-* [ ] Generic users/groups **enumeration**
-* [ ] Do you have a **very big UID**? Is the **machine** **vulnerable**?
-* [ ] Can you [**escalate privileges thanks to a group**](privilege-escalation/interesting-groups-linux-pe/) you belong to?
-* [ ] **Clipboard** data?
-* [ ] Password Policy?
-* [ ] Try to **use** every **known password** that you have discovered previously to login **with each** possible **user**. Try to login also without a password.
+* [ ] 通用用户/组**枚举**
+* [ ] 拥有**非常大的UID**吗？机器是否**存在漏洞**？
+* [ ] 可以通过所属的组[**提升权限**](privilege-escalation/interesting-groups-linux-pe/)吗？
+* [ ] **剪贴板**数据？
+* [ ] 密码策略？
+* [ ] 尝试使用之前发现的每个已知密码以**登录每个**可能的**用户**。也尝试不使用密码登录。
 
-### [Writable PATH](privilege-escalation/#writable-path-abuses)
+### [可写的路径](privilege-escalation/#writable-path-abuses)
 
-* [ ] If you have **write privileges over some folder in PATH** you may be able to escalate privileges
+* [ ] 如果对PATH中的某个文件夹具有**写权限**，则可能能够提升权限
 
-### [SUDO and SUID commands](privilege-escalation/#sudo-and-suid)
+### [SUDO和SUID命令](privilege-escalation/#sudo-and-suid)
 
-* [ ] Can you execute **any command with sudo**? Can you use it to READ, WRITE or EXECUTE anything as root? ([**GTFOBins**](https://gtfobins.github.io))
-* [ ] Is any **exploitable SUID binary**? ([**GTFOBins**](https://gtfobins.github.io))
-* [ ] Are [**sudo** commands **limited** by **path**? can you **bypass** the restrictions](privilege-escalation/#sudo-execution-bypassing-paths)?
-* [ ] [**Sudo/SUID binary without path indicated**](privilege-escalation/#sudo-command-suid-binary-without-command-path)?
-* [ ] [**SUID binary specifying path**](privilege-escalation/#suid-binary-with-command-path)? Bypass
-* [ ] [**LD\_PRELOAD vuln**](privilege-escalation/#ld\_preload)
-* [ ] [**Lack of .so library in SUID binary**](privilege-escalation/#suid-binary-so-injection) from a writable folder?
-* [ ] [**SUDO tokens available**](privilege-escalation/#reusing-sudo-tokens)? [**Can you create a SUDO token**](privilege-escalation/#var-run-sudo-ts-less-than-username-greater-than)?
-* [ ] Can you [**read or modify sudoers files**](privilege-escalation/#etc-sudoers-etc-sudoers-d)?
-* [ ] Can you [**modify /etc/ld.so.conf.d/**](privilege-escalation/#etc-ld-so-conf-d)?
-* [ ] [**OpenBSD DOAS**](privilege-escalation/#doas) command
+* [ ] 可以使用sudo执行**任何命令**吗？可以用它作为root用户**读取、写入或执行任何内容**吗？([**GTFOBins**](https://gtfobins.github.io))
+* [ ] 是否存在**可利用的SUID二进制文件**？([**GTFOBins**](https://gtfobins.github.io))
+* [ ] [**sudo命令是否受到路径限制**？可以**绕过**这些限制吗](privilege-escalation/#sudo-execution-bypassing-paths)?
+* [ ] [**没有指定命令路径的SUID二进制文件**](privilege-escalation/#sudo-command-suid-binary-without-command-path)?
+* [ ] [**指定路径的SUID二进制文件**](privilege-escalation/#suid-binary-with-command-path)? 绕过
+* [ ] [**LD\_PRELOAD漏洞**](privilege-escalation/#ld\_preload)
+* [ ] [**SUID二进制文件中缺少.so库**](privilege-escalation/#suid-binary-so-injection)来自可写文件夹？
+* [ ] [**可用的SUDO令牌**](privilege-escalation/#reusing-sudo-tokens)? [**可以创建SUDO令牌**](privilege-escalation/#var-run-sudo-ts-less-than-username-greater-than)吗？
+* [ ] 可以[**读取或修改sudoers文件**](privilege-escalation/#etc-sudoers-etc-sudoers-d)吗？
+* [ ] 可以[**修改/etc/ld.so.conf.d/**](privilege-escalation/#etc-ld-so-conf-d)吗？
+* [ ] [**OpenBSD DOAS**](privilege-escalation/#doas)命令
 
-### [Capabilities](privilege-escalation/#capabilities)
+### [权限](privilege-escalation/#capabilities)
 
-* [ ] Has any binary any **unexpected capability**?
+* [ ] 任何二进制文件具有**意外的权限**吗？
 
 ### [ACLs](privilege-escalation/#acls)
 
-* [ ] Has any file any **unexpected ACL**?
+* [ ] 任何文件具有**意外的ACL**吗？
 
-### [Open Shell sessions](privilege-escalation/#open-shell-sessions)
+### [打开的Shell会话](privilege-escalation/#open-shell-sessions)
 
 * [ ] **screen**
 * [ ] **tmux**
 
 ### [SSH](privilege-escalation/#ssh)
 
-* [ ] **Debian** [**OpenSSL Predictable PRNG - CVE-2008-0166**](privilege-escalation/#debian-openssl-predictable-prng-cve-2008-0166)
-* [ ] [**SSH Interesting configuration values**](privilege-escalation/#ssh-interesting-configuration-values)
+* [ ] **Debian** [**OpenSSL可预测PRNG - CVE-2008-0166**](privilege-escalation/#debian-openssl-predictable-prng-cve-2008-0166)
+* [ ] [**SSH有趣的配置值**](privilege-escalation/#ssh-interesting-configuration-values)
 
-### [Interesting Files](privilege-escalation/#interesting-files)
+### [有趣的文件](privilege-escalation/#interesting-files)
 
-* [ ] **Profile files** - Read sensitive data? Write to privesc?
-* [ ] **passwd/shadow files** - Read sensitive data? Write to privesc?
-* [ ] **Check commonly interesting folders** for sensitive data
-* [ ] **Weird Location/Owned files,** you may have access to or alter executable files
-* [ ] **Modified** in last mins
-* [ ] **Sqlite DB files**
-* [ ] **Hidden files**
-* [ ] **Script/Binaries in PATH**
-* [ ] **Web files** (passwords?)
-* [ ] **Backups**?
-* [ ] **Known files that contains passwords**: Use **Linpeas** and **LaZagne**
-* [ ] **Generic search**
+* [ ] **配置文件** - 读取敏感数据？写入提权？
+* [ ] **passwd/shadow文件** - 读取敏感数据？写入提权？
+* [ ] 检查常见的有趣文件夹是否存在敏感数据
+* [ ] **奇怪的位置/拥有的文件**，您可能可以访问或更改可执行文件
+* [ ] **最近几分钟内修改**
+* [ ] **Sqlite数据库文件**
+* [ ] **隐藏文件**
+* [ ] **路径中的脚本/二进制文件**
+* [ ] **Web文件**（密码？）
+* [ ] **备份**？
+* [ ] **已知包含密码的文件**：使用**Linpeas**和**LaZagne**
+* [ ] **通用搜索**
 
-### [**Writable Files**](privilege-escalation/#writable-files)
+### [**可写文件**](privilege-escalation/#writable-files)
 
-* [ ] **Modify python library** to execute arbitrary commands?
-* [ ] Can you **modify log files**? **Logtotten** exploit
-* [ ] Can you **modify /etc/sysconfig/network-scripts/**? Centos/Redhat exploit
-* [ ] Can you [**write in ini, int.d, systemd or rc.d files**](privilege-escalation/#init-init-d-systemd-and-rc-d)?
+* [ ] **修改python库**以执行任意命令？
+* [ ] 可以**修改日志文件**吗？**Logtotten**漏洞利用
+* [ ] 可以**修改/etc/sysconfig/network-scripts/**吗？Centos/Redhat漏洞利用
+* [ ] 可以在**ini、int.d、systemd或rc.d文件中写入**吗？
 
-### [**Other tricks**](privilege-escalation/#other-tricks)
+### [**其他技巧**](privilege-escalation/#other-tricks)
 
-* [ ] Can you [**abuse NFS to escalate privileges**](privilege-escalation/#nfs-privilege-escalation)?
-* [ ] Do you need to [**escape from a restrictive shell**](privilege-escalation/#escaping-from-restricted-shells)?
+* [ ] 可以使用NFS进行提权吗？[**滥用NFS以提升权限**](privilege-escalation/#nfs-privilege-escalation)？
+* [ ] 需要从限制性shell中**逃脱**吗？[**逃脱限制性shell**](privilege-escalation/#escaping-from-restricted-shells)？
 
 <figure><img src="../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-**HackenProof is home to all crypto bug bounties.**
+**HackenProof是所有加密漏洞赏金的家园。**
 
-**Get rewarded without delays**\
-HackenProof bounties launch only when their customers deposit the reward budget. You'll get the reward after the bug is verified.
+**即时获得奖励**\
+HackenProof的赏金只有在客户存入奖励预算后才会启动。在漏洞经过验证后，您将获得奖励。
 
-**Get experience in web3 pentesting**\
-Blockchain protocols and smart contracts are the new Internet! Master web3 security at its rising days.
+**在web3渗透测试中积累经验**\
+区块链协议和智能合约是新的互联网！掌握web3安全的崛起之日。
 
-**Become the web3 hacker legend**\
-Gain reputation points with each verified bug and conquer the top of the weekly leaderboard.
+**成为web3黑客传奇**\
+每次验证的漏洞都会获得声誉积分，并占据每周排行榜的榜首。
 
-[**Sign up on HackenProof**](https://hackenproof.com/register) start earning from your hacks!
+[**在HackenProof上注册**](https://hackenproof.com/register)开始从您的黑客行动中获利！
 
 {% embed url="https://hackenproof.com/register" %}
 
@@ -190,10 +189,10 @@ Gain reputation points with each verified bug and conquer the top of the weekly 
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* 您在**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[NFT收藏品](https://opensea.io/collection/the-peass-family)——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入** [💬](https://emojipedia.org/speech-balloon/) [Discord 群组](https://discord.gg/hRep4RUj7f) 或 [Telegram 群组](https://t.me/peass) 或 **关注**我的 **Twitter** [🐦](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[@carlospolopm](https://twitter.com/hacktricks\_live)**。**
+* **通过向** [hacktricks 仓库](https://github.com/carlospolop/hacktricks) **和** [hacktricks-cloud 仓库](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享你的黑客技巧。**
 
 </details>

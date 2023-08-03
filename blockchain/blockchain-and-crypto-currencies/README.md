@@ -1,293 +1,284 @@
-
-
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- 发现我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
 
 </details>
 
 
-# Basic Terminology
+# 基本术语
 
-* **Smart contract**: Smart contracts are simply **programs stored on a blockchain that run when predetermined conditions are met**. They typically are used to automate the **execution** of an **agreement** so that all participants can be immediately certain of the outcome, without any intermediary’s involvement or time loss. (From [here](https://www.ibm.com/topics/smart-contracts)).
-  * Basically, a smart contract is a **piece of code** that is going to be executed when people access and accept the contract. Smart contracts **run in blockchains** (so the results are stored inmutable) and can be read by the people before accepting them.
-* **dApps**: **Decentralised applications** are implemented on top of **smart** **contracts**. They usually have a front-end where the user can interact with the app, the **back-end** is public (so it can be audited) and is implemented as a **smart contract**. Sometimes the use of a database is needed, Ethereum blockchain allocates certain storage to each account.
-* **Tokens & coins**: A **coin** is a cryptocurrency that act as **digital** **money** and a **token** is something that **represents** some **value** but it's not a coin.
-  * **Utility Tokens**: These tokens allow the user to **access certain service later** (it's something that have some value in a specific environment).
-  * **Security Tokens**: These represents the **ownership** or some asset.
-* **DeFi**: **Decentralized Finance**.
-* **DEX: Decentralized Exchange Platforms**.
-* **DAOs**: **Decentralized Autonomous Organizations**.
+* **智能合约**：智能合约只是存储在区块链上的程序，当满足预定条件时运行。它们通常用于自动执行协议，以便所有参与者可以立即确定结果，无需任何中介的参与或时间损失。（来自[这里](https://www.ibm.com/topics/smart-contracts)）
+* 基本上，智能合约是一段代码，当人们访问并接受合约时将被执行。智能合约在区块链上运行（因此结果是不可变的），人们在接受之前可以阅读它们。
+* **dApps**：分布式应用程序是在智能合约之上实现的。它们通常有一个前端，用户可以与应用程序交互，后端是公开的（因此可以进行审计），并且作为智能合约实现。有时需要使用数据库，以太坊区块链为每个帐户分配一定的存储空间。
+* **代币和币**：**币**是一种作为**数字货币**的加密货币，而**代币**是代表某种价值但不是货币的东西。
+* **实用代币**：这些代币允许用户**以后访问某些服务**（在特定环境中具有一定价值的东西）。
+* **安全代币**：这些代表**所有权**或某种资产。
+* **DeFi**：去中心化金融。
+* **DEX：去中心化交易平台**。
+* **DAO**：去中心化自治组织。
 
-# Consensus Mechanisms
+# 共识机制
 
-For a blockchain transaction to be recognized, it must be **appended** to the **blockchain**. Validators (miners) carry out this appending; in most protocols, they **receive a reward** for doing so. For the blockchain to remain secure, it must have a mechanism to **prevent a malicious user or group from taking over a majority of validation**.
+要使区块链交易得到认可，必须将其**附加**到区块链上。验证者（矿工）执行此附加操作；在大多数协议中，他们会因此获得**奖励**。为了保证区块链的安全性，必须有一种机制来**防止恶意用户或组织接管大多数验证**。
 
-Proof of work, another commonly used consensus mechanism, uses a validation of computational prowess to verify transactions, requiring a potential attacker to acquire a large fraction of the computational power of the validator network.
+工作量证明（PoW）是另一种常用的共识机制，它使用计算能力的验证来验证交易，要求潜在攻击者获取验证者网络的大部分计算能力。
 
-## Proof Of Work (PoW)
+## 工作量证明（PoW）
 
-This uses a **validation of computational prowess** to verify transactions, requiring a potential attacker to acquire a large fraction of the computational power of the validator network.\
-The **miners** will **select several transactions** and then start **computing the Proof Of Work**. The **miner with the greatest computation resources** is more probably to **finish** **earlier** the Proof of Work and get the fees of all the transactions.
+这种机制使用**计算能力的验证**来验证交易，要求潜在攻击者获取验证者网络的大部分计算能力。\
+**矿工**将**选择几个交易**，然后开始**计算工作量证明**。**计算资源最多的矿工**更有可能**更早地完成**工作量证明并获得所有交易的费用。
 
-## Proof Of Stake (PoS)
+## 权益证明（PoS）
 
-PoS accomplishes this by **requiring that validators have some quantity of blockchain tokens**, requiring **potential attackers to acquire a large fraction of the tokens** on the blockchain to mount an attack.\
-In this kind of consensus, the more tokens a miner has, the more probably it will be that the miner will be asked to create the next block.\
-Compared with PoW, this greatly **reduced the energy consumption** the miners are expending.
+PoS通过要求验证者拥有一定数量的区块链代币来实现这一点，要求潜在攻击者获取区块链上的大部分代币才能发动攻击。\
+在这种共识机制中，矿工拥有的代币越多，越有可能被要求创建下一个区块。\
+与PoW相比，这大大**减少了矿工的能源消耗**。
 
-# Bitcoin
+# 比特币
 
-## Transactions
+## 交易
 
-A simple **transaction** is a **movement of money** from an address to another one.\
-An **address** in bitcoin is the hash of the **public** **key**, therefore, someone in order to make a transaction from an address he needs to know the private key associated to that public key (the address).\
-Then, when a **transaction** is performed, it's **signed** with the private key of the address to show that the transaction is **legit**.
+简单的**交易**是从一个地址向另一个地址的**资金转移**。\
+比特币中的**地址**是**公钥的哈希值**，因此，为了从地址进行交易，某人需要知道与该公钥（地址）相关联的私钥。\
+然后，当执行**交易**时，它会使用地址的私钥进行**签名**，以显示交易的合法性。
 
-The first part of producing a digital signature in Bitcoin can be represented mathematically in the following way:\
+在比特币中，生成数字签名的第一部分可以用以下方式表示数学上：\
 _**Sig**_ = _**Fsig**_(_**Fhash**_(_**m**_),_**dA**_)
 
-Where:
+其中：
 
-* \_d\_A is the signing **private key**
-* _m_ is the **transaction**
-* Fhash is the hashing function
-* Fsig is the signing algorithm
-* Sig is the resulting signature
+* _d_A是签名的**私钥**
+* _m_是**交易**
+* Fhash是哈希函数
+* Fsig是签名算法
+* Sig是生成的签名
 
-The signing function (Fsig) produces a signature (Sig) that comprises of two values: R and S:
+签名函数（Fsig）生成一个由R和S组成的签名（Sig）：
 
 * Sig = (R, S)
 
-Once R and S have been calculated, they are serialized into a byte stream that is encoded using an international standard encoding scheme that is known as the Distinguished Encoding Rules (or DER). In order to verify that the signature is valid, a signature verification algorithm is used. Verification of a digital signature requires the following:
+计算出R和S后，它们被序列化为字节流，并使用称为Distinguished Encoding Rules（DER）的国际标准编码方案进行编码。为了验证签名的有效性，使用签名验证算法。验证数字签名需要以下内容：
 
-* Signature (R and S)
-* Transaction hash
-* The public key that corresponds to the private key that was used to create the signature
+* 签名（R和S）
+* 交易哈希
+* 与用于创建签名的私钥对应的公钥
 
-Verification of a signature effectively means that only the owner of the private key (that generated the public key) could have produced the signature on the transaction. The signature verification algorithm will return ‘TRUE’ if the signature is indeed valid.
+验证签名实际上意味着只有私钥的所有者（生成公钥的私钥）才能在交易上产生签名。如果签名确实有效，签名验证算法将返回“TRUE”。
+### 多重签名交易
 
-### Multisignature Transactions
+多重签名地址是与多个ECDSA私钥关联的地址。最简单的类型是m-of-n地址 - 它与n个私钥关联，并且从该地址发送比特币需要至少m个密钥的签名。多重签名交易是从多重签名地址发送资金的交易。
 
-A multi-signature **address** is an address that is associated with more than one ECDSA private key. The simplest type is an m-of-n address - it is associated with n private keys, and sending bitcoins from this address requires signatures from at least m keys. A multi-signature **transaction** is one that sends funds from a multi-signature address.
+### 交易字段
 
-### Transactions Fields
+每个比特币交易都有几个字段：
 
-Each bitcoin transaction has several fields:
+* 输入：转移比特币的金额和地址
+* 输出：转移到每个输出的地址和金额
+* 费用：支付给交易矿工的金额
+* Script_sig：交易的脚本签名
+* Script_type：交易类型
 
-* **Inputs**: The amount and address **from** where **bitcoins** are **being** transferred
-* **Outputs**: The address and amounts that each **transferred** to **each** **output**
-* **Fee:** The amount of **money** that is **payed** to the **miner** of the transaction
-* **Script\_sig**: Script signature of the transaction
-* **Script\_type**: Type of transaction
+有两种主要类型的交易：
 
-There are **2 main types** of transactions:
+* P2PKH：“支付到公钥哈希”：这是交易的方式。您要求发送方提供有效的签名（来自私钥）和公钥。交易输出脚本将使用签名和公钥，并通过一些加密函数检查它是否与公钥哈希匹配，如果匹配，则资金将可支配。此方法通过哈希的形式隐藏了您的公钥，以提供额外的安全性。
+* P2SH：“支付到脚本哈希”：交易的输出只是脚本（这意味着想要这笔钱的人发送一个脚本），如果使用特定参数执行，则结果为true或false的脚本。如果矿工使用提供的参数运行输出脚本，并且结果为true，则资金将发送到您想要的输出。P2SH用于多重签名钱包，使输出脚本成为在接受交易之前检查多个签名的逻辑。P2SH还可以用于允许任何人或没有人花费资金。如果P2SH交易的输出脚本只是true的`1`，那么在不提供参数的情况下尝试花费输出将只导致`1`，使尝试的任何人都可以花费资金。这也适用于返回`0`的脚本，使输出无法花费。
 
-* **P2PKH: "Pay To Public Key Hash"**: This is how transactions are made. You are requiring the **sender** to supply a valid **signature** (from the private key) and **public** **key**. The transaction output script will use the signature and public key and through some cryptographic functions will check **if it matches** with the public key hash, if it does, then the **funds** will be **spendable**. This method conceals your public key in the form of a hash for extra security.
-* **P2SH: "Pay To Script Hash":** The outputs of a transaction are just **scripts** (this means the person how want this money send a script) that, if are **executed with specific parameters, will result in a boolean of `true` or `false`**. If a miner runs the output script with the supplied parameters and results in `true`, the **money will be sent to your desired output**. `P2SH` is used for **multi-signature** wallets making the output scripts **logic that checks for multiple signatures before accepting the transaction**. `P2SH` can also be used to allow anyone, or no one, to spend the funds. If the output script of a P2SH transaction is just `1` for true, then attempting to spend the output without supplying parameters will just result in `1` making the money spendable by anyone who tries. This also applies to scripts that return `0`, making the output spendable by no one.
+## 闪电网络
 
-## Lightning Network
+该协议有助于在通道上执行多个交易，并仅将最终状态发送到区块链以保存。
 
-This protocol helps to **perform several transactions to a channe**l and **just** **sent** the **final** **state** to the blockchain to save it.\
-This **improves** bitcoin blockchain **speed** (it just on allow 7 payments per second) and it allows to create **transactions more difficult to trace** as the channel is created via nodes of the bitcoin blockchain:
+这提高了比特币区块链的速度（每秒只允许7笔付款），并且允许创建更难以追踪的交易，因为通道是通过比特币区块链的节点创建的：
 
 ![](<../../.gitbook/assets/image (611).png>)
 
-Normal use of the Lightning Network consists of **opening a payment channel** by committing a funding transaction to the relevant base blockchain (layer 1), followed by making **any number** of Lightning Network **transactions** that update the tentative distribution of the channel's funds **without broadcasting those to the blockchain**, optionally followed by closing the payment channel by **broadcasting** the **final** **version** of the settlement transaction to distribute the channel's funds.
+闪电网络的正常使用包括通过提交资金交易到相关的基础区块链（第一层）来打开支付通道，然后进行任意数量的闪电网络交易，更新通道资金的临时分配，而无需将其广播到区块链，最后通过广播结算交易的最终版本来关闭支付通道，以分配通道资金。
 
-Note that any of the both members of the channel can stop and send the final state of the channel to the blockchain at any time.
+请注意，通道的任何一方都可以随时停止并将通道的最终状态发送到区块链。
 
-# Bitcoin Privacy Attacks
+# 比特币隐私攻击
 
-## Common Input
+## 共同输入
 
-Theoretically the inputs of one transaction can belong to different users, but in reality that is unusual as it requires extra steps. Therefore, very often it can be assumed that **2 input addresses in the same transaction belongs to the same owner**.
+理论上，一个交易的输入可以属于不同的用户，但实际上这是不常见的，因为它需要额外的步骤。因此，很多时候可以假设同一笔交易中的2个输入地址属于同一所有者。
 
-## UTXO Change Address Detection
+## UTXO更改地址检测
 
-**UTXO** means **Unspent Transaction Outputs** (UTXOs). In a transaction that uses the output from a previous transaction as an input, the **whole output need to be spent** (to avoid double-spend attacks). Therefore, if the intention was to **send** just **part** of the money from that output to an address and **keep** the **other** **part**, **2 different outputs** will appear: the **intended** one and a **random new change address** where the rest of the money will be saved.
+UTXO表示未使用的交易输出（UTXO）。在使用来自先前交易的输出作为输入的交易中，整个输出需要被花费（以避免双重支付攻击）。因此，如果意图只是从该输出中发送部分资金到一个地址并保留其他部分，则会出现2个不同的输出：预期的输出和一个随机的新更改地址，其中剩余的资金将被保存。
 
-Then, a watcher can make the assumption that **the new change address generated belong to the owner of the UTXO**.
+然后，观察者可以假设新生成的更改地址属于UTXO的所有者。
 
-## Social Networks & Forums
+## 社交网络和论坛
 
-Some people gives data about theirs bitcoin addresses in different webs on Internet. **This make pretty easy to identify the owner of an address**.
+有些人在互联网上的不同网站上提供了有关他们比特币地址的数据。这使得很容易识别地址的所有者。
 
-## Transaction Graphs
+## 交易图
 
-By representing the transactions in graphs, i**t's possible to know with certain probability to where the money of an account were**. Therefore, it's possible to know something about **users** that are **related** in the blockchain.
+通过以图形方式表示交易，可以以一定的概率知道账户的资金去向。因此，可以了解与区块链中相关的用户的一些信息。
 
-## **Unnecessary input heuristic**
+## 不必要的输入启发式
 
-Also called the "optimal change heuristic". Consider this bitcoin transaction. It has two inputs worth 2 BTC and 3 BTC and two outputs worth 4 BTC and 1 BTC.
-
+也称为“最佳更改启发式”。考虑这个比特币交易。它有两个价值为2 BTC和3 BTC的输入，以及两个价值为4 BTC和1 BTC的输出。
 ```
 2 btc --> 4 btc
 3 btc     1 btc
 ```
+假设其中一个输出是找零，另一个输出是支付金额。有两种解释：支付输出可以是4 BTC输出或1 BTC输出。但是，如果1 BTC输出是支付金额，那么3 BTC输入是不必要的，因为钱包可以只花费2 BTC输入，并支付更低的矿工费用。这表明真正的支付输出是4 BTC，而1 BTC是找零输出。
 
-Assuming one of the outputs is change and the other output is the payment. There are two interpretations: the payment output is either the 4 BTC output or the 1 BTC output. But if the 1 BTC output is the payment amount then the 3 BTC input is unnecessary, as the wallet could have spent only the 2 BTC input and paid lower miner fees for doing so. This is an indication that the real payment output is 4 BTC and that 1 BTC is the change output.
-
-This is an issue for transactions which have more than one input. One way to fix this leak is to add more inputs until the change output is higher than any input, for example:
-
+对于具有多个输入的交易，这是一个问题。修复此泄漏的一种方法是添加更多的输入，直到找零输出高于任何输入，例如：
 ```
 2 btc --> 4 btc
 3 btc     6 btc
 5 btc
 ```
+## 强制地址重用
 
-## Forced address reuse
+**强制地址重用**或**激励地址重用**是指对已在区块链上使用过的地址支付（通常是小额）比特币的对手。对手希望用户或其钱包软件将这些支付作为更大交易的输入，通过**共同输入所有权**启发式方法来揭示其他地址。这些支付可以被理解为迫使地址所有者无意中重用地址的一种方式。
 
-**Forced address reuse** or **incentivized address reuse** is when an adversary pays an (often small) amount of bitcoin to addresses that have already been used on the block chain. The adversary hopes that users or their wallet software **will use the payments as inputs to a larger transaction which will reveal other addresses via the the common-input-ownership** heuristic. These payments can be understood as a way to coerce the address owner into unintentional address reuse.
+有时这种攻击被错误地称为**尘埃攻击**。
 
-This attack is sometimes incorrectly called a **dust attack**.
+钱包的正确行为是不花费已经落在已使用的空地址上的比特币。
 
-The correct behaviour by wallets is to not spend coins that have landed on an already-used empty addresses.
+## 其他区块链分析
 
-## Other Blockchain Analysis
+* **确切的支付金额**：为了避免带有找零的交易，支付金额需要等于未使用交易输出（这是非常不寻常的）。因此，**没有找零地址的交易可能是同一用户之间的转账**。
+* **整数金额**：在交易中，如果其中一个输出是一个“**整数金额**”，那么很有可能这是一个**支付给人类的，他们设定了这个“整数金额”作为价格**，所以另一部分必须是剩余的。
+* **钱包指纹识别**：仔细的分析师有时可以推断出哪个软件创建了某个交易，因为**不同的钱包软件并不总是以完全相同的方式创建交易**。钱包指纹识别可以用于检测找零输出，因为找零输出是使用相同钱包指纹花费的输出。
+* **金额和时间的相关性**：如果执行交易的人**公开**了交易的**时间**和/或**金额**，那么这些信息很容易被**发现**。
 
-* **Exact Payment Amounts**: In order to avoid transactions with a change, the payment needs to be equal to the UTXO (which is highly unexpected). Therefore, a **transaction with no change address are probably transfer between 2 addresses of the same user**.
-* **Round Numbers**: In a transaction, if one of the outputs is a "**round number**", it's highly probable that this is a **payment to a human that put that** "round number" **price**, so the other part must be the leftover.
-* **Wallet fingerprinting:** A careful analyst sometimes deduce which software created a certain transaction, because the many **different wallet softwares don't always create transactions in exactly the same way**. Wallet fingerprinting can be used to detect change outputs because a change output is the one spent with the same wallet fingerprint.
-* **Amount & Timing correlations**: If the person that performed the transaction **discloses** the **time** and/or **amount** of the transaction, it can be easily **discoverable**.
+## 流量分析
 
-## Traffic analysis
+一些组织**嗅探您的流量**可以看到您在比特币网络中的通信。\
+如果对手看到一个**从您的节点发出的交易或区块，而该交易或区块之前没有进入**，那么它几乎可以确定**该交易是由您进行的或该区块是由您挖掘的**。由于涉及到互联网连接，对手将能够**将IP地址与发现的比特币信息关联起来**。
 
-Some organisation **sniffing your traffic** can see you communicating in the bitcoin network.\
-If the adversary sees a transaction or block **coming out of your node which did not previously enter**, then it can know with near-certainty that **the transaction was made by you or the block was mined by you**. As internet connections are involved, the adversary will be able to **link the IP address with the discovered bitcoin information**.
+一个无法嗅探所有互联网流量但拥有**大量比特币节点**以便**更接近**源的攻击者可能能够知道宣布交易或区块的IP地址。\
+此外，一些钱包定期重新广播其未确认的交易，以便更有可能通过网络广泛传播并被挖掘。
 
-An attacker that isn't able to sniff all the Internet traffic but that has **a lot of Bitcoin nodes** in order to stay **closer** to the s**o**urces could be able to know the IP address that are announcing transactions or blocks.\
-Also, some wallets periodically rebroadcast their unconfirmed transactions so that they are more likely to propagate widely through the network and be mined.
+## 其他获取地址所有者信息的攻击
 
-## Other attacks to find info about the owner of addresses
+有关更多攻击，请阅读[https://en.bitcoin.it/wiki/Privacy](https://en.bitcoin.it/wiki/Privacy)
 
-For more attacks read [https://en.bitcoin.it/wiki/Privacy](https://en.bitcoin.it/wiki/Privacy)
+# 匿名比特币
 
-# Anonymous Bitcoins
+## 匿名获取比特币
 
-## Obtaining Bitcoins Anonymously
+* **现金交易**：使用现金购买比特币。
+* **现金替代品**：购买礼品卡或类似物，并在网上兑换成比特币。
+* **挖矿**：挖矿是获取比特币最匿名的方式。这适用于独立挖矿，因为[挖矿池](https://en.bitcoin.it/wiki/Pooled\_mining)通常知道哈希者的IP地址。
+* **窃取**：理论上，获取匿名比特币的另一种方式是窃取它们。
 
-* **Cash trades:** Buy bitcoin using cash.
-* **Cash substitute:** Buy gift cards or similar and exchange them for bitcoin online.
-* **Mining:** Mining is the most anonymous way to obtain bitcoin. This applies to solo-mining as [mining pools](https://en.bitcoin.it/wiki/Pooled\_mining) generally know the hasher's IP address.
-* **Stealing:** In theory another way of obtaining anonymous bitcoin is to steal them.
+## 混币服务
 
-## Mixers
+用户将比特币**发送到混币服务**，服务会**以不同的比特币发送回用户**，扣除一定的费用。理论上，观察区块链的对手将**无法将**进入和离开的交易**关联起来**。
 
-A user would **send bitcoins to a mixing service** and the service would **send different bitcoins back to the user**, minus a fee. In theory an adversary observing the blockchain would be **unable to link** the incoming and outgoing transactions.
-
-However, the user needs to trust the mixing service to return the bitcoin and also to not be saving logs about the relations between the money received and sent.\
-Some other services can be also used as mixers, like Bitcoin casinos where you can send bitcoins and retrieve them later.
+然而，用户需要信任混币服务将比特币退还，并且不会保存有关接收和发送资金之间关系的日志。\
+还可以使用其他服务作为混币服务，例如比特币赌场，您可以在其中发送比特币并稍后取回。
 
 ## CoinJoin
 
-**CoinJoin** will **mix several transactions of different users into just one** in order to make more **difficult** for an observer to find out **which input is related to which output**.\
-This offers a new level of privacy, however, **some** **transactions** where some input and output amounts are correlated or are very different from the rest of the inputs and outputs **can still be correlated** by the external observer.
+**CoinJoin**将不同用户的多个交易**混合成一个交易**，以使观察者更难找出**哪个输入与哪个输出相关**。\
+这提供了更高级别的隐私，然而，**某些交易**，其中某些输入和输出金额相关或与其他输入和输出非常不同，**仍然可以被外部观察者关联起来**。
 
-Examples of (likely) CoinJoin transactions IDs on bitcoin's blockchain are `402d3e1df685d1fdf82f36b220079c1bf44db227df2d676625ebcbee3f6cb22a` and `85378815f6ee170aa8c26694ee2df42b99cff7fa9357f073c1192fff1f540238`.
+比特币区块链上（可能）的CoinJoin交易ID示例是`402d3e1df685d1fdf82f36b220079c1bf44db227df2d676625ebcbee3f6cb22a`和`85378815f6ee170aa8c26694ee2df42b99cff7fa9357f073c1192fff1f540238`。
 
 [**https://coinjoin.io/en**](https://coinjoin.io/en)\
-**Similar to coinjoin but better and for ethereum you have** [**Tornado Cash**](https://tornado.cash) **(the money is given from miners, so it jus appear in your waller).**
+**类似于CoinJoin但更好，并且对于以太坊，您可以使用**[**Tornado Cash**](https://tornado.cash)**（资金来自矿工，所以它只会出现在您的钱包中）。**
 
 ## PayJoin
 
-The type of CoinJoin discussed in the previous section can be easily identified as such by checking for the multiple outputs with the same value.
+在前一节中讨论的CoinJoin类型可以通过检查具有相同值的多个输出来轻松识别。
 
-PayJoin (also called pay-to-end-point or P2EP) is a special type of CoinJoin between two parties where one party pays the other. The transaction then **doesn't have the distinctive multiple outputs** with the same value, and so is not obviously visible as an equal-output CoinJoin. Consider this transaction:
-
+PayJoin（也称为支付到终点或P2EP）是两个参与方之间的一种特殊类型的CoinJoin，其中一方支付另一方。因此，该交易**没有具有相同值的多个输出**，因此不会明显显示为相等输出的CoinJoin。考虑以下交易：
 ```
 2 btc --> 3 btc
 5 btc     4 btc
 ```
+这可以被解释为一个简单的交易，支付到某个地方并留下零钱（暂时忽略哪个输出是支付，哪个是零钱的问题）。另一种解释这个交易的方式是，2 BTC的输入是商家拥有的，5 BTC是他们的客户拥有的，这个交易涉及客户向商家支付1 BTC。无法确定这两种解释中哪一种是正确的。结果是一个混币交易，打破了常见的输入所有权启发式，并提高了隐私性，但也是**无法检测和与任何常规比特币交易区分开来**。
 
-It could be interpreted as a simple transaction paying to somewhere with leftover change (ignore for now the question of which output is payment and which is change). Another way to interpret this transaction is that the 2 BTC input is owned by a merchant and 5 BTC is owned by their customer, and that this transaction involves the customer paying 1 BTC to the merchant. There is no way to tell which of these two interpretations is correct. The result is a coinjoin transaction that breaks the common-input-ownership heuristic and improves privacy, but is also **undetectable and indistinguishable from any regular bitcoin transaction**.
+如果支付联合交易变得稍微常用，那么在实践中，**常见的输入所有权启发式将完全失效**。由于无法检测，我们甚至不知道它们是否正在使用。由于交易监视公司主要依赖于这种启发式，因此在2019年，对支付联合理念非常兴奋。
 
-If PayJoin transactions became even moderately used then it would make the **common-input-ownership heuristic be completely flawed in practice**. As they are undetectable we wouldn't even know whether they are being used today. As transaction surveillance companies mostly depend on that heuristic, as of 2019 there is great excitement about the PayJoin idea.
+# 比特币隐私良好实践
 
-# Bitcoin Privacy Good Practices
+## 钱包同步
 
-## Wallet Synchronization
+比特币钱包必须以某种方式获取有关其余额和历史记录的信息。截至2018年末，最实用和私密的现有解决方案是使用**完整节点钱包**（最大程度上保护隐私）和**客户端侧面块过滤**（非常好）。
 
-Bitcoin wallets must somehow obtain information about their balance and history. As of late-2018 the most practical and private existing solutions are to use a **full node wallet** (which is maximally private) and **client-side block filtering** (which is very good).
-
-* **Full node:** Full nodes download the entire blockchain which contains every on-chain [transaction](https://en.bitcoin.it/wiki/Transaction) that has ever happened in bitcoin. So an adversary watching the user's internet connection will not be able to learn which transactions or addresses the user is interested in.
-* **Client-side block filtering:** Client-side block filtering works by having **filters** created that contains all the **addresses** for every transaction in a block. The filters can test whether an **element is in the set**; false positives are possible but not false negatives. A lightweight wallet would **download** all the filters for every **block** in the **blockchain** and check for matches with its **own** **addresses**. Blocks which contain matches would be downloaded in full from the peer-to-peer network, and those blocks would be used to obtain the wallet's history and current balance.
+* **完整节点：**完整节点下载包含比特币上发生的每个区块链上的[交易](https://en.bitcoin.it/wiki/Transaction)的整个区块链。因此，观察用户的互联网连接的对手将无法了解用户感兴趣的交易或地址。
+* **客户端侧面块过滤：**客户端侧面块过滤通过创建包含每个区块中每个交易的所有地址的**过滤器**来工作。过滤器可以测试**元素是否在集合中**；可能会出现误报，但不会出现误报。轻量级钱包将**下载**区块链中每个**区块**的所有过滤器，并检查其**自己的地址**是否与之匹配。包含匹配项的区块将从点对点网络中完全下载，并使用这些区块获取钱包的历史记录和当前余额。
 
 ## Tor
 
-Bitcoin network uses a peer-to-peer network, which means that other peers can learn your IP address. This is why it's recommend to **connect through Tor every time you want to interact with the bitcoin network**.
+比特币网络使用点对点网络，这意味着其他节点可以了解您的IP地址。因此，建议您**每次与比特币网络交互时都通过Tor连接**。
 
-## Avoiding address reuse
+## 避免地址重用
 
-**Addresses being used more than once is very damaging to privacy because that links together more blockchain transactions with proof that they were created by the same entity**. The most private and secure way to use bitcoin is to send a brand **new address to each person who pays you**. After the received coins have been spent the address should never be used again. Also, a brand new bitcoin address should be demanded when sending bitcoin. All good bitcoin wallets have a user interface which discourages address reuse.
+**地址被多次使用对隐私非常有害，因为它将更多的区块链交易与证明它们由同一实体创建的链接在一起**。使用比特币的最私密和安全的方式是向每个支付您的人发送一个全新的地址。收到的硬币花费后，地址不应再次使用。在发送比特币时，应要求一个全新的比特币地址。所有良好的比特币钱包都有一个用户界面，鼓励不重复使用地址。
 
-## Multiple transactions
+## 多个交易
 
-**Paying** someone with **more than one on-chain transaction** can greatly reduce the power of amount-based privacy attacks such as amount correlation and round numbers. For example, if the user wants to pay 5 BTC to somebody and they don't want the 5 BTC value to be easily searched for, then they can send two transactions for the value of 2 BTC and 3 BTC which together add up to 5 BTC.
+使用**多个链上交易**向某人支付可以大大降低基于金额的隐私攻击（如金额相关性和整数）。例如，如果用户想向某人支付5 BTC，并且不希望5 BTC的价值很容易被搜索到，那么他们可以发送两笔交易，价值分别为2 BTC和3 BTC，总共为5 BTC。
 
-## Change avoidance
+## 避免找零
 
-Change avoidance is where transaction inputs and outputs are carefully chosen to not require a change output at all. **Not having a change output is excellent for privacy**, as it breaks change detection heuristics.
+避免找零是指仔细选择交易的输入和输出，以完全不需要找零输出。**没有找零输出对隐私非常有利**，因为它打破了找零检测启发式。
 
-## Multiple change outputs
+## 多个找零输出
 
-If change avoidance is not an option then **creating more than one change output can improve privacy**. This also breaks change detection heuristics which usually assume there is only a single change output. As this method uses more block space than usual, change avoidance is preferable.
+如果无法避免找零，则**创建多个找零输出可以提高隐私**。这也打破了通常假设只有一个找零输出的找零检测启发式。由于此方法使用的区块空间比通常多，因此更倾向于避免找零。
 
 # Monero
 
-When Monero was developed, the gaping need for **complete anonymity** was what it sought to resolve, and to a large extent, it has filled that void.
+当开发Monero时，填补**完全匿名**的巨大需求是它所追求的目标，并且在很大程度上填补了这个空白。
 
-# Ethereum
+# 以太坊
 
 ## Gas
 
-Gas refers to the unit that measures the **amount** of **computational** **effort** required to execute specific operations on the Ethereum network. Gas refers to the **fee** required to successfully conduct a **transaction** on Ethereum.
+Gas是衡量在以太坊网络上执行特定操作所需的**计算工作量**的单位。Gas是在以太坊上成功进行**交易**所需的**费用**。
 
-Gas prices are denoted in **gwei**, which itself is a denomination of ETH - each gwei is equal to **0.000000001 ETH** (10-9 ETH). For example, instead of saying that your gas costs 0.000000001 ether, you can say your gas costs 1 gwei. The word 'gwei' itself means 'giga-wei', and it is equal to **1,000,000,000 wei**. Wei itself is the **smallest unit of ETH**.
+Gas价格以**gwei**表示，它本身是ETH的一种单位 - 每个gwei等于**0.000000001 ETH**（10-9 ETH）。例如，您可以说您的gas费用为1 gwei，而不是说您的gas费用为0.000000001 ether。'gwei'这个词本身意味着'giga-wei'，它等于**1,000,000,000 wei**。Wei本身是ETH的**最小单位**。
 
-To calculate the gas that a transaction is going to cost read this example:
+要计算交易的gas成本，请阅读以下示例：
 
-Let’s say Jordan has to pay Taylor 1 ETH. In the transaction the gas limit is 21,000 units and the base fee is 100 gwei. Jordan includes a tip of 10 gwei.
+假设Jordan需要向Taylor支付1 ETH。在交易中，gas限制为21,000个单位，基本费用为100 gwei。Jordan还包括10 gwei的小费。
 
-Using the formula above we can calculate this as `21,000 * (100 + 10) = 2,310,000 gwei` or 0.00231 ETH.
+使用上述公式，我们可以计算为`21,000 * (100 + 10) = 2,310,000 gwei`或0.00231 ETH。
 
-When Jordan sends the money, 1.00231 ETH will be deducted from Jordan's account. Taylor will be credited 1.0000 ETH. Miner receives the tip of 0.00021 ETH. Base fee of 0.0021 ETH is burned.
+当Jordan发送资金时，将从Jordan的账户中扣除1.00231 ETH。Taylor将获得1.0000 ETH的信用。矿工获得0.00021 ETH的小费。0.0021 ETH的基本费用被销毁。
 
-Additionally, Jordan can also set a max fee (`maxFeePerGas`) for the transaction. The difference between the max fee and the actual fee is refunded to Jordan, i.e. `refund = max fee - (base fee + priority fee)`. Jordan can set a maximum amount to pay for the transaction to execute and not worry about overpaying "beyond" the base fee when the transaction is executed.
+此外，Jordan还可以为交易设置最大费用（`maxFeePerGas`）。最大费用与实际费用之间的差额将退还给Jordan，即`refund = max fee - (base fee + priority fee)`。当执行交易时，Jordan可以设置要支付的交易的最大金额，并不担心支付超过基本费用的费用。
 
-As the base fee is calculated by the network based on demand for block space, this last param: maxFeePerGas helps to control the maximum fee that is going to be payed.
+由于基本费用是根据对区块空间的需求而由网络计算的，因此最后一个参数：maxFeePerGas有助于控制将支付的最大费用。
 
-## Transactions
+## 交易
 
-Notice that in the **Ethereum** network a transaction is performed between 2 addresses and these can be **user or smart contract addresses**.\
-**Smart Contracts** are stored in the distributed ledger via a **special** **transaction**.
+请注意，在**以太坊**网络中，交易是在2个地址之间执行的，这些地址可以是**用户或智能合约地址**。\
+**智能合约**通过**特殊的交易**存储在分布式账本中。
 
-Transactions, which change the state of the EVM, need to be broadcast to the whole network. Any node can broadcast a request for a transaction to be executed on the EVM; after this happens, a **miner** will **execute** the **transaction** and propagate the resulting state change to the rest of the network.\
-Transactions require a **fee** and must be mined to become valid.
+改变EVM状态的交易需要广播到整个网络。任何节点都可以广播对EVM上的交易执行的请求；在发生这种情况后，**矿工**将**执行**该**交易**并将结果状态更改传播到网络的其他部分。\
+交易需要支付**费用**，并且必须进行挖掘才能变为有效。
 
-A submitted transaction includes the following information:
+提交的交易包括以下信息：
 
-* `recipient` – the receiving address (if an externally-owned account, the transaction will transfer value. If a contract account, the transaction will execute the contract code)
-* `signature` – the identifier of the sender. This is generated when the sender's private key signs the transaction and confirms the sender has authorised this transaction
-* `value` – amount of ETH to transfer from sender to recipient (in WEI, a denomination of ETH)
-* `data` – optional field to include arbitrary data
-* `gasLimit` – the maximum amount of gas units that can be consumed by the transaction. Units of gas represent computational steps
-* `maxPriorityFeePerGas` - the maximum amount of gas to be included as a tip to the miner
-* `maxFeePerGas` - the maximum amount of gas willing to be paid for the transaction (inclusive of `baseFeePerGas` and `maxPriorityFeePerGas`)
+* `recipient` - 接收地址（如果是外部拥有的账户，则交易将转移价值。如果是合约账户，则交易将执行合约代码）
+* `signature` - 发送者的标识符。这是在发送者的私钥签署交易并确认发送者已授权此交易时生成的
+* `value` - 从发送者转移到接收者的ETH金额（以WEI为单位，WEI是ETH的一种单位）
+* `data` - 包含任意数据的可选字段
+* `gasLimit` - 交易可以消耗的最大气体单位数量。气体单位表示计算步骤
+* `maxPriorityFeePerGas` - 包含作为小费提供给矿工的最大气体数量
+* `maxFeePerGas` - 愿意为交易支付的最大气体数量（包括`baseFeePerGas`和`maxPriorityFeePerGas`）
 
-Note that there isn't any field for the origin address, this is because this can be extrapolated from the signature.
-
-# References
+请注意，没有任何字段用于原始地址，这是因为可以从签名中推断出原始地址。
+# 参考资料
 
 * [https://en.wikipedia.org/wiki/Proof\_of\_stake](https://en.wikipedia.org/wiki/Proof\_of\_stake)
 * [https://www.mycryptopedia.com/public-key-private-key-explained/](https://www.mycryptopedia.com/public-key-private-key-explained/)
@@ -299,18 +290,16 @@ Note that there isn't any field for the origin address, this is because this can
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- 你在一家**网络安全公司**工作吗？想要在 HackTricks 中**宣传你的公司**吗？或者你想要**获取 PEASS 的最新版本或下载 HackTricks 的 PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- 发现我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 集合 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **通过向 [hacktricks 仓库](https://github.com/carlospolop/hacktricks) 和 [hacktricks-cloud 仓库](https://github.com/carlospolop/hacktricks-cloud) 提交 PR 来分享你的黑客技巧**。
 
 </details>
-
-

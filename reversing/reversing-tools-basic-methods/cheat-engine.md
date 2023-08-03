@@ -1,179 +1,175 @@
-
-
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- 你在**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- 发现我们的独家[NFT收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
 
 </details>
 
 
-[**Cheat Engine**](https://www.cheatengine.org/downloads.php) is a useful program to find where important values are saved inside the memory of a running game and change them.\
-When you download and run it, you are **presented** with a **tutorial** of how to use the tool. If you want to learn how to use the tool it's highly recommended to complete it.
+[**Cheat Engine**](https://www.cheatengine.org/downloads.php) 是一个有用的程序，可以找到正在运行的游戏内存中保存的重要值的位置并进行更改。\
+当你下载并运行它时，会出现一个教程，告诉你如何使用这个工具。如果你想学习如何使用这个工具，强烈建议你完成教程。
 
-# What are you searching?
+# 你在寻找什么？
 
 ![](<../../.gitbook/assets/image (580).png>)
 
-This tool is very useful to find **where some value** (usually a number) **is stored in the memory** of a program.\
-**Usually numbers** are stored in **4bytes** form, but you could also find them in **double** or **float** formats, or you may want to look for something **different from a number**. For that reason you need to be sure you **select** what you want to **search for**:
+这个工具非常有用，可以找到程序内存中某个值（通常是一个数字）的存储位置。\
+通常数字以4字节的形式存储，但你也可以找到以双精度或浮点格式存储的数字，或者你可能想寻找与数字不同的东西。因此，你需要确保选择你想要搜索的内容：
 
 ![](<../../.gitbook/assets/image (581).png>)
 
-Also you can indicate **different** types of **searches**:
+你还可以指定不同类型的搜索：
 
 ![](<../../.gitbook/assets/image (582).png>)
 
-You can also check the box to **stop the game while scanning the memory**:
+你还可以勾选框，在扫描内存时停止游戏：
 
 ![](<../../.gitbook/assets/image (584).png>)
 
-## Hotkeys
+## 快捷键
 
-In _**Edit --> Settings --> Hotkeys**_ you can set different **hotkeys** for different purposes like **stopping** the **game** (which is quiet useful if at some point you want to scan the memory). Other options are available:
+在_**编辑 --> 设置 --> 快捷键**_中，你可以为不同的目的设置不同的**快捷键**，比如停止游戏（如果你想扫描内存的某个时刻非常有用）。还有其他选项可用：
 
 ![](<../../.gitbook/assets/image (583).png>)
 
-# Modifying the value
+# 修改值
 
-Once you **found** where is the **value** you are **looking for** (more about this in the following steps) you can **modify it** double clicking it, then double clicking its value:
+一旦你找到了你要查找的值的位置（关于这一点，后面的步骤会有更多介绍），你可以双击它来修改它，然后双击它的值：
 
 ![](<../../.gitbook/assets/image (585).png>)
 
-And finally **marking the check** to get the modification done in the memory:
+最后，勾选复选框以在内存中进行修改：
 
 ![](<../../.gitbook/assets/image (586).png>)
 
-The **change** to the **memory** will be immediately **applied** (note that until the game doesn't use this value again the value **won't be updated in the game**).
+对内存的修改将立即生效（请注意，直到游戏再次使用这个值，该值在游戏中不会更新）。
 
-# Searching the value
+# 搜索值
 
-So, we are going to suppose that there is an important value (like the life of your user) that you want to improve, and you are looking for this value in the memory)
+所以，我们假设有一个重要的值（比如你的用户的生命值），你想要改进它，你正在寻找这个值在内存中的位置）
 
-## Through a known change
+## 通过已知的变化
 
-Supposing you are looking for the value 100, you **perform a scan** searching for that value and you find a lot of coincidences:
+假设你正在寻找值100，你执行一个搜索以查找该值，你找到了很多匹配项：
 
 ![](<../../.gitbook/assets/image (587).png>)
 
-Then, you do something so that **value changes**, and you **stop** the game and **perform** a **next scan**:
+然后，你做一些事情使值改变，你停止游戏并执行下一个搜索：
 
 ![](<../../.gitbook/assets/image (588).png>)
 
-Cheat Engine will search for the **values** that **went from 100 to the new value**. Congrats, you **found** the **address** of the value you were looking for, you can now modify it.\
-_If you still have several values, do something to modify again that value, and perform another "next scan" to filter the addresses._
+Cheat Engine将搜索从100到新值的值。恭喜，你找到了你要找的值的地址，现在你可以修改它。\
+_如果你仍然有几个值，做一些修改以再次修改该值，并执行另一个"下一个搜索"来过滤地址。_
 
-## Unknown Value, known change
+## 未知值，已知变化
 
-In the scenario you **don't know the value** but you know **how to make it change** (and even the value of the change) you can look for your number.
+在这种情况下，你不知道值，但你知道如何使它改变（甚至知道变化的值），你可以寻找你的数字。
 
-So, start by performing a scan of type "**Unknown initial value**":
+所以，首先执行一个类型为"**未知初始值**"的搜索：
 
 ![](<../../.gitbook/assets/image (589).png>)
 
-Then, make the value change, indicate **how** the **value** **changed** (in my case it was decreased by 1) and perform a **next scan**:
+然后，使值改变，指示值的改变方式（在我的例子中，它减少了1），并执行一个**下一个搜索**：
 
 ![](<../../.gitbook/assets/image (590).png>)
 
-You will be presented **all the values that were modified in the selected way**:
+你将看到所有以所选方式修改的值：
 
 ![](<../../.gitbook/assets/image (591).png>)
 
-Once you have found your value, you can modify it.
+一旦你找到了你的值，你可以修改它。
 
-Note that there are a **lot of possible changes** and you can do these **steps as much as you want** to filter the results:
+请注意，有很多可能的变化，你可以根据需要多次执行这些步骤来过滤结果：
 
 ![](<../../.gitbook/assets/image (592).png>)
+## 随机内存地址 - 查找代码
 
-## Random Memory Address - Finding the code
+到目前为止，我们已经学会了如何找到存储值的地址，但是在游戏的不同执行中，该地址很可能在内存的不同位置。因此，让我们找出如何始终找到该地址。
 
-Until know we learnt how to find an address storing a value, but it's highly probably that in **different executions of the game that address is in different places of the memory**. So lets find out how to always find that address.
-
-Using some of the mentioned tricks, find the address where your current game is storing the important value. Then (stopping the game if you whish) do a **right click** on the found **address** and select "**Find out what accesses this address**" or "**Find out what writes to this address**":
+使用之前提到的一些技巧，找到当前游戏存储重要值的地址。然后（如果希望停止游戏），在找到的地址上**右键单击**，选择“**查找访问此地址的内容**”或“**查找写入此地址的内容**”：
 
 ![](<../../.gitbook/assets/image (593).png>)
 
-The **first option** is useful to know which **parts** of the **code** are **using** this **address** (which is useful for more things like **knowing where you can modify the code** of the game).\
-The **second option** is more **specific**, and will be more helpful in this case as we are interested in knowing **from where this value is being written**.
+第一个选项对于了解代码的哪些部分正在使用此地址很有用（对于其他一些事情也很有用，比如了解可以修改游戏代码的位置）。第二个选项更具体，在这种情况下更有帮助，因为我们想知道这个值是从哪里被写入的。
 
-Once you have selected one of those options, the **debugger** will be **attached** to the program and a new **empty window** will appear. Now, **play** the **game** and **modify** that **value** (without restarting the game). The **window** should be **filled** with the **addresses** that are **modifying** the **value**:
+选择其中一个选项后，调试器将附加到程序上，并出现一个新的空窗口。现在，**玩游戏**并**修改**该**值**（不重新启动游戏）。该**窗口**应该被**填充**了**修改**该**值**的**地址**：
 
 ![](<../../.gitbook/assets/image (594).png>)
 
-Now that you found the address it's modifying the value you can **modify the code at your pleasure** (Cheat Engine allows you to modify it for NOPs real quick):
+现在，您找到了修改该值的地址，您可以随意修改代码（Cheat Engine允许您快速将其修改为NOP）：
 
 ![](<../../.gitbook/assets/image (595).png>)
 
-So, you can now modify it so the code won't affect your number, or will always affect in a positive way.
+因此，您现在可以修改它，以便代码不会影响您的数字，或者始终以积极的方式影响。
 
-## Random Memory Address - Finding the pointer
+## 随机内存地址 - 查找指针
 
-Following the previous steps, find where the value you are interested is. Then, using "**Find out what writes to this address**" find out which address writes this value and double click on it to get the disassembly view:
+按照前面的步骤，找到您感兴趣的值所在的位置。然后，使用“**查找写入此地址的内容**”找出写入此值的地址，并双击它以获取反汇编视图：
 
 ![](<../../.gitbook/assets/image (596).png>)
 
-Then, perform a new scan **searching for the hex value between "\[]"** (the value of $edx in this case):
+然后，执行新的扫描，**搜索“\[\]”之间的十六进制值**（在本例中为$edx的值）：
 
 ![](<../../.gitbook/assets/image (597).png>)
 
-(_If several appear you usually need the smallest address one_)\
-Now, we have f**ound the pointer that will be modifying the value we are interested in**.
+（如果出现多个，通常需要最小的地址）\
+现在，我们找到了将修改我们感兴趣的值的指针。
 
-Click on "**Add Address Manually**":
+单击“**手动添加地址**”：
 
 ![](<../../.gitbook/assets/image (598).png>)
 
-Now, click on the "Pointer" check box and add the found address in the text box (in this scenario, the found address in the previous image was "Tutorial-i386.exe"+2426B0):
+现在，单击“指针”复选框，并将找到的地址添加到文本框中（在此场景中，先前图像中找到的地址是“Tutorial-i386.exe”+2426B0）：
 
 ![](<../../.gitbook/assets/image (599).png>)
 
-(Note how the first "Address" is automatically populated from the pointer address you introduce)
+（注意，第一个“地址”是根据您输入的指针地址自动填充的）
 
-Click OK and a new pointer will be created:
+单击“确定”，将创建一个新的指针：
 
 ![](<../../.gitbook/assets/image (600).png>)
 
-Now, every time you modifies that value you are **modifying the important value even if the memory address where the value is is different.**
+现在，每当您修改该值时，即使存储该值的内存地址不同，您也会修改重要值。
 
-## Code Injection
+## 代码注入
 
-Code injection is a technique where you inject a piece of code into the target process, and then reroute the execution of code to go through your own written code (like giving you points instead of resting them).
+代码注入是一种技术，您将一段代码注入到目标进程中，然后将代码的执行重定向到您自己编写的代码（例如，给您加分而不是扣分）。
 
-So, imagine you have found the address that is subtracting 1 to the life of your player:
+因此，假设您已经找到了将您的玩家生命减1的地址：
 
 ![](<../../.gitbook/assets/image (601).png>)
 
-Click on Show disassembler to get the **disassemble code**.\
-Then, click **CTRL+a** to invoke the Auto assemble window and select _**Template --> Code Injection**_
+单击“显示反汇编器”以获取**反汇编代码**。\
+然后，单击**CTRL+a**调用自动汇编窗口，并选择_**模板 --> 代码注入**_
 
 ![](<../../.gitbook/assets/image (602).png>)
 
-Fill the **address of the instruction you want to modify** (this is usually autofilled):
+填写**要修改的指令的地址**（通常会自动填充）：
 
 ![](<../../.gitbook/assets/image (603).png>)
 
-A template will be generated:
+将生成一个模板：
 
 ![](<../../.gitbook/assets/image (604).png>)
 
-So, insert your new assembly code in the "**newmem**" section and remove the original code from the "**originalcode**" if you don't want it to be executed**.** In this example the injected code will add 2 points instead of substracting 1:
+因此，在“**newmem**”部分插入您的新汇编代码，并从“**originalcode**”中删除原始代码（如果您不希望执行它）。在此示例中，注入的代码将添加2个点而不是减去1个点：
 
 ![](<../../.gitbook/assets/image (605).png>)
 
-**Click on execute and so on and your code should be injected in the program changing the behaviour of the functionality!**
+**单击执行等等，您的代码应该被注入到程序中，改变功能的行为！**
 
-# **References**
+# **参考资料**
 
-* **Cheat Engine tutorial, complete it to learn how to start with Cheat Engine**
+* **Cheat Engine教程，完成它以了解如何开始使用Cheat Engine**
 
 
 
@@ -181,16 +177,14 @@ So, insert your new assembly code in the "**newmem**" section and remove the ori
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- 您在**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- 发现我们的独家[NFT](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- 获取[**官方PEASS和HackTricks衣物**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享您的黑客技巧**。
 
 </details>
-
-

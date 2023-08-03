@@ -4,30 +4,29 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
 
 </details>
 
-## Context
+## 上下文
 
-In Linux in order to run a program it must exist as a file, it must be accessible in some way through the file system hierarchy (this is just how `execve()` works). This file may reside on disk or in ram (tmpfs, memfd) but you need a filepath. This has made very easy to control what is run on a Linux system, it makes easy to detect threats and attacker's tools or to prevent them from trying to execute anything of theirs at all (_e. g._ not allowing unprivileged users to place executable files anywhere).
+在Linux中，为了运行一个程序，它必须存在为一个文件，并且必须通过文件系统层次结构的某种方式进行访问（这就是`execve()`的工作原理）。这个文件可以存在于磁盘上或者内存中（tmpfs，memfd），但你需要一个文件路径。这使得在Linux系统上控制要运行的内容变得非常容易，它可以轻松检测到威胁和攻击者的工具，或者防止他们尝试执行任何自己的内容（例如，不允许非特权用户在任何地方放置可执行文件）。
 
-But this technique is here to change all of this. If you can not start the process you want... **then you hijack one already existing**.
+但是这种技术可以改变这一切。如果你无法启动你想要的进程... **那么你就劫持一个已经存在的进程**。
 
-This technique allows you to **bypass common protection techniques such as read-only, noexec, file-name whitelisting, hash whitelisting...**
+这种技术允许你**绕过常见的保护技术，如只读、noexec、文件名白名单、哈希白名单...**
 
-## Dependencies
+## 依赖
 
-The final script depends on the following tools to work, they need to be accessible in the system you are attacking (by default you will find all of them everywhere):
-
+最终的脚本依赖于以下工具才能工作，它们需要在你攻击的系统中可访问（默认情况下，你可以在任何地方找到它们）：
 ```
 dd
 bash | zsh | ash (busybox)
@@ -41,54 +40,53 @@ wc
 tr
 base64
 ```
+## 技术
 
-## The technique
+如果您能任意修改进程的内存，那么您就可以接管它。这可以用于劫持已存在的进程并用另一个程序替换它。我们可以通过使用`ptrace()`系统调用（需要您具备执行系统调用的能力或在系统上有gdb可用）或者更有趣的是，写入`/proc/$pid/mem`来实现。
 
-If you are able to modify arbitrarily the memory of a process then you can take over it. This can be used to hijack an already existing process and replace it with another program. We can achieve this either by using the `ptrace()` syscall (which requires you to have the ability to execute syscalls or to have gdb available on the system) or, more interestingly, writing to `/proc/$pid/mem`.
+文件`/proc/$pid/mem`是进程的整个地址空间的一对一映射（例如，在x86-64中从`0x0000000000000000`到`0x7ffffffffffff000`）。这意味着在偏移量`x`处从该文件读取或写入与在虚拟地址`x`处读取或修改内容是相同的。
 
-The file `/proc/$pid/mem` is a one-to-one mapping of the entire address space of a process (_e. g._ from `0x0000000000000000` to `0x7ffffffffffff000` in x86-64). This means that reading from or writing to this file at an offset `x` is the same as reading from or modifying the contents at the virtual address `x`.
+现在，我们需要解决四个基本问题：
 
-Now, we have four basic problems to face:
+* 通常只有root用户和文件的程序所有者才能修改它。
+* ASLR。
+* 如果我们尝试读取或写入未映射到程序地址空间的地址，将会收到I/O错误。
 
-* In general, only root and the program owner of the file may modify it.
-* ASLR.
-* If we try to read or write to an address not mapped in the address space of the program we will get an I/O error.
+这些问题有解决方案，虽然它们不是完美的，但是很好：
 
-This problems have solutions that, although they are not perfect, are good:
+* 大多数shell解释器允许创建文件描述符，然后将其继承给子进程。我们可以创建一个指向shell的`mem`文件的具有写权限的文件描述符...因此使用该文件描述符的子进程将能够修改shell的内存。
+* ASLR甚至不是一个问题，我们可以检查shell的`maps`文件或procfs中的任何其他文件，以获取有关进程的地址空间的信息。
+* 因此，我们需要在文件上执行`lseek()`。从shell中，除非使用臭名昭著的`dd`，否则无法执行此操作。
 
-* Most shell interpreters allow the creation of file descriptors that will then be inherited by child processes. We can create a fd pointing to the `mem` file of the sell with write permissions... so child processes that use that fd will be able to modify the shell's memory.
-* ASLR isn't even a problem, we can check the shell's `maps` file or any other from the procfs in order to gain information about the address space of the process.
-* So we need to `lseek()` over the file. From the shell this cannot be done unless using the infamous `dd`.
+### 更详细地说
 
-### In more detail
+这些步骤相对简单，不需要任何专业知识来理解它们：
 
-The steps are relatively easy and do not require any kind of expertise to understand them:
+* 解析我们想要运行的二进制文件和加载器，找出它们需要的映射。然后编写一个"shell"代码，它将执行与内核在每次调用`execve()`时执行的相同步骤（广义上）：
+* 创建这些映射。
+* 将二进制文件读入其中。
+* 设置权限。
+* 最后，使用程序的参数初始化堆栈，并放置辅助向量（加载器所需）。
+* 跳转到加载器并让它完成剩下的工作（加载程序所需的库）。
+* 从`syscall`文件中获取进程在执行系统调用后将返回的地址。
+* 用我们的shellcode（通过`mem`，我们可以修改不可写的页面）覆盖该位置，该位置将是可执行的。
+* 将我们想要运行的程序传递给进程的stdin（将由上述"shell"代码`read()`）。
+* 此时，由加载器负责加载我们程序所需的库并跳转到它。
 
-* Parse the binary we want to run and the loader to find out what mappings they need. Then craft a "shell"code that will perform, broadly speaking, the same steps that the kernel does upon each call to `execve()`:
-  * Create said mappings.
-  * Read the binaries into them.
-  * Set up permissions.
-  * Finally initialize the stack with the arguments for the program and place the auxiliary vector (needed by the loader).
-  * Jump into the loader and let it do the rest (load libraries needed by the program).
-* Obtain from the `syscall` file the address to which the process will return after the syscall it is executing.
-* Overwrite that place, which will be executable, with our shellcode (through `mem` we can modify unwritable pages).
-* Pass the program we want to run to the stdin of the process (will be `read()` by said "shell"code).
-* At this point it is up to the loader to load the necessary libraries for our program and jump into it.
-
-**Check out the tool in** [**https://github.com/arget13/DDexec**](https://github.com/arget13/DDexec)
+**请查看**[**https://github.com/arget13/DDexec**](https://github.com/arget13/DDexec)**中的工具**。
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- 您在**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想获得最新版本的PEASS或下载PDF格式的HackTricks吗？请查看[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)！
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- 发现我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)。
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)。
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享您的黑客技巧**。
 
 </details>

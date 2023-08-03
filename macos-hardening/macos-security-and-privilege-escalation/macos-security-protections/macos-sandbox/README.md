@@ -1,34 +1,33 @@
-# macOS Sandbox
+# macOS沙盒
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
 
-## Basic Information
+## 基本信息
 
-MacOS Sandbox (initially called Seatbelt) **limits applications** running inside the sandbox to the **allowed actions specified in the Sandbox profile** the app is running with. This helps to ensure that **the application will be accessing only expected resources**.
+MacOS沙盒（最初称为Seatbelt）**限制在沙盒内运行的应用程序**只能执行沙盒配置文件中指定的允许操作。这有助于确保**应用程序只能访问预期的资源**。
 
-Any app with the **entitlement** **`com.apple.security.app-sandbox`** will be executed inside the sandbox. **Apple binaries** are usually executed inside a Sanbox and in order to publish inside the **App Store**, **this entitlement is mandatory**. So most applications will be executed inside the sandbox.
+任何具有**`com.apple.security.app-sandbox`**权限的应用程序都将在沙盒内执行。**Apple二进制文件**通常在沙盒内执行，并且为了在**App Store**中发布，**此权限是强制性的**。因此，大多数应用程序将在沙盒内执行。
 
-In order to control what a process can or cannot do the **Sandbox has hooks** in all **syscalls** across the kernel. **Depending** on the **entitlements** of the app the Sandbox will **allow** certain actions.
+为了控制进程可以执行的操作，**沙盒在内核中的所有系统调用中都有钩子**。根据应用程序的**权限**，沙盒将**允许**特定的操作。
 
-Some important components of the Sandbox are:
+沙盒的一些重要组件包括：
 
-* The **kernel extension** `/System/Library/Extensions/Sandbox.kext`
-* The **private framework** `/System/Library/PrivateFrameworks/AppSandbox.framework`
-* A **daemon** running in userland `/usr/libexec/sandboxd`
-* The **containers** `~/Library/Containers`
+* 内核扩展`/System/Library/Extensions/Sandbox.kext`
+* 私有框架`/System/Library/PrivateFrameworks/AppSandbox.framework`
+* 在用户空间运行的**守护进程**`/usr/libexec/sandboxd`
+* **容器**`~/Library/Containers`
 
-Inside the containers folder you can find **a folder for each app executed sanboxed** with the name of the bundle id:
-
+在容器文件夹中，你可以找到**每个在沙盒中执行的应用程序的文件夹**，文件夹的名称是bundle id：
 ```bash
 ls -l ~/Library/Containers
 total 0
@@ -39,9 +38,7 @@ drwx------@ 4 username  staff  128 Mar 25 14:14 com.apple.Accessibility-Settings
 drwx------@ 4 username  staff  128 Mar 25 14:10 com.apple.ActionKit.BundledIntentHandler
 [...]
 ```
-
-Inside each bundle id folder you can find the **plist** and the **Data directory** of the App:
-
+在每个bundle id文件夹中，您可以找到应用程序的**plist**和**Data目录**：
 ```bash
 cd /Users/username/Library/Containers/com.apple.Safari
 ls -la
@@ -64,53 +61,49 @@ lrwxr-xr-x   1 username  staff    20 Mar 24 18:02 Pictures -> ../../../../Pictur
 drwx------   2 username  staff    64 Mar 24 18:02 SystemData
 drwx------   2 username  staff    64 Mar 24 18:02 tmp
 ```
-
 {% hint style="danger" %}
-Note that even if the symlinks are there to "escape" from the Sandbox and access other folders, the App still needs to **have permissions** to access them. These permissions are inside the **`.plist`**.
+请注意，即使符号链接存在以便从沙盒中"逃脱"并访问其他文件夹，应用程序仍然需要**具有权限**来访问它们。这些权限在**`.plist`**文件中。
 {% endhint %}
-
 ```bash
 # Get permissions
 plutil -convert xml1 .com.apple.containermanagerd.metadata.plist -o -
 
 # In this file you can find the entitlements:
 <key>Entitlements</key>
-	<dict>
-		<key>com.apple.MobileAsset.PhishingImageClassifier2</key>
-		<true/>
-		<key>com.apple.accounts.appleaccount.fullaccess</key>
-		<true/>
-		<key>com.apple.appattest.spi</key>
-		<true/>
+<dict>
+<key>com.apple.MobileAsset.PhishingImageClassifier2</key>
+<true/>
+<key>com.apple.accounts.appleaccount.fullaccess</key>
+<true/>
+<key>com.apple.appattest.spi</key>
+<true/>
 [...]
 
 # Some parameters
 <key>Parameters</key>
-	<dict>
-		<key>_HOME</key>
-		<string>/Users/username</string>
-		<key>_UID</key>
-		<string>501</string>
-		<key>_USER</key>
-		<string>username</string>
+<dict>
+<key>_HOME</key>
+<string>/Users/username</string>
+<key>_UID</key>
+<string>501</string>
+<key>_USER</key>
+<string>username</string>
 [...]
 
 # The paths it can access
 <key>RedirectablePaths</key>
-	<array>
-		<string>/Users/username/Downloads</string>
-		<string>/Users/username/Documents</string>
-		<string>/Users/username/Library/Calendars</string>
-		<string>/Users/username/Desktop</string>
+<array>
+<string>/Users/username/Downloads</string>
+<string>/Users/username/Documents</string>
+<string>/Users/username/Library/Calendars</string>
+<string>/Users/username/Desktop</string>
 [...]
 ```
+### 沙盒配置文件
 
-### Sandbox Profiles
+沙盒配置文件是指示在该沙盒中允许/禁止的配置文件。它使用沙盒配置语言（SBPL），该语言使用[Scheme](https://en.wikipedia.org/wiki/Scheme_\(programming_language\))编程语言。
 
-The Sandbox profiles are configuration files that indicates what is going to be **allowed/forbidden** in that **Sandbox**. It uses the **Sandbox Profile Language (SBPL)**, which uses the [**Scheme**](https://en.wikipedia.org/wiki/Scheme\_\(programming\_language\)) programming language.
-
-Here you can find an example:
-
+这里是一个示例：
 ```scheme
 (version 1) ; First you get the version
 
@@ -119,48 +112,173 @@ Here you can find an example:
 (allow network*) ; You can use wildcards and allow everything
 
 (allow file-read* ; You can specify where to apply the rule
-    (subpath "/Users/username/")
-    (literal "/tmp/afile")
-    (regex #"^/private/etc/.*")
+(subpath "/Users/username/")
+(literal "/tmp/afile")
+(regex #"^/private/etc/.*")
 )
 
 (allow mach-lookup
-    (global-name "com.apple.analyticsd")
+(global-name "com.apple.analyticsd")
 )
 ```
-
 {% hint style="success" %}
-Check this [**research**](https://reverse.put.as/2011/09/14/apple-sandbox-guide-v1-0/) **to check more actions that could be allowed or denied.**
+查看这个[**研究**](https://reverse.put.as/2011/09/14/apple-sandbox-guide-v1-0/) **以了解更多可能被允许或拒绝的操作。**
 {% endhint %}
 
-Important **system services** also run inside their own custom **sandbox** such as the `mdnsresponder` service. You can view these custom **sandbox profiles** inside:
+重要的**系统服务**也在它们自己的自定义**沙盒**中运行，例如`mdnsresponder`服务。您可以在以下位置查看这些自定义**沙盒配置文件**：
 
 * **`/usr/share/sandbox`**
 * **`/System/Library/Sandbox/Profiles`**&#x20;
-* Other sandbox profiles can be checked in [https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles](https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles).
+* 其他沙盒配置文件可以在[https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles](https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles)中进行检查。
 
-**App Store** apps use the **profile** **`/System/Library/Sandbox/Profiles/application.sb`**. You can check in this profile how entitlements such as **`com.apple.security.network.server`** allows a process to use the network.
+**App Store**应用程序使用**配置文件** **`/System/Library/Sandbox/Profiles/application.sb`**。您可以在此配置文件中查看诸如**`com.apple.security.network.server`**的权限如何允许进程使用网络。
 
-SIP is a Sandbox profile called platform\_profile in /System/Library/Sandbox/rootless.conf
+SIP是一个名为platform\_profile的沙盒配置文件，位于/System/Library/Sandbox/rootless.conf
 
-### Sandbox Profile Examples
+### 沙盒配置文件示例
 
-To start an application with an **specific sandbox profile** you can use:
-
+要使用**特定的沙盒配置文件**启动应用程序，可以使用：
 ```bash
 sandbox-exec -f example.sb /Path/To/The/Application
 ```
-
-{% tabs %}
-{% tab title="touch" %}
 {% code title="touch.sb" %}
+
+```plaintext
+(version 1)
+(deny default)
+(allow file-read-metadata)
+(allow file-write-metadata)
+(allow file-read-data (literal "/private/var/tmp/"))
+(allow file-write-data (literal "/private/var/tmp/"))
+(allow file-read-data (regex #"^/private/var/folders/[^/]+/[^/]+/[C,T]/"))
+(allow file-write-data (regex #"^/private/var/folders/[^/]+/[^/]+/[C,T]/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/C/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/C/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/T/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/T/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/T/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/T/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/C/T/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/C/T/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/T/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/T/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/T/C/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/T/C/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/C/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/C/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/C/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/C/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/T/T/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/T/T/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/T/T/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/T/T/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/C/T/T/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/C/T/T/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/T/T/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/T/T/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/T/C/T/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/T/C/T/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/C/T/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/C/T/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/C/T/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/C/T/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/T/T/C/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/T/T/C/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/T/C/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/T/C/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/T/C/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/T/C/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/C/T/C/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/C/T/C/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/C/C/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/C/C/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/T/T/T/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/T/T/T/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/T/T/T/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/T/T/T/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/C/T/T/T/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/C/T/T/T/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/T/T/T/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/T/T/T/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/T/C/T/T/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/T/C/T/T/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/C/T/T/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/C/T/T/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/C/T/T/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/C/T/T/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/T/T/C/T/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/T/T/C/T/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/T/C/T/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/T/C/T/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/T/C/T/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/T/C/T/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/C/T/C/T/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/C/T/C/T/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/C/C/T/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/C/C/T/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/T/T/T/C/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/T/T/T/C/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/T/T/C/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/T/T/C/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/C/T/T/C/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/C/T/T/C/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/T/T/C/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/T/T/C/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/T/C/T/C/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/T/C/T/C/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/C/T/C/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/C/T/C/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/C/T/C/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/C/T/C/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/T/T/C/T/C/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/T/T/C/T/C/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/T/C/T/C/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/T/C/T/C/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/T/C/T/C/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/T/C/T/C/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/C/T/C/T/C/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/C/T/C/T/C/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/C/C/C/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/C/C/C/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/T/T/T/T/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/T/T/T/T/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/T/T/T/T/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/T/T/T/T/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/C/T/T/T/T/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/C/T/T/T/T/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/T/T/T/T/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/T/T/T/T/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/T/C/T/T/T/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/T/C/T/T/T/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/C/T/T/T/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/C/T/T/T/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/C/T/T/T/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/C/T/T/T/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/T/T/C/T/T/T/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/T/T/C/T/T/T/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/T/C/T/T/T/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/T/C/T/T/T/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/T/C/T/T/T/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/T/C/T/T/T/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/C/T/C/T/T/T/"))
+(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/C/T/C/T/T/T/"))
+(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/
 ```scheme
 (version 1)
 (deny default)
 (allow file* (literal "/tmp/hacktricks.txt"))
 ```
 {% endcode %}
-
 ```bash
 # This will fail because default is denied, so it cannot execute touch
 sandbox-exec -f touch.sb touch /tmp/hacktricks.txt
@@ -173,8 +291,503 @@ log show --style syslog --predicate 'eventMessage contains[c] "sandbox"' --last 
 2023-05-26 13:42:52.701382+0200  localhost kernel[0]: (Sandbox) 5 duplicate reports for Sandbox: sandbox-exec(41398) deny(1) file-read-metadata /var
 [...]
 ```
-
 {% code title="touch2.sb" %}
+
+```plaintext
+;; touch2.sb
+;; Sandbox profile for the touch2 command
+
+(version 1)
+(deny default)
+
+(allow file-write*
+    (literal "/tmp/evilfile.txt"))
+
+(allow file-read-data
+    (literal "/etc/passwd"))
+
+(allow file-read-metadata
+    (literal "/usr/share/misc/magic"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_.*"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/terminfo/[^/]+/[^/]+$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/[^/]+/[^/]+$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/zone.tab$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/iso3166.tab$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/leap-seconds.list$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/leapseconds$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zoneinfo/tzdata.zi$"))
+
+(allow file-read-metadata
+    (regex #"^/usr/share/zone
 ```scheme
 (version 1)
 (deny default)
@@ -188,8 +801,6 @@ log show --style syslog --predicate 'eventMessage contains[c] "sandbox"' --last 
 ; 2023-05-26 13:44:59.840050+0200  localhost kernel[0]: (Sandbox) Sandbox: touch(41575) deny(1) sysctl-read kern.bootargs
 ; 2023-05-26 13:44:59.840061+0200  localhost kernel[0]: (Sandbox) Sandbox: touch(41575) deny(1) file-read-data /
 ```
-{% endcode %}
-
 {% code title="touch3.sb" %}
 ```scheme
 (version 1)
@@ -204,61 +815,57 @@ log show --style syslog --predicate 'eventMessage contains[c] "sandbox"' --last 
 {% endtabs %}
 
 {% hint style="info" %}
-Note that the **Apple-authored** **software** that runs on **Windows** **doesn’t have additional security precautions**, such as application sandboxing.
+请注意，运行在**Windows**上的**由Apple编写的软件**没有额外的安全预防措施，比如应用程序沙箱。
 {% endhint %}
 
-Bypasses examples:
+绕过示例：
 
 * [https://lapcatsoftware.com/articles/sandbox-escape.html](https://lapcatsoftware.com/articles/sandbox-escape.html)
-* [https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c](https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c) (they are able to write files outside the sandbox whose name starts with `~$`).
+* [https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c](https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c)（他们能够在沙箱之外写入以`~$`开头的文件）。
 
-### Debug & Bypass Sandbox
+### 调试和绕过沙箱
 
-**Processes are not born sandboxed on macOS: unlike iOS**, where the sandbox is applied by the kernel before the first instruction of a program executes, on macOS **a process must elect to place itself into the sandbox.**
+**在macOS上，进程不会自动进入沙箱：与iOS不同**，在iOS上，沙箱是在程序的第一条指令执行之前由内核应用的，而在macOS上，**进程必须选择将自己置于沙箱中**。
 
-Processes are automatically Sandboxed from userland when they start if they have the entitlement: `com.apple.security.app-sandbox`. For a detailed explanation of this process check:
+如果进程具有`com.apple.security.app-sandbox`权限，则在启动时，进程会自动从用户空间进入沙箱。有关此过程的详细说明，请参见：
 
 {% content-ref url="macos-sandbox-debug-and-bypass/" %}
 [macos-sandbox-debug-and-bypass](macos-sandbox-debug-and-bypass/)
 {% endcontent-ref %}
 
-### **Check PID Privileges**
+### **检查PID权限**
 
-[According to this](https://www.youtube.com/watch?v=mG715HcDgO8\&t=3011s), the **`sandbox_check`** (it's a `__mac_syscall`), can check **if an operation is allowed or not** by the sandbox in a certain PID.
+根据[这个视频](https://www.youtube.com/watch?v=mG715HcDgO8\&t=3011s)，**`sandbox_check`**（它是一个`__mac_syscall`）可以检查特定PID中的沙箱是否允许执行某个操作。
 
-The [**tool sbtool**](http://newosxbook.com/src.jl?tree=listings\&file=sbtool.c) can check if a PID can perform a certain action:
-
+[**工具sbtool**](http://newosxbook.com/src.jl?tree=listings\&file=sbtool.c)可以检查PID是否可以执行某个操作：
 ```bash
 sbtool <pid> mach #Check mac-ports (got from launchd with an api)
 sbtool <pid> file /tmp #Check file access
 sbtool <pid> inspect #Gives you an explaination of the sandbox profile
 sbtool <pid> all
 ```
+### 在App Store应用中使用自定义SBPL
 
-### Custom SBPL in App Store apps
+公司有可能使他们的应用程序运行在**自定义沙盒配置文件**下（而不是默认配置文件）。他们需要使用授权的权限**`com.apple.security.temporary-exception.sbpl`**，该权限需要经过苹果授权。
 
-It could be possible for companies to make their apps run **with custom Sandbox profiles** (instead of with the default one). They need to use the entitlement **`com.apple.security.temporary-exception.sbpl`** which needs to be authorized by Apple.
-
-It's possible to check the definition of this entitlement in **`/System/Library/Sandbox/Profiles/application.sb:`**
-
+可以在**`/System/Library/Sandbox/Profiles/application.sb:`**中检查此权限的定义。
 ```scheme
 (sandbox-array-entitlement
-  "com.apple.security.temporary-exception.sbpl"
-  (lambda (string)
-    (let* ((port (open-input-string string)) (sbpl (read port)))
-      (with-transparent-redirection (eval sbpl)))))
+"com.apple.security.temporary-exception.sbpl"
+(lambda (string)
+(let* ((port (open-input-string string)) (sbpl (read port)))
+(with-transparent-redirection (eval sbpl)))))
 ```
-
-This will **eval the string after this entitlement** as an Sandbox profile.
+这将**在此权限之后评估字符串**作为沙盒配置文件。
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* 你在**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者你想要**获取最新版本的PEASS或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>

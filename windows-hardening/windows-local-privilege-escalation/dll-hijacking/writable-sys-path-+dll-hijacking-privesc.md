@@ -1,105 +1,103 @@
-# Writable Sys Path +Dll Hijacking Privesc
+# 可写的 Sys 路径 + Dll 劫持提权
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* 你在一家 **网络安全公司** 工作吗？你想在 HackTricks 中看到你的 **公司广告** 吗？或者你想获得 **PEASS 的最新版本或下载 HackTricks 的 PDF 版本** 吗？请查看 [**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 集合 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或 **关注** 我的 **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享你的黑客技巧。**
 
 </details>
 
-## Introduction
+## 介绍
 
-If you found that you can **write in a System Path folder** (note that this won't work if you can write in a User Path folder) it's possible that you could **escalate privileges** in the system.
+如果你发现你可以在一个**系统路径文件夹中写入**（请注意，如果你可以在用户路径文件夹中写入，这将不起作用），那么你可能可以在系统中**提升权限**。
 
-In order to do that you can abuse a **Dll Hijacking** where you are going to **hijack a library being loaded** by a service or process with **more privileges** than yours, and because that service is loading a Dll that probably doesn't even exist in the entire system, it's going to try to load it from the System Path where you can write.
+为了做到这一点，你可以滥用**Dll 劫持**，你将会**劫持一个由比你拥有更高权限的服务或进程加载的库**，因为该服务正在加载一个在整个系统中可能甚至不存在的 Dll，它将尝试从你可以写入的系统路径加载它。
 
-For more info about **what is Dll Hijackig** check:
+有关**什么是 Dll 劫持**的更多信息，请查看：
 
 {% content-ref url="../dll-hijacking.md" %}
 [dll-hijacking.md](../dll-hijacking.md)
 {% endcontent-ref %}
 
-## Privesc with Dll Hijacking
+## 使用 Dll 劫持进行提权
 
-### Finding a missing Dll
+### 查找缺失的 Dll
 
-The first thing you need is to **identify a process** running with **more privileges** than you that is trying to **load a Dll from the System Path** you can write in.
+首先，你需要**识别一个正在以比你更高的权限运行的进程**，该进程正在尝试从你可以写入的系统路径**加载一个 Dll**。
 
-The problem in this cases is that probably thoses processes are already running. To find which Dlls are lacking the services you need to launch procmon as soon as possible (before processes are loaded). So, to find lacking .dlls do:
+在这种情况下的问题是，可能这些进程已经在运行。为了找出哪些 Dll 缺失了服务，你需要尽快启动 procmon（在进程加载之前）。因此，要查找缺失的 .dll，请执行以下操作： 
 
-* **Create** the folder `C:\privesc_hijacking` and add the path `C:\privesc_hijacking` to **System Path env variable**. You can do this **manually** or with **PS**:
-
+* **创建**文件夹 `C:\privesc_hijacking` 并将路径 `C:\privesc_hijacking` 添加到**系统路径环境变量**中。你可以**手动**执行此操作，也可以使用**PS**：
 ```powershell
 # Set the folder path to create and check events for
 $folderPath = "C:\privesc_hijacking"
 
 # Create the folder if it does not exist
 if (!(Test-Path $folderPath -PathType Container)) {
-    New-Item -ItemType Directory -Path $folderPath | Out-Null
+New-Item -ItemType Directory -Path $folderPath | Out-Null
 }
 
 # Set the folder path in the System environment variable PATH
 $envPath = [Environment]::GetEnvironmentVariable("PATH", "Machine")
 if ($envPath -notlike "*$folderPath*") {
-    $newPath = "$envPath;$folderPath"
-    [Environment]::SetEnvironmentVariable("PATH", $newPath, "Machine")
+$newPath = "$envPath;$folderPath"
+[Environment]::SetEnvironmentVariable("PATH", $newPath, "Machine")
 }
 ```
-
-* Launch **`procmon`** and go to **`Options`** --> **`Enable boot logging`** and press **`OK`** in the prompt.
-* Then, **reboot**. When the computer is restarted **`procmon`** will start **recording** events asap.
-* Once **Windows** is **started execute `procmon`** again, it'll tell you that it has been running and will **ask you if you want to store** the events in a file. Say **yes** and **store the events in a file**.
-* **After** the **file** is **generated**, **close** the opened **`procmon`** window and **open the events file**.
-* Add these **filters** and you will find all the Dlls that some **proccess tried to load** from the writable System Path folder:
+* 启动**`procmon`**并转到**`选项`** --> **`启用启动日志记录`**，然后在提示中按**`确定`**。
+* 然后，**重新启动**。计算机重新启动后，**`procmon`**将立即开始记录事件。
+* 一旦**Windows**启动，再次执行**`procmon`**，它会告诉你它一直在运行，并询问你是否要将事件存储在文件中。选择**是**，并将事件存储在文件中。
+* **生成**文件**后**，关闭已打开的**`procmon`**窗口，并打开事件文件。
+* 添加以下**过滤器**，你将找到所有从可写的系统路径文件夹中尝试加载的DLL：
 
 <figure><img src="../../../.gitbook/assets/image (18).png" alt=""><figcaption></figcaption></figure>
 
-### Missed Dlls
+### 丢失的DLL
 
-Running this in a free **virtual (vmware) Windows 11 machine** I got these results:
+在一个免费的**虚拟（vmware）Windows 11机器**上运行此命令，我得到了以下结果：
 
 <figure><img src="../../../.gitbook/assets/image (253).png" alt=""><figcaption></figcaption></figure>
 
-In this case the .exe are useless so ignore them, the missed DLLs where from:
+在这种情况下，.exe 是无用的，所以忽略它们，丢失的DLL来自于：
 
-| Service                         | Dll                | CMD line                                                             |
+| 服务                           | DLL                | CMD 行                                                             |
 | ------------------------------- | ------------------ | -------------------------------------------------------------------- |
-| Task Scheduler (Schedule)       | WptsExtensions.dll | `C:\Windows\system32\svchost.exe -k netsvcs -p -s Schedule`          |
-| Diagnostic Policy Service (DPS) | Unknown.DLL        | `C:\Windows\System32\svchost.exe -k LocalServiceNoNetwork -p -s DPS` |
+| 任务计划程序 (Schedule)         | WptsExtensions.dll | `C:\Windows\system32\svchost.exe -k netsvcs -p -s Schedule`          |
+| 诊断策略服务 (DPS)               | Unknown.DLL        | `C:\Windows\System32\svchost.exe -k LocalServiceNoNetwork -p -s DPS` |
 | ???                             | SharedRes.dll      | `C:\Windows\system32\svchost.exe -k UnistackSvcGroup`                |
 
-After finding this, I found this interesting blog post that also explains how to [**abuse WptsExtensions.dll for privesc**](https://juggernaut-sec.com/dll-hijacking/#Windows\_10\_Phantom\_DLL\_Hijacking\_-\_WptsExtensionsdll). Which is what we **are going to do now**.
+找到这些信息后，我发现了这篇有趣的博客文章，它还解释了如何[**滥用 WptsExtensions.dll 进行权限提升**](https://juggernaut-sec.com/dll-hijacking/#Windows\_10\_Phantom\_DLL\_Hijacking\_-\_WptsExtensionsdll)。这正是我们**现在要做的**。
 
-### Exploitation
+### 攻击
 
-So, to **escalate privileges** we are going to hijack the library **WptsExtensions.dll**. Having the **path** and the **name** we just need to **generate the malicious dll**.
+因此，为了**提升权限**，我们将劫持库**WptsExtensions.dll**。有了**路径**和**名称**，我们只需要**生成恶意 DLL**。
 
-You can [**try to use any of these examples**](../dll-hijacking.md#creating-and-compiling-dlls). You could run payloads such as: get a rev shell, add a user, execute a beacon...
+你可以[**尝试使用这些示例之一**](../dll-hijacking.md#creating-and-compiling-dlls)。你可以运行如下的有效载荷：获取反向 shell、添加用户、执行 beacon...
 
 {% hint style="warning" %}
-Note that **not all the service are run** with **`NT AUTHORITY\SYSTEM`** some are also run with **`NT AUTHORITY\LOCAL SERVICE`** which has **less privileges** and you **won't be able to create a new user** abuse its permissions.\
-However, that user has the **`seImpersonate`** privilege, so you can use the[ **potato suite to escalate privileges**](../roguepotato-and-printspoofer.md). So, in this case a rev shell is a better option that trying to create a user.
+请注意，**并非所有的服务都以**`NT AUTHORITY\SYSTEM`**运行**，有些也以**`NT AUTHORITY\LOCAL SERVICE`**运行，它的权限较低，你将**无法创建新用户**来滥用其权限。\
+然而，该用户具有**`seImpersonate`**权限，因此你可以使用[**potato suite 来提升权限**](../roguepotato-and-printspoofer.md)。所以，在这种情况下，反向 shell 是一个比尝试创建用户更好的选择。
 {% endhint %}
 
-At the moment of writing the **Task Scheduler** service is run with **Nt AUTHORITY\SYSTEM**.
+在撰写本文时，**任务计划程序**服务以**Nt AUTHORITY\SYSTEM**运行。
 
-Having **generated the malicious Dll** (_in my case I used x64 rev shell and I got a shell back but defender killed it because it was from msfvenom_), save it in the writable System Path with the name **WptsExtensions.dll** and **restart** the computer (or restart the service or do whatever it takes to rerun the affected service/program).
+生成了**恶意 DLL**（在我的情况下，我使用了 x64 反向 shell，我得到了一个 shell，但是因为它来自 msfvenom，所以被防御者杀掉了），将其保存在可写的系统路径中，文件名为**WptsExtensions.dll**，然后**重新启动**计算机（或重新启动服务或执行其他操作以重新运行受影响的服务/程序）。
 
-When the service is re-started, the **dll should be loaded and executed** (you can **reuse** the **procmon** trick to check if the **library was loaded as expected**).
+当服务重新启动时，**dll 应该被加载和执行**（你可以**重用**procmon**技巧来检查库是否按预期加载**）。
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* 你在一家**网络安全公司**工作吗？你想在 HackTricks 中看到你的**公司广告**吗？或者你想获得最新版本的 PEASS 或下载 HackTricks 的 PDF 吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass)，或在 **Twitter** 上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享你的黑客技巧**。
 
 </details>

@@ -1,84 +1,76 @@
-
-
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品- [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
 
 </details>
 
 
-There are several blogs in the Internet which **highlight the dangers of leaving printers configured with LDAP with default/weak** logon credentials.\
-This is because an attacker could **trick the printer to authenticate against a rouge LDAP server** (typically a `nc -vv -l -p 444` is enough) and to capture the printer **credentials on clear-text**.
+互联网上有几篇博客**强调了将打印机配置为具有默认/弱LDAP登录凭据的危险性**。这是因为攻击者可以**欺骗打印机对一个恶意的LDAP服务器进行身份验证**（通常只需要`nc -vv -l -p 444`），并以明文形式捕获打印机的**凭据**。
 
-Also, several printers will contains **logs with usernames** or could even be able to **download all usernames** from the Domain Controller.
+此外，一些打印机将包含**用户名的日志**，甚至可以从域控制器**下载所有用户名**。
 
-All this **sensitive information** and the common **lack of security** makes printers very interesting for attackers.
+所有这些**敏感信息**和常见的**安全缺失**使得打印机对攻击者非常有吸引力。
 
-Some blogs about the topic:
+以下是一些关于此主题的博客：
 
-* [https://www.ceos3c.com/hacking/obtaining-domain-credentials-printer-netcat/](https://www.ceos3c.com/hacking/obtaining-domain-credentials-printer-netcat/)
-* [https://medium.com/@nickvangilder/exploiting-multifunction-printers-during-a-penetration-test-engagement-28d3840d8856](https://medium.com/@nickvangilder/exploiting-multifunction-printers-during-a-penetration-test-engagement-28d3840d8856)
+- [https://www.ceos3c.com/hacking/obtaining-domain-credentials-printer-netcat/](https://www.ceos3c.com/hacking/obtaining-domain-credentials-printer-netcat/)
+- [https://medium.com/@nickvangilder/exploiting-multifunction-printers-during-a-penetration-test-engagement-28d3840d8856](https://medium.com/@nickvangilder/exploiting-multifunction-printers-during-a-penetration-test-engagement-28d3840d8856)
 
-**The following information was copied from** [**https://grimhacker.com/2018/03/09/just-a-printer/**](https://grimhacker.com/2018/03/09/just-a-printer/)
+**以下信息摘自** [**https://grimhacker.com/2018/03/09/just-a-printer/**](https://grimhacker.com/2018/03/09/just-a-printer/)
 
-# LDAP settings
+# LDAP设置
 
-On Konica Minolta printers it is possible to configure an LDAP server to connect to, along with credentials. In earlier versions of the firmware on these devices I have heard it is possible to recover the credentials simply by reading the html source of the page. Now, however the credentials are not returned in the interface so we have to work a little harder.
+在Konica Minolta打印机上，可以配置要连接的LDAP服务器以及凭据。在这些设备的早期固件版本中，我听说可以通过读取页面的HTML源代码来恢复凭据。然而，现在凭据不会在界面中返回，所以我们需要更加努力。
 
-The list of LDAP Servers is under: Network > LDAP Setting > Setting Up LDAP
+LDAP服务器列表位于：网络 > LDAP设置 > 设置LDAP
 
-The interface allows the LDAP server to be modified without re-entering the credentials that will be used to connect. I presume this is for a simpler user experience, but it gives an opportunity for an attacker to escalate from master of a printer to a toe hold on the domain.
+界面允许修改LDAP服务器而无需重新输入将用于连接的凭据。我认为这是为了简化用户体验，但它为攻击者提供了从打印机的控制权升级到域的脚趾的机会。
 
-We can reconfigure the LDAP server address setting to a machine we control, and trigger a connection with the helpful “Test Connection” functionality.
+我们可以将LDAP服务器地址设置重新配置为我们控制的机器，并使用有用的“测试连接”功能触发连接。
 
-# Listening for the goods
+# 监听获取信息
 
 ## netcat
 
-If you have better luck than me, you may be able to get away with a simple netcat listener:
-
+如果你比我运气好，你可能只需要一个简单的netcat监听器：
 ```
 sudo nc -k -v -l -p 386
 ```
-
-I am assured by [@\_castleinthesky](https://twitter.com/\_castleinthesky) that this works most of the time, however I have yet to be let off that easy.
+我得到了[@\_castleinthesky](https://twitter.com/\_castleinthesky)的保证，这种方法大多数时候都有效，但我还没有轻易放过。
 
 ## Slapd
 
-I have found that a full LDAP server is required as the printer first attempts a null bind and then queries the available information, only if these operations are successful does it proceed to bind with the credentials.
+我发现需要一个完整的LDAP服务器，因为打印机首先尝试进行空绑定，然后查询可用的信息，只有在这些操作成功后，它才会使用凭据进行绑定。
 
-I searched for a simple ldap server that met the requirements, however there seemed to be limited options. In the end I opted to setup an open ldap server and use the slapd debug server service to accept connections and print out the messages from the printer. (If you know of an easier alternative, I would be happy to hear about it)
+我搜索了一个满足要求的简单LDAP服务器，但似乎选择有限。最后，我选择设置一个开放的LDAP服务器，并使用slapd调试服务器服务来接受连接并打印出打印机的消息。（如果你知道更简单的替代方法，我会很乐意听到）
 
-### Installation
+### 安装
 
-(Note this section is a lightly adapted version of the guide here [https://www.server-world.info/en/note?os=Fedora\_26\&p=openldap](https://www.server-world.info/en/note?os=Fedora\_26\&p=openldap) )
+（注意，本节是对这里的指南进行轻微调整的版本[https://www.server-world.info/en/note?os=Fedora\_26\&p=openldap](https://www.server-world.info/en/note?os=Fedora\_26\&p=openldap)）
 
-From a root terminal:
+从root终端开始：
 
-**Install OpenLDAP,**
-
+**安装OpenLDAP**，
 ```
 #> dnf install -y install openldap-servers openldap-clients
 
-#> cp /usr/share/openldap-servers/DB_CONFIG.example /var/lib/ldap/DB_CONFIG 
+#> cp /usr/share/openldap-servers/DB_CONFIG.example /var/lib/ldap/DB_CONFIG
 
 #> chown ldap. /var/lib/ldap/DB_CONFIG
 ```
-
-**Set an OpenLDAP admin password (you will need this again shortly)**
-
+**设置 OpenLDAP 管理员密码（您很快将再次需要它）**
 ```
-#> slappasswd 
+#> slappasswd
 New password:
 Re-enter new password:
 {SSHA}xxxxxxxxxxxxxxxxxxxxxxxx
@@ -100,34 +92,63 @@ SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
 SASL SSF: 0
 modifying entry "olcDatabase={0}config,cn=config"
 ```
+**导入基本模式**
 
-**Import basic Schemas**
+```plaintext
+In order to gather information about Active Directory (AD) from printers, it is necessary to import basic schemas into the AD. These schemas define the attributes and classes that will be used to store the printer information.
 
+To import the basic schemas, follow these steps:
+
+1. Open a command prompt with administrative privileges.
+2. Navigate to the folder where the basic schemas are located. The schemas can be found in the "Printers" folder of the "Windows Server Resource Kit Tools" installation directory.
+3. Run the following command to import the schemas:
+   ```
+   ldifde -i -f Printers.ldf
+   ```
+   This command will import the schemas defined in the "Printers.ldf" file.
+4. Verify that the schemas were imported successfully by checking the AD schema using the ADSI Edit tool or any other LDAP browser.
+
+Once the basic schemas are imported, the AD will be able to store printer information using the defined attributes and classes. This will allow for easier retrieval and management of printer-related data within the AD environment.
 ```
-#> ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/cosine.ldif 
+```plaintext
+为了从打印机中收集有关Active Directory（AD）的信息，需要将基本模式导入到AD中。这些模式定义了用于存储打印机信息的属性和类。
+
+要导入基本模式，请按照以下步骤进行操作：
+
+1. 以管理员权限打开命令提示符。
+2. 导航到包含基本模式的文件夹。这些模式可以在“Windows Server Resource Kit Tools”安装目录的“Printers”文件夹中找到。
+3. 运行以下命令以导入模式：
+   ```
+   ldifde -i -f Printers.ldf
+   ```
+   此命令将导入“Printers.ldf”文件中定义的模式。
+4. 使用ADSI Edit工具或任何其他LDAP浏览器检查AD模式，以验证模式是否成功导入。
+
+一旦导入了基本模式，AD将能够使用定义的属性和类存储打印机信息。这将使得在AD环境中更容易检索和管理与打印机相关的数据。
+```
+```
+#> ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/cosine.ldif
 SASL/EXTERNAL authentication started
 SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
 SASL SSF: 0
 adding new entry "cn=cosine,cn=schema,cn=config"
 
-#> ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/nis.ldif 
+#> ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/nis.ldif
 SASL/EXTERNAL authentication started
 SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
 SASL SSF: 0
 adding new entry "cn=nis,cn=schema,cn=config"
 
-#> ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/inetorgperson.ldif 
+#> ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/inetorgperson.ldif
 SASL/EXTERNAL authentication started
 SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
 SASL SSF: 0
 adding new entry "cn=inetorgperson,cn=schema,cn=config"
 ```
-
-**Set your domain name on LDAP DB.**
-
+**在LDAP数据库上设置您的域名。**
 ```
 # generate directory manager's password
-#> slappasswd 
+#> slappasswd
 New password:
 Re-enter new password:
 {SSHA}xxxxxxxxxxxxxxxxxxxxxxxx
@@ -163,7 +184,7 @@ dn="cn=Manager,dc=foo,dc=bar" write by anonymous auth by self write by * none
 olcAccess: {1}to dn.base="" by * read
 olcAccess: {2}to * by dn="cn=Manager,dc=foo,dc=bar" write by * read
 
-#> ldapmodify -Y EXTERNAL -H ldapi:/// -f chdomain.ldif 
+#> ldapmodify -Y EXTERNAL -H ldapi:/// -f chdomain.ldif
 SASL/EXTERNAL authentication started
 SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
 SASL SSF: 0
@@ -198,7 +219,7 @@ dn: ou=Group,dc=foo,dc=bar
 objectClass: organizationalUnit
 ou: Group
 
-#> ldapadd -x -D cn=Manager,dc=foo,dc=bar -W -f basedomain.ldif 
+#> ldapadd -x -D cn=Manager,dc=foo,dc=bar -W -f basedomain.ldif
 Enter LDAP Password: # directory manager's password
 adding new entry "dc=foo,dc=bar"
 
@@ -208,14 +229,12 @@ adding new entry "ou=People,dc=foo,dc=bar"
 
 adding new entry "ou=Group,dc=foo,dc=bar"
 ```
+**配置LDAP TLS**
 
-**Configure LDAP TLS**
-
-**Create and SSL Certificate**
-
+**创建SSL证书**
 ```
-#> cd /etc/pki/tls/certs 
-#> make server.key 
+#> cd /etc/pki/tls/certs
+#> make server.key
 umask 77 ; \
 /usr/bin/openssl genrsa -aes128 2048 > server.key
 Generating RSA private key, 2048 bit long modulus
@@ -226,11 +245,11 @@ Enter pass phrase: # set passphrase
 Verifying - Enter pass phrase: # confirm
 
 # remove passphrase from private key
-#> openssl rsa -in server.key -out server.key 
+#> openssl rsa -in server.key -out server.key
 Enter pass phrase for server.key: # input passphrase
 writing RSA key
 
-#> make server.csr 
+#> make server.csr
 umask 77 ; \
 /usr/bin/openssl req -utf8 -new -key server.key -out server.csr
 You are about to be asked to enter information that will be incorporated
@@ -257,9 +276,32 @@ Signature ok
 subject=/C=/ST=/L=/O=/OU=Foo Bar/CN=dlp.foo.bar/emailAddress=xxx@roo.bar
 Getting Private key
 ```
+**配置 Slapd 以使用 SSL/TLS**
 
-**Configure Slapd for SSL /TLS**
+To configure Slapd for SSL/TLS, follow these steps:
 
+1. Generate a self-signed certificate or obtain a certificate from a trusted Certificate Authority (CA).
+
+2. Copy the certificate and private key files to the appropriate directory on the server.
+
+3. Update the Slapd configuration file (`slapd.conf` or `slapd.d/cn=config`) to enable SSL/TLS and specify the certificate and key file paths.
+
+4. Set the appropriate permissions on the certificate and key files to ensure only the Slapd process can access them.
+
+5. Restart the Slapd service to apply the changes.
+
+Here is an example of how the configuration file should be updated:
+
+```
+TLSCertificateFile /path/to/certificate.crt
+TLSCertificateKeyFile /path/to/privatekey.key
+TLSCACertificateFile /path/to/ca.crt
+TLSVerifyClient never
+```
+
+Make sure to replace `/path/to/` with the actual file paths.
+
+After configuring Slapd for SSL/TLS, all communication between the LDAP client and server will be encrypted, providing an additional layer of security.
 ```
 #> cp /etc/pki/tls/certs/server.key \
 /etc/pki/tls/certs/server.crt \
@@ -272,7 +314,7 @@ Getting Private key
 
 #> vim mod_ssl.ldif
 # create new
- dn: cn=config
+dn: cn=config
 changetype: modify
 add: olcTLSCACertificateFile
 olcTLSCACertificateFile: /etc/openldap/certs/ca-bundle.crt
@@ -283,56 +325,72 @@ olcTLSCertificateFile: /etc/openldap/certs/server.crt
 replace: olcTLSCertificateKeyFile
 olcTLSCertificateKeyFile: /etc/openldap/certs/server.key
 
-#> ldapmodify -Y EXTERNAL -H ldapi:/// -f mod_ssl.ldif 
+#> ldapmodify -Y EXTERNAL -H ldapi:/// -f mod_ssl.ldif
 SASL/EXTERNAL authentication started
 SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
 SASL SSF: 0
 modifying entry "cn=config"
 ```
+**允许本地防火墙通过LDAP**
 
-**Allow LDAP through your local firewall**
+To allow LDAP traffic through your local firewall, follow these steps:
 
+1. Open the Windows Firewall with Advanced Security.
+2. In the left pane, click on "Inbound Rules".
+3. In the right pane, click on "New Rule".
+4. Select "Port" and click "Next".
+5. Choose "Specific local ports" and enter "389" (or the port number used for LDAP) in the textbox. Click "Next".
+6. Select "Allow the connection" and click "Next".
+7. Choose the network types for which this rule should apply. Click "Next".
+8. Enter a name and description for the rule. Click "Finish".
+
+**允许本地防火墙通过LDAP流量的步骤如下：**
+
+1. 打开“高级安全性的Windows防火墙”。
+2. 在左侧窗格中，点击“入站规则”。
+3. 在右侧窗格中，点击“新建规则”。
+4. 选择“端口”，然后点击“下一步”。
+5. 选择“特定本地端口”，在文本框中输入“389”（或用于LDAP的端口号）。点击“下一步”。
+6. 选择“允许连接”，然后点击“下一步”。
+7. 选择适用于此规则的网络类型。点击“下一步”。
+8. 为规则输入名称和描述。点击“完成”。
 ```
 firewall-cmd --add-service={ldap,ldaps}
 ```
+## 收益
 
-## The payoff
-
-Once you have installed and configured your LDAP service you can run it with the following command :
+安装和配置LDAP服务后，可以使用以下命令运行它：
 
 > ```
 > slapd -d 2
 > ```
 
-The screen shot below shows an example of the output when we run the connection test on the printer. As you can see the username and password are passed from the LDAP client to server.
+下面的屏幕截图显示了在打印机上运行连接测试时的输出示例。如您所见，用户名和密码从LDAP客户端传递到服务器。
 
-![slapd terminal output containing the username "MyUser" and password "MyPassword"](https://i1.wp.com/grimhacker.com/wp-content/uploads/2018/03/slapd\_output.png?resize=474%2C163\&ssl=1)
+![包含用户名"MyUser"和密码"MyPassword"的slapd终端输出](https://i1.wp.com/grimhacker.com/wp-content/uploads/2018/03/slapd\_output.png?resize=474%2C163\&ssl=1)
 
-# How bad can it be?
+# 有多糟糕？
 
-This very much depends on the credentials that have been configured.
+这在很大程度上取决于已配置的凭据。
 
-If the principle of least privilege is being followed, then you may only get read access to certain elements of active directory. This is often still valuable as you can use that information to formulate further more accurate attacks.
+如果遵循最小特权原则，则可能只能获得对Active Directory的某些元素的读取访问权限。尽管如此，这通常仍然很有价值，因为您可以使用这些信息来制定进一步更准确的攻击。
 
-Typically you are likely to get an account in the Domain Users group which may give access to sensitive information or form the prerequisite authentication for other attacks.
+通常，您可能会获得域用户组中的一个帐户，该帐户可能会提供对敏感信息的访问权限，或者作为其他攻击的先决身份验证。
 
-Or, like me, you may be rewarded for setting up an LDAP server and be handed a Domain Admin account on a silver platter.
-
+或者，就像我一样，您可能会因设置LDAP服务器而被授予一个域管理员帐户。
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- 您在**网络安全公司**工作吗？您想在HackTricks中看到您的公司广告吗？或者您想获得PEASS的**最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- 发现我们的独家[NFT](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享您的黑客技巧**。
 
 </details>
-
-

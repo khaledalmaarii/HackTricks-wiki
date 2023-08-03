@@ -4,220 +4,217 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
 
-## Basics
+## 基础知识
 
-### What is MDM (Mobile Device Management)?
+### 什么是移动设备管理（MDM）？
 
-[Mobile Device Management](https://en.wikipedia.org/wiki/Mobile\_device\_management) (MDM) is a technology commonly used to **administer end-user computing devices** such as mobile phones, laptops, desktops and tablets. In the case of Apple platforms like iOS, macOS and tvOS, it refers to a specific set of features, APIs and techniques used by administrators to manage these devices. Management of devices via MDM requires a compatible commercial or open-source MDM server that implements support for the [MDM Protocol](https://developer.apple.com/enterprise/documentation/MDM-Protocol-Reference.pdf).
+[移动设备管理](https://en.wikipedia.org/wiki/Mobile\_device\_management)（MDM）是一种常用的技术，用于**管理终端用户计算设备**，如手机、笔记本电脑、台式机和平板电脑。在苹果平台（如iOS、macOS和tvOS）中，它指的是一组特定的功能、API和技术，管理员可以使用这些功能来管理这些设备。通过MDM管理设备需要一个兼容的商业或开源MDM服务器，该服务器实现了对[MDM协议](https://developer.apple.com/enterprise/documentation/MDM-Protocol-Reference.pdf)的支持。
 
-* A way to achieve **centralized device management**
-* Requires an **MDM server** which implements support for the MDM protocol
-* MDM server can **send MDM commands**, such as remote wipe or “install this config”
+* 实现**集中式设备管理**的一种方法
+* 需要一个实现了MDM协议支持的**MDM服务器**
+* MDM服务器可以发送MDM命令，如远程擦除或“安装此配置”
 
-### Basics What is DEP (Device Enrolment Program)?
+### 基础知识 什么是设备注册计划（DEP）？
 
-The [Device Enrollment Program](https://www.apple.com/business/site/docs/DEP\_Guide.pdf) (DEP) is a service offered by Apple that **simplifies** Mobile Device Management (MDM) **enrollment** by offering **zero-touch configuration** of iOS, macOS, and tvOS devices. Unlike more traditional deployment methods, which require the end-user or administrator to take action to configure a device, or manually enroll with an MDM server, DEP aims to bootstrap this process, **allowing the user to unbox a new Apple device and have it configured for use in the organization almost immediately**.
+[设备注册计划](https://www.apple.com/business/site/docs/DEP\_Guide.pdf)（DEP）是由苹果提供的一项服务，通过提供对iOS、macOS和tvOS设备的**零触摸配置**，**简化**了移动设备管理（MDM）的**注册**过程。与传统的部署方法不同，传统的部署方法需要最终用户或管理员采取行动来配置设备，或者手动与MDM服务器进行注册，DEP旨在引导这个过程，**使用户能够打开新的苹果设备并立即将其配置为在组织中使用**。
 
-Administrators can leverage DEP to automatically enroll devices in their organization’s MDM server. Once a device is enrolled, **in many cases it is treated as a “trusted”** device owned by the organization, and could receive any number of certificates, applications, WiFi passwords, VPN configurations [and so on](https://developer.apple.com/enterprise/documentation/Configuration-Profile-Reference.pdf).
+管理员可以利用DEP自动将设备注册到组织的MDM服务器。一旦设备注册成功，**在许多情况下，它被视为组织拥有的“可信任”设备**，可以接收任意数量的证书、应用程序、WiFi密码、VPN配置等[等等](https://developer.apple.com/enterprise/documentation/Configuration-Profile-Reference.pdf)。
 
-* Allows a device to automatically enroll in pre-configured MDM server the **first time it’s powered** on
-* Most useful when the **device** is **brand new**
-* Can also be useful for **reprovisioning** workflows (**wiped** with fresh install of the OS)
+* 允许设备在首次启动时自动注册到预配置的MDM服务器
+* 设备**全新**时最有用
+* 对于**重新配置**工作流程（使用全新的操作系统进行擦除）也很有用
 
 {% hint style="danger" %}
-Unfortunately, if an organization has not taken additional steps to **protect their MDM enrollment**, a simplified end-user enrollment process through DEP can also mean a simplified process for **attackers to enroll a device of their choosing in the organization’s MDM** server, assuming the "identity" of a corporate device.
+不幸的是，如果组织没有采取额外措施来**保护其MDM注册**，通过DEP简化的最终用户注册过程也意味着攻击者可以简化地将自己选择的设备注册到组织的MDM服务器中，假冒企业设备的“身份”。
 {% endhint %}
 
-### Basics What is SCEP (Simple Certificate Enrolment Protocol)?
+### 基础知识 什么是简单证书注册协议（SCEP）？
 
-* A relatively old protocol, created before TLS and HTTPS were widespread.
-* Gives clients a standardized way of sending a **Certificate Signing Request** (CSR) for the purpose of being granted a certificate. The client will ask the server to give him a signed certificate.
+* 一种相对较旧的协议，在TLS和HTTPS广泛使用之前创建的。
+* 为客户端提供了一种标准化的方式，用于发送**证书签名请求**（CSR），以便获得证书。客户端将要求服务器给他签名的证书。
 
-### What are Configuration Profiles (aka mobileconfigs)?
+### 什么是配置文件（也称为mobileconfigs）？
 
-* Apple’s official way of **setting/enforcing system configuration.**
-* File format that can contain multiple payloads.
-* Based on property lists (the XML kind).
-* “can be signed and encrypted to validate their origin, ensure their integrity, and protect their contents.” Basics — Page 70, iOS Security Guide, January 2018.
+* 苹果官方的**设置/强制系统配置**的方式。
+* 可以包含多个有效负载的文件格式。
+* 基于属性列表（XML类型）。
+* “可以签名和加密，以验证其来源、确保其完整性并保护其内容。” 基础知识 — 第70页，iOS安全指南，2018年1月。
 
-## Protocols
+## 协议
 
 ### MDM
 
-* Combination of APNs (**Apple server**s) + RESTful API (**MDM** **vendor** servers)
-* **Communication** occurs between a **device** and a server associated with a **device** **management** **product**
-* **Commands** delivered from the MDM to the device in **plist-encoded dictionaries**
-* All over **HTTPS**. MDM servers can be (and are usually) pinned.
-* Apple grants the MDM vendor an **APNs certificate** for authentication
+* APNs（**苹果服务器**）+ RESTful API（**MDM供应商**服务器）的组合
+* 通信发生在与设备管理产品相关的设备和服务器之间
+* **命令**以plist编码的字典形式从MDM传递到设备
+* 全部使用**HTTPS**。MDM服务器可以（通常）进行固定。
+* 苹果向MDM供应商授予APNs证书进行身份验证
 
 ### DEP
 
-* **3 APIs**: 1 for resellers, 1 for MDM vendors, 1 for device identity (undocumented):
-  * The so-called [DEP "cloud service" API](https://developer.apple.com/enterprise/documentation/MDM-Protocol-Reference.pdf). This is used by MDM servers to associate DEP profiles with specific devices.
-  * The [DEP API used by Apple Authorized Resellers](https://applecareconnect.apple.com/api-docs/depuat/html/WSImpManual.html) to enroll devices, check enrollment status, and check transaction status.
-  * The undocumented private DEP API. This is used by Apple Devices to request their DEP profile. On macOS, the `cloudconfigurationd` binary is responsible for communicating over this API.
-* More modern and **JSON** based (vs. plist)
-* Apple grants an **OAuth token** to the MDM vendor
+* **3个API**：1个用于经销商，1个用于MDM供应商，1个用于设备身份（未记录）：
+* 所谓的[DEP“云服务”API](https://developer.apple.com/enterprise/documentation/MDM-Protocol-Reference.pdf)。这是MDM服务器用于将DEP配置文件与特定设备关联的API。
+* [由苹果授权经销商使用的DEP API](https://applecareconnect.apple.com/api-docs/depuat/html/WSImpManual.html)，用于注册设备、检查注册状态和检查交易状态。
+* 未记录的私有DEP API。苹果设备使用此API请求其DEP配置文件。在macOS上，`cloudconfigurationd`二进制文件负责通过此API进行通信。
+* 更现代化，基于**JSON**（而不是plist）
+* 苹果向MDM供应商授予OAuth令牌
 
-**DEP "cloud service" API**
+**DEP“云服务”API**
 
 * RESTful
-* sync device records from Apple to the MDM server
-* sync “DEP profiles” to Apple from the MDM server (delivered by Apple to the device later on)
-* A DEP “profile” contains:
-  * MDM vendor server URL
-  * Additional trusted certificates for server URL (optional pinning)
-  * Extra settings (e.g. which screens to skip in Setup Assistant)
+* 将设备记录从苹果同步到MDM服务器
+* 将“DEP配置文件”从MDM服务器同步到苹果（稍后由苹果传递给设备）
+* DEP“配置文件”包含：
+* MDM供应商服务器URL
+* 用于服务器URL的其他受信任证书（可选固定）
+* 额外设置（例如，在设置助理中跳过哪些屏幕）
+## 序列号
 
-## Serial Number
-
-Apple devices manufactured after 2010 generally have **12-character alphanumeric** serial numbers, with the **first three digits representing the manufacturing location**, the following **two** indicating the **year** and **week** of manufacture, the next **three** digits providing a **unique** **identifier**, and the **last** **four** digits representing the **model number**.
+2010年后生产的苹果设备通常具有**12个字符的字母数字**序列号，其中**前三位表示制造地点**，接下来的**两位**表示**年份**和**生产周**，接下来的**三位**提供一个**唯一标识符**，最后的**四位**表示**型号号码**。
 
 {% content-ref url="macos-serial-number.md" %}
 [macos-serial-number.md](macos-serial-number.md)
 {% endcontent-ref %}
 
-## Steps for enrolment and management
+## 注册和管理步骤
 
-1. Device record creation (Reseller, Apple): The record for the new device is created
-2. Device record assignment (Customer): The device is assigned to a MDM server
-3. Device record sync (MDM vendor): MDM sync the device records and push the DEP profiles to Apple
-4. DEP check-in (Device): Device gets his DEP profile
-5. Profile retrieval (Device)
-6. Profile installation (Device) a. incl. MDM, SCEP and root CA payloads
-7. MDM command issuance (Device)
+1. 设备记录创建（经销商，苹果）：创建新设备的记录
+2. 设备记录分配（客户）：将设备分配给MDM服务器
+3. 设备记录同步（MDM供应商）：MDM同步设备记录并将DEP配置文件推送到苹果
+4. DEP签到（设备）：设备获取其DEP配置文件
+5. 配置文件检索（设备）
+6. 配置文件安装（设备）a. 包括MDM，SCEP和根CA负载
+7. MDM命令发出（设备）
 
 ![](<../../../.gitbook/assets/image (564).png>)
 
-The file `/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/PrivateFrameworks/ConfigurationProfiles.framework/ConfigurationProfiles.tbd` exports functions that can be considered **high-level "steps"** of the enrolment process.
+文件`/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/PrivateFrameworks/ConfigurationProfiles.framework/ConfigurationProfiles.tbd`导出了可以被视为注册过程的**高级“步骤”**的函数。
 
-### Step 4: DEP check-in - Getting the Activation Record
+### 步骤4：DEP签到 - 获取激活记录
 
-This part of the process occurs when a **user boots a Mac for the first time** (or after a complete wipe)
+这个过程发生在**用户首次启动Mac**（或完全擦除后）
 
 ![](<../../../.gitbook/assets/image (568).png>)
 
-or when executing `sudo profiles show -type enrollment`
+或者在执行`sudo profiles show -type enrollment`时
 
-* Determine **whether device is DEP enabled**
-* Activation Record is the internal name for **DEP “profile”**
-* Begins as soon as the device is connected to Internet
-* Driven by **`CPFetchActivationRecord`**
-* Implemented by **`cloudconfigurationd`** via XPC. The **"Setup Assistant**" (when the device is firstly booted) or the **`profiles`** command will **contact this daemon** to retrieve the activation record.
-  * LaunchDaemon (always runs as root)
+* 确定设备是否启用DEP
+* 激活记录是DEP的内部名称“配置文件”
+* 一旦设备连接到互联网，就会开始
+* 由**`CPFetchActivationRecord`**驱动
+* 通过XPC由**`cloudconfigurationd`**实现。**“设置助手”**（设备首次启动时）或**`profiles`**命令将**联系此守护进程**以检索激活记录。
+* LaunchDaemon（始终以root身份运行）
 
-It follows a few steps to get the Activation Record performed by **`MCTeslaConfigurationFetcher`**. This process uses an encryption called **Absinthe**
+它按照由**`MCTeslaConfigurationFetcher`**执行的几个步骤来获取激活记录。此过程使用一种称为**Absinthe**的加密方法。
 
-1. Retrieve **certificate**
-   1. GET [https://iprofiles.apple.com/resource/certificate.cer](https://iprofiles.apple.com/resource/certificate.cer)
-2. **Initialize** state from certificate (**`NACInit`**)
-   1. Uses various device-specific data (i.e. **Serial Number via `IOKit`**)
-3. Retrieve **session key**
-   1. POST [https://iprofiles.apple.com/session](https://iprofiles.apple.com/session)
-4. Establish the session (**`NACKeyEstablishment`**)
-5. Make the request
-   1. POST to [https://iprofiles.apple.com/macProfile](https://iprofiles.apple.com/macProfile) sending the data `{ "action": "RequestProfileConfiguration", "sn": "" }`
-   2. The JSON payload is encrypted using Absinthe (**`NACSign`**)
-   3. All requests over HTTPs, built-in root certificates are used
+1. 检索**证书**
+1. GET [https://iprofiles.apple.com/resource/certificate.cer](https://iprofiles.apple.com/resource/certificate.cer)
+2. 从证书初始化状态（**`NACInit`**）
+1. 使用各种设备特定数据（例如通过`IOKit`获取的**序列号**）
+3. 检索**会话密钥**
+1. POST [https://iprofiles.apple.com/session](https://iprofiles.apple.com/session)
+4. 建立会话（**`NACKeyEstablishment`**）
+5. 发送请求
+1. POST到[https://iprofiles.apple.com/macProfile](https://iprofiles.apple.com/macProfile)，发送数据`{ "action": "RequestProfileConfiguration", "sn": "" }`
+2. 使用Absinthe对JSON有效负载进行加密（**`NACSign`**）
+3. 所有请求都通过HTTPs进行，使用内置根证书
 
 ![](<../../../.gitbook/assets/image (566).png>)
 
-The response is a JSON dictionary with some important data like:
+响应是一个包含一些重要数据的JSON字典，例如：
 
-* **url**: URL of the MDM vendor host for the activation profile
-* **anchor-certs**: Array of DER certificates used as trusted anchors
+* **url**：激活配置文件的MDM供应商主机的URL
+* **anchor-certs**：用作受信任锚点的DER证书数组
 
-### **Step 5: Profile Retrieval**
+### **步骤5：配置文件检索**
 
 ![](<../../../.gitbook/assets/image (567).png>)
 
-* Request sent to **url provided in DEP profile**.
-* **Anchor certificates** are used to **evaluate trust** if provided.
-  * Reminder: the **anchor\_certs** property of the DEP profile
-* **Request is a simple .plist** with device identification
-  * Examples: **UDID, OS version**.
-* CMS-signed, DER-encoded
-* Signed using the **device identity certificate (from APNS)**
-* **Certificate chain** includes expired **Apple iPhone Device CA**
+* 发送请求到DEP配置文件中提供的**URL**。
+* 如果提供了，将使用**锚点证书**来**评估信任**。
+* 提醒：DEP配置文件的**anchor\_certs**属性
+* 请求是一个带有设备标识的简单的.plist文件
+* 示例：**UDID，操作系统版本**。
+* CMS签名，DER编码
+* 使用**设备身份证书（来自APNS）**进行签名
+* **证书链**包括已过期的**Apple iPhone Device CA**
 
-![](<../../../.gitbook/assets/image (567) (1) (2) (2) (2) (2) (2) (2) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (7).png>)
+![](<../../../.gitbook/assets/image (567) (1) (2) (2) (2) (2) (2) (2) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (7).png>)
 
-### Step 6: Profile Installation
+### 步骤6：配置文件安装
 
-* Once retrieved, **profile is stored on the system**
-* This step begins automatically (if in **setup assistant**)
-* Driven by **`CPInstallActivationProfile`**
-* Implemented by mdmclient over XPC
-  * LaunchDaemon (as root) or LaunchAgent (as user), depending on context
-* Configuration profiles have multiple payloads to install
-* Framework has a plugin-based architecture for installing profiles
-* Each payload type is associated with a plugin
-  * Can be XPC (in framework) or classic Cocoa (in ManagedClient.app)
-* Example:
-  * Certificate Payloads use CertificateService.xpc
+* 一旦检索到，**配置文件将存储在系统上**
+* 如果在**设置助手**中，此步骤将自动开始
+* 由**`CPInstallActivationProfile`**驱动
+* 通过XPC由mdmclient实现
+* LaunchDaemon（作为root）或LaunchAgent（作为用户），取决于上下文
+* 配置文件具有多个要安装的负载
+* 框架具有基于插件的架构来安装配置文件
+* 每个负载类型与一个插件相关联
+* 可以是XPC（在框架中）或经典的Cocoa（在ManagedClient.app中）
+* 示例：
+* 证书负载使用CertificateService.xpc
 
-Typically, **activation profile** provided by an MDM vendor will **include the following payloads**:
+通常，由MDM供应商提供的**激活配置文件**将包括以下负载：
 
-* `com.apple.mdm`: to **enroll** the device in MDM
-* `com.apple.security.scep`: to securely provide a **client certificate** to the device.
-* `com.apple.security.pem`: to **install trusted CA certificates** to the device’s System Keychain.
-* Installing the MDM payload equivalent to **MDM check-in in the documentation**
-* Payload **contains key properties**:
+* `com.apple.mdm`：用于将设备**注册**到MDM
+* `com.apple.security.scep`：用于向设备**安全地提供客户端证书**。
+* `com.apple.security.pem`：用于将**受信任的CA证书**安装到设备的系统钥匙串中。
+* 安装与文档中的**MDM签到**等效的MDM负载
+* 负载包含关键属性：
 *
-  * MDM Check-In URL (**`CheckInURL`**)
-  * MDM Command Polling URL (**`ServerURL`**) + APNs topic to trigger it
-* To install MDM payload, request is sent to **`CheckInURL`**
-* Implemented in **`mdmclient`**
-* MDM payload can depend on other payloads
-* Allows **requests to be pinned to specific certificates**:
-  * Property: **`CheckInURLPinningCertificateUUIDs`**
-  * Property: **`ServerURLPinningCertificateUUIDs`**
-  * Delivered via PEM payload
-* Allows device to be attributed with an identity certificate:
-  * Property: IdentityCertificateUUID
-  * Delivered via SCEP payload
+* MDM签到URL（**`CheckInURL`**）
+* MDM命令轮询URL（**`ServerURL`**）+ APNs主题以触发它
+* 要安装MDM负载，发送请求到**`CheckInURL`**
+* 在**`mdmclient`**中实现
+* MDM负载可以依赖其他负载
+* 允许**请求固定到特定证书**：
+* 属性：**`CheckInURLPinningCertificateUUIDs`**
+* 属性：**`ServerURLPinningCertificateUUIDs`**
+* 通过PEM负载传递
+* 允许设备与身份证书关联：
+* 属性：IdentityCertificateUUID
+* 通过SCEP负载传递
+### **步骤 7：监听 MDM 命令**
 
-### **Step 7: Listening for MDM commands**
+* 在 MDM 检查完成后，供应商可以使用 APNs 发送推送通知
+* 收到推送通知后，由 `mdmclient` 处理
+* 为了轮询 MDM 命令，会向 ServerURL 发送请求
+* 使用之前安装的 MDM 负载：
+* `ServerURLPinningCertificateUUIDs` 用于固定请求
+* `IdentityCertificateUUID` 用于 TLS 客户端证书
 
-* After MDM check-in is complete, vendor can **issue push notifications using APNs**
-* Upon receipt, handled by **`mdmclient`**
-* To poll for MDM commands, request is sent to ServerURL
-* Makes use of previously installed MDM payload:
-  * **`ServerURLPinningCertificateUUIDs`** for pinning request
-  * **`IdentityCertificateUUID`** for TLS client certificate
+## 攻击
 
-## Attacks
+### 将设备注册到其他组织
 
-### Enrolling Devices in Other Organisations
-
-As previously commented, in order to try to enrol a device into an organization **only a Serial Number belonging to that Organization is needed**. Once the device is enrolled, several organizations will install sensitive data on the new device: certificates, applications, WiFi passwords, VPN configurations [and so on](https://developer.apple.com/enterprise/documentation/Configuration-Profile-Reference.pdf).\
-Therefore, this could be a dangerous entrypoint for attackers if the enrolment process isn't correctly protected:
+如前所述，为了尝试将设备注册到组织中，只需要一个属于该组织的序列号。一旦设备注册成功，多个组织将在新设备上安装敏感数据：证书、应用程序、WiFi 密码、VPN 配置[等等](https://developer.apple.com/enterprise/documentation/Configuration-Profile-Reference.pdf)。因此，如果注册过程没有得到正确保护，这可能成为攻击者的危险入口：
 
 {% content-ref url="enrolling-devices-in-other-organisations.md" %}
 [enrolling-devices-in-other-organisations.md](enrolling-devices-in-other-organisations.md)
 {% endcontent-ref %}
 
-## **References**
+## **参考资料**
 
 * [https://www.youtube.com/watch?v=ku8jZe-MHUU](https://www.youtube.com/watch?v=ku8jZe-MHUU)
 * [https://duo.com/labs/research/mdm-me-maybe](https://duo.com/labs/research/mdm-me-maybe)
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* 你在一家 **网络安全公司** 工作吗？想要在 HackTricks 中 **为你的公司做广告** 吗？或者你想要访问 **PEASS 的最新版本或下载 PDF 格式的 HackTricks** 吗？请查看 [**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 集合 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass)，或者在 **Twitter** 上 **关注** 我 [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向** [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享你的黑客技巧。**
 
 </details>
