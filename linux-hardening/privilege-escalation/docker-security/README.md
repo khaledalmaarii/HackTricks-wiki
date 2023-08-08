@@ -77,6 +77,10 @@ Note that we do not currently have vulnerability data for your image.
 ```bash
 trivy -q -f json <ontainer_name>:<tag>
 ```
+* [**`snyk`**](https://docs.snyk.io/snyk-cli/getting-started-with-the-cli)
+```bash
+snyk container test <image> --json-file-output=<output file> --severity-threshold=high
+```
 * [**`clair-scanner`**](https://github.com/arminc/clair-scanner)
 ```bash
 clair-scanner -w example-alpine.yaml --ip YOUR_LOCAL_IP alpine:3.5
@@ -121,7 +125,7 @@ Lorsque j'ai changé d'hôte Docker, j'ai dû déplacer les clés root et les cl
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour créer facilement et **automatiser des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
-Accédez dès aujourd'hui :
+Obtenez un accès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -169,7 +173,7 @@ Cela permettra de réduire les capacités, les appels système, l'accès aux fic
 
 ### Namespaces
 
-Les **espaces de noms** sont une fonctionnalité du noyau Linux qui **partitionne les ressources du noyau** de telle sorte qu'un ensemble de **processus** voit un ensemble de **ressources** tandis qu'un autre ensemble de **processus** voit un **ensemble différent** de ressources. La fonctionnalité fonctionne en ayant le même espace de noms pour un ensemble de ressources et de processus, mais ces espaces de noms font référence à des ressources distinctes. Les ressources peuvent exister dans plusieurs espaces.
+Les **espaces de noms** sont une fonctionnalité du noyau Linux qui **partitionne les ressources du noyau** de telle sorte qu'un ensemble de **processus** voit un ensemble de **ressources** tandis qu'un autre ensemble de **processus** voit un **ensemble différent** de ressources. La fonctionnalité fonctionne en ayant le même espace de noms pour un ensemble de ressources et de processus, mais ces espaces de noms se réfèrent à des ressources distinctes. Les ressources peuvent exister dans plusieurs espaces.
 
 Docker utilise les espaces de noms du noyau Linux suivants pour assurer l'isolation des conteneurs :
 
@@ -188,7 +192,7 @@ Pour **plus d'informations sur les espaces de noms**, consultez la page suivante
 ### cgroups
 
 La fonctionnalité du noyau Linux appelée **cgroups** permet de **restreindre les ressources telles que le CPU, la mémoire, l'E/S, la bande passante réseau** pour un ensemble de processus. Docker permet de créer des conteneurs en utilisant la fonctionnalité cgroups, ce qui permet de contrôler les ressources spécifiques du conteneur.\
-Voici un exemple de conteneur créé avec une limite de mémoire de 500 Mo pour l'espace utilisateur, une limite de mémoire du noyau de 50 Mo, une part de CPU de 512 et un poids de blkioweight de 400. La part de CPU est un ratio qui contrôle l'utilisation du CPU par le conteneur. Sa valeur par défaut est de 1024 et sa plage va de 0 à 1024. Si trois conteneurs ont la même part de CPU de 1024, chaque conteneur peut utiliser jusqu'à 33% du CPU en cas de conflit de ressources CPU. Le poids de blkioweight est un ratio qui contrôle l'E/S du conteneur. Sa valeur par défaut est de 500 et sa plage va de 10 à 1000.
+Voici un exemple de création d'un conteneur avec une limite de mémoire de 500 Mo pour l'espace utilisateur, une limite de mémoire du noyau de 50 Mo, une part de CPU de 512 et un poids de blkioweight de 400. La part de CPU est un ratio qui contrôle l'utilisation du CPU par le conteneur. Sa valeur par défaut est de 1024 et sa plage va de 0 à 1024. Si trois conteneurs ont la même part de CPU de 1024, chaque conteneur peut utiliser jusqu'à 33% du CPU en cas de conflit de ressources CPU. Le poids de blkioweight est un ratio qui contrôle l'E/S du conteneur. Sa valeur par défaut est de 500 et sa plage va de 10 à 1000.
 ```
 docker run -it -m 500M --kernel-memory 50M --cpu-shares 512 --blkio-weight 400 --name ubuntu1 ubuntu bash
 ```
@@ -208,7 +212,7 @@ Pour plus d'informations, consultez:
 
 Les capacités permettent un **contrôle plus précis des capacités autorisées** pour l'utilisateur root. Docker utilise la fonctionnalité de capacité du noyau Linux pour **limiter les opérations pouvant être effectuées à l'intérieur d'un conteneur**, indépendamment du type d'utilisateur.
 
-Lorsqu'un conteneur Docker est exécuté, le **processus abandonne les capacités sensibles** que le processus pourrait utiliser pour s'échapper de l'isolation. Cela vise à garantir que le processus ne pourra pas effectuer d'actions sensibles et s'échapper :
+Lorsqu'un conteneur Docker est exécuté, le **processus abandonne les capacités sensibles que le processus pourrait utiliser pour échapper à l'isolation**. Cela vise à garantir que le processus ne pourra pas effectuer d'actions sensibles et s'échapper :
 
 {% content-ref url="../linux-capabilities.md" %}
 [linux-capabilities.md](../linux-capabilities.md)
@@ -248,11 +252,27 @@ Un plugin d'autorisation **approuve** ou **refuse** les **demandes** au démon D
 [authz-and-authn-docker-access-authorization-plugin.md](authz-and-authn-docker-access-authorization-plugin.md)
 {% endcontent-ref %}
 
+## DoS à partir d'un conteneur
+
+Si vous ne limitez pas correctement les ressources qu'un conteneur peut utiliser, un conteneur compromis pourrait provoquer un déni de service (DoS) sur l'hôte où il s'exécute.
+
+* DoS du CPU
+```bash
+# stress-ng
+sudo apt-get install -y stress-ng && stress-ng --vm 1 --vm-bytes 1G --verify -t 5m
+
+# While loop
+docker run -d --name malicious-container -c 512 busybox sh -c 'while true; do :; done'
+```
+* Bande passante DoS
+```bash
+nc -lvp 4444 >/dev/null & while true; do cat /dev/urandom | nc <target IP> 4444; done
+```
 ## Intéressants drapeaux Docker
 
 ### Drapeau --privileged
 
-Sur la page suivante, vous pouvez apprendre **ce que signifie le drapeau `--privileged`** :
+Sur la page suivante, vous pouvez apprendre **ce que signifie le drapeau `--privileged`**:
 
 {% content-ref url="docker-privileged.md" %}
 [docker-privileged.md](docker-privileged.md)
@@ -262,7 +282,7 @@ Sur la page suivante, vous pouvez apprendre **ce que signifie le drapeau `--priv
 
 #### no-new-privileges
 
-Si vous exécutez un conteneur où un attaquant parvient à accéder en tant qu'utilisateur à faible privilège. Si vous avez un **binaire suid mal configuré**, l'attaquant peut l'exploiter et **escalader les privilèges à l'intérieur** du conteneur. Ce qui peut lui permettre de s'en échapper.
+Si vous exécutez un conteneur où un attaquant parvient à accéder en tant qu'utilisateur à faible privilège. Si vous avez un **binaire suid mal configuré**, l'attaquant peut l'exploiter et **escalader les privilèges à l'intérieur** du conteneur. Ce qui peut lui permettre de s'échapper.
 
 L'exécution du conteneur avec l'option **`no-new-privileges`** activée **empêchera ce type d'escalade de privilèges**.
 ```
@@ -274,47 +294,53 @@ docker run -it --security-opt=no-new-privileges:true nonewpriv
 
 ##### Docker Security
 
-##### Sécurité Docker
+##### Sécurité de Docker
 
-Docker is a popular containerization platform that allows you to package an application and its dependencies into a standardized unit called a container. While Docker provides many benefits in terms of portability and scalability, it also introduces security risks that need to be addressed.
+Docker is a popular containerization platform that allows you to package applications and their dependencies into a standardized unit called a container. While Docker provides many benefits in terms of portability and scalability, it also introduces security risks that need to be addressed.
 
-Docker est une plateforme de conteneurisation populaire qui vous permet de regrouper une application et ses dépendances dans une unité standardisée appelée conteneur. Bien que Docker offre de nombreux avantages en termes de portabilité et de scalabilité, il introduit également des risques de sécurité qui doivent être pris en compte.
+Docker est une plateforme de conteneurisation populaire qui vous permet de regrouper des applications et leurs dépendances dans une unité standardisée appelée conteneur. Bien que Docker offre de nombreux avantages en termes de portabilité et de scalabilité, il introduit également des risques de sécurité qui doivent être pris en compte.
 
-This section covers various security best practices for Docker, including:
+This section focuses on Docker security best practices and techniques to harden your Docker environment against potential attacks.
 
-Cette section couvre différentes meilleures pratiques de sécurité pour Docker, notamment :
+Cette section se concentre sur les meilleures pratiques de sécurité de Docker et les techniques pour renforcer votre environnement Docker contre les attaques potentielles.
 
-- **Securing the Docker daemon**: The Docker daemon is a critical component of the Docker architecture and needs to be secured to prevent unauthorized access and potential attacks.
+---
 
-- **Sécurisation du démon Docker** : Le démon Docker est un composant critique de l'architecture Docker et doit être sécurisé pour empêcher tout accès non autorisé et les attaques potentielles.
+##### Privilege Escalation
 
-- **Securing Docker containers**: Docker containers should be hardened to minimize the risk of exploitation and unauthorized access.
+##### Élévation de privilèges
 
-- **Sécurisation des conteneurs Docker** : Les conteneurs Docker doivent être renforcés pour minimiser les risques d'exploitation et d'accès non autorisé.
+Privilege escalation refers to the act of gaining higher levels of access or privileges on a system or network than what is intended or authorized. In the context of Docker, privilege escalation can allow an attacker to gain root access within a container and potentially compromise the underlying host system.
 
-- **Securing Docker images**: Docker images should be built securely and scanned for vulnerabilities to ensure that only trusted and secure images are used.
+L'élévation de privilèges fait référence à l'action de gagner des niveaux d'accès ou de privilèges plus élevés sur un système ou un réseau que ce qui est prévu ou autorisé. Dans le contexte de Docker, l'élévation de privilèges peut permettre à un attaquant d'obtenir un accès root dans un conteneur et compromettre potentiellement le système hôte sous-jacent.
 
-- **Sécurisation des images Docker** : Les images Docker doivent être construites de manière sécurisée et analysées pour détecter les vulnérabilités afin de garantir l'utilisation d'images fiables et sécurisées.
+This section explores various privilege escalation techniques that attackers can use to exploit vulnerabilities in Docker configurations and gain unauthorized access.
 
-- **Securing Docker networks**: Docker networks should be properly configured and isolated to prevent unauthorized access and network attacks.
+Cette section explore différentes techniques d'élévation de privilèges que les attaquants peuvent utiliser pour exploiter les vulnérabilités dans les configurations de Docker et obtenir un accès non autorisé.
 
-- **Sécurisation des réseaux Docker** : Les réseaux Docker doivent être correctement configurés et isolés pour empêcher tout accès non autorisé et les attaques réseau.
+---
 
-- **Securing Docker volumes**: Docker volumes should be protected to prevent data leakage and unauthorized access.
+##### Docker Security Tools
 
-- **Sécurisation des volumes Docker** : Les volumes Docker doivent être protégés pour éviter les fuites de données et les accès non autorisés.
+##### Outils de sécurité Docker
 
-- **Securing Docker APIs**: Docker APIs should be secured to prevent unauthorized access and potential API abuse.
+There are several tools available that can help you assess the security of your Docker environment and identify potential vulnerabilities. These tools can be used for both offensive and defensive purposes, allowing you to proactively identify and address security issues.
 
-- **Sécurisation des APIs Docker** : Les APIs Docker doivent être sécurisées pour empêcher tout accès non autorisé et les abus potentiels des APIs.
+Il existe plusieurs outils disponibles qui peuvent vous aider à évaluer la sécurité de votre environnement Docker et à identifier les vulnérabilités potentielles. Ces outils peuvent être utilisés à la fois à des fins offensives et défensives, vous permettant d'identifier et de résoudre proactivement les problèmes de sécurité.
 
-- **Monitoring and logging**: Proper monitoring and logging should be implemented to detect and respond to security incidents in Docker environments.
+This section provides an overview of some popular Docker security tools and their functionalities.
 
-- **Surveillance et journalisation** : Une surveillance et une journalisation appropriées doivent être mises en place pour détecter et répondre aux incidents de sécurité dans les environnements Docker.
+Cette section donne un aperçu de certains outils de sécurité Docker populaires et de leurs fonctionnalités.
 
-By following these best practices, you can enhance the security of your Docker deployments and protect your applications and data from potential threats.
+---
 
-En suivant ces meilleures pratiques, vous pouvez renforcer la sécurité de vos déploiements Docker et protéger vos applications et vos données contre les menaces potentielles.
+##### Additional Resources
+
+##### Ressources supplémentaires
+
+This section includes additional resources and references for further reading on Docker security and privilege escalation.
+
+Cette section comprend des ressources supplémentaires et des références pour approfondir vos connaissances sur la sécurité de Docker et l'élévation de privilèges.
 ```bash
 #You can manually add/drop capabilities with
 --cap-add
@@ -349,7 +375,7 @@ Il existe trois façons de spécifier le backend BuildKit afin de pouvoir utilis
 
 1. Définissez-le en tant que variable d'environnement avec `export DOCKER_BUILDKIT=1`.
 2. Démarrez votre commande `build` ou `run` avec `DOCKER_BUILDKIT=1`.
-3. Activez BuildKit par défaut. Définissez la configuration dans /_etc/docker/daemon.json_ sur _true_ avec : `{ "features": { "buildkit": true } }`. Ensuite, redémarrez Docker.
+3. Activez BuildKit par défaut. Définissez la configuration dans /_etc/docker/daemon.json_ sur _true_ avec : `{ "features": { "buildkit": true } }`. Puis redémarrez Docker.
 4. Ensuite, vous pouvez utiliser des secrets au moment de la construction avec le drapeau `--secret` comme ceci :
 ```bash
 docker build --secret my_key=my_value ,src=path/to/my_secret_file .
@@ -413,7 +439,7 @@ Si vous utilisez [Kubernetes](https://kubernetes.io/docs/concepts/configuration/
 
 ## Évasion de Docker / Élévation de privilèges
 
-Si vous êtes **à l'intérieur d'un conteneur Docker** ou si vous avez accès à un utilisateur du **groupe docker**, vous pouvez essayer de **vous échapper et d'obtenir des privilèges supplémentaires** :
+Si vous êtes **à l'intérieur d'un conteneur Docker** ou si vous avez accès à un utilisateur du **groupe docker**, vous pouvez essayer de **vous échapper et d'escalader les privilèges** :
 
 {% content-ref url="docker-breakout-privilege-escalation/" %}
 [docker-breakout-privilege-escalation](docker-breakout-privilege-escalation/)
@@ -421,7 +447,7 @@ Si vous êtes **à l'intérieur d'un conteneur Docker** ou si vous avez accès �
 
 ## Contournement du plugin d'authentification Docker
 
-Si vous avez accès au socket Docker ou si vous avez accès à un utilisateur du **groupe docker mais que vos actions sont limitées par un plugin d'authentification Docker**, vérifiez si vous pouvez le **contourner** :
+Si vous avez accès au socket Docker ou si vous avez accès à un utilisateur du **groupe docker mais que vos actions sont limitées par un plugin d'authentification Docker**, vérifiez si vous pouvez **le contourner** :
 
 {% content-ref url="authz-and-authn-docker-access-authorization-plugin.md" %}
 [authz-and-authn-docker-access-authorization-plugin.md](authz-and-authn-docker-access-authorization-plugin.md)
@@ -447,7 +473,7 @@ Vous devez exécuter l'outil à partir de l'hôte exécutant Docker ou à partir
 <details>
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? Ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
