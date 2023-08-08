@@ -12,7 +12,7 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
@@ -33,7 +33,7 @@ Docker引擎负责运行和管理容器。Docker引擎使用Linux内核的**命�
 Docker客户端可以通过Unix套接字本地访问Docker引擎，也可以通过http远程访问。要进行远程访问，需要使用https和**TLS**，以确保机密性、完整性和身份验证。
 
 默认情况下，监听Unix套接字`unix:///var/`\
-`run/docker.sock`，在Ubuntu发行版中，Docker启动选项在`/etc/default/docker`中指定。要允许Docker API和客户端远程访问Docker引擎，我们需要**使用http套接字暴露Docker守护程序**。可以通过以下方式完成：
+`run/docker.sock`，在Ubuntu发行版中，Docker启动选项在`/etc/default/docker`中指定。要允许Docker API和客户端远程访问Docker引擎，我们需要**通过http套接字公开Docker守护程序**。可以通过以下方式完成：
 ```bash
 DOCKER_OPTS="-D -H unix:///var/run/docker.sock -H
 tcp://192.168.56.101:2376" -> add this to /etc/default/docker
@@ -45,13 +45,13 @@ Sudo service docker restart -> Restart Docker daemon
 
 容器镜像可以存储在私有仓库或公共仓库中。Docker提供以下选项来存储容器镜像：
 
-* [Docker Hub](https://hub.docker.com) - 这是Docker提供的公共注册服务。
-* [Docker Registry](https://github.com/%20docker/distribution) - 这是一个开源项目，用户可以使用它来托管自己的注册服务。
+* [Docker Hub](https://hub.docker.com) - 这是Docker提供的公共注册服务
+* [Docker Registry](https://github.com/%20docker/distribution) - 这是一个开源项目，用户可以使用它来托管自己的注册表。
 * [Docker Trusted Registry](https://www.docker.com/docker-trusted-registry) - 这是Docker的商业实现，提供基于角色的用户身份验证以及LDAP目录服务集成。
 
 ### 镜像扫描
 
-容器可能存在**安全漏洞**，这可能是由于基础镜像或基础镜像上安装的软件导致的。Docker正在开发一个名为**Nautilus**的项目，用于对容器进行安全扫描并列出漏洞。Nautilus通过将每个容器镜像层与漏洞库进行比较，以识别安全漏洞。
+容器可能存在**安全漏洞**，这可能是由于基础镜像或安装在基础镜像之上的软件引起的。Docker正在开发一个名为**Nautilus**的项目，用于对容器进行安全扫描并列出漏洞。Nautilus通过将每个容器镜像层与漏洞库进行比较，以识别安全漏洞。
 
 有关更多[**信息，请阅读此文档**](https://docs.docker.com/engine/scan/)。
 
@@ -77,21 +77,25 @@ Note that we do not currently have vulnerability data for your image.
 ```bash
 trivy -q -f json <ontainer_name>:<tag>
 ```
+* [**`snyk`**](https://docs.snyk.io/snyk-cli/getting-started-with-the-cli)
+```bash
+snyk container test <image> --json-file-output=<output file> --severity-threshold=high
+```
 * [**`clair-scanner`**](https://github.com/arminc/clair-scanner)
 ```bash
 clair-scanner -w example-alpine.yaml --ip YOUR_LOCAL_IP alpine:3.5
 ```
 ### Docker镜像签名
 
-Docker容器镜像可以存储在公共或私有注册表中。为了确认镜像没有被篡改，需要对容器镜像进行**签名**。内容**发布者**负责对容器镜像进行签名并将其推送到注册表中。以下是关于Docker内容信任的一些详细信息：
+Docker容器镜像可以存储在公共或私有注册表中。为了确认镜像没有被篡改，需要对容器镜像进行签名。内容发布者负责对容器镜像进行签名并将其推送到注册表中。以下是关于Docker内容信任的一些详细信息：
 
 - Docker内容信任是[Notary开源项目](https://github.com/docker/notary)的一种实现。Notary开源项目基于[The Update Framework (TUF)项目](https://theupdateframework.github.io)。
-- 使用`export DOCKER_CONTENT_TRUST=1`可以启用Docker内容信任。从Docker版本1.10开始，默认情况下不启用内容信任。
-- 当内容信任被启用时，我们只能**拉取已签名的镜像**。在推送镜像时，需要输入标记密钥。
-- 当发布者首次使用docker push推送镜像时，需要为**根密钥和标记密钥**输入一个**密码短语**。其他密钥将自动生成。
-- Docker还添加了对使用Yubikey的硬件密钥的支持，详细信息可在[这里](https://blog.docker.com/2015/11/docker-content-trust-yubikey/)找到。
+- 使用`export DOCKER_CONTENT_TRUST=1`启用Docker内容信任。从Docker版本1.10开始，默认情况下未启用内容信任。
+- 当内容信任被启用时，我们只能拉取已签名的镜像。在推送镜像时，需要输入标记密钥。
+- 当发布者首次使用docker push推送镜像时，需要为根密钥和标记密钥输入密码。其他密钥会自动生成。
+- Docker还支持使用Yubikey硬件密钥，详细信息可在[这里](https://blog.docker.com/2015/11/docker-content-trust-yubikey/)找到。
 
-以下是在**启用内容信任且镜像未签名**时出现的**错误**。
+以下是当启用内容信任但镜像未签名时出现的错误信息。
 ```shell-session
 $ docker pull smakam/mybusybox
 Using default tag: latest
@@ -119,7 +123,7 @@ tar -zcvf private_keys_backup.tar.gz ~/.docker/trust/private
 ![](<../../../.gitbook/assets/image (9) (1) (2).png>)
 
 \
-使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。\
+使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)轻松构建和自动化由全球**最先进**的社区工具提供支持的工作流程。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -135,7 +139,7 @@ tar -zcvf private_keys_backup.tar.gz ~/.docker/trust/private
 命名空间对于将一个项目与其他项目隔离开来非常有用，可以隔离进程通信、网络、挂载等。它对于将Docker进程与其他进程（甚至/proc文件夹）隔离开来非常有用，因此它无法滥用其他进程来逃逸。
 
 通过使用二进制文件**`unshare`**（使用**`unshare`**系统调用）可以可能"逃逸"或更准确地说是**创建新的命名空间**。Docker默认情况下会阻止此操作，但Kubernetes不会（在撰写本文时）。\
-无论如何，这对于创建新的命名空间非常有帮助，但**不能返回到主机默认的命名空间**（除非您可以访问主机命名空间中的某些`/proc`，在其中您可以使用**`nsenter`**进入主机命名空间）。
+无论如何，这对于创建新的命名空间非常有帮助，但**无法返回到主机默认的命名空间**（除非您可以访问主机命名空间中的某些`/proc`，在其中您可以使用**`nsenter`**进入主机命名空间）。
 
 **CGroups**
 
@@ -168,7 +172,7 @@ Docker有一个可以激活的模板：[https://github.com/moby/moby/tree/master
 
 ### 命名空间
 
-**命名空间**是Linux内核的一个功能，它将内核资源进行**分区**，使得一组**进程**看到一组**资源**，而**另一组进程**看到另一组**资源**。该功能通过为一组资源和进程使用相同的命名空间，但这些命名空间指向不同的资源来实现。资源可以存在于多个空间中。
+**命名空间**是Linux内核的一个功能，它将内核资源**分区**，使得一组**进程**看到一组**资源**，而**另一组进程**看到另一组**资源**。该功能通过为一组资源和进程使用相同的命名空间，但这些命名空间指的是不同的资源来实现。资源可以存在于多个空间中。
 
 Docker利用以下Linux内核命名空间来实现容器隔离：
 
@@ -203,11 +207,11 @@ ls -l /proc/<PID>/ns #Get the Group and the namespaces (some may be uniq to the 
 [cgroups.md](cgroups.md)
 {% endcontent-ref %}
 
-### 权限
+### 权限提升
 
-权限允许对root用户的权限进行更精细的控制。Docker使用Linux内核的权限功能来限制容器内部可以执行的操作，而不管用户类型如何。
+权限提升允许对root用户可以允许的权限进行更精细的控制。Docker使用Linux内核的能力功能来限制容器内部可以执行的操作，而不管用户类型如何。
 
-当运行Docker容器时，进程会放弃敏感权限，以防止进程能够逃离隔离环境。这样可以确保进程无法执行敏感操作和逃离：
+当运行Docker容器时，进程会放弃敏感的能力，这些能力可以用来逃离隔离。这样可以确保进程无法执行敏感操作并逃离：
 
 {% content-ref url="../linux-capabilities.md" %}
 [linux-capabilities.md](../linux-capabilities.md)
@@ -231,9 +235,9 @@ AppArmor是一种内核增强功能，用于将容器限制在一组有限的资
 
 ### Docker中的SELinux
 
-[SELinux](https://www.redhat.com/en/blog/latest-container-exploit-runc-can-be-blocked-selinux)是一个标签系统。每个进程和每个文件系统对象都有一个标签。SELinux策略定义了关于进程标签在系统上可以执行的所有其他标签的规则。
+[SELinux](https://www.redhat.com/en/blog/latest-container-exploit-runc-can-be-blocked-selinux)是一个标签系统。每个进程和每个文件系统对象都有一个标签。SELinux策略定义了关于进程标签在系统上可以做什么的规则。
 
-容器引擎使用单个受限SELinux标签（通常为`container_t`）启动容器进程，然后将容器内部的容器设置为标记为`container_file_t`。SELinux策略规则基本上表示**`container_t`进程只能读取/写入/执行标记为`container_file_t`的文件**。
+容器引擎使用单个受限的SELinux标签启动容器进程，通常为`container_t`，然后将容器内部的容器设置为标记为`container_file_t`。SELinux策略规则基本上表示**`container_t`进程只能读取/写入/执行标记为`container_file_t`的文件**。
 
 {% content-ref url="../selinux.md" %}
 [selinux.md](../selinux.md)
@@ -247,11 +251,29 @@ AppArmor是一种内核增强功能，用于将容器限制在一组有限的资
 [authz-and-authn-docker-access-authorization-plugin.md](authz-and-authn-docker-access-authorization-plugin.md)
 {% endcontent-ref %}
 
+## 容器的DoS攻击
+
+如果您没有正确限制容器可以使用的资源，被入侵的容器可能会对其运行的主机进行DoS攻击。
+
+* CPU DoS
+```bash
+# stress-ng
+sudo apt-get install -y stress-ng && stress-ng --vm 1 --vm-bytes 1G --verify -t 5m
+
+# While loop
+docker run -d --name malicious-container -c 512 busybox sh -c 'while true; do :; done'
+```
+* 带宽拒绝服务攻击
+
+Bandwidth DoS（带宽拒绝服务攻击）
+```bash
+nc -lvp 4444 >/dev/null & while true; do cat /dev/urandom | nc <target IP> 4444; done
+```
 ## 有趣的Docker标志
 
 ### --privileged标志
 
-在下面的页面中，您可以了解`--privileged`标志意味着什么：
+在下面的页面中，您可以了解**`--privileged`标志意味着什么**：
 
 {% content-ref url="docker-privileged.md" %}
 [docker-privileged.md](docker-privileged.md)
@@ -261,37 +283,27 @@ AppArmor是一种内核增强功能，用于将容器限制在一组有限的资
 
 #### no-new-privileges
 
-如果您正在运行一个容器，攻击者以低权限用户的身份获得访问权限。如果您有一个配置错误的suid二进制文件，攻击者可能会滥用它并在容器内提升权限。这可能允许他逃离容器。
+如果您正在运行一个容器，攻击者以低权限用户的身份获得访问权限。如果您有一个**配置错误的suid二进制文件**，攻击者可能会滥用它并在容器内**提升权限**。这可能使他能够逃离容器。
 
-使用启用了`no-new-privileges`选项的容器将防止此类权限提升。
+使用启用了**`no-new-privileges`**选项的容器将**防止此类权限提升**。
 ```
 docker run -it --security-opt=no-new-privileges:true nonewpriv
 ```
 #### 其他
 
-In addition to the security measures mentioned above, there are a few other considerations to keep in mind when it comes to Docker security.
+In addition to the security measures mentioned above, there are a few other steps you can take to further harden your Docker environment:
 
-##### 1. Limit Container Capabilities
+1. **Limit container capabilities**: By default, Docker containers have a wide range of capabilities, which can potentially be exploited by attackers. You can restrict these capabilities by using the `--cap-drop` and `--cap-add` flags when running containers. Only allow the necessary capabilities for your application to function properly.
 
-By default, Docker containers have the same capabilities as the host system. This means that if a container is compromised, the attacker will have the same level of access as the host. To mitigate this risk, it is recommended to limit the capabilities of containers by using the `--cap-drop` flag when running them. This flag allows you to drop specific capabilities from the container, reducing the potential impact of a compromise.
+2. **Use seccomp profiles**: Seccomp (secure computing mode) is a Linux kernel feature that allows you to restrict the system calls that a process can make. By using seccomp profiles, you can further limit the attack surface of your containers. Docker provides a default seccomp profile, but you can also create custom profiles based on your specific requirements.
 
-##### 2. Use AppArmor or SELinux Profiles
+3. **Enable AppArmor or SELinux**: AppArmor and SELinux are mandatory access control (MAC) systems that provide an additional layer of security by enforcing strict access controls on processes and files. By enabling and configuring either of these systems, you can further enhance the security of your Docker environment.
 
-AppArmor and SELinux are security frameworks that can be used to enforce mandatory access control policies on Linux systems. By creating and enforcing profiles for Docker containers, you can further restrict their access to system resources and reduce the risk of privilege escalation. Both AppArmor and SELinux provide granular control over container capabilities, file access, network access, and more.
+4. **Regularly update Docker and its dependencies**: Docker releases regular updates that include security patches and bug fixes. It is important to keep your Docker installation up to date to ensure that you have the latest security enhancements.
 
-##### 3. Monitor Container Activity
+5. **Monitor Docker logs**: Monitoring Docker logs can help you detect any suspicious activities or potential security breaches. Configure a centralized logging system to collect and analyze Docker logs for better visibility into your container environment.
 
-Monitoring container activity is crucial for detecting and responding to potential security incidents. Docker provides built-in logging capabilities that can be used to monitor container activity, including system calls, network traffic, and file access. By analyzing these logs, you can identify any suspicious or malicious activity and take appropriate action.
-
-##### 4. Regularly Update Docker and Containers
-
-Keeping Docker and its containers up to date is essential for maintaining a secure environment. Docker regularly releases security updates and patches, so it is important to stay current with these updates to protect against known vulnerabilities. Additionally, regularly updating the software and libraries within your containers is also important to ensure that any security patches or bug fixes are applied.
-
-##### 5. Harden the Host System
-
-While Docker provides isolation between containers, it is still important to harden the host system to prevent unauthorized access. This includes implementing strong access controls, regularly patching the host system, and disabling unnecessary services and ports. By securing the host system, you can minimize the risk of an attacker gaining access to the Docker environment.
-
-By following these additional security measures, you can enhance the overall security of your Docker environment and reduce the risk of privilege escalation and other security incidents.
+By implementing these additional security measures, you can significantly reduce the risk of privilege escalation and other security vulnerabilities in your Docker environment.
 ```bash
 #You can manually add/drop capabilities with
 --cap-add
@@ -333,11 +345,11 @@ docker build --secret my_key=my_value ,src=path/to/my_secret_file .
 ```
 在您的文件中，将您的秘密指定为键值对。
 
-这些秘密将从镜像构建缓存和最终镜像中排除。
+这些秘密将从镜像构建缓存中排除，并且不会出现在最终镜像中。
 
 如果您需要在运行的容器中使用您的秘密，而不仅仅是在构建镜像时，请使用Docker Compose或Kubernetes。
 
-使用Docker Compose，将秘密键值对添加到一个服务中，并指定秘密文件。感谢[Stack Exchange答案](https://serverfault.com/a/936262/535325)提供的Docker Compose秘密提示，下面的示例是根据该答案进行调整的。
+使用Docker Compose，将秘密键值对添加到服务中，并指定秘密文件。感谢[Stack Exchange答案](https://serverfault.com/a/936262/535325)提供的Docker Compose秘密提示，下面的示例是根据该答案进行调整的。
 
 带有秘密的示例`docker-compose.yml`：
 ```yaml
@@ -361,7 +373,7 @@ file: ./my_secret_file.txt
 
 ### gVisor
 
-**gVisor**是一个用Go编写的应用内核，它实现了Linux系统的大部分功能。它包括一个名为`runsc`的[Open Container Initiative (OCI)](https://www.opencontainers.org)运行时，提供了应用程序和主机内核之间的**隔离边界**。`runsc`运行时与Docker和Kubernetes集成，使得运行沙盒容器变得简单。
+**gVisor**是一个用Go编写的应用程序内核，它实现了Linux系统的大部分功能。它包括一个名为`runsc`的[Open Container Initiative (OCI)](https://www.opencontainers.org)运行时，提供了应用程序和主机内核之间的**隔离边界**。`runsc`运行时与Docker和Kubernetes集成，使得运行沙盒容器变得简单。
 
 {% embed url="https://github.com/google/gvisor" %}
 
@@ -376,19 +388,19 @@ file: ./my_secret_file.txt
 * **不要使用`--privileged`标志或在容器内挂载**[**Docker套接字**](https://raesene.github.io/blog/2016/03/06/The-Dangers-Of-Docker.sock/)**。** Docker套接字允许生成容器，因此通过使用`--privileged`标志运行另一个容器是控制主机的简单方法。
 * **不要在容器内以root身份运行。使用**[**不同的用户**](https://docs.docker.com/develop/develop-images/dockerfile\_best-practices/#user)**和**[**用户命名空间**](https://docs.docker.com/engine/security/userns-remap/)**。**容器中的root与主机上的root相同，除非使用用户命名空间重新映射。它仅受到轻微的限制，主要是通过Linux命名空间、能力和cgroups。
 * [**丢弃所有能力**](https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities)**（`--cap-drop=all`），仅启用所需的能力**（`--cap-add=...`）。许多工作负载不需要任何能力，添加能力会增加潜在攻击的范围。
-* [**使用“no-new-privileges”安全选项**](https://raesene.github.io/blog/2019/06/01/docker-capabilities-and-no-new-privs/)防止进程获得更多特权，例如通过suid二进制文件。
+* [**使用“no-new-privileges”安全选项**](https://raesene.github.io/blog/2019/06/01/docker-capabilities-and-no-new-privs/)防止进程获取更多特权，例如通过suid二进制文件。
 * [**限制容器可用的资源**](https://docs.docker.com/engine/reference/run/#runtime-constraints-on-resources)**。**资源限制可以保护机器免受拒绝服务攻击。
 * **调整**[**seccomp**](https://docs.docker.com/engine/security/seccomp/)**、**[**AppArmor**](https://docs.docker.com/engine/security/apparmor/)**（或SELinux）**配置文件，将容器可用的操作和系统调用限制为最小。
-* **使用**[**官方的Docker镜像**](https://docs.docker.com/docker-hub/official\_images/)**并要求签名**，或者基于官方镜像构建自己的镜像。不要继承或使用[带有后门的](https://arstechnica.com/information-technology/2018/06/backdoored-images-downloaded-5-million-times-finally-removed-from-docker-hub/)镜像。还要将根密钥和密码短语存放在安全的地方。Docker计划使用UCP来管理密钥。
+* **使用**[**官方的Docker镜像**](https://docs.docker.com/docker-hub/official\_images/)**，并要求签名**，或者基于官方镜像构建自己的镜像。不要继承或使用[带后门的](https://arstechnica.com/information-technology/2018/06/backdoored-images-downloaded-5-million-times-finally-removed-from-docker-hub/)镜像。还要将根密钥和密码短语存放在安全的地方。Docker计划使用UCP来管理密钥。
 * **定期重新构建**您的镜像，以**应用安全补丁到主机和镜像**。
 * 明智地**管理您的密钥**，使攻击者难以访问它们。
 * 如果**公开了Docker守护程序，请使用HTTPS**进行客户端和服务器身份验证。
-* 在Dockerfile中，**优先使用COPY而不是ADD**。ADD会自动解压缩文件并可以从URL复制文件。COPY没有这些功能。尽量避免使用ADD，以免受到通过远程URL和Zip文件进行的攻击。
-* 为每个微服务**使用单独的容器**
-* **不要在容器中放置ssh**，“docker exec”可用于通过ssh连接到容器。
+* 在Dockerfile中，**优先使用COPY而不是ADD**。ADD会自动解压缩文件，并可以从URL复制文件。COPY没有这些功能。尽量避免使用ADD，以免受到通过远程URL和Zip文件进行的攻击。
+* 为每个微服务**使用单独的容器**。
+* **不要在容器中放置ssh**，“docker exec”可用于通过ssh访问容器。
 * 使用**较小的**容器**镜像**
 
-## Docker越权/提权
+## Docker越权/权限提升
 
 如果您**在Docker容器内部**或者您可以访问**docker组中的用户**，您可以尝试**逃逸和提升权限**：
 
@@ -406,8 +418,8 @@ file: ./my_secret_file.txt
 
 ## 加固Docker
 
-* 工具[**docker-bench-security**](https://github.com/docker/docker-bench-security)是一个脚本，用于检查在生产环境中部署Docker容器时的几十个常见最佳实践。这些测试都是自动化的，并基于[CIS Docker Benchmark v1.3.1](https://www.cisecurity.org/benchmark/docker/)。\
-您需要从运行Docker的主机或具有足够特权的容器中运行该工具。了解**如何在README中运行它：**[**https://github.com/docker/docker-bench-security**](https://github.com/docker/docker-bench-security)。
+* 工具[**docker-bench-security**](https://github.com/docker/docker-bench-security)是一个脚本，用于检查在生产环境中部署Docker容器时的许多常见最佳实践。这些测试都是自动化的，并基于[CIS Docker Benchmark v1.3.1](https://www.cisecurity.org/benchmark/docker/)。\
+您需要从运行Docker的主机或具有足够权限的容器中运行该工具。了解**如何在README中运行它：**[**https://github.com/docker/docker-bench-security**](https://github.com/docker/docker-bench-security)。
 
 ## 参考资料
 
@@ -424,11 +436,11 @@ file: ./my_secret_file.txt
 <details>
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者你想要**获取PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品- [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
 
