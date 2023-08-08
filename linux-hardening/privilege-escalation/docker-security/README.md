@@ -22,7 +22,7 @@ Acesse hoje mesmo:
 
 ## **Segurança básica do Docker Engine**
 
-O Docker Engine realiza o trabalho pesado de executar e gerenciar contêineres. O Docker Engine usa recursos do kernel Linux, como **Namespaces** e **Cgroups**, para fornecer isolamento básico entre os contêineres. Ele também usa recursos como **redução de capacidades**, **Seccomp** e **SELinux/AppArmor para obter um melhor isolamento**.
+O Docker Engine realiza o trabalho pesado de executar e gerenciar contêineres. O Docker Engine utiliza recursos do kernel Linux, como **Namespaces** e **Cgroups**, para fornecer isolamento básico entre os contêineres. Ele também utiliza recursos como **redução de capacidades**, **Seccomp** e **SELinux/AppArmor para obter um melhor isolamento**.
 
 Por fim, um **plugin de autenticação** pode ser usado para **limitar as ações** que os usuários podem executar.
 
@@ -76,6 +76,10 @@ Note that we do not currently have vulnerability data for your image.
 * [**`trivy`**](https://github.com/aquasecurity/trivy)
 ```bash
 trivy -q -f json <ontainer_name>:<tag>
+```
+* [**`snyk`**](https://docs.snyk.io/snyk-cli/getting-started-with-the-cli)
+```bash
+snyk container test <image> --json-file-output=<output file> --severity-threshold=high
 ```
 * [**`clair-scanner`**](https://github.com/arminc/clair-scanner)
 ```bash
@@ -206,7 +210,7 @@ Para mais informações, consulte:
 
 ### Capacidades
 
-As capacidades permitem um **controle mais preciso das capacidades que podem ser permitidas** para o usuário root. O Docker utiliza o recurso de capacidades do kernel Linux para **limitar as operações que podem ser realizadas dentro de um contêiner**, independentemente do tipo de usuário.
+As capacidades permitem um **controle mais preciso das capacidades que podem ser permitidas** para o usuário root. O Docker utiliza o recurso de capacidade do kernel do Linux para **limitar as operações que podem ser realizadas dentro de um contêiner**, independentemente do tipo de usuário.
 
 Quando um contêiner Docker é executado, o **processo descarta as capacidades sensíveis que o processo poderia usar para escapar do isolamento**. Isso tenta garantir que o processo não seja capaz de realizar ações sensíveis e escapar:
 
@@ -224,7 +228,7 @@ Este é um recurso de segurança que permite ao Docker **limitar as syscalls** q
 
 ### AppArmor no Docker
 
-O **AppArmor** é um aprimoramento do kernel para confinar **contêineres** a um **conjunto limitado de recursos** com **perfis por programa**:
+**AppArmor** é um aprimoramento do kernel para confinar **contêineres** a um **conjunto limitado de recursos** com **perfis por programa**:
 
 {% content-ref url="apparmor.md" %}
 [apparmor.md](apparmor.md)
@@ -242,17 +246,39 @@ Os motores de contêiner lançam **processos de contêiner com um único rótulo
 
 ### AuthZ & AuthN
 
-Um plugin de autorização **aprova** ou **negam** **solicitações** ao daemon Docker com base no contexto atual de **autenticação** e no contexto de **comando**. O contexto de **autenticação** contém todos os **detalhes do usuário** e o **método de autenticação**. O contexto de **comando** contém todos os dados relevantes da **solicitação**.
+Um plugin de autorização **aprova** ou **negam** **solicitações** ao **daemon** do Docker com base no contexto atual de **autenticação** e no contexto de **comando**. O contexto de **autenticação** contém todos os **detalhes do usuário** e o **método de autenticação**. O contexto de **comando** contém todos os dados relevantes da **solicitação**.
 
 {% content-ref url="authz-and-authn-docker-access-authorization-plugin.md" %}
 [authz-and-authn-docker-access-authorization-plugin.md](authz-and-authn-docker-access-authorization-plugin.md)
 {% endcontent-ref %}
 
+## DoS a partir de um contêiner
+
+Se você não estiver limitando adequadamente os recursos que um contêiner pode usar, um contêiner comprometido pode realizar um ataque de negação de serviço (DoS) no host onde está sendo executado.
+
+* DoS de CPU
+```bash
+# stress-ng
+sudo apt-get install -y stress-ng && stress-ng --vm 1 --vm-bytes 1G --verify -t 5m
+
+# While loop
+docker run -d --name malicious-container -c 512 busybox sh -c 'while true; do :; done'
+```
+* **Bandwidth DoS**
+
+Um ataque de negação de serviço (DoS) de largura de banda é um tipo de ataque cibernético que tem como objetivo sobrecarregar a largura de banda de um sistema alvo, tornando-o inacessível para usuários legítimos. Esse tipo de ataque pode ser realizado por meio do envio de uma grande quantidade de tráfego malicioso para o sistema alvo, consumindo toda a largura de banda disponível e impedindo que outros usuários se conectem ou acessem os recursos do sistema.
+
+Existem várias técnicas que podem ser usadas para realizar um ataque de negação de serviço de largura de banda, incluindo o uso de botnets, amplificação de tráfego e ataques de inundação. É importante que os administradores de sistemas implementem medidas de segurança adequadas, como firewalls e sistemas de detecção de intrusões, para mitigar os riscos desse tipo de ataque.
+
+Além disso, é essencial que os usuários mantenham seus sistemas atualizados com as últimas correções de segurança e adotem boas práticas de segurança, como o uso de senhas fortes e a autenticação em dois fatores, para reduzir a probabilidade de serem vítimas de um ataque de negação de serviço de largura de banda.
+```bash
+nc -lvp 4444 >/dev/null & while true; do cat /dev/urandom | nc <target IP> 4444; done
+```
 ## Interessantes Flags do Docker
 
-### --privileged flag
+### Flag --privileged
 
-Na página a seguir, você pode aprender **o que a flag `--privileged` implica**:
+Na página a seguir, você pode aprender **o que implica a flag `--privileged`**:
 
 {% content-ref url="docker-privileged.md" %}
 [docker-privileged.md](docker-privileged.md)
@@ -262,13 +288,17 @@ Na página a seguir, você pode aprender **o que a flag `--privileged` implica**
 
 #### no-new-privileges
 
-Se você estiver executando um contêiner onde um invasor consegue obter acesso como um usuário de baixo privilégio. Se você tiver um **binário suid mal configurado**, o invasor pode abusar dele e **elevar privilégios dentro** do contêiner. O que pode permitir que ele escape dele.
+Se você estiver executando um contêiner onde um invasor consegue acessar como um usuário de baixo privilégio. Se você tiver um **binário suid mal configurado**, o invasor pode abusar dela e **elevar privilégios dentro** do contêiner. O que pode permitir que ele escape dele.
 
-Executar o contêiner com a opção **`no-new-privileges`** habilitada irá **prevenir esse tipo de elevação de privilégios**.
+Executar o contêiner com a opção **`no-new-privileges`** habilitada irá **prevenir esse tipo de escalonamento de privilégios**.
 ```
 docker run -it --security-opt=no-new-privileges:true nonewpriv
 ```
 #### Outros
+
+The `docker-security` directory contains information and techniques related to securing Docker containers and preventing privilege escalation attacks. This section covers various security measures that can be implemented to enhance the security of Docker containers.
+
+O diretório `docker-security` contém informações e técnicas relacionadas à segurança de contêineres Docker e à prevenção de ataques de escalonamento de privilégios. Esta seção aborda várias medidas de segurança que podem ser implementadas para aumentar a segurança dos contêineres Docker.
 ```bash
 #You can manually add/drop capabilities with
 --cap-add
@@ -293,7 +323,7 @@ Primeiro de tudo, **não os coloque dentro da sua imagem!**
 
 Além disso, **não use variáveis de ambiente** para suas informações sensíveis. Qualquer pessoa que possa executar `docker inspect` ou `exec` no contêiner pode encontrar seu segredo.
 
-Volumes do Docker são melhores. Eles são a maneira recomendada de acessar suas informações sensíveis na documentação do Docker. Você pode **usar um volume como sistema de arquivos temporário mantido na memória**. Volumes removem o risco de `docker inspect` e de registro. No entanto, **usuários root ainda podem ver o segredo, assim como qualquer pessoa que possa `exec` no contêiner**.
+Os volumes do Docker são melhores. Eles são a maneira recomendada de acessar suas informações sensíveis na documentação do Docker. Você pode **usar um volume como sistema de arquivos temporário mantido na memória**. Os volumes removem o risco de `docker inspect` e de registro. No entanto, **usuários root ainda podem ver o segredo, assim como qualquer pessoa que possa `exec` no contêiner**.
 
 Ainda **melhor do que volumes, use segredos do Docker**.
 
@@ -312,9 +342,9 @@ Onde o seu arquivo especifica seus segredos como um par chave-valor.
 
 Esses segredos são excluídos do cache de construção da imagem e da imagem final.
 
-Se você precisa do seu **segredo em seu contêiner em execução**, e não apenas ao construir sua imagem, use **Docker Compose ou Kubernetes**.
+Se você precisa do seu **segredo em seu contêiner em execução**, e não apenas durante a construção da imagem, use **Docker Compose ou Kubernetes**.
 
-Com o Docker Compose, adicione o par chave-valor dos segredos a um serviço e especifique o arquivo de segredo. Agradecimentos à resposta do [Stack Exchange](https://serverfault.com/a/936262/535325) pela dica de segredos do Docker Compose, da qual o exemplo abaixo é adaptado.
+Com o Docker Compose, adicione o par chave-valor dos segredos a um serviço e especifique o arquivo de segredo. A dica é do [Stack Exchange answer](https://serverfault.com/a/936262/535325) para a dica de segredos do Docker Compose que o exemplo abaixo é adaptado.
 
 Exemplo `docker-compose.yml` com segredos:
 ```yaml
@@ -355,14 +385,14 @@ Se você estiver usando [Kubernetes](https://kubernetes.io/docs/concepts/configu
 * [**Descarte todas as capacidades**](https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities) **(`--cap-drop=all`) e habilite apenas as necessárias** (`--cap-add=...`). Muitas cargas de trabalho não precisam de nenhuma capacidade e adicioná-las aumenta o escopo de um possível ataque.
 * [**Use a opção de segurança "no-new-privileges"**](https://raesene.github.io/blog/2019/06/01/docker-capabilities-and-no-new-privs/) para impedir que processos obtenham mais privilégios, por exemplo, por meio de binários suid.
 * [**Limite os recursos disponíveis para o contêiner**](https://docs.docker.com/engine/reference/run/#runtime-constraints-on-resources)**.** Limites de recursos podem proteger a máquina contra ataques de negação de serviço.
-* **Ajuste os perfis de** [**seccomp**](https://docs.docker.com/engine/security/seccomp/)**,** [**AppArmor**](https://docs.docker.com/engine/security/apparmor/) **(ou SELinux)** para restringir as ações e chamadas de sistema disponíveis para o contêiner ao mínimo necessário.
+* **Ajuste** os perfis [**seccomp**](https://docs.docker.com/engine/security/seccomp/)**,** [**AppArmor**](https://docs.docker.com/engine/security/apparmor/) **(ou SELinux)** para restringir as ações e chamadas de sistema disponíveis para o contêiner ao mínimo necessário.
 * **Use** [**imagens oficiais do Docker**](https://docs.docker.com/docker-hub/official\_images/) **e exija assinaturas** ou construa suas próprias com base nelas. Não herde ou use imagens com [backdoors](https://arstechnica.com/information-technology/2018/06/backdoored-images-downloaded-5-million-times-finally-removed-from-docker-hub/). Armazene também as chaves raiz e a frase secreta em um local seguro. O Docker tem planos para gerenciar chaves com o UCP.
 * **Reconstrua regularmente** suas imagens para **aplicar patches de segurança no host e nas imagens**.
 * Gerencie seus **segredos com sabedoria** para dificultar o acesso do atacante a eles.
 * Se você **expõe o daemon do Docker, use HTTPS** com autenticação de cliente e servidor.
-* No seu Dockerfile, **prefira COPY em vez de ADD**. ADD extrai automaticamente arquivos compactados e pode copiar arquivos de URLs. COPY não possui essas capacidades. Sempre que possível, evite usar ADD para não ficar suscetível a ataques por meio de URLs remotas e arquivos Zip.
+* Em seu Dockerfile, **prefira COPY em vez de ADD**. ADD extrai automaticamente arquivos compactados e pode copiar arquivos de URLs. COPY não possui essas capacidades. Sempre que possível, evite usar ADD para não ficar suscetível a ataques por meio de URLs remotas e arquivos Zip.
 * Tenha **contêineres separados para cada microsserviço**.
-* **Não coloque o ssh** dentro do contêiner, "docker exec" pode ser usado para fazer ssh para o contêiner.
+* **Não coloque o ssh** dentro do contêiner, "docker exec" pode ser usado para acessar o contêiner via ssh.
 * Tenha **imagens de contêiner menores**
 
 ## Fuga de Contêiner Docker / Escalação de Privilégios
