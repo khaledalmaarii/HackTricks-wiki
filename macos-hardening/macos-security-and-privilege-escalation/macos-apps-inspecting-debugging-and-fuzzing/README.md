@@ -5,10 +5,10 @@
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品 - [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
 
@@ -21,7 +21,7 @@ otool -tv /bin/ps #Decompile application
 ```
 ### objdump
 
-`objdump`是一个用于检查可执行文件、目标文件和共享库的工具。它提供了对这些文件的反汇编和符号表的访问，以及其他有用的信息，如段和节的详细信息。
+`objdump`是一个用于检查可执行文件和目标文件的工具。它可以显示文件的各种信息，包括文件头、节头、符号表和重定位表等。通过使用`objdump`，我们可以深入了解文件的结构和内容，从而进行调试和分析。
 
 #### 用法
 
@@ -31,64 +31,52 @@ objdump [选项] <文件>
 
 #### 选项
 
-- `-d`：反汇编可执行文件或目标文件的代码部分。
-- `-t`：显示可执行文件或目标文件的符号表。
-- `-h`：显示可执行文件或目标文件的节头信息。
-- `-r`：显示可执行文件或目标文件的重定位表。
-- `-s`：显示可执行文件或目标文件的完整内容。
-- `-x`：显示可执行文件或目标文件的所有头信息。
-- `-C`：将符号名进行C++修饰。
-- `-S`：将反汇编代码与源代码进行对比显示。
+- `-d`：显示反汇编代码
+- `-t`：显示符号表
+- `-r`：显示重定位表
+- `-h`：显示节头
+- `-x`：显示全部信息
+- `-S`：显示源代码和反汇编代码
 
 #### 示例
 
-```
-objdump -d binary
-```
-
-该命令将反汇编名为`binary`的可执行文件的代码部分。
+显示文件的反汇编代码：
 
 ```
-objdump -t binary
+objdump -d <文件>
 ```
 
-该命令将显示名为`binary`的可执行文件的符号表。
+显示文件的符号表：
 
 ```
-objdump -h binary
+objdump -t <文件>
 ```
 
-该命令将显示名为`binary`的可执行文件的节头信息。
+显示文件的重定位表：
 
 ```
-objdump -r binary
+objdump -r <文件>
 ```
 
-该命令将显示名为`binary`的可执行文件的重定位表。
+显示文件的节头：
 
 ```
-objdump -s binary
+objdump -h <文件>
 ```
 
-该命令将显示名为`binary`的可执行文件的完整内容。
+显示文件的全部信息：
 
 ```
-objdump -x binary
+objdump -x <文件>
 ```
 
-该命令将显示名为`binary`的可执行文件的所有头信息。
+显示文件的源代码和反汇编代码：
 
 ```
-objdump -C binary
+objdump -S <文件>
 ```
 
-该命令将显示名为`binary`的可执行文件的C++修饰后的符号名。
-
-```
-objdump -S binary
-```
-
-该命令将显示名为`binary`的可执行文件的反汇编代码与源代码的对比。
+通过使用`objdump`，我们可以更好地理解文件的内部结构和功能，从而帮助我们进行调试和分析。
 ```bash
 objdump -m --dylibs-used /bin/ls #List dynamically linked libraries
 objdump -m -h /bin/ls # Get headers information
@@ -115,51 +103,15 @@ ARCH=x86_64 jtool2 --sig /System/Applications/Automator.app/Contents/MacOS/Autom
 ```
 ### Codesign
 
-Codesign是macOS上的一个命令行工具，用于验证和签名应用程序。它可以帮助我们验证应用程序的完整性和真实性，以及确保应用程序没有被篡改或被恶意软件替换。
+Codesign（代码签名）是macOS中的一种安全机制，用于验证应用程序的身份和完整性。通过对应用程序进行数字签名，可以确保应用程序未被篡改或恶意注入。
 
-#### 验证应用程序的签名
+在macOS中，每个应用程序都必须经过代码签名才能被系统信任和运行。签名是使用开发者的私钥对应用程序进行加密的过程，以确保应用程序的完整性和来源可信。
 
-要验证应用程序的签名，可以使用以下命令：
+通过验证应用程序的签名，macOS可以确保应用程序来自可信的开发者，并且没有被篡改。如果应用程序的签名无效或缺失，macOS会发出警告并阻止应用程序的运行。
 
-```bash
-codesign -dv /path/to/application.app
-```
+Codesign还可以用于验证应用程序的权限。开发者可以使用代码签名来指定应用程序所需的特定权限，例如访问文件系统、网络或其他系统资源。这样，用户可以在安装应用程序之前，清楚地知道应用程序将要访问的权限范围。
 
-这将显示应用程序的签名信息，包括签名者、签名时间和签名验证结果。
-
-#### 签名应用程序
-
-要对应用程序进行签名，可以使用以下命令：
-
-```bash
-codesign -s "Developer ID Application: Your Name" /path/to/application.app
-```
-
-这将使用指定的开发者证书对应用程序进行签名。签名后，应用程序将被标记为经过验证的，并且用户在安装或运行应用程序时将不会收到警告。
-
-#### 检查应用程序的签名
-
-要检查应用程序的签名，可以使用以下命令：
-
-```bash
-codesign -vv /path/to/application.app
-```
-
-这将验证应用程序的签名，并显示签名验证结果。
-
-#### 修复签名问题
-
-如果应用程序的签名验证失败，可以尝试使用以下命令修复签名问题：
-
-```bash
-codesign --force --deep --sign "Developer ID Application: Your Name" /path/to/application.app
-```
-
-这将强制重新签名应用程序，并尝试修复签名问题。
-
-#### 总结
-
-Codesign是一个有用的工具，可以帮助我们验证和签名应用程序，确保其完整性和真实性。通过使用Codesign，我们可以提高应用程序的安全性，并防止恶意软件的入侵。
+总之，Codesign是macOS中一种重要的安全机制，用于验证应用程序的身份、完整性和权限。通过对应用程序进行数字签名，可以确保应用程序的来源可信，并且可以限制应用程序的权限范围。
 ```bash
 # Get signer
 codesign -vv -d /bin/ls 2>&1 | grep -E "Authority|TeamIdentifier"
@@ -183,11 +135,11 @@ codesign -s <cert-name-keychain> toolsdemo
 
 ### hdiutil
 
-这个工具允许将苹果磁盘映像（**.dmg**）文件**挂载**以在运行任何内容之前进行检查：
+这个工具允许将苹果磁盘映像（**.dmg**）文件挂载起来，在运行任何内容之前进行检查：
 ```bash
 hdiutil attach ~/Downloads/Firefox\ 58.0.2.dmg
 ```
-它将被挂载在`/Volumes`目录下
+它将被挂载在`/Volumes`目录下。
 
 ### Objective-C
 
@@ -205,21 +157,19 @@ hdiutil attach ~/Downloads/Firefox\ 58.0.2.dmg
 ```bash
 class-dump Kindle.app
 ```
-注意，这些名称可能会被混淆，以增加二进制反向工程的难度。
-
 #### 函数调用
 
-当在使用Objective-C的二进制文件中调用函数时，编译后的代码不会直接调用该函数，而是调用**`objc_msgSend`**。这将调用最终的函数：
+当在使用Objective-C的二进制文件中调用函数时，编译后的代码不会直接调用该函数，而是调用**`objc_msgSend`**。这个函数会调用最终的函数：
 
 ![](<../../../.gitbook/assets/image (560).png>)
 
-该函数期望的参数如下：
+这个函数期望的参数是：
 
-* 第一个参数（**self**）是“指向**接收消息的类的实例的指针**”。简单来说，它是方法被调用的对象。如果方法是类方法，则这将是类对象的一个实例（作为一个整体），而对于实例方法，self将指向作为对象的类的一个实例。
+* 第一个参数（**self**）是“指向**接收消息的类的实例的指针**”。简单来说，它是方法被调用的对象。如果方法是类方法，这将是类对象的一个实例（作为一个整体），而对于实例方法，self将指向作为对象的类的一个实例。
 * 第二个参数（**op**）是“处理消息的方法的选择器”。简单来说，这只是**方法的名称**。
-* 剩余的参数是方法所需的任何**值**（op）。
+* 剩下的参数是方法所需的任何**值**（op）。
 
-| **参数**           | **寄存器**                                                      | **（对于）objc_msgSend**                              |
+| **参数**           | **寄存器**                                                      | **（对于）objc_msgSend**                                |
 | ----------------- | --------------------------------------------------------------- | ------------------------------------------------------ |
 | **第一个参数**    | **rdi**                                                         | **self：方法被调用的对象**                             |
 | **第二个参数**    | **rsi**                                                         | **op：方法的名称**                                     |
@@ -231,9 +181,9 @@ class-dump Kindle.app
 
 ### Swift
 
-对于Swift二进制文件，由于存在Objective-C兼容性，有时可以使用[class-dump](https://github.com/nygard/class-dump/)提取声明，但并非总是有效。
+对于Swift二进制文件，由于与Objective-C兼容，有时可以使用[class-dump](https://github.com/nygard/class-dump/)提取声明，但并非总是有效。
 
-使用**`jtool -l`**或**`otool -l`**命令行，可以找到以**`__swift5`**前缀开头的多个部分：
+使用**`jtool -l`**或**`otool -l`**命令行可以找到以**`__swift5`**前缀开头的多个部分：
 ```bash
 jtool2 -l /Applications/Stocks.app/Contents/MacOS/Stocks
 LC 00: LC_SEGMENT_64              Mem: 0x000000000-0x100000000    __PAGEZERO
@@ -245,39 +195,39 @@ Mem: 0x100027064-0x1000274cc        __TEXT.__swift5_fieldmd
 Mem: 0x1000274cc-0x100027608        __TEXT.__swift5_capture
 [...]
 ```
-您可以在[此博客文章中找到有关这些部分中存储的信息的更多信息](https://knight.sc/reverse%20engineering/2019/07/17/swift-metadata.html)。
+你可以在[**这篇博客文章**](https://knight.sc/reverse%20engineering/2019/07/17/swift-metadata.html)中找到关于这些部分存储的信息的更多详细信息。
 
 ### 打包的二进制文件
 
 * 检查高熵
-* 检查字符串（如果几乎没有可理解的字符串，则为打包）
+* 检查字符串（如果几乎没有可理解的字符串，则可能是打包的）
 * MacOS的UPX打包程序会生成一个名为"\_\_XHDR"的部分
 
 ## 动态分析
 
 {% hint style="warning" %}
-请注意，为了调试二进制文件，**需要禁用SIP**（`csrutil disable`或`csrutil enable --without debug`），或者将二进制文件复制到临时文件夹中，并使用`codesign --remove-signature <binary-path>`删除签名，或者允许对二进制文件进行调试（可以使用[此脚本](https://gist.github.com/carlospolop/a66b8d72bb8f43913c4b5ae45672578b)）
+请注意，为了调试二进制文件，需要禁用SIP（`csrutil disable`或`csrutil enable --without debug`），或者将二进制文件复制到临时文件夹中，并使用`codesign --remove-signature <binary-path>`删除签名，或者允许对二进制文件进行调试（可以使用[此脚本](https://gist.github.com/carlospolop/a66b8d72bb8f43913c4b5ae45672578b)）
 {% endhint %}
 
 {% hint style="warning" %}
-请注意，为了在macOS上**对系统二进制文件**（如`cloudconfigurationd`）进行插桩，**必须禁用SIP**（仅删除签名不起作用）。
+请注意，为了在macOS上**对系统二进制文件**（如`cloudconfigurationd`）进行插桩，必须禁用SIP（仅删除签名不起作用）。
 {% endhint %}
 
 ### 统一日志
 
-MacOS会生成大量日志，当运行应用程序时，这些日志非常有用，可以帮助理解**它在做什么**。
+MacOS会生成大量日志，当运行应用程序时，这些日志非常有用，可以帮助理解应用程序在做什么。
 
-此外，有一些日志将包含标签`<private>`，以**隐藏**一些**用户**或**计算机**的**可识别**信息。但是，可以**安装证书来公开此信息**。请按照[**此处**](https://superuser.com/questions/1532031/how-to-show-private-data-in-macos-unified-log)的说明进行操作。
+此外，有一些日志会包含标签`<private>`，以隐藏一些用户或计算机可识别的信息。但是，可以**安装证书来显示这些信息**。请按照[**这里的说明**](https://superuser.com/questions/1532031/how-to-show-private-data-in-macos-unified-log)进行操作。
 
 ### Hopper
 
 #### 左侧面板
 
-在hopper的左侧面板中，可以看到二进制文件的符号（**标签**），过程和函数的列表（**Proc**）以及字符串（**Str**）。这些不是所有的字符串，而是在Mac-O文件的几个部分中定义的（如_cstring或`objc_methname`）。
+在hopper的左侧面板中，可以看到二进制文件的符号（**Labels**），过程和函数的列表（**Proc**）以及字符串（**Str**）。这些不是所有的字符串，而是在Mac-O文件的几个部分中定义的字符串（如_cstring或`objc_methname`）。
 
 #### 中间面板
 
-在中间面板中，您可以看到**反汇编代码**。您可以通过单击相应的图标，以**原始**反汇编、**图形**、**反编译**和**二进制**的形式查看它：
+在中间面板中，可以看到**反汇编代码**。通过点击相应的图标，可以以**原始**的反汇编、**图形**、**反编译**和**二进制**的形式查看：
 
 <figure><img src="../../../.gitbook/assets/image (2) (6).png" alt=""><figcaption></figcaption></figure>
 
@@ -285,11 +235,11 @@ MacOS会生成大量日志，当运行应用程序时，这些日志非常有用
 
 <figure><img src="../../../.gitbook/assets/image (1) (1) (2).png" alt=""><figcaption></figcaption></figure>
 
-此外，在**中间下方，您可以编写Python命令**。
+此外，在**中间下方可以编写Python命令**。
 
 #### 右侧面板
 
-在右侧面板中，您可以查看有趣的信息，例如**导航历史记录**（以便了解您如何到达当前情况）、**调用图**（您可以查看所有调用此函数的函数以及此函数调用的所有函数）和**局部变量**信息。
+在右侧面板中，可以看到一些有趣的信息，例如**导航历史记录**（以便了解如何到达当前情况）、**调用图**（可以看到调用此函数的所有函数以及此函数调用的所有函数）和**局部变量**信息。
 
 ### dtruss
 ```bash
@@ -318,9 +268,9 @@ ID   PROVIDER            MODULE                          FUNCTION NAME
 43    profile                                                     profile-97
 44    profile                                                     profile-199
 ```
-探针名称由四个部分组成：提供者、模块、函数和名称（`fbt:mach_kernel:ptrace:entry`）。如果您没有指定名称的某个部分，Dtrace将将该部分视为通配符。
+探针名称由四个部分组成：提供者、模块、函数和名称（`fbt:mach_kernel:ptrace:entry`）。如果您没有指定名称的某个部分，DTrace将将该部分视为通配符。
 
-要配置DTrace以激活探针并指定它们触发时要执行的操作，我们需要使用D语言。
+要配置DTrace以激活探针并指定触发时要执行的操作，我们需要使用D语言。
 
 更详细的解释和更多示例可以在[https://illumos.org/books/dtrace/chp-intro.html](https://illumos.org/books/dtrace/chp-intro.html)中找到。
 
@@ -379,6 +329,12 @@ sudo dtrace -s syscalls_info.d -c "cat /etc/hosts"
 
 [**FileMonitor**](https://objective-see.com/products/utilities.html#FileMonitor) 允许监视文件事件（如创建、修改和删除），并提供有关这些事件的详细信息。
 
+### Apple Instruments
+
+[**Apple Instruments**](https://developer.apple.com/library/archive/documentation/Performance/Conceptual/CellularBestPractices/Appendix/Appendix.html) 是Xcode开发工具的一部分，用于监视应用程序性能，识别内存泄漏和跟踪文件系统活动。
+
+![](<../../../.gitbook/assets/image (15).png>)
+
 ### fs\_usage
 
 允许跟踪进程执行的操作：
@@ -393,7 +349,7 @@ fs_usage -w -f network curl #This tracks network actions
 
 ## PT\_DENY\_ATTACH <a href="#page-title" id="page-title"></a>
 
-在[**这篇博文**](https://knight.sc/debugging/2019/06/03/debugging-apple-binaries-that-use-pt-deny-attach.html)中，您可以找到一个关于如何**调试正在运行的守护进程**的示例，该守护进程使用**`PT_DENY_ATTACH`**来防止调试，即使SIP已禁用。
+在[**这篇博文**](https://knight.sc/debugging/2019/06/03/debugging-apple-binaries-that-use-pt-deny-attach.html)中，您可以找到一个关于如何**调试正在运行的守护进程**的示例，该守护进程使用了**`PT_DENY_ATTACH`**来防止调试，即使SIP已禁用。
 
 ### lldb
 
@@ -404,27 +360,31 @@ lldb -p 1122
 lldb -n malware.bin
 lldb -n malware.bin --waitfor
 ```
-| **(lldb) 命令**                | **描述**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **run (r)**                   | 开始执行，直到遇到断点或进程终止。                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| **continue (c)**              | 继续执行被调试进程。                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| **nexti (n / ni)**            | 执行下一条指令。该命令会跳过函数调用。                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| **stepi (s / si)**            | 执行下一条指令。与nexti命令不同，该命令会进入函数调用。                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| **finish (f)**                | 执行当前函数（“frame”）中剩余的指令，然后返回并停止。                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| **control + c**               | 暂停执行。如果进程已经运行（r）或继续（c），这将导致进程在当前执行位置停止。                                                                                                                                                                                                                                                                                                                                                                                                               |
-| **breakpoint (b)**            | <p>b main</p><p>b -[NSDictionary objectForKey:]</p><p>b 0x0000000100004bd9</p><p>br l #断点列表</p><p>br e/dis &#x3C;num> #启用/禁用断点</p><p>breakpoint delete &#x3C;num><br>b set -n main --shlib &#x3C;lib_name></p>                                                                                                                                                                               |
-| **help**                      | <p>help breakpoint #获取断点命令的帮助</p><p>help memory write #获取写入内存的帮助</p>                                                                                                                                                                                                                                                                                                                                                                                                       |
-| **reg**                       | <p>reg read</p><p>reg read $rax</p><p>reg write $rip 0x100035cc0</p>                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| **x/s \<reg/memory address>** | 显示内存作为以空字符结尾的字符串。                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| **x/i \<reg/memory address>** | 显示内存作为汇编指令。                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| **x/b \<reg/memory address>** | 显示内存作为字节。                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| **print object (po)**         | <p>这将打印参数引用的对象</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p请注意，大多数苹果的Objective-C API或方法返回对象，因此应通过“print object”（po）命令显示。如果po没有产生有意义的输出，请使用<code>x/b</code></p> |
-| **memory**                    | <p>memory read 0x000....<br>memory read $x0+0xf2a<br>memory write 0x100600000 -s 4 0x41414141 #在该地址中写入AAAA<br>memory write -f s $rip+0x11f+7 "AAAA" #在该地址中写入AAAA</p>                                                                                                                                                                                                                                                                                    |
-| **disassembly**               | <p>dis #反汇编当前函数<br>dis -c 6 #反汇编6行<br>dis -c 0x100003764 -e 0x100003768 #从一个地址到另一个地址<br>dis -p -c 4 #从当前地址开始反汇编</p>                                                                                                                                                                                                                                                                         |
-| **parray**                    | parray 3 (char \*\*)$x1 #检查x1寄存器中的3个组件的数组                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+{% hint style="warning" %}
+在lldb中，使用`process save-core`命令转储进程
+{% endhint %}
+
+| **(lldb) 命令**                | **描述**                                                                                                                                                                                                                                                                                                                                                                                                           |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **run (r)**                   | 开始执行，直到遇到断点或进程终止。                                                                                                                                                                                                                                                                                                                                                                                 |
+| **continue (c)**              | 继续执行被调试进程。                                                                                                                                                                                                                                                                                                                                                                                               |
+| **nexti (n / ni)**            | 执行下一条指令。该命令会跳过函数调用。                                                                                                                                                                                                                                                                                                                                                                             |
+| **stepi (s / si)**            | 执行下一条指令。与nexti命令不同，该命令会进入函数调用。                                                                                                                                                                                                                                                                                                                                                             |
+| **finish (f)**                | 执行当前函数（“frame”）中剩余的指令，然后返回并停止。                                                                                                                                                                                                                                                                                                                                                               |
+| **control + c**               | 暂停执行。如果进程已经运行（r）或继续（c），这将导致进程在当前执行位置停止。                                                                                                                                                                                                                                                                                                                                         |
+| **breakpoint (b)**            | <p>b main</p><p>b -[NSDictionary objectForKey:]</p><p>b 0x0000000100004bd9</p><p>br l #断点列表</p><p>br e/dis &#x3C;num> #启用/禁用断点</p><p>breakpoint delete &#x3C;num><br>b set -n main --shlib &#x3C;lib_name></p>                                                                                                                                                                                               |
+| **help**                      | <p>help breakpoint #获取断点命令的帮助</p><p>help memory write #获取写入内存的帮助</p>                                                                                                                                                                                                                                                                                                                               |
+| **reg**                       | <p>reg read</p><p>reg read $rax</p><p>reg write $rip 0x100035cc0</p>                                                                                                                                                                                                                                                                                                                                                |
+| **x/s \<reg/memory address>** | 以空字符结尾的字符串形式显示内存。                                                                                                                                                                                                                                                                                                                                                                                 |
+| **x/i \<reg/memory address>** | 以汇编指令形式显示内存。                                                                                                                                                                                                                                                                                                                                                                                           |
+| **x/b \<reg/memory address>** | 以字节形式显示内存。                                                                                                                                                                                                                                                                                                                                                                                               |
+| **print object (po)**         | <p>这将打印参数引用的对象</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>请注意，大多数苹果的Objective-C API或方法返回对象，因此应通过“print object”（po）命令显示。如果po没有产生有意义的输出，请使用<code>x/b</code></p> |
+| **memory**                    | <p>memory read 0x000....<br>memory read $x0+0xf2a<br>memory write 0x100600000 -s 4 0x41414141 #在该地址写入AAAA<br>memory write -f s $rip+0x11f+7 "AAAA" #在该地址写入AAAA</p>                                                                                                                                                                                                                                        |
+| **disassembly**               | <p>dis #反汇编当前函数<br>dis -c 6 #反汇编6行<br>dis -c 0x100003764 -e 0x100003768 #从一个地址到另一个地址<br>dis -p -c 4 #从当前地址开始反汇编</p>                                                                                                                                                                                                                                                               |
+| **parray**                    | parray 3 (char \*\*)$x1 #检查x1寄存器中的3个组件的数组                                                                                                                                                                                                                                                                                                                                                               |
 
 {% hint style="info" %}
-在调用**`objc_sendMsg`**函数时，**rsi**寄存器保存方法的名称，作为以空字符结尾的（“C”）字符串。要通过lldb打印名称，请执行以下操作：
+在调用**`objc_sendMsg`**函数时，**rsi**寄存器保存方法的名称，以空字符结尾的（“C”）字符串。要通过lldb打印名称，请执行以下操作：
 
 `(lldb) x/s $rsi: 0x1000f1576: "startMiningWithPort:password:coreCount:slowMemory:currency:"`
 
@@ -438,23 +398,23 @@ lldb -n malware.bin --waitfor
 
 #### 虚拟机检测
 
-* 命令**`sysctl hw.model`**在主机是MacOS时返回"Mac"，而在虚拟机上返回其他值。
+* 命令**`sysctl hw.model`**在主机为MacOS时返回"Mac"，而在虚拟机上返回其他值。
 * 通过调整**`hw.logicalcpu`**和**`hw.physicalcpu`**的值，一些恶意软件尝试检测是否为虚拟机。
 * 一些恶意软件还可以根据MAC地址（00:50:56）判断机器是否为VMware。
-* 还可以使用简单的代码来检测进程是否正在被调试：
+* 还可以使用简单的代码检测进程是否正在被调试：
 * `if(P_TRACED == (info.kp_proc.p_flag & P_TRACED)){ //process being debugged }`
 * 还可以使用**`ptrace`**系统调用以**`PT_DENY_ATTACH`**标志调用。这可以防止调试器附加和跟踪。
 * 您可以检查是否导入了**`sysctl`**或**`ptrace`**函数（但恶意软件可能会动态导入它们）
 * 如在此文档中所述：“[Defeating Anti-Debug Techniques: macOS ptrace variants](https://alexomara.com/blog/defeating-anti-debug-techniques-macos-ptrace-variants/)”：\
-“_消息“Process # exited with **status = 45 (0x0000002d)**”通常是调试目标正在使用**PT\_DENY\_ATTACH**的明显迹象_”
+“_消息“Process # exited with **status = 45 (0x0000002d)**”通常是调试目标使用**PT\_DENY\_ATTACH**的明显迹象_”
 
 ## 模糊测试
 
 ### [ReportCrash](https://ss64.com/osx/reportcrash.html)
 
-ReportCrash **分析崩溃的进程并将崩溃报告保存到磁盘**。崩溃报告包含的信息可以帮助开发人员诊断崩溃的原因。\
-对于在每个用户的launchd上下文中运行的应用程序和其他进程，ReportCrash作为LaunchAgent运行，并将崩溃报告保存在用户的`~/Library/Logs/DiagnosticReports/`中。\
-对于守护进程、在系统launchd上下文中运行的其他进程和其他特权进程，ReportCrash作为LaunchDaemon运行，并将崩溃报告保存在系统的`/Library/Logs/DiagnosticReports`中。
+ReportCrash用于**分析崩溃的进程并将崩溃报告保存到磁盘**。崩溃报告包含的信息可以帮助开发人员诊断崩溃的原因。\
+对于在每个用户的launchd上下文中运行的应用程序和其他进程，ReportCrash作为LaunchAgent运行，并将崩溃报告保存在用户的`~/Library/Logs/DiagnosticReports/`目录中。\
+对于守护进程、在系统launchd上下文中运行的其他进程和其他特权进程，ReportCrash作为LaunchDaemon运行，并将崩溃报告保存在系统的`/Library/Logs/DiagnosticReports`目录中。
 
 如果您担心崩溃报告被发送到Apple，您可以禁用它们。否则，崩溃报告可以帮助您弄清楚服务器崩溃的原因。
 ```bash
@@ -512,8 +472,6 @@ cat procs.txt
 ```bash
 lldb -o "target create `which some-binary`" -o "settings set target.env-vars DYLD_INSERT_LIBRARIES=/usr/lib/libgmalloc.dylib" -o "run arg1 arg2" -o "bt" -o "reg read" -o "dis -s \$pc-32 -c 24 -m -F intel" -o "quit"
 ```
-{% endcode %}
-
 ### Fuzzers
 
 #### [AFL++](https://github.com/AFLplusplus/AFLplusplus)
@@ -522,9 +480,9 @@ lldb -o "target create `which some-binary`" -o "settings set target.env-vars DYL
 
 #### [Litefuzz](https://github.com/sec-tools/litefuzz)
 
-它可以与macOS的GUI工具一起 "**just works"**。请注意，一些macOS应用程序具有一些特定要求，例如唯一的文件名，正确的扩展名，需要从沙盒(`~/Library/Containers/com.apple.Safari/Data`)读取文件...
+它可以与macOS的GUI工具一起使用。请注意，一些macOS应用程序具有特定要求，例如唯一的文件名、正确的扩展名，需要从沙盒(`~/Library/Containers/com.apple.Safari/Data`)中读取文件...
 
-一些例子：
+一些示例：
 
 {% code overflow="wrap" %}
 ```bash
@@ -568,9 +526,9 @@ litefuzz -s -a tcp://localhost:5900 -i input/screenshared-session --reportcrash 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 发现我们的独家[NFT收藏品](https://opensea.io/collection/the-peass-family)——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>

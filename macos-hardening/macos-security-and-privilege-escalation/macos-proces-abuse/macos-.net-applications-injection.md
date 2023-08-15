@@ -21,7 +21,7 @@
 
 因此，如果你进入用户的**`$TMPDIR`**目录，你将能够找到用于调试.Net应用程序的**调试FIFO**：
 
-<figure><img src="../../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 函数[**DbgTransportSession::TransportWorker**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L1259)将处理来自调试器的通信。
 
@@ -47,7 +47,7 @@ DWORD         m_dwMinorVersion;
 BYTE                    m_sMustBeZero[8];
 }
 ```
-在新会话请求的情况下，这个结构体的填充方式如下：
+在新会话请求的情况下，这个结构体的填充方式如下所示：
 ```c
 static const DWORD kCurrentMajorVersion = 2;
 static const DWORD kCurrentMinorVersion = 0;
@@ -66,7 +66,7 @@ sSendHeader.m_cbDataBlock = sizeof(SessionRequestData);
 ```c
 write(wr, &sSendHeader, sizeof(MessageHeader));
 ```
-以下是我们需要发送的`sessionRequestData`结构体，其中包含一个用于标识我们会话的GUID：
+在发送请求头之后，我们需要发送一个`sessionRequestData`结构体，其中包含一个GUID来标识我们的会话：
 ```c
 // All '9' is a GUID.. right??
 memset(&sDataBlock.m_sSessionID, 9, sizeof(SessionRequestData));
@@ -74,7 +74,7 @@ memset(&sDataBlock.m_sSessionID, 9, sizeof(SessionRequestData));
 // Send over the session request data
 write(wr, &sDataBlock, sizeof(SessionRequestData));
 ```
-在发送会话请求后，我们从`out`管道中**读取一个标头**，该标头将指示我们建立调试器会话的请求是否**成功**：
+在发送我们的会话请求后，我们从`out`管道中读取一个标头，该标头将指示我们建立调试器会话的请求是否成功。
 ```c
 read(rd, &sReceiveHeader, sizeof(MessageHeader));
 ```
@@ -175,7 +175,7 @@ vmmap -pages 35829 | grep "rwx/rwx"
 
 <figure><img src="../../../.gitbook/assets/image (1) (3).png" alt=""><figcaption></figcaption></figure>
 
-现在只需要找到一个地址来开始我们的签名搜索。为此，我们利用另一个公开的调试器函数**`MT_GetDCB`**。它返回目标进程的一些有用信息，但对于我们的情况，我们对返回的一个包含**辅助函数地址**的字段感兴趣，即**`m_helperRemoteStartAddr`**。使用这个地址，我们知道**`libcorclr.dll`在目标进程内存中的位置**，可以开始搜索DFT。
+现在只需要找到一个地址来开始我们的签名搜索。为此，我们利用另一个暴露的调试器函数**`MT_GetDCB`**。它返回目标进程的一些有用信息，但对于我们的情况，我们对返回的字段感兴趣，其中包含一个辅助函数的地址**`m_helperRemoteStartAddr`**。使用这个地址，我们知道**`libcorclr.dll`在目标进程内存中的位置**，可以开始搜索DFT。
 
 知道了这个地址，就可以用我们的shellcode覆盖函数指针。
 

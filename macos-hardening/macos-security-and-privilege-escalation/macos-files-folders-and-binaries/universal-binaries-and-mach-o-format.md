@@ -78,7 +78,7 @@ capabilities PTR_AUTH_VERSION USERSPACE 0
 
 <figure><img src="../../../.gitbook/assets/image (5) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-正如你可能想到的，通常编译为2个架构的通用二进制文件**会使文件大小增加一倍**，相比只编译为1个架构的文件。
+正如你可能想到的，通常编译为2个架构的通用二进制文件**会使文件大小增加一倍**，而只编译为1个架构的文件则不会。
 
 ## **Mach-O  Header**
 
@@ -147,9 +147,9 @@ uint32_t cmdsize;       /* total size of command in bytes */
 
 这些命令定义了在执行过程中映射到进程的虚拟内存空间中的段。
 
-有不同类型的段，比如**\_\_TEXT**段，它保存了程序的可执行代码，以及**\_\_DATA**段，它包含进程使用的数据。这些段位于Mach-O文件的数据部分。
+有不同类型的段，比如保存程序可执行代码的**\_\_TEXT**段，以及包含进程使用的数据的**\_\_DATA**段。这些段位于Mach-O文件的数据部分中。
 
-**每个段**可以进一步**划分**为多个**区块**。加载命令结构包含了有关各个段内部的这些区块的信息。
+**每个段**可以进一步**划分**为多个**区块**。加载命令结构包含了有关各个段内部的这些区块的**信息**。
 
 在头部中首先找到**段头**：
 
@@ -172,7 +172,7 @@ int32_t		initprot;	/* initial VM protection */
 
 <figure><img src="../../../.gitbook/assets/image (2) (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-这个头部定义了在它之后出现的**区块头的数量**：
+该头部定义了在其后出现的**区块头的数量**：
 ```c
 struct section_64 { /* for 64-bit architectures */
 char		sectname[16];	/* name of this section */
@@ -193,29 +193,30 @@ uint32_t	reserved3;	/* reserved */
 
 <figure><img src="../../../.gitbook/assets/image (6) (2).png" alt=""><figcaption></figcaption></figure>
 
-如果你**添加**了**节偏移量**（0x37DC）和**体系结构开始的偏移量**，在这种情况下为`0x18000` --> `0x37DC + 0x18000 = 0x1B7DC`
+如果你**添加**了**章节偏移量**（0x37DC）和**架构开始的偏移量**，在这个例子中是`0x18000` --> `0x37DC + 0x18000 = 0x1B7DC`
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-还可以通过**命令行**获取**头信息**：
+也可以通过**命令行**获取**头部信息**：
 ```bash
 otool -lv /bin/ls
 ```
-这个命令加载的常见段：
+以下是关于MacOS文件、文件夹和二进制文件的内容。
 
-* **`__PAGEZERO`：**它指示内核将**地址零**映射到**不能读取、写入或执行**的位置。结构中的maxprot和minprot变量设置为零，表示该页面上**没有读写执行权限**。&#x20;
-* 这个分配对于**减轻空指针解引用漏洞**非常重要。
-* **`__TEXT`：**包含**可执行的**代码和**只读的**数据。该段的常见部分有：
+加载的常见段：
+
+* **`__PAGEZERO`：**它指示内核将**地址零**映射到**不可读取、写入或执行**的位置。结构中的maxprot和minprot变量设置为零，表示该页面**没有读写执行权限**。这种分配对于**减轻空指针解引用漏洞**非常重要。
+* **`__TEXT`：**包含**可执行代码**和**只读数据**。该段的常见部分有：
 * `__text`：编译的二进制代码
 * `__const`：常量数据
 * `__cstring`：字符串常量
 * `__stubs`和`__stubs_helper`：在动态库加载过程中使用
-* **`__DATA`：**包含**可写的**数据。
-* `__data`：已初始化的全局变量
-* `__bss`：未初始化的静态变量
+* **`__DATA`：**包含**可写数据**。
+* `__data`：全局变量（已初始化）
+* `__bss`：静态变量（未初始化）
 * `__objc_*`（\_\_objc\_classlist，\_\_objc\_protolist等）：Objective-C运行时使用的信息
 * **`__LINKEDIT`：**包含链接器（dyld）的信息，如“符号、字符串和重定位表项”。
-* **`__OBJC`：**包含Objective-C运行时使用的信息。尽管这些信息也可以在\_\_DATA段中的各个\_\_objc\_\*部分中找到。
+* **`__OBJC`：**包含Objective-C运行时使用的信息。尽管此信息也可以在\_\_DATA段中找到，但位于各种\_\_objc\_\*部分中。
 
 ### **`LC_MAIN`**
 
@@ -223,16 +224,16 @@ otool -lv /bin/ls
 
 ### **LC\_CODE\_SIGNATURE**
 
-包含有关Macho-O文件的**代码签名的信息**。它只包含一个**指向签名块**的**偏移量**。这通常位于文件的末尾。\
-但是，您可以在[**此博客文章**](https://davedelong.com/blog/2018/01/10/reading-your-own-entitlements/)和这个[**gists**](https://gist.github.com/carlospolop/ef26f8eb9fafd4bc22e69e1a32b81da4)中找到有关此部分的一些信息。
+包含有关Macho-O文件的**代码签名的信息**。它只包含一个**指向签名块的偏移量**。这通常位于文件的末尾。\
+但是，您可以在[**此博客文章**](https://davedelong.com/blog/2018/01/10/reading-your-own-entitlements/)和此[**gists**](https://gist.github.com/carlospolop/ef26f8eb9fafd4bc22e69e1a32b81da4)中找到有关此部分的一些信息。
 
 ### **LC\_LOAD\_DYLINKER**
 
-包含将共享库映射到进程地址空间的**动态链接器可执行文件的路径**。**值始终设置为`/usr/lib/dyld`**。重要的是要注意，在macOS中，dylib映射发生在**用户模式**而不是内核模式中。
+包含**动态链接器可执行文件的路径**，该文件将共享库映射到进程地址空间。**值始终设置为`/usr/lib/dyld`**。重要的是要注意，在macOS中，dylib映射发生在**用户模式**而不是内核模式中。
 
 ### **`LC_LOAD_DYLIB`**
 
-此加载命令描述了一个**动态**库依赖项，**指示**加载器（dyld）**加载和链接该库**。Mach-O二进制文件所需的每个库都有一个LC\_LOAD\_DYLIB加载命令。
+此加载命令描述了一个**动态库依赖项**，它指示**加载器**（dyld）**加载和链接该库**。Mach-O二进制文件所需的每个库都有一个LC\_LOAD\_DYLIB加载命令。
 
 * 此加载命令是**`dylib_command`**类型的结构（其中包含描述实际依赖动态库的struct dylib）：
 ```objectivec
@@ -297,10 +298,10 @@ size -m /bin/ls
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家 **网络安全公司** 工作吗？想要在 HackTricks 中 **宣传你的公司** 吗？或者你想要获取 **PEASS 的最新版本或下载 HackTricks 的 PDF** 吗？请查看 [**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 集合 - [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass)，或者在 **Twitter** 上 **关注** 我 [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* 你在一家**网络安全公司**工作吗？想要在 HackTricks 中**宣传你的公司**吗？或者你想要**获取最新版本的 PEASS 或下载 HackTricks 的 PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass)，或者**关注**我在**推特**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向** [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享你的黑客技巧。**
 
 </details>
