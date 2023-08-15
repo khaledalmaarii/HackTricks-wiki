@@ -43,7 +43,7 @@ O JAMF pode executar **scripts personalizados** (scripts desenvolvidos pelo sysa
 
 #### Autoinscrição do JAMF
 
-Acesse uma página como `https://<nome-da-empresa>.jamfcloud.com/enroll/` para ver se eles têm a **autoinscrição ativada**. Se eles tiverem, pode **solicitar credenciais para acessar**.
+Acesse uma página como `https://<nome-da-empresa>.jamfcloud.com/enroll/` para ver se eles têm a **autoinscrição habilitada**. Se eles tiverem, pode **solicitar credenciais para acessar**.
 
 Você pode usar o script [**JamfSniper.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfSniper.py) para realizar um ataque de pulverização de senhas.
 
@@ -53,7 +53,7 @@ Além disso, depois de encontrar as credenciais corretas, você pode ser capaz d
 
 #### Autenticação de dispositivo JAMF
 
-<figure><img src="../../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 O binário **`jamf`** continha o segredo para abrir o keychain que, na época da descoberta, era **compartilhado** entre todos e era: **`jk23ucnq91jfu9aj`**.\
 Além disso, o jamf **persiste** como um **LaunchDaemon** em **`/Library/LaunchAgents/com.jamf.management.agent.plist`**
@@ -76,9 +76,7 @@ plutil -convert xml1 -o - /Library/Preferences/com.jamfsoftware.jamf.plist
 <integer>4</integer>
 [...]
 ```
-{% endcode %}
-
-Portanto, um invasor poderia inserir um pacote malicioso (`pkg`) que **sobrescreve esse arquivo** quando instalado, definindo a **URL para um ouvinte Mythic C2 de um agente Typhon** para agora poder abusar do JAMF como C2.
+Portanto, um invasor poderia inserir um pacote malicioso (`pkg`) que **sobrescreve este arquivo** quando instalado, definindo a **URL para um ouvinte Mythic C2 de um agente Typhon** para agora poder abusar do JAMF como C2.
 
 {% code overflow="wrap" %}
 ```bash
@@ -157,7 +155,7 @@ Os três tipos de usuários do MacOS são:
 As informações locais sobre usuários e grupos são armazenadas na pasta _/var/db/dslocal/nodes/Default_.\
 Por exemplo, as informações sobre o usuário chamado _mark_ são armazenadas em _/var/db/dslocal/nodes/Default/users/mark.plist_ e as informações sobre o grupo _admin_ estão em _/var/db/dslocal/nodes/Default/groups/admin.plist_.
 
-Além de usar as arestas HasSession e AdminTo, o **MacHound adiciona três novas arestas** ao banco de dados Bloodhound:
+Além de usar as arestas HasSession e AdminTo, **MacHound adiciona três novas arestas** ao banco de dados Bloodhound:
 
 * **CanSSH** - entidade permitida a fazer SSH para o host
 * **CanVNC** - entidade permitida a fazer VNC para o host

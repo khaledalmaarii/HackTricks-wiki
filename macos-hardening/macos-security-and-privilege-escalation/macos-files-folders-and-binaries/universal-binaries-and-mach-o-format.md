@@ -40,7 +40,7 @@ struct fat_arch {
 cpu_type_t	cputype;	/* especificador de CPU (int) */
 cpu_subtype_t	cpusubtype;	/* especificador de máquina (int) */
 uint32_t	offset;		/* deslocamento do arquivo para este objeto */
-uint32_t	size;		/* tamanho deste arquivo de objeto */
+uint32_t	size;		/* tamanho deste objeto */
 uint32_t	align;		/* alinhamento como uma potência de 2 */
 };
 </code></pre>
@@ -125,12 +125,12 @@ Ou usando o [Mach-O View](https://sourceforge.net/projects/machoview/):
 
 <figure><img src="../../../.gitbook/assets/image (4) (1) (4).png" alt=""><figcaption></figcaption></figure>
 
-## **Comandos de carga Mach-O**
+## **Comandos de carregamento Mach-O**
 
 Isso especifica o **layout do arquivo na memória**. Ele contém a **localização da tabela de símbolos**, o contexto da thread principal no início da execução e quais **bibliotecas compartilhadas** são necessárias.\
 Os comandos basicamente instruem o carregador dinâmico **(dyld) sobre como carregar o binário na memória**.
 
-Todos os comandos de carga começam com uma estrutura **load\_command**, definida no **`loader.h`** mencionado anteriormente:
+Todos os comandos de carregamento começam com uma estrutura **load\_command**, definida no **`loader.h`** mencionado anteriormente:
 ```objectivec
 struct load_command {
 uint32_t cmd;           /* type of load command */
@@ -153,7 +153,7 @@ Existem **diferentes tipos** de segmentos, como o segmento **\_\_TEXT**, que con
 
 No cabeçalho, primeiro você encontra o **cabeçalho do segmento**:
 
-<pre class="language-c"><code class="lang-c">struct segment_command_64 { /* for 64-bit architectures */
+<pre class="language-c"><code class="lang-c">struct segment_command_64 { /* para arquiteturas de 64 bits */
 uint32_t	cmd;		/* LC_SEGMENT_64 */
 uint32_t	cmdsize;	/* inclui o tamanho dos structs section_64 */
 char		segname[16];	/* nome do segmento */
@@ -172,7 +172,7 @@ Exemplo de cabeçalho do segmento:
 
 <figure><img src="../../../.gitbook/assets/image (2) (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Este cabeçalho define o **número de seções cujos cabeçalhos aparecem depois** dele:
+Esse cabeçalho define o **número de seções cujos cabeçalhos aparecem depois** dele:
 ```c
 struct section_64 { /* for 64-bit architectures */
 char		sectname[16];	/* name of this section */
@@ -195,7 +195,7 @@ Exemplo de **cabeçalho de seção**:
 
 Se você **adicionar** o **deslocamento da seção** (0x37DC) + o **deslocamento** onde o **arquitetura começa**, neste caso `0x18000` --> `0x37DC + 0x18000 = 0x1B7DC`
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Também é possível obter **informações de cabeçalho** a partir da **linha de comando** com:
 ```bash
@@ -251,7 +251,7 @@ uint32_t compatibility_version;     /* library's compatibility vers number*/
 ```
 ![](<../../../.gitbook/assets/image (558).png>)
 
-Você também pode obter essas informações pela linha de comando com:
+Você também pode obter essas informações através da linha de comando com:
 ```bash
 otool -L /bin/ls
 /bin/ls:
