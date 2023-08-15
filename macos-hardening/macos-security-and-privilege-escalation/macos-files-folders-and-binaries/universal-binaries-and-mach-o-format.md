@@ -195,9 +195,9 @@ Exemple d'**en-tête de section** :
 
 Si vous **ajoutez** le **décalage de section** (0x37DC) + le **décalage** où **l'architecture commence**, dans ce cas `0x18000` --> `0x37DC + 0x18000 = 0x1B7DC`
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Il est également possible d'obtenir des **informations d'en-tête** depuis la **ligne de commande** avec :
+Il est également possible d'obtenir des **informations d'en-tête** à partir de la **ligne de commande** avec :
 ```bash
 otool -lv /bin/ls
 ```
@@ -219,11 +219,11 @@ Segments communs chargés par cette commande :
 
 ### **`LC_MAIN`**
 
-Contient le point d'entrée dans l'attribut **entryoff**. Au moment du chargement, **dyld** ajoute simplement cette valeur à la **base du binaire en mémoire**, puis **saute** vers cette instruction pour démarrer l'exécution du code du binaire.
+Contient le point d'entrée dans l'attribut **entryoff**. Au moment du chargement, **dyld** ajoute simplement cette valeur à la **base du binaire** en mémoire, puis **saute** vers cette instruction pour démarrer l'exécution du code du binaire.
 
 ### **LC\_CODE\_SIGNATURE**
 
-Contient des informations sur la **signature de code du fichier Mach-O**. Il contient uniquement un **décalage** qui **pointe** vers le **blob de signature**. Cela se trouve généralement à la toute fin du fichier.\
+Contient des informations sur la **signature du code du fichier Mach-O**. Il contient uniquement un **décalage** qui **pointe** vers le **blob de signature**. Cela se trouve généralement à la toute fin du fichier.\
 Cependant, vous pouvez trouver des informations sur cette section dans [**cet article de blog**](https://davedelong.com/blog/2018/01/10/reading-your-own-entitlements/) et ce [**gist**](https://gist.github.com/carlospolop/ef26f8eb9fafd4bc22e69e1a32b81da4).
 
 ### **LC\_LOAD\_DYLINKER**
