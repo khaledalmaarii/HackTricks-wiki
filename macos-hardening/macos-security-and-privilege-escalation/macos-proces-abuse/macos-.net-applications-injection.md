@@ -21,7 +21,7 @@ Il crée deux tubes nommés par processus .Net dans [dbgtransportsession.cpp#L12
 
 Ainsi, si vous accédez au répertoire **`$TMPDIR`** de l'utilisateur, vous pourrez trouver des **fifos de débogage** que vous pourrez utiliser pour déboguer des applications .Net :
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 La fonction [**DbgTransportSession::TransportWorker**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L1259) gérera la communication depuis un débogueur.
 
@@ -124,7 +124,7 @@ return true;
 ```
 Le code de preuve de concept (POC) se trouve [ici](https://gist.github.com/xpn/95eefc14918998853f6e0ab48d9f7b0b).
 
-### Écrire en mémoire
+### Écrire dans la mémoire
 ```c
 bool writeMemory(void *addr, int len, unsigned char *input) {
 
