@@ -1,10 +1,10 @@
 # HackTricks
 
-<figure><img src=".gitbook/assets/hack tricks gif.gif" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/hacktricks.gif" alt=""><figcaption></figcaption></figure>
 
 _Logos e design de movimento do Hacktricks por_ [_@ppiernacho_](https://www.instagram.com/ppieranacho/)_._
 
-{% hint style="info" %}
+{% hint style="success" %}
 **Bem-vindo ao wiki onde você encontrará cada truque/técnica de hacking/qualquer coisa que eu tenha aprendido em CTFs, aplicativos da vida real, pesquisas e notícias.**
 {% endhint %}
 
