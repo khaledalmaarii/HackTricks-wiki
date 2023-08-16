@@ -1,20 +1,20 @@
-# Escalada de Privilégios com Autoruns
+# Escalando Privilégios com Autoruns
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Você trabalha em uma **empresa de segurança cibernética**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
-Se você está interessado em **carreira de hacking** e hackear o impossível - **estamos contratando!** (_fluência em polonês escrita e falada é necessária_).
+Se você está interessado em uma **carreira de hacking** e hackear o inquebrável - **estamos contratando!** (_fluência em polonês escrita e falada é necessária_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
@@ -27,7 +27,7 @@ Get-CimInstance Win32_StartupCommand | select Name, command, Location, User | fl
 ```
 ## Tarefas Agendadas
 
-**Tarefas** podem ser agendadas para serem executadas com **certa frequência**. Veja quais binários estão agendados para serem executados com:
+**Tarefas** podem ser agendadas para serem executadas com **uma determinada frequência**. Veja quais binários estão agendados para serem executados com:
 ```bash
 schtasks /query /fo TABLE /nh | findstr /v /i "disable deshab"
 schtasks /query /fo LIST 2>nul | findstr TaskName
@@ -71,7 +71,7 @@ Registro de AutoRun comumente conhecido:
 * `HKLM\Software\Microsoft\Windows NT\CurrentVersion\Terminal Server\Install\Software\Microsoft\Windows\CurrentVersion\Runonce`
 * `HKLM\Software\Microsoft\Windows NT\CurrentVersion\Terminal Server\Install\Software\Microsoft\Windows\CurrentVersion\RunonceEx`
 
-As chaves de registro Run e RunOnce fazem com que os programas sejam executados cada vez que um usuário faz login. O valor de dados para uma chave é uma linha de comando não superior a 260 caracteres.
+As chaves de registro Run e RunOnce fazem com que os programas sejam executados cada vez que um usuário faz login. O valor de dados para uma chave é uma linha de comando com no máximo 260 caracteres.
 
 **Execuções de serviço** (podem controlar a inicialização automática de serviços durante a inicialização):
 
@@ -89,10 +89,10 @@ As chaves de registro Run e RunOnce fazem com que os programas sejam executados 
 * `HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnceEx`
 * `HKEY_LOCAL_MACHINE\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\RunOnceEx`
 
-Não é criado por padrão no Windows Vista e posterior. As entradas da chave de execução do registro podem fazer referência a programas diretamente ou listá-los como uma dependência. Por exemplo, é possível carregar uma DLL no logon usando uma chave "Depend" com RunOnceEx: `reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnceEx\0001\Depend /v 1 /d "C:\temp\evil[.]dll"`
+Não é criado por padrão no Windows Vista e versões mais recentes. As entradas da chave de execução do registro podem fazer referência a programas diretamente ou listá-los como uma dependência. Por exemplo, é possível carregar uma DLL no logon usando uma chave "Depend" com RunOnceEx: `reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnceEx\0001\Depend /v 1 /d "C:\temp\evil[.]dll"`
 
 {% hint style="info" %}
-**Exploração 1**: Se você puder escrever dentro de qualquer um dos registros mencionados dentro do **HKLM**, poderá elevar privilégios quando um usuário diferente fizer login.
+**Exploração 1**: Se você puder escrever em qualquer um dos registros mencionados dentro do **HKLM**, poderá elevar privilégios quando um usuário diferente fizer login.
 {% endhint %}
 
 {% hint style="info" %}
@@ -160,10 +160,10 @@ Get-ItemProperty -Path 'Registry::HKCU\Software\Wow6432Node\Microsoft\Windows\Ru
 * `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders`
 * `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders`
 
-Qualquer atalho criado para o local apontado pela subchave Startup iniciará o serviço durante o logon/reinício. A localização de inicialização é especificada tanto na Máquina Local quanto no Usuário Atual.
+Qualquer atalho criado para a localização apontada pela subchave Inicialização irá iniciar o serviço durante o logon/reinicialização. A localização de inicialização é especificada tanto na Máquina Local quanto no Usuário Atual.
 
 {% hint style="info" %}
-Se você puder sobrescrever qualquer pasta \[Usuário] Shell em **HKLM**, poderá apontá-la para uma pasta controlada por você e colocar uma backdoor que será executada sempre que um usuário fizer login no sistema, escalando privilégios.
+Se você puder sobrescrever qualquer Pasta de Shell \[Usuário] sob **HKLM**, você poderá apontá-la para uma pasta controlada por você e colocar um backdoor que será executado sempre que um usuário fizer login no sistema, escalando privilégios.
 {% endhint %}
 ```bash
 reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders" /v "Common Startup"
@@ -180,7 +180,7 @@ Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion
 
 `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon`
 
-Normalmente, a chave **Userinit** aponta para userinit.exe, mas se essa chave puder ser alterada, então esse exe também será iniciado pelo Winlogon.\
+Normalmente, a chave **Userinit** aponta para userinit.exe, mas se essa chave puder ser alterada, então esse exe também será executado pelo Winlogon.\
 A chave **Shell** deve apontar para explorer.exe.
 ```bash
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "Userinit"
@@ -208,8 +208,8 @@ Get-ItemProperty -Path 'Registry::HKCU\Software\Microsoft\Windows\CurrentVersion
 
 Caminho: **`HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot`**
 
-Sob a chave do registro `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SafeBoot` está o valor **AlternateShell**, que por padrão é definido como `cmd.exe` (o prompt de comando). Quando você pressiona F8 durante a inicialização e seleciona "Modo de segurança com prompt de comando", o sistema usa esse shell alternativo.\
-No entanto, você pode criar uma opção de inicialização para que não precise pressionar F8 e selecionar "Modo de segurança com prompt de comando".
+Sob a chave do registro `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SafeBoot` está o valor **AlternateShell**, que por padrão é definido como `cmd.exe` (o prompt de comando). Quando você pressiona F8 durante a inicialização e seleciona "Modo de Segurança com Prompt de Comando", o sistema usa esse shell alternativo.\
+No entanto, você pode criar uma opção de inicialização para não precisar pressionar F8 e selecionar "Modo de Segurança com Prompt de Comando".
 
 1. Edite os atributos do arquivo boot.ini (c:\boot.ini) para tornar o arquivo não somente leitura, não sistema e não oculto (attrib c:\boot.ini -r -s -h).
 2. Abra o boot.ini.
@@ -220,15 +220,15 @@ No entanto, você pode criar uma opção de inicialização para que não precis
 Informações da [qui](https://www.itprotoday.com/cloud-computing/how-can-i-add-boot-option-starts-alternate-shell).
 
 {% hint style="info" %}
-**Exploração 1:** Se você puder modificar essa chave do registro, poderá apontar sua backdoor.
+**Exploit 1:** Se você puder modificar essa chave do registro, poderá apontar sua backdoor.
 {% endhint %}
 
 {% hint style="info" %}
-**Exploração 2 (permissões de gravação no PATH)**: Se você tiver permissão de gravação em qualquer pasta do sistema **PATH** antes de _C:\Windows\system32_ (ou se puder alterá-lo), poderá criar um arquivo cmd.exe e se alguém iniciar a máquina no Modo de segurança, sua backdoor será executada.
+**Exploit 2 (permissões de gravação no PATH)**: Se você tiver permissão de gravação em qualquer pasta do sistema **PATH** antes de _C:\Windows\system32_ (ou se puder alterá-lo), poderá criar um arquivo cmd.exe e, se alguém iniciar a máquina no Modo de Segurança, sua backdoor será executada.
 {% endhint %}
 
 {% hint style="info" %}
-**Exploração 3 (permissões de gravação no PATH e permissões de gravação no boot.ini)**: Se você puder escrever no boot.ini, poderá automatizar a inicialização em modo de segurança para a próxima reinicialização.
+**Exploit 3 (permissões de gravação no PATH e boot.ini)**: Se você puder gravar no boot.ini, poderá automatizar a inicialização no modo de segurança para a próxima reinicialização.
 {% endhint %}
 ```bash
 reg query HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot /v AlternateShell
@@ -241,19 +241,19 @@ Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Co
 * `HKCU\SOFTWARE\Microsoft\Active Setup\Installed Components`
 * `HKCU\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components`
 
-O Active Setup é executado antes da área de trabalho aparecer. Os comandos iniciados pelo Active Setup são executados sincronamente, bloqueando o logon enquanto estão sendo executados. O Active Setup é executado antes de quaisquer entradas de registro Run ou RunOnce serem avaliadas.
+O Active Setup é executado antes da área de trabalho aparecer. Os comandos iniciados pelo Active Setup são executados de forma síncrona, bloqueando o logon enquanto estão sendo executados. O Active Setup é executado antes de quaisquer entradas de registro Run ou RunOnce serem avaliadas.
 
-Dentro dessas chaves, você encontrará mais chaves e cada uma delas terá alguns valores interessantes. Os mais interessantes são:
+Dentro dessas chaves, você encontrará mais chaves e cada uma delas conterá alguns valores interessantes. Os mais interessantes são:
 
 * **IsInstalled:**
-  * 0: O comando do componente não será executado.
-  * 1: O comando do componente será executado uma vez por usuário. Este é o padrão (se o valor IsInstalled não existir).
+* 0: O comando do componente não será executado.
+* 1: O comando do componente será executado uma vez por usuário. Este é o valor padrão (se o valor IsInstalled não existir).
 * **StubPath**
-  * Formato: Qualquer linha de comando válida, por exemplo, "notepad"
-  * Este é o comando que é executado se o Active Setup determinar que este componente precisa ser executado durante o logon.
+* Formato: Qualquer linha de comando válida, por exemplo, "notepad"
+* Este é o comando que é executado se o Active Setup determinar que este componente precisa ser executado durante o logon.
 
 {% hint style="info" %}
-Se você pudesse escrever/sobrescrever em qualquer chave com _**IsInstalled == "1"**_ a chave **StubPath**, você poderia apontá-la para uma backdoor e elevar privilégios. Além disso, se você pudesse sobrescrever qualquer **binário** apontado por qualquer chave **StubPath**, você poderia ser capaz de elevar privilégios.
+Se você puder escrever/sobrescrever qualquer chave com _**IsInstalled == "1"**_ e a chave **StubPath**, você poderá apontá-la para uma porta dos fundos e elevar os privilégios. Além disso, se você puder sobrescrever qualquer **binário** apontado por qualquer chave **StubPath**, poderá ser capaz de elevar os privilégios.
 {% endhint %}
 ```bash
 reg query "HKLM\SOFTWARE\Microsoft\Active Setup\Installed Components" /s /v StubPath
@@ -261,14 +261,14 @@ reg query "HKCU\SOFTWARE\Microsoft\Active Setup\Installed Components" /s /v Stub
 reg query "HKLM\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components" /s /v StubPath
 reg query "HKCU\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components" /s /v StubPath
 ```
-### Objetos de Ajuda do Navegador
+### Objetos Auxiliares do Navegador
 
 * `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects`
 * `HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects`
 
-Um **Objeto de Ajuda do Navegador** (**BHO**) é um módulo DLL projetado como um plugin para o navegador da web Internet Explorer da Microsoft para fornecer funcionalidades adicionais. Esses módulos são executados para cada nova instância do Internet Explorer e para cada nova instância do Windows Explorer. No entanto, um BHO pode ser impedido de ser executado por cada instância do Explorer definindo a chave **NoExplorer** como 1.
+Um **Objeto Auxiliar do Navegador** (**BHO**) é um módulo DLL projetado como um plugin para o navegador da web Internet Explorer da Microsoft para fornecer funcionalidades adicionais. Esses módulos são executados para cada nova instância do Internet Explorer e para cada nova instância do Windows Explorer. No entanto, um BHO pode ser impedido de ser executado em cada instância do Explorer definindo a chave **NoExplorer** como 1.
 
-Os BHOs ainda são suportados a partir do Windows 10, por meio do Internet Explorer 11, enquanto os BHOs não são suportados no navegador da web padrão Microsoft Edge.
+Os BHOs ainda são suportados no Windows 10, por meio do Internet Explorer 11, enquanto os BHOs não são suportados no navegador da web padrão Microsoft Edge.
 ```bash
 reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects" /s
 reg query "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects" /s
@@ -292,7 +292,7 @@ reg query "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows NT\CurrentVersion\Font Dr
 Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Font Drivers'
 Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows NT\CurrentVersion\Font Drivers'
 ```
-### Comando Abrir
+### Comando Aberto
 
 * `HKLM\SOFTWARE\Classes\htmlfile\shell\open\command`
 * `HKLM\SOFTWARE\Wow6432Node\Classes\htmlfile\shell\open\command`
@@ -304,18 +304,36 @@ Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Wow6432Node\Classes\htmlfile\she
 ```
 ### Opções de Execução de Arquivos de Imagem
 
-As Opções de Execução de Arquivos de Imagem (Image File Execution Options) é uma funcionalidade do Windows que permite a um usuário definir um depurador para um aplicativo específico. Isso pode ser usado para fins legítimos, como depurar um aplicativo durante o desenvolvimento, mas também pode ser explorado por um atacante para obter privilégios elevados.
+As Opções de Execução de Arquivos de Imagem são uma funcionalidade do Windows que permite a execução de um programa específico sempre que um determinado executável for iniciado. Essa funcionalidade pode ser explorada para obter privilégios elevados em um sistema Windows.
 
-O método mais comum de exploração das Opções de Execução de Arquivos de Imagem é adicionando uma entrada de registro para um aplicativo legítimo que execute um binário malicioso como depurador. Quando o aplicativo legítimo é executado, o binário malicioso também é executado com os mesmos privilégios do aplicativo. Isso pode permitir que o atacante execute comandos com privilégios elevados no sistema.
+#### Como funciona?
 
-Para explorar essa vulnerabilidade, o atacante precisa ter acesso de gravação ao registro do Windows. Isso pode ser alcançado com privilégios de administrador ou por meio de uma vulnerabilidade de escalonamento de privilégios local.
+Quando um programa é executado no Windows, o sistema operacional verifica se existem entradas nas Opções de Execução de Arquivos de Imagem para esse executável. Se houver uma entrada correspondente, o programa especificado nas opções será executado em vez do programa original.
+
+#### Explorando as Opções de Execução de Arquivos de Imagem
+
+Para explorar essa vulnerabilidade, um invasor pode adicionar uma entrada nas Opções de Execução de Arquivos de Imagem para um executável privilegiado, como o Prompt de Comando (cmd.exe). Dessa forma, sempre que o Prompt de Comando for iniciado, o programa especificado nas opções será executado com privilégios elevados.
+
+#### Etapas para explorar essa vulnerabilidade:
+
+1. Abra o Editor do Registro do Windows.
+2. Navegue até a chave `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options`.
+3. Crie uma nova subchave com o nome do executável que você deseja substituir (por exemplo, `cmd.exe`).
+4. Dentro dessa subchave, crie um novo valor de cadeia chamado `Debugger` e defina o valor como o caminho para o programa que você deseja executar com privilégios elevados.
+5. Reinicie o computador.
+
+Agora, sempre que o executável substituído for iniciado, o programa especificado nas Opções de Execução de Arquivos de Imagem será executado com privilégios elevados.
+
+#### Conclusão
+
+As Opções de Execução de Arquivos de Imagem podem ser uma vulnerabilidade de segurança se não forem configuradas corretamente. É importante garantir que apenas programas confiáveis sejam adicionados como substitutos e que as permissões adequadas sejam aplicadas ao Registro do Windows para evitar abusos.
 ```
 HKLM\Software\Microsoft\Windows NT\CurrentVersion\Image File Execution Options
 HKLM\Software\Microsoft\Wow6432Node\Windows NT\CurrentVersion\Image File Execution Options
 ```
 ## SysInternals
 
-Observe que todos os sites onde você pode encontrar autoruns já são pesquisados pelo [winpeas.exe](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS/winPEASexe). No entanto, para uma lista mais abrangente de arquivos autoexecutados, você pode usar o [autoruns](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns) do SysInternals:
+Observe que todos os sites onde você pode encontrar autoruns já foram pesquisados pelo [winpeas.exe](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS/winPEASexe). No entanto, para uma lista mais abrangente de arquivos autoexecutados, você pode usar o [autoruns](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns) do SysInternals:
 ```
 autorunsc.exe -m -nobanner -a * -ct /accepteula
 ```
@@ -329,7 +347,7 @@ Encontre mais Autoruns como registros em [https://www.microsoftpressstore.com/ar
 * [https://attack.mitre.org/techniques/T1547/001/](https://attack.mitre.org/techniques/T1547/001/)
 * [https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2](https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2)
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
 Se você está interessado em **carreira de hacking** e hackear o inquebrável - **estamos contratando!** (_fluência em polonês escrita e falada é necessária_).
 
@@ -339,10 +357,10 @@ Se você está interessado em **carreira de hacking** e hackear o inquebrável -
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Você trabalha em uma **empresa de segurança cibernética**? Você quer ver sua **empresa anunciada no HackTricks**? ou quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [repositório hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

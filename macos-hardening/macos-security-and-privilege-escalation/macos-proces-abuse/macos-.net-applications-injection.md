@@ -8,7 +8,7 @@
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e para o** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe suas técnicas de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e para o** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -21,7 +21,7 @@ Ele cria dois pipes nomeados por processo .Net em [dbgtransportsession.cpp#L127]
 
 Portanto, se você acessar o diretório **`$TMPDIR`** do usuário, poderá encontrar **fifos de depuração** que podem ser usados para depurar aplicações .Net:
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 A função [**DbgTransportSession::TransportWorker**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L1259) lidará com a comunicação de um depurador.
 
@@ -74,7 +74,7 @@ memset(&sDataBlock.m_sSessionID, 9, sizeof(SessionRequestData));
 // Send over the session request data
 write(wr, &sDataBlock, sizeof(SessionRequestData));
 ```
-Ao enviar nossa solicitação de sessão, **leemos do pipe `out` um cabeçalho** que indicará **se** nossa solicitação para estabelecer uma sessão de depuração foi **bem-sucedida** ou não:
+Ao enviar nossa solicitação de sessão, **leia do pipe `out` um cabeçalho** que indicará **se** nossa solicitação para estabelecer uma sessão de depuração foi **bem-sucedida** ou não:
 ```c
 read(rd, &sReceiveHeader, sizeof(MessageHeader));
 ```

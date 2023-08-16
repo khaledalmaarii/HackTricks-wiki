@@ -1,4 +1,4 @@
-# macOS Binários universais e Formato Mach-O
+# macOS Binários Universais e Formato Mach-O
 
 <details>
 
@@ -12,14 +12,14 @@
 
 </details>
 
-## Informações básicas
+## Informações Básicas
 
 Binários do Mac OS geralmente são compilados como **binários universais**. Um **binário universal** pode **suportar várias arquiteturas no mesmo arquivo**.
 
-Esses binários seguem a **estrutura Mach-O**, que é basicamente composta por:
+Esses binários seguem a estrutura **Mach-O**, que é basicamente composta por:
 
 * Cabeçalho
-* Comandos de carregamento
+* Comandos de Carregamento
 * Dados
 
 ![](<../../../.gitbook/assets/image (559).png>)
@@ -76,7 +76,7 @@ capabilities PTR_AUTH_VERSION USERSPACE 0
 
 ou usando a ferramenta [Mach-O View](https://sourceforge.net/projects/machoview/):
 
-<figure><img src="../../../.gitbook/assets/image (5) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (5) (1) (1) (3).png" alt=""><figcaption></figcaption></figure>
 
 Como você pode estar pensando, geralmente um binário universal compilado para 2 arquiteturas **dobra o tamanho** de um compilado para apenas 1 arquitetura.
 
@@ -125,12 +125,12 @@ Ou usando o [Mach-O View](https://sourceforge.net/projects/machoview/):
 
 <figure><img src="../../../.gitbook/assets/image (4) (1) (4).png" alt=""><figcaption></figcaption></figure>
 
-## **Comandos de carregamento Mach-O**
+## **Comandos de carga Mach-O**
 
 Isso especifica o **layout do arquivo na memória**. Ele contém a **localização da tabela de símbolos**, o contexto da thread principal no início da execução e quais **bibliotecas compartilhadas** são necessárias.\
 Os comandos basicamente instruem o carregador dinâmico **(dyld) sobre como carregar o binário na memória**.
 
-Todos os comandos de carregamento começam com uma estrutura **load\_command**, definida no **`loader.h`** mencionado anteriormente:
+Todos os comandos de carga começam com uma estrutura **load\_command**, definida no **`loader.h`** mencionado anteriormente:
 ```objectivec
 struct load_command {
 uint32_t cmd;           /* type of load command */
@@ -195,7 +195,7 @@ Exemplo de **cabeçalho de seção**:
 
 Se você **adicionar** o **deslocamento da seção** (0x37DC) + o **deslocamento** onde o **arquitetura começa**, neste caso `0x18000` --> `0x37DC + 0x18000 = 0x1B7DC`
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Também é possível obter **informações de cabeçalho** a partir da **linha de comando** com:
 ```bash
@@ -251,7 +251,7 @@ uint32_t compatibility_version;     /* library's compatibility vers number*/
 ```
 ![](<../../../.gitbook/assets/image (558).png>)
 
-Você também pode obter essas informações através da linha de comando com:
+Você também pode obter essas informações pela linha de comando com:
 ```bash
 otool -L /bin/ls
 /bin/ls:

