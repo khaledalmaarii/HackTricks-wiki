@@ -1,10 +1,10 @@
 # HackTricks
 
-<figure><img src=".gitbook/assets/hack tricks gif.gif" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/hacktricks.gif" alt=""><figcaption></figcaption></figure>
 
-_Logos et design de Hacktricks par_ [_@ppiernacho_](https://www.instagram.com/ppieranacho/)_._
+_Logos et motion design de Hacktricks par_ [_@ppiernacho_](https://www.instagram.com/ppieranacho/)_._
 
-{% hint style="info" %}
+{% hint style="success" %}
 **Bienvenue sur le wiki où vous trouverez tous les trucs/techniques de piratage que j'ai appris grâce aux CTF, aux applications réelles, à la lecture de recherches et de nouvelles.**
 {% endhint %}
 
@@ -42,9 +42,9 @@ Vous pouvez consulter leur **blog** sur [**https://blog.stmcyber.com**](https://
 
 ![](.gitbook/assets/i3.png)
 
-**Intigriti** est la première plateforme européenne de piratage éthique et de **bug bounty**.
+**Intigriti** est la plateforme de piratage éthique et de **bug bounty n°1 en Europe**.
 
-**Astuce bug bounty** : **inscrivez-vous** à **Intigriti**, une plateforme premium de **bug bounty créée par des pirates, pour des pirates** ! Rejoignez-nous sur [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) dès aujourd'hui et commencez à gagner des primes allant jusqu'à **100 000 $** !
+**Astuce de bug bounty** : **inscrivez-vous** sur **Intigriti**, une plateforme premium de **bug bounty créée par des pirates, pour des pirates** ! Rejoignez-nous sur [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) dès aujourd'hui et commencez à gagner des primes allant jusqu'à **100 000 $** !
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
@@ -63,15 +63,15 @@ Accédez dès aujourd'hui :
 
 <figure><img src=".gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-**HackenProof est la référence en matière de primes pour les bugs de cryptographie.**
+**HackenProof est la plateforme de tous les bug bounties cryptographiques.**
 
 **Obtenez une récompense sans délai**\
-Les primes HackenProof sont lancées uniquement lorsque leurs clients déposent le budget de récompense. Vous recevrez la récompense après la vérification du bogue.
+Les primes HackenProof ne sont lancées que lorsque leurs clients déposent le budget de récompense. Vous recevrez la récompense après la vérification du bogue.
 
 **Acquérez de l'expérience en pentest web3**\
-Les protocoles blockchain et les contrats intelligents sont le nouvel Internet ! Maîtrisez la sécurité web3 dès ses débuts.
+Les protocoles blockchain et les contrats intelligents sont le nouvel Internet ! Maîtrisez la sécurité web3 à ses débuts.
 
-**Devenez une légende du piratage web3**\
+**Devenez la légende du pirate web3**\
 Gagnez des points de réputation avec chaque bogue vérifié et conquérez le sommet du classement hebdomadaire.
 
 [**Inscrivez-vous sur HackenProof**](https://hackenproof.com/register) et commencez à gagner grâce à vos piratages !
