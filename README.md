@@ -5,16 +5,18 @@
 _Logos e design de movimento do Hacktricks por_ [_@ppiernacho_](https://www.instagram.com/ppieranacho/)_._
 
 {% hint style="info" %}
-**Bem-vindo ao wiki onde você encontrará todos os truques/técnicas de hacking/qualquer coisa que eu tenha aprendido em CTFs, aplicativos da vida real, pesquisas e notícias.**
+**Bem-vindo ao wiki onde você encontrará cada truque/técnica de hacking/qualquer coisa que eu tenha aprendido em CTFs, aplicativos da vida real, pesquisas e notícias.**
 {% endhint %}
 
-Aqui você pode encontrar uma pequena **introdução:**
+Para começar, siga esta página onde você encontrará o **fluxo típico** que **você deve seguir ao fazer pentesting** em uma ou mais **máquinas:**
 
-## [**Metodologia de Pentesting**](generic-methodologies-and-resources/pentesting-methodology.md)
+{% content-ref url="generic-methodologies-and-resources/pentesting-methodology.md" %}
+[pentesting-methodology.md](generic-methodologies-and-resources/pentesting-methodology.md)
+{% endcontent-ref %}
 
-Aqui você encontrará o **fluxo típico** que **você deve seguir ao fazer pentesting** em uma ou mais **máquinas**.
+## Patrocinadores Platinum
 
-**Clique no título para começar!**
+_Sua empresa poderia estar aqui_
 
 ## Patrocinadores Corporativos
 
@@ -22,7 +24,7 @@ Aqui você encontrará o **fluxo típico** que **você deve seguir ao fazer pent
 
 ![](<.gitbook/assets/image (642) (1) (1) (1).png>)
 
-[**STM Cyber**](https://www.stmcyber.com) é uma ótima empresa de cibersegurança cujo slogan é **HACKEIE O INVIOLÁVEL**. Eles realizam suas próprias pesquisas e desenvolvem suas próprias ferramentas de hacking para **oferecer vários serviços valiosos de cibersegurança**, como pentesting, equipes de Red e treinamento.
+[**STM Cyber**](https://www.stmcyber.com) é uma ótima empresa de cibersegurança cujo slogan é **HACKEIE O INVIOLÁVEL**. Eles realizam suas próprias pesquisas e desenvolvem suas próprias ferramentas de hacking para **oferecer vários serviços valiosos de cibersegurança** como pentesting, equipes de Red e treinamento.
 
 Você pode conferir o **blog** deles em [**https://blog.stmcyber.com**](https://blog.stmcyber.com)
 
@@ -40,9 +42,9 @@ Você pode conferir o **blog** deles em [**https://blog.stmcyber.com**](https://
 
 ![](.gitbook/assets/i3.png)
 
-**Intigriti** é a plataforma de ethical hacking e **bug bounty número 1 da Europa.**
+**Intigriti** é a plataforma de ethical hacking e bug bounty **número 1 da Europa**.
 
-Dica de bug bounty: **cadastre-se** no **Intigriti**, uma plataforma premium de **bug bounty criada por hackers, para hackers**! Junte-se a nós em [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) hoje mesmo e comece a ganhar recompensas de até **$100.000**!
+Dica de bug bounty: **cadastre-se** no **Intigriti**, uma plataforma premium de bug bounty criada por hackers, para hackers! Junte-se a nós em [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) hoje mesmo e comece a ganhar recompensas de até **$100.000**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
@@ -69,7 +71,7 @@ Os bounties do HackenProof são lançados apenas quando seus clientes depositam 
 **Adquira experiência em pentesting web3**\
 Protocolos de blockchain e contratos inteligentes são a nova Internet! Domine a segurança web3 em seus dias de ascensão.
 
-**Torne-se uma lenda hacker web3**\
+**Torne-se a lenda do hacker web3**\
 Ganhe pontos de reputação com cada bug verificado e conquiste o topo do leaderboard semanal.
 
 [**Cadastre-se no HackenProof**](https://hackenproof.com/register) e comece a ganhar com seus hacks!
@@ -121,7 +123,7 @@ Os autores e editores não serão responsáveis, em nenhuma circunstância, por 
 
 Além disso, as técnicas e dicas descritas neste livro são fornecidas apenas para fins educacionais e informativos e não devem ser usadas para atividades ilegais ou maliciosas. Os autores e editores não apoiam ou apoiam quaisquer atividades ilegais ou antiéticas, e qualquer uso das informações contidas neste livro é de responsabilidade e critério do usuário.
 
-O usuário é o único responsável por quaisquer ações tomadas com base nas informações contidas neste livro e deve sempre procurar aconselhamento profissional e assistência ao tentar implementar qualquer uma das técnicas ou dicas aqui descritas.
+O usuário é o único responsável por quaisquer ações tomadas com base nas informações contidas neste livro e deve sempre procurar aconselhamento profissional e assistência ao tentar implementar qualquer uma das técnicas ou dicas descritas aqui.
 
 Ao usar este livro, o usuário concorda em liberar os autores e editores de qualquer responsabilidade por quaisquer danos, perdas ou danos que possam resultar do uso deste livro ou de qualquer uma das informações contidas nele.
 {% endhint %}
