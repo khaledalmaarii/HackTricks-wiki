@@ -23,7 +23,7 @@ Essa função fará com que o **binário permitido possua o PID**, mas a **mensa
 Se você encontrar a função **`shouldAcceptNewConnection`** ou uma função chamada por ela que **chame** **`processIdentifier`** e não chame **`auditToken`**, é altamente provável que esteja verificando o PID do processo e não o token de auditoria.\
 Como por exemplo nesta imagem (retirada da referência):
 
-<figure><img src="../../../../.gitbook/assets/image (4) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (4) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Verifique este exemplo de exploit (novamente, retirado da referência) para ver as 2 partes do exploit:
 

