@@ -22,11 +22,11 @@
 
 * 在**恢复模式**下，内核扩展必须被**允许加载**：
 
-<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 * 内核扩展必须使用**内核代码签名证书进行签名**，该证书只能由**Apple**颁发。Apple将详细审查**公司**和**所需原因**。
 * 内核扩展还必须经过**公证**，Apple可以检查其中是否存在恶意软件。
-* 然后，**root用户**可以加载内核扩展，包中的文件必须属于root。
+* 然后，**root用户**可以加载内核扩展，包中的文件必须属于root用户。
 * 在加载过程中，包必须准备在受保护的非根目录位置：`/Library/StagedExtensions`（需要授予`com.apple.rootless.storage.KernelExtensionManagement`权限）
 * 最后，在尝试加载时，[**用户将收到确认请求**](https://developer.apple.com/library/archive/technotes/tn2459/\_index.html)，如果确认，计算机必须**重新启动**以加载它。
 
@@ -38,7 +38,7 @@
 
 * 通过Mach服务与**`kextd`**通信
 
-2. **`kextd`**将检查各种事项，如签名
+2. **`kextd`**将检查多个事项，如签名
 
 * 通过与**`syspolicyd`**通信，检查是否可以加载扩展
 

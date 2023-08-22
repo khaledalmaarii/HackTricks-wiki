@@ -45,7 +45,7 @@ uint32_t	align;		/* 2的幂次方对齐 */
 };
 </code></pre>
 
-头部包含**魔数**（magic）字节，后面是文件包含的**架构**数量（`nfat_arch`），每个架构都有一个`fat_arch`结构体。
+头部包含**魔数**（magic）字节，后面是文件包含的**架构数**（`nfat_arch`），每个架构都有一个`fat_arch`结构体。
 
 使用以下命令进行检查：
 
@@ -82,7 +82,7 @@ capabilities PTR_AUTH_VERSION USERSPACE 0
 
 ## **Mach-O  Header**
 
-头部包含文件的基本信息，例如魔数字节以识别它为Mach-O文件，以及有关目标架构的信息。你可以在以下位置找到它：`mdfind loader.h | grep -i mach-o | grep -E "loader.h$"`
+头部包含文件的基本信息，例如用于识别它为Mach-O文件的魔数字节以及有关目标架构的信息。你可以在以下位置找到它：`mdfind loader.h | grep -i mach-o | grep -E "loader.h$"`
 ```c
 #define	MH_MAGIC	0xfeedface	/* the mach magic number */
 #define MH_CIGAM	0xcefaedfe	/* NXSwapInt(MH_MAGIC) */
@@ -195,7 +195,7 @@ uint32_t	reserved3;	/* reserved */
 
 如果你**添加**了**章节偏移量**（0x37DC）+ **arch开始的偏移量**，在这个例子中是`0x18000` --> `0x37DC + 0x18000 = 0x1B7DC`
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 也可以通过**命令行**获取**头部信息**：
 ```bash
@@ -224,16 +224,16 @@ otool -lv /bin/ls
 
 ### **LC\_CODE\_SIGNATURE**
 
-包含有关Macho-O文件的**代码签名的信息**。它只包含一个**指向签名块**的**偏移量**。这通常位于文件的末尾。\
+包含有关Macho-O文件的**代码签名的信息**。它只包含一个**指向签名块的偏移量**。这通常位于文件的末尾。\
 但是，您可以在[**此博客文章**](https://davedelong.com/blog/2018/01/10/reading-your-own-entitlements/)和此[**gists**](https://gist.github.com/carlospolop/ef26f8eb9fafd4bc22e69e1a32b81da4)中找到有关此部分的一些信息。
 
 ### **LC\_LOAD\_DYLINKER**
 
-包含将共享库映射到进程地址空间的**动态链接器可执行文件的路径**。该值始终设置为`/usr/lib/dyld`。重要的是要注意，在macOS中，dylib映射发生在**用户模式**而不是内核模式中。
+包含**动态链接器可执行文件的路径**，该文件将共享库映射到进程地址空间。**值始终设置为`/usr/lib/dyld`**。重要的是要注意，在macOS中，dylib映射发生在**用户模式**而不是内核模式中。
 
 ### **`LC_LOAD_DYLIB`**
 
-此加载命令描述了一个**动态库**依赖项，它指示**加载器**（dyld）**加载和链接该库**。Mach-O二进制文件所需的每个库都有一个LC\_LOAD\_DYLIB加载命令。
+此加载命令描述了一个**动态库依赖项**，它指示**加载器**（dyld）**加载和链接该库**。Mach-O二进制文件所需的每个库都有一个LC\_LOAD\_DYLIB加载命令。
 
 * 此加载命令是**`dylib_command`**类型的结构（其中包含描述实际依赖动态库的struct dylib）：
 ```objectivec

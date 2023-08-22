@@ -7,12 +7,12 @@
 * 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者你想要**获取PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
 如果你对**黑客职业**感兴趣并且想要攻破不可攻破的系统——我们正在招聘！（需要流利的波兰语书写和口语能力）。
 
@@ -27,7 +27,7 @@ Get-CimInstance Win32_StartupCommand | select Name, command, Location, User | fl
 ```
 ## 定时任务
 
-**任务**可以按照**特定频率**进行调度运行。查看已安排运行的二进制文件：
+**任务**可以按照**特定频率**进行调度运行。使用以下命令查看已安排运行的二进制文件：
 ```bash
 schtasks /query /fo TABLE /nh | findstr /v /i "disable deshab"
 schtasks /query /fo LIST 2>nul | findstr TaskName
@@ -73,7 +73,7 @@ Get-ChildItem "C:\Users\$env:USERNAME\Start Menu\Programs\Startup"
 
 Run 和 RunOnce 注册表键会导致程序在每次用户登录时运行。键的数据值是一条不超过 260 个字符的命令行。
 
-**服务运行**（可以控制启动时自动启动的服务）：
+**服务运行**（可以控制启动时服务的自动启动）：
 
 * `HKLM\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce`
 * `HKCU\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce`
@@ -160,10 +160,10 @@ Get-ItemProperty -Path 'Registry::HKCU\Software\Wow6432Node\Microsoft\Windows\Ru
 * `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders`
 * `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders`
 
-任何创建到启动子键指向的位置的快捷方式都会在登录/重启时启动服务。启动位置在本地计算机和当前用户中都有指定。
+任何创建到启动子键所指向位置的快捷方式都会在登录/重启时启动服务。启动位置在本地计算机和当前用户中都有指定。
 
 {% hint style="info" %}
-如果你可以覆盖**HKLM**下的任何\[User] Shell Folder，你就可以将其指向一个由你控制的文件夹，并放置一个后门，这样每当用户登录系统时，特权就会被提升并执行后门。
+如果你能覆盖掉 **HKLM** 下的任何\[User] Shell Folder，你就可以将其指向一个由你控制的文件夹，并放置一个后门，这样每当用户登录系统时，特权就会被提升并执行后门。
 {% endhint %}
 ```bash
 reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders" /v "Common Startup"
@@ -181,7 +181,7 @@ Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion
 `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon`
 
 通常，**Userinit**键指向userinit.exe，但如果该键被更改，那么该exe也将由Winlogon启动。\
-**Shell**键应该指向explorer.exe。
+**Shell**键应指向explorer.exe。
 ```bash
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "Userinit"
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "Shell"
@@ -308,24 +308,24 @@ The Image File Execution Options (IFEO) is a Windows feature that allows develop
 
 图像文件执行选项（IFEO）是Windows的一个功能，允许开发人员调试和监视应用程序。然而，攻击者也可以滥用它来提升本地系统的权限。
 
-When a program is launched, the Windows operating system checks if there are any IFEO entries for that program in the registry. If an IFEO entry exists, the specified debugger is launched instead of the original program. This can be used to execute arbitrary code with elevated privileges.
+When a program is launched, the operating system checks if there are any IFEO entries for that program in the Windows Registry. If an IFEO entry exists, the specified debugger is launched instead of the original program. This can be used to execute arbitrary code with elevated privileges.
 
-当一个程序被启动时，Windows操作系统会检查注册表中是否存在该程序的任何IFEO条目。如果存在IFEO条目，则会启动指定的调试器而不是原始程序。这可以用来以提升的权限执行任意代码。
+当一个程序被启动时，操作系统会检查Windows注册表中是否存在该程序的任何IFEO条目。如果存在IFEO条目，则会启动指定的调试器而不是原始程序。这可以用来以提升的权限执行任意代码。
 
-To escalate privileges using IFEO, an attacker needs to create a new IFEO entry for a target program and specify a malicious binary as the debugger. When the target program is launched, the malicious binary will be executed with the same privileges as the target program, potentially allowing the attacker to gain administrative access.
+To escalate privileges using IFEO, an attacker can create a new IFEO entry for a system utility or a trusted application that runs with higher privileges. The attacker can specify their own malicious binary as the debugger, which will be executed with elevated privileges whenever the targeted program is launched.
 
-要利用IFEO提升权限，攻击者需要为目标程序创建一个新的IFEO条目，并将恶意二进制文件指定为调试器。当目标程序被启动时，恶意二进制文件将以与目标程序相同的权限执行，可能允许攻击者获得管理员访问权限。
+要利用IFEO提升权限，攻击者可以为系统实用程序或以较高权限运行的受信任应用程序创建一个新的IFEO条目。攻击者可以将自己的恶意二进制文件指定为调试器，每当目标程序启动时，该恶意二进制文件都会以提升的权限执行。
 
-To prevent privilege escalation through IFEO, it is recommended to regularly monitor the registry for any suspicious IFEO entries. Additionally, restricting access to the registry keys associated with IFEO can help mitigate this attack vector.
+This technique can be used to bypass security measures that rely on the integrity of system utilities or trusted applications. By executing arbitrary code with elevated privileges, an attacker can gain full control over the compromised system.
 
-为了防止通过IFEO进行权限提升，建议定期监视注册表中是否存在可疑的IFEO条目。此外，限制与IFEO相关的注册表键的访问可以帮助减轻这种攻击向量。
+这种技术可以用来绕过依赖于系统实用程序或受信任应用程序完整性的安全措施。通过以提升的权限执行任意代码，攻击者可以完全控制被攻击系统。
 ```
 HKLM\Software\Microsoft\Windows NT\CurrentVersion\Image File Execution Options
 HKLM\Software\Microsoft\Wow6432Node\Windows NT\CurrentVersion\Image File Execution Options
 ```
 ## SysInternals
 
-请注意，您可以找到自动运行的所有站点已经被**winpeas.exe**搜索过了。但是，为了获得更全面的自动执行文件列表，您可以使用[systinternals的autoruns](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns)：
+请注意，您可以找到自动运行的所有站点都已经被**winpeas.exe**搜索过了。但是，为了获得更全面的自动执行文件列表，您可以使用[systinternals的autoruns](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns)：
 ```
 autorunsc.exe -m -nobanner -a * -ct /accepteula
 ```
@@ -339,9 +339,9 @@ autorunsc.exe -m -nobanner -a * -ct /accepteula
 * [https://attack.mitre.org/techniques/T1547/001/](https://attack.mitre.org/techniques/T1547/001/)
 * [https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2](https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2)
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
-如果您对**黑客职业**感兴趣并想要攻击不可攻破的目标 - **我们正在招聘！**（需要流利的波兰语书面和口语表达能力）。
+如果您对**黑客职业**感兴趣并想要攻破不可攻破的系统 - **我们正在招聘！**（需要流利的波兰语书面和口语表达能力）。
 
 {% embed url="https://www.stmcyber.com/careers" %}
 

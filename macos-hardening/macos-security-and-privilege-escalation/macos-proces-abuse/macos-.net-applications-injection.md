@@ -17,15 +17,15 @@
 ### **建立调试会话** <a href="#net-core-debugging" id="net-core-debugging"></a>
 
 [**dbgtransportsession.cpp**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp)负责处理调试器与被调试进程之间的**通信**。\
-它通过调用[twowaypipe.cpp#L27](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/debug-pal/unix/twowaypipe.cpp#L27)在每个.Net进程中创建两个命名管道（一个以**`-in`**结尾，另一个以**`-out`**结尾，其余部分名称相同）。
+它通过调用[dbgtransportsession.cpp#L127](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L127)中的[twowaypipe.cpp#L27](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/debug-pal/unix/twowaypipe.cpp#L27)创建每个.Net进程的2个命名管道（一个以**`-in`**结尾，另一个以**`-out`**结尾，其余部分名称相同）。
 
 因此，如果你进入用户的**`$TMPDIR`**目录，你将能够找到用于调试.Net应用程序的**调试FIFO**：
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 函数[**DbgTransportSession::TransportWorker**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L1259)将处理来自调试器的通信。
 
-调试器需要做的第一件事是**创建一个新的调试会话**。这是通过**通过`out`管道发送以`MessageHeader`结构开始的消息**来完成的，我们可以从.NET源代码中获取：
+调试器需要做的第一件事是**创建一个新的调试会话**。这是通过在`out`管道上发送以`MessageHeader`结构开始的消息来完成的，我们可以从.NET源代码中获取：
 ```c
 struct MessageHeader
 {
@@ -62,11 +62,11 @@ sSendHeader.TypeSpecificData.VersionInfo.m_dwMinorVersion = kCurrentMinorVersion
 // Finally set the number of bytes which follow this header
 sSendHeader.m_cbDataBlock = sizeof(SessionRequestData);
 ```
-一旦构建完成，我们使用`write`系统调用将其发送给目标。
+构建完成后，我们使用`write`系统调用将其发送给目标。
 ```c
 write(wr, &sSendHeader, sizeof(MessageHeader));
 ```
-在发送请求头之后，我们需要发送一个`sessionRequestData`结构体，其中包含一个GUID来标识我们的会话：
+在我们的标头之后，我们需要发送一个`sessionRequestData`结构体，其中包含一个GUID来标识我们的会话：
 ```c
 // All '9' is a GUID.. right??
 memset(&sDataBlock.m_sSessionID, 9, sizeof(SessionRequestData));
