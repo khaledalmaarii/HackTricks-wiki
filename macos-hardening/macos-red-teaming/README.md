@@ -53,7 +53,7 @@ De plus, après avoir trouvé les identifiants appropriés, vous pourriez être 
 
 #### Authentification de l'appareil JAMF
 
-<figure><img src="../../.gitbook/assets/image (2) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Le binaire **`jamf`** contenait le secret pour ouvrir le trousseau qui, au moment de la découverte, était **partagé** entre tout le monde et c'était : **`jk23ucnq91jfu9aj`**.\
 De plus, jamf **persiste** en tant que **LaunchDaemon** dans **`/Library/LaunchAgents/com.jamf.management.agent.plist`**
@@ -94,7 +94,7 @@ Pour **imiter la communication** entre un appareil et JMF, vous avez besoin de :
 * L'**UUID** de l'appareil : `ioreg -d2 -c IOPlatformExpertDevice | awk -F" '/IOPlatformUUID/{print $(NF-1)}'`
 * Le **trousseau JAMF** depuis : `/Library/Application\ Support/Jamf/JAMF.keychain` qui contient le certificat de l'appareil
 
-Avec ces informations, **créez une machine virtuelle** avec l'**UUID** du matériel **volé** et avec le **SIP désactivé**, déposez le **trousseau JAMF**, **accrochez** l'agent Jamf et volez ses informations.
+Avec ces informations, **créez une machine virtuelle** avec l'**UUID** du matériel **volé** et avec **SIP désactivé**, déposez le **trousseau JAMF**, **accrochez** l'agent Jamf et volez ses informations.
 
 #### Vol de secrets
 
@@ -193,7 +193,7 @@ Le trousseau contient très probablement des informations sensibles qui, s'il es
 
 ## Services externes
 
-Le red teaming sur MacOS est différent du red teaming sur Windows classique car généralement **MacOS est intégré à plusieurs plateformes externes directement**. Une configuration courante de MacOS est d'accéder à l'ordinateur en utilisant **les identifiants synchronisés de OneLogin et d'accéder à plusieurs services externes** (comme github, aws...) via OneLogin :
+Le red teaming sur MacOS est différent du red teaming sur Windows classique car généralement **MacOS est intégré à plusieurs plateformes externes directement**. Une configuration courante de MacOS consiste à accéder à l'ordinateur en utilisant **les identifiants synchronisés de OneLogin et à accéder à plusieurs services externes** (comme github, aws...) via OneLogin :
 
 ![](<../../.gitbook/assets/image (563).png>)
 
