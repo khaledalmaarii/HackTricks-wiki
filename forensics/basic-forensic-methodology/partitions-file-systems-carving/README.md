@@ -1,9 +1,11 @@
-## Partições/Sistemas de Arquivos/Carving
+# Partitions/File Systems/Carving
+
+### Partições/Sistemas de Arquivos/Carving
 
 Um disco rígido ou um **SSD pode conter diferentes partições** com o objetivo de separar fisicamente os dados.\
 A **unidade mínima** de um disco é o **setor** (normalmente composto por 512B). Portanto, o tamanho de cada partição precisa ser múltiplo desse tamanho.
 
-### MBR (Master Boot Record)
+#### MBR (Master Boot Record)
 
 Ele é alocado no **primeiro setor do disco após os 446B do código de inicialização**. Este setor é essencial para indicar ao PC o que e de onde uma partição deve ser montada.\
 Ele permite até **4 partições** (no máximo **apenas 1** pode ser ativa/inicializável). No entanto, se você precisar de mais partições, pode usar **partições estendidas**. O **último byte** deste primeiro setor é a assinatura do registro de inicialização **0x55AA**. Apenas uma partição pode ser marcada como ativa.\
@@ -19,46 +21,48 @@ Do **byte 440 ao 443** do MBR, você pode encontrar a **Assinatura do Disco do W
 
 **Formato**
 
-| Offset      | Comprimento | Item                |
-| ----------- | ---------- | ------------------- |
-| 0 (0x00)    | 446(0x1BE) | Código de inicialização           |
-| 446 (0x1BE) | 16 (0x10)  | Primeira Partição     |
-| 462 (0x1CE) | 16 (0x10)  | Segunda Partição    |
-| 478 (0x1DE) | 16 (0x10)  | Terceira Partição     |
-| 494 (0x1EE) | 16 (0x10)  | Quarta Partição    |
-| 510 (0x1FE) | 2 (0x2)    | Assinatura 0x55 0xAA |
+| Offset      | Comprimento | Item                    |
+| ----------- | ----------- | ----------------------- |
+| 0 (0x00)    | 446(0x1BE)  | Código de inicialização |
+| 446 (0x1BE) | 16 (0x10)   | Primeira Partição       |
+| 462 (0x1CE) | 16 (0x10)   | Segunda Partição        |
+| 478 (0x1DE) | 16 (0x10)   | Terceira Partição       |
+| 494 (0x1EE) | 16 (0x10)   | Quarta Partição         |
+| 510 (0x1FE) | 2 (0x2)     | Assinatura 0x55 0xAA    |
 
 **Formato do Registro de Partição**
 
-| Offset    | Comprimento   | Item                                                   |
-| --------- | -------- | ------------------------------------------------------ |
-| 0 (0x00)  | 1 (0x01) | Flag ativa (0x80 = inicializável)                          |
-| 1 (0x01)  | 1 (0x01) | Cabeça de início                                             |
-| 2 (0x02)  | 1 (0x01) | Setor de início (bits 0-5); bits superiores do cilindro (6- 7) |
-| 3 (0x03)  | 1 (0x01) | Bits mais baixos do cilindro de início                           |
-| 4 (0x04)  | 1 (0x01) | Código do tipo de partição (0x83 = Linux)                     |
-| 5 (0x05)  | 1 (0x01) | Cabeça final                                               |
-| 6 (0x06)  | 1 (0x01) | Setor final (bits 0-5); bits superiores do cilindro (6- 7)   |
-| 7 (0x07)  | 1 (0x01) | Bits mais baixos do cilindro final                             |
-| 8 (0x08)  | 4 (0x04) | Setores anteriores à partição (pouco significativo)            |
-| 12 (0x0C) | 4 (0x04) | Setores na partição                                   |
+| Offset    | Comprimento | Item                                                           |
+| --------- | ----------- | -------------------------------------------------------------- |
+| 0 (0x00)  | 1 (0x01)    | Flag ativa (0x80 = inicializável)                              |
+| 1 (0x01)  | 1 (0x01)    | Cabeça de início                                               |
+| 2 (0x02)  | 1 (0x01)    | Setor de início (bits 0-5); bits superiores do cilindro (6- 7) |
+| 3 (0x03)  | 1 (0x01)    | Bits mais baixos do cilindro de início                         |
+| 4 (0x04)  | 1 (0x01)    | Código do tipo de partição (0x83 = Linux)                      |
+| 5 (0x05)  | 1 (0x01)    | Cabeça final                                                   |
+| 6 (0x06)  | 1 (0x01)    | Setor final (bits 0-5); bits superiores do cilindro (6- 7)     |
+| 7 (0x07)  | 1 (0x01)    | Bits mais baixos do cilindro final                             |
+| 8 (0x08)  | 4 (0x04)    | Setores anteriores à partição (pouco significativo)            |
+| 12 (0x0C) | 4 (0x04)    | Setores na partição                                            |
 
 Para montar um MBR no Linux, você primeiro precisa obter o deslocamento de início (você pode usar `fdisk` e o comando `p`)
 
-![](<../../../.gitbook/assets/image (413) (3) (3) (3) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (12).png>)
+![](<../../../.gitbook/assets/image (413) (3) (3) (3) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (10).png>)
 
 E então use o seguinte código
+
 ```bash
 #Mount MBR in Linux
 mount -o ro,loop,offset=<Bytes>
 #63x512 = 32256Bytes
 mount -o ro,loop,offset=32256,noatime /path/to/image.dd /media/part/
 ```
+
 **LBA (Endereçamento lógico de blocos)**
 
 O **Endereçamento lógico de blocos** (**LBA**) é um esquema comum usado para **especificar a localização de blocos** de dados armazenados em dispositivos de armazenamento de computador, geralmente sistemas de armazenamento secundário, como unidades de disco rígido. O LBA é um esquema de endereçamento linear particularmente simples; **os blocos são localizados por um índice inteiro**, sendo o primeiro bloco LBA 0, o segundo LBA 1 e assim por diante.
 
-### GPT (Tabela de partição GUID)
+#### GPT (Tabela de partição GUID)
 
 É chamado de Tabela de Partição GUID porque cada partição no seu disco tem um **identificador globalmente único**.
 
@@ -84,26 +88,27 @@ Em sistemas operacionais que suportam **inicialização baseada em GPT por meio 
 
 O cabeçalho da tabela de partição define os blocos utilizáveis no disco. Ele também define o número e o tamanho das entradas de partição que compõem a tabela de partição (deslocamentos 80 e 84 na tabela).
 
-| Deslocamento | Comprimento | Conteúdo                                                                                                                                                                        |
-| ------------ | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Deslocamento | Comprimento | Conteúdo                                                                                                                                                                         |
+| ------------ | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 0 (0x00)     | 8 bytes     | Assinatura ("EFI PART", 45h 46h 49h 20h 50h 41h 52h 54h ou 0x5452415020494645ULL[ ](https://en.wikipedia.org/wiki/GUID\_Partition\_Table#cite\_note-8)em máquinas little-endian) |
-| 8 (0x08)     | 4 bytes     | Revisão 1.0 (00h 00h 01h 00h) para UEFI 2.8                                                                                                                                     |
+| 8 (0x08)     | 4 bytes     | Revisão 1.0 (00h 00h 01h 00h) para UEFI 2.8                                                                                                                                      |
 | 12 (0x0C)    | 4 bytes     | Tamanho do cabeçalho em little-endian (em bytes, geralmente 5Ch 00h 00h 00h ou 92 bytes)                                                                                         |
-| 16 (0x10)    | 4 bytes     | [CRC32](https://en.wikipedia.org/wiki/CRC32) do cabeçalho (deslocamento +0 até o tamanho do cabeçalho) em little-endian, com este campo zerado durante o cálculo             |
-| 20 (0x14)    | 4 bytes     | Reservado; deve ser zero                                                                                                                                                        |
-| 24 (0x18)    | 8 bytes     | LBA atual (localização desta cópia do cabeçalho)                                                                                                                                |
-| 32 (0x20)    | 8 bytes     | LBA de backup (localização da outra cópia do cabeçalho)                                                                                                                         |
-| 40 (0x28)    | 8 bytes     | Primeiro LBA utilizável para partições (último LBA da tabela de partição primária + 1)                                                                                            |
+| 16 (0x10)    | 4 bytes     | [CRC32](https://en.wikipedia.org/wiki/CRC32) do cabeçalho (deslocamento +0 até o tamanho do cabeçalho) em little-endian, com este campo zerado durante o cálculo                 |
+| 20 (0x14)    | 4 bytes     | Reservado; deve ser zero                                                                                                                                                         |
+| 24 (0x18)    | 8 bytes     | LBA atual (localização desta cópia do cabeçalho)                                                                                                                                 |
+| 32 (0x20)    | 8 bytes     | LBA de backup (localização da outra cópia do cabeçalho)                                                                                                                          |
+| 40 (0x28)    | 8 bytes     | Primeiro LBA utilizável para partições (último LBA da tabela de partição primária + 1)                                                                                           |
 | 48 (0x30)    | 8 bytes     | Último LBA utilizável (primeiro LBA da tabela de partição secundária - 1)                                                                                                        |
-| 56 (0x38)    | 16 bytes    | GUID do disco em endian misto                                                                                                                                                   |
+| 56 (0x38)    | 16 bytes    | GUID do disco em endian misto                                                                                                                                                    |
 | 72 (0x48)    | 8 bytes     | LBA de início de uma matriz de entradas de partição (sempre 2 na cópia primária)                                                                                                 |
-| 80 (0x50)    | 4 bytes     | Número de entradas de partição na matriz                                                                                                                                        |
-| 84 (0x54)    | 4 bytes     | Tamanho de uma única entrada de partição (geralmente 80h ou 128)                                                                                                                |
-| 88 (0x58)    | 4 bytes     | CRC32 da matriz de entradas de partição em little-endian                                                                                                                        |
-| 92 (0x5C)    | \*          | Reservado; deve ser zero para o restante do bloco (420 bytes para um tamanho de setor de 512 bytes; mas pode ser mais com tamanhos de setor maiores)                            |
+| 80 (0x50)    | 4 bytes     | Número de entradas de partição na matriz                                                                                                                                         |
+| 84 (0x54)    | 4 bytes     | Tamanho de uma única entrada de partição (geralmente 80h ou 128)                                                                                                                 |
+| 88 (0x58)    | 4 bytes     | CRC32 da matriz de entradas de partição em little-endian                                                                                                                         |
+| 92 (0x5C)    | \*          | Reservado; deve ser zero para o restante do bloco (420 bytes para um tamanho de setor de 512 bytes; mas pode ser mais com tamanhos de setor maiores)                             |
 
-**Entradas de
-### **Escultura de Arquivos**
+\*\*Entradas de
+
+#### **Escultura de Arquivos**
 
 A **escultura de arquivos** é uma técnica que tenta **encontrar arquivos no volume de dados**. Existem três maneiras principais pelas quais ferramentas como essa funcionam: **com base nos cabeçalhos e rodapés dos tipos de arquivo**, com base nas **estruturas** dos tipos de arquivo e com base no **conteúdo** em si.
 
@@ -115,7 +120,7 @@ Existem várias ferramentas que você pode usar para a escultura de arquivos, in
 [file-data-carving-recovery-tools.md](file-data-carving-recovery-tools.md)
 {% endcontent-ref %}
 
-### Escultura de Fluxo de Dados
+#### Escultura de Fluxo de Dados
 
 A Escultura de Fluxo de Dados é semelhante à Escultura de Arquivos, mas **em vez de procurar arquivos completos, procura fragmentos interessantes** de informações. Por exemplo, em vez de procurar um arquivo completo contendo URLs registrados, essa técnica procurará URLs.
 
@@ -123,11 +128,11 @@ A Escultura de Fluxo de Dados é semelhante à Escultura de Arquivos, mas **em v
 [file-data-carving-recovery-tools.md](file-data-carving-recovery-tools.md)
 {% endcontent-ref %}
 
-### Exclusão Segura
+#### Exclusão Segura
 
 Obviamente, existem maneiras de **"excluir" arquivos com segurança e parte dos logs sobre eles**. Por exemplo, é possível **sobrescrever o conteúdo** de um arquivo com dados inúteis várias vezes e, em seguida, **remover** os **logs** do **$MFT** e **$LOGFILE** sobre o arquivo e **remover as cópias de sombra do volume**. Você pode notar que, mesmo realizando essa ação, pode haver **outras partes em que a existência do arquivo ainda é registrada**, e isso é verdadeiro e parte do trabalho do profissional de forense é encontrá-las.
 
-## Referências
+### Referências
 
 * [https://en.wikipedia.org/wiki/GUID\_Partition\_Table](https://en.wikipedia.org/wiki/GUID\_Partition\_Table)
 * [http://ntfs.com/ntfs-permissions.htm](http://ntfs.com/ntfs-permissions.htm)

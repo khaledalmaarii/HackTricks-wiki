@@ -1,4 +1,4 @@
-# Metodologia de Phishing
+# Phishing Methodology
 
 <details>
 
@@ -93,14 +93,17 @@ Você pode baixá-lo em [https://github.com/gophish/gophish/releases/tag/v0.11.0
 
 Baixe e descompacte-o dentro de `/opt/gophish` e execute `/opt/gophish/gophish`\
 Você receberá uma senha para o
+
 ```bash
 ssh -L 3333:127.0.0.1:3333 <user>@<ip>
 ```
+
 ### Configuração
 
 **Configuração do certificado TLS**
 
 Antes deste passo, você deve ter **comprado o domínio** que irá utilizar e ele deve estar **apontando** para o **IP do VPS** onde você está configurando o **gophish**.
+
 ```bash
 DOMAIN="<domain>"
 wget https://dl.eff.org/certbot-auto
@@ -116,6 +119,7 @@ mkdir /opt/gophish/ssl_keys
 cp "/etc/letsencrypt/live/$DOMAIN/privkey.pem" /opt/gophish/ssl_keys/key.pem
 cp "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" /opt/gophish/ssl_keys/key.crt​
 ```
+
 **Configuração de e-mail**
 
 Comece instalando: `apt-get install postfix`
@@ -136,14 +140,17 @@ Por fim, modifique os arquivos **`/etc/hostname`** e **`/etc/mailname`** para o 
 Agora, crie um **registro A DNS** de `mail.<domain>` apontando para o **endereço IP** do VPS e um **registro MX DNS** apontando para `mail.<domain>`
 
 Agora vamos testar o envio de um e-mail:
+
 ```bash
 apt install mailutils
 echo "This is the body of the email" | mail -s "This is the subject line" test@email.com
 ```
+
 **Configuração do Gophish**
 
 Pare a execução do gophish e vamos configurá-lo.\
 Modifique `/opt/gophish/config.json` para o seguinte (observe o uso de https):
+
 ```bash
 {
         "admin_server": {
@@ -168,9 +175,11 @@ Modifique `/opt/gophish/config.json` para o seguinte (observe o uso de https):
         }
 }
 ```
+
 **Configurar o serviço gophish**
 
 Para criar o serviço gophish para que ele possa ser iniciado automaticamente e gerenciado como um serviço, você pode criar o arquivo `/etc/init.d/gophish` com o seguinte conteúdo:
+
 ```bash
 #!/bin/bash
 # /etc/init.d/gophish
@@ -217,7 +226,9 @@ case $1 in
     start|stop|status) "$1" ;;
 esac
 ```
+
 Conclua a configuração do serviço e verifique-o fazendo:
+
 ```bash
 mkdir /var/log/gophish
 chmod +x /etc/init.d/gophish
@@ -228,6 +239,7 @@ service gophish status
 ss -l | grep "3333\|443"
 service gophish stop
 ```
+
 ## Configurando servidor de e-mail e domínio
 
 ### Aguarde
@@ -248,17 +260,21 @@ Você pode usar [https://www.spfwizard.net/](https://www.spfwizard.net) para ger
 ![](<../../.gitbook/assets/image (388).png>)
 
 Este é o conteúdo que deve ser definido dentro de um registro TXT dentro do domínio:
+
 ```bash
 v=spf1 mx a ip4:ip.ip.ip.ip ?all
 ```
+
 ### Registro de Autenticação, Relatório e Conformidade de Mensagens Baseadas em Domínio (DMARC)
 
 Você deve **configurar um registro DMARC para o novo domínio**. Se você não sabe o que é um registro DMARC, [**leia esta página**](../../network-services-pentesting/pentesting-smtp/#dmarc).
 
 Você deve criar um novo registro DNS TXT apontando para o nome do host `_dmarc.<domínio>` com o seguinte conteúdo:
+
 ```bash
 v=DMARC1; p=none
 ```
+
 ### DomainKeys Identified Mail (DKIM)
 
 Você deve **configurar um DKIM para o novo domínio**. Se você não sabe o que é um registro DMARC, [**leia esta página**](../../network-services-pentesting/pentesting-smtp/#dkim).
@@ -267,6 +283,7 @@ Este tutorial é baseado em: [https://www.digitalocean.com/community/tutorials/h
 
 {% hint style="info" %}
 Você precisa concatenar ambos os valores B64 que a chave DKIM gera:
+
 ```
 v=DKIM1; h=sha256; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0wPibdqPtzYk81njjQCrChIcHzxOp8a1wjbsoNtka2X9QXCZs+iXkvw++QsWDtdYu3q0Ofnr0Yd/TmG/Y2bBGoEgeE+YTUG2aEgw8Xx42NLJq2D1pB2lRQPW4IxefROnXu5HfKSm7dyzML1gZ1U0pR5X4IZCH0wOPhIq326QjxJZm79E1nTh3xj" "Y9N/Dt3+fVnIbMupzXE216TdFuifKM6Tl6O/axNsbswMS1TH812euno8xRpsdXJzFlB9q3VbMkVWig4P538mHolGzudEBg563vv66U8D7uuzGYxYT4WS8NVm3QBMg0QKPWZaKp+bADLkOSB9J2nUpk4Aj9KB5swIDAQAB
 ```
@@ -276,11 +293,14 @@ v=DKIM1; h=sha256; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0wPibdqP
 
 Você pode fazer isso usando [https://www.mail-tester.com/](https://www.mail-tester.com)\
 Basta acessar a página e enviar um e-mail para o endereço que eles fornecem:
+
 ```bash
 echo "This is the body of the email" | mail -s "This is the subject line" test-iimosa79z@srv1.mail-tester.com
 ```
+
 Você também pode **verificar a configuração do seu e-mail** enviando um e-mail para `check-auth@verifier.port25.com` e **lendo a resposta** (para isso, você precisará **abrir** a porta **25** e ver a resposta no arquivo _/var/mail/root_ se enviar o e-mail como root).\
 Verifique se você passa em todos os testes:
+
 ```bash
 ==========================================================
 Summary of Results
@@ -291,12 +311,15 @@ DKIM check:         pass
 Sender-ID check:    pass
 SpamAssassin check: ham
 ```
+
 Alternativamente, você pode enviar uma **mensagem para um endereço do Gmail que você controla**, **visualizar** os **cabeçalhos do email** recebido na sua caixa de entrada do Gmail, `dkim=pass` deve estar presente no campo de cabeçalho `Authentication-Results`.
+
 ```
 Authentication-Results: mx.google.com;
        spf=pass (google.com: domain of contact@example.com designates --- as permitted sender) smtp.mail=contact@example.com;
        dkim=pass header.i=@example.com;
 ```
+
 ### Removendo da Lista Negra do Spamhouse
 
 A página www.mail-tester.com pode indicar se o seu domínio está sendo bloqueado pelo Spamhouse. Você pode solicitar a remoção do seu domínio/IP em: [https://www.spamhaus.org/lookup/](https://www.spamhaus.org/lookup/)
@@ -313,7 +336,7 @@ Você pode solicitar a remoção do seu domínio/IP em [https://sender.office.co
 * Decida de qual conta você vai enviar os e-mails de phishing. Sugestões: _noreply, support, servicedesk, salesforce..._
 * Você pode deixar em branco o nome de usuário e a senha, mas certifique-se de marcar a opção Ignorar Erros de Certificado
 
-![](<../../.gitbook/assets/image (253) (1) (2) (1) (1) (2) (2) (3) (3) (5) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (17).png>)
+![](<../../.gitbook/assets/image (253) (1) (2) (1) (1) (2) (2) (3) (3) (5) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (10).png>)
 
 {% hint style="info" %}
 É recomendado usar a funcionalidade "**Enviar E-mail de Teste**" para testar se tudo está funcionando.\
@@ -326,6 +349,7 @@ Eu recomendaria **enviar os e-mails de teste para endereços de e-mail de 10 min
 * Em seguida, escreva um **assunto** (nada estranho, apenas algo que você esperaria ler em um e-mail regular)
 * Certifique-se de ter marcado "**Adicionar Imagem de Rastreamento**"
 * Escreva o **modelo de e-mail** (você pode usar variáveis como no exemplo a seguir):
+
 ```markup
 <html>
 <head>
@@ -346,6 +370,7 @@ WRITE HERE SOME SIGNATURE OF SOMEONE FROM THE COMPANY
 </body>
 </html>
 ```
+
 Observe que, **para aumentar a credibilidade do e-mail**, é recomendável usar alguma assinatura de um e-mail do cliente. Sugestões:
 
 * Envie um e-mail para um **endereço inexistente** e verifique se a resposta tem alguma assinatura.
@@ -457,4 +482,8 @@ Use [**Phishious** ](https://github.com/Rices/Phishious)para avaliar se seu e-ma
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -</summary>
+
+
+
+</details>

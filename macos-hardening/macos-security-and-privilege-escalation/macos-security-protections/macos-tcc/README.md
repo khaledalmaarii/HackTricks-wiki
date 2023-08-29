@@ -1,4 +1,6 @@
-## **Informações Básicas**
+# macOS TCC
+
+### **Informações Básicas**
 
 O **TCC (Transparência, Consentimento e Controle)** é um mecanismo no macOS para **limitar e controlar o acesso do aplicativo a determinados recursos**, geralmente do ponto de vista da privacidade. Isso pode incluir coisas como serviços de localização, contatos, fotos, microfone, câmera, acessibilidade, acesso total ao disco e muito mais.
 
@@ -14,7 +16,7 @@ Existe um **tccd de modo de usuário** em execução por usuário conectado defi
 
 As permissões são **herdadas do aplicativo pai** e as **permissões** são **rastreadas** com base no **ID do pacote** e no **ID do desenvolvedor**.
 
-### Banco de Dados TCC
+#### Banco de Dados TCC
 
 As seleções são então armazenadas no banco de dados do sistema TCC em **`/Library/Application Support/com.apple.TCC/TCC.db`** ou em **`$HOME/Library/Application Support/com.apple.TCC/TCC.db`** para preferências por usuário. O banco de dados é **protegido contra edição com SIP** (Proteção de Integridade do Sistema), mas você pode lê-los concedendo **acesso total ao disco**.
 
@@ -22,13 +24,18 @@ As seleções são então armazenadas no banco de dados do sistema TCC em **`/Li
 A **interface do centro de notificação** pode fazer **alterações no banco de dados do TCC do sistema**:
 
 {% code overflow="wrap" %}
+```
+```
+{% endcode %}
+
 ```bash
 codesign -dv --entitlements :- /System/Library/PrivateFrameworks/TCC.framework/Support/tccd
 [..]
 com.apple.private.tcc.manager
 com.apple.rootless.storage.TCC
 ```
-No entanto, os usuários podem **excluir ou consultar regras** com o utilitário de linha de comando **`tccutil`**. 
+
+No entanto, os usuários podem **excluir ou consultar regras** com o utilitário de linha de comando **`tccutil`**.
 {% endhint %}
 
 {% tabs %}
@@ -52,7 +59,7 @@ sqlite> select * from access where client LIKE "%telegram%" and auth_value=0;
 {% endtab %}
 
 {% tab title="macOS TCC" %}
-# Proteções de segurança do macOS: Controle de Acesso ao TCC
+## Proteções de segurança do macOS: Controle de Acesso ao TCC
 
 O Controle de Acesso ao TCC (TCC, na sigla em inglês) é um recurso de segurança do macOS que controla o acesso de aplicativos a recursos protegidos, como a câmera, o microfone, a localização e os contatos. O TCC é implementado pelo `tccd`, um daemon do sistema que é executado em segundo plano e gerencia as solicitações de acesso do aplicativo.
 
@@ -60,18 +67,19 @@ O TCC é uma parte importante do modelo de segurança do macOS, pois ajuda a pro
 
 Este diretório contém informações e ferramentas relacionadas ao TCC, incluindo:
 
-- **tccutil.py**: uma ferramenta Python que permite visualizar e modificar as configurações do TCC.
-- **tcc.db**: um arquivo SQLite que contém as configurações do TCC para cada usuário do sistema.
-- **tcc_profiles.md**: uma lista de perfis TCC comuns e suas configurações padrão.
-- **tcc_vulnerabilities.md**: uma lista de vulnerabilidades conhecidas do TCC e técnicas de contorno.
+* **tccutil.py**: uma ferramenta Python que permite visualizar e modificar as configurações do TCC.
+* **tcc.db**: um arquivo SQLite que contém as configurações do TCC para cada usuário do sistema.
+* **tcc\_profiles.md**: uma lista de perfis TCC comuns e suas configurações padrão.
+* **tcc\_vulnerabilities.md**: uma lista de vulnerabilidades conhecidas do TCC e técnicas de contorno.
 
-## Referências
+### Referências
 
-- [Controle de Acesso ao TCC](https://developer.apple.com/documentation/security/tcc)
-- [Proteções de segurança do macOS](https://support.apple.com/pt-br/guide/mac-help/sec14fef8a3b/mac)
-- [Explorando o TCC para obter acesso a recursos protegidos no macOS](https://objective-see.com/blog/blog_0x4D.html)
-- [Explorando o TCC para obter acesso a recursos protegidos no macOS: parte 2](https://objective-see.com/blog/blog_0x4E.html)
-- [Explorando o TCC para obter acesso a recursos protegidos no macOS: parte 3](https://objective-see.com/blog/blog_0x4F.html)
+* [Controle de Acesso ao TCC](https://developer.apple.com/documentation/security/tcc)
+* [Proteções de segurança do macOS](https://support.apple.com/pt-br/guide/mac-help/sec14fef8a3b/mac)
+* [Explorando o TCC para obter acesso a recursos protegidos no macOS](https://objective-see.com/blog/blog\_0x4D.html)
+* [Explorando o TCC para obter acesso a recursos protegidos no macOS: parte 2](https://objective-see.com/blog/blog\_0x4E.html)
+* [Explorando o TCC para obter acesso a recursos protegidos no macOS: parte 3](https://objective-see.com/blog/blog\_0x4F.html)
+
 ```bash
 sqlite3 /Library/Application\ Support/com.apple.TCC/TCC.db
 sqlite> .schema
@@ -105,9 +113,9 @@ Algumas permissões do TCC são: kTCCServiceAppleEvents, kTCCServiceCalendar, kT
 
 Você também pode verificar as **permissões já concedidas** aos aplicativos em `Preferências do Sistema --> Segurança e Privacidade --> Privacidade --> Arquivos e Pastas`.
 
-### Verificações de assinatura do TCC
+#### Verificações de assinatura do TCC
 
-O **banco de dados** do TCC armazena o **ID do pacote** do aplicativo, mas também **armazena informações** sobre a **assinatura** para **garantir** que o aplicativo que solicita o uso de uma permissão seja o correto. 
+O **banco de dados** do TCC armazena o **ID do pacote** do aplicativo, mas também **armazena informações** sobre a **assinatura** para **garantir** que o aplicativo que solicita o uso de uma permissão seja o correto.
 
 {% code overflow="wrap" %}
 ```bash
@@ -124,7 +132,7 @@ csreq -t -r /tmp/telegram_csreq.bin
 ```
 {% endcode %}
 
-### Entitlements
+#### Entitlements
 
 Os aplicativos **não apenas precisam** solicitar e ter sido **concedido acesso** a alguns recursos, eles também precisam **ter as permissões relevantes**.\
 Por exemplo, o **Telegram** tem a permissão `com.apple.security.device.camera` para solicitar **acesso à câmera**. Um **aplicativo** que **não tenha** essa **permissão não poderá** acessar a câmera (e o usuário nem mesmo será solicitado a conceder as permissões).
@@ -132,6 +140,7 @@ Por exemplo, o **Telegram** tem a permissão `com.apple.security.device.camera` 
 No entanto, para que os aplicativos tenham **acesso** a **certas pastas do usuário**, como `~/Desktop`, `~/Downloads` e `~/Documents`, eles **não precisam** ter nenhuma **permissão específica**. O sistema lidará com o acesso de forma transparente e **solicitará permissão ao usuário** conforme necessário.
 
 Os aplicativos da Apple **não gerarão prompts**. Eles contêm **direitos pré-concedidos** em sua lista de **permissões**, o que significa que eles **nunca gerarão um pop-up**, **nem** aparecerão em nenhum dos **bancos de dados do TCC**. Por exemplo:
+
 ```bash
 codesign -dv --entitlements :- /System/Applications/Calendar.app
 [...]
@@ -142,17 +151,19 @@ codesign -dv --entitlements :- /System/Applications/Calendar.app
     <string>kTCCServiceAddressBook</string>
 </array>
 ```
+
 Isso evitará que o Calendário solicite ao usuário acesso a lembretes, calendário e lista de endereços.
 
-### Locais sensíveis desprotegidos
+#### Locais sensíveis desprotegidos
 
 * $HOME (ele mesmo)
 * $HOME/.ssh, $HOME/.aws, etc
 * /tmp
 
-### Intenção do usuário / com.apple.macl
+#### Intenção do usuário / com.apple.macl
 
 Como mencionado anteriormente, é possível **conceder acesso a um aplicativo a um arquivo arrastando-o e soltando-o nele**. Esse acesso não será especificado em nenhum banco de dados TCC, mas como um **atributo estendido do arquivo**. Esse atributo irá **armazenar o UUID** do aplicativo permitido:
+
 ```bash
 xattr Desktop/private.txt
 com.apple.macl
@@ -167,13 +178,14 @@ Filename,Header,App UUID
 otool -l /System/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal| grep uuid
     uuid 769FD8F1-90E0-3206-808C-A8947BEBD6C3
 ```
+
 {% hint style="info" %}
 É curioso que o atributo **`com.apple.macl`** seja gerenciado pelo **Sandbox**, e não pelo tccd
 {% endhint %}
 
 O atributo estendido `com.apple.macl` **não pode ser apagado** como outros atributos estendidos, pois ele é **protegido pelo SIP**. No entanto, como [**explicado neste post**](https://www.brunerd.com/blog/2020/01/07/track-and-tackle-com-apple-macl/), é possível desabilitá-lo **compactando** o arquivo, **apagando-o** e **descompactando-o**.
 
-## Referências
+### Referências
 
 * [**https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive**](https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive)
 

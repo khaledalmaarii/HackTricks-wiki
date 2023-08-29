@@ -1,4 +1,4 @@
-# Artefatos do Windows
+# Windows Artifacts
 
 ## Artefatos do Windows
 
@@ -45,9 +45,11 @@ Quando um arquivo é excluído nesta pasta, 2 arquivos específicos são criados
 ![](<../../../.gitbook/assets/image (486).png>)
 
 Tendo esses arquivos, você pode usar a ferramenta [**Rifiuti**](https://github.com/abelcheung/rifiuti2) para obter o endereço original dos arquivos excluídos e a data em que foram excluídos (use `rifiuti-vista.exe` para Vista - Win10).
+
 ```
 .\rifiuti-vista.exe C:\Users\student\Desktop\Recycle
 ```
+
 ![](<../../../.gitbook/assets/image (495) (1) (1) (1).png>)
 
 ### Cópias de sombra de volume
@@ -105,9 +107,11 @@ Nessa ferramenta, você encontrará **2 conjuntos** de carimbos de data/hora:
 O primeiro conjunto de carimbos de data/hora refere-se aos **carimbos de data/hora do próprio arquivo**. O segundo conjunto refere-se aos **carimbos de data/hora do arquivo vinculado**.
 
 Você pode obter as mesmas informações executando a ferramenta de linha de comando do Windows: [**LECmd.exe**](https://github.com/EricZimmerman/LECmd)
+
 ```
 LECmd.exe -d C:\Users\student\Desktop\LNKs --csv C:\Users\student\Desktop\LNKs
 ```
+
 Neste caso, as informações serão salvas em um arquivo CSV.
 
 ### Jumplists
@@ -152,7 +156,7 @@ Os arquivos na pasta WPDNSE são uma cópia dos originais, então não sobrevive
 
 Verifique o arquivo `C:\Windows\inf\setupapi.dev.log` para obter os carimbos de data e hora sobre quando a conexão USB foi produzida (procure por `Section start`).
 
-![](<../../../.gitbook/assets/image (477) (2) (2) (2) (2) (2) (2) (2) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (14).png>)
+![](<../../../.gitbook/assets/image (477) (2) (2) (2) (2) (2) (2) (2) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (10).png>)
 
 ### USB Detective
 
@@ -169,6 +173,7 @@ A própria tarefa agendada está localizada em ‘C:\Windows\System32\Tasks\Micr
 ![](https://2.bp.blogspot.com/-wqYubtuR\_W8/W19bV5S9XyI/AAAAAAAANhU/OHsBDEvjqmg9ayzdNwJ4y2DKZnhCdwSMgCLcBGAs/s1600/xml.png)
 
 A tarefa faz referência a 'pnpclean.dll', que é responsável por realizar a atividade de limpeza. Além disso, vemos que o campo ‘UseUnifiedSchedulingEngine’ está definido como ‘TRUE’, o que especifica que o mecanismo genérico de agendamento de tarefas é usado para gerenciar a tarefa. Os valores ‘Period’ e ‘Deadline’ de 'P1M' e 'P2M' dentro
+
 ### BAM (Moderador de Atividade em Segundo Plano)
 
 Você pode abrir o arquivo `SYSTEM` com um editor de registro e dentro do caminho `SYSTEM\CurrentControlSet\Services\bam\UserSettings\{SID}` você pode encontrar informações sobre os **aplicativos executados por cada usuário** (observe o `{SID}` no caminho) e em **que horário** eles foram executados (o horário está dentro do valor de dados do registro).
@@ -184,9 +189,11 @@ O nome do arquivo é criado como `{nome_do_programa}-{hash}.pf` (o hash é basea
 O arquivo `C:\Windows\Prefetch\Layout.ini` contém os **nomes das pastas dos arquivos que são prefetchados**. Este arquivo contém **informações sobre o número de execuções**, **datas** da execução e **arquivos** **abertos** pelo programa.
 
 Para inspecionar esses arquivos, você pode usar a ferramenta [**PEcmd.exe**](https://github.com/EricZimmerman/PECmd):
+
 ```bash
 .\PECmd.exe -d C:\Users\student\Desktop\Prefetch --html "C:\Users\student\Desktop\out_folder"
 ```
+
 ![](<../../../.gitbook/assets/image (487).png>)
 
 ### Superprefetch
@@ -215,9 +222,11 @@ Ele fornece as seguintes informações:
 Essas informações são atualizadas a cada 60 minutos.
 
 Você pode obter a data deste arquivo usando a ferramenta [**srum\_dump**](https://github.com/MarkBaggett/srum-dump).
+
 ```bash
 .\srum_dump.exe -i C:\Users\student\Desktop\SRUDB.dat -t SRUM_TEMPLATE.xlsx -o C:\Users\student\Desktop\srum
 ```
+
 ### AppCompatCache (ShimCache)
 
 **Shimcache**, também conhecido como **AppCompatCache**, é um componente do **Banco de Dados de Compatibilidade de Aplicativos**, que foi criado pela **Microsoft** e usado pelo sistema operacional para identificar problemas de compatibilidade de aplicativos.
@@ -249,9 +258,11 @@ O arquivo **Amcache.hve** é um arquivo de registro que armazena as informaçõe
 **Amcache.hve** registra os processos recentes que foram executados e lista o caminho dos arquivos que são executados, o que pode ser usado para encontrar o programa executado. Ele também registra o SHA1 do programa.
 
 Você pode analisar essas informações com a ferramenta [**Amcacheparser**](https://github.com/EricZimmerman/AmcacheParser)
+
 ```bash
 AmcacheParser.exe -f C:\Users\student\Desktop\Amcache.hve --csv C:\Users\student\Desktop\srum
 ```
+
 O arquivo CVS mais interessante gerado é o `Amcache_Unassociated file entries`.
 
 ### RecentFileCache
@@ -309,11 +320,11 @@ Eventos que são registrados como:
 
 Eventos relacionados à autenticação do usuário:
 
-| EventID   | Descrição                    |
-| --------- | ---------------------------- |
-| 4624      | Autenticação bem-sucedida    |
-| 4625      | Erro de autenticação         |
-| 4634/4647 | logoff                       |
+| EventID   | Descrição                             |
+| --------- | ------------------------------------- |
+| 4624      | Autenticação bem-sucedida             |
+| 4625      | Erro de autenticação                  |
+| 4634/4647 | logoff                                |
 | 4672      | Login com permissões de administração |
 
 Dentro do EventID 4634/4647, existem subtipos interessantes:
