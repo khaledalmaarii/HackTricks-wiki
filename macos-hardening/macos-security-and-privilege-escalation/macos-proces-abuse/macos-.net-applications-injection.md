@@ -5,9 +5,9 @@
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
 
 * 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 发现我们的独家[NFT收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
@@ -17,15 +17,15 @@
 ### **建立调试会话** <a href="#net-core-debugging" id="net-core-debugging"></a>
 
 [**dbgtransportsession.cpp**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp)负责处理调试器与被调试进程之间的**通信**。\
-它通过调用[dbgtransportsession.cpp#L127](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L127)中的[twowaypipe.cpp#L27](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/debug-pal/unix/twowaypipe.cpp#L27)创建每个.Net进程的2个命名管道（一个以**`-in`**结尾，另一个以**`-out`**结尾，其余部分名称相同）。
+它通过调用[twowaypipe.cpp#L27](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/debug-pal/unix/twowaypipe.cpp#L27)在每个.Net进程中创建两个命名管道（一个以**`-in`**结尾，另一个以**`-out`**结尾，其余部分名称相同）。
 
 因此，如果你进入用户的**`$TMPDIR`**目录，你将能够找到用于调试.Net应用程序的**调试FIFO**：
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 函数[**DbgTransportSession::TransportWorker**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L1259)将处理来自调试器的通信。
 
-调试器需要做的第一件事是**创建一个新的调试会话**。这是通过在`out`管道上发送以`MessageHeader`结构开始的消息来完成的，我们可以从.NET源代码中获取：
+调试器需要做的第一件事是**创建一个新的调试会话**。这是通过**通过`out`管道发送以`MessageHeader`结构开始的消息**来完成的，我们可以从.NET源代码中获取：
 ```c
 struct MessageHeader
 {
@@ -62,11 +62,11 @@ sSendHeader.TypeSpecificData.VersionInfo.m_dwMinorVersion = kCurrentMinorVersion
 // Finally set the number of bytes which follow this header
 sSendHeader.m_cbDataBlock = sizeof(SessionRequestData);
 ```
-构建完成后，我们使用`write`系统调用将其发送给目标。
+一旦构建完成，我们使用`write`系统调用将其发送给目标。
 ```c
 write(wr, &sSendHeader, sizeof(MessageHeader));
 ```
-在我们的标头之后，我们需要发送一个`sessionRequestData`结构体，其中包含一个GUID来标识我们的会话：
+以下是我们需要发送的`sessionRequestData`结构体，其中包含一个用于标识我们会话的GUID：
 ```c
 // All '9' is a GUID.. right??
 memset(&sDataBlock.m_sSessionID, 9, sizeof(SessionRequestData));
