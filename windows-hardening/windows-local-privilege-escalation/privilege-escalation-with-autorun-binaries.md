@@ -4,15 +4,15 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? Ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e para o** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
 Se você está interessado em uma **carreira de hacking** e hackear o inquebrável - **estamos contratando!** (_fluência em polonês escrita e falada é necessária_).
 
@@ -217,7 +217,7 @@ No entanto, você pode criar uma opção de inicialização para não precisar p
 4. Salve o arquivo.
 5. Reaplique as permissões corretas (attrib c:\boot.ini +r +s +h).
 
-Informações da [qui](https://www.itprotoday.com/cloud-computing/how-can-i-add-boot-option-starts-alternate-shell).
+Informações obtidas [aqui](https://www.itprotoday.com/cloud-computing/how-can-i-add-boot-option-starts-alternate-shell).
 
 {% hint style="info" %}
 **Exploit 1:** Se você puder modificar essa chave do registro, poderá apontar sua backdoor.
@@ -312,19 +312,11 @@ Quando um programa é executado no Windows, o sistema operacional verifica se ex
 
 #### Explorando as Opções de Execução de Arquivos de Imagem
 
-Para explorar essa vulnerabilidade, um invasor pode adicionar uma entrada nas Opções de Execução de Arquivos de Imagem para um executável privilegiado, como o Prompt de Comando (cmd.exe). Dessa forma, sempre que o Prompt de Comando for iniciado, o programa especificado nas opções será executado em seu lugar.
-
-#### Escalando privilégios com as Opções de Execução de Arquivos de Imagem
-
-Ao adicionar uma entrada nas Opções de Execução de Arquivos de Imagem para um programa com privilégios elevados, um invasor pode executar um programa malicioso com os mesmos privilégios. Isso pode permitir que o invasor execute comandos com privilégios de administrador, comprometendo completamente o sistema.
+Para explorar essa vulnerabilidade, um invasor pode adicionar uma entrada nas Opções de Execução de Arquivos de Imagem para um executável privilegiado, como o Prompt de Comando (cmd.exe). Dessa forma, toda vez que o Prompt de Comando for iniciado, o programa especificado nas opções será executado com privilégios elevados.
 
 #### Prevenção
 
-Para mitigar esse tipo de ataque, é recomendado restringir o acesso às Opções de Execução de Arquivos de Imagem. Isso pode ser feito por meio de políticas de segurança do Windows ou por meio de ferramentas de terceiros que monitoram e bloqueiam alterações nas Opções de Execução de Arquivos de Imagem.
-
-#### Conclusão
-
-As Opções de Execução de Arquivos de Imagem podem ser uma vulnerabilidade de segurança se não forem adequadamente protegidas. É importante implementar medidas de segurança para evitar a exploração dessa funcionalidade e garantir a integridade do sistema.
+Para evitar a exploração das Opções de Execução de Arquivos de Imagem, é recomendado que os administradores do sistema restrinjam o acesso ao registro do Windows, onde essas opções são armazenadas. Além disso, é importante manter o sistema operacional e os aplicativos atualizados para corrigir quaisquer vulnerabilidades conhecidas.
 ```
 HKLM\Software\Microsoft\Windows NT\CurrentVersion\Image File Execution Options
 HKLM\Software\Microsoft\Wow6432Node\Windows NT\CurrentVersion\Image File Execution Options
@@ -345,7 +337,7 @@ Encontre mais Autoruns como registros em [https://www.microsoftpressstore.com/ar
 * [https://attack.mitre.org/techniques/T1547/001/](https://attack.mitre.org/techniques/T1547/001/)
 * [https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2](https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2)
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
 Se você está interessado em **carreira de hacking** e hackear o inquebrável - **estamos contratando!** (_fluência em polonês escrita e falada é necessária_).
 
