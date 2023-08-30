@@ -24,7 +24,7 @@ _Votre entreprise pourrait être ici_
 
 ![](<.gitbook/assets/image (642) (1) (1) (1).png>)
 
-[**STM Cyber**](https://www.stmcyber.com) est une excellente entreprise de cybersécurité dont le slogan est **PIRATER L'IMPIRATABLE**. Ils effectuent leurs propres recherches et développent leurs propres outils de piratage pour **offrir plusieurs services précieux de cybersécurité** tels que des tests de pénétration, des équipes rouges et des formations.
+[**STM Cyber**](https://www.stmcyber.com) est une excellente entreprise de cybersécurité dont le slogan est **PIRATER L'IMPIRATABLE**. Ils effectuent leurs propres recherches et développent leurs propres outils de piratage pour **offrir plusieurs services précieux de cybersécurité** tels que les tests de pénétration, les équipes rouges et la formation.
 
 Vous pouvez consulter leur **blog** sur [**https://blog.stmcyber.com**](https://blog.stmcyber.com)
 
@@ -44,7 +44,7 @@ Vous pouvez consulter leur **blog** sur [**https://blog.stmcyber.com**](https://
 
 **Intigriti** est la plateforme de piratage éthique et de **bug bounty n°1 en Europe**.
 
-**Astuce de bug bounty** : **inscrivez-vous** sur **Intigriti**, une plateforme premium de **bug bounty créée par des pirates, pour des pirates** ! Rejoignez-nous sur [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) dès aujourd'hui et commencez à gagner des primes allant jusqu'à **100 000 $** !
+**Astuce de bug bounty** : **inscrivez-vous** à **Intigriti**, une plateforme premium de **bug bounty créée par des pirates, pour des pirates** ! Rejoignez-nous sur [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) dès aujourd'hui et commencez à gagner des primes allant jusqu'à **100 000 $** !
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
@@ -58,6 +58,20 @@ Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medi
 Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+
+### [Intruder](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks)
+
+<figure><img src=".gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+
+Restez en avance dans le jeu de la cybersécurité.
+
+[**Intruder**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) facilite la gestion des vulnérabilités. Suivez votre surface d'attaque, identifiez les vulnérabilités de votre entreprise et donnez la priorité aux problèmes qui exposent le plus vos systèmes afin de vous concentrer sur ce qui compte le plus.
+
+Effectuez des milliers de vérifications avec une seule plateforme qui couvre l'ensemble de votre pile technologique, de l'infrastructure interne aux applications web, aux API et aux systèmes cloud. Intégrez-vous facilement avec [AWS, GCP, Azure](https://www.intruder.io/cloud-vulnerability-scanning-for-aws-google-cloud-and-azure) et rationalisez DevOps pour que votre équipe puisse mettre en œuvre les corrections plus rapidement.
+
+Intruder ne se repose jamais. Une protection 24/7 surveille vos systèmes en permanence. Vous voulez en savoir plus ? Visitez leur site et essayez-le avec [**un essai gratuit**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks).
+
+{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
 ### [HACKENPROOF](https://bit.ly/3xrrDrL)
 
@@ -86,21 +100,21 @@ Gagnez des points de réputation avec chaque bogue vérifié et conquérez le so
 
 [**WebSec**](https://websec.nl) est une entreprise de cybersécurité professionnelle basée à **Amsterdam** qui aide à **protéger** les entreprises **du monde entier** contre les dernières menaces en matière de cybersécurité en fournissant des services de **sécurité offensive** avec une approche **moderne**.
 
-WebSec est une **entreprise de sécurité tout-en-un**, ce qui signifie qu'ils font tout : tests de pénétration, audits de sécurité, formations à la sensibilisation, campagnes de phishing, examen de code, développement d'exploits, externalisation d'experts en sécurité et bien plus encore.
+WebSec est une **entreprise de sécurité tout-en-un**, ce qui signifie qu'ils font tout : tests de pénétration, audits de sécurité, formations en sensibilisation, campagnes de phishing, examen de code, développement d'exploits, externalisation d'experts en sécurité et bien plus encore.
 
 Une autre chose intéressante à propos de WebSec est que, contrairement à la moyenne de l'industrie, WebSec est **très confiant dans ses compétences**, à tel point qu'ils **garantissent les meilleurs résultats de qualité**, comme indiqué sur leur site web "**Si nous ne pouvons pas le pirater, vous ne le payez pas !**". Pour plus d'informations, consultez leur [**site web**](https://websec.nl/en/) et leur [**blog**](https://websec.nl/blog/) !
 
 En plus de ce qui précède, WebSec est également un **supporter engagé de HackTricks**.
 
 {% embed url="https://www.youtube.com/watch?v=Zq2JycGDCPM" %}
-
 ### [DragonJAR](https://www.dragonjar.org/)
 
 <figure><img src=".gitbook/assets/image (1) (1) (2) (4) (1).png" alt=""><figcaption></figcaption></figure>
 
-[**DragonJAR est une entreprise de cybersécurité offensive de premier plan**](https://www.dragonjar.org/) **basée en Colombie**. DragonJAR propose [des services complets de cybersécurité offensive, tels que **le pentest**](https://www.dragonjar.org/servicios-de-seguridad-informatica) dans divers domaines et pratiquement **toute technologie**, des simulations d'attaque **Red Team**, des tests de sécurité **physique**, des tests de résistance, de l'ingénierie sociale, des audits de sécurité du **code source** et des formations en cybersécurité. De plus, ils organisent la **DragonJAR Security Conference**, [un congrès international de cybersécurité](https://www.dragonjarcon.org/) qui se tient depuis plus d'une décennie, devenant une vitrine pour les dernières recherches en matière de sécurité en espagnol et d'une grande pertinence dans la région.
+[**DragonJAR est une entreprise leader en cybersécurité offensive**](https://www.dragonjar.org/) **basée en Colombie**. DragonJAR propose [des services complets de cybersécurité offensive, tels que le **pentesting**](https://www.dragonjar.org/servicios-de-seguridad-informatica) dans divers domaines et pratiquement **toute technologie**, des simulations d'attaques **Red Team**, des tests de sécurité **physique**, des tests de stress, de l'ingénierie sociale, des audits de sécurité du **code source** et des formations en cybersécurité. De plus, ils organisent la **DragonJAR Security Conference**, [un congrès international sur la cybersécurité](https://www.dragonjarcon.org/) qui se tient depuis plus d'une décennie, devenant ainsi une vitrine pour les dernières recherches en sécurité en espagnol et d'une grande importance dans la région.
 
-[**DragonJAR es una empresa líder en ciberseguridad ofensiva**](https://www.dragonjar.org/) **ubicada en Colombia**, DragonJAR ofrece [servicios integrales de seguridad informática ofensiva, como **pentesting**](https://www.dragonjar.org/servicios-de-seguridad-informatica) en diversas áreas y prácticamente **cualquier tecnología**, simulaciones de ataque **Red Team**, pruebas de seguridad **física**, **pruebas de estrés**, ingeniería social, revisión de seguridad en **código fuente** y capacitación en seguridad informática. Asimismo, organiza la **DragonJAR Security Conference**, [un congreso internacional de seguridad informática](https://www.dragonjarcon.org/) que se ha realizado durante más de una década, convirtiéndose en el escaparate para las últimas investigaciones de seguridad en español y de gran relevancia en la región.
+[**DragonJAR is a leading offensive cybersecurity company**](https://www.dragonjar.org/) **located in Colombia**. DragonJAR offers [comprehensive offensive cybersecurity services, such as **pentesting**](https://www.dragonjar.org/servicios-de-seguridad-informatica) in various areas and practically **any technology**, **Red Team** attack simulations, **physical** security testing, **stress testing**, social engineering, source **code security review**, and cybersecurity training. Additionally, they organize the **DragonJAR Security Conference**, [an international cybersecurity congress](https://www.dragonjarcon.org/) that has been held for over a decade, becoming a showcase for the latest security research in Spanish and of great relevance in the region.
+
 ### [SYN CUBES](https://www.syncubes.com/)
 
 <figure><img src=".gitbook/assets/image (10) (2) (1).png" alt=""><figcaption></figcaption></figure>
@@ -109,17 +123,17 @@ La plateforme **Security Skills as a Service** comble l'écart actuel en matièr
 
 {% embed url="https://www.syncubes.com/" %}
 
-## Licence
+## License
 
-**Copyright © Carlos Polop 2023. Sauf indication contraire (les informations externes copiées dans le livre appartiennent aux auteurs originaux), le texte sur** [**HACK TRICKS**](https://github.com/carlospolop/hacktricks) **de Carlos Polop est sous licence** [**Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)**](https://creativecommons.org/licenses/by-nc/4.0/)**.**\
-**Si vous souhaitez l'utiliser à des fins commerciales, contactez-moi.**
+**Copyright © Carlos Polop 2023. Except where otherwise specified (the external information copied into the book belongs to the original authors), the text on** [**HACK TRICKS**](https://github.com/carlospolop/hacktricks) **by Carlos Polop is licensed under the**[ **Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)**](https://creativecommons.org/licenses/by-nc/4.0/)**.**\
+**If you want to use it with commercial purposes, contact me.**
 
-## **Clause de non-responsabilité**
+## **Disclaimer**
 
 {% hint style="danger" %}
-Ce livre, 'HackTricks', est destiné uniquement à des fins éducatives et informatives. Le contenu de ce livre est fourni tel quel, et les auteurs et éditeurs ne font aucune déclaration ni garantie d'aucune sorte, expresse ou implicite, quant à l'exhaustivité, l'exactitude, la fiabilité, la pertinence ou la disponibilité des informations, produits, services ou graphiques connexes contenus dans ce livre. Toute confiance que vous accordez à de telles informations est donc strictement à vos propres risques.
+Ce livre, 'HackTricks', est destiné uniquement à des fins éducatives et informatives. Le contenu de ce livre est fourni tel quel, et les auteurs et éditeurs ne font aucune déclaration ni garantie d'aucune sorte, expresse ou implicite, quant à l'exhaustivité, l'exactitude, la fiabilité, l'adéquation ou la disponibilité des informations, produits, services ou graphiques connexes contenus dans ce livre. Toute confiance que vous accordez à de telles informations est donc strictement à vos propres risques.
 
-Les auteurs et éditeurs ne seront en aucun cas responsables de toute perte ou dommage, y compris, sans s'y limiter, les pertes ou dommages indirects ou consécutifs, ou toute perte ou dommage découlant de la perte de données ou de bénéfices résultant de l'utilisation de ce livre.
+Les auteurs et éditeurs ne sauraient en aucun cas être tenus responsables de toute perte ou dommage, y compris, sans s'y limiter, toute perte ou dommage indirect ou consécutif, ou toute perte ou dommage résultant de la perte de données ou de bénéfices découlant de l'utilisation de ce livre.
 
 De plus, les techniques et astuces décrites dans ce livre sont fournies uniquement à des fins éducatives et informatives, et ne doivent pas être utilisées à des fins illégales ou malveillantes. Les auteurs et éditeurs ne cautionnent ni ne soutiennent aucune activité illégale ou contraire à l'éthique, et toute utilisation des informations contenues dans ce livre se fait aux risques et périls de l'utilisateur et à sa discrétion.
 

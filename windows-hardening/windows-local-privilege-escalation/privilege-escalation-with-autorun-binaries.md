@@ -12,9 +12,9 @@
 
 </details>
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
-Si vous êtes intéressé par une **carrière en piratage** et souhaitez pirater l'impossible - **nous recrutons !** (_maîtrise du polonais écrit et parlé requise_).
+Si vous êtes intéressé par une **carrière de piratage** et souhaitez pirater l'impossible - **nous recrutons !** (_maîtrise du polonais écrit et parlé requise_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
@@ -73,7 +73,7 @@ Registres AutoRun couramment connus :
 
 Les clés de registre Run et RunOnce font en sorte que les programmes s'exécutent à chaque connexion d'un utilisateur. La valeur de données pour une clé est une ligne de commande ne dépassant pas 260 caractères.
 
-**Exécutions de services** (peuvent contrôler le démarrage automatique des services lors du démarrage) :
+**Exécutions de services** (peuvent contrôler le démarrage automatique des services au démarrage) :
 
 * `HKLM\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce`
 * `HKCU\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce`
@@ -89,7 +89,7 @@ Les clés de registre Run et RunOnce font en sorte que les programmes s'exécute
 * `HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnceEx`
 * `HKEY_LOCAL_MACHINE\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\RunOnceEx`
 
-Il n'est pas créé par défaut sur Windows Vista et les versions ultérieures. Les entrées de clé de registre Run peuvent faire référence directement à des programmes ou les répertorier comme une dépendance. Par exemple, il est possible de charger une DLL lors de la connexion en utilisant une clé "Depend" avec RunOnceEx : `reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnceEx\0001\Depend /v 1 /d "C:\temp\evil[.]dll"`
+Il n'est pas créé par défaut sur Windows Vista et les versions ultérieures. Les entrées de clé de registre Run peuvent faire référence directement à des programmes ou les répertorier en tant que dépendance. Par exemple, il est possible de charger une DLL lors de la connexion en utilisant une clé "Depend" avec RunOnceEx : `reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnceEx\0001\Depend /v 1 /d "C:\temp\evil[.]dll"`
 
 {% hint style="info" %}
 **Exploit 1** : Si vous pouvez écrire dans l'un des registres mentionnés dans **HKLM**, vous pouvez élever les privilèges lorsqu'un utilisateur différent se connecte.
@@ -241,9 +241,9 @@ Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Co
 * `HKCU\SOFTWARE\Microsoft\Active Setup\Installed Components`
 * `HKCU\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components`
 
-Active Setup s'exécute avant l'apparition du bureau. Les commandes lancées par Active Setup s'exécutent de manière synchrone, bloquant la connexion jusqu'à ce qu'elles soient exécutées. Active Setup est exécuté avant l'évaluation des entrées de registre Run ou RunOnce.
+Active Setup s'exécute avant l'apparition du bureau. Les commandes lancées par Active Setup s'exécutent de manière synchrone, bloquant la connexion tant qu'elles sont en cours d'exécution. Active Setup est exécuté avant que les entrées de registre Run ou RunOnce ne soient évaluées.
 
-À l'intérieur de ces clés, vous trouverez d'autres clés, chacune contenant des valeurs clés intéressantes. Les plus intéressantes sont :
+À l'intérieur de ces clés, vous trouverez d'autres clés et chacune d'entre elles contiendra des paires clé-valeur intéressantes. Les plus intéressantes sont :
 
 * **IsInstalled :**
 * 0 : La commande du composant ne s'exécutera pas.
@@ -310,7 +310,7 @@ L'une des utilisations courantes de cette fonctionnalité est l'escalade de priv
 
 Pour exploiter cette vulnérabilité, l'attaquant doit d'abord identifier un binaire d'autorun légitime qui est exécuté avec des privilèges élevés. Ensuite, il doit créer une clé de registre dans `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options` avec le nom du binaire d'autorun légitime. Dans cette clé de registre, l'attaquant peut spécifier le chemin d'accès du binaire malveillant à exécuter à la place.
 
-Lorsque l'utilisateur se connecte au système, le binaire d'autorun légitime est remplacé par le binaire malveillant spécifié dans les Options d'exécution des fichiers image. Cela permet à l'attaquant d'obtenir des privilèges élevés et d'exécuter des actions malveillantes sur le système.
+Lorsque l'utilisateur se connecte au système, le binaire malveillant sera exécuté avec les privilèges élevés du binaire d'autorun légitime, ce qui permet à l'attaquant d'obtenir un accès privilégié au système.
 
 Pour se protéger contre cette technique d'escalade de privilèges, il est recommandé de restreindre les autorisations d'écriture sur les clés de registre liées aux Options d'exécution des fichiers image. De plus, il est important de surveiller les modifications apportées à ces clés de registre et de vérifier régulièrement l'intégrité des binaires d'autorun légitimes.
 ```
@@ -333,9 +333,9 @@ Trouvez plus d'Autoruns comme les registres dans [https://www.microsoftpressstor
 * [https://attack.mitre.org/techniques/T1547/001/](https://attack.mitre.org/techniques/T1547/001/)
 * [https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2](https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2)
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
-Si vous êtes intéressé par une **carrière de hacking** et souhaitez pirater l'impossible - **nous recrutons !** (_maîtrise du polonais à l'écrit et à l'oral requise_).
+Si vous êtes intéressé par une **carrière de hacking** et souhaitez pirater l'impossible - **nous recrutons !** (_maîtrise du polonais écrit et parlé requise_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
