@@ -110,7 +110,7 @@ Le démon **tccd** de l'espace utilisateur utilise la variable d'environnement *
 
 Selon [cette publication sur Stack Exchange](https://stackoverflow.com/questions/135688/setting-environment-variables-on-os-x/3756686#3756686) et parce que le démon TCC s'exécute via `launchd` dans le domaine de l'utilisateur actuel, il est possible de **contrôler toutes les variables d'environnement** qui lui sont transmises.\
 Ainsi, un **attaquant pourrait définir la variable d'environnement `$HOME`** dans **`launchctl`** pour pointer vers un **répertoire contrôlé**, **redémarrer** le démon **TCC**, puis **modifier directement la base de données TCC** pour s'attribuer **tous les privilèges TCC disponibles** sans jamais demander l'autorisation à l'utilisateur final.\
-Preuve de concept (PoC) :
+PoC :
 ```bash
 # reset database just in case (no cheating!)
 $> tccutil reset All
@@ -139,9 +139,9 @@ $> ls ~/Documents
 ```
 ### CVE-2021-30761 - Notes
 
-Les notes avaient accès aux emplacements protégés par TCC, mais lorsqu'une note est créée, elle est créée dans un emplacement non protégé. Ainsi, vous pouviez demander aux notes de copier un fichier protégé dans une note (donc dans un emplacement non protégé) et ensuite accéder au fichier :
+Les notes avaient accès aux emplacements protégés par TCC, mais lorsqu'une note est créée, elle est créée dans un emplacement non protégé. Ainsi, vous pouvez demander aux notes de copier un fichier protégé dans une note (donc dans un emplacement non protégé) et ensuite accéder au fichier :
 
-<figure><img src="../../../../.gitbook/assets/image (6).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (6) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### CVE-2021-XXXX - Translocation
 

@@ -16,13 +16,13 @@ Pour commencer, suivez cette page où vous trouverez le **flux typique** que **v
 
 ## Sponsors Platinum
 
-_Votre entreprise pourrait être ici_
+_Votre entreprise pourrait être ici._
 
 ## Sponsors Corporate
 
 ### [STM Cyber](https://www.stmcyber.com)
 
-![](<.gitbook/assets/image (642) (1) (1) (1).png>)
+<figure><img src=".gitbook/assets/stm (1).png" alt=""><figcaption></figcaption></figure>
 
 [**STM Cyber**](https://www.stmcyber.com) est une excellente entreprise de cybersécurité dont le slogan est **PIRATER L'IMPIRATABLE**. Ils effectuent leurs propres recherches et développent leurs propres outils de piratage pour **offrir plusieurs services précieux de cybersécurité** tels que les tests de pénétration, les équipes rouges et la formation.
 
@@ -32,7 +32,7 @@ Vous pouvez consulter leur **blog** sur [**https://blog.stmcyber.com**](https://
 
 ### [RootedCON](https://www.rootedcon.com/)
 
-<figure><img src=".gitbook/assets/image (1) (3) (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
 
 [**RootedCON**](https://www.rootedcon.com) est l'événement le plus important en matière de cybersécurité en **Espagne** et l'un des plus importants en **Europe**. Avec **pour mission de promouvoir les connaissances techniques**, ce congrès est un point de rencontre bouillonnant pour les professionnels de la technologie et de la cybersécurité dans toutes les disciplines.
 
@@ -40,9 +40,9 @@ Vous pouvez consulter leur **blog** sur [**https://blog.stmcyber.com**](https://
 
 ### [Intigriti](https://www.intigriti.com)
 
-![](.gitbook/assets/i3.png)
+<figure><img src=".gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-**Intigriti** est la plateforme de piratage éthique et de **bug bounty n°1 en Europe**.
+**Intigriti** est la première plateforme de piratage éthique et de **bug bounty en Europe**.
 
 **Astuce de bug bounty** : **inscrivez-vous** à **Intigriti**, une plateforme premium de **bug bounty créée par des pirates, pour des pirates** ! Rejoignez-nous sur [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) dès aujourd'hui et commencez à gagner des primes allant jusqu'à **100 000 $** !
 
@@ -50,7 +50,7 @@ Vous pouvez consulter leur **blog** sur [**https://blog.stmcyber.com**](https://
 
 ### [Trickest](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)
 
-<figure><img src=".gitbook/assets/image (9) (1) (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour créer et **automatiser facilement des flux de travail** alimentés par les outils communautaires les plus avancés au monde.
@@ -61,13 +61,13 @@ Accédez dès aujourd'hui :
 
 ### [Intruder](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks)
 
-<figure><img src=".gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
 
 Restez en avance dans le jeu de la cybersécurité.
 
 [**Intruder**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) facilite la gestion des vulnérabilités. Suivez votre surface d'attaque, identifiez les vulnérabilités de votre entreprise et donnez la priorité aux problèmes qui exposent le plus vos systèmes afin de vous concentrer sur ce qui compte le plus.
 
-Effectuez des milliers de vérifications avec une seule plateforme qui couvre l'ensemble de votre pile technologique, de l'infrastructure interne aux applications web, aux API et aux systèmes cloud. Intégrez-vous facilement avec [AWS, GCP, Azure](https://www.intruder.io/cloud-vulnerability-scanning-for-aws-google-cloud-and-azure) et rationalisez DevOps pour que votre équipe puisse mettre en œuvre les corrections plus rapidement.
+Effectuez des milliers de vérifications avec une seule plateforme qui couvre l'ensemble de votre pile technologique, de l'infrastructure interne aux applications web, aux API et aux systèmes cloud. Intégrez-vous facilement avec [AWS, GCP, Azure](https://www.intruder.io/cloud-vulnerability-scanning-for-aws-google-cloud-and-azure) et rationalisez DevOps pour que votre équipe puisse apporter des corrections plus rapidement.
 
 Intruder ne se repose jamais. Une protection 24/7 surveille vos systèmes en permanence. Vous voulez en savoir plus ? Visitez leur site et essayez-le avec [**un essai gratuit**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks).
 
@@ -75,14 +75,14 @@ Intruder ne se repose jamais. Une protection 24/7 surveille vos systèmes en per
 
 ### [HACKENPROOF](https://bit.ly/3xrrDrL)
 
-<figure><img src=".gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (5).png" alt=""><figcaption></figcaption></figure>
 
 **HackenProof est la plateforme de tous les bug bounties cryptographiques.**
 
 **Obtenez une récompense sans délai**\
-Les primes HackenProof ne sont lancées que lorsque leurs clients déposent le budget de récompense. Vous recevrez la récompense après la vérification du bogue.
+Les primes HackenProof sont lancées uniquement lorsque leurs clients déposent le budget de récompense. Vous recevrez la récompense après la vérification du bogue.
 
-**Acquérez de l'expérience en pentest web3**\
+**Acquérez de l'expérience en test de pénétration web3**\
 Les protocoles blockchain et les contrats intelligents sont le nouvel Internet ! Maîtrisez la sécurité web3 à ses débuts.
 
 **Devenez la légende du pirate web3**\
@@ -92,15 +92,13 @@ Gagnez des points de réputation avec chaque bogue vérifié et conquérez le so
 
 {% embed url="https://hackenproof.com/register" %}
 
-\---
-
 ### [WebSec](https://websec.nl/)
 
-<figure><img src=".gitbook/assets/logo.svg" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/websec (1).svg" alt=""><figcaption></figcaption></figure>
 
-[**WebSec**](https://websec.nl) est une entreprise de cybersécurité professionnelle basée à **Amsterdam** qui aide à **protéger** les entreprises **du monde entier** contre les dernières menaces en matière de cybersécurité en fournissant des services de **sécurité offensive** avec une approche **moderne**.
+[**WebSec**](https://websec.nl) est une entreprise de cybersécurité professionnelle basée à **Amsterdam** qui aide à **protéger** les entreprises **du monde entier** contre les dernières menaces en matière de cybersécurité en fournissant des services de sécurité offensive avec une approche **moderne**.
 
-WebSec est une **entreprise de sécurité tout-en-un**, ce qui signifie qu'ils font tout : tests de pénétration, audits de sécurité, formations en sensibilisation, campagnes de phishing, examen de code, développement d'exploits, externalisation d'experts en sécurité et bien plus encore.
+WebSec est une **entreprise de sécurité tout-en-un**, ce qui signifie qu'ils font tout ; tests de pénétration, audits de sécurité, formations à la sensibilisation, campagnes de phishing, examen de code, développement d'exploits, externalisation d'experts en sécurité et bien plus encore.
 
 Une autre chose intéressante à propos de WebSec est que, contrairement à la moyenne de l'industrie, WebSec est **très confiant dans ses compétences**, à tel point qu'ils **garantissent les meilleurs résultats de qualité**, comme indiqué sur leur site web "**Si nous ne pouvons pas le pirater, vous ne le payez pas !**". Pour plus d'informations, consultez leur [**site web**](https://websec.nl/en/) et leur [**blog**](https://websec.nl/blog/) !
 
@@ -115,13 +113,7 @@ En plus de ce qui précède, WebSec est également un **supporter engagé de Hac
 
 [**DragonJAR is a leading offensive cybersecurity company**](https://www.dragonjar.org/) **located in Colombia**. DragonJAR offers [comprehensive offensive cybersecurity services, such as **pentesting**](https://www.dragonjar.org/servicios-de-seguridad-informatica) in various areas and practically **any technology**, **Red Team** attack simulations, **physical** security testing, **stress testing**, social engineering, source **code security review**, and cybersecurity training. Additionally, they organize the **DragonJAR Security Conference**, [an international cybersecurity congress](https://www.dragonjarcon.org/) that has been held for over a decade, becoming a showcase for the latest security research in Spanish and of great relevance in the region.
 
-### [SYN CUBES](https://www.syncubes.com/)
 
-<figure><img src=".gitbook/assets/image (10) (2) (1).png" alt=""><figcaption></figcaption></figure>
-
-La plateforme **Security Skills as a Service** comble l'écart actuel en matière de compétences en combinant **un talent mondial en sécurité offensive avec une automatisation intelligente**, fournissant les données en temps réel dont vous avez besoin pour prendre des décisions éclairées.
-
-{% embed url="https://www.syncubes.com/" %}
 
 ## License
 
@@ -131,9 +123,9 @@ La plateforme **Security Skills as a Service** comble l'écart actuel en matièr
 ## **Disclaimer**
 
 {% hint style="danger" %}
-Ce livre, 'HackTricks', est destiné uniquement à des fins éducatives et informatives. Le contenu de ce livre est fourni tel quel, et les auteurs et éditeurs ne font aucune déclaration ni garantie d'aucune sorte, expresse ou implicite, quant à l'exhaustivité, l'exactitude, la fiabilité, l'adéquation ou la disponibilité des informations, produits, services ou graphiques connexes contenus dans ce livre. Toute confiance que vous accordez à de telles informations est donc strictement à vos propres risques.
+Ce livre, 'HackTricks', est destiné uniquement à des fins éducatives et informatives. Le contenu de ce livre est fourni tel quel, et les auteurs et éditeurs ne font aucune déclaration ni garantie d'aucune sorte, expresse ou implicite, quant à l'exhaustivité, l'exactitude, la fiabilité, la pertinence ou la disponibilité des informations, produits, services ou graphiques connexes contenus dans ce livre. Toute confiance que vous accordez à de telles informations est donc strictement à vos propres risques.
 
-Les auteurs et éditeurs ne sauraient en aucun cas être tenus responsables de toute perte ou dommage, y compris, sans s'y limiter, toute perte ou dommage indirect ou consécutif, ou toute perte ou dommage résultant de la perte de données ou de bénéfices découlant de l'utilisation de ce livre.
+Les auteurs et éditeurs ne seront en aucun cas responsables de toute perte ou dommage, y compris, sans s'y limiter, les pertes ou dommages indirects ou consécutifs, ou toute perte ou dommage découlant de la perte de données ou de bénéfices résultant de l'utilisation de ce livre.
 
 De plus, les techniques et astuces décrites dans ce livre sont fournies uniquement à des fins éducatives et informatives, et ne doivent pas être utilisées à des fins illégales ou malveillantes. Les auteurs et éditeurs ne cautionnent ni ne soutiennent aucune activité illégale ou contraire à l'éthique, et toute utilisation des informations contenues dans ce livre se fait aux risques et périls de l'utilisateur et à sa discrétion.
 

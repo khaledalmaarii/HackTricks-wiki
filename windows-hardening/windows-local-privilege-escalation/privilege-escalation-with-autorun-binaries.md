@@ -12,9 +12,9 @@
 
 </details>
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
-Si vous êtes intéressé par une **carrière de piratage** et souhaitez pirater l'impossible - **nous recrutons !** (_maîtrise du polonais écrit et parlé requise_).
+Si vous êtes intéressé par une **carrière en piratage** et souhaitez pirater l'impossible - **nous recrutons !** (_maîtrise du polonais écrit et parlé requis_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
@@ -217,7 +217,7 @@ Cependant, vous pouvez créer une option de démarrage pour ne pas avoir à appu
 4. Enregistrez le fichier.
 5. Réappliquez les autorisations correctes (attrib c:\boot.ini +r +s +h).
 
-Info provenant [ici](https://www.itprotoday.com/cloud-computing/how-can-i-add-boot-option-starts-alternate-shell).
+Informations provenant [ici](https://www.itprotoday.com/cloud-computing/how-can-i-add-boot-option-starts-alternate-shell).
 
 {% hint style="info" %}
 **Exploit 1:** Si vous pouvez modifier cette clé de registre, vous pouvez pointer votre porte dérobée.
@@ -228,7 +228,7 @@ Info provenant [ici](https://www.itprotoday.com/cloud-computing/how-can-i-add-bo
 {% endhint %}
 
 {% hint style="info" %}
-**Exploit 3 (Permissions d'écriture sur le PATH et le fichier boot.ini)** : Si vous pouvez écrire dans boot.ini, vous pouvez automatiser le démarrage en mode sans échec pour le prochain redémarrage.
+**Exploit 3 (Permissions d'écriture sur le PATH et le boot.ini)** : Si vous pouvez écrire dans boot.ini, vous pouvez automatiser le démarrage en mode sans échec pour le prochain redémarrage.
 {% endhint %}
 ```bash
 reg query HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot /v AlternateShell
@@ -304,15 +304,15 @@ Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Wow6432Node\Classes\htmlfile\she
 ```
 ### Options d'exécution des fichiers image
 
-Les Options d'exécution des fichiers image sont une fonctionnalité de Windows qui permet de spécifier des actions à effectuer lorsqu'un programme est lancé. Cela peut être utilisé à des fins de débogage ou de surveillance, mais peut également être exploité par des attaquants pour obtenir des privilèges élevés.
+Les options d'exécution des fichiers image sont une fonctionnalité de Windows qui permet de spécifier des actions à effectuer lorsqu'un programme est lancé. Cela peut être utilisé à des fins de débogage, mais peut également être exploité par des attaquants pour obtenir des privilèges élevés.
 
-L'une des utilisations courantes de cette fonctionnalité est l'escalade de privilèges locale en utilisant des binaires d'autorun. Les binaires d'autorun sont des programmes qui sont automatiquement exécutés lorsqu'un utilisateur se connecte à un système. En exploitant les Options d'exécution des fichiers image, un attaquant peut remplacer un binaire d'autorun légitime par un binaire malveillant, ce qui lui permet d'obtenir des privilèges élevés lors de la prochaine connexion de l'utilisateur.
+L'une des utilisations courantes de cette fonctionnalité est de configurer un binaire autorun pour s'exécuter chaque fois qu'un programme spécifique est lancé. Cela peut être réalisé en ajoutant une clé de registre sous `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options`. Le nom de la clé doit correspondre au nom du programme que vous souhaitez cibler.
 
-Pour exploiter cette vulnérabilité, l'attaquant doit d'abord identifier un binaire d'autorun légitime qui est exécuté avec des privilèges élevés. Ensuite, il doit créer une clé de registre dans `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options` avec le nom du binaire d'autorun légitime. Dans cette clé de registre, l'attaquant peut spécifier le chemin d'accès du binaire malveillant à exécuter à la place.
+Une fois que la clé de registre est ajoutée, vous pouvez spécifier le chemin du binaire autorun dans la valeur `Debugger`. Lorsque le programme ciblé est lancé, le binaire autorun sera exécuté à la place.
 
-Lorsque l'utilisateur se connecte au système, le binaire malveillant sera exécuté avec les privilèges élevés du binaire d'autorun légitime, ce qui permet à l'attaquant d'obtenir un accès privilégié au système.
+Cela peut être utilisé pour escalader les privilèges locaux en remplaçant un programme système légitime par un binaire malveillant. Lorsque le programme système est lancé, le binaire malveillant sera exécuté avec les privilèges élevés du programme système.
 
-Pour se protéger contre cette technique d'escalade de privilèges, il est recommandé de restreindre les autorisations d'écriture sur les clés de registre liées aux Options d'exécution des fichiers image. De plus, il est important de surveiller les modifications apportées à ces clés de registre et de vérifier régulièrement l'intégrité des binaires d'autorun légitimes.
+Pour éviter cette technique d'escalade de privilèges, il est recommandé de restreindre les autorisations d'écriture sur les clés de registre liées aux options d'exécution des fichiers image. De plus, il est important de surveiller les modifications apportées à ces clés de registre pour détecter toute activité suspecte.
 ```
 HKLM\Software\Microsoft\Windows NT\CurrentVersion\Image File Execution Options
 HKLM\Software\Microsoft\Wow6432Node\Windows NT\CurrentVersion\Image File Execution Options
@@ -333,7 +333,7 @@ Trouvez plus d'Autoruns comme les registres dans [https://www.microsoftpressstor
 * [https://attack.mitre.org/techniques/T1547/001/](https://attack.mitre.org/techniques/T1547/001/)
 * [https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2](https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2)
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
 Si vous êtes intéressé par une **carrière de hacking** et souhaitez pirater l'impossible - **nous recrutons !** (_maîtrise du polonais écrit et parlé requise_).
 
