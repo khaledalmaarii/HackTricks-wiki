@@ -44,9 +44,9 @@ Observe que agora, para poder habilitar o SSH, você precisa de "Acesso total ao
 
 ### Manipular extensões - CVE-2022-26767
 
-O atributo `com.apple.macl` é atribuído a arquivos para dar permissões a um determinado aplicativo para lê-lo. Esse atributo é definido quando arrastamos e soltamos um arquivo sobre um aplicativo, ou quando um usuário clica duas vezes em um arquivo para abri-lo com o aplicativo padrão.
+O atributo `com.apple.macl` é atribuído a arquivos para dar permissões a um determinado aplicativo para lê-lo. Esse atributo é definido quando arrastamos e soltamos um arquivo sobre um aplicativo ou quando um usuário clica duas vezes em um arquivo para abri-lo com o aplicativo padrão.
 
-Portanto, um usuário poderia registrar um aplicativo malicioso para manipular todas as extensões e chamar o Launch Services para abrir qualquer arquivo (assim, o arquivo malicioso terá acesso para lê-lo).
+Portanto, um usuário poderia registrar um aplicativo malicioso para manipular todas as extensões e chamar os Serviços de Lançamento para abrir qualquer arquivo (assim, o arquivo malicioso terá acesso para lê-lo).
 
 ### iCloud
 
@@ -54,11 +54,11 @@ A permissão `com.apple.private.icloud-account-access` permite a comunicação c
 
 O iMovie e o Garageband tinham essa permissão e outras que permitiam.
 
-Para mais informações sobre a exploração para obter tokens do iCloud a partir dessa permissão, confira a palestra: [**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=_6e2LhmxVc0)
+Para mais informações sobre a exploração para obter tokens do iCloud dessa permissão, confira a palestra: [**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=_6e2LhmxVc0)
 
 ### kTCCServiceAppleEvents / Automação
 
-Um aplicativo com a permissão `kTCCServiceAppleEvents` será capaz de controlar outros aplicativos. Isso significa que ele poderá abusar das permissões concedidas aos outros aplicativos.
+Um aplicativo com a permissão `kTCCServiceAppleEvents` poderá controlar outros aplicativos. Isso significa que ele poderá abusar das permissões concedidas aos outros aplicativos.
 
 Para mais informações sobre Scripts da Apple, confira:
 
@@ -92,7 +92,7 @@ osascript iterm.script
 ```
 #### Sobre o Finder
 
-Ou se um aplicativo tem acesso sobre o Finder, ele pode usar um script como este:
+Ou se um aplicativo tem acesso sobre o Finder, ele pode executar um script como este:
 ```applescript
 set a_user to do shell script "logname"
 tell application "Finder"
@@ -141,7 +141,7 @@ $> ls ~/Documents
 
 As notas tinham acesso a locais protegidos pelo TCC, mas quando uma nota é criada, ela é **criada em um local não protegido**. Portanto, você poderia pedir para as notas copiarem um arquivo protegido em uma nota (ou seja, em um local não protegido) e, em seguida, acessar o arquivo:
 
-<figure><img src="../../../../.gitbook/assets/image (6).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (6) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### CVE-2021-XXXX - Translocação
 
@@ -151,7 +151,7 @@ Era possível adicionar o atributo de quarentena à "Library", chamar o serviço
 
 ### Rastreamento SQL
 
-Se a variável de ambiente **`SQLITE_AUTO_TRACE`** estiver definida, a biblioteca **`libsqlite3.dylib`** começará a **registrar** todas as consultas SQL. Muitos aplicativos usavam essa biblioteca, então era possível registrar todas as suas consultas SQLite.
+Se a variável de ambiente **`SQLITE_AUTO_TRACE`** estiver definida, a biblioteca **`libsqlite3.dylib`** começará a **registrar** todas as consultas SQL. Muitos aplicativos usavam essa biblioteca, então era possível registrar todas as consultas SQLite deles.
 
 Vários aplicativos da Apple usavam essa biblioteca para acessar informações protegidas pelo TCC.
 ```bash
@@ -168,7 +168,7 @@ Plugins são códigos extras geralmente na forma de bibliotecas ou plist, que se
 
 ### CVE-2020-27937 - Directory Utility
 
-A aplicação `/System/Library/CoreServices/Applications/Directory Utility.app` tinha o direito **`kTCCServiceSystemPolicySysAdminFiles`**, carregava plugins com a extensão **`.daplug`** e **não tinha o runtime endurecido**.
+A aplicação `/System/Library/CoreServices/Applications/Directory Utility.app` tinha o direito **`kTCCServiceSystemPolicySysAdminFiles`**, carregava plugins com a extensão **`.daplug`** e **não tinha o tempo de execução endurecido**.
 
 Para aproveitar essa CVE, o **`NFSHomeDirectory`** é **alterado** (abusando do direito anterior) para poder **assumir o banco de dados TCC dos usuários** e contornar o TCC.
 
@@ -209,9 +209,9 @@ Para mais informações, consulte o [**relatório original**](https://wojciechre
 
 ### Plug-ins da Camada de Abstração de Dispositivos (DAL)
 
-Aplicativos do sistema que abrem o fluxo da câmera via Core Media I/O (aplicativos com **`kTCCServiceCamera`**) carregam **no processo esses plug-ins** localizados em `/Library/CoreMediaIO/Plug-Ins/DAL` (não restritos pelo SIP).
+Aplicativos do sistema que abrem o fluxo da câmera via Core Media I/O (aplicativos com **`kTCCServiceCamera`**) carregam **esses plug-ins** no processo localizados em `/Library/CoreMediaIO/Plug-Ins/DAL` (não restritos pelo SIP).
 
-Apenas armazenar lá uma biblioteca com o **construtor** comum funcionará para **injetar código**.
+Apenas armazenar uma biblioteca com o **construtor** comum funcionará para **injetar código**.
 
 Vários aplicativos da Apple eram vulneráveis a isso.
 
@@ -389,7 +389,7 @@ Em várias ocasiões, arquivos armazenam informações sensíveis como e-mails, 
 * Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? Ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe suas técnicas de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e para o** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

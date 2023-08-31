@@ -76,7 +76,7 @@ capabilities PTR_AUTH_VERSION USERSPACE 0
 
 ou usando a ferramenta [Mach-O View](https://sourceforge.net/projects/machoview/):
 
-<figure><img src="../../../.gitbook/assets/image (5) (1) (1) (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (5) (1) (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 Como você pode estar pensando, geralmente um binário universal compilado para 2 arquiteturas **dobra o tamanho** de um compilado para apenas 1 arquitetura.
 
@@ -153,7 +153,7 @@ Existem **diferentes tipos** de segmentos, como o segmento **\_\_TEXT**, que con
 
 No cabeçalho, primeiro você encontra o **cabeçalho do segmento**:
 
-<pre class="language-c"><code class="lang-c">struct segment_command_64 { /* for 64-bit architectures */
+<pre class="language-c"><code class="lang-c">struct segment_command_64 { /* para arquiteturas de 64 bits */
 uint32_t	cmd;		/* LC_SEGMENT_64 */
 uint32_t	cmdsize;	/* inclui o tamanho dos structs section_64 */
 char		segname[16];	/* nome do segmento */
@@ -172,7 +172,7 @@ Exemplo de cabeçalho do segmento:
 
 <figure><img src="../../../.gitbook/assets/image (2) (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Este cabeçalho define o **número de seções cujos cabeçalhos aparecem depois** dele:
+Esse cabeçalho define o **número de seções cujos cabeçalhos aparecem depois** dele:
 ```c
 struct section_64 { /* for 64-bit architectures */
 char		sectname[16];	/* name of this section */
@@ -195,7 +195,7 @@ Exemplo de **cabeçalho de seção**:
 
 Se você **adicionar** o **deslocamento da seção** (0x37DC) + o **deslocamento** onde o **arquitetura começa**, neste caso `0x18000` --> `0x37DC + 0x18000 = 0x1B7DC`
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Também é possível obter **informações de cabeçalho** a partir da **linha de comando** com:
 ```bash
@@ -219,7 +219,7 @@ Segmentos comuns carregados por este comando:
 
 ### **`LC_MAIN`**
 
-Contém o ponto de entrada no atributo **entryoff**. No momento do carregamento, o **dyld** simplesmente **adiciona** esse valor à **base do binário** (em memória) e, em seguida, **salta** para esta instrução para iniciar a execução do código do binário.
+Contém o ponto de entrada no atributo **entryoff**. No momento do carregamento, o **dyld** simplesmente **adiciona** esse valor à **base do binário** (em memória) e, em seguida, **salta** para essa instrução para iniciar a execução do código do binário.
 
 ### **LC\_CODE\_SIGNATURE**
 
@@ -228,7 +228,7 @@ No entanto, você pode encontrar algumas informações sobre esta seção neste 
 
 ### **LC\_LOAD\_DYLINKER**
 
-Contém o **caminho para o executável do linker dinâmico** que mapeia bibliotecas compartilhadas no espaço de endereço do processo. O **valor é sempre definido como `/usr/lib/dyld`**. É importante observar que, no macOS, o mapeamento de dylib ocorre no **modo de usuário**, não no modo de kernel.
+Contém o **caminho para o executável do linker dinâmico** que mapeia bibliotecas compartilhadas no espaço de endereço do processo. O **valor é sempre definido como `/usr/lib/dyld`**. É importante observar que, no macOS, o mapeamento de dylib ocorre em **modo de usuário**, não em modo de kernel.
 
 ### **`LC_LOAD_DYLIB`**
 
@@ -263,7 +263,7 @@ Algumas bibliotecas relacionadas a malwares potenciais são:
 
 * **DiskArbitration**: Monitoramento de unidades USB
 * **AVFoundation:** Captura de áudio e vídeo
-* **CoreWLAN**: Escaneamento de redes Wi-Fi.
+* **CoreWLAN**: Escaneamento de Wi-Fi.
 
 {% hint style="info" %}
 Um binário Mach-O pode conter um ou **mais** **construtores**, que serão **executados** **antes** do endereço especificado em **LC\_MAIN**.\
@@ -272,7 +272,7 @@ Os deslocamentos de quaisquer construtores são armazenados na seção **\_\_mod
 
 ## **Dados Mach-O**
 
-O coração do arquivo é a região final, os dados, que consiste em vários segmentos conforme dispostos na região de comandos de carga. **Cada segmento pode conter várias seções de dados**. Cada uma dessas seções **contém código ou dados** de um tipo específico.
+O coração do arquivo é a região final, os dados, que consiste em vários segmentos conforme disposto na região de comandos de carga. **Cada segmento pode conter várias seções de dados**. Cada uma dessas seções **contém código ou dados** de um tipo específico.
 
 {% hint style="success" %}
 Os dados são basicamente a parte que contém todas as informações carregadas pelos comandos de carga LC\_SEGMENTS\_64
