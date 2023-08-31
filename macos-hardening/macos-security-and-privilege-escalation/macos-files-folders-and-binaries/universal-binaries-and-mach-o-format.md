@@ -76,13 +76,13 @@ capabilities PTR_AUTH_VERSION USERSPACE 0
 
 或者使用[Mach-O View](https://sourceforge.net/projects/machoview/)工具：
 
-<figure><img src="../../../.gitbook/assets/image (5) (1) (1) (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (5) (1) (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-正如你可能想到的，通常编译为2个架构的通用二进制文件**会使文件大小增加一倍**，相比只编译为1个架构的文件。
+正如你可能想到的，通常编译为2个架构的通用二进制文件**会使文件大小增加一倍**，而只编译为1个架构的文件则不会。
 
 ## **Mach-O  Header**
 
-头部包含文件的基本信息，例如用于识别它为Mach-O文件的魔数字节以及有关目标架构的信息。你可以在以下位置找到它：`mdfind loader.h | grep -i mach-o | grep -E "loader.h$"`
+头部包含有关文件的基本信息，例如用于将其识别为Mach-O文件的魔数字节以及有关目标架构的信息。你可以在以下位置找到它：`mdfind loader.h | grep -i mach-o | grep -E "loader.h$"`
 ```c
 #define	MH_MAGIC	0xfeedface	/* the mach magic number */
 #define MH_CIGAM	0xcefaedfe	/* NXSwapInt(MH_MAGIC) */
@@ -195,28 +195,30 @@ uint32_t	reserved3;	/* reserved */
 
 如果你**添加**了**章节偏移量**（0x37DC）+ **arch开始的偏移量**，在这个例子中是`0x18000` --> `0x37DC + 0x18000 = 0x1B7DC`
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 也可以通过**命令行**获取**头部信息**：
 ```bash
 otool -lv /bin/ls
 ```
-以下是关于MacOS文件、文件夹和二进制文件的内容。
+以下是来自一本关于黑客技术的书籍的内容。以下内容来自文件macos-hardening/macos-security-and-privilege-escalation/macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md。将相关的英文文本翻译成中文，并返回翻译结果，保持完全相同的markdown和html语法。不要翻译代码、黑客技术名称、黑客术语、云/SaaS平台名称（如Workspace、aws、gcp...）、泄漏一词、渗透测试和markdown标签。此外，请不要添加任何额外的内容，除了翻译和markdown语法。
 
-加载的常见段：
+```markdown
+常见的由此命令加载的段：
 
-* **`__PAGEZERO`：**它指示内核将**地址零**映射到**不可读取、写入或执行**的位置。结构中的maxprot和minprot变量设置为零，表示该页面**没有读写执行权限**。这种分配对于**减轻空指针解引用漏洞**非常重要。
-* **`__TEXT`：**包含**可执行代码**和**只读数据**。该段的常见部分有：
-* `__text`：编译的二进制代码
-* `__const`：常量数据
-* `__cstring`：字符串常量
-* `__stubs`和`__stubs_helper`：在动态库加载过程中使用
-* **`__DATA`：**包含**可写数据**。
-* `__data`：全局变量（已初始化）
-* `__bss`：静态变量（未初始化）
-* `__objc_*`（\_\_objc\_classlist，\_\_objc\_protolist等）：Objective-C运行时使用的信息
-* **`__LINKEDIT`：**包含链接器（dyld）的信息，如“符号、字符串和重定位表项”。
-* **`__OBJC`：**包含Objective-C运行时使用的信息。尽管此信息也可以在\_\_DATA段中找到，但位于各种\_\_objc\_\*部分中。
+- **`__PAGEZERO`：**它指示内核将**地址零**映射到**不可读取、写入或执行**。结构中的maxprot和minprot变量设置为零，表示此页面上**没有读写执行权限**。
+- 这种分配对于**缓解空指针解引用漏洞**很重要。
+- **`__TEXT`**：包含**可执行的代码**和**只读的数据**。此段的常见部分有：
+- `__text`：编译的二进制代码
+- `__const`：常量数据
+- `__cstring`：字符串常量
+- `__stubs`和`__stubs_helper`：在动态库加载过程中使用
+- **`__DATA`**：包含**可写的数据**。
+- `__data`：全局变量（已初始化）
+- `__bss`：静态变量（未初始化）
+- `__objc_*`（\_\_objc\_classlist、\_\_objc\_protolist等）：Objective-C运行时使用的信息
+- **`__LINKEDIT`**：包含链接器（dyld）的信息，如“符号、字符串和重定位表项”。
+- **`__OBJC`**：包含Objective-C运行时使用的信息。尽管此信息也可能在\_\_DATA段中找到，但位于各种\_\_objc\_\*部分中。
 
 ### **`LC_MAIN`**
 
@@ -229,13 +231,14 @@ otool -lv /bin/ls
 
 ### **LC\_LOAD\_DYLINKER**
 
-包含**动态链接器可执行文件的路径**，该文件将共享库映射到进程地址空间。**值始终设置为`/usr/lib/dyld`**。重要的是要注意，在macOS中，dylib映射发生在**用户模式**而不是内核模式中。
+包含**动态链接器可执行文件的路径**，该文件将共享库映射到进程地址空间。**值始终设置为`/usr/lib/dyld`**。重要的是要注意，在macOS中，dylib映射发生在**用户模式**中，而不是内核模式。
 
 ### **`LC_LOAD_DYLIB`**
 
-此加载命令描述了一个**动态库依赖项**，它指示**加载器**（dyld）**加载和链接该库**。Mach-O二进制文件所需的每个库都有一个LC\_LOAD\_DYLIB加载命令。
+此加载命令描述了一个**动态库**依赖项，它指示**加载器**（dyld）**加载和链接该库**。Mach-O二进制文件所需的每个库都有一个LC\_LOAD\_DYLIB加载命令。
 
-* 此加载命令是**`dylib_command`**类型的结构（其中包含描述实际依赖动态库的struct dylib）：
+- 此加载命令是**`dylib_command`**类型的结构（其中包含描述实际依赖动态库的struct dylib）：
+```
 ```objectivec
 struct dylib_command {
 uint32_t        cmd;            /* LC_LOAD_{,WEAK_}DYLIB */

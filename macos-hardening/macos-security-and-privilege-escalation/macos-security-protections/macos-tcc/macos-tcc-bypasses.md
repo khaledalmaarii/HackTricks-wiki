@@ -4,9 +4,9 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在一个**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
@@ -16,7 +16,7 @@
 
 ### 写入绕过
 
-这不是一个绕过，这只是TCC的工作原理：**它不会阻止写入操作**。如果终端**无法读取用户的桌面，它仍然可以写入其中**：
+这不是一个绕过，这只是TCC的工作原理：**它不会阻止写入**。如果终端**没有访问用户桌面的读取权限，仍然可以写入其中**：
 ```shell-session
 username@hostname ~ % ls Desktop
 ls: Desktop: Operation not permitted
@@ -108,8 +108,8 @@ do shell script "rm " & POSIX path of (copyFile as alias)
 
 用户空间的 **tccd 守护进程** 使用 **`HOME`** **env** 变量来访问 TCC 用户数据库：**`$HOME/Library/Application Support/com.apple.TCC/TCC.db`**
 
-根据[这个 Stack Exchange 帖子](https://stackoverflow.com/questions/135688/setting-environment-variables-on-os-x/3756686#3756686)和因为 TCC 守护进程是通过 `launchd` 在当前用户域中运行的，可以**控制传递给它的所有环境变量**。\
-因此，攻击者可以在 **`launchctl`** 中设置 `$HOME` 环境变量，指向一个**受控的目录**，然后**重新启动** TCC 守护进程，然后直接修改 TCC 数据库，以获取自己所需的**所有 TCC 权限**，而无需提示最终用户。\
+根据[这个 Stack Exchange 帖子](https://stackoverflow.com/questions/135688/setting-environment-variables-on-os-x/3756686#3756686)以及因为 TCC 守护进程是通过 `launchd` 在当前用户域中运行的，可以**控制传递给它的所有环境变量**。\
+因此，攻击者可以在 **`launchctl`** 中设置 `$HOME` 环境变量，指向一个**受控的目录**，然后**重新启动** TCC 守护进程，并直接修改 TCC 数据库，以获取所有可用的 TCC 权限，而无需提示最终用户。\
 PoC:
 ```bash
 # reset database just in case (no cheating!)
@@ -141,19 +141,19 @@ $> ls ~/Documents
 
 笔记可以访问 TCC 保护的位置，但是当创建笔记时，它会被创建在一个非受保护的位置。因此，你可以要求笔记将受保护的文件复制到一个笔记中（即非受保护的位置），然后访问该文件：
 
-<figure><img src="../../../../.gitbook/assets/image (6).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (6) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### CVE-2021-XXXX - 迁移
 
-二进制文件 `/usr/libexec/lsd` 与库 `libsecurity_translocate` 具有权限 `com.apple.private.nullfs_allow`，允许其创建 **nullfs** 挂载，并具有权限 `com.apple.private.tcc.allow` 与 **`kTCCServiceSystemPolicyAllFiles`** 以访问所有文件。
+二进制文件 `/usr/libexec/lsd` 与库 `libsecurity_translocate` 具有权限 `com.apple.private.nullfs_allow`，允许它创建 **nullfs** 挂载，并具有权限 `com.apple.private.tcc.allow` 与 **`kTCCServiceSystemPolicyAllFiles`** 以访问每个文件。
 
 可以将隔离属性添加到 "Library"，调用 **`com.apple.security.translocation`** XPC 服务，然后它将将 Library 映射到 **`$TMPDIR/AppTranslocation/d/d/Library`**，从而可以访问 Library 中的所有文档。
 
 ### SQL 跟踪
 
-如果环境变量 **`SQLITE_AUTO_TRACE`** 被设置，库 **`libsqlite3.dylib`** 将开始记录所有的 SQL 查询。许多应用程序使用此库，因此可以记录它们的所有 SQLite 查询。
+如果环境变量 **`SQLITE_AUTO_TRACE`** 被设置，库 **`libsqlite3.dylib`** 将开始记录所有的 SQL 查询。许多应用程序使用了这个库，因此可以记录它们所有的 SQLite 查询。
 
-几个 Apple 应用程序使用此库来访问 TCC 保护的信息。
+几个 Apple 应用程序使用了这个库来访问 TCC 保护的信息。
 ```bash
 # Set this env variable everywhere
 launchctl setenv SQLITE_AUTO_TRACE 1
@@ -164,7 +164,7 @@ launchctl setenv SQLITE_AUTO_TRACE 1
 
 ## 通过插件
 
-插件是额外的代码，通常以库或plist的形式存在，它们将由主应用程序加载并在其上下文中执行。因此，如果主应用程序可以访问TCC受限文件（通过授予权限或授予的权限），则自定义代码也将具有相同的访问权限。
+插件通常是以库或plist形式的额外代码，它们将由主应用程序加载并在其上下文中执行。因此，如果主应用程序可以访问TCC受限文件（通过授予权限或权限），则自定义代码也将具有相同的访问权限。
 
 ### CVE-2020-27937 - 目录实用工具
 
@@ -257,11 +257,11 @@ Executable=/Applications/Firefox.app/Contents/MacOS/firefox
 
 ### CVE-2023-26818 - Telegram
 
-Telegram具有权限`com.apple.security.cs.allow-dyld-environment-variables`和`com.apple.security.cs.disable-library-validation`，因此可以滥用它以获取其权限，例如使用摄像头进行录制。您可以在[**写作中找到有效载荷**](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/)。
+Telegram具有权限`com.apple.security.cs.allow-dyld-environment-variables`和`com.apple.security.cs.disable-library-validation`，因此可以滥用它来**获取其权限**，例如使用摄像头进行录制。您可以在[**写作中找到有效载荷**](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/)。
 
 ## 通过打开调用
 
-可以在受沙盒限制的环境中调用打开。
+可以在受沙箱限制的环境中调用打开命令。
 
 ### 终端脚本
 
@@ -285,7 +285,7 @@ Telegram具有权限`com.apple.security.cs.allow-dyld-environment-variables`和`
 </dict>
 </plist>
 ```
-应用程序可以在/tmp等位置编写一个终端脚本，并使用如下命令启动它：
+一个应用程序可以在/tmp等位置编写一个终端脚本，并使用如下命令来启动它：
 ```objectivec
 // Write plist in /tmp/tcc.terminal
 [...]
@@ -302,6 +302,7 @@ exploit_location]; task.standardOutput = pipe;
 
 **任何用户**（即使是非特权用户）都可以创建和挂载时间机器快照，并**访问该快照的所有文件**。\
 唯一需要的特权是所使用的应用程序（如`Terminal`）需要具有**完全磁盘访问权限**（FDA）（`kTCCServiceSystemPolicyAllfiles`），这需要由管理员授予。
+
 
 {% code overflow="wrap" %}
 ```bash
@@ -352,16 +353,16 @@ os.system("mkdir -p /tmp/mnt/Application\ Support/com.apple.TCC/")
 os.system("cp /tmp/TCC.db /tmp/mnt/Application\ Support/com.apple.TCC/TCC.db")
 os.system("hdiutil detach /tmp/mnt 1>/dev/null")
 ```
-查看[原始文档](https://theevilbit.github.io/posts/cve-2021-30808/)中的**完整利用**。
+查看[原始文档](https://theevilbit.github.io/posts/cve-2021-30808/)中的**完整利用方法**。
 
 ### asr
 
-工具**`/usr/sbin/asr`**允许复制整个磁盘并将其挂载到另一个位置，绕过TCC保护。
+工具**`/usr/sbin/asr`**允许复制整个磁盘并在另一个位置挂载，绕过TCC保护。
 
 ### 位置服务
 
 在**`/var/db/locationd/clients.plist`**中有第三个TCC数据库，用于指示允许**访问位置服务**的客户端。\
-文件夹**`/var/db/locationd/`没有受到DMG挂载的保护**，因此可以挂载我们自己的plist。
+文件夹**`/var/db/locationd/`没有受到DMG挂载的保护**，因此可以挂载我们自己的plist文件。
 
 ## 通过启动应用程序
 
@@ -375,7 +376,7 @@ os.system("hdiutil detach /tmp/mnt 1>/dev/null")
 
 <figure><img src="../../../../.gitbook/assets/image (4) (3).png" alt=""><figcaption></figcaption></figure>
 
-## 参考
+## 参考资料
 
 * [**https://medium.com/@mattshockl/cve-2020-9934-bypassing-the-os-x-transparency-consent-and-control-tcc-framework-for-4e14806f1de8**](https://medium.com/@mattshockl/cve-2020-9934-bypassing-the-os-x-transparency-consent-and-control-tcc-framework-for-4e14806f1de8)
 * [**https://www.sentinelone.com/labs/bypassing-macos-tcc-user-privacy-protections-by-accident-and-design/**](https://www.sentinelone.com/labs/bypassing-macos-tcc-user-privacy-protections-by-accident-and-design/)
@@ -386,10 +387,10 @@ os.system("hdiutil detach /tmp/mnt 1>/dev/null")
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者你想要**获取最新版本的PEASS或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者想要**获取最新版本的PEASS或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[NFT收藏品](https://opensea.io/collection/the-peass-family)——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
