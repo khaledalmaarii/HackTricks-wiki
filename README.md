@@ -44,7 +44,7 @@ Você pode conferir o **blog** deles em [**https://blog.stmcyber.com**](https://
 
 **Intigriti** é a plataforma de ethical hacking e **bug bounty número 1 da Europa.**
 
-Dica de bug bounty: **inscreva-se** no **Intigriti**, uma plataforma premium de **bug bounty criada por hackers, para hackers**! Junte-se a nós em [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) hoje mesmo e comece a ganhar recompensas de até **$100.000**!
+Dica de bug bounty: **cadastre-se** no **Intigriti**, uma plataforma premium de **bug bounty criada por hackers, para hackers**! Junte-se a nós em [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) hoje mesmo e comece a ganhar recompensas de até **$100.000**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
@@ -53,7 +53,7 @@ Dica de bug bounty: **inscreva-se** no **Intigriti**, uma plataforma premium de 
 <figure><img src=".gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** com as ferramentas comunitárias **mais avançadas** do mundo.
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** com as **ferramentas comunitárias mais avançadas do mundo**.
 
 Acesse hoje mesmo:
 
@@ -61,7 +61,7 @@ Acesse hoje mesmo:
 
 ### [Intruder](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks)
 
-<figure><img src=".gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
 Fique um passo à frente no jogo da segurança cibernética.
 
@@ -98,7 +98,7 @@ Ganhe pontos de reputação com cada bug verificado e conquiste o topo do leader
 
 [**WebSec**](https://websec.nl) é uma empresa profissional de segurança cibernética sediada em **Amsterdã** que ajuda a **proteger** empresas **em todo o mundo** contra as últimas ameaças de segurança cibernética, fornecendo serviços de **segurança ofensiva** com uma abordagem **moderna**.
 
-A WebSec é uma **empresa de segurança completa**, o que significa que eles fazem de tudo; Pentesting, Auditorias de Segurança, Treinamentos de Conscientização, Campanhas de Phishing, Revisão de Código, Desenvolvimento de Exploits, Terceirização de Especialistas em Segurança e muito mais.
+A WebSec é uma **empresa de segurança completa**, o que significa que eles fazem de tudo; Pentesting, Auditorias de **Segurança**, Treinamentos de Conscientização, Campanhas de Phishing, Revisão de Código, Desenvolvimento de Exploits, Terceirização de Especialistas em Segurança e muito mais.
 
 Outra coisa legal sobre a WebSec é que, ao contrário da média do setor, a WebSec tem **muita confiança em suas habilidades**, a ponto de **garantir os melhores resultados de qualidade**, como afirma em seu site "**Se não conseguirmos hackear, você não paga!**". Para mais informações, dê uma olhada em seu [**site**](https://websec.nl/en/) e [**blog**](https://websec.nl/blog/)!
 
@@ -138,6 +138,6 @@ Ao usar este livro, o usuário concorda em liberar os autores e editores de qual
 * Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe suas dicas de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e para o** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe suas dicas de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e o** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
