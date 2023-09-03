@@ -5,12 +5,20 @@
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+
+<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
+
+Trouvez les vulnérabilités les plus importantes afin de pouvoir les corriger plus rapidement. Intruder suit votre surface d'attaque, effectue des analyses de menace proactives, trouve des problèmes dans l'ensemble de votre pile technologique, des API aux applications web et aux systèmes cloud. [**Essayez-le gratuitement**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) dès aujourd'hui.
+
+{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
+
+***
 
 ## Outils de rétro-ingénierie basés sur ImGui
 
@@ -66,7 +74,7 @@ File.AppendAllText(path, "Password: " + password + "\n");
 ```
 ### Débogage avec DNSpy
 
-Pour déboguer du code en utilisant DNSpy, vous devez :
+Pour déboguer du code à l'aide de DNSpy, vous devez :
 
 Tout d'abord, modifier les **attributs de l'assembly** liés au **débogage** :
 
@@ -78,75 +86,33 @@ Tout d'abord, modifier les **attributs de l'assembly** liés au **débogage** :
 
 # Reverse Engineering Tools: Basic Methods
 
-This repository contains a collection of basic methods and tools used in reverse engineering. Reverse engineering is the process of analyzing a software or hardware system to understand its design, functionality, and operation.
+Reverse engineering is the process of analyzing a software program to understand its structure, functionality, and behavior. Reverse engineering tools are essential for this process, as they help in dissecting and understanding the inner workings of a program.
 
-## Contents
-
-- [Introduction](#introduction)
-- [Static Analysis](#static-analysis)
-- [Dynamic Analysis](#dynamic-analysis)
-- [Debugging](#debugging)
-- [Disassemblers](#disassemblers)
-- [Decompilers](#decompilers)
-- [Hex Editors](#hex-editors)
-- [Memory Scanners](#memory-scanners)
-- [Network Sniffers](#network-sniffers)
-- [Packet Analyzers](#packet-analyzers)
-- [File Format Analysis](#file-format-analysis)
-- [Code Obfuscation](#code-obfuscation)
-- [Anti-Reverse Engineering Techniques](#anti-reverse-engineering-techniques)
-
-## Introduction
-
-Reverse engineering is a valuable skill for security researchers, software developers, and hackers. It allows you to understand how a system works, identify vulnerabilities, and develop exploits. This knowledge can be used for both defensive and offensive purposes.
-
-## Static Analysis
-
-Static analysis involves examining the code or binary of a program without executing it. This can be done using tools such as disassemblers, decompilers, and hex editors. Static analysis helps in understanding the structure, logic, and behavior of a program.
-
-## Dynamic Analysis
-
-Dynamic analysis involves running a program and observing its behavior in real-time. This can be done using tools such as debuggers, memory scanners, network sniffers, and packet analyzers. Dynamic analysis helps in understanding the runtime behavior, memory usage, and network communication of a program.
-
-## Debugging
-
-Debugging is the process of finding and fixing bugs in a program. It involves using tools such as debuggers to trace the execution flow, inspect variables, and analyze memory contents. Debugging is an essential skill for reverse engineers and software developers.
+In this guide, we will explore some basic methods and tools used in reverse engineering. These tools are commonly used by hackers, security researchers, and software developers to analyze and modify software.
 
 ## Disassemblers
 
-Disassemblers are tools that convert machine code into assembly code. They help in understanding the low-level instructions and control flow of a program. Some popular disassemblers include IDA Pro, Radare2, and Ghidra.
+A disassembler is a tool that converts machine code into assembly code. It allows you to view the low-level instructions of a program, making it easier to understand how the program works. Some popular disassemblers include IDA Pro, Ghidra, and Radare2.
+
+## Debuggers
+
+Debuggers are tools that allow you to analyze and manipulate the execution of a program. They provide features like breakpoints, stepping through code, and inspecting variables. Popular debuggers include OllyDbg, GDB, and WinDbg.
 
 ## Decompilers
 
-Decompilers are tools that convert machine code or binary executables into high-level programming languages such as C or C++. They help in understanding the original source code of a program. Some popular decompilers include IDA Pro, Ghidra, and RetDec.
+Decompilers are tools that convert compiled machine code back into a high-level programming language. They can be useful when you want to understand the logic of a program or modify its behavior. Some popular decompilers include IDA Pro, Ghidra, and RetDec.
 
 ## Hex Editors
 
-Hex editors are tools that allow you to view and edit binary files. They display the contents of a file in hexadecimal format, making it easier to analyze and modify the data. Some popular hex editors include HxD, Hex Fiend, and 010 Editor.
+Hex editors are tools that allow you to view and edit binary files at the hexadecimal level. They are useful for analyzing and modifying the raw data of a program. Some popular hex editors include HxD, Hex Fiend, and Bless.
 
-## Memory Scanners
+## Packers and Unpackers
 
-Memory scanners are tools that allow you to search for specific values or patterns in the memory of a running program. They are commonly used for cheat engine development and game hacking. Some popular memory scanners include Cheat Engine, ArtMoney, and GameGuardian.
+Packers are tools used to compress and encrypt executable files. They make it harder to analyze and modify the program. Unpackers, on the other hand, are tools used to reverse the packing process and restore the original executable. Some popular packers and unpackers include UPX, Themida, and PEiD.
 
-## Network Sniffers
+## Conclusion
 
-Network sniffers are tools that capture and analyze network traffic. They allow you to intercept and inspect data packets flowing through a network interface. Some popular network sniffers include Wireshark, tcpdump, and Fiddler.
-
-## Packet Analyzers
-
-Packet analyzers are tools that analyze network packets and provide detailed information about their contents. They help in understanding the protocols, headers, and payloads of network communications. Some popular packet analyzers include Wireshark, tcpdump, and NetworkMiner.
-
-## File Format Analysis
-
-File format analysis involves examining the structure and contents of a file to understand its format and purpose. This can be done using tools such as hex editors, file viewers, and file format parsers. File format analysis helps in identifying file types, extracting data, and finding vulnerabilities.
-
-## Code Obfuscation
-
-Code obfuscation is the process of intentionally making code difficult to understand or reverse engineer. It involves techniques such as renaming variables, encrypting strings, and adding junk code. Code obfuscation is commonly used to protect intellectual property and prevent unauthorized modifications.
-
-## Anti-Reverse Engineering Techniques
-
-Anti-reverse engineering techniques are methods used to deter or prevent reverse engineering. These techniques can include code obfuscation, anti-debugging measures, and software protection mechanisms. Understanding these techniques is important for bypassing them and analyzing protected software.
+These are just some of the basic methods and tools used in reverse engineering. By using these tools, you can gain a deeper understanding of how software works and identify vulnerabilities that can be exploited. However, it's important to note that reverse engineering should only be done legally and ethically, with proper authorization.
 ```
 [assembly: Debuggable(DebuggableAttribute.DebuggingModes.Default |
 DebuggableAttribute.DebuggingModes.DisableOptimizations |
@@ -227,7 +193,7 @@ Ensuite, en regardant cela, vous pouvez voir quand l'exécution a été arrêté
 
 ## Applications GUI / Jeux vidéo
 
-[**Cheat Engine**](https://www.cheatengine.org/downloads.php) est un programme utile pour trouver où les valeurs importantes sont enregistrées dans la mémoire d'un jeu en cours d'exécution et les modifier. Plus d'informations sur :
+[**Cheat Engine**](https://www.cheatengine.org/downloads.php) est un programme utile pour trouver où les valeurs importantes sont enregistrées dans la mémoire d'un jeu en cours d'exécution et les modifier. Plus d'informations dans :
 
 {% content-ref url="cheat-engine.md" %}
 [cheat-engine.md](cheat-engine.md)
@@ -292,7 +258,7 @@ scDbg compte également sur un lanceur graphique où vous pouvez sélectionner l
 
 ![](<../../.gitbook/assets/image (398).png>)
 
-L'option **Create Dump** permettra de créer un dump du shellcode final si des modifications sont apportées au shellcode de manière dynamique en mémoire (utile pour télécharger le shellcode décodé). L'**offset de démarrage** peut être utile pour démarrer le shellcode à un offset spécifique. L'option **Debug Shell** est utile pour déboguer le shellcode en utilisant le terminal scDbg (cependant, je trouve que toutes les options expliquées précédemment sont meilleures pour cette question car vous pourrez utiliser Ida ou x64dbg).
+L'option **Create Dump** permettra de créer un dump du shellcode final si des modifications sont apportées au shellcode de manière dynamique en mémoire (utile pour télécharger le shellcode décodé). L'**offset de démarrage** peut être utile pour démarrer le shellcode à un offset spécifique. L'option **Debug Shell** est utile pour déboguer le shellcode en utilisant le terminal scDbg (cependant, je trouve que l'une des options expliquées précédemment est meilleure pour cette question car vous pourrez utiliser Ida ou x64dbg).
 
 ### Désassemblage à l'aide de CyberChef
 
@@ -314,9 +280,18 @@ Et [installez keystone](https://github.com/keystone-engine/keystone/blob/master/
 
 Si vous jouez à un **CTF, cette solution de contournement pour trouver le drapeau** pourrait être très utile: [https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html](https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html)
 
+
+<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
+
+Trouvez les vulnérabilités les plus importantes afin de pouvoir les corriger plus rapidement. Intruder suit votre surface d'attaque, effectue des analyses de menace proactives, trouve des problèmes dans l'ensemble de votre pile technologique, des API aux applications web et aux systèmes cloud. [**Essayez-le gratuitement**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) dès aujourd'hui.
+
+{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
+
+***
+
 ## Rust
 
-Pour trouver le **point d'entrée**, recherchez les fonctions par `::main` comme ceci:
+Pour trouver le **point d'entrée**, recherchez les fonctions par `::main` comme dans:
 
 ![](<../../.gitbook/assets/image (612).png>)
 
@@ -331,7 +306,7 @@ Si vous devez inverser un binaire Delphi, je vous suggère d'utiliser le plugin 
 
 Appuyez simplement sur **ATL+f7** (importez le plugin python dans IDA) et sélectionnez le plugin python.
 
-Ce plugin exécutera le binaire et résoudra les noms de fonction de manière dynamique au début du débogage. Après avoir démarré le débogage, appuyez à nouveau sur le bouton Démarrer (le bouton vert ou f9) et un point d'arrêt sera atteint au début du code réel.
+Ce plugin exécutera le binaire et résoudra dynamiquement les noms de fonction au début du débogage. Après avoir démarré le débogage, appuyez à nouveau sur le bouton Démarrer (le bouton vert ou f9) et un point d'arrêt sera atteint au début du code réel.
 
 C'est également très intéressant car si vous appuyez sur un bouton dans l'application graphique, le débogueur s'arrêtera dans la fonction exécutée par ce bouton.
 
@@ -448,9 +423,9 @@ Dans le code précédent, vous pouvez voir que nous comparons **uVar1** (l'endro
 
 * Tout d'abord, il est comparé avec la **valeur 4** (bouton **SELECT**) : Dans le défi, ce bouton efface l'écran.
 * Ensuite, il est comparé avec la **valeur 8** (bouton **START**) : Dans le défi, cela vérifie si le code est valide pour obtenir le drapeau.
-* Dans ce cas, la variable **`DAT_030000d8`** est comparée avec 0xf3 et si la valeur est la même, un certain code est exécuté.
-* Dans tous les autres cas, un certain cont (`DAT_030000d4`) est vérifié. C'est un cont car il ajoute 1 juste après avoir entré dans le code.\
-Si c'est inférieur à 8, quelque chose qui implique **l'ajout** de valeurs à \*\*`DAT_030000d8` \*\* est fait (essentiellement, il ajoute les valeurs des touches pressées dans cette variable tant que le cont est inférieur à 8).
+* Dans ce cas, la variable **`DAT_030000d8`** est comparée avec 0xf3 et si la valeur est la même, du code est exécuté.
+* Dans tous les autres cas, un cont (`DAT_030000d4`) est vérifié. C'est un cont car il ajoute 1 juste après avoir entré dans le code.\
+Si moins de 8, quelque chose qui implique **l'ajout** de valeurs à \*\*`DAT_030000d8` \*\* est fait (essentiellement, il ajoute les valeurs des touches pressées dans cette variable tant que le cont est inférieur à 8).
 
 Ainsi, dans ce défi, en connaissant les valeurs des boutons, vous deviez **appuyer sur une combinaison d'une longueur inférieure à 8 pour que l'addition résultante soit 0xf3**.
 
@@ -465,12 +440,19 @@ Ainsi, dans ce défi, en connaissant les valeurs des boutons, vous deviez **appu
 * [https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering](https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering)
 * [https://github.com/malrev/ABD](https://github.com/malrev/ABD) (Déobfuscation binaire)
 
+
+<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
+
+Trouvez les vulnérabilités les plus importantes afin de pouvoir les corriger plus rapidement. Intruder suit votre surface d'attaque, effectue des analyses de menace proactives, trouve des problèmes dans l'ensemble de votre pile technologique, des API aux applications web et aux systèmes cloud. [**Essayez-le gratuitement**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) dès aujourd'hui.
+
+{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
+
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Vous travaillez dans une **entreprise de cybersécurité** ? Vous voulez voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Vous travaillez dans une **entreprise de cybersécurité** ? Vous souhaitez voir votre **entreprise annoncée dans HackTricks** ? ou souhaitez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).

