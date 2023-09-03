@@ -1,24 +1,24 @@
-# Stego Tricks
+# Stego技巧
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者你想要**获取PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在一家**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者你想要获得**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
 
-![](<../.gitbook/assets/image (9) (1) (2).png>)
+<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-\
-使用[**Trickest**](https://trickest.io/)可以轻松构建和**自动化工作流程**，使用全球最先进的社区工具。\
-立即获取访问权限：
+找到最重要的漏洞，以便更快地修复它们。Intruder跟踪您的攻击面，运行主动威胁扫描，发现整个技术堆栈中的问题，从API到Web应用程序和云系统。[**立即免费试用**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks)。
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
+
+***
 
 ## 从所有文件中提取数据
 
@@ -73,7 +73,7 @@ Foremost是一款根据文件头、文件尾和内部数据结构恢复文件的
 
 ### cmp - 比较
 
-如果你有一些**修改过的**图像/音频/视频文件，请检查是否可以在互联网上找到**完全相同的原始文件**，然后使用以下命令比较两个文件：
+如果您有一些**修改过的**图像/音频/视频，请检查是否可以在互联网上找到**完全相同的原始文件**，然后使用以下命令比较两个文件：
 ```
 cmp original.jpg stego.jpg -b -l
 ```
@@ -87,7 +87,7 @@ cmp original.jpg stego.jpg -b -l
 ![](<../.gitbook/assets/image (9) (1) (2).png>)
 
 \
-使用[**Trickest**](https://trickest.io/)轻松构建和**自动化工作流**，由全球**最先进**的社区工具提供支持。\
+使用[**Trickest**](https://trickest.io/)可以轻松构建和**自动化工作流**，使用全球**最先进**的社区工具。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -124,13 +124,13 @@ zsteg是一个可以检测png和bmp文件中隐藏数据的工具。\
 `zsteg -a file`：对给定的文件运行每种检测方法。\
 `zsteg -E file`：使用给定的有效载荷提取数据（例如：zsteg -E b4,bgr,msb,xy name.png）
 
-### stegoVeritas JPG, PNG, GIF, TIFF, BMP
+### stegoVeritas JPG，PNG，GIF，TIFF，BMP
 
-这个工具可以执行各种简单和高级技巧，可以检查文件元数据，创建转换后的图像，暴力破解LSB等等。查看`stegoveritas.py -h`以了解其全部功能。执行`stegoveritas.py stego.jpg`以运行所有检查。
+这个工具可以进行各种简单和高级技巧，可以检查文件元数据，创建转换后的图像，暴力破解LSB等等。查看`stegoveritas.py -h`以了解其全部功能。执行`stegoveritas.py stego.jpg`以运行所有检查。
 
 ### Stegsolve
 
-有时图像本身隐藏有消息或文本，为了查看它，必须应用颜色滤镜，或者改变一些颜色级别。虽然您可以使用像GIMP或Photoshop这样的工具来做到这一点，但Stegsolve使得这一过程更加简单。它是一个小型的Java工具，可以在图像上应用许多有用的颜色滤镜；在CTF挑战中，Stegsolve通常是一个真正的时间节省器。\
+有时图像本身隐藏有消息或文本，为了查看它，必须应用颜色滤镜或更改某些颜色级别。虽然您可以使用像GIMP或Photoshop这样的工具来完成，但Stegsolve使得这个过程更加简单。它是一个小型的Java工具，可以在图像上应用许多有用的颜色滤镜；在CTF挑战中，Stegsolve通常是一个真正的时间节省器。\
 您可以从[Github](https://github.com/eugenekolo/sec-tools/tree/master/stego/stegsolve/stegsolve)获取它。\
 要使用它，只需打开图像并单击`<` `>`按钮。
 
@@ -150,7 +150,7 @@ zsteg是一个可以检测png和bmp文件中隐藏数据的工具。\
 
 ### Pngcheck
 
-获取PNG文件的详细信息（甚至可以找出它实际上是其他类型的文件）。\
+获取PNG文件的详细信息（甚至可以找出它实际上是其他类型的文件！）。\
 `apt-get install pngcheck`：安装工具\
 `pngcheck stego.png`：获取有关PNG的信息
 
@@ -185,7 +185,7 @@ WavSteg是一个Python3工具，可以使用最低有效位在wav文件中隐藏
 
 ### Sonic visualizer <a href="#sonic-visualizer" id="sonic-visualizer"></a>
 
-Sonic visualizer是一种查看和分析音频文件内容的工具。在面对音频隐写术挑战时，它非常有帮助；您可以揭示许多其他工具无法检测到的音频文件中隐藏的形状。\
+Sonic visualizer是一款用于查看和分析音频文件内容的工具。在面对音频隐写挑战时，它非常有帮助；您可以揭示许多其他工具无法检测到的音频文件中隐藏的形状。\
 如果遇到困难，请始终检查音频的频谱图。[官方网站](https://www.sonicvisualiser.org/)
 
 ### DTMF音调 - 拨号音
@@ -213,22 +213,21 @@ math.sqrt(2500) #50
 * [**https://0xrick.github.io/lists/stego/**](https://0xrick.github.io/lists/stego/)
 * [**https://github.com/DominicBreuker/stego-toolkit**](https://github.com/DominicBreuker/stego-toolkit)
 
-![](<../.gitbook/assets/image (9) (1) (2).png>)
+<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-\
-使用[**Trickest**](https://trickest.io/)轻松构建和自动化由全球**最先进**的社区工具提供支持的工作流程。\
-立即获取访问权限：
+找到最重要的漏洞，以便更快地修复它们。Intruder跟踪您的攻击面，运行主动威胁扫描，发现整个技术堆栈中的问题，从API到Web应用程序和云系统。[**立即免费试用**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks)。
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
+
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者想要访问**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks的衣物**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧。**
+* 您在**网络安全公司**工作吗？您想在HackTricks中看到您的公司广告吗？或者您想获得最新版本的PEASS或下载PDF格式的HackTricks吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[NFT](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧。**
 
 </details>

