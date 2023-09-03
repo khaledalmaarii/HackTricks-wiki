@@ -1,28 +1,29 @@
 # Segurança do Docker
 
-![](<../../../.gitbook/assets/image (9) (1) (2).png>)
-
-\
-Use o [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** com as ferramentas comunitárias mais avançadas do mundo.\
-Acesse hoje mesmo:
-
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
-
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Você trabalha em uma **empresa de segurança cibernética**? Gostaria de ver sua **empresa anunciada no HackTricks**? Ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
+<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+
+\
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** com as ferramentas comunitárias mais avançadas do mundo.\
+Acesse hoje:
+
+{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+
+
 ## **Segurança básica do Docker Engine**
 
-O Docker Engine realiza o trabalho pesado de executar e gerenciar contêineres. O Docker Engine utiliza recursos do kernel Linux, como **Namespaces** e **Cgroups**, para fornecer isolamento básico entre os contêineres. Ele também utiliza recursos como **redução de capacidades**, **Seccomp** e **SELinux/AppArmor para obter um melhor isolamento**.
+O Docker Engine realiza o trabalho pesado de executar e gerenciar contêineres. O Docker Engine usa recursos do kernel Linux como **Namespaces** e **Cgroups** para fornecer isolamento básico entre os contêineres. Ele também usa recursos como **Capabilities dropping**, **Seccomp**, **SELinux/AppArmor para obter um melhor isolamento**.
 
 Por fim, um **plugin de autenticação** pode ser usado para **limitar as ações** que os usuários podem executar.
 
@@ -30,10 +31,10 @@ Por fim, um **plugin de autenticação** pode ser usado para **limitar as açõe
 
 ### **Acesso seguro ao Docker Engine**
 
-O cliente Docker pode acessar o Docker Engine **localmente usando um soquete Unix ou remotamente usando o mecanismo http**. Para usá-lo remotamente, é necessário usar https e **TLS** para garantir confidencialidade, integridade e autenticação.
+O cliente Docker pode acessar o Docker Engine **localmente usando um soquete Unix ou remotamente usando http**. Para usá-lo remotamente, é necessário usar https e **TLS** para garantir confidencialidade, integridade e autenticação.
 
-Por padrão, o Docker escuta no soquete Unix `unix:///var/`\
-`run/docker.sock` e nas distribuições Ubuntu, as opções de inicialização do Docker são especificadas em `/etc/default/docker`. Para permitir que a API e o cliente do Docker acessem o Docker Engine remotamente, precisamos **expor o daemon do Docker usando um soquete http**. Isso pode ser feito através de:
+Por padrão, ele escuta no soquete Unix `unix:///var/`\
+`run/docker.sock` e nas distribuições Ubuntu, as opções de inicialização do Docker são especificadas em `/etc/default/docker`. Para permitir que a API e o cliente do Docker acessem o Docker Engine remotamente, precisamos **expor o daemon do Docker usando um soquete http**. Isso pode ser feito por:
 ```bash
 DOCKER_OPTS="-D -H unix:///var/run/docker.sock -H
 tcp://192.168.56.101:2376" -> add this to /etc/default/docker
@@ -121,10 +122,10 @@ Quando mudei o host do Docker, tive que mover as chaves raiz e as chaves do repo
 
 ***
 
-![](<../../../.gitbook/assets/image (9) (1) (2).png>)
+<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e automatizar facilmente fluxos de trabalho com as ferramentas comunitárias mais avançadas do mundo.\
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir facilmente e **automatizar fluxos de trabalho** com as ferramentas comunitárias mais avançadas do mundo.\
 Acesse hoje mesmo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -144,7 +145,7 @@ De qualquer forma, isso é útil para criar novos namespaces, mas **não para vo
 
 **CGroups**
 
-Isso permite limitar recursos e não afeta a segurança do isolamento do processo (exceto pelo `release_agent` que pode ser usado para escapar).
+Isso permite limitar recursos e não afeta a segurança do isolamento do processo (exceto pelo `release_agent` que poderia ser usado para escapar).
 
 **Descarte de Capacidades**
 
@@ -192,7 +193,7 @@ Para **mais informações sobre os namespaces**, verifique a seguinte página:
 ### cgroups
 
 O recurso do kernel Linux **cgroups** fornece a capacidade de **restringir recursos como CPU, memória, IO, largura de banda de rede entre** um conjunto de processos. O Docker permite criar Containers usando o recurso cgroup, que permite o controle de recursos para o Container específico.\
-A seguir, temos um Container criado com memória de espaço do usuário limitada a 500m, memória do kernel limitada a 50m, compartilhamento de CPU para 512, peso de blkioweight para 400. O compartilhamento de CPU é uma proporção que controla o uso de CPU do Container. Ele tem um valor padrão de 1024 e varia entre 0 e 1024. Se três Containers têm o mesmo compartilhamento de CPU de 1024, cada Container pode usar até 33% da CPU em caso de contenção de recursos da CPU. blkio-weight é uma proporção que controla o IO do Container. Ele tem um valor padrão de 500 e varia entre 10 e 1000.
+A seguir, temos um Container criado com memória do espaço do usuário limitada a 500m, memória do kernel limitada a 50m, compartilhamento de CPU para 512, peso de blkioweight para 400. O compartilhamento de CPU é uma proporção que controla o uso de CPU do Container. Ele tem um valor padrão de 1024 e varia entre 0 e 1024. Se três Containers têm o mesmo compartilhamento de CPU de 1024, cada Container pode usar até 33% da CPU em caso de contenção de recursos da CPU. O peso de blkioweight é uma proporção que controla o IO do Container. Ele tem um valor padrão de 500 e varia entre 10 e 1000.
 ```
 docker run -it -m 500M --kernel-memory 50M --cpu-shares 512 --blkio-weight 400 --name ubuntu1 ubuntu bash
 ```
@@ -220,7 +221,7 @@ Quando um contêiner Docker é executado, o **processo descarta as capacidades s
 
 ### Seccomp no Docker
 
-Este é um recurso de segurança que permite ao Docker **limitar as syscalls** que podem ser usadas dentro do contêiner:
+Esta é uma funcionalidade de segurança que permite ao Docker **limitar as syscalls** que podem ser usadas dentro do contêiner:
 
 {% content-ref url="seccomp.md" %}
 [seccomp.md](seccomp.md)
@@ -266,11 +267,11 @@ docker run -d --name malicious-container -c 512 busybox sh -c 'while true; do :;
 ```
 * **Bandwidth DoS**
 
-Um ataque de negação de serviço (DoS) de largura de banda é um tipo de ataque cibernético que tem como objetivo sobrecarregar a largura de banda de um sistema alvo, tornando-o inacessível para usuários legítimos. Esse tipo de ataque pode ser realizado por meio do envio de uma grande quantidade de tráfego malicioso para o sistema alvo, consumindo toda a largura de banda disponível e impedindo que outros usuários se conectem ou acessem os recursos do sistema.
+Um ataque de negação de serviço (DoS) de largura de banda é um tipo de ataque cibernético que visa sobrecarregar a largura de banda de um sistema ou rede, tornando-o inacessível para usuários legítimos. Nesse tipo de ataque, o objetivo é consumir toda a largura de banda disponível, impedindo que outros usuários acessem os recursos do sistema ou da rede.
 
-Existem várias técnicas que podem ser usadas para realizar um ataque de negação de serviço de largura de banda, incluindo o uso de botnets, amplificação de tráfego e ataques de inundação. É importante que os administradores de sistemas implementem medidas de segurança adequadas, como firewalls e sistemas de detecção de intrusões, para mitigar os riscos desse tipo de ataque.
+Existem várias técnicas que podem ser usadas para realizar um ataque de negação de serviço de largura de banda, incluindo o envio de uma grande quantidade de tráfego malicioso para o alvo, o que pode ser feito por meio de botnets ou amplificação de tráfego. Além disso, um atacante também pode explorar vulnerabilidades em servidores ou roteadores para aumentar o tráfego e sobrecarregar a largura de banda.
 
-Além disso, é essencial que os usuários mantenham seus sistemas atualizados com as últimas correções de segurança e adotem boas práticas de segurança, como o uso de senhas fortes e a autenticação em dois fatores, para reduzir a probabilidade de serem vítimas de um ataque de negação de serviço de largura de banda.
+Para proteger-se contra ataques de negação de serviço de largura de banda, é importante implementar medidas de segurança, como firewalls, sistemas de detecção e prevenção de intrusões (IDS/IPS) e balanceadores de carga. Além disso, é recomendado monitorar o tráfego de rede em busca de atividades suspeitas e manter os sistemas e roteadores atualizados com as últimas correções de segurança.
 ```bash
 nc -lvp 4444 >/dev/null & while true; do cat /dev/urandom | nc <target IP> 4444; done
 ```
@@ -288,17 +289,13 @@ Na página a seguir, você pode aprender **o que implica a flag `--privileged`**
 
 #### no-new-privileges
 
-Se você estiver executando um contêiner onde um invasor consegue acessar como um usuário de baixo privilégio. Se você tiver um **binário suid mal configurado**, o invasor pode abusar dela e **elevar privilégios dentro** do contêiner. O que pode permitir que ele escape dele.
+Se você estiver executando um contêiner onde um invasor consegue obter acesso como um usuário de baixo privilégio. Se você tiver um **binário suid mal configurado**, o invasor pode abusar dela e **elevar privilégios dentro** do contêiner. O que pode permitir que ele escape dele.
 
 Executar o contêiner com a opção **`no-new-privileges`** habilitada irá **prevenir esse tipo de escalonamento de privilégios**.
 ```
 docker run -it --security-opt=no-new-privileges:true nonewpriv
 ```
 #### Outros
-
-The `docker-security` directory contains information and techniques related to securing Docker containers and preventing privilege escalation attacks. This section covers various security measures that can be implemented to enhance the security of Docker containers.
-
-O diretório `docker-security` contém informações e técnicas relacionadas à segurança de contêineres Docker e à prevenção de ataques de escalonamento de privilégios. Esta seção aborda várias medidas de segurança que podem ser implementadas para aumentar a segurança dos contêineres Docker.
 ```bash
 #You can manually add/drop capabilities with
 --cap-add
@@ -323,7 +320,7 @@ Primeiro de tudo, **não os coloque dentro da sua imagem!**
 
 Além disso, **não use variáveis de ambiente** para suas informações sensíveis. Qualquer pessoa que possa executar `docker inspect` ou `exec` no contêiner pode encontrar seu segredo.
 
-Os volumes do Docker são melhores. Eles são a maneira recomendada de acessar suas informações sensíveis na documentação do Docker. Você pode **usar um volume como sistema de arquivos temporário mantido na memória**. Os volumes removem o risco de `docker inspect` e de registro. No entanto, **usuários root ainda podem ver o segredo, assim como qualquer pessoa que possa `exec` no contêiner**.
+Volumes do Docker são melhores. Eles são a maneira recomendada de acessar suas informações sensíveis na documentação do Docker. Você pode **usar um volume como sistema de arquivos temporário mantido na memória**. Volumes removem o risco de `docker inspect` e de registro. No entanto, **usuários root ainda podem ver o segredo, assim como qualquer pessoa que possa `exec` no contêiner**.
 
 Ainda **melhor do que volumes, use segredos do Docker**.
 
@@ -342,9 +339,9 @@ Onde o seu arquivo especifica seus segredos como um par chave-valor.
 
 Esses segredos são excluídos do cache de construção da imagem e da imagem final.
 
-Se você precisa do seu **segredo em seu contêiner em execução**, e não apenas durante a construção da imagem, use **Docker Compose ou Kubernetes**.
+Se você precisa do seu **segredo em seu contêiner em execução**, e não apenas ao construir sua imagem, use **Docker Compose ou Kubernetes**.
 
-Com o Docker Compose, adicione o par chave-valor dos segredos a um serviço e especifique o arquivo de segredo. A dica é do [Stack Exchange answer](https://serverfault.com/a/936262/535325) para a dica de segredos do Docker Compose que o exemplo abaixo é adaptado.
+Com o Docker Compose, adicione o par chave-valor dos segredos a um serviço e especifique o arquivo de segredo. Agradecimentos à resposta do [Stack Exchange](https://serverfault.com/a/936262/535325) pela dica de segredos do Docker Compose, da qual o exemplo abaixo é adaptado.
 
 Exemplo `docker-compose.yml` com segredos:
 ```yaml
@@ -385,19 +382,19 @@ Se você estiver usando [Kubernetes](https://kubernetes.io/docs/concepts/configu
 * [**Descarte todas as capacidades**](https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities) **(`--cap-drop=all`) e habilite apenas as necessárias** (`--cap-add=...`). Muitas cargas de trabalho não precisam de nenhuma capacidade e adicioná-las aumenta o escopo de um possível ataque.
 * [**Use a opção de segurança "no-new-privileges"**](https://raesene.github.io/blog/2019/06/01/docker-capabilities-and-no-new-privs/) para impedir que processos obtenham mais privilégios, por exemplo, por meio de binários suid.
 * [**Limite os recursos disponíveis para o contêiner**](https://docs.docker.com/engine/reference/run/#runtime-constraints-on-resources)**.** Limites de recursos podem proteger a máquina contra ataques de negação de serviço.
-* **Ajuste** os perfis [**seccomp**](https://docs.docker.com/engine/security/seccomp/)**,** [**AppArmor**](https://docs.docker.com/engine/security/apparmor/) **(ou SELinux)** para restringir as ações e chamadas de sistema disponíveis para o contêiner ao mínimo necessário.
+* **Ajuste os perfis de** [**seccomp**](https://docs.docker.com/engine/security/seccomp/)**,** [**AppArmor**](https://docs.docker.com/engine/security/apparmor/) **(ou SELinux)** para restringir as ações e chamadas de sistema disponíveis para o contêiner ao mínimo necessário.
 * **Use** [**imagens oficiais do Docker**](https://docs.docker.com/docker-hub/official\_images/) **e exija assinaturas** ou construa suas próprias com base nelas. Não herde ou use imagens com [backdoors](https://arstechnica.com/information-technology/2018/06/backdoored-images-downloaded-5-million-times-finally-removed-from-docker-hub/). Armazene também as chaves raiz e a frase secreta em um local seguro. O Docker tem planos para gerenciar chaves com o UCP.
 * **Reconstrua regularmente** suas imagens para **aplicar patches de segurança no host e nas imagens**.
-* Gerencie seus **segredos com sabedoria** para dificultar o acesso do atacante a eles.
+* Gerencie seus **segredos com sabedoria** para dificultar o acesso do invasor a eles.
 * Se você **expõe o daemon do Docker, use HTTPS** com autenticação de cliente e servidor.
-* Em seu Dockerfile, **prefira COPY em vez de ADD**. ADD extrai automaticamente arquivos compactados e pode copiar arquivos de URLs. COPY não possui essas capacidades. Sempre que possível, evite usar ADD para não ficar suscetível a ataques por meio de URLs remotas e arquivos Zip.
+* No seu Dockerfile, **prefira COPY em vez de ADD**. ADD extrai automaticamente arquivos compactados e pode copiar arquivos de URLs. COPY não possui essas capacidades. Sempre que possível, evite usar ADD para não ficar suscetível a ataques por meio de URLs remotas e arquivos Zip.
 * Tenha **contêineres separados para cada microsserviço**.
 * **Não coloque o ssh** dentro do contêiner, "docker exec" pode ser usado para acessar o contêiner via ssh.
 * Tenha **imagens de contêiner menores**
 
 ## Fuga de Contêiner Docker / Escalação de Privilégios
 
-Se você estiver **dentro de um contêiner Docker** ou tiver acesso a um usuário no **grupo docker**, você pode tentar **escapar e escalar privilégios**:
+Se você estiver **dentro de um contêiner Docker** ou tiver acesso a um usuário no **grupo docker**, você pode tentar **escapar e elevar privilégios**:
 
 {% content-ref url="docker-breakout-privilege-escalation/" %}
 [docker-breakout-privilege-escalation](docker-breakout-privilege-escalation/)
@@ -428,21 +425,20 @@ Você precisa executar a ferramenta no host que executa o Docker ou em um contê
 * [https://en.wikipedia.org/wiki/Linux\_namespaces](https://en.wikipedia.org/wiki/Linux\_namespaces)
 * [https://towardsdatascience.com/top-20-docker-security-tips-81c41dd06f57](https://towardsdatascience.com/top-20-docker-security-tips-81c41dd06f57)
 
-<details>
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
-
-* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
-
-</details>
-
-![](<../../../.gitbook/assets/image (9) (1) (2).png>)
-
-\
+<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** com facilidade, utilizando as ferramentas comunitárias mais avançadas do mundo.\
 Acesse hoje mesmo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+
+<details>
+
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+
+* Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? Ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo Telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe suas técnicas de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e o** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+
+</details>
