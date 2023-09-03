@@ -8,9 +8,17 @@
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe suas técnicas de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+
+<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
+
+Encontre vulnerabilidades que são mais importantes para que você possa corrigi-las mais rapidamente. O Intruder rastreia sua superfície de ataque, executa varreduras proativas de ameaças, encontra problemas em toda a sua pilha de tecnologia, desde APIs até aplicativos da web e sistemas em nuvem. [**Experimente gratuitamente**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) hoje.
+
+{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
+
+***
 
 ## Ferramentas de Reversão Baseadas em ImGui
 
@@ -47,7 +55,7 @@ Com um modelo abrangente de complementos e uma API que estende a ferramenta para
 * Fornece insights sobre a implementação e o uso de linguagens e estruturas .NET
 * Encontra funcionalidades não documentadas e não expostas para obter mais das APIs e tecnologias utilizadas.
 * Encontra dependências e diferentes assemblies
-* Localiza exatamente a localização de erros em seu código, componentes de terceiros e bibliotecas.&#x20;
+* Localiza exatamente a localização dos erros em seu código, componentes de terceiros e bibliotecas.&#x20;
 * Depura o código-fonte de todo o código .NET com o qual você trabalha.
 
 ### [ILSpy](https://github.com/icsharpcode/ILSpy) & [dnSpy](https://github.com/dnSpy/dnSpy/releases)
@@ -56,7 +64,7 @@ Com um modelo abrangente de complementos e uma API que estende a ferramenta para
 Se você precisa **descompilar**, **modificar** e **recompilar** novamente, você pode usar: [**https://github.com/0xd4d/dnSpy/releases**](https://github.com/0xd4d/dnSpy/releases) (**Clique com o botão direito -> Modificar Método** para alterar algo dentro de uma função).\
 Você também pode tentar [https://www.jetbrains.com/es-es/decompiler/](https://www.jetbrains.com/es-es/decompiler/)
 
-### DNSpy Logging
+### Registro do DNSpy
 
 Para fazer com que o **DNSpy registre algumas informações em um arquivo**, você pode usar estas linhas .Net:
 ```bash
@@ -78,28 +86,26 @@ Para:
 
 # Ferramentas de Reversão - Métodos Básicos
 
-Este repositório contém uma coleção de ferramentas de reversão e métodos básicos para ajudar os hackers a analisar e entender o funcionamento interno de um software. Essas ferramentas são essenciais para a engenharia reversa e podem ser usadas para identificar vulnerabilidades, encontrar falhas de segurança e explorar sistemas.
+Neste guia, vamos explorar algumas ferramentas e métodos básicos de reversão de arquivos. A reversão de arquivos é uma técnica essencial no campo da segurança cibernética, que envolve a análise e modificação de programas e arquivos binários.
 
 ## Ferramentas de Reversão
 
-As ferramentas de reversão são programas que ajudam os hackers a analisar e modificar o código de um software. Essas ferramentas permitem que os hackers examinem o código-fonte, identifiquem funções e variáveis importantes e modifiquem o comportamento do software.
+Existem várias ferramentas disponíveis para ajudar na reversão de arquivos. Aqui estão algumas das mais populares:
 
-Algumas das ferramentas de reversão mais populares incluem:
-
-- **IDA Pro**: Uma ferramenta de engenharia reversa líder de mercado que permite aos hackers analisar e modificar o código de um software.
-- **OllyDbg**: Um depurador de código de baixo nível que permite aos hackers examinar e modificar o código de um software em tempo de execução.
-- **Ghidra**: Uma ferramenta de engenharia reversa de código aberto desenvolvida pela Agência de Segurança Nacional dos Estados Unidos (NSA).
+- **IDA Pro**: Uma ferramenta poderosa e amplamente utilizada para análise de código reverso. Ela oferece recursos avançados, como desmontagem interativa, análise de fluxo de controle e visualização gráfica do código.
+- **OllyDbg**: Um depurador de código reverso que permite analisar e modificar programas executáveis. Ele oferece recursos como rastreamento de execução, visualização de registros e desmontagem dinâmica.
+- **Ghidra**: Uma estrutura de engenharia reversa desenvolvida pela Agência de Segurança Nacional dos Estados Unidos. Ela oferece recursos avançados, como desmontagem de código, análise de fluxo de controle e descompilação.
+- **Radare2**: Uma estrutura de engenharia reversa de código aberto que oferece recursos como desmontagem, análise de fluxo de controle e visualização gráfica do código.
 
 ## Métodos Básicos de Reversão
 
-Existem vários métodos básicos que os hackers podem usar para analisar e entender o código de um software. Esses métodos incluem:
+Aqui estão alguns métodos básicos que podem ser usados na reversão de arquivos:
 
-- **Análise Estática**: A análise estática envolve a revisão do código-fonte ou do código de máquina de um software sem executá-lo. Isso permite que os hackers identifiquem funções, variáveis e fluxos de controle importantes.
-- **Análise Dinâmica**: A análise dinâmica envolve a execução de um software em um ambiente controlado para observar seu comportamento. Isso permite que os hackers identifiquem vulnerabilidades, falhas de segurança e comportamentos indesejados.
-- **Engenharia Reversa de Protocolo**: A engenharia reversa de protocolo envolve a análise de um protocolo de comunicação para entender como ele funciona. Isso permite que os hackers identifiquem vulnerabilidades e explorem sistemas que usam esse protocolo.
-- **Desmontagem**: A desmontagem envolve a conversão do código de máquina em uma representação legível por humanos. Isso permite que os hackers analisem o código de um software em um nível mais baixo e identifiquem vulnerabilidades e falhas de segurança.
+- **Análise Estática**: Consiste em examinar o código binário sem executá-lo. Isso pode ser feito usando ferramentas como desmontadores e visualizadores hexadecimais para entender a estrutura e o comportamento do programa.
+- **Análise Dinâmica**: Envolve a execução do programa em um ambiente controlado para observar seu comportamento em tempo real. Isso pode ser feito usando depuradores e ferramentas de monitoramento de sistema para rastrear chamadas de função, manipulação de memória e comunicação de rede.
+- **Engenharia Reversa**: É o processo de desmontar e entender o código-fonte original de um programa. Isso pode ser feito usando ferramentas de descompilação e análise de fluxo de controle para reconstruir a lógica do programa.
 
-Esses métodos básicos de reversão são fundamentais para a análise de software e a identificação de vulnerabilidades. Os hackers devem estar familiarizados com essas ferramentas e métodos para ter sucesso na engenharia reversa e na exploração de sistemas.
+Essas são apenas algumas das ferramentas e métodos básicos disponíveis para a reversão de arquivos. À medida que você ganha experiência, poderá explorar técnicas mais avançadas e ferramentas adicionais para aprimorar suas habilidades de reversão.
 ```
 [assembly: Debuggable(DebuggableAttribute.DebuggingModes.Default |
 DebuggableAttribute.DebuggingModes.DisableOptimizations |
@@ -114,7 +120,7 @@ Em seguida, salve o novo arquivo em _**Arquivo >> Salvar módulo...**_:
 
 ![](<../../.gitbook/assets/image (279).png>)
 
-Isso é necessário porque se você não fizer isso, durante a **execução** várias **otimizações** serão aplicadas ao código e pode ser possível que, ao depurar, um **ponto de interrupção nunca seja atingido** ou algumas **variáveis não existam**.
+Isso é necessário porque se você não fizer isso, durante a **execução**, várias **otimizações** serão aplicadas ao código e pode ser possível que, ao depurar, um **ponto de interrupção nunca seja atingido** ou algumas **variáveis não existam**.
 
 Em seguida, se sua aplicação .Net está sendo **executada** pelo **IIS**, você pode **reiniciá-la** com:
 ```
@@ -128,7 +134,7 @@ Em seguida, selecione **w3wp.exe** para anexar ao servidor **IIS** e clique em *
 
 ![](<../../.gitbook/assets/image (281).png>)
 
-Agora que estamos depurando o processo, é hora de pará-lo e carregar todos os módulos. Primeiro, clique em _Depurar >> Parar Todos_ e depois clique em _**Depurar >> Janelas >> Módulos**_:
+Agora que estamos depurando o processo, é hora de pará-lo e carregar todos os módulos. Primeiro, clique em _Depurar >> Parar Todos_ e depois clique em _**Depurar >> Windows >> Módulos**_:
 
 ![](<../../.gitbook/assets/image (286).png>)
 
@@ -163,7 +169,7 @@ Clique com o botão direito em qualquer módulo em **Explorador de Assemblies** 
 
 Então, quando você iniciar a depuração, a **execução será interrompida quando cada DLL for carregada**, então, quando o rundll32 carregar sua DLL, a execução será interrompida.
 
-Mas, como você pode chegar ao código da DLL que foi carregada? Usando esse método, eu não sei como.
+Mas como você pode chegar ao código da DLL que foi carregada? Usando esse método, eu não sei como.
 
 ### Usando x64dbg/x32dbg
 
@@ -230,7 +236,7 @@ Você pode ver a pilha, por exemplo, dentro de um dump hexadecimal:
 ### Desofuscando shellcode e obtendo funções executadas
 
 Você deve tentar o [**scdbg**](http://sandsprite.com/blogs/index.php?uid=7\&pid=152).\
-Ele irá informar coisas como **quais funções** o shellcode está usando e se o shellcode está **decodificando** a si mesmo na memória.
+Ele irá informar quais funções o shellcode está usando e se o shellcode está se **decodificando** na memória.
 ```bash
 scdbg.exe -f shellcode # Get info
 scdbg.exe -f shellcode -r #show analysis report at end of run
@@ -265,20 +271,29 @@ E [instale o keystone](https://github.com/keystone-engine/keystone/blob/master/d
 
 Se você estiver jogando um **CTF, essa solução alternativa para encontrar a flag** pode ser muito útil: [https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html](https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html)
 
+
+<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
+
+Encontre as vulnerabilidades que mais importam para que você possa corrigi-las mais rapidamente. O Intruder rastreia sua superfície de ataque, executa varreduras proativas de ameaças, encontra problemas em toda a sua pilha de tecnologia, desde APIs até aplicativos da web e sistemas em nuvem. [**Experimente gratuitamente**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) hoje.
+
+{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
+
+***
+
 ## Rust
 
 Para encontrar o **ponto de entrada**, procure as funções por `::main` como em:
 
 ![](<../../.gitbook/assets/image (612).png>)
 
-Neste caso, o binário foi chamado de authenticator, então é bem óbvio que esta é a função principal interessante.\
-Tendo o **nome** das **funções** sendo chamadas, pesquise sobre elas na **Internet** para aprender sobre suas **entradas** e **saídas**.
+Neste caso, o binário foi chamado de authenticator, então é bastante óbvio que esta é a função principal interessante.\
+Tendo o **nome** das **funções** sendo chamadas, pesquise-as na **Internet** para aprender sobre suas **entradas** e **saídas**.
 
 ## **Delphi**
 
 Para binários compilados em Delphi, você pode usar [https://github.com/crypto2011/IDR](https://github.com/crypto2011/IDR)
 
-Se você precisar reverter um binário Delphi, sugiro usar o plugin do IDA [https://github.com/Coldzer0/IDA-For-Delphi](https://github.com/Coldzer0/IDA-For-Delphi)
+Se você precisar reverter um binário Delphi, sugiro que use o plugin do IDA [https://github.com/Coldzer0/IDA-For-Delphi](https://github.com/Coldzer0/IDA-For-Delphi)
 
 Basta pressionar **ATL+f7** (importar plugin python no IDA) e selecionar o plugin python.
 
@@ -288,7 +303,7 @@ Também é muito interessante porque se você pressionar um botão na aplicaçã
 
 ## Golang
 
-Se você precisar reverter um binário Golang, sugiro usar o plugin do IDA [https://github.com/sibears/IDAGolangHelper](https://github.com/sibears/IDAGolangHelper)
+Se você precisar reverter um binário Golang, sugiro que use o plugin do IDA [https://github.com/sibears/IDAGolangHelper](https://github.com/sibears/IDAGolangHelper)
 
 Basta pressionar **ATL+f7** (importar plugin python no IDA) e selecionar o plugin python.
 
@@ -296,7 +311,7 @@ Isso resolverá os nomes das funções.
 
 ## Python compilado
 
-Nesta página, você pode aprender como obter o código Python de um binário compilado ELF/EXE:
+Nesta página, você pode encontrar como obter o código Python de um binário compilado ELF/EXE:
 
 {% content-ref url="../../forensics/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md" %}
 [.pyc.md](../../forensics/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md)
@@ -414,16 +429,23 @@ Portanto, neste desafio, sabendo os valores dos botões, você precisava **press
 ## Cursos
 
 * [https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering](https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering)
-* [https://github.com/malrev/ABD](https://github.com/malrev/ABD) (Desobfuscação binária)
+* [https://github.com/malrev/ABD](https://github.com/malrev/ABD) (Binary deobfuscation)
+
+
+<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
+
+Encontre vulnerabilidades que são mais importantes para que você possa corrigi-las mais rapidamente. O Intruder rastreia sua superfície de ataque, executa varreduras proativas de ameaças, encontra problemas em toda a sua pilha de tecnologia, desde APIs até aplicativos da web e sistemas em nuvem. [**Experimente gratuitamente**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) hoje.
+
+{% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? Ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Obtenha o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e para o** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
