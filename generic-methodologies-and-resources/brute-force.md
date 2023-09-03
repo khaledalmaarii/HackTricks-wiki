@@ -1,6 +1,6 @@
 # 暴力破解 - 速查表
 
-![](<../.gitbook/assets/image (9) (1) (2).png>)
+<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
 使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)轻松构建和自动化由全球**最先进**的社区工具提供支持的工作流程。\
@@ -10,19 +10,19 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在一家**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者你想要访问**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 * **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
 
 </details>
 
-## 默认凭据
+## 默认凭证
 
-在谷歌中搜索正在使用的技术的默认凭据，或者尝试以下链接：
+在谷歌中搜索正在使用的技术的默认凭证，或者尝试以下链接：
 
 * [**https://github.com/ihebski/DefaultCreds-cheat-sheet**](https://github.com/ihebski/DefaultCreds-cheat-sheet)
 * [**http://www.phenoelit.org/dpl/dpl.html**](http://www.phenoelit.org/dpl/dpl.html)
@@ -54,15 +54,15 @@ crunch 6 8 -t ,@@^^%%
 ```
 ### Cewl
 
-Cewl is a tool used for generating custom wordlists by scraping websites or documents. It can be helpful in performing brute force attacks by creating wordlists based on the target's specific interests or characteristics.
+Cewl is a tool used for generating custom wordlists by scraping websites or documents. It is particularly useful for password cracking and brute force attacks. Cewl works by analyzing the target website or document and extracting relevant keywords and phrases. These keywords and phrases are then combined to create a wordlist that can be used in password guessing attacks.
 
-To use Cewl, you need to provide it with a target URL or a file to scrape. It will then analyze the content and extract relevant words, such as names, email addresses, or keywords. These words are then combined to create a custom wordlist that can be used in brute force attacks.
+To use Cewl, you need to provide it with a target URL or a document. Cewl will crawl the target and extract words based on various criteria such as word length, frequency, and relevance. It can also follow links and extract words from linked pages. The extracted words are then processed to remove duplicates and irrelevant terms.
 
-Cewl offers various options to customize the wordlist generation process. For example, you can specify the minimum and maximum length of the words, exclude certain words or characters, and even use regular expressions to filter the extracted words.
+Cewl can be run with different options to customize its behavior. For example, you can specify the minimum and maximum word length, the number of words to extract, and the depth of crawling. You can also specify whether to include numbers, symbols, or special characters in the generated wordlist.
 
-By using Cewl to generate targeted wordlists, you can increase the chances of success in brute force attacks. Instead of using generic wordlists, which may contain irrelevant or less likely passwords, you can create wordlists that are tailored to the target's preferences, making the attack more efficient and effective.
+Once the wordlist is generated, it can be used with password cracking tools like John the Ripper or Hashcat. These tools will systematically try each word in the list as a potential password until the correct one is found.
 
-Remember to always use Cewl responsibly and with proper authorization.
+Cewl is a powerful tool for generating targeted wordlists that can greatly increase the success rate of brute force attacks. However, it is important to note that brute force attacks are illegal and unethical unless performed with proper authorization and for legitimate purposes such as penetration testing.
 ```bash
 cewl example.com -m 5 -w words.txt
 ```
@@ -108,10 +108,10 @@ Finished in 0.920s.
 * [**https://hashkiller.io/listmanager**](https://hashkiller.io/listmanager)
 * [**https://github.com/Karanxa/Bug-Bounty-Wordlists**](https://github.com/Karanxa/Bug-Bounty-Wordlists)
 
-![](<../.gitbook/assets/image (9) (1) (2).png>)
+<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用[**Trickest**](https://trickest.io/)可以轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。\
+使用[**Trickest**](https://trickest.io/)轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -132,28 +132,20 @@ msf> run
 ```
 ### AJP
 
-AJP (Apache JServ Protocol) 是一种用于在 Apache Web 服务器和 Tomcat 应用服务器之间进行通信的协议。它允许 Apache 作为反向代理将请求转发给 Tomcat。然而，如果未正确配置和保护 AJP，攻击者可能会利用它进行暴力破解攻击。
+AJP (Apache JServ Protocol) 是一种用于在 Apache Web 服务器和 Tomcat 应用服务器之间进行通信的协议。它允许 Apache 服务器将请求转发给 Tomcat 服务器处理，并将响应返回给客户端。
 
-#### AJP 暴力破解攻击
+攻击者可以利用 AJP 协议进行暴力破解攻击，尝试猜测有效的用户名和密码组合来获取未授权访问。这种攻击方法被称为 AJP 暴力破解攻击。
 
-AJP 暴力破解攻击是一种尝试通过连续尝试多个可能的用户名和密码组合来获取未授权访问的攻击方法。攻击者可以使用工具自动化这个过程，例如 Hydra 或 Burp Suite 的 Intruder 功能。
-
-以下是进行 AJP 暴力破解攻击的一般步骤：
-
-1. 确定目标：确定目标服务器上是否存在 AJP 协议，并确定其端口号。
-2. 枚举用户名：使用字典或其他方法枚举可能的用户名。
-3. 枚举密码：使用字典或其他方法枚举可能的密码。
-4. 进行暴力破解：使用工具自动化尝试所有可能的用户名和密码组合。
-5. 分析结果：分析工具的输出，查看是否成功破解了目标服务器的凭据。
+在进行 AJP 暴力破解攻击时，攻击者使用自动化工具来尝试大量的用户名和密码组合。这些工具通常使用字典文件，其中包含常见的用户名和密码组合，以及其他可能的组合。
 
 为了防止 AJP 暴力破解攻击，可以采取以下措施：
 
-- 禁用或限制 AJP 协议的使用，除非确实需要使用它。
-- 配置 AJP 时使用安全的认证机制，例如使用 SSL/TLS 加密通信。
-- 使用强密码策略，并定期更改密码。
-- 监控日志以检测暴力破解尝试，并采取适当的响应措施。
+- 使用强密码：确保使用强密码来减少猜测的可能性。
+- 锁定账户：在一定的失败尝试次数后，锁定账户以防止进一步的猜测。
+- 使用多因素身份验证：使用多因素身份验证可以增加账户的安全性，即使密码被猜测也难以入侵。
+- 监控登录活动：监控登录活动可以及时发现异常行为并采取相应的措施。
 
-请注意，进行未经授权的暴力破解攻击是非法的，并且可能会导致严重的法律后果。只能在合法的渗透测试活动中使用这些技术。
+通过采取这些措施，可以有效地防止 AJP 暴力破解攻击，并提高系统的安全性。
 ```bash
 nmap --script ajp-brute -p 8009 <IP>
 ```
@@ -161,125 +153,119 @@ nmap --script ajp-brute -p 8009 <IP>
 
 Cassandra是一个开源的分布式NoSQL数据库系统，它被设计用于处理大规模的数据集。它具有高度可扩展性和高性能的特点，适用于需要处理大量数据的应用程序。
 
-#### 基本概念
+#### 基本原理
 
-- **节点（Node）**：Cassandra集群中的每个服务器都被称为节点。每个节点都可以独立地处理读写请求，并且都存储了部分数据。
+Cassandra使用了一种称为"分布式哈希表"的数据模型，它将数据分布在多个节点上。每个节点都负责存储和处理一部分数据，这样可以实现数据的分布式存储和处理。
 
-- **键空间（Keyspace）**：键空间是Cassandra中数据的逻辑容器。它类似于传统数据库中的数据库，用于组织和管理数据。
+Cassandra使用了一种称为"一致性哈希"的算法来确定数据在节点之间的分布。这个算法将数据的键映射到一个哈希环上的位置，然后根据节点在哈希环上的位置来确定数据应该存储在哪个节点上。
 
-- **列族（Column Family）**：列族是Cassandra中数据的基本单元。它类似于传统数据库中的表，用于存储具有相同结构的数据。
+#### 暴力破解
 
-- **列（Column）**：列是Cassandra中数据的最小单元。它由列名、值和时间戳组成。
+暴力破解是一种常见的攻击技术，用于尝试破解密码或破解加密算法。在Cassandra中，暴力破解可以用于尝试破解用户的密码或访问权限。
 
-#### Brute Force攻击
+暴力破解的基本原理是通过尝试所有可能的密码组合来破解密码。攻击者可以使用自动化工具来自动尝试大量的密码组合，直到找到正确的密码为止。
 
-Brute Force攻击是一种基于暴力破解的攻击方法，通过尝试所有可能的组合来破解密码或者破解加密算法。在Cassandra中，Brute Force攻击可以用于尝试破解用户的密码或者破解密钥。
+为了防止暴力破解攻击，Cassandra提供了一些安全措施，如密码策略和登录尝试限制。管理员可以配置密码策略来要求用户使用强密码，并设置登录尝试限制来限制失败的登录尝试次数。
 
-以下是一些常见的Brute Force攻击方法：
-
-- **字典攻击**：使用预先准备好的密码字典来尝试破解密码。这种方法依赖于用户使用弱密码的倾向。
-
-- **暴力破解**：通过尝试所有可能的密码组合来破解密码。这种方法非常耗时，但是可以保证破解成功。
-
-- **彩虹表攻击**：使用预先计算好的彩虹表来破解密码。彩虹表是一种特殊的数据结构，用于加速密码破解过程。
-
-为了防止Brute Force攻击，Cassandra提供了一些安全措施，如密码策略、登录尝试限制和IP白名单等。管理员应该合理配置这些安全措施，以保护Cassandra集群的安全性。
+然而，暴力破解仍然是一种有效的攻击技术，因此管理员应该采取其他安全措施来保护Cassandra数据库，如使用防火墙和网络安全设备来限制对数据库的访问。
 ```bash
 nmap --script cassandra-brute -p 9160 <IP>
 ```
 ### CouchDB
 
-CouchDB是一个开源的面向文档的NoSQL数据库，它使用JSON格式存储数据。它具有分布式、可扩展和高可用性的特点。CouchDB使用B树索引来加快查询速度，并支持复制和同步功能，使得数据在多个节点之间进行复制和同步变得容易。CouchDB还提供了一个简单的RESTful API，使得与数据库进行交互变得简单和灵活。
+CouchDB is a NoSQL database that uses JSON to store data. It is known for its distributed architecture and ability to handle large amounts of data. CouchDB provides a RESTful API for accessing and manipulating data, making it easy to integrate with web applications.
 
-#### Brute Force攻击
+#### Brute Force Attacks
 
-Brute Force攻击是一种基于暴力破解的攻击方法，它尝试使用所有可能的组合来破解密码或访问受保护的资源。在CouchDB中，Brute Force攻击可以用于尝试猜测管理员密码或用户密码，以获取未经授权的访问权限。
+Brute force attacks are a common method used to gain unauthorized access to systems or accounts. In the context of CouchDB, a brute force attack involves systematically trying different combinations of usernames and passwords until the correct credentials are found.
 
-为了防止Brute Force攻击，CouchDB提供了一些安全措施。其中之一是设置密码策略，包括密码长度、复杂性要求和密码重用限制。此外，CouchDB还提供了登录失败限制功能，可以限制在一定时间内登录失败的次数，从而防止暴力破解攻击。
+#### Protecting Against Brute Force Attacks
 
-然而，即使CouchDB采取了这些安全措施，仍然有可能通过Brute Force攻击来破解密码。因此，为了保护CouchDB免受此类攻击，建议采取其他安全措施，如使用强密码、启用两步验证和限制登录IP等。
+To protect against brute force attacks on CouchDB, it is important to implement strong security measures. Here are some recommended strategies:
+
+1. **Use Strong Passwords**: Ensure that all user accounts have strong, unique passwords that are not easily guessable.
+
+2. **Implement Account Lockouts**: Set up a mechanism that locks user accounts after a certain number of failed login attempts. This can help prevent brute force attacks by temporarily disabling accounts that are being targeted.
+
+3. **Enable CAPTCHA**: Implement CAPTCHA (Completely Automated Public Turing test to tell Computers and Humans Apart) to prevent automated scripts from attempting brute force attacks.
+
+4. **Monitor Login Attempts**: Regularly monitor and analyze login attempts to identify any suspicious activity. This can help detect and mitigate brute force attacks in real-time.
+
+5. **Limit Access**: Restrict access to CouchDB by allowing only trusted IP addresses or networks to connect to the database. This can help prevent unauthorized access attempts.
+
+By implementing these security measures, you can significantly reduce the risk of successful brute force attacks on your CouchDB instance.
 ```bash
 msf> use auxiliary/scanner/couchdb/couchdb_login
 hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordlists/password.lst localhost -s 5984 http-get /
 ```
 ### Docker Registry
 
-Docker Registry是一个用于存储和分发Docker镜像的开源服务。它允许用户将自己的镜像上传到Registry，并与其他用户共享。Docker Registry提供了一个RESTful API，可以通过HTTP请求来管理镜像。
+Docker Registry is a service that allows you to store and distribute Docker images. It is a central repository where you can upload and download container images. Docker Registry can be either public or private, depending on your needs.
 
-#### 常见的Docker Registry
+#### Brute Force Attack
 
-- Docker Hub：Docker官方提供的公共Registry，包含了大量的官方和社区维护的镜像。
-- Amazon Elastic Container Registry (ECR)：AWS提供的托管式Registry，用于存储和管理Docker镜像。
-- Google Container Registry (GCR)：Google Cloud提供的托管式Registry，用于存储和管理Docker镜像。
-- Azure Container Registry (ACR)：Microsoft Azure提供的托管式Registry，用于存储和管理Docker镜像。
+A brute force attack is a method used by hackers to gain unauthorized access to a system or account by systematically trying all possible combinations of passwords or encryption keys until the correct one is found. This attack relies on the assumption that the password or key is weak and can be easily guessed.
 
-#### 暴力破解Docker Registry
+#### Brute Forcing Docker Registry
 
-暴力破解是一种尝试猜测用户名和密码的攻击方法。对于Docker Registry来说，暴力破解可以用于尝试猜测Registry的管理员账户或其他用户账户的密码。
+Brute forcing a Docker Registry involves attempting to gain unauthorized access to the registry by systematically trying different combinations of usernames and passwords. This can be done using automated tools that can generate and test a large number of combinations in a short amount of time.
 
-以下是一些常见的暴力破解方法：
+To protect against brute force attacks on your Docker Registry, it is important to use strong and unique passwords for all user accounts. Additionally, enabling rate limiting and account lockouts can help prevent multiple login attempts within a short period of time.
 
-1. 字典攻击：使用一个包含常见密码的字典文件，逐个尝试每个密码。
-2. 暴力破解工具：使用专门设计的暴力破解工具，如Hydra或Medusa，来自动化尝试不同的用户名和密码组合。
-3. 社交工程学：通过获取目标用户的个人信息，如生日、宠物名等，来猜测密码。
+#### Conclusion
 
-为了防止暴力破解攻击，建议采取以下措施：
-
-- 使用强密码：使用包含大小写字母、数字和特殊字符的复杂密码。
-- 多因素身份验证：启用多因素身份验证，以增加账户的安全性。
-- IP限制：限制只有特定IP地址可以访问Registry。
-- 定期更改密码：定期更改密码，以防止密码被猜测或泄露。
-
-请注意，暴力破解是一种非法行为，仅在合法授权的情况下进行。
+Brute force attacks can pose a serious threat to the security of your Docker Registry. By implementing strong security measures and regularly monitoring your registry for any suspicious activity, you can help protect your container images and ensure the integrity of your Docker environment.
 ```
 hydra -L /usr/share/brutex/wordlists/simple-users.txt  -P /usr/share/brutex/wordlists/password.lst 10.10.10.10 -s 5000 https-get /v2/
 ```
-### Elasticsearch
+# Elasticsearch
 
-Elasticsearch是一个开源的分布式搜索和分析引擎，用于处理大规模数据集。它使用基于Lucene的搜索引擎来提供快速和高效的搜索功能。Elasticsearch还具有强大的聚合功能，可以对数据进行复杂的分析和统计。
+Elasticsearch is a distributed, RESTful search and analytics engine built on top of Apache Lucene. It provides a scalable solution for storing, searching, and analyzing large volumes of data in near real-time.
 
-#### 弱密码攻击
+## Brute Force Attacks
 
-弱密码攻击是一种常见的入侵技术，用于尝试破解使用弱密码保护的系统。对于Elasticsearch来说，弱密码攻击可以通过使用常见的用户名和密码组合，或者使用密码破解工具来进行。
+Brute force attacks are a common method used by hackers to gain unauthorized access to Elasticsearch instances. In a brute force attack, the hacker systematically tries all possible combinations of usernames and passwords until the correct credentials are found.
 
-以下是一些常见的弱密码攻击方法：
+### Protecting Against Brute Force Attacks
 
-- 字典攻击：使用预先准备好的密码字典来尝试破解密码。
-- 暴力破解：尝试使用所有可能的密码组合来破解密码。
-- 常见密码攻击：使用常见的密码列表来尝试破解密码。
+To protect against brute force attacks, it is important to implement strong security measures. Here are some best practices to follow:
 
-#### 防御措施
+1. **Use strong passwords**: Ensure that all Elasticsearch user accounts have strong, unique passwords that are not easily guessable.
 
-为了防止弱密码攻击，以下是一些建议的防御措施：
+2. **Implement account lockouts**: Set up account lockouts after a certain number of failed login attempts. This can help prevent brute force attacks by temporarily locking out the attacker.
 
-- 使用强密码：确保密码足够复杂，包含字母、数字和特殊字符，并且长度足够长。
-- 多因素身份验证：启用多因素身份验证，以增加登录的安全性。
-- 锁定账户：在一定的登录尝试失败次数后，锁定账户一段时间，以防止暴力破解攻击。
-- 定期更改密码：定期更改密码，以防止密码泄露后被滥用。
+3. **Enable IP whitelisting**: Restrict access to Elasticsearch instances by allowing only trusted IP addresses to connect. This can help prevent unauthorized access from unknown sources.
 
-#### 总结
+4. **Monitor for suspicious activity**: Regularly monitor Elasticsearch logs for any signs of brute force attacks or unauthorized access attempts. Implementing a log monitoring system can help detect and respond to such incidents in a timely manner.
 
-弱密码攻击是一种常见的入侵技术，可以通过尝试破解使用弱密码保护的系统来获取未授权访问。为了防止弱密码攻击，应该使用强密码、启用多因素身份验证、锁定账户和定期更改密码。
+5. **Keep Elasticsearch up to date**: Regularly update Elasticsearch to the latest version to ensure that any security vulnerabilities are patched.
+
+By following these best practices, you can significantly reduce the risk of brute force attacks on your Elasticsearch instances.
 ```
 hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordlists/password.lst localhost -s 9200 http-get /
 ```
 ### FTP
 
-FTP（文件传输协议）是一种用于在计算机之间传输文件的协议。它允许用户通过网络连接到远程计算机，并在计算机之间传输文件。
+FTP（文件传输协议）是一种用于在计算机之间传输文件的标准网络协议。它允许用户通过网络连接到远程计算机，并在本地计算机和远程计算机之间传输文件。
 
-#### 暴力破解FTP密码
+#### 暴力破解
 
-暴力破解是一种尝试所有可能的密码组合来破解目标系统的方法。对于FTP密码的暴力破解，攻击者会使用一个密码字典，其中包含常见的密码和可能的变体。攻击者将尝试使用字典中的每个密码来登录FTP服务器，直到找到正确的密码为止。
+暴力破解是一种常见的攻击技术，用于尝试破解密码或访问受保护的系统。在FTP中，暴力破解是指使用自动化工具或脚本来尝试不同的用户名和密码组合，直到找到正确的凭据为止。
 
-以下是暴力破解FTP密码的一般步骤：
+暴力破解可以通过以下步骤进行：
 
-1. 收集目标信息：获取目标FTP服务器的IP地址、端口号和登录凭据（如果有）。
-2. 准备密码字典：创建一个包含常见密码和可能的变体的密码字典。
-3. 使用暴力破解工具：使用暴力破解工具，如Hydra或Medusa，将密码字典与目标FTP服务器进行配对，并尝试登录。
-4. 分析结果：分析工具的输出，查看是否找到了正确的密码。
-5. 访问FTP服务器：使用找到的密码登录FTP服务器，并访问其中的文件。
+1. 枚举用户名：攻击者使用字典或生成器来生成可能的用户名列表。
+2. 枚举密码：攻击者使用字典或生成器来生成可能的密码列表。
+3. 尝试登录：攻击者使用生成的用户名和密码组合尝试登录到FTP服务器。
+4. 检查结果：如果登录成功，则攻击者获得了有效的凭据，可以访问和操纵FTP服务器上的文件。
 
-请注意，暴力破解是一种耗时且不保证成功的方法。在实施暴力破解之前，请确保您有合法的授权，并遵守适用的法律和道德准则。
+为了防止暴力破解攻击，FTP服务器通常会实施以下安全措施：
+
+- 强密码策略：要求用户使用复杂的密码，包括字母、数字和特殊字符。
+- 登录尝试限制：限制每个用户在一定时间内尝试登录的次数。
+- 账户锁定：在多次登录失败后，锁定用户账户一段时间，以防止进一步的尝试。
+
+尽管FTP是一种常见的文件传输协议，但由于其安全性较低，现在已经有更安全的替代方案可供选择，如SFTP（安全文件传输协议）和FTPS（FTP安全）。
 ```bash
 hydra -l root -P passwords.txt [-t 32] <IP> ftp
 ncrack -p 21 --user root -P passwords.txt <IP> [-T 5]
@@ -295,52 +281,46 @@ hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordl
 # Use https-get mode for https
 medusa -h <IP> -u <username> -P  <passwords.txt> -M  http -m DIR:/path/to/auth -T 10
 ```
-### HTTP - 提交表单
+### HTTP - Post表单
 
-To perform a brute force attack on a login form that uses the HTTP POST method, you need to follow these steps:
+Brute forcing a login form is a common technique used to gain unauthorized access to a web application. In this method, an attacker systematically tries different combinations of usernames and passwords until a successful login is achieved.
 
-1. Identify the target login form: Inspect the HTML source code of the login page to find the form element that contains the username and password fields.
+To perform a brute force attack on an HTTP POST form, follow these steps:
 
-2. Prepare a wordlist: Create a text file with a list of possible usernames and passwords. You can use common wordlists or create your own based on the target's characteristics.
+1. Identify the login form: Inspect the HTML source code of the login page to locate the form element that contains the username and password fields.
 
-3. Use a tool or script to automate the attack: There are several tools available that can automate the process of sending POST requests with different username and password combinations. Some popular tools include Hydra, Medusa, and Burp Suite.
+2. Prepare a wordlist: Create a text file containing a list of possible usernames and passwords. This wordlist will be used by the brute force tool to systematically try different combinations.
 
-4. Configure the tool: Set the target URL, specify the username and password fields, and provide the wordlist file.
+3. Use a brute force tool: There are various tools available for performing brute force attacks on web forms. These tools automate the process of sending HTTP POST requests with different username and password combinations. Some popular tools include Hydra, Medusa, and Burp Suite.
 
-5. Start the brute force attack: Run the tool and let it iterate through the wordlist, sending POST requests with different combinations of usernames and passwords.
+4. Configure the brute force tool: Set the target URL to the login page of the web application. Specify the username and password fields in the form data of the HTTP POST request. Configure the tool to use the wordlist created in step 2.
 
-6. Analyze the responses: Pay attention to the responses received from the server. A successful login attempt will typically result in a different response than a failed attempt. This can help you identify valid credentials.
+5. Start the brute force attack: Run the brute force tool and let it systematically try different combinations of usernames and passwords. The tool will send HTTP POST requests to the login form, checking if each combination is valid.
 
-7. Monitor for account lockouts: Some websites have mechanisms in place to prevent brute force attacks by locking out an account after a certain number of failed login attempts. Monitor for any account lockouts to avoid detection.
+6. Analyze the results: Once the brute force attack is complete, analyze the results to identify any successful login attempts. The tool may provide a report or log file indicating the valid combinations found.
 
-8. Adjust the attack parameters: If the initial brute force attempt is unsuccessful, you can modify the wordlist, try different combinations, or adjust the tool's settings to increase the chances of success.
-
-Remember that brute forcing is a time-consuming process and may be detected by intrusion detection systems or trigger account lockouts. Use it responsibly and with proper authorization.
+It is important to note that brute forcing a login form is a time-consuming process and may be detected by security mechanisms such as account lockouts or rate limiting. Additionally, brute forcing is an illegal activity unless performed with proper authorization for penetration testing purposes. Always ensure you have the necessary permissions and legal rights before attempting any brute force attacks.
 ```bash
 hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordlists/password.lst domain.htb  http-post-form "/path/index.php:name=^USER^&password=^PASS^&enter=Sign+in:Login name or password is incorrect" -V
 # Use https-post-form mode for https
 ```
-对于http**s**，你需要将 "http-post-form" 改为 "**https-post-form**"
+对于http**s**，你需要将 "http-post-form" 改为 "**https-post-form"**
 
-### **HTTP - CMS --** (W)ordpress, (J)oomla or (D)rupal or (M)oodle
+### **HTTP - CMS --** (W)ordpress, (J)oomla 或 (D)rupal 或 (M)oodle
 ```bash
 cmsmap -f W/J/D/M -u a -p a https://wordpress.com
 ```
 ### IMAP
 
-IMAP（Internet Mail Access Protocol）是一种用于接收电子邮件的协议。它允许用户通过电子邮件客户端从邮件服务器上下载邮件。IMAP与POP3类似，但具有更多的功能和灵活性。
+IMAP（Internet Mail Access Protocol）是一种用于接收电子邮件的协议。它允许用户通过电子邮件客户端从邮件服务器上下载邮件。IMAP协议提供了许多功能，如在服务器上管理邮件夹、搜索邮件和同步多个设备上的邮件等。
 
-#### IMAP暴力破解
+#### 暴力破解
 
-IMAP暴力破解是一种攻击技术，通过尝试多个用户名和密码组合来破解IMAP账户的登录凭据。攻击者可以使用自动化工具来自动化这个过程，以快速地尝试大量的凭据组合。
+暴力破解是一种常见的攻击技术，用于尝试破解密码或访问受保护的系统。在IMAP中，暴力破解可以用于尝试破解用户的登录凭据，以获取对其电子邮件的访问权限。
 
-以下是一些常用的IMAP暴力破解工具：
+暴力破解通常涉及使用自动化工具来尝试大量的可能密码组合，直到找到正确的密码为止。攻击者可以使用常见的密码字典、暴力破解软件或自定义脚本来执行这种攻击。
 
-- Hydra：一个强大的网络登录破解工具，支持多种协议，包括IMAP。
-- Medusa：一个快速、可靠的网络登录破解工具，也支持IMAP协议。
-- Ncrack：一款高度可配置的网络认证破解工具，支持多种协议，包括IMAP。
-
-IMAP暴力破解是一种常见的攻击技术，但它可能会受到账户锁定、IP封锁和其他安全措施的限制。因此，在进行IMAP暴力破解之前，攻击者应该评估目标系统的安全性，并采取适当的防范措施来减轻风险。
+为了防止暴力破解攻击，用户应该选择强密码，并启用账户锁定功能，以限制登录尝试次数。此外，系统管理员可以使用入侵检测系统（IDS）或入侵防御系统（IPS）来监视和阻止暴力破解攻击。
 ```bash
 hydra -l USERNAME -P /path/to/passwords.txt -f <IP> imap -V
 hydra -S -v -l USERNAME -P /path/to/passwords.txt -s 993 -f <IP> imap -V
@@ -350,108 +330,39 @@ nmap -sV --script imap-brute -p <PORT> <IP>
 
 IRC（Internet Relay Chat）是一种实时的互联网聊天协议。它允许用户通过IRC客户端在各种主题的聊天室中进行交流。IRC是一种非常古老的协议，但仍然被广泛使用。
 
-#### 基本概念
+### 暴力破解
 
-- **IRC服务器**：提供IRC服务的计算机。
-- **IRC客户端**：用于连接到IRC服务器的应用程序或工具。
-- **IRC聊天室**：由主题或兴趣组织的虚拟聊天室，用户可以在其中交流。
-- **IRC频道**：在IRC聊天室中的特定讨论区域。
-- **IRC操作员**：负责管理IRC服务器和聊天室的用户。
+暴力破解是一种常见的密码破解技术，它通过尝试所有可能的密码组合来获取未授权访问。这种方法通常用于攻击弱密码保护的系统。暴力破解可以使用各种工具和脚本来自动化执行。
 
-#### 连接到IRC服务器
+### 暴力破解IRC
 
-要连接到IRC服务器，您需要使用IRC客户端。以下是一些常用的IRC客户端：
-
-- **mIRC**：适用于Windows的流行IRC客户端。
-- **HexChat**：适用于Windows和Linux的免费IRC客户端。
-- **Irssi**：适用于Linux和Unix的命令行IRC客户端。
-
-#### IRC聊天室和频道
-
-一旦连接到IRC服务器，您可以加入不同的聊天室和频道。要加入聊天室，您需要知道聊天室的名称。例如，要加入名为“#hackers”的聊天室，您可以使用以下命令：
-
-```
-/join #hackers
-```
-
-一旦加入聊天室，您可以在其中与其他用户进行交流。要加入聊天室中的特定频道，您可以使用以下命令：
-
-```
-/join #hackers-101
-```
-
-#### IRC命令
-
-IRC客户端支持各种命令，用于与IRC服务器和其他用户进行交互。以下是一些常用的IRC命令：
-
-- **/join**：加入聊天室或频道。
-- **/part**：离开聊天室或频道。
-- **/nick**：更改您的昵称。
-- **/msg**：向其他用户发送私人消息。
-- **/whois**：获取有关其他用户的信息。
-- **/list**：列出可用的聊天室。
-
-#### IRC安全性
-
-由于IRC是一个开放的协议，因此存在一些安全风险。以下是一些保护您的IRC会话的建议：
-
-- 使用SSL或TLS加密连接到IRC服务器。
-- 不要在IRC上共享敏感信息。
-- 谨慎点击通过IRC发送的链接。
-- 避免下载通过IRC发送的文件。
-
-#### 总结
-
-IRC是一种实时的互联网聊天协议，允许用户在聊天室中进行交流。通过使用IRC客户端，您可以连接到IRC服务器并加入不同的聊天室和频道。请注意保护您的IRC会话以确保安全性。
+暴力破解IRC是一种尝试破解IRC账户密码的攻击方法。攻击者使用暴力破解工具来尝试所有可能的密码组合，直到找到正确的密码为止。这种攻击方法通常需要大量的计算资源和时间，因为IRC服务器通常会实施一些安全措施来防止暴力破解攻击。
 ```bash
 nmap -sV --script irc-brute,irc-sasl-brute --script-args userdb=/path/users.txt,passdb=/path/pass.txt -p <PORT> <IP>
 ```
 ### ISCSI
 
-iSCSI（Internet Small Computer System Interface）是一种用于在IP网络上传输SCSI命令的协议。它允许计算机通过网络连接到远程存储设备，就像它们直接连接到本地存储设备一样。iSCSI使用TCP/IP协议来提供远程存储访问，并通过将SCSI命令封装在TCP/IP数据包中来实现。
+iSCSI（Internet Small Computer System Interface）是一种用于在IP网络上传输SCSI命令的协议。它允许计算机通过网络连接到远程存储设备，就像它们直接连接到本地存储设备一样。iSCSI使用TCP/IP协议来提供远程存储访问，并通过将SCSI命令封装在IP数据包中来实现数据传输。
 
-iSCSI的工作原理是将SCSI命令从主机发送到远程存储设备，然后将响应从存储设备发送回主机。这种远程存储访问的方式使得主机可以利用远程存储设备的容量和性能，而无需直接连接到它们。
+iSCSI的工作原理是通过在本地计算机和远程存储设备之间建立逻辑连接。本地计算机将SCSI命令发送到远程存储设备，远程存储设备执行这些命令并将结果返回给本地计算机。这种远程存储访问的方式使得计算机可以利用远程存储设备的容量和性能，而无需直接连接到它们。
 
-iSCSI的安全性可以通过使用IPsec或SSL/TLS等加密协议来增强。这些协议可以确保数据在传输过程中的机密性和完整性。
+iSCSI的一种常见用途是在虚拟化环境中使用。通过将虚拟机的磁盘映像存储在远程存储设备上，可以实现虚拟机的迁移和高可用性。此外，iSCSI还可以用于备份和存档，以及在分布式存储系统中实现数据共享。
 
-在渗透测试中，可以使用iSCSI协议进行暴力破解攻击。暴力破解是一种尝试使用各种可能的密码组合来破解目标系统的方法。对于iSCSI，可以使用暴力破解工具来尝试猜测iSCSI目标的用户名和密码，以获取对远程存储设备的访问权限。
-
-暴力破解攻击是一种常见的攻击方法，因此在使用iSCSI协议时，应采取适当的安全措施来防止此类攻击。这包括使用强密码、启用账户锁定机制、限制登录尝试次数等。
+尽管iSCSI提供了方便的远程存储访问，但它也存在一些安全风险。攻击者可以使用暴力破解等技术来尝试破解iSCSI的身份验证机制，并获取未经授权的访问权限。因此，在部署iSCSI时，必须采取适当的安全措施，如使用强密码、启用身份验证和访问控制等。
 ```bash
 nmap -sV --script iscsi-brute --script-args userdb=/var/usernames.txt,passdb=/var/passwords.txt -p 3260 <IP>
 ```
 ### JWT
 
-JSON Web Token（JWT）是一种用于在网络应用之间传递信息的开放标准（RFC 7519）。它使用JSON对象作为安全令牌，以便在发送方和接收方之间传递声明。JWT通常用于身份验证和授权。它由三个部分组成：头部，载荷和签名。
+JSON Web Token（JWT）是一种用于在网络应用之间传递信息的开放标准（RFC 7519）。它使用JSON对象作为安全令牌，以便在发送方和接收方之间传递声明。这些声明可以被验证和信任，因为它们是使用数字签名进行加密的。
 
-#### 头部（Header）
+JWT通常由三个部分组成：头部（Header）、载荷（Payload）和签名（Signature）。头部包含了令牌的类型和所使用的加密算法。载荷包含了要传递的声明信息，例如用户的身份信息。签名用于验证令牌的完整性和真实性。
 
-头部通常由两部分组成：令牌的类型（即JWT）和所使用的签名算法（例如HMAC SHA256或RSA）。头部以Base64编码的形式出现。
+攻击者可以使用暴力破解（Brute Force）技术来尝试破解JWT令牌的签名。暴力破解是一种通过尝试所有可能的组合来破解密码或令牌的方法。攻击者可以使用字典文件或自动生成的密码来尝试破解JWT令牌的签名，以获取未经授权的访问权限。
 
-#### 载荷（Payload）
+为了防止暴力破解攻击，开发人员应该采取一些预防措施。首先，使用强大的密码和密钥来加密JWT令牌的签名。其次，限制登录尝试次数，并在一定次数的失败尝试后锁定账户。最后，监控登录活动并及时发现异常行为。
 
-载荷包含声明，声明是关于实体（通常是用户）和其他数据的声明。有三种类型的声明：注册声明，公共声明和私有声明。载荷以Base64编码的形式出现。
-
-#### 签名（Signature）
-
-签名是使用头部和载荷中的数据以及一个密钥生成的哈希值。它用于验证消息的完整性和身份验证。签名通常使用密钥（对称加密）或私钥（非对称加密）生成。
-
-#### 使用JWT进行暴力破解
-
-暴力破解是一种尝试所有可能的组合来破解密码或令牌的方法。对于JWT，暴力破解可以尝试不同的载荷和签名组合，以找到有效的令牌。这可以通过编写脚本或使用专门的工具来实现。
-
-#### 防御措施
-
-为了防止JWT被暴力破解，可以采取以下措施：
-
-- 使用强密码：选择一个强密码作为密钥，以增加破解的难度。
-- 使用长密钥：使用更长的密钥长度，增加破解的复杂性。
-- 限制尝试次数：限制尝试次数，例如通过实施登录锁定机制或增加延迟时间。
-- 使用JWT库：使用受信任的JWT库，以确保实现的安全性和正确性。
-
-#### 结论
-
-JWT是一种常用的身份验证和授权机制，但它也可能受到暴力破解的威胁。通过采取适当的防御措施，可以增加JWT的安全性，从而保护应用程序和用户的数据。
+总之，JWT是一种用于在网络应用之间传递信息的安全令牌。然而，开发人员应该意识到暴力破解攻击可能存在，并采取相应的预防措施来保护JWT令牌的安全性。
 ```bash
 #hashcat
 hashcat -m 16500 -a 0 jwt.txt .\wordlists\rockyou.txt
@@ -478,22 +389,15 @@ jwt-cracker "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibm
 
 LDAP（轻量级目录访问协议）是一种用于访问和维护分布式目录服务的协议。它允许客户端通过网络连接到目录服务器，并执行各种操作，如搜索、添加、修改和删除目录条目。
 
-LDAP暴力破解是一种攻击技术，通过尝试多个可能的用户名和密码组合来破解LDAP身份验证。这种攻击方法通常用于获取未经授权的访问权限，从而获取目录中的敏感信息。
+LDAP是一种常见的协议，用于管理用户和组织的身份验证和授权信息。它通常用于企业环境中的身份验证和访问控制，以及电子邮件和其他应用程序中的用户帐户管理。
 
-以下是一些常用的LDAP暴力破解工具和技术：
+LDAP协议的一个重要特点是它支持基于用户名和密码的身份验证。这使得攻击者可以使用暴力破解技术来尝试猜测用户的密码。暴力破解是一种通过尝试所有可能的密码组合来破解密码的方法。
 
-- Hydra：一种流行的暴力破解工具，可用于破解LDAP身份验证。
-- Medusa：另一种功能强大的暴力破解工具，支持多种协议，包括LDAP。
-- 字典攻击：使用预先生成的密码列表进行暴力破解尝试。
-- 基于规则的攻击：使用规则和模式生成密码组合，以增加破解成功的几率。
+攻击者可以使用各种工具和技术来进行LDAP暴力破解攻击。这些工具可以自动化密码猜测过程，并尝试使用不同的用户名和密码组合来登录目标LDAP服务器。
 
-在执行LDAP暴力破解时，需要注意以下几点：
+为了防止LDAP暴力破解攻击，目标LDAP服务器应该实施一些安全措施，如限制登录尝试次数、使用强密码策略和启用账户锁定功能。此外，使用多因素身份验证可以提供额外的安全层级，以防止未经授权的访问。
 
-- 使用强密码：使用复杂、随机和长密码可以增加破解的难度。
-- 锁定策略：实施锁定策略，限制登录尝试次数，以防止暴力破解攻击。
-- 监控日志：监控LDAP服务器的登录日志，及时发现和应对暴力破解攻击。
-
-请注意，暴力破解是一种非法活动，仅限于合法的渗透测试和授权的安全审计。在进行任何形式的攻击之前，请确保获得适当的授权和法律许可。
+作为安全专业人员，我们应该了解LDAP暴力破解攻击的原理和方法，并采取适当的措施来保护目标系统免受此类攻击的影响。
 ```bash
 nmap --script ldap-brute -p 389 <IP>
 ```
@@ -501,100 +405,65 @@ nmap --script ldap-brute -p 389 <IP>
 
 MQTT（Message Queuing Telemetry Transport）是一种轻量级的消息传输协议，通常用于物联网设备之间的通信。它基于发布-订阅模式，允许设备通过中间代理（broker）进行消息的发布和订阅。
 
-#### Brute Force
+MQTT协议使用TCP/IP协议栈进行通信，并具有低带宽和低功耗的特点。它适用于网络带宽有限的环境，如传感器网络和移动设备。
 
-暴力破解是一种常见的攻击技术，用于尝试猜测密码或凭据。对于MQTT，暴力破解可以用于尝试猜测设备的用户名和密码，以获取未经授权的访问权限。
+MQTT协议的安全性取决于所使用的认证和加密机制。在实施MQTT时，应考虑使用安全的认证方式，如用户名和密码，以及使用TLS/SSL进行数据加密。
 
-以下是一些常见的MQTT暴力破解方法：
+攻击者可以利用MQTT协议的弱点进行攻击，如使用暴力破解（brute force）方法尝试猜解用户名和密码，或者通过中间人攻击（man-in-the-middle）窃取传输的数据。
 
-1. 字典攻击：使用预先准备好的密码字典尝试猜测密码。这种方法依赖于设备使用弱密码或常见密码的可能性。
+为了保护MQTT通信的安全性，应采取以下措施：
 
-2. 暴力破解工具：使用专门设计的暴力破解工具，如Hydra或Medusa，对MQTT进行暴力破解。这些工具可以自动化猜测用户名和密码的过程，并尝试多种组合。
+- 使用强密码和用户名，避免使用默认凭据；
+- 启用TLS/SSL加密，确保数据在传输过程中的机密性；
+- 限制连接到MQTT代理的设备数量，以防止资源耗尽和拒绝服务攻击；
+- 定期更新MQTT代理和设备的软件版本，以修复已知的安全漏洞；
+- 监控MQTT通信，及时检测异常活动和潜在的攻击。
 
-为了防止MQTT暴力破解攻击，建议采取以下措施：
-
-1. 使用强密码：确保设备使用强密码，包括字母、数字和特殊字符的组合。避免使用常见密码或默认密码。
-
-2. 限制登录尝试次数：通过设置登录尝试次数限制，可以防止攻击者使用暴力破解工具进行大量的尝试。
-
-3. 使用安全认证机制：使用TLS/SSL等安全认证机制，加密MQTT通信，防止密码被窃取。
-
-4. IP过滤：限制允许连接到MQTT代理的IP地址，只允许受信任的设备进行连接。
-
-5. 监控和日志记录：定期监控MQTT代理的登录活动，并记录登录尝试和失败的登录。这样可以及时发现暴力破解攻击，并采取相应的措施。
-
-请注意，暴力破解是一种非法行为，在未经授权的情况下使用暴力破解工具进行攻击是违法的。本书仅提供有关暴力破解的信息，以帮助安全专业人员了解和防范此类攻击。
+通过采取这些措施，可以增强MQTT通信的安全性，保护物联网设备和数据的机密性和完整性。
 ```
 ncrack mqtt://127.0.0.1 --user test –P /root/Desktop/pass.txt -v
 ```
 ### Mongo
 
-Mongo是一个流行的NoSQL数据库，它使用文档模型来存储数据。在渗透测试中，Brute Force攻击是一种常见的方法，用于尝试猜测Mongo数据库的凭据并获取未授权访问。
+Mongo是一种流行的NoSQL数据库，常用于存储大量非结构化数据。由于其广泛的应用，Mongo成为黑客攻击的目标之一。在渗透测试中，使用暴力破解是一种常见的攻击方法，用于尝试破解Mongo数据库的凭据。
 
-#### 基本原理
+暴力破解是一种通过尝试所有可能的组合来破解密码的方法。对于Mongo数据库，黑客可以使用暴力破解工具来尝试不同的用户名和密码组合，直到找到正确的凭据。这种攻击方法的成功取决于密码的复杂性和强度。
 
-Brute Force攻击的基本原理是通过尝试所有可能的组合来猜测凭据。对于Mongo数据库，这意味着尝试不同的用户名和密码组合，直到找到正确的凭据为止。
+为了保护Mongo数据库免受暴力破解攻击，以下是一些建议的安全措施：
 
-#### 工具和技术
+1. 使用强密码：确保Mongo数据库的凭据使用强密码，包括大写字母、小写字母、数字和特殊字符的组合。避免使用常见的密码，如"password"或"123456"。
 
-以下是一些常用的工具和技术，可用于执行Mongo数据库的Brute Force攻击：
+2. 实施访问控制：限制对Mongo数据库的访问权限，只允许授权用户访问。使用角色和权限来管理用户的访问级别，并定期审查和更新访问控制策略。
 
-- Hydra：一种强大的网络登录破解工具，可用于尝试不同的用户名和密码组合。
-- Nmap：一种网络扫描工具，可用于发现Mongo数据库的开放端口。
-- Metasploit：一种渗透测试框架，提供了用于执行Brute Force攻击的模块。
+3. 启用身份验证：确保Mongo数据库启用了身份验证功能，要求用户在访问数据库之前进行身份验证。这可以防止未经授权的访问。
 
-#### 实施步骤
+4. 监控登录尝试：监控Mongo数据库的登录尝试，包括失败的尝试。通过监控登录活动，可以及时检测到暴力破解攻击，并采取相应的措施。
 
-以下是执行Mongo数据库Brute Force攻击的一般步骤：
+5. 更新和维护：定期更新Mongo数据库的软件和补丁，以修复已知的安全漏洞。同时，定期进行数据库备份，以防止数据丢失。
 
-1. 使用Nmap扫描目标网络，以查找开放的Mongo数据库端口。
-2. 使用Hydra工具尝试不同的用户名和密码组合，直到找到正确的凭据。
-3. 如果Hydra无法成功破解凭据，可以尝试使用Metasploit框架中的模块执行Brute Force攻击。
-
-#### 防御措施
-
-为了防止Mongo数据库的Brute Force攻击，可以采取以下措施：
-
-- 使用强密码：确保Mongo数据库的凭据使用强密码，包括字母、数字和特殊字符的组合。
-- 实施账户锁定：在一定的失败尝试次数后，暂时锁定账户，以防止连续的Brute Force攻击。
-- 使用IP白名单：限制只有特定IP地址可以访问Mongo数据库，以减少未授权访问的风险。
-
-#### 结论
-
-Mongo数据库的Brute Force攻击是一种常见的渗透测试方法，用于尝试猜测凭据并获取未授权访问。通过使用适当的工具和技术，以及采取适当的防御措施，可以减少Mongo数据库的Brute Force攻击的风险。
+通过采取这些安全措施，可以增强Mongo数据库的安全性，减少暴力破解攻击的风险。然而，作为黑客，我们应该始终保持警惕，并持续学习和了解最新的安全威胁和防御技术。
 ```bash
 nmap -sV --script mongodb-brute -n -p 27017 <IP>
 use auxiliary/scanner/mongodb/mongodb_login
 ```
 ### MySQL
 
-MySQL是一种流行的关系型数据库管理系统，常用于Web应用程序和其他数据驱动的应用程序中。MySQL使用SQL语言进行查询和管理数据。
+MySQL是一种流行的关系型数据库管理系统，广泛用于Web应用程序和其他数据驱动的应用程序中。MySQL使用SQL语言进行查询和管理数据。
 
-#### 暴力破解MySQL密码
+#### 暴力破解
 
-暴力破解是一种尝试所有可能的密码组合来破解目标系统的方法。以下是一些常用的暴力破解MySQL密码的方法：
+暴力破解是一种常见的攻击技术，用于尝试破解密码或访问受保护的系统。在MySQL中，暴力破解可以用于尝试猜测数据库用户的密码，以获取未经授权的访问权限。
 
-1. 字典攻击：使用预先准备好的密码字典来尝试破解密码。这些字典通常包含常见的密码和常用的单词组合。
+暴力破解通常涉及使用自动化工具或脚本来尝试大量的可能密码组合，直到找到正确的密码为止。攻击者可以使用常见的密码列表、字典文件或生成的密码组合来进行暴力破解。
 
-2. 暴力破解工具：使用专门设计的暴力破解工具，如Hydra或Medusa，来自动化密码破解过程。这些工具可以通过尝试不同的密码组合来快速破解密码。
+为了防止暴力破解攻击，MySQL管理员可以采取以下措施：
 
-3. 弱密码检测：使用密码强度分析工具，如John the Ripper或Hashcat，来检测弱密码。这些工具可以分析密码的强度，并提供改进密码安全性的建议。
+- 使用强密码策略，要求用户设置复杂的密码。
+- 启用账户锁定功能，限制登录尝试次数。
+- 监控登录活动，检测异常登录尝试。
+- 使用防火墙或网络入侵检测系统来阻止暴力破解攻击。
 
-#### 防御暴力破解
-
-为了防止暴力破解攻击，可以采取以下措施：
-
-1. 强密码策略：使用复杂的密码，并定期更改密码。密码应包含大小写字母、数字和特殊字符，并且不应与个人信息相关联。
-
-2. 账户锁定：在一定的失败尝试次数后，锁定账户一段时间，以防止暴力破解攻击。
-
-3. 使用双因素身份验证：通过使用双因素身份验证，如短信验证码或硬件令牌，增加账户的安全性。
-
-4. IP限制：限制允许访问MySQL服务器的IP地址范围，以防止未经授权的访问。
-
-5. 定期更新和维护：及时安装MySQL的安全补丁，并定期审查和更新数据库的安全设置。
-
-请注意，暴力破解是一种非法行为，在未经授权的情况下使用这些技术可能会导致法律后果。
+尽管暴力破解是一种有效的攻击技术，但它通常需要大量时间和计算资源。因此，使用强密码和其他安全措施可以大大降低暴力破解的成功率。
 ```bash
 # hydra
 hydra -L usernames.txt -P pass.txt <IP> mysql
@@ -605,35 +474,37 @@ msf> use auxiliary/scanner/mysql/mysql_login; set VERBOSE false
 # medusa
 medusa -h <IP/Host> -u <username> -P <password_list> <-f | to stop medusa on first success attempt> -t <threads> -M mysql
 ```
-### OracleSQL
+# Brute Force
 
-OracleSQL是一种用于管理Oracle数据库的编程语言。它可以用于执行各种数据库操作，如查询、插入、更新和删除数据。在黑客攻击中，OracleSQL可以用于暴力破解攻击，即尝试使用不同的用户名和密码组合来登录到目标数据库。
+Brute force is a common method used in penetration testing to crack passwords or gain unauthorized access to systems. It involves systematically trying every possible combination of characters until the correct password is found.
 
-#### 暴力破解Oracle数据库
+## Brute Force Attacks on Oracle SQL
 
-暴力破解Oracle数据库的过程包括以下步骤：
+Brute force attacks on Oracle SQL involve attempting to guess the username and password combination for an Oracle database. This can be done by using automated tools that systematically try different combinations of usernames and passwords until a successful login is achieved.
 
-1. 枚举用户名：使用字典或常见用户名列表来尝试登录到目标数据库。可以使用工具如Hydra或Metasploit来自动化这个过程。
+## Tools for Brute Force Attacks on Oracle SQL
 
-2. 枚举密码：对于每个有效的用户名，使用字典或常见密码列表来尝试登录。同样，可以使用工具来自动化这个过程。
+There are several tools available for conducting brute force attacks on Oracle SQL. Some popular ones include:
 
-3. 破解成功：如果找到了有效的用户名和密码组合，就可以成功登录到目标数据库。
+- **Hydra**: A powerful command-line tool that supports multiple protocols, including Oracle SQL. It allows for the customization of attack parameters and can be used to automate the brute force process.
 
-#### 防御措施
+- **Metasploit**: A widely-used penetration testing framework that includes a module for Oracle SQL brute forcing. It provides a user-friendly interface and allows for the customization of attack parameters.
 
-为了防止暴力破解攻击，可以采取以下措施：
+- **Nmap**: A versatile network scanning tool that can also be used for brute forcing Oracle SQL. It has built-in scripts that can automate the process and provide valuable information about the target system.
 
-1. 强密码策略：确保数据库用户使用强密码，包括大写字母、小写字母、数字和特殊字符的组合。
+## Mitigating Brute Force Attacks on Oracle SQL
 
-2. 账户锁定：在一定的登录尝试失败次数后，自动锁定账户，以防止进一步的暴力破解尝试。
+To protect against brute force attacks on Oracle SQL, it is important to implement strong security measures. Some recommended practices include:
 
-3. 日志监控：监控登录尝试并记录日志，以便及时发现和应对暴力破解攻击。
+- **Enforce strong passwords**: Encourage users to choose complex passwords that are difficult to guess. Implement password complexity requirements and enforce regular password changes.
 
-4. 多因素身份验证：使用多因素身份验证来增加登录的安全性，例如使用令牌或生物识别。
+- **Implement account lockout policies**: Set up account lockout policies that temporarily lock user accounts after a certain number of failed login attempts. This can help prevent brute force attacks by slowing down the attacker's progress.
 
-5. 定期更新密码：要求用户定期更改密码，以防止已泄露的密码被滥用。
+- **Monitor and analyze logs**: Regularly monitor and analyze logs for any suspicious activity, such as multiple failed login attempts from the same IP address. This can help identify and mitigate brute force attacks in real-time.
 
-请注意，暴力破解是一种非法活动，在未经授权的情况下进行暴力破解是违法的。这些信息仅供教育和安全研究目的使用。
+- **Use two-factor authentication**: Implement two-factor authentication for Oracle SQL logins. This adds an extra layer of security by requiring users to provide a second form of authentication, such as a code sent to their mobile device, in addition to their username and password.
+
+By following these best practices, organizations can significantly reduce the risk of successful brute force attacks on Oracle SQL databases.
 ```bash
 patator oracle_login sid=<SID> host=<IP> user=FILE0 password=FILE1 0=users-oracle.txt 1=pass-oracle.txt -x ignore:code=ORA-01017
 
@@ -663,75 +534,34 @@ pip3 install cx_Oracle --upgrade
 ```bash
 nmap -p1521 --script oracle-brute-stealth --script-args oracle-brute-stealth.sid=DB11g -n 10.11.21.30
 ```
-### POP
+Brute force is a common method used in hacking to gain unauthorized access to a system or account by systematically trying all possible combinations of passwords until the correct one is found. This method is often used when other methods, such as social engineering or exploiting vulnerabilities, are not successful.
 
-POP（Post Office Protocol）是一种用于接收电子邮件的协议。它允许用户从邮件服务器上下载邮件到本地设备。POP通常使用TCP端口110进行通信。
+Brute force attacks can be time-consuming and resource-intensive, especially if the password being targeted is long and complex. However, with the help of powerful computers and specialized software, attackers can automate the process and significantly speed up the attack.
 
-#### POP暴力破解
+There are several tools available for conducting brute force attacks, such as Hydra, Medusa, and John the Ripper. These tools allow attackers to specify the target system or account, the password list to be used, and other parameters to customize the attack.
 
-POP暴力破解是一种攻击技术，通过尝试多个可能的用户名和密码组合来破解POP账户的访问凭据。攻击者可以使用自动化工具来快速尝试大量的用户名和密码，直到找到正确的组合为止。
+To protect against brute force attacks, it is important to use strong and unique passwords that are not easily guessable. Additionally, implementing account lockout policies, where an account is temporarily locked after a certain number of failed login attempts, can help mitigate the risk of brute force attacks.
 
-#### POP暴力破解的防御措施
-
-为了防止POP账户被暴力破解，可以采取以下措施：
-
-- 使用强密码：选择一个复杂且难以猜测的密码，包括字母、数字和特殊字符。
-- 启用账户锁定：在一定的失败尝试次数后，暂时锁定账户，以防止攻击者继续尝试破解。
-- 使用多因素身份验证：通过使用额外的身份验证因素，如手机验证码或指纹识别，增加账户的安全性。
-- 定期更改密码：定期更改密码可以减少被破解的风险。
-
-#### POP暴力破解的风险
-
-POP暴力破解可能导致以下风险：
-
-- 被盗取的账户信息：如果攻击成功，攻击者可以访问受害者的邮件，可能获取敏感信息。
-- 账户滥用：攻击者可以使用破解的账户发送垃圾邮件、传播恶意软件或进行其他非法活动。
-- 影响声誉：如果攻击者使用破解的账户发送垃圾邮件或进行其他恶意活动，可能会损害受害者的声誉。
-
-#### 总结
-
-POP是一种用于接收电子邮件的协议，但它也可能成为攻击者的目标。为了保护POP账户的安全，用户应该采取适当的防御措施，如使用强密码、启用账户锁定和使用多因素身份验证。此外，定期更改密码也是减少POP暴力破解风险的一种方法。
+In conclusion, brute force attacks are a common and effective method used by hackers to gain unauthorized access to systems or accounts. By understanding how these attacks work and implementing appropriate security measures, individuals and organizations can better protect themselves against this type of threat.
 ```bash
 hydra -l USERNAME -P /path/to/passwords.txt -f <IP> pop3 -V
 hydra -S -v -l USERNAME -P /path/to/passwords.txt -s 995 -f <IP> pop3 -V
 ```
 ### PostgreSQL
 
-PostgreSQL是一种开源的关系型数据库管理系统（RDBMS），它提供了高度可靠性和可扩展性的数据存储解决方案。它支持广泛的数据类型和功能，包括事务处理、并发控制和多版本并发控制（MVCC）。PostgreSQL还提供了强大的安全性功能，如访问控制和数据加密。
+PostgreSQL是一种强大的开源关系型数据库管理系统。它具有可扩展性和灵活性，被广泛用于各种应用程序和网站。
 
-#### 强制入侵
+#### 暴力破解
 
-对于PostgreSQL数据库的强制入侵，可以使用以下方法之一：
+暴力破解是一种常见的攻击技术，用于尝试破解密码或访问受保护的系统。对于PostgreSQL数据库，暴力破解可以用于尝试猜测数据库用户的密码。
 
-1. 字典攻击：使用常见的用户名和密码组合进行暴力破解。可以使用工具如Hydra或Medusa来自动化这个过程。
+暴力破解的基本原理是通过尝试不同的密码组合来破解目标系统。攻击者可以使用各种工具和脚本来自动化这个过程，以提高破解的效率。
 
-2. 弱密码攻击：使用常见的弱密码列表进行暴力破解。可以使用工具如John the Ripper或Hashcat来破解密码哈希。
+为了防止暴力破解攻击，PostgreSQL提供了一些安全措施，如密码策略和账户锁定。管理员可以配置密码策略来要求用户使用强密码，并设置账户锁定策略来限制登录尝试次数。
 
-3. SQL注入：通过构造恶意的SQL查询来绕过身份验证并获取数据库访问权限。
+然而，暴力破解仍然是一种有效的攻击技术，因此管理员应该采取额外的措施来保护数据库。这包括监控登录尝试、使用防火墙限制访问和定期更新数据库软件以修复安全漏洞。
 
-4. 操作系统漏洞：利用操作系统上的漏洞来获取对数据库的访问权限。
-
-#### 防御措施
-
-为了保护PostgreSQL数据库免受强制入侵的威胁，可以采取以下措施：
-
-1. 使用强密码：确保为数据库设置强密码，并定期更改密码。
-
-2. 实施访问控制：限制对数据库的访问权限，并仅允许授权用户进行操作。
-
-3. 更新和修补：定期更新和修补PostgreSQL软件和操作系统，以修复已知的漏洞。
-
-4. 审计日志：启用和监视数据库的审计日志，以便及时检测和响应任何可疑活动。
-
-5. 加密通信：使用SSL/TLS协议对数据库的通信进行加密，以防止数据被窃取或篡改。
-
-6. 安全备份：定期备份数据库，并将备份存储在安全的位置，以便在发生数据丢失或损坏时进行恢复。
-
-7. 最小权限原则：为每个用户分配最小必要的权限，以减少潜在的攻击面。
-
-8. 安全审计：定期进行安全审计，以评估数据库的安全性并发现潜在的漏洞。
-
-请注意，这些措施只是保护PostgreSQL数据库免受强制入侵的一部分，其他安全措施也应该被采取。
+总之，暴力破解是一种常见的攻击技术，对于保护PostgreSQL数据库的安全至关重要。管理员应该采取适当的措施来防止和检测这种攻击，并及时采取措施来保护数据库的安全。
 ```bash
 hydra -L /root/Desktop/user.txt –P /root/Desktop/pass.txt <IP> postgres
 medusa -h <IP> –U /root/Desktop/user.txt –P /root/Desktop/pass.txt –M postgres
@@ -749,31 +579,21 @@ cat rockyou.txt | thc-pptp-bruter –u <Username> <IP>
 ```
 ### RDP
 
-RDP（远程桌面协议）是一种用于远程访问和控制计算机的协议。它允许用户通过网络连接到远程计算机，并在远程计算机上执行操作。RDP通常用于远程管理和技术支持，但也可能被黑客用于非法访问和攻击目标计算机。
+RDP（远程桌面协议）是一种用于远程访问和控制计算机的协议。它允许用户通过网络连接到远程计算机，并在远程计算机上执行操作，就像直接在本地计算机上一样。
 
-#### 暴力破解RDP密码
+#### 暴力破解
 
-暴力破解是一种尝试所有可能的密码组合来破解目标账户的方法。对于RDP，黑客可以使用暴力破解工具来尝试破解目标计算机的密码。这些工具通常会自动化密码猜测过程，并使用字典文件或生成的密码列表进行尝试。
+暴力破解是一种常见的攻击技术，用于尝试破解密码或访问受保护的系统。在RDP中，暴力破解可以用于尝试猜测有效的用户名和密码组合，以获取对远程计算机的访问权限。
 
-以下是一些常用的暴力破解RDP密码的工具：
+暴力破解攻击通常使用自动化工具，如暴力破解软件或脚本，来尝试大量的用户名和密码组合。攻击者可以使用常见的用户名和密码列表，或者使用字典攻击来尝试猜测密码。
 
-- Hydra：一个强大的暴力破解工具，支持多种协议，包括RDP。
-- Medusa：另一个流行的暴力破解工具，支持RDP和其他协议。
-- Ncrack：一个网络认证破解工具，可以用于暴力破解RDP密码。
+为了防止暴力破解攻击，建议采取以下措施：
 
-黑客可以使用这些工具来尝试破解弱密码的RDP账户。为了防止暴力破解攻击，建议使用强密码，并启用账户锁定功能，以限制登录尝试次数。
+- 使用强密码：选择复杂的密码，包括字母、数字和特殊字符，并避免使用常见的密码。
+- 启用账户锁定：在一定的失败尝试次数后，锁定账户一段时间，以防止攻击者继续尝试猜测密码。
+- 使用多因素身份验证：通过使用额外的身份验证因素，如手机验证码或指纹识别，增加对远程访问的安全性。
 
-#### 防御措施
-
-为了保护RDP免受暴力破解攻击，可以采取以下防御措施：
-
-- 使用强密码：选择一个复杂的密码，包括字母、数字和特殊字符，并定期更改密码。
-- 启用账户锁定：设置账户锁定策略，限制登录尝试次数，并在达到一定次数后锁定账户一段时间。
-- 使用多因素身份验证：通过使用多因素身份验证，可以增加对RDP账户的安全性。
-- 防火墙配置：限制对RDP端口（默认为3389）的访问，只允许受信任的IP地址连接。
-- 更新和修补：及时安装操作系统和RDP软件的安全更新和补丁，以修复已知的漏洞。
-
-通过采取这些防御措施，可以增强RDP的安全性，并减少暴力破解攻击的风险。
+请注意，暴力破解是一种非法行为，在未经授权的情况下使用此技术可能会导致法律后果。
 ```bash
 ncrack -vv --user <User> -P pwds.txt rdp://<IP>
 hydra -V -f -L <userslist> -P <passwlist> rdp://<IP>
@@ -782,35 +602,24 @@ hydra -V -f -L <userslist> -P <passwlist> rdp://<IP>
 
 Redis是一种开源的内存数据结构存储系统，常用于缓存、消息队列和实时分析等应用场景。它支持多种数据结构，如字符串、哈希表、列表、集合和有序集合，并提供了丰富的操作命令。
 
-#### 基本信息
+#### 暴力破解
 
-- 官方网站：[https://redis.io/](https://redis.io/)
-- 默认端口：6379
+暴力破解是一种常见的攻击技术，用于尝试猜测密码或密钥。对于Redis而言，暴力破解可以用于尝试猜测访问Redis服务器的密码。
 
-#### 常见弱点和攻击方法
+以下是一些常用的暴力破解方法和资源：
 
-- 弱密码：使用弱密码或默认密码，容易受到暴力破解攻击。
-- 未授权访问：未正确配置访问控制，导致未经授权的用户可以访问Redis服务器。
-- 未更新版本：未及时更新Redis版本，可能存在已知漏洞被攻击的风险。
-- 未加密通信：未启用SSL/TLS加密通信，可能导致数据被窃听或篡改。
+- 字典攻击：使用预先准备好的密码字典进行猜测。这些字典通常包含常见密码、常见单词和常见组合。
+- 弱密码检测工具：使用工具来检测弱密码，例如使用常见密码列表或基于规则的密码生成器。
+- 暴力破解工具：使用专门设计的工具，如Hydra、Medusa和Ncrack，来自动化暴力破解过程。
+- 社交工程学：通过欺骗、诱骗或操纵目标用户来获取密码或敏感信息。
 
-#### 防御措施
+在进行暴力破解时，需要注意以下几点：
 
-- 使用强密码：选择强密码，并定期更换密码。
-- 配置访问控制：限制仅允许授权用户访问Redis服务器，并禁用默认账户。
-- 及时更新版本：及时更新Redis版本，修复已知漏洞。
-- 启用SSL/TLS：启用SSL/TLS加密通信，保护数据的机密性和完整性。
+- 使用强密码：确保使用强密码来保护Redis服务器，包括使用足够长的密码、使用大小写字母、数字和特殊字符的组合，并定期更改密码。
+- 限制登录尝试次数：通过配置Redis服务器，限制登录尝试次数，例如设置最大尝试次数和锁定时间。
+- 监控登录活动：监控Redis服务器的登录活动，及时检测异常登录尝试，并采取相应的安全措施。
 
-#### 相关工具和资源
-
-- [redis-cli](https://redis.io/topics/rediscli): Redis命令行客户端，用于与Redis服务器进行交互。
-- [redis-stat](https://github.com/junegunn/redis-stat): Redis实时监控工具，用于监视Redis服务器的性能指标。
-- [redis-desktop-manager](https://redisdesktop.com/): Redis图形化管理工具，提供可视化界面管理Redis服务器。
-
-#### 参考链接
-
-- [Redis官方文档](https://redis.io/documentation)
-- [Redis安全性指南](https://redis.io/topics/security)
+了解暴力破解的方法和资源可以帮助我们更好地保护Redis服务器的安全性。
 ```bash
 msf> use auxiliary/scanner/redis/redis_login
 nmap --script redis-brute -p 6379 <IP>
@@ -818,63 +627,61 @@ hydra –P /path/pass.txt redis://<IP>:<PORT> # 6379 is the default
 ```
 ### Rexec
 
-Rexec（Remote Execution）是一种远程执行协议，用于在远程计算机上执行命令。它通常用于在网络上执行命令，而无需登录到远程计算机。Rexec协议使用TCP端口512。
+Rexec（Remote Execution）是一种用于在远程计算机上执行命令的协议。它通常用于在网络上执行命令行操作，例如在远程服务器上执行命令或脚本。Rexec协议使用明文传输，因此在使用时需要注意安全性。
 
-Rexec协议的工作原理如下：
+Rexec协议的一种常见用途是进行暴力破解攻击。暴力破解是一种通过尝试所有可能的密码组合来破解密码的方法。攻击者可以使用Rexec协议来自动化这个过程，通过不断尝试不同的密码来获取未经授权的访问权限。
 
-1. 客户端与远程计算机建立TCP连接。
-2. 客户端发送身份验证信息（用户名和密码）到远程计算机。
-3. 远程计算机验证身份信息，并返回成功或失败的响应。
-4. 如果身份验证成功，客户端发送要在远程计算机上执行的命令。
-5. 远程计算机执行命令，并将输出发送回客户端。
-6. 客户端接收并显示远程计算机的输出。
+为了进行Rexec暴力破解攻击，攻击者通常会使用专门的工具或脚本。这些工具会自动化密码猜测过程，并尝试将每个密码发送到目标服务器上进行验证。攻击者可以使用字典文件或生成的密码列表来进行暴力破解攻击。
 
-Rexec协议的安全性较低，因为它在网络上传输明文的身份验证信息。因此，建议在使用Rexec协议时采取额外的安全措施，如使用加密通道（如SSH）或使用强密码进行身份验证。
+然而，Rexec协议的使用存在一些风险。由于明文传输，攻击者可以轻松地截获传输的数据，包括密码和其他敏感信息。因此，在使用Rexec协议时，建议采取额外的安全措施，例如使用加密通信或使用更安全的协议。
 
-Rexec协议可以用于远程管理和执行命令，但由于其安全性较低，不建议在公共网络上使用。
+总结：Rexec协议是一种用于在远程计算机上执行命令的协议，常用于暴力破解攻击。然而，由于明文传输的风险，使用Rexec协议时需要注意安全性。
 ```bash
 hydra -l <username> -P <password_file> rexec://<Victim-IP> -v -V
 ```
 ### Rlogin
 
-Rlogin is a remote login protocol that allows users to log into a remote system over a network. It is commonly used in Unix-based systems. The protocol uses TCP port 513.
+Rlogin（远程登录）是一种用于在远程计算机上执行命令的协议。它允许用户通过网络连接到远程主机并登录到该主机的操作系统。Rlogin协议通常使用TCP端口513进行通信。
 
-#### Brute Forcing Rlogin
+Rlogin协议的一个常见安全问题是它的身份验证机制较弱，容易受到暴力破解攻击。攻击者可以使用暴力破解技术尝试多个用户名和密码组合，直到找到正确的凭据。这种攻击方法被称为暴力破解。
 
-To perform a brute force attack on Rlogin, you can use tools like Hydra or Medusa. These tools allow you to automate the process of trying different username and password combinations until a successful login is found.
+为了防止Rlogin协议的暴力破解攻击，可以采取以下措施：
 
-Here is an example command using Hydra:
+1. 使用强密码：确保在远程主机上设置强密码，包括字母、数字和特殊字符的组合。
 
-```plaintext
-hydra -l <username> -P <password_list> rlogin://<target_ip>
-```
+2. 锁定账户：在一定的登录尝试失败次数后，自动锁定账户，以防止攻击者继续尝试。
 
-Replace `<username>` with the target username, `<password_list>` with the path to a file containing a list of passwords, and `<target_ip>` with the IP address of the target system.
+3. 使用防火墙：配置防火墙以限制对Rlogin协议的访问，只允许来自受信任的IP地址的连接。
 
-#### Countermeasures
+4. 使用VPN：通过使用虚拟专用网络（VPN）建立安全的加密连接，可以保护Rlogin协议的通信。
 
-To protect against brute force attacks on Rlogin, you can implement the following countermeasures:
+5. 使用多因素身份验证：使用多因素身份验证可以增加登录的安全性，例如结合密码和令牌进行身份验证。
 
-1. Use strong and complex passwords that are difficult to guess.
-2. Implement account lockout policies that temporarily lock an account after a certain number of failed login attempts.
-3. Monitor and analyze log files for any suspicious login activity.
-4. Disable Rlogin if it is not necessary for your system.
-
-Remember to always obtain proper authorization before attempting any brute force attacks.
+通过采取这些措施，可以提高Rlogin协议的安全性，减少暴力破解攻击的风险。
 ```bash
 hydra -l <username> -P <password_file> rlogin://<Victim-IP> -v -V
 ```
 ### Rsh
 
-Rsh（远程shell）是一种用于在远程计算机上执行命令的协议。它允许用户通过网络连接到远程主机，并在远程主机上执行命令，就像在本地主机上一样。Rsh协议通常使用TCP端口514进行通信。
+Rsh（Remote Shell）是一种用于远程执行命令的协议。它允许用户在远程计算机上执行命令，就像在本地计算机上一样。Rsh协议通常使用TCP端口514进行通信。
 
-Rsh协议的一个常见用途是进行暴力破解攻击。暴力破解是一种尝试所有可能的密码组合来破解密码的攻击方法。攻击者可以使用Rsh协议来远程连接到目标主机，并使用自动化工具来尝试不同的用户名和密码组合，直到找到正确的凭据为止。
+Rsh协议的一个重要特点是它的身份验证机制相对较弱。通常，Rsh服务器会使用基于主机名的身份验证，这意味着只要知道目标主机的名称，就可以尝试连接并执行命令。这使得Rsh协议容易受到暴力破解攻击。
 
-然而，Rsh协议存在安全风险，因为它在网络上以明文形式传输数据，包括用户名和密码。这使得攻击者能够使用网络嗅探工具来捕获传输的数据，并获取凭据信息。为了防止这种风险，建议使用更安全的协议，如SSH（安全外壳协议），它使用加密来保护数据传输。
+暴力破解是一种通过尝试所有可能的密码组合来破解密码的攻击方法。对于Rsh协议，攻击者可以使用暴力破解工具来尝试连接到目标主机，并使用不同的用户名和密码组合进行身份验证。攻击者可以使用字典文件或生成的密码列表来加快破解速度。
 
-在进行暴力破解攻击时，攻击者可以使用各种工具和技术，如字典攻击、暴力破解工具和密码破解器。这些工具可以自动化尝试不同的密码组合，并根据不同的策略进行优化，以提高破解成功的几率。
+为了防止Rsh协议的暴力破解攻击，建议采取以下措施：
 
-暴力破解攻击是一种非常危险的攻击方法，因为它可能导致未经授权的访问和数据泄露。因此，建议在进行安全测试或授权渗透测试时，仅在合法的环境中使用这种技术，并遵守法律和道德准则。
+1. 禁用或限制Rsh协议的使用：如果不需要使用Rsh协议，最好禁用或限制其使用，以减少潜在的攻击面。
+
+2. 强化身份验证机制：使用更强大的身份验证机制，如基于公钥的身份验证，可以提高安全性并减少暴力破解的风险。
+
+3. 实施访问控制：限制可以访问Rsh服务的主机和用户，只允许授权的主机和用户连接。
+
+4. 使用防火墙：配置防火墙以限制对Rsh协议端口的访问，只允许授权的主机进行连接。
+
+5. 监控和日志记录：监控Rsh协议的使用情况，并记录所有连接尝试和身份验证失败的事件，以便及时检测和响应潜在的攻击。
+
+通过采取这些措施，可以增强Rsh协议的安全性，并减少暴力破解攻击的风险。
 ```bash
 hydra -L <Username_list> rsh://<Victim_IP> -v -V
 ```
@@ -882,82 +689,38 @@ hydra -L <Username_list> rsh://<Victim_IP> -v -V
 
 ### Rsync
 
-Rsync是一种用于文件同步和传输的开源工具。它可以在本地系统之间或本地系统与远程系统之间同步文件和目录。Rsync使用快速增量算法，只传输文件的差异部分，从而减少了传输的数据量和时间。这使得Rsync成为备份和迁移大量数据的理想选择。
+Rsync是一种用于文件同步和传输的强大工具。它可以在本地系统之间或本地系统与远程系统之间同步文件和目录。Rsync使用快速增量算法，只传输文件的变化部分，从而减少了传输的数据量和时间。
 
-Rsync可以通过SSH进行安全传输，并支持各种身份验证方法，如密码、公钥和密钥文件。它还提供了许多选项和参数，以满足不同的同步需求。Rsync还具有断点续传功能，即使在传输过程中断，也可以从断点处继续传输。
+Rsync的强大之处在于它的灵活性和可配置性。它可以通过各种选项和参数进行定制，以满足不同的需求。例如，可以使用`-a`选项来保持文件的权限和时间戳，使用`-v`选项来显示详细的传输信息，使用`-z`选项来进行压缩传输等。
 
-Rsync的一个常见用途是在云平台上进行文件同步和备份。通过Rsync，可以将本地文件同步到云存储服务（如AWS S3、Google Cloud Storage）中，或者将云存储中的文件同步到本地系统中。这为数据的安全备份和迁移提供了便利。
+然而，正如其他任何强大工具一样，Rsync也可能被滥用。攻击者可以使用Rsync进行暴力破解攻击，尝试猜测目标系统的用户名和密码。为了防止这种攻击，建议采取以下措施：
 
-要使用Rsync，可以在命令行中输入相应的命令，并指定源文件/目录和目标文件/目录。Rsync还支持使用配置文件进行更复杂的同步操作。
+- 使用强密码：选择足够复杂和难以猜测的密码，包括字母、数字和特殊字符的组合。
+- 启用账户锁定：在一定的登录尝试失败次数后，自动锁定账户，以防止暴力破解攻击。
+- 使用防火墙：限制对Rsync服务的访问，只允许来自可信IP地址的连接。
+- 更新软件：及时安装Rsync的最新版本，以修复已知的安全漏洞。
+
+通过采取这些措施，可以增强Rsync的安全性，防止被滥用进行暴力破解攻击。
 ```bash
 nmap -sV --script rsync-brute --script-args userdb=/var/usernames.txt,passdb=/var/passwords.txt -p 873 <IP>
 ```
 ### RTSP
 
-RTSP（Real-Time Streaming Protocol）是一种用于实时传输音视频数据的网络协议。它允许客户端通过发送请求来控制和获取实时流媒体数据。RTSP通常用于视频监控系统和流媒体服务器之间的通信。
+RTSP（Real-Time Streaming Protocol）是一种用于实时流媒体传输的协议。它允许客户端通过网络连接到流媒体服务器，并实时接收和播放音频或视频流。RTSP使用TCP或UDP作为传输协议，并使用RTSP命令和响应来控制流媒体的传输和播放。
 
-#### RTSP暴力破解
+### 暴力破解
 
-RTSP暴力破解是一种攻击方法，通过尝试不同的用户名和密码组合来破解RTSP服务器的访问凭证。这种攻击方法通常使用自动化工具，如Hydra或Medusa，来自动化尝试不同的凭证组合。
+暴力破解是一种常见的密码破解技术，通过尝试所有可能的密码组合来获取未授权访问。这种方法通常用于攻击弱密码保护的系统或服务。暴力破解可以使用字典攻击或穷举攻击的方式进行。
 
-#### RTSP暴力破解的步骤
+字典攻击是基于预先准备好的密码字典，逐个尝试其中的密码来破解目标系统。穷举攻击则是通过尝试所有可能的密码组合，从而找到正确的密码。这种方法需要耗费大量的时间和计算资源，因此通常用于对目标的重要性较高或价值较大的系统进行攻击。
 
-1. 收集目标信息：获取目标RTSP服务器的IP地址和端口号。
-2. 枚举用户名：使用字典文件或常见用户名列表来尝试不同的用户名。
-3. 枚举密码：使用字典文件或常见密码列表来尝试不同的密码。
-4. 进行暴力破解：使用自动化工具来尝试不同的用户名和密码组合，直到找到正确的凭证。
-5. 访问目标：一旦找到正确的凭证，攻击者可以使用这些凭证来访问RTSP服务器，并获取实时流媒体数据。
-
-#### 防御RTSP暴力破解的方法
-
-为了防止RTSP暴力破解攻击，可以采取以下措施：
-
-1. 使用强密码：确保为RTSP服务器设置强密码，包括字母、数字和特殊字符的组合。
-2. 锁定账户：在一定的尝试次数后，锁定账户，以防止攻击者继续尝试破解凭证。
-3. 使用多因素身份验证：使用多因素身份验证来增加访问RTSP服务器的安全性。
-4. 监控登录尝试：监控登录尝试并记录异常活动，以及尝试破解凭证的IP地址。
-5. 更新软件和设备：确保RTSP服务器和相关设备的软件和固件始终是最新的，以修复已知的安全漏洞。
-
-#### 总结
-
-RTSP暴力破解是一种攻击方法，通过尝试不同的用户名和密码组合来破解RTSP服务器的访问凭证。为了防止这种攻击，应采取适当的安全措施，如使用强密码、锁定账户、使用多因素身份验证等。同时，定期更新软件和设备也是保持RTSP服务器安全的重要步骤。
+为了防止暴力破解，系统管理员可以采取一些措施，如实施密码策略、使用多因素身份验证、限制登录尝试次数、监控异常登录行为等。
 ```bash
 hydra -l root -P passwords.txt <IP> rtsp
 ```
 ### SNMP
 
-SNMP（Simple Network Management Protocol）是一种用于管理和监控网络设备的协议。它允许管理员通过发送请求和接收响应来获取和修改网络设备的信息。SNMP使用基于UDP的传输层协议来进行通信。
-
-#### SNMP版本
-
-SNMP有三个主要版本：SNMPv1、SNMPv2c和SNMPv3。
-
-- SNMPv1是最早的版本，它使用明文传输数据，并且安全性较低。
-- SNMPv2c是SNMPv2的一个简化版本，它在安全性方面有所改进，但仍然存在一些漏洞。
-- SNMPv3是最新的版本，它提供了更强的安全性和认证机制，包括消息加密和用户身份验证。
-
-#### SNMP攻击
-
-由于SNMP的安全性问题，攻击者可以利用它来获取敏感信息或对网络设备进行未授权的修改。以下是一些常见的SNMP攻击技术：
-
-- 社交工程：攻击者可以通过伪装成管理员或其他信任的实体来获取SNMP凭据。
-- 字典攻击：攻击者使用字典文件中的常见凭据来尝试猜测SNMP设备的凭据。
-- 弱凭据：攻击者利用弱密码或默认凭据来访问SNMP设备。
-- SNMP漏洞利用：攻击者利用已知的SNMP漏洞来获取对设备的未授权访问。
-
-#### 防御措施
-
-为了保护网络设备免受SNMP攻击，可以采取以下防御措施：
-
-- 使用SNMPv3：使用最新的SNMP版本，以提供更强的安全性和认证机制。
-- 强密码策略：确保使用强密码来保护SNMP设备的凭据。
-- 禁用不必要的SNMP功能：只启用必要的SNMP功能，并禁用不需要的功能。
-- 定期更新设备固件：及时更新设备的固件和补丁，以修复已知的SNMP漏洞。
-- 监控和日志记录：监控SNMP活动并记录日志，以便及时检测和响应潜在的攻击。
-
-#### 参考资料
-
-- [SNMP - Wikipedia](https://en.wikipedia.org/wiki/Simple_Network_Management_Protocol)
+SNMP（Simple Network Management Protocol）是一种用于管理和监控网络设备的协议。它允许管理员通过发送请求和接收响应来获取和修改网络设备的信息。SNMP使用基于UDP的传输协议，并使用MIB（Management Information Base）来定义设备的管理信息。攻击者可以利用SNMP协议进行暴力破解攻击，尝试使用不同的凭据来登录设备并获取敏感信息。暴力破解是一种基于尝试和错误的攻击方法，攻击者通过尝试大量的用户名和密码组合来破解目标设备的登录凭据。为了防止SNMP暴力破解攻击，管理员应该采取安全措施，如使用强密码、限制登录尝试次数和启用账户锁定功能。
 ```bash
 msf> use auxiliary/scanner/snmp/snmp_login
 nmap -sU --script snmp-brute <target> [--script-args snmp-brute.communitiesdb=<wordlist> ]
@@ -966,117 +729,97 @@ hydra -P /usr/share/seclists/Discovery/SNMP/common-snmp-community-strings.txt ta
 ```
 ### SMB
 
-SMB（Server Message Block）是一种用于在计算机之间共享文件、打印机和其他资源的网络协议。它是一种客户端-服务器协议，允许客户端请求文件或其他服务，并由服务器提供响应。
+SMB（Server Message Block）是一种用于在计算机网络上共享文件、打印机和其他资源的协议。它是一种客户端-服务器协议，允许客户端请求文件或其他服务，并由服务器提供响应。SMB协议通常用于Windows操作系统之间的文件和打印机共享。
 
-#### SMB暴力破解
+### 暴力破解
 
-SMB暴力破解是一种攻击技术，通过尝试多个可能的用户名和密码组合来破解SMB服务器的凭据。攻击者可以使用自动化工具来自动化这个过程，以快速地尝试大量的凭据组合。
+暴力破解是一种常见的攻击技术，用于尝试破解密码或破解加密算法。它通过尝试所有可能的密码组合来获取未经授权的访问权限。暴力破解可以用于攻击各种系统和服务，包括操作系统、网络设备、数据库和Web应用程序。
 
-以下是一些常用的SMB暴力破解工具：
+暴力破解可以使用多种方法，包括字典攻击、穷举攻击和蛮力攻击。字典攻击使用预先准备好的密码列表进行尝试，而穷举攻击则尝试所有可能的密码组合。蛮力攻击是一种更暴力的方法，它尝试所有可能的字符组合，直到找到正确的密码。
 
-- Hydra：一个强大的多协议密码破解工具，支持SMB协议。
-- Medusa：一个快速、可靠的密码破解工具，支持SMB协议。
-- Ncrack：一款高度可配置的网络认证破解工具，支持SMB协议。
-
-为了成功进行SMB暴力破解，攻击者需要收集有关目标系统的信息，例如用户名列表、密码字典和目标IP地址。攻击者还可以使用字典生成器来生成可能的用户名和密码组合。
-
-然而，SMB暴力破解是一种资源密集型的攻击，可能需要很长时间才能成功。此外，由于SMB服务器通常会有防护措施，如账户锁定和IP封锁，攻击者可能需要采取一些措施来规避这些防护措施，例如使用代理或分布式攻击。
-
-因此，在进行SMB暴力破解时，攻击者需要谨慎操作，并确保遵守法律和道德规范。
+为了防止暴力破解攻击，可以采取一些安全措施，如使用强密码、启用账户锁定机制、限制登录尝试次数和使用多因素身份验证。此外，监控登录活动并及时检测异常行为也是重要的防御措施。
 ```bash
 nmap --script smb-brute -p 445 <IP>
 hydra -l Administrator -P words.txt 192.168.1.12 smb -t 1
 ```
 ### SMTP
 
-SMTP（Simple Mail Transfer Protocol）是一种用于在网络上发送电子邮件的协议。它是一种基于文本的协议，用于将邮件从发送者的邮件服务器传输到接收者的邮件服务器。SMTP通常使用TCP端口25进行通信。
+SMTP（Simple Mail Transfer Protocol）是一种用于电子邮件传输的标准协议。它允许电子邮件客户端发送邮件到邮件服务器，并由服务器将邮件传递给目标收件人的电子邮件服务器。SMTP通常使用TCP端口25进行通信。
 
-#### SMTP暴力破解
+#### 暴力破解
 
-SMTP暴力破解是一种攻击技术，通过尝试多个可能的用户名和密码组合来破解SMTP服务器的访问凭据。攻击者可以使用自动化工具来自动化这个过程，以快速地尝试大量的凭据组合。
+暴力破解是一种常见的攻击技术，用于尝试破解密码或访问受保护的系统。在SMTP的上下文中，暴力破解可以用于尝试猜测电子邮件账户的密码。
 
-以下是一些常用的SMTP暴力破解工具：
+暴力破解攻击通常涉及使用自动化工具，如脚本或软件，通过尝试大量可能的密码组合来破解密码。攻击者可以使用常见的密码列表、字典文件或生成的密码组合来进行尝试。
 
-- Hydra：一个强大的多协议暴力破解工具，支持SMTP等多种协议。
-- Medusa：一个快速、可靠的暴力破解工具，支持SMTP等多种协议。
-- Ncrack：一款高度可配置的网络认证破解工具，支持SMTP等多种协议。
+为了防止暴力破解攻击，建议使用强密码，并定期更改密码。此外，可以使用账户锁定机制来限制登录尝试次数，并设置登录失败的延迟时间，以增加攻击者破解密码的难度。
 
-为了防止SMTP暴力破解攻击，建议采取以下措施：
+#### 防御措施
 
-- 使用强密码：确保使用强密码来保护SMTP服务器的访问凭据。
-- 锁定账户：在一定的失败尝试次数后，锁定账户以防止进一步的暴力破解尝试。
-- 使用IP白名单：限制只有特定IP地址可以访问SMTP服务器，以减少暴力破解的风险。
+以下是一些防御措施，可帮助保护SMTP服务器免受暴力破解攻击：
 
-请注意，暴力破解是一种非法活动，在未经授权的情况下使用这些技术可能会导致法律后果。
+- 使用强密码策略：要求用户使用包含字母、数字和特殊字符的复杂密码，并定期更改密码。
+- 账户锁定：设置登录失败的尝试次数限制，并在达到限制后锁定账户一段时间。
+- 延迟登录失败：在登录失败后增加延迟时间，以防止攻击者使用自动化工具进行暴力破解。
+- 监控登录活动：定期检查登录日志，以便及时发现异常活动或多次失败的登录尝试。
+- 多因素身份验证：使用多因素身份验证来增加账户的安全性，例如使用手机验证码或硬件令牌进行身份验证。
+
+通过采取这些防御措施，可以提高SMTP服务器的安全性，并减少暴力破解攻击的成功率。
 ```bash
 hydra -l <username> -P /path/to/passwords.txt <IP> smtp -V
 hydra -l <username> -P /path/to/passwords.txt -s 587 <IP> -S -v -V #Port 587 for SMTP with SSL
 ```
 ### SOCKS
 
-SOCKS（Socket Secure）是一种网络协议，用于在客户端和服务器之间进行代理通信。它允许客户端通过代理服务器与远程服务器进行通信，从而隐藏客户端的真实IP地址。这种协议通常用于绕过防火墙限制或访问受限制的内容。
+SOCKS（Socket Secure）是一种网络协议，用于在客户端和服务器之间进行代理通信。它允许客户端通过代理服务器与目标服务器进行通信，从而隐藏客户端的真实IP地址。SOCKS协议支持TCP和UDP流量，并且可以在不同的网络层级上工作。
 
-SOCKS协议的工作方式如下：
+#### Brute Force攻击
 
-1. 客户端与代理服务器建立连接。
-2. 客户端发送请求给代理服务器，请求连接到远程服务器。
-3. 代理服务器将请求转发给远程服务器。
-4. 远程服务器响应请求，并将响应发送给代理服务器。
-5. 代理服务器将响应转发给客户端。
+Brute Force攻击是一种基于暴力破解的攻击方法，通过尝试所有可能的密码组合来获取目标系统的访问权限。在使用Brute Force攻击进行SOCKS代理服务器的破解时，攻击者会使用自动化工具来尝试不同的用户名和密码组合，直到找到正确的凭据为止。
 
-SOCKS协议支持多种版本，包括SOCKS4、SOCKS4a和SOCKS5。其中，SOCKS5是最新和最常用的版本，它提供了更多的功能和安全性。
+#### 工具和资源
 
-使用SOCKS协议进行代理通信时，可以使用各种工具和软件，如Proxifier、Proxychains和Shadowsocks等。这些工具可以配置客户端和服务器之间的代理连接，并提供加密和身份验证等功能，以增强通信的安全性和隐私性。
+以下是一些常用的工具和资源，可用于执行Brute Force攻击：
 
-尽管SOCKS协议可以用于匿名访问互联网，但它也可能被滥用用于非法活动。因此，在使用SOCKS代理时，务必遵守法律法规，并确保使用合法和道德的方式。
+- Hydra：一款强大的密码破解工具，支持多种协议和服务。
+- Medusa：一个快速、可靠的Brute Force工具，适用于多种协议。
+- Ncrack：一款高度可定制的网络认证破解工具，支持多种协议。
+- Crunch：一个用于生成密码列表的工具，可用于Brute Force攻击。
+- SecLists：一个包含各种密码和凭据列表的资源库。
+
+在执行Brute Force攻击时，需要注意以下几点：
+
+- 使用强大的密码字典：选择一个包含常见密码和变体的密码字典，以增加破解成功的几率。
+- 设置适当的延迟：为了避免被目标系统检测到，可以设置适当的延迟时间，以模拟人类的操作。
+- 使用代理：使用代理服务器可以隐藏攻击者的真实IP地址，增加匿名性和安全性。
+
+Brute Force攻击是一种强有力的攻击方法，但也需要谨慎使用。在进行任何形式的攻击之前，请确保您已经获得了合法的授权，并遵守当地法律和道德准则。
 ```bash
 nmap  -vvv -sCV --script socks-brute --script-args userdb=users.txt,passdb=/usr/share/seclists/Passwords/xato-net-10-million-passwords-1000000.txt,unpwndb.timelimit=30m -p 1080 <IP>
 ```
 ### SSH
 
-SSH（Secure Shell）是一种加密的网络协议，用于在不安全的网络中安全地进行远程登录和执行命令。SSH使用公钥加密和身份验证来保护通信的机密性和完整性。
+SSH（Secure Shell）是一种加密的网络协议，用于在不安全的网络上安全地进行远程登录和执行命令。SSH使用公钥加密和身份验证机制，确保通信的机密性和完整性。
 
-#### SSH暴力破解
+SSH暴力破解是一种攻击技术，通过尝试所有可能的密码组合来破解SSH登录凭据。这种方法通常是通过自动化工具来实现的，例如使用字典文件或生成密码的算法。
 
-SSH暴力破解是一种攻击技术，攻击者尝试使用不同的用户名和密码组合来登录目标主机的SSH服务。这种攻击方法依赖于猜测正确的凭据来获取未经授权的访问权限。
+SSH暴力破解可以是一种有效的攻击方法，特别是当目标系统使用弱密码或默认凭据时。为了防止SSH暴力破解，可以采取以下措施：
 
-#### SSH暴力破解工具
+- 使用强密码：选择足够复杂和难以猜测的密码，包括字母、数字和特殊字符的组合。
+- 使用公钥身份验证：使用公钥加密来进行身份验证，而不是依赖密码。
+- 配置登录限制：限制登录尝试次数，并设置登录延迟或锁定帐户的策略。
+- 使用防火墙：限制SSH访问仅限于受信任的IP地址范围。
+- 更新软件：确保SSH服务器和客户端软件是最新版本，以修复已知的安全漏洞。
 
-以下是一些常用的SSH暴力破解工具：
-
-- Hydra：多协议登录破解工具，支持SSH暴力破解。
-- Medusa：快速、可靠的暴力破解工具，支持SSH和其他协议。
-- Ncrack：网络认证破解工具，支持SSH和其他协议。
-
-#### 防御SSH暴力破解
-
-为了防止SSH暴力破解攻击，可以采取以下措施：
-
-- 使用强密码：选择足够复杂和难以猜测的密码。
-- 禁用root登录：禁止使用root用户登录SSH服务。
-- 使用公钥身份验证：使用公钥加密和身份验证来替代密码登录。
-- 使用防火墙：限制SSH服务的访问仅限于受信任的IP地址。
-- 使用工具进行监控：使用入侵检测系统（IDS）和入侵防御系统（IPS）来监控和阻止暴力破解尝试。
-
-#### SSH暴力破解的风险
-
-SSH暴力破解攻击可能导致以下风险：
-
-- 未经授权的访问：攻击者可以通过猜测正确的凭据来获取未经授权的访问权限。
-- 数据泄露：攻击者可以访问和窃取目标主机上的敏感数据。
-- 拒绝服务：大量的暴力破解尝试可能导致SSH服务不可用，从而导致拒绝服务（DoS）攻击。
-
-#### 总结
-
-SSH暴力破解是一种常见的攻击技术，可以通过使用强密码、禁用root登录、使用公钥身份验证、使用防火墙和监控工具等措施来防御。了解SSH暴力破解的风险可以帮助我们更好地保护我们的系统和数据安全。
+通过采取这些措施，可以增加SSH登录的安全性，减少暴力破解的风险。
 ```bash
 hydra -l root -P passwords.txt [-t 32] <IP> ssh
 ncrack -p 22 --user root -P passwords.txt <IP> [-T 5]
 medusa -u root -P 500-worst-passwords.txt -h <IP> -M ssh
 patator ssh_login host=<ip> port=22 user=root 0=/path/passwords.txt password=FILE0 -x ignore:mesg='Authentication failed'
 ```
-#### 弱SSH密钥/Debian可预测PRNG
-某些系统在生成加密材料时使用的随机种子存在已知缺陷。这可能导致密钥空间大大减少，可以使用诸如[snowdroppe/ssh-keybrute](https://github.com/snowdroppe/ssh-keybrute)之类的工具进行暴力破解。还可以使用预先生成的弱密钥集，例如[g0tmi1k/debian-ssh](https://github.com/g0tmi1k/debian-ssh)。
+#### 弱SSH密钥 / Debian可预测PRNG
+某些系统在生成加密材料时使用的随机种子存在已知缺陷。这可能导致密钥空间大大减少，可以使用诸如[snowdroppe/ssh-keybrute](https://github.com/snowdroppe/ssh-keybrute)等工具进行暴力破解。还可以使用预先生成的弱密钥集，例如[g0tmi1k/debian-ssh](https://github.com/g0tmi1k/debian-ssh)。
 
 ### SQL Server
 ```bash
@@ -1089,7 +832,19 @@ msf> use auxiliary/scanner/mssql/mssql_login #Be careful, you can block accounts
 ```
 ### Telnet
 
-Telnet是一种用于远程登录和管理计算机系统的网络协议。它允许用户通过网络连接到远程主机，并在远程主机上执行命令。Telnet协议使用明文传输数据，因此不安全，容易受到中间人攻击。由于安全性问题，现在很少使用Telnet进行远程登录，而更常见的是使用安全的SSH协议。然而，在某些情况下，仍然可以使用Telnet进行特定的测试和调试。
+Telnet是一种用于远程登录和管理计算机系统的网络协议。它允许用户通过网络连接到远程主机，并在远程主机上执行命令。Telnet协议使用明文传输数据，因此不安全，容易受到中间人攻击。黑客可以使用暴力破解技术来尝试猜测和破解Telnet登录凭据。
+
+暴力破解是一种攻击技术，黑客通过尝试所有可能的密码组合来破解登录凭据。黑客可以使用字典攻击或暴力破解工具来自动化这个过程。字典攻击是基于预先准备好的密码列表进行尝试，而暴力破解工具则尝试所有可能的密码组合。
+
+为了防止Telnet暴力破解攻击，以下是一些建议：
+
+- 禁用或限制Telnet服务，使用更安全的远程登录协议，如SSH。
+- 使用强密码，并定期更改密码。
+- 使用多因素身份验证来增加登录的安全性。
+- 监控登录尝试并设置阻止机制，例如自动锁定账户或IP地址。
+- 定期审查日志以检测异常活动。
+
+请记住，未经授权的暴力破解是非法的，只能在合法的渗透测试活动中使用。
 ```bash
 hydra -l root -P passwords.txt [-t 32] <IP> telnet
 ncrack -p 23 --user root -P passwords.txt <IP> [-T 5]
@@ -1097,39 +852,23 @@ medusa -u root -P 500-worst-passwords.txt -h <IP> -M telnet
 ```
 ### VNC
 
-VNC（Virtual Network Computing）是一种远程桌面协议，允许用户通过网络远程控制其他计算机。它通常用于远程技术支持、远程教育和远程访问计算机资源。
+VNC（Virtual Network Computing）是一种远程桌面协议，允许用户通过网络远程控制其他计算机。它使用客户端-服务器模型，其中VNC服务器在远程计算机上运行，而VNC客户端则在本地计算机上运行。通过VNC，用户可以在本地计算机上查看和操作远程计算机的桌面界面。
 
-#### VNC暴力破解
+#### 暴力破解
 
-VNC暴力破解是一种攻击方法，通过尝试不同的用户名和密码组合来破解VNC服务器的登录凭据。这种攻击方法通常使用字典攻击或暴力破解工具，如Hydra或Medusa。
+暴力破解是一种常见的攻击技术，用于破解密码或访问受保护的系统。在VNC的上下文中，暴力破解是指尝试使用各种可能的密码组合来破解VNC服务器的访问密码。攻击者可以使用自动化工具，如暴力破解软件，来尝试大量的密码组合，直到找到正确的密码为止。
 
-#### VNC暴力破解的步骤
+#### 防御措施
 
-1. 收集目标VNC服务器的信息，包括IP地址和端口号。
-2. 选择一个适当的字典文件，其中包含可能的用户名和密码组合。
-3. 使用暴力破解工具，如Hydra或Medusa，设置目标VNC服务器的IP地址、端口号和字典文件。
-4. 启动暴力破解工具，开始尝试不同的用户名和密码组合。
-5. 如果找到正确的凭据，即可成功登录目标VNC服务器。
+为了防止VNC服务器受到暴力破解攻击，可以采取以下措施：
 
-#### 防御VNC暴力破解的方法
+1. 使用强密码：选择一个强密码，包含大小写字母、数字和特殊字符，并且长度足够长。
+2. 启用账户锁定：在一定的失败尝试次数后，锁定账户一段时间，以防止攻击者继续尝试破解密码。
+3. 使用IP过滤：限制可以访问VNC服务器的IP地址范围，只允许信任的IP地址连接。
+4. 使用VPN：通过使用虚拟专用网络（VPN），可以在公共网络上建立加密的连接，增加安全性。
+5. 更新软件：定期更新VNC服务器软件，以获取最新的安全补丁和修复程序。
 
-为了防止VNC暴力破解攻击，可以采取以下措施：
-
-1. 使用强密码：选择一个复杂的密码，包含字母、数字和特殊字符，并定期更改密码。
-2. 禁用不必要的用户账户：只保留必要的用户账户，并禁用不再使用的账户。
-3. 使用防火墙：配置防火墙以限制对VNC服务器的访问，并只允许来自可信IP地址的连接。
-4. 使用VPN：通过使用虚拟专用网络（VPN）来加密VNC连接，提高安全性。
-5. 监控登录尝试：监控VNC服务器的登录尝试，并设置警报机制以便及时发现暴力破解攻击。
-
-#### VNC暴力破解的风险
-
-VNC暴力破解攻击可能导致以下风险：
-
-1. 未经授权的访问：攻击者可能成功登录目标VNC服务器，获取未经授权的访问权限。
-2. 数据泄露：攻击者可以访问和窃取存储在目标VNC服务器上的敏感数据。
-3. 恶意活动：攻击者可以在目标VNC服务器上执行恶意活动，如安装恶意软件或操纵系统设置。
-
-因此，保护VNC服务器免受暴力破解攻击至关重要，以确保系统和数据的安全性。
+通过采取这些防御措施，可以大大减少VNC服务器受到暴力破解攻击的风险。
 ```bash
 hydra -L /root/Desktop/user.txt –P /root/Desktop/pass.txt -s <PORT> <IP> vnc
 medusa -h <IP> –u root -P /root/Desktop/pass.txt –M vnc
@@ -1145,30 +884,21 @@ set PASS_FILE /usr/share/metasploit-framework/data/wordlists/passwords.lst
 ```
 ### Winrm
 
-Winrm（Windows Remote Management）是一种用于远程管理Windows系统的协议。它允许管理员通过网络远程执行命令、获取信息和配置系统。Winrm使用HTTP或HTTPS作为传输协议，并使用SOAP（Simple Object Access Protocol）作为消息格式。
+Winrm（Windows Remote Management）是一种用于远程管理Windows系统的协议。它允许管理员通过网络远程执行命令、获取系统信息和配置设置。Winrm使用HTTP或HTTPS作为传输协议，并支持基于SOAP的消息格式。
 
-#### Brute Force攻击
+#### 暴力破解
 
-Brute Force攻击是一种尝试所有可能的密码组合来破解系统的攻击方法。对于Winrm，可以使用Brute Force攻击来尝试猜测正确的用户名和密码组合，以获取对目标系统的访问权限。
+暴力破解是一种常见的攻击技术，用于尝试破解密码或访问受保护的系统。在Winrm中，暴力破解可以用于尝试猜测有效的用户名和密码组合，以获取对远程系统的访问权限。
 
-以下是一些常用的工具和技术，可用于执行Winrm的Brute Force攻击：
+暴力破解通常涉及使用自动化工具，如字典攻击或暴力破解工具，通过尝试大量的可能密码组合来破解系统。这些工具可以使用常见的密码列表、字典文件或生成的密码组合进行尝试。
 
-- Hydra：一种强大的密码破解工具，可用于尝试不同的用户名和密码组合。
-- Medusa：另一个流行的密码破解工具，支持多种协议，包括Winrm。
-- Ncrack：一种高度可配置的网络认证破解工具，可用于破解Winrm密码。
-- 自定义脚本：可以使用编程语言（如Python）编写自定义脚本来执行Brute Force攻击。
+为了防止暴力破解攻击，管理员应采取一些安全措施，如使用强密码策略、启用账户锁定功能、限制登录尝试次数等。此外，使用多因素身份验证可以提供额外的安全层级，防止未经授权的访问。
 
-在执行Winrm的Brute Force攻击时，需要注意以下几点：
-
-- 使用强大的密码字典：选择一个包含常见密码和变体的强大密码字典，以增加破解成功的机会。
-- 限制尝试次数：为了避免被目标系统检测到，可以限制每个IP地址的尝试次数，并在一定时间内进行延迟。
-- 使用代理：使用代理服务器来隐藏攻击者的真实IP地址，增加匿名性。
-
-Brute Force攻击是一种强力的攻击方法，但也需要耐心和时间。在执行Brute Force攻击时，务必遵守法律和道德规范，并获得合法的授权。
+虽然暴力破解可以是一种有效的攻击技术，但它也是一种被广泛识别和防御的攻击方法。因此，管理员应该采取适当的安全措施来保护系统免受此类攻击。
 ```bash
 crackmapexec winrm <IP> -d <Domain Name> -u usernames.txt -p passwords.txt
 ```
-![](<../.gitbook/assets/image (9) (1) (2).png>)
+<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 使用[**Trickest**](https://trickest.io/)轻松构建和自动化由全球**最先进**的社区工具提供支持的工作流程。\
 立即获取访问权限：
@@ -1211,8 +941,8 @@ hashcat.exe -m 13600 -a 0 .\hashzip.txt .\wordlists\rockyou.txt
 ```
 #### 已知明文 zip 攻击
 
-您需要知道加密的 zip 文件中包含的文件的明文（或部分明文）。您可以通过运行以下命令来检查加密的 zip 文件中包含的文件的文件名和文件大小：**`7z l encrypted.zip`**\
-从发布页面下载 [**bkcrack**](https://github.com/kimci86/bkcrack/releases/tag/v1.4.0)。
+您需要知道加密的 zip 文件中包含的文件的明文（或部分明文）。您可以通过运行以下命令来检查加密的 zip 文件中包含的文件的文件名和文件大小：`7z l encrypted.zip`\
+从发布页面下载 [**bkcrack** ](https://github.com/kimci86/bkcrack/releases/tag/v1.4.0)。
 ```bash
 # You need to create a zip file containing only the file that is inside the encrypted zip
 zip plaintext.zip plaintext.file
@@ -1226,29 +956,23 @@ unzip unlocked.zip #User new_pwd as password
 ```
 ### 7z
 
-7z是一种开源的文件压缩格式，它使用高度压缩算法来减小文件的大小。7z文件通常具有.7z文件扩展名。在渗透测试中，可以使用7z文件进行暴力破解攻击。
+7z是一种开源的压缩文件格式，也是一个用于压缩和解压缩文件的软件。它使用了高度压缩算法，可以在较小的文件大小下存储更多的数据。7z文件通常具有.7z文件扩展名。
 
-#### 7z暴力破解
+#### 暴力破解7z文件
 
-暴力破解是一种尝试所有可能的组合来破解密码的方法。对于7z文件，可以使用暴力破解工具来尝试不同的密码组合，直到找到正确的密码为止。
+暴力破解是一种破解密码的方法，通过尝试所有可能的组合来找到正确的密码。对于7z文件，我们可以使用暴力破解工具来尝试不同的密码，直到找到正确的密码为止。
 
-以下是一些常用的7z暴力破解工具：
+以下是一些常用的暴力破解工具：
 
-- **7z2hashcat**：将7z文件转换为hashcat可识别的格式，并使用hashcat进行暴力破解。
-- **7z2john**：将7z文件转换为John the Ripper可识别的格式，并使用John the Ripper进行暴力破解。
-- **fcrackzip**：用于暴力破解ZIP文件的工具，也可以用于7z文件。
+- **John the Ripper**：这是一个流行的密码破解工具，可以用于暴力破解7z文件。它支持多种密码破解技术，包括字典攻击和暴力破解。
 
-在使用这些工具进行7z暴力破解时，可以尝试不同的密码字典和密码规则，以增加破解成功的几率。
+- **Hashcat**：这是另一个功能强大的密码破解工具，可以用于暴力破解7z文件。它支持多种哈希算法和攻击模式，可以高效地破解密码。
 
-#### 防御措施
+- **BruteForcer**：这是一个专门用于暴力破解7z文件的工具。它使用了多线程和优化算法，可以快速地尝试不同的密码组合。
 
-为了防止7z文件被暴力破解，可以采取以下措施：
+在使用这些工具进行暴力破解时，我们可以使用字典文件来提高破解的效率。字典文件包含了常见的密码和短语，可以帮助我们更快地找到正确的密码。
 
-- 使用强密码：选择一个强密码，包括大写字母、小写字母、数字和特殊字符，并避免使用常见的密码。
-- 加密文件：使用7z的加密功能对文件进行加密，以增加破解的难度。
-- 限制尝试次数：设置7z文件的尝试次数限制，当达到一定次数时，文件将被锁定或删除。
-
-通过采取这些措施，可以提高7z文件的安全性，减少暴力破解的风险。
+然而，需要注意的是，暴力破解是一种耗时的过程，尤其是对于复杂的密码。因此，在进行暴力破解之前，我们应该评估破解的时间和资源成本，并确保有合法的授权来进行破解操作。
 ```bash
 cat /usr/share/wordlists/rockyou.txt | 7za t backup.7z
 ```
@@ -1259,17 +983,33 @@ wget https://raw.githubusercontent.com/magnumripper/JohnTheRipper/bleeding-jumbo
 apt-get install libcompress-raw-lzma-perl
 ./7z2john.pl file.7z > 7zhash.john
 ```
-### PDF
+# 暴力破解
 
-PDF（Portable Document Format）是一种用于显示文档的文件格式，它可以在不同操作系统和设备上保持一致的外观。PDF文件通常用于共享和存档文档，因为它们可以包含文本、图像、表格和其他多媒体元素。
+暴力破解是一种常见的密码破解技术，它通过尝试所有可能的密码组合来获取未知密码。这种方法可以用于破解各种类型的密码，包括用户账户密码、加密文件密码等。
 
-PDF文件的结构是由一系列对象组成的，这些对象可以是字体、图像、页面内容等。每个对象都有一个唯一的标识符和一些属性。PDF文件还包含了一个交叉引用表，用于跟踪和定位对象。
+## 原理
 
-PDF文件的加密和密码保护是保护文档内容的一种常见方法。加密可以防止未经授权的访问和修改，而密码保护可以限制对文档的打印、复制和编辑等操作。
+暴力破解的原理很简单：通过尝试所有可能的密码组合，直到找到正确的密码为止。这种方法依赖于密码的弱点，例如短密码、常见密码、容易猜测的密码等。
 
-在黑客攻击中，PDF文件可能被用作传播恶意软件的载体。黑客可以利用PDF文件中的漏洞来执行恶意代码或利用社会工程学手段诱使用户点击链接或下载附件。
+## 工具
 
-为了保护自己免受PDF文件的攻击，用户应该保持软件和操作系统的更新，并谨慎打开来自未知来源的PDF文件。此外，使用安全的防病毒软件和防火墙也是保护自己的重要措施。
+有许多工具可用于进行暴力破解攻击。以下是一些常用的工具：
+
+- Hydra：用于在网络上进行暴力破解攻击的多协议登录破解工具。
+- Medusa：用于进行暴力破解攻击的快速、可靠的多协议登录破解工具。
+- John the Ripper：一款流行的密码破解工具，支持多种密码哈希算法。
+- Hashcat：一款高性能的密码破解工具，支持多种密码哈希算法。
+
+## 防御措施
+
+为了防止暴力破解攻击，可以采取以下措施：
+
+- 使用强密码：选择一个强密码，包括大写字母、小写字母、数字和特殊字符，并避免使用常见密码。
+- 密码策略：实施密码策略，例如密码长度要求、密码过期和密码复杂性要求。
+- 多因素身份验证：使用多因素身份验证，例如使用手机验证码或硬件令牌进行身份验证。
+- 帐户锁定：在一定次数的失败尝试后，锁定用户帐户，以防止暴力破解攻击。
+
+暴力破解是一种有效的密码破解技术，但它需要大量的时间和计算资源。因此，采取适当的防御措施可以有效地防止暴力破解攻击。
 ```bash
 apt-get install pdfcrack
 pdfcrack encrypted.pdf -w /usr/share/wordlists/rockyou.txt
@@ -1278,9 +1018,9 @@ pdfcrack encrypted.pdf -w /usr/share/wordlists/rockyou.txt
 sudo apt-get install qpdf
 qpdf --password=<PASSWORD> --decrypt encrypted.pdf plaintext.pdf
 ```
-### PDF Owner Password
+### PDF 所有者密码
 
-要破解PDF所有者密码，请查看此链接：[https://blog.didierstevens.com/2022/06/27/quickpost-cracking-pdf-owner-passwords/](https://blog.didierstevens.com/2022/06/27/quickpost-cracking-pdf-owner-passwords/)
+要破解 PDF 的所有者密码，请查看此链接：[https://blog.didierstevens.com/2022/06/27/quickpost-cracking-pdf-owner-passwords/](https://blog.didierstevens.com/2022/06/27/quickpost-cracking-pdf-owner-passwords/)
 
 ### JWT
 ```bash
@@ -1296,31 +1036,33 @@ john jwt.john #It does not work with Kali-John
 ```
 ### NTLM破解
 
-NTLM（NT LAN Manager）是一种用于Windows操作系统的身份验证协议。在渗透测试中，破解NTLM哈希是一种常见的攻击技术，可以通过暴力破解来获取用户的密码。
+NTLM（NT LAN Manager）是一种用于Windows操作系统的身份验证协议。它使用哈希函数来存储用户的密码，并将其与用户输入的密码进行比较以进行身份验证。NTLM破解是一种攻击技术，旨在通过尝试所有可能的密码组合来破解NTLM哈希。
 
 #### 基本原理
 
-NTLM哈希是通过对用户密码进行散列计算而生成的。攻击者可以使用暴力破解技术，尝试使用不同的密码来计算哈希值，然后与目标系统中存储的哈希值进行比对。如果找到匹配的哈希值，就意味着找到了用户的密码。
+NTLM破解的基本原理是使用暴力破解方法，即通过尝试所有可能的密码组合来找到正确的密码。攻击者可以使用各种工具和脚本来自动化这个过程，以提高破解的效率。
 
-#### 工具和技术
+#### 工具和资源
 
-以下是一些常用的NTLM破解工具和技术：
+以下是一些常用的工具和资源，可用于进行NTLM破解：
 
-- Hashcat：一款强大的密码破解工具，支持多种哈希算法，包括NTLM。
-- John the Ripper：另一款流行的密码破解工具，也支持NTLM哈希破解。
-- Hydra：一款强大的网络登录破解工具，可以用于暴力破解NTLM哈希。
+- **John the Ripper**：一款流行的密码破解工具，支持NTLM哈希的破解。
+- **Hashcat**：一款高性能的密码破解工具，支持多种哈希算法，包括NTLM。
+- **Rainbow tables**：预先计算的哈希值和对应密码的表格，可用于加速破解过程。
+- **字典文件**：包含常见密码和短语的文本文件，可用于尝试破解。
 
 #### 防御措施
 
-为了防止NTLM哈希破解攻击，可以采取以下措施：
+为了防止NTLM破解攻击，以下是一些推荐的防御措施：
 
-- 使用强密码：选择复杂且难以猜测的密码，可以增加破解的难度。
-- 禁用NTLM哈希存储：将系统配置为不存储NTLM哈希，而是使用更安全的身份验证协议，如Kerberos。
-- 强制使用多因素身份验证：通过使用多个身份验证因素，如密码和令牌，可以提高系统的安全性。
+- **使用强密码**：选择复杂且难以猜测的密码，以增加破解的难度。
+- **禁用NTLM哈希存储**：禁用将NTLM哈希存储在本地计算机上的功能，以防止攻击者获取哈希值。
+- **使用更安全的身份验证协议**：考虑使用更安全的身份验证协议，如Kerberos。
+- **限制登录尝试次数**：限制登录尝试次数，以防止攻击者使用暴力破解方法。
 
 #### 总结
 
-NTLM破解是一种常见的攻击技术，可以通过暴力破解NTLM哈希来获取用户密码。为了防止这种攻击，应采取适当的防御措施，如使用强密码、禁用NTLM哈希存储和强制使用多因素身份验证。
+NTLM破解是一种攻击技术，旨在通过尝试所有可能的密码组合来破解NTLM哈希。为了防止这种攻击，采取适当的防御措施非常重要。
 ```bash
 Format:USUARIO:ID:HASH_LM:HASH_NT:::
 john --wordlist=/usr/share/wordlists/rockyou.txt --format=NT file_NTLM.hashes
@@ -1328,24 +1070,15 @@ hashcat -a 0 -m 1000 --username file_NTLM.hashes /usr/share/wordlists/rockyou.tx
 ```
 ### Keepass
 
-Keepass是一种开源的密码管理器，它可以帮助用户创建和存储强密码。它使用加密算法来保护密码数据库，以防止未经授权的访问。Keepass还提供了自动填充功能，可以方便地在网页表单中填写用户名和密码。此外，Keepass还支持插件和扩展，可以增强其功能和安全性。
+Keepass是一种开源的密码管理器，它可以帮助用户创建和存储强密码。它使用加密算法来保护密码数据库，以防止未经授权的访问。Keepass还提供了一个密码生成器，可以生成随机且安全的密码。此外，Keepass还支持自动填充表单和自动登录功能，使用户能够方便地访问其存储的密码。
 
-#### Brute Force攻击
+尽管Keepass是一个安全的工具，但它仍然可能受到暴力破解攻击的威胁。暴力破解是一种攻击方法，通过尝试所有可能的密码组合来破解密码。攻击者可以使用暴力破解工具来自动化这个过程，以便更快地找到正确的密码。
 
-Brute Force攻击是一种试图通过尝试所有可能的密码组合来破解密码的攻击方法。对于Keepass来说，Brute Force攻击可以通过尝试不同的密码来解密密码数据库。这种攻击方法需要耗费大量的时间和计算资源，因为密码的组合可能非常庞大。为了防止Brute Force攻击，Keepass使用了一些安全措施，如限制尝试次数和增加密码复杂性要求。
+为了保护Keepass密码数据库免受暴力破解攻击，有几种方法可以采取。首先，使用长且复杂的密码可以增加破解密码的难度。其次，可以使用多个因素身份验证来增加安全性，例如使用双因素身份验证或生物识别技术。此外，定期更改密码也是一种有效的防御措施。
 
-#### 防御措施
+如果怀疑自己的Keepass密码数据库已经遭到暴力破解攻击，可以采取一些措施来应对。首先，应立即更改主密码，并确保新密码足够强大。其次，应检查数据库中是否有任何异常活动或未经授权的访问。如果发现任何问题，应及时通知相关的安全团队或机构，以便采取进一步的行动。
 
-为了保护Keepass免受Brute Force攻击，可以采取以下措施：
-
-- 使用强密码：选择一个复杂且难以猜测的密码，包括字母、数字和特殊字符的组合。
-- 增加密码复杂性要求：在Keepass设置中，可以设置密码的最小长度和要求使用特殊字符等。
-- 锁定账户：在一定的尝试次数后，锁定账户一段时间，以防止连续的Brute Force攻击。
-- 使用双因素身份验证：通过使用双因素身份验证，可以增加对Keepass的访问控制，使其更加安全。
-
-#### 注意事项
-
-尽管Keepass具有一些防御措施来防止Brute Force攻击，但仍然有可能受到攻击。因此，用户应该采取适当的安全措施来保护其密码数据库，如定期更改密码、备份数据库等。此外，还应该避免使用弱密码和将密码数据库暴露在不安全的环境中。
+总之，Keepass是一个强大的密码管理工具，但仍然需要采取适当的安全措施来保护密码数据库免受暴力破解攻击。通过使用强密码、多因素身份验证和定期更改密码，可以提高Keepass的安全性，并保护个人和敏感信息的安全。
 ```bash
 sudo apt-get install -y kpcli #Install keepass tools like keepass2john
 keepass2john file.kdbx > hash #The keepass is only using password
@@ -1355,27 +1088,35 @@ john --wordlist=/usr/share/wordlists/rockyou.txt hash
 ```
 ### Keberoasting
 
-Keberoasting是一种攻击技术，用于获取域控制器中的弱密码。这种攻击利用了Kerberos身份验证协议中的漏洞，该协议用于在Windows域环境中进行身份验证。
+Keberoasting是一种攻击技术，用于获取Active Directory（AD）环境中的弱密码。该技术利用了AD中的服务账户，这些账户使用了弱密码，并且允许Kerberos身份验证。Keberoasting的攻击过程包括以下步骤：
 
-攻击者首先扫描目标网络，寻找使用Kerberos身份验证的服务。然后，他们使用Kerberoasting工具来请求目标服务的服务票据（Service Ticket）。服务票据是由域控制器签名的，用于验证用户身份的凭证。
+1. 首先，攻击者通过枚举AD环境中的服务账户来识别目标。这些服务账户通常用于运行各种服务和应用程序。
 
-一旦攻击者获得了服务票据，他们可以将其导出到本地，并使用破解工具对其进行离线破解。由于许多服务使用弱密码进行身份验证，因此攻击者有很大的机会成功破解这些票据。
+2. 一旦目标服务账户被识别出来，攻击者可以使用工具（如Mimikatz）来提取服务账户的Kerberos服务票据（Service Ticket）。
 
-为了防止Keberoasting攻击，可以采取以下措施：
+3. 接下来，攻击者可以离线破解这些服务票据，以获取服务账户的明文密码。攻击者可以使用字典攻击、暴力破解或其他密码破解技术来实现这一步骤。
 
-- 使用强密码策略，确保所有用户的密码强度足够。
-- 定期更改密码，并禁用旧密码。
-- 监控域控制器日志，以便检测异常活动。
-- 使用多因素身份验证，增加身份验证的安全性。
-- 更新和修补系统，以防止已知的Kerberos漏洞被利用。
+4. 一旦明文密码被获取，攻击者就可以使用这些凭据来访问目标系统，获取敏感信息或进一步深入渗透AD环境。
 
-Keberoasting是一种有效的攻击技术，因此组织应该采取适当的措施来保护其域控制器和用户密码的安全。
+为了防止Keberoasting攻击，以下措施可以采取：
+
+- 强化服务账户的密码策略，确保使用强密码，并定期更换密码。
+
+- 限制服务账户的权限，仅授予其所需的最低权限。
+
+- 定期审计和监控AD环境，以便及时发现异常活动和弱密码。
+
+- 使用多因素身份验证（MFA）来增加账户的安全性。
+
+- 及时应用安全补丁和更新，以修复可能存在的漏洞。
+
+通过采取这些措施，组织可以有效减少Keberoasting攻击的风险，并提高AD环境的安全性。
 ```bash
 john --format=krb5tgs --wordlist=passwords_kerb.txt hashes.kerberoast
 hashcat -m 13100 --force -a 0 hashes.kerberoast passwords_kerb.txt
 ./tgsrepcrack.py wordlist.txt 1-MSSQLSvc~sql01.medin.local~1433-MYDOMAIN.LOCAL.kirbi
 ```
-### Lucks image
+### LUKS 图像
 
 #### 方法 1
 
@@ -1388,13 +1129,15 @@ mount /dev/mapper/mylucksopen /mnt
 ```
 #### 方法2
 
-Brute force is a common method used to crack passwords or gain unauthorized access to systems. It involves systematically trying every possible combination of characters until the correct password is found. This method can be time-consuming and resource-intensive, but it can be effective if the password is weak or easily guessable.
+Brute force is a common method used in hacking to gain unauthorized access to a system or account. It involves systematically trying all possible combinations of passwords until the correct one is found.
 
-To perform a brute force attack, you will need a tool or script that can automate the process of trying different passwords. There are many tools available for this purpose, such as Hydra, Medusa, and John the Ripper. These tools can be configured to try different combinations of characters, including letters, numbers, and symbols, until the correct password is discovered.
+Brute force attacks can be time-consuming and resource-intensive, especially if the password is long and complex. However, they can be effective against weak passwords or poorly implemented security measures.
 
-When attempting a brute force attack, it is important to consider the complexity of the password being targeted. Longer and more complex passwords will take significantly longer to crack compared to shorter and simpler passwords. Additionally, some systems may have security measures in place to detect and block brute force attacks, such as account lockouts or rate limiting.
+There are several tools available for conducting brute force attacks, such as Hydra and Medusa. These tools automate the process by attempting multiple login attempts in a short period of time.
 
-It is also worth noting that brute force attacks are generally considered to be illegal and unethical unless performed with proper authorization. Always ensure that you have the necessary permissions and legal rights before attempting any form of hacking or unauthorized access.
+To protect against brute force attacks, it is important to use strong, unique passwords and implement account lockout policies. Additionally, rate limiting and CAPTCHA can be used to prevent automated login attempts.
+
+It is worth noting that brute force attacks are illegal and unethical unless conducted with proper authorization for legitimate security testing purposes. Always obtain permission before attempting any form of hacking or penetration testing.
 ```bash
 cryptsetup luksDump backup.img #Check that the payload offset is set to 4096
 dd if=backup.img of=luckshash bs=512 count=4097 #Payload offset +1
@@ -1413,13 +1156,15 @@ dbuser:$mysqlna$112233445566778899aabbccddeeff1122334455*73def07da6fba5dcc1b19c9
 ```
 ### PGP/GPG私钥
 
-A PGP/GPG private key is a cryptographic key used in the Pretty Good Privacy (PGP) and GNU Privacy Guard (GPG) encryption systems. It is used to decrypt messages that have been encrypted with the corresponding public key. The private key should be kept secret and protected, as it is the key that allows access to the encrypted data.
+Brute forcing a PGP/GPG private key involves systematically trying all possible combinations of characters until the correct key is found. This method is time-consuming and resource-intensive, but it can be effective if the key is weak or poorly chosen.
 
-To generate a PGP/GPG private key, you can use tools like GnuPG or Kleopatra. These tools will generate a pair of keys: a private key and a corresponding public key. The private key should be stored securely, preferably in an encrypted format, and protected with a strong passphrase.
+To perform a brute force attack on a PGP/GPG private key, you will need a powerful computer or a network of computers with significant computational power. You will also need software that can generate and test key combinations.
 
-If you lose your private key, you will not be able to decrypt any messages encrypted with your public key. It is important to keep backups of your private key in a safe place. Additionally, you should consider creating a revocation certificate for your private key, which can be used to invalidate the key in case it is compromised or lost.
+There are several tools available for brute forcing PGP/GPG private keys, such as John the Ripper and Hashcat. These tools use various techniques, such as dictionary attacks and pattern matching, to speed up the process.
 
-Remember to always keep your private key confidential and protect it from unauthorized access.
+When attempting to brute force a PGP/GPG private key, it is important to consider the complexity of the key. Longer and more complex keys will take significantly longer to crack. Additionally, if the key is properly generated and securely stored, brute forcing may be virtually impossible.
+
+It is worth noting that brute forcing a PGP/GPG private key is illegal unless you have explicit permission from the key owner or are conducting a legitimate penetration test. Always ensure that you are acting within the boundaries of the law and ethical guidelines when performing any hacking activities.
 ```bash
 gpg2john private_pgp.key #This will generate the hash and save it in a file
 john --wordlist=/usr/share/wordlists/rockyou.txt ./hash
@@ -1448,24 +1193,26 @@ zip -r file.xls .
 ```
 ### PFX证书
 
-PFX证书是一种常用的数字证书格式，用于在网络通信中进行身份验证和加密。PFX代表“个人交换格式”，它将私钥和公钥存储在同一个文件中。这种证书通常用于安全套接字层（SSL）和传输层安全（TLS）协议，以确保通信的机密性和完整性。
+PFX certificates, also known as PKCS#12 certificates, are a type of digital certificate that is used for secure communication and authentication. PFX certificates are commonly used in various applications, such as web servers, email clients, and VPNs.
 
-PFX证书通常需要密码来保护私钥的安全。在使用PFX证书进行身份验证时，私钥将用于生成数字签名，以证明证书的真实性。公钥则用于验证数字签名，确保通信的安全性。
+PFX certificates are stored in a single file that contains both the public key and the corresponding private key. This file is typically password-protected to ensure the security of the private key.
 
-PFX证书可以通过多种方式进行破解。其中一种常见的方法是使用暴力破解技术，通过尝试不同的密码组合来破解PFX证书的密码。这可以通过使用专门的工具和字典文件来实现。
+To use a PFX certificate, you need to import it into the application or system that requires it. This can usually be done through the application's settings or configuration options.
 
-暴力破解PFX证书需要耗费大量的计算资源和时间，因此在实施此类攻击时需要谨慎。此外，破解PFX证书是非法的行为，可能会导致法律后果。
+Brute-forcing a PFX certificate involves attempting to guess the password used to protect the private key. This is typically done by trying a large number of possible passwords until the correct one is found.
 
-为了保护PFX证书的安全，建议使用强密码，并定期更改密码。此外，应该将PFX证书存储在安全的位置，并限制对其访问的权限，以防止未经授权的人员获取证书的私钥。
+There are various tools and techniques available for brute-forcing PFX certificates, including using wordlists, dictionary attacks, and custom scripts. It is important to note that brute-forcing a PFX certificate is a time-consuming process and may not always be successful.
+
+It is also worth mentioning that brute-forcing a PFX certificate without proper authorization is illegal and unethical. It should only be done as part of a legitimate penetration testing or security assessment, with the proper authorization and consent.
 ```bash
 # From https://github.com/Ridter/p12tool
 ./p12tool crack -c staff.pfx -f /usr/share/wordlists/rockyou.txt
 # From https://github.com/crackpkcs12/crackpkcs12
 crackpkcs12 -d /usr/share/wordlists/rockyou.txt ./cert.pfx
 ```
-![](<../.gitbook/assets/image (9) (1) (2).png>)
+<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-使用[**Trickest**](https://trickest.io/)轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。
+使用[**Trickest**](https://trickest.io/)轻松构建和自动化由全球**最先进**的社区工具驱动的工作流程。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -1488,7 +1235,7 @@ hash-identifier
 
 ### **字典生成工具**
 
-* [**kwprocessor**](https://github.com/hashcat/kwprocessor)**：**高级键盘行走生成器，可配置基本字符、键盘映射和路径。
+* [**kwprocessor**](https://github.com/hashcat/kwprocessor)**：**高级键盘漫游生成器，可配置基本字符、键盘映射和路径。
 ```bash
 kwp64.exe basechars\custom.base keymaps\uk.keymap routes\2-to-10-max-3-direction-changes.route -o D:\Tools\keywalk.txt
 ```
@@ -1505,7 +1252,7 @@ john --wordlist=words.txt --rules=all --stdout > w_mutated.txt #Apply all rules
 
 * **字典攻击** (`-a 0`) 使用规则
 
-**Hashcat**已经带有一个**包含规则的文件夹**，但你可以在[**这里找到其他有趣的规则**](https://github.com/kaonashi-passwords/Kaonashi/tree/master/rules)。
+**Hashcat**已经带有一个包含规则的**文件夹**，但你可以在[**这里找到其他有趣的规则**](https://github.com/kaonashi-passwords/Kaonashi/tree/master/rules)。
 ```
 hashcat.exe -a 0 -m 1000 C:\Temp\ntlm.txt .\rockyou.txt -r rules\best64.rule
 ```
@@ -1565,47 +1312,16 @@ hashcat.exe -a 7 -m 1000 C:\Temp\ntlm.txt ?d?d?d?d \wordlist.txt
 ```
 #### Hashcat模式
 
-Hashcat是一款强大的密码破解工具，支持多种不同的破解模式。下面是一些常用的Hashcat模式：
+Hashcat是一款强大的密码破解工具，支持多种破解模式。以下是一些常用的Hashcat模式：
 
-- **0**: Straight模式，用于破解未加密的密码。
-- **100**: DCC模式，用于破解DCC（Distributed Checksum Clearinghouse）密码哈希。
-- **2500**: WPA/WPA2模式，用于破解WPA和WPA2无线网络密码。
-- **3000**: LM模式，用于破解Windows LM哈希。
-- **5000**: MD5模式，用于破解MD5哈希。
-- **9000**: MD4模式，用于破解MD4哈希。
-- **10000**: NTLM模式，用于破解Windows NTLM哈希。
-- **11000**: Domain Cached Credentials (DCC2)模式，用于破解DCC2密码哈希。
-- **11800**: SHA1模式，用于破解SHA1哈希。
-- **14000**: SHA256模式，用于破解SHA256哈希。
-- **17000**: SHA512模式，用于破解SHA512哈希。
-- **22000**: WPA/WPA2 Enterprise模式，用于破解WPA和WPA2企业级无线网络密码。
-- **24000**: Cisco-PIX模式，用于破解Cisco PIX哈希。
-- **24100**: Cisco-ASA模式，用于破解Cisco ASA哈希。
-- **25000**: WPA/WPA2 PMK模式，用于破解WPA和WPA2预共享密钥。
-- **30000**: Oracle 11g模式，用于破解Oracle 11g哈希。
-- **31000**: Oracle 12c模式，用于破解Oracle 12c哈希。
-- **50000**: MySQL323模式，用于破解MySQL 3.23哈希。
-- **51000**: MySQL4.1/MySQL5模式，用于破解MySQL 4.1和MySQL 5哈希。
-- **52000**: Oracle 7-10g模式，用于破解Oracle 7-10g哈希。
-- **53000**: Oracle 11g/12c模式，用于破解Oracle 11g和Oracle 12c哈希。
-- **54000**: SHA-3 (Keccak)模式，用于破解SHA-3 (Keccak)哈希。
-- **55000**: NetNTLMv1-VANILLA / NetNTLMv1+ESS模式，用于破解NetNTLMv1-VANILLA和NetNTLMv1+ESS哈希。
-- **56000**: NetNTLMv2模式，用于破解NetNTLMv2哈希。
-- **57000**: Cisco-IOS模式，用于破解Cisco IOS哈希。
-- **58000**: Android PIN模式，用于破解Android PIN密码。
-- **60000**: RipeMD160模式，用于破解RipeMD160哈希。
-- **61000**: Whirlpool模式，用于破解Whirlpool哈希。
-- **62100**: TrueCrypt模式，用于破解TrueCrypt哈希。
-- **62200**: VeraCrypt模式，用于破解VeraCrypt哈希。
-- **62300**: UEFI模式，用于破解UEFI哈希。
-- **62400**: GOST R 34.11-94模式，用于破解GOST R 34.11-94哈希。
-- **63000**: AIX {smd5}模式，用于破解AIX {smd5}哈希。
-- **64000**: AIX {ssha1}模式，用于破解AIX {ssha1}哈希。
-- **65000**: AIX {ssha256}模式，用于破解AIX {ssha256}哈希。
-- **67000**: AIX {ssha512}模式，用于破解AIX {ssha512}哈希。
-- **9000**: MD4模式，用于破解MD4哈希。
+- **Straight**: 直接破解模式，适用于已知密码哈希值的情况。
+- **Combination**: 组合破解模式，适用于已知密码部分字符的情况。
+- **Brute-force**: 暴力破解模式，适用于未知密码的情况。
+- **Hybrid**: 混合破解模式，结合了字典和暴力破解，适用于复杂密码的情况。
+- **Mask**: 掩码破解模式，通过指定密码的部分字符和字符集合来破解密码。
+- **Rule-based**: 基于规则的破解模式，通过应用密码变换规则来破解密码。
 
-这些只是Hashcat支持的一部分模式，你可以根据需要选择适合的模式来破解不同类型的密码哈希。
+使用Hashcat时，选择适合的破解模式可以提高破解效率。根据不同的情况，选择合适的模式进行密码破解。
 ```bash
 hashcat --example-hashes | grep -B1 -A2 "NTLM"
 ```
@@ -1613,125 +1329,107 @@ hashcat --example-hashes | grep -B1 -A2 "NTLM"
 
 ## 简介
 
-在Linux系统中，用户的密码哈希值存储在`/etc/shadow`文件中。这个文件对于黑客来说是一个宝贵的目标，因为它包含了用户账户的敏感信息。通过破解这些哈希值，黑客可以获取用户的密码，从而进一步入侵系统。
+在Linux系统中，用户的密码哈希值存储在`/etc/shadow`文件中。这个文件对于黑客来说是一个有价值的目标，因为它包含了用户账户的敏感信息。通过破解这些哈希值，黑客可以获取用户的密码，从而进一步入侵系统。
 
-## 哈希破解方法
+## 暴力破解
 
-破解Linux哈希的常见方法是使用暴力破解技术。这种方法通过尝试不同的密码组合，将其哈希值与目标哈希进行比较，以找到匹配的密码。
+暴力破解是一种常见的破解哈希值的方法。它基于尝试所有可能的密码组合，直到找到与目标哈希值匹配的密码。以下是暴力破解的一般步骤：
 
-以下是一些常用的哈希破解工具和技术：
+1. 获取目标哈希值：首先，黑客需要获取目标用户的哈希值。这可以通过访问`/etc/shadow`文件或使用其他技术手段来获取。
 
-### 1. John the Ripper
+2. 密码字典：黑客需要准备一个密码字典，其中包含常见的密码和可能的密码组合。这个字典将用于尝试与目标哈希值匹配的密码。
 
-John the Ripper是一款流行的密码破解工具，可以用于破解Linux哈希。它支持多种哈希算法，并且可以使用字典攻击、暴力破解和混合攻击等多种破解模式。
+3. 哈希破解工具：黑客可以使用各种哈希破解工具，如John the Ripper、Hashcat等。这些工具可以自动化暴力破解过程，尝试字典中的每个密码，并将其与目标哈希值进行比较。
 
-### 2. Hashcat
-
-Hashcat是另一款功能强大的密码破解工具，支持多种哈希算法和破解模式。它可以利用GPU的并行计算能力，加快破解速度。
-
-### 3. Hydra
-
-Hydra是一款网络登录破解工具，可以用于破解Linux系统的密码。它支持多种协议和服务，包括SSH、FTP、Telnet等。
-
-### 4. 自定义脚本
-
-除了使用现有的破解工具，黑客还可以编写自己的脚本来破解Linux哈希。这种方法可以根据具体情况进行定制，提高破解效率。
+4. 破解结果：一旦找到与目标哈希值匹配的密码，黑客就成功破解了密码。他们可以使用这个密码来登录目标用户的账户，或者进一步进行其他恶意活动。
 
 ## 防御措施
 
-为了防止黑客破解Linux哈希，以下是一些推荐的防御措施：
+为了防止哈希破解攻击，系统管理员可以采取以下措施：
 
-- 使用强密码：选择足够复杂和长的密码，包括字母、数字和特殊字符的组合。
-- 使用哈希算法：选择安全的哈希算法，如SHA-512，以增加破解难度。
-- 使用盐值：将随机生成的盐值与密码哈希结合，增加破解的复杂性。
-- 定期更改密码：定期更改密码可以减少黑客破解的机会。
-- 限制登录尝试：限制登录尝试次数，防止暴力破解攻击。
+- 使用强密码策略：强制用户使用复杂的密码，包括大写字母、小写字母、数字和特殊字符。
 
-通过采取这些防御措施，可以提高系统的安全性，减少黑客破解Linux哈希的成功率。
+- 盐值加密：使用随机生成的盐值对密码进行加密，增加破解的难度。
+
+- 定期更改密码：要求用户定期更改密码，以减少密码被破解的风险。
+
+- 使用多因素身份验证：引入多因素身份验证，如指纹识别、短信验证码等，提高账户的安全性。
+
+- 定期更新系统：及时应用系统更新和补丁，以修复已知的漏洞和安全问题。
+
+通过采取这些防御措施，系统管理员可以有效地保护用户密码，防止黑客通过暴力破解攻击获取敏感信息。
 ```
 500 | md5crypt $1$, MD5(Unix)                          | Operating-Systems
 3200 | bcrypt $2*$, Blowfish(Unix)                      | Operating-Systems
 7400 | sha256crypt $5$, SHA256(Unix)                    | Operating-Systems
 1800 | sha512crypt $6$, SHA512(Unix)                    | Operating-Systems
 ```
-# 破解Windows哈希
+# 破解Windows哈希值
 
-## NTLM Hashes
+## 概述
 
-### 通过暴力破解破解NTLM哈希
+在渗透测试中，破解Windows哈希值是一项常见的任务。Windows操作系统使用哈希算法对用户密码进行加密存储。通过破解这些哈希值，黑客可以获取用户的明文密码，从而获得对系统的访问权限。
 
-暴力破解NTLM哈希是一种常见的攻击技术，可以用于破解Windows用户的密码。以下是一些常用的工具和技术：
+## 哈希类型
 
-- **John the Ripper**：这是一个流行的密码破解工具，可以用于破解NTLM哈希。它支持多种破解模式，包括字典攻击和暴力破解。
-- **Hashcat**：这是另一个强大的密码破解工具，可以用于破解NTLM哈希。它支持多种攻击模式，包括字典攻击、暴力破解和组合攻击。
-- **字典攻击**：这是一种基于预先生成的密码列表的攻击技术。攻击者可以使用常见密码列表或自定义密码列表来尝试破解NTLM哈希。
-- **暴力破解**：这是一种尝试所有可能的密码组合的攻击技术。攻击者可以使用暴力破解工具来尝试破解NTLM哈希。
+Windows操作系统使用不同的哈希算法来加密用户密码。以下是常见的Windows哈希类型：
 
-### 使用Rainbow Tables破解NTLM哈希
+- LAN Manager (LM) 哈希：这是Windows早期版本中使用的一种弱哈希算法。由于其安全性较低，现代Windows操作系统已不再使用该算法。
+- NT LAN Manager (NTLM) 哈希：这是Windows NT系列操作系统中使用的一种更强大的哈希算法。它是目前最常见的Windows哈希类型。
+- NT LAN Manager version 2 (NTLMv2) 哈希：这是Windows Vista及更高版本中使用的一种更安全的哈希算法。它提供了更好的密码保护。
 
-彩虹表是一种预先计算的哈希值和对应明文密码的映射表。攻击者可以使用彩虹表来快速破解NTLM哈希。以下是一些常用的彩虹表工具：
+## 破解方法
 
-- **RainbowCrack**：这是一个流行的彩虹表工具，可以用于破解NTLM哈希。它支持多种彩虹表文件格式，并且可以使用多个彩虹表同时进行破解。
+破解Windows哈希值的常用方法之一是使用暴力破解技术。暴力破解是通过尝试所有可能的密码组合来破解哈希值。以下是一些常用的暴力破解工具：
 
-## LM Hashes
+- John the Ripper：这是一款功能强大的密码破解工具，支持多种哈希类型，包括Windows哈希。
+- Hashcat：这是一款高性能的密码破解工具，支持多种哈希类型，包括Windows哈希。
+- Hydra：这是一款网络登录破解工具，可以用于破解Windows系统的密码。
 
-### 通过暴力破解破解LM哈希
+在使用暴力破解工具之前，黑客通常会使用字典攻击来提高破解的效率。字典攻击是基于预先准备好的密码字典进行破解，而不是尝试所有可能的密码组合。
 
-与NTLM哈希相比，LM哈希更容易破解，因为它使用较弱的算法和较短的密钥空间。以下是一些常用的工具和技术：
+## 防御措施
 
-- **John the Ripper**：这是一个流行的密码破解工具，可以用于破解LM哈希。它支持多种破解模式，包括字典攻击和暴力破解。
-- **Hashcat**：这是另一个强大的密码破解工具，可以用于破解LM哈希。它支持多种攻击模式，包括字典攻击、暴力破解和组合攻击。
-- **字典攻击**：这是一种基于预先生成的密码列表的攻击技术。攻击者可以使用常见密码列表或自定义密码列表来尝试破解LM哈希。
-- **暴力破解**：这是一种尝试所有可能的密码组合的攻击技术。攻击者可以使用暴力破解工具来尝试破解LM哈希。
+为了防止Windows哈希值被破解，以下是一些常见的防御措施：
 
-### 使用彩虹表破解LM哈希
+- 使用强密码：选择足够复杂和长的密码，包括字母、数字和特殊字符的组合。
+- 使用多因素身份验证：通过使用多个身份验证因素，如密码和手机验证码，提高系统的安全性。
+- 禁用旧的哈希类型：禁用不安全的哈希类型，如LAN Manager (LM) 哈希，以减少系统的攻击面。
 
-与NTLM哈希类似，攻击者也可以使用彩虹表来破解LM哈希。彩虹表工具和技术与上述相同。
+## 结论
 
-## 总结
-
-破解Windows哈希是一项常见的攻击技术，攻击者可以使用暴力破解工具、字典攻击、彩虹表等方法来尝试破解NTLM和LM哈希。为了保护密码安全，用户应该使用强密码，并定期更改密码。
+破解Windows哈希值是渗透测试中的一项重要任务。了解不同的哈希类型和破解方法，以及采取适当的防御措施，可以帮助保护系统免受黑客的攻击。
 ```
 3000 | LM                                               | Operating-Systems
 1000 | NTLM                                             | Operating-Systems
 ```
-# 破解常见应用程序哈希
+# Brute Force
 
-## MD5
+Brute force is a common method used to crack application hashes. It involves systematically trying every possible combination of characters until the correct password is found.
 
-MD5是一种常见的哈希算法，用于加密密码和验证文件完整性。然而，由于其易受碰撞攻击的特性，MD5已经不再被视为安全的哈希算法。
+## Dictionary Attack
 
-### 破解MD5哈希
+A dictionary attack is a type of brute force attack that uses a pre-defined list of commonly used passwords, known as a dictionary, to crack hashes. This method is effective against weak passwords that are easily guessable.
 
-要破解MD5哈希，可以使用以下方法之一：
+## Hybrid Attack
 
-1. 字典攻击：使用预先生成的哈希字典，将哈希与字典中的值进行比对，以找到匹配的明文密码。
-2. 彩虹表攻击：使用预先计算的彩虹表，将哈希与表中的值进行比对，以找到匹配的明文密码。
-3. 暴力破解：尝试所有可能的密码组合，直到找到与哈希匹配的明文密码。
+A hybrid attack combines elements of both brute force and dictionary attacks. It involves using a combination of dictionary words and additional characters or numbers to crack hashes. This method is effective against passwords that are slightly more complex than those cracked by a dictionary attack.
 
-## SHA1
+## Mask Attack
 
-SHA1是一种常见的哈希算法，用于加密密码和验证文件完整性。然而，由于其易受碰撞攻击的特性，SHA1已经不再被视为安全的哈希算法。
+A mask attack is a type of brute force attack that uses a specific pattern or mask to generate password combinations. This method is useful when the structure of the password is known, such as when the password policy requires a specific format.
 
-### 破解SHA1哈希
+## Rainbow Tables
 
-要破解SHA1哈希，可以使用以下方法之一：
+Rainbow tables are precomputed tables of hash values and their corresponding plaintext passwords. They can be used to quickly look up the plaintext password for a given hash. Rainbow tables are effective against weak passwords, but they require a large amount of storage space.
 
-1. 字典攻击：使用预先生成的哈希字典，将哈希与字典中的值进行比对，以找到匹配的明文密码。
-2. 彩虹表攻击：使用预先计算的彩虹表，将哈希与表中的值进行比对，以找到匹配的明文密码。
-3. 暴力破解：尝试所有可能的密码组合，直到找到与哈希匹配的明文密码。
+## GPU Acceleration
 
-## SHA256
+Graphics Processing Units (GPUs) can be used to accelerate the brute force cracking process. GPUs are highly parallel processors that can perform many calculations simultaneously, making them well-suited for password cracking.
 
-SHA256是一种常见的哈希算法，用于加密密码和验证文件完整性。目前，SHA256被广泛接受为安全的哈希算法。
+## Conclusion
 
-### 破解SHA256哈希
-
-由于SHA256是一种强大的哈希算法，目前没有已知的有效方法可以直接破解SHA256哈希。暴力破解SHA256哈希是不可行的，因为尝试所有可能的密码组合需要极大的计算资源和时间。
-
-## 总结
-
-破解常见应用程序哈希通常涉及使用字典攻击、彩虹表攻击或暴力破解的方法。然而，对于较强的哈希算法（如SHA256），破解哈希变得非常困难，甚至不可行。因此，使用安全的哈希算法和强密码是保护个人信息和数据安全的重要措施。
+Brute force attacks, including dictionary attacks, hybrid attacks, and mask attacks, are commonly used to crack application hashes. Rainbow tables and GPU acceleration can also be used to speed up the cracking process. It is important to use strong, complex passwords to protect against these types of attacks.
 ```
 900 | MD4                                              | Raw Hash
 0 | MD5                                              | Raw Hash
@@ -1745,18 +1443,18 @@ SHA256是一种常见的哈希算法，用于加密密码和验证文件完整�
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在一家**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者你想要**获取PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或者 [**Telegram群组**](https://t.me/peass) 或者 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
 
 </details>
 
-![](<../.gitbook/assets/image (9) (1) (2).png>)
+<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用[**Trickest**](https://trickest.io/)轻松构建和**自动化工作流程**，使用世界上**最先进的**社区工具。\
+使用[**Trickest**](https://trickest.io/)可以轻松构建和**自动化工作流程**，使用全球**最先进的**社区工具。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

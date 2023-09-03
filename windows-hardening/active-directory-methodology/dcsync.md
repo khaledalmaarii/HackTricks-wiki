@@ -1,9 +1,9 @@
 # DCSync
 
-![](<../../.gitbook/assets/image (9) (1) (2).png>)
+<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和自动化由全球**最先进**的社区工具提供支持的工作流程。\
+使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -12,9 +12,9 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想要访问**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想要访问**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* 获取[**官方PEASS和HackTricks的衣物**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 * **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
 
@@ -28,7 +28,7 @@
 
 * **DCSync攻击模拟域控制器的行为，并要求其他域控制器使用目录复制服务远程协议（MS-DRSR）复制信息**。由于MS-DRSR是Active Directory的有效和必要功能，因此无法关闭或禁用它。
 * 默认情况下，只有**域管理员、企业管理员、管理员和域控制器**组具有所需的特权。
-* 如果任何帐户密码使用可逆加密存储，Mimikatz中有一个选项可以返回明文密码
+* 如果任何帐户密码使用可逆加密存储，Mimikatz中有一个选项可以返回明文密码。
 
 ### 枚举
 
@@ -38,40 +38,47 @@ Get-ObjectAcl -DistinguishedName "dc=dollarcorp,dc=moneycorp,dc=local" -ResolveG
 ```
 ### 本地利用
 
-Exploit Locally（本地利用）是一种攻击方法，利用该方法可以在目标系统上执行特权操作。在Active Directory环境中，本地利用通常用于获取域控制器的敏感信息。
+Exploit Locally（本地利用）是一种攻击方法，旨在利用本地访问权限来获取目标系统上的敏感信息。在Active Directory环境中，一种常见的本地利用方法是使用DCSync攻击。
 
-#### DCSync
+#### DCSync攻击
 
-DCSync是一种利用本地攻击方法，用于从域控制器中提取域账户的敏感信息。通过DCSync，攻击者可以模拟域控制器并请求目标域控制器复制指定账户的敏感信息，如NTLM哈希。
+DCSync攻击是一种利用Active Directory域控制器（DC）的特权来提取目标用户凭据的攻击方法。通过模拟域控制器的行为，攻击者可以获取目标用户的NTLM哈希值，从而进一步获取其明文密码。
 
-要使用DCSync，攻击者需要具有域内的管理员权限。攻击者可以使用Mimikatz等工具来执行DCSync攻击。以下是执行DCSync攻击的步骤：
+以下是DCSync攻击的步骤：
 
-1. 获取域内管理员权限。
-2. 执行Mimikatz等工具，并加载相应的模块。
-3. 使用`lsadump::dcsync /user:<username>`命令，其中`<username>`是要提取敏感信息的目标账户。
-4. 提取的敏感信息将显示在输出中，包括NTLM哈希。
+1. 获取域控制器的访问权限：攻击者需要获得域控制器的本地管理员或域管理员权限，以执行DCSync攻击。
 
-DCSync攻击可以帮助攻击者获取域账户的敏感信息，如密码哈希，从而进一步扩大攻击面。因此，保护域控制器免受DCSync攻击至关重要。
+2. 使用Mimikatz工具：攻击者使用Mimikatz工具来执行DCSync攻击。Mimikatz是一款强大的密码提取工具，可以从域控制器中提取目标用户的凭据。
+
+3. 提取目标用户凭据：攻击者使用Mimikatz的DCSync模块来模拟域控制器的行为，并提取目标用户的NTLM哈希值。
+
+4. 破解NTLM哈希值：攻击者可以使用各种破解工具来破解目标用户的NTLM哈希值，从而获取其明文密码。
+
+DCSync攻击是一种非常有效的攻击方法，因为它允许攻击者在目标系统上获取域用户的凭据，从而进一步扩大攻击面。因此，在保护Active Directory环境时，应采取适当的措施来防止DCSync攻击的发生。
 ```powershell
 Invoke-Mimikatz -Command '"lsadump::dcsync /user:dcorp\krbtgt"'
 ```
 ### 远程利用
 
-DCSync can be exploited remotely if the attacker has administrative privileges on a domain-joined machine or has compromised a domain user account with the necessary permissions.
+DCSync is a technique that allows an attacker to impersonate a domain controller and request the replication of password data from the targeted domain controller. This technique can be used remotely to extract password hashes from the Active Directory database without the need for administrative privileges.
 
-DCSync可以在远程利用，如果攻击者在加入域的计算机上拥有管理员权限，或者已经入侵了具备必要权限的域用户账户。
+To exploit DCSync remotely, the attacker needs to have network access to the targeted domain controller. The attacker can use tools like Mimikatz or Impacket to perform the DCSync attack.
 
-To exploit DCSync remotely, the attacker can use tools like Mimikatz or Impacket to interact with the domain controller and request the replication of a specific user's credentials.
+The steps to exploit DCSync remotely are as follows:
 
-要远程利用DCSync，攻击者可以使用Mimikatz或Impacket等工具与域控制器进行交互，并请求复制特定用户的凭据。
+1. Identify the targeted domain controller: The attacker needs to identify the domain controller that they want to impersonate and extract password data from.
 
-The attacker needs to have network connectivity to the domain controller and the necessary credentials to authenticate to the domain.
+2. Obtain the domain controller's NTLM hash: The attacker needs to obtain the NTLM hash of the domain controller's computer account. This can be done by dumping the LSASS process memory or by using other techniques like Pass-the-Hash.
 
-攻击者需要与域控制器建立网络连接，并具备必要的凭据以进行域身份验证。
+3. Generate a fake domain controller: The attacker needs to generate a fake domain controller using tools like Mimikatz or Impacket. This involves creating a fake domain controller object in memory and configuring it to respond to DCSync requests.
 
-Once the attacker successfully replicates the user's credentials, they can use them to impersonate the user and gain unauthorized access to sensitive information or perform malicious actions within the domain.
+4. Impersonate the domain controller: The attacker needs to impersonate the targeted domain controller by injecting the fake domain controller object into the LSASS process memory. This can be done using techniques like process injection or by exploiting vulnerabilities in the LSASS process.
 
-一旦攻击者成功复制了用户的凭据，他们可以使用这些凭据冒充用户，并未授权地访问敏感信息或在域内执行恶意操作。
+5. Request password data replication: Once the attacker has successfully impersonated the domain controller, they can use the DCSync command to request the replication of password data from the targeted domain controller. This command can be executed using tools like Mimikatz or Impacket.
+
+6. Extract password hashes: After the replication request is made, the targeted domain controller will send the password hashes to the attacker's fake domain controller. The attacker can then extract the password hashes from the fake domain controller and use them for further attacks like password cracking or pass-the-hash.
+
+It is important to note that exploiting DCSync remotely requires advanced knowledge of Active Directory and network security. It is also considered an unauthorized activity and should only be performed in controlled environments with proper authorization.
 ```powershell
 secretsdump.py -just-dc <user>:<password>@<ipaddress> -outputfile dcsync_hashes
 [-just-dc-user <USERNAME>] #To get only of that user
@@ -82,19 +89,19 @@ secretsdump.py -just-dc <user>:<password>@<ipaddress> -outputfile dcsync_hashes
 
 * 一个包含**NTLM哈希值**的文件
 * 一个包含**Kerberos密钥**的文件
-* 一个包含启用了[**可逆加密**](https://docs.microsoft.com/en-us/windows/security/threat-protection/security-policy-settings/store-passwords-using-reversible-encryption)的NTDS中明文密码的文件。你可以使用以下命令获取启用了可逆加密的用户：
+* 一个包含启用了[**可逆加密**](https://docs.microsoft.com/en-us/windows/security/threat-protection/security-policy-settings/store-passwords-using-reversible-encryption)的NTDS中的明文密码的文件。您可以使用以下命令获取启用了可逆加密的用户：
 
 ```powershell
 Get-DomainUser -Identity * | ? {$_.useraccountcontrol -like '*ENCRYPTED_TEXT_PWD_ALLOWED*'} |select samaccountname,useraccountcontrol
 ```
 
-### 持久化
+### 持久性
 
-如果你是域管理员，你可以使用`powerview`将这些权限授予任何用户：
+如果您是域管理员，可以使用`powerview`将此权限授予任何用户：
 ```powershell
 Add-ObjectAcl -TargetDistinguishedName "dc=dollarcorp,dc=moneycorp,dc=local" -PrincipalSamAccountName username -Rights DCSync -Verbose
 ```
-然后，您可以通过查看以下输出来**检查用户是否正确分配了3个权限**（您应该能够在"ObjectType"字段中看到权限的名称）：
+然后，您可以**检查用户是否正确分配了3个权限**，通过在输出中查找它们（您应该能够在"ObjectType"字段中看到权限的名称）：
 ```powershell
 Get-ObjectAcl -DistinguishedName "dc=dollarcorp,dc=moneycorp,dc=local" -ResolveGUIDs | ?{$_.IdentityReference -match "student114"}
 ```
@@ -114,18 +121,18 @@ Get-ObjectAcl -DistinguishedName "dc=dollarcorp,dc=moneycorp,dc=local" -ResolveG
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者你想要**获取最新版本的PEASS或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品- [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* 你在一个**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者你想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks的衍生品**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 * **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
 
 </details>
 
-![](<../../.gitbook/assets/image (9) (1) (2).png>)
+<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和**自动化工作流程**，使用全球**最先进**的社区工具驱动。\
+使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

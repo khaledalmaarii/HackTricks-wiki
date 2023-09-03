@@ -1,9 +1,9 @@
 # ACLs - DACLs/SACLs/ACEs
 
-![](<../../.gitbook/assets/image (9) (1) (2).png>)
+<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。\
+使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和自动化由全球**最先进**的社区工具提供支持的工作流程。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -12,10 +12,10 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在**网络安全公司**工作吗？你想在HackTricks中看到你的公司广告吗？或者你想获得最新版本的PEASS或下载PDF格式的HackTricks吗？查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks衣物**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* 你在**网络安全公司**工作吗？你想在HackTricks中看到你的公司广告吗？或者你想获得最新版本的PEASS或下载PDF格式的HackTricks吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[NFT](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 * **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
 
 </details>
@@ -45,13 +45,13 @@ SACL使得监视对受保护对象的访问成为可能。SACL中的ACE确定在
 
 当线程尝试访问可保护对象时，LSASS（本地安全性机构）要么授予访问权限，要么拒绝访问。为此，LSASS搜索SDS数据流中的DACL（自主访问控制列表），查找适用于线程的ACE。
 
-对象的DACL中的每个ACE指定了允许或拒绝给定安全主体或登录会话的访问权限。如果对象的所有者没有为该对象创建任何DACL中的ACE，系统会立即授予访问权限。
+对象的DACL中的每个ACE指定了允许或拒绝给定安全主体或登录会话的访问权限。如果对象的所有者没有为该对象创建任何DACL中的ACE，则系统立即授予访问权限。
 
 如果LSASS找到ACE，它会将每个ACE中的受托人SID与线程访问令牌中标识的受托人SID进行比较。
 
 ### ACEs
 
-在AD中，可以应用于所有可保护对象的ACE有三种主要类型：
+在AD中，可以应用于所有可保护对象的ACE有**三种**主要类型：
 
 | **ACE**                  | **描述**                                                                                                                                                            |
 | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -59,12 +59,12 @@ SACL使得监视对受保护对象的访问成为可能。SACL中的ACE确定在
 | **`允许访问ACE`** | 在DACL中使用，表示用户或组明确被授予访问对象                                                                                  |
 | **`系统审计ACE`**   | 在SACL中使用，当用户或组尝试访问对象时生成审计日志。记录访问是否被授予以及发生的访问类型 |
 
-每个ACE由以下四个组成部分组成：
+每个ACE由以下**四个**组成部分组成：
 
 1. 具有访问对象权限的用户/组的安全标识符（SID）（或以图形方式表示的主体名称）
 2. 表示ACE类型的标志（拒绝访问、允许访问或系统审计ACE）
 3. 一组指定子容器/对象是否可以从主对象或父对象继承给定ACE条目的标志
-4. 一个[访问掩码](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-dtyp/7a53f60e-e730-4dfe-bbe9-b21b62eb790b?redirectedfrom=MSDN)，它是一个32位值，定义了授予对象的权限
+4. [访问掩码](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-dtyp/7a53f60e-e730-4dfe-bbe9-b21b62eb790b?redirectedfrom=MSDN)，它是一个32位值，定义了授予对象的权限
 
 系统按顺序检查每个ACE，直到发生以下事件之一：
 
@@ -92,7 +92,7 @@ DACL中ACE的首选顺序被称为“规范”顺序。对于Windows 2000和Wind
 * 显式的**拒绝访问ACE会被强制执行，而不管是否有显式的允许访问ACE**。这意味着对象的所有者可以定义允许一组用户访问并拒绝该组的子集的权限。
 * 所有**显式ACE在任何继承ACE之前被处理**。这与自由访问控制的概念一致：对于子对象（例如文件）的访问取决于子对象的所有者，而不是父对象（例如文件夹）的所有者。子对象的所有者可以直接在子对象上定义权限。结果是继承权限的效果被修改。
 
-![](<../../.gitbook/assets/image (9) (1) (2).png>)
+<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
 使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和自动化由全球**最先进**的社区工具提供支持的工作流程。\
@@ -114,7 +114,7 @@ DACL中ACE的首选顺序被称为“规范”顺序。对于Windows 2000和Wind
 
 ![](../../.gitbook/assets/editseprincipalpointers1.jpg)
 
-最后，我们在审核选项卡中有SACL：
+最后，在审核选项卡中有SACL：
 
 ![](../../.gitbook/assets/audit-tab.jpg)
 
@@ -132,7 +132,7 @@ DACL中ACE的首选顺序被称为“规范”顺序。对于Windows 2000和Wind
 
 您想要允许Marketing总监Bob访问Cost文件夹。作为Marketing组的成员，Bob被继承拒绝访问Cost文件夹。子对象（用户Bob）的所有者定义了一个显式ACE，允许访问Cost文件夹。如果子对象的ACE按照规范顺序排列，允许Bob访问的显式ACE会在任何继承的ACE之前，包括继承拒绝Marketing组访问的ACE。
 
-在访问检查期间，操作系统在到达拒绝Marketing组访问的ACE之前就到达了允许Bob访问的ACE。结果，尽管Bob是Marketing组的成员，他仍然被允许访问该对象。其他Marketing组的成员被拒绝访问。
+在访问检查期间，操作系统在到达拒绝Marketing组访问的ACE之前，先到达允许Bob访问的ACE。结果，尽管Bob是Marketing组的成员，他被允许访问该对象。其他Marketing组的成员被拒绝访问。
 
 ### 访问控制条目
 
@@ -154,7 +154,7 @@ ACE在本质上是相似的。它们的区别在于它们对继承和对象访�
 
 例如，在NTFS的文件夹对象上的DACL（自由访问控制列表）可以包括一个通用ACE，允许一组用户列出文件夹的内容。因为列出文件夹的内容是只能在容器对象上执行的操作，所以允许该操作的ACE可以被标记为CONTAINER\_INHERIT\_ACE。只有文件夹中的容器对象（即其他文件夹对象）继承父对象的ACE。非容器对象（即文件对象）不继承父对象的ACE。
 
-通用ACE适用于整个对象。如果通用ACE给了特定用户读取权限，该用户可以读取与对象关联的所有信息，包括数据和属性。对于大多数对象类型来说，这不是一个严重的限制。例如，文件对象只有少数属性，这些属性都用于描述对象的特性，而不是存储信息。文件对象中的大部分信息都存储为对象数据；因此，对文件属性进行单独控制的需求很小。
+通用ACE适用于整个对象。如果通用ACE给了特定用户读取权限，该用户可以读取与对象关联的所有信息-包括数据和属性。对于大多数对象类型来说，这不是一个严重的限制。例如，文件对象只有少数属性，这些属性都用于描述对象的特征，而不是存储信息。文件对象中的大部分信息都存储为对象数据；因此，对文件属性的单独控制几乎没有必要。
 
 ### 特定对象ACE
 
@@ -164,22 +164,22 @@ ACE在本质上是相似的。它们的区别在于它们对继承和对象访�
 
 这就是为什么特定对象ACE被称为特定对象的原因。它们的继承可以限制在特定类型的子对象上。
 
-这两种类别的ACE类型在控制对对象的访问方面有类似的差异。
+这两种类型的ACE在控制对对象的访问方面有类似的差异。
 
 特定对象ACE可以应用于对象的任何单个属性或该对象的一组属性。这种类型的ACE仅在Active Directory对象的ACL中使用，与其他对象类型不同，Active Directory对象将大部分信息存储在属性中。通常希望对Active Directory对象的每个属性都放置独立的控制，而特定对象ACE使这成为可能。
 
-例如，当您为User对象定义权限时，可以使用一个特定对象ACE允许Principal Self（即用户）对Phone-Home-Primary（homePhone）属性进行写访问，并使用其他特定对象ACE拒绝Principal Self对Logon-Hours（logonHours）属性和设置用户帐户限制的其他属性的访问。
+例如，当您为User对象定义权限时，可以使用一个特定对象ACE允许Principal Self（即用户）对Phone-Home-Primary（homePhone）属性进行写访问，并可以使用其他特定对象ACE拒绝Principal Self对Logon-Hours（logonHours）属性和设置用户帐户限制的其他属性的访问。
 
 下表显示了每个ACE的布局。
 ### 访问控制项布局
 
 | ACE字段    | 描述                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 类型        | 表示ACE类型的标志。Windows 2000和Windows Server 2003支持六种类型的ACE：附加到所有可安全对象的三种通用ACE类型。可能出现在Active Directory对象中的三种特定对象ACE类型。                                                                                                                                                                                                                                                                                                                                 |
-| 标志        | 一组位标志，用于控制继承和审核。                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| 大小        | 为ACE分配的内存字节数。                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| 访问掩码    | 32位值，其位对应于对象的访问权限。位可以设置为打开或关闭，但设置的含义取决于ACE类型。例如，如果打开了对应于读取权限的位，并且ACE类型为拒绝，则ACE拒绝读取对象的权限。如果相同的位被设置为打开，但ACE类型为允许，则ACE授予读取对象权限的权利。访问掩码的更多详细信息请参见下表。                                                                                                                                                                                                                          |
-| SID         | 标识由此ACE控制或监视其访问权限的用户或组。                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| 类型        | 表示ACE类型的标志。Windows 2000和Windows Server 2003支持六种ACE类型：三种通用ACE类型，适用于所有可安全对象；三种特定于对象的ACE类型，适用于Active Directory对象。                                                                                                                                                                                                                                                                                                                                                                                            |
+| 标志        | 一组位标志，用于控制继承和审核。                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| 大小        | 为ACE分配的内存字节数。                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| 访问掩码    | 32位值，其位对应于对象的访问权限。位可以设置为打开或关闭，但设置的含义取决于ACE类型。例如，如果打开了对应于读取权限的位，并且ACE类型为拒绝，则ACE拒绝读取对象的权限。如果相同的位被设置为打开，但ACE类型为允许，则ACE授予读取对象权限。访问掩码的更多详细信息请参见下表。 |
+| SID         | 标识由此ACE控制或监视其访问权限的用户或组。                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 
 ### 访问掩码布局
 
@@ -203,15 +203,15 @@ ACE在本质上是相似的。它们的区别在于它们对继承和对象访�
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 您在**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想获得最新版本的PEASS或下载PDF格式的HackTricks吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 您在**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[NFT收藏品](https://opensea.io/collection/the-peass-family)——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks衣物**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 * **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享您的黑客技巧**。
 
 </details>
 
-![](<../../.gitbook/assets/image (9) (1) (2).png>)
+<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
 使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和**自动化工作流程**，使用全球**最先进**的社区工具。\

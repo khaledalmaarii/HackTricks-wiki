@@ -2,20 +2,20 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者你想要获得**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+* 你在一家**网络安全公司**工作吗？想要在 HackTricks 中看到你的**公司广告**吗？或者你想要**获取最新版本的 PEASS 或下载 HackTricks 的 PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass)，或者**关注**我在**推特**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **通过向**[**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享你的黑客技巧。**
 
 </details>
 
-![](<../.gitbook/assets/image (9) (1) (2).png>)
+<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用[**Trickest**](https://trickest.io/)可以轻松构建和自动化由全球**最先进**的社区工具提供支持的工作流程。\
+使用[**Trickest**](https://trickest.io/)可以轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -31,60 +31,60 @@
 让我们来看看浏览器存储的最常见的遗留痕迹。
 
 * **浏览历史：** 包含用户的浏览历史数据。可以用于追踪用户是否访问过某些恶意网站。
-* **自动完成数据：** 这是浏览器根据您最常搜索的内容提供的数据。可以与浏览历史一起使用，以获取更多信息。
+* **自动完成数据：** 这是浏览器根据您最常搜索的内容提供的数据。可以与浏览历史一起使用，以获取更多的洞察力。
 * **书签：** 不言自明。
 * **扩展和插件：** 不言自明。
-* **缓存：** 在浏览网站时，浏览器会为许多原因创建各种缓存数据（图像、JavaScript文件等），例如加快网站的加载时间。这些缓存文件在取证调查中可以成为重要的数据来源。
+* **缓存：** 在浏览网站时，浏览器会为许多原因创建各种缓存数据（图像、JavaScript 文件等），例如加快网站的加载时间。这些缓存文件在取证调查中可以成为重要的数据来源。
 * **登录信息：** 不言自明。
 * **网站图标：** 它们是在选项卡、URL、书签等处找到的小图标。它们可以用作获取有关网站或用户访问过的位置的更多信息的另一个来源。
 * **浏览器会话：** 不言自明。
 * **下载：** 不言自明。
-* **表单数据：** 浏览器通常会存储在表单中输入的任何内容，以便下次用户在表单中输入内容时，浏览器可以提供先前输入的数据。
+* **表单数据：** 浏览器通常会存储在表单中输入的任何内容，以便在用户下次输入表单时，浏览器可以提供先前输入的数据。
 * **缩略图：** 不言自明。
 * **自定义字典.txt：** 用户添加到字典中的单词。
 
 ## Firefox
 
-Firefox在\~/_**.mozilla/firefox/**_（Linux）中创建配置文件文件夹，在**/Users/$USER/Library/Application Support/Firefox/Profiles/**（MacOS）中创建配置文件文件夹，在_**%userprofile%\AppData\Roaming\Mozilla\Firefox\Profiles\\**_（Windows）中创建配置文件文件夹。\
-在此文件夹中，应该出现名为_**profiles.ini**_的文件，其中包含用户配置文件的名称。\
-每个配置文件都有一个名为“**Path**”的变量，其中包含其数据将存储的文件夹的名称。该文件夹应该**存在于与\_profiles.ini**\_\*\*相同的目录中\*\*。如果不存在，则可能已被删除。
+Firefox 在 \~/_**.mozilla/firefox/**_（Linux），**/Users/$USER/Library/Application Support/Firefox/Profiles/**（MacOS），_**%userprofile%\AppData\Roaming\Mozilla\Firefox\Profiles\\**_（Windows）中创建配置文件文件夹_**。**_\
+在此文件夹中，应该出现名为 _**profiles.ini**_ 的文件，其中包含用户配置文件的名称。\
+每个配置文件都有一个 "**Path**" 变量，其中包含其数据将存储的文件夹的名称。该文件夹应该**位于与 \_profiles.ini**\_\*\* 相同的目录中\*\*。如果不存在，则可能已被删除。
 
-在每个配置文件的文件夹（_\~/.mozilla/firefox/\<ProfileName>/_）路径中，您应该能够找到以下有趣的文件：
+在每个配置文件的文件夹中（_\~/.mozilla/firefox/\<ProfileName>/_），您应该能够找到以下有趣的文件：
 
-* _**places.sqlite**_：历史记录（moz\_\_places）、书签（moz\_bookmarks）和下载文件（moz\_\_annos）。在Windows中，可以使用工具[BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html)来读取_**places.sqlite**_中的历史记录。
+* _**places.sqlite**_：历史记录（moz\_\_places）、书签（moz\_bookmarks）和下载文件（moz\_\_annos）。在 Windows 上，可以使用工具[BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html)来读取 _**places.sqlite**_ 中的历史记录。
 * 转储历史的查询：`select datetime(lastvisitdate/1000000,'unixepoch') as visit_date, url, title, visit_count, visit_type FROM moz_places,moz_historyvisits WHERE moz_places.id = moz_historyvisits.place_id;`
 * 注意，链接类型是一个指示数字，表示：
 * 1：用户点击链接
-* 2：用户输入URL
+* 2：用户输入 URL
 * 3：用户使用收藏夹
-* 4：从Iframe加载
-* 5：通过HTTP重定向301访问
-* 6：通过HTTP重定向302访问
+* 4：从 iframe 加载
+* 5：通过 HTTP 重定向 301 访问
+* 6：通过 HTTP 重定向 302 访问
 * 7：下载文件
-* 8：用户在Iframe中点击链接
+* 8：用户在 iframe 中点击链接
 * 转储下载的查询：`SELECT datetime(lastModified/1000000,'unixepoch') AS down_date, content as File, url as URL FROM moz_places, moz_annos WHERE moz_places.id = moz_annos.place_id;`
 *
 * _**bookmarkbackups/**_：书签备份
-* _**formhistory.sqlite**_：**Web表单数据**（例如电子邮件）
-* _**handlers.json**_：协议处理程序（例如，哪个应用程序将处理_mailto://_协议）
+* _**formhistory.sqlite**_：**Web 表单数据**（例如电子邮件）
+* _**handlers.json**_：协议处理程序（例如，哪个应用程序将处理 _mailto://_ 协议）
 * _**persdict.dat**_：用户添加到字典中的单词
-* _**addons.json**_和_**extensions.sqlite**_：已安装的插件和扩展
-* _**cookies.sqlite**_：包含**cookies**。在Windows中，可以使用[MZCookiesView](https://www.nirsoft.net/utils/mzcv.html)来检查此文件。
-* _**cache2/entries**_或_**startupCache**_：缓存数据（约350MB）。还可以使用数据刻录等技巧来获取缓存中保存的文件。可以使用[MozillaCacheView](https://www.nirsoft.net/utils/mozilla\_cache\_viewer.html)来查看**缓存中保存的文件**。
+* _**addons.json**_ 和 _**extensions.sqlite**_：已安装的插件和扩展
+* _**cookies.sqlite**_：包含**cookies**。在 Windows 上，可以使用[MZCookiesView](https://www.nirsoft.net/utils/mzcv.html)来检查此文件。
+* _**cache2/entries**_ 或 _**startupCache**_：缓存数据（约 350MB）。还可以使用数据刻录等技巧来获取缓存中保存的文件。可以使用[MozillaCacheView](https://www.nirsoft.net/utils/mozilla\_cache\_viewer.html)来查看**缓存中保存的文件**。
 
 可以获取的信息：
 
 * URL、获取次数、文件名、内容类型、文件大小、上次修改时间、上次获取时间、服务器上的最后修改时间、服务器响应
 * _**favicons.sqlite**_：网站图标
 * _**prefs.js**_：设置和首选项
-* _**downloads.sqlite**_：旧的下载数据库（现在已经在places.sqlite中）
+* _**downloads.sqlite**_：旧的下载数据库（现在已经在 places.sqlite 中）
 * _**thumbnails/**_：缩略图
-* _**logins.json**_ : 加密的用户名和密码
-* **浏览器内置的反钓鱼功能:** `grep 'browser.safebrowsing' ~/Library/Application Support/Firefox/Profiles/*/prefs.js`
+* _**logins.json**_：加密的用户名和密码
+* **浏览器内置的反钓鱼功能**：`grep 'browser.safebrowsing' ~/Library/Application Support/Firefox/Profiles/*/prefs.js`
 * 如果安全搜索设置已被禁用，则返回“safebrowsing.malware.enabled”和“phishing.enabled”为false
-* _**key4.db**_ 或 _**key3.db**_ : 主密钥？
+* _**key4.db**_ 或 _**key3.db**_：主密钥？
 
-为了尝试解密主密码，您可以使用[https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt)\
+为了尝试解密主密码，您可以使用[https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt)。\
 使用以下脚本和调用，您可以指定一个密码文件进行暴力破解：
 
 {% code title="brute.sh" %}
@@ -108,14 +108,14 @@ Google Chrome在用户的主目录下创建配置文件，路径为_**\~/.config
 
 * _**History**_：URL、下载记录甚至搜索关键词。在Windows中，你可以使用工具[ChromeHistoryView](https://www.nirsoft.net/utils/chrome\_history\_view.html)来查看历史记录。"Transition Type"列的含义如下：
 * Link：用户点击了链接
-* Typed：URL被手动输入
+* Typed：输入了URL
 * Auto Bookmark
 * Auto Subframe：添加
 * Start page：主页
-* Form Submit：填写并提交表单
+* Form Submit：填写并发送了表单
 * Reloaded
-* _**Cookies**_：Cookies。可以使用[ChromeCookiesView](https://www.nirsoft.net/utils/chrome\_cookies\_view.html)来查看Cookies。
-* _**Cache**_：缓存。在Windows中，可以使用工具[ChromeCacheView](https://www.nirsoft.net/utils/chrome\_cache\_view.html)来查看缓存。
+* _**Cookies**_：Cookies。可以使用[ChromeCookiesView](https://www.nirsoft.net/utils/chrome\_cookies\_view.html)来检查Cookies。
+* _**Cache**_：缓存。在Windows中，可以使用工具[ChromeCacheView](https://www.nirsoft.net/utils/chrome\_cache\_view.html)来检查缓存。
 * _**Bookmarks**_：书签
 * _**Web Data**_：表单历史
 * _**Favicons**_：网站图标
@@ -126,30 +126,29 @@ Google Chrome在用户的主目录下创建配置文件，路径为_**\~/.config
 * **Thumbnails**：缩略图
 * **Preferences**：该文件包含了大量有用的信息，如插件、扩展、使用地理位置的网站、弹出窗口、通知、DNS预取、证书异常等。如果你想研究某个特定的Chrome设置是否启用，你很可能会在这里找到该设置。
 * **浏览器内置的反钓鱼功能**：`grep 'safebrowsing' ~/Library/Application Support/Google/Chrome/Default/Preferences`
-* 你可以简单地使用grep搜索“**safebrowsing**”，并在结果中查找`{"enabled: true,"}`来判断反钓鱼和恶意软件保护是否开启。
+* 你可以简单地使用grep搜索“**safebrowsing**”，并在结果中查找`{"enabled: true,"}`来表示反钓鱼和恶意软件保护已开启。
 
 ## **SQLite数据库数据恢复**
 
-正如前面的部分所示，Chrome和Firefox都使用**SQLite**数据库来存储数据。可以使用工具[**sqlparse**](https://github.com/padfoot999/sqlparse)或者[**sqlparse\_gui**](https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases)来**恢复已删除的条目**。
+正如前面的章节所示，Chrome和Firefox都使用**SQLite**数据库来存储数据。可以使用工具[**sqlparse**](https://github.com/padfoot999/sqlparse)或者[**sqlparse\_gui**](https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases)来**恢复已删除的条目**。
 
 ## **Internet Explorer 11**
 
 Internet Explorer将**数据**和**元数据**存储在不同的位置。元数据可以帮助找到数据。
 
-元数据可以在文件夹`%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data`中找到，其中VX可以是V01、V16或V24。\
-在上述文件夹中，还可以找到文件V01.log。如果此文件的**修改时间**和WebcacheVX.data文件的**不同**，可能需要运行命令`esentutl /r V01 /d`来**修复**可能的**不兼容性**。
+元数据可以在文件夹`%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data`中找到，其中VX可以是V01、V16或V24。在上述文件夹中，还可以找到文件V01.log。如果此文件的**修改时间**与WebcacheVX.data文件的**不同**，可能需要运行命令`esentutl /r V01 /d`来**修复**可能的**不兼容性**。
 
 一旦**恢复**了这个工件（它是一个ESE数据库，可以使用photorec工具并选择Exchange Database或EDB选项来恢复），你可以使用程序[ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html)来打开它。打开后，转到名为“**Containers**”的表。
 
 ![](<../../../.gitbook/assets/image (446).png>)
 
-在这个表中，你可以找到存储信息的每个部分在哪些其他表或容器中。然后，你可以找到浏览器存储的数据的位置以及其中的元数据。
+在这个表中，你可以找到存储信息的每个部分保存在哪些其他表或容器中。然后，你可以找到浏览器存储的数据的位置以及其中的元数据。
 
 **请注意，此表还指示了其他Microsoft工具（如Skype）的缓存元数据**
 
 ### 缓存
 
-可以使用工具[IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html)来查看缓存。你需要指定提取缓存数据的文件夹。
+可以使用工具[IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html)来检查缓存。你需要指定提取缓存数据的文件夹。
 
 #### 元数据
 
@@ -158,9 +157,9 @@ Internet Explorer将**数据**和**元数据**存储在不同的位置。元数�
 * 文件名
 * SecureDIrectory：缓存目录中文件的位置
 * AccessCount：文件在缓存中保存的次数
-* URL：源URL
-* CreationTime：缓存的第一次时间
-* AccessedTime：缓存被使用的时间
+* URL：来源URL
+* CreationTime：缓存的第一次保存时间
+* AccessedTime：缓存使用的时间
 * ModifiedTime：最后的网页版本
 * ExpiryTime：缓存过期的时间
 
@@ -168,11 +167,11 @@ Internet Explorer将**数据**和**元数据**存储在不同的位置。元数�
 
 缓存信息可以在_**%userprofile%\Appdata\Local\Microsoft\Windows\Temporary Internet Files\Content.IE5**_和_**%userprofile%\Appdata\Local\Microsoft\Windows\Temporary Internet Files\Content.IE5\low**_中找到。
 
-这些文件夹中的信息是用户所见的页面的**快照**。缓存的大小为**250 MB**，时间戳指示了页面的访问时间（第一次访问时间、NTFS的创建日期、最后一次访问时间、NTFS的修改时间）。
+这些文件夹中的信息是用户所看到的页面的**快照**。缓存的大小为**250 MB**，时间戳指示了页面的访问时间（第一次访问时间、NTFS的创建日期、最后一次访问时间、NTFS的修改时间）。
 
 ### Cookies
 
-可以使用工具[IECookiesView](https://www.nirsoft.net/utils/iecookies.html)来查看Cookies。你需要指定提取Cookies的文件夹。
+可以使用工具[IECookiesView](https://www.nirsoft.net/utils/iecookies.html)来检查Cookies。你需要指定提取Cookies的文件夹。
 
 #### **元数据**
 
@@ -180,7 +179,7 @@ Internet Explorer将**数据**和**元数据**存储在不同的位置。元数�
 
 * 文件系统中的Cookie名称
 * URL
-* AccessCount：Cookie被发送到服务器的次数
+* AccessCount：Cookie发送到服务器的次数
 * CreationTime：Cookie的创建时间
 * ModifiedTime：Cookie的最后修改时间
 * AccessedTime：Cookie的最后访问时间
@@ -244,8 +243,8 @@ Cookies数据可以在_**%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies
 
 * **History.db**：表`history_visits`和`history_items`包含有关历史记录和时间戳的信息。
 * `sqlite3 ~/Library/Safari/History.db "SELECT h.visit_time, i.url FROM history_visits h INNER JOIN history_items i ON h.history_item = i.id"`
-* **Downloads.plist**：包含有关已下载文件的信息。
-* **Book-marks.plist**：已收藏的URL。
+* **Downloads.plist**：包含有关下载文件的信息。
+* **Book-marks.plist**：收藏的URL。
 * **TopSites.plist**：用户浏览的最常访问的网站列表。
 * **Extensions.plist**：检索Safari浏览器扩展的旧式列表。
 * `plutil -p ~/Library/Safari/Extensions/Extensions.plist| grep "Bundle Directory Name" | sort --ignore-case`
@@ -266,7 +265,7 @@ Opera以与Google Chrome完全相同的格式存储浏览器历史记录和下�
 * **浏览器内置的反钓鱼功能**：`grep --color 'fraud_protection_enabled' ~/Library/Application Support/com.operasoftware.Opera/Preferences`
 * **fraud\_protection\_enabled**应为**true**
 
-![](<../.gitbook/assets/image (9) (1) (2).png>)
+<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
 使用[**Trickest**](https://trickest.io/)可以轻松构建和自动化由全球**最先进的**社区工具提供支持的工作流程。\
@@ -278,7 +277,7 @@ Opera以与Google Chrome完全相同的格式存储浏览器历史记录和下�
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 您在**网络安全公司**工作吗？您想在HackTricks中看到您的公司广告吗？或者您想获得最新版本的PEASS或以PDF格式下载HackTricks吗？请查看[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)！
+* 您在**网络安全公司**工作吗？您想在HackTricks中看到您的公司广告吗？或者您想获得最新版本的PEASS或以PDF格式下载HackTricks吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[NFT](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks衣物**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**

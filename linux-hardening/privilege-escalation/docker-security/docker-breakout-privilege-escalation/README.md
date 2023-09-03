@@ -2,17 +2,17 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云平台 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* 你在一家**网络安全公司**工作吗？你想在HackTricks中**宣传你的公司**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
 
-![](<../../../../.gitbook/assets/image (9) (1) (2).png>)
+<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
 使用[**Trickest**](https://trickest.io/)可以轻松构建和**自动化工作流程**，使用全球**最先进**的社区工具。\
@@ -24,7 +24,7 @@
 
 * [**linpeas**](https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS)：它还可以**枚举容器**
 * [**CDK**](https://github.com/cdk-team/CDK#installationdelivery)：这个工具非常**有用，可以枚举你所在的容器，甚至尝试自动逃逸**
-* [**amicontained**](https://github.com/genuinetools/amicontained)：有用的工具，可以获取容器的权限，以便找到逃逸的方法
+* [**amicontained**](https://github.com/genuinetools/amicontained)：用于获取容器的特权，以找到逃逸的方法的有用工具
 * [**deepce**](https://github.com/stealthcopter/deepce)：用于枚举和逃逸容器的工具
 * [**grype**](https://github.com/anchore/grype)：获取镜像中安装的软件中包含的CVE
 
@@ -104,9 +104,9 @@ capsh --print
 
 ### 特权 + hostPID
 
-有了这些权限，您只需运行`nsenter --target 1 --mount --uts --ipc --net --pid -- bash`，就可以**进入以root身份在主机上运行的进程的命名空间**，例如init (pid:1)。
+通过这些权限，您可以轻松地**切换到以root身份在主机上运行的进程的命名空间**，比如init（pid:1），只需运行：`nsenter --target 1 --mount --uts --ipc --net --pid -- bash`
 
-在容器中执行以下测试命令：
+在容器中执行以下命令进行测试：
 ```bash
 docker run --rm -it --pid=host --privileged ubuntu bash
 ```
@@ -368,14 +368,14 @@ chown root:root bash #From container as root inside mounted folder
 chmod 4777 bash #From container as root inside mounted folder
 bash -p #From non priv inside mounted folder
 ```
-### 使用2个shell进行特权提升
+### 使用两个shell进行特权提升
 
 如果您在容器内部具有**root访问权限**，并且已经以非特权用户的身份**逃逸到主机**，则可以滥用这两个shell来在主机内部进行**特权提升**，前提是您在容器内部具有MKNOD功能（默认情况下是有的），如[**此文章中所解释的**](https://labs.f-secure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/)。
 
-有了这样的功能，容器内的root用户可以**创建块设备文件**。设备文件是用于**访问底层硬件和内核模块**的特殊文件。例如，/dev/sda块设备文件可以访问系统磁盘上的原始数据。
+通过这种功能，容器内的root用户被允许**创建块设备文件**。设备文件是用于**访问底层硬件和内核模块**的特殊文件。例如，/dev/sda块设备文件允许**读取系统磁盘上的原始数据**。
 
-Docker通过在容器上设置cgroup策略来阻止从容器内部滥用块设备的操作。\
-然而，如果在容器内部**创建了一个块设备**，则可以通过位于/proc/PID/root/文件夹中的某个**外部容器**访问它，限制是**进程必须由相同的用户**在容器外部和容器内部拥有。
+Docker通过在容器上设置cgroup策略来确保**无法从容器内部滥用块设备**进行读写。\
+然而，如果在容器内部**创建了一个块设备**，则可以通过位于/proc/PID/root/文件夹中的某个**外部容器**访问它，限制是**进程必须由相同的用户**在容器外部和内部拥有。
 
 以下是来自[**此篇文章**](https://radboudinstituteof.pwning.nl/posts/htbunictfquals2021/goodgames/)的**利用示例**：
 ```bash
@@ -465,7 +465,7 @@ docker run --rm -it --network=host ubuntu bash
 ```
 docker run --rm -it --ipc=host ubuntu bash
 ```
-如果只有`hostIPC=true`，你可能无法做太多事情。如果主机上的任何进程或其他Pod中的进程正在使用主机的**进程间通信机制**（共享内存、信号量数组、消息队列等），你将能够读取/写入这些相同的机制。你首先要查看的地方是`/dev/shm`，因为它在具有`hostIPC=true`的任何Pod和主机之间共享。你还需要使用`ipcs`来检查其他IPC机制。
+如果只有`hostIPC=true`，你可能无法做太多事情。如果主机上的任何进程或其他容器内的进程正在使用主机的**进程间通信机制**（共享内存、信号量数组、消息队列等），你将能够读取/写入这些相同的机制。你首先要查看的地方是`/dev/shm`，因为它在任何具有`hostIPC=true`的容器和主机之间共享。你还需要使用`ipcs`来检查其他IPC机制。
 
 * **检查/dev/shm** - 查看此共享内存位置中的任何文件：`ls -la /dev/shm`
 * **检查现有的IPC设施** - 你可以使用`/usr/bin/ipcs`来检查是否正在使用任何IPC设施。使用以下命令进行检查：`ipcs -a`
@@ -482,7 +482,7 @@ cat /proc/self/status | grep CapEff
 
 在[https://labs.f-secure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/](https://labs.f-secure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/)的文章中解释了第二种技术，它说明了如何滥用用户命名空间中的绑定挂载，以影响主机内的文件（在该特定情况下，删除文件）。
 
-![](<../../../../.gitbook/assets/image (9) (1) (2).png>)
+<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 使用[**Trickest**](https://trickest.io/)可以轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。\
 立即获取访问权限：
@@ -495,7 +495,7 @@ cat /proc/self/status | grep CapEff
 
 如果您可以以root身份执行`docker exec`（可能需要sudo），则可以尝试通过滥用CVE-2019-5736（[此处](https://github.com/Frichetten/CVE-2019-5736-PoC/blob/master/main.go)有漏洞利用）来提升特权。这种技术基本上会从容器中**覆盖**主机上的_**/bin/sh**_二进制文件，因此任何执行docker exec的人都可能触发有效载荷。
 
-根据需要更改有效载荷，并使用`go build main.go`构建main.go。生成的二进制文件应放置在docker容器中以供执行。\
+相应地更改有效载荷，并使用`go build main.go`构建main.go。生成的二进制文件应放置在docker容器中以供执行。\
 执行时，一旦显示`[+] Overwritten /bin/sh successfully`，您需要从主机机器上执行以下操作：
 
 `docker exec -it <container-name> /bin/sh`
@@ -512,7 +512,7 @@ cat /proc/self/status | grep CapEff
 
 ### Docker逃逸面
 
-* **命名空间：**进程应通过命名空间与其他进程**完全隔离**，因此无法通过命名空间进行交互（默认情况下无法通过IPC、Unix套接字、网络服务、D-Bus、其他进程的`/proc`进行通信）。
+* **命名空间：**进程应通过命名空间与其他进程**完全隔离**，因此无法通过命名空间与其他进程进行交互（默认情况下无法通过IPC、Unix套接字、网络服务、D-Bus、其他进程的`/proc`进行通信）。
 * **Root用户：**默认情况下，运行进程的用户是root用户（但其权限受限）。
 * **能力：**Docker保留以下能力：`cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap=ep`
 * **系统调用：**这些是**root用户无法调用**的系统调用（因为缺乏能力+Seccomp）。其他系统调用可用于尝试逃逸。
@@ -623,7 +623,7 @@ If you are in **userspace** (**no kernel exploit** involved) the way to find new
 
 
 
-![](<../../../../.gitbook/assets/image (9) (1) (2).png>)
+<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 Use [**Trickest**](https://trickest.io/) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
 Get Access Today:

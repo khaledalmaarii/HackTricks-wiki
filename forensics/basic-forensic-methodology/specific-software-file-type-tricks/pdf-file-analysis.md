@@ -12,7 +12,7 @@
 
 </details>
 
-![](<../.gitbook/assets/image (9) (1) (2).png>)
+<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
 使用[**Trickest**](https://trickest.io/)可以轻松构建和**自动化工作流程**，使用全球**最先进的**社区工具。\
@@ -28,17 +28,17 @@ PDF格式部分是纯文本，类似于HTML，但内容中包含许多二进制�
 
 [qpdf](https://github.com/qpdf/qpdf)是一种有用的工具，可以用于探索PDF并从中转换或提取信息。另一个是Ruby框架Origami，用于处理PDF文件。
 
-在探索PDF内容以查找隐藏数据时，一些要检查的隐藏位置包括：
+在探索PDF内容中的隐藏数据时，一些要检查的隐藏位置包括：
 
 * 非可见图层
 * Adobe的元数据格式“XMP”
-* PDF的“增量生成”功能，其中保留了先前的版本，但对用户不可见
+* PDF的“增量生成”功能，其中保留了先前版本，但对用户不可见
 * 白色背景上的白色文本
 * 图像后面的文本
 * 重叠图像后面的图像
 * 非显示的注释
 
-还有几个用于处理PDF文件格式的Python包，如[PeepDF](https://github.com/jesparza/peepdf)，可以让你编写自己的解析脚本。
+还有一些用于处理PDF文件格式的Python包，如[PeepDF](https://github.com/jesparza/peepdf)，可以让你编写自己的解析脚本。
 
 <details>
 

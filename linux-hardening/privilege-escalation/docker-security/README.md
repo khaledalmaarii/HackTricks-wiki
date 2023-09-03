@@ -1,28 +1,29 @@
 # Docker安全
 
-![](<../../../.gitbook/assets/image (9) (1) (2).png>)
-
-\
-使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)轻松构建和自动化由全球**最先进**的社区工具提供支持的工作流程。\
-立即获取访问权限：
-
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
-
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
 
-* 你在**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
 
+<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+
+\
+使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和**自动化工作流程**，使用世界上最先进的社区工具。\
+立即获取访问权限：
+
+{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+
+
 ## **基本的Docker引擎安全**
 
-Docker引擎负责运行和管理容器。Docker引擎使用Linux内核的**命名空间**和**Cgroups**功能，提供容器之间的基本**隔离**。它还使用**能力降低**、**Seccomp**、**SELinux/AppArmor**等功能实现更好的隔离。
+Docker引擎负责运行和管理容器。Docker引擎使用Linux内核的**命名空间**和**Cgroups**功能，提供容器之间的基本**隔离**。它还使用**能力降低**、**Seccomp**、**SELinux/AppArmor**等功能来实现更好的隔离。
 
 最后，可以使用**认证插件**来**限制用户的操作**。
 
@@ -33,7 +34,7 @@ Docker引擎负责运行和管理容器。Docker引擎使用Linux内核的**命�
 Docker客户端可以通过Unix套接字本地访问Docker引擎，也可以通过http远程访问。要进行远程访问，需要使用https和**TLS**，以确保机密性、完整性和身份验证。
 
 默认情况下，监听Unix套接字`unix:///var/`\
-`run/docker.sock`，在Ubuntu发行版中，Docker启动选项在`/etc/default/docker`中指定。要允许Docker API和客户端远程访问Docker引擎，我们需要**通过http套接字公开Docker守护程序**。可以通过以下方式完成：
+`run/docker.sock`，在Ubuntu发行版中，Docker启动选项在`/etc/default/docker`中指定。要允许Docker API和客户端远程访问Docker引擎，我们需要**使用http套接字暴露Docker守护程序**。可以通过以下方式完成：
 ```bash
 DOCKER_OPTS="-D -H unix:///var/run/docker.sock -H
 tcp://192.168.56.101:2376" -> add this to /etc/default/docker
@@ -92,8 +93,8 @@ Docker容器镜像可以存储在公共或私有注册表中。为了确认镜�
 - Docker内容信任是[Notary开源项目](https://github.com/docker/notary)的一种实现。Notary开源项目基于[The Update Framework (TUF)项目](https://theupdateframework.github.io)。
 - 使用`export DOCKER_CONTENT_TRUST=1`启用Docker内容信任。从Docker版本1.10开始，默认情况下未启用内容信任。
 - 当内容信任被启用时，我们只能拉取已签名的镜像。在推送镜像时，需要输入标记密钥。
-- 当发布者首次使用docker push推送镜像时，需要为根密钥和标记密钥输入密码。其他密钥会自动生成。
-- Docker还支持使用Yubikey硬件密钥，详细信息可在[这里](https://blog.docker.com/2015/11/docker-content-trust-yubikey/)找到。
+- 当发布者首次使用docker push推送镜像时，需要为根密钥和标记密钥输入密码短语。其他密钥将自动生成。
+- Docker还添加了对使用Yubikey的硬件密钥的支持，详细信息可在[这里](https://blog.docker.com/2015/11/docker-content-trust-yubikey/)找到。
 
 以下是当启用内容信任但镜像未签名时出现的错误信息。
 ```shell-session
@@ -120,10 +121,10 @@ tar -zcvf private_keys_backup.tar.gz ~/.docker/trust/private
 
 ***
 
-![](<../../../.gitbook/assets/image (9) (1) (2).png>)
+<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)轻松构建和自动化由全球**最先进**的社区工具提供支持的工作流程。\
+使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -136,10 +137,10 @@ tar -zcvf private_keys_backup.tar.gz ~/.docker/trust/private
 
 **命名空间**
 
-命名空间对于将一个项目与其他项目隔离开来非常有用，可以隔离进程通信、网络、挂载等。它对于将Docker进程与其他进程（甚至/proc文件夹）隔离开来非常有用，因此它无法滥用其他进程来逃逸。
+命名空间对于将项目与其他项目隔离开来非常有用，可以隔离进程通信、网络、挂载等。它对于将Docker进程与其他进程（甚至/proc文件夹）隔离开来非常有用，因此它无法滥用其他进程来逃逸。
 
-通过使用二进制文件**`unshare`**（使用**`unshare`**系统调用）可以可能"逃逸"或更准确地说是**创建新的命名空间**。Docker默认情况下会阻止此操作，但Kubernetes不会（在撰写本文时）。\
-无论如何，这对于创建新的命名空间非常有帮助，但**无法返回到主机默认的命名空间**（除非您可以访问主机命名空间中的某些`/proc`，在其中您可以使用**`nsenter`**进入主机命名空间）。
+可以使用二进制文件**`unshare`**（使用**`unshare`**系统调用）来“逃逸”或更准确地说是**创建新的命名空间**。Docker默认情况下会阻止此操作，但Kubernetes不会（在撰写本文时）。\
+无论如何，这对于创建新的命名空间非常有帮助，但**无法返回到主机默认的命名空间**（除非您可以访问主机命名空间中的某些`/proc`，在其中可以使用**`nsenter`**进入主机命名空间）。
 
 **CGroups**
 
@@ -172,7 +173,7 @@ Docker有一个可以激活的模板：[https://github.com/moby/moby/tree/master
 
 ### 命名空间
 
-**命名空间**是Linux内核的一个功能，它将内核资源**分区**，使得一组**进程**看到一组**资源**，而**另一组进程**看到另一组**资源**。该功能通过为一组资源和进程使用相同的命名空间，但这些命名空间指的是不同的资源来实现。资源可以存在于多个空间中。
+**命名空间**是Linux内核的一个功能，它将内核资源进行**分区**，使得一组**进程**看到一组**资源**，而**另一组进程**看到另一组**资源**。该功能通过为一组资源和进程使用相同的命名空间，但这些命名空间指向不同的资源来实现。资源可以存在于多个空间中。
 
 Docker利用以下Linux内核命名空间来实现容器隔离：
 
@@ -265,7 +266,7 @@ docker run -d --name malicious-container -c 512 busybox sh -c 'while true; do :;
 ```
 * 带宽拒绝服务攻击
 
-Bandwidth DoS（带宽拒绝服务攻击）
+带宽拒绝服务攻击（Bandwidth DoS）是一种网络攻击技术，旨在通过消耗目标系统的带宽资源来使其无法正常运行。攻击者通过发送大量的网络流量到目标系统，超过其带宽容量的限制，从而导致目标系统无法处理正常的网络请求。这种攻击可以导致目标系统的网络连接变得缓慢或完全中断，从而影响其正常的功能和服务。为了防止带宽拒绝服务攻击，网络管理员可以采取一系列的防御措施，如流量监测、流量过滤和带宽限制等。
 ```bash
 nc -lvp 4444 >/dev/null & while true; do cat /dev/urandom | nc <target IP> 4444; done
 ```
@@ -293,7 +294,7 @@ docker run -it --security-opt=no-new-privileges:true nonewpriv
 
 In addition to the security measures mentioned above, there are a few other steps you can take to further harden your Docker environment:
 
-1. **Limit container capabilities**: By default, Docker containers have a wide range of capabilities, which can potentially be exploited by attackers. You can restrict these capabilities by using the `--cap-drop` and `--cap-add` flags when running containers. Only allow the necessary capabilities for your application to function properly.
+1. **Limit container capabilities**: By default, Docker containers have a wide range of capabilities, which can potentially be exploited by attackers. You can restrict these capabilities by using the `--cap-drop` and `--cap-add` flags when running containers. Only allow the necessary capabilities for your containers to function properly.
 
 2. **Use seccomp profiles**: Seccomp (secure computing mode) is a Linux kernel feature that allows you to restrict the system calls that a process can make. By using seccomp profiles, you can further limit the attack surface of your containers. Docker provides a default seccomp profile, but you can also create custom profiles based on your specific requirements.
 
@@ -301,7 +302,7 @@ In addition to the security measures mentioned above, there are a few other step
 
 4. **Regularly update Docker and its dependencies**: Docker releases regular updates that include security patches and bug fixes. It is important to keep your Docker installation up to date to ensure that you have the latest security enhancements.
 
-5. **Monitor Docker logs**: Monitoring Docker logs can help you detect any suspicious activities or potential security breaches. Configure a centralized logging system to collect and analyze Docker logs for better visibility into your container environment.
+5. **Monitor Docker logs**: Monitoring Docker logs can help you detect any suspicious activities or potential security breaches. Configure a centralized logging system to collect and analyze Docker logs for better visibility into your environment.
 
 By implementing these additional security measures, you can significantly reduce the risk of privilege escalation and other security vulnerabilities in your Docker environment.
 ```bash
@@ -386,18 +387,18 @@ file: ./my_secret_file.txt
 ### 总结提示
 
 * **不要使用`--privileged`标志或在容器内挂载**[**Docker套接字**](https://raesene.github.io/blog/2016/03/06/The-Dangers-Of-Docker.sock/)**。** Docker套接字允许生成容器，因此通过使用`--privileged`标志运行另一个容器是控制主机的简单方法。
-* **不要在容器内以root身份运行。使用**[**不同的用户**](https://docs.docker.com/develop/develop-images/dockerfile\_best-practices/#user)**和**[**用户命名空间**](https://docs.docker.com/engine/security/userns-remap/)**。**容器中的root与主机上的root相同，除非使用用户命名空间重新映射。它仅受到轻微的限制，主要是通过Linux命名空间、能力和cgroups。
+* **不要在容器内以root身份运行。使用**[**不同的用户**](https://docs.docker.com/develop/develop-images/dockerfile\_best-practices/#user)**和**[**用户命名空间**](https://docs.docker.com/engine/security/userns-remap/)**。**容器中的root与主机上的root相同，除非使用用户命名空间重新映射。它仅受到Linux命名空间、能力和cgroups的轻微限制。
 * [**丢弃所有能力**](https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities)**（`--cap-drop=all`），仅启用所需的能力**（`--cap-add=...`）。许多工作负载不需要任何能力，添加能力会增加潜在攻击的范围。
 * [**使用“no-new-privileges”安全选项**](https://raesene.github.io/blog/2019/06/01/docker-capabilities-and-no-new-privs/)防止进程获取更多特权，例如通过suid二进制文件。
 * [**限制容器可用的资源**](https://docs.docker.com/engine/reference/run/#runtime-constraints-on-resources)**。**资源限制可以保护机器免受拒绝服务攻击。
 * **调整**[**seccomp**](https://docs.docker.com/engine/security/seccomp/)**、**[**AppArmor**](https://docs.docker.com/engine/security/apparmor/)**（或SELinux）**配置文件，将容器可用的操作和系统调用限制为最小。
-* **使用**[**官方的Docker镜像**](https://docs.docker.com/docker-hub/official\_images/)**，并要求签名**，或者基于官方镜像构建自己的镜像。不要继承或使用[带后门的](https://arstechnica.com/information-technology/2018/06/backdoored-images-downloaded-5-million-times-finally-removed-from-docker-hub/)镜像。还要将根密钥和密码短语存放在安全的地方。Docker计划使用UCP来管理密钥。
+* **使用**[**官方的Docker镜像**](https://docs.docker.com/docker-hub/official\_images/)**并要求签名**，或者基于官方镜像构建自己的镜像。不要继承或使用[后门](https://arstechnica.com/information-technology/2018/06/backdoored-images-downloaded-5-million-times-finally-removed-from-docker-hub/)镜像。还要将根密钥和密码短语存放在安全的地方。Docker计划使用UCP来管理密钥。
 * **定期重新构建**您的镜像，以**应用安全补丁到主机和镜像**。
 * 明智地**管理您的密钥**，使攻击者难以访问它们。
 * 如果**公开了Docker守护程序，请使用HTTPS**进行客户端和服务器身份验证。
-* 在Dockerfile中，**优先使用COPY而不是ADD**。ADD会自动解压缩文件，并可以从URL复制文件。COPY没有这些功能。尽量避免使用ADD，以免受到通过远程URL和Zip文件进行的攻击。
+* 在Dockerfile中，**优先使用COPY而不是ADD**。ADD会自动解压缩文件并可以从URL复制文件。COPY没有这些功能。尽量避免使用ADD，以免受到通过远程URL和Zip文件进行的攻击。
 * 为每个微服务**使用单独的容器**。
-* **不要在容器中放置ssh**，“docker exec”可用于通过ssh访问容器。
+* **不要在容器中放置ssh**，“docker exec”可用于通过ssh连接到容器。
 * 使用**较小的**容器**镜像**
 
 ## Docker越权/权限提升
@@ -433,21 +434,20 @@ file: ./my_secret_file.txt
 * [https://en.wikipedia.org/wiki/Linux\_namespaces](https://en.wikipedia.org/wiki/Linux\_namespaces)
 * [https://towardsdatascience.com/top-20-docker-security-tips-81c41dd06f57](https://towardsdatascience.com/top-20-docker-security-tips-81c41dd06f57)
 
-<details>
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
-
-* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品- [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **通过向** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
-
-</details>
-
-![](<../../../.gitbook/assets/image (9) (1) (2).png>)
-
-\
-使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和**自动化工作流程**，使用全球**最先进的**社区工具。\
+<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)轻松构建和自动化由全球**最先进**的社区工具提供支持的工作流程。
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+
+<details>
+
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+
+* 你在**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者你想要访问**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+
+</details>
