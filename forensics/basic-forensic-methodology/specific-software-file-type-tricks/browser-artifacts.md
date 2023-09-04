@@ -4,7 +4,7 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在 HackTricks 中看到你的**公司广告**吗？或者你想要**获取最新版本的 PEASS 或下载 HackTricks 的 PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在一家**网络安全公司**工作吗？想要在 HackTricks 中**宣传你的公司**吗？或者你想要**获取最新版本的 PEASS 或下载 HackTricks 的 PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass)，或者**关注**我在**推特**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
@@ -15,7 +15,7 @@
 <figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用[**Trickest**](https://trickest.io/)可以轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。\
+使用[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks)可以轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -52,7 +52,7 @@ Firefox 在 \~/_**.mozilla/firefox/**_（Linux），**/Users/$USER/Library/Appli
 在每个配置文件的文件夹中（_\~/.mozilla/firefox/\<ProfileName>/_），您应该能够找到以下有趣的文件：
 
 * _**places.sqlite**_：历史记录（moz\_\_places）、书签（moz\_bookmarks）和下载文件（moz\_\_annos）。在 Windows 上，可以使用工具[BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html)来读取 _**places.sqlite**_ 中的历史记录。
-* 转储历史的查询：`select datetime(lastvisitdate/1000000,'unixepoch') as visit_date, url, title, visit_count, visit_type FROM moz_places,moz_historyvisits WHERE moz_places.id = moz_historyvisits.place_id;`
+* 转储历史记录的查询：`select datetime(lastvisitdate/1000000,'unixepoch') as visit_date, url, title, visit_count, visit_type FROM moz_places,moz_historyvisits WHERE moz_places.id = moz_historyvisits.place_id;`
 * 注意，链接类型是一个指示数字，表示：
 * 1：用户点击链接
 * 2：用户输入 URL
@@ -62,7 +62,7 @@ Firefox 在 \~/_**.mozilla/firefox/**_（Linux），**/Users/$USER/Library/Appli
 * 6：通过 HTTP 重定向 302 访问
 * 7：下载文件
 * 8：用户在 iframe 中点击链接
-* 转储下载的查询：`SELECT datetime(lastModified/1000000,'unixepoch') AS down_date, content as File, url as URL FROM moz_places, moz_annos WHERE moz_places.id = moz_annos.place_id;`
+* 转储下载文件的查询：`SELECT datetime(lastModified/1000000,'unixepoch') AS down_date, content as File, url as URL FROM moz_places, moz_annos WHERE moz_places.id = moz_annos.place_id;`
 *
 * _**bookmarkbackups/**_：书签备份
 * _**formhistory.sqlite**_：**Web 表单数据**（例如电子邮件）
@@ -70,21 +70,21 @@ Firefox 在 \~/_**.mozilla/firefox/**_（Linux），**/Users/$USER/Library/Appli
 * _**persdict.dat**_：用户添加到字典中的单词
 * _**addons.json**_ 和 _**extensions.sqlite**_：已安装的插件和扩展
 * _**cookies.sqlite**_：包含**cookies**。在 Windows 上，可以使用[MZCookiesView](https://www.nirsoft.net/utils/mzcv.html)来检查此文件。
-* _**cache2/entries**_ 或 _**startupCache**_：缓存数据（约 350MB）。还可以使用数据刻录等技巧来获取缓存中保存的文件。可以使用[MozillaCacheView](https://www.nirsoft.net/utils/mozilla\_cache\_viewer.html)来查看**缓存中保存的文件**。
+* _**cache2/entries**_ 或 _**startupCache**_：缓存数据（约 350MB）。还可以使用数据切割等技巧来获取缓存中保存的文件。可以使用[MozillaCacheView](https://www.nirsoft.net/utils/mozilla\_cache\_viewer.html)来查看**缓存中保存的文件**。
 
 可以获取的信息：
 
 * URL、获取次数、文件名、内容类型、文件大小、上次修改时间、上次获取时间、服务器上的最后修改时间、服务器响应
 * _**favicons.sqlite**_：网站图标
 * _**prefs.js**_：设置和首选项
-* _**downloads.sqlite**_：旧的下载数据库（现在已经在 places.sqlite 中）
+* _**downloads.sqlite**_：旧的下载数据库（现在已经合并到places.sqlite中）
 * _**thumbnails/**_：缩略图
 * _**logins.json**_：加密的用户名和密码
-* **浏览器内置的反钓鱼功能**：`grep 'browser.safebrowsing' ~/Library/Application Support/Firefox/Profiles/*/prefs.js`
-* 如果安全搜索设置已被禁用，则返回“safebrowsing.malware.enabled”和“phishing.enabled”为false
+* **浏览器内置的反钓鱼功能：** `grep 'browser.safebrowsing' ~/Library/Application Support/Firefox/Profiles/*/prefs.js`
+* 如果安全搜索设置被禁用，将返回“safebrowsing.malware.enabled”和“phishing.enabled”为false
 * _**key4.db**_ 或 _**key3.db**_：主密钥？
 
-为了尝试解密主密码，您可以使用[https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt)。\
+要尝试解密主密码，您可以使用[https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt)中的脚本。\
 使用以下脚本和调用，您可以指定一个密码文件进行暴力破解：
 
 {% code title="brute.sh" %}
@@ -158,7 +158,7 @@ Internet Explorer将**数据**和**元数据**存储在不同的位置。元数�
 * SecureDIrectory：缓存目录中文件的位置
 * AccessCount：文件在缓存中保存的次数
 * URL：来源URL
-* CreationTime：缓存的第一次保存时间
+* CreationTime：缓存的第一次时间
 * AccessedTime：缓存使用的时间
 * ModifiedTime：最后的网页版本
 * ExpiryTime：缓存过期的时间
@@ -268,7 +268,7 @@ Opera以与Google Chrome完全相同的格式存储浏览器历史记录和下�
 <figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用[**Trickest**](https://trickest.io/)可以轻松构建和自动化由全球**最先进的**社区工具提供支持的工作流程。\
+使用[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks)可以轻松构建和**自动化工作流程**，使用全球**最先进的**社区工具。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -277,7 +277,7 @@ Opera以与Google Chrome完全相同的格式存储浏览器历史记录和下�
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 您在**网络安全公司**工作吗？您想在HackTricks中看到您的公司广告吗？或者您想获得最新版本的PEASS或以PDF格式下载HackTricks吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 您在**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想获得**PEASS的最新版本或以PDF格式下载HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[NFT](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks衣物**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**

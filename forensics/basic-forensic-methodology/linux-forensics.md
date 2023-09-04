@@ -265,7 +265,7 @@ Linux使用几个配置文件在用户登录系统时自动启动可执行文件
 
 ### 纯日志
 
-记录在系统和安全日志中的**登录**事件，包括通过网络登录，可以揭示**恶意软件**或**入侵者**在特定时间通过给定账户访问受损系统的情况。系统日志中可以捕获与恶意软件感染相关的其他事件，包括在事件发生时创建新服务或新账户。\
+记录在系统和安全日志中的**登录**事件，包括通过网络登录，可以揭示**恶意软件**或**入侵者**在特定时间通过给定账户访问受损系统的情况。系统日志中可以捕获与恶意软件感染相关的其他事件，包括在事件发生时创建**新服务**或新账户。\
 有趣的系统登录日志：
 
 * **/var/log/syslog** (debian) 或 **/var/log/messages** (Redhat)
@@ -284,7 +284,7 @@ Linux使用几个配置文件在用户登录系统时自动启动可执行文件
 * **/var/log/httpd/**：包含 Apache httpd 守护程序的 error\_log 和 access\_log 文件的目录。所有 httpd 遇到的错误都记录在 **error\_log** 文件中。考虑内存问题和其他与系统相关的错误。**access\_log** 记录通过 HTTP 进入的所有请求。
 * **/var/log/mysqld.log** 或 **/var/log/mysql.log**：记录每个调试、失败和成功消息的 MySQL 日志文件，包括 MySQL 守护程序 mysqld 的启动、停止和重启。系统根据目录决定。RedHat、CentOS、Fedora 和其他基于 RedHat 的系统使用 /var/log/mariadb/mariadb.log。然而，Debian/Ubuntu 使用 /var/log/mysql/error.log 目录。
 * **/var/log/xferlog**：保存 FTP 文件传输会话。包括文件名和用户发起的 FTP 传输等信息。
-* **/var/log/\***：始终检查此目录中的意外日志
+* **/var/log/\***：始终应检查此目录中的意外日志
 
 {% hint style="info" %}
 在入侵或恶意软件事件中，Linux系统的日志和审计子系统可能被禁用或删除。由于Linux系统的日志通常包含有关恶意活动的最有用信息，入侵者经常删除它们。因此，在检查可用的日志文件时，重要的是查找可能表示删除或篡改的间隙或乱序条目。
@@ -305,14 +305,14 @@ Linux使用几个配置文件在用户登录系统时自动启动可执行文件
 建议检查这些登录是否合理：
 
 * 有任何未知用户吗？
-* 有任何不应该有shell登录的用户吗？
+* 有任何不应该登录的用户吗？
 
 这很重要，因为**攻击者**有时可能将 `/bin/bash` 复制到 `/bin/false` 中，以便像 **lightdm** 这样的用户可以登录。
 
-请注意，您也可以通过阅读日志来查看此信息。
+注意，您也可以通过阅读日志来查看此信息。
 ### 应用程序痕迹
 
-* **SSH**: 使用SSH连接到受损系统或从受损系统连接到其他系统会在每个用户帐户的文件中留下记录（_**∼/.ssh/authorized\_keys**_ 和 _**∼/.ssh/known\_keys**_）。这些记录可以揭示远程主机的主机名或IP地址。
+* **SSH**: 使用SSH连接到受损系统或从受损系统连接到其他系统会在每个用户帐户的文件中留下记录（_**∼/.ssh/authorized\_keys**_ 和 _**∼/.ssh/known\_keys**_）。这些记录可以显示远程主机的主机名或IP地址。
 * **Gnome桌面**: 用户帐户可能有一个 _**∼/.recently-used.xbel**_ 文件，其中包含有关在Gnome桌面上运行的应用程序最近访问的文件的信息。
 * **VIM**: 用户帐户可能有一个 _**∼/.viminfo**_ 文件，其中包含有关VIM使用情况的详细信息，包括搜索字符串历史和使用vim打开的文件的路径。
 * **Open Office**: 最近使用的文件。
@@ -321,7 +321,7 @@ Linux使用几个配置文件在用户登录系统时自动启动可执行文件
 
 ### USB日志
 
-[**usbrip**](https://github.com/snovvcrash/usbrip) 是一个用纯Python 3编写的小型软件，用于解析Linux日志文件（根据发行版，可能是`/var/log/syslog*`或`/var/log/messages*`）以构建USB事件历史表。
+[**usbrip**](https://github.com/snovvcrash/usbrip) 是一个用纯Python 3编写的小型软件，用于解析Linux日志文件（根据发行版，可能是`/var/log/syslog*`或`/var/log/messages*`）以构建USB事件历史记录表。
 
 了解所有已使用的USB设备是很有趣的，如果您有一个授权的USB设备列表，那么查找"违规事件"（使用不在该列表中的USB设备）将更加有用。
 
@@ -336,33 +336,86 @@ usbrip ids download #Download USB ID database
 
 #### 示例 1：收集易失性数据
 
-To collect volatile data from a Linux system, you can use various tools and techniques. Some common examples include:
+In this example, we will demonstrate how to collect volatile data from a Linux system using various command-line tools.
 
-要从Linux系统中收集易失性数据，您可以使用各种工具和技术。一些常见的示例包括：
+在这个示例中，我们将演示如何使用各种命令行工具从Linux系统中收集易失性数据。
 
-- **ps**: The `ps` command can be used to display information about running processes on the system. By running `ps aux`, you can obtain a list of all processes along with their associated details.
+1. **Step 1**: Identify the running processes
 
-- **ps**：`ps`命令可用于显示系统上运行进程的信息。通过运行`ps aux`，您可以获取所有进程的列表以及它们的相关详细信息。
+   **步骤 1**：识别正在运行的进程
 
-- **top**: The `top` command provides real-time information about system processes, including CPU usage, memory usage, and more. It can be used to identify any suspicious or resource-intensive processes.
+   Use the `ps` command to list all the running processes on the system.
 
-- **top**：`top`命令提供有关系统进程的实时信息，包括CPU使用情况、内存使用情况等。它可以用于识别任何可疑或资源密集型的进程。
+   使用 `ps` 命令列出系统上所有正在运行的进程。
 
-- **lsof**: The `lsof` command lists open files and the processes that have them open. This can be useful for identifying any files that may be accessed or modified by unauthorized processes.
+   ```bash
+   ps aux
+   ```
 
-- **lsof**：`lsof`命令列出打开的文件及其打开它们的进程。这对于识别可能被未经授权的进程访问或修改的文件非常有用。
+2. **Step 2**: Capture network connections
 
-- **netstat**: The `netstat` command displays network connections, routing tables, and network interface statistics. It can help identify any suspicious network activity or unauthorized connections.
+   **步骤 2**：捕获网络连接
 
-- **netstat**：`netstat`命令显示网络连接、路由表和网络接口统计信息。它可以帮助识别任何可疑的网络活动或未经授权的连接。
+   Use the `netstat` command to capture information about active network connections.
 
-- **ifconfig**: The `ifconfig` command displays information about network interfaces, including IP addresses, MAC addresses, and more. It can be used to identify any unusual network configurations.
+   使用 `netstat` 命令捕获有关活动网络连接的信息。
 
-- **ifconfig**：`ifconfig`命令显示有关网络接口的信息，包括IP地址、MAC地址等。它可以用于识别任何异常的网络配置。
+   ```bash
+   netstat -antp
+   ```
 
-These are just a few examples of the tools and techniques that can be used to collect volatile data from a Linux system. Depending on the specific situation, other tools and techniques may also be applicable.
+3. **Step 3**: Check open files
 
-这些只是从Linux系统中收集易失性数据所使用的工具和技术的几个示例。根据具体情况，还可以使用其他工具和技术。
+   **步骤 3**：检查打开的文件
+
+   Use the `lsof` command to check which files are currently open by the processes.
+
+   使用 `lsof` 命令检查进程当前打开的文件。
+
+   ```bash
+   lsof
+   ```
+
+4. **Step 4**: View system logs
+
+   **步骤 4**：查看系统日志
+
+   Use the `dmesg` command to view the kernel ring buffer and system logs.
+
+   使用 `dmesg` 命令查看内核环形缓冲区和系统日志。
+
+   ```bash
+   dmesg
+   ```
+
+5. **Step 5**: Collect memory dump
+
+   **步骤 5**：收集内存转储
+
+   Use the `dd` command to create a memory dump file.
+
+   使用 `dd` 命令创建一个内存转储文件。
+
+   ```bash
+   dd if=/dev/mem of=memory_dump.dd bs=1M count=1024
+   ```
+
+6. **Step 6**: Analyze the collected data
+
+   **步骤 6**：分析收集的数据
+
+   Use various tools like `strings`, `grep`, and `hexdump` to analyze the collected data.
+
+   使用 `strings`、`grep` 和 `hexdump` 等各种工具来分析收集的数据。
+
+   ```bash
+   strings memory_dump.dd | grep "password"
+   hexdump -C memory_dump.dd
+   ```
+
+By following these steps, you can collect volatile data from a Linux system and analyze it for potential security issues or evidence of malicious activity.
+
+通过按照这些步骤，您可以从Linux系统中收集易失性数据，并分析其中的潜在安全问题或恶意活动的证据。
 ```
 usbrip events history #Get USB history of your curent linux machine
 usbrip events history --pid 0002 --vid 0e0f --user kali #Search by pid OR vid OR user
@@ -375,7 +428,7 @@ usbrip ids search --pid 0002 --vid 0e0f #Search for pid AND vid
 <figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用[**Trickest**](https://trickest.io/)轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。\
+使用[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks)可以轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -384,26 +437,26 @@ usbrip ids search --pid 0002 --vid 0e0f #Search for pid AND vid
 
 检查 _**/etc/passwd**_、_**/etc/shadow**_ 和 **安全日志**，查找与已知未经授权事件密切相关的异常名称或账户的创建和使用。还要检查可能的sudo暴力攻击。\
 此外，检查 _**/etc/sudoers**_ 和 _**/etc/groups**_ 等文件，查找给用户授予的意外特权。\
-最后，查找没有密码或易于猜测密码的账户。
+最后，查找没有密码或密码容易猜测的账户。
 
 ## 检查文件系统
 
 文件系统数据结构可以提供与恶意软件事件相关的大量**信息**，包括事件的**时间**和**恶意软件**的实际**内容**。\
-恶意软件越来越多地被设计为**阻碍文件系统分析**。一些恶意软件会更改恶意文件的日期时间戳，以使其更难以通过时间线分析找到它们。其他恶意代码被设计为仅将某些信息存储在内存中，以最小化存储在文件系统中的数据量。\
-为了应对这些反取证技术，有必要**仔细注意文件系统日期时间戳的时间线分析**，以及存储在可能发现恶意软件的常见位置的文件。
+恶意软件越来越多地被设计为**阻碍文件系统分析**。一些恶意软件会更改恶意文件的日期时间戳，以使时间线分析更加困难。其他恶意代码被设计为仅将某些信息存储在内存中，以最小化存储在文件系统中的数据量。\
+为了应对这些反取证技术，有必要**仔细关注文件系统日期时间戳的时间线分析**，以及存储在可能发现恶意软件的常见位置的文件。
 
-* 使用**autopsy**可以查看可能有助于发现可疑活动的事件时间线。您还可以直接使用**Sleuth Kit**的`mactime`功能。
-* 检查**$PATH**中的意外脚本（可能是一些sh或php脚本？）
-* `/dev`中的文件曾经是特殊文件，您可能会在这里找到与恶意软件相关的非特殊文件。
+* 使用 **autopsy** 可以查看可能有助于发现可疑活动的事件时间线。您还可以直接使用 **Sleuth Kit** 的 `mactime` 功能。
+* 检查 **$PATH** 内是否有意外的脚本（可能是一些sh或php脚本？）
+* `/dev` 中的文件曾经是特殊文件，您可能会在这里找到与恶意软件相关的非特殊文件。
 * 查找异常或**隐藏的文件**和**目录**，例如“.. ”（点 点 空格）或“..^G ”（点 点 控制-G）
-* 系统上的/bin/bash的Setuid副本 `find / -user root -perm -04000 –print`
+* 系统上的 /bin/bash 的 Setuid 副本 `find / -user root -perm -04000 –print`
 * 检查已删除的**inode的日期时间戳**，如果在同一时间删除了大量文件，则可能表明恶意活动，例如安装了rootkit或木马服务。
-* 由于inode是按照下一个可用的方式分配的，因此在大约相同时间放置在系统上的恶意文件可能会被分配连续的inode。因此，在找到恶意软件的一个组件之后，检查相邻的inode可能会很有成效。
-* 还要检查像/bin或/sbin这样的目录，因为新文件或修改文件的**修改时间**可能很有趣。
-* 按创建日期而不是按字母顺序对目录的文件和文件夹进行排序，可以看到哪些文件或文件夹是最近的（通常是最后的）。
+* 由于inode是按照下一个可用的方式分配的，因此在大约相同时间放置在系统上的恶意文件可能会被分配连续的inode。因此，在定位到恶意软件的一个组件后，检查相邻的inode可能会很有成效。
+* 还要检查像 _/bin_ 或 _/sbin_ 这样的目录，因为新文件或修改文件的**修改时间**可能很有趣。
+* 按创建日期对目录中的文件和文件夹进行排序，以查看最近的文件或文件夹（通常是最后一个）。
 
-您可以使用`ls -laR --sort=time /bin`检查文件夹中最近的文件\
-您可以使用`ls -lai /bin |sort -n`检查文件夹中文件的inode
+您可以使用 `ls -laR --sort=time /bin` 检查文件夹中最近的文件。\
+您可以使用 `ls -lai /bin |sort -n` 检查文件夹中文件的inode。
 
 {% hint style="info" %}
 请注意，**攻击者**可以**修改时间**以使**文件看起来合法**，但他**无法修改inode**。如果您发现一个文件表明它的创建和修改时间与同一文件夹中的其他文件相同，但是**inode**却**意外地更大**，那么该文件的时间戳已被修改。
@@ -421,19 +474,21 @@ When conducting a forensic investigation on a Linux system, it is important to i
 
 To find modified content, you can use various tools and techniques. One common approach is to compare the current state of the system with a known good state. This can be done by creating a baseline of the system's files and configurations, and then comparing it with the current state.
 
-Here are some steps you can follow to find modified content on a Linux system:
+One tool that can be used for this purpose is the `find` command. By using the `-newer` option, you can search for files that have been modified after a specific date and time. For example, the following command will find all files modified within the last 24 hours:
 
-1. **Create a baseline**: Start by creating a baseline of the system's files and configurations. This can be done by taking a snapshot of the system or by using tools like `md5sum` or `sha256sum` to calculate checksums of important files.
+```
+find / -type f -newermt "24 hours ago"
+```
 
-2. **Compare with the current state**: Once you have a baseline, compare it with the current state of the system. You can use tools like `diff` or `rsync` to compare files and directories. Pay attention to any differences or modifications that are not expected.
+You can also use the `stat` command to obtain detailed information about a file, including its modification time. For example, the following command will display the modification time of a file:
 
-3. **Check system logs**: System logs can provide valuable information about any modifications or changes made to the system. Check log files such as `/var/log/syslog` or `/var/log/auth.log` for any suspicious activities or entries.
+```
+stat <file_path>
+```
 
-4. **Examine user activity**: Look for any user activity that may indicate modifications to the system. This can include checking user command history (`~/.bash_history`), examining user login records (`/var/log/wtmp`), or reviewing system audit logs (`/var/log/audit/audit.log`).
+Additionally, you can check the system logs for any suspicious activities or modifications. The `/var/log` directory contains various log files that can provide valuable information about system events.
 
-5. **Investigate timestamps**: Timestamps can provide clues about when files or directories were modified. Use tools like `stat` or `ls` with the `-l` option to view file timestamps. Pay attention to any recent modifications that coincide with the timeline of the investigation.
-
-By following these steps, you can effectively identify any modified content on a Linux system during a forensic investigation. This information can be crucial in understanding the actions taken by an attacker or any unauthorized modifications made to the system.
+By identifying and analyzing modified content, you can gain insights into the actions taken on the system and potentially uncover evidence relevant to your investigation.
 ```bash
 git diff --no-index --diff-filter=M _openwrt1.extracted/squashfs-root/ _openwrt2.extracted/squashfs-root/ | grep -E "^\+" | grep -v "Installed-Time"
 ```
@@ -499,7 +554,7 @@ git diff --no-index --diff-filter=A _openwrt1.extracted/squashfs-root/ _openwrt2
 你在一家**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者你想要获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 
 * 发现我们的独家[NFT收藏品](https://opensea.io/collection/the-peass-family)——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 
 **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧。**

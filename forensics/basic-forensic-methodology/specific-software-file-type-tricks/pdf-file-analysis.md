@@ -7,7 +7,7 @@
 * 你在一家**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFT收藏品The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter上** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
@@ -15,7 +15,7 @@
 <figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用[**Trickest**](https://trickest.io/)可以轻松构建和**自动化工作流程**，使用全球**最先进的**社区工具。\
+使用[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks)可以轻松构建和**自动化工作流程**，使用全球**最先进**的社区工具。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -28,7 +28,7 @@ PDF格式部分是纯文本，类似于HTML，但内容中包含许多二进制�
 
 [qpdf](https://github.com/qpdf/qpdf)是一种有用的工具，可以用于探索PDF并从中转换或提取信息。另一个是Ruby框架Origami，用于处理PDF文件。
 
-在探索PDF内容中的隐藏数据时，一些要检查的隐藏位置包括：
+在探索PDF内容以查找隐藏数据时，一些要检查的隐藏位置包括：
 
 * 非可见图层
 * Adobe的元数据格式“XMP”
@@ -38,7 +38,7 @@ PDF格式部分是纯文本，类似于HTML，但内容中包含许多二进制�
 * 重叠图像后面的图像
 * 非显示的注释
 
-还有一些用于处理PDF文件格式的Python包，如[PeepDF](https://github.com/jesparza/peepdf)，可以让你编写自己的解析脚本。
+还有几个用于处理PDF文件格式的Python包，如[PeepDF](https://github.com/jesparza/peepdf)，可以让你编写自己的解析脚本。
 
 <details>
 
@@ -47,7 +47,7 @@ PDF格式部分是纯文本，类似于HTML，但内容中包含许多二进制�
 * 你在一家**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFT收藏品The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter上** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>

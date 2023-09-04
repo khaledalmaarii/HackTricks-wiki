@@ -7,14 +7,14 @@
 * 你在一家**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者你想要获得**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
 
 <figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-找到最重要的漏洞，以便更快地修复它们。Intruder跟踪您的攻击面，运行主动威胁扫描，发现整个技术堆栈中的问题，从API到Web应用程序和云系统。[**免费试用**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) 今天开始。
+找到最重要的漏洞，以便更快地修复它们。Intruder跟踪您的攻击面，运行主动威胁扫描，发现整个技术堆栈中的问题，从API到Web应用程序和云系统。[**立即免费试用**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks)。
 
 {% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
@@ -81,13 +81,13 @@ cmp original.jpg stego.jpg -b -l
 
 ### 空格中的隐藏数据
 
-如果你发现一个**文本行**比它应该的要**大**，那么一些**隐藏信息**可能被包含在**空格**中，使用不可见字符。󐁈󐁥󐁬󐁬󐁯󐀠󐁴󐁨\
+如果你发现一个**文本行**比它应该的要**大**，那么可能有一些**隐藏信息**被包含在**空格**中，使用了不可见字符。󐁈󐁥󐁬󐁬󐁯󐀠󐁴󐁨\
 要**提取**数据，你可以使用：[https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder)
 
 <figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用[**Trickest**](https://trickest.io/)可以轻松构建和**自动化工作流**，使用全球**最先进**的社区工具。\
+使用[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks)可以轻松构建和**自动化工作流**，使用全球**最先进**的社区工具。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -124,7 +124,7 @@ zsteg是一个可以检测png和bmp文件中隐藏数据的工具。\
 `zsteg -a file`：对给定的文件运行每种检测方法。\
 `zsteg -E file`：使用给定的有效载荷提取数据（例如：zsteg -E b4,bgr,msb,xy name.png）
 
-### stegoVeritas JPG，PNG，GIF，TIFF，BMP
+### stegoVeritas JPG, PNG, GIF, TIFF, BMP
 
 这个工具可以进行各种简单和高级技巧，可以检查文件元数据，创建转换后的图像，暴力破解LSB等等。查看`stegoveritas.py -h`以了解其全部功能。执行`stegoveritas.py stego.jpg`以运行所有检查。
 
@@ -167,7 +167,7 @@ zsteg是一个可以检测png和bmp文件中隐藏数据的工具。\
 
 ### ffmpeg
 
-ffmpeg可以用于检查音频文件的完整性，报告有关文件的各种信息以及它发现的任何错误。\
+ffmpeg可以用于检查音频文件的完整性，报告有关文件的各种信息以及发现的任何错误。\
 `ffmpeg -v info -i stego.mp3 -f null -`
 
 ### Wavsteg \[WAV] <a href="#wavsteg" id="wavsteg"></a>
@@ -185,7 +185,7 @@ WavSteg是一个Python3工具，可以使用最低有效位在wav文件中隐藏
 
 ### Sonic visualizer <a href="#sonic-visualizer" id="sonic-visualizer"></a>
 
-Sonic visualizer是一种查看和分析音频文件内容的工具。在面对音频隐写术挑战时，它非常有帮助；您可以揭示许多其他工具无法检测到的音频文件中隐藏的形状。\
+Sonic visualizer是一款用于查看和分析音频文件内容的工具。在面对音频隐写挑战时，它非常有帮助；您可以揭示许多其他工具无法检测到的音频文件中隐藏的形状。\
 如果遇到困难，请始终检查音频的频谱图。[官方网站](https://www.sonicvisualiser.org/)
 
 ### DTMF音调 - 拨号音

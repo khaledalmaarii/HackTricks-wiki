@@ -4,10 +4,10 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者你想要**获取PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
@@ -15,14 +15,14 @@
 <figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用[**Trickest**](https://trickest.io/)可以轻松构建和**自动化工作流程**，使用世界上**最先进的**社区工具。\
+使用[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks)可以轻松构建和**自动化工作流程**，使用世界上**最先进的**社区工具。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ## 介绍
 
-微软创建了**数十种办公文档文件格式**，其中许多格式因其能够**包含宏**（VBA脚本）而在分发钓鱼攻击和恶意软件方面很受欢迎。
+微软创建了**数十种办公文档文件格式**，其中许多因其能够**包含宏**（VBA脚本）而在分发钓鱼攻击和恶意软件方面很受欢迎。
 
 广义上说，办公文件格式分为两代：**OLE格式**（文件扩展名如RTF、DOC、XLS、PPT）和“**Office Open XML**”格式（文件扩展名包括DOCX、XLSX、PPTX）。**两种**格式都是结构化的、复合文件二进制格式，可以**启用链接或嵌入内容**（对象）。OOXML文件是zip文件容器，这意味着检查隐藏数据的最简单方法之一就是简单地`unzip`文档：
 ```
@@ -75,25 +75,25 @@ $ soffice path/to/test.docx macro://./standard.module1.mymacro
 ```
 ## [oletools](https://github.com/decalage2/oletools)
 
-oletools是一组用于分析和检测OLE（Object Linking and Embedding）文件的开源工具。OLE文件是Microsoft Office文件格式的一种，包括.doc、.xls和.ppt文件。这些工具可以帮助我们分析和检测Office文件中的潜在威胁和漏洞。
+oletools是一组用于分析和检测OLE（Object Linking and Embedding）文件的工具。OLE文件是Microsoft Office文件格式的一种，包括.doc、.xls和.ppt文件。这些工具可以帮助我们分析和检测Office文件中的潜在威胁和漏洞。
 
 ### olevba
 
-olevba是oletools中的一个工具，用于分析和提取VBA（Visual Basic for Applications）宏代码。VBA宏代码是Office文件中常用的自动化脚本，可以执行各种操作，包括恶意活动。olevba可以帮助我们检测和分析Office文件中的恶意宏代码。
+olevba是oletools中的一个工具，用于分析和提取VBA（Visual Basic for Applications）宏代码。VBA宏代码是Office文件中常用的自动化脚本，可以执行各种操作，包括恶意活动。olevba可以帮助我们分析Office文件中的VBA宏代码，以便检测潜在的恶意行为。
 
 ### oledump
 
-oledump是oletools中的另一个工具，用于分析和提取OLE文件中的各种对象。它可以帮助我们检测和分析Office文件中的隐藏对象、嵌入的文件和其他潜在威胁。
+oledump是oletools中的另一个工具，用于分析和提取OLE文件中的各种对象。它可以帮助我们分析Office文件中的各种对象，包括文本、图像、嵌入的文件等。通过分析这些对象，我们可以发现隐藏在Office文件中的潜在威胁和漏洞。
 
 ### oleid
 
-oleid是oletools中的第三个工具，用于识别和分析OLE文件的类型和属性。它可以帮助我们确定Office文件是否包含潜在的恶意代码或漏洞。
+oleid是oletools中的第三个工具，用于识别和分析OLE文件的类型和属性。它可以帮助我们确定一个文件是否是OLE文件，以及它的具体类型和属性。通过分析文件的类型和属性，我们可以更好地理解文件的结构和功能。
 
 ### olemeta
 
-olemeta是oletools中的最后一个工具，用于提取和分析OLE文件的元数据。元数据包含有关文件的信息，如作者、创建日期和修改日期。olemeta可以帮助我们了解Office文件的来源和历史。
+olemeta是oletools中的最后一个工具，用于提取和分析OLE文件中的元数据。元数据是描述文件内容和属性的信息，可以帮助我们更好地理解文件的来源和用途。olemeta可以帮助我们提取和分析Office文件中的元数据，以便发现潜在的威胁和漏洞。
 
-使用这些oletools工具，我们可以更好地分析和检测Office文件中的潜在威胁和漏洞，从而提高我们的安全性。
+oletools是一个强大的工具集，可以帮助我们分析和检测Office文件中的潜在威胁和漏洞。通过使用这些工具，我们可以更好地理解和保护我们的系统和数据。
 ```bash
 sudo pip3 install -U oletools
 olevba -c /path/to/document #Extract macros
@@ -109,7 +109,7 @@ olevba -c /path/to/document #Extract macros
 <figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用[**Trickest**](https://trickest.io/)可以轻松构建和**自动化工作流程**，使用全球**最先进的**社区工具。\
+使用[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks)可以轻松构建和**自动化工作流程**，并由全球**最先进的**社区工具提供支持。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -118,7 +118,7 @@ olevba -c /path/to/document #Extract macros
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在一家**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者想要**获取最新版本的PEASS或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
