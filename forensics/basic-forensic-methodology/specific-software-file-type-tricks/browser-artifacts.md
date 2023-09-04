@@ -15,7 +15,7 @@
 <figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.io/) pour créer et **automatiser des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) pour créer et **automatiser des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
 Obtenez un accès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -41,7 +41,7 @@ Jetons un coup d'œil aux artéfacts les plus courants stockés par les navigate
 * **Téléchargements :** Auto-explicatif.
 * **Données de formulaire :** Tout ce qui est saisi dans les formulaires est souvent stocké par le navigateur, afin que la prochaine fois que l'utilisateur saisisse quelque chose dans un formulaire, le navigateur puisse suggérer les données précédemment saisies.
 * **Miniatures :** Auto-explicatif.
-* **Dictionnaire personnalisé.txt :** Mots ajoutés au dictionnaire par l'utilisateur.
+* **Custom Dictionary.txt :** Mots ajoutés au dictionnaire par l'utilisateur.
 
 ## Firefox
 
@@ -80,11 +80,11 @@ Informations pouvant être obtenues :
 * _**downloads.sqlite**_ : Ancienne base de données de téléchargements (maintenant elle se trouve dans places.sqlite)
 * _**thumbnails/**_ : Miniatures
 * _**logins.json**_ : Noms d'utilisateur et mots de passe chiffrés
-* **Anti-hameçonnage intégré du navigateur :** `grep 'browser.safebrowsing' ~/Library/Application Support/Firefox/Profiles/*/prefs.js`
+* **Anti-phishing intégré au navigateur :** `grep 'browser.safebrowsing' ~/Library/Application Support/Firefox/Profiles/*/prefs.js`
 * Renvoie "safebrowsing.malware.enabled" et "phishing.enabled" comme faux si les paramètres de recherche sécurisée ont été désactivés
-* _**key4.db**_ ou _**key3.db**_ : Clé principale ?
+* _**key4.db**_ ou _**key3.db**_ : Clé maîtresse ?
 
-Pour essayer de décrypter le mot de passe principal, vous pouvez utiliser [https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt)\
+Pour essayer de décrypter le mot de passe maître, vous pouvez utiliser [https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt)\
 Avec le script et l'appel suivants, vous pouvez spécifier un fichier de mots de passe à forcer :
 
 {% code title="brute.sh" %}
@@ -270,7 +270,7 @@ Opera **stocke l'historique du navigateur et les données de téléchargement da
 <figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.io/) pour créer et automatiser facilement des flux de travail basés sur les outils communautaires les plus avancés au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) pour créer et **automatiser facilement des flux de travail** basés sur les outils communautaires les plus avancés au monde.\
 Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

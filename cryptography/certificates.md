@@ -15,8 +15,8 @@
 <figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.io/) pour créer et **automatiser facilement des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
-Obtenez un accès aujourd'hui :
+Utilisez [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) pour créer et **automatiser des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
+Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -28,7 +28,7 @@ Dans un schéma d'infrastructure à clé publique (PKI) typique, l'émetteur du 
 
 Le format le plus courant pour les certificats de clé publique est défini par [X.509](https://en.wikipedia.org/wiki/X.509). Étant donné que X.509 est très général, le format est en outre contraint par des profils définis pour certains cas d'utilisation, tels que [Infrastructure à clé publique (X.509)](https://en.wikipedia.org/wiki/PKIX) tel que défini dans la RFC 5280.
 
-## Champs communs de x509
+## Champs communs x509
 
 * **Numéro de version** : Version du format x509.
 * **Numéro de série** : Utilisé pour identifier de manière unique le certificat au sein des systèmes d'une CA. En particulier, cela est utilisé pour suivre les informations de révocation.
@@ -63,11 +63,11 @@ Le format le plus courant pour les certificats de clé publique est défini par 
 * Dans un certificat Web, cela apparaîtra comme une _extension X509v3_ et aura la valeur `Authentification du serveur Web TLS`
 * **Nom alternatif du sujet** : Permet aux utilisateurs de spécifier des **noms** d'hôte supplémentaires pour un seul **certificat** SSL. L'utilisation de l'extension SAN est une pratique courante pour les certificats SSL et elle est en passe de remplacer l'utilisation du **nom** commun.
 * **Contrainte de base** : Cette extension décrit si le certificat est un certificat de CA ou un certificat d'entité finale. Un certificat de CA est quelque chose qui signe les certificats des autres et un certificat d'entité finale est le certificat utilisé dans une page Web, par exemple (la dernière partie de la chaîne).
-* **Identifiant de clé du sujet** (SKI) : Cette extension déclare un **identifiant** unique pour la **clé** publique dans le certificat. Elle est requise sur tous les certificats de CA. Les CA propagent leur propre SKI à l'extension Identifiant de clé de l'émetteur (AKI) sur les certificats émis. C'est le hachage de la clé publique du sujet.
+* **Identifiant de clé du sujet** (SKI) : Cette extension déclare un **identifiant** unique pour la **clé** publique dans le certificat. Elle est requise sur tous les certificats de CA. Les CA propagent leur propre SKI à l'extension Identifiant de clé de l'émetteur (AKI)
 * **Identifiant de clé d'autorité** : Il contient un identifiant de clé dérivé de la clé publique dans le certificat émetteur. C'est le hachage de la clé publique de l'émetteur.
 * **Accès aux informations de l'autorité** (AIA) : Cette extension contient au maximum deux types d'informations :
 * Informations sur **comment obtenir l'émetteur de ce certificat** (méthode d'accès à l'émetteur de CA)
-* Adresse du **répondeur OCSP à partir duquel la révocation de ce certificat** peut être vérifiée (méthode d'accès OCSP).
+* Adresse du **répondeur OCSP où la révocation de ce certificat** peut être vérifiée (méthode d'accès OCSP).
 * **Points de distribution de la liste de révocation (CRL)** : Cette extension identifie l'emplacement de la CRL à partir de laquelle la révocation de ce certificat peut être vérifiée. L'application qui traite le certificat peut obtenir l'emplacement de la CRL à partir de cette extension, télécharger la CRL, puis vérifier la révocation de ce certificat.
 * **CT Precertificate SCTs** : Journaux de transparence des certificats concernant le certificat
 
@@ -81,13 +81,13 @@ Le format le plus courant pour les certificats de clé publique est défini par 
 
 La transparence des certificats vise à remédier aux menaces basées sur les certificats en **rendant l'émission et l'existence des certificats SSL accessibles à l'examen des propriétaires de domaines, des AC et des utilisateurs de domaines**. Plus précisément, la transparence des certificats a trois objectifs principaux :
 
-* Rendre impossible (ou du moins très difficile) à une AC d'**émettre un certificat SSL pour un domaine sans que le propriétaire** de ce domaine puisse le voir.
-* Fournir un **système d'audit et de surveillance ouvert** permettant à tout propriétaire de domaine ou AC de déterminer si des certificats ont été émis par erreur ou de manière malveillante.
-* **Protéger les utilisateurs** (autant que possible) contre les certificats émis par erreur ou de manière malveillante.
+* Rendre impossible (ou du moins très difficile) pour une AC de **délivrer un certificat SSL pour un domaine sans que le propriétaire** de ce domaine **puisse le voir**.
+* Fournir un **système d'audit et de surveillance ouvert** permettant à tout propriétaire de domaine ou à toute AC de déterminer si des certificats ont été délivrés par erreur ou de manière malveillante.
+* **Protéger les utilisateurs** (autant que possible) contre les certificats délivrés par erreur ou de manière malveillante.
 
 #### **Journaux de certificats**
 
-Les journaux de certificats sont des services réseau simples qui conservent des **enregistrements de certificats garantis cryptographiquement, vérifiables publiquement, en ajout seulement**. **N'importe qui peut soumettre des certificats à un journal**, bien que les autorités de certification soient susceptibles d'être les principaux soumissionnaires. De même, n'importe qui peut interroger un journal pour obtenir une preuve cryptographique, qui peut être utilisée pour vérifier que le journal se comporte correctement ou vérifier qu'un certificat particulier a été enregistré. Le nombre de serveurs de journaux n'a pas besoin d'être élevé (par exemple, beaucoup moins d'un millier dans le monde entier), et chacun pourrait être exploité indépendamment par une AC, un FAI ou toute autre partie intéressée.
+Les journaux de certificats sont des services réseau simples qui conservent des **enregistrements de certificats garantis cryptographiquement, vérifiables publiquement et en ajout seulement**. **N'importe qui peut soumettre des certificats à un journal**, bien que les autorités de certification soient susceptibles d'être les principaux soumissionnaires. De même, n'importe qui peut interroger un journal pour obtenir une preuve cryptographique, qui peut être utilisée pour vérifier que le journal se comporte correctement ou vérifier qu'un certificat particulier a été enregistré. Le nombre de serveurs de journaux n'a pas besoin d'être élevé (disons, beaucoup moins d'un millier dans le monde entier), et chacun pourrait être exploité indépendamment par une AC, un FAI ou toute autre partie intéressée.
 
 #### Requête
 
@@ -137,9 +137,7 @@ To convert a PEM (Privacy Enhanced Mail) certificate file to DER (Distinguished 
 openssl x509 -in certificate.pem -outform der -out certificate.der
 ```
 
-Replace `certificate.pem` with the path to your PEM certificate file. After executing the command, a new file named `certificate.der` will be created, containing the certificate in DER format.
-
-Keep in mind that PEM and DER are two different encoding formats for certificates. PEM is a base64-encoded format that includes header and footer lines, while DER is a binary format. The conversion from PEM to DER is often required when working with certain systems or applications that only accept DER-encoded certificates.
+This command takes the input file `certificate.pem` in PEM format and converts it to DER format, saving the output as `certificate.der`.
 ```
 openssl x509 -outform der -in certificatename.pem -out certificatename.der
 ```
@@ -157,7 +155,7 @@ openssl x509 -inform der -in certificatename.der -out certificatename.pem
 ```
 **Convertir PEM en P7B**
 
-**Note :** Le format PKCS#7 ou P7B est stocké au format ASCII Base64 et a une extension de fichier .p7b ou .p7c. Un fichier P7B ne contient que des certificats et des certificats de chaîne (CA intermédiaires), pas la clé privée. Les plateformes les plus courantes qui prennent en charge les fichiers P7B sont Microsoft Windows et Java Tomcat.
+**Remarque :** Le format PKCS#7 ou P7B est stocké au format ASCII Base64 et a une extension de fichier .p7b ou .p7c. Un fichier P7B ne contient que des certificats et des certificats de chaîne (CA intermédiaires), pas la clé privée. Les plateformes les plus courantes qui prennent en charge les fichiers P7B sont Microsoft Windows et Java Tomcat.
 ```
 openssl crl2pkcs7 -nocrl -certfile certificatename.pem -out certificatename.p7b -certfile CACert.cer
 ```
@@ -183,7 +181,7 @@ openssl pkcs7 -print_certs -in certificatename.p7b -out certificatename.pem
 ```
 **Convertir pfx en PEM**
 
-**Note:** Le format PKCS#12 ou PFX est un format binaire permettant de stocker le certificat du serveur, les certificats intermédiaires et la clé privée dans un seul fichier chiffrable. Les fichiers PFX ont généralement des extensions telles que .pfx et .p12. Les fichiers PFX sont généralement utilisés sur les machines Windows pour importer et exporter des certificats et des clés privées.
+**Remarque :** Le format PKCS#12 ou PFX est un format binaire permettant de stocker le certificat du serveur, les certificats intermédiaires et la clé privée dans un seul fichier chiffrable. Les fichiers PFX ont généralement des extensions telles que .pfx et .p12. Les fichiers PFX sont généralement utilisés sur les machines Windows pour importer et exporter des certificats et des clés privées.
 ```
 openssl pkcs12 -in certificatename.pfx -out certificatename.pem
 ```
@@ -196,23 +194,17 @@ openssl pkcs12 -in certificatename.pfx -nocerts -nodes -out certificatename.pem
 ```
 **2- Convertir PEM en PKCS8**
 
-Lorsque vous travaillez avec des certificats et des clés, vous pouvez rencontrer différents formats de fichiers tels que PEM (Privacy-Enhanced Mail) et PKCS8 (Public Key Cryptography Standards #8). Parfois, vous devrez peut-être convertir un fichier PEM en un fichier PKCS8 pour des raisons de compatibilité ou de sécurité.
+To convert a PEM (Privacy-Enhanced Mail) formatted file to PKCS8 (Public-Key Cryptography Standards #8) format, you can use the following OpenSSL command:
 
-Pour convertir un fichier PEM en un fichier PKCS8, vous pouvez utiliser l'outil OpenSSL. Voici comment procéder :
+Pour convertir un fichier au format PEM (Privacy-Enhanced Mail) en format PKCS8 (Public-Key Cryptography Standards #8), vous pouvez utiliser la commande OpenSSL suivante :
 
-1. Ouvrez une fenêtre de terminal ou une invite de commandes.
+```plaintext
+openssl pkcs8 -topk8 -inform PEM -outform DER -in private_key.pem -out private_key.pk8 -nocrypt
+```
 
-2. Utilisez la commande suivante pour convertir le fichier PEM en un fichier PKCS8 :
+This command will convert the private key file `private_key.pem` from PEM format to PKCS8 format and save it as `private_key.pk8`. The `-topk8` option specifies that the output should be in PKCS8 format. The `-inform PEM` option specifies that the input file is in PEM format. The `-outform DER` option specifies that the output file should be in DER (Distinguished Encoding Rules) format, which is a binary format used by PKCS8. The `-nocrypt` option specifies that the private key should not be encrypted with a passphrase.
 
-   ```plaintext
-   openssl pkcs8 -topk8 -inform PEM -outform DER -in private.pem -out private.pkcs8 -nocrypt
-   ```
-
-   Assurez-vous de remplacer `private.pem` par le chemin d'accès et le nom de votre fichier PEM.
-
-3. Une fois la commande exécutée, vous devriez voir un nouveau fichier appelé `private.pkcs8` dans le même répertoire que votre fichier PEM d'origine.
-
-Maintenant, vous avez réussi à convertir votre fichier PEM en un fichier PKCS8. Vous pouvez utiliser ce fichier PKCS8 pour d'autres opérations de cryptographie ou de gestion de clés.
+Cette commande convertira le fichier de clé privée `private_key.pem` du format PEM au format PKCS8 et le sauvegardera sous le nom `private_key.pk8`. L'option `-topk8` spécifie que la sortie doit être au format PKCS8. L'option `-inform PEM` spécifie que le fichier d'entrée est au format PEM. L'option `-outform DER` spécifie que le fichier de sortie doit être au format DER (Distinguished Encoding Rules), qui est un format binaire utilisé par PKCS8. L'option `-nocrypt` spécifie que la clé privée ne doit pas être chiffrée avec une phrase secrète.
 ```
 openSSL pkcs8 -in certificatename.pem -topk8 -nocrypt -out certificatename.pk8
 ```
@@ -247,8 +239,8 @@ openssl pkcs12 -export -in certificatename.cer -inkey privateKey.key -out certif
 <figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.io/) pour construire et automatiser facilement des flux de travail alimentés par les outils communautaires les plus avancés au monde.\
-Accédez dès aujourd'hui :
+Utilisez [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) pour construire et automatiser facilement des flux de travail alimentés par les outils communautaires les plus avancés au monde.\
+Obtenez un accès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -256,8 +248,8 @@ Accédez dès aujourd'hui :
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? Ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).

@@ -15,7 +15,7 @@
 <figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.io/) pour créer et **automatiser facilement des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) pour créer et **automatiser facilement des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
 Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -33,7 +33,7 @@ Sous Windows, vous pouvez trouver le dossier OneDrive dans `\Users\<nom_utilisat
 * Heure de génération du rapport
 * Taille du disque dur du système d'exploitation
 
-Une fois que vous avez trouvé le CID, il est recommandé de **rechercher des fichiers contenant cet ID**. Vous pouvez trouver des fichiers portant le nom : _**\<CID>.ini**_ et _**\<CID>.dat**_ qui peuvent contenir des informations intéressantes comme les noms des fichiers synchronisés avec OneDrive.
+Une fois que vous avez trouvé le CID, il est recommandé de **rechercher des fichiers contenant cet ID**. Vous pouvez trouver des fichiers portant le nom : _**\<CID>.ini**_ et _**\<CID>.dat**_ qui peuvent contenir des informations intéressantes telles que les noms des fichiers synchronisés avec OneDrive.
 
 ## Google Drive
 
@@ -73,7 +73,7 @@ Cependant, les informations principales sont les suivantes :
 
 En plus de ces informations, pour déchiffrer les bases de données, vous avez encore besoin de :
 
-* La **clé DPAPI chiffrée** : Vous pouvez la trouver dans le registre à l'intérieur de `NTUSER.DAT\Software\Dropbox\ks\client` (exportez ces données sous forme binaire)
+* La **clé DPAPI chiffrée** : Vous pouvez la trouver dans le registre à l'intérieur de `NTUSER.DAT\Software\Dropbox\ks\client` (exportez ces données en binaire)
 * Les ruches **`SYSTEM`** et **`SECURITY`**
 * Les **clés maîtresses DPAPI** : Qui peuvent être trouvées dans `\Users\<nom_utilisateur>\AppData\Roaming\Microsoft\Protect`
 * Le **nom d'utilisateur** et le **mot de passe** de l'utilisateur Windows
@@ -92,7 +92,7 @@ La base de données **`config.dbx`** contient :
 
 * **Email** : L'email de l'utilisateur
 * **usernamedisplayname** : Le nom de l'utilisateur
-* **dropbox\_path** : Chemin où se trouve le dossier Dropbox
+* **dropbox\_path** : Le chemin où se trouve le dossier Dropbox
 * **Host\_id : Hash** utilisé pour l'authentification sur le cloud. Cela ne peut être révoqué que depuis le web.
 * **Root\_ns** : Identifiant de l'utilisateur
 
@@ -105,7 +105,7 @@ La base de données **`filecache.db`** contient des informations sur tous les fi
 
 D'autres tables dans cette base de données contiennent des informations plus intéressantes :
 
-* **block\_cache** : hash de tous les fichiers et dossiers de Dropbox
+* **block\_cache** : Hash de tous les fichiers et dossiers de Dropbox
 * **block\_ref** : Relie l'ID de hachage de la table `block_cache` à l'ID de fichier dans la table `file_journal`
 * **mount\_table** : Partage des dossiers de Dropbox
 * **deleted\_fields** : Fichiers supprimés de Dropbox
@@ -114,7 +114,7 @@ D'autres tables dans cette base de données contiennent des informations plus in
 <figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.io/) pour créer et automatiser facilement des flux de travail alimentés par les outils communautaires les plus avancés au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) pour créer et automatiser facilement des flux de travail alimentés par les outils communautaires les plus avancés au monde.\
 Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
