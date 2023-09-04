@@ -1,4 +1,4 @@
-# Docker Breakout / Escalada de Privilégios
+# Docker Breakout / Escalação de Privilégios
 
 <details>
 
@@ -15,12 +15,12 @@
 <figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.io/) para construir e **automatizar fluxos de trabalho** com as ferramentas comunitárias mais avançadas do mundo.\
+Use [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) para construir e **automatizar fluxos de trabalho** com as ferramentas comunitárias mais avançadas do mundo.\
 Acesse hoje:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## Enumeração e Escape Automáticos
+## Enumeração e Escapamento Automático
 
 * [**linpeas**](https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS): Também pode **enumerar containers**
 * [**CDK**](https://github.com/cdk-team/CDK#installationdelivery): Essa ferramenta é bastante **útil para enumerar o container em que você está e até mesmo tentar escapar automaticamente**
@@ -28,7 +28,7 @@ Acesse hoje:
 * [**deepce**](https://github.com/stealthcopter/deepce): Ferramenta para enumerar e escapar de containers
 * [**grype**](https://github.com/anchore/grype): Obtenha as CVEs contidas no software instalado na imagem
 
-## Escape do Docker Socket Montado
+## Escapamento do Docker Socket Montado
 
 Se de alguma forma você descobrir que o **socket do docker está montado** dentro do container do docker, você poderá escapar dele.\
 Isso geralmente acontece em containers do docker que, por algum motivo, precisam se conectar ao daemon do docker para realizar ações.
@@ -112,9 +112,9 @@ docker run --rm -it --pid=host --privileged ubuntu bash
 ```
 ### Privilégios
 
-Apenas com a flag de privilégio, você pode tentar **acessar o disco do host** ou tentar **escapar abusando do release\_agent ou de outras formas de escape**.
+Apenas com a flag de privilégio, você pode tentar **acessar o disco do host** ou tentar **escapar abusando do release\_agent ou de outros escapes**.
 
-Teste as seguintes formas de bypass em um container executando:
+Teste as seguintes formas de contornar em um contêiner executando:
 ```bash
 docker run --rm -it --privileged ubuntu bash
 ```
@@ -190,7 +190,7 @@ sh -c "echo 0 > $d/w/cgroup.procs"; sleep 1
 # Reads the output
 cat /o
 ```
-#### Fuga de privilégios abusando do release_agent criado ([cve-2022-0492](https://unit42.paloaltonetworks.com/cve-2022-0492-cgroups/)) - PoC2
+#### Escapando de privilégios abusando do release_agent criado ([cve-2022-0492](https://unit42.paloaltonetworks.com/cve-2022-0492-cgroups/)) - PoC2
 
 {% code title="Segundo PoC" %}
 ```bash
@@ -338,16 +338,15 @@ root        10     2  0 11:25 ?        00:00:00 [ksoftirqd/0]
 ```
 #### Fuga de privilégios abusando de montagens sensíveis
 
-Existem vários arquivos que podem ser montados e fornecer informações sobre o host subjacente. Alguns deles podem até indicar algo a ser executado pelo host quando algo acontece (o que permitirá que um invasor escape do contêiner).\
-O abuso desses arquivos pode permitir que:
+Existem vários arquivos que podem ser montados e fornecer informações sobre o host subjacente. Alguns deles podem até indicar algo a ser executado pelo host quando algo acontece (o que permitirá que um invasor escape do contêiner). A exploração desses arquivos pode permitir que:
 
-* release\_agent (já abordado anteriormente)
-* [binfmt\_misc](sensitive-mounts.md#proc-sys-fs-binfmt\_misc)
-* [core\_pattern](sensitive-mounts.md#proc-sys-kernel-core\_pattern)
-* [uevent\_helper](sensitive-mounts.md#sys-kernel-uevent\_helper)
+* release_agent (já abordado anteriormente)
+* [binfmt_misc](sensitive-mounts.md#proc-sys-fs-binfmt_misc)
+* [core_pattern](sensitive-mounts.md#proc-sys-kernel-core_pattern)
+* [uevent_helper](sensitive-mounts.md#sys-kernel-uevent_helper)
 * [modprobe](sensitive-mounts.md#proc-sys-kernel-modprobe)
 
-No entanto, você pode encontrar **outros arquivos sensíveis** para verificar nesta página:
+No entanto, você pode encontrar outros arquivos sensíveis para verificar nesta página:
 
 {% content-ref url="sensitive-mounts.md" %}
 [sensitive-mounts.md](sensitive-mounts.md)
@@ -355,7 +354,7 @@ No entanto, você pode encontrar **outros arquivos sensíveis** para verificar n
 
 ### Montagens arbitrárias
 
-Em várias ocasiões, você descobrirá que o **contêiner possui algum volume montado do host**. Se esse volume não estiver configurado corretamente, você poderá **acessar/modificar dados sensíveis**: ler segredos, alterar chaves autorizadas do SSH...
+Em várias ocasiões, você descobrirá que o contêiner possui algum volume montado do host. Se esse volume não estiver configurado corretamente, você poderá acessar/modificar dados sensíveis: ler segredos, alterar chaves autorizadas do SSH...
 ```bash
 docker run --rm -it -v /:/host ubuntu bash
 ```
@@ -416,7 +415,7 @@ HTB{7h4T_w45_Tr1cKy_1_D4r3_54y}
 ```
 ### hostPID
 
-Se você conseguir acessar os processos do host, você será capaz de acessar muitas informações sensíveis armazenadas nesses processos. Execute o laboratório de teste:
+Se você pode acessar os processos do host, você será capaz de acessar muitas informações sensíveis armazenadas nesses processos. Execute o laboratório de teste:
 ```
 docker run --rm -it --pid=host ubuntu bash
 ```
@@ -431,7 +430,7 @@ HOSTNAME=argocd-server-69678b4f65-6mmql
 USER=abrgocd
 ...
 ```
-Você também pode **acessar os descritores de arquivo de outros processos e ler os arquivos abertos por eles**:
+Você também pode **acessar os descritores de arquivo de outros processos e ler seus arquivos abertos**:
 ```bash
 for fd in `find /proc/*/fd`; do ls -al $fd/* 2>/dev/null | grep \>; done > fds.txt
 less fds.txt
@@ -485,7 +484,7 @@ A segunda técnica explicada no post [https://labs.f-secure.com/blog/abusing-the
 
 <figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-Use [**Trickest**](https://trickest.io/) para construir e automatizar facilmente fluxos de trabalho com as ferramentas comunitárias mais avançadas do mundo.\
+Use [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) para construir e automatizar facilmente fluxos de trabalho com as ferramentas comunitárias mais avançadas do mundo.\
 Acesse hoje mesmo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -494,9 +493,9 @@ Acesse hoje mesmo:
 
 ### Exploração do Runc (CVE-2019-5736)
 
-Caso você possa executar `docker exec` como root (provavelmente com sudo), você pode tentar elevar privilégios escapando de um contêiner abusando do CVE-2019-5736 (exploit [aqui](https://github.com/Frichetten/CVE-2019-5736-PoC/blob/master/main.go)). Essa técnica basicamente irá **sobrescrever** o binário _**/bin/sh**_ do **host** **a partir de um contêiner**, então qualquer pessoa que execute o docker exec pode acionar a carga útil.
+Caso você possa executar `docker exec` como root (provavelmente com sudo), você pode tentar elevar privilégios escapando de um contêiner abusando do CVE-2019-5736 (exploit [aqui](https://github.com/Frichetten/CVE-2019-5736-PoC/blob/master/main.go)). Essa técnica basicamente **sobrescreverá** o binário _**/bin/sh**_ do **host** **a partir de um contêiner**, então qualquer pessoa que execute o docker exec pode acionar a carga útil.
 
-Altere a carga útil conforme necessário e compile o main.go com `go build main.go`. O binário resultante deve ser colocado no contêiner do Docker para execução.\
+Altere a carga útil conforme necessário e compile o main.go com `go build main.go`. O binário resultante deve ser colocado no contêiner Docker para execução.\
 Ao executar, assim que exibir `[+] Overwritten /bin/sh successfully`, você precisa executar o seguinte no host:
 
 `docker exec -it <nome-do-contêiner> /bin/sh`
@@ -506,14 +505,14 @@ Isso acionará a carga útil presente no arquivo main.go.
 Para mais informações: [https://blog.dragonsector.pl/2019/02/cve-2019-5736-escape-from-docker-and.html](https://blog.dragonsector.pl/2019/02/cve-2019-5736-escape-from-docker-and.html)
 
 {% hint style="info" %}
-Existem outras CVEs às quais o contêiner pode estar vulnerável, você pode encontrar uma lista em [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/cve-list](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/cve-list)
+Existem outras CVEs às quais o contêiner pode ser vulnerável, você pode encontrar uma lista em [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/cve-list](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/cve-list)
 {% endhint %}
 
 ## Docker Custom Escape
 
 ### Superfície de Escape do Docker
 
-* **Namespaces:** O processo deve estar **completamente separado de outros processos** por meio de namespaces, para que não possamos escapar interagindo com outros processos devido aos namespaces (por padrão, não é possível se comunicar via IPCs, unix sockets, serviços de rede, D-Bus, `/proc` de outros processos).
+* **Namespaces:** O processo deve estar **completamente separado de outros processos** por meio de namespaces, para que não possamos escapar interagindo com outros processos devido aos namespaces (por padrão, não é possível se comunicar via IPCs, soquetes Unix, serviços de rede, D-Bus, `/proc` de outros processos).
 * **Usuário root**: Por padrão, o usuário que executa o processo é o usuário root (no entanto, seus privilégios são limitados).
 * **Capacidades**: O Docker deixa as seguintes capacidades: `cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap=ep`
 * **Syscalls**: Essas são as syscalls que o **usuário root não poderá chamar** (por falta de capacidades + Seccomp). As outras syscalls podem ser usadas para tentar escapar.
@@ -626,7 +625,7 @@ If you are in **userspace** (**no kernel exploit** involved) the way to find new
 
 <figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-Use [**Trickest**](https://trickest.io/) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
+Use [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
 Get Access Today:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

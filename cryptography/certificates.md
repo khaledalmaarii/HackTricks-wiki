@@ -15,7 +15,7 @@
 <figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.io/) para construir e **automatizar fluxos de trabalho** com as ferramentas comunitárias mais avançadas do mundo.\
+Use [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) para construir e **automatizar fluxos de trabalho** com as ferramentas comunitárias mais avançadas do mundo.\
 Acesse hoje:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -57,18 +57,18 @@ O formato mais comum para certificados de chave pública é definido por [X.509]
 * **Algoritmo de Assinatura**: O algoritmo usado para assinar o certificado de chave pública.
 * **Assinatura**: Uma assinatura do corpo do certificado pela chave privada do emissor.
 * **Extensões x509v3**
-* **Uso da Chave**: Os usos criptográficos válidos da chave pública do certificado. Valores comuns incluem validação de assinatura digital, cifragem de chave e assinatura de certificado.
-* Em um certificado da Web, isso aparecerá como uma _extensão X509v3_ e terá o valor `Digital Signature`
+* **Uso da Chave**: Os usos criptográficos válidos da chave pública do certificado. Valores comuns incluem validação de assinatura digital, criptografia de chave e assinatura de certificado.
+* Em um certificado da Web, isso aparecerá como uma _extensão X509v3_ e terá o valor `Assinatura Digital`
 * **Uso Estendido da Chave**: As aplicações em que o certificado pode ser usado. Valores comuns incluem autenticação de servidor TLS, proteção de e-mail e assinatura de código.
-* Em um certificado da Web, isso aparecerá como uma _extensão X509v3_ e terá o valor `TLS Web Server Authentication`
+* Em um certificado da Web, isso aparecerá como uma _extensão X509v3_ e terá o valor `Autenticação de Servidor Web TLS`
 * **Nome Alternativo do Sujeito:** Permite que os usuários especifiquem nomes adicionais de host para um único **certificado** SSL. O uso da extensão SAN é uma prática padrão para certificados SSL e está substituindo o uso do **nome** comum.
 * **Restrição Básica:** Essa extensão descreve se o certificado é um certificado de CA ou um certificado de entidade final. Um certificado de CA é algo que assina certificados de outras pessoas e um certificado de entidade final é o certificado usado em uma página da web, por exemplo (a última parte da cadeia).
 * **Identificador da Chave do Sujeito** (SKI): Essa extensão declara um **identificador** único para a **chave** pública no certificado. É necessário em todos os certificados de CA. As CAs propagam seu próprio SKI para a extensão Identificador de Chave do Emissor (AKI) nos certificados emitidos. É o hash da chave pública do sujeito.
-* **Identificador de Chave de Autoridade**: Contém um identificador de chave derivado da chave pública no certificado do emissor. É o hash da chave pública do emissor.
+* **Identificador da Chave de Autoridade**: Contém um identificador de chave derivado da chave pública no certificado do emissor. É o hash da chave pública do emissor.
 * **Acesso à Informação da Autoridade** (AIA): Esta extensão contém no máximo dois tipos de informações:
-* Informações sobre **como obter o emissor deste certificado** (método de acesso ao emissor CA)
+* Informações sobre **como obter o emissor deste certificado** (método de acesso ao emissor da CA)
 * Endereço do **responder OCSP de onde a revogação deste certificado** pode ser verificada (método de acesso OCSP).
-* **Pontos de Distribuição de CRL**: Esta extensão identifica a localização da CRL da qual a revogação deste certificado pode ser verificada. A aplicação que processa o certificado pode obter a localização da CRL desta extensão, baixar a CRL e então verificar a revogação deste certificado.
+* **Pontos de Distribuição de CRL**: Esta extensão identifica a localização da CRL a partir da qual a revogação deste certificado pode ser verificada. A aplicação que processa o certificado pode obter a localização da CRL a partir desta extensão, baixar a CRL e então verificar a revogação deste certificado.
 * **CT Precertificate SCTs**: Logs de Transparência de Certificado referentes ao certificado
 
 ### Diferença entre OCSP e Pontos de Distribuição de CRL
@@ -82,7 +82,7 @@ De [aqui](https://www.arubanetworks.com/techdocs/ArubaOS%206\_3\_1\_Web\_Help/Co
 A Transparência de Certificado tem como objetivo remediar ameaças baseadas em certificados, tornando a emissão e a existência de certificados SSL abertas à análise dos proprietários de domínios, CAs e usuários de domínios. Especificamente, a Transparência de Certificado tem três objetivos principais:
 
 * Tornar impossível (ou pelo menos muito difícil) para uma CA **emitir um certificado SSL para um domínio sem que o proprietário** desse domínio **possa visualizar** o certificado.
-* Fornecer um sistema de auditoria e monitoramento aberto que permita a qualquer proprietário de domínio ou CA determinar se certificados foram emitidos erroneamente ou maliciosamente.
+* Fornecer um **sistema de auditoria e monitoramento aberto** que permita a qualquer proprietário de domínio ou CA determinar se certificados foram emitidos erroneamente ou maliciosamente.
 * **Proteger os usuários** (o máximo possível) de serem enganados por certificados emitidos erroneamente ou maliciosamente.
 
 #### **Logs de Certificado**
@@ -139,17 +139,19 @@ openssl x509 -in certificate.pem -outform der -out certificate.der
 
 Replace `certificate.pem` with the path to your PEM certificate file, and `certificate.der` with the desired output file name for the DER format.
 
-This command will read the PEM certificate file and convert it to DER format, saving the output to the specified file.
+This command will read the PEM certificate file and convert it to DER format, saving the result in the specified output file.
 
-It's important to note that PEM and DER are two different formats for representing certificates. PEM is a base64-encoded format that includes header and footer lines, while DER is a binary format. Converting a certificate from PEM to DER can be useful in certain scenarios, such as when working with systems that require DER-encoded certificates.
+Note that PEM and DER are both commonly used formats for representing X.509 certificates, but they have different encoding rules. PEM is base64-encoded and includes header and footer lines, while DER is a binary format.
+
+By converting a PEM certificate to DER format, you can ensure compatibility with systems or applications that require DER-encoded certificates.
 ```
 openssl x509 -outform der -in certificatename.pem -out certificatename.der
 ```
 **Converter DER para PEM**
 
-Para converter um certificado no formato DER para o formato PEM, você pode usar a ferramenta OpenSSL. O formato PEM é um formato de arquivo base64 codificado que é amplamente suportado por várias aplicações.
+Para converter um certificado no formato DER para o formato PEM, você pode usar a ferramenta OpenSSL. O formato PEM é um formato de arquivo base64 codificado que é amplamente suportado.
 
-Aqui está o comando para converter um certificado DER para PEM usando o OpenSSL:
+Aqui está o comando para converter um certificado DER para PEM:
 
 ```bash
 openssl x509 -inform der -in certificado.der -out certificado.pem
@@ -157,7 +159,7 @@ openssl x509 -inform der -in certificado.der -out certificado.pem
 
 Certifique-se de substituir "certificado.der" pelo nome do arquivo DER que você deseja converter e "certificado.pem" pelo nome do arquivo PEM de saída desejado.
 
-Depois de executar o comando, o certificado DER será convertido para o formato PEM e salvo no arquivo especificado. Agora você pode usar o certificado PEM em suas aplicações que suportam esse formato.
+Depois de executar o comando, você terá um arquivo PEM convertido que pode ser facilmente lido e usado em várias aplicações.
 ```
 openssl x509 -inform der -in certificatename.der -out certificatename.pem
 ```
@@ -167,24 +169,17 @@ openssl x509 -inform der -in certificatename.der -out certificatename.pem
 ```
 openssl crl2pkcs7 -nocrl -certfile certificatename.pem -out certificatename.p7b -certfile CACert.cer
 ```
-To convert a PKCS7 file to PEM format, you can use the OpenSSL command-line tool. The PKCS7 file contains certificates and/or CRLs (Certificate Revocation Lists) in a binary format, while the PEM format is a base64-encoded ASCII representation of the same data.
+**Converter PKCS7 para PEM**
 
-Here's the command to convert a PKCS7 file to PEM:
+Para converter um arquivo PKCS7 para o formato PEM, você pode seguir os seguintes passos:
 
-```plaintext
-openssl pkcs7 -inform der -in input.p7b -out output.pem -print_certs
-```
+1. Abra o arquivo PKCS7 em um editor de texto.
+2. Copie todo o conteúdo do arquivo PKCS7.
+3. Abra um novo arquivo em branco em um editor de texto.
+4. Cole o conteúdo copiado no novo arquivo.
+5. Salve o novo arquivo com a extensão ".pem".
 
-Replace `input.p7b` with the path to your PKCS7 file, and `output.pem` with the desired name for the PEM file.
-
-This command uses the `pkcs7` command of OpenSSL, with the following options:
-
-- `-inform der`: Specifies that the input file is in DER format (binary).
-- `-in input.p7b`: Specifies the input PKCS7 file.
-- `-out output.pem`: Specifies the output PEM file.
-- `-print_certs`: Prints the certificates in the PKCS7 file.
-
-After running the command, you will have a PEM file containing the certificates extracted from the PKCS7 file.
+Agora você tem um arquivo PEM que contém o mesmo conteúdo do arquivo PKCS7 original.
 ```
 openssl pkcs7 -print_certs -in certificatename.p7b -out certificatename.pem
 ```
@@ -210,7 +205,7 @@ Para converter um arquivo PEM para PKCS8, você pode usar a ferramenta OpenSSL. 
 1. Abra o terminal ou prompt de comando.
 2. Execute o seguinte comando para converter o arquivo PEM para PKCS8:
 
-   ```
+   ```shell
    openssl pkcs8 -topk8 -inform PEM -outform DER -in chave_privada.pem -out chave_privada.pkcs8 -nocrypt
    ```
 
@@ -234,7 +229,9 @@ openssl pkcs7 -print_certs -in certificatename.p7b -out certificatename.cer
 Para converter um arquivo de certificado CER e uma chave privada em um arquivo PFX, você pode usar a ferramenta OpenSSL. Siga as etapas abaixo:
 
 1. Certifique-se de ter o OpenSSL instalado em seu sistema.
+
 2. Abra o terminal ou prompt de comando e navegue até o diretório onde estão localizados o arquivo CER e a chave privada.
+
 3. Execute o seguinte comando para converter o arquivo CER e a chave privada em um arquivo PFX:
 
 ```
@@ -243,16 +240,18 @@ openssl pkcs12 -export -out certificado.pfx -inkey chave_privada.key -in certifi
 
 Certifique-se de substituir "chave_privada.key" pelo nome do arquivo da chave privada e "certificado.cer" pelo nome do arquivo CER.
 
-4. Durante o processo de conversão, você será solicitado a definir uma senha para proteger o arquivo PFX. Digite uma senha segura e lembre-se dela.
+4. Durante o processo de conversão, você será solicitado a definir uma senha para proteger o arquivo PFX. Digite uma senha segura e lembre-se dela, pois você precisará dela para acessar o arquivo PFX posteriormente.
 
-Após a conclusão do processo, você terá um arquivo PFX que contém o certificado e a chave privada. Esse arquivo pode ser usado em várias plataformas e aplicativos que suportam o formato PFX para autenticação e criptografia.
+5. Após a conclusão do processo, um novo arquivo chamado "certificado.pfx" será criado no diretório atual. Esse arquivo contém o certificado e a chave privada convertidos em formato PFX.
+
+Agora você pode usar o arquivo PFX para várias finalidades, como importá-lo em um servidor web ou usá-lo para autenticação em um sistema.
 ```
 openssl pkcs12 -export -in certificatename.cer -inkey privateKey.key -out certificatename.pfx -certfile  cacert.cer
 ```
 <figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.io/) para construir e automatizar facilmente fluxos de trabalho com as ferramentas comunitárias mais avançadas do mundo.\
+Use [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) para construir e automatizar facilmente fluxos de trabalho alimentados pelas ferramentas comunitárias mais avançadas do mundo.\
 Acesse hoje mesmo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -261,7 +260,7 @@ Acesse hoje mesmo:
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? Ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**

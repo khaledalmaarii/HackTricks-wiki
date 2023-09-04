@@ -15,7 +15,7 @@
 <figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.io/) para construir e **automatizar fluxos de trabalho** com as ferramentas comunitárias mais avançadas do mundo.\
+Use [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) para construir e **automatizar fluxos de trabalho** com as ferramentas comunitárias mais avançadas do mundo.\
 Acesse hoje mesmo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -28,7 +28,7 @@ O formato PDF é parcialmente texto simples, como HTML, mas com muitos "objetos"
 
 [qpdf](https://github.com/qpdf/qpdf) é uma ferramenta que pode ser útil para explorar um PDF e transformar ou extrair informações dele. Outra é um framework em Ruby chamado [Origami](https://github.com/mobmewireless/origami-pdf).
 
-Ao explorar o conteúdo de um PDF em busca de dados ocultos, alguns dos esconderijos para verificar incluem:
+Ao explorar o conteúdo de um PDF em busca de dados ocultos, alguns dos esconderijos a serem verificados incluem:
 
 * camadas não visíveis
 * o formato de metadados "XMP" da Adobe

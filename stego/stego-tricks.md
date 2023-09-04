@@ -27,23 +27,23 @@ Encontre vulnerabilidades que são mais importantes para que você possa corrigi
 Binwalk é uma ferramenta para procurar arquivos binários, como imagens e arquivos de áudio, em busca de arquivos e dados ocultos embutidos.\
 Pode ser instalado com `apt`, e a [fonte](https://github.com/ReFirmLabs/binwalk) pode ser encontrada no Github.\
 **Comandos úteis**:\
-`binwalk file` : Exibe os dados embutidos no arquivo fornecido\
-`binwalk -e file` : Exibe e extrai os dados do arquivo fornecido\
-`binwalk --dd ".*" file` : Exibe e extrai os dados do arquivo fornecido
+`binwalk arquivo` : Exibe os dados embutidos no arquivo fornecido\
+`binwalk -e arquivo` : Exibe e extrai os dados do arquivo fornecido\
+`binwalk --dd ".*" arquivo` : Exibe e extrai os dados do arquivo fornecido
 
 ### Foremost <a href="#foremost" id="foremost"></a>
 
 Foremost é um programa que recupera arquivos com base em seus cabeçalhos, rodapés e estruturas de dados internas. Acho especialmente útil ao lidar com imagens png. Você pode selecionar os arquivos que o Foremost irá extrair alterando o arquivo de configuração em **/etc/foremost.conf.**\
 Pode ser instalado com `apt`, e a [fonte](https://github.com/korczis/foremost) pode ser encontrada no Github.\
 **Comandos úteis:**\
-`foremost -i file` : extrai dados do arquivo fornecido.
+`foremost -i arquivo` : extrai dados do arquivo fornecido.
 
 ### Exiftool <a href="#exiftool" id="exiftool"></a>
 
 Às vezes, coisas importantes estão ocultas nos metadados de uma imagem ou arquivo; o exiftool pode ser muito útil para visualizar os metadados do arquivo.\
 Você pode obtê-lo [aqui](https://www.sno.phy.queensu.ca/\~phil/exiftool/)\
 **Comandos úteis:**\
-`exiftool file` : mostra os metadados do arquivo fornecido
+`exiftool arquivo` : mostra os metadados do arquivo fornecido
 
 ### Exiv2 <a href="#exiv2" id="exiv2"></a>
 
@@ -51,7 +51,7 @@ Uma ferramenta semelhante ao exiftool.\
 Pode ser instalado com `apt`, e a [fonte](https://github.com/Exiv2/exiv2) pode ser encontrada no Github.\
 [Site oficial](http://www.exiv2.org/)\
 **Comandos úteis:**\
-`exiv2 file` : mostra os metadados do arquivo fornecido
+`exiv2 arquivo` : mostra os metadados do arquivo fornecido
 
 ### File
 
@@ -61,15 +61,15 @@ Verifique que tipo de arquivo você tem
 
 Extraia strings do arquivo.\
 Comandos úteis:\
-`strings -n 6 file`: Extrai as strings com comprimento mínimo de 6\
-`strings -n 6 file | head -n 20`: Extrai as primeiras 20 strings com comprimento mínimo de 6\
-`strings -n 6 file | tail -n 20`: Extrai as últimas 20 strings com comprimento mínimo de 6\
-`strings -e s -n 6 file`: Extrai strings de 7 bits\
-`strings -e S -n 6 file`: Extrai strings de 8 bits\
-`strings -e l -n 6 file`: Extrai strings de 16 bits (little-endian)\
-`strings -e b -n 6 file`: Extrai strings de 16 bits (big-endian)\
-`strings -e L -n 6 file`: Extrai strings de 32 bits (little-endian)\
-`strings -e B -n 6 file`: Extrai strings de 32 bits (big-endian)
+`strings -n 6 arquivo`: Extrai as strings com comprimento mínimo de 6\
+`strings -n 6 arquivo | head -n 20`: Extrai as primeiras 20 strings com comprimento mínimo de 6\
+`strings -n 6 arquivo | tail -n 20`: Extrai as últimas 20 strings com comprimento mínimo de 6\
+`strings -e s -n 6 arquivo`: Extrai strings de 7 bits\
+`strings -e S -n 6 arquivo`: Extrai strings de 8 bits\
+`strings -e l -n 6 arquivo`: Extrai strings de 16 bits (little-endian)\
+`strings -e b -n 6 arquivo`: Extrai strings de 16 bits (big-endian)\
+`strings -e L -n 6 arquivo`: Extrai strings de 32 bits (little-endian)\
+`strings -e B -n 6 arquivo`: Extrai strings de 32 bits (big-endian)
 
 ### cmp - Comparação
 
@@ -87,7 +87,7 @@ Para **extrair** os **dados**, você pode usar: [https://www.irongeek.com/i.php?
 <figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.io/) para construir e **automatizar fluxos de trabalho** facilmente, utilizando as ferramentas comunitárias mais avançadas do mundo.\
+Use [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente, utilizando as ferramentas comunitárias mais avançadas do mundo.\
 Acesse hoje mesmo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -130,7 +130,7 @@ Capaz de uma ampla variedade de truques simples e avançados, essa ferramenta po
 
 ### Stegsolve
 
-Às vezes, há uma mensagem ou um texto oculto na própria imagem que, para visualizá-lo, deve ter filtros de cor aplicados ou alguns níveis de cor alterados. Embora você possa fazer isso com algo como o GIMP ou o Photoshop, o Stegsolve torna mais fácil. É uma pequena ferramenta Java que aplica muitos filtros de cor úteis em imagens; em desafios CTF, o Stegsolve muitas vezes economiza muito tempo.\
+Às vezes, há uma mensagem ou um texto oculto na própria imagem que, para visualizá-lo, deve ter filtros de cor aplicados ou alguns níveis de cor alterados. Embora você possa fazer isso com algo como GIMP ou Photoshop, o Stegsolve facilita. É uma pequena ferramenta Java que aplica muitos filtros de cor úteis em imagens; em desafios CTF, o Stegsolve muitas vezes economiza muito tempo.\
 Você pode obtê-lo no [Github](https://github.com/eugenekolo/sec-tools/tree/master/stego/stegsolve/stegsolve)\
 Para usá-lo, basta abrir a imagem e clicar nos botões `<` `>`.
 

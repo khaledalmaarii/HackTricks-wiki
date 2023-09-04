@@ -4,18 +4,18 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? Ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? Ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo Telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e para o** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
 <figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.io/) para construir e **automatizar fluxos de trabalho** com as ferramentas comunitárias mais avançadas do mundo.\
+Use [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) para construir e **automatizar fluxos de trabalho** com facilidade, utilizando as ferramentas comunitárias mais avançadas do mundo.\
 Acesse hoje mesmo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -69,7 +69,7 @@ Como você pode ver, parte da estrutura é criada pelo arquivo e pela hierarquia
 
 Mais uma vez, existe um conjunto de ferramentas em Python para a análise de documentos OLE e OOXML: [oletools](http://www.decalage.info/python/oletools). Para documentos OOXML em particular, [OfficeDissector](https://www.officedissector.com) é um framework de análise muito poderoso (e uma biblioteca em Python). Este último inclui um [guia rápido sobre o seu uso](https://github.com/grierforensics/officedissector/blob/master/doc/html/\_sources/txt/ANALYZING\_OOXML.txt).
 
-Às vezes, o desafio não é encontrar dados estáticos ocultos, mas **analisar uma macro VBA** para determinar seu comportamento. Esse é um cenário mais realista e algo que os analistas de campo realizam todos os dias. As ferramentas de dissecação mencionadas podem indicar se uma macro está presente e provavelmente extraí-la para você. Uma macro VBA típica em um documento do Office, no Windows, irá baixar um script do PowerShell para %TEMP% e tentar executá-lo, nesse caso, você agora tem uma tarefa de análise de script do PowerShell também. No entanto, as macros VBA maliciosas raramente são complicadas, já que a VBA é [geralmente usada apenas como uma plataforma de partida para a execução de código](https://www.lastline.com/labsblog/party-like-its-1999-comeback-of-vba-malware-downloaders-part-3/). No caso em que você precisa entender uma macro VBA complicada ou se a macro estiver ofuscada e tiver um rotina de descompactação, você não precisa ter uma licença do Microsoft Office para depurar isso. Você pode usar o [Libre Office](http://libreoffice.org): [sua interface](http://www.debugpoint.com/2014/09/debugging-libreoffice-macro-basic-using-breakpoint-and-watch/) será familiar para qualquer pessoa que já tenha depurado um programa; você pode definir pontos de interrupção, criar variáveis de observação e capturar valores depois que eles foram descompactados, mas antes que o comportamento da carga útil seja executado. Você até pode iniciar uma macro de um documento específico a partir da linha de comando:
+Às vezes, o desafio não é encontrar dados estáticos ocultos, mas **analisar uma macro VBA** para determinar seu comportamento. Esse é um cenário mais realista e algo que os analistas de campo realizam todos os dias. As ferramentas de dissecação mencionadas podem indicar se uma macro está presente e provavelmente extraí-la para você. Uma macro VBA típica em um documento do Office, no Windows, irá baixar um script do PowerShell para %TEMP% e tentar executá-lo, nesse caso, você agora tem uma tarefa de análise de script do PowerShell também. Mas as macros VBA maliciosas raramente são complicadas, já que a VBA é [geralmente usada apenas como uma plataforma de partida para a execução de código](https://www.lastline.com/labsblog/party-like-its-1999-comeback-of-vba-malware-downloaders-part-3/). No caso em que você precisa entender uma macro VBA complicada, ou se a macro está ofuscada e possui uma rotina de descompactação, você não precisa ter uma licença do Microsoft Office para depurar isso. Você pode usar o [Libre Office](http://libreoffice.org): [sua interface](http://www.debugpoint.com/2014/09/debugging-libreoffice-macro-basic-using-breakpoint-and-watch/) será familiar para qualquer pessoa que já tenha depurado um programa; você pode definir pontos de interrupção, criar variáveis de observação e capturar valores depois que eles foram descompactados, mas antes que o comportamento da carga útil seja executado. Você até pode iniciar uma macro de um documento específico a partir da linha de comando:
 ```
 $ soffice path/to/test.docx macro://./standard.module1.mymacro
 ```
@@ -91,13 +91,13 @@ O script `oledump` é uma ferramenta poderosa para análise de arquivos OLE. Ele
 
 ### olebrowse
 
-O script `olebrowse` é uma ferramenta interativa para explorar arquivos OLE. Ele permite navegar pela estrutura do arquivo, visualizar objetos e streams, e até mesmo editar e salvar modificações no arquivo. Isso pode ser útil para examinar detalhadamente um arquivo OLE e entender sua funcionalidade.
+O script `olebrowse` é uma ferramenta interativa para análise de arquivos OLE. Ele fornece uma interface de linha de comando que permite navegar pela estrutura interna de um arquivo OLE e visualizar informações detalhadas sobre os objetos presentes no arquivo.
 
 ### olemeta
 
-O script `olemeta` é usado para extrair metadados de arquivos OLE. Ele pode fornecer informações sobre o autor, título, assunto e outras propriedades do arquivo. Isso pode ser útil para a análise forense de documentos do Office e a obtenção de informações adicionais sobre um arquivo.
+O script `olemeta` é usado para extrair metadados de arquivos OLE. Ele pode fornecer informações sobre o autor, título, assunto e outras propriedades do arquivo. Isso pode ser útil para a análise forense de documentos do Office.
 
-Essas ferramentas do oletools podem ser usadas em conjunto para realizar uma análise forense completa de arquivos do Microsoft Office. Elas podem ajudar a identificar conteúdo malicioso, extrair informações ocultas e entender a estrutura interna de um arquivo OLE.
+Essas ferramentas do oletools podem ser usadas para ajudar na análise forense de arquivos do Microsoft Office e na detecção de possíveis ameaças de segurança.
 ```bash
 sudo pip3 install -U oletools
 olevba -c /path/to/document #Extract macros
@@ -113,7 +113,7 @@ Funções de macro como `AutoOpen`, `AutoExec` ou `Document_Open` serão **execu
 <figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.io/) para construir e **automatizar fluxos de trabalho** com as ferramentas comunitárias mais avançadas do mundo.\
+Use [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) para construir e **automatizar fluxos de trabalho** com facilidade, utilizando as ferramentas comunitárias mais avançadas do mundo.\
 Acesse hoje mesmo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -122,10 +122,10 @@ Acesse hoje mesmo:
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? Ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? Ou gostaria de ter acesso à **versão mais recente do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo Telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe suas técnicas de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e para o** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
