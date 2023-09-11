@@ -4,7 +4,7 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
@@ -25,7 +25,7 @@ HackenProof的赏金只有在客户存入奖励预算后才会启动。在漏洞
 **成为web3黑客传奇**\
 每次验证的漏洞都会获得声誉积分，并登上每周排行榜的榜首。
 
-[**在HackenProof上注册**](https://hackenproof.com/register) 从您的黑客行动中获利！
+[**在HackenProof上注册**](https://hackenproof.com/register)开始从您的黑客行动中获利！
 
 {% embed url="https://hackenproof.com/register" %}
 
@@ -63,6 +63,8 @@ HackenProof的赏金只有在客户存入奖励预算后才会启动。在漏洞
 [macos-protocols.md](macos-protocols.md)
 {% endcontent-ref %}
 
+* **开源**的macOS：[https://opensource.apple.com/](https://opensource.apple.com/)
+
 ### MacOS MDM
 
 在公司中，**macOS**系统很可能会通过MDM进行**管理**。因此，从攻击者的角度来看，了解**它是如何工作的**是很有意义的：
@@ -91,9 +93,9 @@ HackenProof的赏金只有在客户存入奖励预算后才会启动。在漏洞
 这种情况可能发生在以下情况下：
 
 * 使用的文件已经由用户创建（由用户拥有）
-* 使用的文件由于一个组的原因可被用户写入
+* 使用的文件由于一个组的原因对用户可写
 * 使用的文件位于用户拥有的目录中（用户可以创建文件）
-* 使用的文件位于由root拥有但用户具有写入权限的目录中（用户可以创建文件）
+* 使用的文件位于由root拥有但用户具有写访问权限的目录中（用户可以创建文件）
 
 能够**创建一个将被root使用的文件**，允许用户**利用其内容**，甚至创建**符号链接/硬链接**将其指向另一个位置。
 
@@ -124,6 +126,9 @@ HackenProof的赏金只有在客户存入奖励预算后才会启动。在漏洞
 
 **任何用户**（即使是非特权用户）都可以创建和挂载时间机器快照，并**访问该快照的所有文件**。\
 唯一需要的特权是所使用的应用程序（如`Terminal`）具有**完全磁盘访问权限**（FDA）（`kTCCServiceSystemPolicyAllfiles`），需要由管理员授予。
+
+
+{% code overflow="wrap" %}
 ```bash
 # Create snapshot
 tmutil localsnapshot
@@ -155,7 +160,7 @@ ls /tmp/snap/Users/admin_user # This will work
 
 ### Linux提权
 
-首先，请注意**大多数关于特权提升的技巧都会影响MacOS机器**。所以请参考：
+首先，请注意**大多数关于特权提升的技巧都会影响到MacOS**机器。所以请参考：
 
 {% content-ref url="../../linux-hardening/privilege-escalation/" %}
 [privilege-escalation](../../linux-hardening/privilege-escalation/)

@@ -22,19 +22,13 @@
 ```bash
 ls -lR /Applications/Safari.app/Contents
 ```
-*   `Contents/_CodeSignature`
-
-包含有关应用程序的**代码签名信息**（例如哈希等）。
-*   `Contents/MacOS`
-
-包含应用程序的**二进制文件**（当用户双击应用程序图标时执行）。
-*   `Contents/Resources`
-
-包含应用程序的**用户界面元素**，例如图像、文档和描述各种用户界面的nib/xib文件。
-* `Contents/Info.plist`\
-应用程序的主要“**配置文件**”。苹果指出，“系统依赖于此文件的存在来识别有关应用程序和任何相关文件的相关信息”。
+* `Contents/_CodeSignature` -> 包含有关应用程序的**代码签名信息**（例如哈希等）。
+* `openssl dgst -binary -sha1 /Applications/Safari.app/Contents/Resources/Assets.car | openssl base64`
+* `Contents/MacOS` -> 包含应用程序的**二进制文件**（当用户双击应用程序图标时执行）。
+* `Contents/Resources` -> 包含应用程序的**用户界面元素**，例如图像、文档和描述各种用户界面的nib/xib文件。
+* `Contents/Info.plist` -> 应用程序的主要“**配置文件**”。苹果指出，“系统依赖于此文件的存在来识别与应用程序和任何相关文件有关的信息”。
 * **Plist** **文件**包含配置信息。您可以在[https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Introduction/Introduction.html](https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Introduction/Introduction.html)中找到有关它们plist键的含义的信息。
-*   在分析应用程序时可能感兴趣的一些键值对包括:\\
+*   在分析应用程序时可能感兴趣的键值对包括:\\
 
 * **CFBundleExecutable**
 
@@ -42,20 +36,20 @@ ls -lR /Applications/Safari.app/Contents
 
 * **CFBundleIdentifier**
 
-包含应用程序的捆绑标识符（系统通常用于**全局** **标识**应用程序）。
+包含应用程序的捆绑标识符（系统通常用于**全局标识**应用程序）。
 
 * **LSMinimumSystemVersion**
 
-包含应用程序兼容的**最旧** **版本**的**macOS**。
+包含应用程序兼容的**最旧版本的macOS**。
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 您在**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 您在**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想获得最新版本的PEASS或下载PDF格式的HackTricks吗？请查看[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧。**
 
 </details>
