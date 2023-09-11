@@ -63,6 +63,8 @@ Se você não está familiarizado com o macOS, você deve começar aprendendo o 
 [macos-protocols.md](macos-protocols.md)
 {% endcontent-ref %}
 
+* macOS de código aberto: [https://opensource.apple.com/](https://opensource.apple.com/)
+
 ### MacOS MDM
 
 Nas empresas, os sistemas **macOS** provavelmente serão **gerenciados com um MDM**. Portanto, do ponto de vista de um atacante, é interessante saber **como isso funciona**:
