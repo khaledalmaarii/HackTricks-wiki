@@ -142,12 +142,12 @@ Il existe environ **50 types différents de commandes de chargement** que le sys
 ### **LC\_SEGMENT/LC\_SEGMENT\_64**
 
 {% hint style="success" %}
-Essentiellement, ce type de commande de chargement définit **comment charger les sections** qui sont stockées dans DATA lorsque le binaire est exécuté.
+Essentiellement, ce type de commande de chargement définit **comment charger les segments \_\_TEXT** (code exécutable) **et \_\_DATA** (données du processus) **en fonction des décalages indiqués dans la section Données** lorsque le binaire est exécuté.
 {% endhint %}
 
 Ces commandes **définissent des segments** qui sont **mappés** dans l'espace **mémoire virtuelle** d'un processus lorsqu'il est exécuté.
 
-Il existe **différents types** de segments, tels que le segment **\_\_TEXT**, qui contient le code exécutable d'un programme, et le segment **\_\_DATA**, qui contient les données utilisées par le processus. Ces **segments sont situés dans la section des données** du fichier Mach-O.
+Il existe **différents types** de segments, tels que le segment **\_\_TEXT**, qui contient le code exécutable d'un programme, et le segment **\_\_DATA**, qui contient les données utilisées par le processus. Ces **segments sont situés dans la section Données** du fichier Mach-O.
 
 **Chaque segment** peut être **divisé** en plusieurs **sections**. La structure de la commande de chargement contient des **informations** sur **ces sections** dans le segment correspondant.
 
@@ -205,12 +205,12 @@ Segments communs chargés par cette commande :
 
 * **`__PAGEZERO`** : Il indique au noyau de **mapper** l'**adresse zéro** de sorte qu'elle **ne puisse pas être lue, écrite ou exécutée**. Les variables maxprot et minprot dans la structure sont définies à zéro pour indiquer qu'il n'y a **aucun droit de lecture-écriture-exécution sur cette page**.
 * Cette allocation est importante pour **atténuer les vulnérabilités de référence de pointeur NULL**.
-* **`__TEXT`** : Contient du **code exécutable** et des **données en lecture seule**. Sections courantes de ce segment :
+* **`__TEXT`** : Contient du **code exécutable** avec des permissions de **lecture** et d'**exécution** (pas d'écriture). Sections courantes de ce segment :
 * `__text` : Code binaire compilé
 * `__const` : Données constantes
 * `__cstring` : Constantes de chaîne
 * `__stubs` et `__stubs_helper` : Impliqués lors du processus de chargement de bibliothèque dynamique
-* **`__DATA`** : Contient des données **modifiables**.
+* **`__DATA`** : Contient des données **lisibles** et **modifiables** (non exécutables).
 * `__data` : Variables globales (qui ont été initialisées)
 * `__bss` : Variables statiques (qui n'ont pas été initialisées)
 * `__objc_*` (\_\_objc\_classlist, \_\_objc\_protolist, etc) : Informations utilisées par le runtime Objective-C
@@ -228,7 +228,7 @@ Cependant, vous pouvez trouver des informations sur cette section dans [**cet ar
 
 ### **LC\_LOAD\_DYLINKER**
 
-Contient le **chemin vers l'exécutable du lien dynamique** qui mappe les bibliothèques partagées dans l'espace d'adressage du processus. La **valeur est toujours définie sur `/usr/lib/dyld`**. Il est important de noter que dans macOS, le mappage dylib se fait en **mode utilisateur**, et non en mode noyau.
+Contient le **chemin d'accès à l'exécutable du lien dynamique** qui mappe les bibliothèques partagées dans l'espace d'adressage du processus. La **valeur est toujours définie sur `/usr/lib/dyld`**. Il est important de noter que dans macOS, le mappage dylib se fait en **mode utilisateur**, et non en mode noyau.
 
 ### **`LC_LOAD_DYLIB`**
 
@@ -275,7 +275,7 @@ Les offsets de tous les constructeurs sont stockés dans la section **\_\_mod\_i
 Le cœur du fichier est la région finale, les données, qui se composent de plusieurs segments tels qu'ils sont disposés dans la région des commandes de chargement. **Chaque segment peut contenir plusieurs sections de données**. Chacune de ces sections **contient du code ou des données** d'un type particulier.
 
 {% hint style="success" %}
-Les données sont essentiellement la partie contenant toutes les informations chargées par les commandes de chargement LC\_SEGMENTS\_64.
+Les données sont essentiellement la partie contenant toutes les **informations** qui sont chargées par les commandes de chargement **LC\_SEGMENTS\_64**.
 {% endhint %}
 
 ![](<../../../.gitbook/assets/image (507) (3).png>)

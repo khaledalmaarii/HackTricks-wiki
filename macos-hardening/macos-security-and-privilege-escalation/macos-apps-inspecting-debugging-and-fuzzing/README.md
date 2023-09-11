@@ -21,43 +21,20 @@ otool -tv /bin/ps #Decompile application
 ```
 ### objdump
 
-`objdump` est un outil de débogage et d'inspection de fichiers binaires sur macOS. Il permet d'analyser les fichiers exécutables, les bibliothèques partagées et les fichiers d'objets pour obtenir des informations détaillées sur leur structure interne.
-
-L'utilisation de `objdump` peut être utile dans le cadre de l'analyse de logiciels malveillants ou de l'audit de sécurité, car il permet de visualiser le contenu des fichiers binaires, y compris les sections, les symboles, les instructions assembleur et les adresses mémoire.
-
-Voici quelques exemples d'utilisation courante de `objdump` :
-
-- Afficher les informations d'en-tête d'un fichier binaire :
-```
-$ objdump -h fichier_binaire
-```
-
-- Afficher les symboles d'un fichier binaire :
-```
-$ objdump -t fichier_binaire
-```
-
-- Désassembler un fichier binaire pour afficher le code assembleur :
-```
-$ objdump -d fichier_binaire
-```
-
-- Extraire les chaînes de caractères d'un fichier binaire :
-```
-$ objdump -s fichier_binaire
-```
-
-`objdump` est un outil puissant pour l'analyse de fichiers binaires sur macOS. Il peut être utilisé pour comprendre le fonctionnement interne des applications, détecter les vulnérabilités potentielles et effectuer des tâches de débogage avancées.
+{% code overflow="wrap" %}
 ```bash
 objdump -m --dylibs-used /bin/ls #List dynamically linked libraries
 objdump -m -h /bin/ls # Get headers information
 objdump -m --syms /bin/ls # Check if the symbol table exists to get function names
 objdump -m --full-contents /bin/ls # Dump every section
 objdump -d /bin/ls # Dissasemble the binary
+objdump --disassemble-symbols=_hello --x86-asm-syntax=intel toolsdemo #Disassemble a function using intel flavour
 ```
+{% endcode %}
+
 ### jtool2
 
-L'outil peut être utilisé comme un **remplacement** pour **codesign**, **otool** et **objdump**, et offre quelques fonctionnalités supplémentaires.
+L'outil peut être utilisé comme un **remplacement** pour **codesign**, **otool**, et **objdump**, et offre quelques fonctionnalités supplémentaires. [**Téléchargez-le ici**](http://www.newosxbook.com/tools/jtool.html).
 ```bash
 # Install
 brew install --cask jtool2
@@ -70,21 +47,18 @@ jtool2 -D /bin/ls # Decompile binary
 
 # Get signature information
 ARCH=x86_64 jtool2 --sig /System/Applications/Automator.app/Contents/MacOS/Automator
-
 ```
 ### Codesign
 
-La commande `codesign` est utilisée pour signer numériquement les applications macOS, ce qui garantit leur authenticité et leur intégrité. La signature numérique est une mesure de sécurité importante pour empêcher les applications malveillantes d'être exécutées sur un système.
+La commande `codesign` est utilisée pour signer numériquement les applications macOS afin de garantir leur authenticité et leur intégrité. La signature numérique est une mesure de sécurité qui permet de vérifier l'identité de l'éditeur de l'application et de détecter toute modification non autorisée du code.
 
-La commande `codesign` peut être utilisée pour inspecter les signatures numériques des applications macOS, ainsi que pour vérifier si une application a été altérée ou modifiée depuis sa signature. Elle peut également être utilisée pour ajouter, supprimer ou remplacer des signatures numériques sur les applications.
+La commande `codesign` peut être utilisée pour inspecter les signatures numériques des applications macOS, ainsi que pour ajouter, supprimer ou modifier des signatures. Elle peut également être utilisée pour vérifier si une application a été signée correctement et si elle a été altérée depuis sa signature.
 
-Lors de l'inspection d'une signature numérique avec `codesign`, vous pouvez obtenir des informations telles que le certificat utilisé pour signer l'application, la date de signature, les identifiants de l'émetteur et du sujet, ainsi que d'autres détails liés à la signature.
+L'inspection des signatures numériques des applications peut être utile pour détecter les applications malveillantes ou non signées. En examinant les informations de signature, vous pouvez vérifier si l'application provient d'un développeur de confiance et si elle a été modifiée depuis sa signature.
 
-La commande `codesign` peut également être utilisée pour vérifier si une application a été modifiée depuis sa signature en utilisant l'option `--verify`. Cela permet de détecter toute altération ou modification de l'application après sa signature.
+La commande `codesign` peut également être utilisée pour inspecter les entitlements d'une application, qui sont des autorisations spécifiques accordées à une application pour accéder à certaines fonctionnalités ou ressources du système. L'inspection des entitlements peut aider à identifier les autorisations excessives ou non autorisées accordées à une application.
 
-En utilisant `codesign`, vous pouvez également ajouter, supprimer ou remplacer des signatures numériques sur les applications. Cela peut être utile dans le cas où vous souhaitez modifier ou mettre à jour la signature d'une application existante.
-
-En résumé, la commande `codesign` est un outil essentiel pour inspecter, vérifier et gérer les signatures numériques des applications macOS, garantissant ainsi leur authenticité et leur intégrité.
+En résumé, la commande `codesign` est un outil puissant pour inspecter, gérer et vérifier les signatures numériques des applications macOS, ainsi que pour examiner les entitlements associés à ces applications. Elle joue un rôle essentiel dans le renforcement de la sécurité des applications macOS et dans la prévention de l'exécution de code malveillant.
 ```bash
 # Get signer
 codesign -vv -d /bin/ls 2>&1 | grep -E "Authority|TeamIdentifier"
@@ -130,17 +104,15 @@ Vous pouvez obtenir ces informations en utilisant [**class-dump**](https://githu
 ```bash
 class-dump Kindle.app
 ```
-Notez que ces noms peuvent être obscurcis pour rendre la rétro-ingénierie du binaire plus difficile.
-
 #### Appel de fonction
 
-Lorsqu'une fonction est appelée dans un binaire qui utilise Objective-C, le code compilé, au lieu d'appeler cette fonction, appellera **`objc_msgSend`**. Ce dernier appellera la fonction finale :
+Lorsqu'une fonction est appelée dans un binaire qui utilise Objective-C, le code compilé, au lieu d'appeler directement cette fonction, appellera **`objc_msgSend`**. Cela appellera ensuite la fonction finale :
 
 ![](<../../../.gitbook/assets/image (560).png>)
 
 Les paramètres que cette fonction attend sont les suivants :
 
-* Le premier paramètre (**self**) est "un pointeur qui pointe vers l'**instance de la classe qui doit recevoir le message**". En d'autres termes, il s'agit de l'objet sur lequel la méthode est invoquée. Si la méthode est une méthode de classe, il s'agira d'une instance de l'objet de classe (dans son ensemble), tandis que pour une méthode d'instance, self pointera vers une instance instanciée de la classe en tant qu'objet.
+* Le premier paramètre (**self**) est "un pointeur qui pointe vers l'**instance de la classe qui doit recevoir le message**". En d'autres termes, il s'agit de l'objet sur lequel la méthode est invoquée. Si la méthode est une méthode de classe, il s'agira d'une instance de l'objet de la classe (dans son ensemble), tandis que pour une méthode d'instance, self pointera vers une instance instanciée de la classe en tant qu'objet.
 * Le deuxième paramètre (**op**) est "le sélecteur de la méthode qui gère le message". Encore une fois, plus simplement, il s'agit simplement du **nom de la méthode**.
 * Les paramètres restants sont toutes les **valeurs requises par la méthode** (op).
 
@@ -149,16 +121,16 @@ Les paramètres que cette fonction attend sont les suivants :
 | **1er argument**  | **rdi**                                                         | **self : objet sur lequel la méthode est invoquée**     |
 | **2e argument**  | **rsi**                                                         | **op : nom de la méthode**                             |
 | **3e argument**  | **rdx**                                                         | **1er argument de la méthode**                         |
-| **4e argument**  | **rcx**                                                         | **2e argument de la méthode**                          |
-| **5e argument**  | **r8**                                                          | **3e argument de la méthode**                          |
-| **6e argument**  | **r9**                                                          | **4e argument de la méthode**                          |
-| **7e+ argument** | <p><strong>rsp+</strong><br><strong>(sur la pile)</strong></p> | **5e+ argument de la méthode**                         |
+| **4e argument**  | **rcx**                                                         | **2e argument de la méthode**                         |
+| **5e argument**  | **r8**                                                          | **3e argument de la méthode**                         |
+| **6e argument**  | **r9**                                                          | **4e argument de la méthode**                         |
+| **7e+ argument** | <p><strong>rsp+</strong><br><strong>(sur la pile)</strong></p> | **5e+ argument de la méthode**                        |
 
 ### Swift
 
-Avec les binaires Swift, étant donné qu'il y a une compatibilité avec Objective-C, il est parfois possible d'extraire des déclarations à l'aide de [class-dump](https://github.com/nygard/class-dump/), mais pas toujours.
+Avec les binaires Swift, étant donné qu'il y a une compatibilité Objective-C, il est parfois possible d'extraire des déclarations à l'aide de [class-dump](https://github.com/nygard/class-dump/), mais pas toujours.
 
-Avec les commandes **`jtool -l`** ou **`otool -l`**, il est possible de trouver plusieurs sections qui commencent par le préfixe **`__swift5`** :
+Avec les lignes de commande **`jtool -l`** ou **`otool -l`**, il est possible de trouver plusieurs sections qui commencent par le préfixe **`__swift5`** :
 ```bash
 jtool2 -l /Applications/Stocks.app/Contents/MacOS/Stocks
 LC 00: LC_SEGMENT_64              Mem: 0x000000000-0x100000000    __PAGEZERO
@@ -210,7 +182,7 @@ En cliquant avec le bouton droit sur un objet de code, vous pouvez voir les **r�
 
 <figure><img src="../../../.gitbook/assets/image (1) (1) (2).png" alt=""><figcaption></figcaption></figure>
 
-De plus, dans la **partie inférieure du panneau central, vous pouvez écrire des commandes python**.
+De plus, dans la **partie inférieure centrale, vous pouvez écrire des commandes python**.
 
 #### Panneau de droite
 
@@ -266,23 +238,19 @@ In this section, we will explore various techniques for inspecting, debugging, a
 
 ## Inspecting MacOS Apps
 
-Inspecting MacOS apps involves analyzing the binary code and resources of an application to understand its inner workings. This can be done using tools like `otool`, `class-dump`, and `Hopper Disassembler`. These tools allow us to examine the app's executable file, libraries, and frameworks, and gain insights into its functionality and potential vulnerabilities.
+Inspecting MacOS apps involves analyzing the binary code and resources of an application to understand its inner workings. This can be done using tools like `otool`, `class-dump`, and `Hopper Disassembler`. These tools allow us to examine the app's executable file, libraries, and frameworks, and extract useful information such as function names, class structures, and API calls.
 
 ## Debugging MacOS Apps
 
-Debugging MacOS apps involves analyzing the runtime behavior of an application to identify and fix bugs or security issues. The `lldb` debugger is a powerful tool for debugging MacOS apps. It allows us to set breakpoints, inspect variables, and step through the code to understand how the application behaves under different conditions.
+Debugging MacOS apps involves analyzing the runtime behavior of an application to identify and fix bugs or vulnerabilities. The most commonly used debugger for MacOS is `lldb`, which provides a command-line interface for interacting with the application's execution environment. With `lldb`, we can set breakpoints, inspect variables, and step through the code to understand how the application behaves.
 
 ## Fuzzing MacOS Apps
 
-Fuzzing is a technique used to discover vulnerabilities in software by providing unexpected or malformed inputs. Fuzzing MacOS apps involves generating and feeding random or mutated inputs to an application to trigger crashes or unexpected behavior. Tools like `AFL` (American Fuzzy Lop) and `honggfuzz` are commonly used for fuzzing MacOS apps.
+Fuzzing is a technique used to discover vulnerabilities in software by providing unexpected or malformed inputs. For MacOS apps, we can use tools like `AFL` (American Fuzzy Lop) and `honggfuzz` to perform fuzzing. These tools generate a large number of test cases with random or mutated inputs and monitor the application's behavior for crashes or unexpected outputs. Fuzzing can help uncover memory corruption issues, logic flaws, and other security vulnerabilities.
 
 ## Conclusion
 
-Inspecting, debugging, and fuzzing MacOS apps are crucial steps in the process of identifying and mitigating security vulnerabilities. By understanding the inner workings of an application and analyzing its runtime behavior, we can uncover potential weaknesses and improve the overall security of MacOS apps.
-
----
-
-* script
+Inspecting, debugging, and fuzzing MacOS apps are crucial steps in the process of identifying and mitigating security vulnerabilities. By understanding the inner workings of an application, analyzing its runtime behavior, and testing it with unexpected inputs, we can uncover potential weaknesses and improve the overall security of MacOS applications.
 ```bash
 syscall:::entry
 /pid == $1/
@@ -377,10 +345,10 @@ lldb -n malware.bin --waitfor
 | **x/s \<reg/adresse mémoire>** | Affiche la mémoire sous forme de chaîne terminée par un caractère nul.                                                                                                                                                                                                                                                                                                                                                    |
 | **x/i \<reg/adresse mémoire>** | Affiche la mémoire sous forme d'instruction d'assemblage.                                                                                                                                                                                                                                                                                                                                                                 |
 | **x/b \<reg/adresse mémoire>** | Affiche la mémoire sous forme d'octet.                                                                                                                                                                                                                                                                                                                                                                                     |
-| **print object (po)**         | <p>Cela affichera l'objet référencé par le paramètre</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>Notez que la plupart des API ou méthodes Objective-C d'Apple renvoient des objets et doivent donc être affichées via la commande "print object" (po). Si po ne produit pas de sortie significative, utilisez <code>x/b</code></p> |
+| **print object (po)**         | <p>Cela affichera l'objet référencé par le paramètre</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>Notez que la plupart des API ou méthodes Objective-C d'Apple renvoient des objets et doivent donc être affichées via la commande "print object" (po). Si po ne produit pas une sortie significative, utilisez <code>x/b</code></p> |
 | **memory**                    | <p>memory read 0x000....<br>memory read $x0+0xf2a<br>memory write 0x100600000 -s 4 0x41414141 #Écrire AAAA à cette adresse<br>memory write -f s $rip+0x11f+7 "AAAA" #Écrire AAAA à l'adresse</p>                                                                                                                                                                                                                            |
-| **disassembly**               | <p>dis #Désassemble la fonction en cours<br>dis -c 6 #Désassemble 6 lignes<br>dis -c 0x100003764 -e 0x100003768 # De l'une à l'autre<br>dis -p -c 4 # Commence à l'adresse actuelle de désassemblage</p>                                                                                                                                                                                                                     |
-| **parray**                    | parray 3 (char \*\*)$x1 # Vérifiez le tableau de 3 composants dans le registre x1                                                                                                                                                                                                                                                                                                                                         |
+| **disassembly**               | <p>dis #Désassembler la fonction en cours<br>dis -c 6 #Désassembler 6 lignes<br>dis -c 0x100003764 -e 0x100003768 # De l'une à l'autre adresse<br>dis -p -c 4 #Commencer à l'adresse actuelle de désassemblage</p>                                                                                                                                                                                                         |
+| **parray**                    | parray 3 (char \*\*)$x1 #Vérifier le tableau de 3 composants dans le registre x1                                                                                                                                                                                                                                                                                                                                          |
 
 {% hint style="info" %}
 Lors de l'appel de la fonction **`objc_sendMsg`**, le registre **rsi** contient le **nom de la méthode** sous forme de chaîne terminée par un caractère nul ("C"). Pour afficher le nom via lldb, faites :
@@ -481,7 +449,7 @@ Fonctionne pour les outils en ligne de commande
 
 #### [Litefuzz](https://github.com/sec-tools/litefuzz)
 
-Il fonctionne "**juste"** avec les outils GUI de macOS. Notez que certaines applications macOS ont des exigences spécifiques telles que des noms de fichiers uniques, la bonne extension, la nécessité de lire les fichiers à partir du sandbox (`~/Library/Containers/com.apple.Safari/Data`)...
+Il fonctionne "**simplement"** avec les outils GUI de macOS. Notez que certaines applications macOS ont des exigences spécifiques telles que des noms de fichiers uniques, la bonne extension, la nécessité de lire les fichiers à partir du sandbox (`~/Library/Containers/com.apple.Safari/Data`)...
 
 Quelques exemples :
 
@@ -528,8 +496,8 @@ litefuzz -s -a tcp://localhost:5900 -i input/screenshared-session --reportcrash 
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? Ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
