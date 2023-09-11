@@ -1,13 +1,13 @@
-# macOS基础Objective-C
+# macOS Objective-C
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* 你在一个**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[NFT收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
@@ -15,7 +15,7 @@
 ## Objective-C
 
 {% hint style="danger" %}
-请注意，使用Objective-C编写的程序在编译为[Mach-O二进制文件](macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md)时会**保留**它们的类声明。这些类声明包括以下内容的名称和类型：
+请注意，使用Objective-C编写的程序在编译为[Mach-O二进制文件](macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md)时会**保留**它们的类声明。这些类声明包括以下信息：
 {% endhint %}
 
 * 类
@@ -46,6 +46,70 @@ class-dump Kindle.app
 @end
 ```
 ### **类**
+
+In Objective-C, a class is a blueprint for creating objects. It defines the properties and behaviors that an object of that class will have. A class is composed of instance variables, methods, and properties.
+
+在Objective-C中，类是创建对象的蓝图。它定义了该类的对象将具有的属性和行为。一个类由实例变量、方法和属性组成。
+
+### **Instance Variables**
+
+Instance variables are the data members of a class. They hold the state or data of an object. Each object of a class has its own set of instance variables.
+
+实例变量是类的数据成员。它们保存对象的状态或数据。每个类的对象都有自己的一组实例变量。
+
+### **Methods**
+
+Methods are the functions defined within a class. They define the behavior of an object. Methods can be classified into two types: instance methods and class methods.
+
+方法是在类内定义的函数。它们定义了对象的行为。方法可以分为两种类型：实例方法和类方法。
+
+- **Instance Methods**: Instance methods are associated with an instance of a class. They can access and modify the instance variables of that instance.
+
+- **实例方法**：实例方法与类的实例相关联。它们可以访问和修改该实例的实例变量。
+
+- **Class Methods**: Class methods are associated with the class itself rather than an instance of the class. They can only access and modify class variables.
+
+- **类方法**：类方法与类本身相关联，而不是类的实例。它们只能访问和修改类变量。
+
+### **Properties**
+
+Properties provide a way to define the attributes of an object. They are used to encapsulate instance variables and provide getter and setter methods to access and modify them.
+
+属性提供了定义对象属性的方式。它们用于封装实例变量，并提供getter和setter方法来访问和修改它们。
+
+Properties can be declared as read-only, read-write, or write-only. They can also have custom accessors and mutators.
+
+属性可以声明为只读、读写或只写。它们还可以具有自定义的访问器和修改器。
+
+### **Inheritance**
+
+Inheritance is a mechanism in which one class inherits the properties and behaviors of another class. The class that inherits is called the subclass, and the class from which it inherits is called the superclass.
+
+继承是一种机制，其中一个类继承另一个类的属性和行为。继承的类称为子类，继承的类称为父类。
+
+The subclass can access the instance variables, methods, and properties of the superclass. It can also override the methods of the superclass to provide its own implementation.
+
+子类可以访问父类的实例变量、方法和属性。它还可以重写父类的方法，以提供自己的实现。
+
+### **Polymorphism**
+
+Polymorphism is the ability of an object to take on many forms. In Objective-C, polymorphism is achieved through method overriding and method overloading.
+
+多态是对象具有多种形式的能力。在Objective-C中，通过方法重写和方法重载实现多态。
+
+- **Method Overriding**: Method overriding allows a subclass to provide a different implementation of a method that is already defined in its superclass.
+
+- **方法重写**：方法重写允许子类提供一个与其父类中已定义的方法不同的实现。
+
+- **Method Overloading**: Method overloading allows multiple methods with the same name but different parameters to coexist in a class.
+
+- **方法重载**：方法重载允许在一个类中存在多个具有相同名称但参数不同的方法。
+
+### **Conclusion**
+
+Understanding the basic concepts of classes, instance variables, methods, properties, inheritance, and polymorphism is essential for developing applications in Objective-C.
+
+理解类、实例变量、方法、属性、继承和多态的基本概念对于在Objective-C中开发应用程序至关重要。
 ```objectivec
 @implementation MyVehicle : NSObject
 
@@ -95,7 +159,7 @@ NSLog(@"Number of wheels: %i", [newVehicle numberOfWheels]);
 ```
 ### **实例变量**
 
-除了使用setter和getter方法之外，您还可以使用实例变量。这些变量与属性具有相同的名称，但以"\_"开头：
+除了使用setter和getter方法之外，您还可以使用实例变量。这些变量与属性具有相同的名称，但以“\_”开头：
 ```objectivec
 - (void)makeLongTruck {
 _numberOfWheels = +10000;
@@ -106,7 +170,7 @@ NSLog(@"Number of wheels: %i", self.numberOfLeaves);
 
 协议是一组方法声明（不包含属性）。实现协议的类需要实现声明的方法。
 
-方法有两种类型：**必须的**和**可选的**。默认情况下，方法是**必须的**（但也可以使用**`@required`**标签来指示）。要指示方法是可选的，请使用**`@optional`**。
+方法有两种类型：**必须的**和**可选的**。默认情况下，方法是**必须的**（但也可以使用**`@required`**标签来指示）。要指示方法是可选的，请使用**`@optional`**标签。
 ```objectivec
 @protocol myNewProtocol
 - (void) method1; //mandatory
@@ -118,89 +182,15 @@ NSLog(@"Number of wheels: %i", self.numberOfLeaves);
 ```
 ### 全部在一起
 
-在Objective-C中，我们可以使用一些技术来实现各种攻击和提升特权的目标。下面是一些常见的技术：
+在本章中，我们已经学习了Objective-C的基础知识，以及如何在macOS上使用Objective-C进行开发。我们还了解了Objective-C的一些重要概念，如类、对象、方法和消息传递。
 
-#### 1. Method Swizzling（方法交换）
+我们还学习了如何使用Objective-C的运行时库来动态创建类和对象，并了解了Objective-C的内存管理机制。
 
-方法交换是一种技术，可以在运行时更改类的方法实现。这可以用于修改现有方法的行为，甚至可以替换掉原始方法。这对于实现各种攻击非常有用，例如劫持方法调用，窃取敏感信息等。
+此外，我们还介绍了Objective-C的一些高级特性，如协议、分类和块。
 
-#### 2. Method Injection（方法注入）
+最后，我们还讨论了Objective-C在macOS安全和特权升级方面的一些注意事项。我们了解了如何使用Objective-C来执行特权操作，并学习了如何在Objective-C代码中实现安全性和防御性编程。
 
-方法注入是一种技术，可以在运行时向类中添加新的方法。这可以用于在目标类中注入恶意代码，以实现各种攻击，例如执行远程命令，窃取敏感信息等。
-
-#### 3. Class Swizzling（类交换）
-
-类交换是一种技术，可以在运行时更改类的实现。这可以用于修改类的行为，例如替换掉原始类的实现，或者在类的方法中添加额外的逻辑。这对于实现各种攻击非常有用，例如劫持类的行为，窃取敏感信息等。
-
-#### 4. Dynamic Method Resolution（动态方法解析）
-
-动态方法解析是一种技术，可以在运行时动态地为类添加缺失的方法实现。这可以用于在运行时创建新的方法，以实现各种攻击，例如执行远程命令，窃取敏感信息等。
-
-#### 5. Method Forwarding（方法转发）
-
-方法转发是一种技术，可以在运行时将未知的方法调用转发给其他对象来处理。这可以用于实现各种攻击，例如劫持方法调用，窃取敏感信息等。
-
-#### 6. Instance Variable Manipulation（实例变量操作）
-
-实例变量操作是一种技术，可以在运行时直接访问和修改类的实例变量。这可以用于实现各种攻击，例如窃取敏感信息，修改对象状态等。
-
-#### 7. Class Clusters（类簇）
-
-类簇是一种技术，可以使用抽象类来隐藏具体实现的细节。这可以用于实现各种攻击，例如劫持类的行为，窃取敏感信息等。
-
-#### 8. Method Chaining（方法链式调用）
-
-方法链式调用是一种技术，可以通过在方法中返回`self`来实现连续调用多个方法。这可以用于实现各种攻击，例如劫持方法调用，窃取敏感信息等。
-
-#### 9. KVO (Key-Value Observing)（键值观察）
-
-键值观察是一种技术，可以在运行时监视对象属性的变化。这可以用于实现各种攻击，例如窃取敏感信息，修改对象状态等。
-
-#### 10. NSNotificationCenter（通知中心）
-
-通知中心是一种技术，可以在运行时发送和接收通知。这可以用于实现各种攻击，例如窃取敏感信息，修改对象状态等。
-
-#### 11. Method Hooking（方法钩子）
-
-方法钩子是一种技术，可以在运行时拦截和修改方法的调用。这可以用于实现各种攻击，例如劫持方法调用，窃取敏感信息等。
-
-#### 12. Method Tracing（方法追踪）
-
-方法追踪是一种技术，可以在运行时跟踪方法的调用和执行。这可以用于分析和调试代码，也可以用于实现各种攻击，例如窃取敏感信息，修改对象状态等。
-
-#### 13. Method Serialization（方法序列化）
-
-方法序列化是一种技术，可以将方法的调用序列化为数据，并在需要时重新执行。这可以用于实现各种攻击，例如远程命令执行，窃取敏感信息等。
-
-#### 14. Method Overriding（方法重写）
-
-方法重写是一种技术，可以在子类中重新定义父类的方法实现。这可以用于修改方法的行为，例如替换掉原始方法的实现，或者在方法中添加额外的逻辑。这对于实现各种攻击非常有用，例如劫持方法调用，窃取敏感信息等。
-
-#### 15. Method Delegation（方法委托）
-
-方法委托是一种技术，可以将方法的实现委托给其他对象来处理。这可以用于实现各种攻击，例如劫持方法调用，窃取敏感信息等。
-
-#### 16. Method Caching（方法缓存）
-
-方法缓存是一种技术，可以在运行时缓存方法的实现，以提高方法的调用速度。这可以用于实现各种攻击，例如劫持方法调用，窃取敏感信息等。
-
-#### 17. Method Dispatch（方法分派）
-
-方法分派是一种技术，可以在运行时根据对象的类型和方法的签名来选择合适的方法实现。这可以用于实现各种攻击，例如劫持方法调用，窃取敏感信息等。
-
-#### 18. Method Filtering（方法过滤）
-
-方法过滤是一种技术，可以在运行时过滤掉不需要的方法调用。这可以用于实现各种攻击，例如劫持方法调用，窃取敏感信息等。
-
-#### 19. Method Validation（方法验证）
-
-方法验证是一种技术，可以在运行时验证方法的参数和返回值。这可以用于实现各种攻击，例如窃取敏感信息，修改对象状态等。
-
-#### 20. Method Encryption（方法加密）
-
-方法加密是一种技术，可以在运行时对方法的实现进行加密，以保护方法的机密性。这可以用于实现各种攻击，例如防止方法被劫持，防止敏感信息泄漏等。
-
-这些技术可以单独使用，也可以组合使用，以实现更复杂的攻击和特权提升。了解这些技术可以帮助我们更好地理解Objective-C的内部工作原理，并为我们的攻击和防御提供更多的选择。
+通过掌握Objective-C的基础知识和高级特性，我们可以更好地理解和开发macOS应用程序，并在安全性方面做出更明智的决策。
 ```objectivec
 // gcc -framework Foundation test_obj.m -o test_obj
 #import <Foundation/Foundation.h>
@@ -261,7 +251,7 @@ NSString *bookTitle = @"The Catcher in the Rye";
 NSString *bookAuthor = [[NSString alloc] initWithCString:"J.D. Salinger" encoding:NSUTF8StringEncoding];
 NSString *bookPublicationYear = [NSString stringWithCString:"1951" encoding:NSUTF8StringEncoding];
 ```
-基本类是**不可变的**，所以要将一个字符串追加到现有字符串中，需要**创建一个新的NSString**。
+基本类是**不可变的**，所以要将字符串追加到现有字符串中，需要**创建一个新的NSString**。
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -280,8 +270,6 @@ NSMutableString *mutableString = [NSMutableString stringWithString:@"The book "]
 [mutableString appendString:@" and published in "];
 [mutableString appendString:bookPublicationYear];
 ```
-{% endcode %}
-
 #### 数字
 
 {% code overflow="wrap" %}
@@ -320,11 +308,11 @@ NSMutableArray *mutColorsArray = [NSMutableArray array];
 [mutColorsArray addObject:@"yellow"];
 [mutColorsArray replaceObjectAtIndex:0 withObject:@"purple"];
 
-// Sets
+// Inmutable Sets
 NSSet *fruitsSet1 = [NSSet setWithObjects:@"apple", @"banana", @"orange", nil];
 NSSet *fruitsSet2 = [NSSet setWithArray:@[@"apple", @"banana", @"orange"]];
 
-// Inmutable sets
+// Mutable sets
 NSMutableSet *mutFruitsSet = [NSMutableSet setWithObjects:@"apple", @"banana", @"orange", nil];
 [mutFruitsSet addObject:@"grape"];
 [mutFruitsSet removeObject:@"apple"];
@@ -353,7 +341,7 @@ NSMutableDictionary *mutFruitColorsDictionary = [NSMutableDictionary dictionaryW
 ```
 ### 块
 
-块是**行为像对象的函数**，因此它们可以被传递给函数，或者存储在数组或字典中。此外，如果给定值，它们可以**表示一个值**，因此类似于lambda函数。
+块是**行为像对象的函数**，因此它们可以被传递给函数或**存储**在**数组**或**字典**中。此外，如果给定值，它们可以**表示一个值**，因此类似于lambda函数。
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -370,7 +358,7 @@ NSLog(@"3+4 = %d", suma(3,4));
 ```
 {% endcode %}
 
-还可以**定义一个块类型作为函数的参数**：
+还可以**定义一个块类型来作为函数的参数**：
 ```objectivec
 // Define the block type
 typedef void (^callbackLogger)(void);
@@ -443,7 +431,7 @@ NSString* tmp = @"something temporary";
 * 你在一家 **网络安全公司** 工作吗？你想在 HackTricks 中看到你的 **公司广告**吗？或者你想获得 **PEASS 的最新版本或下载 HackTricks 的 PDF** 吗？请查看 [**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 集合 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获得 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass)，或者在 **Twitter** 上 **关注** 我 [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass)，或者在 **Twitter** 上 **关注** 我 [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向** [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享你的黑客技巧。**
 
 </details>

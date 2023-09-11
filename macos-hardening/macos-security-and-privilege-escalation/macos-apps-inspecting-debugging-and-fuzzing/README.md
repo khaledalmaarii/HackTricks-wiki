@@ -5,10 +5,10 @@
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品 - [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
 
@@ -21,72 +21,20 @@ otool -tv /bin/ps #Decompile application
 ```
 ### objdump
 
-`objdump`是一个用于检查可执行文件和目标文件的工具。它可以显示文件的各种信息，包括文件头、节头、符号表和重定位表等。通过使用`objdump`，我们可以深入了解文件的结构和内容，从而进行调试和分析。
-
-#### 用法
-
-```
-objdump [选项] <文件>
-```
-
-#### 选项
-
-- `-d`：显示反汇编代码
-- `-t`：显示符号表
-- `-r`：显示重定位表
-- `-h`：显示节头
-- `-x`：显示全部信息
-- `-S`：显示源代码和反汇编代码
-
-#### 示例
-
-显示文件的反汇编代码：
-
-```
-objdump -d <文件>
-```
-
-显示文件的符号表：
-
-```
-objdump -t <文件>
-```
-
-显示文件的重定位表：
-
-```
-objdump -r <文件>
-```
-
-显示文件的节头：
-
-```
-objdump -h <文件>
-```
-
-显示文件的全部信息：
-
-```
-objdump -x <文件>
-```
-
-显示文件的源代码和反汇编代码：
-
-```
-objdump -S <文件>
-```
-
-通过使用`objdump`，我们可以更好地理解文件的内部结构和功能，从而帮助我们进行调试和分析。
+{% code overflow="wrap" %}
 ```bash
 objdump -m --dylibs-used /bin/ls #List dynamically linked libraries
 objdump -m -h /bin/ls # Get headers information
 objdump -m --syms /bin/ls # Check if the symbol table exists to get function names
 objdump -m --full-contents /bin/ls # Dump every section
 objdump -d /bin/ls # Dissasemble the binary
+objdump --disassemble-symbols=_hello --x86-asm-syntax=intel toolsdemo #Disassemble a function using intel flavour
 ```
+{% endcode %}
+
 ### jtool2
 
-该工具可以用作**codesign**、**otool**和**objdump**的**替代品**，并提供了一些额外的功能。
+该工具可以用作**codesign**、**otool**和**objdump**的**替代品**，并提供了一些额外的功能。[**在这里下载**](http://www.newosxbook.com/tools/jtool.html)。
 ```bash
 # Install
 brew install --cask jtool2
@@ -99,19 +47,18 @@ jtool2 -D /bin/ls # Decompile binary
 
 # Get signature information
 ARCH=x86_64 jtool2 --sig /System/Applications/Automator.app/Contents/MacOS/Automator
-
 ```
 ### Codesign
 
 Codesign（代码签名）是macOS中的一种安全机制，用于验证应用程序的身份和完整性。通过对应用程序进行数字签名，可以确保应用程序未被篡改或恶意注入。
 
-在macOS中，每个应用程序都必须经过代码签名才能被系统信任和运行。签名是使用开发者的私钥对应用程序进行加密的过程，以确保应用程序的完整性和来源可信。
+在macOS上，每个应用程序都必须经过代码签名才能被系统信任。签名是使用开发者的私钥对应用程序进行加密的过程，以确保应用程序的完整性和来源可信。
 
-通过验证应用程序的签名，macOS可以确保应用程序来自可信的开发者，并且没有被篡改。如果应用程序的签名无效或缺失，macOS会发出警告并阻止应用程序的运行。
+通过验证应用程序的签名，macOS可以确保应用程序来自可信的开发者，并且没有被篡改。如果应用程序的签名无效或缺失，macOS会发出警告并阻止其运行。
 
 Codesign还可以用于验证应用程序的权限。开发者可以使用代码签名来指定应用程序所需的特定权限，例如访问文件系统、网络或其他系统资源。这样，用户可以在安装应用程序之前，清楚地知道应用程序将要访问的权限范围。
 
-总之，Codesign是macOS中一种重要的安全机制，用于验证应用程序的身份、完整性和权限。通过对应用程序进行数字签名，可以确保应用程序的来源可信，并且可以限制应用程序的权限范围。
+总之，Codesign是macOS中一种重要的安全机制，用于验证应用程序的身份、完整性和权限。通过对应用程序进行数字签名，可以确保应用程序的来源可信，并防止恶意注入或篡改。
 ```bash
 # Get signer
 codesign -vv -d /bin/ls 2>&1 | grep -E "Authority|TeamIdentifier"
@@ -131,7 +78,7 @@ codesign -s <cert-name-keychain> toolsdemo
 ### SuspiciousPackage
 
 [**SuspiciousPackage**](https://mothersruin.com/software/SuspiciousPackage/get.html) 是一个有用的工具，可以在安装之前检查 **.pkg** 文件（安装程序）并查看其中的内容。\
-这些安装程序包含 `preinstall` 和 `postinstall` 的 bash 脚本，恶意软件作者通常会滥用这些脚本来**持久化****恶意软件**。
+这些安装程序包含 `preinstall` 和 `postinstall` 的 bash 脚本，恶意软件作者通常会滥用这些脚本来**持久化**恶意软件。
 
 ### hdiutil
 
@@ -157,33 +104,35 @@ hdiutil attach ~/Downloads/Firefox\ 58.0.2.dmg
 ```bash
 class-dump Kindle.app
 ```
+注意，这些名称可能会被混淆，以增加二进制反向工程的难度。
+
 #### 函数调用
 
-当在使用Objective-C的二进制文件中调用函数时，编译后的代码不会直接调用该函数，而是调用**`objc_msgSend`**。这个函数会调用最终的函数：
+当在使用Objective-C的二进制文件中调用函数时，编译后的代码不会直接调用该函数，而是调用**`objc_msgSend`**。这将调用最终的函数：
 
 ![](<../../../.gitbook/assets/image (560).png>)
 
-这个函数期望的参数是：
+该函数期望的参数如下：
 
-* 第一个参数（**self**）是“指向**接收消息的类的实例的指针**”。简单来说，它是方法被调用的对象。如果方法是类方法，这将是类对象的一个实例（作为一个整体），而对于实例方法，self将指向作为对象的类的一个实例。
+* 第一个参数（**self**）是“指向**接收消息的类的实例的指针**”。简单来说，它是方法被调用的对象。如果方法是类方法，则这将是类对象的一个实例（作为一个整体），而对于实例方法，self将指向作为对象的类的一个实例。
 * 第二个参数（**op**）是“处理消息的方法的选择器”。简单来说，这只是**方法的名称**。
-* 剩下的参数是方法所需的任何**值**（op）。
+* 剩余的参数是方法所需的任何**值**（op）。
 
-| **参数**           | **寄存器**                                                      | **（对于）objc_msgSend**                                |
+| **参数**           | **寄存器**                                                      | **（对于）objc_msgSend**                              |
 | ----------------- | --------------------------------------------------------------- | ------------------------------------------------------ |
-| **第一个参数**    | **rdi**                                                         | **self：方法被调用的对象**                             |
-| **第二个参数**    | **rsi**                                                         | **op：方法的名称**                                     |
-| **第三个参数**    | **rdx**                                                         | **方法的第一个参数**                                   |
-| **第四个参数**    | **rcx**                                                         | **方法的第二个参数**                                   |
-| **第五个参数**    | **r8**                                                          | **方法的第三个参数**                                   |
-| **第六个参数**    | **r9**                                                          | **方法的第四个参数**                                   |
-| **第七个及以上参数** | <p><strong>rsp+</strong><br><strong>（在堆栈上）</strong></p> | **方法的第五个及以上参数**                             |
+| **第一个参数**    | **rdi**                                                         | **self：方法被调用的对象**                            |
+| **第二个参数**    | **rsi**                                                         | **op：方法的名称**                                    |
+| **第三个参数**    | **rdx**                                                         | **方法的第一个参数**                                  |
+| **第四个参数**    | **rcx**                                                         | **方法的第二个参数**                                  |
+| **第五个参数**    | **r8**                                                          | **方法的第三个参数**                                  |
+| **第六个参数**    | **r9**                                                          | **方法的第四个参数**                                  |
+| **第七个及以上参数** | <p><strong>rsp+</strong><br><strong>（在堆栈上）</strong></p> | **方法的第五个及以上参数**                            |
 
 ### Swift
 
-对于Swift二进制文件，由于与Objective-C兼容，有时可以使用[class-dump](https://github.com/nygard/class-dump/)提取声明，但并非总是有效。
+对于Swift二进制文件，由于存在Objective-C兼容性，有时可以使用[class-dump](https://github.com/nygard/class-dump/)提取声明，但并非总是有效。
 
-使用**`jtool -l`**或**`otool -l`**命令行可以找到以**`__swift5`**前缀开头的多个部分：
+使用**`jtool -l`**或**`otool -l`**命令行，可以找到以**`__swift5`**前缀开头的多个部分：
 ```bash
 jtool2 -l /Applications/Stocks.app/Contents/MacOS/Stocks
 LC 00: LC_SEGMENT_64              Mem: 0x000000000-0x100000000    __PAGEZERO
@@ -206,11 +155,11 @@ Mem: 0x1000274cc-0x100027608        __TEXT.__swift5_capture
 ## 动态分析
 
 {% hint style="warning" %}
-请注意，为了调试二进制文件，需要禁用SIP（`csrutil disable`或`csrutil enable --without debug`），或者将二进制文件复制到临时文件夹中，并使用`codesign --remove-signature <binary-path>`删除签名，或者允许对二进制文件进行调试（可以使用[此脚本](https://gist.github.com/carlospolop/a66b8d72bb8f43913c4b5ae45672578b)）
+请注意，为了调试二进制文件，需要禁用SIP（`csrutil disable`或`csrutil enable --without debug`），或者将二进制文件复制到临时文件夹中，并使用`codesign --remove-signature <binary-path>`删除签名，或者允许对二进制文件进行调试（可以使用[此脚本](https://gist.github.com/carlospolop/a66b8d72bb8f43913c4b5ae45672578b)）。
 {% endhint %}
 
 {% hint style="warning" %}
-请注意，为了在macOS上**对系统二进制文件**（如`cloudconfigurationd`）进行插桩，必须禁用SIP（仅删除签名不起作用）。
+请注意，为了在macOS上**对系统二进制文件**（如`cloudconfigurationd`）进行插桩，必须禁用SIP（仅删除签名是不起作用的）。
 {% endhint %}
 
 ### 统一日志
@@ -231,7 +180,7 @@ MacOS会生成大量日志，当运行应用程序时，这些日志非常有用
 
 <figure><img src="../../../.gitbook/assets/image (2) (6).png" alt=""><figcaption></figcaption></figure>
 
-右键单击代码对象，可以查看对该对象的**引用/来自**，甚至更改其名称（在反编译的伪代码中无效）：
+右键单击代码对象，可以查看对该对象的**引用/来自引用**，甚至更改其名称（在反编译的伪代码中无效）：
 
 <figure><img src="../../../.gitbook/assets/image (1) (1) (2).png" alt=""><figcaption></figcaption></figure>
 
@@ -254,7 +203,7 @@ ktrace trace -s -S -t c -c ls | grep "ls("
 ```
 ### dtrace
 
-它允许用户以极低的级别访问应用程序，并提供了一种追踪程序甚至更改其执行流程的方式。Dtrace使用**探针**，这些探针**分布在内核的各个位置**，例如系统调用的开始和结束位置。
+它允许用户以极低的层次访问应用程序，并提供了一种追踪程序甚至更改其执行流程的方式。Dtrace使用**探针**，这些探针**分布在内核的各个位置**，例如系统调用的开始和结束位置。
 
 DTrace使用**`dtrace_probe_create`**函数为每个系统调用创建一个探针。这些探针可以在每个系统调用的**入口和出口点**触发。与DTrace的交互通过/dev/dtrace进行，该设备仅对root用户可用。
 
@@ -353,7 +302,7 @@ fs_usage -w -f network curl #This tracks network actions
 
 ### lldb
 
-**lldb** 是用于**macOS**二进制文件**调试**的事实上的工具。
+**lldb** 是macOS二进制文件**调试**的事实上的工具。
 ```bash
 lldb ./malware.bin
 lldb -p 1122
@@ -378,7 +327,7 @@ lldb -n malware.bin --waitfor
 | **x/s \<reg/memory address>** | 以空字符结尾的字符串形式显示内存。                                                                                                                                                                                                                                                                                                                                                                                 |
 | **x/i \<reg/memory address>** | 以汇编指令形式显示内存。                                                                                                                                                                                                                                                                                                                                                                                           |
 | **x/b \<reg/memory address>** | 以字节形式显示内存。                                                                                                                                                                                                                                                                                                                                                                                               |
-| **print object (po)**         | <p>这将打印参数引用的对象</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>请注意，大多数苹果的Objective-C API或方法返回对象，因此应通过“print object”（po）命令显示。如果po没有产生有意义的输出，请使用<code>x/b</code></p> |
+| **print object (po)**         | <p>这将打印参数引用的对象</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p请注意，大多数苹果的Objective-C API或方法返回对象，因此应通过“print object”（po）命令显示。如果po没有产生有意义的输出，请使用<code>x/b</code></p> |
 | **memory**                    | <p>memory read 0x000....<br>memory read $x0+0xf2a<br>memory write 0x100600000 -s 4 0x41414141 #在该地址写入AAAA<br>memory write -f s $rip+0x11f+7 "AAAA" #在该地址写入AAAA</p>                                                                                                                                                                                                                                        |
 | **disassembly**               | <p>dis #反汇编当前函数<br>dis -c 6 #反汇编6行<br>dis -c 0x100003764 -e 0x100003768 #从一个地址到另一个地址<br>dis -p -c 4 #从当前地址开始反汇编</p>                                                                                                                                                                                                                                                               |
 | **parray**                    | parray 3 (char \*\*)$x1 #检查x1寄存器中的3个组件的数组                                                                                                                                                                                                                                                                                                                                                               |
@@ -401,7 +350,7 @@ lldb -n malware.bin --waitfor
 * 命令**`sysctl hw.model`**在主机为MacOS时返回"Mac"，而在虚拟机上返回其他值。
 * 通过调整**`hw.logicalcpu`**和**`hw.physicalcpu`**的值，一些恶意软件尝试检测是否为虚拟机。
 * 一些恶意软件还可以根据MAC地址（00:50:56）判断机器是否为VMware。
-* 还可以使用简单的代码检测进程是否正在被调试：
+* 还可以使用简单的代码来检测进程是否正在被调试：
 * `if(P_TRACED == (info.kp_proc.p_flag & P_TRACED)){ //process being debugged }`
 * 还可以使用**`ptrace`**系统调用以**`PT_DENY_ATTACH`**标志调用。这可以防止调试器附加和跟踪。
 * 您可以检查是否导入了**`sysctl`**或**`ptrace`**函数（但恶意软件可能会动态导入它们）

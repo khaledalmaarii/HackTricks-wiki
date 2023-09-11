@@ -45,7 +45,7 @@ uint32_t	align;		/* 2的幂次方对齐 */
 };
 </code></pre>
 
-头部包含**魔数**（magic）字节，后面是文件包含的**架构数**（`nfat_arch`），每个架构都有一个`fat_arch`结构体。
+头部包含**魔数**（magic）字节，后面是文件包含的**架构**数量（`nfat_arch`），每个架构都有一个`fat_arch`结构体。
 
 使用以下命令进行检查：
 
@@ -142,14 +142,14 @@ uint32_t cmdsize;       /* total size of command in bytes */
 ### **LC\_SEGMENT/LC\_SEGMENT\_64**
 
 {% hint style="success" %}
-基本上，这种类型的加载命令定义了在执行二进制文件时如何加载存储在DATA中的段。
+基本上，这种类型的加载命令定义了在执行二进制文件时，根据数据部分中指示的偏移量，**如何加载\_\_TEXT**（可执行代码）**和\_\_DATA**（进程数据）**段**。
 {% endhint %}
 
 这些命令定义了在执行过程中映射到进程的虚拟内存空间中的段。
 
-有不同类型的段，比如保存程序可执行代码的**\_\_TEXT**段，以及包含进程使用的数据的**\_\_DATA**段。这些段位于Mach-O文件的数据部分中。
+有不同类型的段，例如**\_\_TEXT**段，它保存程序的可执行代码，以及**\_\_DATA**段，它包含进程使用的数据。这些段位于Mach-O文件的数据部分中。
 
-**每个段**可以进一步**划分**为多个**区块**。加载命令结构包含了有关各个段内部的这些区块的**信息**。
+**每个段**可以进一步**划分**为多个**区块**。加载命令结构包含有关各个段内部的**这些区块的信息**。
 
 在头部中首先找到**段头**：
 
@@ -172,7 +172,7 @@ int32_t		initprot;	/* initial VM protection */
 
 <figure><img src="../../../.gitbook/assets/image (2) (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-该头部定义了在其后出现的**区块头的数量**：
+该头部定义了**在其后出现的区块头的数量**：
 ```c
 struct section_64 { /* for 64-bit architectures */
 char		sectname[16];	/* name of this section */
@@ -201,24 +201,20 @@ uint32_t	reserved3;	/* reserved */
 ```bash
 otool -lv /bin/ls
 ```
-以下是来自一本关于黑客技术的书籍的内容。以下内容来自文件macos-hardening/macos-security-and-privilege-escalation/macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md。将相关的英文文本翻译成中文，并返回翻译结果，保持完全相同的markdown和html语法。不要翻译代码、黑客技术名称、黑客术语、云/SaaS平台名称（如Workspace、aws、gcp...）、泄漏一词、渗透测试和markdown标签。此外，请不要添加任何额外的内容，除了翻译和markdown语法。
+这个命令加载的常见段：
 
-```markdown
-常见的由此命令加载的段：
-
-- **`__PAGEZERO`：**它指示内核将**地址零**映射到**不可读取、写入或执行**。结构中的maxprot和minprot变量设置为零，表示此页面上**没有读写执行权限**。
-- 这种分配对于**缓解空指针解引用漏洞**很重要。
-- **`__TEXT`**：包含**可执行的代码**和**只读的数据**。此段的常见部分有：
-- `__text`：编译的二进制代码
-- `__const`：常量数据
-- `__cstring`：字符串常量
-- `__stubs`和`__stubs_helper`：在动态库加载过程中使用
-- **`__DATA`**：包含**可写的数据**。
-- `__data`：全局变量（已初始化）
-- `__bss`：静态变量（未初始化）
-- `__objc_*`（\_\_objc\_classlist、\_\_objc\_protolist等）：Objective-C运行时使用的信息
-- **`__LINKEDIT`**：包含链接器（dyld）的信息，如“符号、字符串和重定位表项”。
-- **`__OBJC`**：包含Objective-C运行时使用的信息。尽管此信息也可能在\_\_DATA段中找到，但位于各种\_\_objc\_\*部分中。
+* **`__PAGEZERO`：**它指示内核将**地址零**映射到一个**不能读取、写入或执行**的位置。结构中的maxprot和minprot变量被设置为零，表示该页面**没有读写执行权限**。这种分配对于**减轻空指针解引用漏洞**非常重要。
+* **`__TEXT`：**包含具有**可读和可执行权限**（不可写）的**可执行代码**。该段的常见部分有：
+* `__text`：编译的二进制代码
+* `__const`：常量数据
+* `__cstring`：字符串常量
+* `__stubs`和`__stubs_helper`：在动态库加载过程中使用
+* **`__DATA`：**包含**可读和可写**的数据（不可执行）。
+* `__data`：全局变量（已初始化）
+* `__bss`：静态变量（未初始化）
+* `__objc_*`（\_\_objc\_classlist，\_\_objc\_protolist等）：Objective-C运行时使用的信息
+* **`__LINKEDIT`：**包含链接器（dyld）的信息，如“符号、字符串和重定位表项”。
+* **`__OBJC`：**包含Objective-C运行时使用的信息。尽管这些信息也可以在\_\_DATA段中找到，但是在各种\_\_objc\_\*部分中也可以找到。
 
 ### **`LC_MAIN`**
 
@@ -227,18 +223,17 @@ otool -lv /bin/ls
 ### **LC\_CODE\_SIGNATURE**
 
 包含有关Macho-O文件的**代码签名的信息**。它只包含一个**指向签名块的偏移量**。这通常位于文件的末尾。\
-但是，您可以在[**此博客文章**](https://davedelong.com/blog/2018/01/10/reading-your-own-entitlements/)和此[**gists**](https://gist.github.com/carlospolop/ef26f8eb9fafd4bc22e69e1a32b81da4)中找到有关此部分的一些信息。
+但是，您可以在[**此博客文章**](https://davedelong.com/blog/2018/01/10/reading-your-own-entitlements/)和这个[**gists**](https://gist.github.com/carlospolop/ef26f8eb9fafd4bc22e69e1a32b81da4)中找到有关此部分的一些信息。
 
 ### **LC\_LOAD\_DYLINKER**
 
-包含**动态链接器可执行文件的路径**，该文件将共享库映射到进程地址空间。**值始终设置为`/usr/lib/dyld`**。重要的是要注意，在macOS中，dylib映射发生在**用户模式**中，而不是内核模式。
+包含**动态链接器可执行文件的路径**，该文件将共享库映射到进程地址空间。**值始终设置为`/usr/lib/dyld`**。重要的是要注意，在macOS中，dylib映射发生在**用户模式**而不是内核模式中。
 
 ### **`LC_LOAD_DYLIB`**
 
-此加载命令描述了一个**动态库**依赖项，它指示**加载器**（dyld）**加载和链接该库**。Mach-O二进制文件所需的每个库都有一个LC\_LOAD\_DYLIB加载命令。
+此加载命令描述了一个**动态库依赖项**，它指示**加载器**（dyld）**加载和链接该库**。Mach-O二进制文件所需的每个库都有一个LC\_LOAD\_DYLIB加载命令。
 
-- 此加载命令是**`dylib_command`**类型的结构（其中包含描述实际依赖动态库的struct dylib）：
-```
+* 此加载命令是一个**`dylib_command`**类型的结构（其中包含描述实际依赖动态库的struct dylib）：
 ```objectivec
 struct dylib_command {
 uint32_t        cmd;            /* LC_LOAD_{,WEAK_}DYLIB */
@@ -278,7 +273,7 @@ Mach-O二进制文件可以包含一个或多个构造函数，这些函数将�
 文件的核心是最后一个区域，即数据区域，它由加载命令区域中的多个段组成。**每个段可以包含多个数据段**。每个数据段都包含一种特定类型的代码或数据。
 
 {% hint style="success" %}
-数据基本上是包含由加载命令LC\_SEGMENTS\_64加载的所有信息的部分。
+数据基本上是包含由加载命令**LC\_SEGMENTS\_64**加载的所有**信息**的部分。
 {% endhint %}
 
 ![](<../../../.gitbook/assets/image (507) (3).png>)
