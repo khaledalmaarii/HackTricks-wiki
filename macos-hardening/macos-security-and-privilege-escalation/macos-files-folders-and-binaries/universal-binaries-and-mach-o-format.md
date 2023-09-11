@@ -142,7 +142,7 @@ Existem cerca de **50 tipos diferentes de comandos de carga** que o sistema trat
 ### **LC\_SEGMENT/LC\_SEGMENT\_64**
 
 {% hint style="success" %}
-Basicamente, esse tipo de Comando de Carga define **como carregar as seções** que estão armazenadas em DATA quando o binário é executado.
+Basicamente, esse tipo de Comando de Carga define **como carregar os segmentos \_\_TEXT** (código executável) **e \_\_DATA** (dados do processo) **de acordo com os deslocamentos indicados na seção de Dados** quando o binário é executado.
 {% endhint %}
 
 Esses comandos **definem segmentos** que são **mapeados** no **espaço de memória virtual** de um processo quando ele é executado.
@@ -205,12 +205,12 @@ Segmentos comuns carregados por este comando:
 
 * **`__PAGEZERO`:** Instrui o kernel a **mapear** o **endereço zero** para que ele **não possa ser lido, escrito ou executado**. As variáveis maxprot e minprot na estrutura são definidas como zero para indicar que não há **direitos de leitura-escrita-execução nesta página**.
 * Essa alocação é importante para **mitigar vulnerabilidades de referência de ponteiro nulo**.
-* **`__TEXT`**: Contém **código executável** e **dados** que são **somente leitura**. Seções comuns deste segmento:
+* **`__TEXT`**: Contém **código executável** com permissões de **leitura** e **execução** (não gravável)**.** Seções comuns deste segmento:
 * `__text`: Código binário compilado
 * `__const`: Dados constantes
 * `__cstring`: Constantes de string
 * `__stubs` e `__stubs_helper`: Envolvidos durante o processo de carregamento de bibliotecas dinâmicas
-* **`__DATA`**: Contém dados que são **graváveis**.
+* **`__DATA`**: Contém dados que são **legíveis** e **graváveis** (não executáveis)**.**
 * `__data`: Variáveis globais (que foram inicializadas)
 * `__bss`: Variáveis estáticas (que não foram inicializadas)
 * `__objc_*` (\_\_objc\_classlist, \_\_objc\_protolist, etc): Informações usadas pelo tempo de execução do Objective-C
@@ -219,7 +219,7 @@ Segmentos comuns carregados por este comando:
 
 ### **`LC_MAIN`**
 
-Contém o ponto de entrada no atributo **entryoff**. No momento do carregamento, o **dyld** simplesmente **adiciona** esse valor à **base do binário** (em memória) e, em seguida, **salta** para essa instrução para iniciar a execução do código do binário.
+Contém o ponto de entrada no atributo **entryoff**. No momento do carregamento, o **dyld** simplesmente **adiciona** esse valor à **base do binário** (em memória) e, em seguida, **salta** para esta instrução para iniciar a execução do código do binário.
 
 ### **LC\_CODE\_SIGNATURE**
 
@@ -232,7 +232,7 @@ Contém o **caminho para o executável do linker dinâmico** que mapeia bibliote
 
 ### **`LC_LOAD_DYLIB`**
 
-Este comando de carregamento descreve uma **dependência de biblioteca dinâmica** que **instrui** o **carregador** (dyld) a **carregar e vincular a biblioteca** mencionada. Há um comando de carregamento LC\_LOAD\_DYLIB **para cada biblioteca** que o binário Mach-O requer.
+Este comando de carregamento descreve uma **dependência de biblioteca dinâmica** que instrui o **carregador** (dyld) a **carregar e vincular a biblioteca** mencionada. Há um comando de carregamento LC\_LOAD\_DYLIB **para cada biblioteca** que o binário Mach-O requer.
 
 * Este comando de carregamento é uma estrutura do tipo **`dylib_command`** (que contém uma struct dylib, descrevendo a biblioteca dinâmica dependente real):
 ```objectivec
@@ -259,7 +259,7 @@ otool -L /bin/ls
 /usr/lib/libncurses.5.4.dylib (compatibility version 5.4.0, current version 5.4.0)
 /usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1319.0.0)
 ```
-Algumas bibliotecas relacionadas a malwares potenciais são:
+Algumas bibliotecas relacionadas a malware potencial são:
 
 * **DiskArbitration**: Monitoramento de unidades USB
 * **AVFoundation:** Captura de áudio e vídeo
@@ -267,7 +267,7 @@ Algumas bibliotecas relacionadas a malwares potenciais são:
 
 {% hint style="info" %}
 Um binário Mach-O pode conter um ou **mais** **construtores**, que serão **executados** **antes** do endereço especificado em **LC\_MAIN**.\
-Os deslocamentos de quaisquer construtores são armazenados na seção **\_\_mod\_init\_func** do segmento **\_\_DATA\_CONST**.
+Os deslocamentos de quaisquer construtores são mantidos na seção **\_\_mod\_init\_func** do segmento **\_\_DATA\_CONST**.
 {% endhint %}
 
 ## **Dados Mach-O**
@@ -275,7 +275,7 @@ Os deslocamentos de quaisquer construtores são armazenados na seção **\_\_mod
 O coração do arquivo é a região final, os dados, que consiste em vários segmentos conforme disposto na região de comandos de carga. **Cada segmento pode conter várias seções de dados**. Cada uma dessas seções **contém código ou dados** de um tipo específico.
 
 {% hint style="success" %}
-Os dados são basicamente a parte que contém todas as informações carregadas pelos comandos de carga LC\_SEGMENTS\_64
+Os dados são basicamente a parte que contém todas as **informações** que são carregadas pelos comandos de carga **LC\_SEGMENTS\_64**
 {% endhint %}
 
 ![](<../../../.gitbook/assets/image (507) (3).png>)
@@ -284,7 +284,7 @@ Isso inclui:&#x20;
 
 * **Tabela de funções:** Que contém informações sobre as funções do programa.
 * **Tabela de símbolos**: Que contém informações sobre as funções externas usadas pelo binário
-* Também pode conter nomes de funções internas, variáveis e mais.
+* Também pode conter nomes de funções internas, variáveis e muito mais.
 
 Para verificar, você pode usar a ferramenta [**Mach-O View**](https://sourceforge.net/projects/machoview/):
 

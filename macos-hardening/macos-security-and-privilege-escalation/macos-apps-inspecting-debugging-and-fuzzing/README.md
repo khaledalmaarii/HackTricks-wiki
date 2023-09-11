@@ -21,29 +21,20 @@ otool -tv /bin/ps #Decompile application
 ```
 ### objdump
 
-O comando `objdump` é uma ferramenta de linha de comando que permite inspecionar arquivos binários e executáveis no macOS. Ele fornece informações detalhadas sobre o conteúdo do arquivo, como seções, símbolos, instruções de montagem e muito mais.
-
-O `objdump` pode ser usado para analisar e depurar aplicativos no macOS, identificando vulnerabilidades e possíveis pontos fracos. Ele também pode ser usado para examinar o código de terceiros e entender como um aplicativo funciona internamente.
-
-Para usar o `objdump`, basta executar o comando seguido do caminho para o arquivo binário ou executável que deseja inspecionar. Por exemplo:
-
-```
-objdump -d /path/to/executable
-```
-
-Isso exibirá o código de montagem do arquivo, permitindo que você analise as instruções e entenda o fluxo de execução do programa.
-
-O `objdump` é uma ferramenta poderosa para inspecionar e depurar aplicativos no macOS. No entanto, é importante usá-lo com responsabilidade e apenas para fins legais e éticos, como teste de segurança e análise de código.
+{% code overflow="wrap" %}
 ```bash
 objdump -m --dylibs-used /bin/ls #List dynamically linked libraries
 objdump -m -h /bin/ls # Get headers information
 objdump -m --syms /bin/ls # Check if the symbol table exists to get function names
 objdump -m --full-contents /bin/ls # Dump every section
 objdump -d /bin/ls # Dissasemble the binary
+objdump --disassemble-symbols=_hello --x86-asm-syntax=intel toolsdemo #Disassemble a function using intel flavour
 ```
+{% endcode %}
+
 ### jtool2
 
-A ferramenta pode ser usada como um **substituto** para **codesign**, **otool** e **objdump**, e oferece algumas funcionalidades adicionais.
+A ferramenta pode ser usada como um **substituto** para **codesign**, **otool** e **objdump**, e oferece algumas funcionalidades adicionais. [**Baixe-a aqui**](http://www.newosxbook.com/tools/jtool.html).
 ```bash
 # Install
 brew install --cask jtool2
@@ -56,7 +47,6 @@ jtool2 -D /bin/ls # Decompile binary
 
 # Get signature information
 ARCH=x86_64 jtool2 --sig /System/Applications/Automator.app/Contents/MacOS/Automator
-
 ```
 ### Codesign
 
@@ -68,9 +58,9 @@ O comando `codesign` pode ser usado para inspecionar, adicionar ou remover assin
 
 A assinatura digital é baseada em certificados de identidade, que são emitidos por uma autoridade de certificação confiável. Ao assinar um aplicativo ou biblioteca, um certificado de identidade é usado para criar uma assinatura digital que é anexada ao código. Quando o aplicativo ou biblioteca é executado, o sistema operacional verifica a assinatura digital usando o certificado de identidade correspondente para garantir que o código não tenha sido alterado.
 
-O comando `codesign` também pode ser usado para especificar requisitos de assinatura, como quais certificados de identidade são aceitos ou quais recursos protegidos do sistema operacional o aplicativo pode acessar. Isso permite que os desenvolvedores controlem quais recursos e permissões são concedidos ao aplicativo.
+O comando `codesign` também pode ser usado para verificar se um aplicativo ou biblioteca foi assinado por um desenvolvedor confiável. Isso pode ser útil para verificar a autenticidade de um aplicativo antes de instalá-lo ou executá-lo em seu sistema.
 
-Em resumo, o comando `codesign` é uma ferramenta essencial para garantir a segurança e a integridade de aplicativos e bibliotecas no macOS, permitindo a verificação da autenticidade do código e a proteção contra modificações não autorizadas.
+Em resumo, o comando `codesign` é uma ferramenta essencial para garantir a segurança e a integridade de aplicativos e bibliotecas no macOS, permitindo a verificação da autenticidade e a detecção de qualquer modificação não autorizada.
 ```bash
 # Get signer
 codesign -vv -d /bin/ls 2>&1 | grep -E "Authority|TeamIdentifier"
@@ -169,7 +159,7 @@ Observe que, para depurar binários, o **SIP precisa estar desativado** (`csruti
 {% endhint %}
 
 {% hint style="warning" %}
-Observe que, para **instrumentar binários do sistema**, (como `cloudconfigurationd`) no macOS, o SIP deve estar desativado (apenas remover a assinatura não funcionará).
+Observe que, para **instrumentar binários do sistema**, (como `cloudconfigurationd`) no macOS, o **SIP deve estar desativado** (apenas remover a assinatura não funcionará).
 {% endhint %}
 
 ### Logs Unificados
@@ -182,7 +172,7 @@ Além disso, existem alguns logs que conterão a tag `<private>` para **ocultar*
 
 #### Painel esquerdo
 
-No painel esquerdo do Hopper, é possível ver os símbolos (**Labels**) do binário, a lista de procedimentos e funções (**Proc**) e as strings (**Str**). Essas não são todas as strings, mas aquelas definidas em várias partes do arquivo Mac-O (como _cstring ou_ `objc_methname`).
+No painel esquerdo do Hopper, é possível ver os símbolos (**Labels**) do binário, a lista de procedimentos e funções (**Proc**) e as strings (**Str**). Essas não são todas as strings, mas as definidas em várias partes do arquivo Mac-O (como _cstring ou_ `objc_methname`).
 
 #### Painel central
 
@@ -254,21 +244,19 @@ A inspeção de aplicativos envolve examinar o código e a estrutura interna de 
 - **class-dump**: uma ferramenta que extrai informações sobre as classes e métodos de um aplicativo.
 - **otool**: uma ferramenta que exibe informações sobre os binários de um aplicativo.
 
+Essas ferramentas podem ser usadas para analisar um aplicativo em busca de vulnerabilidades conhecidas ou para entender melhor seu funcionamento interno.
+
 ## Depuração de Aplicativos
 
-A depuração de aplicativos é o processo de rastrear e corrigir erros em um aplicativo. No macOS, podemos usar o **lldb** (Low-Level Debugger) para depurar aplicativos. Algumas das principais funcionalidades do lldb incluem:
-
-- Definir pontos de interrupção para pausar a execução do aplicativo em um determinado ponto.
-- Examinar e modificar variáveis e registros durante a execução do aplicativo.
-- Rastrear a pilha de chamadas para entender o fluxo de execução do aplicativo.
+A depuração de aplicativos envolve a execução de um aplicativo em um ambiente controlado para identificar e corrigir erros. No macOS, podemos usar o **lldb** (Low-Level Debugger) para depurar aplicativos. O lldb permite definir pontos de interrupção, examinar o estado do aplicativo durante a execução e executar comandos para investigar problemas.
 
 ## Fuzzing de Aplicativos
 
-O fuzzing é uma técnica usada para encontrar vulnerabilidades em aplicativos por meio da inserção de dados aleatórios ou inválidos. No macOS, podemos usar a ferramenta **AFL (American Fuzzy Lop)** para realizar fuzzing em aplicativos. O AFL é capaz de gerar entradas de teste automaticamente e identificar falhas de segurança.
+O fuzzing é uma técnica usada para encontrar vulnerabilidades em aplicativos por meio da inserção de dados aleatórios ou inválidos. No macOS, podemos usar a ferramenta **AFL** (American Fuzzy Lop) para realizar fuzzing em aplicativos. O AFL gera entradas aleatórias e monitora o comportamento do aplicativo em busca de falhas, como travamentos ou vazamentos de memória.
 
 ## Conclusão
 
-A inspeção, depuração e fuzzing de aplicativos no macOS são técnicas valiosas para identificar vulnerabilidades e realizar escalonamento de privilégios. Ao utilizar as ferramentas e técnicas mencionadas neste guia, você poderá fortalecer a segurança de seus aplicativos e proteger seus sistemas contra possíveis ataques.
+A inspeção, depuração e fuzzing de aplicativos no macOS são técnicas valiosas para identificar vulnerabilidades e realizar escalonamento de privilégios. Ao usar as ferramentas e técnicas mencionadas neste guia, você poderá analisar aplicativos de forma mais eficaz e descobrir possíveis falhas de segurança.
 ```bash
 syscall:::entry
 /pid == $1/
@@ -365,8 +353,8 @@ Dentro do lldb, faça o dump de um processo com `process save-core`
 | **x/b \<reg/endereço de memória>** | Exibe a memória como byte.                                                                                                                                                                                                                                                                                                                                                                                               |
 | **print object (po)**         | <p>Isso irá imprimir o objeto referenciado pelo parâmetro</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>Observe que a maioria das APIs ou métodos Objective-C da Apple retornam objetos e, portanto, devem ser exibidos por meio do comando "print object" (po). Se po não produzir uma saída significativa, use <code>x/b</code></p> |
 | **memory**                    | <p>memory read 0x000....<br>memory read $x0+0xf2a<br>memory write 0x100600000 -s 4 0x41414141 #Escreve AAAA nesse endereço<br>memory write -f s $rip+0x11f+7 "AAAA" #Escreve AAAA no endereço</p>                                                                                                                                                                                                                            |
-| **disassembly**               | <p>dis #Desmonta a função atual<br>dis -c 6 #Desmonta 6 linhas<br>dis -c 0x100003764 -e 0x100003768 # De um endereço até o outro<br>dis -p -c 4 # Inicia no endereço atual desmontando</p>                                                                                                                                                                                                                                 |
-| **parray**                    | parray 3 (char \*\*)$x1 #Verifica o array de 3 componentes no registro x1                                                                                                                                                                                                                                                                                                                                                           |
+| **disassembly**               | <p>dis #Desmonta a função atual<br>dis -c 6 #Desmonta 6 linhas<br>dis -c 0x100003764 -e 0x100003768 #De um endereço até o outro<br>dis -p -c 4 #Inicia no endereço atual desmontando</p>                                                                                                                                                                                                                                 |
+| **parray**                    | parray 3 (char \*\*)$x1 #Verifica o array de 3 componentes no registro x1                                                                                                                                                                                                                                                                                                                                                |
 
 {% hint style="info" %}
 Ao chamar a função **`objc_sendMsg`**, o registro **rsi** contém o **nome do método** como uma string terminada em nulo ("C"). Para imprimir o nome via lldb, faça:
@@ -432,7 +420,7 @@ sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist
 ```
 ### Manipuladores Internos
 
-**Verifique a seguinte página** para descobrir como você pode encontrar qual aplicativo é responsável por **manipular o esquema ou protocolo especificado:**
+**Confira a seguinte página** para descobrir como você pode encontrar qual aplicativo é responsável por **manipular o esquema ou protocolo especificado:**
 
 {% content-ref url="../macos-file-extension-apps.md" %}
 [macos-file-extension-apps.md](../macos-file-extension-apps.md)
