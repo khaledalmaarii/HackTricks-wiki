@@ -5,10 +5,10 @@
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品 - [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
 
@@ -34,7 +34,7 @@ objdump --disassemble-symbols=_hello --x86-asm-syntax=intel toolsdemo #Disassemb
 
 ### jtool2
 
-该工具可以用作**codesign**、**otool**和**objdump**的**替代品**，并提供了一些额外的功能。[**在这里下载**](http://www.newosxbook.com/tools/jtool.html)。
+该工具可以用作**codesign**、**otool**和**objdump**的**替代品**，并提供了一些额外的功能。[**在这里下载**](http://www.newosxbook.com/tools/jtool.html)或使用`brew`安装。
 ```bash
 # Install
 brew install --cask jtool2
@@ -52,13 +52,13 @@ ARCH=x86_64 jtool2 --sig /System/Applications/Automator.app/Contents/MacOS/Autom
 
 Codesign（代码签名）是macOS中的一种安全机制，用于验证应用程序的身份和完整性。通过对应用程序进行数字签名，可以确保应用程序未被篡改或恶意注入。
 
-在macOS上，每个应用程序都必须经过代码签名才能被系统信任。签名是使用开发者的私钥对应用程序进行加密的过程，以确保应用程序的完整性和来源可信。
+在macOS中，每个应用程序都必须经过代码签名才能被系统信任和运行。签名是使用开发者的私钥对应用程序进行加密的过程，以确保应用程序的完整性和来源可信。
 
-通过验证应用程序的签名，macOS可以确保应用程序来自可信的开发者，并且没有被篡改。如果应用程序的签名无效或缺失，macOS会发出警告并阻止其运行。
+通过验证应用程序的签名，macOS可以确保应用程序来自可信的开发者，并且没有被篡改。如果应用程序的签名无效或缺失，macOS会发出警告并阻止应用程序的运行。
 
-Codesign还可以用于验证应用程序的权限。开发者可以使用代码签名来指定应用程序所需的特定权限，例如访问文件系统、网络或其他系统资源。这样，用户可以在安装应用程序之前，清楚地知道应用程序将要访问的权限范围。
+Codesign还可以用于验证应用程序的权限。开发者可以使用代码签名来指定应用程序所需的特定权限，例如访问文件系统、网络或其他敏感资源。这样，用户在安装应用程序时就可以知道应用程序需要哪些权限，并可以做出相应的决策。
 
-总之，Codesign是macOS中一种重要的安全机制，用于验证应用程序的身份、完整性和权限。通过对应用程序进行数字签名，可以确保应用程序的来源可信，并防止恶意注入或篡改。
+总之，Codesign是macOS中一种重要的安全机制，用于验证应用程序的身份、完整性和权限。通过对应用程序进行数字签名，可以确保应用程序来自可信的开发者，并且没有被篡改。
 ```bash
 # Get signer
 codesign -vv -d /bin/ls 2>&1 | grep -E "Authority|TeamIdentifier"
@@ -144,29 +144,29 @@ Mem: 0x100027064-0x1000274cc        __TEXT.__swift5_fieldmd
 Mem: 0x1000274cc-0x100027608        __TEXT.__swift5_capture
 [...]
 ```
-你可以在[**这篇博客文章**](https://knight.sc/reverse%20engineering/2019/07/17/swift-metadata.html)中找到关于这些部分存储的信息的更多详细信息。
+您可以在[**此博客文章中找到有关这些部分存储的信息的更多信息**](https://knight.sc/reverse%20engineering/2019/07/17/swift-metadata.html)。
 
 ### 打包的二进制文件
 
 * 检查高熵
-* 检查字符串（如果几乎没有可理解的字符串，则可能是打包的）
+* 检查字符串（如果几乎没有可理解的字符串，则为打包）
 * MacOS的UPX打包程序会生成一个名为"\_\_XHDR"的部分
 
 ## 动态分析
 
 {% hint style="warning" %}
-请注意，为了调试二进制文件，需要禁用SIP（`csrutil disable`或`csrutil enable --without debug`），或者将二进制文件复制到临时文件夹中，并使用`codesign --remove-signature <binary-path>`删除签名，或者允许对二进制文件进行调试（可以使用[此脚本](https://gist.github.com/carlospolop/a66b8d72bb8f43913c4b5ae45672578b)）。
+请注意，为了调试二进制文件，需要禁用SIP（`csrutil disable`或`csrutil enable --without debug`），或将二进制文件复制到临时文件夹并使用`codesign --remove-signature <binary-path>`删除签名，或允许对二进制文件进行调试（可以使用[此脚本](https://gist.github.com/carlospolop/a66b8d72bb8f43913c4b5ae45672578b)）
 {% endhint %}
 
 {% hint style="warning" %}
-请注意，为了在macOS上**对系统二进制文件**（如`cloudconfigurationd`）进行插桩，必须禁用SIP（仅删除签名是不起作用的）。
+请注意，为了在macOS上**检测系统二进制文件**（例如`cloudconfigurationd`），必须禁用SIP（仅删除签名不起作用）。
 {% endhint %}
 
 ### 统一日志
 
-MacOS会生成大量日志，当运行应用程序时，这些日志非常有用，可以帮助理解应用程序在做什么。
+MacOS会生成大量日志，当运行应用程序时，这些日志可以非常有用，以了解它在做什么。
 
-此外，有一些日志会包含标签`<private>`，以隐藏一些用户或计算机可识别的信息。但是，可以**安装证书来显示这些信息**。请按照[**这里的说明**](https://superuser.com/questions/1532031/how-to-show-private-data-in-macos-unified-log)进行操作。
+此外，有些日志将包含标签`<private>`，以隐藏一些用户或计算机可识别的信息。但是，可以**安装证书以公开此信息**。请按照[**此处的说明**](https://superuser.com/questions/1532031/how-to-show-private-data-in-macos-unified-log)进行操作。
 
 ### Hopper
 
@@ -176,36 +176,31 @@ MacOS会生成大量日志，当运行应用程序时，这些日志非常有用
 
 #### 中间面板
 
-在中间面板中，可以看到**反汇编代码**。通过点击相应的图标，可以以**原始**的反汇编、**图形**、**反编译**和**二进制**的形式查看：
+在中间面板中，您可以看到**反汇编代码**。您可以通过单击相应的图标，以**原始**、**图形**、**反编译**和**二进制**的方式查看它：
 
 <figure><img src="../../../.gitbook/assets/image (2) (6).png" alt=""><figcaption></figcaption></figure>
 
-右键单击代码对象，可以查看对该对象的**引用/来自引用**，甚至更改其名称（在反编译的伪代码中无效）：
+右键单击代码对象，可以查看对该对象的**引用/来自**，甚至更改其名称（在反编译的伪代码中无效）：
 
 <figure><img src="../../../.gitbook/assets/image (1) (1) (2).png" alt=""><figcaption></figcaption></figure>
 
-此外，在**中间下方可以编写Python命令**。
+此外，在**中间下方，您可以编写Python命令**。
 
 #### 右侧面板
 
-在右侧面板中，可以看到一些有趣的信息，例如**导航历史记录**（以便了解如何到达当前情况）、**调用图**（可以看到调用此函数的所有函数以及此函数调用的所有函数）和**局部变量**信息。
+在右侧面板中，您可以看到一些有趣的信息，例如**导航历史记录**（以便您知道如何到达当前情况）、**调用图**（您可以看到所有调用此函数的函数以及此函数调用的所有函数）和**局部变量**信息。
 
-### dtruss
-```bash
-dtruss -c ls #Get syscalls of ls
-dtruss -c -p 1000 #get syscalls of PID 1000
-```
-### ktrace
-
-即使启用了**SIP**，您仍然可以使用此方法。
-```bash
-ktrace trace -s -S -t c -c ls | grep "ls("
-```
 ### dtrace
 
-它允许用户以极低的层次访问应用程序，并提供了一种追踪程序甚至更改其执行流程的方式。Dtrace使用**探针**，这些探针**分布在内核的各个位置**，例如系统调用的开始和结束位置。
+它允许用户以极其**低级别**访问应用程序，并为用户提供了一种**跟踪**程序甚至更改其执行流程的方法。Dtrace使用**探针**，这些探针**分布在内核的各个位置**，例如系统调用的开始和结束。
 
-DTrace使用**`dtrace_probe_create`**函数为每个系统调用创建一个探针。这些探针可以在每个系统调用的**入口和出口点**触发。与DTrace的交互通过/dev/dtrace进行，该设备仅对root用户可用。
+DTrace使用**`dtrace_probe_create`**函数为每个系统调用创建一个探针。这些探针可以在每个系统调用的**入口和出口点触发**。与DTrace的交互通过/dev/dtrace进行，该设备仅对root用户可用。
+
+{% hint style="success" %}
+要在不完全禁用SIP保护的情况下启用Dtrace，可以在恢复模式下执行：`csrutil enable --without dtrace`
+
+您还可以**运行您编译的**`dtrace`或`dtruss`二进制文件。
+{% endhint %}
 
 可以使用以下命令获取dtrace的可用探针：
 ```bash
@@ -270,6 +265,27 @@ printf("=%d\n", arg1);
 #Log sys calls with values
 sudo dtrace -s syscalls_info.d -c "cat /etc/hosts"
 ```
+### dtruss
+
+The `dtruss` command is a powerful tool for inspecting and debugging macOS applications. It allows you to trace system calls and signals made by a specific process, providing valuable insights into its behavior and potential vulnerabilities.
+
+To use `dtruss`, simply run the command followed by the path to the executable or the process ID of the target application. This will initiate the tracing process and display a detailed log of all system calls and signals generated by the application.
+
+By analyzing the `dtruss` output, you can identify any suspicious or unexpected behavior, such as unauthorized file access, network communication, or privilege escalation attempts. This information can be crucial for identifying and patching security vulnerabilities in macOS applications.
+
+It is important to note that `dtruss` requires root privileges to trace system calls made by other processes. Therefore, you may need to run it with `sudo` or as the root user to inspect privileged applications.
+
+Overall, `dtruss` is a valuable tool for inspecting and debugging macOS applications, providing a deeper understanding of their inner workings and potential security issues.
+```bash
+dtruss -c ls #Get syscalls of ls
+dtruss -c -p 1000 #get syscalls of PID 1000
+```
+### ktrace
+
+即使启用了**SIP**，您仍然可以使用此方法。
+```bash
+ktrace trace -s -S -t c -c ls | grep "ls("
+```
 ### ProcessMonitor
 
 [**ProcessMonitor**](https://objective-see.com/products/utilities.html#ProcessMonitor) 是一个非常有用的工具，用于检查进程执行的与进程相关的操作（例如，监视进程创建的新进程）。
@@ -278,9 +294,13 @@ sudo dtrace -s syscalls_info.d -c "cat /etc/hosts"
 
 [**FileMonitor**](https://objective-see.com/products/utilities.html#FileMonitor) 允许监视文件事件（如创建、修改和删除），并提供有关这些事件的详细信息。
 
+### Crescendo
+
+[**Crescendo**](https://github.com/SuprHackerSteve/Crescendo) 是一个具有类似于 Windows 用户熟悉的 Microsoft Sysinternal 的 _Procmon_ 的外观和感觉的 GUI 工具。它允许您启动和停止记录各种类型的事件，按类别（文件、进程、网络等）对其进行过滤，并将记录的事件保存为 json 文件。
+
 ### Apple Instruments
 
-[**Apple Instruments**](https://developer.apple.com/library/archive/documentation/Performance/Conceptual/CellularBestPractices/Appendix/Appendix.html) 是Xcode开发工具的一部分，用于监视应用程序性能，识别内存泄漏和跟踪文件系统活动。
+[**Apple Instruments**](https://developer.apple.com/library/archive/documentation/Performance/Conceptual/CellularBestPractices/Appendix/Appendix.html) 是 Xcode 的开发工具的一部分，用于监视应用程序性能、识别内存泄漏和跟踪文件系统活动。
 
 ![](<../../../.gitbook/assets/image (15).png>)
 
@@ -302,38 +322,25 @@ fs_usage -w -f network curl #This tracks network actions
 
 ### lldb
 
-**lldb** 是macOS二进制文件**调试**的事实上的工具。
+**lldb** 是用于**macOS**二进制文件**调试**的事实上的工具。
 ```bash
 lldb ./malware.bin
 lldb -p 1122
 lldb -n malware.bin
 lldb -n malware.bin --waitfor
 ```
+您可以在使用lldb时设置intel风格，只需在您的主文件夹中创建一个名为**`.lldbinit`**的文件，并添加以下行：
+```bash
+settings set target.x86-disassembly-flavor intel
+```
 {% hint style="warning" %}
-在lldb中，使用`process save-core`命令转储进程
+在lldb中，使用`process save-core`命令转储进程。
 {% endhint %}
 
-| **(lldb) 命令**                | **描述**                                                                                                                                                                                                                                                                                                                                                                                                           |
-| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **run (r)**                   | 开始执行，直到遇到断点或进程终止。                                                                                                                                                                                                                                                                                                                                                                                 |
-| **continue (c)**              | 继续执行被调试进程。                                                                                                                                                                                                                                                                                                                                                                                               |
-| **nexti (n / ni)**            | 执行下一条指令。该命令会跳过函数调用。                                                                                                                                                                                                                                                                                                                                                                             |
-| **stepi (s / si)**            | 执行下一条指令。与nexti命令不同，该命令会进入函数调用。                                                                                                                                                                                                                                                                                                                                                             |
-| **finish (f)**                | 执行当前函数（“frame”）中剩余的指令，然后返回并停止。                                                                                                                                                                                                                                                                                                                                                               |
-| **control + c**               | 暂停执行。如果进程已经运行（r）或继续（c），这将导致进程在当前执行位置停止。                                                                                                                                                                                                                                                                                                                                         |
-| **breakpoint (b)**            | <p>b main</p><p>b -[NSDictionary objectForKey:]</p><p>b 0x0000000100004bd9</p><p>br l #断点列表</p><p>br e/dis &#x3C;num> #启用/禁用断点</p><p>breakpoint delete &#x3C;num><br>b set -n main --shlib &#x3C;lib_name></p>                                                                                                                                                                                               |
-| **help**                      | <p>help breakpoint #获取断点命令的帮助</p><p>help memory write #获取写入内存的帮助</p>                                                                                                                                                                                                                                                                                                                               |
-| **reg**                       | <p>reg read</p><p>reg read $rax</p><p>reg write $rip 0x100035cc0</p>                                                                                                                                                                                                                                                                                                                                                |
-| **x/s \<reg/memory address>** | 以空字符结尾的字符串形式显示内存。                                                                                                                                                                                                                                                                                                                                                                                 |
-| **x/i \<reg/memory address>** | 以汇编指令形式显示内存。                                                                                                                                                                                                                                                                                                                                                                                           |
-| **x/b \<reg/memory address>** | 以字节形式显示内存。                                                                                                                                                                                                                                                                                                                                                                                               |
-| **print object (po)**         | <p>这将打印参数引用的对象</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p请注意，大多数苹果的Objective-C API或方法返回对象，因此应通过“print object”（po）命令显示。如果po没有产生有意义的输出，请使用<code>x/b</code></p> |
-| **memory**                    | <p>memory read 0x000....<br>memory read $x0+0xf2a<br>memory write 0x100600000 -s 4 0x41414141 #在该地址写入AAAA<br>memory write -f s $rip+0x11f+7 "AAAA" #在该地址写入AAAA</p>                                                                                                                                                                                                                                        |
-| **disassembly**               | <p>dis #反汇编当前函数<br>dis -c 6 #反汇编6行<br>dis -c 0x100003764 -e 0x100003768 #从一个地址到另一个地址<br>dis -p -c 4 #从当前地址开始反汇编</p>                                                                                                                                                                                                                                                               |
-| **parray**                    | parray 3 (char \*\*)$x1 #检查x1寄存器中的3个组件的数组                                                                                                                                                                                                                                                                                                                                                               |
+<table data-header-hidden><thead><tr><th width="225"></th><th></th></tr></thead><tbody><tr><td><strong>(lldb) 命令</strong></td><td><strong>描述</strong></td></tr><tr><td><strong>run (r)</strong></td><td>开始执行，直到遇到断点或进程终止。</td></tr><tr><td><strong>continue (c)</strong></td><td>继续执行被调试的进程。</td></tr><tr><td><strong>nexti (n / ni)</strong></td><td>执行下一条指令。该命令会跳过函数调用。</td></tr><tr><td><strong>stepi (s / si)</strong></td><td>执行下一条指令。与nexti命令不同，该命令会进入函数调用。</td></tr><tr><td><strong>finish (f)</strong></td><td>执行当前函数（“frame”）中剩余的指令，然后返回并停止。</td></tr><tr><td><strong>control + c</strong></td><td>暂停执行。如果进程已经运行（r）或继续（c），这将导致进程在当前执行位置停止。</td></tr><tr><td><strong>breakpoint (b)</strong></td><td><p>b main #任何名为main的函数</p><p>b &#x3C;binname>`main #二进制文件的主函数</p><p>b set -n main --shlib &#x3C;lib_name> #指定二进制文件的主函数</p><p>b -[NSDictionary objectForKey:]</p><p>b -a 0x0000000100004bd9</p><p>br l #断点列表</p><p>br e/dis &#x3C;num> #启用/禁用断点</p><p>breakpoint delete &#x3C;num></p></td></tr><tr><td><strong>help</strong></td><td><p>help breakpoint #获取断点命令的帮助</p><p>help memory write #获取写入内存的帮助</p></td></tr><tr><td><strong>reg</strong></td><td><p>reg read</p><p>reg read $rax</p><p>reg read $rax --format &#x3C;<a href="https://lldb.llvm.org/use/variable.html#type-format">format</a>></p><p>reg write $rip 0x100035cc0</p></td></tr><tr><td><strong>x/s &#x3C;reg/memory address></strong></td><td>将内存显示为以空字符结尾的字符串。</td></tr><tr><td><strong>x/i &#x3C;reg/memory address></strong></td><td>将内存显示为汇编指令。</td></tr><tr><td><strong>x/b &#x3C;reg/memory address></strong></td><td>将内存显示为字节。</td></tr><tr><td><strong>print object (po)</strong></td><td><p>这将打印参数引用的对象</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>请注意，大多数苹果的Objective-C API或方法返回对象，因此应通过“print object”（po）命令显示。如果po没有产生有意义的输出，请使用<x/b></p></td></tr><tr><td><strong>memory</strong></td><td>memory read 0x000....<br>memory read $x0+0xf2a<br>memory write 0x100600000 -s 4 0x41414141 #在该地址写入AAAA<br>memory write -f s $rip+0x11f+7 "AAAA" #在该地址写入AAAA</td></tr><tr><td><strong>disassembly</strong></td><td><p>dis #反汇编当前函数</p><p>dis -n &#x3C;funcname> #反汇编函数</p><p>dis -n &#x3C;funcname> -b &#x3C;basename> #反汇编函数<br>dis -c 6 #反汇编6行<br>dis -c 0x100003764 -e 0x100003768 #从一个地址到另一个地址<br>dis -p -c 4 #从当前地址开始反汇编</p></td></tr><tr><td><strong>parray</strong></td><td>parray 3 (char **)$x1 #检查x1寄存器中的3个组件的数组</td></tr></tbody></table>
 
 {% hint style="info" %}
-在调用**`objc_sendMsg`**函数时，**rsi**寄存器保存方法的名称，以空字符结尾的（“C”）字符串。要通过lldb打印名称，请执行以下操作：
+在调用**`objc_sendMsg`**函数时，**rsi**寄存器保存方法的名称，以空字符结尾（“C”字符串）。要通过lldb打印名称，请执行以下操作：
 
 `(lldb) x/s $rsi: 0x1000f1576: "startMiningWithPort:password:coreCount:slowMemory:currency:"`
 
@@ -350,22 +357,21 @@ lldb -n malware.bin --waitfor
 * 命令**`sysctl hw.model`**在主机为MacOS时返回"Mac"，而在虚拟机上返回其他值。
 * 通过调整**`hw.logicalcpu`**和**`hw.physicalcpu`**的值，一些恶意软件尝试检测是否为虚拟机。
 * 一些恶意软件还可以根据MAC地址（00:50:56）判断机器是否为VMware。
-* 还可以使用简单的代码来检测进程是否正在被调试：
+* 还可以通过简单的代码判断进程是否正在被调试：
 * `if(P_TRACED == (info.kp_proc.p_flag & P_TRACED)){ //process being debugged }`
-* 还可以使用**`ptrace`**系统调用以**`PT_DENY_ATTACH`**标志调用。这可以防止调试器附加和跟踪。
-* 您可以检查是否导入了**`sysctl`**或**`ptrace`**函数（但恶意软件可能会动态导入它们）
+* 还可以使用**`ptrace`**系统调用和**`PT_DENY_ATTACH`**标志来阻止调试器的附加和跟踪。
+* 可以检查是否导入了**`sysctl`**或**`ptrace`**函数（但恶意软件可能会动态导入它）。
 * 如在此文档中所述：“[Defeating Anti-Debug Techniques: macOS ptrace variants](https://alexomara.com/blog/defeating-anti-debug-techniques-macos-ptrace-variants/)”：\
-“_消息“Process # exited with **status = 45 (0x0000002d)**”通常是调试目标使用**PT\_DENY\_ATTACH**的明显迹象_”
-
-## 模糊测试
+“_消息“Process # exited with **status = 45 (0x0000002d)**”通常是调试目标正在使用**PT\_DENY\_ATTACH**的明显迹象_”。
+## Fuzzing
 
 ### [ReportCrash](https://ss64.com/osx/reportcrash.html)
 
-ReportCrash用于**分析崩溃的进程并将崩溃报告保存到磁盘**。崩溃报告包含的信息可以帮助开发人员诊断崩溃的原因。\
-对于在每个用户的launchd上下文中运行的应用程序和其他进程，ReportCrash作为LaunchAgent运行，并将崩溃报告保存在用户的`~/Library/Logs/DiagnosticReports/`目录中。\
-对于守护进程、在系统launchd上下文中运行的其他进程和其他特权进程，ReportCrash作为LaunchDaemon运行，并将崩溃报告保存在系统的`/Library/Logs/DiagnosticReports`目录中。
+ReportCrash（报告崩溃）**分析崩溃的进程并将崩溃报告保存到磁盘**。崩溃报告包含的信息可以**帮助开发人员诊断**崩溃的原因。\
+对于在每个用户的launchd上下文中运行的应用程序和其他进程，ReportCrash作为LaunchAgent运行，并将崩溃报告保存在用户的`~/Library/Logs/DiagnosticReports/`目录下。\
+对于守护进程、在系统launchd上下文中运行的其他进程和其他特权进程，ReportCrash作为LaunchDaemon运行，并将崩溃报告保存在系统的`/Library/Logs/DiagnosticReports`目录下。
 
-如果您担心崩溃报告被发送到Apple，您可以禁用它们。否则，崩溃报告可以帮助您弄清楚服务器崩溃的原因。
+如果你担心崩溃报告**被发送给Apple**，你可以禁用它们。如果不禁用，崩溃报告可以用来**找出服务器崩溃的原因**。
 ```bash
 #To disable crash reporting:
 launchctl unload -w /System/Library/LaunchAgents/com.apple.ReportCrash.plist
@@ -475,7 +481,7 @@ litefuzz -s -a tcp://localhost:5900 -i input/screenshared-session --reportcrash 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[NFT收藏品](https://opensea.io/collection/the-peass-family)——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
