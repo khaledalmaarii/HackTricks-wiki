@@ -36,16 +36,16 @@ x64的调用约定在操作系统之间有所不同。例如：
 * **Windows**：前**四个参数**通过寄存器**`rcx`**，**`rdx`**，**`r8`**和**`r9`**传递。更多的参数被推送到栈上。返回值在**`rax`**中。
 * **System V（通常用于类UNIX系统）**：前**六个整数或指针参数**通过寄存器**`rdi`**，**`rsi`**，**`rdx`**，**`rcx`**，**`r8`**和**`r9`**传递。返回值也在**`rax`**中。
 
-如果函数有超过六个输入，则**其余参数将通过栈传递**。**RSP**，即栈指针，在任何调用发生之前必须是**16字节对齐**的，这意味着它指向的地址必须能够被16整除。这意味着通常我们需要确保在进行函数调用之前，我们的shellcode中的RSP被正确对齐。然而，在实践中，即使不满足这个要求，系统调用也经常能够正常工作。
+如果函数有超过六个输入，则**其余的参数将被传递到栈上**。**RSP**，即栈指针，在任何调用发生之前必须是**16字节对齐**的，这意味着它指向的地址必须能够被16整除。这意味着通常我们需要确保在进行函数调用之前，我们的shellcode中的RSP被正确对齐。然而，在实践中，即使不满足这个要求，系统调用也经常能够正常工作。
 
 ### **常见指令**
 
-x64指令具有丰富的指令集，保持与早期x86指令的兼容性并引入新的指令。
+x64指令具有丰富的指令集，保持与早期x86指令的兼容性并引入新指令。
 
-* **`mov`**：将一个值从一个**寄存器**或**内存位置**移动到另一个位置。
-* 示例：`mov rax, rbx` — 将`rbx`中的值移动到`rax`。
+* **`mov`**：将一个值从一个**寄存器**或**内存位置**移动到另一个寄存器或内存位置。
+* 示例：`mov rax, rbx` — 将`rbx`中的值移动到`rax`中。
 * **`push`** 和 **`pop`**：将值推送到/从**栈**中弹出。
-* 示例：`push rax` — 将`rax`中的值推送到栈上。
+* 示例：`push rax` — 将`rax`中的值推送到栈中。
 * 示例：`pop rax` — 将栈顶的值弹出到`rax`中。
 * **`add`** 和 **`sub`**：**加法**和**减法**操作。
 * 示例：`add rax, rcx` — 将`rax`和`rcx`中的值相加，并将结果存储在`rax`中。
@@ -106,7 +106,7 @@ x64指令具有丰富的指令集，保持与早期x86指令的兼容性并引�
 
 ### Shellcode
 
-编译如下：
+编译方法：
 
 {% code overflow="wrap" %}
 ```bash
@@ -115,13 +115,20 @@ ld -o shell shell.o -macosx_version_min 13.0 -lSystem -L /Library/Developer/Comm
 ```
 {% endcode %}
 
-提取字节的方法：
+提取字节：
+
+{% code overflow="wrap" %}
 ```bash
 # Code from https://github.com/daem0nc0re/macOS_ARM64_Shellcode/blob/master/helper/extract.sh
-for c in $(objdump -d "s.o" | grep -E '[0-9a-f]+:' | cut -f 1 | cut -d : -f 2) ; do
+for c in $(objdump -d "shell.o" | grep -E '[0-9a-f]+:' | cut -f 1 | cut -d : -f 2) ; do
 echo -n '\\x'$c
 done
+
+# Another option
+otool -t shell.o | grep 00 | cut -f2 -d$'\t' | sed 's/ /\\x/g' | sed 's/^/\\x/g' | sed 's/\\x$//g'
 ```
+{% endcode %}
+
 <details>
 
 <summary>用于测试shellcode的C代码</summary>
@@ -254,15 +261,15 @@ To invoke a command using the `sh` command, you can use the following syntax:
 sh -c "command"
 ```
 
-For example, if you want to run the `ls` command using `sh`, you would use:
+For example, if you want to execute the `ls` command using `sh`, you would run:
 
-例如，如果你想使用`sh`运行`ls`命令，可以使用以下命令：
+例如，如果你想使用`sh`执行`ls`命令，你可以运行：
 
 ```sh
 sh -c "ls"
 ```
 
-This will execute the `ls` command as if it was run directly from the command line.
+This will execute the `ls` command as if it were run directly from the command line.
 ```armasm
 bits 64
 section .text
@@ -446,8 +453,8 @@ syscall
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * 你在一家 **网络安全公司** 工作吗？你想在 HackTricks 中看到你的 **公司广告**吗？或者你想获得 **PEASS 的最新版本或下载 HackTricks 的 PDF 版本**吗？请查看 [**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 集合 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* 发现我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 集合 - [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获得 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
 * **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass)，或者在 **Twitter** 上 **关注** 我 [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向** [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享你的黑客技巧。**
 

