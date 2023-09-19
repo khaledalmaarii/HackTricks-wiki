@@ -33,8 +33,8 @@ x64 étend l'architecture x86, avec **16 registres généraux** étiquetés `rax
 
 La convention d'appel x64 varie selon les systèmes d'exploitation. Par exemple :
 
-* **Windows** : Les quatre premiers **paramètres** sont passés dans les registres **`rcx`**, **`rdx`**, **`r8`** et **`r9`**. Les paramètres supplémentaires sont poussés sur la pile. La valeur de retour est dans **`rax`**.
-* **System V (couramment utilisé dans les systèmes de type UNIX)** : Les six premiers **paramètres entiers ou pointeurs** sont passés dans les registres **`rdi`**, **`rsi`**, **`rdx`**, **`rcx`**, **`r8`** et **`r9`**. La valeur de retour est également dans **`rax`**.
+* **Windows** : Les quatre premiers **paramètres** sont passés dans les registres **`rcx`**, **`rdx`**, **`r8`** et **`r9`**. Les paramètres supplémentaires sont poussés sur la pile. La valeur de retour se trouve dans **`rax`**.
+* **System V (couramment utilisé dans les systèmes de type UNIX)** : Les six premiers **paramètres entiers ou pointeurs** sont passés dans les registres **`rdi`**, **`rsi`**, **`rdx`**, **`rcx`**, **`r8`** et **`r9`**. La valeur de retour se trouve également dans **`rax`**.
 
 Si la fonction a plus de six entrées, le **reste sera passé sur la pile**. **RSP**, le pointeur de pile, doit être **aligné sur 16 octets**, ce qui signifie que l'adresse vers laquelle il pointe doit être divisible par 16 avant tout appel. Cela signifie qu'en général, nous devrions nous assurer que RSP est correctement aligné dans notre shellcode avant d'effectuer un appel de fonction. Cependant, en pratique, les appels système fonctionnent souvent même si cette exigence n'est pas respectée.
 
@@ -60,15 +60,15 @@ Les instructions x64 disposent d'un ensemble riche, maintenant la compatibilité
 * **`sysenter`** : Une instruction d'**appel système** optimisée sur certaines plates-formes.
 ### **Prologue de fonction**
 
-1. **Pousser l'ancien pointeur de base** : `push rbp` (sauvegarde le pointeur de base de l'appelant)
-2. **Déplacer le pointeur de pile actuel vers le pointeur de base** : `mov rbp, rsp` (configure le nouveau pointeur de base pour la fonction actuelle)
-3. **Allouer de l'espace sur la pile pour les variables locales** : `sub rsp, <size>` (où `<size>` est le nombre d'octets nécessaires)
+1. **Sauvegarde de l'ancien pointeur de base** : `push rbp` (sauvegarde le pointeur de base de l'appelant)
+2. **Déplacement du pointeur de pile actuel vers le pointeur de base** : `mov rbp, rsp` (configure le nouveau pointeur de base pour la fonction actuelle)
+3. **Allocation d'espace sur la pile pour les variables locales** : `sub rsp, <size>` (où `<size>` est le nombre d'octets nécessaires)
 
 ### **Épilogue de fonction**
 
-1. **Déplacer le pointeur de base actuel vers le pointeur de pile** : `mov rsp, rbp` (désalloue les variables locales)
-2. **Dépiler l'ancien pointeur de base de la pile** : `pop rbp` (restaure le pointeur de base de l'appelant)
-3. **Retourner** : `ret` (retourne le contrôle à l'appelant)
+1. **Déplacement du pointeur de base actuel vers le pointeur de pile** : `mov rsp, rbp` (désalloue les variables locales)
+2. **Dépilement de l'ancien pointeur de base de la pile** : `pop rbp` (restaure le pointeur de base de l'appelant)
+3. **Retour** : `ret` (retourne le contrôle à l'appelant)
 
 ## macOS
 
@@ -116,12 +116,19 @@ ld -o shell shell.o -macosx_version_min 13.0 -lSystem -L /Library/Developer/Comm
 {% endcode %}
 
 Pour extraire les octets :
+
+{% code overflow="wrap" %}
 ```bash
 # Code from https://github.com/daem0nc0re/macOS_ARM64_Shellcode/blob/master/helper/extract.sh
-for c in $(objdump -d "s.o" | grep -E '[0-9a-f]+:' | cut -f 1 | cut -d : -f 2) ; do
+for c in $(objdump -d "shell.o" | grep -E '[0-9a-f]+:' | cut -f 1 | cut -d : -f 2) ; do
 echo -n '\\x'$c
 done
+
+# Another option
+otool -t shell.o | grep 00 | cut -f2 -d$'\t' | sed 's/ /\\x/g' | sed 's/^/\\x/g' | sed 's/\\x$//g'
 ```
+{% endcode %}
+
 <details>
 
 <summary>Code C pour tester le shellcode</summary>
