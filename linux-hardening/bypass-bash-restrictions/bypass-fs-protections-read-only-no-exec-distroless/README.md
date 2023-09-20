@@ -2,19 +2,26 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在一家**网络安全公司**工作吗？你想在 HackTricks 中看到你的**公司广告**吗？或者你想获得**PEASS 的最新版本或下载 HackTricks 的 PDF 版本**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享你的黑客技巧。**
 
 </details>
 
+## 视频
+
+在以下视频中，你可以找到本页面中提到的技术的更详细解释：
+
+* [**DEF CON 31 - 探索 Linux 内存操作以进行隐蔽和逃避**](https://www.youtube.com/watch?v=poHirez8jk4)
+* [**使用 DDexec-ng 和内存 dlopen() 进行隐蔽入侵 - HackTricks Track 2023**](https://www.youtube.com/watch?v=VM\_gjjiARaU)
+
 ## 只读/无执行权限场景
 
-在Linux机器上，特别是容器中，发现使用**只读（ro）文件系统保护**的情况越来越普遍。这是因为在容器中运行只读文件系统非常简单，只需在`securitycontext`中设置**`readOnlyRootFilesystem: true`**即可：
+在 Linux 机器上，特别是容器中，越来越常见的是使用**只读 (ro) 文件系统保护**。这是因为在容器中运行只读文件系统非常简单，只需在 `securitycontext` 中设置 **`readOnlyRootFilesystem: true`**：
 
 <pre class="language-yaml"><code class="lang-yaml">apiVersion: v1
 kind: Pod
@@ -29,15 +36,15 @@ securityContext:
 </strong>    command: ["sh", "-c", "while true; do sleep 1000; done"]
 </code></pre>
 
-然而，即使文件系统以只读方式挂载，**`/dev/shm`**仍然是可写的，所以我们可以在磁盘上写入内容。然而，该文件夹将以**无执行权限保护**方式挂载，因此如果你在此处下载一个二进制文件，你将**无法执行它**。
+然而，即使文件系统以只读方式挂载，**`/dev/shm`** 仍然是可写的，所以我们可以在磁盘上写入内容。然而，该文件夹将以**无执行权限保护**方式挂载，因此如果你在此处下载一个二进制文件，你将**无法执行它**。
 
 {% hint style="warning" %}
-从红队的角度来看，这使得下载和执行**不在系统中的二进制文件**（如后门或类似`kubectl`的枚举工具）变得**复杂**。
+从红队的角度来看，这使得下载和执行**不在系统中的二进制文件**（如后门或枚举器，如 `kubectl`）变得复杂。
 {% endhint %}
 
 ## 最简单的绕过方法：脚本
 
-请注意，我提到的是二进制文件，只要机器上有解释器，你可以**执行任何脚本**，比如如果存在`sh`，你可以执行**shell脚本**，如果安装了`python`，你可以执行**python脚本**。
+请注意，我提到的是二进制文件，只要解释器在机器上，你可以**执行任何脚本**，比如如果存在 `sh`，你可以执行**shell 脚本**，如果安装了 `python`，你可以执行**Python 脚本**。
 
 然而，仅仅执行脚本是不够的，你可能需要运行你的二进制后门或其他二进制工具。
 
@@ -45,26 +52,26 @@ securityContext:
 
 如果你想执行一个二进制文件，但文件系统不允许执行，那么最好的方法是**从内存中执行**，因为**保护措施在内存中不适用**。
 
-### FD + exec系统调用绕过
+### FD + exec 系统调用绕过
 
-如果你在机器上有一些强大的脚本引擎，比如**Python**、**Perl**或**Ruby**，你可以将要执行的二进制文件下载到内存中，并将其存储在一个内存文件描述符（`create_memfd`系统调用）中，这不会受到这些保护的限制，然后调用**`exec`系统调用**，将**文件描述符作为要执行的文件**。
+如果你在机器上有一些强大的脚本引擎，比如**Python**、**Perl**或**Ruby**，你可以将要执行的二进制文件下载到内存中，并将其存储在一个内存文件描述符（`create_memfd` 系统调用）中，这不会受到这些保护的限制，然后调用**`exec` 系统调用**，将**文件描述符作为要执行的文件**。
 
-为此，你可以轻松使用项目[**fileless-elf-exec**](https://github.com/nnsee/fileless-elf-exec)。你可以将二进制文件传递给它，它将生成一个指定语言的脚本，其中包含**压缩和base64编码的二进制文件**，以及解码和解压缩它的指令，通过调用`create_memfd`系统调用创建一个**内存文件描述符**，然后调用**exec**系统调用来运行它。
+为此，你可以轻松使用项目 [**fileless-elf-exec**](https://github.com/nnsee/fileless-elf-exec)。你可以将二进制文件传递给它，它将生成一个指定语言的脚本，其中包含**压缩和 base64 编码的二进制文件**，以及解码和解压缩它的指令，这些指令将在调用 `create_memfd` 系统调用创建的**文件描述符**中执行，并调用**exec**系统调用来运行它。
 
 {% hint style="warning" %}
-这在其他脚本语言（如PHP或Node）中不起作用，因为它们没有任何**默认的调用原始系统调用**的方法，所以无法调用`create_memfd`来创建**内存文件描述符**来存储二进制文件。
+这在其他脚本语言（如 PHP 或 Node）中不起作用，因为它们没有任何**默认的调用原始系统调用**的方法，所以无法调用 `create_memfd` 来创建**内存文件描述符**来存储二进制文件。
 
-此外，在`/dev/shm`中创建一个**常规文件描述符**并不起作用，因为你将无法运行它，因为**无执行权限保护**将适用。
+此外，在 `/dev/shm` 中创建一个**常规文件描述符**是行不通的，因为你将无法运行它，因为**无执行权限保护**将适用。
 {% endhint %}
 
 ### DDexec / EverythingExec
 
-[**DDexec / EverythingExec**](https://github.com/arget13/DDexec)是一种通过覆盖**`/proc/self/mem`**来修改自己进程的内存的技术。
+[**DDexec / EverythingExec**](https://github.com/arget13/DDexec) 是一种技术，允许你通过覆盖其**`/proc/self/mem`**来**修改自己进程的内存**。
 
-因此，通过控制进程正在执行的汇编代码，你可以编写一个**shellcode**并"变异"进程以**执行任意代码**。
+因此，通过控制进程执行的汇编代码，你可以编写一个**shellcode**并"变异"进程以**执行任意代码**。
 
 {% hint style="success" %}
-**DDexec / EverythingExec**将允许你从**内存**中加载和**执行**自己的**shellcode**或**任何二进制文件**。
+**DDexec / EverythingExec** 将允许你从**内存**中加载和**执行**自己的**shellcode**或**任何二进制文件**。
 {% endhint %}
 ```bash
 # Basic example
@@ -102,7 +109,7 @@ Distroless 容器的目标是通过消除不必要的组件来 **减少容器的
 因此，您将无法像通常那样获得 **反向 shell** 或 **枚举** 系统。
 {% endhint %}
 
-但是，如果被入侵的容器例如运行了 flask web，则已安装了 python，因此您可以获取 **Python 反向 shell**。如果运行了 node，则可以获取 Node 反向 shell，大多数 **脚本语言** 也是如此。
+但是，如果受损的容器例如运行了 Flask Web，则已安装了 Python，因此您可以获取 **Python 反向 shell**。如果运行了 Node，则可以获取 Node 反向 shell，其他 **脚本语言** 也是如此。
 
 {% hint style="success" %}
 使用脚本语言，您可以使用语言的功能 **枚举系统**。
@@ -123,7 +130,7 @@ Distroless 容器的目标是通过消除不必要的组件来 **减少容器的
 * 您在 **网络安全公司** 工作吗？您想在 HackTricks 中看到您的 **公司广告** 吗？或者您想获得 **PEASS 的最新版本或下载 PDF 格式的 HackTricks** 吗？请查看 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 集合 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或在 **Twitter** 上 **关注** 我 [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass)，或在 **Twitter** 上 **关注** 我 [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向** [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享您的黑客技巧。**
 
 </details>

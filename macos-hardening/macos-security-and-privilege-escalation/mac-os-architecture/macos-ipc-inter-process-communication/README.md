@@ -14,7 +14,7 @@
 
 ## 通过端口进行Mach消息传递
 
-Mach使用**任务（task）**作为共享资源的**最小单位**，每个任务可以包含**多个线程**。这些**任务和线程与POSIX进程和线程一一对应**。
+Mach使用**任务（tasks）**作为共享资源的**最小单位**，每个任务可以包含**多个线程**。这些**任务和线程与POSIX进程和线程一一对应**。
 
 任务之间的通信通过Mach进程间通信（IPC）进行，利用单向通信通道。**消息通过端口进行传输**，端口类似于由内核管理的**消息队列**。
 
@@ -36,7 +36,7 @@ Mach使用**任务（task）**作为共享资源的**最小单位**，每个任�
 
 1. 任务**A**初始化一个**新的端口**，在此过程中获得一个**接收权限**。
 2. 作为接收权限的持有者，任务**A**为端口**生成一个发送权限**。
-3. 任务**A**通过引导注册过程与**引导服务器**建立**连接**，提供端口的服务名称和通过发送权限。 
+3. 任务**A**通过引导注册过程与**引导服务器**建立**连接**，提供端口的服务名称和通过发送权限。
 4. 任务**B**与**引导服务器**交互，执行服务名称的引导查找。如果成功，**服务器复制从任务A接收到的发送权限**并将其**传输给任务B**。
 5. 获得发送权限后，任务**B**能够**构建消息**并将其**发送给任务A**。
 
@@ -52,28 +52,9 @@ Mach使用**任务（task）**作为共享资源的**最小单位**，每个任�
 * launchd复制**发送权限并将其发送给任务B**。
 
 然而，这个过程仅适用于预定义的系统任务。非系统任务仍然按照最初的描述进行操作，这可能导致冒充。
-### Mach服务
-
-位于前面提到的SIP受保护目录中的应用程序中指定的名称不能被其他进程注册。
-
-例如，`/System/Library/LaunchAgents/com.apple.xpc.loginitemregisterd.plist` 注册了名称 `com.apple.xpc.loginitemregisterd`：
-```json
-plutil -p com.apple.xpc.loginitemregisterd.plist
-{
-"EnablePressuredExit" => 1
-"Label" => "com.apple.xpc.loginitemregisterd"
-"MachServices" => {
-"com.apple.xpc.loginitemregisterd" => 1
-}
-"ProcessType" => "Adaptive"
-"Program" => "/usr/libexec/loginitemregisterd"
-}
-```
-如果您尝试使用以下代码进行注册，将无法成功。
-
 ### 代码示例
 
-请注意，**发送方**分配了一个端口，为名称`org.darlinghq.example`创建了一个**发送权**，并将其发送到**引导服务器**，而发送方则请求该名称的**发送权**并使用它来**发送消息**。
+请注意，**发送方**在分配一个端口后，为名称`org.darlinghq.example`创建了一个**发送权限**，并将其发送到**引导服务器**，而发送方则请求该名称的**发送权限**并使用它来**发送消息**。
 
 {% tabs %}
 {% tab title="receiver.c" %}
@@ -304,7 +285,7 @@ performMathOperations();  // Silent action
 return 0;
 }
 ```
-{% tab title="entitlements.plist" %}权限清单.plist
+{% tab title="entitlements.plist" %}权限清单.plist{% endtab %}
 ```xml
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -317,7 +298,7 @@ return 0;
 {% endtab %}
 {% endtabs %}
 
-**编译**之前的程序，并添加**entitlements**以便能够使用相同的用户注入代码（如果不是，则需要使用**sudo**）。
+**编译**之前的程序，并添加**权限**以能够使用相同的用户注入代码（如果不是，则需要使用**sudo**）。
 
 <details>
 
@@ -802,7 +783,6 @@ else
 {
     fprintf(stderr, "找不到 dylib\n");
 }
-
 }
 ```
 </details>
@@ -824,23 +804,21 @@ gcc -framework Foundation -framework Appkit dylib_injector.m -o dylib_injector
 
 XPC代表XNU（macOS使用的内核）进程间通信，是macOS和iOS上进程之间通信的框架。XPC提供了一种在系统上进行安全、异步方法调用的机制。它是苹果安全范例的一部分，允许创建权限分离的应用程序，其中每个组件都以其工作所需的权限运行，从而限制了受损进程可能造成的潜在损害。
 
-XPC使用一种进程间通信（IPC）的形式，这是一组用于在同一系统上运行的不同程序之间发送数据的方法。
+XPC使用一种称为进程间通信（IPC）的方法，用于在同一系统上运行的不同程序之间发送数据。
 
 XPC的主要优点包括：
 
 1. **安全性**：通过将工作分离到不同的进程中，每个进程只能被授予其所需的权限。这意味着即使进程被入侵，它也只能有限地造成损害。
-2. **稳定性**：XPC帮助将崩溃隔离到发生崩溃的组件。如果一个进程崩溃，可以重新启动而不影响系统的其他部分。
+2. **稳定性**：XPC有助于将崩溃隔离到发生崩溃的组件。如果一个进程崩溃，可以重新启动而不影响系统的其他部分。
 3. **性能**：XPC允许轻松并发，因为不同的任务可以在不同的进程中同时运行。
 
-唯一的**缺点**是将一个应用程序分成多个进程，通过XPC进行通信会**效率较低**。但在今天的系统中，这几乎不可察觉，而且好处更多。
-
-一个例子可以在QuickTime Player中看到，其中使用XPC的组件负责视频解码。该组件专门设计用于执行计算任务，因此在发生违规事件时，它不会为攻击者提供任何有用的收益，如访问文件或网络。
+唯一的**缺点**是将一个应用程序分成几个进程，通过XPC进行通信会**效率较低**。但在今天的系统中，这几乎不可察觉，而且好处更多。
 
 ### 应用程序特定的XPC服务
 
-应用程序的XPC组件位于**应用程序本身内部**。例如，在Safari中，您可以在**`/Applications/Safari.app/Contents/XPCServices`**中找到它们。它们的扩展名为**`.xpc`**（例如**`com.apple.Safari.SandboxBroker.xpc`**），并且也是**bundles**与其中的主要二进制文件一起：**`/Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/MacOS/com.apple.Safari.SandboxBroker`**
+应用程序的XPC组件位于应用程序本身内部。例如，在Safari中，您可以在**`/Applications/Safari.app/Contents/XPCServices`**中找到它们。它们的扩展名为**`.xpc`**（例如**`com.apple.Safari.SandboxBroker.xpc`**），并且也是主要二进制文件的**捆绑包**：`/Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/MacOS/com.apple.Safari.SandboxBroker`和一个`Info.plist: /Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/Info.plist`
 
-正如您可能想到的，**XPC组件将具有不同的授权和权限**，而不同于其他XPC组件或主应用程序二进制文件。除非XPC服务在其**Info.plist**文件中配置了[**JoinExistingSession**](https://developer.apple.com/documentation/bundleresources/information\_property\_list/xpcservice/joinexistingsession)设置为“True”。在这种情况下，XPC服务将在与调用它的应用程序相同的安全会话中运行。
+正如您可能想到的，**XPC组件将具有不同的授权和权限**，而不同于其他XPC组件或主应用程序二进制文件。除非XPC服务在其**Info.plist**文件中配置了[**JoinExistingSession**](https://developer.apple.com/documentation/bundleresources/information\_property\_list/xpcservice/joinexistingsession)设置为“True”。在这种情况下，XPC服务将在与调用它的应用程序**相同的安全会话中运行**。
 
 XPC服务在需要时由**launchd**启动，并在所有任务完成后**关闭**以释放系统资源。**应用程序特定的XPC组件只能被应用程序利用**，从而降低了与潜在漏洞相关的风险。
 
@@ -1114,7 +1092,9 @@ listener.delegate = delegate;
 sleep(10); // Fake something is done and then it ends
 }
 ```
-{% tab title="oc_xpc_client.m" %}oc_xpc_client.m文件
+{% tab title="oc_xpc_client.m" %}
+
+## oc_xpc_client.m
 
 ```objective-c
 #import <Foundation/Foundation.h>
@@ -1139,7 +1119,37 @@ int main(int argc, const char * argv[]) {
 }
 ```
 
-这是一个Objective-C文件，用于创建一个XPC客户端连接到`com.apple.securityd`服务。它使用`xpc_connection_create_mach_service`函数创建一个特权的Mach服务连接，并使用`xpc_connection_set_event_handler`函数设置一个事件处理程序来处理接收到的事件。在事件处理程序中，它检查事件的类型是否为字典类型，并获取字典中的描述信息。如果存在描述信息，则打印出接收到的事件描述。最后，它通过调用`dispatch_main`函数来启动主循环，以保持连接的活动状态。
+### Description
+
+This Objective-C code demonstrates how to create an XPC client that communicates with the `com.apple.securityd` Mach service. XPC (Inter-Process Communication) is a mechanism for communication between processes in macOS.
+
+The code creates an XPC connection using `xpc_connection_create_mach_service` and specifies the target Mach service as `com.apple.securityd`. The `XPC_CONNECTION_MACH_SERVICE_PRIVILEGED` flag is used to indicate that the connection should be privileged.
+
+An event handler is set using `xpc_connection_set_event_handler` to handle incoming events from the XPC service. In this example, the event handler checks if the event is a dictionary and retrieves the value associated with the key "description". If a description is found, it is printed to the console.
+
+The connection is resumed using `xpc_connection_resume`, and the main dispatch loop is started using `dispatch_main`.
+
+### Usage
+
+Compile the code using the following command:
+
+```bash
+clang -framework Foundation -o oc_xpc_client oc_xpc_client.m
+```
+
+Run the compiled binary:
+
+```bash
+./oc_xpc_client
+```
+
+### References
+
+- [XPC Services](https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingXPCServices.html)
+- [XPC Overview](https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/Introduction.html#//apple_ref/doc/uid/10000172i-SW1-SW1)
+- [XPC API Reference](https://developer.apple.com/documentation/xpc)
+
+{% endtab %}
 ```objectivec
 // gcc -framework Foundation oc_xpc_client.m -o oc_xpc_client
 #include <Foundation/Foundation.h>
@@ -1162,32 +1172,7 @@ NSLog(@"Received response: %@", response);
 return 0;
 }
 ```
-# macOS IPC (Inter-Process Communication)
-
-Inter-Process Communication (IPC) is a mechanism that allows different processes to communicate with each other and share data. In macOS, there are several IPC mechanisms available, including:
-
-1. **Mach Ports**: Mach ports are the fundamental IPC mechanism in macOS. They allow processes to send messages to each other and share resources.
-
-2. **UNIX Domain Sockets**: UNIX domain sockets provide a communication channel between processes running on the same machine. They are commonly used for local IPC.
-
-3. **Distributed Objects**: Distributed Objects is a high-level IPC mechanism provided by macOS. It allows objects to be shared between processes using a remote procedure call (RPC) mechanism.
-
-4. **XPC**: XPC (eXtensible Procedure Call) is a modern IPC mechanism introduced in macOS 10.7. It provides a secure and efficient way for processes to communicate with each other.
-
-Understanding how IPC works in macOS is important for both developers and security researchers. Developers need to know how to use IPC mechanisms effectively to build robust and secure applications. Security researchers need to understand the underlying IPC mechanisms to identify potential vulnerabilities and privilege escalation opportunities.
-
-In this section, we will explore the different IPC mechanisms available in macOS and discuss their security implications. We will also cover common security issues related to IPC and best practices for securing IPC communications.
-
-## Table of Contents
-
-- [Mach Ports](mach-ports.md)
-- [UNIX Domain Sockets](unix-domain-sockets.md)
-- [Distributed Objects](distributed-objects.md)
-- [XPC](xpc.md)
-
-{% endtab %}
-
-{% tab title="中文" %}
+{% tab title="xyz.hacktricks.svcoc.plist" %}xyz.hacktricks.svcoc.plist是一个属性列表文件，用于配置macOS中的服务对象通信（Service Object Communication，简称SOC）。SOC是一种进程间通信（IPC）机制，允许不同进程之间相互通信和共享数据。该文件用于定义SOC的配置参数，包括服务名称、通信方式、权限等。通过修改该文件，可以对SOC进行定制和优化，以增强macOS的安全性和特权升级防护。
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
@@ -1239,10 +1224,10 @@ sudo rm /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist /tmp/oc_xpc_server
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在 HackTricks 中**宣传你的公司**吗？或者想要**获取 PEASS 的最新版本或下载 HackTricks 的 PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享你的黑客技巧。**
+* 你在一个 **网络安全公司** 工作吗？想要在 HackTricks 中 **宣传你的公司** 吗？或者你想要获得 **PEASS 的最新版本或下载 HackTricks 的 PDF 版本** 吗？请查看 [**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 集合 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获得 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我的 **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向** [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享你的黑客技巧。**
 
 </details>
