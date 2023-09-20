@@ -12,6 +12,13 @@
 
 </details>
 
+## Vídeos
+
+Nos seguintes vídeos, você pode encontrar as técnicas mencionadas nesta página explicadas com mais detalhes:
+
+* [**DEF CON 31 - Explorando a Manipulação de Memória do Linux para Furtividade e Evasão**](https://www.youtube.com/watch?v=poHirez8jk4)
+* [**Intrusões furtivas com DDexec-ng e dlopen() em memória - HackTricks Track 2023**](https://www.youtube.com/watch?v=VM\_gjjiARaU)
+
 ## Cenário de somente leitura / sem execução
 
 É cada vez mais comum encontrar máquinas Linux montadas com a proteção de sistema de arquivos em **somente leitura (ro)**, especialmente em contêineres. Isso ocorre porque executar um contêiner com sistema de arquivos somente leitura é tão fácil quanto definir **`readOnlyRootFilesystem: true`** no `securitycontext`:
@@ -29,7 +36,7 @@ securityContext:
 </strong>    command: ["sh", "-c", "while true; do sleep 1000; done"]
 </code></pre>
 
-No entanto, mesmo que o sistema de arquivos esteja montado como somente leitura, **`/dev/shm`** ainda será gravável, então é falso que não podemos escrever nada no disco. No entanto, esta pasta será **montada com proteção sem execução**, então se você baixar um binário aqui, **não poderá executá-lo**.
+No entanto, mesmo que o sistema de arquivos esteja montado como somente leitura, **`/dev/shm`** ainda será gravável, então é falso que não podemos escrever nada no disco. No entanto, esta pasta será **montada com proteção sem execução**, portanto, se você baixar um binário aqui, **não poderá executá-lo**.
 
 {% hint style="warning" %}
 Do ponto de vista de um red team, isso torna **complicado baixar e executar** binários que não estão no sistema (como backdoors ou enumeradores como `kubectl`).
@@ -45,16 +52,16 @@ No entanto, isso não é suficiente para executar seu backdoor binário ou outra
 
 Se você deseja executar um binário, mas o sistema de arquivos não permite isso, a melhor maneira de fazer isso é **executá-lo a partir da memória**, pois as **proteções não se aplicam lá**.
 
-### Bypass FD + exec syscall
+### Bypass de chamada de sistema FD + exec
 
-Se você tiver alguns mecanismos de script poderosos dentro da máquina, como **Python**, **Perl** ou **Ruby**, poderá baixar o binário para executar da memória, armazená-lo em um descritor de arquivo de memória (`create_memfd` syscall), que não será protegido por essas proteções e, em seguida, chamar uma **syscall `exec`** indicando o **fd como o arquivo a ser executado**.
+Se você tiver alguns mecanismos de script poderosos dentro da máquina, como **Python**, **Perl** ou **Ruby**, poderá baixar o binário para executar da memória, armazená-lo em um descritor de arquivo de memória (`create_memfd` syscall), que não será protegido por essas proteções e, em seguida, chamar uma **chamada de sistema `exec`** indicando o **fd como o arquivo a ser executado**.
 
 Para isso, você pode usar facilmente o projeto [**fileless-elf-exec**](https://github.com/nnsee/fileless-elf-exec). Você pode passar a ele um binário e ele irá gerar um script na linguagem indicada com o **binário comprimido e codificado em b64** com as instruções para **decodificar e descomprimir** em um **fd** criado chamando a syscall `create_memfd` e uma chamada à syscall **exec** para executá-lo.
 
 {% hint style="warning" %}
-Isso não funciona em outras linguagens de script como PHP ou Node porque eles não têm uma maneira **padrão de chamar syscalls brutos** de um script, então não é possível chamar `create_memfd` para criar o **fd de memória** para armazenar o binário.
+Isso não funciona em outras linguagens de script como PHP ou Node porque eles não têm uma maneira **padrão de chamar chamadas de sistema brutas** de um script, portanto, não é possível chamar `create_memfd` para criar o **fd de memória** para armazenar o binário.
 
-Além disso, criar um **fd regular** com um arquivo em `/dev/shm` não funcionará, pois você não terá permissão para executá-lo devido à proteção **sem execução**.
+Além disso, criar um **fd regular** com um arquivo em `/dev/shm` não funcionará, pois você não terá permissão para executá-lo devido à **proteção sem execução**.
 {% endhint %}
 
 ### DDexec / EverythingExec
@@ -78,13 +85,13 @@ Para obter mais informações sobre essa técnica, verifique o Github ou:
 
 ### MemExec
 
-[**Memexec**](https://github.com/arget13/memexec) é o próximo passo natural do DDexec. É um **shellcode demonizado do DDexec**, então toda vez que você quiser **executar um binário diferente**, não precisa reiniciar o DDexec, você pode simplesmente executar o shellcode memexec via técnica DDexec e então **comunicar-se com esse demônio para passar novos binários para carregar e executar**.
+[**Memexec**](https://github.com/arget13/memexec) é o próximo passo natural do DDexec. É um **shellcode demonizado do DDexec**, então toda vez que você quiser **executar um binário diferente**, não precisa reiniciar o DDexec, você pode simplesmente executar o shellcode memexec via técnica DDexec e, em seguida, **comunicar-se com esse demônio para passar novos binários para carregar e executar**.
 
 Você pode encontrar um exemplo de como usar o **memexec para executar binários a partir de um shell reverso PHP** em [https://github.com/arget13/memexec/blob/main/a.php](https://github.com/arget13/memexec/blob/main/a.php).
 
 ### Memdlopen
 
-Com um propósito semelhante ao DDexec, a técnica [**memdlopen**](https://github.com/arget13/memdlopen) permite uma **maneira mais fácil de carregar binários** na memória para executá-los posteriormente. Isso pode até permitir o carregamento de binários com dependências.
+Com um propósito semelhante ao DDexec, a técnica [**memdlopen**](https://github.com/arget13/memdlopen) permite uma **maneira mais fácil de carregar binários** na memória para executá-los posteriormente. Isso pode permitir até mesmo carregar binários com dependências.
 
 ## Bypass Distroless
 
@@ -102,7 +109,7 @@ Em um contêiner distroless, você pode **nem mesmo encontrar `sh` ou `bash`** p
 Portanto, você **não** poderá obter um **shell reverso** ou **enumerar** o sistema como costuma fazer.
 {% endhint %}
 
-No entanto, se o contêiner comprometido estiver executando, por exemplo, um aplicativo web Flask, o Python estará instalado e, portanto, você pode obter um **shell reverso do Python**. Se estiver executando o Node, você pode obter um shell reverso do Node, e o mesmo com quase qualquer **linguagem de script**.
+No entanto, se o contêiner comprometido estiver executando, por exemplo, um aplicativo web Flask, o Python estará instalado e, portanto, você pode obter um **shell reverso do Python**. Se estiver executando o Node, você pode obter um shell reverso do Node, e o mesmo com a maioria das **linguagens de script**.
 
 {% hint style="success" %}
 Usando a linguagem de script, você pode **enumerar o sistema** usando as capacidades da linguagem.
