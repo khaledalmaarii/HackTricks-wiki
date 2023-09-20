@@ -52,25 +52,6 @@ Pour ces services prédéfinis, le **processus de recherche diffère légèremen
 * launchd duplique le **droit d'envoi et l'envoie à la tâche B**.
 
 Cependant, ce processus ne s'applique qu'aux tâches système prédéfinies. Les tâches non système fonctionnent toujours comme décrit initialement, ce qui pourrait potentiellement permettre l'usurpation.
-### Services Mach
-
-Les noms spécifiés dans les applications situées dans les répertoires protégés SIP mentionnés précédemment ne peuvent pas être enregistrés par d'autres processus.
-
-Par exemple, `/System/Library/LaunchAgents/com.apple.xpc.loginitemregisterd.plist` enregistre le nom `com.apple.xpc.loginitemregisterd`:
-```json
-plutil -p com.apple.xpc.loginitemregisterd.plist
-{
-"EnablePressuredExit" => 1
-"Label" => "com.apple.xpc.loginitemregisterd"
-"MachServices" => {
-"com.apple.xpc.loginitemregisterd" => 1
-}
-"ProcessType" => "Adaptive"
-"Program" => "/usr/libexec/loginitemregisterd"
-}
-```
-Si vous essayez de l'enregistrer avec un code tel que celui-ci, vous ne pourrez pas.
-
 ### Exemple de code
 
 Notez comment l'**expéditeur** **alloue** un port, crée un **droit d'envoi** pour le nom `org.darlinghq.example` et l'envoie au **serveur d'amorçage** tandis que l'expéditeur demande le **droit d'envoi** de ce nom et l'utilise pour **envoyer un message**.
@@ -160,7 +141,7 @@ int main(int argc, char** argv) {
     kr = bootstrap_look_up(bootstrap_port, "com.example.server", &server_port);
     if (kr != KERN_SUCCESS) {
         printf("Failed to look up server port: %s\n", mach_error_string(kr));
-        exit(1);
+        return 1;
     }
 
     // Send a message to the server
@@ -168,17 +149,8 @@ int main(int argc, char** argv) {
     kr = mach_msg_send((mach_msg_header_t*)buffer);
     if (kr != KERN_SUCCESS) {
         printf("Failed to send message: %s\n", mach_error_string(kr));
-        exit(1);
+        return 1;
     }
-
-    // Receive a reply from the server
-    kr = mach_msg_receive((mach_msg_header_t*)buffer);
-    if (kr != KERN_SUCCESS) {
-        printf("Failed to receive reply: %s\n", mach_error_string(kr));
-        exit(1);
-    }
-
-    printf("Received reply: %s\n", buffer);
 
     return 0;
 }
@@ -249,7 +221,7 @@ printf("Sent a message\n");
 * **Port de la tâche** (alias port du noyau)**:** Avec l'autorisation d'envoi sur ce port, il est possible de contrôler la tâche (lecture/écriture de mémoire, création de threads...).
 * Appelez `mach_task_self()` pour **obtenir le nom** de ce port pour la tâche appelante. Ce port n'est **hérité** qu'à travers **`exec()`**; une nouvelle tâche créée avec `fork()` obtient un nouveau port de tâche (dans un cas particulier, une tâche obtient également un nouveau port de tâche après `exec()` dans un binaire suid). La seule façon de créer une tâche et d'obtenir son port est d'effectuer la ["danse de l'échange de port"](https://robert.sesek.com/2014/1/changes\_to\_xnu\_mach\_ipc.html) tout en effectuant un `fork()`.
 * Voici les restrictions d'accès au port (à partir de `macos_task_policy` du binaire `AppleMobileFileIntegrity`):
-* Si l'application a l'autorisation **`com.apple.security.get-task-allow`**, les processus de **même utilisateur peuvent accéder au port de la tâche** (communément ajoutée par Xcode pour le débogage). Le processus de **notarisation** ne le permettra pas pour les versions de production.
+* Si l'application a l'autorisation **`com.apple.security.get-task-allow`**, les processus de l'**utilisateur peuvent accéder au port de la tâche** (communément ajoutée par Xcode pour le débogage). Le processus de **notarisation** ne le permettra pas pour les versions de production.
 * Les applications ayant l'autorisation **`com.apple.system-task-ports`** peuvent obtenir le **port de la tâche pour n'importe quel** processus, sauf le noyau. Dans les anciennes versions, cela s'appelait **`task_for_pid-allow`**. Cela n'est accordé qu'aux applications Apple.
 * **Root peut accéder aux ports de tâche** des applications **non** compilées avec un **runtime renforcé** (et non provenant d'Apple).
 
@@ -809,7 +781,7 @@ Dans cette technique, un thread du processus est détourné :
 
 ### Informations de base
 
-XPC, qui signifie Communication inter-processus XNU (le noyau utilisé par macOS), est un framework pour la **communication entre les processus** sur macOS et iOS. XPC fournit un mécanisme pour effectuer des **appels de méthode asynchrones et sécurisés entre différents processus** du système. Il fait partie du paradigme de sécurité d'Apple, permettant la **création d'applications avec des privilèges séparés** où chaque **composant** s'exécute avec **seulement les autorisations nécessaires** pour effectuer son travail, limitant ainsi les dommages potentiels causés par un processus compromis.
+XPC, qui signifie Communication inter-processus XNU (le noyau utilisé par macOS), est un framework pour la **communication entre les processus** sur macOS et iOS. XPC fournit un mécanisme pour effectuer des **appels de méthode asynchrones et sécurisés entre différents processus** du système. Il fait partie du paradigme de sécurité d'Apple, permettant la **création d'applications avec des privilèges séparés** où chaque **composant** s'exécute avec **seulement les autorisations nécessaires** pour effectuer son travail, limitant ainsi les dommages potentiels d'un processus compromis.
 
 XPC utilise une forme de communication inter-processus (IPC), qui est un ensemble de méthodes permettant à différents programmes s'exécutant sur le même système d'échanger des données.
 
@@ -819,15 +791,13 @@ Les principaux avantages de XPC sont les suivants :
 2. **Stabilité** : XPC aide à isoler les plantages dans le composant où ils se produisent. Si un processus plante, il peut être redémarré sans affecter le reste du système.
 3. **Performance** : XPC permet une concurrence facile, car différentes tâches peuvent être exécutées simultanément dans différents processus.
 
-Le seul **inconvénient** est que **séparer une application en plusieurs processus** et les faire communiquer via XPC est **moins efficace**. Mais dans les systèmes d'aujourd'hui, cela n'est presque pas perceptible et les avantages sont bien meilleurs.
-
-Un exemple peut être observé dans QuickTime Player, où un composant utilisant XPC est responsable du décodage vidéo. Le composant est spécifiquement conçu pour effectuer des tâches de calcul, ainsi, en cas de violation, il ne fournirait aucun gain utile à l'attaquant, tel que l'accès aux fichiers ou au réseau.
+Le seul **inconvénient** est que **séparer une application en plusieurs processus** qui communiquent via XPC est **moins efficace**. Mais dans les systèmes d'aujourd'hui, cela est presque imperceptible et les avantages sont meilleurs.
 
 ### Services XPC spécifiques à l'application
 
-Les composants XPC d'une application se trouvent **à l'intérieur de l'application elle-même**. Par exemple, dans Safari, vous pouvez les trouver dans **`/Applications/Safari.app/Contents/XPCServices`**. Ils ont l'extension **`.xpc`** (comme **`com.apple.Safari.SandboxBroker.xpc`**) et sont également des bundles avec le binaire principal à l'intérieur : `/Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/MacOS/com.apple.Safari.SandboxBroker`
+Les composants XPC d'une application se trouvent **à l'intérieur de l'application elle-même**. Par exemple, dans Safari, vous pouvez les trouver dans **`/Applications/Safari.app/Contents/XPCServices`**. Ils ont l'extension **`.xpc`** (comme **`com.apple.Safari.SandboxBroker.xpc`**) et sont **également des bundles** avec le binaire principal à l'intérieur : `/Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/MacOS/com.apple.Safari.SandboxBroker` et un `Info.plist : /Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/Info.plist`
 
-Comme vous pouvez le penser, un **composant XPC aura des autorisations et des privilèges différents** des autres composants XPC ou du binaire principal de l'application. SAUF si un service XPC est configuré avec [**JoinExistingSession**](https://developer.apple.com/documentation/bundleresources/information\_property\_list/xpcservice/joinexistingsession) défini sur "True" dans son fichier **Info.plist**. Dans ce cas, le service XPC s'exécutera dans la même session de sécurité que l'application qui l'a appelé.
+Comme vous pouvez le penser, un **composant XPC aura des autorisations et des privilèges différents** des autres composants XPC ou du binaire principal de l'application. SAUF si un service XPC est configuré avec [**JoinExistingSession**](https://developer.apple.com/documentation/bundleresources/information\_property\_list/xpcservice/joinexistingsession) défini sur "True" dans son fichier **Info.plist**. Dans ce cas, le service XPC s'exécutera dans la **même session de sécurité que l'application** qui l'a appelé.
 
 Les services XPC sont **démarrés** par **launchd** lorsque cela est nécessaire et **arrêtés** une fois que toutes les tâches sont **terminées** pour libérer les ressources système. Les composants XPC spécifiques à l'application ne peuvent être utilisés que par l'application, réduisant ainsi les risques liés aux vulnérabilités potentielles.
 
@@ -885,7 +855,7 @@ Lorsqu'un processus essaie d'appeler une méthode via une connexion XPC, le **se
 
 ### Autorisation XPC
 
-Apple permet également aux applications de **configurer certains droits et la manière de les obtenir** afin que si le processus appelant les possède, il soit **autorisé à appeler une méthode** du service XPC :
+Apple permet également aux applications de **configurer certains droits et la manière de les obtenir**, de sorte que si le processus appelant les possède, il serait **autorisé à appeler une méthode** du service XPC :
 
 {% content-ref url="macos-xpc-authorization.md" %}
 [macos-xpc-authorization.md](macos-xpc-authorization.md)
@@ -950,22 +920,42 @@ return 0;
 ```
 {% tab title="xpc_client.c" %}
 
-Le fichier `xpc_client.c` est un exemple de code source en langage C qui illustre l'utilisation de l'IPC (Inter-Process Communication) sur macOS. L'IPC est un mécanisme permettant à différents processus de communiquer entre eux, que ce soit sur la même machine ou sur des machines différentes.
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <xpc/xpc.h>
 
-Dans cet exemple, le code montre comment créer un client XPC (XPC est un framework d'Apple pour l'IPC) qui se connecte à un service XPC distant. Le client envoie ensuite un message au service distant et attend une réponse.
-
-Le code commence par inclure les en-têtes nécessaires, puis il définit une fonction `main` qui effectue les étapes suivantes :
-
-1. Création d'une connexion XPC en utilisant la fonction `xpc_connection_create` pour établir une connexion avec le service distant.
-2. Définition d'un gestionnaire de réception de messages en utilisant la fonction `xpc_connection_set_event_handler` pour spécifier la fonction `handle_event` comme gestionnaire.
-3. Activation de la connexion XPC en utilisant la fonction `xpc_connection_resume` pour démarrer la communication avec le service distant.
-4. Création d'un message XPC en utilisant la fonction `xpc_dictionary_create` pour créer un dictionnaire XPC qui contient les données à envoyer.
-5. Envoi du message XPC en utilisant la fonction `xpc_connection_send_message` pour envoyer le message au service distant.
-6. Attente d'une réponse en utilisant la fonction `dispatch_main` pour maintenir le processus en cours d'exécution jusqu'à ce qu'une réponse soit reçue.
-
-La fonction `handle_event` est définie pour gérer les événements de réception de messages. Dans cet exemple, elle affiche simplement le contenu du message reçu.
-
-Ce code est un exemple simplifié pour illustrer le fonctionnement de l'IPC sur macOS. Dans un scénario réel, des mesures de sécurité supplémentaires devraient être prises pour protéger les communications et empêcher les attaques potentielles.
+int main(int argc, const char * argv[]) {
+    xpc_connection_t connection = xpc_connection_create_mach_service("com.apple.securityd", NULL, XPC_CONNECTION_MACH_SERVICE_PRIVILEGED);
+    if (connection == NULL) {
+        printf("Failed to create XPC connection\n");
+        return 1;
+    }
+    
+    xpc_connection_set_event_handler(connection, ^(xpc_object_t event) {
+        xpc_type_t type = xpc_get_type(event);
+        if (type == XPC_TYPE_DICTIONARY) {
+            const char *message = xpc_dictionary_get_string(event, "message");
+            if (message != NULL) {
+                printf("Received message: %s\n", message);
+            }
+        }
+    });
+    
+    xpc_connection_resume(connection);
+    
+    xpc_object_t message = xpc_dictionary_create(NULL, NULL, 0);
+    xpc_dictionary_set_string(message, "message", "Hello from XPC client");
+    
+    xpc_connection_send_message(connection, message);
+    
+    xpc_release(message);
+    
+    dispatch_main();
+    
+    return 0;
+}
+```
 
 {% endtab %}
 ```c
@@ -1114,27 +1104,19 @@ NSLog(@"Received response: %@", response);
 return 0;
 }
 ```
-# Architecture de macOS
+{% tab title="xyz.hacktricks.svcoc.plist" %}xyz.hacktricks.svcoc.plist est un fichier de configuration utilisé par le système d'exploitation macOS pour gérer les services de communication inter-processus (IPC). L'IPC est un mécanisme qui permet à différents processus de communiquer entre eux, que ce soit sur la même machine ou sur des machines différentes.
 
-macOS est le système d'exploitation utilisé sur les ordinateurs Mac d'Apple. Il est basé sur le noyau XNU, qui est un noyau hybride composé du noyau Mach et du noyau BSD. Le noyau XNU fournit les fonctionnalités de base du système d'exploitation, telles que la gestion de la mémoire, la gestion des processus et la gestion des fichiers.
+Ce fichier de configuration spécifie les paramètres et les autorisations pour les services IPC spécifiques. Il peut être utilisé pour restreindre l'accès aux services IPC, limiter les privilèges des processus ou définir des règles de sécurité supplémentaires.
 
-macOS utilise également un modèle d'architecture en couches pour organiser les différents composants du système d'exploitation. Les couches principales comprennent :
+Il est important de noter que la modification de ce fichier de configuration peut avoir des conséquences importantes sur le fonctionnement du système d'exploitation. Il est recommandé de faire preuve de prudence lors de la modification de ce fichier et de s'assurer de comprendre les implications de chaque modification.
 
-- **Couche de l'interface utilisateur** : Cette couche est responsable de l'affichage des éléments graphiques de l'interface utilisateur, tels que les fenêtres, les boutons et les menus. Elle utilise le framework AppKit pour fournir ces fonctionnalités.
+Pour modifier ce fichier de configuration, vous pouvez utiliser un éditeur de texte ou une interface graphique spécifique à macOS. Assurez-vous de sauvegarder une copie du fichier d'origine avant de le modifier, au cas où vous auriez besoin de revenir à la configuration précédente.
 
-- **Couche du système** : Cette couche est responsable de la gestion des ressources système, telles que la mémoire, les fichiers et les périphériques. Elle utilise le framework CoreServices pour fournir ces fonctionnalités.
+Une fois que vous avez modifié le fichier de configuration, vous devrez peut-être redémarrer le système d'exploitation pour que les modifications prennent effet.
 
-- **Couche du noyau** : Cette couche est responsable de la gestion des opérations de bas niveau, telles que la gestion des processus, la gestion de la mémoire et la gestion des fichiers. Elle utilise le noyau XNU pour fournir ces fonctionnalités.
+Il est également important de noter que la modification de ce fichier de configuration peut nécessiter des privilèges d'administrateur. Assurez-vous d'avoir les autorisations appropriées avant de procéder à des modifications.
 
-macOS utilise également le mécanisme d'IPC (Inter-Process Communication) pour permettre la communication entre les différents processus du système d'exploitation. L'IPC peut être utilisé pour partager des données, envoyer des messages et exécuter des actions entre les processus. Les principaux mécanismes d'IPC utilisés dans macOS sont les suivants :
-
-- **Mach ports** : Les Mach ports sont des canaux de communication utilisés pour envoyer des messages entre les processus. Chaque processus a un ensemble de ports Mach qui lui sont attribués, et il peut envoyer des messages à d'autres processus en utilisant ces ports.
-
-- **Sockets** : Les sockets sont des points de terminaison de communication utilisés pour envoyer des données entre les processus. Les sockets peuvent être utilisés pour la communication locale (sockets de domaine UNIX) ou pour la communication réseau (sockets TCP/IP).
-
-- **Apple events** : Les Apple events sont des messages utilisés pour envoyer des commandes et des événements entre les applications. Les Apple events peuvent être utilisés pour automatiser des tâches et permettre la communication entre les applications.
-
-La compréhension de l'architecture de macOS et des mécanismes d'IPC est essentielle pour comprendre le fonctionnement interne du système d'exploitation et pour développer des techniques d'escalade de privilèges et de sécurité.
+En résumé, xyz.hacktricks.svcoc.plist est un fichier de configuration utilisé par macOS pour gérer les services IPC. Il peut être modifié pour restreindre l'accès aux services IPC, limiter les privilèges des processus ou définir des règles de sécurité supplémentaires.
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
@@ -1187,7 +1169,7 @@ sudo rm /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist /tmp/oc_xpc_server
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).

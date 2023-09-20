@@ -5,12 +5,19 @@
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+
+## Vidéos
+
+Dans les vidéos suivantes, vous trouverez des explications plus détaillées sur les techniques mentionnées dans cette page :
+
+* [**DEF CON 31 - Exploration de la manipulation de la mémoire Linux pour la furtivité et l'évasion**](https://www.youtube.com/watch?v=poHirez8jk4)
+* [**Intrusions furtives avec DDexec-ng & in-memory dlopen() - HackTricks Track 2023**](https://www.youtube.com/watch?v=VM\_gjjiARaU)
 
 ## Scénario de lecture seule / pas d'exécution
 
@@ -32,12 +39,12 @@ securityContext:
 Cependant, même si le système de fichiers est monté en lecture seule, **`/dev/shm`** sera toujours accessible en écriture, il est donc faux de dire que nous ne pouvons rien écrire sur le disque. Cependant, ce dossier sera **monté avec une protection sans exécution**, donc si vous téléchargez un binaire ici, vous **ne pourrez pas l'exécuter**.
 
 {% hint style="warning" %}
-D'un point de vue d'une équipe rouge, cela rend **compliqué le téléchargement et l'exécution** de binaires qui ne sont pas déjà présents dans le système (comme des portes dérobées ou des outils d'énumération comme `kubectl`).
+D'un point de vue de l'équipe rouge, cela rend **compliqué le téléchargement et l'exécution** de binaires qui ne sont pas déjà présents dans le système (comme des portes dérobées ou des outils d'énumération comme `kubectl`).
 {% endhint %}
 
 ## Contournement le plus simple : Scripts
 
-Notez que j'ai mentionné les binaires, vous pouvez **exécuter n'importe quel script** tant que l'interpréteur est présent sur la machine, comme un **script shell** si `sh` est présent ou un **script python** si `python` est installé.
+Notez que j'ai mentionné les binaires, vous pouvez **exécuter n'importe quel script** tant que l'interpréteur est présent dans la machine, comme un **script shell** si `sh` est présent ou un **script python** si `python` est installé.
 
 Cependant, cela ne suffit pas pour exécuter votre porte dérobée binaire ou d'autres outils binaires dont vous pourriez avoir besoin.
 
@@ -45,11 +52,11 @@ Cependant, cela ne suffit pas pour exécuter votre porte dérobée binaire ou d'
 
 Si vous voulez exécuter un binaire mais que le système de fichiers ne le permet pas, la meilleure façon de le faire est de l'exécuter depuis la mémoire, car les **protections ne s'appliquent pas là**.
 
-### Contournement de FD + appel système exec
+### Contournement de l'appel système FD + exec
 
-Si vous disposez de puissants moteurs de script à l'intérieur de la machine, tels que **Python**, **Perl** ou **Ruby**, vous pouvez télécharger le binaire à exécuter en mémoire, le stocker dans un descripteur de fichier en mémoire (`create_memfd` appel système), qui ne sera pas protégé par ces protections, puis appeler un **appel système exec** en indiquant le **descripteur de fichier comme fichier à exécuter**.
+Si vous disposez de moteurs de script puissants dans la machine, tels que **Python**, **Perl** ou **Ruby**, vous pouvez télécharger le binaire à exécuter depuis la mémoire, le stocker dans un descripteur de fichier en mémoire (`create_memfd` syscall), qui ne sera pas protégé par ces protections, puis appeler un **appel système `exec`** en indiquant le **descripteur de fichier comme fichier à exécuter**.
 
-Pour cela, vous pouvez facilement utiliser le projet [**fileless-elf-exec**](https://github.com/nnsee/fileless-elf-exec). Vous pouvez lui passer un binaire et il générera un script dans le langage indiqué avec le **binaire compressé et encodé en base64** avec les instructions pour le **décoder et le décompresser** dans un **descripteur de fichier** créé en appelant l'appel système `create_memfd` et un appel à l'appel système **exec** pour l'exécuter.
+Pour cela, vous pouvez facilement utiliser le projet [**fileless-elf-exec**](https://github.com/nnsee/fileless-elf-exec). Vous pouvez lui passer un binaire et il générera un script dans le langage indiqué avec le **binaire compressé et encodé en base64** avec les instructions pour **le décoder et le décompresser** dans un **descripteur de fichier** créé en appelant la syscall `create_memfd` et un appel à l'appel système **exec** pour l'exécuter.
 
 {% hint style="warning" %}
 Cela ne fonctionne pas dans d'autres langages de script comme PHP ou Node car ils n'ont pas de **méthode par défaut pour appeler des appels système bruts** à partir d'un script, il n'est donc pas possible d'appeler `create_memfd` pour créer le **descripteur de fichier en mémoire** pour stocker le binaire.
@@ -120,7 +127,7 @@ Vous pouvez trouver des **exemples** sur la façon d'**exploiter certaines vuln�
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Vous travaillez dans une **entreprise de cybersécurité** ? Vous souhaitez voir votre **entreprise annoncée dans HackTricks** ? ou souhaitez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
