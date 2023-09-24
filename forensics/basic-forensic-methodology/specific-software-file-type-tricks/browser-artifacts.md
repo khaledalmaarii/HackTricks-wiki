@@ -4,18 +4,18 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de segurança cibernética**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) para construir e **automatizar fluxos de trabalho** com as ferramentas comunitárias mais avançadas do mundo.\
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** com as ferramentas comunitárias mais avançadas do mundo.\
 Acesse hoje:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -26,7 +26,7 @@ Quando falamos sobre artefatos dos navegadores, estamos nos referindo ao histór
 
 Esses artefatos são arquivos armazenados em pastas específicas no sistema operacional.
 
-Cada navegador armazena seus arquivos em um local diferente dos outros navegadores e todos eles têm nomes diferentes, mas armazenam (na maioria das vezes) o mesmo tipo de dados (artefatos).
+Cada navegador armazena seus arquivos em um local diferente dos outros navegadores e todos eles têm nomes diferentes, mas geralmente armazenam o mesmo tipo de dados (artefatos).
 
 Vamos dar uma olhada nos artefatos mais comuns armazenados pelos navegadores.
 
@@ -36,10 +36,10 @@ Vamos dar uma olhada nos artefatos mais comuns armazenados pelos navegadores.
 * **Extensões e Complementos:** Autoexplicativo.
 * **Cache:** Ao navegar em sites, o navegador cria todos os tipos de dados em cache (imagens, arquivos JavaScript, etc.) por muitas razões. Por exemplo, para acelerar o tempo de carregamento dos sites. Esses arquivos em cache podem ser uma ótima fonte de dados durante uma investigação forense.
 * **Logins:** Autoexplicativo.
-* **Favicons:** São os pequenos ícones encontrados em guias, URLs, favoritos e outros. Eles podem ser usados como outra fonte para obter mais informações sobre o site ou lugares visitados pelo usuário.
+* **Favicons:** São os pequenos ícones encontrados em guias, URLs, favoritos e outros. Eles podem ser usados como outra fonte para obter mais informações sobre o site ou os lugares visitados pelo usuário.
 * **Sessões do Navegador:** Autoexplicativo.
 * **Downloads**: Autoexplicativo.
-* **Dados de Formulário:** Tudo o que é digitado em formulários geralmente é armazenado pelo navegador, para que da próxima vez que o usuário digitar algo em um formulário, o navegador possa sugerir dados inseridos anteriormente.
+* **Dados de Formulário:** Qualquer coisa digitada em formulários geralmente é armazenada pelo navegador, para que da próxima vez que o usuário digitar algo em um formulário, o navegador possa sugerir dados inseridos anteriormente.
 * **Miniaturas:** Autoexplicativo.
 * **Custom Dictionary.txt**: Palavras adicionadas ao dicionário pelo usuário.
 
@@ -120,9 +120,9 @@ A maioria das informações será salva dentro das pastas _**Default/**_ ou _**C
 * _**Favoritos**_: Favoritos
 * _**Dados da Web**_: Histórico de formulários
 * _**Favicons**_: Favicons
-* _**Dados de login**_: Informações de login (nomes de usuário, senhas...)
-* _**Sessão atual**_ e _**Guias atuais**_: Dados da sessão atual e guias atuais
-* _**Última sessão**_ e _**Últimas guias**_: Esses arquivos contêm os sites que estavam ativos no navegador quando o Chrome foi fechado pela última vez.
+* _**Dados de Login**_: Informações de login (nomes de usuário, senhas...)
+* _**Sessão Atual**_ e _**Guias Atuais**_: Dados da sessão atual e guias atuais
+* _**Última Sessão**_ e _**Últimas Guias**_: Esses arquivos contêm os sites que estavam ativos no navegador quando o Chrome foi fechado pela última vez.
 * _**Extensões**_: Pasta de extensões e complementos
 * **Miniaturas** : Miniaturas
 * **Preferências**: Este arquivo contém uma infinidade de informações úteis, como plugins, extensões, sites que usam geolocalização, pop-ups, notificações, pré-busca DNS, exceções de certificado e muito mais. Se você está tentando pesquisar se uma configuração específica do Chrome estava ativada ou não, provavelmente encontrará essa configuração aqui.
@@ -140,7 +140,7 @@ O Internet Explorer armazena **dados** e **metadados** em locais diferentes. Os 
 Os **metadados** podem ser encontrados na pasta `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data`, onde VX pode ser V01, V16 ou V24.\
 Na pasta anterior, você também pode encontrar o arquivo V01.log. Caso o **horário de modificação** deste arquivo e o arquivo WebcacheVX.data **sejam diferentes**, pode ser necessário executar o comando `esentutl /r V01 /d` para **corrigir** possíveis **incompatibilidades**.
 
-Uma vez que este artefato seja **recuperado** (é um banco de dados ESE, o photorec pode recuperá-lo com as opções Banco de Dados de Troca ou EDB), você pode usar o programa [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html) para abri-lo. Uma vez **aberto**, vá para a tabela chamada "**Containers**".
+Uma vez que este artefato seja **recuperado** (é um banco de dados ESE, o photorec pode recuperá-lo com as opções Banco de Dados Exchange ou EDB), você pode usar o programa [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html) para abri-lo. Uma vez **aberto**, vá para a tabela chamada "**Containers**".
 
 ![](<../../../.gitbook/assets/image (446).png>)
 
@@ -267,10 +267,10 @@ O Opera **armazena o histórico do navegador e os dados de download no mesmo for
 * **Anti-phishing integrado do navegador:** `grep --color 'fraud_protection_enabled' ~/Library/Application Support/com.operasoftware.Opera/Preferences`
 * **fraud\_protection\_enabled** deve ser **true**
 
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) para criar e **automatizar fluxos de trabalho** com facilidade, usando as ferramentas da comunidade mais avançada do mundo.\
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para criar e **automatizar fluxos de trabalho** com facilidade, usando as ferramentas comunitárias mais avançadas do mundo.\
 Acesse hoje mesmo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -282,7 +282,7 @@ Acesse hoje mesmo:
 * Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? Ou gostaria de ter acesso à **versão mais recente do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo Telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo Telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe suas técnicas de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e o** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

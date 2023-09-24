@@ -1,6 +1,6 @@
 # Forense Linux
 
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** com as ferramentas comunitárias mais avançadas do mundo.\
@@ -13,10 +13,10 @@ Acesse hoje mesmo:
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * Você trabalha em uma **empresa de segurança cibernética**? Gostaria de ver sua **empresa anunciada no HackTricks**? Ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [repositório hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe suas técnicas de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -24,7 +24,7 @@ Acesse hoje mesmo:
 
 ### Informações Básicas
 
-Antes de tudo, é recomendável ter um **USB** com **binários e bibliotecas conhecidos e confiáveis** (você pode simplesmente pegar o Ubuntu e copiar as pastas _/bin_, _/sbin_, _/lib_ e _/lib64_), em seguida, montar o USB e modificar as variáveis de ambiente para usar esses binários:
+Antes de tudo, é recomendado ter um **USB** com **binários e bibliotecas conhecidos e confiáveis** (você pode simplesmente pegar o Ubuntu e copiar as pastas _/bin_, _/sbin_, _/lib_ e _/lib64_), em seguida, monte o USB e modifique as variáveis de ambiente para usar esses binários:
 ```bash
 export PATH=/mnt/usb/bin:/mnt/usb/sbin
 export LD_LIBRARY_PATH=/mnt/usb/lib:/mnt/usb/lib64
@@ -85,7 +85,7 @@ LiME também pode ser usado para **enviar o dump via rede** em vez de armazená-
 Antes de tudo, você precisará **desligar o sistema**. Isso nem sempre é uma opção, pois às vezes o sistema será um servidor de produção que a empresa não pode se dar ao luxo de desligar.\
 Existem **2 maneiras** de desligar o sistema, um **desligamento normal** e um **desligamento abrupto**. O primeiro permitirá que os **processos terminem normalmente** e que o **sistema de arquivos** seja **sincronizado**, mas também permitirá que o possível **malware** **destrua evidências**. A abordagem de "desligamento abrupto" pode causar **alguma perda de informações** (não muitas informações serão perdidas, pois já fizemos uma imagem da memória) e o **malware não terá oportunidade** de fazer nada a respeito. Portanto, se você **suspeitar** que possa haver um **malware**, execute o **comando `sync`** no sistema e desligue abruptamente.
 
-#### Tirando uma imagem do disco
+#### Fazendo uma imagem do disco
 
 É importante observar que, **antes de conectar seu computador a qualquer coisa relacionada ao caso**, você precisa ter certeza de que ele será **montado como somente leitura** para evitar modificar qualquer informação.
 ```bash
@@ -151,10 +151,10 @@ r/r 16: secret.txt
 icat -i raw -f ext4 disk.img 16
 ThisisTheMasterSecret
 ```
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente, utilizando as ferramentas comunitárias mais avançadas do mundo.\
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e automatizar facilmente fluxos de trabalho com as ferramentas comunitárias mais avançadas do mundo.\
 Acesse hoje mesmo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -206,10 +206,10 @@ find /sbin/ -exec dpkg -S {} \; | grep "no path found"
 #RedHat
 find /sbin/ –exec rpm -qf {} \; | grep "is not"
 ```
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e automatizar facilmente fluxos de trabalho com as ferramentas comunitárias mais avançadas do mundo.\
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente, utilizando as ferramentas comunitárias mais avançadas do mundo.\
 Acesse hoje mesmo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -340,10 +340,10 @@ usbrip ids search --pid 0002 --vid 0e0f #Search for pid AND vid
 ```
 Mais exemplos e informações estão disponíveis no GitHub: [https://github.com/snovvcrash/usbrip](https://github.com/snovvcrash/usbrip)
 
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) para construir e automatizar facilmente fluxos de trabalho com as ferramentas comunitárias mais avançadas do mundo.\
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e automatizar facilmente fluxos de trabalho com as ferramentas comunitárias mais avançadas do mundo.\
 Acesse hoje mesmo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -354,7 +354,7 @@ Examine os arquivos _**/etc/passwd**_, _**/etc/shadow**_ e os logs de segurança
 Além disso, verifique arquivos como _**/etc/sudoers**_ e _**/etc/groups**_ em busca de privilégios inesperados concedidos aos usuários.\
 Por fim, procure por contas sem senhas ou com senhas facilmente adivinháveis.
 
-## Examinar Sistema de Arquivos
+## Examinar o Sistema de Arquivos
 
 As estruturas de dados do sistema de arquivos podem fornecer quantidades substanciais de **informações** relacionadas a um incidente de **malware**, incluindo o **momento** dos eventos e o **conteúdo** real do **malware**.\
 O **malware** está sendo cada vez mais projetado para **dificultar a análise do sistema de arquivos**. Alguns malwares alteram os carimbos de data e hora em arquivos maliciosos para torná-los mais difíceis de serem encontrados com a análise de linha do tempo. Outros códigos maliciosos são projetados para armazenar apenas determinadas informações na memória, a fim de minimizar a quantidade de dados armazenados no sistema de arquivos.\
@@ -367,8 +367,8 @@ Para lidar com essas técnicas antiforenses, é necessário prestar **atenção 
 * Cópias setuid de /bin/bash no sistema `find / -user root -perm -04000 –print`
 * Analise os carimbos de data e hora dos **inodes excluídos para um grande número de arquivos excluídos ao mesmo tempo**, o que pode indicar atividade maliciosa, como a instalação de um rootkit ou serviço trojanizado.
 * Como os inodes são alocados com base no próximo disponível, **arquivos maliciosos colocados no sistema aproximadamente ao mesmo tempo podem receber inodes consecutivos**. Portanto, depois de localizar um componente de malware, pode ser produtivo inspecionar os inodes vizinhos.
-* Também verifique diretórios como _/bin_ ou _/sbin_, pois a **data de modificação e/ou alteração** de novos arquivos ou arquivos modificados pode ser interessante.
-* É interessante ver os arquivos e pastas de um diretório **ordenados por data de criação** em vez de alfabeticamente para ver quais arquivos ou pastas são mais recentes (os últimos geralmente).
+* Verifique também diretórios como _/bin_ ou _/sbin_, pois a **data de modificação e/ou alteração** de arquivos novos ou modificados pode ser interessante.
+* É interessante ver os arquivos e pastas de um diretório **ordenados por data de criação** em vez de alfabeticamente para ver quais arquivos ou pastas são mais recentes (geralmente os últimos).
 
 Você pode verificar os arquivos mais recentes de uma pasta usando `ls -laR --sort=time /bin`\
 Você pode verificar os inodes dos arquivos dentro de uma pasta usando `ls -lai /bin |sort -n`
@@ -391,13 +391,13 @@ Existem várias maneiras de encontrar arquivos modificados em um sistema Linux. 
 
 1. Comparação de hashes: Calcule os hashes dos arquivos em um momento anterior e compare-os com os hashes atuais. Se houver diferenças nos hashes, isso indica que o arquivo foi modificado.
 
-2. Verificação de timestamps: Verifique os timestamps dos arquivos para identificar aqueles que foram modificados recentemente. Os timestamps mais comumente usados são o timestamp de acesso (atime), o timestamp de modificação (mtime) e o timestamp de alteração (ctime).
+2. Verificação de timestamps: Verifique os timestamps dos arquivos para identificar aqueles que foram modificados recentemente. Os timestamps incluem a data e hora da última modificação, acesso e alteração de metadados.
 
-3. Análise de logs: Analise os logs do sistema em busca de atividades suspeitas. Os logs podem conter informações sobre arquivos modificados ou acessados recentemente.
+3. Análise de logs: Analise os logs do sistema em busca de atividades suspeitas. Os logs podem fornecer informações sobre quais arquivos foram acessados ou modificados.
 
-4. Monitoramento de diretórios: Configure um monitoramento em tempo real de diretórios específicos para detectar qualquer modificação. Isso pode ser feito usando ferramentas como o inotify ou o auditd.
+4. Verificação de assinaturas digitais: Verifique as assinaturas digitais dos arquivos para garantir que não tenham sido alterados. As assinaturas digitais são usadas para verificar a integridade e autenticidade dos arquivos.
 
-Ao encontrar arquivos modificados, é importante fazer uma análise mais aprofundada para determinar a natureza das modificações e se elas representam uma ameaça à segurança do sistema.
+Ao usar essas técnicas, é importante lembrar que os invasores podem tentar ocultar suas atividades, modificando os logs ou os timestamps dos arquivos. Portanto, é necessário realizar uma análise cuidadosa e abrangente para identificar qualquer conteúdo modificado.
 ```bash
 git diff --no-index --diff-filter=M _openwrt1.extracted/squashfs-root/ _openwrt2.extracted/squashfs-root/ | grep -E "^\+" | grep -v "Installed-Time"
 ```
@@ -427,7 +427,7 @@ git diff --no-index --diff-filter=A _openwrt1.extracted/squashfs-root/ _openwrt2
 
 **`-diff-filter=[(A|C|D|M|R|T|U|X|B)…​[*]]`**
 
-Seleciona apenas arquivos que foram Adicionados (`A`), Copiados (`C`), Deletados (`D`), Modificados (`M`), Renomeados (`R`), tiveram seu tipo (ou seja, arquivo regular, symlink, submodule, ...​) alterado (`T`), estão Desunidos (`U`), são Desconhecidos (`X`), ou tiveram seu emparelhamento Quebrado (`B`). Qualquer combinação dos caracteres de filtro (incluindo nenhum) pode ser usada. Quando `*` (Todos ou Nenhum) é adicionado à combinação, todos os caminhos são selecionados se houver algum arquivo que corresponda a outros critérios na comparação; se não houver arquivo que corresponda a outros critérios, nada é selecionado.
+Seleciona apenas arquivos que foram Adicionados (`A`), Copiados (`C`), Deletados (`D`), Modificados (`M`), Renomeados (`R`), tiveram seu tipo (ou seja, arquivo regular, symlink, submodule, ...​) alterado (`T`), estão Desunidos (`U`), são Desconhecidos (`X`), ou tiveram seu emparelhamento quebrado (`B`). Qualquer combinação dos caracteres de filtro (incluindo nenhum) pode ser usada. Quando `*` (Todos ou Nenhum) é adicionado à combinação, todos os caminhos são selecionados se houver algum arquivo que corresponda a outros critérios na comparação; se não houver arquivo que corresponda a outros critérios, nada é selecionado.
 
 Além disso, **essas letras maiúsculas podem ser convertidas para minúsculas para excluir**. Por exemplo, `--diff-filter=ad` exclui caminhos adicionados e deletados.
 
@@ -446,13 +446,13 @@ Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empre
 
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenha o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 
-**Compartilhe seus truques de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [repositório hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+**Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** com facilidade, alimentados pelas ferramentas comunitárias mais avançadas do mundo.\

@@ -18,14 +18,14 @@ O Mach usa **tarefas** como a **unidade mínima** para compartilhar recursos, e 
 
 A comunicação entre tarefas ocorre por meio da Comunicação Interprocessos (IPC) do Mach, utilizando canais de comunicação unidirecionais. **As mensagens são transferidas entre portas**, que funcionam como **filas de mensagens** gerenciadas pelo kernel.
 
-Os direitos de porta, que definem quais operações uma tarefa pode executar, são essenciais para essa comunicação. Os possíveis **direitos de porta** são:
+Os direitos de porta, que definem quais operações uma tarefa pode executar, são fundamentais para essa comunicação. Os possíveis **direitos de porta** são:
 
 * **Direito de recebimento**, que permite receber mensagens enviadas para a porta. As portas Mach são filas MPSC (múltiplos produtores, único consumidor), o que significa que pode haver apenas **um direito de recebimento para cada porta** em todo o sistema (ao contrário de pipes, onde vários processos podem ter descritores de arquivo para a extremidade de leitura de um pipe).
 * Uma **tarefa com o direito de recebimento** pode receber mensagens e **criar direitos de envio**, permitindo o envio de mensagens. Originalmente, apenas a **própria tarefa tem o direito de recebimento sobre sua porta**.
 * **Direito de envio**, que permite enviar mensagens para a porta.
 * O direito de envio pode ser **clonado**, para que uma tarefa que possui um direito de envio possa clonar o direito e **concedê-lo a uma terceira tarefa**.
 * **Direito de envio único**, que permite enviar uma mensagem para a porta e depois desaparece.
-* **Direito de conjunto de portas**, que denota um _conjunto de portas_ em vez de uma única porta. Desenfileirar uma mensagem de um conjunto de portas desenfileira uma mensagem de uma das portas que ele contém. Conjuntos de portas podem ser usados para ouvir várias portas simultaneamente, assim como `select`/`poll`/`epoll`/`kqueue` no Unix.
+* **Direito de conjunto de portas**, que denota um _conjunto de portas_ em vez de uma única porta. Desenfileirar uma mensagem de um conjunto de portas desenfileira uma mensagem de uma das portas que ele contém. Conjuntos de portas podem ser usados para escutar várias portas simultaneamente, de forma semelhante a `select`/`poll`/`epoll`/`kqueue` no Unix.
 * **Nome morto**, que não é um direito de porta real, mas apenas um espaço reservado. Quando uma porta é destruída, todos os direitos de porta existentes para a porta se tornam nomes mortos.
 
 **As tarefas podem transferir direitos de ENVIO para outros**, permitindo que eles enviem mensagens de volta. **Os direitos de ENVIO também podem ser clonados, para que uma tarefa possa duplicar e dar o direito a uma terceira tarefa**. Isso, combinado com um processo intermediário conhecido como **servidor de inicialização**, permite uma comunicação eficaz entre tarefas.
@@ -51,7 +51,7 @@ Para esses serviços predefinidos, o **processo de busca difere um pouco**. Quan
 * A tarefa **A** (o serviço) realiza um **check-in de inicialização**. Aqui, o **servidor de inicialização** cria um direito de ENVIO, o retém e **transfere o direito de RECEBIMENTO para a Tarefa A**.
 * O launchd duplica o **direito de ENVIO e o envia para a Tarefa B**.
 
-No entanto, esse processo se aplica apenas a tarefas do sistema predefinidas. Tarefas não do sistema ainda operam conforme descrito originalmente, o que poderia permitir a falsificação.
+No entanto, esse processo se aplica apenas a tarefas do sistema predefinidas. Tarefas não pertencentes ao sistema ainda operam conforme descrito originalmente, o que poderia permitir a falsificação.
 ### Exemplo de código
 
 Observe como o **remetente** **aloca** uma porta, cria um **direito de envio** para o nome `org.darlinghq.example` e o envia para o **servidor de inicialização** enquanto o remetente solicitou o **direito de envio** desse nome e o usou para **enviar uma mensagem**.
@@ -236,20 +236,20 @@ printf("Sent a message\n");
 
 ### Portas Privilegiadas
 
-* **Porta do host**: Se um processo tem o privilégio de **enviar** sobre esta porta, ele pode obter **informações** sobre o **sistema** (por exemplo, `host_processor_info`).
-* **Porta privilégiada do host**: Um processo com o direito de **enviar** sobre esta porta pode realizar **ações privilegiadas**, como carregar uma extensão do kernel. O **processo precisa ser root** para obter essa permissão.
+* **Porta do host**: Se um processo tem o **privilégio de envio** sobre esta porta, ele pode obter **informações** sobre o **sistema** (por exemplo, `host_processor_info`).
+* **Porta de privilégio do host**: Um processo com o direito de **envio** sobre esta porta pode realizar **ações privilegiadas**, como carregar uma extensão do kernel. O **processo precisa ser root** para obter essa permissão.
 * Além disso, para chamar a API **`kext_request`**, é necessário ter outras permissões **`com.apple.private.kext*`**, que são concedidas apenas a binários da Apple.
 * **Porta do nome da tarefa**: Uma versão não privilegiada da _porta da tarefa_. Ela faz referência à tarefa, mas não permite controlá-la. A única coisa que parece estar disponível através dela é `task_info()`.
 * **Porta da tarefa** (também conhecida como porta do kernel)**:** Com permissão de envio sobre esta porta, é possível controlar a tarefa (ler/escrever memória, criar threads...).
 * Chame `mach_task_self()` para **obter o nome** desta porta para a tarefa chamadora. Esta porta é **herdada** apenas através do **`exec()`**; uma nova tarefa criada com `fork()` recebe uma nova porta de tarefa (como um caso especial, uma tarefa também recebe uma nova porta de tarefa após `exec()` em um binário suid). A única maneira de criar uma tarefa e obter sua porta é realizar a ["dança de troca de porta"](https://robert.sesek.com/2014/1/changes\_to\_xnu\_mach\_ipc.html) enquanto faz um `fork()`.
-* Estas são as restrições para acessar a porta (de `macos_task_policy` do binário `AppleMobileFileIntegrity`):
+* Estas são as restrições para acessar a porta (do `macos_task_policy` do binário `AppleMobileFileIntegrity`):
 * Se o aplicativo tiver a permissão **`com.apple.security.get-task-allow`**, processos do **mesmo usuário podem acessar a porta da tarefa** (comumente adicionado pelo Xcode para depuração). O processo de **notarização** não permitirá isso em lançamentos de produção.
 * Aplicativos com a permissão **`com.apple.system-task-ports`** podem obter a **porta da tarefa para qualquer** processo, exceto o kernel. Em versões mais antigas, era chamada **`task_for_pid-allow`**. Isso é concedido apenas a aplicativos da Apple.
 * **Root pode acessar portas de tarefas** de aplicativos **não** compilados com um tempo de execução **fortificado** (e não da Apple).
 
 ### Injeção de Shellcode em thread via Porta da Tarefa
 
-Você pode obter um shellcode de:
+Você pode obter um shellcode em:
 
 {% content-ref url="../../macos-apps-inspecting-debugging-and-fuzzing/arm64-basic-assembly.md" %}
 [arm64-basic-assembly.md](../../macos-apps-inspecting-debugging-and-fuzzing/arm64-basic-assembly.md)
@@ -287,16 +287,6 @@ return 0;
 }
 ```
 {% tab title="entitlements.plist" %}
-
-O arquivo `entitlements.plist` contém informações sobre as permissões e privilégios concedidos a um aplicativo no macOS. Essas permissões podem incluir acesso a recursos do sistema, como câmera, microfone, localização e muito mais. O arquivo `entitlements.plist` é usado para definir as capacidades e restrições de um aplicativo, garantindo que ele tenha acesso apenas aos recursos necessários e autorizados.
-
-Ao modificar o arquivo `entitlements.plist`, é possível alterar as permissões concedidas a um aplicativo. Isso pode ser útil em cenários de teste de penetração, onde se deseja explorar vulnerabilidades de privilégio ou realizar escalonamento de privilégios. No entanto, é importante ressaltar que a modificação indevida do arquivo `entitlements.plist` pode violar as políticas de segurança e privacidade do macOS.
-
-Para modificar o arquivo `entitlements.plist`, é necessário ter acesso de gravação ao aplicativo em questão. Isso pode ser feito através de técnicas de hacking, como injeção de código, exploração de vulnerabilidades ou engenharia reversa. Uma vez que o acesso de gravação é obtido, o arquivo `entitlements.plist` pode ser editado para adicionar, remover ou modificar as permissões concedidas ao aplicativo.
-
-É importante ressaltar que a modificação do arquivo `entitlements.plist` pode ter consequências significativas para a segurança e estabilidade do sistema. Portanto, é recomendável que essa técnica seja usada apenas para fins legítimos, como teste de penetração autorizado ou pesquisa de segurança.
-
-{% endtab %}
 ```xml
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -309,7 +299,7 @@ Para modificar o arquivo `entitlements.plist`, é necessário ter acesso de grav
 {% endtab %}
 {% endtabs %}
 
-**Compile** o programa anterior e adicione as **permissões** para poder injetar código com o mesmo usuário (caso contrário, você precisará usar **sudo**).
+**Compile** o programa anterior e adicione as **entitlements** para poder injetar código com o mesmo usuário (caso contrário, você precisará usar **sudo**).
 
 <details>
 
@@ -960,13 +950,19 @@ return 0;
 ```
 {% tab title="xpc_client.c" %}
 
-O arquivo `xpc_client.c` é um exemplo de código em C que demonstra como usar o IPC (Inter-Process Communication) no macOS. O IPC é um mecanismo que permite a comunicação entre processos em um sistema operacional.
+O arquivo `xpc_client.c` é um exemplo de código em C que demonstra como usar a comunicação interprocesso (IPC) no macOS usando o framework XPC. O XPC é um mecanismo de IPC fornecido pelo macOS que permite que processos se comuniquem entre si de forma segura e eficiente.
 
-Neste exemplo, o código cria um cliente XPC (XPC é um framework de IPC fornecido pelo macOS) que se conecta a um serviço XPC remoto. O cliente envia uma mensagem para o serviço remoto e aguarda a resposta.
+O código começa incluindo os cabeçalhos necessários e definindo algumas constantes. Em seguida, ele define a função `main`, que é o ponto de entrada do programa.
 
-Para compilar e executar o código, você precisará ter o Xcode instalado no seu sistema. Depois de compilar o código, você pode executar o binário resultante para ver a comunicação IPC em ação.
+Dentro da função `main`, o código cria uma conexão XPC usando a função `xpc_connection_create`, especificando o identificador da conexão e o nome do serviço. Em seguida, ele define um manipulador de eventos usando a função `xpc_connection_set_event_handler`, que será chamado sempre que um evento ocorrer na conexão.
 
-Este exemplo é útil para entender como o IPC funciona no macOS e como os processos podem se comunicar entre si usando esse mecanismo.
+O código também define um bloco de código para lidar com eventos de resposta. Quando uma resposta é recebida, o bloco de código é executado e exibe a resposta na saída padrão.
+
+Em seguida, o código envia uma mensagem para o serviço usando a função `xpc_connection_send_message`, passando a conexão e a mensagem como argumentos.
+
+Finalmente, o código inicia o loop de execução da conexão XPC usando a função `xpc_connection_resume` e aguarda até que a conexão seja encerrada.
+
+Este exemplo de código demonstra como usar a comunicação interprocesso no macOS usando o framework XPC. Ele pode ser usado como ponto de partida para desenvolver aplicativos que se comunicam com outros processos de forma segura e eficiente.
 
 {% endtab %}
 ```c
@@ -1093,6 +1089,20 @@ sleep(10); // Fake something is done and then it ends
 }
 ```
 {% tab title="oc_xpc_client.m" %}
+
+O arquivo `oc_xpc_client.m` contém um exemplo de código em Objective-C que demonstra como criar um cliente XPC (Inter-Process Communication) no macOS. O XPC é um mecanismo de comunicação entre processos que permite que aplicativos se comuniquem uns com os outros de forma segura e eficiente.
+
+O código começa importando o framework `Foundation` e `xpc`, que são necessários para trabalhar com XPC no macOS. Em seguida, é definida uma função `main` que será o ponto de entrada do programa.
+
+Dentro da função `main`, é criada uma conexão XPC usando a função `xpc_connection_create`. Em seguida, é definido um bloco de código que será executado quando a conexão for estabelecida com sucesso. Nesse bloco, é definida uma função `handler` que será chamada sempre que uma mensagem for recebida do servidor.
+
+Dentro da função `handler`, é verificado o tipo da mensagem recebida usando a função `xpc_get_type`. Se a mensagem for do tipo `XPC_TYPE_DICTIONARY`, é extraído o valor da chave `message` usando a função `xpc_dictionary_get_string`. Em seguida, é exibida uma mensagem na saída padrão com o valor da chave `message`.
+
+Por fim, é chamada a função `xpc_connection_resume` para iniciar a comunicação com o servidor e a função `dispatch_main` para iniciar o loop de eventos do programa.
+
+Este exemplo de código demonstra como criar um cliente XPC básico no macOS. É importante ressaltar que o código fornecido é apenas um exemplo e pode ser necessário adaptá-lo para atender às necessidades específicas do seu aplicativo.
+
+{% endtab %}
 ```objectivec
 // gcc -framework Foundation oc_xpc_client.m -o oc_xpc_client
 #include <Foundation/Foundation.h>
@@ -1117,21 +1127,13 @@ return 0;
 ```
 {% tab title="xyz.hacktricks.svcoc.plist" %}
 
-# xyz.hacktricks.svcoc.plist
+O arquivo `xyz.hacktricks.svcoc.plist` é um arquivo de propriedades do macOS que contém informações de configuração para o serviço `svcoc`. Este arquivo é usado para definir as configurações de comunicação interprocessos (IPC) para o serviço.
 
-Este arquivo plist é usado para configurar o serviço de comunicação interprocessos (IPC) no macOS. O IPC é um mecanismo que permite a troca de informações entre processos em um sistema operacional.
+A comunicação interprocessos é um mecanismo que permite que os processos se comuniquem entre si no macOS. Isso é feito por meio de troca de mensagens entre os processos usando diferentes mecanismos de IPC, como notificações, pipes, sockets, entre outros.
 
-O arquivo plist contém várias chaves e valores que podem ser configurados para controlar o comportamento do IPC no macOS. Alguns exemplos de chaves e valores incluem:
+Ao modificar o arquivo `xyz.hacktricks.svcoc.plist`, é possível alterar as configurações de IPC do serviço `svcoc`. Isso pode ser útil para fins de escalonamento de privilégios, pois permite que um processo se comunique com o serviço e execute ações que normalmente não teria permissão para fazer.
 
-- `EnableRemoteMessaging`: Esta chave controla se a comunicação remota entre processos é permitida. Se definido como `true`, os processos podem se comunicar entre si em diferentes máquinas. Se definido como `false`, a comunicação remota é desabilitada.
-
-- `EnableLocalMessaging`: Esta chave controla se a comunicação local entre processos é permitida. Se definido como `true`, os processos podem se comunicar entre si na mesma máquina. Se definido como `false`, a comunicação local é desabilitada.
-
-- `AllowedServices`: Esta chave especifica quais serviços estão autorizados a se comunicar com o processo. Os serviços são identificados por seus nomes e podem ser adicionados como valores separados por vírgula.
-
-- `DeniedServices`: Esta chave especifica quais serviços estão proibidos de se comunicar com o processo. Os serviços são identificados por seus nomes e podem ser adicionados como valores separados por vírgula.
-
-Para modificar as configurações do IPC no macOS, você pode editar este arquivo plist e reiniciar o serviço correspondente. No entanto, tenha cuidado ao fazer alterações, pois isso pode afetar o funcionamento do sistema.
+No entanto, é importante ressaltar que a modificação indevida do arquivo `xyz.hacktricks.svcoc.plist` pode levar a problemas de segurança e instabilidade do sistema. Portanto, é recomendável ter cuidado ao realizar alterações nesse arquivo e garantir que apenas alterações legítimas sejam feitas.
 
 {% endtab %}
 ```xml
@@ -1174,6 +1176,52 @@ sudo launchctl load /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist
 # Clean
 sudo launchctl unload /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist
 sudo rm /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist /tmp/oc_xpc_server
+```
+### Cliente dentro de um código Dylib
+
+The client code inside a Dylib is responsible for establishing communication with the server and exchanging messages through inter-process communication (IPC). This code is typically written in Objective-C or C and is compiled into a dynamic library (Dylib) that can be loaded by other processes.
+
+To interact with the server, the client code uses IPC mechanisms such as Mach ports, XPC, or sockets. These mechanisms allow processes to communicate with each other, either on the same machine or across a network.
+
+The client code initializes the IPC connection by creating a connection object and setting up the necessary parameters, such as the server's port or address. It then sends messages to the server by calling specific methods or functions provided by the IPC framework.
+
+The messages sent by the client can contain various types of data, such as requests for information, commands to be executed by the server, or notifications about events. The server processes these messages and responds accordingly, sending back the requested information or performing the requested actions.
+
+It is important to ensure the security of the client code inside a Dylib, as it can be loaded and executed by multiple processes. Any vulnerabilities or weaknesses in the client code could potentially be exploited by an attacker to gain unauthorized access or escalate privileges.
+
+Therefore, it is recommended to follow secure coding practices when developing the client code, such as input validation, proper handling of user privileges, and secure communication protocols. Regular code reviews and vulnerability assessments can also help identify and mitigate potential security risks.
+```
+// gcc -dynamiclib -framework Foundation oc_xpc_client.m -o oc_xpc_client.dylib
+// gcc injection example:
+// DYLD_INSERT_LIBRARIES=oc_xpc_client.dylib /path/to/vuln/bin
+
+#import <Foundation/Foundation.h>
+
+@protocol MyXPCProtocol
+- (void)sayHello:(NSString *)some_string withReply:(void (^)(NSString *))reply;
+@end
+
+__attribute__((constructor))
+static void customConstructor(int argc, const char **argv)
+{
+NSString*  _serviceName = @"xyz.hacktricks.svcoc";
+
+NSXPCConnection* _agentConnection = [[NSXPCConnection alloc] initWithMachServiceName:_serviceName options:4096];
+
+[_agentConnection setRemoteObjectInterface:[NSXPCInterface interfaceWithProtocol:@protocol(MyXPCProtocol)]];
+
+[_agentConnection resume];
+
+[[_agentConnection remoteObjectProxyWithErrorHandler:^(NSError* error) {
+(void)error;
+NSLog(@"Connection Failure");
+}] sayHello:@"Hello, Server!" withReply:^(NSString *response) {
+NSLog(@"Received response: %@", response);
+}    ];
+NSLog(@"Done!");
+
+return;
+}
 ```
 ## Referências
 

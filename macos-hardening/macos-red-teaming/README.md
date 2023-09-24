@@ -53,9 +53,9 @@ Além disso, depois de encontrar as credenciais corretas, você pode ser capaz d
 
 #### Autenticação de dispositivo JAMF
 
-<figure><img src="../../.gitbook/assets/image (2) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-O binário **`jamf`** continha o segredo para abrir o keychain que, na época da descoberta, era **compartilhado** entre todos e era: **`jk23ucnq91jfu9aj`**.\
+O binário **`jamf`** continha o segredo para abrir o keychain que, na época da descoberta, era **compartilhado** por todos e era: **`jk23ucnq91jfu9aj`**.\
 Além disso, o jamf **persiste** como um **LaunchDaemon** em **`/Library/LaunchAgents/com.jamf.management.agent.plist`**
 
 #### Assumindo o controle do dispositivo JAMF
@@ -76,7 +76,7 @@ plutil -convert xml1 -o - /Library/Preferences/com.jamfsoftware.jamf.plist
 <integer>4</integer>
 [...]
 ```
-Portanto, um invasor poderia inserir um pacote malicioso (`pkg`) que **sobrescreve esse arquivo** quando instalado, definindo a **URL para um ouvinte Mythic C2 de um agente Typhon** para agora poder abusar do JAMF como C2.
+Portanto, um invasor poderia inserir um pacote malicioso (`pkg`) que **sobrescreve este arquivo** quando instalado, definindo a **URL para um ouvinte Mythic C2 de um agente Typhon** para agora poder abusar do JAMF como C2.
 
 {% code overflow="wrap" %}
 ```bash
@@ -89,7 +89,7 @@ sudo jamf policy -id 0
 
 #### Impersonação do JAMF
 
-Para **impersonar a comunicação** entre um dispositivo e o JMF, você precisa de:
+Para **impersonar a comunicação** entre um dispositivo e o JMF, você precisa:
 
 * O **UUID** do dispositivo: `ioreg -d2 -c IOPlatformExpertDevice | awk -F" '/IOPlatformUUID/{print $(NF-1)}'`
 * O **keychain do JAMF** em: `/Library/Application\ Support/Jamf/JAMF.keychain` que contém o certificado do dispositivo
@@ -102,9 +102,9 @@ Com essas informações, **crie uma VM** com o **UUID** de Hardware **roubado** 
 
 Você também pode monitorar o local `/Library/Application Support/Jamf/tmp/` para os **scripts personalizados** que os administradores podem querer executar via Jamf, pois eles são **colocados aqui, executados e removidos**. Esses scripts **podem conter credenciais**.
 
-No entanto, as **credenciais** podem ser passadas para esses scripts como **parâmetros**, então você precisaria monitorar `ps aux | grep -i jamf` (mesmo sem ser root).
+No entanto, as **credenciais** podem ser passadas para esses scripts como **parâmetros**, então você precisaria monitorar `ps aux | grep -i jamf` (sem nem mesmo ser root).
 
-O script [**JamfExplorer.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfExplorer.py) pode ouvir novos arquivos sendo adicionados e novos argumentos de processo.
+O script [**JamfExplorer.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfExplorer.py) pode ouvir a adição de novos arquivos e novos argumentos de processo.
 
 ### Acesso Remoto ao macOS
 
@@ -217,7 +217,7 @@ Quando um arquivo é baixado no Safari, se for um arquivo "seguro", ele será **
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? Ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**

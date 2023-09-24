@@ -195,7 +195,7 @@ Exemplo de **cabeçalho de seção**:
 
 Se você **adicionar** o **deslocamento da seção** (0x37DC) + o **deslocamento** onde o **arquitetura começa**, neste caso `0x18000` --> `0x37DC + 0x18000 = 0x1B7DC`
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Também é possível obter **informações de cabeçalho** a partir da **linha de comando** com:
 ```bash
@@ -228,7 +228,7 @@ No entanto, você pode encontrar algumas informações sobre esta seção neste 
 
 ### **LC\_LOAD\_DYLINKER**
 
-Contém o **caminho para o executável do linker dinâmico** que mapeia bibliotecas compartilhadas no espaço de endereço do processo. O **valor é sempre definido como `/usr/lib/dyld`**. É importante observar que, no macOS, o mapeamento de dylib ocorre em **modo de usuário**, não em modo de kernel.
+Contém o **caminho para o executável do linker dinâmico** que mapeia bibliotecas compartilhadas no espaço de endereço do processo. O **valor é sempre definido como `/usr/lib/dyld`**. É importante observar que, no macOS, o mapeamento de dylib ocorre no **modo de usuário**, não no modo de kernel.
 
 ### **`LC_LOAD_DYLIB`**
 
@@ -284,7 +284,7 @@ Isso inclui:&#x20;
 
 * **Tabela de funções:** Que contém informações sobre as funções do programa.
 * **Tabela de símbolos**: Que contém informações sobre as funções externas usadas pelo binário
-* Também pode conter nomes de funções internas, variáveis e muito mais.
+* Também pode conter nomes de funções internas, variáveis e mais.
 
 Para verificar, você pode usar a ferramenta [**Mach-O View**](https://sourceforge.net/projects/machoview/):
 

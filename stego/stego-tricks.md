@@ -1,4 +1,4 @@
-# Truques de Stego
+# Truques de Esteganografia
 
 <details>
 
@@ -7,12 +7,12 @@
 * Você trabalha em uma **empresa de segurança cibernética**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
 Encontre vulnerabilidades que são mais importantes para que você possa corrigi-las mais rapidamente. O Intruder rastreia sua superfície de ataque, executa varreduras proativas de ameaças, encontra problemas em toda a sua pilha de tecnologia, desde APIs até aplicativos da web e sistemas em nuvem. [**Experimente gratuitamente**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) hoje.
 
@@ -24,8 +24,8 @@ Encontre vulnerabilidades que são mais importantes para que você possa corrigi
 
 ### Binwalk <a href="#binwalk" id="binwalk"></a>
 
-Binwalk é uma ferramenta para procurar arquivos binários, como imagens e arquivos de áudio, em busca de arquivos e dados ocultos embutidos.\
-Pode ser instalado com `apt`, e a [fonte](https://github.com/ReFirmLabs/binwalk) pode ser encontrada no Github.\
+O Binwalk é uma ferramenta para pesquisar arquivos binários, como imagens e arquivos de áudio, em busca de arquivos e dados ocultos embutidos.\
+Ele pode ser instalado com `apt`, e a [fonte](https://github.com/ReFirmLabs/binwalk) pode ser encontrada no Github.\
 **Comandos úteis**:\
 `binwalk arquivo` : Exibe os dados embutidos no arquivo fornecido\
 `binwalk -e arquivo` : Exibe e extrai os dados do arquivo fornecido\
@@ -33,8 +33,8 @@ Pode ser instalado com `apt`, e a [fonte](https://github.com/ReFirmLabs/binwalk)
 
 ### Foremost <a href="#foremost" id="foremost"></a>
 
-Foremost é um programa que recupera arquivos com base em seus cabeçalhos, rodapés e estruturas de dados internas. Acho especialmente útil ao lidar com imagens png. Você pode selecionar os arquivos que o Foremost irá extrair alterando o arquivo de configuração em **/etc/foremost.conf.**\
-Pode ser instalado com `apt`, e a [fonte](https://github.com/korczis/foremost) pode ser encontrada no Github.\
+O Foremost é um programa que recupera arquivos com base em seus cabeçalhos, rodapés e estruturas de dados internas. Eu acho especialmente útil ao lidar com imagens png. Você pode selecionar os arquivos que o Foremost irá extrair alterando o arquivo de configuração em **/etc/foremost.conf.**\
+Ele pode ser instalado com `apt`, e a [fonte](https://github.com/korczis/foremost) pode ser encontrada no Github.\
 **Comandos úteis:**\
 `foremost -i arquivo` : extrai dados do arquivo fornecido.
 
@@ -48,7 +48,7 @@ Você pode obtê-lo [aqui](https://www.sno.phy.queensu.ca/\~phil/exiftool/)\
 ### Exiv2 <a href="#exiv2" id="exiv2"></a>
 
 Uma ferramenta semelhante ao exiftool.\
-Pode ser instalado com `apt`, e a [fonte](https://github.com/Exiv2/exiv2) pode ser encontrada no Github.\
+Ele pode ser instalado com `apt`, e a [fonte](https://github.com/Exiv2/exiv2) pode ser encontrada no Github.\
 [Site oficial](http://www.exiv2.org/)\
 **Comandos úteis:**\
 `exiv2 arquivo` : mostra os metadados do arquivo fornecido
@@ -84,10 +84,10 @@ cmp original.jpg stego.jpg -b -l
 Se você perceber que uma **linha de texto** está **maior** do que deveria, então algumas **informações ocultas** podem estar incluídas dentro dos **espaços** usando caracteres invisíveis.󐁈󐁥󐁬󐁬󐁯󐀠󐁴󐁨\
 Para **extrair** os **dados**, você pode usar: [https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder)
 
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente, utilizando as ferramentas comunitárias mais avançadas do mundo.\
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente, utilizando as ferramentas comunitárias mais avançadas do mundo.\
 Acesse hoje mesmo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -130,7 +130,7 @@ Capaz de uma ampla variedade de truques simples e avançados, essa ferramenta po
 
 ### Stegsolve
 
-Às vezes, há uma mensagem ou um texto oculto na própria imagem que, para visualizá-lo, deve ter filtros de cor aplicados ou alguns níveis de cor alterados. Embora você possa fazer isso com algo como GIMP ou Photoshop, o Stegsolve facilita. É uma pequena ferramenta Java que aplica muitos filtros de cor úteis em imagens; em desafios CTF, o Stegsolve muitas vezes economiza muito tempo.\
+Às vezes, há uma mensagem ou um texto oculto na própria imagem que, para visualizá-lo, deve ter filtros de cor aplicados ou alguns níveis de cor alterados. Embora você possa fazer isso com algo como o GIMP ou o Photoshop, o Stegsolve torna mais fácil. É uma pequena ferramenta Java que aplica muitos filtros de cor úteis em imagens; em desafios CTF, o Stegsolve muitas vezes economiza muito tempo.\
 Você pode obtê-lo no [Github](https://github.com/eugenekolo/sec-tools/tree/master/stego/stegsolve/stegsolve)\
 Para usá-lo, basta abrir a imagem e clicar nos botões `<` `>`.
 
@@ -213,12 +213,11 @@ Para ler um código QR: [https://online-barcode-reader.inliteresearch.com/](http
 * [**https://0xrick.github.io/lists/stego/**](https://0xrick.github.io/lists/stego/)
 * [**https://github.com/DominicBreuker/stego-toolkit**](https://github.com/DominicBreuker/stego-toolkit)
 
-<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
 Encontre vulnerabilidades que são mais importantes para que você possa corrigi-las mais rapidamente. O Intruder rastreia sua superfície de ataque, executa varreduras proativas de ameaças, encontra problemas em toda a sua pilha de tecnologia, desde APIs até aplicativos da web e sistemas em nuvem. [**Experimente gratuitamente**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) hoje.
 
 {% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
 
 <details>
 
@@ -227,7 +226,7 @@ Encontre vulnerabilidades que são mais importantes para que você possa corrigi
 * Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

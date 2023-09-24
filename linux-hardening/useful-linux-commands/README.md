@@ -1,6 +1,6 @@
 # Comandos Úteis do Linux
 
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** com facilidade, utilizando as ferramentas comunitárias mais avançadas do mundo.\
@@ -12,11 +12,11 @@ Acesse hoje mesmo:
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? Ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? Ou gostaria de ter acesso à **versão mais recente do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [repositório hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo Telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe suas técnicas de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e para o** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -139,11 +139,11 @@ sudo chattr -i file.txt #Remove the bit so you can delete it
 # List files inside zip
 7z l file.zip
 ```
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente, alimentados pelas ferramentas comunitárias mais avançadas do mundo.\
-Obtenha acesso hoje:
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente, utilizando as ferramentas comunitárias mais avançadas do mundo.\
+Acesse hoje mesmo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -169,49 +169,67 @@ i686-mingw32msvc-gcc -o executable useradd.c
 ```
 ## Greps
 
-O comando `grep` é uma ferramenta poderosa para pesquisar padrões em arquivos de texto. Ele permite que você encontre linhas que correspondam a um determinado padrão e exiba-as na saída. Aqui estão alguns exemplos de uso comuns do comando `grep`:
+O comando `grep` é uma ferramenta poderosa para pesquisar e filtrar texto em arquivos ou saídas de comandos. Ele permite que você encontre padrões específicos em um arquivo ou em uma lista de arquivos.
 
-- **Pesquisar uma palavra em um arquivo**: Para pesquisar uma palavra específica em um arquivo, use o seguinte comando:
+### Sintaxe básica
 
-  ```
-  grep "palavra" arquivo.txt
-  ```
+A sintaxe básica do comando `grep` é a seguinte:
 
-  Isso exibirá todas as linhas que contêm a palavra "palavra" no arquivo "arquivo.txt".
+```
+grep [opções] padrão [arquivo(s)]
+```
 
-- **Pesquisar uma palavra em vários arquivos**: Se você quiser pesquisar uma palavra em vários arquivos, use o seguinte comando:
+- `opções`: são as opções que você pode usar para personalizar a pesquisa.
+- `padrão`: é o padrão que você deseja procurar nos arquivos.
+- `arquivo(s)`: são os arquivos em que você deseja realizar a pesquisa. Se nenhum arquivo for especificado, o `grep` lerá a entrada padrão.
 
-  ```
-  grep "palavra" arquivo1.txt arquivo2.txt arquivo3.txt
-  ```
+### Exemplos de uso
 
-  Isso exibirá todas as linhas que contêm a palavra "palavra" nos arquivos "arquivo1.txt", "arquivo2.txt" e "arquivo3.txt".
+Aqui estão alguns exemplos de uso comuns do comando `grep`:
 
-- **Pesquisar uma palavra em todos os arquivos de um diretório**: Se você quiser pesquisar uma palavra em todos os arquivos de um diretório, use o seguinte comando:
-
-  ```
-  grep "palavra" diretório/*
-  ```
-
-  Isso exibirá todas as linhas que contêm a palavra "palavra" em todos os arquivos do diretório especificado.
-
-- **Pesquisar uma palavra ignorando maiúsculas e minúsculas**: Se você quiser pesquisar uma palavra, mas ignorar diferenças entre maiúsculas e minúsculas, use o seguinte comando:
+- Pesquisar um padrão em um arquivo específico:
 
   ```
-  grep -i "palavra" arquivo.txt
+  grep "padrão" arquivo.txt
   ```
 
-  Isso exibirá todas as linhas que contêm a palavra "palavra", independentemente de estarem em maiúsculas ou minúsculas, no arquivo "arquivo.txt".
-
-- **Pesquisar uma palavra com contexto**: Se você quiser exibir não apenas a linha que contém a palavra pesquisada, mas também algumas linhas antes e depois dela, use o seguinte comando:
+- Pesquisar um padrão em vários arquivos:
 
   ```
-  grep -C 2 "palavra" arquivo.txt
+  grep "padrão" arquivo1.txt arquivo2.txt
   ```
 
-  Isso exibirá a linha que contém a palavra "palavra" e duas linhas antes e depois dela no arquivo "arquivo.txt".
+- Pesquisar um padrão em todos os arquivos de um diretório:
 
-Esses são apenas alguns exemplos de como usar o comando `grep`. Ele possui muitas outras opções e recursos que podem ser explorados para realizar pesquisas mais avançadas em arquivos de texto.
+  ```
+  grep "padrão" diretório/*
+  ```
+
+- Pesquisar um padrão, ignorando maiúsculas e minúsculas:
+
+  ```
+  grep -i "padrão" arquivo.txt
+  ```
+
+- Pesquisar um padrão e exibir o número da linha correspondente:
+
+  ```
+  grep -n "padrão" arquivo.txt
+  ```
+
+- Pesquisar um padrão recursivamente em subdiretórios:
+
+  ```
+  grep -r "padrão" diretório/
+  ```
+
+- Pesquisar um padrão e exibir apenas o nome do arquivo correspondente:
+
+  ```
+  grep -l "padrão" arquivo.txt
+  ```
+
+Esses são apenas alguns exemplos das muitas opções e recursos disponíveis no comando `grep`. Experimente diferentes combinações para atender às suas necessidades de pesquisa.
 ```bash
 #Extract emails from file
 grep -E -o "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b" file.txt
@@ -322,9 +340,9 @@ nmap --script-help "(default or version) and smb)"
 
 Bash (Bourne Again SHell) é um interpretador de comandos de shell para sistemas operacionais baseados em Unix. É uma das shells mais populares e amplamente utilizadas no Linux.
 
-### Comandos Úteis
+### Comandos Úteis do Linux
 
-Aqui estão alguns comandos úteis do Bash que podem ser usados para várias tarefas:
+Aqui estão alguns comandos úteis do Linux que podem ser executados no terminal Bash:
 
 - `ls`: lista os arquivos e diretórios no diretório atual.
 - `cd`: muda o diretório atual.
@@ -336,17 +354,19 @@ Aqui estão alguns comandos úteis do Bash que podem ser usados para várias tar
 - `cat`: exibe o conteúdo de um arquivo.
 - `grep`: pesquisa por padrões em arquivos.
 - `chmod`: altera as permissões de acesso de arquivos e diretórios.
-- `chown`: altera o proprietário de arquivos e diretórios.
+- `chown`: altera o proprietário e o grupo de arquivos e diretórios.
+- `ps`: exibe os processos em execução.
+- `top`: exibe informações sobre os processos em execução e o uso de recursos do sistema.
+- `kill`: encerra um processo.
 - `ssh`: inicia uma sessão segura em um servidor remoto.
 - `wget`: baixa arquivos da web.
+- `curl`: transfere dados usando vários protocolos de rede.
 - `tar`: cria ou extrai arquivos compactados no formato tar.
+- `gzip`: compacta ou descompacta arquivos no formato gzip.
 - `find`: pesquisa arquivos e diretórios com base em critérios específicos.
-- `ps`: exibe os processos em execução.
-- `top`: exibe informações em tempo real sobre os processos em execução.
-- `kill`: encerra um processo em execução.
-- `history`: exibe o histórico de comandos digitados anteriormente.
+- `history`: exibe o histórico de comandos executados anteriormente.
 
-Esses são apenas alguns dos muitos comandos úteis disponíveis no Bash. Experimente-os e explore mais recursos para aprimorar suas habilidades no uso do shell.
+Esses são apenas alguns dos comandos mais comumente usados no Linux. Existem muitos outros comandos disponíveis, cada um com sua própria funcionalidade e opções.
 ```bash
 #All bytes inside a file (except 0x20 and 0x00)
 for j in $((for i in {0..9}{0..9} {0..9}{a..f} {a..f}{0..9} {a..f}{a..f}; do echo $i; done ) | sort | grep -v "20\|00"); do echo -n -e "\x$j" >> bytes; done
@@ -405,15 +425,15 @@ iptables -P OUTPUT ACCEPT
 * Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [repositório hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** com facilidade, utilizando as ferramentas comunitárias mais avançadas do mundo.\
-Acesse hoje mesmo:
+Obtenha acesso hoje:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

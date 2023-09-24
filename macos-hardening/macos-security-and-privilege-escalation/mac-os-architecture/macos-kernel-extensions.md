@@ -22,7 +22,7 @@ Obviamente, isso é tão poderoso que é complicado carregar uma extensão de ke
 
 * Ao entrar no **modo de recuperação**, as extensões de kernel devem estar **habilitadas para carregamento**:
 
-<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 * A extensão de kernel deve estar **assinada com um certificado de assinatura de código de kernel**, que só pode ser concedido pela **Apple**. Eles revisarão detalhadamente a **empresa** e as **razões** pelas quais é necessária.
 * A extensão de kernel também deve ser **notarizada**, a Apple poderá verificá-la em busca de malware.
@@ -32,7 +32,7 @@ Obviamente, isso é tão poderoso que é complicado carregar uma extensão de ke
 
 ### Processo de carregamento
 
-No Catalina, era assim: É interessante destacar que o processo de **verificação** ocorre no **userland**. No entanto, apenas aplicativos com a concessão **`com.apple.private.security.kext-management`** podem **solicitar ao kernel** que **carregue uma extensão:** kextcache, kextload, kextutil, kextd, syspolicyd
+No Catalina, era assim: É interessante notar que o processo de **verificação** ocorre no **userland**. No entanto, apenas aplicativos com a concessão **`com.apple.private.security.kext-management`** podem **solicitar ao kernel** que **carregue uma extensão:** kextcache, kextload, kextutil, kextd, syspolicyd
 
 1. O cli **`kextutil`** inicia o processo de verificação para carregar uma extensão
 

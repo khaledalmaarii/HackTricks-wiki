@@ -12,14 +12,13 @@
 
 </details>
 
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** com as ferramentas comunitárias mais avançadas do mundo.\
 Acesse hoje:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
-
 
 ## **Segurança básica do Docker Engine**
 
@@ -31,10 +30,10 @@ Por fim, um **plugin de autenticação** pode ser usado para **limitar as açõe
 
 ### **Acesso seguro ao Docker Engine**
 
-O cliente Docker pode acessar o Docker Engine **localmente usando um soquete Unix ou remotamente usando http**. Para usá-lo remotamente, é necessário usar https e **TLS** para garantir confidencialidade, integridade e autenticação.
+O cliente Docker pode acessar o Docker Engine **localmente usando um soquete Unix ou remotamente usando o mecanismo http**. Para usá-lo remotamente, é necessário usar https e **TLS** para garantir confidencialidade, integridade e autenticação.
 
 Por padrão, ele escuta no soquete Unix `unix:///var/`\
-`run/docker.sock` e nas distribuições Ubuntu, as opções de inicialização do Docker são especificadas em `/etc/default/docker`. Para permitir que a API e o cliente do Docker acessem o Docker Engine remotamente, precisamos **expor o daemon do Docker usando um soquete http**. Isso pode ser feito por:
+`run/docker.sock` e nas distribuições Ubuntu, as opções de inicialização do Docker são especificadas em `/etc/default/docker`. Para permitir que a API e o cliente Docker acessem o Docker Engine remotamente, precisamos **expor o daemon do Docker usando um soquete http**. Isso pode ser feito por:
 ```bash
 DOCKER_OPTS="-D -H unix:///var/run/docker.sock -H
 tcp://192.168.56.101:2376" -> add this to /etc/default/docker
@@ -52,7 +51,7 @@ As imagens do contêiner são armazenadas em um repositório privado ou público
 
 ### Verificação de imagem
 
-Os contêineres podem ter **vulnerabilidades de segurança** tanto por causa da imagem base quanto pelo software instalado em cima da imagem base. A Docker está trabalhando em um projeto chamado **Nautilus** que faz a verificação de segurança dos contêineres e lista as vulnerabilidades. O Nautilus funciona comparando cada camada da imagem do contêiner com o repositório de vulnerabilidades para identificar falhas de segurança.
+Os contêineres podem ter **vulnerabilidades de segurança** devido à imagem base ou ao software instalado em cima da imagem base. A Docker está trabalhando em um projeto chamado **Nautilus** que faz a verificação de segurança dos contêineres e lista as vulnerabilidades. O Nautilus funciona comparando cada camada da imagem do contêiner com o repositório de vulnerabilidades para identificar falhas de segurança.
 
 Para mais [**informações, leia isso**](https://docs.docker.com/engine/scan/).
 
@@ -122,11 +121,11 @@ Quando mudei o host do Docker, tive que mover as chaves raiz e as chaves do repo
 
 ***
 
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir facilmente e **automatizar fluxos de trabalho** com as ferramentas comunitárias mais avançadas do mundo.\
-Acesse hoje mesmo:
+Acesse hoje:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -193,7 +192,7 @@ Para **mais informações sobre os namespaces**, verifique a seguinte página:
 ### cgroups
 
 O recurso do kernel Linux **cgroups** fornece a capacidade de **restringir recursos como CPU, memória, IO, largura de banda de rede entre** um conjunto de processos. O Docker permite criar Containers usando o recurso cgroup, que permite o controle de recursos para o Container específico.\
-A seguir, temos um Container criado com memória do espaço do usuário limitada a 500m, memória do kernel limitada a 50m, compartilhamento de CPU para 512, peso de blkioweight para 400. O compartilhamento de CPU é uma proporção que controla o uso de CPU do Container. Ele tem um valor padrão de 1024 e varia entre 0 e 1024. Se três Containers têm o mesmo compartilhamento de CPU de 1024, cada Container pode usar até 33% da CPU em caso de contenção de recursos da CPU. O peso de blkioweight é uma proporção que controla o IO do Container. Ele tem um valor padrão de 500 e varia entre 10 e 1000.
+A seguir, temos um Container criado com memória de espaço do usuário limitada a 500m, memória do kernel limitada a 50m, compartilhamento de CPU para 512, peso de blkioweight para 400. O compartilhamento de CPU é uma proporção que controla o uso de CPU do Container. Ele tem um valor padrão de 1024 e varia entre 0 e 1024. Se três Containers têm o mesmo compartilhamento de CPU de 1024, cada Container pode usar até 33% da CPU em caso de contenção de recursos da CPU. O peso de blkioweight é uma proporção que controla o IO do Container. Ele tem um valor padrão de 500 e varia entre 10 e 1000.
 ```
 docker run -it -m 500M --kernel-memory 50M --cpu-shares 512 --blkio-weight 400 --name ubuntu1 ubuntu bash
 ```
@@ -221,7 +220,7 @@ Quando um contêiner Docker é executado, o **processo descarta as capacidades s
 
 ### Seccomp no Docker
 
-Esta é uma funcionalidade de segurança que permite ao Docker **limitar as syscalls** que podem ser usadas dentro do contêiner:
+Este é um recurso de segurança que permite ao Docker **limitar as syscalls** que podem ser usadas dentro do contêiner:
 
 {% content-ref url="seccomp.md" %}
 [seccomp.md](seccomp.md)
@@ -267,11 +266,11 @@ docker run -d --name malicious-container -c 512 busybox sh -c 'while true; do :;
 ```
 * **Bandwidth DoS**
 
-Um ataque de negação de serviço (DoS) de largura de banda é um tipo de ataque cibernético que visa sobrecarregar a largura de banda de um sistema ou rede, tornando-o inacessível para usuários legítimos. Nesse tipo de ataque, o objetivo é consumir toda a largura de banda disponível, impedindo que outros usuários acessem os recursos do sistema ou da rede.
+Um ataque de negação de serviço (DoS) de largura de banda é um tipo de ataque cibernético que visa sobrecarregar a largura de banda de um sistema ou rede, tornando-o inacessível para usuários legítimos. Nesse tipo de ataque, o objetivo é consumir toda a largura de banda disponível, impedindo que outros usuários possam utilizar os recursos da rede.
 
-Existem várias técnicas que podem ser usadas para realizar um ataque de negação de serviço de largura de banda, incluindo o envio de uma grande quantidade de tráfego malicioso para o alvo, o que pode ser feito por meio de botnets ou amplificação de tráfego. Além disso, um atacante também pode explorar vulnerabilidades em servidores ou roteadores para aumentar o tráfego e sobrecarregar a largura de banda.
+Existem várias técnicas que podem ser utilizadas para realizar um ataque de negação de serviço de largura de banda, incluindo o envio de uma grande quantidade de tráfego malicioso para o alvo, o uso de botnets para amplificar o ataque e o uso de técnicas de inundação de pacotes para sobrecarregar a rede.
 
-Para proteger-se contra ataques de negação de serviço de largura de banda, é importante implementar medidas de segurança, como firewalls, sistemas de detecção e prevenção de intrusões (IDS/IPS) e balanceadores de carga. Além disso, é recomendado monitorar o tráfego de rede em busca de atividades suspeitas e manter os sistemas e roteadores atualizados com as últimas correções de segurança.
+Para proteger-se contra ataques de negação de serviço de largura de banda, é importante implementar medidas de segurança, como firewalls, sistemas de detecção e prevenção de intrusões (IDS/IPS) e balanceadores de carga. Além disso, é recomendado monitorar o tráfego de rede em busca de atividades suspeitas e limitar o acesso a recursos de rede apenas para usuários autorizados.
 ```bash
 nc -lvp 4444 >/dev/null & while true; do cat /dev/urandom | nc <target IP> 4444; done
 ```
@@ -289,7 +288,7 @@ Na página a seguir, você pode aprender **o que implica a flag `--privileged`**
 
 #### no-new-privileges
 
-Se você estiver executando um contêiner onde um invasor consegue obter acesso como um usuário de baixo privilégio. Se você tiver um **binário suid mal configurado**, o invasor pode abusar dela e **elevar privilégios dentro** do contêiner. O que pode permitir que ele escape dele.
+Se você estiver executando um contêiner onde um invasor consegue acessar como um usuário de baixo privilégio. Se você tiver um **binário suid mal configurado**, o invasor pode abusar dela e **elevar privilégios dentro** do contêiner. O que pode permitir que ele escape dele.
 
 Executar o contêiner com a opção **`no-new-privileges`** habilitada irá **prevenir esse tipo de escalonamento de privilégios**.
 ```
@@ -341,7 +340,7 @@ Esses segredos são excluídos do cache de construção da imagem e da imagem fi
 
 Se você precisa do seu **segredo em seu contêiner em execução**, e não apenas ao construir sua imagem, use **Docker Compose ou Kubernetes**.
 
-Com o Docker Compose, adicione o par chave-valor dos segredos a um serviço e especifique o arquivo de segredo. Agradecimentos à resposta do [Stack Exchange](https://serverfault.com/a/936262/535325) pela dica de segredos do Docker Compose, da qual o exemplo abaixo é adaptado.
+Com o Docker Compose, adicione o par chave-valor dos segredos a um serviço e especifique o arquivo de segredo. A dica é do [Stack Exchange answer](https://serverfault.com/a/936262/535325) para a dica de segredos do Docker Compose que o exemplo abaixo é adaptado.
 
 Exemplo `docker-compose.yml` com segredos:
 ```yaml
@@ -387,14 +386,14 @@ Se você estiver usando [Kubernetes](https://kubernetes.io/docs/concepts/configu
 * **Reconstrua regularmente** suas imagens para **aplicar patches de segurança no host e nas imagens**.
 * Gerencie seus **segredos com sabedoria** para dificultar o acesso do invasor a eles.
 * Se você **expõe o daemon do Docker, use HTTPS** com autenticação de cliente e servidor.
-* No seu Dockerfile, **prefira COPY em vez de ADD**. ADD extrai automaticamente arquivos compactados e pode copiar arquivos de URLs. COPY não possui essas capacidades. Sempre que possível, evite usar ADD para não ficar suscetível a ataques por meio de URLs remotas e arquivos Zip.
+* Em seu Dockerfile, **prefira COPY em vez de ADD**. ADD extrai automaticamente arquivos compactados e pode copiar arquivos de URLs. COPY não possui essas capacidades. Sempre que possível, evite usar ADD para não ficar suscetível a ataques por meio de URLs remotas e arquivos Zip.
 * Tenha **contêineres separados para cada microsserviço**.
-* **Não coloque o ssh** dentro do contêiner, "docker exec" pode ser usado para acessar o contêiner via ssh.
+* **Não coloque o ssh** dentro do contêiner, "docker exec" pode ser usado para fazer ssh para o contêiner.
 * Tenha **imagens de contêiner menores**
 
 ## Fuga de Contêiner Docker / Escalação de Privilégios
 
-Se você estiver **dentro de um contêiner Docker** ou tiver acesso a um usuário no **grupo docker**, você pode tentar **escapar e elevar privilégios**:
+Se você estiver **dentro de um contêiner Docker** ou tiver acesso a um usuário no **grupo docker**, você pode tentar **escapar e escalar privilégios**:
 
 {% content-ref url="docker-breakout-privilege-escalation/" %}
 [docker-breakout-privilege-escalation](docker-breakout-privilege-escalation/)
@@ -425,7 +424,7 @@ Você precisa executar a ferramenta no host que executa o Docker ou em um contê
 * [https://en.wikipedia.org/wiki/Linux\_namespaces](https://en.wikipedia.org/wiki/Linux\_namespaces)
 * [https://towardsdatascience.com/top-20-docker-security-tips-81c41dd06f57](https://towardsdatascience.com/top-20-docker-security-tips-81c41dd06f57)
 
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** com facilidade, utilizando as ferramentas comunitárias mais avançadas do mundo.\
 Acesse hoje mesmo:
 
