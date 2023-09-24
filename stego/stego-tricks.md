@@ -1,18 +1,18 @@
-# Astuces de stéganographie
+# Astuces de Stego
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
 Trouvez les vulnérabilités les plus importantes afin de pouvoir les corriger plus rapidement. Intruder suit votre surface d'attaque, effectue des analyses de menace proactives, trouve des problèmes dans l'ensemble de votre pile technologique, des API aux applications web et aux systèmes cloud. [**Essayez-le gratuitement**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) dès aujourd'hui.
 
@@ -27,23 +27,23 @@ Trouvez les vulnérabilités les plus importantes afin de pouvoir les corriger p
 Binwalk est un outil de recherche de fichiers binaires, tels que des images et des fichiers audio, pour trouver des fichiers et des données cachés.\
 Il peut être installé avec `apt`, et la [source](https://github.com/ReFirmLabs/binwalk) peut être trouvée sur Github.\
 **Commandes utiles**:\
-`binwalk file` : Affiche les données intégrées dans le fichier donné\
-`binwalk -e file` : Affiche et extrait les données du fichier donné\
-`binwalk --dd ".*" file` : Affiche et extrait les données du fichier donné
+`binwalk fichier` : Affiche les données intégrées dans le fichier donné\
+`binwalk -e fichier` : Affiche et extrait les données du fichier donné\
+`binwalk --dd ".*" fichier` : Affiche et extrait les données du fichier donné
 
 ### Foremost <a href="#foremost" id="foremost"></a>
 
 Foremost est un programme qui récupère des fichiers en fonction de leurs en-têtes, de leurs pieds de page et de leurs structures de données internes. Je le trouve particulièrement utile lorsqu'il s'agit d'images png. Vous pouvez sélectionner les fichiers que Foremost extraira en modifiant le fichier de configuration dans **/etc/foremost.conf.**\
 Il peut être installé avec `apt`, et la [source](https://github.com/korczis/foremost) peut être trouvée sur Github.\
 **Commandes utiles:**\
-`foremost -i file` : extrait les données du fichier donné.
+`foremost -i fichier` : extrait les données du fichier donné.
 
 ### Exiftool <a href="#exiftool" id="exiftool"></a>
 
 Parfois, des informations importantes sont cachées dans les métadonnées d'une image ou d'un fichier ; exiftool peut être très utile pour afficher les métadonnées du fichier.\
 Vous pouvez l'obtenir [ici](https://www.sno.phy.queensu.ca/\~phil/exiftool/)\
 **Commandes utiles:**\
-`exiftool file` : affiche les métadonnées du fichier donné
+`exiftool fichier` : affiche les métadonnées du fichier donné
 
 ### Exiv2 <a href="#exiv2" id="exiv2"></a>
 
@@ -51,7 +51,7 @@ Un outil similaire à exiftool.\
 Il peut être installé avec `apt`, et la [source](https://github.com/Exiv2/exiv2) peut être trouvée sur Github.\
 [Site officiel](http://www.exiv2.org/)\
 **Commandes utiles:**\
-`exiv2 file` : affiche les métadonnées du fichier donné
+`exiv2 fichier` : affiche les métadonnées du fichier donné
 
 ### File
 
@@ -61,15 +61,15 @@ Vérifiez quel type de fichier vous avez
 
 Extrait les chaînes de caractères du fichier.\
 Commandes utiles:\
-`strings -n 6 file`: Extrait les chaînes de caractères d'une longueur minimale de 6\
-`strings -n 6 file | head -n 20`: Extrait les 20 premières chaînes de caractères d'une longueur minimale de 6\
-`strings -n 6 file | tail -n 20`: Extrait les 20 dernières chaînes de caractères d'une longueur minimale de 6\
-`strings -e s -n 6 file`: Extrait les chaînes de caractères 7 bits\
-`strings -e S -n 6 file`: Extrait les chaînes de caractères 8 bits\
-`strings -e l -n 6 file`: Extrait les chaînes de caractères 16 bits (little-endian)\
-`strings -e b -n 6 file`: Extrait les chaînes de caractères 16 bits (big-endian)\
-`strings -e L -n 6 file`: Extrait les chaînes de caractères 32 bits (little-endian)\
-`strings -e B -n 6 file`: Extrait les chaînes de caractères 32 bits (big-endian)
+`strings -n 6 fichier`: Extrait les chaînes de caractères d'une longueur minimale de 6\
+`strings -n 6 fichier | head -n 20`: Extrait les 20 premières chaînes de caractères d'une longueur minimale de 6\
+`strings -n 6 fichier | tail -n 20`: Extrait les 20 dernières chaînes de caractères d'une longueur minimale de 6\
+`strings -e s -n 6 fichier`: Extrait les chaînes de caractères 7 bits\
+`strings -e S -n 6 fichier`: Extrait les chaînes de caractères 8 bits\
+`strings -e l -n 6 fichier`: Extrait les chaînes de caractères 16 bits (little-endian)\
+`strings -e b -n 6 fichier`: Extrait les chaînes de caractères 16 bits (big-endian)\
+`strings -e L -n 6 fichier`: Extrait les chaînes de caractères 32 bits (little-endian)\
+`strings -e B -n 6 fichier`: Extrait les chaînes de caractères 32 bits (big-endian)
 
 ### cmp - Comparaison
 
@@ -84,10 +84,10 @@ cmp original.jpg stego.jpg -b -l
 Si vous constatez qu'une **ligne de texte** est plus **grande** qu'elle ne devrait l'être, il est possible que des **informations cachées** soient incluses à l'intérieur des **espaces** à l'aide de caractères invisibles.󐁈󐁥󐁬󐁬󐁯󐀠󐁴󐁨\
 Pour **extraire** les **données**, vous pouvez utiliser : [https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder)
 
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) pour créer facilement et **automatiser des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour créer facilement et **automatiser des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
 Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -213,12 +213,11 @@ Pour lire un code QR : [https://online-barcode-reader.inliteresearch.com/](https
 * [**https://0xrick.github.io/lists/stego/**](https://0xrick.github.io/lists/stego/)
 * [**https://github.com/DominicBreuker/stego-toolkit**](https://github.com/DominicBreuker/stego-toolkit)
 
-<figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
 Trouvez les vulnérabilités les plus importantes afin de pouvoir les corriger plus rapidement. Intruder suit votre surface d'attaque, effectue des analyses de menaces proactives, trouve des problèmes dans l'ensemble de votre pile technologique, des API aux applications web et aux systèmes cloud. [**Essayez-le gratuitement**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) dès aujourd'hui.
 
 {% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
-
 
 <details>
 
@@ -227,7 +226,7 @@ Trouvez les vulnérabilités les plus importantes afin de pouvoir les corriger p
 * Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

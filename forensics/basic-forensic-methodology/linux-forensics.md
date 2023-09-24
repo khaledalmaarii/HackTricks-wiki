@@ -1,9 +1,9 @@
 # Forensique Linux
 
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et automatiser facilement des flux de travail alimentés par les outils communautaires les plus avancés au monde.\
-Obtenez un accès aujourd'hui :
+Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
+Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -14,8 +14,8 @@ Obtenez un accès aujourd'hui :
 * Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? Ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR au [repo hacktricks](https://github.com/carlospolop/hacktricks) et au [repo hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -57,14 +57,14 @@ Lors de l'obtention des informations de base, vous devriez vérifier des choses 
 ### Capture de mémoire
 
 Pour obtenir la mémoire du système en cours d'exécution, il est recommandé d'utiliser [**LiME**](https://github.com/504ensicsLabs/LiME).\
-Pour le **compiler**, vous devez utiliser le **même noyau** que celui de la machine victime.
+Pour **compiler** LiME, vous devez utiliser le **même noyau** que celui de la machine victime.
 
 {% hint style="info" %}
 Rappelez-vous que vous **ne pouvez pas installer LiME ou autre chose** sur la machine victime car cela apporterait plusieurs modifications.
 {% endhint %}
 
 Donc, si vous avez une version identique d'Ubuntu, vous pouvez utiliser `apt-get install lime-forensics-dkms`\
-Dans d'autres cas, vous devez télécharger [**LiME**](https://github.com/504ensicsLabs/LiME) depuis GitHub et le compiler avec les bons en-têtes de noyau. Pour **obtenir les en-têtes de noyau exacts** de la machine victime, vous pouvez simplement **copier le répertoire** `/lib/modules/<version du noyau>` sur votre machine, puis **compiler** LiME en les utilisant :
+Dans d'autres cas, vous devez télécharger [**LiME**](https://github.com/504ensicsLabs/LiME) depuis GitHub et le compiler avec les en-têtes de noyau corrects. Pour **obtenir les en-têtes de noyau exacts** de la machine victime, vous pouvez simplement **copier le répertoire** `/lib/modules/<version du noyau>` sur votre machine, puis **compiler** LiME en les utilisant :
 ```bash
 make -C /lib/modules/<kernel version>/build M=$PWD
 sudo insmod lime.ko "path=/home/sansforensics/Desktop/mem_dump.bin format=lime"
@@ -150,11 +150,11 @@ r/r 16: secret.txt
 icat -i raw -f ext4 disk.img 16
 ThisisTheMasterSecret
 ```
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser des flux de travail** en utilisant les outils communautaires les plus avancés au monde.\
-Obtenez un accès dès aujourd'hui :
+Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et automatiser facilement des flux de travail alimentés par les outils communautaires les plus avancés au monde.\
+Obtenez un accès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -162,7 +162,7 @@ Obtenez un accès dès aujourd'hui :
 
 ### Fichiers système modifiés
 
-Certains systèmes Linux disposent d'une fonctionnalité permettant de **vérifier l'intégrité de nombreux composants installés**, offrant ainsi un moyen efficace d'identifier des fichiers inhabituels ou mal placés. Par exemple, `rpm -Va` sur Linux est conçu pour vérifier tous les paquets qui ont été installés à l'aide du gestionnaire de paquets RedHat.
+Certains systèmes Linux disposent d'une fonctionnalité permettant de vérifier l'intégrité de nombreux composants installés, offrant ainsi un moyen efficace d'identifier des fichiers inhabituels ou hors de leur emplacement habituel. Par exemple, `rpm -Va` sur Linux est conçu pour vérifier tous les packages qui ont été installés à l'aide du gestionnaire de paquets RedHat.
 ```bash
 #RedHat
 rpm -Va
@@ -183,7 +183,7 @@ Lisez la page suivante pour en savoir plus sur les outils qui peuvent être util
 ### Gestionnaire de paquets
 
 Sur les systèmes basés sur Debian, le fichier _**/var/lib/dpkg/status**_ contient des détails sur les paquets installés et le fichier _**/var/log/dpkg.log**_ enregistre des informations lorsqu'un paquet est installé.\
-Sur RedHat et les distributions Linux similaires, la commande **`rpm -qa --root=/mntpath/var/lib/rpm`** répertorie le contenu d'une base de données RPM sur un système.
+Sur RedHat et les distributions Linux connexes, la commande **`rpm -qa --root=/mntpath/var/lib/rpm`** répertorie le contenu d'une base de données RPM sur un système.
 ```bash
 #Debian
 cat /var/lib/dpkg/status | grep -E "Package:|Status:"
@@ -205,7 +205,7 @@ find /sbin/ -exec dpkg -S {} \; | grep "no path found"
 #RedHat
 find /sbin/ –exec rpm -qf {} \; | grep "is not"
 ```
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et automatiser facilement des flux de travail alimentés par les outils communautaires les plus avancés au monde.\
@@ -364,43 +364,57 @@ In this example, we will demonstrate how to collect volatile data from a Linux s
    dmesg > logs.txt
    ```
 
-6. Copy the collected data to your local machine for further analysis:
-
-   ```bash
-   scp processes.txt connections.txt files.txt logs.txt user@your_local_machine:/path/to/save
-   ```
+6. Copy the collected data to your local machine for further analysis.
 
 ##### Analysis
 
-Once you have collected the volatile data, you can analyze it to identify any suspicious processes, network connections, open files, or system logs. This analysis can help you understand the current state of the system and potentially uncover any malicious activity.
+By collecting volatile data from the target Linux system, we can gain insights into the running processes, network connections, open files, and system logs. This information can be useful for identifying any suspicious activities or potential security breaches.
 
 #### Example 2: Analyzing File Metadata
 
 ##### Description
 
-In this example, we will demonstrate how to analyze file metadata to gather information about a file in a Linux system.
+In this example, we will demonstrate how to analyze file metadata to gather information about a file on a Linux system.
 
 ##### Steps
 
-1. Identify the file you want to analyze. For this example, let's assume the file is named `important_document.docx`.
+1. Obtain the file you want to analyze.
 
-2. Run the following command to gather basic file information:
-
-   ```bash
-   stat important_document.docx > file_info.txt
-   ```
-
-3. Run the following command to extract file metadata:
+2. Run the following command to view the file metadata:
 
    ```bash
-   exiftool important_document.docx > metadata.txt
+   stat <filename>
    ```
 
-4. Analyze the collected data to gather information such as file size, permissions, creation/modification dates, and any embedded metadata.
+3. Analyze the output to gather information such as file size, permissions, owner, and modification timestamps.
 
 ##### Analysis
 
-By analyzing the file metadata, you can gather valuable information about the file, such as its size, permissions, and creation/modification dates. Additionally, extracting embedded metadata using tools like `exiftool` can provide further insights into the file's origin and history. This analysis can be useful in forensic investigations to understand the context and potential significance of a file.
+Analyzing file metadata can provide valuable information about a file, including its size, permissions, owner, and timestamps. This information can help in understanding the file's purpose, its origin, and any potential modifications or tampering.
+
+#### Example 3: Recovering Deleted Files
+
+##### Description
+
+In this example, we will demonstrate how to recover deleted files from a Linux system using basic forensic tools.
+
+##### Steps
+
+1. Connect to the target Linux system using SSH.
+
+2. Run the following command to search for deleted files:
+
+   ```bash
+   sudo grep -a -C 100 "deleted" /dev/sda1 > recovered_files.txt
+   ```
+
+3. Analyze the output to identify any recovered files.
+
+4. Copy the recovered files to your local machine for further analysis.
+
+##### Analysis
+
+By searching for deleted files on the target Linux system, we can potentially recover files that have been deleted but still exist on the disk. This can be useful for retrieving important data or investigating any suspicious activities.
 ```
 usbrip events history #Get USB history of your curent linux machine
 usbrip events history --pid 0002 --vid 0e0f --user kali #Search by pid OR vid OR user
@@ -410,10 +424,10 @@ usbrip ids search --pid 0002 --vid 0e0f #Search for pid AND vid
 ```
 Plus d'exemples et d'informations sont disponibles sur GitHub : [https://github.com/snovvcrash/usbrip](https://github.com/snovvcrash/usbrip)
 
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) pour créer et automatiser facilement des flux de travail grâce aux outils communautaires les plus avancés au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour créer facilement et automatiser des flux de travail avec les outils communautaires les plus avancés au monde.\
 Accédez-y dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -422,7 +436,7 @@ Accédez-y dès aujourd'hui :
 
 Examinez les fichiers _**/etc/passwd**_, _**/etc/shadow**_ et les journaux de sécurité pour repérer des noms ou des comptes inhabituels créés ou utilisés à proximité d'événements non autorisés connus. Vérifiez également les éventuelles attaques de force brute sudo.\
 De plus, vérifiez les fichiers tels que _**/etc/sudoers**_ et _**/etc/groups**_ pour les privilèges inattendus accordés aux utilisateurs.\
-Enfin, recherchez des comptes sans mot de passe ou avec des mots de passe faciles à deviner.
+Enfin, recherchez les comptes sans mot de passe ou avec des mots de passe faciles à deviner.
 
 ## Examiner le système de fichiers
 
@@ -432,7 +446,7 @@ Pour faire face à de telles techniques anti-forensiques, il est nécessaire de 
 
 * Avec **autopsy**, vous pouvez voir la chronologie des événements qui peut être utile pour découvrir une activité suspecte. Vous pouvez également utiliser la fonction `mactime` de **Sleuth Kit** directement.
 * Vérifiez la présence de **scripts inattendus** dans **$PATH** (peut-être des scripts sh ou php ?)
-* Les fichiers dans `/dev` étaient autrefois des fichiers spéciaux, vous pouvez trouver ici des fichiers non spéciaux liés à des logiciels malveillants.
+* Les fichiers dans `/dev` étaient autrefois des fichiers spéciaux, vous pouvez y trouver des fichiers non spéciaux liés à des logiciels malveillants.
 * Recherchez des fichiers et des répertoires inhabituels ou **cachés**, tels que ".. " (point point espace) ou "..^G " (point point contrôle-G)
 * Copies setuid de /bin/bash sur le système `find / -user root -perm -04000 –print`
 * Examinez les horodatages des **inodes supprimés pour un grand nombre de fichiers supprimés à la même heure**, ce qui pourrait indiquer une activité malveillante telle que l'installation d'un rootkit ou d'un service trojanisé.
@@ -444,7 +458,7 @@ Vous pouvez vérifier les fichiers les plus récents d'un dossier en utilisant `
 Vous pouvez vérifier les inodes des fichiers à l'intérieur d'un dossier en utilisant `ls -lai /bin |sort -n`
 
 {% hint style="info" %}
-Notez qu'un **attaquant** peut **modifier** l'**heure** pour faire **apparaître des fichiers** comme **légitimes**, mais il ne peut pas modifier l'**inode**. Si vous constatez qu'un **fichier** indique qu'il a été créé et modifié en même temps que le reste des fichiers du même dossier, mais que l'**inode** est **plus grand que prévu**, alors les **horodatages de ce fichier ont été modifiés**.
+Notez qu'un **attaquant** peut **modifier l'heure** pour faire **apparaître des fichiers** comme **légitimes**, mais il ne peut pas modifier l'**inode**. Si vous constatez qu'un **fichier** indique qu'il a été créé et modifié en même temps que le reste des fichiers du même dossier, mais que l'**inode** est **plus grand que prévu**, alors les **horodatages de ce fichier ont été modifiés**.
 {% endhint %}
 
 ## Comparer les fichiers de différentes versions du système de fichiers
@@ -455,45 +469,46 @@ git diff --no-index --diff-filter=A _openwrt1.extracted/squashfs-root/ _openwrt2
 ```
 #### Trouver le contenu modifié
 
-Lors de l'analyse forensique d'un système Linux, il est important de rechercher tout contenu modifié qui pourrait être pertinent pour l'enquête. Voici quelques étapes pour trouver ce contenu :
+Lors de l'analyse forensique d'un système Linux, il est important de rechercher tout contenu modifié qui pourrait être pertinent pour l'enquête. Voici une méthodologie de base pour trouver ce contenu :
 
-1. Examiner les journaux système : Les journaux système, tels que `/var/log/syslog` et `/var/log/auth.log`, peuvent contenir des informations sur les activités suspectes ou les modifications apportées au système.
+1. **Recherche des fichiers modifiés récemment** : Utilisez la commande `find` pour rechercher les fichiers modifiés dans un certain intervalle de temps. Par exemple, pour rechercher les fichiers modifiés au cours des 24 dernières heures, utilisez la commande suivante :
+```bash
+find / -type f -mtime 0
+```
 
-2. Vérifier les fichiers de configuration : Les fichiers de configuration, tels que `/etc/passwd` et `/etc/shadow`, peuvent être modifiés pour accorder des privilèges supplémentaires à un utilisateur ou pour masquer des activités malveillantes.
+2. **Vérification des journaux système** : Les journaux système, tels que `/var/log/syslog` et `/var/log/auth.log`, peuvent contenir des informations sur les activités suspectes. Utilisez la commande `cat` pour afficher le contenu des journaux système et recherchez des entrées anormales.
 
-3. Analyser les fichiers de log d'application : Les applications spécifiques peuvent enregistrer des activités dans leurs propres fichiers de log. Il est important de vérifier ces fichiers pour détecter toute modification suspecte.
+3. **Analyse des fichiers de configuration** : Les fichiers de configuration, tels que `/etc/passwd` et `/etc/shadow`, peuvent être modifiés pour compromettre le système. Utilisez la commande `cat` pour afficher le contenu de ces fichiers et recherchez des modifications suspectes.
 
-4. Examiner les fichiers de journalisation du noyau : Le noyau Linux peut enregistrer des informations sur les activités du système dans les fichiers de journalisation du noyau, tels que `/var/log/kern.log`. Ces fichiers peuvent contenir des indices sur les modifications apportées au système.
+4. **Vérification des fichiers de log d'application** : Les applications peuvent enregistrer des activités dans des fichiers de log spécifiques. Utilisez la commande `cat` pour afficher le contenu de ces fichiers et recherchez des entrées suspectes.
 
-5. Vérifier les fichiers de configuration réseau : Les fichiers de configuration réseau, tels que `/etc/network/interfaces` et `/etc/resolv.conf`, peuvent être modifiés pour rediriger le trafic ou masquer des activités malveillantes.
+5. **Analyse des fichiers de sauvegarde** : Les fichiers de sauvegarde peuvent contenir des versions antérieures des fichiers modifiés. Utilisez la commande `ls` pour répertorier les fichiers de sauvegarde et utilisez la commande `diff` pour comparer les versions antérieures avec les versions actuelles.
 
-6. Analyser les fichiers de log des services : Les services exécutés sur le système peuvent enregistrer des activités dans leurs propres fichiers de log. Il est important de vérifier ces fichiers pour détecter toute modification suspecte.
+6. **Recherche des fichiers cachés** : Les fichiers cachés peuvent être utilisés pour masquer des activités malveillantes. Utilisez la commande `ls -a` pour afficher les fichiers cachés et recherchez des fichiers suspects.
 
-En suivant ces étapes, vous pourrez trouver des indices sur les modifications apportées au système Linux et les activités suspectes qui pourraient être pertinentes pour votre enquête forensique.
+7. **Analyse des fichiers de swap** : Les fichiers de swap peuvent contenir des informations sensibles. Utilisez la commande `strings` pour extraire du texte à partir des fichiers de swap et recherchez des informations suspectes.
+
+8. **Vérification des fichiers de configuration réseau** : Les fichiers de configuration réseau, tels que `/etc/network/interfaces`, peuvent être modifiés pour faciliter les attaques. Utilisez la commande `cat` pour afficher le contenu de ces fichiers et recherchez des modifications suspectes.
+
+En suivant cette méthodologie de base, vous pouvez trouver du contenu modifié qui peut être utile pour votre enquête forensique sur un système Linux.
 ```bash
 git diff --no-index --diff-filter=M _openwrt1.extracted/squashfs-root/ _openwrt2.extracted/squashfs-root/ | grep -E "^\+" | grep -v "Installed-Time"
 ```
 #### Trouver des fichiers supprimés
 
-Lors de l'analyse d'un système Linux dans le cadre d'une enquête forensique, il est souvent nécessaire de rechercher des fichiers supprimés. Les fichiers supprimés ne sont pas immédiatement effacés du système de fichiers, mais plutôt marqués comme disponibles pour être réécrits. Par conséquent, il est possible de récupérer ces fichiers supprimés en utilisant des outils appropriés.
+Lors de l'analyse d'un système Linux dans le cadre d'une enquête forensique, il est important de rechercher des fichiers supprimés qui pourraient contenir des informations cruciales. Voici une méthodologie de base pour trouver des fichiers supprimés :
 
-L'une des méthodes couramment utilisées pour trouver des fichiers supprimés consiste à utiliser l'outil `grep`. Vous pouvez rechercher des chaînes de caractères spécifiques dans l'espace non alloué du disque dur en utilisant la commande suivante :
+1. **Analyser l'espace libre** : Utilisez des outils tels que `fls` pour examiner l'espace libre du système de fichiers et rechercher des inodes non alloués. Ces inodes peuvent indiquer l'emplacement de fichiers supprimés.
 
-```bash
-grep -a -C 100 'chaîne_de_caractères' /dev/sda
-```
+2. **Utiliser `icat`** : Une fois que vous avez identifié les inodes correspondant à des fichiers supprimés, utilisez l'outil `icat` pour extraire le contenu de ces fichiers. Par exemple, vous pouvez exécuter la commande `icat -r <device> <inode>` pour récupérer le contenu d'un fichier supprimé.
 
-Cette commande recherche la chaîne de caractères spécifiée dans le disque dur `/dev/sda` et affiche 100 lignes de contexte avant et après chaque correspondance. Assurez-vous de remplacer `'chaîne_de_caractères'` par la chaîne que vous souhaitez rechercher.
+3. **Rechercher dans les journaux** : Les systèmes de fichiers journalisés, tels que ext3 et ext4, enregistrent les métadonnées des fichiers supprimés dans les journaux. Utilisez des outils tels que `grep` pour rechercher des entrées de journal correspondant à des fichiers supprimés.
 
-Une autre méthode consiste à utiliser l'outil `foremost`, qui est spécialement conçu pour la récupération de fichiers supprimés. Vous pouvez l'utiliser de la manière suivante :
+4. **Analyser les fichiers temporaires** : Les fichiers temporaires peuvent contenir des informations sensibles. Recherchez des fichiers avec des extensions telles que `.tmp`, `.swp` ou `.bak` qui pourraient contenir des données supprimées.
 
-```bash
-foremost -i /dev/sda -o /chemin/vers/le/dossier_de_sortie
-```
+5. **Utiliser des outils spécialisés** : Il existe de nombreux outils spécialisés pour la récupération de fichiers supprimés sur Linux, tels que `foremost` et `scalpel`. Ces outils peuvent vous aider à récupérer des fichiers supprimés à partir d'images disque ou de systèmes de fichiers.
 
-Cette commande analyse le disque dur `/dev/sda` et récupère les fichiers supprimés, les enregistrant dans le dossier de sortie spécifié. Assurez-vous de remplacer `/chemin/vers/le/dossier_de_sortie` par le chemin approprié.
-
-Il est important de noter que la récupération de fichiers supprimés peut être un processus délicat et qu'il est recommandé de travailler sur une copie du disque dur plutôt que sur le disque dur d'origine. Cela permet de minimiser les risques de corruption des données et de préserver l'intégrité des preuves.
+En suivant cette méthodologie de base, vous pouvez augmenter vos chances de trouver des fichiers supprimés contenant des informations pertinentes pour votre enquête forensique.
 ```bash
 git diff --no-index --diff-filter=A _openwrt1.extracted/squashfs-root/ _openwrt2.extracted/squashfs-root/
 ```
@@ -501,7 +516,7 @@ git diff --no-index --diff-filter=A _openwrt1.extracted/squashfs-root/ _openwrt2
 
 **`-diff-filter=[(A|C|D|M|R|T|U|X|B)…​[*]]`**
 
-Sélectionne uniquement les fichiers qui ont été ajoutés (`A`), copiés (`C`), supprimés (`D`), modifiés (`M`), renommés (`R`), dont le type (c'est-à-dire fichier régulier, lien symbolique, sous-module, etc.) a été modifié (`T`), qui sont non fusionnés (`U`), inconnus (`X`), ou dont la correspondance a été rompue (`B`). Toute combinaison des caractères de filtre (y compris aucun) peut être utilisée. Lorsque `*` (tout ou rien) est ajouté à la combinaison, tous les chemins sont sélectionnés s'il y a un fichier qui correspond à d'autres critères dans la comparaison ; s'il n'y a aucun fichier qui correspond à d'autres critères, rien n'est sélectionné.
+Sélectionnez uniquement les fichiers qui ont été ajoutés (`A`), copiés (`C`), supprimés (`D`), modifiés (`M`), renommés (`R`), dont le type (c'est-à-dire fichier régulier, lien symbolique, sous-module, etc.) a été modifié (`T`), sont non fusionnés (`U`), sont inconnus (`X`), ou dont la correspondance a été rompue (`B`). Toute combinaison des caractères de filtre (y compris aucun) peut être utilisée. Lorsque `*` (tout ou rien) est ajouté à la combinaison, tous les chemins sont sélectionnés s'il y a un fichier qui correspond à d'autres critères dans la comparaison ; s'il n'y a pas de fichier qui correspond à d'autres critères, rien n'est sélectionné.
 
 De plus, **ces lettres majuscules peuvent être en minuscules pour exclure**. Par exemple, `--diff-filter=ad` exclut les chemins ajoutés et supprimés.
 
@@ -520,16 +535,16 @@ Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir vo
 
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 
-**Partagez vos astuces de piratage en soumettant des PR au référentiel [hacktricks](https://github.com/carlospolop/hacktricks) et [hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+**Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour créer et automatiser facilement des flux de travail alimentés par les outils communautaires les plus avancés au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour créer et **automatiser facilement des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
 Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

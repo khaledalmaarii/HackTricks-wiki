@@ -1,6 +1,6 @@
 # Commandes utiles Linux
 
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et automatiser facilement des flux de travail alimentés par les outils communautaires les plus avancés au monde.\
 Accédez dès aujourd'hui :
@@ -14,8 +14,8 @@ Accédez dès aujourd'hui :
 * Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? Ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR au [repo hacktricks](https://github.com/carlospolop/hacktricks) et au [repo hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -138,7 +138,7 @@ sudo chattr -i file.txt #Remove the bit so you can delete it
 # List files inside zip
 7z l file.zip
 ```
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
@@ -262,13 +262,12 @@ egrep -a -o "\bISBN(?:-1[03])?:? (?=[0-9X]{10}$|(?=(?:[0-9]+[- ]){3})[- 0-9X]{13
 Nmap est un outil de scan de réseau puissant et polyvalent. Il offre de nombreuses options de recherche pour vous aider à explorer et à analyser les réseaux. Voici quelques commandes utiles pour vous aider à démarrer :
 
 - `nmap -sn <IP>` : Cette commande effectue un scan de ping pour vérifier si une adresse IP est active.
-- `nmap -sS <IP>` : Cette commande effectue un scan TCP SYN pour détecter les ports ouverts sur une adresse IP.
-- `nmap -sU <IP>` : Cette commande effectue un scan UDP pour détecter les ports ouverts sur une adresse IP.
-- `nmap -p <port> <IP>` : Cette commande effectue un scan sur un port spécifique d'une adresse IP.
-- `nmap -O <IP>` : Cette commande tente de détecter le système d'exploitation d'une adresse IP.
-- `nmap -A <IP>` : Cette commande effectue un scan complet, y compris la détection du système d'exploitation, la détection des versions de logiciels et d'autres informations détaillées.
+- `nmap -p <port> <IP>` : Cette commande scanne un port spécifique sur une adresse IP donnée.
+- `nmap -F <IP>` : Cette commande effectue un scan rapide des 100 ports les plus couramment utilisés sur une adresse IP.
+- `nmap -sV <IP>` : Cette commande détecte les services et les versions des logiciels en cours d'exécution sur une adresse IP.
+- `nmap -A <IP>` : Cette commande active l'option de détection d'OS, de version de service, de script et de traceroute.
 
-Ces commandes de base vous aideront à commencer à utiliser Nmap pour explorer et analyser les réseaux. N'hésitez pas à consulter la documentation officielle de Nmap pour en savoir plus sur les options de recherche avancées.
+Nmap offre de nombreuses autres options et fonctionnalités avancées. Pour en savoir plus, consultez la documentation officielle de Nmap.
 ```bash
 #Nmap scripts ((default or version) and smb))
 nmap --script-help "(default or version) and *smb*"
@@ -277,11 +276,7 @@ nmap --script-help "(default or version) and smb)"
 ```
 ## Bash
 
-Bash (Bourne Again SHell) est un interpréteur de commandes populaire utilisé dans les systèmes d'exploitation Linux et macOS. Il offre une interface en ligne de commande pour exécuter des commandes et des scripts.
-
-### Commandes utiles
-
-Voici quelques commandes Bash utiles pour travailler avec Linux :
+Bash (Bourne Again SHell) est un interpréteur de commandes populaire utilisé dans les systèmes d'exploitation Linux et Unix. Il offre de nombreuses fonctionnalités utiles pour les administrateurs système et les hackers. Voici quelques commandes Bash couramment utilisées :
 
 - `ls` : liste les fichiers et les répertoires dans le répertoire courant.
 - `cd` : change le répertoire courant.
@@ -294,31 +289,20 @@ Voici quelques commandes Bash utiles pour travailler avec Linux :
 - `grep` : recherche des motifs dans un fichier.
 - `chmod` : modifie les permissions d'un fichier ou d'un répertoire.
 - `chown` : modifie le propriétaire d'un fichier ou d'un répertoire.
+- `chgrp` : modifie le groupe d'un fichier ou d'un répertoire.
+- `ps` : affiche les processus en cours d'exécution.
+- `kill` : envoie un signal à un processus pour le terminer.
+- `top` : affiche les processus en cours d'exécution en temps réel.
 - `ssh` : se connecte à un serveur distant via SSH.
+- `scp` : copie des fichiers entre un ordinateur local et un serveur distant via SSH.
 - `wget` : télécharge des fichiers depuis Internet.
-- `curl` : récupère le contenu d'une URL.
+- `curl` : effectue des requêtes HTTP et affiche les réponses.
+- `tar` : crée ou extrait des fichiers d'archive.
+- `gzip` : compresse ou décompresse des fichiers.
+- `find` : recherche des fichiers et des répertoires.
+- `history` : affiche l'historique des commandes exécutées.
 
-Ces commandes sont très utiles pour naviguer dans le système de fichiers, manipuler des fichiers et des répertoires, rechercher du contenu et effectuer des tâches courantes sur un système Linux.
-
-### Scripts Bash
-
-Bash est également utilisé pour écrire des scripts, qui sont des séquences de commandes exécutées les unes après les autres. Les scripts Bash peuvent être utilisés pour automatiser des tâches répétitives, effectuer des opérations complexes et gérer des processus.
-
-Pour exécuter un script Bash, vous pouvez utiliser la commande `bash` suivie du nom du fichier de script. Par exemple :
-
-```bash
-bash mon_script.sh
-```
-
-Assurez-vous que le fichier de script a les permissions d'exécution appropriées en utilisant la commande `chmod`. Par exemple :
-
-```bash
-chmod +x mon_script.sh
-```
-
-Cela permet d'exécuter le script en tant que programme.
-
-Les scripts Bash peuvent être très puissants et flexibles, et ils sont largement utilisés dans l'administration système et le développement logiciel sous Linux.
+Ces commandes Bash sont essentielles pour naviguer, gérer et automatiser des tâches dans un environnement Linux.
 ```bash
 #All bytes inside a file (except 0x20 and 0x00)
 for j in $((for i in {0..9}{0..9} {0..9}{a..f} {a..f}{0..9} {a..f}{a..f}; do echo $i; done ) | sort | grep -v "20\|00"); do echo -n -e "\x$j" >> bytes; done
@@ -350,7 +334,7 @@ iptables -A INPUT -s <IP_ADDRESS> -j DROP
 To allow incoming traffic on a specific port, use the following command:
 
 ```bash
-iptables -A INPUT -p <PROTOCOL> --dport <PORT_NUMBER> -j ACCEPT
+iptables -A INPUT -p tcp --dport <PORT_NUMBER> -j ACCEPT
 ```
 
 To save the current iptables rules to a file, use the following command:
@@ -412,18 +396,18 @@ iptables -P OUTPUT ACCEPT
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? Ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR au [repo hacktricks](https://github.com/carlospolop/hacktricks) et au [repo hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser facilement des workflows** alimentés par les outils communautaires les plus avancés au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser facilement des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
 Obtenez un accès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

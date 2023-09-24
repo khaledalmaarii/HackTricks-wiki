@@ -7,15 +7,15 @@
 * Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) pour créer et **automatiser des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour créer et **automatiser des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
 Obtenez un accès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -111,7 +111,7 @@ La plupart des informations seront enregistrées dans les dossiers _**Default/**
 * Link : L'utilisateur a cliqué sur un lien
 * Typed : L'URL a été saisie
 * Auto Bookmark
-* Auto Subframe : Ajouter
+* Auto Subframe : Ajout
 * Start page : Page d'accueil
 * Form Submit : Un formulaire a été rempli et envoyé
 * Reloaded
@@ -125,7 +125,7 @@ La plupart des informations seront enregistrées dans les dossiers _**Default/**
 * _**Last Session**_ et _**Last Tabs**_ : Ces fichiers contiennent les sites qui étaient actifs dans le navigateur lorsque Chrome a été fermé pour la dernière fois.
 * _**Extensions**_ : Dossier des extensions et des modules complémentaires
 * **Thumbnails** : Miniatures
-* **Preferences** : Ce fichier contient une multitude d'informations utiles telles que les plugins, les extensions, les sites utilisant la géolocalisation, les popups, les notifications, le prefetching DNS, les exceptions de certificat, et bien plus encore. Si vous essayez de savoir si un paramètre spécifique de Chrome était activé ou non, vous le trouverez probablement ici.
+* **Preferences** : Ce fichier contient une multitude d'informations utiles telles que les plugins, les extensions, les sites utilisant la géolocalisation, les popups, les notifications, le prefetching DNS, les exceptions de certificat, et bien plus encore. Si vous essayez de savoir si un paramètre spécifique de Chrome était activé ou non, vous trouverez probablement ce paramètre ici.
 * **Anti-phishing intégré au navigateur** : `grep 'safebrowsing' ~/Library/Application Support/Google/Chrome/Default/Preferences`
 * Vous pouvez simplement utiliser la commande grep pour rechercher "safebrowsing" et rechercher `{"enabled: true,"}` dans le résultat pour indiquer que la protection anti-phishing et anti-malware est activée.
 
@@ -140,7 +140,7 @@ Internet Explorer stocke les **données** et les **métadonnées** dans différe
 Les **métadonnées** peuvent être trouvées dans le dossier `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` où VX peut être V01, V16 ou V24.\
 Dans le dossier précédent, vous pouvez également trouver le fichier V01.log. Si l'heure de modification de ce fichier et du fichier WebcacheVX.data est différente, vous devrez peut-être exécuter la commande `esentutl /r V01 /d` pour **corriger** les éventuelles **incompatibilités**.
 
-Une fois cet artefact récupéré (il s'agit d'une base de données ESE, photorec peut la récupérer avec les options Base de données Exchange ou EDB), vous pouvez utiliser le programme [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html) pour l'ouvrir. Une fois ouvert, accédez à la table intitulée "**Containers**".
+Une fois cet artefact récupéré (il s'agit d'une base de données ESE, photorec peut la récupérer avec les options Base de données Exchange ou EDB), vous pouvez utiliser le programme [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html) pour l'ouvrir. Une fois ouvert, accédez à la table nommée "**Containers**".
 
 ![](<../../../.gitbook/assets/image (446).png>)
 
@@ -267,10 +267,10 @@ Opera **stocke l'historique du navigateur et les données de téléchargement da
 * **Anti-phishing intégré au navigateur** : `grep --color 'fraud_protection_enabled' ~/Library/Application Support/com.operasoftware.Opera/Preferences`
 * **fraud\_protection\_enabled** devrait être **true**
 
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) pour créer et **automatiser facilement des flux de travail** basés sur les outils communautaires les plus avancés au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour créer et automatiser facilement des flux de travail basés sur les outils communautaires les plus avancés au monde.\
 Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -282,7 +282,7 @@ Accédez dès aujourd'hui :
 * Vous travaillez dans une **entreprise de cybersécurité** ? Vous souhaitez voir votre **entreprise annoncée dans HackTricks** ? ou souhaitez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

@@ -141,7 +141,7 @@ int main(int argc, char** argv) {
     kr = bootstrap_look_up(bootstrap_port, "com.example.server", &server_port);
     if (kr != KERN_SUCCESS) {
         printf("Failed to look up server port: %s\n", mach_error_string(kr));
-        return 1;
+        exit(1);
     }
 
     // Send a message to the server
@@ -149,8 +149,17 @@ int main(int argc, char** argv) {
     kr = mach_msg_send((mach_msg_header_t*)buffer);
     if (kr != KERN_SUCCESS) {
         printf("Failed to send message: %s\n", mach_error_string(kr));
-        return 1;
+        exit(1);
     }
+
+    // Receive a reply from the server
+    kr = mach_msg_receive((mach_msg_header_t*)buffer);
+    if (kr != KERN_SUCCESS) {
+        printf("Failed to receive reply: %s\n", mach_error_string(kr));
+        exit(1);
+    }
+
+    printf("Received reply: %s\n", buffer);
 
     return 0;
 }
@@ -489,7 +498,7 @@ Dans macOS, les **threads** peuvent être manipulés via **Mach** ou en utilisan
 
 Il était possible d'**injecter un simple shellcode** pour exécuter une commande car cela ne nécessitait pas de travailler avec des API conformes à posix, seulement avec Mach. Des **injections plus complexes** nécessiteraient que le **thread** soit également conforme à posix.
 
-Par conséquent, pour **améliorer le thread**, il devrait appeler **`pthread_create_from_mach_thread`** qui va **créer un pthread valide**. Ensuite, ce nouveau pthread pourrait **appeler dlopen** pour **charger une dylib** à partir du système, donc au lieu d'écrire un nouveau shellcode pour effectuer différentes actions, il est possible de charger des bibliothèques personnalisées.
+Par conséquent, pour **améliorer le thread**, il devrait appeler **`pthread_create_from_mach_thread`** qui va **créer un pthread valide**. Ensuite, ce nouveau pthread pourrait **appeler dlopen** pour **charger une dylib** du système, donc au lieu d'écrire un nouveau shellcode pour effectuer différentes actions, il est possible de charger des bibliothèques personnalisées.
 
 Vous pouvez trouver des **exemples de dylibs** dans (par exemple celui qui génère un journal que vous pouvez ensuite écouter) :
 
@@ -730,7 +739,7 @@ remoteThreadState64.ash.count = ARM_THREAD_STATE64_COUNT;
 remoteThreadState64.ts_64.__pc = (u_int64_t) remoteCode64;
 remoteThreadState64.ts_64.__sp = (u_int64_t) remoteStack64;
 
-printf("Pile distante 64  0x%llx, le code distant est %p\n", remoteStack64, p);
+printf("Pile distante 64  0x%llx, Le code distant est %p\n", remoteStack64, p);
 
 kr = thread_create_running(remoteTask, ARM_THREAD_STATE64, // ARM_THREAD_STATE64,
                            (thread_state_t) &remoteThreadState64.ts_64, ARM_THREAD_STATE64_COUNT, &remoteThread);
@@ -791,7 +800,7 @@ Les principaux avantages de XPC sont les suivants :
 2. **Stabilité** : XPC aide à isoler les plantages dans le composant où ils se produisent. Si un processus plante, il peut être redémarré sans affecter le reste du système.
 3. **Performance** : XPC permet une concurrence facile, car différentes tâches peuvent être exécutées simultanément dans différents processus.
 
-Le seul **inconvénient** est que **séparer une application en plusieurs processus** qui communiquent via XPC est **moins efficace**. Mais dans les systèmes d'aujourd'hui, cela est presque imperceptible et les avantages sont meilleurs.
+Le seul **inconvénient** est que **séparer une application en plusieurs processus** qui communiquent via XPC est **moins efficace**. Mais dans les systèmes d'aujourd'hui, cela n'est presque pas perceptible et les avantages sont meilleurs.
 
 ### Services XPC spécifiques à l'application
 
@@ -855,7 +864,7 @@ Lorsqu'un processus essaie d'appeler une méthode via une connexion XPC, le **se
 
 ### Autorisation XPC
 
-Apple permet également aux applications de **configurer certains droits et la manière de les obtenir**, de sorte que si le processus appelant les possède, il serait **autorisé à appeler une méthode** du service XPC :
+Apple permet également aux applications de **configurer certains droits et la manière de les obtenir** afin que si le processus appelant les possède, il soit **autorisé à appeler une méthode** du service XPC :
 
 {% content-ref url="macos-xpc-authorization.md" %}
 [macos-xpc-authorization.md](macos-xpc-authorization.md)
@@ -920,42 +929,15 @@ return 0;
 ```
 {% tab title="xpc_client.c" %}
 
-```c
-#include <stdio.h>
-#include <stdlib.h>
-#include <xpc/xpc.h>
+Le fichier `xpc_client.c` est un exemple de code source en langage C qui illustre l'utilisation de l'API XPC pour la communication inter-processus (IPC) sur macOS. L'API XPC permet aux processus de communiquer entre eux de manière sécurisée et efficace en utilisant des messages structurés.
 
-int main(int argc, const char * argv[]) {
-    xpc_connection_t connection = xpc_connection_create_mach_service("com.apple.securityd", NULL, XPC_CONNECTION_MACH_SERVICE_PRIVILEGED);
-    if (connection == NULL) {
-        printf("Failed to create XPC connection\n");
-        return 1;
-    }
-    
-    xpc_connection_set_event_handler(connection, ^(xpc_object_t event) {
-        xpc_type_t type = xpc_get_type(event);
-        if (type == XPC_TYPE_DICTIONARY) {
-            const char *message = xpc_dictionary_get_string(event, "message");
-            if (message != NULL) {
-                printf("Received message: %s\n", message);
-            }
-        }
-    });
-    
-    xpc_connection_resume(connection);
-    
-    xpc_object_t message = xpc_dictionary_create(NULL, NULL, 0);
-    xpc_dictionary_set_string(message, "message", "Hello from XPC client");
-    
-    xpc_connection_send_message(connection, message);
-    
-    xpc_release(message);
-    
-    dispatch_main();
-    
-    return 0;
-}
-```
+Dans cet exemple, un client XPC est créé et utilisé pour envoyer un message à un service XPC distant. Le client XPC utilise la fonction `xpc_connection_create` pour créer une connexion vers le service distant, puis utilise la fonction `xpc_dictionary_create` pour créer un dictionnaire XPC contenant les données à envoyer.
+
+Une fois que le dictionnaire XPC est créé, le client XPC utilise la fonction `xpc_connection_send_message` pour envoyer le message au service distant. Le service distant peut ensuite recevoir le message en utilisant une méthode similaire.
+
+Il est important de noter que l'API XPC offre des mécanismes de sécurité intégrés pour protéger la communication inter-processus. Par exemple, les connexions XPC peuvent être configurées pour utiliser des autorisations spécifiques, et les messages XPC peuvent être chiffrés pour assurer la confidentialité des données.
+
+Ce fichier `xpc_client.c` est un exemple de base pour comprendre comment utiliser l'API XPC pour la communication inter-processus sur macOS. Il peut être utilisé comme point de départ pour développer des applications qui nécessitent une communication sécurisée entre les processus.
 
 {% endtab %}
 ```c
@@ -1108,15 +1090,7 @@ return 0;
 
 Ce fichier de configuration spécifie les paramètres et les autorisations pour les services IPC spécifiques. Il peut être utilisé pour restreindre l'accès aux services IPC, limiter les privilèges des processus ou définir des règles de sécurité supplémentaires.
 
-Il est important de noter que la modification de ce fichier de configuration peut avoir des conséquences importantes sur le fonctionnement du système d'exploitation. Il est recommandé de faire preuve de prudence lors de la modification de ce fichier et de s'assurer de comprendre les implications de chaque modification.
-
-Pour modifier ce fichier de configuration, vous pouvez utiliser un éditeur de texte ou une interface graphique spécifique à macOS. Assurez-vous de sauvegarder une copie du fichier d'origine avant de le modifier, au cas où vous auriez besoin de revenir à la configuration précédente.
-
-Une fois que vous avez modifié le fichier de configuration, vous devrez peut-être redémarrer le système d'exploitation pour que les modifications prennent effet.
-
-Il est également important de noter que la modification de ce fichier de configuration peut nécessiter des privilèges d'administrateur. Assurez-vous d'avoir les autorisations appropriées avant de procéder à des modifications.
-
-En résumé, xyz.hacktricks.svcoc.plist est un fichier de configuration utilisé par macOS pour gérer les services IPC. Il peut être modifié pour restreindre l'accès aux services IPC, limiter les privilèges des processus ou définir des règles de sécurité supplémentaires.
+Lors de la sécurisation d'un système macOS, il est important de vérifier et de configurer correctement les fichiers de configuration IPC tels que xyz.hacktricks.svcoc.plist pour éviter les vulnérabilités de sécurité et les escalades de privilèges.
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
@@ -1157,6 +1131,48 @@ sudo launchctl load /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist
 # Clean
 sudo launchctl unload /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist
 sudo rm /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist /tmp/oc_xpc_server
+```
+### Client à l'intérieur du code Dylib
+
+Le code Dylib est une bibliothèque dynamique utilisée dans le système d'exploitation macOS. Il peut être utilisé pour créer des clients qui communiquent avec d'autres processus via l'IPC (Inter-Process Communication). L'IPC est un mécanisme permettant aux processus de partager des informations et de communiquer entre eux.
+
+Dans cet exemple, nous avons un client qui est intégré dans le code Dylib. Le client utilise l'IPC pour communiquer avec d'autres processus et échanger des données. L'utilisation de l'IPC peut être utile dans de nombreux scénarios, tels que la coordination entre les processus, le partage de ressources ou la mise en œuvre de fonctionnalités avancées.
+
+Lorsque vous développez un client à l'intérieur du code Dylib, il est important de prendre en compte la sécurité. Assurez-vous de mettre en œuvre des mécanismes de sécurité appropriés pour protéger les données échangées et empêcher toute exploitation ou violation de la confidentialité.
+
+En résumé, un client à l'intérieur du code Dylib est un moyen puissant de communiquer avec d'autres processus via l'IPC dans macOS. Cependant, il est essentiel de prendre des mesures de sécurité appropriées pour garantir la protection des données et prévenir les violations de sécurité.
+```
+// gcc -dynamiclib -framework Foundation oc_xpc_client.m -o oc_xpc_client.dylib
+// gcc injection example:
+// DYLD_INSERT_LIBRARIES=oc_xpc_client.dylib /path/to/vuln/bin
+
+#import <Foundation/Foundation.h>
+
+@protocol MyXPCProtocol
+- (void)sayHello:(NSString *)some_string withReply:(void (^)(NSString *))reply;
+@end
+
+__attribute__((constructor))
+static void customConstructor(int argc, const char **argv)
+{
+NSString*  _serviceName = @"xyz.hacktricks.svcoc";
+
+NSXPCConnection* _agentConnection = [[NSXPCConnection alloc] initWithMachServiceName:_serviceName options:4096];
+
+[_agentConnection setRemoteObjectInterface:[NSXPCInterface interfaceWithProtocol:@protocol(MyXPCProtocol)]];
+
+[_agentConnection resume];
+
+[[_agentConnection remoteObjectProxyWithErrorHandler:^(NSError* error) {
+(void)error;
+NSLog(@"Connection Failure");
+}] sayHello:@"Hello, Server!" withReply:^(NSString *response) {
+NSLog(@"Received response: %@", response);
+}    ];
+NSLog(@"Done!");
+
+return;
+}
 ```
 ## Références
 

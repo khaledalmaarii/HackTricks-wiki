@@ -12,14 +12,13 @@
 
 </details>
 
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour créer et **automatiser des flux de travail** avec les outils communautaires les plus avancés au monde.\
 Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
-
 
 ## **Sécurité de base du moteur Docker**
 
@@ -103,7 +102,7 @@ $ docker pull smakam/mybusybox
 Using default tag: latest
 No trust data for latest
 ```
-Le résultat suivant montre que l'image du conteneur est en cours de téléversement vers Docker Hub avec la signature activée. Comme ce n'est pas la première fois, l'utilisateur est invité à entrer uniquement la phrase secrète pour la clé du référentiel.
+Le résultat suivant montre que l'image du conteneur est en cours de téléversement vers Docker Hub avec la signature activée. Étant donné que ce n'est pas la première fois, l'utilisateur est invité à entrer uniquement la phrase secrète pour la clé du référentiel.
 ```shell-session
 $ docker push smakam/mybusybox:v2
 The push refers to a repository [docker.io/smakam/mybusybox]
@@ -118,14 +117,14 @@ Il est nécessaire de stocker la clé root, la clé du dépôt ainsi que la phra
 ```bash
 tar -zcvf private_keys_backup.tar.gz ~/.docker/trust/private
 ```
-Lorsque j'ai changé d'hôte Docker, j'ai dû déplacer les clés root et les clés de dépôt pour pouvoir opérer à partir du nouvel hôte.
+Lorsque j'ai changé d'hôte Docker, j'ai dû déplacer les clés racine et les clés de dépôt pour pouvoir opérer à partir du nouvel hôte.
 
 ***
 
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour créer facilement et **automatiser des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire facilement et **automatiser des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
 Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -140,7 +139,7 @@ Accédez dès aujourd'hui :
 
 Les namespaces sont utiles pour isoler un projet des autres, en isolant les communications entre les processus, le réseau, les montages... C'est utile pour isoler le processus Docker des autres processus (et même du dossier /proc) afin qu'il ne puisse pas s'échapper en abusant d'autres processus.
 
-Il serait possible de "s'échapper" ou plus précisément **créer de nouveaux namespaces** en utilisant l'exécutable **`unshare`** (qui utilise l'appel système **`unshare`**). Docker l'empêche par défaut, mais Kubernetes ne le fait pas (au moment de la rédaction de ceci).\
+Il serait possible de "s'échapper" ou plus précisément de **créer de nouveaux namespaces** en utilisant l'exécutable **`unshare`** (qui utilise l'appel système **`unshare`**). Docker l'empêche par défaut, mais Kubernetes ne le fait pas (au moment de la rédaction de ceci).\
 Quoi qu'il en soit, cela est utile pour créer de nouveaux namespaces, mais **pas pour revenir aux namespaces par défaut de l'hôte** (à moins d'avoir accès à certains `/proc` à l'intérieur des namespaces de l'hôte, où vous pourriez utiliser **`nsenter`** pour entrer dans les namespaces de l'hôte).
 
 **CGroups**
@@ -265,7 +264,15 @@ sudo apt-get install -y stress-ng && stress-ng --vm 1 --vm-bytes 1G --verify -t 
 # While loop
 docker run -d --name malicious-container -c 512 busybox sh -c 'while true; do :; done'
 ```
-* Bande passante DoS
+# Bande passante DoS
+
+Une attaque de déni de service (DoS) par bande passante consiste à saturer la bande passante d'un système cible afin de le rendre indisponible aux utilisateurs légitimes. Cette attaque vise à épuiser les ressources réseau du système, ce qui entraîne une dégradation des performances ou une interruption complète du service.
+
+L'attaquant peut utiliser différentes techniques pour mener une attaque de déni de service par bande passante, telles que l'envoi massif de requêtes, la génération de trafic réseau volumineux ou l'exploitation de vulnérabilités dans les protocoles réseau.
+
+Pour se protéger contre une attaque de déni de service par bande passante, il est recommandé de mettre en place des mesures de sécurité telles que la limitation de la bande passante, la mise en place de pare-feux et de systèmes de détection d'intrusion, ainsi que la surveillance du trafic réseau pour détecter les anomalies.
+
+Il est également important de garder les systèmes à jour avec les derniers correctifs de sécurité et de mettre en œuvre des politiques de sécurité solides pour réduire les risques d'attaques de déni de service par bande passante.
 ```bash
 nc -lvp 4444 >/dev/null & while true; do cat /dev/urandom | nc <target IP> 4444; done
 ```
@@ -295,127 +302,63 @@ docker run -it --security-opt=no-new-privileges:true nonewpriv
 
 ##### Docker Security
 
-##### Sécurité de Docker
+##### Sécurité Docker
+
+Docker is a popular containerization platform that allows you to package applications and their dependencies into a standardized unit called a container. While Docker provides many benefits in terms of portability and scalability, it also introduces security challenges that need to be addressed.
+
+Docker est une plateforme de conteneurisation populaire qui vous permet de regrouper des applications et leurs dépendances dans une unité standardisée appelée conteneur. Bien que Docker offre de nombreux avantages en termes de portabilité et de scalabilité, il introduit également des défis en matière de sécurité qui doivent être résolus.
+
+This section covers various security best practices and techniques to harden your Docker environment and protect it from potential attacks.
+
+Cette section couvre différentes meilleures pratiques de sécurité et techniques pour renforcer votre environnement Docker et le protéger contre d'éventuelles attaques.
+
+- [Docker Security Best Practices](docker-security-best-practices.md): Learn about the best practices to secure your Docker installation and containers.
+
+- [Meilleures pratiques de sécurité Docker](docker-security-best-practices.md) : Découvrez les meilleures pratiques pour sécuriser votre installation Docker et vos conteneurs.
+
+- [Docker Image Security](docker-image-security.md): Understand the security considerations when working with Docker images and how to mitigate potential risks.
+
+- [Sécurité des images Docker](docker-image-security.md) : Comprenez les considérations de sécurité lors de la manipulation des images Docker et comment atténuer les risques potentiels.
+
+- [Docker Network Security](docker-network-security.md): Explore techniques to secure Docker networking and prevent unauthorized access to your containers.
+
+- [Sécurité du réseau Docker](docker-network-security.md) : Explorez les techniques pour sécuriser le réseau Docker et empêcher l'accès non autorisé à vos conteneurs.
+
+- [Docker Runtime Security](docker-runtime-security.md): Learn about runtime security measures to protect your Docker containers from exploitation.
+
+- [Sécurité d'exécution Docker](docker-runtime-security.md) : Découvrez les mesures de sécurité d'exécution pour protéger vos conteneurs Docker contre l'exploitation.
+
+- [Docker Orchestration Security](docker-orchestration-security.md): Understand the security considerations when using Docker orchestration tools like Kubernetes and how to secure your orchestration environment.
+
+- [Sécurité de l'orchestration Docker](docker-orchestration-security.md) : Comprenez les considérations de sécurité lors de l'utilisation d'outils d'orchestration Docker tels que Kubernetes et comment sécuriser votre environnement d'orchestration.
+
+- [Docker Logging and Monitoring](docker-logging-monitoring.md): Learn about logging and monitoring techniques to detect and respond to security incidents in your Docker environment.
+
+- [Journalisation et surveillance Docker](docker-logging-monitoring.md) : Découvrez les techniques de journalisation et de surveillance pour détecter et répondre aux incidents de sécurité dans votre environnement Docker.
+
+- [Docker Compliance and Auditing](docker-compliance-auditing.md): Understand the compliance requirements for Docker environments and learn how to perform audits to ensure adherence to security standards.
+
+- [Conformité et audit Docker](docker-compliance-auditing.md) : Comprenez les exigences de conformité pour les environnements Docker et apprenez comment effectuer des audits pour garantir le respect des normes de sécurité.
 
 ---
 
-##### Docker Privilege Escalation
+##### Contributing
 
-##### Élévation de privilèges Docker
+##### Contribution
 
----
+Contributions are welcome! If you have any security best practices or techniques that you would like to share, please submit a pull request.
 
-##### Docker is a popular containerization platform that allows you to package an application and its dependencies into a standardized unit called a container. Containers are isolated from each other and from the underlying host system, providing a lightweight and portable way to run applications.
-
-##### Docker est une plateforme de conteneurisation populaire qui vous permet de regrouper une application et ses dépendances dans une unité standardisée appelée conteneur. Les conteneurs sont isolés les uns des autres et du système hôte sous-jacent, offrant ainsi un moyen léger et portable d'exécuter des applications.
+Les contributions sont les bienvenues ! Si vous avez des meilleures pratiques de sécurité ou des techniques que vous souhaitez partager, veuillez soumettre une demande d'extraction (pull request).
 
 ---
 
-##### Docker Security Best Practices
+##### License
 
-##### Meilleures pratiques de sécurité Docker
+##### Licence
 
----
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-##### Docker provides several security features and best practices that can be implemented to harden the security of your Docker environment. Some of these best practices include:
-
-##### Docker propose plusieurs fonctionnalités de sécurité et meilleures pratiques qui peuvent être mises en œuvre pour renforcer la sécurité de votre environnement Docker. Certaines de ces meilleures pratiques comprennent :
-
----
-
-##### 1. Use Official Images
-
-##### 1. Utiliser des images officielles
-
----
-
-##### Always use official Docker images from trusted sources. Official images are maintained by the Docker community and are regularly updated with security patches. Avoid using images from untrusted sources, as they may contain vulnerabilities or malicious code.
-
-##### Utilisez toujours des images Docker officielles provenant de sources fiables. Les images officielles sont maintenues par la communauté Docker et sont régulièrement mises à jour avec des correctifs de sécurité. Évitez d'utiliser des images provenant de sources non fiables, car elles peuvent contenir des vulnérabilités ou du code malveillant.
-
----
-
-##### 2. Enable Content Trust
-
-##### 2. Activer la confiance du contenu
-
----
-
-##### Enable Docker Content Trust to ensure the integrity and authenticity of Docker images. Content Trust uses digital signatures to verify the publisher of an image and ensure that it has not been tampered with. This helps prevent the use of malicious or compromised images.
-
-##### Activez la confiance du contenu Docker pour garantir l'intégrité et l'authenticité des images Docker. La confiance du contenu utilise des signatures numériques pour vérifier l'éditeur d'une image et s'assurer qu'elle n'a pas été altérée. Cela permet d'éviter l'utilisation d'images malveillantes ou compromises.
-
----
-
-##### 3. Limit Container Capabilities
-
-##### 3. Limiter les capacités du conteneur
-
----
-
-##### Limit the capabilities of Docker containers to reduce the potential impact of a container breakout. By default, Docker containers have a wide range of capabilities, which can be restricted using the `--cap-drop` and `--cap-add` flags when running containers.
-
-##### Limitez les capacités des conteneurs Docker pour réduire l'impact potentiel d'une évasion de conteneur. Par défaut, les conteneurs Docker ont un large éventail de capacités, qui peuvent être restreintes à l'aide des indicateurs `--cap-drop` et `--cap-add` lors de l'exécution des conteneurs.
-
----
-
-##### 4. Use User Namespaces
-
-##### 4. Utiliser des espaces de noms utilisateur
-
----
-
-##### Enable user namespaces to provide additional isolation between the host system and Docker containers. User namespaces map the container's user and group IDs to different IDs on the host system, preventing container processes from accessing host resources.
-
-##### Activez les espaces de noms utilisateur pour fournir une isolation supplémentaire entre le système hôte et les conteneurs Docker. Les espaces de noms utilisateur associent les ID utilisateur et de groupe du conteneur à des ID différents sur le système hôte, empêchant les processus du conteneur d'accéder aux ressources de l'hôte.
-
----
-
-##### 5. Implement Network Segmentation
-
-##### 5. Mettre en œuvre la segmentation réseau
-
----
-
-##### Implement network segmentation to isolate Docker containers from each other and from the host system. Use Docker's built-in networking features, such as creating custom networks and using network policies, to control the flow of network traffic between containers.
-
-##### Mettez en œuvre la segmentation réseau pour isoler les conteneurs Docker les uns des autres et du système hôte. Utilisez les fonctionnalités de mise en réseau intégrées de Docker, telles que la création de réseaux personnalisés et l'utilisation de stratégies de réseau, pour contrôler le flux du trafic réseau entre les conteneurs.
-
----
-
-##### 6. Monitor Container Activity
-
-##### 6. Surveiller l'activité des conteneurs
-
----
-
-##### Regularly monitor the activity of Docker containers to detect any suspicious or unauthorized behavior. Use Docker's logging and monitoring features, as well as third-party tools, to collect and analyze container logs and metrics.
-
-##### Surveillez régulièrement l'activité des conteneurs Docker pour détecter tout comportement suspect ou non autorisé. Utilisez les fonctionnalités de journalisation et de surveillance de Docker, ainsi que des outils tiers, pour collecter et analyser les journaux et les métriques des conteneurs.
-
----
-
-##### 7. Keep Docker Up to Date
-
-##### 7. Maintenir Docker à jour
-
----
-
-##### Regularly update Docker to ensure that you have the latest security patches and bug fixes. Subscribe to Docker's security announcements and follow best practices for updating Docker and its dependencies.
-
-##### Mettez régulièrement à jour Docker pour vous assurer que vous disposez des derniers correctifs de sécurité et correctifs de bogues. Abonnez-vous aux annonces de sécurité de Docker et suivez les meilleures pratiques pour mettre à jour Docker et ses dépendances.
-
----
-
-##### Conclusion
-
-##### Conclusion
-
----
-
-##### Implementing these Docker security best practices can help protect your Docker environment from potential security vulnerabilities and attacks. By following these guidelines, you can ensure that your Docker containers are running securely and that your applications and data are protected.
-
-##### La mise en œuvre de ces meilleures pratiques de sécurité Docker peut aider à protéger votre environnement Docker contre les vulnérabilités et les attaques potentielles. En suivant ces lignes directrices, vous pouvez vous assurer que vos conteneurs Docker fonctionnent de manière sécurisée et que vos applications et vos données sont protégées.
+Ce projet est sous licence MIT - consultez le fichier [LICENSE](LICENSE) pour plus de détails.
 ```bash
 #You can manually add/drop capabilities with
 --cap-add
@@ -450,8 +393,8 @@ Il existe trois façons de spécifier le backend BuildKit afin de pouvoir utilis
 
 1. Définissez-le en tant que variable d'environnement avec `export DOCKER_BUILDKIT=1`.
 2. Démarrez votre commande `build` ou `run` avec `DOCKER_BUILDKIT=1`.
-3. Activez BuildKit par défaut. Définissez la configuration dans /_etc/docker/daemon.json_ sur _true_ avec : `{ "features": { "buildkit": true } }`. Ensuite, redémarrez Docker.
-4. Ensuite, vous pouvez utiliser des secrets au moment de la construction avec le drapeau `--secret` comme ceci :
+3. Activez BuildKit par défaut. Définissez la configuration dans /_etc/docker/daemon.json_ sur _true_ avec : `{ "features": { "buildkit": true } }`. Puis redémarrez Docker.
+4. Ensuite, vous pouvez utiliser les secrets au moment de la construction avec le drapeau `--secret` comme ceci :
 ```bash
 docker build --secret my_key=my_value ,src=path/to/my_secret_file .
 ```
@@ -463,7 +406,7 @@ Si vous avez besoin de votre **secret dans votre conteneur en cours d'exécution
 
 Avec Docker Compose, ajoutez la paire clé-valeur des secrets à un service et spécifiez le fichier secret. Un grand merci à [la réponse de Stack Exchange](https://serverfault.com/a/936262/535325) pour le conseil sur les secrets de Docker Compose, dont l'exemple ci-dessous est adapté.
 
-Exemple de `docker-compose.yml` avec des secrets :
+Exemple `docker-compose.yml` avec des secrets :
 ```yaml
 version: "3.7"
 
@@ -509,7 +452,7 @@ Si vous utilisez [Kubernetes](https://kubernetes.io/docs/concepts/configuration/
 * Si vous **exposez le démon Docker, utilisez HTTPS** avec une authentification client et serveur.
 * Dans votre Dockerfile, **privilégiez COPY plutôt que ADD**. ADD extrait automatiquement les fichiers compressés et peut copier des fichiers à partir d'URL. COPY n'a pas ces fonctionnalités. Dans la mesure du possible, évitez d'utiliser ADD pour ne pas être vulnérable aux attaques via des URL distantes et des fichiers Zip.
 * Utilisez des **conteneurs séparés pour chaque micro-service**.
-* **Ne mettez pas SSH** à l'intérieur du conteneur, "docker exec" peut être utilisé pour se connecter en SSH au conteneur.
+* **N'incluez pas SSH** à l'intérieur du conteneur, "docker exec" peut être utilisé pour se connecter en SSH au conteneur.
 * Utilisez des **images de conteneur plus petites**.
 
 ## Évasion de Docker / Élévation de privilèges
@@ -545,7 +488,7 @@ Vous devez exécuter l'outil à partir de l'hôte exécutant Docker ou à partir
 * [https://en.wikipedia.org/wiki/Linux\_namespaces](https://en.wikipedia.org/wiki/Linux\_namespaces)
 * [https://towardsdatascience.com/top-20-docker-security-tips-81c41dd06f57](https://towardsdatascience.com/top-20-docker-security-tips-81c41dd06f57)
 
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire facilement et **automatiser des flux de travail** alimentés par les outils communautaires les plus avancés au monde.

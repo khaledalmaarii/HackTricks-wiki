@@ -195,9 +195,9 @@ Exemple d'**en-tête de section** :
 
 Si vous **ajoutez** le **décalage de section** (0x37DC) + le **décalage** où **l'architecture commence**, dans ce cas `0x18000` --> `0x37DC + 0x18000 = 0x1B7DC`
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Il est également possible d'obtenir des **informations d'en-tête** à partir de la **ligne de commande** avec :
+Il est également possible d'obtenir des **informations d'en-tête** depuis la **ligne de commande** avec :
 ```bash
 otool -lv /bin/ls
 ```

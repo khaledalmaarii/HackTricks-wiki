@@ -26,4 +26,4 @@ Une note importante en matière de sécurité concernant les fichiers ZIP proté
 
 Une autre note concernant le craquage des fichiers ZIP est que si vous disposez d'une copie non chiffrée/non compressée de l'un des fichiers qui sont compressés dans le fichier ZIP chiffré, vous pouvez effectuer une "attaque par texte en clair" et craquer le fichier ZIP, comme [détaillé ici](https://www.hackthis.co.uk/articles/known-plaintext-attack-cracking-zip-files), et expliqué dans [ce document](https://www.cs.auckland.ac.nz/\~mike/zipattacks.pdf). Le nouveau schéma de protection par mot de passe des fichiers ZIP (avec AES-256, plutôt que "ZipCrypto") n'a pas cette faiblesse.
 
-Source : [https://app.gitbook.com/@cpol/s/hacktricks/\~/edit/drafts/-LlM5mCby8ex5pOeV4pJ/forensics/basic-forensics-esp/zips-tricks](http://127.0.0.1:5000/s/-L\_2uGJGU7AVNRcqRvEi/)
+Source : [https://app.gitbook.com/@cpol/s/hacktricks/\~/edit/drafts/-LlM5mCby8ex5pOeV4pJ/forensics/basic-forensics-esp/zips-tricks](http://127.0.0.1:5000/o/Iwnw24TnSs9D9I2OtTKX/s/-L\_2uGJGU7AVNRcqRvEi/)

@@ -32,7 +32,7 @@ Vous pouvez consulter leur **blog** sur [**https://blog.stmcyber.com**](https://
 
 ### [RootedCON](https://www.rootedcon.com/)
 
-<figure><img src=".gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
 
 [**RootedCON**](https://www.rootedcon.com) est l'événement le plus important en matière de cybersécurité en **Espagne** et l'un des plus importants en **Europe**. Avec **pour mission de promouvoir les connaissances techniques**, ce congrès est un point de rencontre bouillonnant pour les professionnels de la technologie et de la cybersécurité dans toutes les disciplines.
 
@@ -40,17 +40,17 @@ Vous pouvez consulter leur **blog** sur [**https://blog.stmcyber.com**](https://
 
 ### [Intigriti](https://www.intigriti.com)
 
-<figure><img src=".gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
 
-**Intigriti** est la plateforme **n°1 en Europe** pour le piratage éthique et les **bug bounty**.
+**Intigriti** est la plateforme de piratage éthique et de **bug bounty n°1 en Europe**.
 
-**Astuce bug bounty** : **inscrivez-vous** sur **Intigriti**, une plateforme premium de **bug bounty créée par des pirates, pour des pirates** ! Rejoignez-nous sur [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) dès aujourd'hui et commencez à gagner des primes allant jusqu'à **100 000 $** !
+**Astuce de bug bounty** : **inscrivez-vous** à **Intigriti**, une plateforme premium de **bug bounty créée par des pirates, pour des pirates** ! Rejoignez-nous sur [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) dès aujourd'hui et commencez à gagner des primes allant jusqu'à **100 000 $** !
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
 ### [Trickest](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)
 
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour créer et **automatiser facilement des flux de travail** alimentés par les outils communautaires les plus avancés au monde.
@@ -82,8 +82,8 @@ Intruder ne se repose jamais. Une protection 24h/24, 7j/7 surveille vos système
 **Obtenez une récompense sans délai**\
 Les primes HackenProof sont lancées uniquement lorsque leurs clients déposent le budget de récompense. Vous recevrez la récompense après la vérification du bogue.
 
-**Acquérez de l'expérience en pentest web3**\
-Les protocoles blockchain et les contrats intelligents sont le nouvel Internet ! Maîtrisez la sécurité web3 dès ses débuts.
+**Acquérez de l'expérience en test de pénétration web3**\
+Les protocoles blockchain et les contrats intelligents sont le nouvel Internet ! Maîtrisez la sécurité web3 à ses débuts.
 
 **Devenez la légende du pirate web3**\
 Gagnez des points de réputation avec chaque bogue vérifié et conquérez le sommet du classement hebdomadaire.
@@ -96,9 +96,9 @@ Gagnez des points de réputation avec chaque bogue vérifié et conquérez le so
 
 <figure><img src=".gitbook/assets/websec (1).svg" alt=""><figcaption></figcaption></figure>
 
-[**WebSec**](https://websec.nl) est une entreprise de cybersécurité professionnelle basée à **Amsterdam** qui aide à **protéger** les entreprises **du monde entier** contre les dernières menaces en matière de cybersécurité en fournissant des services de **sécurité offensive** avec une approche **moderne**.
+[**WebSec**](https://websec.nl) est une entreprise de cybersécurité professionnelle basée à **Amsterdam** qui aide à **protéger** les entreprises **du monde entier** contre les dernières menaces en matière de cybersécurité en fournissant des services de sécurité offensive avec une approche **moderne**.
 
-WebSec est une **entreprise de sécurité tout-en-un**, ce qui signifie qu'ils font tout ; tests de pénétration, audits de sécurité, formations à la sensibilisation, campagnes de phishing, revue de code, développement d'exploits, externalisation d'experts en sécurité et bien plus encore.
+WebSec est une **entreprise de sécurité tout-en-un**, ce qui signifie qu'ils font tout ; tests de pénétration, audits de sécurité, formations à la sensibilisation, campagnes de phishing, examen de code, développement d'exploits, externalisation d'experts en sécurité et bien plus encore.
 
 Une autre chose intéressante à propos de WebSec est que, contrairement à la moyenne de l'industrie, WebSec est **très confiant dans ses compétences**, à tel point qu'ils **garantissent les meilleurs résultats de qualité**, comme indiqué sur leur site web "**Si nous ne pouvons pas le pirater, vous ne le payez pas !**". Pour plus d'informations, consultez leur [**site web**](https://websec.nl/en/) et leur [**blog**](https://websec.nl/blog/) !
 
@@ -109,11 +109,9 @@ En plus de ce qui précède, WebSec est également un **supporter engagé de Hac
 
 <figure><img src=".gitbook/assets/image (1) (1) (2) (4) (1).png" alt=""><figcaption></figcaption></figure>
 
-[**DragonJAR est une entreprise leader en cybersécurité offensive**](https://www.dragonjar.org/) **basée en Colombie**. DragonJAR propose [des services complets de cybersécurité offensive, tels que le **pentesting**](https://www.dragonjar.org/servicios-de-seguridad-informatica) dans divers domaines et pratiquement **toute technologie**, des simulations d'attaques **Red Team**, des tests de sécurité **physique**, des tests de stress, de l'ingénierie sociale, des audits de sécurité du **code source** et des formations en cybersécurité. De plus, ils organisent la **DragonJAR Security Conference**, [un congrès international sur la cybersécurité](https://www.dragonjarcon.org/) qui se tient depuis plus d'une décennie, devenant ainsi une vitrine pour les dernières recherches en sécurité en espagnol et d'une grande importance dans la région.
+[**DragonJAR est une entreprise leader en cybersécurité offensive**](https://www.dragonjar.org/) **basée en Colombie**. DragonJAR propose [des services complets de cybersécurité offensive, tels que le **pentesting**](https://www.dragonjar.org/servicios-de-seguridad-informatica) dans divers domaines et pratiquement **toute technologie**, des simulations d'attaque **Red Team**, des tests de sécurité **physique**, des tests de stress, de l'ingénierie sociale, une revue de sécurité du **code source** et une formation en cybersécurité. De plus, ils organisent la **DragonJAR Security Conference**, [un congrès international sur la cybersécurité](https://www.dragonjarcon.org/) qui se tient depuis plus d'une décennie, devenant une vitrine pour les dernières recherches en sécurité en espagnol et d'une grande pertinence dans la région.
 
 [**DragonJAR is a leading offensive cybersecurity company**](https://www.dragonjar.org/) **located in Colombia**. DragonJAR offers [comprehensive offensive cybersecurity services, such as **pentesting**](https://www.dragonjar.org/servicios-de-seguridad-informatica) in various areas and practically **any technology**, **Red Team** attack simulations, **physical** security testing, **stress testing**, social engineering, source **code security review**, and cybersecurity training. Additionally, they organize the **DragonJAR Security Conference**, [an international cybersecurity congress](https://www.dragonjarcon.org/) that has been held for over a decade, becoming a showcase for the latest security research in Spanish and of great relevance in the region.
-
-
 
 ## License
 
@@ -123,13 +121,13 @@ En plus de ce qui précède, WebSec est également un **supporter engagé de Hac
 ## **Disclaimer**
 
 {% hint style="danger" %}
-Ce livre, 'HackTricks', est destiné uniquement à des fins éducatives et informatives. Le contenu de ce livre est fourni tel quel, et les auteurs et éditeurs ne font aucune déclaration ni garantie d'aucune sorte, expresse ou implicite, quant à l'exhaustivité, l'exactitude, la fiabilité, la pertinence ou la disponibilité des informations, produits, services ou graphiques connexes contenus dans ce livre. Toute confiance que vous accordez à de telles informations est donc strictement à vos propres risques.
+Ce livre, 'HackTricks', est destiné à des fins éducatives et informatives uniquement. Le contenu de ce livre est fourni tel quel, et les auteurs et éditeurs ne font aucune déclaration ni garantie d'aucune sorte, expresse ou implicite, quant à l'exhaustivité, l'exactitude, la fiabilité, la pertinence ou la disponibilité des informations, produits, services ou graphiques connexes contenus dans ce livre. Toute confiance que vous accordez à de telles informations est donc strictement à vos propres risques.
 
-Les auteurs et éditeurs ne seront en aucun cas responsables de toute perte ou dommage, y compris, sans s'y limiter, les pertes ou dommages indirects ou consécutifs, ou toute perte ou dommage découlant de la perte de données ou de bénéfices résultant de l'utilisation de ce livre.
+Les auteurs et éditeurs ne seront en aucun cas responsables de toute perte ou dommage, y compris, sans s'y limiter, toute perte ou dommage indirect ou consécutif, ou toute perte ou dommage quel qu'il soit découlant de la perte de données ou de bénéfices résultant de l'utilisation de ce livre.
 
-De plus, les techniques et astuces décrites dans ce livre sont fournies uniquement à des fins éducatives et informatives, et ne doivent pas être utilisées à des fins illégales ou malveillantes. Les auteurs et éditeurs ne cautionnent ni ne soutiennent aucune activité illégale ou contraire à l'éthique, et toute utilisation des informations contenues dans ce livre se fait aux risques et périls de l'utilisateur et à sa discrétion.
+De plus, les techniques et astuces décrites dans ce livre sont fournies à des fins éducatives et informatives uniquement et ne doivent pas être utilisées à des fins illégales ou malveillantes. Les auteurs et éditeurs ne cautionnent ni ne soutiennent aucune activité illégale ou contraire à l'éthique, et toute utilisation des informations contenues dans ce livre se fait aux risques et à la discrétion de l'utilisateur.
 
-L'utilisateur est seul responsable de toute action entreprise sur la base des informations contenues dans ce livre, et doit toujours demander des conseils et une assistance professionnels lorsqu'il tente de mettre en œuvre l'une des techniques ou astuces décrites ici.
+L'utilisateur est seul responsable de toute action entreprise sur la base des informations contenues dans ce livre et doit toujours demander des conseils et une assistance professionnels lorsqu'il tente de mettre en œuvre l'une des techniques ou astuces décrites ici.
 
 En utilisant ce livre, l'utilisateur accepte de dégager les auteurs et éditeurs de toute responsabilité et de toute responsabilité pour tout dommage, perte ou préjudice pouvant résulter de l'utilisation de ce livre ou de l'une des informations qu'il contient.
 {% endhint %}

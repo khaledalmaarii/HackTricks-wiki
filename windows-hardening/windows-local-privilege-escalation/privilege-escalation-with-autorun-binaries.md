@@ -12,9 +12,9 @@
 
 </details>
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
-Si vous êtes intéressé par une **carrière en piratage** et souhaitez pirater l'impossible - **nous recrutons !** (_maîtrise du polonais écrit et parlé requis_).
+Si vous êtes intéressé par une **carrière en piratage** et souhaitez pirater l'impossible - **nous recrutons !** (_maîtrise du polonais écrit et parlé requise_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
@@ -73,7 +73,7 @@ Registres AutoRun couramment connus :
 
 Les clés de registre Run et RunOnce font en sorte que les programmes s'exécutent à chaque connexion d'un utilisateur. La valeur de données pour une clé est une ligne de commande ne dépassant pas 260 caractères.
 
-**Exécutions de services** (peuvent contrôler le démarrage automatique des services au démarrage) :
+**Exécutions de services** (peuvent contrôler le démarrage automatique des services lors du démarrage) :
 
 * `HKLM\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce`
 * `HKCU\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce`
@@ -89,14 +89,14 @@ Les clés de registre Run et RunOnce font en sorte que les programmes s'exécute
 * `HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnceEx`
 * `HKEY_LOCAL_MACHINE\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\RunOnceEx`
 
-Il n'est pas créé par défaut sur Windows Vista et les versions ultérieures. Les entrées de clé de registre Run peuvent faire référence directement à des programmes ou les répertorier en tant que dépendance. Par exemple, il est possible de charger une DLL lors de la connexion en utilisant une clé "Depend" avec RunOnceEx : `reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnceEx\0001\Depend /v 1 /d "C:\temp\evil[.]dll"`
+Il n'est pas créé par défaut sur Windows Vista et les versions ultérieures. Les entrées de clé de registre Run peuvent faire référence directement à des programmes ou les répertorier comme une dépendance. Par exemple, il est possible de charger une DLL lors de la connexion en utilisant une clé "Depend" avec RunOnceEx : `reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnceEx\0001\Depend /v 1 /d "C:\temp\evil[.]dll"`
 
 {% hint style="info" %}
-**Exploit 1** : Si vous pouvez écrire dans l'un des registres mentionnés dans **HKLM**, vous pouvez élever les privilèges lorsqu'un utilisateur différent se connecte.
+**Exploit 1** : Si vous pouvez écrire dans l'un des registres mentionnés dans **HKLM**, vous pouvez escalader les privilèges lorsqu'un utilisateur différent se connecte.
 {% endhint %}
 
 {% hint style="info" %}
-**Exploit 2** : Si vous pouvez écraser l'un des binaires indiqués dans l'un des registres de **HKLM**, vous pouvez modifier ce binaire avec une porte dérobée lorsqu'un utilisateur différent se connecte et élever les privilèges.
+**Exploit 2** : Si vous pouvez écraser l'un des binaires indiqués dans l'un des registres de **HKLM**, vous pouvez modifier ce binaire avec une porte dérobée lorsqu'un utilisateur différent se connecte et escalader les privilèges.
 {% endhint %}
 ```bash
 #CMD
@@ -217,7 +217,7 @@ Cependant, vous pouvez créer une option de démarrage pour ne pas avoir à appu
 4. Enregistrez le fichier.
 5. Réappliquez les autorisations correctes (attrib c:\boot.ini +r +s +h).
 
-Informations provenant [ici](https://www.itprotoday.com/cloud-computing/how-can-i-add-boot-option-starts-alternate-shell).
+Info provenant [ici](https://www.itprotoday.com/cloud-computing/how-can-i-add-boot-option-starts-alternate-shell).
 
 {% hint style="info" %}
 **Exploit 1:** Si vous pouvez modifier cette clé de registre, vous pouvez pointer votre porte dérobée.
@@ -241,19 +241,19 @@ Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Co
 * `HKCU\SOFTWARE\Microsoft\Active Setup\Installed Components`
 * `HKCU\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components`
 
-Active Setup s'exécute avant l'apparition du bureau. Les commandes lancées par Active Setup s'exécutent de manière synchrone, bloquant la connexion tant qu'elles sont en cours d'exécution. Active Setup est exécuté avant que les entrées de registre Run ou RunOnce ne soient évaluées.
+Active Setup s'exécute avant l'apparition du bureau. Les commandes lancées par Active Setup s'exécutent de manière synchrone, bloquant la connexion jusqu'à leur exécution. Active Setup est exécuté avant que les entrées de registre Run ou RunOnce ne soient évaluées.
 
 À l'intérieur de ces clés, vous trouverez d'autres clés et chacune d'entre elles contiendra des paires clé-valeur intéressantes. Les plus intéressantes sont :
 
 * **IsInstalled :**
 * 0 : La commande du composant ne s'exécutera pas.
 * 1 : La commande du composant s'exécutera une fois par utilisateur. C'est la valeur par défaut (si la valeur IsInstalled n'existe pas).
-* **StubPath :**
+* **StubPath**
 * Format : N'importe quelle ligne de commande valide, par exemple "notepad"
 * C'est la commande qui est exécutée si Active Setup détermine que ce composant doit s'exécuter lors de la connexion.
 
 {% hint style="info" %}
-Si vous pouviez écrire/écraser n'importe quelle clé avec _**IsInstalled == "1"**_ et la clé **StubPath**, vous pourriez la pointer vers une porte dérobée et escalader les privilèges. De plus, si vous pouviez écraser n'importe quel **binaire** pointé par n'importe quelle clé **StubPath**, vous pourriez être en mesure d'escalader les privilèges.
+Si vous pouviez écrire/écraser n'importe quelle clé avec _**IsInstalled == "1"**_ la clé **StubPath**, vous pourriez la pointer vers une porte dérobée et escalader les privilèges. De plus, si vous pouviez écraser n'importe quel **binaire** pointé par n'importe quelle clé **StubPath**, vous pourriez être en mesure d'escalader les privilèges.
 {% endhint %}
 ```bash
 reg query "HKLM\SOFTWARE\Microsoft\Active Setup\Installed Components" /s /v StubPath
@@ -304,15 +304,15 @@ Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Wow6432Node\Classes\htmlfile\she
 ```
 ### Options d'exécution des fichiers image
 
-Les options d'exécution des fichiers image sont une fonctionnalité de Windows qui permet de spécifier des actions à effectuer lorsqu'un programme est lancé. Cela peut être utilisé à des fins de débogage, mais peut également être exploité par des attaquants pour obtenir des privilèges élevés.
+Les Options d'exécution des fichiers image sont une fonctionnalité de Windows qui permet de spécifier des actions à effectuer lorsqu'un programme est lancé. Cela peut être utilisé à des fins de débogage ou de surveillance, mais peut également être exploité par des attaquants pour obtenir des privilèges élevés.
 
-L'une des utilisations courantes de cette fonctionnalité est de configurer un binaire autorun pour s'exécuter chaque fois qu'un programme spécifique est lancé. Cela peut être réalisé en ajoutant une clé de registre sous `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options`. Le nom de la clé doit correspondre au nom du programme que vous souhaitez cibler.
+L'une des utilisations courantes de cette fonctionnalité est de configurer un binaire autorun pour s'exécuter chaque fois qu'un programme spécifique est lancé. Cela peut être réalisé en ajoutant une clé de registre sous `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options`. Le nom de la clé doit correspondre au nom du programme que vous souhaitez surveiller, et la valeur de la clé doit être le chemin du binaire autorun.
 
-Une fois que la clé de registre est ajoutée, vous pouvez spécifier le chemin du binaire autorun dans la valeur `Debugger`. Lorsque le programme ciblé est lancé, le binaire autorun sera exécuté à la place.
+Lorsque le programme est lancé, Windows exécute d'abord le binaire autorun spécifié avant de lancer le programme réel. Cela peut être exploité pour obtenir des privilèges élevés en remplaçant le binaire autorun par un programme malveillant qui élève les privilèges de l'utilisateur.
 
-Cela peut être utilisé pour escalader les privilèges locaux en remplaçant un programme système légitime par un binaire malveillant. Lorsque le programme système est lancé, le binaire malveillant sera exécuté avec les privilèges élevés du programme système.
+Pour exploiter cette vulnérabilité, un attaquant doit avoir un accès en écriture à la clé de registre mentionnée précédemment. Cela peut être obtenu en exploitant une autre vulnérabilité ou en utilisant des privilèges d'administrateur.
 
-Pour éviter cette technique d'escalade de privilèges, il est recommandé de restreindre les autorisations d'écriture sur les clés de registre liées aux options d'exécution des fichiers image. De plus, il est important de surveiller les modifications apportées à ces clés de registre pour détecter toute activité suspecte.
+Pour se protéger contre cette attaque, il est recommandé de restreindre l'accès en écriture à la clé de registre `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options`. De plus, il est important de maintenir le système d'exploitation et les applications à jour pour éviter l'exploitation de vulnérabilités connues.
 ```
 HKLM\Software\Microsoft\Windows NT\CurrentVersion\Image File Execution Options
 HKLM\Software\Microsoft\Wow6432Node\Windows NT\CurrentVersion\Image File Execution Options
@@ -333,7 +333,7 @@ Trouvez plus d'Autoruns comme les registres dans [https://www.microsoftpressstor
 * [https://attack.mitre.org/techniques/T1547/001/](https://attack.mitre.org/techniques/T1547/001/)
 * [https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2](https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2)
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
 Si vous êtes intéressé par une **carrière de hacking** et souhaitez pirater l'impossible - **nous recrutons !** (_maîtrise du polonais écrit et parlé requise_).
 
