@@ -4,18 +4,18 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在 HackTricks 中**宣传你的公司**吗？或者你想要**获取最新版本的 PEASS 或下载 HackTricks 的 PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家 NFT 收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 你在一家**网络安全公司**工作吗？想要在 HackTricks 中**宣传你的公司**吗？或者想要**获取最新版本的 PEASS 或下载 HackTricks 的 PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass)，或者**关注**我在**推特**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass)，或者**关注**我在**推特**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享你的黑客技巧。**
 
 </details>
 
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用 [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) 可以轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。\
+使用 [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) 可以轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -24,19 +24,19 @@
 
 在密码学中，**公钥证书**，也称为**数字证书**或**身份证书**，是用于证明公钥所有权的电子文档。证书包括有关密钥的信息，其所有者的身份信息（称为主体），以及验证证书内容的实体的数字签名（称为颁发者）。如果签名有效，并且检查证书的软件信任颁发者，则可以使用该密钥与证书的主体进行安全通信。
 
-在典型的[公钥基础设施](https://en.wikipedia.org/wiki/Public-key\_infrastructure)（PKI）方案中，证书颁发者是一个[证书颁发机构](https://en.wikipedia.org/wiki/Certificate\_authority)（CA），通常是一家向客户收费以为其颁发证书的公司。相比之下，在[信任网络](https://en.wikipedia.org/wiki/Web\_of\_trust)方案中，个人直接签署彼此的密钥，以一种类似于公钥证书的格式执行类似功能。
+在典型的[公钥基础设施](https://en.wikipedia.org/wiki/Public-key\_infrastructure)（PKI）方案中，证书颁发者是一个[证书颁发机构](https://en.wikipedia.org/wiki/Certificate\_authority)（CA），通常是一家向客户收费以为其颁发证书的公司。相比之下，在[信任网络](https://en.wikipedia.org/wiki/Web\_of\_trust)方案中，个人直接签署彼此的密钥，以一种类似于公钥证书的格式执行相似功能。
 
 公钥证书的最常见格式由[X.509](https://en.wikipedia.org/wiki/X.509)定义。由于X.509非常通用，该格式受到为某些用例定义的配置文件的进一步限制，例如[RFC 5280](https://en.wikipedia.org/wiki/PKIX)中定义的[公钥基础设施（X.509）](https://en.wikipedia.org/wiki/PKIX)。
 
 ## x509 常见字段
 
 * **版本号**：x509 格式的版本。
-* **序列号**：用于在 CA 系统中唯一标识证书。特别是用于跟踪吊销信息。
+* **序列号**：用于在 CA 的系统中唯一标识证书。特别是用于跟踪吊销信息。
 * **主体**：证书所属的实体：机器、个人或组织。
 * **通用名称**：受证书影响的域。可以是一个或多个，并且可以包含通配符。
 * **国家（C）**：国家
-* **可分辨名称（DN）**：完整的主体：`C=US, ST=California, L=San Francisco, O=Example, Inc., CN=shared.global.example.net`
-* **地区（L）**：地区
+* **可分辨名称（DN）**：主体的完整名称：`C=US, ST=California, L=San Francisco, O=Example, Inc., CN=shared.global.example.net`
+* **地区（L）**：地方
 * **组织（O）**：组织名称
 * **组织单位（OU）**：组织的部门（如“人力资源”）。
 * **州或省（ST、S 或 P）**：州或省名称列表
@@ -61,15 +61,15 @@
 * 在 Web 证书中，它将显示为 _X509v3 扩展_，并具有值 `Digital Signature`
 * **扩展密钥用途**：证书可用于的应用程序。常见值包括 TLS 服务器身份验证、电子邮件保护和代码签名。
 * 在 Web 证书中，它将显示为 _X509v3 扩展_，并具有值 `TLS Web Server Authentication`
-* **主体备用名称**：允许用户为单个 SSL 证书指定其他主机**名称**。使用 SAN 扩展是 SSL 证书的标准做法，它正在取代常见**名称**的使用。
+* **主体备用名称**：允许用户为单个 SSL 证书指定其他主机**名称**。使用 SAN 扩展是 SSL 证书的标准做法，正在逐步取代常用**名称**的使用。
 * **基本约束**：此扩展描述证书是 CA 证书还是终端实体证书。CA 证书是签署其他证书的证书，终端实体证书是例如网页中使用的证书（链的最后一部分）。
-* **主体密钥标识符**（SKI）：此扩展声明证书中公钥的唯一**标识符**。所有 CA 证书都需要它。CA 将自己的 SKI 传播到已颁发证书的颁发者**密钥标识符**（AKI）扩展中。它是主体公钥的哈希值。
-* **Authority Key Identifier**（权威密钥标识符）：它包含从发行者证书中派生的公钥的密钥标识符。它是发行者公钥的哈希值。
-* **Authority Information Access**（AIA）：此扩展包含最多两种类型的信息：
-* 关于**如何获取此证书的发行者**的信息（CA发行者访问方法）
+* **主题密钥标识符**（SKI）：此扩展声明了证书中公钥的唯一标识符。所有CA证书都需要此扩展。CA将自己的SKI传播到已签发证书的发行者密钥标识符（AKI）扩展中。它是主题公钥的哈希值。
+* **颁发机构密钥标识符**：它包含从发行者证书中的公钥派生的密钥标识符。它是发行者公钥的哈希值。
+* **颁发机构信息访问**（AIA）：此扩展包含最多两种类型的信息：
+* 关于**如何获取此证书的颁发者**的信息（CA颁发者访问方法）
 * 可以检查此证书吊销的**OCSP响应者的地址**（OCSP访问方法）。
-* **CRL分发点**：此扩展标识了可以检查此证书吊销的CRL的位置。处理证书的应用程序可以从此扩展中获取CRL的位置，下载CRL，然后检查此证书的吊销情况。
-* **CT预证书SCT**：关于证书的证书透明性日志
+* **CRL分发点**：此扩展标识可以检查此证书吊销的CRL的位置。处理证书的应用程序可以从此扩展中获取CRL的位置，下载CRL，然后检查此证书的吊销。
+* **CT预证书SCT**：关于证书透明性的日志
 
 ### OCSP和CRL分发点的区别
 
@@ -79,7 +79,7 @@
 
 ### 什么是证书透明性
 
-证书透明性旨在通过使SSL证书的颁发和存在对域所有者、CA和域用户开放审查来解决基于证书的威胁。具体而言，证书透明性有三个主要目标：
+证书透明性旨在通过使SSL证书的颁发和存在对域所有者、CA和域用户公开审查来解决基于证书的威胁。具体而言，证书透明性有三个主要目标：
 
 * 使CA**无法在未被该域的所有者**看到的情况下**为该域颁发SSL证书**，或者至少非常困难。
 * 提供一个**开放的审计和监控系统**，让任何域所有者或CA确定证书是否被错误或恶意颁发。
@@ -99,8 +99,8 @@
 
 #### **PEM格式**
 
-* 这是最常用于证书的格式
-* 大多数服务器（例如：Apache）期望证书和私钥分别存储在不同的文件中\
+* 这是用于证书的最常见格式
+* 大多数服务器（例如Apache）期望证书和私钥分别存储在不同的文件中\
 \- 通常它们是Base64编码的ASCII文件\
 \- 用于PEM证书的扩展名为.cer、.crt、.pem、.key文件\
 \- Apache和类似的服务器使用PEM格式证书
@@ -145,27 +145,17 @@ openssl x509 -outform der -in certificatename.pem -out certificatename.der
 ```
 **将DER转换为PEM**
 
-DER（Distinguished Encoding Rules）和PEM（Privacy-Enhanced Mail）是两种常见的证书编码格式。DER是一种二进制格式，而PEM是一种基于文本的格式。在某些情况下，您可能需要将DER格式的证书转换为PEM格式，以便更方便地使用和阅读。
+To convert a DER (Distinguished Encoding Rules) certificate to PEM (Privacy-Enhanced Mail) format, you can use the OpenSSL command-line tool. The PEM format is a base64-encoded DER certificate enclosed between "-----BEGIN CERTIFICATE-----" and "-----END CERTIFICATE-----" headers.
 
-要将DER格式的证书转换为PEM格式，可以按照以下步骤操作：
+Here is the command to convert a DER certificate to PEM:
 
-1. 首先，打开一个文本编辑器，并将DER格式的证书内容复制到新文件中。
+```bash
+openssl x509 -inform der -in certificate.der -out certificate.pem
+```
 
-2. 在新文件的开头添加以下行：
+Replace `certificate.der` with the path to your DER certificate file, and `certificate.pem` with the desired output file name for the PEM certificate.
 
-   ```
-   -----BEGIN CERTIFICATE-----
-   ```
-
-3. 在新文件的末尾添加以下行：
-
-   ```
-   -----END CERTIFICATE-----
-   ```
-
-4. 将新文件保存为以.pem为扩展名的文件，例如`certificate.pem`。
-
-现在，您已成功将DER格式的证书转换为PEM格式。您可以使用新的PEM格式证书进行各种操作，如导入到应用程序或服务器中。
+After running the command, you will have a PEM certificate file that can be easily read and used in various applications that support PEM format.
 ```
 openssl x509 -inform der -in certificatename.der -out certificatename.pem
 ```
@@ -179,20 +169,17 @@ openssl crl2pkcs7 -nocrl -certfile certificatename.pem -out certificatename.p7b 
 
 To convert a PKCS7 file to PEM format, you can use the OpenSSL command-line tool. The PKCS7 file contains certificates and/or CRLs (Certificate Revocation Lists) in binary format, while the PEM format is a base64-encoded ASCII representation.
 
-To perform the conversion, follow these steps:
+Here's the command to convert a PKCS7 file to PEM:
 
-1. Open a terminal or command prompt.
-2. Run the following command:
+```plaintext
+openssl pkcs7 -inform der -in input.p7b -out output.pem -print_certs
+```
 
-   ```
-   openssl pkcs7 -inform DER -in input.p7b -outform PEM -out output.pem
-   ```
+Replace `input.p7b` with the path to your PKCS7 file, and `output.pem` with the desired name for the PEM file.
 
-   Replace `input.p7b` with the path to your PKCS7 file, and `output.pem` with the desired name and path for the PEM file.
+This command reads the PKCS7 file in DER format (`-inform der`), converts it to PEM format, and saves the output to the specified file (`-out output.pem`). The `-print_certs` option is used to print the certificates contained in the PKCS7 file.
 
-3. Press Enter to execute the command.
-
-After the command completes, you will have a PEM file containing the certificates and/or CRLs from the original PKCS7 file. This PEM file can be easily read and manipulated using text editors or other tools.
+After running the command, you will have a PEM file containing the certificates from the original PKCS7 file.
 ```
 openssl pkcs7 -print_certs -in certificatename.p7b -out certificatename.pem
 ```
@@ -211,25 +198,27 @@ openssl pkcs12 -in certificatename.pfx -nocerts -nodes -out certificatename.pem
 ```
 **2- 将PEM转换为PKCS8**
 
-PEM格式和PKCS8格式都是用于存储加密证书和私钥的标准格式。PEM格式使用Base64编码，而PKCS8格式使用DER编码。在某些情况下，我们可能需要将PEM格式的证书转换为PKCS8格式，以便在特定的应用程序或系统中使用。
+Sometimes, you may need to convert a PEM (Privacy Enhanced Mail) formatted certificate to PKCS8 (Public-Key Cryptography Standards #8) format. This can be useful when working with different cryptographic tools or libraries that require PKCS8 format.
 
-以下是将PEM格式转换为PKCS8格式的步骤：
+To convert a PEM file to PKCS8 format, you can use the OpenSSL command-line tool. Here's how you can do it:
 
-1. 首先，我们需要确保已安装OpenSSL工具。如果尚未安装，请根据您的操作系统下载并安装OpenSSL。
+```bash
+openssl pkcs8 -topk8 -inform PEM -outform DER -in private_key.pem -out private_key.pk8 -nocrypt
+```
 
-2. 打开终端或命令提示符，并导航到包含PEM格式证书的目录。
+Let's break down the command:
 
-3. 运行以下命令将PEM格式证书转换为PKCS8格式：
+- `openssl pkcs8`: This is the OpenSSL command for PKCS8 operations.
+- `-topk8`: This option specifies that we want to convert the key to PKCS8 format.
+- `-inform PEM`: This option specifies the input format as PEM.
+- `-outform DER`: This option specifies the output format as DER (Distinguished Encoding Rules).
+- `-in private_key.pem`: This is the input file, which is the PEM formatted private key.
+- `-out private_key.pk8`: This is the output file, which will be the PKCS8 formatted private key.
+- `-nocrypt`: This option specifies that we don't want to encrypt the private key with a passphrase.
 
-   ```plaintext
-   openssl pkcs8 -topk8 -inform PEM -outform DER -in certificate.pem -out privatekey.pk8
-   ```
+After running the command, you will have the private key in PKCS8 format stored in the `private_key.pk8` file.
 
-   在上述命令中，`certificate.pem`是您要转换的PEM格式证书的文件名，`privatekey.pk8`是转换后的PKCS8格式私钥的文件名。
-
-4. 执行命令后，将生成一个PKCS8格式的私钥文件（`privatekey.pk8`），您可以在特定应用程序或系统中使用该文件。
-
-通过按照上述步骤将PEM格式转换为PKCS8格式，您可以确保证书和私钥在不同系统和应用程序之间的兼容性。
+Remember to handle the private key securely and protect it from unauthorized access.
 ```
 openSSL pkcs8 -in certificatename.pem -topk8 -nocrypt -out certificatename.pk8
 ```
@@ -246,9 +235,9 @@ To convert a CER certificate and its corresponding private key to PFX format, yo
 
 Here are the steps to convert the CER and private key to PFX:
 
-1. Make sure you have OpenSSL installed on your system.
+1. Make sure you have OpenSSL installed on your system. If not, download and install it.
 
-2. Open a terminal or command prompt and navigate to the directory where the CER and private key files are located.
+2. Open a command prompt or terminal and navigate to the directory where the CER and private key files are located.
 
 3. Run the following command to convert the CER and private key to PFX:
 
@@ -258,30 +247,29 @@ Here are the steps to convert the CER and private key to PFX:
 
    Replace `privatekey.key` with the filename of your private key file and `certificate.cer` with the filename of your CER certificate file. The resulting PFX file will be named `certificate.pfx`.
 
-4. You will be prompted to enter a password for the PFX file. Choose a strong password and remember it, as you will need it to access the private key and certificate stored in the PFX file.
+4. You will be prompted to enter a password for the PFX file. Choose a strong password and remember it, as you will need it to access the private key and certificate later.
 
-5. Once the command completes successfully, you will have a PFX file (`certificate.pfx`) that contains the private key, certificate, and any intermediate certificates.
+5. Once the command completes successfully, you will have a PFX file containing the private key, certificate, and any intermediate certificates.
 
 Remember to securely store the PFX file, as it contains sensitive information.
 ```
 openssl pkcs12 -export -in certificatename.cer -inkey privateKey.key -out certificatename.pfx -certfile  cacert.cer
 ```
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-\
-使用[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks)可以轻松构建和自动化由全球**最先进**的社区工具提供支持的工作流程。\
+使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)轻松构建和自动化由全球**最先进**的社区工具提供支持的工作流程。
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者你想要访问**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* 通过向[**hacktricks repo**](https://github.com/carlospolop/hacktricks)和[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud)提交PR来**分享你的黑客技巧**。
 
 </details>

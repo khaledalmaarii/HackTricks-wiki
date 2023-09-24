@@ -1,6 +1,6 @@
 # DCSync
 
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。\
@@ -12,22 +12,22 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想要访问**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在一个**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想要访问**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks的衣物**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
 
 ## DCSync
 
-**DCSync**权限意味着对域本身具有以下权限：**DS-Replication-Get-Changes**、**Replicating Directory Changes All**和**Replicating Directory Changes In Filtered Set**。
+**DCSync**权限意味着对域本身具有以下权限：**DS-Replication-Get-Changes**，**Replicating Directory Changes All**和**Replicating Directory Changes In Filtered Set**。
 
 **关于DCSync的重要说明：**
 
 * **DCSync攻击模拟域控制器的行为，并要求其他域控制器使用目录复制服务远程协议（MS-DRSR）复制信息**。由于MS-DRSR是Active Directory的有效和必要功能，因此无法关闭或禁用它。
-* 默认情况下，只有**域管理员、企业管理员、管理员和域控制器**组具有所需的特权。
+* 默认情况下，只有**域管理员，企业管理员，管理员和域控制器**组具有所需的特权。
 * 如果任何帐户密码使用可逆加密存储，Mimikatz中有一个选项可以返回明文密码。
 
 ### 枚举
@@ -38,23 +38,30 @@ Get-ObjectAcl -DistinguishedName "dc=dollarcorp,dc=moneycorp,dc=local" -ResolveG
 ```
 ### 本地利用
 
-Exploit Locally（本地利用）是一种攻击方法，旨在利用本地访问权限来获取目标系统上的敏感信息。在Active Directory环境中，一种常见的本地利用方法是使用DCSync攻击。
+Exploit Locally（本地利用）是一种攻击方法，利用本地访问权限来获取目标系统的敏感信息。在Active Directory环境中，一种常见的本地利用方法是使用DCSync攻击。
 
 #### DCSync攻击
 
-DCSync攻击是一种利用Active Directory域控制器（DC）的特权来提取目标用户凭据的攻击方法。通过模拟域控制器的行为，攻击者可以获取目标用户的NTLM哈希值，从而进一步获取其明文密码。
+DCSync攻击是一种利用Active Directory域控制器（Domain Controller）的特权访问权限来提取目标域中的敏感信息的攻击技术。通过模拟域控制器的行为，攻击者可以获取目标域中的用户凭据和密码哈希值。
 
-以下是DCSync攻击的步骤：
+DCSync攻击的步骤如下：
 
-1. 获取域控制器的访问权限：攻击者需要获得域控制器的本地管理员或域管理员权限，以执行DCSync攻击。
+1. 获取域控制器的特权访问权限。
+2. 使用特权访问权限模拟域控制器的行为。
+3. 请求目标域中的用户凭据和密码哈希值。
+4. 将获取的敏感信息导出到攻击者控制的系统。
 
-2. 使用Mimikatz工具：攻击者使用Mimikatz工具来执行DCSync攻击。Mimikatz是一款强大的密码提取工具，可以从域控制器中提取目标用户的凭据。
+通过DCSync攻击，攻击者可以获取目标域中的用户凭据和密码哈希值，从而进一步扩大攻击面，进行横向渗透或提升权限。
 
-3. 提取目标用户凭据：攻击者使用Mimikatz的DCSync模块来模拟域控制器的行为，并提取目标用户的NTLM哈希值。
+为了防止DCSync攻击，可以采取以下措施：
 
-4. 破解NTLM哈希值：攻击者可以使用各种破解工具来破解目标用户的NTLM哈希值，从而获取其明文密码。
+- 限制域控制器的物理访问权限。
+- 使用强密码策略，并定期更改密码。
+- 禁用不必要的域管理员账户。
+- 监控域控制器的日志，及时发现异常活动。
+- 定期审计域控制器的安全配置。
 
-DCSync攻击是一种非常有效的攻击方法，因为它允许攻击者在目标系统上获取域用户的凭据，从而进一步扩大攻击面。因此，在保护Active Directory环境时，应采取适当的措施来防止DCSync攻击的发生。
+通过加强本地安全措施，可以有效防止DCSync攻击和其他本地利用方法的威胁。
 ```powershell
 Invoke-Mimikatz -Command '"lsadump::dcsync /user:dcorp\krbtgt"'
 ```
@@ -87,9 +94,9 @@ secretsdump.py -just-dc <user>:<password>@<ipaddress> -outputfile dcsync_hashes
 ```
 `-just-dc` 生成3个文件：
 
-* 一个包含**NTLM哈希值**的文件
-* 一个包含**Kerberos密钥**的文件
-* 一个包含启用了[**可逆加密**](https://docs.microsoft.com/en-us/windows/security/threat-protection/security-policy-settings/store-passwords-using-reversible-encryption)的NTDS中的明文密码的文件。您可以使用以下命令获取启用了可逆加密的用户：
+* 一个包含 **NTLM 哈希值** 的文件
+* 一个包含 **Kerberos 密钥** 的文件
+* 一个包含启用了[**可逆加密**](https://docs.microsoft.com/en-us/windows/security/threat-protection/security-policy-settings/store-passwords-using-reversible-encryption)的 NTDS 中明文密码的文件。你可以使用以下命令获取启用了可逆加密的用户：
 
 ```powershell
 Get-DomainUser -Identity * | ? {$_.useraccountcontrol -like '*ENCRYPTED_TEXT_PWD_ALLOWED*'} |select samaccountname,useraccountcontrol
@@ -97,7 +104,7 @@ Get-DomainUser -Identity * | ? {$_.useraccountcontrol -like '*ENCRYPTED_TEXT_PWD
 
 ### 持久性
 
-如果您是域管理员，可以使用`powerview`将此权限授予任何用户：
+如果你是域管理员，你可以使用 `powerview` 将这些权限授予任何用户：
 ```powershell
 Add-ObjectAcl -TargetDistinguishedName "dc=dollarcorp,dc=moneycorp,dc=local" -PrincipalSamAccountName username -Rights DCSync -Verbose
 ```
@@ -107,7 +114,7 @@ Get-ObjectAcl -DistinguishedName "dc=dollarcorp,dc=moneycorp,dc=local" -ResolveG
 ```
 ### 缓解措施
 
-* 安全事件ID 4662（必须启用对象的审核策略）- 对象上执行了一个操作
+* 安全事件ID 4662（必须启用对象的审核策略）- 对对象执行了操作
 * 安全事件ID 5136（必须启用对象的审核策略）- 修改了目录服务对象
 * 安全事件ID 4670（必须启用对象的审核策略）- 更改了对象的权限
 * AD ACL Scanner - 创建和比较ACL的创建报告。[https://github.com/canix1/ADACLScanner](https://github.com/canix1/ADACLScanner)
@@ -121,15 +128,15 @@ Get-ObjectAcl -DistinguishedName "dc=dollarcorp,dc=moneycorp,dc=local" -ResolveG
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一个**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者你想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks的衍生品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
 
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。\

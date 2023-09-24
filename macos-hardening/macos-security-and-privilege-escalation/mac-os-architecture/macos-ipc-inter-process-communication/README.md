@@ -5,7 +5,7 @@
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * 你在一个**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[NFT收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 发现我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
@@ -14,7 +14,7 @@
 
 ## 通过端口进行Mach消息传递
 
-Mach使用**任务（tasks）**作为共享资源的**最小单位**，每个任务可以包含**多个线程**。这些**任务和线程与POSIX进程和线程一一对应**。
+Mach使用**任务（task）**作为共享资源的**最小单位**，每个任务可以包含**多个线程**。这些**任务和线程与POSIX进程和线程一一对应**。
 
 任务之间的通信通过Mach进程间通信（IPC）进行，利用单向通信通道。**消息通过端口进行传输**，端口类似于由内核管理的**消息队列**。
 
@@ -23,12 +23,12 @@ Mach使用**任务（tasks）**作为共享资源的**最小单位**，每个任
 * **接收权限**，允许接收发送到端口的消息。Mach端口是MPSC（多生产者，单消费者）队列，这意味着整个系统中每个端口只能有**一个接收权限**（与管道不同，多个进程可以持有指向管道读端的文件描述符）。
 * 拥有接收权限的**任务可以接收消息并创建发送权限**，从而可以发送消息。最初，只有**自己的任务对其端口拥有接收权限**。
 * **发送权限**，允许向端口发送消息。
-* 发送权限可以进行**克隆**，因此拥有发送权限的任务可以克隆该权限并将其授予第三方任务。
+* 发送权限可以进行**克隆**，因此拥有发送权限的任务可以克隆该权限并将其授予第三个任务。
 * **一次性发送权限**，允许向端口发送一条消息，然后消失。
 * **端口集权限**，表示一个**端口集**而不是单个端口。从端口集中出队一条消息会从其中一个包含的端口中出队。端口集可用于同时监听多个端口，类似于Unix中的`select`/`poll`/`epoll`/`kqueue`。
-* **死名称**，不是实际的端口权限，而只是一个占位符。当一个端口被销毁时，所有现有的端口权限都变成死名称。
+* **死命名**，不是实际的端口权限，只是一个占位符。当一个端口被销毁时，所有现有的端口权限都变成死命名。
 
-**任务可以将发送权限传输给其他任务**，使其能够发送消息回来。**发送权限也可以进行克隆**，因此任务可以复制并将权限授予第三方任务。这与一个称为**引导服务器**的中间进程结合使用，可以实现任务之间的有效通信。
+**任务可以将发送权限传输给其他任务**，使其能够发送消息回来。**发送权限也可以进行克隆**，因此任务可以复制并将权限授予第三个任务。这与一个称为**引导服务器**的中间进程结合使用，可以实现任务之间的有效通信。
 
 #### 步骤：
 
@@ -36,25 +36,25 @@ Mach使用**任务（tasks）**作为共享资源的**最小单位**，每个任
 
 1. 任务**A**初始化一个**新的端口**，在此过程中获得一个**接收权限**。
 2. 作为接收权限的持有者，任务**A**为端口**生成一个发送权限**。
-3. 任务**A**通过引导注册过程与**引导服务器**建立**连接**，提供端口的服务名称和通过发送权限。
-4. 任务**B**与**引导服务器**交互，执行服务名称的引导查找。如果成功，**服务器复制从任务A接收到的发送权限**并将其**传输给任务B**。
-5. 获得发送权限后，任务**B**能够**构建消息**并将其**发送给任务A**。
+3. 任务**A**通过引导注册过程与**引导服务器**建立**连接**，提供**端口的服务名称**和**发送权限**。
+4. 任务**B**与**引导服务器**交互，执行服务名称的引导**查找**。如果成功，**服务器复制从任务A接收到的发送权限**，并将其**传输给任务B**。
+5. 获得发送权限后，任务**B**能够**构建**一条**消息**并将其**发送给任务A**。
 
 引导服务器**无法对任务声称的服务名称进行身份验证**。这意味着一个任务有可能**冒充任何系统任务**，例如虚假地**声称授权服务名称**，然后批准每个请求。
 
 然后，Apple将**系统提供的服务名称**存储在位于**SIP保护**目录下的安全配置文件中：`/System/Library/LaunchDaemons`和`/System/Library/LaunchAgents`。引导服务器将为每个这些服务名称创建并持有一个**接收权限**。
 
-对于这些预定义服务，**查找过程稍有不同**。当查找服务名称时，launchd会动态启动服务。新的工作流程如下：
+对于这些预定义服务，**查找过程略有不同**。当查找服务名称时，launchd会动态启动服务。新的工作流程如下：
 
 * 任务**B**启动一个服务名称的引导**查找**。
 * **launchd**检查任务是否正在运行，如果没有，则**启动**它。
-* 任务**A**（服务）执行引导**签入**。在这里，引导服务器创建一个发送权限，保留它，并将接收权限**传输给任务A**。
+* 任务**A**（服务）执行引导**签入**。在这里，引导服务器创建一个发送权限，保留它，并将**接收权限传输给任务A**。
 * launchd复制**发送权限并将其发送给任务B**。
 
 然而，这个过程仅适用于预定义的系统任务。非系统任务仍然按照最初的描述进行操作，这可能导致冒充。
 ### 代码示例
 
-请注意，**发送方**在分配一个端口后，为名称`org.darlinghq.example`创建了一个**发送权限**，并将其发送到**引导服务器**，而发送方则请求该名称的**发送权限**并使用它来**发送消息**。
+请注意，**发送方**在这里**分配**了一个端口，为名称`org.darlinghq.example`创建了一个**发送权限**，并将其发送到**引导服务器**，而发送方则请求该名称的**发送权限**并使用它来**发送消息**。
 
 {% tabs %}
 {% tab title="receiver.c" %}
@@ -165,12 +165,6 @@ int main() {
     }
 
     printf("Message sent: %s\n", msg.mtext);
-
-    // Remove the message queue
-    if (msgctl(msgid, IPC_RMID, 0) == -1) {
-        perror("msgctl failed");
-        exit(EXIT_FAILURE);
-    }
 
     return 0;
 }
@@ -285,7 +279,7 @@ performMathOperations();  // Silent action
 return 0;
 }
 ```
-{% tab title="entitlements.plist" %}权限清单.plist{% endtab %}
+{% tab title="entitlements.plist" %}权限清单.plist
 ```xml
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -744,19 +738,20 @@ memset(&remoteThreadState64, '\0', sizeof(remoteThreadState64));
 remoteStack64 += (STACK_SIZE / 2); // 这是真正的堆栈
 //remoteStack64 -= 8;  // 需要 16 字节对齐
 
-const char* p = (const char*) remoteCode64;
+const char *p = (const char *)remoteCode64;
 
 remoteThreadState64.ash.flavor = ARM_THREAD_STATE64;
 remoteThreadState64.ash.count = ARM_THREAD_STATE64_COUNT;
-remoteThreadState64.ts_64.__pc = (u_int64_t) remoteCode64;
-remoteThreadState64.ts_64.__sp = (u_int64_t) remoteStack64;
+remoteThreadState64.ts_64.__pc = (u_int64_t)remoteCode64;
+remoteThreadState64.ts_64.__sp = (u_int64_t)remoteStack64;
 
 printf("远程堆栈 64  0x%llx，远程代码为 %p\n", remoteStack64, p);
 
 kr = thread_create_running(remoteTask, ARM_THREAD_STATE64, // ARM_THREAD_STATE64,
-                           (thread_state_t) &remoteThreadState64.ts_64, ARM_THREAD_STATE64_COUNT, &remoteThread);
+                           (thread_state_t)&remoteThreadState64.ts_64, ARM_THREAD_STATE64_COUNT, &remoteThread);
 
-if (kr != KERN_SUCCESS) {
+if (kr != KERN_SUCCESS)
+{
     fprintf(stderr, "无法创建远程线程：错误 %s", mach_error_string(kr));
     return (-3);
 }
@@ -764,12 +759,12 @@ if (kr != KERN_SUCCESS) {
 return (0);
 }
 
-int main(int argc, const char * argv[])
+int main(int argc, const char *argv[])
 {
 if (argc < 3)
 {
     fprintf(stderr, "用法：%s _pid_ _action_\n", argv[0]);
-    fprintf(stderr, "   _action_：磁盘上的 dylib 路径\n");
+    fprintf(stderr, "   _action_：磁盘上 dylib 的路径\n");
     exit(0);
 }
 
@@ -778,7 +773,8 @@ const char *action = argv[2];
 struct stat buf;
 
 int rc = stat(action, &buf);
-if (rc == 0) inject(pid, action);
+if (rc == 0)
+    inject(pid, action);
 else
 {
     fprintf(stderr, "找不到 dylib\n");
@@ -809,10 +805,10 @@ XPC使用一种称为进程间通信（IPC）的方法，用于在同一系统�
 XPC的主要优点包括：
 
 1. **安全性**：通过将工作分离到不同的进程中，每个进程只能被授予其所需的权限。这意味着即使进程被入侵，它也只能有限地造成损害。
-2. **稳定性**：XPC有助于将崩溃隔离到发生崩溃的组件。如果一个进程崩溃，可以重新启动而不影响系统的其他部分。
+2. **稳定性**：XPC帮助将崩溃隔离到发生崩溃的组件。如果一个进程崩溃，可以重新启动而不影响系统的其他部分。
 3. **性能**：XPC允许轻松并发，因为不同的任务可以在不同的进程中同时运行。
 
-唯一的**缺点**是将一个应用程序分成几个进程，通过XPC进行通信会**效率较低**。但在今天的系统中，这几乎不可察觉，而且好处更多。
+唯一的**缺点**是将一个应用程序分成多个进程，通过XPC进行通信会**效率较低**。但在今天的系统中，这几乎不可察觉，而且好处更多。
 
 ### 应用程序特定的XPC服务
 
@@ -824,7 +820,7 @@ XPC服务在需要时由**launchd**启动，并在所有任务完成后**关闭*
 
 ### 系统范围的XPC服务
 
-系统范围的XPC服务对所有用户都是可访问的。这些服务，无论是launchd还是Mach类型，都需要在指定目录中的plist文件中进行**定义**，例如**`/System/Library/LaunchDaemons`**、**`/Library/LaunchDaemons`**、**`/System/Library/LaunchAgents`**或**`/Library/LaunchAgents`**。
+系统范围的XPC服务对所有用户都可访问。这些服务，无论是launchd还是Mach类型，都需要在指定目录中的plist文件中进行**定义**，例如**`/System/Library/LaunchDaemons`**、**`/Library/LaunchDaemons`**、**`/System/Library/LaunchAgents`**或**`/Library/LaunchAgents`**。
 
 这些plist文件将具有一个名为**`MachServices`**的键，其中包含服务的名称，以及一个名为**`Program`**的键，其中包含二进制文件的路径：
 ```xml
@@ -1092,9 +1088,7 @@ listener.delegate = delegate;
 sleep(10); // Fake something is done and then it ends
 }
 ```
-{% tab title="oc_xpc_client.m" %}
-
-## oc_xpc_client.m
+{% tab title="oc_xpc_client.m" %}oc_xpc_client.m文件
 
 ```objective-c
 #import <Foundation/Foundation.h>
@@ -1119,37 +1113,7 @@ int main(int argc, const char * argv[]) {
 }
 ```
 
-### Description
-
-This Objective-C code demonstrates how to create an XPC client that communicates with the `com.apple.securityd` Mach service. XPC (Inter-Process Communication) is a mechanism for communication between processes in macOS.
-
-The code creates an XPC connection using `xpc_connection_create_mach_service` and specifies the target Mach service as `com.apple.securityd`. The `XPC_CONNECTION_MACH_SERVICE_PRIVILEGED` flag is used to indicate that the connection should be privileged.
-
-An event handler is set using `xpc_connection_set_event_handler` to handle incoming events from the XPC service. In this example, the event handler checks if the event is a dictionary and retrieves the value associated with the key "description". If a description is found, it is printed to the console.
-
-The connection is resumed using `xpc_connection_resume`, and the main dispatch loop is started using `dispatch_main`.
-
-### Usage
-
-Compile the code using the following command:
-
-```bash
-clang -framework Foundation -o oc_xpc_client oc_xpc_client.m
-```
-
-Run the compiled binary:
-
-```bash
-./oc_xpc_client
-```
-
-### References
-
-- [XPC Services](https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingXPCServices.html)
-- [XPC Overview](https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/Introduction.html#//apple_ref/doc/uid/10000172i-SW1-SW1)
-- [XPC API Reference](https://developer.apple.com/documentation/xpc)
-
-{% endtab %}
+这是一个Objective-C文件，用于创建一个XPC客户端连接到`com.apple.securityd`服务。它使用`xpc_connection_create_mach_service`函数创建一个特权的Mach服务连接，并使用`xpc_connection_set_event_handler`函数设置一个事件处理程序来处理接收到的事件。在事件处理程序中，它检查事件的类型是否为字典类型，并获取字典中的描述信息。如果存在描述信息，则打印出接收到的事件描述。最后，它通过调用`dispatch_main`函数来启动主循环，以保持连接的活动状态。
 ```objectivec
 // gcc -framework Foundation oc_xpc_client.m -o oc_xpc_client
 #include <Foundation/Foundation.h>
@@ -1214,6 +1178,87 @@ sudo launchctl load /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist
 sudo launchctl unload /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist
 sudo rm /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist /tmp/oc_xpc_server
 ```
+### Dylib代码中的客户端
+
+在macOS中，动态链接库（Dylib）是一种共享库，可以在多个进程之间共享代码和数据。在Dylib代码中，可以实现客户端来进行进程间通信（IPC）。
+
+#### 使用Mach消息传递进行IPC
+
+Mach是macOS内核的一部分，它提供了一种IPC机制，允许进程之间通过消息传递进行通信。在Dylib代码中，可以使用Mach消息传递来实现IPC。
+
+以下是一个示例代码，展示了如何在Dylib中创建一个客户端来发送Mach消息：
+
+```c
+#include <mach/mach.h>
+
+void send_mach_message() {
+    mach_port_t server_port;
+    kern_return_t kr;
+
+    // 获取服务器端口
+    kr = task_get_special_port(mach_task_self(), TASK_BOOTSTRAP_PORT, &server_port);
+    if (kr != KERN_SUCCESS) {
+        // 处理错误
+        return;
+    }
+
+    // 创建消息
+    mach_msg_header_t msg;
+    msg.msgh_bits = MACH_MSGH_BITS(MACH_MSG_TYPE_COPY_SEND, 0);
+    msg.msgh_size = sizeof(msg);
+    msg.msgh_remote_port = server_port;
+    msg.msgh_local_port = MACH_PORT_NULL;
+    msg.msgh_reserved = 0;
+
+    // 发送消息
+    kr = mach_msg(&msg, MACH_SEND_MSG, sizeof(msg), 0, MACH_PORT_NULL, MACH_MSG_TIMEOUT_NONE, MACH_PORT_NULL);
+    if (kr != KERN_SUCCESS) {
+        // 处理错误
+        return;
+    }
+}
+```
+
+在上述示例中，`send_mach_message`函数创建了一个Mach消息，并将其发送到服务器端口。通过修改消息的内容和参数，可以实现更复杂的IPC功能。
+
+#### 其他IPC机制
+
+除了Mach消息传递，macOS还提供了其他IPC机制，如XPC和UNIX域套接字。在Dylib代码中，可以根据需求选择适合的IPC机制来实现进程间通信。
+
+### 客户端内部的Dylib代码
+```
+// gcc -dynamiclib -framework Foundation oc_xpc_client.m -o oc_xpc_client.dylib
+// gcc injection example:
+// DYLD_INSERT_LIBRARIES=oc_xpc_client.dylib /path/to/vuln/bin
+
+#import <Foundation/Foundation.h>
+
+@protocol MyXPCProtocol
+- (void)sayHello:(NSString *)some_string withReply:(void (^)(NSString *))reply;
+@end
+
+__attribute__((constructor))
+static void customConstructor(int argc, const char **argv)
+{
+NSString*  _serviceName = @"xyz.hacktricks.svcoc";
+
+NSXPCConnection* _agentConnection = [[NSXPCConnection alloc] initWithMachServiceName:_serviceName options:4096];
+
+[_agentConnection setRemoteObjectInterface:[NSXPCInterface interfaceWithProtocol:@protocol(MyXPCProtocol)]];
+
+[_agentConnection resume];
+
+[[_agentConnection remoteObjectProxyWithErrorHandler:^(NSError* error) {
+(void)error;
+NSLog(@"Connection Failure");
+}] sayHello:@"Hello, Server!" withReply:^(NSString *response) {
+NSLog(@"Received response: %@", response);
+}    ];
+NSLog(@"Done!");
+
+return;
+}
+```
 ## 参考资料
 
 * [https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html](https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html)
@@ -1224,10 +1269,10 @@ sudo rm /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist /tmp/oc_xpc_server
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一个 **网络安全公司** 工作吗？想要在 HackTricks 中 **宣传你的公司** 吗？或者你想要获得 **PEASS 的最新版本或下载 HackTricks 的 PDF 版本** 吗？请查看 [**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 集合 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获得 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我的 **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向** [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享你的黑客技巧。**
+* 你在一家**网络安全公司**工作吗？想要在 HackTricks 中**宣传你的公司**吗？或者想要**获取 PEASS 的最新版本或下载 HackTricks 的 PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享你的黑客技巧。**
 
 </details>

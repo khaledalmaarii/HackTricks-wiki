@@ -12,7 +12,7 @@
 
 </details>
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
 如果你对**黑客职业**感兴趣并想要攻破不可攻破的目标 - **我们正在招聘！**（需要流利的波兰语书面和口语表达能力）。
 
@@ -20,7 +20,7 @@
 
 ## 定义
 
-首先，让我们先了解一下定义。DLL劫持在最广义上是指**欺骗一个合法/可信任的应用程序加载任意DLL**。术语如_DLL搜索顺序劫持_、_DLL加载顺序劫持_、_DLL欺骗_、_DLL注入_和_DLL侧加载_经常被错误地用来表示相同的含义。
+首先，让我们先了解一下定义。DLL劫持是指以最广义的意义上，**欺骗一个合法/可信的应用程序加载任意DLL**。术语如_DLL搜索顺序劫持_、_DLL加载顺序劫持_、_DLL欺骗_、_DLL注入_和_DLL侧加载_经常被错误地用来表示相同的意思。
 
 DLL劫持可以用于**执行**代码、获取**持久性**和**提升权限**。在这三种情况中，**最不可能**发现的是**提升权限**。然而，由于这是权限提升部分的一部分，我将重点介绍这个选项。此外，无论目标是什么，DLL劫持的执行方式都是相同的。
 
@@ -30,14 +30,14 @@ DLL劫持可以用于**执行**代码、获取**持久性**和**提升权限**�
 
 1. **DLL替换**：用恶意DLL替换合法DLL。这可以与_DLL代理_结合使用\[[2](https://kevinalmansa.github.io/application%20security/DLL-Proxying/)]，以确保原始DLL的所有功能保持完整。
 2. **DLL搜索顺序劫持**：应用程序指定的没有路径的DLL按照特定顺序在固定位置进行搜索\[[3](https://docs.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-search-order)]。通过将恶意DLL放在实际DLL之前进行搜索顺序劫持。这有时包括目标应用程序的工作目录。
-3. **幻影DLL劫持**：将恶意DLL放在缺失/不存在的DLL位置，合法应用程序尝试加载该DLL\[[4](http://www.hexacorn.com/blog/2013/12/08/beyond-good-ol-run-key-part-5/)]。
-4. **DLL重定向**：更改搜索DLL的位置，例如通过编辑`%PATH%`环境变量，或`.exe.manifest` / `.exe.local`文件以包含包含恶意DLL的文件夹\[[5](https://docs.microsoft.com/en-gb/windows/win32/sbscs/application-manifests), [6](https://docs.microsoft.com/en-gb/windows/win32/dlls/dynamic-link-library-redirection)]。
+3. **幻影DLL劫持**：在合法应用程序尝试加载的缺失/不存在的DLL位置放置恶意DLL\[[4](http://www.hexacorn.com/blog/2013/12/08/beyond-good-ol-run-key-part-5/)]。
+4. **DLL重定向**：更改DLL的搜索位置，例如通过编辑`%PATH%`环境变量，或`.exe.manifest` / `.exe.local`文件以包含包含恶意DLL的文件夹\[[5](https://docs.microsoft.com/en-gb/windows/win32/sbscs/application-manifests), [6](https://docs.microsoft.com/en-gb/windows/win32/dlls/dynamic-link-library-redirection)]。
 5. **WinSxS DLL替换**：在目标DLL的相关WinSxS文件夹中用恶意DLL替换合法DLL。通常称为DLL侧加载\[[7](https://www.fireeye.com/content/dam/fireeye-www/global/en/current-threats/pdfs/rpt-dll-sideloading.pdf)]。
 6. **相对路径DLL劫持**：将合法应用程序复制（并可选择重命名）到用户可写入的文件夹中，与恶意DLL放在一起。在使用方式上，它与（签名的）二进制代理执行\[[8](https://attack.mitre.org/techniques/T1218/)]有相似之处。这种方法的变体有点自相矛盾，被称为“_bring your own LOLbin_”\[[9](https://www.microsoft.com/security/blog/2019/09/26/bring-your-own-lolbin-multi-stage-fileless-nodersok-campaign-delivers-rare-node-js-based-malware/)]，其中合法应用程序与恶意DLL一起提供（而不是从受害者机器上的合法位置复制）。
 
 ## 查找缺失的DLL
 
-在系统中查找缺失的DLL的最常见方法是运行[procmon](https://docs.microsoft.com/en-us/sysinternals/downloads/procmon)，**设置以下两个过滤器**：
+在系统中查找缺失的DLL的最常见方法是运行[procmon](https://docs.microsoft.com/en-us/sysinternals/downloads/procmon)，**设置以下2个过滤器**：
 
 ![](<../../.gitbook/assets/image (311).png>)
 
@@ -78,9 +78,9 @@ DLL劫持可以用于**执行**代码、获取**持久性**和**提升权限**�
 
 #### Windows 文档中的 DLL 搜索顺序异常
 
-* 如果**同一模块名称的 DLL 已经加载到内存中**，系统在解析到已加载的 DLL 之前，仅检查重定向和清单。**系统不会搜索该 DLL**。
+* 如果**已经在内存中加载了具有相同模块名称的 DLL**，系统在解析到已加载的 DLL 之前，仅检查重定向和清单。**系统不会搜索该 DLL**。
 * 如果 DLL 在应用程序运行的 Windows 版本的**已知 DLL 列表**中，**系统将使用其自己的已知 DLL 的副本**（以及已知 DLL 的依赖 DLL，如果有的话），**而不是搜索**该 DLL。有关当前系统上已知 DLL 的列表，请参阅以下注册表键：**HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\KnownDLLs**。
-* 如果 DLL 有依赖项，系统将按照它们只使用**模块名称**加载的方式搜索依赖 DLL。即使第一个 DLL 是通过指定完整路径加载的，这也是正确的。
+* 如果一个 DLL 有依赖项，系统会像只加载它们的**模块名称**一样搜索这些依赖项的 DLL。即使第一个 DLL 是通过指定完整路径加载的，这也是正确的。
 
 ### 提升权限
 
@@ -115,18 +115,18 @@ dumpbin /export /path/file.dll
 ### 自动化工具
 
 [**Winpeas**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)将检查您是否具有对系统路径中任何文件夹的写入权限。\
-其他有趣的自动化工具来发现此漏洞是**PowerSploit函数**：_Find-ProcessDLLHijack_，_Find-PathDLLHijack_和_Write-HijackDll_。
+其他有趣的自动化工具用于发现此漏洞的是**PowerSploit函数**：_Find-ProcessDLLHijack_，_Find-PathDLLHijack_和_Write-HijackDll_。
 
 ### 示例
 
-如果您找到了一个可利用的场景，成功利用它的最重要的事情之一将是**创建一个导出至少所有可执行文件将从中导入的函数的dll**。无论如何，请注意，Dll劫持在从中间完整性级别升级到高级（绕过UAC）或从高级升级到SYSTEM方面非常方便。您可以在此dll劫持研究中找到一个创建有效dll的示例，该研究专注于用于执行的dll劫持：[**https://www.wietzebeukema.nl/blog/hijacking-dlls-in-windows**](https://www.wietzebeukema.nl/blog/hijacking-dlls-in-windows)**.**\
+如果您找到了一个可利用的场景，成功利用它的最重要的事情之一将是**创建一个导出至少包含可执行文件从中导入的所有函数的dll**。无论如何，注意Dll劫持在从中间完整性级别升级到高级（绕过UAC）或从高级升级到SYSTEM方面非常方便。您可以在此dll劫持研究中找到一个创建有效dll的示例，重点是dll劫持以进行执行：[**https://www.wietzebeukema.nl/blog/hijacking-dlls-in-windows**](https://www.wietzebeukema.nl/blog/hijacking-dlls-in-windows)**.**\
 此外，在下一节中，您可以找到一些可能有用作模板或创建具有非必需导出函数的dll的基本dll代码。
 
 ## **创建和编译Dlls**
 
 ### **Dll代理化**
 
-基本上，**Dll代理**是一种能够在加载时执行恶意代码的Dll，但也能够通过将所有调用传递给真实库来作为预期的方式**公开**和**工作**。
+基本上，**Dll代理**是一种能够在加载时执行恶意代码的Dll，但也能够通过**将所有调用传递给真实库**来**公开**和**工作**。
 
 使用工具\*\*\*\*[**DLLirant**](https://github.com/redteamsocietegenerale/DLLirant)\*\*\*\*或\*\*\*\*[**Spartacus**](https://github.com/Accenture/Spartacus)\*\*\*\*，您实际上可以**指定一个可执行文件并选择要代理化的库**，然后**生成一个代理化的dll**，或者**指定Dll并生成一个代理化的dll**。
 
@@ -227,7 +227,7 @@ break;
 return TRUE;
 }
 ```
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
 如果你对**黑客职业**感兴趣并想要攻破不可攻破的系统 - **我们正在招聘！**（需要流利的波兰语书写和口语能力）。
 
@@ -237,10 +237,10 @@ return TRUE;
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者你想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想要获取**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品 - [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass)，或者在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>

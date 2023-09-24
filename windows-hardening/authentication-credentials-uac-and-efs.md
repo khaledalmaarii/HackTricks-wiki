@@ -4,15 +4,15 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在一个**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* **通过向[hacktricks仓库](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud仓库](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
+* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
 
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和**自动化工作流程**，使用全球**最先进**的社区工具。\
 立即获取访问权限：
@@ -21,10 +21,10 @@
 
 ## AppLocker策略
 
-应用程序白名单是一份批准的软件应用程序或可执行文件列表，允许其存在和运行在系统上。其目标是保护环境免受有害的恶意软件和不符合组织特定业务需求的未经批准的软件。
+应用程序白名单是一份批准的软件应用程序或可执行文件列表，允许其存在和在系统上运行。其目标是保护环境免受有害的恶意软件和未经批准的与组织特定业务需求不符的软件。
 
-[AppLocker](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/what-is-applocker)是微软的**应用程序白名单解决方案**，它使系统管理员能够控制**用户可以运行的应用程序和文件**。它提供对可执行文件、脚本、Windows安装程序文件、DLL文件、打包应用程序和打包应用程序安装程序的**细粒度控制**。\
-通常组织会**阻止cmd.exe和PowerShell.exe**以及对某些目录的写访问，**但这些都可以被绕过**。
+[AppLocker](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/what-is-applocker)是微软的**应用程序白名单解决方案**，它使系统管理员能够对**用户可以运行的应用程序和文件**进行控制。它提供对可执行文件、脚本、Windows安装程序文件、DLL、打包应用程序和打包应用程序安装程序的**细粒度控制**。\
+组织通常会**阻止cmd.exe和PowerShell.exe**以及对某些目录的写访问，**但这些都可以被绕过**。
 
 ### 检查
 
@@ -41,7 +41,7 @@ $a.rulecollections
 
 ### 绕过
 
-* 绕过AppLocker策略的有用**可写文件夹**：如果AppLocker允许在`C:\Windows\System32`或`C:\Windows`中执行任何内容，则有一些**可写文件夹**可用于**绕过此限制**。
+* 绕过AppLocker策略的有用**可写文件夹**：如果AppLocker允许在`C:\Windows\System32`或`C:\Windows`中执行任何内容，则可以使用**可写文件夹**来**绕过此限制**。
 ```
 C:\Windows\System32\Microsoft\Crypto\RSA\MachineKeys
 C:\Windows\System32\spool\drivers\color
@@ -49,11 +49,11 @@ C:\Windows\Tasks
 C:\windows\tracing
 ```
 * 常见的**受信任的**[**"LOLBAS's"**](https://lolbas-project.github.io/)二进制文件也可以用来绕过AppLocker。
-* **编写不良的规则也可能被绕过**。
+* **编写不良的规则也可能被绕过**
 * 例如，**`<FilePathCondition Path="%OSDRIVE%*\allowed*"/>`**，您可以在任何地方创建一个名为`allowed`的文件夹，它将被允许。
-* 组织通常也会专注于**阻止`%System32%\WindowsPowerShell\v1.0\powershell.exe`可执行文件**，但忽略了**其他**[**PowerShell可执行文件位置**](https://www.powershelladmin.com/wiki/PowerShell\_Executables\_File\_System\_Locations)，如`%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe`或`PowerShell_ISE.exe`。
-* 由于它可能对系统造成额外负载并需要进行大量测试以确保不会出现问题，**很少启用DLL强制执行**。因此，使用**DLL作为后门将有助于绕过AppLocker**。
-* 您可以使用[**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick)或[**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick)在任何进程中执行Powershell代码并绕过AppLocker。有关更多信息，请查看：[https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode)。
+* 组织通常也会专注于阻止`%System32%\WindowsPowerShell\v1.0\powershell.exe`可执行文件，但忽略了其他[**PowerShell可执行文件位置**](https://www.powershelladmin.com/wiki/PowerShell\_Executables\_File\_System\_Locations)，如`%SystemRoot%\SysWOW64\WindowsPowerShell\v1.0\powershell.exe`或`PowerShell_ISE.exe`。
+* 由于它可能对系统造成额外负载并需要进行大量测试以确保不会出现问题，因此很少启用**DLL强制执行**。因此，使用**DLL作为后门将有助于绕过AppLocker**。
+* 您可以使用[**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick)或[**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick)在任何进程中执行PowerShell代码并绕过AppLocker。有关更多信息，请查看：[https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode)。
 
 ## 凭据存储
 
@@ -84,7 +84,7 @@ LSA可能会将某些凭据保存在磁盘上：
 
 ## Defender
 
-[**Microsoft Defender**](https://en.wikipedia.org/wiki/Microsoft\_Defender)是一款可用于Windows 10、Windows 11和Windows Server版本的防病毒软件。它会**阻止**常见的渗透测试工具，如**`WinPEAS`**。然而，有办法**绕过这些保护**。
+[**Microsoft Defender**](https://en.wikipedia.org/wiki/Microsoft\_Defender)是一款可用于Windows 10、Windows 11和Windows Server版本的杀毒软件。它会**阻止**常见的渗透测试工具，如**`WinPEAS`**。然而，有办法**绕过这些保护**。
 
 ### 检查
 
@@ -104,7 +104,8 @@ NISEngineVersion                : 0.0.0.0
 [...]
 <strong>RealTimeProtectionEnabled       : True
 </strong>RealTimeScanDirection           : 0
-PSComputerName                  :</code></pre>
+PSComputerName                  :
+</code></pre>
 
 要枚举它，您还可以运行：
 ```bash
@@ -117,7 +118,7 @@ sc query windefend
 ```
 ## EFS（加密文件系统）
 
-EFS通过使用一个批量的**对称密钥**（也称为文件加密密钥或**FEK**）对文件进行加密。然后，FEK使用与加密文件的用户相关联的**公钥**进行**加密**，并将加密的FEK存储在加密文件的$EFS **替代数据流**中。要解密文件，EFS组件驱动程序使用与EFS数字证书（用于加密文件）匹配的**私钥**来解密存储在$EFS流中的对称密钥。来源：[这里](https://en.wikipedia.org/wiki/Encrypting\_File\_System)。
+EFS通过使用一个批量的**对称密钥**（也称为文件加密密钥或**FEK**）对文件进行加密。然后，FEK使用与加密文件的用户相关联的**公钥**进行**加密**，并将加密的FEK存储在加密文件的$EFS **备用数据流**中。要解密文件，EFS组件驱动程序使用与EFS数字证书（用于加密文件）匹配的**私钥**来解密存储在$EFS流中的对称密钥。来源：[这里](https://en.wikipedia.org/wiki/Encrypting\_File\_System)。
 
 以下是未经用户请求解密的文件示例：
 
@@ -154,7 +155,7 @@ EFS通过使用一个批量的**对称密钥**（也称为文件加密密钥或*
 - 可以用于运行计划任务（管理服务帐户不支持运行计划任务）。
 - 简化的SPN管理-如果计算机的**sAMaccount**详细信息或DNS名称属性发生更改，系统将自动更改SPN值。
 
-gMSA帐户的密码存储在一个名为_**msDS-ManagedPassword**_的LDAP属性中，这些密码每30天由DC自动重置，可以被**授权管理员**和安装在其上的**服务器**检索。_**msDS-ManagedPassword**_是一个加密的数据块，称为[MSDS-MANAGEDPASSWORD\_BLOB](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-adts/a9019740-3d73-46ef-a9ae-3ea8eb86ac2e)，只有在连接被安全保护（使用LDAPS）或身份验证类型为“封装和安全”时才能检索。
+gMSA帐户的密码存储在一个名为_**msDS-ManagedPassword**_的LDAP属性中，这些密码每30天由DC自动重置，可以被**授权管理员**和安装在服务器上的**服务器**检索。_**msDS-ManagedPassword**_是一个加密的数据块，称为[MSDS-MANAGEDPASSWORD\_BLOB](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-adts/a9019740-3d73-46ef-a9ae-3ea8eb86ac2e)，只有在连接被安全保护（使用LDAPS）或身份验证类型为“封装和安全”时才能检索。
 
 ![Image from https://cube0x0.github.io/Relaying-for-gMSA/](../.gitbook/assets/asd1.png)
 
@@ -168,7 +169,7 @@ gMSA帐户的密码存储在一个名为_**msDS-ManagedPassword**_的LDAP属性�
 
 ## LAPS
 
-****[**本地管理员密码解决方案（LAPS）**](https://www.microsoft.com/en-us/download/details.aspx?id=46899)允许您在加入域的计算机上**管理本地管理员密码**（这些密码是**随机的**、**唯一的**，并且**定期更改**）。这些密码被集中存储在Active Directory中，并通过ACLs限制为授权用户。如果您的用户被赋予足够的权限，您可能能够读取本地管理员的密码。
+\*\*\*\*[**本地管理员密码解决方案（LAPS）**](https://www.microsoft.com/en-us/download/details.aspx?id=46899)允许您在加入域的计算机上**管理本地管理员密码**（这些密码是**随机的**、唯一的，并且**定期更改**）。这些密码被集中存储在Active Directory中，并通过ACLs限制为授权用户。如果您的用户被赋予足够的权限，您可能能够读取本地管理员的密码。
 
 {% content-ref url="active-directory-methodology/laps.md" %}
 [laps.md](active-directory-methodology/laps.md)
@@ -176,7 +177,7 @@ gMSA帐户的密码存储在一个名为_**msDS-ManagedPassword**_的LDAP属性�
 
 ## PowerShell受限语言模式
 
-PowerShell **** [**受限语言模式**](https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/) **限制了许多需要有效使用PowerShell的功能**，例如阻止COM对象，只允许批准的.NET类型，基于XAML的工作流程，PowerShell类等。
+PowerShell的\*\*\*\*[**受限语言模式**](https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/)会**限制使用PowerShell的许多功能**，例如阻止COM对象、仅允许批准的.NET类型、基于XAML的工作流、PowerShell类等。
 
 ### **检查**
 ```powershell
@@ -253,7 +254,7 @@ SSPI负责找到两台想要通信的机器的适当协议。首选的方法是K
 * **Negotiate**：用于协商要使用的协议（Kerberos或NTLM，其中Kerberos是默认协议）
 * %windir%\Windows\System32\lsasrv.dll
 
-#### 协商可以提供多种方法或仅提供一种方法。
+#### 协商可以提供多种方法或仅一种方法。
 
 ## UAC - 用户帐户控制
 
@@ -263,26 +264,22 @@ SSPI负责找到两台想要通信的机器的适当协议。首选的方法是K
 [uac-user-account-control.md](windows-security-controls/uac-user-account-control.md)
 {% endcontent-ref %}
 
-
-
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和**自动化工作流程**，由全球**最先进的**社区工具提供支持。\
+使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和**自动化工作流程**，由全球**最先进**的社区工具提供支持。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
-
-
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者想要访问**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 您在**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想获得最新版本的PEASS或下载PDF格式的HackTricks吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[NFT收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks的衣物**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
+* 获取[**官方PEASS和HackTricks衣物**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧。**
 
 </details>

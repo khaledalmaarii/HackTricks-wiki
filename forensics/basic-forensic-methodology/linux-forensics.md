@@ -1,21 +1,21 @@
-# Linux取证
+# Linux 取证
 
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-使用[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks)可以轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。
+使用 [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) 轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
+* 你在一家 **网络安全公司** 工作吗？你想在 HackTricks 中看到你的 **公司广告** 吗？或者你想要访问 **PEASS 的最新版本或下载 HackTricks 的 PDF** 吗？请查看 [**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 集合 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或 **关注** 我的 **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享你的黑客技巧。**
 
 </details>
 
@@ -23,7 +23,7 @@
 
 ### 基本信息
 
-首先，建议准备一些**带有已知良好的二进制文件和库的USB设备**（可以只获取ubuntu并复制文件夹_/bin_，_/sbin_，_/lib_和_/lib64_），然后挂载USB设备，并修改环境变量以使用这些二进制文件：
+首先，建议准备一些带有**已知良好的二进制文件和库**的**USB**（你可以只获取 Ubuntu 并复制 _/bin_、_/sbin_、_/lib_ 和 _/lib64_ 文件夹），然后挂载 USB，并修改环境变量以使用这些二进制文件：
 ```bash
 export PATH=/mnt/usb/bin:/mnt/usb/sbin
 export LD_LIBRARY_PATH=/mnt/usb/lib:/mnt/usb/lib64
@@ -84,11 +84,11 @@ LiME还可以用于通过网络发送转储，而不是将其存储在系统上�
 #### 关闭系统
 
 首先，您需要**关闭系统**。这并不总是一个选择，因为有时系统将是一台公司无法承受关闭的生产服务器。\
-有两种关闭系统的方式，一种是**正常关闭**，一种是**“拔插头”关闭**。第一种方式将允许**进程按照通常的方式终止**，并且**文件系统**将被**同步**，但也会允许可能的**恶意软件**破坏证据。"拔插头"的方法可能会导致**一些信息丢失**（由于我们已经对内存进行了镜像，所以不会丢失太多信息），而**恶意软件将没有任何机会**对此做任何事情。因此，如果您**怀疑**可能存在**恶意软件**，只需在系统上执行**`sync`**命令，然后拔掉电源。
+有**两种方式**可以关闭系统，一种是**正常关闭**，另一种是**“拔插头”关闭**。第一种方式将允许**进程按照通常的方式终止**，并且**文件系统**将被**同步**，但也会允许可能的**恶意软件**破坏证据。"拔插头"的方法可能会导致**一些信息丢失**（由于我们已经对内存进行了镜像，所以不会丢失太多信息），而**恶意软件将没有任何机会**对此做任何事情。因此，如果您**怀疑**可能存在**恶意软件**，只需在系统上执行**`sync`**命令，然后拔掉电源。
 
 #### 对磁盘进行镜像
 
-重要的是要注意，在**将您的计算机连接到与案件相关的任何设备之前**，您需要确保它将以**只读方式挂载**，以避免修改任何信息。
+重要的是要注意，在**将您的计算机连接到与案件相关的任何内容之前**，您需要确保它将以**只读方式挂载**，以避免修改任何信息。
 ```bash
 #Create a raw copy of the disk
 dd if=<subject device> of=<image file> bs=512
@@ -152,10 +152,9 @@ r/r 16: secret.txt
 icat -i raw -f ext4 disk.img 16
 ThisisTheMasterSecret
 ```
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-\
-使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。\
+使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -164,7 +163,7 @@ ThisisTheMasterSecret
 
 ### 修改的系统文件
 
-一些Linux系统具有验证许多已安装组件完整性的功能，这提供了一种有效的方式来识别异常或不合适的文件。例如，在Linux上，`rpm -Va`旨在验证使用RedHat软件包管理器安装的所有软件包。
+一些Linux系统具有验证许多已安装组件完整性的功能，这是一种有效的方法来识别异常或不合适的文件。例如，在Linux上，`rpm -Va`旨在验证使用RedHat软件包管理器安装的所有软件包。
 ```bash
 #RedHat
 rpm -Va
@@ -207,14 +206,14 @@ find /sbin/ -exec dpkg -S {} \; | grep "no path found"
 #RedHat
 find /sbin/ –exec rpm -qf {} \; | grep "is not"
 ```
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)轻松构建和自动化由全球**最先进**的社区工具提供支持的工作流程。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## 恢复已删除的运行中的二进制文件
+## 恢复已删除的运行二进制文件
 
 ![](<../../.gitbook/assets/image (641).png>)
 
@@ -265,7 +264,7 @@ Linux使用几个配置文件在用户登录系统时自动启动可执行文件
 
 ### 纯日志
 
-记录在系统和安全日志中的**登录**事件，包括通过网络登录，可以揭示**恶意软件**或**入侵者**在特定时间通过给定账户访问受损系统的情况。系统日志中可以捕获与恶意软件感染相关的其他事件，包括在事件发生时创建**新服务**或新账户。\
+记录在系统和安全日志中的**登录**事件，包括通过网络登录，可以揭示**恶意软件**或**入侵者**在特定时间通过给定账户访问受损系统的情况。系统日志中可以捕获与恶意软件感染相关的其他事件，包括在事件发生时创建新服务或新账户。\
 有趣的系统登录日志：
 
 * **/var/log/syslog** (debian) 或 **/var/log/messages** (Redhat)
@@ -279,12 +278,12 @@ Linux使用几个配置文件在用户登录系统时自动启动可执行文件
 * **/var/log/dmesg**：设备驱动程序消息的存储库。使用 **dmesg** 命令查看此文件中的消息。
 * **/var/log/faillog**：记录失败的登录信息。因此，用于检查潜在的安全漏洞，如登录凭据被盗和暴力攻击。
 * **/var/log/cron**：记录与 Crond 相关的消息（cron 作业）。例如，cron 守护程序启动作业的时间。
-* **/var/log/daemon.log**：跟踪运行的后台服务，但不以图形方式表示。
+* **/var/log/daemon.log**：跟踪正在运行的后台服务，但不以图形方式表示。
 * **/var/log/btmp**：记录所有失败的登录尝试。
 * **/var/log/httpd/**：包含 Apache httpd 守护程序的 error\_log 和 access\_log 文件的目录。所有 httpd 遇到的错误都记录在 **error\_log** 文件中。考虑内存问题和其他与系统相关的错误。**access\_log** 记录通过 HTTP 进入的所有请求。
 * **/var/log/mysqld.log** 或 **/var/log/mysql.log**：记录每个调试、失败和成功消息的 MySQL 日志文件，包括 MySQL 守护程序 mysqld 的启动、停止和重启。系统根据目录决定。RedHat、CentOS、Fedora 和其他基于 RedHat 的系统使用 /var/log/mariadb/mariadb.log。然而，Debian/Ubuntu 使用 /var/log/mysql/error.log 目录。
 * **/var/log/xferlog**：保存 FTP 文件传输会话。包括文件名和用户发起的 FTP 传输等信息。
-* **/var/log/\***：始终应检查此目录中的意外日志
+* **/var/log/\***：始终检查此目录中的意外日志
 
 {% hint style="info" %}
 在入侵或恶意软件事件中，Linux系统的日志和审计子系统可能被禁用或删除。由于Linux系统的日志通常包含有关恶意活动的最有用信息，入侵者经常删除它们。因此，在检查可用的日志文件时，重要的是查找可能表示删除或篡改的间隙或乱序条目。
@@ -292,7 +291,7 @@ Linux使用几个配置文件在用户登录系统时自动启动可执行文件
 
 ### 命令历史
 
-许多Linux系统配置为为每个用户账户维护命令历史记录：
+许多Linux系统配置为为每个用户账户保留命令历史记录：
 
 * \~/.bash\_history
 * \~/.history
@@ -305,14 +304,14 @@ Linux使用几个配置文件在用户登录系统时自动启动可执行文件
 建议检查这些登录是否合理：
 
 * 有任何未知用户吗？
-* 有任何不应该登录的用户吗？
+* 有任何不应该有shell登录的用户吗？
 
 这很重要，因为**攻击者**有时可能将 `/bin/bash` 复制到 `/bin/false` 中，以便像 **lightdm** 这样的用户可以登录。
 
-注意，您也可以通过阅读日志来查看此信息。
+请注意，您也可以通过阅读日志来查看此信息。
 ### 应用程序痕迹
 
-* **SSH**: 使用SSH连接到受损系统或从受损系统连接到其他系统会在每个用户帐户的文件中留下记录（_**∼/.ssh/authorized\_keys**_ 和 _**∼/.ssh/known\_keys**_）。这些记录可以显示远程主机的主机名或IP地址。
+* **SSH**: 使用SSH连接到受损系统或从受损系统连接到其他系统会在每个用户帐户的文件中留下记录（_**∼/.ssh/authorized\_keys**_ 和 _**∼/.ssh/known\_keys**_）。这些记录可以揭示远程主机的主机名或IP地址。
 * **Gnome桌面**: 用户帐户可能有一个 _**∼/.recently-used.xbel**_ 文件，其中包含有关在Gnome桌面上运行的应用程序最近访问的文件的信息。
 * **VIM**: 用户帐户可能有一个 _**∼/.viminfo**_ 文件，其中包含有关VIM使用情况的详细信息，包括搜索字符串历史和使用vim打开的文件的路径。
 * **Open Office**: 最近使用的文件。
@@ -321,7 +320,7 @@ Linux使用几个配置文件在用户登录系统时自动启动可执行文件
 
 ### USB日志
 
-[**usbrip**](https://github.com/snovvcrash/usbrip) 是一个用纯Python 3编写的小型软件，用于解析Linux日志文件（根据发行版，可能是`/var/log/syslog*`或`/var/log/messages*`）以构建USB事件历史记录表。
+[**usbrip**](https://github.com/snovvcrash/usbrip) 是一个用纯Python 3编写的小型软件，用于解析Linux日志文件（根据发行版，可能是`/var/log/syslog*`或`/var/log/messages*`）以构建USB事件历史表。
 
 了解所有已使用的USB设备是很有趣的，如果您有一个授权的USB设备列表，那么查找"违规事件"（使用不在该列表中的USB设备）将更加有用。
 
@@ -336,86 +335,89 @@ usbrip ids download #Download USB ID database
 
 #### 示例 1：收集易失性数据
 
-In this example, we will demonstrate how to collect volatile data from a Linux system using various command-line tools.
+To collect volatile data from a Linux system, you can use the following commands:
 
-在这个示例中，我们将演示如何使用各种命令行工具从Linux系统中收集易失性数据。
+要从Linux系统中收集易失性数据，可以使用以下命令：
 
-1. **Step 1**: Identify the running processes
+```bash
+$ date
+$ uname -a
+$ ps aux
+$ netstat -antp
+$ ifconfig -a
+```
 
-   **步骤 1**：识别正在运行的进程
+#### Example 2: Collecting Disk Image
 
-   Use the `ps` command to list all the running processes on the system.
+#### 示例 2：收集磁盘镜像
 
-   使用 `ps` 命令列出系统上所有正在运行的进程。
+To collect a disk image from a Linux system, you can use the following command:
 
-   ```bash
-   ps aux
-   ```
+要从Linux系统中收集磁盘镜像，可以使用以下命令：
 
-2. **Step 2**: Capture network connections
+```bash
+$ dd if=/dev/sda of=/mnt/forensics/disk_image.dd
+```
 
-   **步骤 2**：捕获网络连接
+#### Example 3: Analyzing Disk Image
 
-   Use the `netstat` command to capture information about active network connections.
+#### 示例 3：分析磁盘镜像
 
-   使用 `netstat` 命令捕获有关活动网络连接的信息。
+To analyze a disk image in Linux, you can use the following commands:
 
-   ```bash
-   netstat -antp
-   ```
+要在Linux中分析磁盘镜像，可以使用以下命令：
 
-3. **Step 3**: Check open files
+```bash
+$ file disk_image.dd
+$ fdisk -l disk_image.dd
+$ mmls disk_image.dd
+$ mount -o loop,ro disk_image.dd /mnt/forensics/mount_point
+$ ls -l /mnt/forensics/mount_point
+$ cat /mnt/forensics/mount_point/etc/passwd
+```
 
-   **步骤 3**：检查打开的文件
+#### Example 4: Analyzing Log Files
 
-   Use the `lsof` command to check which files are currently open by the processes.
+#### 示例 4：分析日志文件
 
-   使用 `lsof` 命令检查进程当前打开的文件。
+To analyze log files in Linux, you can use the following commands:
 
-   ```bash
-   lsof
-   ```
+要在Linux中分析日志文件，可以使用以下命令：
 
-4. **Step 4**: View system logs
+```bash
+$ cat /var/log/syslog
+$ cat /var/log/auth.log
+$ cat /var/log/apache2/access.log
+$ cat /var/log/apache2/error.log
+```
 
-   **步骤 4**：查看系统日志
+#### Example 5: Analyzing Network Traffic
 
-   Use the `dmesg` command to view the kernel ring buffer and system logs.
+#### 示例 5：分析网络流量
 
-   使用 `dmesg` 命令查看内核环形缓冲区和系统日志。
+To analyze network traffic in Linux, you can use the following commands:
 
-   ```bash
-   dmesg
-   ```
+要在Linux中分析网络流量，可以使用以下命令：
 
-5. **Step 5**: Collect memory dump
+```bash
+$ tcpdump -i eth0 -w /mnt/forensics/network_traffic.pcap
+$ tshark -r /mnt/forensics/network_traffic.pcap
+```
 
-   **步骤 5**：收集内存转储
+#### Example 6: Analyzing Memory Dump
 
-   Use the `dd` command to create a memory dump file.
+#### 示例 6：分析内存转储
 
-   使用 `dd` 命令创建一个内存转储文件。
+To analyze a memory dump in Linux, you can use the following commands:
 
-   ```bash
-   dd if=/dev/mem of=memory_dump.dd bs=1M count=1024
-   ```
+要在Linux中分析内存转储，可以使用以下命令：
 
-6. **Step 6**: Analyze the collected data
-
-   **步骤 6**：分析收集的数据
-
-   Use various tools like `strings`, `grep`, and `hexdump` to analyze the collected data.
-
-   使用 `strings`、`grep` 和 `hexdump` 等各种工具来分析收集的数据。
-
-   ```bash
-   strings memory_dump.dd | grep "password"
-   hexdump -C memory_dump.dd
-   ```
-
-By following these steps, you can collect volatile data from a Linux system and analyze it for potential security issues or evidence of malicious activity.
-
-通过按照这些步骤，您可以从Linux系统中收集易失性数据，并分析其中的潜在安全问题或恶意活动的证据。
+```bash
+$ volatility -f memory_dump.raw imageinfo
+$ volatility -f memory_dump.raw pslist
+$ volatility -f memory_dump.raw netscan
+$ volatility -f memory_dump.raw filescan
+```
 ```
 usbrip events history #Get USB history of your curent linux machine
 usbrip events history --pid 0002 --vid 0e0f --user kali #Search by pid OR vid OR user
@@ -425,17 +427,17 @@ usbrip ids search --pid 0002 --vid 0e0f #Search for pid AND vid
 ```
 更多示例和信息请参考GitHub：[https://github.com/snovvcrash/usbrip](https://github.com/snovvcrash/usbrip)
 
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks)可以轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。\
+使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ## 检查用户账户和登录活动
 
-检查 _**/etc/passwd**_、_**/etc/shadow**_ 和 **安全日志**，查找与已知未经授权事件密切相关的异常名称或账户的创建和使用。还要检查可能的sudo暴力攻击。\
+检查 _**/etc/passwd**_、_**/etc/shadow**_ 和 **安全日志**，查找异常的名称或在已知未经授权事件附近创建和使用的账户。还要检查可能的sudo暴力攻击。\
 此外，检查 _**/etc/sudoers**_ 和 _**/etc/groups**_ 等文件，查找给用户授予的意外特权。\
 最后，查找没有密码或密码容易猜测的账户。
 
@@ -452,14 +454,14 @@ usbrip ids search --pid 0002 --vid 0e0f #Search for pid AND vid
 * 系统上的 /bin/bash 的 Setuid 副本 `find / -user root -perm -04000 –print`
 * 检查已删除的**inode的日期时间戳**，如果在同一时间删除了大量文件，则可能表明恶意活动，例如安装了rootkit或木马服务。
 * 由于inode是按照下一个可用的方式分配的，因此在大约相同时间放置在系统上的恶意文件可能会被分配连续的inode。因此，在定位到恶意软件的一个组件后，检查相邻的inode可能会很有成效。
-* 还要检查像 _/bin_ 或 _/sbin_ 这样的目录，因为新文件或修改文件的**修改时间**可能很有趣。
+* 还要检查目录，如 _/bin_ 或 _/sbin_，因为新文件或修改文件的**修改时间**可能很有趣。
 * 按创建日期对目录中的文件和文件夹进行排序，以查看最近的文件或文件夹（通常是最后一个）。
 
 您可以使用 `ls -laR --sort=time /bin` 检查文件夹中最近的文件。\
 您可以使用 `ls -lai /bin |sort -n` 检查文件夹中文件的inode。
 
 {% hint style="info" %}
-请注意，**攻击者**可以**修改时间**以使**文件看起来合法**，但他**无法修改inode**。如果您发现一个文件表明它的创建和修改时间与同一文件夹中的其他文件相同，但是**inode**却**意外地更大**，那么该文件的时间戳已被修改。
+请注意，**攻击者**可以**修改时间**以使**文件看起来合法**，但他**无法修改inode**。如果您发现一个文件表明它的创建和修改时间与同一文件夹中的其他文件相同，但是**inode意外地更大**，那么该文件的时间戳已被修改。
 {% endhint %}
 
 ## 比较不同文件系统版本的文件
@@ -480,15 +482,13 @@ One tool that can be used for this purpose is the `find` command. By using the `
 find / -type f -newermt "24 hours ago"
 ```
 
-You can also use the `stat` command to obtain detailed information about a file, including its modification time. For example, the following command will display the modification time of a file:
+You can also use the `stat` command to obtain detailed information about a file, including its last modification time. For example, the following command will display the last modification time of a file:
 
 ```
 stat <file_path>
 ```
 
-Additionally, you can check the system logs for any suspicious activities or modifications. The `/var/log` directory contains various log files that can provide valuable information about system events.
-
-By identifying and analyzing modified content, you can gain insights into the actions taken on the system and potentially uncover evidence relevant to your investigation.
+By analyzing the modified content, you may be able to uncover important evidence or clues related to the case. It is important to document and preserve any findings in a forensically sound manner to ensure their admissibility in court, if necessary.
 ```bash
 git diff --no-index --diff-filter=M _openwrt1.extracted/squashfs-root/ _openwrt2.extracted/squashfs-root/ | grep -E "^\+" | grep -v "Installed-Time"
 ```
@@ -536,7 +536,7 @@ git diff --no-index --diff-filter=A _openwrt1.extracted/squashfs-root/ _openwrt2
 
 **`-diff-filter=[(A|C|D|M|R|T|U|X|B)…​[*]]`**
 
-仅选择已添加（`A`）、已复制（`C`）、已删除（`D`）、已修改（`M`）、已重命名（`R`）的文件，并且其类型（即常规文件、符号链接、子模块等）已更改（`T`）、未合并（`U`）、未知（`X`）或已破坏配对（`B`）。可以使用任意组合的过滤字符（包括无）。当将`*`（全部或无）添加到组合中时，如果比较中存在与其他条件匹配的文件，则选择所有路径；如果没有与其他条件匹配的文件，则不选择任何内容。
+仅选择已添加（`A`）、已复制（`C`）、已删除（`D`）、已修改（`M`）、已重命名（`R`）以及其类型（即常规文件、符号链接、子模块等）已更改（`T`）、未合并（`U`）、未知（`X`）或已破坏配对（`B`）的文件。可以使用任意组合的过滤字符（包括无）。当将`*`（全部或无）添加到组合中时，如果比较中存在与其他条件匹配的文件，则选择所有路径；如果没有与其他条件匹配的文件，则不选择任何内容。
 
 此外，这些大写字母可以转换为小写字母以进行排除。例如，`--diff-filter=ad`排除已添加和已删除的路径。
 
@@ -551,17 +551,17 @@ git diff --no-index --diff-filter=A _openwrt1.extracted/squashfs-root/ _openwrt2
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-你在一家**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者你想要获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+你在一家**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者你想要**获取最新版本的PEASS或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 
 * 发现我们的独家[NFT收藏品](https://opensea.io/collection/the-peass-family)——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 
-**通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧。**
+**通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
 
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。\

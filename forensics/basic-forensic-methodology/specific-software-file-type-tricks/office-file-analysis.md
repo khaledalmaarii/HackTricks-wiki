@@ -2,20 +2,20 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
 
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks)可以轻松构建和**自动化工作流程**，使用世界上**最先进的**社区工具。\
+使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和**自动化工作流程**，使用世界上**最先进的**社区工具。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -75,25 +75,49 @@ $ soffice path/to/test.docx macro://./standard.module1.mymacro
 ```
 ## [oletools](https://github.com/decalage2/oletools)
 
-oletools是一组用于分析和检测OLE（Object Linking and Embedding）文件的工具。OLE文件是Microsoft Office文件格式的一种，包括.doc、.xls和.ppt文件。这些工具可以帮助我们分析和检测Office文件中的潜在威胁和漏洞。
+oletools是一组用于分析和检测Microsoft Office文件中的恶意宏和OLE对象的工具。它包含了一些有用的脚本和工具，可以帮助分析人员识别和分析潜在的恶意文件。
 
 ### olevba
 
-olevba是oletools中的一个工具，用于分析和提取VBA（Visual Basic for Applications）宏代码。VBA宏代码是Office文件中常用的自动化脚本，可以执行各种操作，包括恶意活动。olevba可以帮助我们分析Office文件中的VBA宏代码，以便检测潜在的恶意行为。
+olevba是oletools中的一个脚本，用于分析Office文件中的VBA宏代码。它可以提取和分析VBA宏代码，检测潜在的恶意行为，并生成报告。
+
+使用olevba，您可以：
+
+- 提取Office文件中的VBA宏代码
+- 分析VBA宏代码，查找潜在的恶意行为
+- 生成报告，包含有关VBA宏代码的详细信息和潜在的恶意行为
 
 ### oledump
 
-oledump是oletools中的另一个工具，用于分析和提取OLE文件中的各种对象。它可以帮助我们分析Office文件中的各种对象，包括文本、图像、嵌入的文件等。通过分析这些对象，我们可以发现隐藏在Office文件中的潜在威胁和漏洞。
+oledump是oletools中的另一个脚本，用于分析Office文件中的OLE对象。它可以提取和分析OLE对象，检测潜在的恶意行为，并生成报告。
 
-### oleid
+使用oledump，您可以：
 
-oleid是oletools中的第三个工具，用于识别和分析OLE文件的类型和属性。它可以帮助我们确定一个文件是否是OLE文件，以及它的具体类型和属性。通过分析文件的类型和属性，我们可以更好地理解文件的结构和功能。
+- 提取Office文件中的OLE对象
+- 分析OLE对象，查找潜在的恶意行为
+- 生成报告，包含有关OLE对象的详细信息和潜在的恶意行为
+
+### oledir
+
+oledir是oletools中的第三个脚本，用于分析Office文件中的目录结构。它可以提取和分析目录结构，查找潜在的恶意行为，并生成报告。
+
+使用oledir，您可以：
+
+- 提取Office文件中的目录结构
+- 分析目录结构，查找潜在的恶意行为
+- 生成报告，包含有关目录结构的详细信息和潜在的恶意行为
 
 ### olemeta
 
-olemeta是oletools中的最后一个工具，用于提取和分析OLE文件中的元数据。元数据是描述文件内容和属性的信息，可以帮助我们更好地理解文件的来源和用途。olemeta可以帮助我们提取和分析Office文件中的元数据，以便发现潜在的威胁和漏洞。
+olemeta是oletools中的最后一个脚本，用于提取和分析Office文件的元数据。它可以提取文件的元数据，并生成报告。
 
-oletools是一个强大的工具集，可以帮助我们分析和检测Office文件中的潜在威胁和漏洞。通过使用这些工具，我们可以更好地理解和保护我们的系统和数据。
+使用olemeta，您可以：
+
+- 提取Office文件的元数据
+- 分析元数据，获取有关文件的详细信息
+- 生成报告，包含有关文件的元数据和详细信息
+
+oletools是一个强大的工具集，可以帮助您分析和检测Microsoft Office文件中的恶意宏和OLE对象。通过使用这些工具，您可以更好地了解文件的内容，并识别潜在的恶意行为。
 ```bash
 sudo pip3 install -U oletools
 olevba -c /path/to/document #Extract macros
@@ -106,10 +130,10 @@ olevba -c /path/to/document #Extract macros
 
 * [https://trailofbits.github.io/ctf/forensics/](https://trailofbits.github.io/ctf/forensics/)
 
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks)可以轻松构建和**自动化工作流程**，并由全球**最先进的**社区工具提供支持。\
+使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和**自动化工作流程**，使用全球**最先进的**社区工具。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -118,10 +142,10 @@ olevba -c /path/to/document #Extract macros
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者想要**获取最新版本的PEASS或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 你在一家**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>

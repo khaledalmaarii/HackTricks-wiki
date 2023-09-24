@@ -1,9 +1,9 @@
 # ACLs - DACLs/SACLs/ACEs
 
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和自动化由全球**最先进**的社区工具提供支持的工作流程。\
+使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和自动化由全球**最先进的**社区工具提供支持的工作流程。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -12,24 +12,24 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在**网络安全公司**工作吗？你想在HackTricks中看到你的公司广告吗？或者你想获得最新版本的PEASS或下载PDF格式的HackTricks吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[NFT](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 你在**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
 
 ## **访问控制列表（ACL）**
 
-ACL是一个有序的ACE列表，用于定义对象及其属性的保护措施。每个ACE标识一个安全主体，并指定该安全主体被允许、拒绝或审计的一组访问权限。
+ACL是一个有序的ACE列表，用于定义应用于对象及其属性的保护措施。每个ACE标识一个安全主体，并指定该安全主体被允许、拒绝或审计的一组访问权限。
 
 对象的安全描述符可以包含两个ACL：
 
 1. 一个DACL，用于标识被允许或拒绝访问的用户和组
 2. 一个SACL，用于控制访问的审计方式
 
-当用户尝试访问文件时，Windows系统会运行AccessCheck，并将安全描述符与用户的访问令牌进行比较，评估用户是否被授予访问权限以及访问权限的种类，这取决于设置的ACE。
+当用户尝试访问文件时，Windows系统会运行AccessCheck，并将安全描述符与用户的访问令牌进行比较，评估用户是否被授予访问权限以及访问的类型取决于设置的ACE。
 
 ### **自主访问控制列表（DACL）**
 
@@ -43,9 +43,9 @@ SACL使得监视对受保护对象的访问成为可能。SACL中的ACE确定在
 
 每个登录到系统的用户都持有一个包含安全信息的访问令牌。当用户登录时，系统会创建一个访问令牌。代表用户执行的每个进程都有一个访问令牌的副本。令牌标识用户、用户的组和用户的特权。令牌还包含一个登录SID（安全标识符），用于标识当前的登录会话。
 
-当线程尝试访问可保护对象时，LSASS（本地安全性机构）要么授予访问权限，要么拒绝访问。为此，LSASS搜索SDS数据流中的DACL（自主访问控制列表），查找适用于线程的ACE。
+当线程尝试访问可保护对象时，本地安全机构（LSASS）要么授予访问权限，要么拒绝访问。为此，LSASS搜索SDS数据流中的DACL（自主访问控制列表），查找适用于线程的ACE。
 
-对象的DACL中的每个ACE指定了允许或拒绝给定安全主体或登录会话的访问权限。如果对象的所有者没有为该对象创建任何DACL中的ACE，则系统立即授予访问权限。
+对象的DACL中的每个ACE指定了允许或拒绝给定安全主体或登录会话的访问权限。如果对象的所有者没有为该对象创建任何DACL中的ACE，系统会立即授予访问权限。
 
 如果LSASS找到ACE，它会将每个ACE中的受托人SID与线程访问令牌中标识的受托人SID进行比较。
 
@@ -55,8 +55,8 @@ SACL使得监视对受保护对象的访问成为可能。SACL中的ACE确定在
 
 | **ACE**                  | **描述**                                                                                                                                                            |
 | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **`拒绝访问ACE`**  | 在DACL中使用，表示用户或组明确被拒绝访问对象                                                                                   |
-| **`允许访问ACE`** | 在DACL中使用，表示用户或组明确被授予访问对象                                                                                  |
+| **`拒绝访问ACE`**  | 在DACL中使用，表示用户或组被明确拒绝访问对象                                                                                   |
+| **`允许访问ACE`** | 在DACL中使用，表示用户或组被明确授予访问对象                                                                                  |
 | **`系统审计ACE`**   | 在SACL中使用，当用户或组尝试访问对象时生成审计日志。记录访问是否被授予以及发生的访问类型 |
 
 每个ACE由以下**四个**组成部分组成：
@@ -64,7 +64,7 @@ SACL使得监视对受保护对象的访问成为可能。SACL中的ACE确定在
 1. 具有访问对象权限的用户/组的安全标识符（SID）（或以图形方式表示的主体名称）
 2. 表示ACE类型的标志（拒绝访问、允许访问或系统审计ACE）
 3. 一组指定子容器/对象是否可以从主对象或父对象继承给定ACE条目的标志
-4. [访问掩码](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-dtyp/7a53f60e-e730-4dfe-bbe9-b21b62eb790b?redirectedfrom=MSDN)，它是一个32位值，定义了授予对象的权限
+4. 一个[访问掩码](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-dtyp/7a53f60e-e730-4dfe-bbe9-b21b62eb790b?redirectedfrom=MSDN)，它是一个32位值，定义了授予对象的权限
 
 系统按顺序检查每个ACE，直到发生以下事件之一：
 
@@ -92,10 +92,10 @@ DACL中ACE的首选顺序被称为“规范”顺序。对于Windows 2000和Wind
 * 显式的**拒绝访问ACE会被强制执行，而不管是否有显式的允许访问ACE**。这意味着对象的所有者可以定义允许一组用户访问并拒绝该组的子集的权限。
 * 所有**显式ACE在任何继承ACE之前被处理**。这与自由访问控制的概念一致：对于子对象（例如文件）的访问取决于子对象的所有者，而不是父对象（例如文件夹）的所有者。子对象的所有者可以直接在子对象上定义权限。结果是继承权限的效果被修改。
 
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和自动化由全球**最先进**的社区工具提供支持的工作流程。\
+使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和**自动化工作流程**，使用全球**最先进**的社区工具。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -138,19 +138,19 @@ DACL中ACE的首选顺序被称为“规范”顺序。对于Windows 2000和Wind
 
 如前所述，ACL（访问控制列表）是ACE（访问控制条目）的有序列表。每个ACE包含以下内容：
 
-* 用于标识特定用户或组的SID（安全标识符）。
+* 一个标识特定用户或组的SID（安全标识符）。
 * 指定访问权限的访问掩码。
 * 一组位标志，确定子对象是否可以继承该ACE。
 * 指示ACE类型的标志。
 
-ACE在本质上是相似的。它们的区别在于它们对继承和对象访问提供的控制程度。有两种类型的ACE：
+ACE在本质上是相似的。它们的区别在于它们对继承和对象访问的控制程度。有两种类型的ACE：
 
 * 通用类型，附加到所有可安全对象。
 * 对于Active Directory对象的ACL中才能出现的特定对象类型。
 
 ### 通用ACE
 
-通用ACE对可以继承它们的子对象类型的控制有限。基本上，它们只能区分容器和非容器之间的区别。
+通用ACE对可以继承它们的子对象类型的控制有限。基本上，它们只能区分容器和非容器。
 
 例如，在NTFS的文件夹对象上的DACL（自由访问控制列表）可以包括一个通用ACE，允许一组用户列出文件夹的内容。因为列出文件夹的内容是只能在容器对象上执行的操作，所以允许该操作的ACE可以被标记为CONTAINER\_INHERIT\_ACE。只有文件夹中的容器对象（即其他文件夹对象）继承父对象的ACE。非容器对象（即文件对象）不继承父对象的ACE。
 
@@ -164,11 +164,11 @@ ACE在本质上是相似的。它们的区别在于它们对继承和对象访�
 
 这就是为什么特定对象ACE被称为特定对象的原因。它们的继承可以限制在特定类型的子对象上。
 
-这两种类型的ACE在控制对对象的访问方面有类似的差异。
+这两种类型的ACE如何控制对对象的访问也存在类似的差异。
 
 特定对象ACE可以应用于对象的任何单个属性或该对象的一组属性。这种类型的ACE仅在Active Directory对象的ACL中使用，与其他对象类型不同，Active Directory对象将大部分信息存储在属性中。通常希望对Active Directory对象的每个属性都放置独立的控制，而特定对象ACE使这成为可能。
 
-例如，当您为User对象定义权限时，可以使用一个特定对象ACE允许Principal Self（即用户）对Phone-Home-Primary（homePhone）属性进行写访问，并可以使用其他特定对象ACE拒绝Principal Self对Logon-Hours（logonHours）属性和设置用户帐户限制的其他属性的访问。
+例如，当您为User对象定义权限时，可以使用一个特定对象ACE允许Principal Self（即用户）对Phone-Home-Primary（homePhone）属性进行写访问，并使用其他特定对象ACE拒绝Principal Self对Logon-Hours（logonHours）属性和设置用户帐户限制的其他属性的访问。
 
 下表显示了每个ACE的布局。
 ### 访问控制项布局
@@ -206,12 +206,12 @@ ACE在本质上是相似的。它们的区别在于它们对继承和对象访�
 * 您在**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[NFT收藏品](https://opensea.io/collection/the-peass-family)——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks衣物**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享您的黑客技巧**。
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧。**
 
 </details>
 
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和**自动化工作流程**，使用全球**最先进**的社区工具。\

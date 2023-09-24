@@ -7,15 +7,15 @@
 * 你在一个**网络安全公司**工作吗？你想在 HackTricks 中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享你的黑客技巧。**
 
 </details>
 
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks)可以轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。\
+使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -38,7 +38,7 @@
 ## Google Drive
 
 在 Windows 中，可以在 `\Users\<username>\AppData\Local\Google\Drive\user_default` 找到主要的 Google Drive 文件夹。\
-该文件夹包含一个名为 Sync\_log.log 的文件，其中包含帐户的电子邮件地址、文件名、时间戳、文件的 MD5 哈希等信息。即使已删除的文件也会在该日志文件中出现，带有相应的 MD5。
+该文件夹包含一个名为 Sync\_log.log 的文件，其中包含帐户的电子邮件地址、文件名、时间戳、文件的 MD5 哈希等信息。即使已删除的文件也会在该日志文件中出现，并带有相应的 MD5。
 
 文件 **`Cloud_graph\Cloud_graph.db`** 是一个 SQLite 数据库，其中包含表 **`cloud_graph_entry`**。在该表中，您可以找到**同步的文件**的**名称**、修改时间、大小和文件的 MD5 校验和。
 
@@ -81,9 +81,9 @@ Dropbox 使用 **SQLite 数据库**来管理文件。在这里\
 
 ![](<../../../.gitbook/assets/image (448).png>)
 
-如果一切顺利，该工具将指示您需要**使用以恢复原始密钥**的**主密钥**。要恢复原始密钥，只需在此[cyber\_chef receipt](https://gchq.github.io/CyberChef/#recipe=Derive\_PBKDF2\_key\(%7B'option':'Hex','string':'98FD6A76ECB87DE8DAB4623123402167'%7D,128,1066,'SHA1',%7B'option':'Hex','string':'0D638C092E8B82FC452883F95F355B8E'%7D\))中将主密钥作为“passphrase”。
+如果一切顺利，该工具将指示您需要**用于恢复原始密钥**的**主密钥**。要恢复原始密钥，只需将主密钥作为接收器中的“passphrase”使用此[cyber\_chef receipt](https://gchq.github.io/CyberChef/#recipe=Derive\_PBKDF2\_key\(%7B'option':'Hex','string':'98FD6A76ECB87DE8DAB4623123402167'%7D,128,1066,'SHA1',%7B'option':'Hex','string':'0D638C092E8B82FC452883F95F355B8E'%7D\))。
 
-生成的十六进制即为用于加密数据库的最终密钥，可以使用以下方式解密：
+生成的十六进制即为用于加密数据库的最终密钥，可以使用以下方法解密：
 ```bash
 sqlite -k <Obtained Key> config.dbx ".backup config.db" #This decompress the config.dbx and creates a clear text backup in config.db
 ```
@@ -95,7 +95,7 @@ sqlite -k <Obtained Key> config.dbx ".backup config.db" #This decompress the con
 * **Host\_id：**用于在云端进行身份验证的哈希值。只能通过网络撤销此哈希值。
 * **Root\_ns**：用户标识符
 
-**`filecache.db`**数据库包含与Dropbox同步的所有文件和文件夹的信息。表`File_journal`是最有用的表之一：
+**`filecache.db`**数据库包含与Dropbox同步的所有文件和文件夹的信息。表`File_journal`是包含更多有用信息的表：
 
 * **Server\_path**：文件在服务器内的路径（此路径前面是客户端的`host_id`）。
 * **local\_sjid**：文件的版本
@@ -104,16 +104,16 @@ sqlite -k <Obtained Key> config.dbx ".backup config.db" #This decompress the con
 
 此数据库中的其他表包含更多有趣的信息：
 
-* **block\_cache**：Dropbox的所有文件和文件夹的哈希值
+* **block\_cache**：Dropbox所有文件和文件夹的哈希值
 * **block\_ref**：将表`block_cache`中的哈希ID与表`file_journal`中的文件ID相关联
-* **mount\_table**：Dropbox的共享文件夹
+* **mount\_table**：Dropbox共享文件夹
 * **deleted\_fields**：Dropbox已删除的文件
 * **date\_added**
 
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks)可以轻松构建和**自动化工作流程**，使用全球**最先进的**社区工具。\
+使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和自动化由全球**最先进的**社区工具提供支持的工作流程。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -122,10 +122,10 @@ sqlite -k <Obtained Key> config.dbx ".backup config.db" #This decompress the con
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 您在**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想获得最新版本的PEASS或下载PDF格式的HackTricks吗？请查看[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)！
+* 您在**网络安全公司**工作吗？您想在HackTricks中看到您的公司广告吗？或者您想获得最新版本的PEASS或下载PDF格式的HackTricks吗？请查看[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks衣物**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧。**
 
 </details>

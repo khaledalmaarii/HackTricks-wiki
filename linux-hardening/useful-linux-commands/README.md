@@ -1,6 +1,6 @@
 # 有用的Linux命令
 
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。
 立即获取访问权限：
@@ -11,11 +11,11 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 您在**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想要访问**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 您在**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks衣物**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享您的黑客技巧**。
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧。**
 
 </details>
 
@@ -138,7 +138,7 @@ sudo chattr -i file.txt #Remove the bit so you can delete it
 # List files inside zip
 7z l file.zip
 ```
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和自动化由全球**最先进**的社区工具提供支持的工作流程。
 立即获取访问权限：
@@ -167,108 +167,79 @@ i686-mingw32msvc-gcc -o executable useradd.c
 ```
 ## Greps
 
-Grep is a powerful command-line tool used for searching text patterns in files. It is an essential tool for any Linux user and can be used in various scenarios. Here are some useful grep commands:
+### Introduction
 
-### Basic Grep
+The `grep` command is a powerful tool in Linux that allows you to search for specific patterns or strings within files. It is commonly used for text processing, log analysis, and system administration tasks. This section will cover some useful `grep` commands and their options.
 
-The basic grep command syntax is as follows:
+### Basic Usage
+
+The basic syntax of the `grep` command is as follows:
 
 ```
 grep [options] pattern [file...]
 ```
 
-- `pattern` is the text pattern you want to search for.
-- `file` is the file(s) you want to search in. If no file is specified, grep will search in standard input.
+- `options`: Optional flags that modify the behavior of the command.
+- `pattern`: The pattern or string to search for.
+- `file`: Optional file(s) to search within. If no file is specified, `grep` will read from standard input.
 
-Here are some examples:
+### Searching for a Pattern in a File
 
-- Search for a specific word in a file:
-
-  ```
-  grep "word" file.txt
-  ```
-
-- Search for a pattern in multiple files:
-
-  ```
-  grep "pattern" file1.txt file2.txt
-  ```
-
-- Search for a pattern in all files in a directory:
-
-  ```
-  grep "pattern" *
-  ```
-
-### Case-Insensitive Search
-
-By default, grep performs a case-sensitive search. To perform a case-insensitive search, use the `-i` option:
+To search for a specific pattern in a file, use the following command:
 
 ```
-grep -i "pattern" file.txt
+grep pattern file
 ```
 
-### Recursive Search
-
-To search for a pattern in all files in a directory and its subdirectories, use the `-r` option:
+For example, to search for the word "example" in a file named `file.txt`, you would use:
 
 ```
-grep -r "pattern" directory/
+grep example file.txt
 ```
 
-### Invert Match
+### Searching for a Pattern in Multiple Files
 
-To search for lines that do not match a pattern, use the `-v` option:
-
-```
-grep -v "pattern" file.txt
-```
-
-### Count Matches
-
-To count the number of matches for a pattern, use the `-c` option:
+To search for a pattern in multiple files, specify the files as arguments to the `grep` command. For example, to search for the word "example" in `file1.txt` and `file2.txt`, you would use:
 
 ```
-grep -c "pattern" file.txt
+grep example file1.txt file2.txt
 ```
 
-### Display Line Numbers
+### Searching for a Pattern in a Directory
 
-To display the line numbers along with the matching lines, use the `-n` option:
+To search for a pattern in all files within a directory and its subdirectories, use the `-r` or `--recursive` option. For example, to search for the word "example" in all files within the current directory and its subdirectories, you would use:
 
 ```
-grep -n "pattern" file.txt
+grep -r example .
 ```
 
-### Regular Expressions
+### Ignoring Case
 
-Grep supports regular expressions for more advanced pattern matching. Here are some examples:
+By default, `grep` is case-sensitive. To perform a case-insensitive search, use the `-i` or `--ignore-case` option. For example, to search for the word "example" regardless of case, you would use:
 
-- Search for lines starting with a specific word:
+```
+grep -i example file.txt
+```
 
-  ```
-  grep "^word" file.txt
-  ```
+### Displaying Line Numbers
 
-- Search for lines ending with a specific word:
+To display the line numbers along with the matching lines, use the `-n` or `--line-number` option. For example, to search for the word "example" in a file and display the line numbers, you would use:
 
-  ```
-  grep "word$" file.txt
-  ```
+```
+grep -n example file.txt
+```
 
-- Search for lines containing one of multiple patterns:
+### Inverting the Match
 
-  ```
-  grep "pattern1\|pattern2" file.txt
-  ```
+To invert the match and display lines that do not contain the specified pattern, use the `-v` or `--invert-match` option. For example, to search for lines that do not contain the word "example" in a file, you would use:
 
-- Search for lines containing a pattern with a specific number of repetitions:
+```
+grep -v example file.txt
+```
 
-  ```
-  grep "pattern\{3\}" file.txt
-  ```
+### Conclusion
 
-These are just a few examples of what you can do with grep. It is a versatile tool that can be combined with other commands to perform complex text processing tasks.
+The `grep` command is a versatile tool for searching and processing text in Linux. By using the various options available, you can customize your search and obtain the desired results. Experiment with different options and patterns to become proficient in using `grep` effectively.
 ```bash
 #Extract emails from file
 grep -E -o "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b" file.txt
@@ -362,7 +333,7 @@ Nmap是一款功能强大的网络扫描工具，用于发现和评估网络上�
 - `-v`：显示详细的扫描结果。
 - `-oN`：将扫描结果保存到指定的文件中。
 
-请注意，使用Nmap进行网络扫描可能涉及到法律和道德问题。在进行任何扫描之前，请确保您已经获得了适当的授权，并遵守适用的法律和规定。
+更多详细的Nmap命令和选项，请参考[Nmap官方文档](https://nmap.org/book/man.html)。
 ```bash
 #Nmap scripts ((default or version) and smb))
 nmap --script-help "(default or version) and *smb*"
@@ -396,34 +367,38 @@ Bash（Bourne Again SHell）是一种流行的Unix shell和命令语言。它是
 Bash还提供了管道和重定向功能，用于处理命令的输入和输出。
 
 - 管道（`|`）：将一个命令的输出作为另一个命令的输入。例如，`ls | grep .txt`将列出当前目录中所有以`.txt`结尾的文件。
-- 重定向：可以将命令的输出重定向到文件中，或者从文件中读取输入。例如，`ls > files.txt`将将当前目录中的文件列表写入`files.txt`文件中。
+- 重定向：可以将命令的输出重定向到文件中，或者从文件中读取输入。例如，`ls > files.txt`将将当前目录中的文件列表写入`files.txt`文件。
 
 ### 脚本编写
 
-Bash还可以用于编写脚本，以自动化一系列命令的执行。脚本是包含一系列命令的文本文件，可以通过运行脚本文件来执行其中的命令。
+Bash还可以用于编写脚本，以自动化一系列命令的执行。脚本文件通常以`.sh`为扩展名，并且需要设置执行权限。
 
-要编写一个Bash脚本，只需创建一个文本文件，并在文件的开头添加`#!/bin/bash`，然后在文件中编写要执行的命令。
-
-例如，以下是一个简单的Bash脚本示例，用于列出当前目录中的所有文件：
+以下是一个简单的Bash脚本示例：
 
 ```bash
 #!/bin/bash
 
+# 输出当前日期和时间
+echo "当前日期和时间："
+date
+
+# 列出当前目录中的所有文件
+echo "当前目录中的文件："
 ls
 ```
 
-要运行脚本，可以使用`bash`命令，后跟脚本文件的路径。例如，`bash script.sh`将运行名为`script.sh`的脚本文件。
+要执行脚本，可以使用`./`前缀，例如`./script.sh`。
 
 ### 总结
 
-Bash是一种强大而灵活的命令行工具，可以帮助用户在Linux系统中执行各种任务。掌握基本的Bash命令和脚本编写技巧，将使您更加高效地使用Linux系统。
+Bash是一种功能强大的Unix shell和命令语言，可以用于执行各种操作。掌握基本的Bash命令和脚本编写技巧，将有助于提高Linux系统的使用效率。
 ```bash
 #All bytes inside a file (except 0x20 and 0x00)
 for j in $((for i in {0..9}{0..9} {0..9}{a..f} {a..f}{0..9} {a..f}{a..f}; do echo $i; done ) | sort | grep -v "20\|00"); do echo -n -e "\x$j" >> bytes; done
 ```
 ## Iptables
 
-Iptables is a powerful firewall utility for Linux systems. It allows you to configure and manage network traffic by creating rules and chains. With iptables, you can control incoming and outgoing traffic, filter packets based on various criteria, and set up network address translation (NAT).
+Iptables is a powerful firewall utility for Linux systems. It allows you to configure and manage network traffic by creating rules and chains. With iptables, you can control incoming and outgoing traffic, filter packets based on various criteria, and protect your system from unauthorized access.
 
 ### Basic Usage
 
@@ -433,43 +408,42 @@ To view the current iptables rules, use the following command:
 iptables -L
 ```
 
-To flush all existing rules and chains, use the following command:
+To add a new rule, use the `iptables -A` command followed by the desired options. For example, to allow incoming SSH connections, you can use the following command:
 
 ```bash
-iptables -F
+iptables -A INPUT -p tcp --dport 22 -j ACCEPT
 ```
 
-To block incoming traffic from a specific IP address, use the following command:
+To delete a rule, use the `iptables -D` command followed by the rule number. For example, to delete the rule at position 3 in the INPUT chain, you can use the following command:
 
 ```bash
-iptables -A INPUT -s <IP_ADDRESS> -j DROP
+iptables -D INPUT 3
 ```
 
-To allow incoming traffic on a specific port, use the following command:
+### Common Options
 
-```bash
-iptables -A INPUT -p <PROTOCOL> --dport <PORT_NUMBER> -j ACCEPT
-```
+Here are some common options that you can use with iptables:
 
-To save the current iptables rules to a file, use the following command:
+- `-A` (append): Adds a new rule to the end of a chain.
+- `-D` (delete): Deletes a rule from a chain.
+- `-I` (insert): Inserts a new rule at a specific position in a chain.
+- `-p` (protocol): Specifies the protocol of the packet (e.g., tcp, udp).
+- `--dport` (destination port): Specifies the destination port number.
+- `-j` (jump): Specifies the target action for the packet (e.g., ACCEPT, DROP).
 
-```bash
-iptables-save > <FILE_NAME>
-```
+### Chains
 
-### Advanced Usage
+Iptables uses chains to organize rules. The three default chains are:
 
-In addition to the basic usage, iptables provides many advanced features and options. Here are a few examples:
+- `INPUT`: Handles incoming packets.
+- `OUTPUT`: Handles outgoing packets.
+- `FORWARD`: Handles packets that are being routed through the system.
 
-- **Logging**: You can log specific packets or events using the `LOG` target.
+You can also create your own custom chains to further organize your rules.
 
-- **Connection Tracking**: Iptables can track the state of network connections and apply rules based on the connection's state.
+### Conclusion
 
-- **Port Forwarding**: You can forward incoming traffic from one port to another using the `DNAT` target.
-
-- **Packet Manipulation**: Iptables allows you to modify packet headers, change packet destinations, or alter packet contents.
-
-For more information on iptables and its advanced usage, refer to the [official documentation](https://netfilter.org/documentation/index.html).
+Iptables is a versatile tool for managing network traffic and securing your Linux system. By understanding its basic usage and common options, you can effectively configure and control the firewall rules to meet your specific needs.
 ```bash
 #Delete curent rules and chains
 iptables --flush
@@ -507,12 +481,12 @@ iptables -P OUTPUT ACCEPT
 * 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品- [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
 
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和**自动化工作流程**，使用全球**最先进**的社区工具。\

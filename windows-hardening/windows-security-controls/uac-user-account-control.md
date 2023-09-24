@@ -2,26 +2,26 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一个 **网络安全公司** 工作吗？你想在 HackTricks 中看到你的 **公司广告**吗？或者你想获得 **PEASS 的最新版本或下载 HackTricks 的 PDF** 吗？查看 [**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 收藏品 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或 **关注** 我的 **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **通过向** [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享你的黑客技巧。**
+* 你在一个**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[NFT](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
 
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-使用 [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) 可以轻松构建和 **自动化工作流程**，使用全球 **最先进的** 社区工具。\
+使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和**自动化工作流程**，使用全球**最先进**的社区工具。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ## UAC
 
-[用户账户控制 (UAC)](https://docs.microsoft.com/zh-cn/windows/security/identity-protection/user-account-control/how-user-account-control-works) 是一种功能，它为**提升的活动提供了同意提示**。应用程序具有不同的 `完整性` 级别，具有**高级别**的程序可以执行**可能危及系统的任务**。当启用 UAC 时，应用程序和任务始终在非管理员帐户的安全上下文下运行，除非管理员明确授权这些应用程序/任务以管理员级别访问系统来运行。它是一种方便功能，可保护管理员免受意外更改，但不被视为安全边界。
+[用户账户控制（UAC）](https://docs.microsoft.com/zh-cn/windows/security/identity-protection/user-account-control/how-user-account-control-works)是一种功能，它为**提升的活动提供了同意提示**。应用程序具有不同的`完整性`级别，具有**高级别**的程序可以执行**可能危及系统的任务**。当启用UAC时，应用程序和任务始终在非管理员帐户的安全上下文下运行，除非管理员明确授权这些应用程序/任务以管理员级别访问系统来运行。它是一种方便功能，可保护管理员免受意外更改，但不被视为安全边界。
 
 有关完整性级别的更多信息：
 
@@ -29,22 +29,22 @@
 [integrity-levels.md](../windows-local-privilege-escalation/integrity-levels.md)
 {% endcontent-ref %}
 
-当 UAC 生效时，管理员用户会获得 2 个令牌：一个标准用户密钥，用于以普通级别执行常规操作，以及一个具有管理员特权的令牌。
+当UAC启用时，管理员用户会获得两个令牌：一个标准用户密钥，用于以常规级别执行常规操作，以及一个具有管理员特权的令牌。
 
-这个 [页面](https://docs.microsoft.com/zh-cn/windows/security/identity-protection/user-account-control/how-user-account-control-works) 对 UAC 的工作原理进行了详细讨论，包括登录过程、用户体验和 UAC 架构。管理员可以使用安全策略在本地级别上配置 UAC 的工作方式，使用 secpol.msc，或通过群组策略对象 (GPO) 在 Active Directory 域环境中进行配置和推送。这些各种设置在 [这里](https://docs.microsoft.com/zh-cn/windows/security/identity-protection/user-account-control/user-account-control-security-policy-settings) 进行了详细讨论。有 10 个群组策略设置可以用于设置 UAC。下表提供了更多详细信息：
+这个[页面](https://docs.microsoft.com/zh-cn/windows/security/identity-protection/user-account-control/how-user-account-control-works)详细讨论了UAC的工作原理，包括登录过程、用户体验和UAC架构。管理员可以使用安全策略在本地级别（使用secpol.msc）配置UAC的工作方式，或者通过组策略对象（GPO）在Active Directory域环境中进行配置和推送。这些各种设置在[这里](https://docs.microsoft.com/zh-cn/windows/security/identity-protection/user-account-control/user-account-control-security-policy-settings)详细讨论。有10个组策略设置可以用于UAC。下表提供了额外的详细信息：
 
-| 群组策略设置                                                                                                                                                                                                                                                                                                                                                                 | 注册表键                     | 默认设置                                                    |
+| 组策略设置                                                                                                                                                                                                                                                                                                                                                                 | 注册表键                     | 默认设置                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------- | ------------------------------------------------------------ |
 | [用户账户控制：内置管理员帐户的管理员批准模式](https://docs.microsoft.com/zh-cn/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-admin-approval-mode-for-the-built-in-administrator-account)                                                     | FilterAdministratorToken    | 禁用                                                         |
-| [用户账户控制：允许 UIAccess 应用程序在不使用安全桌面的情况下提示提升](https://docs.microsoft.com/zh-cn/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-allow-uiaccess-applications-to-prompt-for-elevation-without-using-the-secure-desktop) | EnableUIADesktopToggle      | 禁用                                                         |
-| [用户账户控制：管理员批准模式下管理员的提升提示行为](https://docs.microsoft.com/zh-cn/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-behavior-of-the-elevation-prompt-for-administrators-in-admin-approval-mode)                     | ConsentPromptBehaviorAdmin  | 对非 Windows 二进制文件提示同意                           |
+| [用户账户控制：允许UIAccess应用程序在不使用安全桌面的情况下提示提升](https://docs.microsoft.com/zh-cn/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-allow-uiaccess-applications-to-prompt-for-elevation-without-using-the-secure-desktop) | EnableUIADesktopToggle      | 禁用                                                         |
+| [用户账户控制：管理员批准模式下管理员的提升提示行为](https://docs.microsoft.com/zh-cn/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-behavior-of-the-elevation-prompt-for-administrators-in-admin-approval-mode)                     | ConsentPromptBehaviorAdmin  | 对非Windows二进制文件提示同意                           |
 | [用户账户控制：标准用户的提升提示行为](https://docs.microsoft.com/zh-cn/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-behavior-of-the-elevation-prompt-for-standard-users)                                                                   | ConsentPromptBehaviorUser   | 在安全桌面上提示凭据                                     |
 | [用户账户控制：检测应用程序安装并提示提升](https://docs.microsoft.com/zh-cn/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-detect-application-installations-and-prompt-for-elevation)                                                       | EnableInstallerDetection    | 启用（家庭版默认）禁用（企业版默认）                       |
 | [用户账户控制：仅提升已签名和验证的可执行文件](https://docs.microsoft.com/zh-cn/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-only-elevate-executables-that-are-signed-and-validated)                                                             | ValidateAdminCodeSignatures | 禁用                                                         |
-| [用户账户控制：仅提升已安装在安全位置的 UIAccess 应用程序](https://docs.microsoft.com/zh-cn/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-only-elevate-uiaccess-applications-that-are-installed-in-secure-locations)                       | EnableSecureUIAPaths        | 启用                                                         |
+| [用户账户控制：仅提升已安装在安全位置的UIAccess应用程序](https://docs.microsoft.com/zh-cn/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-only-elevate-uiaccess-applications-that-are-installed-in-secure-locations)                       | EnableSecureUIAPaths        | 启用                                                         |
 | [用户账户控制：以管理员批准模式运行所有管理员](https://docs.microsoft.com/zh-cn/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-run-all-administrators-in-admin-approval-mode)                                                                               | EnableLUA                   | 启用                                                         |
 | [用户账户控制：在提示提升时切换到安全桌面](https://docs.microsoft.com/zh-cn/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-switch-to-the-secure-desktop-when-prompting-for-elevation)                                                       | PromptOnSecureDesktop       | 启用                                                         |
-| [用户账户控制：将文件和注册表写入失败虚拟化到每个用户位置](https://docs.microsoft.com/zh-cn/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-virtualize-file-and-registry-write-failures-to-per-user-locations)                                       | EnableVirtualization        | Enabled                                                      |
+| [用户账户控制：将文件和注册表写入失败虚拟化到每个用户位置](https://docs.microsoft.com/zh-cn/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-virtualize-file-and-registry-write-failures-to-per-user-locations)                                       | EnableVirtualization        | 已启用                                                      |
 
 ### UAC绕过理论
 
@@ -179,7 +179,7 @@ Major  Minor  Build  Revision
 
 （explorer.exe应该可以工作）
 
-### 使用GUI绕过UAC
+### 使用GUI的UAC绕过
 
 如果您可以访问GUI，当您收到UAC提示时，您可以直接接受它，您不需要绕过它。因此，访问GUI将允许您绕过UAC。
 
@@ -202,9 +202,9 @@ Major  Minor  Build  Revision
 
 ### 另一种UAC绕过技术
 
-这种方法是观察是否有一个自动提升权限的二进制文件尝试从注册表中读取要执行的二进制文件或命令的名称/路径（如果二进制文件在HKCU中搜索此信息，则更有趣）。
+这种技术是观察是否有一个自动提升权限的二进制文件尝试从注册表中读取要执行的二进制文件或命令的名称/路径（如果二进制文件在HKCU中搜索此信息，则更有趣）。
 
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 使用[Trickest](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。\
 立即获取访问权限：

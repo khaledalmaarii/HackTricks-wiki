@@ -172,7 +172,7 @@ int32_t		initprot;	/* initial VM protection */
 
 <figure><img src="../../../.gitbook/assets/image (2) (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-该头部定义了**在其后出现的区块头的数量**：
+此头部定义了**在其后出现的区块头的数量**：
 ```c
 struct section_64 { /* for 64-bit architectures */
 char		sectname[16];	/* name of this section */
@@ -195,7 +195,7 @@ uint32_t	reserved3;	/* reserved */
 
 如果你**添加**了**章节偏移量**（0x37DC）+ **arch开始的偏移量**，在这个例子中是`0x18000` --> `0x37DC + 0x18000 = 0x1B7DC`
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 也可以通过**命令行**获取**头部信息**：
 ```bash
@@ -203,7 +203,8 @@ otool -lv /bin/ls
 ```
 这个命令加载的常见段：
 
-* **`__PAGEZERO`：**它指示内核将**地址零**映射到一个**不能读取、写入或执行**的位置。结构中的maxprot和minprot变量被设置为零，表示该页面**没有读写执行权限**。这种分配对于**减轻空指针解引用漏洞**非常重要。
+* **`__PAGEZERO`：**它指示内核将**地址零**映射到**不能读取、写入或执行**的位置。结构中的maxprot和minprot变量设置为零，表示该页面上**没有读写执行权限**。&#x20;
+* 这个分配对于**减轻空指针解引用漏洞**非常重要。
 * **`__TEXT`：**包含具有**可读和可执行权限**（不可写）的**可执行代码**。该段的常见部分有：
 * `__text`：编译的二进制代码
 * `__const`：常量数据
@@ -214,15 +215,15 @@ otool -lv /bin/ls
 * `__bss`：静态变量（未初始化）
 * `__objc_*`（\_\_objc\_classlist，\_\_objc\_protolist等）：Objective-C运行时使用的信息
 * **`__LINKEDIT`：**包含链接器（dyld）的信息，如“符号、字符串和重定位表项”。
-* **`__OBJC`：**包含Objective-C运行时使用的信息。尽管这些信息也可以在\_\_DATA段中找到，但是在各种\_\_objc\_\*部分中也可以找到。
+* **`__OBJC`：**包含Objective-C运行时使用的信息。尽管这些信息也可能在\_\_DATA段中的各个\_\_objc\_\*部分中找到。
 
 ### **`LC_MAIN`**
 
-包含**entryoff属性**中的入口点。在加载时，**dyld**只需将此值添加到（内存中的）二进制文件的基址，然后跳转到此指令以开始执行二进制文件的代码。
+包含**entryoff属性**中的入口点。在加载时，**dyld**只需将此值添加到（内存中的）二进制文件的基址，然后跳转到此指令以开始执行二进制代码。
 
 ### **LC\_CODE\_SIGNATURE**
 
-包含有关Macho-O文件的**代码签名的信息**。它只包含一个**指向签名块的偏移量**。这通常位于文件的末尾。\
+包含有关Macho-O文件的**代码签名**的信息。它只包含一个**指向签名块的偏移量**。这通常位于文件的末尾。\
 但是，您可以在[**此博客文章**](https://davedelong.com/blog/2018/01/10/reading-your-own-entitlements/)和这个[**gists**](https://gist.github.com/carlospolop/ef26f8eb9fafd4bc22e69e1a32b81da4)中找到有关此部分的一些信息。
 
 ### **LC\_LOAD\_DYLINKER**
@@ -231,9 +232,9 @@ otool -lv /bin/ls
 
 ### **`LC_LOAD_DYLIB`**
 
-此加载命令描述了一个**动态库依赖项**，它指示**加载器**（dyld）**加载和链接该库**。Mach-O二进制文件所需的每个库都有一个LC\_LOAD\_DYLIB加载命令。
+此加载命令描述了一个**动态库依赖项**，它指示**加载器**（dyld）**加载和链接所需的库**。Mach-O二进制文件所需的每个库都有一个LC\_LOAD\_DYLIB加载命令。
 
-* 此加载命令是一个**`dylib_command`**类型的结构（其中包含描述实际依赖动态库的struct dylib）：
+* 此加载命令是**`dylib_command`**类型的结构（其中包含描述实际依赖动态库的struct dylib）：
 ```objectivec
 struct dylib_command {
 uint32_t        cmd;            /* LC_LOAD_{,WEAK_}DYLIB */

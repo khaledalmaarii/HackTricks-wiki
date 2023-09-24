@@ -4,18 +4,18 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
 
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks)可以轻松构建和**自动化工作流程**，使用世界上**最先进的**社区工具。\
+使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和**自动化工作流程**，使用世界上**最先进的**社区工具。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -24,13 +24,13 @@
 
 * [**linpeas**](https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS)：它还可以**枚举容器**
 * [**CDK**](https://github.com/cdk-team/CDK#installationdelivery)：这个工具非常**有用，可以枚举你所在的容器，甚至尝试自动逃逸**
-* [**amicontained**](https://github.com/genuinetools/amicontained)：有用的工具，可以获取容器的权限，以找到逃逸的方法
+* [**amicontained**](https://github.com/genuinetools/amicontained)：有用的工具，可以获取容器的特权，以找到逃逸的方法
 * [**deepce**](https://github.com/stealthcopter/deepce)：用于枚举和逃逸容器的工具
 * [**grype**](https://github.com/anchore/grype)：获取镜像中安装的软件中包含的CVE
 
 ## 挂载的Docker套接字逃逸
 
-如果你发现**Docker套接字被挂载**在Docker容器中，你将能够从中逃逸。\
+如果你发现**Docker套接字被挂载**在Docker容器内部，你将能够从中逃逸。\
 这通常发生在某些原因需要连接到Docker守护程序执行操作的Docker容器中。
 ```bash
 #Search the socket
@@ -70,9 +70,9 @@ Docker守护程序也可能在端口上进行监听（默认为2375、2376），
 
 ## 特权滥用逃逸
 
-您应该检查容器的特权，如果具有以下任何一种特权，则可能能够从中逃逸：**`CAP_SYS_ADMIN`**、**`CAP_SYS_PTRACE`**、**`CAP_SYS_MODULE`**、**`DAC_READ_SEARCH`**、**`DAC_OVERRIDE, CAP_SYS_RAWIO`**、**`CAP_SYSLOG`**、**`CAP_NET_RAW`**、**`CAP_NET_ADMIN`**
+您应该检查容器的特权，如果具有以下任何特权，则可能能够逃逸出容器：**`CAP_SYS_ADMIN`**、**`CAP_SYS_PTRACE`**、**`CAP_SYS_MODULE`**、**`DAC_READ_SEARCH`**、**`DAC_OVERRIDE`**、**`CAP_SYS_RAWIO`**、**`CAP_SYSLOG`**、**`CAP_NET_RAW`**、**`CAP_NET_ADMIN`**
 
-您可以使用**先前提到的自动工具**或以下命令来检查当前容器的特权：
+您可以使用**先前提到的自动工具**或以下命令检查当前容器的特权：
 ```bash
 capsh --print
 ```
@@ -110,7 +110,7 @@ capsh --print
 ```bash
 docker run --rm -it --pid=host --privileged ubuntu bash
 ```
-### 特权
+### 特权访问
 
 只需使用特权标志，您就可以尝试访问主机的磁盘或尝试滥用release_agent或其他逃逸方式来逃逸。
 
@@ -306,7 +306,7 @@ sleep 1
 echo "Done! Output:"
 cat ${OUTPUT_PATH}
 ```
-在特权容器中执行PoC应该会产生类似的输出：
+在特权容器中执行PoC应该会产生类似以下输出：
 ```bash
 root@container:~$ ./release_agent_pid_brute.sh
 Checking pid 100
@@ -368,15 +368,16 @@ chown root:root bash #From container as root inside mounted folder
 chmod 4777 bash #From container as root inside mounted folder
 bash -p #From non priv inside mounted folder
 ```
-### 使用两个shell进行权限提升
+### 使用两个shell进行特权提升
 
-如果您在容器内部具有**root访问权限**，并且已经以非特权用户的身份**逃逸到主机**，则可以滥用这两个shell来在主机内部进行**权限提升**，前提是您在容器内部具有MKNOD功能（默认情况下是有的），如[**此文章中所解释的**](https://labs.f-secure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/)。\
-有了这样的功能，容器内的root用户可以**创建块设备文件**。设备文件是用于**访问底层硬件和内核模块**的特殊文件。例如，/dev/sda块设备文件可以访问系统磁盘上的原始数据。
+如果您在容器内部具有**root访问权限**，并且已经以非特权用户的身份**逃逸到主机**，则可以滥用这两个shell来在主机内部进行**特权提升**，前提是您在容器内部具有MKNOD功能（默认情况下是有的），如[**此文章中所解释的**](https://labs.f-secure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/)。
 
-Docker通过在容器上设置cgroup策略来阻止从容器内部滥用块设备的读写操作。\
-然而，如果在容器内部**创建了一个块设备**，则可以通过位于/proc/PID/root/文件夹中的某个**外部容器**访问它，限制是**进程必须由相同的用户**在容器外部和容器内部拥有。
+通过这种功能，容器内的root用户被允许**创建块设备文件**。设备文件是用于**访问底层硬件和内核模块**的特殊文件。例如，/dev/sda块设备文件允许**读取系统磁盘上的原始数据**。
 
-**利用**示例来自于此[**文章**](https://radboudinstituteof.pwning.nl/posts/htbunictfquals2021/goodgames/)：
+Docker通过在容器上设置cgroup策略来确保块设备**无法在容器内部被滥用**，阻止对块设备的读写操作。\
+然而，如果在容器内部**创建了一个块设备**，则可以通过位于/proc/PID/root/文件夹中的某个**容器外部的进程**来访问它，限制是该进程必须由**容器外部和内部的同一用户**拥有。
+
+以下是来自[**此篇文章**](https://radboudinstituteof.pwning.nl/posts/htbunictfquals2021/goodgames/)的**利用示例**：
 ```bash
 # On the container as root
 cd /
@@ -449,7 +450,7 @@ cat /proc/635813/fd/4
 ```
 docker run --rm -it --network=host ubuntu bash
 ```
-如果一个容器配置了Docker的主机网络驱动（`--network=host`），那么该容器的网络堆栈与Docker主机不隔离（容器共享主机的网络命名空间），并且容器不会被分配独立的IP地址。换句话说，**容器直接绑定到主机的IP上的所有服务**。此外，容器可以**拦截主机发送和接收的所有网络流量**，使用共享接口 `tcpdump -i eth0`。
+如果一个容器配置了Docker的主机网络驱动（`--network=host`），那么该容器的网络堆栈与Docker主机不隔离（容器共享主机的网络命名空间），并且容器不会被分配独立的IP地址。换句话说，**容器将所有服务直接绑定到主机的IP上**。此外，容器可以**拦截主机发送和接收的所有网络流量**，使用`tcpdump -i eth0`命令。
 
 例如，您可以使用此功能来**嗅探甚至伪造**主机和元数据实例之间的流量。
 
@@ -458,20 +459,20 @@ docker run --rm -it --network=host ubuntu bash
 * [Writeup: 如何联系Google SRE：在云SQL中获取shell](https://offensi.com/2020/08/18/how-to-contact-google-sre-dropping-a-shell-in-cloud-sql/)
 * [元数据服务中间人攻击导致提权（EKS / GKE）](https://blog.champtar.fr/Metadata\_MITM\_root\_EKS\_GKE/)
 
-您还可以访问主机内部绑定到本地主机的**网络服务**，甚至可以访问节点的**元数据权限**（可能与容器访问的权限不同）。
+您还可以访问主机内部绑定到本地主机的**网络服务**，甚至可以访问节点的**元数据权限**（这可能与容器可以访问的权限不同）。
 
 ### hostIPC
 ```
 docker run --rm -it --ipc=host ubuntu bash
 ```
-如果只有`hostIPC=true`，你可能无法做太多事情。如果主机上的任何进程或其他容器内的进程正在使用主机的**进程间通信机制**（共享内存、信号量数组、消息队列等），你将能够读取/写入这些相同的机制。你首先要查看的地方是`/dev/shm`，因为它在任何具有`hostIPC=true`的容器和主机之间共享。你还需要使用`ipcs`命令来检查其他IPC机制。
+如果只有`hostIPC=true`，你可能无法做太多事情。如果主机上的任何进程或其他容器内的进程正在使用主机的**进程间通信机制**（共享内存、信号量数组、消息队列等），你将能够读取/写入这些相同的机制。你首先要查看的地方是`/dev/shm`，因为它在任何具有`hostIPC=true`的容器和主机之间共享。你还需要使用`ipcs`来检查其他IPC机制。
 
 * **检查/dev/shm** - 查看此共享内存位置中的任何文件：`ls -la /dev/shm`
-* **检查现有的IPC设施** - 你可以使用`/usr/bin/ipcs`命令检查是否正在使用任何IPC设施。使用以下命令进行检查：`ipcs -a`
+* **检查现有的IPC设施** - 你可以使用`/usr/bin/ipcs`来检查是否正在使用任何IPC设施。使用以下命令进行检查：`ipcs -a`
 
 ### 恢复权限
 
-如果系统没有禁止`unshare`系统调用，你可以通过运行以下命令来恢复所有权限：
+如果系统调用**`unshare`**没有被禁止，你可以通过运行以下命令来恢复所有权限：
 ```bash
 unshare -UrmCpf bash
 # Check them with
@@ -481,7 +482,7 @@ cat /proc/self/status | grep CapEff
 
 在[https://labs.f-secure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/](https://labs.f-secure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/)的文章中解释了第二种技术，它说明了如何滥用用户命名空间中的绑定挂载，以影响主机内的文件（在该特定情况下，删除文件）。
 
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 使用[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks)可以轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。\
 立即获取访问权限：
@@ -620,11 +621,9 @@ If you are in **userspace** (**no kernel exploit** involved) the way to find new
 * [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/exposed-docker-socket](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/exposed-docker-socket)
 * [https://bishopfox.com/blog/kubernetes-pod-privilege-escalation#Pod4](https://bishopfox.com/blog/kubernetes-pod-privilege-escalation#Pod4)
 
+<figure><img src="../../../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-
-<figure><img src="/.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
-
-Use [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
 Get Access Today:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
