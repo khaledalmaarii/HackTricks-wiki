@@ -64,6 +64,7 @@ Se você não está familiarizado com o macOS, você deve começar aprendendo o 
 {% endcontent-ref %}
 
 * macOS de código aberto: [https://opensource.apple.com/](https://opensource.apple.com/)
+* Para baixar um `tar.gz`, altere uma URL como [https://opensource.apple.com/**source**/dyld/](https://opensource.apple.com/source/dyld/) para [https://opensource.apple.com/**tarballs**/dyld/**dyld-852.2.tar.gz**](https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz)
 
 ### MacOS MDM
 
@@ -89,7 +90,7 @@ Nas empresas, os sistemas **macOS** provavelmente serão **gerenciados com um MD
 
 ### Permissões de Arquivo
 
-Se um **processo em execução como root escrever** um arquivo que pode ser controlado por um usuário, o usuário pode abusar disso para **elevar privilégios**.\
+Se um **processo em execução como root escreve** um arquivo que pode ser controlado por um usuário, o usuário pode abusar disso para **elevar privilégios**.\
 Isso pode ocorrer nas seguintes situações:
 
 * O arquivo usado já foi criado por um usuário (pertence ao usuário)
@@ -104,15 +105,15 @@ Para esse tipo de vulnerabilidade, não se esqueça de **verificar instaladores 
 {% content-ref url="macos-files-folders-and-binaries/macos-installers-abuse.md" %}
 [macos-installers-abuse.md](macos-files-folders-and-binaries/macos-installers-abuse.md)
 {% endcontent-ref %}
+### Abuso de privilégios e privilégios através do abuso de processos
 
-### Abuso de Privilégios e Entitlements por meio de abuso de processo
-
-Se um processo pode **injetar código em outro processo com privilégios ou entitlements melhores** ou contatá-lo para realizar ações com privilégios, ele pode elevar privilégios e contornar medidas defensivas como [Sandbox](macos-security-protections/macos-sandbox/) ou [TCC](macos-security-protections/macos-tcc/).
+Se um processo pode **injetar código em outro processo com privilégios ou privilégios melhores** ou contatá-lo para realizar ações com privilégios, ele pode elevar os privilégios e contornar medidas defensivas como [Sandbox](macos-security-protections/macos-sandbox/) ou [TCC](macos-security-protections/macos-tcc/).
 
 {% content-ref url="macos-proces-abuse/" %}
 [macos-proces-abuse](macos-proces-abuse/)
 {% endcontent-ref %}
-### Manipuladores de aplicativos de extensão de arquivo e esquema de URL
+
+### Manipulação de aplicativos de extensão de arquivo e esquema de URL
 
 Aplicativos estranhos registrados por extensões de arquivo podem ser abusados e diferentes aplicativos podem ser registrados para abrir protocolos específicos.
 
@@ -120,9 +121,9 @@ Aplicativos estranhos registrados por extensões de arquivo podem ser abusados e
 [macos-file-extension-apps.md](macos-file-extension-apps.md)
 {% endcontent-ref %}
 
-## Escalada de privilégios no MacOS
+## Escalação de privilégios no MacOS
 
-### CVE-2020-9771 - bypass do TCC do mount\_apfs e escalada de privilégios
+### CVE-2020-9771 - bypass do TCC do mount\_apfs e escalonamento de privilégios
 
 **Qualquer usuário** (mesmo os não privilegiados) pode criar e montar um snapshot do time machine e **acessar TODOS os arquivos** desse snapshot.\
 O **único privilégio** necessário é para o aplicativo usado (como `Terminal`) ter **Acesso Total ao Disco** (FDA) (`kTCCServiceSystemPolicyAllfiles`), que precisa ser concedido por um administrador.
@@ -185,7 +186,7 @@ As recompensas do HackenProof são lançadas apenas quando os clientes depositam
 **Adquira experiência em pentesting web3**\
 Protocolos blockchain e contratos inteligentes são a nova Internet! Domine a segurança web3 em seus dias de ascensão.
 
-**Torne-se a lenda do hacker web3**\
+**Torne-se uma lenda hacker web3**\
 Ganhe pontos de reputação com cada bug verificado e conquiste o topo do leaderboard semanal.
 
 [**Cadastre-se no HackenProof**](https://hackenproof.com/register) comece a ganhar com seus hacks!
@@ -200,6 +201,6 @@ Ganhe pontos de reputação com cada bug verificado e conquiste o topo do leader
 * Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e para o** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
