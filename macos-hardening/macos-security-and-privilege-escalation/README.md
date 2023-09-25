@@ -4,7 +4,7 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
@@ -20,12 +20,12 @@
 HackenProof的赏金只有在客户存入奖励预算后才会启动。在漏洞经过验证后，您将获得奖励。
 
 **在web3渗透测试中积累经验**\
-区块链协议和智能合约是新的互联网！在其崛起之时掌握web3安全。
+区块链协议和智能合约是新的互联网！在其兴起的日子里掌握web3安全。
 
 **成为web3黑客传奇**\
-每次验证的漏洞都会获得声誉积分，并登上每周排行榜的榜首。
+每次验证的漏洞都会获得声誉积分，并占据每周排行榜的榜首。
 
-[**在HackenProof上注册**](https://hackenproof.com/register)开始从您的黑客行动中获利！
+[**在HackenProof上注册**](https://hackenproof.com/register) 从您的黑客行动中获利！
 
 {% embed url="https://hackenproof.com/register" %}
 
@@ -63,7 +63,8 @@ HackenProof的赏金只有在客户存入奖励预算后才会启动。在漏洞
 [macos-protocols.md](macos-protocols.md)
 {% endcontent-ref %}
 
-* **开源**的macOS：[https://opensource.apple.com/](https://opensource.apple.com/)
+* **开源**的macOS: [https://opensource.apple.com/](https://opensource.apple.com/)
+* 要下载`tar.gz`，请将URL从[https://opensource.apple.com/**source**/dyld/](https://opensource.apple.com/source/dyld/)更改为[https://opensource.apple.com/**tarballs**/dyld/**dyld-852.2.tar.gz**](https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz)
 
 ### MacOS MDM
 
@@ -93,40 +94,39 @@ HackenProof的赏金只有在客户存入奖励预算后才会启动。在漏洞
 这种情况可能发生在以下情况下：
 
 * 使用的文件已经由用户创建（由用户拥有）
-* 使用的文件由于一个组的原因对用户可写
+* 使用的文件由于一个组的原因可被用户写入
 * 使用的文件位于用户拥有的目录中（用户可以创建文件）
-* 使用的文件位于由root拥有但用户具有写访问权限的目录中（用户可以创建文件）
+* 使用的文件位于由root拥有但用户具有写入权限的目录中（用户可以创建文件）
 
-能够**创建一个将被root使用的文件**，允许用户**利用其内容**，甚至创建**符号链接/硬链接**将其指向另一个位置。
+能够**创建一个将被root使用的文件**，允许用户**利用其内容**甚至创建**符号链接/硬链接**将其指向另一个位置。
 
 对于这种类型的漏洞，不要忘记**检查易受攻击的`.pkg`安装程序**：
 
 {% content-ref url="macos-files-folders-and-binaries/macos-installers-abuse.md" %}
 [macos-installers-abuse.md](macos-files-folders-and-binaries/macos-installers-abuse.md)
 {% endcontent-ref %}
+### 权限滥用和特权升级通过进程滥用
 
-### 权限滥用和特权滥用通过进程滥用
-
-如果一个进程可以**向具有更高特权或权限的另一个进程注入代码**或与其联系以执行特权操作，它可以提升权限并绕过防御措施，如[Sandbox](macos-security-protections/macos-sandbox/)或[TCC](macos-security-protections/macos-tcc/)。
+如果一个进程可以在另一个具有更高特权或权限的进程中注入代码或与其联系以执行特权操作，那么他可以升级特权并绕过防御措施，如[Sandbox](macos-security-protections/macos-sandbox/)或[TCC](macos-security-protections/macos-tcc/)。
 
 {% content-ref url="macos-proces-abuse/" %}
 [macos-proces-abuse](macos-proces-abuse/)
 {% endcontent-ref %}
+
 ### 文件扩展名和URL方案应用程序处理程序
 
-通过文件扩展名注册的奇怪应用程序可能会被滥用，并且可以注册不同的应用程序来打开特定的协议。
+通过文件扩展名注册的奇怪应用程序可能会被滥用，不同的应用程序可以注册以打开特定的协议。
 
 {% content-ref url="macos-file-extension-apps.md" %}
 [macos-file-extension-apps.md](macos-file-extension-apps.md)
 {% endcontent-ref %}
 
-## MacOS权限提升
+## MacOS特权升级
 
-### CVE-2020-9771 - mount\_apfs TCC绕过和权限提升
+### CVE-2020-9771 - mount\_apfs TCC绕过和特权升级
 
-**任何用户**（即使是非特权用户）都可以创建和挂载时间机器快照，并**访问该快照的所有文件**。\
+**任何用户**（即使是非特权用户）都可以创建和挂载一个时间机器快照，并**访问该快照的所有文件**。\
 唯一需要的特权是所使用的应用程序（如`Terminal`）具有**完全磁盘访问权限**（FDA）（`kTCCServiceSystemPolicyAllfiles`），需要由管理员授予。
-
 
 {% code overflow="wrap" %}
 ```bash
@@ -160,7 +160,7 @@ ls /tmp/snap/Users/admin_user # This will work
 
 ### Linux提权
 
-首先，请注意**大多数关于特权提升的技巧都会影响到MacOS**机器。所以请参考：
+首先，请注意**大多数关于特权升级影响Linux/Unix的技巧也会影响MacOS**机器。所以请参考：
 
 {% content-ref url="../../linux-hardening/privilege-escalation/" %}
 [privilege-escalation](../../linux-hardening/privilege-escalation/)
