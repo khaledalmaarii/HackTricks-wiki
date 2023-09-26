@@ -75,7 +75,7 @@ Dans cet exemple, l'application a les autorisations suivantes :
 - `com.apple.security.network.client` : autorise l'application à accéder au réseau.
 - `com.apple.security.print` : autorise l'application à imprimer.
 
-Ces autorisations peuvent être utilisées pour restreindre les actions qu'une application peut effectuer et renforcer la sécurité du système macOS.
+Ces autorisations peuvent être modifiées pour répondre aux besoins spécifiques de l'application, mais il est important de noter que la modification incorrecte des autorisations peut entraîner des problèmes de sécurité ou de fonctionnalité.
 
 {% endtab %}
 ```xml
@@ -130,7 +130,7 @@ echo "Sandbox Bypassed" > ~/Desktop/del.txt
 ```
 {% endhint %}
 
-Déboguons l'application d'échecs pour voir quand le Sandbox est chargé :
+Déboguons l'application pour voir quand le Sandbox est chargé :
 ```bash
 # Load app in debugging
 lldb ./sand
@@ -204,7 +204,7 @@ libsystem_kernel.dylib`:
 (lldb) c
 Processus 2517 en cours de reprise
 Contournement du bac à sable réussi !
-Le processus 2517 s'est terminé avec le statut = 0 (0x00000000)
+Processus 2517 terminé avec le statut = 0 (0x00000000)
 ```
 {% hint style="warning" %}
 **Même si le Sandbox est contourné, TCC** demandera à l'utilisateur s'il souhaite autoriser le processus à lire les fichiers du bureau.
@@ -310,11 +310,23 @@ Notez que **même les shellcodes** en ARM64 doivent être liés à `libSystem.dy
 ld -o shell shell.o -macosx_version_min 13.0
 ld: dynamic executables or dylibs must link with libSystem.dylib for architecture arm64
 ```
+### Autorisations
+
+Notez que même si certaines **actions** peuvent être **autorisées par le sandbox**, si une application dispose d'une **autorisation spécifique**, comme dans l'exemple suivant :
+```scheme
+(when (entitlement "com.apple.security.network.client")
+(allow network-outbound (remote ip))
+(allow mach-lookup
+(global-name "com.apple.airportd")
+(global-name "com.apple.cfnetwork.AuthBrokerAgent")
+(global-name "com.apple.cfnetwork.cfnetworkagent")
+[...]
+```
 ### Abus des emplacements de démarrage automatique
 
 Si un processus en bac à sable peut **écrire** dans un emplacement où **ultérieurement une application non en bac à sable va exécuter le binaire**, il pourra **s'échapper simplement en y plaçant** le binaire. Un bon exemple de ce type d'emplacements sont `~/Library/LaunchAgents` ou `/System/Library/LaunchDaemons`.
 
-Pour cela, vous pourriez même avoir besoin de **2 étapes** : Faire en sorte qu'un processus avec un **bac à sable plus permissif** (`file-read*`, `file-write*`) exécute votre code qui écrira effectivement dans un emplacement où il sera **exécuté sans bac à sable**.
+Pour cela, vous pourriez même avoir besoin de **2 étapes** : faire en sorte qu'un processus avec un **bac à sable plus permissif** (`file-read*`, `file-write*`) exécute votre code qui écrira effectivement dans un emplacement où il sera **exécuté sans bac à sable**.
 
 Consultez cette page sur les **emplacements de démarrage automatique** :
 
@@ -332,7 +344,7 @@ Consultez cette page sur les **emplacements de démarrage automatique** :
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Vous travaillez dans une **entreprise de cybersécurité** ? Vous souhaitez voir votre **entreprise annoncée dans HackTricks** ? ou souhaitez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**

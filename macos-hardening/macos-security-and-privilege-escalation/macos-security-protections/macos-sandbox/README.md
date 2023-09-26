@@ -4,30 +4,30 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? Ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
 ## Informations de base
 
-Le bac à sable macOS (initialement appelé Seatbelt) **limite les applications** s'exécutant à l'intérieur du bac à sable aux **actions autorisées spécifiées dans le profil Sandbox** avec lequel l'application s'exécute. Cela aide à garantir que **l'application n'accédera qu'aux ressources attendues**.
+Le bac à sable macOS (initialement appelé Seatbelt) **limite les applications** s'exécutant à l'intérieur du bac à sable aux **actions autorisées spécifiées dans le profil du bac à sable** avec lequel l'application s'exécute. Cela permet de garantir que **l'application n'accédera qu'aux ressources attendues**.
 
-Toute application avec l'**autorisation** **`com.apple.security.app-sandbox`** sera exécutée à l'intérieur du bac à sable. Les **binaires Apple** sont généralement exécutés à l'intérieur d'un bac à sable et pour publier dans **l'App Store**, **cette autorisation est obligatoire**. Donc, la plupart des applications seront exécutées à l'intérieur du bac à sable.
+Toute application avec l'**autorisation** **`com.apple.security.app-sandbox`** sera exécutée à l'intérieur du bac à sable. Les binaires **Apple** sont généralement exécutés à l'intérieur d'un bac à sable et pour pouvoir être publiés dans **l'App Store**, **cette autorisation est obligatoire**. Ainsi, la plupart des applications seront exécutées à l'intérieur du bac à sable.
 
-Pour contrôler ce qu'un processus peut ou ne peut pas faire, le **bac à sable a des hooks** dans tous les **appels système** à travers le noyau. **Selon** les **autorisations** de l'application, le bac à sable **autorise** certaines actions.
+Pour contrôler ce qu'un processus peut ou ne peut pas faire, le **bac à sable dispose de crochets** dans tous les **appels système** du noyau. **Selon** les **autorisations** de l'application, le bac à sable **autorise** certaines actions.
 
-Certains composants importants du bac à sable sont :
+Quelques composants importants du bac à sable sont :
 
-* L'**extension de noyau** `/System/Library/Extensions/Sandbox.kext`
+* L'**extension du noyau** `/System/Library/Extensions/Sandbox.kext`
 * Le **framework privé** `/System/Library/PrivateFrameworks/AppSandbox.framework`
 * Un **démon** s'exécutant dans l'espace utilisateur `/usr/libexec/sandboxd`
 * Les **conteneurs** `~/Library/Containers`
 
-À l'intérieur du dossier des conteneurs, vous pouvez trouver **un dossier pour chaque application exécutée dans un bac à sable** avec le nom de l'ID de bundle :
+À l'intérieur du dossier des conteneurs, vous pouvez trouver **un dossier pour chaque application exécutée dans le bac à sable** avec le nom de l'ID de bundle :
 ```bash
 ls -l ~/Library/Containers
 total 0
@@ -62,48 +62,60 @@ drwx------   2 username  staff    64 Mar 24 18:02 SystemData
 drwx------   2 username  staff    64 Mar 24 18:02 tmp
 ```
 {% hint style="danger" %}
-Notez que même si les liens symboliques sont là pour "s'échapper" du Sandbox et accéder à d'autres dossiers, l'application doit toujours **avoir les autorisations** pour y accéder. Ces autorisations sont à l'intérieur du fichier **`.plist`**.
+Notez que même si les liens symboliques sont là pour "échapper" au Sandbox et accéder à d'autres dossiers, l'application doit toujours **avoir les permissions** pour y accéder. Ces permissions se trouvent dans le **`.plist`**.
 {% endhint %}
 ```bash
 # Get permissions
 plutil -convert xml1 .com.apple.containermanagerd.metadata.plist -o -
 
+# Binary sandbox profile
+<key>SandboxProfileData</key>
+<data>
+AAAhAboBAAAAAAgAAABZAO4B5AHjBMkEQAUPBSsGPwsgASABHgEgASABHwEf...
+
 # In this file you can find the entitlements:
 <key>Entitlements</key>
-	<dict>
-		<key>com.apple.MobileAsset.PhishingImageClassifier2</key>
-		<true/>
-		<key>com.apple.accounts.appleaccount.fullaccess</key>
-		<true/>
-		<key>com.apple.appattest.spi</key>
-		<true/>
+<dict>
+<key>com.apple.MobileAsset.PhishingImageClassifier2</key>
+<true/>
+<key>com.apple.accounts.appleaccount.fullaccess</key>
+<true/>
+<key>com.apple.appattest.spi</key>
+<true/>
+<key>keychain-access-groups</key>
+<array>
+<string>6N38VWS5BX.ru.keepcoder.Telegram</string>
+<string>6N38VWS5BX.ru.keepcoder.TelegramShare</string>
+</array>
 [...]
 
 # Some parameters
 <key>Parameters</key>
-	<dict>
-		<key>_HOME</key>
-		<string>/Users/username</string>
-		<key>_UID</key>
-		<string>501</string>
-		<key>_USER</key>
-		<string>username</string>
+<dict>
+<key>_HOME</key>
+<string>/Users/username</string>
+<key>_UID</key>
+<string>501</string>
+<key>_USER</key>
+<string>username</string>
 [...]
 
 # The paths it can access
 <key>RedirectablePaths</key>
-	<array>
-		<string>/Users/username/Downloads</string>
-		<string>/Users/username/Documents</string>
-		<string>/Users/username/Library/Calendars</string>
-		<string>/Users/username/Desktop</string>
+<array>
+<string>/Users/username/Downloads</string>
+<string>/Users/username/Documents</string>
+<string>/Users/username/Library/Calendars</string>
+<string>/Users/username/Desktop</string>
+<key>RedirectedPaths</key>
+<array/>
 [...]
 ```
-### Profils Sandbox
+### Profils de sandbox
 
-Les profils Sandbox sont des fichiers de configuration qui indiquent ce qui est **autorisé/interdit** dans cette **Sandbox**. Il utilise le langage de profil Sandbox (SBPL), qui utilise le langage de programmation [**Scheme**](https://en.wikipedia.org/wiki/Scheme\_\(programming\_language\)).
+Les profils de sandbox sont des fichiers de configuration qui indiquent ce qui est autorisé/interdit dans cette sandbox. Ils utilisent le langage de profil de sandbox (SBPL), qui utilise le langage de programmation [Scheme](https://fr.wikipedia.org/wiki/Scheme_(langage)). 
 
-Voici un exemple:
+Voici un exemple :
 ```scheme
 (version 1) ; First you get the version
 
@@ -112,97 +124,289 @@ Voici un exemple:
 (allow network*) ; You can use wildcards and allow everything
 
 (allow file-read* ; You can specify where to apply the rule
-    (subpath "/Users/username/")
-    (literal "/tmp/afile")
-    (regex #"^/private/etc/.*")
+(subpath "/Users/username/")
+(literal "/tmp/afile")
+(regex #"^/private/etc/.*")
 )
 
 (allow mach-lookup
-    (global-name "com.apple.analyticsd")
+(global-name "com.apple.analyticsd")
 )
 ```
 {% hint style="success" %}
-Consultez cette [**recherche**](https://reverse.put.as/2011/09/14/apple-sandbox-guide-v1-0/) **pour vérifier d'autres actions qui pourraient être autorisées ou refusées.**
+Consultez cette [**recherche**](https://reverse.put.as/2011/09/14/apple-sandbox-guide-v1-0/) **pour vérifier plus d'actions qui pourraient être autorisées ou refusées.**
 {% endhint %}
 
-Des **services système** importants s'exécutent également dans leur propre **bac à sable personnalisé** tels que le service `mdnsresponder`. Vous pouvez voir ces **profils de bac à sable personnalisés** dans:
+Des **services système** importants s'exécutent également dans leur propre **bac à sable personnalisé**, tels que le service `mdnsresponder`. Vous pouvez consulter ces **profils de bac à sable personnalisés** ici :
 
 * **`/usr/share/sandbox`**
 * **`/System/Library/Sandbox/Profiles`**&#x20;
 * D'autres profils de bac à sable peuvent être consultés sur [https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles](https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles).
 
-Les applications **App Store** utilisent le **profil** **`/System/Library/Sandbox/Profiles/application.sb`**. Vous pouvez vérifier dans ce profil comment les autorisations telles que **`com.apple.security.network.server`** permettent à un processus d'utiliser le réseau.
+Les applications de l'**App Store** utilisent le **profil** **`/System/Library/Sandbox/Profiles/application.sb`**. Vous pouvez vérifier dans ce profil comment les autorisations telles que **`com.apple.security.network.server`** permettent à un processus d'utiliser le réseau.
 
 SIP est un profil de bac à sable appelé platform\_profile dans /System/Library/Sandbox/rootless.conf
 
 ### Exemples de profils de bac à sable
 
-Pour démarrer une application avec un **profil de bac à sable spécifique**, vous pouvez utiliser:
+Pour démarrer une application avec un **profil de bac à sable spécifique**, vous pouvez utiliser :
 ```bash
 sandbox-exec -f example.sb /Path/To/The/Application
 ```
 {% code title="touch.sb" %}
-# Sandbox for the touch command
 
+```plaintext
 (version 1)
-
 (deny default)
-
-(allow file-write-data file-write* (regex #"^/private/var/tmp/.*"))
-
-(allow file-read-data file-read-metadata
-    (regex #"^/usr/share/locale/.*")
-    (regex #"^/private/var/tmp/.*")
-    (regex #"^/usr/share/icu/.*")
-    (regex #"^/usr/share/zoneinfo/.*")
-    (regex #"^/etc/localtime$")
-    (regex #"^/usr/share/terminfo/.*")
-    (regex #"^/usr/share/zoneinfo/.*"))
-
-(allow process-exec (regex #"^/usr/bin/touch$"))
-
-(allow sysctl-read)
-
-(allow signal (target self))
-
-(allow network*)
-
-(allow mach*)
-{% endcode %}
-{% endtab %}
-{% endtabs %}
-
-{% tabs %}
-{% tab title="ls" %}
-{% code title="ls.sb" %}
-# Sandbox for the ls command
-
-(version 1)
-
-(deny default)
-
-(allow file-read-data file-read-metadata
-    (regex #"^/usr/share/locale/.*")
-    (regex #"^/usr/share/terminfo/.*")
-    (regex #"^/usr/share/icu/.*")
-    (regex #"^/usr/share/zoneinfo/.*")
-    (regex #"^/etc/localtime$")
-    (regex #"^/usr/share/zoneinfo/.*"))
-
-(allow process-exec (regex #"^/bin/ls$"))
-
-(allow sysctl-read)
-
-(allow signal (target self))
-
-(allow network*)
-
-(allow mach*)
-{% endcode %}
-{% endtab %}
-{% endtabs %}
-
-Les fichiers ci-dessus sont des exemples de fichiers de configuration de bac à sable pour les commandes `touch` et `ls` sur macOS. Les fichiers de configuration de bac à sable sont utilisés pour définir les autorisations pour les processus qui s'exécutent dans un environnement de bac à sable. Les autorisations sont définies en utilisant des règles qui spécifient les actions autorisées ou interdites pour les processus. Les règles sont basées sur des expressions régulières qui spécifient les chemins d'accès aux fichiers et aux ressources système. Les fichiers de configuration de bac à sable sont utilisés pour renforcer la sécurité du système en limitant les actions que les processus peuvent effectuer.
+(allow file-read-metadata)
+(allow file-write-data (literal "/tmp/"))
+(allow file-write-data (subpath "/Users/"))
+(allow file-write-data (subpath "/Applications/"))
+(allow file-write-data (subpath "/Library/"))
+(allow file-write-data (subpath "/System/"))
+(allow file-write-data (subpath "/private/"))
+(allow file-write-data (subpath "/var/"))
+(allow file-write-data (subpath "/Volumes/"))
+(allow file-write-data (subpath "/Network/"))
+(allow file-write-data (subpath "/etc/"))
+(allow file-write-data (subpath "/bin/"))
+(allow file-write-data (subpath "/sbin/"))
+(allow file-write-data (subpath "/usr/"))
+(allow file-write-data (subpath "/opt/"))
+(allow file-write-data (subpath "/Developer/"))
+(allow file-write-data (subpath "/Applications/Utilities/"))
+(allow file-write-data (subpath "/Library/Application Support/"))
+(allow file-write-data (subpath "/Library/Preferences/"))
+(allow file-write-data (subpath "/Library/LaunchAgents/"))
+(allow file-write-data (subpath "/Library/LaunchDaemons/"))
+(allow file-write-data (subpath "/Library/StartupItems/"))
+(allow file-write-data (subpath "/System/Library/Extensions/"))
+(allow file-write-data (subpath "/System/Library/CoreServices/"))
+(allow file-write-data (subpath "/System/Library/Frameworks/"))
+(allow file-write-data (subpath "/System/Library/PreferencePanes/"))
+(allow file-write-data (subpath "/System/Library/Services/"))
+(allow file-write-data (subpath "/System/Library/UserEventPlugins/"))
+(allow file-write-data (subpath "/System/Library/Keyboard Layouts/"))
+(allow file-write-data (subpath "/System/Library/ColorSync/Profiles/"))
+(allow file-write-data (subpath "/System/Library/Fonts/"))
+(allow file-write-data (subpath "/System/Library/Screen Savers/"))
+(allow file-write-data (subpath "/System/Library/Spotlight/"))
+(allow file-write-data (subpath "/System/Library/QuickTime/"))
+(allow file-write-data (subpath "/System/Library/PreferencePanes/"))
+(allow file-write-data (subpath "/System/Library/Extensions/"))
+(allow file-write-data (subpath "/System/Library/CoreServices/"))
+(allow file-write-data (subpath "/System/Library/Frameworks/"))
+(allow file-write-data (subpath "/System/Library/Services/"))
+(allow file-write-data (subpath "/System/Library/UserEventPlugins/"))
+(allow file-write-data (subpath "/System/Library/Keyboard Layouts/"))
+(allow file-write-data (subpath "/System/Library/ColorSync/Profiles/"))
+(allow file-write-data (subpath "/System/Library/Fonts/"))
+(allow file-write-data (subpath "/System/Library/Screen Savers/"))
+(allow file-write-data (subpath "/System/Library/Spotlight/"))
+(allow file-write-data (subpath "/System/Library/QuickTime/"))
+(allow file-write-data (subpath "/System/Library/PreferencePanes/"))
+(allow file-write-data (subpath "/System/Library/Extensions/"))
+(allow file-write-data (subpath "/System/Library/CoreServices/"))
+(allow file-write-data (subpath "/System/Library/Frameworks/"))
+(allow file-write-data (subpath "/System/Library/Services/"))
+(allow file-write-data (subpath "/System/Library/UserEventPlugins/"))
+(allow file-write-data (subpath "/System/Library/Keyboard Layouts/"))
+(allow file-write-data (subpath "/System/Library/ColorSync/Profiles/"))
+(allow file-write-data (subpath "/System/Library/Fonts/"))
+(allow file-write-data (subpath "/System/Library/Screen Savers/"))
+(allow file-write-data (subpath "/System/Library/Spotlight/"))
+(allow file-write-data (subpath "/System/Library/QuickTime/"))
+(allow file-write-data (subpath "/System/Library/PreferencePanes/"))
+(allow file-write-data (subpath "/System/Library/Extensions/"))
+(allow file-write-data (subpath "/System/Library/CoreServices/"))
+(allow file-write-data (subpath "/System/Library/Frameworks/"))
+(allow file-write-data (subpath "/System/Library/Services/"))
+(allow file-write-data (subpath "/System/Library/UserEventPlugins/"))
+(allow file-write-data (subpath "/System/Library/Keyboard Layouts/"))
+(allow file-write-data (subpath "/System/Library/ColorSync/Profiles/"))
+(allow file-write-data (subpath "/System/Library/Fonts/"))
+(allow file-write-data (subpath "/System/Library/Screen Savers/"))
+(allow file-write-data (subpath "/System/Library/Spotlight/"))
+(allow file-write-data (subpath "/System/Library/QuickTime/"))
+(allow file-write-data (subpath "/System/Library/PreferencePanes/"))
+(allow file-write-data (subpath "/System/Library/Extensions/"))
+(allow file-write-data (subpath "/System/Library/CoreServices/"))
+(allow file-write-data (subpath "/System/Library/Frameworks/"))
+(allow file-write-data (subpath "/System/Library/Services/"))
+(allow file-write-data (subpath "/System/Library/UserEventPlugins/"))
+(allow file-write-data (subpath "/System/Library/Keyboard Layouts/"))
+(allow file-write-data (subpath "/System/Library/ColorSync/Profiles/"))
+(allow file-write-data (subpath "/System/Library/Fonts/"))
+(allow file-write-data (subpath "/System/Library/Screen Savers/"))
+(allow file-write-data (subpath "/System/Library/Spotlight/"))
+(allow file-write-data (subpath "/System/Library/QuickTime/"))
+(allow file-write-data (subpath "/System/Library/PreferencePanes/"))
+(allow file-write-data (subpath "/System/Library/Extensions/"))
+(allow file-write-data (subpath "/System/Library/CoreServices/"))
+(allow file-write-data (subpath "/System/Library/Frameworks/"))
+(allow file-write-data (subpath "/System/Library/Services/"))
+(allow file-write-data (subpath "/System/Library/UserEventPlugins/"))
+(allow file-write-data (subpath "/System/Library/Keyboard Layouts/"))
+(allow file-write-data (subpath "/System/Library/ColorSync/Profiles/"))
+(allow file-write-data (subpath "/System/Library/Fonts/"))
+(allow file-write-data (subpath "/System/Library/Screen Savers/"))
+(allow file-write-data (subpath "/System/Library/Spotlight/"))
+(allow file-write-data (subpath "/System/Library/QuickTime/"))
+(allow file-write-data (subpath "/System/Library/PreferencePanes/"))
+(allow file-write-data (subpath "/System/Library/Extensions/"))
+(allow file-write-data (subpath "/System/Library/CoreServices/"))
+(allow file-write-data (subpath "/System/Library/Frameworks/"))
+(allow file-write-data (subpath "/System/Library/Services/"))
+(allow file-write-data (subpath "/System/Library/UserEventPlugins/"))
+(allow file-write-data (subpath "/System/Library/Keyboard Layouts/"))
+(allow file-write-data (subpath "/System/Library/ColorSync/Profiles/"))
+(allow file-write-data (subpath "/System/Library/Fonts/"))
+(allow file-write-data (subpath "/System/Library/Screen Savers/"))
+(allow file-write-data (subpath "/System/Library/Spotlight/"))
+(allow file-write-data (subpath "/System/Library/QuickTime/"))
+(allow file-write-data (subpath "/System/Library/PreferencePanes/"))
+(allow file-write-data (subpath "/System/Library/Extensions/"))
+(allow file-write-data (subpath "/System/Library/CoreServices/"))
+(allow file-write-data (subpath "/System/Library/Frameworks/"))
+(allow file-write-data (subpath "/System/Library/Services/"))
+(allow file-write-data (subpath "/System/Library/UserEventPlugins/"))
+(allow file-write-data (subpath "/System/Library/Keyboard Layouts/"))
+(allow file-write-data (subpath "/System/Library/ColorSync/Profiles/"))
+(allow file-write-data (subpath "/System/Library/Fonts/"))
+(allow file-write-data (subpath "/System/Library/Screen Savers/"))
+(allow file-write-data (subpath "/System/Library/Spotlight/"))
+(allow file-write-data (subpath "/System/Library/QuickTime/"))
+(allow file-write-data (subpath "/System/Library/PreferencePanes/"))
+(allow file-write-data (subpath "/System/Library/Extensions/"))
+(allow file-write-data (subpath "/System/Library/CoreServices/"))
+(allow file-write-data (subpath "/System/Library/Frameworks/"))
+(allow file-write-data (subpath "/System/Library/Services/"))
+(allow file-write-data (subpath "/System/Library/UserEventPlugins/"))
+(allow file-write-data (subpath "/System/Library/Keyboard Layouts/"))
+(allow file-write-data (subpath "/System/Library/ColorSync/Profiles/"))
+(allow file-write-data (subpath "/System/Library/Fonts/"))
+(allow file-write-data (subpath "/System/Library/Screen Savers/"))
+(allow file-write-data (subpath "/System/Library/Spotlight/"))
+(allow file-write-data (subpath "/System/Library/QuickTime/"))
+(allow file-write-data (subpath "/System/Library/PreferencePanes/"))
+(allow file-write-data (subpath "/System/Library/Extensions/"))
+(allow file-write-data (subpath "/System/Library/CoreServices/"))
+(allow file-write-data (subpath "/System/Library/Frameworks/"))
+(allow file-write-data (subpath "/System/Library/Services/"))
+(allow file-write-data (subpath "/System/Library/UserEventPlugins/"))
+(allow file-write-data (subpath "/System/Library/Keyboard Layouts/"))
+(allow file-write-data (subpath "/System/Library/ColorSync/Profiles/"))
+(allow file-write-data (subpath "/System/Library/Fonts/"))
+(allow file-write-data (subpath "/System/Library/Screen Savers/"))
+(allow file-write-data (subpath "/System/Library/Spotlight/"))
+(allow file-write-data (subpath "/System/Library/QuickTime/"))
+(allow file-write-data (subpath "/System/Library/PreferencePanes/"))
+(allow file-write-data (subpath "/System/Library/Extensions/"))
+(allow file-write-data (subpath "/System/Library/CoreServices/"))
+(allow file-write-data (subpath "/System/Library/Frameworks/"))
+(allow file-write-data (subpath "/System/Library/Services/"))
+(allow file-write-data (subpath "/System/Library/UserEventPlugins/"))
+(allow file-write-data (subpath "/System/Library/Keyboard Layouts/"))
+(allow file-write-data (subpath "/System/Library/ColorSync/Profiles/"))
+(allow file-write-data (subpath "/System/Library/Fonts/"))
+(allow file-write-data (subpath "/System/Library/Screen Savers/"))
+(allow file-write-data (subpath "/System/Library/Spotlight/"))
+(allow file-write-data (subpath "/System/Library/QuickTime/"))
+(allow file-write-data (subpath "/System/Library/PreferencePanes/"))
+(allow file-write-data (subpath "/System/Library/Extensions/"))
+(allow file-write-data (subpath "/System/Library/CoreServices/"))
+(allow file-write-data (subpath "/System/Library/Frameworks/"))
+(allow file-write-data (subpath "/System/Library/Services/"))
+(allow file-write-data (subpath "/System/Library/UserEventPlugins/"))
+(allow file-write-data (subpath "/System/Library/Keyboard Layouts/"))
+(allow file-write-data (subpath "/System/Library/ColorSync/Profiles/"))
+(allow file-write-data (subpath "/System/Library/Fonts/"))
+(allow file-write-data (subpath "/System/Library/Screen Savers/"))
+(allow file-write-data (subpath "/System/Library/Spotlight/"))
+(allow file-write-data (subpath "/System/Library/QuickTime/"))
+(allow file-write-data (subpath "/System/Library/PreferencePanes/"))
+(allow file-write-data (subpath "/System/Library/Extensions/"))
+(allow file-write-data (subpath "/System/Library/CoreServices/"))
+(allow file-write-data (subpath "/System/Library/Frameworks/"))
+(allow file-write-data (subpath "/System/Library/Services/"))
+(allow file-write-data (subpath "/System/Library/UserEventPlugins/"))
+(allow file-write-data (subpath "/System/Library/Keyboard Layouts/"))
+(allow file-write-data (subpath "/System/Library/ColorSync/Profiles/"))
+(allow file-write-data (subpath "/System/Library/Fonts/"))
+(allow file-write-data (subpath "/System/Library/Screen Savers/"))
+(allow file-write-data (subpath "/System/Library/Spotlight/"))
+(allow file-write-data (subpath "/System/Library/QuickTime/"))
+(allow file-write-data (subpath "/System/Library/PreferencePanes/"))
+(allow file-write-data (subpath "/System/Library/Extensions/"))
+(allow file-write-data (subpath "/System/Library/CoreServices/"))
+(allow file-write-data (subpath "/System/Library/Frameworks/"))
+(allow file-write-data (subpath "/System/Library/Services/"))
+(allow file-write-data (subpath "/System/Library/UserEventPlugins/"))
+(allow file-write-data (subpath "/System/Library/Keyboard Layouts/"))
+(allow file-write-data (subpath "/System/Library/ColorSync/Profiles/"))
+(allow file-write-data (subpath "/System/Library/Fonts/"))
+(allow file-write-data (subpath "/System/Library/Screen Savers/"))
+(allow file-write-data (subpath "/System/Library/Spotlight/"))
+(allow file-write-data (subpath "/System/Library/QuickTime/"))
+(allow file-write-data (subpath "/System/Library/PreferencePanes/"))
+(allow file-write-data (subpath "/System/Library/Extensions/"))
+(allow file-write-data (subpath "/System/Library/CoreServices/"))
+(allow file-write-data (subpath "/System/Library/Frameworks/"))
+(allow file-write-data (subpath "/System/Library/Services/"))
+(allow file-write-data (subpath "/System/Library/UserEventPlugins/"))
+(allow file-write-data (subpath "/System/Library/Keyboard Layouts/"))
+(allow file-write-data (subpath "/System/Library/ColorSync/Profiles/"))
+(allow file-write-data (subpath "/System/Library/Fonts/"))
+(allow file-write-data (subpath "/System/Library/Screen Savers/"))
+(allow file-write-data (subpath "/System/Library/Spotlight/"))
+(allow file-write-data (subpath "/System/Library/QuickTime/"))
+(allow file-write-data (subpath "/System/Library/PreferencePanes/"))
+(allow file-write-data (subpath "/System/Library/Extensions/"))
+(allow file-write-data (subpath "/System/Library/CoreServices/"))
+(allow file-write-data (subpath "/System/Library/Frameworks/"))
+(allow file-write-data (subpath "/System/Library/Services/"))
+(allow file-write-data (subpath "/System/Library/UserEventPlugins/"))
+(allow file-write-data (subpath "/System/Library/Keyboard Layouts/"))
+(allow file-write-data (subpath "/System/Library/ColorSync/Profiles/"))
+(allow file-write-data (subpath "/System/Library/Fonts/"))
+(allow file-write-data (subpath "/System/Library/Screen Savers/"))
+(allow file-write-data (subpath "/System/Library/Spotlight/"))
+(allow file-write-data (subpath "/System/Library/QuickTime/"))
+(allow file-write-data (subpath "/System/Library/PreferencePanes/"))
+(allow file-write-data (subpath "/System/Library/Extensions/"))
+(allow file-write-data (subpath "/System/Library/CoreServices/"))
+(allow file-write-data (subpath "/System/Library/Frameworks/"))
+(allow file-write-data (subpath "/System/Library/Services/"))
+(allow file-write-data (subpath "/System/Library/UserEventPlugins/"))
+(allow file-write-data (subpath "/System/Library/Keyboard Layouts/"))
+(allow file-write-data (subpath "/System/Library/ColorSync/Profiles/"))
+(allow file-write-data (subpath "/System/Library/Fonts/"))
+(allow file-write-data (subpath "/System/Library/Screen Savers/"))
+(allow file-write-data (subpath "/System/Library/Spotlight/"))
+(allow file-write-data (subpath "/System/Library/QuickTime/"))
+(allow file-write-data (subpath "/System/Library/PreferencePanes/"))
+(allow file-write-data (subpath "/System/Library/Extensions/"))
+(allow file-write-data (subpath "/System/Library/CoreServices/"))
+(allow file-write-data (subpath "/System/Library/Frameworks/"))
+(allow file-write-data (subpath "/System/Library/Services/"))
+(allow file-write-data (subpath "/System/Library/UserEventPlugins/"))
+(allow file-write-data (subpath "/System/Library/Keyboard Layouts/"))
+(allow file-write-data (subpath "/System/Library/ColorSync/Profiles/"))
+(allow file-write-data (subpath "/System/Library/Fonts/"))
+(allow file-write-data (subpath "/System/Library/Screen Savers/"))
+(allow file-write-data (subpath "/System/Library/Spotlight/"))
+(allow file-write-data (subpath "/System/Library/QuickTime/"))
+(allow file-write-data (subpath "/System/Library/PreferencePanes/"))
+(allow file-write-data (subpath "/System/Library/Extensions/"))
+(allow file-write-data (subpath "/System/Library/CoreServices/"))
+(allow file-write-data (subpath "/System/Library/Frameworks/"))
+(allow file-write-data (subpath "/System/Library/Services/"))
+(allow file-write-data (subpath "/System/Library/UserEventPlugins/"))
+(allow file-write-data (subpath "/System/Library/Keyboard Layouts/"))
+(allow file-write-data (subpath "/System/Library/ColorSync/Profiles/"))
+(allow file-write-data (subpath "/System/Library/Fonts/"))
+(allow file-write-data (subpath "/System/Library/Screen Savers/"))
+(allow file
 ```scheme
 (version 1)
 (deny default)
@@ -235,280 +439,7 @@ log show --style syslog --predicate 'eventMessage contains[c] "sandbox"' --last 
 ; 2023-05-26 13:44:59.840050+0200  localhost kernel[0]: (Sandbox) Sandbox: touch(41575) deny(1) sysctl-read kern.bootargs
 ; 2023-05-26 13:44:59.840061+0200  localhost kernel[0]: (Sandbox) Sandbox: touch(41575) deny(1) file-read-data /
 ```
-{% endcode %}
-
 {% code title="touch3.sb" %}
-
-# Sandbox profile for touch3
-
-(version 1)
-
-# Allow reading and writing to the user's Downloads folder
-(allow file-read* file-write* (subpath "/Users/<username>/Downloads"))
-
-# Allow reading and writing to the user's Documents folder
-(allow file-read* file-write* (subpath "/Users/<username>/Documents"))
-
-# Allow reading and writing to the user's Desktop folder
-(allow file-read* file-write* (subpath "/Users/<username>/Desktop"))
-
-# Allow reading and writing to the user's Pictures folder
-(allow file-read* file-write* (subpath "/Users/<username>/Pictures"))
-
-# Allow reading and writing to the user's Music folder
-(allow file-read* file-write* (subpath "/Users/<username>/Music"))
-
-# Allow reading and writing to the user's Movies folder
-(allow file-read* file-write* (subpath "/Users/<username>/Movies"))
-
-# Allow reading and writing to the user's Public folder
-(allow file-read* file-write* (subpath "/Users/<username>/Public"))
-
-# Allow reading and writing to the user's Sites folder
-(allow file-read* file-write* (subpath "/Users/<username>/Sites"))
-
-# Allow reading and writing to the user's Applications folder
-(allow file-read* file-write* (subpath "/Applications"))
-
-# Allow reading and writing to the user's Library folder
-(allow file-read* file-write* (subpath "/Library"))
-
-# Allow reading and writing to the user's System folder
-(allow file-read* file-write* (subpath "/System"))
-
-# Allow reading and writing to the user's private/tmp folder
-(allow file-read* file-write* (subpath "/private/tmp"))
-
-# Allow reading and writing to the user's private/var/tmp folder
-(allow file-read* file-write* (subpath "/private/var/tmp"))
-
-# Allow reading and writing to the user's private/var/folders folder
-(allow file-read* file-write* (subpath "/private/var/folders"))
-
-# Allow reading and writing to the user's private/var/db folder
-(allow file-read* file-write* (subpath "/private/var/db"))
-
-# Allow reading and writing to the user's private/var/spool folder
-(allow file-read* file-write* (subpath "/private/var/spool"))
-
-# Allow reading and writing to the user's private/var/at folder
-(allow file-read* file-write* (subpath "/private/var/at"))
-
-# Allow reading and writing to the user's private/var/cron folder
-(allow file-read* file-write* (subpath "/private/var/cron"))
-
-# Allow reading and writing to the user's private/var/lib folder
-(allow file-read* file-write* (subpath "/private/var/lib"))
-
-# Allow reading and writing to the user's private/var/log folder
-(allow file-read* file-write* (subpath "/private/var/log"))
-
-# Allow reading and writing to the user's private/var/spool/cron folder
-(allow file-read* file-write* (subpath "/private/var/spool/cron"))
-
-# Allow reading and writing to the user's private/var/spool/cups folder
-(allow file-read* file-write* (subpath "/private/var/spool/cups"))
-
-# Allow reading and writing to the user's private/var/spool/fax folder
-(allow file-read* file-write* (subpath "/private/var/spool/fax"))
-
-# Allow reading and writing to the user's private/var/spool/lpd folder
-(allow file-read* file-write* (subpath "/private/var/spool/lpd"))
-
-# Allow reading and writing to the user's private/var/spool/mqueue folder
-(allow file-read* file-write* (subpath "/private/var/spool/mqueue"))
-
-# Allow reading and writing to the user's private/var/spool/samba folder
-(allow file-read* file-write* (subpath "/private/var/spool/samba"))
-
-# Allow reading and writing to the user's private/var/spool/uucp folder
-(allow file-read* file-write* (subpath "/private/var/spool/uucp"))
-
-# Allow reading and writing to the user's private/var/tmp folder
-(allow file-read* file-write* (subpath "/private/var/tmp"))
-
-# Allow reading and writing to the user's private/var/audit folder
-(allow file-read* file-write* (subpath "/private/var/audit"))
-
-# Allow reading and writing to the user's private/var/db/launchd.db folder
-(allow file-read* file-write* (subpath "/private/var/db/launchd.db"))
-
-# Allow reading and writing to the user's private/var/db/mds folder
-(allow file-read* file-write* (subpath "/private/var/db/mds"))
-
-# Allow reading and writing to the user's private/var/db/uuidtext folder
-(allow file-read* file-write* (subpath "/private/var/db/uuidtext"))
-
-# Allow reading and writing to the user's private/var/db/dhcpclient folder
-(allow file-read* file-write* (subpath "/private/var/db/dhcpclient"))
-
-# Allow reading and writing to the user's private/var/db/displaypolicy folder
-(allow file-read* file-write* (subpath "/private/var/db/displaypolicy"))
-
-# Allow reading and writing to the user's private/var/db/dslocal folder
-(allow file-read* file-write* (subpath "/private/var/db/dslocal"))
-
-# Allow reading and writing to the user's private/var/db/fseventsd folder
-(allow file-read* file-write* (subpath "/private/var/db/fseventsd"))
-
-# Allow reading and writing to the user's private/var/db/locationd folder
-(allow file-read* file-write* (subpath "/private/var/db/locationd"))
-
-# Allow reading and writing to the user's private/var/db/lockdown folder
-(allow file-read* file-write* (subpath "/private/var/db/lockdown"))
-
-# Allow reading and writing to the user's private/var/db/racoon folder
-(allow file-read* file-write* (subpath "/private/var/db/racoon"))
-
-# Allow reading and writing to the user's private/var/db/RemoteManagement folder
-(allow file-read* file-write* (subpath "/private/var/db/RemoteManagement"))
-
-# Allow reading and writing to the user's private/var/db/SystemPolicy folder
-(allow file-read* file-write* (subpath "/private/var/db/SystemPolicy"))
-
-# Allow reading and writing to the user's private/var/db/timed folder
-(allow file-read* file-write* (subpath "/private/var/db/timed"))
-
-# Allow reading and writing to the user's private/var/db/TimeZone folder
-(allow file-read* file-write* (subpath "/private/var/db/TimeZone"))
-
-# Allow reading and writing to the user's private/var/db/uuidtext folder
-(allow file-read* file-write* (subpath "/private/var/db/uuidtext"))
-
-# Allow reading and writing to the user's private/var/db/wifi folder
-(allow file-read* file-write* (subpath "/private/var/db/wifi"))
-
-# Allow reading and writing to the user's private/var/db/ConfigurationProfiles folder
-(allow file-read* file-write* (subpath "/private/var/db/ConfigurationProfiles"))
-
-# Allow reading and writing to the user's private/var/db/PowerLog folder
-(allow file-read* file-write* (subpath "/private/var/db/PowerLog"))
-
-# Allow reading and writing to the user's private/var/db/lockdown folder
-(allow file-read* file-write* (subpath "/private/var/db/lockdown"))
-
-# Allow reading and writing to the user's private/var/db/lockdown-SC folder
-(allow file-read* file-write* (subpath "/private/var/db/lockdown-SC"))
-
-# Allow reading and writing to the user's private/var/db/lockdown-SP folder
-(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP"))
-
-# Allow reading and writing to the user's private/var/db/lockdown-SP-strict folder
-(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-strict"))
-
-# Allow reading and writing to the user's private/var/db/lockdown-SP-xpc folder
-(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-xpc"))
-
-# Allow reading and writing to the user's private/var/db/lockdown-SP-xpc-strict folder
-(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-xpc-strict"))
-
-# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent folder
-(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent"))
-
-# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-strict folder
-(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent-strict"))
-
-# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-xpc folder
-(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent-xpc"))
-
-# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-xpc-strict folder
-(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent-xpc-strict"))
-
-# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-xpc-strict-mp folder
-(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent-xpc-strict-mp"))
-
-# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-efi folder
-(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-efi"))
-
-# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-efi-internal folder
-(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-efi-internal"))
-
-# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-internal folder
-(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-internal"))
-
-# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-internal-efi folder
-(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-internal-efi"))
-
-# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-internal-efi-protected folder
-(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-internal-efi-protected"))
-
-# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-internal-protected folder
-(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-internal-protected"))
-
-# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-protected folder
-(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-protected"))
-
-# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-xpc-strict-protected folder
-(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent-xpc-strict-protected"))
-
-# Allow reading and writing to the user's private/var/db/lockdown-SP-xpc folder
-(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-xpc"))
-
-# Allow reading and writing to the user's private/var/db/lockdown-SP-xpc-strict folder
-(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-xpc-strict"))
-
-# Allow reading and writing to the user's private/var/db/lockdown-SP-xpc-strict-mp folder
-(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-xpc-strict-mp"))
-
-# Allow reading and writing to the user's private/var/db/lockdown-SP-xpc-strict-mp-efi folder
-(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-xpc-strict-mp-efi"))
-
-# Allow reading and writing to the user's private/var/db/lockdown-SP-xpc-strict-mp-efi-internal folder
-(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-xpc-strict-mp-efi-internal"))
-
-# Allow reading and writing to the user's private/var/db/lockdown-SP-xpc-strict-mp-internal folder
-(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-xpc-strict-mp-internal"))
-
-# Allow reading and writing to the user's private/var/db/lockdown-SP-xpc-strict-mp-internal-efi folder
-(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-xpc-strict-mp-internal-efi"))
-
-# Allow reading and writing to the user's private/var/db/lockdown-SP-xpc-strict-mp-internal-efi-protected folder
-(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-xpc-strict-mp-internal-efi-protected"))
-
-# Allow reading and writing to the user's private/var/db/lockdown-SP-xpc-strict-mp-internal-protected folder
-(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-xpc-strict-mp-internal-protected"))
-
-# Allow reading and writing to the user's private/var/db/lockdown-SP-xpc-strict-mp-protected folder
-(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-xpc-strict-mp-protected"))
-
-# Allow reading and writing to the user's private/var/db/lockdown-SP-xpc-strict-protected folder
-(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-xpc-strict-protected"))
-
-# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent folder
-(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent"))
-
-# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-strict folder
-(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent-strict"))
-
-# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-xpc folder
-(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent-xpc"))
-
-# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-xpc-strict folder
-(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent-xpc-strict"))
-
-# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-xpc-strict-mp folder
-(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent-xpc-strict-mp"))
-
-# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-efi folder
-(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-efi"))
-
-# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-efi-internal folder
-(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-efi-internal"))
-
-# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-internal folder
-(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-internal"))
-
-# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-internal-efi folder
-(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-internal-efi"))
-
-# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-internal-efi-protected folder
-(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-internal-efi-protected"))
-
-# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-internal-protected folder
-(allow file-read* file-write* (subpath "/private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-internal-protected"))
-
-# Allow reading and writing to the user's private/var/db/lockdown-SP-UIAgent-xpc-strict-mp-protected folder
-(allow file-read* file-write* (subpath "/
 ```scheme
 (version 1)
 (deny default)
@@ -522,19 +453,25 @@ log show --style syslog --predicate 'eventMessage contains[c] "sandbox"' --last 
 {% endtabs %}
 
 {% hint style="info" %}
-Notez que le **logiciel** **développé par Apple** qui s'exécute sur **Windows** **n'a pas de précautions de sécurité supplémentaires**, telles que l'application de sandbox.
+Notez que le **logiciel** **développé par Apple** qui s'exécute sur **Windows** **n'a pas de précautions de sécurité supplémentaires**, telles que l'isolation des applications.
 {% endhint %}
 
-Exemples de contournement :
+Exemples de contournements :
 
 * [https://lapcatsoftware.com/articles/sandbox-escape.html](https://lapcatsoftware.com/articles/sandbox-escape.html)
-* [https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c](https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c) (ils sont capables d'écrire des fichiers en dehors de la sandbox dont le nom commence par `~$`).
+* [https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c](https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c) (ils peuvent écrire des fichiers en dehors de l'isolation dont le nom commence par `~$`).
 
-### Débogage et contournement de la sandbox
+### Profils de l'isolation de macOS
 
-**Les processus ne naissent pas sandboxés sur macOS : contrairement à iOS**, où la sandbox est appliquée par le noyau avant la première instruction d'un programme, sur macOS **un processus doit élire de se placer dans la sandbox.**
+macOS stocke les profils d'isolation système dans deux emplacements : **/usr/share/sandbox/** et **/System/Library/Sandbox/Profiles**.
 
-Les processus sont automatiquement sandboxés depuis l'espace utilisateur lorsqu'ils démarrent s'ils ont l'attribution : `com.apple.security.app-sandbox`. Pour une explication détaillée de ce processus, consultez :
+Et si une application tierce possède l'attribution _**com.apple.security.app-sandbox**_, le système applique le profil **/System/Library/Sandbox/Profiles/application.sb** à ce processus.
+
+### Débogage et contournement de l'isolation
+
+**Les processus ne naissent pas isolés dans macOS : contrairement à iOS**, où l'isolation est appliquée par le noyau avant la première instruction d'un programme, sur macOS **un processus doit choisir de se placer dans l'isolation.**
+
+Les processus sont automatiquement isolés depuis l'espace utilisateur lorsqu'ils démarrent s'ils ont l'attribution : `com.apple.security.app-sandbox`. Pour une explication détaillée de ce processus, consultez :
 
 {% content-ref url="macos-sandbox-debug-and-bypass/" %}
 [macos-sandbox-debug-and-bypass](macos-sandbox-debug-and-bypass/)
@@ -542,7 +479,7 @@ Les processus sont automatiquement sandboxés depuis l'espace utilisateur lorsqu
 
 ### **Vérifier les privilèges PID**
 
-[Selon cela](https://www.youtube.com/watch?v=mG715HcDgO8\&t=3011s), **`sandbox_check`** (c'est un `__mac_syscall`), peut vérifier **si une opération est autorisée ou non** par la sandbox dans un certain PID.
+[Selon cela](https://www.youtube.com/watch?v=mG715HcDgO8\&t=3011s), la fonction **`sandbox_check`** (c'est un `__mac_syscall`), peut vérifier **si une opération est autorisée ou non** par l'isolation dans un PID donné.
 
 L'outil [**sbtool**](http://newosxbook.com/src.jl?tree=listings\&file=sbtool.c) peut vérifier si un PID peut effectuer une certaine action :
 ```bash
@@ -551,28 +488,28 @@ sbtool <pid> file /tmp #Check file access
 sbtool <pid> inspect #Gives you an explaination of the sandbox profile
 sbtool <pid> all
 ```
-### Profils SBPL personnalisés dans les applications App Store
+### Profils SBPL personnalisés dans les applications de l'App Store
 
-Il pourrait être possible pour les entreprises de faire fonctionner leurs applications avec des **profils Sandbox personnalisés** (au lieu du profil par défaut). Elles doivent utiliser l'attribution **`com.apple.security.temporary-exception.sbpl`** qui doit être autorisée par Apple.
+Il est possible pour les entreprises de faire fonctionner leurs applications avec des profils Sandbox personnalisés (au lieu du profil par défaut). Elles doivent utiliser l'attribution `com.apple.security.temporary-exception.sbpl` qui doit être autorisée par Apple.
 
-Il est possible de vérifier la définition de cette attribution dans **`/System/Library/Sandbox/Profiles/application.sb:`**
+Il est possible de vérifier la définition de cette attribution dans `/System/Library/Sandbox/Profiles/application.sb:`
 ```scheme
 (sandbox-array-entitlement
-  "com.apple.security.temporary-exception.sbpl"
-  (lambda (string)
-    (let* ((port (open-input-string string)) (sbpl (read port)))
-      (with-transparent-redirection (eval sbpl)))))
+"com.apple.security.temporary-exception.sbpl"
+(lambda (string)
+(let* ((port (open-input-string string)) (sbpl (read port)))
+(with-transparent-redirection (eval sbpl)))))
 ```
-Cela **évaluera la chaîne de caractères après cette autorisation** en tant que profil Sandbox. 
+Cela **évaluera la chaîne après cette autorisation** en tant que profil Sandbox.
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
