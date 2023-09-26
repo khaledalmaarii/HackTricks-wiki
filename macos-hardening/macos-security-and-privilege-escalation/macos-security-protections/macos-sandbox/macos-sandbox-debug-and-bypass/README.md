@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
@@ -46,6 +46,45 @@ system("cat ~/Desktop/del.txt");
 }
 ```
 {% tab title="entitlements.xml" %}
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>com.apple.security.app-sandbox</key>
+    <true/>
+    <key>com.apple.security.network.client</key>
+    <true/>
+    <key>com.apple.security.files.user-selected.read-write</key>
+    <true/>
+    <key>com.apple.security.files.user-selected.read-only</key>
+    <true/>
+    <key>com.apple.security.files.all</key>
+    <true/>
+    <key>com.apple.security.print</key>
+    <true/>
+    <key>com.apple.security.temporary-exception.apple-events</key>
+    <array>
+        <string>com.apple.dt.Xcode</string>
+    </array>
+</dict>
+</plist>
+```
+
+This is an example `entitlements.xml` file that specifies the entitlements for a macOS sandboxed application. Entitlements define the privileges and resources that an application can access.
+
+In this example, the following entitlements are specified:
+
+- `com.apple.security.app-sandbox`: Enables the application to run in a sandbox environment.
+- `com.apple.security.network.client`: Allows the application to make network connections.
+- `com.apple.security.files.user-selected.read-write`: Grants read and write access to files selected by the user.
+- `com.apple.security.files.user-selected.read-only`: Grants read-only access to files selected by the user.
+- `com.apple.security.files.all`: Grants access to all files.
+- `com.apple.security.print`: Allows the application to print.
+- `com.apple.security.temporary-exception.apple-events`: Specifies temporary exceptions for Apple events. In this case, the exception is granted to the `com.apple.dt.Xcode` process.
+
+These entitlements can be customized based on the specific requirements of the application.
 ```xml
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
 <dict>
@@ -58,16 +97,13 @@ system("cat ~/Desktop/del.txt");
 
 ## Info.plist
 
-Info.plist 是 macOS 应用程序包中的一个文件，它包含了应用程序的配置信息和元数据。在沙盒环境中，Info.plist 文件用于定义应用程序的沙盒权限和限制。
+The `Info.plist` file is an essential component of a macOS application's bundle. It contains metadata about the application, including its name, version, and supported capabilities. In the context of macOS sandboxing, the `Info.plist` file is used to define the sandbox entitlements and restrictions for the application.
 
-以下是一些常见的 Info.plist 键和值，用于配置沙盒环境：
+To debug or bypass the macOS sandbox, it is necessary to modify the `Info.plist` file to remove or weaken the sandbox restrictions. This can be achieved by editing the file directly or by using tools like `plutil` to modify the file programmatically.
 
-- `com.apple.security.app-sandbox`：设置为 `true` 表示应用程序在沙盒环境中运行。
-- `com.apple.security.network.client`：设置为 `true` 表示应用程序可以进行网络通信。
-- `com.apple.security.files.user-selected.read-write`：设置为 `true` 表示应用程序可以读写用户选择的文件。
-- `com.apple.security.files.downloads.read-write`：设置为 `true` 表示应用程序可以读写下载文件夹中的文件。
+When modifying the `Info.plist` file, it is important to understand the implications and potential security risks. Weakening or removing sandbox restrictions can expose the application to unauthorized access or privilege escalation.
 
-通过修改应用程序的 Info.plist 文件，可以调整应用程序在沙盒环境中的权限和限制。但是，需要注意的是，修改 Info.plist 文件可能会违反应用程序的安全策略，并可能导致应用程序无法正常运行。
+To prevent unauthorized modifications to the `Info.plist` file, it is recommended to implement proper code signing and entitlements verification mechanisms. This ensures that only trusted modifications are allowed and prevents potential sandbox bypasses.
 
 {% endtab %}
 ```xml
@@ -105,7 +141,7 @@ echo "Sandbox Bypassed" > ~/Desktop/del.txt
 ```
 {% endhint %}
 
-让我们调试一下国际象棋应用程序，看看沙盒何时加载：
+让我们调试应用程序，查看沙盒何时加载：
 ```bash
 # Load app in debugging
 lldb ./sand
@@ -170,31 +206,31 @@ libsystem_kernel.dylib`:
 0x187659904 <+4>:  svc    #0x80
 0x187659908 <+8>:  b.lo   0x187659928               ; <+40>
 0x18765990c <+12>: pacibsp
-# 绕过跳转到b.lo地址之前修改一些寄存器
+# 通过修改一些寄存器来绕过跳转到b.lo地址
 (lldb) 断点删除 1 # 移除断点
 (lldb) 寄存器写入 $pc 0x187659928 # b.lo地址
 (lldb) 寄存器写入 $x0 0x00
 (lldb) 寄存器写入 $x1 0x00
 (lldb) 寄存器写入 $x16 0x17d
 (lldb) c
-进程 2517 恢复
-绕过沙盒！
-进程 2517 退出，状态 = 0 (0x00000000)
+进程 2517 恢复执行
+沙盒绕过成功！
+进程 2517 以状态 0 (0x00000000) 退出
 {% hint style="warning" %}
 **即使绕过了沙盒，TCC** 也会询问用户是否允许进程从桌面读取文件
 {% endhint %}
 
 ### 滥用其他进程
 
-如果从沙盒进程中，你能够**入侵其他运行在较少限制沙盒中（或没有沙盒）的进程**，你将能够逃离到它们的沙盒中：
+如果从沙盒进程中能够**入侵其他运行在较少限制沙盒中（或没有沙盒）的进程**，则可以逃脱到它们的沙盒中：
 
 {% content-ref url="../../../macos-proces-abuse/" %}
 [macos-proces-abuse](../../../macos-proces-abuse/)
 {% endcontent-ref %}
 
-### Interposting绕过
+### Interpost绕过
 
-有关**Interposting**的更多信息，请查看：
+有关**Interpost**的更多信息，请查看：
 
 {% content-ref url="../../../mac-os-architecture/macos-function-hooking.md" %}
 [macos-function-hooking.md](../../../mac-os-architecture/macos-function-hooking.md)
@@ -284,11 +320,23 @@ Sandbox Bypassed!
 ld -o shell shell.o -macosx_version_min 13.0
 ld: dynamic executables or dylibs must link with libSystem.dylib for architecture arm64
 ```
+### 权限
+
+请注意，即使某些**操作**在应用程序具有特定**权限**的情况下可能被**允许在沙盒中执行**，例如：
+```scheme
+(when (entitlement "com.apple.security.network.client")
+(allow network-outbound (remote ip))
+(allow mach-lookup
+(global-name "com.apple.airportd")
+(global-name "com.apple.cfnetwork.AuthBrokerAgent")
+(global-name "com.apple.cfnetwork.cfnetworkagent")
+[...]
+```
 ### 滥用自动启动位置
 
-如果一个受沙盒限制的进程可以在一个**稍后将要运行非沙盒应用程序的位置写入二进制文件**，它将能够通过将二进制文件**放置在那里来逃脱**。这种位置的一个很好的例子是`~/Library/LaunchAgents`或`/System/Library/LaunchDaemons`。
+如果一个受沙盒限制的进程可以在一个**稍后将要运行非沙盒应用程序的二进制文件**的位置**写入**，它将能够通过将二进制文件**放置在那里来逃脱**。这种位置的一个很好的例子是`~/Library/LaunchAgents`或`/System/Library/LaunchDaemons`。
 
-为此，您可能需要**2个步骤**：使一个具有**更宽松的沙盒**（`file-read*`，`file-write*`）的进程执行您的代码，该代码实际上会写入一个将被**非沙盒执行的位置**。
+为此，您可能需要**2个步骤**：使一个具有**更宽松的沙盒**（`file-read*`，`file-write*`）的进程执行您的代码，该代码实际上会写入一个将被**非沙盒执行**的位置。
 
 请查看有关**自动启动位置**的页面：
 
@@ -309,7 +357,7 @@ ld: dynamic executables or dylibs must link with libSystem.dylib for architectur
 * 您在**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想要访问**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks衣物**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧。**
 
 </details>
