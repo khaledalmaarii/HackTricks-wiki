@@ -8,7 +8,7 @@
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e para o** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe suas técnicas de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e para o** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -56,13 +56,17 @@ system("cat ~/Desktop/del.txt");
 ```
 {% tab title="Info.plist" %}
 
-O arquivo Info.plist contém informações sobre o aplicativo, como seu nome, versão e identificador exclusivo. Ele também pode conter configurações relacionadas à segurança e privilégios do aplicativo. O Info.plist é um arquivo de propriedades XML que está localizado dentro do pacote do aplicativo macOS.
+O arquivo Info.plist contém informações sobre o aplicativo e suas configurações. Ele é usado pelo macOS para determinar as permissões e restrições do aplicativo quando executado no ambiente de sandbox. O arquivo Info.plist deve ser incluído no pacote do aplicativo e deve seguir a estrutura e as chaves definidas pela Apple.
 
-Ao desenvolver um aplicativo para macOS, é importante considerar as configurações de segurança no arquivo Info.plist. Essas configurações podem ajudar a proteger o aplicativo contra ameaças de segurança e limitar os privilégios do aplicativo.
+Aqui estão algumas chaves importantes que podem ser definidas no arquivo Info.plist para configurar o comportamento do aplicativo no sandbox:
 
-Além disso, o Info.plist também pode conter informações sobre as permissões necessárias para que o aplicativo acesse recursos do sistema, como a câmera, o microfone ou os dados do usuário. Essas permissões podem ser especificadas usando as chaves NSCameraUsageDescription, NSMicrophoneUsageDescription e NSUserTrackingUsageDescription, respectivamente.
+- `com.apple.security.app-sandbox`: Esta chave define se o aplicativo será executado no sandbox. Defina o valor como `true` para habilitar o sandboxing.
+- `com.apple.security.network.client`: Esta chave define se o aplicativo pode fazer conexões de rede. Defina o valor como `true` para permitir conexões de rede.
+- `com.apple.security.files.user-selected.read-write`: Esta chave define se o aplicativo pode ler e gravar em arquivos selecionados pelo usuário. Defina o valor como `true` para permitir a leitura e gravação em arquivos selecionados pelo usuário.
+- `com.apple.security.files.downloads.read-write`: Esta chave define se o aplicativo pode ler e gravar na pasta de downloads do usuário. Defina o valor como `true` para permitir a leitura e gravação na pasta de downloads.
+- `com.apple.security.files.all`: Esta chave define se o aplicativo pode ler e gravar em todos os arquivos do usuário. Defina o valor como `true` para permitir a leitura e gravação em todos os arquivos.
 
-É importante revisar e configurar corretamente o arquivo Info.plist para garantir que o aplicativo esteja adequadamente protegido e tenha os privilégios necessários para funcionar corretamente no macOS.
+Essas são apenas algumas das chaves disponíveis para configurar o sandboxing no macOS. Consulte a documentação da Apple para obter mais informações sobre as chaves disponíveis e suas configurações.
 
 {% endtab %}
 ```xml
@@ -93,14 +97,14 @@ codesign -s <cert-name> --entitlements entitlements.xml sand
 {% endcode %}
 
 {% hint style="danger" %}
-O aplicativo tentará **ler** o arquivo **`~/Desktop/del.txt`**, o qual o **Sandbox não permitirá**.\
-Crie um arquivo lá, pois uma vez que o Sandbox seja contornado, ele poderá lê-lo:
+O aplicativo tentará **ler** o arquivo **`~/Desktop/del.txt`**, o que o **Sandbox não permitirá**.\
+Crie um arquivo lá, pois uma vez que o Sandbox for contornado, ele poderá lê-lo:
 ```bash
 echo "Sandbox Bypassed" > ~/Desktop/del.txt
 ```
 {% endhint %}
 
-Vamos depurar o aplicativo de xadrez para ver quando o Sandbox é carregado:
+Vamos depurar a aplicação para ver quando o Sandbox é carregado:
 ```bash
 # Load app in debugging
 lldb ./sand
@@ -280,9 +284,21 @@ Observe que **mesmo shellcodes** em ARM64 precisam ser vinculados em `libSystem.
 ld -o shell shell.o -macosx_version_min 13.0
 ld: dynamic executables or dylibs must link with libSystem.dylib for architecture arm64
 ```
+### Privilégios
+
+Note que mesmo que algumas **ações** possam ser **permitidas pelo sandbox** se um aplicativo tiver um **privilégio específico**, como em:
+```scheme
+(when (entitlement "com.apple.security.network.client")
+(allow network-outbound (remote ip))
+(allow mach-lookup
+(global-name "com.apple.airportd")
+(global-name "com.apple.cfnetwork.AuthBrokerAgent")
+(global-name "com.apple.cfnetwork.cfnetworkagent")
+[...]
+```
 ### Explorando Locais de Início Automático
 
-Se um processo em sandbox pode **escrever** em um local onde **mais tarde um aplicativo sem sandbox será executado**, ele poderá **escapar simplesmente colocando** o binário lá. Um bom exemplo desse tipo de local é `~/Library/LaunchAgents` ou `/System/Library/LaunchDaemons`.
+Se um processo em sandbox pode **escrever** em um local onde **mais tarde um aplicativo sem sandbox será executado**, ele será capaz de **escapar simplesmente colocando** o binário lá. Um bom exemplo desse tipo de local é `~/Library/LaunchAgents` ou `/System/Library/LaunchDaemons`.
 
 Para isso, você pode precisar de **2 etapas**: fazer um processo com um sandbox **mais permissivo** (`file-read*`, `file-write*`) executar seu código, que irá realmente escrever em um local onde será **executado sem sandbox**.
 
@@ -303,7 +319,7 @@ Verifique esta página sobre **locais de início automático**:
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? Ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e para o** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
