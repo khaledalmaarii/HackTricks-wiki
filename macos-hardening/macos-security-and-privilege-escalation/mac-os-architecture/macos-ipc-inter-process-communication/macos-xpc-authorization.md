@@ -72,7 +72,7 @@ if (self->_authRef) {
 [self.window makeKeyAndOrderFront:self];
 }
 ```
-`Common/Common.m` 中的 `setupAuthorizationRights` 函数将应用程序的权限存储在授权数据库 `/var/db/auth.db` 中。请注意，它只会添加尚未存在于数据库中的权限：
+`Common/Common.m`中的`setupAuthorizationRights`函数将应用程序的权限存储在`/var/db/auth.db`的授权数据库中。请注意，它只会添加尚未存在于数据库中的权限：
 ```objectivec
 + (void)setupAuthorizationRights:(AuthorizationRef)authRef
 // See comment in header.
@@ -104,7 +104,7 @@ assert(blockErr == errAuthorizationSuccess);
 }];
 }
 ```
-函数`enumerateRightsUsingBlock`是用于获取应用程序权限的函数，这些权限在`commandInfo`中定义：
+函数`enumerateRightsUsingBlock`用于获取应用程序的权限，这些权限在`commandInfo`中定义：
 ```objectivec
 static NSString * kCommandKeyAuthRightName    = @"authRightName";
 static NSString * kCommandKeyAuthRightDefault = @"authRightDefault";
@@ -182,15 +182,15 @@ block(authRightName, authRightDefault, authRightDesc);
 }];
 }
 ```
-这意味着在此过程结束时，`commandInfo` 中声明的权限将存储在 `/var/db/auth.db` 中。请注意，您可以在其中找到**每个需要身份验证的方法**、**权限名称**和**`kCommandKeyAuthRightDefault`**。后者**指示谁可以获得此权限**。
+这意味着在此过程结束时，`commandInfo`中声明的权限将存储在`/var/db/auth.db`中。请注意，您可以在其中找到**每个需要身份验证的方法**，**权限名称**和**`kCommandKeyAuthRightDefault`**。后者**指示谁可以获得此权限**。
 
-有不同的范围来指示谁可以访问权限。其中一些在 [AuthorizationDB.h](https://github.com/aosm/Security/blob/master/Security/libsecurity\_authorization/lib/AuthorizationDB.h) 中定义（您可以在[这里找到所有内容](https://www.dssw.co.uk/reference/authorization-rights/)），但总结如下：
+有不同的范围来指示谁可以访问权限。其中一些在[AuthorizationDB.h](https://github.com/aosm/Security/blob/master/Security/libsecurity\_authorization/lib/AuthorizationDB.h)中定义（您可以在[此处找到所有内容](https://www.dssw.co.uk/reference/authorization-rights/)），但总结如下：
 
 <table><thead><tr><th width="284.3333333333333">名称</th><th width="165">值</th><th>描述</th></tr></thead><tbody><tr><td>kAuthorizationRuleClassAllow</td><td>allow</td><td>任何人</td></tr><tr><td>kAuthorizationRuleClassDeny</td><td>deny</td><td>无人</td></tr><tr><td>kAuthorizationRuleIsAdmin</td><td>is-admin</td><td>当前用户需要是管理员（在管理员组内）</td></tr><tr><td>kAuthorizationRuleAuthenticateAsSessionUser</td><td>authenticate-session-owner</td><td>要求用户进行身份验证。</td></tr><tr><td>kAuthorizationRuleAuthenticateAsAdmin</td><td>authenticate-admin</td><td>要求用户进行身份验证。他需要是管理员（在管理员组内）</td></tr><tr><td>kAuthorizationRightRule</td><td>rule</td><td>指定规则</td></tr><tr><td>kAuthorizationComment</td><td>comment</td><td>在权限上指定一些额外的注释</td></tr></tbody></table>
 
 ### 权限验证
 
-在 `HelperTool/HelperTool.m` 中，函数**`readLicenseKeyAuthorization`**检查调用者是否被授权**执行此方法**，调用函数**`checkAuthorization`**。此函数将检查调用进程发送的**authData**是否具有**正确的格式**，然后将检查**获取权限所需的条件**以调用特定方法。如果一切顺利，**返回的`error`将为`nil`**：
+在`HelperTool/HelperTool.m`中，函数**`readLicenseKeyAuthorization`**检查调用者是否被授权**执行此方法**，调用函数**`checkAuthorization`**。此函数将检查调用进程发送的**authData**是否具有**正确的格式**，然后将检查**获取权限所需的内容**以调用特定方法。如果一切顺利，**返回的`error`将为`nil`**：
 ```objectivec
 - (NSError *)checkAuthorization:(NSData *)authData command:(SEL)command
 {
@@ -250,7 +250,7 @@ sudo sqlite3 /var/db/auth.db
 SELECT name FROM rules;
 SELECT name FROM rules WHERE name LIKE '%safari%';
 ```
-然后，您可以使用以下命令查看谁可以访问权限：
+然后，您可以通过以下方式查看谁可以访问权限：
 ```bash
 security authorizationdb read com.apple.safaridriver.allow
 ```
@@ -262,14 +262,14 @@ security authorizationdb read com.apple.safaridriver.allow
 * 这是最直接的键。如果设置为`false`，表示用户无需提供身份验证即可获得此权限。
 * 这与下面的两个键之一结合使用，或者指示用户必须属于的组。
 2. **'allow-root': 'true'**
-* 如果用户作为具有提升权限的root用户操作，并且此键设置为`true`，则root用户可能无需进一步身份验证即可获得此权限。然而，通常情况下，要达到root用户状态已经需要进行身份验证，所以对于大多数用户来说，这不是一个“无需身份验证”的情况。
+* 如果用户作为root用户（具有提升的权限）操作，并且此键设置为`true`，则root用户可能无需进一步身份验证即可获得此权限。然而，通常情况下，要达到root用户状态已经需要进行身份验证，所以对于大多数用户来说，这不是一个“无需身份验证”的情况。
 3. **'session-owner': 'true'**
 * 如果设置为`true`，会话的所有者（当前登录的用户）将自动获得此权限。如果用户已经登录，则可能绕过其他身份验证。
 4. **'shared': 'true'**
 * 此键不会在没有身份验证的情况下授予权限。相反，如果设置为`true`，意味着一旦权限得到验证，它可以在多个进程之间共享，而无需每个进程重新进行身份验证。但是，初始授予权限仍然需要进行身份验证，除非与其他键（如`'authenticate-user': 'false'`）结合使用。
 
 你可以使用[**这个脚本**](https://gist.github.com/carlospolop/96ecb9e385a4667b9e40b24e878652f9)获取有趣的权限：
-```
+```bash
 Rights with 'authenticate-user': 'false':
 is-admin (admin), is-admin-nonshared (admin), is-appstore (_appstore), is-developer (_developer), is-lpadmin (_lpadmin), is-root (run as root), is-session-owner (session owner), is-webdeveloper (_webdeveloper), system-identity-write-self (session owner), system-install-iap-software (run as root), system-install-software-iap (run as root)
 
@@ -302,8 +302,8 @@ authenticate-session-owner, authenticate-session-owner-or-admin, authenticate-se
 
 在这种情况下，我们与EvenBetterAuthorizationSample中的情况相同，[**查看此行**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L94)。
 
-知道所使用协议的名称后，可以使用以下命令**转储其头文件定义**：
-```
+知道了使用的协议名称，可以使用以下命令**转储其头文件定义**：
+```bash
 class-dump /Library/PrivilegedHelperTools/com.example.HelperTool
 
 [...]
@@ -323,7 +323,7 @@ class-dump /Library/PrivilegedHelperTools/com.example.HelperTool
 <figure><img src="../../../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
 
 * 在 launchd plist 中：
-```
+```xml
 cat /Library/LaunchDaemons/com.example.HelperTool.plist
 
 [...]
@@ -340,10 +340,10 @@ cat /Library/LaunchDaemons/com.example.HelperTool.plist
 在这个示例中创建了以下内容：
 
 * 使用函数定义协议
-* 创建一个空的授权用于请求访问权限
-* 连接到XPC服务
+* 创建一个空的 auth 用于请求访问权限
+* 连接到 XPC 服务
 * 如果连接成功，则调用该函数
-```
+```objectivec
 // gcc -framework Foundation -framework Security expl.m -o expl
 
 #import <Foundation/Foundation.h>
@@ -428,7 +428,7 @@ NSLog(@"Finished!");
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者想要**获取最新版本的PEASS或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
