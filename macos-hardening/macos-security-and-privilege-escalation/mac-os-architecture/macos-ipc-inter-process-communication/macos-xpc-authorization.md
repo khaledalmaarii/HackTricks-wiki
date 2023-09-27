@@ -265,7 +265,7 @@ Vous pouvez trouver **toutes les configurations de permissions** [**ici**](https
 * Cette clé n'accorde pas de droits sans authentification. Au lieu de cela, si elle est définie sur `true`, cela signifie que une fois que le droit a été authentifié, il peut être partagé entre plusieurs processus sans que chacun ait besoin de se ré-authentifier. Cependant, l'octroi initial du droit nécessiterait toujours une authentification, sauf s'il est combiné avec d'autres clés comme `'authenticate-user': 'false'`.
 
 Vous pouvez [**utiliser ce script**](https://gist.github.com/carlospolop/96ecb9e385a4667b9e40b24e878652f9) pour obtenir les droits intéressants :
-```
+```bash
 Rights with 'authenticate-user': 'false':
 is-admin (admin), is-admin-nonshared (admin), is-appstore (_appstore), is-developer (_developer), is-lpadmin (_lpadmin), is-root (run as root), is-session-owner (session owner), is-webdeveloper (_webdeveloper), system-identity-write-self (session owner), system-install-iap-software (run as root), system-install-software-iap (run as root)
 
@@ -299,7 +299,7 @@ La fonction **`shouldAcceptNewConnection`** indique le protocole qui est export�
 Dans ce cas, nous avons la même chose que dans EvenBetterAuthorizationSample, [**vérifiez cette ligne**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L94).
 
 En connaissant le nom du protocole utilisé, il est possible de **dumper sa définition d'en-tête** avec :
-```
+```bash
 class-dump /Library/PrivilegedHelperTools/com.example.HelperTool
 
 [...]
@@ -319,7 +319,7 @@ Enfin, nous devons simplement connaître le **nom du service Mach exposé** afin
 <figure><img src="../../../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
 
 * Dans le fichier launchd plist :
-```
+```xml
 cat /Library/LaunchDaemons/com.example.HelperTool.plist
 
 [...]
@@ -333,13 +333,13 @@ cat /Library/LaunchDaemons/com.example.HelperTool.plist
 ```
 ### Exemple d'exploitation
 
-Dans cet exemple, nous créons :
+Dans cet exemple, les étapes suivantes sont effectuées :
 
 * La définition du protocole avec les fonctions
-* Une authentification vide à utiliser pour demander l'accès
+* Une authentification vide utilisée pour demander l'accès
 * Une connexion au service XPC
 * Un appel à la fonction si la connexion a réussi
-```
+```objectivec
 // gcc -framework Foundation -framework Security expl.m -o expl
 
 #import <Foundation/Foundation.h>
