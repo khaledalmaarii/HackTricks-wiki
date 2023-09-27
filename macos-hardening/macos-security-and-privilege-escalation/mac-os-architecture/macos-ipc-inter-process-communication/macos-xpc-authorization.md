@@ -47,7 +47,7 @@ Para obter mais informações sobre como configurar corretamente essa verificaç
 
 No entanto, há alguma **autorização ocorrendo quando um método do HelperTool é chamado**.
 
-A função **`applicationDidFinishLaunching`** do arquivo `App/AppDelegate.m` criará uma referência de autorização vazia após o aplicativo ser iniciado. Isso deve sempre funcionar.\
+A função **`applicationDidFinishLaunching`** do arquivo `App/AppDelegate.m` criará uma referência de autorização vazia após o aplicativo ser iniciado. Isso deve funcionar sempre.\
 Em seguida, ele tentará **adicionar alguns direitos** a essa referência de autorização chamando `setupAuthorizationRights`:
 ```objectivec
 - (void)applicationDidFinishLaunching:(NSNotification *)note
@@ -269,7 +269,7 @@ Você pode encontrar **todas as configurações de permissões** [**aqui**](http
 * Essa chave não concede direitos sem autenticação. Em vez disso, se definida como `true`, significa que, uma vez autenticado o direito, ele pode ser compartilhado entre vários processos sem que cada um precise se autenticar novamente. Mas a concessão inicial do direito ainda exigiria autenticação, a menos que combinada com outras chaves como `'authenticate-user': 'false'`.
 
 Você pode [**usar este script**](https://gist.github.com/carlospolop/96ecb9e385a4667b9e40b24e878652f9) para obter os direitos interessantes:
-```
+```bash
 Rights with 'authenticate-user': 'false':
 is-admin (admin), is-admin-nonshared (admin), is-appstore (_appstore), is-developer (_developer), is-lpadmin (_lpadmin), is-root (run as root), is-session-owner (session owner), is-webdeveloper (_webdeveloper), system-identity-write-self (session owner), system-install-iap-software (run as root), system-install-software-iap (run as root)
 
@@ -303,7 +303,7 @@ A função **`shouldAcceptNewConnection`** indica o protocolo sendo exportado:
 Neste caso, temos o mesmo que no EvenBetterAuthorizationSample, [**verifique esta linha**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L94).
 
 Sabendo o nome do protocolo usado, é possível **despejar sua definição de cabeçalho** com:
-```
+```bash
 class-dump /Library/PrivilegedHelperTools/com.example.HelperTool
 
 [...]
@@ -323,7 +323,7 @@ Por último, precisamos saber o **nome do Mach Service exposto** para estabelece
 <figure><img src="../../../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
 
 * No plist do launchd:
-```
+```xml
 cat /Library/LaunchDaemons/com.example.HelperTool.plist
 
 [...]
@@ -343,7 +343,7 @@ Neste exemplo é criado:
 * Uma autenticação vazia para ser usada para solicitar acesso
 * Uma conexão com o serviço XPC
 * Uma chamada à função se a conexão foi bem-sucedida
-```
+```objectivec
 // gcc -framework Foundation -framework Security expl.m -o expl
 
 #import <Foundation/Foundation.h>
