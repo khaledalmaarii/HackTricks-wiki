@@ -12,11 +12,11 @@
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** com as ferramentas comunitárias mais avançadas do mundo.\
-Acesse hoje:
+Acesse hoje mesmo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -39,7 +39,7 @@ Vamos dar uma olhada nos artefatos mais comuns armazenados pelos navegadores.
 * **Favicons:** São os pequenos ícones encontrados em guias, URLs, favoritos e outros. Eles podem ser usados como outra fonte para obter mais informações sobre o site ou os lugares visitados pelo usuário.
 * **Sessões do Navegador:** Autoexplicativo.
 * **Downloads**: Autoexplicativo.
-* **Dados de Formulário:** Qualquer coisa digitada em formulários geralmente é armazenada pelo navegador, para que da próxima vez que o usuário digitar algo em um formulário, o navegador possa sugerir dados inseridos anteriormente.
+* **Dados de Formulário:** Tudo o que é digitado em formulários geralmente é armazenado pelo navegador, para que da próxima vez que o usuário digitar algo em um formulário, o navegador possa sugerir dados inseridos anteriormente.
 * **Miniaturas:** Autoexplicativo.
 * **Custom Dictionary.txt**: Palavras adicionadas ao dicionário pelo usuário.
 
@@ -220,7 +220,7 @@ A ferramenta [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_histo
 
 Pesquise em _**userprofile%\Appdata\Local\Microsoft\Windows\History\History.IE5**_ e _**userprofile%\Appdata\Local\Microsoft\Windows\History\Low\History.IE5**_
 
-### **URLs digitadas**
+### **URLs Digitadas**
 
 Essas informações podem ser encontradas no registro NTDUSER.DAT no caminho:
 
@@ -267,7 +267,7 @@ O Opera **armazena o histórico do navegador e os dados de download no mesmo for
 * **Anti-phishing integrado do navegador:** `grep --color 'fraud_protection_enabled' ~/Library/Application Support/com.operasoftware.Opera/Preferences`
 * **fraud\_protection\_enabled** deve ser **true**
 
-<figure><img src="../../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para criar e **automatizar fluxos de trabalho** com facilidade, usando as ferramentas comunitárias mais avançadas do mundo.\

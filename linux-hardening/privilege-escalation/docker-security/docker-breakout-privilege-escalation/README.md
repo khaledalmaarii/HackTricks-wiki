@@ -12,7 +12,7 @@
 
 </details>
 
-<figure><img src="../../../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** com as ferramentas comunitárias mais avançadas do mundo.\
@@ -76,7 +76,7 @@ Você pode verificar as capacidades do contêiner atualmente usando as **ferrame
 ```bash
 capsh --print
 ```
-Na seguinte página, você pode aprender mais sobre as **capacidades do Linux** e como abusá-las para escapar/elevar privilégios:
+Na seguinte página, você pode aprender mais sobre as capacidades do Linux e como abusá-las para escapar/elevar privilégios:
 
 {% content-ref url="../../linux-capabilities.md" %}
 [linux-capabilities.md](../../linux-capabilities.md)
@@ -96,7 +96,7 @@ Um container com privilégios pode ser criado com a flag `--privileged` ou desab
 * `--cgroupns=host`
 * `Montar /dev`
 
-A flag `--privileged` introduz preocupações significativas de segurança, e a exploração depende de lançar um container docker com ela habilitada. Ao usar essa flag, os containers têm acesso total a todos os dispositivos e não possuem restrições do seccomp, AppArmor e das capacidades do Linux. Você pode **ler todos os efeitos de `--privileged`** nesta página:
+A flag `--privileged` introduz preocupações significativas de segurança, e o exploit depende do lançamento de um container docker com ela habilitada. Ao usar essa flag, os containers têm acesso total a todos os dispositivos e não possuem restrições do seccomp, AppArmor e das capacidades do Linux. Você pode ler todos os efeitos de `--privileged` nesta página:
 
 {% content-ref url="../docker-privileged.md" %}
 [docker-privileged.md](../docker-privileged.md)
@@ -120,7 +120,7 @@ docker run --rm -it --privileged ubuntu bash
 ```
 #### Montando Disco - Poc1
 
-Contêineres do Docker bem configurados não permitirão comandos como **fdisk -l**. No entanto, em um comando Docker mal configurado onde a flag `--privileged` ou `--device=/dev/sda1` com caps é especificada, é possível obter privilégios para visualizar a unidade do host.
+Contêineres do Docker bem configurados não permitirão comandos como **fdisk -l**. No entanto, em um comando Docker mal configurado, onde a flag `--privileged` ou `--device=/dev/sda1` com caps é especificada, é possível obter privilégios para visualizar a unidade do host.
 
 ![](https://bestestredteam.com/content/images/2019/08/image-16.png)
 
@@ -242,7 +242,7 @@ Encontre uma **explicação da técnica** em:
 [docker-release\_agent-cgroups-escape.md](docker-release\_agent-cgroups-escape.md)
 {% endcontent-ref %}
 
-#### Privileged Escape Abusing release\_agent sem conhecer o caminho relativo - PoC3
+#### Privileged Escape Abusando do release\_agent sem conhecer o caminho relativo - PoC3
 
 Nos exploits anteriores, o **caminho absoluto do contêiner dentro do sistema de arquivos do host é revelado**. No entanto, nem sempre é esse o caso. Em situações em que você **não conhece o caminho absoluto do contêiner dentro do host**, você pode usar esta técnica:
 
@@ -355,7 +355,7 @@ No entanto, você pode encontrar **outros arquivos sensíveis** para verificar n
 
 ### Montagens arbitrárias
 
-Em várias ocasiões, você descobrirá que o **contêiner possui algum volume montado do host**. Se esse volume não estiver configurado corretamente, você poderá **acessar/modificar dados sensíveis**: ler segredos, alterar chaves autorizadas do SSH...
+Em várias ocasiões, você descobrirá que o **contêiner possui algum volume montado do host**. Se esse volume não estiver configurado corretamente, você poderá **acessar/modificar dados sensíveis**: ler segredos, alterar chaves autorizadas do ssh...
 ```bash
 docker run --rm -it -v /:/host ubuntu bash
 ```
@@ -416,7 +416,7 @@ HTB{7h4T_w45_Tr1cKy_1_D4r3_54y}
 ```
 ### hostPID
 
-Se você conseguir acessar os processos do host, você poderá acessar muitas informações sensíveis armazenadas nesses processos. Execute o laboratório de teste:
+Se você pode acessar os processos do host, você será capaz de acessar muitas informações sensíveis armazenadas nesses processos. Execute o laboratório de teste:
 ```
 docker run --rm -it --pid=host ubuntu bash
 ```
@@ -483,7 +483,7 @@ cat /proc/self/status | grep CapEff
 
 A segunda técnica explicada no post [https://labs.f-secure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/](https://labs.f-secure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/) indica como você pode abusar de bind mounts com namespaces de usuário para afetar arquivos dentro do host (neste caso específico, excluir arquivos).
 
-<figure><img src="../../../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e automatizar facilmente fluxos de trabalho com as ferramentas comunitárias mais avançadas do mundo.\
 Acesse hoje mesmo:
@@ -513,7 +513,7 @@ Existem outras CVEs às quais o contêiner pode estar vulnerável, você pode en
 
 ### Superfície de Escape do Docker
 
-* **Namespaces:** O processo deve estar **completamente separado de outros processos** por meio de namespaces, para que não possamos escapar interagindo com outros processos devido aos namespaces (por padrão, não é possível se comunicar via IPCs, unix sockets, serviços de rede, D-Bus, `/proc` de outros processos).
+* **Namespaces:** O processo deve estar **completamente separado de outros processos** por meio de namespaces, para que não possamos escapar interagindo com outros processos devido aos namespaces (por padrão, não é possível se comunicar via IPCs, soquetes Unix, serviços de rede, D-Bus, `/proc` de outros processos).
 * **Usuário root**: Por padrão, o usuário que executa o processo é o usuário root (no entanto, seus privilégios são limitados).
 * **Capacidades**: O Docker deixa as seguintes capacidades: `cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap=ep`
 * **Syscalls**: Essas são as syscalls que o **usuário root não poderá chamar** (por falta de capacidades + Seccomp). As outras syscalls podem ser usadas para tentar escapar.
@@ -622,7 +622,7 @@ If you are in **userspace** (**no kernel exploit** involved) the way to find new
 * [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/exposed-docker-socket](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/exposed-docker-socket)
 * [https://bishopfox.com/blog/kubernetes-pod-privilege-escalation#Pod4](https://bishopfox.com/blog/kubernetes-pod-privilege-escalation#Pod4)
 
-<figure><img src="../../../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
 Get Access Today:

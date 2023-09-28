@@ -12,7 +12,7 @@
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** com as ferramentas comunitárias mais avançadas do mundo.\
@@ -22,7 +22,7 @@ Acesse hoje:
 
 ## **Segurança básica do Docker Engine**
 
-O Docker Engine realiza o trabalho pesado de executar e gerenciar contêineres. O Docker Engine usa recursos do kernel Linux como **Namespaces** e **Cgroups** para fornecer isolamento básico entre os contêineres. Ele também usa recursos como **Capabilities dropping**, **Seccomp**, **SELinux/AppArmor para obter um melhor isolamento**.
+O Docker Engine realiza o trabalho pesado de executar e gerenciar contêineres. O Docker Engine usa recursos do kernel Linux, como **Namespaces** e **Cgroups**, para fornecer isolamento básico entre os contêineres. Ele também usa recursos como **redução de capacidades**, **Seccomp**, **SELinux/AppArmor para obter um melhor isolamento**.
 
 Por fim, um **plugin de autenticação** pode ser usado para **limitar as ações** que os usuários podem executar.
 
@@ -32,8 +32,8 @@ Por fim, um **plugin de autenticação** pode ser usado para **limitar as açõe
 
 O cliente Docker pode acessar o Docker Engine **localmente usando um soquete Unix ou remotamente usando o mecanismo http**. Para usá-lo remotamente, é necessário usar https e **TLS** para garantir confidencialidade, integridade e autenticação.
 
-Por padrão, ele escuta no soquete Unix `unix:///var/`\
-`run/docker.sock` e nas distribuições Ubuntu, as opções de inicialização do Docker são especificadas em `/etc/default/docker`. Para permitir que a API e o cliente Docker acessem o Docker Engine remotamente, precisamos **expor o daemon do Docker usando um soquete http**. Isso pode ser feito por:
+Por padrão, o Docker escuta no soquete Unix `unix:///var/`\
+`run/docker.sock` e nas distribuições Ubuntu, as opções de inicialização do Docker são especificadas em `/etc/default/docker`. Para permitir que a API e o cliente do Docker acessem o Docker Engine remotamente, precisamos **expor o daemon do Docker usando um soquete http**. Isso pode ser feito por:
 ```bash
 DOCKER_OPTS="-D -H unix:///var/run/docker.sock -H
 tcp://192.168.56.101:2376" -> add this to /etc/default/docker
@@ -51,7 +51,7 @@ As imagens do contêiner são armazenadas em um repositório privado ou público
 
 ### Verificação de imagem
 
-Os contêineres podem ter **vulnerabilidades de segurança** devido à imagem base ou ao software instalado em cima da imagem base. A Docker está trabalhando em um projeto chamado **Nautilus** que faz a verificação de segurança dos contêineres e lista as vulnerabilidades. O Nautilus funciona comparando cada camada da imagem do contêiner com o repositório de vulnerabilidades para identificar falhas de segurança.
+Os contêineres podem ter **vulnerabilidades de segurança** tanto por causa da imagem base quanto pelo software instalado em cima da imagem base. A Docker está trabalhando em um projeto chamado **Nautilus** que faz a verificação de segurança dos contêineres e lista as vulnerabilidades. O Nautilus funciona comparando cada camada da imagem do contêiner com o repositório de vulnerabilidades para identificar falhas de segurança.
 
 Para mais [**informações, leia isso**](https://docs.docker.com/engine/scan/).
 
@@ -87,14 +87,14 @@ clair-scanner -w example-alpine.yaml --ip YOUR_LOCAL_IP alpine:3.5
 ```
 ### Assinatura de Imagens Docker
 
-As imagens de contêineres Docker podem ser armazenadas em um registro público ou privado. É necessário **assinar** as imagens de contêineres para confirmar que elas não foram adulteradas. O **publicador** de conteúdo é responsável por **assinar** a imagem do contêiner e enviá-la para o registro.\
+As imagens de contêineres Docker podem ser armazenadas em um registro público ou privado. É necessário **assinar** as imagens de contêiner para confirmar que elas não foram adulteradas. O **publicador** de conteúdo é responsável por **assinar** a imagem do contêiner e enviá-la para o registro.\
 Aqui estão alguns detalhes sobre a confiança de conteúdo do Docker:
 
 * A confiança de conteúdo do Docker é uma implementação do projeto de código aberto [Notary](https://github.com/docker/notary). O projeto de código aberto Notary é baseado no projeto [The Update Framework (TUF)](https://theupdateframework.github.io).
 * A confiança de conteúdo do Docker é habilitada com `export DOCKER_CONTENT_TRUST=1`. A partir da versão 1.10 do Docker, a confiança de conteúdo **não está habilitada por padrão**.
 * Quando a confiança de conteúdo está habilitada, só é possível **baixar imagens assinadas**. Ao enviar uma imagem, é necessário inserir a chave de marcação.
-* Quando o publicador envia a imagem pela **primeira vez** usando o comando docker push, é necessário inserir uma **senha** para a **chave raiz e chave de marcação**. As outras chaves são geradas automaticamente.
-* O Docker também adicionou suporte para chaves de hardware usando o Yubikey e os detalhes estão disponíveis [aqui](https://blog.docker.com/2015/11/docker-content-trust-yubikey/).
+* Quando o publicador envia a imagem pela **primeira vez** usando o comando docker push, é necessário inserir uma **senha** para a **chave raiz e a chave de marcação**. As outras chaves são geradas automaticamente.
+* O Docker também adicionou suporte para chaves de hardware usando o YubiKey e os detalhes estão disponíveis [aqui](https://blog.docker.com/2015/11/docker-content-trust-yubikey/).
 
 Aqui está o **erro** que recebemos quando a **confiança de conteúdo está habilitada e a imagem não está assinada**.
 ```shell-session
@@ -121,11 +121,11 @@ Quando mudei o host do Docker, tive que mover as chaves raiz e as chaves do repo
 
 ***
 
-<figure><img src="../../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir facilmente e **automatizar fluxos de trabalho** com as ferramentas comunitárias mais avançadas do mundo.\
-Acesse hoje:
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e automatizar facilmente fluxos de trabalho com as ferramentas comunitárias mais avançadas do mundo.\
+Acesse hoje mesmo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -144,7 +144,7 @@ De qualquer forma, isso é útil para criar novos namespaces, mas **não para vo
 
 **CGroups**
 
-Isso permite limitar recursos e não afeta a segurança do isolamento do processo (exceto pelo `release_agent` que poderia ser usado para escapar).
+Isso permite limitar recursos e não afeta a segurança do isolamento do processo (exceto pelo `release_agent` que pode ser usado para escapar).
 
 **Descarte de Capacidades**
 
@@ -220,7 +220,7 @@ Quando um contêiner Docker é executado, o **processo descarta as capacidades s
 
 ### Seccomp no Docker
 
-Este é um recurso de segurança que permite ao Docker **limitar as syscalls** que podem ser usadas dentro do contêiner:
+Esta é uma funcionalidade de segurança que permite ao Docker **limitar as syscalls** que podem ser usadas dentro do contêiner:
 
 {% content-ref url="seccomp.md" %}
 [seccomp.md](seccomp.md)
@@ -338,9 +338,9 @@ Onde o seu arquivo especifica seus segredos como um par chave-valor.
 
 Esses segredos são excluídos do cache de construção da imagem e da imagem final.
 
-Se você precisa do seu **segredo em seu contêiner em execução**, e não apenas ao construir sua imagem, use **Docker Compose ou Kubernetes**.
+Se você precisa do seu **segredo em seu contêiner em execução**, e não apenas durante a construção da imagem, use **Docker Compose ou Kubernetes**.
 
-Com o Docker Compose, adicione o par chave-valor dos segredos a um serviço e especifique o arquivo de segredo. A dica é do [Stack Exchange answer](https://serverfault.com/a/936262/535325) para a dica de segredos do Docker Compose que o exemplo abaixo é adaptado.
+Com o Docker Compose, adicione o par chave-valor dos segredos a um serviço e especifique o arquivo de segredo. Agradecimentos à resposta do [Stack Exchange](https://serverfault.com/a/936262/535325) pela dica de segredos do Docker Compose, da qual o exemplo abaixo foi adaptado.
 
 Exemplo `docker-compose.yml` com segredos:
 ```yaml
@@ -386,14 +386,14 @@ Se você estiver usando [Kubernetes](https://kubernetes.io/docs/concepts/configu
 * **Reconstrua regularmente** suas imagens para **aplicar patches de segurança no host e nas imagens**.
 * Gerencie seus **segredos com sabedoria** para dificultar o acesso do invasor a eles.
 * Se você **expõe o daemon do Docker, use HTTPS** com autenticação de cliente e servidor.
-* Em seu Dockerfile, **prefira COPY em vez de ADD**. ADD extrai automaticamente arquivos compactados e pode copiar arquivos de URLs. COPY não possui essas capacidades. Sempre que possível, evite usar ADD para não ficar suscetível a ataques por meio de URLs remotas e arquivos Zip.
+* No seu Dockerfile, **prefira COPY em vez de ADD**. ADD extrai automaticamente arquivos compactados e pode copiar arquivos de URLs. COPY não possui essas capacidades. Sempre que possível, evite usar ADD para não ficar suscetível a ataques por meio de URLs remotas e arquivos Zip.
 * Tenha **contêineres separados para cada microsserviço**.
-* **Não coloque o ssh** dentro do contêiner, "docker exec" pode ser usado para fazer ssh para o contêiner.
+* **Não coloque o ssh** dentro do contêiner, "docker exec" pode ser usado para acessar o contêiner via ssh.
 * Tenha **imagens de contêiner menores**
 
 ## Fuga de Contêiner Docker / Escalação de Privilégios
 
-Se você estiver **dentro de um contêiner Docker** ou tiver acesso a um usuário no **grupo docker**, você pode tentar **escapar e escalar privilégios**:
+Se você estiver **dentro de um contêiner Docker** ou tiver acesso a um usuário no **grupo docker**, você pode tentar **escapar e elevar privilégios**:
 
 {% content-ref url="docker-breakout-privilege-escalation/" %}
 [docker-breakout-privilege-escalation](docker-breakout-privilege-escalation/)
@@ -424,7 +424,7 @@ Você precisa executar a ferramenta no host que executa o Docker ou em um contê
 * [https://en.wikipedia.org/wiki/Linux\_namespaces](https://en.wikipedia.org/wiki/Linux\_namespaces)
 * [https://towardsdatascience.com/top-20-docker-security-tips-81c41dd06f57](https://towardsdatascience.com/top-20-docker-security-tips-81c41dd06f57)
 
-<figure><img src="../../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** com facilidade, utilizando as ferramentas comunitárias mais avançadas do mundo.\
 Acesse hoje mesmo:
 

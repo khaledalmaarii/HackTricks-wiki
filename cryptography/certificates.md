@@ -12,7 +12,7 @@
 
 </details>
 
-<figure><img src="../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** com as ferramentas comunitárias mais avançadas do mundo.\
@@ -22,7 +22,7 @@ Acesse hoje:
 
 ## O que é um Certificado
 
-Em criptografia, um **certificado de chave pública**, também conhecido como **certificado digital** ou **certificado de identidade**, é um documento eletrônico usado para comprovar a propriedade de uma chave pública. O certificado inclui informações sobre a chave, informações sobre a identidade de seu proprietário (chamado de sujeito) e a assinatura digital de uma entidade que verificou o conteúdo do certificado (chamada de emissor). Se a assinatura for válida e o software que examina o certificado confiar no emissor, ele pode usar essa chave para se comunicar de forma segura com o sujeito do certificado.
+Em criptografia, um **certificado de chave pública**, também conhecido como **certificado digital** ou **certificado de identidade**, é um documento eletrônico usado para comprovar a propriedade de uma chave pública. O certificado inclui informações sobre a chave, informações sobre a identidade do seu proprietário (chamado de sujeito) e a assinatura digital de uma entidade que verificou o conteúdo do certificado (chamada de emissor). Se a assinatura for válida e o software que examina o certificado confiar no emissor, ele pode usar essa chave para se comunicar de forma segura com o sujeito do certificado.
 
 Em um esquema típico de [infraestrutura de chave pública](https://en.wikipedia.org/wiki/Public-key\_infrastructure) (PKI), o emissor do certificado é uma [autoridade de certificação](https://en.wikipedia.org/wiki/Certificate\_authority) (CA), geralmente uma empresa que cobra dos clientes para emitir certificados para eles. Em contraste, em um esquema de [rede de confiança](https://en.wikipedia.org/wiki/Web\_of\_trust), os indivíduos assinam as chaves uns dos outros diretamente, em um formato que desempenha uma função semelhante a um certificado de chave pública.
 
@@ -194,19 +194,22 @@ openssl pkcs12 -in certificatename.pfx -nocerts -nodes -out certificatename.pem
 ```
 **2- Converter PEM para PKCS8**
 
-Às vezes, é necessário converter um arquivo no formato PEM para o formato PKCS8. O formato PEM é amplamente utilizado para armazenar chaves privadas e certificados em texto simples. Por outro lado, o formato PKCS8 é um formato de chave privada mais estruturado e compatível com uma variedade de aplicativos.
+Às vezes, é necessário converter um arquivo no formato PEM (Privacy-Enhanced Mail) para o formato PKCS8 (Public-Key Cryptography Standards #8). O formato PKCS8 é amplamente utilizado para armazenar chaves privadas criptografadas.
 
-Para converter um arquivo PEM para PKCS8, você pode usar a ferramenta OpenSSL. Abaixo está o comando que você pode usar:
+Para converter um arquivo PEM para PKCS8, você pode usar a ferramenta OpenSSL. Siga as etapas abaixo:
 
-```bash
-openssl pkcs8 -topk8 -inform PEM -outform DER -in chave_privada.pem -out chave_privada.pkcs8 -nocrypt
-```
+1. Abra o terminal ou prompt de comando.
+2. Execute o seguinte comando para converter o arquivo PEM para PKCS8:
 
-Neste comando, você precisa substituir "chave_privada.pem" pelo caminho e nome do arquivo PEM que deseja converter. O arquivo convertido será salvo como "chave_privada.pkcs8".
+   ```
+   openssl pkcs8 -topk8 -inform PEM -outform DER -in chave_privada.pem -out chave_privada.pkcs8 -nocrypt
+   ```
 
-É importante observar que o parâmetro "-nocrypt" é usado para não criptografar a chave privada convertida. Se você deseja adicionar uma senha à chave privada convertida, basta remover esse parâmetro e o OpenSSL solicitará uma senha durante o processo de conversão.
+   Certifique-se de substituir "chave_privada.pem" pelo caminho e nome do seu arquivo PEM.
 
-Depois de executar o comando, você terá um arquivo no formato PKCS8 que pode ser usado em aplicativos compatíveis com esse formato.
+3. Após executar o comando, o arquivo PEM será convertido para o formato PKCS8 e salvo como "chave_privada.pkcs8".
+
+Agora você tem um arquivo no formato PKCS8 que pode ser usado em várias aplicações que suportam esse formato.
 ```
 openSSL pkcs8 -in certificatename.pem -topk8 -nocrypt -out certificatename.pk8
 ```
@@ -237,7 +240,7 @@ Após a conclusão do processo, você terá um arquivo PFX que contém o certifi
 ```
 openssl pkcs12 -export -in certificatename.cer -inkey privateKey.key -out certificatename.pfx -certfile  cacert.cer
 ```
-<figure><img src="../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e automatizar facilmente fluxos de trabalho com as ferramentas comunitárias mais avançadas do mundo.\

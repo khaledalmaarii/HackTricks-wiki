@@ -1,6 +1,6 @@
 # Comandos Úteis do Linux
 
-<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** com facilidade, utilizando as ferramentas comunitárias mais avançadas do mundo.\
@@ -12,7 +12,7 @@ Acesse hoje mesmo:
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? Ou gostaria de ter acesso à **versão mais recente do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de segurança cibernética**? Gostaria de ver sua **empresa anunciada no HackTricks**? Ou gostaria de ter acesso à **versão mais recente do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo Telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -139,7 +139,7 @@ sudo chattr -i file.txt #Remove the bit so you can delete it
 # List files inside zip
 7z l file.zip
 ```
-<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente, utilizando as ferramentas comunitárias mais avançadas do mundo.\
@@ -169,67 +169,49 @@ i686-mingw32msvc-gcc -o executable useradd.c
 ```
 ## Greps
 
-O comando `grep` é uma ferramenta poderosa para pesquisar e filtrar texto em arquivos ou saídas de comandos. Ele permite que você encontre padrões específicos em um arquivo ou em uma lista de arquivos.
+O comando `grep` é uma ferramenta poderosa para pesquisar padrões em arquivos de texto. Ele permite que você encontre linhas que correspondam a um determinado padrão e exiba-as na saída. Aqui estão alguns exemplos de uso comuns do comando `grep`:
 
-### Sintaxe básica
-
-A sintaxe básica do comando `grep` é a seguinte:
-
-```
-grep [opções] padrão [arquivo(s)]
-```
-
-- `opções`: são as opções que você pode usar para personalizar a pesquisa.
-- `padrão`: é o padrão que você deseja procurar nos arquivos.
-- `arquivo(s)`: são os arquivos em que você deseja realizar a pesquisa. Se nenhum arquivo for especificado, o `grep` lerá a entrada padrão.
-
-### Exemplos de uso
-
-Aqui estão alguns exemplos de uso comuns do comando `grep`:
-
-- Pesquisar um padrão em um arquivo específico:
+- **Pesquisar uma palavra em um arquivo**: Para pesquisar uma palavra específica em um arquivo, use o seguinte comando:
 
   ```
-  grep "padrão" arquivo.txt
+  grep "palavra" arquivo.txt
   ```
 
-- Pesquisar um padrão em vários arquivos:
+  Isso exibirá todas as linhas que contêm a palavra "palavra" no arquivo "arquivo.txt".
+
+- **Pesquisar uma palavra em vários arquivos**: Se você quiser pesquisar uma palavra em vários arquivos, use o seguinte comando:
 
   ```
-  grep "padrão" arquivo1.txt arquivo2.txt
+  grep "palavra" arquivo1.txt arquivo2.txt arquivo3.txt
   ```
 
-- Pesquisar um padrão em todos os arquivos de um diretório:
+  Isso exibirá todas as linhas que contêm a palavra "palavra" nos arquivos "arquivo1.txt", "arquivo2.txt" e "arquivo3.txt".
+
+- **Pesquisar uma palavra em todos os arquivos de um diretório**: Se você quiser pesquisar uma palavra em todos os arquivos de um diretório, use o seguinte comando:
 
   ```
-  grep "padrão" diretório/*
+  grep "palavra" diretório/*
   ```
 
-- Pesquisar um padrão, ignorando maiúsculas e minúsculas:
+  Isso exibirá todas as linhas que contêm a palavra "palavra" em todos os arquivos do diretório especificado.
+
+- **Pesquisar uma palavra ignorando maiúsculas e minúsculas**: Se você quiser pesquisar uma palavra, mas ignorar diferenças entre maiúsculas e minúsculas, use o seguinte comando:
 
   ```
-  grep -i "padrão" arquivo.txt
+  grep -i "palavra" arquivo.txt
   ```
 
-- Pesquisar um padrão e exibir o número da linha correspondente:
+  Isso exibirá todas as linhas que contêm a palavra "palavra", independentemente de estarem em maiúsculas ou minúsculas, no arquivo "arquivo.txt".
+
+- **Pesquisar uma palavra com contexto**: Se você quiser exibir não apenas a linha que contém a palavra pesquisada, mas também algumas linhas antes e depois dela, use o seguinte comando:
 
   ```
-  grep -n "padrão" arquivo.txt
+  grep -C 2 "palavra" arquivo.txt
   ```
 
-- Pesquisar um padrão recursivamente em subdiretórios:
+  Isso exibirá a linha que contém a palavra "palavra" e duas linhas antes e depois dela no arquivo "arquivo.txt".
 
-  ```
-  grep -r "padrão" diretório/
-  ```
-
-- Pesquisar um padrão e exibir apenas o nome do arquivo correspondente:
-
-  ```
-  grep -l "padrão" arquivo.txt
-  ```
-
-Esses são apenas alguns exemplos das muitas opções e recursos disponíveis no comando `grep`. Experimente diferentes combinações para atender às suas necessidades de pesquisa.
+Esses são apenas alguns exemplos de como usar o comando `grep`. Ele possui muitas outras opções e recursos que podem ser explorados para realizar pesquisas mais avançadas em arquivos de texto.
 ```bash
 #Extract emails from file
 grep -E -o "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b" file.txt
@@ -329,7 +311,9 @@ Aqui estão alguns comandos úteis do Nmap que podem ser usados para realizar pe
 
 - **nmap -sU <IP>**: Este comando realiza uma varredura UDP em um host para identificar portas abertas e serviços em execução.
 
-Esses comandos são apenas alguns exemplos das muitas opções disponíveis no Nmap. É importante lembrar que o uso do Nmap para fins maliciosos é ilegal e antiético.
+- **nmap -T<0-5> <IP>**: Este comando permite ajustar o tempo de execução e a intensidade da varredura, variando de 0 (paranóico) a 5 (insano).
+
+Esses comandos são apenas alguns exemplos das muitas opções disponíveis no Nmap. Experimente-os e explore mais recursos para aprimorar suas habilidades de hacking e auditoria de segurança.
 ```bash
 #Nmap scripts ((default or version) and smb))
 nmap --script-help "(default or version) and *smb*"
@@ -340,9 +324,9 @@ nmap --script-help "(default or version) and smb)"
 
 Bash (Bourne Again SHell) é um interpretador de comandos de shell para sistemas operacionais baseados em Unix. É uma das shells mais populares e amplamente utilizadas no Linux.
 
-### Comandos Úteis do Linux
+### Comandos Úteis
 
-Aqui estão alguns comandos úteis do Linux que podem ser executados no terminal Bash:
+Aqui estão alguns comandos úteis do Bash que podem ser usados para várias tarefas:
 
 - `ls`: lista os arquivos e diretórios no diretório atual.
 - `cd`: muda o diretório atual.
@@ -354,19 +338,17 @@ Aqui estão alguns comandos úteis do Linux que podem ser executados no terminal
 - `cat`: exibe o conteúdo de um arquivo.
 - `grep`: pesquisa por padrões em arquivos.
 - `chmod`: altera as permissões de acesso de arquivos e diretórios.
-- `chown`: altera o proprietário e o grupo de arquivos e diretórios.
-- `ps`: exibe os processos em execução.
-- `top`: exibe informações sobre os processos em execução e o uso de recursos do sistema.
-- `kill`: encerra um processo.
+- `chown`: altera o proprietário de arquivos e diretórios.
 - `ssh`: inicia uma sessão segura em um servidor remoto.
 - `wget`: baixa arquivos da web.
-- `curl`: transfere dados usando vários protocolos de rede.
 - `tar`: cria ou extrai arquivos compactados no formato tar.
-- `gzip`: compacta ou descompacta arquivos no formato gzip.
 - `find`: pesquisa arquivos e diretórios com base em critérios específicos.
-- `history`: exibe o histórico de comandos executados anteriormente.
+- `ps`: exibe os processos em execução.
+- `top`: exibe informações em tempo real sobre os processos em execução.
+- `kill`: encerra um processo em execução.
+- `history`: exibe o histórico de comandos digitados anteriormente.
 
-Esses são apenas alguns dos comandos mais comumente usados no Linux. Existem muitos outros comandos disponíveis, cada um com sua própria funcionalidade e opções.
+Esses são apenas alguns dos comandos mais comumente usados no Bash. Existem muitos outros comandos disponíveis, cada um com sua própria funcionalidade e opções.
 ```bash
 #All bytes inside a file (except 0x20 and 0x00)
 for j in $((for i in {0..9}{0..9} {0..9}{a..f} {a..f}{0..9} {a..f}{a..f}; do echo $i; done ) | sort | grep -v "20\|00"); do echo -n -e "\x$j" >> bytes; done
@@ -430,7 +412,7 @@ iptables -P OUTPUT ACCEPT
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** com facilidade, utilizando as ferramentas comunitárias mais avançadas do mundo.\

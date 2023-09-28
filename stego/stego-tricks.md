@@ -84,7 +84,7 @@ cmp original.jpg stego.jpg -b -l
 Se você perceber que uma **linha de texto** está **maior** do que deveria, então algumas **informações ocultas** podem estar incluídas dentro dos **espaços** usando caracteres invisíveis.󐁈󐁥󐁬󐁬󐁯󐀠󐁴󐁨\
 Para **extrair** os **dados**, você pode usar: [https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder)
 
-<figure><img src="../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente, utilizando as ferramentas comunitárias mais avançadas do mundo.\
@@ -150,7 +150,7 @@ Encontre-o no [Github](https://github.com/dhsdshdhk/stegpy).
 
 ### Pngcheck
 
-Obtenha detalhes sobre um arquivo PNG (ou até descubra se na verdade é algo diferente!).\
+Obtenha detalhes sobre um arquivo PNG (ou até descubra se é na verdade algo diferente!).\
 `apt-get install pngcheck`: Instale a ferramenta\
 `pngcheck stego.png` : Obtenha informações sobre o PNG
 

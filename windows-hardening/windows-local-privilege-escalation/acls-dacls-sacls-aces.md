@@ -1,6 +1,6 @@
 # ACLs - DACLs/SACLs/ACEs
 
-<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e automatizar facilmente fluxos de trabalho com as ferramentas comunitárias mais avançadas do mundo.\
@@ -14,7 +14,7 @@ Acesse hoje:
 
 * Você trabalha em uma **empresa de segurança cibernética**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
+* Obtenha o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe suas técnicas de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
@@ -55,8 +55,8 @@ Existem **`três` principais tipos de ACEs** que podem ser aplicados a todos os 
 
 | **ACE**                  | **Descrição**                                                                                                                                                            |
 | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **`ACE de acesso negado`**  | Usado dentro de um DACL para mostrar que um usuário ou grupo está explicitamente negado o acesso a um objeto                                                                                   |
-| **`ACE de acesso permitido`** | Usado dentro de um DACL para mostrar que um usuário ou grupo está explicitamente concedido o acesso a um objeto                                                                                  |
+| **`ACE de acesso negado`**  | Usado dentro de um DACL para mostrar que um usuário ou grupo é explicitamente negado o acesso a um objeto                                                                                   |
+| **`ACE de acesso permitido`** | Usado dentro de um DACL para mostrar que um usuário ou grupo é explicitamente concedido acesso a um objeto                                                                                  |
 | **`ACE de auditoria do sistema`**   | Usado dentro de um SACL para gerar logs de auditoria quando um usuário ou grupo tenta acessar um objeto. Ele registra se o acesso foi concedido ou não e que tipo de acesso ocorreu |
 
 Cada ACE é composto pelos seguintes `quatro` componentes:
@@ -90,9 +90,9 @@ A figura a seguir mostra a ordem canônica dos ACEs:
 A ordem canônica garante que o seguinte ocorra:
 
 * Um ACE de **negar acesso explícito é aplicado independentemente de qualquer ACE de permitir acesso explícito**. Isso significa que o proprietário do objeto pode definir permissões que permitem acesso a um grupo de usuários e negam acesso a um subconjunto desse grupo.
-* Todos os **ACEs explícitos são processados antes de qualquer ACE herdado**. Isso é consistente com o conceito de controle de acesso discricionário: o acesso a um objeto filho (por exemplo, um arquivo) está a critério do proprietário do filho, não do proprietário do objeto pai (por exemplo, uma pasta). O proprietário de um objeto filho pode definir permissões diretamente no filho. O resultado é que os efeitos das permissões herdadas são modificados.
+* Todos os ACEs **explícitos são processados antes de qualquer ACE herdado**. Isso é consistente com o conceito de controle de acesso discricionário: o acesso a um objeto filho (por exemplo, um arquivo) está a critério do proprietário do filho, não do proprietário do objeto pai (por exemplo, uma pasta). O proprietário de um objeto filho pode definir permissões diretamente no filho. O resultado é que os efeitos das permissões herdadas são modificados.
 
-<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para criar e **automatizar fluxos de trabalho** com facilidade, usando as ferramentas comunitárias mais avançadas do mundo.\
@@ -122,15 +122,15 @@ E por último, temos o SACL na guia Auditoria:
 
 Neste exemplo, o grupo de acesso permitido é Todos e o grupo de acesso negado é Marketing, um subconjunto de Todos.
 
-Você deseja negar ao grupo de Marketing acesso a uma pasta de Custos. Se os ACEs da pasta de Custos estiverem em ordem canônica, o ACE que nega o acesso ao Marketing vem antes do ACE que permite a Todos.
+Você deseja negar acesso ao grupo de Marketing a uma pasta de Custos. Se os ACEs da pasta de Custos estiverem em ordem canônica, o ACE que nega o acesso ao Marketing vem antes do ACE que permite a Todos.
 
 Durante uma verificação de acesso, o sistema operacional percorre os ACEs na ordem em que eles aparecem no DACL do objeto, para que o ACE de negação seja processado antes do ACE de permissão. Como resultado, os usuários que são membros do grupo de Marketing são negados o acesso. Todos os outros têm acesso ao objeto.
 
 ### Exemplo: Explícito antes de herdado
 
-Neste exemplo, a pasta de Custos tem um ACE herdável que nega o acesso ao Marketing (objeto pai). Em outras palavras, todos os usuários que são membros (ou filhos) do grupo de Marketing são negados o acesso por herança.
+Neste exemplo, a pasta de Custos tem um ACE herdável que nega acesso ao Marketing (objeto pai). Em outras palavras, todos os usuários que são membros (ou filhos) do grupo de Marketing são negados o acesso por herança.
 
-Você deseja permitir o acesso a Bob, que é o diretor de Marketing. Como membro do grupo de Marketing, Bob é negado o acesso à pasta de Custos por herança. O proprietário do objeto filho (usuário Bob) define um ACE explícito que permite o acesso à pasta de Custos. Se os ACEs do objeto filho estiverem em ordem canônica, o ACE explícito que permite o acesso de Bob vem antes de qualquer ACE herdado, incluindo o ACE herdado que nega o acesso ao grupo de Marketing.
+Você deseja permitir acesso a Bob, que é o diretor de Marketing. Como membro do grupo de Marketing, Bob é negado o acesso à pasta de Custos por herança. O proprietário do objeto filho (usuário Bob) define um ACE explícito que permite o acesso à pasta de Custos. Se os ACEs do objeto filho estiverem em ordem canônica, o ACE explícito que permite o acesso de Bob vem antes de qualquer ACE herdado, incluindo o ACE herdado que nega o acesso ao grupo de Marketing.
 
 Durante uma verificação de acesso, o sistema operacional alcança o ACE que permite o acesso de Bob antes de chegar ao ACE que nega o acesso ao grupo de Marketing. Como resultado, Bob tem acesso ao objeto, mesmo sendo membro do grupo de Marketing. Outros membros do grupo de Marketing são negados o acesso.
 
@@ -211,10 +211,10 @@ A tabela abaixo mostra o layout de cada ACE.
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** com facilidade, usando as ferramentas comunitárias mais avançadas do mundo.\
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para criar e **automatizar fluxos de trabalho** com facilidade, usando as ferramentas comunitárias mais avançadas do mundo.\
 Acesse hoje:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

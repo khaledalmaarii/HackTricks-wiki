@@ -172,7 +172,7 @@ Exemplo de cabeçalho do segmento:
 
 <figure><img src="../../../.gitbook/assets/image (2) (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Esse cabeçalho define o **número de seções cujos cabeçalhos aparecem depois** dele:
+Este cabeçalho define o **número de seções cujos cabeçalhos aparecem depois** dele:
 ```c
 struct section_64 { /* for 64-bit architectures */
 char		sectname[16];	/* name of this section */
@@ -195,7 +195,7 @@ Exemplo de **cabeçalho de seção**:
 
 Se você **adicionar** o **deslocamento da seção** (0x37DC) + o **deslocamento** onde o **arquitetura começa**, neste caso `0x18000` --> `0x37DC + 0x18000 = 0x1B7DC`
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Também é possível obter **informações de cabeçalho** a partir da **linha de comando** com:
 ```bash
@@ -232,7 +232,7 @@ Contém o **caminho para o executável do linker dinâmico** que mapeia bibliote
 
 ### **`LC_LOAD_DYLIB`**
 
-Este comando de carregamento descreve uma **dependência de biblioteca dinâmica** que instrui o **carregador** (dyld) a **carregar e vincular a biblioteca** mencionada. Há um comando de carregamento LC\_LOAD\_DYLIB **para cada biblioteca** que o binário Mach-O requer.
+Este comando de carregamento descreve uma **dependência de biblioteca dinâmica** que **instrui** o **carregador** (dyld) a **carregar e vincular a biblioteca** mencionada. Há um comando de carregamento LC\_LOAD\_DYLIB **para cada biblioteca** que o binário Mach-O requer.
 
 * Este comando de carregamento é uma estrutura do tipo **`dylib_command`** (que contém uma struct dylib, descrevendo a biblioteca dinâmica dependente real):
 ```objectivec
@@ -259,7 +259,7 @@ otool -L /bin/ls
 /usr/lib/libncurses.5.4.dylib (compatibility version 5.4.0, current version 5.4.0)
 /usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1319.0.0)
 ```
-Algumas bibliotecas relacionadas a malware potencial são:
+Algumas bibliotecas relacionadas a malwares potenciais são:
 
 * **DiskArbitration**: Monitoramento de unidades USB
 * **AVFoundation:** Captura de áudio e vídeo
@@ -284,7 +284,7 @@ Isso inclui:&#x20;
 
 * **Tabela de funções:** Que contém informações sobre as funções do programa.
 * **Tabela de símbolos**: Que contém informações sobre as funções externas usadas pelo binário
-* Também pode conter nomes de funções internas, variáveis e mais.
+* Também pode conter nomes de funções internas, variáveis e muito mais.
 
 Para verificar, você pode usar a ferramenta [**Mach-O View**](https://sourceforge.net/projects/machoview/):
 

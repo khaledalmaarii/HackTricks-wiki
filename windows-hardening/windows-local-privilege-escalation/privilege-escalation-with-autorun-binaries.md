@@ -4,7 +4,7 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de segurança cibernética**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -12,7 +12,7 @@
 
 </details>
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
 Se você está interessado em uma **carreira de hacking** e hackear o inquebrável - **estamos contratando!** (_fluência em polonês escrita e falada é necessária_).
 
@@ -217,7 +217,7 @@ No entanto, você pode criar uma opção de inicialização para não precisar p
 4. Salve o arquivo.
 5. Reaplique as permissões corretas (attrib c:\boot.ini +r +s +h).
 
-Informações da [qui](https://www.itprotoday.com/cloud-computing/how-can-i-add-boot-option-starts-alternate-shell).
+Informações obtidas [aqui](https://www.itprotoday.com/cloud-computing/how-can-i-add-boot-option-starts-alternate-shell).
 
 {% hint style="info" %}
 **Exploit 1:** Se você puder modificar essa chave do registro, poderá apontar sua backdoor.
@@ -312,21 +312,15 @@ Quando um programa é executado no Windows, o sistema operacional verifica se ex
 
 #### Explorando as Opções de Execução de Arquivos de Imagem
 
-Para explorar essa vulnerabilidade, um invasor pode adicionar uma entrada nas Opções de Execução de Arquivos de Imagem para um executável privilegiado, como o Prompt de Comando (cmd.exe). Dessa forma, sempre que o Prompt de Comando for iniciado, o programa especificado nas opções será executado com privilégios elevados.
+Para explorar essa vulnerabilidade, um invasor pode adicionar uma entrada nas Opções de Execução de Arquivos de Imagem para um executável privilegiado, como o Prompt de Comando (cmd.exe). Dessa forma, toda vez que o Prompt de Comando for iniciado, o programa especificado nas opções será executado com privilégios elevados.
 
-#### Etapas para explorar essa vulnerabilidade:
+#### Execução de Binários Autorun
 
-1. Abra o Editor do Registro do Windows.
-2. Navegue até a chave `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options`.
-3. Crie uma nova subchave com o nome do executável que você deseja substituir (por exemplo, `cmd.exe`).
-4. Dentro dessa subchave, crie um novo valor de cadeia chamado `Debugger` e defina o valor como o caminho para o programa que você deseja executar com privilégios elevados.
-5. Reinicie o computador.
+Uma técnica comum de escalonamento de privilégios é usar as Opções de Execução de Arquivos de Imagem para executar um binário malicioso sempre que um programa privilegiado for iniciado. Isso pode ser feito adicionando uma entrada nas Opções de Execução de Arquivos de Imagem para o executável privilegiado e especificando o binário malicioso como o programa a ser executado.
 
-Agora, sempre que o executável substituído for iniciado, o programa especificado nas Opções de Execução de Arquivos de Imagem será executado com privilégios elevados.
+#### Prevenção
 
-#### Conclusão
-
-As Opções de Execução de Arquivos de Imagem podem ser uma vulnerabilidade de segurança se não forem configuradas corretamente. É importante garantir que apenas programas confiáveis sejam adicionados como substitutos e que as permissões adequadas sejam aplicadas ao Registro do Windows para evitar abusos.
+Para mitigar esse tipo de ataque, é recomendado restringir as permissões de gravação nas chaves de registro relacionadas às Opções de Execução de Arquivos de Imagem. Além disso, é importante monitorar as alterações nessas chaves de registro em busca de atividades suspeitas.
 ```
 HKLM\Software\Microsoft\Windows NT\CurrentVersion\Image File Execution Options
 HKLM\Software\Microsoft\Wow6432Node\Windows NT\CurrentVersion\Image File Execution Options
@@ -347,7 +341,7 @@ Encontre mais Autoruns como registros em [https://www.microsoftpressstore.com/ar
 * [https://attack.mitre.org/techniques/T1547/001/](https://attack.mitre.org/techniques/T1547/001/)
 * [https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2](https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2)
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
 Se você está interessado em **carreira de hacking** e hackear o inquebrável - **estamos contratando!** (_fluência em polonês escrita e falada é necessária_).
 

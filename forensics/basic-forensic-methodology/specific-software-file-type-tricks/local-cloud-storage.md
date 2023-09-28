@@ -12,7 +12,7 @@
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** com as ferramentas comunitárias mais avançadas do mundo.\
@@ -74,7 +74,7 @@ No entanto, as principais informações são:
 Além dessas informações, para descriptografar os bancos de dados, você ainda precisa de:
 
 * A **chave DPAPI criptografada**: Você pode encontrá-la no registro dentro de `NTUSER.DAT\Software\Dropbox\ks\client` (exporte esses dados como binário)
-* Os hives **`SYSTEM`** e **`SECURITY`**
+* As colmeias **`SYSTEM`** e **`SECURITY`**
 * As **chaves mestras DPAPI**: Que podem ser encontradas em `\Users\<nome de usuário>\AppData\Roaming\Microsoft\Protect`
 * O **nome de usuário** e **senha** do usuário do Windows
 
@@ -111,7 +111,7 @@ Outras tabelas dentro desse banco de dados contêm informações mais interessan
 * **deleted\_fields**: Arquivos excluídos do Dropbox
 * **date\_added**
 
-<figure><img src="../../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para criar e automatizar facilmente fluxos de trabalho com as ferramentas comunitárias mais avançadas do mundo.\

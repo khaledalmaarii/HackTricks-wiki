@@ -1,6 +1,6 @@
 # Kerberoast
 
-<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e automatizar facilmente fluxos de trabalho com as ferramentas comunitárias mais avançadas do mundo.\
@@ -14,7 +14,7 @@ Acesse hoje:
 
 * Você trabalha em uma **empresa de segurança cibernética**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
+* Obtenha o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe suas técnicas de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
@@ -25,7 +25,7 @@ Acesse hoje:
 O objetivo do **Kerberoasting** é coletar **tickets TGS para serviços que são executados em nome de contas de usuário** no AD, não em contas de computador. Assim, **parte** desses tickets TGS são **criptografados** com **chaves** derivadas das senhas dos usuários. Como consequência, suas credenciais podem ser **quebradas offline**.\
 Você pode saber que uma **conta de usuário** está sendo usada como um **serviço** porque a propriedade **"ServicePrincipalName"** não é nula.
 
-Portanto, para realizar o Kerberoasting, apenas uma conta de domínio que possa solicitar TGSs é necessária, o que pode ser qualquer pessoa, pois não são necessários privilégios especiais.
+Portanto, para realizar o Kerberoasting, apenas uma conta de domínio que possa solicitar TGSs é necessária, o que pode ser qualquer pessoa, já que não são necessários privilégios especiais.
 
 **Você precisa de credenciais válidas dentro do domínio.**
 
@@ -33,7 +33,7 @@ Portanto, para realizar o Kerberoasting, apenas uma conta de domínio que possa 
 
 {% hint style="warning" %}
 As ferramentas de **Kerberoasting** normalmente solicitam **`criptografia RC4`** ao realizar o ataque e iniciar solicitações TGS-REQ. Isso ocorre porque o RC4 é [**mais fraco**](https://www.stigviewer.com/stig/windows\_10/2017-04-28/finding/V-63795) e mais fácil de quebrar offline usando ferramentas como o Hashcat do que outros algoritmos de criptografia, como AES-128 e AES-256.\
-Hashes RC4 (tipo 23) começam com **`$krb5tgs$23$*`** enquanto os AES-256 (tipo 18) começam com **`$krb5tgs$18$*`**.
+Hashes RC4 (tipo 23) começam com **`$krb5tgs$23$*`** enquanto os de AES-256 (tipo 18) começam com **`$krb5tgs$18$*`**.
 {% endhint %}
 
 #### **Linux**
@@ -72,7 +72,7 @@ Passos:
 3. Extraia o TGS da memória do sistema usando ferramentas como Mimikatz ou ProcDump.
 4. Analise o TGS extraído para obter informações sensíveis, como hashes de senha.
 
-Essa técnica é eficaz porque o TGS contém informações criptografadas que podem ser usadas para realizar ataques de força bruta offline e obter as senhas dos usuários. Portanto, é importante proteger a memória do sistema contra acesso não autorizado e implementar medidas de segurança adicionais, como a autenticação multifator, para mitigar esse tipo de ataque.
+Essa técnica é eficaz porque o TGS contém informações criptografadas que podem ser usadas para realizar ataques de força bruta offline e obter as senhas reais dos usuários. Portanto, é importante proteger a memória do sistema contra acesso não autorizado e implementar medidas de segurança adequadas para mitigar esse tipo de ataque.
 ```powershell
 #Get TGS in memory from a single user
 Add-Type -AssemblyName System.IdentityModel
@@ -112,7 +112,7 @@ Invoke-Kerberoast -OutputFormat hashcat | % { $_.Hash } | Out-File -Encoding ASC
 Quando um TGS é solicitado, o evento do Windows `4769 - Um ticket de serviço Kerberos foi solicitado` é gerado.
 {% endhint %}
 
-<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** com facilidade, utilizando as ferramentas comunitárias mais avançadas do mundo.\
@@ -170,7 +170,7 @@ Get-WinEvent -FilterHashtable @{Logname='Security';ID=4769} -MaxEvents 1000 | ?{
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** com facilidade, utilizando as ferramentas comunitárias mais avançadas do mundo.\

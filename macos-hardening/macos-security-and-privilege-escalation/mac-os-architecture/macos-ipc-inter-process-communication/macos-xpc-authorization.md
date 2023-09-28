@@ -47,7 +47,7 @@ Para obter mais informações sobre como configurar corretamente essa verificaç
 
 No entanto, há alguma **autorização ocorrendo quando um método do HelperTool é chamado**.
 
-A função **`applicationDidFinishLaunching`** do arquivo `App/AppDelegate.m` criará uma referência de autorização vazia após o aplicativo ser iniciado. Isso deve funcionar sempre.\
+A função **`applicationDidFinishLaunching`** do arquivo `App/AppDelegate.m` criará uma referência de autorização vazia após o aplicativo ser iniciado. Isso deve sempre funcionar.\
 Em seguida, ele tentará **adicionar alguns direitos** a essa referência de autorização chamando `setupAuthorizationRights`:
 ```objectivec
 - (void)applicationDidFinishLaunching:(NSNotification *)note
@@ -286,7 +286,7 @@ authenticate-session-owner, authenticate-session-owner-or-admin, authenticate-se
 
 Se você encontrar a função: **`[HelperTool checkAuthorization:command:]`**, provavelmente o processo está usando o esquema mencionado anteriormente para autorização:
 
-<figure><img src="../../../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Assim, se essa função estiver chamando funções como `AuthorizationCreateFromExternalForm`, `authorizationRightForCommand`, `AuthorizationCopyRights`, `AuhtorizationFree`, está usando o [**EvenBetterAuthorizationSample**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L101-L154).
 
@@ -298,7 +298,7 @@ Em seguida, você precisa encontrar o esquema de protocolo para poder estabelece
 
 A função **`shouldAcceptNewConnection`** indica o protocolo sendo exportado:
 
-<figure><img src="../../../../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 Neste caso, temos o mesmo que no EvenBetterAuthorizationSample, [**verifique esta linha**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L94).
 
@@ -320,7 +320,7 @@ Por último, precisamos saber o **nome do Mach Service exposto** para estabelece
 
 * No **`[HelperTool init]`**, onde você pode ver o Mach Service sendo usado:
 
-<figure><img src="../../../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
 
 * No plist do launchd:
 ```xml

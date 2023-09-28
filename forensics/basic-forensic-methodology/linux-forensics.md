@@ -1,9 +1,9 @@
 # Forense Linux
 
-<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** com as ferramentas comunitárias mais avançadas do mundo.\
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** com facilidade, utilizando as ferramentas comunitárias mais avançadas do mundo.\
 Acesse hoje mesmo:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -12,8 +12,8 @@ Acesse hoje mesmo:
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Você trabalha em uma **empresa de segurança cibernética**? Gostaria de ver sua **empresa anunciada no HackTricks**? Ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Você trabalha em uma **empresa de segurança cibernética**? Gostaria de ver sua **empresa anunciada no HackTricks**? Ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe suas técnicas de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
@@ -85,7 +85,7 @@ LiME também pode ser usado para **enviar o dump via rede** em vez de armazená-
 Antes de tudo, você precisará **desligar o sistema**. Isso nem sempre é uma opção, pois às vezes o sistema será um servidor de produção que a empresa não pode se dar ao luxo de desligar.\
 Existem **2 maneiras** de desligar o sistema, um **desligamento normal** e um **desligamento abrupto**. O primeiro permitirá que os **processos terminem normalmente** e que o **sistema de arquivos** seja **sincronizado**, mas também permitirá que o possível **malware** **destrua evidências**. A abordagem de "desligamento abrupto" pode causar **alguma perda de informações** (não muitas informações serão perdidas, pois já fizemos uma imagem da memória) e o **malware não terá oportunidade** de fazer nada a respeito. Portanto, se você **suspeitar** que possa haver um **malware**, execute o **comando `sync`** no sistema e desligue abruptamente.
 
-#### Fazendo uma imagem do disco
+#### Tirando uma imagem do disco
 
 É importante observar que, **antes de conectar seu computador a qualquer coisa relacionada ao caso**, você precisa ter certeza de que ele será **montado como somente leitura** para evitar modificar qualquer informação.
 ```bash
@@ -151,7 +151,7 @@ r/r 16: secret.txt
 icat -i raw -f ext4 disk.img 16
 ThisisTheMasterSecret
 ```
-<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e automatizar facilmente fluxos de trabalho com as ferramentas comunitárias mais avançadas do mundo.\
@@ -206,11 +206,11 @@ find /sbin/ -exec dpkg -S {} \; | grep "no path found"
 #RedHat
 find /sbin/ –exec rpm -qf {} \; | grep "is not"
 ```
-<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente, utilizando as ferramentas comunitárias mais avançadas do mundo.\
-Acesse hoje mesmo:
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e automatizar facilmente fluxos de trabalho com as ferramentas comunitárias mais avançadas do mundo.\
+Obtenha acesso hoje:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -253,7 +253,7 @@ Em sistemas Linux, os módulos do kernel são comumente usados como componentes 
 
 ### Outros Locais de Inicialização Automática
 
-Existem vários arquivos de configuração que o Linux usa para iniciar automaticamente um executável quando um usuário faz login no sistema, que podem conter vestígios de malwares.
+Existem vários arquivos de configuração que o Linux usa para iniciar automaticamente um executável quando um usuário faz login no sistema, e esses arquivos podem conter vestígios de malwares.
 
 * _**/etc/profile.d/\***_, _**/etc/profile**_, _**/etc/bash.bashrc**_ são executados quando qualquer conta de usuário faz login.
 * _**∼/.bashrc**_, _**∼/.bash\_profile**_, _**\~/.profile**_, _**∼/.config/autostart**_ são executados quando o usuário específico faz login.
@@ -261,27 +261,27 @@ Existem vários arquivos de configuração que o Linux usa para iniciar automati
 
 ## Examinar Logs
 
-Procure em todos os arquivos de log disponíveis no sistema comprometido por vestígios de execução maliciosa e atividades associadas, como a criação de um novo serviço.
+Verifique todos os arquivos de log disponíveis no sistema comprometido em busca de vestígios de execução maliciosa e atividades associadas, como a criação de um novo serviço.
 
 ### Logs Puros
 
-Eventos de **login** registrados nos logs do sistema e de segurança, incluindo logins via rede, podem revelar que um **malware** ou um **intruso ganhou acesso** a um sistema comprometido por meio de uma determinada conta em um horário específico. Outros eventos em torno do momento de uma infecção por malware podem ser capturados nos logs do sistema, incluindo a **criação** de um **novo** **serviço** ou novas contas em torno do momento de um incidente.\
+Eventos de **login** registrados nos logs do sistema e de segurança, incluindo logins via rede, podem revelar que um **malware** ou um **intruso ganhou acesso** a um sistema comprometido por meio de uma determinada conta em um horário específico. Outros eventos em torno do momento de uma infecção por malware podem ser capturados nos logs do sistema, incluindo a **criação** de um **novo** **serviço** ou novas contas próximas ao momento de um incidente.\
 Logins do sistema interessantes:
 
 * **/var/log/syslog** (debian) ou **/var/log/messages** (Redhat)
 * Mostra mensagens gerais e informações sobre o sistema. É um registro de dados de todas as atividades em todo o sistema global.
 * **/var/log/auth.log** (debian) ou **/var/log/secure** (Redhat)
-* Mantém logs de autenticação para logins bem-sucedidos ou falhados e processos de autenticação. O armazenamento depende do tipo de sistema.
+* Mantém logs de autenticação para logins bem-sucedidos ou falhos e processos de autenticação. O armazenamento depende do tipo de sistema.
 * `cat /var/log/auth.log | grep -iE "session opened for|accepted password|new session|not in sudoers"`
 * **/var/log/boot.log**: mensagens de inicialização e informações de inicialização.
 * **/var/log/maillog** ou **var/log/mail.log**: é para logs do servidor de e-mail, útil para informações sobre serviços relacionados a postfix, smtpd ou e-mail em execução no servidor.
 * **/var/log/kern.log**: mantém logs e informações de aviso do Kernel. Logs de atividade do Kernel (por exemplo, dmesg, kern.log, klog) podem mostrar que um determinado serviço travou repetidamente, indicando potencialmente que uma versão trojanizada instável foi instalada.
 * **/var/log/dmesg**: um repositório para mensagens do driver do dispositivo. Use **dmesg** para ver as mensagens neste arquivo.
-* **/var/log/faillog**: registra informações sobre logins falhados. Portanto, útil para examinar possíveis violações de segurança, como invasões de credenciais de login e ataques de força bruta.
-* **/var/log/cron**: mantém um registro de mensagens relacionadas ao Crond (trabalhos cron). Como quando o daemon cron iniciou um trabalho.
+* **/var/log/faillog**: registra informações sobre logins falhos. Portanto, útil para examinar possíveis violações de segurança, como invasões de credenciais de login e ataques de força bruta.
+* **/var/log/cron**: mantém um registro de mensagens relacionadas ao Crond (trabalhos cron). Por exemplo, quando o daemon cron iniciou um trabalho.
 * **/var/log/daemon.log**: acompanha os serviços em execução em segundo plano, mas não os representa graficamente.
-* **/var/log/btmp**: registra todas as tentativas de login falhadas.
-* **/var/log/httpd/**: um diretório que contém os arquivos error\_log e access\_log do daemon Apache httpd. Todos os erros encontrados pelo httpd são mantidos no arquivo **error\_log**. Pense em problemas de memória e outros erros relacionados ao sistema. **access\_log** registra todas as solicitações recebidas via HTTP.
+* **/var/log/btmp**: registra todas as tentativas de login falhas.
+* **/var/log/httpd/**: um diretório que contém os arquivos error\_log e access\_log do daemon Apache httpd. Todos os erros encontrados pelo httpd são registrados no arquivo **error\_log**. Pense em problemas de memória e outros erros relacionados ao sistema. **access\_log** registra todas as solicitações recebidas via HTTP.
 * **/var/log/mysqld.log** ou **/var/log/mysql.log**: arquivo de log do MySQL que registra todas as mensagens de depuração, falhas e sucessos, incluindo o início, parada e reinício do daemon mysqld do MySQL. O sistema decide o diretório. Sistemas baseados em RedHat, CentOS, Fedora e outros sistemas baseados em RedHat usam /var/log/mariadb/mariadb.log. No entanto, o Debian/Ubuntu usa o diretório /var/log/mysql/error.log.
 * **/var/log/xferlog**: mantém sessões de transferência de arquivos FTP. Inclui informações como nomes de arquivos e transferências FTP iniciadas pelo usuário.
 * **/var/log/\***: você sempre deve verificar logs inesperados neste diretório
@@ -340,7 +340,7 @@ usbrip ids search --pid 0002 --vid 0e0f #Search for pid AND vid
 ```
 Mais exemplos e informações estão disponíveis no GitHub: [https://github.com/snovvcrash/usbrip](https://github.com/snovvcrash/usbrip)
 
-<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e automatizar facilmente fluxos de trabalho com as ferramentas comunitárias mais avançadas do mundo.\
@@ -357,7 +357,7 @@ Por fim, procure por contas sem senhas ou com senhas facilmente adivinháveis.
 ## Examinar o Sistema de Arquivos
 
 As estruturas de dados do sistema de arquivos podem fornecer quantidades substanciais de **informações** relacionadas a um incidente de **malware**, incluindo o **momento** dos eventos e o **conteúdo** real do **malware**.\
-O **malware** está sendo cada vez mais projetado para **dificultar a análise do sistema de arquivos**. Alguns malwares alteram os carimbos de data e hora em arquivos maliciosos para torná-los mais difíceis de serem encontrados com a análise de linha do tempo. Outros códigos maliciosos são projetados para armazenar apenas determinadas informações na memória, a fim de minimizar a quantidade de dados armazenados no sistema de arquivos.\
+O **malware** está sendo cada vez mais projetado para **dificultar a análise do sistema de arquivos**. Alguns malwares alteram os carimbos de data e hora em arquivos maliciosos para torná-los mais difíceis de serem encontrados com análise de linha do tempo. Outros códigos maliciosos são projetados para armazenar apenas determinadas informações na memória, a fim de minimizar a quantidade de dados armazenados no sistema de arquivos.\
 Para lidar com essas técnicas antiforenses, é necessário prestar **atenção cuidadosa à análise de linha do tempo** dos carimbos de data e hora do sistema de arquivos e aos arquivos armazenados em locais comuns onde o malware pode ser encontrado.
 
 * Usando o **autopsy**, você pode ver a linha do tempo dos eventos que podem ser úteis para descobrir atividades suspeitas. Você também pode usar o recurso `mactime` do **Sleuth Kit** diretamente.
@@ -367,8 +367,8 @@ Para lidar com essas técnicas antiforenses, é necessário prestar **atenção 
 * Cópias setuid de /bin/bash no sistema `find / -user root -perm -04000 –print`
 * Analise os carimbos de data e hora dos **inodes excluídos para um grande número de arquivos excluídos ao mesmo tempo**, o que pode indicar atividade maliciosa, como a instalação de um rootkit ou serviço trojanizado.
 * Como os inodes são alocados com base no próximo disponível, **arquivos maliciosos colocados no sistema aproximadamente ao mesmo tempo podem receber inodes consecutivos**. Portanto, depois de localizar um componente de malware, pode ser produtivo inspecionar os inodes vizinhos.
-* Verifique também diretórios como _/bin_ ou _/sbin_, pois a **data de modificação e/ou alteração** de arquivos novos ou modificados pode ser interessante.
-* É interessante ver os arquivos e pastas de um diretório **ordenados por data de criação** em vez de alfabeticamente para ver quais arquivos ou pastas são mais recentes (geralmente os últimos).
+* Verifique também diretórios como _/bin_ ou _/sbin_, pois a **hora de modificação e/ou alteração** de novos arquivos ou arquivos modificados pode ser interessante.
+* É interessante ver os arquivos e pastas de um diretório **ordenados por data de criação** em vez de ordem alfabética para ver quais arquivos ou pastas são mais recentes (os últimos geralmente).
 
 Você pode verificar os arquivos mais recentes de uma pasta usando `ls -laR --sort=time /bin`\
 Você pode verificar os inodes dos arquivos dentro de uma pasta usando `ls -lai /bin |sort -n`
@@ -391,13 +391,13 @@ Existem várias maneiras de encontrar arquivos modificados em um sistema Linux. 
 
 1. Comparação de hashes: Calcule os hashes dos arquivos em um momento anterior e compare-os com os hashes atuais. Se houver diferenças nos hashes, isso indica que o arquivo foi modificado.
 
-2. Verificação de timestamps: Verifique os timestamps dos arquivos para identificar aqueles que foram modificados recentemente. Os timestamps incluem a data e hora da última modificação, acesso e alteração de metadados.
+2. Verificação de timestamps: Verifique os timestamps dos arquivos para identificar aqueles que foram modificados recentemente. Os timestamps mais comumente usados são o timestamp de acesso (atime), o timestamp de modificação (mtime) e o timestamp de alteração (ctime).
 
-3. Análise de logs: Analise os logs do sistema em busca de atividades suspeitas. Os logs podem fornecer informações sobre quais arquivos foram acessados ou modificados.
+3. Análise de logs: Analise os logs do sistema em busca de atividades suspeitas. Os logs podem conter informações sobre arquivos modificados ou acessados recentemente.
 
-4. Verificação de assinaturas digitais: Verifique as assinaturas digitais dos arquivos para garantir que não tenham sido alterados. As assinaturas digitais são usadas para verificar a integridade e autenticidade dos arquivos.
+4. Monitoramento de diretórios: Configure um monitoramento em tempo real de diretórios específicos para detectar qualquer modificação. Isso pode ser feito usando ferramentas como o inotify ou o auditd.
 
-Ao usar essas técnicas, é importante lembrar que os invasores podem tentar ocultar suas atividades, modificando os logs ou os timestamps dos arquivos. Portanto, é necessário realizar uma análise cuidadosa e abrangente para identificar qualquer conteúdo modificado.
+Ao encontrar arquivos modificados, é importante fazer uma análise mais aprofundada para determinar a natureza das modificações e se elas representam uma ameaça à segurança do sistema.
 ```bash
 git diff --no-index --diff-filter=M _openwrt1.extracted/squashfs-root/ _openwrt2.extracted/squashfs-root/ | grep -E "^\+" | grep -v "Installed-Time"
 ```
@@ -452,10 +452,10 @@ Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empre
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** com facilidade, alimentados pelas ferramentas comunitárias mais avançadas do mundo.\
-Obtenha acesso hoje:
+Acesse hoje:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
