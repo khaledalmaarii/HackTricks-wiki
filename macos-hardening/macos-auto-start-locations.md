@@ -92,8 +92,8 @@ launchctl list
 ```
 ### Arquivos de inicialização do shell
 
-Descrição: [https://theevilbit.github.io/beyond/beyond\_0001/](https://theevilbit.github.io/beyond/beyond\_0001/)\
-Descrição (xterm): [https://theevilbit.github.io/beyond/beyond\_0018/](https://theevilbit.github.io/beyond/beyond\_0018/)
+Writeup: [https://theevilbit.github.io/beyond/beyond\_0001/](https://theevilbit.github.io/beyond/beyond\_0001/)\
+Writeup (xterm): [https://theevilbit.github.io/beyond/beyond\_0018/](https://theevilbit.github.io/beyond/beyond\_0018/)
 
 * Útil para contornar o sandbox: [✅](https://emojipedia.org/check-mark-button)
 
@@ -132,7 +132,7 @@ echo "touch /tmp/hacktricks" >> ~/.zshrc
 Configurar a exploração indicada e fazer logout e login ou até mesmo reiniciar não funcionou para mim para executar o aplicativo. (O aplicativo não estava sendo executado, talvez precise estar em execução quando essas ações forem realizadas)
 {% endhint %}
 
-**Descrição**: [https://theevilbit.github.io/beyond/beyond\_0021/](https://theevilbit.github.io/beyond/beyond\_0021/)
+**Writeup**: [https://theevilbit.github.io/beyond/beyond\_0021/](https://theevilbit.github.io/beyond/beyond\_0021/)
 
 * Útil para contornar o sandbox: [✅](https://emojipedia.org/check-mark-button)
 
@@ -145,7 +145,7 @@ Configurar a exploração indicada e fazer logout e login ou até mesmo reinicia
 
 Todas as aplicações a serem reabertas estão dentro do plist `~/Library/Preferences/ByHost/com.apple.loginwindow.<UUID>.plist`
 
-Portanto, para fazer com que as aplicações reabertas executem o seu próprio aplicativo, você só precisa **adicionar o seu aplicativo à lista**.
+Portanto, para fazer com que as aplicações reabertas executem a sua própria, você só precisa **adicionar o seu aplicativo à lista**.
 
 O UUID pode ser encontrado listando esse diretório ou com `ioreg -rd1 -c IOPlatformExpertDevice | awk -F'"' '/IOPlatformUUID/{print $4}'`
 
@@ -400,7 +400,7 @@ open /Applications/iTerm.app/Contents/MacOS/iTerm2
 
 Artigo: [https://theevilbit.github.io/beyond/beyond\_0007/](https://theevilbit.github.io/beyond/beyond\_0007/)
 
-* Útil para contornar o sandbox: [✅](https://emojipedia.org/check-mark-button)
+* Útil para contornar a sandbox: [✅](https://emojipedia.org/check-mark-button)
 * Mas o xbar deve estar instalado
 
 #### Localização
@@ -412,7 +412,7 @@ Artigo: [https://theevilbit.github.io/beyond/beyond\_0007/](https://theevilbit.g
 
 **Artigo**: [https://theevilbit.github.io/beyond/beyond\_0008/](https://theevilbit.github.io/beyond/beyond\_0008/)
 
-Útil para contornar o sandbox: [✅](https://emojipedia.org/check-mark-button)
+Útil para contornar a sandbox: [✅](https://emojipedia.org/check-mark-button)
 
 #### Localização
 
@@ -421,7 +421,7 @@ Artigo: [https://theevilbit.github.io/beyond/beyond\_0007/](https://theevilbit.g
 
 #### Descrição
 
-[**Hammerspoon**](https://github.com/Hammerspoon/hammerspoon) é uma ferramenta de automação que permite a **scripting do macOS através da linguagem de script LUA**. Podemos até incorporar código completo do AppleScript, bem como executar scripts de shell.
+[**Hammerspoon**](https://github.com/Hammerspoon/hammerspoon) é uma ferramenta de automação que permite a **scripting do macOS através da linguagem de script LUA**. Podemos até incorporar código AppleScript completo, bem como executar scripts de shell.
 
 O aplicativo procura por um único arquivo, `~/.hammerspoon/init.lua`, e quando iniciado, o script será executado.
 ```bash
@@ -625,7 +625,7 @@ app.doShellScript("cp -R ~/Desktop /tmp/asd123");
 ```
 {% endcode %}
 
-Compile-o com: `osacompile -l JavaScript -o folder.scpt source.js`
+Compile-o com: `osacompile -l JavaScript -o pasta.scpt source.js`
 
 Em seguida, execute o seguinte script para habilitar as Ações de Pasta e anexar o script compilado anteriormente à pasta **`/users/username/Desktop`**:
 ```javascript
@@ -636,7 +636,7 @@ var fa = se.FolderAction({name: "Desktop", path: "/Users/username/Desktop"});
 se.folderActions.push(fa);
 fa.scripts.push(myScript);
 ```
-Execute o script com: `osascript -l JavaScript /Users/carlospolop/attach.scpt`
+Execute o script com: `osascript -l JavaScript /Users/username/attach.scpt`
 
 
 
@@ -1217,17 +1217,13 @@ Os Startup Items são aplicativos ou scripts que são configurados para iniciar 
 
 ## 5. Cron Jobs
 
-Os Cron Jobs são tarefas agendadas que são executadas em intervalos regulares. Eles são configurados usando o utilitário `cron` e podem ser usados para iniciar aplicativos ou scripts em horários específicos. Os Cron Jobs são armazenados no arquivo `/etc/crontab` e nos arquivos no diretório `/etc/cron.d`.
+Os Cron Jobs são tarefas agendadas que são executadas em intervalos regulares. Eles são configurados usando o utilitário `cron` e podem ser usados para iniciar aplicativos ou scripts em horários específicos. Os Cron Jobs são armazenados no arquivo `/etc/crontab` e nos arquivos no diretório `/usr/lib/cron/tabs`.
 
 ## 6. LaunchAgents e LaunchDaemons de Terceiros
 
 Além das localizações mencionadas acima, os aplicativos de terceiros também podem instalar seus próprios LaunchAgents e LaunchDaemons. Esses arquivos podem ser armazenados em diferentes diretórios, dependendo do aplicativo.
 
-## Verificando e Removendo Inicializações Automáticas Indesejadas
-
-Para verificar as inicializações automáticas existentes no macOS, você pode usar o utilitário `launchctl`. Para remover uma inicialização automática indesejada, você pode usar o comando `launchctl remove` seguido pelo identificador da inicialização automática.
-
-É importante verificar regularmente as inicializações automáticas do macOS para garantir que apenas aplicativos legítimos estejam sendo executados e para evitar possíveis pontos de entrada para ataques maliciosos.
+É importante revisar regularmente essas localizações de inicialização automática e remover qualquer aplicativo ou script indesejado ou desconhecido. Isso ajudará a garantir a segurança do sistema e evitar que aplicativos maliciosos sejam executados automaticamente.
 
 {% endtab %}
 ```bash
@@ -1261,7 +1257,7 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0023/](https://theevilbit.
 
 A Apple introduziu um mecanismo de registro chamado **emond**. Parece que nunca foi totalmente desenvolvido e o desenvolvimento pode ter sido **abandonado** pela Apple em favor de outros mecanismos, mas ainda está **disponível**.
 
-Este serviço pouco conhecido pode **não ser muito útil para um administrador de Mac**, mas para um ator de ameaça, uma razão muito boa seria usá-lo como um **mecanismo de persistência que provavelmente a maioria dos administradores do macOS não conheceria**. Detectar o uso malicioso do emond não deve ser difícil, pois o System LaunchDaemon para o serviço procura scripts para serem executados em apenas um local:
+Este serviço pouco conhecido pode **não ser muito útil para um administrador de Mac**, mas para um ator de ameaça, uma razão muito boa seria usá-lo como um **mecanismo de persistência que provavelmente a maioria dos administradores do macOS não saberia** procurar. Detectar o uso malicioso do emond não deve ser difícil, pois o System LaunchDaemon para o serviço procura scripts para serem executados apenas em um único local:
 ```bash
 ls -l /private/var/db/emondClients
 ```
@@ -1315,7 +1311,7 @@ Descrição: [https://theevilbit.github.io/beyond/beyond\_0029/](https://theevil
 
 #### Descrição e exploração
 
-Aparentemente, o `plist` de `/System/Library/LaunchAgents/com.apple.amstoold.plist` estava usando esse binário enquanto expunha um serviço XPC... o problema é que o binário não existia, então você poderia colocar algo lá e quando o serviço XPC fosse chamado, seu binário seria executado.
+Aparentemente, o `plist` de `/System/Library/LaunchAgents/com.apple.amstoold.plist` estava usando esse binário enquanto expunha um serviço XPC... o problema é que o binário não existia, então você poderia colocar algo lá e quando o serviço XPC fosse chamado, seu binário seria chamado.
 
 Não consigo mais encontrar isso no meu macOS.
 
