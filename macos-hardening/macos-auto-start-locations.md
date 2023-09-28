@@ -17,7 +17,7 @@ Cette section est largement basée sur la série de blogs [**Au-delà des bons v
 ## Contournement de la sandbox
 
 {% hint style="success" %}
-Ici, vous pouvez trouver des emplacements de démarrage utiles pour **contourner la sandbox** qui vous permettent d'exécuter simplement quelque chose en **l'écrivant dans un fichier** et en **attendant** une **action** très **courante**, une **durée déterminée** ou une **action que vous pouvez généralement effectuer** depuis l'intérieur d'une sandbox sans avoir besoin de privilèges root.
+Ici, vous pouvez trouver des emplacements de démarrage utiles pour **contourner la sandbox** qui vous permettent simplement d'exécuter quelque chose en **l'écrivant dans un fichier** et en **attendant** une **action** très **courante**, une **durée déterminée** ou une **action que vous pouvez généralement effectuer** depuis l'intérieur d'une sandbox sans avoir besoin de privilèges root.
 {% endhint %}
 
 ### Launchd
@@ -39,9 +39,9 @@ Ici, vous pouvez trouver des emplacements de démarrage utiles pour **contourner
 * Déclencheur : Redémarrage
 * Nécessite les privilèges root
 * **`~/Library/LaunchAgents`**
-* Déclencheur : Reconnexion
+* Déclencheur : Connexion
 * **`~/Library/LaunchDemons`**
-* Déclencheur : Reconnexion
+* Déclencheur : Connexion
 
 #### Description et exploitation
 
@@ -225,7 +225,7 @@ Writeup: [https://posts.specterops.io/audio-unit-plug-ins-896d3434a882](https://
 
 #### Description
 
-Selon les writeups précédents, il est possible de **compiler certains plugins audio** et de les charger.
+Selon les writeups précédents, il est possible de **compiler certains plugins audio** et de les charger.&#x20;
 
 ### Plugins QuickLook
 
@@ -433,16 +433,16 @@ EOF
 
 Writeup: [https://theevilbit.github.io/beyond/beyond\_0006/](https://theevilbit.github.io/beyond/beyond\_0006/)
 
-* Utile pour contourner le sandbox: [✅](https://emojipedia.org/check-mark-button)
+* Utile pour contourner le sandbox : [✅](https://emojipedia.org/check-mark-button)
 * Mais ssh doit être activé et utilisé
 
 #### Emplacement
 
 * **`~/.ssh/rc`**
-* **Déclencheur**: Connexion via ssh
+* **Déclencheur** : Connexion via ssh
 * **`/etc/ssh/sshrc`**
 * Nécessite les droits root
-* **Déclencheur**: Connexion via ssh
+* **Déclencheur** : Connexion via ssh
 
 #### Description et Exploitation
 
@@ -450,7 +450,7 @@ Par défaut, sauf si `PermitUserRC no` est spécifié dans `/etc/ssh/sshd_config
 
 #### Description
 
-Si le programme populaire [**xbar**](https://github.com/matryer/xbar) est installé, il est possible d'écrire un script shell dans **`~/Library/Application\ Support/xbar/plugins/`** qui sera exécuté lorsque xbar est démarré:
+Si le programme populaire [**xbar**](https://github.com/matryer/xbar) est installé, il est possible d'écrire un script shell dans **`~/Library/Application\ Support/xbar/plugins/`** qui sera exécuté lorsque xbar est démarré :
 ```bash
 cat > "$HOME/Library/Application Support/xbar/plugins/a.sh" << EOF
 #!/bin/bash
@@ -636,7 +636,7 @@ var fa = se.FolderAction({name: "Desktop", path: "/Users/username/Desktop"});
 se.folderActions.push(fa);
 fa.scripts.push(myScript);
 ```
-Exécutez le script avec: `osascript -l JavaScript /Users/carlospolop/attach.scpt`
+Exécutez le script avec: `osascript -l JavaScript /Users/username/attach.scpt`
 
 
 
@@ -800,7 +800,7 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0017](https://theevilbit.g
 * `~/Library/ColorPickers`
 * Déclencheur : Utilisation du sélecteur de couleurs
 
-#### Description et Exploitation
+#### Description et Exploit
 
 **Compilez un bundle** de sélecteur de couleurs avec votre code (vous pouvez utiliser [**celui-ci par exemple**](https://github.com/viktorstrate/color-picker-plus)) et ajoutez un constructeur (comme dans la section [Économiseur d'écran](macos-auto-start-locations.md#screen-saver)) et copiez le bundle dans `~/Library/ColorPickers`.
 
@@ -821,8 +821,8 @@ Notez que le binaire chargé avec votre bibliothèque a un **sandbox très restr
 
 ### Plugins de synchronisation Finder
 
-**Article**: [https://theevilbit.github.io/beyond/beyond\_0026/](https://theevilbit.github.io/beyond/beyond\_0026/)\
-**Article**: [https://objective-see.org/blog/blog\_0x11.html](https://objective-see.org/blog/blog\_0x11.html)
+**Writeup**: [https://theevilbit.github.io/beyond/beyond\_0026/](https://theevilbit.github.io/beyond/beyond\_0026/)\
+**Writeup**: [https://objective-see.org/blog/blog\_0x11.html](https://objective-see.org/blog/blog\_0x11.html)
 
 * Utile pour contourner le sandbox : **Non, car vous devez exécuter votre propre application**
 
@@ -1189,7 +1189,7 @@ Après avoir placé un nouveau répertoire dans l'un de ces deux emplacements, *
 </dict>
 </plist>
 ```
-{% tab title="superservicename" %}
+{% tab title="superservicename" %}Le nom du super service
 ```bash
 #!/bin/sh
 . /etc/rc.common
