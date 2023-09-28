@@ -1,10 +1,10 @@
 # DCSync
 
-<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire facilement et **automatiser des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
-Obtenez l'accès aujourd'hui :
+Obtenez un accès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -72,14 +72,17 @@ To exploit this vulnerability, an attacker needs to have network access to the t
 
 The DCSync attack can be executed in the following steps:
 
-1. Enumerate the domain controllers in the target domain.
-2. Identify the domain controller to target for the attack.
-3. Use the DCSync command to request password data from the targeted domain controller.
-4. Extract the password hashes from the response.
+1. Identify the targeted domain controller: The attacker needs to identify the domain controller that they want to impersonate and extract password data from.
 
-Once the attacker has obtained the password hashes, they can use various techniques to crack the hashes and obtain the plaintext passwords. This can include using tools like John the Ripper or Hashcat.
+2. Enumerate domain users: The attacker needs to enumerate the users in the targeted domain to identify the user whose password they want to extract.
 
-It is important to note that the DCSync attack requires the attacker to have sufficient privileges to perform the attack. This can include having domain administrator privileges or being a member of the "Replicating Directory Changes All" group.
+3. Request password data: Using the DCSync technique, the attacker can request password data for a specific user from the targeted domain controller.
+
+4. Extract password hashes: Once the password data is obtained, the attacker can extract the password hashes from the response.
+
+5. Crack the password hashes: The attacker can then use password cracking tools to crack the password hashes and obtain the plaintext passwords.
+
+It is important to note that the DCSync attack requires the attacker to have sufficient privileges to perform the attack. Additionally, this technique can be detected by monitoring tools that detect abnormal behavior in the Active Directory environment.
 
 To protect against DCSync attacks, it is recommended to implement the following measures:
 
@@ -87,9 +90,9 @@ To protect against DCSync attacks, it is recommended to implement the following 
 - Regularly monitor and review Active Directory logs for any suspicious activity.
 - Implement strong password policies and enforce regular password changes.
 - Use multi-factor authentication to add an extra layer of security to user accounts.
-- Keep all systems and software up to date with the latest security patches.
+- Keep the Active Directory environment up to date with the latest security patches.
 
-By following these best practices, organizations can reduce the risk of DCSync attacks and enhance the security of their Active Directory environment.
+By following these best practices, organizations can reduce the risk of DCSync attacks and enhance the security of their Active Directory infrastructure.
 ```powershell
 secretsdump.py -just-dc <user>:<password>@<ipaddress> -outputfile dcsync_hashes
 [-just-dc-user <USERNAME>] #To get only of that user
@@ -118,10 +121,10 @@ Get-ObjectAcl -DistinguishedName "dc=dollarcorp,dc=moneycorp,dc=local" -ResolveG
 ```
 ### Atténuation
 
-* ID d'événement de sécurité 4662 (La stratégie d'audit pour l'objet doit être activée) - Une opération a été effectuée sur un objet
-* ID d'événement de sécurité 5136 (La stratégie d'audit pour l'objet doit être activée) - Un objet du service d'annuaire a été modifié
-* ID d'événement de sécurité 4670 (La stratégie d'audit pour l'objet doit être activée) - Les autorisations sur un objet ont été modifiées
-* AD ACL Scanner - Crée et compare des rapports de création d'ACL. [https://github.com/canix1/ADACLScanner](https://github.com/canix1/ADACLScanner)
+* ID d'événement de sécurité 4662 (la stratégie d'audit pour l'objet doit être activée) - Une opération a été effectuée sur un objet
+* ID d'événement de sécurité 5136 (la stratégie d'audit pour l'objet doit être activée) - Un objet du service d'annuaire a été modifié
+* ID d'événement de sécurité 4670 (la stratégie d'audit pour l'objet doit être activée) - Les autorisations sur un objet ont été modifiées
+* AD ACL Scanner - Crée et compare des rapports de création de listes de contrôle d'accès (ACL). [https://github.com/canix1/ADACLScanner](https://github.com/canix1/ADACLScanner)
 
 ## Références
 
@@ -140,10 +143,10 @@ Get-ObjectAcl -DistinguishedName "dc=dollarcorp,dc=moneycorp,dc=local" -ResolveG
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour créer et **automatiser facilement des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
-Obtenez un accès aujourd'hui :
+Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

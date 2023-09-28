@@ -12,7 +12,7 @@
 
 </details>
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
 Si vous êtes intéressé par une **carrière en piratage** et que vous voulez pirater l'impossible - **nous recrutons !** (_maîtrise du polonais écrit et parlé requise_).
 
@@ -20,9 +20,9 @@ Si vous êtes intéressé par une **carrière en piratage** et que vous voulez p
 
 ## Définition
 
-Tout d'abord, clarifions la définition. Le détournement de DLL consiste, dans le sens le plus large, à **tromper une application légitime/fiable pour qu'elle charge une DLL arbitraire**. Les termes tels que _DLL Search Order Hijacking_, _DLL Load Order Hijacking_, _DLL Spoofing_, _DLL Injection_ et _DLL Side-Loading_ sont souvent - à tort - utilisés pour dire la même chose.
+Tout d'abord, clarifions la définition. Le détournement de DLL consiste, dans le sens le plus large, à **tromper une application légitime/fiable pour qu'elle charge une DLL arbitraire**. Les termes tels que _DLL Search Order Hijacking_, _DLL Load Order Hijacking_, _DLL Spoofing_, _DLL Injection_ et _DLL Side-Loading_ sont souvent -à tort- utilisés pour dire la même chose.
 
-Le détournement de DLL peut être utilisé pour **exécuter** du code, obtenir **une persistance** et **escalader les privilèges**. Parmi ces 3 options, l'escalade de privilèges est de loin la moins probable à trouver. Cependant, comme cela fait partie de la section sur l'escalade de privilèges, je me concentrerai sur cette option. Notez également que, indépendamment de l'objectif, un détournement de DLL est effectué de la même manière.
+Le détournement de DLL peut être utilisé pour **exécuter** du code, obtenir **une persistance** et **élever les privilèges**. Parmi ces 3 options, **l'élévation de privilèges** est de loin la moins probable à trouver. Cependant, comme cela fait partie de la section sur l'élévation de privilèges, je me concentrerai sur cette option. Notez également que, indépendamment de l'objectif, un détournement de DLL est effectué de la même manière.
 
 ### Types
 
@@ -33,7 +33,7 @@ Il existe une **variété d'approches** parmi lesquelles choisir, le succès dé
 3. **Détournement de DLL fantôme** : déposer une DLL malveillante à la place d'une DLL manquante/inexistante que tente de charger une application légitime \[[4](http://www.hexacorn.com/blog/2013/12/08/beyond-good-ol-run-key-part-5/)].
 4. **Redirection de DLL** : changer l'emplacement dans lequel la DLL est recherchée, par exemple en modifiant la variable d'environnement `%PATH%`, ou les fichiers `.exe.manifest` / `.exe.local` pour inclure le dossier contenant la DLL malveillante \[[5](https://docs.microsoft.com/en-gb/windows/win32/sbscs/application-manifests), [6](https://docs.microsoft.com/en-gb/windows/win32/dlls/dynamic-link-library-redirection)].
 5. **Remplacement de DLL WinSxS** : remplacer la DLL légitime par la DLL malveillante dans le dossier WinSxS correspondant de la DLL ciblée. Souvent appelé DLL side-loading \[[7](https://www.fireeye.com/content/dam/fireeye-www/global/en/current-threats/pdfs/rpt-dll-sideloading.pdf)].
-6. **Détournement de DLL avec chemin relatif** : copier (et éventuellement renommer) l'application légitime dans un dossier accessible en écriture par l'utilisateur, à côté de la DLL malveillante. De cette manière, cela présente des similitudes avec l'exécution de proxy binaire (signé) \[[8](https://attack.mitre.org/techniques/T1218/)]. Une variation de cela est appelée de manière quelque peu oxymorique "bring your own LOLbin" \[[9](https://www.microsoft.com/security/blog/2019/09/26/bring-your-own-lolbin-multi-stage-fileless-nodersok-campaign-delivers-rare-node-js-based-malware/)], dans laquelle l'application légitime est apportée avec la DLL malveillante (plutôt que copiée depuis l'emplacement légitime sur la machine de la victime).
+6. **Détournement de DLL avec chemin relatif** : copier (et éventuellement renommer) l'application légitime dans un dossier accessible en écriture par l'utilisateur, à côté de la DLL malveillante. De cette manière, cela présente des similitudes avec l'exécution de proxy binaire (signé) \[[8](https://attack.mitre.org/techniques/T1218/)]. Une variation de cela est appelée (de manière quelque peu oxymorique) "bring your own LOLbin" \[[9](https://www.microsoft.com/security/blog/2019/09/26/bring-your-own-lolbin-multi-stage-fileless-nodersok-campaign-delivers-rare-node-js-based-malware/)], dans laquelle l'application légitime est apportée avec la DLL malveillante (plutôt que copiée depuis l'emplacement légitime sur la machine de la victime).
 
 ## Recherche de DLL manquantes
 
@@ -87,10 +87,10 @@ Il existe d'autres façons de modifier l'ordre de recherche, mais je ne vais pas
 **Prérequis** :
 
 * **Trouver un processus** qui s'exécute/va s'exécuter avec **d'autres privilèges** (mouvement horizontal/lateral) et qui **manque d'une DLL**.
-* Avoir **l'autorisation d'écriture** dans n'importe quel **dossier** où la **DLL** va être **recherchée** (probablement le répertoire de l'exécutable ou un dossier à l'intérieur du chemin système).
+* Avoir **l'autorisation d'écriture** dans n'importe quel **dossier** où la DLL va être **recherchée** (probablement le répertoire de l'exécutable ou un dossier à l'intérieur du chemin système).
 
-Oui, les prérequis sont difficiles à trouver car **par défaut, il est assez étrange de trouver un exécutable privilégié manquant d'une DLL** et il est encore **plus étrange d'avoir des autorisations d'écriture sur un dossier du chemin système** (vous ne pouvez pas par défaut). Mais, dans des environnements mal configurés, cela est possible.\
-Dans le cas où vous avez de la chance et que vous vous trouvez dans les conditions requises, vous pouvez consulter le projet [UACME](https://github.com/hfiref0x/UACME). Même si l'**objectif principal du projet est de contourner l'UAC**, vous pouvez y trouver une **preuve de concept** d'un détournement de DLL pour la version de Windows que vous pouvez utiliser (en changeant probablement le chemin du dossier où vous avez des autorisations d'écriture).
+Oui, les prérequis sont difficiles à trouver car **par défaut, il est assez étrange de trouver un exécutable privilégié qui manque d'une DLL** et c'est encore **plus étrange d'avoir l'autorisation d'écriture dans un dossier du chemin système** (vous ne pouvez pas par défaut). Mais, dans des environnements mal configurés, cela est possible.\
+Dans le cas où vous avez de la chance et que vous vous trouvez dans les conditions requises, vous pouvez consulter le projet [UACME](https://github.com/hfiref0x/UACME). Même si l'**objectif principal du projet est de contourner l'UAC**, vous pouvez y trouver une **preuve de concept** d'un détournement de DLL pour la version de Windows que vous pouvez utiliser (en changeant probablement le chemin du dossier où vous avez l'autorisation d'écriture).
 
 Notez que vous pouvez **vérifier vos autorisations dans un dossier** en utilisant :
 ```bash
@@ -227,7 +227,7 @@ break;
 return TRUE;
 }
 ```
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
 Si vous êtes intéressé par une **carrière de hacking** et souhaitez pirater l'impossible - **nous recrutons !** (_maîtrise du polonais à l'écrit et à l'oral requise_).
 
@@ -238,9 +238,9 @@ Si vous êtes intéressé par une **carrière de hacking** et souhaitez pirater 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? Ou souhaitez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de hacking en soumettant des PRs au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Partagez vos astuces de hacking en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

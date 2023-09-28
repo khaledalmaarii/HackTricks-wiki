@@ -32,7 +32,7 @@ Vous pouvez consulter leur **blog** sur [**https://blog.stmcyber.com**](https://
 
 ### [RootedCON](https://www.rootedcon.com/)
 
-<figure><img src=".gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (4) (1).png" alt=""><figcaption></figcaption></figure>
 
 [**RootedCON**](https://www.rootedcon.com) est l'événement le plus important en matière de cybersécurité en **Espagne** et l'un des plus importants en **Europe**. Avec **pour mission de promouvoir les connaissances techniques**, ce congrès est un point de rencontre bouillonnant pour les professionnels de la technologie et de la cybersécurité dans toutes les disciplines.
 
@@ -40,17 +40,17 @@ Vous pouvez consulter leur **blog** sur [**https://blog.stmcyber.com**](https://
 
 ### [Intigriti](https://www.intigriti.com)
 
-<figure><img src=".gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-**Intigriti** est la plateforme de piratage éthique et de **bug bounty n°1 en Europe**.
+**Intigriti** est la plateforme **n°1 en Europe** pour le piratage éthique et les **bug bounty**.
 
-**Astuce de bug bounty** : **inscrivez-vous** à **Intigriti**, une plateforme premium de **bug bounty créée par des pirates, pour des pirates** ! Rejoignez-nous sur [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) dès aujourd'hui et commencez à gagner des primes allant jusqu'à **100 000 $** !
+**Astuce bug bounty** : **inscrivez-vous** sur **Intigriti**, une plateforme premium de **bug bounty créée par des pirates, pour des pirates** ! Rejoignez-nous sur [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) dès aujourd'hui et commencez à gagner des primes allant jusqu'à **100 000 $** !
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
 ### [Trickest](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)
 
-<figure><img src=".gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour créer et **automatiser facilement des flux de travail** alimentés par les outils communautaires les plus avancés au monde.
@@ -82,8 +82,8 @@ Intruder ne se repose jamais. Une protection 24h/24, 7j/7 surveille vos système
 **Obtenez une récompense sans délai**\
 Les primes HackenProof sont lancées uniquement lorsque leurs clients déposent le budget de récompense. Vous recevrez la récompense après la vérification du bogue.
 
-**Acquérez de l'expérience en test de pénétration web3**\
-Les protocoles blockchain et les contrats intelligents sont le nouvel Internet ! Maîtrisez la sécurité web3 à ses débuts.
+**Acquérez de l'expérience en pentest web3**\
+Les protocoles blockchain et les contrats intelligents sont le nouvel Internet ! Maîtrisez la sécurité web3 dès ses débuts.
 
 **Devenez la légende du pirate web3**\
 Gagnez des points de réputation avec chaque bogue vérifié et conquérez le sommet du classement hebdomadaire.
@@ -96,7 +96,7 @@ Gagnez des points de réputation avec chaque bogue vérifié et conquérez le so
 
 <figure><img src=".gitbook/assets/websec (1).svg" alt=""><figcaption></figcaption></figure>
 
-[**WebSec**](https://websec.nl) est une entreprise de cybersécurité professionnelle basée à **Amsterdam** qui aide à **protéger** les entreprises **du monde entier** contre les dernières menaces en matière de cybersécurité en fournissant des services de sécurité offensive avec une approche **moderne**.
+[**WebSec**](https://websec.nl) est une entreprise de cybersécurité professionnelle basée à **Amsterdam** qui aide à **protéger** les entreprises **du monde entier** contre les dernières menaces en matière de cybersécurité en fournissant des services de **sécurité offensive** avec une approche **moderne**.
 
 WebSec est une **entreprise de sécurité tout-en-un**, ce qui signifie qu'ils font tout ; tests de pénétration, audits de sécurité, formations à la sensibilisation, campagnes de phishing, examen de code, développement d'exploits, externalisation d'experts en sécurité et bien plus encore.
 
@@ -123,7 +123,7 @@ En plus de ce qui précède, WebSec est également un **supporter engagé de Hac
 {% hint style="danger" %}
 Ce livre, 'HackTricks', est destiné à des fins éducatives et informatives uniquement. Le contenu de ce livre est fourni tel quel, et les auteurs et éditeurs ne font aucune déclaration ni garantie d'aucune sorte, expresse ou implicite, quant à l'exhaustivité, l'exactitude, la fiabilité, la pertinence ou la disponibilité des informations, produits, services ou graphiques connexes contenus dans ce livre. Toute confiance que vous accordez à de telles informations est donc strictement à vos propres risques.
 
-Les auteurs et éditeurs ne seront en aucun cas responsables de toute perte ou dommage, y compris, sans s'y limiter, toute perte ou dommage indirect ou consécutif, ou toute perte ou dommage quel qu'il soit découlant de la perte de données ou de bénéfices résultant de l'utilisation de ce livre.
+Les auteurs et éditeurs ne sauraient en aucun cas être tenus responsables de toute perte ou dommage, y compris, sans s'y limiter, toute perte ou dommage indirect ou consécutif, ou toute perte ou dommage découlant de la perte de données ou de bénéfices résultant de l'utilisation de ce livre.
 
 De plus, les techniques et astuces décrites dans ce livre sont fournies à des fins éducatives et informatives uniquement et ne doivent pas être utilisées à des fins illégales ou malveillantes. Les auteurs et éditeurs ne cautionnent ni ne soutiennent aucune activité illégale ou contraire à l'éthique, et toute utilisation des informations contenues dans ce livre se fait aux risques et à la discrétion de l'utilisateur.
 

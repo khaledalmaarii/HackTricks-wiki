@@ -1,6 +1,6 @@
 # Commandes utiles Linux
 
-<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et automatiser facilement des flux de travail alimentés par les outils communautaires les plus avancés au monde.\
 Accédez dès aujourd'hui :
@@ -138,7 +138,7 @@ sudo chattr -i file.txt #Remove the bit so you can delete it
 # List files inside zip
 7z l file.zip
 ```
-<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
@@ -262,12 +262,13 @@ egrep -a -o "\bISBN(?:-1[03])?:? (?=[0-9X]{10}$|(?=(?:[0-9]+[- ]){3})[- 0-9X]{13
 Nmap est un outil de scan de réseau puissant et polyvalent. Il offre de nombreuses options de recherche pour vous aider à explorer et à analyser les réseaux. Voici quelques commandes utiles pour vous aider à démarrer :
 
 - `nmap -sn <IP>` : Cette commande effectue un scan de ping pour vérifier si une adresse IP est active.
-- `nmap -p <port> <IP>` : Cette commande scanne un port spécifique sur une adresse IP donnée.
-- `nmap -F <IP>` : Cette commande effectue un scan rapide des 100 ports les plus couramment utilisés sur une adresse IP.
-- `nmap -sV <IP>` : Cette commande détecte les services et les versions des logiciels en cours d'exécution sur une adresse IP.
-- `nmap -A <IP>` : Cette commande active l'option de détection d'OS, de version de service, de script et de traceroute.
+- `nmap -sS <IP>` : Cette commande effectue un scan TCP SYN pour détecter les ports ouverts sur une adresse IP.
+- `nmap -sU <IP>` : Cette commande effectue un scan UDP pour détecter les ports ouverts sur une adresse IP.
+- `nmap -p <port> <IP>` : Cette commande effectue un scan sur un port spécifique d'une adresse IP.
+- `nmap -O <IP>` : Cette commande tente de détecter le système d'exploitation d'une adresse IP.
+- `nmap -A <IP>` : Cette commande effectue un scan complet, y compris la détection du système d'exploitation, la détection des versions de logiciels et d'autres informations détaillées.
 
-Nmap offre de nombreuses autres options et fonctionnalités avancées. Pour en savoir plus, consultez la documentation officielle de Nmap.
+Ces commandes de base vous aideront à commencer à utiliser Nmap pour explorer et analyser les réseaux. N'hésitez pas à consulter la documentation officielle de Nmap pour en savoir plus sur les options de recherche avancées.
 ```bash
 #Nmap scripts ((default or version) and smb))
 nmap --script-help "(default or version) and *smb*"
@@ -276,33 +277,33 @@ nmap --script-help "(default or version) and smb)"
 ```
 ## Bash
 
-Bash (Bourne Again SHell) est un interpréteur de commandes populaire utilisé dans les systèmes d'exploitation Linux et Unix. Il offre de nombreuses fonctionnalités utiles pour les administrateurs système et les hackers. Voici quelques commandes Bash couramment utilisées :
+Bash (Bourne Again SHell) est un interpréteur de commandes populaire utilisé dans les systèmes d'exploitation Linux et macOS. Il offre de nombreuses fonctionnalités utiles pour les administrateurs système et les utilisateurs avancés. Voici quelques commandes Bash couramment utilisées :
 
-- `ls` : liste les fichiers et les répertoires dans le répertoire courant.
-- `cd` : change le répertoire courant.
-- `pwd` : affiche le chemin du répertoire courant.
-- `mkdir` : crée un nouveau répertoire.
-- `rm` : supprime des fichiers et des répertoires.
-- `cp` : copie des fichiers et des répertoires.
-- `mv` : déplace des fichiers et des répertoires.
-- `cat` : affiche le contenu d'un fichier.
-- `grep` : recherche des motifs dans un fichier.
-- `chmod` : modifie les permissions d'un fichier ou d'un répertoire.
-- `chown` : modifie le propriétaire d'un fichier ou d'un répertoire.
-- `chgrp` : modifie le groupe d'un fichier ou d'un répertoire.
-- `ps` : affiche les processus en cours d'exécution.
-- `kill` : envoie un signal à un processus pour le terminer.
-- `top` : affiche les processus en cours d'exécution en temps réel.
-- `ssh` : se connecte à un serveur distant via SSH.
-- `scp` : copie des fichiers entre un ordinateur local et un serveur distant via SSH.
-- `wget` : télécharge des fichiers depuis Internet.
-- `curl` : effectue des requêtes HTTP et affiche les réponses.
-- `tar` : crée ou extrait des fichiers d'archive.
-- `gzip` : compresse ou décompresse des fichiers.
-- `find` : recherche des fichiers et des répertoires.
-- `history` : affiche l'historique des commandes exécutées.
+- `ls` : Affiche le contenu du répertoire actuel.
+- `cd` : Change le répertoire de travail.
+- `pwd` : Affiche le répertoire de travail actuel.
+- `mkdir` : Crée un nouveau répertoire.
+- `rm` : Supprime des fichiers ou des répertoires.
+- `cp` : Copie des fichiers et des répertoires.
+- `mv` : Déplace ou renomme des fichiers et des répertoires.
+- `cat` : Affiche le contenu d'un fichier.
+- `grep` : Recherche des motifs dans un fichier.
+- `chmod` : Modifie les permissions d'un fichier ou d'un répertoire.
+- `chown` : Modifie le propriétaire d'un fichier ou d'un répertoire.
+- `ssh` : Se connecte à un serveur distant en utilisant le protocole SSH.
+- `wget` : Télécharge des fichiers à partir d'Internet.
+- `tar` : Archive ou extrait des fichiers à partir d'une archive tar.
+- `top` : Affiche les processus en cours d'exécution et leurs statistiques.
+- `ps` : Affiche les processus en cours d'exécution.
+- `kill` : Termine un processus en cours d'exécution.
+- `ifconfig` : Affiche les informations sur les interfaces réseau.
+- `ping` : Envoie des paquets ICMP à une adresse IP pour tester la connectivité réseau.
+- `netstat` : Affiche les connexions réseau actives.
+- `iptables` : Configure le pare-feu Linux.
+- `sudo` : Exécute une commande avec les privilèges d'administration.
+- `history` : Affiche l'historique des commandes exécutées.
 
-Ces commandes Bash sont essentielles pour naviguer, gérer et automatiser des tâches dans un environnement Linux.
+Ces commandes Bash sont très utiles pour effectuer diverses tâches de gestion et de dépannage dans un environnement Linux.
 ```bash
 #All bytes inside a file (except 0x20 and 0x00)
 for j in $((for i in {0..9}{0..9} {0..9}{a..f} {a..f}{0..9} {a..f}{a..f}; do echo $i; done ) | sort | grep -v "20\|00"); do echo -n -e "\x$j" >> bytes; done
@@ -404,7 +405,7 @@ iptables -P OUTPUT ACCEPT
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser facilement des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\

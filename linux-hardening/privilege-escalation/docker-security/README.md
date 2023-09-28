@@ -12,11 +12,11 @@
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour créer et **automatiser des flux de travail** avec les outils communautaires les plus avancés au monde.\
-Accédez dès aujourd'hui :
+Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour créer et **automatiser facilement des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
+Obtenez un accès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -117,14 +117,14 @@ Il est nécessaire de stocker la clé root, la clé du dépôt ainsi que la phra
 ```bash
 tar -zcvf private_keys_backup.tar.gz ~/.docker/trust/private
 ```
-Lorsque j'ai changé d'hôte Docker, j'ai dû déplacer les clés racine et les clés de dépôt pour pouvoir opérer à partir du nouvel hôte.
+Lorsque j'ai changé d'hôte Docker, j'ai dû déplacer les clés root et les clés de dépôt pour pouvoir opérer à partir du nouvel hôte.
 
 ***
 
-<figure><img src="../../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire facilement et **automatiser des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour créer facilement et **automatiser des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
 Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -139,7 +139,7 @@ Accédez dès aujourd'hui :
 
 Les namespaces sont utiles pour isoler un projet des autres, en isolant les communications entre les processus, le réseau, les montages... C'est utile pour isoler le processus Docker des autres processus (et même du dossier /proc) afin qu'il ne puisse pas s'échapper en abusant d'autres processus.
 
-Il serait possible de "s'échapper" ou plus précisément de **créer de nouveaux namespaces** en utilisant l'exécutable **`unshare`** (qui utilise l'appel système **`unshare`**). Docker l'empêche par défaut, mais Kubernetes ne le fait pas (au moment de la rédaction de ceci).\
+Il serait possible de "s'échapper" ou plus précisément de **créer de nouveaux namespaces** en utilisant la commande **`unshare`** (qui utilise l'appel système **`unshare`**). Docker l'empêche par défaut, mais Kubernetes ne le fait pas (au moment de la rédaction de ceci).\
 Quoi qu'il en soit, cela est utile pour créer de nouveaux namespaces, mais **pas pour revenir aux namespaces par défaut de l'hôte** (à moins d'avoir accès à certains `/proc` à l'intérieur des namespaces de l'hôte, où vous pourriez utiliser **`nsenter`** pour entrer dans les namespaces de l'hôte).
 
 **CGroups**
@@ -332,13 +332,17 @@ Cette section couvre différentes meilleures pratiques de sécurité et techniqu
 
 - [Sécurité de l'orchestration Docker](docker-orchestration-security.md) : Comprenez les considérations de sécurité lors de l'utilisation d'outils d'orchestration Docker tels que Kubernetes et comment sécuriser votre environnement d'orchestration.
 
-- [Docker Logging and Monitoring](docker-logging-monitoring.md): Learn about logging and monitoring techniques to detect and respond to security incidents in your Docker environment.
+- [Docker Logging and Monitoring](docker-logging-monitoring.md): Learn about the importance of logging and monitoring in Docker security and how to implement effective logging and monitoring practices.
 
-- [Journalisation et surveillance Docker](docker-logging-monitoring.md) : Découvrez les techniques de journalisation et de surveillance pour détecter et répondre aux incidents de sécurité dans votre environnement Docker.
+- [Journalisation et surveillance Docker](docker-logging-monitoring.md) : Découvrez l'importance de la journalisation et de la surveillance dans la sécurité Docker et comment mettre en œuvre des pratiques de journalisation et de surveillance efficaces.
 
-- [Docker Compliance and Auditing](docker-compliance-auditing.md): Understand the compliance requirements for Docker environments and learn how to perform audits to ensure adherence to security standards.
+- [Docker Compliance and Auditing](docker-compliance-auditing.md): Understand the compliance requirements for Docker environments and learn how to perform audits to ensure compliance.
 
-- [Conformité et audit Docker](docker-compliance-auditing.md) : Comprenez les exigences de conformité pour les environnements Docker et apprenez comment effectuer des audits pour garantir le respect des normes de sécurité.
+- [Conformité et audit Docker](docker-compliance-auditing.md) : Comprenez les exigences de conformité pour les environnements Docker et apprenez comment effectuer des audits pour garantir la conformité.
+
+- [Docker Security Tools](docker-security-tools.md): Explore various security tools and utilities that can help you assess and enhance the security of your Docker environment.
+
+- [Outils de sécurité Docker](docker-security-tools.md) : Explorez divers outils de sécurité et utilitaires qui peuvent vous aider à évaluer et à améliorer la sécurité de votre environnement Docker.
 
 ---
 
@@ -346,9 +350,9 @@ Cette section couvre différentes meilleures pratiques de sécurité et techniqu
 
 ##### Contribution
 
-Contributions are welcome! If you have any security best practices or techniques that you would like to share, please submit a pull request.
+Contributions are welcome! If you have any security best practices, techniques, or tools related to Docker security, feel free to submit a pull request.
 
-Les contributions sont les bienvenues ! Si vous avez des meilleures pratiques de sécurité ou des techniques que vous souhaitez partager, veuillez soumettre une demande d'extraction (pull request).
+Les contributions sont les bienvenues ! Si vous avez des meilleures pratiques de sécurité, des techniques ou des outils liés à la sécurité Docker, n'hésitez pas à soumettre une demande d'extraction.
 
 ---
 
@@ -385,15 +389,15 @@ De plus, **n'utilisez pas de variables d'environnement** pour vos informations s
 
 Les volumes Docker sont meilleurs. Ils sont la méthode recommandée pour accéder à vos informations sensibles dans la documentation Docker. Vous pouvez **utiliser un volume comme système de fichiers temporaire stocké en mémoire**. Les volumes éliminent le risque de `docker inspect` et de journalisation. Cependant, **les utilisateurs root pourraient toujours voir le secret, tout comme toute personne pouvant `exec` dans le conteneur**.
 
-Encore **mieux que les volumes, utilisez les secrets Docker**.
+Encore mieux que les volumes, utilisez les secrets Docker.
 
-Si vous avez juste besoin du **secret dans votre image**, vous pouvez utiliser **BuildKit**. BuildKit réduit considérablement le temps de construction et offre d'autres fonctionnalités intéressantes, notamment **la prise en charge des secrets au moment de la construction**.
+Si vous avez juste besoin du **secret dans votre image**, vous pouvez utiliser **BuildKit**. BuildKit réduit considérablement le temps de construction et offre d'autres fonctionnalités intéressantes, notamment la prise en charge des secrets au moment de la construction.
 
 Il existe trois façons de spécifier le backend BuildKit afin de pouvoir utiliser ses fonctionnalités dès maintenant :
 
 1. Définissez-le en tant que variable d'environnement avec `export DOCKER_BUILDKIT=1`.
 2. Démarrez votre commande `build` ou `run` avec `DOCKER_BUILDKIT=1`.
-3. Activez BuildKit par défaut. Définissez la configuration dans /_etc/docker/daemon.json_ sur _true_ avec : `{ "features": { "buildkit": true } }`. Puis redémarrez Docker.
+3. Activez BuildKit par défaut. Définissez la configuration dans /_etc/docker/daemon.json_ sur _true_ avec : `{ "features": { "buildkit": true } }`. Ensuite, redémarrez Docker.
 4. Ensuite, vous pouvez utiliser les secrets au moment de la construction avec le drapeau `--secret` comme ceci :
 ```bash
 docker build --secret my_key=my_value ,src=path/to/my_secret_file .
@@ -488,9 +492,7 @@ Vous devez exécuter l'outil à partir de l'hôte exécutant Docker ou à partir
 * [https://en.wikipedia.org/wiki/Linux\_namespaces](https://en.wikipedia.org/wiki/Linux\_namespaces)
 * [https://towardsdatascience.com/top-20-docker-security-tips-81c41dd06f57](https://towardsdatascience.com/top-20-docker-security-tips-81c41dd06f57)
 
-<figure><img src="../../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
-
-\
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire facilement et **automatiser des flux de travail** alimentés par les outils communautaires les plus avancés au monde.
 Obtenez un accès dès aujourd'hui :
 

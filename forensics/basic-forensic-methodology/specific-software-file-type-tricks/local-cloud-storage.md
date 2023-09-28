@@ -12,7 +12,7 @@
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour créer et **automatiser des flux de travail** avec les outils communautaires les plus avancés au monde.\
@@ -33,7 +33,7 @@ Sous Windows, vous pouvez trouver le dossier OneDrive dans `\Users\<nom_utilisat
 * Heure de génération du rapport
 * Taille du disque dur du système d'exploitation
 
-Une fois que vous avez trouvé le CID, il est recommandé de **rechercher des fichiers contenant cet ID**. Vous pouvez trouver des fichiers portant le nom : _**\<CID>.ini**_ et _**\<CID>.dat**_ qui peuvent contenir des informations intéressantes telles que les noms des fichiers synchronisés avec OneDrive.
+Une fois que vous avez trouvé le CID, il est recommandé de **rechercher des fichiers contenant cet ID**. Vous pouvez trouver des fichiers portant le nom : _**\<CID>.ini**_ et _**\<CID>.dat**_ qui peuvent contenir des informations intéressantes comme les noms des fichiers synchronisés avec OneDrive.
 
 ## Google Drive
 
@@ -111,10 +111,10 @@ D'autres tables dans cette base de données contiennent des informations plus in
 * **deleted\_fields** : Fichiers supprimés de Dropbox
 * **date\_added**
 
-<figure><img src="../../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour créer et automatiser facilement des flux de travail basés sur les outils communautaires les plus avancés au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour créer et automatiser facilement des flux de travail avec les outils communautaires les plus avancés au monde.\
 Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

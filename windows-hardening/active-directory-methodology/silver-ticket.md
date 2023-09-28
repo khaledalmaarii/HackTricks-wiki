@@ -12,7 +12,7 @@
 
 </details>
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
 Si vous êtes intéressé par une **carrière de piratage** et que vous voulez pirater l'impossible - **nous recrutons !** (_maîtrise du polonais écrit et parlé requise_).
 
@@ -24,7 +24,7 @@ L'attaque du ticket d'argent est basée sur **la création d'un TGS valide pour 
 
 Dans ce cas, le **hachage NTLM d'un compte d'ordinateur** (qui est une sorte de compte utilisateur dans AD) est **possédé**. Par conséquent, il est possible de **créer** un **ticket** afin de **pénétrer dans cette machine** avec des privilèges d'**administrateur** via le service SMB. Les comptes d'ordinateur réinitialisent leurs mots de passe tous les 30 jours par défaut.
 
-Il faut également prendre en compte qu'il est possible ET **PRÉFÉRABLE** (opsec) de **falsifier des tickets en utilisant les clés Kerberos AES (AES128 et AES256)**. Pour savoir comment générer une clé AES, consultez la section 4.4 de MS-KILE ou le script [Get-KerberosAESKey.ps1](https://gist.github.com/Kevin-Robertson/9e0f8bfdbf4c1e694e6ff4197f0a4372).
+Il faut également prendre en compte qu'il est possible ET **PRÉFÉRABLE** (opsec) de **falsifier des tickets en utilisant les clés Kerberos AES (AES128 et AES256)**. Pour savoir comment générer une clé AES, consultez : [section 4.4 de MS-KILE](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-kile/936a4878-9462-4753-aac8-087cd3ca4625) ou le [Get-KerberosAESKey.ps1](https://gist.github.com/Kevin-Robertson/9e0f8bfdbf4c1e694e6ff4197f0a4372).
 
 {% code title="Linux" %}
 ```bash
@@ -51,7 +51,7 @@ kerberos::golden /user:Administrator /domain:jurassic.park /sid:S-1-5-21-1339291
 ```
 {% endcode %}
 
-Le service **CIFS** est celui qui vous permet d'accéder au système de fichiers de la victime. Vous pouvez trouver d'autres services ici: [**https://adsecurity.org/?page\_id=183**](https://adsecurity.org/?page\_id=183)**.** Par exemple, vous pouvez utiliser le service **HOST** pour créer une tâche planifiée (_**schtask**_) sur un ordinateur. Ensuite, vous pouvez vérifier si cela a fonctionné en essayant de répertorier les tâches de la victime: `schtasks /S <hostname>` ou vous pouvez utiliser les services **HOST et** **RPCSS** pour exécuter des requêtes **WMI** sur un ordinateur, testez-le en faisant: `Get-WmiObject -Class win32_operatingsystem -ComputerName <hostname>`
+Le service **CIFS** est celui qui vous permet d'accéder au système de fichiers de la victime. Vous pouvez trouver d'autres services ici: [**https://adsecurity.org/?page\_id=183**](https://adsecurity.org/?page\_id=183)**.** Par exemple, vous pouvez utiliser le service **HOST** pour créer une tâche planifiée sur un ordinateur. Ensuite, vous pouvez vérifier si cela a fonctionné en essayant de répertorier les tâches de la victime: `schtasks /S <hostname>` ou vous pouvez utiliser les services **HOST et** **RPCSS** pour exécuter des requêtes **WMI** sur un ordinateur, testez-le en faisant: `Get-WmiObject -Class win32_operatingsystem -ComputerName <hostname>`
 
 ### Atténuation
 
@@ -65,16 +65,16 @@ Le service **CIFS** est celui qui vous permet d'accéder au système de fichiers
 
 ## Services disponibles
 
-| Type de service                           | Tickets Silver du service                                                     |
-| ------------------------------------------ | -------------------------------------------------------------------------- |
-| WMI                                        | <p>HOST</p><p>RPCSS</p>                                                    |
-| PowerShell Remoting                        | <p>HOST</p><p>HTTP</p><p>En fonction du système d'exploitation également:</p><p>WSMAN</p><p>RPCSS</p> |
-| WinRM                                      | <p>HOST</p><p>HTTP</p><p>Dans certaines occasions, vous pouvez simplement demander: WINRM</p> |
-| Tâches planifiées                          | HOST                                                                       |
-| Partage de fichiers Windows, également psexec            | CIFS                                                                       |
-| Opérations LDAP, y compris DCSync           | LDAP                                                                       |
-| Outils d'administration à distance de serveur Windows | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                         |
-| Tickets Golden                             | krbtgt                                                                     |
+| Type de service                           | Tickets Silver du service                                                |
+| ----------------------------------------- | ------------------------------------------------------------------------ |
+| WMI                                       | <p>HOST</p><p>RPCSS</p>                                                  |
+| PowerShell Remoting                       | <p>HOST</p><p>HTTP</p><p>En fonction du système d'exploitation également:</p><p>WSMAN</p><p>RPCSS</p> |
+| WinRM                                     | <p>HOST</p><p>HTTP</p><p>Dans certaines occasions, vous pouvez simplement demander: WINRM</p> |
+| Tâches planifiées                         | HOST                                                                     |
+| Partage de fichiers Windows, également psexec | CIFS                                                                   |
+| Opérations LDAP, y compris DCSync          | LDAP                                                                     |
+| Outils d'administration à distance du serveur Windows | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                       |
+| Tickets Golden                            | krbtgt                                                                   |
 
 Avec **Rubeus**, vous pouvez demander tous ces tickets en utilisant le paramètre:
 
@@ -158,7 +158,7 @@ mimikatz(commandline) # lsadump::dcsync /dc:pcdc.domain.local /domain:domain.loc
 [dcsync.md](dcsync.md)
 {% endcontent-ref %}
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
 Si vous êtes intéressé par une **carrière en piratage** et souhaitez pirater l'impossible - **nous recrutons !** (_maîtrise du polonais écrit et parlé requise_).
 

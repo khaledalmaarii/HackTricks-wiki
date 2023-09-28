@@ -1,6 +1,6 @@
 # Kerberoast
 
-<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire facilement et **automatiser des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
@@ -22,7 +22,7 @@ Obtenez un accès aujourd'hui :
 
 ## Kerberoast
 
-L'objectif de **Kerberoasting** est de collecter des **tickets TGS pour les services qui s'exécutent au nom des comptes d'utilisateurs** dans l'AD, et non des comptes d'ordinateurs. Ainsi, **une partie** de ces tickets TGS est **cryptée** avec des **clés** dérivées des mots de passe des utilisateurs. Par conséquent, leurs informations d'identification peuvent être **craquées hors ligne**.\
+L'objectif de **Kerberoasting** est de collecter des **tickets TGS pour les services qui s'exécutent au nom des comptes d'utilisateurs** dans l'AD, et non des comptes d'ordinateurs. Ainsi, **une partie** de ces tickets TGS sont **cryptés** avec des **clés** dérivées des mots de passe des utilisateurs. Par conséquent, leurs informations d'identification peuvent être **craquées hors ligne**.\
 Vous pouvez savoir qu'un **compte utilisateur** est utilisé comme **service** car la propriété **"ServicePrincipalName"** n'est pas nulle.
 
 Par conséquent, pour effectuer Kerberoasting, seul un compte de domaine qui peut demander des TGS est nécessaire, ce qui peut être n'importe qui car aucun privilège spécial n'est requis.
@@ -65,12 +65,14 @@ Get-NetUser -SPN | select serviceprincipalname #Powerview
 
 Dans cette technique, nous allons demander un Service Ticket (TGS) à un contrôleur de domaine et le récupérer depuis la mémoire d'un utilisateur cible. Le TGS contient le hash du mot de passe du compte de service, que nous pourrons ensuite casser hors ligne.
 
-1. Identifiez un compte de service vulnérable dans l'Active Directory.
-2. Utilisez l'outil `GetUserSPNs.py` pour demander un TGS pour le compte de service cible.
-3. Une fois que vous avez obtenu le TGS, utilisez l'outil `kirbi2john.py` pour extraire le hash du mot de passe du TGS.
-4. Utilisez un outil de craquage de mots de passe, comme `hashcat`, pour casser le hash du mot de passe et récupérer le mot de passe en clair.
+Voici les étapes à suivre :
 
-Cette technique est efficace pour récupérer les mots de passe des comptes de service vulnérables dans l'Active Directory. Assurez-vous d'avoir les autorisations nécessaires pour exécuter ces actions.
+1. Identifiez un compte de service vulnérable dans l'Active Directory.
+2. Utilisez l'outil `GetUserSPNs.py` pour demander un TGS pour le compte de service. Cet outil est disponible dans le cadre de l'outil Impacket.
+3. Une fois que vous avez obtenu le TGS, utilisez l'outil `kirbi2john.py` pour extraire le hash du mot de passe du TGS.
+4. Utilisez un outil de craquage de mots de passe, tel que Hashcat, pour casser le hash du mot de passe et récupérer le mot de passe en clair.
+
+Il est important de noter que cette technique nécessite des privilèges d'administrateur sur le contrôleur de domaine pour demander le TGS. De plus, vous devez avoir un accès en lecture à la mémoire de l'utilisateur cible pour extraire le TGS.
 ```powershell
 #Get TGS in memory from a single user
 Add-Type -AssemblyName System.IdentityModel
@@ -110,7 +112,7 @@ Invoke-Kerberoast -OutputFormat hashcat | % { $_.Hash } | Out-File -Encoding ASC
 Lorsqu'un TGS est demandé, l'événement Windows `4769 - Une demande de ticket de service Kerberos a été effectuée` est généré.
 {% endhint %}
 
-<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire facilement et **automatiser des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
@@ -168,10 +170,10 @@ Get-WinEvent -FilterHashtable @{Logname='Security';ID=4769} -MaxEvents 1000 | ?{
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour créer et **automatiser facilement des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
-Accédez dès aujourd'hui :
+Obtenez un accès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

@@ -73,7 +73,7 @@ Commandes utiles:\
 
 ### cmp - Comparaison
 
-Si vous avez une image/son/vidéo **modifiée**, vérifiez si vous pouvez **trouver l'originale exacte** sur internet, puis **comparez les deux** fichiers avec:
+Si vous avez une image/audio/vidéo **modifiée**, vérifiez si vous pouvez **trouver l'originale exacte** sur internet, puis **comparez les deux** fichiers avec:
 ```
 cmp original.jpg stego.jpg -b -l
 ```
@@ -81,13 +81,13 @@ cmp original.jpg stego.jpg -b -l
 
 ### Données cachées dans les espaces
 
-Si vous constatez qu'une **ligne de texte** est plus **grande** qu'elle ne devrait l'être, il est possible que des **informations cachées** soient incluses à l'intérieur des **espaces** à l'aide de caractères invisibles.󐁈󐁥󐁬󐁬󐁯󐀠󐁴󐁨\
+Si vous constatez qu'une **ligne de texte** est **plus grande** qu'elle ne devrait l'être, il est possible que des **informations cachées** soient incluses à l'intérieur des **espaces** à l'aide de caractères invisibles.󐁈󐁥󐁬󐁬󐁯󐀠󐁴󐁨\
 Pour **extraire** les **données**, vous pouvez utiliser : [https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder)
 
-<figure><img src="../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour créer facilement et **automatiser des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour créer et **automatiser facilement** des flux de travail alimentés par les outils communautaires les plus avancés au monde.\
 Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -126,7 +126,7 @@ Pour l'installer : `gem install zsteg`. La source peut également être trouvée
 
 ### stegoVeritas JPG, PNG, GIF, TIFF, BMP
 
-Capable d'une grande variété de trucs simples et avancés, cet outil peut vérifier les métadonnées des fichiers, créer des images transformées, forcer le LSB, et plus encore. Consultez `stegoveritas.py -h` pour connaître toutes ses fonctionnalités. Exécutez `stegoveritas.py stego.jpg` pour exécuter toutes les vérifications.
+Capable d'une grande variété de trucs simples et avancés, cet outil peut vérifier les métadonnées des fichiers, créer des images transformées, forcer la LSB, et plus encore. Consultez `stegoveritas.py -h` pour connaître toutes ses fonctionnalités. Exécutez `stegoveritas.py stego.jpg` pour exécuter toutes les vérifications.
 
 ### Stegsolve
 

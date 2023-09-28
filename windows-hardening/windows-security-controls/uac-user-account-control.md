@@ -12,7 +12,7 @@
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour créer et **automatiser facilement des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
 Obtenez un accès aujourd'hui :
@@ -50,7 +50,7 @@ Cette [page](https://docs.microsoft.com/fr-fr/windows/security/identity-protecti
 
 Certains programmes sont **automatiquement élevés** si l'**utilisateur appartient** au **groupe administrateur**. Ces binaires ont à l'intérieur de leur _**Manifeste**_ l'option _**autoElevate**_ avec la valeur _**True**_. Le binaire doit également être **signé par Microsoft**.
 
-Ainsi, pour **contourner** l'**UAC** (passer du niveau d'intégrité **moyen** au niveau **élevé**), certains attaquants utilisent ce type de binaires pour **exécuter du code arbitraire** car il sera exécuté à partir d'un processus de niveau d'intégrité **élevé**.
+Ainsi, pour **contourner** l'**UAC** (passer du niveau d'intégrité **moyen** au niveau **élevé**), certains attaquants utilisent ce type de binaires pour **exécuter du code arbitraire** car il sera exécuté à partir d'un processus de **niveau d'intégrité élevé**.
 
 Vous pouvez **vérifier** le _**Manifeste**_ d'un binaire en utilisant l'outil _**sigcheck.exe**_ de Sysinternals. Et vous pouvez **voir** le **niveau d'intégrité** des processus en utilisant _Process Explorer_ ou _Process Monitor_ (de Sysinternals).
 
@@ -102,7 +102,7 @@ whoami /groups | findstr Level
 ## Contournement de l'UAC
 
 {% hint style="info" %}
-Notez que si vous avez un accès graphique à la victime, le contournement de l'UAC est simple car vous pouvez simplement cliquer sur "Oui" lorsque la fenêtre de l'UAC apparaît.
+Notez que si vous avez accès graphique à la victime, le contournement de l'UAC est simple car vous pouvez simplement cliquer sur "Oui" lorsque la fenêtre de l'UAC apparaît.
 {% endhint %}
 
 Le contournement de l'UAC est nécessaire dans la situation suivante : **l'UAC est activé, votre processus s'exécute dans un contexte d'intégrité moyenne et votre utilisateur appartient au groupe des administrateurs**.
@@ -185,7 +185,7 @@ Vous pouvez obtenir cela en utilisant une session **meterpreter**. Migrez vers u
 
 Si vous avez accès à une **interface graphique, vous pouvez simplement accepter la demande de l'UAC** lorsque vous la recevez, vous n'avez pas vraiment besoin de la contourner. Ainsi, en ayant accès à une interface graphique, vous pourrez contourner l'UAC.
 
-De plus, si vous obtenez une session GUI que quelqu'un utilisait (potentiellement via RDP), il y a **des outils qui s'exécuteront en tant qu'administrateur** à partir desquels vous pourrez exécuter une **cmd** par exemple **en tant qu'administrateur** directement sans être à nouveau sollicité par l'UAC, comme [**https://github.com/oski02/UAC-GUI-Bypass-appverif**](https://github.com/oski02/UAC-GUI-Bypass-appverif). Cela peut être un peu plus **furtif**.
+De plus, si vous obtenez une session GUI que quelqu'un utilisait (potentiellement via RDP), il y a **des outils qui s'exécuteront en tant qu'administrateur** à partir desquels vous pourrez exécuter une **cmd** par exemple **en tant qu'administrateur** directement sans être à nouveau sollicité par l'UAC comme [**https://github.com/oski02/UAC-GUI-Bypass-appverif**](https://github.com/oski02/UAC-GUI-Bypass-appverif). Cela peut être un peu plus **furtif**.
 
 ### Contournement bruyant de l'UAC par force brute
 
@@ -193,7 +193,7 @@ Si vous ne vous souciez pas d'être bruyant, vous pouvez toujours **exécuter qu
 
 ### Votre propre contournement - Méthodologie de base pour contourner l'UAC
 
-Si vous jetez un coup d'œil à **UACME**, vous remarquerez que **la plupart des contournements de l'UAC exploitent une vulnérabilité de détournement de DLL** (en écrivant principalement la DLL malveillante sur _C:\Windows\System32_). [Lisez ceci pour apprendre comment trouver une vulnérabilité de détournement de DLL](../windows-local-privilege-escalation/dll-hijacking.md).
+Si vous examinez **UACME**, vous remarquerez que **la plupart des contournements de l'UAC exploitent une vulnérabilité de détournement de DLL** (en écrivant principalement la DLL malveillante sur _C:\Windows\System32_). [Lisez ceci pour apprendre comment trouver une vulnérabilité de détournement de DLL](../windows-local-privilege-escalation/dll-hijacking.md).
 
 1. Trouvez un binaire qui **s'autoélève** (vérifiez que lorsqu'il est exécuté, il s'exécute avec un niveau d'intégrité élevé).
 2. Avec procmon, recherchez les événements "**NAME NOT FOUND**" qui peuvent être vulnérables au **détournement de DLL**.
@@ -204,9 +204,9 @@ Si vous jetez un coup d'œil à **UACME**, vous remarquerez que **la plupart des
 
 ### Une autre technique de contournement de l'UAC
 
-Consiste à surveiller si un binaire **autoélevé** tente de **lire** du **registre** le **nom/chemin** d'un **binaire** ou d'une **commande** à **exécuter** (c'est plus intéressant si le binaire recherche ces informations dans le **HKCU**).
+Consiste à surveiller si un **binaire autoélevé** essaie de **lire** dans le **registre** le **nom/chemin** d'un **binaire** ou d'une **commande** à **exécuter** (c'est plus intéressant si le binaire recherche ces informations dans le **HKCU**).
 
-<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour créer et **automatiser des flux de travail** avec les outils communautaires les plus avancés au monde.\
 Accédez dès aujourd'hui :

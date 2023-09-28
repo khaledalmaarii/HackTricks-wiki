@@ -12,7 +12,7 @@
 
 </details>
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
 Si vous êtes intéressé par une **carrière en piratage** et souhaitez pirater l'impossible - **nous recrutons !** (_maîtrise du polonais écrit et parlé requise_).
 
@@ -92,11 +92,11 @@ Les clés de registre Run et RunOnce font en sorte que les programmes s'exécute
 Il n'est pas créé par défaut sur Windows Vista et les versions ultérieures. Les entrées de clé de registre Run peuvent faire référence directement à des programmes ou les répertorier comme une dépendance. Par exemple, il est possible de charger une DLL lors de la connexion en utilisant une clé "Depend" avec RunOnceEx : `reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnceEx\0001\Depend /v 1 /d "C:\temp\evil[.]dll"`
 
 {% hint style="info" %}
-**Exploit 1** : Si vous pouvez écrire dans l'un des registres mentionnés dans **HKLM**, vous pouvez escalader les privilèges lorsqu'un utilisateur différent se connecte.
+**Exploit 1** : Si vous pouvez écrire dans l'un des registres mentionnés dans **HKLM**, vous pouvez élever les privilèges lorsqu'un utilisateur différent se connecte.
 {% endhint %}
 
 {% hint style="info" %}
-**Exploit 2** : Si vous pouvez écraser l'un des binaires indiqués dans l'un des registres de **HKLM**, vous pouvez modifier ce binaire avec une porte dérobée lorsqu'un utilisateur différent se connecte et escalader les privilèges.
+**Exploit 2** : Si vous pouvez écraser l'un des binaires indiqués dans l'un des registres de **HKLM**, vous pouvez modifier ce binaire avec une porte dérobée lorsqu'un utilisateur différent se connecte et élever les privilèges.
 {% endhint %}
 ```bash
 #CMD
@@ -228,7 +228,7 @@ Info provenant [ici](https://www.itprotoday.com/cloud-computing/how-can-i-add-bo
 {% endhint %}
 
 {% hint style="info" %}
-**Exploit 3 (Permissions d'écriture sur le PATH et le boot.ini)** : Si vous pouvez écrire dans boot.ini, vous pouvez automatiser le démarrage en mode sans échec pour le prochain redémarrage.
+**Exploit 3 (Permissions d'écriture sur le PATH et le fichier boot.ini)** : Si vous pouvez écrire dans boot.ini, vous pouvez automatiser le démarrage en mode sans échec pour le prochain redémarrage.
 {% endhint %}
 ```bash
 reg query HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot /v AlternateShell
@@ -241,19 +241,19 @@ Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Co
 * `HKCU\SOFTWARE\Microsoft\Active Setup\Installed Components`
 * `HKCU\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components`
 
-Active Setup s'exécute avant l'apparition du bureau. Les commandes lancées par Active Setup s'exécutent de manière synchrone, bloquant la connexion jusqu'à leur exécution. Active Setup est exécuté avant que les entrées de registre Run ou RunOnce ne soient évaluées.
+Active Setup s'exécute avant l'apparition du bureau. Les commandes lancées par Active Setup s'exécutent de manière synchrone, bloquant la connexion tant qu'elles sont en cours d'exécution. Active Setup est exécuté avant que les entrées de registre Run ou RunOnce ne soient évaluées.
 
 À l'intérieur de ces clés, vous trouverez d'autres clés et chacune d'entre elles contiendra des paires clé-valeur intéressantes. Les plus intéressantes sont :
 
 * **IsInstalled :**
 * 0 : La commande du composant ne s'exécutera pas.
 * 1 : La commande du composant s'exécutera une fois par utilisateur. C'est la valeur par défaut (si la valeur IsInstalled n'existe pas).
-* **StubPath**
+* **StubPath :**
 * Format : N'importe quelle ligne de commande valide, par exemple "notepad"
 * C'est la commande qui est exécutée si Active Setup détermine que ce composant doit s'exécuter lors de la connexion.
 
 {% hint style="info" %}
-Si vous pouviez écrire/écraser n'importe quelle clé avec _**IsInstalled == "1"**_ la clé **StubPath**, vous pourriez la pointer vers une porte dérobée et escalader les privilèges. De plus, si vous pouviez écraser n'importe quel **binaire** pointé par n'importe quelle clé **StubPath**, vous pourriez être en mesure d'escalader les privilèges.
+Si vous pouviez écrire/écraser n'importe quelle clé avec _**IsInstalled == "1"**_ et la clé **StubPath**, vous pourriez la pointer vers une porte dérobée et escalader les privilèges. De plus, si vous pouviez écraser n'importe quel **binaire** pointé par n'importe quelle clé **StubPath**, vous pourriez être en mesure d'escalader les privilèges.
 {% endhint %}
 ```bash
 reg query "HKLM\SOFTWARE\Microsoft\Active Setup\Installed Components" /s /v StubPath
@@ -306,13 +306,13 @@ Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Wow6432Node\Classes\htmlfile\she
 
 Les Options d'exécution des fichiers image sont une fonctionnalité de Windows qui permet de spécifier des actions à effectuer lorsqu'un programme est lancé. Cela peut être utilisé à des fins de débogage ou de surveillance, mais peut également être exploité par des attaquants pour obtenir des privilèges élevés.
 
-L'une des utilisations courantes de cette fonctionnalité est de configurer un binaire autorun pour s'exécuter chaque fois qu'un programme spécifique est lancé. Cela peut être réalisé en ajoutant une clé de registre sous `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options`. Le nom de la clé doit correspondre au nom du programme que vous souhaitez surveiller, et la valeur de la clé doit être le chemin du binaire autorun.
+L'une des utilisations courantes de cette fonctionnalité est l'escalade de privilèges locale en utilisant des binaires d'autorun. Les binaires d'autorun sont des programmes qui sont automatiquement exécutés lorsqu'un utilisateur se connecte à un système. En exploitant les Options d'exécution des fichiers image, un attaquant peut remplacer un binaire d'autorun légitime par un binaire malveillant, ce qui lui permet d'obtenir des privilèges élevés lors de la prochaine connexion de l'utilisateur.
 
-Lorsque le programme est lancé, Windows exécute d'abord le binaire autorun spécifié avant de lancer le programme réel. Cela peut être exploité pour obtenir des privilèges élevés en remplaçant le binaire autorun par un programme malveillant qui élève les privilèges de l'utilisateur.
+Pour exploiter cette vulnérabilité, l'attaquant doit d'abord identifier un binaire d'autorun légitime qui est exécuté avec des privilèges élevés. Ensuite, il doit créer une clé de registre dans `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options` avec le nom du binaire d'autorun légitime. Dans cette clé de registre, l'attaquant peut spécifier le chemin d'accès du binaire malveillant à exécuter à la place.
 
-Pour exploiter cette vulnérabilité, un attaquant doit avoir un accès en écriture à la clé de registre mentionnée précédemment. Cela peut être obtenu en exploitant une autre vulnérabilité ou en utilisant des privilèges d'administrateur.
+Lorsque l'utilisateur se connecte au système, le binaire d'autorun légitime est remplacé par le binaire malveillant spécifié dans les Options d'exécution des fichiers image. Cela permet à l'attaquant d'obtenir des privilèges élevés et d'exécuter des actions malveillantes sur le système.
 
-Pour se protéger contre cette attaque, il est recommandé de restreindre l'accès en écriture à la clé de registre `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options`. De plus, il est important de maintenir le système d'exploitation et les applications à jour pour éviter l'exploitation de vulnérabilités connues.
+Pour se protéger contre cette technique d'escalade de privilèges, il est recommandé de restreindre les autorisations d'écriture sur les clés de registre liées aux Options d'exécution des fichiers image. De plus, il est important de surveiller les modifications apportées à ces clés de registre et de vérifier régulièrement l'intégrité des binaires d'autorun légitimes.
 ```
 HKLM\Software\Microsoft\Windows NT\CurrentVersion\Image File Execution Options
 HKLM\Software\Microsoft\Wow6432Node\Windows NT\CurrentVersion\Image File Execution Options
@@ -333,7 +333,7 @@ Trouvez plus d'Autoruns comme les registres dans [https://www.microsoftpressstor
 * [https://attack.mitre.org/techniques/T1547/001/](https://attack.mitre.org/techniques/T1547/001/)
 * [https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2](https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2)
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
 Si vous êtes intéressé par une **carrière de hacking** et souhaitez pirater l'impossible - **nous recrutons !** (_maîtrise du polonais écrit et parlé requise_).
 

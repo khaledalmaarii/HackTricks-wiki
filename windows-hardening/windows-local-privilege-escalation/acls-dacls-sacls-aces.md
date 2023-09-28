@@ -1,10 +1,10 @@
 # ACLs - DACLs/SACLs/ACEs
 
-<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour créer facilement et **automatiser des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
-Obtenez un accès aujourd'hui :
+Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -12,8 +12,8 @@ Obtenez un accès aujourd'hui :
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Vous travaillez dans une **entreprise de cybersécurité** ? Vous souhaitez voir votre **entreprise annoncée dans HackTricks** ? ou souhaitez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
@@ -47,7 +47,7 @@ Lorsqu'un thread tente d'accéder à un objet sécurisable, le LSASS (Autorité 
 
 **Chaque ACE dans le DACL de l'objet** spécifie les droits d'accès autorisés ou refusés pour un principal de sécurité ou une session de connexion. Si le propriétaire de l'objet n'a créé aucun ACE dans le DACL pour cet objet, le système accorde immédiatement l'accès.
 
-Si le LSASS trouve des ACE, il compare l'identifiant de sécurité du bénéficiaire dans chaque ACE aux SID des bénéficiaires identifiés dans le jeton d'accès du thread.
+Si le LSASS trouve des ACE, il compare l'identifiant SID du bénéficiaire dans chaque ACE aux SID des bénéficiaires identifiés dans le jeton d'accès du thread.
 
 ### ACEs
 
@@ -61,7 +61,7 @@ Il existe **`trois` types principaux d'ACE** qui peuvent être appliqués à tou
 
 Chaque ACE est composé des `quatre` composants suivants :
 
-1. L'identifiant de sécurité (SID) de l'utilisateur/groupe qui a accès à l'objet (ou le nom du principal graphiquement)
+1. L'identificateur de sécurité (SID) de l'utilisateur/groupe qui a accès à l'objet (ou le nom du principal graphiquement)
 2. Un indicateur indiquant le type d'ACE (ACE de refus d'accès, d'autorisation d'accès ou d'audit système)
 3. Un ensemble d'indicateurs spécifiant si les conteneurs/objets enfants peuvent hériter de l'entrée ACE donnée à partir de l'objet principal ou parent
 4. Un [masque d'accès](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-dtyp/7a53f60e-e730-4dfe-bbe9-b21b62eb790b?redirectedfrom=MSDN) qui est une valeur de 32 bits qui définit les droits accordés à un objet
@@ -70,7 +70,7 @@ Le système examine chaque ACE séquentiellement jusqu'à ce que l'un des évén
 
 * **Un ACE de refus d'accès refuse explicitement** l'un des droits d'accès demandés à l'un des bénéficiaires répertoriés dans le jeton d'accès du thread.
 * **Un ou plusieurs ACE d'autorisation d'accès** pour les bénéficiaires répertoriés dans le jeton d'accès du thread accordent explicitement tous les droits d'accès demandés.
-* Tous les ACE ont été vérifiés et il reste au moins **un droit d'accès demandé** qui n'a **pas été explicitement autorisé**, auquel cas l'accès est implicitement **refusé**.
+* Tous les ACE ont été vérifiés et il y a encore au moins **un droit d'accès demandé** qui n'a **pas été explicitement autorisé**, auquel cas l'accès est implicitement **refusé**.
 ### Ordre des ACE
 
 Parce que le **système arrête de vérifier les ACE lorsque l'accès demandé est explicitement accordé ou refusé**, l'ordre des ACE dans un DACL est important.
@@ -92,7 +92,7 @@ L'ordre canonique garantit que les actions suivantes se produisent :
 * Un ACE **d'accès refusé explicite est appliqué indépendamment de tout ACE d'accès autorisé explicite**. Cela signifie que le propriétaire de l'objet peut définir des autorisations qui permettent l'accès à un groupe d'utilisateurs et refusent l'accès à un sous-ensemble de ce groupe.
 * Tous les ACE **explicites sont traités avant tout ACE hérité**. Cela est conforme au concept de contrôle d'accès discrétionnaire : l'accès à un objet enfant (par exemple un fichier) est à la discrétion du propriétaire de l'enfant, et non du propriétaire de l'objet parent (par exemple un dossier). Le propriétaire d'un objet enfant peut définir des autorisations directement sur l'enfant. Le résultat est que les effets des autorisations héritées sont modifiés.
 
-<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour créer et **automatiser facilement des flux de travail** avec les outils communautaires les plus avancés au monde.\
@@ -122,9 +122,9 @@ Et enfin, nous avons le SACL dans l'onglet Audit :
 
 Dans cet exemple, le groupe d'accès autorisé est Tout le monde et le groupe d'accès refusé est Marketing, un sous-ensemble de Tout le monde.
 
-Vous souhaitez refuser l'accès du groupe Marketing à un dossier Coût. Si les ACE du dossier Coût sont dans l'ordre canonique, l'ACE qui refuse l'accès à Marketing vient avant l'ACE qui autorise Tout le monde.
+Vous souhaitez refuser l'accès au groupe Marketing à un dossier Coût. Si les ACE du dossier Coût sont dans l'ordre canonique, l'ACE qui refuse l'accès à Marketing vient avant l'ACE qui autorise Tout le monde.
 
-Lors d'une vérification d'accès, le système d'exploitation parcourt les ACE dans l'ordre dans lequel ils apparaissent dans le DACL de l'objet, de sorte que l'ACE de refus est traité avant l'ACE d'autorisation. En conséquence, les utilisateurs membres du groupe Marketing se voient refuser l'accès. Tous les autres utilisateurs sont autorisés à accéder à l'objet.
+Lors d'une vérification d'accès, le système d'exploitation parcourt les ACE dans l'ordre dans lequel ils apparaissent dans le DACL de l'objet, de sorte que l'ACE de refus est traité avant l'ACE d'autorisation. En conséquence, les utilisateurs membres du groupe Marketing se voient refuser l'accès. Tous les autres membres du groupe Tout le monde sont autorisés à accéder à l'objet.
 
 ### Exemple : Explicite avant hérité
 
@@ -152,7 +152,7 @@ Les ACE sont fondamentalement similaires. Ce qui les distingue, c'est le degré 
 
 Un ACE générique offre un contrôle limité sur les types d'objets enfants qui peuvent hériter d'eux. Essentiellement, ils ne peuvent faire la distinction qu'entre les conteneurs et les non-conteneurs.
 
-Par exemple, le DACL (Discretionary Access Control List) d'un objet Dossier dans NTFS peut inclure un ACE générique qui permet à un groupe d'utilisateurs de lister le contenu du dossier. Étant donné que la liste du contenu d'un dossier est une opération qui ne peut être effectuée que sur un objet Conteneur, l'ACE qui autorise l'opération peut être marqué comme un CONTAINER\_INHERIT\_ACE. Seuls les objets Conteneur dans le dossier (c'est-à-dire d'autres objets Dossier) héritent de l'ACE. Les objets non-conteneurs (c'est-à-dire les objets Fichier) n'héritent pas de l'ACE de l'objet parent.
+Par exemple, le DACL (Discretionary Access Control List) d'un objet Dossier dans NTFS peut inclure un ACE générique qui permet à un groupe d'utilisateurs de lister le contenu du dossier. Parce que la liste du contenu d'un dossier est une opération qui ne peut être effectuée que sur un objet Conteneur, l'ACE qui autorise l'opération peut être marqué comme un ACE CONTAINER\_INHERIT. Seuls les objets Conteneur dans le dossier (c'est-à-dire d'autres objets Dossier) héritent de l'ACE. Les objets non-conteneurs (c'est-à-dire les objets Fichier) n'héritent pas de l'ACE de l'objet parent.
 
 Un ACE générique s'applique à un objet entier. Si un ACE générique donne à un utilisateur particulier un accès en lecture, l'utilisateur peut lire toutes les informations associées à l'objet, à la fois les données et les propriétés. Cela n'est pas une limitation grave pour la plupart des types d'objets. Par exemple, les objets Fichier ont peu de propriétés, qui sont toutes utilisées pour décrire les caractéristiques de l'objet plutôt que pour stocker des informations. La plupart des informations dans un objet Fichier sont stockées sous forme de données d'objet ; par conséquent, il y a peu besoin de contrôles séparés sur les propriétés d'un fichier.
 
@@ -160,7 +160,7 @@ Un ACE générique s'applique à un objet entier. Si un ACE générique donne à
 
 Un ACE spécifique à l'objet offre un degré de contrôle plus élevé sur les types d'objets enfants qui peuvent hériter d'eux.
 
-Par exemple, la liste de contrôle d'accès (ACL) d'un objet OU (Unité d'organisation) peut avoir un ACE spécifique à l'objet qui est marqué pour être hérité uniquement par les objets Utilisateur. Les autres types d'objets, tels que les objets Ordinateur, n'hériteront pas de l'ACE.
+Par exemple, la liste de contrôle d'accès (ACL) d'un objet OU (Unité d'organisation) peut avoir un ACE spécifique à l'objet qui est marqué pour l'héritage uniquement par les objets Utilisateur. Les autres types d'objets, tels que les objets Ordinateur, n'hériteront pas de l'ACE.
 
 C'est pourquoi les ACE spécifiques à l'objet sont appelés spécifiques à l'objet. Leur héritage peut être limité à des types spécifiques d'objets enfants.
 
@@ -168,7 +168,7 @@ Il existe des différences similaires dans la façon dont les deux catégories d
 
 Un ACE spécifique à l'objet peut s'appliquer à une propriété individuelle d'un objet ou à un ensemble de propriétés pour cet objet. Ce type d'ACE est utilisé uniquement dans une ACL pour les objets Active Directory, qui, contrairement aux autres types d'objets, stockent la plupart de leurs informations dans des propriétés. Il est souvent souhaitable de placer des contrôles indépendants sur chaque propriété d'un objet Active Directory, et les ACE spécifiques à l'objet rendent cela possible.
 
-Par exemple, lorsque vous définissez des autorisations pour un objet Utilisateur, vous pouvez utiliser un ACE spécifique à l'objet pour autoriser Principal Self (c'est-à-dire l'utilisateur) à écrire dans la propriété Phone-Home-Primary (homePhone), et vous pouvez
+Par exemple, lorsque vous définissez des autorisations pour un objet Utilisateur, vous pouvez utiliser un ACE spécifique à l'objet pour autoriser Principal Self (c'est-à-dire l'utilisateur) à écrire dans la propriété Phone-Home-
 ### Disposition des entrées de contrôle d'accès
 
 | Champ ACE  | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
@@ -209,7 +209,7 @@ Par exemple, lorsque vous définissez des autorisations pour un objet Utilisateu
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour créer et automatiser facilement des workflows alimentés par les outils communautaires les plus avancés au monde.\

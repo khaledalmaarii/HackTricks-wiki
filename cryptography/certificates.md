@@ -12,7 +12,7 @@
 
 </details>
 
-<figure><img src="../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour créer et **automatiser des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
@@ -28,7 +28,7 @@ Dans un schéma d'infrastructure à clé publique (PKI) typique, l'émetteur du 
 
 Le format le plus courant pour les certificats de clé publique est défini par [X.509](https://en.wikipedia.org/wiki/X.509). Étant donné que X.509 est très général, le format est en outre contraint par des profils définis pour certains cas d'utilisation, tels que [Infrastructure à clé publique (X.509)](https://en.wikipedia.org/wiki/PKIX) tel que défini dans la RFC 5280.
 
-## Champs communs de x509
+## Champs communs x509
 
 * **Numéro de version** : Version du format x509.
 * **Numéro de série** : Utilisé pour identifier de manière unique le certificat au sein des systèmes d'une CA. En particulier, cela est utilisé pour suivre les informations de révocation.
@@ -48,7 +48,7 @@ Le format le plus courant pour les certificats de clé publique est défini par 
 * **Organisation (O)** : Nom de l'organisation
 * **Unité organisationnelle (OU)** : Division d'une organisation (comme "Ressources humaines").
 * **Non avant** : La date et l'heure les plus précoces à partir desquelles le certificat est valide. Généralement défini quelques heures ou jours avant le moment où le certificat a été émis, pour éviter les problèmes de décalage horaire.
-* **Non après** : La date et l'heure après lesquelles le certificat n'est plus valide.
+* **Non après** : La date et l'heure à partir desquelles le certificat n'est plus valide.
 * **Clé publique** : Une clé publique appartenant au sujet du certificat. (C'est l'une des principales parties car c'est ce qui est signé par la CA)
 * **Algorithme de clé publique** : Algorithme utilisé pour générer la clé publique. Comme RSA.
 * **Courbe de clé publique** : La courbe utilisée par l'algorithme de clé publique à courbe elliptique (si applicable). Comme nistp521.
@@ -62,7 +62,7 @@ Le format le plus courant pour les certificats de clé publique est défini par 
 * **Utilisation étendue de la clé** : Les applications dans lesquelles le certificat peut être utilisé. Les valeurs courantes incluent l'authentification du serveur TLS, la protection des e-mails et la signature de code.
 * Dans un certificat Web, cela apparaîtra comme une _extension X509v3_ et aura la valeur `TLS Web Server Authentication`
 * **Nom alternatif du sujet** : Permet aux utilisateurs de spécifier des **noms** d'hôte supplémentaires pour un seul **certificat** SSL. L'utilisation de l'extension SAN est une pratique courante pour les certificats SSL et elle est en passe de remplacer l'utilisation du **nom** commun.
-* **Contrainte de base** : Cette extension indique si le certificat est un certificat de CA ou un certificat d'entité finale. Un certificat de CA est quelque chose qui signe les certificats des autres et un certificat d'entité finale est le certificat utilisé dans une page Web, par exemple (la dernière partie de la chaîne).
+* **Contrainte de base** : Cette extension décrit si le certificat est un certificat de CA ou un certificat d'entité finale. Un certificat de CA est quelque chose qui signe les certificats des autres et un certificat d'entité finale est le certificat utilisé dans une page Web, par exemple (la dernière partie de la chaîne).
 * **Identifiant de clé du sujet** (SKI) : Cette extension déclare un **identifiant unique** pour la **clé publique** dans le certificat. Il est requis sur tous les certificats CA. Les CA propagent leur propre SKI vers l'extension **Identifiant de clé de l'émetteur** (AKI) sur les certificats émis. Il s'agit du hachage de la clé publique du sujet.
 * **Identifiant de clé de l'autorité** : Il contient un identifiant de clé dérivé de la clé publique dans le certificat de l'émetteur. Il s'agit du hachage de la clé publique de l'émetteur.
 * **Accès aux informations de l'autorité** (AIA) : Cette extension contient au maximum deux types d'informations :
@@ -103,9 +103,9 @@ Il existe différents formats pouvant être utilisés pour stocker un certificat
 
 * C'est le format le plus couramment utilisé pour les certificats.
 * La plupart des serveurs (par exemple, Apache) s'attendent à ce que les certificats et la clé privée soient dans des fichiers séparés.
-  * Habituellement, ils sont des fichiers ASCII encodés en Base64.
-  * Les extensions utilisées pour les certificats PEM sont .cer, .crt, .pem, .key.
-  * Apache et des serveurs similaires utilisent des certificats au format PEM.
+  - Habituellement, ils sont encodés en Base64 sous forme de fichiers ASCII.
+  - Les extensions utilisées pour les certificats PEM sont .cer, .crt, .pem, .key.
+  - Apache et des serveurs similaires utilisent des certificats au format PEM.
 
 #### **Format DER**
 
@@ -139,9 +139,7 @@ To convert a PEM (Privacy Enhanced Mail) certificate file to DER (Distinguished 
 openssl x509 -in certificate.pem -outform der -out certificate.der
 ```
 
-Replace `certificate.pem` with the path to your PEM certificate file. After executing the command, a new file named `certificate.der` will be created, containing the certificate in DER format.
-
-Keep in mind that PEM and DER are two different encoding formats for certificates. PEM is a base64-encoded format that includes header and footer lines, while DER is a binary format. The conversion from PEM to DER is often required when working with certain systems or applications that only accept DER-encoded certificates.
+This command takes the input file `certificate.pem` in PEM format and converts it to DER format, saving the output as `certificate.der`.
 ```
 openssl x509 -outform der -in certificatename.pem -out certificatename.der
 ```
@@ -159,7 +157,7 @@ openssl x509 -inform der -in certificatename.der -out certificatename.pem
 ```
 **Convertir PEM en P7B**
 
-**Remarque:** Le format PKCS#7 ou P7B est stocké au format ASCII Base64 et a une extension de fichier .p7b ou .p7c. Un fichier P7B ne contient que des certificats et des certificats de chaîne (CA intermédiaires), pas la clé privée. Les plateformes les plus courantes qui prennent en charge les fichiers P7B sont Microsoft Windows et Java Tomcat.
+**Remarque :** Le format PKCS#7 ou P7B est stocké au format ASCII Base64 et a une extension de fichier .p7b ou .p7c. Un fichier P7B ne contient que des certificats et des certificats de chaîne (CA intermédiaires), pas la clé privée. Les plateformes les plus courantes qui prennent en charge les fichiers P7B sont Microsoft Windows et Java Tomcat.
 ```
 openssl crl2pkcs7 -nocrl -certfile certificatename.pem -out certificatename.p7b -certfile CACert.cer
 ```
@@ -173,13 +171,9 @@ openssl pkcs7 -inform der -in input.p7b -out output.pem -print_certs
 
 Replace `input.p7b` with the path to your PKCS7 file, and `output.pem` with the desired name for the PEM file.
 
-This command uses the `pkcs7` command of OpenSSL, with the following options:
-- `-inform der` specifies that the input file is in DER format.
-- `-in input.p7b` specifies the input PKCS7 file.
-- `-out output.pem` specifies the output PEM file.
-- `-print_certs` instructs OpenSSL to print the certificates in the PKCS7 file.
+This command reads the PKCS7 file in DER format (`-inform der`), converts it to PEM format, and saves the output to the specified PEM file (`-out output.pem`). The `-print_certs` option is used to print the certificates contained in the PKCS7 file.
 
-After running the command, you will have a PEM file containing the certificates from the PKCS7 file.
+After running the command, you will have a PEM file containing the certificates from the original PKCS7 file.
 ```
 openssl pkcs7 -print_certs -in certificatename.p7b -out certificatename.pem
 ```
@@ -206,9 +200,9 @@ Pour convertir un fichier au format PEM (Privacy-Enhanced Mail) en format PKCS8 
 openssl pkcs8 -topk8 -inform PEM -outform DER -in private_key.pem -out private_key.pk8 -nocrypt
 ```
 
-This command will convert the private key file `private_key.pem` from PEM format to PKCS8 format and save it as `private_key.pk8`. The `-topk8` option specifies that the output should be in PKCS8 format. The `-inform PEM` option specifies that the input file is in PEM format. The `-outform DER` option specifies that the output file should be in DER (Distinguished Encoding Rules) format, which is a binary format used by PKCS8. The `-nocrypt` option specifies that the private key should not be encrypted with a passphrase.
+This command will convert the private key stored in the `private_key.pem` file from PEM format to PKCS8 format and save it in the `private_key.pk8` file. The `-topk8` option specifies that the output should be in PKCS8 format. The `-inform PEM` option specifies that the input file is in PEM format. The `-outform DER` option specifies that the output file should be in DER (Distinguished Encoding Rules) format, which is a binary format used by PKCS8. The `-nocrypt` option specifies that the private key should not be encrypted with a passphrase.
 
-Cette commande convertira le fichier de clé privée `private_key.pem` du format PEM au format PKCS8 et le sauvegardera sous le nom `private_key.pk8`. L'option `-topk8` spécifie que la sortie doit être au format PKCS8. L'option `-inform PEM` spécifie que le fichier d'entrée est au format PEM. L'option `-outform DER` spécifie que le fichier de sortie doit être au format DER (Distinguished Encoding Rules), qui est un format binaire utilisé par PKCS8. L'option `-nocrypt` spécifie que la clé privée ne doit pas être chiffrée avec une phrase secrète.
+Cette commande convertira la clé privée stockée dans le fichier `private_key.pem` du format PEM au format PKCS8 et la sauvegardera dans le fichier `private_key.pk8`. L'option `-topk8` spécifie que la sortie doit être au format PKCS8. L'option `-inform PEM` spécifie que le fichier d'entrée est au format PEM. L'option `-outform DER` spécifie que le fichier de sortie doit être au format DER (Distinguished Encoding Rules), qui est un format binaire utilisé par PKCS8. L'option `-nocrypt` spécifie que la clé privée ne doit pas être chiffrée avec une phrase secrète.
 ```
 openSSL pkcs8 -in certificatename.pem -topk8 -nocrypt -out certificatename.pk8
 ```
@@ -240,7 +234,7 @@ Une fois la commande exécutée avec succès, vous aurez un fichier PFX contenan
 ```
 openssl pkcs12 -export -in certificatename.cer -inkey privateKey.key -out certificatename.pfx -certfile  cacert.cer
 ```
-<figure><img src="../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et automatiser facilement des flux de travail alimentés par les outils communautaires les plus avancés au monde.\

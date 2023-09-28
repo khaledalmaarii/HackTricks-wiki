@@ -195,9 +195,9 @@ Exemple d'**en-tête de section** :
 
 Si vous **ajoutez** le **décalage de section** (0x37DC) + le **décalage** où **l'architecture commence**, dans ce cas `0x18000` --> `0x37DC + 0x18000 = 0x1B7DC`
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Il est également possible d'obtenir des **informations d'en-tête** depuis la **ligne de commande** avec :
+Il est également possible d'obtenir des **informations d'en-tête** à partir de la **ligne de commande** avec :
 ```bash
 otool -lv /bin/ls
 ```
@@ -209,17 +209,17 @@ Segments communs chargés par cette commande :
 * `__text` : Code binaire compilé
 * `__const` : Données constantes
 * `__cstring` : Constantes de chaîne
-* `__stubs` et `__stubs_helper` : Impliqués lors du processus de chargement de bibliothèque dynamique
+* `__stubs` et `__stubs_helper` : Impliqués pendant le processus de chargement de la bibliothèque dynamique
 * **`__DATA`** : Contient des données **lisibles** et **modifiables** (non exécutables).
 * `__data` : Variables globales (qui ont été initialisées)
 * `__bss` : Variables statiques (qui n'ont pas été initialisées)
 * `__objc_*` (\_\_objc\_classlist, \_\_objc\_protolist, etc) : Informations utilisées par le runtime Objective-C
-* **`__LINKEDIT`** : Contient des informations pour le lien (dyld) telles que "symbole, chaîne et entrées de table de relocation".
+* **`__LINKEDIT`** : Contient des informations pour le linker (dyld) telles que "symbole, chaîne et entrées de table de relocation".
 * **`__OBJC`** : Contient des informations utilisées par le runtime Objective-C. Bien que ces informations puissent également être trouvées dans le segment \_\_DATA, dans diverses sections \_\_objc\_\*.
 
 ### **`LC_MAIN`**
 
-Contient le point d'entrée dans l'attribut **entryoff**. Au moment du chargement, **dyld** ajoute simplement cette valeur à la **base du binaire en mémoire**, puis **saute** vers cette instruction pour démarrer l'exécution du code du binaire.
+Contient le point d'entrée dans l'attribut **entryoff**. Au moment du chargement, **dyld** ajoute simplement cette valeur à la **base du binaire en mémoire**, puis **saute** vers cette instruction pour démarrer l'exécution du code binaire.
 
 ### **LC\_CODE\_SIGNATURE**
 

