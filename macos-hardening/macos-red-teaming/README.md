@@ -53,15 +53,15 @@ JAMF可以运行**自定义脚本**（由系统管理员开发的脚本）、**�
 
 #### JAMF设备认证
 
-<figure><img src="../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-**`jamf`**二进制文件包含了打开钥匙串的秘密，当时这个秘密是**共享**的，它是：**`jk23ucnq91jfu9aj`**。\
+**`jamf`**二进制文件包含了打开钥匙串的秘密，该秘密在发现时是**共享**的，它是：**`jk23ucnq91jfu9aj`**。\
 此外，jamf作为一个**LaunchDaemon**在**`/Library/LaunchAgents/com.jamf.management.agent.plist`**中持久存在。
 
 #### 接管JAMF设备
 
 **`jamf`**将使用的**JSS**（Jamf软件服务器）**URL**位于**`/Library/Preferences/com.jamfsoftware.jamf.plist`**中。\
-这个文件基本上包含了URL：
+该文件基本上包含了URL：
 
 {% code overflow="wrap" %}
 ```bash
@@ -76,7 +76,7 @@ plutil -convert xml1 -o - /Library/Preferences/com.jamfsoftware.jamf.plist
 <integer>4</integer>
 [...]
 ```
-因此，攻击者可以在安装时放置一个恶意的软件包（`pkg`），该软件包会**覆盖此文件**，将URL设置为来自Typhon代理的Mythic C2监听器，从而能够滥用JAMF作为C2。
+所以，攻击者可以放置一个恶意的软件包（`pkg`），当安装时覆盖这个文件，将URL设置为来自Typhon代理的Mythic C2监听器，从而能够滥用JAMF作为C2。
 ```bash
 # After changing the URL you could wait for it to be reloaded or execute:
 sudo jamf policy -id 0

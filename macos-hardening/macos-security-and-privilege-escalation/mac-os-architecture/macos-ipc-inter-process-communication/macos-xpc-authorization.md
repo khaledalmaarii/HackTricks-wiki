@@ -47,7 +47,7 @@ return YES;
 
 然而，当调用 HelperTool 的方法时，会进行一些授权操作。
 
-`App/AppDelegate.m` 中的 `applicationDidFinishLaunching` 函数将在应用程序启动后创建一个空的授权引用。这应该总是有效的。\
+`App/AppDelegate.m` 中的函数 `applicationDidFinishLaunching` 在应用程序启动后会创建一个空的授权引用。这应该总是有效的。\
 然后，它将尝试通过调用 `setupAuthorizationRights` 向该授权引用添加一些权限：
 ```objectivec
 - (void)applicationDidFinishLaunching:(NSNotification *)note
@@ -72,7 +72,7 @@ if (self->_authRef) {
 [self.window makeKeyAndOrderFront:self];
 }
 ```
-`Common/Common.m`中的`setupAuthorizationRights`函数将应用程序的权限存储在`/var/db/auth.db`的授权数据库中。请注意，它只会添加尚未存在于数据库中的权限：
+`Common/Common.m` 中的 `setupAuthorizationRights` 函数将应用程序的权限存储在授权数据库 `/var/db/auth.db` 中。请注意，它只会添加尚未存在于数据库中的权限：
 ```objectivec
 + (void)setupAuthorizationRights:(AuthorizationRef)authRef
 // See comment in header.
@@ -182,15 +182,15 @@ block(authRightName, authRightDefault, authRightDesc);
 }];
 }
 ```
-这意味着在此过程结束时，`commandInfo`中声明的权限将存储在`/var/db/auth.db`中。请注意，您可以在其中找到**每个需要身份验证的方法**，**权限名称**和**`kCommandKeyAuthRightDefault`**。后者**指示谁可以获得此权限**。
+这意味着在此过程结束时，`commandInfo` 中声明的权限将存储在 `/var/db/auth.db` 中。请注意，您可以在其中找到**每个需要身份验证的方法**、**权限名称**和**`kCommandKeyAuthRightDefault`**。后者**指示谁可以获得此权限**。
 
-有不同的范围来指示谁可以访问权限。其中一些在[AuthorizationDB.h](https://github.com/aosm/Security/blob/master/Security/libsecurity\_authorization/lib/AuthorizationDB.h)中定义（您可以在[此处找到所有内容](https://www.dssw.co.uk/reference/authorization-rights/)），但总结如下：
+有不同的范围来指示谁可以访问权限。其中一些在 [AuthorizationDB.h](https://github.com/aosm/Security/blob/master/Security/libsecurity\_authorization/lib/AuthorizationDB.h) 中定义（您可以在[这里找到所有内容](https://www.dssw.co.uk/reference/authorization-rights/)），但总结如下：
 
 <table><thead><tr><th width="284.3333333333333">名称</th><th width="165">值</th><th>描述</th></tr></thead><tbody><tr><td>kAuthorizationRuleClassAllow</td><td>allow</td><td>任何人</td></tr><tr><td>kAuthorizationRuleClassDeny</td><td>deny</td><td>无人</td></tr><tr><td>kAuthorizationRuleIsAdmin</td><td>is-admin</td><td>当前用户需要是管理员（在管理员组内）</td></tr><tr><td>kAuthorizationRuleAuthenticateAsSessionUser</td><td>authenticate-session-owner</td><td>要求用户进行身份验证。</td></tr><tr><td>kAuthorizationRuleAuthenticateAsAdmin</td><td>authenticate-admin</td><td>要求用户进行身份验证。他需要是管理员（在管理员组内）</td></tr><tr><td>kAuthorizationRightRule</td><td>rule</td><td>指定规则</td></tr><tr><td>kAuthorizationComment</td><td>comment</td><td>在权限上指定一些额外的注释</td></tr></tbody></table>
 
 ### 权限验证
 
-在`HelperTool/HelperTool.m`中，函数**`readLicenseKeyAuthorization`**检查调用者是否被授权**执行此方法**，调用函数**`checkAuthorization`**。此函数将检查调用进程发送的**authData**是否具有**正确的格式**，然后将检查**获取权限所需的内容**以调用特定方法。如果一切顺利，**返回的`error`将为`nil`**：
+在 `HelperTool/HelperTool.m` 中，函数**`readLicenseKeyAuthorization`**检查调用者是否被授权**执行此方法**，调用函数**`checkAuthorization`**。此函数将检查调用进程发送的**authData**是否具有**正确的格式**，然后将检查**获取权限所需的条件**以调用特定方法。如果一切顺利，**返回的`error`将为`nil`**：
 ```objectivec
 - (NSError *)checkAuthorization:(NSData *)authData command:(SEL)command
 {
@@ -286,7 +286,7 @@ authenticate-session-owner, authenticate-session-owner-or-admin, authenticate-se
 
 如果你找到了函数：**`[HelperTool checkAuthorization:command:]`**，那么该进程可能正在使用之前提到的授权模式：
 
-<figure><img src="../../../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 如果这个函数调用了`AuthorizationCreateFromExternalForm`、`authorizationRightForCommand`、`AuthorizationCopyRights`、`AuhtorizationFree`等函数，那么它正在使用[**EvenBetterAuthorizationSample**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L101-L154)。
 
@@ -298,7 +298,7 @@ authenticate-session-owner, authenticate-session-owner-or-admin, authenticate-se
 
 函数**`shouldAcceptNewConnection`**指示正在导出的协议：
 
-<figure><img src="../../../../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 在这种情况下，我们与EvenBetterAuthorizationSample中的情况相同，[**查看此行**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L94)。
 
@@ -320,7 +320,7 @@ class-dump /Library/PrivilegedHelperTools/com.example.HelperTool
 
 * 在**`[HelperTool init]`**中，您可以看到正在使用的 Mach 服务：
 
-<figure><img src="../../../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
 
 * 在 launchd plist 中：
 ```xml
@@ -340,8 +340,8 @@ cat /Library/LaunchDaemons/com.example.HelperTool.plist
 在这个示例中创建了以下内容：
 
 * 使用函数定义协议
-* 创建一个空的 auth 用于请求访问权限
-* 连接到 XPC 服务
+* 创建一个空的授权用于请求访问权限
+* 连接到XPC服务
 * 如果连接成功，则调用该函数
 ```objectivec
 // gcc -framework Foundation -framework Security expl.m -o expl

@@ -4,18 +4,18 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
 
-<figure><img src="../../../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和**自动化工作流程**，使用世界上**最先进的**社区工具。\
+使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和**自动化工作流程**，使用全球**最先进**的社区工具。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -23,14 +23,14 @@
 ## 自动枚举和逃逸
 
 * [**linpeas**](https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS)：它还可以**枚举容器**
-* [**CDK**](https://github.com/cdk-team/CDK#installationdelivery)：这个工具非常**有用，可以枚举你所在的容器，甚至尝试自动逃逸**
+* [**CDK**](https://github.com/cdk-team/CDK#installationdelivery)：这个工具非常**有用，可以枚举所在的容器，甚至尝试自动逃逸**
 * [**amicontained**](https://github.com/genuinetools/amicontained)：有用的工具，可以获取容器的特权，以找到逃逸的方法
 * [**deepce**](https://github.com/stealthcopter/deepce)：用于枚举和逃逸容器的工具
 * [**grype**](https://github.com/anchore/grype)：获取镜像中安装的软件中包含的CVE
 
 ## 挂载的Docker套接字逃逸
 
-如果你发现**Docker套接字被挂载**在Docker容器内部，你将能够从中逃逸。\
+如果你发现**Docker套接字被挂载**在Docker容器中，你将能够从中逃逸。\
 这通常发生在某些原因需要连接到Docker守护程序执行操作的Docker容器中。
 ```bash
 #Search the socket
@@ -70,9 +70,9 @@ Docker守护程序也可能在端口上进行监听（默认为2375、2376），
 
 ## 特权滥用逃逸
 
-您应该检查容器的特权，如果具有以下任何特权，则可能能够逃逸出容器：**`CAP_SYS_ADMIN`**、**`CAP_SYS_PTRACE`**、**`CAP_SYS_MODULE`**、**`DAC_READ_SEARCH`**、**`DAC_OVERRIDE`**、**`CAP_SYS_RAWIO`**、**`CAP_SYSLOG`**、**`CAP_NET_RAW`**、**`CAP_NET_ADMIN`**
+您应该检查容器的特权，如果具有以下任何一种特权，则可能能够逃离容器：**`CAP_SYS_ADMIN`**、**`CAP_SYS_PTRACE`**、**`CAP_SYS_MODULE`**、**`DAC_READ_SEARCH`**、**`DAC_OVERRIDE, CAP_SYS_RAWIO`**、**`CAP_SYSLOG`**、**`CAP_NET_RAW`**、**`CAP_NET_ADMIN`**
 
-您可以使用**先前提到的自动工具**或以下命令检查当前容器的特权：
+您可以使用**先前提到的自动工具**或以下命令来检查当前容器的特权：
 ```bash
 capsh --print
 ```
@@ -370,12 +370,11 @@ bash -p #From non priv inside mounted folder
 ```
 ### 使用两个shell进行特权提升
 
-如果您在容器内部具有**root访问权限**，并且已经以非特权用户的身份**逃逸到主机**，则可以滥用这两个shell来在主机内部进行**特权提升**，前提是您在容器内部具有MKNOD功能（默认情况下是有的），如[**此文章中所解释的**](https://labs.f-secure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/)。
+如果您在容器内部具有**root访问权限**，并且已经以非特权用户的身份**逃逸到主机**，则可以滥用这两个shell来在主机内部进行**特权提升**，前提是您在容器内部具有MKNOD功能（默认情况下是有的），如[**此文章中所解释的**](https://labs.f-secure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/)。\
+有了这样的功能，容器内的root用户可以**创建块设备文件**。设备文件是用于**访问底层硬件和内核模块**的特殊文件。例如，/dev/sda块设备文件可以访问系统磁盘上的原始数据。
 
-通过这种功能，容器内的root用户被允许**创建块设备文件**。设备文件是用于**访问底层硬件和内核模块**的特殊文件。例如，/dev/sda块设备文件允许**读取系统磁盘上的原始数据**。
-
-Docker通过在容器上设置cgroup策略来确保块设备**无法在容器内部被滥用**，阻止对块设备的读写操作。\
-然而，如果在容器内部**创建了一个块设备**，则可以通过位于/proc/PID/root/文件夹中的某个**容器外部的进程**来访问它，限制是该进程必须由**容器外部和内部的同一用户**拥有。
+Docker通过在容器上设置cgroup策略来阻止从容器内部滥用块设备的读写，**以确保块设备无法从容器内部滥用**。\
+然而，如果在容器内部**创建了一个块设备**，则可以通过位于/proc/PID/root/文件夹中的某个**外部容器之外的进程**来访问它，限制是该进程必须由**外部容器和内部容器拥有相同的用户**。
 
 以下是来自[**此篇文章**](https://radboudinstituteof.pwning.nl/posts/htbunictfquals2021/goodgames/)的**利用示例**：
 ```bash
@@ -457,7 +456,7 @@ docker run --rm -it --network=host ubuntu bash
 就像以下示例中所示：
 
 * [Writeup: 如何联系Google SRE：在云SQL中获取shell](https://offensi.com/2020/08/18/how-to-contact-google-sre-dropping-a-shell-in-cloud-sql/)
-* [元数据服务中间人攻击导致提权（EKS / GKE）](https://blog.champtar.fr/Metadata\_MITM\_root\_EKS\_GKE/)
+* [元数据服务中间人攻击导致根权限提升（EKS / GKE）](https://blog.champtar.fr/Metadata\_MITM\_root\_EKS\_GKE/)
 
 您还可以访问主机内部绑定到本地主机的**网络服务**，甚至可以访问节点的**元数据权限**（这可能与容器可以访问的权限不同）。
 
@@ -482,9 +481,9 @@ cat /proc/self/status | grep CapEff
 
 在[https://labs.f-secure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/](https://labs.f-secure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/)的文章中解释了第二种技术，它说明了如何滥用用户命名空间中的绑定挂载，以影响主机内的文件（在该特定情况下，删除文件）。
 
-<figure><img src="../../../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-使用[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks)可以轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。\
+使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -493,7 +492,7 @@ cat /proc/self/status | grep CapEff
 
 ### Runc漏洞利用（CVE-2019-5736）
 
-如果您可以以root身份执行`docker exec`（可能需要sudo），则可以尝试通过滥用CVE-2019-5736（[此处](https://github.com/Frichetten/CVE-2019-5736-PoC/blob/master/main.go)有漏洞利用）来提升特权。这种技术基本上会从容器中**覆盖**主机的_**/bin/sh**_二进制文件，因此任何执行docker exec的人都可能触发有效载荷。
+如果您可以以root身份执行`docker exec`（可能需要sudo），则可以尝试利用CVE-2019-5736（[此处](https://github.com/Frichetten/CVE-2019-5736-PoC/blob/master/main.go)有漏洞利用）来提升特权。这种技术基本上会从容器中**覆盖**主机上的_**/bin/sh**_二进制文件，因此任何执行docker exec的人都可能触发有效载荷。
 
 根据需要更改有效载荷，并使用`go build main.go`构建main.go。生成的二进制文件应放置在docker容器中以供执行。\
 执行时，一旦显示`[+] Overwritten /bin/sh successfully`，您需要从主机机器上执行以下操作：
@@ -512,7 +511,7 @@ cat /proc/self/status | grep CapEff
 
 ### Docker逃逸面
 
-* **命名空间：**进程应通过命名空间与其他进程**完全隔离**，因此无法通过命名空间进行交互（默认情况下无法通过IPC、Unix套接字、网络服务、D-Bus、其他进程的`/proc`进行通信）。
+* **命名空间：**进程应通过命名空间**完全与其他进程隔离**，因此无法通过命名空间与其他进程交互（默认情况下无法通过IPC、Unix套接字、网络服务、D-Bus、其他进程的`/proc`进行通信）。
 * **Root用户：**默认情况下，运行进程的用户是root用户（但其权限受限）。
 * **能力：**Docker保留以下能力：`cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap=ep`
 * **系统调用：**这些是**root用户无法调用**的系统调用（因为缺乏能力+Seccomp）。其他系统调用可用于尝试逃逸。
@@ -621,7 +620,7 @@ If you are in **userspace** (**no kernel exploit** involved) the way to find new
 * [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/exposed-docker-socket](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/exposed-docker-socket)
 * [https://bishopfox.com/blog/kubernetes-pod-privilege-escalation#Pod4](https://bishopfox.com/blog/kubernetes-pod-privilege-escalation#Pod4)
 
-<figure><img src="../../../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
 Get Access Today:

@@ -12,7 +12,7 @@
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和**自动化工作流程**，使用世界上最先进的社区工具。\
@@ -92,8 +92,8 @@ Docker容器镜像可以存储在公共或私有注册表中。为了确认镜�
 - Docker内容信任是[Notary开源项目](https://github.com/docker/notary)的一种实现。Notary开源项目基于[The Update Framework (TUF)项目](https://theupdateframework.github.io)。
 - 使用`export DOCKER_CONTENT_TRUST=1`启用Docker内容信任。从Docker版本1.10开始，默认情况下未启用内容信任。
 - 当内容信任被启用时，我们只能拉取已签名的镜像。在推送镜像时，需要输入标记密钥。
-- 当发布者首次使用docker push推送镜像时，需要为根密钥和标记密钥输入密码。其他密钥将自动生成。
-- Docker还支持使用Yubikey硬件密钥，详细信息可在[这里](https://blog.docker.com/2015/11/docker-content-trust-yubikey/)找到。
+- 当发布者首次使用docker push推送镜像时，需要为根密钥和标记密钥输入密码短语。其他密钥将自动生成。
+- Docker还添加了对使用Yubikey的硬件密钥的支持，详细信息可在[这里](https://blog.docker.com/2015/11/docker-content-trust-yubikey/)找到。
 
 以下是当启用内容信任但镜像未签名时出现的错误信息。
 ```shell-session
@@ -120,10 +120,10 @@ tar -zcvf private_keys_backup.tar.gz ~/.docker/trust/private
 
 ***
 
-<figure><img src="../../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。\
+使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -136,10 +136,10 @@ tar -zcvf private_keys_backup.tar.gz ~/.docker/trust/private
 
 **命名空间**
 
-命名空间对于将一个项目与其他项目隔离开来非常有用，可以隔离进程通信、网络、挂载等。它对于将Docker进程与其他进程（甚至/proc文件夹）隔离开来非常有用，以防止滥用其他进程而逃逸。
+命名空间对于将一个项目与其他项目隔离开来非常有用，可以隔离进程通信、网络、挂载等。它对于将Docker进程与其他进程（甚至/proc文件夹）隔离开来非常有用，因此它无法滥用其他进程来逃逸。
 
-可以使用二进制文件**`unshare`**（使用**`unshare`**系统调用）可能“逃逸”或更准确地说是**创建新的命名空间**。Docker默认情况下会阻止此操作，但Kubernetes不会（在撰写本文时）。\
-无论如何，这对于创建新的命名空间非常有帮助，但**不能返回到主机默认的命名空间**（除非您可以访问主机命名空间中的某些`/proc`，在其中可以使用**`nsenter`**进入主机命名空间）。
+通过使用二进制文件**`unshare`**（使用**`unshare`**系统调用）可以可能"逃逸"或更准确地说是**创建新的命名空间**。Docker默认情况下会阻止此操作，但Kubernetes不会（在撰写本文时）。\
+无论如何，这对于创建新的命名空间非常有帮助，但**不能返回到主机默认的命名空间**（除非您可以访问主机命名空间中的某些`/proc`，在其中您可以使用**`nsenter`**进入主机命名空间）。
 
 **CGroups**
 
@@ -149,7 +149,7 @@ tar -zcvf private_keys_backup.tar.gz ~/.docker/trust/private
 
 我认为这是关于进程隔离安全性最重要的功能之一。这是因为没有这些能力，即使进程以root身份运行，**您也无法执行某些特权操作**（因为调用的**`syscall`**将返回权限错误，因为进程没有所需的能力）。
 
-这些是进程降级后的**剩余能力**：
+这些是进程放弃其他能力后的**剩余能力**：
 
 {% code overflow="wrap" %}
 ```
@@ -172,7 +172,7 @@ Docker有一个可以激活的模板：[https://github.com/moby/moby/tree/master
 
 ### 命名空间
 
-**命名空间**是Linux内核的一个功能，它将内核资源进行**分区**，使得一组**进程**看到一组**资源**，而**另一组进程**看到另一组**资源**。该功能通过为一组资源和进程使用相同的命名空间，但这些命名空间引用不同的资源来实现。资源可以存在于多个空间中。
+**命名空间**是Linux内核的一个功能，它将**内核资源分区**，使得一组**进程**看到一组**资源**，而**另一组进程**看到另一组**资源**。该功能通过为一组资源和进程使用相同的命名空间，但这些命名空间引用不同的资源来实现。资源可以存在于多个空间中。
 
 Docker利用以下Linux内核命名空间来实现容器隔离：
 
@@ -293,17 +293,17 @@ docker run -it --security-opt=no-new-privileges:true nonewpriv
 
 In addition to the security measures mentioned above, there are a few other steps you can take to further harden your Docker environment:
 
-1. **Limit container capabilities**: By default, Docker containers have a wide range of capabilities, which can potentially be exploited by attackers. You can restrict these capabilities by using the `--cap-drop` and `--cap-add` flags when running containers. Only allow the necessary capabilities for your containers to function properly.
+1. **Limit container capabilities**: By default, Docker containers have a wide range of capabilities, which can potentially be exploited by attackers. You can restrict these capabilities by using the `--cap-drop` and `--cap-add` flags when running containers. Only allow the necessary capabilities for your application to function properly.
 
-2. **Use seccomp profiles**: Seccomp (secure computing mode) is a Linux kernel feature that allows you to restrict the system calls that a process can make. By using seccomp profiles, you can further limit the attack surface of your containers. Docker provides a default seccomp profile, but you can also create custom profiles based on your specific requirements.
+2. **Use seccomp profiles**: Seccomp (secure computing mode) is a Linux kernel feature that allows you to restrict the system calls that a process can make. Docker supports seccomp profiles, which can be used to further limit the actions that a container can perform. You can create custom seccomp profiles or use pre-defined profiles provided by Docker.
 
-3. **Enable AppArmor or SELinux**: AppArmor and SELinux are mandatory access control (MAC) systems that provide an additional layer of security by enforcing strict access controls on processes and files. By enabling and configuring either of these systems, you can further enhance the security of your Docker environment.
+3. **Enable AppArmor or SELinux**: AppArmor and SELinux are Linux security modules that provide mandatory access control (MAC) mechanisms. They can be used to enforce additional security policies on Docker containers, restricting their access to system resources. Enable and configure either AppArmor or SELinux based on your Linux distribution.
 
-4. **Regularly update Docker and its dependencies**: Docker releases regular updates that include security patches and bug fixes. It is important to keep your Docker installation up to date to ensure that you have the latest security enhancements.
+4. **Monitor container activity**: Regularly monitor the activity of your Docker containers to detect any suspicious behavior or unauthorized access attempts. Use tools like Docker logs, Docker events, and container monitoring solutions to keep track of container activity.
 
-5. **Monitor Docker logs**: Monitoring Docker logs can help you detect any suspicious activities or potential security breaches. Configure a centralized logging system to collect and analyze Docker logs for better visibility into your environment.
+5. **Keep Docker up to date**: Stay updated with the latest Docker releases and security patches. Docker regularly releases updates to address security vulnerabilities and improve the overall security of the platform. Make sure to regularly update your Docker installation to benefit from these security enhancements.
 
-By implementing these additional security measures, you can significantly reduce the risk of privilege escalation and other security vulnerabilities in your Docker environment.
+By implementing these additional security measures, you can further strengthen the security of your Docker environment and reduce the risk of privilege escalation and other security breaches.
 ```bash
 #You can manually add/drop capabilities with
 --cap-add
@@ -433,7 +433,7 @@ file: ./my_secret_file.txt
 * [https://en.wikipedia.org/wiki/Linux\_namespaces](https://en.wikipedia.org/wiki/Linux\_namespaces)
 * [https://towardsdatascience.com/top-20-docker-security-tips-81c41dd06f57](https://towardsdatascience.com/top-20-docker-security-tips-81c41dd06f57)
 
-<figure><img src="../../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)轻松构建和自动化由全球**最先进**的社区工具提供支持的工作流程。
 立即获取访问权限：
 

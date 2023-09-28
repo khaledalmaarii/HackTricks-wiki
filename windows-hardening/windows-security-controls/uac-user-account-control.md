@@ -2,9 +2,9 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一个**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在一个**网络安全公司**工作吗？你想在 HackTricks 中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[NFT](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
@@ -12,9 +12,9 @@
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和**自动化工作流程**，使用全球**最先进**的社区工具。\
+使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和自动化由全球**最先进**的社区工具提供支持的工作流程。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -52,7 +52,7 @@
 
 然后，为了**绕过**UAC（从**中等**完整性级别**提升到高级**），一些攻击者使用这种二进制文件来**执行任意代码**，因为它将从**高级**完整性进程中执行。
 
-您可以使用Sysinternals的工具**sigcheck.exe**检查二进制文件的**清单**。您还可以使用_Process Explorer_或_Process Monitor_（Sysinternals的工具）**查看**进程的**完整性级别**。
+您可以使用Sysinternals的工具**sigcheck.exe**检查二进制文件的**清单**。您还可以使用_Process Explorer_或_Process Monitor_（Sysinternals的工具）查看进程的**完整性级别**。
 
 ### 检查UAC
 
@@ -88,9 +88,9 @@ ConsentPromptBehaviorAdmin    REG_DWORD    0x5
 #### 总结
 
 * 如果`EnableLUA=0`或**不存在**，则**任何人都没有UAC**
-* 如果`EnableLua=1`且**`LocalAccountTokenFilterPolicy=1`**，则**任何人都没有UAC**
-* 如果`EnableLua=1`且**`LocalAccountTokenFilterPolicy=0`**且**`FilterAdministratorToken=0`**，则**RID 500（内置管理员）没有UAC**
-* 如果`EnableLua=1`且**`LocalAccountTokenFilterPolicy=0`**且**`FilterAdministratorToken=1`**，则**所有人都有UAC**
+* 如果`EnableLua=1`且**`LocalAccountTokenFilterPolicy=1`，则任何人都没有UAC**
+* 如果`EnableLua=1`且**`LocalAccountTokenFilterPolicy=0`且`FilterAdministratorToken=0`，则RID 500（内置管理员）没有UAC**
+* 如果`EnableLua=1`且**`LocalAccountTokenFilterPolicy=0`且`FilterAdministratorToken=1`，则所有人都有UAC**
 
 可以使用**metasploit**模块`post/windows/gather/win_privs`收集所有这些信息。
 
@@ -171,7 +171,7 @@ Major  Minor  Build  Revision
 
 #### 更多UAC绕过
 
-这里使用的所有技术都需要与受害者进行全交互式shell（常见的nc.exe shell是不够的）。
+这里使用的所有绕过AUC的技术都需要与受害者进行全交互式shell（常见的nc.exe shell是不够的）。
 
 您可以使用meterpreter会话。迁移到一个具有Session值等于1的进程：
 
@@ -204,7 +204,7 @@ Major  Minor  Build  Revision
 
 这种技术是观察是否有一个自动提升权限的二进制文件尝试从注册表中读取要执行的二进制文件或命令的名称/路径（如果二进制文件在HKCU中搜索此信息，则更有趣）。
 
-<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 使用[Trickest](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。\
 立即获取访问权限：

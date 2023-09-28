@@ -14,7 +14,7 @@
 
 <figure><img src="../.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-找到最重要的漏洞，以便更快地修复它们。Intruder跟踪您的攻击面，运行主动威胁扫描，发现整个技术堆栈中的问题，从API到Web应用程序和云系统。[**立即免费试用**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks)。
+找到最重要的漏洞，以便更快地修复它们。Intruder跟踪您的攻击面，运行主动威胁扫描，发现整个技术堆栈中的问题，从API到Web应用程序和云系统。[**免费试用**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks)今天。
 
 {% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
@@ -84,10 +84,10 @@ cmp original.jpg stego.jpg -b -l
 如果你发现一个**文本行**比它应该的要**大**，那么可能有一些**隐藏信息**被包含在**空格**中，使用了不可见字符。󐁈󐁥󐁬󐁬󐁯󐀠󐁴󐁨\
 要**提取**数据，你可以使用：[https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder)
 
-<figure><img src="../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和**自动化工作流**，使用全球**最先进**的社区工具。\
+使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和**自动化工作流程**，使用全球**最先进**的社区工具。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -126,11 +126,11 @@ zsteg是一个可以检测png和bmp文件中隐藏数据的工具。\
 
 ### stegoVeritas JPG, PNG, GIF, TIFF, BMP
 
-这个工具可以进行各种简单和高级技巧，可以检查文件元数据，创建转换后的图像，暴力破解LSB等等。查看`stegoveritas.py -h`以了解其全部功能。执行`stegoveritas.py stego.jpg`以运行所有检查。
+这个工具可以执行各种简单和高级技巧，可以检查文件元数据，创建转换后的图像，暴力破解LSB等等。查看`stegoveritas.py -h`以了解其全部功能。执行`stegoveritas.py stego.jpg`以运行所有检查。
 
 ### Stegsolve
 
-有时图像本身隐藏有消息或文本，为了查看它，必须应用颜色滤镜或更改某些颜色级别。虽然您可以使用像GIMP或Photoshop这样的工具来做到这一点，但Stegsolve使得这一过程更加简单。它是一个小型的Java工具，可以在图像上应用许多有用的颜色滤镜；在CTF挑战中，Stegsolve通常是一个真正的时间节省器。\
+有时图像本身隐藏有消息或文本，为了查看它，必须应用颜色滤镜或更改某些颜色级别。虽然您可以使用像GIMP或Photoshop这样的工具来完成，但Stegsolve使得这个过程更加简单。它是一个小型的Java工具，可以在图像上应用许多有用的颜色滤镜；在CTF挑战中，Stegsolve通常是一个真正的时间节省器。\
 您可以从[Github](https://github.com/eugenekolo/sec-tools/tree/master/stego/stegsolve/stegsolve)获取它。\
 要使用它，只需打开图像并单击`<` `>`按钮。
 
@@ -167,7 +167,7 @@ zsteg是一个可以检测png和bmp文件中隐藏数据的工具。\
 
 ### ffmpeg
 
-ffmpeg可以用于检查音频文件的完整性，报告有关文件的各种信息以及发现的任何错误。\
+ffmpeg可以用于检查音频文件的完整性，报告文件的各种信息以及发现的任何错误。\
 `ffmpeg -v info -i stego.mp3 -f null -`
 
 ### Wavsteg \[WAV] <a href="#wavsteg" id="wavsteg"></a>
@@ -185,7 +185,7 @@ WavSteg是一个Python3工具，可以使用最低有效位在wav文件中隐藏
 
 ### Sonic visualizer <a href="#sonic-visualizer" id="sonic-visualizer"></a>
 
-Sonic visualizer是一款用于查看和分析音频文件内容的工具。在面对音频隐写挑战时，它非常有帮助；您可以揭示许多其他工具无法检测到的音频文件中隐藏的形状。\
+Sonic visualizer是一个用于查看和分析音频文件内容的工具。在面对音频隐写术挑战时，它非常有帮助；您可以揭示许多其他工具无法检测到的音频文件中隐藏的形状。\
 如果遇到困难，请始终检查音频的频谱图。[官方网站](https://www.sonicvisualiser.org/)
 
 ### DTMF音调 - 拨号音

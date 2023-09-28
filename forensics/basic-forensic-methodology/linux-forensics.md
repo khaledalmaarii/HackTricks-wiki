@@ -1,21 +1,21 @@
-# Linux 取证
+# Linux取证
 
-<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-使用 [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) 轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。\
+使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家 **网络安全公司** 工作吗？你想在 HackTricks 中看到你的 **公司广告** 吗？或者你想要访问 **PEASS 的最新版本或下载 HackTricks 的 PDF** 吗？请查看 [**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 集合 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或 **关注** 我的 **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **通过向** [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享你的黑客技巧。**
+* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
 
@@ -23,7 +23,7 @@
 
 ### 基本信息
 
-首先，建议准备一些带有**已知良好的二进制文件和库**的**USB**（你可以只获取 Ubuntu 并复制 _/bin_、_/sbin_、_/lib_ 和 _/lib64_ 文件夹），然后挂载 USB，并修改环境变量以使用这些二进制文件：
+首先，建议准备一些**带有已知良好的二进制文件和库的USB设备**（可以只获取ubuntu并复制文件夹_/bin_， _/sbin_， _/lib_和_/lib64_），然后挂载USB设备，并修改环境变量以使用这些二进制文件：
 ```bash
 export PATH=/mnt/usb/bin:/mnt/usb/sbin
 export LD_LIBRARY_PATH=/mnt/usb/lib:/mnt/usb/lib64
@@ -84,9 +84,9 @@ LiME还可以用于通过网络发送转储，而不是将其存储在系统上�
 #### 关闭系统
 
 首先，您需要**关闭系统**。这并不总是一个选择，因为有时系统将是一台公司无法承受关闭的生产服务器。\
-有**两种方式**可以关闭系统，一种是**正常关闭**，另一种是**“拔插头”关闭**。第一种方式将允许**进程按照通常的方式终止**，并且**文件系统**将被**同步**，但也会允许可能的**恶意软件**破坏证据。"拔插头"的方法可能会导致**一些信息丢失**（由于我们已经对内存进行了镜像，所以不会丢失太多信息），而**恶意软件将没有任何机会**对此做任何事情。因此，如果您**怀疑**可能存在**恶意软件**，只需在系统上执行**`sync`**命令，然后拔掉电源。
+有两种关闭系统的方式，一种是**正常关闭**，另一种是**“拔插头”关闭**。第一种方式将允许**进程正常终止**和**文件系统同步**，但也会允许可能的**恶意软件破坏证据**。拔插头的方法可能会导致**一些信息丢失**（由于我们已经对内存进行了镜像，所以不会丢失太多信息），而**恶意软件将没有任何机会**对此做任何事情。因此，如果您**怀疑可能存在恶意软件**，只需在系统上执行**`sync`**命令，然后拔掉插头。
 
-#### 对磁盘进行镜像
+#### 获取磁盘镜像
 
 重要的是要注意，在**将您的计算机连接到与案件相关的任何内容之前**，您需要确保它将以**只读方式挂载**，以避免修改任何信息。
 ```bash
@@ -152,7 +152,7 @@ r/r 16: secret.txt
 icat -i raw -f ext4 disk.img 16
 ThisisTheMasterSecret
 ```
-<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。
 立即获取访问权限：
@@ -206,7 +206,7 @@ find /sbin/ -exec dpkg -S {} \; | grep "no path found"
 #RedHat
 find /sbin/ –exec rpm -qf {} \; | grep "is not"
 ```
-<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)轻松构建和自动化由全球**最先进**的社区工具提供支持的工作流程。\
 立即获取访问权限：
@@ -276,9 +276,9 @@ Linux使用几个配置文件在用户登录系统时自动启动可执行文件
 * **/var/log/maillog** 或 **var/log/mail.log**：用于邮件服务器日志，方便查看在服务器上运行的 postfix、smtpd 或与电子邮件相关的服务信息。
 * **/var/log/kern.log**：保存内核日志和警告信息。内核活动日志（例如 dmesg、kern.log、klog）可以显示特定服务的重复崩溃，可能表明安装了不稳定的木马版本。
 * **/var/log/dmesg**：设备驱动程序消息的存储库。使用 **dmesg** 命令查看此文件中的消息。
-* **/var/log/faillog**：记录失败的登录信息。因此，用于检查潜在的安全漏洞，如登录凭据被盗和暴力攻击。
+* **/var/log/faillog**：记录失败的登录信息。因此，用于检查潜在的安全漏洞，如登录凭据被盗和暴力破解攻击。
 * **/var/log/cron**：记录与 Crond 相关的消息（cron 作业）。例如，cron 守护程序启动作业的时间。
-* **/var/log/daemon.log**：跟踪正在运行的后台服务，但不以图形方式表示。
+* **/var/log/daemon.log**：跟踪运行的后台服务，但不以图形方式表示。
 * **/var/log/btmp**：记录所有失败的登录尝试。
 * **/var/log/httpd/**：包含 Apache httpd 守护程序的 error\_log 和 access\_log 文件的目录。所有 httpd 遇到的错误都记录在 **error\_log** 文件中。考虑内存问题和其他与系统相关的错误。**access\_log** 记录通过 HTTP 进入的所有请求。
 * **/var/log/mysqld.log** 或 **/var/log/mysql.log**：记录每个调试、失败和成功消息的 MySQL 日志文件，包括 MySQL 守护程序 mysqld 的启动、停止和重启。系统根据目录决定。RedHat、CentOS、Fedora 和其他基于 RedHat 的系统使用 /var/log/mariadb/mariadb.log。然而，Debian/Ubuntu 使用 /var/log/mysql/error.log 目录。
@@ -311,16 +311,16 @@ Linux使用几个配置文件在用户登录系统时自动启动可执行文件
 请注意，您也可以通过阅读日志来查看此信息。
 ### 应用程序痕迹
 
-* **SSH**: 使用SSH连接到受损系统或从受损系统连接到其他系统会在每个用户帐户的文件中留下记录（_**∼/.ssh/authorized\_keys**_ 和 _**∼/.ssh/known\_keys**_）。这些记录可以揭示远程主机的主机名或IP地址。
-* **Gnome桌面**: 用户帐户可能有一个 _**∼/.recently-used.xbel**_ 文件，其中包含有关在Gnome桌面上运行的应用程序最近访问的文件的信息。
-* **VIM**: 用户帐户可能有一个 _**∼/.viminfo**_ 文件，其中包含有关VIM使用情况的详细信息，包括搜索字符串历史和使用vim打开的文件的路径。
+* **SSH**: 使用SSH连接到受损系统或从受损系统连接到其他系统会在每个用户帐户的文件中留下记录（_**∼/.ssh/authorized\_keys**_和_**∼/.ssh/known\_keys**_）。这些记录可以揭示远程主机的主机名或IP地址。
+* **Gnome桌面**: 用户帐户可能有一个_**∼/.recently-used.xbel**_文件，其中包含有关在Gnome桌面上运行的应用程序最近访问的文件的信息。
+* **VIM**: 用户帐户可能有一个_**∼/.viminfo**_文件，其中包含有关VIM使用情况的详细信息，包括搜索字符串历史和使用vim打开的文件的路径。
 * **Open Office**: 最近使用的文件。
-* **MySQL**: 用户帐户可能有一个 _**∼/.mysql\_history**_ 文件，其中包含使用MySQL执行的查询。
-* **Less**: 用户帐户可能有一个 _**∼/.lesshst**_ 文件，其中包含有关less使用情况的详细信息，包括搜索字符串历史和通过less执行的shell命令。
+* **MySQL**: 用户帐户可能有一个_**∼/.mysql\_history**_文件，其中包含使用MySQL执行的查询。
+* **Less**: 用户帐户可能有一个_**∼/.lesshst**_文件，其中包含有关less使用情况的详细信息，包括搜索字符串历史和通过less执行的shell命令。
 
 ### USB日志
 
-[**usbrip**](https://github.com/snovvcrash/usbrip) 是一个用纯Python 3编写的小型软件，用于解析Linux日志文件（根据发行版，可能是`/var/log/syslog*`或`/var/log/messages*`）以构建USB事件历史表。
+[**usbrip**](https://github.com/snovvcrash/usbrip)是一个用纯Python 3编写的小型软件，用于解析Linux日志文件（根据发行版的不同，可能是`/var/log/syslog*`或`/var/log/messages*`）以构建USB事件历史记录表。
 
 了解所有已使用的USB设备是很有趣的，如果您有一个授权的USB设备列表，那么查找"违规事件"（使用不在该列表中的USB设备）将更加有用。
 
@@ -427,7 +427,7 @@ usbrip ids search --pid 0002 --vid 0e0f #Search for pid AND vid
 ```
 更多示例和信息请参考GitHub：[https://github.com/snovvcrash/usbrip](https://github.com/snovvcrash/usbrip)
 
-<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。\
@@ -437,8 +437,8 @@ usbrip ids search --pid 0002 --vid 0e0f #Search for pid AND vid
 
 ## 检查用户账户和登录活动
 
-检查 _**/etc/passwd**_、_**/etc/shadow**_ 和 **安全日志**，查找异常的名称或在已知未经授权事件附近创建和使用的账户。还要检查可能的sudo暴力攻击。\
-此外，检查 _**/etc/sudoers**_ 和 _**/etc/groups**_ 等文件，查找给用户授予的意外特权。\
+检查 _**/etc/passwd**_、_**/etc/shadow**_ 和 **安全日志**，查找异常的名称或在已知未经授权事件附近创建或使用的账户。还要检查可能的sudo暴力攻击。\
+此外，检查 _**/etc/sudoers**_ 和 _**/etc/groups**_ 等文件，查找给用户授予的意外权限。\
 最后，查找没有密码或密码容易猜测的账户。
 
 ## 检查文件系统
@@ -451,17 +451,17 @@ usbrip ids search --pid 0002 --vid 0e0f #Search for pid AND vid
 * 检查 **$PATH** 内是否有意外的脚本（可能是一些sh或php脚本？）
 * `/dev` 中的文件曾经是特殊文件，您可能会在这里找到与恶意软件相关的非特殊文件。
 * 查找异常或**隐藏的文件**和**目录**，例如“.. ”（点 点 空格）或“..^G ”（点 点 控制-G）
-* 系统上的 /bin/bash 的 Setuid 副本 `find / -user root -perm -04000 –print`
+* 系统上的 `/bin/bash` 的 Setuid 副本 `find / -user root -perm -04000 –print`
 * 检查已删除的**inode的日期时间戳**，如果在同一时间删除了大量文件，则可能表明恶意活动，例如安装了rootkit或木马服务。
-* 由于inode是按照下一个可用的方式分配的，因此在大约相同时间放置在系统上的恶意文件可能会被分配连续的inode。因此，在定位到恶意软件的一个组件后，检查相邻的inode可能会很有成效。
-* 还要检查目录，如 _/bin_ 或 _/sbin_，因为新文件或修改文件的**修改时间**可能很有趣。
+* 由于inode是按照下一个可用的方式分配的，因此在大约相同时间放置在系统上的恶意文件可能会被分配连续的inode。因此，在找到恶意软件的一个组件之后，检查相邻的inode可能会很有成效。
+* 还要检查像 _/bin_ 或 _/sbin_ 这样的目录，因为新文件或修改文件的**修改时间**可能很有趣。
 * 按创建日期对目录中的文件和文件夹进行排序，以查看最近的文件或文件夹（通常是最后一个）。
 
 您可以使用 `ls -laR --sort=time /bin` 检查文件夹中最近的文件。\
 您可以使用 `ls -lai /bin |sort -n` 检查文件夹中文件的inode。
 
 {% hint style="info" %}
-请注意，**攻击者**可以**修改时间**以使**文件看起来合法**，但他**无法修改inode**。如果您发现一个文件表明它的创建和修改时间与同一文件夹中的其他文件相同，但是**inode意外地更大**，那么该文件的时间戳已被修改。
+请注意，**攻击者**可以**修改时间**以使**文件看起来合法**，但他**无法修改inode**。如果您发现一个文件表明它的创建和修改时间与同一文件夹中的其他文件相同，但是**inode**却**意外地更大**，那么该文件的时间戳已被修改。
 {% endhint %}
 
 ## 比较不同文件系统版本的文件
@@ -482,13 +482,15 @@ One tool that can be used for this purpose is the `find` command. By using the `
 find / -type f -newermt "24 hours ago"
 ```
 
-You can also use the `stat` command to obtain detailed information about a file, including its last modification time. For example, the following command will display the last modification time of a file:
+You can also use the `stat` command to obtain detailed information about a file, including its modification time. For example, the following command will display the modification time of a file:
 
 ```
 stat <file_path>
 ```
 
-By analyzing the modified content, you may be able to uncover important evidence or clues related to the case. It is important to document and preserve any findings in a forensically sound manner to ensure their admissibility in court, if necessary.
+Additionally, you can check the system logs for any suspicious activities or modifications. The `/var/log` directory contains various log files that can provide valuable information about system events.
+
+By identifying and analyzing modified content, you can gain insights into the actions taken on the system and potentially uncover evidence relevant to your investigation.
 ```bash
 git diff --no-index --diff-filter=M _openwrt1.extracted/squashfs-root/ _openwrt2.extracted/squashfs-root/ | grep -E "^\+" | grep -v "Installed-Time"
 ```
@@ -551,7 +553,7 @@ git diff --no-index --diff-filter=A _openwrt1.extracted/squashfs-root/ _openwrt2
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-你在一家**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者你想要**获取最新版本的PEASS或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者你想要**获取最新版本的PEASS或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 
 * 发现我们的独家[NFT收藏品](https://opensea.io/collection/the-peass-family)——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
@@ -561,7 +563,7 @@ git diff --no-index --diff-filter=A _openwrt1.extracted/squashfs-root/ _openwrt2
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。\

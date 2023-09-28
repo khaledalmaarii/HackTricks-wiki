@@ -12,10 +12,10 @@
 
 </details>
 
-<figure><img src="../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用 [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) 可以轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。\
+使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -24,7 +24,7 @@
 
 在密码学中，**公钥证书**，也称为**数字证书**或**身份证书**，是用于证明公钥所有权的电子文档。证书包括有关密钥的信息，其所有者的身份信息（称为主体），以及验证证书内容的实体的数字签名（称为颁发者）。如果签名有效，并且检查证书的软件信任颁发者，则可以使用该密钥与证书的主体进行安全通信。
 
-在典型的[公钥基础设施](https://en.wikipedia.org/wiki/Public-key\_infrastructure)（PKI）方案中，证书颁发者是一个[证书颁发机构](https://en.wikipedia.org/wiki/Certificate\_authority)（CA），通常是一家向客户收费以为其颁发证书的公司。相比之下，在[信任网络](https://en.wikipedia.org/wiki/Web\_of\_trust)方案中，个人直接签署彼此的密钥，以一种类似于公钥证书的格式执行相似功能。
+在典型的[公钥基础设施](https://en.wikipedia.org/wiki/Public-key\_infrastructure)（PKI）方案中，证书颁发者是一个[证书颁发机构](https://en.wikipedia.org/wiki/Certificate\_authority)（CA），通常是一家向客户收费为其颁发证书的公司。相比之下，在[信任网络](https://en.wikipedia.org/wiki/Web\_of\_trust)方案中，个人直接签署彼此的密钥，以一种类似于公钥证书的格式执行相似功能。
 
 公钥证书的最常见格式由[X.509](https://en.wikipedia.org/wiki/X.509)定义。由于X.509非常通用，该格式受到为某些用例定义的配置文件的进一步限制，例如[RFC 5280](https://en.wikipedia.org/wiki/PKIX)中定义的[公钥基础设施（X.509）](https://en.wikipedia.org/wiki/PKIX)。
 
@@ -35,8 +35,8 @@
 * **主体**：证书所属的实体：机器、个人或组织。
 * **通用名称**：受证书影响的域。可以是一个或多个，并且可以包含通配符。
 * **国家（C）**：国家
-* **可分辨名称（DN）**：主体的完整名称：`C=US, ST=California, L=San Francisco, O=Example, Inc., CN=shared.global.example.net`
-* **地区（L）**：地方
+* **可分辨名称（DN）**：完整的主体：`C=US, ST=California, L=San Francisco, O=Example, Inc., CN=shared.global.example.net`
+* **地区（L）**：地区
 * **组织（O）**：组织名称
 * **组织单位（OU）**：组织的部门（如“人力资源”）。
 * **州或省（ST、S 或 P）**：州或省名称列表
@@ -48,7 +48,7 @@
 * **组织（O）**：组织名称
 * **组织单位（OU）**：组织的部门（如“人力资源”）。
 * **起始日期**：证书有效的最早时间和日期。通常设置为证书签发前几小时或几天，以避免[时钟偏差](https://en.wikipedia.org/wiki/Clock\_skew#On\_a\_network)问题。
-* **截止日期**：证书失效的时间和日期。
+* **截止日期**：证书不再有效的时间和日期。
 * **公钥**：属于证书主体的公钥。（这是主要部分之一，因为这是由 CA 签名的内容）
 * **公钥算法**：用于生成公钥的算法。例如 RSA。
 * **公钥曲线**：椭圆曲线公钥算法使用的曲线（如果适用）。例如 nistp521。
@@ -79,7 +79,7 @@
 
 ### 什么是证书透明性
 
-证书透明性旨在通过使SSL证书的颁发和存在对域所有者、CA和域用户公开审查来解决基于证书的威胁。具体而言，证书透明性有三个主要目标：
+证书透明性旨在通过使SSL证书的颁发和存在对域所有者、CA和域用户开放审查来解决基于证书的威胁。具体而言，证书透明性有三个主要目标：
 
 * 使CA**无法在未被该域的所有者**看到的情况下**为该域颁发SSL证书**，或者至少非常困难。
 * 提供一个**开放的审计和监控系统**，让任何域所有者或CA确定证书是否被错误或恶意颁发。
@@ -133,29 +133,36 @@ openssl x509 -in certificatename.cer -outform PEM -out certificatename.pem
 ```
 To convert a PEM (Privacy Enhanced Mail) certificate file to DER (Distinguished Encoding Rules) format, you can use the OpenSSL command-line tool. The following command can be used for the conversion:
 
-```plaintext
+```bash
 openssl x509 -in certificate.pem -outform der -out certificate.der
 ```
 
-Replace `certificate.pem` with the path to your PEM certificate file. After executing the command, a new file named `certificate.der` will be created in DER format.
+Replace `certificate.pem` with the path to your PEM certificate file, and `certificate.der` with the desired output file name for the DER format.
 
-It is important to note that PEM and DER are two different formats for representing certificates. PEM is a base64-encoded format that includes header and footer lines, while DER is a binary format without any additional encoding.
+This command will read the PEM certificate file and convert it to DER format, saving the result in the specified output file.
+
+It's important to note that PEM and DER are two different formats for representing certificates. PEM is a base64-encoded format that includes header and footer lines, while DER is a binary format. Converting between these formats can be useful in different scenarios, such as when working with different systems or applications that require a specific certificate format.
 ```
 openssl x509 -outform der -in certificatename.pem -out certificatename.der
 ```
 **将DER转换为PEM**
 
-To convert a DER (Distinguished Encoding Rules) certificate to PEM (Privacy-Enhanced Mail) format, you can use the OpenSSL command-line tool. The PEM format is a base64-encoded DER certificate enclosed between "-----BEGIN CERTIFICATE-----" and "-----END CERTIFICATE-----" headers.
+DER（Distinguished Encoding Rules）和PEM（Privacy-Enhanced Mail）是两种常见的证书编码格式。DER是一种二进制格式，而PEM是一种基于文本的格式。在某些情况下，您可能需要将DER格式的证书转换为PEM格式，以便更方便地使用和阅读。
 
-Here is the command to convert a DER certificate to PEM:
+要将DER格式的证书转换为PEM格式，可以按照以下步骤操作：
 
-```bash
-openssl x509 -inform der -in certificate.der -out certificate.pem
-```
+1. 打开终端或命令提示符窗口，并导航到包含DER证书的目录。
+2. 运行以下命令将DER证书转换为PEM格式：
 
-Replace `certificate.der` with the path to your DER certificate file, and `certificate.pem` with the desired output file name for the PEM certificate.
+   ```plaintext
+   openssl x509 -inform der -in certificate.der -out certificate.pem
+   ```
 
-After running the command, you will have a PEM certificate file that can be easily read and used in various applications that support PEM format.
+   在此命令中，`certificate.der`是您要转换的DER证书的文件名，`certificate.pem`是转换后的PEM证书的文件名。
+
+3. 执行命令后，您将在当前目录中找到转换后的PEM证书文件。
+
+通过执行上述步骤，您可以将DER格式的证书转换为PEM格式，以便更方便地使用和阅读。
 ```
 openssl x509 -inform der -in certificatename.der -out certificatename.pem
 ```
@@ -198,27 +205,25 @@ openssl pkcs12 -in certificatename.pfx -nocerts -nodes -out certificatename.pem
 ```
 **2- 将PEM转换为PKCS8**
 
-Sometimes, you may need to convert a PEM (Privacy Enhanced Mail) formatted certificate to PKCS8 (Public-Key Cryptography Standards #8) format. This can be useful when working with different cryptographic tools or libraries that require PKCS8 format.
+PEM格式是一种常见的证书格式，而PKCS8是一种用于存储私钥的标准格式。在某些情况下，我们可能需要将PEM格式的证书转换为PKCS8格式。下面是一种将PEM格式转换为PKCS8格式的方法：
 
-To convert a PEM file to PKCS8 format, you can use the OpenSSL command-line tool. Here's how you can do it:
+1. 首先，确保您已经安装了OpenSSL工具。
 
-```bash
-openssl pkcs8 -topk8 -inform PEM -outform DER -in private_key.pem -out private_key.pk8 -nocrypt
-```
+2. 打开终端或命令提示符，并导航到包含PEM格式证书的目录。
 
-Let's break down the command:
+3. 运行以下命令将PEM格式证书转换为PKCS8格式：
 
-- `openssl pkcs8`: This is the OpenSSL command for PKCS8 operations.
-- `-topk8`: This option specifies that we want to convert the key to PKCS8 format.
-- `-inform PEM`: This option specifies the input format as PEM.
-- `-outform DER`: This option specifies the output format as DER (Distinguished Encoding Rules).
-- `-in private_key.pem`: This is the input file, which is the PEM formatted private key.
-- `-out private_key.pk8`: This is the output file, which will be the PKCS8 formatted private key.
-- `-nocrypt`: This option specifies that we don't want to encrypt the private key with a passphrase.
+   ```bash
+   openssl pkcs8 -topk8 -inform PEM -outform PEM -in private.pem -out private_pkcs8.pem
+   ```
 
-After running the command, you will have the private key in PKCS8 format stored in the `private_key.pk8` file.
+   在上述命令中，`private.pem`是您要转换的PEM格式证书的文件名，`private_pkcs8.pem`是转换后的PKCS8格式证书的文件名。
 
-Remember to handle the private key securely and protect it from unauthorized access.
+4. 输入命令后，系统将提示您输入PEM格式证书的密码。输入密码后，转换过程将开始。
+
+5. 转换完成后，您将在当前目录下找到一个名为`private_pkcs8.pem`的文件，这就是转换后的PKCS8格式证书。
+
+通过执行上述步骤，您可以将PEM格式证书转换为PKCS8格式，以便在需要的情况下使用。
 ```
 openSSL pkcs8 -in certificatename.pem -topk8 -nocrypt -out certificatename.pk8
 ```
@@ -255,18 +260,19 @@ Remember to securely store the PFX file, as it contains sensitive information.
 ```
 openssl pkcs12 -export -in certificatename.cer -inkey privateKey.key -out certificatename.pfx -certfile  cacert.cer
 ```
-<figure><img src="../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)轻松构建和自动化由全球**最先进**的社区工具提供支持的工作流程。
+\
+使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和自动化由全球**最先进**的社区工具提供支持的工作流程。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者你想要访问**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在一家**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者你想要访问**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**

