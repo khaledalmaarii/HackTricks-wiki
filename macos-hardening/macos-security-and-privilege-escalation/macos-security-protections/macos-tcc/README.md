@@ -36,7 +36,9 @@ Les autorisations sont héritées de l'application parente et les autorisations 
 
 ### Base de données TCC
 
-Les sélections sont ensuite stockées dans la base de données TCC du système, dans `/Library/Application Support/com.apple.TCC/TCC.db`, ou dans `$HOME/Library/Application Support/com.apple.TCC/TCC.db` pour les préférences par utilisateur. La base de données est protégée contre les modifications avec SIP (System Integrity Protection), mais vous pouvez les lire en accordant un accès complet au disque.
+Les sélections sont ensuite stockées dans la base de données TCC du système, dans `/Library/Application Support/com.apple.TCC/TCC.db`, ou dans `$HOME/Library/Application Support/com.apple.TCC/TCC.db` pour les préférences par utilisateur. Les bases de données sont protégées contre les modifications avec SIP (System Integrity Protection), mais vous pouvez les lire.
+
+De plus, un processus avec un accès complet au disque peut modifier la base de données en mode utilisateur.
 
 {% hint style="info" %}
 L'interface utilisateur du centre de notifications peut apporter des modifications à la base de données TCC du système :
@@ -96,15 +98,15 @@ En vérifiant les deux bases de données, vous pouvez vérifier les autorisation
 {% hint style="info" %}
 Certaines autorisations TCC sont : kTCCServiceAppleEvents, kTCCServiceCalendar, kTCCServicePhotos... Il n'existe pas de liste publique qui les définit toutes, mais vous pouvez consulter cette [**liste de celles connues**](https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive#service).
 
-**L'accès complet au disque** est nommé `kTCCServiceSystemPolicyAllFiles` et `kTCCServiceAppleEvents` permet à l'application d'envoyer des événements à d'autres applications couramment utilisées pour automatiser des tâches.
+**L'accès complet au disque** est nommé **`kTCCServiceSystemPolicyAllFiles`** et **`kTCCServiceAppleEvents`** permet à l'application d'envoyer des événements à d'autres applications couramment utilisées pour **automatiser des tâches**. De plus, **`kTCCServiceSystemPolicySysAdminFiles`** permet de **modifier** l'attribut **`NFSHomeDirectory`** d'un utilisateur qui modifie son dossier personnel et permet donc de **contourner TCC**.
 {% endhint %}
 
 Vous pouvez également vérifier les **autorisations déjà accordées** aux applications dans `Préférences Système --> Sécurité et confidentialité --> Confidentialité --> Fichiers et dossiers`.
 
 {% hint style="success" %}
-Notez que même si l'une des bases de données se trouve dans le répertoire de l'utilisateur, **les utilisateurs ne peuvent pas modifier directement ces bases de données en raison de SIP** (même si vous êtes root). La seule façon de configurer ou de modifier une nouvelle règle est via le panneau Préférences Système ou les invites où l'application demande à l'utilisateur.
+Notez que même si l'une des bases de données se trouve dans le dossier de l'utilisateur, **les utilisateurs ne peuvent pas modifier directement ces bases de données en raison de SIP** (même si vous êtes root). La seule façon de configurer ou de modifier une nouvelle règle est via le panneau des Préférences Système ou les invites où l'application demande à l'utilisateur.
 
-Cependant, n'oubliez pas que les utilisateurs peuvent **supprimer ou interroger des règles** en utilisant **`tccutil`**.
+Cependant, rappelez-vous que les utilisateurs peuvent **supprimer ou interroger des règles** en utilisant **`tccutil`**.
 {% endhint %}
 
 ### Vérifications de signature TCC
@@ -157,7 +159,7 @@ Cela évitera à Calendar de demander à l'utilisateur d'accéder aux rappels, a
 
 ### Intention de l'utilisateur / com.apple.macl
 
-Comme mentionné précédemment, il est possible d'accorder à une application l'accès à un fichier en le faisant glisser et déposer dessus. Cet accès ne sera pas spécifié dans une base de données TCC, mais en tant qu'**attribut étendu du fichier**. Cet attribut **stockera l'UUID** de l'application autorisée :
+Comme mentionné précédemment, il est possible d'accorder l'accès à une application à un fichier en le faisant glisser et déposer dessus. Cet accès ne sera pas spécifié dans une base de données TCC, mais en tant qu'**attribut étendu du fichier**. Cet attribut **stockera l'UUID** de l'application autorisée :
 ```bash
 xattr Desktop/private.txt
 com.apple.macl
@@ -175,10 +177,14 @@ uuid 769FD8F1-90E0-3206-808C-A8947BEBD6C3
 {% hint style="info" %}
 Il est curieux que l'attribut **`com.apple.macl`** soit géré par le **Sandbox**, et non par tccd.
 
-Notez également que si vous déplacez un fichier qui permet l'UUID d'une application sur votre ordinateur vers un autre ordinateur, car la même application aura des UID différents, cela ne donnera pas accès à cette application.
+Notez également que si vous déplacez un fichier qui autorise l'UUID d'une application sur votre ordinateur vers un autre ordinateur, car la même application aura des UID différents, cela ne donnera pas accès à cette application.
 {% endhint %}
 
 L'attribut étendu `com.apple.macl` **ne peut pas être effacé** comme les autres attributs étendus car il est **protégé par SIP**. Cependant, comme [**expliqué dans cet article**](https://www.brunerd.com/blog/2020/01/07/track-and-tackle-com-apple-macl/), il est possible de le désactiver en **compressant** le fichier, en le **supprimant** et en le **décompressant**.
+
+### Contournements de TCC
+
+
 
 ## Références
 

