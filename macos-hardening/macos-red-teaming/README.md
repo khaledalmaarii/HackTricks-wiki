@@ -43,7 +43,7 @@ JAMF可以运行**自定义脚本**（由系统管理员开发的脚本）、**�
 
 #### JAMF自注册
 
-访问类似`https://<company-name>.jamfcloud.com/enroll/`的页面，查看是否启用了**自注册**。如果启用了，可能会**要求提供凭据**。
+访问`https://<company-name>.jamfcloud.com/enroll/`等页面，查看是否启用了**自注册**。如果启用了，可能会**要求提供凭据**。
 
 你可以使用脚本[**JamfSniper.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfSniper.py)进行密码喷洒攻击。
 
@@ -53,15 +53,15 @@ JAMF可以运行**自定义脚本**（由系统管理员开发的脚本）、**�
 
 #### JAMF设备认证
 
-<figure><img src="../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-**`jamf`**二进制文件包含了打开钥匙串的秘密，该秘密在发现时是**共享**的，它是：**`jk23ucnq91jfu9aj`**。\
+**`jamf`**二进制文件包含了打开钥匙串的秘密，当时这个秘密是**共享**的，它是：**`jk23ucnq91jfu9aj`**。\
 此外，jamf作为一个**LaunchDaemon**在**`/Library/LaunchAgents/com.jamf.management.agent.plist`**中持久存在。
 
 #### 接管JAMF设备
 
 **`jamf`**将使用的**JSS**（Jamf软件服务器）**URL**位于**`/Library/Preferences/com.jamfsoftware.jamf.plist`**中。\
-该文件基本上包含了URL：
+这个文件基本上包含了URL：
 
 {% code overflow="wrap" %}
 ```bash
@@ -132,10 +132,10 @@ sudo jamf policy -id 0
 ```bash
 dscl "/Active Directory/[Domain]/All Domains" ls /
 ```
-此外，还有一些针对MacOS的工具可用于自动枚举AD并与Kerberos进行交互：
+此外，还有一些针对MacOS的工具，可以自动枚举AD并与Kerberos进行交互：
 
 * [**Machound**](https://github.com/XMCyber/MacHound)：MacHound是Bloodhound审计工具的扩展，允许在MacOS主机上收集和摄取Active Directory关系。
-* [**Bifrost**](https://github.com/its-a-feature/bifrost)：Bifrost是一个Objective-C项目，旨在与macOS上的Heimdal krb5 API进行交互。该项目的目标是使用本机API在macOS设备上实现更好的Kerberos安全测试，而无需在目标上安装任何其他框架或软件包。
+* [**Bifrost**](https://github.com/its-a-feature/bifrost)：Bifrost是一个Objective-C项目，旨在与macOS上的Heimdal krb5 API进行交互。该项目的目标是使用本地API在macOS设备上实现更好的Kerberos安全测试，而无需在目标上安装任何其他框架或软件包。
 * [**Orchard**](https://github.com/its-a-feature/Orchard)：用于执行Active Directory枚举的JavaScript for Automation (JXA)工具。
 
 ### 域信息

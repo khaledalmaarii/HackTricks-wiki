@@ -5,22 +5,22 @@
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
 
 * 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品- [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
-如果你对**黑客职业**感兴趣并且想要攻破不可攻破的系统-**我们正在招聘！**（需要流利的波兰语书写和口语能力）。
+如果你对**黑客职业**感兴趣并且想要攻破不可攻破的系统 - **我们正在招聘！**（需要流利的波兰语书写和口语能力）。
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
 ## WMIC
 
-**Wmic**可以用来在**启动时**运行程序。使用以下命令查看在启动时运行的二进制文件：
+可以使用**Wmic**在**启动时**运行程序。查看在启动时运行的二进制文件：
 ```bash
 wmic startup get caption,command 2>nul & ^
 Get-CimInstance Win32_StartupCommand | select Name, command, Location, User | fl
@@ -160,10 +160,10 @@ Get-ItemProperty -Path 'Registry::HKCU\Software\Wow6432Node\Microsoft\Windows\Ru
 * `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders`
 * `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders`
 
-任何创建到启动子键指向的位置的快捷方式都会在登录/重启时启动服务。启动位置在本地计算机和当前用户中都有指定。
+任何创建到启动子键所指向位置的快捷方式都会在登录/重启时启动服务。启动位置在本地计算机和当前用户中都有指定。
 
 {% hint style="info" %}
-如果你可以覆盖**HKLM**下的任何\[User] Shell Folder，你就可以将其指向一个由你控制的文件夹，并放置一个后门，这样每当用户登录系统时，特权就会被提升并执行后门。
+如果你能覆盖掉 **HKLM** 下的任何\[User] Shell Folder，你就可以将其指向一个由你控制的文件夹，并放置一个后门，这样每当用户登录系统时，特权就会被提升并执行后门。
 {% endhint %}
 ```bash
 reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders" /v "Common Startup"
@@ -273,14 +273,14 @@ reg query "HKCU\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components
 reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects" /s
 reg query "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects" /s
 ```
-请注意，注册表中将包含每个dll的1个新注册表项，并由**CLSID**表示。您可以在`HKLM\SOFTWARE\Classes\CLSID\{<CLSID>}`中找到CLSID信息。
+请注意，注册表中将包含每个dll的1个新注册表，并由**CLSID**表示。您可以在`HKLM\SOFTWARE\Classes\CLSID\{<CLSID>}`中找到CLSID信息。
 
 ### Internet Explorer扩展
 
 * `HKLM\Software\Microsoft\Internet Explorer\Extensions`
 * `HKLM\Software\Wow6432Node\Microsoft\Internet Explorer\Extensions`
 
-请注意，注册表中将包含每个dll的1个新注册表项，并由**CLSID**表示。您可以在`HKLM\SOFTWARE\Classes\CLSID\{<CLSID>}`中找到CLSID信息。
+请注意，注册表中将包含每个dll的1个新注册表，并由**CLSID**表示。您可以在`HKLM\SOFTWARE\Classes\CLSID\{<CLSID>}`中找到CLSID信息。
 
 ### 字体驱动程序
 
@@ -312,13 +312,11 @@ When a program is launched, the operating system checks if there are any IFEO en
 
 当一个程序被启动时，操作系统会检查Windows注册表中是否存在该程序的任何IFEO条目。如果存在IFEO条目，则启动指定的调试器而不是原始程序。这可以用来以提升的权限执行任意代码。
 
-To escalate privileges using IFEO, an attacker can create a new IFEO entry for a system utility or a trusted application that runs with higher privileges. The attacker can specify their own malicious binary as the debugger, which will be executed with elevated privileges whenever the targeted program is launched.
+To escalate privileges using IFEO, an attacker needs to create a new IFEO entry for a target program and specify a malicious binary as the debugger. When the target program is launched, the malicious binary will be executed with the same privileges as the target program, potentially allowing the attacker to gain administrative access.
 
-要使用IFEO提升权限，攻击者可以为系统实用程序或以较高权限运行的受信任应用程序创建一个新的IFEO条目。攻击者可以将自己的恶意二进制文件指定为调试器，每当目标程序启动时，该恶意二进制文件都会以提升的权限执行。
+要使用IFEO提升权限，攻击者需要为目标程序创建一个新的IFEO条目，并将恶意二进制文件指定为调试器。当目标程序被启动时，恶意二进制文件将以与目标程序相同的权限执行，可能允许攻击者获得管理员访问权限。
 
-To prevent privilege escalation through IFEO, it is recommended to regularly monitor the IFEO entries in the Windows Registry and remove any suspicious or unnecessary entries. Additionally, restricting write access to the IFEO registry keys can help mitigate this attack vector.
-
-为了防止通过IFEO进行权限提升，建议定期监视Windows注册表中的IFEO条目，并删除任何可疑或不必要的条目。此外，限制对IFEO注册表键的写访问可以帮助减轻这种攻击向量。
+To prevent privilege escalation through IFEO, it is recommended to regularly monitor the Windows Registry for any suspicious IFEO entries. Additionally, restricting access to the Windows Registry and implementing strong security measures can help mitigate the risk of IFEO abuse.
 ```
 HKLM\Software\Microsoft\Windows NT\CurrentVersion\Image File Execution Options
 HKLM\Software\Microsoft\Wow6432Node\Windows NT\CurrentVersion\Image File Execution Options
@@ -339,9 +337,9 @@ autorunsc.exe -m -nobanner -a * -ct /accepteula
 * [https://attack.mitre.org/techniques/T1547/001/](https://attack.mitre.org/techniques/T1547/001/)
 * [https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2](https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2)
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
-如果您对**黑客职业**感兴趣并想要攻破不可攻破的系统 - **我们正在招聘！**（需要流利的波兰语书面和口语表达能力）。
+如果您对**黑客职业**感兴趣并想要攻击不可攻破的目标 - **我们正在招聘！**（需要流利的波兰语书面和口语能力）。
 
 {% embed url="https://www.stmcyber.com/careers" %}
 

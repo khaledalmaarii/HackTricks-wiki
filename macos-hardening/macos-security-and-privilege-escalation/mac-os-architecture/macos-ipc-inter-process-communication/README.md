@@ -5,7 +5,7 @@
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * 你在一个**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 发现我们的独家[NFT收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
@@ -23,12 +23,12 @@ Mach使用**任务（task）**作为共享资源的**最小单位**，每个任�
 * **接收权限**，允许接收发送到端口的消息。Mach端口是MPSC（多生产者，单消费者）队列，这意味着整个系统中每个端口只能有**一个接收权限**（与管道不同，多个进程可以持有指向管道读端的文件描述符）。
 * 拥有接收权限的**任务可以接收消息并创建发送权限**，从而可以发送消息。最初，只有**自己的任务对其端口拥有接收权限**。
 * **发送权限**，允许向端口发送消息。
-* 发送权限可以进行**克隆**，因此拥有发送权限的任务可以克隆该权限并将其授予第三个任务。
+* 发送权限可以进行**克隆**，因此拥有发送权限的任务可以克隆该权限并将其授予第三方任务。
 * **一次性发送权限**，允许向端口发送一条消息，然后消失。
 * **端口集权限**，表示一个**端口集**而不是单个端口。从端口集中出队一条消息会从其中一个包含的端口中出队。端口集可用于同时监听多个端口，类似于Unix中的`select`/`poll`/`epoll`/`kqueue`。
-* **死命名**，不是实际的端口权限，只是一个占位符。当一个端口被销毁时，所有现有的端口权限都变成死命名。
+* **死名称**，不是实际的端口权限，而只是一个占位符。当一个端口被销毁时，所有现有的端口权限都变成死名称。
 
-**任务可以将发送权限传输给其他任务**，使其能够发送消息回来。**发送权限也可以进行克隆**，因此任务可以复制并将权限授予第三个任务。这与一个称为**引导服务器**的中间进程结合使用，可以实现任务之间的有效通信。
+**任务可以将发送权限传输给其他任务**，使其能够发送消息回来。**发送权限也可以进行克隆**，因此任务可以复制并将权限授予第三方任务。这与一个称为**引导服务器**的中间进程结合使用，可以实现任务之间的有效通信。
 
 #### 步骤：
 
@@ -36,9 +36,9 @@ Mach使用**任务（task）**作为共享资源的**最小单位**，每个任�
 
 1. 任务**A**初始化一个**新的端口**，在此过程中获得一个**接收权限**。
 2. 作为接收权限的持有者，任务**A**为端口**生成一个发送权限**。
-3. 任务**A**通过引导注册过程与**引导服务器**建立**连接**，提供**端口的服务名称**和**发送权限**。
-4. 任务**B**与**引导服务器**交互，执行服务名称的引导**查找**。如果成功，**服务器复制从任务A接收到的发送权限**，并将其**传输给任务B**。
-5. 获得发送权限后，任务**B**能够**构建**一条**消息**并将其**发送给任务A**。
+3. 任务**A**通过引导注册过程与**引导服务器**建立**连接**，提供端口的服务名称和通过发送权限。
+4. 任务**B**与**引导服务器**交互，执行服务名称的引导查找。如果成功，**服务器复制从任务A接收到的发送权限**并将其**传输给任务B**。
+5. 获得发送权限后，任务**B**能够**构建消息**并将其**发送给任务A**。
 
 引导服务器**无法对任务声称的服务名称进行身份验证**。这意味着一个任务有可能**冒充任何系统任务**，例如虚假地**声称授权服务名称**，然后批准每个请求。
 
@@ -46,15 +46,15 @@ Mach使用**任务（task）**作为共享资源的**最小单位**，每个任�
 
 对于这些预定义服务，**查找过程略有不同**。当查找服务名称时，launchd会动态启动服务。新的工作流程如下：
 
-* 任务**B**启动一个服务名称的引导**查找**。
+* 任务**B**为服务名称**发起引导查找**。
 * **launchd**检查任务是否正在运行，如果没有，则**启动**它。
-* 任务**A**（服务）执行引导**签入**。在这里，引导服务器创建一个发送权限，保留它，并将**接收权限传输给任务A**。
+* 任务**A**（服务）执行**引导签入**。在这里，引导服务器创建一个发送权限，保留它，并将接收权限**传输给任务A**。
 * launchd复制**发送权限并将其发送给任务B**。
 
-然而，这个过程仅适用于预定义的系统任务。非系统任务仍然按照最初的描述进行操作，这可能导致冒充。
+然而，此过程仅适用于预定义的系统任务。非系统任务仍然按照最初的描述进行操作，这可能导致冒充。
 ### 代码示例
 
-请注意，**发送方**在这里**分配**了一个端口，为名称`org.darlinghq.example`创建了一个**发送权限**，并将其发送到**引导服务器**，而发送方则请求该名称的**发送权限**并使用它来**发送消息**。
+请注意，**发送方**在分配一个端口后，为名称`org.darlinghq.example`创建了一个**发送权限**，并将其发送到**引导服务器**，而发送方则请求该名称的**发送权限**并使用它来**发送消息**。
 
 {% tabs %}
 {% tab title="receiver.c" %}
@@ -738,20 +738,19 @@ memset(&remoteThreadState64, '\0', sizeof(remoteThreadState64));
 remoteStack64 += (STACK_SIZE / 2); // 这是真正的堆栈
 //remoteStack64 -= 8;  // 需要 16 字节对齐
 
-const char *p = (const char *)remoteCode64;
+const char* p = (const char*) remoteCode64;
 
 remoteThreadState64.ash.flavor = ARM_THREAD_STATE64;
 remoteThreadState64.ash.count = ARM_THREAD_STATE64_COUNT;
-remoteThreadState64.ts_64.__pc = (u_int64_t)remoteCode64;
-remoteThreadState64.ts_64.__sp = (u_int64_t)remoteStack64;
+remoteThreadState64.ts_64.__pc = (u_int64_t) remoteCode64;
+remoteThreadState64.ts_64.__sp = (u_int64_t) remoteStack64;
 
 printf("远程堆栈 64  0x%llx，远程代码为 %p\n", remoteStack64, p);
 
 kr = thread_create_running(remoteTask, ARM_THREAD_STATE64, // ARM_THREAD_STATE64,
-                           (thread_state_t)&remoteThreadState64.ts_64, ARM_THREAD_STATE64_COUNT, &remoteThread);
+                           (thread_state_t) &remoteThreadState64.ts_64, ARM_THREAD_STATE64_COUNT, &remoteThread);
 
-if (kr != KERN_SUCCESS)
-{
+if (kr != KERN_SUCCESS) {
     fprintf(stderr, "无法创建远程线程：错误 %s", mach_error_string(kr));
     return (-3);
 }
@@ -759,12 +758,12 @@ if (kr != KERN_SUCCESS)
 return (0);
 }
 
-int main(int argc, const char *argv[])
+int main(int argc, const char * argv[])
 {
 if (argc < 3)
 {
     fprintf(stderr, "用法：%s _pid_ _action_\n", argv[0]);
-    fprintf(stderr, "   _action_：磁盘上 dylib 的路径\n");
+    fprintf(stderr, "   _action_：磁盘上的 dylib 路径\n");
     exit(0);
 }
 
@@ -773,8 +772,7 @@ const char *action = argv[2];
 struct stat buf;
 
 int rc = stat(action, &buf);
-if (rc == 0)
-    inject(pid, action);
+if (rc == 0) inject(pid, action);
 else
 {
     fprintf(stderr, "找不到 dylib\n");
@@ -820,7 +818,7 @@ XPC服务在需要时由**launchd**启动，并在所有任务完成后**关闭*
 
 ### 系统范围的XPC服务
 
-系统范围的XPC服务对所有用户都可访问。这些服务，无论是launchd还是Mach类型，都需要在指定目录中的plist文件中进行**定义**，例如**`/System/Library/LaunchDaemons`**、**`/Library/LaunchDaemons`**、**`/System/Library/LaunchAgents`**或**`/Library/LaunchAgents`**。
+系统范围的XPC服务对所有用户都是可访问的。这些服务，无论是launchd还是Mach类型，都需要在指定目录中的plist文件中进行**定义**，例如**`/System/Library/LaunchDaemons`**、**`/Library/LaunchDaemons`**、**`/System/Library/LaunchAgents`**或**`/Library/LaunchAgents`**。
 
 这些plist文件将具有一个名为**`MachServices`**的键，其中包含服务的名称，以及一个名为**`Program`**的键，其中包含二进制文件的路径：
 ```xml
@@ -860,11 +858,11 @@ cat /Library/LaunchDaemons/com.jamf.management.daemon.plist
 
 ### XPC事件消息
 
-应用程序可以订阅不同的事件消息，使它们能够在发生这些事件时按需启动。这些服务的设置是在**launchd plist文件**中完成的，位于与前面的文件相同的目录中，并包含一个额外的**`LaunchEvent`**键。
+应用程序可以订阅不同的事件消息，使它们能够在发生这些事件时按需启动。这些服务的设置是在**与前面的文件相同的目录中的launchd plist文件**中完成的，其中包含一个额外的**`LaunchEvent`**键。
 
 ### XPC连接进程检查
 
-当一个进程尝试通过XPC连接调用一个方法时，XPC服务应该检查该进程是否被允许连接。以下是检查的常见方式和常见陷阱：
+当一个进程尝试通过XPC连接调用一个方法时，**XPC服务应该检查该进程是否被允许连接**。以下是检查的常见方式和常见陷阱：
 
 {% content-ref url="macos-xpc-connecting-process-check.md" %}
 [macos-xpc-connecting-process-check.md](macos-xpc-connecting-process-check.md)
@@ -872,7 +870,7 @@ cat /Library/LaunchDaemons/com.jamf.management.daemon.plist
 
 ### XPC授权
 
-Apple还允许应用程序配置一些权限以及如何获取这些权限，因此如果调用进程具有这些权限，它将被允许调用XPC服务的方法：
+Apple还允许应用程序**配置一些权限以及如何获取这些权限**，因此如果调用进程具有这些权限，它将被**允许调用XPC服务的方法**：
 
 {% content-ref url="macos-xpc-authorization.md" %}
 [macos-xpc-authorization.md](macos-xpc-authorization.md)
@@ -1088,7 +1086,9 @@ listener.delegate = delegate;
 sleep(10); // Fake something is done and then it ends
 }
 ```
-{% tab title="oc_xpc_client.m" %}oc_xpc_client.m文件
+{% tab title="oc_xpc_client.m" %}
+
+## oc_xpc_client.m
 
 ```objective-c
 #import <Foundation/Foundation.h>
@@ -1113,7 +1113,41 @@ int main(int argc, const char * argv[]) {
 }
 ```
 
-这是一个Objective-C文件，用于创建一个XPC客户端连接到`com.apple.securityd`服务。它使用`xpc_connection_create_mach_service`函数创建一个特权的Mach服务连接，并使用`xpc_connection_set_event_handler`函数设置一个事件处理程序来处理接收到的事件。在事件处理程序中，它检查事件的类型是否为字典类型，并获取字典中的描述信息。如果存在描述信息，则打印出接收到的事件描述。最后，它通过调用`dispatch_main`函数来启动主循环，以保持连接的活动状态。
+### Description
+
+This Objective-C code demonstrates how to create an XPC client that communicates with the `com.apple.securityd` Mach service. XPC (Inter-Process Communication) is a mechanism provided by macOS for processes to communicate with each other.
+
+The code creates an XPC connection using `xpc_connection_create_mach_service` and specifies the target Mach service as `com.apple.securityd`. The `XPC_CONNECTION_MACH_SERVICE_PRIVILEGED` flag is used to indicate that the connection should be privileged.
+
+An event handler is set using `xpc_connection_set_event_handler` to handle incoming events from the XPC service. In this example, the event handler checks if the event is a dictionary and retrieves the value associated with the key "description". If a description is found, it is printed to the console.
+
+The connection is resumed using `xpc_connection_resume` to start the communication with the XPC service.
+
+Finally, the `dispatch_main` function is called to start the main run loop and keep the program running.
+
+### Usage
+
+Compile the code using the following command:
+
+```bash
+clang -framework Foundation -o oc_xpc_client oc_xpc_client.m
+```
+
+Run the compiled binary:
+
+```bash
+./oc_xpc_client
+```
+
+The XPC client will connect to the `com.apple.securityd` service and print any received events with a description to the console.
+
+### References
+
+- [XPC Services](https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingXPCServices.html)
+- [XPC Overview](https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingXPCServices.html#//apple_ref/doc/uid/10000172i-SW6-SW1)
+- [XPC Connection API](https://developer.apple.com/documentation/xpc/xpc_connection_api)
+
+{% endtab %}
 ```objectivec
 // gcc -framework Foundation oc_xpc_client.m -o oc_xpc_client
 #include <Foundation/Foundation.h>
@@ -1136,7 +1170,7 @@ NSLog(@"Received response: %@", response);
 return 0;
 }
 ```
-{% tab title="xyz.hacktricks.svcoc.plist" %}xyz.hacktricks.svcoc.plist是一个属性列表文件，用于配置macOS中的服务对象通信（Service Object Communication，简称SOC）。SOC是一种进程间通信（IPC）机制，允许不同进程之间相互通信和共享数据。该文件用于定义SOC的配置参数，包括服务名称、通信方式、权限等。通过修改该文件，可以对SOC进行定制和优化，以增强macOS的安全性和特权升级防护。
+{% tab title="xyz.hacktricks.svcoc.plist" %}xyz.hacktricks.svcoc.plist是一个属性列表文件，用于配置macOS中的服务对象通信（Service Object Communication，简称SOC）。SOC是一种进程间通信（IPC）机制，允许不同进程之间相互通信和共享数据。该文件用于定义SOC的配置参数，包括服务名称、通信方式、权限等。通过修改该文件，可以对SOC进行定制和加固，以增强macOS的安全性和特权升级防护。
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
@@ -1180,52 +1214,25 @@ sudo rm /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist /tmp/oc_xpc_server
 ```
 ### Dylib代码中的客户端
 
-在macOS中，动态链接库（Dylib）是一种共享库，可以在多个进程之间共享代码和数据。在Dylib代码中，可以实现客户端来进行进程间通信（IPC）。
+In macOS, a dylib (dynamic library) is a shared library that contains code and data that can be used by multiple applications at runtime. Dylibs are commonly used for code reuse and modularity in macOS applications.
 
-#### 使用Mach消息传递进行IPC
+在macOS中，dylib（动态库）是一个共享库，其中包含可以在运行时由多个应用程序使用的代码和数据。Dylib通常用于macOS应用程序中的代码重用和模块化。
 
-Mach是macOS内核的一部分，它提供了一种IPC机制，允许进程之间通过消息传递进行通信。在Dylib代码中，可以使用Mach消息传递来实现IPC。
+When a dylib is loaded into an application, it becomes part of the application's address space and can be accessed by the application's code. This allows the application to call functions and use data defined in the dylib.
 
-以下是一个示例代码，展示了如何在Dylib中创建一个客户端来发送Mach消息：
+当一个dylib被加载到应用程序中时，它成为应用程序地址空间的一部分，并且可以被应用程序的代码访问。这使得应用程序可以调用在dylib中定义的函数和使用数据。
 
-```c
-#include <mach/mach.h>
+In some cases, a dylib may include a client that is intended to be used by other applications. This client code can be called by other applications to perform specific tasks or access certain functionality provided by the dylib.
 
-void send_mach_message() {
-    mach_port_t server_port;
-    kern_return_t kr;
+在某些情况下，dylib可能包含一个客户端，该客户端旨在被其他应用程序使用。其他应用程序可以调用此客户端代码来执行特定任务或访问dylib提供的某些功能。
 
-    // 获取服务器端口
-    kr = task_get_special_port(mach_task_self(), TASK_BOOTSTRAP_PORT, &server_port);
-    if (kr != KERN_SUCCESS) {
-        // 处理错误
-        return;
-    }
+The client code inside a dylib can be written in any programming language supported by macOS, such as C, Objective-C, or Swift. It can interact with the application that loaded the dylib through various mechanisms, such as function calls, notifications, or inter-process communication (IPC).
 
-    // 创建消息
-    mach_msg_header_t msg;
-    msg.msgh_bits = MACH_MSGH_BITS(MACH_MSG_TYPE_COPY_SEND, 0);
-    msg.msgh_size = sizeof(msg);
-    msg.msgh_remote_port = server_port;
-    msg.msgh_local_port = MACH_PORT_NULL;
-    msg.msgh_reserved = 0;
+dylib中的客户端代码可以使用macOS支持的任何编程语言编写，例如C、Objective-C或Swift。它可以通过各种机制与加载了dylib的应用程序进行交互，例如函数调用、通知或进程间通信（IPC）。
 
-    // 发送消息
-    kr = mach_msg(&msg, MACH_SEND_MSG, sizeof(msg), 0, MACH_PORT_NULL, MACH_MSG_TIMEOUT_NONE, MACH_PORT_NULL);
-    if (kr != KERN_SUCCESS) {
-        // 处理错误
-        return;
-    }
-}
-```
+When developing a dylib with a client, it is important to consider security implications and ensure that the client code is designed to be used safely by other applications. This includes validating inputs, handling errors gracefully, and protecting sensitive data.
 
-在上述示例中，`send_mach_message`函数创建了一个Mach消息，并将其发送到服务器端口。通过修改消息的内容和参数，可以实现更复杂的IPC功能。
-
-#### 其他IPC机制
-
-除了Mach消息传递，macOS还提供了其他IPC机制，如XPC和UNIX域套接字。在Dylib代码中，可以根据需求选择适合的IPC机制来实现进程间通信。
-
-### 客户端内部的Dylib代码
+在开发带有客户端的dylib时，重要的是要考虑安全性问题，并确保客户端代码被设计为可以被其他应用程序安全使用。这包括验证输入、优雅地处理错误和保护敏感数据。
 ```
 // gcc -dynamiclib -framework Foundation oc_xpc_client.m -o oc_xpc_client.dylib
 // gcc injection example:
@@ -1259,6 +1266,408 @@ NSLog(@"Done!");
 return;
 }
 ```
+## MIG - Mach接口生成器
+
+MIG被创建出来是为了简化Mach IPC代码的创建过程。它基本上会根据给定的定义生成服务器和客户端之间通信所需的代码。即使生成的代码很丑陋，开发者只需要导入它，他的代码将比以前简单得多。
+
+### 示例
+
+创建一个定义文件，这里是一个非常简单的函数：
+
+{% code title="myipc.defs" %}
+```cpp
+subsystem myipc 500; // Arbitrary name and id
+
+userprefix USERPREF;        // Prefix for created functions in the client
+serverprefix SERVERPREF;    // Prefix for created functions in the server
+
+#include <mach/mach_types.defs>
+#include <mach/std_types.defs>
+
+simpleroutine Subtract(
+server_port :  mach_port_t;
+n1          :  uint32_t;
+n2          :  uint32_t);
+```
+{% endcode %}
+
+现在使用mig生成服务器和客户端代码，它们将能够相互通信以调用Subtract函数：
+```bash
+mig -header myipcUser.h -sheader myipcServer.h myipc.defs
+```
+当前目录中将创建几个新文件。
+
+在文件**`myipcServer.c`**和**`myipcServer.h`**中，您可以找到结构体**`SERVERPREFmyipc_subsystem`**的声明和定义，该结构体基本上定义了根据接收到的消息ID调用的函数（我们指定了起始编号为500）：
+
+{% tabs %}
+{% tab title="myipcServer.c" %}
+```c
+/* Description of this subsystem, for use in direct RPC */
+const struct SERVERPREFmyipc_subsystem SERVERPREFmyipc_subsystem = {
+myipc_server_routine,
+500, // start ID
+501, // end ID
+(mach_msg_size_t)sizeof(union __ReplyUnion__SERVERPREFmyipc_subsystem),
+(vm_address_t)0,
+{
+{ (mig_impl_routine_t) 0,
+// Function to call
+(mig_stub_routine_t) _XSubtract, 3, 0, (routine_arg_descriptor_t)0, (mach_msg_size_t)sizeof(__Reply__Subtract_t)},
+}
+};
+```
+{% tab title="myipcServer.h" %}
+
+```c
+#ifndef MYIPCSERVER_H
+#define MYIPCSERVER_H
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/msg.h>
+
+#define MAX_TEXT_SIZE 512
+
+struct mymsgbuf {
+    long mtype;
+    char mtext[MAX_TEXT_SIZE];
+};
+
+#endif /* MYIPCSERVER_H */
+```
+
+{% endtab %}
+```c
+/* Description of this subsystem, for use in direct RPC */
+extern const struct SERVERPREFmyipc_subsystem {
+mig_server_routine_t	server;	/* Server routine */
+mach_msg_id_t	start;	/* Min routine number */
+mach_msg_id_t	end;	/* Max routine number + 1 */
+unsigned int	maxsize;	/* Max msg size */
+vm_address_t	reserved;	/* Reserved */
+struct routine_descriptor	/* Array of routine descriptors */
+routine[1];
+} SERVERPREFmyipc_subsystem;
+```
+{% endtab %}
+{% endtabs %}
+
+根据前面的结构，函数**`myipc_server_routine`**将获取**消息ID**并返回要调用的适当函数：
+```c
+mig_external mig_routine_t myipc_server_routine
+(mach_msg_header_t *InHeadP)
+{
+int msgh_id;
+
+msgh_id = InHeadP->msgh_id - 500;
+
+if ((msgh_id > 0) || (msgh_id < 0))
+return 0;
+
+return SERVERPREFmyipc_subsystem.routine[msgh_id].stub_routine;
+}
+```
+在这个例子中，我们只在定义中定义了一个函数，但如果我们定义了更多的函数，它们将会在**`SERVERPREFmyipc_subsystem`**的数组中，并且第一个函数将被分配到ID **500**，第二个函数将被分配到ID **501**...
+
+实际上，我们可以在**`myipcServer.h`**中的**`subsystem_to_name_map_myipc`**结构体中识别出这种关系：
+```c
+#ifndef subsystem_to_name_map_myipc
+#define subsystem_to_name_map_myipc \
+{ "Subtract", 500 }
+#endif
+```
+最后，使服务器工作的另一个重要函数将是**`myipc_server`**，它是实际上调用与接收到的id相关的函数的函数：
+
+```c
+mig_external boolean_t myipc_server
+(mach_msg_header_t *InHeadP, mach_msg_header_t *OutHeadP)
+{
+/*
+* typedef struct {
+* 	mach_msg_header_t Head;
+* 	NDR_record_t NDR;
+* 	kern_return_t RetCode;
+* } mig_reply_error_t;
+*/
+
+mig_routine_t routine;
+
+OutHeadP->msgh_bits = MACH_MSGH_BITS(MACH_MSGH_BITS_REPLY(InHeadP->msgh_bits), 0);
+OutHeadP->msgh_remote_port = InHeadP->msgh_reply_port;
+/* 最小大小：如果不同，routine()将更新它 */
+OutHeadP->msgh_size = (mach_msg_size_t)sizeof(mig_reply_error_t);
+OutHeadP->msgh_local_port = MACH_PORT_NULL;
+OutHeadP->msgh_id = InHeadP->msgh_id + 100;
+OutHeadP->msgh_reserved = 0;
+
+if ((InHeadP->msgh_id > 500) || (InHeadP->msgh_id < 500) ||
+	    ((routine = SERVERPREFmyipc_subsystem.routine[InHeadP->msgh_id - 500].stub_routine) == 0)) {
+		((mig_reply_error_t *)OutHeadP)->NDR = NDR_record;
+((mig_reply_error_t *)OutHeadP)->RetCode = MIG_BAD_ID;
+return FALSE;
+}
+	(*routine) (InHeadP, OutHeadP);
+	return TRUE;
+}
+```
+
+检查以下代码，使用生成的代码创建一个简单的服务器和客户端，其中客户端可以调用服务器的Subtract函数：
+
+{% tabs %}
+{% tab title="myipc_server.c" %}
+```c
+// gcc myipc_server.c myipcServer.c -o myipc_server
+
+#include <stdio.h>
+#include <mach/mach.h>
+#include <servers/bootstrap.h>
+#include "myipcServer.h"
+
+kern_return_t SERVERPREFSubtract(mach_port_t server_port, uint32_t n1, uint32_t n2)
+{
+printf("Received: %d - %d = %d\n", n1, n2, n1 - n2);
+return KERN_SUCCESS;
+}
+
+int main() {
+
+mach_port_t port;
+kern_return_t kr;
+
+// Register the mach service
+kr = bootstrap_check_in(bootstrap_port, "xyz.hacktricks.mig", &port);
+if (kr != KERN_SUCCESS) {
+printf("bootstrap_check_in() failed with code 0x%x\n", kr);
+return 1;
+}
+
+// myipc_server is the function that handles incoming messages (check previous exlpanation)
+mach_msg_server(myipc_server, sizeof(union __RequestUnion__SERVERPREFmyipc_subsystem), port, MACH_MSG_TIMEOUT_NONE);
+}
+```
+{% tab title="myipc_client.c" %}
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/msg.h>
+
+#define MAX_TEXT 512
+
+struct my_msg_st {
+    long int my_msg_type;
+    char some_text[MAX_TEXT];
+};
+
+int main() {
+    int running = 1;
+    struct my_msg_st some_data;
+    int msgid;
+    char buffer[BUFSIZ];
+
+    // Create a message queue
+    msgid = msgget((key_t)1234, 0666 | IPC_CREAT);
+    if (msgid == -1) {
+        fprintf(stderr, "msgget failed\n");
+        exit(EXIT_FAILURE);
+    }
+
+    while (running) {
+        printf("Enter some text: ");
+        fgets(buffer, BUFSIZ, stdin);
+        some_data.my_msg_type = 1;
+        strcpy(some_data.some_text, buffer);
+
+        // Send the message
+        if (msgsnd(msgid, (void *)&some_data, MAX_TEXT, 0) == -1) {
+            fprintf(stderr, "msgsnd failed\n");
+            exit(EXIT_FAILURE);
+        }
+
+        // Exit the loop if "end" is entered
+        if (strncmp(buffer, "end", 3) == 0) {
+            running = 0;
+        }
+    }
+
+    // Delete the message queue
+    if (msgctl(msgid, IPC_RMID, 0) == -1) {
+        fprintf(stderr, "msgctl(IPC_RMID) failed\n");
+        exit(EXIT_FAILURE);
+    }
+
+    exit(EXIT_SUCCESS);
+}
+```
+
+{% endtab %}
+```c
+// gcc myipc_client.c myipcUser.c -o myipc_client
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+#include <mach/mach.h>
+#include <servers/bootstrap.h>
+#include "myipcUser.h"
+
+int main() {
+
+// Lookup the receiver port using the bootstrap server.
+mach_port_t port;
+kern_return_t kr = bootstrap_look_up(bootstrap_port, "xyz.hacktricks.mig", &port);
+if (kr != KERN_SUCCESS) {
+printf("bootstrap_look_up() failed with code 0x%x\n", kr);
+return 1;
+}
+printf("Port right name %d\n", port);
+USERPREFSubtract(port, 40, 2);
+}
+```
+## 二进制分析
+
+由于许多二进制文件现在使用MIG来公开mach端口，了解如何**识别使用了MIG**以及每个消息ID执行的**MIG函数**是很有趣的。
+
+[**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2)可以解析Mach-O二进制文件中的MIG信息，指示消息ID并识别要执行的函数：
+```bash
+jtool2 -d __DATA.__const myipc_server | grep MIG
+```
+先前提到，负责根据接收到的消息ID调用正确函数的函数是`myipc_server`。然而，通常你不会有二进制文件的符号（没有函数名），所以了解反编译后的函数是什么样子很有意思，因为它们总是非常相似（该函数的代码与暴露的函数无关）：
+
+{% tabs %}
+{% tab title="myipc_server反编译 1" %}
+<pre class="language-c"><code class="lang-c">int _myipc_server(int arg0, int arg1) {
+var_10 = arg0;
+var_18 = arg1;
+// 初始指令以找到正确的函数指针
+*(int32_t *)var_18 = *(int32_t *)var_10 &#x26; 0x1f;
+*(int32_t *)(var_18 + 0x8) = *(int32_t *)(var_10 + 0x8);
+*(int32_t *)(var_18 + 0x4) = 0x24;
+*(int32_t *)(var_18 + 0xc) = 0x0;
+*(int32_t *)(var_18 + 0x14) = *(int32_t *)(var_10 + 0x14) + 0x64;
+*(int32_t *)(var_18 + 0x10) = 0x0;
+if (*(int32_t *)(var_10 + 0x14) &#x3C;= 0x1f4 &#x26;&#x26; *(int32_t *)(var_10 + 0x14) >= 0x1f4) {
+rax = *(int32_t *)(var_10 + 0x14);
+// 调用sign_extend_64函数，有助于识别该函数
+// 这将在rax中存储需要调用的调用的指针
+// 检查地址0x100004040的使用（函数地址数组）
+// 0x1f4 = 500（起始ID）
+<strong>            rax = *(sign_extend_64(rax - 0x1f4) * 0x28 + 0x100004040);
+</strong>            var_20 = rax;
+// 如果-否，则if返回false，而else调用正确的函数并返回true
+<strong>            if (rax == 0x0) {
+</strong>                    *(var_18 + 0x18) = **_NDR_record;
+*(int32_t *)(var_18 + 0x20) = 0xfffffffffffffed1;
+var_4 = 0x0;
+}
+else {
+// 计算的地址调用具有2个参数的正确函数
+<strong>                    (var_20)(var_10, var_18);
+</strong>                    var_4 = 0x1;
+}
+}
+else {
+*(var_18 + 0x18) = **_NDR_record;
+*(int32_t *)(var_18 + 0x20) = 0xfffffffffffffed1;
+var_4 = 0x0;
+}
+rax = var_4;
+return rax;
+}
+</code></pre>
+{% endtab %}
+
+{% tab title="myipc_server反编译 2" %}
+这是在不同版本的Hopper free中反编译的相同函数：
+
+<pre class="language-c"><code class="lang-c">int _myipc_server(int arg0, int arg1) {
+r31 = r31 - 0x40;
+saved_fp = r29;
+stack[-8] = r30;
+var_10 = arg0;
+var_18 = arg1;
+// 初始指令以找到正确的函数指针
+*(int32_t *)var_18 = *(int32_t *)var_10 &#x26; 0x1f | 0x0;
+*(int32_t *)(var_18 + 0x8) = *(int32_t *)(var_10 + 0x8);
+*(int32_t *)(var_18 + 0x4) = 0x24;
+*(int32_t *)(var_18 + 0xc) = 0x0;
+*(int32_t *)(var_18 + 0x14) = *(int32_t *)(var_10 + 0x14) + 0x64;
+*(int32_t *)(var_18 + 0x10) = 0x0;
+r8 = *(int32_t *)(var_10 + 0x14);
+r8 = r8 - 0x1f4;
+if (r8 > 0x0) {
+if (CPU_FLAGS &#x26; G) {
+r8 = 0x1;
+}
+}
+if ((r8 &#x26; 0x1) == 0x0) {
+r8 = *(int32_t *)(var_10 + 0x14);
+r8 = r8 - 0x1f4;
+if (r8 &#x3C; 0x0) {
+if (CPU_FLAGS &#x26; L) {
+r8 = 0x1;
+}
+}
+if ((r8 &#x26; 0x1) == 0x0) {
+r8 = *(int32_t *)(var_10 + 0x14);
+// 0x1f4 = 500（起始ID）
+<strong>                    r8 = r8 - 0x1f4;
+</strong>                    asm { smaddl     x8, w8, w9, x10 };
+r8 = *(r8 + 0x8);
+var_20 = r8;
+r8 = r8 - 0x0;
+if (r8 != 0x0) {
+if (CPU_FLAGS &#x26; NE) {
+r8 = 0x1;
+}
+}
+// 与上一个版本相同的if else
+// 检查地址0x100004040的使用（函数地址数组）
+<strong>                    if ((r8 &#x26; 0x1) == 0x0) {
+</strong><strong>                            *(var_18 + 0x18) = **0x100004000;
+</strong>                            *(int32_t *)(var_18 + 0x20) = 0xfffffed1;
+var_4 = 0x0;
+}
+else {
+// 调用计算的地址，该地址应该是函数
+<strong>                            (var_20)(var_10, var_18);
+</strong>                            var_4 = 0x1;
+}
+}
+else {
+*(var_18 + 0x18) = **0x100004000;
+*(int32_t *)(var_18 + 0x20) = 0xfffffed1;
+var_4 = 0x0;
+}
+}
+else {
+*(var_18 + 0x18) = **0x100004000;
+*(int32_t *)(var_18 + 0x20) = 0xfffffed1;
+var_4 = 0x0;
+}
+r0 = var_4;
+return r0;
+}
+
+</code></pre>
+{% endtab %}
+{% endtabs %}
+
+实际上，如果你转到函数**`0x100004000`**，你会找到**`routine_descriptor`**结构体的数组，结构体的第一个元素是函数实现的地址，**结构体占用0x28字节**，所以每0x28字节（从字节0开始）你可以得到8字节，那就是将要调用的**函数的地址**：
+
+<figure><img src="../../../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+
+<figure><img src="../../../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+
+可以使用[**这个Hopper脚本**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py)提取这些数据。
 ## 参考资料
 
 * [https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html](https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html)

