@@ -40,7 +40,7 @@ Vous pouvez consulter leur **blog** sur [**https://blog.stmcyber.com**](https://
 
 ### [Intigriti](https://www.intigriti.com)
 
-<figure><img src=".gitbook/assets/image (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (2) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 **Intigriti** est la plateforme **n°1 en Europe** pour le piratage éthique et les **bug bounty**.
 
@@ -98,7 +98,7 @@ Gagnez des points de réputation avec chaque bogue vérifié et conquérez le so
 
 [**WebSec**](https://websec.nl) est une entreprise de cybersécurité professionnelle basée à **Amsterdam** qui aide à **protéger** les entreprises **du monde entier** contre les dernières menaces en matière de cybersécurité en fournissant des services de **sécurité offensive** avec une approche **moderne**.
 
-WebSec est une **entreprise de sécurité tout-en-un**, ce qui signifie qu'ils font tout ; tests de pénétration, audits de sécurité, formations à la sensibilisation, campagnes de phishing, examen de code, développement d'exploits, externalisation d'experts en sécurité et bien plus encore.
+WebSec est une **entreprise de sécurité tout-en-un**, ce qui signifie qu'ils font tout : tests de pénétration, audits de sécurité, formations à la sensibilisation, campagnes de phishing, examen de code, développement d'exploits, externalisation d'experts en sécurité et bien plus encore.
 
 Une autre chose intéressante à propos de WebSec est que, contrairement à la moyenne de l'industrie, WebSec est **très confiant dans ses compétences**, à tel point qu'ils **garantissent les meilleurs résultats de qualité**, comme indiqué sur leur site web "**Si nous ne pouvons pas le pirater, vous ne le payez pas !**". Pour plus d'informations, consultez leur [**site web**](https://websec.nl/en/) et leur [**blog**](https://websec.nl/blog/) !
 
@@ -123,7 +123,7 @@ En plus de ce qui précède, WebSec est également un **supporter engagé de Hac
 {% hint style="danger" %}
 Ce livre, 'HackTricks', est destiné à des fins éducatives et informatives uniquement. Le contenu de ce livre est fourni tel quel, et les auteurs et éditeurs ne font aucune déclaration ni garantie d'aucune sorte, expresse ou implicite, quant à l'exhaustivité, l'exactitude, la fiabilité, la pertinence ou la disponibilité des informations, produits, services ou graphiques connexes contenus dans ce livre. Toute confiance que vous accordez à de telles informations est donc strictement à vos propres risques.
 
-Les auteurs et éditeurs ne sauraient en aucun cas être tenus responsables de toute perte ou dommage, y compris, sans s'y limiter, toute perte ou dommage indirect ou consécutif, ou toute perte ou dommage découlant de la perte de données ou de bénéfices résultant de l'utilisation de ce livre.
+Les auteurs et éditeurs ne seront en aucun cas responsables de toute perte ou dommage, y compris, sans s'y limiter, les pertes ou dommages indirects ou consécutifs, ou toute perte ou dommage découlant de la perte de données ou de bénéfices résultant de l'utilisation de ce livre.
 
 De plus, les techniques et astuces décrites dans ce livre sont fournies à des fins éducatives et informatives uniquement et ne doivent pas être utilisées à des fins illégales ou malveillantes. Les auteurs et éditeurs ne cautionnent ni ne soutiennent aucune activité illégale ou contraire à l'éthique, et toute utilisation des informations contenues dans ce livre se fait aux risques et à la discrétion de l'utilisateur.
 

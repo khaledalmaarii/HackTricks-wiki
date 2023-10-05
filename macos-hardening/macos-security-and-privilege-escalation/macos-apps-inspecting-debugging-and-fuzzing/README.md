@@ -47,18 +47,23 @@ jtool2 -D /bin/ls # Decompile binary
 
 # Get signature information
 ARCH=x86_64 jtool2 --sig /System/Applications/Automator.app/Contents/MacOS/Automator
+
+# Get MIG information
+jtool2 -d __DATA.__const myipc_server | grep MIG
 ```
 ### Codesign
 
-La commande `codesign` est utilisée pour signer numériquement les applications macOS afin de garantir leur authenticité et leur intégrité. La signature numérique est une mesure de sécurité qui permet de vérifier l'identité de l'éditeur de l'application et de détecter toute modification non autorisée du code.
+La commande `codesign` est utilisée pour signer numériquement les applications macOS, ce qui garantit leur authenticité et leur intégrité. La signature numérique est une mesure de sécurité importante pour empêcher les applications malveillantes d'être exécutées sur un système.
 
-La commande `codesign` peut être utilisée pour inspecter les signatures numériques des applications macOS, ainsi que pour ajouter, supprimer ou modifier des signatures. Elle peut également être utilisée pour vérifier si une application a été signée correctement et si elle a été altérée depuis sa signature.
+La commande `codesign` peut être utilisée pour inspecter les signatures numériques des applications macOS, ainsi que pour vérifier si une application a été altérée ou modifiée depuis sa signature. Elle peut également être utilisée pour ajouter, supprimer ou remplacer des signatures numériques sur les applications.
 
-L'inspection des signatures numériques peut être utile pour identifier les applications malveillantes ou non signées. En examinant les informations de signature, vous pouvez déterminer si une application provient d'un développeur de confiance et si elle a été modifiée depuis sa signature.
+Lors de l'inspection d'une signature numérique avec `codesign`, vous pouvez obtenir des informations telles que le certificat utilisé pour signer l'application, la date de signature, les identifiants de l'émetteur et du sujet, ainsi que d'autres détails liés à la signature.
 
-La commande `codesign` peut également être utilisée pour vérifier les privilèges d'accès d'une application. En spécifiant l'option `-d` avec la commande, vous pouvez afficher les informations détaillées sur les privilèges d'accès de l'application, y compris les autorisations de lecture, d'écriture et d'exécution.
+La commande `codesign` peut également être utilisée pour vérifier si une application a été signée avec un certificat valide et si elle a été altérée depuis sa signature. Cela permet de détecter les applications malveillantes ou les modifications non autorisées.
 
-En résumé, la commande `codesign` est un outil essentiel pour inspecter, vérifier et gérer les signatures numériques des applications macOS, ainsi que pour vérifier les privilèges d'accès des applications.
+En utilisant `codesign`, vous pouvez également ajouter, supprimer ou remplacer des signatures numériques sur les applications. Cela peut être utile dans le cas où vous souhaitez modifier ou mettre à jour la signature d'une application existante.
+
+En résumé, la commande `codesign` est un outil essentiel pour inspecter, vérifier et gérer les signatures numériques des applications macOS, garantissant ainsi leur authenticité et leur intégrité.
 ```bash
 # Get signer
 codesign -vv -d /bin/ls 2>&1 | grep -E "Authority|TeamIdentifier"
@@ -104,17 +109,15 @@ Vous pouvez obtenir ces informations en utilisant [**class-dump**](https://githu
 ```bash
 class-dump Kindle.app
 ```
-Notez que ces noms peuvent être obscurcis pour rendre la rétro-ingénierie du binaire plus difficile.
-
 #### Appel de fonction
 
-Lorsqu'une fonction est appelée dans un binaire qui utilise Objective-C, le code compilé, au lieu d'appeler cette fonction, appellera **`objc_msgSend`**. Cela appellera ensuite la fonction finale :
+Lorsqu'une fonction est appelée dans un binaire qui utilise Objective-C, le code compilé, au lieu d'appeler directement cette fonction, appellera **`objc_msgSend`**. Cela appellera ensuite la fonction finale :
 
 ![](<../../../.gitbook/assets/image (560).png>)
 
-Les paramètres que cette fonction attend sont :
+Les paramètres que cette fonction attend sont les suivants :
 
-* Le premier paramètre (**self**) est "un pointeur qui pointe vers l'**instance de la classe qui doit recevoir le message**". En d'autres termes, il s'agit de l'objet sur lequel la méthode est invoquée. Si la méthode est une méthode de classe, il s'agira d'une instance de l'objet de classe (dans son ensemble), tandis que pour une méthode d'instance, self pointera vers une instance instanciée de la classe en tant qu'objet.
+* Le premier paramètre (**self**) est "un pointeur qui pointe vers l'**instance de la classe qui doit recevoir le message**". En d'autres termes, il s'agit de l'objet sur lequel la méthode est invoquée. Si la méthode est une méthode de classe, il s'agira d'une instance de l'objet de la classe (dans son ensemble), tandis que pour une méthode d'instance, self pointera vers une instance instanciée de la classe en tant qu'objet.
 * Le deuxième paramètre (**op**) est "le sélecteur de la méthode qui gère le message". Encore une fois, plus simplement, il s'agit simplement du **nom de la méthode**.
 * Les paramètres restants sont toutes les **valeurs requises par la méthode** (op).
 
@@ -123,10 +126,10 @@ Les paramètres que cette fonction attend sont :
 | **1er argument**  | **rdi**                                                         | **self : objet sur lequel la méthode est invoquée**     |
 | **2e argument**  | **rsi**                                                         | **op : nom de la méthode**                             |
 | **3e argument**  | **rdx**                                                         | **1er argument de la méthode**                         |
-| **4e argument**  | **rcx**                                                         | **2e argument de la méthode**                          |
-| **5e argument**  | **r8**                                                          | **3e argument de la méthode**                          |
-| **6e argument**  | **r9**                                                          | **4e argument de la méthode**                          |
-| **7e+ argument** | <p><strong>rsp+</strong><br><strong>(sur la pile)</strong></p> | **5e+ argument de la méthode**                         |
+| **4e argument**  | **rcx**                                                         | **2e argument de la méthode**                         |
+| **5e argument**  | **r8**                                                          | **3e argument de la méthode**                         |
+| **6e argument**  | **r9**                                                          | **4e argument de la méthode**                         |
+| **7e+ argument** | <p><strong>rsp+</strong><br><strong>(sur la pile)</strong></p> | **5e+ argument de la méthode**                        |
 
 ### Swift
 
@@ -155,7 +158,7 @@ Vous pouvez trouver plus d'informations sur les [**informations stockées dans c
 ## Analyse dynamique
 
 {% hint style="warning" %}
-Notez que pour déboguer les binaires, **SIP doit être désactivé** (`csrutil disable` ou `csrutil enable --without debug`) ou copier les binaires dans un dossier temporaire et **supprimer la signature** avec `codesign --remove-signature <chemin-du-binaire>` ou autoriser le débogage du binaire (vous pouvez utiliser [ce script](https://gist.github.com/carlospolop/a66b8d72bb8f43913c4b5ae45672578b)).
+Notez que pour déboguer des binaires, **SIP doit être désactivé** (`csrutil disable` ou `csrutil enable --without debug`) ou copier les binaires dans un dossier temporaire et **supprimer la signature** avec `codesign --remove-signature <chemin-du-binaire>` ou autoriser le débogage du binaire (vous pouvez utiliser [ce script](https://gist.github.com/carlospolop/a66b8d72bb8f43913c4b5ae45672578b)).
 {% endhint %}
 
 {% hint style="warning" %}
@@ -184,7 +187,7 @@ En cliquant avec le bouton droit sur un objet de code, vous pouvez voir les **r�
 
 <figure><img src="../../../.gitbook/assets/image (1) (1) (2).png" alt=""><figcaption></figcaption></figure>
 
-De plus, dans le **panneau central inférieur, vous pouvez écrire des commandes python**.
+De plus, dans la **partie inférieure centrale, vous pouvez écrire des commandes python**.
 
 #### Panneau de droite
 
@@ -194,7 +197,7 @@ Dans le panneau de droite, vous pouvez voir des informations intéressantes tell
 
 Il permet aux utilisateurs d'accéder aux applications à un niveau extrêmement **bas** et offre un moyen aux utilisateurs de **tracer** les **programmes** et même de modifier leur flux d'exécution. Dtrace utilise des **sondes** qui sont **placées dans tout le noyau** et se trouvent à des emplacements tels que le début et la fin des appels système.
 
-DTrace utilise la fonction **`dtrace_probe_create`** pour créer une sonde pour chaque appel système. Ces sondes peuvent être déclenchées au **point d'entrée et de sortie de chaque appel système**. L'interaction avec DTrace se fait via /dev/dtrace, qui n'est disponible que pour l'utilisateur root.
+DTrace utilise la fonction **`dtrace_probe_create`** pour créer une sonde pour chaque appel système. Ces sondes peuvent être déclenchées au **point d'entrée et de sortie de chaque appel système**. L'interaction avec DTrace se fait via /dev/dtrace qui n'est disponible que pour l'utilisateur root.
 
 {% hint style="success" %}
 Pour activer Dtrace sans désactiver complètement la protection SIP, vous pouvez exécuter en mode de récupération: `csrutil enable --without dtrace`
@@ -235,23 +238,19 @@ In this section, we will explore various techniques for inspecting, debugging, a
 
 ## Inspecting MacOS Apps
 
-Inspecting MacOS apps involves analyzing the binary code and resources of an application to understand its inner workings. This can be done using tools like `otool`, `class-dump`, and `Hopper Disassembler`. These tools allow us to examine the app's executable file, libraries, and frameworks, and gain insights into its functionality and potential vulnerabilities.
+Inspecting MacOS apps involves analyzing the binary code and resources of an application to understand its inner workings. This can be done using tools like `otool`, `class-dump`, and `Hopper Disassembler`. These tools allow us to examine the app's executable file, libraries, and frameworks, and extract useful information such as function names, class structures, and API calls.
 
 ## Debugging MacOS Apps
 
-Debugging MacOS apps involves analyzing the runtime behavior of an application to identify and fix bugs or security vulnerabilities. The `lldb` debugger is a powerful tool for debugging MacOS apps. It allows us to set breakpoints, inspect variables, and step through the code to understand how the application behaves under different conditions.
+Debugging MacOS apps involves analyzing the runtime behavior of an application to identify and fix bugs or vulnerabilities. The most commonly used debugger for MacOS is `lldb`, which provides a command-line interface for interacting with the application's execution environment. With `lldb`, we can set breakpoints, inspect variables, and step through the code to understand how the application behaves.
 
 ## Fuzzing MacOS Apps
 
-Fuzzing is a technique used to discover vulnerabilities in software by providing unexpected or malformed inputs. Fuzzing MacOS apps involves generating and feeding random or mutated inputs to an application to trigger crashes or unexpected behavior. Tools like `AFL` (American Fuzzy Lop) and `honggfuzz` are commonly used for fuzzing MacOS apps.
+Fuzzing is a technique used to discover vulnerabilities in software by providing unexpected or malformed inputs. For MacOS apps, we can use tools like `AFL` (American Fuzzy Lop) and `honggfuzz` to perform fuzzing. These tools generate a large number of test cases with random or mutated inputs and monitor the application's behavior for crashes or unexpected outputs. Fuzzing can help uncover memory corruption issues, logic flaws, and other security vulnerabilities.
 
 ## Conclusion
 
-Inspecting, debugging, and fuzzing MacOS apps are crucial steps in the process of identifying and mitigating security vulnerabilities. By understanding the inner workings of an application and analyzing its runtime behavior, we can uncover potential weaknesses and improve the overall security of MacOS apps.
-
----
-
-* script
+Inspecting, debugging, and fuzzing MacOS apps are crucial steps in the process of identifying and mitigating security vulnerabilities. By understanding the inner workings of an application, analyzing its runtime behavior, and testing it with unexpected inputs, we can uncover potential weaknesses and improve the overall security of MacOS applications.
 ```bash
 syscall:::entry
 /pid == $1/
@@ -293,13 +292,13 @@ sudo dtrace -s syscalls_info.d -c "cat /etc/hosts"
 
 `dtruss` is a command-line tool available on macOS that allows you to trace and inspect system calls made by a running application. It can be used for debugging and analyzing the behavior of macOS applications.
 
-To use `dtruss`, you need to specify the target application's process ID (PID) or its name. Once `dtruss` is attached to the target application, it intercepts and displays the system calls made by the application, along with their arguments and return values.
+To use `dtruss`, you need to specify the target application's process ID (PID) or its name. Once `dtruss` is attached to the target application, it intercepts and displays the system calls made by the application in real-time.
 
-The output of `dtruss` can be overwhelming, especially for complex applications. To filter the output and focus on specific system calls or functions, you can use various options and filters provided by `dtruss`.
+The output of `dtruss` includes information such as the system call number, arguments, return values, and any errors encountered. This can be helpful in understanding how an application interacts with the underlying operating system and identifying potential security vulnerabilities or performance issues.
 
-`dtruss` can be a powerful tool for understanding how an application interacts with the underlying operating system and for identifying potential security vulnerabilities or performance issues. However, it should be used responsibly and only on applications that you have the legal right to inspect.
+Keep in mind that `dtruss` requires root privileges to attach to system processes. Additionally, it may impact the performance of the target application, so it's recommended to use it in a controlled environment or on a test system.
 
-**Note:** `dtruss` requires root privileges to attach to system processes.
+To stop `dtruss`, you can use the `Ctrl+C` keyboard shortcut.
 ```bash
 dtruss -c ls #Get syscalls of ls
 dtruss -c -p 1000 #get syscalls of PID 1000
@@ -508,8 +507,8 @@ litefuzz -s -a tcp://localhost:5900 -i input/screenshared-session --reportcrash 
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? Ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).

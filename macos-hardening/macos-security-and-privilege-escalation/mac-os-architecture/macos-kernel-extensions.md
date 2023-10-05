@@ -1,4 +1,4 @@
-# Extensions du noyau macOS
+# Extensions de noyau macOS
 
 <details>
 
@@ -14,21 +14,21 @@
 
 ## Informations de base
 
-Les extensions du noyau (Kexts) sont des **paquets** avec l'extension **`.kext`** qui sont **chargés directement dans l'espace du noyau** de macOS, fournissant des fonctionnalités supplémentaires au système d'exploitation principal.
+Les extensions de noyau (Kexts) sont des **paquets** avec l'extension **`.kext`** qui sont **chargés directement dans l'espace du noyau** de macOS, fournissant des fonctionnalités supplémentaires au système d'exploitation principal.
 
 ### Exigences
 
-Évidemment, c'est si puissant qu'il est compliqué de charger une extension du noyau. Voici les exigences qu'une extension du noyau doit remplir pour être chargée :
+Évidemment, c'est si puissant qu'il est compliqué de charger une extension de noyau. Voici les exigences qu'une extension de noyau doit remplir pour être chargée :
 
-* Lorsque vous entrez en **mode de récupération**, les extensions du noyau doivent être **autorisées à être chargées** :
+* Lorsque vous entrez en **mode de récupération**, les extensions de noyau doivent être **autorisées à être chargées** :
 
-<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-* L'extension du noyau doit être **signée avec un certificat de signature de code du noyau**, qui ne peut être délivré que par **Apple**. Qui examinera en détail l'**entreprise** et les **raisons** pour lesquelles elle est nécessaire.
-* L'extension du noyau doit également être **notarisée**, Apple pourra la vérifier à la recherche de logiciels malveillants.
-* Ensuite, l'**utilisateur root** est celui qui peut charger l'extension du noyau et les fichiers à l'intérieur du package doivent appartenir à root.
+* L'extension de noyau doit être **signée avec un certificat de signature de code de noyau**, qui ne peut être délivré que par **Apple**. Qui examinera en détail l'**entreprise** et les **raisons** pour lesquelles elle est nécessaire.
+* L'extension de noyau doit également être **notarisée**, Apple pourra la vérifier pour détecter les logiciels malveillants.
+* Ensuite, l'**utilisateur root** est celui qui peut charger l'extension de noyau et les fichiers à l'intérieur du package doivent appartenir à root.
 * Pendant le processus de chargement, le package doit être préparé dans un emplacement protégé sans racine : `/Library/StagedExtensions` (nécessite l'autorisation `com.apple.rootless.storage.KernelExtensionManagement`)
-* Enfin, lors de la tentative de chargement, l'**utilisateur recevra une demande de confirmation** et, s'il l'accepte, l'ordinateur doit **redémarrer** pour la charger.
+* Enfin, lors de la tentative de chargement, l'**utilisateur recevra une demande de confirmation** et, s'il l'accepte, l'ordinateur doit **redémarrer** pour le charger.
 
 ### Processus de chargement
 

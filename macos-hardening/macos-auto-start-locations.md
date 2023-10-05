@@ -115,11 +115,11 @@ Writeup (xterm): [https://theevilbit.github.io/beyond/beyond\_0018/](https://the
 * `/etc/profile` (n'a pas fonctionné)
 * `~/.profile` (n'a pas fonctionné)
 * `~/.xinitrc`, `~/.xserverrc`, `/opt/X11/etc/X11/xinit/xinitrc.d/`
-* **Déclencheur**: Censé être déclenché avec xterm, mais il **n'est pas installé** et même après l'installation, cette erreur est affichée : xterm: `DISPLAY is not set`
+* **Déclencheur**: Censé être déclenché avec xterm, mais il **n'est pas installé** et même après l'installation, cette erreur est affichée: xterm: `DISPLAY is not set`
 
 #### Description et exploitation
 
-Les fichiers de démarrage du shell sont exécutés lorsque notre environnement de shell comme `zsh` ou `bash` est en train de **démarrer**. De nos jours, macOS utilise par défaut `/bin/zsh`, et **chaque fois que nous ouvrons `Terminal` ou nous connectons en SSH** sur l'appareil, c'est l'environnement de shell dans lequel nous sommes placés. `bash` et `sh` sont toujours disponibles, mais ils doivent être spécifiquement démarrés.
+Les fichiers de démarrage du shell sont exécutés lorsque notre environnement shell comme `zsh` ou `bash` est en train de **démarrer**. De nos jours, macOS utilise par défaut `/bin/zsh`, et **chaque fois que nous ouvrons `Terminal` ou nous connectons en SSH** sur l'appareil, c'est l'environnement shell dans lequel nous sommes placés. `bash` et `sh` sont toujours disponibles, mais ils doivent être spécifiquement démarrés.
 
 La page de manuel de zsh, que nous pouvons lire avec **`man zsh`**, contient une longue description des fichiers de démarrage.
 ```bash
@@ -147,7 +147,7 @@ Toutes les applications à réouvrir se trouvent dans le plist `~/Library/Prefer
 
 Ainsi, pour que les applications réouvertes lancent votre propre application, vous devez simplement **ajouter votre application à la liste**.
 
-L'UUID peut être trouvé en listant ce répertoire ou avec `ioreg -rd1 -c IOPlatformExpertDevice | awk -F'"' '/IOPlatformUUID/{print $4}'`
+L'UUID peut être trouvé en répertoriant ce répertoire ou avec `ioreg -rd1 -c IOPlatformExpertDevice | awk -F'"' '/IOPlatformUUID/{print $4}'`
 
 Pour vérifier les applications qui seront réouvertes, vous pouvez exécuter :
 ```bash
@@ -415,11 +415,11 @@ Le script **`~/Library/Application Support/iTerm2/Scripts/AutoLaunch.scpt`** ser
 ```bash
 do shell script "touch /tmp/iterm2-autolaunchscpt"
 ```
-Les préférences iTerm2 se trouvent dans **`~/Library/Preferences/com.googlecode.iterm2.plist`** et peuvent **indiquer une commande à exécuter** lorsque le terminal iTerm2 est ouvert.
+Les préférences d'iTerm2 se trouvent dans **`~/Library/Preferences/com.googlecode.iterm2.plist`** et peuvent **indiquer une commande à exécuter** lorsque le terminal iTerm2 est ouvert.
 
-Ce paramètre peut être configuré dans les paramètres iTerm2 :
+Ce paramètre peut être configuré dans les paramètres d'iTerm2 :
 
-<figure><img src="../.gitbook/assets/image.png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Et la commande est reflétée dans les préférences :
 ```bash
@@ -651,22 +651,22 @@ Writeup: [https://posts.specterops.io/folder-actions-for-persistence-on-macos-89
 
 #### Description et exploitation
 
-Un script d'action de dossier est exécuté lorsque le dossier auquel il est attaché a des éléments ajoutés ou supprimés, ou lorsque sa fenêtre est ouverte, fermée, déplacée ou redimensionnée:
+Un script d'action de dossier est exécuté lorsque des éléments sont ajoutés ou supprimés dans le dossier auquel il est attaché, ou lorsque sa fenêtre est ouverte, fermée, déplacée ou redimensionnée :
 
 * Ouvrir le dossier via l'interface utilisateur du Finder
 * Ajouter un fichier au dossier (peut être fait par glisser-déposer ou même dans une invite de commande depuis un terminal)
 * Supprimer un fichier du dossier (peut être fait par glisser-déposer ou même dans une invite de commande depuis un terminal)
 * Naviguer hors du dossier via l'interface utilisateur
 
-Il existe plusieurs façons de mettre en œuvre cela:
+Il existe plusieurs façons de mettre en œuvre cela :
 
 1. Utiliser le programme [Automator](https://support.apple.com/guide/automator/welcome/mac) pour créer un fichier de flux de travail d'action de dossier (.workflow) et l'installer en tant que service.
-2. Clic droit sur un dossier, sélectionnez `Configuration des actions de dossier...`, `Exécuter le service` et attachez manuellement un script.
+2. Clic droit sur un dossier, sélectionner `Configuration des actions de dossier...`, `Exécuter le service` et attacher manuellement un script.
 3. Utiliser OSAScript pour envoyer des messages Apple Event à l'application `System Events.app` pour interroger et enregistrer de manière programmée une nouvelle `Action de dossier`.
 
 * C'est la façon de mettre en œuvre la persistance en utilisant un script OSAScript pour envoyer des messages Apple Event à `System Events.app`
 
-Voici le script qui sera exécuté:
+Voici le script qui sera exécuté :
 
 {% code title="source.js" %}
 ```applescript
@@ -718,11 +718,11 @@ mv /tmp/folder.scpt "$HOME/Library/Scripts/Folder Action Scripts"
 ```
 Ensuite, ouvrez l'application `Folder Actions Setup`, sélectionnez le **dossier que vous souhaitez surveiller** et sélectionnez dans votre cas **`folder.scpt`** (dans mon cas, je l'ai appelé output2.scp):
 
-<figure><img src="../.gitbook/assets/image (2).png" alt="" width="297"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1).png" alt="" width="297"><figcaption></figcaption></figure>
 
 Maintenant, si vous ouvrez ce dossier avec **Finder**, votre script sera exécuté.
 
-Cette configuration était stockée dans le **plist** situé dans **`~/Library/Preferences/com.apple.FolderActionsDispatcher.plist`** au format base64.
+Cette configuration a été stockée dans le **plist** situé dans **`~/Library/Preferences/com.apple.FolderActionsDispatcher.plist`** au format base64.
 
 Maintenant, essayons de préparer cette persistance sans accès GUI:
 
@@ -767,7 +767,7 @@ Article : [https://theevilbit.github.io/beyond/beyond\_0027/](https://theevilbit
 #### Emplacement
 
 * `~/Library/Preferences/com.apple.dock.plist`
-* **Déclencheur** : lorsque l'utilisateur clique sur l'application dans le dock
+* **Déclencheur** : Lorsque l'utilisateur clique sur l'application dans le dock
 
 #### Description et exploitation
 
@@ -912,7 +912,7 @@ Writeup: [https://posts.specterops.io/saving-your-access-d562bf5bf90b](https://p
 * `~/Library/Screen Savers`
 * **Déclencheur** : Sélectionnez l'économiseur d'écran
 
-<figure><img src="../.gitbook/assets/image (1).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1).png" alt="" width="375"><figcaption></figcaption></figure>
 
 #### Description & Exploit
 
@@ -1328,7 +1328,7 @@ Après avoir placé un nouveau répertoire dans l'un de ces deux emplacements, *
 </dict>
 </plist>
 ```
-{% tab title="superservicename" %}Le nom du super service
+{% tab title="superservicename" %}
 ```bash
 #!/bin/sh
 . /etc/rc.common

