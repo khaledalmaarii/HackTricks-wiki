@@ -25,7 +25,7 @@
 * **/System**: Arquivo para fazer o OS X funcionar. Você deve encontrar principalmente arquivos específicos da Apple aqui (não de terceiros).
 * **/tmp**: Arquivos são excluídos após 3 dias (é um link simbólico para /private/tmp)
 * **/Users**: Diretório pessoal dos usuários.
-* **/usr**: Configurações e binários do sistema
+* **/usr**: Configuração e binários do sistema
 * **/var**: Arquivos de log
 * **/Volumes**: As unidades montadas aparecerão aqui.
 * **/.vol**: Ao executar `stat a.txt`, você obtém algo como `16777223 7545753 -rw-r--r-- 1 username wheel ...`, onde o primeiro número é o número de ID do volume onde o arquivo existe e o segundo é o número de inode. Você pode acessar o conteúdo deste arquivo através de /.vol/ com essas informações executando `cat /.vol/16777223/7545753`
@@ -95,24 +95,34 @@ dyld_shared_cache_util -extract ~/shared_cache/ /System/Volumes/Preboot/Cryptexe
 ```
 {% endcode %}
 
+Em versões mais antigas, você pode encontrar o **cache compartilhado** em **`/System/Library/dyld/`**.
+
+{% hint style="success" %}
+Observe que mesmo que a ferramenta `dyld_shared_cache_util` não funcione, você pode passar o **binário dyld compartilhado para o Hopper** e o Hopper será capaz de identificar todas as bibliotecas e permitir que você **selecione qual** deseja investigar:
+
+
+{% endhint %}
+
+<figure><img src="../../../.gitbook/assets/image (680).png" alt="" width="563"><figcaption></figcaption></figure>
+
 ## Permissões Especiais de Arquivos
 
 ### Permissões de Pasta
 
 Em uma **pasta**, **leitura** permite **listá-la**, **escrita** permite **excluir** e **escrever** arquivos nela, e **execução** permite **navegar** pelo diretório. Portanto, por exemplo, um usuário com **permissão de leitura sobre um arquivo** dentro de um diretório onde ele **não tem permissão de execução** **não poderá ler** o arquivo.
 
-### Modificadores de Flag
+### Modificadores de Sinalizador
 
-Existem algumas flags que podem ser definidas nos arquivos e que farão com que o arquivo se comporte de maneira diferente. Você pode **verificar as flags** dos arquivos dentro de um diretório com `ls -lO /caminho/diretório`
+Existem alguns sinalizadores que podem ser definidos nos arquivos e que farão com que o arquivo se comporte de maneira diferente. Você pode **verificar os sinalizadores** dos arquivos dentro de um diretório com `ls -lO /caminho/diretório`
 
-* **`uchg`**: Conhecida como flag **uchange**, ela **impede qualquer ação** de alteração ou exclusão do **arquivo**. Para defini-la, use: `chflags uchg arquivo.txt`
-* O usuário root pode **remover a flag** e modificar o arquivo
-* **`restricted`**: Essa flag faz com que o arquivo seja **protegido pelo SIP** (você não pode adicionar essa flag a um arquivo).
+* **`uchg`**: Conhecido como sinalizador **uchange**, ele **impede qualquer ação** de alterar ou excluir o **arquivo**. Para defini-lo, faça: `chflags uchg arquivo.txt`
+* O usuário root pode **remover o sinalizador** e modificar o arquivo
+* **`restricted`**: Esse sinalizador faz com que o arquivo seja **protegido pelo SIP** (você não pode adicionar esse sinalizador a um arquivo).
 * **`Sticky bit`**: Se um diretório tiver o sticky bit, **apenas** o **proprietário do diretório ou o root podem renomear ou excluir** arquivos. Normalmente, isso é definido no diretório /tmp para evitar que usuários comuns excluam ou movam arquivos de outros usuários.
 
 ### **ACLs de Arquivo**
 
-As ACLs de arquivo contêm **ACE** (Entradas de Controle de Acesso), onde permissões mais **granulares** podem ser atribuídas a diferentes usuários.
+As ACLs de arquivo contêm ACEs (Entradas de Controle de Acesso) onde permissões mais **granulares** podem ser atribuídas a diferentes usuários.
 
 É possível conceder a uma **pasta** essas permissões: `list`, `search`, `add_file`, `add_subdirectory`, `delete_child`, `delete_child`.\
 E a um **arquivo**: `read`, `write`, `append`, `execute`.
