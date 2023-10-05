@@ -87,7 +87,7 @@ MacOS将密码等信息存储在多个位置：
 
 类似于dyld共享缓存，内核和内核扩展也被编译成内核缓存，在启动时加载。
 
-为了从单一文件dylib共享缓存中提取库，可以使用二进制工具[dyld\_shared\_cache\_util](https://www.mbsplugins.de/files/dyld\_shared\_cache\_util-dyld-733.8.zip)，但现在可能无法正常工作：
+为了从单一文件dylib共享缓存中提取库，可以使用二进制文件[dyld\_shared\_cache\_util](https://www.mbsplugins.de/files/dyld\_shared\_cache\_util-dyld-733.8.zip)，但现在可能无法正常工作：
 
 {% code overflow="wrap" %}
 ```bash
@@ -95,27 +95,37 @@ dyld_shared_cache_util -extract ~/shared_cache/ /System/Volumes/Preboot/Cryptexe
 ```
 {% endcode %}
 
+在旧版本中，您可能会在**`/System/Library/dyld/`**中找到**共享缓存**。
+
+{% hint style="success" %}
+请注意，即使`dyld_shared_cache_util`工具不起作用，您也可以将**共享dyld二进制文件传递给Hopper**，Hopper将能够识别所有库并让您**选择要调查的库**：
+
+
+{% endhint %}
+
+<figure><img src="../../../.gitbook/assets/image (680).png" alt="" width="563"><figcaption></figcaption></figure>
+
 ## 特殊文件权限
 
 ### 文件夹权限
 
-在一个**文件夹**中，**读取**权限允许**列出**它，**写入**权限允许**删除**和**写入**文件，**执行**权限允许**遍历**目录。因此，例如，一个在没有**执行**权限的目录中的文件上具有**读取权限**的用户**无法读取**该文件。
+在**文件夹**中，**读取**允许**列出**它，**写入**允许**删除**和**写入**文件，**执行**允许**遍历**目录。因此，例如，具有**对文件的读取权限**的用户，在他**没有执行权限**的目录中，**将无法读取**该文件。
 
 ### 标志修饰符
 
-有一些标志可以设置在文件中，使文件的行为不同。您可以使用`ls -lO /path/directory`命令**检查目录中文件的标志**。
+文件中可以设置一些标志，这些标志会使文件的行为不同。您可以使用`ls -lO /path/directory`命令**检查目录中文件的标志**。
 
-* **`uchg`**：也称为**uchange**标志，将**阻止任何更改或删除**文件。要设置它，请执行：`chflags uchg file.txt`
+* **`uchg`**：被称为**uchange**标志，将**阻止任何更改或删除文件**的操作。要设置它，请执行：`chflags uchg file.txt`
 * root用户可以**删除该标志**并修改文件
-* **`restricted`**：此标志使文件受到**SIP保护**（无法将此标志添加到文件）。
-* **`粘滞位`**：如果一个目录具有粘滞位，**只有**目录的**所有者或root用户可以重命名或删除**文件。通常在/tmp目录上设置此标志，以防止普通用户删除或移动其他用户的文件。
+* **`restricted`**：此标志使文件受到**SIP的保护**（您无法将此标志添加到文件）。
+* **`Sticky bit`**：如果目录具有粘性位，则**只有**目录的**所有者或root用户可以重命名或删除**文件。通常，这在/tmp目录上设置，以防止普通用户删除或移动其他用户的文件。
 
-### **文件ACLs**
+### **文件ACL**
 
-文件**ACLs**包含**ACE**（访问控制项），可以为不同的用户分配更**精细的权限**。
+文件**ACL**包含**ACE**（访问控制项），可以为不同的用户分配更**精细的权限**。
 
-可以为**目录**授予以下权限：`list`、`search`、`add_file`、`add_subdirectory`、`delete_child`、`delete_child`。\
-对于**文件**：`read`、`write`、`append`、`execute`。
+可以为**目录**授予以下权限：`list`，`search`，`add_file`，`add_subdirectory`，`delete_child`，`delete_child`。\
+对于**文件**：`read`，`write`，`append`，`execute`。
 
 当文件包含ACL时，您将在列出权限时**找到一个"+"**，如下所示：
 ```bash
@@ -193,7 +203,7 @@ Mac OS二进制文件通常被编译为**通用二进制文件**。**通用二�
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 您在**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想获得最新版本的PEASS或下载PDF格式的HackTricks吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 您在**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[NFT](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks衣物**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
