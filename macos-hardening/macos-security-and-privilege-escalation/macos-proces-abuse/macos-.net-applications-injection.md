@@ -21,11 +21,11 @@ Ele cria dois pipes nomeados por processo .Net em [dbgtransportsession.cpp#L127]
 
 Portanto, se você acessar o diretório **`$TMPDIR`** do usuário, poderá encontrar **fifos de depuração** que podem ser usados para depurar aplicações .Net:
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 A função [**DbgTransportSession::TransportWorker**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L1259) lidará com a comunicação de um depurador.
 
-A primeira coisa que um depurador precisa fazer é **criar uma nova sessão de depuração**. Isso é feito **enviando uma mensagem através do pipe `out`** começando com uma estrutura `MessageHeader`, que podemos obter do código-fonte do .NET:
+A primeira coisa que um depurador precisa fazer é **criar uma nova sessão de depuração**. Isso é feito **enviando uma mensagem via o pipe `out`** começando com uma estrutura `MessageHeader`, que podemos obter do código-fonte do .NET:
 ```c
 struct MessageHeader
 {

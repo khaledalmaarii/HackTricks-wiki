@@ -53,9 +53,9 @@ Além disso, depois de encontrar as credenciais corretas, você pode ser capaz d
 
 #### Autenticação de dispositivo JAMF
 
-<figure><img src="../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-O binário **`jamf`** continha o segredo para abrir o keychain que, na época da descoberta, era **compartilhado** por todos e era: **`jk23ucnq91jfu9aj`**.\
+O binário **`jamf`** continha o segredo para abrir o keychain que, na época da descoberta, era **compartilhado** entre todos e era: **`jk23ucnq91jfu9aj`**.\
 Além disso, o jamf **persiste** como um **LaunchDaemon** em **`/Library/LaunchAgents/com.jamf.management.agent.plist`**
 
 #### Assumindo o controle do dispositivo JAMF
@@ -76,9 +76,7 @@ plutil -convert xml1 -o - /Library/Preferences/com.jamfsoftware.jamf.plist
 <integer>4</integer>
 [...]
 ```
-{% endcode %}
-
-Portanto, um invasor poderia inserir um pacote malicioso (`pkg`) que **sobrescreve esse arquivo** quando instalado, definindo a **URL para um ouvinte Mythic C2 de um agente Typhon** para agora poder abusar do JAMF como C2.
+Portanto, um invasor poderia inserir um pacote malicioso (`pkg`) que **sobrescreve este arquivo** quando instalado, definindo a **URL para um ouvinte Mythic C2 de um agente Typhon** para agora poder abusar do JAMF como C2.
 
 {% code overflow="wrap" %}
 ```bash
@@ -104,9 +102,9 @@ Com essas informações, **crie uma VM** com o **UUID** de Hardware **roubado** 
 
 Você também pode monitorar o local `/Library/Application Support/Jamf/tmp/` para os **scripts personalizados** que os administradores podem querer executar via Jamf, pois eles são **colocados aqui, executados e removidos**. Esses scripts **podem conter credenciais**.
 
-No entanto, as **credenciais** podem ser passadas para esses scripts como **parâmetros**, então você precisaria monitorar `ps aux | grep -i jamf` (sem nem mesmo ser root).
+No entanto, as **credenciais** podem ser passadas para esses scripts como **parâmetros**, então você precisaria monitorar `ps aux | grep -i jamf` (mesmo sem ser root).
 
-O script [**JamfExplorer.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfExplorer.py) pode ouvir novos arquivos sendo adicionados e novos argumentos de processo.
+O script [**JamfExplorer.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfExplorer.py) pode ouvir a adição de novos arquivos e novos argumentos de processo.
 
 ### Acesso Remoto ao macOS
 
@@ -157,7 +155,7 @@ Os três tipos de usuários do MacOS são:
 As informações locais sobre usuários e grupos são armazenadas na pasta _/var/db/dslocal/nodes/Default_.\
 Por exemplo, as informações sobre o usuário chamado _mark_ são armazenadas em _/var/db/dslocal/nodes/Default/users/mark.plist_ e as informações sobre o grupo _admin_ estão em _/var/db/dslocal/nodes/Default/groups/admin.plist_.
 
-Além de usar as arestas HasSession e AdminTo, o **MacHound adiciona três novas arestas** ao banco de dados Bloodhound:
+Além de usar as arestas HasSession e AdminTo, **MacHound adiciona três novas arestas** ao banco de dados Bloodhound:
 
 * **CanSSH** - entidade permitida a fazer SSH para o host
 * **CanVNC** - entidade permitida a fazer VNC para o host
