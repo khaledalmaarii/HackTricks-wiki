@@ -75,7 +75,7 @@ macOS stocke des informations telles que les mots de passe à plusieurs endroits
 * **`.noindex`** : Les fichiers et dossiers avec cette extension ne seront pas indexés par Spotlight.
 ### Bundles macOS
 
-Fondamentalement, un bundle est une **structure de répertoires** dans le système de fichiers. Curieusement, par défaut, ce répertoire **ressemble à un objet unique dans Finder** (comme `.app`).&#x20;
+Essentiellement, un bundle est une **structure de répertoires** dans le système de fichiers. De manière intéressante, par défaut, ce répertoire **ressemble à un objet unique dans Finder** (comme `.app`).&#x20;
 
 {% content-ref url="macos-bundles.md" %}
 [macos-bundles.md](macos-bundles.md)
@@ -83,11 +83,11 @@ Fondamentalement, un bundle est une **structure de répertoires** dans le systè
 
 ## Cache partagé Dyld
 
-Sur macOS (et iOS), toutes les bibliothèques système partagées, telles que les frameworks et les dylibs, sont **regroupées dans un seul fichier**, appelé **cache partagé Dyld**. Cela améliore les performances, car le code peut être chargé plus rapidement.
+Sur macOS (et iOS), toutes les bibliothèques système partagées, comme les frameworks et les dylibs, sont **regroupées dans un seul fichier**, appelé **cache partagé Dyld**. Cela améliore les performances, car le code peut être chargé plus rapidement.
 
 De manière similaire au cache partagé Dyld, le noyau et les extensions du noyau sont également compilés dans un cache de noyau, qui est chargé au démarrage.
 
-Pour extraire les bibliothèques du fichier unique du cache partagé dylib, il était possible d'utiliser le binaire [dyld\_shared\_cache\_util](https://www.mbsplugins.de/files/dyld\_shared\_cache\_util-dyld-733.8.zip) qui pourrait ne pas fonctionner de nos jours:
+Afin d'extraire les bibliothèques du fichier unique du cache partagé dylib, il était possible d'utiliser le binaire [dyld\_shared\_cache\_util](https://www.mbsplugins.de/files/dyld\_shared\_cache\_util-dyld-733.8.zip) qui pourrait ne pas fonctionner de nos jours:
 
 {% code overflow="wrap" %}
 ```bash
@@ -95,29 +95,39 @@ dyld_shared_cache_util -extract ~/shared_cache/ /System/Volumes/Preboot/Cryptexe
 ```
 {% endcode %}
 
+Dans les anciennes versions, vous pourriez trouver le **cache partagé** dans **`/System/Library/dyld/`**.
+
+{% hint style="success" %}
+Notez que même si l'outil `dyld_shared_cache_util` ne fonctionne pas, vous pouvez passer le **binaire dyld partagé à Hopper** et Hopper sera capable d'identifier toutes les bibliothèques et de vous permettre de **sélectionner celle que** vous souhaitez étudier:
+
+
+{% endhint %}
+
+<figure><img src="../../../.gitbook/assets/image (680).png" alt="" width="563"><figcaption></figcaption></figure>
+
 ## Autorisations spéciales des fichiers
 
 ### Autorisations des dossiers
 
-Dans un **dossier**, **la lecture** permet de **lister son contenu**, **l'écriture** permet de **supprimer** et **écrire** des fichiers, et **l'exécution** permet de **traverser** le répertoire. Par exemple, un utilisateur avec **l'autorisation de lecture sur un fichier** à l'intérieur d'un répertoire où il **n'a pas l'autorisation d'exécution** **ne pourra pas lire** le fichier.
+Dans un **dossier**, **la lecture** permet de **lister son contenu**, **l'écriture** permet de **supprimer** et **écrire** des fichiers, et **l'exécution** permet de **traverser** le répertoire. Ainsi, par exemple, un utilisateur ayant **l'autorisation de lecture sur un fichier** à l'intérieur d'un répertoire où il **n'a pas l'autorisation d'exécution** **ne pourra pas lire** le fichier.
 
-### Modificateurs de drapeau
+### Modificateurs de drapeaux
 
 Il existe des drapeaux qui peuvent être définis dans les fichiers et qui feront que le fichier se comportera différemment. Vous pouvez **vérifier les drapeaux** des fichiers à l'intérieur d'un répertoire avec `ls -lO /chemin/répertoire`
 
-* **`uchg`**: Connue sous le nom de drapeau **uchange**, elle **empêche toute action** de modification ou de suppression du **fichier**. Pour le définir, utilisez : `chflags uchg fichier.txt`
-* L'utilisateur root peut **supprimer le drapeau** et modifier le fichier.
+* **`uchg`**: Connue sous le nom de drapeau **uchange**, elle **empêchera toute action** de modification ou de suppression du **fichier**. Pour le définir, utilisez : `chflags uchg fichier.txt`
+* L'utilisateur root peut **supprimer le drapeau** et modifier le fichier
 * **`restricted`**: Ce drapeau rend le fichier **protégé par SIP** (vous ne pouvez pas ajouter ce drapeau à un fichier).
 * **`Sticky bit`**: Si un répertoire a le sticky bit, **seul** le **propriétaire du répertoire ou root peut renommer ou supprimer** des fichiers. Cela est généralement défini sur le répertoire /tmp pour empêcher les utilisateurs ordinaires de supprimer ou déplacer les fichiers d'autres utilisateurs.
 
-### **ACL des fichiers**
+### **Listes de contrôle d'accès (ACL) des fichiers**
 
-Les ACL des fichiers contiennent des **ACE** (entrées de contrôle d'accès) où des **autorisations plus granulaires** peuvent être attribuées à différents utilisateurs.
+Les **ACL** des fichiers contiennent des **ACE** (entrées de contrôle d'accès) où des **autorisations plus granulaires** peuvent être attribuées à différents utilisateurs.
 
 Il est possible d'accorder ces autorisations à un **répertoire** : `list`, `search`, `add_file`, `add_subdirectory`, `delete_child`, `delete_child`.\
 Et à un **fichier** : `read`, `write`, `append`, `execute`.
 
-Lorsque le fichier contient des ACL, vous trouverez un **"+" lors de l'affichage des autorisations, comme dans** :
+Lorsque le fichier contient des ACL, vous **trouverez un "+" lors de l'affichage des autorisations, comme dans** :
 ```bash
 ls -ld Movies
 drwx------+   7 username  staff     224 15 Apr 19:42 Movies
@@ -134,7 +144,7 @@ ls -RAle / 2>/dev/null | grep -E -B1 "\d: "
 ```
 ### Fourches de ressources | ADS macOS
 
-Ceci est une façon d'obtenir des **flux de données alternatifs sur les machines macOS**. Vous pouvez enregistrer du contenu à l'intérieur d'un attribut étendu appelé **com.apple.ResourceFork** à l'intérieur d'un fichier en le sauvegardant dans **file/..namedfork/rsrc**.
+C'est une façon d'obtenir des **flux de données alternatifs sur les machines macOS**. Vous pouvez enregistrer du contenu à l'intérieur d'un attribut étendu appelé **com.apple.ResourceFork** à l'intérieur d'un fichier en le sauvegardant dans **file/..namedfork/rsrc**.
 ```bash
 echo "Hello" > a.txt
 echo "Hello Mac ADS" > a.txt/..namedfork/rsrc
@@ -176,7 +186,7 @@ Les catégories possibles comprennent les suivantes :
 * **LSRiskCategorySafe** : **Totalement** **sûr** ; Safari s'ouvrira automatiquement après le téléchargement.
 * **LSRiskCategoryNeutral** : Aucun avertissement, mais **non ouvert automatiquement**.
 * **LSRiskCategoryUnsafeExecutable** : **Déclenche** un **avertissement** "Ce fichier est une application..."
-* **LSRiskCategoryMayContainUnsafeExecutable** : Cela concerne des choses comme les archives qui contiennent un exécutable. Il **déclenche un avertissement à moins que Safari puisse déterminer que tout le contenu est sûr ou neutre**.
+* **LSRiskCategoryMayContainUnsafeExecutable** : Cela concerne des choses comme les archives qui contiennent un exécutable. Cela **déclenche un avertissement à moins que Safari puisse déterminer que tout le contenu est sûr ou neutre**.
 
 ## Fichiers journaux
 
