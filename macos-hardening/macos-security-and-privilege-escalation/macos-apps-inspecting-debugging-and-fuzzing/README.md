@@ -111,35 +111,33 @@ hdiutil attach ~/Downloads/Firefox\ 58.0.2.dmg
 ```bash
 class-dump Kindle.app
 ```
-注意，这些名称可能会被混淆，以增加二进制反向工程的难度。
-
 #### 函数调用
 
-当在使用Objective-C的二进制文件中调用函数时，编译后的代码不会直接调用该函数，而是调用**`objc_msgSend`**。这将调用最终的函数：
+当在使用Objective-C的二进制文件中调用函数时，编译后的代码不会直接调用该函数，而是调用**`objc_msgSend`**。这个函数会调用最终的函数：
 
 ![](<../../../.gitbook/assets/image (560).png>)
 
-该函数期望的参数如下：
+这个函数期望的参数是：
 
-* 第一个参数（**self**）是“指向**接收消息的类的实例的指针**”。简单来说，它是方法被调用的对象。如果方法是类方法，则这将是类对象的一个实例（作为一个整体），而对于实例方法，self将指向作为对象的类的一个实例。
+* 第一个参数（**self**）是“指向**接收消息的类的实例的指针**”。简单来说，它是方法被调用的对象。如果方法是类方法，这将是类对象的一个实例（作为一个整体），而对于实例方法，self将指向作为对象的类的一个实例。
 * 第二个参数（**op**）是“处理消息的方法的选择器”。简单来说，这只是**方法的名称**。
-* 剩余的参数是方法所需的任何**值**（op）。
+* 剩下的参数是方法所需的任何**值**（op）。
 
-| **参数**           | **寄存器**                                                      | **（对于）objc_msgSend**                              |
+| **参数**           | **寄存器**                                                      | **（对于）objc_msgSend**                                |
 | ----------------- | --------------------------------------------------------------- | ------------------------------------------------------ |
-| **第一个参数**    | **rdi**                                                         | **self：方法被调用的对象**                            |
-| **第二个参数**    | **rsi**                                                         | **op：方法的名称**                                    |
-| **第三个参数**    | **rdx**                                                         | **方法的第一个参数**                                  |
-| **第四个参数**    | **rcx**                                                         | **方法的第二个参数**                                  |
-| **第五个参数**    | **r8**                                                          | **方法的第三个参数**                                  |
-| **第六个参数**    | **r9**                                                          | **方法的第四个参数**                                  |
-| **第七个及以上参数** | <p><strong>rsp+</strong><br><strong>（在堆栈上）</strong></p> | **方法的第五个及以上参数**                            |
+| **第一个参数**    | **rdi**                                                         | **self：方法被调用的对象**                             |
+| **第二个参数**    | **rsi**                                                         | **op：方法的名称**                                     |
+| **第三个参数**    | **rdx**                                                         | **方法的第一个参数**                                   |
+| **第四个参数**    | **rcx**                                                         | **方法的第二个参数**                                   |
+| **第五个参数**    | **r8**                                                          | **方法的第三个参数**                                   |
+| **第六个参数**    | **r9**                                                          | **方法的第四个参数**                                   |
+| **第七个及以上参数** | <p><strong>rsp+</strong><br><strong>（在堆栈上）</strong></p> | **方法的第五个及以上参数**                             |
 
 ### Swift
 
-对于Swift二进制文件，由于存在Objective-C兼容性，有时可以使用[class-dump](https://github.com/nygard/class-dump/)提取声明，但并非总是有效。
+对于Swift二进制文件，由于与Objective-C兼容，有时可以使用[class-dump](https://github.com/nygard/class-dump/)提取声明，但并非总是有效。
 
-使用**`jtool -l`**或**`otool -l`**命令行，可以找到以**`__swift5`**前缀开头的多个部分：
+使用**`jtool -l`**或**`otool -l`**命令行可以找到以**`__swift5`**前缀开头的多个部分：
 ```bash
 jtool2 -l /Applications/Stocks.app/Contents/MacOS/Stocks
 LC 00: LC_SEGMENT_64              Mem: 0x000000000-0x100000000    __PAGEZERO
@@ -151,8 +149,16 @@ Mem: 0x100027064-0x1000274cc        __TEXT.__swift5_fieldmd
 Mem: 0x1000274cc-0x100027608        __TEXT.__swift5_capture
 [...]
 ```
-您可以在[**此博客文章中找到有关这些部分存储的信息的更多信息**](https://knight.sc/reverse%20engineering/2019/07/17/swift-metadata.html)。
+您可以在[此博客文章中找到有关这些部分存储的信息的更多信息](https://knight.sc/reverse%20engineering/2019/07/17/swift-metadata.html)。
 
+此外，**Swift二进制文件可能具有符号**（例如，库需要存储符号以便可以调用其函数）。这些符号通常以一种难看的方式包含有关函数名称和属性的信息，因此它们非常有用，而且有一些“**解码器”**可以获取原始名称：
+```bash
+# Ghidra plugin
+https://github.com/ghidraninja/ghidra_scripts/blob/master/swift_demangler.py
+
+# Swift cli
+swift demangle
+```
 ### 打包的二进制文件
 
 * 检查高熵
@@ -162,28 +168,28 @@ Mem: 0x1000274cc-0x100027608        __TEXT.__swift5_capture
 ## 动态分析
 
 {% hint style="warning" %}
-请注意，为了调试二进制文件，需要禁用SIP（`csrutil disable`或`csrutil enable --without debug`），或将二进制文件复制到临时文件夹并使用`codesign --remove-signature <binary-path>`删除签名，或允许对二进制文件进行调试（可以使用[此脚本](https://gist.github.com/carlospolop/a66b8d72bb8f43913c4b5ae45672578b)）
+请注意，为了调试二进制文件，需要禁用SIP（`csrutil disable`或`csrutil enable --without debug`），或者将二进制文件复制到临时文件夹并使用`codesign --remove-signature <binary-path>`删除签名，或者允许对二进制文件进行调试（可以使用[此脚本](https://gist.github.com/carlospolop/a66b8d72bb8f43913c4b5ae45672578b)）
 {% endhint %}
 
 {% hint style="warning" %}
-请注意，为了在macOS上**检测系统二进制文件**（例如`cloudconfigurationd`），必须禁用SIP（仅删除签名不起作用）。
+请注意，在macOS上，为了对系统二进制文件（如`cloudconfigurationd`）进行仪器化，必须禁用SIP（仅删除签名是不起作用的）。
 {% endhint %}
 
 ### 统一日志
 
-MacOS会生成大量日志，当运行应用程序时，这些日志可以非常有用，以了解它在做什么。
+MacOS会生成大量日志，当运行应用程序时，这些日志非常有用，可以帮助理解应用程序在做什么。
 
-此外，有一些日志将包含标签`<private>`，以隐藏一些**用户**或**计算机**可识别的信息。但是，可以**安装证书以公开此信息**。请按照[**此处的说明**](https://superuser.com/questions/1532031/how-to-show-private-data-in-macos-unified-log)进行操作。
+此外，有些日志会包含标签`<private>`，以隐藏一些用户或计算机可识别的信息。但是，可以通过**安装证书来公开此信息**。请按照[**此处**](https://superuser.com/questions/1532031/how-to-show-private-data-in-macos-unified-log)的说明进行操作。
 
 ### Hopper
 
 #### 左侧面板
 
-在hopper的左侧面板中，可以看到二进制文件的符号（**Labels**），过程和函数的列表（**Proc**）以及字符串（**Str**）。这些不是所有的字符串，而是在Mac-O文件的几个部分中定义的字符串（如_cstring或`objc_methname`）。
+在hopper的左侧面板中，可以看到二进制文件的符号（**Labels**），过程和函数的列表（**Proc**）以及字符串（**Str**）。这些不是所有的字符串，而是在Mac-O文件的几个部分（如_cstring或`objc_methname`）中定义的字符串。
 
 #### 中间面板
 
-在中间面板中，您可以看到**反汇编代码**。您可以通过单击相应的图标，以**原始**、**图形**、**反编译**和**二进制**的方式查看它：
+在中间面板中，可以看到**反汇编代码**。可以通过单击相应的图标，以**原始**的反汇编、**图形**、**反编译**和**二进制**的形式查看：
 
 <figure><img src="../../../.gitbook/assets/image (2) (6).png" alt=""><figcaption></figcaption></figure>
 
@@ -191,22 +197,22 @@ MacOS会生成大量日志，当运行应用程序时，这些日志可以非常
 
 <figure><img src="../../../.gitbook/assets/image (1) (1) (2).png" alt=""><figcaption></figcaption></figure>
 
-此外，在**中间下方，您可以编写Python命令**。
+此外，在**中间下方可以编写Python命令**。
 
 #### 右侧面板
 
-在右侧面板中，您可以查看有趣的信息，例如**导航历史记录**（以便了解您如何到达当前情况）、**调用图**（您可以查看所有调用此函数的函数以及此函数调用的所有函数）和**局部变量**信息。
+在右侧面板中，可以看到一些有趣的信息，例如**导航历史记录**（以便了解如何到达当前情况）、**调用图**（可以看到调用此函数的所有函数以及此函数调用的所有函数）和**局部变量**信息。
 
 ### dtrace
 
-它允许用户以极其**低级别**访问应用程序，并为用户提供了一种**跟踪**程序甚至更改其执行流程的方法。Dtrace使用**探针**，这些探针**分布在内核的各个位置**，例如系统调用的开始和结束。
+它允许用户以极其**低级别**访问应用程序，并提供了一种用户可以**跟踪**程序甚至更改其执行流程的方式。Dtrace使用**探针**，这些探针被放置在内核的各个位置，例如系统调用的开始和结束。
 
 DTrace使用**`dtrace_probe_create`**函数为每个系统调用创建一个探针。这些探针可以在每个系统调用的**入口和出口点触发**。与DTrace的交互通过/dev/dtrace进行，该设备仅对root用户可用。
 
 {% hint style="success" %}
 要在不完全禁用SIP保护的情况下启用Dtrace，可以在恢复模式下执行：`csrutil enable --without dtrace`
 
-您还可以**运行您已编译的**`dtrace`或`dtruss`二进制文件。
+您还可以使用**您已编译的**二进制文件**`dtrace`**或**`dtruss`**。
 {% endhint %}
 
 可以使用以下命令获取dtrace的可用探针：
@@ -368,9 +374,9 @@ settings set target.x86-disassembly-flavor intel
 * 一些恶意软件还可以根据MAC地址（00:50:56）判断机器是否为VMware。
 * 还可以通过简单的代码判断进程是否正在被调试：
 * `if(P_TRACED == (info.kp_proc.p_flag & P_TRACED)){ //process being debugged }`
-* 还可以使用**`ptrace`**系统调用和**`PT_DENY_ATTACH`**标志来阻止调试器的附加和跟踪。
-* 可以检查是否导入了**`sysctl`**或**`ptrace`**函数（但恶意软件可能会动态导入它）。
-* 如在此文档中所述：“[Defeating Anti-Debug Techniques: macOS ptrace variants](https://alexomara.com/blog/defeating-anti-debug-techniques-macos-ptrace-variants/)”：\
+* 还可以使用**`ptrace`**系统调用以**`PT_DENY_ATTACH`**标志调用。这可以防止调试器附加和跟踪。
+* 您可以检查是否导入了**`sysctl`**或**`ptrace`**函数（但恶意软件可能会动态导入它）。
+* 如本文所述：“[Defeating Anti-Debug Techniques: macOS ptrace variants](https://alexomara.com/blog/defeating-anti-debug-techniques-macos-ptrace-variants/)”：\
 “_消息“Process # exited with **status = 45 (0x0000002d)**”通常是调试目标正在使用**PT\_DENY\_ATTACH**的明显迹象_”。
 ## Fuzzing
 
@@ -490,9 +496,9 @@ litefuzz -s -a tcp://localhost:5900 -i input/screenshared-session --reportcrash 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* 发现我们的独家[NFT收藏品](https://opensea.io/collection/the-peass-family)——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>

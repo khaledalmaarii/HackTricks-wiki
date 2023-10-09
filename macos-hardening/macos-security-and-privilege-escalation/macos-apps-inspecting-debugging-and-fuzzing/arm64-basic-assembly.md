@@ -7,7 +7,7 @@
 * 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[NFT](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
@@ -18,11 +18,11 @@ ARM64，也被称为ARMv8-A，是一种64位处理器架构，用于各种设备
 
 ### **寄存器**
 
-ARM64有**31个通用寄存器**，标记为`x0`到`x30`。每个寄存器可以存储一个**64位**（8字节）的值。对于只需要32位值的操作，可以使用名为w0到w30的32位模式访问相同的寄存器。
+ARM64有**31个通用寄存器**，标记为`x0`到`x30`。每个寄存器可以存储一个**64位**（8字节）的值。对于只需要32位值的操作，可以使用相同的寄存器以32位模式访问，使用名称w0到w30。
 
 1. **`x0`**到**`x7`** - 通常用作临时寄存器和传递子程序参数。
 * **`x0`**还携带函数的返回数据
-2. **`x8`** - 在Linux内核中，`x8`用作`svc`指令的系统调用号。**在macOS中，使用的是x16！**
+2. **`x8`** - 在Linux内核中，`x8`用作`svc`指令的系统调用号。**在macOS中，使用x16！**
 3. **`x9`**到**`x15`** - 更多的临时寄存器，通常用于局部变量。
 4. **`x16`**和**`x17`** - 临时寄存器，也用于间接函数调用和PLT（Procedure Linkage Table）存根。
 * **`x16`**用作**`svc`**指令的**系统调用号**。
@@ -35,83 +35,87 @@ ARM64有**31个通用寄存器**，标记为`x0`到`x30`。每个寄存器可以
 
 ### **调用约定**
 
-ARM64调用约定规定，函数的**前八个参数**通过寄存器**`x0`到`x7`**传递。**额外的**参数通过**堆栈**传递。**返回**值通过寄存器**`x0`**传回，如果是**128位**的话，也可以通过**`x1`**传回。函数调用时，**`x19`**到**`x30`**和**`sp`**寄存器必须被**保留**。
+ARM64调用约定规定，函数的**前八个参数**通过寄存器**`x0`到`x7`**传递。**额外的**参数通过**堆栈**传递。**返回**值通过寄存器**`x0`**传回，如果是**128位**则也可以通过**`x1`**传回。**`x19`**到**`x30`**和**`sp`**寄存器必须在函数调用之间**保留**。
 
 在汇编中阅读函数时，要查找**函数的序言和尾声**。**序言**通常涉及**保存帧指针（`x29`）**，**设置新的帧指针**和**分配堆栈空间**。**尾声**通常涉及**恢复保存的帧指针**和**从函数返回**。
 
+### Swift中的调用约定
+
+Swift有自己的**调用约定**，可以在[**https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#arm64**](https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#arm64)找到。
+
 ### **常见指令**
 
-ARM64指令通常具有**`opcode dst, src1, src2`**的格式，其中**`opcode`**是要执行的**操作**（如`add`、`sub`、`mov`等），**`dst`**是结果将被存储的**目标**寄存器，**`src1`**和**`src2`**是**源**寄存器。也可以使用立即值代替源寄存器。
+ARM64指令通常具有**`opcode dst, src1, src2`**的格式，其中**`opcode`**是要执行的**操作**（例如`add`、`sub`、`mov`等），**`dst`**是将结果存储的**目标**寄存器，**`src1`**和**`src2`**是**源**寄存器。也可以使用立即值代替源寄存器。
 
 * **`mov`**：将一个值从一个**寄存器**移动到另一个寄存器。
 * 示例：`mov x0, x1` - 这将将`x1`中的值移动到`x0`中。
-* **`ldr`**：将一个值从**内存**加载到**寄存器**中。
+* **`ldr`**：将**内存**中的值加载到**寄存器**中。
 * 示例：`ldr x0, [x1]` - 这将从由`x1`指向的内存位置加载一个值到`x0`中。
-* **`str`**：将一个值从寄存器存储到内存中。
+* **`str`**：将**寄存器**中的值存储到**内存**中。
 * 示例：`str x0, [x1]` - 这将将`x0`中的值存储到由`x1`指向的内存位置中。
-* **`ldp`**：**加载一对寄存器**。该指令从**连续的内存**位置加载两个寄存器。内存地址通常是通过将另一个寄存器中的值与偏移量相加形成的。
+* **`ldp`**：**加载一对寄存器**。该指令从**连续的内存**位置加载两个寄存器。内存地址通常是通过将偏移量添加到另一个寄存器中的值来形成的。
 * 示例：`ldp x0, x1, [x2]` - 这将从`x2`和`x2 + 8`处的内存位置分别加载`x0`和`x1`。
-* **`stp`**：**存储一对寄存器**。该指令将两个寄存器存储到**连续的内存**位置。内存地址通常是通过将另一个寄存器中的值与偏移量相加形成的。
+* **`stp`**：**存储一对寄存器**。该指令将两个寄存器存储到**连续的内存**位置。内存地址通常是通过将偏移量添加到另一个寄存器中的值来形成的。
 * 示例：`stp x0, x1, [x2]` - 这将`x0`和`x1`存储到`x2`和`x2 + 8`处的内存位置。
 * **`add`**：将两个寄存器的值相加，并将结果存储在一个寄存器中。
-* 示例：`add x0, x1, x2` - 这将将`x1`和`x2`中的值相加，并将结果存储在`x0`中。
-* **`sub`**：将两个寄存器的值相减，并将结果存储在一个寄存器中。
-* 示例：`sub x0, x1, x2` - 这将从`x1`中减去`x2`的值，并将结果存储在`x0`中。
-* **`mul`**: **乘法**，将两个寄存器的值相乘，并将结果存储在一个寄存器中。
-* 示例：`mul x0, x1, x2` — 将`x1`和`x2`的值相乘，并将结果存储在`x0`中。
-* **`div`**: **除法**，将一个寄存器的值除以另一个寄存器的值，并将结果存储在一个寄存器中。
-* 示例：`div x0, x1, x2` — 将`x1`的值除以`x2`的值，并将结果存储在`x0`中。
-* **`bl`**: **带链接分支**，用于调用一个**子程序**。将**返回地址存储在`x30`中**。
-* 示例：`bl myFunction` — 调用函数`myFunction`，并将返回地址存储在`x30`中。
-* **`blr`**: **带链接寄存器分支**，用于调用一个**子程序**，其中目标在一个**寄存器**中指定。将**返回地址存储在`x30`中**。
-* 示例：`blr x1` — 调用地址包含在`x1`中的函数，并将返回地址存储在`x30`中。
-* **`ret`**: **从子程序返回**，通常使用**`x30`中的地址**。
-* 示例：`ret` — 使用`x30`中的返回地址从当前子程序返回。
-* **`cmp`**: **比较**两个寄存器的值，并设置条件标志。
-* 示例：`cmp x0, x1` — 比较`x0`和`x1`的值，并相应地设置条件标志。
-* **`b.eq`**: **等于时分支**，基于前面的`cmp`指令。
-* 示例：`b.eq label` — 如果前面的`cmp`指令发现两个相等的值，则跳转到`label`。
-* **`b.ne`**: **不等于时分支**。此指令检查条件标志（由前一个比较指令设置），如果比较的值不相等，则跳转到一个标签或地址。
-* 示例：在`cmp x0, x1`指令之后，`b.ne label` — 如果`x0`和`x1`的值不相等，则跳转到`label`。
-* **`cbz`**: **零时比较和分支**。此指令将一个寄存器与零进行比较，如果它们相等，则跳转到一个标签或地址。
-* 示例：`cbz x0, label` — 如果`x0`中的值为零，则跳转到`label`。
-* **`cbnz`**: **非零时比较和分支**。此指令将一个寄存器与零进行比较，如果它们不相等，则跳转到一个标签或地址。
-* 示例：`cbnz x0, label` — 如果`x0`中的值非零，则跳转到`label`。
-* **`adrp`**: 计算一个符号的**页地址**并将其存储在一个寄存器中。
-* 示例：`adrp x0, symbol` — 计算`symbol`的页地址并将其存储在`x0`中。
-* **`ldrsw`**: 从内存中**加载**一个**有符号的32位**值，并将其**符号扩展为64位**。
-* 示例：`ldrsw x0, [x1]` — 从由`x1`指向的内存位置加载一个有符号的32位值，将其符号扩展为64位，并将其存储在`x0`中。
-* **`stur`**: 将一个寄存器的值**存储到内存位置**，使用另一个寄存器的偏移量。
-* 示例：`stur x0, [x1, #4]` — 将`x0`中的值存储到当前`x1`地址加4字节的内存位置。
-* &#x20;**`svc`** : 进行**系统调用**。它代表"Supervisor Call"。当处理器执行此指令时，它会从用户模式切换到内核模式，并跳转到内存中内核系统调用处理代码所在的特定位置。
-* 示例：&#x20;
+* 示例：`add x0，x1，x2` — 这将`x1`和`x2`中的值相加，并将结果存储在`x0`中。
+* **`sub`**：**减去**两个寄存器的值，并将结果存储在一个寄存器中。
+* 示例：`sub x0，x1，x2` — 这将`x2`从`x1`中减去，并将结果存储在`x0`中。
+* **`mul`**：**乘以**两个寄存器的值，并将结果存储在一个寄存器中。
+* 示例：`mul x0，x1，x2` — 这将`x1`和`x2`中的值相乘，并将结果存储在`x0`中。
+* **`div`**：将一个寄存器的值除以另一个寄存器的值，并将结果存储在一个寄存器中。
+* 示例：`div x0，x1，x2` — 这将`x1`除以`x2`的值，并将结果存储在`x0`中。
+* **`bl`**：**带链接分支**，用于**调用子程序**。将**返回地址存储在`x30`中**。
+* 示例：`bl myFunction` — 这将调用函数`myFunction`并将返回地址存储在`x30`中。
+* **`blr`**：**带链接寄存器分支**，用于**调用子程序**，其中目标在**寄存器**中**指定**。将**返回地址存储在`x30`中**。
+* 示例：`blr x1` — 这将调用地址包含在`x1`中的函数，并将返回地址存储在`x30`中。
+* **`ret`**：**从子程序返回**，通常使用**`x30`中的地址**。
+* 示例：`ret` — 这将使用`x30`中的返回地址从当前子程序返回。
+* **`cmp`**：**比较**两个寄存器并设置条件标志。
+* 示例：`cmp x0，x1` — 这将比较`x0`和`x1`中的值，并相应地设置条件标志。
+* **`b.eq`**：**如果相等则分支**，基于先前的`cmp`指令。
+* 示例：`b.eq label` — 如果先前的`cmp`指令找到两个相等的值，则跳转到`label`。
+* **`b.ne`**：**如果不相等则分支**。此指令检查条件标志（由先前的比较指令设置），如果比较的值不相等，则分支到标签或地址。
+* 示例：在`cmp x0，x1`指令之后，`b.ne label` — 如果`x0`和`x1`中的值不相等，则跳转到`label`。
+* **`cbz`**：**比较并在零时分支**。此指令将一个寄存器与零进行比较，如果它们相等，则分支到标签或地址。
+* 示例：`cbz x0，label` — 如果`x0`中的值为零，则跳转到`label`。
+* **`cbnz`**：**比较并在非零时分支**。此指令将一个寄存器与零进行比较，如果它们不相等，则分支到标签或地址。
+* 示例：`cbnz x0，label` — 如果`x0`中的值非零，则跳转到`label`。
+* **`adrp`**：计算**符号的页地址**并将其存储在一个寄存器中。
+* 示例：`adrp x0，symbol` — 这将计算`symbol`的页地址并将其存储在`x0`中。
+* **`ldrsw`**：从内存中**加载**一个带符号的**32位**值，并将其**符号扩展为64位**。
+* 示例：`ldrsw x0，[x1]` — 这将从由`x1`指向的内存位置加载一个带符号的32位值，将其符号扩展为64位，并将其存储在`x0`中。
+* **`stur`**：将寄存器值**存储到内存位置**，使用另一个寄存器的偏移量。
+* 示例：`stur x0，[x1，#4]` — 这将将`x0`中的值存储到当前`x1`地址加4字节的内存地址中。
+* **`svc`**：进行**系统调用**。它代表"Supervisor Call"。当处理器执行此指令时，它将从用户模式切换到内核模式，并跳转到内存中内核系统调用处理代码的特定位置。
+* 示例：
 
 ```armasm
-mov x8, 93  ; 将退出系统调用的系统调用号（93）加载到寄存器x8中。
-mov x0, 0   ; 将退出状态码（0）加载到寄存器x0中。
+mov x8，93  ; 将退出的系统调用号（93）加载到寄存器x8中。
+mov x0，0   ; 将退出状态码（0）加载到寄存器x0中。
 svc 0       ; 进行系统调用。
 ```
 
 ### **函数序言**
 
-1.  **将链接寄存器和帧指针保存到堆栈中**：
+1. **将链接寄存器和帧指针保存到堆栈中**：
 
 {% code overflow="wrap" %}
 ```armasm
-stp x29, x30, [sp, #-16]!  ; 将x29和x30寄存器对存储到堆栈中，并减小堆栈指针
+stp x29，x30，[sp，#-16]！  ; 将x29和x30对存储到堆栈中，并减小堆栈指针
 ```
 {% endcode %}
-2. **设置新的帧指针**：`mov x29, sp`（为当前函数设置新的帧指针）
-3. **为局部变量在堆栈上分配空间**（如果需要）：`sub sp, sp, <size>`（其中`<size>`是所需的字节数）
+2. **设置新的帧指针**：`mov x29，sp`（为当前函数设置新的帧指针）
+3. **为局部变量在堆栈上分配空间**（如果需要）：`sub sp，sp，<size>`（其中`<size>`是所需的字节数）
 
 ### **函数收尾**
 
-1. **释放局部变量（如果有分配的变量）**：`add sp, sp, <size>`
-2.  **恢复链接寄存器和帧指针**：
+1. **释放局部变量（如果有分配的变量）**：`add sp，sp，<size>`
+2. **恢复链接寄存器和帧指针**：
 
 {% code overflow="wrap" %}
 ```armasm
-ldp x29, x30, [sp], #16  ; 从堆栈中加载x29和x30寄存器对，并增加堆栈指针
+ldp x29，x30，[sp]，#16  ; 从堆栈中加载x29和x30对，并增加堆栈指针
 ```
 {% endcode %}
 3. **返回**：`ret`（使用链接寄存器中的地址将控制返回给调用者）
@@ -278,63 +282,41 @@ passwd_path: .asciz "/etc/passwd"
 ```
 #### 使用fork从sh调用命令，以便主进程不被终止
 
-Sometimes, when executing a command using the `system()` function in C, the main process may be terminated if the command encounters an error. To avoid this, you can use the `fork()` system call to create a child process and then execute the command using `sh` in the child process. This way, even if the command fails, the main process will not be terminated.
+To invoke a command with `sh` from a forked process, you can follow these steps:
 
+1. Import the necessary libraries:
 ```c
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-
-int main() {
-    pid_t pid = fork();
-
-    if (pid == -1) {
-        perror("fork");
-        exit(EXIT_FAILURE);
-    } else if (pid == 0) {
-        // Child process
-        execl("/bin/sh", "sh", "-c", "your_command_here", (char *)NULL);
-        exit(EXIT_SUCCESS);
-    } else {
-        // Parent process
-        wait(NULL);
-        printf("Command executed successfully!\n");
-    }
-
-    return 0;
-}
 ```
 
-在C语言中，有时候使用`system()`函数执行命令时，如果命令遇到错误，主进程可能会被终止。为了避免这种情况，可以使用`fork()`系统调用创建一个子进程，然后在子进程中使用`sh`执行命令。这样，即使命令失败，主进程也不会被终止。
-
+2. Create a forked process using the `fork()` function:
 ```c
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
+pid_t pid = fork();
+```
 
-int main() {
-    pid_t pid = fork();
-
-    if (pid == -1) {
-        perror("fork");
-        exit(EXIT_FAILURE);
-    } else if (pid == 0) {
-        // 子进程
-        execl("/bin/sh", "sh", "-c", "your_command_here", (char *)NULL);
-        exit(EXIT_SUCCESS);
-    } else {
-        // 父进程
-        wait(NULL);
-        printf("命令执行成功！\n");
-    }
-
-    return 0;
+3. Check if the process is the child process:
+```c
+if (pid == 0) {
+    // Child process
+    // Execute the command using sh
+    execl("/bin/sh", "sh", "-c", "your_command", (char *)NULL);
+    exit(0);
 }
 ```
+
+4. Wait for the child process to finish executing the command:
+```c
+else {
+    // Parent process
+    wait(NULL);
+}
+```
+
+By using this approach, the main process will not be terminated when invoking the command with `sh` from the forked process.
 ```armasm
 .section __TEXT,__text     ; Begin a new section of type __TEXT and name __text
 .global _main              ; Declare a global symbol _main
