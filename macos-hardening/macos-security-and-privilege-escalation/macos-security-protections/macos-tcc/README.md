@@ -36,12 +36,16 @@ Les autorisations sont héritées de l'application parente et les autorisations 
 
 ### Base de données TCC
 
-Les sélections sont ensuite stockées dans la base de données TCC du système, dans `/Library/Application Support/com.apple.TCC/TCC.db`, ou dans `$HOME/Library/Application Support/com.apple.TCC/TCC.db` pour les préférences par utilisateur. Les bases de données sont protégées contre les modifications avec SIP (System Integrity Protection), mais vous pouvez les lire.
+Les sélections sont ensuite stockées dans la base de données TCC du système, dans **`/Library/Application Support/com.apple.TCC/TCC.db`**, ou dans **`$HOME/Library/Application Support/com.apple.TCC/TCC.db`** pour les préférences par utilisateur. Les bases de données sont protégées contre les modifications avec SIP (System Integrity Protection), mais vous pouvez les lire.
 
-De plus, un processus avec un accès complet au disque peut modifier la base de données en mode utilisateur.
+{% hint style="danger" %}
+La base de données TCC dans iOS se trouve dans **`/private/var/mobile/Library/TCC/TCC.db`**
+{% endhint %}
+
+De plus, un processus avec un **accès complet au disque** peut modifier la base de données en mode utilisateur.
 
 {% hint style="info" %}
-L'interface utilisateur du centre de notifications peut apporter des modifications à la base de données TCC du système :
+L'interface utilisateur du **centre de notifications** peut apporter des modifications à la base de données TCC du système :
 
 {% code overflow="wrap" %}
 ```bash
@@ -151,6 +155,10 @@ codesign -dv --entitlements :- /System/Applications/Calendar.app
 ```
 Cela évitera à Calendar de demander à l'utilisateur d'accéder aux rappels, au calendrier et au carnet d'adresses.
 
+{% hint style="success" %}
+En dehors de la documentation officielle sur les droits, il est également possible de trouver des informations non officielles intéressantes sur les droits dans [https://newosxbook.com/ent.jl](https://newosxbook.com/ent.jl)
+{% endhint %}
+
 ### Endroits sensibles non protégés
 
 * $HOME (lui-même)
@@ -159,7 +167,7 @@ Cela évitera à Calendar de demander à l'utilisateur d'accéder aux rappels, a
 
 ### Intention de l'utilisateur / com.apple.macl
 
-Comme mentionné précédemment, il est possible d'accorder l'accès à une application à un fichier en le faisant glisser et déposer dessus. Cet accès ne sera pas spécifié dans une base de données TCC, mais en tant qu'**attribut étendu du fichier**. Cet attribut **stockera l'UUID** de l'application autorisée :
+Comme mentionné précédemment, il est possible d'accorder à une application l'accès à un fichier en le faisant glisser et déposer dessus. Cet accès ne sera pas spécifié dans une base de données TCC, mais en tant qu'attribut étendu du fichier. Cet attribut stockera l'UUID de l'application autorisée :
 ```bash
 xattr Desktop/private.txt
 com.apple.macl

@@ -75,7 +75,7 @@ macOS stocke des informations telles que les mots de passe à plusieurs endroits
 * **`.noindex`** : Les fichiers et dossiers avec cette extension ne seront pas indexés par Spotlight.
 ### Bundles macOS
 
-Essentiellement, un bundle est une **structure de répertoires** dans le système de fichiers. De manière intéressante, par défaut, ce répertoire **ressemble à un objet unique dans Finder** (comme `.app`).&#x20;
+Fondamentalement, un bundle est une **structure de répertoires** dans le système de fichiers. De manière intéressante, par défaut, ce répertoire **ressemble à un objet unique dans Finder** (comme `.app`).&#x20;
 
 {% content-ref url="macos-bundles.md" %}
 [macos-bundles.md](macos-bundles.md)
@@ -83,24 +83,30 @@ Essentiellement, un bundle est une **structure de répertoires** dans le systèm
 
 ## Cache partagé Dyld
 
-Sur macOS (et iOS), toutes les bibliothèques système partagées, comme les frameworks et les dylibs, sont **regroupées dans un seul fichier**, appelé **cache partagé Dyld**. Cela améliore les performances, car le code peut être chargé plus rapidement.
+Sur macOS (et iOS), toutes les bibliothèques système partagées, telles que les frameworks et les dylibs, sont **regroupées dans un seul fichier**, appelé **cache partagé Dyld**. Cela améliore les performances, car le code peut être chargé plus rapidement.
 
 De manière similaire au cache partagé Dyld, le noyau et les extensions du noyau sont également compilés dans un cache de noyau, qui est chargé au démarrage.
 
-Afin d'extraire les bibliothèques du fichier unique du cache partagé dylib, il était possible d'utiliser le binaire [dyld\_shared\_cache\_util](https://www.mbsplugins.de/files/dyld\_shared\_cache\_util-dyld-733.8.zip) qui pourrait ne pas fonctionner de nos jours:
+Pour extraire les bibliothèques du fichier unique du cache partagé dylib, il était possible d'utiliser le binaire [dyld\_shared\_cache\_util](https://www.mbsplugins.de/files/dyld\_shared\_cache\_util-dyld-733.8.zip) qui pourrait ne pas fonctionner de nos jours, mais vous pouvez également utiliser [**dyldextractor**](https://github.com/arandomdev/dyldextractor):
 
 {% code overflow="wrap" %}
 ```bash
+# dyld_shared_cache_util
 dyld_shared_cache_util -extract ~/shared_cache/ /System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_arm64e
+
+# dyldextractor
+dyldex -l [dyld_shared_cache_path] # List libraries
+dyldex_all [dyld_shared_cache_path] # Extract all
+# More options inside the readme
 ```
 {% endcode %}
 
-Dans les anciennes versions, vous pourriez trouver le **cache partagé** dans **`/System/Library/dyld/`**.
+Dans les anciennes versions, vous pouvez trouver le **cache partagé** dans **`/System/Library/dyld/`**.
+
+Dans iOS, vous pouvez les trouver dans **`/System/Library/Caches/com.apple.dyld/`**.
 
 {% hint style="success" %}
-Notez que même si l'outil `dyld_shared_cache_util` ne fonctionne pas, vous pouvez passer le **binaire dyld partagé à Hopper** et Hopper sera capable d'identifier toutes les bibliothèques et de vous permettre de **sélectionner celle que** vous souhaitez étudier:
-
-
+Notez que même si l'outil `dyld_shared_cache_util` ne fonctionne pas, vous pouvez passer le **binaire dyld partagé à Hopper** et Hopper sera capable d'identifier toutes les bibliothèques et de vous permettre de **sélectionner celle que** vous souhaitez étudier :
 {% endhint %}
 
 <figure><img src="../../../.gitbook/assets/image (680).png" alt="" width="563"><figcaption></figcaption></figure>
@@ -113,12 +119,12 @@ Dans un **dossier**, **la lecture** permet de **lister son contenu**, **l'écrit
 
 ### Modificateurs de drapeaux
 
-Il existe des drapeaux qui peuvent être définis dans les fichiers et qui feront que le fichier se comportera différemment. Vous pouvez **vérifier les drapeaux** des fichiers à l'intérieur d'un répertoire avec `ls -lO /chemin/répertoire`
+Il existe des drapeaux qui peuvent être définis sur les fichiers et qui leur permettent de se comporter différemment. Vous pouvez **vérifier les drapeaux** des fichiers à l'intérieur d'un répertoire avec `ls -lO /chemin/répertoire`
 
-* **`uchg`**: Connue sous le nom de drapeau **uchange**, elle **empêchera toute action** de modification ou de suppression du **fichier**. Pour le définir, utilisez : `chflags uchg fichier.txt`
+* **`uchg`** : Connue sous le nom de drapeau **uchange**, elle **empêche toute action** de modification ou de suppression du **fichier**. Pour le définir, utilisez : `chflags uchg fichier.txt`
 * L'utilisateur root peut **supprimer le drapeau** et modifier le fichier
-* **`restricted`**: Ce drapeau rend le fichier **protégé par SIP** (vous ne pouvez pas ajouter ce drapeau à un fichier).
-* **`Sticky bit`**: Si un répertoire a le sticky bit, **seul** le **propriétaire du répertoire ou root peut renommer ou supprimer** des fichiers. Cela est généralement défini sur le répertoire /tmp pour empêcher les utilisateurs ordinaires de supprimer ou déplacer les fichiers d'autres utilisateurs.
+* **`restricted`** : Ce drapeau rend le fichier **protégé par SIP** (vous ne pouvez pas ajouter ce drapeau à un fichier).
+* **`Sticky bit`** : Si un répertoire a le sticky bit, **seul** le **propriétaire du répertoire ou root peut renommer ou supprimer** des fichiers. Cela est généralement défini sur le répertoire /tmp pour empêcher les utilisateurs ordinaires de supprimer ou déplacer les fichiers d'autres utilisateurs.
 
 ### **Listes de contrôle d'accès (ACL) des fichiers**
 
