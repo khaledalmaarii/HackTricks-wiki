@@ -149,22 +149,30 @@ Mem: 0x100027064-0x1000274cc        __TEXT.__swift5_fieldmd
 Mem: 0x1000274cc-0x100027608        __TEXT.__swift5_capture
 [...]
 ```
-Você pode encontrar mais informações sobre as informações armazenadas nessas seções neste [**post do blog**](https://knight.sc/reverse%20engineering/2019/07/17/swift-metadata.html).
+Você pode encontrar mais informações sobre as **informações armazenadas nessas seções neste post do blog**.
 
+Além disso, **os binários do Swift podem ter símbolos** (por exemplo, bibliotecas precisam armazenar símbolos para que suas funções possam ser chamadas). Os **símbolos geralmente contêm informações sobre o nome da função** e atributos de uma maneira confusa, então eles são muito úteis e existem "**demanglers"** que podem obter o nome original:
+```bash
+# Ghidra plugin
+https://github.com/ghidraninja/ghidra_scripts/blob/master/swift_demangler.py
+
+# Swift cli
+swift demangle
+```
 ### Binários compactados
 
 * Verifique a entropia alta
-* Verifique as strings (se houver quase nenhuma string compreensível, está compactado)
+* Verifique as strings (se houver quase nenhuma string compreensível, compactado)
 * O empacotador UPX para MacOS gera uma seção chamada "\_\_XHDR"
 
 ## Análise Dinâmica
 
 {% hint style="warning" %}
-Observe que, para depurar binários, o **SIP precisa estar desativado** (`csrutil disable` ou `csrutil enable --without debug`) ou copiar os binários para uma pasta temporária e **remover a assinatura** com `codesign --remove-signature <caminho-do-binário>` ou permitir a depuração do binário (você pode usar [este script](https://gist.github.com/carlospolop/a66b8d72bb8f43913c4b5ae45672578b)).
+Observe que, para depurar binários, **o SIP precisa estar desativado** (`csrutil disable` ou `csrutil enable --without debug`) ou copiar os binários para uma pasta temporária e **remover a assinatura** com `codesign --remove-signature <caminho-do-binário>` ou permitir a depuração do binário (você pode usar [este script](https://gist.github.com/carlospolop/a66b8d72bb8f43913c4b5ae45672578b))
 {% endhint %}
 
 {% hint style="warning" %}
-Observe que, para **instrumentar binários do sistema** (como `cloudconfigurationd`) no macOS, o **SIP deve estar desativado** (apenas remover a assinatura não funcionará).
+Observe que, para **instrumentar binários do sistema**, (como `cloudconfigurationd`) no macOS, **o SIP deve estar desativado** (apenas remover a assinatura não funcionará).
 {% endhint %}
 
 ### Logs Unificados
@@ -181,11 +189,11 @@ No painel esquerdo do Hopper, é possível ver os símbolos (**Labels**) do bin�
 
 #### Painel central
 
-No painel central, você pode ver o **código desmontado**. E você pode vê-lo como um desmonte **bruto**, como **gráfico**, como **descompilado** e como **binário** clicando no ícone correspondente:
+No painel central, você pode ver o **código desmontado**. E você pode vê-lo como um desmonte **bruto**, como **gráfico**, como **descompilado** e como **binário** clicando no ícone respectivo:
 
 <figure><img src="../../../.gitbook/assets/image (2) (6).png" alt=""><figcaption></figcaption></figure>
 
-Ao clicar com o botão direito em um objeto de código, você pode ver **referências para/deste objeto** ou até mesmo alterar seu nome (isso não funciona no pseudocódigo descompilado):
+Ao clicar com o botão direito em um objeto de código, você pode ver **referências para/de esse objeto** ou até mesmo alterar seu nome (isso não funciona no pseudocódigo descompilado):
 
 <figure><img src="../../../.gitbook/assets/image (1) (1) (2).png" alt=""><figcaption></figcaption></figure>
 
@@ -204,7 +212,7 @@ O DTrace usa a função **`dtrace_probe_create`** para criar uma sonda para cada
 {% hint style="success" %}
 Para habilitar o Dtrace sem desativar completamente a proteção do SIP, você pode executar no modo de recuperação: `csrutil enable --without dtrace`
 
-Você também pode **executar** os binários **`dtrace`** ou **`dtruss`** que **você compilou**.
+Você também pode **`dtrace`** ou **`dtruss`** binários que **você compilou**.
 {% endhint %}
 
 As sondas disponíveis do dtrace podem ser obtidas com:
@@ -256,7 +264,7 @@ O fuzzing é uma técnica usada para encontrar vulnerabilidades em aplicativos p
 
 ## Conclusão
 
-A inspeção, depuração e fuzzing de aplicativos no macOS são técnicas valiosas para identificar vulnerabilidades e melhorar a segurança dos aplicativos. Ao usar as ferramentas mencionadas neste guia, os hackers éticos podem descobrir e corrigir falhas antes que sejam exploradas por atacantes mal-intencionados.
+A inspeção, depuração e fuzzing de aplicativos no macOS são técnicas valiosas para identificar vulnerabilidades e melhorar a segurança dos aplicativos. Ao usar as ferramentas e técnicas mencionadas neste guia, você poderá analisar aplicativos em busca de vulnerabilidades e corrigir possíveis problemas antes que sejam explorados por hackers mal-intencionados.
 ```bash
 syscall:::entry
 /pid == $1/
@@ -305,14 +313,14 @@ No entanto, é importante observar que o uso do `dtruss` requer privilégios de 
 Para usar o `dtruss`, abra o Terminal e execute o seguinte comando:
 
 ```
-sudo dtruss -f -t all -p <PID>
+sudo dtruss -f -t <nome_do_aplicativo>
 ```
 
-Substitua `<PID>` pelo ID do processo do aplicativo que você deseja inspecionar. Isso pode ser obtido usando o comando `ps` ou outras ferramentas de monitoramento de processos.
+Isso iniciará o `dtruss` com privilégios de root e monitorará todas as chamadas de sistema feitas pelo aplicativo especificado. Você verá uma lista detalhada das chamadas de sistema, incluindo os argumentos e valores de retorno correspondentes.
 
-O `dtruss` exibirá uma lista contínua de chamadas de sistema e funções de biblioteca à medida que o aplicativo as executa. Você pode interromper a exibição pressionando `Ctrl + C`.
+O `dtruss` também oferece várias opções adicionais para filtrar e formatar a saída, como filtrar por chamadas de sistema específicas ou redirecionar a saída para um arquivo. Consulte a documentação do `dtruss` para obter mais informações sobre essas opções.
 
-Lembre-se de que o `dtruss` é uma ferramenta poderosa e deve ser usada com cuidado. Certifique-se de ter permissão adequada e de usar o `dtruss` apenas em aplicativos que você possui ou tem permissão para depurar.
+Em resumo, o `dtruss` é uma ferramenta poderosa para inspecionar e depurar aplicativos no macOS. Ele fornece uma visão detalhada das chamadas de sistema e das funções de biblioteca executadas por um aplicativo, permitindo que você identifique problemas e entenda melhor o comportamento interno do aplicativo.
 ```bash
 dtruss -c ls #Get syscalls of ls
 dtruss -c -p 1000 #get syscalls of PID 1000
@@ -374,7 +382,7 @@ settings set target.x86-disassembly-flavor intel
 Dentro do lldb, faça o dump de um processo com `process save-core`
 {% endhint %}
 
-<table data-header-hidden><thead><tr><th width="225"></th><th></th></tr></thead><tbody><tr><td><strong>Comando (lldb)</strong></td><td><strong>Descrição</strong></td></tr><tr><td><strong>run (r)</strong></td><td>Inicia a execução, que continuará até que um ponto de interrupção seja atingido ou o processo seja encerrado.</td></tr><tr><td><strong>continue (c)</strong></td><td>Continua a execução do processo em depuração.</td></tr><tr><td><strong>nexti (n / ni)</strong></td><td>Executa a próxima instrução. Este comando irá pular chamadas de função.</td></tr><tr><td><strong>stepi (s / si)</strong></td><td>Executa a próxima instrução. Ao contrário do comando nexti, este comando irá entrar nas chamadas de função.</td></tr><tr><td><strong>finish (f)</strong></td><td>Executa o restante das instruções na função atual ("frame") e retorna.</td></tr><tr><td><strong>control + c</strong></td><td>Pausa a execução. Se o processo foi iniciado (r) ou continuado (c), isso fará com que o processo pare ...onde quer que esteja executando no momento.</td></tr><tr><td><strong>breakpoint (b)</strong></td><td><p>b main #Qualquer função chamada main</p><p>b &#x3C;nome_do_bin>`main #Função main do binário</p><p>b set -n main --shlib &#x3C;nome_da_biblioteca> #Função main do binário indicado</p><p>b -[NSDictionary objectForKey:]</p><p>b -a 0x0000000100004bd9</p><p>br l #Lista de pontos de interrupção</p><p>br e/dis &#x3C;número> #Ativa/Desativa ponto de interrupção</p><p>breakpoint delete &#x3C;número></p></td></tr><tr><td><strong>help</strong></td><td><p>help breakpoint #Obter ajuda sobre o comando breakpoint</p><p>help memory write #Obter ajuda para escrever na memória</p></td></tr><tr><td><strong>reg</strong></td><td><p>reg read</p><p>reg read $rax</p><p>reg read $rax --format &#x3C;<a href="https://lldb.llvm.org/use/variable.html#type-format">formato</a>></p><p>reg write $rip 0x100035cc0</p></td></tr><tr><td><strong>x/s &#x3C;endereço_do_registrador/memória></strong></td><td>Exibe a memória como uma string terminada em nulo.</td></tr><tr><td><strong>x/i &#x3C;endereço_do_registrador/memória></strong></td><td>Exibe a memória como uma instrução de montagem.</td></tr><tr><td><strong>x/b &#x3C;endereço_do_registrador/memória></strong></td><td>Exibe a memória como um byte.</td></tr><tr><td><strong>print object (po)</strong></td><td><p>Isso irá imprimir o objeto referenciado pelo parâmetro</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>Observe que a maioria das APIs ou métodos Objective-C da Apple retornam objetos e, portanto, devem ser exibidos por meio do comando "print object" (po). Se o po não produzir uma saída significativa, use <code>x/b</code></p></td></tr><tr><td><strong>memory</strong></td><td>memory read 0x000....<br>memory read $x0+0xf2a<br>memory write 0x100600000 -s 4 0x41414141 #Escreve AAAA nesse endereço<br>memory write -f s $rip+0x11f+7 "AAAA" #Escreve AAAA no endereço</td></tr><tr><td><strong>disassembly</strong></td><td><p>dis #Desmonta a função atual</p><p>dis -n &#x3C;nome_da_função> #Desmonta a função</p><p>dis -n &#x3C;nome_da_função> -b &#x3C;nome_do_binário> #Desmonta a função<br>dis -c 6 #Desmonta 6 linhas<br>dis -c 0x100003764 -e 0x100003768 #De um endereço até o outro<br>dis -p -c 4 #Começa no endereço atual desmontando</p></td></tr><tr><td><strong>parray</strong></td><td>parray 3 (char **)$x1 #Verifica o array de 3 componentes no registrador x1</td></tr></tbody></table>
+<table data-header-hidden><thead><tr><th width="225"></th><th></th></tr></thead><tbody><tr><td><strong>Comando (lldb)</strong></td><td><strong>Descrição</strong></td></tr><tr><td><strong>run (r)</strong></td><td>Inicia a execução, que continuará até que um ponto de interrupção seja atingido ou o processo seja encerrado.</td></tr><tr><td><strong>continue (c)</strong></td><td>Continua a execução do processo em depuração.</td></tr><tr><td><strong>nexti (n / ni)</strong></td><td>Executa a próxima instrução. Este comando irá pular chamadas de função.</td></tr><tr><td><strong>stepi (s / si)</strong></td><td>Executa a próxima instrução. Ao contrário do comando nexti, este comando irá entrar nas chamadas de função.</td></tr><tr><td><strong>finish (f)</strong></td><td>Executa o restante das instruções na função atual ("frame") e para.</td></tr><tr><td><strong>control + c</strong></td><td>Pausa a execução. Se o processo foi iniciado (r) ou continuado (c), isso fará com que o processo pare ... onde quer que esteja executando no momento.</td></tr><tr><td><strong>breakpoint (b)</strong></td><td><p>b main #Qualquer função chamada main</p><p>b &#x3C;nome_do_bin>`main #Função main do binário</p><p>b set -n main --shlib &#x3C;nome_da_biblioteca> #Função main do binário indicado</p><p>b -[NSDictionary objectForKey:]</p><p>b -a 0x0000000100004bd9</p><p>br l #Lista de pontos de interrupção</p><p>br e/dis &#x3C;número> #Ativa/Desativa ponto de interrupção</p><p>breakpoint delete &#x3C;número></p></td></tr><tr><td><strong>help</strong></td><td><p>help breakpoint #Obter ajuda sobre o comando breakpoint</p><p>help memory write #Obter ajuda para escrever na memória</p></td></tr><tr><td><strong>reg</strong></td><td><p>reg read</p><p>reg read $rax</p><p>reg read $rax --format &#x3C;<a href="https://lldb.llvm.org/use/variable.html#type-format">formato</a>></p><p>reg write $rip 0x100035cc0</p></td></tr><tr><td><strong>x/s &#x3C;endereço_do_registrador/memória></strong></td><td>Exibe a memória como uma string terminada em nulo.</td></tr><tr><td><strong>x/i &#x3C;endereço_do_registrador/memória></strong></td><td>Exibe a memória como uma instrução de montagem.</td></tr><tr><td><strong>x/b &#x3C;endereço_do_registrador/memória></strong></td><td>Exibe a memória como um byte.</td></tr><tr><td><strong>print object (po)</strong></td><td><p>Isso irá imprimir o objeto referenciado pelo parâmetro</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>Observe que a maioria das APIs ou métodos Objective-C da Apple retornam objetos e, portanto, devem ser exibidos por meio do comando "print object" (po). Se o po não produzir uma saída significativa, use <code>x/b</code></p></td></tr><tr><td><strong>memory</strong></td><td>memory read 0x000....<br>memory read $x0+0xf2a<br>memory write 0x100600000 -s 4 0x41414141 #Escreve AAAA nesse endereço<br>memory write -f s $rip+0x11f+7 "AAAA" #Escreve AAAA no endereço</td></tr><tr><td><strong>disassembly</strong></td><td><p>dis #Desmonta a função atual</p><p>dis -n &#x3C;nome_da_função> #Desmonta a função</p><p>dis -n &#x3C;nome_da_função> -b &#x3C;nome_do_binário> #Desmonta a função<br>dis -c 6 #Desmonta 6 linhas<br>dis -c 0x100003764 -e 0x100003768 #De um endereço até o outro<br>dis -p -c 4 #Começa no endereço atual desmontando</p></td></tr><tr><td><strong>parray</strong></td><td>parray 3 (char **)$x1 #Verifica o array de 3 componentes no registrador x1</td></tr></tbody></table>
 
 {% hint style="info" %}
 Ao chamar a função **`objc_sendMsg`**, o registrador **rsi** contém o **nome do método** como uma string terminada em nulo ("C"). Para imprimir o nome via lldb, faça:
@@ -464,15 +472,17 @@ Ou use `netstat` ou `lsof`
 ```bash
 lldb -o "target create `which some-binary`" -o "settings set target.env-vars DYLD_INSERT_LIBRARIES=/usr/lib/libgmalloc.dylib" -o "run arg1 arg2" -o "bt" -o "reg read" -o "dis -s \$pc-32 -c 24 -m -F intel" -o "quit"
 ```
+{% endcode %}
+
 ### Fuzzers
 
 #### [AFL++](https://github.com/AFLplusplus/AFLplusplus)
 
-Funciona para ferramentas de linha de comando.
+Funciona para ferramentas de linha de comando
 
 #### [Litefuzz](https://github.com/sec-tools/litefuzz)
 
-Ele "**simplesmente funciona"** com ferramentas de GUI do macOS. Observe que alguns aplicativos do macOS têm requisitos específicos, como nomes de arquivos exclusivos, a extensão correta e a necessidade de ler os arquivos do sandbox (`~/Library/Containers/com.apple.Safari/Data`)...
+Ele "**simplesmente funciona"** com ferramentas GUI do macOS. Observe que alguns aplicativos do macOS têm requisitos específicos, como nomes de arquivos exclusivos, a extensão correta, a necessidade de ler os arquivos do sandbox (`~/Library/Containers/com.apple.Safari/Data`)...
 
 Alguns exemplos:
 

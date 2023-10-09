@@ -39,82 +39,86 @@ A convenção de chamada do ARM64 especifica que os **oito primeiros parâmetros
 
 Ao ler uma função em assembly, procure pelo **prólogo e epílogo da função**. O **prólogo** geralmente envolve **salvar o ponteiro de quadro (`x29`)**, **configurar** um **novo ponteiro de quadro** e **alocar espaço na pilha**. O **epílogo** geralmente envolve **restaurar o ponteiro de quadro salvo** e **retornar** da função.
 
+### Convenção de Chamada em Swift
+
+O Swift possui sua própria **convenção de chamada** que pode ser encontrada em [**https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#arm64**](https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#arm64)
+
 ### **Instruções Comuns**
 
-As instruções do ARM64 geralmente têm o **formato `opcode dst, src1, src2`**, onde **`opcode`** é a **operação** a ser realizada (como `add`, `sub`, `mov`, etc.), **`dst`** é o **registrador de destino** onde o resultado será armazenado, e **`src1`** e **`src2`** são os **registradores de origem**. Valores imediatos também podem ser usados no lugar dos registradores de origem.
+As instruções do ARM64 geralmente têm o **formato `opcode dst, src1, src2`**, onde **`opcode`** é a **operação** a ser realizada (como `add`, `sub`, `mov`, etc.), **`dst`** é o registrador **destino** onde o resultado será armazenado, e **`src1`** e **`src2`** são os registradores **fonte**. Valores imediatos também podem ser usados no lugar de registradores fonte.
 
 * **`mov`**: **Move** um valor de um **registrador** para outro.
 * Exemplo: `mov x0, x1` — Isso move o valor de `x1` para `x0`.
-* **`ldr`**: **Carrega** um valor da **memória** para um **registrador**.
+* **`ldr`**: **Load** um valor da **memória** para um **registrador**.
 * Exemplo: `ldr x0, [x1]` — Isso carrega um valor da localização de memória apontada por `x1` para `x0`.
-* **`str`**: **Armazena** um valor de um **registrador** na **memória**.
+* **`str`**: **Store** um valor de um **registrador** para a **memória**.
 * Exemplo: `str x0, [x1]` — Isso armazena o valor em `x0` na localização de memória apontada por `x1`.
-* **`ldp`**: **Carrega Par de Registradores**. Esta instrução **carrega dois registradores** de **locações de memória consecutivas**. O endereço de memória é normalmente formado pela adição de um deslocamento ao valor em outro registrador.
-* Exemplo: `ldp x0, x1, [x2]` — Isso carrega `x0` e `x1` das localizações de memória em `x2` e `x2 + 8`, respectivamente.
-* **`stp`**: **Armazena Par de Registradores**. Esta instrução **armazena dois registradores** em **locações de memória consecutivas**. O endereço de memória é normalmente formado pela adição de um deslocamento ao valor em outro registrador.
-* Exemplo: `stp x0, x1, [x2]` — Isso armazena `x0` e `x1` nas localizações de memória em `x2` e `x2 + 8`, respectivamente.
+* **`ldp`**: **Load Pair of Registers**. Essa instrução **carrega dois registradores** de **locais de memória consecutivos**. O endereço de memória é normalmente formado pela adição de um deslocamento ao valor de outro registrador.
+* Exemplo: `ldp x0, x1, [x2]` — Isso carrega `x0` e `x1` dos locais de memória em `x2` e `x2 + 8`, respectivamente.
+* **`stp`**: **Store Pair of Registers**. Essa instrução **armazena dois registradores** em **locais de memória consecutivos**. O endereço de memória é normalmente formado pela adição de um deslocamento ao valor de outro registrador.
+* Exemplo: `stp x0, x1, [x2]` — Isso armazena `x0` e `x1` nos locais de memória em `x2` e `x2 + 8`, respectivamente.
 * **`add`**: **Adiciona** os valores de dois registradores e armazena o resultado em um registrador.
-* Exemplo: `add x0, x1, x2` — Isso adiciona os valores em `x1` e `x2` juntos e armazena o resultado em `x0`.
+* Exemplo: `add x0, x1, x2` - Isso adiciona os valores em `x1` e `x2` juntos e armazena o resultado em `x0`.
 * **`sub`**: **Subtrai** os valores de dois registradores e armazena o resultado em um registrador.
-* Exemplo: `sub x0, x1, x2` — Isso subtrai o valor em `x2` de `x1` e armazena o resultado em `x0`.
+* Exemplo: `sub x0, x1, x2` - Isso subtrai o valor em `x2` de `x1` e armazena o resultado em `x0`.
 * **`mul`**: **Multiplica** os valores de **dois registradores** e armazena o resultado em um registrador.
-* Exemplo: `mul x0, x1, x2` — Isso multiplica os valores em `x1` e `x2` e armazena o resultado em `x0`.
+* Exemplo: `mul x0, x1, x2` - Isso multiplica os valores em `x1` e `x2` e armazena o resultado em `x0`.
 * **`div`**: **Divide** o valor de um registrador por outro e armazena o resultado em um registrador.
-* Exemplo: `div x0, x1, x2` — Isso divide o valor em `x1` por `x2` e armazena o resultado em `x0`.
+* Exemplo: `div x0, x1, x2` - Isso divide o valor em `x1` por `x2` e armazena o resultado em `x0`.
 * **`bl`**: **Branch with link**, usado para **chamar** uma **sub-rotina**. Armazena o **endereço de retorno em `x30`**.
-* Exemplo: `bl myFunction` — Isso chama a função `myFunction` e armazena o endereço de retorno em `x30`.
+* Exemplo: `bl myFunction` - Isso chama a função `myFunction` e armazena o endereço de retorno em `x30`.
 * **`blr`**: **Branch with Link to Register**, usado para **chamar** uma **sub-rotina** onde o destino é **especificado** em um **registrador**. Armazena o endereço de retorno em `x30`.
-* Exemplo: `blr x1` — Isso chama a função cujo endereço está contido em `x1` e armazena o endereço de retorno em `x30`.
+* Exemplo: `blr x1` - Isso chama a função cujo endereço está contido em `x1` e armazena o endereço de retorno em `x30`.
 * **`ret`**: **Retorna** da **sub-rotina**, normalmente usando o endereço em **`x30`**.
-* Exemplo: `ret` — Isso retorna da sub-rotina atual usando o endereço de retorno em `x30`.
+* Exemplo: `ret` - Isso retorna da sub-rotina atual usando o endereço de retorno em `x30`.
 * **`cmp`**: **Compara** dois registradores e define as flags de condição.
-* Exemplo: `cmp x0, x1` — Isso compara os valores em `x0` e `x1` e define as flags de condição de acordo.
+* Exemplo: `cmp x0, x1` - Isso compara os valores em `x0` e `x1` e define as flags de condição de acordo.
 * **`b.eq`**: **Branch if equal**, baseado na instrução `cmp` anterior.
-* Exemplo: `b.eq label` — Se a instrução `cmp` anterior encontrou dois valores iguais, isso salta para `label`.
+* Exemplo: `b.eq label` - Se a instrução `cmp` anterior encontrou dois valores iguais, isso salta para `label`.
 * **`b.ne`**: **Branch if Not Equal**. Essa instrução verifica as flags de condição (que foram definidas por uma instrução de comparação anterior) e, se os valores comparados não forem iguais, salta para um rótulo ou endereço.
-* Exemplo: Após uma instrução `cmp x0, x1`, `b.ne label` — Se os valores em `x0` e `x1` não forem iguais, isso salta para `label`.
+* Exemplo: Após uma instrução `cmp x0, x1`, `b.ne label` - Se os valores em `x0` e `x1` não forem iguais, isso salta para `label`.
 * **`cbz`**: **Compare and Branch on Zero**. Essa instrução compara um registrador com zero e, se forem iguais, salta para um rótulo ou endereço.
-* Exemplo: `cbz x0, label` — Se o valor em `x0` for zero, isso salta para `label`.
+* Exemplo: `cbz x0, label` - Se o valor em `x0` for zero, isso salta para `label`.
 * **`cbnz`**: **Compare and Branch on Non-Zero**. Essa instrução compara um registrador com zero e, se não forem iguais, salta para um rótulo ou endereço.
-* Exemplo: `cbnz x0, label` — Se o valor em `x0` for diferente de zero, isso salta para `label`.
-* **`adrp`**: Calcula o **endereço da página de um símbolo** e armazena-o em um registrador.
-* Exemplo: `adrp x0, symbol` — Isso calcula o endereço da página de `symbol` e o armazena em `x0`.
+* Exemplo: `cbnz x0, label` - Se o valor em `x0` for diferente de zero, isso salta para `label`.
+* **`adrp`**: Calcula o **endereço da página de um símbolo** e o armazena em um registrador.
+* Exemplo: `adrp x0, symbol` - Isso calcula o endereço da página de `symbol` e o armazena em `x0`.
 * **`ldrsw`**: **Carrega** um valor **32 bits** assinado da memória e o **estende para 64** bits.
-* Exemplo: `ldrsw x0, [x1]` — Isso carrega um valor assinado de 32 bits da localização de memória apontada por `x1`, estende-o para 64 bits e o armazena em `x0`.
+* Exemplo: `ldrsw x0, [x1]` - Isso carrega um valor assinado de 32 bits da localização de memória apontada por `x1`, estende-o para 64 bits e o armazena em `x0`.
 * **`stur`**: **Armazena um valor de registrador em uma localização de memória**, usando um deslocamento de outro registrador.
-* Exemplo: `stur x0, [x1, #4]` — Isso armazena o valor em `x0` na localização de memória que está 4 bytes acima do endereço atual em `x1`.
-* &#x20;**`svc`** : Faz uma **chamada de sistema**. Significa "Supervisor Call". Quando o processador executa essa instrução, ele **muda do modo usuário para o modo kernel** e salta para um local específico na memória onde o código de tratamento de chamada de sistema do kernel está localizado.
+* Exemplo: `stur x0, [x1, #4]` - Isso armazena o valor em `x0` no endereço de memória que é 4 bytes maior que o endereço atual em `x1`.
+* &#x20;**`svc`** : Faz uma **chamada de sistema**. Significa "Supervisor Call". Quando o processador executa essa instrução, ele **troca do modo usuário para o modo kernel** e salta para um local específico na memória onde o código de tratamento de chamada de sistema do kernel está localizado.
 *   Exemplo:&#x20;
 
 ```armasm
-mov x8, 93  ; Carrega o número de chamada de sistema para exit (93) no registrador x8.
+mov x8, 93  ; Carrega o número de chamada de sistema para saída (93) no registrador x8.
 mov x0, 0   ; Carrega o código de status de saída (0) no registrador x0.
 svc 0       ; Faz a chamada de sistema.
 ```
 
 ### **Prólogo da Função**
 
-1.  **Salva o registrador de link e o ponteiro de quadro na pilha**:
+1.  **Salve o registrador de link e o ponteiro de quadro na pilha**:
 
 {% code overflow="wrap" %}
 ```armasm
-stp x29, x30, [sp, #-16]!  ; armazena o par x29 e x30 na pilha e decrementa o ponteiro de pilha
+stp x29, x30, [sp, #-16]!  ; armazena o par x29 e x30 na pilha e decrementa o ponteiro da pilha
 ```
 {% endcode %}
-2. **Configura o novo ponteiro de quadro**: `mov x29, sp` (configura o novo ponteiro de quadro para a função atual)
-3. **Aloca espaço na pilha para variáveis locais** (se necessário): `sub sp, sp, <size>` (onde `<size>` é o número de bytes necessário)
+2. **Configure o novo ponteiro de quadro**: `mov x29, sp` (configura o novo ponteiro de quadro para a função atual)
+3. **Aloque espaço na pilha para variáveis locais** (se necessário): `sub sp, sp, <tamanho>` (onde `<tamanho>` é o número de bytes necessário)
 
 ### **Epílogo da Função**
 
-1. **Desaloca variáveis locais (se alguma foi alocada)**: `add sp, sp, <size>`
-2.  **Restaura o registrador de link e o ponteiro de quadro**:
+1. **Desalocar variáveis locais (se alguma foi alocada)**: `add sp, sp, <tamanho>`
+2.  **Restaure o registrador de link e o ponteiro de quadro**:
 
 {% code overflow="wrap" %}
 ```armasm
-ldp x29, x30, [sp], #16  ; carrega o par x29 e x30 da pilha e incrementa o ponteiro de pilha
+ldp x29, x30, [sp], #16  ; carrega o par x29 e x30 da pilha e incrementa o ponteiro da pilha
 ```
 {% endcode %}
-3. **Retorna**: `ret` (retorna o controle ao chamador usando o endereço no registrador de link)
+3. **Retorne**: `ret` (retorna o controle ao chamador usando o endereço no registrador de link)
 
 ## macOS
 
