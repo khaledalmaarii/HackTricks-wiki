@@ -33,14 +33,18 @@ x64 étend l'architecture x86, avec **16 registres généraux** étiquetés `rax
 
 La convention d'appel x64 varie selon les systèmes d'exploitation. Par exemple :
 
-* **Windows** : Les quatre premiers **paramètres** sont passés dans les registres **`rcx`**, **`rdx`**, **`r8`** et **`r9`**. Les paramètres supplémentaires sont poussés sur la pile. La valeur de retour se trouve dans **`rax`**.
-* **System V (couramment utilisé dans les systèmes de type UNIX)** : Les six premiers **paramètres entiers ou pointeurs** sont passés dans les registres **`rdi`**, **`rsi`**, **`rdx`**, **`rcx`**, **`r8`** et **`r9`**. La valeur de retour se trouve également dans **`rax`**.
+* **Windows** : Les quatre premiers **paramètres** sont passés dans les registres **`rcx`**, **`rdx`**, **`r8`** et **`r9`**. Les autres paramètres sont poussés sur la pile. La valeur de retour est dans **`rax`**.
+* **System V (couramment utilisé dans les systèmes de type UNIX)** : Les six premiers **paramètres entiers ou pointeurs** sont passés dans les registres **`rdi`**, **`rsi`**, **`rdx`**, **`rcx`**, **`r8`** et **`r9`**. La valeur de retour est également dans **`rax`**.
 
 Si la fonction a plus de six entrées, le **reste sera passé sur la pile**. **RSP**, le pointeur de pile, doit être **aligné sur 16 octets**, ce qui signifie que l'adresse vers laquelle il pointe doit être divisible par 16 avant tout appel. Cela signifie qu'en général, nous devrions nous assurer que RSP est correctement aligné dans notre shellcode avant d'effectuer un appel de fonction. Cependant, en pratique, les appels système fonctionnent souvent même si cette exigence n'est pas respectée.
 
+### Convention d'appel en Swift
+
+Swift a sa propre **convention d'appel** que l'on peut trouver dans [**https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#x86-64**](https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#x86-64)
+
 ### **Instructions courantes**
 
-Les instructions x64 disposent d'un ensemble riche, maintenant la compatibilité avec les instructions x86 antérieures et en introduisant de nouvelles.
+Les instructions x64 disposent d'un ensemble riche, maintenant la compatibilité avec les anciennes instructions x86 et en introduisant de nouvelles.
 
 * **`mov`** : **Déplace** une valeur d'un **registre** ou d'un **emplacement mémoire** vers un autre.
 * Exemple : `mov rax, rbx` — Déplace la valeur de `rbx` vers `rax`.
@@ -51,7 +55,7 @@ Les instructions x64 disposent d'un ensemble riche, maintenant la compatibilité
 * Exemple : `add rax, rcx` — Ajoute les valeurs de `rax` et `rcx` en stockant le résultat dans `rax`.
 * **`mul`** et **`div`** : Opérations de **multiplication** et de **division**. Remarque : elles ont des comportements spécifiques concernant l'utilisation des opérandes.
 * **`call`** et **`ret`** : Utilisés pour **appeler** et **revenir des fonctions**.
-* **`int`** : Utilisé pour déclencher une **interruption logicielle**. Par exemple, `int 0x80` était utilisé pour les appels système en 32 bits x86 Linux.
+* **`int`** : Utilisé pour déclencher une **interruption logicielle**. Par exemple, `int 0x80` était utilisé pour les appels système en x86 Linux 32 bits.
 * **`cmp`** : **Compare** deux valeurs et définit les indicateurs du CPU en fonction du résultat.
 * Exemple : `cmp rax, rdx` — Compare `rax` à `rdx`.
 * **`je`, `jne`, `jl`, `jge`, ...** : Instructions de **saut conditionnel** qui modifient le flux de contrôle en fonction des résultats d'un `cmp` ou d'un test précédent.
@@ -60,15 +64,15 @@ Les instructions x64 disposent d'un ensemble riche, maintenant la compatibilité
 * **`sysenter`** : Une instruction d'**appel système** optimisée sur certaines plates-formes.
 ### **Prologue de fonction**
 
-1. **Sauvegarde de l'ancien pointeur de base** : `push rbp` (sauvegarde le pointeur de base de l'appelant)
-2. **Déplacement du pointeur de pile actuel vers le pointeur de base** : `mov rbp, rsp` (configure le nouveau pointeur de base pour la fonction actuelle)
-3. **Allocation d'espace sur la pile pour les variables locales** : `sub rsp, <size>` (où `<size>` est le nombre d'octets nécessaires)
+1. **Pousser l'ancien pointeur de base** : `push rbp` (sauvegarde le pointeur de base de l'appelant)
+2. **Déplacer le pointeur de pile actuel vers le pointeur de base** : `mov rbp, rsp` (configure le nouveau pointeur de base pour la fonction actuelle)
+3. **Allouer de l'espace sur la pile pour les variables locales** : `sub rsp, <size>` (où `<size>` est le nombre d'octets nécessaires)
 
 ### **Épilogue de fonction**
 
-1. **Déplacement du pointeur de base actuel vers le pointeur de pile** : `mov rsp, rbp` (désalloue les variables locales)
-2. **Dépilement de l'ancien pointeur de base de la pile** : `pop rbp` (restaure le pointeur de base de l'appelant)
-3. **Retour** : `ret` (retourne le contrôle à l'appelant)
+1. **Déplacer le pointeur de base actuel vers le pointeur de pile** : `mov rsp, rbp` (désalloue les variables locales)
+2. **Dépiler l'ancien pointeur de base de la pile** : `pop rbp` (restaure le pointeur de base de l'appelant)
+3. **Retourner** : `ret` (retourne le contrôle à l'appelant)
 
 ## macOS
 

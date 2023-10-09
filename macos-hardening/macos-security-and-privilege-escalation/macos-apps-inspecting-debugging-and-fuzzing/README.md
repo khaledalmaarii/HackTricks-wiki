@@ -139,7 +139,7 @@ Les paramètres que cette fonction attend sont :
 
 Avec les binaires Swift, étant donné qu'il y a une compatibilité Objective-C, il est parfois possible d'extraire des déclarations à l'aide de [class-dump](https://github.com/nygard/class-dump/), mais pas toujours.
 
-Avec les commandes **`jtool -l`** ou **`otool -l`**, il est possible de trouver plusieurs sections qui commencent par le préfixe **`__swift5`** :
+Avec les lignes de commande **`jtool -l`** ou **`otool -l`**, il est possible de trouver plusieurs sections qui commencent par le préfixe **`__swift5`** :
 ```bash
 jtool2 -l /Applications/Stocks.app/Contents/MacOS/Stocks
 LC 00: LC_SEGMENT_64              Mem: 0x000000000-0x100000000    __PAGEZERO
@@ -151,18 +151,26 @@ Mem: 0x100027064-0x1000274cc        __TEXT.__swift5_fieldmd
 Mem: 0x1000274cc-0x100027608        __TEXT.__swift5_capture
 [...]
 ```
-Vous pouvez trouver plus d'informations sur les [**informations stockées dans ces sections dans cet article de blog**](https://knight.sc/reverse%20engineering/2019/07/17/swift-metadata.html).
+Vous pouvez trouver plus d'informations sur les **informations stockées dans ces sections dans cet article de blog**.
 
+De plus, les **binaires Swift peuvent avoir des symboles** (par exemple, les bibliothèques doivent stocker des symboles afin que leurs fonctions puissent être appelées). Les **symboles ont généralement des informations sur le nom de la fonction** et les attributs de manière peu esthétique, donc ils sont très utiles et il existe des "**démangleurs**" qui peuvent obtenir le nom d'origine :
+```bash
+# Ghidra plugin
+https://github.com/ghidraninja/ghidra_scripts/blob/master/swift_demangler.py
+
+# Swift cli
+swift demangle
+```
 ### Binaires compressés
 
 * Vérifiez l'entropie élevée
-* Vérifiez les chaînes (s'il n'y a presque aucune chaîne compréhensible, compressée)
+* Vérifiez les chaînes (s'il n'y a presque aucune chaîne compréhensible, c'est compressé)
 * Le packer UPX pour MacOS génère une section appelée "\_\_XHDR"
 
 ## Analyse dynamique
 
 {% hint style="warning" %}
-Notez que pour déboguer des binaires, **SIP doit être désactivé** (`csrutil disable` ou `csrutil enable --without debug`) ou copier les binaires dans un dossier temporaire et **supprimer la signature** avec `codesign --remove-signature <chemin-du-binaire>` ou autoriser le débogage du binaire (vous pouvez utiliser [ce script](https://gist.github.com/carlospolop/a66b8d72bb8f43913c4b5ae45672578b)).
+Notez que pour déboguer des binaires, **SIP doit être désactivé** (`csrutil disable` ou `csrutil enable --without debug`) ou copier les binaires dans un dossier temporaire et **supprimer la signature** avec `codesign --remove-signature <chemin-du-binaire>` ou autoriser le débogage du binaire (vous pouvez utiliser [ce script](https://gist.github.com/carlospolop/a66b8d72bb8f43913c4b5ae45672578b))
 {% endhint %}
 
 {% hint style="warning" %}
@@ -173,7 +181,7 @@ Notez que pour **instrumenter les binaires système** (comme `cloudconfiguration
 
 MacOS génère de nombreux journaux qui peuvent être très utiles lors de l'exécution d'une application pour comprendre **ce qu'elle fait**.
 
-De plus, il existe des journaux qui contiendront la balise `<private>` pour **masquer** certaines informations **identifiables par l'utilisateur** ou **l'ordinateur**. Cependant, il est possible d'**installer un certificat pour divulguer ces informations**. Suivez les explications [**ici**](https://superuser.com/questions/1532031/how-to-show-private-data-in-macos-unified-log).
+De plus, il existe des journaux qui contiennent la balise `<private>` pour **masquer** certaines informations **identifiables** de l'utilisateur ou de l'ordinateur. Cependant, il est possible d'**installer un certificat pour divulguer ces informations**. Suivez les explications [**ici**](https://superuser.com/questions/1532031/how-to-show-private-data-in-macos-unified-log).
 
 ### Hopper
 
@@ -183,7 +191,7 @@ Dans le panneau de gauche de Hopper, il est possible de voir les symboles (**Lab
 
 #### Panneau central
 
-Dans le panneau central, vous pouvez voir le **code désassemblé**. Et vous pouvez le voir comme un désassemblage **brut**, comme un **graphique**, comme un **décompilé** et comme un **binaire** en cliquant sur l'icône respective:
+Dans le panneau central, vous pouvez voir le **code désassemblé**. Et vous pouvez le voir sous forme de désassemblage **brut**, sous forme de **graphique**, sous forme de **décompilation** et sous forme de **binaire** en cliquant sur l'icône respective:
 
 <figure><img src="../../../.gitbook/assets/image (2) (6).png" alt=""><figcaption></figcaption></figure>
 
@@ -191,7 +199,7 @@ En cliquant avec le bouton droit sur un objet de code, vous pouvez voir les **r�
 
 <figure><img src="../../../.gitbook/assets/image (1) (1) (2).png" alt=""><figcaption></figcaption></figure>
 
-De plus, dans le **panneau central inférieur, vous pouvez écrire des commandes python**.
+De plus, dans la **partie inférieure centrale, vous pouvez écrire des commandes python**.
 
 #### Panneau de droite
 
@@ -201,15 +209,15 @@ Dans le panneau de droite, vous pouvez voir des informations intéressantes tell
 
 Il permet aux utilisateurs d'accéder aux applications à un niveau extrêmement **bas** et offre un moyen aux utilisateurs de **tracer** les **programmes** et même de modifier leur flux d'exécution. Dtrace utilise des **sondes** qui sont **placées dans tout le noyau** et se trouvent à des emplacements tels que le début et la fin des appels système.
 
-DTrace utilise la fonction **`dtrace_probe_create`** pour créer une sonde pour chaque appel système. Ces sondes peuvent être déclenchées au **point d'entrée et de sortie de chaque appel système**. L'interaction avec DTrace se fait via /dev/dtrace qui n'est disponible que pour l'utilisateur root.
+DTrace utilise la fonction **`dtrace_probe_create`** pour créer une sonde pour chaque appel système. Ces sondes peuvent être déclenchées au **point d'entrée et de sortie de chaque appel système**. L'interaction avec DTrace se fait via /dev/dtrace, qui n'est disponible que pour l'utilisateur root.
 
 {% hint style="success" %}
-Pour activer Dtrace sans désactiver complètement la protection SIP, vous pouvez exécuter en mode de récupération: `csrutil enable --without dtrace`
+Pour activer Dtrace sans désactiver complètement la protection SIP, vous pouvez exécuter en mode de récupération : `csrutil enable --without dtrace`
 
 Vous pouvez également **exécuter** les binaires **`dtrace`** ou **`dtruss`** que **vous avez compilés**.
 {% endhint %}
 
-Les sondes disponibles de dtrace peuvent être obtenues avec:
+Les sondes disponibles de dtrace peuvent être obtenues avec :
 ```bash
 dtrace -l | head
 ID   PROVIDER            MODULE                          FUNCTION NAME
@@ -223,7 +231,7 @@ Le nom de la sonde se compose de quatre parties : le fournisseur, le module, la 
 
 Pour configurer DTrace afin d'activer les sondes et spécifier les actions à effectuer lorsqu'elles se déclenchent, nous devrons utiliser le langage D.
 
-Une explication plus détaillée et plus d'exemples peuvent être trouvés dans [https://illumos.org/books/dtrace/chp-intro.html](https://illumos.org/books/dtrace/chp-intro.html)
+Une explication plus détaillée et plus d'exemples peuvent être trouvés sur [https://illumos.org/books/dtrace/chp-intro.html](https://illumos.org/books/dtrace/chp-intro.html)
 
 #### Exemples
 
@@ -246,7 +254,7 @@ Inspecting MacOS apps involves analyzing the binary code and resources of an app
 
 ## Debugging MacOS Apps
 
-Debugging MacOS apps involves analyzing the runtime behavior of an application to identify and fix bugs or security vulnerabilities. The `lldb` debugger is a powerful tool for debugging MacOS apps. It allows us to set breakpoints, inspect variables, and step through the code to understand how the application behaves under different conditions.
+Debugging MacOS apps involves analyzing the runtime behavior of an application to identify and fix bugs or security issues. The `lldb` debugger is a powerful tool for debugging MacOS apps. It allows us to set breakpoints, inspect variables, and step through the code to understand how the application behaves under different conditions.
 
 ## Fuzzing MacOS Apps
 
@@ -300,21 +308,13 @@ sudo dtrace -s syscalls_info.d -c "cat /etc/hosts"
 
 `dtruss` is a command-line tool available on macOS that allows you to trace and inspect system calls made by a running application. It can be used for debugging and analyzing the behavior of macOS applications.
 
-To use `dtruss`, you need to have root privileges or be a member of the `procmod` group. The tool works by attaching to a running process and intercepting its system calls, providing detailed information about the calls made, including the arguments and return values.
+To use `dtruss`, you need to specify the target application's process ID (PID) or its name. Once `dtruss` is attached to the target application, it intercepts and displays the system calls made by the application, along with their arguments and return values.
 
-Here is an example of how to use `dtruss`:
+The output of `dtruss` can be overwhelming, especially for complex applications. To filter the output and focus on specific system calls or functions, you can use various options and filters provided by `dtruss`.
 
-```
-sudo dtruss -p <PID>
-```
+`dtruss` can be a powerful tool for understanding how an application interacts with the underlying macOS system, identifying potential security vulnerabilities, and troubleshooting issues. However, it should be used responsibly and with proper authorization, as it can also be used for malicious purposes.
 
-Replace `<PID>` with the process ID of the application you want to trace. This will start tracing the specified process and display the system calls it makes in real-time.
-
-`dtruss` provides a wealth of information, including the system call number, the arguments passed to the call, the return value, and any errors encountered. This can be useful for understanding how an application interacts with the underlying operating system and diagnosing issues.
-
-It's important to note that `dtruss` can have a significant impact on system performance, especially when tracing a process that makes a large number of system calls. Therefore, it's recommended to use `dtruss` sparingly and only when necessary.
-
-Overall, `dtruss` is a powerful tool for inspecting and debugging macOS applications by tracing their system calls. It can help uncover potential security vulnerabilities or understand the inner workings of an application.
+**Note:** `dtruss` requires root privileges to attach to system processes.
 ```bash
 dtruss -c ls #Get syscalls of ls
 dtruss -c -p 1000 #get syscalls of PID 1000

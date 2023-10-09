@@ -26,7 +26,7 @@ ARM64 dispose de **31 registres généraux**, étiquetés `x0` à `x30`. Chacun 
 3. **`x9`** à **`x15`** - Registres temporaires supplémentaires, souvent utilisés pour les variables locales.
 4. **`x16`** et **`x17`** - Registres temporaires, également utilisés pour les appels de fonction indirects et les stubs PLT (Procedure Linkage Table).
 * **`x16`** est utilisé comme numéro d'appel système pour l'instruction **`svc`**.
-5. **`x18`** - Registre de plateforme. Sur certaines plates-formes, ce registre est réservé à des utilisations spécifiques à la plate-forme.
+5. **`x18`** - Registre de plateforme. Sur certaines plateformes, ce registre est réservé à des utilisations spécifiques à la plateforme.
 6. **`x19`** à **`x28`** - Ce sont des registres sauvegardés par l'appelé. Une fonction doit préserver les valeurs de ces registres pour son appelant.
 7. **`x29`** - Pointeur de cadre.
 8. **`x30`** - Registre de lien. Il contient l'adresse de retour lorsqu'une instruction `BL` (Branch with Link) ou `BLR` (Branch with Link to Register) est exécutée.
@@ -35,9 +35,13 @@ ARM64 dispose de **31 registres généraux**, étiquetés `x0` à `x30`. Chacun 
 
 ### **Convention d'appel**
 
-La convention d'appel ARM64 spécifie que les **huit premiers paramètres** d'une fonction sont passés dans les registres **`x0` à `x7`**. Les **paramètres supplémentaires** sont passés sur la **pile**. La valeur de **retour** est renvoyée dans le registre **`x0`**, ou dans **`x1`** également **s'il fait 128 bits**. Les registres **`x19`** à **`x30`** et **`sp`** doivent être **préservés** lors des appels de fonction.
+La convention d'appel ARM64 spécifie que les **huit premiers paramètres** d'une fonction sont passés dans les registres **`x0` à `x7`**. Les **paramètres supplémentaires** sont passés sur la **pile**. La **valeur de retour** est renvoyée dans le registre **`x0`**, ou dans **`x1`** également **s'il fait 128 bits**. Les registres **`x19`** à **`x30`** et **`sp`** doivent être **préservés** lors des appels de fonction.
 
 Lors de la lecture d'une fonction en langage d'assemblage, recherchez le **prologue et l'épilogue de la fonction**. Le **prologue** implique généralement la **sauvegarde du pointeur de cadre (`x29`)**, la **configuration** d'un **nouveau pointeur de cadre** et l'**allocation d'espace de pile**. L'**épilogue** implique généralement la **restauration du pointeur de cadre sauvegardé** et le **retour** de la fonction.
+
+### Convention d'appel en Swift
+
+Swift a sa propre **convention d'appel** que l'on peut trouver dans [**https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#arm64**](https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#arm64)
 
 ### **Instructions courantes**
 
@@ -54,37 +58,37 @@ Les instructions ARM64 ont généralement le **format `opcode dst, src1, src2`**
 * **`stp`** : **Stocker une paire de registres**. Cette instruction **stocke deux registres** dans des **emplacements mémoire consécutifs**. L'adresse mémoire est généralement formée en ajoutant un décalage à la valeur d'un autre registre.
 * Exemple : `stp x0, x1, [x2]` — Cela stocke `x0` et `x1` dans les emplacements mémoire à `x2` et `x2 + 8`, respectivement.
 * **`add`** : **Ajouter** les valeurs de deux registres et stocker le résultat dans un registre.
-* Exemple : `add x0, x1, x2` — Cela ajoute les valeurs de `x1` et `x2` ensemble et stocke le résultat dans `x0`.
+* Exemple : `add x0, x1, x2` — Cela ajoute les valeurs dans `x1` et `x2` ensemble et stocke le résultat dans `x0`.
 * **`sub`** : **Soustraire** les valeurs de deux registres et stocker le résultat dans un registre.
-* Exemple : `sub x0, x1, x2` — Cela soustrait la valeur de `x2` de `x1` et stocke le résultat dans `x0`.
-* **`mul`**: **Multiplier** les valeurs de **deux registres** et stocker le résultat dans un registre.
-* Exemple : `mul x0, x1, x2` - Cela multiplie les valeurs dans `x1` et `x2` et stocke le résultat dans `x0`.
-* **`div`**: **Diviser** la valeur d'un registre par une autre et stocker le résultat dans un registre.
-* Exemple : `div x0, x1, x2` - Cela divise la valeur dans `x1` par `x2` et stocke le résultat dans `x0`.
-* **`bl`**: **Brancher** avec lien, utilisé pour **appeler** une **sous-routine**. Stocke l'**adresse de retour dans `x30`**.
-* Exemple : `bl myFunction` - Cela appelle la fonction `myFunction` et stocke l'adresse de retour dans `x30`.
-* **`blr`**: **Brancher** avec lien vers un registre, utilisé pour **appeler** une **sous-routine** où la cible est **spécifiée** dans un **registre**. Stocke l'adresse de retour dans `x30`.
-* Exemple : `blr x1` - Cela appelle la fonction dont l'adresse est contenue dans `x1` et stocke l'adresse de retour dans `x30`.
-* **`ret`**: **Retourner** de la **sous-routine**, en utilisant généralement l'adresse dans **`x30`**.
-* Exemple : `ret` - Cela retourne de la sous-routine en utilisant l'adresse de retour dans `x30`.
-* **`cmp`**: **Comparer** deux registres et définir les indicateurs de condition.
-* Exemple : `cmp x0, x1` - Cela compare les valeurs dans `x0` et `x1` et définit les indicateurs de condition en conséquence.
-* **`b.eq`**: **Brancher si égal**, basé sur l'instruction `cmp` précédente.
-* Exemple : `b.eq label` - Si l'instruction `cmp` précédente a trouvé deux valeurs égales, cela saute à `label`.
-* **`b.ne`**: **Brancher si différent**. Cette instruction vérifie les indicateurs de condition (qui ont été définis par une instruction de comparaison précédente), et si les valeurs comparées ne sont pas égales, elle saute à une étiquette ou une adresse.
-* Exemple : Après une instruction `cmp x0, x1`, `b.ne label` - Si les valeurs dans `x0` et `x1` ne sont pas égales, cela saute à `label`.
-* **`cbz`**: **Comparer et brancher si zéro**. Cette instruction compare un registre avec zéro, et s'ils sont égaux, elle saute à une étiquette ou une adresse.
-* Exemple : `cbz x0, label` - Si la valeur dans `x0` est zéro, cela saute à `label`.
-* **`cbnz`**: **Comparer et brancher si non zéro**. Cette instruction compare un registre avec zéro, et s'ils ne sont pas égaux, elle saute à une étiquette ou une adresse.
-* Exemple : `cbnz x0, label` - Si la valeur dans `x0` n'est pas zéro, cela saute à `label`.
-* **`adrp`**: Calculer l'**adresse de page d'un symbole** et la stocker dans un registre.
-* Exemple : `adrp x0, symbol` - Cela calcule l'adresse de page de `symbol` et la stocke dans `x0`.
-* **`ldrsw`**: **Charger** une valeur signée de **32 bits** depuis la mémoire et **l'étendre à 64 bits**.
-* Exemple : `ldrsw x0, [x1]` - Cela charge une valeur signée de 32 bits depuis l'emplacement mémoire pointé par `x1`, l'étend à 64 bits et la stocke dans `x0`.
-* **`stur`**: **Stocker une valeur de registre dans un emplacement mémoire**, en utilisant un décalage par rapport à un autre registre.
-* Exemple : `stur x0, [x1, #4]` - Cela stocke la valeur dans `x0` dans l'emplacement mémoire qui est 4 octets plus grand que l'adresse actuellement dans `x1`.
-* &#x20;**`svc`** : Effectuer un **appel système**. Il signifie "Supervisor Call". Lorsque le processeur exécute cette instruction, il **passe du mode utilisateur au mode noyau** et saute à un emplacement spécifique en mémoire où se trouve le code de gestion des appels système du noyau.
-*   Exemple:&#x20;
+* Exemple : `sub x0, x1, x2` — Cela soustrait la valeur dans `x2` de `x1` et stocke le résultat dans `x0`.
+* **`mul`** : **Multiplier** les valeurs de **deux registres** et stocker le résultat dans un registre.
+* Exemple : `mul x0, x1, x2` — Cela multiplie les valeurs dans `x1` et `x2` et stocke le résultat dans `x0`.
+* **`div`** : **Diviser** la valeur d'un registre par un autre et stocker le résultat dans un registre.
+* Exemple : `div x0, x1, x2` — Cela divise la valeur dans `x1` par `x2` et stocke le résultat dans `x0`.
+* **`bl`** : **Brancher** avec lien, utilisé pour **appeler** une **sous-routine**. Stocke l'**adresse de retour dans `x30`**.
+* Exemple : `bl myFunction` — Cela appelle la fonction `myFunction` et stocke l'adresse de retour dans `x30`.
+* **`blr`** : **Brancher** avec lien vers un registre, utilisé pour **appeler** une **sous-routine** où la cible est **spécifiée** dans un **registre**. Stocke l'adresse de retour dans `x30`.
+* Exemple : `blr x1` — Cela appelle la fonction dont l'adresse est contenue dans `x1` et stocke l'adresse de retour dans `x30`.
+* **`ret`** : **Retourner** de la **sous-routine**, généralement en utilisant l'adresse dans **`x30`**.
+* Exemple : `ret` — Cela retourne de la sous-routine en utilisant l'adresse de retour dans `x30`.
+* **`cmp`** : **Comparer** deux registres et définir les indicateurs de condition.
+* Exemple : `cmp x0, x1` — Cela compare les valeurs dans `x0` et `x1` et définit les indicateurs de condition en conséquence.
+* **`b.eq`** : **Brancher si égal**, basé sur l'instruction `cmp` précédente.
+* Exemple : `b.eq label` — Si l'instruction `cmp` précédente a trouvé deux valeurs égales, cela saute à `label`.
+* **`b.ne`** : **Brancher si différent**. Cette instruction vérifie les indicateurs de condition (qui ont été définis par une instruction de comparaison précédente), et si les valeurs comparées ne sont pas égales, elle saute à une étiquette ou une adresse.
+* Exemple : Après une instruction `cmp x0, x1`, `b.ne label` — Si les valeurs dans `x0` et `x1` ne sont pas égales, cela saute à `label`.
+* **`cbz`** : **Comparer et brancher si zéro**. Cette instruction compare un registre avec zéro, et s'ils sont égaux, elle saute à une étiquette ou une adresse.
+* Exemple : `cbz x0, label` — Si la valeur dans `x0` est zéro, cela saute à `label`.
+* **`cbnz`** : **Comparer et brancher si non zéro**. Cette instruction compare un registre avec zéro, et s'ils ne sont pas égaux, elle saute à une étiquette ou une adresse.
+* Exemple : `cbnz x0, label` — Si la valeur dans `x0` n'est pas zéro, cela saute à `label`.
+* **`adrp`** : Calculer l'**adresse de page d'un symbole** et la stocker dans un registre.
+* Exemple : `adrp x0, symbol` — Cela calcule l'adresse de page de `symbol` et la stocke dans `x0`.
+* **`ldrsw`** : **Charger** une valeur signée de **32 bits** depuis la mémoire et **l'étendre à 64 bits**.
+* Exemple : `ldrsw x0, [x1]` — Cela charge une valeur signée de 32 bits à partir de l'emplacement mémoire pointé par `x1`, l'étend à 64 bits et la stocke dans `x0`.
+* **`stur`** : **Stocker une valeur de registre dans un emplacement mémoire**, en utilisant un décalage par rapport à un autre registre.
+* Exemple : `stur x0, [x1, #4]` — Cela stocke la valeur dans `x0` dans l'adresse mémoire qui est 4 octets supérieure à l'adresse actuellement dans `x1`.
+* &#x20;**`svc`** : Effectuer un **appel système**. Il signifie "Supervisor Call". Lorsque le processeur exécute cette instruction, il **passe du mode utilisateur au mode noyau** et saute à un emplacement spécifique dans la mémoire où se trouve le code de gestion des appels système du noyau.
+*   Exemple :&#x20;
 
 ```armasm
 mov x8, 93  ; Charger le numéro d'appel système pour exit (93) dans le registre x8.
@@ -118,7 +122,7 @@ ldp x29, x30, [sp], #16  ; charger la paire x29 et x30 depuis la pile et incrém
 
 ## macOS
 
-### syscalls
+### appels système
 
 Consultez [**syscalls.master**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/bsd/kern/syscalls.master).
 
@@ -470,7 +474,7 @@ svc  #0x1337
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? Ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
