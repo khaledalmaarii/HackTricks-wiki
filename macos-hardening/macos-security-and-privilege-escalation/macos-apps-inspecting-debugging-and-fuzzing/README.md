@@ -51,17 +51,11 @@ ARCH=x86_64 jtool2 --sig /System/Applications/Automator.app/Contents/MacOS/Autom
 # Get MIG information
 jtool2 -d __DATA.__const myipc_server | grep MIG
 ```
-### Codesign
+### Codesign / ldid
 
-Codesign（代码签名）是macOS中的一种安全机制，用于验证应用程序的身份和完整性。通过对应用程序进行数字签名，可以确保应用程序未被篡改或恶意注入。
-
-在macOS中，每个应用程序都必须经过代码签名才能被系统信任和运行。签名是使用开发者的证书和私钥生成的，这些证书和私钥由苹果公司颁发。签名包含应用程序的哈希值和开发者的数字签名，以及其他相关信息。
-
-当用户尝试运行一个被签名的应用程序时，macOS会验证签名的有效性。如果签名无效或被篡改，系统会发出警告并阻止应用程序的运行。
-
-通过使用codesign命令，开发者可以对应用程序进行签名和验证。签名应该在应用程序的构建过程中完成，并且应该使用开发者的私钥进行签名。
-
-签名应该是开发过程中的一个重要步骤，以确保应用程序的安全性和完整性。
+{% hint style="danger" %}
+**`Codesign`** 可在 **macOS** 中找到，而 **`ldid`** 可在 **iOS** 中找到
+{% endhint %}
 ```bash
 # Get signer
 codesign -vv -d /bin/ls 2>&1 | grep -E "Authority|TeamIdentifier"
@@ -77,11 +71,21 @@ spctl --assess --verbose /Applications/Safari.app
 
 # Sign a binary
 codesign -s <cert-name-keychain> toolsdemo
+
+# Get signature info
+ldid -h <binary>
+
+# Get entitlements
+ldid -e <binary>
+
+# Change entilements
+## /tmp/entl.xml is a XML file with the new entitlements to add
+ldid -S/tmp/entl.xml <binary>
 ```
 ### SuspiciousPackage
 
 [**SuspiciousPackage**](https://mothersruin.com/software/SuspiciousPackage/get.html) 是一个有用的工具，可以在安装之前检查 **.pkg** 文件（安装程序）并查看其中的内容。\
-这些安装程序包含 `preinstall` 和 `postinstall` 的 bash 脚本，恶意软件作者通常会滥用这些脚本来**持久化**恶意软件。
+这些安装程序包含 `preinstall` 和 `postinstall` 的 bash 脚本，恶意软件作者通常会滥用这些脚本来**持久化****恶意软件**。
 
 ### hdiutil
 
@@ -162,14 +166,14 @@ Mem: 0x1000274cc-0x100027608        __TEXT.__swift5_capture
 {% endhint %}
 
 {% hint style="warning" %}
-请注意，为了在macOS上**检测系统二进制文件**（如`cloudconfigurationd`），必须禁用SIP（仅删除签名不起作用）。
+请注意，为了在macOS上**检测系统二进制文件**（例如`cloudconfigurationd`），必须禁用SIP（仅删除签名不起作用）。
 {% endhint %}
 
 ### 统一日志
 
 MacOS会生成大量日志，当运行应用程序时，这些日志可以非常有用，以了解它在做什么。
 
-此外，有一些日志将包含标签`<private>`，以隐藏一些**用户**或**计算机**可识别的信息。但是，可以**安装证书以公开此信息**。请按照[**此处**](https://superuser.com/questions/1532031/how-to-show-private-data-in-macos-unified-log)的说明进行操作。
+此外，有一些日志将包含标签`<private>`，以隐藏一些**用户**或**计算机**可识别的信息。但是，可以**安装证书以公开此信息**。请按照[**此处的说明**](https://superuser.com/questions/1532031/how-to-show-private-data-in-macos-unified-log)进行操作。
 
 ### Hopper
 
@@ -345,7 +349,7 @@ settings set target.x86-disassembly-flavor intel
 <table data-header-hidden><thead><tr><th width="225"></th><th></th></tr></thead><tbody><tr><td><strong>(lldb) 命令</strong></td><td><strong>描述</strong></td></tr><tr><td><strong>run (r)</strong></td><td>开始执行，直到遇到断点或进程终止。</td></tr><tr><td><strong>continue (c)</strong></td><td>继续执行被调试的进程。</td></tr><tr><td><strong>nexti (n / ni)</strong></td><td>执行下一条指令。该命令会跳过函数调用。</td></tr><tr><td><strong>stepi (s / si)</strong></td><td>执行下一条指令。与nexti命令不同，该命令会进入函数调用。</td></tr><tr><td><strong>finish (f)</strong></td><td>执行当前函数（“frame”）中剩余的指令，然后返回并停止。</td></tr><tr><td><strong>control + c</strong></td><td>暂停执行。如果进程已经运行（r）或继续（c），这将导致进程在当前位置停止执行。</td></tr><tr><td><strong>breakpoint (b)</strong></td><td><p>b main #任何名为main的函数</p><p>b &#x3C;binname>`main #二进制文件的主函数</p><p>b set -n main --shlib &#x3C;lib_name> #指定二进制文件的主函数</p><p>b -[NSDictionary objectForKey:]</p><p>b -a 0x0000000100004bd9</p><p>br l #断点列表</p><p>br e/dis &#x3C;num> #启用/禁用断点</p><p>breakpoint delete &#x3C;num></p></td></tr><tr><td><strong>help</strong></td><td><p>help breakpoint #获取断点命令的帮助</p><p>help memory write #获取写入内存的帮助</p></td></tr><tr><td><strong>reg</strong></td><td><p>reg read</p><p>reg read $rax</p><p>reg read $rax --format &#x3C;<a href="https://lldb.llvm.org/use/variable.html#type-format">format</a>></p><p>reg write $rip 0x100035cc0</p></td></tr><tr><td><strong>x/s &#x3C;reg/memory address></strong></td><td>将内存显示为以空字符结尾的字符串。</td></tr><tr><td><strong>x/i &#x3C;reg/memory address></strong></td><td>将内存显示为汇编指令。</td></tr><tr><td><strong>x/b &#x3C;reg/memory address></strong></td><td>将内存显示为字节。</td></tr><tr><td><strong>print object (po)</strong></td><td><p>这将打印参数引用的对象</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>请注意，大多数苹果的Objective-C API或方法返回对象，因此应通过“print object”（po）命令显示。如果po没有产生有意义的输出，请使用<x/b></p></td></tr><tr><td><strong>memory</strong></td><td>memory read 0x000....<br>memory read $x0+0xf2a<br>memory write 0x100600000 -s 4 0x41414141 #在该地址写入AAAA<br>memory write -f s $rip+0x11f+7 "AAAA" #在该地址写入AAAA</td></tr><tr><td><strong>disassembly</strong></td><td><p>dis #反汇编当前函数</p><p>dis -n &#x3C;funcname> #反汇编函数</p><p>dis -n &#x3C;funcname> -b &#x3C;basename> #反汇编函数<br>dis -c 6 #反汇编6行<br>dis -c 0x100003764 -e 0x100003768 #从一个地址到另一个地址<br>dis -p -c 4 #从当前地址开始反汇编</p></td></tr><tr><td><strong>parray</strong></td><td>parray 3 (char **)$x1 #检查x1寄存器中的3个组件的数组</td></tr></tbody></table>
 
 {% hint style="info" %}
-在调用**`objc_sendMsg`**函数时，**rsi**寄存器保存方法的名称，作为以空字符结尾的（“C”）字符串。要通过lldb打印名称，请执行以下操作：
+在调用**`objc_sendMsg`**函数时，**rsi**寄存器保存方法的名称，以空字符结尾（“C”字符串）。要通过lldb打印名称，请执行以下操作：
 
 `(lldb) x/s $rsi: 0x1000f1576: "startMiningWithPort:password:coreCount:slowMemory:currency:"`
 
@@ -486,9 +490,9 @@ litefuzz -s -a tcp://localhost:5900 -i input/screenshared-session --reportcrash 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* 发现我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>

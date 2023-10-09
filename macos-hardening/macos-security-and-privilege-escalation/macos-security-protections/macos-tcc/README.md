@@ -24,7 +24,7 @@
 
 **TCC** 由位于 `/System/Library/PrivateFrameworks/TCC.framework/Support/tccd` 的**守护进程**处理，并在 `/System/Library/LaunchDaemons/com.apple.tccd.system.plist` 中进行配置（注册 mach 服务 `com.apple.tccd.system`）。
 
-每个已登录用户定义了一个在用户模式下运行的 tccd，其定义在 `/System/Library/LaunchAgents/com.apple.tccd.plist` 中，注册了 mach 服务 `com.apple.tccd` 和 `com.apple.usernotifications.delegate.com.apple.tccd`。
+每个已登录用户定义了一个在用户模式下运行的 tccd，其位置在 `/System/Library/LaunchAgents/com.apple.tccd.plist`，注册了 mach 服务 `com.apple.tccd` 和 `com.apple.usernotifications.delegate.com.apple.tccd`。
 
 在这里，你可以看到作为系统和用户运行的 tccd：
 ```bash
@@ -36,9 +36,13 @@ ps -ef | grep tcc
 
 ### TCC数据库
 
-然后，选择将存储在TCC系统范围的数据库中，路径为`/Library/Application Support/com.apple.TCC/TCC.db`，或者对于每个用户的偏好设置，路径为`$HOME/Library/Application Support/com.apple.TCC/TCC.db`。这些数据库受到SIP（系统完整性保护）的保护，但您可以读取它们。
+然后，选择将存储在TCC系统范围的数据库中，路径为**`/Library/Application Support/com.apple.TCC/TCC.db`**，或者对于每个用户的偏好设置，路径为**`$HOME/Library/Application Support/com.apple.TCC/TCC.db`**。这些数据库受到SIP（系统完整性保护）的保护，但您可以读取它们。
 
-此外，具有完全磁盘访问权限的进程可以编辑用户模式数据库。
+{% hint style="danger" %}
+iOS中的TCC数据库位于**`/private/var/mobile/Library/TCC/TCC.db`**
+{% endhint %}
+
+此外，具有**完全磁盘访问权限**的进程可以编辑用户模式数据库。
 
 {% hint style="info" %}
 **通知中心UI**可以对系统TCC数据库进行更改：
@@ -97,14 +101,14 @@ sqlite> select * from access where client LIKE "%telegram%" and auth_value=0;
 检查这两个数据库，您可以查看应用程序已允许、禁止或未拥有的权限（它会要求获取权限）。
 {% endhint %}
 
-* **`auth_value`** 可以有不同的值：denied(0)、unknown(1)、allowed(2)或limited(3)。
+* **`auth_value`** 可以有不同的值：denied(0)、unknown(1)、allowed(2) 或 limited(3)。
 * **`auth_reason`** 可以取以下值：Error(1)、User Consent(2)、User Set(3)、System Set(4)、Service Policy(5)、MDM Policy(6)、Override Policy(7)、Missing usage string(8)、Prompt Timeout(9)、Preflight Unknown(10)、Entitled(11)、App Type Policy(12)。
 * 有关表格的**其他字段**的更多信息，请参阅[**此博客文章**](https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive)。
 
 {% hint style="info" %}
 一些 TCC 权限包括：kTCCServiceAppleEvents、kTCCServiceCalendar、kTCCServicePhotos... 没有公共列表定义了所有这些权限，但您可以查看这个[**已知权限列表**](https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive#service)。
 
-**完全磁盘访问**的名称是 **`kTCCServiceSystemPolicyAllFiles`**，**`kTCCServiceAppleEvents`** 允许应用程序向其他常用于**自动化任务**的应用程序发送事件。此外，**`kTCCServiceSystemPolicySysAdminFiles`** 允许更改用户的 **`NFSHomeDirectory`** 属性，从而更改其主文件夹，从而允许**绕过 TCC**。
+**完全磁盘访问**的名称是 **`kTCCServiceSystemPolicyAllFiles`**，**`kTCCServiceAppleEvents`** 允许应用程序向常用于**自动化任务**的其他应用程序发送事件。此外，**`kTCCServiceSystemPolicySysAdminFiles`** 允许更改用户的 **`NFSHomeDirectory`** 属性，从而更改其主文件夹，从而允许**绕过 TCC**。
 {% endhint %}
 
 您还可以在 `系统偏好设置 --> 安全性与隐私 --> 隐私 --> 文件和文件夹` 中检查已授予应用程序的权限。
@@ -142,9 +146,9 @@ csreq -t -r /tmp/telegram_csreq.bin
 应用程序不仅需要请求和获得对某些资源的访问权限，还需要具备相关的权限。\
 例如，Telegram具有`com.apple.security.device.camera`权限来请求访问相机。没有此权限的应用程序将无法访问相机（甚至不会要求用户授权）。
 
-然而，对于访问某些用户文件夹（如`~/Desktop`、`~/Downloads`和`~/Documents`）的应用程序，它们不需要具备任何特定的权限。系统会透明地处理访问并根据需要提示用户。
+然而，对于应用程序访问某些用户文件夹（例如`~/Desktop`，`~/Downloads`和`~/Documents`）并不需要具备任何特定的权限。系统会透明地处理访问并根据需要提示用户。
 
-苹果的应用程序不会生成提示。它们在其权限列表中包含预授予的权限，这意味着它们永远不会生成弹出窗口，也不会出现在任何TCC数据库中。例如：
+苹果的应用程序不会生成提示。它们在其权限列表中包含预授予权限，这意味着它们永远不会生成弹出窗口，也不会出现在任何TCC数据库中。例如：
 ```bash
 codesign -dv --entitlements :- /System/Applications/Calendar.app
 [...]
@@ -155,7 +159,11 @@ codesign -dv --entitlements :- /System/Applications/Calendar.app
 <string>kTCCServiceAddressBook</string>
 </array>
 ```
-这将避免日历询问用户访问提醒事项、日历和通讯录。
+这将避免日历要求用户访问提醒事项、日历和通讯录。
+
+{% hint style="success" %}
+除了一些关于权限的官方文档外，还可以在[https://newosxbook.com/ent.jl](https://newosxbook.com/ent.jl)找到一些非官方的**关于权限的有趣信息**。
+{% endhint %}
 
 ### 敏感的未受保护的位置
 
@@ -165,7 +173,7 @@ codesign -dv --entitlements :- /System/Applications/Calendar.app
 
 ### 用户意图 / com.apple.macl
 
-如前所述，可以通过将文件拖放到应用程序中来授予应用程序对文件的访问权限。此访问权限不会在任何TCC数据库中指定，而是作为文件的扩展属性。此属性将存储允许的应用程序的UUID：
+如前所述，可以通过将文件拖放到应用程序中来**授予应用程序对文件的访问权限**。这个访问权限不会在任何TCC数据库中指定，而是作为文件的**扩展属性**存储。该属性将**存储允许的应用程序的UUID**。
 ```bash
 xattr Desktop/private.txt
 com.apple.macl
@@ -186,7 +194,7 @@ uuid 769FD8F1-90E0-3206-808C-A8947BEBD6C3
 还要注意，如果将允许计算机上某个应用程序的 UUID 的文件移动到另一台计算机上，因为相同的应用程序将具有不同的 UID，它不会授予对该应用程序的访问权限。
 {% endhint %}
 
-扩展属性 `com.apple.macl` 无法像其他扩展属性一样清除，因为它受到 SIP 的保护。然而，正如[**在这篇文章中解释的**](https://www.brunerd.com/blog/2020/01/07/track-and-tackle-com-apple-macl/)，可以通过将文件进行压缩、删除和解压缩来禁用它。
+扩展属性 `com.apple.macl` 无法像其他扩展属性一样被清除，因为它受到 SIP 的保护。然而，正如[**在这篇文章中解释的**](https://www.brunerd.com/blog/2020/01/07/track-and-tackle-com-apple-macl/)，可以通过将文件进行压缩、删除和解压缩来禁用它。
 
 ### TCC绕过
 
@@ -200,10 +208,10 @@ uuid 769FD8F1-90E0-3206-808C-A8947BEBD6C3
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在 HackTricks 中**宣传你的公司**吗？或者想要**获取最新版本的 PEASS 或下载 PDF 格式的 HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 集合——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 你在一家**网络安全公司**工作吗？想要在 HackTricks 中**宣传你的公司**吗？或者想要**获取最新版本的 PEASS 或下载 PDF 格式的 HackTricks**？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 集合 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass)，或者在 **Twitter** 上**关注**我 [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的动态 [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向** [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享你的黑客技巧。**
 
 </details>
