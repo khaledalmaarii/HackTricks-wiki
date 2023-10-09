@@ -36,12 +36,16 @@ As permissões são herdadas do aplicativo pai e as permissões são rastreadas 
 
 ### Banco de dados TCC
 
-As seleções são então armazenadas no banco de dados do TCC em todo o sistema em `/Library/Application Support/com.apple.TCC/TCC.db` ou em `$HOME/Library/Application Support/com.apple.TCC/TCC.db` para preferências por usuário. Os bancos de dados são protegidos contra edição com SIP (Proteção de Integridade do Sistema), mas você pode lê-los.
+As seleções são então armazenadas no banco de dados do TCC em todo o sistema em **`/Library/Application Support/com.apple.TCC/TCC.db`** ou em **`$HOME/Library/Application Support/com.apple.TCC/TCC.db`** para preferências por usuário. Os bancos de dados são protegidos contra edição com SIP (System Integrity Protection), mas você pode lê-los.
 
-Além disso, um processo com acesso total ao disco pode editar o banco de dados em modo de usuário.
+{% hint style="danger" %}
+O banco de dados TCC no iOS está em **`/private/var/mobile/Library/TCC/TCC.db`**
+{% endhint %}
+
+Além disso, um processo com **acesso total ao disco** pode editar o banco de dados do modo de usuário.
 
 {% hint style="info" %}
-A interface do usuário do centro de notificações pode fazer alterações no banco de dados do TCC do sistema:
+A **interface do centro de notificações** pode fazer **alterações no banco de dados TCC do sistema**:
 
 {% code overflow="wrap" %}
 ```bash
@@ -50,10 +54,51 @@ codesign -dv --entitlements :- /System/Library/PrivateFrameworks/TCC.framework/S
 com.apple.private.tcc.manager
 com.apple.rootless.storage.TCC
 ```
-{% tab title="user DB" %}
+{% tab title="Banco de dados do usuário" %}
 
 No entanto, os usuários podem **excluir ou consultar regras** com a utilidade de linha de comando **`tccutil`**.
 {% endtab %}
+{% endtabs %}
+
+{% code title="Example" %}
+```bash
+$ tccutil reset All
+```
+{% endcode %}
+
+This command will **reset all TCC permissions** for all applications for the current user.
+
+{% code title="Example" %}
+```bash
+$ tccutil reset Camera com.apple.Safari
+```
+{% endcode %}
+
+This command will **reset the Camera permission** for both the `Camera` and `Safari` applications for the current user.
+
+{% code title="Example" %}
+```bash
+$ tccutil reset Microphone
+```
+{% endcode %}
+
+This command will **reset the Microphone permission** for all applications for the current user.
+
+{% code title="Example" %}
+```bash
+$ tccutil reset Microphone com.apple.Terminal
+```
+{% endcode %}
+
+This command will **reset the Microphone permission** for both the `Microphone` and `Terminal` applications for the current user.
+
+{% code title="Example" %}
+```bash
+$ tccutil reset Microphone com.apple.Terminal /Applications/Google\ Chrome.app
+```
+{% endcode %}
+
+This command will **reset the Microphone permission** for the `Microphone`, `Terminal`, and `Google Chrome` applications for the current user.
 ```bash
 sqlite3 ~/Library/Application\ Support/com.apple.TCC/TCC.db
 sqlite> .schema
@@ -152,7 +197,11 @@ codesign -dv --entitlements :- /System/Applications/Calendar.app
 <string>kTCCServiceAddressBook</string>
 </array>
 ```
-Isso evitará que o Calendário solicite ao usuário acesso a lembretes, calendário e lista de endereços.
+Isso evitará que o Calendário solicite ao usuário acesso a lembretes, calendário e lista de contatos.
+
+{% hint style="success" %}
+Além de alguma documentação oficial sobre as permissões, também é possível encontrar **informações interessantes sobre as permissões** em [**https://newosxbook.com/ent.jl**](https://newosxbook.com/ent.jl)
+{% endhint %}
 
 ### Locais sensíveis desprotegidos
 
@@ -162,7 +211,7 @@ Isso evitará que o Calendário solicite ao usuário acesso a lembretes, calend�
 
 ### Intenção do usuário / com.apple.macl
 
-Como mencionado anteriormente, é possível conceder acesso a um aplicativo a um arquivo arrastando-o e soltando-o nele. Esse acesso não será especificado em nenhum banco de dados TCC, mas sim como um atributo estendido do arquivo. Esse atributo armazenará o UUID do aplicativo permitido:
+Como mencionado anteriormente, é possível **conceder acesso a um aplicativo a um arquivo arrastando-o e soltando-o nele**. Esse acesso não será especificado em nenhum banco de dados TCC, mas como um **atributo estendido do arquivo**. Esse atributo irá **armazenar o UUID** do aplicativo permitido:
 ```bash
 xattr Desktop/private.txt
 com.apple.macl

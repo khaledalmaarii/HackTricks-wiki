@@ -51,19 +51,11 @@ ARCH=x86_64 jtool2 --sig /System/Applications/Automator.app/Contents/MacOS/Autom
 # Get MIG information
 jtool2 -d __DATA.__const myipc_server | grep MIG
 ```
-### Codesign
+### Codesign / ldid
 
-O comando `codesign` é uma ferramenta de linha de comando no macOS que permite assinar digitalmente aplicativos e bibliotecas para garantir sua autenticidade e integridade. A assinatura digital é um mecanismo de segurança que verifica se o código não foi alterado ou adulterado desde que foi assinado.
-
-A assinatura digital é especialmente importante para aplicativos distribuídos fora da Mac App Store, pois fornece uma maneira de verificar se o aplicativo não foi modificado por terceiros mal-intencionados. Além disso, a assinatura digital é necessária para recursos como a capacidade de acessar certos recursos protegidos do sistema operacional e para permitir que o aplicativo seja executado em sistemas macOS com Gatekeeper habilitado.
-
-O comando `codesign` pode ser usado para inspecionar, adicionar ou remover assinaturas digitais de aplicativos e bibliotecas. Ele também pode ser usado para verificar a validade de uma assinatura digital existente.
-
-A assinatura digital é baseada em certificados emitidos por uma autoridade de certificação confiável. Ao assinar um aplicativo ou biblioteca, um certificado é usado para criar uma assinatura digital que é anexada ao código. Quando o aplicativo ou biblioteca é executado, o sistema operacional verifica a assinatura digital usando a chave pública correspondente ao certificado usado para assinar o código. Se a verificação for bem-sucedida, o aplicativo ou biblioteca é considerado autêntico e confiável.
-
-O comando `codesign` também pode ser usado para identificar e corrigir problemas de assinatura digital, como assinaturas inválidas ou ausentes. Isso é particularmente útil durante o processo de desenvolvimento e depuração de aplicativos, onde é necessário garantir que a assinatura digital esteja correta antes de distribuir o aplicativo para outros usuários.
-
-Em resumo, o comando `codesign` é uma ferramenta essencial para garantir a segurança e a integridade de aplicativos e bibliotecas no macOS, permitindo a assinatura digital e a verificação de sua autenticidade.
+{% hint style="danger" %}
+**`Codesign`** pode ser encontrado no **macOS** enquanto **`ldid`** pode ser encontrado no **iOS**
+{% endhint %}
 ```bash
 # Get signer
 codesign -vv -d /bin/ls 2>&1 | grep -E "Authority|TeamIdentifier"
@@ -79,6 +71,16 @@ spctl --assess --verbose /Applications/Safari.app
 
 # Sign a binary
 codesign -s <cert-name-keychain> toolsdemo
+
+# Get signature info
+ldid -h <binary>
+
+# Get entitlements
+ldid -e <binary>
+
+# Change entilements
+## /tmp/entl.xml is a XML file with the new entitlements to add
+ldid -S/tmp/entl.xml <binary>
 ```
 ### SuspiciousPackage
 
@@ -179,7 +181,7 @@ No painel esquerdo do Hopper, é possível ver os símbolos (**Labels**) do bin�
 
 #### Painel central
 
-No painel central, você pode ver o **código desmontado**. E você pode vê-lo como um desmonte **bruto**, como **gráfico**, como **descompilado** e como **binário** clicando no ícone respectivo:
+No painel central, você pode ver o **código desmontado**. E você pode vê-lo como um desmonte **bruto**, como **gráfico**, como **descompilado** e como **binário** clicando no ícone correspondente:
 
 <figure><img src="../../../.gitbook/assets/image (2) (6).png" alt=""><figcaption></figcaption></figure>
 
@@ -254,7 +256,7 @@ O fuzzing é uma técnica usada para encontrar vulnerabilidades em aplicativos p
 
 ## Conclusão
 
-A inspeção, depuração e fuzzing de aplicativos no macOS são técnicas valiosas para identificar vulnerabilidades e realizar escalonamento de privilégios. Ao usar as ferramentas e técnicas mencionadas neste guia, você poderá analisar aplicativos de forma mais eficaz e descobrir possíveis falhas de segurança.
+A inspeção, depuração e fuzzing de aplicativos no macOS são técnicas valiosas para identificar vulnerabilidades e melhorar a segurança dos aplicativos. Ao usar as ferramentas mencionadas neste guia, os hackers éticos podem descobrir e corrigir falhas antes que sejam exploradas por atacantes mal-intencionados.
 ```bash
 syscall:::entry
 /pid == $1/
@@ -372,7 +374,7 @@ settings set target.x86-disassembly-flavor intel
 Dentro do lldb, faça o dump de um processo com `process save-core`
 {% endhint %}
 
-<table data-header-hidden><thead><tr><th width="225"></th><th></th></tr></thead><tbody><tr><td><strong>Comando (lldb)</strong></td><td><strong>Descrição</strong></td></tr><tr><td><strong>run (r)</strong></td><td>Inicia a execução, que continuará sem interrupções até que um ponto de interrupção seja atingido ou o processo seja encerrado.</td></tr><tr><td><strong>continue (c)</strong></td><td>Continua a execução do processo em depuração.</td></tr><tr><td><strong>nexti (n / ni)</strong></td><td>Executa a próxima instrução. Este comando irá pular chamadas de função.</td></tr><tr><td><strong>stepi (s / si)</strong></td><td>Executa a próxima instrução. Ao contrário do comando nexti, este comando irá entrar nas chamadas de função.</td></tr><tr><td><strong>finish (f)</strong></td><td>Executa o restante das instruções na função atual ("frame") e retorna.</td></tr><tr><td><strong>control + c</strong></td><td>Pausa a execução. Se o processo foi iniciado (r) ou continuado (c), isso fará com que o processo pare ... onde quer que esteja executando no momento.</td></tr><tr><td><strong>breakpoint (b)</strong></td><td><p>b main #Qualquer função chamada main</p><p>b &#x3C;nome_do_bin>`main #Função main do binário</p><p>b set -n main --shlib &#x3C;nome_da_biblioteca> #Função main do binário indicado</p><p>b -[NSDictionary objectForKey:]</p><p>b -a 0x0000000100004bd9</p><p>br l #Lista de pontos de interrupção</p><p>br e/dis &#x3C;número> #Ativa/Desativa ponto de interrupção</p><p>breakpoint delete &#x3C;número></p></td></tr><tr><td><strong>help</strong></td><td><p>help breakpoint #Obter ajuda sobre o comando breakpoint</p><p>help memory write #Obter ajuda para escrever na memória</p></td></tr><tr><td><strong>reg</strong></td><td><p>reg read</p><p>reg read $rax</p><p>reg read $rax --format &#x3C;<a href="https://lldb.llvm.org/use/variable.html#type-format">formato</a>></p><p>reg write $rip 0x100035cc0</p></td></tr><tr><td><strong>x/s &#x3C;endereço_do_registrador/memória></strong></td><td>Exibe a memória como uma string terminada em nulo.</td></tr><tr><td><strong>x/i &#x3C;endereço_do_registrador/memória></strong></td><td>Exibe a memória como uma instrução de montagem.</td></tr><tr><td><strong>x/b &#x3C;endereço_do_registrador/memória></strong></td><td>Exibe a memória como um byte.</td></tr><tr><td><strong>print object (po)</strong></td><td><p>Isso irá imprimir o objeto referenciado pelo parâmetro</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>Observe que a maioria das APIs ou métodos Objective-C da Apple retornam objetos e, portanto, devem ser exibidos por meio do comando "print object" (po). Se o po não produzir uma saída significativa, use <code>x/b</code></p></td></tr><tr><td><strong>memory</strong></td><td>memory read 0x000....<br>memory read $x0+0xf2a<br>memory write 0x100600000 -s 4 0x41414141 #Escreve AAAA nesse endereço<br>memory write -f s $rip+0x11f+7 "AAAA" #Escreve AAAA no endereço</td></tr><tr><td><strong>disassembly</strong></td><td><p>dis #Desmonta a função atual</p><p>dis -n &#x3C;nome_da_função> #Desmonta a função</p><p>dis -n &#x3C;nome_da_função> -b &#x3C;nome_do_binário> #Desmonta a função<br>dis -c 6 #Desmonta 6 linhas<br>dis -c 0x100003764 -e 0x100003768 #De um endereço até o outro<br>dis -p -c 4 #Começa no endereço atual desmontando</p></td></tr><tr><td><strong>parray</strong></td><td>parray 3 (char **)$x1 #Verifica o array de 3 componentes no registrador x1</td></tr></tbody></table>
+<table data-header-hidden><thead><tr><th width="225"></th><th></th></tr></thead><tbody><tr><td><strong>Comando (lldb)</strong></td><td><strong>Descrição</strong></td></tr><tr><td><strong>run (r)</strong></td><td>Inicia a execução, que continuará até que um ponto de interrupção seja atingido ou o processo seja encerrado.</td></tr><tr><td><strong>continue (c)</strong></td><td>Continua a execução do processo em depuração.</td></tr><tr><td><strong>nexti (n / ni)</strong></td><td>Executa a próxima instrução. Este comando irá pular chamadas de função.</td></tr><tr><td><strong>stepi (s / si)</strong></td><td>Executa a próxima instrução. Ao contrário do comando nexti, este comando irá entrar nas chamadas de função.</td></tr><tr><td><strong>finish (f)</strong></td><td>Executa o restante das instruções na função atual ("frame") e retorna.</td></tr><tr><td><strong>control + c</strong></td><td>Pausa a execução. Se o processo foi iniciado (r) ou continuado (c), isso fará com que o processo pare ...onde quer que esteja executando no momento.</td></tr><tr><td><strong>breakpoint (b)</strong></td><td><p>b main #Qualquer função chamada main</p><p>b &#x3C;nome_do_bin>`main #Função main do binário</p><p>b set -n main --shlib &#x3C;nome_da_biblioteca> #Função main do binário indicado</p><p>b -[NSDictionary objectForKey:]</p><p>b -a 0x0000000100004bd9</p><p>br l #Lista de pontos de interrupção</p><p>br e/dis &#x3C;número> #Ativa/Desativa ponto de interrupção</p><p>breakpoint delete &#x3C;número></p></td></tr><tr><td><strong>help</strong></td><td><p>help breakpoint #Obter ajuda sobre o comando breakpoint</p><p>help memory write #Obter ajuda para escrever na memória</p></td></tr><tr><td><strong>reg</strong></td><td><p>reg read</p><p>reg read $rax</p><p>reg read $rax --format &#x3C;<a href="https://lldb.llvm.org/use/variable.html#type-format">formato</a>></p><p>reg write $rip 0x100035cc0</p></td></tr><tr><td><strong>x/s &#x3C;endereço_do_registrador/memória></strong></td><td>Exibe a memória como uma string terminada em nulo.</td></tr><tr><td><strong>x/i &#x3C;endereço_do_registrador/memória></strong></td><td>Exibe a memória como uma instrução de montagem.</td></tr><tr><td><strong>x/b &#x3C;endereço_do_registrador/memória></strong></td><td>Exibe a memória como um byte.</td></tr><tr><td><strong>print object (po)</strong></td><td><p>Isso irá imprimir o objeto referenciado pelo parâmetro</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>Observe que a maioria das APIs ou métodos Objective-C da Apple retornam objetos e, portanto, devem ser exibidos por meio do comando "print object" (po). Se o po não produzir uma saída significativa, use <code>x/b</code></p></td></tr><tr><td><strong>memory</strong></td><td>memory read 0x000....<br>memory read $x0+0xf2a<br>memory write 0x100600000 -s 4 0x41414141 #Escreve AAAA nesse endereço<br>memory write -f s $rip+0x11f+7 "AAAA" #Escreve AAAA no endereço</td></tr><tr><td><strong>disassembly</strong></td><td><p>dis #Desmonta a função atual</p><p>dis -n &#x3C;nome_da_função> #Desmonta a função</p><p>dis -n &#x3C;nome_da_função> -b &#x3C;nome_do_binário> #Desmonta a função<br>dis -c 6 #Desmonta 6 linhas<br>dis -c 0x100003764 -e 0x100003768 #De um endereço até o outro<br>dis -p -c 4 #Começa no endereço atual desmontando</p></td></tr><tr><td><strong>parray</strong></td><td>parray 3 (char **)$x1 #Verifica o array de 3 componentes no registrador x1</td></tr></tbody></table>
 
 {% hint style="info" %}
 Ao chamar a função **`objc_sendMsg`**, o registrador **rsi** contém o **nome do método** como uma string terminada em nulo ("C"). Para imprimir o nome via lldb, faça:
@@ -391,20 +393,20 @@ Ao chamar a função **`objc_sendMsg`**, o registrador **rsi** contém o **nome 
 
 * O comando **`sysctl hw.model`** retorna "Mac" quando o **host é um MacOS**, mas algo diferente quando é uma VM.
 * Manipulando os valores de **`hw.logicalcpu`** e **`hw.physicalcpu`**, alguns malwares tentam detectar se é uma VM.
-* Alguns malwares também podem **detectar se a máquina é baseada no VMware** com base no endereço MAC (00:50:56).
+* Alguns malwares também podem **detectar** se a máquina é baseada no VMware pelo endereço MAC (00:50:56).
 * Também é possível descobrir se um processo está sendo depurado com um código simples como:
 * `if(P_TRACED == (info.kp_proc.p_flag & P_TRACED)){ //processo sendo depurado }`
-* Também pode invocar a chamada de sistema **`ptrace`** com a flag **`PT_DENY_ATTACH`**. Isso **impede** que um depurador se conecte e rastreie.
+* Também pode invocar a chamada de sistema **`ptrace`** com a flag **`PT_DENY_ATTACH`**. Isso **impede** um depurador de se conectar e rastrear.
 * Você pode verificar se a função **`sysctl`** ou **`ptrace`** está sendo **importada** (mas o malware pode importá-la dinamicamente)
-* Como observado neste artigo, "[Derrotando Técnicas Anti-Depuração: variantes de ptrace no macOS](https://alexomara.com/blog/defeating-anti-debug-techniques-macos-ptrace-variants/)":\
+* Como observado neste artigo, “[Defeating Anti-Debug Techniques: macOS ptrace variants](https://alexomara.com/blog/defeating-anti-debug-techniques-macos-ptrace-variants/)” :\
 "_A mensagem Processo # saiu com **status = 45 (0x0000002d)** geralmente é um sinal revelador de que o alvo de depuração está usando **PT\_DENY\_ATTACH**_"
 ## Fuzzing
 
 ### [ReportCrash](https://ss64.com/osx/reportcrash.html)
 
 O ReportCrash **analisa processos que estão travando e salva um relatório de travamento no disco**. Um relatório de travamento contém informações que podem **ajudar um desenvolvedor a diagnosticar** a causa de um travamento.\
-Para aplicativos e outros processos **executando no contexto do launchd por usuário**, o ReportCrash é executado como um LaunchAgent e salva os relatórios de travamento em `~/Library/Logs/DiagnosticReports/` do usuário.\
-Para daemons, outros processos **executando no contexto do launchd do sistema** e outros processos privilegiados, o ReportCrash é executado como um LaunchDaemon e salva os relatórios de travamento em `/Library/Logs/DiagnosticReports` do sistema.
+Para aplicativos e outros processos **executando no contexto do launchd por usuário**, o ReportCrash é executado como um LaunchAgent e salva os relatórios de travamento no diretório `~/Library/Logs/DiagnosticReports/` do usuário.\
+Para daemons, outros processos **executando no contexto do launchd do sistema** e outros processos privilegiados, o ReportCrash é executado como um LaunchDaemon e salva os relatórios de travamento no diretório `/Library/Logs/DiagnosticReports` do sistema.
 
 Se você está preocupado com os relatórios de travamento **sendo enviados para a Apple**, você pode desativá-los. Caso contrário, os relatórios de travamento podem ser úteis para **descobrir como um servidor travou**.
 ```bash
@@ -437,7 +439,7 @@ sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist
 ```
 ### Manipuladores Internos
 
-**Confira a seguinte página** para descobrir como você pode encontrar qual aplicativo é responsável por **manipular o esquema ou protocolo especificado:**
+**Verifique a seguinte página** para descobrir como você pode encontrar qual aplicativo é responsável por **manipular o esquema ou protocolo especificado:**
 
 {% content-ref url="../macos-file-extension-apps.md" %}
 [macos-file-extension-apps.md](../macos-file-extension-apps.md)
@@ -466,11 +468,11 @@ lldb -o "target create `which some-binary`" -o "settings set target.env-vars DYL
 
 #### [AFL++](https://github.com/AFLplusplus/AFLplusplus)
 
-Funciona para ferramentas de linha de comando
+Funciona para ferramentas de linha de comando.
 
 #### [Litefuzz](https://github.com/sec-tools/litefuzz)
 
-Ele "**simplesmente funciona"** com ferramentas GUI do macOS. Observe que alguns aplicativos do macOS têm requisitos específicos, como nomes de arquivos exclusivos, a extensão correta, a necessidade de ler os arquivos do sandbox (`~/Library/Containers/com.apple.Safari/Data`)...
+Ele "**simplesmente funciona"** com ferramentas de GUI do macOS. Observe que alguns aplicativos do macOS têm requisitos específicos, como nomes de arquivos exclusivos, a extensão correta e a necessidade de ler os arquivos do sandbox (`~/Library/Containers/com.apple.Safari/Data`)...
 
 Alguns exemplos:
 

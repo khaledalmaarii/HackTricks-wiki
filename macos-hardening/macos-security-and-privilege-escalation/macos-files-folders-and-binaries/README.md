@@ -25,7 +25,7 @@
 * **/System**: Arquivo para fazer o OS X funcionar. Você deve encontrar principalmente arquivos específicos da Apple aqui (não de terceiros).
 * **/tmp**: Arquivos são excluídos após 3 dias (é um link simbólico para /private/tmp)
 * **/Users**: Diretório pessoal dos usuários.
-* **/usr**: Configuração e binários do sistema
+* **/usr**: Configurações e binários do sistema
 * **/var**: Arquivos de log
 * **/Volumes**: As unidades montadas aparecerão aqui.
 * **/.vol**: Ao executar `stat a.txt`, você obtém algo como `16777223 7545753 -rw-r--r-- 1 username wheel ...`, onde o primeiro número é o número de ID do volume onde o arquivo existe e o segundo é o número de inode. Você pode acessar o conteúdo deste arquivo através de /.vol/ com essas informações executando `cat /.vol/16777223/7545753`
@@ -34,7 +34,7 @@
 
 * Os **aplicativos do sistema** estão localizados em `/System/Applications`
 * Os aplicativos **instalados** geralmente são instalados em `/Applications` ou em `~/Applications`
-* Os **dados do aplicativo** podem ser encontrados em `/Library/Application Support` para os aplicativos em execução como root e `~/Library/Application Support` para aplicativos em execução como usuário.
+* Os **dados do aplicativo** podem ser encontrados em `/Library/Application Support` para os aplicativos em execução como root e `~/Library/Application Support` para aplicativos em execução como o usuário.
 * Os **daemons** de aplicativos de terceiros que **precisam ser executados como root** geralmente estão localizados em `/Library/PrivilegedHelperTools/`
 * Os aplicativos **sandboxed** são mapeados na pasta `~/Library/Containers`. Cada aplicativo tem uma pasta com o nome do ID do pacote do aplicativo (`com.apple.Safari`).
 * O **kernel** está localizado em `/System/Library/Kernels/kernel`
@@ -87,20 +87,26 @@ No macOS (e iOS), todas as bibliotecas compartilhadas do sistema, como framework
 
 Semelhante ao cache compartilhado do dyld, o kernel e as extensões do kernel também são compilados em um cache do kernel, que é carregado durante a inicialização.
 
-Para extrair as bibliotecas do arquivo único de cache compartilhado do dylib, era possível usar o binário [dyld\_shared\_cache\_util](https://www.mbsplugins.de/files/dyld\_shared\_cache\_util-dyld-733.8.zip), que pode não estar funcionando atualmente:
+Para extrair as bibliotecas do arquivo único de cache compartilhado do dylib, era possível usar o binário [dyld\_shared\_cache\_util](https://www.mbsplugins.de/files/dyld\_shared\_cache\_util-dyld-733.8.zip), que pode não estar funcionando atualmente, mas você também pode usar o [**dyldextractor**](https://github.com/arandomdev/dyldextractor):
 
 {% code overflow="wrap" %}
 ```bash
+# dyld_shared_cache_util
 dyld_shared_cache_util -extract ~/shared_cache/ /System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_arm64e
+
+# dyldextractor
+dyldex -l [dyld_shared_cache_path] # List libraries
+dyldex_all [dyld_shared_cache_path] # Extract all
+# More options inside the readme
 ```
 {% endcode %}
 
 Em versões mais antigas, você pode encontrar o **cache compartilhado** em **`/System/Library/dyld/`**.
 
+No iOS, você pode encontrá-los em **`/System/Library/Caches/com.apple.dyld/`**.
+
 {% hint style="success" %}
-Observe que mesmo que a ferramenta `dyld_shared_cache_util` não funcione, você pode passar o **binário dyld compartilhado para o Hopper** e o Hopper será capaz de identificar todas as bibliotecas e permitir que você **selecione qual** deseja investigar:
-
-
+Observe que mesmo que a ferramenta `dyld_shared_cache_util` não funcione, você pode passar o **binário compartilhado do dyld para o Hopper** e o Hopper será capaz de identificar todas as bibliotecas e permitir que você **selecione qual** deseja investigar:
 {% endhint %}
 
 <figure><img src="../../../.gitbook/assets/image (680).png" alt="" width="563"><figcaption></figcaption></figure>
@@ -115,10 +121,10 @@ Em uma **pasta**, **leitura** permite **listá-la**, **escrita** permite **exclu
 
 Existem alguns sinalizadores que podem ser definidos nos arquivos e que farão com que o arquivo se comporte de maneira diferente. Você pode **verificar os sinalizadores** dos arquivos dentro de um diretório com `ls -lO /caminho/diretório`
 
-* **`uchg`**: Conhecido como sinalizador **uchange**, ele **impede qualquer ação** de alterar ou excluir o **arquivo**. Para defini-lo, faça: `chflags uchg arquivo.txt`
+* **`uchg`**: Conhecido como sinalizador **uchange**, impedirá qualquer ação de alterar ou excluir o **arquivo**. Para defini-lo, faça: `chflags uchg arquivo.txt`
 * O usuário root pode **remover o sinalizador** e modificar o arquivo
 * **`restricted`**: Esse sinalizador faz com que o arquivo seja **protegido pelo SIP** (você não pode adicionar esse sinalizador a um arquivo).
-* **`Sticky bit`**: Se um diretório tiver o sticky bit, **apenas** o **proprietário do diretório ou o root podem renomear ou excluir** arquivos. Normalmente, isso é definido no diretório /tmp para evitar que usuários comuns excluam ou movam arquivos de outros usuários.
+* **`Sticky bit`**: Se um diretório tiver o sticky bit, **apenas** o **proprietário do diretório ou o root podem renomear ou excluir** arquivos. Normalmente, isso é definido no diretório /tmp para impedir que usuários comuns excluam ou movam arquivos de outros usuários.
 
 ### **ACLs de Arquivo**
 
