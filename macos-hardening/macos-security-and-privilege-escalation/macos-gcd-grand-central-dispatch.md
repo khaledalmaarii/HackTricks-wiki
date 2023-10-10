@@ -53,21 +53,10 @@ dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAU
 
 dispatch_async(queue, ^{
     // Code exécuté de manière asynchrone en parallèle
-    // ...
-});
-
-dispatch_async(queue, ^{
-    // Code exécuté de manière asynchrone en parallèle
-    // ...
-});
-
-dispatch_async(queue, ^{
-    // Code exécuté de manière asynchrone en parallèle
-    // ...
 });
 ```
 
-Cela permet d'exécuter plusieurs blocs de code de manière asynchrone et en parallèle sur une file d'attente globale. Chaque bloc sera exécuté indépendamment des autres, ce qui peut améliorer les performances et l'efficacité de l'application.
+Dans cet exemple, la fonction `dispatch_async` est utilisée pour exécuter du code de manière asynchrone en parallèle. Le paramètre `queue` spécifie la file d'attente sur laquelle le code sera exécuté. En utilisant la file d'attente globale avec la priorité par défaut, le code sera exécuté en parallèle avec d'autres tâches sur le système.
 ```objectivec
 #import <Foundation/Foundation.h>
 
@@ -154,7 +143,7 @@ Backtrace:
 
 Actuellement, Ghidra ne comprend ni la structure **`dispatch_block_t`** ObjectiveC, ni la structure **`swift_dispatch_block`**.
 
-Donc, si vous voulez qu'il les comprenne, vous pouvez simplement les **déclarer** :
+Si vous souhaitez qu'il les comprenne, vous pouvez simplement les **déclarer** :
 
 <figure><img src="../../.gitbook/assets/image (688).png" alt="" width="563"><figcaption></figcaption></figure>
 
@@ -163,6 +152,10 @@ Donc, si vous voulez qu'il les comprenne, vous pouvez simplement les **déclarer
 <figure><img src="../../.gitbook/assets/image (691).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Ensuite, trouvez un endroit dans le code où ils sont **utilisés** :
+
+{% hint style="success" %}
+Notez toutes les références faites à "block" pour comprendre comment vous pourriez déterminer que la structure est utilisée.
+{% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (692).png" alt="" width="563"><figcaption></figcaption></figure>
 
@@ -178,8 +171,8 @@ Ghidra réécrira automatiquement tout :
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Vous travaillez dans une **entreprise de cybersécurité** ? Vous voulez voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
