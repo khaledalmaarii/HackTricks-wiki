@@ -98,33 +98,49 @@ svc 0       ; Faz a chamada de sistema.
 
 ### **Prólogo da Função**
 
-1.  **Salve o registrador de link e o ponteiro de quadro na pilha**:
+1.  **Salva o registrador de link e o ponteiro de quadro na pilha**:
 
 {% code overflow="wrap" %}
 ```armasm
 stp x29, x30, [sp, #-16]!  ; armazena o par x29 e x30 na pilha e decrementa o ponteiro da pilha
 ```
 {% endcode %}
-2. **Configure o novo ponteiro de quadro**: `mov x29, sp` (configura o novo ponteiro de quadro para a função atual)
-3. **Aloque espaço na pilha para variáveis locais** (se necessário): `sub sp, sp, <tamanho>` (onde `<tamanho>` é o número de bytes necessário)
+2. **Configura o novo ponteiro de quadro**: `mov x29, sp` (configura o novo ponteiro de quadro para a função atual)
+3. **Aloca espaço na pilha para variáveis locais** (se necessário): `sub sp, sp, <size>` (onde `<size>` é o número de bytes necessário)
 
 ### **Epílogo da Função**
 
-1. **Desalocar variáveis locais (se alguma foi alocada)**: `add sp, sp, <tamanho>`
-2.  **Restaure o registrador de link e o ponteiro de quadro**:
+1. **Desaloca variáveis locais (se alguma foi alocada)**: `add sp, sp, <size>`
+2.  **Restaura o registrador de link e o ponteiro de quadro**:
 
 {% code overflow="wrap" %}
 ```armasm
 ldp x29, x30, [sp], #16  ; carrega o par x29 e x30 da pilha e incrementa o ponteiro da pilha
 ```
 {% endcode %}
-3. **Retorne**: `ret` (retorna o controle ao chamador usando o endereço no registrador de link)
+3. **Retorna**: `ret` (retorna o controle para o chamador usando o endereço no registrador de link)
 
 ## macOS
 
-### syscalls
+### Chamadas de sistema BSD
 
-Confira [**syscalls.master**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/bsd/kern/syscalls.master).
+Confira [**syscalls.master**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/bsd/kern/syscalls.master). Chamadas de sistema BSD terão **x16 > 0**.
+
+### Armadilhas Mach
+
+Confira [**syscall\_sw.c**](https://opensource.apple.com/source/xnu/xnu-3789.1.32/osfmk/kern/syscall\_sw.c.auto.html). As armadilhas Mach terão **x16 < 0**, então você precisa chamar os números da lista anterior com um **sinal de menos**: **`_kernelrpc_mach_vm_allocate_trap`** é **`-10`**.
+
+Você também pode verificar **`libsystem_kernel.dylib`** em um desmontador para descobrir como chamar essas chamadas de sistema (e as chamadas de sistema BSD).
+```bash
+# macOS
+dyldex -e libsystem_kernel.dylib /System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_arm64e
+
+# iOS
+dyldex -e libsystem_kernel.dylib /System/Library/Caches/com.apple.dyld/dyld_shared_cache_arm64
+```
+{% hint style="success" %}
+Às vezes é mais fácil verificar o código **descompilado** de **`libsystem_kernel.dylib`** do que verificar o **código-fonte**, porque o código de várias chamadas de sistema (BSD e Mach) é gerado por meio de scripts (verifique os comentários no código-fonte), enquanto na dylib você pode encontrar o que está sendo chamado.
+{% endhint %}
 
 ### Shellcodes
 

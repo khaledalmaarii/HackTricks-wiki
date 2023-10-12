@@ -72,13 +72,13 @@ cat /Library/LaunchDaemons/com.jamf.management.daemon.plist
 </dict>
 </plist>
 ```
-Os presentes em **`LaunchDameons`** são executados pelo root. Portanto, se um processo não privilegiado puder se comunicar com um deles, ele poderá conseguir privilégios elevados.
+Os presentes em **`LaunchDameons`** são executados pelo root. Portanto, se um processo não privilegiado puder se comunicar com um deles, poderá ser capaz de elevar os privilégios.
 
 ## Mensagens de Evento XPC
 
-As aplicações podem **se inscrever** em diferentes **mensagens de evento**, permitindo que sejam **iniciadas sob demanda** quando esses eventos ocorrerem. A **configuração** desses serviços é feita em arquivos **plist do launchd**, localizados nos **mesmos diretórios dos anteriores** e contendo uma chave adicional **`LaunchEvent`**.
+As aplicações podem **se inscrever** em diferentes **mensagens de evento**, permitindo que sejam **iniciadas sob demanda** quando esses eventos ocorrerem. A **configuração** desses serviços é feita em arquivos **plist do launchd**, localizados nos **mesmos diretórios dos anteriores** e contendo uma chave extra **`LaunchEvent`**.
 
-### Verificação do Processo de Conexão XPC
+### Verificação do Processo Conectado XPC
 
 Quando um processo tenta chamar um método por meio de uma conexão XPC, o **serviço XPC deve verificar se esse processo tem permissão para se conectar**. Aqui estão as maneiras comuns de verificar isso e as armadilhas comuns:
 
@@ -88,13 +88,26 @@ Quando um processo tenta chamar um método por meio de uma conexão XPC, o **ser
 
 ## Autorização XPC
 
-A Apple também permite que os aplicativos **configurem alguns direitos e como obtê-los**, para que, se o processo de chamada os tiver, ele seja **autorizado a chamar um método** do serviço XPC:
+A Apple também permite que os aplicativos **configurem alguns direitos e como obtê-los**, para que, se o processo de chamada os tiver, seja **permitido chamar um método** do serviço XPC:
 
 {% content-ref url="macos-xpc-authorization.md" %}
 [macos-xpc-authorization.md](macos-xpc-authorization.md)
 {% endcontent-ref %}
 
-## Exemplo de Código C
+## Sniffer XPC
+
+Para interceptar as mensagens XPC, você pode usar o [**xpcspy**](https://github.com/hot3eed/xpcspy), que utiliza o **Frida**.
+```bash
+# Install
+pip3 install xpcspy
+pip3 install xpcspy --no-deps # To not make xpcspy install Frida 15 and downgrade your Frida installation
+
+# Start sniffing
+xpcspy -U -r -W <bundle-id>
+## Using filters (i: for input, o: for output)
+xpcspy -U <prog-name> -t 'i:com.apple.*' -t 'o:com.apple.*' -r
+```
+## Exemplo de Código em C
 
 {% tabs %}
 {% tab title="xpc_server.c" %}
@@ -152,6 +165,35 @@ return 0;
 }
 ```
 {% tab title="xpc_client.c" %}
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <xpc/xpc.h>
+
+int main(int argc, const char * argv[]) {
+    xpc_connection_t connection = xpc_connection_create_mach_service("com.apple.securityd", NULL, XPC_CONNECTION_MACH_SERVICE_PRIVILEGED);
+    
+    xpc_connection_set_event_handler(connection, ^(xpc_object_t event) {
+        xpc_type_t type = xpc_get_type(event);
+        
+        if (type == XPC_TYPE_DICTIONARY) {
+            const char *description = xpc_dictionary_get_string(event, "description");
+            printf("Received event: %s\n", description);
+        }
+    });
+    
+    xpc_connection_resume(connection);
+    
+    dispatch_main();
+    
+    return 0;
+}
+```
+
+{% endtab %}
+
+{% tab title="xpc_server.c" %}
 ```c
 // gcc xpc_client.c -o xpc_client
 
@@ -302,11 +344,9 @@ return 0;
 
 O arquivo `xyz.hacktricks.svcoc.plist` é um arquivo de propriedades do Launchd usado para definir e controlar serviços no macOS. O Launchd é o sistema de inicialização e gerenciamento de processos do macOS. O arquivo plist contém informações sobre o serviço, como o caminho do executável, argumentos, variáveis de ambiente e outras configurações.
 
-Para explorar vulnerabilidades de escalonamento de privilégios usando o arquivo `xyz.hacktricks.svcoc.plist`, você pode tentar manipular as configurações do serviço para executar comandos maliciosos com privilégios elevados. Isso pode ser feito modificando o arquivo plist para incluir comandos ou scripts maliciosos no campo `ProgramArguments` ou usando outras técnicas de injeção de código.
+Para explorar vulnerabilidades de escalonamento de privilégios usando o arquivo `xyz.hacktricks.svcoc.plist`, você pode procurar por configurações inadequadas que permitam a execução de comandos privilegiados ou a substituição do executável por um binário malicioso. Além disso, você pode verificar se há permissões excessivas definidas para o arquivo plist, o que pode permitir a modificação não autorizada.
 
-No entanto, é importante ressaltar que a exploração de vulnerabilidades de escalonamento de privilégios é ilegal e antiética, a menos que você tenha permissão explícita para fazê-lo em um ambiente controlado, como parte de um teste de penetração autorizado.
-
-Recomenda-se sempre seguir as leis e regulamentos aplicáveis e obter permissão adequada antes de realizar qualquer atividade de hacking ou teste de penetração.
+É importante ressaltar que a exploração de vulnerabilidades de escalonamento de privilégios é ilegal e deve ser realizada apenas em um ambiente controlado e com permissão adequada.
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">

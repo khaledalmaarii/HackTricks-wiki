@@ -173,18 +173,6 @@ log show --style syslog --predicate 'eventMessage contains[c] "sandbox"' --last 
 [...]
 ```
 {% code title="touch2.sb" %}
-
-O arquivo `touch2.sb` é um exemplo de um perfil de sandbox para o macOS. A sandbox é uma medida de segurança implementada pelo sistema operacional para restringir as ações de um aplicativo, limitando seu acesso a recursos sensíveis do sistema.
-
-Este perfil de sandbox em particular permite que um aplicativo execute a ação de tocar (criar) um arquivo em um diretório específico. O aplicativo tem permissão para acessar apenas o diretório `/tmp` e criar um arquivo chamado `file.txt`.
-
-Para usar este perfil de sandbox, você precisa compilar o arquivo `.sb` usando a ferramenta `sandbox-exec`. Por exemplo:
-
-```
-sandbox-exec -f touch2.sb touch /tmp/file.txt
-```
-
-Isso permitirá que o aplicativo toque o arquivo `file.txt` no diretório `/tmp`, enquanto restringe seu acesso a outros recursos do sistema.
 ```scheme
 (version 1)
 (deny default)
@@ -212,7 +200,7 @@ Isso permitirá que o aplicativo toque o arquivo `file.txt` no diretório `/tmp`
 {% endtabs %}
 
 {% hint style="info" %}
-Observe que o **software** **desenvolvido pela Apple** que roda no **Windows** **não possui precauções adicionais de segurança**, como o sandboxing de aplicativos.
+Observe que o **software** **desenvolvido pela Apple** que roda no **Windows** **não possui precauções de segurança adicionais**, como a aplicação de sandbox.
 {% endhint %}
 
 Exemplos de bypass:
@@ -222,15 +210,19 @@ Exemplos de bypass:
 
 ### Perfis de Sandbox do MacOS
 
-O macOS armazena os perfis de sandbox do sistema em dois locais: **/usr/share/sandbox/** e **/System/Library/Sandbox/Profiles**.
+O MacOS armazena os perfis de sandbox do sistema em dois locais: **/usr/share/sandbox/** e **/System/Library/Sandbox/Profiles**.
 
 E se um aplicativo de terceiros possuir a permissão _**com.apple.security.app-sandbox**_, o sistema aplicará o perfil **/System/Library/Sandbox/Profiles/application.sb** a esse processo.
 
+### **Perfil de Sandbox do iOS**
+
+O perfil padrão é chamado **container** e não temos a representação de texto SBPL. Na memória, esse sandbox é representado como uma árvore binária de Permitir/Negar para cada permissão do sandbox.
+
 ### Depurar e Bypassar o Sandbox
 
-**Os processos não nascem com sandbox no macOS: ao contrário do iOS**, onde o sandbox é aplicado pelo kernel antes da primeira instrução de um programa ser executada, no macOS **um processo deve optar por se colocar no sandbox**.
+**Os processos não são criados com sandbox no macOS: ao contrário do iOS**, onde o sandbox é aplicado pelo kernel antes da primeira instrução de um programa ser executada, no macOS **um processo deve optar por se colocar no sandbox.**
 
-Os processos são automaticamente colocados no sandbox a partir do userland quando são iniciados, se possuírem a permissão: `com.apple.security.app-sandbox`. Para uma explicação detalhada desse processo, consulte:
+Os processos são automaticamente colocados no sandbox a partir do userland quando são iniciados se possuírem a permissão: `com.apple.security.app-sandbox`. Para uma explicação detalhada desse processo, consulte:
 
 {% content-ref url="macos-sandbox-debug-and-bypass/" %}
 [macos-sandbox-debug-and-bypass](macos-sandbox-debug-and-bypass/)

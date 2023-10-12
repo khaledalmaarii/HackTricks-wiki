@@ -18,17 +18,21 @@ O Mach usa **tarefas** como a **unidade mínima** para compartilhar recursos, e 
 
 A comunicação entre tarefas ocorre por meio da Comunicação Interprocessos (IPC) do Mach, utilizando canais de comunicação unidirecionais. **As mensagens são transferidas entre portas**, que funcionam como **filas de mensagens** gerenciadas pelo kernel.
 
+Cada processo possui uma **tabela IPC**, onde é possível encontrar as **portas Mach do processo**. O nome de uma porta Mach é na verdade um número (um ponteiro para o objeto do kernel).
+
+Um processo também pode enviar um nome de porta com alguns direitos **para uma tarefa diferente** e o kernel fará com que essa entrada na **tabela IPC da outra tarefa** apareça.
+
 Os direitos de porta, que definem quais operações uma tarefa pode executar, são fundamentais para essa comunicação. Os possíveis **direitos de porta** são:
 
 * **Direito de recebimento**, que permite receber mensagens enviadas para a porta. As portas Mach são filas MPSC (múltiplos produtores, único consumidor), o que significa que pode haver apenas **um direito de recebimento para cada porta** em todo o sistema (ao contrário de pipes, onde vários processos podem ter descritores de arquivo para a extremidade de leitura de um pipe).
 * Uma **tarefa com o direito de recebimento** pode receber mensagens e **criar direitos de envio**, permitindo o envio de mensagens. Originalmente, apenas a **própria tarefa tem o direito de recebimento sobre sua porta**.
 * **Direito de envio**, que permite enviar mensagens para a porta.
-* O direito de envio pode ser **clonado**, para que uma tarefa que possui um direito de envio possa clonar o direito e **concedê-lo a uma terceira tarefa**.
+* O direito de envio pode ser **clonado**, então uma tarefa que possui um direito de envio pode clonar o direito e **concedê-lo a uma terceira tarefa**.
 * **Direito de envio único**, que permite enviar uma mensagem para a porta e depois desaparece.
-* **Direito de conjunto de portas**, que denota um _conjunto de portas_ em vez de uma única porta. Desenfileirar uma mensagem de um conjunto de portas desenfileira uma mensagem de uma das portas que ele contém. Conjuntos de portas podem ser usados para escutar várias portas simultaneamente, de forma semelhante a `select`/`poll`/`epoll`/`kqueue` no Unix.
+* **Direito de conjunto de portas**, que denota um _conjunto de portas_ em vez de uma única porta. Desenfileirar uma mensagem de um conjunto de portas desenfileira uma mensagem de uma das portas que ele contém. Conjuntos de portas podem ser usados para ouvir várias portas simultaneamente, muito parecido com `select`/`poll`/`epoll`/`kqueue` no Unix.
 * **Nome morto**, que não é um direito de porta real, mas apenas um espaço reservado. Quando uma porta é destruída, todos os direitos de porta existentes para a porta se tornam nomes mortos.
 
-**As tarefas podem transferir direitos de ENVIO para outros**, permitindo que eles enviem mensagens de volta. **Os direitos de ENVIO também podem ser clonados, para que uma tarefa possa duplicar e dar o direito a uma terceira tarefa**. Isso, combinado com um processo intermediário conhecido como **servidor de inicialização**, permite uma comunicação eficaz entre tarefas.
+**As tarefas podem transferir direitos de ENVIO para outras**, permitindo que elas enviem mensagens de volta. **Os direitos de ENVIO também podem ser clonados**, então uma tarefa pode duplicar e dar o direito a uma terceira tarefa. Isso, combinado com um processo intermediário conhecido como **servidor de inicialização**, permite uma comunicação efetiva entre tarefas.
 
 #### Etapas:
 
@@ -40,7 +44,7 @@ Como mencionado, para estabelecer o canal de comunicação, o **servidor de inic
 4. A tarefa **B** interage com o **servidor de inicialização** para executar uma **busca de inicialização para o serviço**. Se bem-sucedido, o **servidor duplica o direito de ENVIO** recebido da Tarefa A e o **transmite para a Tarefa B**.
 5. Ao adquirir um direito de ENVIO, a tarefa **B** é capaz de **formular** uma **mensagem** e enviá-la **para a Tarefa A**.
 
-O servidor de inicialização **não pode autenticar** o nome do serviço reivindicado por uma tarefa. Isso significa que uma **tarefa** poderia potencialmente **se passar por qualquer tarefa do sistema**, como reivindicar falsamente um nome de serviço de autorização e, em seguida, aprovar todas as solicitações.
+O servidor de inicialização **não pode autenticar** o nome do serviço reivindicado por uma tarefa. Isso significa que uma **tarefa** poderia potencialmente **se passar por qualquer tarefa do sistema**, como **reivindicar falsamente um nome de serviço de autorização** e, em seguida, aprovar todas as solicitações.
 
 Em seguida, a Apple armazena os **nomes dos serviços fornecidos pelo sistema** em arquivos de configuração seguros, localizados em diretórios protegidos pelo SIP: `/System/Library/LaunchDaemons` e `/System/Library/LaunchAgents`. Ao lado de cada nome de serviço, o **binário associado também é armazenado**. O servidor de inicialização criará e manterá um **direito de RECEBIMENTO para cada um desses nomes de serviço**.
 
@@ -51,10 +55,41 @@ Para esses serviços predefinidos, o **processo de busca difere um pouco**. Quan
 * A tarefa **A** (o serviço) realiza um **check-in de inicialização**. Aqui, o **servidor de inicialização** cria um direito de ENVIO, o retém e **transfere o direito de RECEBIMENTO para a Tarefa A**.
 * O launchd duplica o **direito de ENVIO e o envia para a Tarefa B**.
 
-No entanto, esse processo se aplica apenas a tarefas do sistema predefinidas. Tarefas não pertencentes ao sistema ainda operam conforme descrito originalmente, o que poderia permitir potencialmente a falsificação.
+No entanto, esse processo se aplica apenas a tarefas do sistema predefinidas. Tarefas não do sistema ainda operam como descrito originalmente, o que poderia potencialmente permitir a falsificação.
+### Enumerar portas
+
+Para identificar quais portas estão abertas em um sistema macOS, você pode usar várias ferramentas e técnicas. Aqui estão algumas opções:
+
+- **Nmap**: O Nmap é uma ferramenta de código aberto amplamente utilizada para varredura de portas. Você pode executar o Nmap no macOS para identificar as portas abertas em um determinado host ou rede.
+
+   Exemplo de comando Nmap para varredura de portas:
+   ```
+   nmap <alvo>
+   ```
+
+- **Netstat**: O Netstat é uma ferramenta de linha de comando que exibe informações sobre as conexões de rede ativas e as portas abertas em um sistema. No macOS, você pode usar o comando `netstat -an` para listar todas as portas abertas.
+
+   Exemplo de comando Netstat para listar portas abertas:
+   ```
+   netstat -an | grep LISTEN
+   ```
+
+- **Lsof**: O Lsof é uma ferramenta de linha de comando que lista os arquivos abertos por processos em um sistema. No macOS, você pode usar o comando `lsof -i` para listar os processos que estão ouvindo em portas de rede.
+
+   Exemplo de comando Lsof para listar processos que estão ouvindo em portas de rede:
+   ```
+   lsof -i | grep LISTEN
+   ```
+
+Essas são apenas algumas das opções disponíveis para enumerar portas em um sistema macOS. É importante lembrar que a enumeração de portas em um sistema sem autorização prévia é considerada uma atividade ilegal e antiética. Portanto, sempre obtenha permissão adequada antes de realizar qualquer teste de segurança ou pentest.
+```bash
+lsmp -p <pid>
+```
+Você pode instalar essa ferramenta no iOS baixando-a em [http://newosxbook.com/tools/binpack64-256.tar.gz](http://newosxbook.com/tools/binpack64-256.tar.gz)
+
 ### Exemplo de código
 
-Observe como o **remetente** **aloca** uma porta, cria um **direito de envio** para o nome `org.darlinghq.example` e o envia para o **servidor de inicialização** enquanto o remetente solicitou o **direito de envio** desse nome e o usou para **enviar uma mensagem**.
+Observe como o **remetente** **aloca** uma porta, cria um **direito de envio** para o nome `org.darlinghq.example` e o envia para o **servidor de inicialização**, enquanto o remetente solicita o **direito de envio** desse nome e o utiliza para **enviar uma mensagem**.
 
 {% tabs %}
 {% tab title="receiver.c" %}
@@ -129,50 +164,28 @@ printf("Text: %s, number: %d\n", message.some_text, message.some_number);
 #include <unistd.h>
 #include <string.h>
 #include <mach/mach.h>
-#include <mach/message.h>
 
-#define BUFFER_SIZE 1024
+#define BUFFER_SIZE 100
 
-int main(int argc, char *argv[]) {
+int main(int argc, char** argv) {
     mach_port_t server_port;
     kern_return_t kr;
     char buffer[BUFFER_SIZE];
 
-    if (argc != 2) {
-        printf("Usage: %s <message>\n", argv[0]);
-        return 1;
-    }
-
-    // Connect to the server port
-    kr = task_get_special_port(mach_task_self(), TASK_AUDIT_PORT, &server_port);
+    // Create a send right to the bootstrap port
+    kr = bootstrap_look_up(bootstrap_port, "com.apple.securityd", &server_port);
     if (kr != KERN_SUCCESS) {
-        printf("Failed to get server port: %s\n", mach_error_string(kr));
+        printf("Failed to look up the server port: %s\n", mach_error_string(kr));
         return 1;
     }
 
-    // Create a message
-    mach_msg_header_t *msg = (mach_msg_header_t *)buffer;
-    msg->msgh_bits = MACH_MSGH_BITS(MACH_MSG_TYPE_COPY_SEND, 0);
-    msg->msgh_size = sizeof(buffer);
-    msg->msgh_remote_port = server_port;
-    msg->msgh_local_port = MACH_PORT_NULL;
-    msg->msgh_reserved = 0;
-
-    // Set the message type
-    msg->msgh_id = 0x12345678;
-
-    // Set the message body
-    char *msg_body = buffer + sizeof(mach_msg_header_t);
-    strncpy(msg_body, argv[1], BUFFER_SIZE - sizeof(mach_msg_header_t));
-
-    // Send the message
-    kr = mach_msg(msg, MACH_SEND_MSG, msg->msgh_size, 0, MACH_PORT_NULL, MACH_MSG_TIMEOUT_NONE, MACH_PORT_NULL);
+    // Send a message to the server
+    strcpy(buffer, "Hello, server!");
+    kr = mach_msg_send((mach_msg_header_t*)buffer);
     if (kr != KERN_SUCCESS) {
-        printf("Failed to send message: %s\n", mach_error_string(kr));
+        printf("Failed to send message to server: %s\n", mach_error_string(kr));
         return 1;
     }
-
-    printf("Message sent successfully\n");
 
     return 0;
 }
@@ -287,6 +300,16 @@ return 0;
 }
 ```
 {% tab title="entitlements.plist" %}
+
+O arquivo `entitlements.plist` contém informações sobre as permissões e privilégios concedidos a um aplicativo no macOS. Essas permissões podem incluir acesso a recursos do sistema, como câmera, microfone, localização e muito mais. O arquivo `entitlements.plist` é usado para definir as capacidades e restrições de um aplicativo, garantindo que ele tenha acesso apenas aos recursos necessários e autorizados.
+
+Ao modificar o arquivo `entitlements.plist`, é possível alterar as permissões concedidas a um aplicativo. Isso pode ser útil em cenários de teste de penetração, onde se deseja explorar vulnerabilidades de privilégio ou realizar escalonamento de privilégios. No entanto, é importante ressaltar que a modificação indevida do arquivo `entitlements.plist` pode violar as políticas de segurança e privacidade do macOS.
+
+Para modificar o arquivo `entitlements.plist`, é necessário ter acesso de gravação ao aplicativo em questão. Isso pode ser feito usando técnicas de hacking, como injeção de código, exploração de vulnerabilidades ou engenharia reversa. Uma vez que o acesso de gravação é obtido, o arquivo `entitlements.plist` pode ser editado para adicionar, remover ou modificar as permissões concedidas ao aplicativo.
+
+É importante lembrar que a modificação do arquivo `entitlements.plist` pode ter consequências significativas para a segurança e o funcionamento do aplicativo. Portanto, é recomendável realizar essas alterações apenas em um ambiente controlado e para fins legítimos, como testes de segurança ou desenvolvimento de software.
+
+{% endtab %}
 ```xml
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
