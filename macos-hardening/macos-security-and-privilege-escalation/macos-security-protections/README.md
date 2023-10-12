@@ -7,7 +7,7 @@
 * 你在一个**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
@@ -61,7 +61,7 @@ MacOS沙盒**限制在沙盒内运行的应用程序**只能执行沙盒配置�
 
 ## 信任缓存
 
-苹果macOS信任缓存，有时也称为AMFI（Apple Mobile File Integrity）缓存，是macOS中的一种安全机制，旨在**防止未经授权或恶意软件运行**。实质上，它是操作系统用于**验证软件的完整性和真实性的加密哈希列表**。
+苹果macOS的信任缓存，有时也称为AMFI（Apple Mobile File Integrity）缓存，是macOS中的一种安全机制，旨在**防止未经授权或恶意软件运行**。实质上，它是操作系统用于**验证软件的完整性和真实性的加密哈希列表**。
 
 当应用程序或可执行文件尝试在macOS上运行时，操作系统会检查AMFI信任缓存。如果在信任缓存中找到文件的哈希值，则系统会**允许**该程序运行，因为它被识别为可信任的。
 
@@ -69,18 +69,20 @@ MacOS沙盒**限制在沙盒内运行的应用程序**只能执行沙盒配置�
 
 它控制**从何处以及什么**可以启动**Apple签名的二进制文件**：
 
-* 如果应该由launchd运行，则无法直接启动应用程序
-* 无法在受信任的位置之外运行应用程序（如/System/）
+* 如果应该由launchd运行，您无法直接启动应用程序
+* 您无法在受信任的位置之外运行应用程序（如/System/）
 
-包含有关此限制信息的文件位于macOS中的**`/System/Volumes/Preboot/*/boot/*/usr/standalone/firmware/FUD/StaticTrustCache.img4`**（在iOS中似乎位于**`/usr/standalone/firmware/FUD/StaticTrustCache.img4`**）。
+包含有关此限制信息的文件位于macOS中的**`/System/Volumes/Preboot/*/boot/*/usr/standalone/firmware/FUD/StaticTrustCache.img4`**（在iOS中，它似乎位于**`/usr/standalone/firmware/FUD/StaticTrustCache.img4`**）。
 
-似乎可以使用工具[**img4tool**](https://github.com/tihmstar/img4tool) **提取缓存**：
+看起来可以使用工具[**img4tool**](https://github.com/tihmstar/img4tool) **提取缓存**：
 ```bash
 img4tool -e in.img4 -o out.bin
 ```
-然后，您可以使用类似[**这个脚本**](https://gist.github.com/xpn/66dc3597acd48a4c31f5f77c3cc62f30)的脚本来提取数据。
+然后，您可以使用[**pyimg4**](https://github.com/m1stadev/PyIMG4)之类的脚本，但是以下脚本无法与该输出一起使用。
 
-从这些数据中，您可以检查具有**启动约束值为`0`**的应用程序，这些应用程序没有受到约束（[**在此处查看**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056)每个值的含义）。
+然后，您可以使用[**此脚本**](https://gist.github.com/xpn/66dc3597acd48a4c31f5f77c3cc62f30)之类的脚本来提取数据。
+
+从该数据中，您可以检查具有**启动约束值为`0`**的应用程序，这些应用程序没有受到约束（[**在此处查看**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056)每个值的含义）。
 
 <details>
 

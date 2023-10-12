@@ -72,15 +72,15 @@ cat /Library/LaunchDaemons/com.jamf.management.daemon.plist
 </dict>
 </plist>
 ```
-**`LaunchDameons`**中的进程由root用户运行。因此，如果非特权进程可以与其中一个进程通信，它可能能够提升权限。
+**`LaunchDameons`**中的进程由root用户运行。因此，如果非特权进程能够与其中一个进程通信，就有可能提升权限。
 
 ## XPC事件消息
 
-应用程序可以**订阅**不同的事件**消息**，使它们能够在发生此类事件时**按需启动**。这些服务的设置是在**与之前的文件相同的目录中的launchd plist文件**中完成的，其中包含额外的**`LaunchEvent`**键。
+应用程序可以**订阅**不同的事件**消息**，使其能够在发生此类事件时**按需启动**。这些服务的设置是在**与前面的文件相同的目录中**的**launchd plist文件**中完成的，其中包含额外的**`LaunchEvent`**键。
 
 ### XPC连接进程检查
 
-当进程尝试通过XPC连接调用方法时，**XPC服务应该检查该进程是否被允许连接**。以下是检查的常见方法和常见陷阱：
+当进程尝试通过XPC连接调用方法时，**XPC服务应该检查该进程是否被允许连接**。以下是常见的检查方法和常见的陷阱：
 
 {% content-ref url="macos-xpc-connecting-process-check.md" %}
 [macos-xpc-connecting-process-check.md](macos-xpc-connecting-process-check.md)
@@ -94,6 +94,19 @@ Apple还允许应用程序**配置某些权限以及如何获取这些权限**�
 [macos-xpc-authorization.md](macos-xpc-authorization.md)
 {% endcontent-ref %}
 
+## XPC嗅探器
+
+要嗅探XPC消息，可以使用[**xpcspy**](https://github.com/hot3eed/xpcspy)，它使用**Frida**。
+```bash
+# Install
+pip3 install xpcspy
+pip3 install xpcspy --no-deps # To not make xpcspy install Frida 15 and downgrade your Frida installation
+
+# Start sniffing
+xpcspy -U -r -W <bundle-id>
+## Using filters (i: for input, o: for output)
+xpcspy -U <prog-name> -t 'i:com.apple.*' -t 'o:com.apple.*' -r
+```
 ## C代码示例
 
 {% tabs %}
@@ -376,7 +389,7 @@ To analyze the `xyz.hacktricks.svcoc.plist` file, you can use a property list ed
 
 Additionally, you can also look for any custom methods or functions defined in the XPC service that could be abused to execute arbitrary code or manipulate system resources.
 
-Keep in mind that modifying or abusing XPC services can have serious consequences and may violate the terms of service or legal agreements. Always ensure that you have proper authorization and follow ethical guidelines when conducting any security research or testing.
+Keep in mind that modifying or abusing XPC services can have serious consequences and may violate the terms of service or legal agreements. Always ensure that you have proper authorization and follow ethical guidelines when performing any security assessments or penetration testing.
 
 {% endtab %}
 ```xml
@@ -432,10 +445,10 @@ To use the Dylb client code, follow these steps:
 
 1. Import the necessary frameworks and libraries.
 2. Create an instance of the `NSXPCConnection` class.
-3. Set the appropriate `NSXPCInterface` for the connection.
-4. Set the `NSXPCConnection` delegate.
+3. Set the appropriate interface for the connection.
+4. Set the connection's delegate.
 5. Establish the connection using the `resume()` method.
-6. Call the remote methods using the connection's proxy object.
+6. Send requests to the server using the connection's `remoteObjectProxy` property.
 
 ### 用法
 
@@ -443,41 +456,42 @@ To use the Dylb client code, follow these steps:
 
 1. 导入所需的框架和库。
 2. 创建 `NSXPCConnection` 类的实例。
-3. 为连接设置适当的 `NSXPCInterface`。
-4. 设置 `NSXPCConnection` 的代理。
+3. 为连接设置适当的接口。
+4. 设置连接的代理。
 5. 使用 `resume()` 方法建立连接。
-6. 使用连接的代理对象调用远程方法。
+6. 使用连接的 `remoteObjectProxy` 属性向服务器发送请求。
 
 ```swift
 import Foundation
+import XPC
 
-// Step 1: Import necessary frameworks and libraries
-
-// Step 2: Create an instance of NSXPCConnection
 let connection = NSXPCConnection(serviceName: "com.example.MyService")
-
-// Step 3: Set the appropriate NSXPCInterface for the connection
-let interface = NSXPCInterface(with: MyServiceProtocol.self)
-connection.remoteObjectInterface = interface
-
-// Step 4: Set the NSXPCConnection delegate
-connection.delegate = self
-
-// Step 5: Establish the connection
+connection.remoteObjectInterface = NSXPCInterface(with: MyServiceProtocol.self)
 connection.resume()
 
-// Step 6: Call remote methods using the connection's proxy object
 let proxy = connection.remoteObjectProxy
-proxy?.performAction()
+proxy?.performAction(with: data) { response in
+    // Handle the response from the server
+}
 ```
 
-### Conclusion
+### Security Considerations
 
-The client code inside a Dylb is crucial for establishing communication with the server and sending requests in macOS. By following the steps mentioned above, you can effectively use the Dylb client code in your applications.
+When using the Dylb client code, it is important to consider security measures to protect against potential vulnerabilities. Here are some recommendations:
 
-### 结论
+- Validate and sanitize user input to prevent injection attacks.
+- Implement proper authentication and authorization mechanisms.
+- Encrypt sensitive data before sending it over the network.
+- Regularly update and patch the Dylb code to address any security vulnerabilities.
 
-Dylb 中的客户端代码对于在 macOS 中与服务器建立通信并发送请求至关重要。通过按照上述步骤操作，您可以有效地在应用程序中使用 Dylb 客户端代码。
+### 安全注意事项
+
+在使用 Dylb 客户端代码时，重要的是要考虑安全措施，以防止潜在的漏洞。以下是一些建议：
+
+- 验证和清理用户输入，以防止注入攻击。
+- 实施适当的身份验证和授权机制。
+- 在发送敏感数据之前对其进行加密。
+- 定期更新和修补 Dylb 代码，以解决任何安全漏洞。
 ```objectivec
 // gcc -dynamiclib -framework Foundation oc_xpc_client.m -o oc_xpc_client.dylib
 // gcc injection example:
@@ -518,7 +532,7 @@ return;
 * 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**推特**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>

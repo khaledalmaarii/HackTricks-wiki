@@ -6,7 +6,7 @@
 
 * 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
@@ -14,9 +14,9 @@
 
 ## 基本信息
 
-MacOS沙盒（最初称为Seatbelt）**限制在沙盒内运行的应用程序**只能执行沙盒配置文件中指定的允许操作。这有助于确保**应用程序只能访问预期的资源**。
+MacOS沙盒（最初称为Seatbelt）**限制在沙盒中运行的应用程序**只能执行沙盒配置文件中指定的允许操作。这有助于确保**应用程序只能访问预期的资源**。
 
-任何具有**`com.apple.security.app-sandbox`**权限的应用程序都将在沙盒内执行。**Apple二进制文件**通常在沙盒内执行，并且为了在**App Store**上发布，**此权限是强制性的**。因此，大多数应用程序将在沙盒内执行。
+任何具有**`com.apple.security.app-sandbox`**权限的应用程序都将在沙盒中执行。**Apple二进制文件**通常在沙盒中执行，并且为了在**App Store**中发布，**此权限是强制性的**。因此，大多数应用程序将在沙盒中执行。
 
 为了控制进程可以执行的操作，**沙盒在内核中的所有系统调用中都有钩子**。根据应用程序的**权限**，沙盒将**允许**特定的操作。
 
@@ -27,7 +27,7 @@ MacOS沙盒（最初称为Seatbelt）**限制在沙盒内运行的应用程序**
 * 在用户空间运行的**守护进程**`/usr/libexec/sandboxd`
 * **容器**`~/Library/Containers`
 
-在容器文件夹中，您可以找到**每个以沙盒方式执行的应用程序的文件夹**，文件夹的名称是捆绑标识符：
+在容器文件夹中，你可以找到**每个在沙盒中执行的应用程序的文件夹**，文件夹的名称是bundle id：
 ```bash
 ls -l ~/Library/Containers
 total 0
@@ -189,13 +189,541 @@ log show --style syslog --predicate 'eventMessage contains[c] "sandbox"' --last 
 ```
 {% code title="touch2.sb" %}
 
-这是一个示例的 macOS 沙盒配置文件，用于限制应用程序的权限和访问。沙盒是一种安全机制，用于隔离应用程序并限制其对系统资源的访问。通过使用沙盒，可以减少应用程序对系统的潜在威胁，并提高系统的安全性。
+```plaintext
+# Sandbox profile for the touch2 command
 
-在这个示例中，我们定义了一个名为 "touch2" 的应用程序，并为其配置了一些权限和限制。首先，我们指定了应用程序的主目录，以及它可以访问的其他目录。然后，我们限制了应用程序对网络的访问，并禁止它执行任何系统命令。最后，我们还限制了应用程序对用户数据的访问，以确保用户的隐私和安全。
+(version 1)
+(deny default)
 
-要使用这个沙盒配置文件，您需要将其保存为名为 "touch2.sb" 的文件，并将其与应用程序一起打包。然后，当用户运行该应用程序时，系统将根据沙盒配置文件来限制其权限和访问。
+(allow file-write*
+    (literal "/tmp/touch2.txt")
+)
 
-请注意，沙盒只是系统安全的一部分，它并不能完全防止所有的攻击和威胁。因此，在开发和部署应用程序时，还需要采取其他安全措施来保护系统和用户的数据。
+(allow file-read-data
+    (literal "/usr/share/misc/magic.mgc")
+)
+
+(allow file-read-metadata
+    (literal "/usr/share/misc/magic.mgc")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_COLLATE/")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_CTYPE/")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MONETARY/")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_NUMERIC/")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_TIME/")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/SYS_.*")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/POSIX")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/ISO_.*")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-8")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF8")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-16")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF16")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-32")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF32")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-7")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF7")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-32BE")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF32BE")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-32LE")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF32LE")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-16BE")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF16BE")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-16LE")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF16LE")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-8BE")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF8BE")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-8LE")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF8LE")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-7BE")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF7BE")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-7LE")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF7LE")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-16BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF16BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-16LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF16LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-8BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF8BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-8LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF8LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-7BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF7BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-7LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF7LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-32BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF32BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-32LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF32LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-16BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF16BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-16LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF16LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-8BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF8BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-8LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF8LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-7BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF7BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-7LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF7LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-32BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF32BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-32LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF32LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-16BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF16BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-16LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF16LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-8BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF8BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-8LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF8LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-7BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF7BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-7LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF7LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-32BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF32BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-32LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF32LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-16BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF16BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-16LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF16LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-8BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF8BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-8LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF8LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-7BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF7BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-7LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF7LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-32BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF32BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-32LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF32LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-16BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF16BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-16LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF16LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-8BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF8BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-8LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF8LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-7BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF7BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-7LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF7LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-32BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF32BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-32LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF32LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-16BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF16BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-16LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF16LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-8BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF8BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-8LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF8LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-7BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF7BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-7LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF7LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-32BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF32BE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF-32LE-BOM")
+)
+
+(allow file-read-metadata
+    (regex #"^/usr/share/locale/[^/]+/LC_MESSAGES/UTF32LE-BOM")
+)
+
+(allow
 ```scheme
 (version 1)
 (deny default)
@@ -235,13 +763,17 @@ log show --style syslog --predicate 'eventMessage contains[c] "sandbox"' --last 
 
 macOS将系统沙箱配置文件存储在两个位置：**/usr/share/sandbox/** 和 **/System/Library/Sandbox/Profiles**。
 
-如果第三方应用程序具有 _**com.apple.security.app-sandbox**_ 权限，则系统将应用 **/System/Library/Sandbox/Profiles/application.sb** 配置文件到该进程。
+如果第三方应用程序具有 _**com.apple.security.app-sandbox**_ 权限，系统将应用 **/System/Library/Sandbox/Profiles/application.sb** 配置文件到该进程。
+
+### **iOS沙箱配置文件**
+
+默认配置文件称为**container**，我们没有SBPL文本表示。在内存中，此沙箱被表示为每个权限的允许/拒绝二叉树。
 
 ### 调试和绕过沙箱
 
-**在macOS上，进程不会自动被沙箱限制：与iOS不同**，在iOS上，沙箱是在程序的第一条指令执行之前由内核应用的，而在macOS上，**进程必须选择将自己置于沙箱中**。
+**在macOS上，进程不会自动被沙箱限制：与iOS不同**，在iOS上，沙箱在程序的第一条指令执行之前由内核应用，而在macOS上，进程必须选择将自己置于沙箱中。
 
-如果进程具有 `com.apple.security.app-sandbox` 权限，它们在启动时会自动从用户空间进入沙箱。有关此过程的详细说明，请参阅：
+如果进程具有`com.apple.security.app-sandbox`权限，它们在启动时会自动从用户空间进入沙箱。有关此过程的详细说明，请查看：
 
 {% content-ref url="macos-sandbox-debug-and-bypass/" %}
 [macos-sandbox-debug-and-bypass](macos-sandbox-debug-and-bypass/)
@@ -249,7 +781,7 @@ macOS将系统沙箱配置文件存储在两个位置：**/usr/share/sandbox/** 
 
 ### **检查PID权限**
 
-[根据此视频](https://www.youtube.com/watch?v=mG715HcDgO8\&t=3011s)，**`sandbox_check`**（它是一个`__mac_syscall`）可以检查特定PID中的沙箱是否允许执行某个操作。
+[根据此](https://www.youtube.com/watch?v=mG715HcDgO8\&t=3011s)，**`sandbox_check`**（它是一个`__mac_syscall`）可以检查特定PID中沙箱是否允许执行某个操作。
 
 [**工具sbtool**](http://newosxbook.com/src.jl?tree=listings\&file=sbtool.c)可以检查PID是否可以执行某个操作：
 ```bash
@@ -276,7 +808,7 @@ sbtool <pid> all
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者你想要**获取最新版本的PEASS或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者你想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
