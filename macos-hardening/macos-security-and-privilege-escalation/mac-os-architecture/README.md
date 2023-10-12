@@ -1,10 +1,10 @@
-# Noyau et extensions système macOS
+# Architecture du noyau et des extensions système macOS
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? Ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -43,50 +43,89 @@ De plus, **Mach et BSD maintiennent chacun des modèles de sécurité différent
 
 ### I/O Kit - Pilotes
 
-I/O Kit est le framework open source orienté objet de **gestion des pilotes de périphériques** dans le noyau XNU et est responsable de l'ajout et de la gestion des **pilotes de périphériques chargés dynamiquement**. Ces pilotes permettent d'ajouter du code modulaire au noyau de manière dynamique pour une utilisation avec différents matériels, par exemple. Ils se trouvent dans :
+I/O Kit est le framework open source orienté objet de **gestion des pilotes de périphériques** dans le noyau XNU et est responsable de l'ajout et de la gestion des **pilotes de périphériques chargés dynamiquement**. Ces pilotes permettent d'ajouter du code modulaire au noyau de manière dynamique pour une utilisation avec différents matériels, par exemple.
 
-* `/System/Library/Extensions`
-* Fichiers KEXT intégrés au système d'exploitation OS X.
-* `/Library/Extensions`
-* Fichiers KEXT installés par des logiciels tiers
-```bash
-#Use kextstat to print the loaded drivers
-kextstat
-Executing: /usr/bin/kmutil showloaded
-No variant specified, falling back to release
-Index Refs Address            Size       Wired      Name (Version) UUID <Linked Against>
-1  142 0                  0          0          com.apple.kpi.bsd (20.5.0) 52A1E876-863E-38E3-AC80-09BBAB13B752 <>
-2   11 0                  0          0          com.apple.kpi.dsep (20.5.0) 52A1E876-863E-38E3-AC80-09BBAB13B752 <>
-3  170 0                  0          0          com.apple.kpi.iokit (20.5.0) 52A1E876-863E-38E3-AC80-09BBAB13B752 <>
-4    0 0                  0          0          com.apple.kpi.kasan (20.5.0) 52A1E876-863E-38E3-AC80-09BBAB13B752 <>
-5  175 0                  0          0          com.apple.kpi.libkern (20.5.0) 52A1E876-863E-38E3-AC80-09BBAB13B752 <>
-6  154 0                  0          0          com.apple.kpi.mach (20.5.0) 52A1E876-863E-38E3-AC80-09BBAB13B752 <>
-7   88 0                  0          0          com.apple.kpi.private (20.5.0) 52A1E876-863E-38E3-AC80-09BBAB13B752 <>
-8  106 0                  0          0          com.apple.kpi.unsupported (20.5.0) 52A1E876-863E-38E3-AC80-09BBAB13B752 <>
-9    2 0xffffff8003317000 0xe000     0xe000     com.apple.kec.Libm (1) 6C1342CC-1D74-3D0F-BC43-97D5AD38200A <5>
-10   12 0xffffff8003544000 0x92000    0x92000    com.apple.kec.corecrypto (11.1) F5F1255F-6552-3CF4-A9DB-D60EFDEB4A9A <8 7 6 5 3 1>
-```
-Jusqu'au numéro 9, les pilotes répertoriés sont **chargés à l'adresse 0**. Cela signifie qu'il ne s'agit pas de vrais pilotes mais **d'une partie du noyau et ils ne peuvent pas être déchargés**.
+{% content-ref url="macos-iokit.md" %}
+[macos-iokit.md](macos-iokit.md)
+{% endcontent-ref %}
 
-Pour trouver des extensions spécifiques, vous pouvez utiliser :
-```bash
-kextfind -bundle-id com.apple.iokit.IOReportFamily #Search by full bundle-id
-kextfind -bundle-id -substring IOR #Search by substring in bundle-id
-```
-Pour charger et décharger des extensions de noyau, faites :
-```bash
-kextload com.apple.iokit.IOReportFamily
-kextunload com.apple.iokit.IOReportFamily
-```
 ### IPC - Communication inter-processus
 
 {% content-ref url="macos-ipc-inter-process-communication/" %}
 [macos-ipc-inter-process-communication](macos-ipc-inter-process-communication/)
 {% endcontent-ref %}
 
+### Kernelcache
+
+Le **kernelcache** est une version **précompilée et pré-liée du noyau XNU**, ainsi que des **pilotes de périphériques essentiels** et des **extensions de noyau**. Il est stocké dans un format **compressé** et est décompressé en mémoire lors du processus de démarrage. Le kernelcache facilite un **démarrage plus rapide** en ayant une version prête à l'emploi du noyau et des pilotes essentiels disponibles, ce qui réduit le temps et les ressources qui seraient sinon consacrés au chargement et à la liaison dynamique de ces composants au démarrage.
+
+Dans iOS, il se trouve dans **`/System/Library/Caches/com.apple.kernelcaches/kernelcache`** et dans macOS, vous pouvez le trouver avec **`find / -name kernelcache 2>/dev/null`**.
+#### IMG4
+
+Le format de fichier IMG4 est un format de conteneur utilisé par Apple dans ses appareils iOS et macOS pour stocker et vérifier de manière sécurisée les composants du micrologiciel (comme le **kernelcache**). Le format IMG4 comprend un en-tête et plusieurs balises qui encapsulent différentes parties de données, y compris la charge utile réelle (comme un noyau ou un chargeur de démarrage), une signature et un ensemble de propriétés de manifeste. Le format prend en charge la vérification cryptographique, permettant à l'appareil de confirmer l'authenticité et l'intégrité du composant du micrologiciel avant de l'exécuter.
+
+Il est généralement composé des éléments suivants :
+
+* **Charge utile (IM4P)** :
+* Souvent compressée (LZFSE4, LZSS, ...)
+* Optionnellement chiffrée
+* **Manifeste (IM4M)** :
+* Contient une signature
+* Dictionnaire clé/valeur supplémentaire
+* **Informations de restauration (IM4R)** :
+* Également connu sous le nom de APNonce
+* Empêche la relecture de certaines mises à jour
+* FACULTATIF : Habituellement, cela n'est pas trouvé
+
+Décompressez le Kernelcache :
+```bash
+# pyimg4 (https://github.com/m1stadev/PyIMG4)
+pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
+
+# img4tool (https://github.com/tihmstar/img4tool
+img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
+```
+#### Symboles du Kernelcache
+
+Parfois, Apple publie des **kernelcache** avec des **symboles**. Vous pouvez télécharger certains firmwares avec des symboles en suivant les liens sur [https://theapplewiki.com](https://theapplewiki.com/).
+
+### IPSW
+
+Ce sont des **firmwares** Apple que vous pouvez télécharger depuis [**https://ipsw.me/**](https://ipsw.me/). Parmi les autres fichiers, il contient le **kernelcache**.\
+Pour **extraire** les fichiers, vous pouvez simplement les **décompresser**.
+
+Après avoir extrait le firmware, vous obtiendrez un fichier tel que : **`kernelcache.release.iphone14`**. Il est au format **IMG4**, vous pouvez extraire les informations intéressantes avec :
+
+* [**pyimg4**](https://github.com/m1stadev/PyIMG4)
+
+{% code overflow="wrap" %}
+```bash
+pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
+```
+{% endcode %}
+
+* [**img4tool**](https://github.com/tihmstar/img4tool)
+```bash
+img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
+```
+Vous pouvez vérifier les symboles extraits du kernelcache avec: **`nm -a kernelcache.release.iphone14.e | wc -l`**
+
+Avec cela, nous pouvons maintenant extraire toutes les extensions ou celle qui vous intéresse:
+```bash
+# List all extensions
+kextex -l kernelcache.release.iphone14.e
+## Extract com.apple.security.sandbox
+kextex -e com.apple.security.sandbox kernelcache.release.iphone14.e
+
+# Extract all
+kextex_all kernelcache.release.iphone14.e
+
+# Check the extension for symbols
+nm -a binaries/com.apple.security.sandbox | wc -l
+```
 ## Extensions du noyau macOS
 
-macOS est **très restrictif pour charger les extensions du noyau** (.kext) en raison des privilèges élevés avec lesquels le code s'exécute. En fait, par défaut, il est pratiquement impossible (à moins de trouver une contournement).
+macOS est **très restrictif pour charger les extensions du noyau** (.kext) en raison des privilèges élevés avec lesquels le code s'exécute. En fait, par défaut, il est pratiquement impossible de le faire (à moins de trouver une faille).
 
 {% content-ref url="macos-kernel-extensions.md" %}
 [macos-kernel-extensions.md](macos-kernel-extensions.md)
@@ -94,7 +133,7 @@ macOS est **très restrictif pour charger les extensions du noyau** (.kext) en r
 
 ### Extensions système macOS
 
-Au lieu d'utiliser des extensions du noyau, macOS a créé les extensions système, qui offrent des API de niveau utilisateur pour interagir avec le noyau. De cette façon, les développeurs peuvent éviter d'utiliser des extensions du noyau.
+Au lieu d'utiliser des extensions du noyau, macOS a créé les extensions système, qui offrent des API de niveau utilisateur pour interagir avec le noyau. De cette manière, les développeurs peuvent éviter d'utiliser des extensions du noyau.
 
 {% content-ref url="macos-system-extensions.md" %}
 [macos-system-extensions.md](macos-system-extensions.md)
@@ -109,7 +148,7 @@ Au lieu d'utiliser des extensions du noyau, macOS a créé les extensions systè
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Vous travaillez dans une **entreprise de cybersécurité** ? Vous souhaitez voir votre **entreprise annoncée dans HackTricks** ? ou souhaitez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? Ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**

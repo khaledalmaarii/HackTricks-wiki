@@ -37,7 +37,7 @@ ARM64 dispose de **31 registres généraux**, étiquetés `x0` à `x30`. Chacun 
 
 La convention d'appel ARM64 spécifie que les **huit premiers paramètres** d'une fonction sont passés dans les registres **`x0` à `x7`**. Les **paramètres supplémentaires** sont passés sur la **pile**. La **valeur de retour** est renvoyée dans le registre **`x0`**, ou dans **`x1`** également **s'il fait 128 bits**. Les registres **`x19`** à **`x30`** et **`sp`** doivent être **préservés** lors des appels de fonction.
 
-Lors de la lecture d'une fonction en langage d'assemblage, recherchez le **prologue et l'épilogue de la fonction**. Le **prologue** implique généralement la **sauvegarde du pointeur de cadre (`x29`)**, la **configuration** d'un **nouveau pointeur de cadre** et l'**allocation d'espace de pile**. L'**épilogue** implique généralement la **restauration du pointeur de cadre sauvegardé** et le **retour** de la fonction.
+Lors de la lecture d'une fonction en langage d'assemblage, recherchez le **prologue et l'épilogue de la fonction**. Le **prologue** implique généralement **la sauvegarde du pointeur de cadre (`x29`)**, **la configuration** d'un **nouveau pointeur de cadre** et **l'allocation d'espace de pile**. L'**épilogue** implique généralement **la restauration du pointeur de cadre sauvegardé** et **le retour** de la fonction.
 
 ### Convention d'appel en Swift
 
@@ -84,10 +84,10 @@ Les instructions ARM64 ont généralement le **format `opcode dst, src1, src2`**
 * **`adrp`** : Calculer l'**adresse de page d'un symbole** et la stocker dans un registre.
 * Exemple : `adrp x0, symbol` — Cela calcule l'adresse de page de `symbol` et la stocke dans `x0`.
 * **`ldrsw`** : **Charger** une valeur signée de **32 bits** depuis la mémoire et **l'étendre à 64 bits**.
-* Exemple : `ldrsw x0, [x1]` — Cela charge une valeur signée de 32 bits à partir de l'emplacement mémoire pointé par `x1`, l'étend à 64 bits et la stocke dans `x0`.
+* Exemple : `ldrsw x0, [x1]` — Cela charge une valeur signée de 32 bits depuis l'emplacement mémoire pointé par `x1`, l'étend à 64 bits et la stocke dans `x0`.
 * **`stur`** : **Stocker une valeur de registre dans un emplacement mémoire**, en utilisant un décalage par rapport à un autre registre.
 * Exemple : `stur x0, [x1, #4]` — Cela stocke la valeur dans `x0` dans l'adresse mémoire qui est 4 octets supérieure à l'adresse actuellement dans `x1`.
-* &#x20;**`svc`** : Effectuer un **appel système**. Il signifie "Supervisor Call". Lorsque le processeur exécute cette instruction, il **passe du mode utilisateur au mode noyau** et saute à un emplacement spécifique dans la mémoire où se trouve le code de gestion des appels système du noyau.
+* &#x20;**`svc`** : Effectuer un **appel système**. Il signifie "Supervisor Call". Lorsque le processeur exécute cette instruction, il **passe du mode utilisateur au mode noyau** et saute à un emplacement spécifique en mémoire où se trouve le code de gestion des appels système du noyau.
 *   Exemple :&#x20;
 
 ```armasm
@@ -122,9 +122,25 @@ ldp x29, x30, [sp], #16  ; charger la paire x29 et x30 depuis la pile et incrém
 
 ## macOS
 
-### appels système
+### Appels système BSD
 
-Consultez [**syscalls.master**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/bsd/kern/syscalls.master).
+Consultez [**syscalls.master**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/bsd/kern/syscalls.master). Les appels système BSD auront **x16 > 0**.
+
+### Trappes Mach
+
+Consultez [**syscall\_sw.c**](https://opensource.apple.com/source/xnu/xnu-3789.1.32/osfmk/kern/syscall\_sw.c.auto.html). Les trappes Mach auront **x16 < 0**, donc vous devez appeler les numéros de la liste précédente avec un **moins** : **`_kernelrpc_mach_vm_allocate_trap`** est **`-10`**.
+
+Vous pouvez également consulter **`libsystem_kernel.dylib`** dans un désassembleur pour savoir comment appeler ces appels système (et BSD) :
+```bash
+# macOS
+dyldex -e libsystem_kernel.dylib /System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_arm64e
+
+# iOS
+dyldex -e libsystem_kernel.dylib /System/Library/Caches/com.apple.dyld/dyld_shared_cache_arm64
+```
+{% hint style="success" %}
+Parfois, il est plus facile de vérifier le code **décompilé** de **`libsystem_kernel.dylib`** que de vérifier le **code source** car le code de plusieurs appels système (BSD et Mach) est généré via des scripts (vérifiez les commentaires dans le code source) tandis que dans la dylib, vous pouvez trouver ce qui est appelé.
+{% endhint %}
 
 ### Shellcodes
 
@@ -474,7 +490,7 @@ svc  #0x1337
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? Ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**

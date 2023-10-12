@@ -467,9 +467,13 @@ macOS stocke les profils d'isolation système dans deux emplacements : **/usr/sh
 
 Et si une application tierce possède l'attribution _**com.apple.security.app-sandbox**_, le système applique le profil **/System/Library/Sandbox/Profiles/application.sb** à ce processus.
 
+### Profil d'isolation d'iOS
+
+Le profil par défaut s'appelle **container** et nous n'avons pas la représentation textuelle SBPL. En mémoire, cette isolation est représentée comme un arbre binaire Autoriser/Refuser pour chaque autorisation de l'isolation.
+
 ### Débogage et contournement de l'isolation
 
-**Les processus ne naissent pas isolés dans macOS : contrairement à iOS**, où l'isolation est appliquée par le noyau avant la première instruction d'un programme, sur macOS **un processus doit choisir de se placer dans l'isolation.**
+**Les processus ne naissent pas isolés sur macOS : contrairement à iOS**, où l'isolation est appliquée par le noyau avant la première instruction d'un programme, sur macOS **un processus doit choisir de se placer dans l'isolation.**
 
 Les processus sont automatiquement isolés depuis l'espace utilisateur lorsqu'ils démarrent s'ils ont l'attribution : `com.apple.security.app-sandbox`. Pour une explication détaillée de ce processus, consultez :
 
@@ -477,7 +481,7 @@ Les processus sont automatiquement isolés depuis l'espace utilisateur lorsqu'il
 [macos-sandbox-debug-and-bypass](macos-sandbox-debug-and-bypass/)
 {% endcontent-ref %}
 
-### **Vérifier les privilèges PID**
+### Vérification des privilèges PID
 
 [Selon cela](https://www.youtube.com/watch?v=mG715HcDgO8\&t=3011s), la fonction **`sandbox_check`** (c'est un `__mac_syscall`), peut vérifier **si une opération est autorisée ou non** par l'isolation dans un PID donné.
 
@@ -490,7 +494,7 @@ sbtool <pid> all
 ```
 ### Profils SBPL personnalisés dans les applications de l'App Store
 
-Il est possible pour les entreprises de faire fonctionner leurs applications avec des profils Sandbox personnalisés (au lieu du profil par défaut). Elles doivent utiliser l'attribution `com.apple.security.temporary-exception.sbpl` qui doit être autorisée par Apple.
+Il est possible pour les entreprises de faire fonctionner leurs applications avec des profils Sandbox personnalisés (au lieu de celui par défaut). Elles doivent utiliser l'attribution `com.apple.security.temporary-exception.sbpl` qui doit être autorisée par Apple.
 
 Il est possible de vérifier la définition de cette attribution dans `/System/Library/Sandbox/Profiles/application.sb:`
 ```scheme

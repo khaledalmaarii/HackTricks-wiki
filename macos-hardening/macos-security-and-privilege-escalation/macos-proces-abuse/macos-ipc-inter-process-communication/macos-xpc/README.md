@@ -26,13 +26,13 @@ Les principaux avantages de XPC sont les suivants :
 
 Le seul **inconvénient** est que **séparer une application en plusieurs processus** qui communiquent via XPC est **moins efficace**. Mais dans les systèmes d'aujourd'hui, cela est presque imperceptible et les avantages sont meilleurs.
 
-## Services XPC spécifiques à l'application
+## Services XPC spécifiques à une application
 
 Les composants XPC d'une application se trouvent **à l'intérieur de l'application elle-même**. Par exemple, dans Safari, vous pouvez les trouver dans **`/Applications/Safari.app/Contents/XPCServices`**. Ils ont l'extension **`.xpc`** (comme **`com.apple.Safari.SandboxBroker.xpc`**) et sont **également des bundles** avec le binaire principal à l'intérieur : `/Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/MacOS/com.apple.Safari.SandboxBroker` et un fichier `Info.plist : /Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/Info.plist`
 
 Comme vous pouvez le penser, un **composant XPC aura des autorisations et des privilèges différents** des autres composants XPC ou du binaire principal de l'application. SAUF si un service XPC est configuré avec [**JoinExistingSession**](https://developer.apple.com/documentation/bundleresources/information\_property\_list/xpcservice/joinexistingsession) défini sur "True" dans son fichier **Info.plist**. Dans ce cas, le service XPC s'exécutera dans la **même session de sécurité que l'application** qui l'a appelé.
 
-Les services XPC sont **démarrés** par **launchd** lorsque cela est nécessaire et **arrêtés** une fois que toutes les tâches sont **terminées** pour libérer les ressources système. Les composants XPC spécifiques à l'application ne peuvent être utilisés que par l'application, réduisant ainsi les risques liés aux vulnérabilités potentielles.
+Les services XPC sont **démarrés** par **launchd** lorsque cela est nécessaire et **arrêtés** une fois que toutes les tâches sont **terminées** pour libérer les ressources système. Les composants XPC spécifiques à une application ne peuvent être utilisés que par l'application, réduisant ainsi les risques liés aux vulnérabilités potentielles.
 
 ## Services XPC à l'échelle du système
 
@@ -80,7 +80,7 @@ Les applications peuvent **s'abonner** à différents **messages d'événement**
 
 ### Vérification du processus de connexion XPC
 
-Lorsqu'un processus essaie d'appeler une méthode via une connexion XPC, le **service XPC doit vérifier si ce processus est autorisé à se connecter**. Voici les moyens courants de vérifier cela et les pièges courants :
+Lorsqu'un processus essaie d'appeler une méthode via une connexion XPC, le **service XPC doit vérifier si ce processus est autorisé à se connecter**. Voici les méthodes courantes pour effectuer cette vérification et les pièges courants :
 
 {% content-ref url="macos-xpc-connecting-process-check.md" %}
 [macos-xpc-connecting-process-check.md](macos-xpc-connecting-process-check.md)
@@ -94,6 +94,19 @@ Apple permet également aux applications de **configurer certains droits et la m
 [macos-xpc-authorization.md](macos-xpc-authorization.md)
 {% endcontent-ref %}
 
+## Sniffer XPC
+
+Pour intercepter les messages XPC, vous pouvez utiliser [**xpcspy**](https://github.com/hot3eed/xpcspy) qui utilise **Frida**.
+```bash
+# Install
+pip3 install xpcspy
+pip3 install xpcspy --no-deps # To not make xpcspy install Frida 15 and downgrade your Frida installation
+
+# Start sniffing
+xpcspy -U -r -W <bundle-id>
+## Using filters (i: for input, o: for output)
+xpcspy -U <prog-name> -t 'i:com.apple.*' -t 'o:com.apple.*' -r
+```
 ## Exemple de code C
 
 {% tabs %}
@@ -325,7 +338,7 @@ NSLog(@"Received response: %@", response);
 return 0;
 }
 ```
-{% tab title="xyz.hacktricks.svcoc.plist" %}
+{% tab title="xyz.hacktricks.svcoc.plist" %}xyz.hacktricks.svcoc.plist est un fichier de configuration utilisé pour définir les paramètres de communication inter-processus (IPC) pour les services XPC sur macOS. Les services XPC sont des processus qui permettent aux applications de communiquer entre elles de manière sécurisée. Ce fichier plist contient des clés et des valeurs qui spécifient les autorisations et les restrictions pour chaque service XPC. En modifiant ce fichier, vous pouvez potentiellement abuser des services XPC pour escalader les privilèges ou exécuter du code malveillant. Cependant, cela nécessite une connaissance approfondie du fonctionnement des services XPC et des vulnérabilités spécifiques à chaque service. Il est important de noter que la modification de ce fichier peut entraîner des conséquences indésirables, telles que des plantages du système ou des erreurs de fonctionnement des applications. Par conséquent, il est recommandé de procéder avec prudence et de ne modifier ce fichier que si vous comprenez pleinement les implications de vos actions.
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
@@ -373,61 +386,17 @@ The client code is responsible for establishing a connection with the server and
 
 Le code client est responsable d'établir une connexion avec le serveur et d'envoyer des requêtes à celui-ci. Dans le cas d'un code Dylb, le client est intégré directement dans le code lui-même, permettant une communication fluide entre le client et le serveur.
 
-To implement a client inside a Dylb code, you can use the following steps:
+To implement a client inside a Dylb code, you can use the Dylb library's functions and methods to establish a connection, send requests, and receive responses. The client code should be designed to handle any errors or exceptions that may occur during the communication process.
 
-Pour mettre en place un client à l'intérieur d'un code Dylb, vous pouvez suivre les étapes suivantes :
+Pour mettre en œuvre un client à l'intérieur d'un code Dylb, vous pouvez utiliser les fonctions et méthodes de la bibliothèque Dylb pour établir une connexion, envoyer des requêtes et recevoir des réponses. Le code client doit être conçu pour gérer les erreurs ou exceptions qui peuvent survenir pendant le processus de communication.
 
-1. Import the necessary libraries or modules required for establishing a network connection.
+It is important to ensure that the client code is secure and follows best practices for handling sensitive information. This includes encrypting data, validating server certificates, and implementing proper authentication mechanisms.
 
-   Importez les bibliothèques ou modules nécessaires pour établir une connexion réseau.
+Il est important de veiller à ce que le code client soit sécurisé et respecte les meilleures pratiques pour la gestion des informations sensibles. Cela inclut le chiffrement des données, la validation des certificats serveur et la mise en œuvre de mécanismes d'authentification appropriés.
 
-2. Define the server's IP address and port number to establish a connection.
+By implementing a client inside a Dylb code, you can create a robust and efficient communication system between the client and the server, enabling seamless interaction and data exchange.
 
-   Définissez l'adresse IP et le numéro de port du serveur pour établir une connexion.
-
-3. Create a socket object to establish a connection with the server.
-
-   Créez un objet socket pour établir une connexion avec le serveur.
-
-4. Use the socket object to send requests to the server.
-
-   Utilisez l'objet socket pour envoyer des requêtes au serveur.
-
-5. Receive and process the server's response.
-
-   Recevez et traitez la réponse du serveur.
-
-Here is an example of client code inside a Dylb code:
-
-Voici un exemple de code client à l'intérieur d'un code Dylb :
-
-```python
-import socket
-
-# Define server IP address and port number
-server_ip = "192.168.0.1"
-server_port = 1234
-
-# Create a socket object
-client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-# Establish a connection with the server
-client_socket.connect((server_ip, server_port))
-
-# Send requests to the server
-client_socket.send(b"Hello, server!")
-
-# Receive and process the server's response
-response = client_socket.recv(1024)
-print(response.decode())
-
-# Close the connection
-client_socket.close()
-```
-
-In this example, the client code establishes a TCP connection with the server at the specified IP address and port number. It sends a "Hello, server!" message to the server and receives the server's response, which is then printed on the console. Finally, the connection is closed.
-
-Dans cet exemple, le code client établit une connexion TCP avec le serveur à l'adresse IP et au numéro de port spécifiés. Il envoie un message "Hello, server!" au serveur et reçoit la réponse du serveur, qui est ensuite affichée sur la console. Enfin, la connexion est fermée.
+En mettant en œuvre un client à l'intérieur d'un code Dylb, vous pouvez créer un système de communication robuste et efficace entre le client et le serveur, permettant une interaction et un échange de données fluides.
 ```objectivec
 // gcc -dynamiclib -framework Foundation oc_xpc_client.m -o oc_xpc_client.dylib
 // gcc injection example:
