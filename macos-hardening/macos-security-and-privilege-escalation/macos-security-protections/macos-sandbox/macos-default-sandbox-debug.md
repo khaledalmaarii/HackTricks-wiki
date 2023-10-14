@@ -95,7 +95,8 @@ EOF
 ```
 4. Assine o aplicativo (você precisa criar um certificado na chaveiro)
 ```bash
-codesign --entitlements entitlements.plist -s "YourIdentity" SandboxedShellApp
+codesign --entitlements entitlements.plist -s "YourIdentity" SandboxedShellApp.app
+./SandboxedShellApp.app/Contents/MacOS/SandboxedShellApp
 
 # An d in case you need this in the future
 codesign --remove-signature SandboxedShellApp.app
