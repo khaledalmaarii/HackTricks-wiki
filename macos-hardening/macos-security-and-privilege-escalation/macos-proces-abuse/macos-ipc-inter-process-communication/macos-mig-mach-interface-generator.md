@@ -190,30 +190,47 @@ mach_msg_server(myipc_server, sizeof(union __RequestUnion__SERVERPREFmyipc_subsy
 ```c
 #include <stdio.h>
 #include <stdlib.h>
+#include <mach/mach.h>
+#include <mach/message.h>
 #include <servers/bootstrap.h>
 #include "myipc.h"
 
 int main(int argc, char *argv[]) {
     mach_port_t server_port;
     kern_return_t kr;
-    char *message = "Hello, server!";
-    char reply[256];
+    myipc_msg_t msg;
 
     // Look up the server port
     kr = bootstrap_look_up(bootstrap_port, "com.example.myipc_server", &server_port);
     if (kr != KERN_SUCCESS) {
-        fprintf(stderr, "Failed to look up server port: %s\n", mach_error_string(kr));
+        printf("Failed to look up server port: %s\n", mach_error_string(kr));
         exit(1);
     }
 
-    // Send a message to the server
-    kr = myipc_send_message(server_port, message, reply, sizeof(reply));
+    // Prepare the message
+    msg.header.msgh_bits = MACH_MSGH_BITS(MACH_MSG_TYPE_COPY_SEND, 0);
+    msg.header.msgh_size = sizeof(msg);
+    msg.header.msgh_remote_port = server_port;
+    msg.header.msgh_local_port = MACH_PORT_NULL;
+    msg.header.msgh_id = 0;
+    msg.data = 42;
+
+    // Send the message
+    kr = mach_msg(&msg.header, MACH_SEND_MSG, sizeof(msg), 0, MACH_PORT_NULL, MACH_MSG_TIMEOUT_NONE, MACH_PORT_NULL);
     if (kr != KERN_SUCCESS) {
-        fprintf(stderr, "Failed to send message: %s\n", mach_error_string(kr));
+        printf("Failed to send message: %s\n", mach_error_string(kr));
         exit(1);
     }
 
-    printf("Received reply: %s\n", reply);
+    // Receive the reply
+    kr = mach_msg(&msg.header, MACH_RCV_MSG, 0, sizeof(msg), server_port, MACH_MSG_TIMEOUT_NONE, MACH_PORT_NULL);
+    if (kr != KERN_SUCCESS) {
+        printf("Failed to receive reply: %s\n", mach_error_string(kr));
+        exit(1);
+    }
+
+    // Print the reply
+    printf("Received reply: %d\n", msg.data);
 
     return 0;
 }
@@ -376,9 +393,9 @@ return r0;
 
 Na verdade, se você for para a função **`0x100004000`**, encontrará o array de structs **`routine_descriptor`**, o primeiro elemento da struct é o endereço onde a função é implementada e a **struct ocupa 0x28 bytes**, então a cada 0x28 bytes (começando do byte 0) você pode obter 8 bytes e esse será o **endereço da função** que será chamada:
 
-<figure><img src="../../../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
-
 <figure><img src="../../../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+
+<figure><img src="../../../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Esses dados podem ser extraídos [**usando este script do Hopper**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py).
 
