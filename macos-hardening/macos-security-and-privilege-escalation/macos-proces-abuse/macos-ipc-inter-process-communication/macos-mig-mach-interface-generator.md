@@ -69,443 +69,17 @@ myipc_server_routine,
 #include <stdio.h>
 #include <stdlib.h>
 #include <mach/mach.h>
-#include <mach/mach_error.h>
 #include <servers/bootstrap.h>
-#include <mach/mach_traps.h>
-#include <mach/mach_types.h>
-#include <mach/mach_init.h>
-#include <mach/mach_port.h>
-#include <mach/mach_interface.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher
+#include "myipcServerUser.h"
+
+#define MACH_PORT_NAME "com.example.myipc"
+
+kern_return_t myipc_server(mach_port_t server_port);
+
+#endif /* myipcServer_h */
+```
+
+{% endtab %}
 ```c
 /* Description of this subsystem, for use in direct RPC */
 extern const struct SERVERPREFmyipc_subsystem {
@@ -623,36 +197,26 @@ mach_msg_server(myipc_server, sizeof(union __RequestUnion__SERVERPREFmyipc_subsy
 #include "myipc.h"
 
 int main(int argc, char *argv[]) {
-    mach_port_t bootstrap_port;
+    mach_port_t server_port;
     kern_return_t kr;
-    myipc_msg_t msg;
-
-    // Get the bootstrap port
-    kr = task_get_bootstrap_port(mach_task_self(), &bootstrap_port);
-    if (kr != KERN_SUCCESS) {
-        fprintf(stderr, "Failed to get bootstrap port: %s\n", mach_error_string(kr));
-        exit(1);
-    }
+    char *message = "Hello, server!";
+    char reply[256];
 
     // Look up the server port
-    kr = bootstrap_look_up(bootstrap_port, MYIPC_SERVER_NAME, &msg.server_port);
+    kr = bootstrap_look_up(bootstrap_port, "com.example.myipc_server", &server_port);
     if (kr != KERN_SUCCESS) {
         fprintf(stderr, "Failed to look up server port: %s\n", mach_error_string(kr));
         exit(1);
     }
 
-    // Set the message type and data
-    msg.type = MYIPC_MSG_TYPE;
-    msg.data = 42;
-
-    // Send the message
-    kr = mach_msg(&msg.header, MACH_SEND_MSG, sizeof(msg), 0, MACH_PORT_NULL, MACH_MSG_TIMEOUT_NONE, MACH_PORT_NULL);
+    // Send a message to the server
+    kr = myipc_send_message(server_port, message, reply, sizeof(reply));
     if (kr != KERN_SUCCESS) {
         fprintf(stderr, "Failed to send message: %s\n", mach_error_string(kr));
         exit(1);
     }
 
-    printf("Message sent successfully\n");
+    printf("Received reply: %s\n", reply);
 
     return 0;
 }
@@ -691,7 +255,7 @@ USERPREFSubtract(port, 40, 2);
 ```bash
 jtool2 -d __DATA.__const myipc_server | grep MIG
 ```
-先前提到，负责根据接收到的消息ID调用正确函数的函数是`myipc_server`。然而，通常你不会有二进制文件的符号（没有函数名），所以检查反编译后的代码是很有意思的，因为它们总是非常相似（这个函数的代码与暴露的函数无关）：
+先前提到，负责根据接收到的消息ID调用正确函数的函数是`myipc_server`。然而，通常你不会有二进制文件的符号（没有函数名），所以了解反编译后的代码是什么样子很有意思，因为它们总是非常相似（这个函数的代码与暴露的函数无关）：
 
 {% tabs %}
 {% tab title="myipc_server反编译 1" %}
@@ -780,7 +344,7 @@ if (CPU_FLAGS &#x26; NE) {
 r8 = 0x1;
 }
 }
-// 与前一个版本相同的if else
+// 与上一个版本相同的if else
 // 检查地址0x100004040的使用（函数地址数组）
 <strong>                    if ((r8 &#x26; 0x1) == 0x0) {
 </strong><strong>                            *(var_18 + 0x18) = **0x100004000;
@@ -788,7 +352,7 @@ r8 = 0x1;
 var_4 = 0x0;
 }
 else {
-// 调用计算的地址，其中应该包含函数
+// 调用计算出的地址，其中应该包含函数
 <strong>                            (var_20)(var_10, var_18);
 </strong>                            var_4 = 0x1;
 }
@@ -814,9 +378,9 @@ return r0;
 
 实际上，如果你转到函数**`0x100004000`**，你会找到**`routine_descriptor`**结构体的数组，结构体的第一个元素是函数实现的地址，**结构体占用0x28字节**，所以每0x28字节（从字节0开始）你可以得到8字节，那就是将要调用的**函数的地址**：
 
-<figure><img src="../../../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
-
 <figure><img src="../../../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+
+<figure><img src="../../../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 可以使用[**这个Hopper脚本**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py)提取这些数据。
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>

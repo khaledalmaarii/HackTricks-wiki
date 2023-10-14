@@ -21,7 +21,7 @@
 
 因此，如果你进入用户的**`$TMPDIR`**目录，你将能够找到用于调试.Net应用程序的**调试FIFO**：
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 函数[**DbgTransportSession::TransportWorker**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L1259)将处理来自调试器的通信。
 
@@ -66,7 +66,7 @@ sSendHeader.m_cbDataBlock = sizeof(SessionRequestData);
 ```c
 write(wr, &sSendHeader, sizeof(MessageHeader));
 ```
-在发送请求头之后，我们需要发送一个`sessionRequestData`结构体，其中包含一个GUID来标识我们的会话：
+以下是我们需要发送的`sessionRequestData`结构体，其中包含一个用于标识我们会话的GUID：
 ```c
 // All '9' is a GUID.. right??
 memset(&sDataBlock.m_sSessionID, 9, sizeof(SessionRequestData));
@@ -169,15 +169,15 @@ return true;
 vmmap -pages [pid]
 vmmap -pages 35829 | grep "rwx/rwx"
 ```
-然后，为了触发执行，需要知道存储函数指针的位置以覆盖它。可以在**动态函数表（DFT）**中覆盖指针，该表由.NET Core运行时用于提供JIT编译的辅助函数。支持的函数指针列表可以在[`jithelpers.h`](https://github.com/dotnet/runtime/blob/6072e4d3a7a2a1493f514cdf4be75a3d56580e84/src/coreclr/src/inc/jithelpers.h)中找到。
+然后，为了触发执行，需要知道存储函数指针的位置以进行覆写。可以在**动态函数表（DFT）**中覆写指针，该表由.NET Core运行时用于提供JIT编译的辅助函数。支持的函数指针列表可以在[`jithelpers.h`](https://github.com/dotnet/runtime/blob/6072e4d3a7a2a1493f514cdf4be75a3d56580e84/src/coreclr/src/inc/jithelpers.h)中找到。
 
-在x64版本中，可以使用类似mimikatz的**签名搜索**技术直接在**`libcorclr.dll`**中搜索对符号**`_hlpDynamicFuncTable`**的引用，然后我们可以对其进行解引用：
+在x64版本中，可以使用类似mimikatz的**签名搜索**技术直接在**`libcorclr.dll`**中搜索对符号**`_hlpDynamicFuncTable`**的引用，并进行解引用：
 
 <figure><img src="../../../.gitbook/assets/image (1) (3).png" alt=""><figcaption></figcaption></figure>
 
-现在只需要找到一个地址来开始我们的签名搜索。为此，我们利用另一个暴露的调试器函数**`MT_GetDCB`**。它返回目标进程的一些有用信息，但对于我们的情况，我们对返回的字段感兴趣，其中包含一个辅助函数的地址**`m_helperRemoteStartAddr`**。使用这个地址，我们知道**`libcorclr.dll`在目标进程内存中的位置**，可以开始搜索DFT。
+现在只需要找到一个地址来开始我们的签名搜索。为此，我们利用另一个公开的调试器函数**`MT_GetDCB`**。它返回目标进程的一些有用信息，但对于我们的情况，我们对返回的一个包含**辅助函数地址**的字段感兴趣，即**`m_helperRemoteStartAddr`**。使用这个地址，我们知道**`libcorclr.dll`在目标进程内存中的位置**，可以开始搜索DFT。
 
-知道了这个地址，就可以用我们的shellcode覆盖函数指针。
+知道了这个地址，就可以用我们的shellcode覆写函数指针。
 
 完整的用于注入到PowerShell的POC代码可以在[这里](https://gist.github.com/xpn/b427998c8b3924ab1d63c89d273734b6)找到。
 
@@ -189,7 +189,7 @@ vmmap -pages 35829 | grep "rwx/rwx"
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在一家**网络安全公司**工作吗？想要在HackTricks中**为你的公司做广告**吗？或者你想要**获取最新版本的PEASS或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFT收藏品**](https://opensea.io/collection/the-peass-family)——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
