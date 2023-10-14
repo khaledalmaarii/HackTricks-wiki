@@ -16,7 +16,7 @@
 
 ## Gatekeeper
 
-**Gatekeeper**是为Mac操作系统开发的一项安全功能，旨在确保用户在其系统上**只运行可信任的软件**。它通过**验证用户从App Store以外的来源下载并尝试打开的软件**（如应用程序、插件或安装程序包）来实现。
+**Gatekeeper**是为Mac操作系统开发的安全功能，旨在确保用户在其系统上**只运行可信任的软件**。它通过**验证用户从App Store以外的来源下载并尝试打开的软件**（如应用程序、插件或安装程序包）来实现。
 
 Gatekeeper的关键机制在于其**验证**过程。它检查下载的软件是否由**已知开发者签名**，以确保软件的真实性。此外，它还确定软件是否经过了**Apple的公证**，以确认其不包含已知的恶意内容，并且在公证后没有被篡改。
 
@@ -28,7 +28,7 @@ Gatekeeper的关键机制在于其**验证**过程。它检查下载的软件是
 
 以下是其工作原理：
 
-1. **签署应用程序：**当开发者准备分发他们的应用程序时，他们使用一个私钥对应用程序进行**签名**。这个私钥与开发者在加入Apple开发者计划时获得的**证书相关联**。签名过程涉及对应用程序的所有部分创建一个加密哈希，并使用开发者的私钥对该哈希进行加密。
+1. **签署应用程序：**当开发者准备分发他们的应用程序时，他们使用一个私钥对应用程序进行**签名**。这个私钥与开发者在加入Apple开发者计划时获得的**证书**相关联。签名过程涉及对应用程序的所有部分创建一个加密哈希，并使用开发者的私钥对该哈希进行加密。
 2. **分发应用程序：**签名的应用程序随附开发者的证书一起分发给用户，该证书包含相应的公钥。
 3. **验证应用程序：**当用户下载并尝试运行应用程序时，他们的Mac操作系统使用开发者证书中的公钥解密哈希。然后，它根据应用程序的当前状态重新计算哈希，并将其与解密的哈希进行比较。如果它们匹配，这意味着**应用程序自开发者签名以来没有被修改**，系统允许应用程序运行。
 
@@ -148,10 +148,10 @@ spctl --assess -v /Applications/App.app
 
 当用户尝试执行文件时，**检疫标志的存在会触发 macOS 的 Gatekeeper 安全功能**。
 
-在没有检疫标志的情况下（例如通过某些 BitTorrent 客户端下载的文件），Gatekeeper 的检查可能不会执行。因此，用户在打开从不安全或未知来源下载的文件时应谨慎。
+在没有检疫标志的情况下（例如通过某些 BitTorrent 客户端下载的文件），Gatekeeper 的检查可能不会执行。因此，用户在打开从不太安全或未知来源下载的文件时应谨慎。
 
 {% hint style="info" %}
-**验证**代码签名的有效性是一个**资源密集型**的过程，其中包括生成代码及其所有捆绑资源的加密哈希。此外，检查证书的有效性还涉及在线检查苹果服务器，以查看其是否在签发后被吊销。出于这些原因，每次启动应用程序时运行完整的代码签名和公证检查是**不切实际的**。
+**验证**代码签名的有效性是一个**资源密集型**的过程，其中包括生成代码及其所有捆绑资源的加密哈希。此外，检查证书的有效性还涉及在线检查苹果的服务器，以查看其是否在发放后被吊销。出于这些原因，每次启动应用程序时运行完整的代码签名和公证检查是**不切实际的**。
 
 因此，这些检查仅在执行带有检疫属性的应用程序时运行。
 {% endhint %}
@@ -159,7 +159,7 @@ spctl --assess -v /Applications/App.app
 {% hint style="warning" %}
 此属性必须由创建/下载文件的应用程序**设置**。
 
-但是，沙盒化的文件将为它们创建的每个文件设置此属性。非沙盒化的应用程序可以自行设置此属性，或者在 **Info.plist** 中指定 [**LSFileQuarantineEnabled**](https://developer.apple.com/documentation/bundleresources/information\_property\_list/lsfilequarantineenabled?language=objc) 键，系统将在创建的文件上设置 `com.apple.quarantine` 扩展属性。
+但是，沙盒化的文件将为它们创建的每个文件设置此属性。非沙盒化的应用程序可以自行设置它，或者在 **Info.plist** 中指定 [**LSFileQuarantineEnabled**](https://developer.apple.com/documentation/bundleresources/information\_property\_list/lsfilequarantineenabled?language=objc) 键，系统将在创建的文件上设置 `com.apple.quarantine` 扩展属性。
 {% endhint %}
 
 可以使用以下命令**检查其状态并启用/禁用**（需要 root 权限）：
@@ -225,18 +225,18 @@ system_profiler SPInstallHistoryDataType 2>/dev/null | grep -A 4 "XProtectPlistC
 ```
 {% endcode %}
 
-XProtect位于SIP保护的位置**/Library/Apple/System/Library/CoreServices/XProtect.bundle**，在该bundle中，您可以找到XProtect使用的信息：
+XProtect位于SIP保护的位置**/Library/Apple/System/Library/CoreServices/XProtect.bundle**，在该捆绑包中，您可以找到XProtect使用的信息：
 
 * **`XProtect.bundle/Contents/Resources/LegacyEntitlementAllowlist.plist`**：允许具有这些cdhashes的代码使用旧版授权。
 * **`XProtect.bundle/Contents/Resources/XProtect.meta.plist`**：禁止通过BundleID和TeamID加载的插件和扩展列表，或指示最低版本。
 * **`XProtect.bundle/Contents/Resources/XProtect.yara`**：用于检测恶意软件的Yara规则。
 * **`XProtect.bundle/Contents/Resources/gk.db`**：包含被阻止的应用程序和TeamID的哈希的SQLite3数据库。
 
-请注意，还有另一个与XProtect相关的应用程序**`/Library/Apple/System/Library/CoreServices/XProtect.app`**，在运行应用程序时不会涉及它。
+请注意，还有一个与XProtect相关的应用程序**`/Library/Apple/System/Library/CoreServices/XProtect.app`**，在运行应用程序时不会涉及该应用程序。
 
 ## Gatekeeper绕过
 
-任何绕过Gatekeeper的方式（成功让用户下载并在Gatekeeper应该禁止的情况下执行）都被视为macOS中的漏洞。以下是一些过去允许绕过Gatekeeper的技术所分配的CVE：
+任何绕过Gatekeeper的方式（即使用户下载并在Gatekeeper应该禁止的情况下执行）都被视为macOS中的漏洞。以下是一些CVE分配给过去允许绕过Gatekeeper的技术：
 
 ### [CVE-2021-1810](https://labs.withsecure.com/publications/the-discovery-of-cve-2021-1810)
 
@@ -246,9 +246,9 @@ XProtect位于SIP保护的位置**/Library/Apple/System/Library/CoreServices/XPr
 
 ### [CVE-2021-30990](https://ronmasas.com/posts/bypass-macos-gatekeeper)
 
-当使用**Automator**创建应用程序时，关于其执行所需的信息位于`application.app/Contents/document.wflow`而不是可执行文件中。可执行文件只是一个名为**Automator Application Stub**的通用Automator二进制文件。
+当使用**Automator**创建应用程序时，有关其执行所需的信息位于`application.app/Contents/document.wflow`而不是可执行文件中。可执行文件只是一个名为**Automator Application Stub**的通用Automator二进制文件。
 
-因此，您可以使`application.app/Contents/MacOS/Automator\ Application\ Stub` **通过符号链接指向系统中的另一个Automator Application Stub**，它将执行`document.wflow`中的内容（您的脚本），而不会触发Gatekeeper，因为实际的可执行文件没有隔离属性。
+因此，您可以使`application.app/Contents/MacOS/Automator\ Application\ Stub`**通过符号链接指向系统中的另一个Automator Application Stub**，它将执行`document.wflow`中的内容（您的脚本），而不会触发Gatekeeper，因为实际的可执行文件没有隔离属性。
 
 示例预期位置：`/System/Library/CoreServices/Automator\ Application\ Stub.app/Contents/MacOS/Automator\ Application\ Stub`
 
@@ -264,7 +264,7 @@ zip -r test.app/Contents test.zip
 
 ### [CVE-2022-32910](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-32910)
 
-即使组件不同，利用此漏洞的方法与之前的漏洞非常相似。在这种情况下，我们将从**`application.app/Contents`**生成一个Apple Archive，因此**`application.app`在被**Archive Utility**解压缩时不会获得隔离属性**。
+即使组件不同，利用此漏洞的方式与之前的漏洞非常相似。在这种情况下，我们将从**`application.app/Contents`**生成一个Apple Archive，因此**`application.app`在被**Archive Utility**解压缩时不会获得隔离属性**。
 ```bash
 aa archive -d test.app/Contents -o test.app.aar
 ```
