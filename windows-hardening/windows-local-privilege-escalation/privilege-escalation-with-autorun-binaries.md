@@ -12,9 +12,9 @@
 
 </details>
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
-Si vous êtes intéressé par une **carrière de piratage** et souhaitez pirater l'impossible - **nous recrutons !** (_maîtrise du polonais écrit et parlé requise_).
+Si vous êtes intéressé par une **carrière en piratage** et souhaitez pirater l'impossible - **nous recrutons !** (_maîtrise du polonais écrit et parlé requise_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
@@ -92,11 +92,11 @@ Les clés de registre Run et RunOnce font en sorte que les programmes s'exécute
 Il n'est pas créé par défaut sur Windows Vista et les versions ultérieures. Les entrées de clé de registre Run peuvent faire référence directement à des programmes ou les répertorier comme une dépendance. Par exemple, il est possible de charger une DLL lors de la connexion en utilisant une clé "Depend" avec RunOnceEx : `reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnceEx\0001\Depend /v 1 /d "C:\temp\evil[.]dll"`
 
 {% hint style="info" %}
-**Exploit 1** : Si vous pouvez écrire dans l'un des registres mentionnés dans **HKLM**, vous pouvez escalader les privilèges lorsqu'un utilisateur différent se connecte.
+**Exploit 1** : Si vous pouvez écrire dans l'un des registres mentionnés dans **HKLM**, vous pouvez élever les privilèges lorsqu'un utilisateur différent se connecte.
 {% endhint %}
 
 {% hint style="info" %}
-**Exploit 2** : Si vous pouvez écraser l'un des binaires indiqués dans l'un des registres de **HKLM**, vous pouvez modifier ce binaire avec une porte dérobée lorsqu'un utilisateur différent se connecte et escalader les privilèges.
+**Exploit 2** : Si vous pouvez écraser l'un des binaires indiqués dans l'un des registres de **HKLM**, vous pouvez modifier ce binaire avec une porte dérobée lorsqu'un utilisateur différent se connecte et élever les privilèges.
 {% endhint %}
 ```bash
 #CMD
@@ -241,9 +241,9 @@ Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Co
 * `HKCU\SOFTWARE\Microsoft\Active Setup\Installed Components`
 * `HKCU\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components`
 
-Active Setup s'exécute avant l'apparition du bureau. Les commandes lancées par Active Setup s'exécutent de manière synchrone, bloquant la connexion pendant leur exécution. Active Setup est exécuté avant que les entrées de registre Run ou RunOnce ne soient évaluées.
+Active Setup s'exécute avant l'apparition du bureau. Les commandes lancées par Active Setup s'exécutent de manière synchrone, bloquant la connexion jusqu'à ce qu'elles soient exécutées. Active Setup est exécuté avant l'évaluation des entrées de registre Run ou RunOnce.
 
-À l'intérieur de ces clés, vous trouverez d'autres clés et chacune d'entre elles contiendra des paires clé-valeur intéressantes. Les plus intéressantes sont :
+À l'intérieur de ces clés, vous trouverez d'autres clés, chacune contenant des valeurs clés intéressantes. Les plus intéressantes sont :
 
 * **IsInstalled :**
 * 0 : La commande du composant ne s'exécutera pas.
@@ -333,9 +333,9 @@ Trouvez plus d'Autoruns comme les registres dans [https://www.microsoftpressstor
 * [https://attack.mitre.org/techniques/T1547/001/](https://attack.mitre.org/techniques/T1547/001/)
 * [https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2](https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2)
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
-Si vous êtes intéressé par une **carrière de hacking** et souhaitez pirater l'impossible - **nous recrutons !** (_maîtrise du polonais écrit et parlé requise_).
+Si vous êtes intéressé par une **carrière de hacking** et souhaitez pirater l'impossible - **nous recrutons !** (_maîtrise du polonais à l'écrit et à l'oral requise_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
@@ -344,7 +344,7 @@ Si vous êtes intéressé par une **carrière de hacking** et souhaitez pirater 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).

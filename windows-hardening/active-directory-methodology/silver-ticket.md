@@ -12,7 +12,7 @@
 
 </details>
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
 Si vous êtes intéressé par une **carrière de piratage** et que vous voulez pirater l'impossible - **nous recrutons !** (_maîtrise du polonais écrit et parlé requise_).
 
@@ -24,7 +24,7 @@ L'attaque du ticket d'argent est basée sur **la création d'un TGS valide pour 
 
 Dans ce cas, le **hachage NTLM d'un compte d'ordinateur** (qui est une sorte de compte utilisateur dans AD) est **possédé**. Par conséquent, il est possible de **créer** un **ticket** afin de **pénétrer dans cette machine** avec des privilèges d'**administrateur** via le service SMB. Les comptes d'ordinateur réinitialisent leurs mots de passe tous les 30 jours par défaut.
 
-Il faut également prendre en compte qu'il est possible ET **PRÉFÉRABLE** (opsec) de **falsifier des tickets en utilisant les clés Kerberos AES (AES128 et AES256)**. Pour savoir comment générer une clé AES, consultez : [section 4.4 de MS-KILE](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-kile/936a4878-9462-4753-aac8-087cd3ca4625) ou le [Get-KerberosAESKey.ps1](https://gist.github.com/Kevin-Robertson/9e0f8bfdbf4c1e694e6ff4197f0a4372).
+Il faut également prendre en compte qu'il est possible ET **PRÉFÉRABLE** (opsec) de **falsifier des tickets en utilisant les clés AES Kerberos (AES128 et AES256)**. Pour savoir comment générer une clé AES, consultez : [section 4.4 de MS-KILE](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-kile/936a4878-9462-4753-aac8-087cd3ca4625) ou le [Get-KerberosAESKey.ps1](https://gist.github.com/Kevin-Robertson/9e0f8bfdbf4c1e694e6ff4197f0a4372).
 
 {% code title="Linux" %}
 ```bash
@@ -158,7 +158,7 @@ mimikatz(commandline) # lsadump::dcsync /dc:pcdc.domain.local /domain:domain.loc
 [dcsync.md](dcsync.md)
 {% endcontent-ref %}
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
 Si vous êtes intéressé par une **carrière de piratage** et souhaitez pirater l'impossible - **nous recrutons !** (_maîtrise du polonais écrit et parlé requise_).
 

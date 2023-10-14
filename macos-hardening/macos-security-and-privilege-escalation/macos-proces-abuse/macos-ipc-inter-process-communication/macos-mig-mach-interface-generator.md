@@ -1,10 +1,10 @@
-# Générateur d'interface MIG pour macOS
+# macOS MIG - Générateur d'interface Mach
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? Ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -191,31 +191,32 @@ mach_msg_server(myipc_server, sizeof(union __RequestUnion__SERVERPREFmyipc_subsy
 ```c
 #include <stdio.h>
 #include <stdlib.h>
-#include <servers/bootstrap.h>
+#include <mach/mach.h>
 #include "myipc.h"
 
 int main(int argc, char *argv[]) {
     mach_port_t server_port;
     kern_return_t kr;
-    char *message = "Hello, server!";
-    char reply[256];
+    int val = 0;
 
-    // Look up the server port
+    if (argc != 2) {
+        printf("Usage: %s <value>\n", argv[0]);
+        return 1;
+    }
+
+    val = atoi(argv[1]);
+
     kr = bootstrap_look_up(bootstrap_port, "com.example.myipc_server", &server_port);
     if (kr != KERN_SUCCESS) {
-        fprintf(stderr, "Failed to look up server port: %s\n", mach_error_string(kr));
-        exit(1);
+        printf("Failed to look up server port: %s\n", mach_error_string(kr));
+        return 1;
     }
 
-    // Send a message to the server
-    kr = myipc_send_message(server_port, message, reply, sizeof(reply));
+    kr = myipc_client_send_value(server_port, val);
     if (kr != KERN_SUCCESS) {
-        fprintf(stderr, "Failed to send message: %s\n", mach_error_string(kr));
-        exit(1);
+        printf("Failed to send value: %s\n", mach_error_string(kr));
+        return 1;
     }
-
-    // Print the server's reply
-    printf("Server replied: %s\n", reply);
 
     return 0;
 }
@@ -255,7 +256,7 @@ Comme de nombreux binaires utilisent désormais MIG pour exposer des ports mach,
 ```bash
 jtool2 -d __DATA.__const myipc_server | grep MIG
 ```
-Il a été mentionné précédemment que la fonction qui se chargera d'**appeler la fonction correcte en fonction de l'ID du message reçu** était `myipc_server`. Cependant, vous n'aurez généralement pas les symboles du binaire (pas de noms de fonctions), il est donc intéressant de **vérifier à quoi cela ressemble décompilé** car cela sera toujours très similaire (le code de cette fonction est indépendant des fonctions exposées) :
+Il a été mentionné précédemment que la fonction qui se chargera d'**appeler la fonction correcte en fonction de l'ID du message reçu** était `myipc_server`. Cependant, vous n'aurez généralement pas les symboles du binaire (pas de noms de fonctions), il est donc intéressant de **vérifier à quoi ressemble la décompilation** car elle sera toujours très similaire (le code de cette fonction est indépendant des fonctions exposées) :
 
 {% tabs %}
 {% tab title="myipc_server décompilé 1" %}
@@ -277,7 +278,7 @@ rax = *(int32_t *)(var_10 + 0x14);
 // 0x1f4 = 500 (l'ID de départ)
 <strong>            rax = *(sign_extend_64(rax - 0x1f4) * 0x28 + 0x100004040);
 </strong>            var_20 = rax;
-// If - else, le if renvoie false, tandis que le else appelle la bonne fonction et renvoie true
+// Si - sinon, le si renvoie false, tandis que le sinon appelle la bonne fonction et renvoie true
 <strong>            if (rax == 0x0) {
 </strong>                    *(var_18 + 0x18) = **_NDR_record;
 *(int32_t *)(var_18 + 0x20) = 0xfffffffffffffed1;
@@ -344,7 +345,7 @@ if (CPU_FLAGS &#x26; NE) {
 r8 = 0x1;
 }
 }
-// Même if else que dans la version précédente
+// Même si sinon que dans la version précédente
 // Vérifiez l'utilisation de l'adresse 0x100004040 (tableau des adresses des fonctions)
 <strong>                    if ((r8 &#x26; 0x1) == 0x0) {
 </strong><strong>                            *(var_18 + 0x18) = **0x100004000;
@@ -378,9 +379,9 @@ return r0;
 
 En fait, si vous allez à la fonction **`0x100004000`**, vous trouverez le tableau des structures **`routine_descriptor`**, le premier élément de la structure est l'adresse où la fonction est implémentée et la **structure prend 0x28 octets**, donc tous les 0x28 octets (à partir de l'octet 0) vous pouvez obtenir 8 octets et cela sera l'**adresse de la fonction** qui sera appelée :
 
-<figure><img src="../../../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
-
 <figure><img src="../../../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+
+<figure><img src="../../../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Ces données peuvent être extraites [**en utilisant ce script Hopper**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py).
 

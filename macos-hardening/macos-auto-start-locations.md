@@ -115,11 +115,11 @@ Writeup (xterm): [https://theevilbit.github.io/beyond/beyond\_0018/](https://the
 * `/etc/profile` (n'a pas fonctionné)
 * `~/.profile` (n'a pas fonctionné)
 * `~/.xinitrc`, `~/.xserverrc`, `/opt/X11/etc/X11/xinit/xinitrc.d/`
-* **Déclencheur**: Censé être déclenché avec xterm, mais il **n'est pas installé** et même après l'installation, cette erreur est affichée: xterm: `DISPLAY is not set`
+* **Déclencheur**: Censé être déclenché avec xterm, mais il **n'est pas installé** et même après l'installation, cette erreur est affichée : xterm: `DISPLAY is not set`
 
 #### Description et exploitation
 
-Les fichiers de démarrage du shell sont exécutés lorsque notre environnement shell comme `zsh` ou `bash` est en train de **démarrer**. De nos jours, macOS utilise par défaut `/bin/zsh`, et **chaque fois que nous ouvrons `Terminal` ou nous connectons en SSH** sur l'appareil, c'est l'environnement shell dans lequel nous sommes placés. `bash` et `sh` sont toujours disponibles, mais ils doivent être spécifiquement démarrés.
+Les fichiers de démarrage du shell sont exécutés lorsque notre environnement de shell comme `zsh` ou `bash` est en train de **démarrer**. De nos jours, macOS utilise par défaut `/bin/zsh`, et **chaque fois que nous ouvrons `Terminal` ou nous connectons en SSH** sur l'appareil, c'est l'environnement de shell dans lequel nous sommes placés. `bash` et `sh` sont toujours disponibles, mais ils doivent être spécifiquement démarrés.
 
 La page de manuel de zsh, que nous pouvons lire avec **`man zsh`**, contient une longue description des fichiers de démarrage.
 ```bash
@@ -147,7 +147,7 @@ Toutes les applications à réouvrir se trouvent dans le plist `~/Library/Prefer
 
 Ainsi, pour que les applications réouvertes lancent votre propre application, vous devez simplement **ajouter votre application à la liste**.
 
-L'UUID peut être trouvé en répertoriant ce répertoire ou avec `ioreg -rd1 -c IOPlatformExpertDevice | awk -F'"' '/IOPlatformUUID/{print $4}'`
+L'UUID peut être trouvé en listant ce répertoire ou avec `ioreg -rd1 -c IOPlatformExpertDevice | awk -F'"' '/IOPlatformUUID/{print $4}'`
 
 Pour vérifier les applications qui seront réouvertes, vous pouvez exécuter :
 ```bash
@@ -167,16 +167,16 @@ Pour **ajouter une application à cette liste**, vous pouvez utiliser :
 ```
 ### Préférences du Terminal
 
-* Utile pour contourner le sandbox: [✅](https://emojipedia.org/check-mark-button)
+* Utile pour contourner le sandbox : [✅](https://emojipedia.org/check-mark-button)
 
 #### Emplacement
 
 * **`~/Library/Preferences/com.apple.Terminal.plist`**
-* **Déclencheur**: Ouvrir le Terminal
+* **Déclencheur** : Ouvrir le Terminal
 
 #### Description et Exploitation
 
-Dans **`~/Library/Preferences`**, sont stockées les préférences de l'utilisateur dans les applications. Certaines de ces préférences peuvent contenir une configuration pour **exécuter d'autres applications/scripts**.
+Dans **`~/Library/Preferences`** sont stockées les préférences de l'utilisateur dans les applications. Certaines de ces préférences peuvent contenir une configuration pour **exécuter d'autres applications/scripts**.
 
 Par exemple, le Terminal peut exécuter une commande au démarrage :
 
@@ -215,7 +215,7 @@ Vous pouvez l'ajouter depuis la ligne de commande avec :
 
 ### Scripts du Terminal
 
-* Utiles pour contourner le sandbox : [✅](https://emojipedia.org/check-mark-button)
+* Utile pour contourner le sandbox : [✅](https://emojipedia.org/check-mark-button)
 
 #### Emplacement
 
@@ -345,29 +345,29 @@ defaults delete com.apple.loginwindow LogoutHook
 ```
 L'utilisateur root est stocké dans **`/private/var/root/Library/Preferences/com.apple.loginwindow.plist`**
 
-## Contournement conditionnel du sandbox
+## Contournement conditionnel de la sandbox
 
 {% hint style="success" %}
-Ici, vous pouvez trouver des emplacements de démarrage utiles pour contourner le sandbox, ce qui vous permet d'exécuter simplement quelque chose en l'écrivant dans un fichier et en vous attendant à des conditions pas super courantes comme des programmes spécifiques installés, des actions ou des environnements utilisateur "non courants".
+Ici, vous pouvez trouver des emplacements de démarrage utiles pour contourner la sandbox, ce qui vous permet d'exécuter simplement quelque chose en l'écrivant dans un fichier et en vous attendant à des conditions pas super courantes comme des programmes spécifiques installés, des actions ou des environnements d'utilisateur "non courants".
 {% endhint %}
 
 ### Cron
 
 **Writeup**: [https://theevilbit.github.io/beyond/beyond\_0004/](https://theevilbit.github.io/beyond/beyond\_0004/)
 
-* Utile pour contourner le sandbox: [✅](https://emojipedia.org/check-mark-button)
+* Utile pour contourner la sandbox : [✅](https://emojipedia.org/check-mark-button)
 * Cependant, vous devez être capable d'exécuter le binaire `crontab`
 * Ou être root
 
 #### Emplacement
 
 * **`/usr/lib/cron/tabs/`, `/private/var/at/tabs`, `/private/var/at/jobs`, `/etc/periodic/`**
-* Accès en écriture directe nécessitant les droits root. Aucun accès root requis si vous pouvez exécuter `crontab <fichier>`
-* **Déclencheur**: Dépend de la tâche cron
+* Accès en écriture directe nécessitant les droits root. Aucun droit root requis si vous pouvez exécuter `crontab <fichier>`
+* **Déclencheur** : Dépend de la tâche cron
 
 #### Description et exploitation
 
-Listez les tâches cron de l'**utilisateur actuel** avec:
+Listez les tâches cron de l'**utilisateur actuel** avec :
 ```bash
 crontab -l
 ```
@@ -500,7 +500,7 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0006/](https://theevilbit.
 
 #### Description et Exploitation
 
-Par défaut, sauf si `PermitUserRC no` est spécifié dans `/etc/ssh/sshd_config`, lorsque qu'un utilisateur se **connecte via SSH**, les scripts **`/etc/ssh/sshrc`** et **`~/.ssh/rc`** seront exécutés.
+Par défaut, sauf si `PermitUserRC no` est spécifié dans `/etc/ssh/sshd_config`, lorsque qu'un utilisateur se connecte via SSH, les scripts **`/etc/ssh/sshrc`** et **`~/.ssh/rc`** seront exécutés.
 
 #### Description
 
@@ -629,7 +629,7 @@ Le nom de fichier contient la file d'attente, le numéro de tâche et l'heure à
 
 * `a` - c'est la file d'attente
 * `0001a` - numéro de tâche en hexadécimal, `0x1a = 26`
-* `019bdcd2` - heure en hexadécimal. Il représente les minutes écoulées depuis l'époque. `0x019bdcd2` est `26991826` en décimal. Si nous le multiplions par 60, nous obtenons `1619509560`, qui est `GMT: 27 avril 2021, mardi 7:46:00`.
+* `019bdcd2` - heure en hexadécimal. Il représente les minutes écoulées depuis l'époque. `0x019bdcd2` est `26991826` en décimal. Si nous le multiplions par 60, nous obtenons `1619509560`, qui est `GMT: 27 avril 2021, mardi 7h46`.
 
 Si nous imprimons le fichier de tâche, nous constatons qu'il contient les mêmes informations que celles obtenues avec `at -c`.
 
@@ -638,7 +638,7 @@ Si nous imprimons le fichier de tâche, nous constatons qu'il contient les même
 Writeup: [https://theevilbit.github.io/beyond/beyond\_0024/](https://theevilbit.github.io/beyond/beyond\_0024/)\
 Writeup: [https://posts.specterops.io/folder-actions-for-persistence-on-macos-8923f222343d](https://posts.specterops.io/folder-actions-for-persistence-on-macos-8923f222343d)
 
-* Utile pour contourner le sandbox: [✅](https://emojipedia.org/check-mark-button)
+* Utile pour contourner le bac à sable: [✅](https://emojipedia.org/check-mark-button)
 * Mais vous devez être capable d'appeler osascript avec des arguments et de configurer les actions de dossier
 
 #### Emplacement
@@ -651,22 +651,22 @@ Writeup: [https://posts.specterops.io/folder-actions-for-persistence-on-macos-89
 
 #### Description et exploitation
 
-Un script d'action de dossier est exécuté lorsque des éléments sont ajoutés ou supprimés dans le dossier auquel il est attaché, ou lorsque sa fenêtre est ouverte, fermée, déplacée ou redimensionnée :
+Un script d'action de dossier est exécuté lorsque le dossier auquel il est attaché a des éléments ajoutés ou supprimés, ou lorsque sa fenêtre est ouverte, fermée, déplacée ou redimensionnée:
 
 * Ouvrir le dossier via l'interface utilisateur du Finder
 * Ajouter un fichier au dossier (peut être fait par glisser-déposer ou même dans une invite de commande depuis un terminal)
 * Supprimer un fichier du dossier (peut être fait par glisser-déposer ou même dans une invite de commande depuis un terminal)
 * Naviguer hors du dossier via l'interface utilisateur
 
-Il existe plusieurs façons de mettre en œuvre cela :
+Il existe plusieurs façons de mettre en œuvre cela:
 
 1. Utiliser le programme [Automator](https://support.apple.com/guide/automator/welcome/mac) pour créer un fichier de flux de travail d'action de dossier (.workflow) et l'installer en tant que service.
-2. Clic droit sur un dossier, sélectionner `Configuration des actions de dossier...`, `Exécuter le service` et attacher manuellement un script.
+2. Clic droit sur un dossier, sélectionnez `Configuration des actions de dossier...`, `Exécuter le service` et attachez manuellement un script.
 3. Utiliser OSAScript pour envoyer des messages Apple Event à l'application `System Events.app` pour interroger et enregistrer de manière programmée une nouvelle `Action de dossier`.
 
 * C'est la façon de mettre en œuvre la persistance en utilisant un script OSAScript pour envoyer des messages Apple Event à `System Events.app`
 
-Voici le script qui sera exécuté :
+Voici le script qui sera exécuté:
 
 {% code title="source.js" %}
 ```applescript
@@ -767,7 +767,7 @@ Article : [https://theevilbit.github.io/beyond/beyond\_0027/](https://theevilbit
 #### Emplacement
 
 * `~/Library/Preferences/com.apple.dock.plist`
-* **Déclencheur** : Lorsque l'utilisateur clique sur l'application dans le dock
+* **Déclencheur** : lorsque l'utilisateur clique sur l'application dans le dock
 
 #### Description et exploitation
 
@@ -912,7 +912,7 @@ Writeup: [https://posts.specterops.io/saving-your-access-d562bf5bf90b](https://p
 * `~/Library/Screen Savers`
 * **Déclencheur** : Sélectionnez l'économiseur d'écran
 
-<figure><img src="../.gitbook/assets/image (1) (1).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1) (1).png" alt="" width="375"><figcaption></figcaption></figure>
 
 #### Description & Exploit
 
@@ -1076,7 +1076,7 @@ plutil -p /Library/Spotlight/iBooksAuthor.mdimporter/Contents/Info.plist
 [...]
 ```
 {% hint style="danger" %}
-Si vous vérifiez le Plist d'autres `mdimporter`, vous ne trouverez peut-être pas l'entrée **`UTTypeConformsTo`**. C'est parce que c'est un _Uniform Type Identifiers_ ([UTI](https://en.wikipedia.org/wiki/Uniform\_Type\_Identifier)) intégré et il n'a pas besoin de spécifier les extensions.
+Si vous vérifiez le Plist d'un autre `mdimporter`, vous ne trouverez peut-être pas l'entrée **`UTTypeConformsTo`**. C'est parce que c'est un _Uniform Type Identifiers_ ([UTI](https://en.wikipedia.org/wiki/Uniform\_Type\_Identifier)) intégré et il n'a pas besoin de spécifier les extensions.
 
 De plus, les plugins par défaut du système ont toujours la priorité, donc un attaquant ne peut accéder qu'aux fichiers qui ne sont pas indexés par les `mdimporters` d'Apple.
 {% endhint %}
@@ -1328,7 +1328,7 @@ Après avoir placé un nouveau répertoire dans l'un de ces deux emplacements, *
 </dict>
 </plist>
 ```
-{% tab title="superservicename" %}
+{% tab title="superservicename" %}Le nom du super service
 ```bash
 #!/bin/sh
 . /etc/rc.common
@@ -1374,14 +1374,14 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0018/](https://theevilbit.
 * Nécessite les droits root
 * **Déclencheur**: Avec XQuartz
 
-#### Description & Exploitation
+#### Description & Exploit
 
 XQuartz n'est **plus installé dans macOS**, donc si vous voulez plus d'informations, consultez le writeup.
 
 ### ~~kext~~
 
 {% hint style="danger" %}
-Il est si compliqué d'installer un kext même en tant que root que je ne le considérerai pas comme une échappatoire aux sandbox ou même pour la persistance (à moins que vous ayez une exploitation)
+Il est si compliqué d'installer un kext même en tant que root que je ne le considérerai pas pour échapper aux sandbox ou même pour la persistance (à moins que vous ayez une exploit)
 {% endhint %}
 
 #### Emplacement
@@ -1393,7 +1393,7 @@ Pour installer un KEXT en tant qu'élément de démarrage, il doit être **insta
 * `/Library/Extensions`
 * Fichiers KEXT installés par des logiciels tiers
 
-Vous pouvez répertorier les fichiers kext actuellement chargés avec:
+Vous pouvez lister les fichiers kext actuellement chargés avec:
 ```bash
 kextstat #List loaded kext
 kextload /path/to/kext.kext #Load a new one based on path

