@@ -1,4 +1,4 @@
-# Débogage et contournement du bac à sable macOS
+# Débogage et contournement du sandbox macOS
 
 <details>
 
@@ -12,34 +12,38 @@
 
 </details>
 
-## Processus de chargement du bac à sable
+## Processus de chargement du sandbox
 
 <figure><img src="../../../../../.gitbook/assets/image (2) (1) (2).png" alt=""><figcaption><p>Image de <a href="http://newosxbook.com/files/HITSB.pdf">http://newosxbook.com/files/HITSB.pdf</a></p></figcaption></figure>
 
-Sur l'image précédente, il est possible d'observer **comment le bac à sable sera chargé** lorsqu'une application avec l'attribution **`com.apple.security.app-sandbox`** est exécutée.
+Sur l'image précédente, il est possible d'observer **comment le sandbox sera chargé** lorsqu'une application avec l'entitlement **`com.apple.security.app-sandbox`** est exécutée.
 
 Le compilateur liera `/usr/lib/libSystem.B.dylib` au binaire.
 
-Ensuite, **`libSystem.B`** appellera plusieurs autres fonctions jusqu'à ce que **`xpc_pipe_routine`** envoie les attributions de l'application à **`securityd`**. Securityd vérifie si le processus doit être mis en quarantaine à l'intérieur du bac à sable, et le cas échéant, il sera mis en quarantaine.\
-Enfin, le bac à sable sera activé par un appel à **`__sandbox_ms`** qui appellera **`__mac_syscall`**.
+Ensuite, **`libSystem.B`** appellera plusieurs autres fonctions jusqu'à ce que **`xpc_pipe_routine`** envoie les entitlements de l'application à **`securityd`**. Securityd vérifie si le processus doit être mis en quarantaine à l'intérieur du sandbox, et le cas échéant, il sera mis en quarantaine.\
+Enfin, le sandbox sera activé par un appel à **`__sandbox_ms`** qui appellera **`__mac_syscall`**.
 
 ## Possibles contournements
 
 ### Contournement de l'attribut de quarantaine
 
-Les **fichiers créés par des processus en bac à sable** se voient attribuer l'**attribut de quarantaine** pour empêcher leur évasion du bac à sable. Cependant, si vous parvenez à **créer un bundle `.app` sans l'attribut de quarantaine** à l'intérieur d'une application en bac à sable, vous pourriez faire en sorte que le binaire du bundle d'application pointe vers **`/bin/bash`** et ajouter quelques variables d'environnement dans le **plist** pour abuser de launchctl afin de **lancer la nouvelle application sans bac à sable**.
+Les **fichiers créés par des processus sandbox** se voient attribuer l'**attribut de quarantaine** pour empêcher l'évasion du sandbox. Cependant, si vous parvenez à **créer un dossier `.app` sans l'attribut de quarantaine** à l'intérieur d'une application sandbox, vous pourriez faire en sorte que le binaire du bundle de l'application pointe vers **`/bin/bash`** et ajouter quelques variables d'environnement dans le **plist** pour abuser de la fonctionnalité **`open`** et **lancer la nouvelle application sans sandbox**.
 
-C'est ce qui a été fait dans [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)
+C'est ce qui a été fait dans [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)**.**
+
+{% hint style="danger" %}
+Par conséquent, pour le moment, si vous êtes simplement capable de créer un dossier portant un nom se terminant par **`.app`** sans attribut de quarantaine, vous pouvez échapper au sandbox car macOS ne **vérifie** que l'**attribut de quarantaine** dans le **dossier `.app`** et dans l'**exécutable principal** (et nous pointerons l'exécutable principal vers **`/bin/bash`**).
+{% endhint %}
 
 ### Abus de la fonctionnalité Open
 
-Dans les [**derniers exemples de contournement du bac à sable Word**](macos-office-sandbox-bypasses.md#word-sandbox-bypass-via-login-items-and-.zshenv), on peut voir comment la fonctionnalité **`open`** de la ligne de commande peut être utilisée pour contourner le bac à sable.
+Dans les [**derniers exemples de contournement du sandbox Word**](macos-office-sandbox-bypasses.md#word-sandbox-bypass-via-login-items-and-.zshenv), on peut voir comment la fonctionnalité **`open`** de la ligne de commande peut être abusée pour contourner le sandbox.
 
 ### Abus des emplacements de démarrage automatique
 
-Si un processus en bac à sable peut **écrire** dans un emplacement où **ultérieurement une application sans bac à sable va exécuter le binaire**, il pourra **s'échapper simplement en plaçant** le binaire là-bas. Un bon exemple de ce type d'emplacements sont `~/Library/LaunchAgents` ou `/System/Library/LaunchDaemons`.
+Si un processus sandbox peut **écrire** à un endroit où **plus tard une application sans sandbox va exécuter le binaire**, il pourra **s'échapper simplement en plaçant** le binaire là-bas. Un bon exemple de ce type d'emplacements sont `~/Library/LaunchAgents` ou `/System/Library/LaunchDaemons`.
 
-Pour cela, vous pourriez même avoir besoin de **2 étapes** : faire en sorte qu'un processus avec un **bac à sable plus permissif** (`file-read*`, `file-write*`) exécute votre code qui écrira effectivement à un endroit où il sera **exécuté sans bac à sable**.
+Pour cela, vous pourriez même avoir besoin de **2 étapes** : faire en sorte qu'un processus avec un sandbox **plus permissif** (`file-read*`, `file-write*`) exécute votre code qui écrira effectivement à un endroit où il sera **exécuté sans sandbox**.
 
 Consultez cette page sur les **emplacements de démarrage automatique** :
 
@@ -49,7 +53,7 @@ Consultez cette page sur les **emplacements de démarrage automatique** :
 
 ### Abus d'autres processus
 
-Si à partir du processus en bac à sable, vous parvenez à **compromettre d'autres processus** s'exécutant dans des bacs à sable moins restrictifs (ou sans bac à sable), vous pourrez vous échapper vers leurs bacs à sable :
+Si à partir du processus sandbox, vous êtes capable de **compromettre d'autres processus** s'exécutant dans des sandboxes moins restrictives (ou aucune), vous pourrez vous échapper vers leurs sandboxes :
 
 {% content-ref url="../../../macos-proces-abuse/" %}
 [macos-proces-abuse](../../../macos-proces-abuse/)
@@ -57,14 +61,13 @@ Si à partir du processus en bac à sable, vous parvenez à **compromettre d'aut
 
 ### Compilation statique et liaison dynamique
 
-[**Cette recherche**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/) a découvert 2 façons de contourner le bac à sable. Parce que le bac à sable est appliqué depuis l'espace utilisateur lorsque la bibliothèque **libSystem** est chargée. Si un binaire pouvait éviter de la charger, il ne serait jamais mis en bac à sable :
+[Cette recherche](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/) a découvert 2 façons de contourner le sandbox. Parce que le sandbox est appliqué depuis l'espace utilisateur lorsque la bibliothèque **libSystem** est chargée. Si un binaire pouvait éviter de la charger, il ne serait jamais mis en sandbox :
 
 * Si le binaire était **complètement compilé en statique**, il pourrait éviter de charger cette bibliothèque.
 * Si le **binaire n'avait pas besoin de charger de bibliothèques** (parce que le lien est également dans libSystem), il n'aurait pas besoin de charger libSystem.&#x20;
-
 ### Shellcodes
 
-Notez que **même les shellcodes** en ARM64 doivent être liés à `libSystem.dylib` :
+Notez que **même les shellcodes** en ARM64 doivent être liés à `libSystem.dylib`:
 ```bash
 ld -o shell shell.o -macosx_version_min 13.0
 ld: dynamic executables or dylibs must link with libSystem.dylib for architecture arm64
@@ -220,9 +223,7 @@ Dans le contexte du sandboxing, le fichier Info.plist est utilisé pour déclare
 
 Il est important de noter que le fichier Info.plist est signé numériquement pour garantir son intégrité et empêcher toute modification non autorisée. La signature numérique est vérifiée par le système d'exploitation lors du lancement de l'application.
 
-La modification du fichier Info.plist peut être utilisée comme une technique de contournement du sandboxing. En modifiant les autorisations déclarées dans le fichier Info.plist, un attaquant peut potentiellement accéder à des ressources système auxquelles l'application n'est pas censée avoir accès. Cependant, cette technique nécessite des privilèges élevés et peut être détectée par les mécanismes de sécurité du système d'exploitation.
-
-Il est donc essentiel de s'assurer que le fichier Info.plist est correctement configuré et que les autorisations déclarées sont appropriées pour l'application. Cela contribue à renforcer la sécurité du sandboxing et à prévenir les éventuelles violations de la sécurité.
+Lors de l'analyse d'une application macOS, il est essentiel de vérifier le contenu du fichier Info.plist pour comprendre les autorisations demandées par l'application et évaluer les risques potentiels liés à ces autorisations.
 ```xml
 <plist version="1.0">
 <dict>
@@ -332,10 +333,10 @@ libsystem_kernel.dylib`:
 (lldb) c
 Processus 2517 en cours de reprise
 Contournement du bac à sable réussi !
-Le processus 2517 s'est terminé avec le statut = 0 (0x00000000)
+Processus 2517 terminé avec le statut = 0 (0x00000000)
 ```
 {% hint style="warning" %}
-**Même si le Sandbox est contourné, TCC** demandera à l'utilisateur s'il souhaite autoriser le processus à lire les fichiers du bureau.
+**Même si le contournement du Sandbox est effectué, TCC** demandera à l'utilisateur s'il souhaite autoriser le processus à lire les fichiers du bureau.
 {% endhint %}
 
 ## Références

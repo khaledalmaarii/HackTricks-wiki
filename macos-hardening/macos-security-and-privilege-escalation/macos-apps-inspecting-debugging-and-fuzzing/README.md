@@ -137,9 +137,9 @@ Les paramètres que cette fonction attend sont :
 
 ### Swift
 
-Avec les binaires Swift, étant donné qu'il y a une compatibilité Objective-C, il est parfois possible d'extraire des déclarations à l'aide de [class-dump](https://github.com/nygard/class-dump/), mais pas toujours.
+Avec les binaires Swift, étant donné qu'il y a une compatibilité avec Objective-C, il est parfois possible d'extraire des déclarations à l'aide de [class-dump](https://github.com/nygard/class-dump/), mais pas toujours.
 
-Avec les lignes de commande **`jtool -l`** ou **`otool -l`**, il est possible de trouver plusieurs sections qui commencent par le préfixe **`__swift5`** :
+Avec les commandes **`jtool -l`** ou **`otool -l`**, il est possible de trouver plusieurs sections qui commencent par le préfixe **`__swift5`** :
 ```bash
 jtool2 -l /Applications/Stocks.app/Contents/MacOS/Stocks
 LC 00: LC_SEGMENT_64              Mem: 0x000000000-0x100000000    __PAGEZERO
@@ -199,7 +199,7 @@ En cliquant avec le bouton droit sur un objet de code, vous pouvez voir les **r�
 
 <figure><img src="../../../.gitbook/assets/image (1) (1) (2).png" alt=""><figcaption></figcaption></figure>
 
-De plus, dans la **partie inférieure centrale, vous pouvez écrire des commandes python**.
+De plus, dans la **partie inférieure du panneau central, vous pouvez écrire des commandes python**.
 
 #### Panneau de droite
 
@@ -207,7 +207,7 @@ Dans le panneau de droite, vous pouvez voir des informations intéressantes tell
 
 ### dtrace
 
-Il permet aux utilisateurs d'accéder aux applications à un niveau extrêmement **bas** et offre un moyen aux utilisateurs de **tracer** les **programmes** et même de modifier leur flux d'exécution. Dtrace utilise des **sondes** qui sont **placées dans tout le noyau** et se trouvent à des emplacements tels que le début et la fin des appels système.
+Il permet aux utilisateurs d'accéder aux applications à un niveau extrêmement **bas** et offre un moyen aux utilisateurs de **tracer** les **programmes** et même de modifier leur flux d'exécution. DTrace utilise des **sondes** qui sont **placées dans tout le noyau** et se trouvent à des emplacements tels que le début et la fin des appels système.
 
 DTrace utilise la fonction **`dtrace_probe_create`** pour créer une sonde pour chaque appel système. Ces sondes peuvent être déclenchées au **point d'entrée et de sortie de chaque appel système**. L'interaction avec DTrace se fait via /dev/dtrace, qui n'est disponible que pour l'utilisateur root.
 
@@ -262,7 +262,7 @@ Fuzzing is a technique used to discover vulnerabilities in software by providing
 
 ## Conclusion
 
-Inspecting, debugging, and fuzzing MacOS apps are crucial steps in the process of identifying and mitigating security vulnerabilities. By understanding the inner workings of an application and analyzing its runtime behavior, we can uncover potential weaknesses and improve the overall security of MacOS apps.
+Inspecting, debugging, and fuzzing MacOS apps are crucial steps in the process of identifying and fixing vulnerabilities. By understanding the inner workings of an application, analyzing its runtime behavior, and testing it with unexpected inputs, we can uncover potential security issues and ensure the overall security of MacOS applications.
 
 ---
 
@@ -310,11 +310,19 @@ sudo dtrace -s syscalls_info.d -c "cat /etc/hosts"
 
 To use `dtruss`, you need to specify the target application's process ID (PID) or its name. Once `dtruss` is attached to the target application, it intercepts and displays the system calls made by the application, along with their arguments and return values.
 
-The output of `dtruss` can be overwhelming, especially for complex applications. To filter the output and focus on specific system calls or functions, you can use various options and filters provided by `dtruss`.
+Here's an example of how to use `dtruss`:
 
-`dtruss` can be a powerful tool for understanding how an application interacts with the underlying macOS system, identifying potential security vulnerabilities, and troubleshooting issues. However, it should be used responsibly and with proper authorization, as it can also be used for malicious purposes.
+```bash
+$ sudo dtruss -p <PID>
+```
 
-**Note:** `dtruss` requires root privileges to attach to system processes.
+Replace `<PID>` with the process ID of the target application. Running `dtruss` with root privileges (`sudo`) is necessary to trace system calls made by other processes.
+
+`dtruss` can be a powerful tool for understanding how an application interacts with the underlying macOS system. By inspecting the system calls, you can gain insights into the application's behavior, identify potential vulnerabilities, and debug issues.
+
+However, it's important to note that `dtruss` should be used responsibly and ethically. Unauthorized use of `dtruss` or any other debugging tool to access or manipulate sensitive information is illegal and can lead to severe consequences.
+
+Keep in mind that `dtruss` is just one of many tools available for inspecting and debugging macOS applications. Depending on your specific needs, you may also want to explore other tools and techniques for analyzing application behavior and security.
 ```bash
 dtruss -c ls #Get syscalls of ls
 dtruss -c -p 1000 #get syscalls of PID 1000
@@ -329,13 +337,20 @@ ktrace trace -s -S -t c -c ls | grep "ls("
 
 [**ProcessMonitor**](https://objective-see.com/products/utilities.html#ProcessMonitor) est un outil très utile pour vérifier les actions liées aux processus qu'un processus effectue (par exemple, surveiller les nouveaux processus qu'un processus crée).
 
+### SpriteTree
+
+[**SpriteTree**](https://themittenmac.com/tools/) est un outil qui affiche les relations entre les processus.\
+Vous devez surveiller votre mac avec une commande comme **`sudo eslogger fork exec rename create > cap.json`** (le terminal lançant cela nécessite FDA). Ensuite, vous pouvez charger le json dans cet outil pour voir toutes les relations:
+
+<figure><img src="../../../.gitbook/assets/image (710).png" alt="" width="375"><figcaption></figcaption></figure>
+
 ### FileMonitor
 
 [**FileMonitor**](https://objective-see.com/products/utilities.html#FileMonitor) permet de surveiller les événements liés aux fichiers (tels que la création, les modifications et les suppressions) en fournissant des informations détaillées sur ces événements.
 
 ### Crescendo
 
-[**Crescendo**](https://github.com/SuprHackerSteve/Crescendo) est un outil graphique avec l'apparence et la convivialité que les utilisateurs de Windows peuvent connaître grâce à _Procmon_ de Microsoft Sysinternal. Il vous permet de démarrer et d'arrêter l'enregistrement d'événements de tous types, de les filtrer par catégories (fichier, processus, réseau, etc.) et de sauvegarder les événements enregistrés sous forme de fichier json.
+[**Crescendo**](https://github.com/SuprHackerSteve/Crescendo) est un outil GUI avec l'apparence et la convivialité que les utilisateurs de Windows peuvent connaître grâce à _Procmon_ de Microsoft Sysinternal. Il vous permet de démarrer et d'arrêter l'enregistrement d'événements de tous types, de les filtrer par catégories (fichier, processus, réseau, etc.) et de sauvegarder les événements enregistrés sous forme de fichier json.
 
 ### Apple Instruments
 
@@ -361,7 +376,7 @@ Dans [**cet article de blog**](https://knight.sc/debugging/2019/06/03/debugging-
 
 ### lldb
 
-**lldb** est l'outil de **débogage** binaire de facto pour **macOS**.
+**lldb** est l'outil de facto pour le **débogage** des binaires **macOS**.
 ```bash
 lldb ./malware.bin
 lldb -p 1122
