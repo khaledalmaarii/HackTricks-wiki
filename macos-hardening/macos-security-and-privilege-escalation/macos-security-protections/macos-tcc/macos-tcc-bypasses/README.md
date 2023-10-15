@@ -139,7 +139,7 @@ $> ls ~/Documents
 ```
 ### CVE-2021-30761 - Notes
 
-Les notes avaient accès aux emplacements protégés par TCC, mais lorsqu'une note est créée, elle est **créée dans un emplacement non protégé**. Ainsi, vous pouviez demander aux notes de copier un fichier protégé dans une note (donc dans un emplacement non protégé) et ensuite accéder au fichier :
+Notes avait accès aux emplacements protégés par TCC, mais lorsqu'une note est créée, celle-ci est créée dans un emplacement non protégé. Ainsi, vous pouviez demander à Notes de copier un fichier protégé dans une note (donc dans un emplacement non protégé) et ensuite accéder au fichier :
 
 <figure><img src="../../../../../.gitbook/assets/image (6) (1).png" alt=""><figcaption></figcaption></figure>
 
@@ -148,6 +148,15 @@ Les notes avaient accès aux emplacements protégés par TCC, mais lorsqu'une no
 Le binaire `/usr/libexec/lsd` avec la bibliothèque `libsecurity_translocate` avait l'autorisation `com.apple.private.nullfs_allow` qui lui permettait de créer un montage **nullfs** et avait l'autorisation `com.apple.private.tcc.allow` avec **`kTCCServiceSystemPolicyAllFiles`** pour accéder à tous les fichiers.
 
 Il était possible d'ajouter l'attribut de mise en quarantaine à "Library", d'appeler le service XPC **`com.apple.security.translocation`** et ensuite il mapperait Library vers **`$TMPDIR/AppTranslocation/d/d/Library`** où tous les documents à l'intérieur de Library pouvaient être **accessibles**.
+
+## CVE-2023-38571 - Music & TV <a href="#cve-2023-38571-a-macos-tcc-bypass-in-music-and-tv" id="cve-2023-38571-a-macos-tcc-bypass-in-music-and-tv"></a>
+
+**`Music`** a une fonctionnalité intéressante : lorsqu'il est en cours d'exécution, il **importe** les fichiers déposés dans **`~/Music/Music/Media.localized/Automatically Add to Music.localized`** dans la "bibliothèque multimédia" de l'utilisateur. De plus, il appelle quelque chose comme : **`rename(a, b);`** où `a` et `b` sont :
+
+* `a = "~/Music/Music/Media.localized/Automatically Add to Music.localized/myfile.mp3"`
+* `b = "~/Music/Music/Media.localized/Automatically Add to Music.localized/Not Added.localized/2023-09-25 11.06.28/myfile.mp3`
+
+Ce comportement **`rename(a, b);`** est vulnérable à une **condition de concurrence**, car il est possible de placer à l'intérieur du dossier `Automatically Add to Music.localized` un faux fichier **TCC.db** et ensuite, lorsque le nouveau dossier (b) est créé pour copier le fichier, le supprimer et le pointer vers **`~/Library/Application Support/com.apple.TCC`**/.
 
 ### SQL Tracing
 
@@ -415,7 +424,7 @@ Le dossier **`/var/db/locationd/` n'était pas protégé contre le montage de DM
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * Vous travaillez dans une **entreprise de cybersécurité** ? Vous souhaitez voir votre **entreprise annoncée dans HackTricks** ? ou souhaitez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).

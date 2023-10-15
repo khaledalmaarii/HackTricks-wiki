@@ -36,18 +36,18 @@ Les autorisations sont héritées de l'application parente et les autorisations 
 
 ### Bases de données TCC
 
-Les sélections sont ensuite stockées dans la base de données TCC du système, dans `/Library/Application Support/com.apple.TCC/TCC.db`, ou dans `$HOME/Library/Application Support/com.apple.TCC/TCC.db` pour les préférences par utilisateur. Les bases de données sont protégées contre les modifications avec SIP (System Integrity Protection), mais vous pouvez les lire.
+Les sélections sont ensuite stockées dans la base de données TCC à l'échelle du système dans **`/Library/Application Support/com.apple.TCC/TCC.db`** ou dans **`$HOME/Library/Application Support/com.apple.TCC/TCC.db`** pour les préférences par utilisateur. Les bases de données sont protégées contre la modification avec SIP (System Integrity Protection), mais vous pouvez les lire.
 
 {% hint style="danger" %}
-La base de données TCC dans iOS se trouve dans `/private/var/mobile/Library/TCC/TCC.db`
+La base de données TCC dans **iOS** se trouve dans **`/private/var/mobile/Library/TCC/TCC.db`**
 {% endhint %}
 
-Il existe une troisième base de données TCC dans `/var/db/locationd/clients.plist` pour indiquer les clients autorisés à accéder aux services de localisation.
+Il existe une **troisième** base de données TCC dans **`/var/db/locationd/clients.plist`** pour indiquer les clients autorisés à accéder aux services de localisation.
 
-De plus, un processus avec un accès complet au disque peut modifier la base de données en mode utilisateur. Maintenant, une application a également besoin de l'accès complet au disque pour lire la base de données.
+De plus, un processus avec un **accès complet au disque** peut modifier la base de données en mode utilisateur. Maintenant, une application a également besoin de **FDA** pour lire la base de données.
 
 {% hint style="info" %}
-L'interface utilisateur du centre de notifications peut apporter des modifications à la base de données TCC du système :
+L'interface utilisateur du **centre de notifications** peut apporter des **modifications dans la base de données TCC du système**:
 
 {% code overflow="wrap" %}
 ```bash
@@ -56,10 +56,7 @@ codesign -dv --entitlements :- /System/Library/PrivateFrameworks/TCC.framework/S
 com.apple.private.tcc.manager
 com.apple.rootless.storage.TCC
 ```
-{% tab title="user DB" %}
-
-Cependant, les utilisateurs peuvent **supprimer ou interroger les règles** avec l'utilitaire en ligne de commande **`tccutil`**.
-{% endtab %}
+{% tab title="Base de données utilisateur" %}
 ```bash
 sqlite3 ~/Library/Application\ Support/com.apple.TCC/TCC.db
 sqlite> .schema
@@ -126,9 +123,15 @@ tccutil reset All app.some.id
 # Reset the permissions granted to all apps
 tccutil reset All
 ```
+### Privesc de la base de données utilisateur TCC à FDA
+
+En obtenant les **permissions d'écriture** sur la base de données utilisateur TCC, vous ne pouvez pas vous accorder vous-même les permissions **`FDA`**, seul celui qui se trouve dans la base de données système peut le faire.
+
+Mais vous pouvez vous accorder les **droits d'automatisation pour Finder**, et puisque Finder a les permissions **`FDA`**, vous les avez également.
+
 ### Vérifications de signature TCC
 
-La **base de données** TCC stocke l'**ID de bundle** de l'application, mais elle **stocke également** des **informations** sur la **signature** pour **s'assurer** que l'application qui demande l'autorisation est la bonne.
+La base de données TCC stocke l'**ID de bundle** de l'application, mais elle stocke également des **informations** sur la **signature** pour s'assurer que l'application qui demande l'autorisation est la bonne.
 
 {% code overflow="wrap" %}
 ```bash
@@ -155,7 +158,7 @@ Par exemple, **Telegram** a l'attribution `com.apple.security.device.camera` pou
 
 Cependant, pour que les applications **accèdent** à **certains dossiers utilisateur**, tels que `~/Desktop`, `~/Downloads` et `~/Documents`, elles **n'ont pas besoin** d'avoir des **attributions spécifiques**. Le système gérera l'accès de manière transparente et **invitera l'utilisateur** au besoin.
 
-Les applications d'Apple **ne génèrent pas de fenêtres contextuelles**. Elles contiennent des **droits préalablement accordés** dans leur liste d'attributions, ce qui signifie qu'elles ne **généreront jamais de fenêtre contextuelle** et ne figureront pas dans les **bases de données TCC**. Par exemple:
+Les applications d'Apple **ne génèrent pas de fenêtres contextuelles**. Elles contiennent des **droits préalablement accordés** dans leur liste d'attributions, ce qui signifie qu'elles ne **généreront jamais de fenêtre contextuelle** et ne figureront pas dans l'une des **bases de données TCC**. Par exemple:
 ```bash
 codesign -dv --entitlements :- /System/Applications/Calendar.app
 [...]
