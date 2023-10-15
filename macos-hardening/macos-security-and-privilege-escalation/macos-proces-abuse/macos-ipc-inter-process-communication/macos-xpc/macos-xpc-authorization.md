@@ -39,8 +39,8 @@ return YES;
 ```
 Para obter mais informações sobre como configurar corretamente esta verificação:
 
-{% content-ref url="macos-xpc-connecting-process-check.md" %}
-[macos-xpc-connecting-process-check.md](macos-xpc-connecting-process-check.md)
+{% content-ref url="macos-xpc-connecting-process-check/" %}
+[macos-xpc-connecting-process-check](macos-xpc-connecting-process-check/)
 {% endcontent-ref %}
 
 ### Direitos de aplicação
@@ -262,7 +262,7 @@ Você pode encontrar **todas as configurações de permissões** [**aqui**](http
 * Esta é a chave mais direta. Se definida como `false`, especifica que um usuário não precisa fornecer autenticação para obter esse direito.
 * Isso é usado em **combinação com uma das 2 opções abaixo ou indicando um grupo** ao qual o usuário deve pertencer.
 2. **'allow-root': 'true'**
-* Se um usuário estiver operando como usuário root (que possui permissões elevadas) e essa chave estiver definida como `true`, o usuário root poderá potencialmente obter esse direito sem autenticação adicional. No entanto, normalmente, alcançar o status de usuário root já requer autenticação, portanto, isso não é um cenário de "sem autenticação" para a maioria dos usuários.
+* Se um usuário estiver operando como usuário root (que possui permissões elevadas) e essa chave estiver definida como `true`, o usuário root poderá potencialmente obter esse direito sem autenticação adicional. No entanto, normalmente, alcançar o status de usuário root já requer autenticação, portanto, essa não é uma situação de "sem autenticação" para a maioria dos usuários.
 3. **'session-owner': 'true'**
 * Se definido como `true`, o proprietário da sessão (o usuário atualmente conectado) receberá automaticamente esse direito. Isso pode ignorar autenticação adicional se o usuário já estiver conectado.
 4. **'shared': 'true'**
@@ -286,7 +286,7 @@ authenticate-session-owner, authenticate-session-owner-or-admin, authenticate-se
 
 Se você encontrar a função: **`[HelperTool checkAuthorization:command:]`**, provavelmente o processo está usando o esquema mencionado anteriormente para autorização:
 
-<figure><img src="../../../../../.gitbook/assets/image (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Assim, se essa função estiver chamando funções como `AuthorizationCreateFromExternalForm`, `authorizationRightForCommand`, `AuthorizationCopyRights`, `AuhtorizationFree`, está usando o [**EvenBetterAuthorizationSample**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L101-L154).
 
@@ -342,7 +342,7 @@ Neste exemplo é criado:
 * A definição do protocolo com as funções
 * Uma autenticação vazia para ser usada para solicitar acesso
 * Uma conexão com o serviço XPC
-* Uma chamada à função se a conexão for bem-sucedida
+* Uma chamada à função se a conexão foi bem-sucedida
 ```objectivec
 // gcc -framework Foundation -framework Security expl.m -o expl
 

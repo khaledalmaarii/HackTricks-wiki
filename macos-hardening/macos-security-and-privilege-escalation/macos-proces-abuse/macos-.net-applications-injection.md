@@ -21,7 +21,7 @@ Ele cria dois pipes nomeados por processo .Net em [dbgtransportsession.cpp#L127]
 
 Portanto, se você acessar o diretório **`$TMPDIR`** do usuário, poderá encontrar **fifos de depuração** que podem ser usados para depurar aplicações .Net:
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 A função [**DbgTransportSession::TransportWorker**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L1259) lidará com a comunicação de um depurador.
 
@@ -164,7 +164,7 @@ O código POC usado para fazer isso pode ser encontrado [aqui](https://gist.gith
 
 ### Execução de código .NET Core <a href="#net-core-code-execution" id="net-core-code-execution"></a>
 
-A primeira coisa é identificar, por exemplo, uma região de memória com **`rwx`** em execução para salvar o shellcode a ser executado. Isso pode ser facilmente feito com:
+A primeira coisa é identificar, por exemplo, uma região de memória com permissões **`rwx`** em execução para salvar o shellcode a ser executado. Isso pode ser facilmente feito com:
 ```bash
 vmmap -pages [pid]
 vmmap -pages 35829 | grep "rwx/rwx"

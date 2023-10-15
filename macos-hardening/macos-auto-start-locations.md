@@ -260,8 +260,8 @@ Se o terminal tiver **Acesso Total ao Disco**, ele poderá concluir essa ação 
 
 ### Plugins de Áudio
 
-Writeup: [https://theevilbit.github.io/beyond/beyond\_0013/](https://theevilbit.github.io/beyond/beyond\_0013/)\
-Writeup: [https://posts.specterops.io/audio-unit-plug-ins-896d3434a882](https://posts.specterops.io/audio-unit-plug-ins-896d3434a882)
+Artigo: [https://theevilbit.github.io/beyond/beyond\_0013/](https://theevilbit.github.io/beyond/beyond\_0013/)\
+Artigo: [https://posts.specterops.io/audio-unit-plug-ins-896d3434a882](https://posts.specterops.io/audio-unit-plug-ins-896d3434a882)
 
 #### Localização
 
@@ -279,11 +279,11 @@ Writeup: [https://posts.specterops.io/audio-unit-plug-ins-896d3434a882](https://
 
 #### Descrição
 
-De acordo com os writeups anteriores, é possível **compilar alguns plugins de áudio** e carregá-los.
+De acordo com os artigos anteriores, é possível **compilar alguns plugins de áudio** e carregá-los.
 
 ### Plugins QuickLook
 
-Writeup: [https://theevilbit.github.io/beyond/beyond\_0028/](https://theevilbit.github.io/beyond/beyond\_0028/)
+Artigo: [https://theevilbit.github.io/beyond/beyond\_0028/](https://theevilbit.github.io/beyond/beyond\_0028/)
 
 * Útil para contornar a sandbox: [✅](https://emojipedia.org/check-mark-button)
 
@@ -307,7 +307,7 @@ Os plugins QuickLook podem ser executados quando você **aciona a visualização
 Isso não funcionou para mim, nem com o LoginHook do usuário nem com o LogoutHook do root.
 {% endhint %}
 
-**Writeup**: [https://theevilbit.github.io/beyond/beyond\_0022/](https://theevilbit.github.io/beyond/beyond\_0022/)
+**Artigo**: [https://theevilbit.github.io/beyond/beyond\_0022/](https://theevilbit.github.io/beyond/beyond\_0022/)
 
 Útil para contornar a sandbox: [✅](https://emojipedia.org/check-mark-button)
 
@@ -419,7 +419,7 @@ As preferências do iTerm2 localizadas em **`~/Library/Preferences/com.googlecod
 
 Essa configuração pode ser feita nas configurações do iTerm2:
 
-<figure><img src="../.gitbook/assets/image (2).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1).png" alt="" width="563"><figcaption></figcaption></figure>
 
 E o comando é refletido nas preferências:
 ```bash
@@ -718,7 +718,7 @@ mv /tmp/folder.scpt "$HOME/Library/Scripts/Folder Action Scripts"
 ```
 Em seguida, abra o aplicativo `Folder Actions Setup`, selecione a **pasta que você deseja monitorar** e selecione no seu caso **`folder.scpt`** (no meu caso, eu o chamei de output2.scp):
 
-<figure><img src="../.gitbook/assets/image (2) (1).png" alt="" width="297"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1) (1).png" alt="" width="297"><figcaption></figcaption></figure>
 
 Agora, se você abrir essa pasta com o **Finder**, seu script será executado.
 
@@ -912,13 +912,13 @@ Descrição: [https://posts.specterops.io/saving-your-access-d562bf5bf90b](https
 * `~/Library/Screen Savers`
 * **Gatilho**: Selecionar o protetor de tela
 
-<figure><img src="../.gitbook/assets/image (1) (1) (1).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1) (1) (1).png" alt="" width="375"><figcaption></figcaption></figure>
 
 #### Descrição e Exploração
 
 Crie um novo projeto no Xcode e selecione o modelo para gerar um novo **Protetor de Tela**. Em seguida, adicione o código a ele, por exemplo, o seguinte código para gerar logs.
 
-**Compile** e copie o pacote `.saver` para **`~/Library/Screen Savers`**. Em seguida, abra a interface gráfica do Protetor de Tela e, ao clicar nele, ele deve gerar muitos logs:
+**Compile** e copie o pacote `.saver` para **`~/Library/Screen Savers`**. Em seguida, abra a GUI do Protetor de Tela e, ao clicar nele, ele deve gerar muitos logs:
 
 {% code overflow="wrap" %}
 ```bash
@@ -932,7 +932,7 @@ Timestamp                       (process)[PID]
 {% endcode %}
 
 {% hint style="danger" %}
-Observe que, devido às permissões do binário que carrega este código (`/System/Library/Frameworks/ScreenSaver.framework/PlugIns/legacyScreenSaver.appex/Contents/MacOS/legacyScreenSaver`), você estará **dentro do sandbox comum do aplicativo**.
+Observe que, devido às permissões do binário que carrega este código (`/System/Library/Frameworks/ScreenSaver.framework/PlugIns/legacyScreenSaver.appex/Contents/MacOS/legacyScreenSaver`), você estará **dentro do sandbox de aplicativos comuns**.
 {% endhint %}
 
 Código do protetor de tela:
@@ -1026,7 +1026,7 @@ NSLog(@"hello_screensaver %s", __PRETTY_FUNCTION__);
 O Spotlight é o recurso de pesquisa integrado do macOS, projetado para fornecer aos usuários acesso rápido e abrangente aos dados em seus computadores.\
 Para facilitar essa capacidade de pesquisa rápida, o Spotlight mantém um **banco de dados proprietário** e cria um índice **analisando a maioria dos arquivos**, permitindo pesquisas rápidas tanto por nomes de arquivos quanto por seu conteúdo.
 
-O mecanismo subjacente do Spotlight envolve um processo central chamado 'mds', que significa **'metadata server'**. Esse processo orquestra todo o serviço do Spotlight. Complementando isso, existem vários daemons 'mdworker' que realizam uma variedade de tarefas de manutenção, como indexar diferentes tipos de arquivos (`ps -ef | grep mdworker`). Essas tarefas são possíveis por meio de plugins importadores do Spotlight, ou **".mdimporter bundles**", que permitem que o Spotlight entenda e indexe conteúdo em uma variedade diversificada de formatos de arquivo.
+O mecanismo subjacente do Spotlight envolve um processo central chamado 'mds', que significa **'metadata server'**. Esse processo orquestra todo o serviço do Spotlight. Complementando isso, existem vários daemons 'mdworker' que executam uma variedade de tarefas de manutenção, como indexar diferentes tipos de arquivos (`ps -ef | grep mdworker`). Essas tarefas são possíveis por meio de plugins importadores do Spotlight, ou **".mdimporter bundles**", que permitem que o Spotlight entenda e indexe conteúdo em uma variedade diversificada de formatos de arquivo.
 
 Os plugins ou pacotes **`.mdimporter`** estão localizados nos locais mencionados anteriormente e, se um novo pacote aparecer, ele é carregado em minutos (não é necessário reiniciar nenhum serviço). Esses pacotes precisam indicar quais **tipos de arquivo e extensões eles podem gerenciar**, dessa forma, o Spotlight os usará quando um novo arquivo com a extensão indicada for criado.
 
@@ -1081,7 +1081,7 @@ Se você verificar o Plist de outros `mdimporter`, pode ser que não encontre a 
 Além disso, os plugins padrão do sistema sempre têm precedência, portanto, um invasor só pode acessar arquivos que não são indexados pelos próprios `mdimporters` da Apple.
 {% endhint %}
 
-Para criar seu próprio importador, você pode começar com este projeto: [https://github.com/megrimm/pd-spotlight-importer](https://github.com/megrimm/pd-spotlight-importer) e, em seguida, alterar o nome, os **`CFBundleDocumentTypes`** e adicionar **`UTImportedTypeDeclarations`** para que ele suporte a extensão que você deseja e refleti-los em **`schema.xml`**.\
+Para criar seu próprio importador, você pode começar com este projeto: [https://github.com/megrimm/pd-spotlight-importer](https://github.com/megrimm/pd-spotlight-importer) e, em seguida, alterar o nome, os **`CFBundleDocumentTypes`** e adicionar **`UTImportedTypeDeclarations`** para que ele suporte a extensão que você deseja e reflita isso em **`schema.xml`**.\
 Em seguida, **altere** o código da função **`GetMetadataForFile`** para executar sua carga útil quando um arquivo com a extensão processada for criado.
 
 Finalmente, **construa e copie seu novo `.mdimporter`** para um dos locais anteriores e você pode verificar sempre que ele for carregado **monitorando os logs** ou verificando **`mdimport -L.`**
@@ -1207,7 +1207,7 @@ Writeup: [https://posts.specterops.io/persistent-credential-theft-with-authoriza
 
 #### Descrição e Exploração
 
-Você pode criar um plugin de autorização que será executado quando um usuário fizer login para manter a persistência. Para obter mais informações sobre como criar um desses plugins, consulte os writeups anteriores (e tenha cuidado, um plugin mal escrito pode bloquear você e você precisará limpar seu Mac no modo de recuperação).
+Você pode criar um plugin de autorização que será executado quando um usuário fizer login para manter a persistência. Para obter mais informações sobre como criar um desses plugins, verifique os writeups anteriores (e tenha cuidado, um plugin mal escrito pode bloquear você e você precisará limpar seu Mac no modo de recuperação).
 
 ### Man.conf
 
@@ -1332,37 +1332,57 @@ Após colocar um novo diretório em uma dessas duas localizações, **mais dois 
 
 # Localizações de Inicialização Automática do macOS
 
-O macOS possui várias localizações onde os aplicativos podem ser configurados para iniciar automaticamente quando o sistema é inicializado. Essas localizações são usadas por aplicativos legítimos para fornecer funcionalidades adicionais ou para iniciar serviços em segundo plano.
+O macOS possui várias localizações onde os aplicativos podem ser configurados para iniciar automaticamente quando o sistema é inicializado. Essas localizações são usadas por aplicativos legítimos para fornecer funcionalidades adicionais ou para facilitar o acesso rápido aos aplicativos.
 
-No entanto, essas localizações também podem ser exploradas por atacantes para iniciar aplicativos maliciosos ou scripts de inicialização que podem comprometer a segurança do sistema.
+No entanto, essas mesmas localizações também podem ser exploradas por atacantes para iniciar aplicativos maliciosos ou persistir em um sistema comprometido. Portanto, é importante estar ciente dessas localizações e monitorá-las regularmente para garantir que apenas aplicativos confiáveis estejam sendo iniciados automaticamente.
 
 Aqui estão algumas das principais localizações de inicialização automática do macOS:
 
 ## 1. LaunchAgents
 
-Os LaunchAgents são arquivos de propriedade do usuário que são executados quando um usuário faz login. Eles são armazenados no diretório `~/Library/LaunchAgents` e têm a extensão `.plist`. Esses arquivos podem ser usados para iniciar aplicativos ou scripts de inicialização quando um usuário faz login.
+Os LaunchAgents são arquivos de propriedade do usuário que são executados quando um usuário faz login. Eles são armazenados no diretório `~/Library/LaunchAgents` e são específicos para cada usuário. Os LaunchAgents são usados principalmente para iniciar aplicativos ou scripts relacionados a um usuário específico.
 
 ## 2. LaunchDaemons
 
-Os LaunchDaemons são arquivos de propriedade do sistema que são executados quando o sistema é inicializado. Eles são armazenados no diretório `/Library/LaunchDaemons` e têm a extensão `.plist`. Esses arquivos são usados para iniciar serviços em segundo plano que são executados independentemente de qualquer usuário fazer login.
+Os LaunchDaemons são arquivos de propriedade do sistema que são executados quando o sistema é inicializado. Eles são armazenados no diretório `/Library/LaunchDaemons` e são compartilhados por todos os usuários do sistema. Os LaunchDaemons são usados principalmente para iniciar serviços ou processos que não estão relacionados a um usuário específico.
 
-## 3. Login Items
+## 3. StartupItems
 
-Os Login Items são aplicativos ou scripts que são configurados para iniciar automaticamente quando um usuário faz login. Eles são gerenciados nas preferências do sistema, na seção "Usuários e Grupos". Os Login Items podem ser usados para iniciar aplicativos ou scripts específicos para um usuário quando ele faz login.
+Os StartupItems são uma forma mais antiga de inicialização automática e são compatíveis com versões mais antigas do macOS. Eles são armazenados no diretório `/Library/StartupItems` e são executados quando o sistema é inicializado. No entanto, a partir do macOS 10.5, o suporte a StartupItems foi descontinuado e substituído pelos LaunchDaemons e LaunchAgents.
 
-## 4. Startup Items
+## 4. Login Items
 
-Os Startup Items são aplicativos ou scripts que são configurados para iniciar automaticamente quando o sistema é inicializado. Eles são armazenados no diretório `/Library/StartupItems` e são executados antes que qualquer usuário faça login. No entanto, essa localização não é mais suportada nas versões mais recentes do macOS.
+Os Login Items são aplicativos ou itens de inicialização que são executados quando um usuário faz login. Eles são configurados nas preferências do sistema e são específicos para cada usuário. Os Login Items são usados principalmente para iniciar aplicativos ou scripts relacionados a um usuário específico.
 
 ## 5. Cron Jobs
 
-Os Cron Jobs são tarefas agendadas que são executadas em intervalos regulares. Eles são configurados usando o utilitário `cron` e podem ser usados para iniciar aplicativos ou scripts em horários específicos. Os Cron Jobs são armazenados no arquivo `/etc/crontab` e nos arquivos no diretório `/usr/lib/cron/tabs`.
+Os Cron Jobs são tarefas agendadas que são executadas em intervalos regulares. Eles são configurados usando o utilitário `cron` e são específicos para cada usuário. Os Cron Jobs podem ser usados para iniciar aplicativos ou scripts em momentos específicos.
 
-## 6. LaunchAgents e LaunchDaemons de Terceiros
+## 6. LaunchAgents Globais
 
-Além das localizações mencionadas acima, os aplicativos de terceiros também podem instalar seus próprios LaunchAgents e LaunchDaemons. Esses arquivos podem ser armazenados em diferentes diretórios, dependendo do aplicativo.
+Os LaunchAgents Globais são arquivos de propriedade do sistema que são executados quando um usuário faz login. Eles são armazenados no diretório `/Library/LaunchAgents` e são compartilhados por todos os usuários do sistema. Os LaunchAgents Globais são usados principalmente para iniciar aplicativos ou scripts relacionados a todos os usuários do sistema.
 
-É importante revisar regularmente essas localizações de inicialização automática e remover qualquer aplicativo ou script indesejado ou desconhecido. Isso ajudará a garantir a segurança do sistema e evitar que aplicativos maliciosos sejam executados automaticamente.
+## 7. LaunchDaemons Globais
+
+Os LaunchDaemons Globais são arquivos de propriedade do sistema que são executados quando o sistema é inicializado. Eles são armazenados no diretório `/Library/LaunchDaemons` e são compartilhados por todos os usuários do sistema. Os LaunchDaemons Globais são usados principalmente para iniciar serviços ou processos que não estão relacionados a um usuário específico.
+
+## 8. XPC Services
+
+As XPC Services são serviços que podem ser iniciados por outros aplicativos. Elas são armazenadas no diretório `~/Library/Services` e são específicas para cada usuário. As XPC Services são usadas principalmente para fornecer funcionalidades adicionais a outros aplicativos.
+
+## 9. Login Hooks
+
+Os Login Hooks são scripts que são executados quando um usuário faz login. Eles são armazenados no diretório `/etc` e são compartilhados por todos os usuários do sistema. Os Login Hooks são usados principalmente para executar ações personalizadas durante o processo de login.
+
+## 10. Kernel Extensions
+
+As Kernel Extensions são módulos de código que podem ser carregados no kernel do macOS. Elas são armazenadas no diretório `/System/Library/Extensions` e são compartilhadas por todos os usuários do sistema. As Kernel Extensions são usadas principalmente para fornecer funcionalidades de baixo nível ao sistema operacional.
+
+É importante observar que nem todas as localizações de inicialização automática são visíveis por padrão. Alguns diretórios podem estar ocultos ou protegidos por permissões de arquivo. Portanto, é necessário ter privilégios de administrador para acessar e modificar essas localizações.
+
+Além disso, é recomendável verificar regularmente as localizações de inicialização automática em busca de aplicativos desconhecidos ou suspeitos. Isso pode ser feito usando ferramentas de segurança ou examinando manualmente os diretórios relevantes.
+
+Ao monitorar e proteger as localizações de inicialização automática do macOS, você pode reduzir o risco de aplicativos maliciosos serem iniciados automaticamente e garantir a integridade do seu sistema.
 
 {% endtab %}
 ```bash
@@ -1389,14 +1409,14 @@ RunService "$1"
 ### emond
 
 {% hint style="danger" %}
-Não consigo encontrar esse componente no meu macOS, então para mais informações, verifique o artigo
+Não consigo encontrar esse componente no meu macOS, então para mais informações, verifique o writeup
 {% endhint %}
 
-Artigo: [https://theevilbit.github.io/beyond/beyond\_0023/](https://theevilbit.github.io/beyond/beyond\_0023/)
+Writeup: [https://theevilbit.github.io/beyond/beyond\_0023/](https://theevilbit.github.io/beyond/beyond\_0023/)
 
-A Apple introduziu um mecanismo de registro chamado **emond**. Parece que nunca foi totalmente desenvolvido e o desenvolvimento pode ter sido **abandonado** pela Apple em favor de outros mecanismos, mas ainda está **disponível**.
+A Apple introduziu um mecanismo de registro chamado **emond**. Parece que nunca foi totalmente desenvolvido e o desenvolvimento pode ter sido **abandonado** pela Apple em favor de outros mecanismos, mas ele continua **disponível**.
 
-Este serviço pouco conhecido pode **não ser muito útil para um administrador de Mac**, mas para um ator de ameaça, uma razão muito boa seria usá-lo como um **mecanismo de persistência que provavelmente a maioria dos administradores do macOS não conheceria**. Detectar o uso malicioso do emond não deve ser difícil, pois o System LaunchDaemon para o serviço procura scripts para serem executados em apenas um local:
+Esse serviço pouco conhecido pode **não ser muito útil para um administrador de Mac**, mas para um ator de ameaça, uma razão muito boa seria usá-lo como um **mecanismo de persistência que a maioria dos administradores do macOS provavelmente não saberia** procurar. Detectar o uso malicioso do emond não deve ser difícil, pois o System LaunchDaemon para o serviço procura scripts para serem executados em apenas um local:
 ```bash
 ls -l /private/var/db/emondClients
 ```

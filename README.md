@@ -40,7 +40,7 @@ Você pode conferir o **blog** deles em [**https://blog.stmcyber.com**](https://
 
 ### [Intigriti](https://www.intigriti.com)
 
-<figure><img src=".gitbook/assets/image (2) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (2) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 **Intigriti** é a plataforma de ethical hacking e **bug bounty número 1 da Europa.**
 
@@ -53,7 +53,7 @@ Dica de bug bounty: **inscreva-se** no **Intigriti**, uma plataforma premium de 
 <figure><img src=".gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** com as **ferramentas comunitárias mais avançadas** do mundo.
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** com as ferramentas comunitárias **mais avançadas** do mundo.
 
 Acesse hoje mesmo:
 
@@ -125,7 +125,7 @@ Os autores e editores não serão responsáveis, em nenhuma circunstância, por 
 
 Além disso, as técnicas e dicas descritas neste livro são fornecidas apenas para fins educacionais e informativos, e não devem ser usadas para atividades ilegais ou maliciosas. Os autores e editores não apoiam ou apoiam quaisquer atividades ilegais ou antiéticas, e qualquer uso das informações contidas neste livro é de responsabilidade e critério do usuário.
 
-O usuário é o único responsável por quaisquer ações tomadas com base nas informações contidas neste livro e deve sempre buscar aconselhamento e assistência profissional ao tentar implementar qualquer uma das técnicas ou dicas descritas aqui.
+O usuário é o único responsável por quaisquer ações tomadas com base nas informações contidas neste livro e deve sempre buscar aconselhamento e assistência profissional ao tentar implementar qualquer uma das técnicas ou dicas aqui descritas.
 
 Ao usar este livro, o usuário concorda em liberar os autores e editores de qualquer responsabilidade por quaisquer danos, perdas ou danos que possam resultar do uso deste livro ou de qualquer uma das informações contidas nele.
 {% endhint %}
