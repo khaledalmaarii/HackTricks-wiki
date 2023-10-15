@@ -8,15 +8,15 @@
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe suas técnicas de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e para o** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## **Informações básicas**
+## **Informações Básicas**
 
 **TCC (Transparency, Consent, and Control)** é um mecanismo no macOS para **limitar e controlar o acesso de aplicativos a determinados recursos**, geralmente do ponto de vista da privacidade. Isso pode incluir coisas como serviços de localização, contatos, fotos, microfone, câmera, acessibilidade, acesso total ao disco e muito mais.
 
-Do ponto de vista do usuário, eles veem o TCC em ação **quando um aplicativo deseja acessar um dos recursos protegidos pelo TCC**. Quando isso acontece, o **usuário recebe uma solicitação** em forma de diálogo perguntando se deseja permitir o acesso ou não.
+Do ponto de vista do usuário, eles veem o TCC em ação **quando um aplicativo deseja acessar um dos recursos protegidos pelo TCC**. Quando isso acontece, o **usuário recebe uma solicitação** em forma de diálogo perguntando se eles desejam permitir o acesso ou não.
 
 Também é possível **conceder acesso a aplicativos** a arquivos por meio de **intenções explícitas** dos usuários, por exemplo, quando um usuário **arrasta e solta um arquivo em um programa** (obviamente, o programa deve ter acesso a ele).
 
@@ -24,7 +24,7 @@ Também é possível **conceder acesso a aplicativos** a arquivos por meio de **
 
 O **TCC** é gerenciado pelo **daemon** localizado em `/System/Library/PrivateFrameworks/TCC.framework/Support/tccd` e configurado em `/System/Library/LaunchDaemons/com.apple.tccd.system.plist` (registrando o serviço mach `com.apple.tccd.system`).
 
-Existe um **tccd em modo de usuário** em execução para cada usuário logado, definido em `/System/Library/LaunchAgents/com.apple.tccd.plist`, registrando os serviços mach `com.apple.tccd` e `com.apple.usernotifications.delegate.com.apple.tccd`.
+Existe um **tccd em modo de usuário** em execução para cada usuário conectado, definido em `/System/Library/LaunchAgents/com.apple.tccd.plist`, registrando os serviços mach `com.apple.tccd` e `com.apple.usernotifications.delegate.com.apple.tccd`.
 
 Aqui você pode ver o tccd em execução como sistema e como usuário:
 ```bash
@@ -32,20 +32,22 @@ ps -ef | grep tcc
 0   374     1   0 Thu07PM ??         2:01.66 /System/Library/PrivateFrameworks/TCC.framework/Support/tccd system
 501 63079     1   0  6:59PM ??         0:01.95 /System/Library/PrivateFrameworks/TCC.framework/Support/tccd
 ```
-As permissões são herdadas do aplicativo pai e as permissões são rastreadas com base no ID do pacote e no ID do desenvolvedor.
+As permissões são herdadas do aplicativo pai e as permissões são rastreadas com base no Bundle ID e no Developer ID.
 
-### Banco de dados TCC
+### Bancos de dados do TCC
 
 As seleções são então armazenadas no banco de dados do TCC em todo o sistema em **`/Library/Application Support/com.apple.TCC/TCC.db`** ou em **`$HOME/Library/Application Support/com.apple.TCC/TCC.db`** para preferências por usuário. Os bancos de dados são protegidos contra edição com SIP (System Integrity Protection), mas você pode lê-los.
 
 {% hint style="danger" %}
-O banco de dados TCC no iOS está em **`/private/var/mobile/Library/TCC/TCC.db`**
+O banco de dados do TCC no iOS está em **`/private/var/mobile/Library/TCC/TCC.db`**
 {% endhint %}
 
-Além disso, um processo com **acesso total ao disco** pode editar o banco de dados do modo de usuário.
+Existe um terceiro banco de dados do TCC em **`/var/db/locationd/clients.plist`** para indicar os clientes autorizados a acessar os serviços de localização.
+
+Além disso, um processo com acesso total ao disco pode editar o banco de dados em modo de usuário. Agora, um aplicativo também precisa de FDA para ler o banco de dados.
 
 {% hint style="info" %}
-A **interface do centro de notificações** pode fazer **alterações no banco de dados TCC do sistema**:
+A interface do usuário do centro de notificações pode fazer alterações no banco de dados do TCC do sistema:
 
 {% code overflow="wrap" %}
 ```bash
@@ -54,51 +56,10 @@ codesign -dv --entitlements :- /System/Library/PrivateFrameworks/TCC.framework/S
 com.apple.private.tcc.manager
 com.apple.rootless.storage.TCC
 ```
-{% tab title="Banco de dados do usuário" %}
+{% tab title="user DB" %}
 
 No entanto, os usuários podem **excluir ou consultar regras** com a utilidade de linha de comando **`tccutil`**.
 {% endtab %}
-{% endtabs %}
-
-{% code title="Example" %}
-```bash
-$ tccutil reset All
-```
-{% endcode %}
-
-This command will **reset all TCC permissions** for all applications for the current user.
-
-{% code title="Example" %}
-```bash
-$ tccutil reset Camera com.apple.Safari
-```
-{% endcode %}
-
-This command will **reset the Camera permission** for both the `Camera` and `Safari` applications for the current user.
-
-{% code title="Example" %}
-```bash
-$ tccutil reset Microphone
-```
-{% endcode %}
-
-This command will **reset the Microphone permission** for all applications for the current user.
-
-{% code title="Example" %}
-```bash
-$ tccutil reset Microphone com.apple.Terminal
-```
-{% endcode %}
-
-This command will **reset the Microphone permission** for both the `Microphone` and `Terminal` applications for the current user.
-
-{% code title="Example" %}
-```bash
-$ tccutil reset Microphone com.apple.Terminal /Applications/Google\ Chrome.app
-```
-{% endcode %}
-
-This command will **reset the Microphone permission** for the `Microphone`, `Terminal`, and `Google Chrome` applications for the current user.
 ```bash
 sqlite3 ~/Library/Application\ Support/com.apple.TCC/TCC.db
 sqlite> .schema
@@ -136,7 +97,7 @@ sqlite> select * from access where client LIKE "%telegram%" and auth_value=0;
 {% endtabs %}
 
 {% hint style="success" %}
-Verificando ambos os bancos de dados, você pode verificar as permissões que um aplicativo permitiu, proibiu ou não possui (ele solicitará).
+Ao verificar ambos os bancos de dados, você pode verificar as permissões que um aplicativo permitiu, proibiu ou não possui (ele solicitará).
 {% endhint %}
 
 * O **`auth_value`** pode ter valores diferentes: denied(0), unknown(1), allowed(2) ou limited(3).
@@ -152,14 +113,22 @@ O **Acesso Total ao Disco** tem o nome **`kTCCServiceSystemPolicyAllFiles`** e o
 Você também pode verificar as **permissões já concedidas** aos aplicativos em `Preferências do Sistema --> Segurança e Privacidade --> Privacidade --> Arquivos e Pastas`.
 
 {% hint style="success" %}
-Observe que, mesmo que um dos bancos de dados esteja dentro da pasta do usuário, **os usuários não podem modificar diretamente esses bancos de dados por causa do SIP** (mesmo se você for root). A única maneira de configurar ou modificar uma nova regra é por meio do painel de Preferências do Sistema ou de prompts em que o aplicativo solicita ao usuário.
+Observe que, mesmo que um dos bancos de dados esteja dentro da pasta do usuário, **os usuários não podem modificar diretamente esses bancos de dados devido ao SIP** (mesmo se você for root). A única maneira de configurar ou modificar uma nova regra é por meio do painel de Preferências do Sistema ou de prompts em que o aplicativo solicita ao usuário.
 
 No entanto, lembre-se de que os usuários _podem_ **excluir ou consultar regras** usando o **`tccutil`**.
 {% endhint %}
 
+#### Redefinir
+```bash
+# You can reset all the permissions given to an application with
+tccutil reset All app.some.id
+
+# Reset the permissions granted to all apps
+tccutil reset All
+```
 ### Verificações de Assinatura do TCC
 
-O **banco de dados** do TCC armazena o **Bundle ID** do aplicativo, mas também **armazena informações** sobre a **assinatura** para **garantir** que o aplicativo que solicita o uso de uma permissão seja o correto.
+O banco de dados do TCC armazena o **ID do Bundle** do aplicativo, mas também **armazena informações** sobre a **assinatura** para **garantir** que o aplicativo que solicita permissão seja o correto.
 
 {% code overflow="wrap" %}
 ```bash
@@ -232,11 +201,13 @@ uuid 769FD8F1-90E0-3206-808C-A8947BEBD6C3
 Também observe que se você mover um arquivo que permite o UUID de um aplicativo em seu computador para um computador diferente, porque o mesmo aplicativo terá UIDs diferentes, ele não concederá acesso a esse aplicativo.
 {% endhint %}
 
-O atributo estendido `com.apple.macl` **não pode ser removido** como outros atributos estendidos porque está **protegido pelo SIP**. No entanto, como [**explicado neste post**](https://www.brunerd.com/blog/2020/01/07/track-and-tackle-com-apple-macl/), é possível desabilitá-lo **compactando** o arquivo, **excluindo-o** e **descompactando-o**.
+O atributo estendido `com.apple.macl` **não pode ser removido** como outros atributos estendidos porque ele é **protegido pelo SIP**. No entanto, como [**explicado neste post**](https://www.brunerd.com/blog/2020/01/07/track-and-tackle-com-apple-macl/), é possível desabilitá-lo **compactando** o arquivo, **excluindo-o** e **descompactando-o**.
 
 ### Bypasses do TCC
 
-
+{% content-ref url="macos-tcc-bypasses/" %}
+[macos-tcc-bypasses](macos-tcc-bypasses/)
+{% endcontent-ref %}
 
 ## Referências
 
@@ -250,7 +221,7 @@ O atributo estendido `com.apple.macl` **não pode ser removido** como outros atr
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de segurança cibernética**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
