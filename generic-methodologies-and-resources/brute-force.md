@@ -54,15 +54,11 @@ crunch 6 8 -t ,@@^^%%
 ```
 ### Cewl
 
-Cewl is a tool used for generating custom wordlists by scraping websites or documents. It is particularly useful for password cracking through brute force attacks. Cewl works by analyzing the target website or document and extracting relevant keywords and phrases. These keywords and phrases are then combined to create a wordlist that can be used in brute force attacks.
+Cewl is a tool used for generating custom wordlists by scraping websites or documents. It is particularly useful for password cracking through brute force attacks. Cewl works by analyzing the target website or document and extracting relevant words and phrases. These words and phrases are then combined to create a wordlist that can be used in password cracking attempts.
 
-To use Cewl, you need to provide it with a target URL or a document. Cewl will then crawl the target and extract the desired keywords and phrases. The extracted data can be saved to a file for further analysis or directly used in password cracking tools.
+To use Cewl, you need to provide it with a target URL or a document. Cewl will then crawl the target and extract words based on various criteria such as word length, frequency, and relevance. The extracted words are then processed to remove duplicates and irrelevant terms. Finally, Cewl generates a wordlist that can be used in password cracking tools like John the Ripper or Hashcat.
 
-Cewl has various options that allow you to customize the wordlist generation process. For example, you can specify the minimum and maximum length of the extracted words, exclude certain words or characters, and even apply regular expressions to filter the extracted data.
-
-Using Cewl can significantly improve the success rate of brute force attacks by creating wordlists that are tailored to the target. By including relevant keywords and phrases, the chances of cracking passwords or gaining unauthorized access are greatly increased.
-
-It is important to note that using Cewl for malicious purposes, such as hacking into unauthorized systems, is illegal and unethical. Cewl should only be used for legitimate purposes, such as penetration testing or password recovery on authorized systems. Always ensure that you have proper authorization before using Cewl or any other hacking tool.
+Cewl is a powerful tool for generating custom wordlists that are tailored to the target. By using Cewl, hackers can increase their chances of success in brute force attacks by using wordlists that are more likely to contain the target's password. However, it is important to note that using Cewl for malicious purposes is illegal and unethical. Cewl should only be used for legitimate purposes such as penetration testing or password recovery.
 ```bash
 cewl example.com -m 5 -w words.txt
 ```
@@ -136,7 +132,7 @@ O Protocolo de Janela de Ativação (AJP) é um protocolo de comunicação usado
 
 O AJP é um protocolo binário que permite uma comunicação eficiente e de baixa latência entre os servidores. Ele suporta várias operações, como a transferência de solicitações HTTP, a obtenção de informações sobre a sessão do usuário e a execução de solicitações assíncronas.
 
-No entanto, o AJP também pode ser explorado por hackers para realizar ataques de força bruta. Um ataque de força bruta envolve tentar todas as combinações possíveis de senhas até encontrar a correta. Os hackers podem usar ferramentas automatizadas para enviar solicitações AJP com várias senhas, na esperança de encontrar uma senha válida e obter acesso não autorizado ao servidor de aplicativos.
+No entanto, o AJP também pode ser explorado por hackers para realizar ataques de força bruta. Um ataque de força bruta envolve tentar todas as combinações possíveis de senhas até encontrar a correta. Os hackers podem usar ferramentas automatizadas para enviar solicitações AJP com várias combinações de senhas em uma tentativa de adivinhar a senha correta e obter acesso não autorizado ao servidor.
 
 Para proteger contra ataques de força bruta no AJP, é importante implementar medidas de segurança adequadas, como a configuração de senhas fortes e a limitação do número de tentativas de login. Além disso, é recomendável monitorar os logs do servidor em busca de atividades suspeitas e manter o software do servidor atualizado com as últimas correções de segurança.
 
@@ -146,13 +142,13 @@ nmap --script ajp-brute -p 8009 <IP>
 ```
 # Brute Force
 
-O ataque de força bruta é uma técnica comum usada pelos hackers para obter acesso não autorizado a sistemas ou contas. Nesse tipo de ataque, o hacker tenta todas as combinações possíveis de senhas até encontrar a correta. 
+O ataque de força bruta é uma técnica comum usada pelos hackers para obter acesso não autorizado a sistemas ou contas. Nesse tipo de ataque, o invasor tenta todas as combinações possíveis de senhas até encontrar a correta. 
 
-Embora seja uma técnica simples, o ataque de força bruta pode ser eficaz se a senha for fraca ou se o sistema não tiver medidas de segurança adequadas para detectar e bloquear tentativas repetidas de login. 
+Embora seja uma abordagem simples, o ataque de força bruta pode ser eficaz se a senha for fraca ou se o sistema não tiver medidas de segurança adequadas para detectar e bloquear tentativas repetidas de login. 
 
-Existem várias ferramentas disponíveis para realizar ataques de força bruta, como Hydra e Medusa. Essas ferramentas automatizam o processo de tentativa de login, permitindo que o hacker teste várias combinações de senhas em um curto período de tempo. 
+Existem várias ferramentas disponíveis para realizar ataques de força bruta, como Hydra e Medusa. Essas ferramentas automatizam o processo de tentativa de login, permitindo que o invasor teste várias combinações de senhas em um curto período de tempo. 
 
-Para proteger-se contra ataques de força bruta, é importante usar senhas fortes e complexas, que sejam difíceis de adivinhar. Além disso, os sistemas devem implementar medidas de segurança, como bloqueio de contas após um número específico de tentativas de login malsucedidas.
+Para proteger-se contra ataques de força bruta, é importante usar senhas fortes e complexas, que sejam difíceis de adivinhar. Além disso, é recomendável implementar medidas de segurança, como bloqueio de contas após um número específico de tentativas de login malsucedidas.
 ```bash
 nmap --script cassandra-brute -p 9160 <IP>
 ```
@@ -160,41 +156,31 @@ nmap --script cassandra-brute -p 9160 <IP>
 
 ## Introdução
 
-O brute force é uma técnica de ataque que envolve tentar todas as combinações possíveis de senhas até encontrar a correta. É uma abordagem simples, mas pode ser eficaz se a senha for fraca ou se o atacante tiver recursos computacionais suficientes.
+O ataque de força bruta é uma técnica comum usada por hackers para obter acesso não autorizado a sistemas ou contas. Nesse tipo de ataque, o hacker tenta adivinhar a senha correta testando várias combinações possíveis até encontrar a senha correta.
 
 ## Ataque de Força Bruta no CouchDB
 
-O CouchDB é um banco de dados NoSQL que armazena dados em formato JSON. Ele possui uma API RESTful que permite a autenticação com nome de usuário e senha.
+O CouchDB é um banco de dados NoSQL que armazena dados em formato JSON. Ele possui uma API RESTful que permite a interação com o banco de dados. O CouchDB também possui um mecanismo de autenticação embutido que protege o acesso aos dados.
 
-Um ataque de força bruta no CouchDB envolve o envio de várias solicitações de autenticação com diferentes combinações de nomes de usuário e senhas. O objetivo é encontrar uma combinação válida que permita o acesso não autorizado ao banco de dados.
+No entanto, se as configurações de segurança não forem adequadamente implementadas, o CouchDB pode ser vulnerável a ataques de força bruta. Um hacker pode usar ferramentas automatizadas para tentar várias combinações de nomes de usuário e senhas até encontrar as credenciais corretas.
 
-## Metodologia
+## Mitigação
 
-Aqui está uma metodologia básica para realizar um ataque de força bruta no CouchDB:
+Para proteger o CouchDB contra ataques de força bruta, é importante seguir as práticas recomendadas de segurança:
 
-1. Identifique o alvo: determine o URL do CouchDB que deseja atacar.
+1. Use senhas fortes: Certifique-se de que as senhas usadas para autenticação no CouchDB sejam complexas e difíceis de adivinhar. Use uma combinação de letras maiúsculas e minúsculas, números e caracteres especiais.
 
-2. Crie uma lista de senhas: compile uma lista de senhas comumente usadas, senhas vazadas ou senhas relacionadas ao alvo.
+2. Limite as tentativas de login: Configure o CouchDB para bloquear temporariamente um endereço IP após um número específico de tentativas de login malsucedidas. Isso ajudará a evitar ataques de força bruta automatizados.
 
-3. Crie uma lista de nomes de usuário: se você souber os nomes de usuário válidos, inclua-os na lista. Caso contrário, você pode tentar nomes de usuário comuns, como "admin" ou "root".
+3. Implemente autenticação de dois fatores: Adicione uma camada adicional de segurança exigindo que os usuários forneçam um segundo fator de autenticação, como um código enviado por SMS, além da senha.
 
-4. Automatize o ataque: use uma ferramenta de força bruta, como Hydra ou Medusa, para automatizar o processo de envio de solicitações de autenticação com diferentes combinações de nomes de usuário e senhas.
+4. Mantenha o CouchDB atualizado: Certifique-se de que você esteja usando a versão mais recente do CouchDB, pois as atualizações geralmente incluem correções de segurança.
 
-5. Analise os resultados: verifique os resultados do ataque para identificar combinações válidas de nomes de usuário e senhas. Essas combinações podem ser usadas para acessar o CouchDB.
-
-## Recursos Adicionais
-
-Aqui estão alguns recursos adicionais que podem ser úteis ao realizar um ataque de força bruta no CouchDB:
-
-- Dicionários de senhas: esses são arquivos que contêm uma lista de senhas comumente usadas ou senhas vazadas. Eles podem ser usados por ferramentas de força bruta para testar várias combinações de senhas.
-
-- Ferramentas de força bruta: existem várias ferramentas disponíveis, como Hydra e Medusa, que podem ser usadas para automatizar ataques de força bruta.
-
-- Monitoramento de logs: ao realizar um ataque de força bruta, é importante monitorar os logs do CouchDB para detectar atividades suspeitas e tomar medidas para mitigar o ataque.
+5. Monitore os logs de acesso: Fique atento a atividades suspeitas nos logs de acesso do CouchDB. Isso pode ajudar a identificar tentativas de força bruta em andamento.
 
 ## Conclusão
 
-O ataque de força bruta é uma técnica simples, mas potencialmente eficaz, para comprometer a segurança do CouchDB. É importante que os administradores do CouchDB implementem medidas de segurança adequadas, como senhas fortes e bloqueio de contas após várias tentativas de login malsucedidas, para mitigar esse tipo de ataque.
+Embora o CouchDB seja um banco de dados poderoso e flexível, é importante implementar medidas de segurança adequadas para proteger contra ataques de força bruta. Ao seguir as práticas recomendadas mencionadas acima, você pode fortalecer a segurança do CouchDB e reduzir o risco de acesso não autorizado.
 ```bash
 msf> use auxiliary/scanner/couchdb/couchdb_login
 hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordlists/password.lst localhost -s 5984 http-get /
@@ -214,9 +200,9 @@ Para proteger o Registro do Docker contra ataques de força bruta, é importante
 - Usar senhas fortes e complexas.
 - Implementar políticas de bloqueio de conta após várias tentativas de login malsucedidas.
 - Monitorar e registrar atividades suspeitas no Registro do Docker.
-- Atualizar regularmente o software do Registro do Docker para corrigir quaisquer vulnerabilidades conhecidas.
+- Atualizar regularmente o Registro do Docker com as versões mais recentes para corrigir quaisquer vulnerabilidades conhecidas.
 
-Além disso, é recomendável usar autenticação de dois fatores (2FA) para adicionar uma camada extra de segurança ao acesso ao Registro do Docker. Isso exige que os usuários forneçam uma segunda forma de autenticação, como um código gerado por um aplicativo de autenticação no smartphone, além da senha.
+Além disso, é recomendável usar autenticação de dois fatores (2FA) para adicionar uma camada extra de segurança ao acesso ao Registro do Docker. Isso exige que os usuários forneçam um segundo fator de autenticação, como um código gerado por um aplicativo de autenticação, além de suas credenciais de login padrão.
 
 Ao implementar essas medidas de segurança, é possível reduzir significativamente o risco de um ataque de força bruta bem-sucedido contra o Registro do Docker.
 ```
@@ -228,11 +214,18 @@ O Elasticsearch é um mecanismo de busca e análise distribuído, que é amplame
 
 ## Força Bruta
 
-A força bruta é uma técnica comum usada para quebrar senhas ou descobrir informações confidenciais, tentando todas as combinações possíveis até encontrar a correta. No contexto do Elasticsearch, a força bruta pode ser usada para tentar adivinhar senhas de acesso ao cluster ou a contas de usuário.
+A força bruta é uma técnica comum usada para quebrar senhas ou descobrir informações confidenciais, tentando todas as combinações possíveis até encontrar a correta. No contexto do Elasticsearch, a força bruta pode ser usada para tentar adivinhar credenciais de autenticação e obter acesso não autorizado ao sistema.
 
-Existem várias ferramentas disponíveis para realizar ataques de força bruta no Elasticsearch, como o Hydra e o Burp Suite. Essas ferramentas automatizam o processo de tentativa de várias combinações de senhas em um curto período de tempo.
+Existem várias ferramentas disponíveis para realizar ataques de força bruta no Elasticsearch, como o Hydra e o Burp Suite. Essas ferramentas automatizam o processo de tentativa de várias combinações de nomes de usuário e senhas em uma velocidade muito alta.
 
-No entanto, é importante ressaltar que a força bruta é uma técnica intrusiva e pode ser ilegal se usada sem permissão. Portanto, é fundamental obter autorização adequada antes de realizar qualquer teste de força bruta em um sistema Elasticsearch.
+Para proteger seu cluster Elasticsearch contra ataques de força bruta, é importante implementar medidas de segurança adequadas, como:
+
+- Usar senhas fortes e complexas para as contas de usuário.
+- Implementar bloqueio de conta após um número específico de tentativas de login malsucedidas.
+- Configurar firewalls e listas de permissões para restringir o acesso ao cluster.
+- Monitorar e registrar atividades suspeitas no cluster.
+
+Ao implementar essas medidas de segurança, você pode reduzir significativamente o risco de um ataque bem-sucedido de força bruta no seu cluster Elasticsearch.
 ```
 hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordlists/password.lst localhost -s 9200 http-get /
 ```
@@ -254,7 +247,7 @@ Um dicionário de senhas é uma lista de palavras ou combinações de caracteres
 
 Os dicionários de senhas geralmente contêm palavras comuns, nomes de usuários, senhas padrão e outras combinações que são frequentemente usadas como senhas. Os atacantes usam esses dicionários para automatizar o processo de adivinhar senhas em ataques de força bruta.
 
-É importante usar senhas fortes e exclusivas que não estejam presentes em dicionários de senhas conhecidos para evitar ataques de força bruta bem-sucedidos. Além disso, é recomendável implementar medidas de segurança, como bloqueio de IP após várias tentativas falhas de login, para proteger contra ataques de força bruta.
+É importante usar senhas fortes e exclusivas que não estejam presentes em dicionários de senhas conhecidos para evitar ataques de força bruta bem-sucedidos. Além disso, é recomendável implementar medidas de segurança, como bloqueio de IP após várias tentativas falhas de login, para dificultar ainda mais os ataques de força bruta.
 ```bash
 hydra -l root -P passwords.txt [-t 32] <IP> ftp
 ncrack -p 21 --user root -P passwords.txt <IP> [-T 5]
@@ -272,31 +265,15 @@ medusa -h <IP> -u <username> -P  <passwords.txt> -M  http -m DIR:/path/to/auth -
 ```
 ### HTTP - Postar Formulário
 
-O método de brute force pode ser usado para atacar formulários de login em sites que utilizam o protocolo HTTP. Nesse tipo de ataque, o hacker tenta adivinhar a combinação correta de nome de usuário e senha, testando várias combinações possíveis.
+O método de brute force pode ser usado para atacar formulários de login em sites que utilizam o protocolo HTTP. Nesse tipo de ataque, o hacker tenta todas as combinações possíveis de nomes de usuário e senhas até encontrar a combinação correta que permite o acesso ao sistema.
 
-#### Ferramentas e Recursos
+Existem várias ferramentas disponíveis que podem automatizar esse processo, como o Hydra e o Medusa. Essas ferramentas permitem que o hacker especifique uma lista de nomes de usuário e senhas, e então as testem automaticamente no formulário de login.
 
-Existem várias ferramentas disponíveis para realizar ataques de brute force em formulários HTTP. Algumas das mais populares incluem:
+Para realizar um ataque de brute force em um formulário de login HTTP, o hacker precisa capturar a requisição HTTP POST que é enviada quando o formulário é submetido. Essa requisição contém os parâmetros do formulário, como o nome de usuário e a senha.
 
-- Hydra: uma ferramenta de linha de comando que suporta vários protocolos, incluindo HTTP.
-- Medusa: uma ferramenta de brute force que suporta vários protocolos, incluindo HTTP.
-- Burp Suite: uma suíte de ferramentas de teste de segurança que inclui um módulo de brute force para ataques em formulários HTTP.
+O hacker pode então usar uma ferramenta como o Burp Suite para modificar a requisição POST e substituir os valores dos parâmetros do formulário pelos valores que ele deseja testar. Em seguida, ele pode enviar a requisição modificada repetidamente, testando diferentes combinações de nomes de usuário e senhas.
 
-#### Metodologia
-
-Aqui está uma metodologia básica para realizar um ataque de brute force em um formulário HTTP:
-
-1. Identifique o formulário de login alvo no site.
-2. Analise o código-fonte da página para identificar os campos de entrada do formulário, como nome de usuário e senha.
-3. Use uma ferramenta de brute force para automatizar o processo de envio de várias combinações de nome de usuário e senha para o formulário.
-4. Monitore as respostas do servidor para identificar quando uma combinação correta de nome de usuário e senha for encontrada.
-5. Registre as credenciais de login encontradas para uso posterior.
-
-#### Considerações de Segurança
-
-É importante lembrar que realizar um ataque de brute force em um formulário HTTP é uma atividade ilegal, a menos que você tenha permissão explícita do proprietário do site. Além disso, muitos sites implementam medidas de segurança, como bloqueio de IP após várias tentativas falhas, para mitigar ataques de brute force.
-
-Portanto, é fundamental obter permissão legal antes de realizar qualquer tipo de teste de penetração ou hacking.
+É importante ressaltar que o uso de brute force para atacar sistemas é ilegal e antiético, a menos que seja realizado com permissão explícita do proprietário do sistema como parte de um teste de penetração autorizado.
 ```bash
 hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordlists/password.lst domain.htb  http-post-form "/path/index.php:name=^USER^&password=^PASS^&enter=Sign+in:Login name or password is incorrect" -V
 # Use https-post-form mode for https
@@ -327,45 +304,42 @@ Uma das técnicas de ataque comumente usadas contra o iSCSI é o brute force, qu
 
 Para proteger-se contra ataques de brute force, é importante utilizar senhas fortes e complexas, que sejam difíceis de adivinhar. Além disso, é recomendado implementar medidas de segurança adicionais, como bloqueio de contas após um número específico de tentativas falhas e monitoramento de atividades suspeitas.
 
-Em resumo, o iSCSI é um protocolo de rede utilizado para acessar dispositivos de armazenamento remotos. No entanto, é importante estar ciente dos riscos de segurança associados a ele e tomar medidas adequadas para proteger-se contra ataques de brute force.
+Em resumo, o iSCSI é um protocolo de rede utilizado para acessar dispositivos de armazenamento remotos. No entanto, é importante estar ciente dos riscos de segurança associados a ele e tomar medidas adequadas para proteger os dados armazenados.
 ```bash
 nmap -sV --script iscsi-brute --script-args userdb=/var/usernames.txt,passdb=/var/passwords.txt -p 3260 <IP>
 ```
 ### JWT
 
-O JSON Web Token (JWT) é um método de autenticação amplamente utilizado na web. Ele permite que os usuários se autentiquem e acessem recursos protegidos por meio de um token seguro. O JWT consiste em três partes: o cabeçalho, a carga útil e a assinatura.
+O JSON Web Token (JWT) é um método de autenticação amplamente utilizado na web. Ele permite que os usuários se autentiquem e acessem recursos protegidos por meio de um token seguro. Um JWT consiste em três partes: o cabeçalho, a carga útil e a assinatura.
 
 #### Cabeçalho
 
-O cabeçalho do JWT contém informações sobre o tipo de token e o algoritmo de assinatura usado. Geralmente, o tipo de token é definido como "JWT" e o algoritmo de assinatura pode ser HMAC, RSA ou ECDSA.
+O cabeçalho de um JWT contém informações sobre o tipo de token e o algoritmo de assinatura usado. Geralmente, o tipo de token é definido como "JWT" e o algoritmo de assinatura pode ser HMAC, RSA ou ECDSA.
 
 #### Carga útil
 
-A carga útil do JWT contém as informações que são transmitidas entre o emissor e o receptor. Essas informações podem incluir dados do usuário, como o ID do usuário, o nome e as permissões.
+A carga útil de um JWT contém as informações que são transmitidas entre as partes envolvidas. Essas informações podem incluir dados do usuário, como o ID do usuário, o nome e as permissões.
 
 #### Assinatura
 
-A assinatura do JWT é usada para verificar a integridade do token e garantir que ele não tenha sido alterado durante a transmissão. A assinatura é gerada usando uma chave secreta conhecida apenas pelo emissor e pelo receptor.
+A assinatura de um JWT é usada para verificar a integridade do token e garantir que ele não tenha sido alterado durante a transmissão. A assinatura é gerada usando uma chave secreta conhecida apenas pelo emissor e pelo receptor do token.
 
 #### Ataques de força bruta
 
 Os ataques de força bruta são uma técnica comum usada para quebrar senhas ou chaves criptográficas. Nesse tipo de ataque, o invasor tenta todas as combinações possíveis até encontrar a senha ou chave correta.
 
-Existem várias ferramentas disponíveis para realizar ataques de força bruta, como o Hydra e o Medusa. Essas ferramentas automatizam o processo de tentar várias combinações em uma velocidade muito alta.
+#### Protegendo contra ataques de força bruta
 
-Para proteger um sistema contra ataques de força bruta, é importante implementar medidas de segurança, como bloqueio de contas após várias tentativas falhas, uso de senhas fortes e implementação de mecanismos de autenticação de dois fatores.
+Existem várias maneiras de proteger um sistema contra ataques de força bruta. Alguns métodos eficazes incluem:
 
-#### Recursos e metodologias genéricas
+- Implementar bloqueio de conta após várias tentativas falhas de login.
+- Usar senhas fortes e complexas.
+- Implementar um mecanismo de autenticação de dois fatores.
+- Usar algoritmos de hash fortes para armazenar senhas.
 
-Existem várias metodologias e recursos genéricos disponíveis para ajudar os hackers éticos a realizar testes de penetração de forma eficaz. Alguns exemplos incluem:
+#### Conclusão
 
-- Metodologia OSSTMM (Open Source Security Testing Methodology Manual)
-- Metodologia PTES (Penetration Testing Execution Standard)
-- Ferramentas de código aberto, como o Metasploit Framework
-- Fóruns e comunidades online para compartilhar conhecimentos e obter suporte
-- Documentação e tutoriais sobre técnicas de hacking e segurança de TI
-
-Ao realizar testes de penetração, é importante seguir uma metodologia e utilizar os recursos adequados para garantir que todas as áreas relevantes sejam abordadas e que os resultados sejam precisos e confiáveis.
+O JWT é uma forma popular de autenticação na web, mas é importante protegê-lo contra ataques de força bruta. Implementar medidas de segurança adequadas pode ajudar a garantir a integridade e a segurança do sistema.
 ```bash
 #hashcat
 hashcat -m 16500 -a 0 jwt.txt .\wordlists\rockyou.txt
@@ -405,10 +379,11 @@ Para proteger um sistema MQTT contra ataques de força bruta, é importante impl
 - Usar senhas fortes e complexas para autenticação.
 - Limitar o número de tentativas de login.
 - Implementar bloqueio de conta após várias tentativas de login malsucedidas.
-- Monitorar e registrar atividades suspeitas.
-- Manter o software MQTT atualizado com as últimas correções de segurança.
+- Utilizar criptografia para proteger as comunicações MQTT.
 
-Ao seguir essas práticas recomendadas, é possível reduzir significativamente o risco de um ataque de força bruta bem-sucedido em um sistema MQTT.
+Além disso, é importante manter o software MQTT atualizado com as últimas correções de segurança e seguir as melhores práticas de segurança recomendadas pelo fornecedor do software.
+
+Ao implementar essas medidas de segurança, é possível reduzir significativamente o risco de um ataque de força bruta bem-sucedido em um sistema MQTT.
 ```
 ncrack mqtt://127.0.0.1 --user test –P /root/Desktop/pass.txt -v
 ```
@@ -418,15 +393,11 @@ Mongo é um banco de dados NoSQL amplamente utilizado que armazena dados em form
 
 Uma técnica comum usada para atacar o Mongo é a força bruta. A força bruta envolve tentar todas as combinações possíveis de senhas até encontrar a correta. Isso é feito usando programas automatizados que testam várias senhas em uma taxa muito alta.
 
-Para proteger seu banco de dados Mongo contra ataques de força bruta, é importante seguir algumas práticas recomendadas:
+Para proteger seu banco de dados Mongo contra ataques de força bruta, é importante seguir algumas práticas recomendadas. Em primeiro lugar, certifique-se de usar senhas fortes e complexas que sejam difíceis de adivinhar. Além disso, é recomendável implementar medidas de segurança adicionais, como limitar o número de tentativas de login permitidas e bloquear endereços IP suspeitos.
 
-1. Use senhas fortes: Certifique-se de usar senhas complexas e exclusivas para suas contas de banco de dados Mongo. Evite senhas óbvias ou fáceis de adivinhar.
+Outra maneira de proteger seu banco de dados Mongo é mantendo-o atualizado com as últimas correções de segurança. Os desenvolvedores do Mongo lançam regularmente atualizações que corrigem vulnerabilidades conhecidas. Certifique-se de aplicar essas atualizações assim que estiverem disponíveis.
 
-2. Limite as tentativas de login: Configure seu banco de dados Mongo para bloquear temporariamente endereços IP após um número específico de tentativas de login malsucedidas. Isso ajudará a evitar ataques de força bruta.
-
-3. Atualize regularmente: Mantenha seu banco de dados Mongo atualizado com as versões mais recentes. As atualizações geralmente incluem correções de segurança que podem ajudar a proteger contra ataques.
-
-4. Monitore atividades suspeitas: Fique atento a qualquer atividade incomum em seu banco de dados Mongo, como tentativas repetidas de login ou acesso não autorizado. Isso pode ser um sinal de um ataque em andamento.
+Além disso, é importante monitorar o tráfego de rede em busca de atividades suspeitas. Isso pode ajudar a identificar tentativas de força bruta em tempo real e tomar medidas para mitigar o ataque.
 
 Ao implementar essas práticas recomendadas, você pode fortalecer a segurança do seu banco de dados Mongo e reduzir o risco de ataques de força bruta bem-sucedidos.
 ```bash
@@ -435,22 +406,22 @@ use auxiliary/scanner/mongodb/mongodb_login
 ```
 ### MySQL
 
-O MySQL é um sistema de gerenciamento de banco de dados relacional de código aberto amplamente utilizado. Ele fornece uma maneira eficiente de armazenar, organizar e recuperar dados. O MySQL usa a linguagem SQL (Structured Query Language) para executar consultas e manipular dados.
+O MySQL é um sistema de gerenciamento de banco de dados relacional de código aberto amplamente utilizado. Ele fornece uma maneira eficiente de armazenar, organizar e recuperar dados. O MySQL usa a linguagem SQL (Structured Query Language) para consultar e manipular dados em um banco de dados.
 
 #### Ataques de força bruta contra o MySQL
 
-Um ataque de força bruta é uma técnica usada para descobrir senhas ou chaves de criptografia, tentando todas as combinações possíveis até encontrar a correta. No contexto do MySQL, um ataque de força bruta pode ser usado para tentar adivinhar a senha de um usuário ou a chave de criptografia usada para proteger os dados armazenados no banco de dados.
+Um ataque de força bruta é uma técnica usada para descobrir senhas ou chaves de criptografia, tentando todas as combinações possíveis até encontrar a correta. No contexto do MySQL, um ataque de força bruta pode ser usado para tentar adivinhar a senha de um usuário com acesso ao banco de dados.
 
-Existem várias ferramentas disponíveis para realizar ataques de força bruta contra o MySQL. Essas ferramentas automatizam o processo de tentar várias combinações de senhas em um curto período de tempo. Além disso, os atacantes podem usar dicionários de senhas comuns ou gerar senhas aleatórias para aumentar suas chances de sucesso.
+Existem várias ferramentas disponíveis para realizar ataques de força bruta contra o MySQL. Essas ferramentas automatizam o processo de tentar várias combinações de senhas em um curto período de tempo. Os atacantes podem usar dicionários de senhas comuns ou gerar senhas aleatórias para tentar adivinhar a senha correta.
 
-Para proteger seu banco de dados MySQL contra ataques de força bruta, é importante seguir boas práticas de segurança, como:
+Para proteger o MySQL contra ataques de força bruta, é importante implementar medidas de segurança, como:
 
 - Usar senhas fortes e complexas para os usuários do MySQL.
 - Limitar o número de tentativas de login permitidas antes de bloquear temporariamente o acesso.
-- Implementar medidas de segurança adicionais, como autenticação de dois fatores.
-- Manter o software do MySQL atualizado com as últimas correções de segurança.
+- Implementar autenticação de dois fatores para adicionar uma camada extra de segurança.
+- Monitorar e registrar atividades suspeitas de login.
 
-Ao implementar essas práticas de segurança, você pode reduzir significativamente o risco de um ataque de força bruta bem-sucedido contra seu banco de dados MySQL.
+Além disso, é recomendável manter o MySQL atualizado com as últimas correções de segurança e seguir as práticas recomendadas de segurança.
 ```bash
 # hydra
 hydra -L usernames.txt -P pass.txt <IP> mysql
@@ -465,35 +436,31 @@ medusa -h <IP/Host> -u <username> -P <password_list> <-f | to stop medusa on fir
 
 ## Introdução
 
-O ataque de força bruta é uma técnica comum usada por hackers para obter acesso não autorizado a sistemas protegidos por senha. Nesse tipo de ataque, o hacker tenta todas as combinações possíveis de senhas até encontrar a correta. Embora seja uma abordagem simples, pode ser eficaz se a senha for fraca ou previsível.
+O ataque de força bruta é uma técnica comum usada por hackers para obter acesso não autorizado a sistemas protegidos por senha. Neste capítulo, discutiremos o uso de força bruta no contexto do OracleSQL.
 
-## Metodologia
+## O que é OracleSQL?
 
-Aqui estão os passos básicos para realizar um ataque de força bruta:
+OracleSQL é uma linguagem de consulta estruturada usada para gerenciar e manipular bancos de dados Oracle. É amplamente utilizado em aplicativos empresariais e é conhecido por sua segurança robusta.
 
-1. Identificar o alvo: Determine o sistema ou serviço que você deseja atacar e obtenha informações sobre ele, como o nome de usuário ou o endereço IP.
+## Ataque de Força Bruta no OracleSQL
 
-2. Selecionar a ferramenta: Escolha uma ferramenta de força bruta adequada para o tipo de sistema ou serviço que você está atacando. Existem várias ferramentas disponíveis, como Hydra, Medusa e Ncrack.
+Um ataque de força bruta no OracleSQL envolve tentar todas as combinações possíveis de senhas até encontrar a correta. Isso é feito usando um programa automatizado que gera e testa senhas em alta velocidade.
 
-3. Configurar a ferramenta: Configure a ferramenta de acordo com as especificações do alvo, como o protocolo de autenticação e o formato da senha.
+## Ferramentas de Força Bruta
 
-4. Executar o ataque: Inicie o ataque de força bruta, permitindo que a ferramenta tente todas as combinações possíveis de senhas. Isso pode levar algum tempo, dependendo da complexidade da senha e do poder de processamento disponível.
+Existem várias ferramentas disponíveis para realizar ataques de força bruta no OracleSQL. Alguns exemplos populares incluem Hydra, Medusa e Ncrack. Essas ferramentas são altamente configuráveis e podem ser ajustadas para atender às necessidades específicas do atacante.
 
-5. Analisar os resultados: Analise os resultados do ataque para determinar se a senha foi encontrada com sucesso. Se a senha for encontrada, você terá acesso não autorizado ao sistema ou serviço.
+## Mitigação de Ataques de Força Bruta
 
-## Recursos
+Existem várias medidas que podem ser tomadas para mitigar ataques de força bruta no OracleSQL. Alguns exemplos incluem:
 
-Aqui estão alguns recursos úteis para realizar ataques de força bruta:
-
-- **Hydra**: Uma ferramenta de força bruta muito popular que suporta vários protocolos de autenticação, como SSH, FTP, HTTP e muito mais. Pode ser usado para atacar sistemas operacionais, serviços web e aplicativos.
-
-- **Medusa**: Outra ferramenta de força bruta poderosa que suporta vários protocolos de autenticação. É conhecida por sua velocidade e eficiência.
-
-- **Ncrack**: Uma ferramenta de força bruta de código aberto que suporta vários protocolos de autenticação. É altamente flexível e pode ser usado para atacar uma ampla variedade de sistemas e serviços.
+- Implementar políticas de senha fortes que exijam senhas complexas e de comprimento adequado.
+- Bloquear contas após um número específico de tentativas de login malsucedidas.
+- Implementar autenticação multifator para adicionar uma camada extra de segurança.
 
 ## Conclusão
 
-O ataque de força bruta é uma técnica poderosa usada por hackers para obter acesso não autorizado a sistemas protegidos por senha. É importante estar ciente dessa técnica e tomar medidas para proteger seus sistemas contra ataques de força bruta, usando senhas fortes e implementando medidas de segurança adicionais, como bloqueio de contas após várias tentativas de login malsucedidas.
+O ataque de força bruta no OracleSQL é uma técnica perigosa usada por hackers para obter acesso não autorizado a sistemas protegidos por senha. É importante implementar medidas de segurança adequadas para mitigar esse tipo de ataque e proteger os sistemas contra invasões indesejadas.
 ```bash
 patator oracle_login sid=<SID> host=<IP> user=FILE0 password=FILE1 0=users-oracle.txt 1=pass-oracle.txt -x ignore:code=ORA-01017
 
@@ -534,21 +501,31 @@ It is important to note that brute forcing is an aggressive and potentially ille
 hydra -l USERNAME -P /path/to/passwords.txt -f <IP> pop3 -V
 hydra -S -v -l USERNAME -P /path/to/passwords.txt -s 995 -f <IP> pop3 -V
 ```
-### PostgreSQL
+# Brute Force
 
-O PostgreSQL é um sistema de gerenciamento de banco de dados relacional de código aberto. Ele é amplamente utilizado em aplicativos web e é conhecido por sua confiabilidade, escalabilidade e recursos avançados. O PostgreSQL suporta uma variedade de recursos, incluindo consultas complexas, transações ACID, replicação e segurança avançada.
+O ataque de força bruta é uma técnica comum usada para obter acesso não autorizado a sistemas ou contas. Nesse tipo de ataque, o invasor tenta adivinhar a senha correta testando várias combinações possíveis até encontrar a senha correta.
 
-### Ataques de Força Bruta
+## Ataque de Força Bruta no PostgreSQL
 
-Um ataque de força bruta é uma técnica usada para descobrir senhas ou chaves criptográficas através da tentativa de todas as combinações possíveis até encontrar a correta. No contexto do PostgreSQL, um ataque de força bruta pode ser usado para tentar adivinhar a senha de um usuário ou a chave de criptografia de um banco de dados.
+O PostgreSQL é um sistema de gerenciamento de banco de dados relacional popular que também pode ser alvo de ataques de força bruta. Os invasores podem tentar adivinhar as senhas das contas de usuário do PostgreSQL para obter acesso não autorizado ao banco de dados.
 
-Existem várias ferramentas disponíveis para realizar ataques de força bruta no PostgreSQL, como o Hydra e o Medusa. Essas ferramentas automatizam o processo de tentativa de várias combinações de senhas em um curto período de tempo.
+Existem várias ferramentas disponíveis que podem ser usadas para realizar ataques de força bruta no PostgreSQL. Essas ferramentas automatizam o processo de tentar várias combinações de senhas em uma velocidade muito alta, aumentando assim as chances de sucesso do ataque.
 
-Para proteger seu banco de dados PostgreSQL contra ataques de força bruta, é importante seguir boas práticas de segurança, como usar senhas fortes, implementar bloqueio de conta após várias tentativas falhas de login e monitorar os logs de autenticação em busca de atividades suspeitas.
+## Protegendo contra ataques de força bruta
 
-Além disso, é recomendável manter o PostgreSQL atualizado com as últimas correções de segurança e configurar firewalls para restringir o acesso ao banco de dados apenas a partir de fontes confiáveis.
+Existem várias medidas que podem ser tomadas para proteger o PostgreSQL contra ataques de força bruta:
 
-Em resumo, embora os ataques de força bruta possam ser uma ameaça ao PostgreSQL, seguir as práticas recomendadas de segurança pode ajudar a mitigar esse risco.
+- Use senhas fortes: Certifique-se de que as senhas das contas de usuário do PostgreSQL sejam fortes e não fáceis de adivinhar. Isso inclui o uso de uma combinação de letras maiúsculas e minúsculas, números e caracteres especiais.
+
+- Limite as tentativas de login: Configure o PostgreSQL para limitar o número de tentativas de login permitidas em um determinado período de tempo. Isso pode ajudar a evitar ataques de força bruta, pois os invasores terão um número limitado de tentativas para adivinhar a senha correta.
+
+- Monitore os logs de autenticação: Monitore regularmente os logs de autenticação do PostgreSQL em busca de atividades suspeitas. Isso pode ajudar a identificar tentativas de ataques de força bruta e tomar medidas preventivas.
+
+- Atualize regularmente: Mantenha o PostgreSQL atualizado com as últimas correções de segurança. Isso pode ajudar a proteger contra vulnerabilidades conhecidas que podem ser exploradas em ataques de força bruta.
+
+- Use autenticação de dois fatores: Considere a implementação da autenticação de dois fatores para adicionar uma camada extra de segurança ao PostgreSQL. Isso exigirá que os usuários forneçam uma segunda forma de autenticação, além da senha, para acessar o banco de dados.
+
+Ao implementar essas medidas de segurança, você pode ajudar a proteger o PostgreSQL contra ataques de força bruta e manter seus dados seguros.
 ```bash
 hydra -L /root/Desktop/user.txt –P /root/Desktop/pass.txt <IP> postgres
 medusa -h <IP> –U /root/Desktop/user.txt –P /root/Desktop/pass.txt –M postgres
@@ -588,27 +565,20 @@ hydra -V -f -L <userslist> -P <passwlist> rdp://<IP>
 ```
 # Brute Force
 
-O brute force é uma técnica de ataque que envolve tentar todas as combinações possíveis de senhas até encontrar a correta. É uma abordagem simples, mas pode ser eficaz se a senha for fraca ou se o atacante tiver recursos computacionais significativos.
+O brute force é uma técnica de ataque que envolve tentar todas as combinações possíveis de senhas até encontrar a correta. É uma abordagem direta e demorada, mas pode ser eficaz se a senha for fraca ou se o número de combinações possíveis for pequeno.
 
-## Ataques de Brute Force em Redis
+No contexto do Redis, o brute force pode ser usado para tentar adivinhar a senha de acesso a um servidor Redis protegido por autenticação. O Redis é um banco de dados em memória que é frequentemente usado como cache ou armazenamento de dados temporários. Se um invasor conseguir acessar um servidor Redis, ele pode obter informações confidenciais ou até mesmo comprometer outros sistemas conectados a ele.
 
-O Redis é um banco de dados em memória que armazena dados na forma de chave-valor. Embora o Redis tenha recursos de segurança, como autenticação de senha, ainda é vulnerável a ataques de brute force se a senha for fraca ou se não houver medidas adicionais de segurança implementadas.
+Existem várias ferramentas disponíveis para realizar ataques de brute force no Redis. Essas ferramentas automatizam o processo de tentar várias combinações de senhas em um curto período de tempo. Além disso, existem listas de senhas comuns disponíveis na internet, que podem ser usadas como ponto de partida para um ataque de brute force.
 
-Existem várias ferramentas disponíveis para realizar ataques de brute force em servidores Redis. Essas ferramentas automatizam o processo de tentar várias combinações de senhas em um curto período de tempo, aumentando assim as chances de sucesso do ataque.
+Para proteger um servidor Redis contra ataques de brute force, é importante seguir boas práticas de segurança, como:
 
-## Mitigação de Ataques de Brute Force em Redis
+- Usar senhas fortes e complexas, que sejam difíceis de adivinhar.
+- Limitar o número de tentativas de login, bloqueando temporariamente o IP após um número específico de falhas.
+- Monitorar os logs de acesso para detectar atividades suspeitas.
+- Manter o servidor Redis atualizado com as últimas correções de segurança.
 
-Para mitigar ataques de brute force em servidores Redis, é importante seguir as melhores práticas de segurança, como:
-
-- Use senhas fortes: Certifique-se de usar senhas complexas e exclusivas para autenticação no Redis. Evite senhas óbvias ou fáceis de adivinhar.
-
-- Limite as tentativas de login: Configure o Redis para limitar o número de tentativas de login permitidas em um determinado período de tempo. Isso pode ajudar a evitar ataques de brute force, pois o atacante será bloqueado após um número específico de tentativas malsucedidas.
-
-- Monitore atividades suspeitas: Implemente um sistema de monitoramento para detectar atividades suspeitas, como um grande número de tentativas de login malsucedidas. Isso permitirá que você identifique e responda rapidamente a possíveis ataques de brute force.
-
-- Atualize regularmente: Mantenha o Redis atualizado com as versões mais recentes, pois elas geralmente incluem correções de segurança e melhorias de proteção contra ataques de brute force.
-
-Ao implementar essas medidas de segurança, você pode reduzir significativamente o risco de ataques de brute force bem-sucedidos em servidores Redis.
+Ao implementar essas medidas de segurança, é possível reduzir significativamente o risco de um ataque de brute force bem-sucedido no Redis.
 ```bash
 msf> use auxiliary/scanner/redis/redis_login
 nmap --script redis-brute -p 6379 <IP>
@@ -616,58 +586,53 @@ hydra –P /path/pass.txt redis://<IP>:<PORT> # 6379 is the default
 ```
 ### Rexec
 
-O Rexec é um protocolo de rede que permite a execução remota de comandos em um servidor. Ele é frequentemente usado para fins administrativos, como gerenciamento de servidores e solução de problemas. No entanto, também pode ser explorado por hackers para obter acesso não autorizado a sistemas remotos.
+O Rexec é um protocolo de rede que permite a execução remota de comandos em um servidor. É comumente usado para fins administrativos, permitindo que os administradores executem comandos em servidores remotos sem precisar fazer login diretamente no servidor.
 
-#### Ataques de força bruta contra o Rexec
+No entanto, o Rexec também pode ser explorado por hackers para realizar ataques de força bruta. Um ataque de força bruta é quando um hacker tenta adivinhar a senha correta de um usuário, testando várias combinações possíveis até encontrar a senha correta.
 
-Um ataque de força bruta é uma técnica comum usada por hackers para tentar adivinhar senhas ou chaves de autenticação. No caso do Rexec, um ataque de força bruta envolve tentar várias combinações de nomes de usuário e senhas para obter acesso ao servidor.
+Para realizar um ataque de força bruta no Rexec, um hacker usaria um programa automatizado que tenta várias combinações de senhas em rápida sucessão. O objetivo é encontrar a senha correta e obter acesso não autorizado ao servidor.
 
-Existem várias ferramentas disponíveis para realizar ataques de força bruta contra o Rexec. Essas ferramentas automatizam o processo de tentar várias combinações de credenciais em um curto período de tempo, aumentando assim as chances de sucesso do ataque.
+Existem várias ferramentas disponíveis para realizar ataques de força bruta no Rexec, como o Hydra e o Medusa. Essas ferramentas são capazes de testar milhares de combinações de senhas por segundo, tornando o processo de adivinhar a senha muito mais rápido.
 
-#### Mitigação de ataques de força bruta
-
-Para mitigar ataques de força bruta contra o Rexec, é importante implementar medidas de segurança adequadas. Aqui estão algumas práticas recomendadas:
-
-- Use senhas fortes: Certifique-se de usar senhas complexas e exclusivas para evitar que sejam adivinhadas facilmente.
-- Implemente bloqueio de conta: Configure o servidor Rexec para bloquear temporariamente uma conta após um número específico de tentativas de login malsucedidas.
-- Monitore logs de autenticação: Fique atento a atividades suspeitas nos logs de autenticação do servidor Rexec e tome medidas imediatas se detectar tentativas de força bruta.
-- Atualize regularmente: Mantenha o servidor Rexec atualizado com as últimas correções de segurança para evitar vulnerabilidades conhecidas.
-
-Ao implementar essas práticas recomendadas, você pode reduzir significativamente o risco de um ataque de força bruta bem-sucedido contra o Rexec.
+Para se proteger contra ataques de força bruta no Rexec, é importante usar senhas fortes e complexas. Além disso, é recomendável implementar medidas de segurança adicionais, como bloqueio de IP após várias tentativas de login malsucedidas e monitoramento de atividades suspeitas no servidor.
 ```bash
 hydra -l <username> -P <password_file> rexec://<Victim-IP> -v -V
 ```
-O Rlogin é um protocolo de rede que permite a um usuário se conectar a um servidor remoto. Ele é amplamente utilizado para fins de administração de sistemas e pode ser explorado por hackers para obter acesso não autorizado a sistemas remotos.
+### Rlogin
 
-#### Ataques de força bruta contra o Rlogin
+O Rlogin é um protocolo de rede que permite a um usuário se conectar a um servidor remoto usando autenticação baseada em senha. Ele é amplamente utilizado para acesso remoto a sistemas Unix-like.
 
-Um ataque de força bruta é uma técnica comum usada para comprometer senhas fracas ou previsíveis. No contexto do Rlogin, um ataque de força bruta envolve tentar todas as combinações possíveis de senhas até encontrar a correta.
+#### Técnica de Força Bruta
 
-Existem várias ferramentas disponíveis para realizar ataques de força bruta contra o Rlogin. Essas ferramentas automatizam o processo de tentar várias senhas em uma velocidade muito alta, permitindo que os hackers encontrem senhas fracas ou previsíveis com mais facilidade.
+A técnica de força bruta é um método utilizado para descobrir senhas através de tentativas repetidas de todas as combinações possíveis. No contexto do Rlogin, um atacante pode usar a técnica de força bruta para tentar adivinhar a senha de um usuário remoto.
 
-#### Mitigação de ataques de força bruta
+#### Ferramentas e Recursos
 
-Para proteger sistemas contra ataques de força bruta contra o Rlogin, é importante implementar medidas de segurança adequadas. Aqui estão algumas práticas recomendadas:
+Existem várias ferramentas e recursos disponíveis para realizar ataques de força bruta no Rlogin. Alguns exemplos incluem:
 
-- Use senhas fortes e exclusivas para cada conta de usuário.
-- Implemente políticas de senha que exijam senhas complexas e regulares alterações de senha.
-- Limite o número de tentativas de login permitidas antes de bloquear temporariamente a conta.
-- Monitore e registre atividades suspeitas de login.
-- Considere a implementação de autenticação de dois fatores para adicionar uma camada extra de segurança.
+- Hydra: uma ferramenta de força bruta que suporta vários protocolos, incluindo Rlogin.
+- Medusa: uma ferramenta de força bruta rápida e modular que também suporta o protocolo Rlogin.
+- Dicionários de senhas: listas de palavras comumente usadas como senhas, que podem ser usadas em ataques de força bruta.
 
-Ao seguir essas práticas recomendadas, é possível reduzir significativamente o risco de um ataque de força bruta bem-sucedido contra o Rlogin.
+#### Mitigação
+
+Para mitigar ataques de força bruta no Rlogin, é recomendado implementar as seguintes medidas de segurança:
+
+- Use senhas fortes: escolha senhas complexas e exclusivas que sejam difíceis de adivinhar.
+- Limite as tentativas de login: configure o servidor Rlogin para bloquear temporariamente contas após um número específico de tentativas de login malsucedidas.
+- Implemente autenticação de dois fatores: adicione uma camada extra de segurança exigindo um segundo fator de autenticação, como um código enviado por SMS ou um token de segurança.
+
+Lembre-se de que a realização de ataques de força bruta sem permissão é ilegal e pode resultar em consequências legais graves.
 ```bash
 hydra -l <username> -P <password_file> rlogin://<Victim-IP> -v -V
 ```
 ### Rsh
 
-O Rsh (Remote Shell) é um protocolo de rede que permite a execução remota de comandos em um sistema Unix ou Linux. Ele é usado para acessar e controlar um sistema remoto através de uma conexão de rede.
+O Rsh (Remote Shell) é um protocolo de rede que permite a execução remota de comandos em um sistema Unix ou Linux. Ele é usado para estabelecer uma conexão entre um cliente e um servidor, permitindo que o cliente execute comandos no servidor como se estivesse localmente conectado a ele.
 
-O Rsh é um protocolo simples que não oferece autenticação ou criptografia, o que o torna vulnerável a ataques de força bruta. Um ataque de força bruta é uma técnica em que um hacker tenta adivinhar a senha correta testando todas as combinações possíveis até encontrar a correta.
+O Rsh é um protocolo simples que não oferece autenticação ou criptografia, o que o torna vulnerável a ataques de brute force. Um ataque de brute force no Rsh envolve tentar todas as combinações possíveis de senhas até encontrar a correta. Isso é feito usando um programa automatizado que tenta repetidamente diferentes senhas até obter acesso ao sistema.
 
-Para realizar um ataque de força bruta no Rsh, um hacker pode usar ferramentas como o Hydra ou o Medusa. Essas ferramentas automatizam o processo de tentar várias combinações de senhas em um curto período de tempo.
-
-É importante ressaltar que realizar um ataque de força bruta é ilegal e antiético, a menos que seja feito com permissão explícita do proprietário do sistema alvo para fins de teste de segurança.
+Para proteger um sistema contra ataques de brute force no Rsh, é importante implementar medidas de segurança, como a configuração de senhas fortes e a restrição de acesso ao serviço Rsh apenas a partir de hosts confiáveis. Além disso, é recomendável desativar completamente o serviço Rsh, se possível, e usar alternativas mais seguras, como o SSH (Secure Shell).
 ```bash
 hydra -L <Username_list> rsh://<Victim_IP> -v -V
 ```
@@ -677,11 +642,11 @@ hydra -L <Username_list> rsh://<Victim_IP> -v -V
 
 Rsync é uma ferramenta de sincronização de arquivos amplamente utilizada que permite transferir e sincronizar dados entre sistemas remotos. É especialmente útil para fazer backup de arquivos e espelhar diretórios entre servidores.
 
-No contexto de hacking, o Rsync pode ser explorado para realizar ataques de força bruta. Um ataque de força bruta é uma técnica em que um hacker tenta adivinhar a senha correta de um sistema testando todas as combinações possíveis até encontrar a correta.
+No contexto de testes de penetração, o Rsync pode ser explorado para realizar ataques de força bruta. Um ataque de força bruta envolve tentar todas as combinações possíveis de senhas até encontrar a correta. Isso é feito enviando solicitações de autenticação ao servidor Rsync com diferentes combinações de nome de usuário e senha.
 
-O Rsync pode ser alvo de ataques de força bruta devido à sua implementação de autenticação baseada em senha. Os hackers podem usar ferramentas como o rsh-grind para automatizar o processo de tentativa de várias senhas em uma velocidade muito rápida.
+O Rsync também pode ser usado para explorar senhas fracas ou previsíveis. Ao usar uma lista de senhas comuns ou uma lista de palavras-chave relacionadas ao alvo, é possível automatizar o processo de força bruta e tentar várias combinações rapidamente.
 
-É importante ressaltar que realizar ataques de força bruta é ilegal e antiético, a menos que seja feito com permissão explícita do proprietário do sistema alvo para fins de teste de segurança.
+É importante ressaltar que a realização de ataques de força bruta sem permissão é ilegal e antiética. Essas técnicas devem ser usadas apenas para fins legítimos, como testes de segurança em sistemas autorizados.
 ```bash
 nmap -sV --script rsync-brute --script-args userdb=/var/usernames.txt,passdb=/var/passwords.txt -p 873 <IP>
 ```
@@ -697,15 +662,11 @@ A autenticação de força bruta é uma técnica comum usada por hackers para ob
 ```bash
 hydra -l root -P passwords.txt <IP> rtsp
 ```
-O SNMP (Simple Network Management Protocol) é um protocolo amplamente utilizado para gerenciamento de redes. Ele permite que os administradores monitorem e gerenciem dispositivos de rede, como roteadores, switches e servidores.
+O SNMP (Simple Network Management Protocol) é um protocolo amplamente utilizado para gerenciamento de redes. Ele permite que os administradores monitorem e gerenciem dispositivos de rede, como roteadores, switches e servidores. O SNMP opera usando uma estrutura cliente-servidor, onde os dispositivos de rede atuam como agentes SNMP e os sistemas de gerenciamento de rede atuam como gerentes SNMP.
 
-Uma técnica comum de ataque é o brute force, que envolve tentar todas as combinações possíveis de senhas até encontrar a correta. No contexto do SNMP, um ataque de brute force pode ser usado para tentar adivinhar a senha de acesso a um dispositivo SNMP.
+O SNMP usa uma variedade de comandos para coletar informações dos dispositivos de rede, como consultas GET e SET. No entanto, uma técnica comum usada por hackers é a força bruta, que envolve tentar todas as combinações possíveis de senhas até encontrar a correta. Isso é feito usando ferramentas automatizadas, como o Hydra, que podem testar várias senhas em um curto período de tempo.
 
-Existem várias ferramentas disponíveis para realizar ataques de brute force no SNMP. Essas ferramentas automatizam o processo de tentar várias senhas em um curto período de tempo, aumentando as chances de sucesso do ataque.
-
-Para proteger-se contra ataques de brute force no SNMP, é importante seguir boas práticas de segurança, como usar senhas fortes e complexas, implementar bloqueio de conta após várias tentativas falhas e monitorar os logs de acesso ao dispositivo.
-
-Além disso, é recomendável usar uma solução de gerenciamento de rede que ofereça recursos avançados de segurança, como detecção de ataques de brute force e alertas em tempo real. Isso ajudará a identificar e responder rapidamente a qualquer atividade suspeita em sua rede.
+Para proteger os dispositivos SNMP contra ataques de força bruta, é importante seguir boas práticas de segurança, como usar senhas fortes e complexas, limitar o acesso ao protocolo SNMP apenas a sistemas autorizados e monitorar regularmente os logs de atividades para detectar atividades suspeitas. Além disso, é recomendável implementar mecanismos de bloqueio temporário após várias tentativas de login malsucedidas para evitar ataques de força bruta.
 ```bash
 msf> use auxiliary/scanner/snmp/snmp_login
 nmap -sU --script snmp-brute <target> [--script-args snmp-brute.communitiesdb=<wordlist> ]
@@ -720,7 +681,7 @@ O SMB (Server Message Block) é um protocolo de compartilhamento de arquivos e i
 
 Um ataque de força bruta é uma técnica usada para descobrir senhas ou chaves criptográficas adivinhando todas as combinações possíveis até encontrar a correta. No contexto do SMB, um ataque de força bruta pode ser usado para tentar adivinhar a senha de uma conta de usuário ou de um recurso compartilhado.
 
-Existem várias ferramentas disponíveis para realizar ataques de força bruta no SMB, como o Hydra e o Medusa. Essas ferramentas automatizam o processo de adivinhar senhas, testando várias combinações em um curto período de tempo.
+Existem várias ferramentas disponíveis para realizar ataques de força bruta no SMB, como o Hydra e o Medusa. Essas ferramentas automatizam o processo de tentar várias combinações de senhas em uma velocidade muito alta, permitindo que um atacante tente milhões de senhas em pouco tempo.
 
 Para proteger-se contra ataques de força bruta no SMB, é importante usar senhas fortes e complexas, que sejam difíceis de adivinhar. Além disso, é recomendável implementar medidas de segurança adicionais, como bloqueio de contas após várias tentativas de login malsucedidas e monitoramento de atividades suspeitas na rede.
 ```bash
@@ -729,50 +690,38 @@ hydra -l Administrator -P words.txt 192.168.1.12 smb -t 1
 ```
 ### SMTP
 
-O Simple Mail Transfer Protocol (SMTP) é um protocolo de comunicação utilizado para enviar e receber e-mails. Ele é amplamente utilizado na comunicação de servidores de e-mail e permite que os usuários enviem mensagens de e-mail para destinatários em todo o mundo.
+O Simple Mail Transfer Protocol (SMTP) é um protocolo de comunicação utilizado para enviar e receber e-mails. Ele é amplamente utilizado na comunicação de servidores de e-mail e permite que os usuários enviem mensagens de e-mail para destinatários em diferentes domínios.
 
-O SMTP é baseado em texto e funciona através de uma série de comandos e respostas entre o cliente de e-mail e o servidor de e-mail. O cliente de e-mail envia comandos para o servidor de e-mail, como "HELO" (para iniciar a comunicação), "MAIL FROM" (para especificar o remetente do e-mail) e "RCPT TO" (para especificar o destinatário do e-mail). O servidor de e-mail responde a esses comandos com códigos de status que indicam se o comando foi executado com sucesso ou se ocorreu algum erro.
+O SMTP é baseado em texto e opera na porta 25. Ele segue um conjunto de regras e comandos para transferir mensagens de e-mail entre servidores. O processo de envio de e-mails usando o SMTP envolve a autenticação do remetente, a identificação do destinatário e a transferência da mensagem.
 
-Um método comum de ataque cibernético é a força bruta no SMTP, onde um hacker tenta adivinhar as credenciais de login de um servidor de e-mail através de tentativas repetidas de combinações de nomes de usuário e senhas. Isso pode ser feito usando ferramentas automatizadas que testam várias combinações em um curto período de tempo.
+No entanto, o SMTP também pode ser explorado por hackers para realizar ataques de força bruta. Um ataque de força bruta no SMTP envolve tentar todas as combinações possíveis de senhas para obter acesso não autorizado a uma conta de e-mail. Os hackers podem usar ferramentas automatizadas para realizar esses ataques, tentando várias senhas em rápida sucessão até encontrar a correta.
 
-Para proteger um servidor de e-mail contra ataques de força bruta, é importante implementar medidas de segurança, como a configuração de políticas de bloqueio de contas após um número específico de tentativas de login malsucedidas, o uso de senhas fortes e a implementação de autenticação em dois fatores. Além disso, é recomendável manter o software do servidor de e-mail atualizado para corrigir quaisquer vulnerabilidades conhecidas.
+Para se proteger contra ataques de força bruta no SMTP, é importante implementar medidas de segurança, como a configuração de senhas fortes e a limitação do número de tentativas de login. Além disso, é recomendável monitorar os logs do servidor de e-mail em busca de atividades suspeitas e manter o software do servidor de e-mail atualizado com as últimas correções de segurança.
 ```bash
 hydra -l <username> -P /path/to/passwords.txt <IP> smtp -V
 hydra -l <username> -P /path/to/passwords.txt -s 587 <IP> -S -v -V #Port 587 for SMTP with SSL
 ```
-SOCKS (Socket Secure) é um protocolo de rede que permite a comunicação entre um cliente e um servidor através de um proxy. O SOCKS atua como um intermediário entre o cliente e o servidor, permitindo que o cliente envie solicitações para o servidor por meio do proxy. Isso pode ser útil para ocultar o endereço IP real do cliente e contornar restrições de rede.
+SOCKS (Socket Secure) is a protocol that allows for the secure transmission of network packets between a client and a server through a proxy server. It operates at the transport layer of the OSI model and can be used for various purposes, including bypassing network restrictions and anonymizing internet traffic.
 
-#### Ataques de Força Bruta com SOCKS
+### Brute Force Attack
 
-Um ataque de força bruta é uma técnica usada para descobrir senhas ou chaves criptográficas adivinhando repetidamente combinações possíveis até encontrar a correta. Com o uso de um servidor SOCKS, um atacante pode realizar ataques de força bruta de forma mais eficiente, pois pode distribuir a carga de trabalho entre vários proxies SOCKS.
+A brute force attack is a method used by hackers to gain unauthorized access to a system or account by systematically trying all possible combinations of passwords or encryption keys until the correct one is found. This method relies on the assumption that the password or key is weak and can be easily guessed through trial and error.
 
-Existem várias ferramentas disponíveis para realizar ataques de força bruta com SOCKS, como Hydra e Medusa. Essas ferramentas permitem que o atacante especifique uma lista de senhas ou chaves possíveis e automatizem o processo de tentativa e erro.
+Brute force attacks can be time-consuming and resource-intensive, especially when dealing with complex passwords or encryption algorithms. However, they can be effective against systems with weak security measures in place.
 
-É importante ressaltar que a realização de ataques de força bruta é ilegal e antiética, a menos que seja feito com permissão explícita do proprietário do sistema-alvo para fins de teste de segurança.
+To protect against brute force attacks, it is important to use strong and unique passwords, implement account lockout policies, and employ additional security measures such as two-factor authentication.
 ```bash
 nmap  -vvv -sCV --script socks-brute --script-args userdb=users.txt,passdb=/usr/share/seclists/Passwords/xato-net-10-million-passwords-1000000.txt,unpwndb.timelimit=30m -p 1080 <IP>
 ```
 ### SSH
 
-SSH (Secure Shell) é um protocolo de rede criptografado que permite a comunicação segura entre dois sistemas. É comumente usado para acessar e controlar servidores remotos de forma segura. O SSH utiliza criptografia assimétrica para autenticar e proteger a comunicação, garantindo a confidencialidade e integridade dos dados transmitidos.
+SSH (Secure Shell) é um protocolo de rede criptografado que permite a comunicação segura entre dois sistemas. É comumente usado para acessar e controlar servidores remotos de forma segura. O SSH utiliza criptografia assimétrica para autenticar e estabelecer uma conexão segura, garantindo a confidencialidade e integridade dos dados transmitidos.
 
 #### Força Bruta SSH
 
 A força bruta SSH é uma técnica usada para descobrir senhas de acesso a servidores SSH por meio de tentativas repetidas de combinações de senhas. Essa técnica envolve o uso de programas automatizados que tentam todas as combinações possíveis de senhas até encontrar a correta.
 
-Embora a força bruta SSH possa ser eficaz contra senhas fracas, ela é geralmente ineficiente contra senhas fortes e sistemas que implementam medidas de segurança adicionais, como bloqueio de IP após várias tentativas falhas.
-
-#### Mitigação da Força Bruta SSH
-
-Existem várias medidas que podem ser tomadas para mitigar o risco de ataques de força bruta SSH:
-
-- Use senhas fortes: escolha senhas longas e complexas que sejam difíceis de adivinhar.
-- Implemente autenticação de dois fatores (2FA): adicione uma camada extra de segurança exigindo um segundo fator de autenticação, como um código gerado por um aplicativo de autenticação ou um token físico.
-- Limite as tentativas de login: configure seu servidor SSH para bloquear temporariamente endereços IP após um número específico de tentativas falhas de login.
-- Use chaves SSH: em vez de senhas, use chaves SSH para autenticação. As chaves SSH são mais seguras e não podem ser quebradas por ataques de força bruta.
-- Monitore os logs de autenticação: verifique regularmente os logs de autenticação do servidor SSH em busca de atividades suspeitas ou tentativas de login mal-sucedidas.
-
-Ao implementar essas medidas de segurança, você pode reduzir significativamente o risco de um ataque bem-sucedido de força bruta SSH em seu servidor.
+Embora a força bruta SSH possa ser eficaz contra senhas fracas, ela é geralmente ineficiente contra senhas fortes e sistemas que implementam medidas de segurança adicionais, como bloqueio de IP após várias tentativas falhas. Portanto, é importante usar senhas fortes e implementar medidas de segurança adequadas para proteger os servidores SSH contra ataques de força bruta.
 ```bash
 hydra -l root -P passwords.txt [-t 32] <IP> ssh
 ncrack -p 22 --user root -P passwords.txt <IP> [-T 5]
@@ -792,15 +741,15 @@ medusa -h <IP> –U /root/Desktop/user.txt –P /root/Desktop/pass.txt –M mssq
 nmap -p 1433 --script ms-sql-brute --script-args mssql.domain=DOMAIN,userdb=customuser.txt,passdb=custompass.txt,ms-sql-brute.brute-windows-accounts <host> #Use domain if needed. Be careful with the number of passwords in the list, this could block accounts
 msf> use auxiliary/scanner/mssql/mssql_login #Be careful, you can block accounts. If you have a domain set it and use USE_WINDOWS_ATHENT
 ```
-Telnet is a network protocol used for remote access to devices over a network. It allows users to establish a command-line session with a remote host. Telnet is often used for troubleshooting, configuration, and management of network devices.
+Telnet is a protocol used for remote access to computers over a network. It allows users to log in to a remote system and execute commands as if they were directly connected to it. Telnet is often used for administrative purposes, such as configuring network devices or troubleshooting issues.
 
-Telnet is a clear-text protocol, which means that all communication between the client and the server is transmitted in plain text. This lack of encryption makes Telnet vulnerable to eavesdropping and interception of sensitive information, such as usernames and passwords.
+Telnet is a clear-text protocol, which means that all communication between the client and the server is sent in plain text. This lack of encryption makes Telnet vulnerable to eavesdropping and interception of sensitive information, such as usernames and passwords.
 
-Brute-forcing Telnet involves systematically trying different combinations of usernames and passwords until the correct credentials are found. This method relies on the assumption that the target device has weak or default login credentials.
+Brute-forcing Telnet involves systematically trying all possible combinations of usernames and passwords until the correct credentials are found. This technique is often used by attackers to gain unauthorized access to systems with weak or default credentials.
 
-To perform a Telnet brute-force attack, you can use various tools and scripts that automate the process of trying different username and password combinations. These tools typically have built-in dictionaries of common usernames and passwords, as well as the ability to generate custom wordlists.
+To perform a Telnet brute-force attack, an attacker typically uses automated tools that can rapidly try different username and password combinations. These tools can leverage dictionaries of commonly used passwords or generate random combinations to increase the chances of success.
 
-It is important to note that brute-forcing Telnet or any other service without proper authorization is illegal and unethical. It is only acceptable to perform such activities as part of a legitimate penetration testing engagement with the explicit permission of the target organization.
+To protect against Telnet brute-force attacks, it is important to use strong, unique passwords and disable any default or weak credentials. Additionally, implementing account lockout policies and monitoring for suspicious login attempts can help detect and mitigate brute-force attacks.
 ```bash
 hydra -l root -P passwords.txt [-t 32] <IP> telnet
 ncrack -p 23 --user root -P passwords.txt <IP> [-T 5]
@@ -853,17 +802,17 @@ crackmapexec winrm <IP> -d <Domain Name> -u usernames.txt -p passwords.txt
 ```
 <figure><img src="../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-\
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e automatizar facilmente fluxos de trabalho com as ferramentas comunitárias mais avançadas do mundo.\
-Acesse hoje mesmo:
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e automatizar facilmente fluxos de trabalho com as ferramentas comunitárias mais avançadas do mundo.
+Acesse hoje:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ## Local
 
-### Bancos de dados de quebra online
+### Bancos de dados de quebra de senha online
 
 * [~~http://hashtoolkit.com/reverse-hash?~~](http://hashtoolkit.com/reverse-hash?) (MD5 e SHA1)
+* [https://shuck.sh/get-shucking.php](https://shuck.sh/get-shucking.php) (MSCHAPv2/PPTP-VPN/NetNTLMv1 com/sem ESS/SSP e com qualquer valor de desafio)
 * [https://www.onlinehashcrack.com/](https://www.onlinehashcrack.com) (Hashes, capturas WPA2 e arquivos MSOffice, ZIP, PDF...)
 * [https://crackstation.net/](https://crackstation.net) (Hashes)
 * [https://md5decrypt.net/](https://md5decrypt.net) (MD5)
@@ -892,9 +841,9 @@ john zip.john
 hashcat.exe -m 13600 -a 0 .\hashzip.txt .\wordlists\rockyou.txt
 .\hashcat.exe -m 13600 -i -a 0 .\hashzip.txt #Incremental attack
 ```
-#### Ataque de texto simples conhecido em arquivos zip
+#### Ataque de força bruta com texto conhecido em arquivos zip
 
-Você precisa conhecer o **texto simples** (ou parte do texto simples) **de um arquivo contido dentro** do zip criptografado. Você pode verificar **os nomes de arquivo e o tamanho dos arquivos contidos dentro** de um zip criptografado executando: **`7z l encrypted.zip`**\
+Você precisa conhecer o **texto em claro** (ou parte do texto em claro) **de um arquivo contido dentro** do zip criptografado. Você pode verificar **os nomes de arquivos e o tamanho dos arquivos contidos** em um zip criptografado executando: **`7z l encrypted.zip`**\
 Baixe o [**bkcrack**](https://github.com/kimci86/bkcrack/releases/tag/v1.4.0) na página de lançamentos.
 ```bash
 # You need to create a zip file containing only the file that is inside the encrypted zip
@@ -909,37 +858,15 @@ unzip unlocked.zip #User new_pwd as password
 ```
 ### 7z
 
-O 7z é um formato de arquivo compactado que oferece alta taxa de compressão e suporte para criptografia. Ele é amplamente utilizado para compactar e descompactar arquivos em sistemas operacionais Windows.
+O 7z é um formato de arquivo compactado que oferece alta taxa de compressão. Ele é amplamente utilizado para compactar e descompactar arquivos em sistemas operacionais Windows. O 7z utiliza o algoritmo de compressão LZMA para reduzir o tamanho dos arquivos, tornando-os mais fáceis de armazenar e transferir.
 
-#### Ataques de força bruta
+#### Ataques de força bruta contra senhas 7z
 
-Um ataque de força bruta é uma técnica usada para quebrar senhas ou chaves criptográficas tentando todas as combinações possíveis até encontrar a correta. No contexto do 7z, um ataque de força bruta pode ser usado para tentar adivinhar a senha de um arquivo compactado protegido por senha.
+Os arquivos 7z podem ser protegidos por senhas para garantir a segurança dos dados. No entanto, em alguns casos, é necessário realizar ataques de força bruta para recuperar senhas esquecidas ou perdidas.
 
-Existem várias ferramentas disponíveis para realizar ataques de força bruta no formato 7z. Essas ferramentas automatizam o processo de tentar todas as combinações possíveis de senhas até encontrar a correta.
+Um ataque de força bruta contra senhas 7z envolve tentar todas as combinações possíveis de caracteres até encontrar a senha correta. Isso pode ser feito usando ferramentas de cracking de senhas, como o John the Ripper ou o Hashcat.
 
-#### Recursos para ataques de força bruta
-
-Ao realizar um ataque de força bruta no formato 7z, é importante ter em mente alguns recursos que podem ajudar a aumentar a eficiência do ataque:
-
-- **Dicionários de senhas**: Esses dicionários contêm uma lista de palavras comumente usadas como senhas. Eles podem ser usados como entrada para a ferramenta de ataque de força bruta, reduzindo o número de combinações a serem testadas.
-
-- **Regras de transformação**: Essas regras definem transformações que podem ser aplicadas às palavras do dicionário de senhas. Por exemplo, substituir letras por números ou adicionar caracteres especiais. Isso aumenta a variedade de combinações a serem testadas.
-
-- **Recursos de processamento**: Ataques de força bruta podem ser intensivos em termos de recursos de processamento. É importante ter em mente a capacidade de processamento disponível e ajustar as configurações do ataque de acordo.
-
-#### Mitigação de ataques de força bruta
-
-Para proteger arquivos compactados no formato 7z contra ataques de força bruta, é recomendado seguir as melhores práticas de segurança, como:
-
-- **Senhas fortes**: Use senhas longas e complexas, que combinem letras maiúsculas e minúsculas, números e caracteres especiais. Evite usar palavras comuns ou informações pessoais.
-
-- **Criptografia adicional**: Considere usar criptografia adicional para proteger os arquivos compactados, além da senha. Isso pode adicionar uma camada extra de segurança.
-
-- **Limitação de tentativas**: Alguns softwares de compactação permitem definir um limite para o número de tentativas de senha antes de bloquear o acesso ao arquivo. Isso pode ajudar a mitigar ataques de força bruta.
-
-- **Monitoramento de atividades suspeitas**: Fique atento a atividades suspeitas, como múltiplas tentativas de acesso ao arquivo compactado. Isso pode indicar um ataque em andamento.
-
-Ao implementar essas medidas de segurança, é possível reduzir significativamente o risco de um ataque de força bruta bem-sucedido em arquivos compactados no formato 7z.
+É importante ressaltar que realizar um ataque de força bruta contra senhas é uma atividade ilegal, a menos que você tenha permissão explícita do proprietário do arquivo. Sempre obtenha autorização antes de realizar qualquer tipo de teste de segurança ou hacking.
 ```bash
 cat /usr/share/wordlists/rockyou.txt | 7za t backup.7z
 ```
@@ -952,17 +879,28 @@ apt-get install libcompress-raw-lzma-perl
 ```
 # Força Bruta
 
-A técnica de força bruta é um método comum usado por hackers para obter acesso não autorizado a sistemas ou contas. Nesse método, o hacker tenta todas as combinações possíveis de senhas até encontrar a correta.
+A técnica de força bruta é um método comum usado por hackers para obter acesso não autorizado a sistemas ou contas protegidas por senha. Nesse método, o hacker tenta todas as combinações possíveis de senhas até encontrar a correta.
 
-Embora seja uma técnica simples, a força bruta pode ser eficaz se a senha for fraca ou se o sistema não tiver medidas de segurança adequadas para detectar e bloquear tentativas repetidas de login.
+## Como funciona a força bruta?
 
-Existem várias ferramentas disponíveis para realizar ataques de força bruta, como o Hydra e o Medusa. Essas ferramentas automatizam o processo de tentativa de login, permitindo que o hacker teste várias combinações de senhas em um curto período de tempo.
+A força bruta envolve a tentativa de todas as combinações possíveis de senhas até que a senha correta seja encontrada. Isso é feito usando programas automatizados que testam várias combinações em uma taxa muito alta.
 
-Para proteger-se contra ataques de força bruta, é importante usar senhas fortes e complexas, que sejam difíceis de adivinhar. Além disso, é recomendável implementar medidas de segurança, como bloqueio de contas após um número específico de tentativas de login malsucedidas.
+## Ferramentas de força bruta
 
-Os administradores de sistemas também podem usar ferramentas de detecção de ataques de força bruta para monitorar e identificar atividades suspeitas. Essas ferramentas podem ajudar a identificar padrões de ataque e bloquear automaticamente endereços IP ou contas que estão realizando tentativas de força bruta.
+Existem várias ferramentas disponíveis para realizar ataques de força bruta. Algumas das ferramentas populares incluem Hydra, Medusa e John the Ripper. Essas ferramentas são altamente configuráveis e podem ser usadas para atacar uma variedade de sistemas e serviços.
 
-Em resumo, a técnica de força bruta é uma abordagem comum usada por hackers para obter acesso não autorizado a sistemas ou contas. É importante tomar medidas de segurança adequadas para proteger-se contra ataques de força bruta e implementar ferramentas de detecção para identificar e bloquear atividades suspeitas.
+## Mitigação de ataques de força bruta
+
+Existem várias medidas que podem ser tomadas para mitigar ataques de força bruta. Alguns exemplos incluem:
+
+- Implementar políticas de senha fortes que exijam senhas complexas e de comprimento adequado.
+- Bloquear temporariamente contas após um número específico de tentativas de login malsucedidas.
+- Implementar autenticação de dois fatores para adicionar uma camada extra de segurança.
+- Monitorar e registrar atividades suspeitas de login para identificar padrões de ataque.
+
+## Conclusão
+
+A técnica de força bruta é uma abordagem comum usada por hackers para obter acesso não autorizado a sistemas protegidos por senha. É importante implementar medidas de segurança adequadas para mitigar esses ataques e proteger as contas e sistemas contra invasões.
 ```bash
 apt-get install pdfcrack
 pdfcrack encrypted.pdf -w /usr/share/wordlists/rockyou.txt
@@ -989,13 +927,11 @@ john jwt.john #It does not work with Kali-John
 ```
 ### Quebra de NTLM
 
-A quebra de NTLM é uma técnica utilizada para descobrir senhas de hashes NTLM. O NTLM é um protocolo de autenticação utilizado pelo Windows para autenticar usuários em uma rede. Ao obter um hash NTLM, é possível realizar a quebra utilizando a técnica de força bruta.
+A quebra de NTLM é uma técnica utilizada para descobrir senhas de hashes NTLM. O NTLM é um protocolo de autenticação utilizado em sistemas Windows. Ao obter um hash NTLM, é possível realizar a quebra utilizando força bruta.
 
-A quebra de NTLM por força bruta envolve a tentativa de todas as combinações possíveis de caracteres para descobrir a senha correspondente ao hash. Isso é feito através de programas ou scripts que automatizam o processo de tentativa e erro.
+A quebra de NTLM por força bruta envolve a tentativa de todas as combinações possíveis de senhas até encontrar a correspondente ao hash NTLM. Existem várias ferramentas disponíveis para realizar esse tipo de ataque, como o John the Ripper e o Hashcat.
 
-Existem várias ferramentas disponíveis para realizar a quebra de NTLM, como o John the Ripper e o Hashcat. Essas ferramentas utilizam dicionários de senhas e regras de combinação para acelerar o processo de quebra.
-
-É importante ressaltar que a quebra de NTLM por força bruta pode ser um processo demorado, especialmente se a senha for complexa e longa. Portanto, é recomendado utilizar senhas fortes e implementar medidas de segurança adicionais, como o uso de autenticação em dois fatores, para proteger as contas e os sistemas contra ataques de quebra de senha.
+É importante ressaltar que a quebra de NTLM por força bruta pode ser um processo demorado, especialmente se a senha for complexa. Portanto, é recomendado utilizar senhas fortes e implementar medidas de segurança adicionais para proteger os hashes NTLM.
 ```bash
 Format:USUARIO:ID:HASH_LM:HASH_NT:::
 john --wordlist=/usr/share/wordlists/rockyou.txt --format=NT file_NTLM.hashes
@@ -1005,15 +941,11 @@ hashcat -a 0 -m 1000 --username file_NTLM.hashes /usr/share/wordlists/rockyou.tx
 
 O Keepass é um gerenciador de senhas de código aberto que permite armazenar e gerenciar com segurança todas as suas senhas em um único local. Ele usa criptografia forte para proteger suas informações confidenciais e oferece recursos como a geração automática de senhas fortes e a capacidade de organizar suas senhas em categorias.
 
-O Keepass também possui uma função de preenchimento automático que permite preencher automaticamente os campos de login em sites e aplicativos, facilitando o acesso rápido e seguro às suas contas online.
+Uma das técnicas comuns de ataque contra senhas é a força bruta, onde um invasor tenta adivinhar a senha correta testando todas as combinações possíveis. No entanto, o Keepass é projetado para resistir a ataques de força bruta, implementando medidas de segurança, como o bloqueio da conta após um número específico de tentativas falhas de login.
 
-Uma das principais vantagens do Keepass é sua capacidade de resistir a ataques de força bruta. Isso significa que mesmo que um invasor tente adivinhar sua senha usando um programa automatizado que testa várias combinações, o Keepass é projetado para tornar esse tipo de ataque extremamente difícil e demorado.
+Embora o Keepass seja uma ferramenta segura para armazenar suas senhas, é importante lembrar de escolher uma senha mestra forte e única para proteger seu banco de dados do Keepass. Além disso, é recomendável manter o Keepass atualizado com as versões mais recentes, pois isso garante que quaisquer vulnerabilidades conhecidas sejam corrigidas.
 
-No entanto, é importante lembrar que a segurança do Keepass depende da força da sua senha mestra. Certifique-se de escolher uma senha mestra longa e complexa, que seja difícil de adivinhar ou quebrar.
-
-Além disso, é recomendável manter o Keepass atualizado com as versões mais recentes, pois isso garante que quaisquer vulnerabilidades conhecidas sejam corrigidas e que você esteja usando a versão mais segura do software.
-
-Em resumo, o Keepass é uma ferramenta poderosa para gerenciar suas senhas com segurança. Ao usar o Keepass corretamente e seguir as melhores práticas de segurança, você pode proteger suas informações confidenciais contra ataques de força bruta e garantir a segurança de suas contas online.
+Em resumo, o Keepass é uma solução confiável para gerenciar suas senhas com segurança, protegendo-as contra ataques de força bruta e fornecendo uma maneira conveniente de acessar suas senhas quando necessário.
 ```bash
 sudo apt-get install -y kpcli #Install keepass tools like keepass2john
 keepass2john file.kdbx > hash #The keepass is only using password
@@ -1058,7 +990,7 @@ There are several tools available for conducting brute force attacks, such as Hy
 
 To protect against brute force attacks, it is important to use strong, unique passwords and implement account lockout policies. Additionally, rate limiting and CAPTCHA can be used to prevent automated login attempts.
 
-It is worth noting that brute force attacks are illegal and unethical unless conducted with proper authorization for legitimate security testing purposes. Always obtain permission before attempting any form of hacking or penetration testing.
+It is also worth noting that brute force attacks can be detected by monitoring for multiple failed login attempts from the same IP address or user account.
 ```bash
 cryptsetup luksDump backup.img #Check that the payload offset is set to 4096
 dd if=backup.img of=luckshash bs=512 count=4097 #Payload offset +1
@@ -1081,9 +1013,9 @@ A chave privada PGP/GPG é um componente essencial para a criptografia de dados.
 
 A perda ou comprometimento da chave privada pode resultar na exposição de informações sensíveis e na violação da privacidade. Portanto, é fundamental proteger adequadamente a chave privada PGP/GPG, armazenando-a em um local seguro e utilizando medidas de segurança adicionais, como senhas fortes e autenticação de dois fatores.
 
-Ao realizar a engenharia reversa de um aplicativo ou sistema, a obtenção da chave privada PGP/GPG pode ser um objetivo importante para um hacker. Isso pode ser alcançado por meio de técnicas de força bruta, que envolvem a tentativa sistemática de todas as combinações possíveis até encontrar a chave correta.
+Além disso, é importante fazer backup da chave privada PGP/GPG regularmente, para evitar a perda irreversível de dados. Ao fazer o backup, certifique-se de armazenar a chave em um local seguro e criptografado, de preferência em um dispositivo externo ou em um serviço de armazenamento em nuvem confiável.
 
-É importante ressaltar que a obtenção não autorizada de uma chave privada PGP/GPG é uma atividade ilegal e antiética. Apenas profissionais de segurança autorizados devem realizar testes de penetração e engenharia reversa, seguindo as leis e regulamentos aplicáveis.
+Lembre-se de que a chave privada PGP/GPG é uma parte crítica da criptografia de dados e deve ser tratada com extrema cautela. Mantenha-a protegida e segura para garantir a confidencialidade e integridade das suas comunicações.
 ```bash
 gpg2john private_pgp.key #This will generate the hash and save it in a file
 john --wordlist=/usr/share/wordlists/rockyou.txt ./hash
@@ -1112,13 +1044,17 @@ zip -r file.xls .
 ```
 ### Certificados PFX
 
-Certificados PFX são arquivos que contêm tanto a chave privada quanto o certificado público em um único arquivo. Esses certificados são frequentemente usados para autenticação e criptografia em várias aplicações e serviços.
+Certificados PFX são arquivos que contêm chaves privadas e certificados públicos em um formato específico. Eles são usados para autenticação e criptografia em várias aplicações e serviços. Os certificados PFX são protegidos por uma senha, o que garante a segurança das chaves privadas.
 
 ### Ataques de Força Bruta
 
-Um ataque de força bruta é uma técnica usada para descobrir senhas ou chaves criptográficas através da tentativa de todas as combinações possíveis até encontrar a correta. Esse tipo de ataque é geralmente usado quando não há informações suficientes disponíveis para realizar um ataque mais direcionado.
+Um ataque de força bruta é uma técnica usada para quebrar senhas ou chaves criptográficas, tentando todas as combinações possíveis até encontrar a correta. Esse tipo de ataque pode ser usado para tentar quebrar a senha de um certificado PFX.
 
-Existem várias ferramentas e recursos disponíveis para realizar ataques de força bruta, como dicionários de senhas, programas de quebra de senhas e scripts personalizados. É importante ressaltar que a realização de ataques de força bruta é ilegal, a menos que seja feito com permissão explícita do proprietário do sistema alvo para fins de teste de segurança.
+Existem várias ferramentas disponíveis para realizar ataques de força bruta, como o Hydra e o Medusa. Essas ferramentas automatizam o processo de tentar várias combinações de senhas em um curto período de tempo.
+
+No entanto, é importante ressaltar que ataques de força bruta podem ser demorados e consomem muitos recursos computacionais. Além disso, eles podem ser detectados por sistemas de segurança, como firewalls e sistemas de detecção de intrusão.
+
+Portanto, é recomendado que senhas fortes sejam utilizadas para proteger certificados PFX, a fim de dificultar ou impedir ataques de força bruta bem-sucedidos.
 ```bash
 # From https://github.com/Ridter/p12tool
 ./p12tool crack -c staff.pfx -f /usr/share/wordlists/rockyou.txt
@@ -1147,7 +1083,7 @@ hash-identifier
 * **Rockyou**
 * [**Probable-Wordlists**](https://github.com/berzerk0/Probable-Wordlists)
 * [**Kaonashi**](https://github.com/kaonashi-passwords/Kaonashi/tree/master/wordlists)
-* [**Seclists - Senhas**](https://github.com/danielmiessler/SecLists/tree/master/Passwords)
+* [**Seclists - Passwords**](https://github.com/danielmiessler/SecLists/tree/master/Passwords)
 
 ### **Ferramentas de geração de listas de palavras**
 
@@ -1262,15 +1198,19 @@ A metodologia de força bruta é uma técnica comum usada para quebrar senhas cr
 
 ## Ferramentas de Força Bruta
 
-Existem várias ferramentas disponíveis para realizar ataques de força bruta em hashes do Linux. Algumas das ferramentas mais populares incluem:
+Existem várias ferramentas disponíveis para realizar ataques de força bruta em senhas do Linux. Algumas das ferramentas mais populares incluem:
 
 - **John the Ripper**: uma ferramenta de quebra de senha altamente configurável e amplamente utilizada.
 - **Hashcat**: uma ferramenta de quebra de senha de alto desempenho que suporta vários algoritmos de hash.
 - **Hydra**: uma ferramenta de força bruta de login em rede que também pode ser usada para quebrar senhas do Linux.
 
-## Considerações Finais
+## Considerações de Segurança
 
-Ao realizar ataques de força bruta em hashes do Linux, é importante ter permissão legal para fazê-lo e seguir as leis e regulamentos aplicáveis. Além disso, é recomendável usar senhas fortes e implementar medidas de segurança adicionais, como autenticação de dois fatores, para proteger os sistemas contra ataques de força bruta.
+É importante lembrar que a quebra de senhas é uma atividade ilegal, a menos que seja realizada com permissão explícita do proprietário do sistema. Além disso, é fundamental usar senhas fortes e criptografia adequada para proteger os sistemas contra ataques de força bruta.
+
+## Conclusão
+
+A quebra de senhas criptografadas do Linux pode ser realizada usando a metodologia de força bruta e várias ferramentas disponíveis. No entanto, é importante lembrar que a segurança dos sistemas depende de senhas fortes e práticas adequadas de segurança.
 ```
 500 | md5crypt $1$, MD5(Unix)                          | Operating-Systems
 3200 | bcrypt $2*$, Blowfish(Unix)                      | Operating-Systems
@@ -1336,17 +1276,17 @@ Existem várias rainbow tables disponíveis na internet para diferentes algoritm
 
 ## Recursos Genéricos
 
-Além das metodologias mencionadas acima, existem alguns recursos genéricos que podem ser úteis ao quebrar hashes de senhas de aplicativos comuns:
+### John the Ripper
 
-- **Fóruns e comunidades**: Participar de fóruns e comunidades de hackers pode fornecer informações valiosas sobre técnicas e ferramentas específicas para quebrar hashes de senhas de aplicativos comuns.
+O John the Ripper é uma das ferramentas mais populares para quebrar hashes de senhas. Ele suporta vários tipos de hashes e pode ser executado em diferentes sistemas operacionais. Além disso, o John the Ripper possui recursos avançados, como suporte a dicionários personalizados e regras de combinação.
 
-- **Bancos de dados de senhas vazadas**: Existem vários bancos de dados online que armazenam senhas vazadas de violações de segurança. Esses bancos de dados podem ser usados para verificar se uma senha específica já foi comprometida.
+### Hashcat
 
-- **Ferramentas de cracking**: Além das ferramentas mencionadas anteriormente, existem várias outras ferramentas disponíveis que podem ser usadas para quebrar hashes de senhas de aplicativos comuns. Algumas dessas ferramentas são específicas para determinados aplicativos ou algoritmos de hash.
+O Hashcat é outra ferramenta poderosa para quebrar hashes de senhas. Ele suporta uma ampla variedade de algoritmos de hash e pode ser executado em GPUs para acelerar o processo de quebra de senha. O Hashcat também possui recursos avançados, como suporte a ataques de dicionário e rainbow table.
 
 ## Conclusão
 
-Quebrar hashes de senhas de aplicativos comuns é uma tarefa desafiadora, mas com as metodologias e recursos genéricos corretos, é possível obter sucesso. No entanto, é importante lembrar que a quebra de hashes de senhas é uma atividade ilegal, a menos que seja realizada com permissão explícita do proprietário da conta ou como parte de um teste de penetração autorizado.
+Quebrar hashes de senhas de aplicativos comuns é uma técnica comum usada pelos hackers para obter acesso não autorizado. Neste guia, exploramos algumas metodologias genéricas e recursos populares que podem ser usados para realizar essa tarefa. É importante lembrar que a quebra de hashes de senhas é uma atividade ilegal, a menos que seja realizada com permissão explícita do proprietário da conta.
 ```
 900 | MD4                                              | Raw Hash
 0 | MD5                                              | Raw Hash
