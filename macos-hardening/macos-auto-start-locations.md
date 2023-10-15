@@ -119,7 +119,7 @@ launchctl list
 
 #### 描述和利用
 
-当我们的shell环境（如`zsh`或`bash`）**启动时**，会执行shell启动文件。现在，macOS默认使用`/bin/zsh`，每当我们打开`Terminal`或通过SSH连接到设备时，我们都会进入这个shell环境。`bash`和`sh`仍然可用，但必须明确启动。
+当我们的shell环境（如`zsh`或`bash`）**启动**时，会执行shell启动文件。现在，macOS默认使用`/bin/zsh`，每当我们打开`Terminal`或通过SSH连接到设备时，我们都会进入这个shell环境。`bash`和`sh`仍然可用，但必须明确启动。
 
 我们可以使用**`man zsh`**阅读zsh的man页面，其中有关于启动文件的详细描述。
 ```bash
@@ -172,7 +172,7 @@ plutil -p ~/Library/Preferences/ByHost/com.apple.loginwindow.<UUID>.plist
 #### 位置
 
 * **`~/Library/Preferences/com.apple.Terminal.plist`**
-* **触发条件**：打开终端
+* **触发器**：打开终端
 
 #### 描述和利用
 
@@ -182,7 +182,7 @@ plutil -p ~/Library/Preferences/ByHost/com.apple.loginwindow.<UUID>.plist
 
 <figure><img src="../.gitbook/assets/image (676).png" alt="" width="495"><figcaption></figcaption></figure>
 
-这个配置会在文件**`~/Library/Preferences/com.apple.Terminal.plist`**中反映出来，如下所示：
+这个配置在文件**`~/Library/Preferences/com.apple.Terminal.plist`**中反映如下：
 ```bash
 [...]
 "Window Settings" => {
@@ -343,31 +343,31 @@ oneTimeSSMigrationComplete = 1;
 defaults delete com.apple.loginwindow LoginHook
 defaults delete com.apple.loginwindow LogoutHook
 ```
-root用户的启动位置存储在**`/private/var/root/Library/Preferences/com.apple.loginwindow.plist`**中。
+root用户的启动位置存储在**`/private/var/root/Library/Preferences/com.apple.loginwindow.plist`**
 
 ## 条件沙盒绕过
 
 {% hint style="success" %}
-在这里，您可以找到用于**绕过沙盒**的启动位置，它允许您通过**将其写入文件**并**期望不常见的条件**，如特定的**已安装程序、"不常见"用户**操作或环境来执行某些操作。
+在这里，您可以找到用于**绕过沙盒**的启动位置，它允许您通过**将其写入文件**并**期望不常见的条件**，如特定的**已安装程序、"不常见"的用户**操作或环境来执行某些操作。
 {% endhint %}
 
 ### Cron
 
 **Writeup**: [https://theevilbit.github.io/beyond/beyond\_0004/](https://theevilbit.github.io/beyond/beyond\_0004/)
 
-* 用于绕过沙盒的有用性：[✅](https://emojipedia.org/check-mark-button)
+* 用于绕过沙盒的有用性: [✅](https://emojipedia.org/check-mark-button)
 * 但是，您需要能够执行`crontab`二进制文件
 * 或者是root用户
 
 #### 位置
 
-* **`/usr/lib/cron/tabs/`、`/private/var/at/tabs`、`/private/var/at/jobs`、`/etc/periodic/`**
+* **`/usr/lib/cron/tabs/`, `/private/var/at/tabs`, `/private/var/at/jobs`, `/etc/periodic/`**
 * 直接写入访问需要root权限。如果您可以执行`crontab <file>`，则不需要root权限
-* **触发器**：取决于cron作业
+* **触发器**: 取决于cron作业
 
 #### 描述和利用
 
-使用以下命令列出**当前用户**的cron作业：
+使用以下命令列出**当前用户**的cron作业:
 ```bash
 crontab -l
 ```
@@ -378,7 +378,7 @@ crontab -l
 # The one with the cron jobs is /usr/lib/cron/tabs/
 ls -lR /usr/lib/cron/tabs/ /private/var/at/jobs /etc/periodic/
 ```
-在这里，您可以找到常规的cron作业、at作业（不常用）和周期性作业（主要用于清理临时文件）。例如，可以使用以下命令执行每日周期性作业：`periodic daily`。
+在这里，您可以找到常规的cron作业、at作业（不常用）和周期性作业（主要用于清理临时文件）。例如，可以使用`periodic daily`来执行每日周期性作业。
 
 要以编程方式添加用户cron作业，可以使用：
 ```bash
@@ -419,7 +419,7 @@ iTerm2偏好设置位于**`~/Library/Preferences/com.googlecode.iterm2.plist`**�
 
 可以在iTerm2设置中配置此设置：
 
-<figure><img src="../.gitbook/assets/image (2).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1).png" alt="" width="563"><figcaption></figcaption></figure>
 
 命令会反映在偏好设置中：
 ```bash
@@ -447,15 +447,15 @@ open /Applications/iTerm.app/Contents/MacOS/iTerm2
 {% endcode %}
 
 {% hint style="warning" %}
-很有可能有**其他方法滥用iTerm2首选项**来执行任意命令。
+很有可能有其他方法可以滥用iTerm2的偏好设置来执行任意命令。
 {% endhint %}
 
 ### xbar
 
 Writeup: [https://theevilbit.github.io/beyond/beyond\_0007/](https://theevilbit.github.io/beyond/beyond\_0007/)
 
-* 用于绕过沙盒的有用工具：[✅](https://emojipedia.org/check-mark-button)
-* 但必须安装xbar
+* 有用于绕过沙盒的功能：[✅](https://emojipedia.org/check-mark-button)
+* 但需要安装xbar
 
 #### 位置
 
@@ -466,7 +466,9 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0007/](https://theevilbit.
 
 **Writeup**: [https://theevilbit.github.io/beyond/beyond\_0008/](https://theevilbit.github.io/beyond/beyond\_0008/)
 
-用于绕过沙盒的有用工具：[✅](https://emojipedia.org/check-mark-button)
+有用于绕过沙盒的功能：[✅](https://emojipedia.org/check-mark-button)
+
+* 但需要安装Hammerspoon
 
 #### 位置
 
@@ -475,7 +477,7 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0007/](https://theevilbit.
 
 #### 描述
 
-[**Hammerspoon**](https://github.com/Hammerspoon/hammerspoon)是一款自动化工具，允许通过LUA脚本语言进行**macOS脚本编写**。我们甚至可以嵌入完整的AppleScript代码以及运行shell脚本。
+[**Hammerspoon**](https://github.com/Hammerspoon/hammerspoon) 是一款自动化工具，允许通过LUA脚本语言进行macOS脚本编写。我们甚至可以嵌入完整的AppleScript代码以及运行shell脚本。
 
 该应用程序寻找一个名为`~/.hammerspoon/init.lua`的单个文件，并在启动时执行该脚本。
 ```bash
@@ -522,10 +524,10 @@ chmod +x "$HOME/Library/Application Support/xbar/plugins/a.sh"
 #### 位置
 
 * **`~/Library/Application Support/com.apple.backgroundtaskmanagementagent`**
-* **触发器：** 登录
+* **触发条件：** 登录
 * 利用负载存储调用 **`osascript`**
 * **`/var/db/com.apple.xpc.launchd/loginitems.501.plist`**
-* **触发器：** 登录
+* **触发条件：** 登录
 * 需要 root 权限
 
 #### 描述
@@ -550,7 +552,7 @@ osascript -e 'tell application "System Events" to delete login item "itemname"'
 
 （请参阅有关登录项的上一节，这是一个扩展）
 
-如果将**ZIP**文件存储为**登录项**，则**`Archive Utility`**将打开它，如果ZIP文件例如存储在**`~/Library`**中，并且包含具有后门的文件夹**`LaunchAgents/file.plist`**，那么该文件夹将被创建（默认情况下不存在），并且plist将被添加，因此下次用户再次登录时，将执行plist中指定的**后门**。
+如果将**ZIP**文件存储为**登录项**，则**`Archive Utility`**将打开它，如果ZIP文件例如存储在**`~/Library`**中，并且包含具有后门的文件夹**`LaunchAgents/file.plist`**，那么该文件夹将被创建（默认情况下不会创建），并且plist将被添加，因此下次用户再次登录时，将执行plist中指定的**后门**。
 
 另一个选项是在用户主目录中创建文件**`.bash_profile`**和**`.zshenv`**，因此如果LaunchAgents文件夹已经存在，此技术仍将起作用。
 
@@ -565,7 +567,7 @@ osascript -e 'tell application "System Events" to delete login item "itemname"'
 #### **描述**
 
 “At tasks”用于**在特定时间安排任务**。\
-这些任务与cron不同，它们是**一次性任务**，在执行后被删除。但是，它们将**在系统重启后保留**，因此不能将其排除为潜在威胁。
+这些任务与cron不同，它们是**一次性任务**，在执行后会被删除。但是，它们将**在系统重启后保留**，因此不能将其排除为潜在威胁。
 
 默认情况下，它们是**禁用的**，但**root**用户可以使用以下命令**启用**它们：
 ```bash
@@ -635,8 +637,8 @@ total 32
 
 ### 文件夹操作
 
-Writeup: [https://theevilbit.github.io/beyond/beyond\_0024/](https://theevilbit.github.io/beyond/beyond\_0024/)\
-Writeup: [https://posts.specterops.io/folder-actions-for-persistence-on-macos-8923f222343d](https://posts.specterops.io/folder-actions-for-persistence-on-macos-8923f222343d)
+写作：[https://theevilbit.github.io/beyond/beyond\_0024/](https://theevilbit.github.io/beyond/beyond\_0024/)\
+写作：[https://posts.specterops.io/folder-actions-for-persistence-on-macos-8923f222343d](https://posts.specterops.io/folder-actions-for-persistence-on-macos-8923f222343d)
 
 * 用于绕过沙箱：[✅](https://emojipedia.org/check-mark-button)
 * 但您需要能够使用参数调用osascript并能够配置文件夹操作
@@ -651,7 +653,7 @@ Writeup: [https://posts.specterops.io/folder-actions-for-persistence-on-macos-89
 
 #### 描述和利用
 
-当附加了文件夹操作的文件夹添加或删除项目，或者打开、关闭、移动或调整其窗口时，将执行文件夹操作脚本：
+当附加了文件夹的项目被添加或删除，或者当其窗口被打开、关闭、移动或调整大小时，将执行文件夹操作脚本：
 
 * 通过Finder UI打开文件夹
 * 向文件夹添加文件（可以通过拖放或甚至在终端的shell提示符中完成）
@@ -662,9 +664,9 @@ Writeup: [https://posts.specterops.io/folder-actions-for-persistence-on-macos-89
 
 1. 使用[Automator](https://support.apple.com/guide/automator/welcome/mac)程序创建一个文件夹操作工作流文件（.workflow）并将其安装为服务。
 2. 右键单击文件夹，选择“文件夹操作设置...”，“运行服务”，并手动附加脚本。
-3. 使用OSAScript向`System Events.app`发送Apple Event消息，以编程方式查询和注册新的“文件夹操作”。
+3. 使用OSAScript向`System Events.app`发送Apple事件消息，以编程方式查询和注册新的“文件夹操作”。
 
-* 这是使用OSAScript发送Apple Event消息到`System Events.app`实现持久性的方法
+* 这是使用OSAScript发送Apple事件消息到`System Events.app`实现持久性的方法
 
 将执行以下脚本：
 
@@ -716,9 +718,9 @@ app.doShellScript("cp -R ~/Desktop /tmp/asd123");
 mkdir -p "$HOME/Library/Scripts/Folder Action Scripts"
 mv /tmp/folder.scpt "$HOME/Library/Scripts/Folder Action Scripts"
 ```
-然后，打开`Folder Actions Setup`应用程序，选择**您想要监视的文件夹**，并在您的情况下选择**`folder.scpt`**（在我的情况下，我称其为output2.scp）：
+然后，打开`Folder Actions Setup`应用程序，选择**要监视的文件夹**，并在您的情况下选择**`folder.scpt`**（在我的情况下，我称其为output2.scp）：
 
-<figure><img src="../.gitbook/assets/image (2) (1).png" alt="" width="297"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1) (1).png" alt="" width="297"><figcaption></figcaption></figure>
 
 现在，如果您使用**Finder**打开该文件夹，您的脚本将被执行。
 
@@ -726,7 +728,7 @@ mv /tmp/folder.scpt "$HOME/Library/Scripts/Folder Action Scripts"
 
 现在，让我们尝试在没有GUI访问权限的情况下准备此持久性：
 
-1. **将`~/Library/Preferences/com.apple.FolderActionsDispatcher.plist`**复制到`/tmp`以备份：
+1. **将`~/Library/Preferences/com.apple.FolderActionsDispatcher.plist`**复制到`/tmp`进行备份：
 * `cp ~/Library/Preferences/com.apple.FolderActionsDispatcher.plist /tmp`
 2. **删除**您刚刚设置的文件夹操作：
 
@@ -771,7 +773,7 @@ mv /tmp/folder.scpt "$HOME/Library/Scripts/Folder Action Scripts"
 
 #### 描述和利用
 
-在Dock中显示的所有应用程序都在plist文件中指定：**`~/Library/Preferences/com.apple.dock.plist`**
+出现在Dock中的所有应用程序都在plist文件中指定：**`~/Library/Preferences/com.apple.dock.plist`**
 
 只需使用以下命令即可**添加一个应用程序**：
 
@@ -899,7 +901,7 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0016/](https://theevilbit.
 Writeup: [https://posts.specterops.io/saving-your-access-d562bf5bf90b](https://posts.specterops.io/saving-your-access-d562bf5bf90b)
 
 * 用于绕过沙箱的有用工具: [🟠](https://emojipedia.org/large-orange-circle)
-* 但你最终会进入一个常见的应用程序沙箱
+* 但你将会进入一个常见的应用程序沙箱
 
 #### 位置
 
@@ -912,13 +914,13 @@ Writeup: [https://posts.specterops.io/saving-your-access-d562bf5bf90b](https://p
 * `~/Library/Screen Savers`
 * **触发器**: 选择屏幕保护程序
 
-<figure><img src="../.gitbook/assets/image (1) (1) (1).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1) (1) (1).png" alt="" width="375"><figcaption></figcaption></figure>
 
 #### 描述和利用
 
 在 Xcode 中创建一个新项目，并选择模板生成一个新的**屏幕保护程序**。然后，将代码添加到其中，例如以下代码以生成日志。
 
-**构建**它，并将 `.saver` 捆绑包复制到**`~/Library/Screen Savers`**。然后，打开屏幕保护程序 GUI，只需点击它，它就会生成大量日志:
+**构建**它，并将 `.saver` 捆绑包复制到**`~/Library/Screen Savers`**。然后，打开屏幕保护程序 GUI，只需点击它，它就会生成大量的日志:
 
 {% code overflow="wrap" %}
 ```bash
@@ -1028,9 +1030,9 @@ Spotlight是macOS内置的搜索功能，旨在为用户提供快速和全面访
 
 Spotlight的底层机制涉及一个名为'mds'的中央进程，它代表**'元数据服务器'**。该进程协调整个Spotlight服务。此外，还有多个'mdworker'守护进程执行各种维护任务，例如索引不同类型的文件（`ps -ef | grep mdworker`）。这些任务通过Spotlight导入器插件或**".mdimporter bundles"**实现，这些插件使Spotlight能够理解和索引各种文件格式的内容。
 
-这些插件或**`.mdimporter`** bundles位于前面提到的位置，如果出现新的bundle，它会在几分钟内加载（无需重新启动任何服务）。这些bundles需要指示它们可以管理哪种文件类型和扩展名，这样，当创建一个具有指定扩展名的新文件时，Spotlight将使用它们。
+这些插件或**`.mdimporter`** bundles位于先前提到的位置，如果出现新的bundle，它会在一分钟内加载（无需重新启动任何服务）。这些bundles需要指示它们可以管理哪种文件类型和扩展名，这样，当创建一个具有指定扩展名的新文件时，Spotlight将使用它们。
 
-可以通过运行以下命令来**查找所有加载的`mdimporters`**：
+可以通过运行以下命令来找到所有加载的`mdimporters`：
 ```bash
 mdimport -L
 Paths: id(501) (
@@ -1084,7 +1086,7 @@ plutil -p /Library/Spotlight/iBooksAuthor.mdimporter/Contents/Info.plist
 要创建自己的导入程序，您可以从此项目开始：[https://github.com/megrimm/pd-spotlight-importer](https://github.com/megrimm/pd-spotlight-importer)，然后更改名称，**`CFBundleDocumentTypes`**并添加**`UTImportedTypeDeclarations`**以支持您想要支持的扩展名，并在**`schema.xml`**中反映它们。\
 然后，**更改**函数**`GetMetadataForFile`**的代码，以在创建具有已处理扩展名的文件时执行您的有效负载。
 
-最后，**构建并复制您的新`.mdimporter`**到三个先前的位置之一，并可以通过**监视日志**或检查**`mdimport -L.`**来检查它何时加载。
+最后，**构建并复制您的新`.mdimporter`**到三个先前的位置之一，您可以通过**监视日志**或检查**`mdimport -L.`**来检查它何时加载。
 
 ### ~~首选项面板~~
 
@@ -1131,7 +1133,7 @@ Writeup：[https://theevilbit.github.io/beyond/beyond\_0019/](https://theevilbit
 
 #### 描述和利用
 
-定期脚本（**`/etc/periodic`**）是由配置在`/System/Library/LaunchDaemons/com.apple.periodic*`中的**启动守护程序**执行的。请注意，存储在`/etc/periodic/`中的脚本将以**文件的所有者**身份执行，因此对于潜在的特权升级，这将无效。
+定期脚本（**`/etc/periodic`**）是由配置在`/System/Library/LaunchDaemons/com.apple.periodic*`中的**启动守护程序**执行的。请注意，存储在`/etc/periodic/`中的脚本将以**文件的所有者**身份**执行**，因此这对于潜在的特权升级无效。
 
 {% code overflow="wrap" %}
 ```bash
@@ -1358,7 +1360,7 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0023/](https://theevilbit.
 
 Apple 引入了一个名为 **emond** 的日志记录机制。看起来它从未完全开发，并且可能被 Apple 放弃以开发其他机制，但它仍然可用。
 
-这个鲜为人知的服务对于 Mac 管理员来说可能没有太多用处，但对于威胁行为者来说，一个非常好的理由是将其用作一种持久性机制，大多数 macOS 管理员可能不知道要寻找的地方。检测 emond 的恶意使用不应该很困难，因为该服务的系统 LaunchDaemon 只会在一个地方寻找要运行的脚本：
+这个鲜为人知的服务对于 Mac 管理员可能没有太多用处，但对于威胁行为者来说，一个非常好的理由是将其用作一种持久性机制，大多数 macOS 管理员可能不知道要寻找的地方。检测 emond 的恶意使用不应该很困难，因为该服务的系统 LaunchDaemon 只会在一个地方寻找要运行的脚本：
 ```bash
 ls -l /private/var/db/emondClients
 ```
@@ -1433,10 +1435,10 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0015/](https://theevilbit.
 ### ~~/etc/rc.common~~
 
 {% hint style="danger" %}
-**在现代 MacOS 版本中，此方法不起作用**
+**在现代 MacOS 版本中不起作用**
 {% endhint %}
 
-还可以在此处放置**在启动时执行的命令**。以下是常规 rc.common 脚本的示例：
+还可以在此处放置**在启动时执行的命令**。例如常规的 rc.common 脚本示例：
 ```bash
 #
 # Common setup for startup scripts.
@@ -1540,7 +1542,7 @@ esac
 
 * 你在一个**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者你想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**Telegram群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 

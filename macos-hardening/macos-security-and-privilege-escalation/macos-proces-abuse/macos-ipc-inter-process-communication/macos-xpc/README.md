@@ -4,10 +4,10 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一个**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
@@ -16,7 +16,7 @@
 
 XPC代表XNU（macOS使用的内核）进程间通信，是macOS和iOS之间进行**进程间通信的框架**。XPC提供了一种在系统上进行**安全的异步方法调用的机制**。它是苹果安全范例的一部分，允许创建**权限分离的应用程序**，其中每个**组件**仅以其工作所需的权限运行，从而限制了受损进程可能造成的潜在损害。
 
-XPC使用一种进程间通信（IPC）的形式，这是一组不同程序在同一系统上发送和接收数据的方法。
+XPC使用一种进程间通信（IPC）的形式，这是一组用于在同一系统上运行的不同程序之间发送数据的方法。
 
 XPC的主要优点包括：
 
@@ -24,7 +24,7 @@ XPC的主要优点包括：
 2. **稳定性**：XPC有助于将崩溃隔离到发生崩溃的组件。如果一个进程崩溃，可以重新启动而不影响系统的其他部分。
 3. **性能**：XPC允许轻松并发，因为不同的任务可以在不同的进程中同时运行。
 
-唯一的**缺点**是将一个应用程序分成多个进程，通过XPC进行通信**效率较低**。但在今天的系统中，这几乎不可察觉，而且好处更多。
+唯一的**缺点**是将一个应用程序分成多个进程，通过XPC进行通信会**效率较低**。但在今天的系统中，这几乎不可察觉，而且好处更多。
 
 ## 应用程序特定的XPC服务
 
@@ -38,7 +38,7 @@ XPC服务在需要时由**launchd**启动，并在所有任务完成后**关闭*
 
 系统范围的XPC服务对所有用户都可访问。这些服务可以是launchd或Mach类型，需要在指定目录中的plist文件中**定义**，例如**`/System/Library/LaunchDaemons`**、**`/Library/LaunchDaemons`**、**`/System/Library/LaunchAgents`**或**`/Library/LaunchAgents`**。
 
-这些plist文件将具有名为**`MachServices`**的键，其值为服务的名称，以及名为**`Program`**的键，其值为二进制文件的路径：
+这些plist文件将具有一个名为**`MachServices`**的键，其中包含服务的名称，以及一个名为**`Program`**的键，其中包含二进制文件的路径：
 ```xml
 cat /Library/LaunchDaemons/com.jamf.management.daemon.plist
 
@@ -82,8 +82,8 @@ cat /Library/LaunchDaemons/com.jamf.management.daemon.plist
 
 当进程尝试通过XPC连接调用方法时，**XPC服务应该检查该进程是否被允许连接**。以下是常见的检查方法和常见的陷阱：
 
-{% content-ref url="macos-xpc-connecting-process-check.md" %}
-[macos-xpc-connecting-process-check.md](macos-xpc-connecting-process-check.md)
+{% content-ref url="macos-xpc-connecting-process-check/" %}
+[macos-xpc-connecting-process-check](macos-xpc-connecting-process-check/)
 {% endcontent-ref %}
 
 ## XPC授权
@@ -255,11 +255,15 @@ launchctl load /path/to/xyz.hacktricks.service.plist
 
 这将会将服务添加到系统的启动项中，并在系统启动时自动运行。
 
-请注意，为了加载和运行服务，您需要具有管理员权限。
+要卸载和停止这个服务，可以使用`launchctl`命令：
 
+```bash
+launchctl unload /path/to/xyz.hacktricks.service.plist
 ```
 
-请注意，为了加载和运行服务，您需要具有管理员权限。
+这将会从系统的启动项中移除服务，并停止正在运行的服务进程。
+
+请注意，加载和卸载服务需要管理员权限。
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
@@ -389,7 +393,7 @@ To analyze the `xyz.hacktricks.svcoc.plist` file, you can use a property list ed
 
 Additionally, you can also look for any custom methods or functions defined in the XPC service that could be abused to execute arbitrary code or manipulate system resources.
 
-Keep in mind that modifying or abusing XPC services can have serious consequences and may violate the terms of service or legal agreements. Always ensure that you have proper authorization and follow ethical guidelines when performing any security assessments or penetration testing.
+Keep in mind that modifying or abusing XPC services can have serious consequences and may violate the terms of service or legal agreements. Always ensure that you have proper authorization and follow ethical guidelines when conducting any security research or testing.
 
 {% endtab %}
 ```xml
@@ -445,10 +449,10 @@ To use the Dylb client code, follow these steps:
 
 1. Import the necessary frameworks and libraries.
 2. Create an instance of the `NSXPCConnection` class.
-3. Set the appropriate interface for the connection.
-4. Set the connection's delegate.
+3. Set the appropriate `NSXPCInterface` for the connection.
+4. Set the `NSXPCConnection` delegate.
 5. Establish the connection using the `resume()` method.
-6. Send requests to the server using the connection's `remoteObjectProxy` property.
+6. Call the remote methods using the connection's `remoteObjectProxy` property.
 
 ### 用法
 
@@ -456,42 +460,44 @@ To use the Dylb client code, follow these steps:
 
 1. 导入所需的框架和库。
 2. 创建 `NSXPCConnection` 类的实例。
-3. 为连接设置适当的接口。
-4. 设置连接的代理。
+3. 为连接设置适当的 `NSXPCInterface`。
+4. 设置 `NSXPCConnection` 的委托。
 5. 使用 `resume()` 方法建立连接。
-6. 使用连接的 `remoteObjectProxy` 属性向服务器发送请求。
+6. 使用连接的 `remoteObjectProxy` 属性调用远程方法。
 
 ```swift
 import Foundation
 import XPC
 
+// Create an instance of NSXPCConnection
 let connection = NSXPCConnection(serviceName: "com.example.MyService")
-connection.remoteObjectInterface = NSXPCInterface(with: MyServiceProtocol.self)
+
+// Set the appropriate NSXPCInterface
+let interface = NSXPCInterface(with: MyServiceProtocol.self)
+connection.remoteObjectInterface = interface
+
+// Set the NSXPCConnection delegate
+connection.delegate = self
+
+// Establish the connection
 connection.resume()
 
-let proxy = connection.remoteObjectProxy
-proxy?.performAction(with: data) { response in
-    // Handle the response from the server
-}
+// Call remote methods
+let remoteObject = connection.remoteObjectProxy as? MyServiceProtocol
+remoteObject?.performAction()
 ```
 
-### Security Considerations
+Remember to replace `"com.example.MyService"` with the appropriate service name for your application.
 
-When using the Dylb client code, it is important to consider security measures to protect against potential vulnerabilities. Here are some recommendations:
+请记得将 `"com.example.MyService"` 替换为您的应用程序的适当服务名称。
 
-- Validate and sanitize user input to prevent injection attacks.
-- Implement proper authentication and authorization mechanisms.
-- Encrypt sensitive data before sending it over the network.
-- Regularly update and patch the Dylb code to address any security vulnerabilities.
+### Conclusion
 
-### 安全注意事项
+The client code inside a Dylb is crucial for establishing communication with a server and sending requests in macOS. By following the steps mentioned above, you can effectively use the Dylb client code in your applications.
 
-在使用 Dylb 客户端代码时，重要的是要考虑安全措施，以防止潜在的漏洞。以下是一些建议：
+结论
 
-- 验证和清理用户输入，以防止注入攻击。
-- 实施适当的身份验证和授权机制。
-- 在发送敏感数据之前对其进行加密。
-- 定期更新和修补 Dylb 代码，以解决任何安全漏洞。
+Dylb 中的客户端代码对于在 macOS 中与服务器建立通信并发送请求至关重要。通过按照上述步骤操作，您可以在应用程序中有效地使用 Dylb 客户端代码。
 ```objectivec
 // gcc -dynamiclib -framework Foundation oc_xpc_client.m -o oc_xpc_client.dylib
 // gcc injection example:
@@ -529,10 +535,10 @@ return;
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在一家**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者你想要**获取PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**推特**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或者 [**Telegram群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>

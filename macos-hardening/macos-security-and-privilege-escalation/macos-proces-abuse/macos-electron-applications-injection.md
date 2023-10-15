@@ -14,20 +14,20 @@
 
 ## 基本信息
 
-如果你不知道什么是Electron，你可以在[**这里找到大量信息**](https://book.hacktricks.xyz/network-services-pentesting/pentesting-web/xss-to-rce-electron-desktop-apps)。但现在只需要知道Electron运行**node**。\
+如果你不知道什么是Electron，你可以在[**这里找到大量信息**](https://book.hacktricks.xyz/network-services-pentesting/pentesting-web/xss-to-rce-electron-desktop-apps)。但现在只需知道Electron运行**node**。\
 而node有一些**参数**和**环境变量**，可以用来**执行其他代码**，而不仅仅是指定的文件。
 
 ### Electron Fuses
 
-接下来将讨论这些技术，但最近Electron添加了几个**安全标志来防止它们**。这些是[**Electron Fuses**](https://www.electronjs.org/docs/latest/tutorial/fuses)，这些是用于**防止**macOS上的Electron应用程序**加载任意代码**的标志：
+接下来将讨论这些技术，但最近Electron添加了几个**安全标志以防止它们**。这些是[**Electron Fuses**](https://www.electronjs.org/docs/latest/tutorial/fuses)，用于**防止**macOS上的Electron应用程序**加载任意代码**：
 
 * **`RunAsNode`**：如果禁用，它将阻止使用环境变量**`ELECTRON_RUN_AS_NODE`**来注入代码。
 * **`EnableNodeCliInspectArguments`**：如果禁用，像`--inspect`，`--inspect-brk`这样的参数将不会被识别。从而避免了注入代码的方式。
 * **`EnableEmbeddedAsarIntegrityValidation`**：如果启用，macOS将验证加载的**`asar`**文件。通过修改此文件的内容，以防止代码注入。
-* **`OnlyLoadAppFromAsar`**：如果启用，它将只检查和使用app.asar，而不是按照以下顺序搜索加载：**`app.asar`**，**`app`**，最后是**`default_app.asar`**。因此，当与**`embeddedAsarIntegrityValidation`**标志结合使用时，**无法加载未经验证的代码**。
+* **`OnlyLoadAppFromAsar`**：如果启用，它将只检查和使用app.asar，而不是按照以下顺序搜索加载：**`app.asar`**，**`app`**，最后是**`default_app.asar`**。因此，当与**`embeddedAsarIntegrityValidation`**融合在一起时，**无法加载未经验证的代码**。
 * **`LoadBrowserProcessSpecificV8Snapshot`**：如果启用，浏览器进程将使用名为`browser_v8_context_snapshot.bin`的文件进行其V8快照。
 
-另一个不会阻止代码注入的有趣的标志是：
+另一个不会阻止代码注入的有趣的融合是：
 
 * **EnableCookieEncryption**：如果启用，磁盘上的cookie存储将使用操作系统级别的加密密钥进行加密。
 
@@ -56,9 +56,9 @@ LoadBrowserProcessSpecificV8Snapshot is Disabled
 grep -R "dL7pKGdnNz796PbbjQWNKmHXBZaB9tsX" Slack.app/
 Binary file Slack.app//Contents/Frameworks/Electron Framework.framework/Versions/A/Electron Framework matches
 ```
-您可以在[https://hexed.it/](https://hexed.it/)中加载此文件并搜索先前的字符串。在此字符串之后，您可以在ASCII中看到一个数字“0”或“1”，表示每个保险丝是否被禁用或启用。只需修改十六进制代码（`0x30`表示`0`，`0x31`表示`1`）以**修改保险丝的值**。
+你可以在[https://hexed.it/](https://hexed.it/)中加载此文件并搜索先前的字符串。在此字符串之后，您可以在ASCII中看到一个数字“0”或“1”，表示每个保险丝是否被禁用或启用。只需修改十六进制代码（`0x30`表示`0`，`0x31`表示`1`）来**修改保险丝的值**。
 
-<figure><img src="../../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
 请注意，如果您尝试使用修改后的字节覆盖应用程序中的**`Electron Framework`二进制文件**，该应用程序将无法运行。
 
@@ -75,7 +75,7 @@ Electron应用程序可能使用**外部JS/HTML文件**，因此攻击者可以�
 这使得攻击路径更加复杂（或不可能）。
 {% endhint %}
 
-请注意，可以通过将应用程序复制到另一个目录（如**`/tmp`**），将文件夹**`app.app/Contents`**重命名为**`app.app/NotCon`**，使用您的**恶意**代码修改**asar**文件，将其重新命名为**`app.app/Contents`**并执行来绕过**`kTCCServiceSystemPolicyAppBundles`**的要求。
+请注意，可以通过将应用程序复制到另一个目录（如**`/tmp`**），将文件夹**`app.app/Contents`**重命名为**`app.app/NotCon`**，使用您的**恶意**代码修改**asar**文件，将其重新命名为**`app.app/Contents`**并执行它来绕过**`kTCCServiceSystemPolicyAppBundles`**的要求。
 
 ## 使用`ELECTRON_RUN_AS_NODE`进行RCE <a href="#electron_run_as_node" id="electron_run_as_node"></a>
 
@@ -94,7 +94,7 @@ require('child_process').execSync('/System/Applications/Calculator.app/Contents/
 如果禁用了fuse **`RunAsNode`**，环境变量**`ELECTRON_RUN_AS_NODE`**将被忽略，这将无法工作。
 {% endhint %}
 
-### 从App Plist中注入
+### 从App Plist注入
 
 正如[**在这里提出的**](https://www.trustedsec.com/blog/macos-injection-via-third-party-frameworks/)，您可以滥用这个环境变量在plist中保持持久性：
 ```xml

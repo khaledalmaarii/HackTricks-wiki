@@ -39,8 +39,8 @@ return YES;
 ```
 有关如何正确配置此检查的更多信息，请参阅：
 
-{% content-ref url="macos-xpc-connecting-process-check.md" %}
-[macos-xpc-connecting-process-check.md](macos-xpc-connecting-process-check.md)
+{% content-ref url="macos-xpc-connecting-process-check/" %}
+[macos-xpc-connecting-process-check](macos-xpc-connecting-process-check/)
 {% endcontent-ref %}
 
 ### 应用程序权限
@@ -261,12 +261,15 @@ security authorizationdb read com.apple.safaridriver.allow
 1. **'authenticate-user': 'false'**
 * 这是最直接的键。如果设置为`false`，表示用户无需提供身份验证即可获得此权限。
 * 这与下面的两个键之一结合使用，或者指示用户必须属于的组。
+
 2. **'allow-root': 'true'**
 * 如果用户作为具有提升权限的root用户操作，并且此键设置为`true`，则root用户可能无需进一步身份验证即可获得此权限。然而，通常情况下，要达到root用户状态已经需要进行身份验证，所以对于大多数用户来说，这不是一个“无需身份验证”的情况。
+
 3. **'session-owner': 'true'**
 * 如果设置为`true`，会话的所有者（当前登录的用户）将自动获得此权限。如果用户已经登录，则可能绕过其他身份验证。
+
 4. **'shared': 'true'**
-* 此键不会在没有身份验证的情况下授予权限。相反，如果设置为`true`，意味着一旦权限得到验证，它可以在多个进程之间共享，而无需每个进程重新进行身份验证。但是，初始授予权限仍然需要进行身份验证，除非与其他键（如`'authenticate-user': 'false'`）结合使用。
+* 此键不会在没有身份验证的情况下授予权限。相反，如果设置为`true`，表示一旦权限得到验证，它可以在多个进程之间共享，而无需每个进程重新进行身份验证。但是，初始授予权限仍然需要进行身份验证，除非与其他键（如`'authenticate-user': 'false'`）结合使用。
 
 你可以使用[**这个脚本**](https://gist.github.com/carlospolop/96ecb9e385a4667b9e40b24e878652f9)获取有趣的权限：
 ```bash
@@ -284,9 +287,9 @@ authenticate-session-owner, authenticate-session-owner-or-admin, authenticate-se
 
 ### 检查是否使用EvenBetterAuthorization
 
-如果你找到了函数：**`[HelperTool checkAuthorization:command:]`**，那么该进程很可能正在使用之前提到的授权模式：
+如果你找到函数：**`[HelperTool checkAuthorization:command:]`**，那么该进程可能正在使用之前提到的授权模式：
 
-<figure><img src="../../../../../.gitbook/assets/image (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 如果这个函数调用了`AuthorizationCreateFromExternalForm`、`authorizationRightForCommand`、`AuthorizationCopyRights`、`AuhtorizationFree`等函数，那么它正在使用[**EvenBetterAuthorizationSample**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L101-L154)。
 
@@ -302,7 +305,7 @@ authenticate-session-owner, authenticate-session-owner-or-admin, authenticate-se
 
 在这种情况下，我们与EvenBetterAuthorizationSample中的情况相同，[**查看此行**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L94)。
 
-知道了使用的协议名称，可以使用以下命令**转储其头文件定义**：
+知道所使用协议的名称后，可以使用以下命令**转储其头文件定义**：
 ```bash
 class-dump /Library/PrivilegedHelperTools/com.example.HelperTool
 
@@ -428,7 +431,7 @@ NSLog(@"Finished!");
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在一个**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**

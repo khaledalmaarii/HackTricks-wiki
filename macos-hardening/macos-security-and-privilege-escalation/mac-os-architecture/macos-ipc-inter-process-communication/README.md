@@ -2,95 +2,101 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一个**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+* 你在一家 **网络安全公司** 工作吗？你想在 HackTricks 中看到你的 **公司广告**吗？或者你想获得 **PEASS 的最新版本或下载 HackTricks 的 PDF 版本**吗？请查看 [**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 集合 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass)，或者在 **Twitter** 上 **关注** 我 [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向** [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享你的黑客技巧。**
 
 </details>
 
-## 通过端口进行Mach消息传递
+## Mach 通过端口进行消息传递
 
-Mach使用**任务（task）**作为共享资源的**最小单位**，每个任务可以包含**多个线程**。这些**任务和线程与POSIX进程和线程一一对应**。
+### 基本信息
 
-任务之间的通信通过Mach进程间通信（IPC）进行，利用单向通信通道。**消息通过端口传递**，端口类似于由内核管理的**消息队列**。
+Mach 使用 **任务（tasks）** 作为共享资源的 **最小单位**，每个任务可以包含 **多个线程**。这些 **任务和线程与 POSIX 进程和线程一一对应**。
 
-每个进程都有一个**IPC表**，其中可以找到进程的**Mach端口**。Mach端口的名称实际上是一个数字（指向内核对象的指针）。
+任务之间的通信通过 Mach 进程间通信（IPC）进行，利用单向通信通道。**消息通过端口进行传输**，端口类似于由内核管理的 **消息队列**。
 
-进程还可以将带有某些权限的端口名称**发送给其他任务**，内核将在**其他任务的IPC表**中创建此条目。
+每个进程都有一个 **IPC 表**，其中可以找到进程的 **Mach 端口**。Mach 端口的名称实际上是一个数字（指向内核对象的指针）。
 
-端口权限定义了任务可以执行的操作，这对通信至关重要。可能的**端口权限**有：
+进程还可以将带有某些权限的端口名称 **发送给其他任务**，内核将在 **其他任务的 IPC 表中创建此条目**。
 
-* **接收权限**，允许接收发送到端口的消息。Mach端口是MPSC（多生产者，单消费者）队列，这意味着整个系统中可能只有**一个接收权限与每个端口**相关联（与管道不同，多个进程可以同时持有对一个管道读端的文件描述符）。
-* 具有**接收权限的任务**可以接收消息并**创建发送权限**，从而可以发送消息。最初，只有**自己的任务对其端口具有接收权限**。
+### 端口权限
+
+端口权限定义了任务可以执行的操作，对于这种通信至关重要。可能的 **端口权限** 有：
+
+* **接收权限**，允许接收发送到端口的消息。Mach 端口是 MPSC（多生产者，单消费者）队列，这意味着整个系统中可能只有 **一个接收权限与每个端口** 相对应（与管道不同，多个进程可以同时持有对一个管道读端的文件描述符）。
+* 拥有 **接收权限的任务** 可以接收消息并 **创建发送权限**，从而可以发送消息。最初，只有 **自己的任务对其端口拥有接收权限**。
 * **发送权限**，允许向端口发送消息。
-* 发送权限可以**克隆**，因此拥有发送权限的任务可以克隆该权限并将其授予第三个任务。
+* 发送权限可以进行 **克隆**，因此拥有发送权限的任务可以克隆该权限并将其授予第三个任务。
 * **一次性发送权限**，允许向端口发送一条消息，然后消失。
-* **端口集权限**，表示一个**端口集**而不是单个端口。从端口集中出队一条消息会从其中一个包含的端口中出队。端口集可用于同时监听多个端口，类似于Unix中的`select`/`poll`/`epoll`/`kqueue`。
-* **死名称**，它不是实际的端口权限，而只是一个占位符。当一个端口被销毁时，所有现有的端口权限都变成死名称。
+* **端口集权限**，表示一个 _端口集_ 而不是单个端口。从端口集中出队一条消息会从其中一个包含的端口中出队。端口集可用于同时监听多个端口，类似于 Unix 中的 `select`/`poll`/`epoll`/`kqueue`。
+* **死命名**，不是实际的端口权限，而只是一个占位符。当一个端口被销毁时，所有对该端口的现有端口权限都变成死命名。
 
-**任务可以将发送权限传输给其他任务**，使其能够发送消息回来。**发送权限也可以克隆**，因此任务可以复制并将权限授予第三个任务。这与一个称为**引导服务器**的中间进程结合使用，可以实现任务之间的有效通信。
+**任务可以将发送权限传输给其他任务**，使其能够发送消息回来。**发送权限也可以进行克隆**，因此任务可以复制并将权限授予第三个任务。这与一个称为 **引导服务器** 的中间进程结合使用，可以实现任务之间的有效通信。
+
+### 建立通信
 
 #### 步骤：
 
-正如前面提到的，为了建立通信通道，涉及到**引导服务器**（mac中的**launchd**）。
+如前所述，为了建立通信通道，涉及到 **引导服务器**（mac 中的 **launchd**）。
 
-1. 任务**A**初始化一个**新的端口**，在进程中获得一个**接收权限**。
-2. 作为接收权限的持有者，任务**A**为端口**生成一个发送权限**。
-3. 任务**A**通过引导注册过程与**引导服务器**建立**连接**，提供**端口的服务名称**和**发送权限**。
-4. 任务**B**与**引导服务器**交互，执行服务名称的引导**查找**。如果成功，**服务器复制从任务A接收到的发送权限**并将其**传输给任务B**。
-5. 获得发送权限后，任务**B**能够**构建**一条**消息**并将其**发送给任务A**。
+1. 任务 **A** 初始化一个 **新的端口**，在进程中获得一个 **接收权限**。
+2. 作为接收权限的持有者，任务 **A** **生成一个发送权限** 以供该端口使用。
+3. 任务 **A** 通过称为引导注册的过程，与 **引导服务器** 建立一个 **连接**，提供 **端口的服务名称** 和 **发送权限**。
+4. 任务 **B** 与 **引导服务器** 交互，执行引导 **查找服务名称** 的操作。如果成功，**服务器会复制从任务 A 接收到的发送权限**，并将其 **传输给任务 B**。
+5. 获得发送权限后，任务 **B** 能够 **构建** 一条 **消息** 并将其 **发送给任务 A**。
+6. 对于双向通信，通常任务 **B** 生成一个具有 **接收权限** 和 **发送权限** 的新端口，并将 **发送权限交给任务 A**，以便它可以向任务 B 发送消息（双向通信）。
 
-引导服务器**无法对任务声称的服务名称进行身份验证**。这意味着一个任务可能潜在地**冒充任何系统任务**，例如虚假地**声称授权服务名称**，然后批准每个请求。
+引导服务器**无法对任务声称的服务名称进行身份验证**。这意味着一个任务有可能**冒充任何系统任务**，例如虚假地声称一个授权服务名称，然后批准每个请求。
 
-然后，Apple将**系统提供的服务名称**存储在位于**SIP保护**目录`/System/Library/LaunchDaemons`和`/System/Library/LaunchAgents`中的安全配置文件中。引导服务器将为每个这些服务名称创建并持有一个**接收权限**。
+然后，Apple 将**系统提供的服务名称**存储在位于受 SIP 保护的目录 `/System/Library/LaunchDaemons` 和 `/System/Library/LaunchAgents` 中的安全配置文件中。引导服务器将为每个这些服务名称创建并持有一个 **接收权限**。
 
-对于这些预定义服务，**查找过程稍有不同**。当查找服务名称时，launchd会动态启动服务。新的工作流程如下：
+对于这些预定义服务，**查找过程稍有不同**。当查找服务名称时，launchd 动态启动服务。新的工作流程如下：
 
-* 任务**B**为服务名称**发起引导查找**。
-* **launchd**检查任务是否正在运行，如果没有，则**启动**它。
-* 任务**A**（服务）执行**引导签入**。在这里，**引导**服务器创建一个发送权限，保留它，并将**接收权限传输给任务A**。
-* launchd复制**发送权限并将其发送给任务B**。
+* 任务 **B** 启动一个引导 **查找**，查找一个服务名称。
+* **launchd** 检查任务是否正在运行，如果没有，则 **启动** 它。
+* 任务 **A**（服务）执行引导 **签入**。在这里，引导服务器创建一个发送权限，保留它，并将 **接收权限传输给任务 A**。
+* launchd 复制 **发送权限并将其发送给任务 B**。
+* 任务 **B** 生成一个具有 **接收权限** 和 **发送权限** 的新端口，并将 **发送权限交给任务 A**（svc），以便它可以向任务 B 发送消息（双向通信）。
 
-然而，此过程仅适用于预定义的系统任务。非系统任务仍然按照最初的描述进行操作，这可能潜在地允许冒充。
+然而，此过程仅适用于预定义的系统任务。非系统任务仍然按照最初的描述进行操作，这可能导致冒充。
+### Mach消息
+
+Mach消息是使用**`mach_msg`函数**（本质上是一个系统调用）发送或接收的。在发送时，此调用的第一个参数必须是**消息**，它必须以**`mach_msg_header_t`**开头，后跟实际的有效载荷：
+```c
+typedef struct {
+mach_msg_bits_t               msgh_bits;
+mach_msg_size_t               msgh_size;
+mach_port_t                   msgh_remote_port;
+mach_port_t                   msgh_local_port;
+mach_port_name_t              msgh_voucher_port;
+mach_msg_id_t                 msgh_id;
+} mach_msg_header_t;
+```
+可以**接收**mach端口上的消息的进程被称为持有_**接收权限**_，而**发送者**持有_**发送**_或_**发送一次**_的_**权限**_。发送一次权限只能用于发送一条消息，然后就会失效。
+
+为了实现简单的**双向通信**，进程可以在mach消息头中指定一个称为回复端口（**`msgh_local_port`**）的mach端口，消息的**接收者**可以通过该端口向该消息发送回复。**`msgh_bits`**中的位标志可以用于指示应为该端口派生和传输一个**发送一次**权限（`MACH_MSG_TYPE_MAKE_SEND_ONCE`）。
+
+{% hint style="success" %}
+请注意，这种双向通信在期望有回复的XPC消息中使用（`xpc_connection_send_message_with_reply`和`xpc_connection_send_message_with_reply_sync`）。但通常会像之前解释的那样创建不同的端口来创建双向通信。
+{% endhint %}
+
+消息头的其他字段包括：
+
+* `msgh_size`：整个数据包的大小。
+* `msgh_remote_port`：发送该消息的端口。
+* `msgh_voucher_port`：[mach凭证](https://robert.sesek.com/2023/6/mach\_vouchers.html)。
+* `msgh_id`：该消息的ID，由接收者解释。
+
+{% hint style="danger" %}
+请注意，**mach消息是通过mach端口发送的**，这是一个内置于mach内核中的**单接收者**、**多发送者**的通信通道。**多个进程**可以向mach端口发送消息，但在任何时刻只有**一个进程可以从中读取**。
+{% endhint %}
+
 ### 枚举端口
-
-To enumerate ports on a macOS system, you can use various tools and techniques. Here are a few methods you can try:
-
-#### 1. Using `nmap`
-
-[nmap](https://nmap.org/) is a powerful network scanning tool that can be used to enumerate ports on a target system. You can install `nmap` on macOS using package managers like [Homebrew](https://brew.sh/). Once installed, you can run the following command to scan for open ports:
-
-```bash
-nmap -p- <target_ip>
-```
-
-This command will scan all ports on the target IP address and display the open ports.
-
-#### 2. Using `netstat`
-
-`netstat` is a command-line tool available on macOS that can display active network connections and listening ports. You can use the following command to list all listening ports:
-
-```bash
-netstat -an | grep LISTEN
-```
-
-This command will show all the ports that are currently in a listening state.
-
-#### 3. Using `lsof`
-
-`lsof` is another command-line tool that can be used to list open files, including network connections and listening ports. You can use the following command to list all open ports:
-
-```bash
-sudo lsof -i -P | grep LISTEN
-```
-
-This command will display all the open ports on your macOS system.
-
-These are just a few methods to enumerate ports on a macOS system. Depending on your specific requirements, you may need to use additional tools or techniques.
 ```bash
 lsmp -p <pid>
 ```
@@ -323,7 +329,7 @@ performMathOperations();  // Silent action
 return 0;
 }
 ```
-{% tab title="entitlements.plist" %}权限清单.plist
+{% tab title="entitlements.plist" %}权限清单.plist{% endtab %}
 ```xml
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -782,20 +788,19 @@ memset(&remoteThreadState64, '\0', sizeof(remoteThreadState64));
 remoteStack64 += (STACK_SIZE / 2); // 这是真正的堆栈
 //remoteStack64 -= 8;  // 需要 16 字节对齐
 
-const char *p = (const char *)remoteCode64;
+const char* p = (const char*) remoteCode64;
 
 remoteThreadState64.ash.flavor = ARM_THREAD_STATE64;
 remoteThreadState64.ash.count = ARM_THREAD_STATE64_COUNT;
-remoteThreadState64.ts_64.__pc = (u_int64_t)remoteCode64;
-remoteThreadState64.ts_64.__sp = (u_int64_t)remoteStack64;
+remoteThreadState64.ts_64.__pc = (u_int64_t) remoteCode64;
+remoteThreadState64.ts_64.__sp = (u_int64_t) remoteStack64;
 
 printf("远程堆栈 64  0x%llx，远程代码为 %p\n", remoteStack64, p);
 
 kr = thread_create_running(remoteTask, ARM_THREAD_STATE64, // ARM_THREAD_STATE64,
-                           (thread_state_t)&remoteThreadState64.ts_64, ARM_THREAD_STATE64_COUNT, &remoteThread);
+                           (thread_state_t) &remoteThreadState64.ts_64, ARM_THREAD_STATE64_COUNT, &remoteThread);
 
-if (kr != KERN_SUCCESS)
-{
+if (kr != KERN_SUCCESS) {
     fprintf(stderr, "无法创建远程线程：错误 %s", mach_error_string(kr));
     return (-3);
 }
@@ -803,12 +808,12 @@ if (kr != KERN_SUCCESS)
 return (0);
 }
 
-int main(int argc, const char *argv[])
+int main(int argc, const char * argv[])
 {
 if (argc < 3)
 {
     fprintf(stderr, "用法：%s _pid_ _action_\n", argv[0]);
-    fprintf(stderr, "   _action_：磁盘上 dylib 的路径\n");
+    fprintf(stderr, "   _action_：磁盘上的 dylib 路径\n");
     exit(0);
 }
 
@@ -817,8 +822,7 @@ const char *action = argv[2];
 struct stat buf;
 
 int rc = stat(action, &buf);
-if (rc == 0)
-    inject(pid, action);
+if (rc == 0) inject(pid, action);
 else
 {
     fprintf(stderr, "找不到 dylib\n");
@@ -865,15 +869,17 @@ MIG被创建用于简化Mach IPC代码的生成过程。它基本上为服务器
 * [https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html](https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html)
 * [https://knight.sc/malware/2019/03/15/code-injection-on-macos.html](https://knight.sc/malware/2019/03/15/code-injection-on-macos.html)
 * [https://gist.github.com/knightsc/45edfc4903a9d2fa9f5905f60b02ce5a](https://gist.github.com/knightsc/45edfc4903a9d2fa9f5905f60b02ce5a)
+* [https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)
+* [https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者你想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 发现我们的独家[NFT收藏品](https://opensea.io/collection/the-peass-family)——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>

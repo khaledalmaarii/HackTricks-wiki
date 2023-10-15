@@ -2,19 +2,19 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * 你在一家**网络安全公司**工作吗？你想在 HackTricks 中看到你的**公司广告**吗？或者你想获得**PEASS 的最新版本或下载 HackTricks 的 PDF 版本**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家 NFT 收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方 PEASS 和 HackTricks 商品**](https://peass.creator-spring.com)
+* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享你的黑客技巧。**
 
 </details>
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
-如果你对**黑客职业**感兴趣并且想要攻破不可攻破的东西 - **我们正在招聘！**（需要流利的波兰语书面和口语表达能力）。
+如果你对**黑客职业**感兴趣并且想要攻破不可攻破的东西 - **我们正在招聘！**（需要流利的波兰语书写和口语能力）。
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
@@ -51,7 +51,7 @@ kerberos::golden /user:Administrator /domain:jurassic.park /sid:S-1-5-21-1339291
 ```
 {% endcode %}
 
-**CIFS**服务允许您访问受害者的文件系统。您可以在此处找到其他服务：[https://adsecurity.org/?page\_id=183](https://adsecurity.org/?page\_id=183)。例如，您可以使用**HOST服务**在计算机上创建一个_schtask_。然后，您可以尝试列出受害者的任务来检查是否成功：`schtasks /S <hostname>`，或者您可以使用**HOST和RPCSS服务**在计算机上执行**WMI**查询，测试方法如下：`Get-WmiObject -Class win32_operatingsystem -ComputerName <hostname>`
+**CIFS**服务允许您访问受害者的文件系统。您可以在此处找到其他服务：[**https://adsecurity.org/?page\_id=183**](https://adsecurity.org/?page\_id=183)**。**例如，您可以使用**HOST服务**在计算机上创建一个_schtask_。然后，您可以尝试列出受害者的任务来检查是否成功：`schtasks /S <hostname>`或者您可以使用**HOST和RPCSS服务**在计算机上执行**WMI**查询，测试方法如下：`Get-WmiObject -Class win32_operatingsystem -ComputerName <hostname>`
 
 ### 缓解措施
 
@@ -68,7 +68,7 @@ kerberos::golden /user:Administrator /domain:jurassic.park /sid:S-1-5-21-1339291
 | 服务类型                                 | 服务银票                                                         |
 | ---------------------------------------- | ---------------------------------------------------------------- |
 | WMI                                      | <p>HOST</p><p>RPCSS</p>                                          |
-| PowerShell 远程管理                      | <p>HOST</p><p>HTTP</p><p>根据操作系统还可能有：</p><p>WSMAN</p><p>RPCSS</p> |
+| PowerShell 远程管理                      | <p>HOST</p><p>HTTP</p><p>根据操作系统还有：</p><p>WSMAN</p><p>RPCSS</p> |
 | WinRM                                    | <p>HOST</p><p>HTTP</p><p>在某些情况下，您只需请求：WINRM</p>         |
 | 计划任务                                 | HOST                                                             |
 | Windows 文件共享，也可以使用psexec        | CIFS                                                             |
@@ -158,7 +158,7 @@ mimikatz(commandline) # lsadump::dcsync /dc:pcdc.domain.local /domain:domain.loc
 [dcsync.md](dcsync.md)
 {% endcontent-ref %}
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
 如果您对**黑客职业**感兴趣并想要攻破不可攻破的目标 - **我们正在招聘！**（需要流利的波兰语书面和口语表达能力）。
 
@@ -168,7 +168,7 @@ mimikatz(commandline) # lsadump::dcsync /dc:pcdc.domain.local /domain:domain.loc
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 您在**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想要访问**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 您在**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想要访问**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品 - [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**

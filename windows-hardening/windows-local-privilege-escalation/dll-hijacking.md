@@ -5,22 +5,22 @@
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
 
 * 你在一家**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者你想要获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[NFT收藏品](https://opensea.io/collection/the-peass-family)——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* 发现我们的独家[NFT](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
-如果你对**黑客职业**感兴趣并想要攻破不可攻破的目标 - **我们正在招聘！**（需要流利的波兰语书面和口语表达能力）。
+如果你对**黑客职业**感兴趣并且想要攻破不可攻破的目标 - **我们正在招聘！**（需要流利的波兰语书面和口语表达能力）。
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
 ## 定义
 
-首先，让我们先了解一下定义。DLL劫持在最广义上是指**欺骗一个合法/可信任的应用程序加载任意DLL**。术语如_DLL搜索顺序劫持_、_DLL加载顺序劫持_、_DLL欺骗_、_DLL注入_和_DLL侧加载_经常被错误地用来表示相同的意思。
+首先，让我们先了解一下定义。DLL劫持是指**欺骗一个合法/可信任的应用程序加载任意DLL**。术语如_DLL搜索顺序劫持_、_DLL加载顺序劫持_、_DLL欺骗_、_DLL注入_和_DLL侧加载_经常被错误地用来表示相同的意思。
 
 DLL劫持可以用于**执行**代码、获取**持久性**和**提升权限**。在这三种情况中，**最不可能**发现的是**提升权限**。然而，由于这是权限提升部分的一部分，我将重点介绍这个选项。此外，无论目标是什么，DLL劫持的执行方式都是相同的。
 
@@ -30,14 +30,14 @@ DLL劫持可以用于**执行**代码、获取**持久性**和**提升权限**�
 
 1. **DLL替换**：用恶意DLL替换合法DLL。这可以与_DLL代理_结合使用\[[2](https://kevinalmansa.github.io/application%20security/DLL-Proxying/)]，以确保原始DLL的所有功能保持完整。
 2. **DLL搜索顺序劫持**：应用程序指定的没有路径的DLL按照特定顺序在固定位置进行搜索\[[3](https://docs.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-search-order)]。通过将恶意DLL放在实际DLL之前进行搜索顺序劫持。这有时包括目标应用程序的工作目录。
-3. **幻影DLL劫持**：将恶意DLL放在缺失/不存在的DLL位置，合法应用程序尝试加载该DLL\[[4](http://www.hexacorn.com/blog/2013/12/08/beyond-good-ol-run-key-part-5/)]。
-4. **DLL重定向**：更改搜索DLL的位置，例如通过编辑`%PATH%`环境变量，或`.exe.manifest` / `.exe.local`文件以包含包含恶意DLL的文件夹\[[5](https://docs.microsoft.com/en-gb/windows/win32/sbscs/application-manifests), [6](https://docs.microsoft.com/en-gb/windows/win32/dlls/dynamic-link-library-redirection)]。
+3. **幻影DLL劫持**：在合法应用程序尝试加载的缺失/不存在的DLL位置放置恶意DLL\[[4](http://www.hexacorn.com/blog/2013/12/08/beyond-good-ol-run-key-part-5/)]。
+4. **DLL重定向**：更改DLL的搜索位置，例如通过编辑`%PATH%`环境变量或`.exe.manifest` / `.exe.local`文件以包含包含恶意DLL的文件夹\[[5](https://docs.microsoft.com/en-gb/windows/win32/sbscs/application-manifests), [6](https://docs.microsoft.com/en-gb/windows/win32/dlls/dynamic-link-library-redirection)]。
 5. **WinSxS DLL替换**：在目标DLL的相关WinSxS文件夹中用恶意DLL替换合法DLL。通常称为DLL侧加载\[[7](https://www.fireeye.com/content/dam/fireeye-www/global/en/current-threats/pdfs/rpt-dll-sideloading.pdf)]。
-6. **相对路径DLL劫持**：将合法应用程序复制（并可选择重命名）到用户可写入的文件夹中，与恶意DLL放在一起。在使用方式上，它与（签名的）二进制代理执行\[[8](https://attack.mitre.org/techniques/T1218/)]有相似之处。这种方法的变体有点自相矛盾，被称为“_bring your own LOLbin_”\[[9](https://www.microsoft.com/security/blog/2019/09/26/bring-your-own-lolbin-multi-stage-fileless-nodersok-campaign-delivers-rare-node-js-based-malware/)]，其中合法应用程序与恶意DLL一起提供（而不是从受害者机器上的合法位置复制）。
+6. **相对路径DLL劫持**：将合法应用程序复制（并可选地重命名）到用户可写入的文件夹中，与恶意DLL放在一起。在使用方式上，它与（签名的）二进制代理执行\[[8](https://attack.mitre.org/techniques/T1218/)]有相似之处。这种方法的变体有点自相矛盾，被称为“_bring your own LOLbin_”\[[9](https://www.microsoft.com/security/blog/2019/09/26/bring-your-own-lolbin-multi-stage-fileless-nodersok-campaign-delivers-rare-node-js-based-malware/)]，其中合法应用程序与恶意DLL一起提供（而不是从受害者机器上的合法位置复制）。
 
 ## 查找缺失的DLL
 
-在系统中查找缺失的DLL最常见的方法是运行[procmon](https://docs.microsoft.com/en-us/sysinternals/downloads/procmon)，**设置以下两个过滤器**：
+在系统中查找缺失的DLL的最常见方法是运行[procmon](https://docs.microsoft.com/en-us/sysinternals/downloads/procmon)，**设置以下两个过滤器**：
 
 ![](<../../.gitbook/assets/image (311).png>)
 
@@ -227,7 +227,7 @@ break;
 return TRUE;
 }
 ```
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
 如果你对**黑客职业**感兴趣并想要攻破不可攻破的系统 - **我们正在招聘！**（需要流利的波兰语书写和口语能力）。
 
