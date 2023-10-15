@@ -36,15 +36,15 @@ ps -ef | grep tcc
 
 ### TCC数据库
 
-然后，选择将存储在TCC系统范围的数据库中，路径为**`/Library/Application Support/com.apple.TCC/TCC.db`**，或者对于每个用户的偏好设置，路径为**`$HOME/Library/Application Support/com.apple.TCC/TCC.db`**。这些数据库受到SIP（系统完整性保护）的保护，但您可以读取它们。
+然后，选择将存储在TCC系统范围的数据库中，位于`/Library/Application Support/com.apple.TCC/TCC.db`，或者对于每个用户的首选项，位于`$HOME/Library/Application Support/com.apple.TCC/TCC.db`。这些数据库受到SIP（系统完整性保护）的保护，但您可以读取它们。
 
 {% hint style="danger" %}
-在iOS中，TCC数据库位于**`/private/var/mobile/Library/TCC/TCC.db`**
+在iOS中，TCC数据库位于`/private/var/mobile/Library/TCC/TCC.db`
 {% endhint %}
 
-还有一个第三个TCC数据库位于**`/var/db/locationd/clients.plist`**，用于指示允许访问位置服务的客户端。
+还有一个第三个TCC数据库位于`/var/db/locationd/clients.plist`，用于指示允许访问位置服务的客户端。
 
-此外，具有**完全磁盘访问权限**的进程可以编辑用户模式数据库。现在，应用程序还需要FDA（完全磁盘访问权限）来读取数据库。
+此外，具有完全磁盘访问权限的进程可以编辑用户模式数据库。现在，应用程序还需要FDA来读取数据库。
 
 {% hint style="info" %}
 **通知中心UI**可以对系统TCC数据库进行更改：
@@ -116,7 +116,7 @@ sqlite> select * from access where client LIKE "%telegram%" and auth_value=0;
 您还可以在`系统偏好设置 --> 安全性与隐私 --> 隐私 --> 文件和文件夹`中检查已授予应用程序的权限。
 
 {% hint style="success" %}
-请注意，即使其中一个数据库位于用户的主目录中，**由于 SIP 的限制，用户无法直接修改这些数据库**（即使您是 root）。配置或修改新规则的唯一方法是通过系统偏好设置窗格或应用程序询问用户时。
+请注意，即使其中一个数据库位于用户的主目录中，**由于 SIP 的限制，用户无法直接修改这些数据库**（即使您是 root 用户）。配置或修改新规则的唯一方法是通过系统偏好设置窗格或应用程序询问用户时。
 
 但是，请记住，用户可以使用 **`tccutil`** **删除或查询规则**。&#x20;
 {% endhint %}
@@ -129,9 +129,15 @@ tccutil reset All app.some.id
 # Reset the permissions granted to all apps
 tccutil reset All
 ```
-### TCC 签名检查
+### 从用户TCC数据库到FDA的权限提升
 
-TCC **数据库**存储了应用程序的**Bundle ID**，但它还会**存储**关于**签名**的**信息**，以确保请求使用权限的应用程序是正确的。
+获取对用户TCC数据库的**写入权限**，你无法授予自己**`FDA`**权限，只有系统数据库中的权限可以授予。
+
+但是你可以给自己**`Finder的自动化权限`**，由于`Finder`具有`FDA`权限，所以你也具有。
+
+### TCC签名检查
+
+TCC数据库存储了应用程序的**Bundle ID**，但它还存储了关于签名的**信息**，以确保请求使用权限的应用程序是正确的。
 
 {% code overflow="wrap" %}
 ```bash

@@ -2,12 +2,12 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云平台 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一个**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
@@ -16,7 +16,7 @@
 
 ### 写入绕过
 
-这不是一个绕过，这只是TCC的工作原理：**它不会阻止写入操作**。如果终端**无法读取用户的桌面，它仍然可以写入其中**：
+这不是一个绕过，这只是TCC的工作原理：**它不会阻止写入操作**。如果终端**无法读取用户的桌面，仍然可以写入其中**：
 ```shell-session
 username@hostname ~ % ls Desktop
 ls: Desktop: Operation not permitted
@@ -54,7 +54,7 @@ asd
 
 **iMovie** 和 **Garageband** 具有此权限以及其他允许的权限。
 
-有关从该权限中获取 iCloud 令牌的漏洞的更多 **信息**，请查看演讲：[**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=_6e2LhmxVc0)
+有关从该权限中获取 iCloud 令牌的漏洞的更多 **信息**，请查看演讲：[**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=\_6e2LhmxVc0)
 
 ### kTCCServiceAppleEvents / Automation
 
@@ -139,28 +139,37 @@ $> ls ~/Documents
 ```
 ### CVE-2021-30761 - 笔记
 
-笔记可以访问 TCC 保护的位置，但是当创建笔记时，它会被创建在一个非受保护的位置。因此，你可以要求笔记将受保护的文件复制到一个笔记中（即非受保护的位置），然后访问该文件：
+笔记在TCC受保护的位置上有访问权限，但是当创建笔记时，它会被创建在一个非受保护的位置上。因此，你可以要求笔记将受保护的文件复制到一个笔记中（即非受保护的位置），然后访问该文件：
 
 <figure><img src="../../../../../.gitbook/assets/image (6) (1).png" alt=""><figcaption></figcaption></figure>
 
 ### CVE-2021-30782 - 迁移
 
-二进制文件 `/usr/libexec/lsd` 与库 `libsecurity_translocate` 具有权限 `com.apple.private.nullfs_allow`，允许它创建 **nullfs** 挂载，并具有权限 `com.apple.private.tcc.allow` 与 **`kTCCServiceSystemPolicyAllFiles`** 以访问所有文件。
+二进制文件`/usr/libexec/lsd`与库`libsecurity_translocate`具有`com.apple.private.nullfs_allow`权限，允许它创建**nullfs**挂载，并具有`com.apple.private.tcc.allow`权限和**`kTCCServiceSystemPolicyAllFiles`**以访问每个文件。
 
-可以将隔离属性添加到 "Library"，调用 **`com.apple.security.translocation`** XPC 服务，然后它将将 Library 映射到 **`$TMPDIR/AppTranslocation/d/d/Library`**，从而可以访问 Library 中的所有文档。
+可以将隔离属性添加到"Library"，调用**`com.apple.security.translocation`** XPC服务，然后将Library映射到**`$TMPDIR/AppTranslocation/d/d/Library`**，从而可以**访问**Library中的所有文档。
 
-### SQL 跟踪
+## CVE-2023-38571 - 音乐和电视 <a href="#cve-2023-38571-a-macos-tcc-bypass-in-music-and-tv" id="cve-2023-38571-a-macos-tcc-bypass-in-music-and-tv"></a>
 
-如果环境变量 **`SQLITE_AUTO_TRACE`** 被设置，库 **`libsqlite3.dylib`** 将开始记录所有的 SQL 查询。许多应用程序使用了这个库，因此可以记录它们所有的 SQLite 查询。
+**`Music`**有一个有趣的功能：当它运行时，它会将放置在**`~/Music/Music/Media.localized/Automatically Add to Music.localized`**中的文件导入到用户的"媒体库"中。此外，它调用类似于**`rename(a, b);`**的函数，其中`a`和`b`分别是：
 
-几个 Apple 应用程序使用了这个库来访问 TCC 保护的信息。
+* `a = "~/Music/Music/Media.localized/Automatically Add to Music.localized/myfile.mp3"`
+* `b = "~/Music/Music/Media.localized/Automatically Add to Music.localized/Not Added.localized/2023-09-25 11.06.28/myfile.mp3`
+
+这个**`rename(a, b);`**行为容易受到**竞争条件**的攻击，因为可以在`Automatically Add to Music.localized`文件夹中放置一个伪造的**TCC.db**文件，然后在创建新文件夹(b)时将文件复制、删除，并将其指向**`~/Library/Application Support/com.apple.TCC`**。
+
+### SQL跟踪
+
+如果设置了环境变量**`SQLITE_AUTO_TRACE`**，库**`libsqlite3.dylib`**将开始记录所有的SQL查询。许多应用程序使用了这个库，因此可以记录它们所有的SQLite查询。
+
+几个Apple应用程序使用了这个库来访问TCC受保护的信息。
 ```bash
 # Set this env variable everywhere
 launchctl setenv SQLITE_AUTO_TRACE 1
 ```
 ### Apple Remote Desktop
 
-作为root用户，您可以启用此服务，并且ARD代理将具有完全磁盘访问权限，用户可以利用此权限使其复制新的TCC用户数据库。
+作为root用户，您可以启用此服务，并且ARD代理将具有完全磁盘访问权限，用户可以利用此权限使其复制一个新的TCC用户数据库。
 
 ## 通过NFSHomeDirectory
 
@@ -197,21 +206,21 @@ TCC使用位于用户HOME文件夹中的数据库来控制对用户特定资源�
 [macos-proces-abuse](../../../macos-proces-abuse/)
 {% endcontent-ref %}
 
-此外，绕过TCC最常见的进程注入方式是通过插件（加载库）进行的。插件通常以库或plist的形式存在，将由主应用程序加载并在其上下文中执行。因此，如果主应用程序具有对TCC受限文件的访问权限（通过授予的权限或entitlements），则自定义代码也将具有相同的访问权限。
+此外，绕过TCC最常见的进程注入方式是通过插件（加载库）进行的。插件通常以库或plist的形式存在，它们将由主应用程序加载并在其上下文中执行。因此，如果主应用程序具有对TCC受限文件的访问权限（通过授予的权限或权限），则自定义代码也将具有相同的访问权限。
 
 ### CVE-2020-27937 - Directory Utility
 
-应用程序`/System/Library/CoreServices/Applications/Directory Utility.app`具有entitlement`kTCCServiceSystemPolicySysAdminFiles`，加载了扩展名为`.daplug`的插件，并且没有启用强化运行时。
+应用程序`/System/Library/CoreServices/Applications/Directory Utility.app`具有权限`kTCCServiceSystemPolicySysAdminFiles`，加载了扩展名为`.daplug`的插件，并且没有启用强化运行时。
 
-为了利用此CVE，滥用先前的entitlement，**更改**了`NFSHomeDirectory`（主目录），以便能够接管用户的TCC数据库以绕过TCC。
+为了利用此CVE，滥用先前的权限，更改了`NFSHomeDirectory`，以便能够接管用户的TCC数据库以绕过TCC。
 
 有关更多信息，请查看[原始报告](https://wojciechregula.blog/post/change-home-directory-and-bypass-tcc-aka-cve-2020-27937/)。
 
 ### CVE-2020-29621 - Coreaudiod
 
-二进制文件`/usr/sbin/coreaudiod`具有entitlements`com.apple.security.cs.disable-library-validation`和`com.apple.private.tcc.manager`。第一个entitlement允许代码注入，第二个entitlement允许其访问TCC管理。
+二进制文件`/usr/sbin/coreaudiod`具有权限`com.apple.security.cs.disable-library-validation`和`com.apple.private.tcc.manager`。第一个权限允许进行代码注入，第二个权限允许其管理TCC。
 
-该二进制文件允许从文件夹`/Library/Audio/Plug-Ins/HAL`加载**第三方插件**。因此，可以使用以下POC加载插件并滥用TCC权限：
+该二进制文件允许从文件夹`/Library/Audio/Plug-Ins/HAL`加载第三方插件。因此，可以使用以下POC加载插件并滥用TCC权限：
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <Security/Security.h>
@@ -350,7 +359,7 @@ ls /tmp/snap/Users/admin_user # This will work
 
 更详细的解释可以在[原始报告中找到](https://theevilbit.github.io/posts/cve\_2020\_9771/)。
 
-### CVE-2021-1784和CVE-2021-30808 - 在TCC文件上挂载
+### CVE-2021-1784和CVE-2021-30808 - 在TCC文件上进行挂载
 
 即使TCC DB文件受到保护，仍然可以在目录上**挂载一个新的TCC.db文件**：
 

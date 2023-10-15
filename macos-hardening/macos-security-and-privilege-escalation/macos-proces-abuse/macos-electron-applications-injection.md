@@ -5,9 +5,9 @@
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
 
 * 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* 发现我们的独家[NFT收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
@@ -56,28 +56,30 @@ LoadBrowserProcessSpecificV8Snapshot is Disabled
 grep -R "dL7pKGdnNz796PbbjQWNKmHXBZaB9tsX" Slack.app/
 Binary file Slack.app//Contents/Frameworks/Electron Framework.framework/Versions/A/Electron Framework matches
 ```
-你可以在[https://hexed.it/](https://hexed.it/)中加载该文件并搜索之前的字符串。在这个字符串后面，你可以在ASCII中看到一个数字"0"或"1"，表示每个保险丝是否被禁用或启用。只需修改十六进制代码（`0x30`表示`0`，`0x31`表示`1`）来**修改保险丝的值**。
+您可以在[https://hexed.it/](https://hexed.it/)中加载此文件并搜索先前的字符串。在此字符串之后，您可以在ASCII中看到一个数字“0”或“1”，表示每个保险丝是否被禁用或启用。只需修改十六进制代码（`0x30`表示`0`，`0x31`表示`1`）以**修改保险丝的值**。
 
 <figure><img src="../../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
 
-请注意，如果您尝试用修改后的字节覆盖应用程序中的**`Electron Framework`二进制文件**，该应用程序将无法运行。
+请注意，如果您尝试使用修改后的字节覆盖应用程序中的**`Electron Framework`二进制文件**，该应用程序将无法运行。
 
-## 向Electron应用程序添加代码的RCE
+## RCE向Electron应用程序添加代码
 
 Electron应用程序可能使用**外部JS/HTML文件**，因此攻击者可以在这些文件中注入代码，其签名不会被检查，并在应用程序的上下文中执行任意代码。
 
 {% hint style="danger" %}
-然而，目前有两个限制：
+然而，目前存在两个限制：
 
 * 需要**`kTCCServiceSystemPolicyAppBundles`**权限来修改应用程序，因此默认情况下不再可能。
 * 编译的**`asap`**文件通常启用了**`embeddedAsarIntegrityValidation`**和**`onlyLoadAppFromAsar`**的保险丝
 
-使得这种攻击路径更加复杂（或不可能）。
+这使得攻击路径更加复杂（或不可能）。
 {% endhint %}
+
+请注意，可以通过将应用程序复制到另一个目录（如**`/tmp`**），将文件夹**`app.app/Contents`**重命名为**`app.app/NotCon`**，使用您的**恶意**代码修改**asar**文件，将其重新命名为**`app.app/Contents`**并执行来绕过**`kTCCServiceSystemPolicyAppBundles`**的要求。
 
 ## 使用`ELECTRON_RUN_AS_NODE`进行RCE <a href="#electron_run_as_node" id="electron_run_as_node"></a>
 
-根据[**文档**](https://www.electronjs.org/docs/latest/api/environment-variables#electron\_run\_as\_node)，如果设置了这个环境变量，它将以普通的Node.js进程启动该进程。
+根据[**文档**](https://www.electronjs.org/docs/latest/api/environment-variables#electron\_run\_as\_node)，如果设置了此环境变量，它将以普通的Node.js进程启动该进程。
 
 {% code overflow="wrap" %}
 ```bash
@@ -244,7 +246,7 @@ Shell binding requested. Check `nc 127.0.0.1 12345`
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者你想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在一个**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者你想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
