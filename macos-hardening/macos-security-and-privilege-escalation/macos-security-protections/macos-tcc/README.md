@@ -34,18 +34,20 @@ ps -ef | grep tcc
 ```
 Les autorisations sont héritées de l'application parente et les autorisations sont suivies en fonction de l'ID de bundle et de l'ID du développeur.
 
-### Base de données TCC
+### Bases de données TCC
 
-Les sélections sont ensuite stockées dans la base de données TCC du système, dans **`/Library/Application Support/com.apple.TCC/TCC.db`**, ou dans **`$HOME/Library/Application Support/com.apple.TCC/TCC.db`** pour les préférences par utilisateur. Les bases de données sont protégées contre les modifications avec SIP (System Integrity Protection), mais vous pouvez les lire.
+Les sélections sont ensuite stockées dans la base de données TCC du système, dans `/Library/Application Support/com.apple.TCC/TCC.db`, ou dans `$HOME/Library/Application Support/com.apple.TCC/TCC.db` pour les préférences par utilisateur. Les bases de données sont protégées contre les modifications avec SIP (System Integrity Protection), mais vous pouvez les lire.
 
 {% hint style="danger" %}
-La base de données TCC dans iOS se trouve dans **`/private/var/mobile/Library/TCC/TCC.db`**
+La base de données TCC dans iOS se trouve dans `/private/var/mobile/Library/TCC/TCC.db`
 {% endhint %}
 
-De plus, un processus avec un **accès complet au disque** peut modifier la base de données en mode utilisateur.
+Il existe une troisième base de données TCC dans `/var/db/locationd/clients.plist` pour indiquer les clients autorisés à accéder aux services de localisation.
+
+De plus, un processus avec un accès complet au disque peut modifier la base de données en mode utilisateur. Maintenant, une application a également besoin de l'accès complet au disque pour lire la base de données.
 
 {% hint style="info" %}
-L'interface utilisateur du **centre de notifications** peut apporter des modifications à la base de données TCC du système :
+L'interface utilisateur du centre de notifications peut apporter des modifications à la base de données TCC du système :
 
 {% code overflow="wrap" %}
 ```bash
@@ -54,7 +56,10 @@ codesign -dv --entitlements :- /System/Library/PrivateFrameworks/TCC.framework/S
 com.apple.private.tcc.manager
 com.apple.rootless.storage.TCC
 ```
-{% tab title="Base de données utilisateur" %}
+{% tab title="user DB" %}
+
+Cependant, les utilisateurs peuvent **supprimer ou interroger les règles** avec l'utilitaire en ligne de commande **`tccutil`**.
+{% endtab %}
 ```bash
 sqlite3 ~/Library/Application\ Support/com.apple.TCC/TCC.db
 sqlite> .schema
@@ -95,14 +100,14 @@ sqlite> select * from access where client LIKE "%telegram%" and auth_value=0;
 En vérifiant les deux bases de données, vous pouvez vérifier les autorisations qu'une application a autorisées, interdites ou n'a pas (elle demandera l'autorisation).
 {% endhint %}
 
-* La **`auth_value`** peut avoir différentes valeurs : denied(0), unknown(1), allowed(2) ou limited(3).
-* La **`auth_reason`** peut prendre les valeurs suivantes : Error(1), User Consent(2), User Set(3), System Set(4), Service Policy(5), MDM Policy(6), Override Policy(7), Missing usage string(8), Prompt Timeout(9), Preflight Unknown(10), Entitled(11), App Type Policy(12)
+* La valeur **`auth_value`** peut avoir différentes valeurs : denied(0), unknown(1), allowed(2) ou limited(3).
+* La raison **`auth_reason`** peut prendre les valeurs suivantes : Error(1), User Consent(2), User Set(3), System Set(4), Service Policy(5), MDM Policy(6), Override Policy(7), Missing usage string(8), Prompt Timeout(9), Preflight Unknown(10), Entitled(11), App Type Policy(12).
 * Pour plus d'informations sur les **autres champs** du tableau, [**consultez cet article de blog**](https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive).
 
 {% hint style="info" %}
-Certaines autorisations TCC sont : kTCCServiceAppleEvents, kTCCServiceCalendar, kTCCServicePhotos... Il n'existe pas de liste publique qui les définit toutes, mais vous pouvez consulter cette [**liste de celles connues**](https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive#service).
+Certaines autorisations TCC sont : kTCCServiceAppleEvents, kTCCServiceCalendar, kTCCServicePhotos... Il n'existe pas de liste publique qui les définit toutes, mais vous pouvez consulter cette [**liste des autorisations connues**](https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive#service).
 
-**L'accès complet au disque** est nommé **`kTCCServiceSystemPolicyAllFiles`** et **`kTCCServiceAppleEvents`** permet à l'application d'envoyer des événements à d'autres applications couramment utilisées pour **automatiser des tâches**. De plus, **`kTCCServiceSystemPolicySysAdminFiles`** permet de **modifier** l'attribut **`NFSHomeDirectory`** d'un utilisateur qui modifie son dossier personnel et permet donc de **contourner TCC**.
+L'accès complet au disque est nommé **`kTCCServiceSystemPolicyAllFiles`** et **`kTCCServiceAppleEvents`** permet à l'application d'envoyer des événements à d'autres applications couramment utilisées pour **automatiser des tâches**. De plus, **`kTCCServiceSystemPolicySysAdminFiles`** permet de **modifier** l'attribut **`NFSHomeDirectory`** d'un utilisateur, ce qui modifie son dossier personnel et permet donc de **contourner TCC**.
 {% endhint %}
 
 Vous pouvez également vérifier les **autorisations déjà accordées** aux applications dans `Préférences Système --> Sécurité et confidentialité --> Confidentialité --> Fichiers et dossiers`.
@@ -110,12 +115,20 @@ Vous pouvez également vérifier les **autorisations déjà accordées** aux app
 {% hint style="success" %}
 Notez que même si l'une des bases de données se trouve dans le dossier de l'utilisateur, **les utilisateurs ne peuvent pas modifier directement ces bases de données en raison de SIP** (même si vous êtes root). La seule façon de configurer ou de modifier une nouvelle règle est via le panneau des Préférences Système ou les invites où l'application demande à l'utilisateur.
 
-Cependant, rappelez-vous que les utilisateurs peuvent **supprimer ou interroger des règles** en utilisant **`tccutil`**.
+Cependant, n'oubliez pas que les utilisateurs peuvent **supprimer ou interroger des règles** en utilisant **`tccutil`**.
 {% endhint %}
 
+#### Réinitialisation
+```bash
+# You can reset all the permissions given to an application with
+tccutil reset All app.some.id
+
+# Reset the permissions granted to all apps
+tccutil reset All
+```
 ### Vérifications de signature TCC
 
-La **base de données** TCC stocke l'**ID de bundle** de l'application, mais elle stocke également des **informations** sur la **signature** pour **s'assurer** que l'application qui demande l'autorisation est la bonne.
+La **base de données** TCC stocke l'**ID de bundle** de l'application, mais elle **stocke également** des **informations** sur la **signature** pour **s'assurer** que l'application qui demande l'autorisation est la bonne.
 
 {% code overflow="wrap" %}
 ```bash
@@ -192,7 +205,9 @@ L'attribut étendu `com.apple.macl` **ne peut pas être effacé** comme les autr
 
 ### Contournements de TCC
 
-
+{% content-ref url="macos-tcc-bypasses/" %}
+[macos-tcc-bypasses](macos-tcc-bypasses/)
+{% endcontent-ref %}
 
 ## Références
 
