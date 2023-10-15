@@ -63,11 +63,11 @@ img4tool -e in.img4 -o out.bin
 
 Em seguida, você pode usar um script como [**este**](https://gist.github.com/xpn/66dc3597acd48a4c31f5f77c3cc62f30) para extrair dados.
 
-A partir desses dados, você pode verificar os aplicativos com um **valor de restrição de inicialização de `0`**, que são aqueles que não têm restrições ([**verifique aqui**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056) para saber o que cada valor significa).
+A partir desses dados, você pode verificar os aplicativos com um **valor de restrição de inicialização de `0`**, que são aqueles que não estão restritos ([**verifique aqui**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056) para saber o que cada valor significa).
 
 ## MRT - Ferramenta de Remoção de Malware
 
-A Ferramenta de Remoção de Malware (MRT) é outra parte da infraestrutura de segurança do macOS. Como o nome sugere, a principal função do MRT é **remover malware conhecido de sistemas infectados**.
+A Ferramenta de Remoção de Malware (MRT) é outra parte da infraestrutura de segurança do macOS. Como o nome sugere, a função principal do MRT é **remover malware conhecido de sistemas infectados**.
 
 Uma vez que o malware é detectado em um Mac (seja pelo XProtect ou por outros meios), o MRT pode ser usado para **remover automaticamente o malware**. O MRT opera silenciosamente em segundo plano e geralmente é executado sempre que o sistema é atualizado ou quando uma nova definição de malware é baixada (parece que as regras que o MRT usa para detectar malware estão dentro do binário).
 
@@ -82,7 +82,31 @@ O aplicativo MRT está localizado em **`/Library/Apple/System/Library/CoreServic
 
 O **macOS** agora **alerta** sempre que uma ferramenta usa uma **técnica conhecida para persistir a execução de código** (como Itens de Login, Daemons...), para que o usuário saiba melhor **qual software está persistindo**.
 
-É possível **enumerar todos** os itens de segundo plano configurados executando a ferramenta de linha de comando da Apple:
+<figure><img src="../../../.gitbook/assets/image (711).png" alt=""><figcaption></figcaption></figure>
+
+Isso é executado com um **daemon** localizado em `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Versions/A/Resources/backgroundtaskmanagementd` e o **agente** em `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Support/BackgroundTaskManagementAgent.app`
+
+A maneira como o **`backgroundtaskmanagementd`** sabe que algo está instalado em uma pasta persistente é **obtendo os FSEvents** e criando alguns **manipuladores** para eles.
+
+Além disso, há um arquivo plist que contém **aplicativos conhecidos** que frequentemente persistem, mantido pela Apple, localizado em: `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Versions/A/Resources/attributions.plist`
+```json
+[...]
+"us.zoom.ZoomDaemon" => {
+"AssociatedBundleIdentifiers" => [
+0 => "us.zoom.xos"
+]
+"Attribution" => "Zoom"
+"Program" => "/Library/PrivilegedHelperTools/us.zoom.ZoomDaemon"
+"ProgramArguments" => [
+0 => "/Library/PrivilegedHelperTools/us.zoom.ZoomDaemon"
+]
+"TeamIdentifier" => "BJ4HAAB9B3"
+}
+[...]
+```
+### Enumeração
+
+É possível **enumerar todos** os itens de plano de fundo configurados em execução na ferramenta de linha de comando da Apple:
 ```bash
 # The tool will always ask for the users password
 sfltool dumpbtm
@@ -94,27 +118,53 @@ chmod +x dumpBTM
 xattr -rc dumpBTM # Remove quarantine attr
 ./dumpBTM
 ```
-Essas informações estão sendo armazenadas em **`/private/var/db/com.apple.backgroundtaskmanagement/BackgroundItems-v4.btm`** e o Terminal precisa da FDA.
+Essas informações estão sendo armazenadas em **`/private/var/db/com.apple.backgroundtaskmanagement/BackgroundItems-v4.btm`** e o Terminal precisa de FDA.
 
-Você pode encontrar mais informações:
+### Mexendo com o BTM
 
+Quando uma nova persistência é encontrada, ocorre um evento do tipo **`ES_EVENT_TYPE_NOTIFY_BTM_LAUNCH_ITEM_ADD`**. Portanto, qualquer maneira de **prevenir** que esse **evento** seja enviado ou que o **agente alerte** o usuário ajudará um invasor a _**burlar**_ o BTM.
+
+* **Redefinindo o banco de dados**: Executar o seguinte comando irá redefinir o banco de dados (deve reconstruí-lo do zero), no entanto, por algum motivo, após executar isso, **nenhuma nova persistência será alertada até que o sistema seja reiniciado**.
+* É necessário ter **root**.
+```bash
+# Reset the database
+sfltool resettbtm
+```
+* **Parar o Agente**: É possível enviar um sinal de parada para o agente, para que ele **não alerte o usuário** quando novas detecções forem encontradas.
+```bash
+# Get PID
+pgrep BackgroundTaskManagementAgent
+1011
+
+# Stop it
+kill -SIGSTOP 1011
+
+# Check it's stopped (a T means it's stopped)
+ps -o state 1011
+T
+```
+* **Bug**: Se o **processo que criou a persistência** existir rapidamente logo após, o daemon tentará **obter informações** sobre ele, **falhará** e **não conseguirá enviar o evento** indicando que algo novo está persistindo.
+
+Referências e **mais informações sobre BTM**:
+
+* [https://youtu.be/9hjUmT031tc?t=26481](https://youtu.be/9hjUmT031tc?t=26481)
 * [https://www.patreon.com/posts/new-developer-77420730?l=fr](https://www.patreon.com/posts/new-developer-77420730?l=fr)
 * [https://support.apple.com/en-gb/guide/deployment/depdca572563/web](https://support.apple.com/en-gb/guide/deployment/depdca572563/web)
 
 ## Cache de Confiança
 
-O cache de confiança do Apple macOS, às vezes também chamado de cache AMFI (Apple Mobile File Integrity), é um mecanismo de segurança no macOS projetado para **prevenir a execução de software não autorizado ou malicioso**. Essencialmente, é uma lista de hashes criptográficos que o sistema operacional usa para **verificar a integridade e autenticidade do software**.
+O cache de confiança do macOS da Apple, às vezes também chamado de cache AMFI (Apple Mobile File Integrity), é um mecanismo de segurança no macOS projetado para **impedir a execução de software não autorizado ou malicioso**. Essencialmente, é uma lista de hashes criptográficos que o sistema operacional usa para **verificar a integridade e autenticidade do software**.
 
-Quando um aplicativo ou arquivo executável tenta ser executado no macOS, o sistema operacional verifica o cache de confiança do AMFI. Se o **hash do arquivo for encontrado no cache de confiança**, o sistema **permite** que o programa seja executado porque o reconhece como confiável.
+Quando um aplicativo ou arquivo executável tenta ser executado no macOS, o sistema operacional verifica o cache de confiança AMFI. Se o **hash do arquivo for encontrado no cache de confiança**, o sistema **permite** que o programa seja executado porque o reconhece como confiável.
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? Ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e para o** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo Telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e o** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
