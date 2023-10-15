@@ -1,4 +1,4 @@
-# macOS Red Teaming
+# Red Teaming macOS
 
 <details>
 
@@ -19,7 +19,7 @@
 
 Si vous parvenez à **compromettre les identifiants d'administrateur** pour accéder à la plateforme de gestion, vous pouvez **potentiellement compromettre tous les ordinateurs** en distribuant votre logiciel malveillant sur les machines.
 
-Pour le red teaming dans les environnements MacOS, il est fortement recommandé de comprendre comment fonctionnent les MDM :
+Pour le red teaming dans les environnements macOS, il est fortement recommandé de comprendre le fonctionnement des MDM :
 
 {% content-ref url="macos-mdm/" %}
 [macos-mdm](macos-mdm/)
@@ -53,7 +53,7 @@ De plus, après avoir trouvé les identifiants appropriés, vous pourriez être 
 
 #### Authentification de l'appareil JAMF
 
-<figure><img src="../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Le binaire **`jamf`** contenait le secret pour ouvrir le trousseau qui, au moment de la découverte, était **partagé** entre tout le monde et c'était : **`jk23ucnq91jfu9aj`**.\
 De plus, jamf **persiste** en tant que **LaunchDaemon** dans **`/Library/LaunchAgents/com.jamf.management.agent.plist`**

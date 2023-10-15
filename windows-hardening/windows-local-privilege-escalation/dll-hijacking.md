@@ -12,7 +12,7 @@
 
 </details>
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
 Si vous êtes intéressé par une **carrière en piratage** et que vous voulez pirater l'impossible - **nous recrutons !** (_maîtrise du polonais écrit et parlé requise_).
 
@@ -33,7 +33,7 @@ Il existe une **variété d'approches** parmi lesquelles choisir, le succès dé
 3. **Détournement de DLL fantôme** : déposer une DLL malveillante à la place d'une DLL manquante/inexistante que tente de charger une application légitime \[[4](http://www.hexacorn.com/blog/2013/12/08/beyond-good-ol-run-key-part-5/)].
 4. **Redirection de DLL** : changer l'emplacement dans lequel la DLL est recherchée, par exemple en modifiant la variable d'environnement `%PATH%`, ou les fichiers `.exe.manifest` / `.exe.local` pour inclure le dossier contenant la DLL malveillante \[[5](https://docs.microsoft.com/en-gb/windows/win32/sbscs/application-manifests), [6](https://docs.microsoft.com/en-gb/windows/win32/dlls/dynamic-link-library-redirection)].
 5. **Remplacement de DLL WinSxS** : remplacer la DLL légitime par la DLL malveillante dans le dossier WinSxS correspondant de la DLL ciblée. Souvent appelé DLL side-loading \[[7](https://www.fireeye.com/content/dam/fireeye-www/global/en/current-threats/pdfs/rpt-dll-sideloading.pdf)].
-6. **Détournement de DLL avec chemin relatif** : copier (et éventuellement renommer) l'application légitime dans un dossier accessible en écriture par l'utilisateur, à côté de la DLL malveillante. De cette manière, cela présente des similitudes avec l'exécution de proxy binaire (signé) \[[8](https://attack.mitre.org/techniques/T1218/)]. Une variation de cela est appelée de manière quelque peu oxymorique "bring your own LOLbin" \[[9](https://www.microsoft.com/security/blog/2019/09/26/bring-your-own-lolbin-multi-stage-fileless-nodersok-campaign-delivers-rare-node-js-based-malware/)], dans laquelle l'application légitime est apportée avec la DLL malveillante (plutôt que copiée depuis l'emplacement légitime sur la machine de la victime).
+6. **Détournement de DLL avec chemin relatif** : copier (et éventuellement renommer) l'application légitime dans un dossier accessible en écriture par l'utilisateur, à côté de la DLL malveillante. De cette manière, cela présente des similitudes avec l'exécution de proxy binaire (signé) \[[8](https://attack.mitre.org/techniques/T1218/)]. Une variation de cela est appelée (de manière quelque peu oxymorique) "bring your own LOLbin" \[[9](https://www.microsoft.com/security/blog/2019/09/26/bring-your-own-lolbin-multi-stage-fileless-nodersok-campaign-delivers-rare-node-js-based-malware/)], dans laquelle l'application légitime est apportée avec la DLL malveillante (plutôt que copiée depuis l'emplacement légitime sur la machine de la victime).
 
 ## Recherche de DLL manquantes
 
@@ -63,23 +63,23 @@ Vous pouvez voir l'**ordre de recherche des DLL sur les systèmes 32 bits** ci-d
 
 1. Le répertoire à partir duquel l'application a été chargée.
 2. Le répertoire système. Utilisez la fonction [**GetSystemDirectory**](https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getsystemdirectorya) pour obtenir le chemin de ce répertoire. (_C:\Windows\System32_)
-3. Le répertoire système 16 bits. Il n'existe pas de fonction qui obtient le chemin de ce répertoire, mais il est recherché. (_C:\Windows\System_)
+3. Le répertoire système 16 bits. Il n'y a pas de fonction qui obtient le chemin de ce répertoire, mais il est recherché. (_C:\Windows\System_)
 4. Le répertoire Windows. Utilisez la fonction [**GetWindowsDirectory**](https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getwindowsdirectorya) pour obtenir le chemin de ce répertoire. (_C:\Windows_)
 5. Le répertoire courant.
 6. Les répertoires répertoriés dans la variable d'environnement PATH. Notez que cela n'inclut pas le chemin spécifié par la clé de registre **App Paths** spécifique à chaque application. La clé **App Paths** n'est pas utilisée lors du calcul du chemin de recherche des DLL.
 
 C'est l'**ordre de recherche par défaut avec SafeDllSearchMode activé**. Lorsqu'il est désactivé, le répertoire courant passe en deuxième position. Pour désactiver cette fonctionnalité, créez la valeur de registre **HKEY\_LOCAL\_MACHINE\System\CurrentControlSet\Control\Session Manager\\SafeDllSearchMode** et définissez-la sur 0 (par défaut, elle est activée).
 
-Si la fonction [**LoadLibraryEx**](https://docs.microsoft.com/en-us/windows/desktop/api/LibLoaderAPI/nf-libloaderapi-loadlibraryexa) est appelée avec **LOAD\_WITH\_ALTERED\_SEARCH\_PATH**, la recherche commence dans le répertoire du module exécutable que **LoadLibraryEx** est en train de charger.
+Si la fonction [**LoadLibraryEx**](https://docs.microsoft.com/en-us/windows/desktop/api/LibLoaderAPI/nf-libloaderapi-loadlibraryexa) est appelée avec **LOAD\_WITH\_ALTERED\_SEARCH\_PATH**, la recherche commence dans le répertoire du module exécutable que **LoadLibraryEx** charge.
 
-Enfin, notez qu'une DLL peut être chargée en indiquant le chemin absolu au lieu du simple nom. Dans ce cas, cette DLL **sera uniquement recherchée dans ce chemin** (si la DLL a des dépendances, elles seront recherchées en utilisant uniquement leur nom).
+Enfin, notez qu'une DLL peut être chargée en indiquant le chemin absolu au lieu du simple nom. Dans ce cas, cette DLL ne sera **recherchée que dans ce chemin** (si la DLL a des dépendances, elles seront recherchées comme si elles étaient chargées par leur nom).
 
 Il existe d'autres façons de modifier l'ordre de recherche, mais je ne vais pas les expliquer ici.
 
 #### Exceptions à l'ordre de recherche des DLL selon la documentation Windows
 
 * Si une **DLL avec le même nom de module est déjà chargée en mémoire**, le système vérifie uniquement la redirection et un manifeste avant de résoudre la DLL chargée, quel que soit le répertoire dans lequel elle se trouve. **Le système ne recherche pas la DLL**.
-* Si la DLL est dans la liste des **DLL connues** pour la version de Windows sur laquelle l'application s'exécute, le **système utilise sa copie de la DLL connue** (et les DLL dépendantes de la DLL connue, le cas échéant) **au lieu de rechercher** la DLL. Pour obtenir la liste des DLL connues sur le système actuel, consultez la clé de registre suivante : **HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\KnownDLLs**.
+* Si la DLL est dans la liste des **DLL connues** pour la version de Windows sur laquelle l'application s'exécute, le **système utilise sa copie de la DLL connue** (et les DLL dépendantes de la DLL connue, le cas échéant) **au lieu de rechercher** la DLL. Pour obtenir une liste des DLL connues sur le système actuel, consultez la clé de registre suivante : **HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\KnownDLLs**.
 * Si une DLL a des dépendances, le système **recherche** les DLL dépendantes comme si elles étaient chargées avec seulement leurs **noms de module**. Cela est vrai **même si la première DLL a été chargée en spécifiant un chemin complet**.
 
 ### Escalade de privilèges
@@ -89,10 +89,10 @@ Il existe d'autres façons de modifier l'ordre de recherche, mais je ne vais pas
 * **Trouver un processus** qui s'exécute/va s'exécuter avec **d'autres privilèges** (mouvement horizontal/lateral) et qui **manque d'une DLL**.
 * Avoir **l'autorisation d'écriture** dans n'importe quel **dossier** où la DLL va être **recherchée** (probablement le répertoire de l'exécutable ou un dossier à l'intérieur du chemin système).
 
-Oui, les prérequis sont difficiles à trouver car **par défaut, il est assez étrange de trouver un exécutable privilégié qui manque d'une DLL** et c'est encore **plus étrange d'avoir des autorisations d'écriture sur un dossier du chemin système** (vous ne pouvez pas par défaut). Mais, dans des environnements mal configurés, cela est possible.\
-Dans le cas où vous avez de la chance et que vous vous trouvez dans cette situation, vous pouvez consulter le projet [UACME](https://github.com/hfiref0x/UACME). Même si l'**objectif principal du projet est de contourner l'UAC**, vous pouvez y trouver une **preuve de concept** d'un détournement de DLL pour la version de Windows que vous pouvez utiliser (en changeant probablement le chemin du dossier où vous avez des autorisations d'écriture).
+Oui, les prérequis sont difficiles à trouver car **par défaut, il est assez étrange de trouver un exécutable privilégié qui manque d'une DLL** et c'est encore **plus étrange d'avoir l'autorisation d'écriture sur un dossier du chemin système** (vous ne pouvez pas par défaut). Mais, dans des environnements mal configurés, cela est possible.\
+Dans le cas où vous avez de la chance et que vous vous trouvez dans les conditions requises, vous pouvez consulter le projet [UACME](https://github.com/hfiref0x/UACME). Même si l'**objectif principal du projet est de contourner l'UAC**, vous pouvez y trouver une **preuve de concept** d'un détournement de DLL pour la version de Windows que vous pouvez utiliser (en changeant probablement le chemin du dossier où vous avez l'autorisation d'écriture).
 
-Notez que vous pouvez **vérifier vos autorisations dans un dossier** en utilisant la commande suivante :
+Notez que vous pouvez **vérifier vos autorisations dans un dossier** en utilisant :
 ```bash
 accesschk.exe -dqv "C:\Python27"
 icacls "C:\Python27"
@@ -227,7 +227,7 @@ break;
 return TRUE;
 }
 ```
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
 Si vous êtes intéressé par une **carrière de hacking** et souhaitez pirater l'impossible - **nous recrutons !** (_maîtrise du polonais écrit et parlé requise_).
 

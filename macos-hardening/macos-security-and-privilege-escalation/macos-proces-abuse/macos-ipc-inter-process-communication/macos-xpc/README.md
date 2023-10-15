@@ -80,10 +80,10 @@ Les applications peuvent **s'abonner** à différents **messages d'événement**
 
 ### Vérification du processus de connexion XPC
 
-Lorsqu'un processus essaie d'appeler une méthode via une connexion XPC, le **service XPC doit vérifier si ce processus est autorisé à se connecter**. Voici les méthodes courantes pour effectuer cette vérification et les pièges courants :
+Lorsqu'un processus essaie d'appeler une méthode via une connexion XPC, le **service XPC doit vérifier si ce processus est autorisé à se connecter**. Voici les moyens courants de vérifier cela et les pièges courants :
 
-{% content-ref url="macos-xpc-connecting-process-check.md" %}
-[macos-xpc-connecting-process-check.md](macos-xpc-connecting-process-check.md)
+{% content-ref url="macos-xpc-connecting-process-check/" %}
+[macos-xpc-connecting-process-check](macos-xpc-connecting-process-check/)
 {% endcontent-ref %}
 
 ## Autorisation XPC
@@ -338,7 +338,7 @@ NSLog(@"Received response: %@", response);
 return 0;
 }
 ```
-{% tab title="xyz.hacktricks.svcoc.plist" %}xyz.hacktricks.svcoc.plist est un fichier de configuration utilisé pour définir les paramètres de communication inter-processus (IPC) pour les services XPC sur macOS. Les services XPC sont des processus qui permettent aux applications de communiquer entre elles de manière sécurisée. Ce fichier plist contient des clés et des valeurs qui spécifient les autorisations et les restrictions pour chaque service XPC. En modifiant ce fichier, vous pouvez potentiellement abuser des services XPC pour escalader les privilèges ou exécuter du code malveillant. Cependant, cela nécessite une connaissance approfondie du fonctionnement des services XPC et des vulnérabilités spécifiques à chaque service. Il est important de noter que la modification de ce fichier peut entraîner des conséquences indésirables, telles que des plantages du système ou des erreurs de fonctionnement des applications. Par conséquent, il est recommandé de procéder avec prudence et de ne modifier ce fichier que si vous comprenez pleinement les implications de vos actions.
+{% tab title="xyz.hacktricks.svcoc.plist" %}xyz.hacktricks.svcoc.plist est un fichier de configuration utilisé pour définir les paramètres de communication inter-processus (IPC) pour les services XPC sur macOS. Les services XPC sont des processus qui permettent aux applications de communiquer entre elles de manière sécurisée. Ce fichier plist contient des clés et des valeurs qui spécifient les autorisations et les restrictions pour chaque service XPC. En modifiant ce fichier, il est possible de manipuler les autorisations et les privilèges des services XPC, ce qui peut conduire à une élévation de privilèges sur le système macOS. Il est important de noter que la modification de ce fichier nécessite des privilèges d'administrateur.
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
@@ -386,17 +386,62 @@ The client code is responsible for establishing a connection with the server and
 
 Le code client est responsable d'établir une connexion avec le serveur et d'envoyer des requêtes à celui-ci. Dans le cas d'un code Dylb, le client est intégré directement dans le code lui-même, permettant une communication fluide entre le client et le serveur.
 
-To implement a client inside a Dylb code, you can use the Dylb library's functions and methods to establish a connection, send requests, and receive responses. The client code should be designed to handle any errors or exceptions that may occur during the communication process.
+To implement a client inside a Dylb code, you can use the following steps:
 
-Pour mettre en œuvre un client à l'intérieur d'un code Dylb, vous pouvez utiliser les fonctions et méthodes de la bibliothèque Dylb pour établir une connexion, envoyer des requêtes et recevoir des réponses. Le code client doit être conçu pour gérer les erreurs ou exceptions qui peuvent survenir pendant le processus de communication.
+Pour mettre en place un client à l'intérieur d'un code Dylb, vous pouvez suivre les étapes suivantes :
 
-It is important to ensure that the client code is secure and follows best practices for handling sensitive information. This includes encrypting data, validating server certificates, and implementing proper authentication mechanisms.
+1. Import the necessary libraries or modules required for establishing a network connection.
 
-Il est important de veiller à ce que le code client soit sécurisé et respecte les meilleures pratiques pour la gestion des informations sensibles. Cela inclut le chiffrement des données, la validation des certificats serveur et la mise en œuvre de mécanismes d'authentification appropriés.
+   Importez les bibliothèques ou modules nécessaires pour établir une connexion réseau.
 
-By implementing a client inside a Dylb code, you can create a robust and efficient communication system between the client and the server, enabling seamless interaction and data exchange.
+2. Define the server's IP address and port number to establish a connection.
 
-En mettant en œuvre un client à l'intérieur d'un code Dylb, vous pouvez créer un système de communication robuste et efficace entre le client et le serveur, permettant une interaction et un échange de données fluides.
+   Définissez l'adresse IP et le numéro de port du serveur pour établir une connexion.
+
+3. Create a socket object to establish a connection with the server.
+
+   Créez un objet socket pour établir une connexion avec le serveur.
+
+4. Use the socket object to send requests to the server.
+
+   Utilisez l'objet socket pour envoyer des requêtes au serveur.
+
+5. Receive and process the server's response.
+
+   Recevez et traitez la réponse du serveur.
+
+Here is an example of a client code inside a Dylb code:
+
+Voici un exemple de code client à l'intérieur d'un code Dylb :
+
+```python
+import socket
+
+# Define the server's IP address and port number
+server_ip = "192.168.0.1"
+server_port = 1234
+
+# Create a socket object
+client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# Establish a connection with the server
+client_socket.connect((server_ip, server_port))
+
+# Send a request to the server
+request = "Hello, server!"
+client_socket.send(request.encode())
+
+# Receive and process the server's response
+response = client_socket.recv(1024).decode()
+print("Server response:", response)
+
+# Close the connection
+client_socket.close()
+```
+
+Remember to replace the server's IP address and port number with the actual values of your server.
+
+N'oubliez pas de remplacer l'adresse IP et le numéro de port du serveur par les valeurs réelles de votre serveur.
 ```objectivec
 // gcc -dynamiclib -framework Foundation oc_xpc_client.m -o oc_xpc_client.dylib
 // gcc injection example:
@@ -434,7 +479,7 @@ return;
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? Ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**

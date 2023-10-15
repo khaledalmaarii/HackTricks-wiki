@@ -35,7 +35,7 @@ n2          :  uint32_t);
 ```
 {% endcode %}
 
-Maintenant, utilisez mig pour générer le code serveur et client qui pourra communiquer entre eux pour appeler la fonction Subtract :
+Maintenant, utilisez mig pour générer le code serveur et client qui pourront communiquer entre eux pour appeler la fonction Subtract :
 ```bash
 mig -header myipcUser.h -sheader myipcServer.h myipc.defs
 ```
@@ -191,32 +191,31 @@ mach_msg_server(myipc_server, sizeof(union __RequestUnion__SERVERPREFmyipc_subsy
 ```c
 #include <stdio.h>
 #include <stdlib.h>
-#include <mach/mach.h>
+#include <servers/bootstrap.h>
 #include "myipc.h"
 
 int main(int argc, char *argv[]) {
     mach_port_t server_port;
     kern_return_t kr;
-    int val = 0;
+    char *message = "Hello, server!";
+    char reply[256];
 
-    if (argc != 2) {
-        printf("Usage: %s <value>\n", argv[0]);
-        return 1;
-    }
-
-    val = atoi(argv[1]);
-
+    // Look up the server port
     kr = bootstrap_look_up(bootstrap_port, "com.example.myipc_server", &server_port);
     if (kr != KERN_SUCCESS) {
-        printf("Failed to look up server port: %s\n", mach_error_string(kr));
-        return 1;
+        fprintf(stderr, "Failed to look up server port: %s\n", mach_error_string(kr));
+        exit(1);
     }
 
-    kr = myipc_client_send_value(server_port, val);
+    // Send a message to the server
+    kr = myipc_send_message(server_port, message, reply, sizeof(reply));
     if (kr != KERN_SUCCESS) {
-        printf("Failed to send value: %s\n", mach_error_string(kr));
-        return 1;
+        fprintf(stderr, "Failed to send message: %s\n", mach_error_string(kr));
+        exit(1);
     }
+
+    // Print the server's reply
+    printf("Server replied: %s\n", reply);
 
     return 0;
 }
@@ -379,9 +378,9 @@ return r0;
 
 En fait, si vous allez à la fonction **`0x100004000`**, vous trouverez le tableau des structures **`routine_descriptor`**, le premier élément de la structure est l'adresse où la fonction est implémentée et la **structure prend 0x28 octets**, donc tous les 0x28 octets (à partir de l'octet 0) vous pouvez obtenir 8 octets et cela sera l'**adresse de la fonction** qui sera appelée :
 
-<figure><img src="../../../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
-
 <figure><img src="../../../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
+
+<figure><img src="../../../../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Ces données peuvent être extraites [**en utilisant ce script Hopper**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py).
 

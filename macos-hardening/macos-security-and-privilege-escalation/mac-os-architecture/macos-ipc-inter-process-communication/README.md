@@ -12,65 +12,91 @@
 
 </details>
 
-## Messagerie Mach via les ports
+## Mach messaging via Ports
+
+### Informations de base
 
 Mach utilise des **tâches** comme **plus petite unité** pour partager des ressources, et chaque tâche peut contenir **plusieurs threads**. Ces **tâches et threads sont mappés 1:1 sur les processus et threads POSIX**.
 
-La communication entre les tâches se fait via la Communication Inter-Processus (IPC) de Mach, en utilisant des canaux de communication unidirectionnels. Les **messages sont transférés entre les ports**, qui agissent comme des **files d'attente de messages** gérées par le noyau.
+La communication entre les tâches se fait via la communication inter-processus (IPC) de Mach, en utilisant des canaux de communication unidirectionnels. Les **messages sont transférés entre les ports**, qui agissent comme des **files d'attente de messages** gérées par le noyau.
 
 Chaque processus a une **table IPC**, où il est possible de trouver les **ports Mach du processus**. Le nom d'un port Mach est en réalité un nombre (un pointeur vers l'objet du noyau).
 
 Un processus peut également envoyer un nom de port avec certains droits **à une autre tâche** et le noyau fera apparaître cette entrée dans la **table IPC de l'autre tâche**.
 
-Les droits de port, qui définissent les opérations qu'une tâche peut effectuer, sont essentiels pour cette communication. Les **droits de port** possibles sont :
+### Droits de port
 
-* Le **droit de réception**, qui permet de recevoir les messages envoyés au port. Les ports Mach sont des files d'attente MPSC (multiple-producteur, single-consommateur), ce qui signifie qu'il ne peut y avoir qu'un **seul droit de réception pour chaque port** dans tout le système (contrairement aux pipes, où plusieurs processus peuvent tous détenir des descripteurs de fichier pour l'extrémité de lecture d'un pipe).
-* Une **tâche avec le droit de réception** peut recevoir des messages et **créer des droits d'envoi**, ce qui lui permet d'envoyer des messages. À l'origine, seule la **tâche elle-même a le droit de réception sur son port**.
+Les droits de port, qui définissent les opérations qu'une tâche peut effectuer, sont essentiels pour cette communication. Les **droits de port possibles** sont :
+
+* Le **droit de réception**, qui permet de recevoir les messages envoyés au port. Les ports Mach sont des files d'attente MPSC (multiple-producteur, single-consommateur), ce qui signifie qu'il ne peut y avoir qu'un **seul droit de réception pour chaque port** dans tout le système (contrairement aux tubes, où plusieurs processus peuvent tous détenir des descripteurs de fichier pour l'extrémité de lecture d'un tube).
+* Une **tâche avec le droit de réception** peut recevoir des messages et **créer des droits d'envoi**, ce qui lui permet d'envoyer des messages. À l'origine, seule la **propre tâche a le droit de réception sur son port**.
 * Le **droit d'envoi**, qui permet d'envoyer des messages au port.
 * Le droit d'envoi peut être **cloné** afin qu'une tâche possédant un droit d'envoi puisse cloner le droit et **l'accorder à une troisième tâche**.
 * Le **droit d'envoi unique**, qui permet d'envoyer un seul message au port, puis disparaît.
 * Le **droit d'ensemble de ports**, qui indique un _ensemble de ports_ plutôt qu'un seul port. Le défilement d'un message à partir d'un ensemble de ports défile un message à partir de l'un des ports qu'il contient. Les ensembles de ports peuvent être utilisés pour écouter plusieurs ports simultanément, un peu comme `select`/`poll`/`epoll`/`kqueue` dans Unix.
 * Le **nom mort**, qui n'est pas un droit de port réel, mais simplement un espace réservé. Lorsqu'un port est détruit, tous les droits de port existants sur le port deviennent des noms morts.
 
-**Les tâches peuvent transférer des droits d'ENVOI à d'autres**, leur permettant d'envoyer des messages en retour. **Les droits d'ENVOI peuvent également être clonés, de sorte qu'une tâche peut dupliquer et donner le droit à une troisième tâche**. Cela, combiné à un processus intermédiaire appelé **serveur d'amorçage**, permet une communication efficace entre les tâches.
+**Les tâches peuvent transférer des droits d'ENVOI à d'autres**, leur permettant d'envoyer des messages en retour. **Les droits d'ENVOI peuvent également être clonés, de sorte qu'une tâche peut dupliquer et donner le droit à une troisième tâche**. Cela, combiné à un processus intermédiaire appelé le **serveur d'amorçage**, permet une communication efficace entre les tâches.
+
+### Établissement d'une communication
 
 #### Étapes :
 
 Comme mentionné précédemment, pour établir le canal de communication, le **serveur d'amorçage** (**launchd** sur Mac) est impliqué.
 
-1. La tâche **A** initialise un **nouveau port**, obtenant un **droit de réception** dans le processus.
+1. La tâche **A** initie un **nouveau port**, obtenant un **droit de réception** dans le processus.
 2. La tâche **A**, étant le détenteur du droit de réception, **génère un droit d'envoi pour le port**.
 3. La tâche **A** établit une **connexion** avec le **serveur d'amorçage**, fournissant le **nom de service du port** et le **droit d'envoi** via une procédure appelée enregistrement d'amorçage.
 4. La tâche **B** interagit avec le **serveur d'amorçage** pour exécuter une **recherche d'amorçage pour le service**. Si cela réussit, le **serveur duplique le droit d'envoi** reçu de la tâche A et **le transmet à la tâche B**.
 5. Une fois qu'il a acquis un droit d'envoi, la tâche **B** est capable de **formuler** un **message** et de l'envoyer **à la tâche A**.
+6. Pour une communication bidirectionnelle, la tâche **B** génère généralement un nouveau port avec un **droit de réception** et un **droit d'envoi**, et donne le **droit d'envoi à la tâche A** afin qu'elle puisse envoyer des messages à la tâche B (communication bidirectionnelle).
 
-Le serveur d'amorçage ne peut pas authentifier le nom de service revendiqué par une tâche. Cela signifie qu'une **tâche** pourrait potentiellement **usurper l'identité de n'importe quelle tâche système**, en revendiquant faussement un nom de service d'autorisation, puis en approuvant chaque demande.
+Le serveur d'amorçage ne peut pas authentifier le nom de service revendiqué par une tâche. Cela signifie qu'une **tâche** pourrait potentiellement **usurper n'importe quelle tâche système**, en revendiquant faussement un nom de service d'autorisation, puis en approuvant chaque demande.
 
 Ensuite, Apple stocke les **noms des services fournis par le système** dans des fichiers de configuration sécurisés, situés dans des répertoires protégés par SIP : `/System/Library/LaunchDaemons` et `/System/Library/LaunchAgents`. À côté de chaque nom de service, le **binaire associé est également stocké**. Le serveur d'amorçage créera et conservera un **droit de réception pour chacun de ces noms de service**.
 
 Pour ces services prédéfinis, le **processus de recherche diffère légèrement**. Lorsqu'un nom de service est recherché, launchd lance le service dynamiquement. Le nouveau flux de travail est le suivant :
 
-* La tâche **B** initialise une **recherche d'amorçage** pour un nom de service.
+* La tâche **B** initie une **recherche d'amorçage** pour un nom de service.
 * **launchd** vérifie si la tâche est en cours d'exécution et si ce n'est pas le cas, la **démarre**.
-* La tâche **A** (le service) effectue un **enregistrement d'amorçage**. Ici, le **serveur d'amorçage** crée un droit d'envoi, le conserve et **transfère le droit de réception à la tâche A**.
+* La tâche **A** (le service) effectue un **enregistrement de vérification d'amorçage**. Ici, le **serveur d'amorçage** crée un droit d'envoi, le conserve et **transfère le droit de réception à la tâche A**.
 * launchd duplique le **droit d'envoi et l'envoie à la tâche B**.
+* La tâche **B** génère un nouveau port avec un **droit de réception** et un **droit d'envoi**, et donne le **droit d'envoi à la tâche A** (le service) afin qu'elle puisse envoyer des messages à la tâche B (communication bidirectionnelle).
 
-Cependant, ce processus ne s'applique qu'aux tâches système prédéfinies. Les tâches non système fonctionnent toujours comme décrit initialement, ce qui pourrait potentiellement permettre l'usurpation d'identité.
+Cependant, ce processus s'applique uniquement aux tâches système prédéfinies. Les tâches non système fonction
+### Un message Mach
+
+Les messages Mach sont envoyés ou reçus en utilisant la fonction **`mach_msg`** (qui est essentiellement un appel système). Lors de l'envoi, le premier argument de cet appel doit être le **message**, qui doit commencer par un **`mach_msg_header_t`** suivi de la charge utile réelle :
+```c
+typedef struct {
+mach_msg_bits_t               msgh_bits;
+mach_msg_size_t               msgh_size;
+mach_port_t                   msgh_remote_port;
+mach_port_t                   msgh_local_port;
+mach_port_name_t              msgh_voucher_port;
+mach_msg_id_t                 msgh_id;
+} mach_msg_header_t;
+```
+Le processus qui peut **recevoir** des messages sur un port mach est dit détenir le _**droit de réception**_, tandis que les **expéditeurs** détiennent un _**droit d'envoi**_ ou un _**droit d'envoi unique**_. Le droit d'envoi unique, comme son nom l'indique, ne peut être utilisé que pour envoyer un seul message, puis il est invalidé.
+
+Pour réaliser une **communication bidirectionnelle** facile, un processus peut spécifier un **port mach** dans l'en-tête du message mach appelé le port de réponse (**`msgh_local_port`**) où le **destinataire** du message peut **envoyer une réponse** à ce message. Les indicateurs de bits dans **`msgh_bits`** peuvent être utilisés pour **indiquer** qu'un **droit d'envoi unique** doit être dérivé et transféré pour ce port (`MACH_MSG_TYPE_MAKE_SEND_ONCE`).
+
+{% hint style="success" %}
+Notez que ce type de communication bidirectionnelle est utilisé dans les messages XPC qui attendent une réponse (`xpc_connection_send_message_with_reply` et `xpc_connection_send_message_with_reply_sync`). Mais **habituellement, des ports différents sont créés** comme expliqué précédemment pour créer la communication bidirectionnelle.
+{% endhint %}
+
+Les autres champs de l'en-tête du message sont :
+
+* `msgh_size` : la taille de l'ensemble du paquet.
+* `msgh_remote_port` : le port sur lequel ce message est envoyé.
+* `msgh_voucher_port` : [bons mach](https://robert.sesek.com/2023/6/mach\_vouchers.html).
+* `msgh_id` : l'ID de ce message, qui est interprété par le destinataire.
+
+{% hint style="danger" %}
+Notez que les **messages mach sont envoyés sur un **_**port mach**_, qui est un canal de communication **un seul destinataire**, **plusieurs expéditeurs** intégré dans le noyau mach. **Plusieurs processus** peuvent **envoyer des messages** à un port mach, mais à tout moment, **un seul processus peut le lire**.
+{% endhint %}
+
 ### Énumérer les ports
-
-Pour identifier les services en cours d'exécution sur une machine, il est essentiel de connaître les ports ouverts. Les ports sont des canaux de communication utilisés par les applications pour échanger des données avec d'autres machines. L'identification des ports ouverts peut aider à détecter les services vulnérables ou non autorisés.
-
-Il existe plusieurs méthodes pour énumérer les ports ouverts sur une machine. Voici quelques-unes des techniques couramment utilisées :
-
-1. Balayage TCP : Cette technique consiste à envoyer des paquets TCP à différents ports pour déterminer s'ils sont ouverts, fermés ou filtrés. Des outils tels que Nmap peuvent être utilisés pour effectuer un balayage TCP.
-
-2. Balayage UDP : Contrairement au balayage TCP, le balayage UDP est utilisé pour identifier les ports UDP ouverts. Les paquets UDP sont envoyés aux ports cibles, et si une réponse est reçue, cela indique que le port est ouvert.
-
-3. Balayage furtif : Cette technique, également connue sous le nom de balayage furtif ou balayage Xmas, consiste à envoyer des paquets TCP avec des drapeaux inhabituels pour déterminer si un port est ouvert. Si aucune réponse n'est reçue, cela peut indiquer que le port est filtré ou fermé.
-
-4. Balayage des services : Cette méthode consiste à interroger les services spécifiques pour déterminer les ports ouverts. Par exemple, en utilisant des outils tels que Nmap, il est possible de balayer les ports associés aux services HTTP, FTP, SSH, etc.
-
-Il est important de noter que l'énumération des ports sans autorisation appropriée peut être illégale et constitue une violation de la vie privée. Il est donc essentiel de respecter les lois et les réglementations en vigueur lors de l'utilisation de ces techniques.
 ```bash
 lsmp -p <pid>
 ```
@@ -245,7 +271,7 @@ printf("Sent a message\n");
 * **Port de la tâche** (alias port du noyau)**:** Avec l'autorisation d'envoi sur ce port, il est possible de contrôler la tâche (lecture/écriture de mémoire, création de threads...).
 * Appelez `mach_task_self()` pour **obtenir le nom** de ce port pour la tâche appelante. Ce port n'est **hérité** qu'à travers **`exec()`**; une nouvelle tâche créée avec `fork()` obtient un nouveau port de tâche (dans un cas particulier, une tâche obtient également un nouveau port de tâche après `exec()` dans un binaire suid). La seule façon de créer une tâche et d'obtenir son port est d'effectuer la ["danse de l'échange de port"](https://robert.sesek.com/2014/1/changes\_to\_xnu\_mach\_ipc.html) tout en effectuant un `fork()`.
 * Voici les restrictions d'accès au port (à partir de `macos_task_policy` du binaire `AppleMobileFileIntegrity`):
-* Si l'application a l'autorisation **`com.apple.security.get-task-allow`**, les processus de **même utilisateur peuvent accéder au port de la tâche** (communément ajoutée par Xcode pour le débogage). Le processus de **notarisation** ne le permettra pas pour les versions de production.
+* Si l'application a l'autorisation **`com.apple.security.get-task-allow`**, les processus de **même utilisateur peuvent accéder au port de la tâche** (généralement ajoutée par Xcode pour le débogage). Le processus de **notarisation** ne le permettra pas pour les versions de production.
 * Les applications ayant l'autorisation **`com.apple.system-task-ports`** peuvent obtenir le **port de la tâche pour n'importe quel** processus, sauf le noyau. Dans les anciennes versions, cela s'appelait **`task_for_pid-allow`**. Cela n'est accordé qu'aux applications Apple.
 * **Root peut accéder aux ports de tâche** des applications **non** compilées avec un **runtime renforcé** (et non provenant d'Apple).
 
@@ -828,12 +854,14 @@ Pour plus d'informations, consultez :
 * [https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html](https://docs.darlinghq.org/internals/macos-specifics/mach-ports.html)
 * [https://knight.sc/malware/2019/03/15/code-injection-on-macos.html](https://knight.sc/malware/2019/03/15/code-injection-on-macos.html)
 * [https://gist.github.com/knightsc/45edfc4903a9d2fa9f5905f60b02ce5a](https://gist.github.com/knightsc/45edfc4903a9d2fa9f5905f60b02ce5a)
+* [https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)
+* [https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Vous travaillez dans une **entreprise de cybersécurité** ? Vous souhaitez voir votre **entreprise annoncée dans HackTricks** ? ou souhaitez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Vous travaillez dans une **entreprise de cybersécurité** ? Vous souhaitez voir votre **entreprise annoncée dans HackTricks** ? Ou souhaitez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
