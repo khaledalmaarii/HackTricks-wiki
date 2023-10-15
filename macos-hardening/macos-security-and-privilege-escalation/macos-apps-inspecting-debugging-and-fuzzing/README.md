@@ -5,10 +5,10 @@
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品 - [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
 
@@ -85,7 +85,7 @@ ldid -S/tmp/entl.xml <binary>
 ### SuspiciousPackage
 
 [**SuspiciousPackage**](https://mothersruin.com/software/SuspiciousPackage/get.html) 是一个有用的工具，可以在安装之前检查 **.pkg** 文件（安装程序）并查看其中的内容。\
-这些安装程序包含 `preinstall` 和 `postinstall` 的 bash 脚本，恶意软件作者通常会滥用这些脚本来**持久化****恶意软件**。
+这些安装程序包含 `preinstall` 和 `postinstall` 的 bash 脚本，恶意软件作者通常会滥用这些脚本来**持久化**恶意软件。
 
 ### hdiutil
 
@@ -172,14 +172,14 @@ swift demangle
 {% endhint %}
 
 {% hint style="warning" %}
-请注意，在macOS上，为了对系统二进制文件（如`cloudconfigurationd`）进行仪器化，必须禁用SIP（仅删除签名是不起作用的）。
+请注意，为了在macOS上**检测系统二进制文件**（如`cloudconfigurationd`），必须禁用SIP（仅删除签名是不起作用的）。
 {% endhint %}
 
 ### 统一日志
 
 MacOS会生成大量日志，当运行应用程序时，这些日志非常有用，可以帮助理解应用程序在做什么。
 
-此外，有些日志会包含标签`<private>`，以隐藏一些用户或计算机可识别的信息。但是，可以通过**安装证书来公开此信息**。请按照[**此处**](https://superuser.com/questions/1532031/how-to-show-private-data-in-macos-unified-log)的说明进行操作。
+此外，有些日志会包含标签`<private>`，以隐藏一些用户或计算机可识别的信息。但是，可以**安装证书来显示这些信息**。请按照[**这里**](https://superuser.com/questions/1532031/how-to-show-private-data-in-macos-unified-log)的说明进行操作。
 
 ### Hopper
 
@@ -205,14 +205,14 @@ MacOS会生成大量日志，当运行应用程序时，这些日志非常有用
 
 ### dtrace
 
-它允许用户以极其**低级别**访问应用程序，并提供了一种用户可以**跟踪**程序甚至更改其执行流程的方式。Dtrace使用**探针**，这些探针被放置在内核的各个位置，例如系统调用的开始和结束。
+它允许用户以极其**低级别**访问应用程序，并为用户提供了一种**跟踪**程序甚至更改其执行流程的方法。Dtrace使用**探针**，这些探针被放置在内核的各个位置，例如系统调用的开始和结束。
 
 DTrace使用**`dtrace_probe_create`**函数为每个系统调用创建一个探针。这些探针可以在每个系统调用的**入口和出口点触发**。与DTrace的交互通过/dev/dtrace进行，该设备仅对root用户可用。
 
 {% hint style="success" %}
 要在不完全禁用SIP保护的情况下启用Dtrace，可以在恢复模式下执行：`csrutil enable --without dtrace`
 
-您还可以使用**您已编译的**二进制文件**`dtrace`**或**`dtruss`**。
+您还可以**运行您已编译的**`dtrace`或`dtruss`二进制文件。
 {% endhint %}
 
 可以使用以下命令获取dtrace的可用探针：
@@ -305,13 +305,20 @@ ktrace trace -s -S -t c -c ls | grep "ls("
 
 [**ProcessMonitor**](https://objective-see.com/products/utilities.html#ProcessMonitor) 是一个非常有用的工具，用于检查进程执行的与进程相关的操作（例如，监视进程创建的新进程）。
 
+### SpriteTree
+
+[**SpriteTree**](https://themittenmac.com/tools/) 是一个工具，用于打印进程之间的关系。\
+您需要使用类似 **`sudo eslogger fork exec rename create > cap.json`** 的命令来监视您的 Mac（启动此命令需要 FDA）。然后，您可以在此工具中加载 json 文件以查看所有的关系：
+
+<figure><img src="../../../.gitbook/assets/image (710).png" alt="" width="375"><figcaption></figcaption></figure>
+
 ### FileMonitor
 
-[**FileMonitor**](https://objective-see.com/products/utilities.html#FileMonitor) 允许监视文件事件（如创建、修改和删除），并提供有关这些事件的详细信息。
+[**FileMonitor**](https://objective-see.com/products/utilities.html#FileMonitor) 允许监视文件事件（例如创建、修改和删除），并提供有关这些事件的详细信息。
 
 ### Crescendo
 
-[**Crescendo**](https://github.com/SuprHackerSteve/Crescendo) 是一个具有类似于 Windows 用户熟悉的 Microsoft Sysinternal 的 _Procmon_ 的外观和感觉的 GUI 工具。它允许您启动和停止记录各种类型的事件，按类别（文件、进程、网络等）对其进行过滤，并将记录的事件保存为 json 文件。
+[**Crescendo**](https://github.com/SuprHackerSteve/Crescendo) 是一个具有类似于 Windows 用户熟悉的 Microsoft Sysinternal's _Procmon_ 的外观和感觉的 GUI 工具。它可以启动和停止记录各种类型的事件，按类别（文件、进程、网络等）对其进行过滤，并将记录的事件保存为 json 文件。
 
 ### Apple Instruments
 
@@ -355,7 +362,7 @@ settings set target.x86-disassembly-flavor intel
 <table data-header-hidden><thead><tr><th width="225"></th><th></th></tr></thead><tbody><tr><td><strong>(lldb) 命令</strong></td><td><strong>描述</strong></td></tr><tr><td><strong>run (r)</strong></td><td>开始执行，直到遇到断点或进程终止。</td></tr><tr><td><strong>continue (c)</strong></td><td>继续执行被调试的进程。</td></tr><tr><td><strong>nexti (n / ni)</strong></td><td>执行下一条指令。该命令会跳过函数调用。</td></tr><tr><td><strong>stepi (s / si)</strong></td><td>执行下一条指令。与nexti命令不同，该命令会进入函数调用。</td></tr><tr><td><strong>finish (f)</strong></td><td>执行当前函数（“frame”）中剩余的指令，然后返回并停止。</td></tr><tr><td><strong>control + c</strong></td><td>暂停执行。如果进程已经运行（r）或继续（c），这将导致进程在当前位置停止执行。</td></tr><tr><td><strong>breakpoint (b)</strong></td><td><p>b main #任何名为main的函数</p><p>b &#x3C;binname>`main #二进制文件的主函数</p><p>b set -n main --shlib &#x3C;lib_name> #指定二进制文件的主函数</p><p>b -[NSDictionary objectForKey:]</p><p>b -a 0x0000000100004bd9</p><p>br l #断点列表</p><p>br e/dis &#x3C;num> #启用/禁用断点</p><p>breakpoint delete &#x3C;num></p></td></tr><tr><td><strong>help</strong></td><td><p>help breakpoint #获取断点命令的帮助</p><p>help memory write #获取写入内存的帮助</p></td></tr><tr><td><strong>reg</strong></td><td><p>reg read</p><p>reg read $rax</p><p>reg read $rax --format &#x3C;<a href="https://lldb.llvm.org/use/variable.html#type-format">format</a>></p><p>reg write $rip 0x100035cc0</p></td></tr><tr><td><strong>x/s &#x3C;reg/memory address></strong></td><td>将内存显示为以空字符结尾的字符串。</td></tr><tr><td><strong>x/i &#x3C;reg/memory address></strong></td><td>将内存显示为汇编指令。</td></tr><tr><td><strong>x/b &#x3C;reg/memory address></strong></td><td>将内存显示为字节。</td></tr><tr><td><strong>print object (po)</strong></td><td><p>这将打印参数引用的对象</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>请注意，大多数苹果的Objective-C API或方法返回对象，因此应通过“print object”（po）命令显示。如果po没有产生有意义的输出，请使用<x/b></p></td></tr><tr><td><strong>memory</strong></td><td>memory read 0x000....<br>memory read $x0+0xf2a<br>memory write 0x100600000 -s 4 0x41414141 #在该地址写入AAAA<br>memory write -f s $rip+0x11f+7 "AAAA" #在该地址写入AAAA</td></tr><tr><td><strong>disassembly</strong></td><td><p>dis #反汇编当前函数</p><p>dis -n &#x3C;funcname> #反汇编函数</p><p>dis -n &#x3C;funcname> -b &#x3C;basename> #反汇编函数<br>dis -c 6 #反汇编6行<br>dis -c 0x100003764 -e 0x100003768 #从一个地址到另一个地址<br>dis -p -c 4 #从当前地址开始反汇编</p></td></tr><tr><td><strong>parray</strong></td><td>parray 3 (char **)$x1 #检查x1寄存器中的3个组件的数组</td></tr></tbody></table>
 
 {% hint style="info" %}
-在调用**`objc_sendMsg`**函数时，**rsi**寄存器保存方法的名称，以空字符结尾（“C”字符串）。要通过lldb打印名称，请执行以下操作：
+在调用**`objc_sendMsg`**函数时，**rsi**寄存器保存方法的名称，作为以空字符结尾的（“C”）字符串。要通过lldb打印名称，请执行以下操作：
 
 `(lldb) x/s $rsi: 0x1000f1576: "startMiningWithPort:password:coreCount:slowMemory:currency:"`
 
@@ -374,9 +381,9 @@ settings set target.x86-disassembly-flavor intel
 * 一些恶意软件还可以根据MAC地址（00:50:56）判断机器是否为VMware。
 * 还可以通过简单的代码判断进程是否正在被调试：
 * `if(P_TRACED == (info.kp_proc.p_flag & P_TRACED)){ //process being debugged }`
-* 还可以使用**`ptrace`**系统调用以**`PT_DENY_ATTACH`**标志调用。这可以防止调试器附加和跟踪。
-* 您可以检查是否导入了**`sysctl`**或**`ptrace`**函数（但恶意软件可能会动态导入它）。
-* 如本文所述：“[Defeating Anti-Debug Techniques: macOS ptrace variants](https://alexomara.com/blog/defeating-anti-debug-techniques-macos-ptrace-variants/)”：\
+* 还可以使用**`ptrace`**系统调用和**`PT_DENY_ATTACH`**标志来阻止调试器的附加和跟踪。
+* 可以检查是否导入了**`sysctl`**或**`ptrace`**函数（但恶意软件可能会动态导入它）。
+* 如在此文档中所述：“[Defeating Anti-Debug Techniques: macOS ptrace variants](https://alexomara.com/blog/defeating-anti-debug-techniques-macos-ptrace-variants/)”：\
 “_消息“Process # exited with **status = 45 (0x0000002d)**”通常是调试目标正在使用**PT\_DENY\_ATTACH**的明显迹象_”。
 ## Fuzzing
 
