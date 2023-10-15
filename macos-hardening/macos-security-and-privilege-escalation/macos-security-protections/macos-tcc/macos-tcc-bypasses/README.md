@@ -7,7 +7,7 @@
 * 你在一个**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
@@ -16,7 +16,7 @@
 
 ### 写入绕过
 
-这不是一个绕过，这只是TCC的工作原理：**它不会阻止写入**。如果终端**没有读取用户桌面的访问权限，它仍然可以写入其中**：
+这不是一个绕过，这只是TCC的工作原理：**它不会阻止写入操作**。如果终端**无法读取用户的桌面，它仍然可以写入其中**：
 ```shell-session
 username@hostname ~ % ls Desktop
 ls: Desktop: Operation not permitted
@@ -52,7 +52,7 @@ asd
 
 通过权限 **`com.apple.private.icloud-account-access`**，可以与 **`com.apple.iCloudHelper`** XPC 服务进行通信，该服务将提供 iCloud 令牌。
 
-**iMovie** 和 **Garageband** 具有此权限以及其他权限。
+**iMovie** 和 **Garageband** 具有此权限以及其他允许的权限。
 
 有关从该权限中获取 iCloud 令牌的漏洞的更多 **信息**，请查看演讲：[**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=_6e2LhmxVc0)
 
@@ -145,7 +145,7 @@ $> ls ~/Documents
 
 ### CVE-2021-30782 - 迁移
 
-二进制文件 `/usr/libexec/lsd` 与库 `libsecurity_translocate` 具有权限 `com.apple.private.nullfs_allow`，允许它创建 **nullfs** 挂载，并具有权限 `com.apple.private.tcc.allow` 与 **`kTCCServiceSystemPolicyAllFiles`** 以访问每个文件。
+二进制文件 `/usr/libexec/lsd` 与库 `libsecurity_translocate` 具有权限 `com.apple.private.nullfs_allow`，允许它创建 **nullfs** 挂载，并具有权限 `com.apple.private.tcc.allow` 与 **`kTCCServiceSystemPolicyAllFiles`** 以访问所有文件。
 
 可以将隔离属性添加到 "Library"，调用 **`com.apple.security.translocation`** XPC 服务，然后它将将 Library 映射到 **`$TMPDIR/AppTranslocation/d/d/Library`**，从而可以访问 Library 中的所有文档。
 
@@ -160,7 +160,7 @@ launchctl setenv SQLITE_AUTO_TRACE 1
 ```
 ### Apple Remote Desktop
 
-作为root用户，您可以启用此服务，并且ARD代理将具有完全磁盘访问权限，用户可以利用此权限使其复制一个新的TCC用户数据库。
+作为root用户，您可以启用此服务，并且ARD代理将具有完全磁盘访问权限，用户可以利用此权限使其复制新的TCC用户数据库。
 
 ## 通过NFSHomeDirectory
 
@@ -197,21 +197,21 @@ TCC使用位于用户HOME文件夹中的数据库来控制对用户特定资源�
 [macos-proces-abuse](../../../macos-proces-abuse/)
 {% endcontent-ref %}
 
-此外，绕过TCC最常见的进程注入方式是通过插件（加载库）进行的。插件通常以库或plist的形式存在，将由主应用程序加载并在其上下文中执行。因此，如果主应用程序具有对TCC受限文件的访问权限（通过授予权限或权限），则自定义代码也将具有相同的访问权限。
+此外，绕过TCC最常见的进程注入方式是通过插件（加载库）进行的。插件通常以库或plist的形式存在，将由主应用程序加载并在其上下文中执行。因此，如果主应用程序具有对TCC受限文件的访问权限（通过授予的权限或entitlements），则自定义代码也将具有相同的访问权限。
 
 ### CVE-2020-27937 - Directory Utility
 
-应用程序`/System/Library/CoreServices/Applications/Directory Utility.app`具有权限`kTCCServiceSystemPolicySysAdminFiles`，加载了扩展名为`.daplug`的插件，并且没有启用强化运行时。
+应用程序`/System/Library/CoreServices/Applications/Directory Utility.app`具有entitlement`kTCCServiceSystemPolicySysAdminFiles`，加载了扩展名为`.daplug`的插件，并且没有启用强化运行时。
 
-为了利用此CVE，滥用先前的权限，更改了`NFSHomeDirectory`，以便能够接管用户的TCC数据库以绕过TCC。
+为了利用此CVE，滥用先前的entitlement，**更改**了`NFSHomeDirectory`（主目录），以便能够接管用户的TCC数据库以绕过TCC。
 
 有关更多信息，请查看[原始报告](https://wojciechregula.blog/post/change-home-directory-and-bypass-tcc-aka-cve-2020-27937/)。
 
 ### CVE-2020-29621 - Coreaudiod
 
-二进制文件`/usr/sbin/coreaudiod`具有权限`com.apple.security.cs.disable-library-validation`和`com.apple.private.tcc.manager`。第一个权限允许进行代码注入，第二个权限允许访问和管理TCC。
+二进制文件`/usr/sbin/coreaudiod`具有entitlements`com.apple.security.cs.disable-library-validation`和`com.apple.private.tcc.manager`。第一个entitlement允许代码注入，第二个entitlement允许其访问TCC管理。
 
-该二进制文件允许从文件夹`/Library/Audio/Plug-Ins/HAL`加载第三方插件。因此，可以使用以下POC加载插件并滥用TCC权限：
+该二进制文件允许从文件夹`/Library/Audio/Plug-Ins/HAL`加载**第三方插件**。因此，可以使用以下POC加载插件并滥用TCC权限：
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <Security/Security.h>
