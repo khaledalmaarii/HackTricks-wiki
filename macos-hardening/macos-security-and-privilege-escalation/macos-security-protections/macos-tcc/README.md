@@ -32,7 +32,7 @@ ps -ef | grep tcc
 0   374     1   0 Thu07PM ??         2:01.66 /System/Library/PrivateFrameworks/TCC.framework/Support/tccd system
 501 63079     1   0  6:59PM ??         0:01.95 /System/Library/PrivateFrameworks/TCC.framework/Support/tccd
 ```
-As permissões são herdadas do aplicativo pai e as permissões são rastreadas com base no Bundle ID e no Developer ID.
+As permissões são herdadas do aplicativo pai e as permissões são rastreadas com base no ID do pacote e no ID do desenvolvedor.
 
 ### Bancos de dados do TCC
 
@@ -44,7 +44,7 @@ O banco de dados do TCC no iOS está em **`/private/var/mobile/Library/TCC/TCC.d
 
 Existe um terceiro banco de dados do TCC em **`/var/db/locationd/clients.plist`** para indicar os clientes autorizados a acessar os serviços de localização.
 
-Além disso, um processo com acesso total ao disco pode editar o banco de dados em modo de usuário. Agora, um aplicativo também precisa de FDA para ler o banco de dados.
+Além disso, um processo com acesso total ao disco pode editar o banco de dados do modo de usuário. Agora, um aplicativo também precisa de FDA para ler o banco de dados.
 
 {% hint style="info" %}
 A interface do usuário do centro de notificações pode fazer alterações no banco de dados do TCC do sistema:
@@ -97,7 +97,7 @@ sqlite> select * from access where client LIKE "%telegram%" and auth_value=0;
 {% endtabs %}
 
 {% hint style="success" %}
-Ao verificar ambos os bancos de dados, você pode verificar as permissões que um aplicativo permitiu, proibiu ou não possui (ele solicitará).
+Verificando ambos os bancos de dados, você pode verificar as permissões que um aplicativo permitiu, proibiu ou não possui (ele solicitará).
 {% endhint %}
 
 * O **`auth_value`** pode ter valores diferentes: denied(0), unknown(1), allowed(2) ou limited(3).
@@ -113,12 +113,12 @@ O **Acesso Total ao Disco** tem o nome **`kTCCServiceSystemPolicyAllFiles`** e o
 Você também pode verificar as **permissões já concedidas** aos aplicativos em `Preferências do Sistema --> Segurança e Privacidade --> Privacidade --> Arquivos e Pastas`.
 
 {% hint style="success" %}
-Observe que, mesmo que um dos bancos de dados esteja dentro da pasta do usuário, **os usuários não podem modificar diretamente esses bancos de dados devido ao SIP** (mesmo se você for root). A única maneira de configurar ou modificar uma nova regra é por meio do painel de Preferências do Sistema ou de prompts em que o aplicativo solicita ao usuário.
+Observe que, mesmo que um dos bancos de dados esteja dentro da pasta do usuário, **os usuários não podem modificar diretamente esses bancos de dados por causa do SIP** (mesmo se você for root). A única maneira de configurar ou modificar uma nova regra é por meio do painel de Preferências do Sistema ou de prompts em que o aplicativo solicita ao usuário.
 
 No entanto, lembre-se de que os usuários _podem_ **excluir ou consultar regras** usando o **`tccutil`**.
 {% endhint %}
 
-#### Redefinir
+#### Resetar
 ```bash
 # You can reset all the permissions given to an application with
 tccutil reset All app.some.id
@@ -126,9 +126,15 @@ tccutil reset All app.some.id
 # Reset the permissions granted to all apps
 tccutil reset All
 ```
-### Verificações de Assinatura do TCC
+### Privesc de Usuário TCC DB para FDA
 
-O banco de dados do TCC armazena o **ID do Bundle** do aplicativo, mas também **armazena informações** sobre a **assinatura** para **garantir** que o aplicativo que solicita permissão seja o correto.
+Obtendo **permissões de escrita** sobre o **banco de dados do usuário TCC**, você **não pode** conceder a si mesmo permissões de **`FDA`**, apenas aquele que está no banco de dados do sistema pode conceder isso.
+
+Mas você pode **se dar** direitos de **`Automação para o Finder`**, e como o `Finder` possui `FDA`, você também possui.
+
+### Verificações de Assinatura TCC
+
+O banco de dados do TCC armazena o **ID do Pacote** do aplicativo, mas também **armazena** **informações** sobre a **assinatura** para **garantir** que o aplicativo que solicita o uso de uma permissão seja o correto.
 
 {% code overflow="wrap" %}
 ```bash
