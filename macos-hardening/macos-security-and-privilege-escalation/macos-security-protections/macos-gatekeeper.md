@@ -1,4 +1,4 @@
-# macOS Gatekeeper
+# macOS Gatekeeper / Quarentena / XProtect
 
 <details>
 
@@ -20,7 +20,7 @@
 
 O mecanismo chave do Gatekeeper reside em seu processo de **verificação**. Ele verifica se o software baixado está **assinado por um desenvolvedor reconhecido**, garantindo a autenticidade do software. Além disso, ele verifica se o software foi **notarizado pela Apple**, confirmando que está livre de conteúdo malicioso conhecido e não foi adulterado após a notarização.
 
-Além disso, o Gatekeeper reforça o controle e a segurança do usuário ao **solicitar a aprovação do usuário para abrir** o software baixado pela primeira vez. Essa salvaguarda ajuda a evitar que os usuários executem inadvertidamente código executável potencialmente prejudicial que possam ter confundido com um arquivo de dados inofensivo.
+Além disso, o Gatekeeper reforça o controle e a segurança do usuário ao **solicitar a aprovação do usuário para abrir** o software baixado pela primeira vez. Essa proteção ajuda a evitar que os usuários executem inadvertidamente código executável potencialmente prejudicial que possam ter confundido com um arquivo de dados inofensivo.
 
 ### Assinaturas de Aplicativos
 
@@ -38,7 +38,7 @@ A partir do macOS Catalina, o Gatekeeper também verifica se o aplicativo foi **
 
 #### Verificar Assinaturas
 
-Ao verificar alguma **amostra de malware**, você sempre deve **verificar a assinatura** do binário, pois o **desenvolvedor** que o assinou pode estar **relacionado** a **malware**.
+Ao verificar algum **exemplo de malware**, você sempre deve **verificar a assinatura** do binário, pois o **desenvolvedor** que o assinou pode estar **relacionado** com **malware**.
 ```bash
 # Get signer
 codesign -vv -d /bin/ls 2>&1 | grep -E "Authority|TeamIdentifier"
@@ -118,7 +118,7 @@ spctl --master-disable
 spctl --global-enable
 spctl --master-enable
 ```
-Quando totalmente habilitada, uma nova opção aparecerá:
+Quando totalmente habilitado, uma nova opção aparecerá:
 
 <figure><img src="../../../.gitbook/assets/image (679).png" alt=""><figcaption></figcaption></figure>
 
@@ -143,11 +143,11 @@ spctl --assess -v /Applications/App.app
 ```
 ### Arquivos em Quarentena
 
-Ao **baixar** um aplicativo ou arquivo, aplicativos específicos do macOS, como navegadores da web ou clientes de e-mail, **anexam um atributo de arquivo estendido**, comumente conhecido como "**flag de quarentena**", ao arquivo baixado. Esse atributo atua como uma medida de segurança para **marcar o arquivo** como proveniente de uma fonte não confiável (a internet) e potencialmente portador de riscos. No entanto, nem todos os aplicativos anexam esse atributo, por exemplo, softwares comuns de cliente BitTorrent geralmente ignoram esse processo.
+Ao **baixar** um aplicativo ou arquivo, aplicativos específicos do macOS, como navegadores da web ou clientes de e-mail, **anexam um atributo de arquivo estendido**, comumente conhecido como "**flag de quarentena**", ao arquivo baixado. Esse atributo atua como uma medida de segurança para **marcar o arquivo** como proveniente de uma fonte não confiável (a internet) e potencialmente portador de riscos. No entanto, nem todos os aplicativos anexam esse atributo, por exemplo, software comum de cliente BitTorrent geralmente ignora esse processo.
 
 **A presença de uma flag de quarentena sinaliza o recurso de segurança Gatekeeper do macOS quando um usuário tenta executar o arquivo**.
 
-No caso em que a **flag de quarentena não está presente** (como nos arquivos baixados por alguns clientes BitTorrent), as **verificações do Gatekeeper podem não ser realizadas**. Portanto, os usuários devem ter cuidado ao abrir arquivos baixados de fontes menos seguras ou desconhecidas.
+No caso em que a **flag de quarentena não está presente** (como em arquivos baixados por alguns clientes BitTorrent), as **verificações do Gatekeeper podem não ser realizadas**. Portanto, os usuários devem ter cuidado ao abrir arquivos baixados de fontes menos seguras ou desconhecidas.
 
 {% hint style="info" %}
 **Verificar** a **validade** das assinaturas de código é um processo **intensivo em recursos** que inclui a geração de **hashes** criptográficos do código e de todos os recursos agrupados. Além disso, verificar a validade do certificado envolve fazer uma **verificação online** nos servidores da Apple para ver se ele foi revogado após ter sido emitido. Por esses motivos, uma verificação completa de assinatura de código e notarização é **impraticável de ser executada toda vez que um aplicativo é iniciado**.
@@ -158,7 +158,7 @@ Portanto, essas verificações são **executadas apenas ao executar aplicativos 
 {% hint style="warning" %}
 Esse atributo deve ser **definido pelo aplicativo que cria/baixa** o arquivo.
 
-No entanto, arquivos que estão em sandbox terão esse atributo definido para todos os arquivos que eles criam. E aplicativos não sandbox podem defini-lo por si próprios ou especificar a chave [**LSFileQuarantineEnabled**](https://developer.apple.com/documentation/bundleresources/information\_property\_list/lsfilequarantineenabled?language=objc) no arquivo **Info.plist**, o que fará com que o sistema defina o atributo estendido `com.apple.quarantine` nos arquivos criados.
+No entanto, arquivos que estão em sandbox terão esse atributo definido para todos os arquivos que eles criam. E aplicativos não em sandbox podem defini-lo por si próprios ou especificar a chave [**LSFileQuarantineEnabled**](https://developer.apple.com/documentation/bundleresources/information\_property\_list/lsfilequarantineenabled?language=objc) no arquivo **Info.plist**, o que fará com que o sistema defina o atributo estendido `com.apple.quarantine` nos arquivos criados.
 {% endhint %}
 
 É possível **verificar seu status e habilitar/desabilitar** (é necessário ter privilégios de root) com:
@@ -231,7 +231,7 @@ XProtect está localizado em uma localização protegida pelo SIP em **/Library/
 * **`XProtect.bundle/Contents/Resources/XProtect.yara`**: Regras Yara para detectar malware.
 * **`XProtect.bundle/Contents/Resources/gk.db`**: Banco de dados SQLite3 com hashes de aplicativos bloqueados e TeamIDs.
 
-Observe que há outro aplicativo em **`/Library/Apple/System/Library/CoreServices/XProtect.app`** relacionado ao XProtect que não está envolvido quando um aplicativo é executado.
+Observe que há outro aplicativo em **`/Library/Apple/System/Library/CoreServices/XProtect.app`** relacionado ao XProtect que não está envolvido no processo do Gatekeeper.
 
 ## Bypasses do Gatekeeper
 
@@ -289,11 +289,9 @@ python3 -m http.server
 ```
 Verifique o [**relatório original**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) para obter mais informações.
 
-## [2023-27943](https://blog.f-secure.com/discovery-of-gatekeeper-bypass-cve-2023-27943/)
+### [CVE-2023-27943](https://blog.f-secure.com/discovery-of-gatekeeper-bypass-cve-2023-27943/)
 
-Foi descoberto que o **Google Chrome não estava definindo o atributo de quarentena** para arquivos baixados devido a alguns problemas internos do macOS.
-
-
+Foi descoberto que o **Google Chrome não estava definindo o atributo de quarentena** para arquivos baixados devido a problemas internos do macOS.
 
 <details>
 
