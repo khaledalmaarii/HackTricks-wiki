@@ -4,10 +4,10 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Você trabalha em uma **empresa de segurança cibernética**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de segurança cibernética**? Você quer ver sua **empresa anunciada no HackTricks**? Ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
@@ -44,9 +44,9 @@ Observe que agora, para poder habilitar o SSH, você precisa de "Acesso total ao
 
 ### Manipular extensões - CVE-2022-26767
 
-O atributo `com.apple.macl` é atribuído a arquivos para dar permissões a um determinado aplicativo para lê-lo. Esse atributo é definido quando arrastamos e soltamos um arquivo sobre um aplicativo, ou quando um usuário clica duas vezes em um arquivo para abri-lo com o aplicativo padrão.
+O atributo `com.apple.macl` é atribuído a arquivos para dar permissões a um determinado aplicativo para lê-lo. Esse atributo é definido quando arrastamos e soltamos um arquivo sobre um aplicativo ou quando um usuário clica duas vezes em um arquivo para abri-lo com o aplicativo padrão.
 
-Portanto, um usuário poderia registrar um aplicativo malicioso para manipular todas as extensões e chamar o Launch Services para abrir qualquer arquivo (assim, o arquivo malicioso terá acesso para lê-lo).
+Portanto, um usuário poderia registrar um aplicativo malicioso para manipular todas as extensões e chamar os Serviços de Lançamento para abrir qualquer arquivo (assim, o arquivo malicioso terá acesso para lê-lo).
 
 ### iCloud
 
@@ -54,13 +54,13 @@ A permissão `com.apple.private.icloud-account-access` permite a comunicação c
 
 O iMovie e o Garageband tinham essa permissão e outras que permitiam.
 
-Para mais informações sobre a exploração para obter tokens do iCloud a partir dessa permissão, confira a palestra: [**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=_6e2LhmxVc0)
+Para obter mais informações sobre a exploração para obter tokens do iCloud a partir dessa permissão, confira a palestra: [**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=_6e2LhmxVc0)
 
 ### kTCCServiceAppleEvents / Automação
 
-Um aplicativo com a permissão `kTCCServiceAppleEvents` será capaz de controlar outros aplicativos. Isso significa que ele poderá abusar das permissões concedidas aos outros aplicativos.
+Um aplicativo com a permissão `kTCCServiceAppleEvents` poderá controlar outros aplicativos. Isso significa que ele poderá abusar das permissões concedidas aos outros aplicativos.
 
-Para mais informações sobre Scripts da Apple, confira:
+Para obter mais informações sobre Scripts da Apple, confira:
 
 {% content-ref url="macos-apple-scripts.md" %}
 [macos-apple-scripts.md](macos-apple-scripts.md)
@@ -149,7 +149,7 @@ O binário `/usr/libexec/lsd` com a biblioteca `libsecurity_translocate` tinha a
 
 Era possível adicionar o atributo de quarentena à "Library", chamar o serviço XPC **`com.apple.security.translocation`** e, em seguida, mapear a Library para **`$TMPDIR/AppTranslocation/d/d/Library`**, onde todos os documentos dentro da Library poderiam ser **acessados**.
 
-## CVE-2023-38571 - Música e TV <a href="#cve-2023-38571-a-macos-tcc-bypass-in-music-and-tv" id="cve-2023-38571-a-macos-tcc-bypass-in-music-and-tv"></a>
+### CVE-2023-38571 - Música e TV <a href="#cve-2023-38571-a-macos-tcc-bypass-in-music-and-tv" id="cve-2023-38571-a-macos-tcc-bypass-in-music-and-tv"></a>
 
 O **`Music`** tem um recurso interessante: quando está em execução, ele **importará** os arquivos arrastados para **`~/Music/Music/Media.localized/Automatically Add to Music.localized`** para a "biblioteca de mídia" do usuário. Além disso, ele chama algo como: **`rename(a, b);`** onde `a` e `b` são:
 
@@ -158,11 +158,14 @@ O **`Music`** tem um recurso interessante: quando está em execução, ele **imp
 
 Esse comportamento **`rename(a, b);`** é vulnerável a uma **Condição de Corrida**, pois é possível colocar dentro da pasta `Automatically Add to Music.localized` um arquivo falso **TCC.db** e, em seguida, quando a nova pasta (b) for criada para copiar o arquivo, excluí-lo e apontá-lo para **`~/Library/Application Support/com.apple.TCC`**/.
 
-### Rastreamento SQL
+### SQLITE\_SQLLOG\_DIR - CVE-2023-32422
 
-Se a variável de ambiente **`SQLITE_AUTO_TRACE`** estiver definida, a biblioteca **`libsqlite3.dylib`** começará a **registrar** todas as consultas SQL. Muitos aplicativos usavam essa biblioteca, então era possível registrar todas as consultas SQLite deles.
+Se **`SQLITE_SQLLOG_DIR="caminho/pasta"`**, basicamente significa que **qualquer banco de dados aberto é copiado para esse caminho**. Nesse CVE, esse controle foi abusado para **escrever** dentro de um **banco de dados SQLite** que será **aberto por um processo com FDA o banco de dados TCC**, e então abusar do **`SQLITE_SQLLOG_DIR`** com um **symlink no nome do arquivo** para que, quando esse banco de dados for **aberto**, o arquivo **TCC.db do usuário seja sobrescrito** com o aberto.
+[**Mais informações aqui**](https://youtu.be/f1HA5QhLQ7Y?t=20548).
 
-Vários aplicativos da Apple usavam essa biblioteca para acessar informações protegidas pelo TCC.
+### **SQLITE\_AUTO\_TRACE**
+
+Se a variável de ambiente **`SQLITE_AUTO_TRACE`** estiver definida, a biblioteca **`libsqlite3.dylib`** começará a **registrar** todas as consultas SQL. Vários aplicativos da Apple usavam essa biblioteca para acessar informações protegidas pelo TCC.
 ```bash
 # Set this env variable everywhere
 launchctl setenv SQLITE_AUTO_TRACE 1
@@ -208,7 +211,7 @@ Existem diferentes técnicas para injetar código em um processo e abusar de sua
 {% endcontent-ref %}
 
 Além disso, a injeção de processo mais comum para contornar o TCC é por meio de **plugins (load library)**.\
-Plugins são códigos extras geralmente na forma de bibliotecas ou plist, que serão **carregados pelo aplicativo principal** e executarão sob seu contexto. Portanto, se o aplicativo principal tiver acesso a arquivos restritos pelo TCC (por meio de permissões concedidas ou entitlements), o **código personalizado também terá**.
+Plugins são códigos extras geralmente na forma de bibliotecas ou plist, que serão **carregados pelo aplicativo principal** e executarão sob seu contexto. Portanto, se o aplicativo principal tiver acesso a arquivos restritos pelo TCC (por meio de permissões concedidas ou entitlements), o **código personalizado também terá acesso**.
 
 ### CVE-2020-27937 - Directory Utility
 
