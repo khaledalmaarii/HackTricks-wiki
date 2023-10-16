@@ -1,13 +1,13 @@
-# macOS Gatekeeper
+# macOS Gatekeeper / Quarantine / XProtect
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 发现我们的独家[NFT收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧**
 *
 * .
@@ -16,7 +16,7 @@
 
 ## Gatekeeper
 
-**Gatekeeper**是为Mac操作系统开发的安全功能，旨在确保用户在其系统上**只运行可信任的软件**。它通过**验证用户从App Store之外的来源下载并尝试打开的软件**（如应用程序、插件或安装程序包）来实现。
+**Gatekeeper**是为Mac操作系统开发的一项安全功能，旨在确保用户在其系统上**只运行可信任的软件**。它通过**验证用户从App Store以外的来源下载并尝试打开的软件**（如应用程序、插件或安装程序包）来实现。
 
 Gatekeeper的关键机制在于其**验证**过程。它检查下载的软件是否由**已知开发者签名**，以确保软件的真实性。此外，它还确定软件是否经过了**Apple的公证**，以确认其不包含已知的恶意内容，并且在公证后没有被篡改。
 
@@ -24,12 +24,12 @@ Gatekeeper的关键机制在于其**验证**过程。它检查下载的软件是
 
 ### 应用程序签名
 
-应用程序签名，也称为代码签名，是Apple安全基础设施的关键组成部分。它们用于**验证软件作者的身份**（开发者），并确保代码自上次签名以来没有被篡改。
+应用程序签名，也称为代码签名，是Apple安全基础设施的关键组成部分。它们用于**验证软件作者的身份**（开发者）并确保代码自上次签名以来没有被篡改。
 
 以下是其工作原理：
 
 1. **签署应用程序：**当开发者准备分发他们的应用程序时，他们使用一个私钥对应用程序进行**签名**。这个私钥与开发者在加入Apple开发者计划时获得的**证书相关联**。签名过程涉及对应用程序的所有部分创建一个加密哈希，并使用开发者的私钥对该哈希进行加密。
-2. **分发应用程序：**签名的应用程序随后与开发者的证书一起分发给用户，该证书包含相应的公钥。
+2. **分发应用程序：**签名的应用程序随附开发者的证书一起分发给用户，该证书包含相应的公钥。
 3. **验证应用程序：**当用户下载并尝试运行应用程序时，他们的Mac操作系统使用开发者证书中的公钥解密哈希。然后，它根据应用程序的当前状态重新计算哈希，并将其与解密的哈希进行比较。如果它们匹配，这意味着**应用程序自开发者签名以来没有被修改**，系统允许应用程序运行。
 
 应用程序签名是Apple的Gatekeeper技术的重要组成部分。当用户尝试**打开从互联网下载的应用程序**时，Gatekeeper会验证应用程序的签名。如果它使用由Apple颁发给已知开发者的证书进行签名，并且代码没有被篡改，Gatekeeper允许应用程序运行。否则，它会阻止应用程序并向用户发出警报。
@@ -59,9 +59,9 @@ codesign -s <cert-name-keychain> toolsdemo
 
 苹果的验签过程是一种额外的保护措施，用于保护用户免受潜在有害软件的侵害。它涉及开发者将他们的应用程序提交给苹果的验签服务进行审查，这与应用审核不应混淆。该服务是一个自动化系统，会对提交的软件进行检查，以查找恶意内容和代码签名可能存在的问题。
 
-如果软件在没有引起任何关注的情况下通过了这个检查，验签服务会生成一个验签票据。然后，开发者需要将这个票据附加到他们的软件上，这个过程被称为“装订”。此外，验签票据也会在网上发布，Gatekeeper（苹果的安全技术）可以访问它。
+如果软件在没有引起任何关注的情况下通过了这个检查，验签服务会生成一个验签凭证。然后，开发者需要将这个凭证附加到他们的软件上，这个过程被称为“stapling”。此外，验签凭证也会在网上发布，Gatekeeper（苹果的安全技术）可以访问它。
 
-当用户首次安装或执行软件时，验签票据的存在（无论是附在可执行文件上还是在线找到）会通知Gatekeeper该软件已由苹果进行了验签。因此，Gatekeeper会在初始启动对话框中显示一个描述性消息，指示该软件已经通过苹果的恶意内容检查。这个过程增强了用户对他们在系统上安装或运行的软件的安全性的信心。
+当用户首次安装或执行软件时，验签凭证的存在（无论是附加到可执行文件上还是在线找到）会通知Gatekeeper该软件已由苹果进行了验签。因此，Gatekeeper会在初始启动对话框中显示一个描述性消息，指示该软件已经通过苹果的恶意内容检查。这个过程增强了用户对他们在系统上安装或运行的软件的安全信心。
 
 ### 枚举GateKeeper
 
@@ -107,7 +107,7 @@ cdhash H"4317047eefac8125ce4d44cab0eb7b1dff29d19a"|1|0|GKE
 cdhash H"0a71962e7a32f0c2b41ddb1fb8403f3420e1d861"|1|0|GKE
 cdhash H"8d0d90ff23c3071211646c4c9c607cdb601cb18f"|1|0|GKE
 ```
-这些哈希值来自于 **`/var/db/SystemPolicyConfiguration/gke.bundle/Contents/Resources/gke.auth`**, **`/var/db/gke.bundle/Contents/Resources/gk.db`** 和 **`/var/db/gkopaque.bundle/Contents/Resources/gkopaque.db`**。
+这些哈希值来自于 **`/var/db/SystemPolicyConfiguration/gke.bundle/Contents/Resources/gke.auth`, `/var/db/gke.bundle/Contents/Resources/gk.db`** 和 **`/var/db/gkopaque.bundle/Contents/Resources/gkopaque.db`**。
 
 **`spctl`** 的选项 **`--master-disable`** 和 **`--global-disable`** 将完全**禁用**这些签名检查：
 ```bash
@@ -213,7 +213,7 @@ find / -exec ls -ld {} \; 2>/dev/null | grep -E "[x\-]@ " | awk '{printf $9; pri
 
 XProtect是macOS中内置的**反恶意软件**功能。XProtect会在应用程序首次启动或修改时，根据其已知恶意软件和不安全文件类型的数据库对其进行检查。当你通过某些应用程序（如Safari、Mail或Messages）下载文件时，XProtect会自动扫描该文件。如果文件与其数据库中的任何已知恶意软件匹配，XProtect将**阻止文件运行**并向你发出警报。
 
-XProtect数据库由Apple定期更新，包含新的恶意软件定义，并且这些更新会自动下载并安装到你的Mac上。这确保了XProtect始终与最新的已知威胁保持同步。
+XProtect数据库由Apple定期更新，包含新的恶意软件定义，并且这些更新会自动下载和安装到你的Mac上。这确保了XProtect始终与最新的已知威胁保持同步。
 
 然而，值得注意的是，**XProtect并不是一个功能完备的防病毒解决方案**。它只检查特定的已知威胁列表，并且不像大多数防病毒软件那样执行实时扫描。
 
@@ -225,14 +225,14 @@ system_profiler SPInstallHistoryDataType 2>/dev/null | grep -A 4 "XProtectPlistC
 ```
 {% endcode %}
 
-XProtect位于SIP保护的位置**/Library/Apple/System/Library/CoreServices/XProtect.bundle**，在该bundle中，您可以找到XProtect使用的信息：
+XProtect位于SIP保护的位置**/Library/Apple/System/Library/CoreServices/XProtect.bundle**，在该捆绑包中，您可以找到XProtect使用的信息：
 
 * **`XProtect.bundle/Contents/Resources/LegacyEntitlementAllowlist.plist`**：允许具有这些cdhashes的代码使用旧版授权。
 * **`XProtect.bundle/Contents/Resources/XProtect.meta.plist`**：禁止通过BundleID和TeamID加载的插件和扩展列表，或指示最低版本。
 * **`XProtect.bundle/Contents/Resources/XProtect.yara`**：用于检测恶意软件的Yara规则。
 * **`XProtect.bundle/Contents/Resources/gk.db`**：包含被阻止的应用程序和TeamID的哈希的SQLite3数据库。
 
-请注意，还有另一个与XProtect相关的应用程序**`/Library/Apple/System/Library/CoreServices/XProtect.app`**，在运行应用程序时不会涉及它。
+请注意，还有一个与XProtect相关的应用程序**`/Library/Apple/System/Library/CoreServices/XProtect.app`**与Gatekeeper进程无关。
 
 ## Gatekeeper绕过
 
@@ -248,7 +248,7 @@ XProtect位于SIP保护的位置**/Library/Apple/System/Library/CoreServices/XPr
 
 当使用**Automator**创建应用程序时，关于其执行所需的信息位于`application.app/Contents/document.wflow`而不是可执行文件中。可执行文件只是一个名为**Automator Application Stub**的通用Automator二进制文件。
 
-因此，您可以使`application.app/Contents/MacOS/Automator\ Application\ Stub` **通过符号链接指向系统中的另一个Automator Application Stub**，它将执行`document.wflow`中的内容（您的脚本），而不会触发Gatekeeper，因为实际的可执行文件没有隔离属性。
+因此，您可以使`application.app/Contents/MacOS/Automator\ Application\ Stub`**通过符号链接指向系统中的另一个Automator Application Stub**，它将执行`document.wflow`中的内容（您的脚本），而不会触发Gatekeeper，因为实际的可执行文件没有隔离属性。
 
 示例预期位置：`/System/Library/CoreServices/Automator\ Application\ Stub.app/Contents/MacOS/Automator\ Application\ Stub`
 
@@ -256,7 +256,7 @@ XProtect位于SIP保护的位置**/Library/Apple/System/Library/CoreServices/XPr
 
 ### [CVE-2022-22616](https://www.jamf.com/blog/jamf-threat-labs-safari-vuln-gatekeeper-bypass/)
 
-在此绕过中，创建了一个zip文件，从`application.app/Contents`开始压缩，而不是从`application.app`开始。因此，**隔离属性**被应用于**来自`application.app/Contents`的所有文件**，但未应用于`application.app`，而Gatekeeper正在检查该文件，因此Gatekeeper被绕过，因为当触发`application.app`时，它**没有隔离属性**。
+在此绕过中，创建了一个zip文件，从`application.app/Contents`开始压缩，而不是从`application.app`开始。因此，**隔离属性**被应用于**来自`application.app/Contents`的所有文件**，但未应用于Gatekeeper检查的`application.app`，因此Gatekeeper被绕过，因为当触发`application.app`时，它**没有隔离属性**。
 ```bash
 zip -r test.app/Contents test.zip
 ```
@@ -290,18 +290,18 @@ python3 -m http.server
 ```
 查看[**原始报告**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/)以获取更多信息。
 
-## [2023-27943](https://blog.f-secure.com/discovery-of-gatekeeper-bypass-cve-2023-27943/)
+### [CVE-2023-27943](https://blog.f-secure.com/discovery-of-gatekeeper-bypass-cve-2023-27943/)
 
-发现**Google Chrome由于一些macOS内部问题未设置下载文件的隔离属性**。
+发现**Google Chrome未设置下载文件的隔离属性**，因为存在一些macOS内部问题。
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者你想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**Telegram群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
