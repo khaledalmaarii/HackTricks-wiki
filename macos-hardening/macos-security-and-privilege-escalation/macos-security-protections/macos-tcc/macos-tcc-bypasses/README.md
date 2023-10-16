@@ -110,7 +110,7 @@ Le démon **tccd** de l'espace utilisateur utilise la variable d'environnement *
 
 Selon [cette publication sur Stack Exchange](https://stackoverflow.com/questions/135688/setting-environment-variables-on-os-x/3756686#3756686) et parce que le démon TCC s'exécute via `launchd` dans le domaine de l'utilisateur actuel, il est possible de **contrôler toutes les variables d'environnement** qui lui sont transmises.\
 Ainsi, un **attaquant pourrait définir la variable d'environnement `$HOME`** dans **`launchctl`** pour pointer vers un **répertoire contrôlé**, **redémarrer** le démon **TCC**, puis **modifier directement la base de données TCC** pour s'attribuer **tous les privilèges TCC disponibles** sans jamais demander l'autorisation à l'utilisateur final.\
-Preuve de concept (PoC) :
+PoC :
 ```bash
 # reset database just in case (no cheating!)
 $> tccutil reset All
@@ -139,7 +139,7 @@ $> ls ~/Documents
 ```
 ### CVE-2021-30761 - Notes
 
-Notes avait accès aux emplacements protégés par TCC, mais lorsqu'une note est créée, celle-ci est créée dans un emplacement non protégé. Ainsi, vous pouviez demander à Notes de copier un fichier protégé dans une note (donc dans un emplacement non protégé) et ensuite accéder au fichier :
+Notes avait accès aux emplacements protégés par TCC, mais lorsqu'une note est créée, elle est créée dans un emplacement non protégé. Ainsi, vous pouviez demander à Notes de copier un fichier protégé dans une note (donc dans un emplacement non protégé) et ensuite accéder au fichier :
 
 <figure><img src="../../../../../.gitbook/assets/image (6) (1).png" alt=""><figcaption></figcaption></figure>
 
@@ -149,16 +149,21 @@ Le binaire `/usr/libexec/lsd` avec la bibliothèque `libsecurity_translocate` av
 
 Il était possible d'ajouter l'attribut de mise en quarantaine à "Library", d'appeler le service XPC **`com.apple.security.translocation`** et ensuite il mapperait Library vers **`$TMPDIR/AppTranslocation/d/d/Library`** où tous les documents à l'intérieur de Library pouvaient être **accessibles**.
 
-## CVE-2023-38571 - Music & TV <a href="#cve-2023-38571-a-macos-tcc-bypass-in-music-and-tv" id="cve-2023-38571-a-macos-tcc-bypass-in-music-and-tv"></a>
+### CVE-2023-38571 - Music & TV <a href="#cve-2023-38571-a-macos-tcc-bypass-in-music-and-tv" id="cve-2023-38571-a-macos-tcc-bypass-in-music-and-tv"></a>
 
 **`Music`** a une fonctionnalité intéressante : lorsqu'il est en cours d'exécution, il **importe** les fichiers déposés dans **`~/Music/Music/Media.localized/Automatically Add to Music.localized`** dans la "bibliothèque multimédia" de l'utilisateur. De plus, il appelle quelque chose comme : **`rename(a, b);`** où `a` et `b` sont :
 
 * `a = "~/Music/Music/Media.localized/Automatically Add to Music.localized/myfile.mp3"`
 * `b = "~/Music/Music/Media.localized/Automatically Add to Music.localized/Not Added.localized/2023-09-25 11.06.28/myfile.mp3`
 
-Ce comportement **`rename(a, b);`** est vulnérable à une **condition de concurrence**, car il est possible de placer à l'intérieur du dossier `Automatically Add to Music.localized` un faux fichier **TCC.db** et ensuite, lorsque le nouveau dossier (b) est créé pour copier le fichier, le supprimer et le pointer vers **`~/Library/Application Support/com.apple.TCC`**/.
+Ce comportement **`rename(a, b);`** est vulnérable à une **condition de concurrence**, car il est possible de placer un faux fichier **TCC.db** à l'intérieur du dossier `Automatically Add to Music.localized`, puis lorsque le nouveau dossier (b) est créé pour copier le fichier, le supprimer et le pointer vers **`~/Library/Application Support/com.apple.TCC`**/.
 
-### SQL Tracing
+### SQLITE\_SQLLOG\_DIR - CVE-2023-32422
+
+Si **`SQLITE_SQLLOG_DIR="chemin/dossier"`**, cela signifie essentiellement que **toute base de données ouverte est copiée dans ce chemin**. Dans cette CVE, ce contrôle a été utilisé de manière abusive pour **écrire** à l'intérieur d'une **base de données SQLite** qui va être **ouverte par un processus avec FDA la base de données TCC**, puis abuser de **`SQLITE_SQLLOG_DIR`** avec un **lien symbolique dans le nom de fichier** afin que lorsque cette base de données est **ouverte**, la base de données utilisateur **TCC.db est écrasée** par celle qui est ouverte.\
+[**Plus d'informations ici**](https://youtu.be/f1HA5QhLQ7Y?t=20548).
+
+### **SQLITE\_AUTO\_TRACE**
 
 Si la variable d'environnement **`SQLITE_AUTO_TRACE`** est définie, la bibliothèque **`libsqlite3.dylib`** commencera à **enregistrer** toutes les requêtes SQL. De nombreuses applications utilisaient cette bibliothèque, il était donc possible de journaliser toutes leurs requêtes SQLite.
 
@@ -337,7 +342,7 @@ exploit_location]; task.standardOutput = pipe;
 
 ### CVE-2020-9771 - Contournement de TCC et élévation de privilèges avec mount\_apfs
 
-**N'importe quel utilisateur** (même non privilégié) peut créer et monter une sauvegarde de machine à remonter le temps et **accéder à TOUS les fichiers** de cette sauvegarde.\
+**N'importe quel utilisateur** (même non privilégié) peut créer et monter une sauvegarde de machine à remonter dans le temps et **accéder à TOUS les fichiers** de cette sauvegarde.\
 Le **seul privilège** requis est que l'application utilisée (comme `Terminal`) ait **un accès complet au disque** (FDA) (`kTCCServiceSystemPolicyAllfiles`), qui doit être accordé par un administrateur.
 
 {% code overflow="wrap" %}
