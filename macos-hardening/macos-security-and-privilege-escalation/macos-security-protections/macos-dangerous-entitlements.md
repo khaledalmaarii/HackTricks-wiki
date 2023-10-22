@@ -5,7 +5,7 @@
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
@@ -18,29 +18,29 @@ Notez que les autorisations commençant par **`com.apple`** ne sont pas disponib
 
 ## Élevé
 
-### com.apple.rootless.install.heritable
+### `com.apple.rootless.install.heritable`
 
 L'autorisation **`com.apple.rootless.install.heritable`** permet de contourner SIP. Consultez [ceci pour plus d'informations](macos-sip.md#com.apple.rootless.install.heritable).
 
-### **com.apple.rootless.install**
+### **`com.apple.rootless.install`**
 
 L'autorisation **`com.apple.rootless.install`** permet de contourner SIP. Consultez [ceci pour plus d'informations](macos-sip.md#com.apple.rootless.install).
-
-### `com.apple.security.get-task-allow`
-
-Cette autorisation permet d'obtenir le port de tâche du processus exécuté par le binaire avec cette autorisation et d'**injecter du code** dedans. Consultez [**ceci pour plus d'informations**](../mac-os-architecture/macos-ipc-inter-process-communication/).
 
 ### **`com.apple.system-task-ports` (anciennement appelé `task_for_pid-allow`)**
 
 Cette autorisation permet d'obtenir le **port de tâche pour n'importe quel** processus, à l'exception du noyau. Consultez [**ceci pour plus d'informations**](../mac-os-architecture/macos-ipc-inter-process-communication/).
 
+### `com.apple.security.get-task-allow`
+
+Cette autorisation permet à d'autres processus disposant de l'autorisation **`com.apple.security.cs.debugger`** d'obtenir le port de tâche du processus exécuté par le binaire avec cette autorisation et d'**injecter du code**. Consultez [**ceci pour plus d'informations**](../mac-os-architecture/macos-ipc-inter-process-communication/).
+
 ### `com.apple.security.cs.debugger`
 
-Les applications avec l'autorisation d'outil de débogage peuvent appeler `task_for_pid()` pour récupérer un port de tâche valide pour les applications non signées et tierces avec l'autorisation `Get Task Allow` définie sur `true`. Cependant, même avec l'autorisation d'outil de débogage, un débogueur ne peut pas obtenir les ports de tâche des processus qui n'ont pas l'autorisation `Get Task Allow` et qui sont donc protégés par la Protection de l'intégrité du système. Consultez [**ceci pour plus d'informations**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_debugger).
+Les applications avec l'autorisation Debugging Tool peuvent appeler `task_for_pid()` pour récupérer un port de tâche valide pour les applications non signées et tierces avec l'autorisation `Get Task Allow` définie sur `true`. Cependant, même avec l'autorisation de l'outil de débogage, un débogueur **ne peut pas obtenir les ports de tâche** des processus qui **n'ont pas l'autorisation `Get Task Allow`**, et qui sont donc protégés par la Protection de l'intégrité du système. Consultez [**ceci pour plus d'informations**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_debugger).
 
 ### `com.apple.security.cs.disable-library-validation`
 
-Cette autorisation permet de **charger des frameworks, des plug-ins ou des bibliothèques sans qu'ils soient signés par Apple ou signés avec le même ID d'équipe** que l'exécutable principal, ce qui permet à un attaquant d'abuser d'un chargement de bibliothèque arbitraire pour injecter du code. Consultez [**ceci pour plus d'informations**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation).
+Cette autorisation permet de **charger des frameworks, des plug-ins ou des bibliothèques sans qu'ils soient signés par Apple ou signés avec le même ID d'équipe** que l'exécutable principal, de sorte qu'un attaquant pourrait abuser d'un chargement de bibliothèque arbitraire pour injecter du code. Consultez [**ceci pour plus d'informations**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation).
 
 ### `com.apple.security.cs.allow-dyld-environment-variables`
 
@@ -50,17 +50,17 @@ Cette autorisation permet d'**utiliser des variables d'environnement DYLD** qui 
 
 [**Selon ce blog**](https://objective-see.org/blog/blog\_0x4C.html), ces autorisations permettent de **modifier** la base de données **TCC**.
 
-### com.apple.private.tcc.manager.check-by-audit-token
+### `com.apple.private.tcc.manager.check-by-audit-token`
 
 TODO: Je ne sais pas ce que cela permet de faire
 
-### com.apple.private.apfs.revert-to-snapshot
+### `com.apple.private.apfs.revert-to-snapshot`
 
-TODO: Dans [**ce rapport**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/), il est mentionné que cela pourrait être utilisé pour mettre à jour les contenus protégés par SSV après un redémarrage. Si vous savez comment faire, veuillez envoyer une PR !
+TODO: Dans [**ce rapport**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/), il est mentionné que cela pourrait être utilisé pour mettre à jour les contenus protégés par SSV après un redémarrage. Si vous savez comment faire, envoyez une PR s'il vous plaît !
 
-### com.apple.private.apfs.create-sealed-snapshot
+### `com.apple.private.apfs.create-sealed-snapshot`
 
-TODO: Dans [**ce rapport**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/), il est mentionné que cela pourrait être utilisé pour mettre à jour les contenus protégés par SSV après un redémarrage. Si vous savez comment faire, veuillez envoyer une PR !
+TODO: Dans [**ce rapport**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/), il est mentionné que cela pourrait être utilisé pour mettre à jour les contenus protégés par SSV après un redémarrage. Si vous savez comment faire, envoyez une PR s'il vous plaît !
 
 ### **`kTCCServiceSystemPolicyAllFiles`**
 
@@ -69,13 +69,13 @@ Accorde des autorisations d'**accès complet au disque**, l'une des autorisation
 ### **`kTCCServiceAppleEvents`**
 
 Permet à l'application d'envoyer des événements à d'autres applications couramment utilisées pour **automatiser des tâches**. En contrôlant d'autres applications, elle peut abuser des autorisations accordées à ces autres applications.
-
 ### **`kTCCServiceSystemPolicySysAdminFiles`**
 
-Permet de **modifier** l'attribut **`NFSHomeDirectory`** d'un utilisateur qui modifie son dossier personnel et permet donc de contourner TCC.
+Permet de **modifier** l'attribut **`NFSHomeDirectory`** d'un utilisateur qui modifie son dossier personnel et permet donc de **contourner TCC**.
+
 ### **`kTCCServiceSystemPolicyAppBundles`**
 
-Permet de modifier les applications à l'intérieur de leurs dossiers (à l'intérieur de app.app), ce qui est désactivé par défaut.
+Permet de modifier les applications à l'intérieur de leurs dossiers (à l'intérieur de app.app), ce qui est interdit par défaut.
 
 ## Moyen
 
@@ -88,7 +88,7 @@ Cet avantage permet de **créer de la mémoire qui est inscriptible et exécutab
 Cet avantage permet de **remplacer ou patcher du code C**, d'utiliser la fonction **`NSCreateObjectFileImageFromMemory`** (qui est fondamentalement non sécurisée), ou d'utiliser le framework **DVDPlayback**. Consultez [**ceci pour plus d'informations**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory).
 
 {% hint style="danger" %}
-L'inclusion de cet avantage expose votre application à des vulnérabilités courantes dans les langages de code non sécurisés en mémoire. Réfléchissez attentivement à la nécessité de cette exception pour votre application.
+Inclure cet avantage expose votre application à des vulnérabilités courantes dans les langages de code non sécurisés en mémoire. Réfléchissez attentivement à la nécessité de cette exception pour votre application.
 {% endhint %}
 
 ### `com.apple.security.cs.disable-executable-page-protection`
