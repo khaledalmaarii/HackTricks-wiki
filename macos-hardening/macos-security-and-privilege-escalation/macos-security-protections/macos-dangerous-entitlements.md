@@ -26,7 +26,7 @@ A permissão **`com.apple.rootless.install.heritable`** permite **burlar o SIP**
 
 A permissão **`com.apple.rootless.install`** permite **burlar o SIP**. Verifique [isto para mais informações](macos-sip.md#com.apple.rootless.install).
 
-### **`com.apple.system-task-ports` (anteriormente chamado de `task_for_pid-allow`)**
+### **`com.apple.system-task-ports` (anteriormente chamado `task_for_pid-allow`)**
 
 Essa permissão permite obter a **porta da tarefa para qualquer** processo, exceto o kernel. Verifique [**isto para mais informações**](../mac-os-architecture/macos-ipc-inter-process-communication/).
 
@@ -50,17 +50,21 @@ Essa permissão permite **usar variáveis de ambiente DYLD** que podem ser usada
 
 [**De acordo com este blog**](https://objective-see.org/blog/blog\_0x4C.html), essas permissões permitem **modificar** o **banco de dados TCC**.
 
+### com.apple.private.security.kext-management
+
+Permissão necessária para solicitar ao **kernel que carregue uma extensão de kernel**.
+
 ### `com.apple.private.tcc.manager.check-by-audit-token`
 
 TODO: Eu não sei o que isso permite fazer
 
 ### `com.apple.private.apfs.revert-to-snapshot`
 
-TODO: No [**este relatório**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **é mencionado que isso poderia ser usado para** atualizar o conteúdo protegido por SSV após uma reinicialização. Se você souber como, envie um PR, por favor!
+TODO: Em [**este relatório**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **é mencionado que isso poderia ser usado para** atualizar o conteúdo protegido por SSV após uma reinicialização. Se você souber como, envie um PR, por favor!
 
 ### `com.apple.private.apfs.create-sealed-snapshot`
 
-TODO: No [**este relatório**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **é mencionado que isso poderia ser usado para** atualizar o conteúdo protegido por SSV após uma reinicialização. Se você souber como, envie um PR, por favor!
+TODO: Em [**este relatório**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **é mencionado que isso poderia ser usado para** atualizar o conteúdo protegido por SSV após uma reinicialização. Se você souber como, envie um PR, por favor!
 
 ### **`kTCCServiceSystemPolicyAllFiles`**
 
@@ -81,19 +85,19 @@ Permite modificar aplicativos dentro de suas pastas (dentro de app.app), o que �
 
 ### `com.apple.security.cs.allow-jit`
 
-Essa permissão permite **criar memória que pode ser gravada e executada** passando a flag `MAP_JIT` para a função de sistema `mmap()`. Verifique [**aqui para mais informações**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-jit).
+Essa permissão permite **criar memória que pode ser gravada e executada** passando a flag `MAP_JIT` para a função de sistema `mmap()`. Verifique [**isso para mais informações**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-jit).
 
 ### `com.apple.security.cs.allow-unsigned-executable-memory`
 
-Essa permissão permite **sobrescrever ou corrigir código C**, usar o **`NSCreateObjectFileImageFromMemory`** (que é fundamentalmente inseguro) ou usar o framework **DVDPlayback**. Verifique [**aqui para mais informações**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory).
+Essa permissão permite **sobrescrever ou corrigir código C**, usar o **`NSCreateObjectFileImageFromMemory`** (que é fundamentalmente inseguro) ou usar o framework **DVDPlayback**. Verifique [**isso para mais informações**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory).
 
 {% hint style="danger" %}
-Incluir essa permissão expõe seu aplicativo a vulnerabilidades comuns em linguagens de código inseguras em relação à memória. Considere cuidadosamente se seu aplicativo precisa dessa exceção.
+Incluir essa permissão expõe seu aplicativo a vulnerabilidades comuns em linguagens de código inseguro em memória. Considere cuidadosamente se seu aplicativo precisa dessa exceção.
 {% endhint %}
 
 ### `com.apple.security.cs.disable-executable-page-protection`
 
-Essa permissão permite **modificar seções de seus próprios arquivos executáveis** no disco para sair forçadamente. Verifique [**aqui para mais informações**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-executable-page-protection).
+Essa permissão permite **modificar seções de seus próprios arquivos executáveis** no disco para sair forçadamente. Verifique [**isso para mais informações**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-executable-page-protection).
 
 {% hint style="danger" %}
 A permissão de Desabilitar Proteção de Memória Executável é uma permissão extrema que remove uma proteção de segurança fundamental do seu aplicativo, tornando possível que um invasor reescreva o código executável do seu aplicativo sem detecção. Prefira permissões mais restritas, se possível.
