@@ -12,20 +12,50 @@
 
 </details>
 
+## Combinaisons de permissions POSIX
+
+Permissions dans un **répertoire** :
+
+* **lecture** - vous pouvez **énumérer** les entrées du répertoire
+* **écriture** - vous pouvez **supprimer/écrire** des fichiers dans le répertoire
+* **exécution** - vous êtes **autorisé à traverser** le répertoire - si vous n'avez pas ce droit, vous ne pouvez pas accéder aux fichiers à l'intérieur, ni à aucun sous-répertoire.
+
+### Combinaisons dangereuses
+
+**Comment écraser un fichier/dossier appartenant à root**, mais :
+
+* Le **propriétaire du répertoire parent** dans le chemin est l'utilisateur
+* Le **propriétaire du répertoire parent** dans le chemin est un **groupe d'utilisateurs** avec un **accès en écriture**
+* Un **groupe d'utilisateurs** a un **accès en écriture** au **fichier**
+
+Avec l'une de ces combinaisons, un attaquant pourrait **injecter** un **lien symbolique/dur** dans le chemin attendu pour obtenir une écriture arbitraire privilégiée.
+
+### Cas spécial du répertoire racine R+X
+
+Si des fichiers se trouvent dans un **répertoire** où **seul root a un accès R+X**, ceux-ci ne sont **pas accessibles aux autres**. Ainsi, une vulnérabilité permettant de **déplacer un fichier lisible par un utilisateur**, qui ne peut pas être lu en raison de cette **restriction**, de ce répertoire **vers un autre**, pourrait être exploitée pour lire ces fichiers.
+
+Exemple ici : [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions)
+
+## Lien symbolique / Lien dur
+
+Si un processus privilégié écrit des données dans un **fichier** qui pourrait être **contrôlé** par un **utilisateur moins privilégié**, ou qui pourrait avoir été **précédemment créé** par un utilisateur moins privilégié. L'utilisateur pourrait simplement le **rediriger vers un autre fichier** via un lien symbolique ou un lien dur, et le processus privilégié écrira sur ce fichier.
+
+Vérifiez dans les autres sections où un attaquant pourrait **exploiter une écriture arbitraire pour escalader les privilèges**.
+
 ## Descripteur de fichier arbitraire
 
-Si vous pouvez faire en sorte qu'un **processus ouvre un fichier ou un dossier avec des privilèges élevés**, vous pouvez exploiter **`crontab`** pour ouvrir un fichier dans `/etc/sudoers.d` avec **`EDITOR=exploit.py`**, de sorte que `exploit.py` obtienne le descripteur de fichier du fichier à l'intérieur de `/etc/sudoers` et l'exploite.
+Si vous pouvez faire en sorte qu'un **processus ouvre un fichier ou un répertoire avec des privilèges élevés**, vous pouvez exploiter **`crontab`** pour ouvrir un fichier dans `/etc/sudoers.d` avec **`EDITOR=exploit.py`**, ainsi `exploit.py` obtiendra le descripteur de fichier du fichier à l'intérieur de `/etc/sudoers` et l'exploiter.
 
 Par exemple : [https://youtu.be/f1HA5QhLQ7Y?t=21098](https://youtu.be/f1HA5QhLQ7Y?t=21098)
 
-## Astuces pour éviter les attributs xattrs de quarantaine
+## Astuces pour éviter les attributs de quarantaine xattrs
 
-### Drapeau uchg
+### Drapeau uchg / uchange / uimmutable
 
-Si un fichier/dossier possède cet attribut immuable, il ne sera pas possible d'y ajouter un xattr.
+Si un fichier/répertoire a cet attribut immuable, il ne sera pas possible d'y mettre un xattr.
 ```bash
 echo asd > /tmp/asd
-chflags uchg /tmp/asd
+chflags uchg /tmp/asd # "chflags uchange /tmp/asd" or "chflags uimmutable /tmp/asd"
 xattr -w com.apple.quarantine "" /tmp/asd
 xattr: [Errno 1] Operation not permitted: '/tmp/asd'
 
@@ -92,7 +122,7 @@ ditto -c -k del test.zip
 ditto -x -k --rsrc test.zip .
 ls -le test
 ```
-(Notez que même si cela fonctionne, le bac à sable écrit l'attribut étendu de mise en quarantaine avant)
+(Notez que même si cela fonctionne, le bac à sable écrit l'attribut étendu de quarantaine avant)
 
 Pas vraiment nécessaire mais je le laisse là au cas où :
 
@@ -100,12 +130,73 @@ Pas vraiment nécessaire mais je le laisse là au cas où :
 [macos-xattr-acls-extra-stuff.md](macos-xattr-acls-extra-stuff.md)
 {% endcontent-ref %}
 
+## Monter des fichiers DMG
+
+Un utilisateur peut monter un fichier DMG personnalisé même par-dessus certains dossiers existants. Voici comment vous pouvez créer un package DMG personnalisé avec un contenu personnalisé :
+
+{% code overflow="wrap" %}
+```bash
+# Create the volume
+hdiutil create /private/tmp/tmp.dmg -size 2m -ov -volname CustomVolName -fs APFS 1>/dev/null
+mkdir /private/tmp/mnt
+
+# Mount it
+hdiutil attach -mountpoint /private/tmp/mnt /private/tmp/tmp.dmg 1>/dev/null
+
+# Add custom content to the volume
+mkdir /private/tmp/mnt/custom_folder
+echo "hello" > /private/tmp/mnt/custom_folder/custom_file
+
+# Detach it
+hdiutil detach /private/tmp/mnt 1>/dev/null
+
+# Next time you mount it, it will have the custom content you wrote
+```
+{% endcode %}
+
+## Écritures arbitraires
+
+### Scripts sh périodiques
+
+Si votre script peut être interprété comme un **script shell**, vous pouvez écraser le script shell **`/etc/periodic/daily/999.local`** qui sera déclenché tous les jours.
+
+Vous pouvez **simuler** l'exécution de ce script avec la commande : **`sudo periodic daily`**
+
+### Daemons
+
+Écrivez un **LaunchDaemon** arbitraire tel que **`/Library/LaunchDaemons/xyz.hacktricks.privesc.plist`** avec un plist exécutant un script arbitraire comme suit :
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+<key>Label</key>
+<string>com.sample.Load</string>
+<key>ProgramArguments</key>
+<array>
+<string>/Applications/Scripts/privesc.sh</string>
+</array>
+<key>RunAtLoad</key>
+<true/>
+</dict>
+</plist>
+```
+Générez simplement le script `/Applications/Scripts/privesc.sh` avec les **commandes** que vous souhaitez exécuter en tant que root.
+
+### Fichier Sudoers
+
+Si vous avez la possibilité d'écrire arbitrairement, vous pouvez créer un fichier dans le dossier **`/etc/sudoers.d/`** vous accordant des privilèges **sudo**.
+
+## Références
+
+* [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/)
+
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
