@@ -72,7 +72,7 @@ Cependant, il y a actuellement 2 limitations :
 * L'autorisation **`kTCCServiceSystemPolicyAppBundles`** est **nécessaire** pour modifier une application, donc par défaut cela n'est plus possible.
 * Le fichier **`asap`** compilé a généralement les fusibles **`embeddedAsarIntegrityValidation`** et **`onlyLoadAppFromAsar`** activés
 
-Ce qui rend ce chemin d'attaque plus compliqué (voire impossible).
+Ce qui rend ce chemin d'attaque plus compliqué (ou impossible).
 {% endhint %}
 
 Notez qu'il est possible de contourner l'exigence de **`kTCCServiceSystemPolicyAppBundles`** en copiant l'application dans un autre répertoire (comme **`/tmp`**), en renommant le dossier **`app.app/Contents`** en **`app.app/NotCon`**, en **modifiant** le fichier **asar** avec votre code **malveillant**, en le renommant à nouveau en **`app.app/Contents`** et en l'exécutant.
@@ -170,14 +170,24 @@ require('child_process').execSync('/System/Applications/Calculator.app/Contents/
 {% endcode %}
 
 {% hint style="danger" %}
-Si le fusible **`EnableNodeCliInspectArguments`** est désactivé, l'application **ignorera les paramètres node** (comme `--inspect`) lors du lancement, sauf si la variable d'environnement **`ELECTRON_RUN_AS_NODE`** est définie, ce qui sera également **ignoré** si le fusible **`RunAsNode`** est désactivé.
+Si le paramètre **`EnableNodeCliInspectArguments`** est désactivé, l'application **ignorera les paramètres node** (comme `--inspect`) lors du lancement, sauf si la variable d'environnement **`ELECTRON_RUN_AS_NODE`** est définie, ce qui sera également **ignoré** si le paramètre **`RunAsNode`** est désactivé.
 
-Cependant, vous pouvez toujours utiliser le paramètre electron `--remote-debugging-port=9229`, mais la charge utile précédente ne fonctionnera pas pour exécuter d'autres processus.
+Cependant, vous pouvez toujours utiliser le paramètre **`--remote-debugging-port=9229`** d'Electron, mais la charge utile précédente ne fonctionnera pas pour exécuter d'autres processus.
 {% endhint %}
 
+En utilisant le paramètre **`--remote-debugging-port=9222`**, il est possible de voler certaines informations de l'application Electron, telles que l'**historique** (avec les commandes GET) ou les **cookies** du navigateur (car ils sont **décryptés** à l'intérieur du navigateur et qu'il existe un **point de terminaison json** qui les fournit).
+
+Vous pouvez apprendre comment faire cela [**ici**](https://posts.specterops.io/hands-in-the-cookie-jar-dumping-cookies-with-chromiums-remote-debugger-port-34c4f468844e) et [**ici**](https://slyd0g.medium.com/debugging-cookie-dumping-failures-with-chromiums-remote-debugger-8a4c4d19429f) et utiliser l'outil automatique [WhiteChocolateMacademiaNut](https://github.com/slyd0g/WhiteChocolateMacademiaNut) ou un simple script comme suit :
+```python
+import websocket
+ws = websocket.WebSocket()
+ws.connect("ws://localhost:9222/devtools/page/85976D59050BFEFDBA48204E3D865D00", suppress_origin=True)
+ws.send('{\"id\": 1, \"method\": \"Network.getAllCookies\"}')
+print(ws.recv()
+```
 ### Injection à partir du fichier Plist de l'application
 
-Vous pouvez exploiter cette variable d'environnement dans un fichier Plist pour maintenir la persistance en ajoutant ces clés :
+Vous pouvez exploiter cette variable d'environnement dans un fichier plist pour maintenir la persistance en ajoutant ces clés :
 ```xml
 <dict>
 <key>ProgramArguments</key>
