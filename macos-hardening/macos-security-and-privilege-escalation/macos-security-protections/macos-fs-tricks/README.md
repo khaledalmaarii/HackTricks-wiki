@@ -32,13 +32,13 @@
 
 ### 文件夹根目录 R+X 特殊情况
 
-如果有文件位于**只有root具有R+X访问权限的目录**中，则其他人**无法访问**这些文件。因此，如果存在漏洞允许将一个由用户可读但由于该**限制**而无法读取的文件从该文件夹**移动到另一个文件夹**，则可以滥用此漏洞来读取这些文件。
+如果有文件位于**只有root具有R+X访问权限的目录**中，则其他人无法访问这些文件。因此，如果存在漏洞允许将一个由用户可读但由于该**限制**而无法读取的文件从该文件夹**移动到另一个文件夹**，则可以滥用此漏洞来读取这些文件。
 
 示例：[https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions)
 
-## 符号链接/硬链接
+## 符号链接 / 硬链接
 
-如果一个特权进程正在写入**文件**，该文件可以被**低权限用户控制**，或者可以被**低权限用户预先创建**。用户可以通过符号链接或硬链接将其指向另一个文件，特权进程将在该文件上进行写入。
+如果一个特权进程正在写入**文件**，该文件可能由**权限较低的用户**控制，或者可能是**之前由权限较低的用户创建**的。用户可以通过符号链接或硬链接将其指向另一个文件，特权进程将在该文件上进行写入。
 
 在其他部分中查看攻击者可以**滥用任意写入来提升权限**的地方。
 
@@ -98,7 +98,7 @@ ls -le /tmp/test
 ```
 ### **com.apple.acl.text xattr + AppleDouble**
 
-**AppleDouble**文件格式会复制包括ACEs在内的文件。
+**AppleDouble**文件格式会将文件及其ACE（访问控制项）一起复制。
 
 在[**源代码**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html)中，可以看到存储在名为**`com.apple.acl.text`**的xattr中的ACL文本表示将被设置为解压后文件的ACL。因此，如果您将应用程序压缩为使用**AppleDouble**文件格式的zip文件，并且该ACL阻止其他xattr写入它...则隔离xattr不会设置到应用程序中：
 
@@ -199,6 +199,9 @@ echo "hello" > /private/tmp/mnt/custom_folder/custom_file
 hdiutil detach /private/tmp/mnt 1>/dev/null
 
 # Next time you mount it, it will have the custom content you wrote
+
+# You can also create a dmg from an app using:
+hdiutil create -srcfolder justsome.app justsome.dmg
 ```
 {% endcode %}
 
