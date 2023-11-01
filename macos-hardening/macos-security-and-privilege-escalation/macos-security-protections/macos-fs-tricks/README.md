@@ -14,7 +14,7 @@
 
 ## POSIX权限组合
 
-目录的权限：
+**目录**的权限：
 
 * **读取** - 可以**枚举**目录条目
 * **写入** - 可以**删除/写入**目录中的文件
@@ -24,35 +24,39 @@
 
 如何覆盖由root拥有的文件/文件夹，但是：
 
-* 路径中的一个父目录所有者是用户
-* 路径中的一个父目录所有者是具有**写入权限**的**用户组**
+* 路径中的一个父**目录所有者**是用户
+* 路径中的一个父**目录所有者**是具有**写入权限**的**用户组**
 * 用户组对文件具有**写入**权限
 
-使用上述任何组合，攻击者可以通过在预期路径中**注入**一个**符号/硬链接**来获得特权任意写入。
+使用上述任何组合，攻击者可以通过**注入**一个**符号/硬链接**到预期路径来获得特权任意写入。
 
 ### 文件夹根目录 R+X 特殊情况
 
-如果有文件位于**只有root具有R+X访问权限的目录**中，则其他人无法访问这些文件。因此，如果存在漏洞允许将一个由用户可读但由于该**限制**而无法读取的文件从该文件夹**移动到另一个文件夹**，则可以滥用此漏洞来读取这些文件。
+如果一个**目录**中有文件，其中**只有root具有R+X访问权限**，那些文件对其他人是**不可访问的**。因此，如果存在一个漏洞，允许将一个由用户可读但由于该**限制**而无法读取的文件从该文件夹**移动到另一个文件夹**，则可以滥用该漏洞来读取这些文件。
 
 示例：[https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions)
 
 ## 符号链接 / 硬链接
 
-如果一个特权进程正在写入**文件**，该文件可能由**权限较低的用户**控制，或者可能是**之前由权限较低的用户创建**的。用户可以通过符号链接或硬链接将其指向另一个文件，特权进程将在该文件上进行写入。
+如果一个特权进程正在写入**文件**，该文件可能被**低权限用户**控制，或者可能是由低权限用户**先前创建**的。用户可以通过符号链接或硬链接**将其指向另一个文件**，特权进程将在该文件上进行写入。
 
 在其他部分中查看攻击者可以**滥用任意写入来提升权限**的地方。
 
 ## 任意FD
 
-如果你可以让一个**进程以高权限打开一个文件或文件夹**，你可以滥用**`crontab`**来以**`EDITOR=exploit.py`**的方式打开`/etc/sudoers.d`中的文件，这样`exploit.py`将获得`/etc/sudoers`中的文件的FD并滥用它。
+如果你可以让一个**进程以高权限打开文件或文件夹**，你可以滥用**`crontab`**来使用**`EDITOR=exploit.py`**打开`/etc/sudoers.d`中的文件，这样`exploit.py`将获得`/etc/sudoers`中的文件的FD并滥用它。
 
 例如：[https://youtu.be/f1HA5QhLQ7Y?t=21098](https://youtu.be/f1HA5QhLQ7Y?t=21098)
 
 ## 避免隔离xattrs的技巧
 
-### uchg / uchange / uimmutable标志
+### 删除它
+```bash
+xattr -d com.apple.quarantine /path/to/file_or_app
+```
+### uchg / uchange / uimmutable 标志
 
-如果一个文件/文件夹具有这个不可变属性，就无法在其上放置xattr
+如果一个文件/文件夹具有这个不可变属性，就无法在其上放置 xattr。
 ```bash
 echo asd > /tmp/asd
 chflags uchg /tmp/asd # "chflags uchange /tmp/asd" or "chflags uimmutable /tmp/asd"
@@ -98,7 +102,7 @@ ls -le /tmp/test
 ```
 ### **com.apple.acl.text xattr + AppleDouble**
 
-**AppleDouble**文件格式会将文件及其ACE（访问控制项）一起复制。
+**AppleDouble**文件格式会复制包括ACEs在内的文件。
 
 在[**源代码**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html)中，可以看到存储在名为**`com.apple.acl.text`**的xattr中的ACL文本表示将被设置为解压后文件的ACL。因此，如果您将应用程序压缩为使用**AppleDouble**文件格式的zip文件，并且该ACL阻止其他xattr写入它...则隔离xattr不会设置到应用程序中：
 
