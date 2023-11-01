@@ -32,11 +32,11 @@
 
 ### 文件夹根目录 R+X 特殊情况
 
-如果有文件位于**只有root具有R+X访问权限的目录**中，则其他人无法访问这些文件。因此，如果存在漏洞允许将一个由用户可读但由于该**限制**而无法读取的文件从该文件夹**移动到另一个文件夹**，则可以滥用此漏洞来读取这些文件。
+如果有文件位于**只有root具有R+X访问权限的目录**中，则其他人**无法访问**这些文件。因此，如果存在漏洞允许将一个由用户可读但由于该**限制**而无法读取的文件从该文件夹**移动到另一个文件夹**，则可以滥用此漏洞来读取这些文件。
 
 示例：[https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions)
 
-## 符号链接 / 硬链接
+## 符号链接/硬链接
 
 如果一个特权进程正在写入**文件**，该文件可以被**低权限用户控制**，或者可以被**低权限用户预先创建**。用户可以通过符号链接或硬链接将其指向另一个文件，特权进程将在该文件上进行写入。
 
@@ -44,7 +44,7 @@
 
 ## 任意FD
 
-如果你可以让一个进程以高权限打开一个文件或文件夹，你可以滥用**`crontab`**来使用**`EDITOR=exploit.py`**打开`/etc/sudoers.d`中的文件，这样`exploit.py`将获得`/etc/sudoers`中的文件的FD并滥用它。
+如果你可以让一个**进程以高权限打开一个文件或文件夹**，你可以滥用**`crontab`**来以**`EDITOR=exploit.py`**的方式打开`/etc/sudoers.d`中的文件，这样`exploit.py`将获得`/etc/sudoers`中的文件的FD并滥用它。
 
 例如：[https://youtu.be/f1HA5QhLQ7Y?t=21098](https://youtu.be/f1HA5QhLQ7Y?t=21098)
 
@@ -98,7 +98,7 @@ ls -le /tmp/test
 ```
 ### **com.apple.acl.text xattr + AppleDouble**
 
-**AppleDouble**文件格式会将文件及其ACE（访问控制项）一起复制。
+**AppleDouble**文件格式会复制包括ACEs在内的文件。
 
 在[**源代码**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html)中，可以看到存储在名为**`com.apple.acl.text`**的xattr中的ACL文本表示将被设置为解压后文件的ACL。因此，如果您将应用程序压缩为使用**AppleDouble**文件格式的zip文件，并且该ACL阻止其他xattr写入它...则隔离xattr不会设置到应用程序中：
 
@@ -122,7 +122,7 @@ ditto -c -k del test.zip
 ditto -x -k --rsrc test.zip .
 ls -le test
 ```
-（请注意，即使这样做，沙盒也会在写入隔离的xattr之前）
+（请注意，即使这样做，沙盒也会在此之前写入隔离的xattr）
 
 虽然不是必需的，但我还是把它放在这里以防万一：
 
@@ -130,9 +130,57 @@ ls -le test
 [macos-xattr-acls-extra-stuff.md](macos-xattr-acls-extra-stuff.md)
 {% endcontent-ref %}
 
-## 挂载DMG
+## 绕过代码签名
 
-用户可以挂载一个自定义的DMG，甚至可以覆盖一些现有的文件夹。以下是创建带有自定义内容的自定义DMG包的方法：
+Bundle包含文件**`_CodeSignature/CodeResources`**，其中包含**bundle**中每个**文件**的**哈希值**。请注意，CodeResources的哈希值也**嵌入在可执行文件**中，因此我们不能对其进行更改。
+
+然而，有一些文件的签名不会被检查，这些文件在plist中具有omit键，例如：
+```xml
+<dict>
+...
+<key>rules</key>
+<dict>
+...
+<key>^Resources/.*\.lproj/locversion.plist$</key>
+<dict>
+<key>omit</key>
+<true/>
+<key>weight</key>
+<real>1100</real>
+</dict>
+...
+</dict>
+<key>rules2</key>
+...
+<key>^(.*/)?\.DS_Store$</key>
+<dict>
+<key>omit</key>
+<true/>
+<key>weight</key>
+<real>2000</real>
+</dict>
+...
+<key>^PkgInfo$</key>
+<dict>
+<key>omit</key>
+<true/>
+<key>weight</key>
+<real>20</real>
+</dict>
+...
+<key>^Resources/.*\.lproj/locversion.plist$</key>
+<dict>
+<key>omit</key>
+<true/>
+<key>weight</key>
+<real>1100</real>
+</dict>
+...
+</dict>
+```
+## 挂载DMG文件
+
+用户可以挂载自定义的DMG文件，甚至可以覆盖现有文件夹。以下是创建包含自定义内容的自定义DMG文件的方法：
 
 {% code overflow="wrap" %}
 ```bash
@@ -195,7 +243,7 @@ hdiutil detach /private/tmp/mnt 1>/dev/null
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 您在**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)！
+* 您在**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
