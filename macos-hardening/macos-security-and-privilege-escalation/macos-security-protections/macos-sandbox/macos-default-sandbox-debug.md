@@ -74,13 +74,8 @@ EOF
 ```
 3. Definir as permissões
 
-As permissões são atribuídas a um aplicativo para definir quais recursos e funcionalidades ele pode acessar no sistema operacional. No contexto do sandbox do macOS, as permissões são chamadas de "entitlements". Essas entitlements são especificadas no arquivo de manifesto do aplicativo e são usadas para restringir o acesso a recursos sensíveis, como arquivos, diretórios, serviços de rede e muito mais.
-
-As entitlements podem ser usadas para permitir ou negar o acesso a recursos específicos. Por exemplo, uma entitlement pode permitir que um aplicativo acesse a câmera do dispositivo, enquanto outra pode negar o acesso à localização do usuário. Essas permissões são essenciais para garantir a segurança e a privacidade dos usuários, limitando o que os aplicativos podem fazer.
-
-Ao definir as entitlements, é importante considerar cuidadosamente quais recursos são necessários para o funcionamento do aplicativo e quais podem representar um risco de segurança. É recomendável conceder apenas as permissões necessárias e restringir o acesso a recursos sensíveis sempre que possível.
-
-As entitlements podem ser configuradas usando o Xcode, a ferramenta de desenvolvimento oficial da Apple, ou por meio de arquivos de manifesto específicos. É importante revisar e auditar regularmente as entitlements de um aplicativo para garantir que elas estejam configuradas corretamente e que não haja permissões excessivas ou desnecessárias.
+{% tabs %}
+{% tab title="sandbox" %}
 ```bash
 cat << EOF > entitlements.plist
 <?xml version="1.0" encoding="UTF-8"?>
@@ -93,7 +88,77 @@ cat << EOF > entitlements.plist
 </plist>
 EOF
 ```
-4. Assine o aplicativo (você precisa criar um certificado na chaveiro)
+{% tab title="sandbox + downloads" %}
+
+# macOS Sandbox + Downloads
+
+## Introduction
+
+The macOS Sandbox is a security feature that restricts the actions of applications, preventing them from accessing sensitive resources or performing malicious activities. This helps to protect the system and user data from potential threats.
+
+One area where the macOS Sandbox is commonly used is in handling file downloads. By default, applications running in the sandbox are not allowed to write files to the user's Downloads folder. This prevents downloaded files from being automatically saved to a location where they could potentially cause harm.
+
+## Sandbox Entitlements
+
+To enable an application to write files to the Downloads folder, specific entitlements need to be added to its sandbox profile. These entitlements grant the necessary permissions for the application to access and modify the Downloads folder.
+
+## Modifying the Sandbox Profile
+
+To modify the sandbox profile of an application, you can use the `sandbox-exec` command-line tool. This tool allows you to specify a custom sandbox profile for an application, overriding the default restrictions.
+
+To allow an application to write files to the Downloads folder, you need to create a custom sandbox profile that includes the necessary entitlements. This profile can then be applied to the application using the `sandbox-exec` command.
+
+## Creating a Custom Sandbox Profile
+
+To create a custom sandbox profile, you can use the `sandbox-simplify` tool. This tool simplifies an existing sandbox profile by removing unnecessary restrictions, making it easier to understand and modify.
+
+Once you have a simplified sandbox profile, you can add the necessary entitlements to allow file writing to the Downloads folder. This can be done by modifying the profile using a text editor.
+
+## Adding Entitlements
+
+To allow an application to write files to the Downloads folder, you need to add the following entitlements to its sandbox profile:
+
+```plaintext
+(version 1)
+(deny default)
+(allow file-write* (subpath "/Users/<username>/Downloads"))
+```
+
+Replace `<username>` with the actual username of the user account.
+
+## Applying the Custom Sandbox Profile
+
+To apply the custom sandbox profile to an application, you can use the `sandbox-exec` command-line tool. The following command applies the custom profile to the specified application:
+
+```plaintext
+sandbox-exec -f <path-to-profile> <path-to-application>
+```
+
+Replace `<path-to-profile>` with the path to the custom sandbox profile, and `<path-to-application>` with the path to the application.
+
+## Conclusion
+
+By modifying the sandbox profile of an application, you can enable it to write files to the user's Downloads folder. This allows for more flexibility in handling file downloads while still maintaining the security benefits of the macOS Sandbox.
+
+{% endtab %}
+```bash
+cat << EOF > entitlements.plist
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+<key>com.apple.security.app-sandbox</key>
+<true/>
+<key>com.apple.security.files.downloads.read-write</key>
+<true/>
+</dict>
+</plist>
+EOF
+```
+{% endtab %}
+{% endtabs %}
+
+4. Assine o aplicativo (você precisa criar um certificado no keychain)
 ```bash
 codesign --entitlements entitlements.plist -s "YourIdentity" SandboxedShellApp.app
 ./SandboxedShellApp.app/Contents/MacOS/SandboxedShellApp

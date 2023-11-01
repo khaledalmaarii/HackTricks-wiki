@@ -1,4 +1,4 @@
-# Truques do macOS FS
+# Truques do Sistema de Arquivos do macOS
 
 <details>
 
@@ -30,7 +30,7 @@ Permissões em um **diretório**:
 
 Com qualquer uma das combinações anteriores, um invasor poderia **injetar** um **link simbólico/rígido** no caminho esperado para obter uma gravação arbitrária privilegiada.
 
-### Caso Especial R+X da Raiz da Pasta
+### Caso Especial de R+X na Raiz da Pasta
 
 Se houver arquivos em um **diretório** onde **apenas o root tem acesso R+X**, esses arquivos **não são acessíveis a mais ninguém**. Portanto, uma vulnerabilidade que permita **mover um arquivo legível por um usuário**, que não pode ser lido por causa dessa **restrição**, dessa pasta **para outra**, pode ser abusada para ler esses arquivos.
 
@@ -48,8 +48,12 @@ Se você pode fazer um **processo abrir um arquivo ou uma pasta com privilégios
 
 Por exemplo: [https://youtu.be/f1HA5QhLQ7Y?t=21098](https://youtu.be/f1HA5QhLQ7Y?t=21098)
 
-## Truques para Evitar Atributos de Quarentena xattrs
+## Truques para Evitar Atributos de Quarentena
 
+### Removê-lo
+```bash
+xattr -d com.apple.quarantine /path/to/file_or_app
+```
 ### Sinalizador uchg / uchange / uimmutable
 
 Se um arquivo/pasta tiver esse atributo imutável, não será possível colocar um xattr nele.
