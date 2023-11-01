@@ -28,7 +28,7 @@ Permissions dans un **répertoire** :
 * Le **propriétaire du répertoire parent** dans le chemin est un **groupe d'utilisateurs** avec un **accès en écriture**
 * Un **groupe d'utilisateurs** a un **accès en écriture** au **fichier**
 
-Avec l'une de ces combinaisons précédentes, un attaquant pourrait **injecter** un **lien symbolique/dur** dans le chemin attendu pour obtenir une écriture arbitraire privilégiée.
+Avec l'une des combinaisons précédentes, un attaquant pourrait **injecter** un **lien sym/hard** dans le chemin attendu pour obtenir une écriture arbitraire privilégiée.
 
 ### Cas spécial du répertoire racine R+X
 
@@ -36,9 +36,9 @@ Si des fichiers se trouvent dans un **répertoire** où **seul root a un accès 
 
 Exemple ici : [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions)
 
-## Lien symbolique / Lien dur
+## Lien symbolique / Lien physique
 
-Si un processus privilégié écrit des données dans un **fichier** qui pourrait être **contrôlé** par un **utilisateur moins privilégié**, ou qui pourrait avoir été **précédemment créé** par un utilisateur moins privilégié. L'utilisateur pourrait simplement **le pointer vers un autre fichier** via un lien symbolique ou un lien dur, et le processus privilégié écrira sur ce fichier.
+Si un processus privilégié écrit des données dans un **fichier** qui pourrait être **contrôlé** par un **utilisateur moins privilégié**, ou qui pourrait avoir été **précédemment créé** par un utilisateur moins privilégié. L'utilisateur pourrait simplement le **rediriger vers un autre fichier** via un lien symbolique ou physique, et le processus privilégié écrira sur ce fichier.
 
 Vérifiez dans les autres sections où un attaquant pourrait **exploiter une écriture arbitraire pour escalader les privilèges**.
 
@@ -48,11 +48,15 @@ Si vous pouvez faire en sorte qu'un **processus ouvre un fichier ou un répertoi
 
 Par exemple : [https://youtu.be/f1HA5QhLQ7Y?t=21098](https://youtu.be/f1HA5QhLQ7Y?t=21098)
 
-## Astuces pour éviter les attributs de quarantaine xattrs
+## Astuces pour éviter les attributs étendus de quarantaine
 
+### Supprimez-le
+```bash
+xattr -d com.apple.quarantine /path/to/file_or_app
+```
 ### Drapeau uchg / uchange / uimmutable
 
-Si un fichier/répertoire a cet attribut immuable, il ne sera pas possible d'y mettre un xattr.
+Si un fichier/dossier possède cet attribut immuable, il ne sera pas possible d'y ajouter un xattr.
 ```bash
 echo asd > /tmp/asd
 chflags uchg /tmp/asd # "chflags uchange /tmp/asd" or "chflags uimmutable /tmp/asd"

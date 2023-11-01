@@ -74,13 +74,8 @@ EOF
 ```
 3. Définir les privilèges
 
-Les privilèges sont des autorisations spécifiques accordées à une application pour accéder à certaines ressources ou fonctionnalités du système d'exploitation. Ils sont définis dans le fichier d'entitlements d'une application macOS. Les entitlements déterminent les actions qu'une application est autorisée à effectuer, telles que l'accès aux fichiers, aux services réseau, aux périphériques, etc.
-
-Les entitlements peuvent être utilisés pour restreindre les actions d'une application dans le bac à sable macOS. Par exemple, une application peut être autorisée à accéder uniquement à certains fichiers ou à utiliser uniquement certains services réseau spécifiés dans ses entitlements.
-
-Les entitlements peuvent également être utilisés pour accorder des privilèges supplémentaires à une application, tels que l'accès à des fonctionnalités spécifiques du système d'exploitation ou à des ressources sensibles. Cependant, l'attribution de privilèges supplémentaires doit être effectuée avec prudence, car cela peut augmenter le risque de vulnérabilités et d'abus potentiels.
-
-Il est important de définir avec précision les entitlements d'une application afin de garantir un niveau approprié de sécurité et de protection des données. Une mauvaise configuration des entitlements peut entraîner des failles de sécurité et des risques de violation de la confidentialité des utilisateurs.
+{% tabs %}
+{% tab title="sandbox" %}
 ```bash
 cat << EOF > entitlements.plist
 <?xml version="1.0" encoding="UTF-8"?>
@@ -93,7 +88,25 @@ cat << EOF > entitlements.plist
 </plist>
 EOF
 ```
-4. Signez l'application (vous devez créer un certificat dans le trousseau)
+{% tab title="sandbox + téléchargements" %}
+```bash
+cat << EOF > entitlements.plist
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+<key>com.apple.security.app-sandbox</key>
+<true/>
+<key>com.apple.security.files.downloads.read-write</key>
+<true/>
+</dict>
+</plist>
+EOF
+```
+{% endtab %}
+{% endtabs %}
+
+4. Signez l'application (vous devez créer un certificat dans le trousseau de clés)
 ```bash
 codesign --entitlements entitlements.plist -s "YourIdentity" SandboxedShellApp.app
 ./SandboxedShellApp.app/Contents/MacOS/SandboxedShellApp
