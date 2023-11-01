@@ -5,7 +5,7 @@
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? Ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
@@ -24,11 +24,11 @@ Permissions dans un **répertoire** :
 
 **Comment écraser un fichier/dossier appartenant à root**, mais :
 
-* Le **propriétaire du répertoire parent** dans le chemin est l'utilisateur
-* Le **propriétaire du répertoire parent** dans le chemin est un **groupe d'utilisateurs** avec un **accès en écriture**
+* Le propriétaire d'un **répertoire parent** dans le chemin est l'utilisateur
+* Le propriétaire d'un **répertoire parent** dans le chemin est un **groupe d'utilisateurs** avec un **accès en écriture**
 * Un **groupe d'utilisateurs** a un **accès en écriture** au **fichier**
 
-Avec l'une de ces combinaisons, un attaquant pourrait **injecter** un **lien symbolique/dur** dans le chemin attendu pour obtenir une écriture arbitraire privilégiée.
+Avec l'une de ces combinaisons, un attaquant pourrait **injecter** un **lien sym/hard** dans le chemin attendu pour obtenir une écriture arbitraire avec des privilèges.
 
 ### Cas spécial du répertoire racine R+X
 
@@ -36,9 +36,9 @@ Si des fichiers se trouvent dans un **répertoire** où **seul root a un accès 
 
 Exemple ici : [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions)
 
-## Lien symbolique / Lien dur
+## Lien symbolique / Lien physique
 
-Si un processus privilégié écrit des données dans un **fichier** qui pourrait être **contrôlé** par un **utilisateur moins privilégié**, ou qui pourrait avoir été **précédemment créé** par un utilisateur moins privilégié. L'utilisateur pourrait simplement le **rediriger vers un autre fichier** via un lien symbolique ou un lien dur, et le processus privilégié écrira sur ce fichier.
+Si un processus privilégié écrit des données dans un **fichier** qui peut être **contrôlé** par un utilisateur moins privilégié, ou qui peut avoir été **précédemment créé** par un utilisateur moins privilégié. L'utilisateur peut simplement le **rediriger vers un autre fichier** via un lien symbolique ou physique, et le processus privilégié écrira sur ce fichier.
 
 Vérifiez dans les autres sections où un attaquant pourrait **exploiter une écriture arbitraire pour escalader les privilèges**.
 
@@ -124,12 +124,60 @@ ls -le test
 ```
 (Notez que même si cela fonctionne, le bac à sable écrit l'attribut étendu de quarantaine avant)
 
-Pas vraiment nécessaire mais je le laisse là au cas où :
+Pas vraiment nécessaire mais je le laisse là au cas où:
 
 {% content-ref url="macos-xattr-acls-extra-stuff.md" %}
 [macos-xattr-acls-extra-stuff.md](macos-xattr-acls-extra-stuff.md)
 {% endcontent-ref %}
 
+## Contourner les signatures de code
+
+Les bundles contiennent le fichier **`_CodeSignature/CodeResources`** qui contient le **hash** de chaque **fichier** dans le **bundle**. Notez que le hash de CodeResources est également **incorporé dans l'exécutable**, donc nous ne pouvons pas y toucher non plus.
+
+Cependant, il existe certains fichiers dont la signature ne sera pas vérifiée, ceux-ci ont la clé "omit" dans la plist, comme suit:
+```xml
+<dict>
+...
+<key>rules</key>
+<dict>
+...
+<key>^Resources/.*\.lproj/locversion.plist$</key>
+<dict>
+<key>omit</key>
+<true/>
+<key>weight</key>
+<real>1100</real>
+</dict>
+...
+</dict>
+<key>rules2</key>
+...
+<key>^(.*/)?\.DS_Store$</key>
+<dict>
+<key>omit</key>
+<true/>
+<key>weight</key>
+<real>2000</real>
+</dict>
+...
+<key>^PkgInfo$</key>
+<dict>
+<key>omit</key>
+<true/>
+<key>weight</key>
+<real>20</real>
+</dict>
+...
+<key>^Resources/.*\.lproj/locversion.plist$</key>
+<dict>
+<key>omit</key>
+<true/>
+<key>weight</key>
+<real>1100</real>
+</dict>
+...
+</dict>
+```
 ## Monter des fichiers DMG
 
 Un utilisateur peut monter un fichier DMG personnalisé même par-dessus certains dossiers existants. Voici comment vous pouvez créer un package DMG personnalisé avec un contenu personnalisé :
