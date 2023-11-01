@@ -122,7 +122,7 @@ ditto -c -k del test.zip
 ditto -x -k --rsrc test.zip .
 ls -le test
 ```
-(Observe que mesmo que isso funcione, a sandbox grava o atributo de quarentena antes)
+(Note que mesmo que isso funcione, a sandbox escreve o atributo de quarentena antes)
 
 Não é realmente necessário, mas vou deixar aqui caso seja útil:
 
@@ -130,6 +130,54 @@ Não é realmente necessário, mas vou deixar aqui caso seja útil:
 [macos-xattr-acls-extra-stuff.md](macos-xattr-acls-extra-stuff.md)
 {% endcontent-ref %}
 
+## Bypassar Assinaturas de Código
+
+Os pacotes contêm o arquivo **`_CodeSignature/CodeResources`**, que contém o **hash** de cada **arquivo** no **pacote**. Note que o hash do CodeResources também está **incorporado no executável**, então não podemos mexer com isso.
+
+No entanto, existem alguns arquivos cuja assinatura não será verificada, esses têm a chave omit no plist, como:
+```xml
+<dict>
+...
+<key>rules</key>
+<dict>
+...
+<key>^Resources/.*\.lproj/locversion.plist$</key>
+<dict>
+<key>omit</key>
+<true/>
+<key>weight</key>
+<real>1100</real>
+</dict>
+...
+</dict>
+<key>rules2</key>
+...
+<key>^(.*/)?\.DS_Store$</key>
+<dict>
+<key>omit</key>
+<true/>
+<key>weight</key>
+<real>2000</real>
+</dict>
+...
+<key>^PkgInfo$</key>
+<dict>
+<key>omit</key>
+<true/>
+<key>weight</key>
+<real>20</real>
+</dict>
+...
+<key>^Resources/.*\.lproj/locversion.plist$</key>
+<dict>
+<key>omit</key>
+<true/>
+<key>weight</key>
+<real>1100</real>
+</dict>
+...
+</dict>
+```
 ## Montar dmgs
 
 Um usuário pode montar um dmg personalizado criado até mesmo em cima de algumas pastas existentes. Veja como você pode criar um pacote dmg personalizado com conteúdo personalizado:
