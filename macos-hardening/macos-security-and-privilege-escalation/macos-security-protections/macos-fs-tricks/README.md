@@ -5,7 +5,7 @@
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? Ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
@@ -24,21 +24,21 @@ Permissions dans un **répertoire** :
 
 **Comment écraser un fichier/dossier appartenant à root**, mais :
 
-* Le propriétaire d'un **répertoire parent** dans le chemin est l'utilisateur
-* Le propriétaire d'un **répertoire parent** dans le chemin est un **groupe d'utilisateurs** avec un **accès en écriture**
+* Le **propriétaire du répertoire parent** dans le chemin est l'utilisateur
+* Le **propriétaire du répertoire parent** dans le chemin est un **groupe d'utilisateurs** avec un **accès en écriture**
 * Un **groupe d'utilisateurs** a un **accès en écriture** au **fichier**
 
-Avec l'une de ces combinaisons, un attaquant pourrait **injecter** un **lien sym/hard** dans le chemin attendu pour obtenir une écriture arbitraire avec des privilèges.
+Avec l'une de ces combinaisons précédentes, un attaquant pourrait **injecter** un **lien symbolique/dur** dans le chemin attendu pour obtenir une écriture arbitraire privilégiée.
 
 ### Cas spécial du répertoire racine R+X
 
-Si des fichiers se trouvent dans un **répertoire** où **seul root a un accès R+X**, ceux-ci ne sont **pas accessibles aux autres**. Ainsi, une vulnérabilité permettant de **déplacer un fichier lisible par un utilisateur**, qui ne peut pas être lu en raison de cette **restriction**, de ce répertoire **vers un autre**, pourrait être exploitée pour lire ces fichiers.
+Si des fichiers se trouvent dans un **répertoire** où **seul root a un accès R+X**, ceux-ci ne sont **accessibles à personne d'autre**. Ainsi, une vulnérabilité permettant de **déplacer un fichier lisible par un utilisateur**, qui ne peut pas être lu en raison de cette **restriction**, de ce répertoire **vers un autre**, pourrait être exploitée pour lire ces fichiers.
 
 Exemple ici : [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions)
 
-## Lien symbolique / Lien physique
+## Lien symbolique / Lien dur
 
-Si un processus privilégié écrit des données dans un **fichier** qui peut être **contrôlé** par un utilisateur moins privilégié, ou qui peut avoir été **précédemment créé** par un utilisateur moins privilégié. L'utilisateur peut simplement le **rediriger vers un autre fichier** via un lien symbolique ou physique, et le processus privilégié écrira sur ce fichier.
+Si un processus privilégié écrit des données dans un **fichier** qui pourrait être **contrôlé** par un **utilisateur moins privilégié**, ou qui pourrait avoir été **précédemment créé** par un utilisateur moins privilégié. L'utilisateur pourrait simplement **le pointer vers un autre fichier** via un lien symbolique ou un lien dur, et le processus privilégié écrira sur ce fichier.
 
 Vérifiez dans les autres sections où un attaquant pourrait **exploiter une écriture arbitraire pour escalader les privilèges**.
 
@@ -199,6 +199,9 @@ echo "hello" > /private/tmp/mnt/custom_folder/custom_file
 hdiutil detach /private/tmp/mnt 1>/dev/null
 
 # Next time you mount it, it will have the custom content you wrote
+
+# You can also create a dmg from an app using:
+hdiutil create -srcfolder justsome.app justsome.dmg
 ```
 {% endcode %}
 
