@@ -4,7 +4,7 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Vous travaillez dans une **entreprise de cybersécurité** ? Vous souhaitez voir votre **entreprise annoncée dans HackTricks** ? ou souhaitez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Vous travaillez dans une **entreprise de cybersécurité** ? Vous souhaitez voir votre **entreprise annoncée dans HackTricks** ? ou vous souhaitez avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -33,7 +33,7 @@ Dans la fonction **`processRestricted`**, la raison de la restriction est défin
 
 * Le binaire est `setuid/setgid`
 * Existence de la section `__RESTRICT/__restrict` dans le binaire macho.
-* Le logiciel a des attributs (runtime renforcé) sans l'attribut [`com.apple.security.cs.allow-dyld-environment-variables`](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-dyld-environment-variables) ou [`com.apple.security.cs.disable-library-validation`](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation).
+* Le logiciel a des attributs (runtime renforcé) sans l'attribut [`com.apple.security.cs.allow-dyld-environment-variables`](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-dyld-environment-variables) ou [`com.apple.security.cs.disable-library-validation`](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation)`/` [`com.apple.private.security.clear-library-validation`](https://theevilbit.github.io/posts/com.apple.private.security.clear-library-validation/).
 * Vérifiez les **attributs** d'un binaire avec : `codesign -dv --entitlements :- </path/to/bin>`
 * Si la bibliothèque est signée avec un certificat différent du binaire
 * Si la bibliothèque et le binaire sont signés avec le même certificat, cela contournera les restrictions précédentes
@@ -44,7 +44,7 @@ Dans les versions plus récentes, vous pouvez trouver cette logique dans la deux
 
 Vous pouvez vérifier si un binaire a **un runtime renforcé** avec `codesign --display --verbose <bin>` en vérifiant le drapeau runtime dans **`CodeDirectory`** comme : **`CodeDirectory v=20500 size=767 flags=0x10000(runtime) hashes=13+7 location=embedded`**
 
-Trouvez un exemple de (dé)tournement de cette technique et vérifiez les restrictions dans :
+Trouvez un exemple de (détournement) utilisation de cette technique et vérifiez les restrictions dans :
 
 {% content-ref url="../../macos-dyld-hijacking-and-dyld_insert_libraries.md" %}
 [macos-dyld-hijacking-and-dyld\_insert\_libraries.md](../../macos-dyld-hijacking-and-dyld\_insert\_libraries.md)
@@ -111,11 +111,11 @@ Un bon **rapport avec des détails techniques** sur cette technique peut être t
 [macos-dyld-hijacking-and-dyld\_insert\_libraries.md](../../macos-dyld-hijacking-and-dyld\_insert\_libraries.md)
 {% endcontent-ref %}
 
-## Dlopen Hijacking
+## Détournement de Dlopen
 
 D'après **`man dlopen`** :
 
-* Lorsque le chemin **ne contient pas de caractère slash** (c'est-à-dire qu'il s'agit simplement d'un nom de feuille), **dlopen() effectuera une recherche**. Si **`$DYLD_LIBRARY_PATH`** était défini au lancement, dyld cherchera d'abord dans ce répertoire. Ensuite, si le fichier mach-o appelant ou l'exécutable principal spécifie un **`LC_RPATH`**, alors dyld cherchera dans ces répertoires. Ensuite, si le processus est **non restreint**, dyld recherchera dans le **répertoire de travail actuel**. Enfin, pour les anciens binaires, dyld essaiera quelques solutions de repli. Si **`$DYLD_FALLBACK_LIBRARY_PATH`** était défini au lancement, dyld recherchera dans ces répertoires, sinon, dyld cherchera dans **`/usr/local/lib/`** (si le processus est non restreint), puis dans **`/usr/lib/`** (ces informations ont été extraites de **`man dlopen`**).
+* Lorsque le chemin **ne contient pas de caractère slash** (c'est-à-dire qu'il s'agit simplement d'un nom de feuille), **dlopen() effectuera une recherche**. Si **`$DYLD_LIBRARY_PATH`** était défini au lancement, dyld cherchera d'abord dans ce répertoire. Ensuite, si le fichier mach-o appelant ou l'exécutable principal spécifie un **`LC_RPATH`**, alors dyld cherchera dans ces répertoires. Ensuite, si le processus est **non restreint**, dyld recherchera dans le **répertoire de travail actuel**. Enfin, pour les anciens binaires, dyld essaiera quelques solutions de repli. Si **`$DYLD_FALLBACK_LIBRARY_PATH`** était défini au lancement, dyld cherchera dans ces répertoires, sinon, dyld cherchera dans **`/usr/local/lib/`** (si le processus est non restreint), puis dans **`/usr/lib/`** (ces informations ont été prises à partir de **`man dlopen`**).
 1. `$DYLD_LIBRARY_PATH`
 2. `LC_RPATH`
 3. `CWD` (si non restreint)
@@ -127,10 +127,10 @@ D'après **`man dlopen`** :
 S'il n'y a pas de slash dans le nom, il y aurait 2 façons de faire un détournement :
 
 * Si un **`LC_RPATH`** est **modifiable** (mais la signature est vérifiée, donc pour cela, vous avez également besoin que le binaire soit non restreint)
-* Si le binaire est **non restreint** et qu'il est ensuite possible de charger quelque chose depuis le CWD (ou en abusant des variables d'environnement mentionnées)
+* Si le binaire est **non restreint**, il est alors possible de charger quelque chose depuis le CWD (ou en abusant des variables d'environnement mentionnées)
 {% endhint %}
 
-* Lorsque le chemin **ressemble à un chemin de framework** (par exemple `/stuff/foo.framework/foo`), si **`$DYLD_FRAMEWORK_PATH`** était défini au lancement, dyld cherchera d'abord dans ce répertoire pour le **chemin partiel du framework** (par exemple `foo.framework/foo`). Ensuite, dyld essaiera le **chemin fourni tel quel** (en utilisant le répertoire de travail actuel pour les chemins relatifs). Enfin, pour les anciens binaires, dyld essaiera quelques solutions de repli. Si **`$DYLD_FALLBACK_FRAMEWORK_PATH`** était défini au lancement, dyld recherchera dans ces répertoires. Sinon, il recherchera dans **`/Library/Frameworks`** (sur macOS si le processus est non restreint), puis dans **`/System/Library/Frameworks`**.
+* Lorsque le chemin **ressemble à un chemin de framework** (par exemple `/stuff/foo.framework/foo`), si **`$DYLD_FRAMEWORK_PATH`** était défini au lancement, dyld cherchera d'abord dans ce répertoire pour le **chemin partiel du framework** (par exemple `foo.framework/foo`). Ensuite, dyld essaiera le **chemin fourni tel quel** (en utilisant le répertoire de travail actuel pour les chemins relatifs). Enfin, pour les anciens binaires, dyld essaiera quelques solutions de repli. Si **`$DYLD_FALLBACK_FRAMEWORK_PATH`** était défini au lancement, dyld cherchera dans ces répertoires. Sinon, il cherchera dans **`/Library/Frameworks`** (sur macOS si le processus est non restreint), puis dans **`/System/Library/Frameworks`**.
 1. `$DYLD_FRAMEWORK_PATH`
 2. chemin fourni (en utilisant le répertoire de travail actuel pour les chemins relatifs si non restreint)
 3. `$DYLD_FALLBACK_FRAMEWORK_PATH`
@@ -143,7 +143,7 @@ S'il s'agit d'un chemin de framework, la façon de le détourner serait :
 * Si le processus est **non restreint**, en abusant du **chemin relatif depuis le CWD** et des variables d'environnement mentionnées (même si cela n'est pas précisé dans la documentation, si le processus est restreint, les variables d'environnement DYLD\_\* sont supprimées)
 {% endhint %}
 
-* Lorsque le chemin **contient un slash mais n'est pas un chemin de framework** (c'est-à-dire un chemin complet ou un chemin partiel vers une dylib), dlopen() recherche d'abord (si défini) dans **`$DYLD_LIBRARY_PATH`** (avec la partie feuille du chemin). Ensuite, dyld **essaie le chemin fourni** (en utilisant le répertoire de travail actuel pour les chemins relatifs (mais uniquement pour les processus non restreints)). Enfin, pour les anciens binaires, dyld essaiera des solutions de repli. Si **`$DYLD_FALLBACK_LIBRARY_PATH`** était défini au lancement, dyld recherchera dans ces répertoires, sinon, dyld cherchera dans **`/usr/local/lib/`** (si le processus est non restreint), puis dans **`/usr/lib/`
+* Lorsque le chemin **contient un slash mais n'est pas un chemin de framework** (c'est-à-dire un chemin complet ou un chemin partiel vers une dylib), dlopen() recherche d'abord (si défini) dans **`$DYLD_LIBRARY_PATH`** (avec la partie feuille du chemin). Ensuite, dyld **essaie le chemin fourni** (en utilisant le répertoire de travail actuel pour les chemins relatifs (mais seulement pour les processus non restreints)). Enfin, pour les anciens binaires, dyld essaiera des solutions de repli. Si **`$DYLD_FALLBACK_LIBRARY_PATH`** était défini au lancement, dyld cherchera dans ces répertoires, sinon, dyld cherchera dans **`/usr/local/lib/`** (si le processus est non restreint), puis dans **`/usr/lib/
 2. chemin fourni (utilisation du répertoire de travail actuel pour les chemins relatifs si non restreint)
 3. `$DYLD_FALLBACK_LIBRARY_PATH`
 4. `/usr/local/lib/` (si non restreint)
@@ -276,13 +276,13 @@ sudo chmod -s hello
 ```
 ### Section `__RESTRICT` avec le segment `__restrict`
 
-Le segment `__restrict` est une section spéciale dans les binaires macOS qui est utilisée pour restreindre l'accès à certaines fonctionnalités sensibles du système d'exploitation. Cette section est conçue pour empêcher les processus non autorisés d'interférer avec des bibliothèques système critiques.
+Le segment `__restrict` est une section spéciale dans les binaires macOS qui est utilisée pour restreindre l'accès à certaines fonctionnalités sensibles du système d'exploitation. Cette section est conçue pour empêcher les processus non autorisés d'interférer avec des fonctionnalités critiques et de compromettre la sécurité du système.
 
-Lorsqu'un binaire est compilé avec le flag `-fno-strict-aliasing`, le compilateur ajoute automatiquement le segment `__restrict` au binaire. Ce segment contient des informations sur les restrictions d'accès pour les bibliothèques système.
+Lorsqu'un binaire est compilé avec le flag `-fno-strict-aliasing`, le compilateur ajoute automatiquement le segment `__restrict` au binaire. Ce segment contient des instructions spécifiques qui restreignent l'accès aux fonctionnalités sensibles du système d'exploitation.
 
-L'objectif principal de la section `__RESTRICT` est de renforcer la sécurité en empêchant les attaquants d'injecter du code malveillant dans les bibliothèques système. Cela réduit considérablement les risques de compromission du système et de privilège d'escalade.
+L'objectif principal de la section `__restrict` est de prévenir les attaques de type "privilege escalation" en empêchant les processus non autorisés d'injecter du code dans des bibliothèques système ou d'accéder à des fonctionnalités sensibles du système.
 
-Il est important de noter que la section `__RESTRICT` n'est pas une mesure de sécurité absolue. Les attaquants expérimentés peuvent toujours trouver des moyens de contourner ces restrictions. Cependant, l'utilisation de cette section renforce la sécurité globale du système et rend l'exploitation plus difficile pour les attaquants.
+Il est important de noter que la présence de la section `__restrict` dans un binaire ne garantit pas à elle seule la sécurité du système. D'autres mesures de sécurité doivent également être mises en place pour protéger efficacement le système contre les attaques potentielles.
 ```bash
 gcc -sectcreate __RESTRICT __restrict /dev/null hello.c -o hello-restrict
 DYLD_INSERT_LIBRARIES=inject.dylib ./hello-restrict

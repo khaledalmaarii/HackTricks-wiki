@@ -59,8 +59,8 @@ Cela nous a donné l'idée de deux méthodes différentes pour que cela soit pos
 2. Variante 2 :
 * Le service **B** peut appeler une **fonctionnalité privilégiée** dans le service A que l'utilisateur ne peut pas appeler.
 * L'exploit se connecte avec le **service A** qui envoie à l'exploit un **message en attendant une réponse** dans un **port de réponse** spécifique.
-* L'exploit envoie au **service B** un message en passant **ce port de réponse**.
-* Lorsque le service **B répond**, il envoie le message à service **A**, tandis que l'**exploit** envoie un autre **message à service A** en essayant d'**atteindre une fonctionnalité privilégiée** et en s'attendant à ce que la réponse de service B écrase le jeton d'audit au moment parfait (Condition de concurrence).
+* L'exploit envoie au **service B un message** en passant **ce port de réponse**.
+* Lorsque le service **B répond**, il envoie le message à service **A**, tandis que l'**exploit** envoie un **message différent à service A** en essayant d'**atteindre une fonctionnalité privilégiée** et en attendant que la réponse de service B écrase le jeton d'audit au moment parfait (condition de concurrence).
 ## Variante 1: appel à xpc\_connection\_get\_audit\_token en dehors d'un gestionnaire d'événements <a href="#variant-1-calling-xpc_connection_get_audit_token-outside-of-an-event-handler" id="variant-1-calling-xpc_connection_get_audit_token-outside-of-an-event-handler"></a>
 
 Scénario :
@@ -85,7 +85,7 @@ Pour effectuer l'attaque :
 3. Cela signifie que nous pouvons envoyer des messages XPC à `diagnosticd`, mais que tous les **messages que `diagnosticd` envoie vont à `smd`**.
 * Pour `smd`, nos messages et ceux de `diagnosticd` arrivent sur la même connexion.
 
-<figure><img src="../../../../../../.gitbook/assets/image.png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../../../../.gitbook/assets/image (1).png" alt="" width="563"><figcaption></figcaption></figure>
 
 4. Nous demandons à **`diagnosticd`** de **commencer la surveillance** de notre (ou de tout autre) processus et nous **envoyons des messages de routine 1004 à `smd`** (pour installer un outil privilégié).
 5. Cela crée une condition de concurrence qui doit atteindre une fenêtre très spécifique dans `handle_bless`. Nous devons obtenir l'appel à `xpc_connection_get_pid` pour renvoyer l'ID de notre propre processus, car l'outil auxiliaire privilégié se trouve dans notre bundle d'application. Cependant, l'appel à `xpc_connection_get_audit_token` à l'intérieur de la fonction `connection_is_authorized` doit utiliser le jeton d'audit de `diagnosticd`.
@@ -95,7 +95,7 @@ Pour effectuer l'attaque :
 Comme mentionné précédemment, le gestionnaire d'événements pour les connexions XPC n'est jamais exécuté plusieurs fois simultanément. Cependant, les **messages de réponse XPC sont traités différemment**. Deux fonctions existent pour envoyer un message qui attend une réponse :
 
 * `void xpc_connection_send_message_with_reply(xpc_connection_t connection, xpc_object_t message, dispatch_queue_t replyq, xpc_handler_t handler)`, dans ce cas, le message XPC est reçu et analysé sur la file d'attente spécifiée.
-* `xpc_object_t xpc_connection_send_message_with_reply_sync(xpc_connection_t connection, xpc_object_t message)`, dans ce cas, le message XPC est reçu et analysé sur la file d'attente de répartition actuelle.
+* `xpc_object_t xpc_connection_send_message_with_reply_sync(xpc_connection_t connection, xpc_object_t message)`, dans ce cas, le message XPC est reçu et analysé sur la file d'attente de dispatch actuelle.
 
 Par conséquent, les **paquets de réponse XPC peuvent être analysés pendant l'exécution d'un gestionnaire d'événements XPC**. Bien que `_xpc_connection_set_creds` utilise un verrouillage, cela empêche uniquement l'écrasement partiel du jeton d'audit, il ne verrouille pas l'objet de connexion entier, ce qui permet de **remplacer le jeton d'audit entre l'analyse** d'un paquet et l'exécution de son gestionnaire d'événements.
 
@@ -108,7 +108,7 @@ Pour ce scénario, nous aurions besoin de :
 
 Nous attendons qu'_A_ nous envoie un message qui attend une réponse (1), au lieu de répondre, nous prenons le port de réponse et l'utilisons pour un message que nous envoyons à _B_ (2). Ensuite, nous envoyons un message qui utilise l'action interdite et nous espérons qu'il arrive simultanément avec la réponse de _B_ (3).
 
-<figure><img src="../../../../../../.gitbook/assets/image (1).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../../../../.gitbook/assets/image (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
 
 ## Problèmes de découverte
 

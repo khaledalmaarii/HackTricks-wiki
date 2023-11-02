@@ -46,9 +46,9 @@ Le bac à sable de macOS **limite les applications** s'exécutant à l'intérieu
 [macos-tcc](macos-tcc/)
 {% endcontent-ref %}
 
-### Contraintes de lancement
+### Contraintes de lancement/environnement et cache de confiance
 
-Les contraintes de lancement dans macOS sont une fonctionnalité de sécurité pour **réguler l'initiation des processus** en définissant **qui peut lancer** un processus, **comment** et **d'où**. Introduites dans macOS Ventura, elles catégorisent les binaires système dans des catégories de contraintes au sein d'un **cache de confiance**. Chaque binaire exécutable a des **règles** pour son **lancement**, y compris les contraintes **self**, **parent** et **responsible**. Étendues aux applications tierces en tant que contraintes d'**environnement** dans macOS Sonoma, ces fonctionnalités aident à atténuer les exploitations potentielles du système en régissant les conditions de lancement des processus.
+Les contraintes de lancement dans macOS sont une fonctionnalité de sécurité pour **réguler l'initiation des processus** en définissant **qui peut lancer** un processus, **comment** et **d'où**. Introduites dans macOS Ventura, elles catégorisent les binaires système en catégories de contraintes dans un **cache de confiance**. Chaque binaire exécutable a des **règles** pour son **lancement**, y compris les contraintes **self**, **parent** et **responsible**. Étendues aux applications tierces en tant que contraintes d'**environnement** dans macOS Sonoma, ces fonctionnalités aident à atténuer les exploitations potentielles du système en régissant les conditions de lancement des processus.
 
 {% content-ref url="macos-launch-environment-constraints.md" %}
 [macos-launch-environment-constraints.md](macos-launch-environment-constraints.md)
@@ -58,22 +58,22 @@ Les contraintes de lancement dans macOS sont une fonctionnalité de sécurité p
 
 L'outil de suppression de logiciels malveillants (MRT) est une autre partie de l'infrastructure de sécurité de macOS. Comme son nom l'indique, la fonction principale de MRT est de **supprimer les logiciels malveillants connus des systèmes infectés**.
 
-Une fois que des logiciels malveillants sont détectés sur un Mac (soit par XProtect, soit par d'autres moyens), MRT peut être utilisé pour **supprimer automatiquement les logiciels malveillants**. MRT fonctionne silencieusement en arrière-plan et s'exécute généralement chaque fois que le système est mis à jour ou lorsqu'une nouvelle définition de logiciel malveillant est téléchargée (il semble que les règles que MRT utilise pour détecter les logiciels malveillants se trouvent à l'intérieur du binaire).
+Une fois qu'un logiciel malveillant est détecté sur un Mac (soit par XProtect, soit par d'autres moyens), MRT peut être utilisé pour **supprimer automatiquement le logiciel malveillant**. MRT fonctionne silencieusement en arrière-plan et s'exécute généralement chaque fois que le système est mis à jour ou lorsqu'une nouvelle définition de logiciel malveillant est téléchargée (il semble que les règles que MRT utilise pour détecter les logiciels malveillants se trouvent à l'intérieur du binaire).
 
 Bien que XProtect et MRT fassent tous deux partie des mesures de sécurité de macOS, ils remplissent des fonctions différentes :
 
 * **XProtect** est un outil préventif. Il **vérifie les fichiers lors de leur téléchargement** (via certaines applications), et s'il détecte des types de logiciels malveillants connus, il **empêche l'ouverture du fichier**, empêchant ainsi le logiciel malveillant d'infecter votre système dès le départ.
-* **MRT**, en revanche, est un outil **réactif**. Il intervient après la détection de logiciels malveillants sur un système, dans le but de supprimer le logiciel incriminé pour nettoyer le système.
+* **MRT**, en revanche, est un outil **réactif**. Il intervient après la détection d'un logiciel malveillant sur un système, dans le but de supprimer le logiciel incriminé pour nettoyer le système.
 
 L'application MRT se trouve dans **`/Library/Apple/System/Library/CoreServices/MRT.app`**
 
 ## Gestion des tâches en arrière-plan
 
-**macOS** alerte désormais chaque fois qu'un outil utilise une **technique bien connue pour persister l'exécution du code** (comme les éléments de connexion, les démons...), afin que l'utilisateur sache mieux **quel logiciel persiste**.
+**macOS** signale maintenant chaque fois qu'un outil utilise une **technique bien connue pour persister l'exécution du code** (comme les éléments de connexion, les démons...), afin que l'utilisateur sache mieux **quel logiciel persiste**.
 
 <figure><img src="../../../.gitbook/assets/image (711).png" alt=""><figcaption></figcaption></figure>
 
-Cela fonctionne avec un **démon** situé dans `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Versions/A/Resources/backgroundtaskmanagementd` et l'**agent** dans `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Support/BackgroundTaskManagementAgent.app`
+Cela s'exécute avec un **démon** situé dans `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Versions/A/Resources/backgroundtaskmanagementd` et l'**agent** dans `/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Support/BackgroundTaskManagementAgent.app`
 
 La façon dont **`backgroundtaskmanagementd`** sait qu'un élément est installé dans un dossier persistant est en **obtenant les FSEvents** et en créant des **gestionnaires** pour ceux-ci.
 
