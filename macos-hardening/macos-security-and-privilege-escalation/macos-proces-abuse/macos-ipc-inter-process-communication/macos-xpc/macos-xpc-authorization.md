@@ -8,7 +8,7 @@
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e para o** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -262,7 +262,7 @@ Você pode encontrar **todas as configurações de permissões** [**aqui**](http
 * Esta é a chave mais direta. Se definida como `false`, especifica que um usuário não precisa fornecer autenticação para obter esse direito.
 * Isso é usado em **combinação com uma das 2 opções abaixo ou indicando um grupo** ao qual o usuário deve pertencer.
 2. **'allow-root': 'true'**
-* Se um usuário estiver operando como usuário root (que possui permissões elevadas) e essa chave estiver definida como `true`, o usuário root poderá potencialmente obter esse direito sem autenticação adicional. No entanto, normalmente, alcançar o status de usuário root já requer autenticação, portanto, essa não é uma situação de "sem autenticação" para a maioria dos usuários.
+* Se um usuário estiver operando como usuário root (que possui permissões elevadas) e essa chave estiver definida como `true`, o usuário root poderá potencialmente obter esse direito sem autenticação adicional. No entanto, normalmente, alcançar o status de usuário root já requer autenticação, portanto, isso não é um cenário de "sem autenticação" para a maioria dos usuários.
 3. **'session-owner': 'true'**
 * Se definido como `true`, o proprietário da sessão (o usuário atualmente conectado) receberá automaticamente esse direito. Isso pode ignorar autenticação adicional se o usuário já estiver conectado.
 4. **'shared': 'true'**
@@ -286,7 +286,7 @@ authenticate-session-owner, authenticate-session-owner-or-admin, authenticate-se
 
 Se você encontrar a função: **`[HelperTool checkAuthorization:command:]`**, provavelmente o processo está usando o esquema mencionado anteriormente para autorização:
 
-<figure><img src="../../../../../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Assim, se essa função estiver chamando funções como `AuthorizationCreateFromExternalForm`, `authorizationRightForCommand`, `AuthorizationCopyRights`, `AuhtorizationFree`, está usando o [**EvenBetterAuthorizationSample**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L101-L154).
 
@@ -342,7 +342,7 @@ Neste exemplo é criado:
 * A definição do protocolo com as funções
 * Uma autenticação vazia para ser usada para solicitar acesso
 * Uma conexão com o serviço XPC
-* Uma chamada à função se a conexão foi bem-sucedida
+* Uma chamada à função se a conexão for bem-sucedida
 ```objectivec
 // gcc -framework Foundation -framework Security expl.m -o expl
 

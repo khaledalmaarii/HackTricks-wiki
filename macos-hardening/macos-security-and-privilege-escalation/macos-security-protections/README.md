@@ -46,9 +46,9 @@ O Sandbox do macOS **limita as aplicações** em execução dentro do sandbox à
 [macos-tcc](macos-tcc/)
 {% endcontent-ref %}
 
-### Restrições de Inicialização
+### Restrições de Lançamento/Ambiente e Cache de Confiança
 
-As restrições de inicialização no macOS são um recurso de segurança para **regular a inicialização de processos**, definindo **quem pode iniciar** um processo, **como** e **de onde**. Introduzidas no macOS Ventura, elas categorizam os binários do sistema em categorias de restrição dentro de um **cache de confiança**. Cada binário executável tem **regras** definidas para sua **inicialização**, incluindo restrições **próprias**, **dos pais** e **responsáveis**. Estendidas para aplicativos de terceiros como Restrições de **Ambiente** no macOS Sonoma, esses recursos ajudam a mitigar possíveis explorações do sistema, governando as condições de inicialização do processo.
+As restrições de lançamento no macOS são um recurso de segurança para **regular a inicialização do processo** definindo **quem pode iniciar** um processo, **como** e **de onde**. Introduzido no macOS Ventura, eles categorizam os binários do sistema em categorias de restrição dentro de um **cache de confiança**. Cada binário executável tem regras definidas para seu lançamento, incluindo restrições **próprias**, **dos pais** e **responsáveis**. Estendidos para aplicativos de terceiros como Restrições de **Ambiente** no macOS Sonoma, esses recursos ajudam a mitigar possíveis explorações do sistema, governando as condições de lançamento do processo.
 
 {% content-ref url="macos-launch-environment-constraints.md" %}
 [macos-launch-environment-constraints.md](macos-launch-environment-constraints.md)

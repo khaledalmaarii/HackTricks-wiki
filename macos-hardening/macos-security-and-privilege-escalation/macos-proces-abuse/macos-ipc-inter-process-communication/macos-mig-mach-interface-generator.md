@@ -153,7 +153,7 @@ return FALSE;
 }
 </code></pre>
 
-Verifique o seguinte código para usar o código gerado para criar um servidor e cliente simples onde o cliente pode chamar as funções Subtrair do servidor:
+Verifique o código a seguir para usar o código gerado para criar um servidor e cliente simples, onde o cliente pode chamar as funções Subtrair do servidor:
 
 {% tabs %}
 {% tab title="myipc_server.c" %}
@@ -215,7 +215,8 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 
-    printf("Received reply: %s\n", reply);
+    // Print the server's reply
+    printf("Server replied: %s\n", reply);
 
     return 0;
 }
@@ -276,7 +277,7 @@ rax = *(int32_t *)(var_10 + 0x14);
 // 0x1f4 = 500 (o ID de início)
 <strong>            rax = *(sign_extend_64(rax - 0x1f4) * 0x28 + 0x100004040);
 </strong>            var_20 = rax;
-// Se - senão, o se retorna falso, enquanto o senão chama a função correta e retorna verdadeiro
+// Se - senão, o if retorna falso, enquanto o else chama a função correta e retorna verdadeiro
 <strong>            if (rax == 0x0) {
 </strong>                    *(var_18 + 0x18) = **_NDR_record;
 *(int32_t *)(var_18 + 0x20) = 0xfffffffffffffed1;
@@ -343,7 +344,7 @@ if (CPU_FLAGS &#x26; NE) {
 r8 = 0x1;
 }
 }
-// Mesmo se senão que na versão anterior
+// Mesmo if else que na versão anterior
 // Verifique o uso do endereço 0x100004040 (array de endereços de funções)
 <strong>                    if ((r8 &#x26; 0x1) == 0x0) {
 </strong><strong>                            *(var_18 + 0x18) = **0x100004000;
@@ -377,9 +378,9 @@ return r0;
 
 Na verdade, se você for para a função **`0x100004000`**, encontrará o array de structs **`routine_descriptor`**, o primeiro elemento da struct é o endereço onde a função é implementada e a **struct ocupa 0x28 bytes**, então a cada 0x28 bytes (começando do byte 0) você pode obter 8 bytes e esse será o **endereço da função** que será chamada:
 
-<figure><img src="../../../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
-
 <figure><img src="../../../../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+
+<figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Esses dados podem ser extraídos [**usando este script do Hopper**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py).
 

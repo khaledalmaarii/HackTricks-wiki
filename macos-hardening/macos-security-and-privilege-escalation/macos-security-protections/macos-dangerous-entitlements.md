@@ -26,7 +26,7 @@ A permissão **`com.apple.rootless.install.heritable`** permite **burlar o SIP**
 
 A permissão **`com.apple.rootless.install`** permite **burlar o SIP**. Verifique [isto para mais informações](macos-sip.md#com.apple.rootless.install).
 
-### **`com.apple.system-task-ports` (anteriormente chamado `task_for_pid-allow`)**
+### **`com.apple.system-task-ports` (anteriormente chamado de `task_for_pid-allow`)**
 
 Essa permissão permite obter a **porta da tarefa para qualquer** processo, exceto o kernel. Verifique [**isto para mais informações**](../mac-os-architecture/macos-ipc-inter-process-communication/).
 
@@ -41,6 +41,11 @@ Aplicativos com a Permissão da Ferramenta de Depuração podem chamar `task_for
 ### `com.apple.security.cs.disable-library-validation`
 
 Essa permissão permite **carregar frameworks, plug-ins ou bibliotecas sem serem assinados pela Apple ou assinados com o mesmo ID de equipe** que o executável principal, portanto, um invasor pode abusar de alguma carga de biblioteca arbitrária para injetar código. Verifique [**isto para mais informações**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation).
+
+### `com.apple.private.security.clear-library-validation`
+
+Essa permissão é muito semelhante a **`com.apple.security.cs.disable-library-validation`**, mas **em vez disso** de **desabilitar diretamente** a validação da biblioteca, ela permite que o processo **chame uma chamada de sistema `csops` para desabilitá-la**.\
+Verifique [**isto para mais informações**](https://theevilbit.github.io/posts/com.apple.private.security.clear-library-validation/).
 
 ### `com.apple.security.cs.allow-dyld-environment-variables`
 
@@ -65,7 +70,19 @@ TODO: Em [**este relatório**](https://jhftss.github.io/The-Nightmare-of-Apple-O
 ### `com.apple.private.apfs.create-sealed-snapshot`
 
 TODO: Em [**este relatório**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **é mencionado que isso poderia ser usado para** atualizar o conteúdo protegido por SSV após uma reinicialização. Se você souber como, envie um PR, por favor!
+### `keychain-access-groups`
 
+Esta lista de privilégios **keychain** agrupa os grupos de chave aos quais a aplicação tem acesso:
+```xml
+<key>keychain-access-groups</key>
+<array>
+<string>ichat</string>
+<string>apple</string>
+<string>appleaccount</string>
+<string>InternetAccounts</string>
+<string>IMCore</string>
+</array>
+```
 ### **`kTCCServiceSystemPolicyAllFiles`**
 
 Concede permissões de **Acesso Total ao Disco**, uma das permissões mais altas do TCC que você pode ter.
@@ -73,13 +90,16 @@ Concede permissões de **Acesso Total ao Disco**, uma das permissões mais altas
 ### **`kTCCServiceAppleEvents`**
 
 Permite que o aplicativo envie eventos para outros aplicativos que são comumente usados para **automatizar tarefas**. Controlando outros aplicativos, ele pode abusar das permissões concedidas a esses outros aplicativos.
+
 ### **`kTCCServiceSystemPolicySysAdminFiles`**
 
-Permite **alterar** o atributo **`NFSHomeDirectory`** de um usuário que altera sua pasta inicial e, portanto, permite **burlar o TCC**.
+Permite **alterar** o atributo **`NFSHomeDirectory`** de um usuário que altera sua pasta pessoal e, portanto, permite **burlar o TCC**.
 
 ### **`kTCCServiceSystemPolicyAppBundles`**
 
-Permite modificar aplicativos dentro de suas pastas (dentro de app.app), o que é desativado por padrão.
+Permite modificar arquivos dentro do pacote de aplicativos (dentro do app.app), o que é **desativado por padrão**.
+
+<figure><img src="../../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
 
 ## Médio
 
@@ -92,7 +112,7 @@ Essa permissão permite **criar memória que pode ser gravada e executada** pass
 Essa permissão permite **sobrescrever ou corrigir código C**, usar o **`NSCreateObjectFileImageFromMemory`** (que é fundamentalmente inseguro) ou usar o framework **DVDPlayback**. Verifique [**isso para mais informações**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory).
 
 {% hint style="danger" %}
-Incluir essa permissão expõe seu aplicativo a vulnerabilidades comuns em linguagens de código inseguro em memória. Considere cuidadosamente se seu aplicativo precisa dessa exceção.
+Incluir essa permissão expõe seu aplicativo a vulnerabilidades comuns em linguagens de código inseguro na memória. Considere cuidadosamente se seu aplicativo precisa dessa exceção.
 {% endhint %}
 
 ### `com.apple.security.cs.disable-executable-page-protection`
@@ -100,7 +120,7 @@ Incluir essa permissão expõe seu aplicativo a vulnerabilidades comuns em lingu
 Essa permissão permite **modificar seções de seus próprios arquivos executáveis** no disco para sair forçadamente. Verifique [**isso para mais informações**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-executable-page-protection).
 
 {% hint style="danger" %}
-A permissão de Desabilitar Proteção de Memória Executável é uma permissão extrema que remove uma proteção de segurança fundamental do seu aplicativo, tornando possível que um invasor reescreva o código executável do seu aplicativo sem detecção. Prefira permissões mais restritas, se possível.
+A Permissão de Desativação de Proteção de Memória Executável é uma permissão extrema que remove uma proteção de segurança fundamental do seu aplicativo, tornando possível que um invasor reescreva o código executável do seu aplicativo sem detecção. Prefira permissões mais restritas, se possível.
 {% endhint %}
 
 ### `com.apple.security.cs.allow-relative-library-loads`

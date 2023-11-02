@@ -29,7 +29,7 @@ Existem 4 tipos de restrições:
 * **Restrições Responsáveis**: Restrições aplicadas ao **processo que chama o serviço** em uma comunicação XPC.
 * **Restrições de Carregamento de Biblioteca**: Use restrições de carregamento de biblioteca para descrever seletivamente o código que pode ser carregado.
 
-Portanto, quando um processo tenta iniciar outro processo - chamando `execve(_:_:_:)` ou `posix_spawn(_:_:_:_:_:_:)` - o sistema operacional verifica se o **arquivo executável** satisfaz sua **própria restrição**. Ele também verifica se o **executável do processo pai** satisfaz a **restrição do pai do executável**, e se o **executável do processo responsável** satisfaz a **restrição do processo responsável** do executável. Se alguma dessas restrições de inicialização não for satisfeita, o sistema operacional não executa o programa.
+Portanto, quando um processo tenta iniciar outro processo - chamando `execve(_:_:_:)` ou `posix_spawn(_:_:_:_:_:_:)` - o sistema operacional verifica se o **arquivo executável** satisfaz sua **própria restrição**. Ele também verifica se o **executável do processo pai** satisfaz a **restrição do processo pai** do executável e se o **executável do processo responsável** satisfaz a **restrição do processo responsável** do executável. Se alguma dessas restrições de inicialização não for satisfeita, o sistema operacional não executa o programa.
 
 Se ao carregar uma biblioteca qualquer parte da **restrição da biblioteca não for verdadeira**, seu processo **não carrega** a biblioteca.
 
@@ -40,7 +40,7 @@ Um LC é composto por **fatos** e **operações lógicas** (e, ou...) que combin
 Os [**fatos que um LC pode usar são documentados**](https://developer.apple.com/documentation/security/defining\_launch\_environment\_and\_library\_constraints). Por exemplo:
 
 * is-init-proc: Um valor booleano que indica se o executável deve ser o processo de inicialização do sistema operacional (`launchd`).
-* is-sip-protected: Um valor booleano que indica se o executável deve ser um arquivo protegido pelo Sistema de Proteção de Integridade (SIP).
+* is-sip-protected: Um valor booleano que indica se o executável deve ser um arquivo protegido pelo System Integrity Protection (SIP).
 * `on-authorized-authapfs-volume:` Um valor booleano que indica se o sistema operacional carregou o executável de um volume APFS autorizado e autenticado.
 * `on-authorized-authapfs-volume`: Um valor booleano que indica se o sistema operacional carregou o executável de um volume APFS autorizado e autenticado.
 * Volume Cryptexes
@@ -110,7 +110,7 @@ pyimg4 im4p extract -i /System/Library/Security/OSLaunchPolicyData -o /tmp/OSLau
 ```
 {% endcode %}
 
-(Outra opção poderia ser usar a ferramenta [**img4tool**](https://github.com/tihmstar/img4tool), que funcionará mesmo no M1 mesmo se a versão for antiga e para x86\_64 se você instalá-la nos locais adequados).
+(Outra opção seria usar a ferramenta [**img4tool**](https://github.com/tihmstar/img4tool), que funcionará mesmo no M1, mesmo que a versão seja antiga e para x86\_64 se você instalá-la nos locais adequados).
 
 Agora você pode usar a ferramenta [**trustcache**](https://github.com/CRKatri/trustcache) para obter as informações em um formato legível:
 ```bash
@@ -136,7 +136,7 @@ entry count = 969
 01e6934cb8833314ea29640c3f633d740fc187f2 [none] [2] [2]
 020bf8c388deaef2740d98223f3d2238b08bab56 [none] [2] [3]
 ```
-O cache de confiança segue a seguinte estrutura, então a **categoria LC é a 4ª coluna**.
+O cache de confiança segue a seguinte estrutura, então a **categoria LC é a quarta coluna**.
 ```c
 struct trust_cache_entry2 {
 uint8_t cdhash[CS_CDHASH_LEN];
@@ -160,7 +160,7 @@ No entanto, elas **não mitigam abusos comuns de XPC**, injeções de código **
 
 ### Proteção do Daemon XPC
 
-No momento em que este texto foi escrito (lançamento Sonoma), o **processo responsável** pelo serviço XPC do daemon **é o próprio serviço XPC** em vez do cliente conectado. (Enviado FB: FB13206884). Supondo por um segundo que seja um bug, ainda **não seremos capazes de iniciar o serviço XPC em nosso código de ataque**, mas se ele já estiver **ativo** (talvez porque tenha sido invocado pelo aplicativo original), nada impede que nos **conectemos a ele**. Portanto, embora definir a restrição possa ser uma boa ideia e **limitaria o tempo de ataque**, isso não resolve o problema principal, e nosso serviço XPC ainda deve validar corretamente o cliente conectado. Essa ainda é a única maneira de protegê-lo. Além disso, como mencionado no início, nem funciona mais dessa maneira.
+No momento em que este texto foi escrito (lançamento Sonoma), o **processo responsável** pelo serviço XPC do daemon **é o próprio serviço XPC** em vez do cliente conectado. (Enviado FB: FB13206884). Supondo por um segundo que seja um bug, ainda **não seremos capazes de iniciar o serviço XPC em nosso código de ataque**, mas se ele já estiver **ativo** (talvez porque tenha sido invocado pelo aplicativo original), nada nos impede de **conectar a ele**. Portanto, embora definir a restrição possa ser uma boa ideia e **limitaria o tempo de ataque**, isso não resolve o problema principal, e nosso serviço XPC ainda deve validar corretamente o cliente conectado. Essa ainda é a única maneira de protegê-lo. Além disso, como mencionado no início, nem funciona mais dessa maneira.
 
 ### Proteção do Electron
 

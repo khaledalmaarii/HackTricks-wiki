@@ -33,7 +33,7 @@ Na função **`processRestricted`**, o motivo da restrição é definido. Verifi
 
 * O binário é `setuid/setgid`
 * Existência da seção `__RESTRICT/__restrict` no binário macho.
-* O software possui direitos (tempo de execução endurecido) sem a concessão [`com.apple.security.cs.allow-dyld-environment-variables`](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-dyld-environment-variables) ou [`com.apple.security.cs.disable-library-validation`](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation).
+* O software possui direitos (tempo de execução endurecido) sem a permissão [`com.apple.security.cs.allow-dyld-environment-variables`](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-dyld-environment-variables) ou [`com.apple.security.cs.disable-library-validation`](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation)`/` [`com.apple.private.security.clear-library-validation`](https://theevilbit.github.io/posts/com.apple.private.security.clear-library-validation/).
 * Verifique os **direitos** de um binário com: `codesign -dv --entitlements :- </path/to/bin>`
 * Se a biblioteca for assinada com um certificado diferente do binário
 * Se a biblioteca e o binário forem assinados com o mesmo certificado, isso ignorará as restrições anteriores
@@ -59,7 +59,7 @@ Lembre-se de que **restrições anteriores também se aplicam** para realizar at
 Assim como no Windows, no MacOS também é possível **sequestrar dylibs** para fazer com que **aplicativos executem** **código arbitrário**.\
 No entanto, a maneira como os aplicativos do **MacOS** carregam bibliotecas é **mais restrita** do que no Windows. Isso implica que os desenvolvedores de **malware** ainda podem usar essa técnica para **furtividade**, mas a probabilidade de poder **abusar disso para elevar privilégios é muito menor**.
 
-Em primeiro lugar, é **mais comum** encontrar que os binários do **MacOS indicam o caminho completo** para as bibliotecas a serem carregadas. E em segundo lugar, o **MacOS nunca procura** nas pastas do **$PATH** por bibliotecas.
+Em primeiro lugar, é **mais comum** encontrar que os **binários do MacOS indicam o caminho completo** para as bibliotecas a serem carregadas. E em segundo lugar, o **MacOS nunca procura** nas pastas do **$PATH** por bibliotecas.
 
 A **parte principal** do **código** relacionado a essa funcionalidade está em **`ImageLoader::recursiveLoadLibraries`** em `ImageLoader.cpp`.
 
@@ -98,7 +98,7 @@ compatibility version 1.0.0
 * Quando usado em um **dylib**, **`@loader_path`** fornece o **caminho** para o **dylib**.
 {% endhint %}
 
-A maneira de **elevar privilégios** abusando dessa funcionalidade seria no caso raro de um **aplicativo** sendo executado **por** **root** estar **procurando** por alguma **biblioteca em alguma pasta onde o invasor tem permissões de gravação**.
+A maneira de **elevar privilégios** abusando dessa funcionalidade seria no caso raro de um **aplicativo** sendo executado **por** **root** estar **procurando** por alguma **biblioteca em alguma pasta onde o invasor tenha permissões de gravação**.
 
 {% hint style="success" %}
 Um bom **scanner** para encontrar **bibliotecas ausentes** em aplicativos é o [**Dylib Hijack Scanner**](https://objective-see.com/products/dhs.html) ou uma [**versão CLI**](https://github.com/pandazheng/DylibHijack).\
@@ -281,9 +281,9 @@ The `__RESTRICT` section is a segment in macOS that is used to restrict the exec
 
 The `__restrict` segment is specifically used to enforce restrictions on library injection. Library injection is a technique where a malicious library is injected into a legitimate process, allowing the attacker to execute arbitrary code within the context of that process.
 
-By utilizing the `__restrict` segment in the `__RESTRICT` section, macOS can prevent library injection by restricting the loading of external libraries into processes. This helps to ensure the integrity and security of the system by preventing unauthorized code execution.
+By utilizing the `__restrict` segment, macOS can prevent library injection by restricting the loading of libraries from certain locations or by enforcing code signing requirements. This helps to ensure the integrity and security of the system by preventing unauthorized modifications to processes.
 
-It is important to note that the effectiveness of the `__restrict` segment depends on the implementation and configuration of the system. Proper hardening measures should be taken to ensure that the `__restrict` segment is properly enforced and that processes are adequately protected against library injection attacks.
+It is important for developers and system administrators to understand the functionality of the `__RESTRICT` section and the `__restrict` segment in order to effectively secure macOS systems against privilege escalation and unauthorized access.
 ```bash
 gcc -sectcreate __RESTRICT __restrict /dev/null hello.c -o hello-restrict
 DYLD_INSERT_LIBRARIES=inject.dylib ./hello-restrict
