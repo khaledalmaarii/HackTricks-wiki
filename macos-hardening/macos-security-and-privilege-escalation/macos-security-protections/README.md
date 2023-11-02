@@ -7,7 +7,7 @@
 * 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
@@ -46,9 +46,9 @@ MacOS沙盒**限制在沙盒内运行的应用程序**只能执行沙盒配置�
 [macos-tcc](macos-tcc/)
 {% endcontent-ref %}
 
-### 启动约束
+### 启动/环境限制和信任缓存
 
-macOS中的启动约束是一种安全功能，通过定义**谁可以启动**进程、**如何启动**以及**从哪里启动**来**规范进程启动**。在macOS Ventura中引入的信任缓存中，它将系统二进制文件分类为约束类别。每个可执行二进制文件都有其**启动规则**，包括**自身**、**父进程**和**负责人**约束。在macOS Sonoma中扩展为第三方应用程序的**环境**约束，这些功能有助于通过管理进程启动条件来减轻潜在的系统利用风险。
+macOS中的启动限制是一种安全功能，通过定义**谁可以启动**进程、**如何启动**以及**从哪里启动**来**规范进程启动**。在macOS Ventura中引入的信任缓存中，它将系统二进制文件分类为约束类别。每个可执行二进制文件都有其**启动规则**，包括**自身**、**父进程**和**负责人**约束。在macOS Sonoma中扩展到第三方应用程序的**环境**约束，这些功能有助于通过管理进程启动条件来减轻潜在的系统利用风险。
 
 {% content-ref url="macos-launch-environment-constraints.md" %}
 [macos-launch-environment-constraints.md](macos-launch-environment-constraints.md)
@@ -58,24 +58,24 @@ macOS中的启动约束是一种安全功能，通过定义**谁可以启动**�
 
 恶意软件移除工具（MRT）是macOS安全基础设施的另一部分。顾名思义，MRT的主要功能是**从受感染的系统中删除已知的恶意软件**。
 
-一旦在Mac上检测到恶意软件（无论是通过XProtect还是其他方式），MRT可以用于自动**删除恶意软件**。MRT在后台静默运行，通常在系统更新或下载新的恶意软件定义时运行（看起来MRT用于检测恶意软件的规则在二进制文件中）。
+一旦在Mac上检测到恶意软件（通过XProtect或其他方式），就可以使用MRT自动**删除恶意软件**。MRT在后台静默运行，通常在系统更新或下载新的恶意软件定义时运行（看起来MRT用于检测恶意软件的规则在二进制文件中）。
 
 虽然XProtect和MRT都是macOS的安全措施的一部分，但它们执行不同的功能：
 
-* **XProtect**是一种预防工具。它会在文件下载时（通过某些应用程序）**检查文件**，如果检测到任何已知类型的恶意软件，它将**阻止文件打开**，从而防止恶意软件首次感染您的系统。
+* **XProtect**是一种预防工具。它会在文件下载时（通过某些应用程序）**检查文件**，如果检测到任何已知类型的恶意软件，它将**阻止文件打开**，从而在第一时间防止恶意软件感染您的系统。
 * 另一方面，**MRT**是一种**响应性工具**。它在系统上检测到恶意软件后运行，目标是删除有问题的软件以清理系统。
 
 MRT应用程序位于**`/Library/Apple/System/Library/CoreServices/MRT.app`**
 
 ## 后台任务管理
 
-**macOS**现在每次工具使用已知的**持久代码执行技术**（如登录项、守护程序等）时都会**发出警报**，以便用户更好地**了解哪些软件正在持久化**。
+**macOS**现在每次工具使用已知的**持久代码执行技术**（如登录项、守护程序等）时都会**发出警报**，因此用户可以更好地了解**哪些软件是持久的**。
 
 <figure><img src="../../../.gitbook/assets/image (711).png" alt=""><figcaption></figcaption></figure>
 
 这是通过位于`/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Versions/A/Resources/backgroundtaskmanagementd`的**守护程序**和位于`/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Support/BackgroundTaskManagementAgent.app`的**代理**来运行的。
 
-**`backgroundtaskmanagementd`**知道某个东西是否安装在持久化文件夹中的方式是通过**获取FSEvents**并为其创建一些**处理程序**。
+**`backgroundtaskmanagementd`**知道某个东西是否安装在持久文件夹中的方式是通过获取FSEvents并为其创建一些处理程序。
 
 此外，还有一个包含由苹果维护的**众所周知的应用程序**的plist文件，位于：`/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Versions/A/Resources/attributions.plist`
 ```json

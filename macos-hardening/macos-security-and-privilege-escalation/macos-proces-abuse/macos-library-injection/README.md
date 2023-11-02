@@ -5,7 +5,7 @@
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
 
 * 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[NFT](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 发现我们的独家[NFT收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
@@ -13,7 +13,7 @@
 </details>
 
 {% hint style="danger" %}
-**dyld的代码是开源的**，可以在[https://opensource.apple.com/source/dyld/](https://opensource.apple.com/source/dyld/)找到，并且可以使用类似[https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz](https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz)的URL下载tar文件。
+**dyld的代码是开源的**，可以在[https://opensource.apple.com/source/dyld/](https://opensource.apple.com/source/dyld/)找到，并且可以使用**URL（例如**[https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz](https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz)**）下载tar文件。**
 {% endhint %}
 
 ## **DYLD\_INSERT\_LIBRARIES**
@@ -33,7 +33,7 @@
 
 * 二进制文件是`setuid/setgid`
 * 在macho二进制文件中存在`__RESTRICT/__restrict`部分。
-* 软件具有没有[`com.apple.security.cs.allow-dyld-environment-variables`](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-dyld-environment-variables)权限或[`com.apple.security.cs.disable-library-validation`](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation)权限的强化运行时权限。
+* 软件具有没有[`com.apple.security.cs.allow-dyld-environment-variables`](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-dyld-environment-variables)权限或[`com.apple.security.cs.disable-library-validation`](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation)`/` [`com.apple.private.security.clear-library-validation`](https://theevilbit.github.io/posts/com.apple.private.security.clear-library-validation/)的硬化运行时权限。
 * 使用以下命令检查二进制文件的权限：`codesign -dv --entitlements :- </path/to/bin>`
 * 如果库与二进制文件使用不同的证书签名
 * 如果库和二进制文件使用相同的证书签名，这将绕过先前的限制
@@ -42,9 +42,9 @@
 在更新的版本中，您可以在函数**`configureProcessRestrictions`**的第二部分找到此逻辑。但是，在较新的版本中执行的是函数的**开始检查**（您可以删除与iOS或模拟相关的if语句，因为这些在macOS中不会使用）。
 {% endhint %}
 
-您可以使用`codesign --display --verbose <bin>`检查二进制文件是否具有**强化运行时权限**，并检查**`CodeDirectory`**中的运行时标志，例如：**`CodeDirectory v=20500 size=767 flags=0x10000(runtime) hashes=13+7 location=embedded`**
+您可以使用`codesign --display --verbose <bin>`检查二进制文件是否具有**硬化运行时**，并检查**`CodeDirectory`**中的标志运行时，例如：**`CodeDirectory v=20500 size=767 flags=0x10000(runtime) hashes=13+7 location=embedded`**
 
-在以下位置找到有关如何（滥用）使用此技术并检查限制的示例：
+在以下位置找到有关如何（滥用）使用此功能并检查限制的示例：
 
 {% content-ref url="../../macos-dyld-hijacking-and-dyld_insert_libraries.md" %}
 [macos-dyld-hijacking-and-dyld\_insert\_libraries.md](../../macos-dyld-hijacking-and-dyld\_insert\_libraries.md)
@@ -59,11 +59,11 @@
 与Windows一样，在MacOS中，您也可以**劫持dylib**以使**应用程序执行任意代码**。\
 然而，MacOS应用程序加载库的方式比Windows更受限制。这意味着恶意软件开发人员仍然可以使用这种技术进行隐蔽操作，但是滥用此技术以提升权限的可能性要低得多。
 
-首先，**更常见**的是发现**MacOS二进制文件指示要加载的库的完整路径**。其次，**MacOS从不在$PATH的文件夹中搜索库**。
+首先，**更常见**的是发现**MacOS二进制文件指示加载库的完整路径**。其次，**MacOS从不在$PATH的文件夹中搜索库**。
 
 与此功能相关的**主要代码部分**位于`ImageLoader.cpp`中的**`ImageLoader::recursiveLoadLibraries`**中。
 
-Macho二进制文件可以使用**4个不同的头命令**来加载库：
+一个macho二进制文件可以使用**4个不同的头命令**来加载库：
 
 * **`LC_LOAD_DYLIB`**命令是加载dylib的常见命令。
 * **`LC_LOAD_WEAK_DYLIB`**命令与前一个命令类似，但如果找不到dylib，则继续执行而不会出现任何错误。
@@ -90,19 +90,19 @@ compatibility version 1.0.0
 * 使用以下命令在二进制文件中**查找rpath路径和库**：`otool -l </path/to/binary> | grep -E "LC_RPATH|LC_LOAD_DYLIB" -A 5`
 
 {% hint style="info" %}
-**`@executable_path`**：是包含**主可执行文件**的目录的**路径**。
+**`@executable_path`**：是包含**主可执行文件**的**目录路径**。
 
-**`@loader_path`**：是包含包含加载命令的Mach-O二进制文件的**目录**的**路径**。
+**`@loader_path`**：是包含包含加载命令的**Mach-O二进制文件**的**目录路径**。
 
 * 在可执行文件中使用**`@loader_path`**时，它实际上与**`@executable_path`**相同。
-* 在**dylib**中使用**`@loader_path`**时，它给出了**dylib**的**路径**。
+* 在**dylib**中使用**`@loader_path`**时，它给出了**dylib**的路径。
 {% endhint %}
 
-滥用此功能来**提升特权**的方式是，在以**root**身份执行的**应用程序**中，寻找某个**库**时，攻击者具有写权限的某个**文件夹**。
+滥用此功能来**提升特权**的方式是，在**以root身份执行的应用程序**中，寻找某个**库**时，攻击者具有写权限的某个文件夹。
 
 {% hint style="success" %}
-一个很好的用于查找应用程序中**缺少库**的**扫描工具**是[**Dylib Hijack Scanner**](https://objective-see.com/products/dhs.html)或[**CLI版本**](https://github.com/pandazheng/DylibHijack)。
-关于这种技术的一个带有技术细节的很好的**报告**可以在[**这里**](https://www.virusbulletin.com/virusbulletin/2015/03/dylib-hijacking-os-x)找到。
+一个很好的用于查找应用程序中**缺少库**的扫描工具是[**Dylib Hijack Scanner**](https://objective-see.com/products/dhs.html)或[**CLI版本**](https://github.com/pandazheng/DylibHijack)。
+关于这种技术的一个带有技术细节的好的报告可以在[**这里**](https://www.virusbulletin.com/virusbulletin/2015/03/dylib-hijacking-os-x)找到。
 {% endhint %}
 
 **示例**
@@ -115,7 +115,7 @@ compatibility version 1.0.0
 
 来自**`man dlopen`**：
 
-* 当路径**不包含斜杠字符**（即只是一个叶子名称）时，**dlopen()将进行搜索**。如果在启动时设置了**`$DYLD_LIBRARY_PATH`**，dyld首先会在该目录中查找。接下来，如果调用的mach-o文件或主可执行文件指定了**`LC_RPATH`**，那么dyld将在这些目录中查找。接下来，如果进程是**无限制的**，dyld将在**当前工作目录**中搜索。最后，对于旧的二进制文件，dyld将尝试一些回退。如果在启动时设置了**`$DYLD_FALLBACK_LIBRARY_PATH`**，dyld将在**这些目录**中搜索，否则，dyld将在**`/usr/local/lib/`**（如果进程是无限制的）中查找，然后在**`/usr/lib/`**中查找（此信息取自**`man dlopen`**）。
+* 当路径**不包含斜杠字符**（即只是一个文件名），**dlopen()将进行搜索**。如果在启动时设置了**`$DYLD_LIBRARY_PATH`**，dyld首先会在该目录中查找。接下来，如果调用的mach-o文件或主可执行文件指定了**`LC_RPATH`**，那么dyld将在这些目录中查找。接下来，如果进程是**无限制的**，dyld将在**当前工作目录**中搜索。最后，对于旧的二进制文件，dyld将尝试一些回退。如果在启动时设置了**`$DYLD_FALLBACK_LIBRARY_PATH`**，dyld将在**这些目录**中搜索，否则，dyld将在**`/usr/local/lib/`**中查找（如果进程是无限制的），然后在**`/usr/lib/`**中查找（此信息来自**`man dlopen`**）。
 1. `$DYLD_LIBRARY_PATH`
 2. `LC_RPATH`
 3. `CWD`（如果无限制）
@@ -130,7 +130,7 @@ compatibility version 1.0.0
 * 如果二进制文件是**无限制的**，然后可以从CWD加载某些内容（或滥用上述环境变量之一）
 {% endhint %}
 
-* 当路径**看起来像一个框架路径**时（例如`/stuff/foo.framework/foo`），如果在启动时设置了**`$DYLD_FRAMEWORK_PATH`**，dyld首先会在该目录中查找**框架部分路径**（例如`foo.framework/foo`）。接下来，dyld将尝试使用**提供的路径**（对于相对路径，使用当前工作目录）。最后，对于旧的二进制文件，dyld将尝试一些回退。如果在启动时设置了**`$DYLD_FALLBACK_FRAMEWORK_PATH`**，dyld将在这些目录中搜索。否则，它将在**`/Library/Frameworks`**（在macOS上，如果进程是无限制的），然后在**`/System/Library/Frameworks`**中搜索。
+* 当路径**看起来像是一个框架路径**（例如`/stuff/foo.framework/foo`），如果在启动时设置了**`$DYLD_FRAMEWORK_PATH`**，dyld首先会在该目录中查找**框架的部分路径**（例如`foo.framework/foo`）。接下来，dyld将尝试使用**提供的路径**（对于相对路径，使用当前工作目录）。最后，对于旧的二进制文件，dyld将尝试一些回退。如果在启动时设置了**`$DYLD_FALLBACK_FRAMEWORK_PATH`**，dyld将在这些目录中搜索。否则，它将在**`/Library/Frameworks`**中搜索（在macOS上，如果进程是无限制的），然后在**`/System/Library/Frameworks`**中搜索。
 1. `$DYLD_FRAMEWORK_PATH`
 2. 提供的路径（对于相对路径，如果无限制，则使用当前工作目录）
 3. `$DYLD_FALLBACK_FRAMEWORK_PATH`
@@ -140,10 +140,10 @@ compatibility version 1.0.0
 {% hint style="danger" %}
 如果是框架路径，劫持的方式是：
 
-* 如果进程是**无限制的**，滥用CWD的**相对路径**和上述环境变量（即使在文档中没有提到如果进程受限制，DYLD\_\*环境变量会被删除）
+* 如果进程是**无限制的**，滥用CWD的**相对路径**和上述环境变量（即使文档中没有提到如果进程受限制，DYLD\_\*环境变量会被删除）
 {% endhint %}
 
-* 当路径**包含斜杠但不是框架路径**时（即完整路径或dylib的部分路径），dlopen()首先在（如果设置了）**`$DYLD_LIBRARY_PATH`**中查找（使用路径的叶子部分）。接下来，dyld尝试使用提供的路径（对于相对路径，仅对于无限制的进程使用当前工作目录）。最后，对于旧的二进制文件，dyld将尝试一些回退。如果在启动时设置了**`$DYLD_FALLBACK_LIBRARY_PATH`**，dyld将在这些目录中搜索，否则，dyld将在**`/usr/local/lib/`**（如果进程是无限制的）中查找，然后在**`/usr/lib/`**中查找。
+* 当路径**包含斜杠但不是框架路径**（即完整路径或dylib的部分路径）时，dlopen()首先在（如果设置了）**`$DYLD_LIBRARY_PATH`**中（使用路径的最后一部分）查找。接下来，dyld尝试使用提供的路径（对于相对路径，仅对于无限制的进程使用当前工作目录）。最后，对于旧的二进制文件，dyld将尝试一些回退。如果在启动时设置了**`$DYLD_FALLBACK_LIBRARY_PATH`**，dyld将在这些目录中搜索，否则，dyld将在**`/usr/local/lib/`**中查找（如果进程是无限制的），然后在**`/usr/lib/`**中查找。
 1. `$DYLD_LIBRARY_PATH`
 2. 提供的路径（如果没有限制，使用当前工作目录作为相对路径）
 3. `$DYLD_FALLBACK_LIBRARY_PATH`
@@ -277,19 +277,13 @@ sudo chmod -s hello
 ```
 ### `__RESTRICT`部分与`__restrict`段
 
-The `__RESTRICT` section is a segment in macOS that is used to restrict access to certain libraries and prevent unauthorized processes from injecting code into them. This section is specifically designed to enhance the security of macOS by preventing privilege escalation attacks through library injection.
+The `__RESTRICT` section is a segment in macOS that is used to restrict the execution of certain processes. It is designed to prevent unauthorized access and privilege escalation by limiting the capabilities of processes running in this section.
 
-The `__restrict` segment, on the other hand, is a specific area within the `__RESTRICT` section that contains code and data that are restricted from modification or injection. This segment is heavily protected by macOS to ensure the integrity and security of the libraries it contains.
+The `__restrict` segment is a specific area within the `__RESTRICT` section that contains code and data that is restricted from being modified or accessed by other processes. This segment is heavily protected and is intended to prevent any unauthorized modifications or injections.
 
-By leveraging the `__RESTRICT` section and the `__restrict` segment, macOS can effectively mitigate the risks associated with library injection attacks, making it more difficult for malicious actors to exploit vulnerabilities and gain unauthorized access to sensitive system resources.
+By leveraging vulnerabilities or weaknesses in the macOS system, an attacker may attempt to bypass the restrictions imposed by the `__RESTRICT` section and inject malicious code into the `__restrict` segment. This technique, known as macOS library injection, allows the attacker to execute arbitrary code within the restricted segment, potentially gaining elevated privileges and control over the system.
 
-### `__RESTRICT`部分与`__restrict`段
-
-`__RESTRICT`部分是macOS中的一个段，用于限制对某些库的访问，并防止未经授权的进程向其注入代码。该部分专门设计用于增强macOS的安全性，通过防止通过库注入进行权限提升攻击。
-
-另一方面，`__restrict`段是`__RESTRICT`部分中的一个特定区域，其中包含受限制的代码和数据，禁止进行修改或注入。macOS对该段进行了严格保护，以确保其中包含的库的完整性和安全性。
-
-通过利用`__RESTRICT`部分和`__restrict`段，macOS可以有效地减轻与库注入攻击相关的风险，使恶意行为者更难利用漏洞并未授权地访问敏感系统资源。
+To protect against macOS library injection attacks, it is crucial to implement robust security measures, such as regular system updates, code signing, and strict access controls. Additionally, monitoring for any suspicious activities or unauthorized modifications within the `__RESTRICT` section can help detect and mitigate potential attacks.
 ```bash
 gcc -sectcreate __RESTRICT __restrict /dev/null hello.c -o hello-restrict
 DYLD_INSERT_LIBRARIES=inject.dylib ./hello-restrict
@@ -332,10 +326,10 @@ csops -status <pid>
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
 
 * 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[NFT收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**

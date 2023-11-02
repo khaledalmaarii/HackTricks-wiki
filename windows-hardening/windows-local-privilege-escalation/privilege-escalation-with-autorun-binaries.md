@@ -5,16 +5,16 @@
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
 
 * 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品- [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
-如果你对**黑客职业**感兴趣并且想要攻破不可攻破的系统 - **我们正在招聘！**（需要流利的波兰语书写和口语能力）。
+如果你对**黑客职业**感兴趣并且想要攻破不可攻破的系统-**我们正在招聘！**（需要流利的波兰语书写和口语能力）。
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
@@ -52,7 +52,7 @@ Get-ChildItem "C:\Users\$env:USERNAME\Start Menu\Programs\Startup"
 ## 注册表
 
 {% hint style="info" %}
-注意：**Wow6432Node** 注册表项表示您正在运行的是 64 位 Windows 版本。操作系统使用此键来为在 64 位 Windows 版本上运行的 32 位应用程序显示 HKEY\_LOCAL\_MACHINE\SOFTWARE 的单独视图。
+注意：**Wow6432Node** 注册表项表示您正在运行的是 64 位 Windows 版本。操作系统使用此键为在 64 位 Windows 版本上运行的 32 位应用程序显示 HKEY\_LOCAL\_MACHINE\SOFTWARE 的单独视图。
 {% endhint %}
 
 ### 运行
@@ -92,11 +92,11 @@ Run 和 RunOnce 注册表键会导致程序在每次用户登录时运行。键�
 在 Windows Vista 和更新版本中，默认不会创建此项。注册表运行键条目可以直接引用程序，也可以将其列为依赖项。例如，可以使用 RunOnceEx 的 "Depend" 键在登录时加载 DLL：`reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnceEx\0001\Depend /v 1 /d "C:\temp\evil[.]dll"`
 
 {% hint style="info" %}
-**漏洞 1**：如果您可以在 **HKLM** 中的任何提及的注册表中写入内容，则可以在其他用户登录时提升权限。
+**Exploit 1**：如果您可以在 **HKLM** 中的任何提到的注册表中写入内容，则可以在其他用户登录时提升权限。
 {% endhint %}
 
 {% hint style="info" %}
-**漏洞 2**：如果您可以覆盖任何在 **HKLM** 中指定的二进制文件，则可以在其他用户登录时修改该二进制文件并提升权限。
+**Exploit 2**：如果您可以覆盖任何在 **HKLM** 中指定的二进制文件，则可以在其他用户登录时修改该二进制文件并提升权限。
 {% endhint %}
 ```bash
 #CMD
@@ -160,10 +160,10 @@ Get-ItemProperty -Path 'Registry::HKCU\Software\Wow6432Node\Microsoft\Windows\Ru
 * `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders`
 * `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders`
 
-任何创建到启动子键指向的位置的快捷方式都会在登录/重启时启动服务。启动位置在本地计算机和当前用户中都有指定。
+任何创建到启动子键所指向位置的快捷方式都会在登录/重启时启动服务。启动位置在本地计算机和当前用户中都有指定。
 
 {% hint style="info" %}
-如果你可以覆盖**HKLM**下的任何\[User] Shell Folder，你就可以将其指向一个由你控制的文件夹，并放置一个后门，这样每当用户登录系统时，特权就会被提升并执行后门。
+如果你能覆盖掉 **HKLM** 下的任何\[User] Shell Folder，你就可以将其指向一个由你控制的文件夹，并放置一个后门，这样每当用户登录系统时，特权就会被提升并执行后门。
 {% endhint %}
 ```bash
 reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders" /v "Common Startup"
@@ -181,7 +181,7 @@ Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion
 `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon`
 
 通常，**Userinit**键指向userinit.exe，但如果该键被更改，那么该exe也将由Winlogon启动。\
-**Shell**键应指向explorer.exe。
+**Shell**键应该指向explorer.exe。
 ```bash
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "Userinit"
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "Shell"
@@ -316,9 +316,9 @@ To escalate privileges using IFEO, an attacker can create a new IFEO entry for a
 
 要利用IFEO提升权限，攻击者可以为系统实用程序或以较高权限运行的受信任应用程序创建一个新的IFEO条目。攻击者可以将自己的恶意二进制文件指定为调试器，每当目标程序启动时，该恶意二进制文件都会以提升的权限执行。
 
-To prevent privilege escalation through IFEO, it is recommended to regularly monitor the IFEO entries in the Windows Registry and remove any suspicious or unnecessary entries. Additionally, restricting write access to the IFEO registry keys can help mitigate this attack vector.
+This technique can be used to bypass security measures and gain unauthorized access to sensitive resources or perform malicious actions on a compromised system.
 
-为了防止通过IFEO进行权限提升，建议定期监视Windows注册表中的IFEO条目，并删除任何可疑或不必要的条目。此外，限制对IFEO注册表键的写访问可以帮助减轻这种攻击向量。
+这种技术可以用来绕过安全措施，未经授权访问敏感资源或在受损系统上执行恶意操作。
 ```
 HKLM\Software\Microsoft\Windows NT\CurrentVersion\Image File Execution Options
 HKLM\Software\Microsoft\Wow6432Node\Windows NT\CurrentVersion\Image File Execution Options
@@ -339,9 +339,9 @@ autorunsc.exe -m -nobanner -a * -ct /accepteula
 * [https://attack.mitre.org/techniques/T1547/001/](https://attack.mitre.org/techniques/T1547/001/)
 * [https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2](https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2)
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
-如果您对**黑客职业**感兴趣并想要攻破不可攻破的系统 - **我们正在招聘！**（需要流利的波兰语书面和口语能力）。
+如果您对**黑客职业**感兴趣并想要攻击不可攻破的目标 - **我们正在招聘！**（需要流利的波兰语书面和口语能力）。
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
@@ -350,7 +350,7 @@ autorunsc.exe -m -nobanner -a * -ct /accepteula
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * 您在**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想要访问**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品 - [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧。**

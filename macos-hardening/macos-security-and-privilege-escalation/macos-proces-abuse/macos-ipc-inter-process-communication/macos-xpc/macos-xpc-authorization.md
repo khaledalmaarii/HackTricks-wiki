@@ -16,7 +16,7 @@
 
 苹果还提出了另一种方法来验证连接的进程是否具有调用公开的 XPC 方法的**权限**。
 
-当应用程序需要以**特权用户身份执行操作**时，通常不会将应用程序作为特权用户运行，而是将 HelperTool 作为 XPC 服务以 root 用户身份安装，应用程序可以从中调用以执行这些操作。但是，调用服务的应用程序应具有足够的授权。
+当应用程序需要以**特权用户**的身份执行操作时，通常不会将应用程序作为特权用户运行，而是将 HelperTool 作为 XPC 服务以 root 用户的身份安装，以便应用程序可以调用该服务执行这些操作。然而，调用服务的应用程序应具有足够的授权。
 
 ### ShouldAcceptNewConnection 总是 YES
 
@@ -269,7 +269,7 @@ security authorizationdb read com.apple.safaridriver.allow
 * 如果设置为`true`，会话的所有者（当前登录的用户）将自动获得此权限。如果用户已经登录，则可能绕过其他身份验证。
 
 4. **'shared': 'true'**
-* 此键不会在没有身份验证的情况下授予权限。相反，如果设置为`true`，表示一旦权限得到验证，它可以在多个进程之间共享，而无需每个进程重新进行身份验证。但是，初始授予权限仍然需要进行身份验证，除非与其他键（如`'authenticate-user': 'false'`）结合使用。
+* 此键不会在没有身份验证的情况下授予权限。相反，如果设置为`true`，意味着一旦权限得到验证，它可以在多个进程之间共享，而无需每个进程重新进行身份验证。但是，初始授予权限仍然需要进行身份验证，除非与其他键（如`'authenticate-user': 'false'`）结合使用。
 
 你可以使用[**这个脚本**](https://gist.github.com/carlospolop/96ecb9e385a4667b9e40b24e878652f9)获取有趣的权限：
 ```bash
@@ -289,7 +289,7 @@ authenticate-session-owner, authenticate-session-owner-or-admin, authenticate-se
 
 如果你找到函数：**`[HelperTool checkAuthorization:command:]`**，那么该进程可能正在使用之前提到的授权模式：
 
-<figure><img src="../../../../../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 如果这个函数调用了`AuthorizationCreateFromExternalForm`、`authorizationRightForCommand`、`AuthorizationCopyRights`、`AuhtorizationFree`等函数，那么它正在使用[**EvenBetterAuthorizationSample**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L101-L154)。
 
@@ -431,7 +431,7 @@ NSLog(@"Finished!");
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一个**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在一个**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者想要**获取PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
