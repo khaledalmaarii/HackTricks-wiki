@@ -47,7 +47,7 @@ ps -ef | grep tcc
 此外，具有完全磁盘访问权限的进程可以编辑用户模式数据库。现在，应用程序还需要FDA来读取数据库。
 
 {% hint style="info" %}
-**通知中心UI**可以对系统TCC数据库进行更改：
+通知中心UI可以对系统TCC数据库进行更改：
 
 {% code overflow="wrap" %}
 ```bash
@@ -133,11 +133,54 @@ tccutil reset All
 
 获取对用户TCC数据库的**写入权限**，你无法授予自己**`FDA`**权限，只有系统数据库中的权限可以授予。
 
-但是你可以给自己**`Finder的自动化权限`**，由于`Finder`具有`FDA`权限，所以你也具有。
+但是你可以给自己**`Finder的自动化权限`**，由于`Finder`具有`FDA`权限，所以你也有。
 
-### TCC签名检查
+### 从SIP绕过到TCC绕过
 
-TCC数据库存储了应用程序的**Bundle ID**，但它还存储了关于签名的**信息**，以确保请求使用权限的应用程序是正确的。
+**TCC数据库**受到**SIP**的保护，因此只有具有指定权限的进程才能修改数据库。因此，如果攻击者找到了一个可以绕过SIP的文件（能够修改受SIP限制的文件），他将能够移除TCC数据库的保护，并获得所有TCC权限。
+
+然而，还有另一种利用这个**SIP绕过来绕过TCC**的方法，文件`/Library/Apple/Library/Bundles/TCC_Compatibility.bundle/Contents/Resources/AllowApplicationsList.plist`是一个允许例外TCC的应用程序列表。因此，如果攻击者可以从该文件中移除SIP保护并添加自己的应用程序，该应用程序将能够绕过TCC。
+例如，添加终端：
+```bash
+# Get needed info
+codesign -d -r- /System/Applications/Utilities/Terminal.app
+```
+AllowApplicationsList.plist:
+
+AllowApplicationsList.plist是一个用于macOS的配置文件，用于管理TCC（Transparency, Consent, and Control）框架中的应用程序访问权限。TCC框架是macOS中的一种安全保护机制，用于保护用户的隐私和数据安全。
+
+该配置文件列出了被授权访问敏感数据的应用程序。当一个应用程序请求访问用户的隐私数据（如相册、摄像头、麦克风等），TCC框架会检查AllowApplicationsList.plist中的配置，以确定是否允许该应用程序访问。
+
+在AllowApplicationsList.plist中，每个应用程序都有一个条目，包含应用程序的Bundle Identifier和对应的访问权限。访问权限可以是“Full”（完全访问）或“Limited”（有限访问）。
+
+通过编辑AllowApplicationsList.plist文件，可以控制哪些应用程序可以访问用户的敏感数据。这对于加强macOS的安全性和隐私保护非常重要。
+
+请注意，编辑AllowApplicationsList.plist文件需要管理员权限，并且更改可能会影响系统的正常运行。因此，在进行任何更改之前，请确保了解所做更改的后果，并备份原始配置文件以防止意外情况发生。
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+<key>Services</key>
+<dict>
+<key>SystemPolicyAllFiles</key>
+<array>
+<dict>
+<key>CodeRequirement</key>
+<string>identifier &quot;com.apple.Terminal&quot; and anchor apple</string>
+<key>IdentifierType</key>
+<string>bundleID</string>
+<key>Identifier</key>
+<string>com.apple.Terminal</string>
+</dict>
+</array>
+</dict>
+</dict>
+</plist>
+```
+### TCC 签名检查
+
+TCC **数据库**存储了应用程序的**Bundle ID**，但它还会**存储**关于**签名**的**信息**，以**确保**请求使用权限的应用程序是正确的。
 
 {% code overflow="wrap" %}
 ```bash
@@ -162,7 +205,7 @@ csreq -t -r /tmp/telegram_csreq.bin
 应用程序不仅需要请求和获得对某些资源的访问权限，还需要具备相关的权限。\
 例如，Telegram具有`com.apple.security.device.camera`权限来请求访问相机。没有此权限的应用程序将无法访问相机（甚至不会要求用户授权）。
 
-然而，对于应用程序访问某些用户文件夹（例如`~/Desktop`，`~/Downloads`和`~/Documents`）并不需要具备任何特定的权限。系统会透明地处理访问并根据需要提示用户。
+然而，对于访问某些用户文件夹（如`~/Desktop`、`~/Downloads`和`~/Documents`）的应用程序，它们不需要具备任何特定的权限。系统会透明地处理访问并根据需要提示用户。
 
 苹果的应用程序不会生成提示。它们在其权限列表中包含预授予权限，这意味着它们永远不会生成弹出窗口，也不会出现在任何TCC数据库中。例如：
 ```bash
@@ -178,7 +221,7 @@ codesign -dv --entitlements :- /System/Applications/Calendar.app
 这将避免日历要求用户访问提醒事项、日历和通讯录。
 
 {% hint style="success" %}
-除了一些关于权限的官方文档外，还可以在[https://newosxbook.com/ent.jl](https://newosxbook.com/ent.jl)找到一些非官方的**有关权限的有趣信息**。
+除了一些关于权限的官方文档外，还可以在[https://newosxbook.com/ent.jl](https://newosxbook.com/ent.jl)找到非官方的**有关权限的有趣信息**。
 {% endhint %}
 
 ### 敏感的未受保护的位置
@@ -189,7 +232,7 @@ codesign -dv --entitlements :- /System/Applications/Calendar.app
 
 ### 用户意图 / com.apple.macl
 
-如前所述，可以通过将文件拖放到应用程序中来**授予应用程序对文件的访问权限**。这个访问权限不会在任何TCC数据库中指定，而是作为文件的**扩展属性**存储。该属性将**存储允许的应用程序的UUID**。
+如前所述，可以通过将文件拖放到应用程序中来**授予应用程序对文件的访问权限**。这个访问权限不会在任何TCC数据库中指定，而是作为文件的**扩展属性**。该属性将**存储允许的应用程序的UUID**。
 ```bash
 xattr Desktop/private.txt
 com.apple.macl

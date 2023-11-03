@@ -44,7 +44,7 @@ asd
 
 ### 处理扩展名 - CVE-2022-26767
 
-属性 **`com.apple.macl`** 被赋予文件以授予某个应用程序读取权限。当用户通过 **拖放** 文件到应用程序上时，或者用户通过 **双击** 文件以使用 **默认应用程序** 打开它时，将设置此属性。
+属性 **`com.apple.macl`** 被赋予文件以授予某个应用程序读取权限。当用户通过 **拖放** 文件到应用程序上或者双击文件以使用 **默认应用程序** 打开时，将设置此属性。
 
 因此，用户可以 **注册一个恶意应用程序** 来处理所有扩展名，并调用 Launch Services 来 **打开** 任何文件（因此，恶意文件将被授予读取权限）。
 
@@ -194,9 +194,9 @@ TCC使用位于用户HOME文件夹中的数据库来控制对用户特定资源�
 
 1. 获取目标应用程序的_csreq_ blob。
 2. 使用所需访问权限和_csreq_ blob植入一个伪造的_TCC.db_文件。
-3. 使用[dsexport](https://www.unix.com/man-page/osx/1/dsexport/)导出用户的目录服务条目。
-4. 修改目录服务条目以更改用户的主目录。
-5. 使用[dsimport](https://www.unix.com/man-page/osx/1/dsimport/)导入修改后的目录服务条目。
+3. 使用[dsexport](https://www.unix.com/man-page/osx/1/dsexport/)导出用户的Directory Services条目。
+4. 修改Directory Services条目以更改用户的主目录。
+5. 使用[dsimport](https://www.unix.com/man-page/osx/1/dsimport/)导入修改后的Directory Services条目。
 6. 停止用户的_tccd_并重新启动该进程。
 
 第二个POC使用了`/usr/libexec/configd`，其中包含具有值`kTCCServiceSystemPolicySysAdminFiles`的`com.apple.private.tcc.allow`。如果使用`-t`选项运行`configd`，攻击者可以指定要加载的自定义Bundle。因此，该漏洞利用了`configd`代码注入来替换更改用户主目录的`dsexport`和`dsimport`方法。
@@ -211,19 +211,19 @@ TCC使用位于用户HOME文件夹中的数据库来控制对用户特定资源�
 [macos-proces-abuse](../../../macos-proces-abuse/)
 {% endcontent-ref %}
 
-此外，绕过TCC最常见的进程注入方式是通过插件（加载库）进行的。插件通常以库或plist的形式存在，它们将由主应用程序加载并在其上下文中执行。因此，如果主应用程序具有对TCC受限文件的访问权限（通过授予的权限或权限），则自定义代码也将具有相同的访问权限。
+此外，绕过TCC最常见的进程注入方式是通过插件（加载库）进行的。插件通常以库或plist的形式存在，它们将由主应用程序加载并在其上下文中执行。因此，如果主应用程序具有对TCC受限文件的访问权限（通过授予的权限或entitlements），则自定义代码也将具有相同的访问权限。
 
 ### CVE-2020-27937 - Directory Utility
 
-应用程序`/System/Library/CoreServices/Applications/Directory Utility.app`具有权限`kTCCServiceSystemPolicySysAdminFiles`，加载了扩展名为`.daplug`的插件，并且没有启用强化运行时。
+应用程序`/System/Library/CoreServices/Applications/Directory Utility.app`具有entitlement`kTCCServiceSystemPolicySysAdminFiles`，加载了扩展名为`.daplug`的插件，并且没有启用强化运行时。
 
-为了利用此CVE，滥用先前的权限，更改了`NFSHomeDirectory`，以便能够接管用户的TCC数据库以绕过TCC。
+为了利用此CVE，滥用先前的entitlement，更改了`NFSHomeDirectory`（主目录），以便能够接管用户的TCC数据库以绕过TCC。
 
 有关更多信息，请查看[原始报告](https://wojciechregula.blog/post/change-home-directory-and-bypass-tcc-aka-cve-2020-27937/)。
 
 ### CVE-2020-29621 - Coreaudiod
 
-二进制文件`/usr/sbin/coreaudiod`具有权限`com.apple.security.cs.disable-library-validation`和`com.apple.private.tcc.manager`。第一个权限允许进行代码注入，第二个权限允许其管理TCC。
+二进制文件`/usr/sbin/coreaudiod`具有entitlements`com.apple.security.cs.disable-library-validation`和`com.apple.private.tcc.manager`。第一个entitlement允许代码注入，第二个entitlement允许其管理TCC。
 
 该二进制文件允许从文件夹`/Library/Audio/Plug-Ins/HAL`加载第三方插件。因此，可以使用以下POC加载插件并滥用TCC权限：
 ```objectivec
@@ -296,11 +296,11 @@ Executable=/Applications/Firefox.app/Contents/MacOS/firefox
 
 ### CVE-2023-26818 - Telegram
 
-Telegram具有权限`com.apple.security.cs.allow-dyld-environment-variables`和`com.apple.security.cs.disable-library-validation`，因此可以滥用它来**获取其权限**，例如使用摄像头进行录制。您可以在[**写作中找到有效载荷**](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/)。
+Telegram具有权限`com.apple.security.cs.allow-dyld-environment-variables`和`com.apple.security.cs.disable-library-validation`，因此可以滥用它以获取其权限，例如使用摄像头进行录制。您可以在[**写作中找到有效载荷**](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/)。
 
 ## 通过打开调用
 
-可以在受沙箱限制的环境中调用打开命令。
+即使在沙盒环境中，也可以调用`open`。
 
 ### 终端脚本
 
@@ -324,7 +324,7 @@ Telegram具有权限`com.apple.security.cs.allow-dyld-environment-variables`和`
 </dict>
 </plist>
 ```
-应用程序可以在/tmp等位置编写一个终端脚本，并使用如下命令来启动它：
+一个应用程序可以在/tmp等位置编写一个终端脚本，并使用如下命令来启动它：
 ```objectivec
 // Write plist in /tmp/tcc.terminal
 [...]
@@ -412,7 +412,17 @@ os.system("hdiutil detach /tmp/mnt 1>/dev/null")
 
 <figure><img src="../../../../../.gitbook/assets/image (4) (3).png" alt=""><figcaption></figcaption></figure>
 
-## 参考资料
+## 合成点击
+
+这种方法不再有效，但是[**过去有效**](https://twitter.com/noarfromspace/status/639125916233416704/photo/1)**：**
+
+<figure><img src="../../../../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+
+另一种方法是使用[**CoreGraphics事件**](https://objectivebythesea.org/v2/talks/OBTS\_v2\_Wardle.pdf)：
+
+<figure><img src="../../../../../.gitbook/assets/image (1).png" alt="" width="563"><figcaption></figcaption></figure>
+
+## 参考
 
 * [**https://medium.com/@mattshockl/cve-2020-9934-bypassing-the-os-x-transparency-consent-and-control-tcc-framework-for-4e14806f1de8**](https://medium.com/@mattshockl/cve-2020-9934-bypassing-the-os-x-transparency-consent-and-control-tcc-framework-for-4e14806f1de8)
 * [**https://www.sentinelone.com/labs/bypassing-macos-tcc-user-privacy-protections-by-accident-and-design/**](https://www.sentinelone.com/labs/bypassing-macos-tcc-user-privacy-protections-by-accident-and-design/)
@@ -423,10 +433,10 @@ os.system("hdiutil detach /tmp/mnt 1>/dev/null")
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者你想要**获取最新版本的PEASS或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者想要**获取最新版本的PEASS或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[NFT收藏品](https://opensea.io/collection/the-peass-family)——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>

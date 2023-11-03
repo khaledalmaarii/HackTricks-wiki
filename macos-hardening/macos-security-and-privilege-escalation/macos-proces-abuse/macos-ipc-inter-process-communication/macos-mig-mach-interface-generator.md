@@ -39,7 +39,7 @@ n2          :  uint32_t);
 ```bash
 mig -header myipcUser.h -sheader myipcServer.h myipc.defs
 ```
-在当前目录中将创建几个新文件。
+当前目录将创建几个新文件。
 
 在文件**`myipcServer.c`**和**`myipcServer.h`**中，您可以找到**`SERVERPREFmyipc_subsystem`**结构的声明和定义，该结构基本上定义了根据接收到的消息ID调用的函数（我们指定了起始编号为500）：
 
@@ -82,430 +82,137 @@ myipc_server_routine,
 #include <mach/mach_time.h>
 #include <mach/mach_host.h>
 #include <mach/mach_host_priv.h>
+#include <mach/mach_host_server.h>
+#include <mach/mach_host_user.h>
+#include <mach/mach_host_reboot.h>
 #include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher
+#include <mach/mach_host_info.h>
+#include <mach/mach_host_notify.h>
+#include <mach/mach_host_security.h>
+#include <mach/mach_host_policy.h>
+#include <mach/mach_host_qos.h>
+#include <mach/mach_host_ledger.h>
+#include <mach/mach_host_statistics.h>
+#include <mach/mach_host_vm_info.h>
+#include <mach/mach_host_vm_priv.h>
+#include <mach/mach_host_vm_ext.h>
+#include <mach/mach_host_vm_prot.h>
+#include <mach/mach_host_vm_behavior.h>
+#include <mach/mach_host_vm_region.h>
+#include <mach/mach_host_vm_wire.h>
+#include <mach/mach_host_vm_purgable.h>
+#include <mach/mach_host_vm_info_internal.h>
+#include <mach/mach_host_vm_info_external.h>
+#include <mach/mach_host_vm_info_shared.h>
+#include <mach/mach_host_vm_info_compressed.h>
+#include <mach/mach_host_vm_info_region.h>
+#include <mach/mach_host_vm_info_region_internal.h>
+#include <mach/mach_host_vm_info_region_external.h>
+#include <mach/mach_host_vm_info_region_shared.h>
+#include <mach/mach_host_vm_info_region_compressed.h>
+#include <mach/mach_host_vm_info_region_purgable.h>
+#include <mach/mach_host_vm_info_region_purgable_internal.h>
+#include <mach/mach_host_vm_info_region_purgable_external.h>
+#include <mach/mach_host_vm_info_region_purgable_shared.h>
+#include <mach/mach_host_vm_info_region_purgable_compressed.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_internal.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_external.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_shared.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_compressed.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_internal.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_external.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_shared.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_compressed.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_internal.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_external.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_shared.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_compressed.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_internal.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_external.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_shared.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_compressed.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_internal.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_external.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_shared.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_compressed.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_internal.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_external.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_shared.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_compressed.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_internal.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_external.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_shared.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_compressed.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_internal.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_external.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_shared.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_compressed.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_internal.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_external.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_shared.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_compressed.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_internal.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_external.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_shared.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_compressed.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_internal.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_external.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_shared.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_compressed.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_internal.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_external.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_shared.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_compressed.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_internal.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_external.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_shared.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_compressed.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_internal.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_external.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_shared.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_compressed.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_internal.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_external.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_shared.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_compressed.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_internal.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_external.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_shared.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_compressed.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_internal.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_external.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_shared.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_compressed.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_internal.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_external.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_shared.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_compressed.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_internal.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_external.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_shared.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_compressed.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable.h>
+#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_internal.h>
+#include <mach/mach_host_vm
 ```c
 /* Description of this subsystem, for use in direct RPC */
 extern const struct SERVERPREFmyipc_subsystem {
@@ -545,7 +252,7 @@ return SERVERPREFmyipc_subsystem.routine[msgh_id].stub_routine;
 { "Subtract", 500 }
 #endif
 ```
-最后，使服务器工作的另一个重要函数将是**`myipc_server`**，它是实际上调用与接收到的id相关的函数的函数：
+最后，使服务器工作的另一个重要函数将是**`myipc_server`**，它是实际上将调用与接收到的id相关联的函数的函数：
 
 ```c
 mig_external boolean_t myipc_server
@@ -579,11 +286,37 @@ return FALSE;
 	return TRUE;
 }
 ```
+{% endtab %}
+{% endtabs %}
 
 检查以下代码，使用生成的代码创建一个简单的服务器和客户端，其中客户端可以调用服务器的Subtract函数：
 
-{% tabs %}
-{% tab title="myipc_server.c" %}
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <servers/bootstrap.h>
+#include "myipc.h"
+
+int main(int argc, char *argv[])
+{
+    mach_port_t server_port;
+    kern_return_t kr;
+    int result;
+
+    kr = bootstrap_look_up(bootstrap_port, "com.example.myipc_server", &server_port);
+    if (kr != KERN_SUCCESS) {
+        fprintf(stderr, "bootstrap_look_up() failed: %s\n", mach_error_string(kr));
+        exit(1);
+    }
+
+    result = Subtract(server_port, 10, 5);
+    printf("Result: %d\n", result);
+
+    mach_port_deallocate(mach_task_self(), server_port);
+
+    return 0;
+}
+```
 ```c
 // gcc myipc_server.c myipcServer.c -o myipc_server
 
@@ -614,42 +347,51 @@ return 1;
 mach_msg_server(myipc_server, sizeof(union __RequestUnion__SERVERPREFmyipc_subsystem), port, MACH_MSG_TIMEOUT_NONE);
 }
 ```
+{% tab title="myipc_client.c" %}
+
 ```c
 #include <stdio.h>
 #include <stdlib.h>
-#include <mach/mach.h>
+#include <servers/bootstrap.h>
 #include "myipc.h"
 
 int main(int argc, char *argv[]) {
-    mach_port_t server_port;
+    mach_port_t bootstrap_port;
     kern_return_t kr;
-    int val = 0;
+    myipc_msg_t msg;
 
-    if (argc != 2) {
-        printf("Usage: %s <value>\n", argv[0]);
-        return 1;
-    }
-
-    val = atoi(argv[1]);
-
-    kr = bootstrap_look_up(bootstrap_port, "com.example.myipc_server", &server_port);
+    // Get the bootstrap port
+    kr = task_get_bootstrap_port(mach_task_self(), &bootstrap_port);
     if (kr != KERN_SUCCESS) {
-        printf("Failed to look up server port: %s\n", mach_error_string(kr));
-        return 1;
+        fprintf(stderr, "Failed to get bootstrap port: %s\n", mach_error_string(kr));
+        exit(1);
     }
 
-    kr = myipc_client_send_value(server_port, val);
+    // Look up the server port
+    kr = bootstrap_look_up(bootstrap_port, MYIPC_SERVER_NAME, &msg.server_port);
     if (kr != KERN_SUCCESS) {
-        printf("Failed to send value: %s\n", mach_error_string(kr));
-        return 1;
+        fprintf(stderr, "Failed to look up server port: %s\n", mach_error_string(kr));
+        exit(1);
     }
+
+    // Set the message type and data
+    msg.type = MYIPC_MSG_TYPE;
+    msg.data = 123;
+
+    // Send the message
+    kr = mach_msg(&msg.header, MACH_SEND_MSG, sizeof(msg), 0, MACH_PORT_NULL, MACH_MSG_TIMEOUT_NONE, MACH_PORT_NULL);
+    if (kr != KERN_SUCCESS) {
+        fprintf(stderr, "Failed to send message: %s\n", mach_error_string(kr));
+        exit(1);
+    }
+
+    printf("Message sent successfully\n");
 
     return 0;
 }
 ```
-{% endtab %}
 
-{% tab title="myipc_server.c" %}
+{% endtab %}
 ```c
 // gcc myipc_client.c myipcUser.c -o myipc_client
 
@@ -676,7 +418,7 @@ USERPREFSubtract(port, 40, 2);
 ```
 ### 二进制分析
 
-由于许多二进制文件现在使用MIG来公开mach端口，了解如何**识别使用了MIG**以及**每个消息ID执行的函数**是很有趣的。
+由于许多二进制文件现在使用MIG来公开mach端口，了解如何**识别使用了MIG**以及每个消息ID执行的**MIG函数**是很有趣的。
 
 [**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2)可以解析Mach-O二进制文件中的MIG信息，指示消息ID并标识要执行的函数：
 ```bash
@@ -698,7 +440,7 @@ var_18 = arg1;
 *(int32_t *)(var_18 + 0x10) = 0x0;
 if (*(int32_t *)(var_10 + 0x14) &#x3C;= 0x1f4 &#x26;&#x26; *(int32_t *)(var_10 + 0x14) >= 0x1f4) {
 rax = *(int32_t *)(var_10 + 0x14);
-// 调用sign_extend_64函数，有助于识别该函数
+// 调用sign_extend_64函数，有助于识别此函数
 // 这将在rax中存储需要调用的调用的指针
 // 检查地址0x100004040的使用（函数地址数组）
 // 0x1f4 = 500（起始ID）
@@ -771,7 +513,7 @@ if (CPU_FLAGS &#x26; NE) {
 r8 = 0x1;
 }
 }
-// 与前一个版本相同的if else
+// 与上一个版本相同的if else
 // 检查地址0x100004040的使用（函数地址数组）
 <strong>                    if ((r8 &#x26; 0x1) == 0x0) {
 </strong><strong>                            *(var_18 + 0x18) = **0x100004000;
@@ -803,11 +545,11 @@ return r0;
 {% endtab %}
 {% endtabs %}
 
-实际上，如果你转到函数**`0x100004000`**，你会发现**`routine_descriptor`**结构体的数组，结构体的第一个元素是函数实现的地址，**结构体占用0x28字节**，所以每0x28字节（从字节0开始）你可以得到8字节，那就是将要调用的**函数的地址**：
-
-<figure><img src="../../../../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+实际上，如果你转到函数**`0x100004000`**，你会找到**`routine_descriptor`**结构体的数组，结构体的第一个元素是函数实现的地址，**结构体占用0x28字节**，所以每0x28字节（从字节0开始）你可以得到8字节，那就是将要调用的**函数的地址**：
 
 <figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+
+<figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 可以使用[**这个Hopper脚本**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py)提取这些数据。
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>

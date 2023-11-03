@@ -40,7 +40,7 @@ _你的公司也可以在这里。_
 
 ### [Intigriti](https://www.intigriti.com)
 
-<figure><img src=".gitbook/assets/image (2) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (2) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 **Intigriti** 是欧洲排名第一的道德黑客和漏洞赏金平台。
 
@@ -63,11 +63,11 @@ _你的公司也可以在这里。_
 
 <figure><img src=".gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-在网络安全领域保持领先。
+在网络安全游戏中保持领先一步。
 
-[**Intruder**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) 让漏洞管理变得简单。跟踪你的攻击面，了解你的公司存在哪些漏洞，并优先处理最容易受到攻击的问题，这样你就可以专注于最重要的事情。
+[**Intruder**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) 让漏洞管理变得简单。跟踪你的攻击面，了解你的公司存在哪些漏洞，并优先处理那些最容易暴露你的系统的问题，这样你就可以专注于最重要的事情。
 
-使用一个平台运行数千个检查，覆盖你的整个技术栈，包括内部基础设施、Web应用程序、API和云系统。与 [AWS、GCP、Azure](https://www.intruder.io/cloud-vulnerability-scanning-for-aws-google-cloud-and-azure) 无缝集成，简化DevOps，使你的团队能够更快地实施修复措施。
+使用一个平台运行数千个检查，涵盖从内部基础设施到 Web 应用程序、API 和云系统的整个技术栈。与 [AWS、GCP、Azure](https://www.intruder.io/cloud-vulnerability-scanning-for-aws-google-cloud-and-azure) 无缝集成，简化 DevOps，使你的团队能够更快地实施修复措施。
 
 Intruder 从不休息。全天候保护监控你的系统。想了解更多？访问他们的网站，并通过[**免费试用**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks)来体验一下。
 
@@ -77,16 +77,16 @@ Intruder 从不休息。全天候保护监控你的系统。想了解更多？�
 
 <figure><img src=".gitbook/assets/image (5).png" alt=""><figcaption></figcaption></figure>
 
-**HackenProof 是所有加密漏洞赏金的家园。**
+**HackenProof 是所有加密赏金的家园。**
 
 **无需等待即可获得奖励**\
-HackenProof 的赏金只有在客户存入奖励预算后才会启动。在漏洞经过验证后，您将获得奖励。
+HackenProof 的赏金只有在客户存入奖励预算后才会启动。在漏洞验证后，您将获得奖励。
 
 **在 web3 渗透测试中积累经验**\
-区块链协议和智能合约是新的互联网！在它崛起的时代掌握 web3 安全。
+区块链协议和智能合约是新的互联网！在它崛起的日子里掌握 web3 安全。
 
 **成为 web3 黑客传奇**\
-每次验证的漏洞都会增加声誉积分，征服每周排行榜的顶端。
+每次验证的漏洞都会获得声誉积分，并占据每周排行榜的榜首。
 
 [**在 HackenProof 上注册**](https://hackenproof.com/register)开始从你的黑客行动中获利！
 
@@ -100,7 +100,7 @@ HackenProof 的赏金只有在客户存入奖励预算后才会启动。在漏�
 
 WebSec 是一家**全方位的安全公司**，他们可以做到所有的事情；渗透测试、安全审计、安全意识培训、钓鱼活动、代码审查、漏洞利用开发、安全专家外包等等。
 
-WebSec 的另一个很酷的地方是，与行业平均水平不同，WebSec 对自己的技能非常有信心，以至于他们保证提供最优质的结果，他们的网站上写着“**如果我们无法入侵，你就不需要支付费用！**”。想了解更多信息，请查看他们的[**网站**](https://websec.nl/en/)和[**博客**](https://websec.nl/blog/)！
+WebSec 的另一个很酷的地方是，与行业平均水平不同，WebSec 对自己的技能非常有信心，以至于他们保证提供最优质的结果，他们的网站上写着“**如果我们无法入侵，你就不需要支付费用！**”。想要了解更多信息，请查看他们的[**网站**](https://websec.nl/en/)和[**博客**](https://websec.nl/blog/)！
 
 除了以上内容，WebSec 还是 HackTricks 的**忠实支持者**。
 

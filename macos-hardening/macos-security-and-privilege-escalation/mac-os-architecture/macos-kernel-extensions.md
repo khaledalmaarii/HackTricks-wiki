@@ -22,7 +22,7 @@
 
 * 在**进入恢复模式**时，必须**允许加载内核扩展**：
 
-<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 * 内核扩展必须使用**内核代码签名证书**进行**签名**，该证书只能由**Apple**授予。Apple将详细审查公司和所需原因。
 * 内核扩展还必须经过**公证**，Apple将对其进行恶意软件检查。
