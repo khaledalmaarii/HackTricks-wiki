@@ -255,7 +255,7 @@ O **jtool2** pode analisar informações do MIG de um binário Mach-O, indicando
 ```bash
 jtool2 -d __DATA.__const myipc_server | grep MIG
 ```
-Foi mencionado anteriormente que a função que cuidará de **chamar a função correta dependendo do ID da mensagem recebida** é `myipc_server`. No entanto, geralmente você não terá os símbolos do binário (sem nomes de funções), então é interessante **ver como ela é descompilada** já que sempre será muito semelhante (o código desta função é independente das funções expostas):
+Foi mencionado anteriormente que a função que cuidará de **chamar a função correta dependendo do ID da mensagem recebida** é `myipc_server`. No entanto, geralmente você não terá os símbolos do binário (sem nomes de funções), então é interessante **ver como ela é descompilada**, pois sempre será muito semelhante (o código dessa função é independente das funções expostas):
 
 {% tabs %}
 {% tab title="myipc_server descompilada 1" %}
@@ -271,13 +271,13 @@ var_18 = arg1;
 *(int32_t *)(var_18 + 0x10) = 0x0;
 if (*(int32_t *)(var_10 + 0x14) &#x3C;= 0x1f4 &#x26;&#x26; *(int32_t *)(var_10 + 0x14) >= 0x1f4) {
 rax = *(int32_t *)(var_10 + 0x14);
-// Chamada para sign_extend_64 que pode ajudar a identificar esta função
+// Chamada para sign_extend_64 que pode ajudar a identificar essa função
 // Isso armazena em rax o ponteiro para a chamada que precisa ser feita
 // Verifique o uso do endereço 0x100004040 (array de endereços de funções)
 // 0x1f4 = 500 (o ID de início)
 <strong>            rax = *(sign_extend_64(rax - 0x1f4) * 0x28 + 0x100004040);
 </strong>            var_20 = rax;
-// Se - senão, o if retorna falso, enquanto o else chama a função correta e retorna verdadeiro
+// Se - senão, se o if retornar falso, enquanto o else chama a função correta e retorna verdadeiro
 <strong>            if (rax == 0x0) {
 </strong>                    *(var_18 + 0x18) = **_NDR_record;
 *(int32_t *)(var_18 + 0x20) = 0xfffffffffffffed1;
@@ -301,7 +301,7 @@ return rax;
 {% endtab %}
 
 {% tab title="myipc_server descompilada 2" %}
-Esta é a mesma função descompilada em uma versão gratuita diferente do Hopper:
+Esta é a mesma função descompilada em uma versão diferente do Hopper free:
 
 <pre class="language-c"><code class="lang-c">int _myipc_server(int arg0, int arg1) {
 r31 = r31 - 0x40;
@@ -344,7 +344,7 @@ if (CPU_FLAGS &#x26; NE) {
 r8 = 0x1;
 }
 }
-// Mesmo if else que na versão anterior
+// Mesmo se else que na versão anterior
 // Verifique o uso do endereço 0x100004040 (array de endereços de funções)
 <strong>                    if ((r8 &#x26; 0x1) == 0x0) {
 </strong><strong>                            *(var_18 + 0x18) = **0x100004000;
@@ -376,18 +376,18 @@ return r0;
 {% endtab %}
 {% endtabs %}
 
-Na verdade, se você for para a função **`0x100004000`**, encontrará o array de structs **`routine_descriptor`**, o primeiro elemento da struct é o endereço onde a função é implementada e a **struct ocupa 0x28 bytes**, então a cada 0x28 bytes (começando do byte 0) você pode obter 8 bytes e esse será o **endereço da função** que será chamada:
-
-<figure><img src="../../../../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+Na verdade, se você for para a função **`0x100004000`**, encontrará o array de structs **`routine_descriptor`**, o primeiro elemento da struct é o endereço onde a função é implementada e a **struct ocupa 0x28 bytes**, então a cada 0x28 bytes (a partir do byte 0) você pode obter 8 bytes e esse será o **endereço da função** que será chamada:
 
 <figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+
+<figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Esses dados podem ser extraídos [**usando este script do Hopper**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py).
 
 <details>
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? Ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**

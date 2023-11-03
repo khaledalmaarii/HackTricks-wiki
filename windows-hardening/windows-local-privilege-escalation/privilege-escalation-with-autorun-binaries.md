@@ -12,7 +12,7 @@
 
 </details>
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
 Se você está interessado em uma **carreira de hacking** e hackear o inquebrável - **estamos contratando!** (_fluência em polonês escrita e falada é necessária_).
 
@@ -312,20 +312,22 @@ Quando um programa é executado no Windows, o sistema operacional verifica se ex
 
 #### Explorando as Opções de Execução de Arquivos de Imagem
 
-Para explorar essa vulnerabilidade, um invasor pode adicionar uma entrada nas Opções de Execução de Arquivos de Imagem para um executável privilegiado, como o Prompt de Comando (cmd.exe). Dessa forma, sempre que o Prompt de Comando for iniciado, o programa especificado nas opções será executado em seu lugar.
+Para explorar essa vulnerabilidade, um invasor pode adicionar uma entrada nas Opções de Execução de Arquivos de Imagem para um executável privilegiado, como o Prompt de Comando (cmd.exe). Dessa forma, toda vez que o Prompt de Comando for iniciado, o programa especificado nas opções será executado com privilégios elevados.
 
-Para adicionar uma entrada nas Opções de Execução de Arquivos de Imagem, é necessário editar o Registro do Windows. O invasor pode fazer isso manualmente ou usando ferramentas automatizadas.
+#### Execução de Binários Autorun
+
+Uma técnica comum de escalonamento de privilégios é usar as Opções de Execução de Arquivos de Imagem para executar um binário malicioso sempre que um programa privilegiado for iniciado. Isso pode ser feito adicionando uma entrada nas Opções de Execução de Arquivos de Imagem para o executável privilegiado e especificando o binário malicioso como o programa a ser executado.
 
 #### Prevenção
 
-Para mitigar esse tipo de ataque, é recomendado restringir o acesso ao Registro do Windows e monitorar as alterações feitas nele. Além disso, é importante manter o sistema operacional e os aplicativos atualizados para corrigir possíveis vulnerabilidades que possam ser exploradas.
+Para mitigar esse tipo de ataque, é recomendado restringir as permissões de gravação nas chaves de registro relacionadas às Opções de Execução de Arquivos de Imagem. Além disso, é importante monitorar as alterações nessas chaves de registro em busca de atividades suspeitas.
 ```
 HKLM\Software\Microsoft\Windows NT\CurrentVersion\Image File Execution Options
 HKLM\Software\Microsoft\Wow6432Node\Windows NT\CurrentVersion\Image File Execution Options
 ```
 ## SysInternals
 
-Observe que todos os sites onde você pode encontrar autoruns já foram pesquisados pelo [winpeas.exe](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS/winPEASexe). No entanto, para uma lista mais abrangente de arquivos autoexecutáveis, você pode usar o [autoruns](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns) do SysInternals:
+Observe que todos os sites onde você pode encontrar autoruns já foram pesquisados pelo [winpeas.exe](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS/winPEASexe). No entanto, para uma lista mais abrangente de arquivos autoexecutados, você pode usar o [autoruns](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns) do SysInternals:
 ```
 autorunsc.exe -m -nobanner -a * -ct /accepteula
 ```
@@ -339,9 +341,9 @@ Encontre mais Autoruns como registros em [https://www.microsoftpressstore.com/ar
 * [https://attack.mitre.org/techniques/T1547/001/](https://attack.mitre.org/techniques/T1547/001/)
 * [https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2](https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2)
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
-Se você está interessado em uma **carreira de hacking** e hackear o inquebrável - **estamos contratando!** (_fluência em polonês escrita e falada é necessária_).
+Se você está interessado em **carreira de hacking** e hackear o inquebrável - **estamos contratando!** (_fluência em polonês escrita e falada é necessária_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
@@ -349,7 +351,7 @@ Se você está interessado em uma **carreira de hacking** e hackear o inquebráv
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? Ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**

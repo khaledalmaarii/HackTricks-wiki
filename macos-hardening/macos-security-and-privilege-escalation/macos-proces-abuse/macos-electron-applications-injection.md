@@ -58,9 +58,9 @@ Binary file Slack.app//Contents/Frameworks/Electron Framework.framework/Versions
 ```
 Você pode carregar este arquivo em [https://hexed.it/](https://hexed.it/) e procurar pela string anterior. Após essa string, você pode ver em ASCII um número "0" ou "1" indicando se cada fusível está desabilitado ou habilitado. Basta modificar o código hexadecimal (`0x30` é `0` e `0x31` é `1`) para **modificar os valores dos fusíveis**.
 
-<figure><img src="../../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
 
-Observe que se você tentar **sobrescrever** o **binário do Electron Framework** dentro de um aplicativo com esses bytes modificados, o aplicativo não será executado.
+Observe que se você tentar **sobrescrever** o binário do **`Electron Framework`** dentro de um aplicativo com esses bytes modificados, o aplicativo não será executado.
 
 ## RCE adicionando código a Aplicações Electron
 
@@ -70,7 +70,7 @@ Pode haver **arquivos JS/HTML externos** que um aplicativo Electron está usando
 No entanto, no momento existem 2 limitações:
 
 * A permissão **`kTCCServiceSystemPolicyAppBundles`** é **necessária** para modificar um aplicativo, portanto, por padrão, isso não é mais possível.
-* O arquivo compilado **`asap`** geralmente tem os fusíveis **`embeddedAsarIntegrityValidation`** `e` **`onlyLoadAppFromAsar`** `habilitados`
+* O arquivo **`asap`** compilado geralmente tem os fusíveis **`embeddedAsarIntegrityValidation`** `e` **`onlyLoadAppFromAsar`** `habilitados`
 
 Tornando esse caminho de ataque mais complicado (ou impossível).
 {% endhint %}
@@ -79,7 +79,7 @@ Observe que é possível contornar o requisito de **`kTCCServiceSystemPolicyAppB
 
 ## RCE com `ELECTRON_RUN_AS_NODE` <a href="#electron_run_as_node" id="electron_run_as_node"></a>
 
-De acordo com [**a documentação**](https://www.electronjs.org/docs/latest/api/environment-variables#electron\_run\_as\_node), se essa variável de ambiente estiver definida, ela iniciará o processo como um processo Node.js normal.
+De acordo com [**a documentação**](https://www.electronjs.org/docs/latest/api/environment-variables#electron\_run\_as\_node), se essa variável de ambiente for definida, ela iniciará o processo como um processo Node.js normal.
 
 {% code overflow="wrap" %}
 ```bash
@@ -261,6 +261,6 @@ Shell binding requested. Check `nc 127.0.0.1 12345`
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e o** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

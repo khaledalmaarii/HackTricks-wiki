@@ -53,7 +53,7 @@ Além disso, depois de encontrar as credenciais corretas, você pode ser capaz d
 
 #### Autenticação de dispositivo JAMF
 
-<figure><img src="../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 O binário **`jamf`** continha o segredo para abrir o keychain que, na época da descoberta, era **compartilhado** por todos e era: **`jk23ucnq91jfu9aj`**.\
 Além disso, o jamf **persiste** como um **LaunchDaemon** em **`/Library/LaunchAgents/com.jamf.management.agent.plist`**

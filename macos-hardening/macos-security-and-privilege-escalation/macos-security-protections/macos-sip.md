@@ -72,8 +72,8 @@ Se um invasor conseguir contornar o SIP, isso é o que ele ganhará:
 
 * Ler e-mails, mensagens, histórico do Safari... de todos os usuários
 * Conceder permissões para webcam, microfone ou qualquer coisa (escrevendo diretamente no banco de dados TCC protegido pelo SIP)
-* Persistência: ele poderia salvar um malware em um local protegido pelo SIP e nem mesmo o root poderá excluí-lo. Além disso, ele poderia adulterar o MRT.
-* Facilidade para carregar extensões de kernel (ainda existem outras proteções avançadas para isso).
+* Persistência: ele poderia salvar um malware em um local protegido pelo SIP e nem mesmo o root poderá excluí-lo. Além disso, ele poderia interferir no MRT.
+* Facilidade para carregar extensões de kernel (ainda há outras proteções avançadas para isso).
 
 ### Pacotes de Instalador
 
@@ -89,13 +89,15 @@ Uma possível brecha é que, se um arquivo for especificado em **`rootless.conf`
 A permissão **`com.apple.rootless.install.heritable`** permite contornar o SIP
 {% endhint %}
 
-[**Pesquisadores deste post de blog**](https://www.microsoft.com/en-us/security/blog/2021/10/28/microsoft-finds-new-macos-vulnerability-shrootless-that-could-bypass-system-integrity-protection/) descobriram uma vulnerabilidade no mecanismo de Proteção da Integridade do Sistema (SIP) do macOS, chamada de vulnerabilidade 'Shrootless'. Essa vulnerabilidade está centrada no daemon `system_installd`, que possui uma permissão, **`com.apple.rootless.install.heritable`**, que permite que qualquer um de seus processos filhos contorne as restrições do sistema de arquivos do SIP.
+[**Pesquisadores deste post de blog**](https://www.microsoft.com/en-us/security/blog/2021/10/28/microsoft-finds-new-macos-vulnerability-shrootless-that-could-bypass-system-integrity-protection/) descobriram uma vulnerabilidade no mecanismo de Proteção da Integridade do Sistema (SIP) do macOS, chamada de vulnerabilidade 'Shrootless'. Essa vulnerabilidade está centrada no daemon **`system_installd`**, que possui uma permissão, **`com.apple.rootless.install.heritable`**, que permite que qualquer um de seus processos filhos contorne as restrições do sistema de arquivos do SIP.
 
-Os pesquisadores descobriram que, durante a instalação de um pacote assinado pela Apple (arquivo .pkg), o `system_installd` **executa** quaisquer scripts **pós-instalação** incluídos no pacote. Esses scripts são executados pelo shell padrão, **`zsh`**, que automaticamente **executa** comandos do arquivo **`/etc/zshenv`**, se ele existir, mesmo no modo não interativo. Esse comportamento pode ser explorado por invasores: criando um arquivo malicioso `/etc/zshenv` e aguardando o `system_installd` invocar o `zsh`, eles podem executar operações arbitrárias no dispositivo.
+O daemon **`system_installd`** instalará pacotes que foram assinados pela **Apple**.
+
+Os pesquisadores descobriram que, durante a instalação de um pacote assinado pela Apple (.pkg), o **`system_installd`** **executa** quaisquer scripts **post-install** incluídos no pacote. Esses scripts são executados pelo shell padrão, **`zsh`**, que automaticamente **executa** comandos do arquivo **`/etc/zshenv`**, se ele existir, mesmo no modo não interativo. Esse comportamento pode ser explorado por invasores: criando um arquivo malicioso `/etc/zshenv` e aguardando o **`system_installd` invocar o `zsh`**, eles podem executar operações arbitrárias no dispositivo.
 
 Além disso, foi descoberto que **`/etc/zshenv` pode ser usado como uma técnica de ataque geral**, não apenas para contornar o SIP. Cada perfil de usuário possui um arquivo `~/.zshenv`, que se comporta da mesma maneira que o `/etc/zshenv`, mas não requer permissões de root. Esse arquivo pode ser usado como um mecanismo de persistência, sendo acionado toda vez que o `zsh` é iniciado, ou como um mecanismo de elevação de privilégios. Se um usuário administrador eleva para root usando `sudo -s` ou `sudo <comando>`, o arquivo `~/.zshenv` será acionado, efetivamente elevando para root.
 
-Em [**CVE-2022-22583**](https://perception-point.io/blog/technical-analysis-cve-2022-22583/), foi descoberto que o mesmo processo **`system_installd`** ainda poderia ser abusado porque estava colocando o **script pós-instalação dentro de uma pasta com nome aleatório protegida pelo SIP dentro de `/tmp`**. A questão é que **`/tmp` em si não é protegido pelo SIP**, então era possível **montar** uma **imagem virtual nele**, em seguida, o **instalador** colocaria nela o **script pós-instalação**, **desmontaria** a imagem virtual, **recriaria** todas as **pastas** e **adicionaria** o **script de pós-instalação** com a **carga útil** a ser executada.
+Em [**CVE-2022-22583**](https://perception-point.io/blog/technical-analysis-cve-2022-22583/), foi descoberto que o mesmo processo **`system_installd`** ainda poderia ser abusado porque estava colocando o **script post-install** dentro de uma pasta com nome aleatório protegida pelo SIP dentro de `/tmp`. A questão é que **`/tmp` em si não é protegido pelo SIP**, então era possível **montar** uma **imagem virtual** nele, em seguida, o **instalador** colocaria o **script post-install** lá, **desmontaria** a imagem virtual, **recriaria** todas as **pastas** e **adicionaria** o **script de pós-instalação** com a **carga útil** a ser executada.
 
 ### **com.apple.rootless.install**
 
@@ -103,11 +105,11 @@ Em [**CVE-2022-22583**](https://perception-point.io/blog/technical-analysis-cve-
 A permissão **`com.apple.rootless.install`** permite contornar o SIP
 {% endhint %}
 
-A partir de [**CVE-2022-26712**](https://jhftss.github.io/CVE-2022-26712-The-POC-For-SIP-Bypass-Is-Even-Tweetable/), o serviço XPC do sistema `/System/Library/PrivateFrameworks/ShoveService.framework/Versions/A/XPCServices/SystemShoveService.xpc` possui a permissão **`com.apple.rootless.install`**, que concede ao processo permissão para contornar as restrições do SIP. Ele também **expõe um método para mover arquivos sem qualquer verificação de segurança**.
+De acordo com [**CVE-2022-26712**](https://jhftss.github.io/CVE-2022-26712-The-POC-For-SIP-Bypass-Is-Even-Tweetable/), o serviço XPC do sistema `/System/Library/PrivateFrameworks/ShoveService.framework/Versions/A/XPCServices/SystemShoveService.xpc` possui a permissão **`com.apple.rootless.install`**, que concede ao processo permissão para contornar as restrições do SIP. Ele também **expõe um método para mover arquivos sem qualquer verificação de segurança**.
 
 ## Snapshots do Sistema Selado
 
-Os Snapshots do Sistema Selado são um recurso introduzido pela Apple no **macOS Big Sur (macOS 11)** como parte de seu mecanismo de **Proteção da Integridade do Sistema (SIP)** para fornecer uma camada adicional de segurança e estabilidade do sistema. Eles são essencialmente versões somente leitura do volume do sistema.
+Os Snapshots do Sistema Selado são um recurso introduzido pela Apple no **macOS Big Sur (macOS 11)** como parte de seu mecanismo de Proteção da Integridade do Sistema (SIP) para fornecer uma camada adicional de segurança e estabilidade do sistema. Eles são essencialmente versões somente leitura do volume do sistema.
 
 Aqui está uma visão mais detalhada:
 
@@ -143,14 +145,14 @@ O comando **`diskutil apfs list`** lista os **detalhes dos volumes APFS** e sua 
 |   |   FileVault:                 Sim (Desbloqueado)
 |   |   Criptografado:             Não
 |   |   |
-|   |   Snapshot:                  FAA23E0C-791C-43FF
-|   |   Disco Snapshot:             disco3s1s1
-<strong>|   |   Ponto de Montagem do Snapshot:      /
-</strong><strong>|   |   Snapshot Selado:           Sim
+|   |   Instantâneo:                  FAA23E0C-791C-43FF-B0E7-0E1C0810AC61
+|   |   Disco do Instantâneo:             disk3s1s1
+<strong>|   |   Ponto de Montagem do Instantâneo:      /
+</strong><strong>|   |   Instantâneo Selado:           Sim
 </strong>[...]
-+-> Volume disco3s5 281959B7-07A1-4940-BDDF-6419360F3327
++-> Volume disk3s5 281959B7-07A1-4940-BDDF-6419360F3327
 |   ---------------------------------------------------
-|   Disco APFS (Função):   disco3s5 (Dados)
+|   Disco do Volume APFS (Função):   disk3s5 (Dados)
 |   Nome:                      Macintosh HD - Dados (Sem diferenciação de maiúsculas e minúsculas)
 <strong>    |   Ponto de Montagem:               /System/Volumes/Dados
 </strong><strong>    |   Capacidade Consumida:         412071784448 B (412.1 GB)
@@ -160,7 +162,7 @@ O comando **`diskutil apfs list`** lista os **detalhes dos volumes APFS** e sua 
 
 No resultado anterior, é possível ver que **locais acessíveis pelo usuário** estão montados em `/System/Volumes/Dados`.
 
-Além disso, o **snapshot do volume do sistema macOS** está montado em `/` e está **selado** (assinado criptograficamente pelo sistema operacional). Portanto, se o SIP for contornado e modificado, o **sistema operacional não inicializará mais**.
+Além disso, o **instantâneo do volume do sistema macOS** está montado em `/` e está **selado** (assinado criptograficamente pelo sistema operacional). Portanto, se o SIP for contornado e modificado, o **sistema operacional não inicializará mais**.
 
 Também é possível **verificar se o selo está ativado** executando:
 ```bash

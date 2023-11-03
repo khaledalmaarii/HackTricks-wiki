@@ -24,7 +24,7 @@ Também é possível **conceder acesso a aplicativos** a arquivos por meio de **
 
 O **TCC** é gerenciado pelo **daemon** localizado em `/System/Library/PrivateFrameworks/TCC.framework/Support/tccd` e configurado em `/System/Library/LaunchDaemons/com.apple.tccd.system.plist` (registrando o serviço mach `com.apple.tccd.system`).
 
-Existe um **tccd em modo de usuário** em execução para cada usuário conectado, definido em `/System/Library/LaunchAgents/com.apple.tccd.plist`, registrando os serviços mach `com.apple.tccd` e `com.apple.usernotifications.delegate.com.apple.tccd`.
+Existe um **tccd em modo de usuário** em execução para cada usuário logado, definido em `/System/Library/LaunchAgents/com.apple.tccd.plist`, registrando os serviços mach `com.apple.tccd` e `com.apple.usernotifications.delegate.com.apple.tccd`.
 
 Aqui você pode ver o tccd em execução como sistema e como usuário:
 ```bash
@@ -97,7 +97,7 @@ sqlite> select * from access where client LIKE "%telegram%" and auth_value=0;
 {% endtabs %}
 
 {% hint style="success" %}
-Verificando ambos os bancos de dados, você pode verificar as permissões que um aplicativo permitiu, proibiu ou não possui (ele solicitará).
+Ao verificar ambos os bancos de dados, você pode verificar as permissões que um aplicativo permitiu, proibiu ou não possui (ele solicitará).
 {% endhint %}
 
 * O **`auth_value`** pode ter valores diferentes: denied(0), unknown(1), allowed(2) ou limited(3).
@@ -113,12 +113,12 @@ O **Acesso Total ao Disco** tem o nome **`kTCCServiceSystemPolicyAllFiles`** e o
 Você também pode verificar as **permissões já concedidas** aos aplicativos em `Preferências do Sistema --> Segurança e Privacidade --> Privacidade --> Arquivos e Pastas`.
 
 {% hint style="success" %}
-Observe que, mesmo que um dos bancos de dados esteja dentro da pasta do usuário, **os usuários não podem modificar diretamente esses bancos de dados por causa do SIP** (mesmo se você for root). A única maneira de configurar ou modificar uma nova regra é por meio do painel de Preferências do Sistema ou de prompts em que o aplicativo solicita ao usuário.
+Observe que, mesmo que um dos bancos de dados esteja dentro da pasta do usuário, **os usuários não podem modificar diretamente esses bancos de dados devido ao SIP** (mesmo se você for root). A única maneira de configurar ou modificar uma nova regra é por meio do painel de Preferências do Sistema ou de prompts em que o aplicativo solicita ao usuário.
 
 No entanto, lembre-se de que os usuários _podem_ **excluir ou consultar regras** usando o **`tccutil`**.
 {% endhint %}
 
-#### Resetar
+#### Redefinir
 ```bash
 # You can reset all the permissions given to an application with
 tccutil reset All app.some.id
@@ -126,15 +126,60 @@ tccutil reset All app.some.id
 # Reset the permissions granted to all apps
 tccutil reset All
 ```
-### Privesc de Usuário TCC DB para FDA
+### Escalação de privilégios do banco de dados do usuário TCC para FDA
 
-Obtendo **permissões de escrita** sobre o **banco de dados do usuário TCC**, você **não pode** conceder a si mesmo permissões de **`FDA`**, apenas aquele que está no banco de dados do sistema pode conceder isso.
+Obtendo permissões de escrita sobre o banco de dados do usuário TCC, você não pode conceder a si mesmo permissões de FDA, apenas aquele que está no banco de dados do sistema pode conceder isso.
 
-Mas você pode **se dar** direitos de **`Automação para o Finder`**, e como o `Finder` possui `FDA`, você também possui.
+Mas você pode se dar direitos de automação para o Finder e, como o Finder possui FDA, você também terá.
 
-### Verificações de Assinatura TCC
+### Do desvio do SIP para o desvio do TCC
 
-O banco de dados do TCC armazena o **ID do Pacote** do aplicativo, mas também **armazena** **informações** sobre a **assinatura** para **garantir** que o aplicativo que solicita o uso de uma permissão seja o correto.
+Os bancos de dados do TCC são protegidos pelo SIP, por isso apenas processos com as permissões indicadas poderão modificá-los. Portanto, se um invasor encontrar um desvio do SIP em um arquivo (capaz de modificar um arquivo restrito pelo SIP), ele poderá remover a proteção de um banco de dados do TCC e conceder a si mesmo todas as permissões do TCC.
+
+No entanto, há outra opção para abusar desse desvio do SIP para burlar o TCC, o arquivo `/Library/Apple/Library/Bundles/TCC_Compatibility.bundle/Contents/Resources/AllowApplicationsList.plist` é uma lista de permissões de aplicativos que requerem uma exceção do TCC. Portanto, se um invasor puder remover a proteção do SIP deste arquivo e adicionar seu próprio aplicativo, o aplicativo poderá burlar o TCC.
+Por exemplo, para adicionar o terminal:
+```bash
+# Get needed info
+codesign -d -r- /System/Applications/Utilities/Terminal.app
+```
+AllowApplicationsList.plist:
+
+Este arquivo é usado pelo macOS para controlar quais aplicativos têm permissão para acessar dados protegidos pela TCC (Transparency, Consent, and Control). A TCC é um recurso de segurança do macOS que protege informações confidenciais, como contatos, calendários, câmera e microfone, exigindo que os aplicativos solicitem permissão ao usuário antes de acessá-las.
+
+O AllowApplicationsList.plist contém uma lista de identificadores de pacotes de aplicativos que foram concedidos permissão para acessar dados protegidos pela TCC. Esses identificadores de pacotes são exclusivos para cada aplicativo e são usados pelo sistema operacional para identificar e rastrear as permissões concedidas.
+
+Ao modificar o AllowApplicationsList.plist, é possível adicionar ou remover identificadores de pacotes de aplicativos para controlar quais aplicativos têm acesso aos dados protegidos pela TCC. No entanto, é importante ter cuidado ao fazer alterações nesse arquivo, pois modificações incorretas podem levar a problemas de segurança ou a aplicativos não funcionando corretamente.
+
+Para editar o AllowApplicationsList.plist, é necessário ter privilégios de root no macOS. Recomenda-se fazer um backup do arquivo antes de fazer qualquer alteração e usar um editor de texto confiável para evitar erros de formatação.
+
+Após fazer as alterações desejadas no AllowApplicationsList.plist, é necessário reiniciar o sistema para que as alterações entrem em vigor. Durante a reinicialização, o macOS lerá o arquivo atualizado e aplicará as permissões de acesso de acordo com as configurações especificadas.
+
+É importante lembrar que a modificação do AllowApplicationsList.plist é uma técnica avançada e deve ser realizada com cuidado e conhecimento adequados. É recomendável que apenas usuários experientes e familiarizados com o sistema operacional macOS realizem essas alterações.
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+<key>Services</key>
+<dict>
+<key>SystemPolicyAllFiles</key>
+<array>
+<dict>
+<key>CodeRequirement</key>
+<string>identifier &quot;com.apple.Terminal&quot; and anchor apple</string>
+<key>IdentifierType</key>
+<string>bundleID</string>
+<key>Identifier</key>
+<string>com.apple.Terminal</string>
+</dict>
+</array>
+</dict>
+</dict>
+</plist>
+```
+### Verificações de Assinatura do TCC
+
+O banco de dados do TCC armazena o **ID do Bundle** do aplicativo, mas também **armazena** **informações** sobre a **assinatura** para **garantir** que o aplicativo que solicita permissão seja o correto.
 
 {% code overflow="wrap" %}
 ```bash
@@ -227,7 +272,7 @@ O atributo estendido `com.apple.macl` **não pode ser removido** como outros atr
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Você trabalha em uma **empresa de segurança cibernética**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**

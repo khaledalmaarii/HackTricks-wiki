@@ -4,10 +4,10 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Você trabalha em uma **empresa de segurança cibernética**? Você quer ver sua **empresa anunciada no HackTricks**? Ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de segurança cibernética**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
@@ -46,7 +46,7 @@ Observe que agora, para poder habilitar o SSH, você precisa de "Acesso total ao
 
 O atributo `com.apple.macl` é atribuído a arquivos para dar permissões a um determinado aplicativo para lê-lo. Esse atributo é definido quando arrastamos e soltamos um arquivo sobre um aplicativo ou quando um usuário clica duas vezes em um arquivo para abri-lo com o aplicativo padrão.
 
-Portanto, um usuário poderia registrar um aplicativo malicioso para manipular todas as extensões e chamar os Serviços de Lançamento para abrir qualquer arquivo (assim, o arquivo malicioso terá acesso para lê-lo).
+Portanto, um usuário poderia registrar um aplicativo malicioso para manipular todas as extensões e chamar o Launch Services para abrir qualquer arquivo (assim, o arquivo malicioso terá acesso para lê-lo).
 
 ### iCloud
 
@@ -54,13 +54,13 @@ A permissão `com.apple.private.icloud-account-access` permite a comunicação c
 
 O iMovie e o Garageband tinham essa permissão e outras que permitiam.
 
-Para obter mais informações sobre a exploração para obter tokens do iCloud a partir dessa permissão, confira a palestra: [**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=_6e2LhmxVc0)
+Para mais informações sobre a exploração para obter tokens do iCloud a partir dessa permissão, confira a palestra: [**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=_6e2LhmxVc0)
 
 ### kTCCServiceAppleEvents / Automação
 
 Um aplicativo com a permissão `kTCCServiceAppleEvents` poderá controlar outros aplicativos. Isso significa que ele poderá abusar das permissões concedidas aos outros aplicativos.
 
-Para obter mais informações sobre Scripts da Apple, confira:
+Para mais informações sobre Scripts da Apple, confira:
 
 {% content-ref url="macos-apple-scripts.md" %}
 [macos-apple-scripts.md](macos-apple-scripts.md)
@@ -211,7 +211,7 @@ Existem diferentes técnicas para injetar código em um processo e abusar de sua
 {% endcontent-ref %}
 
 Além disso, a injeção de processo mais comum para contornar o TCC é por meio de **plugins (load library)**.\
-Plugins são códigos extras geralmente na forma de bibliotecas ou plist, que serão **carregados pelo aplicativo principal** e executarão sob seu contexto. Portanto, se o aplicativo principal tiver acesso a arquivos restritos pelo TCC (por meio de permissões concedidas ou entitlements), o **código personalizado também terá acesso**.
+Plugins são códigos extras geralmente na forma de bibliotecas ou plist, que serão **carregados pelo aplicativo principal** e executarão sob seu contexto. Portanto, se o aplicativo principal tiver acesso a arquivos restritos pelo TCC (por meio de permissões concedidas ou entitlements), o **código personalizado também terá**.
 
 ### CVE-2020-27937 - Directory Utility
 
@@ -300,11 +300,11 @@ O Telegram tinha as permissões `com.apple.security.cs.allow-dyld-environment-va
 
 ## Por invocações abertas
 
-É possível invocar o comando open em um ambiente sandbox.
+É possível invocar o comando `open` mesmo estando em um ambiente sandbox.
 
 ### Scripts do Terminal
 
-É bastante comum dar ao terminal **Acesso Total ao Disco (FDA)**, pelo menos em computadores usados por pessoas de tecnologia. E é possível invocar scripts **`.terminal`** usando isso.
+É bastante comum conceder ao terminal **Acesso Total ao Disco (FDA)**, pelo menos em computadores usados por pessoas de tecnologia. E é possível invocar scripts **`.terminal`** usando isso.
 
 Os scripts **`.terminal`** são arquivos plist, como este, com o comando a ser executado na chave **`CommandString`**:
 ```xml
@@ -402,17 +402,27 @@ A ferramenta **`/usr/sbin/asr`** permitia copiar todo o disco e montá-lo em out
 Existe um terceiro banco de dados do TCC em **`/var/db/locationd/clients.plist`** para indicar os clientes autorizados a **acessar os serviços de localização**.\
 A pasta **`/var/db/locationd/` não estava protegida contra montagem de DMG**, então era possível montar nosso próprio plist.
 
-## Por aplicativos de inicialização
+## Por meio de aplicativos de inicialização
 
 {% content-ref url="../../../../macos-auto-start-locations.md" %}
 [macos-auto-start-locations.md](../../../../macos-auto-start-locations.md)
 {% endcontent-ref %}
 
-## Por grep
+## Por meio do comando grep
 
-Em várias ocasiões, arquivos armazenarão informações sensíveis como e-mails, números de telefone, mensagens... em locais não protegidos (o que é considerado uma vulnerabilidade na Apple).
+Em várias ocasiões, arquivos armazenam informações sensíveis como e-mails, números de telefone, mensagens... em locais não protegidos (o que é considerado uma vulnerabilidade na Apple).
 
 <figure><img src="../../../../../.gitbook/assets/image (4) (3).png" alt=""><figcaption></figcaption></figure>
+
+## Cliques sintéticos
+
+Isso não funciona mais, mas [**funcionou no passado**](https://twitter.com/noarfromspace/status/639125916233416704/photo/1)**:**
+
+<figure><img src="../../../../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+
+Outra maneira usando [**eventos CoreGraphics**](https://objectivebythesea.org/v2/talks/OBTS\_v2\_Wardle.pdf):
+
+<figure><img src="../../../../../.gitbook/assets/image (1).png" alt="" width="563"><figcaption></figcaption></figure>
 
 ## Referência
 

@@ -85,7 +85,7 @@ Para realizar o ataque:
 3. Isso significa que podemos enviar mensagens XPC para `diagnosticd`, mas qualquer **mensagem que `diagnosticd` envie vai para `smd`**.
 * Para `smd`, tanto nossas mensagens quanto as mensagens de `diagnosticd` chegam na mesma conexão.
 
-<figure><img src="../../../../../../.gitbook/assets/image (1).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../../../../.gitbook/assets/image (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
 
 4. Pedimos a **`diagnosticd`** para **iniciar a monitoração** de nosso (ou qualquer outro) processo e **enviamos mensagens de rotina 1004 para `smd`** (para instalar uma ferramenta privilegiada).
 5. Isso cria uma condição de corrida que precisa atingir uma janela muito específica em `handle_bless`. Precisamos que a chamada para `xpc_connection_get_pid` retorne o PID de nosso próprio processo, pois a ferramenta auxiliar privilegiada está no pacote do nosso aplicativo. No entanto, a chamada para `xpc_connection_get_audit_token` dentro da função `connection_is_authorized` deve usar o token de auditoria de `diagnosticd`.
@@ -108,11 +108,11 @@ Para esse cenário, precisaríamos de:
 
 Aguardamos _A_ nos enviar uma mensagem que espera uma resposta (1), em vez de responder, pegamos a porta de resposta e a usamos para uma mensagem que enviamos para _B_ (2). Em seguida, enviamos uma mensagem que usa a ação proibida e esperamos que ela chegue simultaneamente com a resposta de _B_ (3).
 
-<figure><img src="../../../../../../.gitbook/assets/image (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../../../../.gitbook/assets/image (1) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
 
 ## Problemas de Descoberta
 
-Passamos muito tempo tentando encontrar outras instâncias, mas as condições dificultaram a busca tanto estática quanto dinamicamente. Para procurar chamadas assíncronas para `xpc_connection_get_audit_token`, usamos o Frida para fazer hook nessa função e verificar se o backtrace inclui `_xpc_connection_mach_event` (o que significa que não é chamado de um manipulador de eventos). Mas isso só encontra chamadas no processo em que estamos conectados atualmente e nas ações que estão sendo usadas ativamente. Analisar todos os serviços mach alcançáveis no IDA/Ghidra foi muito demorado, especialmente quando as chamadas envolviam o cache compartilhado do dyld. Tentamos criar um script para procurar chamadas para `xpc_connection_get_audit_token` alcançáveis a partir de um bloco enviado usando `dispatch_async`, mas analisar blocos e chamadas passando pelo cache compartilhado do dyld tornou isso difícil também. Depois de gastar um tempo com isso, decidimos que seria melhor enviar o que tínhamos.
+Passamos muito tempo tentando encontrar outras instâncias, mas as condições dificultaram a busca tanto estática quanto dinamicamente. Para procurar chamadas assíncronas para `xpc_connection_get_audit_token`, usamos o Frida para fazer hook nessa função e verificar se o backtrace inclui `_xpc_connection_mach_event` (o que significa que não é chamado de um manipulador de eventos). Mas isso só encontra chamadas no processo em que estamos conectados atualmente e nas ações que estão sendo usadas ativamente. Analisar todos os serviços mach alcançáveis no IDA/Ghidra foi muito demorado, especialmente quando as chamadas envolviam o cache compartilhado do dyld. Tentamos criar um script para procurar chamadas para `xpc_connection_get_audit_token` alcançáveis a partir de um bloco enviado usando `dispatch_async`, mas analisar blocos e chamadas passando pelo cache compartilhado do dyld tornou isso difícil também. Depois de gastar um tempo nisso, decidimos que seria melhor enviar o que tínhamos.
 ## A solução <a href="#a-solução" id="a-solução"></a>
 
 No final, relatamos o problema geral e o problema específico no `smd`. A Apple corrigiu apenas no `smd`, substituindo a chamada para `xpc_connection_get_audit_token` por `xpc_dictionary_get_audit_token`.
