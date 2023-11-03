@@ -22,7 +22,7 @@ Les extensions du noyau (Kexts) sont des **packages** avec une extension **`.kex
 
 * Lorsque vous **entrez en mode de récupération**, les **extensions du noyau doivent être autorisées** à être chargées :
 
-<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 * L'extension du noyau doit être **signée avec un certificat de signature de code du noyau**, qui ne peut être **accordé que par Apple**. Qui examinera en détail l'entreprise et les raisons pour lesquelles elle est nécessaire.
 * L'extension du noyau doit également être **notarisée**, Apple pourra la vérifier pour les logiciels malveillants.
@@ -38,7 +38,7 @@ Dans Catalina, c'était comme ça : Il est intéressant de noter que le processu
 * Il communiquera avec **`kextd`** en utilisant un **service Mach**.
 2. **`kextd`** vérifiera plusieurs choses, comme la **signature**
 * Il communiquera avec **`syspolicyd`** pour **vérifier** si l'extension peut être **chargée**.
-3. **`syspolicyd`** demandera **l'autorisation à l'utilisateur** si l'extension n'a pas été chargée précédemment.
+3. **`syspolicyd`** demandera à l'**utilisateur** s'il n'a pas déjà chargé l'extension.
 * **`syspolicyd`** rapportera le résultat à **`kextd`**
 4. **`kextd`** pourra enfin **demander au noyau de charger** l'extension
 

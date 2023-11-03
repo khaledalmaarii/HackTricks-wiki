@@ -68,12 +68,12 @@ SIP impose également plusieurs autres restrictions. Par exemple, il interdit le
 
 ### Prix
 
-Si un attaquant parvient à contourner SIP, voici ce qu'il peut obtenir :
+Si un attaquant parvient à contourner SIP, voici ce qu'il gagnera :
 
 * Lire les e-mails, les messages, l'historique de Safari... de tous les utilisateurs
 * Accorder des autorisations pour la webcam, le microphone ou autre chose (en écrivant directement dans la base de données TCC protégée par SIP)
 * Persistance : il pourrait enregistrer un logiciel malveillant dans un emplacement protégé par SIP et même l'administrateur ne pourra pas le supprimer. Il pourrait également altérer MRT.
-* Facilité de chargement d'extensions de noyau (d'autres protections hardcore sont en place pour cela).
+* Facilité de chargement des extensions de noyau (d'autres protections hardcore sont en place pour cela).
 
 ### Packages d'installation
 
@@ -89,11 +89,13 @@ Une faille potentielle est que si un fichier est spécifié dans **`rootless.con
 L'entitlement **`com.apple.rootless.install.heritable`** permet de contourner SIP
 {% endhint %}
 
-[**Des chercheurs de cet article de blog**](https://www.microsoft.com/en-us/security/blog/2021/10/28/microsoft-finds-new-macos-vulnerability-shrootless-that-could-bypass-system-integrity-protection/) ont découvert une vulnérabilité dans le mécanisme de protection de l'intégrité du système (SIP) de macOS, appelée vulnérabilité 'Shrootless'. Cette vulnérabilité concerne le démon `system_installd`, qui possède un entitlement, **`com.apple.rootless.install.heritable`**, qui permet à l'un de ses processus enfants de contourner les restrictions du système de fichiers de SIP.
+[**Des chercheurs de cet article de blog**](https://www.microsoft.com/en-us/security/blog/2021/10/28/microsoft-finds-new-macos-vulnerability-shrootless-that-could-bypass-system-integrity-protection/) ont découvert une vulnérabilité dans le mécanisme de protection de l'intégrité du système (SIP) de macOS, appelée vulnérabilité 'Shrootless'. Cette vulnérabilité concerne le démon **`system_installd`**, qui possède un entitlement, **`com.apple.rootless.install.heritable`**, qui permet à l'un de ses processus enfants de contourner les restrictions du système de fichiers de SIP.
 
-Les chercheurs ont découvert que lors de l'installation d'un package signé par Apple (.pkg), **`system_installd`** exécute tous les scripts **post-installation** inclus dans le package. Ces scripts sont exécutés par le shell par défaut, **`zsh`**, qui exécute automatiquement les commandes du fichier **`/etc/zshenv`**, s'il existe, même en mode non interactif. Ce comportement pourrait être exploité par des attaquants : en créant un fichier `/etc/zshenv` malveillant et en attendant que `system_installd` invoque `zsh`, ils pourraient effectuer des opérations arbitraires sur l'appareil.
+Le démon **`system_installd`** installera des packages qui ont été signés par **Apple**.
 
-De plus, il a été découvert que **`/etc/zshenv` pourrait être utilisé comme une technique d'attaque générale**, pas seulement pour contourner SIP. Chaque profil utilisateur dispose d'un fichier `~/.zshenv`, qui se comporte de la même manière que `/etc/zshenv` mais ne nécessite pas de permissions root. Ce fichier pourrait être utilisé comme mécanisme de persistance, se déclenchant à chaque démarrage de `zsh`, ou comme mécanisme d'élévation de privilèges. Si un utilisateur administrateur élève ses privilèges en utilisant `sudo -s` ou `sudo <commande>`, le fichier `~/.zshenv` serait déclenché, permettant ainsi une élévation effective vers le compte root.
+Les chercheurs ont découvert que lors de l'installation d'un package signé par Apple (.pkg), **`system_installd`** exécute tous les scripts **post-installation** inclus dans le package. Ces scripts sont exécutés par le shell par défaut, **`zsh`**, qui exécute automatiquement les commandes du fichier **`/etc/zshenv`**, s'il existe, même en mode non interactif. Ce comportement pourrait être exploité par des attaquants : en créant un fichier `/etc/zshenv` malveillant et en attendant que **`system_installd` invoque `zsh`**, ils pourraient effectuer des opérations arbitraires sur l'appareil.
+
+De plus, il a été découvert que **`/etc/zshenv` pourrait être utilisé comme une technique d'attaque générale**, pas seulement pour contourner SIP. Chaque profil utilisateur a un fichier `~/.zshenv`, qui se comporte de la même manière que `/etc/zshenv` mais ne nécessite pas de permissions root. Ce fichier pourrait être utilisé comme mécanisme de persistance, se déclenchant à chaque démarrage de `zsh`, ou comme mécanisme d'élévation de privilèges. Si un utilisateur administrateur élève ses privilèges en utilisant `sudo -s` ou `sudo <commande>`, le fichier `~/.zshenv` serait déclenché, permettant ainsi une élévation de privilèges effective.
 
 Dans [**CVE-2022-22583**](https://perception-point.io/blog/technical-analysis-cve-2022-22583/), il a été découvert que le même processus **`system_installd`** pouvait encore être utilisé de manière abusive car il plaçait le script **post-installation dans un dossier au nom aléatoire protégé par SIP à l'intérieur de `/tmp`**. Le problème est que **`/tmp` lui-même n'est pas protégé par SIP**, il était donc possible de **monter** une **image virtuelle dessus**, puis l'**installateur** y placerait le **script post-installation**, **démonterait** l'image virtuelle, **recréerait** tous les **dossiers** et **ajouterait** le **script d'installation** avec la **charge utile** à exécuter.
 
@@ -112,8 +114,8 @@ Les instantanés scellés du système sont une fonctionnalité introduite par Ap
 Voici un aperçu plus détaillé :
 
 1. **Système immuable** : Les instantanés scellés du système rendent le volume système de macOS "immuable", ce qui signifie qu'il ne peut pas être modifié. Cela empêche toute modification non autorisée ou accidentelle du système qui pourrait compromettre la sécurité ou la stabilité du système.
-2. **Mises à jour du logiciel système** : Lorsque vous installez des mises à jour ou des mises à niveau de macOS, macOS crée un nouvel instantané du système. Le volume de démarrage de macOS utilise ensuite **APFS (Apple File System)** pour basculer vers ce nouvel instantané. Tout le processus d'application des mises à jour devient plus sûr et plus fiable, car le système peut toujours revenir à l'instantané précédent en cas de problème lors de la mise à jour.
-3. **Séparation des données** : En conjonction avec le concept de séparation des volumes de données et du système introduit dans macOS Catalina, la fonctionnalité des instantanés scellés du système garantit que toutes vos données et paramètres sont stockés sur un volume "**Data**" séparé. Cette séparation rend vos données indépendantes du système, ce qui simplifie le processus de mise à jour du système et renforce la sécurité du système.
+2. **Mises à jour du logiciel système** : Lorsque vous installez des mises à jour ou des mises à niveau de macOS, macOS crée un nouvel instantané du système. Le volume de démarrage de macOS utilise ensuite **APFS (Apple File System)** pour passer à ce nouvel instantané. Tout le processus d'application des mises à jour devient plus sûr et plus fiable, car le système peut toujours revenir à l'instantané précédent en cas de problème lors de la mise à jour.
+3. **Séparation des données** : En conjonction avec le concept de séparation des volumes de données et du système introduit dans macOS Catalina, la fonctionnalité des instantanés scellés du système garantit que toutes vos données et paramètres sont stockés sur un volume "**Data**" séparé. Cette séparation rend vos données indépendantes du système, ce qui simplifie le processus de mise à jour du système et améliore la sécurité du système.
 
 N'oubliez pas que ces instantanés sont gérés automatiquement par macOS et n'occupent pas d'espace supplémentaire sur votre disque, grâce aux capacités de partage d'espace d'APFS. Il est également important de noter que ces instantanés sont différents des **instantanés Time Machine**, qui sont des sauvegardes accessibles par l'utilisateur de l'ensemble du système.
 
@@ -123,32 +125,33 @@ La commande **`diskutil apfs list`** affiche les **détails des volumes APFS** e
 
 <pre><code>+-- Container disk3 966B902E-EDBA-4775-B743-CF97A0556A13
 |   ====================================================
-|   Référence du conteneur APFS :     disk3
-|   Taille (plafond de capacité) :      494384795648 B (494,4 Go)
-|   Capacité utilisée par les volumes :   219214536704 B (219,2 Go) (44,3 % utilisé)
-|   Capacité non allouée :       275170258944 B (275,2 Go) (55,7 % libre)
+|   APFS Container Reference:     disk3
+|   Size (Capacity Ceiling):      494384795648 B (494.4 GB)
+|   Capacity In Use By Volumes:   219214536704 B (219.2 GB) (44.3% used)
+|   Capacity Not Allocated:       275170258944 B (275.2 GB) (55.7% free)
 |   |
-|   +-&#x3C; Stockage physique disk0s2 86D4B7EC-6FA5-4042-93A7-D3766A222EBE
+|   +-&#x3C; Physical Store disk0s2 86D4B7EC-6FA5-4042-93A7-D3766A222EBE
 |   |   -----------------------------------------------------------
-|   |   Disque de stockage physique APFS :   disk0s2
-|   |   Taille :                       494384795648 B (494,4 Go)
+|   |   APFS Physical Store Disk:   disk0s2
+|   |   Size:                       494384795648 B (494.4 GB)
 |   |
 |   +-> Volume disk3s1 7A27E734-880F-4D91-A703-FB55861D49B7
 |   |   ---------------------------------------------------
-<strong>|   |   Volume APFS (Rôle) :   disk3s1 (Système)
-</strong>|   |   Nom :                      Macintosh HD (insensible à la casse)
-<strong>|   |   Point de montage :               /System/Volumes/Update/mnt1
-</strong>|   |   Capacité
+<strong>|   |   APFS Volume Disk (Role):   disk3s1 (System)
+</strong>|   |   Name:                      Macintosh HD (Case-insensitive)
+<strong>|   |   Mount Point:               /System/Volumes/Update/mnt1
+</strong>|   |   Capacity Consumed:         128192
+|   |   Snapshot:                  FAA23E0C-791C-43FF-B0E7-0E1C0810AC61
 |   |   Snapshot Disk:             disk3s1s1
-<strong>|   |   Snapshot Mount Point:      /
-</strong><strong>|   |   Snapshot Sealed:           Oui
+<strong>|   |   Snapshot Point de Montage:      /
+</strong><strong>|   |   Snapshot Scellé:           Oui
 </strong>[...]
 +-> Volume disk3s5 281959B7-07A1-4940-BDDF-6419360F3327
 |   ---------------------------------------------------
 |   APFS Volume Disk (Rôle):   disk3s5 (Données)
-|   Nom:                      Macintosh HD - Données (Insensible à la casse)
-<strong>    |   Point de montage:               /System/Volumes/Data
-</strong><strong>    |   Capacité consommée:         412071784448 B (412.1 Go)
+|   Nom:                      Macintosh HD - Données (Non sensible à la casse)
+<strong>    |   Point de Montage:               /System/Volumes/Data
+</strong><strong>    |   Capacité Consommée:         412071784448 B (412.1 Go)
 </strong>    |   Scellé:                    Non
 |   FileVault:                 Oui (Déverrouillé)
 </code></pre>
@@ -157,7 +160,7 @@ Dans la sortie précédente, il est possible de voir que les **emplacements acce
 
 De plus, le **snapshot du volume système macOS** est monté dans `/` et il est **scellé** (signé cryptographiquement par le système d'exploitation). Ainsi, si SIP est contourné et modifié, le **système d'exploitation ne démarrera plus**.
 
-Il est également possible de **vérifier que le scellement est activé** en exécutant :
+Il est également possible de **vérifier que le scellé est activé** en exécutant :
 ```bash
 csrutil authenticated-root status
 Authenticated Root status: enabled

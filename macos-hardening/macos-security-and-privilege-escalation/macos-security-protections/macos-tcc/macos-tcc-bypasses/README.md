@@ -110,7 +110,7 @@ Le démon **tccd** de l'espace utilisateur utilise la variable d'environnement *
 
 Selon [cette publication sur Stack Exchange](https://stackoverflow.com/questions/135688/setting-environment-variables-on-os-x/3756686#3756686) et parce que le démon TCC s'exécute via `launchd` dans le domaine de l'utilisateur actuel, il est possible de **contrôler toutes les variables d'environnement** qui lui sont transmises.\
 Ainsi, un **attaquant pourrait définir la variable d'environnement `$HOME`** dans **`launchctl`** pour pointer vers un **répertoire contrôlé**, **redémarrer** le démon **TCC**, puis **modifier directement la base de données TCC** pour s'attribuer **tous les privilèges TCC disponibles** sans jamais demander l'autorisation à l'utilisateur final.\
-PoC :
+Preuve de concept (PoC) :
 ```bash
 # reset database just in case (no cheating!)
 $> tccutil reset All
@@ -147,7 +147,7 @@ Notes avait accès aux emplacements protégés par TCC, mais lorsqu'une note est
 
 Le binaire `/usr/libexec/lsd` avec la bibliothèque `libsecurity_translocate` avait l'autorisation `com.apple.private.nullfs_allow` qui lui permettait de créer un montage **nullfs** et avait l'autorisation `com.apple.private.tcc.allow` avec **`kTCCServiceSystemPolicyAllFiles`** pour accéder à tous les fichiers.
 
-Il était possible d'ajouter l'attribut de mise en quarantaine à "Library", d'appeler le service XPC **`com.apple.security.translocation`** et ensuite il mapperait Library vers **`$TMPDIR/AppTranslocation/d/d/Library`** où tous les documents à l'intérieur de Library pouvaient être **accessibles**.
+Il était possible d'ajouter l'attribut de quarantaine à "Library", d'appeler le service XPC **`com.apple.security.translocation`** et ensuite il mapperait Library vers **`$TMPDIR/AppTranslocation/d/d/Library`** où tous les documents à l'intérieur de Library pouvaient être **accessibles**.
 
 ### CVE-2023-38571 - Music & TV <a href="#cve-2023-38571-a-macos-tcc-bypass-in-music-and-tv" id="cve-2023-38571-a-macos-tcc-bypass-in-music-and-tv"></a>
 
@@ -303,11 +303,11 @@ Telegram avait les autorisations `com.apple.security.cs.allow-dyld-environment-v
 
 ## Par des invocations ouvertes
 
-Il est possible d'invoquer l'ouverture dans un environnement sandboxé.
+Il est possible d'invoquer `open` même lorsque le sandbox est activé&#x20;
 
 ### Scripts Terminal
 
-Il est assez courant de donner un **Accès complet au disque (FDA)** au terminal, du moins sur les ordinateurs utilisés par les personnes techniques. Et il est possible d'invoquer des scripts **`.terminal`** en l'utilisant.
+Il est assez courant de donner un **Accès complet au disque (FDA)** au terminal, du moins sur les ordinateurs utilisés par les personnes techniques. Et il est possible d'invoquer des scripts **`.terminal`** avec cela.
 
 Les scripts **`.terminal`** sont des fichiers plist comme celui-ci avec la commande à exécuter dans la clé **`CommandString`**:
 ```xml
@@ -342,7 +342,7 @@ exploit_location]; task.standardOutput = pipe;
 
 ### CVE-2020-9771 - Contournement de TCC et élévation de privilèges avec mount\_apfs
 
-**N'importe quel utilisateur** (même non privilégié) peut créer et monter une sauvegarde de machine à remonter dans le temps et **accéder à TOUS les fichiers** de cette sauvegarde.\
+**N'importe quel utilisateur** (même non privilégié) peut créer et monter une sauvegarde de machine à remonter le temps et **accéder à TOUS les fichiers** de cette sauvegarde.\
 Le **seul privilège** requis est que l'application utilisée (comme `Terminal`) ait **un accès complet au disque** (FDA) (`kTCCServiceSystemPolicyAllfiles`), qui doit être accordé par un administrateur.
 
 {% code overflow="wrap" %}
@@ -405,7 +405,7 @@ L'outil **`/usr/sbin/asr`** permettait de copier l'ensemble du disque et de le m
 Il existe une troisième base de données TCC dans **`/var/db/locationd/clients.plist`** pour indiquer les clients autorisés à **accéder aux services de localisation**.\
 Le dossier **`/var/db/locationd/` n'était pas protégé contre le montage de DMG**, il était donc possible de monter notre propre plist.
 
-## Par les applications au démarrage
+## Par les applications de démarrage
 
 {% content-ref url="../../../../macos-auto-start-locations.md" %}
 [macos-auto-start-locations.md](../../../../macos-auto-start-locations.md)
@@ -416,6 +416,16 @@ Le dossier **`/var/db/locationd/` n'était pas protégé contre le montage de DM
 À plusieurs reprises, des fichiers stockent des informations sensibles telles que des e-mails, des numéros de téléphone, des messages... dans des emplacements non protégés (ce qui constitue une vulnérabilité chez Apple).
 
 <figure><img src="../../../../../.gitbook/assets/image (4) (3).png" alt=""><figcaption></figcaption></figure>
+
+## Clics synthétiques
+
+Cela ne fonctionne plus, mais cela [**a fonctionné dans le passé**](https://twitter.com/noarfromspace/status/639125916233416704/photo/1)**:**
+
+<figure><img src="../../../../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+
+Une autre méthode utilisant les [**événements CoreGraphics**](https://objectivebythesea.org/v2/talks/OBTS\_v2\_Wardle.pdf) :
+
+<figure><img src="../../../../../.gitbook/assets/image (1).png" alt="" width="563"><figcaption></figcaption></figure>
 
 ## Référence
 

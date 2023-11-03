@@ -20,7 +20,7 @@ Lorsqu'une application a besoin d'**exécuter des actions en tant qu'utilisateur
 
 ### ShouldAcceptNewConnection toujours YES
 
-Un exemple peut être trouvé dans [EvenBetterAuthorizationSample](https://github.com/brenwell/EvenBetterAuthorizationSample). Dans `App/AppDelegate.m`, il essaie de **se connecter** à **HelperTool**. Et dans `HelperTool/HelperTool.m`, la fonction **`shouldAcceptNewConnection`** ne **vérifiera pas** les exigences indiquées précédemment. Elle renverra toujours YES :
+Un exemple peut être trouvé dans [EvenBetterAuthorizationSample](https://github.com/brenwell/EvenBetterAuthorizationSample). Dans `App/AppDelegate.m`, il essaie de **se connecter** au **HelperTool**. Et dans `HelperTool/HelperTool.m`, la fonction **`shouldAcceptNewConnection`** ne **vérifiera pas** les exigences indiquées précédemment. Elle renverra toujours YES :
 ```objectivec
 - (BOOL)listener:(NSXPCListener *)listener shouldAcceptNewConnection:(NSXPCConnection *)newConnection
 // Called by our XPC listener when a new connection comes in.  We configure the connection
@@ -37,18 +37,18 @@ newConnection.exportedObject = self;
 return YES;
 }
 ```
-Pour plus d'informations sur la configuration appropriée de cette vérification:
+Pour plus d'informations sur la configuration appropriée de cette vérification :
 
 {% content-ref url="macos-xpc-connecting-process-check/" %}
 [macos-xpc-connecting-process-check](macos-xpc-connecting-process-check/)
 {% endcontent-ref %}
 
-### Droits d'application
+### Droits de l'application
 
-Cependant, il y a une **autorisation en cours lorsqu'une méthode du HelperTool est appelée**.
+Cependant, une **autorisation est accordée lorsqu'une méthode du HelperTool est appelée**.
 
-La fonction **`applicationDidFinishLaunching`** de `App/AppDelegate.m` créera une référence d'autorisation vide après le démarrage de l'application. Cela devrait toujours fonctionner.\
-Ensuite, il essaiera d'**ajouter certains droits** à cette référence d'autorisation en appelant `setupAuthorizationRights`:
+La fonction **`applicationDidFinishLaunching`** du fichier `App/AppDelegate.m` créera une référence d'autorisation vide après le démarrage de l'application. Cela devrait toujours fonctionner.\
+Ensuite, elle essaiera d'**ajouter certains droits** à cette référence d'autorisation en appelant `setupAuthorizationRights` :
 ```objectivec
 - (void)applicationDidFinishLaunching:(NSNotification *)note
 {
@@ -286,7 +286,7 @@ authenticate-session-owner, authenticate-session-owner-or-admin, authenticate-se
 
 Si vous trouvez la fonction : **`[HelperTool checkAuthorization:command:]`**, il est probable que le processus utilise le schéma mentionné précédemment pour l'autorisation :
 
-<figure><img src="../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Ainsi, si cette fonction appelle des fonctions telles que `AuthorizationCreateFromExternalForm`, `authorizationRightForCommand`, `AuthorizationCopyRights`, `AuhtorizationFree`, elle utilise [**EvenBetterAuthorizationSample**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L101-L154).
 

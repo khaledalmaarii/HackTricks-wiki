@@ -43,7 +43,7 @@ JAMF peut exécuter des **scripts personnalisés** (scripts développés par l'a
 
 #### Auto-inscription JAMF
 
-Allez sur une page telle que `https://<nom-de-l'entreprise>.jamfcloud.com/enroll/` pour voir si **l'auto-inscription est activée**. Si c'est le cas, il peut **demander des identifiants d'accès**.
+Allez sur une page telle que `https://<nom-de-l'entreprise>.jamfcloud.com/enroll/` pour voir si l'**auto-inscription est activée**. Si c'est le cas, il peut **demander des identifiants d'accès**.
 
 Vous pouvez utiliser le script [**JamfSniper.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfSniper.py) pour effectuer une attaque de pulvérisation de mots de passe.
 
@@ -53,7 +53,7 @@ De plus, après avoir trouvé les identifiants appropriés, vous pourriez être 
 
 #### Authentification de l'appareil JAMF
 
-<figure><img src="../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Le binaire **`jamf`** contenait le secret pour ouvrir le trousseau qui, au moment de la découverte, était **partagé** entre tout le monde et c'était : **`jk23ucnq91jfu9aj`**.\
 De plus, jamf **persiste** en tant que **LaunchDaemon** dans **`/Library/LaunchAgents/com.jamf.management.agent.plist`**
@@ -116,7 +116,7 @@ Et aussi sur les **protocoles réseau** **"spéciaux"** de **MacOS** :
 
 ## Active Directory
 
-Dans certains cas, vous constaterez que l'ordinateur **MacOS est connecté à un AD**. Dans ce scénario, vous devriez essayer de **répertorier** l'annuaire actif comme vous en avez l'habitude. Trouvez de l'**aide** dans les pages suivantes :
+Dans certains cas, vous constaterez que l'ordinateur **MacOS est connecté à un AD**. Dans ce scénario, vous devriez essayer de **recenser** l'annuaire actif comme vous en avez l'habitude. Trouvez de l'**aide** dans les pages suivantes :
 
 {% content-ref url="../../network-services-pentesting/pentesting-ldap.md" %}
 [pentesting-ldap.md](../../network-services-pentesting/pentesting-ldap.md)

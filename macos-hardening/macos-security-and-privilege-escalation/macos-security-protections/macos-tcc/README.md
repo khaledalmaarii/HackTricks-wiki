@@ -16,7 +16,7 @@
 
 **TCC (Transparency, Consent, and Control)** est un mécanisme dans macOS pour **limiter et contrôler l'accès des applications à certaines fonctionnalités**, généralement dans une perspective de confidentialité. Cela peut inclure des services de localisation, des contacts, des photos, un microphone, une caméra, l'accessibilité, l'accès complet au disque et bien plus encore.
 
-Du point de vue de l'utilisateur, il voit TCC en action **lorsqu'une application souhaite accéder à l'une des fonctionnalités protégées par TCC**. Lorsque cela se produit, l'utilisateur reçoit une boîte de dialogue lui demandant s'il souhaite autoriser l'accès ou non.
+Du point de vue de l'utilisateur, TCC est visible **lorsqu'une application souhaite accéder à l'une des fonctionnalités protégées par TCC**. Lorsque cela se produit, **l'utilisateur est invité** avec une boîte de dialogue lui demandant s'il souhaite autoriser l'accès ou non.
 
 Il est également possible d'**accorder aux applications l'accès** aux fichiers par **des intentions explicites** de la part des utilisateurs, par exemple lorsque l'utilisateur **glisse et dépose un fichier dans un programme** (évidemment, le programme doit y avoir accès).
 
@@ -56,7 +56,10 @@ codesign -dv --entitlements :- /System/Library/PrivateFrameworks/TCC.framework/S
 com.apple.private.tcc.manager
 com.apple.rootless.storage.TCC
 ```
-{% tab title="Base de données utilisateur" %}
+{% tab title="user DB" %}
+
+Cependant, les utilisateurs peuvent **supprimer ou interroger les règles** avec l'utilitaire en ligne de commande **`tccutil`**.
+{% endtab %}
 ```bash
 sqlite3 ~/Library/Application\ Support/com.apple.TCC/TCC.db
 sqlite> .schema
@@ -125,13 +128,58 @@ tccutil reset All
 ```
 ### Privesc de la base de données utilisateur TCC à FDA
 
-En obtenant les **permissions d'écriture** sur la base de données utilisateur TCC, vous ne pouvez pas vous accorder vous-même les permissions **`FDA`**, seul celui qui se trouve dans la base de données système peut le faire.
+En obtenant les **permissions d'écriture** sur la base de données utilisateur TCC, vous ne pouvez pas vous accorder vous-même les permissions **`FDA`**, seul celui qui réside dans la base de données système peut le faire.
 
 Mais vous pouvez vous accorder les **droits d'automatisation pour Finder**, et puisque Finder a les permissions **`FDA`**, vous les avez également.
 
+### De la contournement de SIP à la contournement de TCC
+
+Les bases de données **TCC** sont protégées par **SIP**, c'est pourquoi seuls les processus avec les **privilèges indiqués** pourront les modifier. Par conséquent, si un attaquant trouve un **contournement de SIP** sur un **fichier** (capable de modifier un fichier restreint par SIP), il pourra **supprimer la protection** d'une base de données TCC et s'accorder toutes les permissions TCC.
+
+Cependant, il existe une autre option pour abuser de ce **contournement de SIP pour contourner TCC**. Le fichier `/Library/Apple/Library/Bundles/TCC_Compatibility.bundle/Contents/Resources/AllowApplicationsList.plist` est une liste d'applications autorisées qui nécessitent une exception TCC. Par conséquent, si un attaquant peut **supprimer la protection SIP** de ce fichier et ajouter sa **propre application**, cette application pourra contourner TCC.
+Par exemple, pour ajouter Terminal :
+```bash
+# Get needed info
+codesign -d -r- /System/Applications/Utilities/Terminal.app
+```
+AllowApplicationsList.plist:
+
+Ce fichier plist est utilisé par macOS pour gérer la liste des applications autorisées à accéder aux données protégées par le TCC (Transparency, Consent, and Control). Le TCC est un mécanisme de sécurité intégré à macOS qui protège les données sensibles de l'utilisateur en limitant l'accès des applications.
+
+Dans ce fichier, vous pouvez spécifier les applications qui sont autorisées à accéder à des données telles que la caméra, le microphone, les contacts, les calendriers, les photos, etc. Chaque application est répertoriée avec son identifiant de bundle (Bundle ID) et son niveau d'autorisation.
+
+Pour ajouter une application à la liste des autorisations, vous devez ajouter une entrée dans ce fichier plist en spécifiant l'identifiant de bundle de l'application et le niveau d'autorisation souhaité. Les niveaux d'autorisation disponibles sont "Full" (accès complet), "Limited" (accès limité) et "Denied" (accès refusé).
+
+Il est important de noter que la modification de ce fichier plist nécessite des privilèges d'administrateur. Par conséquent, seuls les utilisateurs disposant des droits d'administration peuvent apporter des modifications à la liste des autorisations.
+
+Une fois que vous avez modifié le fichier plist, vous devez redémarrer le système pour que les modifications prennent effet. Après le redémarrage, les applications spécifiées dans ce fichier auront les autorisations correspondantes pour accéder aux données protégées par le TCC.
+
+Il est recommandé de faire preuve de prudence lors de la modification de ce fichier plist, car des erreurs peuvent entraîner des problèmes de sécurité ou de fonctionnalité. Il est préférable de consulter la documentation officielle d'Apple ou de demander l'assistance d'un professionnel qualifié si vous avez des doutes ou des questions concernant l'utilisation de ce fichier.
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+<key>Services</key>
+<dict>
+<key>SystemPolicyAllFiles</key>
+<array>
+<dict>
+<key>CodeRequirement</key>
+<string>identifier &quot;com.apple.Terminal&quot; and anchor apple</string>
+<key>IdentifierType</key>
+<string>bundleID</string>
+<key>Identifier</key>
+<string>com.apple.Terminal</string>
+</dict>
+</array>
+</dict>
+</dict>
+</plist>
+```
 ### Vérifications de signature TCC
 
-La base de données TCC stocke l'**ID de bundle** de l'application, mais elle stocke également des **informations** sur la **signature** pour s'assurer que l'application qui demande l'autorisation est la bonne.
+La **base de données** TCC stocke l'**ID de bundle** de l'application, mais elle **stocke également** des **informations** sur la **signature** pour **s'assurer** que l'application qui demande l'autorisation est la bonne.
 
 {% code overflow="wrap" %}
 ```bash

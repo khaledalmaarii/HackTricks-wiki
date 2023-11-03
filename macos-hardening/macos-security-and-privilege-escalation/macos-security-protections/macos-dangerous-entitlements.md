@@ -85,7 +85,7 @@ Cette liste d'autorisations **keychain** regroupe les groupes d'accès auxquels 
 ```
 ### **`kTCCServiceSystemPolicyAllFiles`**
 
-Donne les permissions d'accès complet au disque, l'une des permissions les plus élevées de TCC que vous pouvez avoir.
+Donne des permissions d'accès complet au disque, l'une des permissions les plus élevées de TCC que vous pouvez avoir.
 
 ### **`kTCCServiceAppleEvents`**
 
@@ -99,13 +99,13 @@ Permet de modifier l'attribut `NFSHomeDirectory` d'un utilisateur qui modifie so
 
 Permet de modifier les fichiers à l'intérieur des bundles d'applications (à l'intérieur de app.app), ce qui est désactivé par défaut.
 
-<figure><img src="../../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
 ## Moyen
 
 ### `com.apple.security.cs.allow-jit`
 
-Cette autorisation permet de créer de la mémoire qui est à la fois inscriptible et exécutable en passant le drapeau `MAP_JIT` à la fonction système `mmap()`. Consultez [**ceci pour plus d'informations**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-jit).
+Cette autorisation permet de créer de la mémoire qui est accessible en écriture et exécutable en passant le drapeau `MAP_JIT` à la fonction système `mmap()`. Consultez [**ceci pour plus d'informations**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-jit).
 
 ### `com.apple.security.cs.allow-unsigned-executable-memory`
 
