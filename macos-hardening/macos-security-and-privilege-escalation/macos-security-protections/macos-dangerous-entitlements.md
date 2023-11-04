@@ -44,7 +44,7 @@ Cette autorisation permet de **charger des frameworks, des plug-ins ou des bibli
 
 ### `com.apple.private.security.clear-library-validation`
 
-Cette autorisation est très similaire à **`com.apple.security.cs.disable-library-validation`** mais **au lieu de désactiver directement** la validation de la bibliothèque, elle permet au processus d'appeler un appel système `csops` pour la désactiver.\
+Cette autorisation est très similaire à **`com.apple.security.cs.disable-library-validation`** mais **au lieu de désactiver directement** la validation de la bibliothèque, elle permet au processus d'**appeler un appel système `csops` pour la désactiver**.\
 Consultez [**ceci pour plus d'informations**](https://theevilbit.github.io/posts/com.apple.private.security.clear-library-validation/).
 
 ### `com.apple.security.cs.allow-dyld-environment-variables`
@@ -55,7 +55,11 @@ Cette autorisation permet d'**utiliser des variables d'environnement DYLD** qui 
 
 [**Selon ce blog**](https://objective-see.org/blog/blog\_0x4C.html), ces autorisations permettent de **modifier** la **base de données TCC**.
 
-### com.apple.private.security.kext-management
+### **`system.install.apple-software`** et **`system.install.apple-software.standar-user`**
+
+Ces autorisations permettent d'**installer des logiciels sans demander la permission** de l'utilisateur, ce qui peut être utile pour une **escalade de privilèges**.
+
+### `com.apple.private.security.kext-management`
 
 Autorisation nécessaire pour demander au **noyau de charger une extension de noyau**.
 
@@ -66,13 +70,13 @@ TODO: Je ne sais pas ce que cela permet de faire
 ### `com.apple.private.apfs.revert-to-snapshot`
 
 TODO: Dans [**ce rapport**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/), il est mentionné que cela pourrait être utilisé pour mettre à jour les contenus protégés par SSV après un redémarrage. Si vous savez comment faire, envoyez une PR s'il vous plaît !
-
 ### `com.apple.private.apfs.create-sealed-snapshot`
 
-TODO: Dans [**ce rapport**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/), il est mentionné que cela pourrait être utilisé pour mettre à jour les contenus protégés par SSV après un redémarrage. Si vous savez comment faire, envoyez une PR s'il vous plaît !
+TODO: Dans [**ce rapport**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/), il est mentionné que cela pourrait être utilisé pour mettre à jour les contenus protégés par SSV après un redémarrage. Si vous savez comment l'envoyer, veuillez soumettre une demande de pull (PR) s'il vous plaît !
+
 ### `keychain-access-groups`
 
-Cette liste d'autorisations **keychain** regroupe les groupes d'accès auxquels l'application a accès:
+Cette liste d'attribution de privilèges **keychain** regroupe les groupes auxquels l'application a accès :
 ```xml
 <key>keychain-access-groups</key>
 <array>
@@ -85,11 +89,11 @@ Cette liste d'autorisations **keychain** regroupe les groupes d'accès auxquels 
 ```
 ### **`kTCCServiceSystemPolicyAllFiles`**
 
-Donne des permissions d'accès complet au disque, l'une des permissions les plus élevées de TCC que vous pouvez avoir.
+Donne les permissions d'accès complet au disque, l'une des permissions les plus élevées de TCC que vous pouvez avoir.
 
 ### **`kTCCServiceAppleEvents`**
 
-Permet à l'application d'envoyer des événements à d'autres applications couramment utilisées pour automatiser des tâches. En contrôlant d'autres applications, elle peut abuser des permissions accordées à ces autres applications.
+Permet à l'application d'envoyer des événements à d'autres applications couramment utilisées pour l'automatisation des tâches. En contrôlant d'autres applications, elle peut abuser des permissions accordées à ces autres applications.
 
 ### **`kTCCServiceSystemPolicySysAdminFiles`**
 

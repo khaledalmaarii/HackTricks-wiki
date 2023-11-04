@@ -28,7 +28,7 @@ Permissions dans un **répertoire** :
 * Le **propriétaire du répertoire parent** dans le chemin est un **groupe d'utilisateurs** avec un **accès en écriture**
 * Un **groupe d'utilisateurs** a un **accès en écriture** au **fichier**
 
-Avec l'une des combinaisons précédentes, un attaquant pourrait **injecter** un **lien sym/hard** dans le chemin attendu pour obtenir une écriture arbitraire privilégiée.
+Avec l'une de ces combinaisons précédentes, un attaquant pourrait **injecter** un **lien sym/hard** dans le chemin attendu pour obtenir une écriture arbitraire privilégiée.
 
 ### Cas spécial du répertoire racine R+X
 
@@ -181,6 +181,12 @@ Cependant, il existe certains fichiers dont la signature ne sera pas vérifiée,
 </dict>
 ...
 </dict>
+```
+Il est possible de calculer la signature d'une ressource à partir de la ligne de commande avec :
+
+{% code overflow="wrap" %}
+```bash
+openssl dgst -binary -sha1 /System/Cryptexes/App/System/Applications/Safari.app/Contents/Resources/AppIcon.icns | openssl base64
 ```
 ## Monter des fichiers DMG
 
