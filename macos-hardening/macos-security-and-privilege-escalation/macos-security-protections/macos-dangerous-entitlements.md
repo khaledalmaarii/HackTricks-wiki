@@ -13,7 +13,7 @@
 </details>
 
 {% hint style="warning" %}
-请注意，以**`com.apple`**开头的权限不可供第三方使用，只有Apple可以授予。
+请注意，以**`com.apple`**开头的权限仅供Apple授予，不对第三方开放。
 {% endhint %}
 
 ## 高级
@@ -55,9 +55,13 @@
 
 根据[**此博客**](https://objective-see.org/blog/blog\_0x4C.html)，这些权限允许**修改**TCC数据库。
 
-### com.apple.private.security.kext-management
+### **`system.install.apple-software`**和**`system.install.apple-software.standar-user`**
 
-需要此权限来请求内核加载内核扩展。
+这些权限允许**在不要求用户权限的情况下安装软件**，这对于特权升级很有帮助。
+
+### `com.apple.private.security.kext-management`
+
+需要此权限来请求**内核加载内核扩展**。
 
 ### `com.apple.private.tcc.manager.check-by-audit-token`
 
@@ -66,10 +70,10 @@ TODO: 我不知道这个权限允许做什么
 ### `com.apple.private.apfs.revert-to-snapshot`
 
 TODO: 在[**此报告**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/)中提到，这可以用于在重启后更新受SSV保护的内容。如果你知道如何发送PR，请告诉我！
-
 ### `com.apple.private.apfs.create-sealed-snapshot`
 
-TODO: 在[**此报告**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/)中提到，这可以用于在重启后更新受SSV保护的内容。如果你知道如何发送PR，请告诉我！
+待办事项：在[**此报告**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/)中提到，此权限可以在重启后更新受SSV保护的内容。如果您知道如何发送PR，请告诉我！
+
 ### `keychain-access-groups`
 
 此权限列出了应用程序可以访问的**钥匙串**组：
