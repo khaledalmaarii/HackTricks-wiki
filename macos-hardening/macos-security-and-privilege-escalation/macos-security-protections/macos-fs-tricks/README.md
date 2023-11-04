@@ -1,4 +1,4 @@
-# Truques do Sistema de Arquivos do macOS
+# Truques do macOS FS
 
 <details>
 
@@ -30,7 +30,7 @@ Permissões em um **diretório**:
 
 Com qualquer uma das combinações anteriores, um invasor poderia **injetar** um **link simbólico/rígido** no caminho esperado para obter uma gravação arbitrária privilegiada.
 
-### Caso Especial de R+X na Raiz da Pasta
+### Caso Especial de R+X da Raiz da Pasta
 
 Se houver arquivos em um **diretório** onde **apenas o root tem acesso R+X**, esses arquivos **não são acessíveis a mais ninguém**. Portanto, uma vulnerabilidade que permita **mover um arquivo legível por um usuário**, que não pode ser lido por causa dessa **restrição**, dessa pasta **para outra**, pode ser abusada para ler esses arquivos.
 
@@ -66,9 +66,9 @@ xattr: [Errno 1] Operation not permitted: '/tmp/asd'
 ls -lO /tmp/asd
 # check the "uchg" in the output
 ```
-### Montagem do defvfs
+### Montagem defvfs
 
-Uma montagem do **devfs** **não suporta xattr**, mais informações em [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)
+Uma montagem **devfs** **não suporta xattr**, mais informações em [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)
 ```bash
 mkdir /tmp/mnt
 mount_devfs -o noowners none "/tmp/mnt"
@@ -181,6 +181,12 @@ No entanto, existem alguns arquivos cuja assinatura não será verificada, esses
 </dict>
 ...
 </dict>
+```
+É possível calcular a assinatura de um recurso a partir da linha de comando com:
+
+{% code overflow="wrap" %}
+```bash
+openssl dgst -binary -sha1 /System/Cryptexes/App/System/Applications/Safari.app/Contents/Resources/AppIcon.icns | openssl base64
 ```
 ## Montar dmgs
 
