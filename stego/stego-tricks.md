@@ -73,7 +73,7 @@ Commandes utiles:\
 
 ### cmp - Comparaison
 
-Si vous avez une image/audio/vidéo **modifiée**, vérifiez si vous pouvez **trouver l'originale exacte** sur internet, puis **comparez les deux** fichiers avec:
+Si vous avez une image/son/vidéo **modifiée**, vérifiez si vous pouvez **trouver l'originale exacte** sur internet, puis **comparez les deux** fichiers avec:
 ```
 cmp original.jpg stego.jpg -b -l
 ```
@@ -126,7 +126,7 @@ Pour l'installer : `gem install zsteg`. La source peut également être trouvée
 
 ### stegoVeritas JPG, PNG, GIF, TIFF, BMP
 
-Capable d'une grande variété de trucs simples et avancés, cet outil peut vérifier les métadonnées des fichiers, créer des images transformées, forcer la LSB, et plus encore. Consultez `stegoveritas.py -h` pour connaître toutes ses fonctionnalités. Exécutez `stegoveritas.py stego.jpg` pour exécuter toutes les vérifications.
+Capable d'une grande variété de trucs simples et avancés, cet outil peut vérifier les métadonnées des fichiers, créer des images transformées, forcer le LSB, et plus encore. Consultez `stegoveritas.py -h` pour connaître toutes ses fonctionnalités. Exécutez `stegoveritas.py stego.jpg` pour exécuter toutes les vérifications.
 
 ### Stegsolve
 
@@ -145,7 +145,7 @@ Pour trouver du contenu caché en utilisant la transformée de Fourier rapide :
 
 ### Stegpy \[PNG, BMP, GIF, WebP, WAV]
 
-Un programme pour encoder des informations dans des fichiers image et audio par le biais de la stéganographie. Il peut stocker les données soit en texte brut, soit chiffrées.\
+Un programme pour encoder des informations dans des fichiers image et audio par la stéganographie. Il peut stocker les données soit en texte brut, soit chiffrées.\
 Trouvez-le sur [Github](https://github.com/dhsdshdhk/stegpy).
 
 ### Pngcheck
@@ -158,6 +158,9 @@ Obtenez des détails sur un fichier PNG (ou découvrez même s'il s'agit en réa
 
 * [http://magiceye.ecksdee.co.uk/](http://magiceye.ecksdee.co.uk/)
 * [https://29a.ch/sandbox/2012/imageerrorlevelanalysis/](https://29a.ch/sandbox/2012/imageerrorlevelanalysis/)
+* [https://github.com/resurrecting-open-source-projects/outguess](https://github.com/resurrecting-open-source-projects/outguess)
+* [https://www.openstego.com/](https://www.openstego.com/)
+* [https://diit.sourceforge.net/](https://diit.sourceforge.net/)
 
 ## Extraction de données à partir de fichiers audio
 
@@ -187,16 +190,16 @@ Pour rechercher des informations cachées, lancez simplement le programme et ouv
 
 Sonic visualizer est un outil pour visualiser et analyser le contenu des fichiers audio. Il peut être très utile lors de défis de stéganographie audio ; vous pouvez révéler des formes cachées dans les fichiers audio que de nombreux autres outils ne détecteront pas.\
 Si vous êtes bloqué, vérifiez toujours le spectrogramme de l'audio. [Site officiel](https://www.sonicvisualiser.org/)
-
 ### Tons DTMF - Tons de numérotation
 
 * [https://unframework.github.io/dtmf-detect/](https://unframework.github.io/dtmf-detect/)
 * [http://dialabc.com/sound/detect/index.html](http://dialabc.com/sound/detect/index.html)
+
 ## Autres astuces
 
 ### Longueur binaire SQRT - Code QR
 
-Si vous recevez des données binaires avec une longueur SQRT d'un nombre entier, cela pourrait être une sorte de code QR :
+Si vous recevez des données binaires avec une longueur SQRT correspondant à un nombre entier, cela pourrait être une sorte de code QR :
 ```
 import math
 math.sqrt(2500) #50
