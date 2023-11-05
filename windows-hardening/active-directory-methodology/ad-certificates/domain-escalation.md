@@ -43,7 +43,7 @@ certipy find -u john@corp.local -p Passw0rd -dc-ip 172.16.126.128
 Pour **exploiter cette vulnérabilité afin de se faire passer pour un administrateur**, on peut exécuter :
 ```bash
 Certify.exe request /ca:dc.theshire.local-DC-CA /template:VulnTemplate /altname:localadmin
-certipy req 'corp.local/john:Passw0rd!@ca.corp.local' -ca 'corp-CA' -template 'ESC1' -alt 'administrator@corp.local'
+certipy req 'corp.local/john:Passw0rd!@ca.corp.local' -ca 'corp-CA' -template 'ESC1' -upn 'administrator@corp.local'
 ```
 Ensuite, vous pouvez convertir le certificat généré au format **`.pfx`** et l'utiliser pour **vous authentifier à l'aide de Rubeus ou certipy** à nouveau:
 ```bash
@@ -86,7 +86,7 @@ Ce scénario est similaire aux deux premiers, mais **exploite** un **EKU différ
 
 L'EKU de l'Agent de demande de certificat (OID 1.3.6.1.4.1.311.20.2.1), connu sous le nom d'**Agent d'inscription** dans la documentation Microsoft, permet à un principal de s'**inscrire** pour un **certificat** au **nom d'un autre utilisateur**.
 
-L'**"agent d'inscription"** s'inscrit dans un tel **modèle** et utilise le **certificat résultant pour co-signer une CSR au nom de l'autre utilisateur**. Il **envoie** ensuite la CSR **co-signée** à l'AC, s'inscrivant dans un **modèle** qui **autorise l'inscription au nom de**, et l'AC répond avec un **certificat appartenant à l'"autre" utilisateur**.
+L'**"agent d'inscription"** s'inscrit dans un tel **modèle** et utilise le **certificat résultant pour co-signer une CSR au nom de l'autre utilisateur**. Il **envoie** ensuite la **CSR co-signée** à l'AC, s'inscrivant dans un **modèle** qui **autorise l'inscription au nom de**, et l'AC répond avec un **certificat appartenant à l'"autre" utilisateur**.
 
 **Conditions 1:**
 
@@ -120,7 +120,7 @@ certipy req 'corp.local/john:Pass0rd!@ca.corp.local' -ca 'corp-CA' -template 'Us
 # Use Rubeus with the certificate to authenticate as the other user
 Rubeu.exe asktgt /user:CORP\itadmin /certificate:itadminenrollment.pfx /password:asdf
 ```
-Les autorités de certification d'entreprise peuvent **restreindre** les **utilisateurs** qui peuvent **obtenir** un **certificat d'agent d'inscription**, les modèles d'inscription auxquels les **agents d'inscription peuvent s'inscrire**, et les **comptes** au nom desquels l'agent d'inscription peut **agir** en ouvrant `certsrc.msc` `snap-in -> clic droit sur l'AC -> clic sur Propriétés -> navigation` vers l'onglet "Agents d'inscription".
+Les autorités de certification d'entreprise peuvent **restreindre** les **utilisateurs** qui peuvent **obtenir** un **certificat d'agent d'inscription**, les modèles d'inscription auxquels les **agents d'inscription peuvent s'inscrire**, et les **comptes** pour lesquels l'agent d'inscription peut **agir au nom de** en ouvrant `certsrc.msc` `snap-in -> clic droit sur l'AC -> cliquer sur Propriétés -> naviguer` vers l'onglet "Agents d'inscription".
 
 Cependant, le paramètre par défaut de l'AC est "Ne pas restreindre les agents d'inscription". Même lorsque les administrateurs activent "Restreindre les agents d'inscription", le paramètre par défaut est extrêmement permissif, permettant à tout le monde d'accéder à tous les modèles d'inscription en tant que n'importe qui.
 
@@ -146,7 +146,7 @@ Un exemple de privilège élevé comme le précédent :
 
 <figure><img src="../../../.gitbook/assets/image (15) (2).png" alt=""><figcaption></figcaption></figure>
 
-ESC4 se produit lorsqu'un utilisateur dispose de privilèges d'écriture sur un modèle de certificat. Cela peut par exemple être exploité pour écraser la configuration du modèle de certificat afin de rendre le modèle vulnérable à ESC1.
+ESC4 se produit lorsqu'un utilisateur dispose de privilèges d'écriture sur un modèle de certificat. Cela peut par exemple être exploité pour écraser la configuration du modèle de certificat afin de le rendre vulnérable à ESC1.
 
 Comme nous pouvons le voir dans le chemin ci-dessus, seul `JOHNPC` dispose de ces privilèges, mais notre utilisateur `JOHN` a le nouvel attribut `AddKeyCredentialLink` vers `JOHNPC`. Étant donné que cette technique est liée aux certificats, j'ai également mis en œuvre cette attaque, connue sous le nom de [Shadow Credentials](https://posts.specterops.io/shadow-credentials-abusing-key-trust-account-mapping-for-takeover-8ee1a53566ab). Voici un petit aperçu de la commande `shadow auto` de Certipy pour récupérer le hachage NT de la victime.
 
@@ -179,7 +179,7 @@ Si un attaquant à faible privilège peut **prendre le contrôle de l'un de ces 
 
 ### Explication
 
-Il existe un autre problème similaire, décrit dans le [**post de CQure Academy**](https://cqureacademy.com/blog/enhanced-key-usage), qui concerne le drapeau **`EDITF_ATTRIBUTESUBJECTALTNAME2`**. Comme le décrit Microsoft, "si ce drapeau est **activé** sur le CA, **toute demande** (y compris lorsque le sujet est construit à partir d'Active Directory®) peut avoir des **valeurs définies par l'utilisateur** dans le **nom alternatif du sujet**".\
+Il existe un autre problème similaire, décrit dans le [**message de CQure Academy**](https://cqureacademy.com/blog/enhanced-key-usage), qui concerne le drapeau **`EDITF_ATTRIBUTESUBJECTALTNAME2`**. Comme le décrit Microsoft, "si ce drapeau est **activé** sur le CA, **toute demande** (y compris lorsque le sujet est construit à partir d'Active Directory®) peut avoir des **valeurs définies par l'utilisateur** dans le **nom alternatif du sujet**".\
 Cela signifie qu'un **attaquant** peut s'inscrire dans **N'IMPORTE QUEL modèle** configuré pour l'**authentification** de domaine qui permet également aux utilisateurs **non privilégiés** de s'inscrire (par exemple, le modèle Utilisateur par défaut) et **obtenir un certificat** qui nous permet de nous **authentifier** en tant qu'administrateur de domaine (ou **tout autre utilisateur/machine actif**).
 
 **Remarque** : les **noms alternatifs** sont **inclus** dans une CSR via l'argument `-attrib "SAN:"` de `certreq.exe` (c'est-à-dire, "Paires Nom Valeur"). Cela est **différent** de la méthode pour **abuser des SAN** dans ESC1 car cela **stocke les informations de compte dans un attribut de certificat au lieu d'une extension de certificat**.
@@ -190,7 +190,7 @@ Les organisations peuvent **vérifier si le paramètre est activé** en utilisan
 ```bash
 certutil -config "CA_HOST\CA_NAME" -getreg "policy\EditFlags"
 ```
-En dessous, cela utilise simplement le **registre distant**, donc la commande suivante peut également fonctionner :
+En dessous, cela utilise simplement le **registre distant**, donc la commande suivante peut également fonctionner:
 ```
 reg.exe query \\<CA_SERVER>\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\CertSvc\Configuration\<CA_NAME>\PolicyModules\CertificateAuthority_MicrosoftDefault.Policy\ /v EditFlags
 ```
@@ -342,7 +342,7 @@ En résumé, si un environnement a **AD CS installé**, ainsi qu'un **point de t
 
 AD CS prend en charge plusieurs **méthodes d'inscription basées sur HTTP** via des rôles de serveur AD CS supplémentaires que les administrateurs peuvent installer. Ces interfaces d'inscription de certificat basées sur HTTP sont toutes des **attaques de relais NTLM vulnérables**. En utilisant le relais NTLM, un attaquant sur une **machine compromise peut se faire passer pour n'importe quel compte AD authentifiant via NTLM**. Tout en se faisant passer pour le compte de la victime, un attaquant pourrait accéder à ces interfaces web et **demander un certificat d'authentification client basé sur les modèles de certificat `User` ou `Machine`**.
 
-* L'interface d'inscription web (une application ASP au look plus ancien accessible à `http://<caserver>/certsrv/`), par défaut, ne prend en charge que HTTP, ce qui ne peut pas protéger contre les attaques de relais NTLM. De plus, elle n'autorise explicitement que l'authentification NTLM via son en-tête HTTP d'autorisation, de sorte que des protocoles plus sécurisés comme Kerberos sont inutilisables.
+* L'**interface d'inscription web** (une application ASP au look plus ancien accessible à `http://<caserver>/certsrv/`), par défaut, ne prend en charge que HTTP, qui ne peut pas se protéger contre les attaques de relais NTLM. De plus, il n'autorise explicitement que l'authentification NTLM via son en-tête HTTP d'autorisation, de sorte que des protocoles plus sécurisés comme Kerberos sont inutilisables.
 * Le **Service d'inscription de certificat** (CES), le **Service Web de stratégie d'inscription de certificat** (CEP) et le **Service d'inscription des périphériques réseau** (NDES) prennent en charge par défaut l'authentification de négociation via leur en-tête HTTP d'autorisation. L'authentification de négociation **prend en charge** Kerberos et **NTLM** ; par conséquent, un attaquant peut **négocier jusqu'à l'authentification NTLM** lors d'attaques de relais. Ces services web activent au moins HTTPS par défaut, mais malheureusement, HTTPS en lui-même ne **protège pas contre les attaques de relais NTLM**. Ce n'est que lorsque HTTPS est associé à la liaison de canal que les services HTTPS peuvent être protégés contre les attaques de relais NTLM. Malheureusement, AD CS n'active pas la protection étendue pour l'authentification sur IIS, ce qui est nécessaire pour activer la liaison de canal.
 
 Les **problèmes** courants avec les attaques de relais NTLM sont que les **sessions NTLM sont généralement courtes** et que l'attaquant **ne peut pas** interagir avec des services qui **imposent la signature NTLM**.
@@ -353,7 +353,7 @@ Cependant, l'abus d'une attaque de relais NTLM pour obtenir un certificat à l'u
 [account-persistence.md](account-persistence.md)
 {% endcontent-ref %}
 
-Une autre limitation des attaques de relais NTLM est qu'elles **nécessitent qu'un compte victime s'authentifie sur une machine contrôlée par l'attaquant**. Un attaquant pourrait attendre ou essayer de **le forcer** :
+Une autre limitation des attaques de relais NTLM est qu'elles **nécessitent qu'un compte victime s'authentifie sur une machine contrôlée par l'attaquant**. Un attaquant pourrait attendre ou essayer de le **forcer** :
 
 {% content-ref url="../printers-spooler-service-abuse.md" %}
 [printers-spooler-service-abuse.md](../printers-spooler-service-abuse.md)
@@ -382,19 +382,25 @@ Certify is a popular tool used for managing SSL/TLS certificates on Windows syst
 
 The abuse of Certify involves the following steps:
 
-1. **Obtain a low-privileged domain user account**: The attacker needs to gain access to a low-privileged domain user account within the target Active Directory domain.
+1. **Obtain a low-privileged domain user account**: The attacker needs to have a low-privileged domain user account within the target Active Directory domain.
 
-2. **Install Certify**: The attacker installs Certify on their machine and configures it to use the target domain's Certificate Authority (CA).
+2. **Install Certify**: The attacker installs Certify on their machine.
 
-3. **Request a certificate**: Using Certify, the attacker requests a certificate for their low-privileged domain user account.
+3. **Generate a certificate signing request (CSR)**: Using Certify, the attacker generates a CSR for a domain controller certificate.
 
-4. **Export the certificate**: Once the certificate is issued, the attacker exports it from Certify.
+4. **Submit the CSR to the domain certificate authority (CA)**: The attacker submits the CSR to the domain CA for signing.
 
-5. **Import the certificate**: The attacker imports the exported certificate into their own user account on the target domain.
+5. **Obtain the signed certificate**: Once the CSR is approved and signed by the domain CA, the attacker obtains the signed certificate.
 
-6. **Escalate privileges**: By importing the certificate, the attacker gains the privileges associated with the certificate, which may include administrative access or other elevated permissions within the domain.
+6. **Import the certificate**: The attacker imports the signed certificate into Certify.
 
-This abuse of Certify can be a powerful technique for privilege escalation within an Active Directory domain. It is important for administrators to be aware of this potential vulnerability and take steps to secure their Certificate Authorities and monitor certificate requests and imports.
+7. **Export the private key**: Using Certify, the attacker exports the private key associated with the imported certificate.
+
+8. **Import the private key into a domain user's certificate store**: The attacker imports the exported private key into the certificate store of a domain user with higher privileges.
+
+9. **Use the certificate to authenticate**: The attacker can now use the imported certificate to authenticate as the higher-privileged domain user.
+
+By abusing Certify in this way, an attacker can escalate their privileges within the Active Directory domain and gain access to sensitive resources and information. It is important for organizations to implement proper security measures to prevent such abuse and regularly monitor their certificate management systems.
 ```bash
 ## In the victim machine
 # Prepare to send traffic to the compromised machine 445 port to 445 in the attackers machine
@@ -432,7 +438,7 @@ Certipy v4.0.0 - by Oliver Lyak (ly4k)
 
 ESC9 fait référence à la nouvelle valeur **`CT_FLAG_NO_SECURITY_EXTENSION`** (`0x80000`) de **`msPKI-Enrollment-Flag`**. Si ce drapeau est défini sur un modèle de certificat, la nouvelle extension de sécurité **`szOID_NTDS_CA_SECURITY_EXT`** ne sera pas intégrée. ESC9 est uniquement utile lorsque `StrongCertificateBindingEnforcement` est défini sur `1` (par défaut), car une configuration de mappage de certificat plus faible pour Kerberos ou Schannel peut être exploitée comme ESC10 - sans ESC9 - car les exigences seront les mêmes.
 
-* `StrongCertificateBindingEnforcement` n'est pas défini sur `2` (par défaut : `1`) ou `CertificateMappingMethods` contient le drapeau `UPN`
+* `StrongCertificateBindingEnforcement` n'est pas défini sur `2` (par défaut: `1`) ou `CertificateMappingMethods` contient le drapeau `UPN`
 * Le certificat contient le drapeau `CT_FLAG_NO_SECURITY_EXTENSION` dans la valeur `msPKI-Enrollment-Flag`
 * Le certificat spécifie n'importe quelle EKU d'authentification client
 * `GenericWrite` sur n'importe quel compte A pour compromettre n'importe quel compte B
@@ -554,12 +560,12 @@ Alternativement, nous pouvons également compromettre n'importe quel compte util
 
 ### Rupture des confiances des AC pour les forêts de confiance
 
-La configuration de l'**inscription inter-forêts** est relativement simple. Les administrateurs publient le **certificat de l'AC racine** de la forêt de ressources **dans les forêts de compte** et ajoutent les certificats de l'**AC d'entreprise** de la forêt de ressources aux conteneurs **`NTAuthCertificates`** et AIA **dans chaque forêt de compte**. Pour être clair, cela signifie que l'**AC** de la forêt de ressources a **un contrôle total** sur toutes les **autres forêts pour lesquelles elle gère la PKI**. Si des attaquants **compromettent cette AC**, ils peuvent **contrefaire des certificats pour tous les utilisateurs des forêts de ressources et de compte**, en rompant la frontière de sécurité de la forêt.
+La configuration de l'**inscription inter-forêts** est relativement simple. Les administrateurs publient le **certificat de l'AC racine** de la forêt de ressources **dans les forêts de compte** et ajoutent les certificats de l'**AC d'entreprise** de la forêt de ressources aux conteneurs **`NTAuthCertificates`** et AIA **dans chaque forêt de compte**. Pour être clair, cela signifie que l'**AC** de la forêt de ressources a **un contrôle total** sur toutes les **autres forêts pour lesquelles il gère la PKI**. Si des attaquants **compromettent cet AC**, ils peuvent **contrefaire des certificats pour tous les utilisateurs des forêts de ressources et de compte**, en rompant la frontière de sécurité de la forêt.
 
 ### Principaux étrangers avec des privilèges d'inscription
 
 Une autre chose dont les organisations doivent se méfier dans les environnements multi-forêts est lorsque les AC d'entreprise **publient des modèles de certificats** qui accordent aux **Utilisateurs authentifiés ou aux principaux étrangers** (utilisateurs/groupes externes à la forêt à laquelle appartient l'AC d'entreprise) des **droits d'inscription et de modification**.\
-Lorsqu'un compte **s'authentifie via une confiance**, AD ajoute le **SID des Utilisateurs authentifiés** au jeton de l'utilisateur authentifiant. Par conséquent, si un domaine dispose d'une AC d'entreprise avec un modèle qui **accorde aux Utilisateurs authentifiés des droits d'inscription**, un utilisateur d'une autre forêt pourrait potentiellement **s'inscrire dans le modèle**. De même, si un modèle accorde explicitement des **droits d'inscription à un principal étranger**, une **relation de contrôle d'accès inter-forêts est créée**, permettant à un principal d'une forêt de **s'inscrire dans un modèle d'une autre forêt**.
+Lorsqu'un compte **s'authentifie via une confiance**, AD ajoute le **SID des Utilisateurs authentifiés** au jeton de l'utilisateur authentifiant. Par conséquent, si un domaine dispose d'un AC d'entreprise avec un modèle qui **accorde aux Utilisateurs authentifiés des droits d'inscription**, un utilisateur dans une forêt différente pourrait potentiellement **s'inscrire dans le modèle**. De même, si un modèle accorde explicitement des **droits d'inscription à un principal étranger**, une **relation de contrôle d'accès inter-forêts est créée**, permettant à un principal d'une forêt de **s'inscrire dans un modèle d'une autre forêt**.
 
 En fin de compte, ces deux scénarios **augmentent la surface d'attaque** d'une forêt à une autre. Selon les paramètres du modèle de certificat, un attaquant pourrait exploiter cela pour obtenir des privilèges supplémentaires dans un domaine étranger.
 
