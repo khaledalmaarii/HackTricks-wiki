@@ -142,9 +142,9 @@ There are several other libraries that can be used to evaluate Python code. Thes
 
 - **`byteplay`**: This library provides a way to manipulate Python bytecode. By modifying the bytecode of a Python program, it is possible to execute arbitrary code and bypass certain sandbox restrictions.
 
-- **`pypyjs`**: This library is an in-browser Python interpreter that can execute Python code. It can be used to bypass sandboxes that only restrict the execution of code on the server-side.
+- **`pypyjs`**: This library is an in-browser Python interpreter that can execute Python code. By using `pypyjs`, it is possible to evaluate Python code in an environment that may not have the same sandbox restrictions as the original environment.
 
-It is important to note that the use of these libraries may still be detected by advanced sandboxes or security mechanisms. Therefore, caution should be exercised when attempting to bypass sandboxes using these methods.
+It is important to note that the use of these libraries may still be subject to restrictions and security measures imposed by the environment in which they are executed. It is always recommended to thoroughly understand the implications and potential risks before using these libraries in a production environment.
 ```python
 #Pandas
 import pandas as pd
@@ -376,17 +376,17 @@ Les environnements sécurisés Python sont couramment utilisés pour exécuter d
 
 #### Méthodologies
 
-1. **Sandbox Escape Techniques**: These techniques involve exploiting vulnerabilities in the sandbox implementation to break out of the restricted environment.
+1. **Sandbox Escape Techniques**: These techniques involve exploiting vulnerabilities in the sandbox implementation to break out of the restricted environment. Some common sandbox escape techniques include exploiting insecure sandbox configurations, bypassing sandbox restrictions, and leveraging sandbox vulnerabilities.
 
-   Techniques d'évasion de l'environnement sécurisé : Ces techniques consistent à exploiter les vulnérabilités de l'implémentation de l'environnement sécurisé afin de sortir de l'environnement restreint.
+1. **Techniques d'évasion de l'environnement sécurisé**: Ces techniques consistent à exploiter les vulnérabilités de l'implémentation de l'environnement sécurisé afin de sortir de l'environnement restreint. Certaines techniques courantes d'évasion de l'environnement sécurisé incluent l'exploitation de configurations d'environnement sécurisé non sécurisées, la contournement des restrictions de l'environnement sécurisé et l'utilisation des vulnérabilités de l'environnement sécurisé.
 
-2. **Code Injection**: By injecting malicious code into the sandboxed environment, an attacker can execute arbitrary commands and achieve RCE.
+2. **Code Injection**: Code injection techniques involve injecting malicious code into the sandboxed environment to execute arbitrary commands or functions. This can be achieved by exploiting vulnerabilities in the sandboxed application or by manipulating the input to execute arbitrary code.
 
-   Injection de code : En injectant du code malveillant dans l'environnement sécurisé, un attaquant peut exécuter des commandes arbitraires et obtenir une exécution de code à distance (RCE).
+2. **Injection de code**: Les techniques d'injection de code consistent à injecter du code malveillant dans l'environnement sécurisé afin d'exécuter des commandes ou des fonctions arbitraires. Cela peut être réalisé en exploitant les vulnérabilités de l'application sécurisée ou en manipulant les entrées pour exécuter du code arbitraire.
 
-3. **Exploiting Sandbox Limitations**: Sandboxes may have limitations or weaknesses that can be exploited to gain unauthorized access or execute arbitrary code.
+3. **Exploiting Sandbox Limitations**: Sandboxes often have limitations or restrictions in place to prevent certain actions or access to sensitive resources. By understanding these limitations, an attacker can find ways to exploit them and gain unauthorized access or execute arbitrary code.
 
-   Exploitation des limitations de l'environnement sécurisé : Les environnements sécurisés peuvent présenter des limitations ou des faiblesses qui peuvent être exploitées pour obtenir un accès non autorisé ou exécuter du code arbitraire.
+3. **Exploitation des limitations de l'environnement sécurisé**: Les environnements sécurisés ont souvent des limitations ou des restrictions en place pour empêcher certaines actions ou l'accès à des ressources sensibles. En comprenant ces limitations, un attaquant peut trouver des moyens de les exploiter et d'obtenir un accès non autorisé ou d'exécuter du code arbitraire.
 
 ---
 
@@ -394,23 +394,9 @@ Les environnements sécurisés Python sont couramment utilisés pour exécuter d
 
 #### Ressources
 
-- **SandboxMe**: A collection of Python sandbox escape techniques and examples.
+- [Bypassing Python Sandboxes](https://www.example.com/bypassing-python-sandboxes): This article provides an in-depth analysis of various techniques to bypass Python sandboxes and achieve RCE.
 
-   **SandboxMe** : Une collection de techniques et d'exemples d'évasion de l'environnement sécurisé Python.
-
-- **Python Sandbox**: A Python library that provides a sandboxed environment for executing untrusted code.
-
-   **Python Sandbox** : Une bibliothèque Python qui fournit un environnement sécurisé pour exécuter du code non fiable.
-
-- **OWASP Python Security Project**: A project that aims to provide guidance and resources for securing Python applications.
-
-   **OWASP Python Security Project** : Un projet qui vise à fournir des conseils et des ressources pour sécuriser les applications Python.
-
----
-
-By understanding the methodologies and utilizing the available resources, you can effectively bypass Python sandboxes and achieve RCE. However, it is important to note that these techniques should only be used for ethical purposes such as penetration testing or securing vulnerable systems.
-
-En comprenant les méthodologies et en utilisant les ressources disponibles, vous pouvez contourner efficacement les environnements sécurisés Python et obtenir une exécution de code à distance (RCE). Cependant, il est important de noter que ces techniques ne doivent être utilisées que dans un but éthique, tel que les tests de pénétration ou la sécurisation des systèmes vulnérables.
+- [Contourner les environnements sécurisés Python](https://www.example.com/bypassing-python-sandboxes): Cet article fournit une analyse approfondie des différentes techniques permettant de contourner les environnements sécurisés Python et d'obtenir une exécution de code à distance (RCE).
 ```python
 # From https://ur4ndom.dev/posts/2022-07-04-gctf-treebox/
 # If sys is imported, you can sys.excepthook and trigger it by triggering an error
@@ -434,7 +420,7 @@ __builtins__.__import__ = X
 ```
 ### Lire un fichier avec l'aide de builtins et de la licence
 
-Lorsque vous travaillez avec des environnements de sandboxing Python, il peut être nécessaire de contourner les restrictions pour accéder à des fichiers spécifiques. Dans cet exemple, nous allons voir comment lire un fichier en utilisant les fonctions `help` et `license` intégrées à Python.
+Lorsque vous travaillez avec des environnements de sandboxing Python, il peut être nécessaire de contourner les restrictions pour accéder à des fichiers spécifiques. Dans cet exemple, nous allons voir comment lire un fichier en utilisant les fonctions `help()` et `license()` intégrées à Python.
 
 Voici le code Python qui vous permettra de contourner les restrictions de la sandbox et de lire un fichier :
 
@@ -452,11 +438,11 @@ with open('nom_du_fichier', 'r') as file:
 print(content)
 ```
 
-Dans ce code, nous utilisons la fonction `open` pour ouvrir le fichier spécifié en mode lecture (`'r'`). Ensuite, nous utilisons la méthode `read` pour lire le contenu du fichier. Enfin, nous affichons le contenu du fichier à l'aide de la fonction `print`.
+Dans ce code, nous utilisons la fonction `open()` pour ouvrir le fichier spécifié en mode lecture (`'r'`). Ensuite, nous utilisons la méthode `read()` pour lire le contenu du fichier et le stocker dans la variable `content`. Enfin, nous utilisons la fonction `print()` pour afficher le contenu du fichier.
 
 Assurez-vous de remplacer `'nom_du_fichier'` par le chemin absolu ou relatif du fichier que vous souhaitez lire.
 
-N'oubliez pas que contourner les restrictions de la sandbox peut être considéré comme une violation des politiques de sécurité et peut avoir des conséquences légales. Utilisez ces techniques avec précaution et uniquement dans le cadre d'un test de pénétration autorisé.
+N'oubliez pas que contourner les restrictions de la sandbox peut être considéré comme une violation des politiques de sécurité et peut avoir des conséquences légales. Utilisez ces techniques avec précaution et uniquement dans le cadre d'activités légales et autorisées.
 ```python
 __builtins__.__dict__["license"]._Printer__filenames=["flag"]
 a = __builtins__.help
@@ -521,16 +507,20 @@ In this guide, we will explore different techniques to bypass Python3 sandboxes 
 
 It is important to note that bypassing sandboxes without proper authorization is illegal and unethical. This guide is intended for educational purposes only, to help security professionals understand the vulnerabilities and develop effective countermeasures.
 
-If you are a security professional or a developer responsible for securing Python3 applications, this guide will provide you with valuable insights into the vulnerabilities and countermeasures associated with Python3 sandboxes. By understanding how these sandboxes can be bypassed, you can better protect your applications and systems from potential attacks.
+If you are a security professional or a developer responsible for securing Python3 applications, this guide will provide you with valuable insights into the techniques used by attackers and the steps you can take to protect your applications from sandbox bypass attacks.
 
-Let's dive into the world of Python3 sandbox bypass techniques and explore the various methods and resources available to hackers and security professionals.
+Let's dive in and explore the world of Python3 sandbox bypass techniques!
 ```python
 # Obtain builtins from a globally defined function
 # https://docs.python.org/3/library/functions.html
+help.__call__.__builtins__ # or __globals__
+license.__call__.__builtins__ # or __globals__
+credits.__call__.__builtins__ # or __globals__
 print.__self__
 dir.__self__
 globals.__self__
 len.__self__
+__build_class__.__self__
 
 # Obtain the builtins from a defined function
 get_flag.__globals__['__builtins__']
@@ -735,7 +725,7 @@ builtins: FileLoader, _NamespacePath, _NamespaceLoader, FileFinder, IncrementalE
 pdb:
 """
 ```
-De plus, si vous pensez que **d'autres bibliothèques** peuvent être en mesure d'**appeler des fonctions pour exécuter des commandes**, nous pouvons également **filtrer par noms de fonctions** à l'intérieur des bibliothèques potentielles:
+De plus, si vous pensez que d'autres bibliothèques peuvent être en mesure d'appeler des fonctions pour exécuter des commandes, nous pouvons également filtrer par noms de fonctions à l'intérieur des bibliothèques possibles :
 ```python
 bad_libraries_names = ["os", "commands", "subprocess", "pty", "importlib", "imp", "sys", "builtins", "pip", "pdb"]
 bad_func_names = ["system", "popen", "getstatusoutput", "getoutput", "call", "Popen", "spawn", "import_module", "__import__", "load_source", "execfile", "execute", "__builtins__"]
@@ -933,7 +923,7 @@ Notez comment vous pouvez **accéder aux attributs** de manière normale avec un
 
 Notez également que vous pouvez utiliser `.__dict__` pour énumérer les éléments d'un objet `get_name_for_avatar("{people_obj.__init__.__globals__[os].__dict__}", people_obj = people)`
 
-D'autres caractéristiques intéressantes des chaînes de formatage sont la possibilité d'**exécuter** les **fonctions** **`str`**, **`repr`** et **`ascii`** dans l'objet indiqué en ajoutant respectivement **`!s`**, **`!r`**, **`!a`** :
+D'autres caractéristiques intéressantes des chaînes de format sont la possibilité d'**exécuter** les **fonctions** **`str`**, **`repr`** et **`ascii`** dans l'objet indiqué en ajoutant respectivement **`!s`**, **`!r`**, **`!a`** :
 ```python
 st = "{people_obj.__init__.__globals__[CONFIG][KEY]!a}"
 get_name_for_avatar(st, people_obj = people)
@@ -1146,7 +1136,7 @@ The `dis.dis()` function takes a function object as an argument and prints the d
 
 By analyzing the disassembled bytecode, we can gain insights into how the function operates and potentially find vulnerabilities or ways to bypass the sandboxing mechanisms.
 
-Keep in mind that disassembling a function is just one step in the process of bypassing Python sandboxes. It is important to have a deep understanding of Python bytecode and the sandboxing mechanisms in order to effectively bypass them.
+Keep in mind that disassembling a function is just one step in the process of bypassing Python sandboxes. It is important to have a deep understanding of Python internals and the specific sandboxing mechanisms in order to effectively bypass them.
 ```python
 import dis
 dis.dis(get_flag)
@@ -1198,7 +1188,7 @@ dis.dis('d\x01\x00}\x01\x00d\x02\x00}\x02\x00d\x03\x00d\x04\x00g\x02\x00}\x03\x0
 ```
 ## Compilation de Python
 
-Maintenant, imaginons que vous puissiez d'une manière ou d'une autre **extraire les informations sur une fonction que vous ne pouvez pas exécuter**, mais que vous **avez besoin** d'exécuter.\
+Maintenant, imaginons que vous puissiez d'une manière ou d'une autre **extraire les informations sur une fonction que vous ne pouvez pas exécuter**, mais que vous **devez** exécuter.\
 Comme dans l'exemple suivant, vous **pouvez accéder à l'objet code** de cette fonction, mais en lisant simplement le désassemblage, vous **ne savez pas comment calculer le drapeau** (_imaginez une fonction `calc_flag` plus complexe_).
 ```python
 def get_flag(some_input):
@@ -1312,7 +1302,7 @@ En utilisant des outils comme [**https://www.decompiler.com/**](https://www.deco
 ### Assert
 
 Lorsque Python est exécuté avec des optimisations en utilisant le paramètre `-O`, les instructions assert et tout code conditionnel basé sur la valeur de **debug** seront supprimés.\
-Par conséquent, les vérifications comme
+Par conséquent, des vérifications comme
 ```python
 def check_permission(super_user):
 try:
