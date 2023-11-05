@@ -43,7 +43,7 @@ certipy find -u john@corp.local -p Passw0rd -dc-ip 172.16.126.128
 为了滥用这个漏洞来冒充管理员，可以运行以下命令：
 ```bash
 Certify.exe request /ca:dc.theshire.local-DC-CA /template:VulnTemplate /altname:localadmin
-certipy req 'corp.local/john:Passw0rd!@ca.corp.local' -ca 'corp-CA' -template 'ESC1' -alt 'administrator@corp.local'
+certipy req 'corp.local/john:Passw0rd!@ca.corp.local' -ca 'corp-CA' -template 'ESC1' -upn 'administrator@corp.local'
 ```
 然后，您可以将生成的证书转换为 `.pfx` 格式，并再次使用 Rubeus 或 certipy 进行身份验证：
 ```bash
@@ -106,7 +106,7 @@ Windows二进制文件"Certreq.exe"和"Certutil.exe"可以被滥用来生成PFX�
 
 ### 滥用
 
-您可以使用 [**Certify**](https://github.com/GhostPack/Certify) 或 [**Certipy**](https://github.com/ly4k/Certipy) 来滥用这种情况：
+您可以使用 [**Certify**](https://github.com/GhostPack/Certify) 或 [**Certipy**](https://github.com/ly4k/Certipy) 滥用这种情况：
 ```bash
 # Request an enrollment agent certificate
 Certify.exe request /ca:CORPDC01.CORP.LOCAL\CORP-CORPDC01-CA /template:Vuln-EnrollmentAgent
@@ -120,25 +120,25 @@ certipy req 'corp.local/john:Pass0rd!@ca.corp.local' -ca 'corp-CA' -template 'Us
 # Use Rubeus with the certificate to authenticate as the other user
 Rubeu.exe asktgt /user:CORP\itadmin /certificate:itadminenrollment.pfx /password:asdf
 ```
-企业CA可以通过打开`certsrc.msc`快捷方式->右键单击CA->点击属性->导航到“Enrollment Agents”选项卡来限制可以获取“注册代理证书”的用户、注册代理可以注册的模板以及注册代理可以代表的帐户。
+企业CA可以通过打开`certsrc.msc`快捷方式->右键单击CA->点击属性->导航到“Enrollment Agents”选项卡来**限制**可以**获取**注册代理证书的**用户**，注册代理可以注册的模板以及注册代理可以代表的**帐户**。
 
-然而，默认的CA设置是“不限制注册代理”。即使管理员启用了“限制注册代理”，默认设置也非常宽松，允许任何人以任何身份访问所有模板。
+然而，默认的CA设置是“**不限制注册代理**”。即使管理员启用了“限制注册代理”，默认设置也非常宽松，允许任何人以任何身份访问所有模板。
 
 ## 可漏洞的证书模板访问控制 - ESC4
 
-### 解释
+### **解释**
 
-证书模板具有指定AD主体对模板具有特定权限的安全描述符。
+**证书模板**具有指定AD **主体**对模板具有特定**权限**的**安全描述符**。
 
-如果攻击者具有足够的权限来修改模板并创建先前部分中的任何可利用的配置错误，他将能够利用它并提升权限。
+如果**攻击者**具有足够的**权限**来**修改**模板并从**前面的部分**中**创建**任何可利用的**配置错误**，则他将能够利用它并**提升权限**。
 
 证书模板的有趣权限：
 
-* 所有者：隐式完全控制对象，可以编辑任何属性。
-* FullControl：完全控制对象，可以编辑任何属性。
-* WriteOwner：可以将所有者修改为受攻击者控制的主体。
-* WriteDacl：可以修改访问控制以授予攻击者FullControl。
-* WriteProperty：可以编辑任何属性。
+* **所有者：**隐式完全控制对象，可以编辑任何属性。
+* **FullControl：**完全控制对象，可以编辑任何属性。
+* **WriteOwner：**可以将所有者修改为攻击者控制的主体。
+* **WriteDacl：**可以修改访问控制以授予攻击者FullControl。
+* **WriteProperty：**可以编辑任何属性。
 
 ### 滥用
 
@@ -152,7 +152,7 @@ ESC4是指用户对证书模板具有写权限。例如，可以滥用此权限�
 
 <figure><img src="../../../.gitbook/assets/image (1) (2) (1).png" alt=""><figcaption></figcaption></figure>
 
-Certipy可以通过一个命令覆盖证书模板的配置。默认情况下，Certipy将覆盖配置以使其易受ESC1的攻击。我们还可以使用`-save-old`参数指定保存旧配置，这在攻击后恢复配置时非常有用。
+**Certipy**可以通过一个命令覆盖证书模板的配置。默认情况下，Certipy将覆盖配置以使其易受ESC1的攻击。我们还可以指定`-save-old`参数来保存旧的配置，这在攻击后恢复配置时非常有用。
 ```bash
 # Make template vuln to ESC1
 certipy template -username john@corp.local -password Passw0rd -template ESC4-Test -save-old
@@ -226,7 +226,7 @@ certutil -config "CA_HOST\CA_NAME" -setreg policy\EditFlags -EDITF_ATTRIBUTESUBJ
 
 <figure><img src="../../../.gitbook/assets/image (73) (2).png" alt=""><figcaption></figcaption></figure>
 
-也可以使用[PSPKI模块](https://www.pkisolutions.com/tools/pspki/)通过`Get-CertificationAuthority | Get-CertificationAuthorityAcl`进行枚举：
+也可以使用[PSPKI模块](https://www.pkisolutions.com/tools/pspki/)的`Get-CertificationAuthority | Get-CertificationAuthorityAcl`进行枚举：
 ```bash
 Get-CertificationAuthority -ComputerName dc.theshire.local | Get-certificationAuthorityAcl | select -expand Access
 ```
@@ -234,7 +234,7 @@ Get-CertificationAuthority -ComputerName dc.theshire.local | Get-certificationAu
 
 #### 滥用
 
-如果你有一个拥有**证书颁发机构**上的**`ManageCA`**权限的主体，我们可以使用**PSPKI**远程翻转**`EDITF_ATTRIBUTESUBJECTALTNAME2`**位，以允许在任何模板中指定SAN（[ECS6](domain-escalation.md#editf\_attributesubjectaltname2-esc6)）：
+如果你有一个拥有**证书颁发机构（CA）**上**`ManageCA`**权限的主体，我们可以使用**PSPKI**远程翻转**`EDITF_ATTRIBUTESUBJECTALTNAME2`**位，以允许在任何模板中指定SAN（[ECS6](domain-escalation.md#editf\_attributesubjectaltname2-esc6)）：
 
 <figure><img src="../../../.gitbook/assets/image (1) (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
@@ -273,7 +273,7 @@ Certify.exe download /ca:dc.theshire.local\theshire-DC-CA /id:336
 先决条件：
 
 * 只有**`ManageCA`权限**
-* **`Manage Certificates`**权限（可以从**`ManageCA`**授予）
+* 可以从**`ManageCA`**授予的**`Manage Certificates`**权限
 * 必须启用证书模板**`SubCA`**（可以从**`ManageCA`**启用）
 
 该技术依赖于具有`Manage CA`和`Manage Certificates`访问权限的用户可以**发出失败的证书请求**。**`SubCA`**证书模板**容易受到ESC1攻击**，但**只有管理员**可以在模板中注册。因此，**用户**可以**请求**注册**`SubCA`**，然后被管理员**拒绝**，但**之后由管理员签发**。
@@ -299,9 +299,9 @@ Certipy v4.0.0 - by Oliver Lyak (ly4k)
 
 [*] Successfully enabled 'SubCA' on 'corp-DC-CA'
 ```
-如果我们已经满足了这次攻击的前提条件，我们可以开始**基于`SubCA`模板请求证书**。
+如果我们已经满足了这次攻击的前提条件，我们可以开始通过“SubCA”模板请求证书。
 
-**这个请求将会被拒绝**，但是我们会保存私钥并记录请求ID。
+这个请求将会被拒绝，但是我们会保存私钥并记录请求ID。
 ```bash
 certipy req -username john@corp.local -password Passw0rd -ca corp-DC-CA -target ca.corp.local -template SubCA -upn administrator@corp.local
 Certipy v4.0.0 - by Oliver Lyak (ly4k)
@@ -343,7 +343,7 @@ Certipy v4.0.0 - by Oliver Lyak (ly4k)
 AD CS支持多种基于HTTP的证书申请方法，管理员可以安装其他AD CS服务器角色来使用这些HTTP证书申请接口。这些基于HTTP的证书申请接口都是**易受NTLM Relay攻击**的。使用NTLM Relay，攻击者可以在**受攻击的计算机上冒充任何入站NTLM身份验证的AD账户**。在冒充受害者账户的同时，攻击者可以访问这些Web接口，并基于`User`或`Machine`证书模板**请求客户端身份验证证书**。
 
 * **Web注册接口**（一个外观较旧的ASP应用程序，可通过`http://<caserver>/certsrv/`访问），默认仅支持HTTP，无法防止NTLM Relay攻击。此外，它明确只允许通过其Authorization HTTP头进行NTLM身份验证，因此更安全的协议如Kerberos无法使用。
-* **证书申请服务**（CES）、**证书申请策略**（CEP）Web服务和**网络设备注册服务**（NDES）默认支持通过其Authorization HTTP头进行协商身份验证。协商身份验证支持Kerberos和NTLM；因此，攻击者可以在中继攻击期间**协商到NTLM**身份验证。这些Web服务默认启用了HTTPS，但不幸的是，仅有HTTPS本身**无法防止NTLM Relay攻击**。只有当HTTPS与通道绑定结合使用时，HTTPS服务才能免受NTLM Relay攻击的影响。不幸的是，AD CS没有在IIS上启用扩展身份验证保护，这是启用通道绑定所必需的。
+* **证书申请服务**（CES）、**证书申请策略**（CEP）Web服务和**网络设备注册服务**（NDES）默认支持通过其Authorization HTTP头进行协商身份验证。协商身份验证支持Kerberos和NTLM；因此，攻击者可以在中继攻击期间**协商到NTLM**身份验证。这些Web服务默认启用了HTTPS，但不幸的是，仅有HTTPS本身**无法防止NTLM Relay攻击**。只有当HTTPS与通道绑定结合使用时，HTTPS服务才能受到NTLM Relay攻击的保护。不幸的是，AD CS没有在IIS上启用扩展身份验证保护，这是启用通道绑定所必需的。
 
 NTLM Relay攻击的常见问题是**NTLM会话通常很短**，并且攻击者**无法**与**强制要求NTLM签名**的服务进行交互。
 
@@ -378,21 +378,23 @@ Get-CertificationAuthority | select Name,Enroll* | Format-List *
 ```
 #### 滥用 Certify
 
-In some cases, an attacker may abuse the Certify tool to escalate privileges within an Active Directory domain. Certify is a command-line tool used for managing certificates in Windows environments.
+In some cases, an attacker may abuse the Certify tool to escalate privileges within a domain. Certify is a Windows utility used for managing certificates, and it can be leveraged by an attacker to gain unauthorized access.
 
-在某些情况下，攻击者可能会滥用 Certify 工具来在 Active Directory 域中升级权限。Certify 是一个用于在 Windows 环境中管理证书的命令行工具。
+To exploit this vulnerability, the attacker needs to have local administrator privileges on a compromised machine within the domain. They can then use Certify to request a certificate for a domain user account that has higher privileges, such as a domain administrator.
 
-To escalate privileges using Certify, the attacker needs to have access to a user account with the necessary permissions to manage certificates. Once access is obtained, the attacker can use Certify to generate a certificate signing request (CSR) for a domain controller.
+By obtaining a certificate for a privileged account, the attacker can impersonate that account and gain elevated access within the domain. This can allow them to perform various malicious activities, such as accessing sensitive information or compromising other systems.
 
-要使用 Certify 升级权限，攻击者需要访问具有管理证书所需权限的用户帐户。一旦获得访问权限，攻击者可以使用 Certify 为域控制器生成证书签名请求（CSR）。
+To prevent this type of attack, it is important to restrict access to the Certify tool and ensure that only authorized users have the necessary privileges to request certificates. Regular monitoring and auditing of certificate requests can also help detect any unauthorized activity.
 
-The attacker can then submit the CSR to a certificate authority (CA) and obtain a signed certificate. This signed certificate can be used to impersonate the domain controller and gain elevated privileges within the domain.
+#### 滥用 Certify
 
-然后，攻击者可以将 CSR 提交给证书颁发机构（CA）并获得一个已签名的证书。这个已签名的证书可以用来冒充域控制器并在域内获得提升的权限。
+在某些情况下，攻击者可能会滥用 Certify 工具来在域中升级权限。Certify 是一个用于管理证书的 Windows 实用工具，攻击者可以利用它来获取未经授权的访问权限。
 
-To prevent this type of attack, it is important to ensure that only trusted users have the necessary permissions to manage certificates within the Active Directory domain. Regularly reviewing and auditing user permissions can help identify and mitigate potential vulnerabilities.
+要利用此漏洞，攻击者需要在域内的受损机器上具有本地管理员权限。然后，他们可以使用 Certify 请求一个具有更高权限（如域管理员）的域用户帐户的证书。
 
-为了防止这种类型的攻击，重要的是确保只有受信任的用户具有在 Active Directory 域中管理证书所需的权限。定期审查和审核用户权限可以帮助识别和减轻潜在的漏洞。
+通过获取特权帐户的证书，攻击者可以冒充该帐户并在域内获得提升的访问权限。这可以使他们执行各种恶意活动，如访问敏感信息或破坏其他系统。
+
+为了防止此类攻击，重要的是限制对 Certify 工具的访问，并确保只有授权用户具有请求证书的必要权限。定期监控和审计证书请求也可以帮助检测任何未经授权的活动。
 ```bash
 ## In the victim machine
 # Prepare to send traffic to the compromised machine 445 port to 445 in the attackers machine
@@ -433,13 +435,13 @@ ESC9指的是新的**`msPKI-Enrollment-Flag`**值**`CT_FLAG_NO_SECURITY_EXTENSIO
 * `StrongCertificateBindingEnforcement`未设置为`2`（默认值：`1`）或`CertificateMappingMethods`包含`UPN`标志
 * 证书在`msPKI-Enrollment-Flag`值中包含`CT_FLAG_NO_SECURITY_EXTENSION`标志
 * 证书指定任何客户端身份验证EKU
-* 通过任何帐户A的`GenericWrite`来破坏任何帐户B
+* 对任何帐户A的`GenericWrite`以破坏任何帐户B
 
 ### 滥用
 
-在这种情况下，`John@corp.local`具有对`Jane@corp.local`的`GenericWrite`权限，我们希望破坏`Administrator@corp.local`。`Jane@corp.local`被允许在指定了`msPKI-Enrollment-Flag`值中的`CT_FLAG_NO_SECURITY_EXTENSION`标志的证书模板`ESC9`中注册。
+在这种情况下，`John@corp.local`对`Jane@corp.local`具有`GenericWrite`权限，我们希望破坏`Administrator@corp.local`。`Jane@corp.local`被允许在指定了`msPKI-Enrollment-Flag`值中的`CT_FLAG_NO_SECURITY_EXTENSION`标志的证书模板`ESC9`中注册。
 
-首先，我们使用例如Shadow Credentials（使用我们的`GenericWrite`）获取`Jane`的哈希。
+首先，我们使用Shadow Credentials（使用我们的`GenericWrite`）获取`Jane`的哈希。
 
 <figure><img src="../../../.gitbook/assets/image (13) (1) (1) (1) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (22).png" alt=""><figcaption></figcaption></figure>
 
@@ -455,7 +457,7 @@ ESC9指的是新的**`msPKI-Enrollment-Flag`**值**`CT_FLAG_NO_SECURITY_EXTENSIO
 
 注意，证书中的`userPrincipalName`是`Administrator`，而发行的证书不包含“对象SID”。
 
-然后，我们将`Jane`的`userPrincipalName`更改回其他内容，例如她原来的`userPrincipalName` `Jane@corp.local`。
+然后，我们将`Jane`的`userPrincipalName`更改回其他内容，比如她原来的`userPrincipalName` `Jane@corp.local`。
 
 <figure><img src="../../../.gitbook/assets/image (24) (2).png" alt=""><figcaption></figcaption></figure>
 
@@ -484,11 +486,11 @@ ESC10指的是域控制器上的两个注册表键值。
 ### 滥用情况1
 
 * `StrongCertificateBindingEnforcement`设置为`0`
-* 通过任何帐户A的`GenericWrite`来破坏任何帐户B
+* 对任何帐户A的`GenericWrite`以破坏任何帐户B
 
-在这种情况下，`John@corp.local`具有对`Jane@corp.local`的`GenericWrite`权限，我们希望破坏`Administrator@corp.local`。滥用步骤与ESC9几乎相同，只是可以使用任何证书模板。
+在这种情况下，`John@corp.local`对`Jane@corp.local`具有`GenericWrite`权限，我们希望破坏`Administrator@corp.local`。滥用步骤与ESC9几乎相同，只是可以使用任何证书模板。
 
-首先，我们使用例如Shadow Credentials（使用我们的`GenericWrite`）获取`Jane`的哈希。
+首先，我们使用Shadow Credentials（使用我们的`GenericWrite`）获取`Jane`的哈希。
 
 <figure><img src="../../../.gitbook/assets/image (13) (1) (1) (1) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (19).png" alt=""><figcaption></figcaption></figure>
 
@@ -504,7 +506,7 @@ ESC10指的是域控制器上的两个注册表键值。
 
 注意，证书中的`userPrincipalName`是`Administrator`。
 
-然后，我们将`Jane`的`userPrincipalName`更改回其他内容，例如她原来的`userPrincipalName` `Jane@corp.local`。
+然后，我们将`Jane`的`userPrincipalName`更改回其他内容，比如她原来的`userPrincipalName` `Jane@corp.local`。
 
 <figure><img src="../../../.gitbook/assets/image (4) (1) (3).png" alt=""><figcaption></figcaption></figure>
 
@@ -515,11 +517,11 @@ ESC10指的是域控制器上的两个注册表键值。
 ### 滥用情况2
 
 * `CertificateMappingMethods`包含`UPN`位标志（`0x4`）
-* 通过任何帐户A的`GenericWrite`来破坏没有`userPrincipalName`属性的任何帐户B（机器帐户和内置域管理员`Administrator`）
+* 对任何帐户A的`GenericWrite`以破坏没有`userPrincipalName`属性的任何帐户B（机器帐户和内置域管理员`Administrator`）
 
-在这种情况下，`John@corp.local`具有对`Jane@corp.local`的`GenericWrite`权限，我们希望破坏域控制器`DC$@corp.local`。
+在这种情况下，`John@corp.local`对`Jane@corp.local`具有`GenericWrite`权限，我们希望破坏域控制器`DC$@corp.local`。
 
-首先，我们使用例如Shadow Credentials（使用我们的`GenericWrite`）获取`Jane`的哈希。
+首先，我们使用Shadow Credentials（使用我们的`GenericWrite`）获取`Jane`的哈希。
 
 <figure><img src="../../../.gitbook/assets/image (13) (1) (1) (1) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (10).png" alt=""><figcaption></figcaption></figure>
 
@@ -546,24 +548,23 @@ LDAP shell的可用命令之一是`set_rbcd`，它将在目标上设置基于资
 
 <figure><img src="../../../.gitbook/assets/image (7) (1) (2) (2).png" alt=""><figcaption></figcaption></figure>
 
-另外，我们还可以 compromise 任何没有设置`userPrincipalName`或`userPrincipalName`与该帐户的`sAMAccountName`不匹配的用户帐户。根据我的测试，默认的域管理员`Administrator@corp.local`默认情况下没有设置`userPrincipalName`，并且该帐户在LDAP中应该具有比域控制器更多的特权。
+另外，我们还可以 compromise 任何没有设置`userPrincipalName`或者`userPrincipalName`与该账户的`sAMAccountName`不匹配的用户账户。根据我的测试， 默认的域管理员账户`Administrator@corp.local`默认情况下没有设置`userPrincipalName`，并且该账户在LDAP中应该具有比域控制器更多的权限。
 
 ## 使用证书攻击 Forests
 
 ### CAs 信任破坏 Forest Trusts
 
-**跨森林注册**的设置相对简单。管理员将资源森林的**根CA证书**发布到**帐户森林**，并将资源森林的**企业CA证书**添加到每个帐户森林的**`NTAuthCertificates`**和AIA容器中。明确地说，这意味着资源森林中的**CA对其管理的所有其他森林具有完全控制权**。如果攻击者**入侵了该CA**，他们可以为资源和帐户森林中的所有用户**伪造证书**，从而破坏了森林的安全边界。
+**跨森林注册**的设置相对简单。管理员将资源森林的**根CA证书**发布到**账户森林**，并将资源森林的**企业CA证书**添加到每个**账户森林**的**`NTAuthCertificates`**和**AIA容器**中。明确地说，这意味着**资源森林中的CA对其管理的所有其他森林具有完全控制权**。如果攻击者**入侵了该CA**，他们可以为资源和账户森林中的所有用户**伪造证书**，从而破坏了森林的安全边界。
 
 ### 具有注册权限的外部主体
 
-在多森林环境中，组织还需要注意企业CA**发布授予身份验证用户或外部主体（属于企业CA所属森林之外的用户/组）注册和编辑权限的证书模板**。\
-当帐户**通过信任进行身份验证**时，AD会将**身份验证用户的SID**添加到身份验证用户的令牌中。因此，如果一个域具有一个授予身份验证用户注册权限的企业CA模板，不同森林中的用户可能会**注册该模板**。同样，如果一个模板明确授予**外部主体注册权限**，那么将创建一个**跨森林访问控制关系**，允许一个森林中的主体**在另一个森林中注册模板**。
+在多森林环境中，组织还需要注意企业CA**发布授予身份验证用户或外部主体（属于企业CA所属森林之外的用户/组）注册和编辑权限的证书模板**。当一个账户**通过信任进行身份验证**时，AD会将**身份验证用户的SID**添加到其令牌中。因此，如果一个域具有一个授予**身份验证用户注册权限**的企业CA模板，不同森林中的用户可能会**注册该模板**。同样，如果一个模板明确授予**外部主体注册权限**，那么就会创建一个**跨森林访问控制关系**，允许一个森林中的主体**注册另一个森林中的模板**。
 
-最终，这两种情况都会**增加一个森林到另一个森林的攻击面**。根据证书模板的设置，攻击者可以滥用此功能来在外部域中获得额外的特权。
+最终，这两种情况都会**增加一个森林到另一个森林的攻击面**。根据证书模板的设置，攻击者可以滥用这一点，在外部域中获得额外的权限。
 
 ## 参考资料
 
-* 此页面的所有信息均来自[https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)
+* 本页的所有信息均来自[https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)
 
 <details>
 
