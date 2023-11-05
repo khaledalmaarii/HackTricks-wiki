@@ -21,15 +21,15 @@
 * **Não são necessárias assinaturas autorizadas**
 * Um descritor de segurança de **modelo de certificado excessivamente permissivo concede direitos de inscrição de certificado a usuários de baixo privilégio**
 * O **modelo de certificado define EKUs que permitem autenticação**:
-* _Autenticação do Cliente (OID 1.3.6.1.5.5.7.3.2), Autenticação do Cliente PKINIT (1.3.6.1.5.2.3.4), Logon de Cartão Inteligente (OID 1.3.6.1.4.1.311.20.2.2), Qualquer Finalidade (OID 2.5.29.37.0) ou sem EKU (SubCA)._
+* _Autenticação do Cliente (OID 1.3.6.1.5.5.7.3.2), Autenticação do Cliente PKINIT (1.3.6.1.5.2.3.4), Logon de Cartão Inteligente (OID 1.3.6.1.4.1.311.20.2.2), Qualquer Finalidade (OID 2.5.29.37.0) ou nenhuma EKU (SubCA)._
 * O **modelo de certificado permite que solicitantes especifiquem um subjectAltName no CSR:**
-* **AD** irá **usar** a identidade especificada pelo campo **subjectAltName** (SAN) de um certificado **se** estiver **presente**. Consequentemente, se um solicitante puder especificar o SAN em um CSR, o solicitante pode **solicitar um certificado como qualquer pessoa** (por exemplo, um usuário de administrador de domínio). O objeto AD do modelo de certificado **especifica** se o solicitante **pode especificar o SAN** em sua propriedade **`mspki-certificate-name-`**`flag`. A propriedade `mspki-certificate-name-flag` é uma **máscara de bits** e se a flag **`CT_FLAG_ENROLLEE_SUPPLIES_SUBJECT`** estiver **presente**, um **solicitante pode especificar o SAN**.
+* **AD** irá **usar** a identidade especificada pelo campo **subjectAltName** (SAN) de um certificado **se** estiver **presente**. Consequentemente, se um solicitante puder especificar o SAN em um CSR, o solicitante pode **solicitar um certificado como qualquer pessoa** (por exemplo, um usuário de administrador de domínio). O objeto AD do modelo de certificado **especifica** se o solicitante **pode especificar o SAN** em sua propriedade **`mspki-certificate-name-`**`flag`. A propriedade `mspki-certificate-name-flag` é uma **máscara de bits** e se a flag **`CT_FLAG_ENROLLEE_SUPPLIES_SUBJECT`** estiver **presente**, um solicitante pode especificar o SAN.
 
 {% hint style="danger" %}
 Essas configurações permitem que um **usuário de baixo privilégio solicite um certificado com um SAN arbitrário**, permitindo que o usuário de baixo privilégio se autentique como qualquer principal no domínio via Kerberos ou SChannel.
 {% endhint %}
 
-Isso é frequentemente habilitado, por exemplo, para permitir que produtos ou serviços de implantação gerem certificados HTTPS ou certificados de host sob demanda. Ou por falta de conhecimento.
+Isso é frequentemente ativado, por exemplo, para permitir que produtos ou serviços de implantação gerem certificados HTTPS ou certificados de host sob demanda. Ou por falta de conhecimento.
 
 Observe que quando um certificado com essa última opção é criado, um **aviso aparece**, mas não aparece se um **modelo de certificado** com essa configuração é **duplicado** (como o modelo `WebServer` que tem `CT_FLAG_ENROLLEE_SUPPLIES_SUBJECT` habilitado e então o administrador pode adicionar um OID de autenticação).
 
@@ -43,7 +43,7 @@ certipy find -u john@corp.local -p Passw0rd -dc-ip 172.16.126.128
 Para **abusar dessa vulnerabilidade e se passar por um administrador**, você pode executar:
 ```bash
 Certify.exe request /ca:dc.theshire.local-DC-CA /template:VulnTemplate /altname:localadmin
-certipy req 'corp.local/john:Passw0rd!@ca.corp.local' -ca 'corp-CA' -template 'ESC1' -alt 'administrator@corp.local'
+certipy req 'corp.local/john:Passw0rd!@ca.corp.local' -ca 'corp-CA' -template 'ESC1' -upn 'administrator@corp.local'
 ```
 Em seguida, você pode transformar o **certificado gerado para o formato `.pfx`** e usá-lo para **autenticação usando Rubeus ou certipy** novamente:
 ```bash
@@ -62,10 +62,10 @@ Além disso, a seguinte consulta LDAP, quando executada no esquema de configura�
 
 O segundo cenário de abuso é uma variação do primeiro:
 
-1. O CA da empresa concede direitos de inscrição a usuários com privilégios baixos.
+1. O CA da Empresa concede direitos de inscrição a usuários de baixo privilégio.
 2. A aprovação do gerente está desativada.
 3. Não são necessárias assinaturas autorizadas.
-4. Um descritor de segurança excessivamente permissivo do modelo de certificado concede direitos de inscrição de certificado a usuários com privilégios baixos.
+4. Um descritor de segurança excessivamente permissivo do modelo de certificado concede direitos de inscrição de certificado a usuários de baixo privilégio.
 5. **O modelo de certificado define o EKU de qualquer finalidade ou nenhum EKU.**
 
 O **EKU de qualquer finalidade** permite que um invasor obtenha um **certificado** para **qualquer finalidade**, como autenticação de cliente, autenticação de servidor, assinatura de código, etc. A mesma **técnica usada para ESC3** pode ser usada para abusar disso.
@@ -134,11 +134,11 @@ Se um **atacante** tiver **permissões suficientes** para **modificar** um **mod
 
 Direitos interessantes sobre modelos de certificado:
 
-* **Proprietário:** Controle total implícito do objeto, pode editar todas as propriedades.
-* **ControleTotal:** Controle total do objeto, pode editar todas as propriedades.
+* **Proprietário:** Controle total implícito do objeto, pode editar qualquer propriedade.
+* **ControleTotal:** Controle total do objeto, pode editar qualquer propriedade.
 * **EscreverProprietário:** Pode modificar o proprietário para um principal controlado pelo atacante.
 * **EscreverDacl**: Pode modificar o controle de acesso para conceder ControleTotal a um atacante.
-* **EscreverPropriedade:** Pode editar todas as propriedades.
+* **EscreverPropriedade:** Pode editar qualquer propriedade.
 
 ### Abuso
 
@@ -367,7 +367,7 @@ Certify.exe cas
 ```
 <figure><img src="../../../.gitbook/assets/image (6) (1) (2).png" alt=""><figcaption></figcaption></figure>
 
-As Autoridades de Certificação Empresariais também **armazenam os pontos de extremidade CES** em seu objeto AD na propriedade `msPKI-Enrollment-Servers`. O **Certutil.exe** e o **PSPKI** podem analisar e listar esses pontos de extremidade:
+As Autoridades Certificadoras Empresariais também **armazenam os pontos de extremidade CES** em seus objetos AD na propriedade `msPKI-Enrollment-Servers`. O **Certutil.exe** e o **PSPKI** podem analisar e listar esses pontos de extremidade:
 ```
 certutil.exe -enrollmentServerURL -config CORPDC01.CORP.LOCAL\CORP-CORPDC01-CA
 ```
@@ -380,13 +380,17 @@ Get-CertificationAuthority | select Name,Enroll* | Format-List *
 
 #### Abuso com Certify
 
-O Certify é uma ferramenta de gerenciamento de certificados que pode ser abusada para obter privilégios de domínio em um ambiente do Active Directory. Essa técnica de escalonamento de privilégios é possível devido a uma configuração incorreta do Certify, que permite que usuários não privilegiados solicitem e obtenham certificados de domínio.
+O Certify é uma ferramenta de gerenciamento de certificados que pode ser abusada para obter privilégios de domínio em um ambiente do Active Directory. O Certify permite que os usuários solicitem e gerenciem certificados digitais, incluindo certificados de autenticação de cliente (CAC) e certificados de autenticação de servidor (SAC). Esses certificados podem ser usados para autenticar usuários e serviços em um domínio do Active Directory.
 
-Para explorar essa vulnerabilidade, um invasor pode criar uma solicitação de certificado malicioso e enviá-la para o Certify. Se a configuração do Certify permitir que usuários não privilegiados solicitem certificados de domínio, o invasor poderá obter um certificado com privilégios de domínio.
+Ao abusar do Certify, um invasor pode solicitar um certificado de autenticação de servidor (SAC) para um serviço específico, como o serviço de diretório do Active Directory. O invasor pode então usar esse certificado para autenticar-se como um serviço legítimo no domínio do Active Directory, obtendo assim privilégios de domínio.
 
-Com o certificado de domínio em mãos, o invasor pode usá-lo para autenticar-se como um controlador de domínio legítimo e obter acesso a recursos sensíveis, como controladores de domínio adicionais, servidores de arquivos e bancos de dados.
+Para abusar do Certify, o invasor precisa ter acesso a uma conta de usuário com permissões para solicitar certificados. Isso pode ser alcançado por meio de técnicas de escalonamento de privilégios ou por meio de comprometimento de credenciais de usuário com privilégios suficientes.
 
-Para mitigar esse tipo de abuso, é importante garantir que apenas usuários privilegiados possam solicitar certificados de domínio no Certify. Além disso, é recomendável monitorar e auditar as solicitações de certificados para detectar atividades suspeitas.
+Uma vez que o invasor tenha acesso a uma conta com permissões para solicitar certificados, ele pode usar o Certify para solicitar um certificado de autenticação de servidor (SAC) para o serviço de diretório do Active Directory. O invasor pode então instalar o certificado no serviço de diretório e usá-lo para autenticar-se como um serviço legítimo no domínio do Active Directory.
+
+Ao autenticar-se como um serviço legítimo, o invasor pode obter privilégios de domínio, permitindo-lhe realizar atividades maliciosas, como acessar dados confidenciais, modificar configurações do domínio e comprometer outros sistemas e contas de usuário.
+
+Para mitigar esse tipo de abuso, é importante implementar controles de acesso adequados para limitar quem pode solicitar certificados e monitorar de perto as atividades relacionadas ao Certify. Além disso, é essencial manter as credenciais de usuário seguras e implementar práticas de segurança robustas para evitar comprometimentos de conta.
 ```bash
 ## In the victim machine
 # Prepare to send traffic to the compromised machine 445 port to 445 in the attackers machine
@@ -475,7 +479,7 @@ ESC10 refere-se a dois valores de chave de registro no controlador de domínio.
 
 `CertificateMappingMethods` contém a flag `UPN` (`0x4`)
 
-### Abuso Caso 1
+### Abuso - Caso 1
 
 * `StrongCertificateBindingEnforcement` definido como `0`
 * `GenericWrite` em qualquer conta A para comprometer qualquer conta B
@@ -506,7 +510,7 @@ Agora, se tentarmos autenticar com o certificado, receberemos o hash NT do usuá
 
 <figure><img src="../../../.gitbook/assets/image (1) (2) (2).png" alt=""><figcaption></figcaption></figure>
 
-### Abuso Caso 2
+### Abuso - Caso 2
 
 * `CertificateMappingMethods` contém a flag `UPN` (`0x4`)
 * `GenericWrite` em qualquer conta A para comprometer qualquer conta B sem uma propriedade `userPrincipalName` (contas de máquina e administrador de domínio incorporado `Administrator`)
