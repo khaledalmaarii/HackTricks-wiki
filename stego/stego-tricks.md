@@ -106,7 +106,7 @@ Se a imagem estiver danificada, você pode tentar restaurá-la simplesmente adic
 ```
 ### Steghide \[JPEG, BMP, WAV, AU] <a href="#steghide" id="steghide"></a>
 
-Steghide é um programa de esteganografia que esconde dados em vários tipos de arquivos de imagem e áudio. Ele suporta os seguintes formatos de arquivo: `JPEG, BMP, WAV e AU`. Também é útil para extrair dados embutidos e criptografados de outros arquivos.\
+Steghide é um programa de esteganografia que oculta dados em vários tipos de arquivos de imagem e áudio. Ele suporta os seguintes formatos de arquivo: `JPEG, BMP, WAV e AU`. Também é útil para extrair dados embutidos e criptografados de outros arquivos.\
 Pode ser instalado com `apt`, e a [fonte](https://github.com/StefanoDeVuono/steghide) pode ser encontrada no Github.\
 **Comandos úteis:**\
 `steghide info arquivo` : exibe informações sobre se um arquivo possui dados embutidos ou não.\
@@ -150,7 +150,7 @@ Encontre-o no [Github](https://github.com/dhsdshdhk/stegpy).
 
 ### Pngcheck
 
-Obtenha detalhes sobre um arquivo PNG (ou até descubra se é na verdade algo diferente!).\
+Obtenha detalhes sobre um arquivo PNG (ou até descubra se na verdade é algo diferente!).\
 `apt-get install pngcheck`: Instale a ferramenta\
 `pngcheck stego.png` : Obtenha informações sobre o PNG
 
@@ -158,6 +158,9 @@ Obtenha detalhes sobre um arquivo PNG (ou até descubra se é na verdade algo di
 
 * [http://magiceye.ecksdee.co.uk/](http://magiceye.ecksdee.co.uk/)
 * [https://29a.ch/sandbox/2012/imageerrorlevelanalysis/](https://29a.ch/sandbox/2012/imageerrorlevelanalysis/)
+* [https://github.com/resurrecting-open-source-projects/outguess](https://github.com/resurrecting-open-source-projects/outguess)
+* [https://www.openstego.com/](https://www.openstego.com/)
+* [https://diit.sourceforge.net/](https://diit.sourceforge.net/)
 
 ## Extraindo dados de áudios
 
@@ -187,11 +190,11 @@ Para procurar informações ocultas, basta executar o programa e abrir o arquivo
 
 Sonic visualizer é uma ferramenta para visualizar e analisar o conteúdo de arquivos de áudio. Pode ser muito útil ao enfrentar desafios de esteganografia de áudio; você pode revelar formas ocultas em arquivos de áudio que muitas outras ferramentas não detectarão.\
 Se estiver preso, sempre verifique o espectrograma do áudio. [Site oficial](https://www.sonicvisualiser.org/)
-
 ### Tons DTMF - Tons de discagem
 
 * [https://unframework.github.io/dtmf-detect/](https://unframework.github.io/dtmf-detect/)
 * [http://dialabc.com/sound/detect/index.html](http://dialabc.com/sound/detect/index.html)
+
 ## Outros truques
 
 ### Comprimento binário SQRT - Código QR
