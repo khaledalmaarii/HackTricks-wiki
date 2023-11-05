@@ -102,13 +102,13 @@ Você pode baixar o pacote para criar o shell reverso aqui. Por favor, observe q
 {% file src="../../../.gitbook/assets/reverse.tar.gz" %}
 
 {% hint style="info" %}
-Este pacote é chamado de `Reverse`. No entanto, ele foi especialmente criado para que, quando você sair do shell reverso, o restante da instalação falhe, para que você **não deixe nenhum pacote Python extra instalado no servidor** quando sair.
+Este pacote é chamado de `Reverse`. No entanto, ele foi especialmente criado para que, quando você sair do shell reverso, o restante da instalação falhará, para que você **não deixe nenhum pacote Python extra instalado no servidor** quando sair.
 {% endhint %}
 
 ## Avaliando código Python
 
 {% hint style="warning" %}
-Observe que `exec` permite strings multilinhas e ";", mas `eval` não (verifique o operador walrus)
+Observe que o `exec` permite strings multilinhas e ";", mas o `eval` não (verifique o operador walrus)
 {% endhint %}
 
 Se certos caracteres forem proibidos, você pode usar a representação **hexadecimal/octal/B64** para **burlar** a restrição:
@@ -346,23 +346,23 @@ To find vulnerabilities in Python sandboxes, you can start by analyzing the sand
 
 Another technique to bypass Python sandboxes is by using dynamic code execution. Sandboxes often restrict the execution of certain functions or modules, but they may allow the execution of dynamically generated code.
 
-By leveraging the `exec()` or `eval()` functions in Python, an attacker can execute arbitrary code within the sandboxed environment. This can be used to bypass restrictions and gain unauthorized access to sensitive resources.
+By leveraging the `exec()` or `eval()` functions in Python, an attacker can execute arbitrary code within the sandboxed environment. This can be achieved by crafting the code as a string and passing it to the `exec()` or `eval()` functions for execution.
 
 ##### 3. Module Hijacking
 
 ##### 3. Sequestro de Módulo
 
-Module hijacking involves replacing or modifying a legitimate module used within the sandbox with a malicious version. This technique takes advantage of the sandbox's trust in the module and allows an attacker to execute arbitrary code.
+Module hijacking involves replacing or modifying a legitimate module used within the sandbox with a malicious one. This technique takes advantage of the sandbox's reliance on specific modules and their functionality.
 
-To perform module hijacking, an attacker needs to identify the module used by the sandbox and create a malicious version of it. The malicious module can then be loaded by the sandbox, giving the attacker control over the execution environment.
+To perform module hijacking, an attacker needs to identify the modules used by the sandbox and find a way to replace them with malicious versions. This can be done by manipulating the Python import system or modifying the module files directly.
 
 ##### 4. Sandbox Escape Techniques
 
 ##### 4. Técnicas de Escape de Sandbox
 
-In some cases, a sandbox may have inherent limitations or weaknesses that can be exploited to escape its restrictions. These sandbox escape techniques involve finding and exploiting vulnerabilities or misconfigurations in the sandbox environment.
+In some cases, a sandbox may not be completely secure, allowing for potential escape techniques. These techniques involve exploiting vulnerabilities or misconfigurations in the sandbox environment to break out of its restrictions.
 
-Common sandbox escape techniques include exploiting file system vulnerabilities, bypassing input validation, or leveraging insecure sandbox configurations. By escaping the sandbox, an attacker can gain full control over the underlying system.
+Common sandbox escape techniques include exploiting file system access restrictions, bypassing process isolation, or leveraging insecure sandbox configurations. By successfully escaping the sandbox, an attacker can gain full control over the underlying system.
 
 ##### 5. Sandboxed Environment Analysis
 
@@ -370,25 +370,21 @@ Common sandbox escape techniques include exploiting file system vulnerabilities,
 
 Understanding the sandboxed environment is crucial for bypassing Python sandboxes. By analyzing the sandbox's configuration, restrictions, and underlying technologies, an attacker can identify potential weaknesses or misconfigurations.
 
-Tools like `sandbox-identifier` can be used to gather information about the sandboxed environment. This information can then be used to devise an attack strategy and bypass the sandbox's restrictions.
+Tools like `sandbox-identifier` can help in analyzing the sandboxed environment and identifying its limitations. Additionally, manual inspection of the sandbox's configuration files and dependencies can provide valuable insights for bypassing its restrictions.
 
-##### 6. Exploiting Python Features
+##### 6. Exploit Development Resources
 
-##### 6. Explorando Recursos do Python
+##### 6. Recursos para Desenvolvimento de Exploits
 
-Python has various features and functionalities that can be exploited to bypass sandboxes. For example, an attacker can leverage the `__import__()` function to load restricted modules or use the `ctypes` library to execute arbitrary code.
+Exploit development resources, such as exploit frameworks and vulnerability databases, can be valuable assets for bypassing Python sandboxes. These resources provide information about known vulnerabilities, exploit techniques, and proof-of-concept code.
 
-By understanding the intricacies of the Python language, an attacker can find creative ways to bypass sandbox restrictions and gain unauthorized access.
+Popular exploit development frameworks like Metasploit and ExploitDB can be used to search for Python sandbox-related exploits. By leveraging these resources, an attacker can save time and effort in developing their own exploits.
 
-##### 7. Sandbox Evasion Tools
+#### Conclusion
 
-##### 7. Ferramentas de Evasão de Sandbox
+#### Conclusão
 
-Lastly, there are various tools and resources available that can aid in bypassing Python sandboxes. These tools automate the process of identifying vulnerabilities, developing exploits, or analyzing sandbox configurations.
-
-Some popular sandbox evasion tools include `Sandboxie`, `PyInstaller`, and `PyArmor`. These tools can be used to test the effectiveness of a sandbox or aid in the development of sandbox bypass techniques.
-
-By combining these techniques and resources, an attacker can effectively bypass Python sandboxes and gain unauthorized access or execute arbitrary code within a restricted environment. However, it is important to note that hacking into systems or networks without proper authorization is illegal and unethical.
+Bypassing Python sandboxes requires a deep understanding of the sandbox's implementation, vulnerabilities, and underlying technologies. By exploiting vulnerabilities, using dynamic code execution, performing module hijacking, employing sandbox escape techniques, analyzing the sandboxed environment, and leveraging exploit development resources, an attacker can successfully bypass Python sandboxes and gain unauthorized access or execute arbitrary code within a restricted environment.
 ```python
 # From https://ur4ndom.dev/posts/2022-07-04-gctf-treebox/
 # If sys is imported, you can sys.excepthook and trigger it by triggering an error
@@ -412,7 +408,7 @@ __builtins__.__import__ = X
 ```
 ### Ler arquivo com a ajuda de builtins e licença
 
-Para contornar as restrições de segurança impostas por ambientes Python, como sandboxes, você pode usar a função `help()` e a licença `builtins`. Essas técnicas permitem que você leia arquivos mesmo quando o acesso direto a eles é bloqueado.
+Para contornar as restrições de segurança impostas por ambientes de execução Python, como sandboxes, você pode usar a função `help()` e a licença `builtins`. Essas técnicas permitem que você leia arquivos mesmo quando o acesso direto a eles é bloqueado.
 
 Aqui está um exemplo de como você pode usar essas técnicas:
 
@@ -426,9 +422,9 @@ with open('arquivo_secreto.txt', 'r') as f:
     print(conteudo)
 ```
 
-Ao executar esse código, a função `help()` exibirá a documentação do módulo `builtins`, mas também permitirá que você acesse o conteúdo do arquivo `arquivo_secreto.txt`. Isso ocorre porque a função `help()` interrompe a execução do código e permite que você inspecione o ambiente Python atual.
+Ao executar esse código, a função `help()` exibirá a documentação dos módulos e funções internas do Python, permitindo que você acesse o conteúdo do arquivo. Certifique-se de substituir `'arquivo_secreto.txt'` pelo caminho correto do arquivo que você deseja ler.
 
-Lembre-se de que essas técnicas devem ser usadas com responsabilidade e apenas para fins legais e autorizados. O uso indevido dessas técnicas pode resultar em violações de privacidade e em atividades ilegais.
+Lembre-se de que essas técnicas devem ser usadas com responsabilidade e apenas para fins legais e éticos, como testes de penetração autorizados ou para fins educacionais. O uso indevido dessas técnicas pode resultar em consequências legais graves.
 ```python
 __builtins__.__dict__["license"]._Printer__filenames=["flag"]
 a = __builtins__.help
@@ -485,30 +481,40 @@ get_flag.__globals__['__builtins__']['__import__']("os").system("ls")
 ```
 #### Python3
 
-O Python3 é uma linguagem de programação popular e poderosa que é amplamente utilizada em uma variedade de aplicações. No entanto, como qualquer linguagem de programação, o Python3 também pode ser usado para fins maliciosos, como contornar as sandboxes do Python.
+O Python3 é uma linguagem de programação de alto nível amplamente utilizada para desenvolvimento de software. É conhecida por sua sintaxe simples e legibilidade, o que a torna uma escolha popular entre os desenvolvedores.
 
-As sandboxes do Python são mecanismos de segurança que restringem o acesso a certos recursos e funcionalidades do sistema operacional. Eles são projetados para proteger o ambiente de execução do Python contra código malicioso ou potencialmente perigoso.
+No entanto, quando se trata de segurança, o Python3 pode ser vulnerável a ataques. Uma das técnicas comuns usadas para proteger o ambiente Python é o uso de "sandboxes" (ambientes isolados) para restringir o acesso a recursos sensíveis do sistema.
 
-No entanto, existem várias técnicas que os hackers podem usar para contornar essas sandboxes e executar código malicioso. Essas técnicas geralmente exploram vulnerabilidades ou falhas no próprio Python ou em bibliotecas específicas.
+Uma sandbox Python é um mecanismo de segurança que limita as ações que um programa Python pode realizar. Isso é feito restringindo o acesso a certas bibliotecas, funções e recursos do sistema operacional.
 
-Uma técnica comum para contornar as sandboxes do Python é explorar vulnerabilidades de deserialização. A deserialização é o processo de converter um objeto em uma representação serializada, que pode ser armazenada ou transmitida e posteriormente reconstruída em um objeto. Os hackers podem explorar vulnerabilidades na deserialização para executar código malicioso e contornar as restrições da sandbox.
+No entanto, as sandboxes Python não são perfeitas e podem ser contornadas por hackers experientes. Existem várias técnicas que podem ser usadas para contornar as sandboxes Python e obter acesso não autorizado a recursos restritos.
 
-Outra técnica é a injeção de código malicioso em bibliotecas ou módulos confiáveis. Os hackers podem encontrar uma biblioteca ou módulo confiável que seja usado pela sandbox e injetar código malicioso nele. Quando a sandbox carrega a biblioteca ou módulo comprometido, o código malicioso é executado, permitindo que o hacker contorne as restrições da sandbox.
+Este diretório contém exemplos de técnicas de contorno de sandboxes Python, juntamente com recursos úteis para entender e explorar essas vulnerabilidades. É importante ressaltar que essas técnicas devem ser usadas apenas para fins educacionais e éticos, como parte de um teste de penetração autorizado.
 
-Além disso, os hackers também podem explorar vulnerabilidades de escalonamento de privilégios para contornar as sandboxes do Python. Essas vulnerabilidades permitem que um usuário com privilégios limitados obtenha privilégios mais elevados, permitindo que eles executem código malicioso com mais liberdade.
+As técnicas de contorno de sandboxes Python incluem:
 
-Para proteger-se contra essas técnicas de contorno de sandbox, é importante manter o Python e todas as bibliotecas atualizadas com as versões mais recentes. As atualizações geralmente corrigem vulnerabilidades conhecidas e fornecem patches de segurança para proteger contra ataques.
+- **Bypassing Module Restrictions**: Esta técnica envolve a importação de módulos restritos pela sandbox Python, permitindo que o hacker acesse recursos não autorizados.
 
-Além disso, é importante seguir as melhores práticas de segurança ao desenvolver e implantar aplicativos Python. Isso inclui validar e sanitizar todas as entradas de usuário, usar bibliotecas confiáveis e evitar o uso de bibliotecas ou módulos não confiáveis.
+- **Exploiting Weak Sandbox Configurations**: Algumas sandboxes Python podem ter configurações fracas que podem ser exploradas para contornar as restrições e obter acesso não autorizado.
 
-Ao estar ciente dessas técnicas de contorno de sandbox e tomar as medidas adequadas para proteger seu ambiente Python, você pode reduzir significativamente o risco de ataques maliciosos e manter seus aplicativos seguros.
+- **Using Native Extensions**: Esta técnica envolve o uso de extensões nativas para contornar as restrições da sandbox Python e executar código não autorizado.
+
+- **Exploiting Sandbox Escape Vulnerabilities**: Algumas sandboxes Python podem ter vulnerabilidades que podem ser exploradas para escapar da sandbox e obter acesso não autorizado.
+
+- **Using Dynamic Code Execution**: Esta técnica envolve a execução de código dinâmico para contornar as restrições da sandbox Python e executar código não autorizado.
+
+É importante entender que a segurança de um ambiente Python depende de várias camadas de proteção, incluindo a configuração adequada da sandbox, a aplicação de patches de segurança e a adoção de boas práticas de programação segura.
 ```python
 # Obtain builtins from a globally defined function
 # https://docs.python.org/3/library/functions.html
+help.__call__.__builtins__ # or __globals__
+license.__call__.__builtins__ # or __globals__
+credits.__call__.__builtins__ # or __globals__
 print.__self__
 dir.__self__
 globals.__self__
 len.__self__
+__build_class__.__self__
 
 # Obtain the builtins from a defined function
 get_flag.__globals__['__builtins__']
@@ -957,7 +963,7 @@ Saída:
 ['__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', 'metodo', 'nome']
 ```
 
-Neste exemplo, a função `dir()` é usada para obter os atributos e métodos do objeto `obj`. A saída mostra uma lista de nomes, incluindo os atributos `nome` e o método `metodo`.
+Neste exemplo, a função `dir()` é usada para obter os atributos e métodos do objeto `obj`. A saída mostra uma lista de nomes, incluindo os atributos `nome` e os métodos `metodo`.
 ```python
 dir() #General dir() to find what we have loaded
 ['__builtins__', '__doc__', '__name__', '__package__', 'b', 'bytecode', 'code', 'codeobj', 'consts', 'dis', 'filename', 'foo', 'get_flag', 'names', 'read', 'x']
@@ -995,27 +1001,29 @@ dir(get_flag.__code__)
 ```
 ### Obtendo Informações do Código
 
-To bypass Python sandboxes, it is crucial to gather as much information about the code as possible. This includes understanding the code's structure, dependencies, and any potential vulnerabilities. Here are some techniques to help you gather code information:
+To bypass Python sandboxes, it is crucial to gather as much information about the code as possible. This includes understanding the programming language, libraries, and frameworks used, as well as any external dependencies. Here are some techniques to obtain code information:
 
-#### 1. Code Review
-Perform a thorough code review to understand the logic and functionality of the code. Look for any potential security flaws or vulnerabilities that could be exploited.
+#### 1. Reading the Source Code
 
-#### 2. Static Analysis
-Use static analysis tools to analyze the code without executing it. These tools can help identify potential security issues, such as insecure coding practices or vulnerabilities in third-party libraries.
+Reading the source code is the most direct way to understand how the code works. Analyze the code line by line, paying attention to any security measures or restrictions implemented.
 
-#### 3. Dynamic Analysis
-Execute the code in a controlled environment to observe its behavior. This can help identify any hidden functionality or malicious behavior that may not be apparent during static analysis.
+#### 2. Decompiling Bytecode
 
-#### 4. Debugging
-Use a debugger to step through the code and understand its execution flow. This can help identify any vulnerabilities or weaknesses that could be exploited.
+If the source code is not available, it may be necessary to decompile the bytecode. Python bytecode can be decompiled using tools like `uncompyle6` or `pycdc`. This process allows you to obtain a readable version of the code, which can be analyzed for vulnerabilities.
 
-#### 5. Code Profiling
-Profile the code to gather information about its performance and resource usage. This can help identify any bottlenecks or areas of the code that could be exploited.
+#### 3. Analyzing Dependencies
 
-#### 6. Dependency Analysis
-Identify and analyze the code's dependencies, including third-party libraries and modules. Check for any known vulnerabilities or security issues associated with these dependencies.
+Identifying the libraries and frameworks used by the code is essential for understanding its functionality. Use tools like `pip` or `pipenv` to list the installed dependencies. Research these dependencies for any known vulnerabilities or weaknesses.
 
-By gathering comprehensive information about the code, you can better understand its behavior and identify potential weaknesses or vulnerabilities that can be exploited to bypass Python sandboxes.
+#### 4. Reverse Engineering
+
+Reverse engineering involves analyzing the compiled code to understand its inner workings. Tools like `IDA Pro` or `Ghidra` can be used to disassemble and decompile the code, providing insights into its functionality and potential vulnerabilities.
+
+#### 5. Dynamic Analysis
+
+Performing dynamic analysis involves running the code in a controlled environment and monitoring its behavior. Use tools like `strace` or `ltrace` to trace system calls and library calls made by the code. This can help identify any attempts to bypass sandboxes or execute malicious actions.
+
+By gathering comprehensive information about the code, you can better understand its vulnerabilities and devise effective strategies to bypass Python sandboxes.
 ```python
 # Another example
 s = '''
