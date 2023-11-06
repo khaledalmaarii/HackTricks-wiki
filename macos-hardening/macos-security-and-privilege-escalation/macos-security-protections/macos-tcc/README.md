@@ -24,7 +24,7 @@ Também é possível **conceder acesso a aplicativos** a arquivos por meio de **
 
 O **TCC** é gerenciado pelo **daemon** localizado em `/System/Library/PrivateFrameworks/TCC.framework/Support/tccd` e configurado em `/System/Library/LaunchDaemons/com.apple.tccd.system.plist` (registrando o serviço mach `com.apple.tccd.system`).
 
-Existe um **tccd em modo de usuário** em execução para cada usuário logado, definido em `/System/Library/LaunchAgents/com.apple.tccd.plist`, registrando os serviços mach `com.apple.tccd` e `com.apple.usernotifications.delegate.com.apple.tccd`.
+Existe um **tccd em modo de usuário** em execução para cada usuário conectado, definido em `/System/Library/LaunchAgents/com.apple.tccd.plist`, registrando os serviços mach `com.apple.tccd` e `com.apple.usernotifications.delegate.com.apple.tccd`.
 
 Aqui você pode ver o tccd em execução como sistema e como usuário:
 ```bash
@@ -56,10 +56,14 @@ codesign -dv --entitlements :- /System/Library/PrivateFrameworks/TCC.framework/S
 com.apple.private.tcc.manager
 com.apple.rootless.storage.TCC
 ```
-{% tab title="user DB" %}
+{% endcode %}
 
 No entanto, os usuários podem **excluir ou consultar regras** com a utilidade de linha de comando **`tccutil`**.
-{% endtab %}
+{% endhint %}
+
+{% tabs %}
+{% tab title="user DB" %}
+{% code overflow="wrap" %}
 ```bash
 sqlite3 ~/Library/Application\ Support/com.apple.TCC/TCC.db
 sqlite> .schema
@@ -76,7 +80,11 @@ sqlite> select * from access where client LIKE "%telegram%" and auth_value=2;
 # Check user denied permissions for telegram
 sqlite> select * from access where client LIKE "%telegram%" and auth_value=0;
 ```
+{% endcode %}
+{% endtab %}
+
 {% tab title="Banco de dados do sistema" %}
+{% code overflow="wrap" %}
 ```bash
 sqlite3 /Library/Application\ Support/com.apple.TCC/TCC.db
 sqlite> .schema
@@ -88,16 +96,20 @@ kTCCServiceSystemPolicyDownloadsFolder|com.tinyspeck.slackmacgap|2|2
 kTCCServiceMicrophone|us.zoom.xos|2|2
 [...]
 
+# Get all FDA
+sqlite> select service, client, auth_value, auth_reason from access where service = "kTCCServiceSystemPolicyAllFiles" and auth_value=2;
+
 # Check user approved permissions for telegram
 sqlite> select * from access where client LIKE "%telegram%" and auth_value=2;
 # Check user denied permissions for telegram
 sqlite> select * from access where client LIKE "%telegram%" and auth_value=0;
 ```
+{% endcode %}
 {% endtab %}
 {% endtabs %}
 
 {% hint style="success" %}
-Ao verificar ambos os bancos de dados, você pode verificar as permissões que um aplicativo permitiu, proibiu ou não possui (ele solicitará).
+Verificando ambos os bancos de dados, você pode verificar as permissões que um aplicativo permitiu, proibiu ou não possui (ele solicitará).
 {% endhint %}
 
 * O **`auth_value`** pode ter valores diferentes: denied(0), unknown(1), allowed(2) ou limited(3).
@@ -113,12 +125,12 @@ O **Acesso Total ao Disco** tem o nome **`kTCCServiceSystemPolicyAllFiles`** e o
 Você também pode verificar as **permissões já concedidas** aos aplicativos em `Preferências do Sistema --> Segurança e Privacidade --> Privacidade --> Arquivos e Pastas`.
 
 {% hint style="success" %}
-Observe que, mesmo que um dos bancos de dados esteja dentro da pasta do usuário, **os usuários não podem modificar diretamente esses bancos de dados devido ao SIP** (mesmo se você for root). A única maneira de configurar ou modificar uma nova regra é por meio do painel de Preferências do Sistema ou de prompts em que o aplicativo solicita ao usuário.
+Observe que, mesmo que um dos bancos de dados esteja dentro da pasta do usuário, **os usuários não podem modificar diretamente esses bancos de dados por causa do SIP** (mesmo se você for root). A única maneira de configurar ou modificar uma nova regra é por meio do painel de Preferências do Sistema ou de prompts em que o aplicativo solicita ao usuário.
 
 No entanto, lembre-se de que os usuários _podem_ **excluir ou consultar regras** usando o **`tccutil`**.
 {% endhint %}
 
-#### Redefinir
+#### Resetar
 ```bash
 # You can reset all the permissions given to an application with
 tccutil reset All app.some.id
@@ -128,9 +140,9 @@ tccutil reset All
 ```
 ### Escalação de privilégios do banco de dados do usuário TCC para FDA
 
-Obtendo permissões de escrita sobre o banco de dados do usuário TCC, você não pode conceder a si mesmo permissões de FDA, apenas aquele que está no banco de dados do sistema pode conceder isso.
+Obter permissões de escrita sobre o banco de dados do usuário TCC não permite conceder permissões de FDA a si mesmo, apenas aquele que está no banco de dados do sistema pode conceder isso.
 
-Mas você pode se dar direitos de automação para o Finder e, como o Finder possui FDA, você também terá.
+Mas você pode se dar direitos de automação para o Finder e, como o Finder tem FDA, você também terá.
 
 ### Do desvio do SIP para o desvio do TCC
 
@@ -150,11 +162,7 @@ O AllowApplicationsList.plist contém uma lista de identificadores de pacotes de
 
 Ao modificar o AllowApplicationsList.plist, é possível adicionar ou remover identificadores de pacotes de aplicativos para controlar quais aplicativos têm acesso aos dados protegidos pela TCC. No entanto, é importante ter cuidado ao fazer alterações nesse arquivo, pois modificações incorretas podem levar a problemas de segurança ou a aplicativos não funcionando corretamente.
 
-Para editar o AllowApplicationsList.plist, é necessário ter privilégios de root no macOS. Recomenda-se fazer um backup do arquivo antes de fazer qualquer alteração e usar um editor de texto confiável para evitar erros de formatação.
-
-Após fazer as alterações desejadas no AllowApplicationsList.plist, é necessário reiniciar o sistema para que as alterações entrem em vigor. Durante a reinicialização, o macOS lerá o arquivo atualizado e aplicará as permissões de acesso de acordo com as configurações especificadas.
-
-É importante lembrar que a modificação do AllowApplicationsList.plist é uma técnica avançada e deve ser realizada com cuidado e conhecimento adequados. É recomendável que apenas usuários experientes e familiarizados com o sistema operacional macOS realizem essas alterações.
+Para editar o AllowApplicationsList.plist, você pode usar um editor de texto ou a linha de comando. Certifique-se de seguir as diretrizes e recomendações da Apple ao fazer alterações nesse arquivo para garantir a segurança e o bom funcionamento do seu sistema macOS.
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -179,7 +187,7 @@ Após fazer as alterações desejadas no AllowApplicationsList.plist, é necess�
 ```
 ### Verificações de Assinatura do TCC
 
-O banco de dados do TCC armazena o **ID do Bundle** do aplicativo, mas também **armazena** **informações** sobre a **assinatura** para **garantir** que o aplicativo que solicita permissão seja o correto.
+O banco de dados do TCC armazena o **ID do Bundle** do aplicativo, mas também **armazena informações** sobre a **assinatura** para **garantir** que o aplicativo que solicita permissão seja o correto.
 
 {% code overflow="wrap" %}
 ```bash
@@ -196,17 +204,17 @@ csreq -t -r /tmp/telegram_csreq.bin
 {% endcode %}
 
 {% hint style="warning" %}
-Portanto, outras aplicações que usam o mesmo nome e ID de pacote não poderão acessar as permissões concedidas a outras aplicações.
+Portanto, outros aplicativos que usam o mesmo nome e ID de pacote não poderão acessar as permissões concedidas a outros aplicativos.
 {% endhint %}
 
 ### Entitlements
 
-As aplicações **não apenas precisam** solicitar e ter sido **concedido acesso** a alguns recursos, elas também precisam **ter as permissões relevantes**.\
-Por exemplo, o **Telegram** tem a permissão `com.apple.security.device.camera` para solicitar **acesso à câmera**. Uma **aplicação** que **não tenha** essa **permissão não poderá** acessar a câmera (e o usuário nem mesmo será solicitado a conceder as permissões).
+Os aplicativos **não apenas precisam** solicitar e ter **acesso concedido** a alguns recursos, eles também precisam **ter as permissões relevantes**.\
+Por exemplo, o **Telegram** tem a permissão `com.apple.security.device.camera` para solicitar **acesso à câmera**. Um **aplicativo** que **não tenha** essa **permissão não poderá** acessar a câmera (e o usuário nem mesmo será solicitado a conceder as permissões).
 
-No entanto, para que as aplicações tenham **acesso a determinadas pastas do usuário**, como `~/Desktop`, `~/Downloads` e `~/Documents`, elas **não precisam** ter nenhuma **permissão específica**. O sistema lidará com o acesso de forma transparente e **solicitará permissão ao usuário** conforme necessário.
+No entanto, para que os aplicativos tenham **acesso a determinadas pastas do usuário**, como `~/Desktop`, `~/Downloads` e `~/Documents`, eles **não precisam** ter nenhuma **permissão específica**. O sistema lidará com o acesso de forma transparente e **solicitará permissão ao usuário** conforme necessário.
 
-As aplicações da Apple **não gerarão solicitações**. Elas contêm **direitos pré-concedidos** em sua lista de **permissões**, o que significa que elas **nunca gerarão um pop-up** e **não** aparecerão em nenhum dos **bancos de dados do TCC**. Por exemplo:
+Os aplicativos da Apple **não gerarão solicitações**. Eles contêm **direitos pré-concedidos** em sua lista de **permissões**, o que significa que eles **nunca gerarão um pop-up** e também não aparecerão em nenhum dos **bancos de dados do TCC**. Por exemplo:
 ```bash
 codesign -dv --entitlements :- /System/Applications/Calendar.app
 [...]
