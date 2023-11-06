@@ -14,17 +14,17 @@
 
 ## **基本信息**
 
-**TCC (Transparency, Consent, and Control)** 是 macOS 中的一种机制，用于从隐私角度**限制和控制应用程序对某些功能的访问**。这些功能可以包括位置服务、联系人、照片、麦克风、摄像头、辅助功能、完全磁盘访问等等。
+**TCC (Transparency, Consent, and Control)** 是 macOS 中的一种机制，用于从隐私的角度**限制和控制应用程序对某些功能的访问**。这可以包括位置服务、联系人、照片、麦克风、摄像头、辅助功能、完全磁盘访问等等。
 
-从用户的角度来看，当应用程序要访问受 TCC 保护的功能时，他们会看到 TCC 的作用。这时，用户会收到一个对话框，询问他们是否允许访问。
+从用户的角度来看，当应用程序要访问受 TCC 保护的功能时，他们会看到 TCC 的作用。当这种情况发生时，**用户会收到一个对话框**，询问他们是否允许访问。
 
-用户也可以通过**显式意图**向应用程序授予对文件的访问权限，例如当用户将文件**拖放到程序中**时（显然程序应该具有对文件的访问权限）。
+用户也可以通过**显式意图**向应用程序授予对文件的访问权限，例如当用户**将文件拖放到程序中**时（显然程序应该具有对文件的访问权限）。
 
 ![TCC提示的示例](https://rainforest.engineering/images/posts/macos-tcc/tcc-prompt.png?1620047855)
 
 **TCC** 由位于 `/System/Library/PrivateFrameworks/TCC.framework/Support/tccd` 的**守护进程**处理，并在 `/System/Library/LaunchDaemons/com.apple.tccd.system.plist` 中进行配置（注册 mach 服务 `com.apple.tccd.system`）。
 
-每个已登录用户定义了一个在用户模式下运行的 tccd，其位置在 `/System/Library/LaunchAgents/com.apple.tccd.plist`，注册了 mach 服务 `com.apple.tccd` 和 `com.apple.usernotifications.delegate.com.apple.tccd`。
+每个已登录用户定义的**用户模式 tccd**在 `/System/Library/LaunchAgents/com.apple.tccd.plist` 中运行，注册 mach 服务 `com.apple.tccd` 和 `com.apple.usernotifications.delegate.com.apple.tccd`。
 
 在这里，你可以看到作为系统和用户运行的 tccd：
 ```bash
@@ -63,6 +63,7 @@ com.apple.rootless.storage.TCC
 
 {% tabs %}
 {% tab title="用户数据库" %}
+{% code overflow="wrap" %}
 ```bash
 sqlite3 ~/Library/Application\ Support/com.apple.TCC/TCC.db
 sqlite> .schema
@@ -79,7 +80,11 @@ sqlite> select * from access where client LIKE "%telegram%" and auth_value=2;
 # Check user denied permissions for telegram
 sqlite> select * from access where client LIKE "%telegram%" and auth_value=0;
 ```
+{% endcode %}
+{% endtab %}
+
 {% tab title="系统数据库" %}
+{% code overflow="wrap" %}
 ```bash
 sqlite3 /Library/Application\ Support/com.apple.TCC/TCC.db
 sqlite> .schema
@@ -91,24 +96,28 @@ kTCCServiceSystemPolicyDownloadsFolder|com.tinyspeck.slackmacgap|2|2
 kTCCServiceMicrophone|us.zoom.xos|2|2
 [...]
 
+# Get all FDA
+sqlite> select service, client, auth_value, auth_reason from access where service = "kTCCServiceSystemPolicyAllFiles" and auth_value=2;
+
 # Check user approved permissions for telegram
 sqlite> select * from access where client LIKE "%telegram%" and auth_value=2;
 # Check user denied permissions for telegram
 sqlite> select * from access where client LIKE "%telegram%" and auth_value=0;
 ```
+{% endcode %}
 {% endtab %}
 {% endtabs %}
 
 {% hint style="success" %}
-检查这两个数据库，您可以查看应用程序允许、禁止或未拥有的权限（它会要求获取权限）。
+检查这两个数据库，您可以查看应用程序允许、禁止或未拥有的权限（它会要求权限）。
 {% endhint %}
 
 * **`auth_value`** 可以有不同的值：denied(0)、unknown(1)、allowed(2)或limited(3)。
-* **`auth_reason`** 可以有以下值：Error(1)、User Consent(2)、User Set(3)、System Set(4)、Service Policy(5)、MDM Policy(6)、Override Policy(7)、Missing usage string(8)、Prompt Timeout(9)、Preflight Unknown(10)、Entitled(11)、App Type Policy(12)。
+* **`auth_reason`** 可以取以下值：Error(1)、User Consent(2)、User Set(3)、System Set(4)、Service Policy(5)、MDM Policy(6)、Override Policy(7)、Missing usage string(8)、Prompt Timeout(9)、Preflight Unknown(10)、Entitled(11)、App Type Policy(12)。
 * 有关表格的**其他字段**的更多信息，请参阅[**此博客文章**](https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive)。
 
 {% hint style="info" %}
-一些 TCC 权限包括：kTCCServiceAppleEvents、kTCCServiceCalendar、kTCCServicePhotos... 没有公共列表定义了所有这些权限，但您可以查看此[**已知权限列表**](https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive#service)。
+一些 TCC 权限包括：kTCCServiceAppleEvents、kTCCServiceCalendar、kTCCServicePhotos... 没有公共列表定义了所有这些权限，但您可以查看这个[**已知权限列表**](https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive#service)。
 
 **完全磁盘访问**的名称是**`kTCCServiceSystemPolicyAllFiles`**，**`kTCCServiceAppleEvents`** 允许应用程序向常用于**自动化任务**的其他应用程序发送事件。此外，**`kTCCServiceSystemPolicySysAdminFiles`** 允许更改用户的 **`NFSHomeDirectory`** 属性，从而更改其主文件夹，因此可以**绕过 TCC**。
 {% endhint %}
@@ -116,7 +125,7 @@ sqlite> select * from access where client LIKE "%telegram%" and auth_value=0;
 您还可以在`系统偏好设置 --> 安全性与隐私 --> 隐私 --> 文件和文件夹`中检查已授予应用程序的权限。
 
 {% hint style="success" %}
-请注意，即使其中一个数据库位于用户的主目录中，**由于 SIP 的限制，用户无法直接修改这些数据库**（即使您是 root 用户）。配置或修改新规则的唯一方法是通过系统偏好设置窗格或应用程序询问用户时。
+请注意，即使其中一个数据库位于用户的主目录中，**由于 SIP 的限制，用户无法直接修改这些数据库**（即使您是 root）。配置或修改新规则的唯一方法是通过系统偏好设置窗格或应用程序询问用户的提示。
 
 但是，请记住，用户可以使用 **`tccutil`** **删除或查询规则**。&#x20;
 {% endhint %}
@@ -133,13 +142,13 @@ tccutil reset All
 
 获取对用户TCC数据库的**写入权限**，你无法授予自己**`FDA`**权限，只有系统数据库中的权限可以授予。
 
-但是你可以给自己**`Finder的自动化权限`**，由于`Finder`具有`FDA`权限，所以你也有。
+但是你可以给自己**`Finder的自动化权限`**，由于`Finder`具有`FDA`权限，所以你也具有。
 
 ### 从SIP绕过到TCC绕过
 
-**TCC数据库**受到**SIP**的保护，因此只有具有指定权限的进程才能修改数据库。因此，如果攻击者找到了一个可以绕过SIP的文件（能够修改受SIP限制的文件），他将能够移除TCC数据库的保护，并获得所有TCC权限。
+**TCC数据库**受到**SIP**的保护，因此只有具有指定权限的进程才能修改数据库。因此，如果攻击者找到了一个可以绕过SIP的**文件**（能够修改受SIP限制的文件），他将能够移除TCC数据库的保护，并获得所有TCC权限。
 
-然而，还有另一种利用这个**SIP绕过来绕过TCC**的方法，文件`/Library/Apple/Library/Bundles/TCC_Compatibility.bundle/Contents/Resources/AllowApplicationsList.plist`是一个允许例外TCC的应用程序列表。因此，如果攻击者可以从该文件中移除SIP保护并添加自己的应用程序，该应用程序将能够绕过TCC。
+然而，还有另一种利用这个**SIP绕过来绕过TCC**的选项，文件`/Library/Apple/Library/Bundles/TCC_Compatibility.bundle/Contents/Resources/AllowApplicationsList.plist`是一个允许例外TCC的应用程序列表。因此，如果攻击者可以从该文件中**移除SIP保护**并添加自己的**应用程序**，该应用程序将能够绕过TCC。
 例如，添加终端：
 ```bash
 # Get needed info
@@ -149,13 +158,13 @@ AllowApplicationsList.plist:
 
 AllowApplicationsList.plist是一个用于macOS的配置文件，用于管理TCC（Transparency, Consent, and Control）框架中的应用程序访问权限。TCC框架是macOS中的一种安全保护机制，用于保护用户的隐私和数据安全。
 
-该配置文件列出了被授权访问敏感数据的应用程序。当一个应用程序请求访问用户的隐私数据（如相册、摄像头、麦克风等），TCC框架会检查AllowApplicationsList.plist中的配置，以确定是否允许该应用程序访问。
+该配置文件列出了被授权访问敏感数据和功能的应用程序。只有在AllowApplicationsList.plist中列出的应用程序才能访问受TCC保护的资源，例如摄像头、麦克风、联系人、位置等。
 
-在AllowApplicationsList.plist中，每个应用程序都有一个条目，包含应用程序的Bundle Identifier和对应的访问权限。访问权限可以是“Full”（完全访问）或“Limited”（有限访问）。
+要修改AllowApplicationsList.plist文件，需要具有管理员权限。可以使用命令行工具或图形界面工具来编辑该文件。在编辑文件时，需要确保只添加可信任的应用程序到AllowApplicationsList.plist中，以确保用户的隐私和数据安全。
 
-通过编辑AllowApplicationsList.plist文件，可以控制哪些应用程序可以访问用户的敏感数据。这对于加强macOS的安全性和隐私保护非常重要。
+请注意，修改AllowApplicationsList.plist文件可能会导致应用程序无法访问所需的资源。因此，在进行任何更改之前，请确保了解应用程序的访问需求，并谨慎操作。
 
-请注意，编辑AllowApplicationsList.plist文件需要管理员权限，并且更改可能会影响系统的正常运行。因此，在进行任何更改之前，请确保了解所做更改的后果，并备份原始配置文件以防止意外情况发生。
+更多关于TCC框架和macOS安全保护的信息，请参考官方文档和相关资源。
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -180,7 +189,7 @@ AllowApplicationsList.plist是一个用于macOS的配置文件，用于管理TCC
 ```
 ### TCC 签名检查
 
-TCC **数据库**存储了应用程序的**Bundle ID**，但它还会**存储**关于**签名**的**信息**，以**确保**请求使用权限的应用程序是正确的。
+TCC **数据库**存储了应用程序的**Bundle ID**，但它还会**存储**关于**签名**的**信息**，以确保请求使用权限的应用程序是正确的。
 
 {% code overflow="wrap" %}
 ```bash
@@ -207,7 +216,7 @@ csreq -t -r /tmp/telegram_csreq.bin
 
 然而，对于访问某些用户文件夹（如`~/Desktop`、`~/Downloads`和`~/Documents`）的应用程序，它们不需要具备任何特定的权限。系统会透明地处理访问并根据需要提示用户。
 
-苹果的应用程序不会生成提示。它们在其权限列表中包含预授予权限，这意味着它们永远不会生成弹出窗口，也不会出现在任何TCC数据库中。例如：
+苹果的应用程序不会生成提示。它们在其权限列表中包含预授予的权限，这意味着它们永远不会生成弹出窗口，也不会出现在任何TCC数据库中。例如：
 ```bash
 codesign -dv --entitlements :- /System/Applications/Calendar.app
 [...]
@@ -221,7 +230,7 @@ codesign -dv --entitlements :- /System/Applications/Calendar.app
 这将避免日历要求用户访问提醒事项、日历和通讯录。
 
 {% hint style="success" %}
-除了一些关于权限的官方文档外，还可以在[https://newosxbook.com/ent.jl](https://newosxbook.com/ent.jl)找到非官方的**有关权限的有趣信息**。
+除了一些关于权限的官方文档外，还可以在[https://newosxbook.com/ent.jl](https://newosxbook.com/ent.jl)找到一些非官方的**有关权限的有趣信息**。
 {% endhint %}
 
 ### 敏感的未受保护的位置
@@ -232,7 +241,7 @@ codesign -dv --entitlements :- /System/Applications/Calendar.app
 
 ### 用户意图 / com.apple.macl
 
-如前所述，可以通过将文件拖放到应用程序中来**授予应用程序对文件的访问权限**。这个访问权限不会在任何TCC数据库中指定，而是作为文件的**扩展属性**。该属性将**存储允许的应用程序的UUID**。
+如前所述，可以通过将文件拖放到应用程序中来**授予应用程序对文件的访问权限**。这个访问权限不会在任何TCC数据库中指定，而是作为文件的**扩展属性**存储。该属性将**存储允许的应用程序的UUID**。
 ```bash
 xattr Desktop/private.txt
 com.apple.macl
