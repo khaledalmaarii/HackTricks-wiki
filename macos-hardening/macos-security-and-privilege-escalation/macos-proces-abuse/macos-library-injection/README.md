@@ -228,11 +228,15 @@ Si vous le compilez et l'exécutez, vous pouvez voir **où chaque bibliothèque 
 ```bash
 sudo fs_usage | grep "dlopentest"
 ```
-## Élaguer les variables d'environnement `DYLD_*` et `LD_LIBRARY_PATH`
+## Hijacking de chemin relatif
+
+Si un **binaire/application privilégié** (comme un SUID ou un binaire avec des autorisations puissantes) charge une bibliothèque de chemin relatif (par exemple en utilisant `@executable_path` ou `@loader_path`) et que la **validation de la bibliothèque est désactivée**, il pourrait être possible de déplacer le binaire vers un emplacement où l'attaquant pourrait **modifier la bibliothèque chargée par le chemin relatif** et l'utiliser pour injecter du code dans le processus.
+
+## Supprimer les variables d'environnement `DYLD_*` et `LD_LIBRARY_PATH`
 
 Dans le fichier `dyld-dyld-832.7.1/src/dyld2.cpp`, il est possible de trouver la fonction **`pruneEnvironmentVariables`**, qui supprimera toute variable d'environnement qui **commence par `DYLD_`** et **`LD_LIBRARY_PATH=`**.
 
-Elle définira également spécifiquement les variables d'environnement **`DYLD_FALLBACK_FRAMEWORK_PATH`** et **`DYLD_FALLBACK_LIBRARY_PATH`** à **null** pour les binaires **suid** et **sgid**.
+Elle définira également spécifiquement les variables d'environnement **`DYLD_FALLBACK_FRAMEWORK_PATH`** et **`DYLD_FALLBACK_LIBRARY_PATH`** sur **null** pour les binaires **suid** et **sgid**.
 
 Cette fonction est appelée depuis la fonction **`_main`** du même fichier lorsqu'on cible OSX de la manière suivante:
 ```cpp
@@ -290,13 +294,15 @@ sudo chmod -s hello
 ```
 ### Section `__RESTRICT` avec le segment `__restrict`
 
-Le segment `__restrict` est une section spéciale dans les binaires macOS qui est utilisée pour restreindre l'accès à certaines fonctionnalités sensibles du système d'exploitation. Cette section est conçue pour empêcher les processus non autorisés d'interférer avec des fonctionnalités critiques et de compromettre la sécurité du système.
+La section `__RESTRICT` est une section spéciale dans le segment `__restrict` du binaire macOS. Cette section est utilisée pour restreindre l'accès à certaines fonctionnalités sensibles du système d'exploitation. Elle est conçue pour empêcher les processus non autorisés d'interférer avec ces fonctionnalités.
 
-Lorsqu'un binaire est compilé avec le flag `-fno-strict-aliasing`, le compilateur ajoute automatiquement le segment `__restrict` au binaire. Ce segment contient des instructions spécifiques qui restreignent l'accès aux fonctionnalités sensibles du système.
+Lorsqu'un processus tente d'accéder à une fonctionnalité restreinte, le système d'exploitation vérifie si le processus a les privilèges nécessaires pour y accéder. Si ce n'est pas le cas, le processus est bloqué et une erreur est renvoyée.
 
-L'objectif principal du segment `__restrict` est de prévenir les attaques de type "library injection" où un processus malveillant tente d'injecter du code dans une bibliothèque système pour obtenir des privilèges élevés. En restreignant l'accès à ces bibliothèques, le segment `__restrict` réduit considérablement les chances de succès de telles attaques.
+La section `__RESTRICT` est utilisée pour renforcer la sécurité du système d'exploitation en limitant les privilèges des processus et en empêchant les attaques de privilège d'escalade. Elle joue un rôle essentiel dans la protection des fonctionnalités sensibles du système d'exploitation contre les abus et les exploitations malveillantes.
 
-Il est important de noter que la présence du segment `__restrict` dans un binaire ne garantit pas une sécurité absolue. Les attaquants peuvent toujours trouver des moyens de contourner ces restrictions, il est donc essentiel de mettre en place d'autres mesures de sécurité pour renforcer la protection du système.
+Il est important de noter que la section `__RESTRICT` ne peut être modifiée que par des processus ayant les privilèges nécessaires. Cela garantit que seuls les processus autorisés peuvent accéder aux fonctionnalités restreintes du système d'exploitation.
+
+En résumé, la section `__RESTRICT` avec le segment `__restrict` est une mesure de sécurité essentielle dans macOS pour restreindre l'accès aux fonctionnalités sensibles du système d'exploitation et prévenir les attaques de privilège d'escalade.
 ```bash
 gcc -sectcreate __RESTRICT __restrict /dev/null hello.c -o hello-restrict
 DYLD_INSERT_LIBRARIES=inject.dylib ./hello-restrict
