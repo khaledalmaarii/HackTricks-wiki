@@ -1,83 +1,77 @@
-
-
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks क्लाउड ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 ट्विटर 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ ट्विच 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 यूट्यूब 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- क्या आप **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी **कंपनी को HackTricks में विज्ञापित करना चाहते हैं**? या क्या आपको **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करने की आवश्यकता है? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- खोजें [**The PEASS परिवार**](https://opensea.io/collection/the-peass-family), हमारा विशेष संग्रह [**NFTs**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- प्राप्त करें [**आधिकारिक PEASS और HackTricks swag**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या मुझे **ट्विटर** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **अपने हैकिंग ट्रिक्स को [hacktricks रेपो](https://github.com/carlospolop/hacktricks) और [hacktricks-cloud रेपो](https://github.com/carlospolop/hacktricks-cloud) में पीआर जमा करके साझा करें।**
 
 </details>
 
 
-# Basic Information
+# मूलभूत जानकारी
 
-Logstash  is used for collecting, transforming and outputting logs. This is realized by using **pipelines**, which contain input, filter and output modules. The service gets interesting when having compromised a machine which is running Logstash as a service.
+Logstash लॉग्स को संग्रहित, परिवर्तित और आउटपुट करने के लिए उपयोग किया जाता है। इसे **पाइपलाइन** का उपयोग करके प्राप्त किया जाता है, जिसमें इनपुट, फ़िल्टर और आउटपुट मॉड्यूल होते हैं। यह सेवा रोचक होती है जब एक मशीन को हैक कर लिया जाता है जिसमें Logstash को सेवा के रूप में चलाया जाता है।
 
-## Pipelines
+## पाइपलाइन
 
-The pipeline configuration file **/etc/logstash/pipelines.yml** specifies the locations of active pipelines:
-
+पाइपलाइन कॉन्फ़िगरेशन फ़ाइल **/etc/logstash/pipelines.yml** निर्दिष्ट करती है कि सक्रिय पाइपलाइनों के स्थान क्या हैं:
 ```bash
 # This file is where you define your pipelines. You can define multiple.
 # For more information on multiple pipelines, see the documentation:
 # https://www.elastic.co/guide/en/logstash/current/multiple-pipelines.html
 
 - pipeline.id: main
-  path.config: "/etc/logstash/conf.d/*.conf"
+path.config: "/etc/logstash/conf.d/*.conf"
 - pipeline.id: example
-  path.config: "/usr/share/logstash/pipeline/1*.conf"
-  pipeline.workers: 6
+path.config: "/usr/share/logstash/pipeline/1*.conf"
+pipeline.workers: 6
 ```
+यहां आपको **.conf** फ़ाइलों के पथ मिलेंगे, जिनमें कॉन्फ़िगर किए गए पाइपलाइन्स होती हैं। यदि **Elasticsearch आउटपुट मॉड्यूल** का उपयोग किया जाता है, तो **पाइपलाइन्स** में Elasticsearch इंस्टेंस के लिए मान्य **क्रेडेंशियल्स** होने की संभावना होती है। ये क्रेडेंशियल्स अक्सर अधिक विशेषाधिकारों के साथ होते हैं, क्योंकि Logstash को Elasticsearch में डेटा लिखना होता है। यदि वाइल्डकार्ड का उपयोग किया जाता है, तो Logstash उस फ़ोल्डर में स्थित सभी पाइपलाइन्स को चलाने का प्रयास करता है जो वाइल्डकार्ड के साथ मेल खाती हैं।
 
-In here you can find the paths to the **.conf** files, which contain the configured pipelines. If the **Elasticsearch output module** is used, **pipelines** are likely to **contain** valid **credentials** for an Elasticsearch instance. Those credentials have often more privileges, since Logstash has to write data to Elasticsearch. If wildcards are used, Logstash tries to run all pipelines located in that folder matching the wildcard.
+## लिखने योग्य पाइपलाइन्स के साथ Privesc
 
-## Privesc with writable pipelines
+अपनी अधिकारों को उन्नत करने की कोशिश करने से पहले, आपको जांचना चाहिए कि लॉगस्टैश सेवा किस उपयोगकर्ता के द्वारा चलाई जा रही है, क्योंकि यह उपयोगकर्ता आपके पास होगा, जिसके बाद आप स्वामित्व में होंगे। डिफ़ॉल्ट रूप से लॉगस्टैश सेवा **लॉगस्टैश** उपयोगकर्ता की विशेषाधिकारों के साथ चलती है।
 
-Before trying to elevate your own privileges you should check which user is running the logstash service, since this will be the user, you will be owning afterwards. Per default the logstash service runs with the privileges of the **logstash** user.
+यहां आपको चाहिए कि आप में से **एक** आवश्यक अधिकारों में से एक हों:
 
-Check whether you have **one** of the required rights:
+* आपके पास एक पाइपलाइन **.conf** फ़ाइल पर **लिखने की अनुमति** हो या
+* **/etc/logstash/pipelines.yml** में एक वाइल्डकार्ड है और आपको निर्दिष्ट फ़ोल्डर में लिखने की अनुमति है
 
-* You have **write permissions** on a pipeline **.conf** file **or**
-* **/etc/logstash/pipelines.yml** contains a wildcard and you are allowed to write into the specified folder
+इसके अलावा, निम्नलिखित में से **एक** आवश्यकता पूरी होनी चाहिए:
 
-Further **one** of the requirements must be met:
+* आप लॉगस्टैश सेवा को पुनः आरंभ कर सकते हैं **या**
+* **/etc/logstash/logstash.yml** में प्रविष्टि होनी चाहिए **config.reload.automatic: true**
 
-* You are able to restart the logstash service **or**
-* **/etc/logstash/logstash.yml** contains the entry **config.reload.automatic: true**
-
-If a wildcard is specified, try to create a file matching that wildcard. Following content can be written into the file to execute commands:
-
+यदि एक वाइल्डकार्ड निर्दिष्ट है, तो उस वाइल्डकार्ड के मेल खाते एक फ़ाइल बनाने का प्रयास करें। निम्नलिखित सामग्री फ़ाइल में लिखी जा सकती है ताकि कमांड निष्पादित हो सकें:
 ```bash
 input {
-  exec {
-    command => "whoami"
-    interval => 120
-  }
+exec {
+command => "whoami"
+interval => 120
+}
 }
 
 output {
-  file {
-    path => "/tmp/output.log"
-    codec => rubydebug
-  }
+file {
+path => "/tmp/output.log"
+codec => rubydebug
+}
 }
 ```
+**अंतराल** सेकंड में समय निर्धारित करता है। इस उदाहरण में **whoami** कमांड हर 120 सेकंड में निष्पादित की जाती है। कमांड का आउटपुट **/tmp/output.log** में सहेजा जाता है।
 
-The **interval** specifies the time in seconds. In this example the **whoami** command is executed every 120 seconds. The output of the command is saved into **/tmp/output.log**.
+यदि **/etc/logstash/logstash.yml** में **config.reload.automatic: true** एंट्री होती है, तो आपको केवल कमांड के निष्पादन का इंतजार करना होगा, क्योंकि Logstash स्वचालित रूप से नई पाइपलाइन कॉन्फ़िगरेशन फ़ाइलों या मौजूदा पाइपलाइन कॉन्फ़िगरेशन में किसी भी परिवर्तन को स्वीकार करेगा। अन्यथा, logstash सेवा को पुनरारंभ करें।
 
-If **/etc/logstash/logstash.yml** contains the entry **config.reload.automatic: true** you only have to wait until the command gets executed, since Logstash will automatically recognize new pipeline configuration files or any changes in existing pipeline configurations. Otherwise trigger a restart of the logstash service.
+यदि कोई वाइल्डकार्ड उपयोग नहीं किया जाता है, तो आप मौजूदा पाइपलाइन कॉन्फ़िगरेशन में इन परिवर्तनों को लागू कर सकते हैं। **सुनिश्चित करें कि आप चीजों को नहीं तोड़ते हैं!**
 
-If no wildcard is used, you can apply those changes to an existing pipeline configuration. **Make sure you do not break things!**
-
-# References
+# संदर्भ
 
 * [https://insinuator.net/2021/01/pentesting-the-elk-stack/](https://insinuator.net/2021/01/pentesting-the-elk-stack/)
 
@@ -86,16 +80,14 @@ If no wildcard is used, you can apply those changes to an existing pipeline conf
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- क्या आप **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS की नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करने की आवश्यकता है? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष [**NFT**](https://opensea.io/collection/the-peass-family) संग्रह।
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- प्राप्त करें [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या मुझे **ट्विटर** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **अपने हैकिंग ट्रिक्स को [hacktricks रेपो](https://github.com/carlospolop/hacktricks) और [hacktricks-cloud रेपो](https://github.com/carlospolop/hacktricks-cloud) में पीआर सबमिट करके साझा करें।**
 
 </details>
-
-

@@ -1,110 +1,88 @@
-# Phishing Methodology
+# फिशिंग मेथडोलॉजी
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **हैकट्रिक्स में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS की नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करने की इच्छा है? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा विशेष [**NFT**](https://opensea.io/collection/the-peass-family) संग्रह देखें
+* [**आधिकारिक PEASS और HackTricks swag**](https://peass.creator-spring.com) प्राप्त करें
+* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में या मुझे **Twitter** पर **फॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **हैकिंग ट्रिक्स साझा करें** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) को PR जमा करके।
 
 </details>
 
-## Methodology
+## मेथडोलॉजी
 
-1. Recon the victim
-   1. Select the **victim domain**.
-   2. Perform some basic web enumeration **searching for login portals** used by the victim and **decide** which one you will **impersonate**.
-   3. Use some **OSINT** to **find emails**.
-2. Prepare the environment
-   1. **Buy the domain** you are going to use for the phishing assessment
-   2. **Configure the email service** related records (SPF, DMARC, DKIM, rDNS)
-   3. Configure the VPS with **gophish**
-3. Prepare the campaign
-   1. Prepare the **email template**
-   2. Prepare the **web page** to steal the credentials
-4. Launch the campaign!
+1. पीडीएन विचार करें
+1. **पीडीएन डोमेन** का चयन करें।
+2. पीडीएन द्वारा उपयोग किए जाने वाले कुछ मूलभूत वेब जांच करें **लॉगिन पोर्टल की खोज** करें और निर्धारित करें कि आप किसे **अनुकरण** करेंगे।
+3. कुछ **OSINT** का उपयोग करें ईमेल्स की **खोज** करने के लिए।
+2. पर्यावरण की तैयारी करें
+1. फिशिंग मूल्यांकन के लिए उपयोग करने वाले डोमेन को **खरीदें**
+2. ईमेल सेवा संबंधित रिकॉर्ड (SPF, DMARC, DKIM, rDNS) को **कॉन्फ़िगर** करें
+3. **गोफिश** के साथ VPS को कॉन्फ़िगर करें
+3. अभियान की तैयारी करें
+1. **ईमेल टेम्पलेट** की तैयारी करें
+2. प्रमाणपत्रों को चुराने के लिए **वेब पेज** की तैयारी करें
+4. अभियान शुरू करें!
 
-## Generate similar domain names or buy a trusted domain
+## समान डोमेन नाम उत्पन्न करें या विश्वसनीय डोमेन खरीदें
 
-### Domain Name Variation Techniques
+### डोमेन नाम विविधता तकनीकें
 
-* **Keyword**: The domain name **contains** an important **keyword** of the original domain (e.g., zelster.com-management.com).
-* **hypened subdomain**: Change the **dot for a hyphen** of a subdomain (e.g., www-zelster.com).
-* **New TLD**: Same domain using a **new TLD** (e.g., zelster.org)
-* **Homoglyph**: It **replaces** a letter in the domain name with **letters that look similar** (e.g., zelfser.com).
-* **Transposition:** It **swaps two letters** within the domain name (e.g., zelster.com).
-* **Singularization/Pluralization**: Adds or removes “s” at the end of the domain name (e.g., zeltsers.com).
-* **Omission**: It **removes one** of the letters from the domain name (e.g., zelser.com).
-* **Repetition:** It **repeats one** of the letters in the domain name (e.g., zeltsser.com).
-* **Replacement**: Like homoglyph but less stealthy. It replaces one of the letters in the domain name, perhaps with a letter in proximity of the original letter on the keyboard (e.g, zektser.com).
-* **Subdomained**: Introduce a **dot** inside the domain name (e.g., ze.lster.com).
-* **Insertion**: It **inserts a letter** into the domain name (e.g., zerltser.com).
-* **Missing dot**: Append the TLD to the domain name. (e.g., zelstercom.com)
+* **कीवर्ड**: डोमेन नाम में मूल डोमेन का महत्वपूर्ण **कीवर्ड होता है** (उदाहरण के लिए, zelster.com-management.com).
+* **हाइफ़न सबडोमेन**: सबडोमेन के लिए **डॉट को हाइफ़न में बदलें** (उदाहरण के लिए, www-zelster.com).
+* **नया TLD**: एक **नया TLD** का उपयोग करके समान डोमेन (उदाहरण के लिए, zelster.org)
+* **होमोग्लिफ**: डोमेन नाम में एक अक्षर को बदलकर उसके **समान दिखने वाले अक्षरों** से बदलता है (उदाहरण के लिए, zelfser.com).
+* **ट्रांसपोज़िशन:** डोमेन नाम में दो अक्षरों को **आपस में बदल देता है** (उदाहरण के लिए, zelster.com).
+* **एकलीकरण/बहुवचनीकरण**: डोमेन नाम के अंत में "s" जोड़ता है या हटाता है (उदाहरण के लिए, zeltsers.com).
+* **छूट**: डोमेन नाम से एक अक्षर को **हटा देता है** (उदाहरण के लिए, zelser.com).
+* **दोहराना**: डोमेन नाम में एक अक्षर को **दोहराता है** (उदाहरण के लिए, zeltsser.com).
+* **प्रतिस्थापन**: होमोग्लिफ की तरह है लेकिन कम छलांगी। डोमेन नाम में एक अक्षर को बदलता है, शायद मूल अक्षर के पास के अक्षर के साथ (उदाहरण के लिए, zektser.com).
+* **सबडोमेन्ड**: डोमेन नाम में एक **डॉट** डालें (उदाहरण के लिए, ze.lster.com).
+* **इंजेक्शन**: डोमेन नाम में एक अक्षर **डालता है** (उदाहरण के लिए, zerltser.com).
+* **गुम हुआ डॉट**: डोमेन नाम के बाद TLD जोड़ें। (उदाहरण के लिए, zelstercom.com)
 
-**Automatic Tools**
+**स्वचालित उपकरण**
 
 * [**dnstwist**](https://github.com/elceef/dnstwist)
-* [**urlcrazy**](https://github.com/urbanadventurer/urlcrazy)
+* [**urlcrazy**](https://
+### एक विश्वसनीय डोमेन खरीदें
 
-**Websites**
-
-* [https://dnstwist.it/](https://dnstwist.it)
-* [https://dnstwister.report/](https://dnstwister.report)
-* [https://www.internetmarketingninjas.com/tools/free-tools/domain-typo-generator/](https://www.internetmarketingninjas.com/tools/free-tools/domain-typo-generator/)
-
-### Bitflipping
-
-In the world of computing, everything is stored in bits (zeros and ones) in memory behind the scenes.\
-This applies to domains too. For example, _windows.com_ becomes _01110111..._ in the volatile memory of your computing device.\
-However, what if one of these bits got automatically flipped due to a solar flare, cosmic rays, or a hardware error? That is one of the 0's becomes a 1 and vice versa.\
-Applying this concept to DNS request, it's possible that the **domain requested** that arrives to the DNS server **isn't the same as the domain initially requested.**
-
-For example a 1 bit modification in the domain windows.com can transform it into _windnws.com._\
-**Attackers may register as many bit-flipping domains as possible related to the victim in order to redirect legitimate users to their infrastructure**.
-
-For more information read [https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/](https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/)
-
-### Buy a trusted domain
-
-You can search in [https://www.expireddomains.net/](https://www.expireddomains.net) for a expired domain that you could use.\
-In order to make sure that the expired domain that you are going to buy **has already a good SEO** you could search how is it categorized in:
+आप [https://www.expireddomains.net/](https://www.expireddomains.net) में एक समाप्त हो चुके डोमेन की खोज कर सकते हैं जिसे आप उपयोग कर सकते हैं।\
+यह सुनिश्चित करने के लिए कि आप खरीदने जा रहे समाप्त डोमेन में **पहले से ही अच्छा SEO है**, आप यह देख सकते हैं कि यह कैसे श्रेणीबद्ध है:
 
 * [http://www.fortiguard.com/webfilter](http://www.fortiguard.com/webfilter)
 * [https://urlfiltering.paloaltonetworks.com/query/](https://urlfiltering.paloaltonetworks.com/query/)
 
-## Discovering Emails
+## ईमेल खोज
 
-* [https://github.com/laramies/theHarvester](https://github.com/laramies/theHarvester) (100% free)
-* [https://phonebook.cz/](https://phonebook.cz) (100% free)
+* [https://github.com/laramies/theHarvester](https://github.com/laramies/theHarvester) (100% मुफ्त)
+* [https://phonebook.cz/](https://phonebook.cz) (100% मुफ्त)
 * [https://maildb.io/](https://maildb.io)
 * [https://hunter.io/](https://hunter.io)
 * [https://anymailfinder.com/](https://anymailfinder.com)
 
-In order to **discover more** valid email addresses or **verify the ones** you have already discovered you can check if you can brute-force them smtp servers of the victim. [Learn how to verify/discover email address here](../../network-services-pentesting/pentesting-smtp/#username-bruteforce-enumeration).\
-Moreover, don't forget that if the users use **any web portal to access their mails**, you can check if it's vulnerable to **username brute force**, and exploit the vulnerability if possible.
+अधिक मान्य ईमेल पते खोजने या पहले से पता लगाए गए पतों की **पुष्टि करने** के लिए आप पीडीएमटीपी सर्वर को ब्रूट-फोर्स कर सकते हैं। [यहां ईमेल पते की पुष्टि/खोजने का तरीका सीखें](../../network-services-pentesting/pentesting-smtp/#username-bruteforce-enumeration)।\
+इसके अलावा, यदि उपयोगकर्ता अपने मेल तक पहुंचने के लिए **किसी वेब पोर्टल का उपयोग करते हैं**, तो आप यह देख सकते हैं कि क्या यह **उपयोगकर्ता नाम ब्रूट-फोर्स** के लिए संवेदनशील है, और यदि संभव हो तो उस संवेदनशीलता का उपयोग करें।
 
-## Configuring GoPhish
+## GoPhish को कॉन्फ़िगर करना
 
-### Installation
+### स्थापना
 
-You can download it from [https://github.com/gophish/gophish/releases/tag/v0.11.0](https://github.com/gophish/gophish/releases/tag/v0.11.0)
+आप इसे [https://github.com/gophish/gophish/releases/tag/v0.11.0](https://github.com/gophish/gophish/releases/tag/v0.11.0) से डाउनलोड कर सकते हैं।
 
-Download and decompress it inside `/opt/gophish` and execute `/opt/gophish/gophish`\
-You will be given a password for the admin user in port 3333 in the output. Therefore, access that port and use those credentials to change the admin password. You may need to tunnel that port to local:
-
+इसे `/opt/gophish` में डाउनलोड और डीकंप्रेस करें और `/opt/gophish/gophish` को चलाएं।\
+आपको पोर्ट 3333 में एडमिन उपयोगकर्ता के लिए एक पासवर्ड दिया जाएगा आउटपुट में। इसलिए, उस पोर्ट तक पहुंचें और उन क्रेडेंशियल का उपयोग करके एडमिन पासवर्ड बदलें। आपको शायद इस पोर्ट को स्थानिक: पर टनल करने की आवश्यकता हो सकती है।
 ```bash
 ssh -L 3333:127.0.0.1:3333 <user>@<ip>
 ```
+### कॉन्फ़िगरेशन
 
-### Configuration
+**TLS प्रमाणपत्र कॉन्फ़िगरेशन**
 
-**TLS certificate configuration**
-
-Before this step you should have **already bought the domain** you are going to use and it must be **pointing** to the **IP of the VPS** where you are configuring **gophish**.
-
+इस स्टेप से पहले आपको **पहले से ही खरीद लिया होना चाहिए डोमेन** जिसे आप उपयोग करने जा रहे हैं और यह **इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट पर इंटरनेट प
 ```bash
 DOMAIN="<domain>"
 wget https://dl.eff.org/certbot-auto
@@ -120,67 +98,61 @@ mkdir /opt/gophish/ssl_keys
 cp "/etc/letsencrypt/live/$DOMAIN/privkey.pem" /opt/gophish/ssl_keys/key.pem
 cp "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" /opt/gophish/ssl_keys/key.crt​
 ```
+**मेल कॉन्फ़िगरेशन**
 
-**Mail configuration**
+इंस्टॉलेशन शुरू करें: `apt-get install postfix`
 
-Start installing: `apt-get install postfix`
-
-Then add the domain to the following files:
+फिर निम्नलिखित फ़ाइलों में डोमेन जोड़ें:
 
 * **/etc/postfix/virtual\_domains**
 * **/etc/postfix/transport**
 * **/etc/postfix/virtual\_regexp**
 
-**Change also the values of the following variables inside /etc/postfix/main.cf**
+**/etc/postfix/main.cf** के अंदर निम्नलिखित चरों की मानें भी बदलें
 
 `myhostname = <domain>`\
 `mydestination = $myhostname, <domain>, localhost.com, localhost`
 
-Finally modify the files **`/etc/hostname`** and **`/etc/mailname`** to your domain name and **restart your VPS.**
+अंत में, फ़ाइलें **`/etc/hostname`** और **`/etc/mailname`** को अपने डोमेन नाम पर संशोधित करें और **अपने VPS को रीस्टार्ट करें।**
 
-Now, create a **DNS A record** of `mail.<domain>` pointing to the **ip address** of the VPS and a **DNS MX** record pointing to `mail.<domain>`
+अब, `mail.<domain>` के लिए **DNS A रिकॉर्ड** बनाएं जो VPS के **IP पते** को पॉइंट करता है और `mail.<domain>` के लिए **DNS MX रिकॉर्ड** बनाएं।
 
-Now lets test to send an email:
-
+अब हम एक ईमेल भेजने का परीक्षण करें:
 ```bash
 apt install mailutils
 echo "This is the body of the email" | mail -s "This is the subject line" test@email.com
 ```
+**Gophish विन्यास**
 
-**Gophish configuration**
-
-Stop the execution of gophish and lets configure it.\
-Modify `/opt/gophish/config.json` to the following (note the use of https):
-
+Gophish के निष्पादन को रोकें और इसे विन्यासित करें।\
+`/opt/gophish/config.json` को निम्नलिखित रूप में संशोधित करें (https का उपयोग करने का ध्यान दें):
 ```bash
 {
-        "admin_server": {
-                "listen_url": "127.0.0.1:3333",
-                "use_tls": true,
-                "cert_path": "gophish_admin.crt",
-                "key_path": "gophish_admin.key"
-        },
-        "phish_server": {
-                "listen_url": "0.0.0.0:443",
-                "use_tls": true,
-                "cert_path": "/opt/gophish/ssl_keys/key.crt",
-                "key_path": "/opt/gophish/ssl_keys/key.pem"
-        },
-        "db_name": "sqlite3",
-        "db_path": "gophish.db",
-        "migrations_prefix": "db/db_",
-        "contact_address": "",
-        "logging": {
-                "filename": "",
-                "level": ""
-        }
+"admin_server": {
+"listen_url": "127.0.0.1:3333",
+"use_tls": true,
+"cert_path": "gophish_admin.crt",
+"key_path": "gophish_admin.key"
+},
+"phish_server": {
+"listen_url": "0.0.0.0:443",
+"use_tls": true,
+"cert_path": "/opt/gophish/ssl_keys/key.crt",
+"key_path": "/opt/gophish/ssl_keys/key.pem"
+},
+"db_name": "sqlite3",
+"db_path": "gophish.db",
+"migrations_prefix": "db/db_",
+"contact_address": "",
+"logging": {
+"filename": "",
+"level": ""
+}
 }
 ```
+**गोफिश सेवा कॉन्फ़िगर करें**
 
-**Configure gophish service**
-
-In order to create the gophish service so it can be started automatically and managed a service you can create the file `/etc/init.d/gophish` with the following content:
-
+गोफिश सेवा को स्वचालित रूप से शुरू करने और सेवा को प्रबंधित करने के लिए आप निम्नलिखित सामग्री के साथ फ़ाइल `/etc/init.d/gophish` बना सकते हैं:
 ```bash
 #!/bin/bash
 # /etc/init.d/gophish
@@ -201,35 +173,33 @@ logfile=/var/log/gophish/gophish.log
 errfile=/var/log/gophish/gophish.error
 
 start() {
-    echo 'Starting '${processName}'...'
-    cd ${appDirectory}
-    nohup ./$process >>$logfile 2>>$errfile &
-    sleep 1
+echo 'Starting '${processName}'...'
+cd ${appDirectory}
+nohup ./$process >>$logfile 2>>$errfile &
+sleep 1
 }
 
 stop() {
-    echo 'Stopping '${processName}'...'
-    pid=$(/bin/pidof ${process})
-    kill ${pid}
-    sleep 1 
+echo 'Stopping '${processName}'...'
+pid=$(/bin/pidof ${process})
+kill ${pid}
+sleep 1
 }
 
 status() {
-    pid=$(/bin/pidof ${process})
-    if [["$pid" != ""| "$pid" != "" ]]; then
-        echo ${processName}' is running...'
-    else
-        echo ${processName}' is not running...'
-    fi
+pid=$(/bin/pidof ${process})
+if [["$pid" != ""| "$pid" != "" ]]; then
+echo ${processName}' is running...'
+else
+echo ${processName}' is not running...'
+fi
 }
 
 case $1 in
-    start|stop|status) "$1" ;;
+start|stop|status) "$1" ;;
 esac
 ```
-
-Finish configuring the service and checking it doing:
-
+सेवा को विन्यासित करने और इसे जांचने के लिए निम्न कार्रवाई को पूरा करें:
 ```bash
 mkdir /var/log/gophish
 chmod +x /etc/init.d/gophish
@@ -240,68 +210,59 @@ service gophish status
 ss -l | grep "3333\|443"
 service gophish stop
 ```
+## मेल सर्वर और डोमेन को कॉन्फ़िगर करना
 
-## Configuring mail server and domain
+### प्रतीक्षा करें
 
-### Wait
+जितना पुराना एक डोमेन होगा, उतना ही कम संभावित है कि यह स्पैम के रूप में पकड़ा जाएगा। इसलिए आपको फिशिंग मूल्यांकन से पहले जितना समय हो सके (कम से कम 1 सप्ताह) प्रतीक्षा करनी चाहिए।\
+ध्यान दें कि यदि आपको एक सप्ताह इंतजार करना होता है, तो आप अभी सब कुछ कॉन्फ़िगर कर सकते हैं।
 
-The older a domain is the less probable it's going to be caught as spam. Then you should wait as much time as possible (at least 1week) before the phishing assessment.\
-Note that even if you have to wait a week you can finish configuring everything now.
+### Reverse DNS (rDNS) रिकॉर्ड कॉन्फ़िगर करें
 
-### Configure Reverse DNS (rDNS) record
+एक rDNS (PTR) रिकॉर्ड कॉन्फ़िगर करें जो VPS के IP पते को डोमेन नाम में विलोपित करता है।
 
-Set a rDNS (PTR) record that resolves the IP address of the VPS to the domain name.
+### Sender Policy Framework (SPF) रिकॉर्ड
 
-### Sender Policy Framework (SPF) Record
+आपको **नए डोमेन के लिए एक SPF रिकॉर्ड कॉन्फ़िगर करना होगा**। यदि आपको नहीं पता कि SPF रिकॉर्ड क्या है, तो [**इस पृष्ठ को पढ़ें**](../../network-services-pentesting/pentesting-smtp/#spf)।
 
-You must **configure a SPF record for the new domain**. If you don't know what is a SPF record [**read this page**](../../network-services-pentesting/pentesting-smtp/#spf).
-
-You can use [https://www.spfwizard.net/](https://www.spfwizard.net) to generate your SPF policy (use the IP of the VPS machine)
+आप [https://www.spfwizard.net/](https://www.spfwizard.net) का उपयोग करके अपनी SPF नीति उत्पन्न कर सकते हैं (VPS मशीन का IP पता उपयोग करें)
 
 ![](<../../.gitbook/assets/image (388).png>)
 
-This is the content that must be set inside a TXT record inside the domain:
-
+यह विषय जो डोमेन के भीतर एक TXT रिकॉर्ड के रूप में सेट किया जाना चाहिए, यहां दिया गया है:
 ```bash
 v=spf1 mx a ip4:ip.ip.ip.ip ?all
 ```
+### डोमेन-आधारित संदेश प्रमाणीकरण, रिपोर्टिंग और अनुरूपता (DMARC) रिकॉर्ड
 
-### Domain-based Message Authentication, Reporting & Conformance (DMARC) Record
+आपको **नए डोमेन के लिए एक DMARC रिकॉर्ड कॉन्फ़िगर करना होगा**। यदि आपको पता नहीं है कि DMARC रिकॉर्ड क्या है, तो [**इस पेज को पढ़ें**](../../network-services-pentesting/pentesting-smtp/#dmarc)।
 
-You must **configure a DMARC record for the new domain**. If you don't know what is a DMARC record [**read this page**](../../network-services-pentesting/pentesting-smtp/#dmarc).
-
-You have to create a new DNS TXT record pointing the hostname `_dmarc.<domain>` with the following content:
-
+आपको निम्नलिखित सामग्री के साथ एक नया DNS TXT रिकॉर्ड बनाना होगा, जिसमें होस्टनाम `_dmarc.<डोमेन>` को इंगित करना होगा:
 ```bash
 v=DMARC1; p=none
 ```
+### डोमेनकीज आईडेंटिफाइड मेल (DKIM)
 
-### DomainKeys Identified Mail (DKIM)
+आपको **नए डोमेन के लिए डीकेआईएम कॉन्फ़िगर करना होगा**। अगर आपको यह पता नहीं है कि डीमार्क रिकॉर्ड क्या होता है, तो [**इस पेज को पढ़ें**](../../network-services-pentesting/pentesting-smtp/#dkim)।
 
-You must **configure a DKIM for the new domain**. If you don't know what is a DMARC record [**read this page**](../../network-services-pentesting/pentesting-smtp/#dkim).
-
-This tutorial is based on: [https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy)
+यह ट्यूटोरियल इस पर आधारित है: [https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy)
 
 {% hint style="info" %}
-You need to concatenate both B64 values that the DKIM key generates:
-
+आपको डीकेआईएम की कुंजी द्वारा उत्पन्न दो B64 मानों को जोड़ना होगा:
 ```
 v=DKIM1; h=sha256; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0wPibdqPtzYk81njjQCrChIcHzxOp8a1wjbsoNtka2X9QXCZs+iXkvw++QsWDtdYu3q0Ofnr0Yd/TmG/Y2bBGoEgeE+YTUG2aEgw8Xx42NLJq2D1pB2lRQPW4IxefROnXu5HfKSm7dyzML1gZ1U0pR5X4IZCH0wOPhIq326QjxJZm79E1nTh3xj" "Y9N/Dt3+fVnIbMupzXE216TdFuifKM6Tl6O/axNsbswMS1TH812euno8xRpsdXJzFlB9q3VbMkVWig4P538mHolGzudEBg563vv66U8D7uuzGYxYT4WS8NVm3QBMg0QKPWZaKp+bADLkOSB9J2nUpk4Aj9KB5swIDAQAB
 ```
 {% endhint %}
 
-### Test your email configuration score
+### अपने ईमेल कॉन्फ़िगरेशन स्कोर की जांच करें
 
-You can do that using [https://www.mail-tester.com/](https://www.mail-tester.com)\
-Just access the page and send an email to the address they give you:
-
+आप इसका उपयोग करके कर सकते हैं [https://www.mail-tester.com/](https://www.mail-tester.com)\
+बस पृष्ठ तक पहुंचें और उन्हें दिए गए पते पर एक ईमेल भेजें:
 ```bash
 echo "This is the body of the email" | mail -s "This is the subject line" test-iimosa79z@srv1.mail-tester.com
 ```
-
-You can also c**heck your email configuration** sending an email to `check-auth@verifier.port25.com` and **reading the response** (for this you will need to **open** port **25** and see the response in the file _/var/mail/root_ if you send the email a as root).\
-Check that you pass all the tests:
-
+आप अपने ईमेल कॉन्फ़िगरेशन की जांच भी कर सकते हैं, `check-auth@verifier.port25.com` पर एक ईमेल भेजकर और प्रतिक्रिया पढ़कर (इसके लिए आपको पोर्ट 25 खोलने की आवश्यकता होगी और यदि आप ईमेल को रूट के रूप में भेजते हैं तो फ़ाइल _/var/mail/root_ में प्रतिक्रिया देखें)।\
+सुनिश्चित करें कि आप सभी परीक्षणों में सफलता प्राप्त करते हैं:
 ```bash
 ==========================================================
 Summary of Results
@@ -312,49 +273,33 @@ DKIM check:         pass
 Sender-ID check:    pass
 SpamAssassin check: ham
 ```
-
-Alternatively, you can send a **message to a Gmail address that you control**, **view** the received **email’s headers** in your Gmail inbox, `dkim=pass` should be present in the `Authentication-Results` header field.
-
+वैकल्पिक रूप से, आप एक Gmail पते को नियंत्रण करने वाले एक संदेश को भेज सकते हैं, अपने Gmail इनबॉक्स में प्राप्त किए गए ईमेल के हेडर्स को देखें, `Authentication-Results` हेडर फ़ील्ड में `dkim=pass` मौजूद होना चाहिए।
 ```
 Authentication-Results: mx.google.com;
-       spf=pass (google.com: domain of contact@example.com designates --- as permitted sender) smtp.mail=contact@example.com;
-       dkim=pass header.i=@example.com;
+spf=pass (google.com: domain of contact@example.com designates --- as permitted sender) smtp.mail=contact@example.com;
+dkim=pass header.i=@example.com;
 ```
+### स्पैमहाउस ब्लैकलिस्ट से हटाना
 
-### ​Removing from Spamhouse Blacklist
+पृष्ठ www.mail-tester.com आपको बता सकता है कि क्या आपका डोमेन स्पैमहाउस द्वारा अवरुद्ध हो रहा है। आप अपने डोमेन/आईपी को हटाने के लिए यहां अनुरोध कर सकते हैं: [https://www.spamhaus.org/lookup/](https://www.spamhaus.org/lookup/)
 
-The page www.mail-tester.com can indicate you if you your domain is being blocked by spamhouse. You can request your domain/IP to be removed at: ​[https://www.spamhaus.org/lookup/](https://www.spamhaus.org/lookup/)
+### माइक्रोसॉफ्ट ब्लैकलिस्ट से हटाना
 
-### Removing from Microsoft Blacklist
+आप अपने डोमेन/आईपी को यहां हटाने के लिए अनुरोध कर सकते हैं: [https://sender.office.com/](https://sender.office.com).
 
-​​You can request your domain/IP to be removed at [https://sender.office.com/](https://sender.office.com).
+## गोफिश अभियान बनाएं और लॉन्च करें
 
-## Create & Launch GoPhish Campaign
+### भेजने वाले प्रोफ़ाइल
 
-### Sending Profile
+* भेजने वाले प्रोफ़ाइल को पहचानने के लिए कोई **नाम सेट करें**
+* फ़िशिंग ईमेल भेजने के लिए किस खाते से भेजने जा रहे हैं यह तय करें। सुझाव: _noreply, support, servicedesk, salesforce..._
+* आप उपयोगकर्ता नाम और पासवर्ड खाली छोड़ सकते हैं, लेकिन सुनिश्चित करें कि आपने "सर्टिफिकेट त्रुटियों को अनदेखा करें" की जांच की है
 
-* Set some **name to identify** the sender profile
-* Decide from which account are you going to send the phishing emails. Suggestions: _noreply, support, servicedesk, salesforce..._
-* You can leave blank the username and password, but make sure to check the Ignore Certificate Errors
-
-![](<../../.gitbook/assets/image (253) (1) (2) (1) (1) (2) (2) (3) (3) (5) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (17).png>)
-
-{% hint style="info" %}
-It's recommended to use the "**Send Test Email**" functionality to test that everything is working.\
-I would recommend to **send the test emails to 10min mails addresses** in order to avoid getting blacklisted making tests.
-{% endhint %}
-
-### Email Template
-
-* Set some **name to identify** the template
-* Then write a **subject** (nothing estrange, just something you could expect to read in a regular email)
-* Make sure you have checked "**Add Tracking Image**"
-* Write the **email template** (you can use variables like in the following example):
-
+![](<../../.gitbook/assets/image (253) (1) (2) (1) (1) (2) (2) (3) (3) (5) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (
 ```markup
 <html>
 <head>
-    <title></title>
+<title></title>
 </head>
 <body>
 <p class="MsoNormal"><span style="font-size:10.0pt;font-family:&quot;Verdana&quot;,sans-serif;color:black">Dear {{.FirstName}} {{.LastName}},</span></p>
@@ -371,111 +316,69 @@ WRITE HERE SOME SIGNATURE OF SOMEONE FROM THE COMPANY
 </body>
 </html>
 ```
+ध्यान दें कि **ईमेल के विश्वसनीयता को बढ़ाने के लिए**, सलाह दी जाती है कि आप कुछ साइनेचर का उपयोग करें जो क्लाइंट के ईमेल से हो। सुझाव:
 
-Note that **in order to increase the credibility of the email**, it's recommended to use some signature from an email from the client. Suggestions:
-
-* Send an email to a **non existent address** and check if the response has any signature.
-* Search for **public emails** like info@ex.com or press@ex.com or public@ex.com and send them an email and wait for the response.
-* Try to contact **some valid discovered** email and wait for the response
+* एक **अस्तित्व नहीं रखने वाले पते** पर एक ईमेल भेजें और देखें कि क्या प्रतिक्रिया में कोई साइनेचर है।
+* info@ex.com या press@ex.com या public@ex.com जैसे **सार्वजनिक ईमेल** खोजें और उन्हें एक ईमेल भेजें और प्रतिक्रिया की प्रतीक्षा करें।
+* कुछ मान्य खोजे गए ईमेल से संपर्क करने की कोशिश करें और प्रतिक्रिया की प्रतीक्षा करें।
 
 ![](<../../.gitbook/assets/image (393).png>)
 
 {% hint style="info" %}
-The Email Template also allows to **attach files to send**. If you would also like to steal NTLM challenges using some specially crafted files/documents [read this page](../../windows-hardening/ntlm/places-to-steal-ntlm-creds.md).
+ईमेल टेम्पलेट भी **भेजने के लिए फ़ाइलें संलग्न करने** की अनुमति देता है। यदि आप किसी विशेष रूप से तैयार की गई फ़ाइलें / दस्तावेज़ [इस पृष्ठ](../../windows-hardening/ntlm/places-to-steal-ntlm-creds.md) को चुरा लेने के लिए NTLM चुनौतियों को चुराना चाहते हैं।
 {% endhint %}
 
-### Landing Page
+### लैंडिंग पेज
 
-* Write a **name**
-* **Write the HTML code** of the web page. Note that you can **import** web pages.
-* Mark **Capture Submitted Data** and **Capture Passwords**
-* Set a **redirection**
+* एक **नाम** लिखें
+* वेब पेज का **HTML कोड लिखें**। ध्यान दें कि आप **वेब पेज को आयात** कर सकते हैं।
+* **जमा हुए डेटा को कैप्चर** करें और **पासवर्ड को कैप्चर** करें
+* एक **पुनर्निर्देशन सेट** करें
 
 ![](<../../.gitbook/assets/image (394).png>)
 
 {% hint style="info" %}
-Usually you will need to modify the HTML code of the page and make some tests in local (maybe using some Apache server) **until you like the results.** Then, write that HTML code in the box.\
-Note that if you need to **use some static resources** for the HTML (maybe some CSS and JS pages) you can save them in _**/opt/gophish/static/endpoint**_ and then access them from _**/static/\<filename>**_
+आमतौर पर आपको पृष्ठ के HTML कोड को संशोधित करने की आवश्यकता होगी और कुछ परीक्षण स्थानीय में करने की आवश्यकता होगी (शायद किसी Apache सर्वर का उपयोग करके) **जब तक आप परिणामों से संतुष्ट नहीं हो जाते हैं।** फिर, उस HTML कोड को बॉक्स में लिखें।\
+ध्यान दें कि यदि आपको HTML के लिए **कुछ स्थिर संसाधनों** का उपयोग करना होता है (शायद कुछ CSS और JS पेजेज) तो आप उन्हें _**/opt/gophish/static/endpoint**_ में सहेज सकते हैं और फिर से उन्हें _**/static/\<filename>**_ से एक्सेस कर सकते हैं।
 {% endhint %}
 
 {% hint style="info" %}
-For the redirection you could **redirect the users to the legit main web page** of the victim, or redirect them to _/static/migration.html_ for example, put some **spinning wheel (**[**https://loading.io/**](https://loading.io)**) for 5 seconds and then indicate that the process was successful**.
+पुनर्निर्देशन के लिए आप **उपयोगकर्ताओं को पीडित की वास्तविक मुख्य वेब पृष्ठ** पर रीडायरेक्ट कर सकते हैं, या उन्हें उदाहरण के लिए _/static/migration.html_ पर रीडायरेक्ट करें, 5 सेकंड के लिए कुछ **घूमती चक्कर वाली पहिया** ([**https://loading.io/**](https://loading.io)) लगाएं और फिर इंद्रधनुष की प्रक्रिया सफल रही है इसकी सूचना दें।
 {% endhint %}
 
-### Users & Groups
+### उपयोगकर्ता और समूह
 
-* Set a name
-* **Import the data** (note that in order to use the template for the example you need the firstname, last name and email address of each user)
+* एक नाम सेट करें
+* डेटा को **आयात करें** (ध्यान दें कि उदाहरण के लिए आपको प्रत्येक उपयोगकर्ता के पहला नाम, अंतिम नाम और ईमेल पता की आवश्यकता होगी)
 
 ![](<../../.gitbook/assets/image (395).png>)
 
-### Campaign
+### अभियान
 
-Finally, create a campaign selecting a name, the email template, the landing page, the URL, the sending profile and the group. Note that the URL will be the link sent to the victims
+अंत में, एक अभियान बनाएं जिसमें एक नाम, ईमेल टेम्पलेट, लैंडिंग पेज, URL, भेजने का प्रोफ़ाइल और समूह का चयन करें। ध्यान दें कि URL पीडितों को भेजा जाने वाला लिंक होगा
 
-Note that the **Sending Profile allow to send a test email to see how will the final phishing email looks like**:
+ध्यान दें कि **भेजने का प्रोफ़ाइल आपको अंतिम फ़िशिंग ईमेल की तरह कैसा दिखेगा यह देखने के लिए एक परीक्षण ईमेल भेजने की अनुमति देता है**:
 
 ![](<../../.gitbook/assets/image (396).png>)
 
 {% hint style="info" %}
-I would recommend to **send the test emails to 10min mails addresses** in order to avoid getting blacklisted making tests.
+मैं सलाह दूंगा कि आप **टेस्ट ईमेल्स को 10 मिनट मेल पतों पर भेजें** ताकि आपको परीक्षण करने से काले सूची में नहीं डाला जाए।
 {% endhint %}
 
-Once everything is ready, just launch the campaign!
+सब कुछ तैयार हो जाने पर, अभियान को चालू करें!
 
-## Website Cloning
+## वेबसाइट क्लोनिंग
 
-If for any reason you want to clone the website check the following page:
+यदि किसी कारण से आप वेबसाइट क्लोन करना चाहते हैं, तो निम्नलिखित पृष्ठ की जांच करें:
 
 {% content-ref url="clone-a-website.md" %}
 [clone-a-website.md](clone-a-website.md)
 {% endcontent-ref %}
 
-## Backdoored Documents & Files
+## बैकडोर दस्तावेज़ और फ़ाइलें
 
-In some phishing assessments (mainly for Red Teams) you will want to also **send files containing some kind of backdoor** (maybe a C2 or maybe just something that will trigger an authentication).\
-Check out the following page for some examples:
-
-{% content-ref url="phishing-documents.md" %}
-[phishing-documents.md](phishing-documents.md)
-{% endcontent-ref %}
-
-## Phishing MFA
-
-### Via Proxy MitM
-
-The previous attack is pretty clever as you are faking a real website and gathering the information set by the user. Unfortunately, if the user didn't put the correct password or if the application you faked is configured with 2FA, **this information won't allow you to impersonate the tricked user**.
-
-This is where tools like [**evilginx2**](https://github.com/kgretzky/evilginx2)**,** [**CredSniper**](https://github.com/ustayready/CredSniper) and [**muraena**](https://github.com/muraenateam/muraena) are useful. This tool will allow you to generate a MitM like attack. Basically, the attacks works in the following way:
-
-1. You **impersonate the login** form of the real webpage.
-2. The user **send** his **credentials** to your fake page and the tool send those to the real webpage, **checking if the credentials work**.
-3. If the account is configured with **2FA**, the MitM page will ask for it and once the **user introduces** it the tool will send it to the real web page.
-4. Once the user is authenticated you (as attacker) will have **captured the credentials, the 2FA, the cookie and any information** of every interaction your while the tool is performing a MitM.
-
-### Via VNC
-
-What if instead of **sending the victim to a malicious page** with the same looks as the original one, you send him to a **VNC session with a browser connected to the real web page**? You will be able to see what he does, steal the password, the MFA used, the cookies...\
-You can do this with [**EvilnVNC**](https://github.com/JoelGMSec/EvilnoVNC)
-
-## Detecting the detection
-
-Obviously one of the best ways to know if you have been busted is to **search your domain inside blacklists**. If it appears listed, somehow your domain was detected as suspicions.\
-One easy way to check if you domain appears in any blacklist is to use [https://malwareworld.com/](https://malwareworld.com)
-
-However, there are other ways to know if the victim is **actively looking for suspicions phishing activity in the wild** as explained in:
-
-{% content-ref url="detecting-phising.md" %}
-[detecting-phising.md](detecting-phising.md)
-{% endcontent-ref %}
-
-You can **buy a domain with a very similar name** to the victims domain **and/or generate a certificate** for a **subdomain** of a domain controlled by you **containing** the **keyword** of the victim's domain. If the **victim** perform any kind of **DNS or HTTP interaction** with them, you will know that **he is actively looking** for suspicious domains and you will need to be very stealth.
-
-### Evaluate the phishing
-
-Use [**Phishious** ](https://github.com/Rices/Phishious)to evaluate if your email is going to end in the spam folder or if it's going to be blocked or successful.
-
-## References
+कुछ फ़िशिंग मूल्यांकनों में (मुख्य रूप से लाल टीमों के लिए) आपको भी **कुछ प्रकार के बैकडोर संबंधी फ़ाइलें भेजने** की आ
+## संदर्भ
 
 * [https://zeltser.com/domain-name-variations-in-phishing/](https://zeltser.com/domain-name-variations-in-phishing/)
 * [https://0xpatrik.com/phishing-domains/](https://0xpatrik.com/phishing-domains/)
@@ -485,10 +388,10 @@ Use [**Phishious** ](https://github.com/Rices/Phishious)to evaluate if your emai
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करना चाहिए? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष [**NFT**](https://opensea.io/collection/the-peass-family) संग्रह,
+* प्राप्त करें [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या मुझे **ट्विटर** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **अपने हैकिंग ट्रिक्स साझा करें और PRs सबमिट करें** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **को**.
 
 </details>

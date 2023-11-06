@@ -4,65 +4,53 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी **कंपनी को HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करने की आवश्यकता है? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष संग्रह [**NFTs**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- प्राप्त करें [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या **Twitter** पर **फॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **अपने हैकिंग ट्रिक्स को [hacktricks रेपो](https://github.com/carlospolop/hacktricks) और [hacktricks-cloud रेपो](https://github.com/carlospolop/hacktricks-cloud) में पीआर जमा करके साझा करें**.
 
 </details>
 
-## How do they work
+## वे कैसे काम करते हैं
 
-1. Copy a service binary to the ADMIN$ share over SMB
-2. Create a service on the remote machine pointing to the binary
-3. Remotely start the service
-4. When exited, stop the service and delete the binary
+1. SMB के माध्यम से सेवा बाइनरी की प्रतिलिपि ADMIN$ शेयर में करें
+2. दूरस्थ मशीन पर एक सेवा बनाएं जो बाइनरी को निशानित करती है
+3. सेवा को दूरस्थ रूप से शुरू करें
+4. बाइनरी को बंद करने पर, सेवा को रोकें और हटाएं
 
-## **Manually PsExec'ing**
+## **मैन्युअल PsExec का उपयोग करना**
 
-First let's assume we have a payload executable we generated with msfvenom and obfuscated with Veil (so AV doesn't flag it). In this case, I created a meterpreter reverse\_http payload and called it 'met8888.exe'
+सबसे पहले यह मान लेते हैं कि हमारे पास एक पेलोड एक्जीक्यूटेबल है जिसे हमने msfvenom के साथ उत्पन्न किया है और Veil के साथ अस्पष्ट किया है (ताकि AV इसे न चिह्नित करें)। इस मामले में, मैंने एक मीटरप्रेटर रिवर्स\_एचटीटीपी पेलोड बनाई और इसे 'met8888.exe' नामक रखा है
 
-**Copy the binary**. From our "jarrieta" command prompt, simply copy the binary to the ADMIN$. Really though, it could be copied and hidden anywhere on the filesystem.
+**बाइनरी की प्रतिलिपि करें**। "जर्रिएटा" कमांड प्रॉम्प्ट से, सीधे बाइनरी की प्रतिलिपि ADMIN$ में करें। हालांकि, यह किसी भी फाइल सिस्टम पर कहीं भी कॉपी और छिपा सकता है।
 
 ![](../../.gitbook/assets/copy\_binary\_admin.png)
 
-**Create a service**. The Windows `sc` command is used to query, create, delete, etc Windows services and can be used remotely. Read more about it [here](https://technet.microsoft.com/en-us/library/bb490995.aspx). From our command prompt, we'll remotely create a service called "meterpreter" that points to our uploaded binary:
+**एक सेवा बनाएं**। Windows `sc` कमांड का उपयोग करके Windows सेवाओं का प्रश्न करने, बनाने, हटाने, आदि करने के लिए उपयोग किया जाता है और इसे दूरस्थ रूप से उपयोग किया जा सकता है। इसके बारे में और अधिक पढ़ें [यहां](https://technet.microsoft.com/en-us/library/bb490995.aspx)। हमारे कमांड प्रॉम्प्ट से, हम दूरस्थ रूप से एक सेवा बनाएंगे जिसे "मीटरप्रेटर" कहा जाता है और हमारे अपलोड किए गए बाइनरी को निशानित करता है:
 
 ![](../../.gitbook/assets/sc\_create.png)
 
-**Start the service**. The last step is to start the service and execute the binary. _Note:_ when the service starts it will "time-out" and generate an error. That's because our meterpreter binary isn't an actual service binary and won't return the expected response code. That's fine because we just need it to execute once to fire:
+**सेवा शुरू करें**। अंतिम चरण है सेवा शुरू करना और बाइनरी को निष्पादित करना। _नोट:_ जब सेवा शुरू होती है, तो यह "समय समाप्त हो जाएगी" और एक त्रुटि उत्पन्न करेगी। यह इसलिए है क्योंकि हमारा मीटरप्रेटर बाइनरी वास्तविक सेवा बाइनरी नहीं है और उम्मीद की जाने वाली प्रतिक्रिया को वापस नहीं करेगा। यह ठीक है क्योंकि हमें इसे केवल एक बार निष्पादित करने की जरूरत है:
 
 ![](../../.gitbook/assets/sc\_start\_error.png)
 
-If we look at our Metasploit listener, we'll see the session has been opened.
+यदि हम अपने Metasploit सुनने वाले को देखें, तो हमें देखेंगे कि सत्र खोल दिया गया है।
 
-**Clean the service.**
+**सेवा को साफ करें।**
 
 ![](../../.gitbook/assets/sc\_delete.png)
 
-Extracted from here: [https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/](https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/)
+यहां से निकाला गया है: [https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/](https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/)
 
-**You could also use the Windows Sysinternals binary PsExec.exe:**
+**आप Windows Sysinternals बाइनरी PsExec.exe का भी उपयोग कर सकते हैं:**
 
 ![](<../../.gitbook/assets/image (165).png>)
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
-
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
-
-</details>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/s

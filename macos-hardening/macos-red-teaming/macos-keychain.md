@@ -4,67 +4,53 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप एक **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी **कंपनी को HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करने की आवश्यकता है? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष संग्रह [**NFTs**](https://opensea.io/collection/the-peass-family)
+* प्राप्त करें [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में शामिल हों या मुझे **Twitter** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **अपने हैकिंग ट्रिक्स साझा करें द्वारा PRs सबमिट करके** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **को।**
 
 </details>
 
-## Main Keychains
+## मुख्य Keychains
 
-* The **User Keychain** (`~/Library/Keychains/login.keycahin-db`), which is used to store **user-specific credentials** like application passwords, internet passwords, user-generated certificates, network passwords, and user-generated public/private keys.
-* The **System Keychain** (`/Library/Keychains/System.keychain`), which stores **system-wide credentials** such as WiFi passwords, system root certificates, system private keys, and system application passwords.
+* **उपयोगकर्ता Keychain** (`~/Library/Keychains/login.keycahin-db`), जिसका उपयोग **उपयोगकर्ता-विशिष्ट प्रमाणपत्र**, इंटरनेट पासवर्ड, उपयोगकर्ता द्वारा उत्पन्न प्रमाणपत्र, नेटवर्क पासवर्ड और उपयोगकर्ता द्वारा उत्पन्न सार्वजनिक/निजी कुंजी जैसे **उपयोगकर्ता-विशिष्ट प्रमाणपत्र** को संग्रहित करने के लिए किया जाता है।
+* **सिस्टम Keychain** (`/Library/Keychains/System.keychain`), जिसमें **सिस्टम-व्यापक प्रमाणपत्र**, जैसे WiFi पासवर्ड, सिस्टम रूट प्रमाणपत्र, सिस्टम निजी कुंजी और सिस्टम एप्लिकेशन पासवर्ड संग्रहित होते हैं।
 
-### Password Keychain Access
+### पासवर्ड Keychain Access
 
-These files, while they do not have inherent protection and can be **downloaded**, are encrypted and require the **user's plaintext password to be decrypted**. A tool like [**Chainbreaker**](https://github.com/n0fate/chainbreaker) could be used for decryption.
+ये फ़ाइलें, जबकि उनमें कोई आपूर्ति सुरक्षा नहीं है और **डाउनलोड की जा सकती हैं**, एन्क्रिप्टेड होती हैं और **उपयोगकर्ता के प्लेनटेक्स्ट पासवर्ड की आवश्यकता होती है** उन्हें डिक्रिप्ट करने के लिए। डिक्रिप्शन के लिए [**Chainbreaker**](https://github.com/n0fate/chainbreaker) जैसा उपकरण उपयोग किया जा सकता है।
 
 ## Keychain Entries Protections
 
 ### ACLs
 
-Each entry in the keychain is governed by **Access Control Lists (ACLs)** which dictate who can perform various actions on the keychain entry, including:
+Keychain में प्रत्येक प्रविष्टि को **पहुँच नियंत्रण सूची (ACLs)** द्वारा नियंत्रित किया जाता है, जो प्रविष्टि पर विभिन्न कार्रवाइयों को करने की अनुमति देती है, जैसे:
 
-* **ACLAuhtorizationExportClear**: Allows the holder to get the clear text of the secret.
-* **ACLAuhtorizationExportWrapped**: Allows the holder to get the clear text encrypted with another provided password.
-* **ACLAuhtorizationAny**: Allows the holder to perform any action.
+* **ACLAuhtorizationExportClear**: धारक को गुप्त ज्ञान का स्पष्ट पाठ प्राप्त करने की अनुमति देता है।
+* **ACLAuhtorizationExportWrapped**: धारक को दिए गए एक अन्य पासवर्ड के साथ एन्क्रिप्टेड स्पष्ट पाठ प्राप्त करने की अनुमति देता है।
+* **ACLAuhtorizationAny**: धारक को किसी भी कार्रवाई करने की अनुमति देता है।
 
-The ACLs are further accompanied by a **list of trusted applications** that can perform these actions without prompting. This could be:
+ACLs के साथ-साथ एक **विश्वसनीय एप्लिकेशनों की सूची** भी होती है जो इन कार्रवाइयों को प्रदान किए बिना कर सकती है। इसमें शामिल हो सकता है:
 
-* &#x20;**N`il`** (no authorization required, **everyone is trusted**)
-* An **empty** list (**nobody** is trusted)
-* **List** of specific **applications**.
+* &#x20;**N`il`** (कोई अधिकृतता की आवश्यकता नहीं है, **सभी विश्वसनीय हैं**)
+* एक **खाली** सूची (**कोई नहीं विश्वसनीय है**)
+* विशिष्ट **एप्लिकेशनों** की **सूची**।
 
-Also the entry might contain the key **`ACLAuthorizationPartitionID`,** which is use to identify the **teamid, apple,** and **cdhash.**
+इसके अलावा प्रविष्टि में **`ACLAuthorizationPartitionID`** भी हो सकता है, जिसका उपयोग **teamid, apple,** और **cdhash** की पहचान करने के लिए किया जाता है।
 
-* If the **teamid** is specified, then in order to **access the entry** value **withuot** a **prompt** the used application must have the **same teamid**.
-* If the **apple** is specified, then the app needs to be **signed** by **Apple**.
-* If the **cdhash** is indicated, then **app** must have the specific **cdhash**.
+* यदि **teamid** निर्दिष्ट है, तो प्रविष्टि मान **तालिका** के साथ **पहुँचने** के लिए उपयोग की जाने वाली एप्लिकेशन को **एक ही teamid** होनी चाहिए।
+* यदि **apple** निर्दिष्ट है, तो ऐप को **Apple** द्वारा **साइन किया** जाना चाहिए।
+* यदि **cdhash** निर्दिष्ट है, तो ऐप को विशिष्ट **cdhash** होना चाहिए।
 
-### Creating a Keychain Entry
+### एक Keychain Entry बनाना
 
-When a **new** **entry** is created using **`Keychain Access.app`**, the following rules apply:
+जब एक **नई प्रविष्टि** को **`Keychain Access.app`** का उपयोग करके बनाया जाता है, निम्नलिखित नियम लागू होते हैं:
 
-* All apps can encrypt.
-* **No apps** can export/decrypt (without prompting the user).
-* All apps can see the integrity check.
-* No apps can change ACLs.
-* The **partitionID** is set to **`apple`**.
-
-When an **application creates an entry in the keychain**, the rules are slightly different:
-
-* All apps can encrypt.
-* Only the **creating application** (or any other apps explicitly added) can export/decrypt (without prompting the user).
-* All apps can see the integrity check.
-* No apps can change the ACLs.
-* The **partitionID** is set to **`teamid:[teamID here]`**.
-
-## Accessing the Keychain
-
-### `security`
-
+* सभी ऐप्स एन्क्रिप्ट कर सकते हैं।
+* **कोई ऐप** निर्यात/डिक्रिप्ट कर सकता है (उपयोगकर्ता को प्रश्न नहीं पूछता)।
+* सभी ऐप अखंडता जांच देख सकते हैं।
+* कोई ऐप
 ```bash
 # Dump all metadata and decrypted secrets (a lot of pop-ups)
 security dump-keychain -a -d
@@ -75,60 +61,59 @@ security find-generic-password -a "Slack" -g
 # Change the specified entrys PartitionID entry
 security set-generic-password-parition-list -s "test service" -a "test acount" -S
 ```
-
-### APIs
+### एपीआई
 
 {% hint style="success" %}
-The **keychain enumeration and dumping** of secrets that **won't generate a prompt** can be done with the tool [**LockSmith**](https://github.com/its-a-feature/LockSmith)
+**कीचेन एनुमरेशन और डंपिंग** जो **प्रॉम्प्ट नहीं उत्पन्न करेगा** उसके लिए उपकरण [**LockSmith**](https://github.com/its-a-feature/LockSmith) का उपयोग किया जा सकता है।
 {% endhint %}
 
-List and get **info** about each keychain entry:
+प्रत्येक कीचेन प्रविष्टि के बारे में **जानकारी** की सूची और प्राप्त करें:
 
-* The API **`SecItemCopyMatching`** gives info about each entry and there are some attributes you can set when using it:
-  * **`kSecReturnData`**: If true, it will try to decrypt the data (set to false to avoid potential pop-ups)
-  * **`kSecReturnRef`**: Get also reference to keychain item (set to true in case later you see you can decrypt without pop-up)
-  * **`kSecReturnAttributes`**: Get metadata about entries
-  * **`kSecMatchLimit`**: How many results to return
-  * **`kSecClass`**: What kind of keychain entry
+* एपीआई **`SecItemCopyMatching`** प्रत्येक प्रविष्टि के बारे में जानकारी देती है और इसका उपयोग करते समय कुछ विशेषताएं आप सेट कर सकते हैं:
+* **`kSecReturnData`**: यदि सत्य है, तो यह डेटा को डिक्रिप्ट करने का प्रयास करेगा (पोप-अप से बचने के लिए इसे असत्य सेट करें)
+* **`kSecReturnRef`**: कीचेन आइटम के संदर्भ को भी प्राप्त करें (यदि बाद में आप देखते हैं कि आप पोप-अप के बिना डिक्रिप्ट कर सकते हैं तो सत्य सेट करें)
+* **`kSecReturnAttributes`**: प्रविष्टियों के बारे में मेटाडेटा प्राप्त करें
+* **`kSecMatchLimit`**: वापसी करने के लिए कितने परिणाम
+* **`kSecClass`**: किस प्रकार की कीचेन प्रविष्टि
 
-Get **ACLs** of each entry:
+प्रत्येक प्रविष्टि के **ACL** प्राप्त करें:
 
-* With the API **`SecAccessCopyACLList`** you can get the **ACL for the keychain item**, and it will return a list of ACLs (like `ACLAuhtorizationExportClear` and the others previously mentioned)  where each list has:
-  * Description
-  * **Trusted Application List**. This could be:
-    * An app: /Applications/Slack.app
-    * A binary: /usr/libexec/airportd
-    * A group: group://AirPort
+* एपीआई **`SecAccessCopyACLList`** के साथ आप **कीचेन आइटम के लिए ACL** प्राप्त कर सकते हैं, और यह एक ACL की सूची (जैसे `ACLAuhtorizationExportClear` और पहले उल्लिखित अन्य) लौटाएगा जहां प्रत्येक सूची में होता है:
+* विवरण
+* **विश्वसनीय एप्लिकेशन सूची**। इसमें हो सकता है:
+* एक ऐप: /Applications/Slack.app
+* एक बाइनरी: /usr/libexec/airportd
+* एक समूह: group://AirPort
 
-Export the data:
+डेटा निर्यात करें:
 
-* The API **`SecKeychainItemCopyContent`** gets the plaintext
-* The API  **`SecItemExport`** exports the keys and certificates but might have to set passwords to export the content encrypted
+* एपीआई **`SecKeychainItemCopyContent`** प्लेनटेक्स्ट प्राप्त करता है
+* एपीआई **`SecItemExport`** कुंजी और प्रमाणपत्रों को निर्यात करता है लेकिन सामग्री को एन्क्रिप्टेड निर्यात करने के लिए पासवर्ड सेट करना पड़ सकता है
 
-And these are the **requirements** to be able to **export a secret without a prompt**:
+और ये हैं **एक सीक्रेट को प्रॉम्प्ट के बिना निर्यात करने** के लिए **आवश्यकताएं**:
 
-* If **1+ trusted** apps listed:
-  * Need the appropriate **authorizations** (**`Nil`**, or be **part** of the allowed list of apps in the authorization to access the secret info)
-  * Need code signature to match **PartitionID**
-  * Need code signature to match that of one **trusted app** (or be a member of the right KeychainAccessGroup)
-* If **all applications trusted**:
-  * Need the appropriate **authorizations**
-  * Need code signature to match **PartitionID**
-    * If **no PartitionID**, then this isn't needed
+* यदि **1+ विश्वसनीय** ऐप्स सूचीबद्ध हैं:
+* उचित **अधिकारीकरण** की आवश्यकता होती है (**`Nil`**, या सीक्रेट जानकारी तक पहुंच के लिए अनुमति देने की अनुमति वाली ऐप्स की सूची का हिस्सा होना चाहिए)
+* कोड साइनेचर को मेल खाने के लिए **PartitionID** के साथ मेल खाने की आवश्यकता होती है
+* कोड साइनेचर को विश्वसनीय ऐप के कोड साइनेचर के साथ मेल खाने की आवश्यकता होती है (या सही KeychainAccessGroup के सदस्य होना चाहिए)
+* यदि **सभी ऐप्लिकेशन विश्वसनीय** हैं:
+* उचित **अधिकारीकरण** की आवश्यकता होती है
+* कोड साइनेचर को मेल खाने के लिए **PartitionID** के साथ मेल खाने की आवश्यकता होती है
+* यदि **कोई PartitionID नहीं** है, तो यह आवश्यक नहीं है
 
 {% hint style="danger" %}
-Therefore, if there is **1 application listed**, you need to **inject code in that application**.
+इसलिए, यदि **1 ऐप्लिकेशन दर्ज है**, तो आपको **उस ऐप्लिकेशन में कोड इंजेक्शन करने** की आवश्यकता होती है।
 
-If **apple** is indicated in the **partitionID**, you could access it with **`osascript`** so anything that is trusting all applications with apple in the partitionID. **`Python`** could also be used for this.
+यदि **पार्टीशनआईडी** में **एप्पल** निर्दिष्ट किया गया है, तो आप इसे **`osascript`** के साथ एक्सेस कर सकते हैं, इसलिए कुछ भी जो पार्टीशनआईडी में एप्पल के साथ सभी ऐप्लिकेशनों का विश्वास कर रहा है। **`Python`** भी इसके लिए उपयोग किया जा सकता है।
 {% endhint %}
 
-### Two additional attributes
+### दो अतिरिक्त विशेषताएं
 
-* **Invisible**: It's a boolean flag to **hide** the entry from the **UI** Keychain app
-* **General**: It's to store **metadata** (so it's NOT ENCRYPTED)
-  * Microsoft was storing in plain text all the refresh tokens to access sensitive endpoint.
+* **अदृश्य**: यह एक बूलियन फ़्लैग है जो एंट्री को **UI** कीचेन ऐप से **छिपाने** के लिए होता है
+* **सामान्य**: यह **मेटाडेटा** संग्रहीत करने के लिए होता है (इसलिए यह एन्क्रिप्टेड नहीं होता है)
+* माइक्रोसॉफ्ट सभी संवेदनशील अंत बिंदु तक पहुंच के लिए सभी रिफ़्रेश टोकन को सादा पाठ में संग्रहीत कर रहा था।
 
-## References
+## संदर्भ
 
 * [**#OBTS v5.0: "Lock Picking the macOS Keychain" - Cody Thomas**](https://www.youtube.com/watch?v=jKE1ZW33JpY)
 
@@ -136,10 +121,4 @@ If **apple** is indicated in the **partitionID**, you could access it with **`os
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
-
-</details>
+* क्या आप **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आप **PEASS के नवीनतम संस्करण या HackTricks को PDF म

@@ -1,93 +1,83 @@
-
-
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks क्लाउड ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 ट्विटर 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ ट्विच 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 यूट्यूब 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी **कंपनी को HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड** करने की आवश्यकता है? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- [**The PEASS परिवार**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा विशेष [**NFT**](https://opensea.io/collection/the-peass-family) संग्रह।
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- [**आधिकारिक PEASS और HackTricks swag**](https://peass.creator-spring.com) प्राप्त करें।
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- [**💬**](https://emojipedia.org/speech-balloon/) [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में **शामिल** हों या मुझे **ट्विटर** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)** का** **अनुसरण** करें।
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **अपने हैकिंग ट्रिक्स को [hacktricks रेपो](https://github.com/carlospolop/hacktricks) और [hacktricks-cloud रेपो](https://github.com/carlospolop/hacktricks-cloud) में पीआर जमा करके साझा करें।**
 
 </details>
 
 
-# CBC - Cipher Block Chaining
+# CBC - साइफर ब्लॉक चेनिंग
 
-In CBC mode the **previous encrypted block is used as IV** to XOR with the next block:
+CBC मोड में, **पिछले एन्क्रिप्टेड ब्लॉक का आईवी** अगले ब्लॉक के साथ XOR करने के लिए उपयोग किया जाता है:
 
-![CBC encryption](https://defuse.ca/images/cbc\_encryption.png)
+![CBC एन्क्रिप्शन](https://defuse.ca/images/cbc\_encryption.png)
 
-To decrypt CBC the **opposite** **operations** are done:
+CBC को डिक्रिप्ट करने के लिए **उल्टे** **ऑपरेशन** किए जाते हैं:
 
-![CBC decryption](https://defuse.ca/images/cbc\_decryption.png)
+![CBC डिक्रिप्शन](https://defuse.ca/images/cbc\_decryption.png)
 
-Notice how it's needed to use an **encryption** **key** and an **IV**.
+ध्यान दें कि इसमें एक **एन्क्रिप्शन कुंजी** और एक **आईवी** का उपयोग करना आवश्यक है।
 
-# Message Padding
+# संदेश पैडिंग
 
-As the encryption is performed in **fixed** **size** **blocks**, **padding** is usually needed in the **last** **block** to complete its length.\
-Usually **PKCS7** is used, which generates a padding **repeating** the **number** of **bytes** **needed** to **complete** the block. For example, if the last block is missing 3 bytes, the padding will be `\x03\x03\x03`.
+जब एन्क्रिप्शन **निश्चित** **आकार** **ब्लॉक** में किया जाता है, तो आमतौर पर **पैडिंग** की आवश्यकता होती है ताकि अंतिम ब्लॉक की लंबाई पूरी हो सके।\
+आमतौर पर **PKCS7** का उपयोग किया जाता है, जो एक पैडिंग उत्पन्न करता है जो ब्लॉक को पूरा करने के लिए **बाइट्स** की **संख्या** को **दोहराता** है। उदाहरण के लिए, यदि अंतिम ब्लॉक में 3 बाइट्स की कमी है, तो पैडिंग `\x03\x03\x03` होगा।
 
-Let's look at more examples with a **2 blocks of length 8bytes**:
+एक **8 बाइट्स की लंबाई के 2 ब्लॉक** के साथ और अधिक उदाहरणों को देखें:
 
-| byte #0 | byte #1 | byte #2 | byte #3 | byte #4 | byte #5 | byte #6 | byte #7 | byte #0  | byte #1  | byte #2  | byte #3  | byte #4  | byte #5  | byte #6  | byte #7  |
+| बाइट #0 | बाइट #1 | बाइट #2 | बाइट #3 | बाइट #4 | बाइट #5 | बाइट #6 | बाइट #7 | बाइट #0  | बाइट #1  | बाइट #2  | बाइट #3  | बाइट #4  | बाइट #5  | बाइट #6  | बाइट #7  |
 | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- |
 | P       | A       | S       | S       | W       | O       | R       | D       | 1        | 2        | 3        | 4        | 5        | 6        | **0x02** | **0x02** |
 | P       | A       | S       | S       | W       | O       | R       | D       | 1        | 2        | 3        | 4        | 5        | **0x03** | **0x03** | **0x03** |
 | P       | A       | S       | S       | W       | O       | R       | D       | 1        | 2        | 3        | **0x05** | **0x05** | **0x05** | **0x05** | **0x05** |
 | P       | A       | S       | S       | W       | O       | R       | D       | **0x08** | **0x08** | **0x08** | **0x08** | **0x08** | **0x08** | **0x08** | **0x08** |
 
-Note how in the last example the **last block was full so another one was generated only with padding**.
+ध्यान दें कि अंतिम उदाहरण में **अंतिम ब्लॉक पूरा था इसलिए एक और पैडिंग के साथ एक और ब्लॉक उत्पन्न हुआ**।
 
-# Padding Oracle
+# पैडिंग ऑरेकल
 
-When an application decrypts encrypted data, it will first decrypt the data; then it will remove the padding. During the cleanup of the padding, if an **invalid padding triggers a detectable behaviour**, you have a **padding oracle vulnerability**. The detectable behaviour can be an **error**, a **lack of results**, or a **slower response**.
+जब एक एप्लिकेशन एन्क्रिप्टेड डेटा को डिक्रिप्ट करता है, तो पहले डेटा को डिक्रिप्ट करेगा; फिर यह पैडिंग को हटाएगा। पैडिंग को साफ करते समय, यदि **अमान्य पैडिंग ने पहचाने जाने योग्य व्यवहार** को ट्रिगर किया है, तो आपके पास एक **पैडिंग ऑरेकल संवर्धन** है। पहचाने जाने योग्य व्यवहार एक **त्रुटि**, **परिणामों की कमी** या **धीमी प्रतिक्रिया** हो सकती है।
 
-If you detect this behaviour, you can **decrypt the encrypted data** and even **encrypt any cleartext**.
+यदि आप इस व्यवहार को पहचानते हैं, तो आप **एन्क्रिप्टेड डेटा को डिक्रिप्ट** कर सकते हैं और यहां तक कि **कोई भी साफ-पाठ एन्क्रिप्ट** कर सकते हैं।
 
-## How to exploit
+## कैसे शोषण करें
 
-You could use [https://github.com/AonCyberLabs/PadBuster](https://github.com/AonCyberLabs/PadBuster) to exploit this kind of vulnerability or just do
-
+आप [https://github.com/AonCyberLabs/PadBuster](https://github.com/AonCyberLabs/PadBuster) का उपयोग इस प्रक
 ```
 sudo apt-get install padbuster
 ```
-
-In order to test if the cookie of a site is vulnerable you could try:
-
+एक साइट के कुकी के विकल्प को परीक्षण करने के लिए आप निम्नलिखित कोशिश कर सकते हैं:
 ```bash
 perl ./padBuster.pl http://10.10.10.10/index.php "RVJDQrwUdTRWJUVUeBKkEA==" 8 -encoding 0 -cookies "login=RVJDQrwUdTRWJUVUeBKkEA=="
 ```
+**एनकोडिंग 0** का मतलब है कि **base64** का उपयोग किया जाता है (लेकिन अन्य भी उपलब्ध हैं, हेल्प मेनू की जांच करें।)
 
-**Encoding 0** means that **base64** is used (but others are available, check the help menu).
-
-You could also **abuse this vulnerability to encrypt new data. For example, imagine that the content of the cookie is "**_**user=MyUsername**_**", then you may change it to "\_user=administrator\_" and escalate privileges inside the application. You could also do it using `paduster`specifying the -plaintext** parameter:
-
+आप इस संक्रमण का दुरुपयोग करके नई डेटा को एन्क्रिप्ट करने के लिए भी इस्तेमाल कर सकते हैं। उदाहरण के लिए, सोचें कि कुकी की सामग्री "**_**user=MyUsername**_**" है, तो आप इसे "\_user=administrator\_" में बदल सकते हैं और एप्लिकेशन के अंदर विशेषाधिकार को बढ़ा सकते हैं। आप `padbuster` का उपयोग करके भी इसे कर सकते हैं, `-plaintext**` पैरामीटर को निर्दिष्ट करके:
 ```bash
 perl ./padBuster.pl http://10.10.10.10/index.php "RVJDQrwUdTRWJUVUeBKkEA==" 8 -encoding 0 -cookies "login=RVJDQrwUdTRWJUVUeBKkEA==" -plaintext "user=administrator"
 ```
-
-If the site is vulnerable `padbuster`will automatically try to find when the padding error occurs, but you can also indicating the error message it using the **-error** parameter.
-
+यदि साइट कमजोर है, तो `padbuster` स्वचालित रूप से पदिंग त्रुटि होने पर खोजने का प्रयास करेगा, लेकिन आप इसे त्रुटि संदेश का उपयोग करके भी निर्दिष्ट कर सकते हैं, इसके लिए **-error** पैरामीटर का उपयोग करें।
 ```bash
 perl ./padBuster.pl http://10.10.10.10/index.php "" 8 -encoding 0 -cookies "hcon=RVJDQrwUdTRWJUVUeBKkEA==" -error "Invalid padding"
 ```
+## सिद्धांत
 
-## The theory
-
-In **summary**, you can start decrypting the encrypted data by guessing the correct values that can be used to create all the **different paddings**. Then, the padding oracle attack will start decrypting bytes from the end to the start by guessing which will be the correct value that **creates a padding of 1, 2, 3, etc**.
+संक्षेप में, आप सभी **विभिन्न पैडिंग** बनाने के लिए उपयोग किए जा सकने वाले सही मानों को अनुमान लगाकर एन्क्रिप्टेड डेटा को डिक्रिप्ट करना शुरू कर सकते हैं। फिर, पैडिंग ऑरेकल हमला शुरू करेगा और अंत से शुरू होकर बाइट्स को डिक्रिप्ट करेगा, अनुमान लगाकर जो सही मान होगा जो **1, 2, 3** आदि पैडिंग बनाएगा।
 
 ![](<../.gitbook/assets/image (629) (1) (1).png>)
 
-Imagine you have some encrypted text that occupies **2 blocks** formed by the bytes from **E0 to E15**.\
-In order to **decrypt** the **last** **block** (**E8** to **E15**), the whole block passes through the "block cipher decryption" generating the **intermediary bytes I0 to I15**.\
-Finally, each intermediary byte is **XORed** with the previous encrypted bytes (E0 to E7). So:
+सोचिए आपके पास कुछ एन्क्रिप्टेड पाठ है जो **2 ब्लॉक** को भरता है, जिनमें से बाइट्स **E0 से E15** तक होते हैं।\
+**डिक्रिप्ट** करने के लिए **आखिरी ब्लॉक** (**E8 से E15**) को, पूरा ब्लॉक "ब्लॉक साइफर डिक्रिप्शन" से गुजरता है जिससे **इंटरमीडिएट बाइट्स I0 से I15** उत्पन्न होते हैं।\
+अंत में, प्रत्येक इंटरमीडिएट बाइट पिछले एन्क्रिप्टेड बाइट्स (E0 से E7) के साथ **XORed** किया जाता है। इसलिए:
 
 * `C15 = D(E15) ^ E7 = I15 ^ E7`
 * `C14 = I14 ^ E6`
@@ -95,28 +85,28 @@ Finally, each intermediary byte is **XORed** with the previous encrypted bytes (
 * `C12 = I12 ^ E4`
 * ...
 
-Now, It's possible to **modify `E7` until `C15` is `0x01`**, which will also be a correct padding. So, in this case: `\x01 = I15 ^ E'7`
+अब, `C15` को **0x01** होने तक `E7` को **संशोधित** करना संभव है, जो एक सही पैडिंग भी होगा। इसलिए, इस मामले में: `\x01 = I15 ^ E'7`
 
-So, finding E'7, it's **possible to calculate I15**: `I15 = 0x01 ^ E'7`
+तो, `E'7` को ढूंढने के बाद, हम **I15 की गणना कर सकते हैं**: `I15 = 0x01 ^ E'7`
 
-Which allow us to **calculate C15**: `C15 = E7 ^ I15 = E7 ^ \x01 ^ E'7`
+जिससे हमें **C15 की गणना करने** में सक्षम होते हैं: `C15 = E7 ^ I15 = E7 ^ \x01 ^ E'7`
 
-Knowing **C15**, now it's possible to **calculate C14**, but this time brute-forcing the padding `\x02\x02`.
+**C15** को जानते हुए, अब हमें **C14 की गणना करने** में सक्षम होते हैं, लेकिन इस बार पैडिंग `\x02\x02` को ब्रूट-फोर्स करना होगा।
 
-This BF is as complex as the previous one as it's possible to calculate the the `E''15` whose value is 0x02: `E''7 = \x02 ^ I15` so it's just needed to find the **`E'14`** that generates a **`C14` equals to `0x02`**.\
-Then, do the same steps to decrypt C14: **`C14 = E6 ^ I14 = E6 ^ \x02 ^ E''6`**
+यह बीएफ पिछले बीएफ की तरह जटिल है क्योंकि यह संभव है कि 0x02 का मान वाला `E''15` की गणना की जाए: `E''7 = \x02 ^ I15` इसलिए बस यही ढूंढना होगा **`E'14`** जो एक **`C14` के बराबर होता है 0x02**।\
+फिर, C14 को डिक्रिप्ट करने के लिए एक ही कदम उठाएं: **`C14 = E6 ^ I14 = E6 ^ \x02 ^ E''6`**
 
-**Follow this chain until you decrypt the whole encrypted text.**
+**इसी तरीके से पूरे एन्क्रिप्टेड पाठ को डिक्रिप्ट करने के लिए इस श्रृंखला का पालन करें।**
 
-## Detection of the vulnerability
+## दुर्बलता का पता लगाना
 
-Register and account and log in with this account .\
-If you **log in many times** and always get the **same cookie**, there is probably **something** **wrong** in the application. The **cookie sent back should be unique** each time you log in. If the cookie is **always** the **same**, it will probably always be valid and there **won't be anyway to invalidate i**t.
+इस खाते में पंजीकरण करें और इस खाते में लॉग इन करें।\
+यदि आप **बहुत सारे बार** लॉग इन करते हैं और हमेशा **एक ही कुकी** प्राप्त करते हैं, तो ऐप्लिकेशन में शायद कुछ **गड़बड़ हो सकती है**। कुकी को हर बार जब आप लॉग इन करते हैं, यह अद्यतन होना चाहिए। यदि कुकी हमेशा **एक ही** होती है, तो यह संभवतः हमेशा मान्य रहेगी और इसे अमान्य करने का कोई तरीका नहीं होगा।
 
-Now, if you try to **modify** the **cookie**, you can see that you get an **error** from the application.\
-But if you BF the padding (using padbuster for example) you manage to get another cookie valid for a different user. This scenario is highly probably vulnerable to padbuster.
+अब, यदि आप कुकी को **संशोधित** करने की कोशिश करते हैं, तो आप देखेंगे कि आपको ऐप्लिकेशन से एक **त्रुटि** मिलती है।\
+लेकिन यदि आप पैडिंग को ब्रूट-फोर्स करते हैं (पैडबस्टर का उपयोग करके उदाहरण के लिए), तो आपको एक और कुकी प्राप्त होती है जो एक अलग उपयोगकर्ता के लिए मान्य होती है। यह स्थिति पैडबस्टर के लिए संभावित रूप से दुर्बल होती है।
 
-# References
+# संदर्भ
 
 * [https://en.wikipedia.org/wiki/Block\_cipher\_mode\_of\_operation](https://en.wikipedia.org/wiki/Block\_cipher\_mode\_of\_operation)
 
@@ -125,16 +115,10 @@ But if you BF the padding (using padbuster for example) you manage to get anothe
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- क्या आप **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **हैकट्रिक्स** में विज्ञापित करना चाहते हैं? या क्या आप **PEASS के नवीनतम संस्करण का उपयोग करना चाहते हैं या HackTricks को PDF में डाउनलोड करना चाहते हैं**? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष [**NFT**](https://opensea.io/collection/the-peass-family) संग्रह
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- प्राप्त करें [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
-
-</details>
-
-
+- **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या मुझे **ट्विटर** पर **फ़ॉलो** क

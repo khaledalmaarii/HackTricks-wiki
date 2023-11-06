@@ -1,14 +1,14 @@
-# Checklist - Linux Privilege Escalation
+# चेकलिस्ट - लिनक्स प्रिविलेज एस्केलेशन
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).​
+* क्या आप एक **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी **कंपनी को HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS की नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करने की आवश्यकता है? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा एकल [**NFT**](https://opensea.io/collection/the-peass-family) संग्रह।
+* [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com) प्राप्त करें
+* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में **शामिल** हों या मुझे **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)** का** अनुसरण करें।**
+* **अपने हैकिंग ट्रिक्स को** [**hacktricks रेपो**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud रेपो**](https://github.com/carlospolop/hacktricks-cloud) **में पीआर जमा करके अपना योगदान दें।**
 
 </details>
 
@@ -16,184 +16,121 @@
 
 <figure><img src="../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-**HackenProof is home to all crypto bug bounties.**
+**HackenProof सभी क्रिप्टो बग बाउंटी का घर है।**
 
-**Get rewarded without delays**\
-HackenProof bounties launch only when their customers deposit the reward budget. You'll get the reward after the bug is verified.
+**देरी के बिना पुरस्कार प्राप्त करें**\
+HackenProof बाउंटी केवल तब शुरू होती है जब उनके ग्राहक इनाम बजट जमा करते हैं। आपको इनाम उस बग को सत्यापित करने के बाद मिलेगा।
 
-**Get experience in web3 pentesting**\
-Blockchain protocols and smart contracts are the new Internet! Master web3 security at its rising days.
+**वेब3 पेंटेस्टिंग में अनुभव प्राप्त करें**\
+ब्लॉकचेन प्रोटोकॉल और स्मार्ट कॉन्ट्रैक्ट्स नई इंटरनेट हैं! उनके उभरते दिनों में वेब3 सुरक्षा को मास्टर करें।
 
-**Become the web3 hacker legend**\
-Gain reputation points with each verified bug and conquer the top of the weekly leaderboard.
+**वेब3 हैकर लीजेंड बनें**\
+प्रत्येक सत्यापित बग के साथ प्रतिष्ठा अंक प्राप्त करें और साप्ताहिक लीडरबोर्ड के शीर्ष पर विजयी बनें।
 
-[**Sign up on HackenProof**](https://hackenproof.com/register) start earning from your hacks!
+[**HackenProof पर साइन अप करें**](https://hackenproof.com/register) और अपने हैक्स से कमाई करें!
 
 {% embed url="https://hackenproof.com/register" %}
 
-### **Best tool to look for Linux local privilege escalation vectors:** [**LinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS)
+### **लिनक्स स्थानीय प्रिविलेज एस्केलेशन वेक्टर्स के लिए सबसे अच्छा टूल:** [**LinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS)
 
-### [System Information](privilege-escalation/#system-information)
+### [सिस्टम सूचना](privilege-escalation/#system-information)
 
-* [ ] Get **OS information**
-* [ ] Check the [**PATH**](privilege-escalation/#path), any **writable folder**?
-* [ ] Check [**env variables**](privilege-escalation/#env-info), any sensitive detail?
-* [ ] Search for [**kernel exploits**](privilege-escalation/#kernel-exploits) **using scripts** (DirtyCow?)
-* [ ] **Check** if the [**sudo version** is vulnerable](privilege-escalation/#sudo-version)
-* [ ] [**Dmesg** signature verification failed](privilege-escalation/#dmesg-signature-verification-failed)
-* [ ] More system enum ([date, system stats, cpu info, printers](privilege-escalation/#more-system-enumeration))
-* [ ] [Enumerate more defenses](privilege-escalation/#enumerate-possible-defenses)
+* [ ] **ओएस सूचना प्राप्त करें**
+* [ ] [**PATH**](privilege-escalation/#path) की जांच करें, कोई **लिखने योग्य फ़ोल्डर** है?
+* [ ] [**एनवी चर**](privilege-escalation/#env-info) की जांच करें, कोई संवेदनशील विवरण है?
+* [ ] स्क्रिप्ट का उपयोग करके [**कर्नल एक्सप्लॉइट्स**](privilege-escalation/#kernel-exploits) खोजें (DirtyCow?)
+* [ ] [**सुडो संस्करण** की जांच करें](privilege-escalation/#sudo-version)
+* [ ] [**Dmesg** हस्ताक्षर सत्यापन विफल](privilege-escalation/#dmesg-signature-verification-failed)
+* [ ] अधिक सिस्टम इनुमरेशन ([तारीख, सिस्टम आँकड़े, सीपीयू जानकारी, प्रिंटर](privilege-escalation/#more-system-enumeration))
+* [ ] [अधिक संरक्षणों की जांच](privilege-escalation/#enumerate-possible-defenses)
 
-### [Drives](privilege-escalation/#drives)
+### [ड्राइव](privilege-escalation/#drives)
 
-* [ ] **List mounted** drives
-* [ ] **Any unmounted drive?**
-* [ ] **Any creds in fstab?**
+* [ ] माउंट किए गए ड्राइवों की सूची बनाएं
+* [ ] कोई **अनमाउंटेड ड्राइव** है?
+* [ ] fstab में कोई क्रेडेंशियल हैं?
 
-### [**Installed Software**](privilege-escalation/#installed-software)
+### [**स्थापित सॉफ़्टवेयर**](privilege-escalation/#installed-software)
 
-* [ ] **Check for**[ **useful software**](privilege-escalation/#useful-software) **installed**
-* [ ] **Check for** [**vulnerable software**](privilege-escalation/#vulnerable-software-installed) **installed**
+* [ ] [**उपयोगी सॉफ़्टवेयर**](privilege-escalation/#useful-software) की जांच करें
+* [ ] [**चपेट में आने वाला सॉफ़्टवेयर**](privilege-escalation/#vulnerable-software-installed) की जांच करें
 
-### [Processes](privilege-escalation/#processes)
+### [प्रक्रियाएँ](privilege-escalation/#processes)
 
-* [ ] Is any **unknown software running**?
-* [ ] Is any software running with **more privileges than it should have**?
-* [ ] Search for **exploits of running processes** (especially the version running).
-* [ ] Can you **modify the binary** of any running process?
-* [ ] **Monitor processes** and check if any interesting process is running frequently.
-* [ ] Can you **read** some interesting **process memory** (where passwords could be saved)?
+* [ ] क्या कोई **अज्ञात सॉफ़्टवेयर चल रहा** है?
+* [ ] क्या कोई सॉफ़्टवेयर **अपेक्षित से अधिक अधिकारों के साथ चल रहा** है?
+* [ ] चल रही प्रक्रियाओं के **एक्सप्लॉइट्स** की खोज करें (विशेष रूप से चल रहे संस्करण के लिए)।
+* [ ] क्या
+### [टाइमर](privilege-escalation/#timers)
 
-### [Scheduled/Cron jobs?](privilege-escalation/#scheduled-jobs)
+* [ ] कोई **लिखने योग्य टाइमर** है?
 
-* [ ] Is the [**PATH** ](privilege-escalation/#cron-path)being modified by some cron and you can **write** in it?
-* [ ] Any [**wildcard** ](privilege-escalation/#cron-using-a-script-with-a-wildcard-wildcard-injection)in a cron job?
-* [ ] Some [**modifiable script** ](privilege-escalation/#cron-script-overwriting-and-symlink)is being **executed** or is inside **modifiable folder**?
-* [ ] Have you detected that some **script** could be or are being [**executed** very **frequently**](privilege-escalation/#frequent-cron-jobs)? (every 1, 2 or 5 minutes)
+### [सॉकेट](privilege-escalation/#sockets)
 
-### [Services](privilege-escalation/#services)
+* [ ] कोई **लिखने योग्य .socket** फ़ाइल है?
+* [ ] क्या आप **किसी सॉकेट के साथ संवाद कर सकते** हैं?
+* [ ] **दिलचस्प जानकारी वाले** **HTTP सॉकेट** हैं?
 
-* [ ] Any **writable .service** file?
-* [ ] Any **writable binary** executed by a **service**?
-* [ ] Any **writable folder in systemd PATH**?
+### [डी-बस](privilege-escalation/#d-bus)
 
-### [Timers](privilege-escalation/#timers)
+* [ ] क्या आप **किसी डी-बस के साथ संवाद कर सकते** हैं?
 
-* [ ] Any **writable timer**?
+### [नेटवर्क](privilege-escalation/#network)
 
-### [Sockets](privilege-escalation/#sockets)
+* [ ] जानने के लिए नेटवर्क को जांचें कि आप कहां हैं
+* [ ] क्या आपके पास मशीन के अंदर एक शेल प्राप्त करने से पहले **पहले तक पहुंच नहीं हो सकी** खुले पोर्ट हैं?
+* [ ] क्या आप `tcpdump` का उपयोग करके ट्रैफिक **स्निफ़ कर सकते** हैं?
 
-* [ ] Any **writable .socket** file?
-* [ ] Can you **communicate with any socket**?
-* [ ] **HTTP sockets** with interesting info?
+### [उपयोगकर्ता](privilege-escalation/#users)
 
-### [D-Bus](privilege-escalation/#d-bus)
+* [ ] सामान्य उपयोगकर्ता / समूहों की **गणना**
+* [ ] क्या आपके पास एक **बहुत बड़ा UID** है? क्या **मशीन** **आपत्तियों** के लिए **विकल्पशील** है?
+* [ ] क्या आप [**एक समूह के कारण विशेषाधिकारों को बढ़ा सकते**](privilege-escalation/interesting-groups-linux-pe/) हैं जिसमें आप शामिल हैं?
+* [ ] **क्लिपबोर्ड** डेटा?
+* [ ] पासवर्ड नीति?
+* [ ] पहले से पता चले पासवर्ड का प्रयोग करने की कोशिश करें **हर** संभावित **उपयोगकर्ता** के साथ लॉगिन करने के लिए. बिना पासवर्ड के भी लॉगिन करने की कोशिश करें.
 
-* [ ] Can you **communicate with any D-Bus**?
+### [लिखने योग्य पाथ](privilege-escalation/#writable-path-abuses)
 
-### [Network](privilege-escalation/#network)
+* [ ] यदि आपके पास **पाथ में कुछ फ़ोल्डर पर लिखने की अनुमति** है तो आपको विशेषाधिकारों को बढ़ा सकते हैं
 
-* [ ] Enumerate the network to know where you are
-* [ ] **Open ports you couldn't access before** getting a shell inside the machine?
-* [ ] Can you **sniff traffic** using `tcpdump`?
+### [SUDO और SUID कमांड](privilege-escalation/#sudo-and-suid)
 
-### [Users](privilege-escalation/#users)
+* [ ] क्या आप **sudo के साथ किसी भी कमांड को निष्पादित** कर सकते हैं? क्या आप इसका उपयोग करके कुछ भी रूट के रूप में पढ़ सकते, लिख सकते या निष्पादित कर सकते हैं? ([**GTFOBins**](https://gtfobins.github.io))
+* [ ] क्या कोई **उपयोग करने योग्य SUID बाइनरी** है? ([**GTFOBins**](https://gtfobins.github.io))
+* [ ] क्या [**सूडो कमांड्स पाथ द्वारा सीमित** हैं? क्या आप प्रतिबंधों को **दौर कर सकते** हैं](privilege-escalation/#sudo-execution-bypassing-paths)?
+* [ ] [**सूडो/SUID बाइनरी बिना कमांड पाथ की निर्देशित**](privilege-escalation/#sudo-command-suid-binary-without-command-path)?
+* [ ] [**कमांड पाथ के साथ SUID बाइनरी निर्देशित**](privilege-escalation/#suid-binary-with-command-path)? दौर करें
+* [ ] [**LD\_PRELOAD वल्न**](privilege-escalation/#ld\_preload)
+* [ ] लिखने योग्य फ़ोल्डर से [**SUID बाइनरी में .so लाइब्रेरी की कमी**](privilege-escalation/#suid-binary-so-injection)?
+* [ ] [**SUDO टोकन उपलब्ध**](privilege-escalation/#reusing-sudo-tokens)? [**क्या आप एक SUDO टोकन बना सकते हैं**](privilege-escalation/#var-run-sudo-ts-less-than-username-greater-than)?
+* [ ] क्या आप [**sudoers फ़ाइल पढ़ सकते या संशोधित कर सकते हैं**](privilege-escalation/#etc-sudoers-etc-sudoers-d)?
+* [ ] क्या आप [**/etc/ld.so.conf.d/ को संशोधित कर सकते हैं**](privilege-escalation/#etc-ld-so-conf-d)?
+* [**OpenBSD DOAS**](privilege-escalation/#doas) कमांड
 
-* [ ] Generic users/groups **enumeration**
-* [ ] Do you have a **very big UID**? Is the **machine** **vulnerable**?
-* [ ] Can you [**escalate privileges thanks to a group**](privilege-escalation/interesting-groups-linux-pe/) you belong to?
-* [ ] **Clipboard** data?
-* [ ] Password Policy?
-* [ ] Try to **use** every **known password** that you have discovered previously to login **with each** possible **user**. Try to login also without a password.
+### [क्षमताएँ](privilege-escalation/#capabilities)
 
-### [Writable PATH](privilege-escalation/#writable-path-abuses)
-
-* [ ] If you have **write privileges over some folder in PATH** you may be able to escalate privileges
-
-### [SUDO and SUID commands](privilege-escalation/#sudo-and-suid)
-
-* [ ] Can you execute **any command with sudo**? Can you use it to READ, WRITE or EXECUTE anything as root? ([**GTFOBins**](https://gtfobins.github.io))
-* [ ] Is any **exploitable SUID binary**? ([**GTFOBins**](https://gtfobins.github.io))
-* [ ] Are [**sudo** commands **limited** by **path**? can you **bypass** the restrictions](privilege-escalation/#sudo-execution-bypassing-paths)?
-* [ ] [**Sudo/SUID binary without path indicated**](privilege-escalation/#sudo-command-suid-binary-without-command-path)?
-* [ ] [**SUID binary specifying path**](privilege-escalation/#suid-binary-with-command-path)? Bypass
-* [ ] [**LD\_PRELOAD vuln**](privilege-escalation/#ld\_preload)
-* [ ] [**Lack of .so library in SUID binary**](privilege-escalation/#suid-binary-so-injection) from a writable folder?
-* [ ] [**SUDO tokens available**](privilege-escalation/#reusing-sudo-tokens)? [**Can you create a SUDO token**](privilege-escalation/#var-run-sudo-ts-less-than-username-greater-than)?
-* [ ] Can you [**read or modify sudoers files**](privilege-escalation/#etc-sudoers-etc-sudoers-d)?
-* [ ] Can you [**modify /etc/ld.so.conf.d/**](privilege-escalation/#etc-ld-so-conf-d)?
-* [ ] [**OpenBSD DOAS**](privilege-escalation/#doas) command
-
-### [Capabilities](privilege-escalation/#capabilities)
-
-* [ ] Has any binary any **unexpected capability**?
+* [ ] क्या किसी बाइनरी में कोई **अप्रत्याशित क्षमता** है?
 
 ### [ACLs](privilege-escalation/#acls)
 
-* [ ] Has any file any **unexpected ACL**?
+* [ ] क्या किसी फ़ाइल में कोई **अप्रत्याशित ACL** है?
 
-### [Open Shell sessions](privilege-escalation/#open-shell-sessions)
+### [खुली शैल सत्र](privilege-escalation/#open-shell-sessions)
 
-* [ ] **screen**
+* [ ] **स्क्रीन**
 * [ ] **tmux**
 
 ### [SSH](privilege-escalation/#ssh)
 
-* [ ] **Debian** [**OpenSSL Predictable PRNG - CVE-2008-0166**](privilege-escalation/#debian-openssl-predictable-prng-cve-2008-0166)
-* [ ] [**SSH Interesting configuration values**](privilege-escalation/#ssh-interesting-configuration-values)
+* [ ] **डेबियन** [**OpenSSL Predictable PRNG - CVE-2008-0166**](privilege-escalation/#debian-openssl-predictable-prng-cve-2008-0166)
+* [ ] [**SSH दिलचस्प कॉन्फ़िगरेशन मान**](privilege-escalation/#ssh-interesting-configuration-values)
 
-### [Interesting Files](privilege-escalation/#interesting-files)
+### [दिलचस्प फ़ाइलें](privilege-escalation/#interesting-files)
 
-* [ ] **Profile files** - Read sensitive data? Write to privesc?
-* [ ] **passwd/shadow files** - Read sensitive data? Write to privesc?
-* [ ] **Check commonly interesting folders** for sensitive data
-* [ ] **Weird Location/Owned files,** you may have access to or alter executable files
-* [ ] **Modified** in last mins
-* [ ] **Sqlite DB files**
-* [ ] **Hidden files**
-* [ ] **Script/Binaries in PATH**
-* [ ] **Web files** (passwords?)
-* [ ] **Backups**?
-* [ ] **Known files that contains passwords**: Use **Linpeas** and **LaZagne**
-* [ ] **Generic search**
-
-### [**Writable Files**](privilege-escalation/#writable-files)
-
-* [ ] **Modify python library** to execute arbitrary commands?
-* [ ] Can you **modify log files**? **Logtotten** exploit
-* [ ] Can you **modify /etc/sysconfig/network-scripts/**? Centos/Redhat exploit
-* [ ] Can you [**write in ini, int.d, systemd or rc.d files**](privilege-escalation/#init-init-d-systemd-and-rc-d)?
-
-### [**Other tricks**](privilege-escalation/#other-tricks)
-
-* [ ] Can you [**abuse NFS to escalate privileges**](privilege-escalation/#nfs-privilege-escalation)?
-* [ ] Do you need to [**escape from a restrictive shell**](privilege-escalation/#escaping-from-restricted-shells)?
-
-<figure><img src="../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
-
-**HackenProof is home to all crypto bug bounties.**
-
-**Get rewarded without delays**\
-HackenProof bounties launch only when their customers deposit the reward budget. You'll get the reward after the bug is verified.
-
-**Get experience in web3 pentesting**\
-Blockchain protocols and smart contracts are the new Internet! Master web3 security at its rising days.
-
-**Become the web3 hacker legend**\
-Gain reputation points with each verified bug and conquer the top of the weekly leaderboard.
-
-[**Sign up on HackenProof**](https://hackenproof.com/register) start earning from your hacks!
-
-{% embed url="https://hackenproof.com/register" %}
-
-<details>
-
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
-
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* [ ] **प्रोफ़ाइल फ़ाइलें** - संवेदनशील डेटा पढ़ें? विशेषाधिकार के लिए लिखें?
+* [ ] **पासवर्ड/शैडो फ़ा
+* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में या मुझे **ट्विटर** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**।**
+* **अपने हैकिंग ट्रिक्स को साझा करें द्वारा PRs सबमिट करके** [**hacktricks रेपो**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud रेपो**](https://github.com/carlospolop/hacktricks-cloud)।
 
 </details>

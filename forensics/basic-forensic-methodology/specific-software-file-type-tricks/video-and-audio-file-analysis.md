@@ -1,50 +1,26 @@
-
-
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS की नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करना चाहिए? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा विशेष संग्रह [**NFTs**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com) प्राप्त करें
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में या **Twitter** पर **फॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **हैकिंग ट्रिक्स साझा करें** [hacktricks रेपो](https://github.com/carlospolop/hacktricks) और [hacktricks-cloud रेपो](https://github.com/carlospolop/hacktricks-cloud) में PR जमा करके।
 
 </details>
 
 
 From: [https://trailofbits.github.io/ctf/forensics/](https://trailofbits.github.io/ctf/forensics/)
 
-Like image file formats, audio and video file trickery is a common theme in CTF forensics challenges not because hacking or data hiding ever happens this way in the real world, but just because audio and video are fun. As with image file formats, steganography might be used to embed a secret message in the content data, and again you should know to check the file metadata areas for clues. Your first step should be to take a look with the [mediainfo](https://mediaarea.net/en/MediaInfo) tool \(or `exiftool`\) and identify the content type and look at its metadata.
+छवि फ़ाइल प्रारूपों की तरह, ऑडियो और वीडियो फ़ाइल चालाकी CTF फोरेंसिक्स चुनौतियों में एक सामान्य विषय है, न कि इस तरह वास्तविक दुनिया में कभी हैकिंग या डेटा छिपाने का कोई उपयोग होता है, बल्कि केवल इसलिए कि ऑडियो और वीडियो मजेदार होते हैं। छवि फ़ाइल प्रारूपों की तरह, स्टेगनोग्राफी का उपयोग सामग्री डेटा में एक गुप्त संदेश समाहित करने के लिए किया जा सकता है, और फिर से आपको संकेतों के लिए फ़ाइल मेटाडेटा क्षेत्रों की जांच करनी चाहिए। आपका पहला कदम [mediainfo](https://mediaarea.net/en/MediaInfo) टूल (या `exiftool`) के साथ एक नज़र डालना चाहिए और सामग्री प्रकार की पहचान करनी चाहिए और इसके मेटाडेटा पर देखना चाहिए।
 
-[Audacity](http://www.audacityteam.org/) is the premier open-source audio file and waveform-viewing tool. CTF challenge authors love to encode text into audio waveforms, which you can see using the spectrogram view \(although a specialized tool called [Sonic Visualiser](http://www.sonicvisualiser.org/) is better for this task in particular\). Audacity can also enable you to slow down, reverse, and do other manipulations that might reveal a hidden message if you suspect there is one \(if you can hear garbled audio, interference, or static\). [Sox](http://sox.sourceforge.net/) is another useful command-line tool for converting and manipulating audio files.
+[Audacity](http://www.audacityteam.org/) प्रमुख ओपन-सोर्स ऑडियो फ़ाइल और तार देखने वाला उपकरण है। CTF चुनौती लेखकों को पाठ में पाठ संकेतों को एक्सपोर्ट करने के लिए ऑडियो तारों में पाठ को कोड करने का बहुत पसंद है, जिसे आप स्पेक्ट्रोग्राम दृश्य का उपयोग करके देख सकते हैं (हालांकि इस कार्य के लिए एक विशेष उपकरण जिसे [Sonic Visualiser](http://www.sonicvisualiser.org/) कहा जाता है, इससे बेहतर है)। Audacity आपको धीमा करने, उलटा करने और अन्य परिवर्तन करने की अनुमति देता है जो यदि आपको लगता है कि एक छिपा हुआ संदेश है तो एक छिपा हुआ संदेश प्रकट कर सकता है (यदि आप गड़बड़ ऑडियो, अवरोधन या स्थिरता सुन सकते हैं)। [Sox](http://sox.sourceforge.net/) ऑडियो फ़ाइलों को परिवर्तित और प्रबंधित करने के लिए एक उपयोगी कमांड-लाइन उपकरण है।
 
-It's also common to check Least Significant Bits (LSB) for a secret message. Most audio and video media formats use discrete (fixed-size) "chunks" so that they can be streamed; the LSBs of those chunks are a common place to smuggle some data without visibly affecting the file.
+एक गुप्त संदेश के लिए अद्यतन लेस्ट साइनिफिकेंट बिट्स (LSB) की जांच भी सामान्य है। अधिकांश ऑडियो और वीडियो मीडिया प्रारूप विभाजनशील (निश्चित आकार) "चंक" का उपयोग करते हैं ताकि वे स्ट्रीम किए जा सकें; उन चंकों के LSB सामान्य जगह हैं जहां फ़ाइल को दिखाई नहीं देते हुए कुछ डेटा छिपाया जा सकता है।
 
-Other times, a message might be encoded into the audio as [DTMF tones](http://dialabc.com/sound/detect/index.html) or morse code. For these, try working with [multimon-ng](http://tools.kali.org/wireless-attacks/multimon-ng) to decode them.
-
-Video file formats are container formats, that contain separate streams of both audio and video that are multiplexed together for playback. For analyzing and manipulating video file formats, [FFmpeg](http://ffmpeg.org/) is recommended. `ffmpeg -i` gives an initial analysis of the file content. It can also de-multiplex or playback the content streams. The power of FFmpeg is exposed to Python using [ffmpy](http://ffmpy.readthedocs.io/en/latest/examples.html).
-
-
-
-<details>
-
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
-
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
-
-</details>
-
-
+कभी-कभी, एक संदेश को ऑडियो में [DTMF टोन](http://dialabc.com/sound/detect/index.html) या मोर्स कोड के रूप में कोड किया जा सकता है। इनके लिए, उन्हें डिकोड कर

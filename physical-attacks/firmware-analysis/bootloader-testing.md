@@ -1,67 +1,43 @@
-
-
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS की नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने की उपलब्धता** चाहिए? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा विशेष [**NFT संग्रह**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- [**आधिकारिक PEASS और HackTricks स्वैग**](https://peass.creator-spring.com) प्राप्त करें
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में या मुझे **Twitter** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **अपने हैकिंग ट्रिक्स को [hacktricks रेपो](https://github.com/carlospolop/hacktricks) और [hacktricks-cloud रेपो](https://github.com/carlospolop/hacktricks-cloud) में PR जमा करके साझा करें**.
 
 </details>
 
 
 Copied from [https://scriptingxss.gitbook.io/firmware-security-testing-methodology/](https://scriptingxss.gitbook.io/firmware-security-testing-methodology/)
 
-When modifying device start up and bootloaders such as U-boot, attempt the following:
+जब डिवाइस की शुरुआत और बूटलोडर्स जैसे U-boot को संशोधित किया जाता है, तो निम्नलिखित कोशिश की जानी चाहिए:
 
-* Attempt to access the bootloaders interpreter shell by pressing "0", space or other identified “magic codes” during boot.
-* Modify configurations to execute a shell command such as adding '`init=/bin/sh`' at the end of boot arguments
-  * `#printenv`
-  * `#setenv bootargs=console=ttyS0,115200 mem=63M root=/dev/mtdblock3 mtdparts=sflash:<partitiionInfo> rootfstype=<fstype> hasEeprom=0 5srst=0 init=/bin/sh`
-  * `#saveenv`
-  * `#boot`
-* Setup a tftp server to load images over the network locally from your workstation. Ensure the device has network access.
-  * `#setenv ipaddr 192.168.2.2 #local IP of the device`
-  * `#setenv serverip 192.168.2.1 #tftp server IP`
-  * `#saveenv`
-  * `#reset`
-  * `#ping 192.168.2.1 #check if network access is available`
-  * `#tftp ${loadaddr} uImage-3.6.35 #loadaddr takes two arguments: the address to load the file into and the filename of the image on the TFTP server`
-* Use `ubootwrite.py` to write the uboot-image and push a modified firmware to gain root
-* Check for enabled debug features such as:
-  * verbose logging
-  * loading arbitrary kernels
-  * booting from untrusted sources
-* \*Use caution: Connect one pin to ground, watch device boot up sequence, before the kernel decompresses, short/connect the grounded pin to a data pin (DO) on an SPI flash chip
-* \*Use caution: Connect one pin to ground, watch device boot up sequence, before the kernel decompresses, short/connect the grounded pin to pins 8 and 9 of the NAND flash chip at the moment U-boot decompresses the UBI image
-  * \*Review the NAND flash chip’s datasheet prior to shorting pins
-* Configure a rogue DHCP server with malicious parameters as input for a device to ingest during a PXE boot
-  * Use Metasploit’s (MSF) DHCP auxiliary server and modify the ‘`FILENAME`’ parameter with command injection commands such as `‘a";/bin/sh;#’` to test input validation for device startup procedures.
-
-\*Hardware security testing
-
-
-<details>
-
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
-
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
-
-</details>
-
-
+* बूटलोडर्स इंटरप्रेटर शैल का उपयोग करने के लिए "0", स्पेस या अन्य पहचाने गए "मैजिक कोड" दबाएं।
+* विन्यासों को संशोधित करें और बूट तर्कों के अंत में '`init=/bin/sh`' जैसे शैल आदेश को निष्पादित करने के लिए।
+* `#printenv`
+* `#setenv bootargs=console=ttyS0,115200 mem=63M root=/dev/mtdblock3 mtdparts=sflash:<partitiionInfo> rootfstype=<fstype> hasEeprom=0 5srst=0 init=/bin/sh`
+* `#saveenv`
+* `#boot`
+* अपने कार्यस्थल से नेटवर्क के माध्यम से छवियों को लोड करने के लिए एक tftp सर्वर सेटअप करें। सुनिश्चित करें कि डिवाइस के पास नेटवर्क पहुंच है।
+* `#setenv ipaddr 192.168.2.2 #डिवाइस का स्थानीय आईपी`
+* `#setenv serverip 192.168.2.1 #tftp सर्वर आईपी`
+* `#saveenv`
+* `#reset`
+* `#ping 192.168.2.1 #नेटवर्क पहुंच की उपलब्धता की जांच करें`
+* `#tftp ${loadaddr} uImage-3.6.35 #loadaddr दो तर्क लेता है: फ़ाइल को लोड करने के लिए पता और TFTP सर्वर पर छवि का नाम`
+* उबूट-इमेज लिखने के लिए `ubootwrite.py` का उपयोग करें और रूट प्राप्त करने के लिए संशोधित फर्मवेयर को पुश करें
+* वर्बोज़ लॉगिंग
+* विचित्र कर्नल लोड करना
+* अविश्वसनीय स्रोतों से बूट करना
+* \*सतर्कता बरतें: एक पिन को ग्राउंड से जोड़ें, डिवाइस बूट अप सीक्वेंस को देखें, कर्नल डीकंप्रेस होने से पहले, एसपीआई फ़्लैश चिप पर एक डेटा पिन (DO) पर ग्राउंड करें/जोड़ें
+* \*सतर्कता बरतें: एक पिन को ग्राउंड से जोड़ें, डिवाइस बूट अप सीक्वेंस को देखें, कर्नल डीकंप्रेस होने से पहले, एसपीआई फ़्लैश चिप के 8 और 9 नंबर पिन को जोड़ें/जोड़ें, जब U-boot UBI इमेज को डीकंप्रेस करता है
+* \*पिन को जोड़ने से पहले NAND फ़्लैश चिप के डेटाशीट की समीक्षा करें
+* एक रोग DHCP सर्वर को दुरुपयोगी पैरामीटर के साथ कॉन्फ़िगर करें जो एक डिवाइस को PXE बूट के दौरान सेवन करने के लिए इनपुट होंगे
+* Metasploit के (MSF) DHCP अतिरिक्त सर्वर का उपयोग करें और 'FILENAME' पैरामीटर को आदेश संशोधन आदेशों जैसे 'a";/bin/sh;#' के

@@ -1,45 +1,45 @@
-# macOS Security & Privilege Escalation
+# macOS सुरक्षा और प्रिविलेज एस्केलेशन
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करने की इच्छा है? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा विशेष संग्रह [**NFTs**](https://opensea.io/collection/the-peass-family)
+* [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com) प्राप्त करें
+* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में **या** मुझे **Twitter** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **अपने हैकिंग ट्रिक्स साझा करें और PR जमा करके** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **को** **फ़ॉलो** करें।
 
 </details>
 
 <figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-**HackenProof is home to all crypto bug bounties.**
+**HackenProof में सभी क्रिप्टो बग बाउंटी होती है।**
 
-**Get rewarded without delays**\
-HackenProof bounties launch only when their customers deposit the reward budget. You'll get the reward after the bug is verified.
+**देरी के बिना पुरस्कार प्राप्त करें**\
+HackenProof बाउंटी केवल तब शुरू होती हैं जब उनके ग्राहक इनाम बजट जमा करते हैं। बग सत्यापित होने के बाद आपको इनाम मिलेगा।
 
-**Get experience in web3 pentesting**\
-Blockchain protocols and smart contracts are the new Internet! Master web3 security at its rising days.
+**वेब3 पेंटेस्टिंग में अनुभव प्राप्त करें**\
+ब्लॉकचेन प्रोटोकॉल और स्मार्ट कॉन्ट्रैक्ट्स नई इंटरनेट हैं! उनके उभरते दिनों में वेब3 सुरक्षा को मास्टर करें।
 
-**Become the web3 hacker legend**\
-Gain reputation points with each verified bug and conquer the top of the weekly leaderboard.
+**वेब3 हैकर लीजेंड बनें**\
+प्रतिस्पर्धा सूचकांक के साथ प्रत्येक सत्यापित बग के साथ प्रतिष्ठा अंक प्राप्त करें और साप्ताहिक लीडरबोर्ड के शीर्ष पर विजयी बनें।
 
-[**Sign up on HackenProof**](https://hackenproof.com/register) start earning from your hacks!
+[**HackenProof पर साइन अप करें**](https://hackenproof.com/register) और अपने हैक्स से कमाई करें!
 
 {% embed url="https://hackenproof.com/register" %}
 
-## Basic MacOS
+## मूल MacOS
 
-If you are not familiar with macOS, you should start learning the basics of macOS:
+यदि आप macOS के बारे में अनजान हैं, तो आपको macOS की मूल बातें सीखनी चाहिए:
 
-* Special macOS **files & permissions:**
+* विशेष macOS **फ़ाइलें और अनुमतियाँ:**
 
 {% content-ref url="macos-files-folders-and-binaries/" %}
 [macos-files-folders-and-binaries](macos-files-folders-and-binaries/)
 {% endcontent-ref %}
 
-* Common macOS **users**
+* सामान्य macOS **उपयोगकर्ता**
 
 {% content-ref url="macos-users.md" %}
 [macos-users.md](macos-users.md)
@@ -51,83 +51,69 @@ If you are not familiar with macOS, you should start learning the basics of macO
 [macos-applefs.md](macos-applefs.md)
 {% endcontent-ref %}
 
-* The **architecture** of the k**ernel**
+* कर्नल की **वास्तुकला**
 
 {% content-ref url="mac-os-architecture/" %}
 [mac-os-architecture](mac-os-architecture/)
 {% endcontent-ref %}
 
-* Common macOS n**etwork services & protocols**
+* सामान्य macOS नेटवर्क सेवाएं और प्रोटोकॉल्स**
 
 {% content-ref url="macos-protocols.md" %}
 [macos-protocols.md](macos-protocols.md)
 {% endcontent-ref %}
 
-* **Opensource** macOS: [https://opensource.apple.com/](https://opensource.apple.com/)
-  * To download a `tar.gz` change a URL such as [https://opensource.apple.com/**source**/dyld/](https://opensource.apple.com/source/dyld/) to [https://opensource.apple.com/**tarballs**/dyld/**dyld-852.2.tar.gz**](https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz)
+* **ओपनसोर्स** macOS: [https://opensource.apple.com/](https://opensource.apple.com/)
+* `tar.gz` डाउनलोड करने के लिए URL में बदलाव करें, जैसे [https://opensource.apple.com/**source**/dyld/](https://opensource.apple.com/source/dyld/) को [https://opensource.apple.com/**tarballs**/dyld/**dyld-852.2.tar.gz**](https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz) में बदलें
 
 ### MacOS MDM
 
-In companies **macOS** systems are highly probably going to be **managed with a MDM**. Therefore, from the perspective of an attacker is interesting to know **how that works**:
+कंपनियों में **macOS** सिस्टमों को बहुत संभावित रूप से **एमडीएम के साथ प्रबंधित** किया जाएगा। इसलिए, एक हमलावर के दृष्टिकोण से यह जानना महत्वपूर्ण है कि **यह कैसे काम करता है**:
 
 {% content-ref url="../macos-red-teaming/macos-mdm/" %}
 [macos-mdm](../macos-red-teaming/macos-mdm/)
 {% endcontent-ref %}
 
-### MacOS - Inspecting, Debugging and Fuzzing
+### MacOS - निरीक्षण, डीबगिंग और फ़ज़िंग
 
 {% content-ref url="macos-apps-inspecting-debugging-and-fuzzing/" %}
 [macos-apps-inspecting-debugging-and-fuzzing](macos-apps-inspecting-debugging-and-fuzzing/)
 {% endcontent-ref %}
 
-## MacOS Security Protections
+## MacOS सुरक्षा संरक्षण
 
 {% content-ref url="macos-security-protections/" %}
 [macos-security-protections](macos-security-protections/)
 {% endcontent-ref %}
 
-## Attack Surface
+## हमला सतह
 
-### File Permissions
+### फ़ाइल अनुमतियाँ
 
-If a **process running as root writes** a file that can be controlled by a user, the user could abuse this to **escalate privileges**.\
-This could occur in the following situations:
+यदि एक **रूट के रूप में चल रही प्रक्रिया एक फ़ाइल लिखती है** जिसे उपयोगकर्ता नियंत्रित कर सकता है, तो उपयोगकर्ता इसे **प्रिविलेज एस्केलेशन** के लिए उपयोग कर सकता है।\
+यह निम्नलिखित स्थ
+### अधिकार और विशेषाधिकारों का दुरुपयोग प्रक्रिया द्वारा
 
-* File used was already created by a user (owned by the user)
-* File used is writable by the user because of a group
-* File used is inside a directory owned by the user (the user could create the file)
-* File used is inside a directory owned by root but user has write access over it because of a group (the user could create the file)
-
-Being able to **create a file** that is going to be **used by root**, allows a user to **take advantage of its content** or even create **symlinks/hardlinks** to point it to another place.
-
-For this kind of vulnerabilities don't forget to **check vulnerable `.pkg` installers**:
-
-{% content-ref url="macos-files-folders-and-binaries/macos-installers-abuse.md" %}
-[macos-installers-abuse.md](macos-files-folders-and-binaries/macos-installers-abuse.md)
-{% endcontent-ref %}
-
-### Entitlements and Privileges abuse via process abuse
-
-If a process can **inject code in another process with better privileges or entitlements** or contact it to perform privileges actions, he could escalate privileges and bypass defensive meassures such as [Sandbox](macos-security-protections/macos-sandbox/) or [TCC](macos-security-protections/macos-tcc/).
+यदि कोई प्रक्रिया दूसरी प्रक्रिया में कोड इंजेक्शन कर सकती है जिसमें बेहतर विशेषाधिकार या अधिकार होते हैं या उससे संपर्क करके विशेषाधिकार क्रियाएं कर सकती है, तो वह विशेषाधिकारों को बढ़ा सकती है और [सैंडबॉक्स](macos-security-protections/macos-sandbox/) या [TCC](macos-security-protections/macos-tcc/) जैसी सुरक्षा उपायों को छोड़कर बच सकती है।
 
 {% content-ref url="macos-proces-abuse/" %}
 [macos-proces-abuse](macos-proces-abuse/)
 {% endcontent-ref %}
 
-### File Extension & URL scheme app handlers
+### फ़ाइल एक्सटेंशन और URL स्कीम ऐप हैंडलर
 
-Weird apps registered by file extensions could be abused and different applications can be register to open specific protocols
+अजीब ऐप्स फ़ाइल एक्सटेंशन द्वारा पंजीकृत किए जा सकते हैं और विभिन्न एप्लिकेशन विशेष प्रोटोकॉल खोलने के लिए पंजीकृत किए जा सकते हैं
 
 {% content-ref url="macos-file-extension-apps.md" %}
 [macos-file-extension-apps.md](macos-file-extension-apps.md)
 {% endcontent-ref %}
 
-## MacOS Privilege Escalation
+## MacOS विशेषाधिकार उन्नयन
 
-### CVE-2020-9771 - mount\_apfs TCC bypass and privilege escalation
+### CVE-2020-9771 - mount\_apfs TCC बाईपास और विशेषाधिकार उन्नयन
 
-**Any user** (even unprivileged ones) can create and mount a time machine snapshot an **access ALL the files** of that snapshot.\
-The **only privileged** needed is for the application used (like `Terminal`) to have **Full Disk Access** (FDA) access (`kTCCServiceSystemPolicyAllfiles`) which need to be granted by an admin.
+**कोई भी उपयोगकर्ता** (यहां तक कि अनाधिकृत उपयोगकर्ता भी) एक टाइम मशीन स्नैपशॉट बना सकता है और माउंट कर सकता है और उस स्नैपशॉट के **सभी फ़ाइलों तक पहुंच** कर सकता है।\
+इसके लिए, उपयोग की जाने वाली एप्लिकेशन (जैसे `Terminal`) को **पूर्ण डिस्क एक्सेस** (FDA) एक्सेस (`kTCCServiceSystemPolicyAllfiles`) होना चाहिए, जिसे एडमिन द्वारा प्रदान किया जाना चाहिए।
 
 {% code overflow="wrap" %}
 ```bash
@@ -151,9 +137,9 @@ ls /tmp/snap/Users/admin_user # This will work
 ```
 {% endcode %}
 
-A more detailed explanation can be [**found in the original report**](https://theevilbit.github.io/posts/cve\_2020\_9771/)**.**
+एक अधिक विस्तृत व्याख्या [**मूल रिपोर्ट में मिल सकती है**](https://theevilbit.github.io/posts/cve\_2020\_9771/)**.**
 
-### Sensitive Information
+### संवेदनशील जानकारी
 
 {% content-ref url="macos-files-folders-and-binaries/macos-sensitive-locations.md" %}
 [macos-sensitive-locations.md](macos-files-folders-and-binaries/macos-sensitive-locations.md)
@@ -161,15 +147,15 @@ A more detailed explanation can be [**found in the original report**](https://th
 
 ### Linux Privesc
 
-First of all, please note that **most of the tricks about privilege escalation affecting Linux/Unix will affect also MacOS** machines. So see:
+सबसे पहले, कृपया ध्यान दें कि **लिनक्स/यूनिक्स पर विशेषाधिकार उन्नयन के बारे में अधिकांश तरीके भी MacOS मशीनों पर प्रभावित करेंगे**। इसलिए देखें:
 
 {% content-ref url="../../linux-hardening/privilege-escalation/" %}
 [privilege-escalation](../../linux-hardening/privilege-escalation/)
 {% endcontent-ref %}
 
-## MacOS Defensive Apps
+## MacOS रक्षात्मक ऐप्स
 
-## References
+## संदर्भ
 
 * [**OS X Incident Response: Scripting and Analysis**](https://www.amazon.com/OS-Incident-Response-Scripting-Analysis-ebook/dp/B01FHOHHVS)
 * [**https://taomm.org/vol1/analysis.html**](https://taomm.org/vol1/analysis.html)
@@ -179,18 +165,18 @@ First of all, please note that **most of the tricks about privilege escalation a
 
 <figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-**HackenProof is home to all crypto bug bounties.**
+**HackenProof क्रिप्टो बग बाउंटी का घर है।**
 
-**Get rewarded without delays**\
-HackenProof bounties launch only when their customers deposit the reward budget. You'll get the reward after the bug is verified.
+**देरी के बिना पुरस्कार प्राप्त करें**\
+HackenProof बाउंटी तब शुरू होती है जब उनके ग्राहक इनाम बजट जमा करते हैं। आपको इनाम उस बग के सत्यापित होने के बाद मिलेगा।
 
-**Get experience in web3 pentesting**\
-Blockchain protocols and smart contracts are the new Internet! Master web3 security at its rising days.
+**वेब3 पेंटेस्टिंग में अनुभव प्राप्त करें**\
+ब्लॉकचेन प्रोटोकॉल और स्मार्ट कॉन्ट्रैक्ट्स नई इंटरनेट हैं! उनके उभरते दिनों में वेब3 सुरक्षा को मास्टर करें।
 
-**Become the web3 hacker legend**\
-Gain reputation points with each verified bug and conquer the top of the weekly leaderboard.
+**वेब3 हैकर लीजेंड बनें**\
+प्रत्येक सत्यापित बग के साथ प्रतिष्ठा अंक प्राप्त करें और साप्ताहिक लीडरबोर्ड के शीर्ष पर विजयी बनें।
 
-[**Sign up on HackenProof**](https://hackenproof.com/register) start earning from your hacks!
+[**HackenProof पर साइन अप करें**](https://hackenproof.com/register) और अपने हैक्स से कमाई करना शुरू करें!
 
 {% embed url="https://hackenproof.com/register" %}
 
@@ -198,10 +184,10 @@ Gain reputation points with each verified bug and conquer the top of the weekly 
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप किसी **साइबर सुरक्षा कंपनी में काम करते हैं**? क्या आप चाहते हैं कि आपकी **कंपनी HackTricks में विज्ञापित हो**? या क्या आपको **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग करने की सुविधा चाहिए**? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा एकल [**NFT**](https://opensea.io/collection/the-peass-family) संग्रह
+* [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com) प्राप्त करें
+* **[💬](https://emojipedia.org/speech-balloon/) [Discord समूह](https://discord.gg/hRep4RUj7f) या [telegram समूह](https://t.me/peass) में शामिल हों** या मुझे **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)** का** अनुसरण करें।
+* **अपने हैकिंग ट्रिक्स साझा करें, PRs सबमिट करके** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **में।**
 
 </details>

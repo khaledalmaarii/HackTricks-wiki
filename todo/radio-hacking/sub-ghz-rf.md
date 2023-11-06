@@ -1,96 +1,63 @@
-# Sub-GHz RF
+# सब-जीएचजी आरएफ
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **हैकट्रिक्स में विज्ञापित** देखना चाहते हैं? या क्या आपको **पीईएएस की नवीनतम संस्करण या हैकट्रिक्स को पीडीएफ में डाउनलोड** करने की अनुमति चाहिए? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* [**द पीईएएस फैमिली**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा विशेष [**एनएफटी संग्रह**](https://opensea.io/collection/the-peass-family)
+* [**आधिकारिक पीईएएस और हैकट्रिक्स स्वैग**](https://peass.creator-spring.com) प्राप्त करें
+* [**💬**](https://emojipedia.org/speech-balloon/) [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में **शामिल** हों या मुझे **ट्विटर** पर **फॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **हैकिंग ट्रिक्स साझा करें और** [**हैकट्रिक्स रेपो**](https://github.com/carlospolop/hacktricks) **और** [**हैकट्रिक्स-क्लाउड रेपो**](https://github.com/carlospolop/hacktricks-cloud) **में पीआर जमा करके**।
 
 </details>
 
-## Garage Doors
+## गेराज दरवाजे
 
-Garage door openers typically operate at frequencies in the 300-190 MHz range, with the most common frequencies being 300 MHz, 310 MHz, 315 MHz, and 390 MHz. This frequency range is commonly used for garage door openers because it is less crowded than other frequency bands and is less likely to experience interference from other devices.
+गेराज दरवाजे आमतौर पर 300-190 एमएचजी श्रेणी में चलते हैं, जिसमें सबसे सामान्य तार वाले तार 300 एमएचजी, 310 एमएचजी, 315 एमएचजी और 390 एमएचजी होते हैं। इस आवृत्ति सीमा का उपयोग गेराज दरवाजे खोलने वालों के लिए आमतौर पर किया जाता है क्योंकि यह अन्य आवृत्ति बैंड से कम भीड़ होती है और अन्य उपकरणों से प्रभावित होने की संभावना कम होती है।
 
-## Car Doors
+## कार दरवाजे
 
-Most car key fobs operate on either **315 MHz or 433 MHz**. These are both radio frequencies, and they are used in a variety of different applications. The main difference between the two frequencies is that 433 MHz has a longer range than 315 MHz. This means that 433 MHz is better for applications that require a longer range, such as remote keyless entry.\
-In Europe 433.92MHz is commonly used and in U.S. and Japan it's the 315MHz.
+अधिकांश कार की चाबियों का उपयोग आमतौर पर **315 एमएचजी या 433 एमएचजी** पर किया जाता है। ये दोनों रेडियो आवृत्तियाँ हैं, और इन्हें विभिन्न अनुप्रयोगों में उपयोग किया जाता है। दो आवृत्तियों के बीच मुख्य अंतर यह है कि 433 एमएचजी की 315 एमएचजी से अधिक दूरी होती है। इसका मतलब है कि 433 एमएचजी उन अनुप्रयोगों के लिए बेहतर है जिन्हें एक अधिक दूरी की आवश्यकता होती है, जैसे कि रिमोट की बिना कुंजी द्वारा प्रवेश।\
+यूरोप में 433.92 एमएचजी का उपयोग आमतौर पर किया जाता है और यूएस और जापान में इसका 315 एमएचजी है।
 
-## **Brute-force Attack**
+## **ब्रूट-फोर्स हमला**
 
 <figure><img src="../../.gitbook/assets/image (4) (3) (2).png" alt=""><figcaption></figcaption></figure>
 
-If instead of sending each code 5 times (sent like this to make sure the receiver gets it) so just send it once, the time is reduced to 6mins:
+यदि हर कोड को 5 बार भेजने की बजाय (इसे यह सुनिश्चित करने के लिए भेजा जाता है कि प्राप्तकर्ता इसे प्राप्त करता है) तो केवल एक बार भेजें, तो समय 6 मिनट में कम हो जाता है:
 
 <figure><img src="../../.gitbook/assets/image (1) (1) (2) (2).png" alt=""><figcaption></figcaption></figure>
 
-and if you **remove the 2 ms waiting** period between signals you can **reduce the time to 3minutes.**
+और यदि आप संकेतों के बीच 2 मिलीसेकंड की प्रतीक्षा को हटा दें, तो समय को 3 मिनट में कम कर सकते हैं।
 
-Moreover, by using the De Bruijn Sequence (a way to reduce the number of bits needed to send all the potential binary numbers to burteforce) this **time is reduced just to 8 seconds**:
+इसके अलावा, दे ब्रुइन सीक्वेंस (सभी संभावित बाइनरी संख्याओं को भेजने के लिए आवश्यक बिटों की संख्या को कम करने का एक तरीका) का उपयोग करके यह समय केवल 8 सेकंड में कम हो जाता है:
 
 <figure><img src="../../.gitbook/assets/image (5) (2) (3).png" alt=""><figcaption></figcaption></figure>
 
-Example of this attack was implemented in [https://github.com/samyk/opensesame](https://github.com/samyk/opensesame)
+इस हमले का उदाहरण [https://github.com/samyk/opensesame](https://github.com/samyk/opensesame) में लागू किया गया था।
 
-Requiring **a preamble will avoid the De Bruijn Sequence** optimization and **rolling codes will prevent this attack** (supposing the code is long enough to not be bruteforceable).
+**प्रीएम्बल क
+### **कोड चुराने का हमला (जिसे 'रोलजैम' भी कहा जाता है)**
 
-## Sub-GHz Attack
+यह एक और **छिपी जैमिंग तकनीक** है। हमलावर्ती व्यक्ति संकेत को जैम करेगा, इसलिए जब पीड़ित व्यक्ति दरवाज़ा तालने की कोशिश करेगा तो यह काम नहीं करेगा, लेकिन हमलावर्ती व्यक्ति इस कोड को **रिकॉर्ड करेगा**। फिर, पीड़ित व्यक्ति **फिर से कार को तालने की कोशिश करेगा** बटन दबाकर और कार **दूसरा कोड रिकॉर्ड करेगी**।\
+इसके तत्काल बाद, **हमलावर्ती पहले कोड को भेज सकता है** और कार **ताल जाएगी** (पीड़ित व्यक्ति को लगेगा कि दूसरी दबाव ने इसे बंद कर दिया है)। फिर, हमलावर्ती को कार खोलने के लिए **दूसरा चोरी का कोड भेजने की क्षमता होगी** (यह मानते हुए कि एक **"कार बंद करें" कोड का उपयोग खोलने के लिए भी किया जा सकता है**)। एक फ्रीक्वेंसी का बदलाव की आवश्यकता हो सकती है (क्योंकि कुछ कार उन्हीं कोड का उपयोग करती हैं जो खोलने और बंद करने के लिए सुनती हैं, लेकिन दोनों कमांड को अलग-अलग फ्रीक्वेंसी में सुनती हैं)।
 
-To attack these signals with Flipper Zero check:
-
-{% content-ref url="flipper-zero/fz-sub-ghz.md" %}
-[fz-sub-ghz.md](flipper-zero/fz-sub-ghz.md)
-{% endcontent-ref %}
-
-## Rolling Codes Protection
-
-Automatic garage door openers typically use a wireless remote control to open and close the garage door. The remote control **sends a radio frequency (RF) signal** to the garage door opener, which activates the motor to open or close the door.
-
-It is possible for someone to use a device known as a code grabber to intercept the RF signal and record it for later use. This is known as a **replay attack**. To prevent this type of attack, many modern garage door openers use a more secure encryption method known as a **rolling code** system.
-
-The **RF signal is typically transmitted using a rolling code**, which means that the code changes with each use. This makes it **difficult** for someone to **intercept** the signal and **use** it to gain **unauthorised** access to the garage.
-
-In a rolling code system, the remote control and the garage door opener have a **shared algorithm** that **generates a new code** every time the remote is used. The garage door opener will only respond to the **correct code**, making it much more difficult for someone to gain unauthorised access to the garage just by capturing a code.
-
-### **Missing Link Attack**
-
-Basically, you listen for the button and **capture the signal whilst the remote is out of range** of the device (say the car or garage). You then move to the device and **use the captured code to open it**.
-
-### Full Link Jamming Attack
-
-An attacker could **jam the signal near the vehicle or receive**r so the **receiver cannot actually ‘hear’ the code**, and once that is happening you can simply **capture and replay** the code when you have stopped jamming.
-
-The victim at some point will use the **keys to lock the car**, but then the attack will have **recorded enough "close door" codes** that hopefully could be resent to open the door (a **change of frequency might be needed** as there are cars that use the same codes to open and close but listens for both commands in different frequencies).
+हमलावर्ती कार के रिसीवर को जैम कर सकता है और अपने रिसीवर को नहीं, क्योंकि यदि कार के रिसीवर को उदाहरण के लिए 1MHz ब्रॉडबैंड में सुन रहा है, तो हमलावर्ती व्यक्ति ठीक फ्रीक्वेंसी को जैम नहीं करेगा, बल्कि **उस स्पेक्ट्रम में एक करीबी फ्रीक्वेंसी को जैम करेगा**, जबकि **हमलावर्ती के रिसीवर को एक छोटे सी रेंज में सुन रहा होगा**, जहां वह रिमोट संकेत **जैम संकेत के बिना सुन सकता है**।
 
 {% hint style="warning" %}
-**Jamming works**, but it's noticeable as if the **person locking the car simply tests the doors** to ensure they are locked they would notice the car unlocked. Additionally if they were aware of such attacks they could even listen to the fact that the doors never made the lock **sound** or the cars **lights** never flashed when they pressed the ‘lock’ button.
-{% endhint %}
-
-### **Code Grabbing Attack ( aka ‘RollJam’ )**
-
-This is a more **stealth Jamming technique**. The attacker will jam the signal, so when the victim tries to lock the door it won't work, but the attacker will **record this code**. Then, the victim will **try to lock the car again** pressing the button and the car will **record this second code**.\
-Instantly after this the **attacker can send the first code** and the **car will lock** (victim will think the second press closed it). Then, the attacker will be able to **send the second stolen code to open** the car (supposing that a **"close car" code can also be used to open it**). A change of frequency might be needed (as there are cars that use the same codes to open and close but listens for both commands in different frequencies).
-
-The attacker can **jam the car receiver and not his receiver** because if the car receiver is listening in for example a 1MHz broadband, the attacker won't **jam** the exact frequency used by the remote but **a close one in that spectrum** while the **attackers receiver will be listening in a smaller range** where he can listen the remote signal **without the jam signal**.
-
-{% hint style="warning" %}
-Other implementations seen in specifications show that the **rolling code is a portion** of the total code sent. Ie the code sent is a **24 bit key** where the first **12 are the rolling code**, the **second 8 are the command** (such as lock or unlock) and the last 4 is the **checksum**. Vehicles implementing this type are also naturally susceptible as the attacker merely needs to replace the rolling code segment to be able to **use any rolling code on both frequencies**.
+देखा गया है कि अन्य विशेषिकाएँ दिखाती हैं कि **रोलिंग कोड** को भेजे गए कोड का एक हिस्सा है। उदाहरण के लिए, भेजे गए कोड में **24 बिट कुंजी** होती है जिसमें पहले **12 रोलिंग कोड होते हैं**, दूसरे 8 कमांड होते हैं (जैसे लॉक या अनलॉक) और अंतिम 4 चेकसम होता है। इस प्रकार के वाहन भी प्राकृतिक रूप से संवेदनशील होते हैं क्योंकि हमलावर्ती को बस रोलिंग कोड सेगमेंट को बदलने की आवश्यकता होती है ताकि वह दोनों फ्रीक्वेंसी पर किसी भी रोलिंग कोड का उपयोग कर सके।
 {% endhint %}
 
 {% hint style="danger" %}
-Note that if the victim sends a third code while the attacker is sending the first one, the first and second code will be invalidated.
+ध्यान दें कि यदि पीड़ित व्यक्ति हमलावर्ती पहले कोड भेज रहे होते हैं तब जब वह तीसरा कोड भेजता है, पहला और दूसरा कोड अमान्य हो जाएंगे।
 {% endhint %}
 
-### Alarm Sounding Jamming Attack
+### अलार्म बजाने वाला जैमिंग हमला
 
-Testing against an aftermarket rolling code system installed on a car, **sending the same code twice** immediately **activated the alarm** and immobiliser providing a unique **denial of service** opportunity. Ironically the means of **disabling the alarm** and immobiliser was to **press** the **remote**, providing an attacker with the ability to **continually perform DoS attack**. Or mix this attack with the **previous one to obtain more codes** as the victim would like to stop the attack asap.
+एक कार पर स्थापित एफ्टरमार्केट रोलिंग कोड सिस्टम के खिलाफ परीक्षण, **एक ही कोड को दो बार भेजने से** तत्काल **अलार्म सक्रिय** हो गया और इमोबाइलाइज़र ने एक अद्वितीय **सेवा की अस्वीकृति** प्रदान की। इरोनिकली अलार्म को **निष्क्रिय करने** और इमोबाइलाइज़र को निष्क्रिय करने का माध्यम था **रिमोट दबाना**, जो एक हमलावर्ती को **निरंतर डीओएस हमला** करने की क्षमता प्रदान करता है। या इस हमले को **पिछले हमले के साथ मिश्रित करें और अधिक कोड प्राप्त करें**, क्योंकि पीड़ित व्यक्ति जल्द से जल्द हमले को रोकना चाहेगा।
 
-## References
+## संदर्भ
 
 * [https://www.americanradioarchives.com/what-radio-frequency-does-car-key-fobs-run-on/](https://www.americanradioarchives.com/what-radio-frequency-does-car-key-fobs-run-on/)
 * [https://www.andrewmohawk.com/2016/02/05/bypassing-rolling-code-systems/](https://www.andrewmohawk.com/2016/02/05/bypassing-rolling-code-systems/)
@@ -101,10 +68,4 @@ Testing against an aftermarket rolling code system installed on a car, **sending
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
-
-</details>
+* क्या आप **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **हैकट्रिक्स में विज्ञापित** देखना चाहेंगे? या क्या आपको **PEASS की नवीनतम संस्करण देखने** या **हैकट्रिक्स को पीडीएफ में ड

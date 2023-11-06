@@ -4,26 +4,25 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी **कंपनी को HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करने की आवश्यकता है? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष संग्रह [**NFTs**](https://opensea.io/collection/the-peass-family)
+* प्राप्त करें [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या मुझे **Twitter** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **अपने हैकिंग ट्रिक्स साझा करें और PRs सबमिट करें** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **को**
 
 </details>
 
-## Context
+## संदर्भ
 
-In Linux in order to run a program it must exist as a file, it must be accessible in some way through the file system hierarchy (this is just how `execve()` works). This file may reside on disk or in ram (tmpfs, memfd) but you need a filepath. This has made very easy to control what is run on a Linux system, it makes easy to detect threats and attacker's tools or to prevent them from trying to execute anything of theirs at all (_e. g._ not allowing unprivileged users to place executable files anywhere).
+लिनक्स में किसी प्रोग्राम को चलाने के लिए उसे एक फ़ाइल के रूप में मौजूद होना चाहिए, इसे फ़ाइल सिस्टम हाइरार्की के माध्यम से किसी भी तरीके से पहुंचना चाहिए (यह सिर्फ़ `execve()` कैसे काम करता है।) यह फ़ाइल डिस्क पर या रैम में (tmpfs, memfd) मौजूद हो सकती है, लेकिन आपको एक फ़ाइलपथ की आवश्यकता होती है। इसके कारण लिनक्स सिस्टम पर चलाने वाली चीज़ों पर नियंत्रण करना बहुत आसान हो गया है, यह खतरों और हमलावरों के उपकरणों को पहचानने और उन्हें किसी भी तरह से अपना कुछ भी नहीं करने से रोकने के लिए आसान बना देता है (_उदा। अनधिकृत उपयोगकर्ताओं को कहीं भी निष्पादनीय फ़ाइलें रखने की अनुमति न देना_).
 
-But this technique is here to change all of this. If you can not start the process you want... **then you hijack one already existing**.
+लेकिन यह तकनीक इसे बदलने के लिए यहां है। यदि आप चाहते हैं कि आप चाहते हैं कि प्रक्रिया शुरू नहीं कर सकते हैं... **तो आप एक पहले से मौजूद प्रक्रिया को हाइजैक करें**.
 
-This technique allows you to **bypass common protection techniques such as read-only, noexec, file-name whitelisting, hash whitelisting...**
+यह तकनीक आपको **पठनीय, नोएक्सेक, फ़ाइल-नाम व्हाइटलिस्टिंग, हैश व्हाइटलिस्टिंग** जैसी सामान्य सुरक्षा तकनीकों को अनदेखा करने की अनुमति देती है।
 
-## Dependencies
+## आवश्यकताएं
 
-The final script depends on the following tools to work, they need to be accessible in the system you are attacking (by default you will find all of them everywhere):
-
+अंतिम स्क्रिप्ट को काम करने के लिए निम्नलिखित उपकरणों पर निर्भरता होती है, वे आपके हमले कर रहे सिस्टम में पहुंचने के लिए पहुंचने योग्य होने चाहिए (डिफ़ॉल्ट रूप से आप उन्हें हर जगह पाएंगे):
 ```
 dd
 bash | zsh | ash (busybox)
@@ -37,75 +36,68 @@ wc
 tr
 base64
 ```
+## तकनीक
 
-## The technique
+यदि आप किसी प्रक्रिया की मेमोरी को आरबिट्रेरिली संशोधित कर सकते हैं, तो आप उसे अपने काबिज़ कर सकते हैं। इसका उपयोग करके हम पहले से मौजूदा प्रक्रिया को हाइजैक कर सकते हैं और उसे दूसरे प्रोग्राम से बदल सकते हैं। हम इसे `ptrace()` सिस्कॉल का उपयोग करके प्राप्त कर सकते हैं (जिसके लिए आपको सिस्कॉल को निष्पादित करने की क्षमता होनी चाहिए या सिस्टम पर gdb उपलब्ध होना चाहिए) या, और रोचक तरीके से, `/proc/$pid/mem` में लिखने के द्वारा।
 
-If you are able to modify arbitrarily the memory of a process then you can take over it. This can be used to hijack an already existing process and replace it with another program. We can achieve this either by using the `ptrace()` syscall (which requires you to have the ability to execute syscalls or to have gdb available on the system) or, more interestingly, writing to `/proc/$pid/mem`.
+फ़ाइल `/proc/$pid/mem` प्रक्रिया के पूरे पता स्थान का एक-से-एक मैपिंग है (_उदा। `0x0000000000000000` से `0x7ffffffffffff000` तक x86-64 में)। इसका मतलब है कि किसी ऑफ़सेट `x` पर इस फ़ाइल से पढ़ना या लिखना उसी बात को है जैसे कि वर्चुअल पते `x` पर सामग्री को पढ़ना या संशोधित करना।
 
-The file `/proc/$pid/mem` is a one-to-one mapping of the entire address space of a process (_e. g._ from `0x0000000000000000` to `0x7ffffffffffff000` in x86-64). This means that reading from or writing to this file at an offset `x` is the same as reading from or modifying the contents at the virtual address `x`.
+अब, हमें चार मूल समस्याओं का सामना करना होगा:
 
-Now, we have four basic problems to face:
+* सामान्यतः, केवल रूट और फ़ाइल के कार्यक्रम मालिक इसे संशोधित कर सकते हैं।
+* ASLR।
+* यदि हम प्रोग्राम के पते स्थान में मैप नहीं करने की कोशिश करते हैं तो हमें एक I/O त्रुटि मिलेगी।
 
-* In general, only root and the program owner of the file may modify it.
-* ASLR.
-* If we try to read or write to an address not mapped in the address space of the program we will get an I/O error.
+इन समस्याओं के समाधान हैं, जो हालांकि पूर्ण नहीं हैं, लेकिन अच्छे हैं:
 
-This problems have solutions that, although they are not perfect, are good:
+* अधिकांश शैल अनुप्रेषकों को फ़ाइल वर्कशॉप के लिए फ़ाइल डिस्क्रिप्टर बनाने की अनुमति देते हैं... तो उस डिस्क्रिप्टर का उपयोग करने वाली बच्ची प्रक्रियाएं शैल की मेमोरी को संशोधित कर सकेंगी।
+* ASLR तो कोई समस्या ही नहीं है, हम शैल की `maps` फ़ाइल या प्रोक्सफ़स की किसी अन्य फ़ाइल की मदद से प्रक्रिया के पता स्थान के बारे में जानकारी प्राप्त कर सकते हैं।
+* इसलिए हमें फ़ाइल पर `lseek()` करने की आवश्यकता होती है। शैल से यह केवल उपयोग किया जा सकता है यदि अपमानजनक `dd` का उपयोग किया जाता है।
 
-* Most shell interpreters allow the creation of file descriptors that will then be inherited by child processes. We can create a fd pointing to the `mem` file of the sell with write permissions... so child processes that use that fd will be able to modify the shell's memory.
-* ASLR isn't even a problem, we can check the shell's `maps` file or any other from the procfs in order to gain information about the address space of the process.
-* So we need to `lseek()` over the file. From the shell this cannot be done unless using the infamous `dd`.
+### और अधिक विस्तार से
 
-### In more detail
+चरणों को अनुभवी होने की कोई आवश्यकता नहीं है और इन्हें समझने के लिए किसी भी प्रकार की विशेषज्ञता की आवश्यकता नहीं है:
 
-The steps are relatively easy and do not require any kind of expertise to understand them:
+* हमें चाहिए कि हम चलाना चाहते हैं वह बाइनरी और लोडर को पार्स करें और जानें कि वे कौन सी मैपिंग की आवश्यकता हैं। फिर एक "शैल"कोड बनाएं जो, व्यापक रूप से कहें तो, प्रत्येक `execve()` कॉल पर कर्नल द्वारा किए जाने वाले चरणों के समान चरणों को करेगा:
+* उपरोक्त मैपिंग बनाएं।
+* उन्हें बाइनरी में पढ़ें।
+* अनुमतियों को सेट करें।
+* अंत में, प्रोग्राम के लिए तालिका और सहायक वेक्टर (लोडर द्वारा आवश्यक) के लिए तालिका के तत्वों के लिए स्टैक को प्रारंभ करें।
+* लोडर में जाएं और उसे बाकी काम करने दें (प्रोग्राम द्वारा आवश्यक पुस्तकालयों को लोड करें)।
+* `syscall` फ़ाइल से प्राप्त करें कि सिस्कॉल को निष्पादित करने के बाद प्रक्रिया किस पते पर वापस जाएगी।
+* उस स्थान को अधिकार्यता वाले रूप में अपने शैलकोड से अधिलेखित करें (द्वारा `mem` हम अवर्तनीय पृष्ठों को संशोधित कर सकते हैं)।
+* प्रक्रिया के stdin में चलाने के लिए हमारे पास चलाने के लिए कार्यक्रम पास करें (उस "शैल"कोड द्वारा `read()` किया जाएगा)।
+* इस बिंदु पर यह लोडर के लिए आवश्यक पुस्तकालयों को लोड करने और उसमें जाने के लिए है।
 
-* Parse the binary we want to run and the loader to find out what mappings they need. Then craft a "shell"code that will perform, broadly speaking, the same steps that the kernel does upon each call to `execve()`:
-  * Create said mappings.
-  * Read the binaries into them.
-  * Set up permissions.
-  * Finally initialize the stack with the arguments for the program and place the auxiliary vector (needed by the loader).
-  * Jump into the loader and let it do the rest (load libraries needed by the program).
-* Obtain from the `syscall` file the address to which the process will return after the syscall it is executing.
-* Overwrite that place, which will be executable, with our shellcode (through `mem` we can modify unwritable pages).
-* Pass the program we want to run to the stdin of the process (will be `read()` by said "shell"code).
-* At this point it is up to the loader to load the necessary libraries for our program and jump into it.
-
-**Check out the tool in** [**https://github.com/arget13/DDexec**](https://github.com/arget13/DDexec)
+**इस टूल की जांच करें** [**https://github.com/arget13/DDexec**](https://github.com/arget13/DDexec)
 
 ## EverythingExec
 
-As of 12/12/2022 I have found a number of alternatives to `dd`, one of which, `tail`, is currently the default program used to `lseek()` through the `mem` file (which was the sole purpose for using `dd`). Said alternatives are:
-
+12/12/2022 के रूप में मैंने `dd` के कई विकल्पों का पता लगाया है, जिनमें से एक, `tail`, वर्तमान मेम फ़ाइल के `lseek()` के लिए डिफ़ॉल्ट प्रोग्राम है (जिसका उपयोग करने के लिए `dd` का एकमात्र उद्देश्य था)। उक्त विकल्पों में से कुछ हैं:
 ```bash
 tail
 hexdump
 cmp
 xxd
 ```
-
-Setting the variable `SEEKER` you may change the seeker used, _e. g._:
-
+चर `SEEKER` को सेट करके आप उपयोग किए जाने वाले सीकर को बदल सकते हैं, उदा.उदा:
 ```bash
 SEEKER=cmp bash ddexec.sh ls -l <<< $(base64 -w0 /bin/ls)
 ```
-
-If you find another valid seeker not implemented in the script you may still use it setting the `SEEKER_ARGS` variable:
-
+यदि आपको स्क्रिप्ट में अन्य वैध सीकर मिलता है जो स्क्रिप्ट में अपनाया नहीं गया है, तो आप `SEEKER_ARGS` चर को सेट करके उसे अभी भी उपयोग कर सकते हैं:
 ```bash
 SEEKER=xxd SEEKER_ARGS='-s $offset' zsh ddexec.sh ls -l <<< $(base64 -w0 /bin/ls)
 ```
-
-Block this, EDRs.
+इसे ब्लॉक करें, EDRs.
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी **कंपनी को HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करने की आवश्यकता है? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा संग्रह अनन्य [**NFTs**](https://opensea.io/collection/the-peass-family)
+* [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com) प्राप्त करें
+* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में या मुझे **Twitter** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **अपने हैकिंग ट्रिक्स को** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **में PR जमा करके साझा करें।**
 
 </details>

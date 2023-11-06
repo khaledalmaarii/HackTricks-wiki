@@ -4,145 +4,127 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करने की आवश्यकता है? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष संग्रह [**NFTs**](https://opensea.io/collection/the-peass-family)
+* प्राप्त करें [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में या मुझे **Twitter** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **अपने हैकिंग ट्रिक्स को** [**hacktricks रेपो**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud रेपो**](https://github.com/carlospolop/hacktricks-cloud) **में पीआर जमा करके** अपना योगदान दें।
 
 </details>
 
 <figure><img src="../.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-Find vulnerabilities that matter most so you can fix them faster. Intruder tracks your attack surface, runs proactive threat scans, finds issues across your whole tech stack, from APIs to web apps and cloud systems. [**Try it for free**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) today.
+सबसे महत्वपूर्ण संकटों को खोजें ताकि आप उन्हें तेजी से ठीक कर सकें। Intruder आपकी हमला सतह का ट्रैक करता है, प्रोएक्टिव धमकी स्कैन चलाता है, आपकी पूरी टेक स्टैक से, एपीआई से वेब ऐप्स और क्लाउड सिस्टम तक, मुद्दों को खोजता है। [**इसे मुफ़्त में आज़माएं**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks)।
 
 {% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
 ***
 
-## Extracting data from all files
+## सभी फ़ाइलों से डेटा निकालना
 
 ### Binwalk <a href="#binwalk" id="binwalk"></a>
 
-Binwalk is a tool for searching binary files, like images and audio files, for embedded hidden files and data.\
-It can be installed with `apt`, and the [source](https://github.com/ReFirmLabs/binwalk) can be found on Github.\
-**Useful commands**:\
-`binwalk file` : Displays the embedded data in the given file\
-`binwalk -e file` : Displays and extracts the data from the given file\
-`binwalk --dd ".*" file` : Displays and extracts the data from the given file
+Binwalk एक टूल है जो छिपे हुए फ़ाइलों और डेटा के लिए बाइनरी फ़ाइलों, जैसे छवियाँ और ऑडियो फ़ाइलों, की खोज करने के लिए है।\
+इसे `apt` के साथ स्थापित किया जा सकता है, और [स्रोत](https://github.com/ReFirmLabs/binwalk) Github पर मिल सकता है।\
+**उपयोगी कमांडें**:\
+`binwalk file` : दिए गए फ़ाइल में छिपा हुआ डेटा दिखाता है\
+`binwalk -e file` : दिए गए फ़ाइल से डेटा दिखाता है और निकालता है\
+`binwalk --dd ".*" file` : दिए गए फ़ाइल से डेटा दिखाता है और निकालता है
 
 ### Foremost <a href="#foremost" id="foremost"></a>
 
-Foremost is a program that recovers files based on their headers, footers, and internal data structures. I find it especially useful when dealing with png images. You can select the files that Foremost will extract by changing the config file in **/etc/foremost.conf.**\
-It can be installed with `apt`, and the [source](https://github.com/korczis/foremost) can be found on Github.\
-**Useful commands:**\
-`foremost -i file` : extracts data from the given file.
+Foremost एक प्रोग्राम है जो हेडर, फ़ुटर और आंतरिक डेटा संरचनाओं के आधार पर फ़ाइलें बहाल करता है। मुझे यह विशेष रूप से png छवियों के साथ काम करते समय उपयोगी लगता है। आप Foremost द्वारा निकालने वाली फ़ाइलें चुन सकते हैं जिन्हें आप बदल सकते हैं **/etc/foremost.conf** में कॉन्फ़िग फ़ाइल को बदलकर।\
+इसे `apt` के साथ स्थापित किया जा सकता है, और [स्रोत](https://github.com/korczis/foremost) Github पर मिल सकता है।\
+**उपयोगी कमांडें:**\
+`foremost -i file` : दिए गए फ़ाइल से डेटा निकालता है।
 
 ### Exiftool <a href="#exiftool" id="exiftool"></a>
 
-Sometimes, important stuff is hidden in the metadata of an image or file; exiftool can be very helpful to view file metadata.\
-You can get it from [here](https://www.sno.phy.queensu.ca/\~phil/exiftool/)\
-**Useful commands:**\
-`exiftool file` : shows the metadata of the given file
+कभी-कभी, महत्वपूर्ण चीजें छवि या फ़ाइल के मेटाडेटा में छिपी होती हैं; exiftool फ़ाइल मेटाडेटा देखने के लिए बहुत सहायक हो सकता है।\
+आप इसे [यहां](https://www.sno.phy.queensu.ca/\~phil/exiftool/) से प्राप्त कर सकते हैं।\
+**उपयोगी कमांडें:**\
+`exiftool file` : दिए गए फ़ाइल के मेटाडेटा दिखाता है
 
 ### Exiv2 <a href="#exiv2" id="exiv2"></a>
 
-A tool similar to exiftool.\
-It can be installed with `apt`, and the [source](https://github.com/Exiv2/exiv2) can be found on Github.\
-[Official website](http://www.exiv2.org/)\
-**Useful commands:**\
-`exiv2 file` : shows the metadata of the given file
+exiftool के एक समान उपकरण।\
+इसे `apt` के साथ स्थापित किया जा सकता है, और [स्रोत](https://github.com/Exiv2/exiv2) Github पर मिल सकता है।\
+[आधिकारिक वेबसाइट](http://www.exiv2.org/)\
+**उपयोगी कमांडें:**\
+`exiv2 file` : दिए गए फ़ाइल के मेटाडेटा दिखाता है
 
 ### File
 
-Check out what kind of file you have
+देखें आपके पास किस प्रकार की फ़ाइल है
 
 ### Strings
 
-Extract strings from the file.\
-Useful commands:\
-`strings -n 6 file`: Extract the strings with min length of 6\
-`strings -n 6 file | head -n 20`: Extract first 20 strings with min length of 6\
-`strings -n 6 file | tail -n 20`: Extract last 20 strings with min length of 6\
-`strings -e s -n 6 file`: Extract 7bit strings\
-`strings -e S -n 6 file`: Extract 8bit strings\
-`strings -e l -n 6 file`: Extract 16bit strings (little-endian)\
-`strings -e b -n 6 file`: Extract 16bit strings (big-endian)\
-`strings -e L -n 6 file`: Extract 32bit strings (little-endian)\
-`strings -e B -n 6 file`: Extract 32bit strings (big-endian)
-
-### cmp - Comparison
-
-If you have some **modified** image/audio/video, check if you can **find the exact original one** on the internet, then **compare both** files with:
-
+फ़ाइल से स्ट्रिंग्स निकालें।\
+उपयोगी कमांडें:\
+`strings -n 6 file`: 6 की न्यूनतम लंबाई वाली स्ट्रिंग्स निक
 ```
 cmp original.jpg stego.jpg -b -l
 ```
+## पाठ में छिपी हुई डेटा निकालना
 
-## Extracting hidden data in text
+### अंतर्निहित डेटा स्थानों में
 
-### Hidden data in spaces
-
-If you find that a **text line** is **bigger** than it should be, then some **hidden information** could be included inside the **spaces** using invisible characters.󐁈󐁥󐁬󐁬󐁯󐀠󐁴󐁨\
-To **extract** the **data**, you can use: [https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder)
+यदि आपको लगता है कि कोई **पाठ लाइन** उससे **अधिक** बड़ा है, तो कुछ **छिपी हुई जानकारी** स्थानों में शामिल हो सकती है जहां अदृश्य वर्णों का उपयोग किया जाता है। 󐁈󐁥󐁬󐁬󐁯󐀠󐁴󐁨\
+**डेटा** को **निकालने** के लिए, आप इस्तेमाल कर सकते हैं: [https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder)
 
 <figure><img src="../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) का उपयोग करें ताकि आप आसानी से बना सकें और **स्वचालित कार्यप्रवाह** बना सकें जो दुनिया के **सबसे उन्नत** समुदाय उपकरणों द्वारा संचालित होता है।\
+आज ही पहुंच प्राप्त करें:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## Extracting data from images
+## छवियों से डेटा निकालना
 
-### identify
+### पहचान
 
-[GraphicMagick](https://imagemagick.org/script/download.php) tool to check what kind of image a file is. Also checks if the image is corrupted.
-
+[GraphicMagick](https://imagemagick.org/script/download.php) टूल फ़ाइल के लिए जांचने के लिए किस प्रकार की छवि है। यह भी जांचता है कि छवि क्या क्षतिग्रस्त है।
 ```
 ./magick identify -verbose stego.jpg
 ```
-
-If the image is damaged, you may be able to restore it by simply adding a metadata comment to it (if it's very badly damaged this won't work):
-
+यदि छवि क्षतिग्रस्त है, तो आप उसे सीधे मेटाडेटा टिप्पणी जोड़कर उसे पुनर्स्थापित कर सकते हैं (यदि यह बहुत बुरी तरह से क्षतिग्रस्त है तो यह काम नहीं करेगा):
 ```bash
 ./magick mogrify -set comment 'Extraneous bytes removed' stego.jpg
 ```
-
 ### Steghide \[JPEG, BMP, WAV, AU] <a href="#steghide" id="steghide"></a>
 
-Steghide is a steganography program that hides data in various kinds of image and audio files. It supports the following file formats : `JPEG, BMP, WAV and AU`. It’s also useful for extracting embedded and encrypted data from other files.\
-It can be installed with `apt`, and the [source](https://github.com/StefanoDeVuono/steghide) can be found on Github.\
-**Useful commands:**\
-`steghide info file` : displays info about whether a file has embedded data or not.\
-`steghide extract -sf file [--passphrase password]` : extracts embedded data from a file \[using a password]
+Steghide एक स्टेगनोग्राफी प्रोग्राम है जो विभिन्न प्रकार की छवि और ऑडियो फ़ाइलों में डेटा छिपाता है। यह निम्नलिखित फ़ाइल प्रारूपों का समर्थन करता है: `JPEG, BMP, WAV और AU`। यह अन्य फ़ाइलों से एम्बेडेड और एन्क्रिप्टेड डेटा निकालने के लिए भी उपयोगी है।\
+इसे `apt` के साथ स्थापित किया जा सकता है, और [स्रोत](https://github.com/StefanoDeVuono/steghide) Github पर मिल सकता है।\
+**उपयोगी कमांडेज:**\
+`steghide info फ़ाइल` : फ़ाइल के बारे में जानकारी प्रदर्शित करता है कि क्या फ़ाइल में एम्बेडेड डेटा है या नहीं।\
+`steghide extract -sf फ़ाइल [--passphrase पासवर्ड]` : फ़ाइल से एम्बेडेड डेटा निकालता है \[पासवर्ड का उपयोग करके]
 
-You can also extract content from steghide using the web: [https://futureboy.us/stegano/decinput.html](https://futureboy.us/stegano/decinput.html)
+आप स्टेगहाइड से सामग्री निकालने के लिए वेब का उपयोग भी कर सकते हैं: [https://futureboy.us/stegano/decinput.html](https://futureboy.us/stegano/decinput.html)
 
-**Bruteforcing** Steghide: [stegcracker](https://github.com/Paradoxis/StegCracker.git) `stegcracker <file> [<wordlist>]`
+**Steghide को Bruteforcing करना:** [stegcracker](https://github.com/Paradoxis/StegCracker.git) `stegcracker <फ़ाइल> [<वर्डलिस्ट>]`
 
 ### Zsteg \[PNG, BMP] <a href="#zsteg" id="zsteg"></a>
 
-zsteg is a tool that can detect hidden data in png and bmp files.\
-To install it : `gem install zsteg`. The source can also be found on [Github](https://github.com/zed-0xff/zsteg)\
-**Useful commands:**\
-`zsteg -a file` : Runs every detection method on the given file\
-`zsteg -E file` : Extracts data with the given payload (example : zsteg -E b4,bgr,msb,xy name.png)
+zsteg एक टूल है जो png और bmp फ़ाइलों में छिपे हुए डेटा का पता लगा सकता है।\
+इसे स्थापित करने के लिए: `gem install zsteg`। स्रोत भी [Github](https://github.com/zed-0xff/zsteg) पर मिल सकता है।\
+**उपयोगी कमांडेज:**\
+`zsteg -a फ़ाइल` : दिए गए फ़ाइल पर हर डिटेक्शन मेथड चलाता है\
+`zsteg -E फ़ाइल` : दिए गए पेलोड के साथ डेटा निकालता है (उदाहरण: zsteg -E b4,bgr,msb,xy name.png)
 
 ### stegoVeritas JPG, PNG, GIF, TIFF, BMP
 
-Capable of a wide variety of simple and advanced tricks, this tool can check file metadata, create transformed images, brute force LSB, and more. Check out `stegoveritas.py -h` to read about its full capabilities. Execute `stegoveritas.py stego.jpg` to run all checks.
+इस टूल के पास एक विस्तृत और उन्नत ट्रिक का विकल्प है, यह फ़ाइल मेटाडेटा की जांच कर सकता है, परिवर्तित छवि बना सकता है, ब्रूट फ़ोर्स LSB कर सकता है, और बहुत कुछ। इसकी पूरी क्षमताओं के बारे में पढ़ने के लिए `stegoveritas.py -h` देखें। सभी जांचें चलाने के लिए `stegoveritas.py stego.jpg` को निष्पादित करें।
 
 ### Stegsolve
 
-Sometimes there is a message or a text hidden in the image itself that, in order to view it, must have color filters applied, or some color levels changed. Although you can do that with something like GIMP or Photoshop, Stegsolve makes it easier. It's a small Java tool that applies many useful color filters on images; In CTF challenges, Stegsolve is often a real timesaver.\
-You can get it from [Github](https://github.com/eugenekolo/sec-tools/tree/master/stego/stegsolve/stegsolve)\
-To use it, just open the image and click on the `<` `>` buttons.
+कभी-कभी छवि में संदेश या पाठ छिपा होता है जिसे देखने के लिए, उसे रंग फ़िल्टर लागू करना होता है, या कुछ रंग स्तर बदलने होते हैं। यदि आप इसे GIMP या Photoshop जैसी कुछ से कर सकते हैं, तो Stegsolve इसे आसान बनाता है। यह एक छोटा जावा टूल है जो छवियों पर कई उपयोगी रंग फ़िल्टर लागू करता है; CTF चुनौतियों में, Stegsolve अक्सर वास्तव में समय बचाने वाला होता है।\
+आप इसे [Github](https://github.com/eugenekolo/sec-tools/tree/master/stego/stegsolve/stegsolve) से प्राप्त कर सकते हैं।\
+इसका उपयोग करने के लिए, बस छवि खोलें और `<` `>` बटन पर क्लिक करें।
 
 ### FFT
 
-To find hidden content using Fast Fourier T:
+छिपी हुई सामग्री ढूंढ़ने के लिए Fast Fourier T का उपयोग करें:
 
 * [http://bigwww.epfl.ch/demo/ip/demos/FFT/](http://bigwww.epfl.ch/demo/ip/demos/FFT/)
 * [https://www.ejectamenta.com/Fourifier-fullscreen/](https://www.ejectamenta.com/Fourifier-fullscreen/)
@@ -151,16 +133,16 @@ To find hidden content using Fast Fourier T:
 
 ### Stegpy \[PNG, BMP, GIF, WebP, WAV]
 
-A program for encoding information in image and audio files through steganography. It can store the data as either plaintext or encrypted.\
-Find it on [Github](https://github.com/dhsdshdhk/stegpy).
+छवि और ऑडियो फ़ाइलों में जानकारी को स्टेगनोग्राफी के माध्यम से एनकोड करने के लिए एक प्रोग्राम है। यह डेटा को सादा पाठ या एन्क्रिप्टेड दोनों रूपों में संग्रहीत कर सकता है।\
+इसे [Github](https://github.com/dhsdshdhk/stegpy) पर खोजें।
 
 ### Pngcheck
 
-Get details on a PNG file (or even find out it's actually something else!).\
-`apt-get install pngcheck`: Install the tool\
-`pngcheck stego.png` : Obtain info about the PNG
+PNG फ़ाइल पर विवरण प्राप्त करें (या यह जानें कि यह वास्तव में कुछ और है या नहीं)।\
+`apt-get install pngcheck`: टूल स्थापित करें\
+`pngcheck stego.png` : PNG के बारे में जानकारी प्राप्त करें
 
-### Some other image tools worth mentioning
+### कुछ अन्य छवि उपकरण जिनका उल्लेख करना योग्य है
 
 * [http://magiceye.ecksdee.co.uk/](http://magiceye.ecksdee.co.uk/)
 * [https://29a.ch/sandbox/2012/imageerrorlevelanalysis/](https://29a.ch/sandbox/2012/imageerrorlevelanalysis/)
@@ -168,66 +150,38 @@ Get details on a PNG file (or even find out it's actually something else!).\
 * [https://www.openstego.com/](https://www.openstego.com/)
 * [https://diit.sourceforge.net/](https://diit.sourceforge.net/)
 
-## Extracting data from audios
+## ऑडियो से डेटा निकालना
 
-### [Steghide \[JPEG, BMP, WAV, AU\]](stego-tricks.md#steghide) <a href="#steghide" id="steghide"></a>
-
-### [Stegpy \[PNG, BMP, GIF, WebP, WAV\]](stego-tricks.md#stegpy-png-bmp-gif-webp-wav)
-
-### ffmpeg
-
-ffmpeg can be used to check the integrity of audio files, reporting various information about the file, as well as any errors it finds.\
-`ffmpeg -v info -i stego.mp3 -f null -`
-
-### Wavsteg \[WAV] <a href="#wavsteg" id="wavsteg"></a>
-
-WavSteg is a Python3 tool that can hide data, using least significant bit, in wav files. It can also search for, and extract, data from wav files.\
-You can get it from [Github](https://github.com/ragibson/Steganography#WavSteg)\
-Useful commands:\
-`python3 WavSteg.py -r -b 1 -s soundfile -o outputfile` : Extracts to an output file (taking only 1 lsb)\
-`python3 WavSteg.py -r -b 2 -s soundfile -o outputfile` : Extracts to an output file (taking only 2 lsb)
-
-### Deepsound
-
-Hide, and check for, information encrypted with AES-265 in sound files. Download from [the oficial page](http://jpinsoft.net/deepsound/download.aspx).\
-To search for hidden info, simply run the program and open the sound file. If DeepSound finds any data hidden, you'll need to provide the password to unlock it.
-
-### Sonic visualizer <a href="#sonic-visualizer" id="sonic-visualizer"></a>
-
-Sonic visualizer is a tool for viewing and analyzing the contents of audio files. It can be very helpful when facing audio steganography challenges; you can reveal hidden shapes in audio files that many other tools won't detect.\
-If you're stuck, always check the spectrogram of the audio. [Offical Website](https://www.sonicvisualiser.org/)
-
-### DTMF Tones - Dial tones
+### [Steghide \[JPEG, BMP, WAV, AU\]](st
+### DTMF टोन - डायल टोन्स
 
 * [https://unframework.github.io/dtmf-detect/](https://unframework.github.io/dtmf-detect/)
 * [http://dialabc.com/sound/detect/index.html](http://dialabc.com/sound/detect/index.html)
 
-## Other tricks
+## अन्य ट्रिक्स
 
-### Binary length SQRT - QR Code
+### बाइनरी लंबाई SQRT - QR कोड
 
-If you receive binary data with an SQRT length of an entire number, it could be some kind of QR code:
-
+यदि आपको पूरे संख्यात्मक एक एसक्यूएलटी लंबाई के साथ बाइनरी डेटा प्राप्त होता है, तो यह किसी प्रकार का QR कोड हो सकता है:
 ```
 import math
 math.sqrt(2500) #50
 ```
+बाइनरी "1" और "0" को एक उचित छवि में रूपांतरित करने के लिए: [https://www.dcode.fr/binary-image](https://github.com/carlospolop/hacktricks/tree/32fa51552498a17d266ff03e62dfd1e2a61dcd10/binary-image/README.md)\
+एक QR कोड को पढ़ने के लिए: [https://online-barcode-reader.inliteresearch.com/](https://online-barcode-reader.inliteresearch.com/)
 
-To convert binary "1"s and "0"s to a proper image: [https://www.dcode.fr/binary-image](https://github.com/carlospolop/hacktricks/tree/32fa51552498a17d266ff03e62dfd1e2a61dcd10/binary-image/README.md)\
-To read a QR code: [https://online-barcode-reader.inliteresearch.com/](https://online-barcode-reader.inliteresearch.com/)
-
-### Braile
+### ब्रेल
 
 [https://www.branah.com/braille-translator](https://www.branah.com/braille-translator\))
 
-## **References**
+## **संदर्भ**
 
 * [**https://0xrick.github.io/lists/stego/**](https://0xrick.github.io/lists/stego/)
 * [**https://github.com/DominicBreuker/stego-toolkit**](https://github.com/DominicBreuker/stego-toolkit)
 
 <figure><img src="../.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-Find vulnerabilities that matter most so you can fix them faster. Intruder tracks your attack surface, runs proactive threat scans, finds issues across your whole tech stack, from APIs to web apps and cloud systems. [**Try it for free**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) today.
+विशेषता को खोजें जो सबसे अधिक मायने रखती हैं ताकि आप उन्हें तेजी से ठीक कर सकें। Intruder आपकी हमला सतह का ट्रैक करता है, प्रोएक्टिव धमकी स्कैन चलाता है, आपकी पूरी टेक स्टैक, एपीआई से वेब ऐप्स और क्लाउड सिस्टम तक, में समस्याएं खोजता है। [**इसे मुफ्त में आज़माएं**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks)।
 
 {% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
@@ -235,10 +189,10 @@ Find vulnerabilities that matter most so you can fix them faster. Intruder track
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करने की अनुमति चाहिए? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष संग्रह [**NFTs**](https://opensea.io/collection/the-peass-family)
+* प्राप्त करें [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में या मुझे **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)** का पालन करें।**
+* **अपने हैकिंग ट्रिक्स साझा करें और PRs सबमिट करके** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **को डाउनलोड करें।**
 
 </details>

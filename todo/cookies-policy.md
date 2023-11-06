@@ -1,45 +1,45 @@
-# Cookies Policy
+# कुकीज़ नीति
 
-Last updated: 02/04/2023
+अंतिम अपडेट: 02/04/2023
 
-### Introduction
+### परिचय
 
-This Cookies Policy applies to the following websites owned and operated by HackTricks team ("HackTricks", "we", "us" or "our"):
+यह कुकीज़ नीति हैकट्रिक्स टीम ("हैकट्रिक्स", "हम", "हमें" या "हमारे") द्वारा स्वामित्व और संचालित निम्नलिखित वेबसाइटों के लिए लागू होती है:
 
 * hacktricks.xyz
 * [www.hacktricks.xyz](http://www.hacktricks.xyz/)
 * book.hacktricks.xyz
 * cloud.hacktricks.xyz
 
-By using any of these websites, you agree to the use of cookies in accordance with this Cookies Policy. If you do not agree, please disable cookies in your browser settings or refrain from using our websites.
+इनमें से किसी भी वेबसाइट का उपयोग करके, आप इस कुकीज़ नीति के अनुसार कुकीज़ का उपयोग करने से सहमति देते हैं। यदि आप सहमत नहीं हैं, तो कृपया अपने ब्राउज़र सेटिंग्स में कुकीज़ को अक्षम करें या हमारी वेबसाइट का उपयोग न करें।
 
-### What are cookies?
+### कुकीज़ क्या हैं?
 
-Cookies are small text files that are stored on your computer or mobile device when you visit a website. They are widely used to make websites work, improve their functionality, and provide a more personalized user experience.
+कुकीज़ वह छोटे पाठ फ़ाइलें हैं जो जब आप वेबसाइट पर जाते हैं तो आपके कंप्यूटर या मोबाइल डिवाइस में संग्रहीत होती हैं। वे वेबसाइट को काम करने, उनकी कार्यक्षमता को सुधारने और एक अधिक व्यक्तिगत उपयोगकर्ता अनुभव प्रदान करने के लिए व्यापक रूप से उपयोग होती हैं।
 
-### How we use cookies
+### हम कुकीज़ का उपयोग कैसे करते हैं
 
-We use cookies on our websites for the following purposes:
+हम अपनी वेबसाइटों पर निम्नलिखित उद्देश्यों के लिए कुकीज़ का उपयोग करते हैं:
 
-1. Essential cookies: These cookies are necessary for the basic functionality of our websites, such as enabling user authentication, maintaining security, and remembering your preferences.
-2. Performance cookies: These cookies help us understand how visitors interact with our websites, by collecting and reporting information anonymously. This allows us to improve our website performance and user experience.
-3. Functionality cookies: These cookies enable our websites to remember choices you make, such as your language or region, to provide a more personalized experience.
-4. Targeting/advertising cookies: These cookies are used to deliver relevant ads and marketing communications based on your interests, browsing history, and interactions with our websites.
+1. महत्वपूर्ण कुकीज़: ये कुकीज़ हमारी वेबसाइटों की मूल कार्यक्षमता के लिए आवश्यक होती हैं, जैसे उपयोगकर्ता प्रमाणीकरण सक्षम करना, सुरक्षा बनाए रखना और आपकी प्राथमिकताओं को याद रखना।
+2. प्रदर्शन कुकीज़: ये कुकीज़ हमें समझने में मदद करती हैं कि आगंतुकों को हमारी वेबसाइटों के साथ कैसे इंटरैक्ट किया जाता है, जो जानकारी गोपनीयता के साथ संग्रहीत और रिपोर्ट की जाती है। इससे हमें हमारी वेबसाइट की प्रदर्शन और उपयोगकर्ता अनुभव को सुधारने में मदद मिलती है।
+3. कार्यक्षमता कुकीज़: ये कुकीज़ हमारी वेबसाइटों को याद रखने की क्षमता प्रदान करती हैं, जैसे आपकी भाषा या क्षेत्र, एक अधिक व्यक्तिगत अनुभव प्रदान करने के लिए।
+4. लक्ष्य/विज्ञापन कुकीज़: ये कुकीज़ आपकी रुचियों, ब्राउज़िंग इतिहास और हमारी वेबसाइटों के साथ इंटरैक्शन के आधार पर प्रासंगिक विज्ञापन और मार्केटिंग संचार प्रदान करने के लिए उपयोग होती हैं।
 
-Moreover, the pages book.hacktricks.xyz and cloud.hacktricks.xyz are hosted in Gitbook. You can find more information about Gitbooks cookies in [https://gitbook-1652864889.teamtailor.com/cookie-policy](https://gitbook-1652864889.teamtailor.com/cookie-policy).
+इसके अलावा, पृष्ठ book.hacktricks.xyz और cloud.hacktricks.xyz Gitbook में होस्ट किए जाते हैं। आप [https://gitbook-1652864889.teamtailor.com/cookie-policy](https://gitbook-1652864889.teamtailor.com/cookie-policy) पर Gitbook की कुकीज़ के बारे में अधिक जानकारी पा सकते हैं।
 
-### Third-party cookies
+### तृतीय-पक्ष कुकीज़
 
-In addition to our own cookies, we may also use third-party cookies to report website usage statistics, deliver advertisements, and enable social media sharing buttons. The use of third-party cookies is subject to their respective privacy policies.
+हमारी अपनी कुकीज़ के अलावा, हम वेबसाइट उपयोग के आंकड़े रिपोर्ट करने, विज्ञापन प्रदान करने और सोशल मीडिया साझा करने के लिए तृतीय-पक्ष कुकीज़ का उपयोग कर सकते हैं। तृतीय-पक्ष कुकीज़ का उपयोग उनकी संबंधित गोपनीयता नीतियों के अधीन होता है।
 
-Managing cookies
+कुकीज़ प्रबंधन
 
-Most web browsers allow you to manage cookies through their settings. You can choose to block, delete, or limit the use of cookies on your device. However, please note that disabling cookies may affect the functionality and performance of our websites.
+अधिकांश वेब ब्राउज़र कुकीज़ को अपनी सेटिंग्स के माध्यम से प्रबंधित करने की अनुमति देते हैं। आप अपनी डिवाइस पर कुकीज़ का उपयोग ब्लॉक, हटाने या सीमित करने के लिए चुन सकते हैं। हालांकि, कृपया ध्यान दें कि कुकीज़ को अक्षम करने से हमारी वेबसाइटों की कार्यक्षमता और प्रदर्शन प्रभावित हो सकती है।
 
-Changes to this Cookies Policy
+इस कुकीज़ नीति में परिवर्तन
 
-We may update this Cookies Policy from time to time to reflect changes in our practices or relevant laws. We encourage you to periodically review this page for the latest information on our cookie practices.
+हम समय-समय पर अपनी अभ्यासों या संबंधित कानूनों में परिवर्तन के प्रतिबद्धता को दर्शाने के लिए इस कुकीज़ नीति को अपडेट कर सकते हैं। हम आपको हमारी कुकीज़ अभ्यासों के बारे में नवीनतम जानकारी के लिए इस पृष्ठ की नियमित जांच करने की सलाह देते हैं।
 
-### Contact us
+### हमसे संपर्क करें
 
-If you have any questions or concerns about this Cookies Policy, please contact us at [support@hacktricks.xyz](mailto:support@hacktricks.xyz)
+यदि आपके पास इस कुकीज़ नीति के बारे में कोई सवाल या चिंता है, तो कृपया हमसे संपर्क करें: [support@hacktricks.xyz](mailto:support@hacktricks.xyz)

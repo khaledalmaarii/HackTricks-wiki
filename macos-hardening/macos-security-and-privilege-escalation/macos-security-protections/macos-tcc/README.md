@@ -4,52 +4,48 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी **कंपनी को HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करने की इच्छा है? [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) की जांच करें!
+* खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष संग्रह [**NFTs**](https://opensea.io/collection/the-peass-family)
+* प्राप्त करें [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**telegram समूह**](https://t.me/peass) या मुझे **Twitter** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **अपने हैकिंग ट्रिक्स साझा करें द्वारा PRs सबमिट करके** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **को।**
 
 </details>
 
-## **Basic Information**
+## **मूलभूत जानकारी**
 
-**TCC (Transparency, Consent, and Control)** is a mechanism in macOS to **limit and control application access to certain features**, usually from a privacy perspective. This can include things such as location services, contacts, photos, microphone, camera, accessibility, full disk access, and a bunch more.
+**TCC (Transparency, Consent, and Control)** मैकओएस में एक तंत्र है जो **निश्चित सुविधाओं तक एप्लिकेशन का पहुंच सीमित और नियंत्रित करने** के लिए होता है, आमतौर पर एक गोपनीयता के दृष्टिकोण से। इसमें स्थान सेवाएं, संपर्क, फ़ोटो, माइक्रोफ़ोन, कैमरा, पहुंचियों, पूर्ण डिस्क पहुंच और बहुत कुछ शामिल हो सकता है।
 
-From a user’s perspective, they see TCC in action **when an application wants access to one of the features protected by TCC**. When this happens the **user is prompted** with a dialog asking them whether they want to allow access or not.
+उपयोगकर्ता के दृष्टिकोण से, वे TCC को कार्रवाई में देखते हैं **जब एक ऐप्लिकेशन TCC द्वारा संरक्षित सुविधा तक पहुंच चाहता है**। जब ऐसा होता है, तो **उपयोगकर्ता को प्रश्न पूछा जाता है** कि क्या वह पहुंच को अनुमति देना चाहते हैं या नहीं।
 
-It's also possible to **grant apps access** to files by **explicit intents** from users for example when a user **drags\&drop a file into a program** (obviously the program should have access to it).
+यह भी संभव है कि उपयोगकर्ता द्वारा **उपयोगकर्ता के द्वारा स्पष्ट इरादों** से ऐप्स को फ़ाइलों की पहुंच दी जाए, उदाहरण के लिए जब उपयोगकर्ता एक फ़ाइल को एक प्रोग्राम में **खींचता है और छोड़ता है** (स्वाभाविक रूप से प्रोग्राम को इसकी पहुंच होनी चाहिए)।
 
-![An example of a TCC prompt](https://rainforest.engineering/images/posts/macos-tcc/tcc-prompt.png?1620047855)
+![TCC प्रॉम्प्ट का एक उदाहरण](https://rainforest.engineering/images/posts/macos-tcc/tcc-prompt.png?1620047855)
 
-**TCC** is handled by the **daemon** located in `/System/Library/PrivateFrameworks/TCC.framework/Support/tccd` and configured in `/System/Library/LaunchDaemons/com.apple.tccd.system.plist` (registering the mach service `com.apple.tccd.system`).
+**TCC** को **डेमन** द्वारा संभाला जाता है जो `/System/Library/PrivateFrameworks/TCC.framework/Support/tccd` में स्थित होता है और `/System/Library/LaunchDaemons/com.apple.tccd.system.plist` में कॉन्फ़िगर किया जाता है (मशीन सेवा `com.apple.tccd.system` को पंजीकृत करना)।
 
-There is a **user-mode tccd** running per logged in user defined in `/System/Library/LaunchAgents/com.apple.tccd.plist` registering the mach services `com.apple.tccd` and `com.apple.usernotifications.delegate.com.apple.tccd`.
-
-Here you can see the tccd running as system and as user:
-
+यहां आप देख सकते हैं कि तंत्र सिस्टम और उपयोगकर्ता के रूप में चल रहा है:
 ```bash
 ps -ef | grep tcc
-    0   374     1   0 Thu07PM ??         2:01.66 /System/Library/PrivateFrameworks/TCC.framework/Support/tccd system
-  501 63079     1   0  6:59PM ??         0:01.95 /System/Library/PrivateFrameworks/TCC.framework/Support/tccd
+0   374     1   0 Thu07PM ??         2:01.66 /System/Library/PrivateFrameworks/TCC.framework/Support/tccd system
+501 63079     1   0  6:59PM ??         0:01.95 /System/Library/PrivateFrameworks/TCC.framework/Support/tccd
 ```
+अनुमतियाँ **मूल एप्लिकेशन से विरासत में आती हैं** और अनुमतियाँ **बंडल आईडी** और **डेवलपर आईडी** के आधार पर **ट्रैक की जाती हैं**।
 
-Permissions are **inherited from the parent** application and the **permissions** are **tracked** based on the **Bundle ID** and the **Developer ID**.
+### TCC डेटाबेस
 
-### TCC Databases
-
-The selections is then stored in the TCC system-wide database in **`/Library/Application Support/com.apple.TCC/TCC.db`** or in **`$HOME/Library/Application Support/com.apple.TCC/TCC.db`** for per-user preferences. The databases are **protected from editing with SIP**(System Integrity Protection), but you can read them.
+चयन फिर TCC सिस्टम-व्यापी डेटाबेस में संग्रहीत होता है **`/Library/Application Support/com.apple.TCC/TCC.db`** या प्रति-उपयोगकर्ता प्राथमिकताओं के लिए **`$HOME/Library/Application Support/com.apple.TCC/TCC.db`** में। डेटाबेसों को **SIP**(सिस्टम अखंडता संरक्षण) के साथ संपादित करने से सुरक्षित रखा गया है, लेकिन आप उन्हें पढ़ सकते हैं।
 
 {% hint style="danger" %}
-The TCC database in **iOS** is in **`/private/var/mobile/Library/TCC/TCC.db`**
+**iOS** में TCC डेटाबेस **`/private/var/mobile/Library/TCC/TCC.db`** में होता है।
 {% endhint %}
 
-There is a **third** TCC database in **`/var/db/locationd/clients.plist`** to indicate clients allowed to **access location services**.
+**एक तीसरा** TCC डेटाबेस **`/var/db/locationd/clients.plist`** में होता है जो स्थान सेवाओं तक पहुंच की अनुमति देने वाले क्लाइंट्स को दर्शाता है।
 
-Moreover, a process with **full disk access** can **edit the user-mode** database. Now an app also needs **FDA** to **read** the database.
+इसके अलावा, **पूर्ण डिस्क उपयोग की अनुमति** वाली प्रक्रिया **उपयोगकर्ता मोड** डेटाबेस को संपादित कर सकती है। अब एक ऐप को डेटाबेस को **पढ़ने** के लिए भी **FDA** की आवश्यकता होती है।
 
 {% hint style="info" %}
-The **notification center UI** can make **changes in the system TCC database**:
+**नोटिफिकेशन सेंटर UI** सिस्टम TCC डेटाबेस में **परिवर्तन कर सकता है**:
 
 {% code overflow="wrap" %}
 ```bash
@@ -60,11 +56,11 @@ com.apple.rootless.storage.TCC
 ```
 {% endcode %}
 
-However, users can **delete or query rules** with the **`tccutil`** command line utility.
+हालांकि, उपयोगकर्ता नियमों को **`tccutil`** कमांड लाइन उपयोगिता के साथ **हटा सकते या प्रश्न कर सकते हैं**।
 {% endhint %}
 
 {% tabs %}
-{% tab title="user DB" %}
+{% tab title="उपयोगकर्ता डीबी" %}
 ```bash
 sqlite3 ~/Library/Application\ Support/com.apple.TCC/TCC.db
 sqlite> .schema
@@ -81,9 +77,7 @@ sqlite> select * from access where client LIKE "%telegram%" and auth_value=2;
 # Check user denied permissions for telegram
 sqlite> select * from access where client LIKE "%telegram%" and auth_value=0;
 ```
-{% endtab %}
-
-{% tab title="system DB" %}
+{% tab title="सिस्टम डीबी" %}
 ```bash
 sqlite3 /Library/Application\ Support/com.apple.TCC/TCC.db
 sqlite> .schema
@@ -104,29 +98,28 @@ sqlite> select * from access where client LIKE "%telegram%" and auth_value=0;
 {% endtabs %}
 
 {% hint style="success" %}
-Checking both databases you can check the permissions an app has allowed, has forbidden, or doesn't have (it will ask for it).
+दोनों डेटाबेस की जांच करके आप देख सकते हैं कि किसी ऐप ने कौन सी अनुमतियाँ दी हैं, कौन सी अनुमतियाँ मना की गई हैं या कौन सी अनुमतियाँ नहीं हैं (इसके लिए यह पूछेगा)।
 {% endhint %}
 
-* The **`auth_value`** can have different values: denied(0), unknown(1), allowed(2), or limited(3).
-* The **`auth_reason`** can take the following values: Error(1), User Consent(2), User Set(3), System Set(4), Service Policy(5), MDM Policy(6), Override Policy(7), Missing usage string(8), Prompt Timeout(9), Preflight Unknown(10), Entitled(11), App Type Policy(12)
-* For more information about the **other fields** of the table [**check this blog post**](https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive).
+* **`auth_value`** के अलग-अलग मान हो सकते हैं: denied(0), unknown(1), allowed(2), या limited(3)।
+* **`auth_reason`** निम्नलिखित मान ले सकता है: Error(1), User Consent(2), User Set(3), System Set(4), Service Policy(5), MDM Policy(6), Override Policy(7), Missing usage string(8), Prompt Timeout(9), Preflight Unknown(10), Entitled(11), App Type Policy(12)
+* टेबल के **अन्य फ़ील्ड्स** के बारे में अधिक जानकारी के लिए [**इस ब्लॉग पोस्ट की जांच करें**](https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive)।
 
 {% hint style="info" %}
-Some TCC permissions are: kTCCServiceAppleEvents, kTCCServiceCalendar, kTCCServicePhotos... There is no public list that defines all of them but you can check this [**list of known ones**](https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive#service).
+कुछ TCC अनुमतियाँ हैं: kTCCServiceAppleEvents, kTCCServiceCalendar, kTCCServicePhotos... उन सभी की परिभाषा बताने वाली कोई सार्वजनिक सूची नहीं है लेकिन आप इस [**ज्ञात सूची की जांच कर सकते हैं**](https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive#service)।
 
-**Full Disk Access** is name is **`kTCCServiceSystemPolicyAllFiles`** and **`kTCCServiceAppleEvents`** allows the app to send events to other applications that are commonly used for **automating tasks**. Moreover, **`kTCCServiceSystemPolicySysAdminFiles`** allows to **change** the **`NFSHomeDirectory`** attribute of a user that changes his home folder and therefore allows to **bypass TCC**.
+**पूर्ण डिस्क एक्सेस** का नाम है **`kTCCServiceSystemPolicyAllFiles`** और **`kTCCServiceAppleEvents`** ऐप को अन्य ऐप्स को इवेंट भेजने की अनुमति देता है जो सामान्य रूप से **कार्यों को स्वचालित करने** के लिए उपयोग किए जाते हैं। इसके अलावा, **`kTCCServiceSystemPolicySysAdminFiles`** उपयोगकर्ता के **`NFSHomeDirectory`** विशेषता को बदलने की अनुमति देता है जो उसके होम फ़ोल्डर को बदलता है और इसलिए TCC को **दौरा करने की अनुमति देता है**।
 {% endhint %}
 
-You could also check **already given permissions** to apps in `System Preferences --> Security & Privacy --> Privacy --> Files and Folders`.
+आप यह भी जांच सकते हैं कि `System Preferences --> Security & Privacy --> Privacy --> Files and Folders` में ऐप्स को पहले से दी गई अनुमतियाँ हैं।
 
 {% hint style="success" %}
-Nota that even if one of the databases are inside the users home, **users cannot directly modify these databases because of SIP** (even if you are root). The only way a new rule can be configured or modified is via System Preferences pane or prompts where the app asks the user.
+ध्यान दें कि यदि डेटाबेसों में से कोई भी एक उपयोगकर्ता के होम में हैं, तो **उपयोगकर्ता SIP के कारण इन डेटाबेसों को सीधे संशोधित नहीं कर सकते** (यदि आप रूट हों तो भी)। नया नियम कॉन्फ़िगर करने या संशोधित करने का एकमात्र तरीका सिस्टम प्राथमिकता पैनल या प्रॉम्प्ट के माध्यम से है जहां ऐप उपयोगकर्ता से पूछता है।
 
-However, remember that users _can_ **delete or query rules** using **`tccutil`** .&#x20;
+हालांकि, ध्यान दें कि उपयोगकर्ता **`tccutil`** का उपयोग करके नियमों को **हटा सकते या क्वेरी कर सकते हैं**।
 {% endhint %}
 
-#### Reset
-
+#### रीसेट
 ```bash
 # You can reset all the permissions given to an application with
 tccutil reset All app.some.id
@@ -134,53 +127,66 @@ tccutil reset All app.some.id
 # Reset the permissions granted to all apps
 tccutil reset All
 ```
+### यूजर TCC डेटाबेस से FDA तक प्राइवेसी एस्कलेशन
 
-### Privesc from User TCC DB to FDA
+यूजर TCC डेटाबेस पर **लेखन अनुमतियाँ** प्राप्त करके आप खुद को **`FDA`** अनुमतियाँ नहीं दे सकते, केवल सिस्टम डेटाबेस में रहने वाला व्यक्ति उन्हें प्रदान कर सकता है।
 
-Obtaining **write permissions** over the **user TCC** database you **can'**t grant yourself **`FDA`** permissions, only the one that lives in the system database can grant that.
+लेकिन आप खुद को **`Finder के लिए स्वचालन अधिकार` दे सकते हैं**, और क्योंकि `Finder` में `FDA` है, इसलिए आपको भी हो जाता है।
 
-But you can **can** give yourself **`Automation rights to Finder`, and since `Finder` has `FDA`, so do you.**
+### **SIP बाइपास से TCC बाइपास तक**
 
-### **From SIP Bypass to TCC Bypass**
+**TCC डेटाबेस** SIP द्वारा सुरक्षित होते हैं, इसलिए केवल उन प्रक्रियाओं को ही डेटाबेसों को संशोधित करने की अनुमति होगी जिनमें **निर्दिष्ट अधिकार होंगे**। इसलिए, यदि हमलावर को SIP परिवर्तन के लिए एक **SIP बाइपास** मिल जाता है (SIP द्वारा प्रतिबंधित एक फ़ाइल को संशोधित करने की अनुमति हो), तो वह TCC डेटाबेस की सुरक्षा को हटा सकता है और खुद को सभी TCC अनुमतियाँ प्रदान कर सकता है।
 
-The **TCC databases** are protected by **SIP**, thats why only processes with the **indicated entitlements  are going to be able to modify** the databases. Therefore, if an attacker finds a **SIP bypass** over a **file** (be able to modify a file restricted by SIP), he will be able **remove the protection** of a TCC database, and give himself all TCC permissions.
-
-However, there is another option to abuse this **SIP bypass to bypass TCC**, the file `/Library/Apple/Library/Bundles/TCC_Compatibility.bundle/Contents/Resources/AllowApplicationsList.plist` is an allow list of applications that require a TCC exception. Therefore, if an attacker can **remove the SIP protection** from this file and add his **own application** the application ill be able to bypass TCC.\
-For example to add terminal:
-
+हालांकि, इस **SIP बाइपास का उपयोग TCC को बाइपास करने** के लिए एक और विकल्प है, फ़ाइल `/Library/Apple/Library/Bundles/TCC_Compatibility.bundle/Contents/Resources/AllowApplicationsList.plist` एक ऐसी अनुमति वाली एप्लिकेशन की अनुमति की सूची है जिसके लिए TCC अपवाद की आवश्यकता होती है। इसलिए, यदि हमलावर इस फ़ाइल से SIP सुरक्षा को **हटा सकता है** और अपनी **खुद की एप्लिकेशन** जोड़ सकता है, तो उस एप्लिकेशन को TCC को बाइपास करने की अनुमति मिलेगी।
+उदाहरण के लिए टर्मिनल जोड़ने के लिए:
 ```bash
 # Get needed info
 codesign -d -r- /System/Applications/Utilities/Terminal.app
 ```
-
 AllowApplicationsList.plist:
 
+यह प्लिस्ट फ़ाइल एक मैपिंग धारण करती है जो macOS के ट्रांसपेरेंट डेटा कंप्रोमाइज़ सेंटर (TCC) द्वारा स्वीकृत एप्लिकेशनों की सूची को संग्रहीत करती है। यह फ़ाइल उपयोगकर्ता द्वारा अनुमति प्राप्त की गई एप्लिकेशनों को निर्दिष्ट करने के लिए उपयोग होती है जिन्हें TCC द्वारा अनुमति दी गई है। इस फ़ाइल में प्रत्येक एप्लिकेशन के लिए एक एंट्री होती है, जिसमें एप्लिकेशन का बाइनरी पथ और अनुमति स्तर शामिल होता है।
+
+उदाहरण:
+```
+{
+    "com.apple.Terminal": {
+        "Allowed": true,
+        "Prompted": true
+    },
+    "com.apple.Safari": {
+        "Allowed": true,
+        "Prompted": true
+    }
+}
+```
+
+इस उदाहरण में, AllowApplicationsList.plist फ़ाइल में दो एप्लिकेशनों की सूची है - Terminal और Safari। दोनों एप्लिकेशनों को TCC द्वारा अनुमति दी गई है और उपयोगकर्ता को पूछा गया है कि क्या वे इन एप्लिकेशनों को उपयोग करने की अनुमति देना चाहेंगे।
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>Services</key>
-	<dict>
-		<key>SystemPolicyAllFiles</key>
-		<array>
-			<dict>
-				<key>CodeRequirement</key>
-				<string>identifier &quot;com.apple.Terminal&quot; and anchor apple</string>
-				<key>IdentifierType</key>
-				<string>bundleID</string>
-				<key>Identifier</key>
-				<string>com.apple.Terminal</string>
-			</dict>
-		</array>
-	</dict>
+<key>Services</key>
+<dict>
+<key>SystemPolicyAllFiles</key>
+<array>
+<dict>
+<key>CodeRequirement</key>
+<string>identifier &quot;com.apple.Terminal&quot; and anchor apple</string>
+<key>IdentifierType</key>
+<string>bundleID</string>
+<key>Identifier</key>
+<string>com.apple.Terminal</string>
+</dict>
+</array>
+</dict>
 </dict>
 </plist>
 ```
+### TCC हस्ताक्षर जांच
 
-### TCC Signature Checks
-
-The TCC **database** stores the **Bundle ID** of the application, but it also **stores** **information** about the **signature** to **make sure** the App asking to use the a permission is the correct one.
+TCC **डेटाबेस** में एप्लिकेशन के **बंडल आईडी** को संग्रहीत किया जाता है, लेकिन यह भी **हस्ताक्षर** के बारे में **जानकारी** संग्रहीत करता है ताकि अनुमति का उपयोग करने के लिए अप्लिकेशन सही हो।
 
 {% code overflow="wrap" %}
 ```bash
@@ -197,45 +203,42 @@ csreq -t -r /tmp/telegram_csreq.bin
 {% endcode %}
 
 {% hint style="warning" %}
-Therefore, other applications using the same name and bundle ID won't be able to access granted permissions given to other apps.
+इसलिए, एक ही नाम और बंडल आईडी का उपयोग करने वाले अन्य एप्लिकेशन अन्य ऐप्स को दिए गए अनुमतियों तक पहुंच नहीं पा सकेंगे।
 {% endhint %}
 
-### Entitlements
+### अधिकार
 
-Apps **don't only need** to **request** and have been **granted access** to some resources, they also need to **have the relevant entitlements**.\
-For example **Telegram** has the entitlement `com.apple.security.device.camera` to request **access to the camera**. An **app** that **doesn't** have this **entitlement won't be able** to access the camera (and the user won't be be even asked for the permissions).
+ऐप्स को केवल कुछ संसाधनों के लिए अनुरोध करने और पहुंच प्राप्त करने के लिए ही नहीं होता है, उन्हें संबंधित अधिकार भी होने चाहिए।\
+उदाहरण के लिए, **Telegram** के पास `com.apple.security.device.camera` अधिकार है जिसका उपयोग **कैमरे तक पहुंच के लिए** करने के लिए किया जाता है। इसके बिना कोई ऐप कैमरे तक पहुंच नहीं पा सकेगा (और उपयोगकर्ता से अनुमतियों के लिए भी पूछा नहीं जाएगा)।
 
-However, for apps to **access** to **certain user folders**, such as `~/Desktop`, `~/Downloads` and `~/Documents`, they **don't need** to have any specific **entitlements.** The system will transparently handle access and **prompt the user** as needed.
+हालांकि, ऐप्स को `~/Desktop`, `~/Downloads` और `~/Documents` जैसे कुछ उपयोगकर्ता फ़ोल्डरों तक पहुंच करने के लिए किसी विशेष अधिकार की आवश्यकता नहीं होती है। सिस्टम स्वचालित रूप से पहुंच को संभालेगा और उपयोगकर्ता को आवश्यकतानुसार प्रॉम्प्ट करेगा।
 
-Apple's apps **won’t generate prompts**. They contain **pre-granted rights** in their **entitlements** list, meaning they will **never generate a popup**, **nor** they will show up in any of the **TCC databases.** For example:
-
+एप्पल के ऐप्स प्रॉम्प्ट नहीं उत्पन्न करेंगे। उनमें उनकी अधिकार सूची में पूर्व-अनुमति होती है, जिसका मतलब है कि वे कभी भी पॉपअप उत्पन्न नहीं करेंगे, और वे किसी भी TCC डेटाबेस में दिखाई नहीं देंगे। उदाहरण के लिए:
 ```bash
 codesign -dv --entitlements :- /System/Applications/Calendar.app
 [...]
 <key>com.apple.private.tcc.allow</key>
 <array>
-    <string>kTCCServiceReminders</string>
-    <string>kTCCServiceCalendar</string>
-    <string>kTCCServiceAddressBook</string>
+<string>kTCCServiceReminders</string>
+<string>kTCCServiceCalendar</string>
+<string>kTCCServiceAddressBook</string>
 </array>
 ```
-
-This will avoid Calendar ask the user to access reminders, calendar and the address book.
+यह कैलेंडर को यूजर से याद दिलाएगा कि वह रिमाइंडर, कैलेंडर और एड्रेस बुक तक पहुंच करने की अनुमति दें।
 
 {% hint style="success" %}
-Apart from some official documentation about entitlements it's also possible to find unofficial **interesting information about entitlements in** [**https://newosxbook.com/ent.jl**](https://newosxbook.com/ent.jl)
+इंटाइटलमेंट्स के बारे में कुछ आधिकारिक दस्तावेज़ीकरण के अलावा, इंटाइटलमेंट्स के बारे में अनौपचारिक **रोचक जानकारी** भी मिल सकती है [**https://newosxbook.com/ent.jl**](https://newosxbook.com/ent.jl) में।
 {% endhint %}
 
-### Sensitive unprotected places
+### संवेदनशील असुरक्षित स्थान
 
-* $HOME (itself)
-* $HOME/.ssh, $HOME/.aws, etc
+* $HOME (खुद)
+* $HOME/.ssh, $HOME/.aws, आदि
 * /tmp
 
-### User Intent / com.apple.macl
+### उपयोगकर्ता की इच्छा / com.apple.macl
 
-As mentioned previously, it possible to **grant access to an App to a file by drag\&dropping it to it**. This access won't be specified in any TCC database but as an **extended** **attribute of the file**. This attribute will **store the UUID** of the allowed app:
-
+पहले ही उल्लेख किया गया है कि यह **एक ऐप को एक फ़ाइल तक पहुंच देने के लिए उसे ड्रैग एंड ड्रॉप करके** संभव है। इस पहुंच को किसी भी TCC डेटाबेस में निर्दिष्ट नहीं किया जाएगा लेकिन फ़ाइल के **विस्तारित गुणांक के रूप में** यह पहुंच संग्रहीत होगी। इस गुणांक में अनुमति दी गई ऐप का UUID संग्रहीत होगा:
 ```bash
 xattr Desktop/private.txt
 com.apple.macl
@@ -248,16 +251,15 @@ Filename,Header,App UUID
 
 # Get the UUID of the app
 otool -l /System/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal| grep uuid
-    uuid 769FD8F1-90E0-3206-808C-A8947BEBD6C3
+uuid 769FD8F1-90E0-3206-808C-A8947BEBD6C3
 ```
-
 {% hint style="info" %}
-It's curious that the **`com.apple.macl`** attribute is managed by the **Sandbox**, not tccd.
+यह रोचक है कि **Sandbox** द्वारा **`com.apple.macl`** विशेषता का प्रबंधन किया जाता है, न कि tccd द्वारा।
 
-Also note that if you move a file that allows the UUID of an app in your computer to a different compiter, because the same app will have different UIDs, it won't grant access to that app.
+इसके अलावा ध्यान दें कि यदि आप अपने कंप्यूटर में किसी ऐप के UUID की अनुमति देने वाले एक फ़ाइल को दूसरे कंप्यूटर में स्थानांतरित करते हैं, क्योंकि एक ही ऐप के लिए अलग-अलग UID होंगे, इसलिए उस ऐप को पहुंच नहीं मिलेगी।
 {% endhint %}
 
-The extended attribute `com.apple.macl` **can’t be cleared** like other extended attributes because it’s **protected by SIP**. However, as [**explained in this post**](https://www.brunerd.com/blog/2020/01/07/track-and-tackle-com-apple-macl/), it's possible to disable it **zipping** the file, **deleting** it and **unzipping** it.
+विस्तारित विशेषता `com.apple.macl` को अन्य विस्तारित विशेषताओं की तरह **हटाया नहीं जा सकता** क्योंकि इसे **SIP द्वारा संरक्षित** किया गया है। हालांकि, जैसा कि [**इस पोस्ट में समझाया गया है**](https://www.brunerd.com/blog/2020/01/07/track-and-tackle-com-apple-macl/), इसे **फ़ाइल को ज़िप करके**, उसे **हटाकर** और फिर से **अनज़िप करके** अक्षम किया जा सकता है।
 
 ### TCC Bypasses
 
@@ -265,7 +267,7 @@ The extended attribute `com.apple.macl` **can’t be cleared** like other extend
 [macos-tcc-bypasses](macos-tcc-bypasses/)
 {% endcontent-ref %}
 
-## References
+## संदर्भ
 
 * [**https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive**](https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive)
 * [**https://gist.githubusercontent.com/brunerd/8bbf9ba66b2a7787e1a6658816f3ad3b/raw/34cabe2751fb487dc7c3de544d1eb4be04701ac5/maclTrack.command**](https://gist.githubusercontent.com/brunerd/8bbf9ba66b2a7787e1a6658816f3ad3b/raw/34cabe2751fb487dc7c3de544d1eb4be04701ac5/maclTrack.command)
@@ -277,10 +279,10 @@ The extended attribute `com.apple.macl` **can’t be cleared** like other extend
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप चाहते हैं कि आपकी **कंपनी HackTricks में विज्ञापित** की जाए? या क्या आप **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड** करने का उपयोग करना चाहते हैं? [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) की जांच करें!
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारे विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) का संग्रह
+* [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com) प्राप्त करें
+* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या मुझे **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)** का पालन करें**।
+* **अपने हैकिंग ट्रिक्स साझा करें, PRs सबमिट करके** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **को**।
 
 </details>

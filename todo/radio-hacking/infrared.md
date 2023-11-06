@@ -1,91 +1,69 @@
-# Infrared
+# इन्फ्रारेड
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ हैकट्रिक्स क्लाउड ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 ट्विटर 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ ट्विच 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 यूट्यूब 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **हैकट्रिक्स में विज्ञापित करना** चाहते हैं? या क्या आपको **PEASS की नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करने की आवश्यकता है? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा विशेष संग्रह [**NFTs**](https://opensea.io/collection/the-peass-family)
+* [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com) प्राप्त करें
+* [**💬**](https://emojipedia.org/speech-balloon/) [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में **शामिल हों** या मुझे **ट्विटर** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)** का** **अनुसरण** करें।**
+* **अपने हैकिंग ट्रिक्स को** [**हैकट्रिक्स रेपो**](https://github.com/carlospolop/hacktricks) **और** [**हैकट्रिक्स-क्लाउड रेपो**](https://github.com/carlospolop/hacktricks-cloud) **में पीआर जमा करके साझा करें।**
 
 </details>
 
-## How the Infrared Works <a href="#how-the-infrared-port-works" id="how-the-infrared-port-works"></a>
+## इन्फ्रारेड कैसे काम करता है <a href="#how-the-infrared-port-works" id="how-the-infrared-port-works"></a>
 
-**Infrared light is invisible to humans**. IR wavelength is from **0.7 to 1000 microns**. Household remotes use an IR signal for data transmission and operate in the wavelength range of 0.75..1.4 microns. A microcontroller in the remote makes an infrared LED blink with a specific frequency, turning the digital signal into an IR signal.
+**मानवों के लिए इन्फ्रारेड प्रकाश अदृश्य होता है**। आईआर तरंगदैर्घ्य **0.7 से 1000 माइक्रोन** तक होता है। घरेलू रिमोट्स डेटा प्रसारण के लिए आईआर सिग्नल का उपयोग करते हैं और 0.75..1.4 माइक्रोन के तरंगदैर्घ्य सीमा में कार्य करते हैं। रिमोट में एक माइक्रोकंट्रोलर आईआर एलईडी को एक विशेष आवृत्ति के साथ चमकाता है, जिससे डिजिटल सिग्नल को आईआर सिग्नल में बदल दिया जाता है।
 
-To receive IR signals a **photoreceiver** is used. It **converts IR light into voltage pulses**, which are already **digital signals**. Usually, there is a **dark light filter inside the receiver**, which lets **only the desired wavelength through** and cuts out noise.
+आईआर सिग्नल प्राप्त करने के लिए एक **फोटोरिसीवर** का उपयोग किया जाता है। यह आईआर प्रकाश को वोल्टेज पल्स में परिवर्तित करता है, जो पहले से ही **डिजिटल सिग्नल** होते हैं। आमतौर पर, प्राप्तकर्ता में एक **डार्क लाइट फ़िल्टर** होता है, जो केवल चाहिए वेवलेंथ को आने देता है और शोर को काट देता है।
 
-### Variety of IR Protocols <a href="#variety-of-ir-protocols" id="variety-of-ir-protocols"></a>
+### विभिन्न आईआर प्रोटोकॉल <a href="#variety-of-ir-protocols" id="variety-of-ir-protocols"></a>
 
-IR protocols differ in 3 factors:
+आईआर प्रोटोकॉल में 3 कारकों में अंतर होता है:
 
-* bit encoding
-* data structure
-* carrier frequency — often in range 36..38 kHz
+* बिट एनकोडिंग
+* डेटा संरचना
+* कैरियर फ़्रिक्वेंसी - अक्सर 36..38 किलोहर्ट्ज़ के रेंज में
 
-#### Bit encoding ways <a href="#bit-encoding-ways" id="bit-encoding-ways"></a>
+#### बिट एनकोडिंग तरीके <a href="#bit-encoding-ways" id="bit-encoding-ways"></a>
 
-**1. Pulse Distance Encoding**
+**1. पल्स दूरी एनकोडिंग**
 
-Bits are encoded by modulating the duration of the space between pulses. The width of the pulse itself is constant.
+बिट्स को पल्स के बीच के समय की अवधि को मोड्यूलेट करके एनकोड किया जाता है। पल्स की चौड़ाई स्वयं निरंतर होती है।
 
 <figure><img src="../../.gitbook/assets/image (16).png" alt=""><figcaption></figcaption></figure>
 
-**2. Pulse Width Encoding**
+**2. पल्स चौड़ाई एनकोडिंग**
 
-Bits are encoded by modulation of the pulse width. The width of space after pulse burst is constant.
+बिट्स को पल्स चौड़ाई के माध्यम से एनकोड किया जाता है। पल्स बर्स्ट के बाद के स्थान की चौड़ाई स्थिर होती है।
 
 <figure><img src="../../.gitbook/assets/image (29) (1).png" alt=""><figcaption></figcaption></figure>
 
-**3. Phase Encoding**
+**3. फेज एनकोडिंग**
 
-It is also known as Manchester encoding. The logical value is defined by the polarity of the transition between pulse burst and space. "Space to pulse burst" denotes logic "0", "pulse burst to space" denotes logic "1".
+इसे मैंचेस्टर एनकोडिंग के रूप में भी जाना जाता है। तार्किक मान को पल्स बर्स्ट और स्थान के बीच के प्रतिपोलिता द्वारा परिभाषित किया जाता है। "स्थान से पल्स बर्स्ट" तार्किक "0" को दर्शाता है, "पल्स बर्स्ट से स्थान" तार्किक "1" को दर्शाता है।
 
 <figure><img src="../../.gitbook/assets/image (25).png" alt=""><figcaption></figcaption></figure>
 
-**4. Combination of previous ones and other exotics**
+**4. पिछले तरीकों का संयोजन और अन्य अनोखे**
 
 {% hint style="info" %}
-There are IR protocols that are **trying to become universal** for several types of devices. The most famous ones are RC5 and NEC. Unfortunately, the most famous **does not mean the most common**. In my environment, I met just two NEC remotes and no RC5 ones.
+कुछ ऐसे आईआर प्रोटोकॉल हैं जो कई प्रकार के उपकरणों के लिए **विश्वसनीय बनने की कोशिश** कर रहे हैं। सबसे
+### एयर कंडीशनर्स
 
-Manufacturers love to use their own unique IR protocols, even within the same range of devices (for example, TV-boxes). Therefore, remotes from different companies and sometimes from different models from the same company, are unable to work with other devices of the same type.
-{% endhint %}
+अन्य रिमोटों की तुलना में, **एयर कंडीशनर्स केवल दबाए गए बटन का कोड नहीं भेजते हैं**। वे यह भी **सुनिश्चित करने के लिए सभी जानकारी भेजते हैं** कि जब एक बटन दबाया जाता है, तो एयर कंडीशनर मशीन और रिमोट सिंक्रनाइज़ हो जाएं।\
+इससे यह बचाया जाएगा कि एक मशीन जिसे 20ºC के रूप में सेट किया गया है, उसे एक रिमोट के साथ 21ºC तक बढ़ाया जाए, और फिर जब एक और रिमोट का उपयोग करके तापमान को और बढ़ाया जाता है, तो यह "बढ़ा" कर 21ºC (और नहीं 22ºC में बढ़ाया जाता है जो कि 21ºC में होने की धारणा करता है)।
 
-### Exploring an IR signal
+### हमले
 
-The most reliable way to see how the remote IR signal looks like is to use an oscilloscope. It does not demodulate or invert the received signal, it is just displayed "as is". This is useful for testing and debugging. I will show the expected signal on the example of the NEC IR protocol.
-
-<figure><img src="../../.gitbook/assets/image (18) (2).png" alt=""><figcaption></figcaption></figure>
-
-Usually, there is a preamble at the beginning of an encoded packet. This allows the receiver to determine the level of gain and background. There are also protocols without preamble, for example, Sharp.
-
-Then data is transmitted. The structure, preamble, and bit encoding method are determined by the specific protocol.
-
-**NEC IR protocol** contains a short command and a repeat code, which is sent while the button is pressed. Both the command and the repeat code have the same preamble at the beginning.
-
-NEC **command**, in addition to the preamble, consists of an address byte and a command-number byte, by which the device understands what needs to be performed. Address and command-number bytes are duplicated with inverse values, to check the integrity of the transmission. There is an additional stop bit at the end of the command.
-
-The **repeat code** has a "1" after the preamble, which is a stop bit.
-
-For **logic "0" and "1"** NEC uses Pulse Distance Encoding: first, a pulse burst is transmitted after which there is a pause, its length sets the value of the bit.
-
-### Air Conditioners
-
-Unlike other remotes, **air conditioners do not transmit just the code of the pressed button**. They also **transmit all the information** when a button is pressed to assure that the **air conditioned machine and the remote are synchronised**.\
-This will avoid that a machine set as 20ºC is increased to 21ºC with one remote, and then when another remote, which still has the temperature as 20ºC, is used to increase more the temperature, it will "increase" it to 21ºC (and not to 22ºC thinking it's in 21ºC).
-
-### Attacks
-
-You can attack Infrared with Flipper Zero:
+आप फ्लिपर जीरो के साथ इन्फ्रारेड को हमला कर सकते हैं:
 
 {% content-ref url="flipper-zero/fz-infrared.md" %}
 [fz-infrared.md](flipper-zero/fz-infrared.md)
 {% endcontent-ref %}
 
-## References
+## संदर्भ
 
 * [https://blog.flipperzero.one/infrared/](https://blog.flipperzero.one/infrared/)
 
@@ -93,10 +71,10 @@ You can attack Infrared with Flipper Zero:
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **हैकट्रिक्स में विज्ञापित** देखना चाहते हैं? या क्या आप **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड** करने का उद्देश्य रखते हैं? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष [**NFT**](https://opensea.io/collection/the-peass-family) संग्रह।
+* प्राप्त करें [**आधिकारिक PEASS और HackTricks swag**](https://peass.creator-spring.com)
+* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या मुझे **ट्विटर** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)** का** अनुसरण करें।**
+* **अपने हैकिंग ट्रिक्स साझा करें द्वारा PRs सबमिट करके** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud)।
 
 </details>

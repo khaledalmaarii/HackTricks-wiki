@@ -4,39 +4,36 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी **कंपनी को HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS की नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करने की इच्छा है? [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) की जांच करें!
+* खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष संग्रह [**NFTs**](https://opensea.io/collection/the-peass-family)
+* प्राप्त करें [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**telegram समूह**](https://t.me/peass) या मुझे **Twitter** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **अपने हैकिंग ट्रिक्स साझा करें और PRs सबमिट करें** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **को**
 
 </details>
 
 ## Apple Propietary File System (APFS)
 
-APFS, or Apple File System, is a modern file system developed by Apple Inc. that was designed to replace the older Hierarchical File System Plus (HFS+) with an emphasis on **improved performance, security, and efficiency**.
+APFS, यानी Apple File System, एक आधुनिक फ़ाइल सिस्टम है जिसे Apple Inc. ने विकसित किया है और इसका उद्देश्य पुराने Hierarchical File System Plus (HFS+) को बदलना था जिसमें **बेहतर प्रदर्शन, सुरक्षा और कुशलता** को महत्व दिया गया है।
 
-Some notable features of APFS include:
+APFS की कुछ महत्वपूर्ण विशेषताएं शामिल हैं:
 
-1. **Space Sharing**: APFS allows multiple volumes to **share the same underlying free storage** on a single physical device. This enables more efficient space utilization as the volumes can dynamically grow and shrink without the need for manual resizing or repartitioning.
-   1. This means, compared with traditional partitions in file disks, **that in APFS different partitions (volumes) shares all the disk space**, while a regular partition usually had a fixed size.
-2. **Snapshots**: APFS supports **creating snapshots**, which are **read-only**, point-in-time instances of the file system. Snapshots enable efficient backups and easy system rollbacks, as they consume minimal additional storage and can be quickly created or reverted.
-3. **Clones**: APFS can **create file or directory clones that share the same storage** as the original until either the clone or the original file is modified. This feature provides an efficient way to create copies of files or directories without duplicating the storage space.
-4. **Encryption**: APFS **natively supports full-disk encryption** as well as per-file and per-directory encryption, enhancing data security across different use cases.
-5. **Crash Protection**: APFS uses a **copy-on-write metadata scheme that ensures file system consistency** even in cases of sudden power loss or system crashes, reducing the risk of data corruption.
+1. **स्थान साझाकरण**: APFS एक ही शारीरिक उपकरण पर आधारित मुक्त संग्रह को **साझा करने की अनुमति देता है**। इससे स्थान का अधिक उपयोग किया जा सकता है क्योंकि संग्रह डाइनामिक रूप से बढ़ और घट सकते हैं बिना मैनुअल आकार बदलने या पुनर्विभाजन की आवश्यकता के।
+1. इसका मतलब है, फ़ाइल डिस्क में पारंपरिक विभाजनों की तुलना में, **APFS में विभिन्न विभाजन (संग्रह) सभी डिस्क स्थान को साझा करते हैं**, जबकि एक सामान्य विभाजन में आमतौर पर एक निश्चित आकार होता था।
+2. **स्नैपशॉट**: APFS **स्नैपशॉट बनाने का समर्थन करता है**, जो फ़ाइल सिस्टम के समय-सीमा में **केवल पढ़ने योग्य** उदाहरण हैं। स्नैपशॉट सुरक्षित बैकअप और सिस्टम को आसानी से वापस लाने की सुविधा प्रदान करते हैं, क्योंकि इन्हें कम से कम अतिरिक्त संग्रह का उपयोग करते हैं और त्वरित रूप से बनाए जा सकते हैं या पूर्ववत किए जा सकते हैं।
+3. **क्लोन**: APFS **फ़ाइल या निर्देशिका क्लोन बना सकता है जो मूल संग्रह के साथ समान संग्रह को साझा करते हैं** जब तक कि क्लोन या मूल फ़ाइल संशोधित नहीं होती है। यह सुविधा फ़ाइल या निर्देशिका की प्रतिलिपि बनाने के लिए संग्रह स्थान को दोहराने का एक कुशल तरीका प्रदान करती है।
+4. **एन्क्रिप्शन**: APFS **पूरे डिस्क एन्क्रिप्शन का समर्थन** करता है साथ ही फ़ाइल और निर्देशिका एन्क्रिप्शन, विभिन्न उपयोग मामलों में डेटा सुरक्षा को बढ़ाता है।
+5. **क्रैश सुरक्षा**: APFS एक **कॉपी-ऑन-राइट मेटाडेटा योजना का उपयोग करता है जो फ़ाइल सिस्टम की संगतता सुनिश्चित करता है**, यहां तक कि अचानक बिजली की आपातकालीन गुमनामी या सिस्टम क्रैश के मामलों में भी, डेटा के करप्शन का जोखिम कम हो जाता है।
 
-Overall, APFS offers a more modern, flexible, and efficient file system for Apple devices, with a focus on improved performance, reliability, and security.
-
+समग्र रूप से, APFS Apple उपकरणों के लिए एक अधिक आधुनिक, लचीला और कुशल फ़ाइल सिस्टम प्रदान करता है, जिसमें प्रदर्शन, विश्वसनीयता और सुरक्षा में सुधार का ध्यान दिया गया है।
 ```bash
 diskutil list # Get overview of the APFS volumes
 ```
-
 ## Firmlinks
 
-The `Data` volume is mounted in **`/System/Volumes/Data`** (you can check this with `diskutil apfs list`).
+`Data` वॉल्यूम **`/System/Volumes/Data`** में माउंट होता है (आप `diskutil apfs list` के साथ इसे जांच सकते हैं।)
 
-The list of firmlinks can be found in the **`/usr/share/firmlinks`** file.
-
+फर्मलिंक्स की सूची **`/usr/share/firmlinks`** फ़ाइल में मिल सकती है।
 ```bash
 cat /usr/share/firmlinks
 /AppleInternal	AppleInternal
@@ -44,17 +41,4 @@ cat /usr/share/firmlinks
 /Library	Library
 [...]
 ```
-
-On the **left**, there is the directory path on the **System volume**, and on the **right**, the directory path where it maps on the **Data volume**. So, `/library` --> `/system/Volumes/data/library`
-
-<details>
-
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
-
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
-
-</details>
+**बाएं** में, **सिस्टम वॉल्यूम** पर निर्देशिका पथ है, और **दाएं** में, यह निर्देशिका पथ है जहां यह **डेटा वॉल्यूम** पर मैप होता है। इसलिए, `/library` --> `/system/Volumes/data/library`

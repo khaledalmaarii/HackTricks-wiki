@@ -1,129 +1,120 @@
-# macOS GCD - Grand Central Dispatch
+# macOS GCD - ग्रैंड सेंट्रल डिस्पैच
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **हैकट्रिक्स में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS की नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करने की इच्छा है? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा एकल [**NFT**](https://opensea.io/collection/the-peass-family) संग्रह
+* [**आधिकारिक PEASS और HackTricks swag**](https://peass.creator-spring.com) प्राप्त करें
+* [**💬**](https://emojipedia.org/speech-balloon/) [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में **शामिल हों** या मुझे **ट्विटर** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)** का** **अनुसरण** करें।**
+* **अपने हैकिंग ट्रिक्स को** [**hacktricks रेपो**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud रेपो**](https://github.com/carlospolop/hacktricks-cloud) **में पीआर जमा करके अपना योगदान दें।**
 
 </details>
 
-## Basic Information
+## मूलभूत जानकारी
 
-**Grand Central Dispatch (GCD),** also known as **libdispatch**, is available in both macOS and iOS. It's a technology developed by Apple to optimize application support for concurrent (multithreaded) execution on multicore hardware.
+**ग्रैंड सेंट्रल डिस्पैच (GCD)**, जिसे **लिबडिस्पैच** भी कहा जाता है, macOS और iOS दोनों में उपलब्ध है। यह एक ऐप्लिकेशन को समय-संचालित (मल्टीथ्रेडेड) निष्पादन के लिए अनुकूलन करने के लिए Apple द्वारा विकसित एक तकनीक है।
 
-**GCD** provides and manages **FIFO queues** to which your application can **submit tasks** in the form of **block objects**. Blocks submitted to dispatch queues are **executed on a pool of threads** fully managed by the system. GCD automatically creates threads for executing the tasks in the dispatch queues and schedules those tasks to run on the available cores.
+**GCD** आपके ऐप्लिकेशन को **ब्लॉक ऑब्जेक्ट के रूप में कार्य** सबमिट करने के लिए **FIFO कतारें** प्रदान करता है और उन्हें पूरी तरह से सिस्टम द्वारा प्रबंधित एक थ्रेड पूल पर निष्पादित करता है। GCD स्वचालित रूप से थ्रेड बनाता है जो डिस्पैच कतारों में कार्यों को निष्पादित करने के लिए निर्मित किए जाते हैं और उपलब्ध कोर्स पर चलाने के लिए उन कार्यों को अनुसूचित करता है।
 
 {% hint style="success" %}
-In summary, to execute code in **parallel**, processes can send **blocks of code to GCD**, which will take care of their execution. Therefore, processes don't create new threads; **GCD executes the given code with its own pool of threads**.
+सारांश में, **पारलेल** में कोड को निष्पादित करने के लिए, प्रक्रियाएं **GCD को कोड के ब्लॉक भेज सकती हैं**, जो उनके निष्पादन का ध्यान रखेगा। इसलिए, प्रक्रियाएं नए थ्रेड नहीं बनाती हैं; **GCD अपने थ्रेड पूल के साथ दिए गए कोड को निष्पादित करता है**।
 {% endhint %}
 
-This is very helpful to manage parallel execution successfully, greatly reducing the number of threads processes create and optimising the parallel execution. This is idea for tasks that require **great parallelism** (brute-forcing?) or for tasks that shouldn't block the main thread: For example, the main thread on iOS handles UI interactions, so any other functionality that could make the app hang (searching, accessing a web, reading a file...) is managed this way.
+यह पारलेल निष्पादन को सफलतापूर्वक प्रबंधित करने के लिए बहुत मददगार है, जो प्रक्रियाओं द्वारा बनाए जाने वाले थ्रेडों की संख्या को कम करता है और पारलेल निष्पादन को अनुकूलित करता है। यह महान पारलेलिज्म की आवश्यकता वाले कार्यों (ब्रूट-फोर्सिंग?) के लिए और उन कार्यों के लिए उपयुक्त है जो मुख्य थ्रेड को ब्लॉक नहीं करना चाहिए: उदाहरण के लिए, iOS पर मुख्य थ्रेड UI इंटरैक्शन को संभालता है, इसलिए ऐप हैंग करा सकती है (खोज, वेब तक पहुंच, फ़ाइल पढ़ना...) इस तरीके से प्रबंधित किया जाता है।
 
 ## Objective-C
 
-In Objetive-C there are different functions to send a block to be executed in parallel:
+Objective-C में पारलेल में निष्पादित करने के लिए विभिन्न फ़ंक्शन हैं:
 
-* [**dispatch\_async**](https://developer.apple.com/documentation/dispatch/1453057-dispatch\_async): Submits a block for asynchronous execution on a dispatch queue and returns immediately.
-* [**dispatch\_sync**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync): Submits a block object for execution and returns after that block finishes executing.
-* [**dispatch\_once**](https://developer.apple.com/documentation/dispatch/1447169-dispatch\_once): Executes a block object only once for the lifetime of an application.
-* [**dispatch\_async\_and\_wait**](https://developer.apple.com/documentation/dispatch/3191901-dispatch\_async\_and\_wait): Submits a work item for execution and returns only after it finishes executing. Unlike [**`dispatch_sync`**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync), this function respects all attributes of the queue when it executes the block.
+* [**dispatch\_async**](https://developer.apple.com/documentation/dispatch/1453057-dispatch\_async): एक ब्लॉक को एक डिस्पैच कतार पर असिंक्रोनस निष्पादन के लिए सबमिट करता है और तुरंत वापसी करता है।
+* [**dispatch\_sync**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync): एक ब्लॉक ऑब्जेक्ट को निष्पादित करने के लिए सबमिट करता है और उस ब्लॉक के निष्पादन के बाद वापसी करता है।
+* [**dispatch\_once**](https://developer.apple.com/documentation/dispatch/1447169-dispatch\_once): एक ब्लॉक ऑब्जेक्ट को केवल एक बार एक ऐप्लिकेशन के जीवनकाल के लिए निष्पादित करता है।
+* [**dispatch\_async\_and\_wait**](https://developer.apple.com/documentation/dispatch/3191901-dispatch\_async\_and\_wait): एक कार्य आइटम को निष्पादित करने के लिए सबमिट करता है और इसके निष्पादन के बाद ही वापसी करता है। [**`dispatch_sync`**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync) के विपरीत, यह फ़ंक्शन ब्लॉक को निष्पादित करते समय कतार की सभी विशेषताओं का पालन करता है।
 
-These functions expect these parameters: [**`dispatch_queue_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_queue\_t) **`queue,`** [**`dispatch_block_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_block\_t) **`block`**
-
-This is the **struct of a Block**:
-
+इन फ़ंक्शनों की इन पैरामीटर्स की उम्मीद होती हैं: [**`dispatch_queue_t`**](https://developer.apple
 ```c
 struct Block {
-   void *isa; // NSConcreteStackBlock,...
-   int flags;
-   int reserved;
-   void *invoke;
-   struct BlockDescriptor *descriptor;
-   // captured variables go here
+void *isa; // NSConcreteStackBlock,...
+int flags;
+int reserved;
+void *invoke;
+struct BlockDescriptor *descriptor;
+// captured variables go here
 };
 ```
-
-And this is an example to use **parallelism** with **`dispatch_async`**:
-
+और यह एक उदाहरण है **पैरलेलिज़्म** का उपयोग करने के लिए **`dispatch_async`** के साथ:
 ```objectivec
 #import <Foundation/Foundation.h>
 
 // Define a block
 void (^backgroundTask)(void) = ^{
-    // Code to be executed in the background
-    for (int i = 0; i < 10; i++) {
-        NSLog(@"Background task %d", i);
-        sleep(1);  // Simulate a long-running task
-    }
+// Code to be executed in the background
+for (int i = 0; i < 10; i++) {
+NSLog(@"Background task %d", i);
+sleep(1);  // Simulate a long-running task
+}
 };
 
 int main(int argc, const char * argv[]) {
-    @autoreleasepool {
-        // Create a dispatch queue
-        dispatch_queue_t backgroundQueue = dispatch_queue_create("com.example.backgroundQueue", NULL);
-        
-        // Submit the block to the queue for asynchronous execution
-        dispatch_async(backgroundQueue, backgroundTask);
-        
-        // Continue with other work on the main queue or thread
-        for (int i = 0; i < 10; i++) {
-            NSLog(@"Main task %d", i);
-            sleep(1);  // Simulate a long-running task
-        }
-    }
-    return 0;
+@autoreleasepool {
+// Create a dispatch queue
+dispatch_queue_t backgroundQueue = dispatch_queue_create("com.example.backgroundQueue", NULL);
+
+// Submit the block to the queue for asynchronous execution
+dispatch_async(backgroundQueue, backgroundTask);
+
+// Continue with other work on the main queue or thread
+for (int i = 0; i < 10; i++) {
+NSLog(@"Main task %d", i);
+sleep(1);  // Simulate a long-running task
+}
+}
+return 0;
 }
 ```
+## स्विफ्ट
 
-## Swift
-
-**`libswiftDispatch`** is a library that provides **Swift bindings** to the Grand Central Dispatch (GCD) framework which is originally written in C.\
-The **`libswiftDispatch`** library wraps the C GCD APIs in a more Swift-friendly interface, making it easier and more intuitive for Swift developers to work with GCD.
+**`libswiftDispatch`** एक पुस्तकालय है जो ग्रैंड सेंट्रल डिस्पैच (GCD) फ्रेमवर्क के लिए **स्विफ्ट बाइंडिंग** प्रदान करती है जो मूल रूप से सी में लिखी गई है।\
+**`libswiftDispatch`** पुस्तकालय C GCD APIs को एक और स्विफ्ट-मित्री इंटरफ़ेस में लपेटती है, जिससे स्विफ्ट डेवलपर्स को GCD के साथ काम करना आसान और सहज होता है।
 
 * **`DispatchQueue.global().sync{ ... }`**
 * **`DispatchQueue.global().async{ ... }`**
 * **`let onceToken = DispatchOnce(); onceToken.perform { ... }`**
 * **`async await`**
-  * **`var (data, response) = await URLSession.shared.data(from: URL(string: "https://api.example.com/getData"))`**
+* **`var (data, response) = await URLSession.shared.data(from: URL(string: "https://api.example.com/getData"))`**
 
-**Code example**:
-
+**कोड उदाहरण**:
 ```swift
 import Foundation
 
 // Define a closure (the Swift equivalent of a block)
 let backgroundTask: () -> Void = {
-    for i in 0..<10 {
-        print("Background task \(i)")
-        sleep(1)  // Simulate a long-running task
-    }
+for i in 0..<10 {
+print("Background task \(i)")
+sleep(1)  // Simulate a long-running task
+}
 }
 
 // Entry point
 autoreleasepool {
-    // Create a dispatch queue
-    let backgroundQueue = DispatchQueue(label: "com.example.backgroundQueue")
-    
-    // Submit the closure to the queue for asynchronous execution
-    backgroundQueue.async(execute: backgroundTask)
-    
-    // Continue with other work on the main queue
-    for i in 0..<10 {
-        print("Main task \(i)")
-        sleep(1)  // Simulate a long-running task
-    }
+// Create a dispatch queue
+let backgroundQueue = DispatchQueue(label: "com.example.backgroundQueue")
+
+// Submit the closure to the queue for asynchronous execution
+backgroundQueue.async(execute: backgroundTask)
+
+// Continue with other work on the main queue
+for i in 0..<10 {
+print("Main task \(i)")
+sleep(1)  // Simulate a long-running task
+}
 }
 ```
+## फ्रिडा
 
-## Frida
-
-The following Frida script can be used to **hook into several `dispatch`** functions and extract the queue name, the backtrace and the block: [**https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js**](https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js)
-
+निम्नलिखित फ्रिडा स्क्रिप्ट का उपयोग करके कई `dispatch` फ़ंक्शन में हुक करने और कतार का नाम, बैकट्रेस और ब्लॉक निकालने के लिए किया जा सकता है: [**https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js**](https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js)
 ```bash
 frida -U <prog_name> -l libdispatch.js
 
@@ -136,12 +127,11 @@ Backtrace:
 0x19e3a57fc UIKitCore!+[UIGraphicsRenderer _destroyCGContext:withRenderer:]
 [...]
 ```
+## गिड्रा
 
-## Ghidra
+वर्तमान में गिड्रा को ना ही ObjectiveC का **`dispatch_block_t`** संरचना समझता है, ना ही **`swift_dispatch_block`** को।
 
-Currently Ghidra doesn't understand neither the ObjectiveC **`dispatch_block_t`** structure, neither the **`swift_dispatch_block`** one.
-
-So if you want it to understand them, you could just **declare them**:
+तो यदि आप चाहते हैं कि इसे समझें, तो आप बस उन्हें **घोषित कर सकते हैं**:
 
 <figure><img src="../../.gitbook/assets/image (688).png" alt="" width="563"><figcaption></figcaption></figure>
 
@@ -149,19 +139,19 @@ So if you want it to understand them, you could just **declare them**:
 
 <figure><img src="../../.gitbook/assets/image (691).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Then, find a place in the code where they are **used**:
+फिर, कोड में एक ऐसी जगह ढूंढ़ें जहां वे **उपयोग होते हैं**:
 
 {% hint style="success" %}
-Note all of references made to "block" to understand how you could figure out that the struct is being used.
+संरचना का उपयोग हो रहा है उसे समझने के लिए "ब्लॉक" के सभी संदर्भों का ध्यान दें।
 {% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (692).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Right click on the variable -> Retype Variable and select in this case **`swift_dispatch_block`**:
+चयनित चर क्लिक करें -> चर का पुनर्निर्धारण करें और इस मामले में **`swift_dispatch_block`** का चयन करें:
 
 <figure><img src="../../.gitbook/assets/image (693).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Ghidra will automatically rewrite everything:
+गिड्रा स्वचालित रूप से सब कुछ दोबारा लिख देगा:
 
 <figure><img src="../../.gitbook/assets/image (694).png" alt="" width="563"><figcaption></figcaption></figure>
 
@@ -169,10 +159,10 @@ Ghidra will automatically rewrite everything:
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करना है? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष [**NFT**](https://opensea.io/collection/the-peass-family) संग्रह
+* प्राप्त करें [**आधिकारिक PEASS और HackTricks swag**](https://peass.creator-spring.com)
+* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या मुझे **ट्विटर** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **अपने हैकिंग ट्रिक्स साझा करें और PR जमा करके** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **को** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **में जमा करें।**
 
 </details>

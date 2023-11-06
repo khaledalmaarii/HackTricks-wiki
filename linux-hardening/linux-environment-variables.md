@@ -1,48 +1,57 @@
-# Linux Environment Variables
+# लिनक्स पर्यावरण चर
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी **कंपनी को HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करने की आवश्यकता है? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा एकल [**NFT**](https://opensea.io/collection/the-peass-family) संग्रह
+* [**आधिकारिक PEASS और HackTricks swag**](https://peass.creator-spring.com) प्राप्त करें
+* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में **शामिल हों** या मुझे **Twitter** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **हैकिंग ट्रिक्स साझा करें और PRs सबमिट करें** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **को**।
 
 </details>
 
-## Global variables
+## वैश्विक चर
 
-The global variables **will be** inherited by **child processes**.
+वैश्विक चर **बालक प्रक्रियाओं** द्वारा विरासत में लिए जाएंगे।
 
-You can create a global variable for your current session doing:
-
+आप अपनी वर्तमान सत्र के लिए एक वैश्विक चर बना सकते हैं:
 ```bash
 export MYGLOBAL="hello world"
 echo $MYGLOBAL #Prints: hello world
 ```
+यह चर आपके वर्तमान सत्र और इसके चाइल्ड प्रक्रियाओं द्वारा पहुंचने योग्य होगा।
 
-This variable will be accessible by your current sessions and its child processes.
-
-You can **remove** a variable doing:
-
+आप इसे हटा सकते हैं:
 ```bash
 unset MYGLOBAL
 ```
+## स्थानीय चर
 
-## Local variables
-
-The **local variables** can only be **accessed** by the **current shell/script**.
-
+**स्थानीय चर** केवल **वर्तमान शैल/स्क्रिप्ट** द्वारा **पहुंचे जा सकते हैं**।
 ```bash
 LOCAL="my local"
 echo $LOCAL
 unset LOCAL
 ```
+## वर्तमान चरों की सूची
 
-## List current variables
+To list the current environment variables in Linux, you can use the following command:
 
+```bash
+echo $PATH
+```
+
+This command will display the value of the `PATH` variable, which contains a list of directories where the system looks for executable files.
+
+To list all the environment variables, you can use the `env` command:
+
+```bash
+env
+```
+
+This command will display a list of all the environment variables and their values.
 ```bash
 set
 env
@@ -50,107 +59,98 @@ printenv
 cat /proc/$$/environ
 cat /proc/`python -c "import os; print(os.getppid())"`/environ
 ```
+## स्थायी पर्यावरण चर
 
-## Persistent Environment variables
+#### **प्रत्येक उपयोगकर्ता के व्यवहार को प्रभावित करने वाले फ़ाइलें:**
 
-#### **Files that affect behavior of every user:**
+* _**/etc/bash.bashrc**_: यह फ़ाइल हर बार पढ़ी जाती है जब एक इंटरैक्टिव शेल शुरू होता है (सामान्य टर्मिनल) और इसमें निर्दिष्ट सभी कमांडों को निष्पादित किया जाता है।
+* _**/etc/profile और /etc/profile.d/\***_**:** यह फ़ाइल हर बार एक उपयोगकर्ता लॉगिन करने पर पढ़ी जाती है। इसलिए इसमें निष्पादित सभी कमांड केवल उपयोगकर्ता लॉगिन करने के समय एक बार ही निष्पादित होंगे।
+*   \*\*उदाहरण: \*\*
 
-* _**/etc/bash.bashrc**_: This file is read whenever an interactive shell is started (normal terminal) and all the commands specified in here are executed.
-* _**/etc/profile and /etc/profile.d/\***_**:** This file is read every time a user logs in. Thus all the commands executed in here will execute only once at the time of user logging in.
-  *   \*\*Example: \*\*
+`/etc/profile.d/somescript.sh`
 
-      `/etc/profile.d/somescript.sh`
+```bash
+#!/bin/bash
+TEST=$(cat /var/somefile)
+export $TEST
+```
 
-      ```bash
-      #!/bin/bash
-      TEST=$(cat /var/somefile)
-      export $TEST
-      ```
+#### **केवल एक विशिष्ट उपयोगकर्ता के व्यवहार को प्रभावित करने वाली फ़ाइलें:**
 
-#### **Files that affect behavior for only a specific user:**
+* _**\~/.bashrc**_: यह फ़ाइल _/etc/bash.bashrc_ फ़ाइल की तरह काम करती है, लेकिन यह केवल एक विशिष्ट उपयोगकर्ता के लिए ही निष्पादित होती है। यदि आप अपने लिए एक पर्यावरण बनाना चाहते हैं, तो अपने होम निर्देशिका में इस फ़ाइल को संशोधित या बना सकते हैं।
+* _**\~/.profile, \~/.bash\_profile, \~/.bash\_login**_: ये फ़ाइलें _/etc/profile_ की तरह ही हैं। इसके निष्पादन का तरीका में अंतर होता है। यह फ़ाइल केवल तब निष्पादित होती है जब उपयोगकर्ता, जिसके होम निर्देशिका में यह फ़ाइल मौजूद होती है, लॉगिन करता है।
 
-* _**\~/.bashrc**_: This file behaves the same way _/etc/bash.bashrc_ file works but it is executed only for a specific user. If you want to create an environment for yourself go ahead and modify or create this file in your home directory.
-* _**\~/.profile, \~/.bash\_profile, \~/.bash\_login**_: These files are same as _/etc/profile_. The difference comes in the way it is executed. This file is executed only when a user in whose home directory this file exists, logs in.
+**यहां से निकाला गया है:** [**यहां**](https://codeburst.io/linux-environment-variables-53cea0245dc9) **और** [**यहां**](https://www.gnu.org/software/bash/manual/html\_node/Bash-Startup-Files.html)
 
-**Extracted from:** [**here**](https://codeburst.io/linux-environment-variables-53cea0245dc9) **and** [**here**](https://www.gnu.org/software/bash/manual/html\_node/Bash-Startup-Files.html)
+## सामान्य चर
 
-## Common variables
+से: [https://geek-university.com/linux/common-environment-variables/](https://geek-university.com/linux/common-environment-variables/)
 
-From: [https://geek-university.com/linux/common-environment-variables/](https://geek-university.com/linux/common-environment-variables/)
+* **DISPLAY** - **X** द्वारा उपयोग किया जाने वाला प्रदर्शन। इस चर को आमतौर पर **:0.0** पर सेट किया जाता है, जो मानवीय कंप्यूटर पर पहला प्रदर्शन को दर्शाता है।
+* **EDITOR** - उपयोगकर्ता की पसंदीदा पाठ संपादक।
+* **HISTFILESIZE** - इतिहास फ़ाइल में शामिल लाइनों की अधिकतम संख्या।
+* **HISTSIZE** - उपयोगकर्ता अपने सत्र को समाप्त करते समय इतिहास फ़ाइल में जोड़ी गई पंक्तियों की संख्या
+* **HOME** - आपका होम निर्देशिका।
+* **HOSTNAME** - कंप्यूटर का होस्टनाम।
+* **LANG** - आपकी वर्तमान भाषा।
+* **MAIL** - उपयोगकर्ता के मेल स्पूल का स्थान। आमतौर पर **/var/spool/mail/USER**।
+* **MANPATH** - मैनुअल पेज खोजने के लिए निर्देशिकाओं की सूची।
+* **OSTYPE** - ऑपरेटिंग सिस्टम का प्रकार।
+* **PS1** - बैश में डिफ़ॉल्ट प्रॉम्प्ट।
+* **PATH** - सभी निर्देशिकाओं का पथ संग्रहीत करता है जिनमें बाइनरी फ़ाइलें होती हैं, जिन्हें आप फ़ाइल के नाम को निर्दिष्ट करके निष्पादित करना चाहते हैं और न कि संबंधित या पूर्ण पथ के द्वारा।
+* **PWD** - वर्तमान कार्य निर्देशिका।
+* **SHELL** - वर्तमान कमांड शेल का पथ (उदाहरण के लिए, **/bin/bash**)।
+* **TERM** - वर्तमान टर्मिनल प्रकार (उदाहरण के लिए, **xterm**)।
+* **TZ** - आपका समय क्षेत्र।
+* **USER** - आपका वर्तमान उपयोगकर्ता नाम।
 
-* **DISPLAY** – the display used by **X**. This variable is usually set to **:0.0**, which means the first display on the current computer.
-* **EDITOR** – the user’s preferred text editor.
-* **HISTFILESIZE** – the maximum number of lines contained in the history file.
-* **HISTSIZE** – Number of lines added to the history file when the user finish his session
-* **HOME** – your home directory.
-* **HOSTNAME** – the hostname of the computer.
-* **LANG** – your current language.
-* **MAIL** – the location of the user’s mail spool. Usually **/var/spool/mail/USER**.
-* **MANPATH** – the list of directories to search for manual pages.
-* **OSTYPE** – the type of operating system.
-* **PS1** – the default prompt in bash.
-* **PATH** – stores the path of all the directories which holds binary files you want to execute just by specifying the name of the file and not by relative or absolute path.
-* **PWD** – the current working directory.
-* **SHELL** – the path to the current command shell (for example, **/bin/bash**).
-* **TERM** – the current terminal type (for example, **xterm**).
-* **TZ** – your time zone.
-* **USER** – your current username.
-
-## Interesting variables for hacking
+## हैकिंग के लिए रोचक चर
 
 ### **HISTFILESIZE**
 
-Change the **value of this variable to 0**, so when you **end your session** the **history file** (\~/.bash\_history) **will be deleted**.
-
+इस चर की **मान को 0** पर बदलें, ताकि जब आप **अपना सत्र समाप्त** करें, तो इतिहास फ़ाइल (\~/.bash\_history) **हटा दी जाएगी**।
 ```bash
 export HISTFILESIZE=0
 ```
-
 ### **HISTSIZE**
 
-Change the **value of this variable to 0**, so when you **end your session** any command will be added to the **history file** (\~/.bash\_history).
-
+इस चर की मान को 0 परिवर्तित करें, ताकि जब आप अपनी सत्र समाप्त करें, कोई भी कमांड **इतिहास फ़ाइल** (\~/.bash\_history) में जोड़ी न जाए।
 ```bash
 export HISTSIZE=0
 ```
-
 ### http\_proxy & https\_proxy
 
-The processes will use the **proxy** declared here to connect to internet through **http or https**.
-
+यहां घोषित **प्रॉक्सी** का उपयोग प्रक्रियाएं **http या https** के माध्यम से इंटरनेट से कनेक्ट होने के लिए करेंगी।
 ```bash
 export http_proxy="http://10.10.10.10:8080"
 export https_proxy="http://10.10.10.10:8080"
 ```
+### SSL\_CERT\_FILE और SSL\_CERT\_DIR
 
-### SSL\_CERT\_FILE & SSL\_CERT\_DIR
-
-The processes will trust the certificates indicated in **these env variables**.
-
+प्रक्रियाएं **इन env variables** में निर्दिष्ट प्रमाणपत्रों पर विश्वास करेंगी।
 ```bash
 export SSL_CERT_FILE=/path/to/ca-bundle.pem
 export SSL_CERT_DIR=/path/to/ca-certificates
 ```
-
 ### PS1
 
-Change how your prompt looks.
+अपने प्रॉम्प्ट की दिखावट को बदलें।
 
-I have created [**this one**](https://gist.github.com/carlospolop/43f7cd50f3deea972439af3222b68808) (based on another, read the code).
+मैंने [**इसे**](https://gist.github.com/carlospolop/43f7cd50f3deea972439af3222b68808) बनाया है (दूसरे पर आधारित, कोड पढ़ें)।
 
-Root:
+रूट:
 
 ![](<../.gitbook/assets/image (87).png>)
 
-Regular user:
+सामान्य उपयोगकर्ता:
 
 ![](<../.gitbook/assets/image (88).png>)
 
-One, two and three backgrounded jobs:
+एक, दो और तीन बैकग्राउंड जॉब्स:
 
 ![](<../.gitbook/assets/image (89).png>)
 
-One background job, one stopped and last command didn't finish correctly:
+एक बैकग्राउंड जॉब, एक रोकी गई और अंतिम कमांड सही तरीके से पूरा नहीं हुआ:
 
 ![](<../.gitbook/assets/image (90).png>)
 
@@ -158,10 +158,10 @@ One background job, one stopped and last command didn't finish correctly:
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करने की आवश्यकता है? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) संग्रह।
+* प्राप्त करें [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या मुझे **Twitter** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **अपने हैकिंग ट्रिक्स साझा करें और PRs सबमिट करें** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **को**।
 
 </details>

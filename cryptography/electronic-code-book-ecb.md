@@ -1,52 +1,48 @@
-
-
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks क्लाउड ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 ट्विटर 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ ट्विच 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 यूट्यूब 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- क्या आप **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करने की आवश्यकता है? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष [**NFT**](https://opensea.io/collection/the-peass-family) संग्रह।
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- प्राप्त करें [**आधिकारिक PEASS और HackTricks swag**](https://peass.creator-spring.com)।
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में या मुझे **ट्विटर** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**।**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **अपने हैकिंग ट्रिक्स को [hacktricks रेपो](https://github.com/carlospolop/hacktricks) और [hacktricks-cloud रेपो](https://github.com/carlospolop/hacktricks-cloud) में पीआर जमा करके साझा करें।**
 
 </details>
 
 
 # ECB
 
-(ECB) Electronic Code Book - symmetric encryption scheme which **replaces each block of the clear text** by the **block of ciphertext**. It is the **simplest** encryption scheme. The main idea is to **split** the clear text into **blocks of N bits** (depends on the size of the block of input data, encryption algorithm) and then to encrypt (decrypt) each block of clear text using the only key.
+(ECB) इलेक्ट्रॉनिक कोड बुक - सममित्र एन्क्रिप्शन योजना जो **प्रत्येक ब्लॉक के स्पष्ट पाठ को** **साइपर पाठ के ब्लॉक से** **बदल देती है**। यह सबसे **सरल** एन्क्रिप्शन योजना है। मुख्य विचार यह है कि स्पष्ट पाठ को **N बिट के ब्लॉकों में विभाजित** (इनपुट डेटा के ब्लॉक का आकार, एन्क्रिप्शन एल्गोरिदम पर निर्भर करता है) और फिर केवल कुंजी का उपयोग करके प्रत्येक स्पष्ट पाठ के ब्लॉक को एन्क्रिप्ट (डिक्रिप्ट) करें।
 
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/ECB_decryption.svg/601px-ECB_decryption.svg.png)
 
-Using ECB has multiple security implications:
+ECB का उपयोग करने से कई सुरक्षा संबंधित प्रभाव हो सकते हैं:
 
-* **Blocks from encrypted message can be removed**
-* **Blocks from encrypted message can be moved around**
+* **एन्क्रिप्टेड संदेश के ब्लॉक हटा सकते हैं**
+* **एन्क्रिप्टेड संदेश के ब्लॉक को चला सकते हैं**
 
-# Detection of the vulnerability
+# संकट की पहचान
 
-Imagine you login into an application several times and you **always get the same cookie**. This is because the cookie of the application is **`<username>|<password>`**.\
-Then, you generate to new users, both of them with the **same long password** and **almost** the **same** **username**.\
-You find out that the **blocks of 8B** where the **info of both users** is the same are **equals**. Then, you imagine that this might be because **ECB is being used**. 
+सोचिए आप कई बार एक एप्लिकेशन में लॉगिन करते हैं और आप **हमेशा एक ही कुकी प्राप्त** करते हैं। इसलिए, एप्लिकेशन की कुकी **`<उपयोगकर्ता नाम>|<पासवर्ड>`** होती है।\
+फिर, आप दो नए उपयोगकर्ताओं को बनाते हैं, जिनमें से दोनों का **एक ही लंबा पासवर्ड** होता है और **लगभग** **एक ही** **उपयोगकर्ता नाम** होता है।\
+आपको पता चलता है कि **8B के ब्लॉक** जहां **दोनों उपयोगकर्ताओं की जानकारी** समान होती है, **बराबर** होते हैं। तब आपको यह लगता है कि इसका कारण **ECB का उपयोग हो रहा है**।
 
-Like in the following example. Observe how these** 2 decoded cookies** has several times the block **`\x23U\xE45K\xCB\x21\xC8`**
-
+निम्नलिखित उदाहरण में देखें। ध्यान दें कि इन **2 डिकोडेड कुकीज़** में कई बार ब्लॉक **`\x23U\xE45K\xCB\x21\xC8`** होता है।
 ```
 \x23U\xE45K\xCB\x21\xC8\x23U\xE45K\xCB\x21\xC8\x04\xB6\xE1H\xD1\x1E \xB6\x23U\xE45K\xCB\x21\xC8\x23U\xE45K\xCB\x21\xC8+=\xD4F\xF7\x99\xD9\xA9
 
 \x23U\xE45K\xCB\x21\xC8\x23U\xE45K\xCB\x21\xC8\x04\xB6\xE1H\xD1\x1E \xB6\x23U\xE45K\xCB\x21\xC8\x23U\xE45K\xCB\x21\xC8+=\xD4F\xF7\x99\xD9\xA9
 ```
+यह इसलिए है क्योंकि उन कुकीज़ के **उपयोगकर्ता नाम और पासवर्ड में कई बार अक्षर "a"** शामिल थे (उदाहरण के लिए)। **अलग** ब्लॉक वे हैं जिनमें **कम से कम 1 अलग अक्षर** था (शायद विभाजक "|" या उपयोगकर्ता नाम में कुछ आवश्यक अंतर हो सकता है)।
 
-This is because the **username and password of those cookies contained several times the letter "a"** (for example). The **blocks** that are **different** are blocks that contained **at least 1 different character** (maybe the delimiter "|" or some necessary difference in the username).
+अब, हमलावर को बस यह खोजना होगा कि प्रारूप `<उपयोगकर्ता नाम><विभाजक><पासवर्ड>` है या `<पासवर्ड><विभाजक><उपयोगकर्ता नाम>` है। इसके लिए, वह बस **कई उपयोगकर्ता नाम** उत्पन्न कर सकता है **जिनमें समान और लंबे उपयोगकर्ता नाम और पासवर्ड** हों ताकि वह प्रारूप और विभाजक की लंबाई खोज सके:
 
-Now, the attacker just need to discover if the format is `<username><delimiter><password>` or `<password><delimiter><username>`. For doing that, he can just **generate several usernames **with s**imilar and long usernames and passwords until he find the format and the length of the delimiter:**
-
-| Username length: | Password length: | Username+Password length: | Cookie's length (after decoding): |
+| उपयोगकर्ता नाम की लंबाई: | पासवर्ड की लंबाई: | उपयोगकर्ता नाम + पासवर्ड की लंबाई: | कुकी की लंबाई (डिकोडिंग के बाद): |
 | ---------------- | ---------------- | ------------------------- | --------------------------------- |
 | 2                | 2                | 4                         | 8                                 |
 | 3                | 3                | 6                         | 8                                 |
@@ -54,37 +50,33 @@ Now, the attacker just need to discover if the format is `<username><delimiter><
 | 4                | 4                | 8                         | 16                                |
 | 7                | 7                | 14                        | 16                                |
 
-# Exploitation of the vulnerability
+# सुरक्षा की कमजोरी का उपयोग
 
-## Removing entire blocks
+## पूरे ब्लॉक हटाना
 
-Knowing the format of the cookie (`<username>|<password>`), in order to impersonate the username `admin` create a new user called `aaaaaaaaadmin` and get the cookie and decode it:
-
+कुकी के प्रारूप (`<उपयोगकर्ता नाम>|<पासवर्ड>`) को जानते हुए, उपयोगकर्ता नाम `admin` की अनुकरण करने के लिए `aaaaaaaaadmin` नामक एक नया उपयोगकर्ता बनाएं और कुकी प्राप्त करें और इसे डिकोड करें:
 ```
 \x23U\xE45K\xCB\x21\xC8\xE0Vd8oE\x123\aO\x43T\x32\xD5U\xD4
 ```
-
-We can see the pattern `\x23U\xE45K\xCB\x21\xC8` created previously with the username that contained only `a`.\
-Then, you can remove the first block of 8B and you will et a valid cookie for the username `admin`:
-
+हम पहले से बनाए गए पैटर्न `\x23U\xE45K\xCB\x21\xC8` को देख सकते हैं जो केवल `a` से मिलता है।
+फिर, आप पहले 8B के ब्लॉक को हटा सकते हैं और आपको उपयोगकर्ता नाम `admin` के लिए एक मान्य कुकी मिलेगी:
 ```
 \xE0Vd8oE\x123\aO\x43T\x32\xD5U\xD4
 ```
+## ब्लॉकों को हटाएं
 
-## Moving blocks
+बहुत सारे डेटाबेस में `WHERE username='admin';` या `WHERE username='admin    ';` की खोज करने में कोई अंतर नहीं होता है। _(अतिरिक्त जगहों का ध्यान दें)_
 
-In many databases it is the same to search for `WHERE username='admin';` or for `WHERE username='admin    ';` _(Note the extra spaces)_
+इसलिए, उपयोगकर्ता `admin` की अनुकरण करने का एक और तरीका है:
 
-So, another way to impersonate the user `admin` would be to:
+* एक उपयोगकर्ता नाम उत्पन्न करें जो इस शर्त को पूरा करता है: `len(<username>) + len(<delimiter) % len(block)`. `8B` ब्लॉक आकार के साथ आप `username       ` नामक उपयोगकर्ता उत्पन्न कर सकते हैं, जबकि विभाजक `|` होगा, चंक `<username><delimiter>` 2 ब्लॉक्स को 8B का उत्पन्न करेगा।
+* फिर, हमें अनुकरण करने के लिए उपयोगकर्ता नाम और अंतरिक्ष को भरने वाला पासवर्ड उत्पन्न करें, जैसे: `admin   `
 
-* Generate a username that: `len(<username>) + len(<delimiter) % len(block)`. With a block size of `8B` you can generate username called: `username       `, with the delimiter `|` the chunk `<username><delimiter>` will generate 2 blocks of 8Bs.
-* Then, generate a password that will fill an exact number of blocks containing the username we want to impersonate and spaces, like: `admin   ` 
+इस उपयोगकर्ता की कुकी 3 ब्लॉकों से मिलकर बनी होगी: पहले 2 ब्लॉक उपयोगकर्ता नाम + विभाजक के ब्लॉक होंगे और तीसरा ब्लॉक पासवर्ड का होगा (जो उपयोगकर्ता नाम का अनुकरण कर रहा है): `username       |admin   `
 
-The cookie of this user is going to be composed by 3 blocks: the first 2 is the blocks of the username + delimiter and the third one of the password (which is faking the username): `username       |admin   `
+** फिर, बस पहले ब्लॉक को आखिरी ब्लॉक के साथ बदल दें और हम उपयोगकर्ता `admin` का अनुकरण कर रहे होंगे: `admin          |username`**
 
-** Then, just replace the first block with the last time and will be impersonating the user `admin`: `admin          |username`**
-
-# References
+# संदर्भ
 
 * [http://cryptowiki.net/index.php?title=Electronic_Code_Book\_(ECB)](http://cryptowiki.net/index.php?title=Electronic_Code_Book_\(ECB\))
 
@@ -93,16 +85,14 @@ The cookie of this user is going to be composed by 3 blocks: the first 2 is the 
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- क्या आप **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आप **PEASS के नवीनतम संस्करण का उपयोग करना चाहते हैं या HackTricks को PDF में डाउनलोड करना चाहते हैं**? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष [**NFT**](https://opensea.io/collection/the-peass-family) संग्रह।
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- प्राप्त करें [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या मुझे **ट्विटर** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **अपने हैकिंग ट्रिक्स साझा करें, [hacktricks रेपो](https://github.com/carlospolop/hacktricks) और [hacktricks-cloud रेपो](https://github.com/carlospolop/hacktricks-cloud) में पीआर जमा करके।**
 
 </details>
-
-

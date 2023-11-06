@@ -1,123 +1,77 @@
-# HackTricks Values & faq
+# HackTricks मूल्य और पूछे जाने वाले सवाल
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS की नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने की अनुमति** चाहिए? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा एकल [**NFT**](https://opensea.io/collection/the-peass-family) संग्रह।
+* [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com) प्राप्त करें।
+* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में **शामिल हों** या मुझे **Twitter** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **अपने हैकिंग ट्रिक्स को हमारे पास भेजकर PR जमा करके** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **में साझा करें।**
 
 </details>
 
-## HackTricks Values
+## HackTricks मूल्य
 
 {% hint style="success" %}
-These are the **values of the HackTricks Project**:
+ये हैं **HackTricks परियोजना के मूल्य**:
 
-* Give **FREE** access to **EDUCATIONAL hacking** resources to **ALL** Internet.
-  * Hacking is about learning, and learning should be as free as possible.
-  * The purpose of this book is to serve as a comprehensive **educational resource**.
-* **STORE** awesome **hacking** techniques that the community publishes giving the **ORIGINAL** **AUTHORS** all the **credits**.
-  * **We don't want the credit from other people**, we just want to store cool tricks for everyone.
-  * We also write **our own researches** in HackTricks.
-  * In several cases we will just write **in HackTricks a summary of the important parts** of the technique and will **encourage the lector to visit the original post** for more details.
-* **ORGANIZE** all the hacking techniques in the book so it's **MORE ACCESSIBLE**
-  * The HackTricks team has dedicated thousands of hours for free **only to organize the content** so people can **learn faster**
+* **सभी** इंटरनेट को **शिक्षात्मक हैकिंग संसाधनों का मुफ्त उपयोग** देना।
+* हैकिंग सीखने के बारे में है, और सीखना जितना संभव हो सके मुफ्त होना चाहिए।
+* इस पुस्तक का उद्देश्य एक समग्र **शिक्षात्मक संसाधन** के रूप में सेवा करना।
+* समुदाय द्वारा प्रकाशित शानदार **हैकिंग** तकनीकों को **संग्रहित** करना और **मूल लेखकों को सभी स्रोतों का श्रेय** देना।
+* **हम अन्य लोगों से क्रेडिट नहीं चाहते हैं**, हम सभी के लिए ठंडे तरीके संग्रहित करना चाहते हैं।
+* हम भी HackTricks में **अपने खुद के शोध** लिखते हैं।
+* कई मामलों में हम केवल तकनीक के महत्वपूर्ण हिस्सों का संक्षेप में HackTricks में लिखेंगे और पाठक को अधिक विवरण के लिए मूल पोस्ट का दौरा करने की प्रोत्साहना करेंगे।
+* हैकिंग तकनीकों को सभी के लिए **संगठित** करें ताकि इसे **अधिक पहुंचने योग्य** हो।
+* HackTricks टीम ने लोगों को **तेजी से सीखने** के लिए केवल **सामग्री को संगठित करने** के लिए हजारों घंटे समर्पित किए हैं।
 {% endhint %}
 
 <figure><img src="../.gitbook/assets/hack tricks gif.gif" alt="" width="375"><figcaption></figcaption></figure>
 
-## HackTricks faq
+## HackTricks पूछे जाने वाले सवाल
 
 {% hint style="success" %}
-* **Thank you so much for these resources, how can I thank you?**
+* **इन संसाधनों के लिए आपको बहुत बहुत धन्यवाद, मैं आपको कैसे धन्यवाद कर सकता हूं?**
 {% endhint %}
 
-You can publicly thanks HackTricks teams for putting together all these resources publicly in a tweet mentioning [**@hacktricks\_live**](https://twitter.com/hacktricks\_live).\
-If you are specially grateful you can also [**sponsor the project here**](https://github.com/sponsors/carlospolop).\
-And don't forget to **give a star in the Github projects!** (Find the links below).
+आप HackTricks टीम को एक ट्वीट में धन्यवाद कहकर इन सभी सार्वजनिक संसाधनों को एकत्र करने के लिए धन्यवाद कह सकते हैं [**@hacktricks\_live**](https://twitter.com/hacktricks\_live) को उल्लेख करके।\
+यदि आप विशेष रूप से आभारी हैं तो आप इस परियोजना का [**यहां सपोर्ट कर सकते हैं**](https://github.com/sponsors/carlospolop)।\
+और गिटहब परियोजनाओं में **एक स्टार देना न भूलें**! (लिंक नीचे दिए गए हैं)।
 
 {% hint style="success" %}
-* **How can I contribute to the project?**
+* **मैं परियोजना में योगदान कैसे कर सकता हूं?**
 {% endhint %}
 
-You can **share new tips and tricks with the community or fix bugs** you find in the books sending a **Pull Request** to the respective Github pages:&#x20;
+आप समुदाय के साथ **नई युक्तियों और ट्रिक्स साझा कर सकते हैं या पुस्तकों में मिलने वाली बग्स को ठीक
+## लाइसेंस
 
-* [https://github.com/carlospolop/hacktricks](https://github.com/carlospolop/hacktricks)
-* [https://github.com/carlospolop/hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)
+**कॉपीराइट © कार्लोस पोलोप 2023। जहां अन्यथा निर्दिष्ट नहीं किया गया है (पुस्तक में कॉपी की गई बाहरी जानकारी मूल लेखकों की संपत्ति है), कार्लोस पोलोप द्वारा लिखित** [**HACK TRICKS**](https://github.com/carlospolop/hacktricks) **के पाठ का अधिकार** [**आवंटन-गैर-वाणिज्यिक 4.0 अंतर्राष्ट्रीय (CC BY-NC 4.0)**](https://creativecommons.org/licenses/by-nc/4.0/) **के तहत लाइसेंस है।**\
+**यदि आप इसे वाणिज्यिक उद्देश्यों के साथ उपयोग करना चाहते हैं, तो मुझसे संपर्क करें।**
 
-Don't forget to **give a star in the Github projects!**
-
-{% hint style="success" %}
-* **Can I copy some content from HackTricks and put it in my blog?**
-{% endhint %}
-
-Yes, you can, but **don't forget to mention the specific link(s)** where the content was taken from.
-
-{% hint style="warning" %}
-* **Can I copy all HackTricks in my blog?**
-{% endhint %}
-
-**I would rather not**. Thats **not going to benefit anyone** as all the **content is already publicly available** in the official HackTricks books for free.
-
-If you fear that it will disappear, just fork it in Github or download it, as I said it's already free.
-
-{% hint style="warning" %}
-* **Why do you have sponsors? Are HackTricks books for commercial purposes?**
-{% endhint %}
-
-The first **HackTricks** **value** is to offer **FREE** hacking educational resources to **ALL** the world. The HackTricks team has **dedicated thousands of hours** to offer this content, again, for **FREE**.
-
-If you think HackTricks books are made for **commercial purposes** you are **COMPLETELY WRONG**.
-
-We have sponsors because, even if all the content is FREE, we want to **offer the community the possibility of appreciating our work** if they want to. Therefore, we offer people the option to donate to HackTricks via [**Github sponsors**](https://github.com/sponsors/carlospolop), and **relevant cybersecurity companies** to sponsor HackTricks and to **have some ads** in the book being the **ads** always placed in places where make them **visible** but **doesn't disturb the learning** process if someone focus in the content.
-
-You won't find HackTricks filled with annoying ads like other blogs with much less content than HackTricks, because HackTricks is not made for commercial purposes.
+## **अस्वीकरण**
 
 {% hint style="danger" %}
-* **What should I do if some HackTricks page is based on my blog post but it isn't referenced?**
-{% endhint %}
+यह पुस्तक, 'HackTricks,' केवल शैक्षिक और सूचनात्मक उद्देश्यों के लिए है। इस पुस्तक में दी गई सामग्री 'जैसी है', और लेखक और प्रकाशकों द्वारा इस पुस्तक में दी गई जानकारी, उत्पाद, सेवाएं या संबंधित ग्राफिक्स की पूर्णता, सटीकता, विश्वसनीयता, उपयुक्तता या उपलब्धता के संबंध में कोई प्रतिनिधि या वारंटी नहीं दी जाती है। इस जानकारी पर आपकी किसी भी आश्रय करने की आवश्यकता है, इसलिए आपकी जिम्मेदारी है।
 
-**We are very sorry. This shouldn't have happened**. Please, let us know via Github issues, Twitter, Discord... the link of the HackTricks page with the content and the link of your blog and **we will check it and add it ASAP**.
+लेखक और प्रकाशक किसी भी हानि या क्षति के लिए जिम्मेदार नहीं होंगे, जिसमें बिना सीमित या परिणामी हानि या क्षति, या डेटा या लाभ की कोई हानि या क्षति शामिल हो सकती है, जो इस पुस्तक के उपयोग से हो सकती है।
 
-{% hint style="danger" %}
-* **What should I do if there is content from my blog in HackTricks and I don't want it there?**
-{% endhint %}
+इसके अलावा, इस पुस्तक में वर्णित तकनीक और युक्तियाँ केवल शैक्षिक और सूचनात्मक उद्देश्यों के लिए प्रदान की जाती हैं, और इन्हें किसी भी अवैध या दुर्भाग्यपूर्ण गतिविधियों के लिए उपयोग नहीं किया जाना चाहिए। लेखक और प्रकाशक किसी भी अवैध या अनैतिक गतिविधियों का समर्थन नहीं करते हैं, और इस पुस्तक में दी गई जानकारी का उपयोग उपयोगकर्ता की अपनी जोखिम और विवेक पर छोड़ दिया जाता है।
 
-In any case know that HackTricks in this case would be improving your **SEO** and **encouraging** people to **check your page**. If you still want the content of your blog to be removed from HackTricks let us know.
+उपयोगकर्ता केवल इस पुस्तक में दी गई जानकारी पर आधारित किसी भी कार्रवाई के लिए जिम्मेदार है, और इन तकनीकों या युक्तियों को लागू करने की कोशिश करने के लिए हमेशा पेशेवर सलाह और सहायता की तलाश करनी चाहिए।
 
-Note that asking this we will definitely **remove every link to your blog**, but if the same technique can be found in other web pages we will just change the source of the information and the explanation, so the real content won't probably leave HackTricks (in cybersecurity, in general, there are always several post talking about the same technique).
-
-## License
-
-**Copyright © Carlos Polop 2023. Except where otherwise specified (the external information copied into the book belongs to the original authors), the text on** [**HACK TRICKS**](https://github.com/carlospolop/hacktricks) **by Carlos Polop is licensed under the**[ **Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)**](https://creativecommons.org/licenses/by-nc/4.0/)**.**\
-**If you want to use it with commercial purposes, contact me.**
-
-## **Disclaimer**
-
-{% hint style="danger" %}
-This book, 'HackTricks,' is intended for educational and informational purposes only. The content within this book is provided on an 'as is' basis, and the authors and publishers make no representations or warranties of any kind, express or implied, about the completeness, accuracy, reliability, suitability, or availability of the information, products, services, or related graphics contained within this book. Any reliance you place on such information is therefore strictly at your own risk.
-
-The authors and publishers shall in no event be liable for any loss or damage, including without limitation, indirect or consequential loss or damage, or any loss or damage whatsoever arising from loss of data or profits arising out of, or in connection with, the use of this book.
-
-Furthermore, the techniques and tips described in this book are provided for educational and informational purposes only, and should not be used for any illegal or malicious activities. The authors and publishers do not condone or support any illegal or unethical activities, and any use of the information contained within this book is at the user's own risk and discretion.
-
-The user is solely responsible for any actions taken based on the information contained within this book, and should always seek professional advice and assistance when attempting to implement any of the techniques or tips described herein.
-
-By using this book, the user agrees to release the authors and publishers from any and all liability and responsibility for any damages, losses, or harm that may result from the use of this book or any of the information contained within it.
+इस पुस्तक का उपयोग करके, उपयोगकर्ता इस पुस्तक या इसमें दी गई किसी भी जानकारी के उपयोग से होने वाले किसी भी क्षति, हानि या नुकसान से छूटकारा पाने के लिए लेखक और प्रकाशकों को किसी भी और सभी दायित्व और जिम्मेदारी से मुक्त करने के लिए सहमत होता है।
 {% endhint %}
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी **कंपनी को HackTricks में विज्ञापित करना** चाहते हैं? या क्या आपको **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करने की आवश्यकता है? [**सदस्यता योजनाओं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष [**NFT**](https://opensea.io/collection/the-peass-family) संग्रह।
+* प्राप्त करें [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या मुझे **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)** का पालन करें।**
+* **अपनी हैकिंग ट्रिक्स साझा करें, PRs सबमिट करके** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **को।**
 
 </details>

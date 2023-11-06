@@ -1,125 +1,88 @@
-# macOS Thread Injection via Task port
+# macOS टास्क पोर्ट के माध्यम से थ्रेड इंजेक्शन
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS की नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करने की आवश्यकता है? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा एकल [**NFT**](https://opensea.io/collection/the-peass-family) संग्रह
+* [**आधिकारिक PEASS और HackTricks swag**](https://peass.creator-spring.com) प्राप्त करें
+* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में **शामिल** हों या मुझे **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)** का पालन करें**.
+* **अपने हैकिंग ट्रिक्स को** [**hacktricks रेपो**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud रेपो**](https://github.com/carlospolop/hacktricks-cloud) **में पीआर जमा करके अपने हैकिंग ट्रिक्स साझा करें।**
 
 </details>
 
-This post was copied from [https://bazad.github.io/2018/10/bypassing-platform-binary-task-threads/](https://bazad.github.io/2018/10/bypassing-platform-binary-task-threads/) (which contains more information)
+यह पोस्ट [https://bazad.github.io/2018/10/bypassing-platform-binary-task-threads/](https://bazad.github.io/2018/10/bypassing-platform-binary-task-threads/) से कॉपी की गई है (जिसमें अधिक जानकारी है)
 
-### Code
+### कोड
 
 * [https://github.com/bazad/threadexec](https://github.com/bazad/threadexec)
 * [https://gist.github.com/knightsc/bd6dfeccb02b77eb6409db5601dcef36](https://gist.github.com/knightsc/bd6dfeccb02b77eb6409db5601dcef36)
 
-### 1. Thread Hijacking
+### 1. थ्रेड हाइजैकिंग
 
-The first thing we do is call **`task_threads()`** on the task port to get a list of threads in the remote task and then choose one of them to hijack. Unlike traditional code injection frameworks, we **can’t create a new remote thread** because `thread_create_running()` will be blocked by the new mitigation.
+सबसे पहले हम करते हैं **`task_threads()`** को टास्क पोर्ट पर कॉल करके रिमोट टास्क में थ्रेड की सूची प्राप्त करने के लिए और फिर उनमें से एक को हाइजैक करने के लिए चुनते हैं। पारंपरिक कोड इंजेक्शन फ्रेमवर्क के विपरीत, हम **नया रिमोट थ्रेड नहीं बना सकते** क्योंकि `thread_create_running()` नई मिटिगेशन द्वारा ब्लॉक हो जाएगा।
 
-Then, we can call **`thread_suspend()`** to stop the thread from running.
+फिर, हम **`thread_suspend()`** को कॉल करके थ्रेड को रनिंग से रोक सकते हैं।
 
-At this point, the only useful control we have over the remote thread is **stopping** it, **starting** it, **getting** its **register** values, and **setting** its register **values**. Thus, we can **initiate a remote function** call by setting **registers** `x0` through `x7` in the remote thread to the **arguments**, **setting** **`pc`** to the function we want to execute, and starting the thread. At this point, we need to detect the return and make sure that the thread doesn’t crash.
+इस बिंदु पर, हमारे पास रिमोट थ्रेड पर केवल यह उपयोगी नियंत्रण है कि हम उसे रोक सकते हैं, उसे शुरू कर सकते हैं, उसके रजिस्टर मान प्राप्त कर सकते हैं, और उसके रजिस्टर मान सेट कर सकते हैं। इस प्रकार, हम रिमोट फंक्शन कोल आरंभ कर सकते हैं जिसके लिए हम रिमोट थ्रेड में रजिस्टर `x0` से `x7` को आर्ग्यूमेंट के रूप में सेट कर सकते हैं, रिमोट फंक्शन कोल करने के लिए `pc` को फ़ंक्शन के लिए सेट कर सकते हैं, और थ्रेड को शुरू कर सकते हैं। इस बिंदु पर, हमें वापसी का पता लगाना होगा और सुनिश्चित करना होगा कि थ्रेड क्रैश नहीं होता है।
 
-There are a few ways to go about this. One way would be to **register an exception handler** for the remote thread using `thread_set_exception_ports()` and to set the return address register, `lr`, to an invalid address before calling the function; that way, after the function runs an exception would be generated and a message would be sent to our exception port, at which point we can inspect the thread’s state to retrieve the return value. However, for simplicity I copied the strategy used in Ian Beer’s triple\_fetch exploit, which was to **set `lr` to the address of an instruction that would infinite loop** and then poll the thread’s registers repeatedly until **`pc` pointed to that instruction**.
+इसके कुछ तरीके हैं। एक तरीका यह हो सकता है कि हम `thread_set_exception_ports()` का उपयोग करके रिमोट थ्रेड के लिए एक अपवाद हैंडलर रजिस्टर करें और फ़ंक्शन को कॉल करने से पहले अमान्य पते पर रिटर्न एड्रेस रजिस्टर, `lr`, सेट करें; इस तरीके से, फ़ंक्शन चलाने के बाद एक अपवाद उत्पन्न होगा और एक संदेश हमारे अपवाद पोर्ट को भेजा जाएगा, जिस पर हम थ्रेड की स्थिति की जांच करके रिटर्न मान प्राप्त कर सकते हैं। हालांकि, सरलता के लिए मैंने इयान बीयर के ट्रिपल_फेच धोखाधड़ी में उपयोग किए गए रणनीति की प्रतिलिपि की है, जिसमें **`lr` को एक ऐसे निर्देशिका के पते पर सेट किया जाता है जो अनंत लूप करेगा** और फिर थ्रेड के रजिस्टर को बार-बार जांचते हैं जब तक **`pc` उस निर्देशिका की ओर इशारा
+### 3. मूल याद-लेखन <a href="#step-3-basic-memory-readwrite" id="step-3-basic-memory-readwrite"></a>
 
-### 2. Mach ports for communication
+अब हम निष्पादन आधारभूत याद-लेखन और लेखन आधारभूत याद का उपयोग करेंगे। ये आधारभूत याद बहुत कुछ के लिए उपयोग नहीं होंगे (हम जल्द ही अधिक शक्तिशाली आधारभूत को अपग्रेड करेंगे), लेकिन ये हमें रिमोट प्रक्रिया के नियंत्रण को विस्तारित करने में मदद करने का महत्वपूर्ण कदम है।
 
-The next step is to **create Mach ports over which we can communicate with the remote thread**. These Mach ports will be useful later in helping transfer arbitrary send and receive rights between the tasks.
-
-In order to establish bidirectional communication, we will need to create two Mach receive rights: one in the **local task and one in the remote task**. Then, we will need to **transfer a send right** to each port **to the other task**. This will give each task a way to send a message that can be received by the other.
-
-Let’s first focus on setting up the local port, that is, the port to which the local task holds the receive right. We can create the Mach port just like any other, by calling `mach_port_allocate()`. The trick is to get a send right to that port into the remote task.
-
-A convenient trick we can use to copy a send right from the current task into a remote task using only a basic execute primitive is to stash a **send right to our local port in the remote thread’**s `THREAD_KERNEL_PORT` special port using `thread_set_special_port()`; then, we can make the remote thread call `mach_thread_self()` to retrieve the send right.
-
-Next we will set up the remote port, which is pretty much the inverse of what we just did. We can make the **remote thread allocate a Mach port by calling `mach_reply_port()`**; we can’t use `mach_port_allocate()` because the latter returns the allocated port name in memory and we don’t yet have a read primitive. Once we have a port, we can create a send right by calling `mach_port_insert_right()` in the remote thread. Then, we can stash the port in the kernel by calling `thread_set_special_port()`. Finally, back in the local task, we can retrieve the port by calling `thread_get_special_port()` on the remote thread, **giving us a send right to the Mach port just allocated in the remote task**.
-
-At this point, we have created the Mach ports we will use for bidirectional communication.
-
-### 3. Basic memory read/write <a href="#step-3-basic-memory-readwrite" id="step-3-basic-memory-readwrite"></a>
-
-Now we will use the execute primitive to create basic memory read and write primitives. These primives won’t be used for much (we will soon upgrade to much more powerful primitives), but they are a key step in helping us to expand our control of the remote process.
-
-In order to read and write memory using our execute primitive, we will be looking for functions like these:
-
+हमारे निष्पादन आधारभूत का उपयोग करके याद पढ़ने और लिखने के लिए, हम इन तरह के फ़ंक्शन की तलाश करेंगे:
 ```c
 uint64_t read_func(uint64_t *address) {
-    return *address;
+return *address;
 }
 void write_func(uint64_t *address, uint64_t value) {
-    *address = value;
+*address = value;
 }
 ```
-
-They might correspond to the following assembly:
-
+वे निम्नलिखित असेंबली के समान हो सकते हैं:
 ```
 _read_func:
-    ldr     x0, [x0]
-    ret
+ldr     x0, [x0]
+ret
 _write_func:
-    str     x1, [x0]
-    ret
+str     x1, [x0]
+ret
 ```
-
-A quick scan of some common libraries revealed some good candidates. To read memory, we can use the `property_getName()` function from the [Objective-C runtime library](https://opensource.apple.com/source/objc4/objc4-723/runtime/objc-runtime-new.mm.auto.html):
-
+कुछ सामान्य पुस्तकालयों की त्वरित स्कैन ने कुछ अच्छे उम्मीदवारों की पहचान की। मेमोरी को पढ़ने के लिए, हम [Objective-C रनटाइम पुस्तकालय](https://opensource.apple.com/source/objc4/objc4-723/runtime/objc-runtime-new.mm.auto.html) के `property_getName()` फ़ंक्शन का उपयोग कर सकते हैं:
 ```c
 const char *property_getName(objc_property_t prop)
 {
-    return prop->name;
+return prop->name;
 }
 ```
+जैसा कि पता चलता है, `prop` `objc_property_t` का पहला फ़ील्ड है, इसलिए यह सीधे अनुमानित `read_func` के समान है। हमें बस पहले तर्क के साथ एक दूरस्थ कार्य कोल करने की आवश्यकता है जिसमें पहला तर्क हमें पठना है, और वापसी मूल्य उस पते पर डेटा होगा।
 
-As it turns out, `prop` is the first field of `objc_property_t`, so this corresponds directly to the hypothetical `read_func` above. We just need to perform a remote function call with the first argument being the address we want to read, and the return value will be the data at that address.
-
-Finding a pre-made function to write memory is slightly harder, but there are still great options without undesired side effects. In libxpc, the `_xpc_int64_set_value()` function has the following disassembly:
-
+मेमोरी लिखने के लिए एक पूर्व-तैयार कार्य ढूंढ़ना थोड़ा मुश्किल है, लेकिन इसके बावजूद अनचाहे प्रभावों के बिना भी बड़े विकल्प हैं। libxpc में, `_xpc_int64_set_value()` फ़ंक्शन का निम्नलिखित डिसअसेंबली होता है:
 ```
 __xpc_int64_set_value:
-    str     x1, [x0, #0x18]
-    ret
+str     x1, [x0, #0x18]
+ret
 ```
-
-Thus, to perform a 64-bit write at address `address`, we can perform the remote call:
-
+इस प्रक्रिया को करने के लिए, हम ठीक पते `address` पर 64-बिट लेख करने के लिए दूरस्थ कॉल कर सकते हैं:
 ```c
 _xpc_int64_set_value(address - 0x18, value)
 ```
+इन प्राथमिकताओं के साथ, हम साझा मेमोरी बनाने के लिए तैयार हैं।
 
-With these primitives in hand, we are ready to create shared memory.
+### 4. साझा मेमोरी
 
-### 4. Shared memory
+अगला कदम है रिमोट और स्थानीय टास्क के बीच साझा मेमोरी बनाना। इससे हमें प्रक्रियाओं के बीच डेटा को आसानी से स्थानांतरित करने की अनुमति मिलेगी: साझा मेमोरी क्षेत्र के साथ, विचित्र मेमोरी पठन और लेखन को `memcpy()` के रिमोट कॉल के माध्यम से करना इतना सरल हो जाता है। इसके अलावा, साझा मेमोरी क्षेत्र होने से हमें आसानी से एक स्टैक स्थापित करने की अनुमति मिलेगी, ताकि हम 8 से अधिक तर्कों के साथ फ़ंक्शन को कॉल कर सकें।
 
-Our next step is to create shared memory between the remote and local task. This will allow us to more easily transfer data between the processes: with a shared memory region, arbitrary memory read and write is as simple as a remote call to `memcpy()`. Additionally, having a shared memory region will allow us to easily set up a stack so that we can call functions with more than 8 arguments.
+चीजों को आसान बनाने के लिए, हम लिब्रेरी libxpc की साझा मेमोरी सुविधाओं का पुनः उपयोग कर सकते हैं। Libxpc एक XPC ऑब्जेक्ट प्रकार, `OS_xpc_shmem` प्रदान करता है, जो XPC के माध्यम से साझा मेमोरी क्षेत्र स्थापित करने की अनुमति देता है। Libxpc को पलटकर, हम निर्धारित करते हैं कि `OS_xpc_shmem` मैच मेमोरी एंट्री पर आधारित है, जो मैच पोर्ट हैं जो एक वर्चुअल मेमोरी क्षेत्र को प्रतिष्ठित करते हैं। और क्योंकि हम पहले से ही दिखा चुके हैं कि रिमोट टास्क को मैच पोर्ट भेजने के लिए कैसे भेजा जा सकता है, इसे हम अपनी स्वयं की साझा मेमोरी स्थापित करने के लिए आसानी से उपयोग कर सकते हैं।
 
-To make things easier, we can reuse the shared memory features of libxpc. Libxpc provides an XPC object type, `OS_xpc_shmem`, which allows establishing shared memory regions over XPC. By reversing libxpc, we determine that `OS_xpc_shmem` is based on Mach memory entries, which are Mach ports that represent a region of virtual memory. And since we already have shown how to send Mach ports to the remote task, we can use this to easily set up our own shared memory.
+सबसे पहले, हमें `mach_vm_allocate()` का उपयोग करके साझा करने वाली मेमोरी का आवंटन करना होगा। हमें `mach_vm_allocate()` का उपयोग करना होगा ताकि हम `xpc_shmem_create()` का उपयोग करके क्षेत्र के लिए `OS_xpc_shmem` ऑब्जेक्ट बना सकें। `xpc_shmem_create()` हमारे लिए मैच मेमोरी एंट्री को बनाने का ध्यान रखेगा और इसे अनुप्रयोग `OS_xpc_shmem` ऑब्जेक्ट में `0x18` ऑफ़सेट पर मेमोरी एंट्री के लिए मैच भेजने का अधिकार रखेगा।
 
-First things first, we need to allocate the memory we will share using `mach_vm_allocate()`. We need to use `mach_vm_allocate()` so that we can use `xpc_shmem_create()` to create an `OS_xpc_shmem` object for the region. `xpc_shmem_create()` will take care of creating the Mach memory entry for us and will store the Mach send right to the memory entry in the opaque `OS_xpc_shmem` object at offset `0x18`.
+एक बार जब हमें मेमोरी एंट्री पोर्ट मिल जाएगा, हम रिमोट प्रक्रिया में एक `OS_xpc_shmem` ऑब्जेक्ट बनाएंगे जो समान मेमोरी क्षेत्र को प्रतिष्ठित करेगा, जिससे हम `xpc_shmem_map()` को कॉल करके साझा मेमोरी मैपिंग स्थापित कर सकेंगे। सबसे पहले, हम रिमोट कॉल करके `malloc()` का उपयोग करके `OS_xpc_shmem` के लिए मेमोरी आवंटित करते हैं और अपनी मूल लिखने की प्राथमिकता का उपयोग करके स्थानीय `OS_xpc_shmem` ऑब्जेक्ट की सामग्री की प्रतिलिपि बनाते हैं। दुर्भाग्य से, परिणामस्वरूप ऑब्जेक्ट थोड़ा सही नहीं होता है: इसका मैच मेमोरी एंट्री फ़ील्ड `0x18` ऑफ़सेट पर स्थानीय टास्क के लिए मेमोरी एंट्री का नाम शामिल होता है, न कि रिमोट टास्क का नाम। इसे ठीक करने के लिए, हम `thread_set_special_port()` चाल चलाते हैं ताकि रिमोट टास्क में मैच मेमोरी एंट्री के लिए एक भेजने का अधिकार डाल सकें और फिर फ़ील्ड `0x18` को रिमोट मेमोरी एंट्री के नाम से अधिलेखित करें। इस बिंदु पर, रिमोट `OS_xpc_shmem` ऑब्जेक्ट मान्य होता है और मेमोरी मैपिंग को रिमोट कॉल के माध्यम से स्थापित किया जा सकता है `xpc_shmem_remote()`।
 
-Once we have the memory entry port, we will create an `OS_xpc_shmem` object in the remote process representing the same memory region, allowing us to call `xpc_shmem_map()` to establish the shared memory mapping. First, we perform a remote call to `malloc()` to allocate memory for the `OS_xpc_shmem` and use our basic write primitive to copy in the contents of the local `OS_xpc_shmem` object. Unfortunately, the resulting object isn’t quite correct: its Mach memory entry field at offset `0x18` contains the local task’s name for the memory entry, not the remote task’s name. To fix this, we use the `thread_set_special_port()` trick to insert a send right to the Mach memory entry into the remote task and then overwrite field `0x18` with the remote memory entry’s name. At this point, the remote `OS_xpc_shmem` object is valid and the memory mapping can be established with a remote call to `xpc_shmem_remote()`.
+### 5. पूर्ण नियंत्रण <a href="#step-5-full-control" id="step-5-full-control"></a>
 
-### 5. Full control <a href="#step-5-full-control" id="step-5-full-control"></a>
+निश्चित पते पर साझा मेमोरी और एक ऐच्छिक निष्पादन प्राथमिकता के साथ, हम बस खत्म हो जाते हैं। विचित्र मेमोरी पठन और लेखन को `memcpy()` को कॉल करके साझा क्षेत्र में से किया जाता है। 8 से अधिक तर्कों के साथ फ़ंक्शन कॉल करने के लिए, हम कॉलिंग नियम के अनुसार पहले 8 के अलावा अतिरिक्त तर्कों को स्टैक पर व्यवस्थित करके करते हैं। टास्क के बीच विचित्र मैच पोर्ट को मैच संदेश भेजकर किया जा सकता है। हम इस तकनीक का उपयोग करके प्रक्रियाओं के बीच फ़ाइल डेस्क्रिप्टर भी स्थानांतरित कर सकते हैं (तिगुना लाभ के लिए इस तकनीक को दिखाने के लिए Ian Beer का धन्यवाद देते हैं!)।
 
-With shared memory at a known address and an arbitrary execution primitive, we are basically done. Arbitrary memory reads and writes are implemented by calling `memcpy()` to and from the shared region, respectively. Function calls with more than 8 arguments are performed by laying out additional arguments beyond the first 8 on the stack according to the calling convention. Transferring arbitrary Mach ports between the tasks can be done by sending Mach messages over the ports established earlier. We can even transfer file descriptors between the processes by using fileports (special thanks to Ian Beer for demonstrating this technique in triple\_fetch!).
-
-In short, we now have full and easy control over the victim process. You can see the full implementation and the exposed API in the [threadexec](https://github.com/bazad/threadexec) library.
-
-<details>
-
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
-
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
-
-</details>
+संक्षेप में, अब हमारे पास पीड़ि

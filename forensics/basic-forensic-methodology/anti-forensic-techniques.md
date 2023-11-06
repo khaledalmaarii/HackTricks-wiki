@@ -1,190 +1,115 @@
-
-
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी **कंपनी को HackTricks में विज्ञापित करना** चाहते हैं? या क्या आपको **PEASS की नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने** की पहुंच चाहिए? [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) की जांच करें!
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) संग्रह
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- प्राप्त करें [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में या मुझे **Twitter** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **अपने हैकिंग ट्रिक्स को [hacktricks रेपो](https://github.com/carlospolop/hacktricks) और [hacktricks-cloud रेपो](https://github.com/carlospolop/hacktricks-cloud) में PR जमा करके साझा करें।**
 
 </details>
 
 
-# Timestamps
+# टाइमस्टैम्प
 
-An attacker may be interested in **changing the timestamps of files** to avoid being detected.\
-It's possible to find the timestamps inside the MFT in attributes `$STANDARD_INFORMATION` __ and __ `$FILE_NAME`.
+एक हमलावर को फ़ाइलों के टाइमस्टैम्प को **बदलने** के लिए रुचि हो सकती है ताकि उसे पकड़ा न जाए।\
+टाइमस्टैम्प को **MFT** में एट्रिब्यूट्स `$STANDARD_INFORMATION` __ और __ `$FILE_NAME` में ढूंढ़ा जा सकता है।
 
-Both attributes have 4 timestamps: **Modification**, **access**, **creation**, and **MFT registry modification** (MACE or MACB).
+दोनों एट्रिब्यूट्स में 4 टाइमस्टैम्प होते हैं: **संशोधन**, **पहुंच**, **सृजन** और **MFT रजिस्ट्री संशोधन** (MACE या MACB)।
 
-**Windows explorer** and other tools show the information from **`$STANDARD_INFORMATION`**.
+**Windows explorer** और अन्य उपकरण **`$STANDARD_INFORMATION`** से जानकारी दिखाते हैं।
 
-## TimeStomp - Anti-forensic Tool
+## टाइमस्टॉंप - एंटी-फोरेंसिक टूल
 
-This tool **modifies** the timestamp information inside **`$STANDARD_INFORMATION`** **but** **not** the information inside **`$FILE_NAME`**. Therefore, it's possible to **identify** **suspicious** **activity**.
+यह टूल **`$STANDARD_INFORMATION`** के भीतर टाइमस्टैम्प जानकारी को **संशोधित** करता है **लेकिन** **`$FILE_NAME`** के भीतर जानकारी को **नहीं**। इसलिए, यह संदेहास्पद **गतिविधि की पहचान** करना संभव है।
 
 ## Usnjrnl
 
-The **USN Journal** (Update Sequence Number Journal), or Change Journal, is a feature of the Windows NT file system (NTFS) that **maintains a record of changes made to the volume**.\
-It's possible to use the tool [**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv) to search for modifications to this record.
+**USN Journal** (Update Sequence Number Journal) या Change Journal, Windows NT फ़ाइल सिस्टम (NTFS) की एक सुविधा है जो वॉल्यूम पर किए गए बदलावों का एक रिकॉर्ड बनाए रखती है।\
+इस रिकॉर्ड के संशोधनों की खोज के लिए उपकरण [**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv) का उपयोग किया जा सकता है।
 
 ![](<../../.gitbook/assets/image (449).png>)
 
-The previous image is the **output** shown by the **tool** where it can be observed that some **changes were performed** to the file.
+पिछली छवि टूल द्वारा दिखाई गई **आउटपुट** है जहां देखा जा सकता है कि कुछ **परिवर्तन किए गए** हैं।
 
 ## $LogFile
 
-All metadata changes to a file system are logged to ensure the consistent recovery of critical file system structures after a system crash. This is called [write-ahead logging](https://en.wikipedia.org/wiki/Write-ahead\_logging).\
-The logged metadata is stored in a file called “**$LogFile**”, which is found in a root directory of an NTFS file system.\
-It's possible to use tools like [LogFileParser](https://github.com/jschicht/LogFileParser) to parse this file and find changes.
+फ़ाइल सिस्टम पर सभी मेटाडेटा परिवर्तनों को लॉग किया जाता है ताकि सिस्टम क्रैश के बाद महत्वपूर्ण फ़ाइल सिस्टम संरचनाओं का संगत पुनर्स्थापन सुनिश्चित किया जा सके। इसे [write-ahead logging](https://en.wikipedia.org/wiki/Write-ahead\_logging) कहा जाता है।\
+लॉग किए गए मेटाडेटा को "डॉलर लॉगफ़ाइल" नामक एक फ़ाइल में संग्रहीत किया जाता है, जो NTFS फ़ाइल सिस्टम के एक रूट निर्देशिका में पाई जाती है।\
+इस फ़ाइल को पार्स करने और परिवर्तनों को खोजने के लिए [LogFileParser](https://github.com/jschicht/LogFileParser) जैसे उपकरण का उपयोग किया जा सकता है।
 
 ![](<../../.gitbook/assets/image (450).png>)
 
-Again, in the output of the tool it's possible to see that **some changes were performed**.
+फिर से, टूल के आउटपुट में देखा जा सकता है कि **कुछ परिवर्तन किए गए** हैं।
 
-Using the same tool it's possible to identify to **which time the timestamps were modified**:
+एक ही उपकरण का उपयोग करके यह पहचाना जा सकता है कि **टाइमस्टैम्प को किस समय संशोधित किया गया था**:
 
 ![](<../../.gitbook/assets/image (451).png>)
 
-* CTIME: File's creation time
-* ATIME: File's modification time
-* MTIME: File's MFT registry modification
-* RTIME: File's access time
+* CTIME: फ़ाइल का निर्माण समय
+* ATIME: फ़ाइल का संशोधन समय
+* MTIME: फ़ाइल का MFT रजिस्ट्री संशोधन
+* RTIME: फ़ाइल का पहुंच समय
 
-## `$STANDARD_INFORMATION` and `$FILE_NAME` comparison
+## `$STANDARD_INFORMATION` और `$FILE_NAME` तुलना
 
-Another way to identify suspicious modified files would be to compare the time on both attributes looking for **mismatches**.
-
-## Nanoseconds
-
-**NTFS** timestamps have a **precision** of **100 nanoseconds**. Then, finding files with timestamps like 2010-10-10 10:10:**00.000:0000 is very suspicious**.
-
-## SetMace - Anti-forensic Tool
-
-This tool can modify both attributes `$STARNDAR_INFORMATION` and `$FILE_NAME`. However, from Windows Vista, it's necessary for a live OS to modify this information.
-
-# Data Hiding
-
-NFTS uses a cluster and the minimum information size. That means that if a file occupies uses and cluster and a half, the **reminding half is never going to be used** until the file is deleted. Then, it's possible to **hide data in this slack space**.
-
-There are tools like slacker that allow hiding data in this "hidden" space. However, an analysis of the `$logfile` and `$usnjrnl` can show that some data was added:
-
-![](<../../.gitbook/assets/image (452).png>)
-
-Then, it's possible to retrieve the slack space using tools like FTK Imager. Note that this kind of tool can save the content obfuscated or even encrypted.
-
-# UsbKill
-
-This is a tool that will **turn off the computer if any change in the USB** ports is detected.\
-A way to discover this would be to inspect the running processes and **review each python script running**.
-
-# Live Linux Distributions
-
-These distros are **executed inside the RAM** memory. The only way to detect them is **in case the NTFS file-system is mounted with write permissions**. If it's mounted just with read permissions it won't be possible to detect the intrusion.
-
-# Secure Deletion
+संदेहास्पद संशोधित फ़ाइलों की पहचान करने का एक और तरीका होगा कि दोनों एट्रिब्यूट्स पर समय की तुलना की जाए, जहां **मिलान नहीं होता**
+# सुरक्षित हटाना
 
 [https://github.com/Claudio-C/awesome-data-sanitization](https://github.com/Claudio-C/awesome-data-sanitization)
 
-# Windows Configuration
+# विंडोज कॉन्फ़िगरेशन
 
-It's possible to disable several windows logging methods to make the forensics investigation much harder.
+यह संभव है कि विंडोज लॉगिंग विधियों को अक्षम करके फॉरेंसिक्स जांच को कठिन बनाया जा सके।
 
-## Disable Timestamps - UserAssist
+## टाइमस्टैम्प्स को अक्षम करें - UserAssist
 
-This is a registry key that maintains dates and hours when each executable was run by the user.
+यह एक रजिस्ट्री की है जो प्रत्येक एक्ज़ीक्यूटेबल को उपयोगकर्ता द्वारा चलाया गया था जब तारीख और घंटे को बनाए रखती है।
 
-Disabling UserAssist requires two steps:
+UserAssist को अक्षम करने के लिए दो कदम होते हैं:
 
-1. Set two registry keys, `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackProgs` and `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackEnabled`, both to zero in order to signal that we want UserAssist disabled.
-2. Clear your registry subtrees that look like `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\<hash>`.
+1. रजिस्ट्री की दो कुंजी सेट करें, `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackProgs` और `HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\Start_TrackEnabled`, दोनों को शून्य सेट करें ताकि हमें UserAssist अक्षम करना है इसकी सूचना मिल सके।
+2. `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\<hash>` जैसे दिखने वाले रजिस्ट्री सबट्री को साफ़ करें।
 
-## Disable Timestamps - Prefetch
+## टाइमस्टैम्प्स को अक्षम करें - Prefetch
 
-This will save information about the applications executed with the goal of improving the performance of the Windows system. However, this can also be useful for forensics practices.
+यह विंडोज सिस्टम के प्रदर्शन को सुधारने का उद्देश्य रखने वाले एप्लिकेशन्स के बारे में जानकारी सहेजेगा। हालांकि, यह फॉरेंसिक्स प्रथाओं के लिए भी उपयोगी हो सकता है।
 
-* Execute `regedit`
-* Select the file path `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SessionManager\Memory Management\PrefetchParameters`
-* Right-click on both `EnablePrefetcher` and `EnableSuperfetch`
-* Select Modify on each of these to change the value from 1 (or 3) to 0
-* Restart
+* `regedit` चलाएं
+* फ़ाइल पथ `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SessionManager\Memory Management\PrefetchParameters` का चयन करें
+* `EnablePrefetcher` और `EnableSuperfetch` पर दायां क्लिक करें
+* इनमें से प्रत्येक को संशोधित करने के लिए 1 (या 3) से 0 मान बदलें
+* पुनरारंभ करें
 
-## Disable Timestamps - Last Access Time
+## टाइमस्टैम्प्स को अक्षम करें - अंतिम पहुँच समय
 
-Whenever a folder is opened from an NTFS volume on a Windows NT server, the system takes the time to **update a timestamp field on each listed folder**, called the last access time. On a heavily used NTFS volume, this can affect performance.
+जब एक फ़ोल्डर को विंडोज़ एनटीएफ़एस वॉल्यूम पर खोला जाता है, तो सिस्टम प्रत्येक सूचीबद्ध फ़ोल्डर पर एक टाइमस्टैम्प फ़ील्ड को अद्यतित करने के लिए समय लेता है, जिसे अंतिम पहुँच समय कहा जाता है। एक अधिक प्रयोग होने वाले एनटीएफ़एस वॉल्यूम पर, यह प्रदर्शन प्रभावित कर सकता है।
 
-1. Open the Registry Editor (Regedit.exe).
-2. Browse to `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem`.
-3. Look for `NtfsDisableLastAccessUpdate`. If it doesn’t exist, add this DWORD and set its value to 1, which will disable the process.
-4. Close the Registry Editor, and reboot the server.
+1. रजिस्ट्री संपादक (Regedit.exe) खोलें।
+2. `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem` तक ब्राउज़ करें।
+3. `NtfsDisableLastAccessUpdate` ढूंढें। यदि यह मौजूद नहीं है, तो इस DWORD को जोड़ें और इसके मान को 1 सेट करें, जिससे प्रक्रिया अक्षम हो जाएगी।
+4. रजिस्ट्री संपादक बंद करें और सर्वर को पुनरारंभ करें।
 
-## Delete USB History
+## USB इतिहास को हटाएं
 
-All the **USB Device Entries** are stored in Windows Registry Under the **USBSTOR** registry key that contains sub keys which are created whenever you plug a USB Device into your PC or Laptop. You can find this key here H`KEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`. **Deleting this** you will delete the USB history.\
-You may also use the tool [**USBDeview**](https://www.nirsoft.net/utils/usb\_devices\_view.html) to be sure you have deleted them (and to delete them).
+सभी **USB डिवाइस एंट्री** विंडोज़ रजिस्ट्री में **USBSTOR** रजिस्ट्री कुंजी के तहत संग्रहित होती है, जिसमें उपकरण को अपने पीसी या लैपटॉप में प्लग करने पर उत्पन्न सबकुंजी होती है। आप इस कुंजी को यहां पाएंगे H`KEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`। **इसे हटाने** से आप USB इतिहास को हटा देंगे।\
+आप इसे हटाने के लिए उपकरण [**USBDeview**](https://www.nirsoft.net/utils/usb\_devices\_view.html) भी उपयोग कर सकते हैं (और इसे हटाने के लिए)।
 
-Another file that saves information about the USBs is the file `setupapi.dev.log` inside `C:\Windows\INF`. This should also be deleted.
+एक और फ़ाइल जो USB के बारे में जानकारी सहेजती है, वह है `C:\Windows\INF` के अंदर `setupapi.dev.log` फ़ाइल। इसे भी हटा देना चाहिए।
 
-## Disable Shadow Copies
+## शैडो कॉपियों को अक्षम करें
 
-**List** shadow copies with `vssadmin list shadowstorage`\
-**Delete** them running `vssadmin delete shadow`
+`vssadmin list shadowstorage` के साथ **शैडो कॉपियों की सूची** बनाएं\
+`vssadmin delete shadow` चलाकर उन्हें **हटा दें**
 
-You can also delete them via GUI following the steps proposed in [https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html](https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html)
+आप इन्हें GUI के माध्यम से भी हटा सकते हैं, जिसके लिए [https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html](https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html) में प्रस्तावित चरणों का पालन करें
 
-To disable shadow copies:
+शैडो कॉपियों को अक्षम करने के लिए:
 
-1. Go to the Windows start button and type "services" into the text search box; open the Services program.
-2. Locate "Volume Shadow Copy" from the list, highlight it,  and then right-click > Properties.
-3. From the "Startup type" drop-down menu, select Disabled, and then click Apply and OK.
-
-![](<../../.gitbook/assets/image (453).png>)
-
-It's also possible to modify the configuration of which files are going to be copied in the shadow copy in the registry `HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot`
-
-## Overwrite deleted files
-
-* You can use a **Windows tool**: `cipher /w:C` This will indicate cipher to remove any data from the available unused disk space inside the C drive.
-* You can also use tools like [**Eraser**](https://eraser.heidi.ie)
-
-## Delete Windows event logs
-
-* Windows + R --> eventvwr.msc --> Expand "Windows Logs" --> Right click each category and select "Clear Log"
-* `for /F "tokens=*" %1 in ('wevtutil.exe el') DO wevtutil.exe cl "%1"`
-* `Get-EventLog -LogName * | ForEach { Clear-EventLog $_.Log }`
-
-## Disable Windows event logs
-
-* `reg add 'HKLM\SYSTEM\CurrentControlSet\Services\eventlog' /v Start /t REG_DWORD /d 4 /f`
-* Inside the services section disable the service "Windows Event Log"
-* `WEvtUtil.exec clear-log` or `WEvtUtil.exe cl`
-
-## Disable $UsnJrnl
-
-* `fsutil usn deletejournal /d c:`
-
-
-<details>
-
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
-
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
-
-</details>
-
-
+1. विंडोज़ स्टार्ट बटन पर जाएं और "सेवाएं" टेक्स्ट खोज बॉक्स में टाइप करें; सेवाएं प्रोग्राम खोलें।
+2. स

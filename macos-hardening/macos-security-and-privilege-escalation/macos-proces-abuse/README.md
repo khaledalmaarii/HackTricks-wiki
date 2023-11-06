@@ -1,95 +1,63 @@
-# macOS Proces Abuse
+# macOS प्रक्रिया दुरुपयोग
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी **कंपनी को HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS की नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करने की इच्छा है? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा एकल [**NFT**](https://opensea.io/collection/the-peass-family) संग्रह देखें
+* [**आधिकारिक PEASS और HackTricks swag**](https://peass.creator-spring.com) प्राप्त करें
+* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में **शामिल हों** या मुझे **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)** का** **अनुसरण** करें।**
+* **अपने हैकिंग ट्रिक्स को** [**hacktricks रेपो**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud रेपो**](https://github.com/carlospolop/hacktricks-cloud) **में पीआर जमा करके अपना योगदान दें।**
 
 </details>
 
-## MacOS Process Abuse
+## MacOS प्रक्रिया दुरुपयोग
 
-MacOS, like any other operating system, provides a variety of methods and mechanisms for **processes to interact, communicate, and share data**. While these techniques are essential for efficient system functioning, they can also be abused by threat actors to **perform malicious activities**.
+MacOS, किसी भी अन्य ऑपरेटिंग सिस्टम की तरह, **प्रक्रियाओं को इंटरैक्ट, संचार और डेटा साझा करने** के लिए विभिन्न तकनीकों और यंत्रों की प्रदान करता है। यद्यपि ये तकनीक दक्ष सिस्टम कार्य के लिए आवश्यक हैं, लेकिन इनका दुरुपयोग भी किया जा सकता है ताकि आपत्तिजनक गतिविधियों को **क्रियान्वित** किया जा सके।
 
-### Library Injection
+### लाइब्रेरी इंजेक्शन
 
-Library Injection is a technique wherein an attacker **forces a process to load a malicious library**. Once injected, the library runs in the context of the target process, providing the attacker with the same permissions and access as the process.
+लाइब्रेरी इंजेक्शन एक तकनीक है जिसमें एक हमलावर **प्रक्रिया को एक आपत्तिजनक लाइब्रेरी लोड करने के लिए मजबूर किया जाता है**। एक बार इंजेक्शन हो जाने पर, लाइब्रेरी लक्ष्य प्रक्रिया के संदर्भ में चलती है, जिससे हमलावर को प्रक्रिया के साथी अनुमतियों और पहुंच की प्राप्ति होती है।
 
 {% content-ref url="macos-library-injection/" %}
 [macos-library-injection](macos-library-injection/)
 {% endcontent-ref %}
 
-### Function Hooking
+### फंक्शन हुकिंग
 
-Function Hooking involves **intercepting function calls** or messages within a software code. By hooking functions, an attacker can **modify the behavior** of a process, observe sensitive data, or even gain control over the execution flow.
+फंक्शन हुकिंग में, सॉफ्टवेयर कोड के भीतर **फंक्शन कॉल** या **संदेशों को अवरोधित करना** शामिल होता है। फंक्शन हुकिंग के द्वारा, एक हमलावर प्रक्रिया के व्यवहार को **संशोधित** कर सकता है, संवेदनशील डेटा का अवलोकन कर सकता है, या यहां तक कि क्रियान्वयन धारण कर सकता है।
 
 {% content-ref url="../mac-os-architecture/macos-function-hooking.md" %}
 [macos-function-hooking.md](../mac-os-architecture/macos-function-hooking.md)
 {% endcontent-ref %}
 
-### Inter Process Communication
+### इंटर प्रक्रिया संचार
 
-Inter Process Communication (IPC) refers to different methods by which separate processes **share and exchange data**. While IPC is fundamental for many legitimate applications, it can also be misused to subvert process isolation, leak sensitive information, or perform unauthorized actions.
+इंटर प्रक्रिया संचार (IPC) अलग-अलग तकनीकों को संदर्भित करता है, जिनसे अलग-अलग प्रक्रियाएं **डेटा साझा और आपस में विनिमय करती हैं**। IPC बहुत सारे वैध अनुप्रयोगों के लिए मूल्यांकन है, लेकिन इसका दुरुपयोग भी किया जा सकता है ताकि प्रक्रिया अलगाव को उल्लंघन कर सके, संवेदनशील जानकारी छिड़काव कर सके, या अनधिकृत कार्रवाई कर सके।
 
 {% content-ref url="../mac-os-architecture/macos-ipc-inter-process-communication/" %}
 [macos-ipc-inter-process-communication](../mac-os-architecture/macos-ipc-inter-process-communication/)
 {% endcontent-ref %}
 
-### Electron Applications Injection
+### इलेक्ट्रॉन एप्लिकेशन इंजेक्शन
 
-Electron applications executed with specific env variables could be vulnerable to process injection:
+निश्चित env variables के साथ निष्पादित इलेक्ट्रॉन एप्लिकेशन प्रक्रिया इंजेक्शन के प्रति संवेदनशील हो सकती हैं:
 
 {% content-ref url="macos-electron-applications-injection.md" %}
 [macos-electron-applications-injection.md](macos-electron-applications-injection.md)
 {% endcontent-ref %}
 
-### Dirty NIB
+### गंदी NIB
 
-NIB files **define user interface (UI) elements** and their interactions within an application. However, they can **execute arbitrary commands** and **Gatekeeper doesn't stop** an already executed application from being executed if a **NIB file is modified**. Therefore, they could be used to make arbitrary programs execute arbitrary commands:
+NIB फ़ाइलें **उपयोगकर्ता इंटरफ़ेस (UI) तत्वों** को परिभाषित करती हैं और उनके अन्तर्घटनों को विवरणित कर
+### अन्य प्रक्रियाओं द्वारा किए गए कॉल
 
-{% content-ref url="macos-dirty-nib.md" %}
-[macos-dirty-nib.md](macos-dirty-nib.md)
-{% endcontent-ref %}
+[**इस ब्लॉग पोस्ट**](https://knight.sc/reverse%20engineering/2019/04/15/detecting-task-modifications.html) में आप देख सकते हैं कि कैसे फ़ंक्शन **`task_name_for_pid`** का उपयोग करके एक प्रक्रिया में कोड इंजेक्शन करने वाली अन्य **प्रक्रियाओं के बारे में जानकारी प्राप्त** की जा सकती है और फिर उस अन्य प्रक्रिया के बारे में जानकारी प्राप्त की जा सकती है।
 
-### .Net Applications Injection
+ध्यान दें कि इस फ़ंक्शन को कॉल करने के लिए आपको प्रक्रिया चलाने वाले उसी uid के रूप में होना चाहिए या **रूट** होना चाहिए (और यह प्रक्रिया के बारे में जानकारी देता है, कोड इंजेक्शन करने का एक तरीका नहीं है)।
 
-It's possible to inject code into .Net applications by **abusing the .Net debugging functionality** (not protected by macOS protections such as runtime hardening).
-
-{% content-ref url="macos-.net-applications-injection.md" %}
-[macos-.net-applications-injection.md](macos-.net-applications-injection.md)
-{% endcontent-ref %}
-
-### Python Injection
-
-If the environment variable **`PYTHONINSPECT`** is set, the python process will drop into a python cli once it's finished.
-
-Other env variables such as **`PYTHONPATH`** and **`PYTHONHOME`** could also be useful to make a python command execute arbitrary scode.
-
-Note that executables compiled with **`pyinstaller`** won't use these environmental variables even if they are running using an embedded python.
-
-## Detection
-
-### Shield
-
-[**Shield**](https://theevilbit.github.io/shield/) ([**Github**](https://github.com/theevilbit/Shield)) is an open source application that can **detect and block process injection** actions:
-
-* Using **Environmental Variables**: It will monitor the presence of any of the following environmental variables: **`DYLD_INSERT_LIBRARIES`**, **`CFNETWORK_LIBRARY_PATH`**, **`RAWCAMERA_BUNDLE_PATH`** and **`ELECTRON_RUN_AS_NODE`**
-* Using **`task_for_pid`** calls: To find when one process wants to get the **task port of another** which allows to inject code in the process.
-* **Electron apps params**: Someone can use **`--inspect`**, **`--inspect-brk`** and **`--remote-debugging-port`** command line argument to start an Electron app in debugging mode, and thus inject code to it.
-* Using **symlinks** or **hardlinks**: Typically the most common abuse is to **place a link with our user privileges**, and **point it to a higher privilege** location. The detection is very simple for both hardlink and symlinks. If the process creating the link has a **different privilege level** than the target file, we create an **alert**. Unfortunately in the case of symlinks blocking is not possible, as we don’t have information about the destination of the link prior creation. This is a limitation of Apple’s EndpointSecuriy framework.
-
-### Calls made by other processes
-
-In [**this blog post**](https://knight.sc/reverse%20engineering/2019/04/15/detecting-task-modifications.html) you can find how it's possible to use the function **`task_name_for_pid`** to get information about other **processes injecting code in a process** and then getting information about that other process.
-
-Note that to call that function you need to be **the same uid** as the one running the process or **root** (and it returns info about the process, not a way to inject code).
-
-## References
+## संदर्भ
 
 * [https://theevilbit.github.io/shield/](https://theevilbit.github.io/shield/)
 * [https://medium.com/@metnew/why-electron-apps-cant-store-your-secrets-confidentially-inspect-option-a49950d6d51f](https://medium.com/@metnew/why-electron-apps-cant-store-your-secrets-confidentially-inspect-option-a49950d6d51f)
@@ -98,10 +66,10 @@ Note that to call that function you need to be **the same uid** as the one runni
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS की नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का एक्सेस** चाहिए? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष [**NFT**](https://opensea.io/collection/the-peass-family) संग्रह।
+* प्राप्त करें [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या मुझे **ट्विटर** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **अपने हैकिंग ट्रिक्स साझा करें और PR जमा करके** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **को** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **में जमा करके**।
 
 </details>

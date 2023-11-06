@@ -1,100 +1,70 @@
-# macOS Launch/Environment Constraints
+# macOS लॉन्च/वातावरण प्रतिबंध
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud)
+* क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS की नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करना चाहिए? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा एकल [**NFT**](https://opensea.io/collection/the-peass-family) संग्रह
+* [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com) प्राप्त करें
+* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में **शामिल हों** या मुझे **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)** का** **अनुसरण** करें।**
+* **अपने हैकिंग ट्रिक्स को** [**hacktricks रेपो**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud रेपो**](https://github.com/carlospolop/hacktricks-cloud) **में PR जमा करके साझा करें**
 *
 * .
 
 </details>
 
-## Basic Information
+## मूलभूत जानकारी
 
-Launch constraints in macOS were introduced to enhance security by **regulating how, who, and from where a process can be initiated**. Initiated in macOS Ventura, they provide a framework that categorizes **each system binary into distinct constraint categories**, which are defined within the **trust cache**, a list containing system binaries and their respective hashes​. These constraints extend to every executable binary within the system, entailing a set of **rules** delineating the requirements for **launching a particular binary**. The rules encompass self constraints that a binary must satisfy, parent constraints required to be met by its parent process, and responsible constraints to be adhered to by other relevant entities​.
+macOS में लॉन्च प्रतिबंधों को लागू करने का उद्देश्य है **प्रक्रिया को कैसे, कौन और कहां से प्रारंभ किया जा सकता है** की सुरक्षा को बढ़ाना। macOS Ventura में प्रारंभिक किए गए इन प्रतिबंधों ने **प्रत्येक सिस्टम बाइनरी को अलग प्रतिबंध श्रेणियों में वर्गीकृत** किया है, जो **विश्वास कैश** में परिभाषित हैं, जिसमें सिस्टम बाइनरी और उनके संबंधित हैश शामिल होते हैं। ये प्रतिबंध सिस्टम के हर एक्जीक्यूटेबल बाइनरी तक फैलते हैं, जिसमें किसी विशेष बाइनरी को लॉन्च करने के लिए आवश्यकताएं निर्धारित करने वाले **नियम** शामिल होते हैं। ये नियम स्वयं प्रतिबंधों को संतुष्ट करने के लिए होते हैं, जो एक बाइनरी को पूरा करना होता है, माता प्रक्रिया द्वारा पूरा करने के लिए आवश्यकताएं और अन्य संबंधित संस्थाओं द्वारा पालन करने के लिए आवश्यकताएं।
 
-The mechanism extends to third-party apps through **Environment Constraints**, beginning from macOS Sonoma, allowing developers to protect their apps by specifying a **set of keys and values for environment constraints.**
+इस तंत्र को macOS Sonoma से शुरू होकर तीसरे पक्ष ऐप्स तक विस्तारित किया गया है, जो डेवलपर्स को उनके ऐप्स की सुरक्षा को सुरक्षित करने के लिए एक **पर्यावरण प्रतिबंधों के लिए कुंजी और मान निर्दिष्ट करने की** सुविधा प्रदान करता है।
 
-You define **launch environment and library constraints** in constraint dictionaries that you either save in **`launchd` property list files**, or in **separate property list** files that you use in code signing.
+आप **लॉन्च पर्यावरण और पुस्तकालय प्रतिबंधों** को प्रतिबंध शब्दकोश में वर्णित नियमों में परिभाषित करते हैं, जिन्हें आप या तो **`launchd` प्रॉपर्टी सूची फ़ाइलों** में सहेजते हैं, या कोड साइनिंग में उपयोग करने वाली **अलग प्रॉपर्टी सूची** फ़ाइलों में।
 
-There are 4 types of constraints:
+4 प्रकार के प्रतिबंध होते हैं:
 
-* **Self Constraints**: Constrains applied to the **running** binary.
-* **Parent Process**: Constraints applied to the **parent of the process** (for example **`launchd`** running a XP service)
-* **Responsible Constraints**: Constraints applied to the **process calling the service** in a XPC communication
-* **Library load constraints**: Use library load constraints to selectively describe code that can be loaded
+* **स्वयं प्रतिबंध**: **चल रहे** बाइनरी पर लागू प्रतिबंध।
+* **माता प्रक्रिया**: **प्रक्रिया के माता** पर लागू प्रतिबंध (उदाहरण के लिए **`launchd`** एक XP सेवा चला रहा है)
+* **जिम्मेदार प्रतिबंध**: **सेवा को कॉल करने वाली प्रक्रिया** पर लागू प्रतिबंध
+* **पुस्तकालय लोड प्रतिबंध**: पुस्तकालय लोड प्रतिबंध का उपयोग करके लोड किए जाने वाले कोड का विवरण देने के लिए प्रयोग करें
 
-So when a process tries to launch another process — by calling `execve(_:_:_:)` or `posix_spawn(_:_:_:_:_:_:)` — the operating system checks that the **executable** file **satisfies** its **own self constraint**. It also checks that the **parent** **process’s** executable **satisfies** the executable’s **parent constraint**, and that the **responsible** **process’s** executable **satisfies the executable’s responsible process constrain**t. If any of these launch constraints aren’t satisfied, the operating system doesn’t run the program.
-
-If when loading a library any part of the **library constraint isn’t true**, your process **doesn’t load** the library.
-
-## LC Categories
-
-A LC as composed by **facts** and **logical operations** (and, or..) that combines facts.
-
-The[ **facts that a LC can use are documented**](https://developer.apple.com/documentation/security/defining\_launch\_environment\_and\_library\_constraints). For example:
-
-* is-init-proc: A Boolean value that indicates whether the executable must be the operating system’s initialization process (`launchd`).
-* is-sip-protected: A Boolean value that indicates whether the executable must be a file protected by System Integrity Protection (SIP).
-* `on-authorized-authapfs-volume:` A Boolean value that indicates whether the operating system loaded the executable from an authorized, authenticated APFS volume.
-* `on-authorized-authapfs-volume`: A Boolean value that indicates whether the operating system loaded the executable from an authorized, authenticated APFS volume.
-  * Cryptexes volume
-* `on-system-volume:`A Boolean value that indicates whether the operating system loaded the executable from the currently-booted system volume.
-  * Inside /System...
-* ...
-
-When an Apple binary is signed it **assigns it to a LC category** inside the **trust cache**.
-
-* **iOS 16 LC categories** were [**reversed and documented in here**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056).
-* Current **LC categories (macOS 14** - Somona) have been reversed and their [**descriptions can be found here**](https://gist.github.com/theevilbit/a6fef1e0397425a334d064f7b6e1be53).
-
-For example Category 1 is:
-
+तो जब एक प्रक्रिया दूसरी प्रक्रिया को लॉन्च करने का प्रयास करती है - `execve(_:_:_:)` या `posix_spawn(_:_:_:_:_:_:)` को कॉल करके - ऑपरेटिंग सिस्टम यह जांचता है कि **एक्जीक्यूटेबल** फ़ाइल अपने **स्वयं प्रतिबंध** को पूरा करती है। यह भी जांचता है कि **माता प्रक्रिया** का एक्जीक्यूटेबल **प्रक्रिया के माता प्रतिबंध** को पूरा करता है, और कि **जिम्मेदार प्रक्रिया** का
 ```
 Category 1:
-        Self Constraint: (on-authorized-authapfs-volume || on-system-volume) && launch-type == 1 && validation-category == 1
-        Parent Constraint: is-init-proc
+Self Constraint: (on-authorized-authapfs-volume || on-system-volume) && launch-type == 1 && validation-category == 1
+Parent Constraint: is-init-proc
 ```
+* `(on-authorized-authapfs-volume || on-system-volume)`: सिस्टम या क्रिपटेक्स वॉल्यूम में होना चाहिए।
+* `launch-type == 1`: सिस्टम सेवा होना चाहिए (लॉन्चडेमन्स में प्लिस्ट)।
+* &#x20; `validation-category == 1`: ऑपरेटिंग सिस्टम का एक्सीक्यूटेबल होना चाहिए।
+* `is-init-proc`: लॉन्च्ड
 
-* `(on-authorized-authapfs-volume || on-system-volume)`: Must be in System or Cryptexes volume.
-* `launch-type == 1`: Must be a system service (plist in LaunchDaemons).
-* &#x20; `validation-category == 1`: An operating system executable.
-* `is-init-proc`: Launchd
+### LC श्रेणियों को उलटा करना
 
-### Reversing LC Categories
+आपके पास इसके बारे में अधिक जानकारी [**यहां**](https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/#reversing-constraints) है, लेकिन मूल रूप से वे **AMFI (AppleMobileFileIntegrity)** में परिभाषित होते हैं, इसलिए आपको **कर्नल डेवलपमेंट किट** डाउनलोड करने की आवश्यकता होगी ताकि आप **KEXT** प्राप्त कर सकें। **`kConstraintCategory`** से शुरू होने वाले प्रतीक्षापूर्वक हैं। उन्हें निकालकर आपको एक DER (ASN.1) कोडेड स्ट्रीम मिलेगी जिसे आपको [ASN.1 डिकोडर](https://holtstrom.com/michael/tools/asn1decoder.php) या python-asn1 लाइब्रेरी और इसके `dump.py` स्क्रिप्ट, [andrivet/python-asn1](https://github.com/andrivet/python-asn1/tree/master) के साथ डिकोड करने की आवश्यकता होगी, जो आपको एक अधिक समझने योग्य स्ट्रिंग देगा।
 
-You have more information [**about it in here**](https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/#reversing-constraints), but basically, They are defined in **AMFI (AppleMobileFileIntegrity)**, so you need to download the Kernel Development Kit to get the **KEXT**. The symbols starting with **`kConstraintCategory`** are the **interesting** ones. Extracting them you will get a DER (ASN.1) encoded stream that you will need to decode with [ASN.1 Decoder](https://holtstrom.com/michael/tools/asn1decoder.php) or the python-asn1 library and its `dump.py` script, [andrivet/python-asn1](https://github.com/andrivet/python-asn1/tree/master) which will give you a more understandable string.
+## लॉन्च पर्यावरण की बाधाएँ
 
-## Environment Constraints
-
-These are the Launch Constraints set configured in **third party applications**. The developer can select the **facts** and **logical operands to use** in his application to restrict the access to itself.
-
-It's possible to enumerate the Environment Constraints of an application with:
-
+ये तीसरे पक्ष के अनुप्रयोगों में कॉन्फ़िगर की गई लॉन्च पर्यावरण बाधाएँ हैं। डेवलपर अपने अनुप्रयोग में एक्सेस को सीमित करने के लिए अपनी अनुप्रयोग में **तथ्य** और **
 ```bash
 codesign -d -vvvv app.app
 ```
+## विश्वास कैश
 
-## Trust Caches
-
-In **macOS** there are a few trust caches:
+**macOS** में कुछ विश्वास कैश होते हैं:
 
 * **`/System/Volumes/Preboot/*/boot/*/usr/standalone/firmware/FUD/BaseSystemTrustCache.img4`**
 * **`/System/Volumes/Preboot/*/boot/*/usr/standalone/firmware/FUD/StaticTrustCache.img4`**
 * **`/System/Library/Security/OSLaunchPolicyData`**
 
-And in iOS it looks like it's in **`/usr/standalone/firmware/FUD/StaticTrustCache.img4`**.
+और iOS में ऐसा दिखता है कि यह **`/usr/standalone/firmware/FUD/StaticTrustCache.img4`** में होता है।
 
-### Enumerating Trust Caches
+### विश्वास कैशों की गणना
 
-The previous trust cache files are in format **IMG4** and **IM4P**, being IM4P the payload section of a IMG4 format.
+पिछले विश्वास कैश फ़ाइलें **IMG4** और **IM4P** प्रारूप में होती हैं, जहां IM4P एक IMG4 प्रारूप का पेलोड अनुभाग होता है।
 
-You can use [**pyimg4**](https://github.com/m1stadev/PyIMG4) to extract the payload of databases:
+आप [**pyimg4**](https://github.com/m1stadev/PyIMG4) का उपयोग डेटाबेस के पेलोड को निकालने के लिए कर सकते हैं:
 
 {% code overflow="wrap" %}
 ```bash
@@ -114,10 +84,9 @@ pyimg4 im4p extract -i /System/Library/Security/OSLaunchPolicyData -o /tmp/OSLau
 ```
 {% endcode %}
 
-(Another option could be to use the tool [**img4tool**](https://github.com/tihmstar/img4tool), which will run even in M1 even if the release is old and for x86\_64 if you install it in the proper locations).
+(एक विकल्प यह हो सकता है कि आप टूल [**img4tool**](https://github.com/tihmstar/img4tool) का उपयोग करें, जो M1 में चलेगा, यदि रिलीज पुराना है और x86\_64 के लिए यदि आप इसे सही स्थानों पर स्थापित करते हैं).
 
-Now you can use the tool [**trustcache**](https://github.com/CRKatri/trustcache) to get the information in a readable format:
-
+अब आप टूल [**trustcache**](https://github.com/CRKatri/trustcache) का उपयोग करके पठनीय प्रारूप में जानकारी प्राप्त कर सकते हैं:
 ```bash
 # Install
 wget https://github.com/CRKatri/trustcache/releases/download/v2.0/trustcache_macos_arm64
@@ -141,40 +110,37 @@ entry count = 969
 01e6934cb8833314ea29640c3f633d740fc187f2 [none] [2] [2]
 020bf8c388deaef2740d98223f3d2238b08bab56 [none] [2] [3]
 ```
-
-The trust cache follows the following structure, so The **LC category is the 4th column**
-
+विश्वास कैश का निम्नलिखित संरचना का पालन किया जाता है, इसलिए **LC श्रेणी 4 वें स्तंभ** होती है।
 ```c
 struct trust_cache_entry2 {
-	uint8_t cdhash[CS_CDHASH_LEN];
-	uint8_t hash_type;
-	uint8_t flags;
-	uint8_t constraintCategory;
-	uint8_t reserved0;
+uint8_t cdhash[CS_CDHASH_LEN];
+uint8_t hash_type;
+uint8_t flags;
+uint8_t constraintCategory;
+uint8_t reserved0;
 } __attribute__((__packed__));
 ```
+तो, आप डेटा निकालने के लिए [**इस तरह का स्क्रिप्ट**](https://gist.github.com/xpn/66dc3597acd48a4c31f5f77c3cc62f30) का उपयोग कर सकते हैं।
 
-Then, you could use a script such as [**this one**](https://gist.github.com/xpn/66dc3597acd48a4c31f5f77c3cc62f30) to extract data.
+उस डेटा से आप **`0` के लॉन्च सीमाओं के साथ ऐप्स की जांच कर सकते हैं**, जो ऐसे होते हैं जो सीमित नहीं होते हैं ([**यहां जांचें**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056) कि प्रत्येक मान क्या है)।
 
-From that data you can check the Apps with a **launch constraints value of `0`** , which are the ones that aren't constrained ([**check here**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056) for what each value is).
+## हमला निवारण
 
-## Attack Mitigations
+लॉन्च कंस्ट्रेंट्स ने कई पुराने हमलों को निवारण किया है जो **यह सुनिश्चित करते हैं कि प्रक्रिया अप्रत्याशित स्थितियों में नहीं चलाई जाएगी:** उदाहरण के लिए अप्रत्याशित स्थानों से या अप्रत्याशित माता-पिता प्रक्रिया द्वारा आह्वानित होने से (यदि केवल लॉन्चडी ही इसे लॉन्च करना चाहिए था)
 
-Launch Constrains would have mitigated several old attacks by **making sure that the process won't be executed in unexpected conditions:** For example from unexpected locations or being invoked by an unexpected parent process (if only launchd should be launching it)
+इसके अलावा, लॉन्च कंस्ट्रेंट्स ने **डाउनग्रेड हमलों को भी निवारण किया है**।
 
-Moreover, Launch Constraints also **mitigates downgrade attacks.**
+हालांकि, यह **सामान्य XPC** दुरुपयोग, **इलेक्ट्रॉन** कोड इंजेक्शन या लाइब्रेरी सत्यापन के बिना **डायलिब इंजेक्शन** को निवारण नहीं करता है (जब तक लाइब्रेरी लोड करने वाले टीम आईडी पता नहीं हो)।
 
-However, they **don't mitigate common XPC** abuses, **Electron** code injections or **dylib injections** without library validation (unless the team IDs that can load libraries are known).
+### XPC डेमन सुरक्षा
 
-### XPC Daemon Protection
+इस लेख लिखने के समय (सोनोमा रिलीज) में **डेमन XPC सेवा के लिए जिम्मेदार प्रक्रिया** जुड़े ग्राहक की बजाय खुद डेमन XPC सेवा होती है। (जमा किया गया FB: FB13206884)। एक सेकंड के लिए मान लेते हैं कि यह एक बग है, हम फिर भी **हमारे हमले को चालू करने में सक्षम नहीं होंगे**, लेकिन यदि यह **पहले से ही सक्रिय है** (शायद क्योंकि मूल ऐप ने इसे आह्वानित किया था), तो हमें इससे **जुड़ने से कुछ नहीं रोक सकता** है। इसलिए, यदि सीमा सेट करना एक अच्छा विचार हो सकता है, और यह हमले का समय-सीमा सीमित करेगा, लेकिन यह मुख्य समस्या को हल नहीं करता है, और हमारी XPC सेवा को अच्छी तरह से जुड़े ग्राहक की प्रमाणित करनी चाहिए। यह अभी भी इसी तरह काम करने का एकमात्र तरीका है। इसके अलावा, शुरुआत में उल्लिखित किया गया है कि यह अभी भी इसी तरह काम नहीं करता है।
 
-At the time of this writing (Sonoma release) the **responsible process** for the daemon XPC service **is the XPC service itself** instead of the connecting client. (Submitted FB: FB13206884). Assuming for a second that it’s a bug, we still **won’t be able to launch the XPC service in our attacker code**, but if it’s **active already** (maybe because it was invoked by the original app), there is nothing preventing us from **connecting to it**. So while setting the constraint might be a good idea, and would **limit the attack timeframe**, it doesn’t solve the main issue, and our XPC service should still properly validate the connecting client. That is still the only way to secure it. Also as mentioned in the beginning it doesn’t even work this way now.
+### इलेक्ट्रॉन सुरक्षा
 
-### Electron Protection
+यदि इसकी आवश्यकता होती है कि ऐप्लिकेशन को **लॉन्च सर्विस द्वारा खोलना** होता है (माता-पिता की सीमाओं में)। इसे **`open`** का उपयोग करके (जो env variables सेट कर सकता है) या **लॉन्च सर्विसेज एपीआई** का उपयोग करके (जहां env variables दर्शाए जा सकते हैं) प्राप्त किया जा सकता है।
 
-Even if it's required that the application has to be **opened by LaunchService** (in the parents constraints). This can be achieved using **`open`** (which can set env variables) or using the **Launch Services API** (where env variables can be indicated).
-
-## References
+## संदर्भ
 
 * [https://youtu.be/f1HA5QhLQ7Y?t=24146](https://youtu.be/f1HA5QhLQ7Y?t=24146)
 * [https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/](https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/)
@@ -185,11 +151,11 @@ Even if it's required that the application has to be **opened by LaunchService**
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud)
+* क्या आप **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **हैकट्रिक्स में विज्ञापित** देखना चाहते हैं? या क्या आप **PEASS के नवीनतम संस्करण का उपयोग करना चाहते हैं या HackTricks को PDF में डाउनलोड करना चाहते हैं**? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारे विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) का संग्रह
+* प्राप्त करें [**आधिकारिक PEASS और HackTricks swag**](https://peass.creator-spring.com)
+* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या मुझे **ट्विटर** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **अपने हैकिंग ट्रिक्स साझा करें, PRs सबमिट करके** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **में**
 *
 * .
 

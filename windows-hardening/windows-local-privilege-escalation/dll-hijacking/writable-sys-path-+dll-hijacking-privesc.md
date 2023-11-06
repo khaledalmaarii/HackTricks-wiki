@@ -1,105 +1,56 @@
-# Writable Sys Path +Dll Hijacking Privesc
+# लिखने योग्य सिस्टम पथ + Dll हाइजैकिंग प्राइवेसीकरण
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ हैकट्रिक्स क्लाउड ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 ट्विटर 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ ट्विच 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 यूट्यूब 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **हैकट्रिक्स में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करने की आवश्यकता है? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा विशेष [**NFT**](https://opensea.io/collection/the-peass-family) संग्रह
+* [**आधिकारिक PEASS और HackTricks swag**](https://peass.creator-spring.com) प्राप्त करें
+* [**💬**](https://emojipedia.org/speech-balloon/) [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में **शामिल हों** या मुझे **ट्विटर** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)** का** **अनुसरण** करें।**
+* **अपने हैकिंग ट्रिक्स को** [**hacktricks रेपो**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud रेपो**](https://github.com/carlospolop/hacktricks-cloud) **में पीआर जमा करके अपने हैकिंग ट्रिक्स साझा करें।**
 
 </details>
 
-## Introduction
+## परिचय
 
-If you found that you can **write in a System Path folder** (note that this won't work if you can write in a User Path folder) it's possible that you could **escalate privileges** in the system.
+यदि आपने पाया है कि आप **सिस्टम पथ फ़ोल्डर में लिख सकते हैं** (ध्यान दें कि यदि आप एक उपयोगकर्ता पथ फ़ोल्डर में लिख सकते हैं तो यह काम नहीं करेगा), तो संभव है कि आप सिस्टम में **व्यवस्थापकीय अधिकारों को उन्नत कर सकते हैं**।
 
-In order to do that you can abuse a **Dll Hijacking** where you are going to **hijack a library being loaded** by a service or process with **more privileges** than yours, and because that service is loading a Dll that probably doesn't even exist in the entire system, it's going to try to load it from the System Path where you can write.
+इसके लिए आप एक **Dll हाइजैकिंग** का उपयोग कर सकते हैं, जहां आप एक सेवा या प्रक्रिया द्वारा **लोड की जा रही एक पुस्तकालय को हाइजैक** करेंगे जिसमें आपकी से अधिकाधिकार होंगे, और क्योंकि वह सेवा एक Dll लोड कर रही है जो संभवतः पूरे सिस्टम में मौजूद नहीं है, इसे सिस्टम पथ से लोड करने की कोशिश करेगी जहां आप लिख सकते हैं।
 
-For more info about **what is Dll Hijackig** check:
+**Dll हाइजैकिंग क्या है** के बारे में अधिक जानकारी के लिए देखें:
 
 {% content-ref url="../dll-hijacking.md" %}
 [dll-hijacking.md](../dll-hijacking.md)
 {% endcontent-ref %}
 
-## Privesc with Dll Hijacking
+## Dll हाइजैकिंग के साथ प्राइवेसीकरण
 
-### Finding a missing Dll
+### एक गायब Dll खोजना
 
-The first thing you need is to **identify a process** running with **more privileges** than you that is trying to **load a Dll from the System Path** you can write in.
+पहली चीज़ जो आपको करनी है, वह है कि आपको एक प्रक्रिया की पहचान करनी होगी जो आपसे **अधिकाधिकारों** के साथ चल रही है और जो एक Dll को सिस्टम पथ से लोड करने की कोशिश कर रही है जिसमें आप लिख सकते हैं।
 
-The problem in this cases is that probably thoses processes are already running. To find which Dlls are lacking the services you need to launch procmon as soon as possible (before processes are loaded). So, to find lacking .dlls do:
+इस मामले में समस्या यह है कि शायद वे प्रक्रियाएँ पहले से ही चल रही हों। आपको जिन Dlls की आवश्यकता है, उन्हें खोजने के लिए प्रोसेस को लोड होने से पहले ही procmon चलाने की आवश्यकता होती है। तो, गायब .dlls को खोजने के लिए निम्नलिखित करें: 
 
-* **Create** the folder `C:\privesc_hijacking` and add the path `C:\privesc_hijacking` to **System Path env variable**. You can do this **manually** or with **PS**:
-
+* **`C:\privesc_hijacking`** फ़ोल्डर बनाएं और **System Path env variable** में **`C:\privesc_hijacking`** पथ जोड़ें। आप इसे **मैन्युअल** रूप से या **PS** के साथ कर सकते हैं:
 ```powershell
 # Set the folder path to create and check events for
 $folderPath = "C:\privesc_hijacking"
 
 # Create the folder if it does not exist
 if (!(Test-Path $folderPath -PathType Container)) {
-    New-Item -ItemType Directory -Path $folderPath | Out-Null
+New-Item -ItemType Directory -Path $folderPath | Out-Null
 }
 
 # Set the folder path in the System environment variable PATH
 $envPath = [Environment]::GetEnvironmentVariable("PATH", "Machine")
 if ($envPath -notlike "*$folderPath*") {
-    $newPath = "$envPath;$folderPath"
-    [Environment]::SetEnvironmentVariable("PATH", $newPath, "Machine")
+$newPath = "$envPath;$folderPath"
+[Environment]::SetEnvironmentVariable("PATH", $newPath, "Machine")
 }
 ```
-
-* Launch **`procmon`** and go to **`Options`** --> **`Enable boot logging`** and press **`OK`** in the prompt.
-* Then, **reboot**. When the computer is restarted **`procmon`** will start **recording** events asap.
-* Once **Windows** is **started execute `procmon`** again, it'll tell you that it has been running and will **ask you if you want to store** the events in a file. Say **yes** and **store the events in a file**.
-* **After** the **file** is **generated**, **close** the opened **`procmon`** window and **open the events file**.
-* Add these **filters** and you will find all the Dlls that some **proccess tried to load** from the writable System Path folder:
-
-<figure><img src="../../../.gitbook/assets/image (18).png" alt=""><figcaption></figcaption></figure>
-
-### Missed Dlls
-
-Running this in a free **virtual (vmware) Windows 11 machine** I got these results:
-
-<figure><img src="../../../.gitbook/assets/image (253).png" alt=""><figcaption></figcaption></figure>
-
-In this case the .exe are useless so ignore them, the missed DLLs where from:
-
-| Service                         | Dll                | CMD line                                                             |
-| ------------------------------- | ------------------ | -------------------------------------------------------------------- |
-| Task Scheduler (Schedule)       | WptsExtensions.dll | `C:\Windows\system32\svchost.exe -k netsvcs -p -s Schedule`          |
-| Diagnostic Policy Service (DPS) | Unknown.DLL        | `C:\Windows\System32\svchost.exe -k LocalServiceNoNetwork -p -s DPS` |
-| ???                             | SharedRes.dll      | `C:\Windows\system32\svchost.exe -k UnistackSvcGroup`                |
-
-After finding this, I found this interesting blog post that also explains how to [**abuse WptsExtensions.dll for privesc**](https://juggernaut-sec.com/dll-hijacking/#Windows\_10\_Phantom\_DLL\_Hijacking\_-\_WptsExtensionsdll). Which is what we **are going to do now**.
-
-### Exploitation
-
-So, to **escalate privileges** we are going to hijack the library **WptsExtensions.dll**. Having the **path** and the **name** we just need to **generate the malicious dll**.
-
-You can [**try to use any of these examples**](../dll-hijacking.md#creating-and-compiling-dlls). You could run payloads such as: get a rev shell, add a user, execute a beacon...
-
-{% hint style="warning" %}
-Note that **not all the service are run** with **`NT AUTHORITY\SYSTEM`** some are also run with **`NT AUTHORITY\LOCAL SERVICE`** which has **less privileges** and you **won't be able to create a new user** abuse its permissions.\
-However, that user has the **`seImpersonate`** privilege, so you can use the[ **potato suite to escalate privileges**](../roguepotato-and-printspoofer.md). So, in this case a rev shell is a better option that trying to create a user.
-{% endhint %}
-
-At the moment of writing the **Task Scheduler** service is run with **Nt AUTHORITY\SYSTEM**.
-
-Having **generated the malicious Dll** (_in my case I used x64 rev shell and I got a shell back but defender killed it because it was from msfvenom_), save it in the writable System Path with the name **WptsExtensions.dll** and **restart** the computer (or restart the service or do whatever it takes to rerun the affected service/program).
-
-When the service is re-started, the **dll should be loaded and executed** (you can **reuse** the **procmon** trick to check if the **library was loaded as expected**).
-
-<details>
-
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
-
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
-
-</details>
+* लॉन्च **`procmon`** और **`Options`** पर जाएं --> **`Enable boot logging`** और प्रॉम्प्ट में **`OK`** दबाएं।
+* फिर, **रीबूट** करें। कंप्यूटर पुनः चालू होने पर **`procmon`** इवेंट्स को रिकॉर्ड करना शुरू कर देगा।
+* जब **Windows** शुरू हो जाए, तो **`procmon`** को फिर से **चलाएं**, यह आपको बताएगा कि यह चल रहा है और आपसे पूछेगा कि क्या आप इवेंट्स को फ़ाइल में स्टोर करना चाहते हैं। हाँ कहें और इवेंट्स को फ़ाइल में स्टोर करें।
+* **फ़ाइल** उत्पन्न होने **के बाद**, खुली **`procmon`** विंडो को **बंद करें** और **इवेंट्स फ़ाइल को खोलें**।
+* इन **फ़िल्टर्स** को जोड़ें और आपको वह सभी Dlls मिलेंगी जिन्हें कोई **प्रोसेस लोड करने की कोशिश करता है** लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए लिखने के लिए

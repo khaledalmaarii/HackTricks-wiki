@@ -1,151 +1,96 @@
-
-
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS की नवीनतम संस्करण या HackTricks को PDF में डाउनलोड** करने की अनुमति चाहिए? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष संग्रह [**NFTs**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- प्राप्त करें [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में या मुझे **Twitter** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **अपने हैकिंग ट्रिक्स को [hacktricks रेपो](https://github.com/carlospolop/hacktricks) और [hacktricks-cloud रेपो](https://github.com/carlospolop/hacktricks-cloud) में पीआर जमा करके साझा करें।**
 
 </details>
 
 
 ## smss.exe
 
-**Session Manager**.\
-Session 0 starts **csrss.exe** and **wininit.exe** (**OS** **services**) while Session 1 starts **csrss.exe** and **winlogon.exe** (**User** **session**). However, you should see **only one process** of that **binary** without children in the processes tree.
+**सत्र प्रबंधक**।\
+सत्र 0 प्रक्रियाओं को **csrss.exe** और **wininit.exe** (**ओएस** **सेवाएं**) शुरू करता है जबकि सत्र 1 **csrss.exe** और **winlogon.exe** (**उपयोगकर्ता** **सत्र**) शुरू करता है। हालांकि, आपको प्रक्रियाओं के पेड़ में उस **बाइनरी** की **केवल एक प्रक्रिया** दिखाई देनी चाहिए जिसमें उसके बच्चे नहीं हैं।
 
-Also, sessions apart from 0 and 1 may mean that RDP sessions are occurring.
+इसके अलावा, 0 और 1 के अलावा सत्रों का मतलब हो सकता है कि RDP सत्र हो रहे हैं।
 
 
 ## csrss.exe
 
-**Client/Server Run Subsystem Process**.\
-It manages **processes** and **threads**, makes the **Windows** **API** available for other processes and also **maps drive letters**, create **temp files**, and handles the **shutdown** **process**.
+**क्लाइंट/सर्वर रन सबसिस्टम प्रक्रिया**।\
+यह **प्रक्रियाओं** और **थ्रेड** का प्रबंधन करता है, अन्य प्रक्रियाओं के लिए **Windows** **API** को उपलब्ध कराता है और यहां तक कि **ड्राइव पत्र** को **मानचित्रित करता है**, **टेम्प फ़ाइलें** बनाता है और **शटडाउन** **प्रक्रिया** को संभालता है।
 
-There is one **running in Session 0 and another one in Session 1** (so **2 processes** in the processes tree). Another one is created **per new Session**.
+सत्र 0 में एक **चल रही है और सत्र 1 में एक और है** (इसलिए प्रक्रियाओं के पेड़ में **2 प्रक्रियाएं** हैं)। एक और नया सत्र बनाया जाता है **प्रति नया सत्र**।
 
 
 ## winlogon.exe
 
-**Windows Logon Process**.\
-It's responsible for user **logon**/**logoffs**. It launches **logonui.exe** to ask for username and password and then calls **lsass.exe** to verify them.
+**Windows लॉगऑन प्रक्रिया**।\
+यह उपयोगकर्ता के **लॉगऑन**/**लॉगऑफ** के लिए जिम्मेदार है। यह **logonui.exe** को शुरू करता है ताकि उपयोगकर्ता नाम और पासवर्ड के लिए पूछ सके और फिर **lsass.exe** को वे सत्यापित करने के लिए बुलाता है।
 
-Then it launches **userinit.exe** which is specified in **`HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon`** with key **Userinit**.
+फिर यह **userinit.exe** को शुरू करता है जो **`HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon`** में **Userinit** कुंजी के साथ निर्दिष्ट होता है।
 
-Mover over, the previous registry should have **explorer.exe** in the **Shell key** or it might be abused as a **malware persistence method**.
+इसके अलावा, पिछली रजिस्ट्री में **explorer.exe** को **शैल कुंजी** में होना चाहिए या इसे एक **मैलवेयर स्थायित्व विधि** के रूप में दुरुपयोग किया जा सकता है।
 
 
 ## wininit.exe
 
-**Windows Initialization Process**. \
-It launches **services.exe**, **lsass.exe**, and **lsm.exe** in Session 0. There should only be 1 process.
+**Windows प्रारंभिकीकरण प्रक्रिया**। \
+यह सत्र 0 में **services.exe**, **lsass.exe**, और **lsm.exe** को शुरू करता है। केवल 1 प्रक्रिया होनी चाहिए।
 
 
 ## userinit.exe
 
-**Userinit Logon Application**.\
-Loads the **ntduser.dat in HKCU** and initialises the **user** **environment** and runs **logon** **scripts** and **GPO**.
+**Userinit लॉगऑन एप्लिकेशन**।\
+**ntduser.dat** को **HKCU** में लोड करता है और **उपयोगकर्ता** **पर्यावरण** को प्रारंभ करता है और **लॉगऑन** **स्क्रिप्ट** और **GPO** को चलाता है।
 
-It launches **explorer.exe**.
+यह **explorer.exe** को शुरू करता है।
 
 
 ## lsm.exe
 
-**Local Session Manager**.\
-It works with smss.exe to manipulate user sessions: Logon/logoff, shell start, lock/unlock desktop, etc.
+**स्थानीय सत्र प्रबंधक**।\
+यह smss.exe के साथ मिलकर उपयोगकर्ता सत्रों को प्रबंधित करने के लिए काम करता है: लॉगऑन/लॉगऑफ, शैल प्रारंभ, डेस्कटॉप लॉक/अनलॉक, आदि।
 
-After W7 lsm.exe was transformed into a service (lsm.dll).
+W7 के बाद lsm.exe को एक सेवा (lsm.dll) में बदल दिया गया।
 
-There should only be 1 process in W7 and from them a service running the DLL.
+W7 में केवल 1 प्रक्रिया होनी चाहिए और उनमें से एक सेवा DLL चल रही होती है।
 
 
 ## services.exe
 
-**Service Control Manager**.\
-It **loads** **services** configured as **auto-start** and **drivers**.
-
-It's the parent process of **svchost.exe**, **dllhost.exe**, **taskhost.exe**, **spoolsv.exe** and many more.
-
-Services are defined in `HKLM\SYSTEM\CurrentControlSet\Services` and this process maintains a DB in memory of service info that can be queried by sc.exe.
-
-Note how **some** **services** are going to be running in a **process of their own** and others are going to be **sharing a svchost.exe process**.
-
-There should only be 1 process.
-
-
-## lsass.exe
-
-**Local Security Authority Subsystem**.\
-It's responsible for the user **authentication** and create the **security** **tokens**. It uses authentication packages located in `HKLM\System\CurrentControlSet\Control\Lsa`.
-
-It writes to the **Security** **event** **log** and there should only be 1 process.
-
-Keep in mind that this process is highly attacked to dump passwords.
-
-
-## svchost.exe
-
-**Generic Service Host Process**.\
-It hosts multiple DLL services in one shared process.
-
-Usually, you will find that **svchost.exe** is launched with the `-k` flag. This will launch a query to the registry **HKEY\_LOCAL\_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Svchost** where there will be a key with the argument mentioned in -k that will contain the services to launch in the same process.
-
-For example: `-k UnistackSvcGroup` will launch: `PimIndexMaintenanceSvc MessagingService WpnUserService CDPUserSvc UnistoreSvc UserDataSvc OneSyncSvc`
-
-If the **flag `-s`** is also used with an argument, then svchost is asked to **only launch the specified service** in this argument.
-
-There will be several processes of `svchost.exe`. If any of them is **not using the `-k` flag**, then that's very suspicious. If you find that **services.exe is not the parent**, that's also very suspicious.
-
-
+**सेवा नियंत्रण प्रबंधक**।\
+यह **स्वचालित प्रारं
 ## taskhost.exe
 
-This process act as a host for processes running from DLLs. It also loads the services that are running from DLLs.
+यह प्रक्रिया DLL से चल रही प्रक्रियाओं के लिए एक होस्ट के रूप में कार्य करती है। यह उन सेवाओं को भी लोड करता है जो DLL से चल रही हैं।
 
-In W8 this is called taskhostex.exe and in W10 taskhostw.exe.
+W8 में इसे taskhostex.exe कहा जाता है और W10 में taskhostw.exe।
 
 
 ## explorer.exe
 
-This is the process responsible for the **user's desktop** and launching files via file extensions.
+यह प्रक्रिया **उपयोगकर्ता के डेस्कटॉप** और फ़ाइल एक्सटेंशन के माध्यम से फ़ाइलों को लॉन्च करने के लिए जिम्मेदार है।
 
-**Only 1** process should be spawned **per logged on user.**
+**केवल 1** प्रक्रिया **प्रति लॉग ऑन उपयोगकर्ता** उत्पन्न होनी चाहिए।
 
-This is run from **userinit.exe** which should be terminated, so **no parent** should appear for this process.
-
-
-# Catching Malicious Processes
-
-* Is it running from the expected path? (No Windows binaries run from temp location)
-* Is it communicating with weird IPs?
-* Check digital signatures (Microsoft artifacts should be signed)
-* Is it spelled correctly?
-* Is running under the expected SID?
-* Is the parent process the expected one (if any)?
-* Are the children processes the expecting ones? (no cmd.exe, wscript.exe, powershell.exe..?)
+यह **userinit.exe** से चलाया जाता है जिसे समाप्त करना चाहिए, इसलिए इस प्रक्रिया के लिए **कोई माता-पिता** दिखाई नहीं देना चाहिए।
 
 
-<details>
+# दुष्ट प्रक्रियाओं को पकड़ना
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
-
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
-
-</details>
-
-
+* क्या यह उम्मीदीदार पथ से चल रहा है? (कोई विंडोज बाइनरी टेम्प लोकेशन से नहीं चलती है)
+* क्या यह अजीब IP के साथ संचार कर रहा है?
+* डिजिटल हस्ताक्षरों की जांच करें (माइक्रोसॉफ्ट आर्टिफैक्ट्स को हस्ताक्षरित होना चाहिए)
+* क्या यह सही तरीके से बना है?
+* उम्मीदीदार SID के तहत चल रहा है?
+* माता-पिता प्रक्रिया उम्मीदीदार है (यदि कोई हो)?
+* बच्चे प्रक्रियाएं उम्मीदीदार हैं? (कोई cmd.exe, wscript.exe, powershell.exe.. नहीं?)

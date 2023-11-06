@@ -1,36 +1,33 @@
-# Privilege Escalation with Autoruns
+# ऑटोरन द्वारा विशेषाधिकार उन्नयन
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ हैकट्रिक्स क्लाउड ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 ट्विटर 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ ट्विच 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 यूट्यूब 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **हैकट्रिक्स में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करने की इच्छा है? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* खोजें [**द पीएस फैमिली**](https://opensea.io/collection/the-peass-family), हमारा विशेष संग्रह [**NFTs**](https://opensea.io/collection/the-peass-family)
+* प्राप्त करें [**आधिकारिक PEASS और HackTricks स्वैग**](https://peass.creator-spring.com)
+* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या मुझे **ट्विटर** पर **फॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **अपने हैकिंग ट्रिक्स साझा करें और** [**हैकट्रिक्स रेपो**](https://github.com/carlospolop/hacktricks) **और** [**हैकट्रिक्स-क्लाउड रेपो**](https://github.com/carlospolop/hacktricks-cloud) **में पीआर जमा करके**।
 
 </details>
 
 <img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
-If you are interested in **hacking career** and hack the unhackable - **we are hiring!** (_fluent polish written and spoken required_).
+यदि आप **हैकिंग करियर** में रुचि रखते हैं और अहैकेबल को हैक करना चाहते हैं - हम नियुक्ति कर रहे हैं! (_अच्छी पोलिश लिखित और बोली जानी चाहिए_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
 ## WMIC
 
-**Wmic** can be used to run programs on **startup**. See which binaries are programmed to run is startup with:
-
+**Wmic** का उपयोग **स्टार्टअप** पर कार्यक्रम चलाने के लिए किया जा सकता है। देखें कि कौन से बाइनरीज़ स्टार्टअप में चलाने के लिए प्रोग्राम किए गए हैं:
 ```bash
 wmic startup get caption,command 2>nul & ^
 Get-CimInstance Win32_StartupCommand | select Name, command, Location, User | fl
 ```
+## निर्धारित कार्य
 
-## Scheduled Tasks
-
-**Tasks** can be schedules to run with **certain frequency**. See which binaries are scheduled to run with:
-
+**कार्य** निश्चित अंतराल के साथ चलाने के लिए निर्धारित किए जा सकते हैं। निम्नलिखित कमांड के साथ चलाने के लिए निर्धारित बाइनरी को देखें:
 ```bash
 schtasks /query /fo TABLE /nh | findstr /v /i "disable deshab"
 schtasks /query /fo LIST 2>nul | findstr TaskName
@@ -41,11 +38,9 @@ Get-ScheduledTask | where {$_.TaskPath -notlike "\Microsoft*"} | ft TaskName,Tas
 #You can also write that content on a bat file that is being executed by a scheduled task
 schtasks /Create /RU "SYSTEM" /SC ONLOGON /TN "SchedPE" /TR "cmd /c net localgroup administrators user /add"
 ```
+## फ़ोल्डर
 
-## Folders
-
-All the binaries located in the **Startup folders are going to be executed on startup**. The common startup folders are the ones listed a continuation, but the startup folder is indicated in the registry. [Read this to learn where.](privilege-escalation-with-autorun-binaries.md#startup-path)
-
+सभी बाइनरी जो **स्टार्टअप फ़ोल्डर में स्थित होते हैं, स्टार्टअप पर निष्पादित होंगे**। सामान्य स्टार्टअप फ़ोल्डर निम्नलिखित हैं, लेकिन स्टार्टअप फ़ोल्डर रजिस्ट्री में दिखाया जाता है। [यहां पढ़ें जानने के लिए।](privilege-escalation-with-autorun-binaries.md#startup-path)
 ```bash
 dir /b "C:\Documents and Settings\All Users\Start Menu\Programs\Startup" 2>nul
 dir /b "C:\Documents and Settings\%username%\Start Menu\Programs\Startup" 2>nul
@@ -54,16 +49,15 @@ dir /b "%appdata%\Microsoft\Windows\Start Menu\Programs\Startup" 2>nul
 Get-ChildItem "C:\Users\All Users\Start Menu\Programs\Startup"
 Get-ChildItem "C:\Users\$env:USERNAME\Start Menu\Programs\Startup"
 ```
-
-## Registry
+## रजिस्ट्री
 
 {% hint style="info" %}
-Note: The **Wow6432Node** registry entry indicates that you are running a 64-bit Windows version. The operating system uses this key to display a separate view of HKEY\_LOCAL\_MACHINE\SOFTWARE for 32-bit applications that run on 64-bit Windows versions.
+नोट: **Wow6432Node** रजिस्ट्री प्रविष्टि इसका संकेत देती है कि आप 64-बिट विंडोज संस्करण चला रहे हैं। ऑपरेटिंग सिस्टम इस कुंजी का उपयोग करके 64-बिट विंडोज संस्करणों पर चलने वाले 32-बिट एप्लिकेशन्स के लिए HKEY\_LOCAL\_MACHINE\SOFTWARE का एक अलग दृश्य प्रदर्शित करता है।
 {% endhint %}
 
-### Runs
+### रन्स
 
-**Commonly known** AutoRun registry:
+**सामान्य रूप से ज्ञात** ऑटोरन रजिस्ट्री:
 
 * `HKLM\Software\Microsoft\Windows\CurrentVersion\Run`
 * `HKLM\Software\Microsoft\Windows\CurrentVersion\RunOnce`
@@ -77,9 +71,9 @@ Note: The **Wow6432Node** registry entry indicates that you are running a 64-bit
 * `HKLM\Software\Microsoft\Windows NT\CurrentVersion\Terminal Server\Install\Software\Microsoft\Windows\CurrentVersion\Runonce`
 * `HKLM\Software\Microsoft\Windows NT\CurrentVersion\Terminal Server\Install\Software\Microsoft\Windows\CurrentVersion\RunonceEx`
 
-Run and RunOnce registry keys cause programs to run each time that a user logs on. The data value for a key is a command line no longer than 260 characters.
+रन और रनवन रजिस्ट्री कुंजीयाँ प्रोग्राम को प्रत्येक बार चलाती हैं जब एक उपयोगकर्ता लॉग इन करता है। कुंजी के लिए डेटा मान 260 वर्णों से लंबा नहीं होना चाहिए।
 
-**Service runs** (can control automatic startup of services during boot):
+**सेवा रन्स** (बूट के दौरान सेवाओं की स्वचालित स्टार्टअप को नियंत्रित कर सकते हैं):
 
 * `HKLM\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce`
 * `HKCU\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce`
@@ -95,16 +89,10 @@ Run and RunOnce registry keys cause programs to run each time that a user logs o
 * `HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnceEx`
 * `HKEY_LOCAL_MACHINE\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\RunOnceEx`
 
-It's not created by default on Windows Vista and newer. Registry run key entries can reference programs directly or list them as a dependency. For example, it is possible to load a DLL at logon using a "Depend" key with RunOnceEx: `reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnceEx\0001\Depend /v 1 /d "C:\temp\evil[.]dll"`
+यह विंडोजा विस्टा और नवीनतम पर डिफ़ॉल्ट रूप से नहीं बनाया जाता है। रजिस्ट्री रन कुंजी एंट्रीज़ सीधे प्रोग्राम को संदर्भित कर सकती हैं या उन्हें एक आवश्यकता के रूप में सूचीबद्ध कर सकती हैं। उदाहरण के लिए, एक "डिपेंड" कुंजी का उपयोग करके RunOnceEx का उपयोग करके लॉगऑन पर एक DLL लोड करना संभव है: `reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnceEx\0001\Depend /v 1 /d "C:\temp\evil[.]dll"`
 
 {% hint style="info" %}
-**Exploit 1**: If you can write inside any of the mentioned registry inside **HKLM** you can escalate privileges when a different user logs in.
-{% endhint %}
-
-{% hint style="info" %}
-**Exploit 2**: If you can overwrite any of the binaries indicated on any of the registry inside **HKLM** you can modify that binary with a backdoor when a different user logs in and escalate privileges.
-{% endhint %}
-
+**अभिशाप 1**: यदि आप किसी भी उल्लिखित रजिस्ट्री में **HKLM** के अंदर लिख सकते हैं तो आप उच्चतम अवधि में अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि में उच्चतम अवधि म
 ```bash
 #CMD
 reg query HKLM\Software\Microsoft\Windows\CurrentVersion\Run
@@ -160,20 +148,18 @@ Get-ItemProperty -Path 'Registry::HKLM\Software\Wow6432Node\Microsoft\Windows\Ru
 Get-ItemProperty -Path 'Registry::HKCU\Software\Microsoft\Windows\RunOnceEx'
 Get-ItemProperty -Path 'Registry::HKCU\Software\Wow6432Node\Microsoft\Windows\RunOnceEx'
 ```
-
-### Startup Path
+### स्टार्टअप पथ
 
 * `HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders`
 * `HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders`
 * `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders`
 * `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders`
 
-Any shortcut created to the location pointed by subkey Startup will launch the service during logon/reboot. Start up location is specified both at Local Machine and Current User.
+किसी भी उपकंठ स्थान के लिए बनाया गया कोई शॉर्टकट लॉगऑन/रीबूट के दौरान सेवा को चालू करेगा। स्टार्टअप स्थान स्थानीय मशीन और वर्तमान उपयोगकर्ता दोनों पर निर्दिष्ट किया जाता है।
 
 {% hint style="info" %}
-If you can overwrite any \[User] Shell Folder under **HKLM**, you will e able to point it to a folder controlled by you and place a backdoor that will be executed anytime a user logs in the system escalating privileges.
+यदि आप **HKLM** के तहत किसी भी \[उपयोगकर्ता] शैल फ़ोल्डर को अधिलेखित कर सकते हैं, तो आप इसे आपके द्वारा नियंत्रित एक फ़ोल्डर की ओर पहुंचित कर सकते हैं और एक बैकडोर रख सकते हैं जो किसी भी उपयोगकर्ता को सिस्टम में लॉग इन करने पर नियंत्रण को बढ़ाता है।
 {% endhint %}
-
 ```bash
 reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders" /v "Common Startup"
 reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders" /v "Common Startup"
@@ -185,167 +171,154 @@ Get-ItemProperty -Path 'Registry::HKCU\Software\Microsoft\Windows\CurrentVersion
 Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders' -Name "Common Startup"
 Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders' -Name "Common Startup"
 ```
-
-### Winlogon Keys
+### Winlogon कुंजी
 
 `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon`
 
-Usually, **Userinit** key points to userinit.exe but if this key can be altered, then that exe will also launch by Winlogon.\
-**Shell** key should point to explorer.exe.
-
+आमतौर पर, **Userinit** कुंजी userinit.exe को दर्शाती है लेकिन यदि इस कुंजी को संशोधित किया जा सकता है, तो वह exe Winlogon द्वारा भी चलाई जाएगी।\
+**Shell** कुंजी explorer.exe को दर्शानी चाहिए।
 ```bash
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "Userinit"
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "Shell"
 Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon' -Name "Userinit"
 Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon' -Name "Shell"
 ```
-
 {% hint style="info" %}
-If you can overwrite the registry value or the binary you will be able to escalate privileges.
+यदि आप रजिस्ट्री मान्यता या बाइनरी को अधिकारों को बढ़ाने के लिए ओवरराइट कर सकते हैं।
 {% endhint %}
 
-### Policy Settings
+### नीति सेटिंग्स
 
 * `HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer`
 * `HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer`
 
-Check **Run** key.
-
+**चलाएँ** कुंजी की जांच करें।
 ```bash
 reg query "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "Run"
 reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "Run"
 Get-ItemProperty -Path 'Registry::HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer' -Name "Run"
 Get-ItemProperty -Path 'Registry::HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer' -Name "Run"
 ```
-
 ### AlternateShell
 
-Path: **`HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot`**
+पथ: **`HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot`**
 
-Under the registry key `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SafeBoot` is the value **AlternateShell**, which by default is set to `cmd.exe` (the command prompt). When you press F8 during startup and select "Safe Mode with Command Prompt," the system uses this alternate shell.\
-You can, however, create a boot option so that you don't have to press F8, then select "Safe Mode with Command Prompt."
+रजिस्ट्री कुंजी `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SafeBoot` के तहत मान **AlternateShell** है, जिसे डिफ़ॉल्ट रूप से `cmd.exe` (कमांड प्रॉम्प्ट) पर सेट किया जाता है। जब आप स्टार्टअप के दौरान F8 दबाते हैं और "Safe Mode with Command Prompt" का चयन करते हैं, तो सिस्टम इस वैकल्पिक शैल का उपयोग करता है।\
+हालांकि, आप एक बूट विकल्प बना सकते हैं ताकि आपको F8 दबाने की आवश्यकता न हो, फिर "Safe Mode with Command Prompt" का चयन करें।
 
-1. Edit the boot.ini (c:\boot.ini) file attributes to make the file nonread-only, nonsystem, and nonhidden (attrib c:\boot.ini -r -s -h).
-2. Open boot.ini.
-3. Add a line similar to the following: `multi(0)disk(0)rdisk(0)partition(1)\WINDOWS="Microsoft Windows XP Professional" /fastdetect /SAFEBOOT:MINIMAL(ALTERNATESHELL)`
-4. Save the file.
-5. Reapply the correct permissions (attrib c:\boot.ini +r +s +h).
+1. बूट.इनी (c:\boot.ini) फ़ाइल विशेषताएँ संशोधित करें ताकि फ़ाइल को गैरपठनीय, गैरसिस्टम और गैरछिपा हो बनाया जा सके (attrib c:\boot.ini -r -s -h)।
+2. बूट.इनी खोलें।
+3. निम्नलिखित के समान एक पंक्ति जोड़ें: `multi(0)disk(0)rdisk(0)partition(1)\WINDOWS="Microsoft Windows XP Professional" /fastdetect /SAFEBOOT:MINIMAL(ALTERNATESHELL)`
+4. फ़ाइल सहेजें।
+5. सही अनुमतियाँ पुनः लागू करें (attrib c:\boot.ini +r +s +h)।
 
-Info from [here](https://www.itprotoday.com/cloud-computing/how-can-i-add-boot-option-starts-alternate-shell).
+जानकारी [यहाँ](https://www.itprotoday.com/cloud-computing/how-can-i-add-boot-option-starts-alternate-shell) से प्राप्त की गई है।
 
 {% hint style="info" %}
-**Exploit 1:** If you can modify this registry key you can point your backdoor
+**अभिकर्म 1:** यदि आप इस रजिस्ट्री कुंजी को संशोधित कर सकते हैं, तो आप अपने बैकडोर को इसे दिखा सकते हैं
 {% endhint %}
 
 {% hint style="info" %}
-**Exploit 2 (PATH write permissions)**: If you have write permission on any folder of the system **PATH** before _C:\Windows\system32_ (or if you can change it) you can create a cmd.exe file and if someone initiates the machine in Safe Mode your backdoor will be executed.
+**अभिकर्म 2 (PATH लेखन अनुमतियाँ)**: यदि आपके पास सिस्टम **PATH** के _C:\Windows\system32_ से पहले किसी भी फ़ोल्डर पर लेखन अनुमति है (या यदि आप इसे बदल सकते हैं), तो आप एक cmd.exe फ़ाइल बना सकते हैं और यदि कोई व्यक्ति सुरक्षित मोड में मशीन को प्रारंभ करता है, तो आपका बैकडोर निष्पादित हो जाएगा।
 {% endhint %}
 
 {% hint style="info" %}
-**Exploit 3 (PATH write permissions and boot.ini write permissions)**: If you can write boot.ini, you can automate the startup in safe mode for the next reboot.
+**अभिकर्म 3 (PATH लेखन अनुमतियाँ और बूट.इनी लेखन अनुमतियाँ)**: यदि आप बूट.इनी लिख सकते हैं, तो आप अगले रीबूट के लिए सुरक्षित मोड में स्टार्टअप को स्वचालित कर सकते हैं।
 {% endhint %}
-
 ```bash
 reg query HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot /v AlternateShell
 Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SafeBoot' -Name 'AlternateShell'
 ```
-
-### Installed Component
+### स्थापित घटक
 
 * `HKLM\SOFTWARE\Microsoft\Active Setup\Installed Components`
 * `HKLM\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components`
 * `HKCU\SOFTWARE\Microsoft\Active Setup\Installed Components`
 * `HKCU\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components`
 
-Active Setup runs before the Desktop appears. Commands started by Active Setup run synchronously, blocking the logon while they are executing. Active Setup is executed before any Run or RunOnce registry entries are evaluated.
+Active Setup डेस्कटॉप प्रदर्शित होने से पहले चलता है। Active Setup द्वारा शुरू की गई कमांड समकालीन रूप से चलती हैं, जब तक वे कार्यान्वित हो रही होती हैं तब तक लॉगऑन को ब्लॉक करती हैं। Active Setup कोई भी Run या RunOnce रजिस्ट्री प्रविष्टियों की मूल्यांकन करने से पहले निष्पादित होता है।
 
-Inside those keys you will find more keys and each for those will home some interesting key-values. The most interesting ones are:
+इन कुंजियों के अंदर आपको और कुंजियाँ मिलेंगी और प्रत्येक के लिए वे कुछ रोचक कुंजी-मान घर करेंगी। सबसे रोचक वाले हैं:
 
 * **IsInstalled:**
-  * 0: The component’s command will not run.
-  * 1: The component’s command will be run once per user. This is the default (if the IsInstalled value does not exist).
+* 0: घटक की कमांड नहीं चलेगी।
+* 1: घटक की कमांड प्रति उपयोगकर्ता एक बार चलेगी। यह डिफ़ॉल्ट है (यदि IsInstalled मान मौजूद नहीं होता है)।
 * **StubPath**
-  * Format: Any valid command line, e.g. “notepad”
-  * This is the command that is executed if Active Setup determines this component needs to run during logon.
+* प्रारूप: कोई भी मान्य कमांड लाइन, जैसे "notepad"
+* यह कमांड चलाई जाती है अगर Active Setup निर्धारित करता है कि इस घटक को लॉगऑन के दौरान चलाने की आवश्यकता है।
 
 {% hint style="info" %}
-If you could write/overwrite on any Key with _**IsInstalled == "1"**_ the key **StubPath**, you could point it to a backdoor and escalate privileges. Also, if you could overwrite any **binary** pointed by any **StubPath** key you could be able to escalate privileges.
+यदि आप _**IsInstalled == "1"**_ वाली किसी भी कुंजी पर लिख सकते हैं और कुंजी **StubPath** को निर्दिष्ट कर सकते हैं, तो आप इसे एक बैकडोर की ओर पहुंचा सकते हैं और विशेषाधिकारों को उन्नत कर सकते हैं। इसके अलावा, यदि आप किसी भी **StubPath** कुंजी द्वारा निर्दिष्ट किसी भी **बाइनरी** को अधिकृत कर सकते हैं, तो आप विशेषाधिकारों को उन्नत कर सकते हैं।
 {% endhint %}
-
 ```bash
 reg query "HKLM\SOFTWARE\Microsoft\Active Setup\Installed Components" /s /v StubPath
 reg query "HKCU\SOFTWARE\Microsoft\Active Setup\Installed Components" /s /v StubPath
 reg query "HKLM\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components" /s /v StubPath
 reg query "HKCU\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components" /s /v StubPath
 ```
-
-### Browser Helper Objects
+### ब्राउज़र सहायक ऑब्जेक्ट्स
 
 * `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects`
 * `HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects`
 
-A **Browser Helper Object** (**BHO**) is a DLL module designed as a plugin for Microsoft's Internet Explorer web browser to provide added functionality. These modules are executed for each new instance of Internet Explorer and for each new instance of Windows Explorer. However, a BHO can be prevented to be executed by each instance of Explorer setting the key **NoExplorer** to 1.
+एक **ब्राउज़र सहायक ऑब्जेक्ट** (**BHO**) एक DLL मॉड्यूल होता है जो माइक्रोसॉफ्ट के इंटरनेट एक्सप्लोरर वेब ब्राउज़र के लिए एक प्लगइन के रूप में डिज़ाइन किया गया होता है जो अतिरिक्त कार्यक्षमता प्रदान करता है। ये मॉड्यूल हर नए इंटरनेट एक्सप्लोरर और हर नए विंडोज़ एक्सप्लोरर के लिए निष्पादित किए जाते हैं। हालांकि, एक BHO को निष्पादित किया जा सकता है कि प्रत्येक एक्सप्लोरर इंस्टेंस द्वारा निष्पादित न हो, जब की **NoExplorer** को 1 करके।
 
-BHOs are still supported as of Windows 10, through Internet Explorer 11, while BHOs are not supported in the default web browser Microsoft Edge.
-
+BHOs अभी भी Windows 10 के साथ, इंटरनेट एक्सप्लोरर 11 के माध्यम से समर्थित हैं, जबकि BHOs माइक्रोसॉफ्ट एज नामक डिफ़ॉल्ट वेब ब्राउज़र में समर्थित नहीं हैं।
 ```bash
 reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects" /s
 reg query "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects" /s
 ```
+नोट करें कि रजिस्ट्री में प्रति DLL के लिए 1 नया रजिस्ट्री होगा और इसे **CLSID** द्वारा प्रतिष्ठित किया जाएगा। आप `HKLM\SOFTWARE\Classes\CLSID\{<CLSID>}` में CLSID जानकारी ढूंढ सकते हैं।
 
-Note that the registry will contain 1 new registry per each dll and it will be represented by the **CLSID**. You can find the CLSID info in `HKLM\SOFTWARE\Classes\CLSID\{<CLSID>}`
-
-### Internet Explorer Extensions
+### इंटरनेट एक्सप्लोरर एक्सटेंशन्स
 
 * `HKLM\Software\Microsoft\Internet Explorer\Extensions`
 * `HKLM\Software\Wow6432Node\Microsoft\Internet Explorer\Extensions`
 
-Note that the registry will contain 1 new registry per each dll and it will be represented by the **CLSID**. You can find the CLSID info in `HKLM\SOFTWARE\Classes\CLSID\{<CLSID>}`
+नोट करें कि रजिस्ट्री में प्रति DLL के लिए 1 नया रजिस्ट्री होगा और इसे **CLSID** द्वारा प्रतिष्ठित किया जाएगा। आप `HKLM\SOFTWARE\Classes\CLSID\{<CLSID>}` में CLSID जानकारी ढूंढ सकते हैं।
 
-### Font Drivers
+### फ़ॉन्ट ड्राइवर्स
 
 * `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Font Drivers`
 * `HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows NT\CurrentVersion\Font Drivers`
-
 ```bash
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Font Drivers"
 reg query "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows NT\CurrentVersion\Font Drivers"
 Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Font Drivers'
 Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows NT\CurrentVersion\Font Drivers'
 ```
-
-### Open Command
+### ओपन कमांड
 
 * `HKLM\SOFTWARE\Classes\htmlfile\shell\open\command`
 * `HKLM\SOFTWARE\Wow6432Node\Classes\htmlfile\shell\open\command`
-
 ```bash
 reg query "HKLM\SOFTWARE\Classes\htmlfile\shell\open\command" /v ""
 reg query "HKLM\SOFTWARE\Wow6432Node\Classes\htmlfile\shell\open\command" /v ""
 Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Classes\htmlfile\shell\open\command' -Name ""
 Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Wow6432Node\Classes\htmlfile\shell\open\command' -Name ""
 ```
+### छवि फ़ाइल क्रियान्वयन विकल्प
 
-### Image File Execution Options
+छवि फ़ाइल क्रियान्वयन विकल्प (Image File Execution Options) विंडोज ऑपरेटिंग सिस्टम में एक विशेषता है जो एक प्रोसेस को चालू करने से पहले एक बाइनरी फ़ाइल को स्वचालित रूप से चलाने की अनुमति देती है। यह विशेषता उपयोगकर्ता द्वारा निर्दिष्ट बाइनरी फ़ाइलों के लिए विशेष व्यवहार सेट करने की अनुमति देती है।
 
+यह विशेषता एक अद्यतित रखरखाव या अनुकरण के लिए उपयोगी हो सकती है, लेकिन इसका दुरुपयोग भी हो सकता है। हैकर्स इस विशेषता का उपयोग करके अपने लक्ष्य को प्राथमिकता देने के लिए अपने बाइनरी फ़ाइलों को स्वचालित रूप से चलाने की कोशिश कर सकते हैं। इसके लिए, हैकर्स एक बाइनरी फ़ाइल को छवि फ़ाइल क्रियान्वयन विकल्प में जोड़ते हैं और उसे एक अद्यतित बाइनरी फ़ाइल के रूप में सेट करते हैं। जब उपयोगकर्ता या सिस्टम एक प्रोसेस को चालू करता है जिसका नाम छवि फ़ाइल क्रियान्वयन विकल्प में निर्दिष्ट किया गया है, तो यह बाइनरी फ़ाइल स्वचालित रूप से चलाया जाएगा।
+
+छवि फ़ाइल क्रियान्वयन विकल्प का उपयोग करके लोकल प्रिविलेज एस्केलेशन अटैक किया जा सकता है, जिससे हैकर्स को उच्चतम स्तर की अनुमति प्राप्त करने में मदद मिलती है। इसलिए, सुरक्षा उद्योग के लिए महत्वपूर्ण है कि छवि फ़ाइल क्रियान्वयन विकल्प को सुरक्षित रखा जाए और अनधिकृत उपयोग से बचा जाए।
 ```
 HKLM\Software\Microsoft\Windows NT\CurrentVersion\Image File Execution Options
 HKLM\Software\Microsoft\Wow6432Node\Windows NT\CurrentVersion\Image File Execution Options
 ```
-
 ## SysInternals
 
-Note that all the sites where you can find autoruns are **already searched by**[ **winpeas.exe**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS/winPEASexe). However, for a **more comprehensive list of auto-executed** file you could use [autoruns ](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns)from systinternals:
-
+ध्यान दें कि सभी साइट जहां आप ऑटोरन्स ढूंढ सकते हैं, **पहले से ही खोजी जा चुकी हैं** [**winpeas.exe**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS/winPEASexe) द्वारा। हालांकि, एक **और व्यापक सूची के लिए** ऑटो-चलाए जाने वाले फ़ाइलों के लिए आप [सिस्टर्नल्स](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns) से [autoruns](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns) का उपयोग कर सकते हैं:
 ```
 autorunsc.exe -m -nobanner -a * -ct /accepteula
 ```
+## अधिक
 
-## More
+[https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2](https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2) में रजिस्ट्री की तरह और अधिक Autoruns ढूंढें।
 
-Find more Autoruns like registries in [https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2](https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2)
-
-## References
+## संदर्भ
 
 * [https://resources.infosecinstitute.com/common-malware-persistence-mechanisms/#gref](https://resources.infosecinstitute.com/common-malware-persistence-mechanisms/#gref)
 * [https://attack.mitre.org/techniques/T1547/001/](https://attack.mitre.org/techniques/T1547/001/)
@@ -353,7 +326,7 @@ Find more Autoruns like registries in [https://www.microsoftpressstore.com/artic
 
 <img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
-If you are interested in **hacking career** and hack the unhackable - **we are hiring!** (_fluent polish written and spoken required_).
+यदि आप **हैकिंग करियर** में रुचि रखते हैं और अहैकेबल को हैक करना चाहते हैं - **हम भर्ती कर रहे हैं!** (_अच्छी पोलिश लिखने और बोलने की जानकारी चाहिए_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
@@ -361,10 +334,10 @@ If you are interested in **hacking career** and hack the unhackable - **we are h
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **HackTricks में विज्ञापित** देखना चाहेंगे? या क्या आपको **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करने की आवश्यकता है? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा विशेष [**NFT**](https://opensea.io/collection/the-peass-family) संग्रह
+* [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com) प्राप्त करें
+* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या मुझे **ट्विटर** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)** का पालन करें।**
+* **अपने हैकिंग ट्रिक्स को हमें PR के माध्यम से सबमिट करके** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **को साझा करें।**
 
 </details>

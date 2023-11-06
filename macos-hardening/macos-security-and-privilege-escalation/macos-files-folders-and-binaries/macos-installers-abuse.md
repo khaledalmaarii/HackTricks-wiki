@@ -1,35 +1,34 @@
-# macOS Installers Abuse
+# macOS इंस्टॉलर दुरुपयोग
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी **कंपनी को HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करने की आवश्यकता है? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा विशेष [**NFT संग्रह**](https://opensea.io/collection/the-peass-family)
+* [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com) प्राप्त करें
+* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में **शामिल हों** या मुझे **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)** का पालन करें**.
+* **अपने हैकिंग ट्रिक्स को** [**hacktricks रेपो**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud रेपो**](https://github.com/carlospolop/hacktricks-cloud) **में पीआर जमा करके** अपना योगदान दें।
 
 </details>
 
-## Pkg Basic Information
+## Pkg मूलभूत जानकारी
 
-A macOS **installer package** (also known as a `.pkg` file) is a file format used by macOS to **distribute software**. These files are like a **box that contains everything a piece of software** needs to install and run correctly.
+macOS **इंस्टॉलर पैकेज** (जिसे `.pkg` फ़ाइल के रूप में भी जाना जाता है) एक फ़ाइल प्रारूप है जिसका उपयोग macOS द्वारा **सॉफ़्टवेयर वितरित करने** के लिए किया जाता है। ये फ़ाइलें एक **बॉक्स की तरह होती हैं जो सॉफ़्टवेयर को स्थापित और सही ढंग से चलाने के लिए सब कुछ शामिल करती हैं**।
 
-The package file itself is an archive that holds a **hierarchy of files and directories that will be installed on the target** computer. It can also include **scripts** to perform tasks before and after the installation, like setting up configuration files or cleaning up old versions of the software.
+पैकेज फ़ाइल स्वयं एक आर्काइव है जो टारग्जिट कंप्यूटर पर स्थापित होने वाले फ़ाइलों और निर्देशिकाओं की **एक प्रारंभिक** होती है। इसमें स्क्रिप्ट भी शामिल हो सकते हैं जो स्थापना से पहले और बाद में कार्यों को करने के लिए होते हैं, जैसे कि कॉन्फ़िगरेशन फ़ाइलें सेट करना या सॉफ़्टवेयर के पुराने संस्करणों को साफ़ करना।
 
-### Hierarchy
+### व्यवस्था
 
 <figure><img src="../../../.gitbook/assets/Pasted Graphic.png" alt=""><figcaption></figcaption></figure>
 
-* **Distribution (xml)**: Customizations (title, welcome text…) and script/installation checks
-* **PackageInfo (xml)**: Info, install requirements, install location, paths to scripts to run
-* **Bill of materials (bom)**: List of files to install, update or remove with file permissions
-* **Payload (CPIO archive gzip compresses)**: Files to install in the `install-location` from PackageInfo
-* **Scripts (CPIO archive gzip compressed)**: Pre and post install scripts and more resources extracted to a temp directory for execution.
+* **वितरण (xml)**: अनुकूलन (शीर्षक, स्वागत पाठ...) और स्क्रिप्ट/स्थापना जांचें
+* **PackageInfo (xml)**: जानकारी, स्थापना आवश्यकताएं, स्थापना स्थान, स्क्रिप्ट चलाने के लिए पथ
+* **वस्त्रागार (bom)**: फ़ाइलों की सूची जो स्थापित, अद्यतन या हटाए जाएंगी और फ़ाइल अनुमतियों के साथ
+* **पेलोड (CPIO आर्काइव gzip संपीड़ित)**: PackageInfo से `install-location` में स्थापित करने के लिए फ़ाइलें
+* **स्क्रिप्ट (CPIO आर्काइव gzip संपीड़ित)**: प्री और पोस्ट स्थापना स्क्रिप्ट और अधिक संसाधन जो कार्यान्वयन के लिए एक अस्थायी निर्देशिका में निकाले जाते हैं।
 
-### Decompress
-
+### डीकंप्रेस
 ```bash
 # Tool to directly get the files inside a package
 pkgutil —expand "/path/to/package.pkg" "/path/to/out/dir"
@@ -43,60 +42,57 @@ xar -xf "/path/to/package.pkg"
 cat Scripts | gzip -dc | cpio -i
 cpio -i < Scripts
 ```
+## DMG मूलभूत जानकारी
 
-## DMG Basic Information
+DMG फ़ाइलें, यानी Apple Disk Images, Apple के macOS द्वारा डिस्क इमेज के लिए उपयोग होने वाली फ़ाइल प्रारूप हैं। एक DMG फ़ाइल मूल रूप से एक **माउंट करने योग्य डिस्क इमेज** है (इसमें अपनी फ़ाइल सिस्टम होती है) जो आमतौर पर संपीड़ित और कभी-कभी एन्क्रिप्टेड रॉ ब्लॉक डेटा को संग्रहित करती है। जब आप एक DMG फ़ाइल खोलते हैं, macOS इसे एक भौतिक डिस्क की तरह माउंट करता है, जिससे आप इसकी सामग्री तक पहुंच सकते हैं।
 
-DMG files, or Apple Disk Images, are a file format used by Apple's macOS for disk images. A DMG file is essentially a **mountable disk image** (it contains its own filesystem) that contains raw block data typically compressed and sometimes encrypted. When you open a DMG file, macOS **mounts it as if it were a physical disk**, allowing you to access its contents.
-
-### Hierarchy
+### व्यवस्था
 
 <figure><img src="../../../.gitbook/assets/image (12) (2).png" alt=""><figcaption></figcaption></figure>
 
-The hierarchy of a DMG file can be different based on the content. However, for application DMGs, it usually follows this structure:
+DMG फ़ाइल की व्यवस्था सामग्री के आधार पर अलग हो सकती है। हालांकि, आवेदन DMG के लिए, यह आमतौर पर इस संरचना का पालन करता है:
 
-* Top Level: This is the root of the disk image. It often contains the application and possibly a link to the Applications folder.
-  * Application (.app): This is the actual application. In macOS, an application is typically a package that contains many individual files and folders that make up the application.
-  * Applications Link: This is a shortcut to the Applications folder in macOS. The purpose of this is to make it easy for you to install the application. You can drag the .app file to this shortcut to install the app.
+* शीर्ष स्तर: यह डिस्क इमेज की जड़ है। यह आमतौर पर आवेदन और संभवतः एप्लिकेशन फ़ोल्डर के लिए एक लिंक समेत होता है।
+* आवेदन (.app): यह वास्तविक आवेदन है। macOS में, एक आवेदन आमतौर पर एक पैकेज होता है जिसमें आवेदन का गठन करने वाले कई व्यक्तिगत फ़ाइलें और फ़ोल्डर होते हैं।
+* आवेदन लिंक: यह macOS में एप्लिकेशन फ़ोल्डर के लिए एक शॉर्टकट है। इसका उद्देश्य यह है कि आप आवेदन को स्थापित करने के लिए इस शॉर्टकट पर .app फ़ाइल को खींच सकें।
 
-## Privesc via pkg abuse
+## pkg द्वारा Privesc द्वारा दुरुपयोग
 
-### Execution from public directories
+### सार्वजनिक निर्देशिकाओं से निष्पादन
 
-If a pre or post installation script is for example executing from **`/var/tmp/Installerutil`**, and attacker could control that script so he escalate privileges whenever it's executed. Or another similar example:
+यदि पूर्व या पद स्थापना स्क्रिप्ट उदाहरण के लिए **`/var/tmp/Installerutil`** से निष्पादित हो रहा है, और हमलावर उस स्क्रिप्ट को नियंत्रित कर सकता है, तो वह अपनी विशेषाधिकार को बढ़ा सकता है जब भी यह निष्पादित होता है। या एक और समान उदाहरण:
 
 <figure><img src="../../../.gitbook/assets/Pasted Graphic 5.png" alt=""><figcaption></figcaption></figure>
 
 ### AuthorizationExecuteWithPrivileges
 
-This is a [public function](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg) that several installers and updaters will call to **execute something as root**. This function accepts the **path** of the **file** to **execute** as parameter, however, if an attacker could **modify** this file, he will be able to **abuse** its execution with root to **escalate privileges**.
-
+यह एक [सार्वजनिक फ़ंक्शन](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg) है जिसे कई स्थापना और अद्यतनकर्ता बुलाएंगे **रूट के रूप में कुछ निष्पादित करने** के लिए। इस फ़ंक्शन को **फ़ाइल** के **निष्पादन** के लिए **पथ** के रूप में स्वीकार करता है, हालांकि, यदि हमलावर इस फ़ाइल को **संशोधित** कर सकता है, तो वह अपनी विशेषाधिकार को बढ़ा सकेगा और विशेषाधिकार को बढ़ा सकेगा।
 ```bash
 # Breakpoint in the function to check wich file is loaded
 (lldb) b AuthorizationExecuteWithPrivileges
 # You could also check FS events to find this missconfig
 ```
+अधिक जानकारी के लिए इस टॉक की जांच करें: [https://www.youtube.com/watch?v=lTOItyjTTkw](https://www.youtube.com/watch?v=lTOItyjTTkw)
 
-For more info check this talk: [https://www.youtube.com/watch?v=lTOItyjTTkw](https://www.youtube.com/watch?v=lTOItyjTTkw)
+### माउंट करके निष्पादन
 
-### Execution by mounting
+यदि एक स्थापक `/tmp/fixedname/bla/bla` में लिखता है, तो यह संभव है कि आप `/tmp/fixedname` पर **एक माउंट बना सकते हैं** जिसमें कोई मालिक नहीं होता है, इसलिए आप स्थापना प्रक्रिया का दुरुपयोग करने के लिए किसी भी फ़ाइल को संशोधित कर सकते हैं।
 
-If an installer writes to `/tmp/fixedname/bla/bla`, it's possible to **create a mount** over `/tmp/fixedname` with noowners so you could **modify any file during the installation** to abuse the installation process.
+इसका एक उदाहरण है **CVE-2021-26089** जिसने **एक नियमित स्क्रिप्ट को अधिलेखित** करके रूट के रूप में निष्पादन प्राप्त किया। अधिक जानकारी के लिए टॉक की जांच करें: [**OBTS v4.0: "Mount(ain) of Bugs" - Csaba Fitzl**](https://www.youtube.com/watch?v=jSYPazD4VcE)
 
-An example of this is **CVE-2021-26089** which managed to **overwrite a periodic script** to get execution as root. For more information take a look to the talk: [**OBTS v4.0: "Mount(ain) of Bugs" - Csaba Fitzl**](https://www.youtube.com/watch?v=jSYPazD4VcE)
+## मैलवेयर के रूप में pkg
 
-## pkg as malware
+### खाली पेलोड
 
-### Empty Payload
+केवल **पूर्व और पश्चात स्थापना स्क्रिप्ट** के साथ एक **`.pkg`** फ़ाइल उत्पन्न करना संभव है बिना किसी पेलोड के।
 
-It's possible to just generate a **`.pkg`** file with **pre and post-install scripts** without any payload.
+### वितरण xml में JS
 
-### JS in Distribution xml
-
-It's possible to add **`<script>`** tags in the **distribution xml** file of the package and that code will get executed and it can **execute commands** using **`system.run`**:
+पैकेज के वितरण xml फ़ाइल में **`<script>`** टैग जोड़ना संभव है और उस कोड को निष्पादित किया जाएगा और इसका उपयोग करके यह **`system.run`** का उपयोग करके आदेश निष्पादित कर सकता है:
 
 <figure><img src="../../../.gitbook/assets/image (14).png" alt=""><figcaption></figcaption></figure>
 
-## References
+## संदर्भ
 
 * [**DEF CON 27 - Unpacking Pkgs A Look Inside Macos Installer Packages And Common Security Flaws**](https://www.youtube.com/watch?v=iASSG0\_zobQ)
 * [**OBTS v4.0: "The Wild World of macOS Installers" - Tony Lambert**](https://www.youtube.com/watch?v=Eow5uNHtmIg)
@@ -105,10 +101,10 @@ It's possible to add **`<script>`** tags in the **distribution xml** file of the
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आप **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड** करने का उपयोग करना चाहते हैं? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष [**NFT**](https://opensea.io/collection/the-peass-family) संग्रह
+* प्राप्त करें [**आधिकारिक PEASS और HackTricks swag**](https://peass.creator-spring.com)
+* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या मुझे **ट्विटर** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **अपने हैकिंग ट्रिक्स साझा करें द्वारा PRs सबमिट करके** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **को।**
 
 </details>

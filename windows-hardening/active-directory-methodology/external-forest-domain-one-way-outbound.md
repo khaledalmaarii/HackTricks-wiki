@@ -1,23 +1,4 @@
-# External Forest Domain - One-Way (Outbound)
-
-<details>
-
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
-
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
-
-</details>
-
-In this scenario **your domain** is **trusting** some **privileges** to principal from a **different domains**.
-
-## Enumeration
-
-### Outbound Trust
-
+# बाहरी वन वन वन वन वन वन वन वन वन वन वन वन वन वन वन वन वन वन वन वन वन वन वन वन वन वन वन वन वन वन वन वन वन वन वन वन वन वन वन व
 ```powershell
 # Notice Outbound trust
 Get-DomainTrust
@@ -39,59 +20,50 @@ MemberName              : S-1-5-21-1028541967-2937615241-1935644758-1115
 MemberDistinguishedName : CN=S-1-5-21-1028541967-2937615241-1935644758-1115,CN=ForeignSecurityPrincipals,DC=DOMAIN,DC=LOCAL
 ## Note how the members aren't from the current domain (ConvertFrom-SID won't work)
 ```
+## विश्वास खाता हमला
 
-## Trust Account Attack
+जब एक एक्टिव डिरेक्टरी डोमेन या फ़ोरेस्ट ट्रस्ट एक डोमेन _B_ से डोमेन _A_ की स्थापना की जाती है (_**B**_ एक विश्वास करता है A), एक विश्वास खाता डोमेन **A** में बनाया जाता है, जिसका नाम है **B. Kerberos trust keys**,\_जो **विश्वास खाते के पासवर्ड** से प्राप्त होते हैं, इंटर-रील्म TGTs को **एन्क्रिप्ट करने** के लिए उपयोग किए जाते हैं, जब डोमेन A के उपयोगकर्ता डोमेन B में सेवा टिकट के लिए अनुरोध करते हैं।
 
-When an Active Directory domain or forest trust is set up from a domain _B_ to a domain _A_ (_**B**_ trusts A), a trust account is created in domain **A**, named **B. Kerberos trust keys**,\_derived from the **trust account’s password**, are used for **encrypting inter-realm TGTs**, when users of domain A request service tickets for services in domain B.
-
-It's possible to obtain the password and hash of the trusted account from a Domain Controller using:
-
+यह संभव है कि डोमेन कंट्रोलर से विश्वसनीय खाते का पासवर्ड और हैश प्राप्त किया जाए, इसके लिए:
 ```powershell
 Invoke-Mimikatz -Command '"lsadump::trust /patch"' -ComputerName dc.my.domain.local
 ```
-
-The risk is because of trust account B$ is enabled, **B$’s Primary Group is Domain Users of domain A**, any permission granted to Domain Users applies to B$, and it is possible to use B$’s credentials to authenticate against domain A.
+जो खतरा है वह भरोसा खाता B$ के सक्षम होने के कारण है, **B$ का प्राथमिक समूह डोमेन A के डोमेन उपयोगकर्ताओं है**, डोमेन उपयोगकर्ताओं को प्रदान की गई कोई भी अनुमति B$ के लिए लागू होती है और B$ के क्रेडेंशियल का उपयोग करके डोमेन A के खिलाफ प्रमाणीकरण करना संभव है।
 
 {% hint style="warning" %}
-Therefore, f**rom the trusting domain it's possible to obtain a user inside the trusted domain**. This user won't have a lot of permissions (just Domain Users probably) but you will be able to **enumerate the external domain**.
+इसलिए, विश्वास करने वाले डोमेन से विश्वसनीय डोमेन के भीतर एक उपयोगकर्ता प्राप्त करना संभव है। इस उपयोगकर्ता के पास बहुत सारी अनुमतियाँ नहीं होंगी (संभवतः केवल डोमेन उपयोगकर्ताओं की) लेकिन आपको **बाहरी डोमेन की जांच करने की क्षमता होगी**।
 {% endhint %}
 
-In this example the trusting domain is `ext.local` and the trusted one is `root.local`. Therefore, a user called `EXT$` is created inside `root.local`.
-
+इस उदाहरण में विश्वास करने वाला डोमेन `ext.local` है और विश्वसनीय डोमेन `root.local` है। इसलिए, `root.local` के भीतर एक उपयोगकर्ता `EXT$` नामक बनाया जाता है।
 ```bash
 # Use mimikatz to dump trusted keys
 lsadump::trust /patch
 # You can see in the output the old and current credentials
 # You will find clear text, AES and RC4 hashes
 ```
-
-Therefore, at this point have **`root.local\EXT$`**’s current **cleartext password and Kerberos secret key.** The **`root.local\EXT$`** Kerberos AES secret keys are on identical to the AES trust keys as a different salt is used, but the **RC4 keys are the same**. Therefore, we can **use the RC4 trust key** dumped from ext.local as to **authenticate** as `root.local\EXT$` against `root.local`.
-
+इसलिए, इस बिंदु पर **`root.local\EXT$`** के **सद्य वर्णमाला पासवर्ड और Kerberos गुप्त कुंजी** हैं। **`root.local\EXT$`** के Kerberos AES गुप्त कुंजी AES विश्वास कुंजी के समान हैं क्योंकि एक अलग साल्ट का उपयोग किया जाता है, लेकिन **RC4 कुंजी एक ही हैं**। इसलिए, हम **ext.local** से डंप किए गए RC4 विश्वास कुंजी का उपयोग कर सकते हैं `root.local` के खिलाफ `root.local\EXT$` के रूप में **प्रमाणित** होने के लिए।
 ```bash
 .\Rubeus.exe asktgt /user:EXT$ /domain:root.local /rc4:<RC4> /dc:dc.root.local /ptt
 ```
-
-With this you can start enumerating that domain and even kerberoasting users:
-
+इसके साथ आप उस डोमेन की गणना शुरू कर सकते हैं और उपयोगकर्ताओं को kerberoasting भी कर सकते हैं:
 ```
 .\Rubeus.exe kerberoast /user:svc_sql /domain:root.local /dc:dc.root.local
 ```
+### साफ़ टेक्स्ट विश्वास पासवर्ड इकट्ठा करना
 
-### Gathering cleartext trust password
+पिछले फ़्लो में **साफ़ टेक्स्ट पासवर्ड** की जगह पर विश्वास हैश का उपयोग किया गया था (जिसे मिमीकेट्स द्वारा भी डंप किया गया था)।
 
-In the previous flow it was used the trust hash instead of the **clear text password** (that was also **dumped by mimikatz**).
-
-The cleartext password can be obtained by converting the \[ CLEAR ] output from mimikatz from hexadecimal and removing null bytes ‘\x00’:
+साफ़ टेक्स्ट पासवर्ड को मिमीकेट्स के \[ CLEAR ] आउटपुट को हेक्साडेसिमल में रूपांतरित करके और नल बाइट्स '\x00' को हटाकर प्राप्त किया जा सकता है:
 
 ![](<../../.gitbook/assets/image (2) (1) (2) (1).png>)
 
-Sometimes when creating a trust relationship, a password must be typed in by the user for the trust. In this demonstration, the key is the original trust password and therefore human readable. As the key cycles (30 days), the cleartext will not be human-readable but technically still usable.
+कभी-कभी जब विश्वास संबंध बनाया जाता है, तो उपयोगकर्ता द्वारा विश्वास के लिए एक पासवर्ड टाइप किया जाना चाहिए। इस प्रदर्शन में, कुंजी मूल विश्वास पासवर्ड है और इसलिए मानव पठनीय है। कुंजी के चक्र (30 दिन) के बाद, साफ़ टेक्स्ट मानव पठनीय नहीं होगा लेकिन तकनीकी रूप से अभी भी उपयोगी होगा।
 
-The cleartext password can be used to perform regular authentication as the trust account, an alternative to requesting a TGT using the Kerberos secret key of the trust account. Here, querying root.local from ext.local for members of Domain Admins:
+साफ़ टेक्स्ट पासवर्ड का उपयोग करके विश्वास खाता के रूप में नियमित प्रमाणीकरण करने के लिए इस्तेमाल किया जा सकता है, जो विश्वास खाते की कर्बेरोस गुप्त कुंजी का उपयोग करके एक टीजीटी अनुरोध करने का एक विकल्प है। यहां, ext.local से root.local को Domain Admins के सदस्यों के लिए क्वेरी करना:
 
 ![](<../../.gitbook/assets/image (1) (1) (1) (2).png>)
 
-## References
+## संदर्भ
 
 * [https://improsec.com/tech-blog/sid-filter-as-security-boundary-between-domains-part-7-trust-account-attack-from-trusting-to-trusted](https://improsec.com/tech-blog/sid-filter-as-security-boundary-between-domains-part-7-trust-account-attack-from-trusting-to-trusted)
 
@@ -99,10 +71,10 @@ The cleartext password can be used to perform regular authentication as the trus
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **हैकट्रिक्स में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS की नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने की उपलब्धता** चाहिए? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष [**NFT**](https://opensea.io/collection/the-peass-family) संग्रह।
+* प्राप्त करें [**आधिकारिक PEASS और HackTricks swag**](https://peass.creator-spring.com)
+* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या मुझे **ट्विटर** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **अपने हैकिंग ट्रिक्स साझा करें, हैकट्रिक्स रेपो में पीआर जमा करके** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **को डालकर।**
 
 </details>

@@ -1,70 +1,56 @@
-
-
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS की नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने की उपलब्धता** चाहिए? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष [**NFT**](https://opensea.io/collection/the-peass-family) संग्रह
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- प्राप्त करें [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में या **Twitter** पर **फॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **अपने हैकिंग ट्रिक्स को [hacktricks रेपो](https://github.com/carlospolop/hacktricks) और [hacktricks-cloud रेपो](https://github.com/carlospolop/hacktricks-cloud) में PR जमा करके साझा करें**.
 
 </details>
 
 
-# Summary of the attack
+# हमले का सारांश
 
-Imagine a server which is **signing** some **data** by **appending** a **secret** to some known clear text data and then hashing that data. If you know:
+कल्पना करें कि एक सर्वर है जो कुछ ज्ञात साफ पाठ डेटा के बाद एक गुप्त जोड़कर उस डेटा को हैश करके उसे साइन कर रहा है। यदि आपको पता है:
 
-* **The length of the secret** (this can be also bruteforced from a given length range)
-* **The clear text data**
-* **The algorithm (and it's vulnerable to this attack)**
-* **The padding is known**
-  * Usually a default one is used, so if the other 3 requirements are met, this also is
-  * The padding vary depending on the length of the secret+data, that's why the length of the secret is needed
+* **गुप्त जोड़कर की लंबाई** (इसे एक दिए गए लंबाई सीमा से भी bruteforce किया जा सकता है)
+* **साफ पाठ डेटा**
+* **एल्गोरिदम (और यह हमले के लिए संकटग्रस्त है)**
+* **पैडिंग ज्ञात है**
+* आमतौर पर एक डिफ़ॉल्ट पैडिंग का उपयोग किया जाता है, इसलिए यदि अन्य 3 आवश्यकताएँ पूरी होती हैं, तो यह भी होती है
+* पैडिंग गुप्त जोड़कर+डेटा की लंबाई पर निर्भर करता है, इसलिए गुप्त जोड़कर की लंबाई की आवश्यकता होती है
 
-Then, it's possible for an **attacker** to **append** **data** and **generate** a valid **signature** for the **previos data + appended data**.
+तो, एक **हमलावर** को **डेटा** को **जोड़ने** और **पिछले डेटा + जोड़ा गया डेटा** के लिए एक मान्य **हस्ताक्षर** उत्पन्न करने की संभावना होती है।
 
-## How?
+## कैसे?
 
-Basically the vulnerable algorithms generate the hashes by firstly **hashing a block of data**, and then, **from** the **previously** created **hash** (state), they **add the next block of data** and **hash it**.
+मूल रूप से, संकटग्रस्त एल्गोरिदम डेटा के एक ब्लॉक को पहले से ही हैश करके हैश उत्पन्न करते हैं, और फिर, पहले से बनाए गए हैश (स्थिति) से अगले ब्लॉक डेटा को जोड़ते हैं और उसे हैश करते हैं।
 
-Then, imagine that the secret is "secret" and the data is "data", the MD5 of "secretdata" is 6036708eba0d11f6ef52ad44e8b74d5b.\
-If an attacker wants to append the string "append" he can:
+फिर, कल्पित करें कि गुप्त जोड़कर "गुप्त" है और डेटा "डेटा" है, "गुप्तडेटा" का MD5 6036708eba0d11f6ef52ad44e8b74d5b है।\
+यदि एक हमलावर "जोड़ना" शब्द को जोड़ना चाहता है, तो वह कर सकता है:
 
-* Generate a MD5 of 64 "A"s
-* Change the state of the previously initialized hash to 6036708eba0d11f6ef52ad44e8b74d5b
-* Append the string "append"
-* Finish the hash and the resulting hash will be a **valid one for "secret" + "data" + "padding" + "append"**
+* 64 "A" का MD5 उत्पन्न करें
+* पहले से शुरू किए गए हैश की स्थिति को 6036708eba0d11f6ef52ad44e8b74d5b पर बदलें
+* शब्द "जोड़ना" को जोड़ें
+* हैश को समाप्त करें और परिणामी हैश "गुप्त" + "डेटा" + "पैडिंग" + "जोड़ना" के लिए **मान्य होगा**
 
-## **Tool**
+## **उपकरण**
 
 {% embed url="https://github.com/iagox86/hash_extender" %}
 
-# References
+# संदर्भ
 
-You can find this attack good explained in [https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks](https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks)
+आप इस हमले को अच्छी तरह से समझाने के लिए [https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks](https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks) में देख सकते हैं
 
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
-
-</details>
-
-
+- क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS की नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने की उपलब्धता** चाहिए? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospol

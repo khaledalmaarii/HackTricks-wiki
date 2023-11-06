@@ -6,149 +6,100 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप चाहते हैं कि आपकी **कंपनी HackTricks में विज्ञापित** हो? या क्या आप **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड** करने की इच्छा रखते हैं? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष संग्रह [**NFTs**](https://opensea.io/collection/the-peass-family)
+* प्राप्त करें [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में या मुझे **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)** का** **अनुसरण** करें।**
+* **अपने हैकिंग ट्रिक्स साझा करें और PRs सबमिट करें** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **को**
 
 </details>
 
 ## Partitions
 
-A hard drive or an **SSD disk can contain different partitions** with the goal of separating data physically.\
-The **minimum** unit of a disk is the **sector** (normally composed of 512B). So, each partition size needs to be multiple of that size.
+एक हार्ड ड्राइव या एक **SSD डिस्क में अलग-अलग पार्टीशन हो सकते हैं** जिनका उद्देश्य डेटा को भौतिक रूप से अलग करना होता है।\
+डिस्क की **न्यूनतम** इकाई सेक्टर होती है (सामान्यतः 512B के संयोजन से बनी होती है)। इसलिए, प्रत्येक पार्टीशन का आकार इस आकार के गुणक का होना चाहिए।
 
-### MBR (master Boot Record)
+### MBR (मास्टर बूट रिकॉर्ड)
 
-It's allocated in the **first sector of the disk after the 446B of the boot code**. This sector is essential to indicate to the PC what and from where a partition should be mounted.\
-It allows up to **4 partitions** (at most **just 1** can be active/**bootable**). However, if you need more partitions you can use **extended partitions**. The **final byte** of this first sector is the boot record signature **0x55AA**. Only one partition can be marked as active.\
-MBR allows **max 2.2TB**.
+यह **डिस्क के पहले सेक्टर में 446B के बूट कोड के बाद आवंटित** होता है। यह सेक्टर PC को बताने के लिए महत्वपूर्ण होता है कि कौन सा पार्टीशन कहां से माउंट किया जाना चाहिए।\
+इसमें **4 पार्टीशन** तक की अनुमति होती है (अधिकांशतः केवल **1** एक्टिव/**बूटेबल** हो सकता है)। हालांकि, अगर आपको अधिक पार्टीशन की आवश्यकता होती है तो आप **विस्तारित पार्टीशन** का उपयोग कर सकते हैं। इस पहले सेक्टर का अंतिम बाइट बूट रिकॉर्ड सिग्नेचर **0x55AA** होता है। केवल एक पार्टीशन को एक्टिव मार्क किया जा सकता है।\
+MBR में **अधिकतम 2.2TB** की अनुमति होती है।
 
 ![](<../../../.gitbook/assets/image (489).png>)
 
 ![](<../../../.gitbook/assets/image (490).png>)
 
-From the **bytes 440 to the 443** of the MBR you can find the **Windows Disk Signature** (if Windows is used). The logical drive letter of the hard disk depends on the Windows Disk Signature. Changing this signature could prevent Windows from booting (tool: [**Active Disk Editor**](https://www.disk-editor.org/index.html)**)**.
+MBR के **बाइट 440 से 443** तक आप **Windows Disk Signature** पा सकते हैं (यदि Windows का उपयोग किया जाता है)। हार्ड डिस्क का लॉजिकल ड्राइव पत्र Windows Disk Signature पर निर्भर करता है। इस सिग्नेचर को बदलने से Windows के बूट होने से रोका जा सकता है (उपकरण: [**Active Disk Editor**](https://www.disk-editor.org/index.html)**)**।
 
 ![](<../../../.gitbook/assets/image (493).png>)
 
-**Format**
+**प्रारूप**
 
-| Offset      | Length     | Item                |
+| Offset      | Length     | आइटम                |
 | ----------- | ---------- | ------------------- |
-| 0 (0x00)    | 446(0x1BE) | Boot code           |
-| 446 (0x1BE) | 16 (0x10)  | First Partition     |
-| 462 (0x1CE) | 16 (0x10)  | Second Partition    |
-| 478 (0x1DE) | 16 (0x10)  | Third Partition     |
-| 494 (0x1EE) | 16 (0x10)  | Fourth Partition    |
-| 510 (0x1FE) | 2 (0x2)    | Signature 0x55 0xAA |
+| 0 (0x00)    | 446(0x1BE) | बूट कोड           |
+| 446 (0x1BE) | 16 (0x10)  | पहला पार्टीशन     |
+| 462 (0x1CE) | 16 (0x10)  | दूसरा पार्टीशन    |
+| 478 (0x1DE) | 16 (0x10)  | तीसरा पार्टीशन     |
+| 494 (0x1EE) | 16 (0x10)  | चौथा पार्टीशन    |
+| 510 (0x1FE) | 2 (0x2)    | सिग्नेचर 0x55 0xAA |
 
-**Partition Record Format**
+**पार्टीशन रिकॉर्ड प्रारूप**
 
-| Offset    | Length   | Item                                                   |
+| Offset    | Length   | आइटम                                                   |
 | --------- | -------- | ------------------------------------------------------ |
-| 0 (0x00)  | 1 (0x01) | Active flag (0x80 = bootable)                          |
-| 1 (0x01)  | 1 (0x01) | Start head                                             |
-| 2 (0x02)  | 1 (0x01) | Start sector (bits 0-5); upper bits of cylinder (6- 7) |
-| 3 (0x03)  | 1 (0x01) | Start cylinder lowest 8 bits                           |
-| 4 (0x04)  | 1 (0x01) | Partition type code (0x83 = Linux)                     |
-| 5 (0x05)  | 1 (0x01) | End head                                               |
-| 6 (0x06)  | 1 (0x01) | End sector (bits 0-5); upper bits of cylinder (6- 7)   |
-| 7 (0x07)  | 1 (0x01) | End cylinder lowest 8 bits                             |
-| 8 (0x08)  | 4 (0x04) | Sectors preceding partition (little endian)            |
-| 12 (0x0C) | 4 (0x04) | Sectors in partition                                   |
-
-In order to mount an MBR in Linux you first need to get the start offset (you can use `fdisk` and the `p` command)
-
-![](<../../../.gitbook/assets/image (413) (3) (3) (3) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (12).png>)
-
-And then use the following code
-
+| 0 (0x00)  | 1 (0x01) | एक्टिव फ्लैग (0x80 = बूटेबल)                          |
+| 1 (0x01)  | 1 (0x01) | प्रारंभ हेड                                             |
+| 2 (0x02)  | 1 (0x01) | प्रारंभ सेक्टर (बिट्स 0-5); सिलेंडर के ऊपरी बिट्स (6- 7) |
+| 3 (0x03)  | 1 (0x01) | प्रारंभ सिलेंडर के निचले 8 बिट्स                           |
+| 4 (0x04)  | 1 (0x01) | पार्टीशन प्रकार कोड (0x83 = लिनक्स)                     |
+| 5 (0x05)  | 1 (0x01) | अंतिम हेड                                               |
+| 6 (0x06)  | 1 (0x01) | अंतिम सेक्टर (बिट्स 0
 ```bash
 #Mount MBR in Linux
 mount -o ro,loop,offset=<Bytes>
 #63x512 = 32256Bytes
 mount -o ro,loop,offset=32256,noatime /path/to/image.dd /media/part/
 ```
+**LBA (लॉजिकल ब्लॉक पता)**
 
-**LBA (Logical block addressing)**
+**लॉजिकल ब्लॉक पता** (**LBA**) कंप्यूटर स्टोरेज उपकरणों पर संग्रहित डेटा के ब्लॉक के स्थान को निर्दिष्ट करने के लिए एक सामान्य योजना है, आमतौर पर हार्ड डिस्क ड्राइव की तरह के सेकेंडरी स्टोरेज सिस्टमों के लिए उपयोग की जाती है। LBA एक विशेष रूप से सरल रैखिक पता योजना है; ब्लॉकों को एक पूर्णांक सूचकांक द्वारा स्थानित किया जाता है, पहला ब्लॉक LBA 0 होता है, दूसरा LBA 1 होता है, और इसी प्रकार।
 
-**Logical block addressing** (**LBA**) is a common scheme used for **specifying the location of blocks** of data stored on computer storage devices, generally secondary storage systems such as hard disk drives. LBA is a particularly simple linear addressing scheme; **blocks are located by an integer index**, with the first block being LBA 0, the second LBA 1, and so on.
+### GPT (GUID पार्टीशन टेबल)
 
-### GPT (GUID Partition Table)
+इसे ग्लोबली यूनिक आईडेंटिफायर के कारण GUID पार्टीशन टेबल कहा जाता है।
 
-It’s called GUID Partition Table because every partition on your drive has a **globally unique identifier**.
+MBR की तरह यह **सेक्टर 0** में शुरू होता है। MBR में 32 बिट होते हैं जबकि **GPT** में **64 बिट** का उपयोग होता है।\
+GPT **Windows में 128 पार्टीशन तक** और **9.4ZB तक** की अनुमति देता है।\
+इसके अलावा, पार्टीशनों के पास 36 अक्षरों का यूनिकोड नाम हो सकता है।
 
-Just like MBR it starts in the **sector 0**. The MBR occupies 32bits while **GPT** uses **64bits**.\
-GPT **allows up to 128 partitions** in Windows and up to **9.4ZB**.\
-Also, partitions can have a 36 character Unicode name.
+MBR डिस्क पर, पार्टीशनिंग और बूट डेटा एक ही स्थान पर संग्रहीत होते हैं। यदि यह डेटा अधिलेखित या क्षतिग्रस्त हो जाता है, तो आप मुसीबत में हो जाते हैं। इसके विपरीत, **GPT डिस्क पर इस डेटा के कई प्रतिलिपियाँ संग्रहीत होती हैं**, इसलिए यह बहुत अधिक मजबूत होता है और यदि डेटा क्षतिग्रस्त हो जाता है तो इसे पुनर्प्राप्त कर सकता है।
 
-On an MBR disk, the partitioning and boot data are stored in one place. If this data is overwritten or corrupted, you’re in trouble. In contrast, **GPT stores multiple copies of this data across the disk**, so it’s much more robust and can recover if the data is corrupted.
+GPT भी **साइक्लिक रेडंडेंसी चेक (CRC)** मानों को संग्रहीत करता है ताकि यह जांच सके कि उसका डेटा संपूर्ण है। यदि डेटा क्षतिग्रस्त हो जाता है, तो GPT समस्या को नोटिस कर सकता है और डिस्क पर दूसरे स्थान से क्षतिग्रस्त डेटा को पुनर्प्राप्त करने का प्रयास कर सकता है।
 
-GPT also stores **cyclic redundancy check (CRC)** values to check that its data is intact. If the data is corrupted, GPT can notice the problem and **attempt to recover the damaged data** from another location on the disk.
+**प्रोटेक्टिव MBR (LBA0)**
 
-**Protective MBR (LBA0)**
-
-For limited backward compatibility, the space of the legacy MBR is still reserved in the GPT specification, but it is now used in a **way that prevents MBR-based disk utilities from misrecognizing and possibly overwriting GPT disks**. This is referred to as a protective MBR.
+पीछे की ओर संगतता के लिए, पुराने MBR पर अभी भी जगह GPT विनिर्देश में संरक्षित है, लेकिन अब इसे एक ऐसे तरीके से उपयोग किया जाता है जिससे MBR आधारित डिस्क उपयोगियों को GPT डिस्क को गलत रूप से पहचानने और शायद अधिलेखित करने से रोका जा सकता है। इसे प्रोटेक्टिव MBR के रूप में जाना जाता है।
 
 ![](<../../../.gitbook/assets/image (491).png>)
 
-**Hybrid MBR (LBA 0 + GPT)**
+**हाइब्रिड MBR (LBA 0 + GPT)**
 
-In operating systems that support **GPT-based boot through BIOS** services rather than EFI, the first sector may also still be used to store the first stage of the **bootloader** code, but **modified** to recognize **GPT** **partitions**. The bootloader in the MBR must not assume a sector size of 512 bytes.
+जो ऑपरेटिंग सिस्टम GPT आधारित बूट को BIOS के माध्यम से समर्थन करते हैं, उनमें पहला सेक्टर बूटलोडर कोड को संग्रहीत करने के लिए उपयोग किया जा सकता है, लेकिन **संशोधित** करके **GPT पार्टीशन** को पहचानने के लिए। MBR में बूटलोडर 512 बाइट का सेक्टर आकार का नहीं मानना चाहिए।
 
-**Partition table header (LBA 1)**
+**पार्टीशन टेबल हैडर (LBA 1)**
 
-The partition table header defines the usable blocks on the disk. It also defines the number and size of the partition entries that make up the partition table (offsets 80 and 84 in the table).
+पार्टीशन टेबल हैडर डिस्क पर उपयोगी ब्लॉकों को परिभाषित करता है। यह यहां बने पार्टीशन प्रविष्टियों की संख्या और आकार को भी परिभाषित करता है (टेबल में 80 और 84 के ऑफसेट)।
 
-| Offset    | Length   | Contents                                                                                                                                                                        |
+| ऑफसेट    | लंबाई   | सामग्री                                                                                                                                                                        |
 | --------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 0 (0x00)  | 8 bytes  | Signature ("EFI PART", 45h 46h 49h 20h 50h 41h 52h 54h or 0x5452415020494645ULL[ ](https://en.wikipedia.org/wiki/GUID\_Partition\_Table#cite\_note-8)on little-endian machines) |
-| 8 (0x08)  | 4 bytes  | Revision 1.0 (00h 00h 01h 00h) for UEFI 2.8                                                                                                                                     |
-| 12 (0x0C) | 4 bytes  | Header size in little endian (in bytes, usually 5Ch 00h 00h 00h or 92 bytes)                                                                                                    |
-| 16 (0x10) | 4 bytes  | [CRC32](https://en.wikipedia.org/wiki/CRC32) of header (offset +0 up to header size) in little endian, with this field zeroed during calculation                                |
-| 20 (0x14) | 4 bytes  | Reserved; must be zero                                                                                                                                                          |
-| 24 (0x18) | 8 bytes  | Current LBA (location of this header copy)                                                                                                                                      |
-| 32 (0x20) | 8 bytes  | Backup LBA (location of the other header copy)                                                                                                                                  |
-| 40 (0x28) | 8 bytes  | First usable LBA for partitions (primary partition table last LBA + 1)                                                                                                          |
-| 48 (0x30) | 8 bytes  | Last usable LBA (secondary partition table first LBA − 1)                                                                                                                       |
-| 56 (0x38) | 16 bytes | Disk GUID in mixed endian                                                                                                                                                       |
-| 72 (0x48) | 8 bytes  | Starting LBA of an array of partition entries (always 2 in primary copy)                                                                                                        |
-| 80 (0x50) | 4 bytes  | Number of partition entries in array                                                                                                                                            |
-| 84 (0x54) | 4 bytes  | Size of a single partition entry (usually 80h or 128)                                                                                                                           |
-| 88 (0x58) | 4 bytes  | CRC32 of partition entries array in little endian                                                                                                                               |
-| 92 (0x5C) | \*       | Reserved; must be zeroes for the rest of the block (420 bytes for a sector size of 512 bytes; but can be more with larger sector sizes)                                         |
+| 0 (0x00)  | 8 बाइट  | हस्ताक्षर ("EFI PART", 45h 46h 49h 20h 50h 41h 52h 54h या 0x5452415020494645ULL[ ](https://en.wikipedia.org/wiki/GUID\_Partition\_Table#cite\_note-8)लिटिल-एंडियन मशीनों पर) |
+| 8 (0x08)  | 4 बाइट  | UEFI 2.8 के लिए संशोधन 1.0 (00h 00h 01h 00h)                                                                                                                                     |
+| 12 (0x0C) | 4 बाइट  | लिटिल-एंडियन में हेडर का आकार (बाइट में, आमतौर पर 5Ch 00h 00h 00h या 92 बाइट)                                                                                                    |
+| 16 (0x10) | 4 बाइट  | हेडर का [CRC32](https://en.wikipedia.org/wiki/CRC32) (ऑफसेट +0 से हेडर के आकार तक) लिटिल-एंडियन में, इस फ
+## फ़ाइल सिस्टम
 
-**Partition entries (LBA 2–33)**
-
-| GUID partition entry format |          |                                                                                                                   |
-| --------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------- |
-| Offset                      | Length   | Contents                                                                                                          |
-| 0 (0x00)                    | 16 bytes | [Partition type GUID](https://en.wikipedia.org/wiki/GUID\_Partition\_Table#Partition\_type\_GUIDs) (mixed endian) |
-| 16 (0x10)                   | 16 bytes | Unique partition GUID (mixed endian)                                                                              |
-| 32 (0x20)                   | 8 bytes  | First LBA ([little endian](https://en.wikipedia.org/wiki/Little\_endian))                                         |
-| 40 (0x28)                   | 8 bytes  | Last LBA (inclusive, usually odd)                                                                                 |
-| 48 (0x30)                   | 8 bytes  | Attribute flags (e.g. bit 60 denotes read-only)                                                                   |
-| 56 (0x38)                   | 72 bytes | Partition name (36 [UTF-16](https://en.wikipedia.org/wiki/UTF-16)LE code units)                                   |
-
-**Partitions Types**
-
-![](<../../../.gitbook/assets/image (492).png>)
-
-More partition types in [https://en.wikipedia.org/wiki/GUID\_Partition\_Table](https://en.wikipedia.org/wiki/GUID\_Partition\_Table)
-
-### Inspecting
-
-After mounting the forensics image with [**ArsenalImageMounter**](https://arsenalrecon.com/downloads/), you can inspect the first sector using the Windows tool [**Active Disk Editor**](https://www.disk-editor.org/index.html)**.** In the following image an **MBR** was detected on the **sector 0** and interpreted:
-
-![](<../../../.gitbook/assets/image (494).png>)
-
-If it was a **GPT table instead of an MBR** it should appear the signature _EFI PART_ in the **sector 1** (which in the previous image is empty).
-
-## File-Systems
-
-### Windows file-systems list
+### Windows फ़ाइल सिस्टम सूची
 
 * **FAT12/16**: MSDOS, WIN95/98/NT/200
 * **FAT32**: 95/2000/XP/2003/VISTA/7/8/10
@@ -158,27 +109,27 @@ If it was a **GPT table instead of an MBR** it should appear the signature _EFI 
 
 ### FAT
 
-The **FAT (File Allocation Table)** file system is named for its method of organization, the file allocation table, which resides at the beginning of the volume. To protect the volume, **two copies** of the table are kept, in case one becomes damaged. In addition, the file allocation tables and the root folder must be stored in a **fixed location** so that the files needed to start the system can be correctly located.
+**FAT (File Allocation Table)** फ़ाइल सिस्टम का नाम इसके संगठन के तरीके, फ़ाइल आवंटन टेबल के लिए है, जो वॉल्यूम की शुरुआत में स्थित होता है। वॉल्यूम की सुरक्षा के लिए, टेबल के **दो कॉपियां** रखी जाती हैं, यदि एक कॉपी क्षतिग्रस्त हो जाती है। साथ ही, फ़ाइल आवंटन टेबल और रूट फ़ोल्डर को एक **निश्चित स्थान** में संग्रहीत किया जाना चाहिए, ताकि सिस्टम को शुरू करने के लिए आवश्यक फ़ाइलें सही ढंग से ढूंढ़ी जा सकें।
 
 ![](<../../../.gitbook/assets/image (495).png>)
 
-The minimum space unit used by this file system is a **cluster, typically 512B** (which is composed of a number of sectors).
+इस फ़ाइल सिस्टम द्वारा उपयोग किए जाने वाले न्यूनतम स्थान इकाई को **क्लस्टर** कहा जाता है, जो आमतौर पर 512B (जिसमें कई सेक्टर होते हैं) से मिलकर बनता है।
 
-The earlier **FAT12** had a **cluster addresses to 12-bit** values with up to **4078** **clusters**; it allowed up to 4084 clusters with UNIX. The more efficient **FAT16** increased to **16-bit** cluster address allowing up to **65,517 clusters** per volume. FAT32 uses 32-bit cluster address allowing up to **268,435,456 clusters** per volume
+पहले **FAT12** में **12-बिट** मानों के क्लस्टर पते होते थे जिनमें तकरीबन **4078 क्लस्टर** थे; यह UNIX के साथ 4084 क्लस्टर तक की अनुमति देता था। अधिक दक्ष **FAT16** में **16-बिट** क्लस्टर पता होता है, जिससे प्रति वॉल्यूम तक कुल **65,517 क्लस्टर** की अनुमति होती है। FAT32 32-बिट क्लस्टर पता का उपयोग करता है, जिससे प्रति वॉल्यूम तक कुल **268,435,456 क्लस्टर** की अनुमति होती है।
 
-The **maximum file size allowed by FAT is 4GB** (minus one byte) because the file system uses a 32-bit field to store the file size in bytes, and 2^32 bytes = 4 GiB. This happens for FAT12, FAT16 and FAT32.
+**FAT द्वारा अनुमति दी जाने वाली अधिकतम फ़ाइल आकार 4GB** (एक बाइट कम) है क्योंकि फ़ाइल सिस्टम बाइट में फ़ाइल आकार संग्रहीत करने के लिए एक 32-बिट फ़ील्ड का उपयोग करता है, और 2^32 बाइट = 4 GiB होते हैं। यह FAT12, FAT16 और FAT32 के लिए होता है।
 
-The **root directory** occupies a **specific position** for both FAT12 and FAT16 (in FAT32 it occupies a position like any other folder). Each file/folder entry contains this information:
+**रूट निर्देशिका** FAT12 और FAT16 के लिए एक **निश्चित स्थान** का दावा करती है (FAT32 में यह किसी अन्य फ़ोल्डर की तरह एक स्थान का दावा करती है)। प्रत्येक फ़ाइल/फ़ोल्डर प्रविष्टि में यह जानकारी होती है:
 
-* Name of the file/folder (8 chars max)
-* Attributes
-* Date of creation
-* Date of modification
-* Date of last access
-* Address of the FAT table where the first cluster of the file starts
-* Size
+* फ़ाइल/फ़ोल्डर का नाम (8 अधिकतम वर्ण)
+* गुण
+* निर्माण की तारीख
+* संशोधन की तारीख
+* अंतिम पहुँच की तारीख
+* फ़ाइल की प्रारंभिक क्लस्टर की FAT टेबल का पता
+* आकार
 
-When a file is "deleted" using a FAT file system, the directory entry remains almost **unchanged** except for the **first character of the file name** (modified to 0xE5), preserving most of the "deleted" file's name, along with its time stamp, file length and — most importantly — its physical location on the disk. The list of disk clusters occupied by the file will, however, be erased from the File Allocation Table, marking those sectors available for use by other files created or modified thereafter. In the case of FAT32, it is additionally an erased field responsible for the upper 16 bits of the file start cluster value.
+जब एक फ़ाइल को FAT फ़ाइल सिस्टम का उपयोग करके "हटाया" जाता है, तो निर्देशिका प्रविष्टि लगभग **अपरिवर्तित रहती है**, केवल फ़ाइल के नाम के **पहले वर्ण को** (0xE5 में संशोधित) बदल दिया जाता है, "हटाई गई" फ़ाइल के नाम का अधिकांश हिस्सा, उसके समय छाप, फ़ाइल की लंबाई और — सबसे महत्वपूर्ण रूप से — डिस्क पर इसकी भौतिक स्थान। तथापि, फ़ाइल आवंटन टेबल से डिस्क क्लस्टर की सूची मिटा दी जाएगी, जिससे वे सेक्टर अन्य फ़ाइलें बनाई या संशोधित करने के लिए उपयोग के लिए उपलब्ध हो जाएंगे। FAT32 के मामले में, फ़ाइल प्रारंभ क्लस्टर मान के ऊपरी 16 बिट के लिए जिम्मेदार एक मिटा फ़ील्ड भी होता है।
 
 ### **NTFS**
 
@@ -188,65 +139,16 @@ When a file is "deleted" using a FAT file system, the directory entry remains al
 
 ### EXT
 
-**Ext2** is the most common file system for **not journaling** partitions (**partitions that don't change much**) like the boot partition. **Ext3/4** are **journaling** and are used usually for the **rest partitions**.
+**Ext2** नोट जर्नलिंग वाले विभाजनों (**विभाजन जो बहुत बदलते नहीं हैं**) के लिए सबसे आम फ़ाइल सिस्टम है। **Ext3/4** जर्नलिंग होते हैं और आमतौर पर **बाकी विभाजनों** के लिए उपयोग होते हैं।
 
 {% content-ref url="ext.md" %}
 [ext.md](ext.md)
 {% endcontent-ref %}
 
-## **Metadata**
+## **मेटाडेटा**
 
-Some files contain metadata. This information is about the content of the file which sometimes might be interesting to an analyst as depending on the file type, it might have information like:
-
-* Title
-* MS Office Version used
-* Author
-* Dates of creation and last modification
-* Model of the camera
-* GPS coordinates
-* Image information
-
-You can use tools like [**exiftool**](https://exiftool.org) and [**Metadiver**](https://www.easymetadata.com/metadiver-2/) to get the metadata of a file.
-
-## **Deleted Files Recovery**
-
-### Logged Deleted Files
-
-As was seen before there are several places where the file is still saved after it was "deleted". This is because usually the deletion of a file from a file system just marks it as deleted but the data isn't touched. Then, it's possible to inspect the registries of the files (like the MFT) and find the deleted files.
-
-Also, the OS usually saves a lot of information about file system changes and backups, so it's possible to try to use them to recover the file or as much information as possible.
-
-{% content-ref url="file-data-carving-recovery-tools.md" %}
-[file-data-carving-recovery-tools.md](file-data-carving-recovery-tools.md)
-{% endcontent-ref %}
-
-### **File Carving**
-
-**File carving** is a technique that tries to **find files in the bulk of data**. There are 3 main ways tools like this work: **Based on file types headers and footers**, based on file types **structures** and based on the **content** itself.
-
-Note that this technique **doesn't work to retrieve fragmented files**. If a file **isn't stored in contiguous sectors**, then this technique won't be able to find it or at least part of it.
-
-There are several tools that you can use for file Carving indicating the file types you want to search for
-
-{% content-ref url="file-data-carving-recovery-tools.md" %}
-[file-data-carving-recovery-tools.md](file-data-carving-recovery-tools.md)
-{% endcontent-ref %}
-
-### Data Stream **C**arving
-
-Data Stream Carving is similar to File Carving but **instead of looking for complete files, it looks for interesting fragments** of information.\
-For example, instead of looking for a complete file containing logged URLs, this technique will search for URLs.
-
-{% content-ref url="file-data-carving-recovery-tools.md" %}
-[file-data-carving-recovery-tools.md](file-data-carving-recovery-tools.md)
-{% endcontent-ref %}
-
-### Secure Deletion
-
-Obviously, there are ways to **"securely" delete files and part of logs about them**. For example, it's possible to **overwrite the content** of a file with junk data several times, and then **remove** the **logs** from the **$MFT** and **$LOGFILE** about the file, and **remove the Volume Shadow Copies**.\
-You may notice that even performing that action there might be **other parts where the existence of the file is still logged**, and that's true and part of the forensics professional job is to find them.
-
-## References
+कुछ फ़ाइलों में मेटाडेटा होता है। यह जानकारी फ़ाइल की सामग्री के बारे में होती है जो कभी-कभी एक विश्लेषक के लिए दिलचस्प हो सकती है क्योंकि फ़ाइल प्रकार के आधार प
+## संदर्भ
 
 * [https://en.wikipedia.org/wiki/GUID\_Partition\_Table](https://en.wikipedia.org/wiki/GUID\_Partition\_Table)
 * [http://ntfs.com/ntfs-permissions.htm](http://ntfs.com/ntfs-permissions.htm)
@@ -258,10 +160,10 @@ You may notice that even performing that action there might be **other parts whe
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने की आवश्यकता** है? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष [**NFT**](https://opensea.io/collection/the-peass-family) संग्रह
+* प्राप्त करें [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में या मुझे **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)** का** **अनुसरण** करें।**
+* **अपने हैकिंग ट्रिक्स को** [**hacktricks रेपो**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud रेपो**](https://github.com/carlospolop/hacktricks-cloud) **में पीआर जमा करके अपना योगदान दें।**
 
 </details>

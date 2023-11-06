@@ -1,68 +1,65 @@
-# Rust Basics
+# Rust मूलभूत
 
-### Generic Types
+### सामान्य प्रकार
 
-Create a struct where 1 of their values could be any type
-
+एक struct बनाएं जहां उनके मानों में से 1 किसी भी प्रकार का हो सकता है
 ```rust
 struct Wrapper<T> {
-    value: T,
+value: T,
 }
 
 impl<T> Wrapper<T> {
-    pub fn new(value: T) -> Self {
-        Wrapper { value }
-    }
+pub fn new(value: T) -> Self {
+Wrapper { value }
+}
 }
 
 Wrapper::new(42).value
 Wrapper::new("Foo").value, "Foo"
 ```
+### विकल्प, कुछ और कोई नहीं
 
-### Option, Some & None
-
-The Option type means that the value might by of type Some (there is something) or None:
-
+विकल्प प्रकार का अर्थ है कि मान किसी भी प्रकार का हो सकता है (कुछ होता है) या कोई नहीं होता है:
 ```rust
 pub enum Option<T> {
-    None,
-    Some(T),
+None,
+Some(T),
 }
 ```
+आप `is_some()` या `is_none()` जैसे फ़ंक्शन का उपयोग करके Option के मान की जांच कर सकते हैं।
 
-You can use functions such as `is_some()` or `is_none()` to check the value of the Option.
+### मैक्रो
 
-### Macros
-
-Macros are more powerful than functions because they expand to produce more code than the code you’ve written manually. For example, a function signature must declare the number and type of parameters the function has. Macros, on the other hand, can take a variable number of parameters: we can call `println!("hello")` with one argument or `println!("hello {}", name)` with two arguments. Also, macros are expanded before the compiler interprets the meaning of the code, so a macro can, for example, implement a trait on a given type. A function can’t, because it gets called at runtime and a trait needs to be implemented at compile time.
-
+मैक्रो फ़ंक्शनों से अधिक शक्तिशाली होते हैं क्योंकि वे आपके द्वारा मैन्युअल रूप से लिखे गए कोड से अधिक कोड उत्पन्न करने के लिए विस्तारित होते हैं। उदाहरण के लिए, एक फ़ंक्शन साइनेचर फ़ंक्शन के पैरामीटरों की संख्या और प्रकार की घोषणा करनी होती है। वहीं, मैक्रो एक चरणीय संख्या के पैरामीटर ले सकते हैं: हम एक तर्क के साथ `println!("hello")` को एक तर्क के साथ बुला सकते हैं या `println!("hello {}", name)` के दो तर्क के साथ बुला सकते हैं। इसके अलावा, मैक्रो कोड के अर्थ को कंपाइलर द्वारा व्याख्या किए जाने से पहले विस्तारित होते हैं, इसलिए एक मैक्रो उदाहरण के लिए एक निर्धारित प्रकार पर एक trait को लागू कर सकता है। एक फ़ंक्शन नहीं कर सकता, क्योंकि यह रनटाइम पर कॉल होता है और एक trait को कंपाइल टाइम पर लागू किया जाना चाहिए।
 ```rust
 macro_rules! my_macro {
-    () => {
-        println!("Check out my macro!");
-    };
-    ($val:expr) => {
-        println!("Look at this other macro: {}", $val);
-    }
+() => {
+println!("Check out my macro!");
+};
+($val:expr) => {
+println!("Look at this other macro: {}", $val);
+}
 }
 fn main() {
-    my_macro!();
-    my_macro!(7777);
+my_macro!();
+my_macro!(7777);
 }
 
 // Export a macro from a module
 mod macros {
-    #[macro_export]
-    macro_rules! my_macro {
-        () => {
-            println!("Check out my macro!");
-        };
-    }
+#[macro_export]
+macro_rules! my_macro {
+() => {
+println!("Check out my macro!");
+};
+}
 }
 ```
+### इटरेट
 
-### Iterate
+इटरेट एक प्रोग्रामिंग कॉनसेप्ट है जिसका उपयोग एक सेट या सूची में संग्रहीत आइटम्स के साथ काम करने के लिए किया जाता है। इटरेटर एक वस्तु होती है जो एक से एक आइटम को प्रदान करती है और इटरेशन के दौरान उन्हें पढ़ने और संशोधित करने की अनुमति देती है। इटरेटर्स का उपयोग लूपिंग के लिए किया जा सकता है, जहां हम एक से एक आइटम को प्राप्त करते हैं और उसे प्रोसेस करते हैं, या डेटा को फ़िल्टर, मैप या रेड्यूस करने के लिए भी किया जा सकता है।
 
+इटरेटर्स को एक सरल और प्रभावी तरीके से इम्पलीमेंट किया जा सकता है, जैसे कि फ़ोर लूप, व्हाइल लूप या रिकर्सन। इटरेटर्स का उपयोग करने से हमें कोड की लंबाई को कम करने में मदद मिलती है और कोड को अधिक सुरक्षित और दुरुस्त बनाने में मदद मिलती है।
 ```rust
 // Iterate through a vector
 let my_fav_fruits = vec!["banana", "raspberry"];
@@ -70,7 +67,7 @@ let mut my_iterable_fav_fruits = my_fav_fruits.iter();
 assert_eq!(my_iterable_fav_fruits.next(), Some(&"banana"));
 assert_eq!(my_iterable_fav_fruits.next(), Some(&"raspberry"));
 assert_eq!(my_iterable_fav_fruits.next(), None); // When it's over, it's none
- 
+
 // One line iteration with action
 my_fav_fruits.iter().map(|x| capitalize_first(x)).collect()
 
@@ -79,113 +76,140 @@ for (key, hashvalue) in &*map {
 for key in map.keys() {
 for value in map.values() {
 ```
+### रिकर्सिव बॉक्स
 
-### Recursive Box
+एक रिकर्सिव बॉक्स एक बॉक्स होती है जिसमें एक या अधिक बॉक्स होते हैं, जिन्हें हम बॉक्स के अंदर रख सकते हैं। यह एक रिकर्सिव डेटा संरचना होती है जिसमें बॉक्स के अंदर और बाहर बॉक्स हो सकते हैं। रिकर्सिव बॉक्स का उपयोग डेटा को व्यवस्थित करने और व्याख्या करने के लिए किया जा सकता है। इसका उपयोग अलग-अलग एल्गोरिदम और डेटा संरचनाओं में किया जा सकता है।
 
+एक रिकर्सिव बॉक्स को बनाने के लिए, हम एक बॉक्स की परिभाषा बना सकते हैं जिसमें एक या अधिक बॉक्स हो सकते हैं। इसके बाद, हम इसे उपयोग करके बॉक्स को बना सकते हैं और उसे अन्य बॉक्स के अंदर रख सकते हैं। इस प्रक्रिया को हम रिकर्सन के माध्यम से बार-बार दोहरा सकते हैं ताकि हम बहुत सारे बॉक्स बना सकें। इस तरीके से, हम एक रिकर्सिव बॉक्स बना सकते हैं जिसमें अनंत संख्या में बॉक्स हो सकते हैं।
 ```rust
 enum List {
-    Cons(i32, List),
-    Nil,
+Cons(i32, List),
+Nil,
 }
 
 let list = Cons(1, Cons(2, Cons(3, Nil)));
 ```
+#### शर्तग्रस्त
 
-### Conditionals
-
-#### if
-
+##### अगर
 ```rust
 let n = 5;
 if n < 0 {
-    print!("{} is negative", n);
+print!("{} is negative", n);
 } else if n > 0 {
-    print!("{} is positive", n);
+print!("{} is positive", n);
 } else {
-    print!("{} is zero", n);
+print!("{} is zero", n);
+}
+```
+#### मिलान
+
+`match` एक रस्ता है जिसका उपयोग विभिन्न मानों के लिए विभिन्न कार्रवाईयों को निर्दिष्ट करने के लिए किया जाता है। यह एक विभाजन विधि है जो एक मान को अन्य मानों के साथ तुलना करती है और उसके आधार पर एक कार्रवाई को चुनती है। यह एक शक्तिशाली और सुविधाजनक तरीका है जो आपको एक से अधिक शर्तों को सत्यापित करने और उनके आधार पर विभिन्न कार्रवाइयों को निर्दिष्ट करने की अनुमति देता है।
+
+यहां एक उदाहरण है:
+
+```rust
+fn main() {
+    let number = 3;
+
+    match number {
+        1 => println!("One"),
+        2 => println!("Two"),
+        3 => println!("Three"),
+        _ => println!("Other"),
+    }
 }
 ```
 
-#### match
-
+इस उदाहरण में, हमने `match` का उपयोग करके `number` की मान्यता की जांच की है और उसके आधार पर एक कार्रवाई को चुना है। यदि `number` 1 है, तो "One" प्रिंट होगा, यदि 2 है, तो "Two" प्रिंट होगा, यदि 3 है, तो "Three" प्रिंट होगा, और अन्य सभी मानों के लिए "Other" प्रिंट होगा।
 ```rust
 match number {
-    // Match a single value
-    1 => println!("One!"),
-    // Match several values
-    2 | 3 | 5 | 7 | 11 => println!("This is a prime"),
-    // TODO ^ Try adding 13 to the list of prime values
-    // Match an inclusive range
-    13..=19 => println!("A teen"),
-    // Handle the rest of cases
-    _ => println!("Ain't special"),
+// Match a single value
+1 => println!("One!"),
+// Match several values
+2 | 3 | 5 | 7 | 11 => println!("This is a prime"),
+// TODO ^ Try adding 13 to the list of prime values
+// Match an inclusive range
+13..=19 => println!("A teen"),
+// Handle the rest of cases
+_ => println!("Ain't special"),
 }
 
 let boolean = true;
 // Match is an expression too
 let binary = match boolean {
-    // The arms of a match must cover all the possible values
-    false => 0,
-    true => 1,
-    // TODO ^ Try commenting out one of these arms
+// The arms of a match must cover all the possible values
+false => 0,
+true => 1,
+// TODO ^ Try commenting out one of these arms
 };
 ```
+#### लूप (अनंत)
 
-#### loop (infinite)
+An infinite loop is a programming construct that repeats a block of code indefinitely. It continues executing the code until a specific condition is met or until the program is terminated. In Rust, you can create an infinite loop using the `loop` keyword.
 
 ```rust
 loop {
-    count += 1;
-    if count == 3 {
-        println!("three");
-        continue;
-    }
-    println!("{}", count);
-    if count == 5 {
-        println!("OK, that's enough");
-        break;
-    }
+    // Code to be executed indefinitely
 }
 ```
 
-#### while
+एक अनंत लूप एक प्रोग्रामिंग निर्माण है जो एक कोड ब्लॉक को अनंत बार दोहराता है। यह कोड को निरंतर चलाता रहता है जब तक एक विशेष स्थिति पूरी न हो जाए या प्रोग्राम समाप्त न हो जाए। Rust में, आप `loop` कीवर्ड का उपयोग करके एक अनंत लूप बना सकते हैं।
 
+```rust
+loop {
+    // अनंत बार कार्य को निष्पादित करने के लिए कोड
+}
+```
+```rust
+loop {
+count += 1;
+if count == 3 {
+println!("three");
+continue;
+}
+println!("{}", count);
+if count == 5 {
+println!("OK, that's enough");
+break;
+}
+}
+```
+#### जब तक
 ```rust
 let mut n = 1;
 while n < 101 {
-    if n % 15 == 0 {
-        println!("fizzbuzz");
-    } else if n % 5 == 0 {
-        println!("buzz");
-    } else {
-        println!("{}", n);
-    }
-    n += 1;
+if n % 15 == 0 {
+println!("fizzbuzz");
+} else if n % 5 == 0 {
+println!("buzz");
+} else {
+println!("{}", n);
+}
+n += 1;
 }
 ```
-
-#### for
-
+#### लूप के लिए
 ```rust
 for n in 1..101 {
-    if n % 15 == 0 {
-        println!("fizzbuzz");
-    } else {
-        println!("{}", n);
-    }
+if n % 15 == 0 {
+println!("fizzbuzz");
+} else {
+println!("{}", n);
+}
 }
 
 // Use "..=" to make inclusive both ends
 for n in 1..=100 {
-    if n % 15 == 0 {
-        println!("fizzbuzz");
-    } else if n % 3 == 0 {
-        println!("fizz");
-    } else if n % 5 == 0 {
-        println!("buzz");
-    } else {
-        println!("{}", n);
-    }
+if n % 15 == 0 {
+println!("fizzbuzz");
+} else if n % 3 == 0 {
+println!("fizz");
+} else if n % 5 == 0 {
+println!("buzz");
+} else {
+println!("{}", n);
+}
 }
 
 // ITERATIONS
@@ -193,126 +217,145 @@ for n in 1..=100 {
 let names = vec!["Bob", "Frank", "Ferris"];
 //iter - Doesn't consume the collection
 for name in names.iter() {
-    match name {
-        &"Ferris" => println!("There is a rustacean among us!"),
-        _ => println!("Hello {}", name),
-    }
+match name {
+&"Ferris" => println!("There is a rustacean among us!"),
+_ => println!("Hello {}", name),
+}
 }
 //into_iter - COnsumes the collection
 for name in names.into_iter() {
-    match name {
-        "Ferris" => println!("There is a rustacean among us!"),
-        _ => println!("Hello {}", name),
-    }
+match name {
+"Ferris" => println!("There is a rustacean among us!"),
+_ => println!("Hello {}", name),
+}
 }
 //iter_mut - This mutably borrows each element of the collection
 for name in names.iter_mut() {
-    *name = match name {
-        &mut "Ferris" => "There is a rustacean among us!",
-        _ => "Hello",
-    }
+*name = match name {
+&mut "Ferris" => "There is a rustacean among us!",
+_ => "Hello",
+}
 }
 ```
-
-#### if let
-
+#### यदि ऐसा हो
 ```rust
 let optional_word = Some(String::from("rustlings"));
 if let word = optional_word {
-    println!("The word is: {}", word);
+println!("The word is: {}", word);
 } else {
-    println!("The optional word doesn't contain anything");
+println!("The optional word doesn't contain anything");
+}
+```
+#### जब तक यह हो
+
+जब तक यह हो एक लूप है जो एक विशेष प्रकार की मान्यता को चेक करता है और जब तक वह मान्य होती है, लूप चलता रहता है। यह लूप आमतौर पर एक विशेष डेटा संरचना जैसे एक सूची या एक विशेष प्रकार के ऑब्जेक्ट के लिए उपयोगी होता है। जब तक यह मान्यता नहीं होती है, लूप बंद हो जाता है और नियंत्रण लूप के बाहर चला जाता है।
+
+उदाहरण:
+```rust
+let mut stack = Vec::new();
+
+stack.push(1);
+stack.push(2);
+stack.push(3);
+
+while let Some(top) = stack.pop() {
+    println!("{}", top);
 }
 ```
 
-#### while let
-
+इस उदाहरण में, हमने एक रिक्त स्टैक बनाया है और उसमें 1, 2 और 3 डाले हैं। फिर हमने `while let` लूप का उपयोग करके स्टैक से मान्यता प्राप्त करने का प्रयास किया है। जब तक स्टैक में मान्यता होती है, लूप चलता रहता है और मान्यता प्राप्त करने के बाद हम उसे प्रिंट करते हैं। इस प्रक्रिया को जारी रखने से स्टैक के तत्वों को एक एक करके निकाला जाता है और प्रिंट किया जाता है, जब तक स्टैक खाली नहीं हो जाता है।
 ```rust
 let mut optional = Some(0);
 // This reads: "while `let` destructures `optional` into
 // `Some(i)`, evaluate the block (`{}`). Else `break`.
 while let Some(i) = optional {
-    if i > 9 {
-        println!("Greater than 9, quit!");
-        optional = None;
-    } else {
-        println!("`i` is `{:?}`. Try again.", i);
-        optional = Some(i + 1);
-    }
-    // ^ Less rightward drift and doesn't require
-    // explicitly handling the failing case.
+if i > 9 {
+println!("Greater than 9, quit!");
+optional = None;
+} else {
+println!("`i` is `{:?}`. Try again.", i);
+optional = Some(i + 1);
+}
+// ^ Less rightward drift and doesn't require
+// explicitly handling the failing case.
 }
 ```
+### गुण
 
-### Traits
-
-Create a new method for a type
-
+एक प्रकार के लिए एक नया विधि बनाएं
 ```rust
 trait AppendBar {
-    fn append_bar(self) -> Self;
+fn append_bar(self) -> Self;
 }
 
 impl AppendBar for String {
-    fn append_bar(self) -> Self{
-        format!("{}Bar", self)
-    }
+fn append_bar(self) -> Self{
+format!("{}Bar", self)
+}
 }
 
 let s = String::from("Foo");
 let s = s.append_bar();
 println!("s: {}", s);
 ```
+### परीक्षण
 
-### Tests
+एक परीक्षण एक सॉफ़्टवेयर या सिस्टम की गुणवत्ता, सुरक्षा और संगतता की जांच करने का एक प्रक्रिया है। परीक्षण के माध्यम से, हम सुनिश्चित करते हैं कि सॉफ़्टवेयर या सिस्टम ठीक से काम कर रहा है और किसी भी त्रुटि या सुरक्षा खोंटे की जांच करते हैं। परीक्षण के लिए विभिन्न तकनीकों का उपयोग किया जाता है, जैसे कि यूनिट टेस्टिंग, संघटना टेस्टिंग, अंतरण टेस्टिंग, और अधिक।
 
+परीक्षण का उद्देश्य निम्नलिखित हो सकता है:
+- सॉफ़्टवेयर या सिस्टम की सुरक्षा की जांच करना
+- त्रुटियों और बग्स की खोज करना और उन्हें सुधारना
+- सॉफ़्टवेयर या सिस्टम की गुणवत्ता की जांच करना
+- संगतता की जांच करना
+- नए फ़ीचर्स और अपडेट्स की जांच करना
+
+परीक्षण के लिए विभिन्न टेस्टिंग टूल्स और तकनीकों का उपयोग किया जाता है, जैसे कि यूनिट टेस्टिंग फ्रेमवर्क, संघटना टेस्टिंग टूल्स, अंतरण टेस्टिंग टूल्स, और अधिक। ये टूल्स और तकनीकें परीक्षण की प्रक्रिया को सुगम और सुरक्षित बनाने में मदद करती हैं।
+
+परीक्षण एक महत्वपूर्ण और आवश्यक प्रक्रिया है जो सॉफ़्टवेयर विकास में एक महत्वपूर्ण भूमिका निभाती है। यह सुनिश्चित करता है कि सॉफ़्टवेयर या सिस्टम उच्च गुणवत्ता और सुरक्षित होता है और उपयोगकर्ताओं को एक अच्छी अनुभव प्रदान करता है।
 ```rust
 #[cfg(test)]
 mod tests {
-    #[test]
-    fn you_can_assert() {
-        assert!(true);
-        assert_eq!(true, true);
-        assert_ne!(true, false);
-    }
+#[test]
+fn you_can_assert() {
+assert!(true);
+assert_eq!(true, true);
+assert_ne!(true, false);
+}
 }
 ```
-
-### Threading
+### थ्रेडिंग
 
 #### Arc
 
-An Arc can use Clone to create more references over the object to pass them to the threads. When the last reference pointer to a value is out of scope, the variable is dropped.
-
+Arc क्लोन का उपयोग कर सकता है ताकि थ्रेड्स को उन्हें पास करने के लिए अधिक संदर्भ बनाए जा सकें। जब एक मान के लिए अंतिम संदर्भ संकेतक स्कोप से बाहर हो जाता है, तो चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान चरित्रवान
 ```rust
 use std::sync::Arc;
 let apple = Arc::new("the same apple");
 for _ in 0..10 {
-    let apple = Arc::clone(&apple);
-    thread::spawn(move || {
-        println!("{:?}", apple);
-    });
+let apple = Arc::clone(&apple);
+thread::spawn(move || {
+println!("{:?}", apple);
+});
 }
 ```
+#### थ्रेड्स
 
-#### Threads
-
-In this case we will pass the thread a variable it will be able to modify
-
+इस मामले में हम थ्रेड को एक चर देंगे जिसे वह संशोधित कर सकेगा।
 ```rust
 fn main() {
-    let status = Arc::new(Mutex::new(JobStatus { jobs_completed: 0 }));
-    let status_shared = Arc::clone(&status);
-    thread::spawn(move || {
-        for _ in 0..10 {
-            thread::sleep(Duration::from_millis(250));
-            let mut status = status_shared.lock().unwrap();
-            status.jobs_completed += 1;
-        }
-    });
-    while status.lock().unwrap().jobs_completed < 10 {
-        println!("waiting... ");
-        thread::sleep(Duration::from_millis(500));
-    }
+let status = Arc::new(Mutex::new(JobStatus { jobs_completed: 0 }));
+let status_shared = Arc::clone(&status);
+thread::spawn(move || {
+for _ in 0..10 {
+thread::sleep(Duration::from_millis(250));
+let mut status = status_shared.lock().unwrap();
+status.jobs_completed += 1;
+}
+});
+while status.lock().unwrap().jobs_completed < 10 {
+println!("waiting... ");
+thread::sleep(Duration::from_millis(500));
+}
 }
 ```
+

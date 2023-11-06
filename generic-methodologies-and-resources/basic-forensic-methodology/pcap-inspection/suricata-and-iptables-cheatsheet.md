@@ -1,27 +1,26 @@
-# Suricata & Iptables cheatsheet
+# Suricata और Iptables चीटशीट
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* क्या आप एक **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी **कंपनी को HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करना चाहिए? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष संग्रह [**NFTs**](https://opensea.io/collection/the-peass-family)
+* प्राप्त करें [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या **फॉलो** करें मुझे **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **अपने हैकिंग ट्रिक्स साझा करें, [hacktricks रेपो](https://github.com/carlospolop/hacktricks) और [hacktricks-cloud रेपो](https://github.com/carlospolop/hacktricks-cloud)** को PR जमा करके।
 
 </details>
 
 ## Iptables
 
-### Chains
+### चेन
 
-Iptables chains are just lists of rules, processed in order. You will always find the following 3, but others such as NAT might also be supported.
+Iptables चेन सिर्फ नियमों की सूचियाँ होती हैं, जो क्रम में प्रसंस्कृत होती हैं। आप हमेशा निम्नलिखित 3 चेन खोजेंगे, लेकिन अन्य चेन जैसे NAT भी समर्थित हो सकते हैं।
 
-* **Input** – This chain is used to control the behavior of incoming connections.
-* **Forward** – This chain is used for incoming connections that aren’t being delivered locally. Think of a router – data is always being sent to it but rarely actually destined for the router itself; the data is just forwarded to its target. Unless you’re doing some kind of routing, NATing, or something else on your system that requires forwarding, you won’t even use this chain.
-* **Output** – This chain is used for outgoing connections.
-
+* **Input** - यह चेन आउटगोइंग कनेक्शन के व्यवहार को नियंत्रित करने के लिए उपयोग किया जाता है।
+* **Forward** - यह चेन उन आउटगोइंग कनेक्शनों के लिए उपयोग किया जाता है जो स्थानीय रूप से डिलीवर नहीं किए जा रहे हैं। एक राउटर की तरह सोचें - डेटा हमेशा इसे भेजा जाता है लेकिन वास्तव में राउटर के लिए नहीं होता है; डेटा केवल अपने लक्ष्य की ओर फॉरवर्ड किया जाता है। यदि आप अपने सिस्टम पर किसी भी प्रकार का रूटिंग, NATing या कुछ और कर रहे हैं जो फॉरवर्डिंग की आवश्यकता होती है, तो आप इस चेन का उपयोग नहीं करेंगे।
+* **Output** - यह चेन आउटगोइंग कनेक्शनों के लिए उपयोग किया जाता है।
 ```bash
 # Delete all rules
 iptables -F
@@ -58,11 +57,29 @@ iptables-save > /etc/sysconfig/iptables
 ip6tables-save > /etc/sysconfig/ip6tables
 iptables-restore < /etc/sysconfig/iptables
 ```
-
 ## Suricata
+
+### स्थापित करें और कॉन्फ़िगर करें
+
+```bash
+# Install Suricata
+sudo apt-get install suricata
+
+# Configure Suricata
+sudo nano /etc/suricata/suricata.yaml
+```
+
+## Iptables
 
 ### Install & Config
 
+```bash
+# Install iptables
+sudo apt-get install iptables
+
+# Configure iptables
+sudo nano /etc/iptables/rules.v4
+```
 ```bash
 # Install details from: https://suricata.readthedocs.io/en/suricata-6.0.0/install.html#install-binary-packages
 # Ubuntu
@@ -72,7 +89,7 @@ apt-get install suricata
 
 # Debian
 echo "deb http://http.debian.net/debian buster-backports main" > \
-    /etc/apt/sources.list.d/backports.list
+/etc/apt/sources.list.d/backports.list
 apt-get update
 apt-get install suricata -t buster-backports
 
@@ -88,11 +105,11 @@ suricata-update
 ## To use the dowloaded rules update the following line in /etc/suricata/suricata.yaml
 default-rule-path: /var/lib/suricata/rules
 rule-files:
-  - suricata.rules
+- suricata.rules
 
 # Run
 ## Add rules in /etc/suricata/rules/suricata.rules
-systemctl suricata start 
+systemctl suricata start
 suricata -c /etc/suricata/suricata.yaml -i eth0
 
 
@@ -100,7 +117,7 @@ suricata -c /etc/suricata/suricata.yaml -i eth0
 suricatasc -c ruleset-reload-nonblocking
 ## or set the follogin in /etc/suricata/suricata.yaml
 detect-engine:
-  - rule-reload: true
+- rule-reload: true
 
 # Validate suricata config
 suricata -T -c /etc/suricata/suricata.yaml -v
@@ -109,8 +126,8 @@ suricata -T -c /etc/suricata/suricata.yaml -v
 ## Config drop to generate alerts
 ## Search for the following lines in /etc/suricata/suricata.yaml and remove comments:
 - drop:
-    alerts: yes
-    flows: all 
+alerts: yes
+flows: all
 
 ## Forward all packages to the queue where suricata can act as IPS
 iptables -I INPUT -j NFQUEUE
@@ -128,74 +145,70 @@ Type=simple
 
 systemctl daemon-reload
 ```
+### नियम परिभाषाएं
 
-### Rules Definitions
+एक नियम/हस्ताक्षर निम्नलिखित से मिलकर बनता है:
 
-A rule/signature consists of the following:
-
-* The **action**, determines what happens when the signature matches.
-* The **header**, defines the protocol, IP addresses, ports and direction of the rule.
-* The **rule options**, define the specifics of the rule.
+* **कार्रवाई**, हस्ताक्षर मेल खाने पर क्या होगा यह निर्धारित करता है।
+* **हेडर**, नियम का प्रोटोकॉल, आईपी पते, पोर्ट और दिशा को परिभाषित करता है।
+* **नियम विकल्प**, नियम की विशेषताएं परिभाषित करती हैं।
 
 ![](<../../../.gitbook/assets/image (642) (3).png>)
 
-#### **Valid actions are**
+#### **मान्य कार्रवाई हैं**
 
-* alert - generate an alert
-* pass - stop further inspection of the packet
-* **drop** - drop packet and generate alert
-* **reject** - send RST/ICMP unreachable error to the sender of the matching packet.
-* rejectsrc - same as just _reject_
-* rejectdst - send RST/ICMP error packet to the receiver of the matching packet.
-* rejectboth - send RST/ICMP error packets to both sides of the conversation.
+* चेतावनी - चेतावनी उत्पन्न करें
+* पास - पैकेट की आगे की जांच रोकें
+* **ड्रॉप** - पैकेट को छोड़ें और चेतावनी उत्पन्न करें
+* **रिजेक्ट** - मेल खाने वाले पैकेट के प्रेषक को RST/ICMP अपरिपठ्य त्रुटि भेजें।
+* rejectsrc - बस _reject_ के बराबर
+* rejectdst - मेल खाने वाले पैकेट के प्राप्तकर्ता को RST/ICMP त्रुटि पैकेट भेजें।
+* rejectboth - बातचीत के दोनों पक्षों को RST/ICMP त्रुटि पैकेट भेजें।
 
-#### **Protocols**
+#### **प्रोटोकॉल**
 
-* tcp (for tcp-traffic)
+* tcp (tcp-ट्रैफिक के लिए)
 * udp
 * icmp
-* ip (ip stands for ‘all’ or ‘any’)
-* _layer7 protocols_: http, ftp, tls, smb, dns, ssh... (more in the [**docs**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/intro.html))
+* ip (ip 'सब' या 'कोई' के लिए होता है)
+* _लेयर 7 प्रोटोकॉल_: http, ftp, tls, smb, dns, ssh... (अधिक जानकारी [**यहाँ**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/intro.html))
 
-#### Source and Destination Addresses
+#### स्रोत और गंतव्य पते
 
-It supports IP ranges, negations and a list of addresses:
+इसमें आईपी सीमाएं, नकारात्मकता और पतों की सूची का समर्थन किया जाता है:
 
-| Example                        | Meaning                                  |
+| उदाहरण                        | अर्थ                                  |
 | ------------------------------ | ---------------------------------------- |
-| ! 1.1.1.1                      | Every IP address but 1.1.1.1             |
-| !\[1.1.1.1, 1.1.1.2]           | Every IP address but 1.1.1.1 and 1.1.1.2 |
-| $HOME\_NET                     | Your setting of HOME\_NET in yaml        |
-| \[$EXTERNAL\_NET, !$HOME\_NET] | EXTERNAL\_NET and not HOME\_NET          |
-| \[10.0.0.0/24, !10.0.0.5]      | 10.0.0.0/24 except for 10.0.0.5          |
+| ! 1.1.1.1                      | 1.1.1.1 को छोड़कर हर आईपी पता             |
+| !\[1.1.1.1, 1.1.1.2]           | 1.1.1.1 और 1.1.1.2 को छोड़कर हर आईपी पता |
+| $HOME\_NET                     | आपकी yaml में HOME\_NET की सेटिंग        |
+| \[$EXTERNAL\_NET, !$HOME\_NET] | EXTERNAL\_NET और HOME\_NET नहीं           |
+| \[10.0.0.0/24, !10.0.0.5]      | 10.0.0.0/24 को छोड़कर 10.0.0.5 के लिए नहीं |
 
-#### Source and Destination Ports
+#### स्रोत और गंतव्य पोर्ट
 
-It supports port ranges, negations and lists of ports
+यह पोर्ट सीमाएं, नकारात्मकता और पोर्टों की सूची का समर्थन करता है
 
-| Example         | Meaning                                |
+| उदाहरण         | अर्थ                                |
 | --------------- | -------------------------------------- |
-| any             | any address                            |
-| \[80, 81, 82]   | port 80, 81 and 82                     |
-| \[80: 82]       | Range from 80 till 82                  |
-| \[1024: ]       | From 1024 till the highest port-number |
-| !80             | Every port but 80                      |
-| \[80:100,!99]   | Range from 80 till 100 but 99 excluded |
-| \[1:80,!\[2,4]] | Range from 1-80, except ports 2 and 4  |
+| any             | कोई भी पता                            |
+| \[80, 81, 82]   | पोर्ट 80, 81 और 82                     |
+| \[80: 82]       | 80 से 82 तक का सीमा                  |
+| \[1024: ]       | 1024 से सबसे ऊचा पोर्ट-नंबर तक       |
+| !80             | 80 को छोड़कर हर पोर्ट                  |
+| \[80:100,!99]   | 80 से 100 तक का सीमा, लेकिन 99 छोड़ा |
+| \[1:80,!\[2,4]] | 1-80 तक का सीमा, पोर्ट 2 और 4 को छोड़कर |
 
-#### Direction
+#### दिशा
 
-It's possible to indicate the direction of the communication rule being applied:
-
+संचार नियम की लागू होने वाली दिशा को निर्दिष्ट करना संभव है:
 ```
 source -> destination
 source <> destination  (both directions)
 ```
+#### कीवर्ड
 
-#### Keywords
-
-There are **hundreds of options** available in Suricata to search for the **specific packet** you are looking for, here it will be mentioned if something interesting is found. Check the [**documentation** ](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/index.html)for more!
-
+Suricata में **हजारों विकल्प** उपलब्ध हैं जिनका उपयोग करके आप खोज सकते हैं विशेष पैकेट के लिए, यदि कुछ दिलचस्प मिलता है तो यहां उल्लेख किया जाएगा। अधिक जानकारी के लिए [**दस्तावेज़ीकरण**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/index.html) देखें!
 ```bash
 # Meta Keywords
 msg: "description"; #Set a description to the rule
@@ -236,15 +249,14 @@ drop tcp any any -> any any (msg:"regex"; pcre:"/CTF\{[\w]{3}/i"; sid:10001;)
 ## Drop by port
 drop tcp any any -> any 8000 (msg:"8000 port"; sid:1000;)
 ```
-
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी **कंपनी को HackTricks में विज्ञापित करना चाहते हैं**? या क्या आपको **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करना है? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष संग्रह [**NFTs**](https://opensea.io/collection/the-peass-family)
+* प्राप्त करें [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में **या** मुझे **Twitter** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **अपने हैकिंग ट्रिक्स साझा करें, [hacktricks रेपो](https://github.com/carlospolop/hacktricks) और [hacktricks-cloud रेपो](https://github.com/carlospolop/hacktricks-cloud)** को PR जमा करके।
 
 </details>

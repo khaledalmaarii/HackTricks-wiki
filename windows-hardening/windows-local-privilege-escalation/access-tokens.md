@@ -1,23 +1,22 @@
-# Access Tokens
+# पहुंच टोकन
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करने की आवश्यकता है? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा विशेष [**NFT संग्रह**](https://opensea.io/collection/the-peass-family)
+* [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com) प्राप्त करें
+* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में **शामिल हों** या मुझे **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)** का पालन करें**.
+* **अपने हैकिंग ट्रिक्स को** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **में PR जमा करके साझा करें**.
 
 </details>
 
-## Access Tokens
+## पहुंच टोकन
 
-Each **user logged** onto the system **holds an access token with security information** for that logon session. The system creates an access token when the user logs on. **Every process executed** on behalf of the user **has a copy of the access token**. The token identifies the user, the user's groups, and the user's privileges. A token also contains a logon SID (Security Identifier) that identifies the current logon session.
+प्रत्येक **उपयोगकर्ता जिसने सिस्टम पर लॉग इन किया है**, उसके पास उस लॉगइन सत्र के लिए सुरक्षा सूचना के साथ एक पहुंच टोकन होता है। सिस्टम उपयोगकर्ता लॉग इन करते समय एक पहुंच टोकन बनाता है। **प्रत्येक प्रक्रिया** जो उपयोगकर्ता के नाम पर **चलाई जाती है**, उसके पास एक पहुंच टोकन की प्रतिलिपि होती है। टोकन उपयोगकर्ता को पहचानता है, उपयोगकर्ता के समूहों को पहचानता है, और उपयोगकर्ता की विशेषाधिकारों को पहचानता है। टोकन में एक लॉगइन SID (सुरक्षा पहचानक) भी होता है जो वर्तमान लॉगइन सत्र की पहचान करता है।
 
-You can see this information executing `whoami /all`
-
+आप इस सूचना को `whoami /all` को निष्पादित करके देख सकते हैं।
 ```
 whoami /all
 
@@ -61,73 +60,58 @@ SeUndockPrivilege             Remove computer from docking station Disabled
 SeIncreaseWorkingSetPrivilege Increase a process working set       Disabled
 SeTimeZonePrivilege           Change the time zone                 Disabled
 ```
-
-or using _Process Explorer_ from Sysinternals (select process and access"Security" tab):
+या तो _प्रक्रिया एक्सप्लोरर_ का उपयोग करके साइंटर्नल्स से (प्रक्रिया का चयन करें और "सुरक्षा" टैब तक पहुंचें):
 
 ![](<../../.gitbook/assets/image (321).png>)
 
-### Local administrator
+### स्थानीय प्रशासक
 
-When a local administrator logins, **two access tokens are created**: One with admin rights and other one with normal rights. **By default**, when this user executes a process the one with **regular** (non-administrator) **rights is used**. When this user tries to **execute** anything **as administrator** ("Run as Administrator" for example) the **UAC** will be used to ask for permission.\
-If you want to [**learn more about the UAC read this page**](../authentication-credentials-uac-and-efs.md#uac)**.**
+जब स्थानीय प्रशासक लॉगिन करता है, **दो पहुंच टोकन बनाए जाते हैं**: एक वाणिज्यिक अधिकारों वाला और दूसरा सामान्य अधिकारों वाला। **डिफ़ॉल्ट रूप से**, जब यह उपयोगकर्ता कोई प्रक्रिया चलाता है, तो **सामान्य** (गैर-प्रशासक) **अधिकार वाला उपयोग होता है**। जब यह उपयोगकर्ता किसी भी प्रशासक के रूप में कुछ भी **चलाने** की कोशिश करता है ("एडमिनिस्ट्रेटर के रूप में चलाएं" उदाहरण के लिए), तो **UAC** अनुमति के लिए पूछने के लिए उपयोग होगा।\
+यदि आप [**UAC के बारे में और अधिक जानना चाहते हैं तो इस पृष्ठ को पढ़ें**](../authentication-credentials-uac-and-efs.md#uac)**.**
 
-### Credentials user impersonation
+### प्रमाणपत्र उपयोगकर्ता अनुकरण
 
-If you have **valid credentials of any other user**, you can **create** a **new logon session** with those credentials :
-
+यदि आपके पास किसी अन्य उपयोगकर्ता के **वैध प्रमाणपत्र** हैं, तो आप उन प्रमाणपत्रों के साथ एक **नई लॉगऑन सत्र** बना सकते हैं:
 ```
 runas /user:domain\username cmd.exe
 ```
-
-The **access token** has also a **reference** of the logon sessions inside the **LSASS**, this is useful if the process needs to access some objects of the network.\
-You can launch a process that **uses different credentials for accessing network services** using:
-
+एक्सेस टोकन में **LSASS** के अंदर लॉगऑन सत्र का **संदर्भ** भी होता है, यह उपयोगी होता है अगर प्रक्रिया को नेटवर्क के कुछ ऑब्जेक्ट्स तक पहुंच की आवश्यकता हो।\
+आप नेटवर्क सेवाओं तक पहुंच के लिए **विभिन्न क्रेडेंशियल का उपयोग करने वाली प्रक्रिया** चला सकते हैं:
 ```
 runas /user:domain\username /netonly cmd.exe
 ```
+यह उपयोगी होता है यदि आपके पास नेटवर्क में ऑब्जेक्ट तक पहुंच के लिए उपयोगी क्रेडेंशियल हैं, लेकिन वे क्रेडेंशियल मौजूदा होस्ट के अंदर मान्य नहीं हैं क्योंकि वे केवल नेटवर्क में उपयोग होंगे (मौजूदा होस्ट में आपकी मौजूदा उपयोगकर्ता विशेषाधिकार का उपयोग किया जाएगा)।
 
-This is useful if you have useful credentials to access objects in the network but those credentials aren't valid inside the current host as they are only going to be used in the network (in the current host your current user privileges will be used).
+### टोकन के प्रकार
 
-### Types of tokens
+दो प्रकार के टोकन उपलब्ध होते हैं:
 
-There are two types of tokens available:
+* **प्राथमिक टोकन**: प्राथमिक टोकन केवल **प्रक्रियाओं से संबद्ध किए जा सकते हैं**, और वे प्रक्रिया की सुरक्षा विषय को प्रतिष्ठित करते हैं। प्राथमिक टोकन के निर्माण और उनके प्रक्रियाओं से संबद्ध करने दोनों विशेषाधिकारिता की आवश्यकता होती है - प्राथमिक टोकन का निर्माण आमतौर पर प्रमाणीकरण सेवा द्वारा किया जाता है, और एक लॉगऑन सेवा उपयोगकर्ता के ऑपरेटिंग सिस्टम शैली से इसे संबद्ध करती है। प्रक्रियाएं प्राथमिक टोकन की मूल प्रक्रिया की प्रतिलिपि को आधिकारिक रूप से अनुग्रहित करती हैं।
+* **अनुकरण टोकन**: अनुकरण एक सुरक्षा अवधारणा है जो Windows NT में लागू होती है और इसके माध्यम से एक सर्वर एप्लिकेशन को सुरक्षित ऑब्जेक्ट्स तक पहुंच के मामले में अस्थायी रूप से "ग्राहक" के रूप में कार्य करने की अनुमति देती है। अनुकरण के चार संभावित स्तर होते हैं:
 
-* **Primary token**: Primary tokens can only be **associated to processes**, and they represent a process's security subject. The creation of primary tokens and their association to processes are both privileged operations, requiring two different privileges in the name of privilege separation - the typical scenario sees the authentication service creating the token, and a logon service associating it to the user's operating system shell. Processes initially inherit a copy of the parent process's primary token.
-*   **Impersonation token**: Impersonation is a security concept implemented in Windows NT that **allows** a server application to **temporarily** "**be**" **the client** in terms of access to secure objects. Impersonation has **four possible levels**:
+* **अनामक**, जो सर्वर को एक अनामक / अज्ञात उपयोगकर्ता की पहुंच देता है
+* **पहचान**, जो सर्वर को ग्राहक की पहचान जांचने देता है लेकिन उस पहचान का उपयोग ऑब्जेक्ट्स तक पहुंच करने के लिए नहीं कर सकता
+* **अनुकरण**, जो सर्वर को ग्राहक के पक्ष में कार्य करने देता है
+* **प्रतिनिधित्व**, अनुकरण के समान है लेकिन इसे सर्वर कनेक्ट करने के लिए दूरस्थ प्रणालियों तक विस्तारित किया जाता है (प्रमाणों के संरक्षण के माध्यम से)।
 
-    * **anonymous**, giving the server the access of an anonymous/unidentified user
-    * **identification**, letting the server inspect the client's identity but not use that identity to access objects
-    * **impersonation**, letting the server act on behalf of the client
-    * **delegation**, same as impersonation but extended to remote systems to which the server connects (through the preservation of credentials).
+ग्राहक सर्वर के रूप में उपलब्ध अधिकतम अनुकरण स्तर (यदि कोई हो) को एक कनेक्शन पैरामीटर के रूप में चुन सकता है। अनुकरण और अनुकरण विशेषाधिकारिता की आवश्यकता होती है (अनुकरण पहले नहीं था, लेकिन ग्राहक API के अनुमति सीमित करने के लिए डिफ़ॉल्ट स्तर को "पहचान" तक सीमित न करने के इतिहासिक लापरवाही के कारण, जिससे एक अनुचित ग्राहक को अनुकरण करने की अनुमति दी जाती है)। **अनुकरण टोकन केवल थ्रेड्स से संबद्ध किए जा सकते हैं**, और वे ग्राहक प्रक्रिया की सुरक्षा विषय को प्रतिष्ठित करते हैं। अनुकरण टोकन आमतौर पर ब्यापार के माध्यम से वर्तमान थ्रेड के लिए स्वतः ही निर्मित और संबद्ध किए जाते हैं, जैसे DCE RPC, DDE और नेम्ड पाइप्स जैसे IPC मेकेनिज़मों द्वारा।
 
-    The client can choose the maximum impersonation level (if any) available to the server as a connection parameter. Delegation and impersonation are privileged operations (impersonation initially was not, but historical carelessness in the implementation of client APIs failing to restrict the default level to "identification", letting an unprivileged server impersonate an unwilling privileged client, called for it). **Impersonation tokens can only be associated to threads**, and they represent a client process's security subject. Impersonation tokens are usually created and associated to the current thread implicitly, by IPC mechanisms such as DCE RPC, DDE and named pipes.
+#### अनुकरण टोकन
 
-#### Impersonate Tokens
+मेटास्प्लोइट के _**incognito**_\*\* मॉड्यूल\*\* का उपयोग करके यदि आपके पास पर्याप्त विशेषाधिकार हैं, तो आप आसानी से अन्य **टोकनों** की **सूची** और **अनुकरण** कर सकते हैं। यह दूसरे उपयोगकर्ता के रूप में कार्यवाही करने के लिए उपयोगी हो सकता है। इस तकनीक के साथ आप विशेषाधिकारों को भी बढ़ा सकते हैं।
 
-Using the _**incognito**_\*\* module\*\* of metasploit if you have enough privileges you can easily **list** and **impersonate** other **tokens**. This could be useful to perform **actions as if you where the other user**. You could also **escalate privileges** with this technique.
+### टोकन विशेषाधिकार
 
-### Token Privileges
-
-Learn which **token privileges can be abused to escalate privileges:**
+यह जानें कि कौन से **टोकन विशेषाधिकार** विशेषाधिकारों को बढ़ाने के लिए उपयोग किए जा सकते हैं:
 
 {% content-ref url="privilege-escalation-abusing-tokens/" %}
 [privilege-escalation-abusing-tokens](privilege-escalation-abusing-tokens/)
 {% endcontent-ref %}
 
-Take a look to [**all the possible token privileges and some definitions on this external page**](https://github.com/gtworek/Priv2Admin).
+[**इस बाहरी पृष्ठ पर सभी संभावित टोकन विशेषाधिकारों और कुछ परिभाषाएं देखें**](https://github.com/gtworek/Priv2Admin)।
 
-## References
+## संदर्भ
 
-Learn more about tokens in this tutorials: [https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa](https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa) and [https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)
+इस ट्यूटोरियल में टोकन के बारे में और अधिक जानें: [https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa](https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa) और [https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)
 
 <details>
-
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
-
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
-
-</details>

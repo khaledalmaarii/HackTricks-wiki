@@ -1,102 +1,84 @@
-# Firmware Analysis
+# फर्मवेयर विश्लेषण
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आप **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड** करने की इच्छा रखते हैं? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष संग्रह [**NFTs**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- प्राप्त करें [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या मुझे **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)** का** अनुसरण करें।**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **अपने हैकिंग ट्रिक्स को [hacktricks रेपो](https://github.com/carlospolop/hacktricks) और [hacktricks-cloud रेपो](https://github.com/carlospolop/hacktricks-cloud) में पीआर जमा करके साझा करें।**
 
 </details>
 
-## Introduction
+## परिचय
 
-Firmware is a type of software that provides communication and control over a device’s hardware components. It’s the first piece of code that a device runs. Usually, it **boots the operating system** and provides very specific runtime services for programs by **communicating with various hardware components**. Most, if not all, electronic devices have firmware.
+फर्मवेयर एक प्रकार का सॉफ़्टवेयर है जो एक उपकरण के हार्डवेयर के घटकों पर संचार और नियंत्रण प्रदान करता है। यह उपकरण को चलाने के लिए पहला कोड होता है। आमतौर पर, यह **ऑपरेटिंग सिस्टम को बूट करता है** और **विभिन्न हार्डवेयर कंपोनेंट्स के साथ संवाद करके** कार्यक्रमों के लिए बहुत विशिष्ट रनटाइम सेवाएं प्रदान करता है। अधिकांश, यदि नहीं सभी, इलेक्ट्रॉनिक उपकरणों में फर्मवेयर होता है।
 
-Devices store firmware in **nonvolatile memory**, such as ROM, EPROM, or flash memory.
+उपकरण फर्मवेयर को ROM, EPROM या फ्लैश मेमोरी जैसे **नॉनवोलेटाइल मेमोरी** में संग्रहीत करते हैं।
 
-It’s important to **examine** the **firmware** and then attempt to **modify** it, because we can uncover many security issues during this process.
+यह महत्वपूर्ण है कि हम फर्मवेयर की **जांच** करें और फिर इसे **संशोधित** करने का प्रयास करें, क्योंकि हम इस प्रक्रिया के दौरान कई सुरक्षा समस्याओं को खोल सकते हैं।
 
-## **Information gathering and reconnaissance**
+## **जानकारी इकट्ठा करना और पूर्व जानकारी**
 
-During this stage, collect as much information about the target as possible to understand its overall composition underlying technology. Attempt to gather the following:
+इस चरण में, लक्ष्य के बारे में जितनी संभव हो सके जानकारी इकट्ठा करें ताकि उसके सामान्य संरचना और आधारभूत प्रौद्योगिकी को समझा जा सके। निम्नलिखित को इकट्ठा करने का प्रयास करें:
 
-* Supported CPU architecture(s)
-* Operating system platform
-* Bootloader configurations
-* Hardware schematics
-* Datasheets
-* Lines-of-code (LoC) estimates
-* Source code repository location
-* Third-party components
-* Open source licenses (e.g. GPL)
-* Changelogs
-* FCC IDs
-* Design and data flow diagrams
-* Threat models
-* Previous penetration testing reports
-* Bug tracking tickets (e.g. Jira and bug bounty platforms such as BugCrowd or HackerOne)
+* समर्थित सीपीयू आर्किटेक्चर(एस) 
+* ऑपरेटिंग सिस्टम प्लेटफॉर्म
+* बूटलोडर कॉन्फ़िगरेशन
+* हार्डवेयर स्कीमैटिक्स
+* डेटाशीट्स
+* कोड की पंक्तियों (LoC) का अनुमान
+* स्रोत कोड रेपोजिटरी स्थान
+* थर्ड पार्टी कंपोनेंट्स
+* ओपन सोर्स लाइसेंसेज (जैसे GPL)
+* चेंजलॉग्स
+* FCC आईडी
+* डिज़ाइन और डेटा फ़्लो डायग्राम
+* धमकी मॉडल
+* पिछली पेनेट्रेशन टेस्टिंग रिपोर्ट्स
+* बग ट्रैकिंग टिकट (जैसे Jira और बग बाउंटी प्लेटफॉर्म जैसे BugCrowd या HackerOne)
 
-Where possible, acquire data using open source intelligence (OSINT) tools and techniques. If open source software is used, download the repository and perform both manual as well as automated static analysis against the code base. Sometimes, open source software projects already use free static analysis tools provided by vendors that provide scan results such as [Coverity Scan](https://scan.coverity.com) and [Semmle’s LGTM](https://lgtm.com/#explore).
+जहां संभव हो, ओपन सोर्स इंटेलिजेंस (OSINT) टूल और तकनीकों का उपयोग करके डेटा प्राप्त करें। यदि ओपन सोर्स सॉफ़्टवेयर का उपयोग किया जाता है, तो रेपोजिटरी डाउनलोड करें और कोड बेस के खिलाफ मैन्युअल और स्वचालित स्थिर विश्लेषण करें। कभी-कभी, ओपन सोर्स सॉफ़्टवेयर परियोजनाएं पहले से ही विक्रेताओं द्वारा प्रदान की जाने वाली मुफ्त स्थिर विश्लेषण उपकरणों का उपयोग करती हैं जो [Coverity Scan](https://scan.coverity.com) और [Semmle’s LGTM](https://lgtm.com/#explore) जैसे स्कैन परिणाम प्रदान करते हैं।
 
-## Getting the Firmware
+## फर्मवेयर प्राप्त करना
 
-There are different ways with different difficulty levels to download the firmware
+फर्मवेयर को डाउनलोड करने के लिए विभिन्न कठिनाई स्तरों के साथ विभिन्न तरीके हैं
 
-* **Directly** from the development team, manufacturer/vendor or client
-* **Build from scratch** using walkthroughs provided by the manufacturer
-* From the **vendor's support site**
-* **Google dork** queries targeted towards binary file extensions and file sharing platforms such as Dropbox, Box, and Google drive
-  * It’s common to come across firmware images through customers who upload contents to forums, blogs, or comment on sites where they contacted the manufacturer to troubleshoot an issue and were given firmware via a zip or flash drive sent.
-  * Example: `intitle:"Netgear" intext:"Firmware Download"`
-* Download builds from exposed cloud provider storage locations such as Amazon Web Services (AWS) S3 buckets (with tools such as [https://github.com/sa7mon/S3Scanner](https://github.com/sa7mon/S3Scanner))
-* **Man-in-the-middle** (MITM) device communication during **updates**
-* Extract directly **from hardware** via **UART**, **JTAG**, **PICit**, etc.
-* Sniff **serial communication** within hardware components for **update server requests**
-* Via a **hardcoded endpoint** within the mobile or thick applications
-* **Dumping** firmware from the **bootloader** (e.g. U-boot) to flash storage or over the **network** via **tftp**
-* Removing the **flash chip** (e.g. SPI) or MCU from the board for offline analysis and data extraction (LAST RESORT).
-  * You will need a supported chip programmer for flash storage and/or the MCU.
-
-## Analyzing the firmware
-
-Now that you **have the firmware**, you need to extract information about it to know how to treat it. Different tools you can use for that:
-
+* **सीधे** विकास टीम, निर्माता/विक्रेता या ग्राहक से
+* निर्माता द्वारा प्रदान की गई वॉकथ्रू का उपयोग करके **शून्य से बनाएं**
+* विक्रेता
 ```bash
-file <bin>  
-strings -n8 <bin> 
+file <bin>
+strings -n8 <bin>
 strings -tx <bin> #print offsets in hex
-hexdump -C -n 512 <bin> > hexdump.out  
+hexdump -C -n 512 <bin> > hexdump.out
 hexdump -C <bin> | head # might find signatures in header
 fdisk -lu <bin> #lists a drives partition and filesystems if multiple
 ```
+यदि आप उन उपकरणों के साथ बहुत कुछ नहीं पाते हैं, तो `binwalk -E <bin>` के साथ छवि का **एंट्रोपी** जांचें, यदि एंट्रोपी कम है, तो यह संभवतः एन्क्रिप्ट नहीं है। यदि एंट्रोपी उच्च है, तो यह संभवतः एन्क्रिप्टेड है (या किसी तरह संपीड़ित है)।
 
-If you don't find much with those tools check the **entropy** of the image with `binwalk -E <bin>`, if low entropy, then it's not likely to be encrypted. If high entropy, Its likely encrypted (or compressed in some way).
-
-Moreover, you can use these tools to extract **files embedded inside the firmware**:
+इसके अलावा, आप इन उपकरणों का उपयोग करके **फर्मवेयर्ड में सम्मिलित फ़ाइलें निकाल सकते हैं**:
 
 {% content-ref url="../../forensics/basic-forensic-methodology/partitions-file-systems-carving/file-data-carving-recovery-tools.md" %}
 [file-data-carving-recovery-tools.md](../../forensics/basic-forensic-methodology/partitions-file-systems-carving/file-data-carving-recovery-tools.md)
 {% endcontent-ref %}
 
-Or [**binvis.io**](https://binvis.io/#/) ([code](https://code.google.com/archive/p/binvis/)) to inspect the file.
+या [**binvis.io**](https://binvis.io/#/) ([code](https://code.google.com/archive/p/binvis/)) का उपयोग करके फ़ाइल की जांच करें।
 
-### Getting the Filesystem
+### फ़ाइलसिस्टम प्राप्त करना
 
-With the previous commented tools like `binwalk -ev <bin>` you should have been able to **extract the filesystem**.\
-Binwalk usually extracts it inside a **folder named as the filesystem type**, which usually is one of the following: squashfs, ubifs, romfs, rootfs, jffs2, yaffs2, cramfs, initramfs.
+पिछले टिप्पणीत उपकरणों जैसे `binwalk -ev <bin>` के साथ आपको **फ़ाइलसिस्टम को निकालने** में सक्षम होना चाहिए।\
+बिनवॉक आमतौर पर इसे एक **फ़ोल्डर में निकालता है जिसका नाम फ़ाइलसिस्टम प्रकार के रूप में होता है**, जो आमतौर पर निम्नलिखित में से एक होता है: squashfs, ubifs, romfs, rootfs, jffs2, yaffs2, cramfs, initramfs.
 
-#### Manual Filesystem Extraction
+#### मैन्युअल फ़ाइलसिस्टम निकालना
 
-Sometimes, binwalk will **not have the magic byte of the filesystem in its signatures**. In these cases, use binwalk to **find the offset of the filesystem and carve the compressed filesystem** from the binary and **manually extract** the filesystem according to its type using the steps below.
-
+कभी-कभी, बिनवॉक **फ़ाइलसिस्टम के मैजिक बाइट को अपने संकेतों में नहीं रखेगा**। इन मामलों में, बाइनरी से आपको फ़ाइलसिस्टम के ऑफ़सेट का पता लगाने और संपीड़ित फ़ाइलसिस्टम को बाइनरी से **हटाकर** फ़ाइलसिस्टम को इसके प्रकार के अनुसार **मैन्युअल रूप से निकालें**।
 ```
 $ binwalk DIR850L_REVB.bin
 
@@ -108,11 +90,9 @@ DECIMAL HEXADECIMAL DESCRIPTION
 1704052 0x1A0074 PackImg section delimiter tag, little endian size: 32256 bytes; big endian size: 8257536 bytes
 1704084 0x1A0094 Squashfs filesystem, little endian, version 4.0, compression:lzma, size: 8256900 bytes, 2688 inodes, blocksize: 131072 bytes, created: 2016-07-12 02:28:41
 ```
-
-Run the following **dd command** carving the Squashfs filesystem.
-
+निम्नलिखित **dd कमांड** चलाएं और Squashfs फ़ाइलसिस्टम को खोदें।
 ```
-$ dd if=DIR850L_REVB.bin bs=1 skip=1704084 of=dir.squashfs 
+$ dd if=DIR850L_REVB.bin bs=1 skip=1704084 of=dir.squashfs
 
 8257536+0 records in
 
@@ -120,230 +100,216 @@ $ dd if=DIR850L_REVB.bin bs=1 skip=1704084 of=dir.squashfs
 
 8257536 bytes (8.3 MB, 7.9 MiB) copied, 12.5777 s, 657 kB/s
 ```
-
-Alternatively, the following command could also be run.
+वैकल्पिक रूप से, निम्नलिखित कमांड भी चलाया जा सकता है।
 
 `$ dd if=DIR850L_REVB.bin bs=1 skip=$((0x1A0094)) of=dir.squashfs`
 
-* For squashfs (used in the example above)
+* स्क्वैशफ्स के लिए (उपरोक्त उदाहरण में उपयोग किया जाता है)
 
 `$ unsquashfs dir.squashfs`
 
-Files will be in "`squashfs-root`" directory afterwards.
+फ़ाइलें "`squashfs-root`" निर्देशिका में होंगी।
 
-* CPIO archive files
+* CPIO आर्काइव फ़ाइलें
 
 `$ cpio -ivd --no-absolute-filenames -F <bin>`
 
-* For jffs2 filesystems
+* JFFS2 फ़ाइल सिस्टम के लिए
 
 `$ jefferson rootfsfile.jffs2`
 
-* For ubifs filesystems with NAND flash
+* NAND फ़्लैश के साथ UBIFS फ़ाइल सिस्टम के लिए
 
 `$ ubireader_extract_images -u UBI -s <start_offset> <bin>`
 
 `$ ubidump.py <bin>`
 
-### Analyzing the Filesystem
+### फ़ाइल सिस्टम का विश्लेषण
 
-Now that you have the filesystem is time to start looking for bad practices such as:
+अब जब आपके पास फ़ाइल सिस्टम है, तो आपको बुरी अभ्यासों की तलाश करनी शुरू करनी चाहिए, जैसे:
 
-* Legacy **insecure network daemons** such as telnetd (sometimes manufactures rename binaries to disguise )
-* **Hardcoded credentials** (usernames, passwords, API keys, SSH keys, and backdoor variants )
-* **Hardcoded API** endpoints and backend server details
-* **Update server functionality** that could be used as an entry point
-* **Review uncompiled code and start up scripts** for remote code execution
-* **Extract compiled binaries** to be used for offline analysis with a disassembler for future steps
+* पुराने **असुरक्षित नेटवर्क डेमन** जैसे telnetd (कभी-कभी निर्माता बाइनरी को छिपाने के लिए नाम बदल देते हैं)
+* **हार्डकोड क्रेडेंशियल** (उपयोगकर्ता नाम, पासवर्ड, API कुंजी, SSH कुंजी, और बैकडोर वेरिएंट)
+* **हार्डकोड API** एंडपॉइंट और बैकएंड सर्वर विवरण
+* **अपडेट सर्वर कार्यक्षमता** जो एंट्री प्वाइंट के रूप में उपयोग किया जा सकता है
+* **अनकंपाइल्ड कोड और स्टार्ट अप स्क्रिप्ट** की समीक्षा करें दूरस्थ कोड निष्पादन के लिए
+* **कंपाइल किए गए बाइनरी** को निकालें और भविष्य के चरणों के लिए एक डिसएसेंबलर के साथ ऑफ़लाइन विश्लेषण के लिए उपयोग करें
 
-Some **interesting things to look** for inside the firmware:
+फ़र्मवेयर में खोजने के लिए **रोचक चीजें**:
 
-* etc/shadow and etc/passwd
-* list out the etc/ssl directory
-* search for SSL related files such as .pem, .crt, etc.
-* search for configuration files
-* look for script files
-* search for other .bin files
-* look for keywords such as admin, password, remote, AWS keys, etc.
-* search for common web servers used on IoT devices
-* search for common binaries such as ssh, tftp, dropbear, etc.
-* search for banned c functions
-* search for common command injection vulnerable functions
-* search for URLs, email addresses and IP addresses
-* and more…
+* etc/shadow और etc/passwd
+* etc/ssl निर्देशिका को बाहर निकालें
+* .pem, .crt आदि जैसी SSL संबंधित फ़ाइलें खोजें
+* कॉन्फ़िगरेशन फ़ाइलें खोजें
+* स्क्रिप्ट फ़ाइलें खोजें
+* अन्य .bin फ़ाइलें खोजें
+* व्यवस्थापक, पासवर्ड, दूरस्थ, AWS कुंजी आदि जैसे कीवर्ड खोजें
+* IoT उपकरणों पर उपयोग किए जाने वाले सामान्य वेब सर्वर खोजें
+* ssh, tftp, dropbear आदि जैसे सामान्य बाइनरी खोजें
+* प्रतिबंधित c फ़ंक्शन खोजें
+* सामान्य कमांड इंजेक्शन संक्रमित फ़ंक्शन खोजें
+* URL, ईमेल पता और IP पता खोजें
+* और अधिक...
 
-Tools that search for this kind of information (even if you always should take a manual look and get comfortable with the filesystem structure, the tools can help you finding **hidden things**):
+इस तरह की जानकारी के लिए खोज करने वाले उपकरण (हालांकि, आपको हमेशा **फ़ाइल सिस्टम की संरचना को मैन्युअल रूप से देखना चाहिए**, उपकरण आपको **छिपे हुए चीजें** खोजने में मदद कर सकते हैं):
 
-* [**LinPEAS**](https://github.com/carlospolop/PEASS-ng)**:** Awesome bash script that in this case is useful for searching **sensitive information** inside the filesystem. Just **chroot inside the firmware filesystem and run it**.
-* [**Firmwalker**](https://github.com/craigz28/firmwalker)**:** Bash script to search for potential sensitive information
+* [**LinPEAS**](https://github.com/carlospolop/PEASS-ng)**:** यह अद्वितीय बैश स्क्रिप्ट है जो इस मामले में फ़ाइल सिस्टम में **संवेदनशील जानकारी** खोजने के लिए उपयोगी है। बस **फ़ाइल सिस्टम में च्रूट बनाएं और इसे चलाएं**।
+* [**Firmwalker**](https://github.com/craigz28/firmwalker)**:** संभावित संवेदनशील जानकारी की खोज करने के लिए बैश स्क्रिप्ट
 * [**The Firmware Analysis and Comparison Tool (FACT)**](https://github.com/fkie-cad/FACT\_core):
-  * Identification of software components such as operating system, CPU architecture, and third-party components along with their associated version information
-  * Extraction of firmware filesystem (s ) from images
-  * Detection of certificates and private keys
-  * Detection of weak implementations mapping to Common Weakness Enumeration (CWE)
-  * Feed & signature-based detection of vulnerabilities
-  * Basic static behavioral analysis
-  * Comparison (diff) of firmware versions and files
-  * User mode emulation of filesystem binaries using QEMU
-  * Detection of binary mitigations such as NX, DEP, ASLR, stack canaries, RELRO, and FORTIFY\_SOURCE
-  * REST API
-  * and more...
-* [**FwAnalyzer**](https://github.com/cruise-automation/fwanalyzer): FwAnalyzer is a tool to analyze (ext2/3/4), FAT/VFat, SquashFS, UBIFS filesystem images, cpio archives, and directory content using a set of configurable rules.
-* [**ByteSweep**](https://gitlab.com/bytesweep/bytesweep): A Free Software IoT Firmware Security Analysis Tool
-* [**ByteSweep-go**](https://gitlab.com/bytesweep/bytesweep-go): This is a complete rewrite of the original ByteSweep project in Go.
-* [**EMBA**](https://github.com/e-m-b-a/emba): _EMBA_ is designed as the central firmware analysis tool for penetration testers. It supports the complete security analysis process starting with the _firmware extraction_ process, doing _static analysis_ and _dynamic analysis_ via emulation and finally generating a report. _EMBA_ automatically discovers possible weak spots and vulnerabilities in firmware. Examples are insecure binaries, old and outdated software components, potentially vulnerable scripts or hard-coded passwords.
-
-{% hint style="warning" %}
-Inside the filesystem you can also find **source code** of programs (that you should always **check**), but also **compiled binaries**. These programs might be somehow exposed and you should **decompile** and **check** them for potential vulnerabilities.
-
-Tools like [**checksec.sh**](https://github.com/slimm609/checksec.sh) can be useful to find unprotected binaries. For Windows binaries you could use [**PESecurity**](https://github.com/NetSPI/PESecurity).
-{% endhint %}
-
-## Emulating Firmware
-
-The idea to emulate the Firmware is to be able to perform a **dynamic analysis** of the device **running** or of a **single program**.
-
-{% hint style="info" %}
-At times, partial or full emulation **may not work due to a hardware or architecture dependencies**. If the architecture and endianness match a device owned such as a raspberry pie, the root filesystem or specific binary can be transferred to the device for further testing. This method also applies to pre built virtual machines using the same architecture and endianness as the target.
-{% endhint %}
-
-### Binary Emulation
-
-If you just want to emulate one program to search for vulnerabilities, you first need to identify its endianness and the CPU architecture for which it was compiled.
-
-#### MIPS example
-
+* ऑपरेटिंग सिस्टम, सीपीयू आर्किटेक्चर, और तृतीय-पक्ष संघ के सॉफ़्टवेयर संघ की पहचान
+* इमेज से फ़ाइल सिस्टम (ओं) की निकालाई
+* प्रमाणपत्र और निजी कुंजी की पहचान
+* CWE के साथ मैपिंग करने वाले कमजोर कार्यान्वयन की पहचान
+* संक्रमितता की खोज के लिए फ़ीड और हस्ताक्षर आधारित डिटेक्शन
+* मूल्यांकन का मूल्यांकन (डिफ़) फ़ाइरवेयर संस्करण और फ़ाइलें
+* QEMU का उपयोग करके फ़ाइल सिस्टम बाइनरी के उपयोगकर्ता मोड अनुकरण
+* NX, DEP, ASLR, स्टैक कैनरी, RELRO, और FORTIFY\_SOURCE जैसे बाइनरी संरक्षण की पहचान
+* REST API
+* और अधिक...
+* [**FwAnalyzer**](https://github.com/cruise-automation/fwanalyzer): FwAnalyzer एक उपकरण है जो (ext2/3/4), FAT/VFat, SquashFS, UBIFS फ़ाइल सिस्टम इमेज, cpio आर्काइव, और निर्देशिका सामग्री का विश्लेषण करने के लिए एक सेट के साथ कॉन्फ़िगर किए गए नियमों का उपयोग करता है।
+* [**ByteSweep**](https://gitlab.com/bytesweep/bytesweep): एक मुफ्त सॉफ़्टवेयर IoT फ़र्मवेयर सुरक्षा विश्लेषण उपकरण
+* [
 ```bash
 file ./squashfs-root/bin/busybox
 ./squashfs-root/bin/busybox: ELF 32-bit MSB executable, MIPS, MIPS32 rel2 version 1 (SYSV), dynamically linked, interpreter /lib/ld-uClibc.so.0, stripped
 ```
-
-Now you can **emulate** the busybox executable using **QEMU**.
-
+अब आप **QEMU** का उपयोग करके **busybox** executable को **emulate** कर सकते हैं।
 ```bash
- sudo apt-get install qemu qemu-user qemu-user-static qemu-system-arm qemu-system-mips qemu-system-x86 qemu-utils
+sudo apt-get install qemu qemu-user qemu-user-static qemu-system-arm qemu-system-mips qemu-system-x86 qemu-utils
 ```
-
-Because the executable **is** compiled for **MIPS** and follow the **big-endian** byte ordering, we’ll use QEMU’s **`qemu-mips`** emulator. To emulate **little-endian** executables, we would have to select the emulator with the `el` suffix(`qemu-mipsel`):
-
+क्योंकि एक्सीक्यूटेबल **MIPS** के लिए कंपाइल किया जाता है और **बिग-एंडियन** बाइट आदेश का पालन करता है, हम **QEMU** का **`qemu-mips`** इम्युलेटर उपयोग करेंगे। **लिटिल-एंडियन** एक्सीक्यूटेबल को इम्युलेट करने के लिए, हमें `el` सफ़िक्स के साथ इम्युलेटर का चयन करना होगा (`qemu-mipsel`)।
 ```bash
 qemu-mips -L ./squashfs-root/ ./squashfs-root/bin/ls
 100              100.7z           15A6D2.squashfs  squashfs-root    squashfs-root-0
 ```
+#### आरएम उदाहरण
 
-#### ARM Example
+```html
+<details>
+<summary>Click to expand!</summary>
 
-```bash
-file bin/busybox                
-bin/busybox: ELF 32-bit LSB executable, ARM, EABI5 version 1 (SYSV), dynamically linked, interpreter /lib/ld-musl-armhf.so.1, no section header
+##### Step 1: Dumping the firmware
+
+To analyze the firmware of an ARM device, we first need to dump it. This can be done using various methods such as JTAG, UART, or SPI. Once the firmware is dumped, we can proceed with the analysis.
+
+##### Step 2: Identifying the firmware type
+
+Next, we need to identify the type of firmware we have dumped. This can be done by analyzing the file headers or using tools like `binwalk` or `firmware-mod-kit`.
+
+##### Step 3: Extracting the firmware
+
+Once we have identified the firmware type, we can extract its contents using tools like `binwalk`, `firmware-mod-kit`, or `dd`.
+
+##### Step 4: Analyzing the firmware
+
+Now that we have extracted the firmware, we can start analyzing it. This involves examining the file system, searching for vulnerabilities, and reverse engineering any binaries present.
+
+##### Step 5: Patching or modifying the firmware
+
+If we find any vulnerabilities or want to modify the firmware, we can patch or modify it accordingly. This can be done using tools like `firmware-mod-kit` or by manually editing the binaries.
+
+##### Step 6: Flashing the modified firmware
+
+Finally, we can flash the modified firmware back onto the ARM device. This can be done using methods like JTAG, UART, or SPI.
+
+</details>
 ```
 
-Emulation:
+आरएम उदाहरण
 
+```html
+<details>
+<summary>विस्तारित करने के लिए क्लिक करें!</summary>
+
+##### चरण 1: फर्मवेयर को डंप करना
+
+आरएम डिवाइस के फर्मवेयर का विश्लेषण करने के लिए, हमें पहले इसे डंप करना होगा। इसके लिए JTAG, UART या SPI जैसे विभिन्न तरीकों का उपयोग किया जा सकता है। एक बार फर्मवेयर डंप हो जाने के बाद, हम विश्लेषण के साथ आगे बढ़ सकते हैं।
+
+##### चरण 2: फर्मवेयर प्रकार की पहचान करना
+
+अगले, हमें डंप किए गए फर्मवेयर के प्रकार की पहचान करनी होगी। इसे फ़ाइल हैडर का विश्लेषण करके या `binwalk` या `firmware-mod-kit` जैसे उपकरणों का उपयोग करके किया जा सकता है।
+
+##### चरण 3: फर्मवेयर को निकालना
+
+एक बार जब हमने फर्मवेयर के प्रकार की पहचान कर ली है, हम उसकी सामग्री को `binwalk`, `firmware-mod-kit` या `dd` जैसे उपकरणों का उपयोग करके निकाल सकते हैं।
+
+##### चरण 4: फर्मवेयर का विश्लेषण करना
+
+अब जब हमने फर्मवेयर को निकाल लिया है, हम उसे विश्लेषण करना शुरू कर सकते हैं। इसमें फ़ाइल सिस्टम की जांच, संकटों की खोज और मौजूद बाइनरी का प्रतिपादन शामिल होता है।
+
+##### चरण 5: फर्मवेयर को पैच या संशोधित करना
+
+यदि हमें कोई संकट मिलता है या फर्मवेयर को संशोधित करना चाहते हैं, तो हम उसे अनुसार पैच या संशोधित कर सकते हैं। इसे `firmware-mod-kit` जैसे उपकरणों का उपयोग करके या बाइनरी को मैन्युअल रूप से संपादित करके किया जा सकता है।
+
+##### चरण 6: संशोधित फर्मवेयर को फ्लैश करना
+
+अंत में, हम संशोधित फर्मवेयर को आरएम डिवाइस पर फ्लैश कर सकते हैं। इसे JTAG, UART या SPI जैसे तरीकों का उपयोग करके किया जा सकता है।
+
+</details>
+```
+```bash
+file bin/busybox
+bin/busybox: ELF 32-bit LSB executable, ARM, EABI5 version 1 (SYSV), dynamically linked, interpreter /lib/ld-musl-armhf.so.1, no section header
+```
+एम्युलेशन:
 ```bash
 qemu-arm -L ./squashfs-root/ ./squashfs-root/bin/ls
 1C00000.squashfs  B80B6C            C41DD6.xz         squashfs-root     squashfs-root-0
 ```
+### पूर्ण सिस्टम नकल
 
-### Full System Emulation
-
-There are several tools, based in **qemu** in general, that will allow you to emulate the complete firmware:
+कई टूल हैं, जो सामान्य रूप से **qemu** पर आधारित हैं, जो आपको पूर्ण फर्मवेयर की नकल बनाने की अनुमति देंगे:
 
 * [**https://github.com/firmadyne/firmadyne**](https://github.com/firmadyne/firmadyne)**:**
-  * You need to install several things, configure postgres, then run the extractor.py script to extract the firmware, use the getArch.sh script to get the architecture. Then, use tar2db.py and makeImage.sh scripts to store information from the extracted image in the database and generate a QEMU image that we can emulate. The, use inferNetwork.sh script to get the network interfaces, and finally use the run.sh script, which is automatically created in the ./scratch/1/folder.
+* आपको कई चीजें स्थापित करनी होंगी, postgres को कॉन्फ़िगर करना होगा, फिर एक्सट्रैक्टर.py स्क्रिप्ट को चलाना होगा ताकि फर्मवेयर को निकाल सकें, गेटआर्च.sh स्क्रिप्ट का उपयोग करके आर्किटेक्चर प्राप्त करें। फिर, tar2db.py और makeImage.sh स्क्रिप्ट का उपयोग करके डेटाबेस में निकाले गए इमेज से जानकारी संग्रहित करें और एक QEMU इमेज उत्पन्न करें जिसे हम नकल बना सकते हैं। फिर, नेटवर्क इंटरफेस प्राप्त करने के लिए inferNetwork.sh स्क्रिप्ट का उपयोग करें, और अंत में, जो ऑटोमेटिक रूप से ./scratch/1/folder में बनाया जाता है, उसे चलाएं run.sh स्क्रिप्ट का उपयोग करें।
 * [**https://github.com/attify/firmware-analysis-toolkit**](https://github.com/attify/firmware-analysis-toolkit)**:**
-  * This tool depends on firmadyne and automates the process of emulating the firmware using firmadynee. you need to configure `fat.config` before using it: `sudo python3 ./fat.py IoTGoat-rpi-2.img --qemu 2.5.0`
+* यह टूल firmadyne पर निर्भर करता है और firmadyne का उपयोग करके फर्मवेयर की नकल बनाने की प्रक्रिया को स्वचालित करता है। इसे उपयोग करने से पहले आपको `fat.config` को कॉन्फ़िगर करना होगा: `sudo python3 ./fat.py IoTGoat-rpi-2.img --qemu 2.5.0`
 * [**https://github.com/therealsaumil/emux**](https://github.com/therealsaumil/emux)
 * [**https://github.com/getCUJO/MIPS-X**](https://github.com/getCUJO/MIPS-X)
 * [**https://github.com/qilingframework/qiling#qltool**](https://github.com/qilingframework/qiling#qltool)
 
-## **Dynamic analysis**
+## **गतिशील विश्लेषण**
 
-In this stage you should have either a device running the firmware to attack or the firmware being emulated to attack. In any case, it's highly recommended that you also have **a shell in the OS and filesystem that is running**.
+इस चरण में, आपके पास या तो एक फर्मवेयर को हमला करने के लिए चल रही डिवाइस होनी चाहिए या फिर एक फर्मवेयर को नकल बनाने के लिए उसे हमला करने के लिए उपयोग किया जा रहा होना चाहिए। हर हाल में, यह सुनिश्चित करना बहुत आवश्यक है कि आपके पास भी **एक शैल में शैल और फाइलसिस्टम में शैल** हो।
 
-Note that some times if you are emulating the firmware **some activities inside the emulation will fail** and you might need to restart emulating it. For example, a web application might need to get information from a device the original device is integrated with but the emulation is not emulating.
+ध्यान दें कि कभी-कभी यदि आप फर्मवेयर की नकल बना रहे हैं तो **नकल में कुछ गतिविधियाँ विफल हो सकती हैं** और आपको इसे फिर से नकल बनाने की आवश्यकता हो सकती है। उदाहरण के लिए, एक वेब एप्लिकेशन को आमतौर पर उस डिवाइस की जानकारी की आवश्यकता होती है जिसके साथ मूल डिवाइस एकीकृत है लेकिन नकल नकल नहीं कर रही है।
 
-You should **recheck the filesystem** as we already did in a **previous step as in the running env new information might be accessible.**
+आपको **फाइलसिस्टम की पुनर्जांच करनी चाहिए** जैसा कि हमने पहले किया है क्योंकि चल रहे माहौल में नई जानकारी उपलब्ध हो सकती है।
 
-If **webpages** are exposed, reading the code and having access to them you should **test them**. In hacktricks you can find a lot of information about different web hacking techniques.
+यदि **वेबपेज** उजागर हैं, तो कोड पढ़ें और उनका उपयोग करने के लिए उन्हें जांचें। हैकट्रिक्स में आपको विभिन्न वेब हैकिंग तकनीकों के बारे में बहुत सारी जानकारी मिलेगी।
 
-If **network services** are exposed you should try to attack them. In hacktricks you can find a lot of information about different network services hacking techniques. You could also try to fuzz them with network and protocol **fuzzers** such as [Mutiny](https://github.com/Cisco-Talos/mutiny-fuzzer), [boofuzz](https://github.com/jtpereyda/boofuzz), and [kitty](https://github.com/cisco-sas/kitty).
+यदि **नेटवर्क सेवाएं** उजागर हैं, तो आपको उन पर हमला करने का प्रयास करना चाहिए। हैकट्रिक्स में आपको विभिन्न नेटवर्क सेवा हैकिंग तकनीकों के बारे में बहुत सारी जानकारी मिलेगी। आप नेटवर्क और प्रोटोकॉल **फ़ज़र्स** जैसे [Mutiny](https://github.com/Cisco-Talos/mutiny-fuzzer), [boofuzz](https://github.com/jtpereyda/boofuzz), और [kitty](https://github.com/cisco-sas/kitty) के साथ उन्हें फज़ करने की कोशिश कर सकते हैं।
 
-You should check if you can **attack the bootloader** to get a root shell:
+आपको देखना चाहिए कि क्या आप **बूटलोडर पर हमला** करके एक रूट शैल प्राप्त कर सकते हैं:
 
 {% content-ref url="bootloader-testing.md" %}
 [bootloader-testing.md](bootloader-testing.md)
 {% endcontent-ref %}
 
-You should test if the device is doing any kind of **firmware integrity tests**, if not this would allow attackers to offer backdored firmwares, install them in devices other people owns or even deploy them remotely if there is any firmware update vulnerability:
+आपको यह जांचना चाहिए कि क्या उपकरण को कोई भी प्रकार का **फर्मवेयर अखंडता परीक्षण** कर रहा है, यदि नहीं तो यह हमलावर्ती को अखंडित फर्मवेयर प्रदान करने, उन्हें उनके पास रखने या यदि कोई फर्मवेयर अद्यतन संवर्धन है तो उन्हें दूरस्थ तक डिप्लॉय करने की अनुमति देने के लिए हमलाव
+## वल्नरबल फर्मवेयर का अभ्यास करने के लिए
 
-{% content-ref url="firmware-integrity.md" %}
-[firmware-integrity.md](firmware-integrity.md)
-{% endcontent-ref %}
-
-Firmware update vulnerabilities usually occurs because, the **integrity** of the **firmware** might **not** be **validated**, use **unencrypted** **network** protocols, use of **hardcoded** **credentials**, an **insecure authentication** to the cloud component that hosts the firmware, and even excessive and insecure **logging** (sensitive data), allow **physical updates** without verifications.
-
-## **Runtime analysis**
-
-Runtime analysis involves attaching to a running process or binary while a device is running in its normal or emulated environment. Basic runtime analysis steps are provided below:
-
-1. `sudo chroot . ./qemu-arch -L <optionalLibPath> -g <gdb_port> <binary>`
-2. Attach gdb-multiarch or use IDA to emulate the binary
-3. Set breakpoints for functions identified during step 4 such as memcpy, strncpy, strcmp, etc.
-4. Execute large payload strings to identify overflows or process crashes using a fuzzer
-5. Move to step 8 if a vulnerability is identified
-
-Tools that may be helpful are (non-exhaustive):
-
-* gdb-multiarch
-* [Peda](https://github.com/longld/peda)
-* Frida
-* ptrace
-* strace
-* IDA Pro
-* Ghidra
-* Binary Ninja
-* Hopper
-
-## **Binary Exploitation**
-
-After identifying a vulnerability within a binary from previous steps, a proper proof-of-concept (PoC) is required to demonstrate the real-world impact and risk. Developing exploit code requires programming experience in lower level languages (e.g. ASM, C/C++, shellcode, etc.) as well as background within the particular target architecture (e.g. MIPS, ARM, x86 etc.). PoC code involves obtaining arbitrary execution on a device or application by controlling an instruction in memory.
-
-It is not common for binary runtime protections (e.g. NX, DEP, ASLR, etc.) to be in place within embedded systems however when this happens, additional techniques may be required such as return oriented programming (ROP). ROP allows an attacker to implement arbitrary malicious functionality by chaining existing code in the target process/binary's code known as gadgets. Steps will need to be taken to exploit an identified vulnerability such as a buffer overflow by forming a ROP chain. A tool that can be useful for situations like these is Capstone's gadget finder or ROPGadget- [https://github.com/JonathanSalwan/ROPgadget](https://github.com/JonathanSalwan/ROPgadget).
-
-Utilize the following references for further guidance:
-
-* [https://azeria-labs.com/writing-arm-shellcode/](https://azeria-labs.com/writing-arm-shellcode/)
-* [https://www.corelan.be/index.php/category/security/exploit-writing-tutorials/](https://www.corelan.be/index.php/category/security/exploit-writing-tutorials/)
-
-## Prepared OSs to analyze Firmware
-
-* [**AttifyOS**](https://github.com/adi0x90/attifyos): AttifyOS is a distro intended to help you perform security assessment and penetration testing of Internet of Things (IoT) devices. It saves you a lot of time by providing a pre-configured environment with all the necessary tools loaded.
-* [**EmbedOS**](https://github.com/scriptingxss/EmbedOS): Embedded security testing operating system based on Ubuntu 18.04 preloaded with firmware security testing tools.
-
-## Vulnerable firmware to practice
-
-To practice discovering vulnerabilities in firmware, use the following vulnerable firmware projects as a starting point.
+फर्मवेयर में खोजने के लिए वल्नरबल फर्मवेयर परियोजनाओं का उपयोग करें, जैसे कि निम्नलिखित वल्नरबल फर्मवेयर परियोजनाएं।
 
 * OWASP IoTGoat
-  * [https://github.com/OWASP/IoTGoat](https://github.com/OWASP/IoTGoat)
+* [https://github.com/OWASP/IoTGoat](https://github.com/OWASP/IoTGoat)
 * The Damn Vulnerable Router Firmware Project
-  * [https://github.com/praetorian-code/DVRF](https://github.com/praetorian-code/DVRF)
+* [https://github.com/praetorian-code/DVRF](https://github.com/praetorian-code/DVRF)
 * Damn Vulnerable ARM Router (DVAR)
-  * [https://blog.exploitlab.net/2018/01/dvar-damn-vulnerable-arm-router.html](https://blog.exploitlab.net/2018/01/dvar-damn-vulnerable-arm-router.html)
+* [https://blog.exploitlab.net/2018/01/dvar-damn-vulnerable-arm-router.html](https://blog.exploitlab.net/2018/01/dvar-damn-vulnerable-arm-router.html)
 * ARM-X
-  * [https://github.com/therealsaumil/armx#downloads](https://github.com/therealsaumil/armx#downloads)
+* [https://github.com/therealsaumil/armx#downloads](https://github.com/therealsaumil/armx#downloads)
 * Azeria Labs VM 2.0
-  * [https://azeria-labs.com/lab-vm-2-0/](https://azeria-labs.com/lab-vm-2-0/)
+* [https://azeria-labs.com/lab-vm-2-0/](https://azeria-labs.com/lab-vm-2-0/)
 * Damn Vulnerable IoT Device (DVID)
-  * [https://github.com/Vulcainreo/DVID](https://github.com/Vulcainreo/DVID)
+* [https://github.com/Vulcainreo/DVID](https://github.com/Vulcainreo/DVID)
 
-## References
+## संदर्भ
 
 * [https://scriptingxss.gitbook.io/firmware-security-testing-methodology/](https://scriptingxss.gitbook.io/firmware-security-testing-methodology/)
 * [Practical IoT Hacking: The Definitive Guide to Attacking the Internet of Things](https://www.amazon.co.uk/Practical-IoT-Hacking-F-Chantzis/dp/1718500904)
 
-## Trainning and Cert
+## प्रशिक्षण और प्रमाणपत्र
 
 * [https://www.attify-store.com/products/offensive-iot-exploitation](https://www.attify-store.com/products/offensive-iot-exploitation)
 
@@ -351,14 +317,14 @@ To practice discovering vulnerabilities in firmware, use the following vulnerabl
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी **कंपनी को HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करने की अनुमति चाहिए? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष संग्रह [**NFTs**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- प्राप्त करें [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या मुझे **ट्विटर** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **अपने हैकिंग ट्रिक्स साझा करें, [hacktricks रेपो](https://github.com/carlospolop/hacktricks) और [hacktricks-cloud रेपो](https://github.com/carlospolop/hacktricks-cloud) में पीआर जमा करके।**
 
 </details>

@@ -1,136 +1,109 @@
-
-
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी **कंपनी को HackTricks में विज्ञापित करना** चाहते हैं? या क्या आपको **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करने की इच्छा है? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष संग्रह [**NFTs**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- प्राप्त करें [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में या मुझे **Twitter** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **अपने हैकिंग ट्रिक्स को [hacktricks रेपो](https://github.com/carlospolop/hacktricks) और [hacktricks-cloud रेपो](https://github.com/carlospolop/hacktricks-cloud) में पीआर जमा करके साझा करें।**
 
 </details>
 
 
-# Check for possible actions inside the GUI application
+# GUI एप्लिकेशन में संभावित क्रियाएँ जांचें
 
-**Common Dialogs** are those options of **saving a file**, **opening a file**, selecting a font, a color... Most of them will **offer a full Explorer functionality**. This means that you will be able to access Explorer functionalities if you can access these options:
+**सामान्य संवाद** वे विकल्प हैं जो **फ़ाइल सहेजें**, **फ़ाइल खोलें**, फ़ॉन्ट का चयन करें, रंग का चयन करें... इनमें से अधिकांश विकल्पों में आपको **पूर्ण एक्सप्लोरर कार्यक्षमता प्रदान की जाएगी**। इसका मतलब है कि आप इन विकल्पों तक पहुंच सकते हैं अगर आप इन विकल्पों तक पहुंच सकते हैं:
 
-* Close/Close as
-* Open/Open with
-* Print
-* Export/Import
-* Search
-* Scan
+* बंद करें/बंद करें जैसा
+* खोलें/के साथ खोलें
+* प्रिंट
+* निर्यात/आयात
+* खोजें
+* स्कैन
 
-You should check if you can:
+आपको यह जांचना चाहिए कि क्या आप कर सकते हैं:
 
-* Modify or create new files
-* Create symbolic links
-* Get access to restricted areas
-* Execute other apps
+* फ़ाइलों को संशोधित या नई फ़ाइलें बना सकते हैं
+* प्रतीकात्मक लिंक बना सकते हैं
+* सीमित क्षेत्रों तक पहुंच प्राप्त कर सकते हैं
+* अन्य ऐप्स को चला सकते हैं
 
-## Command Execution
+## कमांड निष्पादन
 
-Maybe **using a **_**Open with**_** option** you can open/execute some kind of shell.
+शायद **_**Open with**_** विकल्प का उपयोग करके आप किसी प्रकार के शैल को खोल/निष्पादित कर सकते हैं।
 
 ### Windows
 
-For example _cmd.exe, command.com, Powershell/Powershell ISE, mmc.exe, at.exe, taskschd.msc..._ find more binaries that can be used to execute commands (and perform unexpected actions) here: [https://lolbas-project.github.io/](https://lolbas-project.github.io)
+उदाहरण के लिए _cmd.exe, command.com, Powershell/Powershell ISE, mmc.exe, at.exe, taskschd.msc..._ यहां और बाइनरी ढूंढें जिन्हें कमांड निष्पादित करने के लिए उपयोग किया जा सकता है (और अप्रत्याशित क्रियाएँ कर सकता है): [https://lolbas-project.github.io/](https://lolbas-project.github.io)
 
 ### \*NIX __
 
-_bash, sh, zsh..._ More here: [https://gtfobins.github.io/](https://gtfobins.github.io)
+_bash, sh, zsh..._ यहां और अधिक ढूंढें: [https://gtfobins.github.io/](https://gtfobins.github.io)
 
 # Windows
 
-## Bypassing path restrictions
+## पथ प्रतिबंधों को छोड़ना
 
-* **Environment variables**: There are a lot of environment variables that are pointing to some path
-* **Other protocols**: _about:, data:, ftp:, file:, mailto:, news:, res:, telnet:, view-source:_
-* **Symbolic links**
-* **Shortcuts**: CTRL+N (open new session), CTRL+R (Execute Commands), CTRL+SHIFT+ESC (Task Manager),  Windows+E (open explorer), CTRL-B, CTRL-I (Favourites), CTRL-H (History), CTRL-L, CTRL-O (File/Open Dialog), CTRL-P (Print Dialog), CTRL-S (Save As)
-  * Hidden Administrative menu: CTRL-ALT-F8, CTRL-ESC-F9
-* **Shell URIs**: _shell:Administrative Tools, shell:DocumentsLibrary, shell:Librariesshell:UserProfiles, shell:Personal, shell:SearchHomeFolder, shell:Systemshell:NetworkPlacesFolder, shell:SendTo, shell:UsersProfiles, shell:Common Administrative Tools, shell:MyComputerFolder, shell:InternetFolder_
-* **UNC paths**: Paths to connect to shared folders. You should try to connect to the C$ of the local machine ("\\\127.0.0.1\c$\Windows\System32")
-  * **More UNC paths:**
+* **पर्यावरणीय चर**: बहुत सारे पर्यावरणीय चर हैं जो किसी पथ की ओर पॉइंट कर रहे हैं
+* **अन्य प्रोटोकॉल**: _about:, data:, ftp:, file:, mailto:, news:, res:, telnet:, view-source:_
+* **प्रतीकात्मक लिंक**
+* **शॉर्टकट**: CTRL+N (नई सत्र खोलें), CTRL+R (कमांड निष्पादित करें), CTRL+SHIFT+ESC (कार्य प्रबंधक),  Windows+E (एक्सप्लोरर खोलें), CTRL-B, CTRL-I (पसंदीदा), CTRL-H (इतिहास), CTRL-L, CTRL-O (फ़ाइल/खोलें संवाद), CTRL-P (मुद्रण संवाद), CTRL-S (इस रूप में सहेजें)
+* छिपा हुआ प्रशासनिक मेनू: CTRL-ALT-F8, CTRL-ESC-F9
+* **शैल URIs**: _shell:Administrative Tools, shell:DocumentsLibrary, shell:Librariesshell:UserProfiles, shell:Personal, shell:SearchHomeFolder, shell:Systemshell:NetworkPlacesFolder, shell:SendTo, shell:UsersProfiles, shell:Common Administrative Tools, shell:MyComputerFolder, shell:InternetFolder_
+* **UNC पथ**: साझा फ़ोल्डरों से कनेक्ट करने के लिए पथ। आपको स्थानीय मशीन के C$ से कनेक्ट करने की कोशिश करनी चाहिए ("\\\127.0.0.1\c$\Windows\System32")
+* **और भी बहुत सारे UNC पथ:**
 
 | UNC                       | UNC            | UNC                  |
 | ------------------------- | -------------- | -------------------- |
 | %ALLUSERSPROFILE%         | %APPDATA%      | %CommonProgramFiles% |
 | %COMMONPROGRAMFILES(x86)% | %COMPUTERNAME% | %COMSPEC%            |
-| %HOMEDRIVE%               | %HOMEPATH%     | %LOCALAPPDATA%       |
-| %LOGONSERVER%             | %PATH%         | %PATHEXT%            |
-| %ProgramData%             | %ProgramFiles% | %ProgramFiles(x86)%  |
-| %PROMPT%                  | %PSModulePath% | %Public%             |
-| %SYSTEMDRIVE%             | %SYSTEMROOT%   | %TEMP%               |
-| %TMP%                     | %USERDOMAIN%   | %USERNAME%           |
-| %USERPROFILE%             | %WINDIR%       |                      |
+| %HOMEDRIVE%               | %HOM
+## शॉर्टकट्स
 
-## Download Your Binaries
+* स्टिकी कीज़ - SHIFT को 5 बार दबाएं
+* माउस कीज़ - SHIFT+ALT+NUMLOCK
+* हाई कंट्रास्ट - SHIFT+ALT+PRINTSCN
+* टॉगल कीज़ - NUMLOCK को 5 सेकंड तक दबाएं
+* फ़िल्टर कीज़ - दायां SHIFT को 12 सेकंड तक दबाएं
+* WINDOWS+F1 - Windows खोजें
+* WINDOWS+D - डेस्कटॉप दिखाएं
+* WINDOWS+E - Windows Explorer लॉन्च करें
+* WINDOWS+R - चलाएँ
+* WINDOWS+U - सुविधा पहुँच केंद्र
+* WINDOWS+F - खोजें
+* SHIFT+F10 - संदर्भ मेनू
+* CTRL+SHIFT+ESC - कार्य प्रबंधक
+* CTRL+ALT+DEL - नए Windows संस्करणों पर स्प्लैश स्क्रीन
+* F1 - मदद F3 - खोजें
+* F6 - पता बार
+* F11 - इंटरनेट एक्सप्लोरर में पूर्ण स्क्रीन टॉगल करें
+* CTRL+H - इंटरनेट एक्सप्लोरर इतिहास
+* CTRL+T - इंटरनेट एक्सप्लोरर - नई टैब
+* CTRL+N - इंटरनेट एक्सप्लोरर - नया पेज
+* CTRL+O - फ़ाइल खोलें
+* CTRL+S - सहेजें CTRL+N - नया RDP / Citrix
 
-Console: [https://sourceforge.net/projects/console/](https://sourceforge.net/projects/console/)\
-Explorer: [https://sourceforge.net/projects/explorerplus/files/Explorer%2B%2B/](https://sourceforge.net/projects/explorerplus/files/Explorer%2B%2B/)\
-Registry editor: [https://sourceforge.net/projects/uberregedit/](https://sourceforge.net/projects/uberregedit/)
+## स्वाइप
 
-## Accessing filesystem from the browser
+* विंडो को देखने के लिए बाएं ओर से दाएं ओर स्वाइप करें, KIOSK ऐप को कम करें और पूरे ओएस तक पहुँचें;
+* एक्शन सेंटर खोलने के लिए दाएं ओर से बाएं ओर स्वाइप करें, KIOSK ऐप को कम करें और पूरे ओएस तक पहुँचें;
+* शीर्ष किनारे से अपने ऐप में पूर्ण स्क्रीन मोड में शीर्षक बार दिखाने के लिए ऊपर से स्वाइप करें;
+* बॉटम से ऊपर स्वाइप करें ताकि पूर्ण स्क्रीन ऐप में टास्कबार दिखाएं।
 
-| PATH                | PATH              | PATH               | PATH                |
-| ------------------- | ----------------- | ------------------ | ------------------- |
-| File:/C:/windows    | File:/C:/windows/ | File:/C:/windows\\ | File:/C:\windows    |
-| File:/C:\windows\\  | File:/C:\windows/ | File://C:/windows  | File://C:/windows/  |
-| File://C:/windows\\ | File://C:\windows | File://C:\windows/ | File://C:\windows\\ |
-| C:/windows          | C:/windows/       | C:/windows\\       | C:\windows          |
-| C:\windows\\        | C:\windows/       | %WINDIR%           | %TMP%               |
-| %TEMP%              | %SYSTEMDRIVE%     | %SYSTEMROOT%       | %APPDATA%           |
-| %HOMEDRIVE%         | %HOMESHARE        |                    | <p><br></p>         |
+## इंटरनेट एक्सप्लोरर ट्रिक्स
 
-## ShortCuts
+### 'इमेज टूलबार'
 
-* Sticky Keys – Press SHIFT 5 times
-* Mouse Keys – SHIFT+ALT+NUMLOCK
-* High Contrast – SHIFT+ALT+PRINTSCN
-* Toggle Keys – Hold NUMLOCK for 5 seconds
-* Filter Keys – Hold right SHIFT for 12 seconds
-* WINDOWS+F1 – Windows Search
-* WINDOWS+D – Show Desktop
-* WINDOWS+E – Launch Windows Explorer
-* WINDOWS+R – Run
-* WINDOWS+U – Ease of Access Centre
-* WINDOWS+F – Search
-* SHIFT+F10 – Context Menu
-* CTRL+SHIFT+ESC – Task Manager
-* CTRL+ALT+DEL – Splash screen on newer Windows versions
-* F1 – Help F3 – Search
-* F6 – Address Bar
-* F11 – Toggle full screen within Internet Explorer
-* CTRL+H – Internet Explorer History
-* CTRL+T – Internet Explorer – New Tab
-* CTRL+N – Internet Explorer – New Page
-* CTRL+O – Open File
-* CTRL+S – Save CTRL+N – New RDP / Citrix
+यह टूलबार छवि के ऊपरी बाएं कोने पर प्रदर्शित होती है जब इसे क्लिक किया जाता है। आप इसे सहेज सकेंगे, प्रिंट कर सकेंगे, मेलटू कर सकेंगे, एक्सप्लोरर में "माय पिक्चर्स" खोल सकेंगे। Kiosk को इंटरनेट एक्सप्लोरर का उपयोग करना चाहिए।
 
-## Swipes
+### शैल प्रोटोकॉल
 
-* Swipe from the left side to the right to see all open Windows, minimizing the KIOSK app and accessing the whole OS directly;
-* Swipe from the right side to the left to open Action Center, minimizing the KIOSK app and accessing the whole OS directly;
-* Swipe in from the top edge to make the title bar visible for an app opened in full screen mode;
-* Swipe up from the bottom to show  the taskbar in a full screen app.
-
-## Internet Explorer Tricks
-
-### 'Image Toolbar'
-
-It's a toolbar that appears on the top-left of image when it's clicked. You will be able to Save, Print, Mailto, Open "My Pictures" in Explorer. The Kiosk needs to be using Internet Explorer.
-
-### Shell Protocol
-
-Type this URLs to obtain an Explorer view:
+एक एक्सप्लोरर दृश्य प्राप्त करने के लिए इस URL को टाइप करें:
 
 * `shell:Administrative Tools`
 * `shell:DocumentsLibrary`
@@ -149,159 +122,71 @@ Type this URLs to obtain an Explorer view:
 * `Shell:System`
 * `Shell:ControlPanelFolder`
 * `Shell:Windows`
-* `shell:::{21EC2020-3AEA-1069-A2DD-08002B30309D}` --> Control Panel
-* `shell:::{20D04FE0-3AEA-1069-A2D8-08002B30309D}` --> My Computer
-* `shell:::{{208D2C60-3AEA-1069-A2D7-08002B30309D}}` --> My Network Places
-* `shell:::{871C5380-42A0-1069-A2EA-08002B30309D}` --> Internet Explorer
+* `shell:::{21EC2020-3AEA-1069-A2DD-08002B30309D}` --> कंट्रोल पैनल
+* `shell:::{20D04FE0-3AEA-1069-A2D8-08002B30309D}` --> मेरा कंप्यूटर
+* `shell:::{{208D2C60-3AEA-1069-A2D7-08002B30309D}}` --> मेरे नेटवर्क स्थान
+* `shell:::{871C5380-42A0-1069-A2EA-08002B30309D}` --> इंटरनेट एक्सप्लोरर
 
-# Browsers tricks
+# ब्राउज़र ट्रिक्स
 
-Backup iKat versions:
+iKat संस्करणों का बैकअप करें:
 
 [http://swin.es/k/](http://swin.es/k/)\
 [http://www.ikat.kronicd.net/](http://www.ikat.kronicd.net)\
 
-Create a common dialog using JavaScript and access file explorer: `document.write('<input/type=file>')`  
-Source: https://medium.com/@Rend_/give-me-a-browser-ill-give-you-a-shell-de19811defa0
+JavaScript का उपयोग करके एक सामान्य संवाद बनाएं और फ़ाइल एक्सप्लोरर तक पहुँचें: `document.write('<input/type=file>')`
+स्रोत: https://medium.com/@Rend_/give-me-a-browser-ill-give-you-a-shell-de19811defa0
 
 # iPad
 
-## Gestures and bottoms
+## जेस्चर्स और बटन
 
-### Swipe up with four (or five) fingers / Double-tap Home button
+### चार (या पांच) उंगलियों के साथ ऊपर स्वाइप करें / होम बटन पर दोहराएं टैप करें
 
-To view the multitask view and change App
+मल्टीटास्क दृश्य देखने और ऐप बदलने के लिए
 
-### Swipe one way or another with four or five fingers
+### चार या पांच उंगलियों के साथ एक तरफ स्वाइप करें
 
-In order to change to the next/last App
+अगले / पिछले ऐप में बदलने के लिए
 
-### Pinch the screen with five fingers / Touch Home button / Swipe up with 1 finger from the bottom of the screen in a quick motion to the up
+### पांच उंगलियों के साथ स्क्रीन को पिंच करें / होम बटन को छूने / स्क्रीन के नीचे से ऊपर एक उंगली के साथ तेजी से ऊपर स्वाइप करें
 
-To access Home
+होम तक पहुँचने के लिए
 
-### Swipe one finger from the bottom of the screen just 1-2 inches (slow)
+### स्क्रीन के नीचे से एक उंगली से स्वाइप करें, स्क्रीन के नीचे 1-2 इंच (धीमी
+| ⌘⇧⇥ (Command-Shift-Tab)                            | पिछले ऐप में स्विच करें                              |
+| ⌘⇥ (Command-Tab)                                   | मूल ऐप में वापस स्विच करें                         |
+| ←+→, फिर Option + ← या Option+→                   | डॉक के माध्यम से नेविगेट करें                                   |
 
-The dock will appear
+### Safari शॉर्टकट्स
 
-### Swipe down from the top of the display with 1 finger
-
-To view your notifications
-
-### Swipe down with 1 finger the top-right corner of the screen
-
-To see iPad Pro's control centre
-
-### Swipe 1 finger from the left of the screen 1-2 inches
-
-To see Today view
-
-### Swipe fast 1 finger from the centre of the screen to the right or left
-
-To change to next/last App
-
-### Press and hold the On/**Off**/Sleep button at the upper-right corner of the **iPad +** Move the Slide to **power off** slider all the way to the right,
-
-To power off
-
-### Press the  On/**Off**/Sleep button at the upper-right corner of the **iPad and the Home button for a few second**
-
-To force a hard power off
-
-### Press the  On/**Off**/Sleep button at the upper-right corner of the **iPad and the Home button quickly**
-
-To take a screenshot that will pop up in the lower left of the display. Press both buttons at the same time very briefly as if you hold them a few seconds a hard power off will be performed.
-
-## Shortcuts
-
-You should have an iPad keyboard or a USB keyboard adaptor. Only shortcuts that could help escaping from the application will be shown here.
-
-| Key | Name         |
-| --- | ------------ |
-| ⌘   | Command      |
-| ⌥   | Option (Alt) |
-| ⇧   | Shift        |
-| ↩   | Return       |
-| ⇥   | Tab          |
-| ^   | Control      |
-| ←   | Left Arrow   |
-| →   | Right Arrow  |
-| ↑   | Up Arrow     |
-| ↓   | Down Arrow   |
-
-### System shortcuts
-
-These shortcuts are for the visual settings and sound settings, depending on the use of the iPad.
-
-| Shortcut | Action                                                                         |
-| -------- | ------------------------------------------------------------------------------ |
-| F1       | Dim Sscreen                                                                    |
-| F2       | Brighten screen                                                                |
-| F7       | Back one song                                                                  |
-| F8       | Play/pause                                                                     |
-| F9       | Skip song                                                                      |
-| F10      | Mute                                                                           |
-| F11      | Decrease volume                                                                |
-| F12      | Increase volume                                                                |
-| ⌘ Space  | Display a list of available languages; to choose one, tap the space bar again. |
-
-### iPad navigation
-
-| Shortcut                                           | Action                                                  |
-| -------------------------------------------------- | ------------------------------------------------------- |
-| ⌘H                                                 | Go to Home                                              |
-| ⌘⇧H (Command-Shift-H)                              | Go to Home                                              |
-| ⌘ (Space)                                          | Open Spotlight                                          |
-| ⌘⇥ (Command-Tab)                                   | List last ten used apps                                 |
-| ⌘\~                                                | Go t the last App                                       |
-| ⌘⇧3 (Command-Shift-3)                              | Screenshot (hovers in bottom left to save or act on it) |
-| ⌘⇧4                                                | Screenshot and open it in the editor                    |
-| Press and hold ⌘                                   | List of shortcuts available for the App                 |
-| ⌘⌥D (Command-Option/Alt-D)                         | Brings up the dock                                      |
-| ^⌥H (Control-Option-H)                             | Home button                                             |
-| ^⌥H H (Control-Option-H-H)                         | Show multitask bar                                      |
-| ^⌥I (Control-Option-i)                             | Item chooser                                            |
-| Escape                                             | Back button                                             |
-| → (Right arrow)                                    | Next item                                               |
-| ← (Left arrow)                                     | Previous item                                           |
-| ↑↓ (Up arrow, Down arrow)                          | Simultaneously tap selected item                        |
-| ⌥ ↓ (Option-Down arrow)                            | Scroll down                                             |
-| ⌥↑ (Option-Up arrow)                               | Scroll up                                               |
-| ⌥← or ⌥→ (Option-Left arrow or Option-Right arrow) | Scroll left or right                                    |
-| ^⌥S (Control-Option-S)                             | Turn VoiceOver speech on or off                         |
-| ⌘⇧⇥ (Command-Shift-Tab)                            | Switch to the previous app                              |
-| ⌘⇥ (Command-Tab)                                   | Switch back to the original app                         |
-| ←+→, then Option + ← or Option+→                   | Navigate through Dock                                   |
-
-### Safari shortcuts
-
-| Shortcut                | Action                                           |
+| शॉर्टकट                | कार्रवाई                                           |
 | ----------------------- | ------------------------------------------------ |
-| ⌘L (Command-L)          | Open Location                                    |
-| ⌘T                      | Open a new tab                                   |
-| ⌘W                      | Close the current tab                            |
-| ⌘R                      | Refresh the current tab                          |
-| ⌘.                      | Stop loading the current tab                     |
-| ^⇥                      | Switch to the next tab                           |
-| ^⇧⇥ (Control-Shift-Tab) | Move to the previous tab                         |
-| ⌘L                      | Select the text input/URL field to modify it     |
-| ⌘⇧T (Command-Shift-T)   | Open last closed tab (can be used several times) |
-| ⌘\[                     | Goes back one page in your browsing history      |
-| ⌘]                      | Goes forward one page in your browsing history   |
-| ⌘⇧R                     | Activate Reader Mode                             |
+| ⌘L (Command-L)          | स्थान खोलें                                    |
+| ⌘T                      | एक नया टैब खोलें                                   |
+| ⌘W                      | वर्तमान टैब बंद करें                            |
+| ⌘R                      | वर्तमान टैब को रिफ्रेश करें                          |
+| ⌘.                      | वर्तमान टैब को लोड करना बंद करें                     |
+| ^⇥                      | अगले टैब में स्विच करें                           |
+| ^⇧⇥ (Control-Shift-Tab) | पिछले टैब में जाएं                         |
+| ⌘L                      | पाठ इनपुट/URL फ़ील्ड का चयन करें और इसे संशोधित करें     |
+| ⌘⇧T (Command-Shift-T)   | अंतिम बंद किए गए टैब खोलें (कई बार उपयोग किया जा सकता है) |
+| ⌘\[                     | अपने ब्राउज़िंग इतिहास में एक पेज पीछे जाएं      |
+| ⌘]                      | अपने ब्राउज़िंग इतिहास में एक पेज आगे जाएं   |
+| ⌘⇧R                     | रीडर मोड सक्रिय करें                             |
 
-### Mail shortcuts
+### मेल शॉर्टकट्स
 
-| Shortcut                   | Action                       |
+| शॉर्टकट                   | कार्रवाई                       |
 | -------------------------- | ---------------------------- |
-| ⌘L                         | Open Location                |
-| ⌘T                         | Open a new tab               |
-| ⌘W                         | Close the current tab        |
-| ⌘R                         | Refresh the current tab      |
-| ⌘.                         | Stop loading the current tab |
-| ⌘⌥F (Command-Option/Alt-F) | Search in your mailbox       |
+| ⌘L                         | स्थान खोलें                |
+| ⌘T                         | एक नया टैब खोलें           |
+| ⌘W                         | वर्तमान टैब बंद करें        |
+| ⌘R                         | वर्तमान टैब को रिफ्रेश करें  |
+| ⌘.                         | वर्तमान टैब को लोड करना बंद करें |
+| ⌘⌥F (Command-Option/Alt-F) | अपने मेलबॉक्स में खोजें       |
 
-## References
+## संदर्भ
 
 * [https://www.macworld.com/article/2975857/6-only-for-ipad-gestures-you-need-to-know.html](https://www.macworld.com/article/2975857/6-only-for-ipad-gestures-you-need-to-know.html)
 * [https://www.tomsguide.com/us/ipad-shortcuts,news-18205.html](https://www.tomsguide.com/us/ipad-shortcuts,news-18205.html)
@@ -313,16 +198,14 @@ These shortcuts are for the visual settings and sound settings, depending on the
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **HackTricks** में विज्ञापित करना चाहते हैं? या क्या आप **PEASS** के नवीनतम संस्करण देखना चाहते हैं या **HackTricks** को PDF में डाउनलोड करना चाहते हैं? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष संग्रह [**NFTs**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- प्राप्त करें [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या मुझे **ट्विटर** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)** का** अनुसरण करें।**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **अपने हैकिंग ट्रिक्स साझा करें, [hacktricks रेपो](https://github.com/carlospolop/hacktricks) और [hacktricks-cloud रेपो](https://github.com/carlospolop/hacktricks-cloud) में पीआर जमा करके।**
 
 </details>
-
-

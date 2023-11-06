@@ -1,196 +1,111 @@
-
-
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks क्लाउड ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 ट्विटर 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ ट्विच 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 यूट्यूब 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी **कंपनी को HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS की नवीनतम संस्करण या HackTricks को PDF में डाउनलोड** करने का उपयोग करना है? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष संग्रह [**NFTs**](https://opensea.io/collection/the-peass-family)
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- प्राप्त करें [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com)
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में या मुझे **ट्विटर** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **अपने हैकिंग ट्रिक्स को [hacktricks रेपो](https://github.com/carlospolop/hacktricks) और [hacktricks-cloud रेपो](https://github.com/carlospolop/hacktricks-cloud) में पीआर जमा करके साझा करें।**
 
 </details>
 
 
-[**Cheat Engine**](https://www.cheatengine.org/downloads.php) is a useful program to find where important values are saved inside the memory of a running game and change them.\
-When you download and run it, you are **presented** with a **tutorial** of how to use the tool. If you want to learn how to use the tool it's highly recommended to complete it.
+[**Cheat Engine**](https://www.cheatengine.org/downloads.php) एक उपयोगी प्रोग्राम है जो चल रहे खेल की मेमोरी में महत्वपूर्ण मानों को कहां संग्रहित किया जाता है और उन्हें बदलता है ढूंढ़ने के लिए उपयोगी होता है।\
+जब आप इसे डाउनलोड और चलाते हैं, तो आपको इस उपकरण का उपयोग कैसे करें के बारे में एक ट्यूटोरियल प्रदान किया जाता है। यदि आप उपकरण का उपयोग करना सीखना चाहते हैं, तो इसे पूरा करना अत्यंत सिफारिश की जाती है।
 
-# What are you searching?
+# आप क्या खोज रहे हैं?
 
 ![](<../../.gitbook/assets/image (580).png>)
 
-This tool is very useful to find **where some value** (usually a number) **is stored in the memory** of a program.\
-**Usually numbers** are stored in **4bytes** form, but you could also find them in **double** or **float** formats, or you may want to look for something **different from a number**. For that reason you need to be sure you **select** what you want to **search for**:
+यह उपकरण बहुत उपयोगी है ताकि आप किसी प्रोग्राम की मेमोरी में कहीं एक महत्वपूर्ण मान (आमतौर पर एक संख्या) कहां संग्रहित है ढूंढ़ सकें।\
+आमतौर पर संख्याएँ 4 बाइट रूप में संग्रहित होती हैं, लेकिन आप उन्हें डबल या फ्लोट फॉर्मेट में भी ढूंढ़ सकते हैं, या आप कुछ अलग संख्या से ढूंढ़ना चाहते हो सकता है। इसलिए आपको यकीनी बनाना होगा कि आपको चयनित करना होगा कि आप क्या खोजना चाहते हैं:
 
 ![](<../../.gitbook/assets/image (581).png>)
 
-Also you can indicate **different** types of **searches**:
+आप भी **विभिन्न** प्रकार की **खोजें** दर्ज कर सकते हैं:
 
 ![](<../../.gitbook/assets/image (582).png>)
 
-You can also check the box to **stop the game while scanning the memory**:
+आप मेमोरी की खोज करते समय **खेल को रोकने के लिए बॉक्स की जांच** कर सकते हैं:
 
 ![](<../../.gitbook/assets/image (584).png>)
 
-## Hotkeys
+## हॉटकीज़
 
-In _**Edit --> Settings --> Hotkeys**_ you can set different **hotkeys** for different purposes like **stopping** the **game** (which is quiet useful if at some point you want to scan the memory). Other options are available:
+_**संपादन --> सेटिंग्स --> हॉटकीज़**_ में आप विभिन्न **हॉटकीज़** सेट कर सकते हैं जिनका उपयोग विभिन्न उद्देश्यों के लिए किया जा सकता है, जैसे कि **खेल को रोकना** (जो काफी उपयोगी होता है यदि किसी समय आप मेमोरी की खोज करना चाहते हैं)। अन्य विकल्प उपलब्ध हैं:
 
 ![](<../../.gitbook/assets/image (583).png>)
 
-# Modifying the value
+# मान को संशोधित करना
 
-Once you **found** where is the **value** you are **looking for** (more about this in the following steps) you can **modify it** double clicking it, then double clicking its value:
+एक बार जब आपने पाया है कि आप खोज रहे मान कहां है (इसके बारे में अधिक जानकारी नीचे के चरणों में) तो आप इसे संशोधित कर सकते हैं, इसके बाद इसके मान पर डबल क्लिक करें:
 
 ![](<../../.gitbook/assets/image (585).png>)
 
-And finally **marking the check** to get the modification done in the memory:
+और अंत में **चेक चिह्न** चिह्नित करके मेमोरी में संशोधन करने के लिए:
 
 ![](<../../.gitbook/assets/image (586).png>)
 
-The **change** to the **memory** will be immediately **applied** (note that until the game doesn't use this value again the value **won't be updated in the game**).
+मेमोरी में **परिवर्तन** तत्काल **लागू** हो जाएगा (ध्यान दें कि जब तक खेल इस मान का फिर से उपयोग नहीं करता है, मान **खेल में अद्यतित नहीं होगा**।)
 
-# Searching the value
+# मान की खोज
 
-So, we are going to suppose that there is an important value (like the life of your user) that you want to improve, and you are looking for this value in the memory)
+तो, हम मानते हैं कि आपके पास एक महत्वपूर्ण मान है (जैसे कि आपके उपयोगकर्ता का जी
+## यादृच्छिक मेमोरी पता - कोड खोजना
 
-## Through a known change
+अब तक हमने सीखा है कि कैसे एक मान को संग्रहीत करने वाला पता ढूंढ़ा जाए, लेकिन यह बहुत संभावित है कि **खेल के विभिन्न निष्पादनों में उस पते की स्थानांतरण हो सकती है**. तो चलिए जानते हैं कि हमेशा उस पते को कैसे ढूंढ़ा जाए.
 
-Supposing you are looking for the value 100, you **perform a scan** searching for that value and you find a lot of coincidences:
-
-![](<../../.gitbook/assets/image (587).png>)
-
-Then, you do something so that **value changes**, and you **stop** the game and **perform** a **next scan**:
-
-![](<../../.gitbook/assets/image (588).png>)
-
-Cheat Engine will search for the **values** that **went from 100 to the new value**. Congrats, you **found** the **address** of the value you were looking for, you can now modify it.\
-_If you still have several values, do something to modify again that value, and perform another "next scan" to filter the addresses._
-
-## Unknown Value, known change
-
-In the scenario you **don't know the value** but you know **how to make it change** (and even the value of the change) you can look for your number.
-
-So, start by performing a scan of type "**Unknown initial value**":
-
-![](<../../.gitbook/assets/image (589).png>)
-
-Then, make the value change, indicate **how** the **value** **changed** (in my case it was decreased by 1) and perform a **next scan**:
-
-![](<../../.gitbook/assets/image (590).png>)
-
-You will be presented **all the values that were modified in the selected way**:
-
-![](<../../.gitbook/assets/image (591).png>)
-
-Once you have found your value, you can modify it.
-
-Note that there are a **lot of possible changes** and you can do these **steps as much as you want** to filter the results:
-
-![](<../../.gitbook/assets/image (592).png>)
-
-## Random Memory Address - Finding the code
-
-Until know we learnt how to find an address storing a value, but it's highly probably that in **different executions of the game that address is in different places of the memory**. So lets find out how to always find that address.
-
-Using some of the mentioned tricks, find the address where your current game is storing the important value. Then (stopping the game if you whish) do a **right click** on the found **address** and select "**Find out what accesses this address**" or "**Find out what writes to this address**":
+उपयोग करके कुछ उल्लिखित तरीकों का उपयोग करें, अपने वर्तमान खेल को महत्वपूर्ण मान को संग्रहीत करने वाले पते का पता लगाएं। फिर (खेल को रोककर यदि आप चाहें तो) पाए गए पते पर **दायां क्लिक** करें और "**इस पते का उपयोग करने वाले को खोजें**" या "**इस पते पर लिखने वाले को खोजें**" का चयन करें:
 
 ![](<../../.gitbook/assets/image (593).png>)
 
-The **first option** is useful to know which **parts** of the **code** are **using** this **address** (which is useful for more things like **knowing where you can modify the code** of the game).\
-The **second option** is more **specific**, and will be more helpful in this case as we are interested in knowing **from where this value is being written**.
+**पहला विकल्प** उपयोगी है ताकि आप जान सकें कि इस पते का उपयोग करने वाले कौन से **कोड के भाग** हैं (जो खेल के कोड को संशोधित करने के लिए उपयोगी होता है)।\
+**दूसरा विकल्प** अधिक **विशिष्ट** है, और इस मामले में यह अधिक मददगार होगा क्योंकि हमें यह जानने में रुचि है कि **यह मान कहां से लिखा जा रहा है**।
 
-Once you have selected one of those options, the **debugger** will be **attached** to the program and a new **empty window** will appear. Now, **play** the **game** and **modify** that **value** (without restarting the game). The **window** should be **filled** with the **addresses** that are **modifying** the **value**:
+एक बार जब आप इनमें से किसी एक विकल्प का चयन कर लेते हैं, तो **डिबगर** प्रोग्राम से **जुड़ जाएगा** और एक नई **खाली विंडो** प्रदर्शित होगी। अब, **खेलें** और **उस मान को संशोधित** करें (खेल को फिर से शुरू किए बिना)। **विंडो** में **पते** के **पते** को **भरा** जाना चाहिए जो **मान** को **संशोधित** कर रहे हैं:
 
 ![](<../../.gitbook/assets/image (594).png>)
 
-Now that you found the address it's modifying the value you can **modify the code at your pleasure** (Cheat Engine allows you to modify it for NOPs real quick):
+अब जब आपने पता लगा लिया है कि यह पता मान को संशोधित कर रहा है, तो आप अपनी खुशी के अनुसार कोड को संशोधित कर सकते हैं (Cheat Engine आपको इसे तेजी से संशोधित करने की अनुमति देता है):
 
 ![](<../../.gitbook/assets/image (595).png>)
 
-So, you can now modify it so the code won't affect your number, or will always affect in a positive way.
+इसलिए, आप अब इसे संशोधित कर सकते हैं ताकि कोड आपकी संख्या पर प्रभाव न डाले, या हमेशा सकारात्मक तरीके से प्रभावित करें।
 
-## Random Memory Address - Finding the pointer
+## यादृच्छिक मेमोरी पता - पॉइंटर खोजना
 
-Following the previous steps, find where the value you are interested is. Then, using "**Find out what writes to this address**" find out which address writes this value and double click on it to get the disassembly view:
+पिछले चरणों का पालन करते हुए, जिस मान की आपकी रुचि है, उसे ढूंढ़ें। फिर, "**इस पते पर लिखने वाले को खोजें**" का उपयोग करके जांचें कि कौन सा पता इस मान को लिखता है और उस पर डबल क्लिक करें ताकि आपको डिसअसेंबली दृश्य मिले:
 
 ![](<../../.gitbook/assets/image (596).png>)
 
-Then, perform a new scan **searching for the hex value between "\[]"** (the value of $edx in this case):
+फिर, नई स्कैन करें **"\[\] के बीच हेक्स मान**" के लिए (इस मामले में $edx का मान):
 
 ![](<../../.gitbook/assets/image (597).png>)
 
-(_If several appear you usually need the smallest address one_)\
-Now, we have f**ound the pointer that will be modifying the value we are interested in**.
+(_यदि कई आते हैं तो आपको आमतौर पर सबसे छोटा पता वाला चाहिए_)\
+अब, हमें उस पॉइंटर को मिल गया है जो हमारी रुचि वाले मान को संशोधित कर रहा होगा।
 
-Click on "**Add Address Manually**":
+"**मैन्युअल रूप से पता जोड़ें**" पर क्लिक करें:
 
 ![](<../../.gitbook/assets/image (598).png>)
 
-Now, click on the "Pointer" check box and add the found address in the text box (in this scenario, the found address in the previous image was "Tutorial-i386.exe"+2426B0):
+अब, "पॉइंटर" चेक बॉक्स पर क्लिक करें और पाठ बॉक्स में पाए गए पते को जोड़ें (इस स्थिति में, पिछली छवि में पाए गए पते का नाम "Tutorial-i386.exe"+2426B0 था):
 
 ![](<../../.gitbook/assets/image (599).png>)
 
-(Note how the first "Address" is automatically populated from the pointer address you introduce)
+(ध्यान दें कि पहला "पता" स्वचालित रूप से पॉइंटर पते से भरा जाता है जिसे आप प्रस्तुत करते हैं)
 
-Click OK and a new pointer will be created:
+ठीक है और एक नया पॉइंटर बनाया जाएगा:
 
 ![](<../../.gitbook/assets/image (600).png>)
 
-Now, every time you modifies that value you are **modifying the important value even if the memory address where the value is is different.**
+अब, हर बार जब आप उस मान को संशोधित करते हैं, आप **महत्वपूर्ण मान को संशोधित कर रहे हैं चाहे मान की मेमोरी पता अलग हो**।
 
-## Code Injection
+## कोड इंजेक्शन
 
-Code injection is a technique where you inject a piece of code into the target process, and then reroute the execution of code to go through your own written code (like giving you points instead of resting them).
-
-So, imagine you have found the address that is subtracting 1 to the life of your player:
-
-![](<../../.gitbook/assets/image (601).png>)
-
-Click on Show disassembler to get the **disassemble code**.\
-Then, click **CTRL+a** to invoke the Auto assemble window and select _**Template --> Code Injection**_
-
-![](<../../.gitbook/assets/image (602).png>)
-
-Fill the **address of the instruction you want to modify** (this is usually autofilled):
-
-![](<../../.gitbook/assets/image (603).png>)
-
-A template will be generated:
-
-![](<../../.gitbook/assets/image (604).png>)
-
-So, insert your new assembly code in the "**newmem**" section and remove the original code from the "**originalcode**" if you don't want it to be executed**.** In this example the injected code will add 2 points instead of substracting 1:
-
-![](<../../.gitbook/assets/image (605).png>)
-
-**Click on execute and so on and your code should be injected in the program changing the behaviour of the functionality!**
-
-# **References**
-
-* **Cheat Engine tutorial, complete it to learn how to start with Cheat Engine**
-
-
-
-<details>
-
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
-
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
-
-</details>
-
-
+कोड इंजेक्शन एक तकनीक है जहां आप लक्षित प्रक्रिया में कोड का एक टुकड़ा इंजेक

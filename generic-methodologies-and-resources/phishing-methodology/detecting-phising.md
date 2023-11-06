@@ -1,102 +1,63 @@
-# Detecting Phising
+# फिशिंग का पता लगाना
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+- क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS की नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने की आवश्यकता** है? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
 
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
+- [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा विशेष [**NFT**](https://opensea.io/collection/the-peass-family) संग्रह
 
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
+- [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com) प्राप्त करें
 
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+- **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में या मुझे **Twitter** पर **फॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+- **हैकिंग ट्रिक्स को [hacktricks रेपो](https://github.com/carlospolop/hacktricks) और [hacktricks-cloud रेपो](https://github.com/carlospolop/hacktricks-cloud) में PR जमा करके अपने हैकिंग ट्रिक्स साझा करें।**
 
 </details>
 
-## Introduction
+## परिचय
 
-To detect a phishing attempt it's important to **understand the phishing techniques that are being used nowadays**. On the parent page of this post, you can find this information, so if you aren't aware of which techniques are being used today I recommend you to go to the parent page and read at least that section.
+फिशिंग प्रयास का पता लगाने के लिए महत्वपूर्ण है कि **आप वर्तमान में उपयोग होने वाली फिशिंग तकनीकों को समझें**। इस पोस्ट के मूल पृष्ठ पर, आप इस जानकारी को पा सकते हैं, इसलिए यदि आपको यह पता नहीं है कि आज कौन सी तकनीकें उपयोग हो रही हैं, तो मैं आपको सलाह दूंगा कि आप मूल पृष्ठ पर जाएं और कम से कम उस खंड को पढ़ें।
 
-This post is based on the idea that the **attackers will try to somehow mimic or use the victim's domain name**. If your domain is called `example.com` and you are phished using a completely different domain name for some reason like `youwonthelottery.com`, these techniques aren't going to uncover it.
+यह पोस्ट उस विचार पर आधारित है कि **हमलावर को किसी तरह से पीड़ित के डोमेन नाम का अनुकरण या उपयोग करने की कोशिश करेगा**। यदि आपका डोमेन `example.com` कहलाता है और आपको किसी कारण से `youwonthelottery.com` जैसे पूरी तरह से अलग डोमेन नाम का उपयोग करके फिशिंग किया जाता है, तो ये तकनीकें इसे खोलने में सक्षम नहीं होंगी।
 
-## Domain name variations
+## डोमेन नाम के विभिन्न रूप
 
-It's kind of **easy** to **uncover** those **phishing** attempts that will use a **similar domain** name inside the email.\
-It's enough to **generate a list of the most probable phishing names** that an attacker may use and **check** if it's **registered** or just check if there is any **IP** using it.
+यह थोड़ा **आसान** है कि वे **फिशिंग** प्रयासों को **खोलें** जो ईमेल में एक **समान डोमेन** नाम का उपयोग करेंगे।\
+यह **संभावित फिशिंग नामों की सूची उत्पन्न** करने के लिए पर्याप्त है जिसे एक हमलावर का उपयोग कर सकता है और देखें कि क्या यह **रजिस्टर्ड** है या केवल यहां कोई **IP** उपयोग कर रहा है।
 
-### Finding suspicious domains
+### संदिग्ध डोमेन खोजना
 
-For this purpose, you can use any of the following tools. Note that these tolls will also perform DNS requests automatically to check if the domain has any IP assigned to it:
+इस उद्देश्य के लिए, आप निम्नलिखित उपकरणों में से किसी का उपयोग कर सकते हैं। ध्यान दें कि ये उपकरण डोमेन के साथ किसी भी IP का निर्धारण करने के लिए स्वचालित रूप से DNS अनुरोध भी करेंगे:
 
 * [**dnstwist**](https://github.com/elceef/dnstwist)
 * [**urlcrazy**](https://github.com/urbanadventurer/urlcrazy)
 
-### Bitflipping
+### बिटफ्लिपिंग
 
-In the world of computing, everything is stored in bits (zeros and ones) in memory behind the scenes.\
-This applies to domains too. For example, _windows.com_ becomes _01110111..._ in the volatile memory of your computing device.\
-However, what if one of these bits got automatically flipped due to a solar flare, cosmic rays, or a hardware error? That is one of the 0's becomes a 1 and vice versa.\
-Applying this concept to DNS requests, it's possible that the **domain requested** that arrives at the DNS server **isn't the same as the domain initially requested.**
+कंप्यूटिंग की दुनिया में, सब कुछ बिट्स (शून्य और एक) में संग्रहीत होता है, जो कि मेमोरी के पीछे स्थित होता है।\
+डोमेनों के लिए भी यह लागू होता है। उदाहरण के लिए, _windows.com_ को आपके कंप्यूटिंग उपकरण की अस्थायी मेमोरी में _01110111..._ बन जाता है।\
+हालांकि, यदि इनमें से कोई एक बिट सौरमंडलीय तेज़ी, ब्रह्मांडीय किरणों या हार्डवेयर त्रुटि के कारण स्वचालित रूप से उलट जाता है, तो क्या होगा? यानी एक 0 का बदल जाता है और उल्टा।\
+DNS अनुरोधों को इस संकल्प को लागू करने के लिए, संभवतः **डोमेन जिसका अनुरोध किया जाता है** जो DNS सर्वर पर पहुंचता है, **शुरुआत में अनुरोधित डोमेन से अलग हो सकता है**।
 
-For example, a 1 bit modification in the domain microsoft.com can transform it into _windnws.com._\
-**Attackers may register as many bit-flipping domains as possible related to the victim to redirect legitimate users to their infrastructure**.
+उदाहर
+## शब्दों का उपयोग करके डोमेन नाम
 
-For more information read [https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/](https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/)
+मूल पृष्ठ में एक ऐसी डोमेन नाम विभिन्नता तकनीक का भी उल्लेख किया गया है जिसमें **शिकार के डोमेन नाम को एक बड़े डोमेन के अंदर रखा जाता है** (उदा.है, paypal.com के लिए paypal-financial.com).
 
-**All possible bit-flipping domain names should be also monitored.**
+### प्रमाणपत्र पारदर्शिता
 
-### Basic checks
+पिछले "ब्रूट-फोर्स" दृष्टिकोण को अपनाना संभव नहीं है, लेकिन प्रमाणपत्र पारदर्शिता की मदद से ऐसे फिशिंग प्रयासों का पता लगाना वास्तव में **संभव है**। प्रत्येक बार जब एक सीए द्वारा प्रमाणपत्र जारी किया जाता है, तो विवरण सार्वजनिक बनाए जाते हैं। इसका मतलब है कि प्रमाणपत्र पारदर्शिता को पढ़कर या इसे मॉनिटर करके, यह **संभव है कि ऐसे डोमेन खोजे जा सकें जिनमें उपयोग हो रहा है एक शब्द**। उदाहरण के लिए, यदि कोई हमलावर [https://paypal-financial.com](https://paypal-financial.com) का प्रमाणपत्र उत्पन्न करता है, तो प्रमाणपत्र को देखकर "paypal" शब्द का पता लगाना संभव है और पूर्वाभासी ईमेल का पता लगाना संभव होगा।
 
-Once you have a list of potential suspicious domain names you should **check** them (mainly the ports HTTP and HTTPS) to **see if they are using some login form similar** to someone of the victim's domain.\
-You could also check port 3333 to see if it's open and running an instance of `gophish`.\
-It's also interesting to know **how old each discovered suspicions domain is**, the younger it's the riskier it is.\
-You can also get **screenshots** of the HTTP and/or HTTPS suspicious web page to see if it's suspicious and in that case **access it to take a deeper look**.
-
-### Advanced checks
-
-If you want to go one step further I would recommend you to **monitor those suspicious domains and search for more** once in a while (every day? it only takes a few seconds/minutes). You should also **check** the open **ports** of the related IPs and **search for instances of `gophish` or similar tools** (yes, attackers also make mistakes) and **monitor the HTTP and HTTPS web pages of the suspicious domains and subdomains** to see if they have copied any login form from the victim's web pages.\
-In order to **automate this** I would recommend having a list of login forms of the victim's domains, spider the suspicious web pages and comparing each login form found inside the suspicious domains with each login form of the victim's domain using something like `ssdeep`.\
-If you have located the login forms of the suspicious domains, you can try to **send junk credentials** and **check if it's redirecting you to the victim's domain**.
-
-## Domain names using keywords
-
-The parent page also mentions a domain name variation technique that consists of putting the **victim's domain name inside a bigger domain** (e.g. paypal-financial.com for paypal.com).
-
-### Certificate Transparency
-
-It's not possible to take the previous "Brute-Force" approach but it's actually **possible to uncover such phishing attempts** also thanks to certificate transparency. Every time a certificate is emitted by a CA, the details are made public. This means that by reading the certificate transparency or even monitoring it, it's **possible to find domains that are using a keyword inside its name** For example, if an attacker generates a certificate of [https://paypal-financial.com](https://paypal-financial.com), seeing the certificate it's possible to find the keyword "paypal" and know that suspicious email is being used.
-
-The post [https://0xpatrik.com/phishing-domains/](https://0xpatrik.com/phishing-domains/) suggests that you can use Censys to search for certificates affecting a specific keyword and filter by date (only "new" certificates) and by the CA issuer "Let's Encrypt":
+पोस्ट [https://0xpatrik.com/phishing-domains/](https://0xpatrik.com/phishing-domains/) का सुझाव देता है कि आप Censys का उपयोग करके एक विशिष्ट शब्द को प्रभावित करने वाले प्रमाणपत्रों की खोज कर सकते हैं और तारीख के अनुसार (केवल "नए" प्रमाणपत्रों को) और CA जारकर्ता "Let's Encrypt" द्वारा फ़िल्टर कर सकते हैं:
 
 ![](<../../.gitbook/assets/image (390).png>)
 
-However, you can do "the same" using the free web [**crt.sh**](https://crt.sh). You can **search for the keyword** and the **filter** the results **by date and CA** if you wish.
+हालांकि, आप "वही" कर सकते हैं नि: शुल्क वेब [**crt.sh**](https://crt.sh) का उपयोग करके। आप **शब्द की खोज** कर सकते हैं और यदि आप चाहें तो परिणामों को **तारीख और CA** द्वारा **फ़िल्टर** कर सकते हैं।
 
 ![](<../../.gitbook/assets/image (391).png>)
 
-Using this last option you can even use the field Matching Identities to see if any identity from the real domain matches any of the suspicious domains (note that a suspicious domain can be a false positive).
+इस अंतिम विकल्प का उपयोग करके आप यह भी कर सकते हैं कि क्या कोई वास्तविक डोमेन की व्यक्तित्व किसी संदिग्ध डोमेन से मेल खाती है (ध्यान दें कि संदिग्ध डोमेन गलत पॉजिटिव हो सकता है)।
 
-**Another alternative** is the fantastic project called [**CertStream**](https://medium.com/cali-dog-security/introducing-certstream-3fc13bb98067). CertStream provides a real-time stream of newly generated certificates which you can use to detect specified keywords in (near) real-time. In fact, there is a project called [**phishing\_catcher**](https://github.com/x0rz/phishing\_catcher) that does just that.
-
-### **New domains**
-
-**One last alternative** is to gather a list of **newly registered domains** for some TLDs ([Whoxy](https://www.whoxy.com/newly-registered-domains/) provides such service) and **check the keywords in these domains**. However, long domains usually use one or more subdomains, therefore the keyword won't appear inside the FLD and you won't be able to find the phishing subdomain.
-
-<details>
-
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
-
-- Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-
-- Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-
-- Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-
-- **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-
-- **Share your hacking tricks by submitting PRs to the [hacktricks repo](https://github.com/carlospolop/hacktricks) and [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
-
-</details>
+**एक और विकल्प** यह है कि आप कुछ TLDs के लिए **नए पंजीकृत डोमेनों की सूची** इकट्ठा करें ([Whoxy](https://www.whoxy.com/newly-registered-domains/) ऐसी सेवा प्रदान करता है) और इन डोमेनों में **शब्दों की जांच** करें। हालांकि, लंबे डोमेन आमतौर पर एक या एक से अधिक उप-डोमेन का उपयोग करते हैं, इसलिए शब्द FLD के अंदर नहीं आएगा और आप फिशिंग सबडोमेन का पता नहीं लगा पाएंगे।

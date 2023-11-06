@@ -1,205 +1,112 @@
-# AD Certificates
+# AD प्रमाणपत्र
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS की नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करने की आवश्यकता है? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा विशेष [**NFT**](https://opensea.io/collection/the-peass-family) संग्रह देखें
+* [**आधिकारिक PEASS और HackTricks swag**](https://peass.creator-spring.com) प्राप्त करें
+* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में **शामिल** हों या मुझे **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)** का** **अनुसरण** करें।**
+* **हैकिंग ट्रिक्स साझा करें और** [**hacktricks रेपो**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud रेपो**](https://github.com/carlospolop/hacktricks-cloud) **में PR जमा करके**।
 
 </details>
 
-## Basic Information
+## मूलभूत जानकारी
 
-### Parts of a certificate
+### प्रमाणपत्र के भाग
 
-* **Subject** - The owner of the certificate.
-* **Public Key** - Associates the Subject with a private key stored separately.
-* **NotBefore and NotAfter dates** - Define the duration that the certificate is valid.
-* **Serial Number** - An identifier for the certificate assigned by the CA.
-* **Issuer** - Identifies who issued the certificate (commonly a CA).
-* **SubjectAlternativeName** - Defines one or more alternate names that the Subject may go by. (_Check below_)
-* **Basic Constraints** - Identifies if the certificate is a CA or an end entity, and if there are any constraints when using the certificate.
-* **Extended Key Usages (EKUs)** - Object identifiers (OIDs) that describe **how the certificate will be used**. Also known as Enhanced Key Usage in Microsoft parlance. Common EKU OIDs include:
-  * Code Signing (OID 1.3.6.1.5.5.7.3.3) - The certificate is for signing executable code.
-  * Encrypting File System (OID 1.3.6.1.4.1.311.10.3.4) - The certificate is for encrypting file systems.
-  * Secure Email (1.3.6.1.5.5.7.3.4) - The certificate is for encrypting email.
-  * Client Authentication (OID 1.3.6.1.5.5.7.3.2) - The certificate is for authentication to another server (e.g., to AD).
-  * Smart Card Logon (OID 1.3.6.1.4.1.311.20.2.2) - The certificate is for use in smart card authentication.
-  * Server Authentication (OID 1.3.6.1.5.5.7.3.1) - The certificate is for identifying servers (e.g., HTTPS certificates).
-* **Signature Algorithm** - Specifies the algorithm used to sign the certificate.
-* **Signature** - The signature of the certificates body made using the issuer’s (e.g., a CA’s) private key.
+* **विषय** - प्रमाणपत्र के मालिक।
+* **सार्वजनिक कुंजी** - विषय को एक अलग स्थान पर संग्रहीत निजी कुंजी से जोड़ता है।
+* **NotBefore और NotAfter तिथियाँ** - प्रमाणपत्र की मान्यता की अवधि को परिभाषित करती हैं।
+* **धाराक क्रमांक** - CA द्वारा प्रमाणपत्र के लिए निर्धारित पहचानकर्ता।
+* **जारक** - प्रमाणपत्र को जारी करने वाले को पहचानता है (सामान्यतः CA होता है)।
+* **SubjectAlternativeName** - विषय द्वारा जाने जाने वाले एक या अधिक वैकल्पिक नामों को परिभाषित करता है। (_नीचे देखें_)
+* **मूलभूत सीमाएं** - प्रमाणपत्र एक CA है या एक अंत इकाई है, और प्रमाणपत्र का उपयोग करते समय कोई सीमाएं हैं या नहीं, इसे पहचानता है।
+* **विस्तृत कुंजी उपयोग (EKUs)** - वस्त्र के उपयोग को वर्णन करने वाले वस्त्र चिन्हितकरण (OIDs)। माइक्रोसॉफ्ट भाषा में विस्तृत कुंजी उपयोग के रूप में भी जाना जाता है। सामान्य EKU OIDs में शामिल हैं:
+* कोड साइनिंग (OID 1.3.6.1.5.5.7.3.3) - प्रमाणपत्र को कोड साइन करने के लिए है।
+* फ़ाइल सिस्टम एन्क्रिप्शन (OID 1.3.6.1.4.1.311.10.3.4) - प्रमाणपत्र फ़ाइल सिस्टम को एन्क्रिप्ट करने के लिए है।
+* सुरक्षित ईमेल (1.3.6.1.5.5.7.3.4) - प्रमाणपत्र ईमेल को एन्क्रिप्ट करने के लिए है।
+* क्लाइंट प्रमाणीकरण (OID 1.3.6.1.5.5.7.3.2) - प्रमाणपत्र किसी अन्य सर्वर (जैसे, AD के लिए) के प्रमाणीकरण के लिए है।
+* स्मार्ट कार्ड लॉगऑन (OID 1.3.6.1.4.1.311.20.2.2) - प्रमाणपत्र को स्मार्ट कार्ड प्रमाणीकरण में उपयोग करने के लिए है।
+* सर्वर प्रमाणीकरण (OID 1.3.6.1.5.5.7.3.1) - प्रमाणपत्र सर्वरों की पहचान के लिए है (जैसे, HTTPS प्रमाणपत्र)।
+* **हस्ताक्षर एल्गोरिदम** - प्रमाणपत्र के हस्ताक्षर करने के लिए उपयोग किए जाने वाले एल्गोरिदम को निर्दिष्ट करता है।
+* **हस्ताक्षर** - प्रमाणपत्र के शरीर के हस्ताक्षर को जारी करता है, जिसे जारक (उदाहरण के लिए
+* **AIA** (Authority Information Access) कंटेनर में आंतरिक और क्रॉस सीए के AD ऑब्जेक्ट्स होते हैं। **आंतरिक सीए रूट सीए के "बच्चे" होते हैं** PKI ट्री हाइयरार्की में; इस प्रकार, यह कंटेनर प्रमाणित पत्र श्रृंखलाओं की **प्रमाणित पत्र श्रृंखलाओं की प्रमाणित करने में सहायता करने के लिए मौजूद होता है**। प्रमाणित प्राधिकरणों के कंटेनर की तरह, प्रत्येक **सीए को एडी ऑब्जेक्ट के रूप में प्रतिष्ठित किया जाता है** जहां objectClass विशेषता certificationAuthority पर सेट की जाती है और **`cACertificate`** संपत्ति में **सीए के प्रमाण पत्र** के **बाइट्स** होते हैं। ये सीए विंडोज मशीन पर हर बार Intermediate Certification Authorities प्रमाणित पत्र संग्रह में प्रसारित होते हैं।
 
-#### Subject Alternative Names
-
-A **Subject Alternative Name** (SAN) is an X.509v3 extension. It allows **additional identities** to be bound to a **certificate**. For example, if a web server hosts **content for multiple domains**, **each** applicable **domain** could be **included** in the **SAN** so that the web server only needs a single HTTPS certificate.
-
-By default, during certificate-based authentication, one way AD maps certificates to user accounts based on a UPN specified in the SAN. If an attacker can **specify an arbitrary SAN** when requesting a certificate that has an **EKU enabling client authentication**, and the CA creates and signs a certificate using the attacker supplied SAN, the **attacker can become any user in the domain**.
-
-### CAs
-
-AD CS defines CA certificates the AD forest trusts in four locations under the container `CN=Public Key Services,CN=Services,CN=Configuration,DC=<domain>,DC=<com>`, each differing by their purpose:
-
-* The **Certification Authorities** container defines **trusted root CA certificates**. These CAs are at the **top of the PKI tree hierarchy** and are the basis of trust in AD CS environments. Each CA is represented as an AD object inside the container where the **objectClass** is set to **`certificationAuthority`** and the **`cACertificate`** property contains the **bytes** of the **CA’s certificate**. Windows propagates these CA certificates to the Trusted Root Certification Authorities certificate store on **each Windows machine**. For AD to consider a certificate as **trusted**, the certificate’s trust **chain** must eventually **end** with **one of the root CA’s** defined in this container.
-* The **Enrolment Services** container defines each **Enterprise CA** (i.e., CAs created in AD CS with the Enterprise CA role enabled). Each Enterprise CA has an AD object with the following attributes:
-  * An **objectClass** attribute to **`pKIEnrollmentService`**
-  * A **`cACertificate`** attribute containing the **bytes of the CA’s certificate**
-  * A **`dNSHostName`** property sets the **DNS host of the CA**
-  * A **certificateTemplates** field defining the **enabled certificate templates**. Certificate templates are a “blueprint” of settings that the CA uses when creating a certificate, and include things such as the EKUs, enrollment permissions, the certificate’s expiration, issuance requirements, and cryptography settings. We will discuss certificate templates more in detail later.
-
-{% hint style="info" %}
-In AD environments, **clients interact with Enterprise CAs to request a certificate** based on the settings defined in a certificate template. Enterprise CA certificates are propagated to the Intermediate Certification Authorities certificate store on each Windows machine
-{% endhint %}
-
-* The **NTAuthCertificates** AD object defines CA certificates that enable authentication to AD. This object has an **objectClass** of **`certificationAuthority`** and the object’s **`cACertificate`** property defines an array of **trusted CA certificates**. AD-joined Windows machines propagate these CAs to the Intermediate Certification Authorities certificate store on each machine. **Client** applications can **authenticate** to AD using a certificate only if one the **CAs defined by the NTAuthCertificates** object has **signed** the authenticating client’s certificate.
-* The **AIA** (Authority Information Access) container holds the AD objects of intermediate and cross CAs. **Intermediate CAs are “children” of root CAs** in the PKI tree hierarchy; as such, this container exists to aid in **validating certificate chains**. Like the Certification Authorities container, each **CA is represented as an AD object** in the AIA container where the objectClass attribute is set to certificationAuthority and the **`cACertificate`** property contains the **bytes** of the **CA’s certificate**. These CAs are propagated to the Intermediate Certification Authorities certificate store on each Windows machine.
-
-### Client Certificate Request Flow
+### क्लाइंट प्रमाण पत्र अनुरोध फ्लो
 
 <figure><img src="../../.gitbook/assets/image (5) (2) (2).png" alt=""><figcaption></figcaption></figure>
 
-It's the process to **obtain a certificate** from AD CS. At a high level, during enrolment clients first **find an Enterprise CA** based on the **objects in the Enrolment Services** container discussed above.
+यह AD CS से प्रमाण पत्र प्राप्त करने की प्रक्रिया है। उच्च स्तर पर, पंजीकरण के दौरान क्लाइंट पहले **एंटरप्राइज सीए ढूंढते हैं** जो पहले ही चर्चित पंजीकरण सेवाओं के **ऑब्जेक्ट्स पर आधारित होते हैं**।
 
-1. Clients then generate a **public-private key pair** and
-2. place the public key in a **certificate signing request (CSR)** message along with other details such as the subject of the certificate and the **certificate template name**. Clients then **sign the CSR with their private key** and send the CSR to an Enterprise CA server.
-3. The **CA** server checks if the client **can request certificates**. If so, it determines if it will issue a certificate by looking up the **certificate template** AD object specified in the CSR. The CA will check if the certificate template AD object’s **permissions allow** the authenticating account to **obtain a certificate**.
-4. If so, the **CA generates a certificate** using the “blueprint” settings defined by the **certificate template** (e.g., EKUs, cryptography settings, and issuance requirements) and using the other information supplied in the CSR if allowed by the certificate’s template settings. The **CA signs the certificate** using its private key and then returns it to the client.
+1. फिर क्लाइंट एक **सार्वजनिक-निजी कुंजी जोड़ी** उत्पन्न करते हैं और
+2. प्रमाण पत्र के विषय और **प्रमाण पत्र टेम्पलेट नाम** जैसी अन्य विवरणों के साथ एक **प्रमाण पत्र साइनिंग अनुरोध (CSR)** संदेश में सार्वजनिक कुंजी रखते हैं। फिर क्लाइंट अपनी निजी कुंजी के साथ CSR को **साइन करते हैं** और CSR को एक एंटरप्राइज सीए सर्वर को भेजते हैं।
+3. **सीए** सर्वर यह जांचता है कि क्लाइंट **प्रमाण पत्र अनुरोध कर सकता है** या नहीं। यदि हां, तो यह निर्धारित करता है कि क्या वह प्रमाण पत्र जारी करेगा या नहीं, जिसे CSR में निर्दिष्ट किया गया है। सीए यह जांचेगा कि क्या प्रमाण पत्र टेम्पलेट एडी ऑब्जेक्ट की **अनुमतियाँ** प्रमाणित करती हैं कि प्रमाणित करने वाले खाते को **प्रमाण पत्र प्राप्त करने की अनुमति है** या नहीं।
+4. यदि हां, तो **सीए प्रमाण पत्र उत्पन्न** करता है जो प्रमाण पत्र टेम्पलेट (जैसे EKUs, गणितीय सेटिंग्स और जारी करने की आवश्यकताएं) द्वारा परिभाषित "नक़्शा" सेटिंग्स का उपयोग करते हुए और यदि प्रमाण पत्र के टेम्पलेट सेटिंग्स द्वारा अनुमति है, तो CSR में दिए गए अन्य जानकारी का उपयोग करते हुए प्रमाण पत्र को **साइन करता है**। सीए अपनी निजी कुंजी का उपयोग करके प्रमाण पत्र को साइन करता है और फिर इसे क्लाइंट को वापस भेजता है।
 
-### Certificate Templates
+### प्रमाण पत्र टेम्पलेट
 
-AD CS stores available certificate templates as AD objects with an **objectClass** of **`pKICertificateTemplate`** located in the following container:
+AD CS प्रमाण पत्र टेम्पलेट को AD ऑब्जेक्ट्स के रूप में संग्रहीत करता है जिनका **objectClass** **`pKICertificateTemplate`** होता है और निम्नलिखित कंटेनर में स्थित होता है:
 
 `CN=Certificate Templates,CN=Public Key Services,CN=Services,CN=Configuration,DC=<domain>,DC=<com>`
 
-An AD certificate template object’s attributes **define its settings, and its security descriptor controls** what **principals can enrol** in the certificate or **edit** the certificate template.
+एडी प्रमाण पत्र टेम्पलेट ऑब्जेक्ट की विशेषताएं **इसकी सेटिंग्स को परिभाषित करती हैं, और इसकी सुरक्षा विवरणावली नियंत्रित करती है** कि कौन से **प्रमुख उम्मीदवार प्रमाण पत्र के लिए पंजीकरण कर सकते हैं** या प्रमाण पत्र को **संपादित** कर सकते हैं।
 
-The **`pKIExtendedKeyUsage`** attribute on an AD certificate template object contains an **array of OIDs** enabled in the template. These EKU OIDs affect **what the certificate can be used for.** You can find a [list of possible OIDs here](https://www.pkisolutions.com/object-identifiers-oid-in-pki/).
+एडी प्रमाण पत्र टेम्पलेट ऑब्जेक्ट पर **`pKIExtendedKeyUsage`** विशेषता में एक **OID का एक एरे** होता है जो टेम्पलेट में सक्षम होते हैं। ये EKU OIDs प्रमाण पत्र के उपयोग के लिए **क्या किया जा सकता है** पर प्रभाव डालते हैं। आप यहां [संभावित OIDs की सूची पा सकते हैं](https://www.pkisolutions.com/object-identifiers-oid-in-pki/)।
 
-#### Authentication OIDs
+#### प्रमाणीकरण OIDs
 
-* `1.3.6.1.5.5.7.3.2`: Client Authentication
-* `1.3.6.1.5.2.3.4`: PKINIT Client Authentication (needed to be added manually)
-* `1.3.6.1.4.1.311.20.2.2`: Smart Card Logon
-* `2.5.29.37.0`: Any purpose
-* `(no EKUs)`: SubCA
-* An additional EKU OID that we found we could abuse is the Certificate Request Agent OID (`1.3.6.1.4.1.311.20.2.1`). Certificates with this OID can be used to **request certificates on behalf of another user** unless specific restrictions are put in place.
+* `1.3.6.1.5.5.7.3.2`: क्लाइंट प्रमाणीकरण
+* `1.3.6.1.5.2.3.4`: PKINIT क्लाइंट प्रमाणीकरण (म
+### जारी करने की आवश्यकताएं
 
-## Certificate Enrolment
+प्रमाणपत्र प्राप्त करने के लिए कैसे नियंत्रण किए जा सकते हैं, इसके लिए अन्य आवश्यकताएं हो सकती हैं।
 
-An admin needs to **create the certificate** template and then an **Enterprise CA “publishes”** the template, making it available to clients to enrol in. AD CS specifies that a certificate template is enabled on an Enterprise CA by **adding the template’s name to the `certificatetemplates` field** of the AD object.
+#### प्रबंधक स्वीकृति
 
-<figure><img src="../../.gitbook/assets/image (11) (2) (1).png" alt=""><figcaption></figcaption></figure>
-
-{% hint style="warning" %}
-AD CS defines enrolment rights - which **principals can request** a certificate – using two security descriptors: one on the **certificate template** AD object and another on the **Enterprise CA itself**.\
-A client needs to be granted in both security descriptors in order to be able to request a certificate.
-{% endhint %}
-
-### Certificate Templates Enrolment Rights
-
-* **The ACE grants a principal the Certificate-Enrollment extended right**. The raw ACE grants principal the `RIGHT_DS_CONTROL_ACCESS45` access right where the **ObjectType** is set to `0e10c968-78fb-11d2-90d4-00c04f79dc5547`. This GUID corresponds with the **Certificate-Enrolment** extended right.
-* **The ACE grants a principal the Certificate-AutoEnrollment extended right**. The raw ACE grants principal the `RIGHT_DS_CONTROL_ACCESS48` access right where the **ObjectType** is set `to a05b8cc2-17bc-4802-a710-e7c15ab866a249`. This GUID corresponds with the **Certificate-AutoEnrollment** extended right.
-* **An ACE grants a principal all ExtendedRights**. The raw ACE enables the `RIGHT_DS_CONTROL_ACCESS` access right where the **ObjectType** is set to `00000000-0000-0000-0000-000000000000`. This GUID corresponds with **all extended rights**.
-* **An ACE grants a principal FullControl/GenericAll**. The raw ACE enables the FullControl/GenericAll access right.
-
-### Enterprise CA Enrolment Rights
-
-The **security descriptor** configured on the **Enterprise CA** defines these rights and is **viewable** in the Certificate Authority MMC snap-in `certsrv.msc` by right clicking on the CA → Properties → Security.
-
-<figure><img src="../../.gitbook/assets/image (7) (1) (2) (1).png" alt=""><figcaption></figcaption></figure>
-
-This ultimately ends up setting the Security registry value in the key **`HKLM\SYSTEM\CurrentControlSet\Services\CertSvc\Configuration<CA NAME>`** on the CA server. We have encountered several AD CS servers that grant low-privileged users remote access to this key via remote registry:
-
-<figure><img src="../../.gitbook/assets/image (6) (2) (1).png" alt=""><figcaption></figcaption></figure>
-
-Low-privileged users can also **enumerate this via DCOM** using the `ICertAdminD2` COM interface’s `GetCASecurity` method. However, normal Windows clients need to install the Remote Server Administration Tools (RSAT) to use it since the COM interface and any COM objects that implement it are not present on Windows by default.
-
-### Issuance Requirements
-
-Other requirements could be in place to control who can get a certificate.
-
-#### Manager Approval
-
-**CA certificate manager approval** results in the certificate template setting the `CT_FLAG_PEND_ALL_REQUESTS` (0x2) bit on the AD object’s `msPKI-EnrollmentFlag` attribute. This puts all **certificate requests** based on the template into the **pending state** (visible in the “Pending Requests” section in `certsrv.msc`), which requires a certificate manager to **approve or deny** the request before the certificate is issued:
+**CA प्रमाणपत्र प्रबंधक स्वीकृति** प्रमाणपत्र टेम्पलेट को सेट करती है जिससे AD ऑब्जेक्ट के `msPKI-EnrollmentFlag` एट्रिब्यूट पर `CT_FLAG_PEND_ALL_REQUESTS` (0x2) बिट आता है। इससे टेम्पलेट पर आधारित सभी **प्रमाणपत्र अनुरोध** को **पेंडिंग स्थिति** में रख दिया जाता है (जो `certsrv.msc` में "पेंडिंग अनुरोध" खंड में दिखाई देता है) जिससे प्रमाणपत्र प्रबंधक को अनुरोध को **स्वीकृति या अस्वीकृति** करने की आवश्यकता होती है:
 
 <figure><img src="../../.gitbook/assets/image (13) (2).png" alt=""><figcaption></figcaption></figure>
 
-#### Enrolment Agents, Authorized Signatures, and Application Policies
+#### नामांकन एजेंट, अधिकृत हस्ताक्षर और आवेदन नीतियाँ
 
-**This number of authorized signatures** and the **Application policy**. The former controls the **number of signatures required** in the CSR for the CA to accept it. The latter defines the **EKU OIDs that the CSR signing certificate must have**.
+**अधिकृत हस्ताक्षरों की संख्या** और **आवेदन नीति**। पहला निर्धारित करता है कि CA इसे स्वीकार करने के लिए CSR में **हस्ताक्षरों की संख्या** को निर्धारित करता है। दूसरा निर्धारित करता है कि CSR साइन करने वाले प्रमाणपत्र में होने चाहिए **EKU OIDs** को।
 
-A common use for these settings is for **enrolment agents**. An enrolment agent is an AD CS term given to an entity that can **request certificates on behalf of another user**. To do so, the CA must issue the enrolment agent account a certificate containing at least the **Certificate Request Agent EKU** (OID 1.3.6.1.4.1.311.20.2.1). Once issued, the enrolment agent can then **sign CSRs and request certificates on behalf of other users**. The CA will **issue** the enrolment agent a **certificate** as **another user** only under the following non-comprehensive set of **conditions** (implemented primarily in default policy module `certpdef.dll`):
+इन सेटिंग्स का एक सामान्य उपयोग **नामांकन एजेंटों** के लिए होता है। नामांकन एजेंट एक AD CS शब्द है जिसे एक ऐसे संगठन को दिया जाता है जो दूसरे उपयोगकर्ता के लिए प्रमाणपत्र का अनुरोध कर सकता है। इसके लिए, CA को नामांकन एजेंट खाते को कम से कम **प्रमाणपत्र अनुरोध एजेंट EKU** (OID 1.3.6.1.4.1.311.20.2.1) को समेत करने वाला प्रमाणपत्र जारी करना होगा। जैसे ही जारी हो जाता है, नामांकन एजेंट दूसरे उपयोगकर्ताओं के लिए CSR को साइन कर सकता है और प्रमाणपत्र का अनुरोध कर सकता है। CA केवल निम्नलिखित गैर-सम्पूर्ण सेट के शर्तों के तहत नामांकन एजेंट को प्रमाणपत्र के रूप में एक और उपयोगकर्ता के रूप में जारी करेगा (मुख्य रूप से डिफ़ॉल्ट नीति मॉड्यूल `certpdef.dll` में लागू की गई है):
 
-* The Windows user authenticating to the CA has enrolment rights to the target certificate template.
-* If the certificate template’s schema version is 1, the CA will require signing certificates to have the Certificate Request Agent OID before issuing the certificate. The template’s schema version is the specified in its AD object’s msPKI-Template-Schema-Version property.
-* If the certificate template’s schema version is 2:
-  * The template must set the “This number of authorized signatures” setting and the specified number of enrolment agents must sign the CSR (the template’s mspkira-signature AD attribute defines this setting). In other words, this setting specifies how many enrollment agents must sign a CSR before the CA even considers issuing a certificate.
-  * The template’s “Application policy” issuance restriction must be set to “Certificate Request Agent”.
+* CA को लक्ष्य प्रमाणपत्र टेम्पलेट के लिए नामांकन अधिकार होने वाले Windows उपयोगकर्ता को प्रमाणित करने के लिए।
+* यदि प्रमाणपत्र टेम्पलेट का स्कीमा संस्करण 1 है, तो CA को प्रमाणपत्र जारी करने से पहले प्रमाणपत्र साइन करने वाले प्रमाणपत्र में प्रमाणपत्र अनुरोध एजेंट OID होना चाहिए। टेम्पलेट का स्कीमा संस्करण उसके AD ऑब्जेक्ट के msPKI-Template-Schema-Version प्रॉपर्टी में निर्दिष्ट किया जाता है।
+* यदि प्रमाणपत्र टेम्पलेट का स्कीमा संस्करण 2 है:
+* टेम्पलेट को "इस अधिकृत हस्ताक्षरों की संख्या" सेट करनी होगी और निर्दिष्ट संख्या के नामांकन एजेंटों को CSR पर हस्ताक्षर करने होंगे (टेम्पलेट के mspkira-signature AD एट्रिब्यूट ने इस सेटिंग को परिभाषित किया है)। दूसरे शब्दों में, यह सेटिंग निर्धारित करती है कि CA को प्रमाणपत्र जारी करने से पहले कितने नामांकन एजेंटों को CSR पर हस्ताक्षर करने होंगे।
+* टेम्पलेट की "आवेदन नीति" जारी करने की प्रतिबंधन निर्धारित करनी होगी "प्रमाणपत्र अनुरोध एजेंट" के रूप में।
 
-### Request Certificates
+### प्रमाणपत्र अनुरोध
 
-1. Using the Windows **Client Certificate Enrolment Protocol** (MS-WCCE), a set of Distributed Component Object Model (DCOM) interfaces that interact with various AD CS features including enrolment. The **DCOM server is enabled on all AD CS servers by default** and is the most common method by which we have seen clients request certificates.
-2. Via the **ICertPassage Remote Protocol** (MS-ICPR), a **remote procedure call** (RPC) protocol can operate over named pipes or TCP/IP.
-3. Accessing the **certificate enrolment web interface**. To use this, the ADCS server needs to have the **Certificate Authority Web Enrolment role installed**. Once enabled, a user can navigate to the IIS-hosted ASP web enrolment application running at `http:///certsrv/`.
-   * `certipy req -ca 'corp-DC-CA' -username john@corp.local -password Passw0rd -web -debug`
-4. Interacting with a **certificate enrolment service** (CES). To use this, a server needs to have the **Certificate Enrolment Web Service role installed**. Once enabled, a user can access the web service at `https:///_CES_Kerberos/service.svc` to request certificates. This service works in tandem with a certificate enrolment policy (CEP) service (installed via the Certificate Enrolment Policy Web Service role), which clients use to **list certificate templates** at the URL `https:///ADPolicyProvider_CEP_Kerberos/service.svc`. Underneath, the certificate enrolment and policy web services implement MS-WSTEP and MS-XCEP, respectively (two SOAP-based protocols).
-5. Using the **network device enrolment service**. To use this, a server needs to have the **Network Device Enrolment Service role installed**, which allows clients (namely network devices) to obtain certificates via the **Simple Certificate Enrolment Protocol** (SCEP). Once enabled, an administrator can obtain a one-time password (OTP) from the URL `http:///CertSrv/mscep_admin/`. The administrator can then provide the OTP to a network device and the device will use the SCEP to request a certificate using the URL `http://NDESSERVER/CertSrv/mscep/`.
+1. Windows **Client Certificate Enrolment Protocol** (MS-WCCE) का उपयोग करके, जो विभिन्न AD CS सुविधाओं के साथ संवाद करने वाले वितरित संघटन
+### सुरक्षित चैनल (Schannel) प्रमाणीकरण
 
-On a Windows machine, users can request certificates using a GUI by launching `certmgr.msc` (for user certificates) or `certlm.msc` (for computer certificates), expanding the Personal certificate `store → right clicking Certificates → All Tasks → Request New Certificate`.
-
-One can also use the built-in **`certreq.exe`** command or PowerShell’s **`Get-Certificate`** command for certificate enrolment.
-
-## Certificate Authentication
-
-AD supports certificate authentication over **two protocols** by default: **Kerberos** and **Secure Channel** (Schannel).
-
-### Kerberos Authentication and the NTAuthCertificates Container
-
-In summary, a user will **sign** the authenticator for a **TGT request** using the **private key** of their certificate and submit this request to a **domain controller**. The domain controller performs a number of **verification** steps and **issues a TGT** if everything **passes**.
-
-Or, more detailed:
-
-> The **KDC** **validates** the **user's certificate** (time, path, and revocation status) to ensure that the certificate is from a trusted source. The KDC uses CryptoAPI to build a **certification path** from the user's certificate to a **root certification authority** (CA) certificate that resides in the **root store** on the domain controller. The KDC then uses CryptoAPI to verify the **digital signature** on the signed authenticator that was included in the preauthentication data fields. The domain controller verifies the signature and uses the public key from the user's certificate to prove that the request originated from the owner of the private key that corresponds to the public key. **The KDC also verifies that the issuer is trusted and appears in the NTAUTH certificate store.**
-
-The “NTAUTH certificate store” mentioned here refers to an AD object AD CS installs at the following location:
-
-`CN=NTAuthCertificates,CN=Public Key Services,CN=Services,CN=Configuration,DC=<domain>,DC=<com>`
-
-> By publishing the **CA certificate to the Enterprise NTAuth store**, the Administrator indicates that the **CA is trusted** to issue certificates of these types. Windows CAs automatically publish their CA certificates to this store.
-
-This means that when **AD CS creates a new CA** (or it renews CA certificates), it publishes the new certificate to the **`NTAuthCertificates`** object by adding the new certificate to the object’s `cacertificate` attribute:
-
-<figure><img src="../../.gitbook/assets/image (9) (2).png" alt=""><figcaption></figcaption></figure>
-
-During certificate authentication, the DC can then verify that the authenticating certificate chains to a CA certificate defined by the **`NTAuthCertificates`** object. CA certificates in the **`NTAuthCertificates`** object must in turn chain to a root CA. The big takeaway here is the **`NTAuthCertificates`** object is the root of trust for certificate authentication in Active Directory!
-
-### Secure Channel (Schannel) Authentication
-
-Schannel is the security support provider (SSP) Windows leverages when establishing TLS/SSL connections. Schannel supports **client authentication** (amongst many other capabilities), enabling a remote server to **verify the identity of the connecting user**. It accomplishes this using PKI, with certificates being the primary credential.\
-During the **TLS handshake**, the server **requests a certificate from the client** for authentication. The client, having previously been issued a client authentication certificate from a CA the server trusts, sends its certificate to the server. The **server then validates** the certificate is correct and grants the user access assuming everything is okay.
+Schannel एक सुरक्षा समर्थन प्रदाता (SSP) है जिसे Windows TLS/SSL कनेक्शन स्थापित करते समय उपयोग करता है। Schannel **क्लाइंट प्रमाणीकरण** (अन्य क्षमताओं के बीच) का समर्थन करता है, जिससे एक दूरस्थ सर्वर को **जुड़ते उपयोगकर्ता की पहचान सत्यापित** करने की सुविधा मिलती है। यह प्रमाणीकरण प्रमाण के रूप में प्रमुखता प्रमाण पत्रों का उपयोग करके PKI का उपयोग करके इसे प्राप्त करता है।\
+**TLS हैंडशेक** के दौरान, सर्वर **प्रमाण पत्र का अनुरोध करता है** उपयोगकर्ता की प्रमाणीकरण के लिए। पहले से ही सर्वर द्वारा विश्वसनीयता प्रमाण पत्र प्रदान किए जाने के बाद, क्लाइंट अपना प्रमाण पत्र सर्वर को भेजता है। सर्वर फिर प्रमाण पत्र को सत्यापित करता है कि यह सही है और सब कुछ ठीक होने की स्थिति में उपयोगकर्ता को पहुंच प्रदान करता है।
 
 <figure><img src="../../.gitbook/assets/image (8) (2) (1).png" alt=""><figcaption></figcaption></figure>
 
-When an account authenticates to AD using a certificate, the DC needs to somehow map the certificate credential to an AD account. **Schannel** first attempts to **map** the **credential** to a **user** account use Kerberos’s **S4U2Self** functionality.\
-If that is **unsuccessful**, it will follow the attempt to map the **certificate to a user** account using the certificate’s **SAN extension**, a combination of the **subject** and **issuer** fields, or solely from the issuer. By default, not many protocols in AD environments support AD authentication via Schannel out of the box. WinRM, RDP, and IIS all support client authentication using Schannel, but it **requires additional configuration**, and in some cases – like WinRM – does not integrate with Active Directory.\
-One protocol that does commonly work – assuming AD CS has been setup - is **LDAPS**. The cmdlet `Get-LdapCurrentUser` demonstrates how one can authenticate to LDAP using .NET libraries. The cmdlet performs an LDAP “Who am I?” extended operation to display the currently authenticating user:
+जब एक खाता प्रमाणीकरण पत्र का उपयोग करके AD में प्रमाणित होता है, तो DC को किसी तरह से प्रमाण पत्र प्रमाण को AD खाते से मैप करने की आवश्यकता होती है। **Schannel** पहले **Kerberos के S4U2Self** कार्यक्षमता का उपयोग करके **प्रमाण पत्र** को **उपयोगकर्ता** खाते से मैप करने का प्रयास करता है।\
+यदि यह **सफल नहीं होता** है, तो यह **प्रमाण पत्र को उपयोगकर्ता** खाते से मैप करने का प्रयास करेगा, प्रमाण पत्र के **SAN एक्सटेंशन**, विषय और जारीकर्ता क्षेत्रों का संयोजन, या केवल जारीकर्ता से। डिफ़ॉल्ट रूप से, AD परिवेशों में कई प्रोटोकॉल Schannel का समर्थन करके AD प्रमाणीकरण का समर्थन नहीं करते हैं। WinRM, RDP, और IIS सभी Schannel का उपयोग करके क्लाइंट प्रमाणीकरण का समर्थन करते हैं, लेकिन इसके लिए **अतिरिक्त कॉन्फ़िगरेशन की आवश्यकता होती है**, और कुछ मामलों में - जैसे WinRM - सक्रिय निर्देशिका के साथ एकीकरण नहीं करता है।\
+एक प्रोटोकॉल जो आमतौर पर काम करता है - माना जाता है कि AD CS सेटअप किया गया है - है **LDAPS**। कमांडलाइन उपकरण `Get-LdapCurrentUser` दिखाता है कि कैसे .NET पुस्तकालयों का उपयोग करके LDAP में प्रमाणित होने के लिए प्रमाणित हो सकता है। यह कमांडलाइन उपकरण वर्तमान में प्रमाणित हो रहे उपयोगकर्ता को प्रदर्शित करने के लिए LDAP "मैं कौन हूँ?" विस्तारित प्रक्रिया का निष्पादन करता है:
 
 <figure><img src="../../.gitbook/assets/image (2) (4).png" alt=""><figcaption></figcaption></figure>
 
-## AD CS Enumeration
+## AD CS जाँच
 
-Just like for most of AD, all the information covered so far is available by querying LDAP as a domain authenticated, but otherwise unprivileged, user.
+AD के लिए जैसे ही, अब तक शामिल सभी जानकारी को डोमेन प्रमाणित, लेकिन अनुप्रयोगित उपयोगकर्ता के रूप में LDAP क्वेरी करके उपलब्ध किया जा सकता है।
 
-If we want to **enumerate Enterprise CAs** and their settings, one can query LDAP using the `(objectCategory=pKIEnrollmentService)` LDAP filter on the `CN=Configuration,DC=<domain>,DC=<com>` search base (this search base corresponds with the Configuration naming context of the AD forest). The results will identify the DNS hostname of the CA server, the CA name itself, the certificate start and end dates, various flags, published certificate templates, and more.
+यदि हम **एंटरप्राइज CAs** और उनकी सेटिंग्स की जाँच करना चाहते हैं, तो हम `CN=Configuration,DC=<domain>,DC=<com>` खोज आधार पर `(objectCategory=pKIEnrollmentService)` LDAP फ़िल्टर का उपयोग करके LDAP क्वेरी कर सकते हैं (यह खोज आधार AD वनस्पति के विन्यास नामांकन संदर्भ से मेल खाता है)। परिणामों में CA सर्वर के DNS होस्टनाम, CA नाम इसी तरह प्रमाण पत्र प्रारंभ और समाप्ति तिथियाँ, विभिन्न ध्वज, प्रकाशित प्रमाण पत्र टेम्पलेट, और अधिक शामिल होंगे।
 
-**Tools to enumerate vulnerable certificates:**
+**विकल्पी उपकरण जो विकल्पी प्रमाण पत्रों की जाँच कर सकते हैं:**
 
-* [**Certify**](https://github.com/GhostPack/Certify) is a C# tool that can **enumerate useful configuration and infrastructure information about of AD CS environments** and can request certificates in a variety of different ways.
-* [**Certipy**](https://github.com/ly4k/Certipy) is a **python** tool to be able to **enumerate and abuse** Active Directory Certificate Services (**AD CS**) **from any system** (with access to the DC) that can generate output for BloodHound created by [**Lyak**](https://twitter.com/ly4k\_) (good person better hacker) .
-
+* [**Certify**](https://github.com/GhostPack/Certify) एक C# उपकरण है जो **AD CS पर्यावरण के बारे में उपयोगी विन्यास और अवयव सूचना की जाँच कर सकता है** और विभिन्न तरीकों से प्रमाण पत्र अनुरोध कर सकता है।
+* [**Certipy**](https://github.com/ly4k/Certipy) एक **python** उपकरण है जो किसी भी सिस्टम से (DC तक पहुंच वाले) **Active Directory Certificate Services (AD CS)** की **जाँच और दुरुपयोग** करने के लिए सक्षम है जो BloodHound के लिए उत्पन्न कर सकता है जिसे [**Lyak**](https://twitter.com/ly4k\_) ने बनाया है (अच्छा व्यक्ति बेहतर हैकर)।
 ```bash
 # https://github.com/GhostPack/Certify
 Certify.exe cas #enumerate trusted root CA certificates, certificates defined by the NTAuthCertificates object, and various information about Enterprise CAs
@@ -213,8 +120,7 @@ certipy find -vulnerable [-hide-admins] -u john@corp.local -p Passw0rd -dc-ip 17
 certutil.exe -TCAInfo #enumerate Enterprise CAs
 certutil -v -dstemplate #enumerate certificate templates
 ```
-
-## References
+## संदर्भ
 
 * [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)
 * [https://comodosslstore.com/blog/what-is-ssl-tls-client-authentication-how-does-it-work.html](https://comodosslstore.com/blog/what-is-ssl-tls-client-authentication-how-does-it-work.html)
@@ -223,10 +129,10 @@ certutil -v -dstemplate #enumerate certificate templates
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करने की आवश्यकता है? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष [**NFT**](https://opensea.io/collection/the-peass-family) संग्रह!
+* प्राप्त करें [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या मुझे **Twitter** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **अपने हैकिंग ट्रिक्स साझा करें और PRs सबमिट करें** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **को**।
 
 </details>

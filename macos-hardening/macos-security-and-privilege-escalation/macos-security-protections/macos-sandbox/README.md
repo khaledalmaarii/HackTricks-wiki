@@ -1,34 +1,33 @@
-# macOS Sandbox
+# macOS सैंडबॉक्स
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS की नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करना चाहिए? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष [**NFT**](https://opensea.io/collection/the-peass-family) संग्रह,
+* प्राप्त करें [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में या मुझे **Twitter** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **अपने हैकिंग ट्रिक्स साझा करें और PRs सबमिट करें** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **को**
 
 </details>
 
-## Basic Information
+## मूलभूत जानकारी
 
-MacOS Sandbox (initially called Seatbelt) **limits applications** running inside the sandbox to the **allowed actions specified in the Sandbox profile** the app is running with. This helps to ensure that **the application will be accessing only expected resources**.
+MacOS सैंडबॉक्स (पहले सीटबेल्ट कहलाया) **सैंडबॉक्स प्रोफ़ाइल में निर्दिष्ट अनुमतियों के अनुसार सैंडबॉक्स के भीतर चल रहे अनुप्रयोगों को सीमित करता है**। इससे सुनिश्चित होता है कि **अनुप्रयोग केवल उम्मीदित संसाधनों तक ही पहुंचेगा**।
 
-Any app with the **entitlement** **`com.apple.security.app-sandbox`** will be executed inside the sandbox. **Apple binaries** are usually executed inside a Sandbox and in order to publish inside the **App Store**, **this entitlement is mandatory**. So most applications will be executed inside the sandbox.
+**`com.apple.security.app-sandbox`** इंटाइटलमेंट वाले किसी भी ऐप को सैंडबॉक्स के भीतर चलाया जाएगा। **Apple बाइनरी** आमतौर पर सैंडबॉक्स के भीतर चलाए जाते हैं और **ऐप स्टोर** में प्रकाशित करने के लिए **यह इंटाइटलमेंट अनिवार्य है**। इसलिए अधिकांश अनुप्रयोग सैंडबॉक्स के भीतर चलाए जाएंगे।
 
-In order to control what a process can or cannot do the **Sandbox has hooks** in all **syscalls** across the kernel. **Depending** on the **entitlements** of the app the Sandbox will **allow** certain actions.
+प्रक्रिया को क्या करने या क्या नहीं करने के लिए नियंत्रित करने के लिए सैंडबॉक्स में **हुक्स** होते हैं। सैंडबॉक्स के भीतर के सभी **सिसकॉल्स** पर हुक्स होते हैं। ऐप की इंटाइटलमेंट के आधार पर सैंडबॉक्स कुछ कार्रवाईयों की अनुमति देगा।
 
-Some important components of the Sandbox are:
+सैंडबॉक्स के कुछ महत्वपूर्ण घटक हैं:
 
-* The **kernel extension** `/System/Library/Extensions/Sandbox.kext`
-* The **private framework** `/System/Library/PrivateFrameworks/AppSandbox.framework`
-* A **daemon** running in userland `/usr/libexec/sandboxd`
-* The **containers** `~/Library/Containers`
+* **कर्नल एक्सटेंशन** `/System/Library/Extensions/Sandbox.kext`
+* **निजी फ्रेमवर्क** `/System/Library/PrivateFrameworks/AppSandbox.framework`
+* **उपयोगकर्ता भूमि में चल रहा डेमन** `/usr/libexec/sandboxd`
+* **कंटेनर्स** `~/Library/Containers`
 
-Inside the containers folder you can find **a folder for each app executed sandboxed** with the name of the bundle id:
-
+कंटेनर्स फ़ोल्डर के भीतर आपको **हर सैंडबॉक्स में चल रहे ऐप के लिए एक फ़ोल्डर** मिलेगा जिसका नाम बंडल आईडी होगा:
 ```bash
 ls -l ~/Library/Containers
 total 0
@@ -39,9 +38,7 @@ drwx------@ 4 username  staff  128 Mar 25 14:14 com.apple.Accessibility-Settings
 drwx------@ 4 username  staff  128 Mar 25 14:10 com.apple.ActionKit.BundledIntentHandler
 [...]
 ```
-
-Inside each bundle id folder you can find the **plist** and the **Data directory** of the App:
-
+प्रत्येक बंडल आईडी फ़ोल्डर के अंदर आप ऐप की **प्लिस्ट** और **डेटा निर्देशिका** पाएंगे:
 ```bash
 cd /Users/username/Library/Containers/com.apple.Safari
 ls -la
@@ -64,11 +61,9 @@ lrwxr-xr-x   1 username  staff    20 Mar 24 18:02 Pictures -> ../../../../Pictur
 drwx------   2 username  staff    64 Mar 24 18:02 SystemData
 drwx------   2 username  staff    64 Mar 24 18:02 tmp
 ```
-
 {% hint style="danger" %}
-Note that even if the symlinks are there to "escape" from the Sandbox and access other folders, the App still needs to **have permissions** to access them. These permissions are inside the **`.plist`**.
+ध्यान दें कि हालांकि सिमलिंक्स संदूकची से "बाहर निकलने" और अन्य फ़ोल्डरों तक पहुंचने के लिए मौजूद हो सकते हैं, लेकिन ऐप को उन फ़ोल्डरों तक पहुंचने की **अनुमति** होनी चाहिए। ये अनुमतियाँ **`.plist`** में होती हैं।
 {% endhint %}
-
 ```bash
 # Get permissions
 plutil -convert xml1 .com.apple.containermanagerd.metadata.plist -o -
@@ -77,52 +72,50 @@ plutil -convert xml1 .com.apple.containermanagerd.metadata.plist -o -
 <key>SandboxProfileData</key>
 <data>
 AAAhAboBAAAAAAgAAABZAO4B5AHjBMkEQAUPBSsGPwsgASABHgEgASABHwEf...
-		
+
 # In this file you can find the entitlements:
 <key>Entitlements</key>
-	<dict>
-		<key>com.apple.MobileAsset.PhishingImageClassifier2</key>
-		<true/>
-		<key>com.apple.accounts.appleaccount.fullaccess</key>
-		<true/>
-		<key>com.apple.appattest.spi</key>
-		<true/>
-		<key>keychain-access-groups</key>
-		<array>
-			<string>6N38VWS5BX.ru.keepcoder.Telegram</string>
-			<string>6N38VWS5BX.ru.keepcoder.TelegramShare</string>
-		</array>
+<dict>
+<key>com.apple.MobileAsset.PhishingImageClassifier2</key>
+<true/>
+<key>com.apple.accounts.appleaccount.fullaccess</key>
+<true/>
+<key>com.apple.appattest.spi</key>
+<true/>
+<key>keychain-access-groups</key>
+<array>
+<string>6N38VWS5BX.ru.keepcoder.Telegram</string>
+<string>6N38VWS5BX.ru.keepcoder.TelegramShare</string>
+</array>
 [...]
 
 # Some parameters
 <key>Parameters</key>
-	<dict>
-		<key>_HOME</key>
-		<string>/Users/username</string>
-		<key>_UID</key>
-		<string>501</string>
-		<key>_USER</key>
-		<string>username</string>
+<dict>
+<key>_HOME</key>
+<string>/Users/username</string>
+<key>_UID</key>
+<string>501</string>
+<key>_USER</key>
+<string>username</string>
 [...]
 
 # The paths it can access
 <key>RedirectablePaths</key>
-	<array>
-		<string>/Users/username/Downloads</string>
-		<string>/Users/username/Documents</string>
-		<string>/Users/username/Library/Calendars</string>
-		<string>/Users/username/Desktop</string>
+<array>
+<string>/Users/username/Downloads</string>
+<string>/Users/username/Documents</string>
+<string>/Users/username/Library/Calendars</string>
+<string>/Users/username/Desktop</string>
 <key>RedirectedPaths</key>
-	<array/>
+<array/>
 [...]
 ```
+### सैंडबॉक्स प्रोफाइल
 
-### Sandbox Profiles
+सैंडबॉक्स प्रोफाइल कॉन्फ़िगरेशन फ़ाइल होती हैं जो बताती है कि सैंडबॉक्स में क्या **अनुमति दी जाएगी / मना की जाएगी**। इसमें सैंडबॉक्स प्रोफाइल भाषा (SBPL) का उपयोग होता है, जो [**स्कीम**](https://en.wikipedia.org/wiki/Scheme\_\(programming\_language\)) प्रोग्रामिंग भाषा का उपयोग करती है।
 
-The Sandbox profiles are configuration files that indicates what is going to be **allowed/forbidden** in that **Sandbox**. It uses the **Sandbox Profile Language (SBPL)**, which uses the [**Scheme**](https://en.wikipedia.org/wiki/Scheme\_\(programming\_language\)) programming language.
-
-Here you can find an example:
-
+यहां आप एक उदाहरण ढूंढ सकते हैं:
 ```scheme
 (version 1) ; First you get the version
 
@@ -131,48 +124,44 @@ Here you can find an example:
 (allow network*) ; You can use wildcards and allow everything
 
 (allow file-read* ; You can specify where to apply the rule
-    (subpath "/Users/username/")
-    (literal "/tmp/afile")
-    (regex #"^/private/etc/.*")
+(subpath "/Users/username/")
+(literal "/tmp/afile")
+(regex #"^/private/etc/.*")
 )
 
 (allow mach-lookup
-    (global-name "com.apple.analyticsd")
+(global-name "com.apple.analyticsd")
 )
 ```
-
 {% hint style="success" %}
-Check this [**research**](https://reverse.put.as/2011/09/14/apple-sandbox-guide-v1-0/) **to check more actions that could be allowed or denied.**
+अधिक क्रियाएँ जो अनुमति दी जा सकती हैं या नहीं दी जा सकती हैं की जांच के लिए इस [**शोध**](https://reverse.put.as/2011/09/14/apple-sandbox-guide-v1-0/) को देखें।
 {% endhint %}
 
-Important **system services** also run inside their own custom **sandbox** such as the `mdnsresponder` service. You can view these custom **sandbox profiles** inside:
+महत्वपूर्ण **सिस्टम सेवाएं** भी अपने खुद के विशेष **सैंडबॉक्स** में चलती हैं, जैसे `mdnsresponder` सेवा। आप इन विशेष **सैंडबॉक्स प्रोफाइल** को निम्नलिखित जगहों पर देख सकते हैं:
 
 * **`/usr/share/sandbox`**
 * **`/System/Library/Sandbox/Profiles`**&#x20;
-* Other sandbox profiles can be checked in [https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles](https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles).
+* अन्य सैंडबॉक्स प्रोफाइल यहाँ देख सकते हैं [https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles](https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles).
 
-**App Store** apps use the **profile** **`/System/Library/Sandbox/Profiles/application.sb`**. You can check in this profile how entitlements such as **`com.apple.security.network.server`** allows a process to use the network.
+**ऐप स्टोर** ऐप्स **प्रोफाइल** **`/System/Library/Sandbox/Profiles/application.sb`** का उपयोग करते हैं। इस प्रोफाइल में आप देख सकते हैं कि **`com.apple.security.network.server`** जैसे entitlements एक प्रक्रिया को नेटवर्क का उपयोग करने की अनुमति देते हैं।
 
-SIP is a Sandbox profile called platform\_profile in /System/Library/Sandbox/rootless.conf
+SIP एक सैंडबॉक्स प्रोफाइल है जिसे platform\_profile कहा जाता है और यह /System/Library/Sandbox/rootless.conf में होता है।
 
-### Sandbox Profile Examples
+### सैंडबॉक्स प्रोफाइल उदाहरण
 
-To start an application with an **specific sandbox profile** you can use:
-
+एक **निश्चित सैंडबॉक्स प्रोफाइल** के साथ एक ऐप्लिकेशन को शुरू करने के लिए आप इस्तेमाल कर सकते हैं:
 ```bash
 sandbox-exec -f example.sb /Path/To/The/Application
 ```
-
 {% tabs %}
-{% tab title="touch" %}
-{% code title="touch.sb" %}
+{% tab title="स्पर्श" %}
+{% code title="स्पर्श.sb" %}
 ```scheme
 (version 1)
 (deny default)
 (allow file* (literal "/tmp/hacktricks.txt"))
 ```
 {% endcode %}
-
 ```bash
 # This will fail because default is denied, so it cannot execute touch
 sandbox-exec -f touch.sb touch /tmp/hacktricks.txt
@@ -185,7 +174,6 @@ log show --style syslog --predicate 'eventMessage contains[c] "sandbox"' --last 
 2023-05-26 13:42:52.701382+0200  localhost kernel[0]: (Sandbox) 5 duplicate reports for Sandbox: sandbox-exec(41398) deny(1) file-read-metadata /var
 [...]
 ```
-
 {% code title="touch2.sb" %}
 ```scheme
 (version 1)
@@ -200,8 +188,6 @@ log show --style syslog --predicate 'eventMessage contains[c] "sandbox"' --last 
 ; 2023-05-26 13:44:59.840050+0200  localhost kernel[0]: (Sandbox) Sandbox: touch(41575) deny(1) sysctl-read kern.bootargs
 ; 2023-05-26 13:44:59.840061+0200  localhost kernel[0]: (Sandbox) Sandbox: touch(41575) deny(1) file-read-data /
 ```
-{% endcode %}
-
 {% code title="touch3.sb" %}
 ```scheme
 (version 1)
@@ -216,71 +202,55 @@ log show --style syslog --predicate 'eventMessage contains[c] "sandbox"' --last 
 {% endtabs %}
 
 {% hint style="info" %}
-Note that the **Apple-authored** **software** that runs on **Windows** **doesn’t have additional security precautions**, such as application sandboxing.
+ध्यान दें कि **Windows पर चलने वाले Apple द्वारा लिखित सॉफ़्टवेयर** में ऐप्लिकेशन सैंडबॉक्सिंग जैसी अतिरिक्त सुरक्षा सावधानियां नहीं होती हैं।
 {% endhint %}
 
-Bypasses examples:
+बाईपास उदाहरण:
 
 * [https://lapcatsoftware.com/articles/sandbox-escape.html](https://lapcatsoftware.com/articles/sandbox-escape.html)
-* [https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c](https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c) (they are able to write files outside the sandbox whose name starts with `~$`).
+* [https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c](https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c) (उन्हें `~$` से शुरू होने वाले सैंडबॉक्स के बाहर फ़ाइलें लिखने की अनुमति होती है।)
 
-### MacOS Sandbox Profiles
+### MacOS सैंडबॉक्स प्रोफ़ाइल
 
-macOS stores system sandbox profiles in two locations: **/usr/share/sandbox/** and **/System/Library/Sandbox/Profiles**.
+macOS सिस्टम सैंडबॉक्स प्रोफ़ाइल को दो स्थानों पर संग्रहीत करता है: **/usr/share/sandbox/** और **/System/Library/Sandbox/Profiles**।
 
-And if a third-party application carry the _**com.apple.security.app-sandbox**_ entitlement, the system applies the **/System/Library/Sandbox/Profiles/application.sb** profile to that process.
+और यदि किसी थर्ड-पार्टी एप्लिकेशन में _**com.apple.security.app-sandbox**_ अधिकार होता है, तो सिस्टम उस प्रक्रिया पर **/System/Library/Sandbox/Profiles/application.sb** प्रोफ़ाइल लागू करता है।
 
-### **iOS Sandbox Profile**
+### **iOS सैंडबॉक्स प्रोफ़ाइल**
 
-The default profile is called **container** and we don't have the SBPL text representation. In memory, this sandbox is represented as Allow/Deny binary tree for each permissions from the asndbox.
+डिफ़ॉल्ट प्रोफ़ाइल को **कंटेनर** कहा जाता है और हमारे पास SBPL पाठ प्रतिष्ठान का प्रतिनिधित्व नहीं है। मेमोरी में, यह सैंडबॉक्स प्रत्येक अनुमति के लिए Allow/Deny बाइनरी ट्री के रूप में प्रतिष्ठित होता है।
 
-### Debug & Bypass Sandbox
+### सैंडबॉक्स को डीबग और बाईपास करें
 
-**Processes are not born sandboxed on macOS: unlike iOS**, where the sandbox is applied by the kernel before the first instruction of a program executes, on macOS **a process must elect to place itself into the sandbox.**
-
-Processes are automatically Sandboxed from userland when they start if they have the entitlement: `com.apple.security.app-sandbox`. For a detailed explanation of this process check:
-
-{% content-ref url="macos-sandbox-debug-and-bypass/" %}
-[macos-sandbox-debug-and-bypass](macos-sandbox-debug-and-bypass/)
-{% endcontent-ref %}
-
-### **Check PID Privileges**
-
-[According to this](https://www.youtube.com/watch?v=mG715HcDgO8\&t=3011s), the **`sandbox_check`** (it's a `__mac_syscall`), can check **if an operation is allowed or not** by the sandbox in a certain PID.
-
-The [**tool sbtool**](http://newosxbook.com/src.jl?tree=listings\&file=sbtool.c) can check if a PID can perform a certain action:
-
+**प्रक्रियाएं macOS पर सैंडबॉक्स के साथ जन्म नहीं लेती हैं: iOS के विपरीत**, जहां पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका के पहले निर्देशिका
 ```bash
 sbtool <pid> mach #Check mac-ports (got from launchd with an api)
 sbtool <pid> file /tmp #Check file access
 sbtool <pid> inspect #Gives you an explaination of the sandbox profile
 sbtool <pid> all
 ```
+### ऐप स्टोर ऐप्स में कस्टम SBPL
 
-### Custom SBPL in App Store apps
+कंपनियों के लिए संभव हो सकता है कि उनके ऐप्स **कस्टम सैंडबॉक्स प्रोफ़ाइल के साथ** चलें (डिफ़ॉल्ट वाले के बजाय में). उन्हें एप्पल द्वारा अधिकृत करने के लिए **`com.apple.security.temporary-exception.sbpl`** इंटाइटलमेंट का उपयोग करना होगा।
 
-It could be possible for companies to make their apps run **with custom Sandbox profiles** (instead of with the default one). They need to use the entitlement **`com.apple.security.temporary-exception.sbpl`** which needs to be authorized by Apple.
-
-It's possible to check the definition of this entitlement in **`/System/Library/Sandbox/Profiles/application.sb:`**
-
+इस इंटाइटलमेंट की परिभाषा की जांच **`/System/Library/Sandbox/Profiles/application.sb:`** में की जा सकती है।
 ```scheme
 (sandbox-array-entitlement
-  "com.apple.security.temporary-exception.sbpl"
-  (lambda (string)
-    (let* ((port (open-input-string string)) (sbpl (read port)))
-      (with-transparent-redirection (eval sbpl)))))
+"com.apple.security.temporary-exception.sbpl"
+(lambda (string)
+(let* ((port (open-input-string string)) (sbpl (read port)))
+(with-transparent-redirection (eval sbpl)))))
 ```
-
-This will **eval the string after this entitlement** as an Sandbox profile.
+यह **इंटाइटलमेंट के बाद की स्ट्रिंग को एक सैंडबॉक्स प्रोफ़ाइल के रूप में इवैल करेगा**।
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ हैकट्रिक्स क्लाउड ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 ट्विटर 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ ट्विच 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 यूट्यूब 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **हैकट्रिक्स में विज्ञापित करना** चाहते हैं? या क्या आपको **PEASS के नवीनतम संस्करण या HackTricks को पीडीएफ़ में डाउनलोड करने का उपयोग** करने की आवश्यकता है? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* [**द पीएएसएस परिवार**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा अनन्य [**एनएफटी**](https://opensea.io/collection/the-peass-family) संग्रह देखें
+* [**आधिकारिक PEASS और HackTricks स्वैग**](https://peass.creator-spring.com) प्राप्त करें
+* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में या मुझे **ट्विटर** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **अपने हैकिंग ट्रिक्स साझा करें, PRs सबमिट करके** [**hacktricks रेपो**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud रेपो**](https://github.com/carlospolop/hacktricks-cloud) **को**।
 
 </details>

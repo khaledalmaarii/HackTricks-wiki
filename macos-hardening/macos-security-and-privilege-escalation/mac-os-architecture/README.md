@@ -1,85 +1,54 @@
-# macOS Kernel & System Extensions
+# macOS कर्नल और सिस्टम एक्सटेंशन
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks क्लाउड ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 ट्विटर 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ ट्विच 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 यूट्यूब 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप एक **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी **कंपनी को HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS की नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने की अनुमति** चाहिए? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष संग्रह [**NFTs**](https://opensea.io/collection/the-peass-family)
+* प्राप्त करें [**आधिकारिक PEASS और HackTricks swag**](https://peass.creator-spring.com)
+* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या मुझे **ट्विटर** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **अपने हैकिंग ट्रिक्स साझा करें द्वारा PRs सबमिट करके** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **को।**
 
 </details>
 
-## XNU Kernel
+## XNU कर्नल
 
-The **core of macOS is XNU**, which stands for "X is Not Unix". This kernel is fundamentally composed of the **Mach microkerne**l (to be discussed later), **and** elements from Berkeley Software Distribution (**BSD**). XNU also provides a platform for **kernel drivers via a system called the I/O Kit**. The XNU kernel is part of the Darwin open source project, which means **its source code is freely accessible**.
+**macOS** का मूल हिस्सा XNU है, जिसका अर्थ है "X is Not Unix". यह कर्नल मूल रूप से **Mach माइक्रोकर्नल** (जिसके बारे में बाद में चर्चा होगी), **और** Berkeley Software Distribution (**BSD**) के तत्वों से मिलकर बना है। XNU भी **I/O Kit** नामक एक सिस्टम के माध्यम से **कर्नल ड्राइवर्स के लिए एक प्लेटफ़ॉर्म प्रदान करता है**। XNU कर्नल Darwin ओपन सोर्स प्रोजेक्ट का हिस्सा है, जिसका मतलब है कि **इसका स्रोत कोड मुक्त रूप से उपलब्ध है**।
 
-From a perspective of a security researcher or a Unix developer, **macOS** can feel quite **similar** to a **FreeBSD** system with an elegant GUI and a host of custom applications. Most applications developed for BSD will compile and run on macOS without needing modifications, as the command-line tools familiar to Unix users are all present in macOS. However, because the XNU kernel incorporates Mach, there are some significant differences between a traditional Unix-like system and macOS, and these differences might cause potential issues or provide unique advantages.
+एक सुरक्षा शोधकर्ता या यूनिक्स डेवलपर के दृष्टिकोण से, **macOS** एक **FreeBSD** सिस्टम के बहुत ही **समान** लग सकता है जिसमें एक सुंदर GUI और कई कस्टम एप्लिकेशन्स होती हैं। BSD के लिए विकसित अधिकांश एप्लिकेशन्स को macOS परिवर्तन किए बिना कंपाइल और चलाया जा सकता है, क्योंकि macOS में यूनिक्स उपयोगकर्ताओं के लिए परिचित कमांड-लाइन उपकरण मौजूद होते हैं। हालांकि, XNU कर्नल में Mach शामिल होने के कारण, एक पारंपरिक यूनिक्स-जैसे सिस्टम और macOS के बीच कुछ महत्वपूर्ण अंतर होते हैं, और ये अंतर संभावित मुद्दों का कारण बन सकते हैं या अद्वितीय लाभ प्रदान कर सकते हैं।
 
-Open source version of XNU: [https://opensource.apple.com/source/xnu/](https://opensource.apple.com/source/xnu/)
+XNU का ओपन सोर्स संस्करण: [https://opensource.apple.com/source/xnu/](https://opensource.apple.com/source/xnu/)
 
 ### Mach
 
-Mach is a **microkernel** designed to be **UNIX-compatible**. One of its key design principles was to **minimize** the amount of **code** running in the **kernel** space and instead allow many typical kernel functions, such as file system, networking, and I/O, to **run as user-level tasks**.
+Mach एक **माइक्रोकर्नल** है जो **UNIX-संगत** बनाने के लिए डिज़ाइन किया गया है। इसकी मुख्य डिज़ाइन सिद्धांतों में से एक था कि **कर्नल स्थान में चल रहे कोड की मात्रा को कम किया जाए** और इसके बजाय कई प्रकार के कर्नल कार्यों, जैसे फ़ाइल सिस्टम, नेटवर्किंग और I/O, को **यूज़र-स्तर के टास्क के रूप में चलाने की अनुमति दी जाए**।
 
-In XNU, Mach is **responsible for many of the critical low-level operations** a kernel typically handles, such as processor scheduling, multitasking, and virtual memory management.
+XNU में, Mach **प्रोसेसर समय-अनुसूची, मल्टीटास्किंग और वर्चुअल मेमोरी प्रबंधन** जैसे कर्नल के आम लो-लेवल ऑपरेशनों के लिए जिम्मेदार है।
 
 ### BSD
 
-The XNU **kernel** also **incorporates** a significant amount of code derived from the **FreeBSD** project. This code **runs as part of the kernel along with Mach**, in the same address space. However, the FreeBSD code within XNU may differ substantially from the original FreeBSD code because modifications were required to ensure its compatibility with Mach. FreeBSD contributes to many kernel operations including:
+XNU **कर्नल** में भी **FreeBSD** प्रोजेक्ट से प्राप्त कोड की एक महत्वपूर्ण मात्रा शामिल होती है। यह कोड Mach के साथ कर्नल का हिस्सा होता है, एक ही पता स्थान में। हालांकि, XNU में FreeBSD कोड मूल FreeBSD कोड से बहुत अलग हो सकता है क्योंकि Mach के साथ इसके संगतता को सुनिश्चित करने के लिए संशोधन किए जाने की आवश्यकता थी। FreeBSD निम्नलिखित कर्नल ऑपरेशन में योगदान देता है:
 
-* Process management
-* Signal handling
-* Basic security mechanisms, including user and group management
-* System call infrastructure
-* TCP/IP stack and sockets
-* Firewall and packet filtering
-
-Understanding the interaction between BSD and Mach can be complex, due to their different conceptual frameworks. For instance, BSD uses processes as its fundamental executing unit, while Mach operates based on threads. This discrepancy is reconciled in XNU by **associating each BSD process with a Mach task** that contains exactly one Mach thread. When BSD's fork() system call is used, the BSD code within the kernel uses Mach functions to create a task and a thread structure.
-
-Moreover, **Mach and BSD each maintain different security models**: **Mach's** security model is based on **port rights**, whereas BSD's security model operates based on **process ownership**. Disparities between these two models have occasionally resulted in local privilege-escalation vulnerabilities. Apart from typical system calls, there are also **Mach traps that allow user-space programs to interact with the kernel**. These different elements together form the multifaceted, hybrid architecture of the macOS kernel.
-
-### I/O Kit - Drivers
-
-I/O Kit is the open-source, object-oriented, **device-driver framework** in the XNU kernel and is responsible for the addition and management of **dynamically loaded device drivers**. These drivers allow for modular code to be added to the kernel dynamically for use with different hardware, for example.
-
-{% content-ref url="macos-iokit.md" %}
-[macos-iokit.md](macos-iokit.md)
-{% endcontent-ref %}
-
-### IPC - Inter Process Communication
-
-{% content-ref url="macos-ipc-inter-process-communication/" %}
-[macos-ipc-inter-process-communication](macos-ipc-inter-process-communication/)
-{% endcontent-ref %}
-
-### Kernelcache
-
-The **kernelcache** is a **pre-compiled and pre-linked version of the XNU kernel**, along with essential device **drivers** and **kernel extensions**. It's stored in a **compressed** format and gets decompressed into memory during the boot-up process. The kernelcache facilitates a **faster boot time** by having a ready-to-run version of the kernel and crucial drivers available, reducing the time and resources that would otherwise be spent on dynamically loading and linking these components at boot time.
-
-In iOS it's located in **`/System/Library/Caches/com.apple.kernelcaches/kernelcache`** in macOS you can find it with **`find / -name kernelcache 2>/dev/null`**
-
+* प
 #### IMG4
 
-The IMG4 file format is a container format used by Apple in its iOS and macOS devices for securely **storing and verifying firmware** components (like **kernelcache**). The IMG4 format includes a header and several tags which encapsulate different pieces of data including the actual payload (like a kernel or bootloader), a signature, and a set of manifest properties. The format supports cryptographic verification, allowing the device to confirm the authenticity and integrity of the firmware component before executing it.
+IMG4 फ़ाइल प्रारूप एक कंटेनर फ़ाइल प्रारूप है जिसे Apple अपने iOS और macOS उपकरणों में सुरक्षित रूप से फर्मवेयर संघटकों (जैसे कर्नेलकैश) को संग्रहीत और सत्यापित करने के लिए उपयोग करता है। IMG4 प्रारूप में एक हैडर और कई टैग होते हैं जो वास्तविक पेलोड (जैसे कर्नेल या बूटलोडर), एक हस्ताक्षर और एक सेट के मानिफेस्ट गुणों को संगठित करते हैं। यह प्रारूप ऊर्जात्मक सत्यापन का समर्थन करता है, जिससे उपकरण को फर्मवेयर संघटक की प्रामाणिकता और अखंडता की पुष्टि करने की अनुमति मिलती है इसे क्रियान्वित करने से पहले।
 
-It's usually composed of the following components:
+इसमें आमतौर पर निम्नलिखित घटक होते हैं:
 
-* **Payload (IM4P)**:
-  * Often compressed (LZFSE4, LZSS, …)
-  * Optionally encrypted
-* **Manifest (IM4M)**:
-  * Contains Signature
-  * Additional Key/Value dictionary
-* **Restore Info (IM4R)**:
-  * Also known as APNonce
-  * Prevents replaying of some updates
-  * OPTIONAL: Usually this isn't found
+* **पेलोड (IM4P)**:
+* अक्सर संपीड़ित (LZFSE4, LZSS, ...)
+* वैकल्पिक रूप से एन्क्रिप्टेड
+* **मानिफेस्ट (IM4M)**:
+* हस्ताक्षर समेत
+* अतिरिक्त कुंजी / मान शब्दकोश
+* **पुनर्स्थापन जानकारी (IM4R)**:
+* यहां तक कि APNonce के रूप में भी जाना जाता है
+* कुछ अपडेट को फिर से चलाने से रोकता है
+* वैकल्पिक: आमतौर पर यह नहीं मिलता है
 
-Decompress the Kernelcache:
-
+कर्नेलकैश को डीकंप्रेस करें:
 ```bash
 # pyimg4 (https://github.com/m1stadev/PyIMG4)
 pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
@@ -87,17 +56,16 @@ pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphon
 # img4tool (https://github.com/tihmstar/img4tool
 img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 ```
+#### कर्नलकैश संकेत
 
-#### Kernelcache Symbols
-
-Sometime Apple releases **kernelcache** with **symbols**. You can download some firmwares with symbols by following links on [https://theapplewiki.com](https://theapplewiki.com/).
+कभी-कभी Apple **कर्नलकैश** के साथ **संकेत** जारी करता है। आप [https://theapplewiki.com](https://theapplewiki.com/) पर दिए गए लिंक का पालन करके कुछ फर्मवेयर को संकेतों के साथ डाउनलोड कर सकते हैं।
 
 ### IPSW
 
-These are Apple **firmwares** you can download from [**https://ipsw.me/**](https://ipsw.me/). Among other files it will contains the **kernelcache**.\
-To **extract** the files you can just **unzip** it.
+ये Apple के **फर्मवेयर** हैं जिन्हें आप [**https://ipsw.me/**](https://ipsw.me/) से डाउनलोड कर सकते हैं। अन्य फ़ाइलों के बीच में इसमें **कर्नलकैश** शामिल होगा।\
+फ़ाइलों को **अनज़िप** करके आप उन्हें निकाल सकते हैं।
 
-After extracting the firmware you will get a file like: **`kernelcache.release.iphone14`**. It's in **IMG4** format, you can extract the interesting info with:
+फर्मवेयर को निकालने के बाद आपको एक फ़ाइल मिलेगी जैसे: **`kernelcache.release.iphone14`**। यह **IMG4** प्रारूप में है, आप इसके साथ दिलचस्प जानकारी को निकाल सकते हैं:
 
 * [**pyimg4**](https://github.com/m1stadev/PyIMG4)
 
@@ -108,15 +76,12 @@ pyimg4 im4p extract -i kernelcache.release.iphone14 -o kernelcache.release.iphon
 {% endcode %}
 
 * [**img4tool**](https://github.com/tihmstar/img4tool)
-
 ```bash
 img4tool -e kernelcache.release.iphone14 -o kernelcache.release.iphone14.e
 ```
+आप निम्नलिखित कमांड का उपयोग करके संकेतों के लिए निकाली गई kernelcache की जांच कर सकते हैं: **`nm -a kernelcache.release.iphone14.e | wc -l`**
 
-You can check the extracted kernelcache for symbols with:  **`nm -a kernelcache.release.iphone14.e | wc -l`**
-
-With this we can now **extract all the extensions** or the **one you are insterested in:**
-
+इसके साथ हम अब **सभी एक्सटेंशन** या **जिसमें आप रुचि रखते हैं, उसे निकाल सकते हैं:**
 ```bash
 # List all extensions
 kextex -l kernelcache.release.iphone14.e
@@ -129,24 +94,23 @@ kextex_all kernelcache.release.iphone14.e
 # Check the extension for symbols
 nm -a binaries/com.apple.security.sandbox | wc -l
 ```
+## macOS कर्नल एक्सटेंशन्स
 
-## macOS Kernel Extensions
-
-macOS is **super restrictive to load Kernel Extensions** (.kext) because of the high privileges that code will run with. Actually, by default is virtually impossible (unless a bypass is found).
+macOS कर्नल एक्सटेंशन्स (.kext) लोड करने के लिए **बहुत प्रतिबंधकारी** है क्योंकि इसके द्वारा चलाए जाने वाले कोड के उच्च अधिकार होते हैं। वास्तव में, डिफ़ॉल्ट रूप से यह लगभग असंभव है (जब तक कोई बाईपास नहीं मिल जाता है)।
 
 {% content-ref url="macos-kernel-extensions.md" %}
 [macos-kernel-extensions.md](macos-kernel-extensions.md)
 {% endcontent-ref %}
 
-### macOS System Extensions
+### macOS सिस्टम एक्सटेंशन्स
 
-Instead of using Kernel Extensions macOS created the System Extensions, which offers in user level APIs to interact with the kernel. This way, developers can avoid to use kernel extensions.
+macOS ने कर्नल एक्सटेंशन्स का उपयोग करने की बजाय सिस्टम एक्सटेंशन्स बनाए हैं, जो कर्नल के साथ इंटरैक्ट करने के लिए उपयोगकर्ता स्तरीय API प्रदान करता है। इस तरीके से, डेवलपर्स कर्नल एक्सटेंशन्स का उपयोग करने से बच सकते हैं।
 
 {% content-ref url="macos-system-extensions.md" %}
 [macos-system-extensions.md](macos-system-extensions.md)
 {% endcontent-ref %}
 
-## References
+## संदर्भ
 
 * [**The Mac Hacker's Handbook**](https://www.amazon.com/-/es/Charlie-Miller-ebook-dp-B004U7MUMU/dp/B004U7MUMU/ref=mt\_other?\_encoding=UTF8\&me=\&qid=)
 * [**https://taomm.org/vol1/analysis.html**](https://taomm.org/vol1/analysis.html)
@@ -155,10 +119,10 @@ Instead of using Kernel Extensions macOS created the System Extensions, which of
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आप **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड** करने की सुविधा प्राप्त करना चाहते हैं? [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) की जांच करें!
+* खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष [**NFT**](https://opensea.io/collection/the-peass-family) संग्रह
+* प्राप्त करें [**आधिकारिक PEASS और HackTricks swag**](https://peass.creator-spring.com)
+* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में या मुझे **ट्विटर** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **अपने हैकिंग ट्रिक्स साझा करें और PR जमा करके** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **को फ़ॉलो करके।**
 
 </details>

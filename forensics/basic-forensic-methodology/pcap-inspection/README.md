@@ -1,44 +1,44 @@
-# Pcap Inspection
+# Pcap निरीक्षण
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करने की आवश्यकता है? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा विशेष [**NFT**](https://opensea.io/collection/the-peass-family) संग्रह
+* [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com) प्राप्त करें
+* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में **शामिल** हों या मुझे **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)** का पालन करें।**
+* **अपने हैकिंग ट्रिक्स को** [**hacktricks रेपो**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud रेपो**](https://github.com/carlospolop/hacktricks-cloud) **में पीआर जमा करके अपने हैकिंग ट्रिक्स साझा करें।**
 
 </details>
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) is the most relevant cybersecurity event in **Spain** and one of the most important in **Europe**. With **the mission of promoting technical knowledge**, this congress is a boiling meeting point for technology and cybersecurity professionals in every discipline.
+[**RootedCON**](https://www.rootedcon.com/) स्पेन में सबसे महत्वपूर्ण साइबर सुरक्षा इवेंट है और यूरोप में सबसे महत्वपूर्ण माना जाता है। तकनीकी ज्ञान को बढ़ावा देने की मिशन के साथ, यह कांग्रेस प्रौद्योगिकी और साइबर सुरक्षा विशेषज्ञों के लिए एक उबलता हुआ मिलन स्थान है।
 
 {% embed url="https://www.rootedcon.com/" %}
 
 {% hint style="info" %}
-A note about **PCAP** vs **PCAPNG**: there are two versions of the PCAP file format; **PCAPNG is newer and not supported by all tools**. You may need to convert a file from PCAPNG to PCAP using Wireshark or another compatible tool, in order to work with it in some other tools.
+**PCAP** vs **PCAPNG** के बारे में एक नोट: PCAP फ़ाइल प्रारूप के दो संस्करण हैं; **PCAPNG नवीनतम है और सभी उपकरणों द्वारा समर्थित नहीं है।** कुछ अन्य उपकरणों में इसके साथ काम करने के लिए आपको एक फ़ाइल को PCAP से PCAPNG में रूपांतरित करने की आवश्यकता हो सकती है, Wireshark या किसी अन्य संगत उपकरण का उपयोग करके।
 {% endhint %}
 
-## Online tools for pcaps
+## पीकैप के लिए ऑनलाइन उपकरण
 
-* If the header of your pcap is **broken** you should try to **fix** it using: [http://f00l.de/hacking/**pcapfix.php**](http://f00l.de/hacking/pcapfix.php)
-* Extract **information** and search for **malware** inside a pcap in [**PacketTotal**](https://packettotal.com)
-* Search for **malicious activity** using [**www.virustotal.com**](https://www.virustotal.com) and [**www.hybrid-analysis.com**](https://www.hybrid-analysis.com)
+* यदि आपके pcap का हैडर **टूटा हुआ** है, तो आपको इसे ठीक करने के लिए इस्तेमाल करना चाहिए: [http://f00l.de/hacking/**pcapfix.php**](http://f00l.de/hacking/pcapfix.php)
+* [**PacketTotal**](https://packettotal.com) में pcap में **जानकारी** और **मैलवेयर** खोजें
+* [**www.virustotal.com**](https://www.virustotal.com) और [**www.hybrid-analysis.com**](https://www.hybrid-analysis.com) का उपयोग करके **खतरनाक गतिविधि** खोजें
 
-## Extract Information
+## जानकारी निकालें
 
-The following tools are useful to extract statistics, files, etc.
+निम्नलिखित उपकरण विशेषज्ञता, फ़ाइलें, आदि निकालने के लिए उपयोगी हैं।
 
 ### Wireshark
 
 {% hint style="info" %}
-**If you are going to analyze a PCAP you basically must to know how to use Wireshark**
+**यदि आप PCAP का विश्लेषण करने जा रहे हैं, तो आपको मूल रूप से Wireshark का उपयोग करना चाहिए**
 {% endhint %}
 
-You can find some Wireshark tricks in:
+आप Wireshark ट्रिक्स कुछ यहां पा सकते हैं:
 
 {% content-ref url="wireshark-tricks.md" %}
 [wireshark-tricks.md](wireshark-tricks.md)
@@ -46,113 +46,101 @@ You can find some Wireshark tricks in:
 
 ### Xplico Framework
 
-[**Xplico** ](https://github.com/xplico/xplico)_(only linux)_ can **analyze** a **pcap** and extract information from it. For example, from a pcap file Xplico, extracts each email (POP, IMAP, and SMTP protocols), all HTTP contents, each VoIP call (SIP), FTP, TFTP, and so on.
+[**Xplico** ](https://github.com/xplico/xplico)_(केवल लिनक्स)_ एक pcap का विश्लेषण कर सकता है और इससे जानकारी निकाल सकता है। उदाहरण के लिए, pcap फ़ाइल Xplico, प्रत्येक ईमेल (POP, IMAP, और SMTP प्रोटोकॉल), सभी HTTP सामग्री, प्रत्येक VoIP कॉल (SIP), FTP, TFTP, आदि निकालता है।
 
-**Install**
-
+**स्थापित करें**
 ```bash
 sudo bash -c 'echo "deb http://repo.xplico.org/ $(lsb_release -s -c) main" /etc/apt/sources.list'
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 791C25CE
 sudo apt-get update
 sudo apt-get install xplico
 ```
-
-**Run**
-
+**चलाएँ**
 ```
 /etc/init.d/apache2 restart
 /etc/init.d/xplico start
 ```
+_**127.0.0.1:9876**_ क्रेडेंशियल्स के साथ एक्सेस करें _**xplico:xplico**_
 
-Access to _**127.0.0.1:9876**_ with credentials _**xplico:xplico**_
-
-Then create a **new case**, create a **new session** inside the case and **upload the pcap** file.
+फिर से **नया मामला बनाएं**, मामले के अंदर एक **नई सत्र** बनाएं और **पीकैप** फ़ाइल अपलोड करें।
 
 ### NetworkMiner
 
-Like Xplico it is a tool to **analyze and extract objects from pcaps**. It has a free edition that you can **download** [**here**](https://www.netresec.com/?page=NetworkMiner). It works with **Windows**.\
-This tool is also useful to get **other information analysed** from the packets in order to be able to know what was happening in a **quicker** way.
+Xplico की तरह यह एक टूल है **पीकैप से विश्लेषण और वस्तुओं को निकालने** के लिए। इसका एक मुफ्त संस्करण है जिसे आप यहां से **डाउनलोड** कर सकते हैं [**यहां**](https://www.netresec.com/?page=NetworkMiner)। यह **Windows** के साथ काम करता है।\
+यह टूल भी उपयोगी है **पैकेट में से अन्य जानकारी विश्लेषित** करने के लिए ताकि आप एक **तेज़ तरीके से पता लगा सकें** कि क्या हो रहा था।
 
 ### NetWitness Investigator
 
-You can download [**NetWitness Investigator from here**](https://www.rsa.com/en-us/contact-us/netwitness-investigator-freeware) **(It works in Windows)**.\
-This is another useful tool that **analyses the packets** and sorts the information in a useful way to **know what is happening inside**.
+आप यहां से [**NetWitness Investigator डाउनलोड कर सकते हैं**](https://www.rsa.com/en-us/contact-us/netwitness-investigator-freeware) **(यह Windows में काम करता है)**।\
+यह एक और उपयोगी टूल है जो **पैकेटों का विश्लेषण करता है** और जानकारी को एक उपयोगी तरीके से **पता लगाने के लिए व्यवस्थित करता है**।
 
 ![](<../../../.gitbook/assets/image (567) (1).png>)
 
 ### [BruteShark](https://github.com/odedshimon/BruteShark)
 
-* Extracting and encoding usernames and passwords (HTTP, FTP, Telnet, IMAP, SMTP...)
-* Extract authentication hashes and crack them using Hashcat (Kerberos, NTLM, CRAM-MD5, HTTP-Digest...)
-* Build a visual network diagram (Network nodes & users)
-* Extract DNS queries
-* Reconstruct all TCP & UDP Sessions
-* File Carving
+* उपयोगकर्ता नाम और पासवर्ड (HTTP, FTP, Telnet, IMAP, SMTP...) को निकालना और एनकोड करना
+* प्रमाणीकरण हैश निकालना और Hashcat का उपयोग करके उन्हें क्रैक करना (Kerberos, NTLM, CRAM-MD5, HTTP-Digest...)
+* एक विज़ुअल नेटवर्क आरेख (नेटवर्क नोड और उपयोगकर्ता) बनाना
+* DNS क्वेरी निकालना
+* सभी TCP और UDP सत्रों का पुनर्निर्माण करना
+* फ़ाइल कार्विंग
 
 ### Capinfos
-
 ```
 capinfos capture.pcap
 ```
-
 ### Ngrep
 
-If you are **looking** for **something** inside the pcap you can use **ngrep**. Here is an example using the main filters:
-
+यदि आप pcap में कुछ ढूंढ़ रहे हैं तो आप **ngrep** का उपयोग कर सकते हैं। यहां मुख्य फ़िल्टर का उपयोग करके एक उदाहरण दिया गया है:
 ```bash
 ngrep -I packets.pcap "^GET" "port 80 and tcp and host 192.168 and dst host 192.168 and src host 192.168"
 ```
+### कार्विंग
 
-### Carving
-
-Using common carving techniques can be useful to extract files and information from the pcap:
+पीकैप से फ़ाइलें और जानकारी निकालने के लिए सामान्य कार्विंग तकनीकों का उपयोग करना उपयोगी हो सकता है:
 
 {% content-ref url="../partitions-file-systems-carving/file-data-carving-recovery-tools.md" %}
 [file-data-carving-recovery-tools.md](../partitions-file-systems-carving/file-data-carving-recovery-tools.md)
 {% endcontent-ref %}
 
-### Capturing credentials
+### क्रेडेंशियल्स को दर्ज करना
 
-You can use tools like [https://github.com/lgandx/PCredz](https://github.com/lgandx/PCredz) to parse credentials from a pcap or a live interface.
+आप [https://github.com/lgandx/PCredz](https://github.com/lgandx/PCredz) जैसे उपकरण का उपयोग कर सकते हैं जो पीकैप या लाइव इंटरफ़ेस से क्रेडेंशियल्स को पार्स करते हैं।
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) is the most relevant cybersecurity event in **Spain** and one of the most important in **Europe**. With **the mission of promoting technical knowledge**, this congress is a boiling meeting point for technology and cybersecurity professionals in every discipline.
+[**RootedCON**](https://www.rootedcon.com/) स्पेन में सबसे महत्वपूर्ण साइबर सुरक्षा इवेंट है और यूरोप में सबसे महत्वपूर्ण में से एक है। **तकनीकी ज्ञान को बढ़ावा देने** की मिशन के साथ, यह कांग्रेस प्रौद्योगिकी और साइबर सुरक्षा विशेषज्ञों के लिए हर विषय में एक उबलता हुआ मिलने का समय है।
 
 {% embed url="https://www.rootedcon.com/" %}
 
-## Check Exploits/Malware
+## एक्सप्लॉइट्स/मैलवेयर की जांच करें
 
-### Suricata
+### सुरिकाटा
 
-**Install and setup**
-
+**स्थापित करें और सेटअप करें**
 ```
 apt-get install suricata
 apt-get install oinkmaster
 echo "url = http://rules.emergingthreats.net/open/suricata/emerging.rules.tar.gz" >> /etc/oinkmaster.conf
 oinkmaster -C /etc/oinkmaster.conf -o /etc/suricata/rules
 ```
-
-**Check pcap**
-
+**पीकैप जांचें**
 ```
 suricata -r packets.pcap -c /etc/suricata/suricata.yaml -k none -v -l log
 ```
-
 ### YaraPcap
 
-[**YaraPCAP**](https://github.com/kevthehermit/YaraPcap) is a tool that
+[**YaraPCAP**](https://github.com/kevthehermit/YaraPcap) एक ऐसा टूल है जो
 
-* Reads a PCAP File and Extracts Http Streams.
-* gzip deflates any compressed streams
-* Scans every file with yara
-* Writes a report.txt
-* Optionally saves matching files to a Dir
+* एक PCAP फ़ाइल को पढ़ता है और Http स्ट्रीम्स को निकालता है।
+* किसी भी संपीड़ित स्ट्रीम को gzip द्वारा विफलित करता है
+* हर फ़ाइल को yara के साथ स्कैन करता है
+* एक रिपोर्ट.txt लिखता है
+* वैकल्पिक रूप से मिलने वाली फ़ाइलों को एक डिरेक्टरी में सहेजता है
 
 ### Malware Analysis
 
-Check if you can find any fingerprint of a known malware:
+जांचें कि क्या आप किसी ज्ञात मैलवेयर के उंगली प्रिंट को खोज सकते हैं:
 
 {% content-ref url="../malware-analysis.md" %}
 [malware-analysis.md](../malware-analysis.md)
@@ -160,12 +148,11 @@ Check if you can find any fingerprint of a known malware:
 
 ## Zeek
 
-> Zeek is a passive, open-source network traffic analyzer. Many operators use Zeek as a Network Security Monitor (NSM) to support investigations of suspicious or malicious activity. Zeek also supports a wide range of traffic analysis tasks beyond the security domain, including performance measurement and troubleshooting.
+> Zeek एक पैशिव, ओपन-सोर्स नेटवर्क ट्रैफ़िक विश्लेषक है। कई ऑपरेटर शंकाप्रद या दुष्ट गतिविधि की जांच का समर्थन करने के लिए Zeek का उपयोग नेटवर्क सुरक्षा मॉनिटर (NSM) के रूप में करते हैं। Zeek नेटवर्क सुरक्षा डोमेन के अलावा प्रदर्शन मापन और समस्या निवारण सहित विभिन्न ट्रैफ़िक विश्लेषण कार्यों का समर्थन भी करता है।
 
-Basically, logs created by `zeek` aren't **pcaps**. Therefore you will need to use **other tools** to analyse the logs where the **information** about the pcaps are.
+मूल रूप से, `zeek` द्वारा बनाए गए लॉग्स **pcaps** नहीं होते हैं। इसलिए आपको लॉग्स का विश्लेषण करने के लिए **अन्य उपकरण** का उपयोग करना होगा जहां **pcaps** के बारे में **जानकारी** होती है।
 
 ### Connections Info
-
 ```bash
 #Get info about longest connections (add "grep udp" to see only udp traffic)
 #The longest connection might be of malware (constant reverse shell?)
@@ -215,9 +202,17 @@ Score,Source IP,Destination IP,Connections,Avg Bytes,Intvl Range,Size Range,Top 
 1,10.55.100.111,165.227.216.194,20054,92,29,52,1,52,7774,20053,0,0,0,0
 0.838,10.55.200.10,205.251.194.64,210,69,29398,4,300,70,109,205,0,0,0,0
 ```
+### DNS जानकारी
 
-### DNS info
+DNS (Domain Name System) एक प्रोटोकॉल है जो इंटरनेट पर नेटवर्क उपकरणों को डोमेन नामों को इंटरनेट पतों में बदलने के लिए उपयोग किया जाता है। DNS जानकारी का अध्ययन करने के लिए, हम पीकैप (PCAP) फ़ाइलों का उपयोग कर सकते हैं।
 
+जब हम किसी पीकैप फ़ाइल को जांचते हैं, तो हम DNS पैकेट्स को खोज सकते हैं जो नेटवर्क ट्रैफ़िक में डोमेन नामों के साथ संबंधित होते हैं। इन पैकेट्स का अध्ययन करके, हम निम्नलिखित जानकारी प्राप्त कर सकते हैं:
+
+- DNS प्रश्न (DNS queries): यह पैकेट्स डोमेन नामों के लिए DNS सर्वरों को प्रश्न करते हैं।
+- DNS उत्तर (DNS responses): यह पैकेट्स DNS प्रश्नों का उत्तर देते हैं और डोमेन नामों को इंटरनेट पतों में बदलते हैं।
+- DNS अवरोध (DNS blocking): यह पैकेट्स डोमेन नामों को अवरोधित करते हैं ताकि उपयोगकर्ता उन डोमेनों तक पहुंच नहीं पाते हैं।
+
+DNS जानकारी का अध्ययन करने के लिए, हम Wireshark जैसे टूल का उपयोग कर सकते हैं जो पीकैप फ़ाइलों को खोलने और उन्हें विश्लेषित करने की अनुमति देता है। इसके अलावा, कई ऑनलाइन सेवाएं भी उपलब्ध हैं जो पीकैप फ़ाइलों का विश्लेषण करने में मदद कर सकती हैं।
 ```bash
 #Get info about each DNS request performed
 cat dns.log | zeek-cut -c id.orig_h query qtype_name answers
@@ -234,8 +229,7 @@ cat dns.log | zeek-cut qtype_name | sort | uniq -c | sort -nr
 #See top DNS domain requested with rita
 rita show-exploded-dns -H --limit 10 zeek_logs
 ```
-
-## Other pcap analysis tricks
+## अन्य pcap विश्लेषण ट्रिक्स
 
 {% content-ref url="dnscat-exfiltration.md" %}
 [dnscat-exfiltration.md](dnscat-exfiltration.md)
@@ -253,7 +247,7 @@ rita show-exploded-dns -H --limit 10 zeek_logs
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) is the most relevant cybersecurity event in **Spain** and one of the most important in **Europe**. With **the mission of promoting technical knowledge**, this congress is a boiling meeting point for technology and cybersecurity professionals in every discipline.
+[**RootedCON**](https://www.rootedcon.com/) स्पेन में सबसे महत्वपूर्ण साइबर सुरक्षा कार्यक्रम है और यूरोप में सबसे महत्वपूर्ण माना जाता है। तकनीकी ज्ञान को बढ़ावा देने की मिशन के साथ, यह सम्मेलन प्रौद्योगिकी और साइबर सुरक्षा विशेषज्ञों के लिए एक उत्कंठित मिलन स्थल है।
 
 {% embed url="https://www.rootedcon.com/" %}
 
@@ -261,10 +255,10 @@ rita show-exploded-dns -H --limit 10 zeek_logs
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप चाहते हैं कि आपकी **कंपनी HackTricks में विज्ञापित** की जाए? या क्या आपको **PEASS की नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का एक्सेस** चाहिए? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष संग्रह [**NFTs**](https://opensea.io/collection/the-peass-family)
+* प्राप्त करें [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या मुझे **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)** का** **अनुसरण** करें।**
+* **अपने हैकिंग ट्रिक्स को** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **में PR जमा करके अपने हैकिंग ट्रिक्स साझा करें।**
 
 </details>

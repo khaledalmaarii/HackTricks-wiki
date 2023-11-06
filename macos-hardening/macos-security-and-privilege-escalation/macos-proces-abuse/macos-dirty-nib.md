@@ -1,84 +1,73 @@
-# macOS Dirty NIB
+# macOS गंदा NIB
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी **कंपनी को HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करने की आवश्यकता है? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा विशेष [**NFT संग्रह**](https://opensea.io/collection/the-peass-family)
+* [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com) प्राप्त करें
+* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में **शामिल हों** या मुझे **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)** का पालन करें**.
+* **अपने हैकिंग ट्रिक्स को** [**hacktricks रेपो**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud रेपो**](https://github.com/carlospolop/hacktricks-cloud) **में पीआर जमा करके अपना योगदान दें।**
 
 </details>
 
-**This technique was taken from the post** [**https://blog.xpnsec.com/dirtynib/**](https://blog.xpnsec.com/dirtynib/)
+**यह तकनीक पोस्ट से ली गई है** [**https://blog.xpnsec.com/dirtynib/**](https://blog.xpnsec.com/dirtynib/)
 
-## Basic Information
+## मूलभूत जानकारी
 
-NIB files are used in Apple's development ecosystem to **define user interface (UI) elements** and their interactions within an application. Created with the Interface Builder tool, they contain **serialized objects** like windows, buttons, and text fields, which are loaded at runtime to present the designed UI. Although still in use, Apple has transitioned towards recommending Storyboards for a more visual representation of an application's UI flow.
-
-
+NIB फ़ाइलें Apple के विकास पारिस्थितिकी में उपयोग होती हैं ताकि एक एप्लिकेशन के भीतर **उपयोगकर्ता इंटरफ़ेस (UI) तत्व** और उनके संचारों को परिभाषित किया जा सके। Interface Builder उपकरण के साथ बनाए गए, इनमें खिड़कियाँ, बटन और पाठ क्षेत्र जैसे **सिलियराइज़्ड ऑब्जेक्ट्स** शामिल होते हैं, जो डिज़ाइन किए गए UI को प्रस्तुत करने के लिए रनटाइम पर लोड होते हैं। हालांकि अभी भी उपयोग में हैं, Apple ने अधिक विज़ुअल प्रतिनिधित्व के लिए Storyboards की सिफारिश की है एक एप्लिकेशन के UI फ्लो का।
 
 {% hint style="danger" %}
-Moreover, **NIB files** can also be used to **run arbitrary commands** and if NIB file is modified in an App, **Gatekeeper will still allow to execute the app**, so they can be used to r**un arbitrary commands inside applications**.
+इसके अलावा, **NIB फ़ाइलें** अन्यायपूर्ण आदेशों को चलाने के लिए भी उपयोग की जा सकती हैं और यदि NIB फ़ाइल को एक ऐप में संशोधित किया जाता है, तो **Gatekeeper अभी भी ऐप को निष्पादित करने की अनुमति देगा**, इसलिए वे ऐप्लिकेशन के भीतर **अन्यायपूर्ण आदेशों को चलाने के लिए** उपयोग किए जा सकते हैं।
 {% endhint %}
 
-## Dirty NIB Injection <a href="#dirtynib" id="dirtynib"></a>
+## गंदा NIB इंजेक्शन <a href="#dirtynib" id="dirtynib"></a>
 
-First we need to create a new NIB file, we’ll use XCode for the bulk of the construction. We start by adding an Object to the interface and set the class to NSAppleScript:
+सबसे पहले हमें एक नई NIB फ़ाइल बनानी होगी, हम XCode का उपयोग इसके अधिकांश निर्माण के लिए करेंगे। हम इंटरफ़ेस में एक ऑब्जेक्ट जोड़कर शुरू करते हैं और वर्ग को NSAppleScript सेट करते हैं:
 
 <figure><img src="../../../.gitbook/assets/image (681).png" alt="" width="380"><figcaption></figcaption></figure>
 
-For the object we need to set the initial `source` property, which we can do using User Defined Runtime Attributes:
+ऑब्जेक्ट के लिए हमें प्राथमिक `source` संपत्ति सेट करनी होगी, जिसे हम उपयोगकर्ता परिभाषित रनटाइम गुणों का उपयोग करके कर सकते हैं:
 
 <figure><img src="../../../.gitbook/assets/image (682).png" alt="" width="563"><figcaption></figcaption></figure>
 
-This sets up our code execution gadget, which is just going to **run AppleScript on request**. To actually trigger the execution of the AppleScript, we’ll just add in a button for now (you can of course get creative with this ;). The button will bind to the `Apple Script` object we just created, and will **invoke the `executeAndReturnError:` selector**:
+यह हमारे कोड निष्पादन गैजेट सेटअप करता है, जो बस एक अनुरोध पर **AppleScript चलाएगा**। AppleScript के निष्पादन को वास्तव में ट्रिगर करने के लिए, हम अभी केवल एक बटन जोड़ेंगे (आप इसके साथ आविष्कारशील हो सकते हैं ;). बटन बस्तियों को बाइंड करेगा जिसे हमने अभी बनाया है, और **`executeAndReturnError:` चयनकर्ता को आह्वान करेगा**:
 
 <figure><img src="../../../.gitbook/assets/image (683).png" alt="" width="563"><figcaption></figcaption></figure>
 
-For testing we’ll just use the Apple Script of:
-
+टेस्टिंग के लिए हम बस Apple Script का उपयोग करेंगे:
 ```bash
 set theDialogText to "PWND"
 display dialog theDialogText
 ```
-
-And if we run this in XCode debugger and hit the button:
+और यदि हम इसे XCode डीबगर में चलाते हैं और बटन पर क्लिक करते हैं:
 
 <figure><img src="../../../.gitbook/assets/image (684).png" alt="" width="563"><figcaption></figcaption></figure>
 
-With our ability to execute arbitrary AppleScript code from a NIB, we next need a target. Let’s choose Pages for our initial demo, which is of course an Apple application and certainly shouldn’t be modifiable by us.
+हमारी AppleScript कोड को NIB से चलाने की क्षमता के साथ, हमें अगला लक्ष्य चाहिए। हमारे प्राथमिक डेमो के लिए चुनें Pages, जो कि एक Apple एप्लिकेशन है और निश्चित रूप से हमारे द्वारा संशोधित नहीं होना चाहिए।
 
-We’ll first take a copy of the application into `/tmp/`:
-
+हम पहले एप्लिकेशन की एक प्रतिलिपि `/tmp/` में ले लेंगे:
 ```bash
 cp -a -X /Applications/Pages.app /tmp/
 ```
-
-Then we’ll launch the application to avoid any Gatekeeper issues and allow things to be cached:
-
+तब हम ऐप्लिकेशन को लॉन्च करेंगे ताकि कोई भी गेटकीपर समस्या न हो और चीजें कैश की जा सकें:
 ```bash
 open -W -g -j /Applications/Pages.app
 ```
-
-After launching (and killing) the app the first time, we’ll need to overwrite an existing NIB file with our DirtyNIB file. For demo purposes, we’re just going to overwrite the About Panel NIB so we can control the execution:
-
+पहली बार ऐप को लॉन्च करने (और मारने) के बाद, हमें अपनी DirtyNIB फ़ाइल के साथ एक मौजूदा NIB फ़ाइल को ओवरराइट करने की आवश्यकता होगी। डेमो के उद्देश्य के लिए, हम सिर्फ About Panel NIB को ओवरराइट करेंगे ताकि हम नियंत्रण कर सकें निष्पादन:
 ```bash
 cp /tmp/Dirty.nib /tmp/Pages.app/Contents/Resources/Base.lproj/TMAAboutPanel.nib
 ```
-
-Once we’ve overwritten the nib, we can trigger execution by selecting the `About` menu item:\
-
+जब हम nib को अधिलेखित कर देते हैं, तो हम `About` मेनू आइटम का चयन करके निष्पादन को ट्रिगर कर सकते हैं:
 
 <figure><img src="../../../.gitbook/assets/image (685).png" alt="" width="563"><figcaption></figcaption></figure>
 
-If we look at Pages a bit closer, we see that it has a private entitlement to allow access to a users Photos:
+अगर हम Pages को थोड़ा और ध्यान से देखें, तो हम देखेंगे कि इसमें उपयोगकर्ता के फ़ोटो तक पहुँच की अनुमति देने के लिए एक निजी entitlement है:
 
 <figure><img src="../../../.gitbook/assets/image (686).png" alt="" width="479"><figcaption></figcaption></figure>
 
-So we can put our POC to the test by **modifying our AppleScript to steal photos** from the user without prompting:
+इसलिए हम अपने POC को परीक्षण के लिए डाल सकते हैं जहां **हम अपने AppleScript को संशोधित करके उपयोगकर्ता से पूछे बिना फ़ोटो चुरा सकते हैं**:
 
 {% code overflow="wrap" %}
 ```applescript
@@ -92,35 +81,35 @@ grabbed's writeToFile:"/Users/xpn/Library/Containers/com.apple.iWork.Pages/Data/
 {% endcode %}
 
 {% hint style="danger" %}
-[**Malicious .xib file that executes arbitrary code example.**](https://gist.github.com/xpn/16bfbe5a3f64fedfcc1822d0562636b4)
+[**खतरनाक .xib फ़ाइल जो विभिन्न कोड को चला सकती है उदाहरण।**](https://gist.github.com/xpn/16bfbe5a3f64fedfcc1822d0562636b4)
 {% endhint %}
 
-## Launch Constrains
+## लॉन्च कंस्ट्रेंट्स
 
-They basically **prevent executing applications outside of their expected locations**, so if you copy an application protected by Launch Constrains to `/tmp` you won't be able to execute it.\
-[**Find more information in this post**](../macos-security-protections/#launch-constraints)**.**
+ये मूल रूप से **अपने अपेक्षित स्थानों के बाहर एप्लिकेशनों को चलाने से रोकते हैं**, इसलिए अगर आप एक ऐप्लिकेशन की कॉपी को `/tmp` में कॉपी करते हैं तो आप उसे चला नहीं पाएंगे।\
+[**इस पोस्ट में अधिक जानकारी पाएं**](../macos-security-protections/#launch-constraints)**.**
 
-However, parsing the file **`/System/Volumes/Preboot/*/boot/*/usr/standalone/firmware/FUD/StaticTrustCache.img4`** you can still find **applications that aren't protected by Launch Constrains** so can could still **inject** **NIB** files in arbitrary locations into **those** (check the previous link to learn how to find these apps).
+हालांकि, फ़ाइल **`/System/Volumes/Preboot/*/boot/*/usr/standalone/firmware/FUD/StaticTrustCache.img4`** को पार्स करके आप अभी भी **लॉन्च कंस्ट्रेंट्स द्वारा संरक्षित नहीं होने वाले ऐप्लिकेशन** ढूंढ सकते हैं, इसलिए आप अभी भी **विभिन्न स्थानों में NIB फ़ाइलें इंजेक्ट कर सकते हैं** (इन ऐप्स को कैसे ढूंढें इसके लिए पिछले लिंक की जांच करें)।
 
-## Extra Protections
+## अतिरिक्त संरक्षण
 
-From macOS Somona, there are some protections **preventing to write inside Apps**. However, it's still possible to bypass this protection if, before running your copy of the binary, you change the name of the Contents folder:
+macOS Somona से, कुछ संरक्षण हैं जो **ऐप्स के अंदर लिखने से रोकते हैं**। हालांकि, यदि आप बाइनरी की कॉपी चलाने से पहले उसके Contents फ़ोल्डर का नाम बदल दें, तो इस संरक्षण को अनदेखा किया जा सकता है:
 
-1. Take a copy of `CarPlay Simulator.app` to `/tmp/`
-2. Rename `/tmp/Carplay Simulator.app/Contents` to `/tmp/CarPlay Simulator.app/NotCon`
-3. Launch the binary `/tmp/CarPlay Simulator.app/NotCon/MacOS/CarPlay Simulator` to cache within Gatekeeper
-4. Overwrite `NotCon/Resources/Base.lproj/MainMenu.nib` with our `Dirty.nib` file
-5. Rename to `/tmp/CarPlay Simulator.app/Contents`
-6. Launch `CarPlay Simulator.app` again
+1. `CarPlay Simulator.app` की एक कॉपी को `/tmp/` में ले जाएं
+2. `/tmp/Carplay Simulator.app/Contents` को `/tmp/CarPlay Simulator.app/NotCon` में नाम बदलें
+3. `/tmp/CarPlay Simulator.app/NotCon/MacOS/CarPlay Simulator` बाइनरी को चलाएं ताकि Gatekeeper में कैश हो जाएं
+4. `NotCon/Resources/Base.lproj/MainMenu.nib` को हमारी `Dirty.nib` फ़ाइल से अधिलेखित करें
+5. `/tmp/CarPlay Simulator.app/Contents` में नाम बदलें
+6. `CarPlay Simulator.app` को फिर से चलाएं
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* क्या आप **साइबर सुरक्षा कंपनी में काम करते हैं**? क्या आप अपनी **कंपनी को HackTricks में विज्ञापित करना चाहते हैं**? या क्या आपको **PEASS की नवीनतम संस्करण देखना है या HackTricks को PDF में डाउनलोड करना है**? [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) की जांच करें!
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा एकल [**NFT**](https://opensea.io/collection/the-peass-family) संग्रह
+* [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com) प्राप्त करें
+* **[💬](https://emojipedia.org/speech-balloon/) Discord समूह** या **[telegram समूह](https://t.me/peass)** में शामिल हों या मुझे **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)** का** अनुसरण करें
+* **अपने हैकिंग ट्रिक्स साझा करें, PRs सबमिट करके** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **में**
 
 </details>
