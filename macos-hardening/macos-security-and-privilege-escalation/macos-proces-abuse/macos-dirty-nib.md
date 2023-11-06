@@ -7,7 +7,7 @@
 * 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[NFT](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
@@ -84,16 +84,16 @@ grabbed's writeToFile:"/Users/xpn/Library/Containers/com.apple.iWork.Pages/Data/
 [**恶意的.xib文件执行任意代码示例**](https://gist.github.com/xpn/16bfbe5a3f64fedfcc1822d0562636b4)
 {% endhint %}
 
-## 启动限制
+## 启动约束
 
-它们基本上**防止在预期位置之外执行应用程序**，因此，如果您将受到启动限制保护的应用程序复制到`/tmp`，您将无法执行它。\
+它们基本上**防止在预期位置之外执行应用程序**，因此，如果您将受到启动约束保护的应用程序复制到`/tmp`，则无法执行它。\
 [**在此帖子中查找更多信息**](../macos-security-protections/#launch-constraints)**。**
 
-然而，通过解析文件**`/System/Volumes/Preboot/*/boot/*/usr/standalone/firmware/FUD/StaticTrustCache.img4`**，您仍然可以找到**未受启动限制保护的应用程序**，因此仍然可以将**NIB**文件注入到**这些应用程序**的任意位置（请查看上面的链接以了解如何找到这些应用程序）。
+然而，通过解析文件**`/System/Volumes/Preboot/*/boot/*/usr/standalone/firmware/FUD/StaticTrustCache.img4`**，您仍然可以找到**未受启动约束保护的应用程序**，因此仍然可以将**NIB**文件注入到**这些**任意位置（请查看上面的链接以了解如何找到这些应用程序）。
 
 ## 额外保护
 
-从macOS Somona开始，有一些保护措施**防止在应用程序内部写入**。然而，如果在运行二进制文件的副本之前，您更改了Contents文件夹的名称，仍然可以绕过此保护：
+从macOS Somona开始，有一些保护措施**防止在应用程序内部写入**。然而，如果在运行二进制文件的副本之前，更改Contents文件夹的名称，仍然可以绕过此保护：
 
 1. 将`CarPlay Simulator.app`的副本复制到`/tmp/`
 2. 将`/tmp/Carplay Simulator.app/Contents`重命名为`/tmp/CarPlay Simulator.app/NotCon`

@@ -1,56 +1,56 @@
-# macOS XPC连接进程检查
+# macOS XPC 连接进程检查
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+* 你在一家 **网络安全公司** 工作吗？你想在 HackTricks 中看到你的 **公司广告**吗？或者你想获得 **PEASS 的最新版本或下载 HackTricks 的 PDF 版本**吗？请查看 [**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 收藏品 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或 **关注** 我的 **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向** [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享你的黑客技巧。**
 
 </details>
 
-## XPC连接进程检查
+## XPC 连接进程检查
 
-当与XPC服务建立连接时，服务器将检查连接是否被允许。通常会执行以下检查：
+当与 XPC 服务建立连接时，服务器将检查连接是否被允许。通常会执行以下检查：
 
-1. 检查连接的**进程是否使用Apple签名的**证书（仅由Apple提供）。
-* 如果未经验证，攻击者可以创建一个**伪造的证书**以匹配任何其他检查。
-2. 检查连接的进程是否使用**组织的证书**进行签名（团队ID验证）。
-* 如果未经验证，可以使用Apple的**任何开发者证书**进行签名并连接到服务。
-3. 检查连接的进程是否包含**正确的Bundle ID**。
-* 如果未经验证，可以使用由同一组织**签名的任何工具**与XPC服务进行交互。
-4. （4或5）检查连接的进程是否具有**正确的软件版本号**。
-* 如果未经验证，即使其他检查已经通过，也可以使用旧的、存在安全漏洞的客户端进行连接到XPC服务的过程注入。
-5. （4或5）检查连接的进程是否具有具有危险权限的强化运行时（例如允许加载任意库或使用DYLD环境变量的权限）。
-* 如果未经验证，客户端可能**容易受到代码注入**的攻击。
-6. 检查连接的进程是否具有允许其连接到服务的**授权**。这适用于Apple二进制文件。
-7. **验证**必须基于连接的**客户端的审计令牌**而不是其进程ID（PID），因为前者可以防止**PID重用攻击**。
-* 开发人员很少使用审计令牌API调用，因为它是**私有的**，所以Apple可能随时**更改**。此外，Mac App Store应用程序不允许使用私有API。
+1. 检查连接的 **进程是否使用 Apple 签名的** 证书（仅由 Apple 颁发）。
+* 如果未经验证，攻击者可以创建一个 **伪造的证书** 来匹配其他任何检查。
+2. 检查连接的进程是否使用 **组织的证书** 进行签名（团队 ID 验证）。
+* 如果未经验证，可以使用 Apple 的 **任何开发者证书** 进行签名并连接到服务。
+3. 检查连接的进程是否包含 **正确的 Bundle ID**。
+* 如果未经验证，可以使用由同一组织签名的任何工具与 XPC 服务进行交互。
+4. （4 或 5）检查连接的进程是否具有 **正确的软件版本号**。
+* 如果未经验证，即使其他检查已经通过，也可以使用旧的、存在安全漏洞的客户端进行连接到 XPC 服务的过程注入。
+5. （4 或 5）检查连接的进程是否具有带有危险权限的强化运行时（例如允许加载任意库或使用 DYLD 环境变量的权限）。
+* 如果未经验证，客户端可能容易受到代码注入的攻击。
+6. 检查连接的进程是否具有允许其连接到服务的 **entitlement**。这适用于 Apple 二进制文件。
+7. **验证** 必须基于连接的 **客户端的审计令牌** 而不是其进程 ID（PID），因为前者可以防止 **PID 重用攻击**。
+* 开发人员很少使用审计令牌 API 调用，因为它是 **私有的**，所以 Apple 可能随时 **更改**。此外，Mac App Store 应用程序不允许使用私有 API。
 
 ### 通信攻击
 
-有关PID重用攻击的更多信息，请查看：
+有关 PID 重用攻击的更多信息，请查看：
 
 {% content-ref url="macos-pid-reuse.md" %}
 [macos-pid-reuse.md](macos-pid-reuse.md)
 {% endcontent-ref %}
 
-有关**`xpc_connection_get_audit_token`**攻击的更多信息，请查看：
+有关 **`xpc_connection_get_audit_token`** 攻击的更多信息，请查看：
 
 {% content-ref url="macos-xpc_connection_get_audit_token-attack.md" %}
 [macos-xpc\_connection\_get\_audit\_token-attack.md](macos-xpc\_connection\_get\_audit\_token-attack.md)
 {% endcontent-ref %}
 
-### Trustcache - 降级攻击预防
+### Trustcache - 防止降级攻击
 
-Trustcache是一种在Apple Silicon机器上引入的防御方法，它存储了Apple二进制文件的CDHSAH数据库，因此只有允许的非修改二进制文件才能执行。这可以防止降级版本的执行。
+Trustcache 是一种在 Apple Silicon 机器上引入的防御方法，它存储了 Apple 二进制文件的 CDHSAH 数据库，因此只有允许的非修改二进制文件才能执行。这可以防止执行降级版本。
 
 ### 代码示例
 
-服务器将在名为**`shouldAcceptNewConnection`**的函数中实现此**验证**。
+服务器将在名为 **`shouldAcceptNewConnection`** 的函数中实现此 **验证**。
 
 {% code overflow="wrap" %}
 ```objectivec

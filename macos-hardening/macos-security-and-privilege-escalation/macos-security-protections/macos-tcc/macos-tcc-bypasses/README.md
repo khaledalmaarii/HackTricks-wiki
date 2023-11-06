@@ -2,12 +2,12 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一个**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
@@ -44,7 +44,7 @@ asd
 
 ### 处理扩展名 - CVE-2022-26767
 
-属性 **`com.apple.macl`** 被赋予文件以授予某个应用程序读取权限。当用户通过 **拖放** 文件到应用程序上或者双击文件以使用 **默认应用程序** 打开时，将设置此属性。
+文件被赋予属性 **`com.apple.macl`**，以使某个应用程序具有读取权限。当用户通过 **拖放** 文件到应用程序上或者双击文件以使用 **默认应用程序** 打开时，将设置此属性。
 
 因此，用户可以 **注册一个恶意应用程序** 来处理所有扩展名，并调用 Launch Services 来 **打开** 任何文件（因此，恶意文件将被授予读取权限）。
 
@@ -52,7 +52,7 @@ asd
 
 通过权限 **`com.apple.private.icloud-account-access`**，可以与 **`com.apple.iCloudHelper`** XPC 服务进行通信，该服务将提供 iCloud 令牌。
 
-**iMovie** 和 **Garageband** 具有此权限以及其他允许的权限。
+**iMovie** 和 **Garageband** 具有此权限以及其他权限。
 
 有关从该权限中获取 iCloud 令牌的漏洞的更多 **信息**，请查看演讲：[**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=_6e2LhmxVc0)
 
@@ -60,7 +60,7 @@ asd
 
 具有 **`kTCCServiceAppleEvents`** 权限的应用程序将能够 **控制其他应用程序**。这意味着它可以滥用授予其他应用程序的权限。
 
-有关 Apple 脚本的更多信息，请查看：
+有关 Apple 脚本的更多信息，请参阅：
 
 {% content-ref url="macos-apple-scripts.md" %}
 [macos-apple-scripts.md](macos-apple-scripts.md)
@@ -211,19 +211,19 @@ TCC使用位于用户HOME文件夹中的数据库来控制对用户特定资源�
 [macos-proces-abuse](../../../macos-proces-abuse/)
 {% endcontent-ref %}
 
-此外，绕过TCC最常见的进程注入方式是通过插件（加载库）进行的。插件通常以库或plist的形式存在，它们将由主应用程序加载并在其上下文中执行。因此，如果主应用程序具有对TCC受限文件的访问权限（通过授予的权限或entitlements），则自定义代码也将具有相同的访问权限。
+此外，绕过TCC最常见的进程注入方式是通过插件（加载库）进行的。插件通常以库或plist的形式存在，将由主应用程序加载并在其上下文中执行。因此，如果主应用程序具有对TCC受限文件的访问权限（通过授予权限或权限），则自定义代码也将具有相同的访问权限。
 
 ### CVE-2020-27937 - Directory Utility
 
-应用程序`/System/Library/CoreServices/Applications/Directory Utility.app`具有entitlement`kTCCServiceSystemPolicySysAdminFiles`，加载了扩展名为`.daplug`的插件，并且没有启用强化运行时。
+应用程序`/System/Library/CoreServices/Applications/Directory Utility.app`具有权限`kTCCServiceSystemPolicySysAdminFiles`，加载了扩展名为`.daplug`的插件，并且没有启用强化运行时。
 
-为了利用此CVE，滥用先前的entitlement，更改了`NFSHomeDirectory`（主目录），以便能够接管用户的TCC数据库以绕过TCC。
+为了利用此CVE，滥用先前的权限，更改了`NFSHomeDirectory`，以便能够接管用户的TCC数据库以绕过TCC。
 
 有关更多信息，请查看[原始报告](https://wojciechregula.blog/post/change-home-directory-and-bypass-tcc-aka-cve-2020-27937/)。
 
 ### CVE-2020-29621 - Coreaudiod
 
-二进制文件`/usr/sbin/coreaudiod`具有entitlements`com.apple.security.cs.disable-library-validation`和`com.apple.private.tcc.manager`。第一个entitlement允许代码注入，第二个entitlement允许其管理TCC。
+二进制文件`/usr/sbin/coreaudiod`具有权限`com.apple.security.cs.disable-library-validation`和`com.apple.private.tcc.manager`。第一个权限允许进行代码注入，第二个权限允许其管理TCC。
 
 该二进制文件允许从文件夹`/Library/Audio/Plug-Ins/HAL`加载第三方插件。因此，可以使用以下POC加载插件并滥用TCC权限：
 ```objectivec
@@ -300,7 +300,7 @@ Telegram具有权限`com.apple.security.cs.allow-dyld-environment-variables`和`
 
 ## 通过打开调用
 
-即使在沙盒环境中，也可以调用`open`。
+即使在沙盒环境中，也可以调用**`open`**。
 
 ### 终端脚本
 
@@ -364,11 +364,9 @@ ls /tmp/snap/Users/admin_user # This will work
 
 更详细的解释可以在[原始报告中找到](https://theevilbit.github.io/posts/cve\_2020\_9771/)。
 
-### CVE-2021-1784和CVE-2021-30808 - 在TCC文件上挂载
+### CVE-2021-1784和CVE-2021-30808 - 在TCC文件上进行挂载
 
-即使TCC DB文件受到保护，仍然可以在目录上**挂载一个新的TCC.db文件**：
-
-{% code overflow="wrap" %}
+即使TCC DB文件受到保护，仍然可以通过**挂载到目录上**一个新的TCC.db文件：
 ```bash
 # CVE-2021-1784
 ## Mount over Library/Application\ Support/com.apple.TCC
@@ -433,7 +431,7 @@ os.system("hdiutil detach /tmp/mnt 1>/dev/null")
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者想要**获取最新版本的PEASS或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[NFT收藏品](https://opensea.io/collection/the-peass-family)——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**

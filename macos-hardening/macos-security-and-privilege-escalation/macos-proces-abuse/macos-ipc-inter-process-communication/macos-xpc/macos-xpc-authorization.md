@@ -182,15 +182,15 @@ block(authRightName, authRightDefault, authRightDesc);
 }];
 }
 ```
-这意味着在此过程结束时，`commandInfo`中声明的权限将存储在`/var/db/auth.db`中。请注意，您可以在其中找到**每个需要身份验证的方法**，**权限名称**和**`kCommandKeyAuthRightDefault`**。后者**指示谁可以获得此权限**。
+这意味着在此过程结束时，`commandInfo` 中声明的权限将存储在 `/var/db/auth.db` 中。请注意，您可以在其中找到**每个需要身份验证的方法**、**权限名称**和**`kCommandKeyAuthRightDefault`**。后者**指示谁可以获得此权限**。
 
-有不同的范围来指示谁可以访问权限。其中一些在[AuthorizationDB.h](https://github.com/aosm/Security/blob/master/Security/libsecurity\_authorization/lib/AuthorizationDB.h)中定义（您可以在[此处找到所有内容](https://www.dssw.co.uk/reference/authorization-rights/)），但总结如下：
+有不同的范围来指示谁可以访问权限。其中一些在 [AuthorizationDB.h](https://github.com/aosm/Security/blob/master/Security/libsecurity\_authorization/lib/AuthorizationDB.h) 中定义（您可以在[这里找到所有内容](https://www.dssw.co.uk/reference/authorization-rights/)），但总结如下：
 
 <table><thead><tr><th width="284.3333333333333">名称</th><th width="165">值</th><th>描述</th></tr></thead><tbody><tr><td>kAuthorizationRuleClassAllow</td><td>allow</td><td>任何人</td></tr><tr><td>kAuthorizationRuleClassDeny</td><td>deny</td><td>无人</td></tr><tr><td>kAuthorizationRuleIsAdmin</td><td>is-admin</td><td>当前用户需要是管理员（在管理员组内）</td></tr><tr><td>kAuthorizationRuleAuthenticateAsSessionUser</td><td>authenticate-session-owner</td><td>要求用户进行身份验证。</td></tr><tr><td>kAuthorizationRuleAuthenticateAsAdmin</td><td>authenticate-admin</td><td>要求用户进行身份验证。他需要是管理员（在管理员组内）</td></tr><tr><td>kAuthorizationRightRule</td><td>rule</td><td>指定规则</td></tr><tr><td>kAuthorizationComment</td><td>comment</td><td>在权限上指定一些额外的注释</td></tr></tbody></table>
 
 ### 权限验证
 
-在`HelperTool/HelperTool.m`中，函数**`readLicenseKeyAuthorization`**检查调用者是否被授权**执行此方法**，调用函数**`checkAuthorization`**。此函数将检查由调用进程发送的**authData**是否具有**正确的格式**，然后将检查**获取权限所需的内容**以调用特定方法。如果一切顺利，**返回的`error`将为`nil`**：
+在 `HelperTool/HelperTool.m` 中，函数**`readLicenseKeyAuthorization`**检查调用者是否被授权**执行此方法**，调用函数**`checkAuthorization`**。此函数将检查调用进程发送的**authData**是否具有**正确的格式**，然后将检查**获取权限所需的条件**以调用特定方法。如果一切顺利，**返回的`error`将为`nil`**：
 ```objectivec
 - (NSError *)checkAuthorization:(NSData *)authData command:(SEL)command
 {
@@ -260,13 +260,13 @@ security authorizationdb read com.apple.safaridriver.allow
 
 1. **'authenticate-user': 'false'**
 * 这是最直接的键。如果设置为`false`，表示用户无需提供身份验证即可获得此权限。
-* 这与下面的两个键之一结合使用，或者指示用户必须属于的组。
+* 这与下面的两个键之一或指定的用户组合一起使用。
 2. **'allow-root': 'true'**
-* 如果用户作为具有提升权限的root用户操作，并且此键设置为`true`，则root用户可能无需进一步身份验证即可获得此权限。然而，通常情况下，要达到root用户状态已经需要进行身份验证，所以对于大多数用户来说，这不是一个“无需身份验证”的情况。
+* 如果用户作为root用户（具有提升的权限）操作，并且此键设置为`true`，则root用户可能无需进一步身份验证即可获得此权限。然而，通常情况下，要达到root用户状态已经需要进行身份验证，所以对于大多数用户来说，这不是一个“无需身份验证”的情况。
 3. **'session-owner': 'true'**
 * 如果设置为`true`，会话的所有者（当前登录的用户）将自动获得此权限。如果用户已经登录，则可能绕过其他身份验证。
 4. **'shared': 'true'**
-* 此键不会在没有身份验证的情况下授予权限。相反，如果设置为`true`，意味着一旦权限得到验证，它可以在多个进程之间共享，而无需每个进程重新进行身份验证。但是，初始授予权限仍然需要进行身份验证，除非与其他键（如`'authenticate-user': 'false'`）结合使用。
+* 此键不会在没有身份验证的情况下授予权限。相反，如果设置为`true`，意味着一旦权限得到验证，它可以在多个进程之间共享，而无需每个进程重新进行身份验证。但是，初始授予权限仍然需要进行身份验证，除非与其他键（如`'authenticate-user': 'false'`）组合使用。
 
 你可以使用[**这个脚本**](https://gist.github.com/carlospolop/96ecb9e385a4667b9e40b24e878652f9)获取有趣的权限：
 ```bash
@@ -275,7 +275,6 @@ is-admin (admin), is-admin-nonshared (admin), is-appstore (_appstore), is-develo
 
 Rights with 'allow-root': 'true':
 com-apple-aosnotification-findmymac-remove, com-apple-diskmanagement-reservekek, com-apple-openscripting-additions-send, com-apple-reportpanic-fixright, com-apple-servicemanagement-blesshelper, com-apple-xtype-fontmover-install, com-apple-xtype-fontmover-remove, com-apple-dt-instruments-process-analysis, com-apple-dt-instruments-process-kill, com-apple-pcastagentconfigd-wildcard, com-apple-trust-settings-admin, com-apple-wifivelocity, com-apple-wireless-diagnostics, is-root, system-install-iap-software, system-install-software, system-install-software-iap, system-preferences, system-preferences-accounts, system-preferences-datetime, system-preferences-energysaver, system-preferences-network, system-preferences-printing, system-preferences-security, system-preferences-sharing, system-preferences-softwareupdate, system-preferences-startupdisk, system-preferences-timemachine, system-print-operator, system-privilege-admin, system-services-networkextension-filtering, system-services-networkextension-vpn, system-services-systemconfiguration-network, system-sharepoints-wildcard
-
 
 Rights with 'session-owner': 'true':
 authenticate-session-owner, authenticate-session-owner-or-admin, authenticate-session-user, com-apple-safari-allow-apple-events-to-run-javascript, com-apple-safari-allow-javascript-in-smart-search-field, com-apple-safari-allow-unsigned-app-extensions, com-apple-safari-install-ephemeral-extensions, com-apple-safari-show-credit-card-numbers, com-apple-safari-show-passwords, com-apple-icloud-passwordreset, com-apple-icloud-passwordreset, is-session-owner, system-identity-write-self, use-login-window-ui
@@ -428,7 +427,7 @@ NSLog(@"Finished!");
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一个**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者想要**获取PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在一个**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**

