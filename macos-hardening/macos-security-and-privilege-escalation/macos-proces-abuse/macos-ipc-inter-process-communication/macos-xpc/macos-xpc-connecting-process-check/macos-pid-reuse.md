@@ -31,7 +31,7 @@ Vérifiez cet exemple d'exploitation (encore une fois, pris à partir de la réf
 * **Chaque fork** enverra la **charge utile** au service XPC tout en exécutant **`posix_spawn`** juste après l'envoi du message.
 
 {% hint style="danger" %}
-Pour que l'exploitation fonctionne, il est important d'exporter **`OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`** ou de le mettre dans l'exploitation :
+Pour que l'exploitation fonctionne, il est important d'`exporter` **`OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`** ou de le mettre à l'intérieur de l'exploitation :
 ```objectivec
 asm(".section __DATA,__objc_fork_ok\n"
 "empty:\n"

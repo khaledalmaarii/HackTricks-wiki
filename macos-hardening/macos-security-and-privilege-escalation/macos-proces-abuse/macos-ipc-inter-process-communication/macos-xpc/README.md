@@ -26,13 +26,13 @@ Les principaux avantages de XPC sont les suivants :
 
 Le seul **inconvénient** est que **séparer une application en plusieurs processus** qui communiquent via XPC est **moins efficace**. Mais dans les systèmes d'aujourd'hui, cela est presque imperceptible et les avantages sont meilleurs.
 
-## Services XPC spécifiques à une application
+## Services XPC spécifiques à l'application
 
 Les composants XPC d'une application se trouvent **à l'intérieur de l'application elle-même**. Par exemple, dans Safari, vous pouvez les trouver dans **`/Applications/Safari.app/Contents/XPCServices`**. Ils ont l'extension **`.xpc`** (comme **`com.apple.Safari.SandboxBroker.xpc`**) et sont **également des bundles** avec le binaire principal à l'intérieur : `/Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/MacOS/com.apple.Safari.SandboxBroker` et un fichier `Info.plist : /Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/Info.plist`
 
 Comme vous pouvez le penser, un **composant XPC aura des autorisations et des privilèges différents** des autres composants XPC ou du binaire principal de l'application. SAUF si un service XPC est configuré avec [**JoinExistingSession**](https://developer.apple.com/documentation/bundleresources/information\_property\_list/xpcservice/joinexistingsession) défini sur "True" dans son fichier **Info.plist**. Dans ce cas, le service XPC s'exécutera dans la **même session de sécurité que l'application** qui l'a appelé.
 
-Les services XPC sont **démarrés** par **launchd** lorsque cela est nécessaire et **arrêtés** une fois que toutes les tâches sont **terminées** pour libérer les ressources système. Les composants XPC spécifiques à une application ne peuvent être utilisés que par l'application, réduisant ainsi les risques liés aux vulnérabilités potentielles.
+Les services XPC sont **démarrés** par **launchd** lorsque cela est nécessaire et **arrêtés** une fois que toutes les tâches sont **terminées** pour libérer les ressources système. Les composants XPC spécifiques à l'application ne peuvent être utilisés que par l'application, réduisant ainsi les risques liés aux vulnérabilités potentielles.
 
 ## Services XPC à l'échelle du système
 
@@ -107,7 +107,7 @@ xpcspy -U -r -W <bundle-id>
 ## Using filters (i: for input, o: for output)
 xpcspy -U <prog-name> -t 'i:com.apple.*' -t 'o:com.apple.*' -r
 ```
-## Exemple de code C
+## Exemple de code C pour la communication XPC
 
 {% tabs %}
 {% tab title="xpc_server.c" %}
@@ -262,7 +262,7 @@ sudo launchctl load /Library/LaunchDaemons/xyz.hacktricks.service.plist
 sudo launchctl unload /Library/LaunchDaemons/xyz.hacktricks.service.plist
 sudo rm /Library/LaunchDaemons/xyz.hacktricks.service.plist /tmp/xpc_server
 ```
-## Exemple de code Objective-C
+## Exemple de code Objective-C pour la communication XPC
 
 {% tabs %}
 {% tab title="oc_xpc_server.m" %}
@@ -338,7 +338,7 @@ NSLog(@"Received response: %@", response);
 return 0;
 }
 ```
-{% tab title="xyz.hacktricks.svcoc.plist" %}xyz.hacktricks.svcoc.plist est un fichier de configuration utilisé pour définir les paramètres de communication inter-processus (IPC) pour les services XPC sur macOS. Les services XPC sont des processus qui permettent aux applications de communiquer entre elles de manière sécurisée. Ce fichier plist contient des clés et des valeurs qui spécifient les autorisations et les restrictions pour chaque service XPC. En modifiant ce fichier, il est possible de manipuler les autorisations et les privilèges des services XPC, ce qui peut conduire à une élévation de privilèges sur le système macOS. Il est important de noter que la modification de ce fichier nécessite des privilèges d'administrateur.
+{% tab title="xyz.hacktricks.svcoc.plist" %}xyz.hacktricks.svcoc.plist est un fichier de configuration utilisé par le service XPC sur macOS. Le service XPC est un mécanisme d'intercommunication entre processus qui permet aux applications de communiquer entre elles de manière sécurisée. Ce fichier de configuration spécifie les paramètres et les autorisations pour le service XPC. Il peut être utilisé pour définir les autorisations d'accès aux ressources système, les restrictions de sécurité et d'autres paramètres liés à la communication interprocessus. Il est important de sécuriser ce fichier pour éviter les abus et les privilèges d'escalade.
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
@@ -410,14 +410,14 @@ Pour mettre en place un client à l'intérieur d'un code Dylb, vous pouvez suivr
 
    Recevez et traitez la réponse du serveur.
 
-Here is an example of a client code inside a Dylb code:
+Here is an example of client code inside a Dylb code:
 
 Voici un exemple de code client à l'intérieur d'un code Dylb :
 
 ```python
 import socket
 
-# Define the server's IP address and port number
+# Define server IP address and port number
 server_ip = "192.168.0.1"
 server_port = 1234
 
@@ -427,21 +427,20 @@ client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # Establish a connection with the server
 client_socket.connect((server_ip, server_port))
 
-# Send a request to the server
-request = "Hello, server!"
-client_socket.send(request.encode())
+# Send requests to the server
+client_socket.send(b"Hello, server!")
 
 # Receive and process the server's response
-response = client_socket.recv(1024).decode()
-print("Server response:", response)
+response = client_socket.recv(1024)
+print(response.decode())
 
 # Close the connection
 client_socket.close()
 ```
 
-Remember to replace the server's IP address and port number with the actual values of your server.
+In this example, the client code establishes a TCP connection with the server at the specified IP address and port number. It sends a "Hello, server!" message to the server and receives the server's response, which is then printed on the console. Finally, the connection is closed.
 
-N'oubliez pas de remplacer l'adresse IP et le numéro de port du serveur par les valeurs réelles de votre serveur.
+Dans cet exemple, le code client établit une connexion TCP avec le serveur à l'adresse IP et au numéro de port spécifiés. Il envoie un message "Hello, server!" au serveur et reçoit la réponse du serveur, qui est ensuite affichée sur la console. Enfin, la connexion est fermée.
 ```objectivec
 // gcc -dynamiclib -framework Foundation oc_xpc_client.m -o oc_xpc_client.dylib
 // gcc injection example:
@@ -479,7 +478,7 @@ return;
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? Ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**

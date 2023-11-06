@@ -20,7 +20,7 @@ Lorsqu'une application a besoin d'**exécuter des actions en tant qu'utilisateur
 
 ### ShouldAcceptNewConnection toujours YES
 
-Un exemple peut être trouvé dans [EvenBetterAuthorizationSample](https://github.com/brenwell/EvenBetterAuthorizationSample). Dans `App/AppDelegate.m`, il essaie de **se connecter** au **HelperTool**. Et dans `HelperTool/HelperTool.m`, la fonction **`shouldAcceptNewConnection`** ne **vérifiera pas** les exigences indiquées précédemment. Elle renverra toujours YES :
+Un exemple peut être trouvé dans [EvenBetterAuthorizationSample](https://github.com/brenwell/EvenBetterAuthorizationSample). Dans `App/AppDelegate.m`, il essaie de **se connecter** au **HelperTool**. Et dans `HelperTool/HelperTool.m`, la fonction **`shouldAcceptNewConnection`** **ne vérifiera pas** les exigences indiquées précédemment. Elle renverra toujours YES :
 ```objectivec
 - (BOOL)listener:(NSXPCListener *)listener shouldAcceptNewConnection:(NSXPCConnection *)newConnection
 // Called by our XPC listener when a new connection comes in.  We configure the connection
@@ -37,18 +37,18 @@ newConnection.exportedObject = self;
 return YES;
 }
 ```
-Pour plus d'informations sur la configuration appropriée de cette vérification :
+Pour plus d'informations sur la configuration appropriée de cette vérification:
 
 {% content-ref url="macos-xpc-connecting-process-check/" %}
 [macos-xpc-connecting-process-check](macos-xpc-connecting-process-check/)
 {% endcontent-ref %}
 
-### Droits de l'application
+### Droits d'application
 
-Cependant, une **autorisation est accordée lorsqu'une méthode du HelperTool est appelée**.
+Cependant, il y a une **autorisation en cours lorsqu'une méthode du HelperTool est appelée**.
 
-La fonction **`applicationDidFinishLaunching`** du fichier `App/AppDelegate.m` créera une référence d'autorisation vide après le démarrage de l'application. Cela devrait toujours fonctionner.\
-Ensuite, elle essaiera d'**ajouter certains droits** à cette référence d'autorisation en appelant `setupAuthorizationRights` :
+La fonction **`applicationDidFinishLaunching`** de `App/AppDelegate.m` créera une référence d'autorisation vide après le démarrage de l'application. Cela devrait toujours fonctionner.\
+Ensuite, il essaiera d'**ajouter certains droits** à cette référence d'autorisation en appelant `setupAuthorizationRights`:
 ```objectivec
 - (void)applicationDidFinishLaunching:(NSNotification *)note
 {
@@ -238,9 +238,9 @@ assert(junk == errAuthorizationSuccess);
 return error;
 }
 ```
-Notez que pour vérifier les exigences afin d'obtenir le droit d'appeler cette méthode, la fonction `authorizationRightForCommand` vérifiera simplement l'objet précédemment commenté **`commandInfo`**. Ensuite, elle appellera **`AuthorizationCopyRights`** pour vérifier **si elle a les droits** d'appeler la fonction (notez que les indicateurs permettent une interaction avec l'utilisateur).
+Notez que pour vérifier les exigences afin d'obtenir le droit d'appeler cette méthode, la fonction `authorizationRightForCommand` vérifiera simplement l'objet précédemment commenté `commandInfo`. Ensuite, elle appellera `AuthorizationCopyRights` pour vérifier si elle a le droit d'appeler la fonction (notez que les indicateurs permettent une interaction avec l'utilisateur).
 
-Dans ce cas, pour appeler la fonction `readLicenseKeyAuthorization`, le `kCommandKeyAuthRightDefault` est défini sur `@kAuthorizationRuleClassAllow`. Ainsi, **n'importe qui peut l'appeler**.
+Dans ce cas, pour appeler la fonction `readLicenseKeyAuthorization`, `kCommandKeyAuthRightDefault` est défini comme `@kAuthorizationRuleClassAllow`. Ainsi, n'importe qui peut l'appeler.
 
 ### Informations sur la base de données
 
@@ -262,7 +262,7 @@ Vous pouvez trouver **toutes les configurations de permissions** [**ici**](https
 * C'est la clé la plus directe. Si elle est définie sur `false`, cela signifie qu'un utilisateur n'a pas besoin de fournir d'authentification pour obtenir ce droit.
 * Cela est utilisé en **combinaison avec l'une des 2 options ci-dessous ou en indiquant un groupe** auquel l'utilisateur doit appartenir.
 2. **'allow-root': 'true'**
-* Si un utilisateur opère en tant qu'utilisateur root (qui a des permissions élevées) et que cette clé est définie sur `true`, l'utilisateur root pourrait potentiellement obtenir ce droit sans autre authentification. Cependant, en général, accéder au statut d'utilisateur root nécessite déjà une authentification, donc ce n'est pas un scénario "sans authentification" pour la plupart des utilisateurs.
+* Si un utilisateur opère en tant qu'utilisateur root (qui dispose de permissions élevées) et que cette clé est définie sur `true`, l'utilisateur root pourrait potentiellement obtenir ce droit sans autre authentification. Cependant, en général, accéder au statut d'utilisateur root nécessite déjà une authentification, il ne s'agit donc pas d'un scénario "sans authentification" pour la plupart des utilisateurs.
 3. **'session-owner': 'true'**
 * Si elle est définie sur `true`, le propriétaire de la session (l'utilisateur actuellement connecté) obtiendrait automatiquement ce droit. Cela pourrait contourner une authentification supplémentaire si l'utilisateur est déjà connecté.
 4. **'shared': 'true'**
@@ -275,7 +275,6 @@ is-admin (admin), is-admin-nonshared (admin), is-appstore (_appstore), is-develo
 
 Rights with 'allow-root': 'true':
 com-apple-aosnotification-findmymac-remove, com-apple-diskmanagement-reservekek, com-apple-openscripting-additions-send, com-apple-reportpanic-fixright, com-apple-servicemanagement-blesshelper, com-apple-xtype-fontmover-install, com-apple-xtype-fontmover-remove, com-apple-dt-instruments-process-analysis, com-apple-dt-instruments-process-kill, com-apple-pcastagentconfigd-wildcard, com-apple-trust-settings-admin, com-apple-wifivelocity, com-apple-wireless-diagnostics, is-root, system-install-iap-software, system-install-software, system-install-software-iap, system-preferences, system-preferences-accounts, system-preferences-datetime, system-preferences-energysaver, system-preferences-network, system-preferences-printing, system-preferences-security, system-preferences-sharing, system-preferences-softwareupdate, system-preferences-startupdisk, system-preferences-timemachine, system-print-operator, system-privilege-admin, system-services-networkextension-filtering, system-services-networkextension-vpn, system-services-systemconfiguration-network, system-sharepoints-wildcard
-
 
 Rights with 'session-owner': 'true':
 authenticate-session-owner, authenticate-session-owner-or-admin, authenticate-session-user, com-apple-safari-allow-apple-events-to-run-javascript, com-apple-safari-allow-javascript-in-smart-search-field, com-apple-safari-allow-unsigned-app-extensions, com-apple-safari-install-ephemeral-extensions, com-apple-safari-show-credit-card-numbers, com-apple-safari-show-passwords, com-apple-icloud-passwordreset, com-apple-icloud-passwordreset, is-session-owner, system-identity-write-self, use-login-window-ui

@@ -17,16 +17,16 @@
 Lorsqu'une connexion est établie vers un service XPC, le serveur vérifie si la connexion est autorisée. Voici les vérifications qu'il effectue généralement :
 
 1. Vérifier si le **processus connectant est signé avec un certificat signé par Apple** (uniquement délivré par Apple).
-* Si cela **n'est pas vérifié**, un attaquant peut créer un **faux certificat** pour correspondre à toute autre vérification.
+* Si cela **n'est pas vérifié**, un attaquant pourrait créer un **faux certificat** pour correspondre à toute autre vérification.
 2. Vérifier si le processus connectant est signé avec le **certificat de l'organisation** (vérification de l'ID de l'équipe).
 * Si cela **n'est pas vérifié**, **n'importe quel certificat de développeur** d'Apple peut être utilisé pour la signature et la connexion au service.
-3. Vérifier si le processus connectant **contient un ID de bundle approprié**.
+3. Vérifier si le processus connectant **contient un identifiant de bundle approprié**.
 * Si cela **n'est pas vérifié**, n'importe quel outil **signé par la même organisation** pourrait être utilisé pour interagir avec le service XPC.
 4. (4 ou 5) Vérifier si le processus connectant a un **numéro de version logicielle approprié**.
 * Si cela **n'est pas vérifié**, des clients anciens et non sécurisés, vulnérables à l'injection de processus, pourraient être utilisés pour se connecter au service XPC même avec les autres vérifications en place.
 5. (4 ou 5) Vérifier si le processus connectant a un runtime renforcé sans autorisations dangereuses (comme celles qui permettent de charger des bibliothèques arbitraires ou d'utiliser des variables d'environnement DYLD).
-* Si cela **n'est pas vérifié**, le client pourrait être **vulnérable à l'injection de code**.
-6. Vérifier si le processus connectant possède une **autorisation** qui lui permet de se connecter au service. Cela s'applique aux binaires Apple.
+1. Si cela **n'est pas vérifié**, le client pourrait être **vulnérable à l'injection de code**.
+6. Vérifier si le processus connectant dispose d'une **autorisation** qui lui permet de se connecter au service. Cela s'applique aux binaires Apple.
 7. La **vérification** doit être **basée** sur le **jeton d'audit du client connectant** plutôt que sur son ID de processus (**PID**), car cela empêche les attaques de réutilisation de PID.
 * Les développeurs utilisent rarement l'appel API du jeton d'audit car il est **privé**, donc Apple pourrait le **modifier** à tout moment. De plus, l'utilisation d'API privées n'est pas autorisée dans les applications du Mac App Store.
 * **`xpc_dictionary_get_audit_token`** doit être utilisé à la place de **`xpc_connection_get_audit_token`**, car ce dernier pourrait également être [vulnérable dans certaines situations](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/).

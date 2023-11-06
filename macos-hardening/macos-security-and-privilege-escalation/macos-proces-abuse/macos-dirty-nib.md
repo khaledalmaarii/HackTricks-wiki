@@ -86,7 +86,7 @@ grabbed's writeToFile:"/Users/xpn/Library/Containers/com.apple.iWork.Pages/Data/
 
 ## Contraintes de lancement
 
-Elles **empêchent essentiellement l'exécution d'applications en dehors de leurs emplacements attendus**, donc si vous copiez une application protégée par des contraintes de lancement dans `/tmp`, vous ne pourrez pas l'exécuter.\
+Elles **empêchent essentiellement l'exécution d'applications en dehors de leurs emplacements prévus**, donc si vous copiez une application protégée par des contraintes de lancement dans `/tmp`, vous ne pourrez pas l'exécuter.\
 [**Trouvez plus d'informations dans cet article**](../macos-security-protections/#launch-constraints)**.**
 
 Cependant, en analysant le fichier **`/System/Volumes/Preboot/*/boot/*/usr/standalone/firmware/FUD/StaticTrustCache.img4`**, vous pouvez toujours trouver des **applications qui ne sont pas protégées par des contraintes de lancement**, vous pouvez donc toujours **injecter** des fichiers **NIB** dans des emplacements arbitraires dans **ces applications** (consultez le lien précédent pour apprendre comment trouver ces applications).

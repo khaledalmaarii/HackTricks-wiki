@@ -145,14 +145,14 @@ spctl --assess -v /Applications/App.app
 
 Lors du téléchargement d'une application ou d'un fichier, certaines applications macOS telles que les navigateurs web ou les clients de messagerie électronique ajoutent un attribut de fichier étendu, communément appelé "**drapeau de quarantaine**", au fichier téléchargé. Cet attribut agit comme une mesure de sécurité pour marquer le fichier comme provenant d'une source non fiable (Internet) et potentiellement porteur de risques. Cependant, toutes les applications n'attachent pas cet attribut, par exemple, les logiciels clients BitTorrent courants contournent généralement ce processus.
 
-**La présence d'un drapeau de quarantaine signale la fonction de sécurité Gatekeeper de macOS lorsque l'utilisateur tente d'exécuter le fichier**.
+**La présence d'un drapeau de quarantaine signale la fonctionnalité de sécurité Gatekeeper de macOS lorsque l'utilisateur tente d'exécuter le fichier**.
 
 Dans le cas où le **drapeau de quarantaine n'est pas présent** (comme pour les fichiers téléchargés via certains clients BitTorrent), les **vérifications de Gatekeeper peuvent ne pas être effectuées**. Par conséquent, les utilisateurs doivent faire preuve de prudence lors de l'ouverture de fichiers téléchargés à partir de sources moins sécurisées ou inconnues.
 
 {% hint style="info" %}
 **Vérifier** la **validité** des signatures de code est un processus **gourmand en ressources** qui comprend la génération de **hachages** cryptographiques du code et de toutes ses ressources incluses. De plus, la vérification de la validité du certificat implique une **vérification en ligne** auprès des serveurs d'Apple pour voir s'il a été révoqué après sa délivrance. Pour ces raisons, une vérification complète de la signature du code et de la notarisation est **impraticable à exécuter à chaque lancement d'une application**.
 
-Par conséquent, ces vérifications ne sont **effectuées que lors de l'exécution d'applications avec l'attribut de quarantaine**.
+Par conséquent, ces vérifications sont **uniquement effectuées lors de l'exécution d'applications avec l'attribut de quarantaine**.
 {% endhint %}
 
 {% hint style="warning" %}
@@ -172,7 +172,7 @@ spctl --disable
 ```
 Vous pouvez également **vérifier si un fichier possède l'attribut étendu de quarantaine** avec :
 ```bash
-xattr portada.png
+xattr file.png
 com.apple.macl
 com.apple.quarantine
 ```
@@ -309,7 +309,7 @@ aa archive -d test/ -o test.aar
 ```
 {% endcode %}
 
-Être capable de créer un fichier qui n'aura pas l'attribut de quarantaine défini, il était **possible de contourner Gatekeeper**. Le truc était de **créer une application de fichier DMG** en utilisant la convention de nom AppleDouble (commencer par `._`) et de créer un **fichier visible en tant que lien symbolique vers ce fichier caché** sans l'attribut de quarantaine.\
+Être capable de créer un fichier qui n'aura pas l'attribut de quarantaine défini, il était **possible de contourner Gatekeeper**. Le truc était de **créer une application de fichier DMG** en utilisant la convention de nom AppleDouble (en commençant par `._`) et de créer un **fichier visible en tant que lien symbolique vers ce fichier caché** sans l'attribut de quarantaine.\
 Lorsque le **fichier dmg est exécuté**, comme il n'a pas d'attribut de quarantaine, il **contournera Gatekeeper**.
 ```bash
 # Create an app bundle with the backdoor an call it app.app

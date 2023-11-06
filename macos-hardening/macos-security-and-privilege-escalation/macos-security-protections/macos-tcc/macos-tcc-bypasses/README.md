@@ -50,11 +50,11 @@ Par conséquent, un utilisateur pourrait **enregistrer une application malveilla
 
 ### iCloud
 
-Avec l'autorisation **`com.apple.private.icloud-account-access`**, il est possible de communiquer avec le service XPC **`com.apple.iCloudHelper`** qui **fournira des jetons iCloud**.
+Avec l'entitlement **`com.apple.private.icloud-account-access`**, il est possible de communiquer avec le service XPC **`com.apple.iCloudHelper`** qui **fournira des jetons iCloud**.
 
-**iMovie** et **Garageband** avaient cette autorisation et d'autres qui le permettaient.
+**iMovie** et **Garageband** avaient cet entitlement et d'autres qui le permettaient.
 
-Pour plus d'**informations** sur l'exploitation pour **obtenir des jetons iCloud** à partir de cette autorisation, consultez la présentation : [**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=_6e2LhmxVc0)
+Pour plus d'**informations** sur l'exploit pour **obtenir des jetons iCloud** à partir de cet entitlement, consultez la présentation : [**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=_6e2LhmxVc0)
 
 ### kTCCServiceAppleEvents / Automation
 
@@ -303,11 +303,11 @@ Telegram avait les autorisations `com.apple.security.cs.allow-dyld-environment-v
 
 ## Par des invocations ouvertes
 
-Il est possible d'invoquer `open` même lorsque le sandbox est activé&#x20;
+Il est possible d'invoquer **`open`** même lorsque le sandbox est activé&#x20;
 
 ### Scripts Terminal
 
-Il est assez courant de donner un **Accès complet au disque (FDA)** au terminal, du moins sur les ordinateurs utilisés par les personnes techniques. Et il est possible d'invoquer des scripts **`.terminal`** avec cela.
+Il est assez courant de donner un **Accès complet au disque (FDA)** au terminal, du moins sur les ordinateurs utilisés par les personnes techniques. Et il est possible d'invoquer des scripts **`.terminal`** en l'utilisant.
 
 Les scripts **`.terminal`** sont des fichiers plist comme celui-ci avec la commande à exécuter dans la clé **`CommandString`**:
 ```xml

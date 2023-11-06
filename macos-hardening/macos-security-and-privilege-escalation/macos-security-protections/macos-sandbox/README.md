@@ -62,7 +62,7 @@ drwx------   2 username  staff    64 Mar 24 18:02 SystemData
 drwx------   2 username  staff    64 Mar 24 18:02 tmp
 ```
 {% hint style="danger" %}
-Notez que même si les liens symboliques sont là pour "échapper" au Sandbox et accéder à d'autres dossiers, l'application doit toujours **avoir les permissions** pour y accéder. Ces permissions se trouvent dans le **`.plist`**.
+Notez que même si les liens symboliques sont là pour "échapper" au Sandbox et accéder à d'autres dossiers, l'application doit toujours **avoir les permissions** pour y accéder. Ces permissions se trouvent dans le fichier **`.plist`**.
 {% endhint %}
 ```bash
 # Get permissions
@@ -111,9 +111,13 @@ AAAhAboBAAAAAAgAAABZAO4B5AHjBMkEQAUPBSsGPwsgASABHgEgASABHwEf...
 <array/>
 [...]
 ```
+{% hint style="warning" %}
+Tout ce qui est créé/modifié par une application sandboxée obtiendra l'attribut de **quarantaine**. Cela empêchera un espace sandbox en déclenchant Gatekeeper si l'application sandboxée essaie d'exécuter quelque chose avec **`open`**.
+{% endhint %}
+
 ### Profils de sandbox
 
-Les profils de sandbox sont des fichiers de configuration qui indiquent ce qui est autorisé/interdit dans cette sandbox. Ils utilisent le langage de profil de sandbox (SBPL), qui utilise le langage de programmation [Scheme](https://fr.wikipedia.org/wiki/Scheme_(langage)). 
+Les profils de sandbox sont des fichiers de configuration qui indiquent ce qui est **autorisé/interdit** dans cette **sandbox**. Il utilise le langage de profil de sandbox (SBPL), qui utilise le langage de programmation [Scheme](https://en.wikipedia.org/wiki/Scheme_\(programming_language\)).
 
 Voici un exemple :
 ```scheme
