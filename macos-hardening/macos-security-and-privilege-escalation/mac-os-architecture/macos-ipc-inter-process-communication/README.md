@@ -208,7 +208,7 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    printf("Message sent successfully!\n");
+    printf("Message sent to securityd\n");
 
     return 0;
 }
@@ -272,20 +272,20 @@ printf("Sent a message\n");
 
 ### Portas Privilegiadas
 
-* **Porta do host**: Se um processo tem o privilégio de **enviar** sobre esta porta, ele pode obter **informações** sobre o **sistema** (por exemplo, `host_processor_info`).
-* **Porta privilégiada do host**: Um processo com o direito de **enviar** sobre esta porta pode realizar **ações privilegiadas**, como carregar uma extensão do kernel. O **processo precisa ser root** para obter essa permissão.
+* **Porta do host**: Se um processo tem o **privilégio de envio** sobre esta porta, ele pode obter **informações** sobre o **sistema** (por exemplo, `host_processor_info`).
+* **Porta de privilégio do host**: Um processo com o direito de **envio** sobre esta porta pode realizar **ações privilegiadas**, como carregar uma extensão do kernel. O **processo precisa ser root** para obter essa permissão.
 * Além disso, para chamar a API **`kext_request`**, é necessário ter outras permissões **`com.apple.private.kext*`**, que são concedidas apenas a binários da Apple.
 * **Porta do nome da tarefa**: Uma versão não privilegiada da _porta da tarefa_. Ela faz referência à tarefa, mas não permite controlá-la. A única coisa que parece estar disponível através dela é `task_info()`.
 * **Porta da tarefa** (também conhecida como porta do kernel)**:** Com permissão de envio sobre esta porta, é possível controlar a tarefa (ler/escrever memória, criar threads...).
 * Chame `mach_task_self()` para **obter o nome** desta porta para a tarefa chamadora. Esta porta é **herdada** apenas através do **`exec()`**; uma nova tarefa criada com `fork()` recebe uma nova porta de tarefa (como um caso especial, uma tarefa também recebe uma nova porta de tarefa após `exec()` em um binário suid). A única maneira de criar uma tarefa e obter sua porta é realizar a ["dança de troca de porta"](https://robert.sesek.com/2014/1/changes\_to\_xnu\_mach\_ipc.html) enquanto faz um `fork()`.
-* Estas são as restrições para acessar a porta (de `macos_task_policy` do binário `AppleMobileFileIntegrity`):
+* Estas são as restrições para acessar a porta (do `macos_task_policy` do binário `AppleMobileFileIntegrity`):
 * Se o aplicativo tiver a permissão **`com.apple.security.get-task-allow`**, processos do **mesmo usuário podem acessar a porta da tarefa** (comumente adicionado pelo Xcode para depuração). O processo de **notarização** não permitirá isso em lançamentos de produção.
-* Aplicativos com a permissão **`com.apple.system-task-ports`** podem obter a **porta da tarefa para qualquer** processo, exceto o kernel. Em versões mais antigas, era chamada **`task_for_pid-allow`**. Isso é concedido apenas a aplicativos da Apple.
+* Aplicativos com a permissão **`com.apple.system-task-ports`** podem obter a **porta da tarefa para qualquer** processo, exceto o kernel. Em versões mais antigas, era chamado **`task_for_pid-allow`**. Isso é concedido apenas a aplicativos da Apple.
 * **Root pode acessar portas de tarefas** de aplicativos **não** compilados com um tempo de execução **fortificado** (e não da Apple).
 
 ### Injeção de Shellcode em thread via Porta da Tarefa
 
-Você pode obter um shellcode de:
+Você pode obter um shellcode em:
 
 {% content-ref url="../../macos-apps-inspecting-debugging-and-fuzzing/arm64-basic-assembly.md" %}
 [arm64-basic-assembly.md](../../macos-apps-inspecting-debugging-and-fuzzing/arm64-basic-assembly.md)
@@ -543,7 +543,7 @@ gcc -framework Foundation -framework Appkit sc_inject.m -o sc_inject
 ```
 ### Injeção de Dylib em thread via porta de tarefa
 
-No macOS, as **threads** podem ser manipuladas através do **Mach** ou usando a API **posix `pthread`**. A thread que geramos na injeção anterior foi gerada usando a API Mach, portanto, **não é compatível com posix**.
+No macOS, as **threads** podem ser manipuladas via **Mach** ou usando a **API posix `pthread`**. A thread que geramos na injeção anterior foi gerada usando a API Mach, portanto, **não é compatível com posix**.
 
 Foi possível **injetar um shellcode simples** para executar um comando porque não era necessário trabalhar com APIs compatíveis com posix, apenas com Mach. Injeções **mais complexas** precisariam que a **thread** também fosse **compatível com posix**.
 
@@ -751,7 +751,7 @@ kr = mach_vm_write(remoteTask,                   // Porta da tarefa
 
 if (kr != KERN_SUCCESS)
 {
-    fprintf(stderr, "Não foi possível escrever na memória do thread remoto: Erro %s\n", mach_error_string(kr));
+    fprintf(stderr, "Não foi possível escrever na memória da thread remota: Erro %s\n", mach_error_string(kr));
     return (-3);
 }
 
@@ -761,7 +761,7 @@ kr = vm_protect(remoteTask, remoteCode64, 0x70, FALSE, VM_PROT_READ | VM_PROT_EX
 
 if (kr != KERN_SUCCESS)
 {
-    fprintf(stderr, "Não foi possível definir as permissões de memória para o código do thread remoto: Erro %s\n", mach_error_string(kr));
+    fprintf(stderr, "Não foi possível definir as permissões de memória para o código da thread remota: Erro %s\n", mach_error_string(kr));
     return (-4);
 }
 
@@ -770,12 +770,12 @@ kr = vm_protect(remoteTask, remoteStack64, STACK_SIZE, TRUE, VM_PROT_READ | VM_P
 
 if (kr != KERN_SUCCESS)
 {
-    fprintf(stderr, "Não foi possível definir as permissões de memória para a pilha do thread remoto: Erro %s\n", mach_error_string(kr));
+    fprintf(stderr, "Não foi possível definir as permissões de memória para a pilha da thread remota: Erro %s\n", mach_error_string(kr));
     return (-4);
 }
 
 
-// Crie um thread para executar o shellcode
+// Crie uma thread para executar o shellcode
 struct arm_unified_thread_state remoteThreadState64;
 thread_act_t remoteThread;
 
@@ -791,14 +791,14 @@ remoteThreadState64.ash.count = ARM_THREAD_STATE64_COUNT;
 remoteThreadState64.ts_64.__pc = (u_int64_t)remoteCode64;
 remoteThreadState64.ts_64.__sp = (u_int64_t)remoteStack64;
 
-printf("Pilha remota 64  0x%llx, Código remoto é %p\n", remoteStack64, p);
+printf("Pilha Remota 64  0x%llx, Código Remoto é %p\n", remoteStack64, p);
 
 kr = thread_create_running(remoteTask, ARM_THREAD_STATE64, // ARM_THREAD_STATE64,
                            (thread_state_t)&remoteThreadState64.ts_64, ARM_THREAD_STATE64_COUNT, &remoteThread);
 
 if (kr != KERN_SUCCESS)
 {
-    fprintf(stderr, "Não foi possível criar o thread remoto: erro %s", mach_error_string(kr));
+    fprintf(stderr, "Não foi possível criar a thread remota: erro %s", mach_error_string(kr));
     return (-3);
 }
 

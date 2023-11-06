@@ -129,7 +129,7 @@ Lembre-se de que as restrições de **Validação de Biblioteca anteriores tamb�
 
 Do **`man dlopen`**:
 
-* Quando o caminho **não contém um caractere de barra** (ou seja, é apenas um nome de folha), o **dlopen() fará uma busca**. Se **`$DYLD_LIBRARY_PATH`** foi definido no lançamento, o dyld primeiro **procurará nesse diretório**. Em seguida, se o arquivo mach-o chamador ou o executável principal especificar um **`LC_RPATH`**, o dyld **procurará nesses** diretórios. Em seguida, se o processo estiver **sem restrições**, o dyld procurará no **diretório de trabalho atual**. Por último, para binários antigos, o dyld tentará algumas alternativas. Se **`$DYLD_FALLBACK_LIBRARY_PATH`** foi definido no lançamento, o dyld procurará nesses diretórios, caso contrário, o dyld procurará em **`/usr/local/lib/`** (se o processo estiver sem restrições) e depois em **`/usr/lib/`** (essas informações foram retiradas do **`man dlopen`**).
+* Quando o caminho **não contém um caractere de barra** (ou seja, é apenas um nome de folha), o **dlopen() fará a busca**. Se **`$DYLD_LIBRARY_PATH`** foi definido no lançamento, o dyld primeiro **procurará nesse diretório**. Em seguida, se o arquivo mach-o chamador ou o executável principal especificar um **`LC_RPATH`**, o dyld **procurará nesses** diretórios. Em seguida, se o processo estiver **sem restrições**, o dyld procurará no **diretório de trabalho atual**. Por último, para binários antigos, o dyld tentará algumas alternativas. Se **`$DYLD_FALLBACK_LIBRARY_PATH`** foi definido no lançamento, o dyld procurará nesses diretórios, caso contrário, o dyld procurará em **`/usr/local/lib/`** (se o processo estiver sem restrições) e depois em **`/usr/lib/`** (essas informações foram retiradas do **`man dlopen`**).
 1. `$DYLD_LIBRARY_PATH`
 2. `LC_RPATH`
 3. `CWD`(se sem restrições)
@@ -156,7 +156,7 @@ Se for um caminho de framework, a maneira de sequestrá-lo seria:
 * Se o processo não tiver restrições, abusar do **caminho relativo do diretório de trabalho** e das variáveis de ambiente mencionadas (mesmo que não seja mencionado na documentação se o processo está restrito, as variáveis de ambiente DYLD\_\* são removidas)
 {% endhint %}
 
-* Quando o caminho **contém uma barra, mas não é um caminho de framework** (ou seja, um caminho completo ou um caminho parcial para um dylib), o dlopen() primeiro procura (se definido) em **`$DYLD_LIBRARY_PATH`** (com a parte final do caminho). Em seguida, o dyld **tenta o caminho fornecido** (usando o diretório de trabalho atual para caminhos relativos, mas apenas para processos não restritos). Por último, para binários mais antigos, o dyld tentará alternativas. Se **`$DYLD_FALLBACK_LIBRARY_PATH`** foi definido no lançamento, o dyld pesquisará nesses diretórios, caso contrário, o dyld procurará em **`/usr/local/lib/`** (se o processo não tiver restrições) e depois em **`/usr/lib/`**.
+* Quando o caminho **contém uma barra, mas não é um caminho de framework** (ou seja, um caminho completo ou um caminho parcial para um dylib), o dlopen() primeiro procura (se definido) em **`$DYLD_LIBRARY_PATH`** (com a parte final do caminho). Em seguida, o dyld **tenta o caminho fornecido** (usando o diretório de trabalho atual para caminhos relativos, mas apenas para processos sem restrições). Por último, para binários mais antigos, o dyld tentará alternativas. Se **`$DYLD_FALLBACK_LIBRARY_PATH`** foi definido no lançamento, o dyld pesquisará nesses diretórios, caso contrário, o dyld procurará em **`/usr/local/lib/`** (se o processo não tiver restrições) e depois em **`/usr/lib/`**.
 1. `$DYLD_LIBRARY_PATH`
 2. caminho fornecido (usando o diretório de trabalho atual para caminhos relativos se não houver restrições)
 3. `$DYLD_FALLBACK_LIBRARY_PATH`
@@ -172,7 +172,7 @@ Se houver barras no nome e não for um framework, a maneira de sequestrá-lo ser
 {% hint style="info" %}
 Observação: Não existem arquivos de configuração para **controlar a busca do dlopen**.
 
-Observação: Se o executável principal for um binário **set\[ug]id ou tiver assinatura com entitlements**, então **todas as variáveis de ambiente são ignoradas**, e apenas um caminho completo pode ser usado ([verifique as restrições do DYLD\_INSERT\_LIBRARIES](../../macos-dyld-hijacking-and-dyld\_insert\_libraries.md#check-dyld\_insert\_librery-restrictions) para obter informações mais detalhadas)
+Observação: Se o executável principal for um binário **set\[ug\]id ou tiver assinatura com entitlements**, então **todas as variáveis de ambiente são ignoradas**, e apenas um caminho completo pode ser usado ([verifique as restrições do DYLD\_INSERT\_LIBRARIES](../../macos-dyld-hijacking-and-dyld\_insert\_libraries.md#check-dyld\_insert\_librery-restrictions) para obter informações mais detalhadas)
 
 Observação: As plataformas da Apple usam arquivos "universais" para combinar bibliotecas de 32 bits e 64 bits. Isso significa que **não existem caminhos de busca separados para 32 bits e 64 bits**.
 
@@ -228,13 +228,17 @@ Se você compilar e executar, você pode ver **onde cada biblioteca foi procurad
 ```bash
 sudo fs_usage | grep "dlopentest"
 ```
-## Remover variáveis de ambiente `DYLD_*` e `LD_LIBRARY_PATH`
+## Desvio de Caminho Relativo
 
-No arquivo `dyld-dyld-832.7.1/src/dyld2.cpp`, é possível encontrar a função **`pruneEnvironmentVariables`**, que irá remover qualquer variável de ambiente que **comece com `DYLD_`** e **`LD_LIBRARY_PATH=`**.
+Se um **binário/aplicativo privilegiado** (como um SUID ou algum binário com privilégios poderosos) estiver **carregando uma biblioteca de caminho relativo** (por exemplo, usando `@executable_path` ou `@loader_path`) e tiver a **Validação de Biblioteca desativada**, pode ser possível mover o binário para um local onde o atacante possa **modificar a biblioteca carregada pelo caminho relativo** e abusá-la para injetar código no processo.
 
-Também irá definir como **nulo** especificamente as variáveis de ambiente **`DYLD_FALLBACK_FRAMEWORK_PATH`** e **`DYLD_FALLBACK_LIBRARY_PATH`** para binários **suid** e **sgid**.
+## Remover as variáveis de ambiente `DYLD_*` e `LD_LIBRARY_PATH`
 
-Essa função é chamada a partir da função **`_main`** do mesmo arquivo, se o alvo for o OSX, da seguinte forma:
+No arquivo `dyld-dyld-832.7.1/src/dyld2.cpp`, é possível encontrar a função **`pruneEnvironmentVariables`**, que removerá qualquer variável de ambiente que **comece com `DYLD_`** e **`LD_LIBRARY_PATH=`**.
+
+Também definirá como **nulo** especificamente as variáveis de ambiente **`DYLD_FALLBACK_FRAMEWORK_PATH`** e **`DYLD_FALLBACK_LIBRARY_PATH`** para binários **suid** e **sgid**.
+
+Essa função é chamada a partir da função **`_main`** do mesmo arquivo, se estiver direcionando o OSX da seguinte maneira:
 ```cpp
 #if TARGET_OS_OSX
 if ( !gLinkContext.allowEnvVarsPrint && !gLinkContext.allowEnvVarsPath && !gLinkContext.allowEnvVarsSharedCache ) {
@@ -292,11 +296,13 @@ sudo chmod -s hello
 
 The `__RESTRICT` section is a segment in macOS that is used to restrict the execution of certain processes. This section is designed to prevent unauthorized access and privilege escalation by limiting the capabilities of processes.
 
-The `__restrict` segment is specifically used to enforce restrictions on library injection. Library injection is a technique where a malicious library is injected into a legitimate process, allowing the attacker to execute arbitrary code within the context of that process.
+The `__restrict` segment is a specific area within the `__RESTRICT` section that contains code and data that is restricted from being modified or accessed by other processes. This segment is crucial for maintaining the integrity and security of the system.
 
-By utilizing the `__restrict` segment, macOS can prevent library injection by restricting the loading of libraries from certain locations or by enforcing code signing requirements. This helps to ensure the integrity and security of the system by preventing unauthorized modifications to processes.
+By leveraging vulnerabilities or weaknesses in the macOS system, an attacker may attempt to abuse the `__restrict` segment to inject malicious code or gain unauthorized access to sensitive information. This technique, known as macOS library injection, allows the attacker to execute arbitrary code within the context of a legitimate process.
 
-It is important for developers and system administrators to understand the functionality of the `__RESTRICT` section and the `__restrict` segment in order to effectively secure macOS systems against privilege escalation and unauthorized access.
+To protect against macOS library injection attacks, it is important to implement proper security measures such as regular system updates, using trusted software sources, and employing strong access controls. Additionally, monitoring for any suspicious activities or unauthorized modifications to the `__restrict` segment can help detect and mitigate potential attacks.
+
+By understanding the purpose and significance of the `__RESTRICT` section and the `__restrict` segment, system administrators and security professionals can better safeguard their macOS systems against privilege escalation and unauthorized access.
 ```bash
 gcc -sectcreate __RESTRICT __restrict /dev/null hello.c -o hello-restrict
 DYLD_INSERT_LIBRARIES=inject.dylib ./hello-restrict
