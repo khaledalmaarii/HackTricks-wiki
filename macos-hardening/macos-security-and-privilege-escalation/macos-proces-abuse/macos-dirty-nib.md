@@ -8,7 +8,7 @@
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e para o** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe suas técnicas de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -22,7 +22,7 @@ Os arquivos NIB são usados no ecossistema de desenvolvimento da Apple para **de
 Além disso, os **arquivos NIB** também podem ser usados para **executar comandos arbitrários** e se o arquivo NIB for modificado em um aplicativo, o **Gatekeeper ainda permitirá a execução do aplicativo**, então eles podem ser usados para **executar comandos arbitrários dentro de aplicativos**.
 {% endhint %}
 
-## Injeção de NIB Sujo <a href="#dirtynib" id="dirtynib"></a>
+## Injeção de Dirty NIB <a href="#dirtynib" id="dirtynib"></a>
 
 Primeiro, precisamos criar um novo arquivo NIB, usaremos o XCode para a maior parte da construção. Começamos adicionando um objeto à interface e definimos a classe como NSAppleScript:
 
@@ -32,7 +32,7 @@ Para o objeto, precisamos definir a propriedade `source` inicial, o que podemos 
 
 <figure><img src="../../../.gitbook/assets/image (682).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Isso configura nosso gadget de execução de código, que apenas vai **executar AppleScript sob demanda**. Para realmente acionar a execução do AppleScript, vamos adicionar um botão por enquanto (você pode, é claro, ser criativo com isso ;). O botão será vinculado ao objeto `Apple Script` que acabamos de criar e **invocará o seletor `executeAndReturnError:`**:
+Isso configura nosso gadget de execução de código, que apenas vai **executar o AppleScript quando solicitado**. Para realmente acionar a execução do AppleScript, vamos adicionar um botão por enquanto (você pode, é claro, ser criativo com isso ;). O botão será vinculado ao objeto `Apple Script` que acabamos de criar e **invocará o seletor `executeAndReturnError:`**:
 
 <figure><img src="../../../.gitbook/assets/image (683).png" alt="" width="563"><figcaption></figcaption></figure>
 
@@ -45,7 +45,7 @@ E se executarmos isso no depurador do XCode e clicarmos no botão:
 
 <figure><img src="../../../.gitbook/assets/image (684).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Com nossa capacidade de executar código AppleScript arbitrário a partir de um NIB, em seguida, precisamos de um alvo. Vamos escolher o Pages para nossa demonstração inicial, que é, é claro, um aplicativo da Apple e certamente não deve ser modificável por nós.
+Com nossa capacidade de executar código AppleScript arbitrário a partir de um NIB, precisamos de um alvo. Vamos escolher o Pages para nossa demonstração inicial, que é, é claro, um aplicativo da Apple e certamente não deve ser modificável por nós.
 
 Primeiro, faremos uma cópia do aplicativo em `/tmp/`:
 ```bash
@@ -95,7 +95,7 @@ No entanto, ao analisar o arquivo **`/System/Volumes/Preboot/*/boot/*/usr/standa
 
 A partir do macOS Somona, existem algumas proteções **impedindo a gravação dentro dos aplicativos**. No entanto, ainda é possível contornar essa proteção se, antes de executar sua cópia do binário, você alterar o nome da pasta Contents:
 
-1. Faça uma cópia do `CarPlay Simulator.app` para `/tmp/`
+1. Faça uma cópia de `CarPlay Simulator.app` para `/tmp/`
 2. Renomeie `/tmp/Carplay Simulator.app/Contents` para `/tmp/CarPlay Simulator.app/NotCon`
 3. Execute o binário `/tmp/CarPlay Simulator.app/NotCon/MacOS/CarPlay Simulator` para armazenar em cache dentro do Gatekeeper
 4. Substitua `NotCon/Resources/Base.lproj/MainMenu.nib` pelo nosso arquivo `Dirty.nib`

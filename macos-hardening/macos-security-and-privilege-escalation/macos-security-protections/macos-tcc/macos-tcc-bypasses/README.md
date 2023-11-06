@@ -44,7 +44,7 @@ Observe que agora, para poder habilitar o SSH, você precisa de "Acesso total ao
 
 ### Manipular extensões - CVE-2022-26767
 
-O atributo `com.apple.macl` é atribuído a arquivos para dar permissões a um determinado aplicativo para lê-lo. Esse atributo é definido quando arrastamos e soltamos um arquivo sobre um aplicativo ou quando um usuário clica duas vezes em um arquivo para abri-lo com o aplicativo padrão.
+O atributo `com.apple.macl` é atribuído a arquivos para dar permissões a um determinado aplicativo para lê-lo. Esse atributo é definido quando arrastamos e soltamos um arquivo sobre um aplicativo, ou quando um usuário clica duas vezes em um arquivo para abri-lo com o aplicativo padrão.
 
 Portanto, um usuário poderia registrar um aplicativo malicioso para manipular todas as extensões e chamar o Launch Services para abrir qualquer arquivo (assim, o arquivo malicioso terá acesso para lê-lo).
 
@@ -54,13 +54,13 @@ A permissão `com.apple.private.icloud-account-access` permite a comunicação c
 
 O iMovie e o Garageband tinham essa permissão e outras que permitiam.
 
-Para mais informações sobre a exploração para obter tokens do iCloud a partir dessa permissão, confira a palestra: [**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=_6e2LhmxVc0)
+Para obter mais informações sobre a exploração para obter tokens do iCloud a partir dessa permissão, confira a palestra: [**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=_6e2LhmxVc0)
 
 ### kTCCServiceAppleEvents / Automação
 
 Um aplicativo com a permissão `kTCCServiceAppleEvents` poderá controlar outros aplicativos. Isso significa que ele poderá abusar das permissões concedidas aos outros aplicativos.
 
-Para mais informações sobre Scripts da Apple, confira:
+Para obter mais informações sobre Scripts da Apple, confira:
 
 {% content-ref url="macos-apple-scripts.md" %}
 [macos-apple-scripts.md](macos-apple-scripts.md)
@@ -223,7 +223,7 @@ Para mais informações, consulte o [**relatório original**](https://wojciechre
 
 ### CVE-2020-29621 - Coreaudiod
 
-O binário **`/usr/sbin/coreaudiod`** tinha os entitlements `com.apple.security.cs.disable-library-validation` e `com.apple.private.tcc.manager`. O primeiro **permite a injeção de código** e o segundo dá acesso para **gerenciar o TCC**.
+O binário **`/usr/sbin/coreaudiod`** tinha os entitlements `com.apple.security.cs.disable-library-validation` e `com.apple.private.tcc.manager`. O primeiro **permitindo injeção de código** e o segundo dando acesso para **gerenciar o TCC**.
 
 Esse binário permitia carregar **plug-ins de terceiros** da pasta `/Library/Audio/Plug-Ins/HAL`. Portanto, era possível **carregar um plugin e abusar das permissões do TCC** com este PoC:
 ```objectivec
@@ -300,11 +300,11 @@ O Telegram tinha as permissões `com.apple.security.cs.allow-dyld-environment-va
 
 ## Por invocações abertas
 
-É possível invocar o comando `open` mesmo estando em um ambiente sandbox.
+É possível invocar o **`open`** mesmo estando em um ambiente sandbox&#x20;
 
 ### Scripts do Terminal
 
-É bastante comum conceder ao terminal **Acesso Total ao Disco (FDA)**, pelo menos em computadores usados por pessoas de tecnologia. E é possível invocar scripts **`.terminal`** usando isso.
+É bastante comum dar ao terminal **Acesso Total ao Disco (FDA)**, pelo menos em computadores usados por pessoas de tecnologia. E é possível invocar scripts **`.terminal`** usando isso.
 
 Os scripts **`.terminal`** são arquivos plist, como este, com o comando a ser executado na chave **`CommandString`**:
 ```xml
@@ -408,7 +408,7 @@ A pasta **`/var/db/locationd/` não estava protegida contra montagem de DMG**, e
 [macos-auto-start-locations.md](../../../../macos-auto-start-locations.md)
 {% endcontent-ref %}
 
-## Por meio do comando grep
+## Por meio de grep
 
 Em várias ocasiões, arquivos armazenam informações sensíveis como e-mails, números de telefone, mensagens... em locais não protegidos (o que é considerado uma vulnerabilidade na Apple).
 

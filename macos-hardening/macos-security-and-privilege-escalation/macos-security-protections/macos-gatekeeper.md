@@ -118,7 +118,7 @@ spctl --master-disable
 spctl --global-enable
 spctl --master-enable
 ```
-Quando totalmente habilitado, uma nova opção aparecerá:
+Quando totalmente habilitada, uma nova opção aparecerá:
 
 <figure><img src="../../../.gitbook/assets/image (679).png" alt=""><figcaption></figcaption></figure>
 
@@ -172,7 +172,7 @@ spctl --disable
 ```
 Você também pode **verificar se um arquivo possui o atributo de quarentena estendida** com:
 ```bash
-xattr portada.png
+xattr file.png
 com.apple.macl
 com.apple.quarantine
 ```
@@ -210,7 +210,7 @@ As informações de quarentena também são armazenadas em um banco de dados cen
 
 ### XProtect
 
-XProtect é um recurso embutido de **anti-malware** no macOS. O XProtect **verifica qualquer aplicativo quando ele é executado pela primeira vez ou modificado em relação ao seu banco de dados** de malwares conhecidos e tipos de arquivo inseguros. Quando você baixa um arquivo por meio de determinados aplicativos, como Safari, Mail ou Messages, o XProtect verifica automaticamente o arquivo. Se ele corresponder a algum malware conhecido em seu banco de dados, o XProtect **impedirá a execução do arquivo** e o alertará sobre a ameaça.
+XProtect é um recurso embutido de **anti-malware** no macOS. O XProtect **verifica qualquer aplicativo quando ele é executado ou modificado pela primeira vez em relação ao seu banco de dados** de malwares conhecidos e tipos de arquivo inseguros. Quando você baixa um arquivo por meio de determinados aplicativos, como Safari, Mail ou Messages, o XProtect verifica automaticamente o arquivo. Se ele corresponder a algum malware conhecido em seu banco de dados, o XProtect **impedirá a execução do arquivo** e o alertará sobre a ameaça.
 
 O banco de dados do XProtect é **atualizado regularmente** pela Apple com novas definições de malware, e essas atualizações são baixadas e instaladas automaticamente em seu Mac. Isso garante que o XProtect esteja sempre atualizado com as últimas ameaças conhecidas.
 
@@ -245,7 +245,7 @@ Verifique o [**relatório original**](https://labs.withsecure.com/publications/t
 
 ### [CVE-2021-30990](https://ronmasas.com/posts/bypass-macos-gatekeeper)
 
-Quando um aplicativo é criado com o **Automator**, as informações sobre o que ele precisa executar estão dentro de `application.app/Contents/document.wflow` e não no executável. O executável é apenas um binário genérico do Automator chamado **Automator Application Stub**.
+Quando um aplicativo é criado com o **Automator**, as informações sobre o que ele precisa executar estão dentro de `application.app/Contents/document.wflow`, não no executável. O executável é apenas um binário genérico do Automator chamado **Automator Application Stub**.
 
 Portanto, você poderia fazer com que `application.app/Contents/MacOS/Automator\ Application\ Stub` **apontasse com um link simbólico para outro Automator Application Stub dentro do sistema** e ele executaria o que está dentro de `document.wflow` (seu script) **sem acionar o Gatekeeper** porque o executável real não possui o atributo de quarentena.
 

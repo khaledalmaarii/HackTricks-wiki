@@ -56,27 +56,35 @@ Nos aplicativos do macOS, isso geralmente está localizado em `application.app/C
 grep -R "dL7pKGdnNz796PbbjQWNKmHXBZaB9tsX" Slack.app/
 Binary file Slack.app//Contents/Frameworks/Electron Framework.framework/Versions/A/Electron Framework matches
 ```
-Você pode carregar este arquivo em [https://hexed.it/](https://hexed.it/) e procurar pela string anterior. Após essa string, você pode ver em ASCII um número "0" ou "1" indicando se cada fusível está desabilitado ou habilitado. Basta modificar o código hexadecimal (`0x30` é `0` e `0x31` é `1`) para **modificar os valores dos fusíveis**.
+Você pode carregar este arquivo em [https://hexed.it/](https://hexed.it/) e procurar pela string anterior. Após esta string, você pode ver em ASCII um número "0" ou "1" indicando se cada fusível está desabilitado ou habilitado. Basta modificar o código hexadecimal (`0x30` é `0` e `0x31` é `1`) para **modificar os valores dos fusíveis**.
 
 <figure><img src="../../../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
 
-Observe que se você tentar **sobrescrever** o binário do **`Electron Framework`** dentro de um aplicativo com esses bytes modificados, o aplicativo não será executado.
+Observe que se você tentar **sobrescrever** o **binário do Framework Electron** dentro de um aplicativo com esses bytes modificados, o aplicativo não será executado.
 
 ## RCE adicionando código a Aplicações Electron
 
-Pode haver **arquivos JS/HTML externos** que um aplicativo Electron está usando, então um invasor pode injetar código nesses arquivos cuja assinatura não será verificada e executar código arbitrário no contexto do aplicativo.
+Pode haver **arquivos JS/HTML externos** que um aplicativo Electron está usando, então um atacante pode injetar código nesses arquivos cuja assinatura não será verificada e executar código arbitrário no contexto do aplicativo.
 
 {% hint style="danger" %}
 No entanto, no momento existem 2 limitações:
 
 * A permissão **`kTCCServiceSystemPolicyAppBundles`** é **necessária** para modificar um aplicativo, portanto, por padrão, isso não é mais possível.
-* O arquivo **`asap`** compilado geralmente tem os fusíveis **`embeddedAsarIntegrityValidation`** `e` **`onlyLoadAppFromAsar`** `habilitados`
+* O arquivo compilado **`asap`** geralmente tem os fusíveis **`embeddedAsarIntegrityValidation`** `e` **`onlyLoadAppFromAsar`** `habilitados`
 
 Tornando esse caminho de ataque mais complicado (ou impossível).
 {% endhint %}
 
 Observe que é possível contornar o requisito de **`kTCCServiceSystemPolicyAppBundles`** copiando o aplicativo para outro diretório (como **`/tmp`**), renomeando a pasta **`app.app/Contents`** para **`app.app/NotCon`**, **modificando** o arquivo **asar** com seu código **malicioso**, renomeando-o de volta para **`app.app/Contents`** e executando-o.
 
+Você pode descompactar o código do arquivo asar com:
+```bash
+npx asar extract app.asar app-decomp
+```
+E empacote-o novamente após tê-lo modificado com:
+```bash
+npx asar pack app-decomp app-new.asar
+```
 ## RCE com `ELECTRON_RUN_AS_NODE` <a href="#electron_run_as_node" id="electron_run_as_node"></a>
 
 De acordo com [**a documentação**](https://www.electronjs.org/docs/latest/api/environment-variables#electron\_run\_as\_node), se essa variável de ambiente for definida, ela iniciará o processo como um processo Node.js normal.
@@ -127,7 +135,7 @@ Você pode armazenar a carga útil em um arquivo diferente e executá-lo:
 {% code overflow="wrap" %}
 ```bash
 # Content of /tmp/payload.js
-require('child_process').execSync('/System/Applications/Calculator.app/Contents/MacOS/Ca$
+require('child_process').execSync('/System/Applications/Calculator.app/Contents/MacOS/Calculator');
 
 # Execute
 NODE_OPTIONS="--require /tmp/payload.js" ELECTRON_RUN_AS_NODE=1 /Applications/Discord.app/Contents/MacOS/Discord
@@ -204,7 +212,7 @@ Você pode abusar dessa variável de ambiente em um plist para manter a persist�
 ## Bypassando o TCC abusando de versões antigas
 
 {% hint style="success" %}
-O daemon TCC do macOS não verifica a versão executada do aplicativo. Portanto, se você **não consegue injetar código em um aplicativo Electron** com nenhuma das técnicas anteriores, você pode baixar uma versão anterior do aplicativo e injetar código nele, pois ele ainda obterá os privilégios do TCC.
+O daemon TCC do macOS não verifica a versão executada do aplicativo. Portanto, se você **não consegue injetar código em um aplicativo Electron** com nenhuma das técnicas anteriores, você pode baixar uma versão anterior do aplicativo e injetar código nele, pois ele ainda obterá as permissões do TCC (a menos que o Trust Cache o impeça).
 {% endhint %}
 
 ## Injeção Automática

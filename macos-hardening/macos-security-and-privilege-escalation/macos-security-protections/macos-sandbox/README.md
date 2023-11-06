@@ -111,9 +111,13 @@ AAAhAboBAAAAAAgAAABZAO4B5AHjBMkEQAUPBSsGPwsgASABHgEgASABHwEf...
 <array/>
 [...]
 ```
+{% hint style="warning" %}
+Tudo criado/modificado por um aplicativo em Sandbox receberá o atributo de **quarentena**. Isso impedirá que um espaço em sandbox seja acionado pelo Gatekeeper se o aplicativo em sandbox tentar executar algo com **`open`**.
+{% endhint %}
+
 ### Perfis de Sandbox
 
-Os perfis de Sandbox são arquivos de configuração que indicam o que será **permitido/proibido** nessa **Sandbox**. Eles utilizam a **Linguagem de Perfil de Sandbox (SBPL)**, que utiliza a linguagem de programação [**Scheme**](https://en.wikipedia.org/wiki/Scheme\_\(programming\_language\)).
+Os perfis de Sandbox são arquivos de configuração que indicam o que será **permitido/proibido** nesse **Sandbox**. Ele usa a **Linguagem de Perfil de Sandbox (SBPL)**, que utiliza a linguagem de programação [**Scheme**](https://en.wikipedia.org/wiki/Scheme\_\(programming\_language\)).
 
 Aqui você pode encontrar um exemplo:
 ```scheme
@@ -173,6 +177,20 @@ log show --style syslog --predicate 'eventMessage contains[c] "sandbox"' --last 
 [...]
 ```
 {% code title="touch2.sb" %}
+
+O arquivo `touch2.sb` é um exemplo de um perfil de sandbox para o macOS. A sandbox é uma medida de segurança implementada pelo sistema operacional para restringir as ações de um aplicativo, limitando seu acesso a recursos sensíveis do sistema.
+
+Este perfil de sandbox em particular permite que um aplicativo execute a ação de tocar (criar) um arquivo em um diretório específico. O aplicativo só terá permissão para criar arquivos nesse diretório e não poderá acessar ou modificar outros arquivos ou diretórios no sistema.
+
+Para usar este perfil de sandbox, você precisa atribuí-lo a um aplicativo específico usando o comando `sandbox-exec`. Por exemplo:
+
+```
+sandbox-exec -f touch2.sb touch /path/to/directory/file.txt
+```
+
+Isso permitirá que o aplicativo toque (crie) o arquivo `file.txt` no diretório `/path/to/directory/`.
+
+Lembre-se de que a sandbox é apenas uma camada adicional de segurança e não deve ser considerada como a única medida de proteção. É importante implementar outras práticas de segurança, como atualizações regulares do sistema operacional, uso de senhas fortes e conscientização sobre phishing e malware.
 ```scheme
 (version 1)
 (deny default)
@@ -200,7 +218,7 @@ log show --style syslog --predicate 'eventMessage contains[c] "sandbox"' --last 
 {% endtabs %}
 
 {% hint style="info" %}
-Observe que o **software** **desenvolvido pela Apple** que roda no **Windows** **não possui precauções de segurança adicionais**, como a aplicação de sandbox.
+Observe que o **software** **desenvolvido pela Apple** que roda no **Windows** **não possui precauções adicionais de segurança**, como a aplicação de sandbox.
 {% endhint %}
 
 Exemplos de bypass:

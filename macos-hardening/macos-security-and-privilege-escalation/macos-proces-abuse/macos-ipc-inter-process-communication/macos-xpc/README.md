@@ -72,11 +72,11 @@ cat /Library/LaunchDaemons/com.jamf.management.daemon.plist
 </dict>
 </plist>
 ```
-Os presentes em **`LaunchDameons`** são executados pelo root. Portanto, se um processo não privilegiado puder se comunicar com um deles, poderá conseguir elevar os privilégios.
+Os presentes em **`LaunchDameons`** são executados pelo root. Portanto, se um processo não privilegiado puder se comunicar com um deles, poderá ser capaz de elevar os privilégios.
 
 ## Mensagens de Evento XPC
 
-As aplicações podem **se inscrever** em diferentes mensagens de evento, permitindo que sejam **iniciadas sob demanda** quando esses eventos ocorrerem. A **configuração** desses serviços é feita em arquivos **plist do launchd**, localizados nos **mesmos diretórios dos anteriores** e contendo uma chave extra **`LaunchEvent`**.
+As aplicações podem **se inscrever** em diferentes **mensagens de evento**, permitindo que sejam **iniciadas sob demanda** quando esses eventos ocorrerem. A **configuração** desses serviços é feita em arquivos **plist do launchd**, localizados nos **mesmos diretórios dos anteriores** e contendo uma chave adicional **`LaunchEvent`**.
 
 ### Verificação do Processo de Conexão XPC
 
@@ -107,7 +107,7 @@ xpcspy -U -r -W <bundle-id>
 ## Using filters (i: for input, o: for output)
 xpcspy -U <prog-name> -t 'i:com.apple.*' -t 'o:com.apple.*' -r
 ```
-## Exemplo de Código C
+## Exemplo de Código de Comunicação XPC
 
 {% tabs %}
 {% tab title="xpc_server.c" %}
@@ -247,7 +247,7 @@ sudo launchctl load /Library/LaunchDaemons/xyz.hacktricks.service.plist
 sudo launchctl unload /Library/LaunchDaemons/xyz.hacktricks.service.plist
 sudo rm /Library/LaunchDaemons/xyz.hacktricks.service.plist /tmp/xpc_server
 ```
-## Exemplo de Código Objective-C
+## Exemplo de Código Objective-C para Comunicação XPC
 
 {% tabs %}
 {% tab title="oc_xpc_server.m" %}
@@ -324,6 +324,12 @@ return 0;
 }
 ```
 {% tab title="xyz.hacktricks.svcoc.plist" %}
+
+O arquivo `xyz.hacktricks.svcoc.plist` é um arquivo de propriedades do Launchd usado para definir e controlar serviços no macOS. O Launchd é o sistema de inicialização e gerenciamento de processos do macOS. O arquivo plist contém informações sobre o serviço, como o caminho do executável, argumentos, variáveis de ambiente e outras configurações.
+
+Para explorar vulnerabilidades de escalonamento de privilégios usando o arquivo `xyz.hacktricks.svcoc.plist`, você pode procurar por configurações inadequadas que permitam a execução de comandos privilegiados ou a substituição do executável por um binário malicioso. Além disso, você pode verificar se há permissões excessivas definidas para o arquivo plist, o que pode permitir a modificação não autorizada.
+
+É importante ressaltar que a exploração de vulnerabilidades de escalonamento de privilégios é ilegal e deve ser realizada apenas em um ambiente controlado e com permissão adequada.
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
@@ -384,7 +390,7 @@ int main(int argc, const char * argv[]) {
     xpc_object_t message = xpc_dictionary_create(NULL, NULL, 0);
     xpc_dictionary_set_string(message, "key", "value");
     
-    xpc_connection_send_message_with_reply(connection, message, dispatch_get_main_queue(), ^(xpc_object_t reply) {
+    xpc_connection_send_message_with_reply(connection, message, dispatch_get_main_queue(), ^(xpc_object_t response) {
         // Manipule a resposta recebida do serviço XPC aqui
     });
     

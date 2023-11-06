@@ -4,7 +4,7 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de segurança cibernética**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -17,9 +17,9 @@
 Quando uma conexão é estabelecida com um serviço XPC, o servidor verificará se a conexão é permitida. Estas são as verificações que normalmente são realizadas:
 
 1. Verificar se o **processo de conexão está assinado com um certificado assinado pela Apple** (apenas fornecido pela Apple).
-* Se isso **não for verificado**, um atacante pode criar um **certificado falso** para corresponder a qualquer outra verificação.
+* Se isso **não for verificado**, um atacante poderia criar um **certificado falso** para corresponder a qualquer outra verificação.
 2. Verificar se o processo de conexão está assinado com o **certificado da organização** (verificação do ID da equipe).
-* Se isso **não for verificado**, qualquer certificado de desenvolvedor da Apple pode ser usado para assinar e se conectar ao serviço.
+* Se isso **não for verificado**, **qualquer certificado de desenvolvedor** da Apple pode ser usado para assinar e se conectar ao serviço.
 3. Verificar se o processo de conexão **contém um ID de pacote adequado**.
 * Se isso **não for verificado**, qualquer ferramenta **assinada pela mesma organização** pode ser usada para interagir com o serviço XPC.
 4. (4 ou 5) Verificar se o processo de conexão possui um **número de versão de software adequado**.
@@ -47,7 +47,7 @@ Para obter mais informações sobre o ataque **`xpc_connection_get_audit_token`*
 
 ### Prevenção de Ataques de Downgrade - Trustcache
 
-Trustcache é um método defensivo introduzido em máquinas Apple Silicon que armazena um banco de dados de CDHSAH de binários da Apple, permitindo apenas a execução de binários não modificados. Isso impede a execução de versões degradadas.
+Trustcache é um método defensivo introduzido em máquinas Apple Silicon que armazena um banco de dados de CDHSAH de binários da Apple, para que apenas binários não modificados permitidos possam ser executados. Isso impede a execução de versões de downgrade.
 
 ### Exemplos de Código
 
