@@ -8,7 +8,7 @@
 * 发现我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 集合 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
 * **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass)，或者在 **Twitter** 上 **关注** 我 [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向** [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享你的黑客技巧。**
+* **通过向** [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享你的黑客技巧**。
 
 </details>
 
@@ -29,7 +29,7 @@ Mach 使用 **任务（tasks）** 作为共享资源的 **最小单位**，每�
 端口权限定义了任务可以执行的操作，对于这种通信至关重要。可能的 **端口权限** 有：
 
 * **接收权限**，允许接收发送到端口的消息。Mach 端口是 MPSC（多生产者，单消费者）队列，这意味着整个系统中可能只有 **一个接收权限与每个端口** 相对应（与管道不同，多个进程可以同时持有对一个管道读端的文件描述符）。
-* 拥有 **接收权限的任务** 可以接收消息并 **创建发送权限**，从而可以发送消息。最初，只有 **自己的任务对其端口拥有接收权限**。
+* 拥有 **接收权限的任务** 可以接收消息并 **创建发送权限**，从而允许其发送消息。最初，只有 **自己的任务对其端口拥有接收权限**。
 * **发送权限**，允许向端口发送消息。
 * 发送权限可以进行 **克隆**，因此拥有发送权限的任务可以克隆该权限并将其授予第三个任务。
 * **一次性发送权限**，允许向端口发送一条消息，然后消失。
@@ -45,23 +45,23 @@ Mach 使用 **任务（tasks）** 作为共享资源的 **最小单位**，每�
 如前所述，为了建立通信通道，涉及到 **引导服务器**（mac 中的 **launchd**）。
 
 1. 任务 **A** 初始化一个 **新的端口**，在进程中获得一个 **接收权限**。
-2. 作为接收权限的持有者，任务 **A** **生成一个发送权限** 以供该端口使用。
-3. 任务 **A** 通过称为引导注册的过程，与 **引导服务器** 建立一个 **连接**，提供 **端口的服务名称** 和 **发送权限**。
-4. 任务 **B** 与 **引导服务器** 交互，执行引导 **查找服务名称** 的操作。如果成功，**服务器会复制从任务 A 接收到的发送权限**，并将其 **传输给任务 B**。
+2. 作为接收权限的持有者，任务 **A** 为端口 **生成一个发送权限**。
+3. 任务 **A** 通过称为引导注册的过程，与 **引导服务器** 建立一个 **连接**，提供端口的服务名称和发送权限。
+4. 任务 **B** 与 **引导服务器** 交互，执行引导查找以查找服务名称。如果成功，**服务器会复制从任务 A 接收到的发送权限，并将其传输给任务 B**。
 5. 获得发送权限后，任务 **B** 能够 **构建** 一条 **消息** 并将其 **发送给任务 A**。
-6. 对于双向通信，通常任务 **B** 生成一个具有 **接收权限** 和 **发送权限** 的新端口，并将 **发送权限交给任务 A**，以便它可以向任务 B 发送消息（双向通信）。
+6. 对于双向通信，通常任务 **B** 生成一个具有 **接收权限** 和 **发送权限** 的新端口，并将 **发送权限给任务 A**，以便它可以向任务 B 发送消息（双向通信）。
 
-引导服务器**无法对任务声称的服务名称进行身份验证**。这意味着一个任务有可能**冒充任何系统任务**，例如虚假地声称一个授权服务名称，然后批准每个请求。
+引导服务器**无法对任务声称的服务名称进行身份验证**。这意味着一个任务有可能**冒充任何系统任务**，例如虚假地声称授权服务名称，然后批准每个请求。
 
 然后，Apple 将**系统提供的服务名称**存储在位于受 SIP 保护的目录 `/System/Library/LaunchDaemons` 和 `/System/Library/LaunchAgents` 中的安全配置文件中。引导服务器将为每个这些服务名称创建并持有一个 **接收权限**。
 
 对于这些预定义服务，**查找过程稍有不同**。当查找服务名称时，launchd 动态启动服务。新的工作流程如下：
 
-* 任务 **B** 启动一个引导 **查找**，查找一个服务名称。
+* 任务 **B** 初始化一个引导 **查找**，查找服务名称。
 * **launchd** 检查任务是否正在运行，如果没有，则 **启动** 它。
-* 任务 **A**（服务）执行引导 **签入**。在这里，引导服务器创建一个发送权限，保留它，并将 **接收权限传输给任务 A**。
+* 任务 **A**（服务）执行引导 **签入**。在这里，引导服务器创建一个发送权限，保留它，并将接收权限传输给任务 A。
 * launchd 复制 **发送权限并将其发送给任务 B**。
-* 任务 **B** 生成一个具有 **接收权限** 和 **发送权限** 的新端口，并将 **发送权限交给任务 A**（svc），以便它可以向任务 B 发送消息（双向通信）。
+* 任务 **B** 生成一个具有 **接收权限** 和 **发送权限** 的新端口，并将 **发送权限给任务 A**（svc），以便它可以向任务 B 发送消息（双向通信）。
 
 然而，此过程仅适用于预定义的系统任务。非系统任务仍然按照最初的描述进行操作，这可能导致冒充。
 ### Mach消息
@@ -77,7 +77,7 @@ mach_port_name_t              msgh_voucher_port;
 mach_msg_id_t                 msgh_id;
 } mach_msg_header_t;
 ```
-可以**接收**mach端口上的消息的进程被称为持有_**接收权限**_，而**发送者**持有_**发送**_或_**发送一次**_的_**权限**_。发送一次权限只能用于发送一条消息，然后就会失效。
+可以**接收**mach端口上的消息的进程被称为持有_**接收权限**_，而**发送者**则持有_**发送**_或_**发送一次**_的权限。发送一次权限只能用于发送一条消息，然后就会失效。
 
 为了实现简单的**双向通信**，进程可以在mach消息头中指定一个称为回复端口（**`msgh_local_port`**）的mach端口，消息的**接收者**可以通过该端口向该消息发送回复。**`msgh_bits`**中的位标志可以用于指示应为该端口派生和传输一个**发送一次**权限（`MACH_MSG_TYPE_MAKE_SEND_ONCE`）。
 
@@ -93,7 +93,7 @@ mach_msg_id_t                 msgh_id;
 * `msgh_id`：该消息的ID，由接收者解释。
 
 {% hint style="danger" %}
-请注意，**mach消息是通过mach端口发送的**，这是一个内置于mach内核中的**单接收者**、**多发送者**的通信通道。**多个进程**可以向mach端口发送消息，但在任何时刻只有**一个进程可以从中读取**。
+请注意，**mach消息是通过mach端口发送的**，这是一个内置于mach内核中的**单个接收者**、**多个发送者**的通信通道。**多个进程**可以向mach端口发送消息，但在任何时刻只有**一个进程可以从中读取**。
 {% endhint %}
 
 ### 枚举端口
@@ -283,11 +283,11 @@ printf("Sent a message\n");
 * **主机特权端口**：具有对该端口的**发送**权限的进程可以执行**特权操作**，如加载内核扩展。该进程需要是**root**才能获得此权限。
 * 此外，为了调用**`kext_request`** API，还需要具有其他授权**`com.apple.private.kext*`**，这些授权仅提供给Apple二进制文件。
 * **任务名称端口**：_任务端口_的非特权版本。它引用任务，但不允许对其进行控制。似乎唯一可以通过它获得的是`task_info()`。
-* **任务端口**（也称为内核端口）：对该端口具有发送权限，可以控制任务（读/写内存，创建线程等）。
-* 调用`mach_task_self()`以获取调用者任务的名称。此端口仅在**`exec()`**之间**继承**；使用`fork()`创建的新任务会获得一个新的任务端口（作为特殊情况，suid二进制文件在`exec()`之后也会获得一个新的任务端口）。生成任务并获取其端口的唯一方法是在执行`fork()`时执行["端口交换舞蹈"](https://robert.sesek.com/2014/1/changes\_to\_xnu\_mach\_ipc.html)。
+* **任务端口**（也称为内核端口）：对于具有对该端口的发送权限，可以控制任务（读/写内存，创建线程等）。
+* 调用`mach_task_self()`以获取调用者任务的名称。此端口仅在**`exec()`**跨越继承;使用`fork()`创建的新任务会获得一个新的任务端口（作为特殊情况，suid二进制文件在`exec()`之后也会获得一个新的任务端口）。生成任务并获取其端口的唯一方法是在执行`fork()`时执行["端口交换舞蹈"](https://robert.sesek.com/2014/1/changes\_to\_xnu\_mach\_ipc.html)。
 * 这些是访问端口的限制（来自二进制文件`AppleMobileFileIntegrity`的`macos_task_policy`）：
 * 如果应用具有**`com.apple.security.get-task-allow`授权**，来自**同一用户的进程可以访问任务端口**（通常由Xcode用于调试）。**公证**过程不允许将其用于生产版本。
-* 具有**`com.apple.system-task-ports`授权**的应用程序可以获取任何进程的**任务端口**，但不能获取内核的任务端口。在旧版本中，它被称为**`task_for_pid-allow`**。这仅授予Apple应用程序。
+* 具有**`com.apple.system-task-ports`**授权的应用程序可以获取任何进程的**任务端口**，除了内核。在旧版本中，它被称为**`task_for_pid-allow`**。这仅授予Apple应用程序。
 * **Root可以访问未使用强化运行时编译**（且不是来自Apple）的应用程序的任务端口。
 
 ### 通过任务端口在线程中注入Shellcode
@@ -813,7 +813,7 @@ int main(int argc, const char * argv[])
 if (argc < 3)
 {
     fprintf(stderr, "用法：%s _pid_ _action_\n", argv[0]);
-    fprintf(stderr, "   _action_：磁盘上的 dylib 路径\n");
+    fprintf(stderr, "   _action_：磁盘上 dylib 的路径\n");
     exit(0);
 }
 
@@ -848,7 +848,7 @@ gcc -framework Foundation -framework Appkit dylib_injector.m -o dylib_injector
 
 XPC代表XNU（macOS使用的内核）进程间通信，是macOS和iOS上进程之间通信的框架。XPC提供了一种机制，用于在系统上不同进程之间进行安全的异步方法调用。它是苹果安全范例的一部分，允许创建权限分离的应用程序，其中每个组件仅以执行其工作所需的权限运行，从而限制了受损进程可能造成的潜在损害。
 
-有关此通信工作方式以及可能存在的漏洞的更多信息，请参考：
+有关此通信工作方式及其可能存在的漏洞的更多信息，请参阅：
 
 {% content-ref url="../../macos-proces-abuse/macos-ipc-inter-process-communication/macos-xpc/" %}
 [macos-xpc](../../macos-proces-abuse/macos-ipc-inter-process-communication/macos-xpc/)
@@ -856,7 +856,7 @@ XPC代表XNU（macOS使用的内核）进程间通信，是macOS和iOS上进程�
 
 ## MIG - Mach接口生成器
 
-MIG被创建用于简化Mach IPC代码的生成过程。它基本上为服务器和客户端生成所需的代码，以便它们可以进行通信。即使生成的代码很丑陋，开发人员只需要导入它，他的代码也会比以前简单得多。
+MIG被创建用于简化Mach IPC代码的生成过程。它基本上为服务器和客户端生成所需的通信代码。即使生成的代码很丑陋，开发人员只需要导入它，他的代码将比以前简单得多。
 
 有关更多信息，请查看：
 
@@ -876,10 +876,10 @@ MIG被创建用于简化Mach IPC代码的生成过程。它基本上为服务器
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者你想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[NFT收藏品](https://opensea.io/collection/the-peass-family)——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+* 你在一家网络安全公司工作吗？想要在HackTricks中宣传你的公司吗？或者想要获取PEASS的最新版本或下载PDF格式的HackTricks吗？请查看[订阅计划](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品[The PEASS Family](https://opensea.io/collection/the-peass-family)
+* 获取[官方PEASS和HackTricks周边产品](https://peass.creator-spring.com)
+* 加入[💬](https://emojipedia.org/speech-balloon/) [Discord群](https://discord.gg/hRep4RUj7f)或[电报群](https://t.me/peass)，或在Twitter上关注我[🐦](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[@carlospolopm](https://twitter.com/hacktricks\_live)。
+* 通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧。
 
 </details>
