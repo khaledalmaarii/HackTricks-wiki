@@ -56,10 +56,14 @@ codesign -dv --entitlements :- /System/Library/PrivateFrameworks/TCC.framework/S
 com.apple.private.tcc.manager
 com.apple.rootless.storage.TCC
 ```
-{% tab title="user DB" %}
+{% endcode %}
 
 Cependant, les utilisateurs peuvent **supprimer ou interroger les règles** avec l'utilitaire en ligne de commande **`tccutil`**.
-{% endtab %}
+{% endhint %}
+
+{% tabs %}
+{% tab title="user DB" %}
+{% code overflow="wrap" %}
 ```bash
 sqlite3 ~/Library/Application\ Support/com.apple.TCC/TCC.db
 sqlite> .schema
@@ -76,7 +80,11 @@ sqlite> select * from access where client LIKE "%telegram%" and auth_value=2;
 # Check user denied permissions for telegram
 sqlite> select * from access where client LIKE "%telegram%" and auth_value=0;
 ```
-{% tab title="base de données système" %}
+{% endcode %}
+{% endtab %}
+
+{% tab title="Base de données système" %}
+{% code overflow="wrap" %}
 ```bash
 sqlite3 /Library/Application\ Support/com.apple.TCC/TCC.db
 sqlite> .schema
@@ -88,11 +96,15 @@ kTCCServiceSystemPolicyDownloadsFolder|com.tinyspeck.slackmacgap|2|2
 kTCCServiceMicrophone|us.zoom.xos|2|2
 [...]
 
+# Get all FDA
+sqlite> select service, client, auth_value, auth_reason from access where service = "kTCCServiceSystemPolicyAllFiles" and auth_value=2;
+
 # Check user approved permissions for telegram
 sqlite> select * from access where client LIKE "%telegram%" and auth_value=2;
 # Check user denied permissions for telegram
 sqlite> select * from access where client LIKE "%telegram%" and auth_value=0;
 ```
+{% endcode %}
 {% endtab %}
 {% endtabs %}
 
@@ -144,17 +156,15 @@ codesign -d -r- /System/Applications/Utilities/Terminal.app
 ```
 AllowApplicationsList.plist:
 
-Ce fichier plist est utilisé par macOS pour gérer la liste des applications autorisées à accéder aux données protégées par le TCC (Transparency, Consent, and Control). Le TCC est un mécanisme de sécurité intégré à macOS qui protège les données sensibles de l'utilisateur en limitant l'accès des applications.
+Ce fichier plist est utilisé par macOS pour gérer la liste des applications autorisées à accéder aux données sensibles protégées par le TCC (Transparency, Consent, and Control). Le TCC est un mécanisme de sécurité intégré à macOS qui permet aux utilisateurs de contrôler l'accès des applications à certaines fonctionnalités et données sensibles, telles que la caméra, le microphone, les contacts, les photos, etc.
 
-Dans ce fichier, vous pouvez spécifier les applications qui sont autorisées à accéder à des données telles que la caméra, le microphone, les contacts, les calendriers, les photos, etc. Chaque application est répertoriée avec son identifiant de bundle (Bundle ID) et son niveau d'autorisation.
+Dans ce fichier plist, vous pouvez spécifier les applications qui sont autorisées à accéder à ces données sensibles. Chaque application est répertoriée avec son identifiant de bundle (Bundle ID). Vous pouvez ajouter ou supprimer des entrées dans ce fichier pour personnaliser les autorisations d'accès des applications.
 
-Pour ajouter une application à la liste des autorisations, vous devez ajouter une entrée dans ce fichier plist en spécifiant l'identifiant de bundle de l'application et le niveau d'autorisation souhaité. Les niveaux d'autorisation disponibles sont "Full" (accès complet), "Limited" (accès limité) et "Denied" (accès refusé).
+Il est important de noter que la modification de ce fichier plist nécessite des privilèges d'administrateur. Par conséquent, seuls les utilisateurs disposant des droits d'administration peuvent apporter des modifications à ce fichier.
 
-Il est important de noter que la modification de ce fichier plist nécessite des privilèges d'administrateur. Par conséquent, seuls les utilisateurs disposant des droits d'administration peuvent apporter des modifications à la liste des autorisations.
+Pour modifier le fichier AllowApplicationsList.plist, vous pouvez utiliser un éditeur de texte ou la commande `defaults` en ligne de commande. Assurez-vous de sauvegarder une copie du fichier d'origine avant d'apporter des modifications, au cas où vous auriez besoin de revenir à la configuration précédente.
 
-Une fois que vous avez modifié le fichier plist, vous devez redémarrer le système pour que les modifications prennent effet. Après le redémarrage, les applications spécifiées dans ce fichier auront les autorisations correspondantes pour accéder aux données protégées par le TCC.
-
-Il est recommandé de faire preuve de prudence lors de la modification de ce fichier plist, car des erreurs peuvent entraîner des problèmes de sécurité ou de fonctionnalité. Il est préférable de consulter la documentation officielle d'Apple ou de demander l'assistance d'un professionnel qualifié si vous avez des doutes ou des questions concernant l'utilisation de ce fichier.
+Une fois que vous avez modifié le fichier AllowApplicationsList.plist, vous devrez peut-être redémarrer votre système pour que les modifications prennent effet.
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -206,7 +216,7 @@ Par exemple, **Telegram** a l'attribution `com.apple.security.device.camera` pou
 
 Cependant, pour que les applications **accèdent** à **certains dossiers utilisateur**, tels que `~/Desktop`, `~/Downloads` et `~/Documents`, elles **n'ont pas besoin** d'avoir des **attributions spécifiques**. Le système gérera l'accès de manière transparente et **invitera l'utilisateur** au besoin.
 
-Les applications d'Apple **ne génèrent pas de fenêtres contextuelles**. Elles contiennent des **droits préalablement accordés** dans leur liste d'attributions, ce qui signifie qu'elles ne **généreront jamais de fenêtre contextuelle** et ne figureront pas dans l'une des **bases de données TCC**. Par exemple:
+Les applications d'Apple **ne génèrent pas de fenêtres contextuelles**. Elles contiennent des **droits préalablement accordés** dans leur liste d'attributions, ce qui signifie qu'elles ne **généreront jamais de fenêtre contextuelle** et ne figureront pas dans les **bases de données TCC**. Par exemple:
 ```bash
 codesign -dv --entitlements :- /System/Applications/Calendar.app
 [...]
