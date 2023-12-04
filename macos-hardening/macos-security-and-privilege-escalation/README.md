@@ -4,8 +4,8 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? Ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* Vous travaillez dans une **entreprise de cybersécurité** ? Vous voulez voir votre **entreprise annoncée dans HackTricks** ? ou vous voulez avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
@@ -14,56 +14,54 @@
 
 <figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-**HackenProof est la plateforme des primes de bugs cryptographiques.**
+Rejoignez le serveur [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) pour communiquer avec des hackers expérimentés et des chasseurs de primes !
 
-**Obtenez des récompenses sans délai**\
-Les primes HackenProof ne sont lancées que lorsque les clients déposent le budget de récompense. Vous recevrez la récompense après la vérification du bug.
+**Perspectives de piratage**\
+Engagez-vous avec du contenu qui explore les sensations et les défis du piratage
 
-**Acquérez de l'expérience en pentest web3**\
-Les protocoles blockchain et les contrats intelligents sont le nouvel Internet ! Maîtrisez la sécurité web3 dès ses débuts.
+**Actualités de piratage en temps réel**\
+Restez à jour avec le monde du piratage rapide grâce aux actualités et aux informations en temps réel
 
-**Devenez une légende du piratage web3**\
-Gagnez des points de réputation avec chaque bug vérifié et conquérez le sommet du classement hebdomadaire.
+**Dernières annonces**\
+Restez informé des dernières primes de bugs lancées et des mises à jour cruciales de la plateforme
 
-[**Inscrivez-vous sur HackenProof**](https://hackenproof.com/register) et commencez à gagner grâce à vos piratages !
-
-{% embed url="https://hackenproof.com/register" %}
+**Rejoignez-nous sur** [**Discord**](https://discord.com/invite/N3FrSbmwdy) et commencez à collaborer avec les meilleurs hackers dès aujourd'hui !
 
 ## Base de MacOS
 
 Si vous n'êtes pas familier avec macOS, vous devriez commencer par apprendre les bases de macOS :
 
-* Fichiers et permissions spéciaux de macOS :
+* **Fichiers et permissions spéciaux** de macOS :
 
 {% content-ref url="macos-files-folders-and-binaries/" %}
 [macos-files-folders-and-binaries](macos-files-folders-and-binaries/)
 {% endcontent-ref %}
 
-* Utilisateurs courants de macOS
+* Utilisateurs **courants** de macOS
 
 {% content-ref url="macos-users.md" %}
 [macos-users.md](macos-users.md)
 {% endcontent-ref %}
 
-* AppleFS
+* **AppleFS**
 
 {% content-ref url="macos-applefs.md" %}
 [macos-applefs.md](macos-applefs.md)
 {% endcontent-ref %}
 
-* L'architecture du noyau
+* **Architecture** du **noyau**
 
 {% content-ref url="mac-os-architecture/" %}
 [mac-os-architecture](mac-os-architecture/)
 {% endcontent-ref %}
 
-* Services et protocoles réseau courants de macOS
+* Services et protocoles réseau **courants** de macOS
 
 {% content-ref url="macos-protocols.md" %}
 [macos-protocols.md](macos-protocols.md)
 {% endcontent-ref %}
 
-* macOS en **open source** : [https://opensource.apple.com/](https://opensource.apple.com/)
+* macOS **Open Source** : [https://opensource.apple.com/](https://opensource.apple.com/)
 * Pour télécharger un fichier `tar.gz`, modifiez une URL telle que [https://opensource.apple.com/**source**/dyld/](https://opensource.apple.com/source/dyld/) en [https://opensource.apple.com/**tarballs**/dyld/**dyld-852.2.tar.gz**](https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz)
 
 ### MacOS MDM
@@ -98,7 +96,7 @@ Cela peut se produire dans les situations suivantes :
 * Le fichier utilisé se trouve dans un répertoire appartenant à l'utilisateur (l'utilisateur peut créer le fichier)
 * Le fichier utilisé se trouve dans un répertoire appartenant à root, mais l'utilisateur a un accès en écriture dessus en raison d'un groupe (l'utilisateur peut créer le fichier)
 
-Pouvoir **créer un fichier** qui va être **utilisé par root** permet à un utilisateur de **profiter de son contenu** ou même de créer des **liens symboliques/hardlinks** pour le pointer vers un autre endroit.
+Pouvoir **créer un fichier** qui va être **utilisé par root**, permet à un utilisateur de **profiter de son contenu** ou même de créer des **liens symboliques/hardlinks** pour le pointer vers un autre endroit.
 
 Pour ce type de vulnérabilités, n'oubliez pas de **vérifier les installateurs `.pkg`** vulnérables :
 
@@ -113,9 +111,9 @@ Si un processus peut **injecter du code dans un autre processus avec des privil�
 [macos-proces-abuse](macos-proces-abuse/)
 {% endcontent-ref %}
 
-### Manipulation des extensions de fichier et des gestionnaires d'application d'URL
+### Gestionnaires d'applications pour les extensions de fichiers et les schémas d'URL
 
-Des applications étranges enregistrées par des extensions de fichier peuvent être abusées et différentes applications peuvent être enregistrées pour ouvrir des protocoles spécifiques.
+Des applications étranges enregistrées par des extensions de fichiers peuvent être utilisées de manière abusive et différentes applications peuvent être enregistrées pour ouvrir des protocoles spécifiques.
 
 {% content-ref url="macos-file-extension-apps.md" %}
 [macos-file-extension-apps.md](macos-file-extension-apps.md)
@@ -123,7 +121,7 @@ Des applications étranges enregistrées par des extensions de fichier peuvent �
 
 ## Élévation de privilèges sur MacOS
 
-### CVE-2020-9771 - Contournement de TCC et élévation de privilèges de mount\_apfs
+### CVE-2020-9771 - Contournement de TCC et élévation de privilèges avec mount\_apfs
 
 **N'importe quel utilisateur** (même non privilégié) peut créer et monter un instantané de la machine à remonter le temps et **accéder à TOUS les fichiers** de cet instantané.\
 Le seul privilège nécessaire est que l'application utilisée (comme `Terminal`) ait **un accès complet au disque** (FDA - Full Disk Access) (`kTCCServiceSystemPolicyAllfiles`), qui doit être accordé par un administrateur.
@@ -166,8 +164,6 @@ Tout d'abord, veuillez noter que **la plupart des astuces sur l'élévation de p
 [privilege-escalation](../../linux-hardening/privilege-escalation/)
 {% endcontent-ref %}
 
-## Applications de défense MacOS
-
 ## Références
 
 * [**OS X Incident Response: Scripting and Analysis**](https://www.amazon.com/OS-Incident-Response-Scripting-Analysis-ebook/dp/B01FHOHHVS)
@@ -178,26 +174,24 @@ Tout d'abord, veuillez noter que **la plupart des astuces sur l'élévation de p
 
 <figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-**HackenProof est la plateforme des primes pour les bugs de cryptographie.**
+Rejoignez le serveur [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) pour communiquer avec des hackers expérimentés et des chasseurs de primes de bugs !
 
-**Obtenez une récompense sans délai**\
-Les primes HackenProof sont lancées uniquement lorsque les clients déposent le budget de récompense. Vous recevrez la récompense après la vérification du bug.
+**Hacking Insights**\
+Engagez-vous avec du contenu qui explore les sensations et les défis du piratage
 
-**Acquérez de l'expérience en pentesting web3**\
-Les protocoles blockchain et les contrats intelligents sont le nouvel Internet ! Maîtrisez la sécurité web3 dès ses débuts.
+**Actualités de piratage en temps réel**\
+Restez à jour avec le monde du piratage rapide grâce aux actualités et aux informations en temps réel
 
-**Devenez la légende du hacker web3**\
-Gagnez des points de réputation avec chaque bug vérifié et conquérez le sommet du classement hebdomadaire.
+**Dernières annonces**\
+Restez informé des dernières primes de bugs lancées et des mises à jour cruciales de la plateforme
 
-[**Inscrivez-vous sur HackenProof**](https://hackenproof.com/register) commencez à gagner grâce à vos hacks !
-
-{% embed url="https://hackenproof.com/register" %}
+**Rejoignez-nous sur** [**Discord**](https://discord.com/invite/N3FrSbmwdy) et commencez à collaborer avec les meilleurs hackers dès aujourd'hui !
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Vous travaillez dans une **entreprise de cybersécurité** ? Vous souhaitez voir votre **entreprise annoncée dans HackTricks** ? ou souhaitez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Vous travaillez dans une **entreprise de cybersécurité** ? Vous voulez voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
