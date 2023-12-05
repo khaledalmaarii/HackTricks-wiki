@@ -24,8 +24,8 @@
 * **`RunAsNode`**：如果禁用，它将阻止使用环境变量**`ELECTRON_RUN_AS_NODE`**来注入代码。
 * **`EnableNodeCliInspectArguments`**：如果禁用，像`--inspect`，`--inspect-brk`这样的参数将不会被遵守。从而避免了注入代码的方式。
 * **`EnableEmbeddedAsarIntegrityValidation`**：如果启用，macOS将验证加载的**`asar`**文件。通过修改此文件的内容，以防止代码注入。
-* **`OnlyLoadAppFromAsar`**：如果启用，它将只检查和使用app.asar，而不是按照以下顺序搜索加载：**`app.asar`**，**`app`**，最后是**`default_app.asar`**。因此，当与**`embeddedAsarIntegrityValidation`**保险丝结合使用时，**加载未经验证的代码是不可能的**。
-* **`LoadBrowserProcessSpecificV8Snapshot`**：如果启用，浏览器进程将使用名为`browser_v8_context_snapshot.bin`的文件进行其V8快照。
+* **`OnlyLoadAppFromAsar`**：如果启用，它将只检查和使用app.asar，而不是按照以下顺序搜索加载：**`app.asar`**，**`app`**，最后是**`default_app.asar`**。因此，当与**`embeddedAsarIntegrityValidation`**保险丝结合使用时，**加载未经验证的代码**将是**不可能的**。
+* **`LoadBrowserProcessSpecificV8Snapshot`**：如果启用，浏览器进程将使用名为`browser_v8_context_snapshot.bin`的文件作为其V8快照。
 
 另一个不会阻止代码注入的有趣的保险丝是：
 
@@ -182,9 +182,9 @@ require('child_process').execSync('/System/Applications/Calculator.app/Contents/
 但是，您仍然可以使用**electron参数`--remote-debugging-port=9229`**，但之前的有效载荷将无法执行其他进程。
 {% endhint %}
 
-使用参数**`--remote-debugging-port=9222`**可以从Electron应用程序中窃取一些信息，例如**历史记录**（使用GET命令）或浏览器的**cookie**（因为它们在浏览器内部被**解密**，并且有一个**json端点**可以提供它们）。
+使用参数**`--remote-debugging-port=9222`**，可以从Electron应用程序中窃取一些信息，例如**历史记录**（使用GET命令）或浏览器的**cookies**（因为它们在浏览器内部被**解密**，并且有一个**json端点**可以提供它们）。
 
-您可以在[**这里**](https://posts.specterops.io/hands-in-the-cookie-jar-dumping-cookies-with-chromiums-remote-debugger-port-34c4f468844e)和[**这里**](https://slyd0g.medium.com/debugging-cookie-dumping-failures-with-chromiums-remote-debugger-8a4c4d19429f)了解如何做到这一点，并使用自动工具[WhiteChocolateMacademiaNut](https://github.com/slyd0g/WhiteChocolateMacademiaNut)或一个简单的脚本，如：
+您可以在[**这里**](https://posts.specterops.io/hands-in-the-cookie-jar-dumping-cookies-with-chromiums-remote-debugger-port-34c4f468844e)和[**这里**](https://slyd0g.medium.com/debugging-cookie-dumping-failures-with-chromiums-remote-debugger-8a4c4d19429f)了解如何做到这一点，并使用自动工具[WhiteChocolateMacademiaNut](https://github.com/slyd0g/WhiteChocolateMacademiaNut)或类似的简单脚本：
 ```python
 import websocket
 ws = websocket.WebSocket()
@@ -192,9 +192,11 @@ ws.connect("ws://localhost:9222/devtools/page/85976D59050BFEFDBA48204E3D865D00",
 ws.send('{\"id\": 1, \"method\": \"Network.getAllCookies\"}')
 print(ws.recv()
 ```
-### 从App Plist进行注入
+在[**这篇博文**](https://hackerone.com/reports/1274695)中，利用这个调试功能可以使无头Chrome在任意位置下载任意文件。
 
-您可以滥用plist中的此环境变量以保持持久性，添加以下键：
+### 从App Plist注入
+
+您可以滥用这个环境变量在plist中添加这些键来保持持久性：
 ```xml
 <dict>
 <key>ProgramArguments</key>
@@ -211,12 +213,17 @@ print(ws.recv()
 ## TCC绕过滥用旧版本
 
 {% hint style="success" %}
-macOS的TCC守护程序不会检查应用程序的执行版本。因此，如果您无法使用先前的任何技术在Electron应用程序中注入代码，您可以下载先前的应用程序版本并在其中注入代码，因为它仍将获得TCC权限（除非Trust Cache阻止）。
+macOS的TCC守护程序不会检查应用程序的执行版本。因此，如果您无法使用先前的任何技术在Electron应用程序中注入代码，您可以下载先前的应用程序版本并在其中注入代码，因为它仍然会获得TCC权限（除非信任缓存阻止）。
 {% endhint %}
+
+## 运行非JS代码
+
+先前的技术将允许您在Electron应用程序的进程中运行JS代码。但是，请记住，子进程在相同的沙盒配置文件下运行，并继承其TCC权限。\
+因此，如果您想滥用授权以访问摄像头或麦克风，您可以从进程中运行另一个二进制文件。
 
 ## 自动注入
 
-工具[**electroniz3r**](https://github.com/r3ggi/electroniz3r)可以轻松用于查找已安装的易受攻击的Electron应用程序并在其中注入代码。该工具将尝试使用**`--inspect`**技术：
+工具[**electroniz3r**](https://github.com/r3ggi/electroniz3r)可以轻松用于查找已安装的易受攻击的Electron应用程序并在其中注入代码。此工具将尝试使用`--inspect`技术：
 
 您需要自己编译它，并可以像这样使用它：
 ```bash
