@@ -60,11 +60,11 @@ Vous pouvez charger ce fichier dans [https://hexed.it/](https://hexed.it/) et re
 
 <figure><img src="../../../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
 
-Notez que si vous essayez de **remplacer** le binaire du **`Framework Electron`** à l'intérieur d'une application avec ces octets modifiés, l'application ne se lancera pas.
+Notez que si vous essayez de **écraser** le **binaire du framework Electron** à l'intérieur d'une application avec ces octets modifiés, l'application ne se lancera pas.
 
 ## RCE en ajoutant du code aux applications Electron
 
-Il peut y avoir des fichiers JS/HTML **externes** qu'une application Electron utilise, de sorte qu'un attaquant peut injecter du code dans ces fichiers dont la signature ne sera pas vérifiée et exécuter du code arbitraire dans le contexte de l'application.
+Il peut y avoir des **fichiers JS/HTML externes** qu'une application Electron utilise, de sorte qu'un attaquant peut injecter du code dans ces fichiers dont la signature ne sera pas vérifiée et exécuter du code arbitraire dans le contexte de l'application.
 
 {% hint style="danger" %}
 Cependant, il y a actuellement 2 limitations :
@@ -193,6 +193,8 @@ ws.connect("ws://localhost:9222/devtools/page/85976D59050BFEFDBA48204E3D865D00",
 ws.send('{\"id\": 1, \"method\": \"Network.getAllCookies\"}')
 print(ws.recv()
 ```
+Dans [**cet article de blog**](https://hackerone.com/reports/1274695), ce débogage est exploité pour permettre à Chrome sans interface graphique de **télécharger des fichiers arbitraires dans des emplacements arbitraires**.
+
 ### Injection à partir du fichier Plist de l'application
 
 Vous pouvez exploiter cette variable d'environnement dans un fichier plist pour maintenir la persistance en ajoutant ces clés :
@@ -215,11 +217,16 @@ Vous pouvez exploiter cette variable d'environnement dans un fichier plist pour 
 Le démon TCC de macOS ne vérifie pas la version exécutée de l'application. Donc, si vous **ne pouvez pas injecter de code dans une application Electron** avec l'une des techniques précédentes, vous pouvez télécharger une version précédente de l'application et y injecter du code car elle obtiendra toujours les privilèges TCC (à moins que le cache de confiance ne l'empêche).
 {% endhint %}
 
+## Exécution de code non JS
+
+Les techniques précédentes vous permettront d'exécuter du **code JS à l'intérieur du processus de l'application Electron**. Cependant, rappelez-vous que les **processus enfants s'exécutent sous le même profil de bac à sable** que l'application parente et **héritent de leurs autorisations TCC**.\
+Par conséquent, si vous souhaitez abuser des autorisations pour accéder à la caméra ou au microphone par exemple, vous pouvez simplement **exécuter un autre binaire à partir du processus**.
+
 ## Injection automatique
 
 L'outil [**electroniz3r**](https://github.com/r3ggi/electroniz3r) peut être facilement utilisé pour **trouver des applications Electron vulnérables** installées et y injecter du code. Cet outil essaiera d'utiliser la technique **`--inspect`** :
 
-Vous devez le compiler vous-même et pouvez l'utiliser de cette manière :
+Vous devez le compiler vous-même et pouvez l'utiliser comme ceci:
 ```bash
 # Find electron apps
 ./electroniz3r list-apps
@@ -266,7 +273,7 @@ Shell binding requested. Check `nc 127.0.0.1 12345`
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? Ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).

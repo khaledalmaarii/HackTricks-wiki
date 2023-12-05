@@ -77,28 +77,28 @@ Intruder ne se repose jamais. Une protection 24h/24, 7j/7 surveille vos système
 
 <figure><img src=".gitbook/assets/image (5).png" alt=""><figcaption></figcaption></figure>
 
-**HackenProof est la plateforme de tous les bug bounties crypto.**
+Rejoignez le serveur [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) pour communiquer avec des hackers expérimentés et des chasseurs de primes !
 
-**Obtenez une récompense sans délai**\
-Les primes HackenProof sont lancées uniquement lorsque leurs clients déposent le budget de récompense. Vous recevrez la récompense après la vérification du bogue.
+**Hacking Insights**\
+Engagez-vous avec du contenu qui explore les défis et les frissons du piratage
 
-**Acquérez de l'expérience en pentest web3**\
-Les protocoles blockchain et les contrats intelligents sont le nouvel Internet ! Maîtrisez la sécurité web3 à ses débuts.
+**Actualités de piratage en temps réel**\
+Restez à jour avec le monde du piratage en temps réel grâce aux actualités et aux informations
 
-**Devenez la légende du pirate web3**\
-Gagnez des points de réputation avec chaque bogue vérifié et conquérez le sommet du classement hebdomadaire.
+**Dernières annonces**\
+Restez informé des derniers lancements de bug bounties et des mises à jour cruciales de la plateforme
 
-[**Inscrivez-vous sur HackenProof**](https://hackenproof.com/register) et commencez à gagner grâce à vos piratages !
+**Rejoignez-nous sur** [**Discord**](https://discord.com/invite/N3FrSbmwdy) et commencez à collaborer avec les meilleurs hackers dès aujourd'hui !
 
-{% embed url="https://hackenproof.com/register" %}
+***
 
 ### [WebSec](https://websec.nl/)
 
 <figure><img src=".gitbook/assets/websec (1).svg" alt=""><figcaption></figcaption></figure>
 
-[**WebSec**](https://websec.nl) est une entreprise de cybersécurité professionnelle basée à **Amsterdam** qui aide à **protéger** les entreprises **du monde entier** contre les dernières menaces en matière de cybersécurité en fournissant des services de sécurité offensive avec une approche **moderne**.
+[**WebSec**](https://websec.nl) est une entreprise de cybersécurité professionnelle basée à **Amsterdam** qui aide à **protéger** les entreprises **du monde entier** contre les dernières menaces de cybersécurité en fournissant des services de **sécurité offensive** avec une approche **moderne**.
 
-WebSec est une **entreprise de sécurité tout-en-un**, ce qui signifie qu'ils font tout ; tests de pénétration, audits de sécurité, formations à la sensibilisation, campagnes de phishing, examen de code, développement d'exploits, externalisation d'experts en sécurité et bien plus encore.
+WebSec est une **entreprise de sécurité tout-en-un**, ce qui signifie qu'ils font tout : tests de pénétration, audits de sécurité, formations à la sensibilisation, campagnes de phishing, examen de code, développement d'exploits, externalisation d'experts en sécurité et bien plus encore.
 
 Une autre chose intéressante à propos de WebSec est que, contrairement à la moyenne de l'industrie, WebSec est **très confiant dans ses compétences**, à tel point qu'ils **garantissent les meilleurs résultats de qualité**, comme indiqué sur leur site web "**Si nous ne pouvons pas le pirater, vous ne le payez pas !**". Pour plus d'informations, consultez leur [**site web**](https://websec.nl/en/) et leur [**blog**](https://websec.nl/blog/) !
 
@@ -109,7 +109,7 @@ En plus de ce qui précède, WebSec est également un **supporter engagé de Hac
 
 <figure><img src=".gitbook/assets/image (1) (1) (2) (4) (1).png" alt=""><figcaption></figcaption></figure>
 
-[**DragonJAR est une entreprise leader en cybersécurité offensive**](https://www.dragonjar.org/) **basée en Colombie**. DragonJAR propose [des services complets de cybersécurité offensive, tels que le **pentesting**](https://www.dragonjar.org/servicios-de-seguridad-informatica) dans divers domaines et pratiquement **toute technologie**, des simulations d'attaques **Red Team**, des tests de sécurité **physique**, des tests de stress, de l'ingénierie sociale, des revues de sécurité du **code source** et des formations en cybersécurité. De plus, ils organisent la **DragonJAR Security Conference**, [un congrès international sur la cybersécurité](https://www.dragonjarcon.org/) qui se tient depuis plus d'une décennie, devenant une vitrine pour les dernières recherches en sécurité en espagnol et d'une grande importance dans la région.
+[**DragonJAR est une entreprise leader en cybersécurité offensive**](https://www.dragonjar.org/) **basée en Colombie**. DragonJAR propose [des services complets de cybersécurité offensive, tels que le **pentesting**](https://www.dragonjar.org/servicios-de-seguridad-informatica) dans divers domaines et pratiquement **toute technologie**, des simulations d'attaque **Red Team**, des tests de sécurité **physique**, des tests de stress, de l'ingénierie sociale, une revue de sécurité du **code source** et une formation en cybersécurité. De plus, ils organisent la **DragonJAR Security Conference**, [un congrès international sur la cybersécurité](https://www.dragonjarcon.org/) qui se tient depuis plus d'une décennie, devenant une vitrine pour les dernières recherches en sécurité en espagnol et d'une grande pertinence dans la région.
 
 [**DragonJAR is a leading offensive cybersecurity company**](https://www.dragonjar.org/) **located in Colombia**. DragonJAR offers [comprehensive offensive cybersecurity services, such as **pentesting**](https://www.dragonjar.org/servicios-de-seguridad-informatica) in various areas and practically **any technology**, **Red Team** attack simulations, **physical** security testing, **stress testing**, social engineering, source **code security review**, and cybersecurity training. Additionally, they organize the **DragonJAR Security Conference**, [an international cybersecurity congress](https://www.dragonjarcon.org/) that has been held for over a decade, becoming a showcase for the latest security research in Spanish and of great relevance in the region.
 
@@ -121,13 +121,13 @@ En plus de ce qui précède, WebSec est également un **supporter engagé de Hac
 ## **Disclaimer**
 
 {% hint style="danger" %}
-Ce livre, 'HackTricks', est destiné uniquement à des fins éducatives et informatives. Le contenu de ce livre est fourni "tel quel", et les auteurs et éditeurs ne font aucune déclaration ni garantie d'aucune sorte, expresse ou implicite, quant à l'exhaustivité, l'exactitude, la fiabilité, la pertinence ou la disponibilité des informations, produits, services ou graphiques connexes contenus dans ce livre. Toute confiance que vous accordez à de telles informations est donc strictement à vos propres risques.
+Ce livre, 'HackTricks', est destiné à des fins éducatives et informatives uniquement. Le contenu de ce livre est fourni tel quel, et les auteurs et éditeurs ne font aucune déclaration ni garantie d'aucune sorte, expresse ou implicite, quant à l'exhaustivité, l'exactitude, la fiabilité, la pertinence ou la disponibilité des informations, produits, services ou graphiques connexes contenus dans ce livre. Toute confiance que vous accordez à de telles informations est donc strictement à vos propres risques.
 
-Les auteurs et éditeurs ne seront en aucun cas responsables de toute perte ou dommage, y compris, sans s'y limiter, les pertes ou dommages indirects ou consécutifs, ou toute perte ou dommage découlant de la perte de données ou de bénéfices résultant de l'utilisation de ce livre.
+Les auteurs et éditeurs ne sauraient en aucun cas être tenus responsables de toute perte ou dommage, y compris, sans s'y limiter, toute perte ou dommage indirect ou consécutif, ou toute perte ou dommage découlant de la perte de données ou de bénéfices résultant de l'utilisation de ce livre.
 
-De plus, les techniques et astuces décrites dans ce livre sont fournies uniquement à des fins éducatives et informatives, et ne doivent pas être utilisées à des fins illégales ou malveillantes. Les auteurs et éditeurs ne cautionnent ni ne soutiennent aucune activité illégale ou contraire à l'éthique, et toute utilisation des informations contenues dans ce livre se fait aux risques et périls de l'utilisateur et à sa discrétion.
+De plus, les techniques et astuces décrites dans ce livre sont fournies à des fins éducatives et informatives uniquement et ne doivent pas être utilisées à des fins illégales ou malveillantes. Les auteurs et éditeurs ne cautionnent ni ne soutiennent aucune activité illégale ou contraire à l'éthique, et toute utilisation des informations contenues dans ce livre se fait aux risques et à la discrétion de l'utilisateur.
 
-L'utilisateur est seul responsable de toute action entreprise sur la base des informations contenues dans ce livre, et doit toujours demander des conseils et une assistance professionnels lorsqu'il tente de mettre en œuvre l'une des techniques ou astuces décrites ici.
+L'utilisateur est seul responsable de toute action entreprise sur la base des informations contenues dans ce livre et doit toujours demander des conseils et une assistance professionnels lorsqu'il tente de mettre en œuvre l'une des techniques ou astuces décrites ici.
 
 En utilisant ce livre, l'utilisateur accepte de dégager les auteurs et éditeurs de toute responsabilité et de toute responsabilité pour tout dommage, perte ou préjudice pouvant résulter de l'utilisation de ce livre ou de l'une des informations qu'il contient.
 {% endhint %}
