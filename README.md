@@ -77,20 +77,20 @@ O Intruder nunca descansa. A proteção 24/7 monitora seus sistemas o tempo todo
 
 <figure><img src=".gitbook/assets/image (5).png" alt=""><figcaption></figcaption></figure>
 
-**HackenProof é o lar de todos os bug bounties de criptografia.**
+Junte-se ao servidor [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) para se comunicar com hackers experientes e caçadores de recompensas por bugs!
 
-**Seja recompensado sem atrasos**\
-Os bounties do HackenProof são lançados apenas quando seus clientes depositam o orçamento de recompensa. Você receberá a recompensa após a verificação do bug.
+**Hacking Insights**\
+Interaja com conteúdo que explora a emoção e os desafios do hacking
 
-**Adquira experiência em pentesting web3**\
-Protocolos de blockchain e contratos inteligentes são a nova Internet! Domine a segurança web3 em seus dias de ascensão.
+**Notícias de Hacking em Tempo Real**\
+Mantenha-se atualizado com o mundo acelerado do hacking por meio de notícias e insights em tempo real
 
-**Torne-se a lenda do hacker web3**\
-Ganhe pontos de reputação com cada bug verificado e conquiste o topo do leaderboard semanal.
+**Últimos Anúncios**\
+Fique informado sobre os mais recentes lançamentos de recompensas por bugs e atualizações cruciais da plataforma
 
-[**Cadastre-se no HackenProof**](https://hackenproof.com/register) e comece a ganhar com seus hacks!
+**Junte-se a nós no** [**Discord**](https://discord.com/invite/N3FrSbmwdy) e comece a colaborar com os melhores hackers hoje mesmo!
 
-{% embed url="https://hackenproof.com/register" %}
+***
 
 ### [WebSec](https://websec.nl/)
 

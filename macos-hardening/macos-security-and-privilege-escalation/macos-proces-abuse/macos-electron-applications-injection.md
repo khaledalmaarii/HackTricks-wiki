@@ -193,9 +193,11 @@ ws.connect("ws://localhost:9222/devtools/page/85976D59050BFEFDBA48204E3D865D00",
 ws.send('{\"id\": 1, \"method\": \"Network.getAllCookies\"}')
 print(ws.recv()
 ```
+Neste [**post do blog**](https://hackerone.com/reports/1274695), esse processo de depuração é explorado para fazer com que o Chrome sem interface faça **download de arquivos arbitrários em locais arbitrários**.
+
 ### Injeção a partir do App Plist
 
-Você pode abusar dessa variável de ambiente em um plist para manter a persistência adicionando estas chaves:
+Você pode explorar essa variável de ambiente em um plist para manter a persistência adicionando estas chaves:
 ```xml
 <dict>
 <key>ProgramArguments</key>
@@ -212,10 +214,15 @@ Você pode abusar dessa variável de ambiente em um plist para manter a persist�
 ## Bypassando o TCC abusando de versões antigas
 
 {% hint style="success" %}
-O daemon TCC do macOS não verifica a versão executada do aplicativo. Portanto, se você **não consegue injetar código em um aplicativo Electron** com nenhuma das técnicas anteriores, você pode baixar uma versão anterior do aplicativo e injetar código nele, pois ele ainda obterá as permissões do TCC (a menos que o Trust Cache o impeça).
+O daemon TCC do macOS não verifica a versão executada do aplicativo. Portanto, se você **não consegue injetar código em um aplicativo Electron** com nenhuma das técnicas anteriores, você pode baixar uma versão anterior do APP e injetar código nele, pois ele ainda obterá as permissões do TCC (a menos que o Trust Cache o impeça).
 {% endhint %}
 
-## Injeção Automática
+## Executando código não JS
+
+As técnicas anteriores permitirão que você execute **código JS dentro do processo do aplicativo Electron**. No entanto, lembre-se de que os **processos filhos são executados sob o mesmo perfil de sandbox** do aplicativo pai e **herdam suas permissões do TCC**.\
+Portanto, se você deseja abusar das permissões para acessar a câmera ou o microfone, por exemplo, você pode simplesmente **executar outro binário a partir do processo**.
+
+## Injeção automática
 
 A ferramenta [**electroniz3r**](https://github.com/r3ggi/electroniz3r) pode ser facilmente usada para **encontrar aplicativos Electron vulneráveis** instalados e injetar código neles. Essa ferramenta tentará usar a técnica **`--inspect`**:
 
@@ -265,10 +272,10 @@ Shell binding requested. Check `nc 127.0.0.1 12345`
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? Ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e o** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
