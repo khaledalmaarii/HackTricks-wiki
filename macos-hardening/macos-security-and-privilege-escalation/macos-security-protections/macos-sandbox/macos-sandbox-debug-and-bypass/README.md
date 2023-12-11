@@ -18,32 +18,38 @@
 
 在上图中，可以看到当运行具有权限**`com.apple.security.app-sandbox`**的应用程序时，**沙盒将如何加载**。
 
-编译器将**`/usr/lib/libSystem.B.dylib`**链接到二进制文件。
+编译器将`/usr/lib/libSystem.B.dylib`链接到二进制文件。
 
 然后，**`libSystem.B`**将调用其他几个函数，直到**`xpc_pipe_routine`**将应用程序的权限发送给**`securityd`**。Securityd检查进程是否应该被隔离在沙盒中，如果是，则将被隔离。
 最后，通过调用**`__sandbox_ms`**激活沙盒，该函数将调用**`__mac_syscall`**。
 
-## 可能的绕过方法
+## 可能的绕过方式
 
 ### 绕过隔离属性
 
-**由沙盒进程创建的文件**会附加**隔离属性**，以防止沙盒逃逸。然而，如果你设法在沙盒应用程序中**创建一个没有隔离属性的`.app`文件夹**，你可以使应用程序包的二进制文件指向**`/bin/bash`**，并在**plist**中添加一些环境变量来滥用**`open`**以**启动新的非沙盒应用程序**。
+**由沙盒进程创建的文件**会附加**隔离属性**，以防止沙盒逃逸。然而，如果你设法在沙盒应用程序中**创建一个没有隔离属性的`.app`文件夹**，你可以使应用程序包二进制文件指向**`/bin/bash`**，并在**plist**中添加一些环境变量来滥用**`open`**以**启动新的非沙盒应用程序**。
 
-这就是[**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)**中所做的**。
+这就是在[**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)**中所做的**。
 
 {% hint style="danger" %}
 因此，目前，如果你只能创建一个以**`.app`**结尾的文件夹而没有隔离属性，你可以逃离沙盒，因为macOS只会在**`.app`文件夹**和**主可执行文件**中**检查**隔离属性（我们将主可执行文件指向**`/bin/bash`**）。
+
+请注意，如果一个.app包已经被授权运行（它具有带有授权运行标志的隔离属性），你也可以滥用它...只是现在你不能在**.app**包内写入，除非你拥有一些特权的TCC权限（在沙盒高权限下你将没有）。
 {% endhint %}
 
 ### 滥用Open功能
 
 在[**Word沙盒绕过的最后示例**](macos-office-sandbox-bypasses.md#word-sandbox-bypass-via-login-items-and-.zshenv)中，可以看到如何滥用**`open`**命令行功能来绕过沙盒。
 
+{% content-ref url="macos-office-sandbox-bypasses.md" %}
+[macos-office-sandbox-bypasses.md](macos-office-sandbox-bypasses.md)
+{% endcontent-ref %}
+
 ### 滥用自动启动位置
 
-如果沙盒进程可以在**稍后将要运行二进制文件的非沙盒应用程序可以写入的位置**写入，它将能够通过将二进制文件放置在那里来**逃离沙盒**。这种位置的一个很好的例子是`~/Library/LaunchAgents`或`/System/Library/LaunchDaemons`。
+如果沙盒进程可以**写入**一个**稍后将要运行二进制文件的非沙盒应用程序的位置**，它将能够通过将二进制文件放置在那里来**逃离沙盒**。这种位置的一个很好的例子是`~/Library/LaunchAgents`或`/System/Library/LaunchDaemons`。
 
-为此，你可能需要**2个步骤**：使具有**更宽松沙盒**（`file-read*`，`file-write*`）的进程执行你的代码，实际上会在**非沙盒环境中执行**。
+为此，你可能需要**两个步骤**：使具有**更宽松沙盒**（`file-read*`，`file-write*`）的进程执行你的代码，该代码实际上会写入一个将在**非沙盒环境中执行**的位置。
 
 查看关于**自动启动位置**的页面：
 
@@ -53,21 +59,21 @@
 
 ### 滥用其他进程
 
-如果从沙盒进程中能够**入侵运行在较少限制沙盒（或无沙盒）中的其他进程**，你将能够逃离它们的沙盒：
+如果从沙盒进程中能够**入侵运行在较低限制沙盒（或无沙盒）中的其他进程**，你将能够逃离它们的沙盒：
 
 {% content-ref url="../../../macos-proces-abuse/" %}
 [macos-proces-abuse](../../../macos-proces-abuse/)
 {% endcontent-ref %}
-
 ### 静态编译和动态链接
 
-[**这项研究**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/)发现了2种绕过沙盒的方法。因为沙盒是在用户空间加载**libSystem**库时应用的。如果一个二进制文件能够避免加载它，它就不会被沙盒化：
+[**这项研究**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/)发现了两种绕过沙盒的方法。因为沙盒是在用户空间加载**libSystem**库时应用的。如果一个二进制文件能够避免加载它，它就不会被沙盒化：
 
 * 如果二进制文件是**完全静态编译**的，它可以避免加载该库。
-* 如果二进制文件**不需要加载任何库**（因为链接器也在libSystem中），它就不需要加载libSystem。&#x20;
-### Shellcodes
+* 如果二进制文件不需要加载任何库（因为链接器也在libSystem中），它就不需要加载libSystem。
 
-请注意，即使是ARM64架构的shellcode也需要链接到`libSystem.dylib`中：
+### Shellcode
+
+请注意，即使是ARM64的shellcode也需要链接到`libSystem.dylib`中：
 ```bash
 ld -o shell shell.o -macosx_version_min 13.0
 ld: dynamic executables or dylibs must link with libSystem.dylib for architecture arm64
@@ -201,17 +207,21 @@ system("cat ~/Desktop/del.txt");
 </plist>
 ```
 
-这是一个示例的 entitlements.xml 文件，其中包含了一些常见的沙盒权限。在这个文件中，我们可以看到以下权限：
+This is an example of an entitlements.xml file used in macOS sandboxing. The entitlements.xml file specifies the permissions and privileges granted to an application running in a sandbox environment.
 
-- `com.apple.security.app-sandbox`：启用应用沙盒。
-- `com.apple.security.network.client`：允许应用进行网络通信。
-- `com.apple.security.files.user-selected.read-write`：允许应用读写用户选择的文件。
-- `com.apple.security.files.user-selected.read-only`：允许应用只读用户选择的文件。
-- `com.apple.security.files.all`：允许应用访问所有文件。
-- `com.apple.security.print`：允许应用进行打印操作。
-- `com.apple.security.temporary-exception.apple-events`：允许应用在特定情况下执行苹果事件。
+In this example, the following entitlements are granted:
 
-这些权限可以根据应用的需求进行配置和调整，以实现沙盒环境下的安全保护和功能限制。
+- `com.apple.security.app-sandbox`: Enables the application to run in a sandbox.
+- `com.apple.security.network.client`: Allows the application to make network connections.
+- `com.apple.security.files.user-selected.read-write`: Grants read and write access to files selected by the user.
+- `com.apple.security.files.user-selected.read-only`: Grants read-only access to files selected by the user.
+- `com.apple.security.files.all`: Grants access to all files.
+- `com.apple.security.print`: Allows the application to print.
+- `com.apple.security.temporary-exception.apple-events`: Grants temporary exception for Apple events to the specified application (in this case, com.apple.dt.Xcode).
+
+These entitlements define the boundaries and permissions for the application, ensuring that it operates within a restricted environment and cannot access unauthorized resources or perform privileged actions.
+
+It is important to carefully review and configure the entitlements.xml file to ensure that the application has the necessary permissions to function properly while maintaining the security and integrity of the system.
 
 {% endtab %}
 ```xml
@@ -226,15 +236,24 @@ system("cat ~/Desktop/del.txt");
 
 ## Info.plist
 
-The `Info.plist` file is an essential component of a macOS application's bundle. It contains metadata about the application, including its name, version, and supported capabilities. In the context of macOS sandboxing, the `Info.plist` file is used to define the sandbox entitlements and restrictions for the application.
+The `Info.plist` file is an essential component of a macOS application. It contains metadata about the application, including its name, version, and various configuration settings. 
 
-To debug or bypass the macOS sandbox, it is necessary to modify the `Info.plist` file to remove or weaken the sandbox restrictions. This can be achieved by editing the file directly or by using tools like `plutil` to modify the file programmatically.
+When it comes to sandboxing, the `Info.plist` file plays a crucial role in defining the application's sandbox entitlements. These entitlements determine the level of access the application has to system resources and APIs.
 
-When modifying the `Info.plist` file, it is important to understand the implications and potential security risks. Weakening or removing sandbox restrictions can expose the application to unauthorized access or privilege escalation.
+To bypass or debug the macOS sandbox, you may need to modify the `Info.plist` file. By changing the sandbox entitlements, you can potentially gain elevated privileges or disable certain security restrictions.
 
-To prevent unauthorized modifications to the `Info.plist` file, it is recommended to implement integrity checks and code signing. These measures can help ensure the integrity and authenticity of the file, preventing tampering and unauthorized modifications.
+However, modifying the `Info.plist` file requires careful consideration and understanding of the sandboxing mechanism. Incorrect modifications can lead to application crashes or security vulnerabilities.
 
-It is worth noting that bypassing or tampering with the macOS sandbox is a violation of Apple's security policies and can have legal consequences. It is important to use this knowledge responsibly and only for legitimate purposes, such as penetration testing or security research.
+To debug or bypass the macOS sandbox using the `Info.plist` file, follow these steps:
+
+1. Locate the `Info.plist` file within the application bundle.
+2. Open the `Info.plist` file using a text editor.
+3. Identify the sandbox entitlements section, which typically includes keys like `com.apple.security.app-sandbox` and `com.apple.security.network.client`.
+4. Modify the values of these entitlements to change the application's access permissions.
+5. Save the modified `Info.plist` file.
+6. Test the application to verify if the sandbox restrictions have been bypassed or modified successfully.
+
+It is important to note that bypassing or modifying the macOS sandbox can have serious security implications. It is recommended to only perform these actions in controlled environments for legitimate purposes, such as penetration testing or debugging.
 
 {% endtab %}
 ```xml
@@ -344,7 +363,7 @@ libsystem_kernel.dylib`:
 (lldb) 寄存器写入 $x1 0x00
 (lldb) 寄存器写入 $x16 0x17d
 (lldb) c
-进程 2517 恢复
+进程 2517 恢复执行
 绕过沙盒！
 进程 2517 以状态 0 (0x00000000) 退出
 {% hint style="warning" %}

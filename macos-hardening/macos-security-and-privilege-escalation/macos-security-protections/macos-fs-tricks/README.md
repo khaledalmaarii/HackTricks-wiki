@@ -32,13 +32,13 @@
 
 ### 文件夹根目录 R+X 特殊情况
 
-如果一个**目录**中有文件，其中**只有root具有R+X访问权限**，那么其他人将**无法访问**这些文件。因此，如果存在一个漏洞，允许将一个由用户可读取但由于该**限制**而无法读取的文件从该文件夹**移动到另一个文件夹**，则可以滥用该漏洞来读取这些文件。
+如果一个**目录**中有文件，其中**只有root具有R+X访问权限**，那些文件对其他人是**不可访问的**。因此，如果存在一个漏洞，允许将一个由用户可读但由于该**限制**而无法读取的文件从该文件夹**移动到另一个文件夹**，则可以滥用该漏洞来读取这些文件。
 
 示例：[https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions)
 
 ## 符号链接 / 硬链接
 
-如果一个特权进程正在写入**文件**，该文件可能由**权限较低的用户**控制，或者可能由权限较低的用户**先前创建**。用户可以通过符号链接或硬链接**将其指向另一个文件**，特权进程将在该文件上进行写入。
+如果一个特权进程正在写入**文件**，该文件可能被**低权限用户**控制，或者可能是由低权限用户**先前创建**的。用户可以通过符号链接或硬链接**将其指向另一个文件**，特权进程将在该文件上进行写入。
 
 在其他部分中查看攻击者可以**滥用任意写入来提升权限**的地方。
 
@@ -102,9 +102,9 @@ ls -le /tmp/test
 ```
 ### **com.apple.acl.text xattr + AppleDouble**
 
-**AppleDouble**文件格式会复制包括ACEs在内的文件。
+**AppleDouble**文件格式会将文件及其ACE（访问控制项）一起复制。
 
-在[**源代码**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html)中，可以看到存储在名为**`com.apple.acl.text`**的xattr中的ACL文本表示将被设置为解压后文件的ACL。因此，如果您将应用程序压缩为使用**AppleDouble**文件格式的zip文件，并且该ACL阻止其他xattr写入它...则隔离xattr不会设置到应用程序中：
+在[**源代码**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html)中，可以看到存储在名为**`com.apple.acl.text`**的xattr中的ACL文本表示将被设置为解压后文件的ACL。因此，如果您将应用程序压缩为使用**AppleDouble**文件格式的zip文件，并且该文件具有阻止其他xattr写入的ACL...则隔离xattr不会设置到应用程序中：
 
 有关更多信息，请查看[**原始报告**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/)。
 
@@ -248,6 +248,12 @@ hdiutil create -srcfolder justsome.app justsome.dmg
 
 如果您具有**任意写入权限**，可以在**`/etc/sudoers.d/`**文件夹中创建一个文件，授予自己**sudo**权限。
 
+### PATH文件
+
+文件**`/etc/paths`**是填充PATH环境变量的主要位置之一。您必须是root才能覆盖它，但如果来自**特权进程**的脚本正在执行一些**没有完整路径的命令**，您可能可以通过修改此文件来**劫持**它。
+
+您还可以在**`/etc/paths.d`**中编写文件，以将新文件夹加载到`PATH`环境变量中。
+
 ## 参考资料
 
 * [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/)
@@ -256,9 +262,9 @@ hdiutil create -srcfolder justsome.app justsome.dmg
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 您在**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)！
+* 您在**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想获得最新版本的PEASS或下载PDF格式的HackTricks吗？请查看[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* 获取[**官方PEASS和HackTricks衣物**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧。**
 
