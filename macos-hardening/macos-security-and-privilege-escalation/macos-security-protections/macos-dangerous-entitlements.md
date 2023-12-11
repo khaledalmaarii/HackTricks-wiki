@@ -51,9 +51,9 @@ Verifique [**isso para mais informações**](https://theevilbit.github.io/posts/
 
 Essa permissão permite **usar variáveis de ambiente DYLD** que podem ser usadas para injetar bibliotecas e código. Verifique [**isso para mais informações**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-dyld-environment-variables).
 
-### `com.apple.private.tcc.manager` e `com.apple.rootless.storage`.`TCC`
+### `com.apple.private.tcc.manager` ou `com.apple.rootless.storage`.`TCC`
 
-[**De acordo com este blog**](https://objective-see.org/blog/blog\_0x4C.html), essas permissões permitem **modificar** o **banco de dados TCC**.
+[**De acordo com este blog**](https://objective-see.org/blog/blog\_0x4C.html) **e** [**este blog**](https://wojciechregula.blog/post/play-the-music-and-bypass-tcc-aka-cve-2020-29621/), essas permissões permitem **modificar** o **banco de dados TCC**.
 
 ### **`system.install.apple-software`** e **`system.install.apple-software.standar-user`**
 
@@ -101,17 +101,33 @@ Concede permissões de **Acesso Total ao Disco**, uma das permissões mais altas
 
 ### **`kTCCServiceAppleEvents`**
 
-Permite que o aplicativo envie eventos para outros aplicativos que são comumente usados para **automatizar tarefas**. Controlando outros aplicativos, ele pode abusar das permissões concedidas a esses outros aplicativos.
+Permite que o aplicativo envie eventos para outras aplicações que são comumente usadas para **automatizar tarefas**. Controlando outros aplicativos, ele pode abusar das permissões concedidas a esses outros aplicativos.
+
+Como fazer com que eles peçam a senha do usuário:
+
+{% code overflow="wrap" %}
+```bash
+osascript -e 'tell app "App Store" to activate' -e 'tell app "App Store" to activate' -e 'tell app "App Store" to display dialog "App Store requires your password to continue." & return & return default answer "" with icon 1 with hidden answer with title "App Store Alert"'
+```
+{% endcode %}
+
+Ou fazendo-os executar **ações arbitrárias**.
+
+### **`kTCCServiceEndpointSecurityClient`**
+
+Permite, entre outras permissões, **escrever no banco de dados TCC dos usuários**.
 
 ### **`kTCCServiceSystemPolicySysAdminFiles`**
 
-Permite **alterar** o atributo **`NFSHomeDirectory`** de um usuário que altera sua pasta pessoal e, portanto, permite **burlar o TCC**.
+Permite **alterar** o atributo **`NFSHomeDirectory`** de um usuário que altera o caminho da pasta inicial e, portanto, permite **burlar o TCC**.
 
 ### **`kTCCServiceSystemPolicyAppBundles`**
 
-Permite modificar arquivos dentro do pacote do aplicativo (dentro do app.app), o que é **desativado por padrão**.
+Permite modificar arquivos dentro dos pacotes de aplicativos (dentro do app.app), o que é **desativado por padrão**.
 
 <figure><img src="../../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
+
+É possível verificar quem tem esse acesso em _Configurações do Sistema_ > _Privacidade e Segurança_ > _Gerenciamento de Aplicativos_.
 
 ## Médio
 
@@ -121,10 +137,10 @@ Essa permissão permite **criar memória que pode ser gravada e executada** pass
 
 ### `com.apple.security.cs.allow-unsigned-executable-memory`
 
-Essa permissão permite **sobrescrever ou corrigir código C**, usar o **`NSCreateObjectFileImageFromMemory`** (que é fundamentalmente inseguro) ou usar o framework **DVDPlayback**. Verifique [**isso para mais informações**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory).
+Essa permissão permite **sobrescrever ou corrigir código C**, usar o framework **`NSCreateObjectFileImageFromMemory`** (que é fundamentalmente inseguro) ou usar o framework **DVDPlayback**. Verifique [**isso para mais informações**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory).
 
 {% hint style="danger" %}
-Incluir essa permissão expõe seu aplicativo a vulnerabilidades comuns em linguagens de código inseguras em relação à memória. Considere cuidadosamente se seu aplicativo precisa dessa exceção.
+Incluir essa permissão expõe seu aplicativo a vulnerabilidades comuns em linguagens de código inseguro em memória. Considere cuidadosamente se seu aplicativo precisa dessa exceção.
 {% endhint %}
 
 ### `com.apple.security.cs.disable-executable-page-protection`
@@ -132,12 +148,16 @@ Incluir essa permissão expõe seu aplicativo a vulnerabilidades comuns em lingu
 Essa permissão permite **modificar seções de seus próprios arquivos executáveis** no disco para sair forçadamente. Verifique [**isso para mais informações**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-executable-page-protection).
 
 {% hint style="danger" %}
-A Permissão de Desativação de Proteção de Memória Executável é uma permissão extrema que remove uma proteção de segurança fundamental do seu aplicativo, tornando possível que um invasor reescreva o código executável do seu aplicativo sem detecção. Prefira permissões mais restritas, se possível.
+A permissão de Desabilitar Proteção de Memória Executável é uma permissão extrema que remove uma proteção de segurança fundamental do seu aplicativo, tornando possível que um invasor reescreva o código executável do seu aplicativo sem detecção. Prefira permissões mais restritas, se possível.
 {% endhint %}
 
 ### `com.apple.security.cs.allow-relative-library-loads`
 
 TODO
+
+### `com.apple.private.nullfs_allow`
+
+Essa permissão permite montar um sistema de arquivos nullfs (proibido por padrão). Ferramenta: [**mount\_nullfs**](https://github.com/JamaicanMoose/mount\_nullfs/tree/master).
 
 ### `kTCCServiceAll`
 
