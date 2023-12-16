@@ -4,15 +4,15 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी **कंपनी को HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करने की आवश्यकता है? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+* क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी **कंपनी को HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड** करने का उपयोग करना चाहिए? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
 * खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष संग्रह [**NFTs**](https://opensea.io/collection/the-peass-family)
-* प्राप्त करें [**आधिकारिक PEASS और HackTricks swag**](https://peass.creator-spring.com)
+* प्राप्त करें [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com)
 * **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या **फॉलो** करें मुझे **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **अपने हैकिंग ट्रिक्स साझा करें द्वारा PRs सबमिट करके** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* **अपने हैकिंग ट्रिक्स साझा करें द्वारा PRs सबमिट करके** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **को।**
 
 </details>
 
-MIG को **Mach IPC** कोड निर्माण की प्रक्रिया को सरल बनाने के लिए बनाया गया था। यह मूल रूप से एक विनिर्देशित परिभाषा के साथ सर्वर और क्लाइंट के बीच संवाद के लिए आवश्यक कोड उत्पन्न करता है। यद्यपि उत्पन्न कोड बदसूरत होता है, एक डेवलपर को इसे आयात करना होगा और उसका कोड पहले की तुलना में बहुत सरल होगा।
+MIG को **Mach IPC** कोड निर्माण की प्रक्रिया को सरल बनाने के लिए बनाया गया था। यह मूल रूप से एक विनिर्देशिका के साथ सर्वर और क्लाइंट के बीच संवाद के लिए आवश्यक कोड उत्पन्न करता है। यद्यपि उत्पन्न कोड बदसूरत होता है, एक डेवलपर को इसे आयात करना होगा और उसका कोड पहले की तुलना में बहुत सरल होगा।
 
 ### उदाहरण
 
@@ -35,13 +35,13 @@ n2          :  uint32_t);
 ```
 {% endcode %}
 
-अब mig का उपयोग करें ताकि सर्वर और क्लाइंट कोड उत्पन्न किया जा सके जो एक दूसरे के बीच संवाद करने के लिए सक्षम होंगे और Subtract फ़ंक्शन को कॉल करें:
+अब mig का उपयोग करें ताकि सर्वर और क्लाइंट कोड उत्पन्न किया जा सके जो एक दूसरे के भीतर संवाद करने के लिए सक्षम होंगे और Subtract फ़ंक्शन को कॉल करें:
 ```bash
 mig -header myipcUser.h -sheader myipcServer.h myipc.defs
 ```
 वर्तमान निर्देशिका में कई नए फ़ाइलें बनाई जाएंगी।
 
-फ़ाइलों **`myipcServer.c`** और **`myipcServer.h`** में आपको संरचना और परिभाषा मिलेगी **`SERVERPREFmyipc_subsystem`** की, जो मूल रूप से प्राप्त संदेश ID पर कॉल करने के लिए फ़ंक्शन को परिभाषित करती है (हमने 500 की शुरुआती संख्या निर्दिष्ट की है): 
+फ़ाइलों **`myipcServer.c`** और **`myipcServer.h`** में आप **`SERVERPREFmyipc_subsystem`** संरचना के घोषणा और परिभाषा पाएंगे, जो मूल रूप से प्राप्त संदेश ID पर कॉल करने के लिए फ़ंक्शन को परिभाषित करता है (हमने 500 की शुरुआती संख्या निर्दिष्ट की है): 
 
 {% tabs %}
 {% tab title="myipcServer.c" %}
@@ -70,454 +70,66 @@ myipc_server_routine,
 #include <stdlib.h>
 #include <mach/mach.h>
 #include <mach/mach_error.h>
+#include <servers/bootstrap.h>
 #include <mach/mach_traps.h>
 #include <mach/mach_types.h>
 #include <mach/mach_init.h>
 #include <mach/mach_port.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/m
+#include <mach/mach_interface.h>
+#include <mach/mach_vm.h>
+#include <mach/mach_voucher_types.h>
+#include <mach/mach_voucher.h>
+#include <mach/mach_time.h>
+#include <mach/mach_host.h>
+#include <mach/mach_host_priv.h>
+#include <mach/mach_host_server.h>
+#include <mach/mach_host_user.h>
+#include <mach/mach_host_reboot.h>
+#include <mach/mach_host_special_ports.h>
+#include <mach/mach_host_info.h>
+#include <mach/mach_host_notify.h>
+#include <mach/mach_host_security.h>
+#include <mach/mach_host_policy.h>
+#include <mach/mach_host_qos.h>
+#include <mach/mach_host_ledger.h>
+#include <mach/mach_host_statistics.h>
+#include <mach/mach_host_vm_info.h>
+#include <mach/mach_host_vm_priv.h>
+#include <mach/mach_host_vm_ext.h>
+#include <mach/mach_host_vm_prot.h>
+#include <mach/mach_host_vm_behavior.h>
+#include <mach/mach_host_vm_region.h>
+#include <mach/mach_host_vm_wire.h>
+#include <mach/mach_host_vm_purgable.h>
+#include <mach/mach_host_vm_info_internal.h>
+#include <mach/mach_host_vm_info_external.h>
+#include <mach/mach_host_vm_info_internal_ext.h>
+#include <mach/mach_host_vm_info_external_ext.h>
+#include <mach/mach_host_vm_info_purgable.h>
+#include <mach/mach_host_vm_info_purgable_ext.h>
+#include <mach/mach_host_vm_info_purgable_internal.h>
+#include <mach/mach_host_vm_info_purgable_external.h>
+#include <mach/mach_host_vm_info_purgable_internal_ext.h>
+#include <mach/mach_host_vm_info_purgable_external_ext.h>
+#include <mach/mach_host_vm_info_purgable_internal_ext_ext.h>
+#include <mach/mach_host_vm_info_purgable_external_ext_ext.h>
+#include <mach/mach_host_vm_info_purgable_internal_ext_ext_ext.h>
+#include <mach/mach_host_vm_info_purgable_external_ext_ext_ext.h>
+#include <mach/mach_host_vm_info_purgable_internal_ext_ext_ext_ext.h>
+#include <mach/mach_host_vm_info_purgable_external_ext_ext_ext_ext.h>
+#include <mach/mach_host_vm_info_purgable_internal_ext_ext_ext_ext_ext.h>
+#include <mach/mach_host_vm_info_purgable_external_ext_ext_ext_ext_ext.h>
+#include <mach/mach_host_vm_info_purgable_internal_ext_ext_ext_ext_ext_ext.h>
+#include <mach/mach_host_vm_info_purgable_external_ext_ext_ext_ext_ext_ext.h>
+#include <mach/mach_host_vm_info_purgable_internal_ext_ext_ext_ext_ext_ext_ext.h>
+#include <mach/mach_host_vm_info_purgable_external_ext_ext_ext_ext_ext_ext_ext.h>
+#include <mach/mach_host_vm_info_purgable_internal_ext_ext_ext_ext_ext_ext_ext_ext.h>
+#include <mach/mach_host_vm_info_purgable_external_ext_ext_ext_ext_ext_ext_ext_ext.h>
+#include <mach/mach_host_vm_info_purgable_internal_ext_ext_ext_ext_ext_ext_ext_ext_ext.h>
+#include <mach/mach_host_vm_info_purgable_external_ext_ext_ext_ext_ext_ext_ext_ext_ext.h>
+#include <mach/mach_host_vm_info_purgable_internal_ext_ext_ext_ext_ext_ext_ext_ext_ext_ext.h>
+#include <mach/mach_host_vm_info_purgable_external_ext_ext_ext_ext_ext_ext_ext_ext_ext_ext.h>
+#include <mach/mach_host_vm_info_purgable_internal_ext_ext_ext_ext_ext_ext_ext_ext_ext_ext
 ```c
 /* Description of this subsystem, for use in direct RPC */
 extern const struct SERVERPREFmyipc_subsystem {
@@ -533,7 +145,7 @@ routine[1];
 {% endtab %}
 {% endtabs %}
 
-पिछले संरचना के आधार पर, **`myipc_server_routine`** फ़ंक्शन को **संदेश आईडी** मिलेगी और उचित फ़ंक्शन को कॉल करने के लिए वापसी करेगी:
+पिछले संरचना के आधार पर, **`myipc_server_routine`** फ़ंक्शन को **संदेश आईडी** मिलेगी और उचित फ़ंक्शन को कॉल करने के लिए वापस लौटाएगी:
 ```c
 mig_external mig_routine_t myipc_server_routine
 (mach_msg_header_t *InHeadP)
@@ -548,7 +160,7 @@ return 0;
 return SERVERPREFmyipc_subsystem.routine[msgh_id].stub_routine;
 }
 ```
-इस उदाहरण में हमने केवल 1 फ़ंक्शन को परिभाषित किया है, लेकिन अगर हम अधिक को परिभाषित करते तो वे **`SERVERPREFmyipc_subsystem`** के एरे के अंदर होते और पहला फ़ंक्शन ID **500** को असाइन किया जाता, दूसरा ID **501** को...
+इस उदाहरण में हमने परिभाषाओं में केवल 1 फ़ंक्शन परिभाषित किया है, लेकिन अगर हम अधिक फ़ंक्शन परिभाषित करते तो वे **`SERVERPREFmyipc_subsystem`** के एरे के अंदर होते और पहला फ़ंक्शन **500** आईडी को असाइन किया जाता, दूसरा फ़ंक्शन **501** आईडी को...
 
 वास्तव में, इस संरचना **`myipcServer.h`** के **`subsystem_to_name_map_myipc`** में इस संबंध की पहचान करना संभव है:
 ```c
@@ -557,7 +169,7 @@ return SERVERPREFmyipc_subsystem.routine[msgh_id].stub_routine;
 { "Subtract", 500 }
 #endif
 ```
-अंत में, सर्वर को काम करने के लिए एक महत्वपूर्ण फ़ंक्शन **`myipc_server`** होगी, जो वास्तव में प्राप्त id के संबंधित फ़ंक्शन को **कॉल करेगी**:
+अंत में, सर्वर काम करने के लिए एक महत्वपूर्ण फ़ंक्शन **`myipc_server`** होगी, जो वास्तव में प्राप्त id के संबंधित फ़ंक्शन को **कॉल** करेगी:
 
 <pre class="language-c"><code class="lang-c">mig_external boolean_t myipc_server
 (mach_msg_header_t *InHeadP, mach_msg_header_t *OutHeadP)
@@ -591,7 +203,9 @@ return FALSE;
 }
 </code></pre>
 
-जेनरेटेड कोड का उपयोग करने के लिए निम्नलिखित कोड की जांच करें जहां क्लाइंट सर्वर से Subtract फ़ंक्शन को कॉल कर सकता है:
+पिछले हाइलाइट किए गए लाइनों की जांच करें जहां ID द्वारा कॉल करने के लिए फ़ंक्शन तक पहुंच होती है।
+
+निम्नलिखित में एक सरल **सर्वर** और **क्लाइंट** बनाने के लिए कोड है जहां क्लाइंट सर्वर से फ़ंक्शन Subtract को कॉल कर सकता है:
 
 {% tabs %}
 {% tab title="myipc_server.c" %}
@@ -625,49 +239,42 @@ return 1;
 mach_msg_server(myipc_server, sizeof(union __RequestUnion__SERVERPREFmyipc_subsystem), port, MACH_MSG_TIMEOUT_NONE);
 }
 ```
+{% tab title="myipc_client.c" %}
+
 ```c
 #include <stdio.h>
 #include <stdlib.h>
-#include <mach/mach.h>
-#include <mach/message.h>
 #include <servers/bootstrap.h>
 #include "myipc.h"
 
 int main(int argc, char *argv[]) {
     mach_port_t server_port;
     kern_return_t kr;
-    myipc_msg_t msg;
+    char *message = "Hello, server!";
+    char reply[256];
 
-    // Get the server port
+    // Look up the server port
     kr = bootstrap_look_up(bootstrap_port, "com.example.myipc_server", &server_port);
     if (kr != KERN_SUCCESS) {
-        printf("Failed to get server port: %s\n", mach_error_string(kr));
+        fprintf(stderr, "Failed to look up server port: %s\n", mach_error_string(kr));
         exit(1);
     }
 
-    // Prepare the message
-    msg.header.msgh_bits = MACH_MSGH_BITS(MACH_MSG_TYPE_COPY_SEND, MACH_MSG_TYPE_MAKE_SEND_ONCE);
-    msg.header.msgh_size = sizeof(msg);
-    msg.header.msgh_remote_port = server_port;
-    msg.header.msgh_local_port = MACH_PORT_NULL;
-    msg.header.msgh_id = 0;
-    msg.data = 42;
-
-    // Send the message
-    kr = mach_msg(&msg.header, MACH_SEND_MSG, sizeof(msg), 0, MACH_PORT_NULL, MACH_MSG_TIMEOUT_NONE, MACH_PORT_NULL);
+    // Send a message to the server
+    kr = myipc_send_message(server_port, message, reply, sizeof(reply));
     if (kr != KERN_SUCCESS) {
-        printf("Failed to send message: %s\n", mach_error_string(kr));
+        fprintf(stderr, "Failed to send message: %s\n", mach_error_string(kr));
         exit(1);
     }
 
-    printf("Message sent successfully\n");
+    // Print the server's reply
+    printf("Server replied: %s\n", reply);
 
     return 0;
 }
 ```
-{% endtab %}
 
-{% tab title="myipc_server.c" %}
+{% endtab %}
 ```c
 // gcc myipc_client.c myipcUser.c -o myipc_client
 
@@ -692,6 +299,9 @@ printf("Port right name %d\n", port);
 USERPREFSubtract(port, 40, 2);
 }
 ```
+{% endtab %}
+{% endtabs %}
+
 ### बाइनरी विश्लेषण
 
 बहुत सारे बाइनरी अब MIG का उपयोग करते हैं ताकि मैक पोर्ट्स को उजागर किया जा सके, इसलिए यह देखना दिलचस्प होता है कि **MIG का उपयोग किया गया है या नहीं** और **प्रत्येक संदेश आईडी के साथ MIG द्वारा कार्यान्वित की जाने वाली फ़ंक्शनें** को कैसे पहचानें।
@@ -700,7 +310,7 @@ USERPREFSubtract(port, 40, 2);
 ```bash
 jtool2 -d __DATA.__const myipc_server | grep MIG
 ```
-पहले ही बताया गया था कि **प्राप्त संदेश आईडी के आधार पर सही फ़ंक्शन को कॉल करने के लिए देखभाल करेगा** वह फ़ंक्शन `myipc_server` था। हालांकि, आपके पास आमतौर पर बाइनरी के प्रतीक (कोई फ़ंक्शन के नाम नहीं) नहीं होते हैं, इसलिए यह देखना रोचक होता है कि यह डिकंपाइल करने पर कैसा दिखता है क्योंकि यह हमेशा बहुत समान होगा (इस फ़ंक्शन का कोड फ़ंक्शनों से अलग होता है):
+पहले ही बताया गया था कि **प्राप्त संदेश आईडी के आधार पर सही फ़ंक्शन को कॉल करने के लिए देखभाल करेगा** वह फ़ंक्शन `myipc_server` था। हालांकि, आपके पास आमतौर पर बाइनरी के प्रतीक (कोई फ़ंक्शन के नाम नहीं) नहीं होते हैं, इसलिए यह देखना रोचक होता है कि यह डिकंपाइल करने पर कैसा दिखता है क्योंकि यह हमेशा बहुत समान होगा (इस फ़ंक्शन का कोड फ़ंक्शनों के प्रदर्शित होने से अलग होता है):
 
 {% tabs %}
 {% tab title="myipc_server decompiled 1" %}
@@ -718,7 +328,7 @@ if (*(int32_t *)(var_10 + 0x14) &#x3C;= 0x1f4 &#x26;&#x26; *(int32_t *)(var_10 +
 rax = *(int32_t *)(var_10 + 0x14);
 // इस फ़ंक्शन को पहचानने में मदद करने वाले sign_extend_64 को कॉल करने के लिए
 // इसमें rax में वह पॉइंटर स्टोर होता है जिसे कॉल किया जाना चाहिए
-// पता करें 0x100004040 (फ़ंक्शनों के पते का एरे) का उपयोग करें
+// पता करें कि पता 0x100004040 (फ़ंक्शन पतों का एरे) का उपयोग कैसे किया जाता है
 // 0x1f4 = 500 (प्रारंभिक आईडी)
 <strong>            rax = *(sign_extend_64(rax - 0x1f4) * 0x28 + 0x100004040);
 </strong>            var_20 = rax;
@@ -729,7 +339,7 @@ rax = *(int32_t *)(var_10 + 0x14);
 var_4 = 0x0;
 }
 else {
-// 2 तर्कों के साथ सही फ़ंक्शन को कॉल करने के लिए गणितीय पता
+// 2 तर्कों के साथ सही फ़ंक्शन को कॉल करने के लिए गणना किया गया पता
 <strong>                    (var_20)(var_10, var_18);
 </strong>                    var_4 = 0x1;
 }
@@ -789,27 +399,17 @@ if (CPU_FLAGS &#x26; NE) {
 r8 = 0x1;
 }
 }
-// पिछले संस्करण की तरह समान अगर नहीं तो अगर लौटता है
-// पता करें 0x100004040 (फ़ंक्शनों के पते का एरे) का उपयोग करें
+// पिछले संस्करण की तरह ही अगर नहीं तो अगर गलत लौटता है, वहीं तो सही फ़ंक्शन को कॉल करता है और सही लौटता है
+// पता करें कि पता 0x100004040 (फ़ंक्शन पतों का एरे) का उपयोग कैसे किया जाता है
 <strong>                    if ((r8 &#x26; 0x1) == 0x0) {
 </strong><strong>                            *(var_18 + 0x18) = **0x100004000;
-</strong>                            *(int32_t *)(var_18 + 0x20) = 0xfffffed1;
-var_4 = 0x0;
-}
-else {
-// गणितीय पते पर कॉल करने के लिए कैलक्यूलेट किया गया पता
-<strong>                            (var_20)(var_10, var_18);
-</strong>                            var_4 = 0x1;
-}
-}
-else {
-*(var_18 + 0
+</strong>                            *(int32_t *)(var_18 + 0x20) = 0
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS की नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करना चाहिए? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा विशेष [**NFT संग्रह**](https://opensea.io/collection/the-peass-family)
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा विशेष [**NFT संग्रह**](https://opensea.io/collection/the-peass-family) देखें
 * [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com) प्राप्त करें
 * **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में या मुझे **Twitter** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **अपने हैकिंग ट्रिक्स साझा करें,** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **में PR जमा करके।**
+* **अपने हैकिंग ट्रिक्स साझा करें, PRs को** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **में सबमिट करके।**
 
 </details>
