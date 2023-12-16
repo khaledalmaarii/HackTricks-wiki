@@ -71,7 +71,7 @@
 有关从该授权中获取iCloud令牌的漏洞的更多**信息**，请查看演讲：[**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=\_6e2LhmxVc0)
 ### `com.apple.private.tcc.manager.check-by-audit-token`
 
-TODO: 我不知道这个允许做什么。
+TODO: 我不知道这个允许做什么
 
 ### `com.apple.private.apfs.revert-to-snapshot`
 
@@ -124,7 +124,7 @@ osascript -e 'tell app "App Store" to activate' -e 'tell app "App Store" to acti
 
 允许修改应用程序包（app.app内部）中的文件，默认情况下是**不允许的**。
 
-<figure><img src="../../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
 
 可以在_系统偏好设置_ > _隐私与安全性_ > _应用程序管理_中检查具有此访问权限的用户。
 
@@ -136,7 +136,7 @@ osascript -e 'tell app "App Store" to activate' -e 'tell app "App Store" to acti
 
 ### `com.apple.security.cs.allow-unsigned-executable-memory`
 
-此权限允许**覆盖或修补C代码**，使用长期弃用的**`NSCreateObjectFileImageFromMemory`**（基本上是不安全的），或使用**DVDPlayback**框架。查看[**此处了解更多信息**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory)。
+此权限允许覆盖或修补C代码，使用长期弃用的**`NSCreateObjectFileImageFromMemory`**（基本上是不安全的），或使用**DVDPlayback**框架。查看[**此处了解更多信息**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory)。
 
 {% hint style="danger" %}
 包含此权限会使您的应用程序面临内存不安全代码语言中的常见漏洞。请仔细考虑您的应用程序是否需要此例外。
@@ -144,7 +144,7 @@ osascript -e 'tell app "App Store" to activate' -e 'tell app "App Store" to acti
 
 ### `com.apple.security.cs.disable-executable-page-protection`
 
-此权限允许**修改其自身在磁盘上的可执行文件的部分**以强制退出。查看[**此处了解更多信息**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-executable-page-protection)。
+此权限允许修改磁盘上其自身可执行文件的部分，以强制退出。查看[**此处了解更多信息**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-executable-page-protection)。
 
 {% hint style="danger" %}
 禁用可执行内存保护权限是一项极端权限，它会从您的应用程序中删除基本的安全保护，使攻击者能够在不被检测到的情况下重写您的应用程序的可执行代码。如果可能，请优先选择更窄的权限。

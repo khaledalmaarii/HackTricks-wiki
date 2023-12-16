@@ -12,7 +12,7 @@
 
 </details>
 
-本节内容主要基于博客系列[**超越传统的LaunchAgents**](https://theevilbit.github.io/beyond/)，目标是添加更多的**自动启动位置**（如果可能的话），指出最新版本的macOS（13.4）中仍然有效的技术，并指定所需的**权限**。
+本节内容主要基于博客系列[**Beyond the good ol' LaunchAgents**](https://theevilbit.github.io/beyond/)，目标是添加更多的**自动启动位置**（如果可能的话），指出哪些技术在最新版本的macOS（13.4）上仍然有效，并指定所需的**权限**。
 
 ## 沙盒绕过
 
@@ -45,7 +45,7 @@
 
 #### 描述和利用
 
-**`launchd`**是在启动时由OS X内核执行的**第一个进程**，也是在关机时最后一个完成的进程。它应该始终具有**PID 1**。此进程将**读取和执行**在以下位置指定的**ASEP** **plists**中的配置：
+**`launchd`**是在启动时由OS X内核执行的**第一个进程**，也是在关机时最后一个完成的进程。它应该始终具有**PID 1**。此进程将**读取和执行**在以下**ASEP** **plists**中指定的配置：
 
 * `/Library/LaunchAgents`：由管理员安装的每个用户代理
 * `/Library/LaunchDaemons`：由管理员安装的系统级守护程序
@@ -77,7 +77,7 @@
 </dict>
 </plist>
 ```
-有些情况下，需要在用户登录之前执行代理程序，这些被称为**PreLoginAgents**。例如，这在登录时提供辅助技术时非常有用。它们也可以在`/Library/LaunchAgents`中找到（参见[**这里**](https://github.com/HelmutJ/CocoaSampleCode/tree/master/PreLoginAgents)的示例）。
+有些情况下，需要在用户登录之前执行代理程序，这些称为“PreLoginAgents”。例如，这对于在登录时提供辅助技术非常有用。它们也可以在`/Library/LaunchAgents`中找到（参见[此处](https://github.com/HelmutJ/CocoaSampleCode/tree/master/PreLoginAgents)的示例）。
 
 {% hint style="info" %}
 新的守护程序或代理程序配置文件将在下次重启后加载，或使用`launchctl load <target.plist>`命令加载。也可以使用`launchctl -F <file>`加载没有扩展名的.plist文件（但这些plist文件在重启后不会自动加载）。
@@ -99,33 +99,33 @@ launchctl list
 Writeup: [https://theevilbit.github.io/beyond/beyond\_0001/](https://theevilbit.github.io/beyond/beyond\_0001/)\
 Writeup (xterm): [https://theevilbit.github.io/beyond/beyond\_0018/](https://theevilbit.github.io/beyond/beyond\_0018/)
 
-* 用于绕过沙盒: [✅](https://emojipedia.org/check-mark-button)
+* 用于绕过沙盒的有用方法：[✅](https://emojipedia.org/check-mark-button)
 
 #### 位置
 
 * **`~/.zshrc`, `~/.zlogin`, `~/.zshenv`, `~/.zprofile`**
-* **触发条件**: 使用 zsh 打开终端
+* **触发条件**：使用 zsh 打开终端
 * **`/etc/zshenv`, `/etc/zprofile`, `/etc/zshrc`, `/etc/zlogin`**
-* **触发条件**: 使用 zsh 打开终端
+* **触发条件**：使用 zsh 打开终端
 * 需要 root 权限
 * **`~/.zlogout`**
-* **触发条件**: 使用 zsh 退出终端
+* **触发条件**：使用 zsh 退出终端
 * **`/etc/zlogout`**
-* **触发条件**: 使用 zsh 退出终端
+* **触发条件**：使用 zsh 退出终端
 * 需要 root 权限
-* 可能还有更多的位置: **`man zsh`**
+* 可能还有其他位置：**`man zsh`**
 * **`~/.bashrc`**
-* **触发条件**: 使用 bash 打开终端
-* `/etc/profile` (未生效)
-* `~/.profile` (未生效)
+* **触发条件**：使用 bash 打开终端
+* `/etc/profile`（未成功）
+* `~/.profile`（未成功）
 * `~/.xinitrc`, `~/.xserverrc`, `/opt/X11/etc/X11/xinit/xinitrc.d/`
-* **触发条件**: 预期与 xterm 一起触发，但是**未安装**，即使安装后也会抛出此错误: xterm: `DISPLAY is not set`
+* **触发条件**：预计与 xterm 触发，但是**未安装**，即使安装后也会出现以下错误：xterm: `DISPLAY is not set`
 
 #### 描述和利用
 
 当我们的 shell 环境（如 `zsh` 或 `bash`）**启动时**，会执行 shell 启动文件。现在的 macOS 默认使用 `/bin/zsh`，每当我们打开 `Terminal` 或通过 SSH 连接到设备时，我们都会进入这个 shell 环境。`bash` 和 `sh` 仍然可用，但必须明确启动。
 
-我们可以使用 **`man zsh`** 来阅读 zsh 的 man 页面，其中有关于启动文件的详细描述。
+我们可以使用 **`man zsh`** 阅读 zsh 的 man 页面，其中有关于启动文件的详细描述。
 ```bash
 # Example executino via ~/.zshrc
 echo "touch /tmp/hacktricks" >> ~/.zshrc
@@ -308,7 +308,7 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0028/](https://theevilbit.
 ### ~~登录/注销钩子~~
 
 {% hint style="danger" %}
-对我来说，这不起作用，无论是用户 LoginHook 还是 root LogoutHook
+对我来说这行不通，无论是使用用户 LoginHook 还是 root LogoutHook
 {% endhint %}
 
 **Writeup**: [https://theevilbit.github.io/beyond/beyond\_0022/](https://theevilbit.github.io/beyond/beyond\_0022/)
@@ -347,31 +347,31 @@ oneTimeSSMigrationComplete = 1;
 defaults delete com.apple.loginwindow LoginHook
 defaults delete com.apple.loginwindow LogoutHook
 ```
-root用户的启动位置存储在**`/private/var/root/Library/Preferences/com.apple.loginwindow.plist`**
+root用户的启动位置存储在**`/private/var/root/Library/Preferences/com.apple.loginwindow.plist`**中。
 
 ## 条件沙盒绕过
 
 {% hint style="success" %}
-在这里，您可以找到用于**绕过沙盒**的启动位置，它允许您通过**将其写入文件**并**期望不常见的条件**，如特定的**已安装程序、"不常见"的用户**操作或环境来执行某些操作。
+在这里，您可以找到用于**绕过沙盒**的启动位置，它允许您通过**将其写入文件**并**期望不常见的条件**（如特定的**已安装程序、"不常见"的用户**操作或环境）来简单地执行某些操作。
 {% endhint %}
 
 ### Cron
 
 **Writeup**: [https://theevilbit.github.io/beyond/beyond\_0004/](https://theevilbit.github.io/beyond/beyond\_0004/)
 
-* 用于绕过沙盒的有用性: [✅](https://emojipedia.org/check-mark-button)
+* 用于绕过沙盒的有用性：[✅](https://emojipedia.org/check-mark-button)
 * 但是，您需要能够执行`crontab`二进制文件
 * 或者是root用户
 
 #### 位置
 
-* **`/usr/lib/cron/tabs/`, `/private/var/at/tabs`, `/private/var/at/jobs`, `/etc/periodic/`**
+* **`/usr/lib/cron/tabs/`，`/private/var/at/tabs`，`/private/var/at/jobs`，`/etc/periodic/`**
 * 直接写入访问需要root权限。如果您可以执行`crontab <file>`，则不需要root权限
-* **触发器**: 取决于cron作业
+* **触发器**：取决于cron作业
 
 #### 描述和利用
 
-使用以下命令列出**当前用户**的cron作业:
+使用以下命令列出**当前用户**的cron作业：
 ```bash
 crontab -l
 ```
@@ -440,7 +440,7 @@ iTerm2偏好设置位于**`~/Library/Preferences/com.googlecode.iterm2.plist`**�
 
 可以在iTerm2设置中配置此设置：
 
-<figure><img src="../.gitbook/assets/image (2) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
 
 命令会反映在偏好设置中：
 ```bash
@@ -468,15 +468,15 @@ open /Applications/iTerm.app/Contents/MacOS/iTerm2
 {% endcode %}
 
 {% hint style="warning" %}
-很有可能有**其他方法滥用iTerm2首选项**来执行任意命令。
+很有可能有其他方法可以滥用iTerm2的偏好设置来执行任意命令。
 {% endhint %}
 
 ### xbar
 
 Writeup: [https://theevilbit.github.io/beyond/beyond\_0007/](https://theevilbit.github.io/beyond/beyond\_0007/)
 
-* 有用于绕过沙盒：[✅](https://emojipedia.org/check-mark-button)
-* 但必须安装xbar
+* 有用于绕过沙盒的功能：[✅](https://emojipedia.org/check-mark-button)
+* 但需要安装xbar
 
 #### 位置
 
@@ -487,9 +487,9 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0007/](https://theevilbit.
 
 **Writeup**: [https://theevilbit.github.io/beyond/beyond\_0008/](https://theevilbit.github.io/beyond/beyond\_0008/)
 
-有用于绕过沙盒：[✅](https://emojipedia.org/check-mark-button)
+有用于绕过沙盒的功能：[✅](https://emojipedia.org/check-mark-button)
 
-* 但必须安装Hammerspoon
+* 但需要安装Hammerspoon
 
 #### 位置
 
@@ -498,7 +498,7 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0007/](https://theevilbit.
 
 #### 描述
 
-[**Hammerspoon**](https://github.com/Hammerspoon/hammerspoon)是一款自动化工具，允许通过LUA脚本语言进行**macOS脚本编写**。我们甚至可以嵌入完整的AppleScript代码以及运行shell脚本。
+[**Hammerspoon**](https://github.com/Hammerspoon/hammerspoon) 是一款自动化工具，允许通过LUA脚本语言进行macOS脚本编写。我们甚至可以嵌入完整的AppleScript代码以及运行shell脚本。
 
 该应用程序寻找一个名为`~/.hammerspoon/init.lua`的单个文件，并在启动时执行该脚本。
 ```bash
@@ -573,9 +573,9 @@ osascript -e 'tell application "System Events" to delete login item "itemname"'
 
 （请参阅有关登录项的上一节，这是一个扩展）
 
-如果将**ZIP**文件存储为**登录项**，则**`Archive Utility`**将打开它，如果ZIP文件例如存储在**`~/Library`**中，并且包含具有后门的文件夹**`LaunchAgents/file.plist`**，那么该文件夹将被创建（默认情况下不会创建），并且plist将被添加，因此下次用户再次登录时，将执行plist中指定的**后门**。
+如果将**ZIP**文件存储为**登录项**，则**`Archive Utility`**将打开它，如果ZIP文件例如存储在**`~/Library`**中，并且包含了带有后门的文件夹**`LaunchAgents/file.plist`**，那么该文件夹将被创建（默认情况下不存在），并且plist将被添加，因此下次用户再次登录时，将执行plist中指定的**后门**。
 
-另一个选项是在用户主目录中创建文件**`.bash_profile`**和**`.zshenv`**，因此如果LaunchAgents文件夹已经存在，此技术仍将起作用。
+另一个选项是在用户主目录下创建文件**`.bash_profile`**和**`.zshenv`**，因此如果LaunchAgents文件夹已经存在，此技术仍将起作用。
 
 ### At
 
@@ -739,13 +739,13 @@ app.doShellScript("cp -R ~/Desktop /tmp/asd123");
 mkdir -p "$HOME/Library/Scripts/Folder Action Scripts"
 mv /tmp/folder.scpt "$HOME/Library/Scripts/Folder Action Scripts"
 ```
-然后，打开`Folder Actions Setup`应用程序，选择**要监视的文件夹**，并在您的情况下选择**`folder.scpt`**（在我的情况下，我称其为output2.scp）：
+然后，打开`Folder Actions Setup`应用程序，选择**您想要监视的文件夹**，并在您的情况下选择**`folder.scpt`**（在我的情况下，我称其为output2.scp）：
 
-<figure><img src="../.gitbook/assets/image (2) (1) (1) (1).png" alt="" width="297"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1) (1) (1) (1).png" alt="" width="297"><figcaption></figcaption></figure>
 
 现在，如果您使用**Finder**打开该文件夹，您的脚本将被执行。
 
-此配置存储在以base64格式存储的**plist**中，位于**`~/Library/Preferences/com.apple.FolderActionsDispatcher.plist`**中。
+此配置存储在以base64格式存储的**plist**中，位于**`~/Library/Preferences/com.apple.FolderActionsDispatcher.plist`**。
 
 现在，让我们尝试在没有GUI访问权限的情况下准备此持久性：
 
@@ -761,7 +761,7 @@ mv /tmp/folder.scpt "$HOME/Library/Scripts/Folder Action Scripts"
 4. 打开Folder Actions Setup.app以使用此配置：`open "/System/Library/CoreServices/Applications/Folder Actions Setup.app/"`
 
 {% hint style="danger" %}
-对我来说，这没有起作用，但这是写作中的说明：(
+对我来说，这个方法不起作用，但这是写作中的说明：(
 {% endhint %}
 
 ### Spotlight Importers
@@ -794,7 +794,7 @@ mv /tmp/folder.scpt "$HOME/Library/Scripts/Folder Action Scripts"
 
 #### 描述和利用
 
-在Dock中显示的所有应用程序都在plist文件中指定：**`~/Library/Preferences/com.apple.dock.plist`**
+出现在Dock中的所有应用程序都在plist文件中指定：**`~/Library/Preferences/com.apple.dock.plist`**
 
 只需使用以下命令即可**添加一个应用程序**：
 
@@ -921,27 +921,27 @@ pluginkit -e use -i com.example.InSync.InSync
 Writeup: [https://theevilbit.github.io/beyond/beyond\_0016/](https://theevilbit.github.io/beyond/beyond\_0016/)\
 Writeup: [https://posts.specterops.io/saving-your-access-d562bf5bf90b](https://posts.specterops.io/saving-your-access-d562bf5bf90b)
 
-* 用于绕过沙箱的有用工具：[🟠](https://emojipedia.org/large-orange-circle)
-* 但你将会进入一个常见的应用程序沙箱
+* 用于绕过沙箱的有用工具: [🟠](https://emojipedia.org/large-orange-circle)
+* 但你最终会进入一个常见的应用程序沙箱
 
 #### 位置
 
 * `/System/Library/Screen Savers`&#x20;
 * 需要 root 权限
-* **触发条件**：选择屏幕保护程序
+* **触发器**: 选择屏幕保护程序
 * `/Library/Screen Savers`
 * 需要 root 权限
-* **触发条件**：选择屏幕保护程序
+* **触发器**: 选择屏幕保护程序
 * `~/Library/Screen Savers`
-* **触发条件**：选择屏幕保护程序
+* **触发器**: 选择屏幕保护程序
 
-<figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1) (1).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png" alt="" width="375"><figcaption></figcaption></figure>
 
 #### 描述和利用
 
 在 Xcode 中创建一个新项目，并选择模板生成一个新的**屏幕保护程序**。然后，将代码添加到其中，例如以下代码以生成日志。
 
-**构建**它，并将 `.saver` 捆绑包复制到**`~/Library/Screen Savers`**。然后，打开屏幕保护程序 GUI，只需点击它，它就会生成大量的日志：
+**构建**它，并将 `.saver` 捆绑包复制到**`~/Library/Screen Savers`**。然后，打开屏幕保护程序 GUI，只需点击它，它就会生成大量日志:
 
 {% code overflow="wrap" %}
 ```bash
@@ -1141,7 +1141,7 @@ plutil -p /Library/Spotlight/iBooksAuthor.mdimporter/Contents/Info.plist
 写作：[https://theevilbit.github.io/beyond/beyond\_0019/](https://theevilbit.github.io/beyond/beyond\_0019/)
 
 * 用于绕过沙箱的有用工具：[🟠](https://emojipedia.org/large-orange-circle)
-* 但您需要是root
+* 但您需要root权限
 
 #### 位置
 
@@ -1154,9 +1154,7 @@ plutil -p /Library/Spotlight/iBooksAuthor.mdimporter/Contents/Info.plist
 
 #### 描述和利用
 
-定期脚本（**`/etc/periodic`**）是由配置在`/System/Library/LaunchDaemons/com.apple.periodic*`中的**启动守护程序**执行的。请注意，存储在`/etc/periodic/`中的脚本将以**文件的所有者**身份执行，因此对于潜在的特权升级，这将无效。
-
-{% code overflow="wrap" %}
+定期脚本（**`/etc/periodic`**）是由配置在`/System/Library/LaunchDaemons/com.apple.periodic*`中的**启动守护程序**执行的。请注意，存储在`/etc/periodic/`中的脚本将以**文件的所有者**身份**执行**，因此对于潜在的特权升级，这将无效。
 ```bash
 # Launch daemons that will execute the periodic scripts
 ls -l /System/Library/LaunchDaemons/com.apple.periodic*
@@ -1249,7 +1247,7 @@ session    required       pam_permit.so
 写作：[https://posts.specterops.io/persistent-credential-theft-with-authorization-plugins-d17b34719d65](https://posts.specterops.io/persistent-credential-theft-with-authorization-plugins-d17b34719d65)
 
 * 用于绕过沙盒的有用工具：[🟠](https://emojipedia.org/large-orange-circle)
-* 但需要以root身份进行额外配置
+* 但需要以root权限进行额外配置
 
 #### 位置
 
@@ -1274,7 +1272,7 @@ NSLog(@"%@", @"[+] Custom Authorization Plugin was loaded");
 system("echo \"%staff ALL=(ALL) NOPASSWD:ALL\" >> /etc/sudoers");
 }
 ```
-**将**捆绑包**移动**到要加载的位置：
+**将**捆绑包移动到要加载的位置：
 ```bash
 cp -r CustomAuth.bundle /Library/Security/SecurityAgentPlugins/
 ```
@@ -1297,7 +1295,9 @@ EOF
 
 security authorizationdb write com.asdf.asdf < /tmp/rule.plist
 ```
-使用以下方法触发：
+**`evaluate-mechanisms`**会告诉授权框架需要调用外部机制进行授权。此外，**`privileged`**将使其以root权限执行。
+
+使用以下命令触发：
 ```bash
 security authorize com.asdf.asdf
 ```
@@ -1353,7 +1353,7 @@ LoadModule my_custom_module /Users/Shared/example.dylib "My Signature Authority"
 ```
 {% endcode %}
 
-这样，您编译的模块将由Apache加载。唯一的问题是，您需要使用有效的Apple证书进行签名，或者您需要在系统中添加一个新的受信任的证书并使用它进行签名。
+这样，您编译的模块将由Apache加载。唯一的问题是，您需要使用有效的Apple证书对其进行签名，或者您需要在系统中添加一个新的受信任的证书并使用它进行签名。
 
 然后，如果需要确保服务器启动，您可以执行以下操作：
 ```bash
@@ -1452,7 +1452,7 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0023/](https://theevilbit.
 
 Apple 引入了一个名为 **emond** 的日志记录机制。看起来它从未完全开发，并且可能被 Apple 放弃以开发其他机制，但它仍然可用。
 
-这个鲜为人知的服务对于 Mac 管理员来说可能没有太多用处，但对于威胁行为者来说，一个非常好的理由是将其用作一种持久性机制，大多数 macOS 管理员可能不知道要寻找的地方。检测 emond 的恶意使用不应该很困难，因为该服务的系统 LaunchDaemon 只会在一个地方寻找要运行的脚本：
+这个鲜为人知的服务对于 Mac 管理员可能没有太多用处，但对于威胁行为者来说，一个非常好的理由是将其用作一种持久性机制，大多数 macOS 管理员可能不知道要寻找的地方。检测 emond 的恶意使用不应该很困难，因为该服务的系统 LaunchDaemon 只会在一个地方寻找要运行的脚本：
 ```bash
 ls -l /private/var/db/emondClients
 ```

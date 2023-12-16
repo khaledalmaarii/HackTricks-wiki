@@ -34,17 +34,17 @@ asd
 
 ![](<../../../../../.gitbook/assets/image (569).png>)
 
-在这里，您可以找到一些 **恶意软件是如何绕过此保护的示例**：
+在这里，您可以找到一些 **恶意软件如何绕过此保护** 的示例：
 
 * [https://www.jamf.com/blog/zero-day-tcc-bypass-discovered-in-xcsset-malware/](https://www.jamf.com/blog/zero-day-tcc-bypass-discovered-in-xcsset-malware/)
 
 {% hint style="danger" %}
-请注意，现在为了能够启用 SSH，您需要 **完全磁盘访问** 权限
+请注意，现在为了能够启用 SSH，您需要 **完全磁盘访问**。
 {% endhint %}
 
 ### 处理扩展名 - CVE-2022-26767
 
-文件被赋予属性 **`com.apple.macl`**，以使某个应用程序具有读取它的权限。当用户通过 **拖放** 文件到应用程序上，或者双击文件以使用 **默认应用程序** 打开它时，将设置此属性。
+文件被赋予属性 **`com.apple.macl`**，以使某个应用程序具有读取权限。当用户通过 **拖放** 文件到应用程序上或双击文件以使用 **默认应用程序** 打开时，将设置此属性。
 
 因此，用户可以 **注册一个恶意应用程序** 来处理所有扩展名，并调用 Launch Services 来 **打开** 任何文件（因此，恶意文件将被授予读取权限）。
 
@@ -356,7 +356,7 @@ launchctl load com.telegram.launcher.plist
 </dict>
 </plist>
 ```
-一个应用程序可以在/tmp等位置编写一个终端脚本，并使用如下命令来启动它：
+应用程序可以在/tmp等位置编写一个终端脚本，并使用如下命令来启动它：
 ```objectivec
 // Write plist in /tmp/tcc.terminal
 [...]
@@ -396,7 +396,7 @@ ls /tmp/snap/Users/admin_user # This will work
 
 更详细的解释可以在[原始报告中找到](https://theevilbit.github.io/posts/cve\_2020\_9771/)。
 
-### CVE-2021-1784和CVE-2021-30808 - 在TCC文件上挂载
+### CVE-2021-1784和CVE-2021-30808 - 在TCC文件上进行挂载
 
 即使TCC DB文件受到保护，仍然可以在目录上**挂载一个新的TCC.db文件**：
 
@@ -448,11 +448,11 @@ os.system("hdiutil detach /tmp/mnt 1>/dev/null")
 
 这种方法不再有效，但是[**过去有效**](https://twitter.com/noarfromspace/status/639125916233416704/photo/1)**：**
 
-<figure><img src="../../../../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
 另一种方法是使用[**CoreGraphics事件**](https://objectivebythesea.org/v2/talks/OBTS\_v2\_Wardle.pdf)：
 
-<figure><img src="../../../../../.gitbook/assets/image (1).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
 
 ## 参考
 
@@ -465,7 +465,7 @@ os.system("hdiutil detach /tmp/mnt 1>/dev/null")
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在**网络安全公司**工作吗？想要在HackTricks中宣传你的**公司**吗？或者想要获得最新版本的PEASS或下载PDF格式的HackTricks吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[NFT收藏品](https://opensea.io/collection/the-peass-family)——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**

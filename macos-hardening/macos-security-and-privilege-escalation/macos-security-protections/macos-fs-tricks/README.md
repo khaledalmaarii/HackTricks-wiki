@@ -2,10 +2,10 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云平台 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
 
 * 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
@@ -14,11 +14,11 @@
 
 ## POSIX权限组合
 
-**目录**的权限：
+**目录**中的权限：
 
-* **读取** - 可以**枚举**目录条目
-* **写入** - 可以**删除/写入**目录中的文件
-* **执行** - 允许**遍历**目录 - 如果没有此权限，无法访问其中的任何文件或子目录。
+* **读取** - 你可以**枚举**目录条目
+* **写入** - 你可以**删除/写入**目录中的文件
+* **执行** - 你被**允许遍历**目录 - 如果你没有这个权限，你无法访问其中的任何文件，或者任何子目录中的文件。
 
 ### 危险组合
 
@@ -26,29 +26,45 @@
 
 * 路径中的一个父**目录所有者**是用户
 * 路径中的一个父**目录所有者**是具有**写入权限**的**用户组**
-* 用户组对文件具有**写入**权限
+* 一个用户**组**对**文件**具有**写入**权限
 
-使用上述任何组合，攻击者可以通过**注入**一个**符号/硬链接**到预期路径来获得特权任意写入。
+使用上述任何组合，攻击者可以通过在预期路径中**注入**一个**符号/硬链接**来获得特权任意写入。
 
 ### 文件夹根目录 R+X 特殊情况
 
-如果一个**目录**中有文件，其中**只有root具有R+X访问权限**，那些文件对其他人是**不可访问的**。因此，如果存在一个漏洞，允许将一个由用户可读但由于该**限制**而无法读取的文件从该文件夹**移动到另一个文件夹**，则可以滥用该漏洞来读取这些文件。
+如果一个**目录**中有**只有root具有R+X访问权限**的文件，那么其他人是**无法访问**这些文件的。因此，如果存在一个漏洞，允许将一个由用户可读但由于该**限制**而无法读取的文件从这个文件夹**移动到另一个文件夹**，则可以滥用该漏洞来读取这些文件。
 
 示例：[https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions)
 
 ## 符号链接 / 硬链接
 
-如果一个特权进程正在写入**文件**，该文件可能被**低权限用户**控制，或者可能是由低权限用户**先前创建**的。用户可以通过符号链接或硬链接**将其指向另一个文件**，特权进程将在该文件上进行写入。
+如果一个特权进程正在写入**文件**，该文件可能由**权限较低的用户**控制，或者可能由权限较低的用户**先前创建**。用户可以通过符号链接或硬链接将其指向另一个文件，特权进程将在该文件上写入。
 
 在其他部分中查看攻击者可以**滥用任意写入来提升权限**的地方。
 
-## 任意FD
+## .fileloc
 
-如果你可以让一个**进程以高权限打开文件或文件夹**，你可以滥用**`crontab`**来使用**`EDITOR=exploit.py`**打开`/etc/sudoers.d`中的文件，这样`exploit.py`将获得`/etc/sudoers`中的文件的FD并滥用它。
+具有**`.fileloc`**扩展名的文件可以指向其他应用程序或二进制文件，因此当打开它们时，将执行该应用程序/二进制文件。\
+示例：
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+<key>URL</key>
+<string>file:///System/Applications/Calculator.app</string>
+<key>URLPrefix</key>
+<integer>0</integer>
+</dict>
+</plist>
+```
+## 任意文件描述符
+
+如果你能让一个进程以高权限打开一个文件或文件夹，你可以滥用 `crontab` 来使用 `EDITOR=exploit.py` 打开 `/etc/sudoers.d` 中的一个文件，这样 `exploit.py` 将获取到 `/etc/sudoers` 中文件的文件描述符并滥用它。
 
 例如：[https://youtu.be/f1HA5QhLQ7Y?t=21098](https://youtu.be/f1HA5QhLQ7Y?t=21098)
 
-## 避免隔离xattrs的技巧
+## 避免隔离 xattrs 的技巧
 
 ### 删除它
 ```bash
@@ -102,9 +118,9 @@ ls -le /tmp/test
 ```
 ### **com.apple.acl.text xattr + AppleDouble**
 
-**AppleDouble**文件格式会将文件及其ACE（访问控制项）一起复制。
+**AppleDouble**文件格式会复制包括ACEs在内的文件。
 
-在[**源代码**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html)中，可以看到存储在名为**`com.apple.acl.text`**的xattr中的ACL文本表示将被设置为解压后文件的ACL。因此，如果您将应用程序压缩为使用**AppleDouble**文件格式的zip文件，并且该文件具有阻止其他xattr写入的ACL...则隔离xattr不会设置到应用程序中：
+在[**源代码**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html)中，可以看到存储在名为**`com.apple.acl.text`**的xattr中的ACL文本表示将被设置为解压后文件的ACL。因此，如果您将应用程序压缩为使用**AppleDouble**文件格式的zip文件，并且该ACL阻止其他xattr写入它...则隔离xattr不会设置到应用程序中：
 
 有关更多信息，请查看[**原始报告**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/)。
 
@@ -192,7 +208,8 @@ openssl dgst -binary -sha1 /System/Cryptexes/App/System/Applications/Safari.app/
 
 用户可以挂载自定义的DMG，甚至可以覆盖一些现有的文件夹。以下是创建包含自定义内容的自定义DMG包的方法：
 
-```overflow="wrap"```
+```overflow="wrap"
+```
 ```bash
 # Create the volume
 hdiutil create /private/tmp/tmp.dmg -size 2m -ov -volname CustomVolName -fs APFS 1>/dev/null

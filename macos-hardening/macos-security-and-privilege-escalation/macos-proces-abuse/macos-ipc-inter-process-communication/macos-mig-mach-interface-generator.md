@@ -6,7 +6,7 @@
 
 * 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
@@ -69,150 +69,17 @@ myipc_server_routine,
 #include <stdio.h>
 #include <stdlib.h>
 #include <mach/mach.h>
-#include <mach/mach_error.h>
 #include <servers/bootstrap.h>
-#include <mach/mach_traps.h>
-#include <mach/mach_types.h>
-#include <mach/mach_init.h>
-#include <mach/mach_port.h>
-#include <mach/mach_interface.h>
-#include <mach/mach_vm.h>
-#include <mach/mach_voucher_types.h>
-#include <mach/mach_voucher.h>
-#include <mach/mach_time.h>
-#include <mach/mach_host.h>
-#include <mach/mach_host_priv.h>
-#include <mach/mach_host_server.h>
-#include <mach/mach_host_user.h>
-#include <mach/mach_host_reboot.h>
-#include <mach/mach_host_special_ports.h>
-#include <mach/mach_host_info.h>
-#include <mach/mach_host_notify.h>
-#include <mach/mach_host_security.h>
-#include <mach/mach_host_policy.h>
-#include <mach/mach_host_qos.h>
-#include <mach/mach_host_ledger.h>
-#include <mach/mach_host_statistics.h>
-#include <mach/mach_host_vm_info.h>
-#include <mach/mach_host_vm_priv.h>
-#include <mach/mach_host_vm_ext.h>
-#include <mach/mach_host_vm_prot.h>
-#include <mach/mach_host_vm_behavior.h>
-#include <mach/mach_host_vm_region.h>
-#include <mach/mach_host_vm_wire.h>
-#include <mach/mach_host_vm_purgable.h>
-#include <mach/mach_host_vm_info_internal.h>
-#include <mach/mach_host_vm_info_external.h>
-#include <mach/mach_host_vm_info_shared.h>
-#include <mach/mach_host_vm_info_compressed.h>
-#include <mach/mach_host_vm_info_region.h>
-#include <mach/mach_host_vm_info_region_internal.h>
-#include <mach/mach_host_vm_info_region_external.h>
-#include <mach/mach_host_vm_info_region_shared.h>
-#include <mach/mach_host_vm_info_region_compressed.h>
-#include <mach/mach_host_vm_info_region_purgable.h>
-#include <mach/mach_host_vm_info_region_purgable_internal.h>
-#include <mach/mach_host_vm_info_region_purgable_external.h>
-#include <mach/mach_host_vm_info_region_purgable_shared.h>
-#include <mach/mach_host_vm_info_region_purgable_compressed.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_internal.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_external.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_shared.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_compressed.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_internal.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_external.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_shared.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_compressed.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_internal.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_external.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_shared.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_compressed.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_internal.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_external.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_shared.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_compressed.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_internal.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_external.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_shared.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_compressed.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_internal.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_external.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_shared.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_compressed.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_internal.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_external.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_shared.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_compressed.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_internal.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_external.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_shared.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_compressed.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_internal.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_external.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_shared.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_compressed.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_internal.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_external.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_shared.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_compressed.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_internal.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_external.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_shared.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_compressed.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_internal.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_external.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_shared.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_compressed.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_internal.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_external.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_shared.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_compressed.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_internal.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_external.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_shared.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_compressed.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_internal.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_external.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_shared.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_compressed.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_internal.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_external.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_shared.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_compressed.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_internal.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_external.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_shared.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_compressed.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_internal.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_external.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_shared.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_compressed.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_internal.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_external.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_shared.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_compressed.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable.h>
-#include <mach/mach_host_vm_info_region_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_behavior_purgable_internal.h>
-#include <mach/mach_host_vm
+#include "myipcServerUser.h"
+
+#define MACH_PORT_NAME "com.example.myipc"
+
+kern_return_t myipc_server(mach_port_t server_port);
+
+#endif /* myipcServer_h */
+```
+
+{% endtab %}
 ```c
 /* Description of this subsystem, for use in direct RPC */
 extern const struct SERVERPREFmyipc_subsystem {
@@ -243,16 +110,16 @@ return 0;
 return SERVERPREFmyipc_subsystem.routine[msgh_id].stub_routine;
 }
 ```
-在这个例子中，我们只在定义中定义了一个函数，但如果我们定义了更多的函数，它们将会在**`SERVERPREFmyipc_subsystem`**的数组中，并且第一个函数将被分配给ID **500**，第二个函数将被分配给ID **501**...
+在这个例子中，我们只在定义中定义了一个函数，但是如果我们定义了更多的函数，它们将会在**`SERVERPREFmyipc_subsystem`**的数组中，并且第一个函数将被分配给ID **500**，第二个函数将被分配给ID **501**...
 
-实际上，我们可以在**`myipcServer.h`**的**`subsystem_to_name_map_myipc`**结构中识别出这种关系：
+实际上，我们可以在**`myipcServer.h`**中的结构体**`subsystem_to_name_map_myipc`**中识别这种关系：
 ```c
 #ifndef subsystem_to_name_map_myipc
 #define subsystem_to_name_map_myipc \
 { "Subtract", 500 }
 #endif
 ```
-最后，使服务器工作的另一个重要函数将是**`myipc_server`**，它是实际上将调用与接收到的id相关联的函数的函数：
+最后，使服务器工作的另一个重要函数将是**`myipc_server`**，它是实际上调用与接收到的id相关的函数的函数：
 
 ```c
 mig_external boolean_t myipc_server
@@ -286,37 +153,13 @@ return FALSE;
 	return TRUE;
 }
 ```
-{% endtab %}
-{% endtabs %}
 
-检查以下代码，使用生成的代码创建一个简单的服务器和客户端，其中客户端可以调用服务器的Subtract函数：
+检查前面突出显示的行，通过ID访问要调用的函数。
 
-```c
-#include <stdio.h>
-#include <stdlib.h>
-#include <servers/bootstrap.h>
-#include "myipc.h"
+以下是创建一个简单的**服务器**和**客户端**的代码，其中客户端可以调用服务器的Subtract函数：
 
-int main(int argc, char *argv[])
-{
-    mach_port_t server_port;
-    kern_return_t kr;
-    int result;
-
-    kr = bootstrap_look_up(bootstrap_port, "com.example.myipc_server", &server_port);
-    if (kr != KERN_SUCCESS) {
-        fprintf(stderr, "bootstrap_look_up() failed: %s\n", mach_error_string(kr));
-        exit(1);
-    }
-
-    result = Subtract(server_port, 10, 5);
-    printf("Result: %d\n", result);
-
-    mach_port_deallocate(mach_task_self(), server_port);
-
-    return 0;
-}
-```
+{% tabs %}
+{% tab title="myipc_server.c" %}
 ```c
 // gcc myipc_server.c myipcServer.c -o myipc_server
 
@@ -363,14 +206,14 @@ int main(int argc, char *argv[]) {
     // Get the bootstrap port
     kr = task_get_bootstrap_port(mach_task_self(), &bootstrap_port);
     if (kr != KERN_SUCCESS) {
-        fprintf(stderr, "Failed to get bootstrap port: %s\n", mach_error_string(kr));
+        printf("Failed to get bootstrap port: %s\n", mach_error_string(kr));
         exit(1);
     }
 
     // Look up the server port
     kr = bootstrap_look_up(bootstrap_port, MYIPC_SERVER_NAME, &msg.server_port);
     if (kr != KERN_SUCCESS) {
-        fprintf(stderr, "Failed to look up server port: %s\n", mach_error_string(kr));
+        printf("Failed to look up server port: %s\n", mach_error_string(kr));
         exit(1);
     }
 
@@ -381,7 +224,7 @@ int main(int argc, char *argv[]) {
     // Send the message
     kr = mach_msg(&msg.header, MACH_SEND_MSG, sizeof(msg), 0, MACH_PORT_NULL, MACH_MSG_TIMEOUT_NONE, MACH_PORT_NULL);
     if (kr != KERN_SUCCESS) {
-        fprintf(stderr, "Failed to send message: %s\n", mach_error_string(kr));
+        printf("Failed to send message: %s\n", mach_error_string(kr));
         exit(1);
     }
 
@@ -418,7 +261,7 @@ USERPREFSubtract(port, 40, 2);
 ```
 ### 二进制分析
 
-由于许多二进制文件现在使用MIG来公开mach端口，了解如何**识别使用了MIG**以及每个消息ID执行的**MIG函数**是很有趣的。
+由于许多二进制文件现在使用MIG来公开mach端口，了解如何**识别使用了MIG**以及**每个消息ID执行的函数**是很有趣的。
 
 [**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2)可以解析Mach-O二进制文件中的MIG信息，指示消息ID并标识要执行的函数：
 ```bash
@@ -446,7 +289,7 @@ rax = *(int32_t *)(var_10 + 0x14);
 // 0x1f4 = 500（起始ID）
 <strong>            rax = *(sign_extend_64(rax - 0x1f4) * 0x28 + 0x100004040);
 </strong>            var_20 = rax;
-// 如果-否，则if返回false，而else调用正确的函数并返回true
+// 如果-否则，如果返回false，则else调用正确的函数并返回true
 <strong>            if (rax == 0x0) {
 </strong>                    *(var_18 + 0x18) = **_NDR_record;
 *(int32_t *)(var_18 + 0x20) = 0xfffffffffffffed1;
@@ -545,13 +388,13 @@ return r0;
 {% endtab %}
 {% endtabs %}
 
-实际上，如果你转到函数**`0x100004000`**，你会找到**`routine_descriptor`**结构体的数组，结构体的第一个元素是函数实现的地址，**结构体占用0x28字节**，所以每0x28字节（从字节0开始）你可以得到8字节，那就是将要调用的**函数的地址**：
-
-<figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+实际上，如果你转到函数**`0x100004000`**，你会找到**`routine_descriptor`**结构体的数组。结构体的第一个元素是实现函数的**地址**，而**结构体占用0x28字节**，所以每0x28字节（从字节0开始），你可以获取8个字节，这将是将要调用的**函数的地址**：
 
 <figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-可以使用[**这个Hopper脚本**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py)提取这些数据。
+<figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+
+可以使用[**此Hopper脚本**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py)提取这些数据。
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
 
 * 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者你想要**获取最新版本的PEASS或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！

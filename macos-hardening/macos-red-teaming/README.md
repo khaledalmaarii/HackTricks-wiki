@@ -17,7 +17,7 @@
 * JAMF Pro: `jamf checkJSSConnection`
 * Kandji
 
-如果你成功**获取管理员凭证**以访问管理平台，你可以通过在机器上分发恶意软件来**潜在地控制所有计算机**。
+如果你成功**获取管理员凭证**以访问管理平台，你可以通过在机器上分发恶意软件来**潜在地危害所有计算机**。
 
 在MacOS环境中进行红队行动时，强烈建议对MDM的工作原理有一定的了解：
 
@@ -31,19 +31,19 @@ MDM将具有安装、查询或删除配置文件、安装应用程序、创建�
 
 为了运行自己的MDM，你需要**使用供应商签名的CSR**，你可以尝试通过[**https://mdmcert.download/**](https://mdmcert.download/)获取。要在Apple设备上运行自己的MDM，可以使用[**MicroMDM**](https://github.com/micromdm/micromdm)。
 
-然而，要在已注册的设备上安装应用程序，你仍然需要使用开发者帐户进行签名...然而，在MDM注册时，**设备将MDM的SSL证书添加为受信任的CA**，因此现在你可以签署任何内容。
+然而，要在已注册的设备上安装应用程序，你仍然需要它由开发者帐户签名...然而，在MDM注册时，**设备将MDM的SSL证书添加为受信任的CA**，因此现在你可以签署任何内容。
 
-要将设备注册到MDM中，你需要以root身份安装一个**`mobileconfig`**文件，可以通过**pkg**文件传递（你可以将其压缩为zip文件，当从safari下载时，它将被解压缩）。
+要将设备注册到MDM中，你需要以root身份安装一个**`mobileconfig`**文件，可以通过**pkg**文件传递（你可以将其压缩为zip，当从safari下载时，它将被解压缩）。
 
 **Mythic agent Orthrus**使用了这种技术。
 
 ### 滥用JAMF PRO
 
-JAMF可以运行**自定义脚本**（由系统管理员开发的脚本）、**本地负载**（创建本地帐户、设置EFI密码、文件/进程监视...）和**MDM**（设备配置、设备证书...）。
+JAMF可以运行**自定义脚本**（由系统管理员开发的脚本）、**本地负载**（本地帐户创建、设置EFI密码、文件/进程监视...）和**MDM**（设备配置、设备证书...）。
 
 #### JAMF自注册
 
-访问类似`https://<company-name>.jamfcloud.com/enroll/`的页面，查看是否启用了**自注册**。如果启用了，可能会**要求提供凭据**。
+访问`https://<company-name>.jamfcloud.com/enroll/`等页面，查看是否启用了**自注册**。如果启用了，可能会**要求提供凭据**。
 
 你可以使用脚本[**JamfSniper.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfSniper.py)进行密码喷洒攻击。
 
@@ -53,7 +53,7 @@ JAMF可以运行**自定义脚本**（由系统管理员开发的脚本）、**�
 
 #### JAMF设备认证
 
-<figure><img src="../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 **`jamf`**二进制文件包含了打开钥匙串的秘密，当时这个秘密是**共享**的，它是：**`jk23ucnq91jfu9aj`**。\
 此外，jamf作为一个**LaunchDaemon**在**`/Library/LaunchAgents/com.jamf.management.agent.plist`**中持久存在。
@@ -76,7 +76,7 @@ plutil -convert xml1 -o - /Library/Preferences/com.jamfsoftware.jamf.plist
 <integer>4</integer>
 [...]
 ```
-因此，攻击者可以在安装时放置一个恶意的软件包（`pkg`），该软件包会**覆盖此文件**，并将**URL设置为来自Typhon代理的Mythic C2监听器**，从而能够滥用JAMF作为C2。
+因此，攻击者可以在安装时放置一个恶意的软件包（`pkg`），该软件包会**覆盖此文件**，将URL设置为来自Typhon代理的Mythic C2监听器，从而能够滥用JAMF作为C2。
 ```bash
 # After changing the URL you could wait for it to be reloaded or execute:
 sudo jamf policy -id 0
@@ -114,7 +114,7 @@ sudo jamf policy -id 0
 
 ## Active Directory
 
-在某些情况下，您会发现**MacOS计算机连接到AD**。在这种情况下，您应该尝试像往常一样枚举活动目录。在以下页面中找到一些帮助：
+在某些情况下，您会发现**MacOS计算机连接到AD**。在这种情况下，您应该尝试像往常一样**枚举**活动目录。在以下页面中找到一些**帮助**：
 
 {% content-ref url="../../network-services-pentesting/pentesting-ldap.md" %}
 [pentesting-ldap.md](../../network-services-pentesting/pentesting-ldap.md)
@@ -128,7 +128,7 @@ sudo jamf policy -id 0
 [pentesting-kerberos-88](../../network-services-pentesting/pentesting-kerberos-88/)
 {% endcontent-ref %}
 
-一些可能对您有所帮助的**本地MacOS工具**是`dscl`：
+一些**本地的MacOS工具**也可能对您有所帮助，例如`dscl`：
 ```bash
 dscl "/Active Directory/[Domain]/All Domains" ls /
 ```

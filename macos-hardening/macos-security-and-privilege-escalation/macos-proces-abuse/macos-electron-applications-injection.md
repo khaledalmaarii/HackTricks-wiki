@@ -24,8 +24,8 @@
 * **`RunAsNode`**：如果禁用，它将阻止使用环境变量**`ELECTRON_RUN_AS_NODE`**来注入代码。
 * **`EnableNodeCliInspectArguments`**：如果禁用，像`--inspect`，`--inspect-brk`这样的参数将不会被遵守。从而避免了注入代码的方式。
 * **`EnableEmbeddedAsarIntegrityValidation`**：如果启用，macOS将验证加载的**`asar`**文件。通过修改此文件的内容，以防止代码注入。
-* **`OnlyLoadAppFromAsar`**：如果启用，它将只检查和使用app.asar，而不是按照以下顺序搜索加载：**`app.asar`**，**`app`**，最后是**`default_app.asar`**。因此，当与**`embeddedAsarIntegrityValidation`**保险丝结合使用时，**加载未经验证的代码**将是**不可能的**。
-* **`LoadBrowserProcessSpecificV8Snapshot`**：如果启用，浏览器进程将使用名为`browser_v8_context_snapshot.bin`的文件作为其V8快照。
+* **`OnlyLoadAppFromAsar`**：如果启用，它将只检查和使用app.asar，而不是按照以下顺序搜索加载：**`app.asar`**，**`app`**，最后是**`default_app.asar`**。因此，当与**`embeddedAsarIntegrityValidation`**保险丝结合使用时，**加载未经验证的代码是不可能的**。
+* **`LoadBrowserProcessSpecificV8Snapshot`**：如果启用，浏览器进程将使用名为`browser_v8_context_snapshot.bin`的文件进行其V8快照。
 
 另一个不会阻止代码注入的有趣的保险丝是：
 
@@ -58,7 +58,7 @@ Binary file Slack.app//Contents/Frameworks/Electron Framework.framework/Versions
 ```
 您可以在[https://hexed.it/](https://hexed.it/)中加载此文件并搜索先前的字符串。在此字符串之后，您可以在ASCII中看到一个数字“0”或“1”，表示每个保险丝是否被禁用或启用。只需修改十六进制代码（`0x30`表示`0`，`0x31`表示`1`）以**修改保险丝的值**。
 
-<figure><img src="../../../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 请注意，如果您尝试使用修改后的字节覆盖应用程序中的**`Electron Framework`二进制文件**，该应用程序将无法运行。
 
@@ -70,7 +70,7 @@ Electron应用程序可能使用**外部JS/HTML文件**，因此攻击者可以�
 然而，目前存在两个限制：
 
 * 需要**`kTCCServiceSystemPolicyAppBundles`**权限来修改应用程序，因此默认情况下不再可能。
-* 编译的**`asap`**文件通常启用了**`embeddedAsarIntegrityValidation`**和**`onlyLoadAppFromAsar`**的保险丝
+* 编译的**`asap`**文件通常启用了**`embeddedAsarIntegrityValidation`**和**`onlyLoadAppFromAsar`**这两个保险丝
 
 这使得攻击路径变得更加复杂（或不可能）。
 {% endhint %}
@@ -144,11 +144,13 @@ NODE_OPTIONS="--require /tmp/payload.js" ELECTRON_RUN_AS_NODE=1 /Applications/Di
 
 {% hint style="danger" %}
 如果禁用了fuse **`EnableNodeOptionsEnvironmentVariable`**，应用程序在启动时将**忽略**环境变量**NODE\_OPTIONS**，除非设置了环境变量**`ELECTRON_RUN_AS_NODE`**，如果禁用了fuse **`RunAsNode`**，则该环境变量也将被**忽略**。
+
+如果不设置**`ELECTRON_RUN_AS_NODE`**，你将会遇到以下**错误**：`Most NODE_OPTIONs are not supported in packaged apps. See documentation for more details.`
 {% endhint %}
 
 ### 从App Plist中注入
 
-您可以在plist中滥用此环境变量以保持持久性，添加以下键：
+你可以滥用这个环境变量在plist中添加这些键来维持持久性：
 ```xml
 <dict>
 <key>EnvironmentVariables</key>
@@ -166,7 +168,7 @@ NODE_OPTIONS="--require /tmp/payload.js" ELECTRON_RUN_AS_NODE=1 /Applications/Di
 ```
 ## 使用检查进行远程代码执行（RCE）
 
-根据[**这篇文章**](https://medium.com/@metnew/why-electron-apps-cant-store-your-secrets-confidentially-inspect-option-a49950d6d51f)，如果你使用诸如**`--inspect`**、**`--inspect-brk`**和**`--remote-debugging-port`**等标志来执行Electron应用程序，将会打开一个**调试端口**，你可以连接到它（例如从Chrome的`chrome://inspect`）并且你将能够在其中**注入代码**甚至启动新的进程。例如：
+根据[**这篇文章**](https://medium.com/@metnew/why-electron-apps-cant-store-your-secrets-confidentially-inspect-option-a49950d6d51f)，如果你使用诸如**`--inspect`**、**`--inspect-brk`**和**`--remote-debugging-port`**等标志来执行Electron应用程序，将会打开一个**调试端口**，你可以连接到它（例如从Chrome的`chrome://inspect`页面），然后你就可以在其中**注入代码**甚至启动新的进程。例如：
 
 {% code overflow="wrap" %}
 ```bash
@@ -177,12 +179,12 @@ require('child_process').execSync('/System/Applications/Calculator.app/Contents/
 {% endcode %}
 
 {% hint style="danger" %}
-如果禁用了fuse**`EnableNodeCliInspectArguments`**，应用程序在启动时将**忽略节点参数**（如`--inspect`），除非设置了环境变量**`ELECTRON_RUN_AS_NODE`**，但如果禁用了fuse**`RunAsNode`**，它也将被**忽略**。
+如果禁用了fuse**`EnableNodeCliInspectArguments`**，应用程序在启动时将**忽略节点参数**（如`--inspect`），除非设置了环境变量**`ELECTRON_RUN_AS_NODE`**，但如果禁用了fuse**`RunAsNode`**，该环境变量也将被**忽略**。
 
 但是，您仍然可以使用**electron参数`--remote-debugging-port=9229`**，但之前的有效载荷将无法执行其他进程。
 {% endhint %}
 
-使用参数**`--remote-debugging-port=9222`**，可以从Electron应用程序中窃取一些信息，例如**历史记录**（使用GET命令）或浏览器的**cookies**（因为它们在浏览器内部被**解密**，并且有一个**json端点**可以提供它们）。
+使用参数**`--remote-debugging-port=9222`**，可以从Electron应用程序中窃取一些信息，例如浏览器的**历史记录**（使用GET命令）或**cookies**（因为它们在浏览器内部被**解密**，并且有一个**json端点**可以提供它们）。
 
 您可以在[**这里**](https://posts.specterops.io/hands-in-the-cookie-jar-dumping-cookies-with-chromiums-remote-debugger-port-34c4f468844e)和[**这里**](https://slyd0g.medium.com/debugging-cookie-dumping-failures-with-chromiums-remote-debugger-8a4c4d19429f)了解如何做到这一点，并使用自动工具[WhiteChocolateMacademiaNut](https://github.com/slyd0g/WhiteChocolateMacademiaNut)或类似的简单脚本：
 ```python
@@ -196,7 +198,7 @@ print(ws.recv()
 
 ### 从App Plist注入
 
-您可以滥用这个环境变量在plist中添加这些键来保持持久性：
+您可以在plist文件中滥用这个环境变量以保持持久性，添加以下键：
 ```xml
 <dict>
 <key>ProgramArguments</key>
