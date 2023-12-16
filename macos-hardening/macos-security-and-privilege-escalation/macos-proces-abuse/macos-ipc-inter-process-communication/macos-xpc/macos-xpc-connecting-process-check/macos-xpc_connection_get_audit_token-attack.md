@@ -49,13 +49,13 @@ Embora a situação anterior pareça promissora, existem alguns cenários em que
 Isso nos deu a ideia de dois métodos diferentes em que isso pode ser possível:
 
 1. Variante 1:
-* O **exploit** se **conecta** ao serviço **A** e ao serviço **B**.
+* O **exploit** se conecta ao serviço **A** e ao serviço **B**.
 * O serviço **B** pode chamar uma **funcionalidade privilegiada** no serviço A que o usuário não pode.
 * O serviço **A** chama **`xpc_connection_get_audit_token`** enquanto _**não**_ estiver dentro do manipulador de eventos para uma conexão em um **`dispatch_async`**.
 * Portanto, uma **mensagem diferente** pode **sobrescrever o Token de Auditoria** porque está sendo despachada de forma assíncrona fora do manipulador de eventos.
 * O exploit passa para o **serviço B o direito de ENVIO para o serviço A**.
 * Portanto, o svc **B** estará realmente **enviando** as **mensagens** para o serviço **A**.
-* O **exploit** tenta **chamar** a **ação privilegiada**. Em um svc RC, **A verifica** a autorização dessa **ação** enquanto **svc B sobrescreveu o Token de Auditoria** (dando ao exploit acesso para chamar a ação privilegiada).
+* O **exploit** tenta **chamar a ação privilegiada**. Em um svc RC, o **A verifica** a autorização dessa **ação** enquanto o **svc B sobrescreveu o Token de Auditoria** (dando ao exploit acesso para chamar a ação privilegiada).
 2. Variante 2:
 * O serviço **B** pode chamar uma **funcionalidade privilegiada** no serviço A que o usuário não pode.
 * O exploit se conecta ao **serviço A**, que **envia** ao exploit uma **mensagem esperando uma resposta** em uma **porta de resposta** específica.
@@ -85,7 +85,7 @@ Para realizar o ataque:
 3. Isso significa que podemos enviar mensagens XPC para `diagnosticd`, mas qualquer **mensagem que `diagnosticd` envie vai para `smd`**.
 * Para `smd`, tanto nossas mensagens quanto as mensagens de `diagnosticd` chegam na mesma conexão.
 
-<figure><img src="../../../../../../.gitbook/assets/image (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../../../../.gitbook/assets/image (1) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
 
 4. Pedimos a **`diagnosticd`** para **iniciar a monitoração** de nosso (ou qualquer outro) processo e **enviamos mensagens de rotina 1004 para `smd`** (para instalar uma ferramenta privilegiada).
 5. Isso cria uma condição de corrida que precisa atingir uma janela muito específica em `handle_bless`. Precisamos que a chamada para `xpc_connection_get_pid` retorne o PID de nosso próprio processo, pois a ferramenta auxiliar privilegiada está no pacote do nosso aplicativo. No entanto, a chamada para `xpc_connection_get_audit_token` dentro da função `connection_is_authorized` deve usar o token de auditoria de `diagnosticd`.
@@ -108,7 +108,7 @@ Para esse cenário, precisaríamos de:
 
 Aguardamos _A_ nos enviar uma mensagem que espera uma resposta (1), em vez de responder, pegamos a porta de resposta e a usamos para uma mensagem que enviamos para _B_ (2). Em seguida, enviamos uma mensagem que usa a ação proibida e esperamos que ela chegue simultaneamente com a resposta de _B_ (3).
 
-<figure><img src="../../../../../../.gitbook/assets/image (1) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../../../../.gitbook/assets/image (1) (1) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
 
 ## Problemas de Descoberta
 

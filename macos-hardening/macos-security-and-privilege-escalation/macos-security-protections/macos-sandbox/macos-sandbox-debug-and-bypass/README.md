@@ -4,11 +4,11 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Você trabalha em uma **empresa de segurança cibernética**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de segurança cibernética**? Você quer ver sua **empresa anunciada no HackTricks**? Ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -34,10 +34,10 @@ Isso é o que foi feito em [**CVE-2023-32364**](https://gergelykalman.com/CVE-20
 {% hint style="danger" %}
 Portanto, no momento, se você for capaz apenas de criar uma pasta com um nome terminando em **`.app`** sem o atributo de quarentena, você pode escapar do sandbox porque o macOS só **verifica** o atributo de **quarentena** na **pasta `.app`** e no **executável principal** (e iremos apontar o executável principal para **`/bin/bash`**).
 
-Observe que se um pacote .app já foi autorizado a ser executado (ele tem um xttr de quarentena com a flag autorizada para executar), você também pode abusar dele... exceto que agora você não pode escrever dentro de pacotes **`.app`** a menos que tenha algumas permissões privilegiadas do TCC (que você não terá dentro de um sandbox alto).
+Observe que se um pacote .app já tiver sido autorizado a ser executado (ele tem um xttr de quarentena com a flag autorizada para executar), você também pode abusar dele... exceto que agora você não pode escrever dentro de pacotes **`.app`** a menos que tenha algumas permissões privilegiadas do TCC (que você não terá dentro de um sandbox alto).
 {% endhint %}
 
-### Abusando da funcionalidade Open
+### Abuso da funcionalidade Open
 
 Nos [**últimos exemplos de bypass do sandbox do Word**](macos-office-sandbox-bypasses.md#word-sandbox-bypass-via-login-items-and-.zshenv), pode-se apreciar como a funcionalidade **`open`** da linha de comando pode ser abusada para contornar o sandbox.
 
@@ -45,42 +45,47 @@ Nos [**últimos exemplos de bypass do sandbox do Word**](macos-office-sandbox-by
 [macos-office-sandbox-bypasses.md](macos-office-sandbox-bypasses.md)
 {% endcontent-ref %}
 
-### Abusando de Locais de Início Automático
+### Launch Agents/Daemons
+
+Mesmo que um aplicativo seja **destinado a ser colocado em sandbox** (`com.apple.security.app-sandbox`), é possível contornar o sandbox se ele for **executado a partir de um LaunchAgent** (`~/Library/LaunchAgents`), por exemplo.\
+Conforme explicado neste [**post**](https://www.vicarius.io/vsociety/posts/cve-2023-26818-sandbox-macos-tcc-bypass-w-telegram-using-dylib-injection-part-2-3?q=CVE-2023-26818), se você deseja obter persistência com um aplicativo que está em sandbox, você pode fazer com que ele seja executado automaticamente como um LaunchAgent e talvez injetar código malicioso por meio de variáveis de ambiente DyLib.
+
+### Abuso de Locais de Inicialização Automática
 
 Se um processo em sandbox pode **escrever** em um local onde **posteriormente um aplicativo sem sandbox vai executar o binário**, ele poderá **escapar simplesmente colocando** o binário lá. Um bom exemplo desse tipo de locais são `~/Library/LaunchAgents` ou `/System/Library/LaunchDaemons`.
 
 Para isso, você pode precisar de **2 etapas**: fazer um processo com um **sandbox mais permissivo** (`file-read*`, `file-write*`) executar seu código, que irá realmente escrever em um local onde será **executado sem sandbox**.
 
-Verifique esta página sobre **Locais de Início Automático**:
+Confira esta página sobre **Locais de Inicialização Automática**:
 
 {% content-ref url="../../../../macos-auto-start-locations.md" %}
 [macos-auto-start-locations.md](../../../../macos-auto-start-locations.md)
 {% endcontent-ref %}
-
 ### Abusando de outros processos
 
-Se a partir do processo em sandbox você conseguir **comprometer outros processos** em execução em sandboxes menos restritivos (ou sem sandbox), você poderá escapar para seus sandboxes:
+Se a partir do processo de sandbox você conseguir **comprometer outros processos** em execução em sandboxes menos restritivas (ou sem nenhuma), você poderá escapar para suas sandboxes:
 
 {% content-ref url="../../../macos-proces-abuse/" %}
 [macos-proces-abuse](../../../macos-proces-abuse/)
 {% endcontent-ref %}
+
 ### Compilação estática e vinculação dinâmica
 
-[**Esta pesquisa**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/) descobriu 2 maneiras de contornar o Sandbox. Isso ocorre porque o sandbox é aplicado a partir do espaço do usuário quando a biblioteca **libSystem** é carregada. Se um binário pudesse evitar o carregamento dela, ele nunca seria colocado em um sandbox:
+[**Esta pesquisa**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/) descobriu duas maneiras de contornar o Sandbox. Isso ocorre porque o sandbox é aplicado a partir do espaço do usuário quando a biblioteca **libSystem** é carregada. Se um binário pudesse evitar o carregamento dela, ele nunca seria colocado em uma sandbox:
 
 * Se o binário fosse **completamente compilado de forma estática**, ele poderia evitar o carregamento dessa biblioteca.
-* Se o **binário não precisasse carregar nenhuma biblioteca** (porque o vinculador também está em libSystem), ele não precisaria carregar libSystem.&#x20;
+* Se o **binário não precisasse carregar nenhuma biblioteca** (porque o linker também está em libSystem), ele não precisaria carregar libSystem.&#x20;
 
 ### Shellcodes
 
-Observe que **mesmo shellcodes** em ARM64 precisam ser vinculados em `libSystem.dylib`:
+Observe que **até mesmo shellcodes** em ARM64 precisam ser vinculados em `libSystem.dylib`:
 ```bash
 ld -o shell shell.o -macosx_version_min 13.0
 ld: dynamic executables or dylibs must link with libSystem.dylib for architecture arm64
 ```
-### Privilégios
+### Entitlements
 
-Note que mesmo que algumas **ações** possam ser **permitidas pelo sandbox** se um aplicativo tiver um **privilégio específico**, como em:
+Observe que mesmo que algumas **ações** possam ser **permitidas pelo sandbox** se um aplicativo tiver uma **autorização específica**, como em:
 ```scheme
 (when (entitlement "com.apple.security.network.client")
 (allow network-outbound (remote ip))
@@ -310,7 +315,7 @@ libsystem_kernel.dylib`:
 (lldb) register write $x16 0x17d
 (lldb) c
 Processo 2517 retomado
-Sandbox Ignorada!
+Sandbox Ignorado!
 Processo 2517 saiu com status = 0 (0x00000000)
 ```
 {% hint style="warning" %}
@@ -330,7 +335,7 @@ Processo 2517 saiu com status = 0 (0x00000000)
 * Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? Ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e para o** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

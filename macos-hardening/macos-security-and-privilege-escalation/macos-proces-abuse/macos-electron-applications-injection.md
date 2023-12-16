@@ -4,7 +4,7 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Você trabalha em uma **empresa de segurança cibernética**? Gostaria de ver sua **empresa anunciada no HackTricks**? Ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de segurança cibernética**? Você quer ver sua **empresa anunciada no HackTricks**? Ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -14,7 +14,7 @@
 
 ## Informações Básicas
 
-Se você não sabe o que é Electron, você pode encontrar [**muitas informações aqui**](https://book.hacktricks.xyz/network-services-pentesting/pentesting-web/xss-to-rce-electron-desktop-apps). Mas por enquanto, saiba apenas que o Electron executa o **node**.\
+Se você não sabe o que é Electron, você pode encontrar [**muitas informações aqui**](https://book.hacktricks.xyz/network-services-pentesting/pentesting-web/xss-to-rce-electron-desktop-apps). Mas por enquanto, saiba que o Electron executa o **node**.\
 E o node possui alguns **parâmetros** e **variáveis de ambiente** que podem ser usados para **executar outro código** além do arquivo indicado.
 
 ### Fusíveis do Electron
@@ -58,9 +58,9 @@ Binary file Slack.app//Contents/Frameworks/Electron Framework.framework/Versions
 ```
 Você pode carregar este arquivo em [https://hexed.it/](https://hexed.it/) e procurar pela string anterior. Após esta string, você pode ver em ASCII um número "0" ou "1" indicando se cada fusível está desabilitado ou habilitado. Basta modificar o código hexadecimal (`0x30` é `0` e `0x31` é `1`) para **modificar os valores dos fusíveis**.
 
-<figure><img src="../../../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Observe que se você tentar **sobrescrever** o **binário do Framework Electron** dentro de um aplicativo com esses bytes modificados, o aplicativo não será executado.
+Observe que se você tentar **sobrescrever** o **binário do Electron Framework** dentro de um aplicativo com esses bytes modificados, o aplicativo não será executado.
 
 ## RCE adicionando código a Aplicações Electron
 
@@ -143,7 +143,9 @@ NODE_OPTIONS="--require /tmp/payload.js" ELECTRON_RUN_AS_NODE=1 /Applications/Di
 {% endcode %}
 
 {% hint style="danger" %}
-Se o fusível **`EnableNodeOptionsEnvironmentVariable`** estiver **desativado**, o aplicativo **ignorará** a variável de ambiente **NODE\_OPTIONS** ao ser iniciado, a menos que a variável de ambiente **`ELECTRON_RUN_AS_NODE`** seja definida, o que também será **ignorado** se o fusível **`RunAsNode`** estiver desativado.
+Se o fusível **`EnableNodeOptionsEnvironmentVariable`** estiver **desativado**, o aplicativo **ignorará** a variável de ambiente **NODE\_OPTIONS** quando iniciado, a menos que a variável de ambiente **`ELECTRON_RUN_AS_NODE`** seja definida, o que também será **ignorado** se o fusível **`RunAsNode`** estiver desativado.
+
+Se você não definir **`ELECTRON_RUN_AS_NODE`**, você encontrará o **erro**: `A maioria das NODE_OPTIONs não é suportada em aplicativos empacotados. Consulte a documentação para mais detalhes.`
 {% endhint %}
 
 ### Injeção a partir do App Plist

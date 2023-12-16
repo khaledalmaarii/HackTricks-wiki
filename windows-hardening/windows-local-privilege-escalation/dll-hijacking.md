@@ -12,7 +12,7 @@
 
 </details>
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
 Se você está interessado em uma **carreira de hacking** e hackear o inquebrável - **estamos contratando!** (_fluência em polonês escrita e falada é necessária_).
 
@@ -33,7 +33,7 @@ Existem **várias abordagens** para escolher, com o sucesso dependendo de como o
 3. **Sequestro de DLL fantasma**: colocar uma DLL maliciosa no lugar de uma DLL ausente/inexistente que um aplicativo legítimo tenta carregar \[[4](http://www.hexacorn.com/blog/2013/12/08/beyond-good-ol-run-key-part-5/)].
 4. **Redirecionamento de DLL**: alterar o local em que a DLL é procurada, por exemplo, editando a variável de ambiente `%PATH%`, ou arquivos `.exe.manifest` / `.exe.local` para incluir a pasta que contém a DLL maliciosa \[[5](https://docs.microsoft.com/en-gb/windows/win32/sbscs/application-manifests), [6](https://docs.microsoft.com/en-gb/windows/win32/dlls/dynamic-link-library-redirection)].
 5. **Substituição de DLL WinSxS**: substituir a DLL legítima pela DLL maliciosa na pasta WinSxS relevante da DLL alvo. Frequentemente referido como DLL side-loading \[[7](https://www.fireeye.com/content/dam/fireeye-www/global/en/current-threats/pdfs/rpt-dll-sideloading.pdf)].
-6. **Sequestro de DLL de caminho relativo**: copiar (e opcionalmente renomear) o aplicativo legítimo para uma pasta gravável pelo usuário, ao lado da DLL maliciosa. Da maneira como é usado, tem semelhanças com a Execução de Proxy Binário (Assinado) \[[8](https://attack.mitre.org/techniques/T1218/)]. Uma variação disso é chamada de 'traga seu próprio LOLbin' \[[9](https://www.microsoft.com/security/blog/2019/09/26/bring-your-own-lolbin-multi-stage-fileless-nodersok-campaign-delivers-rare-node-js-based-malware/)], que traz o aplicativo legítimo com a DLL maliciosa (em vez de copiá-lo da localização legítima na máquina da vítima).
+6. **Sequestro de DLL de caminho relativo**: copiar (e opcionalmente renomear) o aplicativo legítimo para uma pasta gravável pelo usuário, ao lado da DLL maliciosa. Da maneira como isso é usado, tem semelhanças com a Execução de Proxy Binário (Assinado) \[[8](https://attack.mitre.org/techniques/T1218/)]. Uma variação disso é chamada de 'traga seu próprio LOLbin' \[[9](https://www.microsoft.com/security/blog/2019/09/26/bring-your-own-lolbin-multi-stage-fileless-nodersok-campaign-delivers-rare-node-js-based-malware/)], que traz o aplicativo legítimo com a DLL maliciosa (em vez de copiá-lo da localização legítima na máquina da vítima).
 
 ## Encontrando DLLs ausentes
 
@@ -228,7 +228,7 @@ break;
 return TRUE;
 }
 ```
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
 Se você está interessado em uma **carreira de hacking** e hackear o inquebrável - **estamos contratando!** (_fluência em polonês escrita e falada é necessária_).
 

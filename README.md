@@ -24,23 +24,23 @@ _Sua empresa poderia estar aqui._
 
 <figure><img src=".gitbook/assets/stm (1).png" alt=""><figcaption></figcaption></figure>
 
-[**STM Cyber**](https://www.stmcyber.com) é uma ótima empresa de segurança cibernética cujo slogan é **HACK THE UNHACKABLE**. Eles realizam suas próprias pesquisas e desenvolvem suas próprias ferramentas de hacking para **oferecer vários serviços valiosos de segurança cibernética** como pentesting, Red Teams e treinamento.
+[**STM Cyber**](https://www.stmcyber.com) é uma ótima empresa de cibersegurança cujo slogan é **HACKEIE O INVIOLÁVEL**. Eles realizam suas próprias pesquisas e desenvolvem suas próprias ferramentas de hacking para **oferecer vários serviços valiosos de cibersegurança** como pentesting, equipes vermelhas e treinamento.
 
 Você pode conferir o **blog** deles em [**https://blog.stmcyber.com**](https://blog.stmcyber.com)
 
-**STM Cyber** também apoia projetos de código aberto de segurança cibernética como o HackTricks :)
+**STM Cyber** também apoia projetos de código aberto de cibersegurança como o HackTricks :)
 
 ### [RootedCON](https://www.rootedcon.com/)
 
 <figure><img src=".gitbook/assets/image (4) (1).png" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com) é o evento de segurança cibernética mais relevante na **Espanha** e um dos mais importantes na **Europa**. Com **a missão de promover conhecimento técnico**, este congresso é um ponto de encontro fervilhante para profissionais de tecnologia e segurança cibernética em todas as disciplinas.
+[**RootedCON**](https://www.rootedcon.com) é o evento de cibersegurança mais relevante na **Espanha** e um dos mais importantes na **Europa**. Com **a missão de promover conhecimento técnico**, este congresso é um ponto de encontro fervilhante para profissionais de tecnologia e cibersegurança em todas as disciplinas.
 
 {% embed url="https://www.rootedcon.com/" %}
 
 ### [Intigriti](https://www.intigriti.com)
 
-<figure><img src=".gitbook/assets/image (2) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (2) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 **Intigriti** é a plataforma de ethical hacking e **bug bounty número 1 da Europa.**
 
@@ -53,7 +53,7 @@ Dica de bug bounty: **cadastre-se** no **Intigriti**, uma plataforma premium de 
 <figure><img src=".gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** com as **ferramentas comunitárias mais avançadas** do mundo.
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** com as ferramentas comunitárias **mais avançadas** do mundo.
 
 Acesse hoje mesmo:
 
@@ -63,7 +63,7 @@ Acesse hoje mesmo:
 
 <figure><img src=".gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-Fique um passo à frente no jogo da segurança cibernética.
+Fique um passo à frente no jogo da cibersegurança.
 
 [**Intruder**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) torna a gestão de vulnerabilidades fácil. Acompanhe sua superfície de ataque, veja onde sua empresa está vulnerável e priorize problemas que deixam seus sistemas mais expostos para que você possa se concentrar no que mais importa.
 
@@ -96,7 +96,7 @@ Fique informado sobre os mais recentes lançamentos de recompensas por bugs e at
 
 <figure><img src=".gitbook/assets/websec (1).svg" alt=""><figcaption></figcaption></figure>
 
-[**WebSec**](https://websec.nl) é uma empresa profissional de segurança cibernética sediada em **Amsterdã** que ajuda a **proteger** empresas **em todo o mundo** contra as últimas ameaças de segurança cibernética, fornecendo serviços de **segurança ofensiva** com uma abordagem **moderna**.
+[**WebSec**](https://websec.nl) é uma empresa profissional de cibersegurança sediada em **Amsterdã** que ajuda a **proteger** empresas **em todo o mundo** contra as últimas ameaças de cibersegurança, fornecendo serviços de **segurança ofensiva** com uma abordagem **moderna**.
 
 A WebSec é uma **empresa de segurança completa**, o que significa que eles fazem de tudo; Pentesting, Auditorias de **Segurança**, Treinamentos de Conscientização, Campanhas de Phishing, Revisão de Código, Desenvolvimento de Exploits, Terceirização de Especialistas em Segurança e muito mais.
 

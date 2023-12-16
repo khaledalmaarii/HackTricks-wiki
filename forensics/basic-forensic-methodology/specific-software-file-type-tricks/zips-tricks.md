@@ -26,4 +26,4 @@ Uma observação importante relacionada à segurança de arquivos ZIP protegidos
 
 Outra observação sobre a quebra de senhas de arquivos ZIP é que, se você tiver uma cópia não criptografada/não compactada de qualquer um dos arquivos que estão compactados no arquivo ZIP criptografado, você pode realizar um "ataque de texto simples" e quebrar o arquivo ZIP, como [detalhado aqui](https://www.hackthis.co.uk/articles/known-plaintext-attack-cracking-zip-files) e explicado [neste artigo](https://www.cs.auckland.ac.nz/\~mike/zipattacks.pdf). O novo esquema de proteção por senha para arquivos ZIP (com AES-256, em vez de "ZipCrypto") não possui essa vulnerabilidade.
 
-De: [https://app.gitbook.com/@cpol/s/hacktricks/\~/edit/drafts/-LlM5mCby8ex5pOeV4pJ/forensics/basic-forensics-esp/zips-tricks](http://127.0.0.1:5000/o/Iwnw24TnSs9D9I2OtTKX/s/-L\_2uGJGU7AVNRcqRvEi/)
+De: [https://app.gitbook.com/@cpol/s/hacktricks/\~/edit/drafts/-LlM5mCby8ex5pOeV4pJ/forensics/basic-forensics-esp/zips-tricks](https://app.gitbook.com/o/Iwnw24TnSs9D9I2OtTKX/s/-L\_2uGJGU7AVNRcqRvEi/)

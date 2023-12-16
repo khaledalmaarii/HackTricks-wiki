@@ -110,7 +110,7 @@ return 0;
 return SERVERPREFmyipc_subsystem.routine[msgh_id].stub_routine;
 }
 ```
-Neste exemplo, definimos apenas 1 função nas definições, mas se tivéssemos definido mais, elas estariam dentro do array **`SERVERPREFmyipc_subsystem`** e a primeira seria atribuída ao ID **500**, a segunda ao ID **501**...
+Neste exemplo, definimos apenas 1 função nas definições, mas se tivéssemos definido mais funções, elas estariam dentro do array **`SERVERPREFmyipc_subsystem`** e a primeira seria atribuída ao ID **500**, a segunda ao ID **501**...
 
 Na verdade, é possível identificar essa relação na struct **`subsystem_to_name_map_myipc`** do arquivo **`myipcServer.h`**:
 ```c
@@ -119,7 +119,7 @@ Na verdade, é possível identificar essa relação na struct **`subsystem_to_na
 { "Subtract", 500 }
 #endif
 ```
-Finalmente, outra função importante para fazer o servidor funcionar será **`myipc_server`**, que é aquela que realmente **chama a função** relacionada ao id recebido:
+Finalmente, outra função importante para fazer o servidor funcionar será **`myipc_server`**, que é aquela que realmente **chama a função** relacionada ao ID recebido:
 
 <pre class="language-c"><code class="lang-c">mig_external boolean_t myipc_server
 (mach_msg_header_t *InHeadP, mach_msg_header_t *OutHeadP)
@@ -153,7 +153,9 @@ return FALSE;
 }
 </code></pre>
 
-Verifique o código a seguir para usar o código gerado para criar um servidor e cliente simples, onde o cliente pode chamar as funções Subtrair do servidor:
+Verifique as linhas anteriormente destacadas acessando a função a ser chamada pelo ID.
+
+A seguir está o código para criar um **servidor** e um **cliente** simples, onde o cliente pode chamar as funções Subtrair do servidor:
 
 {% tabs %}
 {% tab title="myipc_server.c" %}
@@ -187,42 +189,42 @@ return 1;
 mach_msg_server(myipc_server, sizeof(union __RequestUnion__SERVERPREFmyipc_subsystem), port, MACH_MSG_TIMEOUT_NONE);
 }
 ```
-{% tab title="myipc_client.c" %}
-
 ```c
 #include <stdio.h>
 #include <stdlib.h>
-#include <servers/bootstrap.h>
+#include <mach/mach.h>
 #include "myipc.h"
 
 int main(int argc, char *argv[]) {
     mach_port_t server_port;
     kern_return_t kr;
-    char *message = "Hello, server!";
-    char reply[256];
+    int val = 0;
 
-    // Look up the server port
+    if (argc != 2) {
+        printf("Usage: %s <value>\n", argv[0]);
+        return 1;
+    }
+
+    val = atoi(argv[1]);
+
     kr = bootstrap_look_up(bootstrap_port, "com.example.myipc_server", &server_port);
     if (kr != KERN_SUCCESS) {
-        fprintf(stderr, "Failed to look up server port: %s\n", mach_error_string(kr));
-        exit(1);
+        printf("Failed to look up server port: %s\n", mach_error_string(kr));
+        return 1;
     }
 
-    // Send a message to the server
-    kr = myipc_send_message(server_port, message, reply, sizeof(reply));
+    kr = myipc_send_value(server_port, val);
     if (kr != KERN_SUCCESS) {
-        fprintf(stderr, "Failed to send message: %s\n", mach_error_string(kr));
-        exit(1);
+        printf("Failed to send value: %s\n", mach_error_string(kr));
+        return 1;
     }
-
-    // Print the server's reply
-    printf("Server replied: %s\n", reply);
 
     return 0;
 }
 ```
-
 {% endtab %}
+
+{% tab title="myipc_server.c" %}
 ```c
 // gcc myipc_client.c myipcUser.c -o myipc_client
 
@@ -255,7 +257,7 @@ O **jtool2** pode analisar informações do MIG de um binário Mach-O, indicando
 ```bash
 jtool2 -d __DATA.__const myipc_server | grep MIG
 ```
-Foi mencionado anteriormente que a função que cuidará de **chamar a função correta dependendo do ID da mensagem recebida** é `myipc_server`. No entanto, geralmente você não terá os símbolos do binário (sem nomes de funções), então é interessante **ver como ela é descompilada**, pois sempre será muito semelhante (o código dessa função é independente das funções expostas):
+Foi mencionado anteriormente que a função que cuidará de **chamar a função correta dependendo do ID da mensagem recebida** é `myipc_server`. No entanto, geralmente você não terá os símbolos do binário (sem nomes de funções), então é interessante **ver como ela é descompilada** já que sempre será muito semelhante (o código desta função é independente das funções expostas):
 
 {% tabs %}
 {% tab title="myipc_server descompilada 1" %}
@@ -271,13 +273,13 @@ var_18 = arg1;
 *(int32_t *)(var_18 + 0x10) = 0x0;
 if (*(int32_t *)(var_10 + 0x14) &#x3C;= 0x1f4 &#x26;&#x26; *(int32_t *)(var_10 + 0x14) >= 0x1f4) {
 rax = *(int32_t *)(var_10 + 0x14);
-// Chamada para sign_extend_64 que pode ajudar a identificar essa função
+// Chamada para sign_extend_64 que pode ajudar a identificar esta função
 // Isso armazena em rax o ponteiro para a chamada que precisa ser feita
 // Verifique o uso do endereço 0x100004040 (array de endereços de funções)
 // 0x1f4 = 500 (o ID de início)
 <strong>            rax = *(sign_extend_64(rax - 0x1f4) * 0x28 + 0x100004040);
 </strong>            var_20 = rax;
-// Se - senão, se o if retornar falso, enquanto o else chama a função correta e retorna verdadeiro
+// Se - senão, o se retorna falso, enquanto o senão chama a função correta e retorna verdadeiro
 <strong>            if (rax == 0x0) {
 </strong>                    *(var_18 + 0x18) = **_NDR_record;
 *(int32_t *)(var_18 + 0x20) = 0xfffffffffffffed1;
@@ -301,7 +303,7 @@ return rax;
 {% endtab %}
 
 {% tab title="myipc_server descompilada 2" %}
-Esta é a mesma função descompilada em uma versão diferente do Hopper free:
+Esta é a mesma função descompilada em uma versão gratuita diferente do Hopper:
 
 <pre class="language-c"><code class="lang-c">int _myipc_server(int arg0, int arg1) {
 r31 = r31 - 0x40;
@@ -344,7 +346,7 @@ if (CPU_FLAGS &#x26; NE) {
 r8 = 0x1;
 }
 }
-// Mesmo se else que na versão anterior
+// Mesmo se senão que na versão anterior
 // Verifique o uso do endereço 0x100004040 (array de endereços de funções)
 <strong>                    if ((r8 &#x26; 0x1) == 0x0) {
 </strong><strong>                            *(var_18 + 0x18) = **0x100004000;
@@ -376,21 +378,21 @@ return r0;
 {% endtab %}
 {% endtabs %}
 
-Na verdade, se você for para a função **`0x100004000`**, encontrará o array de structs **`routine_descriptor`**, o primeiro elemento da struct é o endereço onde a função é implementada e a **struct ocupa 0x28 bytes**, então a cada 0x28 bytes (a partir do byte 0) você pode obter 8 bytes e esse será o **endereço da função** que será chamada:
-
-<figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+Na verdade, se você for para a função **`0x100004000`**, encontrará o array de structs **`routine_descriptor`**. O primeiro elemento da struct é o **endereço** onde a **função** é implementada, e a **struct ocupa 0x28 bytes**, então a cada 0x28 bytes (a partir do byte 0) você pode obter 8 bytes e esse será o **endereço da função** que será chamada:
 
 <figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+
+<figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Esses dados podem ser extraídos [**usando este script do Hopper**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py).
 
 <details>
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? Ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? Ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo Telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e o** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

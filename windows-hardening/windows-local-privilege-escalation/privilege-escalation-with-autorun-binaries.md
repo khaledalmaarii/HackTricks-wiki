@@ -4,7 +4,7 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Você trabalha em uma **empresa de segurança cibernética**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -12,7 +12,7 @@
 
 </details>
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
 Se você está interessado em uma **carreira de hacking** e hackear o inquebrável - **estamos contratando!** (_fluência em polonês escrita e falada é necessária_).
 
@@ -160,10 +160,10 @@ Get-ItemProperty -Path 'Registry::HKCU\Software\Wow6432Node\Microsoft\Windows\Ru
 * `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders`
 * `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders`
 
-Qualquer atalho criado para a localização apontada pela subchave Inicialização irá iniciar o serviço durante o login/reinicialização. A localização de inicialização é especificada tanto na Máquina Local quanto no Usuário Atual.
+Qualquer atalho criado para o local apontado pela subchave Inicialização irá iniciar o serviço durante o login/reinicialização. A localização de inicialização é especificada tanto na Máquina Local quanto no Usuário Atual.
 
 {% hint style="info" %}
-Se você puder sobrescrever qualquer Pasta de Shell \[Usuário] sob **HKLM**, você poderá apontá-la para uma pasta controlada por você e colocar um backdoor que será executado sempre que um usuário fizer login no sistema, escalando privilégios.
+Se você puder sobrescrever qualquer Pasta Shell \[Usuário] em **HKLM**, você poderá apontá-la para uma pasta controlada por você e colocar um backdoor que será executado sempre que um usuário fizer login no sistema, escalando privilégios.
 {% endhint %}
 ```bash
 reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders" /v "Common Startup"
@@ -312,15 +312,19 @@ Quando um programa é executado no Windows, o sistema operacional verifica se ex
 
 #### Explorando as Opções de Execução de Arquivos de Imagem
 
-Para explorar essa vulnerabilidade, um invasor pode adicionar uma entrada nas Opções de Execução de Arquivos de Imagem para um executável privilegiado, como o Prompt de Comando (cmd.exe). Dessa forma, toda vez que o Prompt de Comando for iniciado, o programa especificado nas opções será executado com privilégios elevados.
+Para explorar essa vulnerabilidade, um invasor pode adicionar uma entrada nas Opções de Execução de Arquivos de Imagem para um executável privilegiado, como o Prompt de Comando (cmd.exe). Dessa forma, sempre que o Prompt de Comando for iniciado, o programa especificado nas opções será executado em seu lugar.
 
-#### Execução de Binários Autorun
+#### Escalando privilégios com as Opções de Execução de Arquivos de Imagem
 
-Uma técnica comum de escalonamento de privilégios é usar as Opções de Execução de Arquivos de Imagem para executar um binário malicioso sempre que um programa privilegiado for iniciado. Isso pode ser feito adicionando uma entrada nas Opções de Execução de Arquivos de Imagem para o executável privilegiado e especificando o binário malicioso como o programa a ser executado.
+Ao adicionar uma entrada nas Opções de Execução de Arquivos de Imagem para um programa com privilégios elevados, um invasor pode executar um programa malicioso com os mesmos privilégios. Isso pode permitir que o invasor execute comandos com privilégios de administrador, comprometendo completamente o sistema.
 
 #### Prevenção
 
-Para mitigar esse tipo de ataque, é recomendado restringir as permissões de gravação nas chaves de registro relacionadas às Opções de Execução de Arquivos de Imagem. Além disso, é importante monitorar as alterações nessas chaves de registro em busca de atividades suspeitas.
+Para mitigar esse tipo de ataque, é recomendado restringir o acesso às Opções de Execução de Arquivos de Imagem. Isso pode ser feito por meio de políticas de segurança do Windows ou por meio de ferramentas de terceiros que monitoram e bloqueiam alterações nas Opções de Execução de Arquivos de Imagem.
+
+#### Conclusão
+
+As Opções de Execução de Arquivos de Imagem podem ser uma vulnerabilidade de segurança se não forem adequadamente protegidas. É importante estar ciente dessa funcionalidade e implementar medidas de segurança para mitigar o risco de escalonamento de privilégios em sistemas Windows.
 ```
 HKLM\Software\Microsoft\Windows NT\CurrentVersion\Image File Execution Options
 HKLM\Software\Microsoft\Wow6432Node\Windows NT\CurrentVersion\Image File Execution Options
@@ -341,7 +345,7 @@ Encontre mais Autoruns como registros em [https://www.microsoftpressstore.com/ar
 * [https://attack.mitre.org/techniques/T1547/001/](https://attack.mitre.org/techniques/T1547/001/)
 * [https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2](https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2)
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
 Se você está interessado em **carreira de hacking** e hackear o inquebrável - **estamos contratando!** (_fluência em polonês escrita e falada é necessária_).
 

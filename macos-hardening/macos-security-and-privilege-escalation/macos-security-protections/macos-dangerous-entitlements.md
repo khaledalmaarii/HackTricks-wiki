@@ -115,7 +115,7 @@ Ou fazendo-os executar **ações arbitrárias**.
 
 ### **`kTCCServiceEndpointSecurityClient`**
 
-Permite, entre outras permissões, **escrever no banco de dados TCC dos usuários**.
+Permite, entre outras permissões, **escrever no banco de dados TCC do usuário**.
 
 ### **`kTCCServiceSystemPolicySysAdminFiles`**
 
@@ -123,11 +123,11 @@ Permite **alterar** o atributo **`NFSHomeDirectory`** de um usuário que altera 
 
 ### **`kTCCServiceSystemPolicyAppBundles`**
 
-Permite modificar arquivos dentro dos pacotes de aplicativos (dentro do app.app), o que é **desativado por padrão**.
+Permite modificar arquivos dentro do pacote do aplicativo (dentro do app.app), o que é **desativado por padrão**.
 
-<figure><img src="../../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
 
-É possível verificar quem tem esse acesso em _Configurações do Sistema_ > _Privacidade e Segurança_ > _Gerenciamento de Aplicativos_.
+É possível verificar quem tem esse acesso em _Configurações do Sistema_ > _Privacidade e Segurança_ > _Gerenciamento de Aplicativos._
 
 ## Médio
 
@@ -137,7 +137,7 @@ Essa permissão permite **criar memória que pode ser gravada e executada** pass
 
 ### `com.apple.security.cs.allow-unsigned-executable-memory`
 
-Essa permissão permite **sobrescrever ou corrigir código C**, usar o framework **`NSCreateObjectFileImageFromMemory`** (que é fundamentalmente inseguro) ou usar o framework **DVDPlayback**. Verifique [**isso para mais informações**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory).
+Essa permissão permite **sobrescrever ou corrigir código C**, usar o framework **DVDPlayback** ou usar o **`NSCreateObjectFileImageFromMemory`** (que é fundamentalmente inseguro). Verifique [**isso para mais informações**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory).
 
 {% hint style="danger" %}
 Incluir essa permissão expõe seu aplicativo a vulnerabilidades comuns em linguagens de código inseguro em memória. Considere cuidadosamente se seu aplicativo precisa dessa exceção.
@@ -161,7 +161,7 @@ Essa permissão permite montar um sistema de arquivos nullfs (proibido por padr�
 
 ### `kTCCServiceAll`
 
-De acordo com este post de blog, essa permissão do TCC geralmente é encontrada na forma:
+De acordo com este post do blog, essa permissão do TCC geralmente é encontrada na forma:
 ```
 [Key] com.apple.private.tcc.allow-prompting
 [Value]
