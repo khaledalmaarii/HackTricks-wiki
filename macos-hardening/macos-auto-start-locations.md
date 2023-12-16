@@ -4,8 +4,8 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? Ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Vous travaillez dans une **entreprise de cybersécurité** ? Vous souhaitez voir votre **entreprise annoncée dans HackTricks** ? ou souhaitez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
@@ -39,9 +39,9 @@ Ici, vous pouvez trouver des emplacements de démarrage utiles pour **contourner
 * Déclencheur : Redémarrage
 * Nécessite les privilèges root
 * **`~/Library/LaunchAgents`**
-* Déclencheur : Connexion
+* Déclencheur : Reconnexion
 * **`~/Library/LaunchDemons`**
-* Déclencheur : Connexion
+* Déclencheur : Reconnexion
 
 #### Description et exploitation
 
@@ -77,7 +77,7 @@ La **principale différence entre les agents et les daemons est que les agents s
 </dict>
 </plist>
 ```
-Il y a des cas où un **agent doit être exécuté avant la connexion de l'utilisateur**, on les appelle des **PreLoginAgents**. Par exemple, cela est utile pour fournir une technologie d'assistance lors de la connexion. Ils peuvent également être trouvés dans `/Library/LaunchAgents` (voir [**ici**](https://github.com/HelmutJ/CocoaSampleCode/tree/master/PreLoginAgents) un exemple).
+Il existe des cas où un **agent doit être exécuté avant la connexion de l'utilisateur**, on les appelle des **PreLoginAgents**. Par exemple, cela est utile pour fournir une technologie d'assistance lors de la connexion. Ils peuvent également être trouvés dans `/Library/LaunchAgents` (voir [**ici**](https://github.com/HelmutJ/CocoaSampleCode/tree/master/PreLoginAgents) un exemple).
 
 {% hint style="info" %}
 Les nouveaux fichiers de configuration des démons ou des agents seront **chargés après le prochain redémarrage ou en utilisant** `launchctl load <target.plist>`. Il est **également possible de charger des fichiers .plist sans cette extension** avec `launchctl -F <file>` (cependant, ces fichiers plist ne seront pas automatiquement chargés après le redémarrage).\
@@ -123,7 +123,7 @@ Writeup (xterm): [https://theevilbit.github.io/beyond/beyond\_0018/](https://the
 
 #### Description et exploitation
 
-Les fichiers de démarrage du shell sont exécutés lorsque notre environnement shell comme `zsh` ou `bash` **démarre**. De nos jours, macOS utilise par défaut `/bin/zsh`, et **chaque fois que nous ouvrons `Terminal` ou nous connectons en SSH** sur l'appareil, c'est l'environnement shell dans lequel nous sommes placés. `bash` et `sh` sont toujours disponibles, mais ils doivent être spécifiquement démarrés.
+Les fichiers de démarrage du shell sont exécutés lorsque notre environnement shell comme `zsh` ou `bash` est en train de **démarrer**. De nos jours, macOS utilise par défaut `/bin/zsh`, et **chaque fois que nous ouvrons `Terminal` ou nous connectons en SSH** sur l'appareil, c'est l'environnement shell dans lequel nous sommes placés. `bash` et `sh` sont toujours disponibles, mais ils doivent être spécifiquement démarrés.
 
 La page de manuel de zsh, que nous pouvons lire avec **`man zsh`**, contient une longue description des fichiers de démarrage.
 ```bash
@@ -133,7 +133,7 @@ echo "touch /tmp/hacktricks" >> ~/.zshrc
 ### Applications réouvertes
 
 {% hint style="danger" %}
-La configuration de l'exploitation indiquée et la déconnexion et la reconnexion ou même le redémarrage n'ont pas fonctionné pour moi pour exécuter l'application. (L'application ne s'exécutait pas, peut-être qu'elle doit être en cours d'exécution lorsque ces actions sont effectuées)
+La configuration de l'exploitation indiquée et la déconnexion et la reconnexion, voire le redémarrage, n'ont pas fonctionné pour moi pour exécuter l'application. (L'application ne s'exécutait pas, peut-être qu'elle doit être en cours d'exécution lorsque ces actions sont effectuées)
 {% endhint %}
 
 **Writeup**: [https://theevilbit.github.io/beyond/beyond\_0021/](https://theevilbit.github.io/beyond/beyond\_0021/)
@@ -151,7 +151,7 @@ Toutes les applications à réouvrir se trouvent dans le plist `~/Library/Prefer
 
 Ainsi, pour que les applications réouvertes lancent votre propre application, vous devez simplement **ajouter votre application à la liste**.
 
-L'UUID peut être trouvé en répertoriant ce répertoire ou avec `ioreg -rd1 -c IOPlatformExpertDevice | awk -F'"' '/IOPlatformUUID/{print $4}'`
+L'UUID peut être trouvé en listant ce répertoire ou avec `ioreg -rd1 -c IOPlatformExpertDevice | awk -F'"' '/IOPlatformUUID/{print $4}'`
 
 Pour vérifier les applications qui seront réouvertes, vous pouvez exécuter :
 ```bash
@@ -352,7 +352,7 @@ L'utilisateur root est stocké dans **`/private/var/root/Library/Preferences/com
 ## Contournement conditionnel de la sandbox
 
 {% hint style="success" %}
-Ici, vous pouvez trouver des emplacements de démarrage utiles pour contourner la sandbox, ce qui vous permet d'exécuter simplement quelque chose en l'écrivant dans un fichier et en vous attendant à des conditions pas super courantes comme des programmes spécifiques installés, des actions ou des environnements d'utilisateur "non courants".
+Ici, vous pouvez trouver des emplacements de démarrage utiles pour contourner la sandbox, ce qui vous permet d'exécuter simplement quelque chose en l'écrivant dans un fichier et en vous attendant à des conditions pas super courantes comme des programmes spécifiques installés, des actions ou des environnements utilisateur "non courants".
 {% endhint %}
 
 ### Cron
@@ -419,47 +419,45 @@ chmod +x "$HOME/Library/Application Support/iTerm2/Scripts/AutoLaunch/a.sh"
 
 macOS offre plusieurs emplacements où vous pouvez configurer des applications pour qu'elles se lancent automatiquement au démarrage du système. Cela peut être pratique pour les applications que vous utilisez fréquemment et que vous souhaitez avoir immédiatement disponibles.
 
-Voici les emplacements courants où vous pouvez trouver des applications configurées pour le démarrage automatique :
+Voici quelques-uns des emplacements de démarrage automatique les plus courants sur macOS :
 
 ## Dossier de démarrage
 
-Le dossier de démarrage est situé dans le répertoire personnel de chaque utilisateur. Les applications placées dans ce dossier se lanceront automatiquement lors de l'ouverture de session de l'utilisateur correspondant.
+Le dossier de démarrage est l'emplacement le plus courant pour configurer les applications de démarrage automatique. Les applications placées dans ce dossier se lancent automatiquement chaque fois que vous démarrez votre Mac. Le chemin d'accès au dossier de démarrage est le suivant :
 
-Chemin : `~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments`
+```
+~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/
+```
 
 ## Préférences système
 
-Les préférences système de macOS permettent de configurer les applications qui se lancent automatiquement au démarrage pour tous les utilisateurs du système.
+Les préférences système de macOS offrent également une option pour configurer les applications de démarrage automatique. Vous pouvez accéder à cette option en ouvrant les préférences système, en sélectionnant "Utilisateurs et groupes", puis en cliquant sur l'onglet "Ouverture". Vous verrez une liste des applications configurées pour se lancer au démarrage et vous pourrez ajouter ou supprimer des applications de cette liste.
 
-Chemin : `~/Library/Preferences/com.apple.loginitems.plist`
+## LaunchAgents et LaunchDaemons
 
-## Préférences de lancement
+Les LaunchAgents et LaunchDaemons sont des mécanismes utilisés par macOS pour lancer des processus en arrière-plan. Les LaunchAgents sont spécifiques à un utilisateur, tandis que les LaunchDaemons sont exécutés au niveau du système. Vous pouvez trouver les fichiers de configuration pour ces mécanismes dans les dossiers suivants :
 
-Les préférences de lancement sont des fichiers de configuration spécifiques à chaque application. Ils permettent de définir si une application doit se lancer automatiquement au démarrage.
-
-Chemin : `~/Library/Preferences`
-
-## LaunchAgents
-
-Les LaunchAgents sont des fichiers de configuration au format XML qui permettent de spécifier les applications qui doivent se lancer automatiquement au démarrage. Ils sont généralement utilisés par les applications tierces.
-
-Chemin : `/Library/LaunchAgents` et `~/Library/LaunchAgents`
-
-## LaunchDaemons
-
-Les LaunchDaemons sont similaires aux LaunchAgents, mais ils sont exécutés au niveau du système plutôt qu'au niveau de l'utilisateur. Ils sont généralement utilisés pour les services système.
-
-Chemin : `/Library/LaunchDaemons` et `/System/Library/LaunchDaemons`
+```
+~/Library/LaunchAgents/
+/Library/LaunchAgents/
+/Library/LaunchDaemons/
+```
 
 ## Extensions de noyau
 
-Les extensions de noyau peuvent également être configurées pour se charger automatiquement au démarrage du système. Cependant, cela nécessite des privilèges d'administration et est généralement réservé aux développeurs et aux administrateurs système.
+Les extensions de noyau sont des modules logiciels qui étendent les fonctionnalités du noyau macOS. Certaines extensions de noyau peuvent être configurées pour se charger automatiquement au démarrage du système. Vous pouvez vérifier les extensions de noyau installées sur votre Mac en utilisant la commande suivante dans Terminal :
 
-Chemin : `/Library/Extensions` et `/System/Library/Extensions`
+```
+kextstat | grep -v com.apple
+```
+
+## Login Items
+
+Les Login Items sont des applications, des documents ou des dossiers qui se lancent automatiquement lorsque vous vous connectez à votre compte utilisateur. Vous pouvez gérer les Login Items en ouvrant les préférences système, en sélectionnant "Utilisateurs et groupes", puis en cliquant sur l'onglet "Ouverture". Vous verrez une liste des Login Items configurés pour se lancer au démarrage de session et vous pourrez ajouter ou supprimer des éléments de cette liste.
 
 ## Conclusion
 
-Il est important de connaître ces emplacements de démarrage automatique de macOS afin de pouvoir vérifier et contrôler les applications qui se lancent automatiquement au démarrage du système. Cela peut contribuer à renforcer la sécurité et les performances de votre système.
+La connaissance des emplacements de démarrage automatique de macOS est essentielle pour sécuriser votre système et éviter que des applications indésirables ne se lancent automatiquement. En comprenant où se trouvent ces emplacements et comment les gérer, vous pouvez contrôler les applications qui se lancent au démarrage de votre Mac.
 ```bash
 cat > "$HOME/Library/Application Support/iTerm2/Scripts/AutoLaunch/a.py" << EOF
 #!/usr/bin/env python3
@@ -484,7 +482,7 @@ Les préférences d'iTerm2 se trouvent dans **`~/Library/Preferences/com.googlec
 
 Ce paramètre peut être configuré dans les paramètres d'iTerm2 :
 
-<figure><img src="../.gitbook/assets/image (2) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
 
 Et la commande est reflétée dans les préférences :
 ```bash
@@ -716,22 +714,22 @@ Writeup: [https://posts.specterops.io/folder-actions-for-persistence-on-macos-89
 
 #### Description et exploitation
 
-Un script d'action de dossier est exécuté lorsque le dossier auquel il est attaché a des éléments ajoutés ou supprimés, ou lorsque sa fenêtre est ouverte, fermée, déplacée ou redimensionnée:
+Un script d'action de dossier est exécuté lorsque des éléments sont ajoutés ou supprimés dans le dossier auquel il est attaché, ou lorsque sa fenêtre est ouverte, fermée, déplacée ou redimensionnée :
 
 * Ouvrir le dossier via l'interface utilisateur du Finder
 * Ajouter un fichier au dossier (peut être fait par glisser-déposer ou même dans une invite de commande depuis un terminal)
 * Supprimer un fichier du dossier (peut être fait par glisser-déposer ou même dans une invite de commande depuis un terminal)
 * Naviguer hors du dossier via l'interface utilisateur
 
-Il existe plusieurs façons de mettre en œuvre cela:
+Il existe plusieurs façons de mettre en œuvre cela :
 
 1. Utiliser le programme [Automator](https://support.apple.com/guide/automator/welcome/mac) pour créer un fichier de flux de travail d'action de dossier (.workflow) et l'installer en tant que service.
-2. Clic droit sur un dossier, sélectionnez `Configuration des actions de dossier...`, `Exécuter le service` et attachez manuellement un script.
+2. Clic droit sur un dossier, sélectionner `Configuration des actions de dossier...`, `Exécuter le service` et attacher manuellement un script.
 3. Utiliser OSAScript pour envoyer des messages Apple Event à l'application `System Events.app` pour interroger et enregistrer de manière programmée une nouvelle `Action de dossier`.
 
 * C'est la façon de mettre en œuvre la persistance en utilisant un script OSAScript pour envoyer des messages Apple Event à `System Events.app`
 
-Voici le script qui sera exécuté:
+Voici le script qui sera exécuté :
 
 {% code title="source.js" %}
 ```applescript
@@ -783,7 +781,7 @@ mv /tmp/folder.scpt "$HOME/Library/Scripts/Folder Action Scripts"
 ```
 Ensuite, ouvrez l'application `Folder Actions Setup`, sélectionnez le **dossier que vous souhaitez surveiller** et sélectionnez dans votre cas **`folder.scpt`** (dans mon cas, je l'ai appelé output2.scp):
 
-<figure><img src="../.gitbook/assets/image (2) (1) (1) (1).png" alt="" width="297"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1) (1) (1) (1).png" alt="" width="297"><figcaption></figcaption></figure>
 
 Maintenant, si vous ouvrez ce dossier avec **Finder**, votre script sera exécuté.
 
@@ -940,8 +938,8 @@ Notez que le binaire chargé avec votre bibliothèque a un **sandbox très restr
 
 ### Plugins de synchronisation Finder
 
-**Writeup**: [https://theevilbit.github.io/beyond/beyond\_0026/](https://theevilbit.github.io/beyond/beyond\_0026/)\
-**Writeup**: [https://objective-see.org/blog/blog\_0x11.html](https://objective-see.org/blog/blog\_0x11.html)
+**Article**: [https://theevilbit.github.io/beyond/beyond\_0026/](https://theevilbit.github.io/beyond/beyond\_0026/)\
+**Article**: [https://objective-see.org/blog/blog\_0x11.html](https://objective-see.org/blog/blog\_0x11.html)
 
 * Utile pour contourner le sandbox : **Non, car vous devez exécuter votre propre application**
 
@@ -977,7 +975,7 @@ Writeup: [https://posts.specterops.io/saving-your-access-d562bf5bf90b](https://p
 * `~/Library/Screen Savers`
 * **Déclencheur** : Sélectionnez l'économiseur d'écran
 
-<figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1) (1).png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png" alt="" width="375"><figcaption></figcaption></figure>
 
 #### Description & Exploit
 
@@ -1301,7 +1299,7 @@ Writeup : [https://posts.specterops.io/persistent-credential-theft-with-authoriz
 
 #### Description et exploitation
 
-Vous pouvez créer un plugin d'autorisation qui sera exécuté lorsque l'utilisateur se connecte pour maintenir la persistance. Pour plus d'informations sur la création de ces plugins, consultez les writeups précédents (et soyez prudent, un plugin mal écrit peut vous bloquer et vous devrez nettoyer votre Mac en mode de récupération).
+Vous pouvez créer un plugin d'autorisation qui sera exécuté lorsqu'un utilisateur se connecte pour maintenir la persistance. Pour plus d'informations sur la création de ces plugins, consultez les writeups précédents (et soyez prudent, un plugin mal écrit peut vous bloquer et vous devrez nettoyer votre Mac en mode de récupération).
 ```objectivec
 // Compile the code and create a real bundle
 // gcc -bundle -framework Foundation main.m -o CustomAuth
@@ -1339,7 +1337,9 @@ EOF
 
 security authorizationdb write com.asdf.asdf < /tmp/rule.plist
 ```
-Déclenchez-le avec:
+Le **`evaluate-mechanisms`** indiquera au framework d'autorisation qu'il devra **appeler un mécanisme externe pour l'autorisation**. De plus, **`privileged`** fera en sorte qu'il soit exécuté par root.
+
+Déclenchez-le avec :
 ```bash
 security authorize com.asdf.asdf
 ```
@@ -1384,8 +1384,8 @@ touch /tmp/manconf
 #### Emplacement
 
 * **`/etc/apache2/httpd.conf`**
-* Nécessite les privilèges root
-* Déclenchement: lorsque Apache2 démarre
+* Nécessite les droits root
+* Déclencheur: lorsque Apache2 démarre
 
 #### Description et Exploit
 
@@ -1464,7 +1464,7 @@ Après avoir placé un nouveau répertoire dans l'un de ces deux emplacements, *
 </dict>
 </plist>
 ```
-{% tab title="superservicename" %}Le nom du super service
+{% tab title="superservicename" %}
 ```bash
 #!/bin/sh
 . /etc/rc.common
@@ -1517,7 +1517,7 @@ XQuartz n'est **plus installé dans macOS**, donc si vous voulez plus d'informat
 ### ~~kext~~
 
 {% hint style="danger" %}
-Il est si compliqué d'installer un kext même en tant que root que je ne le considérerai pas pour échapper aux sandbox ou même pour la persistance (à moins que vous ayez une exploit)
+Il est si compliqué d'installer un kext même en tant que root que je ne le considérerai pas comme une échappatoire aux sandbox ou même pour la persistance (à moins que vous ayez une exploit)
 {% endhint %}
 
 #### Emplacement

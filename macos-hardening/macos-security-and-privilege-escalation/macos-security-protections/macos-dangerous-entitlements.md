@@ -44,7 +44,7 @@ Cette autorisation permet de **charger des frameworks, des plug-ins ou des bibli
 
 ### `com.apple.private.security.clear-library-validation`
 
-Cette autorisation est très similaire à **`com.apple.security.cs.disable-library-validation`** mais **au lieu de désactiver directement** la validation de la bibliothèque, elle permet au processus d'appeler un appel système `csops` pour la désactiver.\
+Cette autorisation est très similaire à **`com.apple.security.cs.disable-library-validation`** mais **au lieu de désactiver directement** la validation de la bibliothèque, elle permet au processus d'**appeler un appel système `csops` pour la désactiver**.\
 Consultez [**ceci pour plus d'informations**](https://theevilbit.github.io/posts/com.apple.private.security.clear-library-validation/).
 
 ### `com.apple.security.cs.allow-dyld-environment-variables`
@@ -65,7 +65,7 @@ Autorisation nécessaire pour demander au **noyau de charger une extension de no
 
 ### **`com.apple.private.icloud-account-access`**
 
-L'autorisation **`com.apple.private.icloud-account-access`** permet de communiquer avec le service XPC **`com.apple.iCloudHelper`** qui fournira des jetons iCloud.
+L'autorisation **`com.apple.private.icloud-account-access`** permet de communiquer avec le service XPC **`com.apple.iCloudHelper`** qui **fournira des jetons iCloud**.
 
 **iMovie** et **Garageband** avaient cette autorisation.
 
@@ -125,7 +125,7 @@ Autorise à **modifier** l'attribut **`NFSHomeDirectory`** d'un utilisateur qui 
 
 Autorise à modifier les fichiers à l'intérieur des bundles d'applications (à l'intérieur de app.app), ce qui est **interdit par défaut**.
 
-<figure><img src="../../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
 
 Il est possible de vérifier qui a cet accès dans _Préférences Système_ > _Confidentialité et sécurité_ > _Gestion des applications._
 
@@ -148,7 +148,7 @@ Inclure cette autorisation expose votre application à des vulnérabilités cour
 Cette autorisation permet de **modifier des sections de ses propres fichiers exécutables** sur le disque pour forcer la sortie. Vérifiez [**ceci pour plus d'informations**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-executable-page-protection).
 
 {% hint style="danger" %}
-L'autorisation de désactivation de la protection de la mémoire exécutable est une autorisation extrême qui supprime une protection de sécurité fondamentale de votre application, ce qui permet à un attaquant de réécrire le code exécutable de votre application sans détection. Privilégiez des autorisations plus restreintes si possible.
+L'autorisation de désactivation de la protection de la mémoire exécutable est une autorisation extrême qui supprime une protection de sécurité fondamentale de votre application, permettant à un attaquant de réécrire le code exécutable de votre application sans détection. Privilégiez des autorisations plus restreintes si possible.
 {% endhint %}
 
 ### `com.apple.security.cs.allow-relative-library-loads`
