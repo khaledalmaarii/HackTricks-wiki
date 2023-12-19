@@ -109,32 +109,48 @@ sqlite> select * from access where client LIKE "%telegram%" and auth_value=0;
 {% endtabs %}
 
 {% hint style="success" %}
-Verificando ambos os bancos de dados, você pode verificar as permissões que um aplicativo permitiu, proibiu ou não possui (ele solicitará).
+Ao verificar ambos os bancos de dados, você pode verificar as permissões que um aplicativo permitiu, proibiu ou não possui (ele solicitará).
 {% endhint %}
 
 * O **`auth_value`** pode ter valores diferentes: denied(0), unknown(1), allowed(2) ou limited(3).
-* O **`auth_reason`** pode ter os seguintes valores: Error(1), User Consent(2), User Set(3), System Set(4), Service Policy(5), MDM Policy(6), Override Policy(7), Missing usage string(8), Prompt Timeout(9), Preflight Unknown(10), Entitled(11), App Type Policy(12).
+* O **`auth_reason`** pode ter os seguintes valores: Error(1), User Consent(2), User Set(3), System Set(4), Service Policy(5), MDM Policy(6), Override Policy(7), Missing usage string(8), Prompt Timeout(9), Preflight Unknown(10), Entitled(11), App Type Policy(12)
+* O campo **csreq** está lá para indicar como verificar o binário a ser executado e conceder as permissões do TCC:
+```
+# Query to get cserq in printable hex
+select service, client, hex(csreq) from access where auth_value=2;
+
+# To decode it (https://stackoverflow.com/questions/52706542/how-to-get-csreq-of-macos-application-on-command-line):
+BLOB="FADE0C000000003000000001000000060000000200000012636F6D2E6170706C652E5465726D696E616C000000000003"
+echo "$BLOB" | xxd -r -p > terminal-csreq.bin
+csreq -r- -t < terminal-csreq.bin
+
+# To create a new one (https://stackoverflow.com/questions/52706542/how-to-get-csreq-of-macos-application-on-command-line):
+REQ_STR=$(codesign -d -r- /Applications/Utilities/Terminal.app/ 2>&1 | awk -F ' => ' '/designated/{print $2}')
+echo "$REQ_STR" | csreq -r- -b /tmp/csreq.bin
+REQ_HEX=$(xxd -p /tmp/csreq.bin  | tr -d '\n')
+echo "X'$REQ_HEX'"
+```
 * Para obter mais informações sobre os **outros campos** da tabela, [**verifique esta postagem no blog**](https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive).
 
 {% hint style="info" %}
 Algumas permissões do TCC são: kTCCServiceAppleEvents, kTCCServiceCalendar, kTCCServicePhotos... Não há uma lista pública que defina todas elas, mas você pode verificar esta [**lista de permissões conhecidas**](https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive#service).
 
-**Acesso Total ao Disco** é nomeado como **`kTCCServiceSystemPolicyAllFiles`** e **`kTCCServiceAppleEvents`** permite que o aplicativo envie eventos para outros aplicativos que são comumente usados para **automatizar tarefas**.
+O **Acesso Total ao Disco** tem o nome de **`kTCCServiceSystemPolicyAllFiles`** e o **`kTCCServiceAppleEvents`** permite que o aplicativo envie eventos para outros aplicativos que são comumente usados para **automatizar tarefas**.
 
-**kTCCServiceEndpointSecurityClient** é uma permissão do TCC que também concede privilégios elevados, incluindo a opção de escrever no banco de dados dos usuários.
+O **kTCCServiceEndpointSecurityClient** é uma permissão do TCC que também concede altos privilégios, incluindo a opção de escrever no banco de dados dos usuários.
 
-Além disso, **`kTCCServiceSystemPolicySysAdminFiles`** permite **alterar** o atributo **`NFSHomeDirectory`** de um usuário que altera sua pasta pessoal e, portanto, permite **burlar o TCC**.
+Além disso, o **`kTCCServiceSystemPolicySysAdminFiles`** permite **alterar** o atributo **`NFSHomeDirectory`** de um usuário, o que altera sua pasta pessoal e, portanto, permite **burlar o TCC**.
 {% endhint %}
 
 Você também pode verificar as **permissões já concedidas** aos aplicativos em `Preferências do Sistema --> Segurança e Privacidade --> Privacidade --> Arquivos e Pastas`.
 
 {% hint style="success" %}
-Observe que, mesmo que um dos bancos de dados esteja dentro da pasta pessoal do usuário, **os usuários não podem modificar diretamente esses bancos de dados devido ao SIP** (mesmo se você for root). A única maneira de configurar ou modificar uma nova regra é por meio do painel de Preferências do Sistema ou prompts em que o aplicativo solicita ao usuário.
+Observe que, mesmo que um dos bancos de dados esteja dentro da pasta pessoal do usuário, **os usuários não podem modificar diretamente esses bancos de dados devido ao SIP** (mesmo se você for root). A única maneira de configurar ou modificar uma nova regra é por meio do painel de Preferências do Sistema ou das solicitações em que o aplicativo pede ao usuário.
 
 No entanto, lembre-se de que os usuários _podem_ **excluir ou consultar regras** usando o **`tccutil`**.
 {% endhint %}
 
-#### Resetar
+#### Redefinir
 ```bash
 # You can reset all the permissions given to an application with
 tccutil reset All app.some.id
@@ -223,7 +239,7 @@ O atributo estendido `com.apple.macl` **não pode ser removido** como outros atr
 
 ### Escalação de Privilégios de Automação para FDA
 
-O **Finder** é um aplicativo que **sempre possui FDA** (mesmo que não apareça na interface), portanto, se você tiver privilégios de **Automação** sobre ele, poderá abusar de seus privilégios para **fazer com que ele execute algumas ações**.
+O **Finder** é um aplicativo que **sempre possui FDA** (mesmo que não apareça na interface do usuário), portanto, se você tiver privilégios de **Automação** sobre ele, poderá abusar de seus privilégios para **fazer com que ele execute algumas ações**.
 
 {% tabs %}
 {% tab title="Roubar o TCC.db dos usuários" %}
