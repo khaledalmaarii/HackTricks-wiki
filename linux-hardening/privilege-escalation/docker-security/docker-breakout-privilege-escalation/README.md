@@ -23,7 +23,7 @@ Obtenez un accès aujourd'hui :
 ## Énumération et évasion automatiques
 
 * [**linpeas**](https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS) : Il peut également **énumérer les conteneurs**
-* [**CDK**](https://github.com/cdk-team/CDK#installationdelivery) : Cet outil est très **utile pour énumérer le conteneur dans lequel vous vous trouvez, voire essayer de vous échapper automatiquement**
+* [**CDK**](https://github.com/cdk-team/CDK#installationdelivery) : Cet outil est assez **utile pour énumérer le conteneur dans lequel vous vous trouvez, voire essayer de vous échapper automatiquement**
 * [**amicontained**](https://github.com/genuinetools/amicontained) : Outil utile pour obtenir les privilèges dont dispose le conteneur afin de trouver des moyens de s'en échapper
 * [**deepce**](https://github.com/stealthcopter/deepce) : Outil pour énumérer et s'échapper des conteneurs
 * [**grype**](https://github.com/anchore/grype) : Obtenez les CVE contenues dans les logiciels installés dans l'image
@@ -55,7 +55,7 @@ docker run -it -v /:/host/ --cap-add=ALL --security-opt apparmor=unconfined --se
 Dans le cas où le **socket docker est à un endroit inattendu**, vous pouvez toujours communiquer avec lui en utilisant la commande **`docker`** avec le paramètre **`-H unix:///chemin/vers/docker.sock`**
 {% endhint %}
 
-Le démon Docker peut également être [en écoute sur un port (par défaut 2375, 2376)](../../../../network-services-pentesting/2375-pentesting-docker.md) ou sur les systèmes basés sur Systemd, la communication avec le démon Docker peut se faire via le socket Systemd `fd://`.
+Le démon Docker peut également [écouter sur un port (par défaut 2375, 2376)](../../../../network-services-pentesting/2375-pentesting-docker.md) ou sur les systèmes basés sur Systemd, la communication avec le démon Docker peut se faire via le socket Systemd `fd://`.
 
 {% hint style="info" %}
 De plus, faites attention aux sockets d'exécution des autres runtimes de haut niveau :
@@ -102,7 +102,7 @@ Le drapeau `--privileged` présente des problèmes de sécurité importants, et 
 [docker-privileged.md](../docker-privileged.md)
 {% endcontent-ref %}
 
-### Privileged + hostPID
+### Privilégié + hostPID
 
 Avec ces autorisations, vous pouvez simplement **passer à l'espace de noms d'un processus s'exécutant sur l'hôte en tant que root**, comme init (pid:1), en exécutant simplement : `nsenter --target 1 --mount --uts --ipc --net --pid -- bash`
 
@@ -372,13 +372,13 @@ bash -p #From non priv inside mounted folder
 ```
 ### Élévation de privilèges avec 2 shells
 
-Si vous avez accès en tant que **root à l'intérieur d'un conteneur** et que vous avez **échappé en tant qu'utilisateur non privilégié vers l'hôte**, vous pouvez exploiter les deux shells pour **élever les privilèges à l'intérieur de l'hôte** si vous avez la capacité MKNOD à l'intérieur du conteneur (c'est par défaut) comme [**expliqué dans cet article**](https://labs.f-secure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/).\
+Si vous avez accès en tant que **root à l'intérieur d'un conteneur** et que vous avez **échappé en tant qu'utilisateur non privilégié vers l'hôte**, vous pouvez exploiter les deux shells pour **élever les privilèges à l'intérieur de l'hôte** si vous avez la capacité MKNOD à l'intérieur du conteneur (c'est par défaut) comme [**expliqué dans cet article**](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/).\
 Avec cette capacité, l'utilisateur root à l'intérieur du conteneur est autorisé à **créer des fichiers de périphérique bloc**. Les fichiers de périphérique sont des fichiers spéciaux utilisés pour **accéder au matériel sous-jacent et aux modules du noyau**. Par exemple, le fichier de périphérique bloc /dev/sda permet d'**accéder aux données brutes du disque du système**.
 
 Docker veille à ce que les périphériques bloc **ne puissent pas être utilisés de manière abusive à partir du conteneur** en définissant une politique cgroup sur le conteneur qui bloque la lecture et l'écriture des périphériques bloc.\
 Cependant, si un périphérique bloc est **créé à l'intérieur du conteneur, il peut être accédé** via le dossier /proc/PID/root/ par quelqu'un **à l'extérieur du conteneur**, à condition que le **processus soit détenu par le même utilisateur** à l'extérieur et à l'intérieur du conteneur.
 
-Exemple d'**exploitation** à partir de ce [**rapport**](https://radboudinstituteof.pwning.nl/posts/htbunictfquals2021/goodgames/):
+Exemple d'**exploitation** à partir de ce [**writeup**](https://radboudinstituteof.pwning.nl/posts/htbunictfquals2021/goodgames/):
 ```bash
 # On the container as root
 cd /
@@ -441,7 +441,7 @@ lrwx------ 1 root root 64 Jun 15 02:25 /proc/635813/fd/4 -> /.secret.txt.swp
 # You can open the secret filw with:
 cat /proc/635813/fd/4
 ```
-Vous pouvez également **arrêter des processus et provoquer un déni de service**.
+Vous pouvez également **arrêter des processus et provoquer un déni de service (DoS)**.
 
 {% hint style="warning" %}
 Si vous avez d'une manière ou d'une autre un **accès privilégié à un processus en dehors du conteneur**, vous pouvez exécuter quelque chose comme `nsenter --target <pid> --all` ou `nsenter --target <pid> --mount --net --pid --cgroup` pour **exécuter un shell avec les mêmes restrictions de namespace** (espérons-le, aucune) **que ce processus**.
@@ -466,7 +466,7 @@ Vous pourrez également accéder aux **services réseau liés à localhost** à 
 ```
 docker run --rm -it --ipc=host ubuntu bash
 ```
-Si vous avez uniquement `hostIPC=true`, il est probable que vous ne puissiez pas faire grand-chose. Si un processus sur l'hôte ou tout autre processus dans un autre pod utilise les **mécanismes de communication inter-processus** de l'hôte (mémoire partagée, tableaux de sémaphores, files de messages, etc.), vous pourrez lire/écrire sur ces mêmes mécanismes. Le premier endroit où vous voudrez regarder est `/dev/shm`, car il est partagé entre tout pod avec `hostIPC=true` et l'hôte. Vous voudrez également vérifier les autres mécanismes IPC avec `ipcs`.
+Si vous avez uniquement `hostIPC=true`, vous ne pourrez probablement pas faire grand-chose. Si un processus sur l'hôte ou un processus dans un autre pod utilise les **mécanismes de communication inter-processus** de l'hôte (mémoire partagée, tableaux de sémaphores, files de messages, etc.), vous pourrez lire/écrire sur ces mêmes mécanismes. Le premier endroit où vous voudrez regarder est `/dev/shm`, car il est partagé entre tout pod avec `hostIPC=true` et l'hôte. Vous voudrez également vérifier les autres mécanismes IPC avec `ipcs`.
 
 * **Inspecter /dev/shm** - Recherchez les fichiers dans cet emplacement de mémoire partagée : `ls -la /dev/shm`
 * **Inspecter les installations IPC existantes** - Vous pouvez vérifier si des installations IPC sont utilisées avec `/usr/bin/ipcs`. Vérifiez avec : `ipcs -a`
@@ -481,12 +481,12 @@ cat /proc/self/status | grep CapEff
 ```
 ### Abus de l'espace de noms utilisateur via un lien symbolique
 
-La deuxième technique expliquée dans l'article [https://labs.f-secure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/](https://labs.f-secure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/) indique comment vous pouvez abuser des montages liés avec des espaces de noms utilisateur pour affecter les fichiers à l'intérieur de l'hôte (dans ce cas spécifique, supprimer des fichiers).
+La deuxième technique expliquée dans l'article [https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/) indique comment vous pouvez abuser des montages liés avec des espaces de noms utilisateur pour affecter les fichiers à l'intérieur de l'hôte (dans ce cas spécifique, supprimer des fichiers).
 
 <figure><img src="../../../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et automatiser facilement des flux de travail alimentés par les outils communautaires les plus avancés au monde.\
-Accédez dès aujourd'hui :
+Obtenez un accès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -494,7 +494,7 @@ Accédez dès aujourd'hui :
 
 ### Exploitation de Runc (CVE-2019-5736)
 
-Dans le cas où vous pouvez exécuter `docker exec` en tant que root (probablement avec sudo), vous pouvez essayer d'escalader les privilèges en vous échappant d'un conteneur en abusant de CVE-2019-5736 (exploit [ici](https://github.com/Frichetten/CVE-2019-5736-PoC/blob/master/main.go)). Cette technique va essentiellement **écraser** le binaire _**/bin/sh**_ de l'**hôte** à partir d'un conteneur, de sorte que toute personne exécutant docker exec peut déclencher la charge utile.
+Dans le cas où vous pouvez exécuter `docker exec` en tant que root (probablement avec sudo), vous pouvez essayer d'escalader les privilèges en échappant à un conteneur en abusant de CVE-2019-5736 (exploit [ici](https://github.com/Frichetten/CVE-2019-5736-PoC/blob/master/main.go)). Cette technique va essentiellement **écraser** le binaire _**/bin/sh**_ de l'**hôte** à partir d'un conteneur, de sorte que toute personne exécutant docker exec peut déclencher la charge utile.
 
 Modifiez la charge utile en conséquence et compilez main.go avec `go build main.go`. Le binaire résultant doit être placé dans le conteneur Docker pour être exécuté.\
 Lors de l'exécution, dès qu'il affiche `[+] Overwritten /bin/sh successfully`, vous devez exécuter la commande suivante depuis la machine hôte :
