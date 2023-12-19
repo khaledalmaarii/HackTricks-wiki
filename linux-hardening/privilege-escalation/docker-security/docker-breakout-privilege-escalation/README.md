@@ -1,4 +1,4 @@
-# Docker Breakout / Escalada de Privilégios
+# Docker Breakout / Escalação de Privilégios
 
 <details>
 
@@ -20,7 +20,7 @@ Acesse hoje:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## Enumeração e Escape Automáticos
+## Enumeração e Escapamento Automáticos
 
 * [**linpeas**](https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS): Também pode **enumerar containers**
 * [**CDK**](https://github.com/cdk-team/CDK#installationdelivery): Essa ferramenta é bastante **útil para enumerar o container em que você está e até mesmo tentar escapar automaticamente**
@@ -28,7 +28,7 @@ Acesse hoje:
 * [**deepce**](https://github.com/stealthcopter/deepce): Ferramenta para enumerar e escapar de containers
 * [**grype**](https://github.com/anchore/grype): Obtenha as CVEs contidas no software instalado na imagem
 
-## Escape do Docker Socket Montado
+## Escapamento do Docker Socket Montado
 
 Se de alguma forma você descobrir que o **socket do docker está montado** dentro do container do docker, você poderá escapar dele.\
 Isso geralmente acontece em containers do docker que, por algum motivo, precisam se conectar ao daemon do docker para realizar ações.
@@ -76,7 +76,7 @@ Você pode verificar as capacidades do contêiner atualmente usando as **ferrame
 ```bash
 capsh --print
 ```
-Na seguinte página, você pode aprender mais sobre as capacidades do Linux e como abusá-las para escapar/elevar privilégios:
+Na seguinte página, você pode aprender mais sobre as **capacidades do Linux** e como abusá-las para escapar/elevar privilégios:
 
 {% content-ref url="../../linux-capabilities.md" %}
 [linux-capabilities.md](../../linux-capabilities.md)
@@ -96,7 +96,7 @@ Um container com privilégios pode ser criado com a flag `--privileged` ou desab
 * `--cgroupns=host`
 * `Montar /dev`
 
-A flag `--privileged` introduz preocupações significativas de segurança, e o exploit depende do lançamento de um container docker com ela habilitada. Ao usar essa flag, os containers têm acesso total a todos os dispositivos e não possuem restrições do seccomp, AppArmor e das capacidades do Linux. Você pode ler todos os efeitos de `--privileged` nesta página:
+A flag `--privileged` introduz preocupações significativas de segurança, e a exploração depende de lançar um container docker com ela habilitada. Ao usar essa flag, os containers têm acesso total a todos os dispositivos e não possuem restrições do seccomp, AppArmor e das capacidades do Linux. Você pode **ler todos os efeitos de `--privileged`** nesta página:
 
 {% content-ref url="../docker-privileged.md" %}
 [docker-privileged.md](../docker-privileged.md)
@@ -242,7 +242,7 @@ Encontre uma **explicação da técnica** em:
 [docker-release\_agent-cgroups-escape.md](docker-release\_agent-cgroups-escape.md)
 {% endcontent-ref %}
 
-#### Privileged Escape Abusando do release\_agent sem conhecer o caminho relativo - PoC3
+#### Fuga de privilégios abusando do release\_agent sem conhecer o caminho relativo - PoC3
 
 Nos exploits anteriores, o **caminho absoluto do contêiner dentro do sistema de arquivos do host é revelado**. No entanto, nem sempre é esse o caso. Em situações em que você **não conhece o caminho absoluto do contêiner dentro do host**, você pode usar esta técnica:
 
@@ -338,16 +338,15 @@ root        10     2  0 11:25 ?        00:00:00 [ksoftirqd/0]
 ```
 #### Fuga de privilégios abusando de montagens sensíveis
 
-Existem vários arquivos que podem ser montados e fornecer informações sobre o host subjacente. Alguns deles podem até indicar algo a ser executado pelo host quando algo acontece (o que permitirá que um invasor escape do contêiner).\
-O abuso desses arquivos pode permitir que:
+Existem vários arquivos que podem ser montados e fornecer informações sobre o host subjacente. Alguns deles podem até indicar algo a ser executado pelo host quando algo acontece (o que permitirá que um invasor escape do contêiner). A exploração desses arquivos pode permitir que:
 
-* release\_agent (já abordado anteriormente)
-* [binfmt\_misc](sensitive-mounts.md#proc-sys-fs-binfmt\_misc)
-* [core\_pattern](sensitive-mounts.md#proc-sys-kernel-core\_pattern)
-* [uevent\_helper](sensitive-mounts.md#sys-kernel-uevent\_helper)
+* release_agent (já abordado anteriormente)
+* [binfmt_misc](sensitive-mounts.md#proc-sys-fs-binfmt_misc)
+* [core_pattern](sensitive-mounts.md#proc-sys-kernel-core_pattern)
+* [uevent_helper](sensitive-mounts.md#sys-kernel-uevent_helper)
 * [modprobe](sensitive-mounts.md#proc-sys-kernel-modprobe)
 
-No entanto, você pode encontrar **outros arquivos sensíveis** para verificar nesta página:
+No entanto, você pode encontrar outros arquivos sensíveis para verificar nesta página:
 
 {% content-ref url="sensitive-mounts.md" %}
 [sensitive-mounts.md](sensitive-mounts.md)
@@ -355,7 +354,7 @@ No entanto, você pode encontrar **outros arquivos sensíveis** para verificar n
 
 ### Montagens arbitrárias
 
-Em várias ocasiões, você descobrirá que o **contêiner possui algum volume montado do host**. Se esse volume não estiver configurado corretamente, você poderá **acessar/modificar dados sensíveis**: ler segredos, alterar chaves autorizadas do ssh...
+Em várias ocasiões, você descobrirá que o contêiner possui algum volume montado do host. Se esse volume não estiver configurado corretamente, você poderá acessar/modificar dados sensíveis: ler segredos, alterar chaves autorizadas do SSH...
 ```bash
 docker run --rm -it -v /:/host ubuntu bash
 ```
@@ -372,7 +371,7 @@ bash -p #From non priv inside mounted folder
 ```
 ### Escalação de privilégios com 2 shells
 
-Se você tem acesso como **root dentro de um contêiner** e conseguiu **escapar como um usuário não privilegiado para o host**, você pode abusar de ambos os shells para **escalar privilégios dentro do host** se tiver a capacidade MKNOD dentro do contêiner (que é padrão), conforme [**explicado neste post**](https://labs.f-secure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/).\
+Se você tem acesso como **root dentro de um contêiner** e conseguiu **escapar como um usuário não privilegiado para o host**, você pode abusar de ambos os shells para **escalar privilégios dentro do host** se tiver a capacidade MKNOD dentro do contêiner (que é padrão), conforme [**explicado neste post**](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/).\
 Com essa capacidade, o usuário root dentro do contêiner tem permissão para **criar arquivos de dispositivo de bloco**. Arquivos de dispositivo são arquivos especiais usados para **acessar hardware subjacente e módulos do kernel**. Por exemplo, o arquivo de dispositivo de bloco /dev/sda dá acesso para **ler os dados brutos no disco do sistema**.
 
 O Docker garante que os dispositivos de bloco **não possam ser abusados de dentro do contêiner** definindo uma política de cgroup no contêiner que bloqueia a leitura e gravação de dispositivos de bloco.\
@@ -431,7 +430,7 @@ HOSTNAME=argocd-server-69678b4f65-6mmql
 USER=abrgocd
 ...
 ```
-Você também pode **acessar os descritores de arquivo de outros processos e ler os arquivos abertos por eles**:
+Você também pode **acessar os descritores de arquivo de outros processos e ler seus arquivos abertos**:
 ```bash
 for fd in `find /proc/*/fd`; do ls -al $fd/* 2>/dev/null | grep \>; done > fds.txt
 less fds.txt
@@ -481,7 +480,7 @@ cat /proc/self/status | grep CapEff
 ```
 ### Abuso de namespace de usuário via symlink
 
-A segunda técnica explicada no post [https://labs.f-secure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/](https://labs.f-secure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/) indica como você pode abusar de bind mounts com namespaces de usuário para afetar arquivos dentro do host (neste caso específico, excluir arquivos).
+A segunda técnica explicada no post [https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/) indica como você pode abusar de bind mounts com namespaces de usuário para afetar arquivos dentro do host (neste caso específico, excluir arquivos).
 
 <figure><img src="../../../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
@@ -494,9 +493,9 @@ Acesse hoje mesmo:
 
 ### Exploração do Runc (CVE-2019-5736)
 
-Caso você possa executar `docker exec` como root (provavelmente com sudo), você pode tentar elevar privilégios escapando de um contêiner abusando do CVE-2019-5736 (exploit [aqui](https://github.com/Frichetten/CVE-2019-5736-PoC/blob/master/main.go)). Essa técnica basicamente irá **sobrescrever** o binário _**/bin/sh**_ do **host** **a partir de um contêiner**, então qualquer pessoa que execute o docker exec pode acionar a carga útil.
+Caso você possa executar `docker exec` como root (provavelmente com sudo), você pode tentar elevar privilégios escapando de um contêiner abusando do CVE-2019-5736 (exploit [aqui](https://github.com/Frichetten/CVE-2019-5736-PoC/blob/master/main.go)). Essa técnica basicamente **sobrescreverá** o binário _**/bin/sh**_ do **host** **a partir de um contêiner**, então qualquer pessoa que execute o docker exec pode acionar a carga útil.
 
-Altere a carga útil conforme necessário e compile o main.go com `go build main.go`. O binário resultante deve ser colocado no contêiner do Docker para execução.\
+Altere a carga útil conforme necessário e compile o main.go com `go build main.go`. O binário resultante deve ser colocado no contêiner Docker para execução.\
 Ao executar, assim que exibir `[+] Overwritten /bin/sh successfully`, você precisa executar o seguinte no host:
 
 `docker exec -it <nome-do-contêiner> /bin/sh`
@@ -506,7 +505,7 @@ Isso acionará a carga útil presente no arquivo main.go.
 Para mais informações: [https://blog.dragonsector.pl/2019/02/cve-2019-5736-escape-from-docker-and.html](https://blog.dragonsector.pl/2019/02/cve-2019-5736-escape-from-docker-and.html)
 
 {% hint style="info" %}
-Existem outras CVEs às quais o contêiner pode estar vulnerável, você pode encontrar uma lista em [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/cve-list](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/cve-list)
+Existem outras CVEs às quais o contêiner pode ser vulnerável, você pode encontrar uma lista em [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/cve-list](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/cve-list)
 {% endhint %}
 
 ## Docker Custom Escape
