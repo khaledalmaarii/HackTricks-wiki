@@ -14,17 +14,17 @@
 
 ## **基本信息**
 
-**TCC (Transparency, Consent, and Control)** 是 macOS 中的一种机制，用于从隐私角度**限制和控制应用程序对某些功能的访问**。这些功能可以包括位置服务、联系人、照片、麦克风、摄像头、辅助功能、完全磁盘访问等等。
+**TCC (Transparency, Consent, and Control)** 是 macOS 中的一种机制，用于从隐私的角度**限制和控制应用程序对某些功能的访问**。这可以包括位置服务、联系人、照片、麦克风、摄像头、辅助功能、完全磁盘访问等等。
 
-从用户的角度来看，当应用程序要访问受 TCC 保护的功能时，他们会看到 TCC 的作用。这时，用户会收到一个对话框，询问他们是否允许访问。
+从用户的角度来看，当应用程序要访问受 TCC 保护的功能时，他们会看到 TCC 的作用。当这种情况发生时，**用户会收到一个对话框**，询问他们是否允许访问。
 
-用户也可以通过**显式意图**向应用程序授予对文件的访问权限，例如当用户将文件**拖放到程序中**时（显然程序应该具有对文件的访问权限）。
+用户也可以通过**显式意图**向应用程序授予对文件的访问权限，例如当用户**将文件拖放到程序中**时（显然程序应该具有对文件的访问权限）。
 
 ![TCC提示的示例](https://rainforest.engineering/images/posts/macos-tcc/tcc-prompt.png?1620047855)
 
 **TCC** 由位于 `/System/Library/PrivateFrameworks/TCC.framework/Support/tccd` 的**守护进程**处理，并在 `/System/Library/LaunchDaemons/com.apple.tccd.system.plist` 中进行配置（注册 mach 服务 `com.apple.tccd.system`）。
 
-每个已登录用户定义了一个在用户模式下运行的 tccd，其位置在 `/System/Library/LaunchAgents/com.apple.tccd.plist`，注册了 mach 服务 `com.apple.tccd` 和 `com.apple.usernotifications.delegate.com.apple.tccd`。
+每个已登录用户定义的**用户模式 tccd**在 `/System/Library/LaunchAgents/com.apple.tccd.plist` 中运行，注册 mach 服务 `com.apple.tccd` 和 `com.apple.usernotifications.delegate.com.apple.tccd`。
 
 在这里，你可以看到作为系统和用户运行的 tccd：
 ```bash
@@ -109,29 +109,45 @@ sqlite> select * from access where client LIKE "%telegram%" and auth_value=0;
 {% endtabs %}
 
 {% hint style="success" %}
-检查这两个数据库，您可以查看应用程序允许、禁止或未拥有的权限（它会要求权限）。
+检查这两个数据库，您可以查看应用程序已允许、禁止或未拥有的权限（它会要求您）。
 {% endhint %}
 
 * **`auth_value`** 可以有不同的值：denied(0)、unknown(1)、allowed(2)或limited(3)。
-* **`auth_reason`** 可以有以下值：Error(1)、User Consent(2)、User Set(3)、System Set(4)、Service Policy(5)、MDM Policy(6)、Override Policy(7)、Missing usage string(8)、Prompt Timeout(9)、Preflight Unknown(10)、Entitled(11)、App Type Policy(12)。
-* 有关表格的**其他字段**的更多信息，请参阅[**此博客文章**](https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive)。
+* **`auth_reason`** 可以采用以下值：Error(1)、User Consent(2)、User Set(3)、System Set(4)、Service Policy(5)、MDM Policy(6)、Override Policy(7)、Missing usage string(8)、Prompt Timeout(9)、Preflight Unknown(10)、Entitled(11)、App Type Policy(12)
+* **csreq** 字段用于指示如何验证要执行的二进制文件并授予 TCC 权限：
+```
+# Query to get cserq in printable hex
+select service, client, hex(csreq) from access where auth_value=2;
+
+# To decode it (https://stackoverflow.com/questions/52706542/how-to-get-csreq-of-macos-application-on-command-line):
+BLOB="FADE0C000000003000000001000000060000000200000012636F6D2E6170706C652E5465726D696E616C000000000003"
+echo "$BLOB" | xxd -r -p > terminal-csreq.bin
+csreq -r- -t < terminal-csreq.bin
+
+# To create a new one (https://stackoverflow.com/questions/52706542/how-to-get-csreq-of-macos-application-on-command-line):
+REQ_STR=$(codesign -d -r- /Applications/Utilities/Terminal.app/ 2>&1 | awk -F ' => ' '/designated/{print $2}')
+echo "$REQ_STR" | csreq -r- -b /tmp/csreq.bin
+REQ_HEX=$(xxd -p /tmp/csreq.bin  | tr -d '\n')
+echo "X'$REQ_HEX'"
+```
+* 有关表格的**其他字段**的更多信息，请查看[**此博客文章**](https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive)。
 
 {% hint style="info" %}
-一些 TCC 权限包括：kTCCServiceAppleEvents、kTCCServiceCalendar、kTCCServicePhotos... 没有公共列表定义了所有这些权限，但您可以查看这个[**已知权限列表**](https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive#service)。
+一些TCC权限包括：kTCCServiceAppleEvents、kTCCServiceCalendar、kTCCServicePhotos... 没有公开的列表来定义所有这些权限，但您可以查看[**已知权限列表**](https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive#service)。
 
-**完全磁盘访问**的名称是**`kTCCServiceSystemPolicyAllFiles`**，**`kTCCServiceAppleEvents`** 允许应用程序向其他常用于**自动化任务**的应用程序发送事件。
+**完全磁盘访问**的名称是**`kTCCServiceSystemPolicyAllFiles`**，而**`kTCCServiceAppleEvents`**允许应用程序向其他常用于**自动化任务**的应用程序发送事件。
 
-**kTCCServiceEndpointSecurityClient** 是一个 TCC 权限，也授予了高权限，其中包括写入用户数据库的选项。
+**kTCCServiceEndpointSecurityClient**是一个TCC权限，也授予了高权限，其中包括写入用户数据库的选项。
 
-此外，**`kTCCServiceSystemPolicySysAdminFiles`** 允许**更改**用户的 **`NFSHomeDirectory`** 属性，从而更改其主文件夹，因此可以**绕过 TCC**。
+此外，**`kTCCServiceSystemPolicySysAdminFiles`**允许**更改**用户的**`NFSHomeDirectory`**属性，从而更改其主文件夹，从而允许**绕过TCC**。
 {% endhint %}
 
-您还可以在`系统偏好设置 --> 安全性与隐私 --> 隐私 --> 文件和文件夹`中检查已授予应用程序的权限。
+您还可以在`系统偏好设置 --> 安全性与隐私 --> 隐私 --> 文件和文件夹`中检查应用程序的**已授予权限**。
 
 {% hint style="success" %}
-请注意，即使其中一个数据库位于用户的主目录中，**由于 SIP 的限制，用户无法直接修改这些数据库**（即使您是 root）。配置或修改新规则的唯一方法是通过系统偏好设置窗格或应用程序询问用户的提示。
+请注意，即使数据库之一位于用户的主文件夹中，由于SIP的限制（即使您是root），**用户也无法直接修改这些数据库**。配置或修改新规则的唯一方法是通过系统偏好设置窗格或应用程序询问用户时的提示。
 
-但是，请记住，用户可以使用**`tccutil`** **删除或查询规则**。&#x20;
+但是，请记住，用户可以使用**`tccutil`**来**删除或查询规则**。&#x20;
 {% endhint %}
 
 #### 重置
@@ -171,7 +187,7 @@ csreq -t -r /tmp/telegram_csreq.bin
 
 然而，对于访问某些用户文件夹（如`~/Desktop`、`~/Downloads`和`~/Documents`）的应用程序，它们不需要具备任何特定的权限。系统会透明地处理访问并根据需要提示用户。
 
-苹果的应用程序不会生成提示。它们在其权限列表中包含预授予的权限，这意味着它们永远不会生成弹出窗口，也不会出现在任何TCC数据库中。例如：
+苹果的应用程序不会生成提示。它们在其权限列表中包含预授予权限，这意味着它们永远不会生成弹出窗口，也不会出现在任何TCC数据库中。例如：
 ```bash
 codesign -dv --entitlements :- /System/Applications/Calendar.app
 [...]
@@ -185,7 +201,7 @@ codesign -dv --entitlements :- /System/Applications/Calendar.app
 这将避免日历要求用户访问提醒事项、日历和通讯录。
 
 {% hint style="success" %}
-除了一些关于权限的官方文档外，还可以在[https://newosxbook.com/ent.jl](https://newosxbook.com/ent.jl)找到一些非官方的**关于权限的有趣信息**。
+除了一些关于权限的官方文档外，还可以在[https://newosxbook.com/ent.jl](https://newosxbook.com/ent.jl)找到一些非官方的**有关权限的有趣信息**。
 {% endhint %}
 
 ### 敏感的未受保护的位置
@@ -275,13 +291,13 @@ EOD
 
 ### 从FDA到TCC权限的权限提升
 
-我不认为这是真正的权限提升，但以防万一您发现它有用：如果您控制具有FDA的程序，您可以**修改用户TCC数据库并赋予自己任何访问权限**。这可以作为一种持久性技术，在您可能失去FDA权限的情况下非常有用。
+我不认为这是真正的权限提升，但以防万一您觉得有用：如果您控制具有FDA的程序，您可以**修改用户TCC数据库并赋予自己任何访问权限**。这可以作为一种持久性技术，在您可能失去FDA权限的情况下非常有用。
 
 ### 从SIP绕过到TCC绕过
 
-系统的**TCC数据库**受到**SIP**的保护，因此只有具有**指定权限的进程才能修改**它。因此，如果攻击者找到了一个**绕过SIP的方法**（能够修改受SIP限制的文件），他将能够**移除**TCC数据库的保护，并赋予自己所有TCC权限。
+系统的**TCC数据库**受到**SIP**的保护，因此只有具有**指定权限的进程才能修改**它。因此，如果攻击者找到了一个**绕过SIP的方法**（能够修改受SIP限制的文件），他将能够**移除TCC数据库的保护**并赋予自己所有TCC权限。
 
-但是，还有另一种滥用**SIP绕过来绕过TCC**的选项，文件`/Library/Apple/Library/Bundles/TCC_Compatibility.bundle/Contents/Resources/AllowApplicationsList.plist`是一个需要TCC异常的应用程序的允许列表。因此，如果攻击者可以**移除此文件的SIP保护**并添加自己的**应用程序**，该应用程序将能够绕过TCC。\
+然而，还有另一种滥用**SIP绕过来绕过TCC**的选项，文件`/Library/Apple/Library/Bundles/TCC_Compatibility.bundle/Contents/Resources/AllowApplicationsList.plist`是一个需要TCC异常的应用程序允许列表。因此，如果攻击者可以**移除此文件的SIP保护**并添加自己的**应用程序**，该应用程序将能够绕过TCC。\
 例如，要添加终端：
 ```bash
 # Get needed info
@@ -291,21 +307,37 @@ AllowApplicationsList.plist:
 
 AllowApplicationsList.plist是一个macOS访问控制列表（ACL）文件，用于管理TCC（Transparency Consent and Control）框架中的应用程序访问权限。TCC是macOS的一种安全保护机制，用于保护用户的隐私和数据安全。
 
-在AllowApplicationsList.plist中，您可以指定哪些应用程序可以访问敏感数据和功能，以及哪些应用程序被禁止访问。该文件列出了应用程序的Bundle Identifier（捆绑标识符），这是应用程序在macOS中的唯一标识符。
+在AllowApplicationsList.plist中，您可以指定哪些应用程序可以访问敏感数据和功能，以及哪些应用程序被禁止访问。这个ACL文件是由系统管理员或用户自定义的，用于限制应用程序的权限。
 
-要修改AllowApplicationsList.plist文件，您需要具有管理员权限。您可以使用文本编辑器或终端命令来编辑该文件。确保在编辑之前备份文件，以防止意外的更改。
+要编辑AllowApplicationsList.plist文件，您可以使用文本编辑器或命令行工具。在文件中，每个应用程序都有一个条目，其中包含应用程序的标识符和访问权限。您可以根据需要添加、删除或修改这些条目。
 
-在编辑AllowApplicationsList.plist时，请确保遵循正确的语法和格式。每个应用程序的Bundle Identifier应该在<array>标签内的<dict>标签中列出。您可以添加或删除应用程序的Bundle Identifier来控制其访问权限。
+请注意，编辑AllowApplicationsList.plist文件需要管理员权限。在进行任何更改之前，请确保您了解每个应用程序的标识符和所需的访问权限。
 
-编辑完成后，保存并退出文件。然后，您需要重新启动TCC服务，以使更改生效。您可以在终端中运行以下命令来重新启动TCC服务：
+以下是AllowApplicationsList.plist文件的示例：
 
+```xml
+<dict>
+    <key>AllowedApplications</key>
+    <array>
+        <dict>
+            <key>Identifier</key>
+            <string>com.example.app1</string>
+            <key>Allowed</key>
+            <true/>
+        </dict>
+        <dict>
+            <key>Identifier</key>
+            <string>com.example.app2</string>
+            <key>Allowed</key>
+            <false/>
+        </dict>
+    </array>
+</dict>
 ```
-sudo killall -9 tccd
-```
 
-重新启动后，更改的应用程序访问权限将生效。
+在上面的示例中，com.example.app1被允许访问敏感数据和功能，而com.example.app2被禁止访问。
 
-请注意，修改AllowApplicationsList.plist可能会对系统的安全性产生影响。确保只允许可信任的应用程序访问敏感数据和功能，并定期审查和更新访问控制列表，以保持系统的安全性。
+请记住，在编辑AllowApplicationsList.plist文件时要小心，确保只允许可信任的应用程序访问敏感数据和功能，以保护用户的隐私和数据安全。
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
