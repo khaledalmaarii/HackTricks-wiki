@@ -8,32 +8,30 @@
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe suas técnicas de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e para o** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
 <figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-**HackenProof é o lar de todas as recompensas por bugs de criptografia.**
+Junte-se ao servidor [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) para se comunicar com hackers experientes e caçadores de recompensas por bugs!
 
-**Seja recompensado sem atrasos**\
-As recompensas do HackenProof são lançadas apenas quando os clientes depositam o orçamento de recompensa. Você receberá a recompensa após a verificação do bug.
+**Percepções de Hacking**\
+Envolver-se com conteúdo que explora a emoção e os desafios do hacking
 
-**Adquira experiência em pentesting web3**\
-Protocolos de blockchain e contratos inteligentes são a nova Internet! Domine a segurança web3 em seus dias de ascensão.
+**Notícias de Hacking em Tempo Real**\
+Mantenha-se atualizado com o mundo acelerado do hacking através de notícias e percepções em tempo real
 
-**Torne-se a lenda do hacker web3**\
-Ganhe pontos de reputação com cada bug verificado e conquiste o topo do leaderboard semanal.
+**Últimos Anúncios**\
+Fique informado sobre os mais recentes programas de recompensas por bugs lançados e atualizações cruciais das plataformas
 
-[**Cadastre-se no HackenProof**](https://hackenproof.com/register) comece a ganhar com seus hacks!
+**Junte-se a nós no** [**Discord**](https://discord.com/invite/N3FrSbmwdy) e comece a colaborar com os melhores hackers hoje!
 
-{% embed url="https://hackenproof.com/register" %}
+## Conceitos Básicos do MacOS
 
-## MacOS Básico
+Se você não está familiarizado com o macOS, você deve começar aprendendo os conceitos básicos do macOS:
 
-Se você não está familiarizado com o macOS, você deve começar aprendendo o básico do macOS:
-
-* Arquivos e permissões especiais do macOS:
+* **Arquivos e permissões especiais** do macOS:
 
 {% content-ref url="macos-files-folders-and-binaries/" %}
 [macos-files-folders-and-binaries](macos-files-folders-and-binaries/)
@@ -45,13 +43,13 @@ Se você não está familiarizado com o macOS, você deve começar aprendendo o 
 [macos-users.md](macos-users.md)
 {% endcontent-ref %}
 
-* AppleFS
+* **AppleFS**
 
 {% content-ref url="macos-applefs.md" %}
 [macos-applefs.md](macos-applefs.md)
 {% endcontent-ref %}
 
-* A arquitetura do kernel
+* A **arquitetura** do **kernel**
 
 {% content-ref url="mac-os-architecture/" %}
 [mac-os-architecture](mac-os-architecture/)
@@ -63,7 +61,7 @@ Se você não está familiarizado com o macOS, você deve começar aprendendo o 
 [macos-protocols.md](macos-protocols.md)
 {% endcontent-ref %}
 
-* macOS de código aberto: [https://opensource.apple.com/](https://opensource.apple.com/)
+* **macOS** de **código aberto**: [https://opensource.apple.com/](https://opensource.apple.com/)
 * Para baixar um `tar.gz`, altere uma URL como [https://opensource.apple.com/**source**/dyld/](https://opensource.apple.com/source/dyld/) para [https://opensource.apple.com/**tarballs**/dyld/**dyld-852.2.tar.gz**](https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz)
 
 ### MacOS MDM
@@ -105,15 +103,7 @@ Para esse tipo de vulnerabilidade, não se esqueça de **verificar instaladores 
 {% content-ref url="macos-files-folders-and-binaries/macos-installers-abuse.md" %}
 [macos-installers-abuse.md](macos-files-folders-and-binaries/macos-installers-abuse.md)
 {% endcontent-ref %}
-### Abuso de privilégios e privilégios através do abuso de processos
-
-Se um processo pode **injetar código em outro processo com privilégios ou privilégios melhores** ou contatá-lo para realizar ações com privilégios, ele pode elevar os privilégios e contornar medidas defensivas como [Sandbox](macos-security-protections/macos-sandbox/) ou [TCC](macos-security-protections/macos-tcc/).
-
-{% content-ref url="macos-proces-abuse/" %}
-[macos-proces-abuse](macos-proces-abuse/)
-{% endcontent-ref %}
-
-### Manipulação de aplicativos de extensão de arquivo e esquema de URL
+### Manipuladores de aplicativos de extensão de arquivo e esquema de URL
 
 Aplicativos estranhos registrados por extensões de arquivo podem ser abusados e diferentes aplicativos podem ser registrados para abrir protocolos específicos.
 
@@ -121,52 +111,23 @@ Aplicativos estranhos registrados por extensões de arquivo podem ser abusados e
 [macos-file-extension-apps.md](macos-file-extension-apps.md)
 {% endcontent-ref %}
 
-## Escalação de privilégios no MacOS
+## Escalação de privilégios do macOS TCC / SIP
 
-### CVE-2020-9771 - bypass do TCC do mount\_apfs e escalonamento de privilégios
+No macOS, **aplicativos e binários podem ter permissões** para acessar pastas ou configurações que os tornam mais privilegiados do que outros.
 
-**Qualquer usuário** (mesmo os não privilegiados) pode criar e montar um snapshot do time machine e **acessar TODOS os arquivos** desse snapshot.\
-O **único privilégio** necessário é para o aplicativo usado (como `Terminal`) ter **Acesso Total ao Disco** (FDA) (`kTCCServiceSystemPolicyAllfiles`), que precisa ser concedido por um administrador.
+Portanto, um invasor que deseja comprometer com sucesso uma máquina macOS precisará **escalar seus privilégios do TCC** (ou até mesmo **burlar o SIP**, dependendo de suas necessidades).
 
-{% code overflow="wrap" %}
-```bash
-# Create snapshot
-tmutil localsnapshot
+Esses privilégios geralmente são concedidos na forma de **direitos** com os quais o aplicativo é assinado, ou o aplicativo pode solicitar alguns acessos e, após o **usuário aprová-los**, eles podem ser encontrados nos **bancos de dados do TCC**. Outra maneira de um processo obter esses privilégios é ser um **filho de um processo** com esses **privilégios**, pois eles geralmente são **herdados**.
 
-# List snapshots
-tmutil listlocalsnapshots /
-Snapshots for disk /:
-com.apple.TimeMachine.2023-05-29-001751.local
+Siga estes links para encontrar diferentes maneiras de [**escalar privilégios no TCC**](macos-security-protections/macos-tcc/#tcc-privesc-and-bypasses), [**burlar o TCC**](macos-security-protections/macos-tcc/macos-tcc-bypasses/) e como no passado o [**SIP foi burlado**](macos-security-protections/macos-sip.md#sip-bypasses).
 
-# Generate folder to mount it
-cd /tmp # I didn it from this folder
-mkdir /tmp/snap
+## Escalação de privilégios tradicional do macOS
 
-# Mount it, "noowners" will mount the folder so the current user can access everything
-/sbin/mount_apfs -o noowners -s com.apple.TimeMachine.2023-05-29-001751.local /System/Volumes/Data /tmp/snap
+É claro que, do ponto de vista de uma equipe de red team, você também deve estar interessado em escalar para root. Confira o seguinte post para algumas dicas:
 
-# Access it
-ls /tmp/snap/Users/admin_user # This will work
-```
-{% endcode %}
-
-Uma explicação mais detalhada pode ser encontrada no [**relatório original**](https://theevilbit.github.io/posts/cve\_2020\_9771/)**.**
-
-### Informações Sensíveis
-
-{% content-ref url="macos-files-folders-and-binaries/macos-sensitive-locations.md" %}
-[macos-sensitive-locations.md](macos-files-folders-and-binaries/macos-sensitive-locations.md)
+{% content-ref url="macos-privilege-escalation.md" %}
+[macos-privilege-escalation.md](macos-privilege-escalation.md)
 {% endcontent-ref %}
-
-### Linux Privesc
-
-Antes de tudo, observe que **a maioria dos truques de escalonamento de privilégios que afetam o Linux/Unix também afetarão as máquinas MacOS**. Portanto, veja:
-
-{% content-ref url="../../linux-hardening/privilege-escalation/" %}
-[privilege-escalation](../../linux-hardening/privilege-escalation/)
-{% endcontent-ref %}
-
-## Aplicativos de Defesa para MacOS
 
 ## Referências
 
@@ -178,20 +139,18 @@ Antes de tudo, observe que **a maioria dos truques de escalonamento de privilég
 
 <figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-**HackenProof é o lar de todas as recompensas por bugs de criptografia.**
+Junte-se ao servidor [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) para se comunicar com hackers experientes e caçadores de recompensas por bugs!
 
-**Seja recompensado sem atrasos**\
-As recompensas do HackenProof são lançadas apenas quando os clientes depositam o orçamento de recompensa. Você receberá a recompensa após a verificação do bug.
+**Hacking Insights**\
+Engaje-se com conteúdo que explora a emoção e os desafios do hacking
 
-**Adquira experiência em pentesting web3**\
-Protocolos blockchain e contratos inteligentes são a nova Internet! Domine a segurança web3 em seus dias de ascensão.
+**Notícias de Hacking em Tempo Real**\
+Mantenha-se atualizado com o mundo acelerado do hacking por meio de notícias e insights em tempo real
 
-**Torne-se uma lenda hacker web3**\
-Ganhe pontos de reputação com cada bug verificado e conquiste o topo do leaderboard semanal.
+**Últimos Anúncios**\
+Fique informado sobre os mais recentes programas de recompensas por bugs lançados e atualizações cruciais na plataforma
 
-[**Cadastre-se no HackenProof**](https://hackenproof.com/register) comece a ganhar com seus hacks!
-
-{% embed url="https://hackenproof.com/register" %}
+**Junte-se a nós no** [**Discord**](https://discord.com/invite/N3FrSbmwdy) e comece a colaborar com os melhores hackers hoje!
 
 <details>
 
