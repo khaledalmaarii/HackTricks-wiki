@@ -103,15 +103,7 @@ Pour ce type de vulnérabilités, n'oubliez pas de **vérifier les installateurs
 {% content-ref url="macos-files-folders-and-binaries/macos-installers-abuse.md" %}
 [macos-installers-abuse.md](macos-files-folders-and-binaries/macos-installers-abuse.md)
 {% endcontent-ref %}
-### Abus des privilèges et des autorisations via l'abus de processus
-
-Si un processus peut **injecter du code dans un autre processus avec des privilèges ou des autorisations supérieures** ou le contacter pour effectuer des actions avec des privilèges, il peut escalader les privilèges et contourner les mesures de défense telles que [Sandbox](macos-security-protections/macos-sandbox/) ou [TCC](macos-security-protections/macos-tcc/).
-
-{% content-ref url="macos-proces-abuse/" %}
-[macos-proces-abuse](macos-proces-abuse/)
-{% endcontent-ref %}
-
-### Gestionnaires d'applications pour les extensions de fichiers et les schémas d'URL
+### Gestionnaires d'applications pour les extensions de fichiers et les URL
 
 Des applications étranges enregistrées par des extensions de fichiers peuvent être utilisées de manière abusive et différentes applications peuvent être enregistrées pour ouvrir des protocoles spécifiques.
 
@@ -119,49 +111,22 @@ Des applications étranges enregistrées par des extensions de fichiers peuvent 
 [macos-file-extension-apps.md](macos-file-extension-apps.md)
 {% endcontent-ref %}
 
-## Élévation de privilèges sur MacOS
+## Privilèges TCC / SIP d'escalade de privilèges macOS
 
-### CVE-2020-9771 - Contournement de TCC et élévation de privilèges avec mount\_apfs
+Dans macOS, les **applications et les binaires peuvent avoir des autorisations** pour accéder à des dossiers ou des paramètres qui les rendent plus privilégiés que d'autres.
 
-**N'importe quel utilisateur** (même non privilégié) peut créer et monter un instantané de la machine à remonter le temps et **accéder à TOUS les fichiers** de cet instantané.\
-Le seul privilège nécessaire est que l'application utilisée (comme `Terminal`) ait **un accès complet au disque** (FDA - Full Disk Access) (`kTCCServiceSystemPolicyAllfiles`), qui doit être accordé par un administrateur.
+Par conséquent, un attaquant qui souhaite compromettre avec succès une machine macOS devra **escalader ses privilèges TCC** (ou même **contourner SIP**, selon ses besoins).
 
-{% code overflow="wrap" %}
-```bash
-# Create snapshot
-tmutil localsnapshot
+Ces privilèges sont généralement accordés sous la forme de **droits** avec lesquels l'application est signée, ou l'application peut demander certains accès et après que l'utilisateur les a **approuvés**, ils peuvent être trouvés dans les **bases de données TCC**. Une autre façon pour un processus d'obtenir ces privilèges est d'être un **enfant d'un processus** avec ces **privilèges**, car ils sont généralement **hérités**.
 
-# List snapshots
-tmutil listlocalsnapshots /
-Snapshots for disk /:
-com.apple.TimeMachine.2023-05-29-001751.local
+Suivez ces liens pour découvrir différentes façons d'**escalader les privilèges dans TCC** (macos-security-protections/macos-tcc/#tcc-privesc-and-bypasses), de **contourner TCC** (macos-security-protections/macos-tcc/macos-tcc-bypasses/) et comment dans le passé **SIP a été contourné** (macos-security-protections/macos-sip.md#sip-bypasses).
 
-# Generate folder to mount it
-cd /tmp # I didn it from this folder
-mkdir /tmp/snap
+## Escalade de privilèges traditionnelle macOS
 
-# Mount it, "noowners" will mount the folder so the current user can access everything
-/sbin/mount_apfs -o noowners -s com.apple.TimeMachine.2023-05-29-001751.local /System/Volumes/Data /tmp/snap
+Bien sûr, du point de vue des équipes rouges, vous devriez également être intéressé par l'escalade vers le compte root. Consultez le billet suivant pour quelques indices :
 
-# Access it
-ls /tmp/snap/Users/admin_user # This will work
-```
-{% endcode %}
-
-Une explication plus détaillée peut être [**trouvée dans le rapport original**](https://theevilbit.github.io/posts/cve\_2020\_9771/)**.**
-
-### Informations sensibles
-
-{% content-ref url="macos-files-folders-and-binaries/macos-sensitive-locations.md" %}
-[macos-sensitive-locations.md](macos-files-folders-and-binaries/macos-sensitive-locations.md)
-{% endcontent-ref %}
-
-### Linux Privesc
-
-Tout d'abord, veuillez noter que **la plupart des astuces sur l'élévation de privilèges affectant Linux/Unix affecteront également les machines MacOS**. Donc voir:
-
-{% content-ref url="../../linux-hardening/privilege-escalation/" %}
-[privilege-escalation](../../linux-hardening/privilege-escalation/)
+{% content-ref url="macos-privilege-escalation.md" %}
+[macos-privilege-escalation.md](macos-privilege-escalation.md)
 {% endcontent-ref %}
 
 ## Références
@@ -174,9 +139,9 @@ Tout d'abord, veuillez noter que **la plupart des astuces sur l'élévation de p
 
 <figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-Rejoignez le serveur [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) pour communiquer avec des hackers expérimentés et des chasseurs de primes de bugs !
+Rejoignez le serveur [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) pour communiquer avec des hackers expérimentés et des chasseurs de primes en sécurité !
 
-**Hacking Insights**\
+**Perspectives de piratage**\
 Engagez-vous avec du contenu qui explore les sensations et les défis du piratage
 
 **Actualités de piratage en temps réel**\
@@ -191,8 +156,8 @@ Restez informé des dernières primes de bugs lancées et des mises à jour cruc
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Vous travaillez dans une **entreprise de cybersécurité** ? Vous voulez voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Vous travaillez dans une **entreprise de cybersécurité** ? Vous souhaitez voir votre **entreprise annoncée dans HackTricks** ? ou souhaitez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
