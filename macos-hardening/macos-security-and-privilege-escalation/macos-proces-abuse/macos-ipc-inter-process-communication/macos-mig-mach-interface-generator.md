@@ -1,18 +1,18 @@
-# Générateur d'interface MIG pour macOS
+# macOS MIG - Mach Interface Generator
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? Ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou souhaitez-vous accéder à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-moi** sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez vos astuces de hacking en soumettant des PR au** [**dépôt hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**dépôt hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-MIG a été créé pour **simplifier le processus de création de code Mach IPC**. Il génère essentiellement le code nécessaire pour que le serveur et le client puissent communiquer avec une définition donnée. Même si le code généré est moche, un développeur n'aura qu'à l'importer et son code sera beaucoup plus simple qu'auparavant.
+MIG a été créé pour **simplifier le processus de création de code Mach IPC**. Il **génère essentiellement le code nécessaire** pour que le serveur et le client puissent communiquer avec une définition donnée. Même si le code généré est peu élégant, un développeur aura juste besoin de l'importer et son code sera beaucoup plus simple qu'auparavant.
 
 ### Exemple
 
@@ -33,15 +33,15 @@ server_port :  mach_port_t;
 n1          :  uint32_t;
 n2          :  uint32_t);
 ```
-{% endcode %}
-
+```markdown
 Maintenant, utilisez mig pour générer le code serveur et client qui pourra communiquer entre eux pour appeler la fonction Subtract :
+```
 ```bash
 mig -header myipcUser.h -sheader myipcServer.h myipc.defs
 ```
-Plusieurs nouveaux fichiers seront créés dans le répertoire actuel.
+Plusieurs nouveaux fichiers seront créés dans le répertoire courant.
 
-Dans les fichiers **`myipcServer.c`** et **`myipcServer.h`**, vous pouvez trouver la déclaration et la définition de la structure **`SERVERPREFmyipc_subsystem`**, qui définit essentiellement la fonction à appeler en fonction de l'ID du message reçu (nous avons indiqué un numéro de départ de 500):
+Dans les fichiers **`myipcServer.c`** et **`myipcServer.h`**, vous trouverez la déclaration et la définition de la structure **`SERVERPREFmyipc_subsystem`**, qui définit essentiellement la fonction à appeler en fonction de l'ID de message reçu (nous avons indiqué un numéro de départ de 500) :
 
 {% tabs %}
 {% tab title="myipcServer.c" %}
@@ -60,27 +60,9 @@ myipc_server_routine,
 }
 };
 ```
-{% tab title="myipcServer.h" %}
-
-```c
-#ifndef myipcServer_h
-#define myipcServer_h
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <mach/mach.h>
-#include <mach/mach_error.h>
-#include <servers/bootstrap.h>
-#include "myipcServerUser.h"
-
-#define MACH_PORT_NAME "com.example.myipc"
-
-kern_return_t myipc_server(mach_port_t server_port);
-
-#endif /* myipcServer_h */
-```
-
 {% endtab %}
+
+{% tab title="myipcServer.h" %}
 ```c
 /* Description of this subsystem, for use in direct RPC */
 extern const struct SERVERPREFmyipc_subsystem {
@@ -96,7 +78,7 @@ routine[1];
 {% endtab %}
 {% endtabs %}
 
-Basé sur la structure précédente, la fonction **`myipc_server_routine`** recevra l'**ID du message** et renverra la fonction appropriée à appeler :
+Basé sur la struct précédente, la fonction **`myipc_server_routine`** récupérera l'**ID du message** et retournera la fonction appropriée à appeler :
 ```c
 mig_external mig_routine_t myipc_server_routine
 (mach_msg_header_t *InHeadP)
@@ -111,16 +93,16 @@ return 0;
 return SERVERPREFmyipc_subsystem.routine[msgh_id].stub_routine;
 }
 ```
-Dans cet exemple, nous avons seulement défini une fonction dans les définitions, mais si nous avions défini plusieurs fonctions, elles auraient été à l'intérieur du tableau **`SERVERPREFmyipc_subsystem`** et la première aurait été assignée à l'ID **500**, la deuxième à l'ID **501**...
+Dans cet exemple, nous n'avons défini qu'une seule fonction dans les définitions, mais si nous avions défini plusieurs fonctions, elles auraient été à l'intérieur du tableau de **`SERVERPREFmyipc_subsystem`** et la première aurait été attribuée à l'ID **500**, la seconde à l'ID **501**...
 
-En réalité, il est possible d'identifier cette relation dans la structure **`subsystem_to_name_map_myipc`** de **`myipcServer.h`**:
+En fait, il est possible d'identifier cette relation dans la structure **`subsystem_to_name_map_myipc`** de **`myipcServer.h`** :
 ```c
 #ifndef subsystem_to_name_map_myipc
 #define subsystem_to_name_map_myipc \
 { "Subtract", 500 }
 #endif
 ```
-Enfin, une autre fonction importante pour faire fonctionner le serveur sera **`myipc_server`**, qui est celle qui va réellement **appeler la fonction** liée à l'ID reçu :
+Enfin, une autre fonction importante pour faire fonctionner le serveur sera **`myipc_server`**, qui est celle qui va réellement **appeler la fonction** liée à l'identifiant reçu :
 
 <pre class="language-c"><code class="lang-c">mig_external boolean_t myipc_server
 (mach_msg_header_t *InHeadP, mach_msg_header_t *OutHeadP)
@@ -137,7 +119,7 @@ mig_routine_t routine;
 
 OutHeadP->msgh_bits = MACH_MSGH_BITS(MACH_MSGH_BITS_REPLY(InHeadP->msgh_bits), 0);
 OutHeadP->msgh_remote_port = InHeadP->msgh_reply_port;
-/* Taille minimale : routine() la mettra à jour si elle est différente */
+/* Taille minimale : routine() la mettra à jour si différente */
 OutHeadP->msgh_size = (mach_msg_size_t)sizeof(mig_reply_error_t);
 OutHeadP->msgh_local_port = MACH_PORT_NULL;
 OutHeadP->msgh_id = InHeadP->msgh_id + 100;
@@ -154,9 +136,9 @@ return FALSE;
 }
 </code></pre>
 
-Vérifiez les lignes précédemment mises en évidence en accédant à la fonction à appeler par ID.
+Vérifiez les lignes précédemment mises en évidence accédant à la fonction à appeler par ID.
 
-Voici le code pour créer un **serveur** et un **client** simples où le client peut appeler les fonctions Subtract du serveur :
+Dans la suite se trouve le code pour créer un **serveur** et un **client** simples où le client peut appeler les fonctions Subtract du serveur :
 
 {% tabs %}
 {% tab title="myipc_server.c" %}
@@ -190,41 +172,9 @@ return 1;
 mach_msg_server(myipc_server, sizeof(union __RequestUnion__SERVERPREFmyipc_subsystem), port, MACH_MSG_TIMEOUT_NONE);
 }
 ```
-```c
-#include <stdio.h>
-#include <stdlib.h>
-#include <servers/bootstrap.h>
-#include "myipc.h"
-
-int main(int argc, char *argv[]) {
-    mach_port_t server_port;
-    kern_return_t kr;
-    char *message = "Hello, server!";
-    char reply[256];
-
-    // Look up the server port
-    kr = bootstrap_look_up(bootstrap_port, "com.example.myipc_server", &server_port);
-    if (kr != KERN_SUCCESS) {
-        fprintf(stderr, "Failed to look up server port: %s\n", mach_error_string(kr));
-        exit(1);
-    }
-
-    // Send a message to the server
-    kr = myipc_send_message(server_port, message, reply, sizeof(reply));
-    if (kr != KERN_SUCCESS) {
-        fprintf(stderr, "Failed to send message: %s\n", mach_error_string(kr));
-        exit(1);
-    }
-
-    // Print the server's reply
-    printf("Server replied: %s\n", reply);
-
-    return 0;
-}
-```
 {% endtab %}
 
-{% tab title="myipc_server.c" %}
+{% tab title="myipc_client.c" %}
 ```c
 // gcc myipc_client.c myipcUser.c -o myipc_client
 
@@ -254,13 +204,13 @@ USERPREFSubtract(port, 40, 2);
 
 ### Analyse binaire
 
-Comme de nombreux binaires utilisent désormais MIG pour exposer des ports mach, il est intéressant de savoir comment **identifier l'utilisation de MIG** et les **fonctions exécutées par MIG** avec chaque ID de message.
+Comme de nombreux binaires utilisent maintenant MIG pour exposer des ports mach, il est intéressant de savoir comment **identifier que MIG a été utilisé** et les **fonctions que MIG exécute** avec chaque ID de message.
 
-[**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2) peut analyser les informations MIG d'un binaire Mach-O, indiquant l'ID du message et identifiant la fonction à exécuter :
+[**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2) peut analyser les informations MIG d'un binaire Mach-O en indiquant l'ID de message et en identifiant la fonction à exécuter :
 ```bash
 jtool2 -d __DATA.__const myipc_server | grep MIG
 ```
-Il a été mentionné précédemment que la fonction qui se chargera d'**appeler la fonction correcte en fonction de l'ID du message reçu** était `myipc_server`. Cependant, vous n'aurez généralement pas les symboles du binaire (pas de noms de fonctions), il est donc intéressant de **vérifier à quoi ressemble la décompilation** car elle sera toujours très similaire (le code de cette fonction est indépendant des fonctions exposées) :
+Il a été mentionné précédemment que la fonction qui s'occupera **d'appeler la fonction correcte en fonction de l'ID de message reçu** était `myipc_server`. Cependant, vous n'aurez généralement pas les symboles du binaire (pas de noms de fonctions), il est donc intéressant de **vérifier à quoi cela ressemble décompilé** car ce sera toujours très similaire (le code de cette fonction est indépendant des fonctions exposées) :
 
 {% tabs %}
 {% tab title="myipc_server décompilé 1" %}
@@ -277,19 +227,19 @@ var_18 = arg1;
 if (*(int32_t *)(var_10 + 0x14) &#x3C;= 0x1f4 &#x26;&#x26; *(int32_t *)(var_10 + 0x14) >= 0x1f4) {
 rax = *(int32_t *)(var_10 + 0x14);
 // Appel à sign_extend_64 qui peut aider à identifier cette fonction
-// Cela stocke dans rax le pointeur de l'appel qui doit être appelé
-// Vérifiez l'utilisation de l'adresse 0x100004040 (tableau des adresses des fonctions)
+// Ceci stocke dans rax le pointeur vers l'appel qui doit être effectué
+// Vérifiez l'utilisation de l'adresse 0x100004040 (tableau d'adresses de fonctions)
 // 0x1f4 = 500 (l'ID de départ)
 <strong>            rax = *(sign_extend_64(rax - 0x1f4) * 0x28 + 0x100004040);
 </strong>            var_20 = rax;
-// Si - sinon, le si renvoie false, tandis que le sinon appelle la bonne fonction et renvoie true
+// Si - sinon, le si renvoie faux, tandis que le sinon appelle la fonction correcte et renvoie vrai
 <strong>            if (rax == 0x0) {
 </strong>                    *(var_18 + 0x18) = **_NDR_record;
 *(int32_t *)(var_18 + 0x20) = 0xfffffffffffffed1;
 var_4 = 0x0;
 }
 else {
-// Adresse calculée qui appelle la bonne fonction avec 2 arguments
+// Adresse calculée qui appelle la fonction appropriée avec 2 arguments
 <strong>                    (var_20)(var_10, var_18);
 </strong>                    var_4 = 0x1;
 }
@@ -306,7 +256,7 @@ return rax;
 {% endtab %}
 
 {% tab title="myipc_server décompilé 2" %}
-Il s'agit de la même fonction décompilée dans une version différente de Hopper free :
+C'est la même fonction décompilée dans une version gratuite différente de Hopper :
 
 <pre class="language-c"><code class="lang-c">int _myipc_server(int arg0, int arg1) {
 r31 = r31 - 0x40;
@@ -350,7 +300,7 @@ r8 = 0x1;
 }
 }
 // Même si sinon que dans la version précédente
-// Vérifiez l'utilisation de l'adresse 0x100004040 (tableau des adresses des fonctions)
+// Vérifiez l'utilisation de l'adresse 0x100004040 (tableau d'adresses de fonctions)
 <strong>                    if ((r8 &#x26; 0x1) == 0x0) {
 </strong><strong>                            *(var_18 + 0x18) = **0x100004000;
 </strong>                            *(int32_t *)(var_18 + 0x20) = 0xfffffed1;
@@ -381,21 +331,22 @@ return r0;
 {% endtab %}
 {% endtabs %}
 
-En fait, si vous allez à la fonction **`0x100004000`**, vous trouverez le tableau des structures **`routine_descriptor`**. Le premier élément de la structure est l'**adresse** où la **fonction** est implémentée, et la **structure prend 0x28 octets**, donc tous les 0x28 octets (à partir de l'octet 0), vous pouvez obtenir 8 octets et cela sera l'**adresse de la fonction** qui sera appelée :
-
-<figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+En fait, si vous allez à la fonction **`0x100004000`**, vous trouverez le tableau de structures **`routine_descriptor`**. Le premier élément de la structure est l'**adresse** où la **fonction** est implémentée, et la **structure prend 0x28 octets**, donc tous les 0x28 octets (à partir de l'octet 0), vous pouvez obtenir 8 octets et cela sera l'**adresse de la fonction** qui sera appelée :
 
 <figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+
+<figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Ces données peuvent être extraites [**en utilisant ce script Hopper**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py).
 
 <details>
+
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? Ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Vous travaillez dans une **entreprise de cybersécurité** ? Vous voulez voir votre **entreprise annoncée dans HackTricks** ? ou souhaitez-vous accéder à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Partagez vos astuces de piratage en soumettant des PR aux dépôts** [**hacktricks**](https://github.com/carlospolop/hacktricks) **et** [**hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
