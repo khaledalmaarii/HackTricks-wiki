@@ -1,33 +1,33 @@
-# 使用Autoruns进行权限提升
+# 使用 Autoruns 的权限提升
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+* 你在**网络安全公司**工作吗？你想在**HackTricks**中看到你的**公司广告**吗？或者你想要访问**最新版本的 PEASS 或下载 HackTricks 的 PDF**吗？查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们独家的 [**NFTs**](https://opensea.io/collection/the-peass-family) 收藏
+* 获取[**官方的 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或在 **推特** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**上关注我。**
+* **通过提交 PR 到** [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **分享你的黑客技巧。**
 
 </details>
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
-如果你对**黑客职业**感兴趣并且想要攻破不可攻破的系统 - **我们正在招聘！**（需要流利的波兰语书写和口语能力）。
+如果你对**黑客职业**感兴趣，并且想要黑入不可黑的系统 - **我们正在招聘！**（_需要流利的波兰语书写和口语_）。
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
 ## WMIC
 
-**Wmic**可以用来在**启动时**运行程序。使用以下命令查看在启动时运行的二进制文件：
+**Wmic** 可以用来在**启动时**运行程序。使用以下命令查看哪些二进制文件被安排在启动时运行：
 ```bash
 wmic startup get caption,command 2>nul & ^
 Get-CimInstance Win32_StartupCommand | select Name, command, Location, User | fl
 ```
-## 定时任务
+## 计划任务
 
-**任务**可以按照**特定频率**进行调度运行。使用以下命令查看已安排运行的二进制文件：
+**任务**可以设置为**一定频率**运行。查看哪些二进制文件被安排运行，请使用：
 ```bash
 schtasks /query /fo TABLE /nh | findstr /v /i "disable deshab"
 schtasks /query /fo LIST 2>nul | findstr TaskName
@@ -40,7 +40,7 @@ schtasks /Create /RU "SYSTEM" /SC ONLOGON /TN "SchedPE" /TR "cmd /c net localgro
 ```
 ## 文件夹
 
-所有位于**启动文件夹中的二进制文件将在启动时执行**。常见的启动文件夹如下所示，但启动文件夹在注册表中指定。[阅读此处了解具体位置。](privilege-escalation-with-autorun-binaries.md#startup-path)
+所有位于**启动文件夹中的二进制文件将在启动时执行**。常见的启动文件夹如下所列，但启动文件夹的位置在注册表中指明。[阅读此内容以了解位置。](privilege-escalation-with-autorun-binaries.md#startup-path)
 ```bash
 dir /b "C:\Documents and Settings\All Users\Start Menu\Programs\Startup" 2>nul
 dir /b "C:\Documents and Settings\%username%\Start Menu\Programs\Startup" 2>nul
@@ -52,7 +52,7 @@ Get-ChildItem "C:\Users\$env:USERNAME\Start Menu\Programs\Startup"
 ## 注册表
 
 {% hint style="info" %}
-注意：**Wow6432Node** 注册表项表示您正在运行的是 64 位 Windows 版本。操作系统使用此键为在 64 位 Windows 版本上运行的 32 位应用程序显示 HKEY\_LOCAL\_MACHINE\SOFTWARE 的单独视图。
+注意：**Wow6432Node** 注册表项表明你正在运行一个 64 位的 Windows 版本。操作系统使用这个键为在 64 位 Windows 版本上运行的 32 位应用程序显示 HKEY_LOCAL_MACHINE\SOFTWARE 的独立视图。
 {% endhint %}
 
 ### 运行
@@ -66,14 +66,14 @@ Get-ChildItem "C:\Users\$env:USERNAME\Start Menu\Programs\Startup"
 * `HKCU\Software\Microsoft\Windows\CurrentVersion\Run`
 * `HKCU\Software\Microsoft\Windows\CurrentVersion\RunOnce`
 * `HKCU\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Run`
-* `HKCU\Software\Wow6432Npde\Microsoft\Windows\CurrentVersion\RunOnce`
+* `HKCU\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\RunOnce`
 * `HKLM\Software\Microsoft\Windows NT\CurrentVersion\Terminal Server\Install\Software\Microsoft\Windows\CurrentVersion\Run`
-* `HKLM\Software\Microsoft\Windows NT\CurrentVersion\Terminal Server\Install\Software\Microsoft\Windows\CurrentVersion\Runonce`
-* `HKLM\Software\Microsoft\Windows NT\CurrentVersion\Terminal Server\Install\Software\Microsoft\Windows\CurrentVersion\RunonceEx`
+* `HKLM\Software\Microsoft\Windows NT\CurrentVersion\Terminal Server\Install\Software\Microsoft\Windows\CurrentVersion\RunOnce`
+* `HKLM\Software\Microsoft\Windows NT\CurrentVersion\Terminal Server\Install\Software\Microsoft\Windows\CurrentVersion\RunOnceEx`
 
-Run 和 RunOnce 注册表键会导致程序在每次用户登录时运行。键的数据值是一条不超过 260 个字符的命令行。
+Run 和 RunOnce 注册表键会导致程序在每次用户登录时运行。键的数据值是不超过 260 个字符的命令行。
 
-**服务运行**（可以控制启动时服务的自动启动）：
+**服务运行**（可以控制服务在启动时的自动启动）：
 
 * `HKLM\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce`
 * `HKCU\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce`
@@ -89,14 +89,14 @@ Run 和 RunOnce 注册表键会导致程序在每次用户登录时运行。键�
 * `HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnceEx`
 * `HKEY_LOCAL_MACHINE\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\RunOnceEx`
 
-在 Windows Vista 和更新版本中，默认不会创建此项。注册表运行键条目可以直接引用程序，也可以将其列为依赖项。例如，可以使用 RunOnceEx 的 "Depend" 键在登录时加载 DLL：`reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnceEx\0001\Depend /v 1 /d "C:\temp\evil[.]dll"`
+在 Windows Vista 及更新版本上默认不会创建。注册表运行键条目可以直接引用程序或将它们列为依赖项。例如，可以使用 RunOnceEx 的 "Depend" 键在登录时加载 DLL：`reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnceEx\0001\Depend /v 1 /d "C:\temp\evil[.]dll"`
 
 {% hint style="info" %}
-**漏洞利用 1**：如果您可以在 **HKLM** 中的任何提及的注册表中写入内容，则可以在其他用户登录时提升权限。
+**利用 1**：如果你可以在 **HKLM** 中提到的任何注册表内写入，当不同用户登录时你可以提升权限。
 {% endhint %}
 
 {% hint style="info" %}
-**漏洞利用 2**：如果您可以覆盖任何在 **HKLM** 中指定的二进制文件，则可以在其他用户登录时修改该二进制文件并提升权限。
+**利用 2**：如果你可以覆盖在 **HKLM** 内任何注册表中指示的任何二进制文件，当不同用户登录时你可以修改该二进制文件并植入后门来提升权限。
 {% endhint %}
 ```bash
 #CMD
@@ -160,10 +160,10 @@ Get-ItemProperty -Path 'Registry::HKCU\Software\Wow6432Node\Microsoft\Windows\Ru
 * `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders`
 * `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders`
 
-任何创建到启动子键指向的位置的快捷方式都会在登录/重启时启动服务。启动位置在本地计算机和当前用户中都有指定。
+任何创建到由子键 Startup 指向的位置的快捷方式将在登录/重启时启动服务。启动位置在本地机器和当前用户下都有指定。
 
 {% hint style="info" %}
-如果你可以覆盖**HKLM**下的任何\[User] Shell Folder，你就可以将其指向一个由你控制的文件夹，并放置一个后门，这样每当用户登录系统时，特权就会被提升并执行后门。
+如果你能覆盖 **HKLM** 下的任何 \[User] Shell Folder，你将能够将其指向一个由你控制的文件夹，并放置一个后门，每当用户登录系统时都会执行，从而提升权限。
 {% endhint %}
 ```bash
 reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders" /v "Common Startup"
@@ -176,12 +176,12 @@ Get-ItemProperty -Path 'Registry::HKCU\Software\Microsoft\Windows\CurrentVersion
 Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders' -Name "Common Startup"
 Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders' -Name "Common Startup"
 ```
-### Winlogon键
+### Winlogon 密钥
 
 `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon`
 
-通常，**Userinit**键指向userinit.exe，但如果该键被更改，那么该exe也将由Winlogon启动。\
-**Shell**键应该指向explorer.exe。
+通常，**Userinit** 键指向 userinit.exe，但如果这个键可以被更改，那么该 exe 也将由 Winlogon 启动。\
+**Shell** 键应该指向 explorer.exe。
 ```bash
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "Userinit"
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "Shell"
@@ -189,7 +189,7 @@ Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVers
 Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon' -Name "Shell"
 ```
 {% hint style="info" %}
-如果您可以覆盖注册表值或二进制文件，您将能够提升权限。
+如果您能够覆盖注册表值或二进制文件，您将能够提升权限。
 {% endhint %}
 
 ### 策略设置
@@ -208,27 +208,27 @@ Get-ItemProperty -Path 'Registry::HKCU\Software\Microsoft\Windows\CurrentVersion
 
 路径：**`HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot`**
 
-在注册表键`HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SafeBoot`下，有一个名为**AlternateShell**的值，默认设置为`cmd.exe`（命令提示符）。当您在启动过程中按下F8并选择“带命令提示符的安全模式”时，系统将使用此替代shell。\
-但是，您可以创建一个启动选项，这样您就不必按F8，然后选择“带命令提示符的安全模式”。
+在注册表键 `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SafeBoot` 下有一个值 **AlternateShell**，默认设置为 `cmd.exe`（命令提示符）。当你在启动时按 F8 并选择“带命令提示符的安全模式”时，系统会使用这个备用 shell。\
+然而，你可以创建一个启动选项，这样就不必按 F8，然后选择“带命令提示符的安全模式”。
 
-1. 编辑boot.ini（c:\boot.ini）文件的属性，使文件变为非只读、非系统和非隐藏（attrib c:\boot.ini -r -s -h）。
-2. 打开boot.ini。
+1. 编辑 boot.ini（c:\boot.ini）文件属性，使文件非只读、非系统、非隐藏（attrib c:\boot.ini -r -s -h）。
+2. 打开 boot.ini。
 3. 添加类似以下的行：`multi(0)disk(0)rdisk(0)partition(1)\WINDOWS="Microsoft Windows XP Professional" /fastdetect /SAFEBOOT:MINIMAL(ALTERNATESHELL)`
 4. 保存文件。
 5. 重新应用正确的权限（attrib c:\boot.ini +r +s +h）。
 
-来自[这里](https://www.itprotoday.com/cloud-computing/how-can-i-add-boot-option-starts-alternate-shell)的信息。
+信息来自[这里](https://www.itprotoday.com/cloud-computing/how-can-i-add-boot-option-starts-alternate-shell)。
 
 {% hint style="info" %}
-**Exploit 1：**如果您可以修改此注册表键，您可以将您的后门指向它。
+**利用 1：**如果你可以修改这个注册表键，你可以指向你的后门
 {% endhint %}
 
 {% hint style="info" %}
-**Exploit 2（PATH写权限）：**如果您对系统**PATH**中_C:\Windows\system32_之前的任何文件夹具有写权限（或者如果您可以更改它），您可以创建一个cmd.exe文件，如果有人在安全模式下启动机器，您的后门将被执行。
+**利用 2（PATH 写权限）：**如果你对系统 **PATH** 中任何文件夹有写权限，在 _C:\Windows\system32_ 之前（或者如果你可以改变它），你可以创建一个 cmd.exe 文件，如果有人启动机器进入安全模式，你的后门将被执行。
 {% endhint %}
 
 {% hint style="info" %}
-**Exploit 3（PATH写权限和boot.ini写权限）：**如果您可以写入boot.ini，您可以自动启动下一次重启时的安全模式。
+**利用 3（PATH 写权限和 boot.ini 写权限）：**如果你可以写 boot.ini，你可以自动化下一次重启的安全模式启动。
 {% endhint %}
 ```bash
 reg query HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot /v AlternateShell
@@ -241,19 +241,19 @@ Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Co
 * `HKCU\SOFTWARE\Microsoft\Active Setup\Installed Components`
 * `HKCU\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components`
 
-Active Setup在桌面出现之前运行。由Active Setup启动的命令是同步运行的，它们在执行时会阻塞登录。Active Setup在评估任何Run或RunOnce注册表项之前执行。
+Active Setup 在桌面出现之前运行。由 Active Setup 启动的命令同步执行，执行时会阻塞登录。Active Setup 在任何 Run 或 RunOnce 注册表条目被评估之前执行。
 
-在这些键中，您将找到更多的键，每个键都包含一些有趣的键值。最有趣的是：
+在这些键中，你会找到更多的键，每个键都会包含一些有趣的键值对。最有趣的是：
 
 * **IsInstalled:**
-* 0：组件的命令将不会运行。
-* 1：组件的命令将每个用户运行一次。这是默认值（如果IsInstalled值不存在）。
+* 0：组件的命令不会运行。
+* 1：组件的命令将为每个用户运行一次。这是默认设置（如果 IsInstalled 值不存在）。
 * **StubPath**
-* 格式：任何有效的命令行，例如“notepad”
-* 如果Active Setup确定需要在登录期间运行此组件，则执行此命令。
+* 格式：任何有效的命令行，例如 “notepad”
+* 如果 Active Setup 确定在登录期间需要运行此组件，这是将被执行的命令。
 
 {% hint style="info" %}
-如果您可以在具有 _**IsInstalled == "1"**_ 和 **StubPath** 键的任何键上进行写入/覆盖，您可以将其指向一个后门并提升权限。此外，如果您可以覆盖任何 **StubPath** 键指向的任何 **二进制文件**，您也可以提升权限。
+如果你能够写入/覆盖任何 _**IsInstalled == "1"**_ 的键的 **StubPath** 键，你可以将其指向一个后门并提升权限。同样，如果你能够覆盖任何 **StubPath** 键指向的任何 **二进制文件**，你也能够提升权限。
 {% endhint %}
 ```bash
 reg query "HKLM\SOFTWARE\Microsoft\Active Setup\Installed Components" /s /v StubPath
@@ -261,26 +261,24 @@ reg query "HKCU\SOFTWARE\Microsoft\Active Setup\Installed Components" /s /v Stub
 reg query "HKLM\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components" /s /v StubPath
 reg query "HKCU\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components" /s /v StubPath
 ```
-### 浏览器辅助对象
+### 浏览器助手对象
 
 * `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects`
 * `HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects`
 
-**浏览器辅助对象**（**BHO**）是一个设计为微软的Internet Explorer网络浏览器提供附加功能的DLL模块插件。这些模块会在每个新的Internet Explorer实例和每个新的Windows Explorer实例中执行。然而，可以通过将键**NoExplorer**设置为1来防止每个实例中执行BHO。
+**浏览器助手对象**（**BHO**）是为微软的Internet Explorer网络浏览器设计的DLL模块插件，用以提供额外功能。这些模块会在每个新的Internet Explorer实例和每个新的Windows Explorer实例中执行。然而，通过将键**NoExplorer**设置为1，可以防止BHO在每个Explorer实例中执行。
 
-截至Windows 10，BHO仍然在Internet Explorer 11中得到支持，但在默认的网络浏览器Microsoft Edge中不支持BHO。
+截至Windows 10，BHO仍然得到支持，通过Internet Explorer 11，而在默认网络浏览器Microsoft Edge中不支持BHO。
 ```bash
 reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects" /s
 reg query "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects" /s
 ```
-请注意，注册表中将包含每个dll的1个新注册表，并由**CLSID**表示。您可以在`HKLM\SOFTWARE\Classes\CLSID\{<CLSID>}`中找到CLSID信息。
-
-### Internet Explorer扩展
+### Internet Explorer 扩展
 
 * `HKLM\Software\Microsoft\Internet Explorer\Extensions`
 * `HKLM\Software\Wow6432Node\Microsoft\Internet Explorer\Extensions`
 
-请注意，注册表中将包含每个dll的1个新注册表，并由**CLSID**表示。您可以在`HKLM\SOFTWARE\Classes\CLSID\{<CLSID>}`中找到CLSID信息。
+请注意，注册表将为每个 dll 包含 1 个新注册表项，并且将由 **CLSID** 表示。您可以在 `HKLM\SOFTWARE\Classes\CLSID\{<CLSID>}` 中找到 CLSID 信息
 
 ### 字体驱动程序
 
@@ -303,45 +301,29 @@ Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Classes\htmlfile\shell\open\comm
 Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Wow6432Node\Classes\htmlfile\shell\open\command' -Name ""
 ```
 ### 图像文件执行选项
-
-The Image File Execution Options (IFEO) is a Windows feature that allows developers to debug and monitor applications. However, it can also be abused by attackers to escalate privileges on a local system.
-
-图像文件执行选项（IFEO）是Windows的一个功能，允许开发人员调试和监视应用程序。然而，攻击者也可以滥用它来提升本地系统的权限。
-
-When a program is launched, the operating system checks if there are any IFEO entries for that program in the Windows Registry. If an IFEO entry exists, the specified debugger is launched instead of the original program. This can be used to execute arbitrary code with elevated privileges.
-
-当一个程序被启动时，操作系统会检查Windows注册表中是否存在该程序的任何IFEO条目。如果存在IFEO条目，则会启动指定的调试器而不是原始程序。这可以用来以提升的权限执行任意代码。
-
-To escalate privileges using IFEO, an attacker can create a new IFEO entry for a system utility or a trusted application that runs with higher privileges. When the utility or application is launched, the attacker's malicious code will be executed instead, allowing them to gain elevated privileges.
-
-要利用IFEO提升权限，攻击者可以为系统实用程序或以较高权限运行的受信任应用程序创建一个新的IFEO条目。当实用程序或应用程序被启动时，攻击者的恶意代码将被执行，使其能够获得提升的权限。
-
-To prevent privilege escalation through IFEO, it is recommended to regularly monitor the Windows Registry for any suspicious IFEO entries. Additionally, restricting access to the Windows Registry and implementing strong security measures can help mitigate the risk of IFEO abuse.
-
-为了防止通过IFEO进行权限提升，建议定期监视Windows注册表以查找任何可疑的IFEO条目。此外，限制对Windows注册表的访问并实施强大的安全措施可以帮助减轻IFEO滥用的风险。
 ```
 HKLM\Software\Microsoft\Windows NT\CurrentVersion\Image File Execution Options
 HKLM\Software\Microsoft\Wow6432Node\Windows NT\CurrentVersion\Image File Execution Options
 ```
 ## SysInternals
 
-请注意，您可以找到自动运行的所有站点已经被**winpeas.exe**搜索过了。但是，为了获得更全面的自动执行文件列表，您可以使用[systinternals的autoruns](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns)：
+请注意，所有可以找到自启动项的地方**已经被**[**winpeas.exe**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS/winPEASexe)**搜索过了**。然而，为了获取**更全面的自动执行文件列表**，你可以使用来自systinternals的[autoruns](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns)：
 ```
 autorunsc.exe -m -nobanner -a * -ct /accepteula
 ```
 ## 更多
 
-在[https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2](https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2)中查找更多类似注册表的Autoruns。
+在 [https://www.microsoftpressstore.com/articles/article.aspx?p=2762082&seqNum=2](https://www.microsoftpressstore.com/articles/article.aspx?p=2762082&seqNum=2) 查找更多像注册表这样的自启动项。
 
 ## 参考资料
 
 * [https://resources.infosecinstitute.com/common-malware-persistence-mechanisms/#gref](https://resources.infosecinstitute.com/common-malware-persistence-mechanisms/#gref)
 * [https://attack.mitre.org/techniques/T1547/001/](https://attack.mitre.org/techniques/T1547/001/)
-* [https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2](https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2)
+* [https://www.microsoftpressstore.com/articles/article.aspx?p=2762082&seqNum=2](https://www.microsoftpressstore.com/articles/article.aspx?p=2762082&seqNum=2)
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
-如果您对**黑客职业**感兴趣并想要攻击不可攻破的目标 - **我们正在招聘！**（需要流利的波兰语书面和口语能力）。
+如果你对**黑客职业**感兴趣，并且想要黑进那些不可黑的系统 - **我们正在招聘！**（_需要流利的波兰语书写和口语_）。
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
@@ -349,10 +331,10 @@ autorunsc.exe -m -nobanner -a * -ct /accepteula
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 您在**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想要访问**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧。**
+* 你在**网络安全公司**工作吗？你想在**HackTricks**中看到你的**公司广告**吗？或者你想要获得**PEASS最新版本或下载HackTricks的PDF**吗？查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs**](https://opensea.io/collection/the-peass-family)系列。
+* 获取[**官方PEASS & HackTricks周边商品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**telegram群组**](https://t.me/peass)或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* 通过向[**hacktricks repo**](https://github.com/carlospolop/hacktricks) 和 [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud)提交PR，**分享你的黑客技巧**。
 
 </details>

