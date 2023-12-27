@@ -1,50 +1,52 @@
-# macOS文件系统技巧
+# macOS FS 技巧
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+* 如果您在**网络安全公司**工作，想在**HackTricks**中看到您的**公司广告**，或者想要获取**PEASS最新版本或下载HackTricks的PDF**？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)系列[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在**Twitter**上**关注**我 [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过向** [**hacktricks仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧。**
 
 </details>
 
-## POSIX权限组合
+## POSIX 权限组合
 
 **目录**中的权限：
 
-* **读取** - 你可以**枚举**目录条目
-* **写入** - 你可以**删除/写入**目录中的文件
-* **执行** - 你被**允许遍历**目录 - 如果你没有这个权限，你无法访问其中的任何文件，或者任何子目录中的文件。
+* **读取** - 您可以**列举**目录条目
+* **写入** - 您可以在目录中**删除/写入** **文件**，并且可以**删除空文件夹**。&#x20;
+* 但是您**无法删除/修改非空文件夹**，除非您对其有写入权限。
+* 您**无法修改文件夹的名称**，除非您拥有它。
+* **执行** - 您被**允许遍历**目录 - 如果您没有这个权限，您无法访问其中的任何文件，或任何子目录中的文件。
 
 ### 危险组合
 
-如何覆盖由root拥有的文件/文件夹，但是：
+**如何覆盖由root拥有的文件/文件夹**，但：
 
 * 路径中的一个父**目录所有者**是用户
-* 路径中的一个父**目录所有者**是具有**写入权限**的**用户组**
-* 一个用户**组**对**文件**具有**写入**权限
+* 路径中的一个父**目录所有者**是拥有**写入权限**的**用户组**
+* 一个用户**组**对**文件**有**写入**权限
 
-使用上述任何组合，攻击者可以通过在预期路径中**注入**一个**符号/硬链接**来获得特权任意写入。
+有了以上任何一种组合，攻击者可以**注入**一个**符号/硬链接**到预期路径，以获得特权的任意写入。
 
-### 文件夹根目录 R+X 特殊情况
+### 文件夹root R+X特殊情况
 
-如果一个**目录**中有**只有root具有R+X访问权限**的文件，那么其他人是**无法访问**这些文件的。因此，如果存在一个漏洞，允许将一个由用户可读但由于该**限制**而无法读取的文件从这个文件夹**移动到另一个文件夹**，则可以滥用该漏洞来读取这些文件。
+如果一个**目录**中有文件，**只有root有R+X权限**，那么其他人**无法访问**这些文件。因此，如果存在一个漏洞允许**移动用户可读的文件**，但由于该**限制**而无法读取的文件，从这个文件夹**移动到另一个文件夹**，可能会被滥用来读取这些文件。
 
-示例：[https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions)
+示例在：[https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions)
 
 ## 符号链接 / 硬链接
 
-如果一个特权进程正在写入**文件**，该文件可能由**权限较低的用户**控制，或者可能由权限较低的用户**先前创建**。用户可以通过符号链接或硬链接将其指向另一个文件，特权进程将在该文件上写入。
+如果一个特权进程正在向**文件**写入数据，而这个文件可能被**低权限用户控制**，或者可能被低权限用户**预先创建**。用户可以通过符号链接或硬链接**指向另一个文件**，特权进程将在该文件上写入。
 
-在其他部分中查看攻击者可以**滥用任意写入来提升权限**的地方。
+在其他部分检查攻击者如何**滥用任意写入来提升权限**。
 
 ## .fileloc
 
-具有**`.fileloc`**扩展名的文件可以指向其他应用程序或二进制文件，因此当打开它们时，将执行该应用程序/二进制文件。\
+带有**`.fileloc`**扩展名的文件可以指向其他应用程序或二进制文件，所以当它们被打开时，将执行该应用程序/二进制文件。\
 示例：
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -60,19 +62,19 @@
 ```
 ## 任意文件描述符
 
-如果你能让一个进程以高权限打开一个文件或文件夹，你可以滥用 `crontab` 来使用 `EDITOR=exploit.py` 打开 `/etc/sudoers.d` 中的一个文件，这样 `exploit.py` 将获取到 `/etc/sudoers` 中文件的文件描述符并滥用它。
+如果你能让一个**进程以高权限打开一个文件或文件夹**，你可以滥用**`crontab`**，通过设置**`EDITOR=exploit.py`**来打开`/etc/sudoers.d`中的文件，这样`exploit.py`就能获取到`/etc/sudoers`文件内的文件描述符，并滥用它。
 
 例如：[https://youtu.be/f1HA5QhLQ7Y?t=21098](https://youtu.be/f1HA5QhLQ7Y?t=21098)
 
-## 避免隔离 xattrs 的技巧
+## 绕过隔离属性技巧
 
-### 删除它
+### 移除它
 ```bash
 xattr -d com.apple.quarantine /path/to/file_or_app
 ```
 ### uchg / uchange / uimmutable 标志
 
-如果一个文件/文件夹具有这个不可变属性，就无法在其上放置 xattr。
+如果一个文件/文件夹具有这个不可变属性，将无法在其上添加 xattr
 ```bash
 echo asd > /tmp/asd
 chflags uchg /tmp/asd # "chflags uchange /tmp/asd" or "chflags uimmutable /tmp/asd"
@@ -84,7 +86,7 @@ ls -lO /tmp/asd
 ```
 ### defvfs 挂载
 
-**devfs** 挂载**不支持 xattr**，更多信息请参考 [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)
+**devfs** 挂载**不支持 xattr**，更多信息见 [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)
 ```bash
 mkdir /tmp/mnt
 mount_devfs -o noowners none "/tmp/mnt"
@@ -93,9 +95,9 @@ mkdir /tmp/mnt/lol
 xattr -w com.apple.quarantine "" /tmp/mnt/lol
 xattr: [Errno 1] Operation not permitted: '/tmp/mnt/lol'
 ```
-### 写入扩展属性访问控制列表（ACL）
+### writeextattr ACL
 
-此ACL防止向文件添加`xattrs`。
+此ACL防止向文件添加`xattrs`
 ```bash
 rm -rf /tmp/test*
 echo test >/tmp/test
@@ -118,13 +120,13 @@ ls -le /tmp/test
 ```
 ### **com.apple.acl.text xattr + AppleDouble**
 
-**AppleDouble**文件格式会复制包括ACEs在内的文件。
+**AppleDouble** 文件格式会复制文件及其访问控制条目（ACEs）。
 
-在[**源代码**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html)中，可以看到存储在名为**`com.apple.acl.text`**的xattr中的ACL文本表示将被设置为解压后文件的ACL。因此，如果您将应用程序压缩为使用**AppleDouble**文件格式的zip文件，并且该ACL阻止其他xattr写入它...则隔离xattr不会设置到应用程序中：
+在[**源代码**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html)中可以看到，存储在名为 **`com.apple.acl.text`** 的 xattr 内的 ACL 文本表示将被设置为解压缩文件的 ACL。因此，如果你将一个应用程序压缩成带有防止其他 xattrs 被写入的 ACL 的 **AppleDouble** 文件格式的 zip 文件...隔离 xattr 没有被设置到应用程序中：
 
-有关更多信息，请查看[**原始报告**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/)。
+查看[**原始报告**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/)获取更多信息。
 
-要复制此操作，首先需要获取正确的acl字符串：
+要复制这个我们首先需要获取正确的 acl 字符串：
 ```bash
 # Everything will be happening here
 mkdir /tmp/temp_xattrs
@@ -142,9 +144,9 @@ ditto -c -k del test.zip
 ditto -x -k --rsrc test.zip .
 ls -le test
 ```
-（请注意，即使这样做，沙盒也会在此之前写入隔离的xattr）
+(请注意，即使这样做，沙盒在之前也会写入隔离 xattr)
 
-虽然不是必需的，但我还是把它放在这里以防万一：
+虽然不是必须的，但我还是保留在这里，以防万一：
 
 {% content-ref url="macos-xattr-acls-extra-stuff.md" %}
 [macos-xattr-acls-extra-stuff.md](macos-xattr-acls-extra-stuff.md)
@@ -152,9 +154,9 @@ ls -le test
 
 ## 绕过代码签名
 
-Bundle包含文件**`_CodeSignature/CodeResources`**，其中包含**bundle**中每个**文件**的**哈希值**。请注意，CodeResources的哈希值也**嵌入在可执行文件**中，因此我们不能对其进行更改。
+包含文件 **`_CodeSignature/CodeResources`** 的包，其中包含了包内每个**文件**的**哈希值**。注意，CodeResources 的哈希值也被**嵌入到可执行文件中**，所以我们也不能干扰它。
 
-然而，有一些文件的签名不会被检查，这些文件在plist中具有omit键，例如：
+然而，有些文件的签名不会被检查，这些文件在 plist 中有 omit 键，例如：
 ```xml
 <dict>
 ...
@@ -198,18 +200,28 @@ Bundle包含文件**`_CodeSignature/CodeResources`**，其中包含**bundle**中
 ...
 </dict>
 ```
-可以使用以下命令行计算资源的签名：
+```bash
+codesign -d --verbose=4 /path/to/resource
+```
+{% endcode %}
+
+这可以通过命令行界面计算资源的签名：
 
 {% code overflow="wrap" %}
 ```bash
+codesign -d --verbose=4 /path/to/resource
+```
+{% endcode %}
+```bash
 openssl dgst -binary -sha1 /System/Cryptexes/App/System/Applications/Safari.app/Contents/Resources/AppIcon.icns | openssl base64
 ```
-## 挂载DMG
+{% endcode %}
 
-用户可以挂载自定义的DMG，甚至可以覆盖一些现有的文件夹。以下是创建包含自定义内容的自定义DMG包的方法：
+## 挂载 dmg 文件
 
-```overflow="wrap"
-```
+即使在一些现有文件夹之上，用户也可以挂载一个自定义的 dmg 文件。以下是您如何创建一个带有自定义内容的自定义 dmg 包：
+
+{% code overflow="wrap" %}
 ```bash
 # Create the volume
 hdiutil create /private/tmp/tmp.dmg -size 2m -ov -volname CustomVolName -fs APFS 1>/dev/null
@@ -234,15 +246,15 @@ hdiutil create -srcfolder justsome.app justsome.dmg
 
 ## 任意写入
 
-### 定期的 sh 脚本
+### 定期 sh 脚本
 
-如果你的脚本可以被解释为一个 **shell 脚本**，你可以覆盖 **`/etc/periodic/daily/999.local`** shell 脚本，该脚本将每天触发一次。
+如果你的脚本可以被解释为一个**shell 脚本**，你可以覆盖**`/etc/periodic/daily/999.local`** shell 脚本，它将每天被触发。
 
-你可以使用以下命令**伪造**执行该脚本：**`sudo periodic daily`**
+你可以用以下命令**伪造**这个脚本的执行：**`sudo periodic daily`**
 
 ### 守护进程
 
-编写一个任意的 **LaunchDaemon**，比如 **`/Library/LaunchDaemons/xyz.hacktricks.privesc.plist`**，其中包含一个执行任意脚本的 plist 文件，例如：
+写一个任意的**LaunchDaemon**，如**`/Library/LaunchDaemons/xyz.hacktricks.privesc.plist`**，它执行一个任意脚本，例如：
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -259,17 +271,18 @@ hdiutil create -srcfolder justsome.app justsome.dmg
 </dict>
 </plist>
 ```
-只需生成脚本`/Applications/Scripts/privesc.sh`，其中包含您想以root身份运行的**命令**。
+```markdown
+只需生成脚本 `/Applications/Scripts/privesc.sh` 并写入您希望以 root 身份运行的**命令**。
 
-### Sudoers文件
+### Sudoers 文件
 
-如果您具有**任意写入权限**，可以在**`/etc/sudoers.d/`**文件夹中创建一个文件，授予自己**sudo**权限。
+如果您具有**任意写入**权限，您可以在 **`/etc/sudoers.d/`** 文件夹内创建一个文件，为自己授予 **sudo** 权限。
 
-### PATH文件
+### PATH 文件
 
-文件**`/etc/paths`**是填充PATH环境变量的主要位置之一。您必须是root才能覆盖它，但如果来自**特权进程**的脚本正在执行一些**没有完整路径的命令**，您可能可以通过修改此文件来**劫持**它。
+文件 **`/etc/paths`** 是填充 PATH 环境变量的主要位置之一。您必须是 root 才能覆盖它，但如果一个**特权进程**的脚本正在执行某些**没有完整路径的命令**，您可能可以通过修改此文件来**劫持**它。
 
-您还可以在**`/etc/paths.d`**中编写文件，以将新文件夹加载到`PATH`环境变量中。
+&#x20;您还可以在 **`/etc/paths.d`** 中写入文件，将新文件夹加载到 `PATH` 环境变量中。
 
 ## 参考资料
 
@@ -279,10 +292,11 @@ hdiutil create -srcfolder justsome.app justsome.dmg
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 您在**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想获得最新版本的PEASS或下载PDF格式的HackTricks吗？请查看[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks衣物**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧。**
+* 您在**网络安全公司**工作吗？ 您想在 **HackTricks** 中看到您的**公司广告**吗？ 或者您想要访问**最新版本的 PEASS 或下载 HackTricks 的 PDF**？ 查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现 [**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们独家的 [**NFTs**](https://opensea.io/collection/the-peass-family) 收藏
+* 获取 [**官方的 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或在 **Twitter** 上**关注**我 [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* 通过向 [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) 和 [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) 提交 PR 来**分享您的黑客技巧**。
 
 </details>
+```

