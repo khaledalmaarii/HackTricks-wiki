@@ -4,13 +4,15 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Vous travaillez dans une **entreprise de cybersécurité** ? Vous voulez voir votre **entreprise annoncée dans HackTricks** ? ou souhaitez-vous accéder à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+Autres moyens de soutenir HackTricks :
+
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez**-moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de hacking en soumettant des PR au** [**dépôt hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**dépôt hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -30,13 +32,13 @@ La base de données se trouve dans le chemin `\Users\<username>\AppData\Local\Co
 
 ### ADS (Alternate Data Streams)
 
-Les fichiers téléchargés peuvent contenir **ADS Zone.Identifier** indiquant **comment** il a été **téléchargé** de l'intranet, internet, etc. Certains logiciels (comme les navigateurs) mettent généralement **encore plus** **d'informations** comme l'**URL** d'où le fichier a été téléchargé.
+Les fichiers téléchargés peuvent contenir **ADS Zone.Identifier** indiquant **comment** il a été **téléchargé** depuis l'intranet, internet, etc. Certains logiciels (comme les navigateurs) mettent généralement **encore plus** d'**informations** comme l'**URL** d'où le fichier a été téléchargé.
 
 ## **Sauvegardes de Fichiers**
 
 ### Corbeille
 
-Dans Vista/Win7/Win8/Win10, la **Corbeille** se trouve dans le dossier **`$Recycle.bin`** à la racine du disque (`C:\$Recycle.bin`).\
+Dans Vista/Win7/Win8/Win10, la **Corbeille** peut être trouvée dans le dossier **`$Recycle.bin`** à la racine du disque (`C:\$Recycle.bin`).\
 Lorsqu'un fichier est supprimé dans ce dossier, 2 fichiers spécifiques sont créés :
 
 * `$I{id}` : Informations sur le fichier (date de suppression)
@@ -48,9 +50,6 @@ Avec ces fichiers, vous pouvez utiliser l'outil [**Rifiuti**](https://github.com
 ```
 .\rifiuti-vista.exe C:\Users\student\Desktop\Recycle
 ```
-```markdown
-![](<../../../.gitbook/assets/image (495) (1) (1) (1).png>)
-
 ### Copies de l'ombre de volume
 
 La Copie de l'ombre est une technologie incluse dans Microsoft Windows qui peut créer des **copies de sauvegarde** ou des instantanés de fichiers informatiques ou de volumes, même lorsqu'ils sont utilisés.
@@ -59,7 +58,7 @@ Ces sauvegardes sont généralement situées dans le `\System Volume Information
 
 ![](<../../../.gitbook/assets/image (520).png>)
 
-En montant l'image forensique avec **ArsenalImageMounter**, l'outil [**ShadowCopyView**](https://www.nirsoft.net/utils/shadow_copy_view.html) peut être utilisé pour inspecter une copie de l'ombre et même **extraire les fichiers** des sauvegardes de copie de l'ombre.
+En montant l'image forensique avec **ArsenalImageMounter**, l'outil [**ShadowCopyView**](https://www.nirsoft.net/utils/shadow\_copy\_view.html) peut être utilisé pour inspecter une copie de l'ombre et même **extraire les fichiers** des sauvegardes de copie de l'ombre.
 
 ![](<../../../.gitbook/assets/image (521).png>)
 
@@ -86,7 +85,7 @@ Windows **crée automatiquement** ces **raccourcis** lorsque l'utilisateur **ouv
 
 Lorsqu'un dossier est créé, un lien vers le dossier, le dossier parent et le grand-parent est également créé.
 
-Ces fichiers de lien créés automatiquement **contiennent des informations sur l'origine** comme s'il s'agit d'un **fichier** **ou** d'un **dossier**, **les temps MAC** de ce fichier, **les informations de volume** de l'endroit où le fichier est stocké et **le dossier du fichier cible**. Ces informations peuvent être utiles pour récupérer ces fichiers dans le cas où ils auraient été supprimés.
+Ces fichiers de lien créés automatiquement **contiennent des informations sur l'origine** comme s'il s'agit d'un **fichier** ou d'un **dossier**, les **temps MAC** de ce fichier, les **informations de volume** de l'endroit où le fichier est stocké et le **dossier du fichier cible**. Ces informations peuvent être utiles pour récupérer ces fichiers dans le cas où ils auraient été supprimés.
 
 De plus, la **date de création du fichier de lien** est la première **fois** que le fichier original a été **utilisé** et la **date de modification** du fichier de lien est la **dernière fois** que le fichier d'origine a été utilisé.
 
@@ -106,7 +105,6 @@ Dans cet outil, vous trouverez **2 ensembles** de dates et heures :
 Le premier ensemble de dates et heures fait référence aux **dates et heures du fichier lui-même**. Le deuxième ensemble fait référence aux **dates et heures du fichier lié**.
 
 Vous pouvez obtenir les mêmes informations en exécutant l'outil CLI Windows : [**LECmd.exe**](https://github.com/EricZimmerman/LECmd)
-```
 ```
 LECmd.exe -d C:\Users\student\Desktop\LNKs --csv C:\Users\student\Desktop\LNKs
 ```
@@ -144,7 +142,7 @@ Notez que certains fichiers LNK au lieu de pointer vers le chemin d'origine, poi
 
 ![](<../../../.gitbook/assets/image (476).png>)
 
-Les fichiers dans le dossier WPDNSE sont une copie des originaux, ils ne survivront pas à un redémarrage du PC et le GUID est pris d'un shellbag.
+Les fichiers dans le dossier WPDNSE sont une copie des originaux, ils ne survivront donc pas à un redémarrage du PC et le GUID est pris d'un shellbag.
 
 ### Informations du Registre
 
@@ -154,7 +152,7 @@ Les fichiers dans le dossier WPDNSE sont une copie des originaux, ils ne survivr
 
 Vérifiez le fichier `C:\Windows\inf\setupapi.dev.log` pour obtenir les horodatages de quand la connexion USB a été produite (recherchez `Section start`).
 
-![](<../../../.gitbook/assets/image (477) (2) (2) (2) (2) (2) (2) (2) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (14).png>)
+![](<../../../.gitbook/assets/image (477) (2) (2) (2) (2) (2) (2) (2) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (14).png>)
 
 ### USB Detective
 
@@ -164,13 +162,13 @@ Vérifiez le fichier `C:\Windows\inf\setupapi.dev.log` pour obtenir les horodata
 
 ### Nettoyage Plug and Play
 
-La tâche planifiée 'Nettoyage Plug and Play' est responsable de **nettoyer** les versions obsolètes des pilotes. Il semblerait (selon les rapports en ligne) qu'elle récupère également **les pilotes qui n'ont pas été utilisés pendant 30 jours**, malgré sa description indiquant que "la version la plus récente de chaque package de pilotes sera conservée". Ainsi, **les périphériques amovibles qui n'ont pas été connectés pendant 30 jours peuvent voir leurs pilotes supprimés**.
+La tâche planifiée 'Nettoyage Plug and Play' est responsable de **nettoyer** les versions obsolètes des pilotes. Il semble (d'après les rapports en ligne) qu'elle récupère également **les pilotes qui n'ont pas été utilisés pendant 30 jours**, malgré sa description indiquant que "la version la plus récente de chaque package de pilotes sera conservée". Ainsi, **les périphériques amovibles qui n'ont pas été connectés pendant 30 jours peuvent voir leurs pilotes supprimés**.
 
 La tâche planifiée elle-même est située à ‘C:\Windows\System32\Tasks\Microsoft\Windows\Plug and Play\Plug and Play Cleanup’, et son contenu est affiché ci-dessous :
 
 ![](https://2.bp.blogspot.com/-wqYubtuR\_W8/W19bV5S9XyI/AAAAAAAANhU/OHsBDEvjqmg9ayzdNwJ4y2DKZnhCdwSMgCLcBGAs/s1600/xml.png)
 
-La tâche fait référence à 'pnpclean.dll' qui est responsable de l'activité de nettoyage en plus nous voyons que le champ ‘UseUnifiedSchedulingEngine’ est défini sur ‘TRUE’ ce qui spécifie que le moteur de planification de tâches générique est utilisé pour gérer la tâche. Les valeurs ‘Period’ et ‘Deadline’ de 'P1M' et 'P2M' dans ‘MaintenanceSettings’ instruisent le Planificateur de tâches d'exécuter la tâche une fois par mois pendant la maintenance automatique régulière et si elle échoue pendant 2 mois consécutifs, de commencer à tenter la tâche pendant la maintenance automatique d'urgence. **Cette section a été copiée de** [**ici**](https://blog.1234n6.com/2018/07/windows-plug-and-play-cleanup.html)**.**
+La tâche fait référence à 'pnpclean.dll' qui est responsable de l'activité de nettoyage et nous voyons également que le champ ‘UseUnifiedSchedulingEngine’ est défini sur ‘TRUE’, ce qui spécifie que le moteur de planification de tâches générique est utilisé pour gérer la tâche. Les valeurs ‘Period’ et ‘Deadline’ de 'P1M' et 'P2M' dans ‘MaintenanceSettings’ instruisent le Planificateur de tâches d'exécuter la tâche une fois par mois pendant la maintenance automatique régulière et si elle échoue pendant 2 mois consécutifs, de commencer à tenter la tâche pendant la maintenance automatique d'urgence. **Cette section a été copiée de** [**ici**](https://blog.1234n6.com/2018/07/windows-plug-and-play-cleanup.html)**.**
 
 ## Emails
 
@@ -234,7 +232,7 @@ Il est possible de lire ce fichier avec l'outil [**Thumbsviewer**](https://thumb
 
 ### Thumbcache
 
-À partir de Windows Vista, **les aperçus des miniatures sont stockés dans un emplacement centralisé sur le système**. Cela permet au système d'accéder aux images indépendamment de leur emplacement et résout les problèmes de localité des fichiers Thumbs.db. Le cache est stocké à **`%userprofile%\AppData\Local\Microsoft\Windows\Explorer`** sous la forme de plusieurs fichiers avec l'étiquette **thumbcache\_xxx.db** (numérotés par taille) ; ainsi qu'un index utilisé pour trouver des miniatures dans chaque base de données de taille.
+À partir de Windows Vista, **les aperçus des miniatures sont stockés dans un emplacement centralisé sur le système**. Cela permet au système d'accéder aux images indépendamment de leur emplacement et résout les problèmes de localité des fichiers Thumbs.db. Le cache est stocké à **`%userprofile%\AppData\Local\Microsoft\Windows\Explorer`** sous plusieurs fichiers avec l'étiquette **thumbcache\_xxx.db** (numérotés par taille) ; ainsi qu'un index utilisé pour trouver des miniatures dans chaque base de données de taille.
 
 * Thumbcache\_32.db -> petit
 * Thumbcache\_96.db -> moyen
@@ -258,20 +256,20 @@ Les fichiers contenant le registre sont situés dans :
 
 À partir de Windows Vista et Windows 2008 Server, il y a des sauvegardes des fichiers de registre `HKEY_LOCAL_MACHINE` dans **`%Windir%\System32\Config\RegBack\`**.
 
-Aussi à partir de ces versions, le fichier de registre **`%UserProfile%\{User}\AppData\Local\Microsoft\Windows\USERCLASS.DAT`** est créé en sauvegardant des informations sur les exécutions de programmes.
+Également à partir de ces versions, le fichier de registre **`%UserProfile%\{User}\AppData\Local\Microsoft\Windows\USERCLASS.DAT`** est créé en enregistrant des informations sur les exécutions de programmes.
 
 ### Outils
 
 Certains outils sont utiles pour analyser les fichiers de registre :
 
 * **Éditeur du Registre** : Il est installé dans Windows. C'est une interface graphique pour naviguer à travers le registre Windows de la session actuelle.
-* [**Registry Explorer**](https://ericzimmerman.github.io/#!index.md) : Il vous permet de charger le fichier de registre et de naviguer à travers eux avec une interface graphique. Il contient également des signets mettant en évidence des clés avec des informations intéressantes.
+* [**Registry Explorer**](https://ericzimmerman.github.io/#!index.md) : Il vous permet de charger le fichier de registre et de naviguer à travers eux avec une interface graphique. Il contient également des signets mettant en évidence les clés avec des informations intéressantes.
 * [**RegRipper**](https://github.com/keydet89/RegRipper3.0) : Encore une fois, il a une interface graphique qui permet de naviguer à travers le registre chargé et contient également des plugins qui mettent en évidence des informations intéressantes à l'intérieur du registre chargé.
 * [**Windows Registry Recovery**](https://www.mitec.cz/wrr.html) : Une autre application graphique capable d'extraire les informations importantes du registre chargé.
 
-### Récupération d'Élément Supprimé
+### Récupération d'Éléments Supprimés
 
-Lorsqu'une clé est supprimée, elle est marquée comme telle, mais jusqu'à ce que l'espace qu'elle occupe soit nécessaire, elle ne sera pas supprimée. Par conséquent, en utilisant des outils comme **Registry Explorer**, il est possible de récupérer ces clés supprimées.
+Lorsqu'une clé est supprimée, elle est marquée comme telle, mais tant que l'espace qu'elle occupe n'est pas nécessaire, elle ne sera pas supprimée. Par conséquent, en utilisant des outils comme **Registry Explorer**, il est possible de récupérer ces clés supprimées.
 
 ### Dernier Temps d'Écriture
 
@@ -279,7 +277,7 @@ Chaque Clé-Valeur contient un **horodatage** indiquant la dernière fois qu'ell
 
 ### SAM
 
-Le fichier/ruche **SAM** contient les **utilisateurs, groupes et les hachages des mots de passe** des utilisateurs du système.
+Le fichier/ruche **SAM** contient les **utilisateurs, groupes et les hachages des mots de passe des utilisateurs** du système.
 
 Dans `SAM\Domains\Account\Users`, vous pouvez obtenir le nom d'utilisateur, le RID, la dernière connexion, le dernier échec de connexion, le compteur de connexion, la politique de mot de passe et quand le compte a été créé. Pour obtenir les **hachages**, vous avez également **besoin** du fichier/ruche **SYSTEM**.
 
@@ -305,7 +303,7 @@ Dans le registre `NTUSER.DAT` dans le chemin `Software\Microsoft\Current Version
 
 ### BAM (Background Activity Moderator)
 
-Vous pouvez ouvrir le fichier `SYSTEM` avec un éditeur de registre et à l'intérieur du chemin `SYSTEM\CurrentControlSet\Services\bam\UserSettings\{SID}`, vous pouvez trouver des informations sur les **applications exécutées par chaque utilisateur** (notez le `{SID}` dans le chemin) et à **quel moment** elles ont été exécutées (l'heure est à l'intérieur de la valeur Data du registre).
+Vous pouvez ouvrir le fichier `SYSTEM` avec un éditeur de registre et à l'intérieur du chemin `SYSTEM\CurrentControlSet\Services\bam\UserSettings\{SID}`, vous pouvez trouver des informations sur les **applications exécutées par chaque utilisateur** (notez le `{SID}` dans le chemin) et à **quel moment** elles ont été exécutées (le temps est à l'intérieur de la valeur Data du registre).
 
 ### Windows Prefetch
 
@@ -315,7 +313,7 @@ Le préchargement Windows consiste à créer des **caches des programmes exécut
 
 Le nom du fichier est créé comme `{program_name}-{hash}.pf` (le hachage est basé sur le chemin et les arguments de l'exécutable). Dans W10, ces fichiers sont compressés. Notez que la seule présence du fichier indique que **le programme a été exécuté** à un moment donné.
 
-Le fichier `C:\Windows\Prefetch\Layout.ini` contient les **noms des dossiers des fichiers qui sont préchargés**. Ce fichier contient des **informations sur le nombre d'exécutions**, les **dates** d'exécution et les **fichiers** **ouverts** par le programme.
+Le fichier `C:\Windows\Prefetch\Layout.ini` contient les **noms des dossiers des fichiers qui sont préchargés**. Ce fichier contient des **informations sur le nombre d'exécutions**, les **dates** d'exécution et les **fichiers ouverts** par le programme.
 
 Pour inspecter ces fichiers, vous pouvez utiliser l'outil [**PEcmd.exe**](https://github.com/EricZimmerman/PECmd) :
 ```bash
@@ -361,10 +359,10 @@ Le cache stocke divers métadonnées de fichier en fonction du système d'exploi
 * Chemin complet du fichier
 * Taille du fichier
 * Heure de dernière modification **$Standard\_Information** (SI)
-* Heure de dernière mise à jour du ShimCache
+* Heure de dernière mise à jour de ShimCache
 * Indicateur d'exécution du processus
 
-Ces informations peuvent être trouvées dans le registre à :
+Ces informations se trouvent dans le registre à :
 
 * `SYSTEM\CurrentControlSet\Control\SessionManager\Appcompatibility\AppcompatCache`
 * XP (96 entrées)
@@ -378,7 +376,7 @@ Vous pouvez utiliser l'outil [**AppCompatCacheParser**](https://github.com/EricZ
 
 ### Amcache
 
-Le fichier **Amcache.hve** est un fichier de registre qui stocke les informations des applications exécutées. Il est situé dans `C:\Windows\AppCompat\Programas\Amcache.hve`
+Le fichier **Amcache.hve** est un fichier de registre qui stocke les informations des applications exécutées. Il se trouve dans `C:\Windows\AppCompat\Programas\Amcache.hve`
 
 **Amcache.hve** enregistre les processus récents qui ont été exécutés et liste le chemin des fichiers exécutés, ce qui peut ensuite être utilisé pour trouver le programme exécuté. Il enregistre également le SHA1 du programme.
 
@@ -386,7 +384,6 @@ Vous pouvez analyser ces informations avec l'outil [**Amcacheparser**](https://g
 ```bash
 AmcacheParser.exe -f C:\Users\student\Desktop\Amcache.hve --csv C:\Users\student\Desktop\srum
 ```
-```markdown
 Le fichier CVS le plus intéressant généré est `Amcache_Unassociated file entries`.
 
 ### RecentFileCache
@@ -397,7 +394,7 @@ Vous pouvez utiliser l'outil [**RecentFileCacheParse**](https://github.com/EricZ
 
 ### Tâches planifiées
 
-Vous pouvez les extraire de `C:\Windows\Tasks` ou `C:\Windows\System32\Tasks` et les lire comme XML.
+Vous pouvez les extraire de `C:\Windows\Tasks` ou `C:\Windows\System32\Tasks` et les lire comme du XML.
 
 ### Services
 
@@ -408,7 +405,7 @@ Vous pouvez les trouver dans le registre sous `SYSTEM\ControlSet001\Services`. V
 Les applications installées peuvent être trouvées dans `\ProgramData\Microsoft\Windows\AppRepository\`\
 Ce répertoire a un **log** avec **chaque application installée** dans le système à l'intérieur de la base de données **`StateRepository-Machine.srd`**.
 
-À l'intérieur de la table des applications de cette base de données, il est possible de trouver les colonnes : "Application ID", "PackageNumber" et "Display Name". Ces colonnes ont des informations sur les applications pré-installées et installées et on peut savoir si certaines applications ont été désinstallées car les ID des applications installées devraient être séquentiels.
+À l'intérieur de la table des applications de cette base de données, il est possible de trouver les colonnes : "Application ID", "PackageNumber" et "Display Name". Ces colonnes contiennent des informations sur les applications préinstallées et installées et il est possible de savoir si certaines applications ont été désinstallées car les ID des applications installées devraient être séquentiels.
 
 Il est également possible de **trouver des applications installées** dans le chemin du registre : `Software\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Applications\`\
 Et des **applications désinstallées** dans : `Software\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Deleted\`
@@ -442,24 +439,24 @@ Les événements qui sont enregistrés comme :
 * Accès aux fichiers, dossiers et actifs partagés
 * Modification de la configuration de sécurité
 
-Événements liés à l'authentification de l'utilisateur :
+Événements liés à l'authentification des utilisateurs :
 
 | EventID   | Description                  |
 | --------- | ---------------------------- |
 | 4624      | Authentification réussie     |
 | 4625      | Erreur d'authentification    |
 | 4634/4647 | déconnexion                  |
-| 4672      | Connexion avec des permissions admin |
+| 4672      | Connexion avec des permissions d'admin |
 
 À l'intérieur de l'EventID 4634/4647, il y a des sous-types intéressants :
 
 * **2 (interactif)** : La connexion était interactive en utilisant le clavier ou des logiciels comme VNC ou `PSexec -U-`
 * **3 (réseau)** : Connexion à un dossier partagé
 * **4 (Batch)** : Processus exécuté
-* **5 (service)** : Service démarré par le Gestionnaire de contrôle de service
+* **5 (service)** : Service démarré par le Gestionnaire de contrôle des services
 * **6 (proxy)** : Connexion proxy
-* **7 (Déverrouillage)** : Écran débloqué en utilisant un mot de passe
-* **8 (texte clair réseau)** : Utilisateur authentifié en envoyant des mots de passe en texte clair. Cet événement provenait généralement de l'IIS
+* **7 (déverrouillage)** : Écran déverrouillé en utilisant un mot de passe
+* **8 (texte clair réseau)** : Utilisateur authentifié en envoyant des mots de passe en texte clair. Cet événement provient généralement de l'IIS
 * **9 (nouvelles informations d'identification)** : Il est généré lorsque la commande `RunAs` est utilisée ou que l'utilisateur accède à un service réseau avec des informations d'identification différentes.
 * **10 (interactif à distance)** : Authentification via les Services de Terminal ou RDP
 * **11 (cache interactif)** : Accès en utilisant les dernières informations d'identification mises en cache car il n'était pas possible de contacter le contrôleur de domaine
@@ -474,7 +471,7 @@ Les informations de statut et de sous-statut des événements peuvent indiquer p
 
 ### Récupération des événements Windows
 
-Il est fortement recommandé d'éteindre le PC suspect en le **débranchant** pour maximiser la probabilité de récupérer les événements Windows. Dans le cas où ils auraient été supprimés, un outil qui peut être utile pour essayer de les récupérer est [**Bulk\_extractor**](../partitions-file-systems-carving/file-data-carving-recovery-tools.md#bulk-extractor) en indiquant l'extension **evtx**.
+Il est fortement recommandé d'éteindre le PC suspect en le **débranchant** pour maximiser la probabilité de récupérer les événements Windows. Dans le cas où ils auraient été supprimés, un outil qui peut être utile pour essayer de les récupérer est [**Bulk_extractor**](../partitions-file-systems-carving/file-data-carving-recovery-tools.md#bulk-extractor) en indiquant l'extension **evtx**.
 
 ## Identification des attaques courantes avec les événements Windows
 
@@ -486,7 +483,7 @@ Une attaque par force brute peut être facilement identifiable car **plusieurs E
 
 ### Changement d'heure
 
-C'est terrible pour l'équipe de la forensique car tous les horodatages seront modifiés. Cet événement est enregistré par l'EventID 4616 dans le journal des événements de sécurité.
+C'est terrible pour l'équipe de la police scientifique car tous les horodatages seront modifiés. Cet événement est enregistré par l'EventID 4616 dans le journal des événements de sécurité.
 
 ### Périphériques USB
 
@@ -507,13 +504,14 @@ L'EventID 1102 de sécurité indique que les journaux ont été supprimés.
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+Autres moyens de soutenir HackTricks :
+
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF** Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR au** [**dépôt hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**dépôt hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
-```
