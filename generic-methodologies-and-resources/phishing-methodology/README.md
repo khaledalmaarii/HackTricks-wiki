@@ -2,45 +2,47 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零开始学习AWS黑客攻击直至成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS 红队专家)</strong></a><strong>！</strong></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在 HackTricks 上看到你的**公司广告**吗？或者你想要**获取最新版本的 PEASS 或下载 HackTricks 的 PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass)，或者**关注**我在**推特**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享你的黑客技巧。**
+支持HackTricks的其他方式：
+
+* 如果您想在 **HackTricks中看到您的公司广告** 或 **下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。**
 
 </details>
 
 ## 方法论
 
-1. 侦查受害者
+1. 侦察受害者
 1. 选择**受害者域名**。
-2. 进行一些基本的网络枚举，**搜索受害者使用的登录门户**，并**决定**你将**冒充**哪个门户。
-3. 使用一些**OSINT**来**查找电子邮件**。
+2. 进行一些基本的网络枚举，**寻找受害者使用的登录门户**，并**决定**你将**模仿**哪一个。
+3. 使用一些**OSINT**来**找到电子邮件**。
 2. 准备环境
-1. **购买**用于钓鱼评估的域名
-2. **配置与电子邮件服务相关的记录**（SPF、DMARC、DKIM、rDNS）
-3. 配置 VPS 上的 **gophish**
-3. 准备攻击活动
+1. **购买域名**，用于钓鱼评估
+2. **配置电子邮件服务**相关记录（SPF, DMARC, DKIM, rDNS）
+3. 使用**gophish**配置VPS
+3. 准备活动
 1. 准备**电子邮件模板**
-2. 准备用于窃取凭据的**网页**
-4. 发起攻击活动！
+2. 准备**网页**以窃取凭证
+4. 启动活动！
 
-## 生成类似的域名或购买可信任的域名
+## 生成类似的域名或购买受信任的域名
 
 ### 域名变体技术
 
-* **关键词**：域名中包含原始域名的重要**关键词**（例如，zelster.com-management.com）。
-* **连字符子域**：将子域的**点**更改为**连字符**（例如，www-zelster.com）。
-* **新顶级域**：使用**新的顶级域**相同的域名（例如，zelster.org）
-* **同形异义字**：用看起来相似的字母**替换**域名中的字母（例如，zelfser.com）。
-* **转位**：在域名中**交换两个字母**（例如，zelster.com）。
-* **单复数化**：在域名末尾添加或删除“s”（例如，zeltsers.com）。
-* **省略**：从域名中**删除一个**字母（例如，zelser.com）。
-* **重复**：在域名中**重复一个**字母（例如，zeltsser.com）。
-* **替换**：类似于同形异义字，但不那么隐蔽。它用一个字母替换域名中的一个字母，可能是键盘上与原始字母相邻的字母（例如，zektser.com）。
-* **子域**：在域名中**插入一个点**（例如，ze.lster.com）。
+* **关键词**：域名**包含**原始域名的重要**关键词**（例如，zelster.com-management.com）。
+* **连字符子域名**：将子域名的**点改为连字符**（例如，www-zelster.com）。
+* **新顶级域名**：使用**新的顶级域名**（例如，zelster.org）
+* **同形异义字**：将域名中的字母**替换为看起来相似的字母**（例如，zelfser.com）。
+* **置换**：在域名中**交换两个字母**（例如，zelster.com）。
+* **单数化/复数化**：在域名末尾添加或移除“s”（例如，zeltsers.com）。
+* **省略**：从域名中**移除一个字母**（例如，zelser.com）。
+* **重复**：在域名中**重复一个字母**（例如，zeltsser.com）。
+* **替换**：类似同形异义字，但不那么隐蔽。它替换域名中的一个字母，可能是键盘上原始字母附近的一个字母（例如，zektser.com）。
+* **子域化**：在域名中引入一个**点**（例如，ze.lster.com）。
 * **插入**：在域名中**插入一个字母**（例如，zerltser.com）。
 * **缺少点**：将顶级域名附加到域名上。（例如，zelstercom.com）
 
@@ -57,50 +59,51 @@
 
 ### 位翻转
 
-在计算世界中，所有东西都以位（0 和 1）的形式存储在内存中。\
-域名也是如此。例如，_windows.com_ 在计算设备的易失性内存中变为 _01110111..._。\
-然而，如果其中一个位由于太阳耀斑、宇宙射线或硬件错误而自动翻转会怎样呢？也就是其中的一个 0 变成了 1，反之亦然。\
-将这个概念应用到 DNS 请求中，可能发生的情况是，**到达 DNS 服务器的请求域名与最初请求的域名不同**。
+在计算领域，一切都以位（零和一）的形式存储在内存中。\
+这也适用于域名。例如，_windows.com_ 在计算设备的易失性内存中变成了 _01110111..._。\
+然而，如果这些位中的一个因太阳耀斑、宇宙射线或硬件错误而自动翻转了怎么办？即一个0变成了1，反之亦然。\
+将这个概念应用于DNS请求，请求到达DNS服务器的**请求域名**可能与最初请求的域名**不同**。
 
-例如，对域名 windows.com 进行 1 位修改，可以将其转换为 _windnws.com_。\
-**攻击者可能会注册尽可能多与受害者相关的位翻转域名，以将合法用户重定向到他们的基础设施**。
+例如，windows.com域名中的1位修改可以将其转换为_windnws.com。_\
+**攻击者可能会注册尽可能多的与受害者相关的位翻转域名，以将合法用户重定向到他们的基础设施**。
 
-欲了解更多信息，请阅读[https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/](https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/)。
-### 购买可信赖的域名
+更多信息请阅读[https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/](https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/)
 
-您可以在 [https://www.expireddomains.net/](https://www.expireddomains.net) 上搜索一个过期的域名来使用。\
-为了确保您要购买的过期域名**已经具有良好的SEO**，您可以查看以下网站对其进行分类：
+### 购买受信任的域名
+
+您可以在[https://www.expireddomains.net/](https://www.expireddomains.net)搜索您可以使用的过期域名。\
+为了确保您即将购买的过期域名**已经有良好的SEO**，您可以查询它在以下网站中的分类：
 
 * [http://www.fortiguard.com/webfilter](http://www.fortiguard.com/webfilter)
 * [https://urlfiltering.paloaltonetworks.com/query/](https://urlfiltering.paloaltonetworks.com/query/)
 
 ## 发现电子邮件
 
-* [https://github.com/laramies/theHarvester](https://github.com/laramies/theHarvester)（100%免费）
-* [https://phonebook.cz/](https://phonebook.cz)（100%免费）
+* [https://github.com/laramies/theHarvester](https://github.com/laramies/theHarvester) (100% 免费)
+* [https://phonebook.cz/](https://phonebook.cz) (100% 免费)
 * [https://maildb.io/](https://maildb.io)
 * [https://hunter.io/](https://hunter.io)
 * [https://anymailfinder.com/](https://anymailfinder.com)
 
-为了**发现更多**有效的电子邮件地址或**验证已经发现的**电子邮件地址，您可以尝试对受害者的SMTP服务器进行暴力破解。[在此处了解如何验证/发现电子邮件地址](../../network-services-pentesting/pentesting-smtp/#username-bruteforce-enumeration)。\
-此外，不要忘记，如果用户使用**任何网页门户访问他们的邮件**，您可以检查该门户是否容易受到**用户名暴力破解**的攻击，并在可能的情况下利用该漏洞。
+为了**发现更多**有效的电子邮件地址或**验证**您已经发现的电子邮件地址，您可以检查是否可以对受害者的smtp服务器进行暴力破解。[在这里了解如何验证/发现电子邮件地址](../../network-services-pentesting/pentesting-smtp/#username-bruteforce-enumeration)。\
+此外，不要忘记，如果用户使用**任何网络门户访问他们的邮件**，您可以检查它是否容易受到**用户名暴力破解**的攻击，并在可能的情况下利用这个漏洞。
 
 ## 配置GoPhish
 
 ### 安装
 
-您可以从 [https://github.com/gophish/gophish/releases/tag/v0.11.0](https://github.com/gophish/gophish/releases/tag/v0.11.0) 下载它。
+您可以从[https://github.com/gophish/gophish/releases/tag/v0.11.0](https://github.com/gophish/gophish/releases/tag/v0.11.0)下载
 
-下载并解压缩到 `/opt/gophish` 目录中，然后执行 `/opt/gophish/gophish`。\
-您将在输出中获得一个用于端口3333上的管理员用户的密码。因此，请访问该端口并使用这些凭据更改管理员密码。您可能需要将该端口隧道转发到本地：
+下载并解压到`/opt/gophish`，然后执行`/opt/gophish/gophish`\
+您将在输出中获得管理员用户的密码，该用户在3333端口。因此，访问该端口并使用这些凭据更改管理员密码。您可能需要将该端口隧道到本地：
 ```bash
 ssh -L 3333:127.0.0.1:3333 <user>@<ip>
 ```
 ### 配置
 
-**TLS证书配置**
+**TLS 证书配置**
 
-在这一步之前，你应该已经**购买了**你要使用的域名，并且它必须**指向**你正在配置**gophish**的**VPS的IP地址**。
+在此步骤之前，您应该**已经购买了域名**，并且它必须**指向**您正在配置 **gophish** 的 **VPS 的 IP**。
 ```bash
 DOMAIN="<domain>"
 wget https://dl.eff.org/certbot-auto
@@ -126,24 +129,24 @@ cp "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" /opt/gophish/ssl_keys/key.crt�
 * **/etc/postfix/transport**
 * **/etc/postfix/virtual\_regexp**
 
-**还要更改/etc/postfix/main.cf中以下变量的值**
+**还要在 /etc/postfix/main.cf 中更改以下变量的值**
 
 `myhostname = <domain>`\
 `mydestination = $myhostname, <domain>, localhost.com, localhost`
 
-最后修改文件**`/etc/hostname`**和**`/etc/mailname`**为您的域名，并**重新启动您的VPS**。
+最后修改文件 **`/etc/hostname`** 和 **`/etc/mailname`** 为您的域名，并**重启您的VPS。**
 
-现在，创建一个**DNS A记录**，将`mail.<domain>`指向VPS的**IP地址**，并创建一个指向`mail.<domain>`的**DNS MX记录**。
+现在，创建一个 **DNS A 记录** `mail.<domain>` 指向 VPS 的**IP地址**，以及一个指向 `mail.<domain>` 的 **DNS MX** 记录
 
 现在让我们测试发送一封电子邮件：
 ```bash
 apt install mailutils
 echo "This is the body of the email" | mail -s "This is the subject line" test@email.com
 ```
-**Gophish配置**
+**Gophish 配置**
 
-停止执行gophish并进行配置。\
-将`/opt/gophish/config.json`修改为以下内容（注意使用https）：
+停止 gophish 的执行，并进行配置。\
+修改 `/opt/gophish/config.json` 为以下内容（注意使用了 https）：
 ```bash
 {
 "admin_server": {
@@ -170,7 +173,7 @@ echo "This is the body of the email" | mail -s "This is the subject line" test@e
 ```
 **配置gophish服务**
 
-为了创建gophish服务，使其可以自动启动和管理服务，您可以创建文件`/etc/init.d/gophish`，内容如下：
+为了创建gophish服务，以便它可以自动启动并作为一个服务进行管理，你可以创建文件`/etc/init.d/gophish`，内容如下：
 ```bash
 #!/bin/bash
 # /etc/init.d/gophish
@@ -217,7 +220,7 @@ case $1 in
 start|stop|status) "$1" ;;
 esac
 ```
-完成配置服务并进行检查：
+完成配置服务并通过以下方式进行检查：
 ```bash
 mkdir /var/log/gophish
 chmod +x /etc/init.d/gophish
@@ -232,8 +235,8 @@ service gophish stop
 
 ### 等待
 
-域名越旧，被识别为垃圾邮件的可能性就越低。因此，在进行钓鱼评估之前，您应该尽可能地等待一段时间（至少1周）。
-请注意，即使您需要等待一周，您现在可以完成所有配置。
+域名越老，被当作垃圾邮件的可能性越小。因此，在进行网络钓鱼评估之前，您应该等待尽可能长的时间（至少1周）。\
+请注意，即使您需要等待一周，现在也可以完成所有配置。
 
 ### 配置反向DNS（rDNS）记录
 
@@ -241,27 +244,27 @@ service gophish stop
 
 ### 发件人策略框架（SPF）记录
 
-您必须为新域名**配置SPF记录**。如果您不知道什么是SPF记录，请[**阅读此页面**](../../network-services-pentesting/pentesting-smtp/#spf)。
+您必须**为新域名配置SPF记录**。如果您不知道什么是SPF记录[**阅读此页面**](../../network-services-pentesting/pentesting-smtp/#spf)。
 
-您可以使用[https://www.spfwizard.net/](https://www.spfwizard.net)生成您的SPF策略（使用VPS机器的IP）
+您可以使用[https://www.spfwizard.net/](https://www.spfwizard.net)来生成您的SPF策略（使用VPS机器的IP）
 
 ![](<../../.gitbook/assets/image (388).png>)
 
-这是必须在域名的TXT记录中设置的内容：
+这是必须设置在域内TXT记录中的内容：
 ```bash
 v=spf1 mx a ip4:ip.ip.ip.ip ?all
 ```
-### 基于域的消息认证、报告和合规性（DMARC）记录
+### 域名基础消息认证、报告与合规性 (DMARC) 记录
 
-您必须为新域名**配置DMARC记录**。如果您不知道什么是DMARC记录，请[**阅读此页面**](../../network-services-pentesting/pentesting-smtp/#dmarc)。
+您必须为新域名**配置 DMARC 记录**。如果您不知道什么是 DMARC 记录[**阅读此页面**](../../network-services-pentesting/pentesting-smtp/#dmarc)。
 
-您需要创建一个新的DNS TXT记录，将主机名`_dmarc.<domain>`指向以下内容：
+您需要为主机名 `_dmarc.<domain>` 创建一个新的 DNS TXT 记录，内容如下：
 ```bash
 v=DMARC1; p=none
 ```
-### 域名密钥识别邮件（DKIM）
+### 域名密钥识别邮件 (DKIM)
 
-您必须为新域名**配置DKIM**。如果您不知道什么是DMARC记录，请[**阅读此页面**](../../network-services-pentesting/pentesting-smtp/#dkim)。
+您必须为新域名**配置DKIM**。如果您不知道DMARC记录是什么，请[**阅读此页面**](../../network-services-pentesting/pentesting-smtp/#dkim)。
 
 本教程基于：[https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy)
 
@@ -272,15 +275,15 @@ v=DKIM1; h=sha256; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0wPibdqP
 ```
 {% endhint %}
 
-### 测试您的电子邮件配置分数
+### 测试您的电子邮件配置得分
 
-您可以使用[https://www.mail-tester.com/](https://www.mail-tester.com)进行测试\
-只需访问该页面并向他们提供的地址发送电子邮件：
+您可以使用 [https://www.mail-tester.com/](https://www.mail-tester.com) 来进行测试。\
+只需访问该页面，并发送电子邮件到他们提供给您的地址：
 ```bash
 echo "This is the body of the email" | mail -s "This is the subject line" test-iimosa79z@srv1.mail-tester.com
 ```
-您还可以通过向`check-auth@verifier.port25.com`发送电子邮件并阅读响应来检查您的电子邮件配置（为此，您需要打开端口25并在文件`/var/mail/root`中查看响应，如果您以root身份发送电子邮件）。\
-检查您是否通过了所有测试：
+你也可以通过向 `check-auth@verifier.port25.com` 发送电子邮件来**检查你的电子邮件配置**，并**阅读响应**（为此，你需要**打开**端口**25**，并在文件 _/var/mail/root_ 中查看响应，如果你以 root 身份发送电子邮件）。\
+检查你是否通过了所有测试：
 ```bash
 ==========================================================
 Summary of Results
@@ -291,7 +294,7 @@ DKIM check:         pass
 Sender-ID check:    pass
 SpamAssassin check: ham
 ```
-或者，您可以发送一条消息到您控制的 Gmail 地址，在您的 Gmail 收件箱中查看收到的电子邮件的标头，`Authentication-Results` 标头字段中应该存在 `dkim=pass`。
+你也可以**向你控制的 Gmail 地址发送一条消息**，在你的 Gmail 收件箱中**查看**收到的**电子邮件头部信息**，`Authentication-Results` 头部字段中应该存在 `dkim=pass`。
 ```
 Authentication-Results: mx.google.com;
 spf=pass (google.com: domain of contact@example.com designates --- as permitted sender) smtp.mail=contact@example.com;
@@ -299,33 +302,33 @@ dkim=pass header.i=@example.com;
 ```
 ### 从Spamhouse黑名单中移除
 
-网页www.mail-tester.com可以告诉您您的域名是否被Spamhouse阻止。您可以在以下网址请求将您的域名/IP移除：[https://www.spamhaus.org/lookup/](https://www.spamhaus.org/lookup/)
+页面www.mail-tester.com可以指示您的域名是否被spamhouse屏蔽。您可以在以下地址请求移除您的域名/IP：[https://www.spamhaus.org/lookup/](https://www.spamhaus.org/lookup/)
 
 ### 从Microsoft黑名单中移除
 
-您可以在[https://sender.office.com/](https://sender.office.com)请求将您的域名/IP移除。
+您可以在[https://sender.office.com/](https://sender.office.com)请求移除您的域名/IP。
 
-## 创建并启动GoPhish攻击活动
+## 创建并启动GoPhish活动
 
-### 发送配置
+### 发送配置文件
 
-* 设置一个用于识别发送者配置的**名称**
-* 决定从哪个账户发送钓鱼邮件。建议使用：_noreply, support, servicedesk, salesforce..._
-* 您可以将用户名和密码留空，但请确保勾选“忽略证书错误”
+* 设置一个**名称以识别**发件人配置文件
+* 决定您将使用哪个账户发送钓鱼电子邮件。建议：_noreply, support, servicedesk, salesforce..._
+* 您可以留空用户名和密码，但确保勾选忽略证书错误
 
-![](<../../.gitbook/assets/image (253) (1) (2) (1) (1) (2) (2) (3) (3) (5) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (17).png>)
+![](<../../.gitbook/assets/image (253) (1) (2) (1) (1) (2) (2) (3) (3) (5) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (17).png>)
 
 {% hint style="info" %}
-建议使用“**发送测试邮件**”功能测试一切是否正常。\
-我建议将测试邮件发送到10分钟邮件地址，以避免在测试中被列入黑名单。
+建议使用“**发送测试邮件**”功能来测试一切是否正常工作。\
+我建议**将测试邮件发送到10分钟邮箱地址**，以避免在测试时被列入黑名单。
 {% endhint %}
 
-### 邮件模板
+### 电子邮件模板
 
-* 设置一个用于识别模板的**名称**
-* 然后编写一个**主题**（不要太奇怪，只要是您在常规邮件中可能会看到的内容）
-* 确保已勾选“**添加跟踪图片**”
-* 编写**邮件模板**（您可以使用以下示例中的变量）：
+* 设置一个**名称以识别**模板
+* 然后编写一个**主题**（没有奇怪的东西，只是您期望在常规电子邮件中阅读的内容）
+* 确保您已勾选“**添加追踪图像**”
+* 编写**电子邮件模板**（您可以使用变量，如下例所示）：
 ```markup
 <html>
 <head>
@@ -346,40 +349,40 @@ WRITE HERE SOME SIGNATURE OF SOMEONE FROM THE COMPANY
 </body>
 </html>
 ```
-注意，为了增加邮件的可信度，建议使用来自客户的某些签名。建议：
+请注意，**为了提高电子邮件的可信度**，建议使用客户端电子邮件中的某些签名。建议：
 
-- 发送邮件到一个不存在的地址，并检查回复是否有签名。
-- 搜索像info@ex.com或press@ex.com或public@ex.com这样的公共电子邮件，并向它们发送邮件并等待回复。
-- 尝试联系一些已发现的有效电子邮件，并等待回复。
+* 向一个**不存在的地址**发送电子邮件，检查回复中是否有任何签名。
+* 搜索**公共电子邮件**，如info@ex.com、press@ex.com或public@ex.com，向它们发送电子邮件并等待回复。
+* 尝试联系**一些已发现的有效**电子邮件并等待回复。
 
 ![](<../../.gitbook/assets/image (393).png>)
 
 {% hint style="info" %}
-邮件模板还允许**附加文件进行发送**。如果您还想使用一些特制的文件/文档来窃取NTLM挑战，请阅读此页面。
+电子邮件模板还允许**附加文件发送**。如果您还想使用一些特制的文件/文档窃取NTLM挑战，请[阅读此页面](../../windows-hardening/ntlm/places-to-steal-ntlm-creds.md)。
 {% endhint %}
 
 ### 登陆页面
 
-- 编写一个**名称**
-- **编写网页的HTML代码**。请注意，您可以**导入**网页。
-- 标记**捕获提交的数据**和**捕获密码**
-- 设置**重定向**
+* 填写一个**名称**
+* **编写网页的HTML代码**。请注意，您可以**导入**网页。
+* 标记**捕获提交的数据**和**捕获密码**
+* 设置一个**重定向**
 
 ![](<../../.gitbook/assets/image (394).png>)
 
 {% hint style="info" %}
-通常，您需要修改页面的HTML代码，并在本地进行一些测试（可能使用一些Apache服务器）**直到您满意为止**。然后，将HTML代码写入框中。
-请注意，如果您需要为HTML使用一些静态资源（例如一些CSS和JS页面），您可以将它们保存在_/opt/gophish/static/endpoint_中，然后从_/static/\<filename>_访问它们。
+通常，您需要修改页面的HTML代码，并在本地进行一些测试（可能使用一些Apache服务器），**直到您满意为止**。然后，在框中写下该HTML代码。\
+请注意，如果您需要为HTML使用一些静态资源（可能是一些CSS和JS页面），您可以将它们保存在_**/opt/gophish/static/endpoint**_中，然后从_**/static/\<filename>**_访问它们。
 {% endhint %}
 
 {% hint style="info" %}
-对于重定向，您可以将用户**重定向到受害者的合法主网页**，或者将其重定向到_/static/migration.html_，例如，放置一些**旋转的轮子**（[**https://loading.io/**](https://loading.io)**）5秒钟，然后指示过程成功**。
+对于重定向，您可以**将用户重定向到受害者的合法主网页**，或者将他们重定向到_/static/migration.html_，例如，放置一个**旋转轮**（[**https://loading.io/**](https://loading.io)）等待5秒钟，然后指示过程成功。
 {% endhint %}
 
-### 用户和组
+### 用户与组
 
-- 设置一个名称
-- **导入数据**（请注意，为了使用示例的模板，您需要每个用户的名字、姓氏和电子邮件地址）
+* 设置一个名称
+* **导入数据**（请注意，为了使用示例模板，您需要每个用户的名字、姓氏和电子邮件地址）
 
 ![](<../../.gitbook/assets/image (395).png>)
 
@@ -387,67 +390,68 @@ WRITE HERE SOME SIGNATURE OF SOMEONE FROM THE COMPANY
 
 最后，创建一个活动，选择一个名称、电子邮件模板、登陆页面、URL、发送配置文件和组。请注意，URL将是发送给受害者的链接。
 
-请注意，**发送配置文件允许发送测试邮件，以查看最终钓鱼邮件的外观**：
+请注意，**发送配置文件允许发送测试电子邮件，以查看最终的网络钓鱼电子邮件的外观**：
 
 ![](<../../.gitbook/assets/image (396).png>)
 
 {% hint style="info" %}
-我建议将测试邮件发送到10分钟邮件地址，以避免在测试中被列入黑名单。
+我建议**将测试电子邮件发送到10分钟邮件地址**，以避免在测试时被列入黑名单。
 {% endhint %}
 
-一切准备就绪后，启动活动！
+一切准备就绪后，就可以启动活动了！
 
 ## 网站克隆
 
-如果出于任何原因您想克隆网站，请查看以下页面：
+如果由于某种原因您想克隆网站，请查看以下页面：
 
 {% content-ref url="clone-a-website.md" %}
 [clone-a-website.md](clone-a-website.md)
 {% endcontent-ref %}
 
-## 带后门的文档和文件
+## 含后门的文档和文件
 
-在某些钓鱼评估中（主要是为了红队），您还希望**发送包含某种后门的文件**（可能是C2，也可能只是触发身份验证的东西）。
-请查看以下页面以获取一些示例：
+在某些网络钓鱼评估中（主要是红队），您还会想要**发送包含某种后门的文件**（可能是C2，或者只是会触发认证的东西）。\
+查看以下页面了解一些示例：
 
 {% content-ref url="phishing-documents.md" %}
 [phishing-documents.md](phishing-documents.md)
 {% endcontent-ref %}
 
-## 钓鱼多因素认证
+## 网络钓鱼MFA
 
-### 通过代理中间人攻击
+### 通过代理MitM
 
-前面的攻击非常聪明，因为您正在伪造一个真实网站并收集用户设置的信息。不幸的是，如果用户没有输入正确的密码，或者如果您伪造的应用程序配置了2FA，**这些信息将无法让您冒充被欺骗的用户**。
+前面的攻击非常巧妙，因为您伪造了一个真实网站并收集了用户设置的信息。不幸的是，如果用户没有输入正确的密码，或者您伪造的应用程序配置了2FA，**这些信息将不允许您冒充被欺骗的用户**。
 
-这就是[**evilginx2**](https://github.com/kgretzky/evilginx2)**、**[**CredSniper**](https://github.com/ustayready/CredSniper)和[**muraena**](https://github.com/muraenateam/muraena)等工具有用的地方。这些工具将允许您生成类似于MitM的攻击。基本上，攻击的工作方式如下：
+这就是像[**evilginx2**](https://github.com/kgretzky/evilginx2)、[**CredSniper**](https://github.com/ustayready/CredSniper)和[**muraena**](https://github.com/muraenateam/muraena)这样的工具派上用场的地方。这个工具将允许您生成类似MitM的攻击。基本上，攻击的工作方式如下：
 
-1. 您**冒充**真实网页的**登录**表单。
-2. 用户将其凭据发送到您的伪造页面，工具将这些凭据发送到真实网页，**检查凭据是否有效**。
-3. 如果帐户配置了**2FA**，MitM页面将要求输入2FA，一旦用户输入2FA，工具将将其发送到真实网页。
-4. 一旦用户通过身份验证，您（作为攻击者）将**捕获到凭据、2FA、Cookie和任何与工具执行MitM期间的每次交互相关的信息**。
+1. 您**冒充真实网页的登录**表单。
+2. 用户将他的**凭据发送**到您的假页面，工具将这些发送到真实网页，**检查凭据是否有效**。
+3. 如果账户配置了**2FA**，MitM页面将要求它，一旦**用户输入**，工具将其发送到真实网页。
+4. 一旦用户通过认证，您（作为攻击者）将**捕获凭据、2FA、cookie以及工具执行MitM期间的任何信息**。
 
 ### 通过VNC
 
-如果您不是将受害者**发送到一个具有与原始网站相同外观的恶意页面**，而是将其发送到一个**连接到真实网页的浏览器的VNC会话**中，会怎么样？您将能够看到他的操作，窃取密码、使用的MFA、Cookie等等。
-您可以使用[**EvilnVNC**](https://github.com/JoelGMSec/EvilnoVNC)来实现这一点。
+如果您不是**将受害者发送到外观相同的恶意页面**，而是将他发送到一个**VNC会话，浏览器连接到真实网页**呢？您将能够看到他做了什么，窃取密码、使用的MFA、cookie等...\
+您可以使用[**EvilnVNC**](https://github.com/JoelGMSec/EvilnoVNC)来做到这一点。
 
 ## 检测检测
 
-显然，了解自己是否被抓住的最好方法之一是在黑名单中搜索您的域名。如果它出现在列表中，那么您的域名以某种方式被检测为可疑。
+显然，知道您是否被发现的最佳方法之一是**在黑名单中搜索您的域名**。如果它被列出，某种方式您的域名被检测为可疑。\
 检查您的域名是否出现在任何黑名单中的一种简单方法是使用[https://malwareworld.com/](https://malwareworld.com)
 
-然而，还有其他方法可以知道受害者是否在**积极寻找可疑的钓鱼活动**，如下所述：
+然而，还有其他方法可以知道受害者是否**在野外积极寻找可疑的网络钓鱼活动**，如下所述：
 
 {% content-ref url="detecting-phising.md" %}
 [detecting-phising.md](detecting-phising.md)
 {% endcontent-ref %}
 
-您可以**购买一个与受害者域名非常相似的域名**，并/或为您控制的域名的子域生成一个包含受害者域名关键字的证书。如果受害者与它们进行任何形式的DNS或HTTP交互，您将知道他正在积极寻找可疑的域名，您需要非常隐秘。
+您可以**购买一个与受害者域名非常相似的域名**和/或为您控制的域名的**子域名生成证书**，其中**包含**受害者域名的**关键字**。如果**受害者**执行任何类型的**DNS或HTTP交互**，您将知道**他正在积极寻找**可疑域名，您将需要非常隐秘。
 
-### 评估钓鱼
+### 评估网络钓鱼
 
-使用[**Phishious**](https://github.com/Rices/Phishious)评估您的电子邮件是否会被放入垃圾邮件文件夹，或者是否会被阻止或成功发送。
+使用[**Phishious**](https://github.com/Rices/Phishious)来评估您的电子邮件是否会结束在垃圾邮件文件夹中，或者是否会被阻止或成功。
+
 ## 参考资料
 
 * [https://zeltser.com/domain-name-variations-in-phishing/](https://zeltser.com/domain-name-variations-in-phishing/)
@@ -456,12 +460,14 @@ WRITE HERE SOME SIGNATURE OF SOMEONE FROM THE COMPANY
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零开始学习AWS黑客攻击，成为</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>！</strong></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者你想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+支持HackTricks的其他方式：
+
+* 如果您想在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**telegram群组**](https://t.me/peass)或在**Twitter**上**关注**我 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
