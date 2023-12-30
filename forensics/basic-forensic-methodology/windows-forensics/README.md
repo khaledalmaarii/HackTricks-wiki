@@ -4,13 +4,15 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda hacking no AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Quer ver sua **empresa anunciada no HackTricks**? ou quer ter acesso à **versão mais recente do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+Outras formas de apoiar o HackTricks:
+
+* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* Adquira o [**material oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga**-me no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -24,13 +26,13 @@ Dentro deste banco de dados SQLite, você pode encontrar a tabela `Notification`
 
 ### Linha do Tempo
 
-Linha do Tempo é uma característica do Windows que fornece **histórico cronológico** de páginas da web visitadas, documentos editados e aplicativos executados.
+Linha do Tempo é uma característica do Windows que fornece **histórico cronológico** de páginas da web visitadas, documentos editados e aplicações executadas.
 
-O banco de dados reside no caminho `\Users\<username>\AppData\Local\ConnectedDevicesPlatform\<id>\ActivitiesCache.db`. Este banco de dados pode ser aberto com uma ferramenta SQLite ou com a ferramenta [**WxTCmd**](https://github.com/EricZimmerman/WxTCmd) **que gera 2 arquivos que podem ser abertos com a ferramenta** [**TimeLine Explorer**](https://ericzimmerman.github.io/#!index.md).
+O banco de dados fica no caminho `\Users\<username>\AppData\Local\ConnectedDevicesPlatform\<id>\ActivitiesCache.db`. Este banco de dados pode ser aberto com uma ferramenta SQLite ou com a ferramenta [**WxTCmd**](https://github.com/EricZimmerman/WxTCmd) **que gera 2 arquivos que podem ser abertos com a ferramenta** [**TimeLine Explorer**](https://ericzimmerman.github.io/#!index.md).
 
 ### ADS (Alternate Data Streams)
 
-Arquivos baixados podem conter o **ADS Zone.Identifier** indicando **como** foi **baixado** da intranet, internet, etc. Alguns softwares (como navegadores) geralmente colocam até **mais** **informações** como a **URL** de onde o arquivo foi baixado.
+Arquivos baixados podem conter o **ADS Zone.Identifier** indicando **como** foi **baixado** da intranet, internet, etc. Alguns softwares (como navegadores) geralmente colocam **mais** **informações**, como a **URL** de onde o arquivo foi baixado.
 
 ## **Backups de Arquivos**
 
@@ -53,7 +55,7 @@ Tendo esses arquivos, você pode usar a ferramenta [**Rifiuti**](https://github.
 
 ### Cópias de Sombra de Volume
 
-Shadow Copy é uma tecnologia incluída no Microsoft Windows que pode criar **cópias de backup** ou snapshots de arquivos de computador ou volumes, mesmo quando estão em uso.
+Shadow Copy é uma tecnologia incluída no Microsoft Windows que pode criar **cópias de backup** ou instantâneos de arquivos ou volumes de computador, mesmo quando estão em uso.
 
 Esses backups geralmente estão localizados em `\System Volume Information` na raiz do sistema de arquivos e o nome é composto por **UIDs** mostrados na seguinte imagem:
 
@@ -71,7 +73,7 @@ O registro `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\VSS` também co
 
 ### Arquivos AutoSalvados do Office
 
-Você pode encontrar os arquivos autosalvados do office em: `C:\Usuários\AppData\Roaming\Microsoft{Excel|Word|Powerpoint}\`
+Você pode encontrar os arquivos autosalvados do office em: `C:\Usuarios\\AppData\Roaming\Microsoft{Excel|Word|Powerpoint}\`
 
 ## Itens de Shell
 
@@ -81,18 +83,18 @@ Um item de shell é um item que contém informações sobre como acessar outro a
 
 O Windows **cria automaticamente** esses **atalhos** quando o usuário **abre, usa ou cria um arquivo** em:
 
-* Win7-Win10: `C:\Usuários\AppData\Roaming\Microsoft\Windows\Recent\`
-* Office: `C:\Usuários\AppData\Roaming\Microsoft\Office\Recent\`
+* Win7-Win10: `C:\Users\\AppData\Roaming\Microsoft\Windows\Recent\`
+* Office: `C:\Users\\AppData\Roaming\Microsoft\Office\Recent\`
 
 Quando uma pasta é criada, um link para a pasta, para a pasta pai e para a pasta avó também é criado.
 
-Esses arquivos de link criados automaticamente **contêm informações sobre a origem** como se é um **arquivo** ou uma **pasta**, **tempos MAC** daquele arquivo, **informações de volume** de onde o arquivo está armazenado e **pasta do arquivo alvo**. Essas informações podem ser úteis para recuperar esses arquivos caso tenham sido removidos.
+Esses arquivos de link criados automaticamente **contêm informações sobre a origem** como se é um **arquivo** **ou** uma **pasta**, **tempos MAC** daquele arquivo, **informações de volume** de onde o arquivo está armazenado e **pasta do arquivo de destino**. Essas informações podem ser úteis para recuperar esses arquivos caso tenham sido removidos.
 
 Além disso, a **data de criação do arquivo de link** é a primeira **vez** que o arquivo original foi **usado** e a **data de modificação** do arquivo de link é a **última vez** que o arquivo de origem foi usado.
 
 Para inspecionar esses arquivos, você pode usar [**LinkParser**](http://4discovery.com/our-tools/).
 
-Nesta ferramenta, você encontrará **2 conjuntos** de timestamps:
+Nesta ferramenta, você encontrará **2 conjuntos** de carimbos de data/hora:
 
 * **Primeiro Conjunto:**
 1. FileModifiedDate
@@ -103,7 +105,7 @@ Nesta ferramenta, você encontrará **2 conjuntos** de timestamps:
 2. LinkAccessDate
 3. LinkCreationDate.
 
-O primeiro conjunto de timestamp refere-se aos **timestamps do próprio arquivo**. O segundo conjunto refere-se aos **timestamps do arquivo vinculado**.
+O primeiro conjunto de carimbos de data/hora refere-se aos **tempos do próprio arquivo**. O segundo conjunto refere-se aos **tempos do arquivo vinculado**.
 
 Você pode obter as mesmas informações executando a ferramenta CLI do Windows: [**LECmd.exe**](https://github.com/EricZimmerman/LECmd)
 ```
@@ -162,15 +164,15 @@ Verifique o arquivo `C:\Windows\inf\setupapi.dev.log` para obter os carimbos de 
 
 ![](<../../../.gitbook/assets/image (483).png>)
 
-### Limpeza Plug and Play
+### Limpeza de Plug and Play
 
-A tarefa agendada 'Limpeza Plug and Play' é responsável por **limpar** versões antigas de drivers. Parece (com base em relatórios online) que ela também pega **drivers que não foram usados em 30 dias**, apesar de sua descrição afirmar que "a versão mais atual de cada pacote de driver será mantida". Como tal, **dispositivos removíveis que não foram conectados por 30 dias podem ter seus drivers removidos**.
+A tarefa agendada 'Limpeza de Plug and Play' é responsável por **limpar** versões antigas de drivers. Parece (com base em relatórios online) que ela também pega **drivers que não foram usados nos últimos 30 dias**, apesar de sua descrição afirmar que "a versão mais atual de cada pacote de driver será mantida". Assim, **dispositivos removíveis que não foram conectados por 30 dias podem ter seus drivers removidos**.
 
 A própria tarefa agendada está localizada em 'C:\Windows\System32\Tasks\Microsoft\Windows\Plug and Play\Plug and Play Cleanup', e seu conteúdo é exibido abaixo:
 
 ![](https://2.bp.blogspot.com/-wqYubtuR\_W8/W19bV5S9XyI/AAAAAAAANhU/OHsBDEvjqmg9ayzdNwJ4y2DKZnhCdwSMgCLcBGAs/s1600/xml.png)
 
-A tarefa faz referência a 'pnpclean.dll', que é responsável por realizar a atividade de limpeza, além disso, vemos que o campo ‘UseUnifiedSchedulingEngine’ está definido como ‘TRUE’, o que especifica que o motor de agendamento de tarefas genérico é usado para gerenciar a tarefa. Os valores ‘Period’ e ‘Deadline’ de 'P1M' e 'P2M' dentro de ‘MaintenanceSettings’ instruem o Agendador de Tarefas a executar a tarefa uma vez por mês durante a manutenção Automática regular e, se falhar por 2 meses consecutivos, a começar a tentar a tarefa durante a manutenção Automática de emergência. **Esta seção foi copiada de** [**aqui**](https://blog.1234n6.com/2018/07/windows-plug-and-play-cleanup.html)**.**
+A tarefa faz referência a 'pnpclean.dll', que é responsável por realizar a atividade de limpeza, além disso, vemos que o campo ‘UseUnifiedSchedulingEngine’ está definido como ‘TRUE’, o que especifica que o motor genérico de agendamento de tarefas é usado para gerenciar a tarefa. Os valores ‘Period’ e ‘Deadline’ de 'P1M' e 'P2M' dentro de ‘MaintenanceSettings’ instruem o Agendador de Tarefas a executar a tarefa uma vez por mês durante a manutenção Automática regular e, se falhar por 2 meses consecutivos, a começar a tentar a tarefa durante a manutenção Automática de emergência. **Esta seção foi copiada de** [**aqui**](https://blog.1234n6.com/2018/07/windows-plug-and-play-cleanup.html)**.**
 
 ## Emails
 
@@ -196,7 +198,7 @@ Os **metadados** dos emails e os **contatos** podem ser encontrados dentro do **
 Quando servidores Exchange ou clientes Outlook são usados, vão existir alguns cabeçalhos MAPI:
 
 * `Mapi-Client-Submit-Time`: Horário do sistema quando o email foi enviado
-* `Mapi-Conversation-Index`: Número de mensagens filhas da thread e carimbo de data/hora de cada mensagem da thread
+* `Mapi-Conversation-Index`: Número de mensagens filhas do tópico e carimbo de data/hora de cada mensagem do tópico
 * `Mapi-Entry-ID`: Identificador da mensagem.
 * `Mappi-Message-Flags` e `Pr_last_Verb-Executed`: Informações sobre o cliente MAPI (mensagem lida? não lida? respondida? redirecionada? fora do escritório?)
 
@@ -256,7 +258,7 @@ Os arquivos que contêm o registro estão localizados em:
 * %windir%\System32\Config\*_DEFAULT\*_: `HKEY_LOCAL_MACHINE`
 * %UserProfile%{User}\*_NTUSER.DAT\*_: `HKEY_CURRENT_USER`
 
-A partir do Windows Vista e Windows 2008 Server em diante, existem alguns backups dos arquivos de registro `HKEY_LOCAL_MACHINE` em **`%Windir%\System32\Config\RegBack\`**.
+A partir do Windows Vista e Windows 2008 Server para cima existem alguns backups dos arquivos do registro `HKEY_LOCAL_MACHINE` em **`%Windir%\System32\Config\RegBack\`**.
 
 Também a partir dessas versões, o arquivo de registro **`%UserProfile%\{User}\AppData\Local\Microsoft\Windows\USERCLASS.DAT`** é criado salvando informações sobre execuções de programas.
 
@@ -269,9 +271,9 @@ Algumas ferramentas são úteis para analisar os arquivos de registro:
 * [**RegRipper**](https://github.com/keydet89/RegRipper3.0): Novamente, tem uma GUI que permite navegar pelo registro carregado e também contém plugins que destacam informações interessantes dentro do registro carregado.
 * [**Windows Registry Recovery**](https://www.mitec.cz/wrr.html): Outra aplicação GUI capaz de extrair as informações importantes do registro carregado.
 
-### Recuperando Elemento Excluído
+### Recuperando Elemento Deletado
 
-Quando uma chave é excluída, ela é marcada como tal, mas até que o espaço que está ocupando seja necessário, ela não será removida. Portanto, usando ferramentas como **Registry Explorer**, é possível recuperar essas chaves excluídas.
+Quando uma chave é deletada, ela é marcada como tal, mas até que o espaço que está ocupando seja necessário, ela não será removida. Portanto, usando ferramentas como **Registry Explorer** é possível recuperar essas chaves deletadas.
 
 ### Último Tempo de Escrita
 
@@ -279,9 +281,9 @@ Cada Chave-Valor contém um **carimbo de data/hora** indicando a última vez que
 
 ### SAM
 
-O arquivo/zona **SAM** contém os **usuários, grupos e hashes das senhas dos usuários** do sistema.
+O arquivo/colmeia **SAM** contém os **usuários, grupos e hashes das senhas dos usuários** do sistema.
 
-Em `SAM\Domains\Account\Users` você pode obter o nome de usuário, o RID, último login, último login falhado, contador de login, política de senha e quando a conta foi criada. Para obter os **hashes** você também **precisa** do arquivo/zona **SYSTEM**.
+Em `SAM\Domains\Account\Users` você pode obter o nome de usuário, o RID, último login, último logon falhado, contador de login, política de senha e quando a conta foi criada. Para obter os **hashes** você também **precisa** do arquivo/colmeia **SYSTEM**.
 
 ### Entradas interessantes no Registro do Windows
 
@@ -293,7 +295,7 @@ Em `SAM\Domains\Account\Users` você pode obter o nome de usuário, o RID, últi
 
 ### Processos Básicos do Windows
 
-Na página seguinte, você pode aprender sobre os processos básicos do Windows para detectar comportamentos suspeitos:
+Na página a seguir, você pode aprender sobre os processos básicos do Windows para detectar comportamentos suspeitos:
 
 {% content-ref url="windows-processes.md" %}
 [windows-processes.md](windows-processes.md)
@@ -303,21 +305,21 @@ Na página seguinte, você pode aprender sobre os processos básicos do Windows 
 
 Dentro do registro `NTUSER.DAT` no caminho `Software\Microsoft\Current Version\Search\RecentApps` você pode encontrar subchaves com informações sobre o **aplicativo executado**, **última vez** que foi executado e **número de vezes** que foi lançado.
 
-### BAM (Moderador de Atividade em Segundo Plano)
+### BAM (Background Activity Moderator)
 
 Você pode abrir o arquivo `SYSTEM` com um editor de registro e dentro do caminho `SYSTEM\CurrentControlSet\Services\bam\UserSettings\{SID}` você pode encontrar informações sobre os **aplicativos executados por cada usuário** (note o `{SID}` no caminho) e em **que horário** foram executados (o horário está dentro do valor de Dados do registro).
 
 ### Prefetch do Windows
 
-Prefetching é uma técnica que permite a um computador buscar silenciosamente os recursos necessários para exibir conteúdo que um usuário **pode acessar em um futuro próximo** para que os recursos possam ser acessados mais rapidamente.
+Prefetching é uma técnica que permite a um computador buscar silenciosamente **os recursos necessários para exibir conteúdo** que um usuário **pode acessar em um futuro próximo** para que os recursos possam ser acessados mais rapidamente.
 
 O prefetch do Windows consiste em criar **caches dos programas executados** para poder carregá-los mais rapidamente. Esses caches são criados como arquivos `.pf` dentro do caminho: `C:\Windows\Prefetch`. Há um limite de 128 arquivos no XP/VISTA/WIN7 e 1024 arquivos no Win8/Win10.
 
-O nome do arquivo é criado como `{program_name}-{hash}.pf` (o hash é baseado no caminho e argumentos do executável). No W10 esses arquivos são comprimidos. Note que a simples presença do arquivo indica que **o programa foi executado** em algum momento.
+O nome do arquivo é criado como `{program_name}-{hash}.pf` (o hash é baseado no caminho e argumentos do executável). No W10 esses arquivos são comprimidos. Note que a mera presença do arquivo indica que **o programa foi executado** em algum momento.
 
 O arquivo `C:\Windows\Prefetch\Layout.ini` contém os **nomes das pastas dos arquivos que são prefetchados**. Este arquivo contém **informações sobre o número de execuções**, **datas** de execução e **arquivos** **abertos** pelo programa.
 
-Para inspecionar esses arquivos, você pode usar a ferramenta [**PEcmd.exe**](https://github.com/EricZimmerman/PECmd):
+Para inspecionar esses arquivos você pode usar a ferramenta [**PEcmd.exe**](https://github.com/EricZimmerman/PECmd):
 ```bash
 .\PECmd.exe -d C:\Users\student\Desktop\Prefetch --html "C:\Users\student\Desktop\out_folder"
 ```
@@ -349,7 +351,7 @@ Ele fornece as seguintes informações:
 
 Essas informações são atualizadas a cada 60 minutos.
 
-Você pode obter a data deste arquivo usando a ferramenta [**srum\_dump**](https://github.com/MarkBaggett/srum-dump).
+Você pode obter os dados deste arquivo usando a ferramenta [**srum\_dump**](https://github.com/MarkBaggett/srum-dump).
 ```
 ```bash
 .\srum_dump.exe -i C:\Users\student\Desktop\SRUDB.dat -t SRUM_TEMPLATE.xlsx -o C:\Users\student\Desktop\srum
@@ -424,7 +426,7 @@ Informações que aparecem nos eventos do Windows são:
 * Hosts envolvidos (nome do host, IP)
 * Ativos acessados (arquivos, pastas, impressoras, serviços)
 
-Os logs estão localizados em `C:\Windows\System32\config` antes do Windows Vista e em `C:\Windows\System32\winevt\Logs` após o Windows Vista. Antes do Windows Vista, os logs de eventos estavam em formato binário e depois estão em **formato XML** e usam a extensão **.evtx**.
+Os logs estão localizados em `C:\Windows\System32\config` antes do Windows Vista e em `C:\Windows\System32\winevt\Logs` após o Windows Vista. Antes do Windows Vista, os logs de eventos estavam em formato binário e depois disso, estão em **formato XML** e usam a extensão **.evtx**.
 
 A localização dos arquivos de eventos pode ser encontrada no registro SYSTEM em **`HKLM\SYSTEM\CurrentControlSet\services\EventLog\{Application|System|Security}`**
 
@@ -448,8 +450,8 @@ Eventos relacionados à autenticação do usuário:
 | EventID   | Descrição                     |
 | --------- | ---------------------------- |
 | 4624      | Autenticação bem-sucedida     |
-| 4625      | Erro de autenticação          |
-| 4634/4647 | log off                       |
+| 4625      | Erro de autenticação         |
+| 4634/4647 | log off                      |
 | 4672      | Login com permissões de admin |
 
 Dentro do EventID 4634/4647 existem subtipos interessantes:
@@ -464,8 +466,8 @@ Dentro do EventID 4634/4647 existem subtipos interessantes:
 * **9 (novas credenciais)**: É gerado quando o comando `RunAs` é usado ou o usuário acessa um serviço de rede com credenciais diferentes.
 * **10 (interativo remoto)**: Autenticação via Serviços de Terminal ou RDP
 * **11 (cache interativo)**: Acesso usando as últimas credenciais em cache porque não foi possível contatar o controlador de domínio
-* **12 (cache remoto interativo)**: Login remoto com credenciais em cache (uma combinação de 10 e 11).
-* **13 (desbloqueio em cache)**: Desbloqueio de uma máquina travada com credenciais em cache.
+* **12 (cache interativo remoto)**: Login remoto com credenciais em cache (uma combinação de 10 e 11).
+* **13 (desbloqueio em cache)**: Desbloqueio de uma máquina bloqueada com credenciais em cache.
 
 Neste post, você pode encontrar como imitar todos esses tipos de login e em quais deles você poderá despejar credenciais da memória: [https://www.alteredsecurity.com/post/fantastic-windows-logon-types-and-where-to-find-credentials-in-them](https://www.alteredsecurity.com/post/fantastic-windows-logon-types-and-where-to-find-credentials-in-them)
 
@@ -508,12 +510,14 @@ O EventID 1102 de Segurança indica que os logs foram excluídos.
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda hacking no AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Quer ver sua **empresa anunciada no HackTricks**? ou quer ter acesso à **versão mais recente do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+Outras maneiras de apoiar o HackTricks:
+
+* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Obtenha o [**merchandising oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* Adquira o [**merchandising oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-me no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga** me no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe suas dicas de hacking enviando PRs para os repositórios github** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
