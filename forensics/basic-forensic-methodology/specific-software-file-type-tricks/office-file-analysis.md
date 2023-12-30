@@ -1,30 +1,32 @@
-# 办公文件分析
+# Office文件分析
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零到英雄学习AWS黑客技术，通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者你想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+支持HackTricks的其他方式：
+
+* 如果您想在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**telegram群组**](https://t.me/peass)或在**Twitter**上**关注**我 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和**自动化工作流程**，使用全球**最先进的**社区工具。\
+使用 [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) 来轻松构建并**自动化工作流程**，由世界上**最先进**的社区工具提供支持。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ## 介绍
 
-微软创建了**数十种办公文档文件格式**，其中许多因其能够**包含宏**（VBA脚本）而在分发钓鱼攻击和恶意软件方面非常流行。
+Microsoft创建了**数十种Office文档文件格式**，其中许多因为能够**包含宏**（VBA脚本）而受到用于分发网络钓鱼攻击和恶意软件的欢迎。
 
-广义上说，办公文件格式分为两代：**OLE格式**（文件扩展名如RTF、DOC、XLS、PPT）和“**Office Open XML**”格式（文件扩展名包括DOCX、XLSX、PPTX）。**两种**格式都是结构化的、复合文件二进制格式，可以**启用链接或嵌入内容**（对象）。OOXML文件是zip文件容器，这意味着检查隐藏数据的最简单方法之一就是简单地`unzip`文档：
+广义上，Office文件格式有两代：**OLE格式**（文件扩展名如RTF、DOC、XLS、PPT），以及"**Office Open XML**"格式（文件扩展名包括DOCX、XLSX、PPTX）。**两种**格式都是结构化的、复合文件二进制格式，能够**启用链接或嵌入内容**（对象）。OOXML文件是zip文件容器，这意味着检查隐藏数据最简单的方法之一就是直接`unzip`文档：
 ```
 $ unzip example.docx
 Archive:  example.docx
@@ -65,87 +67,45 @@ $ tree
 │   └── theme1.xml
 └── webSettings.xml
 ```
-正如你所看到的，文件和文件夹层次结构创建了一部分结构，其余部分在XML文件中指定。[_New Steganographic Techniques for the OOXML File Format_, 2011](http://download.springer.com/static/pdf/713/chp%3A10.1007%2F978-3-642-23300-5\_27.pdf?originUrl=http%3A%2F%2Flink.springer.com%2Fchapter%2F10.1007%2F978-3-642-23300-5\_27\&token2=exp=1497911340\~acl=%2Fstatic%2Fpdf%2F713%2Fchp%25253A10.1007%25252F978-3-642-23300-5\_27.pdf%3ForiginUrl%3Dhttp%253A%252F%252Flink.springer.com%252Fchapter%252F10.1007%252F978-3-642-23300-5\_27\*\~hmac=aca7e2655354b656ca7d699e8e68ceb19a95bcf64e1ac67354d8bca04146fd3d)详细介绍了一些数据隐藏技术的想法，但CTF挑战的作者们总是会想出新的方法。
+正如您所见，一些结构是由文件和文件夹层次结构创建的。其余的则在XML文件内指定。[_New Steganographic Techniques for the OOXML File Format_, 2011](http://download.springer.com/static/pdf/713/chp%3A10.1007%2F978-3-642-23300-5\_27.pdf?originUrl=http%3A%2F%2Flink.springer.com%2Fchapter%2F10.1007%2F978-3-642-23300-5\_27\&token2=exp=1497911340\~acl=%2Fstatic%2Fpdf%2F713%2Fchp%25253A10.1007%25252F978-3-642-23300-5\_27.pdf%3ForiginUrl%3Dhttp%253A%252F%252Flink.springer.com%252Fchapter%252F10.1007%252F978-3-642-23300-5\_27\*\~hmac=aca7e2655354b656ca7d699e8e68ceb19a95bcf64e1ac67354d8bca04146fd3d) 详细介绍了一些数据隐藏技术的想法，但CTF挑战的作者总会想出新的方法。
 
-再次强调，存在一个用于检查和分析OLE和OOXML文档的Python工具集：[oletools](http://www.decalage.info/python/oletools)。特别是对于OOXML文档，[OfficeDissector](https://www.officedissector.com)是一个非常强大的分析框架（和Python库）。后者包括一个[使用指南](https://github.com/grierforensics/officedissector/blob/master/doc/html/\_sources/txt/ANALYZING\_OOXML.txt)。
+再次强调，存在一个Python工具集，用于**分析OLE和OOXML文档**：[oletools](http://www.decalage.info/python/oletools)。特别是对于OOXML文档，[OfficeDissector](https://www.officedissector.com) 是一个非常强大的分析框架（和Python库）。后者包括[快速使用指南](https://github.com/grierforensics/officedissector/blob/master/doc/html/\_sources/txt/ANALYZING\_OOXML.txt)。
 
-有时候，挑战不在于找到隐藏的静态数据，而是分析VBA宏以确定其行为。这是一个更现实的场景，也是领域中的分析人员每天都要执行的任务。前面提到的分析工具可以指示是否存在宏，并可能为您提取它。在Windows上，Office文档中的典型VBA宏将下载一个PowerShell脚本到%TEMP%并尝试执行它，这样您现在就有了一个PowerShell脚本分析任务。但是恶意的VBA宏很少复杂，因为VBA通常只用作启动代码执行的平台。如果您确实需要理解一个复杂的VBA宏，或者宏被混淆并具有解包例程，您不需要拥有Microsoft Office的许可证来调试它。您可以使用[Libre Office](http://libreoffice.org)：[其界面](http://www.debugpoint.com/2014/09/debugging-libreoffice-macro-basic-using-breakpoint-and-watch/)对于任何调试过程序的人来说都是熟悉的；您可以设置断点、创建监视变量并在解包后但执行任何有效负载行为之前捕获值。您甚至可以从命令行启动特定文档的宏。
+有时挑战不在于找到隐藏的静态数据，而在于**分析VBA宏**以确定其行为。这是一个更现实的场景，也是领域分析师每天都在执行的任务。上述分析工具可以指示是否存在宏，并且可能为您提取它。在Windows上的Office文档中，典型的VBA宏将下载一个PowerShell脚本到%TEMP%并尝试执行它，在这种情况下，您现在也有了PowerShell脚本分析任务。但是恶意VBA宏很少复杂，因为VBA[通常只是用作引导代码执行的跳板](https://www.lastline.com/labsblog/party-like-its-1999-comeback-of-vba-malware-downloaders-part-3/)。在您确实需要理解复杂的VBA宏的情况下，或者如果宏被混淆并且有一个解包程序，您不需要拥有Microsoft Office的许可证来调试这个。您可以使用[Libre Office](http://libreoffice.org)：[其界面](http://www.debugpoint.com/2014/09/debugging-libreoffice-macro-basic-using-breakpoint-and-watch/)对任何调试过程序的人来说都会很熟悉；您可以设置断点和创建观察变量，并在解包后但在任何有效载荷行为执行之前捕获值。您甚至可以从命令行启动特定文档的宏：
 ```
 $ soffice path/to/test.docx macro://./standard.module1.mymacro
 ```
 ## [oletools](https://github.com/decalage2/oletools)
-
-oletools是一组用于分析和检测Microsoft Office文件中的恶意宏和OLE对象的工具。它包含了一些有用的脚本和工具，可以帮助分析人员识别和分析潜在的恶意文件。
-
-### olevba
-
-olevba是oletools中的一个脚本，用于分析Office文件中的VBA宏代码。它可以提取和分析VBA宏代码，检测潜在的恶意行为，并生成报告。
-
-使用olevba，您可以：
-
-- 提取Office文件中的VBA宏代码
-- 分析VBA宏代码，查找潜在的恶意行为
-- 生成报告，包含有关VBA宏代码的详细信息和潜在的恶意行为
-
-### oledump
-
-oledump是oletools中的另一个脚本，用于分析Office文件中的OLE对象。它可以提取和分析OLE对象，检测潜在的恶意行为，并生成报告。
-
-使用oledump，您可以：
-
-- 提取Office文件中的OLE对象
-- 分析OLE对象，查找潜在的恶意行为
-- 生成报告，包含有关OLE对象的详细信息和潜在的恶意行为
-
-### oledir
-
-oledir是oletools中的第三个脚本，用于分析Office文件中的目录结构。它可以提取和分析目录结构，查找潜在的恶意行为，并生成报告。
-
-使用oledir，您可以：
-
-- 提取Office文件中的目录结构
-- 分析目录结构，查找潜在的恶意行为
-- 生成报告，包含有关目录结构的详细信息和潜在的恶意行为
-
-### olemeta
-
-olemeta是oletools中的最后一个脚本，用于提取和分析Office文件的元数据。它可以提取文件的元数据，并生成报告。
-
-使用olemeta，您可以：
-
-- 提取Office文件的元数据
-- 分析元数据，获取有关文件的详细信息
-- 生成报告，包含有关文件的元数据和详细信息
-
-oletools是一个强大的工具集，可以帮助您分析和检测Microsoft Office文件中的恶意宏和OLE对象。通过使用这些工具，您可以更好地了解文件的内容，并识别潜在的恶意行为。
 ```bash
 sudo pip3 install -U oletools
 olevba -c /path/to/document #Extract macros
 ```
 ## 自动执行
 
-`AutoOpen`、`AutoExec`或`Document_Open`等宏函数将被**自动执行**。
+宏功能如 `AutoOpen`、`AutoExec` 或 `Document_Open` 将会被**自动** **执行**。
 
 ## 参考资料
 
 * [https://trailofbits.github.io/ctf/forensics/](https://trailofbits.github.io/ctf/forensics/)
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和**自动化工作流程**，使用全球**最先进的**社区工具。\
+使用 [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) 可以轻松构建并**自动化工作流程**，这些工作流程由世界上**最先进**的社区工具提供支持。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>从零开始学习AWS hacking！</strong></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+其他支持HackTricks的方式：
+
+* 如果您希望在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来**分享您的hacking技巧。
 
 </details>

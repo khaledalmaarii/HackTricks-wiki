@@ -1,24 +1,26 @@
-# Wireshark技巧
+# Wireshark 技巧
 
-## Wireshark技巧
+## Wireshark 技巧
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
+<summary><strong>从零开始学习 AWS 黑客技术，成为</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS 红队专家)</strong></a><strong>！</strong></summary>
 
-* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+支持 HackTricks 的其他方式：
+
+* 如果您希望在 **HackTricks** 中看到您的**公司广告**或**下载 HackTricks 的 PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* 发现[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs 集合**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来**分享您的黑客技巧**。
 
 </details>
 
-## 提升你的Wireshark技能
+## 提升你的 Wireshark 技能
 
 ### 教程
 
-以下教程非常适合学习一些酷炫的基本技巧：
+以下教程非常适合学习一些基本的酷炫技巧：
 
 * [https://unit42.paloaltonetworks.com/unit42-customizing-wireshark-changing-column-display/](https://unit42.paloaltonetworks.com/unit42-customizing-wireshark-changing-column-display/)
 * [https://unit42.paloaltonetworks.com/using-wireshark-display-filter-expressions/](https://unit42.paloaltonetworks.com/using-wireshark-display-filter-expressions/)
@@ -29,111 +31,112 @@
 
 **专家信息**
 
-点击 _**Analyze** --> **Expert Information**_，你将获得对**分析的数据包**的**概述**：
+点击 _**分析** --> **专家信息**_，您将获得对分析中的数据包发生情况的**概览**：
 
 ![](<../../../.gitbook/assets/image (570).png>)
 
-**解析的地址**
+**解析地址**
 
-在 _**Statistics --> Resolved Addresses**_ 下，你可以找到Wireshark解析的一些信息，比如端口/传输协议到协议的映射，MAC地址到制造商的映射等。了解通信中涉及的内容非常有趣。
+在 _**统计 --> 解析地址**_ 下，您可以找到 Wireshark 解析的各种**信息**，如端口/传输协议到协议，MAC 到制造商等。了解哪些内容涉及通信是很有趣的。
 
 ![](<../../../.gitbook/assets/image (571).png>)
 
 **协议层次结构**
 
-在 _**Statistics --> Protocol Hierarchy**_ 下，你可以找到通信中涉及的**协议**以及与它们相关的数据。
+在 _**统计 --> 协议层次结构**_ 下，您可以找到通信中涉及的**协议**及其数据。
 
 ![](<../../../.gitbook/assets/image (572).png>)
 
-**会话**
+**对话**
 
-在 _**Statistics --> Conversations**_ 下，你可以找到通信中的**会话摘要**以及与它们相关的数据。
+在 _**统计 --> 对话**_ 下，您可以找到通信中**对话的摘要**及其数据。
 
 ![](<../../../.gitbook/assets/image (573).png>)
 
 **端点**
 
-在 _**Statistics --> Endpoints**_ 下，你可以找到通信中的**端点摘要**以及每个端点的数据。
+在 _**统计 --> 端点**_ 下，您可以找到通信中**端点的摘要**及其每个端点的数据。
 
 ![](<../../../.gitbook/assets/image (575).png>)
 
-**DNS信息**
+**DNS 信息**
 
-在 _**Statistics --> DNS**_ 下，你可以找到关于捕获的DNS请求的统计信息。
+在 _**统计 --> DNS**_ 下，您可以找到捕获的 DNS 请求的统计信息。
 
 ![](<../../../.gitbook/assets/image (577).png>)
 
-**I/O图表**
+**I/O 图表**
 
-在 _**Statistics --> I/O Graph**_ 下，你可以找到通信的**图表**。
+在 _**统计 --> I/O 图表**_ 下，您可以找到**通信图表**。
 
 ![](<../../../.gitbook/assets/image (574).png>)
 
 ### 过滤器
 
-在这里，你可以找到根据协议进行的Wireshark过滤器：[https://www.wireshark.org/docs/dfref/](https://www.wireshark.org/docs/dfref/)\
+在这里，您可以根据协议找到 Wireshark 过滤器：[https://www.wireshark.org/docs/dfref/](https://www.wireshark.org/docs/dfref/)\
 其他有趣的过滤器：
 
 * `(http.request or ssl.handshake.type == 1) and !(udp.port eq 1900)`
-* HTTP和初始的HTTPS流量
+* HTTP 和初始 HTTPS 流量
 * `(http.request or ssl.handshake.type == 1 or tcp.flags eq 0x0002) and !(udp.port eq 1900)`
-* HTTP和初始的HTTPS流量 + TCP SYN
+* HTTP 和初始 HTTPS 流量 + TCP SYN
 * `(http.request or ssl.handshake.type == 1 or tcp.flags eq 0x0002 or dns) and !(udp.port eq 1900)`
-* HTTP和初始的HTTPS流量 + TCP SYN + DNS请求
+* HTTP 和初始 HTTPS 流量 + TCP SYN + DNS 请求
 
 ### 搜索
 
-如果你想在会话的数据包中**搜索**内容，请按下CTRL+f。你可以通过按右键然后编辑列来向主要信息栏添加新的图层（编号、时间、源等）。
+如果您想要在会话的**数据包**中**搜索**内容，请按 _CTRL+f_。您可以通过右键单击然后编辑列，向主信息栏（编号、时间、来源等）添加新层。
 
-练习：[https://www.malware-traffic-analysis.net/](https://www.malware-traffic-analysis.net)
+实践：[https://www.malware-traffic-analysis.net/](https://www.malware-traffic-analysis.net)
 
 ## 识别域名
 
-你可以添加一个显示Host HTTP头的列：
+您可以添加一个显示 HTTP Host 头的列：
 
 ![](<../../../.gitbook/assets/image (403).png>)
 
-还可以添加一个从初始的HTTPS连接中添加服务器名称的列（**ssl.handshake.type == 1**）：
+以及一个添加来自初始 HTTPS 连接的服务器名称的列（**ssl.handshake.type == 1**）：
 
 ![](<../../../.gitbook/assets/image (408) (1).png>)
+
 ## 识别本地主机名
 
-### 通过DHCP
+### 来自 DHCP
 
-在当前的Wireshark中，不再使用`bootp`，而是需要搜索`DHCP`
+在当前的 Wireshark 中，您需要搜索 `DHCP` 而不是 `bootp`
 
 ![](<../../../.gitbook/assets/image (404).png>)
 
-### 通过NBNS
+### 来自 NBNS
 
 ![](<../../../.gitbook/assets/image (405).png>)
 
-## 解密TLS
+## 解密 TLS
 
-### 使用服务器私钥解密https流量
+### 使用服务器私钥解密 https 流量
 
 _edit>preference>protocol>ssl>_
 
 ![](<../../../.gitbook/assets/image (98).png>)
 
-点击_Edit_并添加服务器和私钥的所有数据（_IP、端口、协议、密钥文件和密码_）
+按 _编辑_ 并添加服务器和私钥的所有数据（_IP、端口、协议、密钥文件和密码_）
 
-### 使用对称会话密钥解密https流量
+### 使用对称会话密钥解密 https 流量
 
-事实证明，Firefox和Chrome都支持将用于加密TLS流量的对称会话密钥记录到文件中。然后，您可以将Wireshark指向该文件，即可解密TLS流量。更多信息请参见：[https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/)\
-要检测此项，请在环境中搜索变量`SSLKEYLOGFILE`
+Firefox 和 Chrome 都支持将用于加密 TLS 流量的对称会话密钥记录到文件中。然后，您可以指向 Wireshark 该文件，即可！解密的 TLS 流量。更多信息：[https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/)\
+要检测这一点，请在环境内搜索变量 `SSLKEYLOGFILE`
 
-共享密钥文件的格式如下：
+共享密钥的文件看起来像这样：
 
 ![](<../../../.gitbook/assets/image (99).png>)
 
-要在Wireshark中导入此文件，请转到\_edit > preference > protocol > ssl > 并将其导入到(Pre)-Master-Secret log filename:
+要在 wireshark 中导入此文件，请转到 _edit > preference > protocol > ssl > 并将其导入 (Pre)-Master-Secret log filename：
 
 ![](<../../../.gitbook/assets/image (100).png>)
 
-## ADB通信
+## ADB 通信
 
-从ADB通信中提取发送的APK文件：
+从 ADB 通信中提取 APK，其中 APK 被发送：
 ```python
 from scapy.all import *
 
@@ -162,12 +165,14 @@ f.close()
 ```
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零到英雄学习AWS黑客技术，参加</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>！</strong></summary>
 
-* 你在一个 **网络安全公司** 工作吗？你想在 HackTricks 中看到你的 **公司广告**吗？或者你想获得 **PEASS 的最新版本或下载 HackTricks 的 PDF** 吗？请查看 [**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 集合 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获得 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注** 我的 **推特** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **通过向** [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享你的黑客技巧。**
+支持HackTricks的其他方式：
+
+* 如果您想在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**telegram群组**](https://t.me/peass)或在**Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
