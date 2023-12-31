@@ -1,25 +1,28 @@
-# Commandes utiles Linux
+# Commandes Linux Utiles
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et automatiser facilement des flux de travail alimentés par les outils communautaires les plus avancés au monde.\
-Accédez dès aujourd'hui :
+\
+Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser des flux de travail** facilement, alimentés par les outils communautaires **les plus avancés**.\
+Obtenez l'accès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? Ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+Autres moyens de soutenir HackTricks :
+
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-moi** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## Bash commun
+## Bash Commun
 ```bash
 #Exfiltration using Base64
 base64 -w 0 file
@@ -138,11 +141,11 @@ sudo chattr -i file.txt #Remove the bit so you can delete it
 # List files inside zip
 7z l file.zip
 ```
-<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
-Obtenez un accès aujourd'hui :
+Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser des flux de travail** facilement, alimentés par les outils communautaires **les plus avancés**.\
+Obtenez l'accès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -167,17 +170,6 @@ python pyinstaller.py --onefile exploit.py
 i686-mingw32msvc-gcc -o executable useradd.c
 ```
 ## Greps
-
-Les commandes `grep` sont utilisées pour rechercher des motifs spécifiques dans des fichiers ou des flux de données. Voici quelques exemples courants d'utilisation de `grep` :
-
-- `grep motif fichier` : recherche le motif spécifié dans le fichier spécifié.
-- `grep -r motif répertoire` : recherche récursivement le motif spécifié dans tous les fichiers du répertoire spécifié.
-- `grep -i motif fichier` : recherche le motif spécifié dans le fichier spécifié, en ignorant la casse.
-- `grep -v motif fichier` : recherche les lignes qui ne contiennent pas le motif spécifié dans le fichier spécifié.
-- `grep -l motif fichier` : affiche uniquement les noms des fichiers qui contiennent le motif spécifié.
-- `grep -n motif fichier` : affiche les lignes qui contiennent le motif spécifié, ainsi que leur numéro de ligne.
-
-Les commandes `grep` sont très utiles pour effectuer des recherches rapides dans de nombreux fichiers ou pour filtrer des données en fonction de motifs spécifiques.
 ```bash
 #Extract emails from file
 grep -E -o "\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}\b" file.txt
@@ -258,17 +250,6 @@ grep -Po 'd{3}[s-_]?d{3}[s-_]?d{4}' *.txt > us-phones.txt
 egrep -a -o "\bISBN(?:-1[03])?:? (?=[0-9X]{10}$|(?=(?:[0-9]+[- ]){3})[- 0-9X]{13}$|97[89][0-9]{10}$|(?=(?:[0-9]+[- ]){4})[- 0-9]{17}$)(?:97[89][- ]?)?[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9X]\b" *.txt > isbn.txt
 ```
 ## Aide à la recherche Nmap
-
-Nmap est un outil de scan de réseau puissant et polyvalent. Il offre de nombreuses options de recherche pour vous aider à explorer et à analyser les réseaux. Voici quelques commandes utiles pour vous aider à démarrer :
-
-- `nmap -sn <IP>` : Cette commande effectue un scan de ping pour vérifier si une adresse IP est active.
-- `nmap -sS <IP>` : Cette commande effectue un scan TCP SYN pour détecter les ports ouverts sur une adresse IP.
-- `nmap -sU <IP>` : Cette commande effectue un scan UDP pour détecter les ports ouverts sur une adresse IP.
-- `nmap -p <port> <IP>` : Cette commande effectue un scan sur un port spécifique d'une adresse IP.
-- `nmap -O <IP>` : Cette commande tente de détecter le système d'exploitation d'une adresse IP.
-- `nmap -A <IP>` : Cette commande effectue un scan complet, y compris la détection du système d'exploitation, la détection des versions de logiciels et d'autres informations détaillées.
-
-Ces commandes de base vous aideront à commencer à utiliser Nmap pour explorer et analyser les réseaux. N'hésitez pas à consulter la documentation officielle de Nmap pour en savoir plus sur les options de recherche avancées.
 ```bash
 #Nmap scripts ((default or version) and smb))
 nmap --script-help "(default or version) and *smb*"
@@ -276,93 +257,11 @@ locate -r '\.nse$' | xargs grep categories | grep 'default\|version\|safe' | gre
 nmap --script-help "(default or version) and smb)"
 ```
 ## Bash
-
-Bash (Bourne Again SHell) est un interpréteur de commandes populaire utilisé dans les systèmes d'exploitation Linux et macOS. Il offre de nombreuses fonctionnalités utiles pour les administrateurs système et les utilisateurs avancés. Voici quelques commandes Bash couramment utilisées :
-
-- `ls` : Affiche le contenu du répertoire actuel.
-- `cd` : Change le répertoire de travail.
-- `pwd` : Affiche le répertoire de travail actuel.
-- `mkdir` : Crée un nouveau répertoire.
-- `rm` : Supprime des fichiers ou des répertoires.
-- `cp` : Copie des fichiers et des répertoires.
-- `mv` : Déplace ou renomme des fichiers et des répertoires.
-- `cat` : Affiche le contenu d'un fichier.
-- `grep` : Recherche des motifs dans un fichier.
-- `chmod` : Modifie les permissions d'un fichier ou d'un répertoire.
-- `chown` : Modifie le propriétaire d'un fichier ou d'un répertoire.
-- `ssh` : Se connecte à un serveur distant en utilisant le protocole SSH.
-- `wget` : Télécharge des fichiers à partir d'Internet.
-- `tar` : Archive ou extrait des fichiers à partir d'une archive tar.
-- `top` : Affiche les processus en cours d'exécution et leurs statistiques.
-- `ps` : Affiche les processus en cours d'exécution.
-- `kill` : Termine un processus en cours d'exécution.
-- `ifconfig` : Affiche les informations sur les interfaces réseau.
-- `ping` : Envoie des paquets ICMP à une adresse IP pour tester la connectivité réseau.
-- `netstat` : Affiche les connexions réseau actives.
-- `iptables` : Configure le pare-feu Linux.
-- `sudo` : Exécute une commande avec les privilèges d'administration.
-- `history` : Affiche l'historique des commandes exécutées.
-
-Ces commandes Bash sont très utiles pour effectuer diverses tâches de gestion et de dépannage dans un environnement Linux.
 ```bash
 #All bytes inside a file (except 0x20 and 0x00)
 for j in $((for i in {0..9}{0..9} {0..9}{a..f} {a..f}{0..9} {a..f}{a..f}; do echo $i; done ) | sort | grep -v "20\|00"); do echo -n -e "\x$j" >> bytes; done
 ```
 ## Iptables
-
-Iptables is a powerful firewall utility for Linux systems. It allows you to configure and manage network traffic by creating rules and chains. These rules determine how packets are processed and whether they are allowed or denied.
-
-### Basic Usage
-
-To view the current iptables rules, use the following command:
-
-```bash
-iptables -L
-```
-
-To flush all existing rules and chains, use the following command:
-
-```bash
-iptables -F
-```
-
-To block incoming traffic from a specific IP address, use the following command:
-
-```bash
-iptables -A INPUT -s <IP_ADDRESS> -j DROP
-```
-
-To allow incoming traffic on a specific port, use the following command:
-
-```bash
-iptables -A INPUT -p tcp --dport <PORT_NUMBER> -j ACCEPT
-```
-
-To save the current iptables rules to a file, use the following command:
-
-```bash
-iptables-save > <FILE_NAME>
-```
-
-### Advanced Usage
-
-In addition to the basic usage, iptables provides many advanced features and options. Here are a few examples:
-
-- **Port Forwarding**: Redirect incoming traffic from one port to another.
-
-- **Network Address Translation (NAT)**: Modify the source or destination IP address of packets.
-
-- **Logging**: Log specific packets or events for analysis.
-
-- **Rate Limiting**: Limit the rate of incoming or outgoing packets.
-
-- **Connection Tracking**: Track and manage stateful connections.
-
-For more information on these advanced features and options, refer to the iptables documentation or online resources.
-
-### Conclusion
-
-Iptables is a versatile tool for securing and managing network traffic on Linux systems. By understanding its basic and advanced usage, you can effectively control the flow of packets and protect your system from unauthorized access.
 ```bash
 #Delete curent rules and chains
 iptables --flush
@@ -395,20 +294,22 @@ iptables -P OUTPUT ACCEPT
 ```
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+Autres moyens de soutenir HackTricks :
+
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez**-moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser facilement des flux de travail** alimentés par les outils communautaires les plus avancés au monde.\
-Obtenez un accès aujourd'hui :
+Utilisez [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) pour construire et **automatiser facilement des workflows** alimentés par les outils communautaires **les plus avancés**.\
+Accédez-y dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

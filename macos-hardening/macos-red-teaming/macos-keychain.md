@@ -2,66 +2,68 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+Autres moyens de soutenir HackTricks :
+
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## Principales chaînes de clés
+## Principaux Keychains
 
-* La **chaîne de clés utilisateur** (`~/Library/Keychains/login.keycahin-db`), qui est utilisée pour stocker les **informations d'identification spécifiques à l'utilisateur** telles que les mots de passe d'application, les mots de passe Internet, les certificats générés par l'utilisateur, les mots de passe réseau et les clés publiques / privées générées par l'utilisateur.
-* La **chaîne de clés système** (`/Library/Keychains/System.keychain`), qui stocke les **informations d'identification à l'échelle du système** telles que les mots de passe WiFi, les certificats racine du système, les clés privées du système et les mots de passe d'application du système.
+* Le **User Keychain** (`~/Library/Keychains/login.keycahin-db`), utilisé pour stocker les **identifiants spécifiques à l'utilisateur** tels que les mots de passe d'applications, les mots de passe internet, les certificats générés par l'utilisateur, les mots de passe réseau et les clés publiques/privées générées par l'utilisateur.
+* Le **System Keychain** (`/Library/Keychains/System.keychain`), qui stocke les **identifiants à l'échelle du système** tels que les mots de passe WiFi, les certificats racine du système, les clés privées du système et les mots de passe des applications système.
 
-### Accès aux clés de passe
+### Accès au Keychain de mots de passe
 
-Ces fichiers, bien qu'ils n'aient pas de protection inhérente et puissent être **téléchargés**, sont chiffrés et nécessitent le **mot de passe en clair de l'utilisateur pour être déchiffrés**. Un outil comme [**Chainbreaker**](https://github.com/n0fate/chainbreaker) peut être utilisé pour le déchiffrement.
+Ces fichiers, bien qu'ils ne soient pas protégés par nature et puissent être **téléchargés**, sont chiffrés et nécessitent le **mot de passe en clair de l'utilisateur pour être déchiffrés**. Un outil comme [**Chainbreaker**](https://github.com/n0fate/chainbreaker) pourrait être utilisé pour le déchiffrement.
 
-## Protections des entrées de la chaîne de clés
+## Protections des entrées du Keychain
 
-### ACL
+### ACLs
 
-Chaque entrée dans la chaîne de clés est régie par des **listes de contrôle d'accès (ACL)** qui dictent qui peut effectuer diverses actions sur l'entrée de la chaîne de clés, notamment :
+Chaque entrée dans le keychain est régie par des **Listes de contrôle d'accès (ACLs)** qui dictent qui peut effectuer diverses actions sur l'entrée du keychain, y compris :
 
-* **ACLAuhtorizationExportClear** : permet au détenteur d'obtenir le texte clair du secret.
-* **ACLAuhtorizationExportWrapped** : permet au détenteur d'obtenir le texte clair chiffré avec un autre mot de passe fourni.
-* **ACLAuhtorizationAny** : permet au détenteur d'effectuer n'importe quelle action.
+* **ACLAuhtorizationExportClear** : Permet au détenteur d'obtenir le texte clair du secret.
+* **ACLAuhtorizationExportWrapped** : Permet au détenteur d'obtenir le texte clair chiffré avec un autre mot de passe fourni.
+* **ACLAuhtorizationAny** : Permet au détenteur d'effectuer n'importe quelle action.
 
-Les ACL sont accompagnées d'une **liste d'applications de confiance** qui peuvent effectuer ces actions sans invitation. Cela pourrait être :
+Les ACLs sont en outre accompagnées d'une **liste d'applications de confiance** qui peuvent effectuer ces actions sans demande. Cela pourrait être :
 
 * &#x20;**N`il`** (aucune autorisation requise, **tout le monde est de confiance**)
 * Une liste **vide** (**personne** n'est de confiance)
-* **Liste** d'**applications** spécifiques.
+* **Liste** d'**applications spécifiques**.
 
-L'entrée peut également contenir la clé **`ACLAuthorizationPartitionID`**, qui est utilisée pour identifier le **teamid, apple** et **cdhash.**
+De plus, l'entrée peut contenir la clé **`ACLAuthorizationPartitionID`,** qui est utilisée pour identifier le **teamid, apple,** et **cdhash.**
 
-* Si le **teamid** est spécifié, alors pour **accéder** à la valeur de l'entrée **sans** invitation, l'application utilisée doit avoir le **même teamid**.
-* Si l'**apple** est spécifiée, l'application doit être **signée** par **Apple**.
-* Si le **cdhash** est indiqué, l'**application** doit avoir le **cdhash** spécifique.
+* Si le **teamid** est spécifié, alors pour **accéder à la valeur de l'entrée** **sans** **invite**, l'application utilisée doit avoir le **même teamid**.
+* Si **apple** est spécifié, alors l'application doit être **signée** par **Apple**.
+* Si le **cdhash** est indiqué, alors l'**application** doit avoir le **cdhash** spécifique.
 
-### Création d'une entrée de chaîne de clés
+### Création d'une entrée Keychain
 
-Lorsqu'une **nouvelle entrée** est créée à l'aide de **`Keychain Access.app`**, les règles suivantes s'appliquent :
-
-* Toutes les applications peuvent chiffrer.
-* **Aucune application** ne peut exporter/déchiffrer (sans inviter l'utilisateur).
-* Toutes les applications peuvent voir la vérification d'intégrité.
-* Aucune application ne peut modifier les ACL.
-* L'**ID de partition** est défini sur **`apple`**.
-
-Lorsqu'une **application crée une entrée dans la chaîne de clés**, les règles sont légèrement différentes :
+Lorsqu'une **nouvelle** **entrée** est créée en utilisant **`Keychain Access.app`**, les règles suivantes s'appliquent :
 
 * Toutes les applications peuvent chiffrer.
-* Seule l'**application créatrice** (ou toute autre application explicitement ajoutée) peut exporter/déchiffrer (sans inviter l'utilisateur).
-* Toutes les applications peuvent voir la vérification d'intégrité.
-* Aucune application ne peut modifier les ACL.
-* L'**ID de partition** est défini sur **`teamid:[teamID ici]`**.
+* **Aucune application** ne peut exporter/déchiffrer (sans demander à l'utilisateur).
+* Toutes les applications peuvent voir le contrôle d'intégrité.
+* Aucune application ne peut changer les ACLs.
+* Le **partitionID** est défini sur **`apple`**.
 
-## Accès à la chaîne de clés
+Lorsqu'une **application crée une entrée dans le keychain**, les règles sont légèrement différentes :
+
+* Toutes les applications peuvent chiffrer.
+* Seule l'**application créatrice** (ou toute autre application explicitement ajoutée) peut exporter/déchiffrer (sans demander à l'utilisateur).
+* Toutes les applications peuvent voir le contrôle d'intégrité.
+* Aucune application ne peut changer les ACLs.
+* Le **partitionID** est défini sur **`teamid:[teamID ici]`**.
+
+## Accéder au Keychain
 
 ### `security`
 ```bash
@@ -77,67 +79,69 @@ security set-generic-password-parition-list -s "test service" -a "test acount" -
 ### APIs
 
 {% hint style="success" %}
-L'**énumération et le dumping** des secrets du **trousseau de clés qui ne génèrent pas de prompt** peuvent être effectués avec l'outil [**LockSmith**](https://github.com/its-a-feature/LockSmith)
+L'**énumération des trousseaux et l'extraction** des secrets qui **ne généreront pas de demande** peuvent être effectuées avec l'outil [**LockSmith**](https://github.com/its-a-feature/LockSmith)
 {% endhint %}
 
-Listez et obtenez des **informations** sur chaque entrée de trousseau de clés :
+Lister et obtenir des **informations** sur chaque entrée du trousseau :
 
-* L'API **`SecItemCopyMatching`** donne des informations sur chaque entrée et il y a des attributs que vous pouvez définir lors de son utilisation :
-  * **`kSecReturnData`** : Si vrai, il essaiera de décrypter les données (définissez-le sur faux pour éviter les pop-ups potentiels)
-  * **`kSecReturnRef`** : Obtenez également une référence à l'élément de trousseau de clés (définissez-le sur vrai au cas où vous verriez que vous pouvez décrypter sans pop-up)
-  * **`kSecReturnAttributes`** : Obtenez des métadonnées sur les entrées
-  * **`kSecMatchLimit`** : Combien de résultats à renvoyer
-  * **`kSecClass`** : Quel type d'entrée de trousseau de clés
+* L'API **`SecItemCopyMatching`** fournit des informations sur chaque entrée et il y a certains attributs que vous pouvez définir lors de son utilisation :
+* **`kSecReturnData`** : Si vrai, il essaiera de déchiffrer les données (mettre sur faux pour éviter les pop-ups potentiels)
+* **`kSecReturnRef`** : Obtenez également une référence à l'élément du trousseau (mettre sur vrai au cas où vous verriez que vous pouvez déchiffrer sans pop-up)
+* **`kSecReturnAttributes`** : Obtenez des métadonnées sur les entrées
+* **`kSecMatchLimit`** : Combien de résultats retourner
+* **`kSecClass`** : Quel type d'entrée de trousseau
 
-Obtenez les **ACL** de chaque entrée :
+Obtenir les **ACL** de chaque entrée :
 
-* Avec l'API **`SecAccessCopyACLList`**, vous pouvez obtenir l'**ACL pour l'élément de trousseau de clés**, et il renverra une liste d'ACL (comme `ACLAuhtorizationExportClear` et les autres mentionnées précédemment) où chaque liste a :
-  * Description
-  * **Liste d'applications de confiance**. Cela pourrait être :
-    * Une application : /Applications/Slack.app
-    * Un binaire : /usr/libexec/airportd
-    * Un groupe : group://AirPort
+* Avec l'API **`SecAccessCopyACLList`**, vous pouvez obtenir l'**ACL pour l'élément du trousseau**, et cela retournera une liste d'ACLs (comme `ACLAuhtorizationExportClear` et les autres mentionnés précédemment) où chaque liste a :
+* Description
+* **Liste d'applications de confiance**. Cela pourrait être :
+* Une application : /Applications/Slack.app
+* Un binaire : /usr/libexec/airportd
+* Un groupe : group://AirPort
 
-Exportez les données :
+Exporter les données :
 
 * L'API **`SecKeychainItemCopyContent`** obtient le texte en clair
-* L'API **`SecItemExport`** exporte les clés et les certificats mais il peut être nécessaire de définir des mots de passe pour exporter le contenu chiffré
+* L'API **`SecItemExport`** exporte les clés et les certificats mais pourrait devoir définir des mots de passe pour exporter le contenu chiffré
 
-Et voici les **exigences** pour pouvoir **exporter un secret sans invite** :
+Et voici les **exigences** pour pouvoir **exporter un secret sans demande** :
 
-* Si **1+ applications de confiance** sont répertoriées :
-  * Besoin des **autorisations appropriées** (**`Nil`**, ou être **partie** de la liste autorisée d'applications dans l'autorisation pour accéder aux informations secrètes)
-  * Besoin d'une signature de code pour correspondre à **PartitionID**
-  * Besoin d'une signature de code pour correspondre à celle d'une **application de confiance** (ou être membre du bon KeychainAccessGroup)
+* Si **1+ applications de confiance** sont listées :
+* Besoin des **autorisations** appropriées (**`Nil`**, ou faire **partie** de la liste des applications autorisées dans l'autorisation pour accéder aux informations secrètes)
+* Besoin que la signature de code corresponde au **PartitionID**
+* Besoin que la signature de code corresponde à celle d'une **application de confiance** (ou être membre du bon KeychainAccessGroup)
 * Si **toutes les applications sont de confiance** :
-  * Besoin des **autorisations appropriées**
-  * Besoin d'une signature de code pour correspondre à **PartitionID**
-    * Si **aucun PartitionID**, alors cela n'est pas nécessaire
+* Besoin des **autorisations** appropriées
+* Besoin que la signature de code corresponde au **PartitionID**
+* Si **aucun PartitionID**, alors cela n'est pas nécessaire
 
 {% hint style="danger" %}
-Par conséquent, s'il y a **1 application répertoriée**, vous devez **injecter du code dans cette application**.
+Par conséquent, s'il y a **1 application listée**, vous devez **injecter du code dans cette application**.
 
-Si **apple** est indiqué dans le **partitionID**, vous pouvez y accéder avec **`osascript`** donc tout ce qui fait confiance à toutes les applications avec apple dans le partitionID. **`Python`** pourrait également être utilisé pour cela.
+Si **apple** est indiqué dans le **partitionID**, vous pourriez y accéder avec **`osascript`** donc tout ce qui fait confiance à toutes les applications avec apple dans le partitionID. **`Python`** pourrait également être utilisé pour cela.
 {% endhint %}
 
 ### Deux attributs supplémentaires
 
-* **Invisible** : C'est un indicateur booléen pour **masquer** l'entrée de l'application **UI** Keychain
+* **Invisible** : C'est un indicateur booléen pour **cacher** l'entrée de l'application **UI** Keychain
 * **Général** : C'est pour stocker des **métadonnées** (donc ce n'est PAS CHIFFRÉ)
-  * Microsoft stockait en texte clair tous les jetons de rafraîchissement pour accéder à des points de terminaison sensibles.
+* Microsoft stockait en texte clair tous les jetons d'actualisation pour accéder à des points de terminaison sensibles.
 
 ## Références
 
-* [**#OBTS v5.0: "Lock Picking the macOS Keychain" - Cody Thomas**](https://www.youtube.com/watch?v=jKE1ZW33JpY)
+* [**#OBTS v5.0 : "Lock Picking the macOS Keychain" - Cody Thomas**](https://www.youtube.com/watch?v=jKE1ZW33JpY)
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+Autres moyens de soutenir HackTricks :
+
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF** Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

@@ -2,30 +2,32 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+Autres moyens de soutenir HackTricks :
+
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## Système de fichiers propriétaire Apple (APFS)
+## Système de fichiers propriétaire d'Apple (APFS)
 
-APFS, ou Apple File System, est un système de fichiers moderne développé par Apple Inc. qui a été conçu pour remplacer l'ancien système de fichiers hiérarchique Plus (HFS+) en mettant l'accent sur **les performances améliorées, la sécurité et l'efficacité**.
+APFS, ou Apple File System, est un système de fichiers moderne développé par Apple Inc. conçu pour remplacer l'ancien Hierarchical File System Plus (HFS+) en mettant l'accent sur des **performances, une sécurité et une efficacité améliorées**.
 
-Certaines caractéristiques notables d'APFS comprennent :
+Parmi les caractéristiques notables d'APFS, on trouve :
 
-1. **Partage d'espace** : APFS permet à plusieurs volumes de **partager le même espace de stockage libre** sur un seul dispositif physique. Cela permet une utilisation plus efficace de l'espace car les volumes peuvent se développer et se réduire dynamiquement sans nécessiter de redimensionnement manuel ou de repartitionnement.
-1. Cela signifie, par rapport aux partitions traditionnelles dans les disques de fichiers, **que dans APFS, différentes partitions (volumes) partagent tout l'espace disque**, tandis qu'une partition régulière avait généralement une taille fixe.
-2. **Instantanés** : APFS prend en charge la **création d'instantanés**, qui sont des instances **en lecture seule** du système de fichiers à un moment donné. Les instantanés permettent des sauvegardes efficaces et des retours système faciles, car ils consomment un espace de stockage minimal supplémentaire et peuvent être créés ou rétablis rapidement.
-3. **Clones** : APFS peut **créer des clones de fichiers ou de répertoires qui partagent le même espace de stockage** que l'original jusqu'à ce que le clone ou le fichier original soit modifié. Cette fonctionnalité permet de créer efficacement des copies de fichiers ou de répertoires sans dupliquer l'espace de stockage.
-4. **Cryptage** : APFS prend en charge **nativement le cryptage complet du disque** ainsi que le cryptage par fichier et par répertoire, améliorant la sécurité des données dans différents cas d'utilisation.
-5. **Protection contre les pannes** : APFS utilise un **schéma de métadonnées de copie sur écriture qui garantit la cohérence du système de fichiers** même en cas de perte de courant soudaine ou de plantage du système, réduisant ainsi le risque de corruption des données.
+1. **Partage d'espace** : APFS permet à plusieurs volumes de **partager le même espace de stockage libre sous-jacent** sur un seul dispositif physique. Cela permet une utilisation de l'espace plus efficace, car les volumes peuvent croître et décroître dynamiquement sans nécessiter de redimensionnement manuel ou de repartitionnement.
+2. Cela signifie, par rapport aux partitions traditionnelles dans les disques de fichiers, **que dans APFS différentes partitions (volumes) partagent tout l'espace disque**, tandis qu'une partition régulière avait généralement une taille fixe.
+3. **Instantanés** : APFS prend en charge la **création d'instantanés**, qui sont des instances **en lecture seule** et ponctuelles du système de fichiers. Les instantanés permettent des sauvegardes efficaces et des retours en arrière système faciles, car ils consomment un espace de stockage supplémentaire minimal et peuvent être rapidement créés ou rétablis.
+4. **Clones** : APFS peut **créer des clones de fichiers ou de répertoires qui partagent le même stockage** que l'original jusqu'à ce que le clone ou le fichier original soit modifié. Cette fonctionnalité offre un moyen efficace de créer des copies de fichiers ou de répertoires sans dupliquer l'espace de stockage.
+5. **Chiffrement** : APFS **prend en charge nativement le chiffrement complet du disque** ainsi que le chiffrement par fichier et par répertoire, améliorant la sécurité des données pour différents cas d'utilisation.
+6. **Protection contre les crashs** : APFS utilise un schéma de métadonnées **copy-on-write qui assure la cohérence du système de fichiers** même en cas de perte de courant soudaine ou de crash du système, réduisant le risque de corruption des données.
 
-Dans l'ensemble, APFS offre un système de fichiers plus moderne, flexible et efficace pour les appareils Apple, avec une attention particulière portée aux performances améliorées, à la fiabilité et à la sécurité.
+Dans l'ensemble, APFS offre un système de fichiers plus moderne, flexible et efficace pour les appareils Apple, avec un accent sur des performances, une fiabilité et une sécurité améliorées.
 ```bash
 diskutil list # Get overview of the APFS volumes
 ```
@@ -41,16 +43,18 @@ cat /usr/share/firmlinks
 /Library	Library
 [...]
 ```
-À gauche, il y a le chemin du répertoire sur le volume système, et à droite, le chemin du répertoire où il est mappé sur le volume de données. Ainsi, `/library` --> `/system/Volumes/data/library`
+À **gauche**, il y a le chemin du répertoire sur le **volume Système**, et à **droite**, le chemin du répertoire où il se mappe sur le **volume Données**. Donc, `/library` --> `/system/Volumes/data/library`
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+Autres moyens de soutenir HackTricks :
+
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez**-moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
