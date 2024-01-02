@@ -1,92 +1,131 @@
 # Certificats AD
 
+<details>
+
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+
+Autres moyens de soutenir HackTricks :
+
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+
+</details>
+
 ## Informations de base
 
 ### Parties d'un certificat
 
 * **Sujet** - Le propriétaire du certificat.
-* **Clé publique** - Associe le sujet à une clé privée stockée séparément.
-* **Dates de début et de fin** - Définissent la durée de validité du certificat.
-* **Numéro de série** - Un identifiant pour le certificat attribué par l'AC.
+* **Clé Publique** - Associe le Sujet à une clé privée stockée séparément.
+* **Dates NotBefore et NotAfter** - Définissent la durée de validité du certificat.
+* **Numéro de Série** - Un identifiant pour le certificat attribué par l'AC.
 * **Émetteur** - Identifie qui a émis le certificat (généralement une AC).
-* **SubjectAlternativeName** - Définit un ou plusieurs noms alternatifs que le sujet peut utiliser. (_Voir ci-dessous_)
-* **Contraintes de base** - Identifie si le certificat est une AC ou une entité finale, et s'il y a des contraintes lors de l'utilisation du certificat.
-* **Utilisations étendues des clés (EKU)** - Identificateurs d'objet (OID) qui décrivent **comment le certificat sera utilisé**. Également connu sous le nom d'Enhanced Key Usage dans le jargon de Microsoft. Les EKU courants incluent :
-  * Signature de code (OID 1.3.6.1.5.5.7.3.3) - Le certificat est destiné à la signature de code exécutable.
-  * Système de fichiers chiffré (OID 1.3.6.1.4.1.311.10.3.4) - Le certificat est destiné au chiffrement des systèmes de fichiers.
-  * Courrier électronique sécurisé (1.3.6.1.5.5.7.3.4) - Le certificat est destiné au chiffrement des e-mails.
-  * Authentification client (OID 1.3.6.1.5.5.7.3.2) - Le certificat est destiné à l'authentification auprès d'un autre serveur (par exemple, à AD).
-  * Connexion par carte à puce (OID 1.3.6.1.4.1.311.20.2.2) - Le certificat est destiné à être utilisé dans l'authentification par carte à puce.
-  * Authentification du serveur (OID 1.3.6.1.5.5.7.3.1) - Le certificat est destiné à l'identification des serveurs (par exemple, les certificats HTTPS).
-* **Algorithme de signature** - Spécifie l'algorithme utilisé pour signer le certificat.
-* **Signature** - La signature du corps des certificats effectuée à l'aide de la clé privée de l'émetteur (par exemple, d'une AC).
+* **SubjectAlternativeName** - Définit un ou plusieurs noms alternatifs que le Sujet peut utiliser. (_Voir ci-dessous_)
+* **Contraintes de Base** - Identifie si le certificat est une AC ou une entité finale, et s'il y a des contraintes lors de l'utilisation du certificat.
+* **Utilisations Clés Étendues (EKUs)** - Identificateurs d'objets (OIDs) qui décrivent **comment le certificat sera utilisé**. Également connu sous le nom d'Utilisation Clé Améliorée dans le jargon de Microsoft. Les OIDs EKU courants incluent :
+* Signature de Code (OID 1.3.6.1.5.5.7.3.3) - Le certificat est pour la signature de code exécutable.
+* Système de Fichiers de Chiffrement (OID 1.3.6.1.4.1.311.10.3.4) - Le certificat est pour le chiffrement de systèmes de fichiers.
+* Email Sécurisé (1.3.6.1.5.5.7.3.4) - Le certificat est pour le chiffrement d'email.
+* Authentification Client (OID 1.3.6.1.5.5.7.3.2) - Le certificat est pour l'authentification à un autre serveur (par exemple, vers AD).
+* Connexion par Carte à Puce (OID 1.3.6.1.4.1.311.20.2.2) - Le certificat est pour l'utilisation dans l'authentification par carte à puce.
+* Authentification Serveur (OID 1.3.6.1.5.5.7.3.1) - Le certificat est pour l'identification de serveurs (par exemple, certificats HTTPS).
+* **Algorithme de Signature** - Spécifie l'algorithme utilisé pour signer le certificat.
+* **Signature** - La signature du corps des certificats faite en utilisant la clé privée de l'émetteur (par exemple, une AC).
 
-#### Noms alternatifs de sujet
+#### Noms Alternatifs du Sujet
 
-Un **nom alternatif de sujet** (SAN) est une extension X.509v3. Il permet de lier des **identités supplémentaires** à un **certificat**. Par exemple, si un serveur Web héberge du **contenu pour plusieurs domaines**, **chaque** domaine **applicable** pourrait être **inclus** dans le **SAN** de sorte que le serveur Web n'ait besoin que d'un seul certificat HTTPS.
+Un **Nom Alternatif du Sujet** (SAN) est une extension X.509v3. Il permet **d'ajouter des identités supplémentaires** à un **certificat**. Par exemple, si un serveur web héberge **du contenu pour plusieurs domaines**, **chaque** domaine applicable pourrait être **inclus** dans le **SAN** afin que le serveur web n'ait besoin que d'un seul certificat HTTPS.
 
-Par défaut, lors de l'authentification basée sur des certificats, AD mappe les certificats sur les comptes d'utilisateurs en fonction d'un UPN spécifié dans le SAN. Si un attaquant peut **spécifier un SAN arbitraire** lors de la demande d'un certificat qui a une **EKU permettant l'authentification client**, et que l'AC crée et signe un certificat en utilisant le SAN fourni par l'attaquant, l'**attaquant peut devenir n'importe quel utilisateur du domaine**.
+Par défaut, lors de l'authentification basée sur des certificats, une des méthodes qu'AD utilise pour mapper les certificats aux comptes utilisateurs est basée sur un UPN spécifié dans le SAN. Si un attaquant peut **spécifier un SAN arbitraire** lors de la demande d'un certificat qui a un **EKU permettant l'authentification client**, et que l'AC crée et signe un certificat en utilisant le SAN fourni par l'attaquant, **l'attaquant peut devenir n'importe quel utilisateur dans le domaine**.
 
 ### AC
 
-AD CS définit les certificats AC que la forêt AD fait confiance à quatre emplacements sous le conteneur `CN=Services,CN=Configuration,DC=<domain>,DC=<com>`, chacun différant par leur objectif :
+AD CS définit les certificats d'AC que la forêt AD fait confiance dans quatre emplacements sous le conteneur `CN=Public Key Services,CN=Services,CN=Configuration,DC=<domain>,DC=<com>`, chacun différant par leur objectif :
 
-* Le conteneur **Certification Authorities** définit les **certificats AC racines de confiance**. Ces AC sont au **sommet de la hiérarchie de l'arbre PKI** et sont la base de la confiance dans les environnements AD CS. Chaque AC est représentée en tant qu'objet AD à l'intérieur du conteneur où la **classe d'objet** est définie sur **`certificationAuthority`** et la propriété **`cACertificate`** contient les **octets du certificat de l'AC**. Windows propage ces certificats AC à la boutique de certificats des autorités de certification racines de confiance sur **chaque machine Windows**. Pour qu'AD considère un certificat comme **fiable**, la chaîne de confiance du certificat doit finalement se terminer par **l'un des AC racines** définis dans ce conteneur.
-* Le conteneur **Enrolment Services** définit chaque **AC d'entreprise** (c'est-à-dire les AC créées dans AD CS avec le rôle AC d'entreprise activé). Chaque AC d'entreprise a un objet AD avec les attributs suivants :
-  * Un attribut **objectClass** à **`pKIEnrollmentService`**
-  * Un attribut **`cACertificate`** contenant les **octets du certificat de l'AC**
-  * Une propriété **`dNSHostName`** définit le **nom DNS de l'AC**
-  * Un champ **certificateTemplates** définissant les **modèles de certificat activés**. Les modèles de certificat sont un
-### Droits d'inscription aux modèles de certificats
+* Le conteneur **Certification Authorities** définit **les certificats d'AC racine de confiance**. Ces AC sont au **sommet de la hiérarchie de l'arbre PKI** et sont la base de la confiance dans les environnements AD CS. Chaque AC est représentée comme un objet AD à l'intérieur du conteneur où l'**objectClass** est défini à **`certificationAuthority`** et la propriété **`cACertificate`** contient les **octets** du **certificat de l'AC**. Windows propage ces certificats d'AC aux magasins de certificats d'Autorités de Certification Racines de Confiance sur **chaque machine Windows**. Pour qu'AD considère un certificat comme **de confiance**, la chaîne de confiance du certificat doit finalement **se terminer** avec **l'une des AC racines** définies dans ce conteneur.
+* Le conteneur **Enrolment Services** définit chaque **AC d'Entreprise** (c'est-à-dire, les AC créées dans AD CS avec le rôle d'AC d'Entreprise activé). Chaque AC d'Entreprise a un objet AD avec les attributs suivants :
+* Un attribut **objectClass** défini à **`pKIEnrollmentService`**
+* Un attribut **`cACertificate`** contenant les **octets du certificat de l'AC**
+* Une propriété **`dNSHostName`** définissant l'**hôte DNS de l'AC**
+* Un champ **certificateTemplates** définissant les **modèles de certificats activés**. Les modèles de certificats sont un "plan" de paramètres que l'AC utilise lors de la création d'un certificat, et incluent des choses telles que les EKUs, les permissions d'inscription, l'expiration du certificat, les exigences d'émission et les paramètres de cryptographie. Nous discuterons plus en détail des modèles de certificats plus tard.
 
-* **L'ACE accorde à un principal le droit étendu d'inscription de certificat**. L'ACE brut accorde au principal le droit d'accès `RIGHT_DS_CONTROL_ACCESS45` où le **ObjectType** est défini sur `0e10c968-78fb-11d2-90d4-00c04f79dc5547`. Ce GUID correspond au droit étendu d'inscription de certificat.
-* **L'ACE accorde à un principal le droit étendu d'inscription automatique de certificat**. L'ACE brut accorde au principal le droit d'accès `RIGHT_DS_CONTROL_ACCESS48` où le **ObjectType** est défini sur `a05b8cc2-17bc-4802-a710-e7c15ab866a249`. Ce GUID correspond au droit étendu d'inscription automatique de certificat.
-* **Un ACE accorde à un principal tous les droits étendus**. L'ACE brut active le droit d'accès `RIGHT_DS_CONTROL_ACCESS` où le **ObjectType** est défini sur `00000000-0000-0000-0000-000000000000`. Ce GUID correspond à **tous les droits étendus**.
+{% hint style="info" %}
+Dans les environnements AD, **les clients interagissent avec les AC d'Entreprise pour demander un certificat** basé sur les paramètres définis dans un modèle de certificat. Les certificats d'AC d'Entreprise sont propagés au magasin de certificats d'Autorités de Certification Intermédiaires sur chaque machine Windows
+{% endhint %}
+
+* L'objet AD **NTAuthCertificates** définit les certificats d'AC qui permettent l'authentification à AD. Cet objet a un **objectClass** de **`certificationAuthority`** et la propriété **`cACertificate`** de l'objet définit un tableau de **certificats d'AC de confiance**. Les machines Windows jointes à AD propagent ces AC au magasin de certificats d'Autorités de Certification Intermédiaires sur chaque machine. Les **applications clientes** peuvent **s'authentifier** à AD en utilisant un certificat seulement si l'une des **AC définies par l'objet NTAuthCertificates** a **signé** le certificat du client authentifiant.
+* Le conteneur **AIA** (Authority Information Access) contient les objets AD des AC intermédiaires et croisées. **Les AC intermédiaires sont des "enfants" des AC racines** dans la hiérarchie de l'arbre PKI ; en tant que tel, ce conteneur existe pour aider à **valider les chaînes de certificats**. Comme le conteneur Certification Authorities, chaque **AC est représentée comme un objet AD** dans le conteneur AIA où l'attribut objectClass est défini à certificationAuthority et la propriété **`cACertificate`** contient les **octets** du **certificat de l'AC**. Ces AC sont propagées au magasin de certificats d'Autorités de Certification Intermédiaires sur chaque machine Windows.
+
+### Flux de Demande de Certificat Client
+
+<figure><img src="../../.gitbook/assets/image (5) (2) (2).png" alt=""><figcaption></figcaption></figure>
+
+C'est le processus pour **obtenir un certificat** d'AD CS. À un niveau élevé, lors de l'inscription, les clients trouvent d'abord une **AC d'Entreprise** basée sur les **objets dans le conteneur Enrolment Services** discuté ci-dessus.
+
+1. Les clients génèrent ensuite une **paire de clés publique-privée** et
+2. placent la clé publique dans un message de **demande de signature de certificat (CSR)** avec d'autres détails tels que le sujet du certificat et le **nom du modèle de certificat**. Les clients signent ensuite le CSR avec leur clé privée et envoient le CSR à un serveur AC d'Entreprise.
+3. Le serveur **AC** vérifie si le client **peut demander des certificats**. Si c'est le cas, il détermine s'il émettra un certificat en consultant l'objet AD du **modèle de certificat** spécifié dans le CSR. L'AC vérifiera si l'objet AD du modèle de certificat a des **permissions permettant** au compte authentifiant d'**obtenir un certificat**.
+4. Si c'est le cas, l'**AC génère un certificat** en utilisant les paramètres "plan" définis par le **modèle de certificat** (par exemple, EKUs, paramètres de cryptographie et exigences d'émission) et en utilisant les autres informations fournies dans le CSR si autorisé par les paramètres du modèle de certificat. L'**AC signe le certificat** en utilisant sa clé privée, puis le retourne au client.
+
+### Modèles de Certificats
+
+AD CS stocke les modèles de certificats disponibles comme objets AD avec un **objectClass** de **`pKICertificateTemplate`** situé dans le conteneur suivant :
+
+`CN=Certificate Templates,CN=Public Key Services,CN=Services,CN=Configuration,DC=<domain>,DC=<com>`
+
+Les attributs d'un objet de modèle de certificat AD **définissent ses paramètres, et son descripteur de sécurité contrôle** quels **principaux peuvent s'inscrire** au certificat ou **modifier** le modèle de certificat.
+
+L'attribut **`pKIExtendedKeyUsage`** sur un objet de modèle de certificat AD contient un **tableau d'OIDs** activés dans le modèle. Ces OIDs EKU affectent **à quoi le certificat peut être utilisé.** Vous pouvez trouver une [liste des OIDs possibles ici](https://www.pkisolutions.com/object-identifiers-oid-in-pki/).
+
+#### OIDs d'Authentification
+
+* `1.3.6.1.5.5.7.3.2`: Authentification Client
+* `1.3.6.1.5.2.3.4`: Authentification Client PKINIT (à ajouter manuellement)
+* `1.3.6.1.4.1.311.20.2.2`: Connexion par Carte à Puce
+* `2.5.29.37.0`: Tout usage
+* `(pas d'EKUs)`: SubCA
+* Un OID EKU supplémentaire que nous avons trouvé que nous pourrions abuser est l'OID d'Agent de Demande de Certificat (`1.3.6.1.4.1.311.20.2.1`). Les certificats avec cet OID peuvent être utilisés pour **demander des certificats au nom d'un autre utilisateur** à moins que des restrictions spécifiques ne soient mises en place.
+
+## Inscription de Certificat
+
+Un administrateur doit **créer le modèle de certificat** puis une **AC d'Entreprise "publie"** le modèle, le rendant disponible aux clients pour s'inscrire. AD CS spécifie qu'un modèle de certificat est activé sur une AC d'Entreprise en **ajoutant le nom du modèle au champ `certificatetemplates`** de l'objet AD.
+
+<figure><img src="../../.gitbook/assets/image (11) (2) (1).png" alt=""><figcaption></figcaption></figure>
+
+{% hint style="warning" %}
+AD CS définit les droits d'inscription - quels **principaux peuvent demander** un certificat – en utilisant deux descripteurs de sécurité : un sur l'objet AD du **modèle de certificat** et un autre sur l'**AC d'Entreprise elle-même**.\
+Un client doit être autorisé dans les deux descripteurs de sécurité pour pouvoir demander un certificat.
+{% endhint %}
+
+### Droits d'Inscription des Modèles de Certificats
+
+* **L'ACE accorde à un principal le droit étendu Certificate-Enrollment**. L'ACE brut accorde au principal le droit d'accès `RIGHT_DS_CONTROL_ACCESS45` où l'**ObjectType** est défini à `0e10c968-78fb-11d2-90d4-00c04f79dc5547`. Ce GUID correspond au droit étendu **Certificate-Enrolment**.
+* **L'ACE accorde à un principal le droit étendu Certificate-AutoEnrollment**. L'ACE brut accorde au principal le droit d'accès `RIGHT_DS_CONTROL_ACCESS48` où l'**ObjectType** est défini à `a05b8cc2-17bc-4802-a710-e7c15ab866a249`. Ce GUID correspond au droit étendu **Certificate-AutoEnrollment**.
+* **Un ACE accorde à un principal tous les ExtendedRights**. L'ACE brut active le droit d'accès `RIGHT_DS_CONTROL_ACCESS` où l'**ObjectType** est défini à `00000000-0000-0000-0000-000000000000`. Ce GUID correspond à **tous les droits étendus**.
 * **Un ACE accorde à un principal FullControl/GenericAll**. L'ACE brut active le droit d'accès FullControl/GenericAll.
 
-### Droits d'inscription à l'entreprise CA
+### Droits d'Inscription de l'AC d'Entreprise
 
-Le **descripteur de sécurité** configuré sur l'**Enterprise CA** définit ces droits et est **visible** dans la snap-in MMC de l'autorité de certification `certsrv.msc` en cliquant avec le bouton droit sur la CA → Propriétés → Sécurité.
+Le **descripteur de sécurité** configuré sur l'**AC d'Entreprise** définit ces droits et est **visible** dans le snap-in MMC de l'Autorité de Certification `certsrv.msc` en cliquant avec le bouton droit sur l'AC → Propriétés → Sécurité.
 
 <figure><img src="../../.gitbook/assets/image (7) (1) (2) (1).png" alt=""><figcaption></figcaption></figure>
 
-Cela finit par définir la valeur de registre de sécurité dans la clé **`HKLM\SYSTEM\CurrentControlSet\Services\CertSvc\Configuration<NOM DE LA CA>`** sur le serveur CA. Nous avons rencontré plusieurs serveurs AD CS qui accordent aux utilisateurs à faible privilège un accès distant à cette clé via le registre distant :
+Cela finit par définir la valeur de registre Security dans la clé **`HKLM\SYSTEM\CurrentControlSet\Services\CertSvc\Configuration<CA NAME>`** sur le serveur CA. Nous avons rencontré plusieurs serveurs AD CS qui accordent aux utilisateurs peu privilégiés un accès à distance à cette clé via le registre à distance :
 
 <figure><img src="../../.gitbook/assets/image (6) (2) (1).png" alt=""><figcaption></figcaption></figure>
 
-Les utilisateurs à faible privilège peuvent également **énumérer cela via DCOM** en utilisant la méthode `GetCASecurity` de l'interface COM `ICertAdminD2`. Cependant, les clients Windows normaux doivent installer les outils d'administration de serveur distant (RSAT) pour l'utiliser car l'interface COM et tous les objets COM qui l'implémentent ne sont pas présents sur Windows par défaut.
+Les utilisateurs peu privilégiés peuvent également **énumérer cela via DCOM** en utilisant l'interface COM `ICertAdminD2` et sa méthode `GetCASecurity`. Cependant, les clients Windows normaux doivent installer les Outils d'administration de serveur distant (RSAT) pour l'utiliser puisque l'interface COM et tous les objets COM qui l'implémentent ne sont pas présents sur Windows par défaut.
 
-### Exigences de délivrance
+### Exigences d'Émission
 
 D'autres exigences pourraient être en place pour contrôler qui peut obtenir un certificat.
 
-#### Approbation du gestionnaire
+#### Approbation du Gestionnaire
 
-L'**approbation du gestionnaire de certificat CA** entraîne le paramétrage du modèle de certificat en définissant le bit `CT_FLAG_PEND_ALL_REQUESTS` (0x2) sur l'attribut `msPKI-EnrollmentFlag` de l'objet AD. Cela met toutes les **demandes de certificat** basées sur le modèle dans l'état **en attente** (visible dans la section "Demandes en attente" dans `certsrv.msc`), ce qui nécessite qu'un gestionnaire de certificat **approuve ou refuse** la demande avant que le certificat ne soit délivré :
-
-<figure><img src="../../.gitbook/assets/image (13) (2).png" alt=""><figcaption></figcaption></figure>
-
-#### Agents d'inscription, signatures autorisées et politiques d'application
-
-**Ce nombre de signatures autorisées** et la **politique d'application**. Le premier contrôle le **nombre de signatures requises** dans le CSR pour que la CA l'accepte. Le second définit les **OID EKU que le certificat de signature CSR doit avoir**.
-
-Une utilisation courante de ces paramètres est pour les **agents d'inscription**. Un agent d'inscription est un terme AD CS donné à une entité qui peut **demander des certificats au nom d'un autre utilisateur**. Pour ce faire, la CA doit émettre à l'agent d'inscription un certificat contenant au moins le **EKU Agent de demande de certificat** (OID 1.3.6.1.4.1.311.20.2.1). Une fois émis, l'agent d'inscription peut alors **signer des CSR et demander des certificats au nom d'autres utilisateurs**. La CA émettra le certificat de l'agent d'inscription en tant qu'**autre utilisateur** uniquement dans l'ensemble non exhaustif suivant de **conditions** (implémenté principalement dans le module de stratégie par défaut `certpdef.dll`) :
-
-* L'utilisateur Windows s'authentifiant auprès de la CA dispose des droits d'inscription au modèle de certificat cible.
-* Si la version du schéma du modèle de certificat est 1, la CA exigera que les certificats de signature aient l'OID Agent de demande de certificat avant de délivrer le certificat. La version du schéma du modèle est spécifiée dans la propriété msPKI-Template-Schema-Version de son objet AD.
-* Si la version du schéma du modèle de certificat est 2 :
-  * Le modèle doit définir le paramètre "Ce nombre de signatures autorisées" et le nombre spécifié d'agents d'inscription doit signer le CSR (l'attribut AD mspkira-signature du modèle définit ce paramètre). En d'autres termes, ce paramètre spécifie combien d'agents d'inscription doivent signer un CSR avant que la CA ne considère même la délivrance d'un certificat.
-  * La restriction de délivrance "Polit
-## Énumération AD CS
-
-Tout comme pour la plupart des éléments d'AD, toutes les informations couvertes jusqu'à présent sont disponibles en interrogeant LDAP en tant qu'utilisateur authentifié de domaine, mais autrement non privilégié.
-
-Si nous voulons **énumérer les AC d'entreprise** et leurs paramètres, on peut interroger LDAP en utilisant le filtre LDAP `(objectCategory=pKIEnrollmentService)` sur la base de recherche `CN=Configuration,DC=<domain>,DC=<com>` (cette base de recherche correspond au contexte de nommage Configuration de la forêt AD). Les résultats identifieront le nom d'hôte DNS du serveur CA, le nom de la CA elle-même, les dates de début et de fin du certificat, divers indicateurs, les modèles de certificat publiés, et plus encore.
-
-**Outils pour énumérer les certificats vulnérables :**
-
-* [**Certify**](https://github.com/GhostPack/Certify) est un outil C# qui peut **énumérer des informations de configuration et d'infrastructure utiles sur les environnements AD CS** et peut demander des certificats de différentes manières.
-* [**Certipy**](https://github.com/ly4k/Certipy) est un outil **python** pour pouvoir **énumérer et abuser** des services de certificats Active Directory (**AD CS**) **à partir de n'importe quel système** (avec accès au DC) qui peut générer une sortie pour BloodHound créée par [**Lyak**](https://twitter.com/ly4k\_) (bonne personne, meilleur hacker).
+**L'approbation du gestionnaire de certificats de l'AC** résulte dans le modèle de certificat définissant le bit `CT_FLAG_PEND_ALL_REQUESTS` (0x2) sur l'attribut `msPKI-EnrollmentFlag` de l'objet AD. Cela met toutes
 ```bash
 # https://github.com/GhostPack/Certify
 Certify.exe cas #enumerate trusted root CA certificates, certificates defined by the NTAuthCertificates object, and various information about Enterprise CAs
@@ -107,12 +146,14 @@ certutil -v -dstemplate #enumerate certificate templates
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Travaillez-vous dans une entreprise de **cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+Autres moyens de soutenir HackTricks :
+
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez**-moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
