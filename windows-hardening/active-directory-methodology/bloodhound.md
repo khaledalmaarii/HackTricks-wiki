@@ -29,24 +29,24 @@ Para tirar um snapshot do AD, vá em `File` --> `Create Snapshot` e insira um no
 
 ## ADRecon
 
-****[**ADRecon**](https://github.com/adrecon/ADRecon) é uma ferramenta que extrai e combina vários artefatos de um ambiente AD. As informações podem ser apresentadas em um **relatório** do Microsoft Excel **especialmente formatado** que inclui visões resumidas com métricas para facilitar a análise e fornecer uma imagem holística do estado atual do ambiente AD alvo.
+****[**ADRecon**](https://github.com/adrecon/ADRecon) é uma ferramenta que extrai e combina vários artefatos de um ambiente AD. As informações podem ser apresentadas em um **relatório** do Microsoft Excel **especialmente formatado** que inclui visões resumidas com métricas para facilitar a análise e fornecer um quadro holístico do estado atual do ambiente AD alvo.
 ```bash
 # Run it
 .\ADRecon.ps1
 ```
 ## BloodHound
 
-> O BloodHound é uma aplicação web monolítica composta por um frontend React embutido com [Sigma.js](https://www.sigmajs.org/) e uma API REST backend baseada em [Go](https://go.dev/). É implantado com um banco de dados de aplicação [Postgresql](https://www.postgresql.org/) e um banco de dados gráfico [Neo4j](https://neo4j.com), e é alimentado pelos coletores de dados [SharpHound](https://github.com/BloodHoundAD/SharpHound) e [AzureHound](https://github.com/BloodHoundAD/AzureHound).
+> BloodHound é uma aplicação web monolítica composta por um frontend embutido em React com [Sigma.js](https://www.sigmajs.org/) e uma API REST backend baseada em [Go](https://go.dev/). É implantado com um banco de dados de aplicação [Postgresql](https://www.postgresql.org/) e um banco de dados gráfico [Neo4j](https://neo4j.com), e é alimentado pelos coletores de dados [SharpHound](https://github.com/BloodHoundAD/SharpHound) e [AzureHound](https://github.com/BloodHoundAD/AzureHound).
 >
->O BloodHound utiliza a teoria dos grafos para revelar as relações ocultas e muitas vezes não intencionais dentro de um ambiente Active Directory ou Azure. Atacantes podem usar o BloodHound para identificar facilmente caminhos de ataque altamente complexos que de outra forma seriam impossíveis de identificar rapidamente. Defensores podem usar o BloodHound para identificar e eliminar esses mesmos caminhos de ataque. Tanto equipes azuis quanto vermelhas podem usar o BloodHound para obter um entendimento mais profundo das relações de privilégio em um ambiente Active Directory ou Azure.
+>BloodHound utiliza a teoria dos grafos para revelar as relações ocultas e muitas vezes não intencionais dentro de um ambiente Active Directory ou Azure. Atacantes podem usar o BloodHound para identificar facilmente caminhos de ataque altamente complexos que de outra forma seriam impossíveis de identificar rapidamente. Defensores podem usar o BloodHound para identificar e eliminar esses mesmos caminhos de ataque. Tanto equipes azuis quanto vermelhas podem usar o BloodHound para obter um entendimento mais profundo das relações de privilégio em um ambiente Active Directory ou Azure.
 >
->O BloodHound CE é criado e mantido pela [Equipe BloodHound Enterprise](https://bloodhoundenterprise.io). O BloodHound original foi criado por [@\_wald0](https://www.twitter.com/\_wald0), [@CptJesus](https://twitter.com/CptJesus), e [@harmj0y](https://twitter.com/harmj0y).
+>BloodHound CE é criado e mantido pela [Equipe BloodHound Enterprise](https://bloodhoundenterprise.io). O BloodHound original foi criado por [@\_wald0](https://www.twitter.com/\_wald0), [@CptJesus](https://twitter.com/CptJesus), e [@harmj0y](https://twitter.com/harmj0y).
 >
 >De [https://github.com/SpecterOps/BloodHound](https://github.com/SpecterOps/BloodHound)
 
-Portanto, o [Bloodhound](https://github.com/SpecterOps/BloodHound) é uma ferramenta incrível que pode enumerar um domínio automaticamente, salvar todas as informações, encontrar possíveis caminhos de escalonamento de privilégios e mostrar todas as informações usando gráficos.
+Então, [Bloodhound](https://github.com/SpecterOps/BloodHound) é uma ferramenta incrível que pode enumerar um domínio automaticamente, salvar todas as informações, encontrar possíveis caminhos de escalonamento de privilégios e mostrar todas as informações usando gráficos.
 
-O Bloodhound é composto por 2 partes principais: **ingestores** e a **aplicação de visualização**.
+Booldhound é composto por 2 partes principais: **ingestores** e a **aplicação de visualização**.
 
 Os **ingestores** são usados para **enumerar o domínio e extrair todas as informações** em um formato que a aplicação de visualização entenderá.
 
@@ -67,7 +67,7 @@ Após isso, você precisará alterar a senha gerada aleatoriamente e terá a nov
 
 ### SharpHound
 
-Eles têm várias opções, mas se você quiser executar o SharpHound de um PC que faz parte do domínio, usando seu usuário atual e extrair todas as informações, você pode fazer:
+Eles têm várias opções, mas se você quiser executar o SharpHound de um PC que esteja no domínio, usando seu usuário atual e extrair todas as informações, você pode fazer:
 ```
 ./SharpHound.exe --CollectionMethods All
 Invoke-BloodHound -CollectionMethod All
@@ -102,7 +102,7 @@ Você pode baixar os Ingestores de:
 
 1. Aprenda o caminho a partir do gráfico
 
-O Bloodhound vem com várias consultas para destacar caminhos de comprometimento sensíveis. É possível adicionar consultas personalizadas para aprimorar a busca e correlação entre objetos e mais!
+Bloodhound vem com várias consultas para destacar caminhos sensíveis de comprometimento. É possível adicionar consultas personalizadas para aprimorar a busca e correlação entre objetos e mais!
 
 Este repositório tem uma boa coleção de consultas: https://github.com/CompassSecurity/BloodHoundQueries
 
@@ -127,7 +127,7 @@ Agora, inicie o **aplicativo bloodhound**:
 #or
 bloodhound
 ```
-Você será solicitado a inserir as credenciais do banco de dados: **neo4j:\<Sua nova senha>**
+Você será solicitado a inserir as credenciais do banco de dados: **neo4j:<Sua nova senha>**
 
 E o bloodhound estará pronto para receber dados.
 
@@ -135,7 +135,7 @@ E o bloodhound estará pronto para receber dados.
 
 ### **Python bloodhound**
 
-Se você tem credenciais de domínio, você pode executar um **ingestor bloodhound python de qualquer plataforma** para não depender do Windows.\
+Se você possui credenciais de domínio, pode executar um **ingestor bloodhound python de qualquer plataforma**, assim você não precisa depender do Windows.\
 Baixe-o de [https://github.com/fox-it/BloodHound.py](https://github.com/fox-it/BloodHound.py) ou fazendo `pip3 install bloodhound`
 ```bash
 bloodhound-python -u support -p '#00^BlackKnight' -ns 10.10.10.192 -d blackfield.local -c all
@@ -146,7 +146,7 @@ proxychains bloodhound-python -u support -p '#00^BlackKnight' -ns 10.10.10.192 -
 ```
 ### Python SilentHound
 
-Este script irá **enumerar silenciosamente um Domínio do Active Directory via LDAP**, analisando usuários, administradores, grupos, etc.
+Este script irá **enumerar silenciosamente um Domínio do Active Directory via LDAP** analisando usuários, administradores, grupos, etc.
 
 Confira no [**github do SilentHound**](https://github.com/layer8secure/SilentHound).
 
