@@ -7,8 +7,8 @@
 * Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou souhaitez-vous accéder à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
 * Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et au [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-moi** sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Partagez vos astuces de hacking en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et au [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
@@ -16,7 +16,7 @@
 
 [AD Explorer](https://docs.microsoft.com/en-us/sysinternals/downloads/adexplorer) fait partie de la Suite Sysinternal :
 
-> Un visualiseur et éditeur avancé d'Active Directory (AD). Vous pouvez utiliser AD Explorer pour naviguer facilement dans une base de données AD, définir des emplacements favoris, voir les propriétés et attributs des objets sans ouvrir de boîtes de dialogue, éditer les permissions, voir le schéma d'un objet et exécuter des recherches sophistiquées que vous pouvez sauvegarder et réexécuter.
+> Un visualiseur et éditeur avancé pour Active Directory (AD). Vous pouvez utiliser AD Explorer pour naviguer facilement dans une base de données AD, définir des emplacements favoris, voir les propriétés et attributs des objets sans ouvrir de boîtes de dialogue, éditer les permissions, voir le schéma d'un objet et exécuter des recherches sophistiquées que vous pouvez sauvegarder et réexécuter.
 
 ### Instantanés
 
@@ -29,7 +29,7 @@ Pour prendre un instantané de l'AD, allez dans `Fichier` --> `Créer un instant
 
 ## ADRecon
 
-****[**ADRecon**](https://github.com/adrecon/ADRecon) est un outil qui extrait et combine divers artefacts d'un environnement AD. Les informations peuvent être présentées dans un **rapport** Microsoft Excel **spécialement formaté** qui comprend des vues récapitulatives avec des métriques pour faciliter l'analyse et fournir une image holistique de l'état actuel de l'environnement AD cible.
+****[**ADRecon**](https://github.com/adrecon/ADRecon) est un outil qui extrait et combine divers artefacts d'un environnement AD. Les informations peuvent être présentées dans un **rapport** Microsoft Excel **spécialement formaté** qui comprend des vues récapitulatives avec des métriques pour faciliter l'analyse et fournir une image globale de l'état actuel de l'environnement AD cible.
 ```bash
 # Run it
 .\ADRecon.ps1
@@ -38,22 +38,22 @@ Pour prendre un instantané de l'AD, allez dans `Fichier` --> `Créer un instant
 
 > BloodHound est une application web monolithique composée d'une interface utilisateur React intégrée avec [Sigma.js](https://www.sigmajs.org/) et une API REST basée sur [Go](https://go.dev/) en backend. Elle est déployée avec une base de données d'application [Postgresql](https://www.postgresql.org/) et une base de données graphique [Neo4j](https://neo4j.com), et est alimentée par les collecteurs de données [SharpHound](https://github.com/BloodHoundAD/SharpHound) et [AzureHound](https://github.com/BloodHoundAD/AzureHound).
 >
->BloodHound utilise la théorie des graphes pour révéler les relations cachées et souvent non intentionnelles au sein d'un environnement Active Directory ou Azure. Les attaquants peuvent utiliser BloodHound pour identifier facilement des chemins d'attaque très complexes qui seraient autrement impossibles à identifier rapidement. Les défenseurs peuvent utiliser BloodHound pour identifier et éliminer ces mêmes chemins d'attaque. Les équipes bleues et rouges peuvent utiliser BloodHound pour acquérir facilement une compréhension plus approfondie des relations de privilèges dans un environnement Active Directory ou Azure.
+>BloodHound utilise la théorie des graphes pour révéler les relations cachées et souvent non intentionnelles au sein d'un environnement Active Directory ou Azure. Les attaquants peuvent utiliser BloodHound pour identifier facilement des chemins d'attaque très complexes qui seraient autrement impossibles à identifier rapidement. Les défenseurs peuvent utiliser BloodHound pour identifier et éliminer ces mêmes chemins d'attaque. Les équipes bleues et rouges peuvent utiliser BloodHound pour acquérir facilement une compréhension plus profonde des relations de privilèges dans un environnement Active Directory ou Azure.
 >
 >BloodHound CE est créé et maintenu par l'[équipe BloodHound Enterprise](https://bloodhoundenterprise.io). Le BloodHound original a été créé par [@\_wald0](https://www.twitter.com/\_wald0), [@CptJesus](https://twitter.com/CptJesus), et [@harmj0y](https://twitter.com/harmj0y).
 >
 >Depuis [https://github.com/SpecterOps/BloodHound](https://github.com/SpecterOps/BloodHound)
 
-Ainsi, [Bloodhound](https://github.com/SpecterOps/BloodHound) est un outil incroyable qui peut énumérer un domaine automatiquement, sauvegarder toutes les informations, trouver des chemins possibles d'escalade de privilèges et afficher toutes les informations à l'aide de graphiques.
+Ainsi, [Bloodhound](https://github.com/SpecterOps/BloodHound) est un outil incroyable qui peut énumérer un domaine automatiquement, sauvegarder toutes les informations, trouver des chemins possibles d'escalade de privilèges et montrer toutes les informations à l'aide de graphiques.
 
 Bloodhound est composé de 2 parties principales : les **ingestors** et l'**application de visualisation**.
 
 Les **ingestors** sont utilisés pour **énumérer le domaine et extraire toutes les informations** dans un format que l'application de visualisation comprendra.
 
-L'**application de visualisation utilise neo4j** pour montrer comment toutes les informations sont liées et pour montrer différentes manières d'escalader les privilèges dans le domaine.
+**L'application de visualisation utilise neo4j** pour montrer comment toutes les informations sont liées et pour montrer différentes manières d'escalader les privilèges dans le domaine.
 
 ### Installation
-Après la création de BloodHound CE, l'ensemble du projet a été mis à jour pour faciliter son utilisation avec Docker. La manière la plus simple de commencer est d'utiliser sa configuration Docker Compose préconfigurée.
+Après la création de BloodHound CE, l'ensemble du projet a été mis à jour pour faciliter son utilisation avec Docker. La manière la plus simple de commencer est d'utiliser sa configuration Docker Compose pré-configurée.
 
 1. Installez Docker Compose. Cela devrait être inclus avec l'installation de [Docker Desktop](https://www.docker.com/products/docker-desktop/).
 2. Exécutez :
@@ -102,7 +102,7 @@ Vous pouvez télécharger les Ingesteurs depuis :
 
 1. Apprendre le chemin à partir du graphe
 
-Bloodhound est livré avec diverses requêtes pour mettre en évidence des chemins de compromission sensibles. Il est possible d'ajouter des requêtes personnalisées pour améliorer la recherche et la corrélation entre objets et plus encore !
+Bloodhound est fourni avec diverses requêtes pour mettre en évidence des chemins de compromission sensibles. Il est possible d'ajouter des requêtes personnalisées pour améliorer la recherche et la corrélation entre objets et plus encore !
 
 Ce dépôt contient une belle collection de requêtes : https://github.com/CompassSecurity/BloodHoundQueries
 
@@ -165,15 +165,15 @@ group3r.exe -f <filepath-name.log>
 ```
 ## PingCastle
 
-**[**PingCastle**](https://www.pingcastle.com/documentation/) **évalue la posture de sécurité d'un environnement AD** et fournit un **rapport** détaillé avec des graphiques.
+**[**PingCastle**](https://www.pingcastle.com/documentation/)** évalue la posture de sécurité d'un environnement AD et fournit un **rapport** détaillé avec des graphiques.
 
-Pour l'exécuter, vous pouvez exécuter le binaire `PingCastle.exe` et cela démarrera une **session interactive** présentant un menu d'options. L'option par défaut à utiliser est **`healthcheck`** qui établira un aperçu de base du **domaine**, et trouvera des **mauvaises configurations** et des **vulnérabilités**.
+Pour l'exécuter, vous pouvez exécuter le binaire `PingCastle.exe` et cela démarrera une **session interactive** présentant un menu d'options. L'option par défaut à utiliser est **`healthcheck`**, qui établira un aperçu de base du **domaine**, et trouvera des **mauvaises configurations** et des **vulnérabilités**.
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Vous travaillez dans une **entreprise de cybersécurité** ? Vous voulez voir votre **entreprise annoncée dans HackTricks** ? ou souhaitez-vous accéder à la **dernière version du PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Vous travaillez dans une **entreprise de cybersécurité** ? Vous voulez voir votre **entreprise annoncée dans HackTricks** ? ou souhaitez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
 * Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-moi** sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
