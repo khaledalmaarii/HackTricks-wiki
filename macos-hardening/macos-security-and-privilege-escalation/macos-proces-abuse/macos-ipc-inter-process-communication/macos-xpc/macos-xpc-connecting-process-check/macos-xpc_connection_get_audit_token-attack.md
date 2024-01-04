@@ -2,13 +2,15 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Vous travaillez dans une **entreprise de cybersécurité** ? Vous voulez voir votre **entreprise annoncée dans HackTricks** ? ou vous voulez avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+Autres moyens de soutenir HackTricks :
+
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de hacking en soumettant des PRs au** [**dépôt hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**dépôt hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de hacking en soumettant des PRs aux repos github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -43,8 +45,8 @@ Ce qui est intéressant pour vous de savoir, c'est que **l'abstraction XPC est u
 
 Bien que la situation précédente semble prometteuse, il existe des scénarios où cela ne va pas poser de problèmes :
 
-* Les jetons d'audit sont souvent utilisés pour un contrôle d'autorisation pour décider d'accepter ou non une connexion. Comme cela se fait à l'aide d'un message vers le port de service, il n'y a **pas encore de connexion établie**. Plus de messages sur ce port seront simplement traités comme des demandes de connexion supplémentaires. Donc, tout **contrôle avant d'accepter une connexion n'est pas vulnérable** (cela signifie également que dans `-listener:shouldAcceptNewConnection:` le jeton d'audit est sûr). Nous recherchons donc **des connexions XPC qui vérifient des actions spécifiques**.
-* Les gestionnaires d'événements XPC sont traités de manière synchrone. Cela signifie que le gestionnaire d'événements pour un message doit être complété avant de l'appeler pour le suivant, même sur des files d'attente de dispatch concurrentes. Donc, à l'intérieur d'un **gestionnaire d'événements XPC, le jeton d'audit ne peut pas être écrasé** par d'autres messages normaux (non-réponse !).
+* Les jetons d'audit sont souvent utilisés pour un contrôle d'autorisation afin de décider d'accepter ou non une connexion. Comme cela se fait à l'aide d'un message vers le port de service, il n'y a **pas encore de connexion établie**. Plus de messages sur ce port seront simplement traités comme des demandes de connexion supplémentaires. Donc, tout **contrôle avant d'accepter une connexion n'est pas vulnérable** (cela signifie également que dans `-listener:shouldAcceptNewConnection:` le jeton d'audit est sûr). Nous recherchons donc **des connexions XPC qui vérifient des actions spécifiques**.
+* Les gestionnaires d'événements XPC sont traités de manière synchrone. Cela signifie que le gestionnaire d'événements pour un message doit être terminé avant de l'appeler pour le suivant, même sur des files d'attente de dispatch concurrentes. Donc, à l'intérieur d'un **gestionnaire d'événements XPC, le jeton d'audit ne peut pas être écrasé** par d'autres messages normaux (non-réponse !).
 
 Cela nous a donné l'idée de deux méthodes différentes par lesquelles cela pourrait être possible :
 
@@ -66,9 +68,9 @@ Cela nous a donné l'idée de deux méthodes différentes par lesquelles cela po
 
 Scénario :
 
-* Deux services mach **A** et **B** auxquels nous pouvons tous deux nous connecter (selon le profil du bac à sable et les contrôles d'autorisation avant d'accepter la connexion).
-* **A** doit avoir un **contrôle d'autorisation** pour une **action spécifique que **_**B**_** peut passer** (mais notre application ne peut pas).
-* Par exemple, si B a certains **droits** ou s'exécute en tant que **root**, cela pourrait lui permettre de demander à A d'effectuer une action privilégiée.
+* Deux services mach **A** et **B** auxquels nous pouvons tous deux nous connecter (selon le profil de sandbox et les contrôles d'autorisation avant d'accepter la connexion).
+* **A** doit avoir un **contrôle d'autorisation** pour une **action spécifique que **_**B**_** peut passer** (mais pas notre application).
+* Par exemple, si B possède certains **droits** ou s'exécute en tant que **root**, cela pourrait lui permettre de demander à A d'effectuer une action privilégiée.
 * Pour ce contrôle d'autorisation, **A** **obtient le jeton d'audit de manière asynchrone**, par exemple en appelant `xpc_connection_get_audit_token` depuis **`dispatch_async`**.
 
 {% hint style="danger" %}
@@ -79,16 +81,16 @@ Cela s'est produit avec **A** en tant que `smd` et **B** en tant que `diagnostic
 
 Par conséquent, le service **B** est **`diagnosticd`** car il s'exécute en tant que **root** et peut être utilisé pour **surveiller** un processus, donc une fois la surveillance commencée, il **envoie plusieurs messages par seconde**.
 
-Pour effectuer l'attaque :
+Pour réaliser l'attaque :
 
 1. Nous établissons notre **connexion** à **`smd`** en suivant le protocole XPC normal.
 2. Ensuite, nous établissons une **connexion** à **`diagnosticd`**, mais au lieu de générer deux nouveaux ports mach et de les envoyer, nous remplaçons le droit d'envoi du port client par une copie du **droit d'envoi que nous avons pour la connexion à `smd`**.
 3. Cela signifie que nous pouvons envoyer des messages XPC à `diagnosticd`, mais tout **message envoyé par `diagnosticd` va à `smd`**.&#x20;
 * Pour `smd`, les messages de nous et de `diagnosticd` semblent arriver sur la même connexion.
 
-<figure><img src="../../../../../../.gitbook/assets/image (1) (1) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../../../../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
 
-4. Nous demandons à **`diagnosticd`** de **commencer à surveiller** notre processus (ou tout processus actif) et nous **envoyons des messages de routine 1004 à `smd`** (pour installer un outil privilégié).
+4. Nous demandons à **`diagnosticd`** de **commencer à surveiller** notre processus (ou tout processus actif) et nous **bombardons `smd` de messages de routine 1004** (pour installer un outil privilégié).
 5. Cela crée une condition de course qui doit atteindre une fenêtre très spécifique dans `handle_bless`. Nous avons besoin que l'appel à `xpc_connection_get_pid` retourne le PID de notre propre processus, car l'outil d'aide privilégié est dans notre bundle d'application. Cependant, l'appel à `xpc_connection_get_audit_token` à l'intérieur de la fonction `connection_is_authorized` doit utiliser le jeton d'audit de `diganosticd`.
 
 ## Variante 2 : transfert de réponse
@@ -103,13 +105,13 @@ Par conséquent, les **paquets de réponse XPC peuvent être analysés pendant q
 Pour ce scénario, nous aurions besoin :
 
 * Comme avant, de deux services mach _A_ et _B_ auxquels nous pouvons tous deux nous connecter.
-* Encore une fois, _A_ doit avoir un contrôle d'autorisation pour une action spécifique que _B_ peut passer (mais notre application ne peut pas).
+* Encore une fois, _A_ doit avoir un contrôle d'autorisation pour une action spécifique que _B_ peut passer (mais pas notre application).
 * _A_ nous envoie un message qui attend une réponse.
 * Nous pouvons envoyer un message à _B_ auquel il répondra.
 
 Nous attendons qu'_A_ nous envoie un message qui attend une réponse (1), au lieu de répondre, nous prenons le port de réponse et l'utilisons pour un message que nous envoyons à _B_ (2). Ensuite, nous envoyons un message qui utilise l'action interdite et nous espérons qu'il arrive en même temps que la réponse de _B_ (3).
 
-<figure><img src="../../../../../../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
 
 ## Problèmes de découverte
 
@@ -127,4 +129,11 @@ Dans tous les cas, ce problème persiste avec iOS 17 et macOS 14, donc si vous v
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong
+<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+
+Autres moyens de soutenir HackTricks :
+
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord

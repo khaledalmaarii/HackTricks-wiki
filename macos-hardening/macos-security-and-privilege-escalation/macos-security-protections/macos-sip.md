@@ -2,13 +2,15 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou souhaitez-vous accéder à la **dernière version du PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+Autres moyens de soutenir HackTricks :
+
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de hacking en soumettant des PR au** [**dépôt hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**dépôt hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-moi** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -30,7 +32,7 @@ Par exemple, la configuration suivante :
 * /usr/local
 * /usr/share/man
 ```
-indique que le répertoire **`/usr`** est généralement protégé par SIP. Cependant, des modifications sont autorisées dans les trois sous-répertoires spécifiés (`/usr/libexec/cups`, `/usr/local` et `/usr/share/man`), car ils sont listés avec un astérisque initial (\*).
+indique que le répertoire **`/usr`** est généralement protégé par SIP. Cependant, des modifications sont autorisées dans les trois sous-répertoires spécifiés (`/usr/libexec/cups`, `/usr/local`, et `/usr/share/man`), car ils sont listés avec un astérisque initial (\*).
 
 Pour vérifier si un répertoire ou un fichier est protégé par SIP, vous pouvez utiliser la commande **`ls -lOd`** pour vérifier la présence du drapeau **`restricted`** ou **`sunlnk`**. Par exemple :
 ```bash
@@ -53,7 +55,7 @@ De plus, si un fichier contient l'attribut étendu **`com.apple.rootless`**, ce 
 * Charger des extensions de noyau non fiables
 * Obtenir des task-ports pour les processus signés par Apple
 * Modifier les variables NVRAM
-* Autoriser le débogage du noyau
+* Permettre le débogage du noyau
 
 Les options sont maintenues dans la variable nvram comme un bitflag (`csr-active-config` sur Intel et `lp-sip0` est lu à partir de l'arbre de périphériques démarré pour ARM). Vous pouvez trouver les drapeaux dans le code source XNU dans `csr.sh` :
 
@@ -73,9 +75,9 @@ Si vous souhaitez conserver SIP activé mais supprimer les protections de débog
 ```bash
 csrutil enable --without debug
 ```
-### Autres Restrictions
+### Autres restrictions
 
-SIP impose également plusieurs autres restrictions. Par exemple, il interdit le **chargement d'extensions de noyau non signées** (kexts) et empêche le **débogage** des processus système de macOS. Il inhibe également des outils comme dtrace d'inspecter les processus système.
+SIP impose également plusieurs autres restrictions. Par exemple, il interdit le **chargement d'extensions de noyau non signées** (kexts) et empêche le **débogage** des processus système de macOS. Il inhibe également des outils comme dtrace de l'inspection des processus système.
 
 [Plus d'infos sur SIP dans cette présentation](https://www.slideshare.net/i0n1c/syscan360-stefan-esser-os-x-el-capitan-sinking-the-ship).
 
@@ -84,7 +86,7 @@ SIP impose également plusieurs autres restrictions. Par exemple, il interdit le
 Si un attaquant parvient à contourner SIP, voici ce qu'il pourra faire :
 
 * Lire les mails, messages, l'historique Safari... de tous les utilisateurs
-* Accorder des permissions pour la webcam, le microphone ou tout autre chose (en écrivant directement sur la base de données TCC protégée par SIP) - contournement de TCC
+* Accorder des permissions pour la webcam, le microphone ou autre (en écrivant directement sur la base de données TCC protégée par SIP) - contournement de TCC
 * Persistance : Il pourrait sauvegarder un malware dans un emplacement protégé par SIP et même root ne pourra pas le supprimer. Il pourrait également altérer MRT.
 * Facilité pour charger des extensions de noyau (même si d'autres protections hardcore sont en place pour cela).
 
@@ -110,11 +112,11 @@ Le daemon **`system_installd`** installera des paquets qui ont été signés par
 
 Les chercheurs ont découvert que lors de l'installation d'un paquet signé par Apple (.pkg), **`system_installd`** **exécute** tous les scripts **post-installation** inclus dans le paquet. Ces scripts sont exécutés par le shell par défaut, **`zsh`**, qui exécute automatiquement les commandes du fichier **`/etc/zshenv`**, s'il existe, même en mode non interactif. Ce comportement pourrait être exploité par des attaquants : en créant un fichier `/etc/zshenv` malveillant et en attendant que **`system_installd` invoque `zsh`**, ils pourraient effectuer des opérations arbitraires sur l'appareil.
 
-De plus, il a été découvert que **`/etc/zshenv` pourrait être utilisé comme technique d'attaque générale**, pas seulement pour un contournement de SIP. Chaque profil utilisateur a un fichier `~/.zshenv`, qui se comporte de la même manière que `/etc/zshenv` mais ne nécessite pas de permissions root. Ce fichier pourrait être utilisé comme mécanisme de persistance, se déclenchant chaque fois que `zsh` démarre, ou comme mécanisme d'élévation de privilège. Si un utilisateur admin s'élève en root en utilisant `sudo -s` ou `sudo <command>`, le fichier `~/.zshenv` serait déclenché, élevant effectivement en root.
+De plus, il a été découvert que **`/etc/zshenv` pourrait être utilisé comme technique d'attaque générale**, pas seulement pour un contournement de SIP. Chaque profil utilisateur a un fichier `~/.zshenv`, qui se comporte de la même manière que `/etc/zshenv` mais ne nécessite pas de permissions root. Ce fichier pourrait être utilisé comme mécanisme de persistance, se déclenchant chaque fois que `zsh` démarre, ou comme mécanisme d'élévation de privilège. Si un utilisateur admin s'élève en root en utilisant `sudo -s` ou `sudo <command>`, le fichier `~/.zshenv` serait déclenché, élevant efficacement en root.
 
 #### [**CVE-2022-22583**](https://perception-point.io/blog/technical-analysis-cve-2022-22583/)
 
-Dans [**CVE-2022-22583**](https://perception-point.io/blog/technical-analysis-cve-2022-22583/), il a été découvert que le même processus **`system_installd`** pouvait encore être abusé car il plaçait le script **post-installation dans un dossier nommé aléatoirement protégé par SIP dans `/tmp`**. Le fait est que **`/tmp` lui-même n'est pas protégé par SIP**, il était donc possible de **monter** une **image virtuelle dessus**, puis l'**installateur** y mettrait le script **post-installation**, **démonterait** l'image virtuelle, **recréerait** tous les **dossiers** et **ajouterait** le script **post-installation** avec le **payload** à exécuter.
+Dans [**CVE-2022-22583**](https://perception-point.io/blog/technical-analysis-cve-2022-22583/), il a été découvert que le même processus **`system_installd`** pouvait encore être abusé car il plaçait le script **post-installation dans un dossier nommé aléatoirement protégé par SIP dans `/tmp`**. Le fait est que **`/tmp` lui-même n'est pas protégé par SIP**, il était donc possible de **monter** une **image virtuelle dessus**, puis l'**installateur** y mettrait le script **post-installation**, **démonterait** l'image virtuelle, **recréerait** tous les **dossiers** et **ajouterait** le script de **post installation** avec le **payload** à exécuter.
 
 #### [utilitaire fsck\_cs](https://www.theregister.com/2016/03/30/apple\_os\_x\_rootless/)
 
@@ -152,11 +154,12 @@ Afin de démarrer le système à partir de l'image de mise à niveau/installatio
 ```bash
 /usr/sbin/bless -setBoot -folder /Volumes/Macintosh HD/macOS Install Data -bootefi /Volumes/Macintosh HD/macOS Install Data/boot.efi -options config="\macOS Install Data\com.apple.Boot" -label macOS Installer
 ```
+```markdown
 {% endcode %}
 
 Par conséquent, si un attaquant peut modifier l'image de mise à niveau (`InstallESD.dmg`) avant que le système ne démarre à partir de celle-ci, il peut contourner SIP.
 
-La méthode pour modifier l'image afin de l'infecter consistait à remplacer un chargeur dynamique (dyld) qui chargerait et exécuterait naïvement la bibliothèque dynamique malveillante dans le contexte de l'application. Comme la bibliothèque dynamique **`libBaseIA`**. Ainsi, chaque fois que l'application d'installation est lancée par l'utilisateur (c'est-à-dire pour mettre à jour le système), notre bibliothèque dynamique malveillante (nommée libBaseIA.dylib) sera également chargée et exécutée dans l'installateur.
+La manière de modifier l'image pour l'infecter consistait à remplacer un chargeur dynamique (dyld) qui chargerait et exécuterait naïvement la bibliothèque dynamique malveillante dans le contexte de l'application. Comme la bibliothèque dynamique **`libBaseIA`**. Ainsi, chaque fois que l'application d'installation est lancée par l'utilisateur (c'est-à-dire pour mettre à niveau le système), notre bibliothèque dynamique malveillante (nommée libBaseIA.dylib) sera également chargée et exécutée dans l'installateur.
 
 Maintenant 'à l'intérieur' de l'application d'installation, nous pouvons contrôler cette phase du processus de mise à niveau. Puisque l'installateur va 'bénir' l'image, tout ce que nous avons à faire est de subvertir l'image, **`InstallESD.dmg`**, avant qu'elle ne soit utilisée. Il était possible de faire cela en accrochant la méthode **`extractBootBits`** avec un swizzling de méthode.\
 Ayant le code malveillant exécuté juste avant que l'image disque soit utilisée, il est temps de l'infecter.
@@ -173,7 +176,7 @@ Dans cette présentation de [**DEF CON 31**](https://www.youtube.com/watch?v=zxZ
 Le droit **`com.apple.rootless.install`** permet de contourner SIP
 {% endhint %}
 
-D'après [**CVE-2022-26712**](https://jhftss.github.io/CVE-2022-26712-The-POC-For-SIP-Bypass-Is-Even-Tweetable/) Le service XPC système `/System/Library/PrivateFrameworks/ShoveService.framework/Versions/A/XPCServices/SystemShoveService.xpc` possède le droit **`com.apple.rootless.install`**, qui accorde au processus la permission de contourner les restrictions SIP. Il **expose également une méthode pour déplacer des fichiers sans aucun contrôle de sécurité.**
+D'après [**CVE-2022-26712**](https://jhftss.github.io/CVE-2022-26712-The-POC-For-SIP-Bypass-Is-Even-Tweetable/) Le service XPC système `/System/Library/PrivateFrameworks/ShoveService.framework/Versions/A/XPCServices/SystemShoveService.xpc` possède le droit **`com.apple.rootless.install`**, qui accorde au processus la permission de contourner les restrictions de SIP. Il **expose également une méthode pour déplacer des fichiers sans aucun contrôle de sécurité.**
 
 ## Instantanés de Système Scellés
 
@@ -182,10 +185,10 @@ Les Instantanés de Système Scellés sont une fonctionnalité introduite par Ap
 Voici un regard plus détaillé :
 
 1. **Système Immutable** : Les Instantanés de Système Scellés rendent le volume système de macOS "immutable", ce qui signifie qu'il ne peut pas être modifié. Cela empêche tout changement non autorisé ou accidentel du système qui pourrait compromettre la sécurité ou la stabilité du système.
-2. **Mises à Jour du Logiciel Système** : Lorsque vous installez des mises à jour ou des mises à niveau de macOS, macOS crée un nouvel instantané système. Le volume de démarrage de macOS utilise ensuite **APFS (Apple File System)** pour passer à ce nouvel instantané. Le processus entier d'application des mises à jour devient plus sûr et plus fiable car le système peut toujours revenir à l'instantané précédent si quelque chose se passe mal pendant la mise à jour.
+2. **Mises à Jour du Logiciel Système** : Lorsque vous installez des mises à jour ou des mises à niveau de macOS, macOS crée un nouvel instantané du système. Le volume de démarrage de macOS utilise ensuite **APFS (Apple File System)** pour passer à ce nouvel instantané. Le processus entier d'application des mises à jour devient plus sûr et plus fiable car le système peut toujours revenir à l'instantané précédent si quelque chose se passe mal pendant la mise à jour.
 3. **Séparation des Données** : En conjonction avec le concept de séparation des volumes de Données et Système introduit dans macOS Catalina, la fonctionnalité d'Instantanés de Système Scellés assure que toutes vos données et paramètres sont stockés sur un volume "**Données**" séparé. Cette séparation rend vos données indépendantes du système, ce qui simplifie le processus de mises à jour du système et améliore la sécurité du système.
 
-Rappelez-vous que ces instantanés sont automatiquement gérés par macOS et ne prennent pas d'espace supplémentaire sur votre disque, grâce aux capacités de partage d'espace d'APFS. Il est également important de noter que ces instantanés sont différents des **instantanés Time Machine**, qui sont des sauvegardes accessibles par l'utilisateur de l'ensemble du système.
+Rappelez-vous que ces instantanés sont automatiquement gérés par macOS et ne prennent pas d'espace supplémentaire sur votre disque, grâce aux capacités de partage d'espace de APFS. Il est également important de noter que ces instantanés sont différents des **instantanés Time Machine**, qui sont des sauvegardes accessibles par l'utilisateur de l'ensemble du système.
 
 ### Vérifier les Instantanés
 
@@ -193,39 +196,39 @@ La commande **`diskutil apfs list`** liste les **détails des volumes APFS** et 
 
 <pre><code>+-- Container disk3 966B902E-EDBA-4775-B743-CF97A0556A13
 |   ====================================================
-|   APFS Container Reference:     disk3
-|   Size (Capacity Ceiling):      494384795648 B (494.4 GB)
-|   Capacity In Use By Volumes:   219214536704 B (219.2 GB) (44.3% used)
-|   Capacity Not Allocated:       275170258944 B (275.2 GB) (55.7% free)
+|   Référence du Conteneur APFS :     disk3
+|   Taille (Plafond de Capacité) :      494384795648 B (494.4 GB)
+|   Capacité Utilisée par les Volumes :   219214536704 B (219.2 GB) (44.3% utilisé)
+|   Capacité Non Allouée :       275170258944 B (275.2 GB) (55.7% libre)
 |   |
-|   +-&#x3C; Physical Store disk0s2 86D4B7EC-6FA5-4042-93A7-D3766A222EBE
+|   +-&#x3C; Magasin Physique disk0s2 86D4B7EC-6FA5-4042-93A7-D3766A222EBE
 |   |   -----------------------------------------------------------
-|   |   APFS Physical Store Disk:   disk0s2
-|   |   Size:                       494384795648 B (494.4 GB)
+|   |   Disque de Magasin Physique APFS :   disk0s2
+|   |   Taille :                       494384795648 B (494.4 GB)
 |   |
 |   +-> Volume disk3s1 7A27E734-880F-4D91-A703-FB55861D49B7
 |   |   ---------------------------------------------------
-<strong>|   |   APFS Volume Disk (Role):   disk3s1 (System)
-</strong>|   |   Name:                      Macintosh HD (Case-insensitive)
-<strong>|   |   Mount Point:               /System/Volumes/Update/mnt1
-</strong>|   |   Capacity Consumed:         12819210240 B (12.8 GB)
-|   |   Sealed:                    Broken
-|   |   FileVault:                 Yes (Unlocked)
-|   |   Encrypted:                 No
+<strong>|   |   Disque de Volume APFS (Rôle) :   disk3s1 (Système)
+</strong>|   |   Nom :                      Macintosh HD (Sensible à la casse)
+<strong>|   |   Point de Montage :               /System/Volumes/Update/mnt1
+</strong>|   |   Capacité Consommée :         12819210240 B (12.8 GB)
+|   |   Scellé :                    Brisé
+|   |   FileVault :                 Oui (Déverrouillé)
+|   |   Chiffré :                   Non
 |   |   |
-|   |   Snapshot:                  FAA23E0C-791C-43FF-B0E7-0E1C0810AC61
-|   |   Snapshot Disk:             disk3s1s1
-<strong>|   |   Snapshot Mount Point:      /
-</strong><strong>|   |   Snapshot Sealed:           Yes
+|   |   Instantané :                  FAA23E0C-791C-43FF-B0E7-0E1C0810AC61
+|   |   Disque d'Instantané :             disk3s1s1
+<strong>|   |   Point de Montage d'Instantané :      /
+</strong><strong>|   |   Instantané Scellé :           Oui
 </strong>[...]
 +-> Volume disk3s5 281959B7-07A1-4940-BDDF-6419360F3327
 |   ---------------------------------------------------
-|   APFS Volume Disk (Role):   disk3s5 (Data)
-|   Name:                      Macintosh HD - Data (Case-insensitive)
-<strong>    |   Mount Point:               /System/Volumes/Data
-</strong><strong>    |   Capacity Consumed:         412071784448 B (412.1 GB)
-</strong>    |   Sealed:                    No
-|   FileVault:                 Yes (Unlocked)
+|   Disque de Volume APFS (Rôle) :   disk3s5 (Données)
+|   Nom :                      Macintosh HD - Données (Sensible à la casse)
+<strong>    |   Point de Montage :               /System/Volumes/Data
+</strong><strong>    |   Capacité Consommée :         412071784448 B (412.1 GB)
+</strong>    |   Scellé :                    Non
+|   FileVault :                 Oui (Déverrouillé)
 </code></pre>
 
 Dans la sortie précédente, il est possible de voir que les **emplacements accessibles par l'utilisateur** sont montés sous `/System/Volumes/Data`.
@@ -233,23 +236,26 @@ Dans la sortie précédente, il est possible de voir que les **emplacements acce
 De plus, **l'instantané du volume système macOS** est monté dans `/` et il est **scellé** (cryptographiquement signé par le système d'exploitation). Ainsi, si SIP est contourné et le modifie, le **système d'exploitation ne démarrera plus**.
 
 Il est également possible de **vérifier que le scellé est activé** en exécutant :
+```
 ```bash
 csrutil authenticated-root status
 Authenticated Root status: enabled
 ```
-En outre, le disque instantané est également monté en **lecture seule** :
+En outre, le disque snapshot est également monté en **lecture seule** :
 ```
 mount
 /dev/disk3s1s1 on / (apfs, sealed, local, read-only, journaled)
 ```
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Vous travaillez dans une **entreprise de cybersécurité** ? Vous souhaitez voir votre **entreprise annoncée dans HackTricks** ? ou souhaitez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+Autres moyens de soutenir HackTricks :
+
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-moi** sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de hacking en soumettant des PR au** [**dépôt hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**dépôt hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez**-moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
