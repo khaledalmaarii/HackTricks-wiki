@@ -2,19 +2,21 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零开始学习 AWS 黑客技术，成为</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS 红队专家)</strong></a><strong>！</strong></summary>
 
-* 你在**网络安全公司**工作吗？你想在**HackTricks**看到你的**公司广告**吗？或者你想要访问**最新版本的 PEASS 或下载 HackTricks 的 PDF**？查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs 集合**](https://opensea.io/collection/the-peass-family)
+支持 HackTricks 的其他方式：
+
+* 如果您希望在 HackTricks 中看到您的**公司广告**或**下载 HackTricks 的 PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或在**推特**上**关注**我 [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过提交 PR 到**[**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **分享你的黑客技巧。**
+* 发现[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFT 集合**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来**分享您的黑客技巧**。
 
 </details>
 
 ## TCC 权限提升
 
-如果你是为了寻找 TCC 权限提升而来，请前往：
+如果您是为了寻找 TCC 权限提升而来，请前往：
 
 {% content-ref url="macos-security-protections/macos-tcc/" %}
 [macos-tcc](macos-security-protections/macos-tcc/)
@@ -22,7 +24,7 @@
 
 ## Linux 权限提升
 
-请注意，**大多数影响 Linux/Unix 的权限提升技巧也会影响 MacOS** 机器。所以请查看：
+请注意，**影响 Linux/Unix 的大多数关于权限提升的技巧也会影响 MacOS** 机器。因此，请查看：
 
 {% content-ref url="../../linux-hardening/privilege-escalation/" %}
 [privilege-escalation](../../linux-hardening/privilege-escalation/)
@@ -32,9 +34,9 @@
 
 ### Sudo 劫持
 
-你可以在 [Linux 权限提升文章中找到原始的 Sudo 劫持技术](../../linux-hardening/privilege-escalation/#sudo-hijacking)。
+您可以在 [Linux 权限提升文章中找到原始的 Sudo 劫持技术](../../linux-hardening/privilege-escalation/#sudo-hijacking)。
 
-然而，macOS 在执行**`sudo`**时**保持**用户的**`PATH`**。这意味着实现这种攻击的另一种方法是**劫持其他**受害者在**运行 sudo 时会执行的二进制文件：**
+然而，macOS 在执行 **`sudo`** 时**保持**用户的 **`PATH`**。这意味着实现这种攻击的另一种方法是**劫持其他二进制文件**，受害者在**运行 sudo 时**仍会执行这些文件：
 ```bash
 # Let's hijack ls in /opt/homebrew/bin, as this is usually already in the users PATH
 cat > /opt/homebrew/bin/ls <<EOF
@@ -49,7 +51,7 @@ chmod +x /opt/homebrew/bin/ls
 # victim
 sudo ls
 ```
-请注意，使用终端的用户很可能已经**安装了Homebrew**。因此，可以劫持位于**`/opt/homebrew/bin`**中的二进制文件。
+请注意，使用终端的用户很可能已经安装了**Homebrew**。因此，可以劫持位于**`/opt/homebrew/bin`**中的二进制文件。
 
 ### Dock 伪装
 
@@ -134,11 +136,11 @@ killall Dock
 {% tab title="Finder 伪装" %}
 一些建议：
 
-* 你**不能从 Dock 中移除 Finder**，所以如果你要把它添加到 Dock，你可以把假的 Finder 放在真正的 Finder 旁边。为此，你需要**在 Dock 数组的开头添加假 Finder 条目**。
+* 你**不能从 Dock 中移除 Finder**，所以如果你要把它添加到 Dock，你可以把假的 Finder 放在真正的 Finder 旁边。为此你需要**在 Dock 数组的开始处添加假 Finder 条目**。
 * 另一个选项是不把它放在 Dock 上，只是打开它，“Finder 请求控制 Finder”并不奇怪。
-* 另一个不通过可怕的对话框**升级到 root 而不询问**密码的选项是，让 Finder 真的请求密码来执行特权操作：
-* 要求 Finder 复制一个新的 **`sudo`** 文件到 **`/etc/pam.d`**（提示要求输入密码将表明“Finder 想要复制 sudo”）
-* 要求 Finder 复制一个新的 **授权插件**（你可以控制文件名，所以提示要求输入密码将表明“Finder 想要复制 Finder.bundle”）
+* 另一个不经过密码提示就**升级到 root** 的方法，是让 Finder 真的请求密码来执行特权操作：
+* 要求 Finder 复制一个新的 **`sudo`** 文件到 **`/etc/pam.d`**（提示要求输入密码时会指出“Finder 想要复制 sudo”）
+* 要求 Finder 复制一个新的 **授权插件**（你可以控制文件名，所以提示要求输入密码时会指出“Finder 想要复制 Finder.bundle”）
 ```bash
 #!/bin/sh
 
@@ -215,7 +217,7 @@ killall Dock
 
 ### CVE-2020-9771 - mount\_apfs TCC 绕过和权限提升
 
-**任何用户**（即使是非特权用户）都可以创建并挂载时间机器快照并**访问该快照的所有文件**。
+**任何用户**（即使是非特权用户）都可以创建并挂载时间机器快照，并**访问该快照的所有文件**。\
 所需的**唯一权限**是应用程序（如 `Terminal`）需要有**完全磁盘访问**（FDA）权限（`kTCCServiceSystemPolicyAllfiles`），这需要由管理员授权。
 
 {% code overflow="wrap" %}
@@ -238,9 +240,8 @@ mkdir /tmp/snap
 # Access it
 ls /tmp/snap/Users/admin_user # This will work
 ```
+```markdown
 {% endcode %}
-
-更详细的解释可以在[**原始报告中找到**](https://theevilbit.github.io/posts/cve_2020_9771/)**。**
 
 ## 敏感信息
 
@@ -252,12 +253,15 @@ ls /tmp/snap/Users/admin_user # This will work
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>！</strong></summary>
 
-* 如果你在一家**网络安全公司**工作？你想在**HackTricks**中看到你的**公司广告**？或者你想要访问**PEASS的最新版本或下载HackTricks的PDF**？查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs**](https://opensea.io/collection/the-peass-family)收藏。
-* 获取[**官方的PEASS & HackTricks商品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**telegram群组**](https://t.me/peass)或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* **通过向**[**hacktricks仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+其他支持HackTricks的方式：
+
+* 如果您希望在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF版本**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在**Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来**分享您的黑客技巧。
 
 </details>
+```

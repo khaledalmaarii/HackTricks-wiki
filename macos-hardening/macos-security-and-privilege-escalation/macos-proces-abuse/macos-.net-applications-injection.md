@@ -2,13 +2,15 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零开始学习 AWS 黑客技术，成为</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS 红队专家)</strong></a><strong>！</strong></summary>
 
-* 如果您在**网络安全公司**工作？您想在**HackTricks**中看到您的**公司广告**吗？或者您想要访问**PEASS的最新版本或下载HackTricks的PDF**？查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs**](https://opensea.io/collection/the-peass-family)系列
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**telegram群组**](https://t.me/peass)或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧。**
+支持 HackTricks 的其他方式：
+
+* 如果您想在 HackTricks 中看到您的**公司广告**或**下载 HackTricks 的 PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* 发现[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFT 集合**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。
 
 </details>
 
@@ -17,15 +19,15 @@
 ### **建立调试会话** <a href="#net-core-debugging" id="net-core-debugging"></a>
 
 [**dbgtransportsession.cpp**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp) 负责处理调试器到被调试者的**通信**。
-它通过调用 [twowaypipe.cpp#L27](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/debug-pal/unix/twowaypipe.cpp#L27) 在 [dbgtransportsession.cpp#L127](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L127) 创建了每个.Net进程的2个命名管道（一个以**`-in`** 结尾，另一个以 **`-out`** 结尾，其余名称相同）。
+它通过调用 [twowaypipe.cpp#L27](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/debug-pal/unix/twowaypipe.cpp#L27) 在 [dbgtransportsession.cpp#L127](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L127) 创建每个 .Net 进程的两个命名管道（一个以 **`-in`** 结尾，另一个以 **`-out`** 结尾，其余名称相同）。
 
-因此，如果您转到用户的 **`$TMPDIR`**，您将能够找到可以用来调试.Net应用程序的**调试fifo**：
+因此，如果您转到用户的 **`$TMPDIR`**，您将能够找到可以用来调试 .Net 应用程序的**调试 fifo**：
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 函数 [**DbgTransportSession::TransportWorker**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L1259) 将处理来自调试器的通信。
 
-调试器需要做的第一件事是**创建一个新的调试会话**。这是通过**通过`out`管道发送消息**开始的，消息以`MessageHeader`结构开始，我们可以从.NET源码中获取：
+调试器需要做的第一件事是**创建一个新的调试会话**。这是通过**通过 `out` 管道发送消息**来完成的，消息以 `MessageHeader` 结构开始，我们可以从 .NET 源代码中获取：
 ```c
 struct MessageHeader
 {
@@ -62,7 +64,7 @@ sSendHeader.TypeSpecificData.VersionInfo.m_dwMinorVersion = kCurrentMinorVersion
 // Finally set the number of bytes which follow this header
 sSendHeader.m_cbDataBlock = sizeof(SessionRequestData);
 ```
-一旦构建完成，我们使用 `write` 系统调用**将其发送给目标**：
+构建完成后，我们使用 `write` 系统调用**将其发送给目标**：
 ```c
 write(wr, &sSendHeader, sizeof(MessageHeader));
 ```
@@ -164,14 +166,15 @@ POC 代码可以在[这里](https://gist.github.com/xpn/7c3040a7398808747e158a25
 
 ### .NET Core 代码执行 <a href="#net-core-code-execution" id="net-core-code-execution"></a>
 
-首先要做的是例如识别一个具有 **`rwx`** 权限的内存区域来保存要运行的 shellcode。这可以很容易地完成：
+首先要做的是识别例如具有 **`rwx`** 权限的内存区域来保存要运行的 shellcode。这可以很容易地完成：
 ```bash
 vmmap -pages [pid]
 vmmap -pages 35829 | grep "rwx/rwx"
 ```
-然后，为了触发执行，需要知道存储函数指针的某个位置以便覆盖它。可以覆盖 **Dynamic Function Table (DFT)** 中的指针，.NET Core 运行时使用它来为 JIT 编译提供帮助函数。可以在 [`jithelpers.h`](https://github.com/dotnet/runtime/blob/6072e4d3a7a2a1493f514cdf4be75a3d56580e84/src/coreclr/src/inc/jithelpers.h) 中找到支持的函数指针列表。
+```markdown
+然后，为了触发执行，需要知道存储函数指针的某个位置以便覆盖它。可以覆盖 **Dynamic Function Table (DFT)** 中的指针，.NET Core 运行时使用它来为 JIT 编译提供帮助函数。支持的函数指针列表可以在 [`jithelpers.h`](https://github.com/dotnet/runtime/blob/6072e4d3a7a2a1493f514cdf4be75a3d56580e84/src/coreclr/src/inc/jithelpers.h) 中找到。
 
-在 x64 版本中，使用 mimikatz 式的 **signature hunting** 技术搜索 **`libcorclr.dll`** 中对符号 **`_hlpDynamicFuncTable`** 的引用是直接的，我们可以解引用：
+在 x64 版本中，使用 mimikatz 式的 **signature hunting** 技术来搜索 **`libcorclr.dll`** 中对符号 **`_hlpDynamicFuncTable`** 的引用是直接的，我们可以解引用：
 
 <figure><img src="../../../.gitbook/assets/image (1) (3).png" alt=""><figcaption></figcaption></figure>
 
@@ -183,16 +186,19 @@ vmmap -pages 35829 | grep "rwx/rwx"
 
 ## 参考资料
 
-* 这项技术取自 [https://blog.xpnsec.com/macos-injection-via-third-party-frameworks/](https://blog.xpnsec.com/macos-injection-via-third-party-frameworks/)
+* 这个技术取自 [https://blog.xpnsec.com/macos-injection-via-third-party-frameworks/](https://blog.xpnsec.com/macos-injection-via-third-party-frameworks/)
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零开始学习 AWS 黑客攻击直到成为专家，通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* 如果你在 **网络安全公司** 工作？你想在 **HackTricks** 中看到你的 **公司广告**？或者你想访问 **PEASS 的最新版本或下载 HackTricks 的 PDF**？查看 [**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)，我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 系列。
+支持 HackTricks 的其他方式：
+
+* 如果你想在 **HackTricks** 中看到你的 **公司广告** 或 **下载 HackTricks 的 PDF**，请查看 [**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或在 **Twitter** 上 **关注** 我 [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* 通过向 [**hacktricks repo**](https://github.com/carlospolop/hacktricks) 和 [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) 提交 PR 来 **分享你的黑客技巧**。
+* 发现 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)，我们独家的 [**NFTs**](https://opensea.io/collection/the-peass-family) 系列
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或在 **Twitter** 🐦 上 **关注** 我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享你的黑客技巧。
 
 </details>
+```

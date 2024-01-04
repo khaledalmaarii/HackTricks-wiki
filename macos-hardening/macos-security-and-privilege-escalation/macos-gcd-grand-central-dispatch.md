@@ -2,40 +2,42 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零到英雄学习AWS黑客技术</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>！</strong></summary>
 
-* 你在一个**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+支持HackTricks的其他方式：
+
+* 如果您想在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。**
 
 </details>
 
 ## 基本信息
 
-**Grand Central Dispatch (GCD)**，也被称为**libdispatch**，在macOS和iOS上都可用。这是由Apple开发的一项技术，用于优化应用程序在多核硬件上的并发（多线程）执行支持。
+**Grand Central Dispatch (GCD),** 也称为 **libdispatch**, 在macOS和iOS上都可用。它是苹果开发的一项技术，旨在优化应用程序对多核硬件的并发（多线程）执行支持。
 
-**GCD**提供和管理**FIFO队列**，您的应用程序可以将**块对象**形式的**任务提交**到这些队列中。提交到调度队列的块会在系统完全管理的线程池上执行。GCD会自动创建线程来执行调度队列中的任务，并将这些任务安排在可用的核心上运行。
+**GCD** 提供并管理 **FIFO队列**，您的应用程序可以向其 **提交任务**，以 **block对象** 的形式。提交到调度队列的blocks在系统完全管理的线程池上 **执行**。GCD自动为执行调度队列中的任务创建线程，并安排这些任务在可用的核心上运行。
 
 {% hint style="success" %}
-简而言之，要在**并行**中执行代码，进程可以将**代码块发送给GCD**，GCD将负责执行它们。因此，进程不会创建新线程；**GCD使用自己的线程池执行给定的代码**。
+总结来说，为了并行执行代码，进程可以将 **代码块发送给GCD**，GCD将负责它们的执行。因此，进程不创建新线程；**GCD使用其自己的线程池执行给定的代码**。
 {% endhint %}
 
-这对于成功管理并行执行非常有帮助，大大减少了进程创建的线程数量，并优化了并行执行。这对于需要**很高的并行性**（暴力破解？）或者不应该阻塞主线程的任务非常有用：例如，在iOS上，主线程处理UI交互，因此通过这种方式来处理可能使应用程序挂起的任何其他功能（搜索、访问网页、读取文件等）。
+这对于成功管理并行执行非常有帮助，大大减少了进程创建的线程数量，并优化了并行执行。这对于需要 **高度并行性**（暴力破解？）的任务或不应阻塞主线程的任务来说是理想的：例如，iOS上的主线程处理UI交互，因此任何可能使应用程序挂起的其他功能（搜索、访问网页、读取文件...）都是以这种方式管理的。
 
 ## Objective-C
 
-在Objective-C中，有不同的函数可以将块对象发送到并行执行：
+在Objective-C中，有不同的函数可以发送一个block以并行执行：
 
-* [**dispatch\_async**](https://developer.apple.com/documentation/dispatch/1453057-dispatch\_async)：将一个块对象提交到调度队列以进行异步执行，并立即返回。
-* [**dispatch\_sync**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync)：提交一个块对象进行执行，并在该块对象执行完成后返回。
-* [**dispatch\_once**](https://developer.apple.com/documentation/dispatch/1447169-dispatch\_once)：在应用程序的整个生命周期中只执行一次块对象。
-* [**dispatch\_async\_and\_wait**](https://developer.apple.com/documentation/dispatch/3191901-dispatch\_async\_and\_wait)：提交一个工作项进行执行，并在它完成执行后才返回。与[**`dispatch_sync`**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync)不同，此函数在执行块对象时会遵守队列的所有属性。
+* [**dispatch\_async**](https://developer.apple.com/documentation/dispatch/1453057-dispatch\_async): 提交一个block以在调度队列上异步执行，并立即返回。
+* [**dispatch\_sync**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync): 提交一个block对象以执行，并在该block执行完毕后返回。
+* [**dispatch\_once**](https://developer.apple.com/documentation/dispatch/1447169-dispatch\_once): 在应用程序的生命周期内只执行一次block对象。
+* [**dispatch\_async\_and\_wait**](https://developer.apple.com/documentation/dispatch/3191901-dispatch\_async\_and\_wait): 提交一个工作项以执行，并且只有在它执行完毕后才返回。与 [**`dispatch_sync`**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync) 不同，这个函数在执行block时尊重队列的所有属性。
 
 这些函数期望以下参数：[**`dispatch_queue_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_queue\_t) **`queue,`** [**`dispatch_block_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_block\_t) **`block`**
 
-这是一个**块对象的结构**：
+这是 **Block的结构**：
 ```c
 struct Block {
 void *isa; // NSConcreteStackBlock,...
@@ -46,7 +48,7 @@ struct BlockDescriptor *descriptor;
 // captured variables go here
 };
 ```
-这是一个使用**并行处理**和**`dispatch_async`**的示例：
+这是使用 **`dispatch_async`** 实现**并行性**的一个例子：
 ```objectivec
 #import <Foundation/Foundation.h>
 
@@ -78,8 +80,8 @@ return 0;
 ```
 ## Swift
 
-**`libswiftDispatch`** 是一个库，它为原本用C语言编写的Grand Central Dispatch (GCD)框架提供了Swift绑定。\
-**`libswiftDispatch`**库将C GCD API封装在一个更适合Swift开发者使用的界面中，使得Swift开发者更容易、更直观地使用GCD。
+**`libswiftDispatch`** 是一个提供了对 Grand Central Dispatch (GCD) 框架的 **Swift 绑定** 的库，该框架最初是用 C 语言编写的。\
+**`libswiftDispatch`** 库将 C 语言的 GCD API 封装成了更适合 Swift 的接口，使得 Swift 开发者使用 GCD 变得更加容易和直观。
 
 * **`DispatchQueue.global().sync{ ... }`**
 * **`DispatchQueue.global().async{ ... }`**
@@ -116,7 +118,7 @@ sleep(1)  // Simulate a long-running task
 ```
 ## Frida
 
-以下是一个Frida脚本，可以用于**钩入多个`dispatch`函数**并提取队列名称、回溯和块：[**https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js**](https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js)
+以下 Frida 脚本可用于**挂钩多个 `dispatch`** 函数并提取队列名称、回溯和块： [**https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js**](https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js)
 ```bash
 frida -U <prog_name> -l libdispatch.js
 
@@ -131,9 +133,9 @@ Backtrace:
 ```
 ## Ghidra
 
-目前，Ghidra无法理解ObjectiveC的**`dispatch_block_t`**结构，也无法理解**`swift_dispatch_block`**结构。
+目前Ghidra既不理解ObjectiveC中的**`dispatch_block_t`**结构，也不理解**`swift_dispatch_block`**结构。
 
-如果你希望Ghidra能够理解它们，你可以**声明它们**：
+因此，如果你想让它理解这些结构，你可以简单地**声明它们**：
 
 <figure><img src="../../.gitbook/assets/image (688).png" alt="" width="563"><figcaption></figcaption></figure>
 
@@ -141,30 +143,32 @@ Backtrace:
 
 <figure><img src="../../.gitbook/assets/image (691).png" alt="" width="563"><figcaption></figcaption></figure>
 
-然后，在代码中找到它们被**使用**的地方：
+然后，在代码中找到一个使用它们的地方：
 
 {% hint style="success" %}
-注意所有对"block"的引用，以了解如何确定该结构被使用。
+注意所有引用"block"的地方，以了解如何判断出结构体正在被使用。
 {% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (692).png" alt="" width="563"><figcaption></figcaption></figure>
 
-右键点击变量 -> 重新定义变量，并在这种情况下选择**`swift_dispatch_block`**：
+右键点击变量 -> Retype Variable 并在这个例子中选择**`swift_dispatch_block`**：
 
 <figure><img src="../../.gitbook/assets/image (693).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Ghidra将自动重写所有内容：
+Ghidra会自动重写所有内容：
 
 <figure><img src="../../.gitbook/assets/image (694).png" alt="" width="563"><figcaption></figcaption></figure>
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>从零开始学习AWS黑客攻击！</strong></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[NFT收藏品](https://opensea.io/collection/the-peass-family)——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**Telegram群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+其他支持HackTricks的方式：
+
+* 如果你想在HackTricks中看到你的**公司广告**或者**下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在**Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来**分享你的黑客技巧。
 
 </details>

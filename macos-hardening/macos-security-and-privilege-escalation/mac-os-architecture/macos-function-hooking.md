@@ -1,24 +1,26 @@
-# macOS函数挂钩
+# macOS 函数挂钩
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零开始学习 AWS 黑客技术，成为</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS 红队专家)</strong></a><strong>！</strong></summary>
 
-* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+支持 HackTricks 的其他方式：
+
+* 如果您想在 **HackTricks 中看到您的公司广告** 或 **下载 HackTricks 的 PDF 版本**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* 发现 [**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们独家的 [**NFT 集合**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。
 
 </details>
 
 ## 函数插入
 
-创建一个包含指向**原始**和**替代**函数的**函数指针**元组的**dylib**，并带有一个**`__interpose`**部分（或带有**`S_INTERPOSING`**标志的部分）。
+创建一个带有 **`__interpose`** 部分（或标记有 **`S_INTERPOSING`** 的部分）的 **dylib**，其中包含指向 **原始** 和 **替换** 函数的 **函数指针** 元组。
 
-然后，使用**`DYLD_INSERT_LIBRARIES`**注入dylib（插入必须在主应用程序加载之前进行）。显然，[**对使用**`DYLD_INSERT_LIBRARIES`**的限制也适用于此处**](../macos-proces-abuse/macos-library-injection/#check-restrictions)。
+然后，使用 **`DYLD_INSERT_LIBRARIES`** **注入** dylib（插入需要在主应用程序加载之前发生）。显然，[**对使用 `DYLD_INSERT_LIBRARIES` 的限制也适用于此处**](../macos-proces-abuse/macos-library-injection/#check-restrictions)。
 
-### 插入printf
+### 插入 printf
 
 {% tabs %}
 {% tab title="interpose.c" %}
@@ -54,76 +56,9 @@ printf("Hello World!\n");
 return 0;
 }
 ```
-{% tab title="interpose2.c" %}
-
-```c
-#include <stdio.h>
-#include <stdlib.h>
-#include <dlfcn.h>
-
-// Define the function pointer type for the original function
-typedef int (*orig_open_type)(const char *pathname, int flags);
-
-// Define the function pointer type for the interposed function
-typedef int (*interposed_open_type)(const char *pathname, int flags);
-
-// Define the interposed function
-int interposed_open(const char *pathname, int flags) {
-    printf("Interposed open called with pathname: %s\n", pathname);
-    
-    // Get the handle to the original function
-    void *handle = dlopen("/usr/lib/libSystem.B.dylib", RTLD_NOW);
-    orig_open_type orig_open = (orig_open_type)dlsym(handle, "open");
-    
-    // Call the original function
-    int result = orig_open(pathname, flags);
-    
-    // Cleanup
-    dlclose(handle);
-    
-    return result;
-}
-
-// Define the constructor function
-__attribute__((constructor))
-void my_init() {
-    // Get the handle to the interposed function
-    void *handle = dlopen("/usr/lib/libSystem.B.dylib", RTLD_NOW);
-    interposed_open_type interposed_open = (interposed_open_type)dlsym(handle, "open");
-    
-    // Get the handle to the original function
-    orig_open_type orig_open = (orig_open_type)dlsym(RTLD_NEXT, "open");
-    
-    // Check if the interposed function is already set
-    if (interposed_open != orig_open) {
-        printf("Interposed function already set\n");
-        return;
-    }
-    
-    // Set the interposed function
-    if (orig_open != NULL) {
-        printf("Setting interposed function\n");
-        interposed_open = orig_open;
-    } else {
-        printf("Failed to get handle to original function\n");
-    }
-    
-    // Cleanup
-    dlclose(handle);
-}
-```
-
-这是一个使用函数钩子技术的示例代码。它演示了如何在macOS上使用函数钩子来拦截和修改`open`函数的行为。
-
-代码中定义了两个函数指针类型：`orig_open_type`用于指向原始函数，`interposed_open_type`用于指向拦截函数。
-
-`interposed_open`函数是拦截函数的实现。它会在被拦截的`open`函数被调用时被执行，并打印出传入的`pathname`参数。然后，它会获取到原始函数的句柄，并调用原始函数。最后，清理句柄并返回结果。
-
-`my_init`函数是构造函数，它会在程序加载时被自动调用。它首先获取到拦截函数和原始函数的句柄，然后检查拦截函数是否已经设置。如果已经设置，则打印一条消息并返回。否则，将原始函数设置为拦截函数。最后，清理句柄。
-
-通过使用这个示例代码，我们可以拦截和修改`open`函数的行为，以实现自定义的逻辑。
-
 {% endtab %}
+
+{% tab title="interpose2.c" %}
 ```c
 // Just another way to define an interpose
 // gcc -dynamiclib interpose2.c -o interpose2.dylib
@@ -160,19 +95,19 @@ Hello from interpose
 
 在ObjectiveC中，方法的调用方式如下：**`[myClassInstance nameOfTheMethodFirstParam:param1 secondParam:param2]`**
 
-需要提供**对象**、**方法**和**参数**。当调用方法时，会使用函数**`objc_msgSend`**发送一条消息：`int i = ((int (*)(id, SEL, NSString *, NSString *))objc_msgSend)(someObject, @selector(method1p1:p2:), value1, value2);`
+需要**对象**、**方法**和**参数**。当调用一个方法时，会发送一个**消息**，使用函数**`objc_msgSend`**：`int i = ((int (*)(id, SEL, NSString *, NSString *))objc_msgSend)(someObject, @selector(method1p1:p2:), value1, value2);`
 
-对象是**`someObject`**，方法是**`@selector(method1p1:p2:)`**，参数是**value1**和**value2**。
+对象是**`someObject`**，方法是**`@selector(method1p1:p2:)`**，参数是**value1**、**value2**。
 
-根据对象的结构，可以找到一个包含方法**名称**和**指向方法代码的指针**的方法数组。
+遵循对象结构，可以找到一个**方法数组**，其中**名称**和指向方法代码的**指针**被**定位**。
 
 {% hint style="danger" %}
-请注意，由于方法和类是根据名称访问的，这些信息存储在二进制文件中，因此可以使用`otool -ov </path/bin>`或[`class-dump </path/bin>`](https://github.com/nygard/class-dump)来检索它们。
+注意，因为方法和类是基于它们的名称来访问的，这些信息存储在二进制文件中，所以可以使用`otool -ov </path/bin>`或者[`class-dump </path/bin>`](https://github.com/nygard/class-dump)检索到它。
 {% endhint %}
 
 ### 访问原始方法
 
-可以访问方法的信息，例如名称、参数数量或地址，如下面的示例所示：
+可以访问方法的信息，如名称、参数数量或地址，如下例所示：
 ```objectivec
 // gcc -framework Foundation test.m -o test
 
@@ -238,12 +173,12 @@ NSLog(@"Uppercase string: %@", uppercaseString3);
 return 0;
 }
 ```
-### 使用method\_exchangeImplementations进行方法交换
+### 方法交换与 method\_exchangeImplementations
 
-函数**`method_exchangeImplementations`**允许将一个函数的实现地址**更改为另一个函数**。
+函数 **`method_exchangeImplementations`** 允许**更改**一个函数的**实现地址**为**另一个函数**的地址。
 
 {% hint style="danger" %}
-因此，当调用一个函数时，执行的是另一个函数。
+因此，当一个函数被调用时，**执行的是另一个函数**。
 {% endhint %}
 ```objectivec
 //gcc -framework Foundation swizzle_str.m -o swizzle_str
@@ -277,7 +212,7 @@ Method swizzledMethod = class_getInstanceMethod([NSString class], @selector(swiz
 method_exchangeImplementations(originalMethod, swizzledMethod);
 
 // We changed the address of one method for the other
-// Now when the method substringFromIndex is called, what is really coode is swizzledSubstringFromIndex
+// Now when the method substringFromIndex is called, what is really called is swizzledSubstringFromIndex
 // And when swizzledSubstringFromIndex is called, substringFromIndex is really colled
 
 // Example usage
@@ -289,16 +224,16 @@ return 0;
 }
 ```
 {% hint style="warning" %}
-在这种情况下，如果**合法方法的实现代码验证**了**方法名称**，它可以**检测**到这种交换并阻止其运行。
+在这种情况下，如果**合法**方法的**实现代码**会**验证**该**方法**的**名称**，它可能会**检测**到这种swizzling并阻止它运行。
 
-以下技术没有此限制。
+以下技术没有这个限制。
 {% endhint %}
 
-### 使用method\_setImplementation进行方法交换
+### 使用 method_setImplementation 进行方法 Swizzling
 
-之前的格式很奇怪，因为你正在将一个方法的实现更改为另一个方法。使用函数**`method_setImplementation`**，您可以将一个方法的实现更改为另一个方法。
+之前的格式很奇怪，因为你正在改变两个方法的实现，一个来自另一个。使用函数**`method_setImplementation`**，你可以**更改**一个**方法的实现为另一个方法的实现**。
 
-只需记住，如果您要在新的实现中调用原始实现的地址，请在覆盖它之前将其存储起来，因为稍后要定位该地址会更加复杂。
+只需记住，如果你打算在新实现中调用原始实现，就要**存储原始实现的地址**，因为在覆盖它之前，稍后要定位那个地址会更加复杂。
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
@@ -350,17 +285,17 @@ return 0;
 }
 }
 ```
-## 钩子攻击方法论
+## Hooking 攻击方法论
 
-在本页面中，讨论了不同的函数钩子方式。然而，它们都涉及到在进程内运行代码来进行攻击。
+在本页中，讨论了不同的函数 hooking 方法。然而，它们涉及**在进程内运行代码以进行攻击**。
 
-为了做到这一点，最简单的技术是通过环境变量或劫持来注入[Dyld](../macos-dyld-hijacking-and-dyld\_insert\_libraries.md)。然而，我猜这也可以通过[Dylib进程注入](macos-ipc-inter-process-communication/#dylib-process-injection-via-task-port)来实现。
+为了做到这一点，最简单的技术是通过[环境变量或劫持注入 Dyld](../macos-dyld-hijacking-and-dyld_insert_libraries.md)。不过，我猜这也可以通过[通过任务端口的 Dylib 进程注入](macos-ipc-inter-process-communication/#dylib-process-injection-via-task-port)来完成。
 
-然而，这两种选项都**仅限于**未受保护的二进制文件/进程。请查看每种技术以了解更多限制。
+然而，这两个选项都**仅限于**对**未受保护**的二进制文件/进程。查看每种技术以了解更多限制。
 
-然而，函数钩子攻击非常具体，攻击者会使用这种方法来从进程内部窃取敏感信息（如果不是这样，你只会进行进程注入攻击）。而这些敏感信息可能位于用户下载的应用程序中，例如MacPass。
+然而，函数 hooking 攻击是非常具体的，攻击者会这样做是为了**从进程内部窃取敏感信息**（如果不是这样，你只会进行进程注入攻击）。而这些敏感信息可能位于用户下载的应用程序中，例如 MacPass。
 
-因此，攻击者的方式要么是找到一个漏洞，要么是剥离应用程序的签名，通过应用程序的Info.plist注入**`DYLD_INSERT_LIBRARIES`**环境变量，添加类似以下内容：
+因此，攻击者的向量可能是找到一个漏洞或去除应用程序的签名，通过应用程序的 Info.plist 注入**`DYLD_INSERT_LIBRARIES`** 环境变量，添加类似于：
 ```xml
 <key>LSEnvironment</key>
 <dict>
@@ -376,10 +311,10 @@ return 0;
 ```
 {% endcode %}
 
-在该库中添加挂钩代码以外泄信息：密码、消息...
+在该库中添加钩子代码以窃取信息：密码、消息等。
 
 {% hint style="danger" %}
-请注意，在较新版本的 macOS 中，如果您**剥离应用程序二进制文件的签名**并且该应用程序之前已被执行过，macOS将**不再执行该应用程序**。
+请注意，在较新版本的macOS中，如果您**去除了**应用程序二进制文件的签名，并且它之前已经被执行过，macOS**将不再执行该应用程序**。
 {% endhint %}
 
 #### 库示例
@@ -424,12 +359,14 @@ real_setPassword = method_setImplementation(real_Method, fake_IMP);
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>从零开始学习AWS黑客攻击技巧！</strong></summary>
 
-* 你在一个**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+支持HackTricks的其他方式：
+
+* 如果您希望在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF版本**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取[**官方的PEASS & HackTricks商品**](https://peass.creator-spring.com)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
