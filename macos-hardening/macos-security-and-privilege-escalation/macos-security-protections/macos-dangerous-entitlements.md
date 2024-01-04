@@ -2,58 +2,60 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda hacking no AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Quer ver sua **empresa anunciada no HackTricks**? ou quer ter acesso à **versão mais recente do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+Outras formas de apoiar o HackTricks:
+
+* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* Adquira o [**material oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-me no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
 {% hint style="warning" %}
-Observe que permissões começando com **`com.apple`** não estão disponíveis para terceiros, apenas a Apple pode concedê-las.
+Note que permissões começando com **`com.apple`** não estão disponíveis para terceiros, apenas a Apple pode concedê-las.
 {% endhint %}
 
 ## Alto
 
 ### `com.apple.rootless.install.heritable`
 
-A permissão **`com.apple.rootless.install.heritable`** permite **bypass no SIP**. Verifique [isto para mais informações](macos-sip.md#com.apple.rootless.install.heritable).
+A permissão **`com.apple.rootless.install.heritable`** permite **bypassar o SIP**. Confira [isto para mais informações](macos-sip.md#com.apple.rootless.install.heritable).
 
 ### **`com.apple.rootless.install`**
 
-A permissão **`com.apple.rootless.install`** permite **bypass no SIP**. Verifique [isto para mais informações](macos-sip.md#com.apple.rootless.install).
+A permissão **`com.apple.rootless.install`** permite **bypassar o SIP**. Confira [isto para mais informações](macos-sip.md#com.apple.rootless.install).
 
 ### **`com.apple.system-task-ports` (anteriormente chamado `task_for_pid-allow`)**
 
-Esta permissão permite obter o **task port para qualquer** processo, exceto o kernel. Verifique [**isto para mais informações**](../mac-os-architecture/macos-ipc-inter-process-communication/).
+Esta permissão permite obter o **task port para qualquer** processo, exceto o kernel. Confira [**isto para mais informações**](../mac-os-architecture/macos-ipc-inter-process-communication/).
 
 ### `com.apple.security.get-task-allow`
 
-Esta permissão permite que outros processos com a permissão **`com.apple.security.cs.debugger`** obtenham o task port do processo executado pelo binário com esta permissão e **injetem código nele**. Verifique [**isto para mais informações**](../mac-os-architecture/macos-ipc-inter-process-communication/).
+Esta permissão permite que outros processos com a permissão **`com.apple.security.cs.debugger`** obtenham o task port do processo executado pelo binário com esta permissão e **injetem código nele**. Confira [**isto para mais informações**](../mac-os-architecture/macos-ipc-inter-process-communication/).
 
 ### `com.apple.security.cs.debugger`
 
-Aplicativos com a permissão de Ferramenta de Depuração podem chamar `task_for_pid()` para recuperar um task port válido para aplicativos não assinados e de terceiros com a permissão `Get Task Allow` definida como `true`. No entanto, mesmo com a permissão de ferramenta de depuração, um depurador **não pode obter os task ports** de processos que **não têm a permissão `Get Task Allow`**, e que, portanto, são protegidos pela Proteção de Integridade do Sistema. Verifique [**isto para mais informações**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_debugger).
+Aplicativos com a permissão de Ferramenta de Depuração podem chamar `task_for_pid()` para recuperar um task port válido para aplicativos não assinados e de terceiros com a permissão `Get Task Allow` definida como `true`. No entanto, mesmo com a permissão de ferramenta de depuração, um depurador **não pode obter os task ports** de processos que **não possuem a permissão `Get Task Allow`**, e que, portanto, são protegidos pela Proteção de Integridade do Sistema. Confira [**isto para mais informações**](https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_security_cs_debugger).
 
 ### `com.apple.security.cs.disable-library-validation`
 
-Esta permissão permite **carregar frameworks, plug-ins ou bibliotecas sem serem assinados pela Apple ou assinados com o mesmo ID de Equipe** que o executável principal, então um atacante poderia abusar de algum carregamento de biblioteca arbitrário para injetar código. Verifique [**isto para mais informações**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation).
+Esta permissão permite **carregar frameworks, plug-ins ou bibliotecas sem serem assinados pela Apple ou assinados com o mesmo ID de Equipe** que o executável principal, então um atacante poderia abusar de algum carregamento arbitrário de biblioteca para injetar código. Confira [**isto para mais informações**](https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_security_cs_disable-library-validation).
 
 ### `com.apple.private.security.clear-library-validation`
 
-Esta permissão é muito semelhante a **`com.apple.security.cs.disable-library-validation`** mas **em vez** de **desabilitar diretamente** a validação de biblioteca, permite que o processo **chame uma chamada de sistema `csops` para desabilitá-la**.\
-Verifique [**isto para mais informações**](https://theevilbit.github.io/posts/com.apple.private.security.clear-library-validation/).
+Esta permissão é muito semelhante a **`com.apple.security.cs.disable-library-validation`** mas **em vez** de **desabilitar diretamente** a validação de biblioteca, ela permite que o processo **chame uma chamada de sistema `csops` para desabilitá-la**.\
+Confira [**isto para mais informações**](https://theevilbit.github.io/posts/com.apple.private.security.clear-library-validation/).
 
 ### `com.apple.security.cs.allow-dyld-environment-variables`
 
-Esta permissão permite **usar variáveis de ambiente DYLD** que poderiam ser usadas para injetar bibliotecas e código. Verifique [**isto para mais informações**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-dyld-environment-variables).
+Esta permissão permite **usar variáveis de ambiente DYLD** que poderiam ser usadas para injetar bibliotecas e código. Confira [**isto para mais informações**](https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_security_cs_allow-dyld-environment-variables).
 
 ### `com.apple.private.tcc.manager` ou `com.apple.rootless.storage`.`TCC`
 
-[**De acordo com este blog**](https://objective-see.org/blog/blog\_0x4C.html) **e** [**este blog**](https://wojciechregula.blog/post/play-the-music-and-bypass-tcc-aka-cve-2020-29621/), estas permissões permitem **modificar** o banco de dados **TCC**.
+[**De acordo com este blog**](https://objective-see.org/blog/blog_0x4C.html) **e** [**este blog**](https://wojciechregula.blog/post/play-the-music-and-bypass-tcc-aka-cve-2020-29621/), estas permissões permitem **modificar** o banco de dados **TCC**.
 
 ### **`system.install.apple-software`** e **`system.install.apple-software.standar-user`**
 
@@ -69,7 +71,7 @@ Com a permissão **`com.apple.private.icloud-account-access`** é possível se c
 
 **iMovie** e **Garageband** tinham essa permissão.
 
-Para mais **informações** sobre o exploit para **obter tokens do iCloud** a partir dessa permissão, confira a palestra: [**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=\_6e2LhmxVc0)
+Para mais **informações** sobre o exploit para **obter tokens do iCloud** a partir dessa permissão, confira a palestra: [**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=_6e2LhmxVc0)
 
 ### `com.apple.private.tcc.manager.check-by-audit-token`
 
@@ -77,15 +79,15 @@ TODO: Não sei o que isso permite fazer
 
 ### `com.apple.private.apfs.revert-to-snapshot`
 
-TODO: Em [**este relatório**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **é mencionado que isso poderia ser usado para** atualizar o conteúdo protegido por SSV após um reinício. Se você souber como, por favor envie um PR!
+TODO: Em [**este relatório**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **é mencionado que isso poderia ser usado para** atualizar o conteúdo protegido pelo SSV após um reinício. Se você souber como, por favor envie um PR!
 
 ### `com.apple.private.apfs.create-sealed-snapshot`
 
-TODO: Em [**este relatório**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **é mencionado que isso poderia ser usado para** atualizar o conteúdo protegido por SSV após um reinício. Se você souber como, por favor envie um PR!
+TODO: Em [**este relatório**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **é mencionado que isso poderia ser usado para** atualizar o conteúdo protegido pelo SSV após um reinício. Se você souber como, por favor envie um PR!
 
 ### `keychain-access-groups`
 
-Esta permissão lista grupos de **keychain** aos quais o aplicativo tem acesso:
+Esta permissão lista os grupos **keychain** aos quais o aplicativo tem acesso:
 ```xml
 <key>keychain-access-groups</key>
 <array>
@@ -120,7 +122,7 @@ Permite, entre outras permissões, **escrever no banco de dados TCC do usuário*
 
 ### **`kTCCServiceSystemPolicySysAdminFiles`**
 
-Permite **alterar** o atributo **`NFSHomeDirectory`** de um usuário que muda o caminho da sua pasta home e, portanto, permite **burlar o TCC**.
+Permite **alterar** o atributo **`NFSHomeDirectory`** de um usuário, o que muda o caminho da pasta inicial e, portanto, permite **burlar o TCC**.
 
 ### **`kTCCServiceSystemPolicyAppBundles`**
 
@@ -132,28 +134,28 @@ Permite modificar arquivos dentro do pacote de aplicativos (dentro de app.app), 
 
 ### `kTCCServiceAccessibility`
 
-O processo poderá **abusar dos recursos de acessibilidade do macOS**, o que significa que, por exemplo, ele poderá pressionar teclas. Então, ele poderia solicitar acesso para controlar um aplicativo como o Finder e aprovar o diálogo com essa permissão.
+O processo poderá **abusar dos recursos de acessibilidade do macOS**, o que significa que, por exemplo, ele poderá pressionar teclas. Assim, ele poderia solicitar acesso para controlar um aplicativo como o Finder e aprovar o diálogo com essa permissão.
 
 ## Médio
 
 ### `com.apple.security.cs.allow-jit`
 
-Este privilégio permite **criar memória que é gravável e executável** passando a flag `MAP_JIT` para a função do sistema `mmap()`. Confira [**isto para mais informações**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-jit).
+Esta permissão permite **criar memória que é gravável e executável** passando a flag `MAP_JIT` para a função do sistema `mmap()`. Confira [**isto para mais informações**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-jit).
 
 ### `com.apple.security.cs.allow-unsigned-executable-memory`
 
-Este privilégio permite **substituir ou corrigir código C**, usar o há muito obsoleto **`NSCreateObjectFileImageFromMemory`** (que é fundamentalmente inseguro), ou usar o framework **DVDPlayback**. Confira [**isto para mais informações**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory).
+Esta permissão permite **substituir ou corrigir código C**, usar o há muito obsoleto **`NSCreateObjectFileImageFromMemory`** (que é fundamentalmente inseguro), ou usar o framework **DVDPlayback**. Confira [**isto para mais informações**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory).
 
 {% hint style="danger" %}
-Incluir este privilégio expõe seu aplicativo a vulnerabilidades comuns em linguagens de código de memória insegura. Considere cuidadosamente se seu aplicativo precisa dessa exceção.
+Incluir esta permissão expõe seu aplicativo a vulnerabilidades comuns em linguagens de código de memória insegura. Considere cuidadosamente se seu aplicativo precisa desta exceção.
 {% endhint %}
 
 ### `com.apple.security.cs.disable-executable-page-protection`
 
-Este privilégio permite **modificar seções de seus próprios arquivos executáveis** no disco para sair à força. Confira [**isto para mais informações**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-executable-page-protection).
+Esta permissão permite **modificar seções de seus próprios arquivos executáveis** no disco para sair à força. Confira [**isto para mais informações**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-executable-page-protection).
 
 {% hint style="danger" %}
-O privilégio de Desabilitar Proteção de Página Executável é um privilégio extremo que remove uma proteção de segurança fundamental do seu aplicativo, possibilitando que um atacante reescreva o código executável do seu aplicativo sem detecção. Prefira privilégios mais restritos se possível.
+A permissão de Desabilitar Proteção de Página Executável é uma permissão extrema que remove uma proteção de segurança fundamental do seu aplicativo, possibilitando que um atacante reescreva o código executável do seu aplicativo sem detecção. Prefira permissões mais restritas se possível.
 {% endhint %}
 
 ### `com.apple.security.cs.allow-relative-library-loads`
@@ -162,29 +164,31 @@ TODO
 
 ### `com.apple.private.nullfs_allow`
 
-Este privilégio permite montar um sistema de arquivos nullfs (proibido por padrão). Ferramenta: [**mount\_nullfs**](https://github.com/JamaicanMoose/mount\_nullfs/tree/master).
+Esta permissão permite montar um sistema de arquivos nullfs (proibido por padrão). Ferramenta: [**mount\_nullfs**](https://github.com/JamaicanMoose/mount\_nullfs/tree/master).
 
 ### `kTCCServiceAll`
 
-De acordo com este post de blog, essa permissão TCC geralmente é encontrada na forma:
+De acordo com este post de blog, esta permissão TCC geralmente é encontrada na forma:
 ```
 [Key] com.apple.private.tcc.allow-prompting
 [Value]
 [Array]
 [String] kTCCServiceAll
 ```
-Permitir que o processo **peça todas as permissões do TCC**.
+Permitir que o processo **solicite todas as permissões do TCC**.
 
 ### **`kTCCServicePostEvent`**
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda hacking no AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Quer ver sua **empresa anunciada no HackTricks**? ou quer ter acesso à **versão mais recente do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+Outras formas de apoiar o HackTricks:
+
+* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* Adquira o [**material oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Participe do grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou do grupo [**telegram**](https://t.me/peass) ou **siga**-me no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios do GitHub** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
