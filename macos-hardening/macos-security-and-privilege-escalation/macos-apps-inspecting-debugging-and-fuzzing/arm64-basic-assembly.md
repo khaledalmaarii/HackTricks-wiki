@@ -2,93 +2,95 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+Autres moyens de soutenir HackTricks :
+
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
 ## **Introduction à ARM64**
 
-ARM64, également connu sous le nom d'ARMv8-A, est une architecture de processeur 64 bits utilisée dans différents types d'appareils, y compris les smartphones, les tablettes, les serveurs et même certains ordinateurs personnels haut de gamme (macOS). C'est un produit d'ARM Holdings, une entreprise connue pour ses conceptions de processeurs économes en énergie.
+ARM64, également connu sous le nom de ARMv8-A, est une architecture de processeur 64 bits utilisée dans divers types d'appareils, y compris les smartphones, les tablettes, les serveurs et même certains ordinateurs personnels haut de gamme (macOS). C'est un produit d'ARM Holdings, une entreprise connue pour ses conceptions de processeurs économes en énergie.
 
 ### **Registres**
 
-ARM64 dispose de **31 registres généraux**, étiquetés `x0` à `x30`. Chacun peut stocker une valeur de **64 bits** (8 octets). Pour les opérations qui nécessitent uniquement des valeurs de 32 bits, les mêmes registres peuvent être accessibles en mode 32 bits en utilisant les noms w0 à w30.
+ARM64 dispose de **31 registres à usage général**, étiquetés de `x0` à `x30`. Chacun peut stocker une valeur **64 bits** (8 octets). Pour les opérations qui nécessitent uniquement des valeurs 32 bits, les mêmes registres peuvent être accédés en mode 32 bits en utilisant les noms w0 à w30.
 
-1. **`x0`** à **`x7`** - Ils sont généralement utilisés comme registres temporaires et pour transmettre des paramètres aux sous-routines.
-* **`x0`** transporte également les données de retour d'une fonction.
-2. **`x8`** - Dans le noyau Linux, `x8` est utilisé comme numéro d'appel système pour l'instruction `svc`. **Dans macOS, c'est x16 qui est utilisé !**
-3. **`x9`** à **`x15`** - Registres temporaires supplémentaires, souvent utilisés pour les variables locales.
+1. **`x0`** à **`x7`** - Typiquement utilisés comme registres temporaires et pour passer des paramètres aux sous-routines.
+* **`x0`** transporte également les données de retour d'une fonction
+2. **`x8`** - Dans le noyau Linux, `x8` est utilisé comme numéro d'appel système pour l'instruction `svc`. **Dans macOS, c'est le x16 qui est utilisé !**
+3. **`x9`** à **`x15`** - Autres registres temporaires, souvent utilisés pour les variables locales.
 4. **`x16`** et **`x17`** - Registres temporaires, également utilisés pour les appels de fonction indirects et les stubs PLT (Procedure Linkage Table).
-* **`x16`** est utilisé comme numéro d'appel système pour l'instruction **`svc`**.
-5. **`x18`** - Registre de plateforme. Sur certaines plateformes, ce registre est réservé à des utilisations spécifiques à la plateforme.
-6. **`x19`** à **`x28`** - Ce sont des registres sauvegardés par l'appelé. Une fonction doit préserver les valeurs de ces registres pour son appelant.
-7. **`x29`** - Pointeur de cadre.
+* **`x16`** est utilisé comme **numéro d'appel système** pour l'instruction **`svc`**.
+5. **`x18`** - Registre de plateforme. Sur certaines plateformes, ce registre est réservé à des usages spécifiques à la plateforme.
+6. **`x19`** à **`x28`** - Ce sont des registres sauvegardés par l'appelé. Une fonction doit préserver la valeur de ces registres pour son appelant.
+7. **`x29`** - **Pointeur de cadre**.
 8. **`x30`** - Registre de lien. Il contient l'adresse de retour lorsqu'une instruction `BL` (Branch with Link) ou `BLR` (Branch with Link to Register) est exécutée.
-9. **`sp`** - Pointeur de pile, utilisé pour suivre le sommet de la pile.
-10. **`pc`** - Compteur de programme, qui pointe vers l'instruction suivante à exécuter.
+9. **`sp`** - **Pointeur de pile**, utilisé pour suivre le sommet de la pile.
+10. **`pc`** - **Compteur de programme**, qui pointe vers la prochaine instruction à exécuter.
 
 ### **Convention d'appel**
 
-La convention d'appel ARM64 spécifie que les **huit premiers paramètres** d'une fonction sont passés dans les registres **`x0` à `x7`**. Les **paramètres supplémentaires** sont passés sur la **pile**. La **valeur de retour** est renvoyée dans le registre **`x0`**, ou dans **`x1`** également **s'il fait 128 bits**. Les registres **`x19`** à **`x30`** et **`sp`** doivent être **préservés** lors des appels de fonction.
+La convention d'appel ARM64 spécifie que les **huit premiers paramètres** d'une fonction sont passés dans les registres **`x0` à `x7`**. Les **paramètres supplémentaires** sont passés sur la **pile**. La valeur de **retour** est renvoyée dans le registre **`x0`**, ou également dans **`x1`** si elle fait **128 bits**. Les registres **`x19`** à **`x30`** et **`sp`** doivent être **préservés** lors des appels de fonction.
 
-Lors de la lecture d'une fonction en langage d'assemblage, recherchez le **prologue et l'épilogue de la fonction**. Le **prologue** implique généralement **la sauvegarde du pointeur de cadre (`x29`)**, **la configuration** d'un **nouveau pointeur de cadre** et **l'allocation d'espace de pile**. L'**épilogue** implique généralement **la restauration du pointeur de cadre sauvegardé** et **le retour** de la fonction.
+Lors de la lecture d'une fonction en assembleur, recherchez le **prologue et l'épilogue de la fonction**. Le **prologue** implique généralement de **sauvegarder le pointeur de cadre (`x29`)**, de **configurer un nouveau pointeur de cadre**, et d'**allouer de l'espace sur la pile**. L'**épilogue** implique généralement de **restaurer le pointeur de cadre sauvegardé** et de **retourner** de la fonction.
 
-### Convention d'appel en Swift
+### Convention d'appel dans Swift
 
-Swift a sa propre **convention d'appel** que l'on peut trouver dans [**https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#arm64**](https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#arm64)
+Swift a sa propre **convention d'appel** qui peut être trouvée ici [**https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#arm64**](https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#arm64)
 
 ### **Instructions courantes**
 
-Les instructions ARM64 ont généralement le **format `opcode dst, src1, src2`**, où **`opcode`** est l'**opération** à effectuer (comme `add`, `sub`, `mov`, etc.), **`dst`** est le registre **destination** où le résultat sera stocké, et **`src1`** et **`src2`** sont les registres **source**. Des valeurs immédiates peuvent également être utilisées à la place des registres source.
+Les instructions ARM64 ont généralement le **format `opcode dst, src1, src2`**, où **`opcode`** est l'**opération** à effectuer (comme `add`, `sub`, `mov`, etc.), **`dst`** est le registre de **destination** où le résultat sera stocké, et **`src1`** et **`src2`** sont les registres **source**. Des valeurs immédiates peuvent également être utilisées à la place des registres source.
 
-* **`mov`** : **Déplacer** une valeur d'un **registre** vers un autre.
+* **`mov`**: **Déplacer** une valeur d'un **registre** à un autre.
 * Exemple : `mov x0, x1` — Cela déplace la valeur de `x1` vers `x0`.
-* **`ldr`** : **Charger** une valeur depuis la **mémoire** dans un **registre**.
-* Exemple : `ldr x0, [x1]` — Cela charge une valeur depuis l'emplacement mémoire pointé par `x1` dans `x0`.
-* **`str`** : **Stocker** une valeur depuis un **registre** dans la **mémoire**.
-* Exemple : `str x0, [x1]` — Cela stocke la valeur de `x0` dans l'emplacement mémoire pointé par `x1`.
-* **`ldp`** : **Charger une paire de registres**. Cette instruction **charge deux registres** à partir de **emplacements mémoire consécutifs**. L'adresse mémoire est généralement formée en ajoutant un décalage à la valeur d'un autre registre.
+* **`ldr`**: **Charger** une valeur de la **mémoire** dans un **registre**.
+* Exemple : `ldr x0, [x1]` — Cela charge une valeur de l'emplacement mémoire pointé par `x1` dans `x0`.
+* **`str`**: **Stocker** une valeur d'un **registre** dans la **mémoire**.
+* Exemple : `str x0, [x1]` — Cela stocke la valeur dans `x0` à l'emplacement mémoire pointé par `x1`.
+* **`ldp`**: **Charger une paire de registres**. Cette instruction **charge deux registres** depuis des emplacements mémoire **consécutifs**. L'adresse mémoire est typiquement formée en ajoutant un décalage à la valeur dans un autre registre.
 * Exemple : `ldp x0, x1, [x2]` — Cela charge `x0` et `x1` depuis les emplacements mémoire à `x2` et `x2 + 8`, respectivement.
-* **`stp`** : **Stocker une paire de registres**. Cette instruction **stocke deux registres** dans des **emplacements mémoire consécutifs**. L'adresse mémoire est généralement formée en ajoutant un décalage à la valeur d'un autre registre.
-* Exemple : `stp x0, x1, [x2]` — Cela stocke `x0` et `x1` dans les emplacements mémoire à `x2` et `x2 + 8`, respectivement.
-* **`add`** : **Ajouter** les valeurs de deux registres et stocker le résultat dans un registre.
-* Exemple : `add x0, x1, x2` — Cela ajoute les valeurs dans `x1` et `x2` ensemble et stocke le résultat dans `x0`.
-* **`sub`** : **Soustraire** les valeurs de deux registres et stocker le résultat dans un registre.
+* **`stp`**: **Stocker une paire de registres**. Cette instruction **stocke deux registres** dans des emplacements mémoire **consécutifs**. L'adresse mémoire est typiquement formée en ajoutant un décalage à la valeur dans un autre registre.
+* Exemple : `stp x0, x1, [x2]` — Cela stocke `x0` et `x1` aux emplacements mémoire à `x2` et `x2 + 8`, respectivement.
+* **`add`**: **Ajouter** les valeurs de deux registres et stocker le résultat dans un registre.
+* Exemple : `add x0, x1, x2` — Cela ajoute les valeurs dans `x1` et `x2` et stocke le résultat dans `x0`.
+* **`sub`**: **Soustraire** les valeurs de deux registres et stocker le résultat dans un registre.
 * Exemple : `sub x0, x1, x2` — Cela soustrait la valeur dans `x2` de `x1` et stocke le résultat dans `x0`.
-* **`mul`** : **Multiplier** les valeurs de **deux registres** et stocker le résultat dans un registre.
+* **`mul`**: **Multiplier** les valeurs de **deux registres** et stocker le résultat dans un registre.
 * Exemple : `mul x0, x1, x2` — Cela multiplie les valeurs dans `x1` et `x2` et stocke le résultat dans `x0`.
-* **`div`** : **Diviser** la valeur d'un registre par un autre et stocker le résultat dans un registre.
+* **`div`**: **Diviser** la valeur d'un registre par un autre et stocker le résultat dans un registre.
 * Exemple : `div x0, x1, x2` — Cela divise la valeur dans `x1` par `x2` et stocke le résultat dans `x0`.
-* **`bl`** : **Brancher** avec lien, utilisé pour **appeler** une **sous-routine**. Stocke l'**adresse de retour dans `x30`**.
+* **`bl`**: **Branche** avec lien, utilisée pour **appeler** une **sous-routine**. Stocke l'**adresse de retour dans `x30`**.
 * Exemple : `bl myFunction` — Cela appelle la fonction `myFunction` et stocke l'adresse de retour dans `x30`.
-* **`blr`** : **Brancher** avec lien vers un registre, utilisé pour **appeler** une **sous-routine** où la cible est **spécifiée** dans un **registre**. Stocke l'adresse de retour dans `x30`.
+* **`blr`**: **Branche** avec lien vers registre, utilisée pour **appeler** une **sous-routine** dont la cible est **spécifiée** dans un **registre**. Stocke l'adresse de retour dans `x30`.
 * Exemple : `blr x1` — Cela appelle la fonction dont l'adresse est contenue dans `x1` et stocke l'adresse de retour dans `x30`.
-* **`ret`** : **Retourner** de la **sous-routine**, généralement en utilisant l'adresse dans **`x30`**.
-* Exemple : `ret` — Cela retourne de la sous-routine en utilisant l'adresse de retour dans `x30`.
-* **`cmp`** : **Comparer** deux registres et définir les indicateurs de condition.
-* Exemple : `cmp x0, x1` — Cela compare les valeurs dans `x0` et `x1` et définit les indicateurs de condition en conséquence.
-* **`b.eq`** : **Brancher si égal**, basé sur l'instruction `cmp` précédente.
+* **`ret`**: **Retourner** de la **sous-routine**, typiquement en utilisant l'adresse dans **`x30`**.
+* Exemple : `ret` — Cela retourne de la sous-routine actuelle en utilisant l'adresse de retour dans `x30`.
+* **`cmp`**: **Comparer** deux registres et définir les drapeaux de condition.
+* Exemple : `cmp x0, x1` — Cela compare les valeurs dans `x0` et `x1` et définit les drapeaux de condition en conséquence.
+* **`b.eq`**: **Branche si égal**, basé sur l'instruction `cmp` précédente.
 * Exemple : `b.eq label` — Si l'instruction `cmp` précédente a trouvé deux valeurs égales, cela saute à `label`.
-* **`b.ne`** : **Brancher si différent**. Cette instruction vérifie les indicateurs de condition (qui ont été définis par une instruction de comparaison précédente), et si les valeurs comparées ne sont pas égales, elle saute à une étiquette ou une adresse.
-* Exemple : Après une instruction `cmp x0, x1`, `b.ne label` — Si les valeurs dans `x0` et `x1` ne sont pas égales, cela saute à `label`.
-* **`cbz`** : **Comparer et brancher si zéro**. Cette instruction compare un registre avec zéro, et s'ils sont égaux, elle saute à une étiquette ou une adresse.
+* **`b.ne`**: **Branche si Non Égal**. Cette instruction vérifie les drapeaux de condition (qui ont été définis par une instruction de comparaison précédente), et si les valeurs comparées n'étaient pas égales, elle se branche vers un label ou une adresse.
+* Exemple : Après une instruction `cmp x0, x1`, `b.ne label` — Si les valeurs dans `x0` et `x1` n'étaient pas égales, cela saute à `label`.
+* **`cbz`**: **Comparer et Branche sur Zéro**. Cette instruction compare un registre avec zéro, et s'ils sont égaux, elle se branche vers un label ou une adresse.
 * Exemple : `cbz x0, label` — Si la valeur dans `x0` est zéro, cela saute à `label`.
-* **`cbnz`** : **Comparer et brancher si non zéro**. Cette instruction compare un registre avec zéro, et s'ils ne sont pas égaux, elle saute à une étiquette ou une adresse.
-* Exemple : `cbnz x0, label` — Si la valeur dans `x0` n'est pas zéro, cela saute à `label`.
-* **`adrp`** : Calculer l'**adresse de page d'un symbole** et la stocker dans un registre.
+* **`cbnz`**: **Comparer et Branche sur Non-Zéro**. Cette instruction compare un registre avec zéro, et s'ils ne sont pas égaux, elle se branche vers un label ou une adresse.
+* Exemple : `cbnz x0, label` — Si la valeur dans `x0` est non-zéro, cela saute à `label`.
+* **`adrp`**: Calculer l'**adresse de page d'un symbole** et la stocker dans un registre.
 * Exemple : `adrp x0, symbol` — Cela calcule l'adresse de page de `symbol` et la stocke dans `x0`.
-* **`ldrsw`** : **Charger** une valeur signée de **32 bits** depuis la mémoire et **l'étendre à 64 bits**.
-* Exemple : `ldrsw x0, [x1]` — Cela charge une valeur signée de 32 bits depuis l'emplacement mémoire pointé par `x1`, l'étend à 64 bits et la stocke dans `x0`.
-* **`stur`** : **Stocker une valeur de registre dans un emplacement mémoire**, en utilisant un décalage par rapport à un autre registre.
-* Exemple : `stur x0, [x1, #4]` — Cela stocke la valeur dans `x0` dans l'adresse mémoire qui est 4 octets supérieure à l'adresse actuellement dans `x1`.
-* &#x20;**`svc`** : Effectuer un **appel système**. Il signifie "Supervisor Call". Lorsque le processeur exécute cette instruction, il **passe du mode utilisateur au mode noyau** et saute à un emplacement spécifique en mémoire où se trouve le code de gestion des appels système du noyau.
-*   Exemple :&#x20;
+* **`ldrsw`**: **Charger** une valeur **32 bits signée** de la mémoire et **l'étendre en signe à 64** bits.
+* Exemple : `ldrsw x0, [x1]` — Cela charge une valeur 32 bits signée de l'emplacement mémoire pointé par `x1`, l'étend en signe à 64 bits, et la stocke dans `x0`.
+* **`stur`**: **Stocker une valeur de registre à un emplacement mémoire**, en utilisant un décalage par rapport à un autre registre.
+* Exemple : `stur x0, [x1, #4]` — Cela stocke la valeur dans `x0` à l'adresse mémoire qui est 4 octets plus grande que l'adresse actuellement dans `x1`.
+* &#x20;**`svc`** : Effectuer un **appel système**. Cela signifie "Supervisor Call". Lorsque le processeur exécute cette instruction, il **passe du mode utilisateur au mode noyau** et saute à un emplacement spécifique dans la mémoire où se trouve le code de **gestion des appels système du noyau**.
+*   Exemple:&#x20;
 
 ```armasm
 mov x8, 93  ; Charger le numéro d'appel système pour exit (93) dans le registre x8.
@@ -98,27 +100,27 @@ svc 0       ; Effectuer l'appel système.
 
 ### **Prologue de fonction**
 
-1.  **Sauvegarder le registre de lien et le pointeur de cadre dans la pile** :
+1.  **Sauvegarder le registre de lien et le pointeur de cadre sur la pile**:
 
 {% code overflow="wrap" %}
 ```armasm
-stp x29, x30, [sp, #-16]!  ; stocker la paire x29 et x30 dans la pile et décrémenter le pointeur de pile
+stp x29, x30, [sp, #-16]!  ; stocker la paire x29 et x30 sur la pile et décrémenter le pointeur de pile
 ```
 {% endcode %}
-2. **Configurer le nouveau pointeur de cadre** : `mov x29, sp` (configure le nouveau pointeur de cadre pour la fonction en cours)
-3. **Allouer de l'espace dans la pile pour les variables locales** (si nécessaire) : `sub sp, sp, <taille>` (où `<taille>` est le nombre d'octets nécessaires)
+2. **Configurer le nouveau pointeur de cadre** : `mov x29, sp` (configure le nouveau pointeur de cadre pour la fonction actuelle)
+3. **Allouer de l'espace sur la pile pour les variables locales** (si nécessaire) : `sub sp, sp, <taille>` (où `<taille>` est le nombre d'octets nécessaires)
 
 ### **Épilogue de fonction**
 
-1. **Désallouer les variables locales (si des variables ont été allouées)** : `add sp, sp, <taille>`
+1. **Désallouer les variables locales (si certaines ont été allouées)** : `add sp, sp, <taille>`
 2.  **Restaurer le registre de lien et le pointeur de cadre** :
 
 {% code overflow="wrap" %}
 ```armasm
-ldp x29, x30, [sp], #16  ; charger la paire x29 et x30 depuis la pile et incrémenter le pointeur de pile
+ldp x29, x30, [sp], #16  ; charger la paire x29 et x30 de la pile et incrémenter le pointeur de pile
 ```
 {% endcode %}
-3. **Retourner** : `ret` (retourne le contrôle à l'appelant en utilisant l'adresse dans le registre de lien)
+3. **Retourner** : `ret` (rend le contrôle à l'appelant en utilisant l'adresse dans le registre de lien)
 
 ## macOS
 
@@ -126,11 +128,11 @@ ldp x29, x30, [sp], #16  ; charger la paire x29 et x30 depuis la pile et incrém
 
 Consultez [**syscalls.master**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/bsd/kern/syscalls.master). Les appels système BSD auront **x16 > 0**.
 
-### Trappes Mach
+### Pièges Mach
 
-Consultez [**syscall\_sw.c**](https://opensource.apple.com/source/xnu/xnu-3789.1.32/osfmk/kern/syscall\_sw.c.auto.html). Les trappes Mach auront **x16 < 0**, donc vous devez appeler les numéros de la liste précédente avec un **moins** : **`_kernelrpc_mach_vm_allocate_trap`** est **`-10`**.
+Consultez [**syscall\_sw.c**](https://opensource.apple.com/source/xnu/xnu-3789.1.32/osfmk/kern/syscall\_sw.c.auto.html). Les pièges Mach auront **x16 < 0**, donc vous devez appeler les numéros de la liste précédente avec un **moins** : **`_kernelrpc_mach_vm_allocate_trap`** est **`-10`**.
 
-Vous pouvez également consulter **`libsystem_kernel.dylib`** dans un désassembleur pour savoir comment appeler ces appels système (et BSD) :
+Vous pouvez également vérifier **`libsystem_kernel.dylib`** dans un désassembleur pour trouver comment appeler ces appels système (et BSD) :
 ```bash
 # macOS
 dyldex -e libsystem_kernel.dylib /System/Volumes/Preboot/Cryptexes/OS/System/Library/dyld/dyld_shared_cache_arm64e
@@ -139,7 +141,7 @@ dyldex -e libsystem_kernel.dylib /System/Volumes/Preboot/Cryptexes/OS/System/Lib
 dyldex -e libsystem_kernel.dylib /System/Library/Caches/com.apple.dyld/dyld_shared_cache_arm64
 ```
 {% hint style="success" %}
-Parfois, il est plus facile de vérifier le code **décompilé** de **`libsystem_kernel.dylib`** que de vérifier le **code source** car le code de plusieurs appels système (BSD et Mach) est généré via des scripts (vérifiez les commentaires dans le code source) tandis que dans la dylib, vous pouvez trouver ce qui est appelé.
+Parfois, il est plus facile de vérifier le code **décompilé** de **`libsystem_kernel.dylib`** **que** de consulter le **code source** parce que le code de plusieurs appels système (BSD et Mach) est généré via des scripts (voir les commentaires dans le code source), tandis que dans la dylib, vous pouvez trouver ce qui est appelé.
 {% endhint %}
 
 ### Shellcodes
@@ -211,7 +213,7 @@ return 0;
 
 #### Shell
 
-Extrait de [**ici**](https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/shell.s) et expliqué.
+Tiré de [**ici**](https://github.com/daem0nc0re/macOS\_ARM64\_Shellcode/blob/master/shell.s) et expliqué.
 
 {% tabs %}
 {% tab title="avec adr" %}
@@ -229,7 +231,9 @@ svc  #0x1337      ; Make the syscall. The number 0x1337 doesn't actually matter,
 
 sh_path: .asciz "/bin/sh"
 ```
-{% tab title="avec la pile" %}
+{% endtab %}
+
+{% tab title="avec pile" %}
 ```armasm
 .section __TEXT,__text ; This directive tells the assembler to place the following code in the __text section of the __TEXT segment.
 .global _main         ; This makes the _main label globally visible, so that the linker can find it as the entry point of the program.
@@ -258,12 +262,9 @@ mov  x16, #59     ; Move the execve syscall number (59) into x16.
 svc  #0x1337      ; Make the syscall. The number 0x1337 doesn't actually matter, because the svc instruction always triggers a supervisor call, and the exact action is determined by the value in x16.
 
 ```
-{% endtab %}
-{% endtabs %}
-
 #### Lire avec cat
 
-L'objectif est d'exécuter `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)`, donc le deuxième argument (x1) est un tableau de paramètres (ce qui signifie en mémoire une pile d'adresses).
+L'objectif est d'exécuter `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)`, donc le deuxième argument (x1) est un tableau de paramètres (ce qui en mémoire signifie une pile des adresses).
 ```armasm
 .section __TEXT,__text     ; Begin a new section of type __TEXT and name __text
 .global _main              ; Declare a global symbol _main
@@ -289,7 +290,7 @@ cat_path: .asciz "/bin/cat"
 .align 2
 passwd_path: .asciz "/etc/passwd"
 ```
-#### Exécuter une commande avec sh à partir d'une bifurcation pour que le processus principal ne soit pas tué
+#### Invoquer une commande avec sh depuis un fork pour que le processus principal ne soit pas tué
 ```armasm
 .section __TEXT,__text     ; Begin a new section of type __TEXT and name __text
 .global _main              ; Declare a global symbol _main
@@ -333,9 +334,9 @@ sh_c_option: .asciz "-c"
 .align 2
 touch_command: .asciz "touch /tmp/lalala"
 ```
-#### Shell en écoute
+#### Coquille de liaison
 
-Shell en écoute sur le **port 4444** à partir de [https://raw.githubusercontent.com/daem0nc0re/macOS\_ARM64\_Shellcode/master/bindshell.s](https://raw.githubusercontent.com/daem0nc0re/macOS\_ARM64\_Shellcode/master/bindshell.s)
+Coquille de liaison depuis [https://raw.githubusercontent.com/daem0nc0re/macOS\_ARM64\_Shellcode/master/bindshell.s](https://raw.githubusercontent.com/daem0nc0re/macOS\_ARM64\_Shellcode/master/bindshell.s) sur le **port 4444**
 ```armasm
 .section __TEXT,__text
 .global _main
@@ -488,12 +489,14 @@ svc  #0x1337
 ```
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? Ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+Autres moyens de soutenir HackTricks :
+
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez**-moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
