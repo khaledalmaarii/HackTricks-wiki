@@ -2,17 +2,19 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS 红队专家)</strong></a><strong>从零开始学习 AWS 黑客攻击！</strong></summary>
 
-* 你在**网络安全公司**工作吗？你想在**HackTricks 中看到你的公司广告**吗？或者你想要访问**最新版本的 PEASS 或下载 HackTricks 的 PDF**？查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们独家的 [**NFTs 集合**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方的 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或在 **推特** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**上关注**我。
-* **通过提交 PR 到** [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **分享你的黑客技巧。**
+支持 HackTricks 的其他方式：
+
+* 如果您想在 **HackTricks 中看到您的公司广告** 或 **下载 HackTricks 的 PDF 版本**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* 发现 [**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们独家的 [**NFT 集合**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来**分享您的黑客技巧**。
 
 </details>
 
-MIG 被创建来**简化 Mach IPC 代码创建过程**。它基本上**生成所需的代码**，以便服务器和客户端可以根据给定的定义进行通信。即使生成的代码不好看，开发者只需要导入它，他的代码就会比以前简单得多。
+MIG 被创建用于**简化 Mach IPC 代码创建过程**。它基本上**生成了服务器和客户端通信所需的代码**，根据给定的定义。即使生成的代码很丑陋，开发者只需要导入它，他的代码将比之前简单得多。
 
 ### 示例
 
@@ -33,15 +35,15 @@ server_port :  mach_port_t;
 n1          :  uint32_t;
 n2          :  uint32_t);
 ```
-```
-现在使用mig生成服务器和客户端代码，这些代码将能够相互通信以调用Subtract函数：
+```markdown
+现在使用 mig 生成服务器和客户端代码，这些代码将能够相互通信以调用 Subtract 函数：
 ```
 ```bash
 mig -header myipcUser.h -sheader myipcServer.h myipc.defs
 ```
-在当前目录中将创建几个新文件。
+在当前目录中将创建多个新文件。
 
-在文件 **`myipcServer.c`** 和 **`myipcServer.h`** 中，您可以找到结构 **`SERVERPREFmyipc_subsystem`** 的声明和定义，它基本上根据接收到的消息ID定义要调用的函数（我们指定了一个起始编号500）：
+在文件 **`myipcServer.c`** 和 **`myipcServer.h`** 中，您可以找到结构 **`SERVERPREFmyipc_subsystem`** 的声明和定义，该结构基本上根据接收到的消息 ID 定义要调用的函数（我们指定了一个起始编号为 500 的数字）：
 
 {% tabs %}
 {% tab title="myipcServer.c" %}
@@ -204,14 +206,14 @@ USERPREFSubtract(port, 40, 2);
 
 ### 二进制分析
 
-由于许多二进制文件现在使用MIG来暴露mach端口，了解如何**识别使用了MIG**以及MIG对每个消息ID**执行的函数**是很有趣的。
+由于许多二进制文件现在使用MIG来暴露mach端口，了解如何**识别使用了MIG**以及MIG对每个消息ID执行的**函数**是很有趣的。
 
 [**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2)可以从Mach-O二进制文件中解析MIG信息，指示消息ID并识别要执行的函数：
 ```bash
 jtool2 -d __DATA.__const myipc_server | grep MIG
 ```
 {% tabs %}
-{% tab title="myipc_server decompiled 1" %}
+{% tab title="myipc_server 反编译 1" %}
 <pre class="language-c"><code class="lang-c">int _myipc_server(int arg0, int arg1) {
 var_10 = arg0;
 var_18 = arg1;
@@ -225,12 +227,12 @@ var_18 = arg1;
 if (*(int32_t *)(var_10 + 0x14) &#x3C;= 0x1f4 &#x26;&#x26; *(int32_t *)(var_10 + 0x14) >= 0x1f4) {
 rax = *(int32_t *)(var_10 + 0x14);
 // 调用 sign_extend_64 可以帮助识别这个函数
-// 这将在 rax 中存储需要被调用的指针
-// 检查地址 0x100004040 的使用（函数地址数组）
+// 这会在 rax 中存储需要被调用的指针
+// 检查地址 0x100004040 的使用情况（函数地址数组）
 // 0x1f4 = 500（起始 ID）
 <strong>            rax = *(sign_extend_64(rax - 0x1f4) * 0x28 + 0x100004040);
 </strong>            var_20 = rax;
-// If - else，if 返回 false，而 else 调用正确的函数并返回 true
+// If - else 结构，if 返回 false，而 else 调用正确的函数并返回 true
 <strong>            if (rax == 0x0) {
 </strong>                    *(var_18 + 0x18) = **_NDR_record;
 *(int32_t *)(var_18 + 0x20) = 0xfffffffffffffed1;
@@ -253,8 +255,8 @@ return rax;
 </code></pre>
 {% endtab %}
 
-{% tab title="myipc_server decompiled 2" %}
-这是在不同的 Hopper 免费版本中反编译的同一个函数：
+{% tab title="myipc_server 反编译 2" %}
+这是在不同的 Hopper 免费版本中反编译的同一函数：
 
 <pre class="language-c"><code class="lang-c">int _myipc_server(int arg0, int arg1) {
 r31 = r31 - 0x40;
@@ -297,8 +299,8 @@ if (CPU_FLAGS &#x26; NE) {
 r8 = 0x1;
 }
 }
-// 与前一个版本相同的 if else
-// 检查地址 0x100004040 的使用（函数地址数组）
+// 与前一个版本相同的 if else 结构
+// 检查地址 0x100004040 的使用情况（函数地址数组）
 <strong>                    if ((r8 &#x26; 0x1) == 0x0) {
 </strong><strong>                            *(var_18 + 0x18) = **0x100004000;
 </strong>                            *(int32_t *)(var_18 + 0x20) = 0xfffffed1;
@@ -329,22 +331,24 @@ return r0;
 {% endtab %}
 {% endtabs %}
 
-实际上，如果你去函数 **`0x100004000`**，你会找到 **`routine_descriptor`** 结构体的数组。结构体的第一个元素是实现 **函数** 的 **地址**，并且 **结构体占用 0x28 字节**，所以每隔 0x28 字节（从字节 0 开始），你可以得到 8 字节，那将是将被调用的 **函数的地址**：
-
-<figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+实际上，如果你去函数 **`0x100004000`**，你会找到 **`routine_descriptor`** 结构体的数组。结构体的第一个元素是实现 **函数** 的 **地址**，并且 **结构体占用 0x28 字节**，所以每隔 0x28 字节（从字节 0 开始）你可以得到 8 字节，那将是将被调用的 **函数的地址**：
 
 <figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+
+<figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 这些数据可以通过[**使用这个 Hopper 脚本**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py)提取。
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零开始学习 AWS 黑客攻击到高手</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>！</strong></summary>
 
-* 你在一家 **网络安全公司** 工作吗？你想在 HackTricks 中看到你的 **公司广告** 吗？或者你想获得 **PEASS 的最新版本或下载 HackTricks 的 PDF**？查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现 [**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 收藏。
+支持 HackTricks 的其他方式：
+
+* 如果你想在 **HackTricks** 中看到你的 **公司广告** 或 **下载 HackTricks 的 PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或在 **Twitter** 上**关注**我 [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* 通过向 [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) 和 [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) 提交 PR 来**分享你的黑客技巧**。
+* 发现 [**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们独家的 [**NFT 集合**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或在 **Twitter** 🐦 上 **关注** 我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享你的黑客技巧。
 
 </details>

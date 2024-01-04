@@ -2,43 +2,45 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零到英雄学习AWS黑客技术，通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>！</strong></summary>
 
-* 你在一个**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[NFT收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+支持HackTricks的其他方式：
+
+* 如果您想在**HackTricks中看到您的公司广告**或**以PDF格式下载HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在**Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
 ## 基本信息
 
-XPC代表XNU（macOS使用的内核）进程间通信，是macOS和iOS之间进行**进程间通信的框架**。XPC提供了一种在系统上进行**安全的异步方法调用的机制**。它是苹果安全范例的一部分，允许创建**权限分离的应用程序**，其中每个**组件**仅以其工作所需的权限运行，从而限制了受损进程可能造成的潜在损害。
+XPC，代表XNU（macOS使用的内核）进程间通信，是macOS和iOS上**进程间通信**的框架。XPC提供了一种机制，用于在系统上的不同进程之间进行**安全的、异步的方法调用**。它是苹果安全范式的一部分，允许**创建权限分离的应用程序**，其中每个**组件**仅运行具有执行其工作所需的**权限**，从而限制了被攻破进程的潜在损害。
 
-XPC使用一种进程间通信（IPC）的形式，这是一组用于在同一系统上运行的不同程序之间发送数据的方法。
+XPC使用一种进程间通信（IPC）的形式，这是一组方法，用于在同一系统上运行的不同程序之间发送数据。
 
-XPC的主要优点包括：
+XPC的主要好处包括：
 
-1. **安全性**：通过将工作分成不同的进程，每个进程只能被授予其所需的权限。这意味着即使进程被入侵，它也只能有限地造成损害。
-2. **稳定性**：XPC有助于将崩溃隔离到发生崩溃的组件。如果一个进程崩溃，可以重新启动而不影响系统的其他部分。
+1. **安全性**：通过将工作分离到不同的进程中，每个进程可以只被授予它所需的权限。这意味着即使一个进程被攻破，它造成的危害也有限。
+2. **稳定性**：XPC有助于将崩溃隔离到发生它们的组件中。如果一个进程崩溃，它可以被重启而不影响系统的其余部分。
 3. **性能**：XPC允许轻松并发，因为不同的任务可以在不同的进程中同时运行。
 
-唯一的**缺点**是将一个应用程序分成多个进程，通过XPC进行通信会**效率较低**。但在今天的系统中，这几乎不可察觉，而且好处更多。
+唯一的**缺点**是，将应用程序分割成几个进程，通过XPC进行通信是**效率较低**的。但在今天的系统中这几乎是不明显的，而且好处更大。
 
-## 应用程序特定的XPC服务
+## 特定应用程序的XPC服务
 
-应用程序的XPC组件位于**应用程序本身内部**。例如，在Safari中，您可以在**`/Applications/Safari.app/Contents/XPCServices`**中找到它们。它们的扩展名为**`.xpc`**（例如**`com.apple.Safari.SandboxBroker.xpc`**），并且也是**包**，其中包含主二进制文件：`/Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/MacOS/com.apple.Safari.SandboxBroker`，以及一个`Info.plist：/Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/Info.plist`
+应用程序的XPC组件位于**应用程序本身内部**。例如，在Safari中，您可以在**`/Applications/Safari.app/Contents/XPCServices`**找到它们。它们有扩展名**`.xpc`**（如**`com.apple.Safari.SandboxBroker.xpc`**），并且**也是包含主二进制文件的包**：`/Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/MacOS/com.apple.Safari.SandboxBroker` 和 `Info.plist: /Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/Info.plist`
 
-正如您可能想到的，**XPC组件将具有不同的授权和权限**，与其他XPC组件或主应用程序二进制文件不同。除非XPC服务在其**Info.plist**文件中将[**JoinExistingSession**](https://developer.apple.com/documentation/bundleresources/information\_property\_list/xpcservice/joinexistingsession)设置为“True”。在这种情况下，XPC服务将在与调用它的应用程序**相同的安全会话中运行**。
+正如您可能在想的，一个**XPC组件将具有不同的权利和权限**，与其他XPC组件或主应用程序二进制文件不同。除非XPC服务在其**Info.plist**文件中配置了[**JoinExistingSession**](https://developer.apple.com/documentation/bundleresources/information_property_list/xpcservice/joinexistingsession)设置为“True”。在这种情况下，XPC服务将在**与调用它的应用程序相同的安全会话中运行**。
 
-XPC服务在需要时由**launchd**启动，并在所有任务完成后**关闭**以释放系统资源。**应用程序特定的XPC组件只能被应用程序利用**，从而降低了与潜在漏洞相关的风险。
+XPC服务由**launchd**在需要时**启动**，并在所有任务**完成**后**关闭**，以释放系统资源。**特定应用程序的XPC组件只能由应用程序使用**，从而降低了潜在漏洞相关风险。
 
 ## 系统范围的XPC服务
 
-系统范围的XPC服务对所有用户都可访问。这些服务可以是launchd或Mach类型，需要在指定目录中的plist文件中**定义**，例如**`/System/Library/LaunchDaemons`**、**`/Library/LaunchDaemons`**、**`/System/Library/LaunchAgents`**或**`/Library/LaunchAgents`**。
+系统范围的XPC服务对所有用户都可访问。这些服务，无论是launchd还是Mach类型，都需要在指定目录中的plist文件中**定义**，例如**`/System/Library/LaunchDaemons`**、**`/Library/LaunchDaemons`**、**`/System/Library/LaunchAgents`**或**`/Library/LaunchAgents`**。
 
-这些plist文件将具有名为**`MachServices`**的键，其值为服务的名称，以及名为**`Program`**的键，其值为二进制文件的路径：
+这些plist文件将有一个名为**`MachServices`**的键，带有服务的名称，以及一个名为**`Program`**的键，带有二进制文件的路径：
 ```xml
 cat /Library/LaunchDaemons/com.jamf.management.daemon.plist
 
@@ -72,31 +74,31 @@ cat /Library/LaunchDaemons/com.jamf.management.daemon.plist
 </dict>
 </plist>
 ```
-**`LaunchDameons`**中的进程由root用户运行。因此，如果非特权进程能够与其中一个进程通信，就有可能提升权限。
+**`LaunchDameons`** 中的服务是由 root 运行的。因此，如果一个非特权进程能够与其中一个服务通信，它可能能够提升权限。
 
-## XPC事件消息
+## XPC 事件消息
 
-应用程序可以**订阅**不同的事件**消息**，使其能够在发生此类事件时**按需启动**。这些服务的设置是在**与前面的文件相同的目录中**的**launchd plist文件**中完成的，其中包含额外的**`LaunchEvent`**键。
+应用程序可以**订阅**不同的事件**消息**，使它们能够在这些事件发生时**按需启动**。这些服务的**设置**是在 **launchd plist 文件**中完成的，这些文件位于**与前面提到的目录相同**，并包含一个额外的 **`LaunchEvent`** 键。
 
-### XPC连接进程检查
+### XPC 连接进程检查
 
-当进程尝试通过XPC连接调用方法时，**XPC服务应该检查该进程是否被允许连接**。以下是常见的检查方法和常见的陷阱：
+当一个进程尝试通过 XPC 连接调用方法时，**XPC 服务应该检查该进程是否被允许连接**。以下是常见的检查方式和常见的陷阱：
 
 {% content-ref url="macos-xpc-connecting-process-check/" %}
 [macos-xpc-connecting-process-check](macos-xpc-connecting-process-check/)
 {% endcontent-ref %}
 
-## XPC授权
+## XPC 授权
 
-Apple还允许应用程序**配置某些权限以及如何获取这些权限**，因此如果调用进程具有这些权限，它将被**允许调用XPC服务的方法**：
+苹果还允许应用程序**配置一些权限以及如何获取它们**，所以如果调用进程拥有这些权限，它将被**允许调用** XPC 服务的方法：
 
 {% content-ref url="macos-xpc-authorization.md" %}
 [macos-xpc-authorization.md](macos-xpc-authorization.md)
 {% endcontent-ref %}
 
-## XPC嗅探器
+## XPC 嗅探器
 
-要嗅探XPC消息，可以使用[**xpcspy**](https://github.com/hot3eed/xpcspy)，它使用**Frida**。
+要嗅探 XPC 消息，你可以使用 [**xpcspy**](https://github.com/hot3eed/xpcspy)，它使用了 **Frida**。
 ```bash
 # Install
 pip3 install xpcspy
@@ -107,7 +109,7 @@ xpcspy -U -r -W <bundle-id>
 ## Using filters (i: for input, o: for output)
 xpcspy -U <prog-name> -t 'i:com.apple.*' -t 'o:com.apple.*' -r
 ```
-## XPC通信C代码示例
+## XPC 通信 C 语言示例
 
 {% tabs %}
 {% tab title="xpc_server.c" %}
@@ -164,36 +166,9 @@ dispatch_main();
 return 0;
 }
 ```
-{% tab title="xpc_client.c" %}
-
-```c
-#include <stdio.h>
-#include <stdlib.h>
-#include <xpc/xpc.h>
-
-int main(int argc, const char * argv[]) {
-    xpc_connection_t connection = xpc_connection_create_mach_service("com.apple.securityd", NULL, XPC_CONNECTION_MACH_SERVICE_PRIVILEGED);
-    
-    xpc_connection_set_event_handler(connection, ^(xpc_object_t event) {
-        xpc_type_t type = xpc_get_type(event);
-        
-        if (type == XPC_TYPE_DICTIONARY) {
-            const char *description = xpc_dictionary_get_string(event, "description");
-            printf("Received event: %s\n", description);
-        }
-    });
-    
-    xpc_connection_resume(connection);
-    
-    dispatch_main();
-    
-    return 0;
-}
-```
-
 {% endtab %}
 
-{% tab title="xpc_server.c" %}
+{% tab title="xpc_client.c" %}
 ```c
 // gcc xpc_client.c -o xpc_client
 
@@ -222,44 +197,9 @@ dispatch_main();
 return 0;
 }
 ```
-{% tab title="xyz.hacktricks.service.plist" %}xyz.hacktricks.service.plist是一个属性列表文件，用于配置macOS系统中的服务。它定义了一个名为xyz.hacktricks.service的服务，并指定了该服务的属性和行为。
+{% endtab %}
 
-以下是xyz.hacktricks.service.plist文件的示例内容：
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-    <key>Label</key>
-    <string>xyz.hacktricks.service</string>
-    <key>ProgramArguments</key>
-    <array>
-        <string>/path/to/xyz.hacktricks.service</string>
-    </array>
-    <key>RunAtLoad</key>
-    <true/>
-    <key>KeepAlive</key>
-    <true/>
-</dict>
-</plist>
-```
-
-在这个示例中，`Label`键指定了服务的名称为`xyz.hacktricks.service`。`ProgramArguments`键指定了服务的可执行文件路径为`/path/to/xyz.hacktricks.service`。`RunAtLoad`键和`KeepAlive`键都设置为`true`，表示服务在系统启动时运行，并且在意外终止后会自动重启。
-
-要安装和加载这个服务，可以使用`launchctl`命令：
-
-```bash
-launchctl load /path/to/xyz.hacktricks.service.plist
-```
-
-这将会将服务添加到系统的启动项中，并在系统启动时自动运行。
-
-请注意，为了加载和运行服务，您需要具有管理员权限。
-
-```
-
-请注意，为了加载和运行服务，您需要具有管理员权限。
+{% tab title="xyz.hacktricks.service.plist" %}
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
@@ -280,8 +220,10 @@ launchctl load /path/to/xyz.hacktricks.service.plist
 </dict>
 </plist>
 ```
+```
 {% endtab %}
 {% endtabs %}
+```
 ```bash
 # Compile the server & client
 gcc xpc_server.c -o xpc_server
@@ -301,7 +243,7 @@ sudo launchctl load /Library/LaunchDaemons/xyz.hacktricks.service.plist
 sudo launchctl unload /Library/LaunchDaemons/xyz.hacktricks.service.plist
 sudo rm /Library/LaunchDaemons/xyz.hacktricks.service.plist /tmp/xpc_server
 ```
-## XPC通信Objective-C代码示例
+## XPC 通信 Objective-C 代码示例
 
 {% tabs %}
 {% tab title="oc_xpc_server.m" %}
@@ -354,6 +296,8 @@ listener.delegate = delegate;
 sleep(10); // Fake something is done and then it ends
 }
 ```
+{% endtab %}
+
 {% tab title="oc_xpc_client.m" %}
 ```objectivec
 // gcc -framework Foundation oc_xpc_client.m -o oc_xpc_client
@@ -377,21 +321,9 @@ NSLog(@"Received response: %@", response);
 return 0;
 }
 ```
-{% tab title="xyz.hacktricks.svcoc.plist" %}
-
-## xyz.hacktricks.svcoc.plist
-
-This file is a property list file used by macOS to configure and manage XPC services. XPC (Cross-Process Communication) is a mechanism that allows processes to communicate with each other in a secure and efficient manner.
-
-The `xyz.hacktricks.svcoc.plist` file contains configuration settings for the `xyz.hacktricks.svcoc` XPC service. By modifying this file, you can potentially abuse the XPC service to escalate privileges or perform other malicious actions.
-
-To analyze the `xyz.hacktricks.svcoc.plist` file, you can use a property list editor or a text editor to view its contents. Look for any sensitive information, such as file paths, command line arguments, or environment variables, that could be leveraged for privilege escalation or other attacks.
-
-Additionally, you can also look for any custom methods or functions defined in the XPC service that could be abused to execute arbitrary code or manipulate system resources.
-
-Keep in mind that modifying or abusing XPC services can have serious consequences and may violate the terms of service or legal agreements. Always ensure that you have proper authorization and follow ethical guidelines when conducting any security research or testing.
-
 {% endtab %}
+
+{% tab title="xyz.hacktricks.svcoc.plist" %}
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
@@ -433,67 +365,7 @@ sudo launchctl load /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist
 sudo launchctl unload /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist
 sudo rm /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist /tmp/oc_xpc_server
 ```
-## 在 Dylb 代码中的客户端
-
-The client code inside a Dylb is responsible for establishing a connection with the server and sending requests. It is an essential component of the inter-process communication (IPC) mechanism in macOS.
-
-Dylb (Dynamic Library) 是 macOS 中的一个动态库，其中的客户端代码负责与服务器建立连接并发送请求。它是 macOS 中进程间通信 (IPC) 机制的一个重要组成部分。
-
-### Usage
-
-To use the Dylb client code, follow these steps:
-
-1. Import the necessary frameworks and libraries.
-2. Create an instance of the `NSXPCConnection` class.
-3. Set the appropriate `NSXPCInterface` for the connection.
-4. Set the `NSXPCConnection` delegate.
-5. Establish the connection using the `resume()` method.
-6. Call the remote methods using the connection's `remoteObjectProxy` property.
-
-### 用法
-
-要使用 Dylb 客户端代码，请按照以下步骤进行操作：
-
-1. 导入所需的框架和库。
-2. 创建 `NSXPCConnection` 类的实例。
-3. 为连接设置适当的 `NSXPCInterface`。
-4. 设置 `NSXPCConnection` 的委托。
-5. 使用 `resume()` 方法建立连接。
-6. 使用连接的 `remoteObjectProxy` 属性调用远程方法。
-
-```swift
-import Foundation
-import XPC
-
-// Create an instance of NSXPCConnection
-let connection = NSXPCConnection(serviceName: "com.example.MyService")
-
-// Set the appropriate NSXPCInterface
-let interface = NSXPCInterface(with: MyServiceProtocol.self)
-connection.remoteObjectInterface = interface
-
-// Set the NSXPCConnection delegate
-connection.delegate = self
-
-// Establish the connection
-connection.resume()
-
-// Call remote methods
-let remoteObject = connection.remoteObjectProxy as? MyServiceProtocol
-remoteObject?.performAction()
-```
-
-Remember to replace `"com.example.MyService"` with the appropriate service name for your application.
-
-请记得将 `"com.example.MyService"` 替换为您的应用程序的适当服务名称。
-
-### Conclusion
-
-The client code inside a Dylb is crucial for establishing communication with a server and sending requests in macOS. By following the steps mentioned above, you can effectively use the Dylb client code in your applications.
-
-结论
-
-Dylb 中的客户端代码对于在 macOS 中与服务器建立通信并发送请求至关重要。通过按照上述步骤操作，您可以在应用程序中有效地使用 Dylb 客户端代码。
+## 客户端在 Dylb 代码内
 ```objectivec
 // gcc -dynamiclib -framework Foundation oc_xpc_client.m -o oc_xpc_client.dylib
 // gcc injection example:
@@ -529,12 +401,14 @@ return;
 ```
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零开始学习AWS黑客攻击直至成为专家，通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>！</strong></summary>
 
-* 你在一家 **网络安全公司** 工作吗？你想在 HackTricks 中看到你的 **公司广告**吗？或者你想获得 **PEASS 的最新版本或下载 HackTricks 的 PDF** 吗？请查看 [**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 集合 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获得 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass)，或者在 **Twitter** 上 **关注** 我 [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向** [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享你的黑客技巧。**
+支持HackTricks的其他方式：
+
+* 如果您希望在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF版本**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>

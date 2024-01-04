@@ -2,36 +2,38 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
+<summary><strong>从零开始学习 AWS 黑客技术，成为</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS 红队专家)</strong></a><strong>！</strong></summary>
 
-* 你在一家**网络安全公司**工作吗？你想在 HackTricks 中看到你的**公司广告**吗？或者你想获得**PEASS 的最新版本或下载 HackTricks 的 PDF 版本**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+支持 HackTricks 的其他方式：
+
+* 如果您想在 **HackTricks** 中看到您的**公司广告**或**下载 HackTricks 的 PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass)，或者**关注**我在**推特**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享你的黑客技巧。**
+* 发现[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们独家的 [**NFTs**](https://opensea.io/collection/the-peass-family) 收藏
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。
 
 </details>
 
 ## PID 重用
 
-当 macOS 的 **XPC 服务**基于 **PID** 而不是 **审计令牌**来检查被调用的进程时，它容易受到 PID 重用攻击。这种攻击基于一种**竞争条件**，其中一个**利用程序**将会**滥用**功能并在此之后执行**`posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ)`**与**允许的二进制文件**。
+当 macOS **XPC 服务**基于 **PID** 而不是 **audit token** 来检查被调用进程时，它容易受到 PID 重用攻击。这种攻击基于一种 **竞态条件**，其中 **exploit** 将向 XPC 服务**发送消息**，**滥用**功能，紧接着执行 **`posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ)`** 与**允许**的二进制文件。
 
-这个函数将使**允许的二进制文件拥有 PID**，但是**恶意的 XPC 消息将在之前被发送**。因此，如果 XPC 服务在执行**`posix_spawn`**之后使用 PID 来验证发送者并在验证之后检查它，它将认为它来自一个**授权的**进程。
+这个函数将使**允许的二进制文件拥有 PID**，但**恶意 XPC 消息将在此之前发送**。因此，如果 **XPC** 服务**使用** **PID** 来**认证**发送者，并在执行 **`posix_spawn`** **之后**检查它，它会认为它来自一个**授权**的进程。
 
-### 攻击示例
+### Exploit 示例
 
-如果你找到了函数**`shouldAcceptNewConnection`**或者被它调用的函数**调用了** **`processIdentifier`** 而没有调用**`auditToken`**。这很有可能意味着它正在验证进程的 PID 而不是审计令牌。\
-就像这个例子中所示（来自参考资料）：
+如果您发现函数 **`shouldAcceptNewConnection`** 或由它**调用**的函数**调用** **`processIdentifier`** 而不是调用 **`auditToken`**。这很可能意味着它正在**验证进程 PID** 而不是审计令牌。\
+例如在这张图片中（取自参考资料）：
 
 <figure><img src="../../../../../../.gitbook/assets/image (4) (1) (1) (1) (2).png" alt=""><figcaption></figcaption></figure>
 
-检查这个攻击示例（同样来自参考资料）以查看攻击的两个部分：
+查看此示例 exploit（同样，取自参考资料）以查看 exploit 的两个部分：
 
-* 生成多个分支的部分
-* **每个分支**将在发送消息后立即执行**`posix_spawn`**，将**负载**发送到 XPC 服务。
+* 一个**生成多个分支**
+* **每个分支** 将在发送消息后立即执行 **`posix_spawn`**，同时**发送** **payload** 到 XPC 服务。
 
 {% hint style="danger" %}
-为了使攻击生效，重要的是要`export`` `**`OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`**或将其放在攻击中：
+为了使 exploit 起作用，重要的是要 `export`` `**`OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`** 或在 exploit 中放入：
 ```objectivec
 asm(".section __DATA,__objc_fork_ok\n"
 "empty:\n"
@@ -41,7 +43,7 @@ asm(".section __DATA,__objc_fork_ok\n"
 
 {% tabs %}
 {% tab title="NSTasks" %}
-首选项使用 **`NSTasks`** 和参数来启动子进程以利用 RC 漏洞。
+首个选项使用 **`NSTasks`** 和参数来启动子进程以利用RC
 ```objectivec
 // from https://wojciechregula.blog/post/learn-xpc-exploitation-part-2-say-no-to-the-pid/
 // gcc -framework Foundation expl.m -o expl
@@ -147,8 +149,10 @@ create_nstasks();
 return 0;
 }
 ```
+{% endtab %}
+
 {% tab title="fork" %}
-这个例子使用原始的 **`fork`** 来启动**利用 PID 竞争条件的子进程**，然后通过硬链接利用**另一个竞争条件**：
+此示例使用原始的 **`fork`** 来启动**将利用 PID 竞争条件的子进程**，然后通过**硬链接**利用**另一个竞争条件：**
 ```objectivec
 // export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 // gcc -framework Foundation expl.m -o expl
@@ -291,12 +295,14 @@ return 0;
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>从零开始学习AWS黑客攻击！</strong></summary>
 
-* 你在一个**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者你想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[NFT收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+支持HackTricks的其他方式：
+
+* 如果您想在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF版本**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取[**官方的PEASS & HackTricks商品**](https://peass.creator-spring.com)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
