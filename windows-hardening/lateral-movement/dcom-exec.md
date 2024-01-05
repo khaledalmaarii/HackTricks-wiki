@@ -1,10 +1,10 @@
-# DCOM Exec
+# Exécution DCOM
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou souhaitez-vous accéder à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Vous travaillez dans une **entreprise de cybersécurité** ? Vous souhaitez voir votre **entreprise annoncée dans HackTricks** ? ou souhaitez-vous accéder à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs exclusifs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
@@ -45,11 +45,11 @@ L'objet **MMC20.Application** manquait de "[LaunchPermissions](https://technet.m
 ![](<../../.gitbook/assets/image (4) (1) (2).png>)
 
 Vous pouvez en savoir plus sur ce fil [ici](https://twitter.com/tiraniddo/status/817532039771525120).\
-Pour voir quels autres objets n'ont pas de LaunchPermission explicite défini, on peut utiliser [@tiraniddo](https://twitter.com/tiraniddo)’s [OleView .NET](https://github.com/tyranid/oleviewdotnet), qui dispose d'excellents filtres Python (entre autres). Dans ce cas, nous pouvons filtrer tous les objets qui n'ont pas de Launch Permission explicite. En faisant cela, deux objets m'ont semblé importants : `ShellBrowserWindow` et `ShellWindows` :
+Pour voir quels autres objets n'ont pas de LaunchPermission explicite défini, on peut utiliser les filtres Python (entre autres) d'[OleView .NET](https://github.com/tyranid/oleviewdotnet) de [@tiraniddo](https://twitter.com/tiraniddo), qui sont excellents. Dans ce cas, nous pouvons filtrer tous les objets qui n'ont pas de Launch Permission explicite. Lorsque nous faisons cela, deux objets m'ont marqué : `ShellBrowserWindow` et `ShellWindows` :
 
 ![](<../../.gitbook/assets/image (3) (1) (1) (2).png>)
 
-Une autre manière d'identifier des objets cibles potentiels est de chercher la valeur `LaunchPermission` manquante dans les clés de `HKCR:\AppID\{guid}`. Un objet avec des Launch Permissions définies ressemblera à ce qui suit, avec des données représentant la liste de contrôle d'accès (ACL) de l'objet au format binaire :
+Une autre façon d'identifier les objets cibles potentiels est de rechercher la valeur `LaunchPermission` manquante dans les clés de `HKCR:\AppID\{guid}`. Un objet avec des Launch Permissions définies ressemblera à ce qui suit, avec des données représentant la liste de contrôle d'accès (ACL) de l'objet au format binaire :
 
 ![](https://enigma0x3.files.wordpress.com/2017/01/launch\_permissions\_registry.png?w=690\&h=169)
 
@@ -70,15 +70,15 @@ Maintenant que nous avons le CLSID, nous pouvons instancier l'objet sur une cibl
 $com = [Type]::GetTypeFromCLSID("<clsid>", "<IP>") #9BA05972-F6A8-11CF-A442-00A0C90A8F39
 $obj = [System.Activator]::CreateInstance($com)
 ```
-![](https://enigma0x3.files.wordpress.com/2017/01/remote_instantiation_shellwindows.png?w=690&h=354)
-
 Avec l'objet instancié sur l'hôte distant, nous pouvons interagir avec lui et invoquer toutes les méthodes que nous voulons. Le handle retourné de l'objet révèle plusieurs méthodes et propriétés avec lesquelles nous ne pouvons pas interagir. Pour réaliser une interaction réelle avec l'hôte distant, nous devons accéder à la méthode [WindowsShell.Item](https://msdn.microsoft.com/en-us/library/windows/desktop/bb773970\(v=vs.85\).aspx), qui nous renverra un objet qui représente la fenêtre du shell Windows :
 ```
 $item = $obj.Item()
 ```
+```markdown
 ![](https://enigma0x3.files.wordpress.com/2017/01/item_instantiation.png?w=416&h=465)
 
 Avec une prise en main complète de la fenêtre Shell, nous pouvons maintenant accéder à toutes les méthodes/propriétés attendues qui sont exposées. Après avoir examiné ces méthodes, **`Document.Application.ShellExecute`** s'est démarqué. Assurez-vous de suivre les exigences de paramètres pour la méthode, qui sont documentées [ici](https://msdn.microsoft.com/en-us/library/windows/desktop/gg537745(v=vs.85).aspx).
+```
 ```powershell
 $item.Document.Application.ShellExecute("cmd.exe", "/c calc.exe", "c:\windows\system32", $null, 0)
 ```
@@ -96,20 +96,18 @@ Encore une fois, prenez note du champ Permissions de lancement vide :
 
 ![screen-shot-2017-01-23-at-4-13-52-pm](https://enigma0x3.files.wordpress.com/2017/01/screen-shot-2017-01-23-at-4-13-52-pm.png?w=399\&h=340)
 
-Avec le CLSID, nous pouvons répéter les étapes prises sur l'objet précédent pour instancier l'objet et appeler la même méthode :
+Avec le CLSID, nous pouvons répéter les étapes effectuées sur l'objet précédent pour instancier l'objet et appeler la même méthode :
 ```powershell
 $com = [Type]::GetTypeFromCLSID("C08AFD90-F2A1-11D1-8455-00A0C91F3880", "<IP>")
 $obj = [System.Activator]::CreateInstance($com)
 
 $obj.Document.Application.ShellExecute("cmd.exe", "/c calc.exe", "C:\Windows\system32", $null, 0)
 ```
-![](https://enigma0x3.files.wordpress.com/2017/01/shellbrowserwindow\_command\_execution.png?w=690\&h=441)
-
 Comme vous pouvez le voir, la commande a été exécutée avec succès sur la cible distante.
 
 Puisque cet objet interagit directement avec le shell Windows, nous n'avons pas besoin d'invoquer la méthode "ShellWindows.Item", comme sur l'objet précédent.
 
-Bien que ces deux objets DCOM puissent être utilisés pour exécuter des commandes shell sur un hôte distant, il existe de nombreuses autres méthodes intéressantes qui peuvent être utilisées pour énumérer ou altérer une cible distante. Quelques-unes de ces méthodes incluent :
+Bien que ces deux objets DCOM puissent être utilisés pour exécuter des commandes shell sur un hôte distant, il existe de nombreuses autres méthodes intéressantes qui peuvent être utilisées pour énumérer ou manipuler une cible distante. Quelques-unes de ces méthodes incluent :
 
 * `Document.Application.ServiceStart()`
 * `Document.Application.ServiceStop()`
@@ -155,18 +153,20 @@ SharpLateral.exe reddcom HOSTNAME C:\Users\Administrator\Desktop\malware.exe
 
 <figure><img src="../../.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-Trouvez les vulnérabilités qui comptent le plus afin de les corriger plus rapidement. Intruder suit votre surface d'attaque, effectue des scans de menaces proactifs, trouve des problèmes dans toute votre pile technologique, des API aux applications web et systèmes cloud. [**Essayez-le gratuitement**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) aujourd'hui.
+Trouvez les vulnérabilités les plus importantes afin de les corriger plus rapidement. Intruder suit votre surface d'attaque, effectue des scans de menaces proactifs, trouve des problèmes dans l'ensemble de votre pile technologique, des API aux applications web et systèmes cloud. [**Essayez-le gratuitement**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) aujourd'hui.
 
 {% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Vous travaillez dans une **entreprise de cybersécurité** ? Vous voulez voir votre **entreprise annoncée dans HackTricks** ? ou souhaitez-vous accéder à la **dernière version du PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+Autres moyens de soutenir HackTricks :
+
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-moi** sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de hacking en soumettant des PR au** [**dépôt hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**dépôt hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

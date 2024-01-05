@@ -2,13 +2,15 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous accéder à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+Autres moyens de soutenir HackTricks :
+
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez**-moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de hacking en soumettant des PRs aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).​
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -18,14 +20,14 @@
 
 Rejoignez le serveur [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) pour communiquer avec des hackers expérimentés et des chasseurs de primes de bugs !
 
-**Aperçus de Hacking**\
-Engagez-vous avec du contenu qui plonge dans l'excitation et les défis du hacking
+**Aperçus du piratage**\
+Engagez-vous avec du contenu qui plonge dans l'excitation et les défis du piratage
 
-**Nouvelles de Hacking en Temps Réel**\
-Restez à jour avec le monde du hacking rapide grâce à des nouvelles et des aperçus en temps réel
+**Nouvelles du piratage en temps réel**\
+Restez à jour avec le monde du piratage rapide grâce à des nouvelles et des aperçus en temps réel
 
-**Dernières Annonces**\
-Restez informé avec les lancements de nouvelles primes de bugs et les mises à jour cruciales de la plateforme
+**Dernières annonces**\
+Restez informé avec le lancement des dernières primes de bugs et les mises à jour cruciales de la plateforme
 
 **Rejoignez-nous sur** [**Discord**](https://discord.com/invite/N3FrSbmwdy) et commencez à collaborer avec les meilleurs hackers dès aujourd'hui !
 
@@ -38,7 +40,7 @@ Restez informé avec les lancements de nouvelles primes de bugs et les mises à 
 * [ ] Vérifiez les [**variables d'environnement**](privilege-escalation/#env-info), un détail sensible ?
 * [ ] Recherchez des [**exploits de kernel**](privilege-escalation/#kernel-exploits) **à l'aide de scripts** (DirtyCow ?)
 * [ ] **Vérifiez** si la [**version de sudo** est vulnérable](privilege-escalation/#sudo-version)
-* [ ] [**Échec de vérification de signature Dmesg**](privilege-escalation/#dmesg-signature-verification-failed)
+* [ ] [**Échec de la vérification de signature Dmesg**](privilege-escalation/#dmesg-signature-verification-failed)
 * [ ] Plus d'énumération système ([date, statistiques système, infos CPU, imprimantes](privilege-escalation/#more-system-enumeration))
 * [ ] [Énumérez plus de défenses](privilege-escalation/#enumerate-possible-defenses)
 
@@ -50,17 +52,17 @@ Restez informé avec les lancements de nouvelles primes de bugs et les mises à 
 
 ### [**Logiciels Installés**](privilege-escalation/#installed-software)
 
-* [ ] **Vérifiez la présence de**[ **logiciels utiles**](privilege-escalation/#useful-software) **installés**
+* [ ] **Vérifiez la présence de** [**logiciels utiles**](privilege-escalation/#useful-software) **installés**
 * [ ] **Vérifiez la présence de** [**logiciels vulnérables**](privilege-escalation/#vulnerable-software-installed) **installés**
 
 ### [Processus](privilege-escalation/#processes)
 
 * [ ] Y a-t-il un **logiciel inconnu en cours d'exécution** ?
-* [ ] Un logiciel fonctionne-t-il avec **plus de privilèges qu'il ne devrait** ?
+* [ ] Un logiciel est-il en cours d'exécution avec **plus de privilèges qu'il ne devrait** ?
 * [ ] Recherchez des **exploits de processus en cours** (surtout la version en cours d'exécution).
 * [ ] Pouvez-vous **modifier le binaire** d'un processus en cours ?
 * [ ] **Surveillez les processus** et vérifiez si un processus intéressant s'exécute fréquemment.
-* [ ] Pouvez-vous **lire** la mémoire d'un processus intéressant **(où des mots de passe pourraient être enregistrés)** ?
+* [ ] Pouvez-vous **lire** la mémoire d'un processus intéressant (où des mots de passe pourraient être enregistrés) ?
 
 ### [Tâches planifiées/Cron ?](privilege-escalation/#scheduled-jobs)
 
@@ -110,9 +112,9 @@ Restez informé avec les lancements de nouvelles primes de bugs et les mises à 
 
 ### [Commandes SUDO et SUID](privilege-escalation/#sudo-and-suid)
 
-* [ ] Pouvez-vous exécuter **une commande avec sudo** ? Pouvez-vous l'utiliser pour LIRE, ÉCRIRE ou EXÉCUTER quelque chose en tant que root ? ([**GTFOBins**](https://gtfobins.github.io))
+* [ ] Pouvez-vous exécuter **une commande avec sudo** ? Pouvez-vous l'utiliser pour LIRE, ÉCRIRE ou EXÉCUTER quoi que ce soit en tant que root ? ([**GTFOBins**](https://gtfobins.github.io))
 * [ ] Y a-t-il un **binaire SUID exploitable** ? ([**GTFOBins**](https://gtfobins.github.io))
-* [ ] Les commandes [**sudo** sont-elles **limitées** par **chemin** ? pouvez-vous **contourner** les restrictions](privilege-escalation/#sudo-execution-bypassing-paths) ?
+* [ ] Les commandes [**sudo** sont-elles **limitées** par le **chemin** ? pouvez-vous **contourner** les restrictions](privilege-escalation/#sudo-execution-bypassing-paths) ?
 * [ ] [**Binaire Sudo/SUID sans chemin indiqué**](privilege-escalation/#sudo-command-suid-binary-without-command-path) ?
 * [ ] [**Binaire SUID spécifiant un chemin**](privilege-escalation/#suid-binary-with-command-path) ? Contournement
 * [ ] [**Vulnérabilité LD\_PRELOAD**](privilege-escalation/#ld\_preload)
@@ -120,7 +122,7 @@ Restez informé avec les lancements de nouvelles primes de bugs et les mises à 
 * [ ] [**Jetons SUDO disponibles**](privilege-escalation/#reusing-sudo-tokens) ? [**Pouvez-vous créer un jeton SUDO**](privilege-escalation/#var-run-sudo-ts-less-than-username-greater-than) ?
 * [ ] Pouvez-vous [**lire ou modifier les fichiers sudoers**](privilege-escalation/#etc-sudoers-etc-sudoers-d) ?
 * [ ] Pouvez-vous [**modifier /etc/ld.so.conf.d/**](privilege-escalation/#etc-ld-so-conf-d) ?
-* [ ] Commande [**OpenBSD DOAS**](privilege-escalation/#doas)
+* [ ] [**Commande OpenBSD DOAS**](privilege-escalation/#doas)
 
 ### [Capacités](privilege-escalation/#capabilities)
 
@@ -155,7 +157,7 @@ Restez informé avec les lancements de nouvelles primes de bugs et les mises à 
 * [ ] **Fichiers connus contenant des mots de passe** : Utilisez **Linpeas** et **LaZagne**
 * [ ] **Recherche générique**
 
-### [**Fichiers accessibles en écriture**](privilege-escalation/#writable-files)
+### [**Fichiers modifiables**](privilege-escalation/#writable-files)
 
 * [ ] **Modifier la bibliothèque python** pour exécuter des commandes arbitraires ?
 * [ ] Pouvez-vous **modifier les fichiers journaux** ? Exploit **Logtotten**
@@ -171,27 +173,27 @@ Restez informé avec les lancements de nouvelles primes de bugs et les mises à 
 
 Rejoignez le serveur [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) pour communiquer avec des hackers expérimentés et des chasseurs de primes de bugs !
 
-**Aperçus de Hacking**\
-Engagez-vous avec du contenu qui plonge dans l'excitation et les défis du hacking
+**Aperçus du piratage**\
+Engagez-vous avec du contenu qui plonge dans l'excitation et les défis du piratage
 
-**Nouvelles de Hacking en Temps Réel**\
-Restez à jour avec le monde du hacking rapide grâce à des nouvelles et des aperçus en temps réel
+**Nouvelles du piratage en temps réel**\
+Restez à jour avec le monde du piratage rapide grâce à des nouvelles et des aperçus en temps réel
 
-**Dernières Annonces**\
-Restez informé avec les lancements de nouvelles primes de bugs et les mises à jour cruciales de la plateforme
+**Dernières annonces**\
+Restez informé avec le lancement des dernières primes de bugs et les mises à jour cruciales de la plateforme
 
 **Rejoignez-nous sur** [**Discord**](https://discord.com/invite/N3FrSbmwdy) et commencez à collaborer avec les meilleurs hackers dès aujourd'hui !
 
 <details>
 
-<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Autres moyens de soutenir HackTricks :
 
-* Si vous voulez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez**-moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de hacking en soumettant des PRs aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

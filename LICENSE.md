@@ -1,136 +1,151 @@
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-- Travaillez-vous dans une entreprise de **cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+Autres moyens de soutenir HackTricks :
 
-- Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-
-- Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-
-- **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) **groupe Discord** ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-
-- **Partagez vos astuces de piratage en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et au [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe télégramme**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
 
-<a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://licensebuttons.net/l/by-nc/4.0/88x31.png" /></a><br>Droit d'auteur © Carlos Polop 2021. Sauf indication contraire (les informations externes copiées dans le livre appartiennent aux auteurs originaux), le texte sur <a href="https://github.com/carlospolop/hacktricks">HACK TRICKS</a> de Carlos Polop est sous licence <a href="https://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)</a>.
+<a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/"><img alt="Licence Creative Commons" style="border-width:0" src="https://licensebuttons.net/l/by-nc/4.0/88x31.png" /></a><br>Copyright © Carlos Polop 2021. Sauf indication contraire (les informations externes copiées dans le livre appartiennent aux auteurs originaux), le texte sur <a href="https://github.com/carlospolop/hacktricks">HACK TRICKS</a> de Carlos Polop est sous licence <a href="https://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)</a>.
 
 Licence : Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)<br>
-Licence lisible par l'homme : https://creativecommons.org/licenses/by-nc/4.0/<br>
-Conditions légales complètes : https://creativecommons.org/licenses/by-nc/4.0/legalcode<br>
+Licence Lisible par l'Homme : https://creativecommons.org/licenses/by-nc/4.0/<br>
+Termes Juridiques Complets : https://creativecommons.org/licenses/by-nc/4.0/legalcode<br>
 Formatage : https://github.com/jmatsushita/Creative-Commons-4.0-Markdown/blob/master/licenses/by-nc.markdown<br>
 
 # creative commons
 
-# Attribution-NonCommercial 4.0 International
+# Licence Publique Creative Commons Attribution-NonCommercial 4.0 International
 
-Creative Commons Corporation ("Creative Commons") n'est pas un cabinet d'avocats et ne fournit pas de services juridiques ou de conseils juridiques. La distribution de licences publiques Creative Commons ne crée pas de relation avocat-client ou autre. Creative Commons met ses licences et les informations connexes à disposition "telles quelles". Creative Commons ne donne aucune garantie concernant ses licences, tout matériel sous licence en vertu de leurs termes et conditions, ou toute information connexe. Creative Commons décline toute responsabilité pour les dommages résultant de leur utilisation dans la mesure du possible.
+Creative Commons Corporation (« Creative Commons ») n'est pas un cabinet d'avocats et ne fournit pas de services juridiques ou de conseils juridiques. La distribution des licences publiques Creative Commons ne crée pas de relation avocat-client ou autre. Creative Commons met à disposition ses licences et informations connexes sur une base « telles quelles ». Creative Commons ne donne aucune garantie concernant ses licences, tout matériel sous licence selon leurs termes et conditions, ou toute information connexe. Creative Commons décline toute responsabilité pour les dommages résultant de leur utilisation dans la mesure maximale possible.
 
-## Utilisation des licences publiques Creative Commons
+## Utilisation des Licences Publiques Creative Commons
 
-Les licences publiques Creative Commons fournissent un ensemble standard de termes et conditions que les créateurs et autres titulaires de droits peuvent utiliser pour partager des œuvres originales et d'autres matériaux soumis au droit d'auteur et à certains autres droits spécifiés dans la licence publique ci-dessous. Les considérations suivantes sont à titre informatif seulement, ne sont pas exhaustives et ne font pas partie de nos licences.
+Les licences publiques Creative Commons fournissent un ensemble standard de termes et conditions que les créateurs et autres détenteurs de droits peuvent utiliser pour partager des œuvres originales d'auteur et d'autres matériaux soumis au droit d'auteur et à certains autres droits spécifiés dans la licence publique ci-dessous. Les considérations suivantes sont à titre informatif uniquement, ne sont pas exhaustives et ne font pas partie de nos licences.
 
-* __Considérations pour les concédants de licence :__ Nos licences publiques sont destinées à être utilisées par ceux qui sont autorisés à donner au public la permission d'utiliser du matériel de manière autrement restreinte par le droit d'auteur et certains autres droits. Nos licences sont irrévocables. Les concédants de licence doivent lire et comprendre les termes et conditions de la licence qu'ils choisissent avant de l'appliquer. Les concédants de licence doivent également obtenir tous les droits nécessaires avant d'appliquer nos licences afin que le public puisse réutiliser le matériel comme prévu. Les concédants de licence doivent clairement marquer tout matériel qui n'est pas soumis à la licence. Cela inclut d'autres matériaux sous licence CC, ou des matériaux utilisés en vertu d'une exception ou d'une limitation au droit d'auteur. [Plus de considérations pour
-## Section 3 - Conditions de licence.
+* __Considérations pour les concédants :__ Nos licences publiques sont destinées à être utilisées par ceux qui sont autorisés à donner au public la permission d'utiliser le matériel de manière autrement restreinte par le droit d'auteur et certains autres droits. Nos licences sont irrévocables. Les concédants doivent lire et comprendre les termes et conditions de la licence qu'ils choisissent avant de l'appliquer. Les concédants doivent également sécuriser tous les droits nécessaires avant d'appliquer nos licences afin que le public puisse réutiliser le matériel comme prévu. Les concédants doivent clairement marquer tout matériel non soumis à la licence. Cela inclut d'autres matériaux sous licence CC, ou matériel utilisé sous une exception ou limitation au droit d'auteur. [Plus de considérations pour les concédants](http://wiki.creativecommons.org/Considerations_for_licensors_and_licensees#Considerations_for_licensors).
 
-L'exercice de vos droits sous licence est expressément soumis aux conditions suivantes.
+* __Considérations pour le public :__ En utilisant l'une de nos licences publiques, un concédant accorde au public la permission d'utiliser le matériel sous licence selon des termes et conditions spécifiés. Si la permission du concédant n'est pas nécessaire pour une raison quelconque – par exemple, en raison d'une exception ou limitation applicable au droit d'auteur – alors cette utilisation n'est pas réglementée par la licence. Nos licences n'accordent que des permissions sous le droit d'auteur et certains autres droits que le concédant a l'autorité d'accorder. L'utilisation du matériel sous licence peut toujours être restreinte pour d'autres raisons, y compris parce que d'autres ont des droits d'auteur ou d'autres droits dans le matériel. Un concédant peut faire des demandes spéciales, comme demander que tous les changements soient marqués ou décrits. Bien que non requis par nos licences, vous êtes encouragé à respecter ces demandes lorsque cela est raisonnable. [Plus de considérations pour le public](http://wiki.creativecommons.org/Considerations_for_licensors_and_licensees#Considerations_for_licensees).
+
+# Licence Publique Creative Commons Attribution-NonCommercial 4.0 International
+
+En exerçant les Droits Concédés (définis ci-dessous), Vous acceptez et convenez d'être lié par les termes et conditions de cette Licence Publique Creative Commons Attribution-NonCommercial 4.0 International ("Licence Publique"). Dans la mesure où cette Licence Publique peut être interprétée comme un contrat, Vous êtes concédé les Droits Concédés en considération de Votre acceptation de ces termes et conditions, et le Concédant Vous accorde de tels droits en considération des avantages que le Concédant reçoit de la mise à disposition du Matériel Sous Licence selon ces termes et conditions.
+
+## Section 1 – Définitions.
+
+a. __Matériel Adapté__ signifie le matériel soumis au Droit d'Auteur et aux Droits Similaires qui est dérivé de ou basé sur le Matériel Sous Licence et dans lequel le Matériel Sous Licence est traduit, modifié, arrangé, transformé, ou autrement modifié d'une manière nécessitant une permission en vertu du Droit d'Auteur et des Droits Similaires détenus par le Concédant. Aux fins de cette Licence Publique, lorsque le Matériel Sous Licence est une œuvre musicale, une performance, ou un enregistrement sonore, le Matériel Adapté est toujours produit lorsque le Matériel Sous Licence est synchronisé en relation temporelle avec une image en mouvement.
+
+b. __Licence de l'Adaptateur__ signifie la licence que Vous appliquez à Vos Droits d'Auteur et Droits Similaires dans Vos contributions au Matériel Adapté conformément aux termes et conditions de cette Licence Publique.
+
+c. __Droit d'Auteur et Droits Similaires__ signifie le droit d'auteur et/ou les droits similaires étroitement liés au droit d'auteur, y compris, sans limitation, les performances, la diffusion, l'enregistrement sonore, et les Droits de Base de Données Sui Generis, sans égard à la façon dont les droits sont étiquetés ou catégorisés. Aux fins de cette Licence Publique, les droits spécifiés dans la Section 2(b)(1)-(2) ne sont pas des Droits d'Auteur et Droits Similaires.
+
+d. __Mesures Technologiques Efficaces__ signifie ces mesures qui, en l'absence d'autorité appropriée, ne peuvent être contournées en vertu des lois remplissant les obligations en vertu de l'Article 11 du Traité sur le Droit d'Auteur de l'OMPI adopté le 20 décembre 1996, et/ou des accords internationaux similaires.
+
+e. __Exceptions et Limitations__ signifie l'usage équitable, la transaction équitable, et/ou toute autre exception ou limitation aux Droits d'Auteur et Droits Similaires qui s'applique à Votre utilisation du Matériel Sous Licence.
+
+f. __Matériel Sous Licence__ signifie l'œuvre artistique ou littéraire, la base de données, ou autre matériel auquel le Concédant a appliqué cette Licence Publique.
+
+g. __Droits Concédés__ signifie les droits accordés à Vous sous réserve des termes et conditions de cette Licence Publique, qui sont limités à tous les Droits d'Auteur et Droits Similaires qui s'appliquent à Votre utilisation du Matériel Sous Licence et que le Concédant a l'autorité de concéder.
+
+h. __Concédant__ signifie le(s) individu(s) ou entité(s) accordant des droits sous cette Licence Publique.
+
+i. __NonCommercial__ signifie non principalement destiné à ou en vue d'un avantage commercial ou d'une compensation monétaire. Aux fins de cette Licence Publique, l'échange du Matériel Sous Licence contre d'autre matériel soumis au Droit d'Auteur et aux Droits Similaires par partage de fichiers numériques ou des moyens similaires est NonCommercial à condition qu'il n'y ait pas de paiement de compensation monétaire en lien avec l'échange.
+
+j. __Partager__ signifie fournir du matériel au public par tout moyen ou processus qui nécessite une permission en vertu des Droits Concédés, tels que la reproduction, l'affichage public, la performance publique, la distribution, la diffusion, la communication, ou l'importation, et rendre le matériel disponible au public y compris de manières que les membres du public peuvent accéder au matériel depuis un lieu et à un moment choisis individuellement par eux.
+
+k. __Droits de Base de Données Sui Generis__ signifie des droits autres que le droit d'auteur résultant de la Directive 96/9/CE du Parlement européen et du Conseil du 11 mars 1996 sur la protection juridique des bases de données, telle qu'amendée et/ou succédée, ainsi que d'autres droits essentiellement équivalents partout dans le monde.
+
+l. __Vous__ signifie l'individu ou l'entité exerçant les Droits Concédés sous cette Licence Publique. Votre a un sens correspondant.
+
+## Section 2 – Portée.
+
+a. ___Octroi de licence.___
+
+1. Sous réserve des termes et conditions de cette Licence Publique, le Concédant Vous accorde par la présente une licence mondiale, exempte de redevances, non sous-licenciable, non exclusive, irrévocable pour exercer les Droits Concédés dans le Matériel Sous Licence pour :
+
+A. reproduire et Partager le Matériel Sous Licence, en tout ou en partie, à des fins NonCommerciales uniquement ; et
+
+B. produire, reproduire, et Partager le Matériel Adapté à des fins NonCommerciales uniquement.
+
+2. __Exceptions et Limitations.__ Pour éviter tout doute, lorsque les Exceptions et Limitations s'appliquent à Votre utilisation, cette Licence Publique ne s'applique pas, et Vous n'avez pas besoin de vous conformer à ses termes et conditions.
+
+3. __Durée.__ La durée de cette Licence Publique est spécifiée dans la Section 6(a).
+
+4. __Médias et formats ; modifications techniques autorisées.__ Le Concédant Vous autorise à exercer les Droits Concédés dans tous les médias et formats, qu'ils soient actuellement connus ou créés par la suite, et à effectuer des modifications techniques nécessaires pour ce faire. Le Concédant renonce et/ou accepte de ne pas revendiquer tout droit ou autorité pour Vous interdire de faire des modifications techniques nécessaires pour exercer les Droits Concédés, y compris des modifications techniques nécessaires pour contourner les Mesures Technologiques Efficaces. Aux fins de cette Licence Publique, le simple fait de faire des modifications autorisées par cette Section 2(a)(4) ne produit jamais de Matériel Adapté.
+
+5. __Destinataires en aval.__
+
+A. __Offre du Concédant – Matériel Sous Licence.__ Chaque destinataire du Matériel Sous Licence reçoit automatiquement une offre du Concédant pour exercer les Droits Concédés selon les termes et conditions de cette Licence Publique.
+
+B. __Aucune restriction en aval.__ Vous ne pouvez pas offrir ou imposer de termes ou conditions supplémentaires ou différents, ou appliquer des Mesures Technologiques Efficaces au Matériel Sous Licence si cela restreint l'exercice des Droits Concédés par tout destinataire du Matériel Sous Licence.
+
+6. __Aucune approbation.__ Rien dans cette Licence Publique ne constitue ou ne peut être interprété comme une permission d'affirmer ou d'impliquer que Vous êtes, ou que Votre utilisation du Matériel Sous Licence est, connectée avec, ou parrainée, approuvée, ou accordée un statut officiel par, le Concédant ou d'autres désignés pour recevoir l'attribution comme prévu dans la Section 3(a)(1)(A)(i).
+
+b. ___Autres droits.___
+
+1. Les droits moraux, tels que le droit à l'intégrité, ne sont pas concédés sous cette Licence Publique, ni les droits de publicité, de vie privée, et/ou d'autres droits de personnalité similaires ; cependant, dans la mesure du possible, le Concédant renonce et/ou accepte de ne pas revendiquer de tels droits détenus par le Concédant dans la mesure limitée nécessaire pour Vous permettre d'exercer les Droits Concédés, mais pas autrement.
+
+2. Les droits de brevet et de marque ne sont pas concédés sous cette Licence Publique.
+
+3. Dans la mesure du possible, le Concédant renonce à tout droit de percevoir des redevances de Vous pour l'exercice des Droits Concédés, que ce soit directement ou par l'intermédiaire d'une société de perception sous tout régime de licence volontaire ou renonçable statutaire ou obligatoire. Dans tous les autres cas, le Concédant se réserve expressément tout droit de percevoir de telles redevances, y compris lorsque le Matériel Sous Licence est utilisé à d'autres fins que NonCommerciales.
+
+## Section 3 – Conditions de Licence.
+
+Votre exercice des Droits Concédés est expressément soumis aux conditions suivantes.
 
 a. ___Attribution.___
 
- 1. Si vous partagez le Matériel sous licence (y compris sous forme modifiée), vous devez :
+1. Si Vous Partagez le Matériel Sous Licence (y compris sous forme modifiée), Vous devez :
 
-  A. conserver les éléments suivants s'ils sont fournis par le concédant avec le Matériel sous licence :
+A. conserver les éléments suivants s'ils sont fournis par le Concédant avec le Matériel Sous Licence :
 
-   i. l'identification des créateurs du Matériel sous licence et de toute autre personne désignée pour recevoir une attribution, de toute manière raisonnable demandée par le concédant (y compris par pseudonyme si désigné) ;
+i. identification du ou des créateur(s) du Matériel Sous Licence et de tout autre désigné pour recevoir l'attribution, de toute manière raisonnable demandée par le Concédant (y compris par pseudonyme si désigné) ;
 
-   ii. un avis de droit d'auteur ;
+ii. un avis de droit d'auteur ;
 
-   iii. un avis qui se réfère à cette Licence publique ;
+iii. un avis qui renvoie à cette Licence Publique ;
 
-   iv. un avis qui se réfère à la clause de non-responsabilité ;
+iv. un avis qui renvoie à la clause de non-responsabilité des garanties ;
 
-   v. un URI ou un hyperlien vers le Matériel sous licence dans la mesure du raisonnablement possible ;
+v. un URI ou un hyperlien vers le Matériel Sous Licence dans la mesure du possible ;
 
-  B. indiquer si vous avez modifié le Matériel sous licence et conserver une indication de toutes les modifications précédentes ; et
+B. indiquer si Vous avez modifié le Matériel Sous Licence et conserver une indication de toute modification antérieure ; et
 
-  C. indiquer que le Matériel sous licence est sous licence en vertu de cette Licence publique, et inclure le texte de cette Licence publique ou l'URI ou l'hyperlien vers cette Licence publique.
+C. indiquer que le Matériel Sous Licence est concédé sous cette Licence Publique, et inclure le texte de, ou l'URI ou l'hyperlien vers, cette Licence Publique.
 
- 2. Vous pouvez satisfaire les conditions de la Section 3(a)(1) de toute manière raisonnable en fonction du support, des moyens et du contexte dans lesquels vous partagez le Matériel sous licence. Par exemple, il peut être raisonnable de satisfaire les conditions en fournissant un URI ou un hyperlien vers une ressource qui inclut les informations requises.
+2. Vous pouvez satisfaire les conditions de la Section 3(a)(1) de toute manière raisonnable basée sur le support, les moyens et le contexte dans lequel Vous Partagez le Matériel Sous Licence. Par exemple, il peut être raisonnable de satisfaire les conditions en fournissant un URI ou un hyperlien vers une ressource qui inclut les informations requises.
 
- 3. Si le concédant le demande, vous devez supprimer toutes les informations requises par la Section 3(a)(1)(A) dans la mesure du raisonnablement possible.
+3. Si demandé par le Concédant, Vous devez retirer toute information requise par la Section 3(a)(1)(A) dans la mesure du possible.
 
- 4. Si vous partagez du Matériel adapté que vous produisez, la Licence de l'Adaptateur que vous appliquez ne doit pas empêcher les destinataires du Matériel adapté de se conformer à cette Licence publique.
+4. Si Vous Partagez le Matériel Adapté que Vous produisez, la Licence de l'Adaptateur que Vous appliquez ne doit pas empêcher les destinataires du Matériel Adapté de se conformer à cette Licence Publique.
 
-## Section 4 - Droits de base de données sui generis.
+## Section 4 – Droits de Base de Données Sui Generis.
 
-Lorsque les droits sous licence incluent des droits de base de données sui generis qui s'appliquent à votre utilisation du Matériel sous licence :
+Lorsque les Droits Concédés incluent des Droits de Base de Données Sui Generis qui s'appliquent à Votre utilisation du Matériel Sous Licence :
 
-a. pour éviter tout doute, la Section 2(a)(1) vous accorde le droit d'extraire, de réutiliser, de reproduire et de partager tout ou une partie substantielle du contenu de la base de données à des fins non commerciales uniquement ;
-
-b. si vous incluez tout ou une partie substantielle du contenu de la base de données dans une base de données pour laquelle vous avez des droits de base de données sui generis, alors la base de données pour laquelle vous avez des droits de base de données sui generis (mais pas son contenu individuel) est un Matériel adapté ; et
-
-c. vous devez vous conformer aux conditions de la Section 3(a) si vous partagez tout ou une partie substantielle du contenu de la base de données.
-
-Pour éviter tout doute, cette Section 4 complète et ne remplace pas vos obligations en vertu de cette Licence publique lorsque les droits sous licence incluent d'autres droits d'auteur et droits similaires.
-
-## Section 5 - Clause de non-responsabilité et limitation de responsabilité.
-
-a. __Sauf disposition contraire expressément prise par le concédant, dans la mesure du possible, le concédant offre le Matériel sous licence tel quel et tel que disponible, et ne fait aucune déclaration ou garantie d'aucune sorte concernant le Matériel sous licence, qu'elle soit expresse, implicite, légale ou autre. Cela inclut, sans s'y limiter, les garanties de titre, de qualité marchande, d'adéquation à un usage particulier, de non-contrefaçon, d'absence de défauts latents ou autres, d'exactitude ou de présence ou d'absence d'erreurs, qu'elles soient connues ou découvrables. Lorsque les exclusions de garanties ne sont pas autorisées en totalité ou en partie, cette exclusion peut ne pas s'appliquer à vous.__
-
-b. __Dans la mesure du possible, en aucun cas, le concédant ne sera responsable envers vous pour quelque théorie juridique que ce soit (y compris, sans s'y limiter, la négligence) ou autrement pour toute perte directe, spéciale, indirecte, accessoire, consécutive, punitive, exemplaire ou autre, coûts, dépenses ou dommages découlant de cette Licence publique ou de l'utilisation du Matériel sous licence, même si le concédant a été informé de la possibilité de telles pertes, coûts, dépenses ou dommages. Lorsqu'une limitation de responsabilité n'est pas autorisée en totalité ou en partie, cette limitation peut ne pas s'appliquer à vous.__
-
-c. La clause de non-responsabilité et la limitation de responsabilité fournies ci-dessus seront interprétées de manière à se rapprocher le plus possible d'une exclusion et d'une renonciation absolues de toute responsabilité.
-
-## Section 6 - Durée et résiliation.
-
-a. Cette Licence publique s'applique pendant la durée des droits d'auteur et des droits similaires concédés ici. Cependant, si vous ne respectez pas cette Licence publique, vos droits en vertu de cette Licence publique se terminent automatiquement.
-
-b. Lorsque votre droit d'utiliser le Matériel sous licence a pris fin en vertu de la Section 6(a), il est rétabli :
-
- 1. automatiquement à la date à laquelle la violation est corrigée, à condition qu'elle soit corrigée dans les 30 jours suivant votre découverte de la violation ; ou
-
- 2. sur réinstatement express du concédant.
-
- Pour éviter tout doute, cette Section 6(b) n'affecte aucun droit que le concédant peut avoir de rechercher des recours pour vos violations de cette Licence publique.
-
-c. Pour éviter tout doute, le concédant peut également offrir le Matériel sous licence sous des termes ou conditions séparés ou cesser de distribuer le Matériel sous licence à tout moment ; cependant, cela ne mettra pas fin à cette Licence publique.
-
-d. Les Sections 1, 5, 6, 7 et 8 survivent à la résiliation de cette Licence publique.
-
-## Section 7 - Autres termes et conditions.
-
-a. Le concédant ne sera pas lié par des termes ou conditions supplémentaires ou différents communiqués par vous, sauf accord express.
-
-b. Toute disposition, entente ou accord concernant le Matériel sous licence non énoncé dans les présentes est distincte et indépendante des termes et conditions de cette Licence publique.
-
-## Section 8 - Interprétation.
-
-a. Pour éviter tout doute, cette Licence publique ne réduit pas, ne limite pas, ne restreint pas ou n'impose pas de conditions à toute utilisation du Matériel sous licence qui pourrait légalement être effectuée sans autorisation en vertu de cette Licence publique.
-
-b. Dans la mesure du possible, si une disposition de cette Licence publique est jugée inapplicable, elle sera automatiquement reformulée dans la mesure minimale nécessaire pour la rendre applicable. Si la disposition ne peut être reformulée, elle sera dissociée de cette Licence publique sans affecter la validité des termes et conditions restants.
-
-c. Aucune disposition de cette Licence publique ne sera renoncée et aucun manquement ne sera consenti, sauf accord express du concédant.
-
-d. Rien dans cette Licence publique ne constitue ou ne peut être interprété comme une limitation ou une renonciation à tout privilège et immunité qui s'applique au concédant ou à vous, y compris des processus juridiques de toute juridiction ou autorité.
+a. pour éviter tout doute, la Section 2(a)(1) Vous accorde le droit d'extraire, de réutil
 ```
-Creative Commons is not a party to its public licenses. Notwithstanding, Creative Commons may elect to apply one of its public licenses to material it publishes and in those instances will be considered the “Licensor.” Except for the limited purpose of indicating that material is shared under a Creative Commons public license or as otherwise permitted by the Creative Commons policies published at [creativecommons.org/policies](http://creativecommons.org/policies), Creative Commons does not authorize the use of the trademark “Creative Commons” or any other trademark or logo of Creative Commons without its prior written consent including, without limitation, in connection with any unauthorized modifications to any of its public licenses or any other arrangements, understandings, or agreements concerning use of licensed material. For the avoidance of doubt, this paragraph does not form part of the public licenses. 
+Creative Commons is not a party to its public licenses. Notwithstanding, Creative Commons may elect to apply one of its public licenses to material it publishes and in those instances will be considered the “Licensor.” Except for the limited purpose of indicating that material is shared under a Creative Commons public license or as otherwise permitted by the Creative Commons policies published at [creativecommons.org/policies](http://creativecommons.org/policies), Creative Commons does not authorize the use of the trademark “Creative Commons” or any other trademark or logo of Creative Commons without its prior written consent including, without limitation, in connection with any unauthorized modifications to any of its public licenses or any other arrangements, understandings, or agreements concerning use of licensed material. For the avoidance of doubt, this paragraph does not form part of the public licenses.
 
 Creative Commons may be contacted at [creativecommons.org](http://creativecommons.org/).
 ```
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-- Travaillez-vous dans une entreprise de **cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+Autres moyens de soutenir HackTricks :
 
-- Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-
-- Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-
-- **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-
-- **Partagez vos astuces de piratage en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et au [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez**-moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
