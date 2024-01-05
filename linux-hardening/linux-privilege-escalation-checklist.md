@@ -2,13 +2,15 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda hacking no AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Trabalha numa **empresa de cibersegurança**? Quer ver sua **empresa anunciada no HackTricks**? ou quer ter acesso à **versão mais recente do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+Outras formas de apoiar o HackTricks:
+
+* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* Adquira o [**material oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao grupo** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).​
+* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -25,22 +27,22 @@ Engaje-se com conteúdo que explora a emoção e os desafios do hacking
 Mantenha-se atualizado com o mundo acelerado do hacking através de notícias e insights em tempo real
 
 **Últimos Anúncios**\
-Fique informado sobre os lançamentos mais recentes de recompensas por bugs e atualizações cruciais da plataforma
+Fique informado sobre os mais novos programas de recompensa por bugs e atualizações importantes da plataforma
 
 **Junte-se a nós no** [**Discord**](https://discord.com/invite/N3FrSbmwdy) e comece a colaborar com os melhores hackers hoje mesmo!
 
 ### **Melhor ferramenta para procurar vetores de escalação de privilégios locais no Linux:** [**LinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS)
 
-### [Informação do Sistema](privilege-escalation/#system-information)
+### [Informações do Sistema](privilege-escalation/#system-information)
 
 * [ ] Obtenha **informações do SO**
 * [ ] Verifique o [**PATH**](privilege-escalation/#path), alguma **pasta gravável**?
 * [ ] Verifique as [**variáveis de ambiente**](privilege-escalation/#env-info), algum detalhe sensível?
-* [ ] Procure por [**exploits de kernel**](privilege-escalation/#kernel-exploits) **usando scripts** (DirtyCow?)
+* [ ] Procure por [**exploits do kernel**](privilege-escalation/#kernel-exploits) **usando scripts** (DirtyCow?)
 * [ ] **Verifique** se a [**versão do sudo** é vulnerável](privilege-escalation/#sudo-version)
-* [ ] [**Falha na verificação de assinatura do Dmesg**](privilege-escalation/#dmesg-signature-verification-failed)
+* [ ] [**Verificação de assinatura do Dmesg** falhou](privilege-escalation/#dmesg-signature-verification-failed)
 * [ ] Mais enumeração do sistema ([data, estatísticas do sistema, informações da CPU, impressoras](privilege-escalation/#more-system-enumeration))
-* [ ] [Enumerar mais defesas](privilege-escalation/#enumerate-possible-defenses)
+* [ ] [Enumere mais defesas](privilege-escalation/#enumerate-possible-defenses)
 
 ### [Drives](privilege-escalation/#drives)
 
@@ -59,8 +61,8 @@ Fique informado sobre os lançamentos mais recentes de recompensas por bugs e at
 * [ ] Há algum software em execução com **mais privilégios do que deveria**?
 * [ ] Procure por **exploits de processos em execução** (especialmente a versão em execução).
 * [ ] Você pode **modificar o binário** de algum processo em execução?
-* [ ] **Monitore processos** e verifique se algum processo interessante está sendo executado frequentemente.
-* [ ] Você pode **ler** alguma memória de processo interessante (onde senhas podem estar salvas)?
+* [ ] **Monitore processos** e verifique se algum processo interessante está sendo executado com frequência.
+* [ ] Você pode **ler** alguma **memória de processo interessante** (onde senhas podem estar salvas)?
 
 ### [Tarefas Agendadas/Cron jobs?](privilege-escalation/#scheduled-jobs)
 
@@ -71,7 +73,7 @@ Fique informado sobre os lançamentos mais recentes de recompensas por bugs e at
 
 ### [Serviços](privilege-escalation/#services)
 
-* [ ] Algum arquivo .service **gravável**?
+* [ ] Algum arquivo **.service gravável**?
 * [ ] Algum **binário gravável** executado por um **serviço**?
 * [ ] Alguma **pasta gravável no PATH do systemd**?
 
@@ -81,7 +83,7 @@ Fique informado sobre os lançamentos mais recentes de recompensas por bugs e at
 
 ### [Sockets](privilege-escalation/#sockets)
 
-* [ ] Algum arquivo .socket **gravável**?
+* [ ] Algum arquivo **.socket gravável**?
 * [ ] Você pode **comunicar com algum socket**?
 * [ ] **Sockets HTTP** com informações interessantes?
 
@@ -110,7 +112,7 @@ Fique informado sobre os lançamentos mais recentes de recompensas por bugs e at
 
 ### [Comandos SUDO e SUID](privilege-escalation/#sudo-and-suid)
 
-* [ ] Você pode executar **qualquer comando com sudo**? Pode usá-lo para LER, ESCREVER ou EXECUTAR algo como root? ([**GTFOBins**](https://gtfobins.github.io))
+* [ ] Você pode executar **qualquer comando com sudo**? Você pode usá-lo para LER, ESCREVER ou EXECUTAR algo como root? ([**GTFOBins**](https://gtfobins.github.io))
 * [ ] Há algum **binário SUID explorável**? ([**GTFOBins**](https://gtfobins.github.io))
 * [ ] Os comandos [**sudo** são **limitados** pelo **caminho**? você pode **burlar** as restrições](privilege-escalation/#sudo-execution-bypassing-paths)?
 * [ ] [**Binário Sudo/SUID sem caminho indicado**](privilege-escalation/#sudo-command-suid-binary-without-command-path)?
@@ -120,7 +122,7 @@ Fique informado sobre os lançamentos mais recentes de recompensas por bugs e at
 * [ ] [**Tokens SUDO disponíveis**](privilege-escalation/#reusing-sudo-tokens)? [**Você pode criar um token SUDO**](privilege-escalation/#var-run-sudo-ts-less-than-username-greater-than)?
 * [ ] Você pode [**ler ou modificar arquivos sudoers**](privilege-escalation/#etc-sudoers-etc-sudoers-d)?
 * [ ] Você pode [**modificar /etc/ld.so.conf.d/**](privilege-escalation/#etc-ld-so-conf-d)?
-* [ ] [**Comando OpenBSD DOAS**](privilege-escalation/#doas)
+* [ ] Comando [**OpenBSD DOAS**](privilege-escalation/#doas)
 
 ### [Capacidades](privilege-escalation/#capabilities)
 
@@ -138,19 +140,19 @@ Fique informado sobre os lançamentos mais recentes de recompensas por bugs e at
 ### [SSH](privilege-escalation/#ssh)
 
 * [ ] **Debian** [**OpenSSL PRNG Previsível - CVE-2008-0166**](privilege-escalation/#debian-openssl-predictable-prng-cve-2008-0166)
-* [ ] [**Valores de configuração interessantes do SSH**](privilege-escalation/#ssh-interesting-configuration-values)
+* [ ] [**Valores de configuração do SSH interessantes**](privilege-escalation/#ssh-interesting-configuration-values)
 
 ### [Arquivos Interessantes](privilege-escalation/#interesting-files)
 
 * [ ] **Arquivos de Perfil** - Ler dados sensíveis? Escrever para escalar privilégios?
 * [ ] **Arquivos passwd/shadow** - Ler dados sensíveis? Escrever para escalar privilégios?
 * [ ] **Verifique pastas comumente interessantes** para dados sensíveis
-* [ ] **Arquivos de Localização/Propriedade Estranhos,** você pode ter acesso ou alterar arquivos executáveis
+* [ ] **Arquivos em Localização Estranha/Propriedade**, você pode ter acesso ou alterar arquivos executáveis
 * [ ] **Modificados** nos últimos minutos
-* [ ] **Arquivos de banco de dados Sqlite**
+* [ ] **Arquivos de banco de dados SQLite**
 * [ ] **Arquivos ocultos**
 * [ ] **Scripts/Binários no PATH**
-* [ ] **Arquivos Web** (senhas?)
+* [ ] **Arquivos da Web** (senhas?)
 * [ ] **Backups**?
 * [ ] **Arquivos conhecidos que contêm senhas**: Use **Linpeas** e **LaZagne**
 * [ ] **Pesquisa Genérica**
@@ -178,7 +180,7 @@ Engaje-se com conteúdo que explora a emoção e os desafios do hacking
 Mantenha-se atualizado com o mundo acelerado do hacking através de notícias e insights em tempo real
 
 **Últimos Anúncios**\
-Fique informado sobre os lançamentos mais recentes de recompensas por bugs e atualizações cruciais da plataforma
+Fique informado sobre os mais novos programas de recompensa por bugs e atualizações importantes da plataforma
 
 **Junte-se a nós no** [**Discord**](https://discord.com/invite/N3FrSbmwdy) e comece a colaborar com os melhores hackers hoje mesmo!
 
@@ -188,10 +190,10 @@ Fique informado sobre os lançamentos mais recentes de recompensas por bugs e at
 
 Outras formas de apoiar o HackTricks:
 
-* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**material oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
+* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github.
+* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

@@ -1,13 +1,13 @@
-# Execução DCOM
+# DCOM Exec
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Quer ver sua **empresa anunciada no HackTricks**? ou quer ter acesso à **versão mais recente do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Trabalha numa **empresa de cibersegurança**? Quer ver a sua **empresa anunciada no HackTricks**? ou quer ter acesso à **versão mais recente do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
 * Adquira o [**material oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-me no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe suas técnicas de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud)..
 
 </details>
@@ -22,13 +22,13 @@ Encontre vulnerabilidades que importam mais para que você possa corrigi-las mai
 
 ## MMC20.Application
 
-Objetos **DCOM** (Distributed Component Object Model) são **interessantes** devido à capacidade de **interagir** com os objetos **pela rede**. A Microsoft tem uma boa documentação sobre DCOM [aqui](https://msdn.microsoft.com/en-us/library/cc226801.aspx) e sobre COM [aqui](https://msdn.microsoft.com/en-us/library/windows/desktop/ms694363\(v=vs.85\).aspx). Você pode encontrar uma lista sólida de aplicações DCOM usando PowerShell, executando `Get-CimInstance Win32_DCOMApplication`.
+**DCOM** (Distributed Component Object Model) são objetos **interessantes** devido à capacidade de **interagir** com os objetos **pela rede**. A Microsoft tem uma boa documentação sobre DCOM [aqui](https://msdn.microsoft.com/en-us/library/cc226801.aspx) e sobre COM [aqui](https://msdn.microsoft.com/en-us/library/windows/desktop/ms694363\(v=vs.85\).aspx). Você pode encontrar uma lista sólida de aplicações DCOM usando PowerShell, executando `Get-CimInstance Win32_DCOMApplication`.
 
 O objeto COM [Classe de Aplicação MMC (MMC20.Application)](https://technet.microsoft.com/en-us/library/cc181199.aspx) permite que você crie scripts para componentes de operações de snap-in do MMC. Ao enumerar os diferentes métodos e propriedades dentro deste objeto COM, notei que há um método chamado `ExecuteShellCommand` em Document.ActiveView.
 
 ![](<../../.gitbook/assets/image (4) (2) (1) (1).png>)
 
-Você pode ler mais sobre esse método [aqui](https://msdn.microsoft.com/en-us/library/aa815396\(v=vs.85\).aspx). Até agora, temos uma aplicação DCOM que podemos acessar pela rede e executar comandos. A peça final é aproveitar esta aplicação DCOM e o método ExecuteShellCommand para obter execução de código em um host remoto.
+Você pode ler mais sobre esse método [aqui](https://msdn.microsoft.com/en-us/library/aa815396\(v=vs.85\).aspx). Até agora, temos uma aplicação DCOM que podemos acessar pela rede e que pode executar comandos. A peça final é aproveitar esta aplicação DCOM e o método ExecuteShellCommand para obter execução de código em um host remoto.
 
 Felizmente, como administrador, você pode interagir remotamente com DCOM com PowerShell usando "`[activator]::CreateInstance([type]::GetTypeFromProgID`". Tudo o que você precisa fazer é fornecer um DCOM ProgID e um endereço IP. Em seguida, ele fornecerá uma instância desse objeto COM remotamente:
 
@@ -57,7 +57,7 @@ Aqueles sem LaunchPermission explícita estarão faltando essa entrada específi
 
 ### ShellWindows
 
-O primeiro objeto explorado foi [ShellWindows](https://msdn.microsoft.com/en-us/library/windows/desktop/bb773974\(v=vs.85\).aspx). Como não há [ProgID](https://msdn.microsoft.com/en-us/library/windows/desktop/ms688254\(v=vs.85\).aspx) associado a este objeto, podemos usar o método .NET [Type.GetTypeFromCLSID](https://msdn.microsoft.com/en-us/library/system.type.gettypefromclsid\(v=vs.110\).aspx) emparelhado com o método [Activator.CreateInstance](https://msdn.microsoft.com/en-us/library/system.activator.createinstance\(v=vs.110\).aspx) para instanciar o objeto através de seu AppID em um host remoto. Para fazer isso, precisamos obter o [CLSID](https://msdn.microsoft.com/en-us/library/windows/desktop/ms691424\(v=vs.85\).aspx) para o objeto ShellWindows, o que pode ser feito usando o OleView .NET também:
+O primeiro objeto explorado foi [ShellWindows](https://msdn.microsoft.com/en-us/library/windows/desktop/bb773974\(v=vs.85\).aspx). Como não há [ProgID](https://msdn.microsoft.com/en-us/library/windows/desktop/ms688254\(v=vs.85\).aspx) associado a este objeto, podemos usar o método .NET [Type.GetTypeFromCLSID](https://msdn.microsoft.com/en-us/library/system.type.gettypefromclsid\(v=vs.110\).aspx) emparelhado com o método [Activator.CreateInstance](https://msdn.microsoft.com/en-us/library/system.activator.createinstance\(v=vs.110\).aspx) para instanciar o objeto via seu AppID em um host remoto. Para fazer isso, precisamos obter o [CLSID](https://msdn.microsoft.com/en-us/library/windows/desktop/ms691424\(v=vs.85\).aspx) para o objeto ShellWindows, o que pode ser feito usando o OleView .NET também:
 
 ![shellwindow\_classid](https://enigma0x3.files.wordpress.com/2017/01/shellwindow\_classid.png?w=434\&h=424)
 
@@ -77,9 +77,7 @@ Com o objeto instanciado no host remoto, podemos interagir com ele e invocar qua
 $item = $obj.Item()
 ```
 ```markdown
-![](https://enigma0x3.files.wordpress.com/2017/01/item_instantiation.png?w=416&h=465)
-
-Com um controle total sobre a Janela Shell, agora podemos acessar todos os métodos/propriedades esperados que são expostos. Após analisar esses métodos, **`Document.Application.ShellExecute`** se destacou. Certifique-se de seguir os requisitos de parâmetros para o método, que estão documentados [aqui](https://msdn.microsoft.com/en-us/library/windows/desktop/gg537745(v=vs.85).aspx).
+Com um controle total sobre a Janela Shell, agora podemos acessar todos os métodos/propriedades esperados que são expostos. Após analisar esses métodos, **`Document.Application.ShellExecute`** se destacou. Certifique-se de seguir os requisitos de parâmetros para o método, que estão documentados [aqui](https://msdn.microsoft.com/en-us/library/windows/desktop/gg537745\(v=vs.85\).aspx).
 ```
 ```powershell
 $item.Document.Application.ShellExecute("cmd.exe", "/c calc.exe", "c:\windows\system32", $null, 0)
@@ -143,8 +141,8 @@ $Obj.DDEInitiate("cmd", "/c $Command")
 ```
 ## Ferramentas Automáticas
 
-* O script Powershell [**Invoke-DCOM.ps1**](https://github.com/EmpireProject/Empire/blob/master/data/module\_source/lateral\_movement/Invoke-DCOM.ps1) permite invocar facilmente todas as formas comentadas de executar código em outras máquinas.
-* Você também pode usar [**SharpLateral**](https://github.com/mertdas/SharpLateral):
+* O script Powershell [**Invoke-DCOM.ps1**](https://github.com/EmpireProject/Empire/blob/master/data/module\_source/lateral\_movement/Invoke-DCOM.ps1) permite invocar facilmente todos os métodos comentados para executar código em outras máquinas.
+* Você também pode usar o [**SharpLateral**](https://github.com/mertdas/SharpLateral):
 ```bash
 SharpLateral.exe reddcom HOSTNAME C:\Users\Administrator\Desktop\malware.exe
 ```
@@ -161,12 +159,14 @@ Encontre vulnerabilidades que importam mais para que você possa corrigi-las mai
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda hacking em AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Você trabalha em uma **empresa de cybersecurity**? Quer ver sua **empresa anunciada no HackTricks**? ou quer ter acesso à **versão mais recente do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* Adquira o [**merchandising oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-me no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+Outras formas de apoiar o HackTricks:
+
+* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
+* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga**-me no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
