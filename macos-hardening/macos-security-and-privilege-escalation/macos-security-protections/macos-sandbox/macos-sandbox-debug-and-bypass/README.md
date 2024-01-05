@@ -1,91 +1,94 @@
-# macOS沙盒调试与绕过
+# macOS Sandbox 调试与绕过
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
+<summary><strong>从零开始学习 AWS 黑客技术，成为</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS 红队专家)</strong></a><strong>！</strong></summary>
 
-* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+支持 HackTricks 的其他方式：
+
+* 如果您想在 HackTricks 中看到您的**公司广告**或**下载 HackTricks 的 PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* 发现[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs 集合**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。
 
 </details>
 
-## 沙盒加载过程
+## Sandbox 加载过程
 
-<figure><img src="../../../../../.gitbook/assets/image (2) (1) (2).png" alt=""><figcaption><p>图片来源：<a href="http://newosxbook.com/files/HITSB.pdf">http://newosxbook.com/files/HITSB.pdf</a></p></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (2) (1) (2).png" alt=""><figcaption><p>图片来源 <a href="http://newosxbook.com/files/HITSB.pdf">http://newosxbook.com/files/HITSB.pdf</a></p></figcaption></figure>
 
-在上图中，可以看到当运行具有权限**`com.apple.security.app-sandbox`**的应用程序时，**沙盒将如何加载**。
+在上图中，可以观察到当运行具有权限 **`com.apple.security.app-sandbox`** 的应用程序时，**如何加载沙盒**。
 
-编译器将`/usr/lib/libSystem.B.dylib`链接到二进制文件。
+编译器将链接 `/usr/lib/libSystem.B.dylib` 到二进制文件。
 
-然后，**`libSystem.B`**将调用其他几个函数，直到**`xpc_pipe_routine`**将应用程序的权限发送给**`securityd`**。Securityd检查进程是否应该被隔离在沙盒中，如果是，则将被隔离。
-最后，通过调用**`__sandbox_ms`**激活沙盒，该函数将调用**`__mac_syscall`**。
+然后，**`libSystem.B`** 将调用其他几个函数，直到 **`xpc_pipe_routine`** 将应用程序的权限发送到 **`securityd`**。Securityd 检查进程是否应该被隔离在沙盒中，如果是，它将被隔离。\
+最后，通过调用 **`__sandbox_ms`** 激活沙盒，该调用将调用 **`__mac_syscall`**。
 
 ## 可能的绕过方法
 
 ### 绕过隔离属性
 
-**由沙盒进程创建的文件**会附加**隔离属性**，以防止沙盒逃逸。然而，如果你设法在沙盒应用程序中**创建一个没有隔离属性的`.app`文件夹**，你可以使应用程序包的二进制文件指向**`/bin/bash`**，并在**plist**中添加一些环境变量来滥用**`open`**以**启动新的非沙盒应用程序**。
+**由沙盒进程创建的文件** 会附加 **隔离属性**，以防止沙盒逃逸。然而，如果您设法在沙盒应用程序中**创建一个没有隔离属性的 `.app` 文件夹**，您可以使应用程序包二进制文件指向 **`/bin/bash`** 并在 **plist** 中添加一些环境变量，以滥用 **`open`** 来**启动新应用程序而不受沙盒限制**。
 
-这就是在[**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)**中所做的**。
+这就是在 [**CVE-2023-32364**](https://gergelykalman.com/CVE-2023-32364-a-macOS-sandbox-escape-by-mounting.html)** 中所做的。**
 
 {% hint style="danger" %}
-因此，目前，如果你只能创建一个以**`.app`**结尾的文件夹而没有隔离属性，你可以逃离沙盒，因为macOS只会在**`.app`文件夹**和**主可执行文件**中**检查**隔离属性（我们将主可执行文件指向**`/bin/bash`**）。
+因此，目前，如果您只是能够创建一个以 **`.app`** 结尾且没有隔离属性的文件夹，您就可以逃离沙盒，因为 macOS 只会**检查** `.app` 文件夹和**主执行文件**中的**隔离**属性（我们将主执行文件指向 **`/bin/bash`**）。
 
-请注意，如果一个.app包已经被授权运行（它具有带有授权运行标志的隔离属性），你也可以滥用它...只是现在你不能在**.app**包内写入，除非你拥有一些特权的TCC权限（在沙盒高权限下你将没有）。
+请注意，如果一个 .app 包已经被授权运行（它有一个带有授权运行标志的隔离 xttr），您也可以滥用它... 除非现在您不能在 **`.app`** 包内写入，除非您拥有一些特权 TCC 权限（在高级沙盒内您不会有）。
 {% endhint %}
 
-### 滥用Open功能
+### 滥用 Open 功能
 
-在[**Word沙盒绕过的最后示例**](macos-office-sandbox-bypasses.md#word-sandbox-bypass-via-login-items-and-.zshenv)中，可以看到如何滥用**`open`**命令行功能来绕过沙盒。
+在[**Word 沙盒绕过的最后示例**](macos-office-sandbox-bypasses.md#word-sandbox-bypass-via-login-items-and-.zshenv)中可以看到，如何滥用 **`open`** 命令行功能来绕过沙盒。
 
 {% content-ref url="macos-office-sandbox-bypasses.md" %}
 [macos-office-sandbox-bypasses.md](macos-office-sandbox-bypasses.md)
 {% endcontent-ref %}
 
-### 启动代理/守护程序
+### 启动代理/守护进程
 
-即使一个应用程序被**设计为沙盒**（`com.apple.security.app-sandbox`），如果它是从**LaunchAgent**（`~/Library/LaunchAgents`）中执行的，仍然可以绕过沙盒。
-正如[**这篇文章**](https://www.vicarius.io/vsociety/posts/cve-2023-26818-sandbox-macos-tcc-bypass-w-telegram-using-dylib-injection-part-2-3?q=CVE-2023-26818)中所解释的那样，如果你想让一个被沙盒限制的应用程序获得持久性，你可以将其自动执行为LaunchAgent，并通过DyLib环境变量注入恶意代码。
+即使应用程序**应该被沙盒化**（`com.apple.security.app-sandbox`），如果它是从 LaunchAgent（例如 `~/Library/LaunchAgents`）**执行的**，也可以绕过沙盒。\
+正如[**这篇文章**](https://www.vicarius.io/vsociety/posts/cve-2023-26818-sandbox-macos-tcc-bypass-w-telegram-using-dylib-injection-part-2-3?q=CVE-2023-26818)所解释的，如果您想让一个沙盒化的应用程序获得持久性，您可以使其自动作为 LaunchAgent 执行，并可能通过 DyLib 环境变量注入恶意代码。
 
-### 滥用自动启动位置
+### 滥用自启动位置
 
-如果一个沙盒进程可以**写入**一个**稍后将要运行二进制文件的位置**，它将能够通过将二进制文件放在那里来**逃离沙盒**。这种位置的一个很好的例子是`~/Library/LaunchAgents`或`/System/Library/LaunchDaemons`。
+如果沙盒化进程可以**写入**一个位置，**稍后一个未沙盒化的应用程序将运行二进制文件**，它将能够**通过放置**那里的二进制文件来**逃逸**。这种位置的一个好例子是 `~/Library/LaunchAgents` 或 `/System/Library/LaunchDaemons`。
 
-为此，你可能需要**两个步骤**：使一个具有**更宽松的沙盒**（`file-read*`，`file-write*`）的进程执行你的代码，该代码实际上会写入一个将以**非沙盒方式执行**的位置。
+为此，您甚至可能需要**两步**：让一个具有**更宽松沙盒权限**（`file-read*`、`file-write*`）的进程执行您的代码，该代码实际上将写入一个稍后将**未沙盒化执行**的位置。
 
-请查看关于**自动启动位置**的页面：
+查看有关**自启动位置**的页面：
 
 {% content-ref url="../../../../macos-auto-start-locations.md" %}
 [macos-auto-start-locations.md](../../../../macos-auto-start-locations.md)
 {% endcontent-ref %}
+
 ### 滥用其他进程
 
-如果从沙盒进程中能够入侵运行在较不严格沙盒（或无沙盒）中的其他进程，你就能够逃脱到它们的沙盒中：
+如果从沙盒进程中您能够**危害在更少限制的沙盒中（或没有）运行的其他进程**，您将能够逃到它们的沙盒：
 
 {% content-ref url="../../../macos-proces-abuse/" %}
 [macos-proces-abuse](../../../macos-proces-abuse/)
 {% endcontent-ref %}
 
-### 静态编译和动态链接
+### 静态编译 & 动态链接
 
-[**这项研究**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/)发现了两种绕过沙盒的方法。因为沙盒是在用户空间加载**libSystem**库时应用的。如果一个二进制文件能够避免加载它，那么它就不会被沙盒化：
+[**这项研究**](https://saagarjha.com/blog/2020/05/20/mac-app-store-sandbox-escape/) 发现了两种绕过沙盒的方法。因为沙盒是在用户空间应用的，当加载 **libSystem** 库时。如果二进制文件可以避免加载它，它将永远不会被沙盒化：
 
-* 如果二进制文件是**完全静态编译**的，它可以避免加载该库。
-* 如果二进制文件**不需要加载任何库**（因为链接器也在libSystem中），它就不需要加载libSystem。
+* 如果二进制文件是**完全静态编译的**，它可以避免加载该库。
+* 如果**二进制文件不需要加载任何库**（因为链接器也在 libSystem 中），它就不需要加载 libSystem。
 
-### Shellcode
+### Shellcodes
 
-请注意，即使是ARM64的shellcode也需要链接到`libSystem.dylib`中：
+请注意，即使在 ARM64 中的 **shellcodes** 也需要链接在 `libSystem.dylib`：
 ```bash
 ld -o shell shell.o -macosx_version_min 13.0
 ld: dynamic executables or dylibs must link with libSystem.dylib for architecture arm64
 ```
-### 权限
+### 权利
 
-请注意，即使某些**操作**在应用程序具有特定**权限**的情况下可能被**允许在沙盒中执行**，例如：
+请注意，即使沙盒可能**允许**某些**操作**，如果应用程序具有特定的**权利**，例如：
 ```scheme
 (when (entitlement "com.apple.security.network.client")
 (allow network-outbound (remote ip))
@@ -95,15 +98,15 @@ ld: dynamic executables or dylibs must link with libSystem.dylib for architectur
 (global-name "com.apple.cfnetwork.cfnetworkagent")
 [...]
 ```
-### Interposting Bypass
+### Interposting 绕过
 
-有关**Interposting**的更多信息，请查看：
+有关 **Interposting** 的更多信息，请查看：
 
 {% content-ref url="../../../mac-os-architecture/macos-function-hooking.md" %}
 [macos-function-hooking.md](../../../mac-os-architecture/macos-function-hooking.md)
 {% endcontent-ref %}
 
-#### Interpost `_libsecinit_initializer` 以防止沙盒化
+#### Interpost `_libsecinit_initializer` 以防止沙盒
 ```c
 // gcc -dynamiclib interpose.c -o interpose.dylib
 
@@ -161,7 +164,7 @@ __attribute__((used)) static const struct interpose_sym interposers[] __attribut
 { (const void *)my_mac_syscall, (const void *)__mac_syscall },
 };
 ```
-{% endcode %}
+The provided text seems to be a closing tag for a code block in markdown syntax. There is no English text to translate. If you have any other content that needs translation, please provide the English text.
 ```bash
 DYLD_INSERT_LIBRARIES=./interpose.dylib ./sand
 
@@ -173,7 +176,7 @@ __mac_syscall invoked. Policy: Quarantine, Call: 87
 __mac_syscall invoked. Policy: Sandbox, Call: 4
 Sandbox Bypassed!
 ```
-### 使用lldb调试和绕过沙盒
+### 使用 lldb 调试和绕过沙盒
 
 让我们编译一个应该被沙盒化的应用程序：
 
@@ -185,46 +188,9 @@ int main() {
 system("cat ~/Desktop/del.txt");
 }
 ```
-{% tab title="entitlements.xml" %}
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-    <key>com.apple.security.app-sandbox</key>
-    <true/>
-    <key>com.apple.security.network.client</key>
-    <true/>
-    <key>com.apple.security.files.user-selected.read-write</key>
-    <true/>
-    <key>com.apple.security.files.user-selected.read-only</key>
-    <true/>
-    <key>com.apple.security.files.all</key>
-    <true/>
-    <key>com.apple.security.print</key>
-    <true/>
-    <key>com.apple.security.temporary-exception.apple-events</key>
-    <array>
-        <string>com.apple.dt.Xcode</string>
-    </array>
-</dict>
-</plist>
-```
-
-这是一个示例的 entitlements.xml 文件，其中包含了一些常见的沙盒权限。在这个文件中，我们可以看到以下权限：
-
-- `com.apple.security.app-sandbox`：启用应用沙盒。
-- `com.apple.security.network.client`：允许应用进行网络通信。
-- `com.apple.security.files.user-selected.read-write`：允许应用读写用户选择的文件。
-- `com.apple.security.files.user-selected.read-only`：允许应用只读用户选择的文件。
-- `com.apple.security.files.all`：允许应用访问所有文件。
-- `com.apple.security.print`：允许应用进行打印操作。
-- `com.apple.security.temporary-exception.apple-events`：允许应用在特定情况下使用苹果事件。
-
-这些权限可以根据应用的需求进行调整和配置，以实现沙盒环境下的安全保护和功能限制。
-
 {% endtab %}
+
+{% tab title="entitlements.xml" %}
 ```xml
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
 <dict>
@@ -233,30 +199,9 @@ system("cat ~/Desktop/del.txt");
 </dict>
 </plist>
 ```
-{% tab title="Info.plist" %}
-
-## Info.plist
-
-The `Info.plist` file is an essential component of a macOS application. It contains metadata about the application, including its name, version, and various configuration settings. 
-
-When it comes to sandboxing, the `Info.plist` file plays a crucial role in defining the application's sandbox entitlements. These entitlements determine the level of access the application has to system resources and APIs.
-
-To bypass or debug the macOS sandbox, you may need to modify the `Info.plist` file. By changing the sandbox entitlements, you can potentially gain elevated privileges or disable certain security restrictions.
-
-However, modifying the `Info.plist` file requires careful consideration and understanding of the sandboxing mechanism. Incorrect modifications can lead to application crashes or security vulnerabilities.
-
-To debug or bypass the macOS sandbox using the `Info.plist` file, follow these steps:
-
-1. Locate the `Info.plist` file within the application bundle.
-2. Open the `Info.plist` file using a text editor.
-3. Identify the sandbox entitlements section, which typically includes keys like `com.apple.security.app-sandbox` and `com.apple.security.files.user-selected.read-write`.
-4. Modify the values of these entitlements to change the application's access permissions.
-5. Save the modified `Info.plist` file.
-6. Test the application to verify if the sandbox restrictions have been bypassed or modified successfully.
-
-It is important to note that bypassing or modifying the macOS sandbox can have serious security implications. It is recommended to only perform these actions in controlled environments for legitimate purposes, such as penetration testing or debugging.
-
 {% endtab %}
+
+{% tab title="Info.plist" %}
 ```xml
 <plist version="1.0">
 <dict>
@@ -285,14 +230,14 @@ codesign -s <cert-name> --entitlements entitlements.xml sand
 {% endcode %}
 
 {% hint style="danger" %}
-该应用程序将尝试**读取**文件**`~/Desktop/del.txt`**，而**沙盒不允许**这样做。\
-在那里创建一个文件，一旦绕过沙盒，它就能够读取它：
+应用程序将尝试**读取**文件**`~/Desktop/del.txt`**，但**沙盒不允许**。\
+创建一个文件，一旦绕过沙盒，它就能够读取它：
 ```bash
 echo "Sandbox Bypassed" > ~/Desktop/del.txt
 ```
 {% endhint %}
 
-让我们调试应用程序，查看沙盒何时加载：
+让我们调试应用程序以查看何时加载了Sandbox：
 ```bash
 # Load app in debugging
 lldb ./sand
@@ -357,18 +302,20 @@ libsystem_kernel.dylib`:
 0x187659904 <+4>:  svc    #0x80
 0x187659908 <+8>:  b.lo   0x187659928               ; <+40>
 0x18765990c <+12>: pacibsp
-# 通过修改一些寄存器来绕过跳转到b.lo地址
-(lldb) 断点删除 1 # 移除断点
-(lldb) 寄存器写入 $pc 0x187659928 # b.lo地址
-(lldb) 寄存器写入 $x0 0x00
-(lldb) 寄存器写入 $x1 0x00
-(lldb) 寄存器写入 $x16 0x17d
+
+# To bypass jump to the b.lo address modifying some registers first
+(lldb) breakpoint delete 1 # Remove bp
+(lldb) register write $pc 0x187659928 #b.lo address
+(lldb) register write $x0 0x00
+(lldb) register write $x1 0x00
+(lldb) register write $x16 0x17d
 (lldb) c
-进程 2517 恢复执行
-绕过沙盒！
-进程 2517 以状态 0 (0x00000000) 退出
+Process 2517 resuming
+Sandbox Bypassed!
+Process 2517 exited with status = 0 (0x00000000)
+```
 {% hint style="warning" %}
-**即使绕过了沙盒，TCC** 也会询问用户是否允许进程读取桌面上的文件
+**即使绕过了沙盒，TCC** 仍会询问用户是否允许进程从桌面读取文件
 {% endhint %}
 
 ## 参考资料
@@ -379,12 +326,14 @@ libsystem_kernel.dylib`:
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零开始学习 AWS 黑客技术，成为</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS 红队专家)</strong></a><strong>！</strong></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+支持 HackTricks 的其他方式：
+
+* 如果您希望在 **HackTricks** 中看到您的**公司广告**或**下载 HackTricks 的 PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* 发现 [**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们独家的 [**NFTs**](https://opensea.io/collection/the-peass-family) 收藏
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。**
 
 </details>

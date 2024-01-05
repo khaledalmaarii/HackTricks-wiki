@@ -2,32 +2,34 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS红队专家)</strong></a><strong>！</strong></summary>
 
-* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+支持HackTricks的其他方式：
+
+* 如果您想在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在**Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
 ## 基本信息
 
-MacOS沙盒（最初称为Seatbelt）**限制在沙盒中运行的应用程序**只能执行沙盒配置文件中指定的允许操作。这有助于确保**应用程序只能访问预期的资源**。
+macOS沙盒（最初称为Seatbelt）**限制在沙盒内运行的应用程序**只能执行应用程序正在使用的沙盒配置文件中**指定的允许操作**。这有助于确保**应用程序只访问预期的资源**。
 
-任何具有**`com.apple.security.app-sandbox`**权限的应用程序都将在沙盒中执行。**Apple二进制文件**通常在沙盒中执行，并且为了在**App Store**中发布，**此权限是强制性的**。因此，大多数应用程序将在沙盒中执行。
+任何具有**权限** **`com.apple.security.app-sandbox`** 的应用都将在沙盒内执行。**苹果二进制文件**通常在沙盒内执行，为了在**App Store**内发布，**这个权限是强制性的**。因此，大多数应用程序将在沙盒内执行。
 
-为了控制进程可以执行的操作，**沙盒在内核中的所有系统调用中都有钩子**。根据应用程序的**权限**，沙盒将**允许**特定的操作。
+为了控制进程可以或不可以做什么，**沙盒在内核的所有系统调用中都有钩子**。**根据**应用程序的**权限**，沙盒将**允许**某些操作。
 
 沙盒的一些重要组件包括：
 
-* 内核扩展`/System/Library/Extensions/Sandbox.kext`
-* 私有框架`/System/Library/PrivateFrameworks/AppSandbox.framework`
-* 在用户空间运行的**守护进程**`/usr/libexec/sandboxd`
-* **容器**`~/Library/Containers`
+* **内核扩展** `/System/Library/Extensions/Sandbox.kext`
+* **私有框架** `/System/Library/PrivateFrameworks/AppSandbox.framework`
+* 在用户空间运行的**守护进程** `/usr/libexec/sandboxd`
+* **容器** `~/Library/Containers`
 
-在容器文件夹中，你可以找到**每个在沙盒中执行的应用程序的文件夹**，文件夹的名称是bundle id：
+在容器文件夹内，您可以找到**每个在沙盒中执行的应用的文件夹**，名称为捆绑标识符：
 ```bash
 ls -l ~/Library/Containers
 total 0
@@ -38,7 +40,7 @@ drwx------@ 4 username  staff  128 Mar 25 14:14 com.apple.Accessibility-Settings
 drwx------@ 4 username  staff  128 Mar 25 14:10 com.apple.ActionKit.BundledIntentHandler
 [...]
 ```
-在每个bundle id文件夹中，您可以找到应用程序的**plist**和**数据目录**：
+在每个bundle id文件夹中，你可以找到App的**plist**和**Data directory**：
 ```bash
 cd /Users/username/Library/Containers/com.apple.Safari
 ls -la
@@ -62,7 +64,7 @@ drwx------   2 username  staff    64 Mar 24 18:02 SystemData
 drwx------   2 username  staff    64 Mar 24 18:02 tmp
 ```
 {% hint style="danger" %}
-请注意，即使符号链接存在以便从沙盒中“逃脱”并访问其他文件夹，应用程序仍然需要**具有权限**来访问它们。这些权限位于**`.plist`**文件中。
+请注意，即使存在符号链接（symlinks）用于“逃离”沙盒并访问其他文件夹，应用程序仍然需要**拥有权限**来访问它们。这些权限位于**`.plist`**文件内。
 {% endhint %}
 ```bash
 # Get permissions
@@ -112,14 +114,14 @@ AAAhAboBAAAAAAgAAABZAO4B5AHjBMkEQAUPBSsGPwsgASABHgEgASABHwEf...
 [...]
 ```
 {% hint style="warning" %}
-所有由沙盒应用程序创建/修改的内容都将获得**隔离属性**。这将防止沙盒应用程序尝试使用**`open`**执行某些操作时触发Gatekeeper。
+所有由沙盒应用程序创建/修改的内容都会获得**隔离属性**。这将通过触发Gatekeeper来防止沙盒空间在尝试用**`open`**执行某些操作时。
 {% endhint %}
 
 ### 沙盒配置文件
 
-沙盒配置文件是指示在该**沙盒**中允许/禁止的配置文件。它使用**沙盒配置文件语言（SBPL）**，该语言使用[**Scheme**](https://en.wikipedia.org/wiki/Scheme\_\(programming\_language\))编程语言。
+沙盒配置文件是指示在该**沙盒**中什么是**允许/禁止**的配置文件。它使用了**沙盒配置文件语言（SBPL）**，该语言使用了[**Scheme**](https://en.wikipedia.org/wiki/Scheme\_\(programming\_language\))编程语言。
 
-在这里你可以找到一个例子：
+以下是一个例子：
 ```scheme
 (version 1) ; First you get the version
 
@@ -138,212 +140,34 @@ AAAhAboBAAAAAAgAAABZAO4B5AHjBMkEQAUPBSsGPwsgASABHgEgASABHwEf...
 )
 ```
 {% hint style="success" %}
-查看这个[**研究**](https://reverse.put.as/2011/09/14/apple-sandbox-guide-v1-0/) **以了解更多可能被允许或拒绝的操作。**
+查看这篇[**研究**](https://reverse.put.as/2011/09/14/apple-sandbox-guide-v1-0/)，以了解更多可能被允许或拒绝的操作。
 {% endhint %}
 
-重要的**系统服务**也在它们自己的自定义**沙盒**中运行，例如`mdnsresponder`服务。您可以在以下位置查看这些自定义**沙盒配置文件**：
+重要的**系统服务**也在它们自己的定制**沙盒**中运行，例如 `mdnsresponder` 服务。您可以在以下位置查看这些定制的**沙盒配置文件**：
 
 * **`/usr/share/sandbox`**
 * **`/System/Library/Sandbox/Profiles`**&#x20;
-* 其他沙盒配置文件可以在[https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles](https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles)中进行检查。
+* 其他沙盒配置文件可以在 [https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles](https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles) 查看。
 
-**App Store**应用程序使用**配置文件** **`/System/Library/Sandbox/Profiles/application.sb`**。您可以在此配置文件中查看诸如**`com.apple.security.network.server`**的权限如何允许进程使用网络。
+**App Store** 应用使用**配置文件** **`/System/Library/Sandbox/Profiles/application.sb`**。您可以在此配置文件中检查，例如 **`com.apple.security.network.server`** 这样的权限是如何允许进程使用网络的。
 
-SIP是一个名为platform\_profile的沙盒配置文件，位于/System/Library/Sandbox/rootless.conf
+SIP 是一个名为 platform\_profile 的沙盒配置文件，在 /System/Library/Sandbox/rootless.conf 中
 
 ### 沙盒配置文件示例
 
-要使用**特定的沙盒配置文件**启动应用程序，可以使用：
+要用**特定沙盒配置文件**启动应用程序，您可以使用：
 ```bash
 sandbox-exec -f example.sb /Path/To/The/Application
 ```
+{% tabs %}
+{% tab title="touch" %}
 {% code title="touch.sb" %}
-
-```plaintext
-(version 1)
-(deny default)
-(allow file-read-metadata)
-(allow file-write-metadata)
-(allow file-read-data (literal "/usr/bin/touch"))
-(allow file-write-data (literal "/usr/bin/touch"))
-(allow file-read-data (regex #"^/usr/lib/.*"))
-(allow file-write-data (regex #"^/usr/lib/.*"))
-(allow file-read-data (regex #"^/System/Library/.*"))
-(allow file-write-data (regex #"^/System/Library/.*"))
-(allow file-read-data (regex #"^/Library/.*"))
-(allow file-write-data (regex #"^/Library/.*"))
-(allow file-read-data (literal "/private/var/tmp"))
-(allow file-write-data (literal "/private/var/tmp"))
-(allow file-read-data (literal "/private/tmp"))
-(allow file-write-data (literal "/private/tmp"))
-(allow file-read-data (literal "/tmp"))
-(allow file-write-data (literal "/tmp"))
-(allow file-read-data (literal "/dev/null"))
-(allow file-write-data (literal "/dev/null"))
-(allow file-read-data (literal "/dev/random"))
-(allow file-write-data (literal "/dev/random"))
-(allow file-read-data (literal "/dev/urandom"))
-(allow file-write-data (literal "/dev/urandom"))
-(allow file-read-data (literal "/dev/zero"))
-(allow file-write-data (literal "/dev/zero"))
-(allow file-read-data (literal "/dev/stdin"))
-(allow file-write-data (literal "/dev/stdin"))
-(allow file-read-data (literal "/dev/stdout"))
-(allow file-write-data (literal "/dev/stdout"))
-(allow file-read-data (literal "/dev/stderr"))
-(allow file-write-data (literal "/dev/stderr"))
-(allow file-read-data (literal "/dev/fd"))
-(allow file-write-data (literal "/dev/fd"))
-(allow file-read-data (literal "/dev/autofs_nowait"))
-(allow file-write-data (literal "/dev/autofs_nowait"))
-(allow file-read-data (literal "/dev/autofs_notrigger"))
-(allow file-write-data (literal "/dev/autofs_notrigger"))
-(allow file-read-data (literal "/dev/autofs_nowait_nobrowse"))
-(allow file-write-data (literal "/dev/autofs_nowait_nobrowse"))
-(allow file-read-data (literal "/dev/autofs_notrigger_nobrowse"))
-(allow file-write-data (literal "/dev/autofs_notrigger_nobrowse"))
-(allow file-read-data (literal "/dev/autofs_nowait_browse"))
-(allow file-write-data (literal "/dev/autofs_nowait_browse"))
-(allow file-read-data (literal "/dev/autofs_notrigger_browse"))
-(allow file-write-data (literal "/dev/autofs_notrigger_browse"))
-(allow file-read-data (literal "/dev/autofs_nowait_nobrowse_nobrowse"))
-(allow file-write-data (literal "/dev/autofs_nowait_nobrowse_nobrowse"))
-(allow file-read-data (literal "/dev/autofs_notrigger_nobrowse_nobrowse"))
-(allow file-write-data (literal "/dev/autofs_notrigger_nobrowse_nobrowse"))
-(allow file-read-data (literal "/dev/autofs_nowait_browse_browse"))
-(allow file-write-data (literal "/dev/autofs_nowait_browse_browse"))
-(allow file-read-data (literal "/dev/autofs_notrigger_browse_browse"))
-(allow file-write-data (literal "/dev/autofs_notrigger_browse_browse"))
-(allow file-read-data (literal "/dev/autofs_nowait_nobrowse_browse"))
-(allow file-write-data (literal "/dev/autofs_nowait_nobrowse_browse"))
-(allow file-read-data (literal "/dev/autofs_notrigger_nobrowse_browse"))
-(allow file-write-data (literal "/dev/autofs_notrigger_nobrowse_browse"))
-(allow file-read-data (literal "/dev/autofs_nowait_browse_nobrowse"))
-(allow file-write-data (literal "/dev/autofs_nowait_browse_nobrowse"))
-(allow file-read-data (literal "/dev/autofs_notrigger_browse_nobrowse"))
-(allow file-write-data (literal "/dev/autofs_notrigger_browse_nobrowse"))
-(allow file-read-data (literal "/dev/autofs_nowait_nobrowse_nobrowse_nobrowse"))
-(allow file-write-data (literal "/dev/autofs_nowait_nobrowse_nobrowse_nobrowse"))
-(allow file-read-data (literal "/dev/autofs_notrigger_nobrowse_nobrowse_nobrowse"))
-(allow file-write-data (literal "/dev/autofs_notrigger_nobrowse_nobrowse_nobrowse"))
-(allow file-read-data (literal "/dev/autofs_nowait_browse_browse_browse"))
-(allow file-write-data (literal "/dev/autofs_nowait_browse_browse_browse"))
-(allow file-read-data (literal "/dev/autofs_notrigger_browse_browse_browse"))
-(allow file-write-data (literal "/dev/autofs_notrigger_browse_browse_browse"))
-(allow file-read-data (literal "/dev/autofs_nowait_nobrowse_browse_browse"))
-(allow file-write-data (literal "/dev/autofs_nowait_nobrowse_browse_browse"))
-(allow file-read-data (literal "/dev/autofs_notrigger_nobrowse_browse_browse"))
-(allow file-write-data (literal "/dev/autofs_notrigger_nobrowse_browse_browse"))
-(allow file-read-data (literal "/dev/autofs_nowait_browse_nobrowse_browse"))
-(allow file-write-data (literal "/dev/autofs_nowait_browse_nobrowse_browse"))
-(allow file-read-data (literal "/dev/autofs_notrigger_browse_nobrowse_browse"))
-(allow file-write-data (literal "/dev/autofs_notrigger_browse_nobrowse_browse"))
-(allow file-read-data (literal "/dev/autofs_nowait_nobrowse_nobrowse_browse"))
-(allow file-write-data (literal "/dev/autofs_nowait_nobrowse_nobrowse_browse"))
-(allow file-read-data (literal "/dev/autofs_notrigger_nobrowse_nobrowse_browse"))
-(allow file-write-data (literal "/dev/autofs_notrigger_nobrowse_nobrowse_browse"))
-(allow file-read-data (literal "/dev/autofs_nowait_browse_browse_nobrowse"))
-(allow file-write-data (literal "/dev/autofs_nowait_browse_browse_nobrowse"))
-(allow file-read-data (literal "/dev/autofs_notrigger_browse_browse_nobrowse"))
-(allow file-write-data (literal "/dev/autofs_notrigger_browse_browse_nobrowse"))
-(allow file-read-data (literal "/dev/autofs_nowait_nobrowse_browse_nobrowse"))
-(allow file-write-data (literal "/dev/autofs_nowait_nobrowse_browse_nobrowse"))
-(allow file-read-data (literal "/dev/autofs_notrigger_nobrowse_browse_nobrowse"))
-(allow file-write-data (literal "/dev/autofs_notrigger_nobrowse_browse_nobrowse"))
-(allow file-read-data (literal "/dev/autofs_nowait_browse_nobrowse_nobrowse"))
-(allow file-write-data (literal "/dev/autofs_nowait_browse_nobrowse_nobrowse"))
-(allow file-read-data (literal "/dev/autofs_notrigger_browse_nobrowse_nobrowse"))
-(allow file-write-data (literal "/dev/autofs_notrigger_browse_nobrowse_nobrowse"))
-(allow file-read-data (literal "/dev/autofs_nowait_nobrowse_nobrowse_nobrowse_nobrowse"))
-(allow file-write-data (literal "/dev/autofs_nowait_nobrowse_nobrowse_nobrowse_nobrowse"))
-(allow file-read-data (literal "/dev/autofs_notrigger_nobrowse_nobrowse_nobrowse_nobrowse"))
-(allow file-write-data (literal "/dev/autofs_notrigger_nobrowse_nobrowse_nobrowse_nobrowse"))
-(allow file-read-data (literal "/dev/autofs_nowait_browse_browse_browse_browse"))
-(allow file-write-data (literal "/dev/autofs_nowait_browse_browse_browse_browse"))
-(allow file-read-data (literal "/dev/autofs_notrigger_browse_browse_browse_browse"))
-(allow file-write-data (literal "/dev/autofs_notrigger_browse_browse_browse_browse"))
-(allow file-read-data (literal "/dev/autofs_nowait_nobrowse_browse_browse_browse"))
-(allow file-write-data (literal "/dev/autofs_nowait_nobrowse_browse_browse_browse"))
-(allow file-read-data (literal "/dev/autofs_notrigger_nobrowse_browse_browse_browse"))
-(allow file-write-data (literal "/dev/autofs_notrigger_nobrowse_browse_browse_browse"))
-(allow file-read-data (literal "/dev/autofs_nowait_browse_nobrowse_browse_browse"))
-(allow file-write-data (literal "/dev/autofs_nowait_browse_nobrowse_browse_browse"))
-(allow file-read-data (literal "/dev/autofs_notrigger_browse_nobrowse_browse_browse"))
-(allow file-write-data (literal "/dev/autofs_notrigger_browse_nobrowse_browse_browse"))
-(allow file-read-data (literal "/dev/autofs_nowait_nobrowse_nobrowse_browse_browse"))
-(allow file-write-data (literal "/dev/autofs_nowait_nobrowse_nobrowse_browse_browse"))
-(allow file-read-data (literal "/dev/autofs_notrigger_nobrowse_nobrowse_browse_browse"))
-(allow file-write-data (literal "/dev/autofs_notrigger_nobrowse_nobrowse_browse_browse"))
-(allow file-read-data (literal "/dev/autofs_nowait_browse_browse_nobrowse_browse"))
-(allow file-write-data (literal "/dev/autofs_nowait_browse_browse_nobrowse_browse"))
-(allow file-read-data (literal "/dev/autofs_notrigger_browse_browse_nobrowse_browse"))
-(allow file-write-data (literal "/dev/autofs_notrigger_browse_browse_nobrowse_browse"))
-(allow file-read-data (literal "/dev/autofs_nowait_nobrowse_browse_nobrowse_browse"))
-(allow file-write-data (literal "/dev/autofs_nowait_nobrowse_browse_nobrowse_browse"))
-(allow file-read-data (literal "/dev/autofs_notrigger_browse_nobrowse_browse_nobrowse"))
-(allow file-write-data (literal "/dev/autofs_notrigger_browse_nobrowse_browse_nobrowse"))
-(allow file-read-data (literal "/dev/autofs_nowait_nobrowse_browse_nobrowse_browse"))
-(allow file-write-data (literal "/dev/autofs_nowait_nobrowse_browse_nobrowse_browse"))
-(allow file-read-data (literal "/dev/autofs_notrigger_browse_nobrowse_browse_nobrowse"))
-(allow file-write-data (literal "/dev/autofs_notrigger_browse_nobrowse_browse_nobrowse"))
-(allow file-read-data (literal "/dev/autofs_nowait_nobrowse_nobrowse_browse_browse_browse"))
-(allow file-write-data (literal "/dev/autofs_nowait_nobrowse_nobrowse_browse_browse_browse"))
-(allow file-read-data (literal "/dev/autofs_notrigger_nobrowse_nobrowse_browse_browse_browse"))
-(allow file-write-data (literal "/dev/autofs_notrigger_nobrowse_nobrowse_browse_browse_browse"))
-(allow file-read-data (literal "/dev/autofs_nowait_browse_browse_browse_browse_browse"))
-(allow file-write-data (literal "/dev/autofs_nowait_browse_browse_browse_browse_browse"))
-(allow file-read-data (literal "/dev/autofs_notrigger_browse_browse_browse_browse_browse"))
-(allow file-write-data (literal "/dev/autofs_notrigger_browse_browse_browse_browse_browse"))
-(allow file-read-data (literal "/dev/autofs_nowait_nobrowse_browse_browse_browse_browse"))
-(allow file-write-data (literal "/dev/autofs_nowait_nobrowse_browse_browse_browse_browse"))
-(allow file-read-data (literal "/dev/autofs_notrigger_nobrowse_browse_browse_browse_browse"))
-(allow file-write-data (literal "/dev/autofs_notrigger_nobrowse_browse_browse_browse_browse"))
-(allow file-read-data (literal "/dev/autofs_nowait_browse_browse_nobrowse_browse_browse"))
-(allow file-write-data (literal "/dev/autofs_nowait_browse_browse_nobrowse_browse_browse"))
-(allow file-read-data (literal "/dev/autofs_notrigger_browse_browse_nobrowse_browse_browse"))
-(allow file-write-data (literal "/dev/autofs_notrigger_browse_browse_nobrowse_browse_browse"))
-(allow file-read-data (literal "/dev/autofs_nowait_nobrowse_browse_nobrowse_browse_browse"))
-(allow file-write-data (literal "/dev/autofs_nowait_nobrowse_browse_nobrowse_browse_browse"))
-(allow file-read-data (literal "/dev/autofs_notrigger_browse_nobrowse_browse_nobrowse_browse"))
-(allow file-write-data (literal "/dev/autofs_notrigger_browse_nobrowse_browse_nobrowse_browse"))
-(allow file-read-data (literal "/dev/autofs_nowait_nobrowse_browse_nobrowse_browse_browse"))
-(allow file-write-data (literal "/dev/autofs_nowait_nobrowse_browse_nobrowse_browse_browse"))
-(allow file-read-data (literal "/dev/autofs_notrigger_browse_nobrowse_browse_nobrowse_browse"))
-(allow file-write-data (literal "/dev/autofs_notrigger_browse_nobrowse_browse_nobrowse_browse"))
-(allow file-read-data (literal "/dev/autofs_nowait_nobrowse_nobrowse_browse_browse_browse_browse"))
-(allow file-write-data (literal "/dev/autofs_nowait_nobrowse_nobrowse_browse_browse_browse_browse"))
-(allow file-read-data (literal "/dev/autofs_notrigger_nobrowse_nobrowse_browse_browse_browse_browse"))
-(allow file-write-data (literal "/dev/autofs_notrigger_nobrowse_nobrowse_browse_browse_browse_browse"))
-(allow file-read-data (literal "/dev/autofs_nowait_browse_browse_browse_browse_browse_browse"))
-(allow file-write-data (literal "/dev/autofs_nowait_browse_browse_browse_browse_browse_browse"))
-(allow file-read-data (literal "/dev/autofs_notrigger_browse_browse_browse_browse_browse_browse"))
-(allow file-write-data (literal "/dev/autofs_notrigger_browse_browse_browse_browse_browse_browse"))
-(allow file-read-data (literal "/dev/autofs_nowait_nobrowse_browse_browse_browse_browse_browse"))
-(allow file-write-data (literal "/dev/autofs_nowait_nobrowse_browse_browse_browse_browse_browse"))
-(allow file-read-data (literal "/dev/autofs_notrigger_nobrowse_browse_browse_browse_browse_browse"))
-(allow file-write-data (literal "/dev/autofs_notrigger_nobrowse_browse_browse_browse_browse_browse"))
-(allow file-read-data (literal "/dev/autofs_nowait_browse_browse_nobrowse_browse_browse_browse"))
-(allow file-write-data (literal "/dev/autofs_nowait_browse_browse_nobrowse_browse_browse_browse"))
-(allow file-read-data (literal "/dev/autofs_notrigger_browse_browse_nobrowse_browse_browse_browse"))
-(allow file-write-data (literal "/dev/autofs_notrigger_browse_browse_nobrowse_browse_browse_browse"))
-(allow file-read-data (literal "/dev/autofs_nowait_nobrowse_browse_nobrowse_browse_browse_browse"))
-(allow file-write-data (literal "/dev/autofs_nowait_nobrowse_browse_nobrowse_browse_browse_browse"))
-(allow file-read-data (literal "/dev/autofs_notrigger_browse_nobrowse_browse_nobrowse_browse_browse"))
-(allow file-write-data (literal "/dev/autofs_notrigger_browse_nobrowse_browse_nobrowse_browse_browse"))
-(allow file-read-data (literal "/dev/autofs_nowait_nobrowse_browse_nobrowse_browse_browse_browse_browse"))
-(allow file-write-data (literal "/dev/autofs_nowait_nobrowse_browse_nobrowse_browse_browse_browse_browse"))
-(allow file-read-data (literal "/dev/autofs_notrigger_nobrowse_browse_nobrowse_browse_browse_browse_browse"))
-(allow file-write-data (literal "/dev/autofs_notrigger_nobrowse_browse_nobrowse_browse_browse_browse_browse"))
-(allow file-read-data (literal "/dev/autofs_nowait_browse_browse_browse_browse_nobrowse"))
-(allow file-write-data (literal "/dev/autofs_nowait_browse_browse_browse_browse_nobrowse"))
-(allow file-read-data (literal "/dev/autofs_notrigger_browse_browse_browse_browse_nobrowse"))
-(allow file-write-data (literal "/dev/autofs_not
 ```scheme
 (version 1)
 (deny default)
 (allow file* (literal "/tmp/hacktricks.txt"))
 ```
-{% endcode %}
+Since there is no content provided between the `{% endcode %}` tags, there is nothing to translate. Please provide the relevant English text that you would like to have translated into Chinese.
 ```bash
 # This will fail because default is denied, so it cannot execute touch
 sandbox-exec -f touch.sb touch /tmp/hacktricks.txt
@@ -357,16 +181,6 @@ log show --style syslog --predicate 'eventMessage contains[c] "sandbox"' --last 
 [...]
 ```
 {% code title="touch2.sb" %}
-
-这是一个示例的 macOS 沙盒配置文件，用于限制应用程序的权限和访问。沙盒是一种安全机制，用于隔离应用程序并限制其对系统资源的访问。通过使用沙盒，可以减少应用程序对系统的潜在威胁，并提高系统的安全性。
-
-在这个示例中，我们定义了一个名为 "touch2" 的应用程序，并为其配置了一些权限和限制。首先，我们指定了应用程序的主目录，以及它可以访问的其他目录。然后，我们限制了应用程序对网络的访问，并禁止它执行任何系统命令。最后，我们还限制了应用程序对用户数据的访问，以确保用户的隐私和安全。
-
-要使用这个沙盒配置文件，您需要将其保存为名为 "touch2.sb" 的文件，并将其与应用程序一起打包。然后，当应用程序运行时，它将受到这些配置的限制和保护。
-
-请注意，沙盒只是一种安全机制，不能完全防止所有攻击。因此，在开发和部署应用程序时，还应采取其他安全措施，如代码审查、漏洞扫描和安全测试，以确保应用程序的安全性。
-
-{% endcode %}
 ```scheme
 (version 1)
 (deny default)
@@ -380,6 +194,8 @@ log show --style syslog --predicate 'eventMessage contains[c] "sandbox"' --last 
 ; 2023-05-26 13:44:59.840050+0200  localhost kernel[0]: (Sandbox) Sandbox: touch(41575) deny(1) sysctl-read kern.bootargs
 ; 2023-05-26 13:44:59.840061+0200  localhost kernel[0]: (Sandbox) Sandbox: touch(41575) deny(1) file-read-data /
 ```
+{% endcode %}
+
 {% code title="touch3.sb" %}
 ```scheme
 (version 1)
@@ -394,50 +210,50 @@ log show --style syslog --predicate 'eventMessage contains[c] "sandbox"' --last 
 {% endtabs %}
 
 {% hint style="info" %}
-请注意，运行在**Windows**上的**由Apple编写的软件**没有额外的安全预防措施，比如应用程序沙箱。
+请注意，运行在 **Windows** 上的 **Apple** **软件** **没有额外的安全预防措施**，例如应用程序沙盒化。
 {% endhint %}
 
 绕过示例：
 
 * [https://lapcatsoftware.com/articles/sandbox-escape.html](https://lapcatsoftware.com/articles/sandbox-escape.html)
-* [https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c](https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c)（他们能够在沙箱之外写入以`~$`开头的文件）。
+* [https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c](https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c) (它们能够写入沙盒外部，文件名以 `~$` 开头的文件)。
 
-### MacOS沙箱配置文件
+### MacOS 沙盒配置文件
 
-macOS将系统沙箱配置文件存储在两个位置：**/usr/share/sandbox/** 和 **/System/Library/Sandbox/Profiles**。
+macOS 在两个位置存储系统沙盒配置文件：**/usr/share/sandbox/** 和 **/System/Library/Sandbox/Profiles**。
 
-如果第三方应用程序具有 _**com.apple.security.app-sandbox**_ 权限，系统将应用 **/System/Library/Sandbox/Profiles/application.sb** 配置文件到该进程。
+如果第三方应用程序携带 **com.apple.security.app-sandbox** 权限，系统会将 **/System/Library/Sandbox/Profiles/application.sb** 配置文件应用到该进程。
 
-### **iOS沙箱配置文件**
+### **iOS 沙盒配置文件**
 
-默认配置文件称为**container**，我们没有SBPL文本表示。在内存中，此沙箱被表示为每个权限的允许/拒绝二叉树。
+默认配置文件称为 **container**，我们没有 SBPL 文本表示形式。在内存中，这个沙盒以允许/拒绝二叉树的形式表示每个来自沙盒的权限。
 
-### 调试和绕过沙箱
+### 调试与绕过沙盒
 
-**在macOS上，进程不会自动启用沙箱：与iOS不同**，在iOS上，沙箱在程序的第一条指令执行之前由内核应用，而在macOS上，**进程必须选择将自己置于沙箱中**。
+**macOS 上的进程不是天生就在沙盒中的：与 iOS 不同**，在 iOS 上沙盒是在程序执行的第一条指令之前由内核应用的，而在 macOS 上，**进程必须选择将自己置于沙盒中。**
 
-如果具有权限`com.apple.security.app-sandbox`，进程在启动时会自动从用户空间进入沙箱。有关此过程的详细说明，请参阅：
+如果进程拥有权限：`com.apple.security.app-sandbox`，它们会在用户空间自动沙盒化。关于这个过程的详细解释，请查看：
 
 {% content-ref url="macos-sandbox-debug-and-bypass/" %}
 [macos-sandbox-debug-and-bypass](macos-sandbox-debug-and-bypass/)
 {% endcontent-ref %}
 
-### **检查PID权限**
+### **检查 PID 权限**
 
-[根据此](https://www.youtube.com/watch?v=mG715HcDgO8\&t=3011s)，**`sandbox_check`**（它是一个`__mac_syscall`）可以检查特定PID中沙箱是否允许执行某个操作。
+[**根据这个**](https://www.youtube.com/watch?v=mG715HcDgO8\&t=3011s)，**`sandbox_check`**（它是一个 `__mac_syscall`），可以检查沙盒在某个 PID 中是否允许或不允许某项操作。
 
-[**工具sbtool**](http://newosxbook.com/src.jl?tree=listings\&file=sbtool.c)可以检查PID是否可以执行某个操作：
+[**工具 sbtool**](http://newosxbook.com/src.jl?tree=listings\&file=sbtool.c) 可以检查 PID 是否可以执行某个操作：
 ```bash
 sbtool <pid> mach #Check mac-ports (got from launchd with an api)
 sbtool <pid> file /tmp #Check file access
 sbtool <pid> inspect #Gives you an explaination of the sandbox profile
 sbtool <pid> all
 ```
-### 在App Store应用中使用自定义SBPL
+### App Store 应用中的自定义 SBPL
 
-公司有可能使他们的应用程序运行在**自定义沙盒配置文件**下（而不是默认配置文件）。他们需要使用授权过的 entitlement **`com.apple.security.temporary-exception.sbpl`**。
+公司可能会让他们的应用程序**使用自定义沙箱配置文件**（而不是默认配置文件）运行。他们需要使用 **`com.apple.security.temporary-exception.sbpl`** 权限，这需要得到苹果的授权。
 
-可以在**`/System/Library/Sandbox/Profiles/application.sb:`**中检查此 entitlement 的定义。
+可以在 **`/System/Library/Sandbox/Profiles/application.sb:`** 中检查此权限的定义。
 ```scheme
 (sandbox-array-entitlement
 "com.apple.security.temporary-exception.sbpl"
@@ -445,16 +261,18 @@ sbtool <pid> all
 (let* ((port (open-input-string string)) (sbpl (read port)))
 (with-transparent-redirection (eval sbpl)))))
 ```
-这将**评估此权限之后的字符串**作为沙盒配置文件。
+这将**在此权限之后评估字符串**作为沙盒配置文件。
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
 
-* 你在**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者你想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向**[**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+支持HackTricks的其他方式：
+
+* 如果您想在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在**Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>

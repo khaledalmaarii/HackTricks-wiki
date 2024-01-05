@@ -2,13 +2,15 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零开始学习 AWS 黑客技术，成为</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS 红队专家)</strong></a><strong>！</strong></summary>
 
-* 如果您在**网络安全公司**工作，想在**HackTricks**中看到您的**公司广告**，或者想要获取**PEASS最新版本或下载HackTricks的PDF**？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)系列[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在**Twitter**上**关注**我 [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* **通过向** [**hacktricks仓库**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧。**
+支持 HackTricks 的其他方式：
+
+* 如果您想在 **HackTricks 中看到您的公司广告** 或 **下载 HackTricks 的 PDF 版本**，请查看 [**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* 发现 [**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们独家的 [**NFT 集合**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或在 **Twitter** 🐦 上 **关注** 我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。
 
 </details>
 
@@ -18,35 +20,35 @@
 
 * **读取** - 您可以**列举**目录条目
 * **写入** - 您可以在目录中**删除/写入** **文件**，并且可以**删除空文件夹**。&#x20;
-* 但是您**无法删除/修改非空文件夹**，除非您对其有写入权限。
+* 但是您**无法删除/修改非空文件夹**，除非您对其具有写权限。
 * 您**无法修改文件夹的名称**，除非您拥有它。
-* **执行** - 您被**允许遍历**目录 - 如果您没有这个权限，您无法访问其中的任何文件，或任何子目录中的文件。
+* **执行** - 您被**允许遍历**目录 - 如果您没有这个权限，您将无法访问其中的任何文件，或任何子目录中的文件。
 
 ### 危险组合
 
-**如何覆盖由root拥有的文件/文件夹**，但：
+**如何覆盖由 root 拥有的文件/文件夹**，但：
 
 * 路径中的一个父**目录所有者**是用户
-* 路径中的一个父**目录所有者**是拥有**写入权限**的**用户组**
+* 路径中的一个父**目录所有者**是具有**写入权限**的**用户组**
 * 一个用户**组**对**文件**有**写入**权限
 
 有了以上任何一种组合，攻击者可以**注入**一个**符号/硬链接**到预期路径，以获得特权的任意写入。
 
-### 文件夹root R+X特殊情况
+### 文件夹 root R+X 特殊情况
 
-如果一个**目录**中有文件，**只有root有R+X权限**，那么其他人**无法访问**这些文件。因此，如果存在一个漏洞允许**移动用户可读的文件**，但由于该**限制**而无法读取的文件，从这个文件夹**移动到另一个文件夹**，可能会被滥用来读取这些文件。
+如果一个**目录**中有文件，**只有 root 有 R+X 访问权限**，那么其他人**无法访问**这些文件。因此，如果存在一个漏洞允许**移动用户可读的文件**，但由于该**限制**而无法读取的文件，从这个文件夹**移动到另一个文件夹**，可能会被滥用来读取这些文件。
 
 示例在：[https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions)
 
 ## 符号链接 / 硬链接
 
-如果一个特权进程正在向**文件**写入数据，而这个文件可能被**低权限用户控制**，或者可能被低权限用户**预先创建**。用户可以通过符号链接或硬链接**指向另一个文件**，特权进程将在该文件上写入。
+如果一个特权进程正在向**文件**写入数据，而这个文件可以被**低权限用户控制**，或者可以被低权限用户**预先创建**。用户可以通过符号链接或硬链接**指向另一个文件**，特权进程将在该文件上写入。
 
-在其他部分检查攻击者如何**滥用任意写入来提升权限**。
+在其他部分检查攻击者如何可以**滥用任意写入来提升权限**。
 
 ## .fileloc
 
-带有**`.fileloc`**扩展名的文件可以指向其他应用程序或二进制文件，所以当它们被打开时，将执行该应用程序/二进制文件。\
+扩展名为 **`.fileloc`** 的文件可以指向其他应用程序或二进制文件，因此当它们被打开时，将执行该应用程序/二进制文件。
 示例：
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -60,13 +62,13 @@
 </dict>
 </plist>
 ```
-## 任意文件描述符
+## 任意文件描述符（FD）
 
-如果你能让一个**进程以高权限打开一个文件或文件夹**，你可以滥用**`crontab`**，通过设置**`EDITOR=exploit.py`**来打开`/etc/sudoers.d`中的文件，这样`exploit.py`就能获取到`/etc/sudoers`文件内的文件描述符，并滥用它。
+如果你能让一个**进程以高权限打开一个文件或文件夹**，你可以利用**`crontab`**以**`EDITOR=exploit.py`**的方式打开`/etc/sudoers.d`中的文件，这样`exploit.py`就能获取到`/etc/sudoers`中文件的文件描述符，并对其进行滥用。
 
 例如：[https://youtu.be/f1HA5QhLQ7Y?t=21098](https://youtu.be/f1HA5QhLQ7Y?t=21098)
 
-## 绕过隔离属性技巧
+## 绕过隔离属性（xattrs）技巧
 
 ### 移除它
 ```bash
@@ -97,7 +99,7 @@ xattr: [Errno 1] Operation not permitted: '/tmp/mnt/lol'
 ```
 ### writeextattr ACL
 
-此ACL防止向文件添加`xattrs`
+此 ACL 防止向文件添加 `xattrs`
 ```bash
 rm -rf /tmp/test*
 echo test >/tmp/test
@@ -120,13 +122,13 @@ ls -le /tmp/test
 ```
 ### **com.apple.acl.text xattr + AppleDouble**
 
-**AppleDouble** 文件格式会复制文件及其访问控制条目（ACEs）。
+**AppleDouble** 文件格式会复制文件及其访问控制列表（ACEs）。
 
-在[**源代码**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html)中可以看到，存储在名为 **`com.apple.acl.text`** 的 xattr 内的 ACL 文本表示将被设置为解压缩文件的 ACL。因此，如果你将一个应用程序压缩成带有防止其他 xattrs 被写入的 ACL 的 **AppleDouble** 文件格式的 zip 文件...隔离 xattr 没有被设置到应用程序中：
+在[**源代码**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html)中可以看到，存储在名为 **`com.apple.acl.text`** 的扩展属性（xattr）中的ACL文本表示将被设置为解压缩文件的ACL。因此，如果你将一个应用程序压缩成带有防止其他xattrs写入的ACL的 **AppleDouble** 文件格式的zip文件...隔离属性（quarantine xattr）没有被设置到应用程序中：
 
 查看[**原始报告**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/)获取更多信息。
 
-要复制这个我们首先需要获取正确的 acl 字符串：
+要复制这个过程，我们首先需要获取正确的acl字符串：
 ```bash
 # Everything will be happening here
 mkdir /tmp/temp_xattrs
@@ -248,7 +250,7 @@ hdiutil create -srcfolder justsome.app justsome.dmg
 
 ### 定期 sh 脚本
 
-如果你的脚本可以被解释为一个**shell 脚本**，你可以覆盖**`/etc/periodic/daily/999.local`** shell 脚本，它将每天被触发。
+如果你的脚本可以被解释为一个**shell 脚本**，你可以覆盖**`/etc/periodic/daily/999.local`** shell 脚本，该脚本将每天被触发。
 
 你可以用以下命令**伪造**这个脚本的执行：**`sudo periodic daily`**
 
@@ -272,7 +274,7 @@ hdiutil create -srcfolder justsome.app justsome.dmg
 </plist>
 ```
 ```markdown
-只需生成脚本 `/Applications/Scripts/privesc.sh` 并写入您希望以 root 身份运行的**命令**。
+只需创建脚本 `/Applications/Scripts/privesc.sh` 并写入您希望以 root 身份运行的**命令**。
 
 ### Sudoers 文件
 
@@ -280,9 +282,9 @@ hdiutil create -srcfolder justsome.app justsome.dmg
 
 ### PATH 文件
 
-文件 **`/etc/paths`** 是填充 PATH 环境变量的主要位置之一。您必须是 root 才能覆盖它，但如果一个**特权进程**的脚本正在执行某些**没有完整路径的命令**，您可能可以通过修改此文件来**劫持**它。
+文件 **`/etc/paths`** 是填充 PATH 环境变量的主要位置之一。您必须是 root 用户才能覆盖它，但如果一个**特权进程**的脚本正在执行某些**没有完整路径的命令**，您可能可以通过修改此文件来**劫持**它。
 
-&#x20;您还可以在 **`/etc/paths.d`** 中写入文件，将新文件夹加载到 `PATH` 环境变量中。
+&#x20;您也可以在 **`/etc/paths.d`** 中写入文件，将新文件夹加载到 `PATH` 环境变量中。
 
 ## 参考资料
 
@@ -290,13 +292,15 @@ hdiutil create -srcfolder justsome.app justsome.dmg
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零开始学习 AWS 黑客攻击直到成为专家，通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS 红队专家)</strong></a><strong>！</strong></summary>
 
-* 您在**网络安全公司**工作吗？ 您想在 **HackTricks** 中看到您的**公司广告**吗？ 或者您想要访问**最新版本的 PEASS 或下载 HackTricks 的 PDF**？ 查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现 [**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们独家的 [**NFTs**](https://opensea.io/collection/the-peass-family) 收藏
-* 获取 [**官方的 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或在 **Twitter** 上**关注**我 [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-* 通过向 [**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) 和 [**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) 提交 PR 来**分享您的黑客技巧**。
+其他支持 HackTricks 的方式：
+
+* 如果您希望在 **HackTricks** 中看到您的**公司广告**或**下载 HackTricks 的 PDF** 版本，请查看 [**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* 探索 [**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们独家的 [**NFTs**](https://opensea.io/collection/the-peass-family) 收藏
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。**
 
 </details>
 ```
