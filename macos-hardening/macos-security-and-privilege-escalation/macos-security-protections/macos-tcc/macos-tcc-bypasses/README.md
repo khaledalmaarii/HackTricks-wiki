@@ -2,13 +2,15 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Vous travaillez dans une **entreprise de cybersécurité** ? Vous voulez voir votre **entreprise annoncée dans HackTricks** ? ou souhaitez-vous accéder à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+Autres moyens de soutenir HackTricks :
+
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez**-moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de hacking en soumettant des PR au** [**dépôt hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**dépôt hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez**-moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -34,12 +36,12 @@ Par défaut, un accès via **SSH avait "Accès complet au disque"**. Pour désac
 
 ![](<../../../../../.gitbook/assets/image (569).png>)
 
-Ici, vous pouvez trouver des exemples de la manière dont certains **malwares ont réussi à contourner cette protection** :
+Voici des exemples de la manière dont certains **malwares ont réussi à contourner cette protection** :
 
 * [https://www.jamf.com/blog/zero-day-tcc-bypass-discovered-in-xcsset-malware/](https://www.jamf.com/blog/zero-day-tcc-bypass-discovered-in-xcsset-malware/)
 
 {% hint style="danger" %}
-Notez que maintenant, pour pouvoir activer SSH, vous avez besoin d'**Accès complet au disque**
+Notez que maintenant, pour pouvoir activer SSH, vous avez besoin de **Accès complet au disque**
 {% endhint %}
 
 ### Gestion des extensions - CVE-2022-26767
@@ -58,7 +60,7 @@ Pour plus d'**informations** sur l'exploitation pour **obtenir des jetons iCloud
 
 ### kTCCServiceAppleEvents / Automatisation
 
-Une application avec la permission **`kTCCServiceAppleEvents`** pourra **contrôler d'autres applications**. Cela signifie qu'elle pourrait **abuser des permissions accordées aux autres applications**.
+Une application avec la permission **`kTCCServiceAppleEvents`** pourra **contrôler d'autres applications**. Cela signifie qu'elle pourrait être capable d'**abuser des permissions accordées aux autres applications**.
 
 Pour plus d'infos sur les scripts Apple, consultez :
 
@@ -66,7 +68,7 @@ Pour plus d'infos sur les scripts Apple, consultez :
 [macos-apple-scripts.md](macos-apple-scripts.md)
 {% endcontent-ref %}
 
-Par exemple, si une application a la permission **d'Automatisation sur `iTerm`**, par exemple dans cet exemple **`Terminal`** a accès à iTerm :
+Par exemple, si une application a la permission d'**Automatisation sur `iTerm`**, par exemple dans cet exemple **`Terminal`** a accès à iTerm :
 
 <figure><img src="../../../../../.gitbook/assets/image (2) (2) (1).png" alt=""><figcaption></figcaption></figure>
 
@@ -86,7 +88,7 @@ write text "cp ~/Desktop/private.txt /tmp"
 end tell
 end tell
 ```
-Since the provided text does not contain any actual content to translate, but only a markdown end code block tag, there is nothing to translate. If you provide the relevant English text, I can then translate it into French for you.
+Since the provided text does not contain any actual content to translate, but only a markdown end code block tag, there is nothing to translate. If you provide the relevant English text that needs to be translated into French, I can assist with that. Please provide the content for translation.
 ```bash
 osascript iterm.script
 ```
@@ -106,10 +108,10 @@ do shell script "rm " & POSIX path of (copyFile as alias)
 
 ### CVE-2020–9934 - TCC <a href="#c19b" id="c19b"></a>
 
-Le **daemon userland tccd** utilisait la variable d'environnement **`HOME`** pour accéder à la base de données des utilisateurs TCC depuis : **`$HOME/Library/Application Support/com.apple.TCC/TCC.db`**
+Le **démon userland tccd** utilisait la variable d'environnement **`HOME`** pour accéder à la base de données des utilisateurs TCC depuis : **`$HOME/Library/Application Support/com.apple.TCC/TCC.db`**
 
-Selon [ce post de Stack Exchange](https://stackoverflow.com/questions/135688/setting-environment-variables-on-os-x/3756686#3756686) et parce que le daemon TCC fonctionne via `launchd` dans le domaine de l'utilisateur actuel, il est possible de **contrôler toutes les variables d'environnement** qui lui sont passées.\
-Ainsi, un **attaquant pourrait définir la variable d'environnement `$HOME`** dans **`launchctl`** pour la faire pointer vers un **répertoire contrôlé**, **redémarrer** le daemon **TCC**, puis **modifier directement la base de données TCC** pour s'octroyer **tous les droits TCC disponibles** sans jamais demander l'autorisation à l'utilisateur final.\
+Selon [ce post sur Stack Exchange](https://stackoverflow.com/questions/135688/setting-environment-variables-on-os-x/3756686#3756686) et parce que le démon TCC fonctionne via `launchd` dans le domaine de l'utilisateur actuel, il est possible de **contrôler toutes les variables d'environnement** qui lui sont transmises.\
+Ainsi, un **attaquant pourrait définir la variable d'environnement `$HOME`** dans **`launchctl`** pour la faire pointer vers un **répertoire contrôlé**, **redémarrer** le démon **TCC**, puis **modifier directement la base de données TCC** pour s'octroyer **tous les droits TCC disponibles** sans jamais demander l'autorisation à l'utilisateur final.\
 PoC :
 ```bash
 # reset database just in case (no cheating!)
@@ -141,7 +143,7 @@ $> ls ~/Documents
 
 Notes avait accès aux emplacements protégés par TCC, mais lorsqu'une note est créée, elle est **créée dans un emplacement non protégé**. Ainsi, vous pouviez demander à Notes de copier un fichier protégé dans une note (donc dans un emplacement non protégé) et ensuite accéder au fichier :
 
-<figure><img src="../../../../../.gitbook/assets/image (6) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (6) (1) (3).png" alt=""><figcaption></figcaption></figure>
 
 ### CVE-2021-30782 - Translocation
 
@@ -161,7 +163,7 @@ Ce comportement **`rename(a, b);`** est vulnérable à une **Condition de Course
 ### SQLITE_SQLLOG_DIR - CVE-2023-32422
 
 Si **`SQLITE_SQLLOG_DIR="path/folder"`** signifie essentiellement que **toute base de données ouverte est copiée dans ce chemin**. Dans ce CVE, ce contrôle a été abusé pour **écrire** dans une **base de données SQLite** qui va être **ouverte par un processus avec FDA la base de données TCC**, et ensuite abuser de **`SQLITE_SQLLOG_DIR`** avec un **lien symbolique dans le nom de fichier** de sorte que lorsque cette base de données est **ouverte**, la base de données TCC de l'utilisateur est **écrasée** par celle ouverte.\
-**Plus d'infos** [**dans le compte-rendu**](https://gergelykalman.com/sqlol-CVE-2023-32422-a-macos-tcc-bypass.html) **et**[ **dans la conférence**](https://www.youtube.com/watch?v=f1HA5QhLQ7Y\&t=20548s).
+**Plus d'infos** [**dans le compte-rendu**](https://gergelykalman.com/sqlol-CVE-2023-32422-a-macos-tcc-bypass.html) **et**[ **dans la présentation**](https://www.youtube.com/watch?v=f1HA5QhLQ7Y\&t=20548s).
 
 ### **SQLITE_AUTO_TRACE**
 
@@ -192,7 +194,7 @@ Donc, en gros, si un processus privilégié renomme à partir d'un dossier que v
 Si le rename accède à un dossier que vous contrôlez, pendant que vous avez modifié le fichier source ou avez un FD dessus, vous changez le fichier de destination (ou dossier) pour pointer un lien symbolique, afin que vous puissiez écrire quand vous le souhaitez.
 {% endhint %}
 
-C'était l'attaque dans le CVE : Par exemple, pour écraser la base de données `TCC.db` de l'utilisateur, nous pouvons :
+C'était l'attaque dans le CVE : Par exemple, pour écraser le `TCC.db` de l'utilisateur, nous pouvons :
 
 * créer `/Users/hacker/ourlink` pour pointer vers `/Users/hacker/Library/Application Support/com.apple.TCC/`
 * créer le répertoire `/Users/hacker/tmp/`
@@ -254,13 +256,13 @@ Il existe différentes techniques pour injecter du code dans un processus et abu
 {% endcontent-ref %}
 
 De plus, l'injection de processus la plus courante pour contourner TCC trouvée est via **plugins (chargement de bibliothèque)**.\
-Les plugins sont du code supplémentaire généralement sous forme de bibliothèques ou plist, qui seront **chargés par l'application principale** et s'exécuteront dans son contexte. Par conséquent, si l'application principale avait accès à des fichiers restreints par TCC (via des permissions ou des droits accordés), le **code personnalisé en aura également**.
+Les plugins sont du code supplémentaire généralement sous forme de bibliothèques ou de plist, qui seront **chargés par l'application principale** et s'exécuteront dans son contexte. Par conséquent, si l'application principale avait accès à des fichiers restreints par TCC (via des permissions ou des droits accordés), le **code personnalisé les aura également**.
 
 ### CVE-2020-27937 - Directory Utility
 
 L'application `/System/Library/CoreServices/Applications/Directory Utility.app` avait le droit **`kTCCServiceSystemPolicySysAdminFiles`**, chargeait des plugins avec l'extension **`.daplug`** et **n'avait pas le** runtime renforcé.
 
-Pour armer ce CVE, le **`NFSHomeDirectory`** est **modifié** (abusant du droit précédent) afin de pouvoir **prendre le contrôle de la base de données TCC des utilisateurs** pour contourner TCC.
+Pour armer ce CVE, le **`NFSHomeDirectory`** est **changé** (abusant du droit précédent) afin de pouvoir **prendre le contrôle de la base de données TCC des utilisateurs** pour contourner TCC.
 
 Pour plus d'infos, consultez le [**rapport original**](https://wojciechregula.blog/post/change-home-directory-and-bypass-tcc-aka-cve-2020-27937/).
 
@@ -333,11 +335,11 @@ Executable=/Applications/Firefox.app/Contents/MacOS/firefox
 </dict>
 </plist>
 ```
-Pour plus d'informations sur comment exploiter cela facilement, [**consultez le rapport original**](https://wojciechregula.blog/post/how-to-rob-a-firefox/).
+Pour plus d'informations sur la manière d'exploiter facilement ceci, [**consultez le rapport original**](https://wojciechregula.blog/post/how-to-rob-a-firefox/).
 
 ### CVE-2020-10006
 
-Le binaire `/system/Library/Filesystems/acfs.fs/Contents/bin/xsanctl` avait les droits **`com.apple.private.tcc.allow`** et **`com.apple.security.get-task-allow`**, ce qui permettait d'injecter du code dans le processus et d'utiliser les privilèges TCC.
+Le binaire `/system/Library/Filesystems/acfs.fs/Contents/bin/xsanctl` possédait les droits **`com.apple.private.tcc.allow`** et **`com.apple.security.get-task-allow`**, ce qui permettait d'injecter du code dans le processus et d'utiliser les privilèges TCC.
 
 ### CVE-2023-26818 - Telegram
 
@@ -379,7 +381,7 @@ Il est possible d'invoquer **`open`** même en étant dans un bac à sable&#x20;
 
 ### Scripts Terminal
 
-Il est assez courant d'accorder au terminal un **Accès complet au disque (FDA)**, du moins sur les ordinateurs utilisés par les techniciens. Et il est possible d'invoquer des scripts **`.terminal`** en l'utilisant.
+Il est assez courant d'accorder au terminal un **Accès complet au disque (FDA)**, du moins sur les ordinateurs utilisés par les techniciens. Et il est possible d'invoquer des scripts **`.terminal`** avec celui-ci.
 
 Les scripts **`.terminal`** sont des fichiers plist comme celui-ci avec la commande à exécuter dans la clé **`CommandString`** :
 ```xml
@@ -414,8 +416,8 @@ exploit_location]; task.standardOutput = pipe;
 
 ### CVE-2020-9771 - contournement de TCC et élévation de privilèges avec mount\_apfs
 
-**N'importe quel utilisateur** (même non privilégié) peut créer et monter un instantané de Time Machine et **accéder à TOUS les fichiers** de cet instantané.\
-Le **seul privilège nécessaire** est que l'application utilisée (comme `Terminal`) ait l'accès **Full Disk Access** (FDA) (`kTCCServiceSystemPolicyAllfiles`) qui doit être accordé par un administrateur.
+**N'importe quel utilisateur** (même non privilégié) peut créer et monter une sauvegarde instantanée de Time Machine et **accéder à TOUS les fichiers** de cette sauvegarde.\
+Le **seul privilège** nécessaire est que l'application utilisée (comme `Terminal`) ait l'accès **Accès complet au disque** (FDA) (`kTCCServiceSystemPolicyAllfiles`) qui doit être accordé par un administrateur.
 
 {% code overflow="wrap" %}
 ```bash
@@ -443,7 +445,7 @@ Une explication plus détaillée est disponible dans [**le rapport original**](h
 
 ### CVE-2021-1784 & CVE-2021-30808 - Montage par-dessus le fichier TCC
 
-Même si le fichier de base de données TCC est protégé, il était possible de **monter un nouveau fichier TCC.db par-dessus le répertoire** :
+Même si le fichier de base de données TCC est protégé, il était possible de **monter un nouveau fichier TCC.db sur le répertoire** :
 
 {% code overflow="wrap" %}
 ```bash
@@ -455,7 +457,7 @@ hdiutil attach -owners off -mountpoint Library/Application\ Support/com.apple.TC
 ## Mount over ~/Library
 hdiutil attach -readonly -owners off -mountpoint ~/Library /tmp/tmp.dmg
 ```
-Since the provided text does not contain any actual content to translate, but only a closing markdown tag for a code block, there is nothing to translate. If you provide the relevant English text, I can then translate it into French for you.
+Since the provided text does not contain any content to translate, I cannot provide a translation. If you provide the relevant English text, I will be able to translate it into French for you.
 ```python
 # This was the python function to create the dmg
 def create_dmg():
@@ -477,7 +479,7 @@ L'outil **`/usr/sbin/asr`** permettait de copier l'intégralité du disque et de
 Il existe une troisième base de données TCC dans **`/var/db/locationd/clients.plist`** pour indiquer les clients autorisés à **accéder aux services de localisation**.\
 Le dossier **`/var/db/locationd/` n'était pas protégé contre le montage de DMG** donc il était possible de monter notre propre plist.
 
-## Par applications au démarrage
+## Par les applications de démarrage
 
 {% content-ref url="../../../../macos-auto-start-locations.md" %}
 [macos-auto-start-locations.md](../../../../macos-auto-start-locations.md)
@@ -493,11 +495,11 @@ Le dossier **`/var/db/locationd/` n'était pas protégé contre le montage de DM
 
 Cela ne fonctionne plus, mais [**c'était le cas dans le passé**](https://twitter.com/noarfromspace/status/639125916233416704/photo/1)**:**
 
-<figure><img src="../../../../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
 
 Une autre méthode utilisant [**les événements CoreGraphics**](https://objectivebythesea.org/v2/talks/OBTS\_v2\_Wardle.pdf):
 
-<figure><img src="../../../../../.gitbook/assets/image (1) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (1) (1) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
 
 ## Référence
 
@@ -508,12 +510,14 @@ Une autre méthode utilisant [**les événements CoreGraphics**](https://objecti
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Vous travaillez dans une **entreprise de cybersécurité** ? Vous voulez voir votre **entreprise annoncée dans HackTricks** ? ou souhaitez-vous accéder à la **dernière version du PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+Autres moyens de soutenir HackTricks :
+
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR au** [**dépôt hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**dépôt hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-moi** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de hacking en soumettant des PR aux dépôts GitHub** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
