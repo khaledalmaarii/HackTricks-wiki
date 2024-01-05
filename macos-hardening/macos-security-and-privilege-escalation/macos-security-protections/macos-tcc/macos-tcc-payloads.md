@@ -2,13 +2,15 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ हैकट्रिक्स क्लाउड ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 ट्विटर 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ ट्विच 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 यूट्यूब 🎥</strong></a></summary>
+<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* क्या आप **साइबरसिक्योरिटी कंपनी** में काम करते हैं? क्या आप चाहते हैं कि आपकी **कंपनी का विज्ञापन हैकट्रिक्स में दिखाई दे**? या क्या आप **PEASS के नवीनतम संस्करण तक पहुँचना चाहते हैं या हैकट्रिक्स को PDF में डाउनलोड करना चाहते हैं**? [**सब्सक्रिप्शन प्लान्स**](https://github.com/sponsors/carlospolop) देखें!
+HackTricks का समर्थन करने के अन्य तरीके:
+
+* यदि आप चाहते हैं कि आपकी **कंपनी का विज्ञापन HackTricks में दिखाई दे** या **HackTricks को PDF में डाउनलोड करें**, तो [**सब्सक्रिप्शन प्लान्स**](https://github.com/sponsors/carlospolop) देखें!
+* [**आधिकारिक PEASS & HackTricks स्वैग**](https://peass.creator-spring.com) प्राप्त करें
 * [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) संग्रह
-* [**आधिकारिक PEASS & हैकट्रिक्स स्वैग**](https://peass.creator-spring.com) प्राप्त करें
-* **[**💬**](https://emojipedia.org/speech-balloon/) [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) में शामिल हों या [**टेलीग्राम समूह**](https://t.me/peass) में या मुझे **ट्विटर** पर **फॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **अपनी हैकिंग ट्रिक्स साझा करें, [**हैकट्रिक्स रेपो**](https://github.com/carlospolop/hacktricks) और [**हैकट्रिक्स-क्लाउड रेपो**](https://github.com/carlospolop/hacktricks-cloud) में PRs सबमिट करके.**
+* 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) में **शामिल हों** या [**telegram group**](https://t.me/peass) में या **Twitter** पर मुझे 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm) **का अनुसरण करें**.
+* [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github रेपोज़ में PRs सबमिट करके अपनी हैकिंग ट्रिक्स साझा करें.
 
 </details>
 
@@ -55,6 +57,7 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 `$HOME/Desktop` को `/tmp/desktop` में कॉपी करें।
+{% endtab %}
 ```bash
 cp -r "$HOME/Desktop" "/tmp/desktop"
 ```
@@ -110,7 +113,7 @@ cp -r "$HOME/Documents" "/tmp/documents"
 {% endtab %}
 {% endtabs %}
 
-### डाउनलोड
+### डाउनलोड्स
 
 * **Entitlement**: कोई नहीं
 * **TCC**: `kTCCServiceSystemPolicyDownloadsFolder`
@@ -152,7 +155,7 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="Shell" %}
-`$HOME/Dowloads` को `/tmp/downloads` में कॉपी करें।
+`$HOME/Downloads` को `/tmp/downloads` में कॉपी करें।
 ```bash
 cp -r "$HOME/Downloads" "/tmp/downloads"
 ```
@@ -167,6 +170,8 @@ cp -r "$HOME/Downloads" "/tmp/downloads"
 {% tabs %}
 {% tab title="ObjetiveC" %}
 `$HOME/Pictures/Photos Library.photoslibrary` को `/tmp/photos` में कॉपी करें।
+{% endtab %}
+{% endtabs %}
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -210,12 +215,14 @@ cp -r "$HOME/Pictures/Photos Library.photoslibrary" "/tmp/photos"
 
 ### संपर्क
 
-* **एंटाइटलमेंट**: `com.apple.security.personal-information.addressbook`
+* **Entitlement**: `com.apple.security.personal-information.addressbook`
 * **TCC**: `kTCCServiceAddressBook`
 
 {% tabs %}
 {% tab title="ObjetiveC" %}
 `$HOME/Library/Application Support/AddressBook` को `/tmp/contacts` में कॉपी करें।
+{% endtab %}
+{% endtabs %}
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -428,7 +435,7 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="Shell" %}
-कैमरा के साथ फोटो लें
+कैमरा के साथ एक फोटो लें
 {% endtab %}
 ```bash
 ffmpeg -framerate 30 -f avfoundation -i "0" -frames:v 1 /tmp/capture.jpg
@@ -443,9 +450,7 @@ ffmpeg -framerate 30 -f avfoundation -i "0" -frames:v 1 /tmp/capture.jpg
 
 {% tabs %}
 {% tab title="ObjetiveC - रिकॉर्ड" %}
-`/tmp/recording.m4a` में 5 सेकंड की ऑडियो रिकॉर्ड करें
-{% endtab %}
-{% endtabs %}
+5 सेकंड की ऑडियो रिकॉर्ड करें और इसे `/tmp/recording.m4a` में स्टोर करें
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -544,8 +549,8 @@ fclose(stderr); // Close the file stream
 ```
 {% endtab %}
 
-{% tab title="ObjectiveC - Check" %}
-ऐप के पास माइक्रोफोन तक पहुंच है या नहीं, इसकी जांच करें।
+{% tab title="ObjectiveC - जांच" %}
+जांचें कि क्या ऐप को माइक्रोफोन तक पहुंच है।
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -589,7 +594,7 @@ ffmpeg -f avfoundation -i ":1" -t 5 /tmp/recording.wav
 ### स्थान
 
 {% hint style="success" %}
-किसी ऐप को स्थान प्राप्त करने के लिए, **Location Services** (प्राइवेसी और सिक्योरिटी से) **सक्षम होना चाहिए,** अगर नहीं तो वह इसे एक्सेस नहीं कर पाएगा।
+किसी ऐप को स्थान प्राप्त करने के लिए, **Location Services** (गोपनीयता और सुरक्षा से) **सक्षम होना चाहिए,** अन्यथा वह इसे एक्सेस नहीं कर पाएगा।
 {% endhint %}
 
 * **Entitlement**: `com.apple.security.personal-information.location`
@@ -598,8 +603,6 @@ ffmpeg -f avfoundation -i ":1" -t 5 /tmp/recording.wav
 {% tabs %}
 {% tab title="ObjectiveC" %}
 `/tmp/logs.txt` में स्थान लिखें
-{% endtab %}
-{% endtabs %}
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -734,7 +737,7 @@ screencapture -V 5 /tmp/screen.mov
 * **एंटाइटलमेंट**: कोई नहीं
 * **TCC**: `kTCCServiceAccessibility`
 
-TCC विशेषाधिकार का उपयोग करके Finder के नियंत्रण को स्वीकार करें और इस तरह TCC को बायपास करें
+Finder को एंटर दबाकर नियंत्रण स्वीकार करने के लिए TCC विशेषाधिकार का उपयोग करें और इस तरह TCC को बायपास करें
 
 {% tabs %}
 {% tab title="TCC स्वीकार करें" %}
@@ -899,17 +902,19 @@ return 0;
 {% endtabs %}
 
 {% hint style="danger" %}
-**Accessibility एक बहुत शक्तिशाली अनुमति है**, आप इसका दुरुपयोग अन्य तरीकों से भी कर सकते हैं, उदाहरण के लिए आप **keystrokes attack** को बिना System Events को कॉल किए सीधे इससे प्रदर्शन कर सकते हैं।
+**Accessibility एक बहुत शक्तिशाली अनुमति है**, आप इसका दुरुपयोग अन्य तरीकों से भी कर सकते हैं, उदाहरण के लिए आप **keystrokes attack** को इसके बिना System Events को कॉल किए बिना ही कर सकते हैं।
 {% endhint %}
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>AWS हैकिंग सीखें शून्य से लेकर हीरो तक</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> के साथ!</strong></summary>
 
-* क्या आप **cybersecurity company** में काम करते हैं? क्या आप चाहते हैं कि आपकी **company का विज्ञापन HackTricks में दिखाई दे**? या क्या आप PEASS के **latest version तक पहुँच चाहते हैं या HackTricks को PDF में डाउनलोड करना चाहते हैं**? [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) देखें!
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा संग्रह विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) का।
-* [**official PEASS & HackTricks swag**](https://peass.creator-spring.com) प्राप्त करें।
-* [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) में **शामिल हों** या [**telegram group**](https://t.me/peass) में या **Twitter** पर मुझे **फॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **hacktricks repo** में PRs सबमिट करके अपने hacking tricks साझा करें और [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+HackTricks का समर्थन करने के अन्य तरीके:
+
+* यदि आप चाहते हैं कि आपकी **कंपनी का विज्ञापन HackTricks में दिखाई दे** या **HackTricks को PDF में डाउनलोड करें** तो [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) देखें!
+* [**आधिकारिक PEASS & HackTricks स्वैग**](https://peass.creator-spring.com) प्राप्त करें
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) संग्रह
+* 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) में **शामिल हों** या [**telegram group**](https://t.me/peass) में या **Twitter** 🐦 पर **मुझे फॉलो** करें [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **HackTricks** के [**github repos**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) में PRs सबमिट करके अपनी हैकिंग ट्रिक्स साझा करें।
 
 </details>
