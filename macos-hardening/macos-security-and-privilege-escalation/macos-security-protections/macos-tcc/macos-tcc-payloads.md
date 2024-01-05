@@ -2,13 +2,15 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda hacking no AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Trabalha numa **empresa de cibersegurança**? Quer ver a sua **empresa anunciada no HackTricks**? ou quer ter acesso à **versão mais recente do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
+Outras formas de apoiar o HackTricks:
+
+* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
+* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -153,12 +155,16 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 Copie `$HOME/Downloads` para `/tmp/downloads`.
+{% endtab %}
 ```bash
 cp -r "$HOME/Downloads" "/tmp/downloads"
 ```
+{% endtab %}
+{% endtabs %}
+
 ### Biblioteca de Fotos
 
-* **Privilégio**: `com.apple.security.personal-information.photos-library`
+* **Entitlement**: `com.apple.security.personal-information.photos-library`
 * **TCC**: `kTCCServicePhotos`
 
 {% tabs %}
@@ -256,7 +262,7 @@ cp -r "$HOME/Library/Application Support/AddressBook" "/tmp/contacts"
 
 ### Calendário
 
-* **Entitlement**: `com.apple.security.personal-information.calendars`
+* **Privilégio**: `com.apple.security.personal-information.calendars`
 * **TCC**: `kTCCServiceCalendar`
 
 {% tabs %}
@@ -305,12 +311,12 @@ cp -r "$HOME/Library/Calendars" "/tmp/calendars"
 
 ### Câmera
 
-* **Entitlement**: `com.apple.security.device.camera`
+* **Privilégio**: `com.apple.security.device.camera`
 * **TCC**: `kTCCServiceCamera`
 
 {% tabs %}
 {% tab title="ObjetiveC - Gravar" %}
-Gravar um vídeo de 3s e salvá-lo em **`/tmp/recording.mov`**
+Grave um vídeo de 3s e salve-o em **`/tmp/recording.mov`**
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -388,7 +394,7 @@ fclose(stderr); // Close the file stream
 ```
 {% endtab %}
 
-{% tab title="ObjectiveC - Check" %}
+{% tab title="ObjectiveC - Verificação" %}
 Verifique se o programa tem acesso à câmera.
 ```objectivec
 #import <Foundation/Foundation.h>
@@ -575,10 +581,13 @@ ffmpeg -f avfoundation -list_devices true -i ""
 # Use microphone from index 1 from the previous list to record
 ffmpeg -f avfoundation -i ":1" -t 5 /tmp/recording.wav
 ```
+{% endtab %}
+{% endtabs %}
+
 ### Localização
 
 {% hint style="success" %}
-Para que um aplicativo obtenha a localização, os **Serviços de Localização** (de Privacidade & Segurança) **devem estar ativados,** caso contrário, ele não poderá acessá-la.
+Para que um aplicativo obtenha a localização, os **Serviços de Localização** (de Privacidade & Segurança) **devem estar ativados,** caso contrário, não poderá acessá-la.
 {% endhint %}
 
 * **Entitlement**: `com.apple.security.personal-information.location`
@@ -708,7 +717,6 @@ freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 
 {% tab title="Shell" %}
 Grave a tela principal por 5s
-{% endtab %}
 ```bash
 screencapture -V 5 /tmp/screen.mov
 ```
@@ -885,17 +893,19 @@ return 0;
 {% endtabs %}
 
 {% hint style="danger" %}
-**A permissão de Acessibilidade é muito poderosa**, você poderia abusar dela de outras maneiras, por exemplo, você poderia realizar o **ataque de digitação de teclas** apenas com ela, sem a necessidade de chamar o System Events.
+**A acessibilidade é uma permissão muito poderosa**, você poderia abusar dela de outras maneiras, por exemplo, você poderia realizar o **ataque de digitação de teclas** apenas com ela, sem a necessidade de chamar o System Events.
 {% endhint %}
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda hacking no AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Quer ver sua **empresa anunciada no HackTricks**? ou quer ter acesso à **versão mais recente do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+Outras maneiras de apoiar o HackTricks:
+
+* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* Adquira o [**material oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-me no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

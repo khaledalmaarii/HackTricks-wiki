@@ -1,33 +1,35 @@
-# Sandbox do macOS
+# macOS Sandbox
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda hacking no AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? Ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+Outras formas de apoiar o HackTricks:
+
+* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
+* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios do GitHub** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## Informações básicas
+## Informações Básicas
 
-O Sandbox do macOS (inicialmente chamado de Seatbelt) **limita as aplicações** em execução dentro do sandbox às **ações permitidas especificadas no perfil do Sandbox** com o qual o aplicativo está sendo executado. Isso ajuda a garantir que **o aplicativo acesse apenas os recursos esperados**.
+O macOS Sandbox (inicialmente chamado de Seatbelt) **limita aplicações** executadas dentro do sandbox às **ações permitidas especificadas no perfil do Sandbox** com o qual o app está rodando. Isso ajuda a garantir que **a aplicação acessará apenas os recursos esperados**.
 
-Qualquer aplicativo com a **permissão** **`com.apple.security.app-sandbox`** será executado dentro do sandbox. **Binários da Apple** geralmente são executados dentro de um Sandbox e, para publicar na **App Store**, **essa permissão é obrigatória**. Portanto, a maioria dos aplicativos será executada dentro do sandbox.
+Qualquer app com o **entitlement** **`com.apple.security.app-sandbox`** será executado dentro do sandbox. **Binários da Apple** geralmente são executados dentro de um Sandbox e para publicar dentro da **App Store**, **este entitlement é obrigatório**. Assim, a maioria das aplicações será executada dentro do sandbox.
 
-Para controlar o que um processo pode ou não fazer, o **Sandbox possui ganchos** em todas as **syscalls** do kernel. **Dependendo** das **permissões** do aplicativo, o Sandbox **permitirá** certas ações.
+Para controlar o que um processo pode ou não fazer, o **Sandbox possui ganchos** em todos os **syscalls** através do kernel. **Dependendo** dos **entitlements** do app, o Sandbox **permitirá** certas ações.
 
 Alguns componentes importantes do Sandbox são:
 
 * A **extensão do kernel** `/System/Library/Extensions/Sandbox.kext`
 * O **framework privado** `/System/Library/PrivateFrameworks/AppSandbox.framework`
-* Um **daemon** em execução no espaço do usuário `/usr/libexec/sandboxd`
+* Um **daemon** executando em userland `/usr/libexec/sandboxd`
 * Os **containers** `~/Library/Containers`
 
-Dentro da pasta de containers, você pode encontrar **uma pasta para cada aplicativo executado no sandbox** com o nome do ID do pacote:
+Dentro da pasta containers, você pode encontrar **uma pasta para cada app executado em modo sandbox** com o nome do bundle id:
 ```bash
 ls -l ~/Library/Containers
 total 0
@@ -38,7 +40,7 @@ drwx------@ 4 username  staff  128 Mar 25 14:14 com.apple.Accessibility-Settings
 drwx------@ 4 username  staff  128 Mar 25 14:10 com.apple.ActionKit.BundledIntentHandler
 [...]
 ```
-Dentro de cada pasta de identificação do pacote, você pode encontrar o **plist** e o **diretório de dados** do aplicativo:
+Dentro de cada pasta de id de pacote, você pode encontrar o **plist** e o **Diretório de Dados** do App:
 ```bash
 cd /Users/username/Library/Containers/com.apple.Safari
 ls -la
@@ -62,7 +64,7 @@ drwx------   2 username  staff    64 Mar 24 18:02 SystemData
 drwx------   2 username  staff    64 Mar 24 18:02 tmp
 ```
 {% hint style="danger" %}
-Observe que mesmo que os links simbólicos estejam lá para "escapar" do Sandbox e acessar outras pastas, o aplicativo ainda precisa **ter permissões** para acessá-las. Essas permissões estão dentro do **`.plist`**.
+Observe que, mesmo que os symlinks estejam lá para "escapar" do Sandbox e acessar outras pastas, o App ainda precisa **ter permissões** para acessá-los. Essas permissões estão dentro do **`.plist`**.
 {% endhint %}
 ```bash
 # Get permissions
@@ -112,12 +114,12 @@ AAAhAboBAAAAAAgAAABZAO4B5AHjBMkEQAUPBSsGPwsgASABHgEgASABHwEf...
 [...]
 ```
 {% hint style="warning" %}
-Tudo criado/modificado por um aplicativo em Sandbox receberá o atributo de **quarentena**. Isso impedirá que um espaço em sandbox seja acionado pelo Gatekeeper se o aplicativo em sandbox tentar executar algo com **`open`**.
+Tudo que for criado/modificado por uma aplicação em Sandbox receberá o **atributo de quarentena**. Isso impedirá um espaço de Sandbox de acionar o Gatekeeper se o app em Sandbox tentar executar algo com **`open`**.
 {% endhint %}
 
 ### Perfis de Sandbox
 
-Os perfis de Sandbox são arquivos de configuração que indicam o que será **permitido/proibido** nesse **Sandbox**. Ele usa a **Linguagem de Perfil de Sandbox (SBPL)**, que utiliza a linguagem de programação [**Scheme**](https://en.wikipedia.org/wiki/Scheme\_\(programming\_language\)).
+Os perfis de Sandbox são arquivos de configuração que indicam o que será **permitido/proibido** naquele **Sandbox**. Utiliza a **Linguagem de Perfil de Sandbox (SBPL)**, que usa a linguagem de programação [**Scheme**](https://en.wikipedia.org/wiki/Scheme\_\(programming\_language\)). 
 
 Aqui você pode encontrar um exemplo:
 ```scheme
@@ -138,32 +140,34 @@ Aqui você pode encontrar um exemplo:
 )
 ```
 {% hint style="success" %}
-Verifique esta [**pesquisa**](https://reverse.put.as/2011/09/14/apple-sandbox-guide-v1-0/) **para verificar mais ações que podem ser permitidas ou negadas.**
+Confira esta [**pesquisa**](https://reverse.put.as/2011/09/14/apple-sandbox-guide-v1-0/) **para verificar mais ações que podem ser permitidas ou negadas.**
 {% endhint %}
 
-Serviços importantes do sistema também são executados dentro de seu próprio **sandbox** personalizado, como o serviço `mdnsresponder`. Você pode visualizar esses perfis de sandbox personalizados em:
+Serviços importantes do **sistema** também funcionam dentro de seu próprio **sandbox** personalizado, como o serviço `mdnsresponder`. Você pode visualizar esses **perfis de sandbox** personalizados dentro de:
 
 * **`/usr/share/sandbox`**
 * **`/System/Library/Sandbox/Profiles`**&#x20;
 * Outros perfis de sandbox podem ser verificados em [https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles](https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles).
 
-Os aplicativos da **App Store** usam o perfil **`/System/Library/Sandbox/Profiles/application.sb`**. Você pode verificar neste perfil como as permissões, como **`com.apple.security.network.server`**, permitem que um processo use a rede.
+Aplicativos da **App Store** usam o **perfil** **`/System/Library/Sandbox/Profiles/application.sb`**. Você pode verificar neste perfil como direitos como **`com.apple.security.network.server`** permitem que um processo use a rede.
 
-O SIP é um perfil de sandbox chamado platform\_profile em /System/Library/Sandbox/rootless.conf
+SIP é um perfil de Sandbox chamado platform\_profile em /System/Library/Sandbox/rootless.conf
 
-### Exemplos de Perfil de Sandbox
+### Exemplos de Perfis de Sandbox
 
 Para iniciar um aplicativo com um **perfil de sandbox específico**, você pode usar:
 ```bash
 sandbox-exec -f example.sb /Path/To/The/Application
 ```
-O seguinte é um conteúdo de um livro de hacking sobre técnicas de hacking. O seguinte conteúdo é do arquivo macos-hardening/macos-security-and-privilege-escalation/macos-security-protections/macos-sandbox/README.md. Traduza o texto relevante em inglês para o português e retorne a tradução mantendo exatamente a mesma sintaxe markdown e html. Não traduza coisas como código, nomes de técnicas de hacking, palavras de hacking, nomes de plataformas de nuvem/SaaS (como Workspace, aws, gcp...), a palavra 'leak', pentesting e tags markdown. Também não adicione nada extra além da tradução e da sintaxe markdown.
+{% tabs %}
+{% tab title="touch" %}
+{% code title="touch.sb" %}
 ```scheme
 (version 1)
 (deny default)
 (allow file* (literal "/tmp/hacktricks.txt"))
 ```
-{% endcode %}
+Since there is no English text provided other than the markdown endcode tag, there is nothing to translate. If you provide the English text that needs to be translated, I can assist with the translation to Portuguese.
 ```bash
 # This will fail because default is denied, so it cannot execute touch
 sandbox-exec -f touch.sb touch /tmp/hacktricks.txt
@@ -176,21 +180,7 @@ log show --style syslog --predicate 'eventMessage contains[c] "sandbox"' --last 
 2023-05-26 13:42:52.701382+0200  localhost kernel[0]: (Sandbox) 5 duplicate reports for Sandbox: sandbox-exec(41398) deny(1) file-read-metadata /var
 [...]
 ```
-{% code title="touch2.sb" %}
-
-O arquivo `touch2.sb` é um exemplo de um perfil de sandbox para o macOS. A sandbox é uma medida de segurança implementada pelo sistema operacional para restringir as ações de um aplicativo, limitando seu acesso a recursos sensíveis do sistema.
-
-Este perfil de sandbox em particular permite que um aplicativo execute a ação de tocar (criar) um arquivo em um diretório específico. O aplicativo só terá permissão para criar arquivos nesse diretório e não poderá acessar ou modificar outros arquivos ou diretórios no sistema.
-
-Para usar este perfil de sandbox, você precisa atribuí-lo a um aplicativo específico usando o comando `sandbox-exec`. Por exemplo:
-
-```
-sandbox-exec -f touch2.sb touch /path/to/directory/file.txt
-```
-
-Isso permitirá que o aplicativo toque (crie) o arquivo `file.txt` no diretório `/path/to/directory/`.
-
-Lembre-se de que a sandbox é apenas uma camada adicional de segurança e não deve ser considerada como a única medida de proteção. É importante implementar outras práticas de segurança, como atualizações regulares do sistema operacional, uso de senhas fortes e conscientização sobre phishing e malware.
+Since you've provided a specific instruction but no actual text to translate, I can't proceed with a translation. If you provide the English text that needs to be translated into Portuguese, I'll be able to assist you. Please provide the content for translation while keeping the markdown and HTML syntax intact as per your instructions.
 ```scheme
 (version 1)
 (deny default)
@@ -204,7 +194,11 @@ Lembre-se de que a sandbox é apenas uma camada adicional de segurança e não d
 ; 2023-05-26 13:44:59.840050+0200  localhost kernel[0]: (Sandbox) Sandbox: touch(41575) deny(1) sysctl-read kern.bootargs
 ; 2023-05-26 13:44:59.840061+0200  localhost kernel[0]: (Sandbox) Sandbox: touch(41575) deny(1) file-read-data /
 ```
+```
+{% endcode %}
+
 {% code title="touch3.sb" %}
+```
 ```scheme
 (version 1)
 (deny default)
@@ -218,29 +212,29 @@ Lembre-se de que a sandbox é apenas uma camada adicional de segurança e não d
 {% endtabs %}
 
 {% hint style="info" %}
-Observe que o **software** **desenvolvido pela Apple** que roda no **Windows** **não possui precauções adicionais de segurança**, como a aplicação de sandbox.
+Observe que o **software autorizado pela Apple** que roda no **Windows** **não possui precauções de segurança adicionais**, como o isolamento de aplicativos em sandbox.
 {% endhint %}
 
 Exemplos de bypass:
 
 * [https://lapcatsoftware.com/articles/sandbox-escape.html](https://lapcatsoftware.com/articles/sandbox-escape.html)
-* [https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c](https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c) (eles conseguem escrever arquivos fora do sandbox cujo nome começa com `~$`).
+* [https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c](https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c) (eles conseguem escrever arquivos fora da sandbox cujo nome começa com `~$`).
 
 ### Perfis de Sandbox do MacOS
 
-O MacOS armazena os perfis de sandbox do sistema em dois locais: **/usr/share/sandbox/** e **/System/Library/Sandbox/Profiles**.
+O macOS armazena perfis de sandbox do sistema em dois locais: **/usr/share/sandbox/** e **/System/Library/Sandbox/Profiles**.
 
-E se um aplicativo de terceiros possuir a permissão _**com.apple.security.app-sandbox**_, o sistema aplicará o perfil **/System/Library/Sandbox/Profiles/application.sb** a esse processo.
+E se uma aplicação de terceiros possuir o direito _**com.apple.security.app-sandbox**_, o sistema aplica o perfil **/System/Library/Sandbox/Profiles/application.sb** a esse processo.
 
 ### **Perfil de Sandbox do iOS**
 
-O perfil padrão é chamado **container** e não temos a representação de texto SBPL. Na memória, esse sandbox é representado como uma árvore binária de Permitir/Negar para cada permissão do sandbox.
+O perfil padrão é chamado **container** e não temos a representação em texto SBPL. Na memória, essa sandbox é representada como uma árvore binária de permissões de Permitir/Negar para cada permissão da sandbox.
 
-### Depurar e Bypassar o Sandbox
+### Debug & Bypass de Sandbox
 
-**Os processos não são criados com sandbox no macOS: ao contrário do iOS**, onde o sandbox é aplicado pelo kernel antes da primeira instrução de um programa ser executada, no macOS **um processo deve optar por se colocar no sandbox.**
+**Processos não nascem isolados em sandbox no macOS: ao contrário do iOS**, onde a sandbox é aplicada pelo kernel antes da primeira instrução de um programa ser executada, no macOS **um processo deve optar por se colocar na sandbox.**
 
-Os processos são automaticamente colocados no sandbox a partir do userland quando são iniciados se possuírem a permissão: `com.apple.security.app-sandbox`. Para uma explicação detalhada desse processo, consulte:
+Processos são automaticamente colocados em Sandbox do userland quando iniciam se possuírem o direito: `com.apple.security.app-sandbox`. Para uma explicação detalhada desse processo, confira:
 
 {% content-ref url="macos-sandbox-debug-and-bypass/" %}
 [macos-sandbox-debug-and-bypass](macos-sandbox-debug-and-bypass/)
@@ -248,20 +242,20 @@ Os processos são automaticamente colocados no sandbox a partir do userland quan
 
 ### **Verificar Privilégios do PID**
 
-[De acordo com isso](https://www.youtube.com/watch?v=mG715HcDgO8\&t=3011s), o **`sandbox_check`** (é um `__mac_syscall`), pode verificar **se uma operação é permitida ou não** pelo sandbox em um determinado PID.
+[**De acordo com isto**](https://www.youtube.com/watch?v=mG715HcDgO8\&t=3011s), o **`sandbox_check`** (é um `__mac_syscall`), pode verificar **se uma operação é permitida ou não** pela sandbox em um determinado PID.
 
-A [**ferramenta sbtool**](http://newosxbook.com/src.jl?tree=listings\&file=sbtool.c) pode verificar se um PID pode executar uma determinada ação:
+A [**ferramenta sbtool**](http://newosxbook.com/src.jl?tree=listings\&file=sbtool.c) pode verificar se um PID pode realizar uma determinada ação:
 ```bash
 sbtool <pid> mach #Check mac-ports (got from launchd with an api)
 sbtool <pid> file /tmp #Check file access
 sbtool <pid> inspect #Gives you an explaination of the sandbox profile
 sbtool <pid> all
 ```
-### Perfis SBPL personalizados em aplicativos da App Store
+### SBPL personalizado em apps da App Store
 
-É possível para as empresas fazerem seus aplicativos rodarem com **perfis Sandbox personalizados** (em vez do padrão). Elas precisam usar a autorização **`com.apple.security.temporary-exception.sbpl`**, que precisa ser autorizada pela Apple.
+Pode ser possível para empresas fazerem seus apps rodarem **com perfis de Sandbox personalizados** (em vez de com o padrão). Eles precisam usar a autorização **`com.apple.security.temporary-exception.sbpl`** que precisa ser autorizada pela Apple.
 
-É possível verificar a definição dessa autorização em **`/System/Library/Sandbox/Profiles/application.sb:`**
+É possível verificar a definição desta autorização em **`/System/Library/Sandbox/Profiles/application.sb:`**
 ```scheme
 (sandbox-array-entitlement
 "com.apple.security.temporary-exception.sbpl"
@@ -269,16 +263,18 @@ sbtool <pid> all
 (let* ((port (open-input-string string)) (sbpl (read port)))
 (with-transparent-redirection (eval sbpl)))))
 ```
-Isso irá **avaliar a string após essa permissão** como um perfil de Sandbox.
+Isso irá **avaliar a string após este entitlement** como um perfil de Sandbox.
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda hacking no AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+Outras formas de apoiar o HackTricks:
+
+* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
+* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

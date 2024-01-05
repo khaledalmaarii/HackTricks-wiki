@@ -2,13 +2,15 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda hacking no AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Quer ver sua **empresa anunciada no HackTricks**? ou quer ter acesso à **versão mais recente do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+Outras formas de apoiar o HackTricks:
+
+* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* Adquira o [**merchandising oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-me no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Junte-se ao grupo do** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo do [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios do GitHub** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -20,7 +22,7 @@ Permissões em um **diretório**:
 * **write** - você pode **deletar/escrever** **arquivos** no diretório e pode **deletar pastas vazias**.
 * Mas você **não pode deletar/modificar pastas não vazias** a menos que tenha permissões de escrita sobre ela.
 * Você **não pode modificar o nome de uma pasta** a menos que seja o proprietário.
-* **execute** - você tem **permissão para atravessar** o diretório - se você não tiver esse direito, não poderá acessar nenhum arquivo dentro dele ou em qualquer subdiretório.
+* **execute** - você tem **permissão para atravessar** o diretório - se você não tiver esse direito, não poderá acessar nenhum arquivo dentro dele, ou em quaisquer subdiretórios.
 
 ### Combinações Perigosas
 
@@ -34,13 +36,13 @@ Com qualquer uma das combinações anteriores, um atacante poderia **injetar** u
 
 ### Caso Especial de Pasta root R+X
 
-Se houver arquivos em um **diretório** onde **apenas o root tem acesso R+X**, esses **não são acessíveis a mais ninguém**. Portanto, uma vulnerabilidade que permita **mover um arquivo legível por um usuário**, que não pode ser lido por causa dessa **restrição**, de uma pasta **para outra diferente**, poderia ser abusada para ler esses arquivos.
+Se houver arquivos em um **diretório** onde **apenas o root tem acesso R+X**, esses **não são acessíveis a mais ninguém**. Então, uma vulnerabilidade que permita **mover um arquivo legível por um usuário**, que não pode ser lido por causa dessa **restrição**, de uma pasta **para outra diferente**, poderia ser abusada para ler esses arquivos.
 
 Exemplo em: [https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions](https://theevilbit.github.io/posts/exploiting\_directory\_permissions\_on\_macos/#nix-directory-permissions)
 
 ## Link Simbólico / Link Direto
 
-Se um processo privilegiado estiver escrevendo dados em um **arquivo** que pode ser **controlado** por um **usuário de menor privilégio**, ou que poderia ser **criado previamente** por um usuário de menor privilégio. O usuário poderia simplesmente **apontá-lo para outro arquivo** através de um Link Simbólico ou Direto, e o processo privilegiado escreverá nesse arquivo.
+Se um processo privilegiado estiver escrevendo dados em um **arquivo** que pode ser **controlado** por um **usuário de menor privilégio**, ou que poderia ser **criado previamente** por um usuário de menor privilégio. O usuário poderia simplesmente **apontá-lo para outro arquivo** através de um Link Simbólico ou Direto, e o processo privilegiado escreverá naquele arquivo.
 
 Verifique nas outras seções onde um atacante poderia **abusar de uma escrita arbitrária para escalar privilégios**.
 
@@ -62,11 +64,11 @@ Exemplo:
 ```
 ## FD Arbitrário
 
-Se você conseguir fazer um **processo abrir um arquivo ou uma pasta com altos privilégios**, você pode abusar do **`crontab`** para abrir um arquivo em `/etc/sudoers.d` com **`EDITOR=exploit.py`**, assim o `exploit.py` receberá o FD para o arquivo dentro de `/etc/sudoers` e poderá abusá-lo.
+Se você conseguir fazer um **processo abrir um arquivo ou pasta com altos privilégios**, você pode abusar do **`crontab`** para abrir um arquivo em `/etc/sudoers.d` com **`EDITOR=exploit.py`**, assim o `exploit.py` receberá o FD para o arquivo dentro de `/etc/sudoers` e poderá abusá-lo.
 
 Por exemplo: [https://youtu.be/f1HA5QhLQ7Y?t=21098](https://youtu.be/f1HA5QhLQ7Y?t=21098)
 
-## Truques para evitar atributos de quarentena xattrs
+## Evitar truques de atributos de quarentena xattrs
 
 ### Removê-lo
 ```bash
@@ -122,7 +124,7 @@ ls -le /tmp/test
 
 O formato de arquivo **AppleDouble** copia um arquivo incluindo seus ACEs.
 
-No [**código-fonte**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html), é possível ver que a representação de texto da ACL armazenada dentro do xattr chamado **`com.apple.acl.text`** será definida como ACL no arquivo descomprimido. Então, se você comprimiu um aplicativo em um arquivo zip com o formato de arquivo **AppleDouble** com uma ACL que impede que outros xattrs sejam escritos nele... o xattr de quarentena não foi definido na aplicação:
+No [**código-fonte**](https://opensource.apple.com/source/Libc/Libc-391/darwin/copyfile.c.auto.html), é possível ver que a representação de texto do ACL armazenada dentro do xattr chamado **`com.apple.acl.text`** será definida como ACL no arquivo descomprimido. Então, se você comprimiu um aplicativo em um arquivo zip com o formato de arquivo **AppleDouble** com um ACL que impede que outros xattrs sejam escritos nele... o xattr de quarentena não foi definido na aplicação:
 
 Confira o [**relatório original**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) para mais informações.
 
@@ -239,7 +241,7 @@ hdiutil create -srcfolder justsome.app justsome.dmg
 
 ### Scripts sh periódicos
 
-Se o seu script puder ser interpretado como um **script de shell**, você poderá sobrescrever o script de shell **`/etc/periodic/daily/999.local`**, que será acionado todos os dias.
+Se o seu script puder ser interpretado como um **script shell**, você poderá sobrescrever o script shell **`/etc/periodic/daily/999.local`**, que será acionado todos os dias.
 
 Você pode **fingir** uma execução deste script com: **`sudo periodic daily`**
 
@@ -281,13 +283,15 @@ O arquivo **`/etc/paths`** é um dos principais locais que populam a variável d
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda hacking no AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Quer ver sua **empresa anunciada no HackTricks**? ou quer ter acesso à **versão mais recente do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+Outras formas de apoiar o HackTricks:
+
+* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* Adquira o [**material oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-me no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga**-me no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios do GitHub** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 ```
