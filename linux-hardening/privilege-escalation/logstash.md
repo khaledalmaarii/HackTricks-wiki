@@ -1,27 +1,25 @@
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零到英雄学习AWS黑客攻击，通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS红队专家)</strong></a><strong>！</strong></summary>
 
-- 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+支持HackTricks的其他方式：
 
-- 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-
-- 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-
-- **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-
-- **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
+* 如果您想在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**telegram群组**](https://t.me/peass)或在**Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
 
 # 基本信息
 
-Logstash用于收集、转换和输出日志。这是通过使用**管道**来实现的，管道包含输入、过滤和输出模块。当入侵了一台运行Logstash服务的机器时，该服务变得有趣起来。
+Logstash 用于收集、转换和输出日志。这是通过使用**管道**实现的，它包含输入、过滤和输出模块。当攻破运行Logstash服务的机器时，该服务变得很有趣。
 
 ## 管道
 
-管道配置文件**/etc/logstash/pipelines.yml**指定了活动管道的位置：
+管道配置文件 **/etc/logstash/pipelines.yml** 指定了活动管道的位置：
 ```bash
 # This file is where you define your pipelines. You can define multiple.
 # For more information on multiple pipelines, see the documentation:
@@ -33,23 +31,23 @@ path.config: "/etc/logstash/conf.d/*.conf"
 path.config: "/usr/share/logstash/pipeline/1*.conf"
 pipeline.workers: 6
 ```
-在这里，您可以找到包含配置的管道的 **.conf** 文件的路径。如果使用了 **Elasticsearch 输出模块**，则 **管道** 很可能包含用于 Elasticsearch 实例的有效凭据。由于 Logstash 需要将数据写入 Elasticsearch，这些凭据通常具有更高的权限。如果使用了通配符，Logstash 尝试运行位于该文件夹中与通配符匹配的所有管道。
+在这里，你可以找到指向 **.conf** 文件的路径，这些文件包含配置好的管道。如果使用了 **Elasticsearch 输出模块**，**管道**很可能会**包含**对某个 Elasticsearch 实例的有效**凭证**。这些凭证通常拥有更多权限，因为 Logstash 需要向 Elasticsearch 写入数据。如果使用了通配符，Logstash 会尝试运行匹配该通配符的文件夹中的所有管道。
 
-## 使用可写管道进行权限提升
+## 通过可写管道提升权限
 
-在尝试提升自己的权限之前，您应该检查运行 logstash 服务的用户，因为这将是您之后将拥有的用户。默认情况下，logstash 服务以 **logstash** 用户的权限运行。
+在尝试提升自己的权限之前，你应该检查运行 logstash 服务的用户是谁，因为这将是你之后将要控制的用户。默认情况下，logstash 服务以 **logstash** 用户的权限运行。
 
-检查您是否具有以下所需权限之一：
+检查你是否拥有以下所需的权限之一：
 
-* 您对管道 **.conf** 文件具有 **写权限**，或者
-* **/etc/logstash/pipelines.yml** 包含通配符，并且您被允许写入指定的文件夹
+* 你对某个管道的 **.conf** 文件拥有**写权限**，**或者**
+* **/etc/logstash/pipelines.yml** 包含一个通配符，并且你被允许写入指定的文件夹
 
-此外，必须满足以下要求之一：
+此外，必须满足以下条件之一：
 
-* 您能够重新启动 logstash 服务，或者
+* 你能够重启 logstash 服务，**或者**
 * **/etc/logstash/logstash.yml** 包含条目 **config.reload.automatic: true**
 
-如果指定了通配符，请尝试创建与该通配符匹配的文件。可以将以下内容写入文件以执行命令：
+如果指定了通配符，尝试创建一个匹配该通配符的文件。可以将以下内容写入文件以执行命令：
 ```bash
 input {
 exec {
@@ -65,11 +63,11 @@ codec => rubydebug
 }
 }
 ```
-**间隔**参数指定了以秒为单位的时间。在这个例子中，**whoami**命令每120秒执行一次。命令的输出保存在**/tmp/output.log**中。
+**间隔**指定时间（秒）。在此示例中，每120秒执行一次**whoami**命令。命令的输出保存在**/tmp/output.log**中。
 
-如果**/etc/logstash/logstash.yml**文件包含了**config.reload.automatic: true**的设置，你只需要等待命令执行，因为Logstash会自动识别新的管道配置文件或现有管道配置的任何更改。否则，触发一次logstash服务的重启。
+如果**/etc/logstash/logstash.yml**包含条目**config.reload.automatic: true**，你只需等待命令执行，因为Logstash会自动识别新的管道配置文件或现有管道配置的任何更改。否则，触发重启logstash服务。
 
-如果没有使用通配符，你可以将这些更改应用到现有的管道配置中。**确保不要破坏任何东西！**
+如果没有使用通配符，你可以将这些更改应用于现有的管道配置。**确保你不要弄坏东西！**
 
 # 参考资料
 
@@ -78,16 +76,14 @@ codec => rubydebug
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零开始学习AWS黑客攻击直到成为专家，通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>！</strong></summary>
 
-- 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者你想要**获取最新版本的PEASS或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+支持HackTricks的其他方式：
 
-- 发现我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-
-- 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-
-- **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-
-- **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
+* 如果你想在**HackTricks**中看到你的**公司广告**或**下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs**](https://opensea.io/collection/the-peass-family)系列
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享你的黑客技巧。
 
 </details>
