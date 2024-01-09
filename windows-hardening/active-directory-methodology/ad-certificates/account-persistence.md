@@ -1,64 +1,78 @@
-## Persistence de compte AD CS
+# Persistance de compte AD CS
 
-Si l'utilisateur est autorisé à demander un certificat qui permet l'authentification de domaine, un attaquant pourrait le demander et le voler pour maintenir la persistance.
+<details>
 
-Le modèle **`Utilisateur`** le permet et est activé par **défaut**. Cependant, il peut être désactivé. Ainsi, [**Certify**](https://github.com/GhostPack/Certify) vous permet de trouver des certificats valides pour persister :
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+
+Autres moyens de soutenir HackTricks :
+
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-moi** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+
+</details>
+
+## Vol d'identifiants d'utilisateur actif via des certificats – PERSIST1
+
+Si l'utilisateur est autorisé à demander un certificat qui permet l'authentification de domaine, un attaquant pourrait **demander** et **voler** ce certificat pour **maintenir** la **persistance**.
+
+Le modèle **`User`** permet cela et est disponible par **défaut**. Cependant, il pourrait être désactivé. Ainsi, [**Certify**](https://github.com/GhostPack/Certify) vous permet de trouver des certificats valides pour persister :
 ```
 Certify.exe find /clientauth
 ```
 Notez qu'un **certificat peut être utilisé pour l'authentification** en tant qu'utilisateur tant que le certificat est **valide**, **même** si l'utilisateur **change** son **mot de passe**.
 
-Depuis l'interface graphique, il est possible de demander un certificat avec `certmgr.msc` ou via la ligne de commande avec `certreq.exe`.
+Depuis l'**interface graphique**, il est possible de demander un certificat avec `certmgr.msc` ou via la ligne de commande avec `certreq.exe`.
 
 En utilisant [**Certify**](https://github.com/GhostPack/Certify), vous pouvez exécuter :
 ```
 Certify.exe request /ca:CA-SERVER\CA-NAME /template:TEMPLATE-NAME
 ```
-Le résultat sera un bloc de texte formaté en **certificat** + **clé privée** `.pem`.
+Le résultat sera un bloc de texte formaté `.pem` contenant un **certificat** + une **clé privée**.
 ```bash
 openssl pkcs12 -in cert.pem -keyex -CSP "Microsoft Enhanced Cryptographic Provider v1.0" -export -out cert.pfx
 ```
-Pour **utiliser ce certificat**, on peut ensuite **télécharger** le fichier `.pfx` sur une cible et **l'utiliser avec** [**Rubeus**](https://github.com/GhostPack/Rubeus) pour **demander un TGT** pour l'utilisateur inscrit, tant que le certificat est valide (la durée de vie par défaut est de 1 an):
+Pour **utiliser ce certificat**, on peut ensuite **téléverser** le `.pfx` sur une cible et **l'utiliser avec** [**Rubeus**](https://github.com/GhostPack/Rubeus) pour **demander un TGT** pour l'utilisateur inscrit, tant que le certificat est valide (la durée de vie par défaut est de 1 an) :
 ```bash
 Rubeus.exe asktgt /user:harmj0y /certificate:C:\Temp\cert.pfx /password:CertPass!
 ```
 {% hint style="warning" %}
-Combinée à la technique décrite dans la section [**THEFT5**](certificate-theft.md#ntlm-credential-theft-via-pkinit-theft5), un attaquant peut également obtenir de manière persistante le **hachage NTLM du compte**, que l'attaquant pourrait utiliser pour s'authentifier via **pass-the-hash** ou **crack** pour obtenir le **mot de passe en clair**. \
-Il s'agit d'une méthode alternative de **vol de longue durée de justificatifs d'identité** qui ne touche pas à LSASS et qui est possible à partir d'un **contexte non élevé**.
+Associée à la technique décrite dans la section [**THEFT5**](certificate-theft.md#ntlm-credential-theft-via-pkinit-theft5), un attaquant peut également **obtenir de manière persistante le hash NTLM du compte**, que l'attaquant pourrait utiliser pour s'authentifier via **pass-the-hash** ou **cracker** pour obtenir le **mot de passe en clair**. \
+C'est une méthode alternative de **vol de credentials à long terme** qui ne **touche pas LSASS** et est possible depuis un **contexte non privilégié.**
 {% endhint %}
 
-## Persistence de la machine via des certificats - PERSIST2
+## Persistance de Machine via Certificats - PERSIST2
 
-Si un modèle de certificat permettait aux **ordinateurs de domaine** d'être des principaux d'inscription, un attaquant pourrait **inscrire le compte de la machine d'un système compromis**. Le modèle **`Machine`** par défaut correspond à toutes ces caractéristiques.
+Si un modèle de certificat autorise les **Domain Computers** comme principaux d'inscription, un attaquant pourrait **inscrire le compte machine d'un système compromis**. Le modèle par défaut **`Machine`** correspond à toutes ces caractéristiques.
 
-Si un **attaquant élève les privilèges** sur le système compromis, l'attaquant peut utiliser le compte **SYSTEM** pour s'inscrire dans des modèles de certificats qui accordent des privilèges d'inscription aux comptes de machine (plus d'informations dans [**THEFT3**](certificate-theft.md#machine-certificate-theft-via-dpapi-theft3)).
+Si un **attaquant élève ses privilèges** sur un système compromis, il peut utiliser le compte **SYSTEM** pour s'inscrire à des modèles de certificats qui accordent des privilèges d'inscription aux comptes machine (plus d'informations dans [**THEFT3**](certificate-theft.md#machine-certificate-theft-via-dpapi-theft3)).
 
-Vous pouvez utiliser [**Certify**](https://github.com/GhostPack/Certify) pour obtenir un certificat pour le compte de la machine en élevant automatiquement le compte au niveau SYSTEM avec :
+Vous pouvez utiliser [**Certify**](https://github.com/GhostPack/Certify) pour rassembler un certificat pour le compte machine en élevant automatiquement au SYSTEM avec :
 ```bash
 Certify.exe request /ca:dc.theshire.local/theshire-DC-CA /template:Machine /machine
 ```
-Notez qu'avec l'accès à un certificat de compte machine, l'attaquant peut ensuite s'**authentifier auprès de Kerberos** en tant que compte machine. En utilisant **S4U2Self**, un attaquant peut ensuite obtenir un **ticket de service Kerberos pour n'importe quel service sur l'hôte** (par exemple, CIFS, HTTP, RPCSS, etc.) en tant que n'importe quel utilisateur.
+Notez qu'avec un accès au certificat d'un compte machine, l'attaquant peut alors **s'authentifier à Kerberos** en tant que compte machine. En utilisant **S4U2Self**, un attaquant peut ensuite obtenir un **ticket de service Kerberos pour n'importe quel service sur l'hôte** (par exemple, CIFS, HTTP, RPCSS, etc.) en tant qu'utilisateur quelconque.
 
-Cela donne finalement à une attaque une méthode de persistance de machine.
+En fin de compte, cela donne à une attaque une méthode de persistance de machine.
 
 ## Persistance de compte via le renouvellement de certificat - PERSIST3
 
-Les modèles de certificats ont une **période de validité** qui détermine pendant combien de temps un certificat délivré peut être utilisé, ainsi qu'une **période de renouvellement** (généralement 6 semaines). C'est une fenêtre de **temps avant** l'expiration du certificat où un **compte peut le renouveler** auprès de l'autorité de certification émettrice.
+Les modèles de certificats ont une **Période de Validité** qui détermine combien de temps un certificat émis peut être utilisé, ainsi qu'une **Période de renouvellement** (habituellement 6 semaines). C'est une fenêtre de **temps avant** que le certificat **expire** où un **compte peut le renouveler** auprès de l'autorité de certification émettrice.
 
-Si un attaquant compromet un certificat capable d'authentification de domaine par le vol ou l'inscription malveillante, l'attaquant peut **s'authentifier auprès d'AD pendant la durée de la période de validité du certificat**. L'attaquant, cependant, peut **renouveler le certificat avant l'expiration**. Cela peut fonctionner comme une approche de **persistance étendue** qui **empêche la demande de tickets** supplémentaires, ce qui **peut laisser des artefacts** sur le serveur CA lui-même.
+Si un attaquant compromet un certificat capable d'authentification de domaine par vol ou inscription malveillante, l'attaquant peut **s'authentifier à AD pour la durée de la période de validité du certificat**. Cependant, l'attaquant peut **renouveler le certificat avant son expiration**. Cela peut fonctionner comme une approche de **persistance étendue** qui **évite les demandes d'inscription de tickets supplémentaires**, ce qui **peut laisser des artefacts** sur le serveur CA lui-même.
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-- Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+Autres moyens de soutenir HackTricks :
 
-- Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-
-- Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-
-- **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-
-- **Partagez vos astuces de piratage en soumettant des PR au [repo hacktricks](https://github.com/carlospolop/hacktricks) et au [repo hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez**-moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de hacking en soumettant des PR aux repos github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
