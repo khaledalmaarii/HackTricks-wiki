@@ -1,16 +1,14 @@
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda a hackear AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-- Você trabalha em uma **empresa de segurança cibernética**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+Outras formas de apoiar o HackTricks:
 
-- Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-
-- Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-
-- **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-
-- **Compartilhe suas técnicas de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
+* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -18,33 +16,37 @@
 Em uma resposta de ping TTL:\
 127 = Windows\
 254 = Cisco\
-O resto, algum Linux
+Lo demás, algunlinux
 
 $1$- md5\
-$2$ou $2a$ - Blowfish\
+$2$ ou $2a$ - Blowfish\
 $5$- sha256\
 $6$- sha512
 
-Se você não sabe o que está por trás de um serviço, tente fazer uma solicitação HTTP GET.
+Se você não sabe o que está por trás de um serviço, tente fazer uma requisição HTTP GET.
 
-**Scans UDP**\
+**Varreduras UDP**\
 nc -nv -u -z -w 1 \<IP> 160-16
 
-Um pacote UDP vazio é enviado para uma porta específica. Se a porta UDP estiver aberta, nenhuma resposta será enviada de volta da máquina de destino. Se a porta UDP estiver fechada, um pacote ICMP de porta inacessível deve ser enviado de volta da máquina de destino.
+Um pacote UDP vazio é enviado a uma porta específica. Se a porta UDP estiver aberta, nenhuma resposta é enviada de volta pela máquina alvo. Se a porta UDP estiver fechada, um pacote ICMP de porta inalcançável deve ser enviado de volta pela máquina alvo.\
 
-A varredura de porta UDP geralmente é pouco confiável, pois firewalls e roteadores podem descartar pacotes ICMP. Isso pode levar a falsos positivos em sua varredura e você verá regularmente varreduras de porta UDP mostrando todas as portas UDP abertas em uma máquina escaneada. A maioria dos scanners de porta não verifica todas as portas disponíveis e geralmente tem uma lista pré-definida de "portas interessantes" que são verificadas.
+A varredura de portas UDP é frequentemente não confiável, pois firewalls e roteadores podem descartar pacotes ICMP\
+Isso pode levar a falsos positivos na sua varredura, e você verá regularmente\
+varreduras de portas UDP mostrando todas as portas UDP abertas em uma máquina escaneada.\
+o A maioria dos scanners de portas não varre todas as portas disponíveis, e geralmente têm uma lista predefinida\
+de "portas interessantes" que são varridas.
 
 # CTF - Truques
 
-No **Windows**, use o **Winzip** para procurar arquivos.\
-**Streams de dados alternativos**: _dir /r | find ":$DATA"_\
+No **Windows** use **Winzip** para procurar por arquivos.\
+**Alternate data Streams**: _dir /r | find ":$DATA"_\
 ```
 binwalk --dd=".*" <file> #Extract everything
 binwalk -M -e -d=10000 suspicious.pdf #Extract, look inside extracted files and continue extracing (depth of 10000)
 ```
 ## Criptografia
 
-**featherduster**\
+**featherduster**
 
 
 **Base64**(6—>8) —> 0...9, a...z, A…Z,+,/\
@@ -61,25 +63,23 @@ binwalk -M -e -d=10000 suspicious.pdf #Extract, look inside extracted files and 
 factordb.com\
 rsatool
 
-Snow --> Esconde mensagens usando espaços e tabulações
+Snow --> Oculta mensagens usando espaços e tabs
 
 # Caracteres
 
-%E2%80%AE => Caractere RTL (escreve payloads ao contrário)
+%E2%80%AE => Caractere RTL (escreve cargas úteis de trás para frente)
 
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda a hackear AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-- Você trabalha em uma **empresa de cibersegurança**? Quer ver sua **empresa anunciada no HackTricks**? ou quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+Outras formas de apoiar o HackTricks:
 
-- Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-
-- Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-
-- **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-
-- **Compartilhe suas técnicas de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
+* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

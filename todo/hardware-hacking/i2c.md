@@ -1,6 +1,20 @@
+<details>
+
+<summary><strong>Aprenda hacking no AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+
+Outras formas de apoiar o HackTricks:
+
+* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
+* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+
+</details>
+
 # Bus Pirate
 
-Para testar se um Bus Pirate está funcionando, conecte +5V com VPU e 3.3V com ADC e acesse o Bus Pirate (usando Tera Term, por exemplo) e use o comando `~`:
+Para testar se um Bus Pirate está funcionando, conecte +5V com VPU e 3.3V com ADC e acesse o bus pirate (Usando Tera Term, por exemplo) e use o comando `~`:
 ```bash
 # Use command
 HiZ>~
@@ -39,9 +53,9 @@ Any key to exit
 #Press space
 Found 0 errors.
 ```
-Como você pode ver no comando anterior, ele disse que não encontrou erros. Isso é muito útil para saber se está funcionando depois de comprá-lo ou depois de gravar um firmware.
+Como você pode ver na linha de comando anterior, foi informado que encontrou 0 erros. Isso é muito útil para saber que está funcionando após a compra ou após o flashing de um firmware.
 
-Para se conectar ao bus pirate, você pode seguir a documentação:
+Para se conectar com o bus pirate, você pode seguir a documentação:
 
 ![](<../../.gitbook/assets/image (307) (2).png>)
 
@@ -49,8 +63,8 @@ Neste caso, vou me conectar a uma EPROM: ATMEL901 24C256 PU27:
 
 ![](<../../.gitbook/assets/image (465) (2) (1).png>)
 
-Para conversar com o bus pirate, usei o Tera Term conectado à porta COM do bus pirate com uma configuração --> Porta Serial --> Velocidade de 115200.\
-Na seguinte comunicação, você pode encontrar como preparar o bus pirate para falar I2C e como gravar e ler da memória (os comentários aparecem usando "#", não espere essa parte na comunicação):
+Para me comunicar com o bus pirate, usei o Tera Term conectado à porta COM do bus pirate com uma Configuração --> Porta Serial --> Velocidade de 115200.\
+Na seguinte comunicação, você pode encontrar como preparar o bus pirate para se comunicar via I2C e como escrever e ler da memória (Comentários aparecem usando "#", não espere essa parte na comunicação):
 ```bash
 # Check communication with buspirate
 i
@@ -87,16 +101,16 @@ x. exit(without change)
 # Select I2C
 (1)>4
 I2C mode:
- 1. Software
- 2. Hardware
+1. Software
+2. Hardware
 
 # Select Software mode
 (1)>1
 Set speed:
- 1. ~5kHz
- 2. ~50kHz
- 3. ~100kHz
- 4. ~240kHz
+1. ~5kHz
+2. ~50kHz
+3. ~100kHz
+4. ~240kHz
 
 # Select communication spped
 (1)> 2
@@ -111,10 +125,10 @@ Clutch engaged!!!
 
 # Get macros
 I2C>(0)
- 0.Macro menu
- 1.7bit address search
- 2.I2C sniffer
- 
+0.Macro menu
+1.7bit address search
+2.I2C sniffer
+
 #Get addresses of slaves connected
 I2C>(1)
 Searching I2C address space. Found devices at:
@@ -151,7 +165,7 @@ NACK
 ```
 ## Sniffer
 
-Neste cenário, vamos capturar a comunicação I2C entre o arduino e o EPROM anterior. Você só precisa conectar ambos os dispositivos e, em seguida, conectar o Bus Pirate aos pinos SCL, SDA e GND:
+Neste cenário, vamos monitorar a comunicação I2C entre o arduino e a EPROM anterior, você só precisa conectar ambos os dispositivos e depois conectar o bus pirate aos pinos SCL, SDA e GND:
 
 ![](<../../.gitbook/assets/image (201) (2) (1).png>)
 ```bash
@@ -171,15 +185,15 @@ x. exit(without change)
 
 (1)>4
 I2C mode:
- 1. Software
- 2. Hardware
+1. Software
+2. Hardware
 
 (1)>1
 Set speed:
- 1. ~5kHz
- 2. ~50kHz
- 3. ~100kHz
- 4. ~240kHz
+1. ~5kHz
+2. ~50kHz
+3. ~100kHz
+4. ~240kHz
 
 (1)>1
 Clutch disengaged!!!
@@ -201,16 +215,14 @@ Any key to exit
 ```
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda hacking no AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-- Você trabalha em uma **empresa de segurança cibernética**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+Outras formas de apoiar o HackTricks:
 
-- Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-
-- Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-
-- **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-
-- **Compartilhe seus truques de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
+* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
