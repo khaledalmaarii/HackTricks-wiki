@@ -1,45 +1,43 @@
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零到英雄学习AWS黑客攻击</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS红队专家)</strong></a><strong>！</strong></summary>
 
-- 你在一个**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+支持HackTricks的其他方式：
 
-- 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-
-- 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-
-- **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或者 [**电报群组**](https://t.me/peass) 或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-
-- **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
+* 如果您想在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或在**Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
 
 # 完整性级别
 
-从Windows Vista开始，所有**受保护的对象都带有完整性级别标签**。系统上的大多数用户和系统文件以及注册表键都具有“中等”完整性的默认标签。主要例外是一组特定的文件夹和文件，这些文件夹和文件可由Internet Explorer 7以低完整性进行写入。**大多数由标准用户运行的进程**都带有**中等完整性**（即使是由管理员组内的用户启动的进程），而大多数**服务**都带有**系统完整性**。根目录受到高完整性标签的保护。\
-请注意，**具有较低完整性级别的进程无法写入具有较高完整性级别的对象**。\
-有几个完整性级别：
+从Windows Vista开始，所有**受保护的对象都标有完整性级别**。系统上的大多数用户和系统文件以及注册表键默认标记为“中”完整性。主要例外是Internet Explorer 7以低完整性可写的特定文件夹和文件集。**大多数进程**由**标准用户**运行时标记为**中完整性**（即使是由管理员组内的用户启动的进程），而大多数**服务**则标记为**系统完整性**。根目录受到高完整性标签的保护。\
+请注意，**较低完整性级别的进程无法写入具有较高完整性级别的对象。**\
+完整性级别有几个：
 
-* **不受信任** - 匿名登录的进程会自动被指定为不受信任。_示例：Chrome_
-* **低** - 低完整性级别是与互联网交互的默认级别。只要以其默认状态运行Internet Explorer（即受保护模式），与其关联的所有文件和进程都被分配为低完整性级别。某些文件夹（例如**临时互联网文件夹**）也默认分配为**低完整性**级别。但是，请注意，**低完整性进程**非常**受限**，它**无法**写入**注册表**，并且在当前用户配置文件的**大多数位置**上受到限制。_示例：Internet Explorer或Microsoft Edge_
-* **中等** - 中等是**大多数对象将运行的上下文**。标准用户接收中等完整性级别，并且任何未明确指定较低或较高完整性级别的对象默认为中等级别。请注意，默认情况下，管理员组内的用户将使用中等完整性级别。
-* **高** - **管理员**被授予高完整性级别。这确保管理员能够与分配为中等或低完整性级别的对象进行交互和修改，但也可以对具有高完整性级别的其他对象进行操作，而标准用户则无法执行此操作。_示例：“以管理员身份运行”_
-* **系统** - 如其名称所示，系统完整性级别为系统保留。Windows内核和核心服务被授予系统完整性级别。比管理员的高完整性级别更高，这样可以保护这些核心功能免受管理员的影响或损害。示例：服务
-* **安装程序** - 安装程序完整性级别是一种特殊情况，也是所有完整性级别中最高的级别。通过与所有其他WIC完整性级别相等或更高，被分配安装程序完整性级别的对象也能够卸载所有其他对象。
+* **不信任** - 自动将匿名登录的进程指定为不信任。_例子：Chrome_
+* **低** - 低完整性级别是默认用于与互联网交互的级别。只要Internet Explorer以其默认状态运行，受保护模式，与它相关的所有文件和进程都被分配低完整性级别。一些文件夹，如**临时互联网文件夹**，也默认分配**低完整性**级别。但是，请注意，**低完整性进程**非常**受限**，它**不能**写入**注册表**，并且受限于写入当前用户配置文件中的**大多数位置**。_例子：Internet Explorer或Microsoft Edge_
+* **中** - 中是**大多数对象将运行的上下文**。标准用户接收中完整性级别，任何未明确指定为较低或较高完整性级别的对象默认为中。请注意，默认情况下，管理员组内的用户将使用中完整性级别。
+* **高** - **管理员**被授予高完整性级别。这确保管理员能够与分配有中或低完整性级别的对象进行交互和修改，但也可以对其他具有高完整性级别的对象进行操作，标准用户则无法做到这一点。_例子："以管理员身份运行"_
+* **系统** - 顾名思义，系统完整性级别是为系统保留的。Windows内核和核心服务被授予系统完整性级别。即使是管理员，这个比高完整性级别还要高的级别也保护这些核心功能不受影响或妥协。例子：服务
+* **安装程序** - 安装程序完整性级别是一个特殊情况，是所有完整性级别中最高的。由于与所有其他WIC完整性级别相等或更高，因此被分配安装程序完整性级别的对象也能够卸载所有其他对象。
 
-您可以使用**Sysinternals**的**Process Explorer**访问进程的**属性**并查看“**安全**”选项卡来获取进程的完整性级别：
+您可以使用**Sysinternals**的**Process Explorer**获取进程的完整性级别，访问进程的**属性**并查看"**安全**"标签：
 
 ![](<../../.gitbook/assets/image (318).png>)
 
-您还可以使用`whoami /groups`命令获取**当前的完整性级别**。
+您还可以使用`whoami /groups`获取您的**当前完整性级别**：
 
 ![](<../../.gitbook/assets/image (319).png>)
 
 ## 文件系统中的完整性级别
 
-文件系统中的对象可能需要**最低完整性级别要求**，如果进程没有此完整性级别，则无法与其进行交互。\
-例如，让我们**从常规用户控制台创建一个文件并检查权限**：
+文件系统中的对象可能需要**最低完整性级别要求**，如果进程没有这个完整性进程，它将无法与之交互。\
+例如，让我们**从常规用户控制台创建一个常规文件并检查权限**：
 ```
 echo asd >asd.txt
 icacls asd.txt
@@ -50,7 +48,7 @@ NT AUTHORITY\INTERACTIVE:(I)(M,DC)
 NT AUTHORITY\SERVICE:(I)(M,DC)
 NT AUTHORITY\BATCH:(I)(M,DC)
 ```
-现在，让我们将文件的最低完整性级别设置为**高**。这个操作**必须在以管理员身份运行的控制台**中进行，因为**普通控制台**运行在中等完整性级别，**无法**将高完整性级别分配给一个对象：
+现在，让我们为文件分配一个最低完整性级别**High**。这**必须在以**管理员**身份运行的控制台中完成**，因为**普通控制台**将以中等完整性级别运行，并且**不允许**将高完整性级别分配给对象：
 ```
 icacls asd.txt /setintegritylevel(oi)(ci) High
 processed file: asd.txt
@@ -65,7 +63,7 @@ NT AUTHORITY\SERVICE:(I)(M,DC)
 NT AUTHORITY\BATCH:(I)(M,DC)
 Mandatory Label\High Mandatory Level:(NW)
 ```
-这就是事情变得有趣的地方。你可以看到用户`DESKTOP-IDJHTKP\user`对该文件拥有**完全权限**（确实是该用户创建了该文件），然而，由于实施了最低完整性级别，除非他在高完整性级别下运行，否则他将无法修改该文件（请注意，他仍然可以读取它）：
+这里的情况变得有趣了。你可以看到用户 `DESKTOP-IDJHTKP\user` 对文件拥有**完全权限**（实际上这是创建该文件的用户），然而，由于实施了最低完整性级别，除非他在高完整性级别下运行（注意，他将能够读取它），否则他将无法再修改文件：
 ```
 echo 1234 > asd.txt
 Access is denied.
@@ -75,12 +73,12 @@ C:\Users\Public\asd.txt
 Access is denied.
 ```
 {% hint style="info" %}
-**因此，当一个文件具有最低完整性级别时，为了修改它，你需要至少以该完整性级别运行。**
+**因此，当一个文件有最低完整性等级时，要修改它，你至少需要在该完整性等级下运行。**
 {% endhint %}
 
-## 二进制文件的完整性级别
+## 二进制文件中的完整性等级
 
-我在管理员控制台中将 `cmd.exe` 复制到 `C:\Windows\System32\cmd-low.exe` 并将其设置为**低完整性级别：**
+我在 `C:\Windows\System32\cmd-low.exe` 复制了一个 `cmd.exe` 并且从管理员控制台设置了一个**低完整性等级：**
 ```
 icacls C:\Windows\System32\cmd-low.exe
 C:\Windows\System32\cmd-low.exe NT AUTHORITY\SYSTEM:(I)(F)
@@ -90,30 +88,29 @@ APPLICATION PACKAGE AUTHORITY\ALL APPLICATION PACKAGES:(I)(RX)
 APPLICATION PACKAGE AUTHORITY\ALL RESTRICTED APP PACKAGES:(I)(RX)
 Mandatory Label\Low Mandatory Level:(NW)
 ```
-现在，当我运行`cmd-low.exe`时，它将以低完整性级别而不是中等级别运行：
+现在，当我运行 `cmd-low.exe` 时，它将**以低完整性级别运行**，而不是中等完整性级别：
 
 ![](<../../.gitbook/assets/image (320).png>)
 
-对于好奇的人，如果你给一个二进制文件分配了高完整性级别（`icacls C:\Windows\System32\cmd-high.exe /setintegritylevel high`），它不会自动以高完整性级别运行（如果你从中等完整性级别调用它，默认情况下它将以中等完整性级别运行）。
+对于好奇的人来说，如果你为一个二进制文件分配高完整性级别（`icacls C:\Windows\System32\cmd-high.exe /setintegritylevel high`），它不会自动以高完整性级别运行（如果你从中等完整性级别--默认情况下--调用它，它将以中等完整性级别运行）。
 
 ## 进程中的完整性级别
 
-并非所有文件和文件夹都有最低完整性级别，**但所有进程都在一个完整性级别下运行**。与文件系统发生的情况类似，**如果一个进程想要在另一个进程内写入，它必须至少具有相同的完整性级别**。这意味着具有低完整性级别的进程无法以完全访问权限打开具有中等完整性级别的进程的句柄。
+并非所有文件和文件夹都有最低完整性级别，**但所有进程都在某个完整性级别下运行**。与文件系统发生的情况类似，**如果一个进程想要在另一个进程内部写入，它必须至少具有相同的完整性级别**。这意味着，一个低完整性级别的进程不能打开一个对中等完整性级别进程具有完全访问权限的句柄。
 
-基于安全性考虑，始终建议以尽可能低的完整性级别运行进程。
+由于本节和前一节中评论的限制，从安全角度来看，始终**建议在尽可能低的完整性级别下运行进程**。
+
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零开始学习 AWS 黑客攻击直到成为专家，通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS 红队专家)</strong></a><strong>！</strong></summary>
 
-- 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者你想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+支持 HackTricks 的其他方式：
 
-- 发现我们的独家[NFT收藏品](https://opensea.io/collection/the-peass-family)——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-
-- 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-
-- **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-
-- **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
+* 如果你想在 **HackTricks 中看到你的公司广告** 或者 **下载 HackTricks 的 PDF**，请查看 [**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* 发现 [**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们独家的 [**NFTs 集合**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享你的黑客技巧。**
 
 </details>

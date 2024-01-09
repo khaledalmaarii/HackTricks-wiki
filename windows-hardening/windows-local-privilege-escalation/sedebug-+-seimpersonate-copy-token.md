@@ -1,26 +1,24 @@
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>从零到英雄学习AWS黑客攻击！</strong></summary>
 
-- 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+支持HackTricks的其他方式：
 
-- 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-
-- 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-
-- **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-
-- **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
+* 如果您想在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
 
-以下代码**利用SeDebug和SeImpersonate权限**从一个以**SYSTEM身份运行的进程**中复制令牌。\
-在这种情况下，这段代码可以编译并用作**Windows服务二进制文件**以检查其是否正常工作。\
-然而，**权限提升发生的主要部分**在**`Exploit`函数**内。\
-在该函数内部，可以看到正在搜索**进程**_**lsass.exe**_**，然后复制其令牌，最后使用该令牌生成一个具有复制令牌的所有权限的新**_**cmd.exe**_**。
+以下代码**利用SeDebug和SeImpersonate权限**，从**以SYSTEM身份运行的进程**中复制令牌，并且拥有**所有令牌权限**。\
+在这种情况下，此代码可以编译并用作**Windows服务二进制文件**来检查其是否工作正常。\
+然而，**代码中发生提权的主要部分**位于**`Exploit`** **函数**内。\
+在该函数内部，您可以看到**进程** _**lsass.exe**_ **被搜索到**，然后**复制它的令牌**，最后使用该**令牌来启动一个新的** _**cmd.exe**_**，拥有复制令牌的所有权限**。
 
-以**SYSTEM身份运行**且具有所有或大部分令牌权限的**其他进程**包括：_**services.exe**_**，**_**svhost.exe**_**（其中之一），_**wininit.exe**_**，**_**csrss.exe**_**...（请记住，您无法从受保护的进程中复制令牌）。此外，您可以使用以管理员身份运行的工具[Process Hacker](https://processhacker.sourceforge.io/downloads.php)来查看进程的令牌。
+**其他以SYSTEM身份运行并拥有所有或大部分令牌权限的进程**包括：_**services.exe**_**、**_**svhost.exe**_（最早的几个之一）、_**wininit.exe**_**、**_**csrss.exe**_...（_记住，您将无法从受保护的进程中复制令牌_）。此外，您可以使用以管理员身份运行的工具[Process Hacker](https://processhacker.sourceforge.io/downloads.php)来查看进程的令牌。
 ```c
 #include <windows.h>
 #include <tlhelp32.h>
@@ -224,21 +222,19 @@ StartServiceCtrlDispatcher( serviceTable );
 return 0;
 }
 ```
-**这个示例的代码是由一个匿名人士分享的。**
+**此示例代码由匿名人士分享。**
 
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
+<summary><strong>从零开始学习AWS黑客攻击直至成为专家，通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>！</strong></summary>
 
-- 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+支持HackTricks的其他方式：
 
-- 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品-[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-
-- 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-
-- **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或在**Twitter**上**关注**我[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-
-- **通过向[hacktricks仓库](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud仓库](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧。**
+* 如果您希望在**HackTricks中看到您的公司广告**或**以PDF格式下载HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
