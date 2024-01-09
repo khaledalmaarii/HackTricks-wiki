@@ -1,24 +1,22 @@
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks क्लाउड ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 ट्विटर 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ ट्विच 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 यूट्यूब 🎥</strong></a></summary>
+<summary><strong>शून्य से नायक तक AWS हैकिंग सीखें</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-- क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी **कंपनी को HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करने की आवश्यकता है? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+HackTricks का समर्थन करने के अन्य तरीके:
 
-- खोजें [**The PEASS परिवार**](https://opensea.io/collection/the-peass-family), हमारा विशेष संग्रह [**NFTs**](https://opensea.io/collection/the-peass-family)
-
-- प्राप्त करें [**आधिकारिक PEASS और HackTricks swag**](https://peass.creator-spring.com)
-
-- **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या मुझे **ट्विटर** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-
-- **अपने हैकिंग ट्रिक्स साझा करें, [hacktricks रेपो](https://github.com/carlospolop/hacktricks) और [hacktricks-cloud रेपो](https://github.com/carlospolop/hacktricks-cloud) में पीआर जमा करके।**
+* यदि आप चाहते हैं कि आपकी **कंपनी का विज्ञापन HackTricks में दिखाई दे** या **HackTricks को PDF में डाउनलोड करें**, तो [**सब्सक्रिप्शन प्लान्स**](https://github.com/sponsors/carlospolop) देखें!
+* [**आधिकारिक PEASS & HackTricks स्वैग प्राप्त करें**](https://peass.creator-spring.com)
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) संग्रह
+* 💬 [**Discord समूह में शामिल हों**](https://discord.gg/hRep4RUj7f) या [**telegram समूह**](https://t.me/peass) या **Twitter** 🐦 पर मुझे **फॉलो** करें [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos में PRs सबमिट करके अपनी हैकिंग ट्रिक्स साझा करें।
 
 </details>
 
 
-**ट्यूटोरियल** [**https://0xrick.github.io/hack-the-box/ethereal/#Creating-Malicious-msi-and-getting-root**](https://0xrick.github.io/hack-the-box/ethereal/#Creating-Malicious-msi-and-getting-root) **से कॉपी किया गया है**\
-msi बनाने के लिए हम [wixtools](http://wixtoolset.org) का उपयोग करेंगे, आप अन्य msi बिल्डर का उपयोग कर सकते हैं लेकिन वे मेरे लिए काम नहीं करते थे।\
-कुछ wix msi उपयोग उदाहरणों के लिए [इस पेज](https://www.codeproject.com/Tips/105638/A-quick-introduction-Create-an-MSI-installer-with) की जांच करें।\
-हम एक msi बनाएंगे जो हमारे lnk फ़ाइल को निष्पादित करता है:
+**ट्यूटोरियल कॉपी किया गया** [**https://0xrick.github.io/hack-the-box/ethereal/#Creating-Malicious-msi-and-getting-root**](https://0xrick.github.io/hack-the-box/ethereal/#Creating-Malicious-msi-and-getting-root)\
+msi बनाने के लिए हम [wixtools](http://wixtoolset.org) का उपयोग करेंगे, आप अन्य msi बिल्डर्स का उपयोग कर सकते हैं लेकिन वे मेरे लिए काम नहीं कर रहे थे।\
+कुछ wix msi उपयोग के उदाहरणों के लिए [इस पेज](https://www.codeproject.com/Tips/105638/A-quick-introduction-Create-an-MSI-installer-with) को देखें।\
+हम एक msi बनाएंगे जो हमारी lnk फाइल को निष्पादित करता है:
 ```markup
 <?xml version="1.0"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
@@ -50,31 +48,28 @@ fail_here
 </Product>
 </Wix>
 ```
-हम `wixtools` से `candle.exe` का उपयोग करेंगे ताकि `msi.xml` से एक wixobject बना सकें।
+हम `msi.xml` से wixobject बनाने के लिए wixtools से `candle.exe` का उपयोग करेंगे।
 ```markup
 candle.exe -out C:\tem\wix C:\tmp\Ethereal\msi.xml
 ```
-![](https://0xrick.github.io/images/hackthebox/ethereal/65.png)
-
-फिर हम `light.exe` का उपयोग करेंगे ताकि हम wixobject से msi फ़ाइल बना सकें:
+फिर हम `light.exe` का उपयोग करके wixobject से msi फाइल बनाएंगे:
 ```markup
 light.exe -out C:\tm\Ethereal\rick.msi C:\tmp\wix
 ```
+```markdown
 ![](https://0xrick.github.io/images/hackthebox/ethereal/66.png)
-
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>शून्य से नायक तक AWS हैकिंग सीखें</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-- क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी **कंपनी को HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करने की इच्छा है? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+HackTricks का समर्थन करने के अन्य तरीके:
 
-- खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष संग्रह [**NFTs**](https://opensea.io/collection/the-peass-family)
-
-- प्राप्त करें [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com)
-
-- **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में या मुझे **Twitter** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-
-- **अपने हैकिंग ट्रिक्स को [hacktricks रेपो](https://github.com/carlospolop/hacktricks) और [hacktricks-cloud रेपो](https://github.com/carlospolop/hacktricks-cloud) में पीआर जमा करके साझा करें।**
+* यदि आप चाहते हैं कि आपकी **कंपनी का विज्ञापन HackTricks में दिखाई दे** या **HackTricks को PDF में डाउनलोड करें** तो [**सब्सक्रिप्शन प्लान्स**](https://github.com/sponsors/carlospolop) देखें!
+* [**आधिकारिक PEASS & HackTricks स्वैग प्राप्त करें**](https://peass.creator-spring.com)
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) संग्रह
+* 💬 [**Discord समूह में शामिल हों**](https://discord.gg/hRep4RUj7f) या [**telegram समूह**](https://t.me/peass) या **Twitter** 🐦 पर **मुझे फॉलो करें** [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **HackTricks** के [**github repos में PRs सबमिट करके अपनी हैकिंग ट्रिक्स शेयर करें**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+```

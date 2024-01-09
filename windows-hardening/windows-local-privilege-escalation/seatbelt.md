@@ -1,36 +1,34 @@
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>AWS हैकिंग सीखें शून्य से लेकर हीरो तक</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> के साथ!</strong></summary>
 
-- क्या आप किसी **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी **कंपनी को HackTricks में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड** करने का उपयोग करना है? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+HackTricks का समर्थन करने के अन्य तरीके:
 
-- खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष संग्रह [**NFTs**](https://opensea.io/collection/the-peass-family)
-
-- प्राप्त करें [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com)
-
-- **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या मुझे **Twitter** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-
-- **अपने हैकिंग ट्रिक्स को [hacktricks रेपो](https://github.com/carlospolop/hacktricks) और [hacktricks-cloud रेपो](https://github.com/carlospolop/hacktricks-cloud) में पीआर जमा करके साझा करें।**
+* यदि आप चाहते हैं कि आपकी **कंपनी का विज्ञापन HackTricks में दिखाई दे** या **HackTricks को PDF में डाउनलोड करें**, तो [**सब्सक्रिप्शन प्लान्स**](https://github.com/sponsors/carlospolop) देखें!
+* [**आधिकारिक PEASS & HackTricks स्वैग प्राप्त करें**](https://peass.creator-spring.com)
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा एक्सक्लूसिव [**NFTs**](https://opensea.io/collection/the-peass-family) का संग्रह
+* 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) में **शामिल हों** या [**telegram group**](https://t.me/peass) में या **Twitter** 🐦 पर मुझे **फॉलो** करें [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **HackTricks** के [**github repos**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) में PRs सबमिट करके अपनी हैकिंग ट्रिक्स शेयर करें।
 
 </details>
 
 
 
 
-# प्रारंभ
+# शुरुआत
 
-[आपको इसे कंपाइल करने की आवश्यकता है](https://github.com/GhostPack/Seatbelt) या [पूर्व-कंपाइल्ड बाइनरी का उपयोग करें \(मेरे द्वारा\)](https://github.com/carlospolop/winPE/tree/master/binaries/seatbelt)
+[आपको इसे कंपाइल करना होगा](https://github.com/GhostPack/Seatbelt) या [पहले से कंपाइल किए गए बाइनरीज का उपयोग करें \(मेरे द्वारा\)](https://github.com/carlospolop/winPE/tree/master/binaries/seatbelt)
 ```text
 SeatbeltNet3.5x64.exe all
 SeatbeltNet3.5x64.exe all full #Without filtering
 ```
-मुझे वास्तव में फ़िल्टरिंग का निष्पादन पसंद है।
+मुझे किया गया फ़िल्टरिंग बहुत पसंद आया।
 
 # जांच
 
-यह टूल प्राइवेसीक की तुलना में अधिक जानकारी-संग्रह के लिए है, लेकिन इसमें कुछ अच्छी जांचें हैं और कुछ पासवर्ड की तलाश करता है।
+यह टूल privesc की तुलना में जानकारी एकत्रित करने पर अधिक केंद्रित है, लेकिन इसमें कुछ बहुत अच्छी जांचें हैं और यह कुछ पासवर्ड्स की तलाश करता है।
 
-**SeatBelt.exe सिस्टम** निम्नलिखित सिस्टम डेटा को एकत्र करता है:
+**SeatBelt.exe system** निम्नलिखित सिस्टम डेटा एकत्र करता है:
 ```text
 BasicOSInfo           -   Basic OS info (i.e. architecture, OS version, etc.)
 RebootSchedule        -   Reboot schedule (last 15 days) based on event IDs 12 and 13
@@ -64,7 +62,7 @@ NonstandardProcesses  -   Running processeswith file info company names that don
 *  If the user is in high integrity, the following additional actions are run:
 SysmonConfig          -   Sysmon configuration from the registry
 ```
-**SeatBelt.exe उपयोगकर्ता** निम्नलिखित उपयोगकर्ता डेटा को संग्रहित करता है:
+**SeatBelt.exe user** निम्नलिखित उपयोगकर्ता डेटा एकत्र करता है:
 ```text
 SavedRDPConnections   -   Saved RDP connections
 TriageIE              -   Internet Explorer bookmarks and history (last 7 days)
@@ -79,7 +77,7 @@ CredFiles             -   List Windows credential DPAPI blobs
 RDCManFiles           -   List Windows Remote Desktop Connection Manager settings files
 *  If the user is in high integrity, this data is collected for ALL users instead of just the current user
 ```
-गैर-डिफ़ॉल्ट संग्रह विकल्प:
+गैर-डिफ़ॉल्ट संग्रहण विकल्प:
 ```text
 CurrentDomainGroups   -   The current user's local and domain groups
 Patches               -   Installed patches via WMI (takes a bit on some systems)
@@ -96,16 +94,14 @@ KerberosTickets       -   List Kerberos tickets. If elevated, grouped by all log
 ```
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>AWS हैकिंग सीखें शून्य से लेकर हीरो तक</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> के साथ!</strong></summary>
 
-- क्या आप **साइबर सुरक्षा कंपनी** में काम करते हैं? क्या आप अपनी कंपनी को **हैकट्रिक्स में विज्ञापित** देखना चाहते हैं? या क्या आपको **PEASS के नवीनतम संस्करण या HackTricks को PDF में डाउनलोड करने का उपयोग** करना चाहिए? [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जांच करें!
+HackTricks का समर्थन करने के अन्य तरीके:
 
-- खोजें [**The PEASS Family**](https://opensea.io/collection/the-peass-family), हमारा विशेष संग्रह [**NFTs**](https://opensea.io/collection/the-peass-family)
-
-- प्राप्त करें [**आधिकारिक PEASS & HackTricks swag**](https://peass.creator-spring.com)
-
-- **शामिल हों** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में या मुझे **Twitter** पर **फ़ॉलो** करें [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-
-- **अपने हैकिंग ट्रिक्स को [hacktricks रेपो](https://github.com/carlospolop/hacktricks) और [hacktricks-cloud रेपो](https://github.com/carlospolop/hacktricks-cloud) में पीआर जमा करके साझा करें।**
+* यदि आप चाहते हैं कि आपकी **कंपनी का विज्ञापन HackTricks में दिखाई दे** या **HackTricks को PDF में डाउनलोड करें**, तो [**सब्सक्रिप्शन प्लान्स**](https://github.com/sponsors/carlospolop) देखें!
+* [**आधिकारिक PEASS & HackTricks स्वैग**](https://peass.creator-spring.com) प्राप्त करें
+* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) संग्रह
+* 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) में **शामिल हों** या [**telegram group**](https://t.me/peass) में या **Twitter** 🐦 पर मुझे **फॉलो** करें [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **HackTricks** के [**github repos**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) में PRs सबमिट करके अपनी हैकिंग ट्रिक्स साझा करें।
 
 </details>
