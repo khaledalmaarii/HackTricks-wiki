@@ -1,45 +1,19 @@
+<details>
+
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+
+Autres moyens de soutenir HackTricks :
+
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez**-moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+
+</details>
+
+
 # Installation
-
-## Introduction
-
-`angr` is a Python framework for analyzing binaries. It combines both static and dynamic symbolic ("concolic") analysis, making it applicable to a variety of tasks.
-
-## Installation
-
-### Dependencies
-
-`angr` requires Python 3.6 or later. It also requires several Python packages, which can be installed via `pip`:
-
-```bash
-pip install angr
-```
-
-### Optional Dependencies
-
-`angr` has several optional dependencies that can be installed via `pip`:
-
-- `angr-management`: a GUI for `angr`
-- `angr-doc`: documentation for `angr`
-- `angr-dev`: development tools for `angr`
-
-To install all of the optional dependencies, run:
-
-```bash
-pip install angr[angr-management,angr-doc,angr-dev]
-```
-
-## Usage
-
-Once `angr` is installed, you can use it in your Python scripts by importing it:
-
-```python
-import angr
-```
-
-## Resources
-
-- [angr documentation](https://docs.angr.io/)
-- [angr GitHub repository](https://github.com/angr/angr)
 ```bash
 sudo apt-get install python3-dev libffi-dev build-essential
 python3 -m pip install --user virtualenv
@@ -48,70 +22,6 @@ source ang/bin/activate
 pip install angr
 ```
 # Actions de base
-
-## Load a binary
-
-## Charger un binaire
-
-To load a binary into an angr project, you can use the `angr.Project` constructor.
-
-Pour charger un binaire dans un projet angr, vous pouvez utiliser le constructeur `angr.Project`.
-
-```python
-import angr
-
-project = angr.Project("/path/to/binary")
-```
-
-## Find entry point
-
-## Trouver le point d'entrée
-
-To find the entry point of a binary, you can use the `entry_state` property of the angr project.
-
-Pour trouver le point d'entrée d'un binaire, vous pouvez utiliser la propriété `entry_state` du projet angr.
-
-```python
-entry_point = project.entry_state.addr
-```
-
-## Find functions
-
-## Trouver des fonctions
-
-To find all the functions in a binary, you can use the `project.kb.functions` property.
-
-Pour trouver toutes les fonctions dans un binaire, vous pouvez utiliser la propriété `project.kb.functions`.
-
-```python
-functions = project.kb.functions
-```
-
-## Find basic blocks
-
-## Trouver des blocs de base
-
-To find all the basic blocks in a function, you can use the `blocks` property of the function.
-
-Pour trouver tous les blocs de base dans une fonction, vous pouvez utiliser la propriété `blocks` de la fonction.
-
-```python
-function = project.kb.functions.get("function_name")
-basic_blocks = function.blocks
-```
-
-## Find instructions
-
-## Trouver des instructions
-
-To find all the instructions in a basic block, you can use the `capstone.insns` property of the basic block.
-
-Pour trouver toutes les instructions dans un bloc de base, vous pouvez utiliser la propriété `capstone.insns` du bloc de base.
-
-```python
-basic_block = function.get_block(0x1234)
-instructions = basic_block.capstone.insns
-```
 ```python
 import angr
 import monkeyhex # this will format numerical results in hexadecimal
@@ -129,7 +39,7 @@ proj.filename #Get filename "/bin/true"
 #Usually you won't need to use them but you could
 angr.Project('examples/fauxware/fauxware', main_opts={'backend': 'blob', 'arch': 'i386'}, lib_opts={'libc.so.6': {'backend': 'elf'}})
 ```
-# Informations sur les objets chargés et principaux
+# Informations sur l'objet chargé et principal
 
 ## Données chargées
 ```python
@@ -141,20 +51,20 @@ proj.loader.all_objects #All loaded
 proj.loader.shared_objects #Loaded binaries
 """
 OrderedDict([('true', <ELF Object true, maps [0x400000:0x40a377]>),
-             ('libc.so.6',
-              <ELF Object libc-2.31.so, maps [0x500000:0x6c4507]>),
-             ('ld-linux-x86-64.so.2',
-              <ELF Object ld-2.31.so, maps [0x700000:0x72c177]>),
-             ('extern-address space',
-              <ExternObject Object cle##externs, maps [0x800000:0x87ffff]>),
-             ('cle##tls',
-              <ELFTLSObjectV2 Object cle##tls, maps [0x900000:0x91500f]>)])
+('libc.so.6',
+<ELF Object libc-2.31.so, maps [0x500000:0x6c4507]>),
+('ld-linux-x86-64.so.2',
+<ELF Object ld-2.31.so, maps [0x700000:0x72c177]>),
+('extern-address space',
+<ExternObject Object cle##externs, maps [0x800000:0x87ffff]>),
+('cle##tls',
+<ELFTLSObjectV2 Object cle##tls, maps [0x900000:0x91500f]>)])
 """
 proj.loader.all_elf_objects #Get all ELF objects loaded (Linux)
 proj.loader.all_pe_objects #Get all binaries loaded (Windows)
 proj.loader.find_object_containing(0x400000)#Get object loaded in an address "<ELF Object fauxware, maps [0x400000:0x60105f]>"
 ```
-## Objectif principal
+## Objectif Principal
 ```python
 #Main Object (main binary loaded)
 obj = proj.loader.main_object #<ELF Object true, maps [0x400000:0x60721f]>
@@ -168,7 +78,7 @@ obj.find_section_containing(obj.entry) #Get section by address
 obj.plt['strcmp'] #Get plt address of a funcion (0x400550)
 obj.reverse_plt[0x400550] #Get function from plt address ('strcmp')
 ```
-## Symboles et Réadressages
+## Symboles et Relocalisations
 ```python
 strcmp = proj.loader.find_symbol('strcmp') #<Symbol "strcmp" in libc.so.6 at 0x1089cd0>
 
@@ -220,11 +130,11 @@ simgr.active[0].regs.rip #Get RIP from the last state
 ```
 ## Appel de fonctions
 
-* Vous pouvez passer une liste d'arguments via `args` et un dictionnaire de variables d'environnement via `env` dans `entry_state` et `full_init_state`. Les valeurs dans ces structures peuvent être des chaînes de caractères ou des vecteurs de bits, et seront sérialisées dans l'état en tant qu'arguments et environnement pour l'exécution simulée. Par défaut, `args` est une liste vide, donc si le programme que vous analysez s'attend à trouver au moins un `argv[0]`, vous devez toujours le fournir !
-* Si vous souhaitez que `argc` soit symbolique, vous pouvez passer un vecteur de bits symbolique en tant que `argc` aux constructeurs `entry_state` et `full_init_state`. Cependant, soyez prudent : si vous faites cela, vous devez également ajouter une contrainte à l'état résultant que votre valeur pour argc ne peut pas être supérieure au nombre d'arguments que vous avez passés dans `args`.
-* Pour utiliser l'état d'appel, vous devez l'appeler avec `.call_state(addr, arg1, arg2, ...)`, où `addr` est l'adresse de la fonction que vous voulez appeler et `argN` est le N-ième argument de cette fonction, soit en tant qu'entier, chaîne de caractères ou tableau Python, soit en tant que vecteur de bits. Si vous voulez allouer de la mémoire et réellement passer un pointeur vers un objet, vous devez l'envelopper dans un PointerWrapper, c'est-à-dire `angr.PointerWrapper("point to me!")`. Les résultats de cette API peuvent être un peu imprévisibles, mais nous y travaillons.
+* Vous pouvez passer une liste d'arguments via `args` et un dictionnaire de variables d'environnement via `env` dans `entry_state` et `full_init_state`. Les valeurs dans ces structures peuvent être des chaînes de caractères ou des bitvectors, et seront sérialisées dans l'état comme les arguments et l'environnement de l'exécution simulée. Le `args` par défaut est une liste vide, donc si le programme que vous analysez s'attend à trouver au moins un `argv[0]`, vous devriez toujours le fournir !
+* Si vous souhaitez que `argc` soit symbolique, vous pouvez passer un bitvector symbolique comme `argc` aux constructeurs `entry_state` et `full_init_state`. Soyez prudent, cependant : si vous faites cela, vous devriez également ajouter une contrainte à l'état résultant que votre valeur pour argc ne peut pas être plus grande que le nombre d'args que vous avez passé dans `args`.
+* Pour utiliser l'état d'appel, vous devriez l'appeler avec `.call_state(addr, arg1, arg2, ...)`, où `addr` est l'adresse de la fonction que vous voulez appeler et `argN` est le N-ième argument pour cette fonction, soit comme un entier python, une chaîne de caractères, ou un tableau, ou un bitvector. Si vous voulez avoir de la mémoire allouée et réellement passer un pointeur vers un objet, vous devriez l'envelopper dans un PointerWrapper, c'est-à-dire `angr.PointerWrapper("point to me!")`. Les résultats de cette API peuvent être un peu imprévisibles, mais nous travaillons dessus.
 
-## Vecteurs de bits
+## BitVectors
 ```python
 #BitVectors
 state = proj.factory.entry_state()
@@ -233,17 +143,7 @@ state.solver.eval(bv) #Convert BV to python int
 bv.zero_extend(30) #Will add 30 zeros on the left of the bitvector
 bv.sign_extend(30) #Will add 30 zeros or ones on the left of the BV extending the sign
 ```
-## BitVectors symboliques et contraintes
-
-Les BitVectors symboliques sont des variables qui représentent des bits. Les contraintes sont des équations ou des inégalités qui lient ces variables. Les contraintes peuvent être utilisées pour restreindre les valeurs possibles des variables symboliques. 
-
-Par exemple, si nous avons une variable symbolique `x` qui représente un octet, nous pouvons ajouter une contrainte `x < 10` pour limiter les valeurs possibles de `x` à des nombres inférieurs à 10. 
-
-Les contraintes peuvent également être utilisées pour modéliser des conditions de programme. Par exemple, si nous avons une instruction `if (x == 0)`, nous pouvons ajouter une contrainte `x == 0` pour représenter le chemin d'exécution où la condition est vraie. 
-
-Les contraintes peuvent être combinées à l'aide d'opérateurs logiques tels que `&` (et), `|` (ou) et `~` (non). Par exemple, nous pouvons combiner les contraintes `x < 10` et `x > 5` en utilisant l'opérateur `&` pour obtenir la contrainte `5 < x < 10`. 
-
-Les BitVectors symboliques et les contraintes sont utilisés dans angr pour représenter l'état d'un programme à un moment donné. En utilisant des contraintes, angr peut explorer toutes les branches possibles d'un programme et trouver des chemins d'exécution qui mènent à des états souhaités, tels que des fuites de données ou des points d'entrée de fonctions sensibles.
+## Vecteurs de bits symboliques et contraintes
 ```python
 x = state.solver.BVS("x", 64) #Symbolic variable BV of length 64
 y = state.solver.BVS("y", 64)
@@ -277,15 +177,7 @@ solver.eval_exact(expression, n) #n solutions to the given expression, throwing 
 solver.min(expression) #minimum possible solution to the given expression.
 solver.max(expression) #maximum possible solution to the given expression.
 ```
-## Hooking
-
-Le hooking est une technique qui permet de modifier le comportement d'un programme en interceptant et en modifiant les appels de fonctions. Cette technique est souvent utilisée pour contourner les protections de sécurité ou pour effectuer des analyses de programmes.
-
-Il existe plusieurs types de hooking, notamment le hooking d'importation, le hooking d'exportation et le hooking de fonction. Le hooking d'importation consiste à remplacer une fonction importée par une autre fonction, tandis que le hooking d'exportation consiste à remplacer une fonction exportée par une autre fonction. Le hooking de fonction consiste à intercepter les appels d'une fonction spécifique et à les rediriger vers une autre fonction.
-
-Le hooking peut être réalisé à l'aide de différentes techniques, telles que l'injection de code, la modification de la table des fonctions virtuelles (VFT) ou la modification de la table des adresses de fonctions (IAT). Cependant, le hooking peut être détecté par des techniques de détection de hooking, telles que la vérification de l'intégrité du code ou la surveillance des appels de fonctions.
-
-Dans le contexte de l'analyse de programmes, le hooking peut être utilisé pour tracer les appels de fonctions et pour collecter des informations sur le comportement du programme. Cependant, il est important de noter que le hooking peut également être utilisé à des fins malveillantes, telles que l'installation de logiciels malveillants ou la collecte de données sensibles.
+## Crochetage
 ```python
 >>> stub_func = angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained'] # this is a CLASS
 >>> proj.hook(0x10000, stub_func())  # hook with an instance of the class
@@ -303,22 +195,24 @@ True
 >>> proj.is_hooked(0x20000)
 True
 ```
-De plus, vous pouvez utiliser `proj.hook_symbol(name, hook)` en fournissant le nom d'un symbole en tant que premier argument pour accrocher l'adresse où le symbole se trouve.
+De plus, vous pouvez utiliser `proj.hook_symbol(name, hook)`, en fournissant le nom d'un symbole comme premier argument, pour intercepter l'adresse où le symbole réside
 
 # Exemples
 
+
+
+
+
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-- Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+Autres moyens de soutenir HackTricks :
 
-- Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-
-- Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-
-- **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-
-- **Partagez vos astuces de piratage en soumettant des PR au [repo hacktricks](https://github.com/carlospolop/hacktricks) et au [repo hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-moi** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
