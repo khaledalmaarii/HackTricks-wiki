@@ -1,46 +1,59 @@
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
+<summary><strong>通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>从零开始学习AWS黑客攻击成为英雄！</strong></summary>
 
-- 你在一家**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**吗？或者想要**获取PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+支持HackTricks的其他方式：
 
-- 发现我们的独家[**NFT收藏品The PEASS Family**](https://opensea.io/collection/the-peass-family)
-
-- 获得[**官方PEASS和HackTricks周边**](https://peass.creator-spring.com)
-
-- **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-
-- **通过向[hacktricks仓库](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud仓库](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
+* 如果您想在**HackTricks中看到您的公司广告**或**以PDF格式下载HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。**
 
 </details>
 
 
-从[https://scriptingxss.gitbook.io/firmware-security-testing-methodology/](https://scriptingxss.gitbook.io/firmware-security-testing-methodology/)复制
+摘自 [https://scriptingxss.gitbook.io/firmware-security-testing-methodology/](https://scriptingxss.gitbook.io/firmware-security-testing-methodology/)
 
-在修改设备启动和引导加载程序（如U-boot）时，请尝试以下操作：
+当修改设备启动和bootloaders，如U-boot时，尝试以下操作：
 
-* 尝试通过在启动过程中按下"0"、空格或其他已识别的“魔术代码”来访问引导加载程序解释器 shell。
-* 修改配置以执行shell命令，例如在引导参数的末尾添加"`init=/bin/sh`"。
+* 尝试在启动过程中按下"0"、空格或其他已识别的“魔术代码”来访问bootloaders解释器shell。
+* 修改配置以执行shell命令，例如在启动参数的末尾添加'`init=/bin/sh`'
 * `#printenv`
 * `#setenv bootargs=console=ttyS0,115200 mem=63M root=/dev/mtdblock3 mtdparts=sflash:<partitiionInfo> rootfstype=<fstype> hasEeprom=0 5srst=0 init=/bin/sh`
 * `#saveenv`
 * `#boot`
-* 设置一个tftp服务器，从工作站本地加载图像。确保设备具有网络访问权限。
+* 设置一个tftp服务器，从您的工作站本地通过网络加载镜像。确保设备具有网络访问能力。
 * `#setenv ipaddr 192.168.2.2 #设备的本地IP`
-* `#setenv serverip 192.168.2.1 #tftp服务器的IP`
+* `#setenv serverip 192.168.2.1 #tftp服务器IP`
 * `#saveenv`
 * `#reset`
-* `#ping 192.168.2.1 #检查是否有网络访问权限`
-* `#tftp ${loadaddr} uImage-3.6.35 #loadaddr接受两个参数：要加载文件的地址和TFTP服务器上图像的文件名`
-* 使用`ubootwrite.py`写入uboot镜像并推送修改后的固件以获取root权限
-* 检查是否启用了调试功能，例如：
+* `#ping 192.168.2.1 #检查是否有网络访问能力`
+* `#tftp ${loadaddr} uImage-3.6.35 #loadaddr接受两个参数：加载文件的地址和TFTP服务器上的镜像文件名`
+* 使用`ubootwrite.py`写入uboot镜像并推送修改后的固件以获得root权限
+* 检查是否启用了调试功能，如：
 * 详细日志记录
 * 加载任意内核
-* 从不受信任的来源引导
-* \*谨慎使用：将一个引脚接地，观察设备的引导序列，在内核解压缩之前，将接地的引脚短接/连接到SPI闪存芯片上的数据引脚（DO）
-* \*谨慎使用：将一个引脚接地，观察设备的引导序列，在内核解压缩之前，将接地的引脚短接/连接到NAND闪存芯片的8号和9号引脚上，此时U-boot正在解压缩UBI镜像
-* \*在短接引脚之前，请查阅NAND闪存芯片的数据手册
-* 配置一个恶意参数的恶意DHCP服务器，供设备在PXE引导期间摄取
-* 使用Metasploit的（MSF）DHCP辅助服务器，并使用命令注入命令修改“`FILENAME`”参数，例如`‘a";/bin/sh;#’`，以测试设备启动过程的输入验证。
+* 从不受信任的来源启动
+* \*小心使用：将一个引脚连接到地线，观察设备启动序列，在内核解压之前，将接地的引脚短接/连接到SPI闪存芯片上的数据引脚（DO）
+* \*小心使用：将一个引脚连接到地线，观察设备启动序列，在内核解压之前，将接地的引脚短接/连接到NAND闪存芯片的第8和第9脚，就在U-boot解压UBI镜像的时刻
+* \*在短接引脚之前先查阅NAND闪存芯片的数据手册
+* 配置一个带有恶意参数的流氓DHCP服务器，作为设备在PXE启动期间摄取的输入
+* 使用Metasploit的（MSF）DHCP辅助服务器，并修改'`FILENAME`'参数，使用如`‘a";/bin/sh;#’`的命令注入命令来测试设备启动程序的输入验证。
 
 \*硬件安全测试
+
+
+<details>
+
+<summary><strong>通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>从零开始学习AWS黑客攻击成为英雄！</strong></summary>
+
+支持HackTricks的其他方式：
+
+* 如果您想在**HackTricks中看到您的公司广告**或**以PDF格式下载HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。**
+
+</details>
