@@ -8,9 +8,9 @@ Outras formas de apoiar o HackTricks:
 
 * Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios do GitHub** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs exclusivos**](https://opensea.io/collection/the-peass-family)
+* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -19,7 +19,7 @@ Outras formas de apoiar o HackTricks:
 * JAMF Pro: `jamf checkJSSConnection`
 * Kandji
 
-Se você conseguir **comprometer credenciais de administrador** para acessar a plataforma de gerenciamento, você pode **potencialmente comprometer todos os computadores** distribuindo seu malware nas máquinas.
+Se você conseguir **comprometer credenciais de administrador** para acessar a plataforma de gerenciamento, você pode **comprometer potencialmente todos os computadores** distribuindo seu malware nas máquinas.
 
 Para red teaming em ambientes MacOS, é altamente recomendável ter algum entendimento de como os MDMs funcionam:
 
@@ -33,7 +33,7 @@ Um MDM terá permissão para instalar, consultar ou remover perfis, instalar apl
 
 Para executar seu próprio MDM, você precisa **ter seu CSR assinado por um fornecedor**, o que você poderia tentar obter com [**https://mdmcert.download/**](https://mdmcert.download/). E para executar seu próprio MDM para dispositivos Apple, você poderia usar [**MicroMDM**](https://github.com/micromdm/micromdm).
 
-No entanto, para instalar um aplicativo em um dispositivo inscrito, ainda é necessário que ele seja assinado por uma conta de desenvolvedor... no entanto, após a inscrição no MDM, o **dispositivo adiciona o certificado SSL do MDM como uma CA confiável**, então agora você pode assinar qualquer coisa.
+No entanto, para instalar um aplicativo em um dispositivo inscrito, você ainda precisa que ele seja assinado por uma conta de desenvolvedor... no entanto, após a inscrição no MDM, o **dispositivo adiciona o certificado SSL do MDM como uma CA confiável**, então agora você pode assinar qualquer coisa.
 
 Para inscrever o dispositivo em um MDM, você precisa instalar um arquivo **`mobileconfig`** como root, que pode ser entregue via um arquivo **pkg** (você poderia comprimi-lo em zip e quando baixado pelo safari ele será descomprimido).
 
@@ -41,13 +41,13 @@ Para inscrever o dispositivo em um MDM, você precisa instalar um arquivo **`mob
 
 ### Abusando do JAMF PRO
 
-O JAMF pode executar **scripts personalizados** (scripts desenvolvidos pelo sysadmin), **payloads nativos** (criação de conta local, definição de senha EFI, monitoramento de arquivo/processo...) e **MDM** (configurações do dispositivo, certificados do dispositivo...).
+O JAMF pode executar **scripts personalizados** (scripts desenvolvidos pelo sysadmin), **payloads nativos** (criação de conta local, definição de senha EFI, monitoramento de arquivo/processo...) e **MDM** (configurações de dispositivo, certificados de dispositivo...).
 
 #### Autoinscrição no JAMF
 
 Vá para uma página como `https://<nome-da-empresa>.jamfcloud.com/enroll/` para ver se eles têm **autoinscrição habilitada**. Se tiverem, pode **pedir credenciais para acesso**.
 
-Você poderia usar o script [**JamfSniper.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfSniper.py) para realizar um ataque de password spraying.
+Você poderia usar o script [**JamfSniper.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfSniper.py) para realizar um ataque de pulverização de senha.
 
 Além disso, após encontrar credenciais adequadas, você poderia ser capaz de forçar bruta outros nomes de usuário com o seguinte formulário:
 
@@ -55,15 +55,15 @@ Além disso, após encontrar credenciais adequadas, você poderia ser capaz de f
 
 #### Autenticação de dispositivo JAMF
 
-<figure><img src="../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-O binário **`jamf`** continha o segredo para abrir o keychain que, no momento da descoberta, era **compartilhado** entre todos e era: **`jk23ucnq91jfu9aj`**.\
+O binário **`jamf`** continha o segredo para abrir o chaveiro que, no momento da descoberta, era **compartilhado** entre todos e era: **`jk23ucnq91jfu9aj`**.\
 Além disso, o jamf **persiste** como um **LaunchDaemon** em **`/Library/LaunchAgents/com.jamf.management.agent.plist`**
 
 #### Tomada de Controle de Dispositivo JAMF
 
-A **URL** do **JSS** (Jamf Software Server) que o **`jamf`** usará está localizada em **`/Library/Preferences/com.jamfsoftware.jamf.plist`**. \
-Esse arquivo basicamente contém a URL:
+A **URL do JSS** (Jamf Software Server) que o **`jamf`** usará está localizada em **`/Library/Preferences/com.jamfsoftware.jamf.plist`**.\
+Este arquivo basicamente contém a URL:
 
 {% code overflow="wrap" %}
 ```bash
@@ -89,22 +89,20 @@ sudo jamf policy -id 0
 
 # TODO: There is an ID, maybe it's possible to have the real jamf connection and another one to the C2
 ```
-{% endcode %}
+#### Imitação do JAMF
 
-#### Impersonação JAMF
+Para **imitar a comunicação** entre um dispositivo e o JMF, você precisa:
 
-Para **impersonar a comunicação** entre um dispositivo e JMF, você precisa:
+* Do **UUID** do dispositivo: `ioreg -d2 -c IOPlatformExpertDevice | awk -F" '/IOPlatformUUID/{print $(NF-1)}'`
+* Do **chaveiro JAMF** de: `/Library/Application\ Support/Jamf/JAMF.keychain` que contém o certificado do dispositivo
 
-* O **UUID** do dispositivo: `ioreg -d2 -c IOPlatformExpertDevice | awk -F" '/IOPlatformUUID/{print $(NF-1)}'`
-* O **keychain JAMF** de: `/Library/Application\ Support/Jamf/JAMF.keychain` que contém o certificado do dispositivo
-
-Com essa informação, **crie uma VM** com o **UUID** do Hardware **roubado** e com **SIP desativado**, insira o **keychain JAMF,** **intercepte** o agente Jamf e roube suas informações.
+Com essa informação, **crie uma VM** com o **UUID** do Hardware **roubado** e com o **SIP desativado**, insira o **chaveiro JAMF,** **intercepte** o agente Jamf e roube suas informações.
 
 #### Roubo de segredos
 
 <figure><img src="../../.gitbook/assets/image (11).png" alt=""><figcaption><p>a</p></figcaption></figure>
 
-Você também pode monitorar o local `/Library/Application Support/Jamf/tmp/` para os **scripts personalizados** que os administradores podem querer executar via Jamf, pois são **colocados aqui, executados e removidos**. Esses scripts **podem conter credenciais**.
+Você também pode monitorar o local `/Library/Application Support/Jamf/tmp/` para os **scripts personalizados** que os administradores podem querer executar via Jamf, pois eles são **colocados aqui, executados e removidos**. Esses scripts **podem conter credenciais**.
 
 No entanto, **credenciais** podem ser passadas para esses scripts como **parâmetros**, então você precisaria monitorar `ps aux | grep -i jamf` (sem mesmo ser root).
 
@@ -141,10 +139,10 @@ dscl "/Active Directory/[Domain]/All Domains" ls /
 Também existem algumas ferramentas preparadas para o MacOS para enumerar automaticamente o AD e interagir com o kerberos:
 
 * [**Machound**](https://github.com/XMCyber/MacHound): MacHound é uma extensão da ferramenta de auditoria Bloodhound que permite coletar e ingerir relações do Active Directory em hosts MacOS.
-* [**Bifrost**](https://github.com/its-a-feature/bifrost): Bifrost é um projeto em Objective-C projetado para interagir com as APIs krb5 do Heimdal no macOS. O objetivo do projeto é possibilitar testes de segurança aprimorados em torno do Kerberos em dispositivos macOS usando APIs nativas, sem a necessidade de qualquer outro framework ou pacotes no alvo.
+* [**Bifrost**](https://github.com/its-a-feature/bifrost): Bifrost é um projeto em Objective-C projetado para interagir com as APIs krb5 do Heimdal no macOS. O objetivo do projeto é possibilitar um teste de segurança mais eficaz em torno do Kerberos em dispositivos macOS usando APIs nativas, sem a necessidade de qualquer outro framework ou pacotes no alvo.
 * [**Orchard**](https://github.com/its-a-feature/Orchard): Ferramenta JavaScript for Automation (JXA) para fazer enumeração do Active Directory.
 
-### Informações do Domínio
+### Informações de Domínio
 ```bash
 echo show com.apple.opendirectoryd.ActiveDirectory | scutil
 ```
@@ -205,7 +203,7 @@ O Red Teaming no MacOS é diferente do Red Teaming regular no Windows, pois gera
 
 ### Safari
 
-Quando um arquivo é baixado no Safari, se for um arquivo "seguro", ele será **aberto automaticamente**. Então, por exemplo, se você **baixar um zip**, ele será automaticamente descomprimido:
+Quando um arquivo é baixado no Safari, se for um arquivo "seguro", ele será **aberto automaticamente**. Então, por exemplo, se você **baixar um zip**, ele será descomprimido automaticamente:
 
 <figure><img src="../../.gitbook/assets/image (12) (3).png" alt=""><figcaption></figcaption></figure>
 
@@ -224,9 +222,9 @@ Quando um arquivo é baixado no Safari, se for um arquivo "seguro", ele será **
 Outras formas de apoiar o HackTricks:
 
 * Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**merchandising oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
+* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas dicas de hacking enviando PRs para os repositórios github do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga**-me no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe suas dicas de hacking enviando PRs para os repositórios github** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

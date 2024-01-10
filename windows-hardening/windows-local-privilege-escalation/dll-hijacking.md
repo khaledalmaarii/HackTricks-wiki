@@ -6,17 +6,17 @@
 
 Outras formas de apoiar o HackTricks:
 
-* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-me no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
 * **Compartilhe suas técnicas de hacking enviando PRs para os repositórios do GitHub** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
-Se você está interessado em **carreira de hacking** e em hackear o inquebrável - **estamos contratando!** (_polonês fluente escrito e falado é necessário_).
+Se você está interessado em **carreira de hacking** e hackear o inquebrável - **estamos contratando!** (_polonês fluente escrito e falado é necessário_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
@@ -24,22 +24,22 @@ Se você está interessado em **carreira de hacking** e em hackear o inquebráve
 
 Primeiramente, vamos esclarecer a definição. Dll hijacking é, no sentido mais amplo, **enganar uma aplicação legítima/confiável para carregar uma DLL arbitrária**. Termos como _DLL Search Order Hijacking_, _DLL Load Order Hijacking_, _DLL Spoofing_, _DLL Injection_ e _DLL Side-Loading_ são frequentemente -erroneamente- usados para dizer o mesmo.
 
-Dll hijacking pode ser usado para **executar** código, obter **persistência** e **escalar privilégios**. Destes três, o **menos provável** de encontrar é a **escalada de privilégios**. No entanto, como isso faz parte da seção de escalada de privilégios, vou focar nesta opção. Além disso, note que, independentemente do objetivo, um dll hijacking é realizado da mesma maneira.
+Dll hijacking pode ser usado para **executar** código, obter **persistência** e **escalar privilégios**. Destes 3, o **menos provável** de encontrar é **escalação de privilégios**. No entanto, como isso faz parte da seção de escalação de privilégios, vou focar nesta opção. Além disso, note que independentemente do objetivo, um dll hijacking é realizado da mesma maneira.
 
 ### Tipos
 
 Há uma **variedade de abordagens** para escolher, com sucesso dependendo de como a aplicação está configurada para carregar suas DLLs necessárias. As abordagens possíveis incluem:
 
-1. **Substituição de DLL**: substituir uma DLL legítima por uma DLL maliciosa. Isso pode ser combinado com _DLL Proxying_ \[[2](https://kevinalmansa.github.io/application%20security/DLL-Proxying/)], o que garante que toda a funcionalidade da DLL original permaneça intacta.
-2. **Hijacking da ordem de busca de DLL**: DLLs especificadas por uma aplicação sem um caminho são procuradas em locais fixos em uma ordem específica \[[3](https://docs.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-search-order)]. O hijacking da ordem de busca ocorre colocando a DLL maliciosa em um local que é pesquisado antes da DLL real. Isso às vezes inclui o diretório de trabalho da aplicação alvo.
-3. **Phantom DLL hijacking**: colocar uma DLL maliciosa no lugar de uma DLL ausente/inexistente que uma aplicação legítima tenta carregar \[[4](http://www.hexacorn.com/blog/2013/12/08/beyond-good-ol-run-key-part-5/)].
-4. **Redirecionamento de DLL**: alterar o local onde a DLL é procurada, por exemplo, editando a variável de ambiente `%PATH%`, ou arquivos `.exe.manifest` / `.exe.local` para incluir a pasta contendo a DLL maliciosa \[[5](https://docs.microsoft.com/en-gb/windows/win32/sbscs/application-manifests), [6](https://docs.microsoft.com/en-gb/windows/win32/dlls/dynamic-link-library-redirection)].
-5. **Substituição de DLL no WinSxS**: substituir a DLL legítima pela DLL maliciosa na pasta WinSxS relevante da DLL alvo. Muitas vezes referido como DLL side-loading \[[7](https://www.fireeye.com/content/dam/fireeye-www/global/en/current-threats/pdfs/rpt-dll-sideloading.pdf)].
-6. **Hijacking de DLL com caminho relativo**: copiar (e opcionalmente renomear) a aplicação legítima para uma pasta editável pelo usuário, junto com a DLL maliciosa. Na forma como isso é usado, tem semelhanças com (Signed) Binary Proxy Execution \[[8](https://attack.mitre.org/techniques/T1218/)]. Uma variação disso é (de forma um tanto paradoxal) chamada de ‘_bring your own LOLbin_’ \[[9](https://www.microsoft.com/security/blog/2019/09/26/bring-your-own-lolbin-multi-stage-fileless-nodersok-campaign-delivers-rare-node-js-based-malware/)] na qual a aplicação legítima é trazida com a DLL maliciosa (em vez de ser copiada do local legítimo na máquina da vítima).
+1. **Substituição de DLL**: substituir uma DLL legítima por uma DLL maliciosa. Isso pode ser combinado com _DLL Proxying_, que garante que toda a funcionalidade da DLL original permaneça intacta.
+2. **Hijacking da ordem de busca de DLL**: DLLs especificadas por uma aplicação sem um caminho são procuradas em locais fixos em uma ordem específica. O hijacking da ordem de busca ocorre colocando a DLL maliciosa em um local que é pesquisado antes da DLL real. Isso às vezes inclui o diretório de trabalho da aplicação alvo.
+3. **Phantom DLL hijacking**: colocar uma DLL maliciosa no lugar de uma DLL ausente/não existente que uma aplicação legítima tenta carregar.
+4. **Redirecionamento de DLL**: alterar o local onde a DLL é procurada, por exemplo, editando a variável de ambiente `%PATH%`, ou arquivos `.exe.manifest` / `.exe.local` para incluir a pasta contendo a DLL maliciosa.
+5. **Substituição de DLL no WinSxS**: substituir a DLL legítima pela DLL maliciosa na pasta WinSxS relevante da DLL alvo. Frequentemente referido como DLL side-loading.
+6. **Hijacking de DLL de caminho relativo**: copiar (e opcionalmente renomear) a aplicação legítima para uma pasta editável pelo usuário, junto com a DLL maliciosa. Na maneira como isso é usado, tem semelhanças com (Signed) Binary Proxy Execution. Uma variação disso é (de forma um tanto paradoxal) chamada de ‘_bring your own LOLbin_’ na qual a aplicação legítima é trazida com a DLL maliciosa (em vez de copiada do local legítimo na máquina da vítima).
 
 ## Encontrando Dlls ausentes
 
-A maneira mais comum de encontrar Dlls ausentes dentro de um sistema é executar [procmon](https://docs.microsoft.com/en-us/sysinternals/downloads/procmon) da sysinternals, **configurando** os **seguintes 2 filtros**:
+A maneira mais comum de encontrar Dlls ausentes dentro de um sistema é executar [procmon] da sysinternals, **configurando** os **seguintes 2 filtros**:
 
 ![](<../../.gitbook/assets/image (311).png>)
 
@@ -65,25 +65,25 @@ Em geral, uma **aplicação Windows** usará **caminhos de busca pré-definidos 
 Você pode ver a **ordem de busca de DLL em sistemas de 32 bits** abaixo:
 
 1. O diretório do qual a aplicação foi carregada.
-2. O diretório do sistema. Use a função [**GetSystemDirectory**](https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getsystemdirectorya) para obter o caminho deste diretório. (_C:\Windows\System32_)
+2. O diretório do sistema. Use a função [**GetSystemDirectory**] para obter o caminho deste diretório. (_C:\Windows\System32_)
 3. O diretório do sistema de 16 bits. Não há função que obtenha o caminho deste diretório, mas ele é pesquisado. (_C:\Windows\System_)
-4. O diretório do Windows. Use a função [**GetWindowsDirectory**](https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getwindowsdirectorya) para obter o caminho deste diretório.
+4. O diretório do Windows. Use a função [**GetWindowsDirectory**] para obter o caminho deste diretório.
 1. (_C:\Windows_)
 5. O diretório atual.
-6. Os diretórios listados na variável de ambiente PATH. Note que isso não inclui o caminho por aplicação especificado pela chave do registro **App Paths**. A chave **App Paths** não é usada ao calcular o caminho de busca da DLL.
+6. Os diretórios listados na variável de ambiente PATH. Note que isso não inclui o caminho por aplicação especificado pela chave de registro **App Paths**. A chave **App Paths** não é usada ao calcular o caminho de busca da DLL.
 
-Essa é a **ordem de busca padrão com o SafeDllSearchMode ativado**. Quando está desativado, o diretório atual sobe para o segundo lugar. Para desativar esse recurso, crie o valor do registro **HKEY\_LOCAL\_MACHINE\System\CurrentControlSet\Control\Session Manager**\\**SafeDllSearchMode** e defina-o como 0 (o padrão é ativado).
+Essa é a **ordem de busca padrão com SafeDllSearchMode ativado**. Quando está desativado, o diretório atual sobe para o segundo lugar. Para desativar esse recurso, crie o valor de registro **HKEY\_LOCAL\_MACHINE\System\CurrentControlSet\Control\Session Manager**\\**SafeDllSearchMode** e defina-o como 0 (padrão é ativado).
 
-Se a função [**LoadLibraryEx**](https://docs.microsoft.com/en-us/windows/desktop/api/LibLoaderAPI/nf-libloaderapi-loadlibraryexa) for chamada com **LOAD\_WITH\_ALTERED\_SEARCH\_PATH**, a busca começa no diretório do módulo executável que **LoadLibraryEx** está carregando.
+Se a função [**LoadLibraryEx**] for chamada com **LOAD\_WITH\_ALTERED\_SEARCH\_PATH**, a busca começa no diretório do módulo executável que **LoadLibraryEx** está carregando.
 
-Finalmente, note que **uma dll pode ser carregada indicando o caminho absoluto em vez de apenas o nome**. Nesse caso, essa dll **será procurada apenas nesse caminho** (se a dll tiver quaisquer dependências, elas serão procuradas como se fossem carregadas apenas pelo nome).
+Finalmente, note que **uma dll pode ser carregada indicando o caminho absoluto em vez de apenas o nome**. Nesse caso, essa dll é **apenas procurada nesse caminho** (se a dll tiver dependências, elas serão procuradas como se fossem carregadas apenas pelo nome).
 
-Existem outras maneiras de alterar a ordem de busca, mas não vou explicá-las aqui.
+Há outras maneiras de alterar a ordem de busca, mas não vou explicá-las aqui.
 
 #### Exceções na ordem de busca de dll da documentação do Windows
 
 * Se uma **DLL com o mesmo nome do módulo já estiver carregada na memória**, o sistema verifica apenas por redirecionamento e um manifesto antes de resolver para a DLL carregada, não importa em qual diretório ela esteja. **O sistema não procura pela DLL**.
-* Se a DLL estiver na lista de **DLLs conhecidas** para a versão do Windows na qual a aplicação está rodando, o **sistema usa sua cópia da DLL conhecida** (e as DLLs dependentes da DLL conhecida, se houver) **em vez de procurar** pela DLL. Para uma lista de DLLs conhecidas no sistema atual, veja a seguinte chave do registro: **HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\KnownDLLs**.
+* Se a DLL estiver na lista de **DLLs conhecidas** para a versão do Windows em que a aplicação está rodando, o **sistema usa sua cópia da DLL conhecida** (e as DLLs dependentes da DLL conhecida, se houver) **em vez de procurar** pela DLL. Para uma lista de DLLs conhecidas no sistema atual, veja a seguinte chave de registro: **HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\KnownDLLs**.
 * Se uma **DLL tiver dependências**, o sistema **procura** pelas DLLs dependentes como se elas fossem carregadas apenas com seus **nomes de módulos**. Isso é verdade **mesmo se a primeira DLL foi carregada especificando um caminho completo**.
 
 ### Escalando Privilégios
@@ -94,7 +94,7 @@ Existem outras maneiras de alterar a ordem de busca, mas não vou explicá-las a
 * Ter **permissão de escrita** em qualquer **pasta** onde a **dll** será **procurada** (provavelmente o diretório executável ou alguma pasta dentro do caminho do sistema).
 
 Sim, os requisitos são complicados de encontrar, pois **por padrão é meio estranho encontrar um executável privilegiado faltando uma dll** e é ainda **mais estranho ter permissões de escrita em uma pasta do caminho do sistema** (você não pode por padrão). Mas, em ambientes mal configurados isso é possível.\
-No caso de você ter sorte e encontrar-se atendendo aos requisitos, você poderia verificar o projeto [UACME](https://github.com/hfiref0x/UACME). Mesmo que o **objetivo principal do projeto seja burlar o UAC**, você pode encontrar lá um **PoC** de um hijacking de DLL para a versão do Windows que você pode usar (provavelmente apenas mudando o caminho da pasta onde você tem permissões de escrita).
+No caso de você ter sorte e encontrar-se atendendo aos requisitos, você poderia verificar o projeto [UACME]. Mesmo que o **objetivo principal do projeto seja burlar o UAC**, você pode encontrar lá um **PoC** de um hijacking de DLL para a versão do Windows que você pode usar (provavelmente apenas mudando o caminho da pasta onde você tem permissões de escrita).
 
 Note que você pode **verificar suas permissões em uma pasta** fazendo:
 ```bash
@@ -130,7 +130,7 @@ Além disso, na **próxima seção** você pode encontrar alguns **códigos bás
 
 ### **Dll Proxifying**
 
-Basicamente, um **Dll proxy** é uma Dll capaz de **executar seu código malicioso quando carregada**, mas também de **expor** e **funcionar** como **esperado** ao **encaminhar todas as chamadas para a biblioteca real**.
+Basicamente, um **Dll proxy** é uma Dll capaz de **executar seu código malicioso quando carregada**, mas também de **expor** e **funcionar** conforme **esperado** ao **encaminhar todas as chamadas para a biblioteca real**.
 
 Com a ferramenta \*\*\*\* [**DLLirant**](https://github.com/redteamsocietegenerale/DLLirant) \*\*\*\* ou \*\*\*\* [**Spartacus**](https://github.com/Accenture/Spartacus) \*\*\*\*, você pode realmente **indicar um executável e selecionar a biblioteca** que deseja proxificar e **gerar uma dll proxificada** ou **indicar a Dll** e **gerar uma dll proxificada**.
 
@@ -231,9 +231,9 @@ break;
 return TRUE;
 }
 ```
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
-Se você está interessado em **carreira de hacking** e em hackear o inquebrável - **estamos contratando!** (_fluência em polonês escrito e falado exigida_).
+Se você está interessado em **carreira de hacking** e hackear o inquebrável - **estamos contratando!** (_é necessário polonês fluente escrito e falado_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
@@ -247,6 +247,6 @@ Outras formas de apoiar o HackTricks:
 * Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
 * **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios do github** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

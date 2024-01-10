@@ -9,12 +9,12 @@ Outras formas de apoiar o HackTricks:
 * Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga**-me no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
 * **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Use [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente, com as ferramentas comunitárias **mais avançadas** do mundo.\
@@ -32,7 +32,7 @@ Por fim, um **plugin de autenticação** pode ser usado para **limitar as açõe
 
 ### **Acesso seguro ao motor Docker**
 
-O cliente Docker pode acessar o motor Docker **localmente usando socket Unix ou remotamente usando o mecanismo http**. Para usá-lo remotamente, é necessário utilizar https e **TLS** para que a confidencialidade, integridade e autenticação possam ser garantidas.
+O cliente Docker pode acessar o motor Docker **localmente usando socket Unix ou remotamente usando http**. Para usá-lo remotamente, é necessário utilizar https e **TLS** para garantir confidencialidade, integridade e autenticação.
 
 Por padrão, escuta no socket Unix `unix:///var/`\
 `run/docker.sock` e nas distribuições Ubuntu, as opções de inicialização do Docker são especificadas em `/etc/default/docker`. Para permitir que a API do Docker e o cliente acessem o motor Docker remotamente, precisamos **expor o daemon Docker usando socket http**. Isso pode ser feito por:
@@ -41,7 +41,7 @@ DOCKER_OPTS="-D -H unix:///var/run/docker.sock -H
 tcp://192.168.56.101:2376" -> add this to /etc/default/docker
 Sudo service docker restart -> Restart Docker daemon
 ```
-Expondo o daemon Docker usando http não é uma boa prática e é necessário proteger a conexão usando https. Existem duas opções: a primeira opção é para o **cliente verificar a identidade do servidor** e na segunda opção **tanto o cliente quanto o servidor verificam a identidade um do outro**. Certificados estabelecem a identidade de um servidor. Para um exemplo de ambas as opções [**verifique esta página**](https://sreeninet.wordpress.com/2016/03/06/docker-security-part-3engine-access/).
+Expondo o daemon do Docker usando http não é uma boa prática e é necessário proteger a conexão usando https. Existem duas opções: a primeira opção é para o **cliente verificar a identidade do servidor** e na segunda opção **tanto o cliente quanto o servidor verificam a identidade um do outro**. Certificados estabelecem a identidade de um servidor. Para um exemplo de ambas as opções [**verifique esta página**](https://sreeninet.wordpress.com/2016/03/06/docker-security-part-3engine-access/).
 
 ### **Segurança de imagem de contêiner**
 
@@ -53,7 +53,7 @@ Imagens de contêineres são armazenadas ou em repositório privado ou público.
 
 ### Varredura de Imagem
 
-Contêineres podem ter **vulnerabilidades de segurança** tanto por causa da imagem base quanto por causa do software instalado em cima da imagem base. O Docker está trabalhando em um projeto chamado **Nautilus** que realiza varredura de segurança em Contêineres e lista as vulnerabilidades. O Nautilus funciona comparando cada camada da imagem do Contêiner com o repositório de vulnerabilidades para identificar falhas de segurança.
+Contêineres podem ter **vulnerabilidades de segurança** tanto por causa da imagem base quanto por causa do software instalado em cima da imagem base. O Docker está trabalhando em um projeto chamado **Nautilus** que faz varredura de segurança de Contêineres e lista as vulnerabilidades. O Nautilus funciona comparando cada camada da imagem do Contêiner com o repositório de vulnerabilidades para identificar falhas de segurança.
 
 Para mais [**informações leia isto**](https://docs.docker.com/engine/scan/).
 
@@ -92,9 +92,9 @@ clair-scanner -w example-alpine.yaml --ip YOUR_LOCAL_IP alpine:3.5
 Imagens de Container Docker podem ser armazenadas em registro público ou privado. É necessário **assinar** imagens de **Container** para poder confirmar que as imagens não foram adulteradas. O **publicador** de conteúdo é responsável por **assinar** a imagem do Container e enviá-la para o registro.\
 A seguir estão alguns detalhes sobre a confiança de conteúdo Docker:
 
-* A confiança de conteúdo Docker é uma implementação do [projeto de código aberto Notary](https://github.com/docker/notary). O projeto de código aberto Notary é baseado no [projeto The Update Framework (TUF)](https://theupdateframework.github.io).
-* A confiança de conteúdo Docker **é ativada** com `export DOCKER_CONTENT_TRUST=1`. A partir da versão 1.10 do Docker, a confiança de conteúdo **não é ativada por padrão**.
-* **Quando** a confiança de conteúdo está **ativada**, só podemos **baixar imagens assinadas**. Quando a imagem é enviada, precisamos inserir a chave de etiquetagem.
+* A confiança de conteúdo Docker é uma implementação do [projeto open source Notary](https://github.com/docker/notary). O projeto open source Notary é baseado no [projeto The Update Framework (TUF)](https://theupdateframework.github.io).
+* A confiança de conteúdo **Docker é ativada** com `export DOCKER_CONTENT_TRUST=1`. A partir da versão 1.10 do Docker, a confiança de conteúdo **não é ativada por padrão**.
+* **Quando** a confiança de conteúdo está **ativada**, só podemos **baixar imagens assinadas**. Quando uma imagem é enviada, precisamos inserir a chave de etiquetagem.
 * Quando o publicador **envia** a imagem pela **primeira** **vez** usando docker push, é necessário inserir uma **frase-senha** para a **chave raiz e chave de etiquetagem**. Outras chaves são geradas automaticamente.
 * O Docker também adicionou suporte para chaves de hardware usando Yubikey e os detalhes estão disponíveis [aqui](https://blog.docker.com/2015/11/docker-content-trust-yubikey/).
 
@@ -104,7 +104,7 @@ $ docker pull smakam/mybusybox
 Using default tag: latest
 No trust data for latest
 ```
-A saída a seguir mostra a **imagem do Container sendo enviada para o Docker hub com assinatura** ativada. Como esta não é a primeira vez, o usuário é solicitado a inserir apenas a frase secreta para a chave do repositório.
+A saída a seguir mostra a **imagem do Container sendo enviada para o Docker hub com assinatura** ativada. Como não é a primeira vez, solicita-se ao usuário que insira apenas a frase secreta para a chave do repositório.
 ```shell-session
 $ docker push smakam/mybusybox:v2
 The push refers to a repository [docker.io/smakam/mybusybox]
@@ -115,7 +115,9 @@ v2: digest: sha256:8509fa814029e1c1baf7696b36f0b273492b87f59554a33589e1bd6283557
 Signing and pushing trust metadata
 Enter passphrase for repository key with ID 001986b (docker.io/smakam/mybusybox):
 ```
-É necessário armazenar a chave de root, a chave do repositório, bem como a frase secreta em um local seguro. O seguinte comando pode ser usado para fazer backup das chaves privadas:
+```markdown
+É necessário armazenar a chave de root, chave do repositório, bem como a frase secreta em um local seguro. O seguinte comando pode ser usado para fazer backup das chaves privadas:
+```
 ```bash
 tar -zcvf private_keys_backup.tar.gz ~/.docker/trust/private
 ```
@@ -123,7 +125,7 @@ Ao mudar o host do Docker, precisei mover as chaves raiz e as chaves do reposit�
 
 ***
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** com o apoio das ferramentas comunitárias **mais avançadas** do mundo.\
@@ -139,10 +141,10 @@ Obtenha Acesso Hoje:
 
 **Namespaces**
 
-Namespaces são úteis para isolar um projeto dos outros, isolando comunicações de processos, rede, montagens... É útil para isolar o processo do docker de outros processos (e até a pasta /proc) para que não possa escapar abusando de outros processos.
+Namespaces são úteis para isolar um projeto dos demais, isolando comunicações de processos, rede, montagens... É útil para isolar o processo do docker de outros processos (e até da pasta /proc) para que não possa escapar abusando de outros processos.
 
 Poderia ser possível "escapar" ou mais exatamente **criar novos namespaces** usando o binário **`unshare`** (que usa a syscall **`unshare`**). O Docker por padrão previne isso, mas o kubernetes não (no momento desta escrita).\
-De qualquer forma, isso é útil para criar novos namespaces, mas **não para voltar aos namespaces padrões do host** (a menos que você tenha acesso a algum `/proc` dentro dos namespaces do host, onde você poderia usar **`nsenter`** para entrar nos namespaces do host).
+De qualquer forma, isso é útil para criar novos namespaces, mas **não para voltar aos namespaces padrões do host** (a menos que você tenha acesso a algum `/proc` dentro dos namespaces do host, onde você poderia usar **`nsenter`** para entrar nos namespaces do host.).
 
 **CGroups**
 
@@ -150,9 +152,9 @@ Isso permite limitar recursos e não afeta a segurança do isolamento do process
 
 **Capabilities Drop**
 
-Considero isso uma das características **mais importantes** em relação à segurança do isolamento de processos. Isso porque sem as capacidades, mesmo que o processo esteja sendo executado como root **você não será capaz de realizar algumas ações privilegiadas** (porque a syscall chamada **`syscall`** retornará erro de permissão porque o processo não tem as capacidades necessárias).
+Considero isso uma das características **mais importantes** em relação à segurança do isolamento de processos. Isso porque sem as capabilities, mesmo que o processo esteja rodando como root **você não será capaz de realizar algumas ações privilegiadas** (porque a syscall chamada **`syscall`** retornará erro de permissão porque o processo não possui as capabilities necessárias).
 
-Estas são as **capacidades restantes** após o processo descartar as outras:
+Estas são as **capabilities remanescentes** após o processo descartar as outras:
 
 {% code overflow="wrap" %}
 ```
@@ -162,7 +164,7 @@ Current: cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,ca
 
 **Seccomp**
 
-Está ativado por padrão no Docker. Ajuda a **limitar ainda mais os syscalls** que o processo pode chamar.\
+Está ativado por padrão no Docker. Ajuda a **limitar ainda mais as syscalls** que o processo pode chamar.\
 O **perfil Seccomp padrão do Docker** pode ser encontrado em [https://github.com/moby/moby/blob/master/profiles/seccomp/default.json](https://github.com/moby/moby/blob/master/profiles/seccomp/default.json)
 
 **AppArmor**
@@ -175,7 +177,7 @@ Isso permitirá reduzir capacidades, syscalls, acesso a arquivos e pastas...
 
 ### Namespaces
 
-**Namespaces** são um recurso do kernel Linux que **particiona recursos do kernel** de tal forma que um conjunto de **processos** **vê** um conjunto de **recursos** enquanto **outro** conjunto de **processos** vê um **conjunto diferente** de recursos. O recurso funciona tendo o mesmo namespace para um conjunto de recursos e processos, mas esses namespaces referem-se a recursos distintos. Recursos podem existir em múltiplos espaços.
+**Namespaces** são um recurso do kernel Linux que **particiona recursos do kernel** de forma que um conjunto de **processos** **veja** um conjunto de **recursos** enquanto **outro** conjunto de **processos** vê um **conjunto diferente** de recursos. O recurso funciona tendo o mesmo namespace para um conjunto de recursos e processos, mas esses namespaces se referem a recursos distintos. Recursos podem existir em múltiplos espaços.
 
 O Docker utiliza os seguintes Namespaces do kernel Linux para alcançar o isolamento de Containers:
 
@@ -240,7 +242,7 @@ Este é um recurso de segurança que permite ao Docker **limitar as chamadas de 
 
 [SELinux](https://www.redhat.com/en/blog/latest-container-exploit-runc-can-be-blocked-selinux) é um **sistema de rotulagem**. Todo **processo** e cada objeto do **sistema de arquivos** tem um **rótulo**. As políticas do SELinux definem regras sobre o que um **rótulo de processo é permitido fazer com todos os outros rótulos** no sistema.
 
-Os mecanismos de containers iniciam **processos de containers com um único rótulo confinado do SELinux**, geralmente `container_t`, e então definem que o interior do container seja rotulado como `container_file_t`. As regras das políticas do SELinux basicamente dizem que os processos **`container_t` só podem ler/escrever/executar arquivos rotulados como `container_file_t`**.
+Os mecanismos de containers iniciam **processos de containers com um único rótulo confinado do SELinux**, geralmente `container_t`, e então configuram o interior do container para ser rotulado como `container_file_t`. As regras da política do SELinux basicamente dizem que os processos **`container_t` só podem ler/escrever/executar arquivos rotulados como `container_file_t`**.
 
 {% content-ref url="../selinux.md" %}
 [selinux.md](../selinux.md)
@@ -266,7 +268,7 @@ sudo apt-get install -y stress-ng && stress-ng --vm 1 --vm-bytes 1G --verify -t 
 # While loop
 docker run -d --name malicious-container -c 512 busybox sh -c 'while true; do :; done'
 ```
-* Ataque de negação de serviço por consumo de largura de banda
+* Ataque de negação de serviço por largura de banda (Bandwidth DoS)
 ```bash
 nc -lvp 4444 >/dev/null & while true; do cat /dev/urandom | nc <target IP> 4444; done
 ```
@@ -286,7 +288,7 @@ Na página a seguir, você pode aprender **o que a flag `--privileged` implica**
 
 Se você estiver executando um container onde um atacante consegue acessar como um usuário de baixo privilégio. Se você tiver um **binário suid mal configurado**, o atacante pode abusar dele e **escalar privilégios dentro** do container. O que pode permitir que ele escape dele.
 
-Executar o container com a opção **`no-new-privileges`** habilitada irá **prevenir esse tipo de escalada de privilégios**.
+Executar o container com a opção **`no-new-privileges`** ativada irá **prevenir esse tipo de escalada de privilégios**.
 ```
 docker run -it --security-opt=no-new-privileges:true nonewpriv
 ```
@@ -317,15 +319,15 @@ Além disso, **não use variáveis de ambiente** para suas informações sensív
 
 Volumes do Docker são melhores. Eles são a maneira recomendada de acessar suas informações sensíveis na documentação do Docker. Você pode **usar um volume como um sistema de arquivos temporário mantido na memória**. Volumes removem o risco de `docker inspect` e de registro em logs. No entanto, **usuários root ainda podem ver o segredo, assim como qualquer um que possa executar `exec` no container**.
 
-Ainda **melhor que volumes, use segredos do Docker**.
+Melhor ainda que volumes, use **Docker secrets**.
 
-Se você precisa do **segredo na sua imagem**, você pode usar **BuildKit**. BuildKit reduz significativamente o tempo de construção e tem outras características interessantes, incluindo **suporte a segredos durante o tempo de construção**.
+Se você precisa do **segredo na sua imagem**, você pode usar **BuildKit**. BuildKit reduz significativamente o tempo de construção e tem outras características interessantes, incluindo suporte a segredos durante o tempo de construção.
 
 Existem três maneiras de especificar o backend do BuildKit para que você possa usar suas funcionalidades agora:
 
 1. Defina como uma variável de ambiente com `export DOCKER_BUILDKIT=1`.
 2. Inicie seu comando `build` ou `run` com `DOCKER_BUILDKIT=1`.
-3. Ative o BuildKit por padrão. Configure em /_etc/docker/daemon.json_ para _true_ com: `{ "features": { "buildkit": true } }`. Depois, reinicie o Docker.
+3. Habilite o BuildKit por padrão. Configure a configuração em /_etc/docker/daemon.json_ para _true_ com: `{ "features": { "buildkit": true } }`. Depois, reinicie o Docker.
 4. Então você pode usar segredos durante o tempo de construção com a flag `--secret` assim:
 ```bash
 docker build --secret my_key=my_value ,src=path/to/my_secret_file .
@@ -336,7 +338,7 @@ Esses segredos são excluídos do cache de construção da imagem e da imagem fi
 
 Se você precisa do seu **segredo no seu contêiner em execução**, e não apenas durante a construção da sua imagem, use **Docker Compose ou Kubernetes**.
 
-Com o Docker Compose, adicione o par chave-valor dos segredos a um serviço e especifique o arquivo de segredo. Agradecimento especial à [resposta do Stack Exchange](https://serverfault.com/a/936262/535325) pela dica de segredos do Docker Compose que o exemplo abaixo foi adaptado.
+Com o Docker Compose, adicione o par chave-valor dos segredos a um serviço e especifique o arquivo de segredo. Dica do [Stack Exchange answer](https://serverfault.com/a/936262/535325) para a dica de segredos do Docker Compose que o exemplo abaixo é adaptado.
 
 Exemplo de `docker-compose.yml` com segredos:
 ```yaml
@@ -356,11 +358,11 @@ file: ./my_secret_file.txt
 ```
 Então inicie o Compose como de costume com `docker-compose up --build my_service`.
 
-Se você está usando [Kubernetes](https://kubernetes.io/docs/concepts/configuration/secret/), ele tem suporte para segredos. [Helm-Secrets](https://github.com/futuresimple/helm-secrets) pode ajudar a tornar o gerenciamento de segredos no K8s mais fácil. Além disso, o K8s tem Controles de Acesso Baseados em Funções (RBAC) — assim como o Docker Enterprise. RBAC torna o gerenciamento de Acesso a Segredos mais gerenciável e mais seguro para equipes.
+Se você está usando [Kubernetes](https://kubernetes.io/docs/concepts/configuration/secret/), ele tem suporte para segredos. [Helm-Secrets](https://github.com/futuresimple/helm-secrets) pode ajudar a tornar o gerenciamento de segredos no K8s mais fácil. Além disso, o K8s tem Controles de Acesso Baseados em Funções (RBAC) — assim como o Docker Enterprise. RBAC torna o gerenciamento de Segredos mais gerenciável e mais seguro para equipes.
 
 ### gVisor
 
-**gVisor** é um kernel de aplicação, escrito em Go, que implementa uma parte substancial da superfície do sistema Linux. Inclui um runtime da [Iniciativa de Contêineres Abertos (OCI)](https://www.opencontainers.org) chamado `runsc` que fornece uma **fronteira de isolamento entre a aplicação e o kernel do host**. O runtime `runsc` integra-se com Docker e Kubernetes, facilitando a execução de contêineres em sandbox.
+**gVisor** é um kernel de aplicação, escrito em Go, que implementa uma parte substancial da superfície do sistema Linux. Inclui um runtime da [Open Container Initiative (OCI)](https://www.opencontainers.org) chamado `runsc` que fornece uma **fronteira de isolamento entre a aplicação e o kernel do host**. O runtime `runsc` integra-se com Docker e Kubernetes, facilitando a execução de contêineres em sandbox.
 
 {% embed url="https://github.com/google/gvisor" %}
 
@@ -377,14 +379,14 @@ Se você está usando [Kubernetes](https://kubernetes.io/docs/concepts/configura
 * [**Remova todas as capacidades**](https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities) **(`--cap-drop=all`) e habilite apenas aquelas que são necessárias** (`--cap-add=...`). Muitas cargas de trabalho não precisam de nenhuma capacidade e adicioná-las aumenta o escopo de um ataque potencial.
 * [**Use a opção de segurança “no-new-privileges”**](https://raesene.github.io/blog/2019/06/01/docker-capabilities-and-no-new-privs/) para impedir que processos ganhem mais privilégios, por exemplo, através de binários suid.
 * [**Limite os recursos disponíveis para o contêiner**](https://docs.docker.com/engine/reference/run/#runtime-constraints-on-resources)**.** Limites de recursos podem proteger a máquina contra ataques de negação de serviço.
-* **Ajuste** [**perfis de seccomp**](https://docs.docker.com/engine/security/seccomp/)**,** [**AppArmor**](https://docs.docker.com/engine/security/apparmor/) **(ou SELinux)** para restringir as ações e chamadas de sistema disponíveis para o contêiner ao mínimo necessário.
-* **Use** [**imagens oficiais do docker**](https://docs.docker.com/docker-hub/official_images/) **e exija assinaturas** ou construa as suas próprias com base nelas. Não herde ou use imagens [comprometidas](https://arstechnica.com/information-technology/2018/06/backdoored-images-downloaded-5-million-times-finally-removed-from-docker-hub/). Além disso, armazene chaves raiz, frases de acesso em um local seguro. O Docker tem planos para gerenciar chaves com UCP.
+* **Ajuste** [**perfis de seccomp**](https://docs.docker.com/engine/security/seccomp/)**,** [**AppArmor**](https://docs.docker.com/engine/security/apparmor/) **(ou SELinux)** para restringir as ações e syscalls disponíveis para o contêiner ao mínimo necessário.
+* **Use** [**imagens oficiais do docker**](https://docs.docker.com/docker-hub/official_images/) **e exija assinaturas** ou construa as suas próprias baseadas nelas. Não herde ou use imagens [comprometidas](https://arstechnica.com/information-technology/2018/06/backdoored-images-downloaded-5-million-times-finally-removed-from-docker-hub/). Além disso, armazene chaves raiz, frases de acesso em um local seguro. O Docker tem planos para gerenciar chaves com UCP.
 * **Reconstrua regularmente** suas imagens para **aplicar patches de segurança ao host e imagens.**
 * Gerencie seus **segredos com sabedoria** para que seja difícil para o atacante acessá-los.
 * Se você **expõe o daemon do docker, use HTTPS** com autenticação de cliente e servidor.
 * No seu Dockerfile, **prefira COPY em vez de ADD**. ADD extrai automaticamente arquivos compactados e pode copiar arquivos de URLs. COPY não tem essas capacidades. Sempre que possível, evite usar ADD para não estar suscetível a ataques através de URLs remotas e arquivos Zip.
 * Tenha **contêineres separados para cada micro-serviço**
-* **Não coloque ssh** dentro do contêiner, “docker exec” pode ser usado para acessar o Contêiner via ssh.
+* **Não coloque ssh** dentro do contêiner, "docker exec" pode ser usado para acessar o Contêiner via ssh.
 * Tenha **imagens de contêiner menores**
 
 ## Docker Breakout / Escalada de Privilégios
@@ -395,9 +397,9 @@ Se você está **dentro de um contêiner docker** ou tem acesso a um usuário no
 [docker-breakout-privilege-escalation](docker-breakout-privilege-escalation/)
 {% endcontent-ref %}
 
-## Bypass de Plugin de Autenticação do Docker
+## Bypass de Plugin de Autenticação Docker
 
-Se você tem acesso ao socket do docker ou tem acesso a um usuário no **grupo docker, mas suas ações estão sendo limitadas por um plugin de autenticação do docker**, verifique se você pode **burlá-lo:**
+Se você tem acesso ao socket do docker ou tem acesso a um usuário no **grupo docker, mas suas ações estão sendo limitadas por um plugin de autenticação docker**, verifique se você pode **burlá-lo:**
 
 {% content-ref url="authz-and-authn-docker-access-authorization-plugin.md" %}
 [authz-and-authn-docker-access-authorization-plugin.md](authz-and-authn-docker-access-authorization-plugin.md)
@@ -420,10 +422,10 @@ Você precisa executar a ferramenta a partir do host que executa o docker ou de 
 * [https://en.wikipedia.org/wiki/Linux_namespaces](https://en.wikipedia.org/wiki/Linux_namespaces)
 * [https://towardsdatascience.com/top-20-docker-security-tips-81c41dd06f57](https://towardsdatascience.com/top-20-docker-security-tips-81c41dd06f57)
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) para construir e **automatizar fluxos de trabalho** com facilidade, alimentados pelas ferramentas comunitárias **mais avançadas** do mundo.\
+Use [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) para construir e **automatizar fluxos de trabalho** com as ferramentas comunitárias **mais avançadas** do mundo.\
 Obtenha Acesso Hoje:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -434,10 +436,10 @@ Obtenha Acesso Hoje:
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**merchandising oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-me no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
 * **Compartilhe suas dicas de hacking enviando PRs para os repositórios do GitHub** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

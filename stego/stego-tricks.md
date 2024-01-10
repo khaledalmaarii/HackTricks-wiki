@@ -8,7 +8,7 @@ Outras formas de apoiar o HackTricks:
 
 * Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs exclusivos**](https://opensea.io/collection/the-peass-family)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
 * **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
 * **Compartilhe suas técnicas de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) no github.
 
@@ -16,7 +16,7 @@ Outras formas de apoiar o HackTricks:
 
 <figure><img src="../.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-Encontre vulnerabilidades que importam mais para que você possa corrigi-las mais rapidamente. Intruder monitora sua superfície de ataque, executa varreduras proativas de ameaças, encontra problemas em toda a sua pilha tecnológica, de APIs a aplicativos web e sistemas em nuvem. [**Experimente grátis**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) hoje.
+Encontre vulnerabilidades que importam mais para que você possa corrigi-las mais rapidamente. Intruder rastreia sua superfície de ataque, executa varreduras proativas de ameaças, encontra problemas em toda a sua pilha tecnológica, de APIs a aplicativos web e sistemas em nuvem. [**Experimente gratuitamente**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) hoje.
 
 {% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
@@ -29,23 +29,23 @@ Encontre vulnerabilidades que importam mais para que você possa corrigi-las mai
 Binwalk é uma ferramenta para pesquisar arquivos binários, como imagens e arquivos de áudio, em busca de arquivos ocultos e dados embutidos.\
 Pode ser instalado com `apt`, e o [código-fonte](https://github.com/ReFirmLabs/binwalk) está disponível no Github.\
 **Comandos úteis**:\
-`binwalk arquivo` : Exibe os dados embutidos no arquivo especificado\
-`binwalk -e arquivo` : Exibe e extrai os dados do arquivo especificado\
-`binwalk --dd ".*" arquivo` : Exibe e extrai todos os dados do arquivo especificado
+`binwalk file` : Exibe os dados embutidos no arquivo especificado\
+`binwalk -e file` : Exibe e extrai os dados do arquivo especificado\
+`binwalk --dd ".*" file` : Exibe e extrai todos os dados do arquivo especificado
 
 ### Foremost <a href="#foremost" id="foremost"></a>
 
-Foremost é um programa que recupera arquivos baseados em seus cabeçalhos, rodapés e estruturas de dados internas. Acho especialmente útil ao lidar com imagens png. Você pode selecionar os arquivos que o Foremost irá extrair alterando o arquivo de configuração em **/etc/foremost.conf.**\
+Foremost é um programa que recupera arquivos baseados em seus cabeçalhos, rodapés e estruturas de dados internas. Acho especialmente útil ao lidar com imagens png. Você pode selecionar os arquivos que o Foremost extrairá alterando o arquivo de configuração em **/etc/foremost.conf.**\
 Pode ser instalado com `apt`, e o [código-fonte](https://github.com/korczis/foremost) está disponível no Github.\
 **Comandos úteis:**\
-`foremost -i arquivo` : extrai dados do arquivo especificado.
+`foremost -i file` : extrai dados do arquivo especificado.
 
 ### Exiftool <a href="#exiftool" id="exiftool"></a>
 
 Às vezes, informações importantes estão ocultas nos metadados de uma imagem ou arquivo; exiftool pode ser muito útil para visualizar metadados de arquivos.\
 Você pode obtê-lo [aqui](https://www.sno.phy.queensu.ca/\~phil/exiftool/)\
 **Comandos úteis:**\
-`exiftool arquivo` : mostra os metadados do arquivo especificado
+`exiftool file` : mostra os metadados do arquivo especificado
 
 ### Exiv2 <a href="#exiv2" id="exiv2"></a>
 
@@ -53,7 +53,7 @@ Uma ferramenta semelhante ao exiftool.\
 Pode ser instalado com `apt`, e o [código-fonte](https://github.com/Exiv2/exiv2) está disponível no Github.\
 [Site oficial](http://www.exiv2.org/)\
 **Comandos úteis:**\
-`exiv2 arquivo` : mostra os metadados do arquivo especificado
+`exiv2 file` : mostra os metadados do arquivo especificado
 
 ### File
 
@@ -63,19 +63,19 @@ Verifique que tipo de arquivo você tem
 
 Extraia strings do arquivo.\
 Comandos úteis:\
-`strings -n 6 arquivo`: Extrai strings com comprimento mínimo de 6\
-`strings -n 6 arquivo | head -n 20`: Extrai as primeiras 20 strings com comprimento mínimo de 6\
-`strings -n 6 arquivo | tail -n 20`: Extrai as últimas 20 strings com comprimento mínimo de 6\
-`strings -e s -n 6 arquivo`: Extrai strings de 7 bits\
-`strings -e S -n 6 arquivo`: Extrai strings de 8 bits\
-`strings -e l -n 6 arquivo`: Extrai strings de 16 bits (little-endian)\
-`strings -e b -n 6 arquivo`: Extrai strings de 16 bits (big-endian)\
-`strings -e L -n 6 arquivo`: Extrai strings de 32 bits (little-endian)\
-`strings -e B -n 6 arquivo`: Extrai strings de 32 bits (big-endian)
+`strings -n 6 file`: Extrai strings com comprimento mínimo de 6\
+`strings -n 6 file | head -n 20`: Extrai as primeiras 20 strings com comprimento mínimo de 6\
+`strings -n 6 file | tail -n 20`: Extrai as últimas 20 strings com comprimento mínimo de 6\
+`strings -e s -n 6 file`: Extrai strings de 7 bits\
+`strings -e S -n 6 file`: Extrai strings de 8 bits\
+`strings -e l -n 6 file`: Extrai strings de 16 bits (little-endian)\
+`strings -e b -n 6 file`: Extrai strings de 16 bits (big-endian)\
+`strings -e L -n 6 file`: Extrai strings de 32 bits (little-endian)\
+`strings -e B -n 6 file`: Extrai strings de 32 bits (big-endian)
 
 ### cmp - Comparação
 
-Se você tem alguma imagem/áudio/vídeo **modificado**, verifique se consegue **encontrar o original exato** na internet, depois **compare ambos** arquivos com:
+Se você tem alguma imagem/áudio/vídeo **modificado**, verifique se consegue **encontrar o original exato** na internet, depois **compare ambos** os arquivos com:
 ```
 cmp original.jpg stego.jpg -b -l
 ```
@@ -86,10 +86,10 @@ cmp original.jpg stego.jpg -b -l
 Se você encontrar que uma **linha de texto** está **maior** do que deveria ser, então algumas **informações ocultas** podem estar incluídas dentro dos **espaços** usando caracteres invisíveis.󐁈󐁥󐁬󐁬󐁯󐀠󐁴󐁨\
 Para **extrair** os **dados**, você pode usar: [https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder)
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente, alimentados pelas ferramentas comunitárias **mais avançadas** do mundo.\
+Use [**Trickest**](https://trickest.com/?utm_campaign=hacktrics\&utm_medium=banner\&utm_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente, alimentados pelas ferramentas comunitárias **mais avançadas** do mundo.\
 Obtenha Acesso Hoje:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -132,7 +132,7 @@ Capaz de uma ampla variedade de truques simples e avançados, esta ferramenta po
 
 ### Stegsolve
 
-Às vezes, há uma mensagem ou um texto oculto na própria imagem que, para visualizá-lo, deve ter filtros de cores aplicados ou alguns níveis de cores alterados. Embora você possa fazer isso com algo como GIMP ou Photoshop, Stegsolve facilita. É uma pequena ferramenta Java que aplica muitos filtros de cores úteis em imagens; Em desafios de CTF, Stegsolve é frequentemente um grande economizador de tempo.\
+Às vezes há uma mensagem ou um texto oculto na própria imagem que, para visualizá-lo, deve ter filtros de cores aplicados ou alguns níveis de cores alterados. Embora você possa fazer isso com algo como GIMP ou Photoshop, Stegsolve facilita. É uma pequena ferramenta Java que aplica muitos filtros de cores úteis em imagens; Em desafios de CTF, Stegsolve muitas vezes é um grande economizador de tempo.\
 Você pode obtê-lo no [Github](https://github.com/eugenekolo/sec-tools/tree/master/stego/stegsolve/stegsolve)\
 Para usá-lo, basta abrir a imagem e clicar nos botões `<` `>`.
 
@@ -227,14 +227,14 @@ Encontre vulnerabilidades que importam mais para que você possa corrigi-las mai
 
 <details>
 
-<summary><strong>Aprenda hacking em AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda AWS hacking do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Outras formas de apoiar o HackTricks:
 
 * Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Adquira o [**merchandising oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga**-me no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios do github** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

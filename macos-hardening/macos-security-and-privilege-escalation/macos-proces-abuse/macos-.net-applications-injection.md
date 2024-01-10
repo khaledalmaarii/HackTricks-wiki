@@ -8,9 +8,9 @@ Outras formas de apoiar o HackTricks:
 
 * Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Participe do grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou do grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) no github.
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios do GitHub** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -23,7 +23,7 @@ Ele cria 2 pipes nomeados por processo .Net em [dbgtransportsession.cpp#L127](ht
 
 Portanto, se você for ao **`$TMPDIR`** do usuário, poderá encontrar **fifos de depuração** que poderiam ser usados para depurar aplicações .Net:
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 A função [**DbgTransportSession::TransportWorker**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L1259) lidará com a comunicação de um depurador.
 
@@ -173,13 +173,13 @@ vmmap -pages 35829 | grep "rwx/rwx"
 ```
 Então, para desencadear a execução, seria necessário saber algum lugar onde um ponteiro de função é armazenado para sobrescrevê-lo. É possível sobrescrever um ponteiro dentro da **Tabela de Funções Dinâmicas (DFT)**, que é usada pelo tempo de execução do .NET Core para fornecer funções auxiliares para a compilação JIT. Uma lista de ponteiros de função suportados pode ser encontrada dentro de [`jithelpers.h`](https://github.com/dotnet/runtime/blob/6072e4d3a7a2a1493f514cdf4be75a3d56580e84/src/coreclr/src/inc/jithelpers.h).
 
-Nas versões x64 isso é direto usando a técnica de **caça de assinaturas** ao estilo mimikatz para procurar em **`libcorclr.dll`** uma referência ao símbolo **`_hlpDynamicFuncTable`**, que podemos desreferenciar:
+Nas versões x64 isso é direto usando a técnica de **caça de assinaturas** ao estilo mimikatz para procurar em **`libcorclr.dll`** por uma referência ao símbolo **`_hlpDynamicFuncTable`**, que podemos desreferenciar:
 
 <figure><img src="../../../.gitbook/assets/image (1) (3).png" alt=""><figcaption></figcaption></figure>
 
-Tudo o que resta a fazer é encontrar um endereço do qual iniciar nossa busca por assinaturas. Para fazer isso, aproveitamos outra função de depuração exposta, **`MT_GetDCB`**. Isso retorna várias informações úteis sobre o processo alvo, mas para o nosso caso, estamos interessados em um campo retornado contendo o **endereço de uma função auxiliar**, **`m_helperRemoteStartAddr`**. Usando este endereço, sabemos exatamente **onde `libcorclr.dll` está localizado** na memória do processo alvo e podemos iniciar nossa busca pela DFT.
+Tudo o que resta a fazer é encontrar um endereço do qual iniciar nossa busca de assinatura. Para fazer isso, aproveitamos outra função de depuração exposta, **`MT_GetDCB`**. Isso retorna uma série de informações úteis sobre o processo alvo, mas para o nosso caso, estamos interessados em um campo retornado contendo o **endereço de uma função auxiliar**, **`m_helperRemoteStartAddr`**. Usando este endereço, sabemos exatamente **onde `libcorclr.dll` está localizado** na memória do processo alvo e podemos iniciar nossa busca pela DFT.
 
-Sabendo deste endereço é possível sobrescrever o ponteiro da função com o nosso próprio shellcode.
+Sabendo desse endereço, é possível sobrescrever o ponteiro da função com o nosso próprio shellcode.
 
 O código POC completo usado para injetar no PowerShell pode ser encontrado [aqui](https://gist.github.com/xpn/b427998c8b3924ab1d63c89d273734b6).
 
@@ -197,6 +197,6 @@ Outras maneiras de apoiar o HackTricks:
 * Adquira o [**merchandising oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
 * **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga**-me no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas dicas de hacking enviando PRs para os repositórios github do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

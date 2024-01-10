@@ -8,8 +8,8 @@ Outras formas de apoiar o HackTricks:
 
 * Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* **Participe do grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou do grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
 * **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
@@ -40,9 +40,7 @@ package pmod;
 system('whoami');
 1; # Modules must return a true value
 ```
-```markdown
 E então use as variáveis de ambiente:
-```
 ```bash
 PERL5LIB=/tmp/ PERL5OPT=-Mpmod
 ```
@@ -64,13 +62,13 @@ Que retornará algo como:
 /System/Library/Perl/Extras/5.30/darwin-thread-multi-2level
 /System/Library/Perl/Extras/5.30
 ```
-Algumas das pastas retornadas nem sequer existem, no entanto, **`/Library/Perl/5.30`** **existe**, **não** está **protegida** pelo **SIP** e está **antes** das pastas **protegidas pelo SIP**. Portanto, alguém poderia abusar dessa pasta para adicionar dependências de script lá, fazendo com que um script Perl de alta privilégio o carregue.
+Algumas das pastas retornadas nem sequer existem, no entanto, **`/Library/Perl/5.30`** **existe**, **não** está **protegida** pelo **SIP** e está **antes** das pastas **protegidas pelo SIP**. Portanto, alguém poderia abusar dessa pasta para adicionar dependências de script lá, fazendo com que um script Perl de alto privilégio o carregue.
 
 {% hint style="warning" %}
 No entanto, observe que você **precisa ser root para escrever nessa pasta** e atualmente você receberá este **prompt TCC**:
 {% endhint %}
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1).png" alt="" width="244"><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1).png" alt="" width="244"><figcaption></figcaption></figure>
 
 Por exemplo, se um script está importando **`use File::Basename;`**, seria possível criar `/Library/Perl/5.30/File/Basename.pm` para fazer com que ele execute código arbitrário.
 
@@ -88,6 +86,6 @@ Outras formas de apoiar o HackTricks:
 * Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
 * **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) no github.
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

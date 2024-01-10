@@ -8,9 +8,9 @@ Outras formas de apoiar o HackTricks:
 
 * Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs exclusivos**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios do GitHub** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -18,7 +18,7 @@ Outras formas de apoiar o HackTricks:
 
 Binários do Mac OS geralmente são compilados como **binários universais**. Um **binário universal** pode **suportar múltiplas arquiteturas no mesmo arquivo**.
 
-Esses binários seguem a **estrutura Mach-O**, que é basicamente composta por:
+Esses binários seguem a **estrutura Mach-O**, que é basicamente composta de:
 
 * Cabeçalho
 * Comandos de Carga
@@ -52,35 +52,35 @@ O cabeçalho tem os bytes **magic** seguidos pelo **número** de **archs** que o
 Verifique com:
 
 <pre class="language-shell-session"><code class="lang-shell-session">% file /bin/ls
-/bin/ls: Mach-O universal binary with 2 architectures: [x86_64:Mach-O 64-bit executable x86_64] [arm64e:Mach-O 64-bit executable arm64e]
-/bin/ls (for architecture x86_64):	Mach-O 64-bit executable x86_64
-/bin/ls (for architecture arm64e):	Mach-O 64-bit executable arm64e
+/bin/ls: Mach-O universal binary com 2 arquiteturas: [x86_64:Mach-O executável de 64 bits x86_64] [arm64e:Mach-O executável de 64 bits arm64e]
+/bin/ls (para arquitetura x86_64):	Mach-O executável de 64 bits x86_64
+/bin/ls (para arquitetura arm64e):	Mach-O executável de 64 bits arm64e
 
 % otool -f -v /bin/ls
-Fat headers
+Cabeçalhos Fat
 fat_magic FAT_MAGIC
 <strong>nfat_arch 2
-</strong><strong>architecture x86_64
+</strong><strong>arquitetura x86_64
 </strong>    cputype CPU_TYPE_X86_64
 cpusubtype CPU_SUBTYPE_X86_64_ALL
-capabilities 0x0
-<strong>    offset 16384
-</strong><strong>    size 72896
-</strong>    align 2^14 (16384)
-<strong>architecture arm64e
+capacidades 0x0
+<strong>    deslocamento 16384
+</strong><strong>    tamanho 72896
+</strong>    alinhamento 2^14 (16384)
+<strong>arquitetura arm64e
 </strong>    cputype CPU_TYPE_ARM64
 cpusubtype CPU_SUBTYPE_ARM64E
-capabilities PTR_AUTH_VERSION USERSPACE 0
-<strong>    offset 98304
-</strong><strong>    size 88816
-</strong>    align 2^14 (16384)
+capacidades PTR_AUTH_VERSION USERSPACE 0
+<strong>    deslocamento 98304
+</strong><strong>    tamanho 88816
+</strong>    alinhamento 2^14 (16384)
 </code></pre>
 
 ou usando a ferramenta [Mach-O View](https://sourceforge.net/projects/machoview/):
 
 <figure><img src="../../../.gitbook/assets/image (5) (1) (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-Como você pode estar pensando, geralmente um binário universal compilado para 2 arquiteturas **dobra o tamanho** de um compilado para apenas 1 arch.
+Como você pode estar pensando, geralmente um binário universal compilado para 2 arquiteturas **dobra o tamanho** de um compilado para apenas 1 arquitetura.
 
 ## **Cabeçalho Mach-O**
 
@@ -114,8 +114,8 @@ uint32_t	reserved;	/* reserved */
 **Tipos de Arquivos**:
 
 * MH\_EXECUTE (0x2): Executável Mach-O padrão
-* MH\_DYLIB (0x6): Uma biblioteca dinâmica Mach-O (i.e. .dylib)
-* MH\_BUNDLE (0x8): Um pacote Mach-O (i.e. .bundle)
+* MH\_DYLIB (0x6): Uma biblioteca dinâmica Mach-O (ou seja, .dylib)
+* MH\_BUNDLE (0x8): Um pacote Mach-O (ou seja, .bundle)
 ```bash
 # Checking the mac header of a binary
 otool -arch arm64e -hv /bin/ls
@@ -129,7 +129,7 @@ Ou usando [Mach-O View](https://sourceforge.net/projects/machoview/):
 
 ## **Comandos de Carga Mach-O**
 
-Isso especifica o **layout do arquivo na memória**. Contém a **localização da tabela de símbolos**, o contexto da thread principal no início da execução e quais **bibliotecas compartilhadas** são necessárias.
+Isso especifica o **layout do arquivo na memória**. Contém a **localização da tabela de símbolos**, o contexto da thread principal no início da execução e quais **bibliotecas compartilhadas** são necessárias.\
 Os comandos basicamente instruem o carregador dinâmico **(dyld) como carregar o binário na memória.**
 
 Todos os comandos de carga começam com uma estrutura **load\_command**, definida no **`loader.h`** mencionado anteriormente:
@@ -139,7 +139,7 @@ uint32_t cmd;           /* type of load command */
 uint32_t cmdsize;       /* total size of command in bytes */
 };
 ```
-Existem cerca de **50 tipos diferentes de comandos de carga** que o sistema trata de maneira diferente. Os mais comuns são: `LC_SEGMENT_64`, `LC_LOAD_DYLINKER`, `LC_MAIN`, `LC_LOAD_DYLIB` e `LC_CODE_SIGNATURE`.
+Existem cerca de **50 diferentes tipos de comandos de carga** que o sistema lida de maneira diferente. Os mais comuns são: `LC_SEGMENT_64`, `LC_LOAD_DYLINKER`, `LC_MAIN`, `LC_LOAD_DYLIB` e `LC_CODE_SIGNATURE`.
 
 ### **LC\_SEGMENT/LC\_SEGMENT\_64**
 
@@ -151,7 +151,7 @@ Esses comandos **definem segmentos** que são **mapeados** no **espaço de memó
 
 Existem **diferentes tipos** de segmentos, como o segmento **\_\_TEXT**, que contém o código executável de um programa, e o segmento **\_\_DATA**, que contém dados usados pelo processo. Esses **segmentos estão localizados na seção de dados** do arquivo Mach-O.
 
-**Cada segmento** pode ser ainda mais **dividido** em várias **seções**. A **estrutura do comando de carga** contém **informações** sobre **essas seções** dentro do respectivo segmento.
+**Cada segmento** pode ser ainda mais **dividido** em múltiplas **seções**. A **estrutura do comando de carga** contém **informações** sobre **essas seções** dentro do respectivo segmento.
 
 No cabeçalho, primeiro você encontra o **cabeçalho do segmento**:
 
@@ -197,7 +197,7 @@ Exemplo de **cabeçalho de seção**:
 
 Se você **adicionar** o **deslocamento da seção** (0x37DC) + o **deslocamento** onde a **arquitetura começa**, neste caso `0x18000` --> `0x37DC + 0x18000 = 0x1B7DC`
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Também é possível obter **informações dos cabeçalhos** a partir da **linha de comando** com:
 ```bash
@@ -215,13 +215,13 @@ Segmentos comuns carregados por este cmd:
 * **`__DATA`**: Contém dados que são **legíveis** e **graváveis** (não executáveis)**.**
 * `__data`: Variáveis globais (que foram inicializadas)
 * `__bss`: Variáveis estáticas (que não foram inicializadas)
-* `__objc_*` (\_\_objc\_classlist, \_\_objc\_protolist, etc): Informações usadas pelo runtime do Objective-C
+* `__objc_*` (\_\_objc\_classlist, \_\_objc\_protolist, etc): Informações usadas pelo runtime Objective-C
 * **`__LINKEDIT`**: Contém informações para o linker (dyld) como, "entradas de tabela de símbolos, strings e realocação."
-* **`__OBJC`**: Contém informações usadas pelo runtime do Objective-C. Embora essas informações também possam ser encontradas no segmento \_\_DATA, dentro de várias seções em \_\_objc\_\*.
+* **`__OBJC`**: Contém informações usadas pelo runtime Objective-C. Embora essas informações também possam ser encontradas no segmento \_\_DATA, dentro de várias seções \_\_objc\_\*.
 
 ### **`LC_MAIN`**
 
-Contém o ponto de entrada no **atributo entryoff.** No momento do carregamento, **dyld** simplesmente **adiciona** este valor à **base do binário** (na memória), e então **salta** para esta instrução para iniciar a execução do código do binário.
+Contém o ponto de entrada no **atributo entryoff.** No momento do carregamento, **dyld** simplesmente **adiciona** este valor à **base (em memória) do binário**, e então **salta** para esta instrução para iniciar a execução do código do binário.
 
 ### **LC\_CODE\_SIGNATURE**
 
@@ -230,13 +230,13 @@ No entanto, você pode encontrar algumas informações sobre esta seção neste 
 
 ### **LC\_LOAD\_DYLINKER**
 
-Contém o **caminho para o executável do linker dinâmico** que mapeia bibliotecas compartilhadas no espaço de endereço do processo. O **valor é sempre definido como `/usr/lib/dyld`**. É importante notar que no macOS, o mapeamento de dylib ocorre em **modo usuário**, não em modo kernel.
+Contém o **caminho para o executável do linker dinâmico** que mapeia bibliotecas compartilhadas no espaço de endereço do processo. O **valor é sempre definido como `/usr/lib/dyld`**. É importante notar que no macOS, o mapeamento de dylib acontece em **modo usuário**, não em modo kernel.
 
 ### **`LC_LOAD_DYLIB`**
 
-Este comando de carga descreve uma dependência de **biblioteca dinâmica** que **instrui** o **carregador** (dyld) a **carregar e vincular a referida biblioteca**. Há um comando de carga LC\_LOAD\_DYLIB **para cada biblioteca** de que o binário Mach-O necessita.
+Este comando de carregamento descreve uma dependência de **biblioteca dinâmica** que **instrui** o **carregador** (dyld) a **carregar e vincular a referida biblioteca**. Há um comando de carregamento LC\_LOAD\_DYLIB **para cada biblioteca** de que o binário Mach-O necessita.
 
-* Este comando de carga é uma estrutura do tipo **`dylib_command`** (que contém uma struct dylib, descrevendo a biblioteca dinâmica dependente real):
+* Este comando de carregamento é uma estrutura do tipo **`dylib_command`** (que contém uma struct dylib, descrevendo a biblioteca dinâmica dependente real):
 ```objectivec
 struct dylib_command {
 uint32_t        cmd;            /* LC_LOAD_{,WEAK_}DYLIB */
@@ -251,7 +251,9 @@ uint32_t current_version;           /* library's current version number */
 uint32_t compatibility_version;     /* library's compatibility vers number*/
 };
 ```
+```markdown
 Você também pode obter essas informações a partir do cli com:
+```
 ```bash
 otool -L /bin/ls
 /bin/ls:
@@ -263,7 +265,7 @@ Algumas bibliotecas potencialmente relacionadas a malware são:
 
 * **DiskArbitration**: Monitoramento de drives USB
 * **AVFoundation:** Captura de áudio e vídeo
-* **CoreWLAN**: Varreduras de Wifi.
+* **CoreWLAN**: Varreduras Wifi.
 
 {% hint style="info" %}
 Um binário Mach-O pode conter um ou **mais** **construtores**, que serão **executados** **antes** do endereço especificado em **LC\_MAIN**.\
@@ -280,11 +282,11 @@ Os dados são basicamente a parte que contém todas as **informações** que sã
 
 ![](<../../../.gitbook/assets/image (507) (3).png>)
 
-Isso inclui:&#x20;
+Isso inclui:
 
 * **Tabela de funções:** Que contém informações sobre as funções do programa.
 * **Tabela de símbolos**: Que contém informações sobre a função externa usada pelo binário
-* Também pode conter nomes de funções internas, variáveis e mais.
+* Também pode conter nomes de função interna, nomes de variáveis e mais.
 
 Para verificar, você pode usar a ferramenta [**Mach-O View**](https://sourceforge.net/projects/machoview/):
 
@@ -304,6 +306,6 @@ Outras formas de apoiar o HackTricks:
 * Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
 * **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
