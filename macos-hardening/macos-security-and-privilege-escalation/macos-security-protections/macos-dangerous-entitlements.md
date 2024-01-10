@@ -2,13 +2,13 @@
 
 <details>
 
-<summary><strong>从零到英雄学习 AWS 黑客技术，通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS 红队专家)</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习 AWS 黑客技术，成为</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS 红队专家)</strong></a><strong>！</strong></summary>
 
 支持 HackTricks 的其他方式：
 
-* 如果您想在 **HackTricks** 中看到您的**公司广告**或**下载 HackTricks 的 PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 如果您希望在 **HackTricks** 中看到您的**公司广告**或**下载 HackTricks 的 PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* 发现[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们独家的 [**NFTs 集合**](https://opensea.io/collection/the-peass-family)
+* 发现[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFT 集合**](https://opensea.io/collection/the-peass-family)
 * **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
 * **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。
 
@@ -59,7 +59,7 @@
 
 ### **`system.install.apple-software`** 和 **`system.install.apple-software.standar-user`**
 
-这些权限允许**安装软件而不需要向用户请求权限**，这对于**权限提升**可能很有帮助。
+这些权限允许**安装软件而不需要向用户请求权限**，这对于**权限提升**可能有帮助。
 
 ### `com.apple.private.security.kext-management`
 
@@ -67,11 +67,11 @@
 
 ### **`com.apple.private.icloud-account-access`**
 
-拥有 **`com.apple.private.icloud-account-access`** 权限的话，可以与 **`com.apple.iCloudHelper`** XPC 服务通信，它将**提供 iCloud 令牌**。
+拥有 **`com.apple.private.icloud-account-access`** 权限可以与 **`com.apple.iCloudHelper`** XPC 服务通信，该服务将**提供 iCloud 令牌**。
 
 **iMovie** 和 **Garageband** 拥有此权限。
 
-有关利用该权限**获取 icloud 令牌**的漏洞的更多**信息**，请查看演讲：[**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=_6e2LhmxVc0)
+有关利用该权限**获取 icloud 令牌**的更多**信息**，请查看演讲：[**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=_6e2LhmxVc0)
 
 ### `com.apple.private.tcc.manager.check-by-audit-token`
 
@@ -79,11 +79,11 @@
 
 ### `com.apple.private.apfs.revert-to-snapshot`
 
-待办事项：在[**这份报告**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/)中提到，这可以用来在重启后更新受 SSV 保护的内容。如果您知道如何操作，请提交 PR！
+待办事项：在[**这份报告**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/)中**提到这可以用来**在重启后更新受 SSV 保护的内容。如果您知道如何操作，请提交 PR！
 
 ### `com.apple.private.apfs.create-sealed-snapshot`
 
-待办事项：在[**这份报告**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/)中提到，这可以用来在重启后更新受 SSV 保护的内容。如果您知道如何操作，请提交 PR！
+待办事项：在[**这份报告**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/)中**提到这可以用来**在重启后更新受 SSV 保护的内容。如果您知道如何操作，请提交 PR！
 
 ### `keychain-access-groups`
 
@@ -104,7 +104,7 @@
 
 ### **`kTCCServiceAppleEvents`**
 
-允许应用程序向其他通常用于**自动执行任务**的应用程序发送事件。通过控制其他应用程序，它可以滥用这些应用程序被授予的权限。
+允许应用程序向其他通常用于**自动化任务**的应用程序发送事件。通过控制其他应用程序，它可以滥用这些应用程序被授予的权限。
 
 比如让它们向用户请求密码：
 
@@ -112,39 +112,35 @@
 ```bash
 osascript -e 'tell app "App Store" to activate' -e 'tell app "App Store" to activate' -e 'tell app "App Store" to display dialog "App Store requires your password to continue." & return & return default answer "" with icon 1 with hidden answer with title "App Store Alert"'
 ```
-{% endcode %}
-
-或使它们执行**任意操作**。
-
 ### **`kTCCServiceEndpointSecurityClient`**
 
-允许包括其他权限在内的**写入用户的TCC数据库**。
+允许包括**写用户TCC数据库**在内的其他权限。
 
 ### **`kTCCServiceSystemPolicySysAdminFiles`**
 
-允许**更改**用户的**`NFSHomeDirectory`** 属性，这会改变他的家目录路径，因此允许**绕过TCC**。
+允许更改用户的**`NFSHomeDirectory`** 属性，这会改变他的家目录路径，因此允许**绕过TCC**。
 
 ### **`kTCCServiceSystemPolicyAppBundles`**
 
 允许修改应用程序包内的文件（在app.app内），这通常是**默认不允许**的。
 
-<figure><img src="../../../.gitbook/assets/image (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-可以在_系统设置_ > _隐私与安全_ > _应用管理_中检查谁拥有此访问权限。
+可以在 _系统设置_ > _隐私与安全_ > _应用管理_ 中检查谁拥有此访问权限。
 
 ### `kTCCServiceAccessibility`
 
-该进程将能够**滥用macOS辅助功能**，这意味着例如它将能够按键。因此，它可以请求控制像Finder这样的应用程序，并使用此权限批准对话框。
+进程将能够**滥用macOS辅助功能**，这意味着例如它将能够按键。所以他可以请求控制像Finder这样的应用程序，并使用此权限批准对话框。
 
 ## 中等
 
 ### `com.apple.security.cs.allow-jit`
 
-此权限允许通过向`mmap()`系统函数传递`MAP_JIT`标志来**创建可写且可执行的内存**。查看[**这里获取更多信息**](https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_security_cs_allow-jit)。
+此权限允许通过向`mmap()`系统函数传递`MAP_JIT`标志来**创建可写且可执行的内存**。查看[**这里获取更多信息**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-jit)。
 
 ### `com.apple.security.cs.allow-unsigned-executable-memory`
 
-此权限允许**覆盖或修补C代码**，使用长期废弃的**`NSCreateObjectFileImageFromMemory`**（本质上不安全），或使用**DVDPlayback**框架。查看[**这里获取更多信息**](https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_security_cs_allow-unsigned-executable-memory)。
+此权限允许**覆盖或修补C代码**，使用长期废弃的**`NSCreateObjectFileImageFromMemory`**（本质上不安全），或使用**DVDPlayback**框架。查看[**这里获取更多信息**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory)。
 
 {% hint style="danger" %}
 包含此权限会使您的应用程序暴露于内存不安全代码语言中常见的漏洞。仔细考虑您的应用程序是否需要此例外。
@@ -152,10 +148,10 @@ osascript -e 'tell app "App Store" to activate' -e 'tell app "App Store" to acti
 
 ### `com.apple.security.cs.disable-executable-page-protection`
 
-此权限允许**修改其自己可执行文件的部分**以强制退出。查看[**这里获取更多信息**](https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_security_cs_disable-executable-page-protection)。
+此权限允许**修改其自己可执行文件的部分**以强制退出。查看[**这里获取更多信息**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-executable-page-protection)。
 
 {% hint style="danger" %}
-禁用可执行内存保护权限是一个极端的权限，它从您的应用程序中移除了一个基本的安全保护，使攻击者有可能在不被检测的情况下重写您的应用程序的可执行代码。如果可能，优先考虑更窄的权限。
+禁用可执行内存保护权限是一个极端的权限，它从您的应用程序中移除了一个基本的安全保护，使攻击者可能在不被检测的情况下重写您的应用程序的可执行代码。如果可能，优先考虑更窄的权限。
 {% endhint %}
 
 ### `com.apple.security.cs.allow-relative-library-loads`
@@ -164,7 +160,7 @@ osascript -e 'tell app "App Store" to activate' -e 'tell app "App Store" to acti
 
 ### `com.apple.private.nullfs_allow`
 
-此权限允许挂载nullfs文件系统（默认禁止）。工具：[**mount_nullfs**](https://github.com/JamaicanMoose/mount_nullfs/tree/master)。
+此权限允许挂载nullfs文件系统（默认禁止）。工具：[**mount\_nullfs**](https://github.com/JamaicanMoose/mount\_nullfs/tree/master)。
 
 ### `kTCCServiceAll`
 
@@ -185,8 +181,8 @@ osascript -e 'tell app "App Store" to activate' -e 'tell app "App Store" to acti
 
 支持HackTricks的其他方式：
 
-* 如果您希望在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF版本**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
+* 如果您想在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取[**官方的PEASS & HackTricks商品**](https://peass.creator-spring.com)
 * 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
 * **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
 * **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。

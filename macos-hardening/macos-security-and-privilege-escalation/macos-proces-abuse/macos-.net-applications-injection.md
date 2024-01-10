@@ -6,7 +6,7 @@
 
 支持 HackTricks 的其他方式：
 
-* 如果您想在 HackTricks 中看到您的**公司广告**或**下载 HackTricks 的 PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 如果您想在 HackTricks 中看到您的**公司广告**或**下载 HackTricks 的 PDF 版本**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
 * 发现[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFT 集合**](https://opensea.io/collection/the-peass-family)
 * **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
@@ -18,12 +18,12 @@
 
 ### **建立调试会话** <a href="#net-core-debugging" id="net-core-debugging"></a>
 
-[**dbgtransportsession.cpp**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp) 负责处理调试器到被调试者的**通信**。
+[**dbgtransportsession.cpp**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp) 负责处理调试器到被调试者的**通信**。\
 它通过调用 [twowaypipe.cpp#L27](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/debug-pal/unix/twowaypipe.cpp#L27) 在 [dbgtransportsession.cpp#L127](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L127) 创建每个 .Net 进程的两个命名管道（一个以 **`-in`** 结尾，另一个以 **`-out`** 结尾，其余名称相同）。
 
 因此，如果您转到用户的 **`$TMPDIR`**，您将能够找到可以用来调试 .Net 应用程序的**调试 fifo**：
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 函数 [**DbgTransportSession::TransportWorker**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L1259) 将处理来自调试器的通信。
 
@@ -166,39 +166,39 @@ POC 代码可以在[这里](https://gist.github.com/xpn/7c3040a7398808747e158a25
 
 ### .NET Core 代码执行 <a href="#net-core-code-execution" id="net-core-code-execution"></a>
 
-首先要做的是识别例如具有 **`rwx`** 权限的内存区域来保存要运行的 shellcode。这可以很容易地完成：
+首先要做的是例如识别一个具有 **`rwx`** 权限的内存区域来保存要运行的 shellcode。这可以很容易地完成：
 ```bash
 vmmap -pages [pid]
 vmmap -pages 35829 | grep "rwx/rwx"
 ```
 ```markdown
-然后，为了触发执行，需要知道存储函数指针的某个位置以便覆盖它。可以覆盖 **Dynamic Function Table (DFT)** 中的指针，.NET Core 运行时使用它来为 JIT 编译提供帮助函数。支持的函数指针列表可以在 [`jithelpers.h`](https://github.com/dotnet/runtime/blob/6072e4d3a7a2a1493f514cdf4be75a3d56580e84/src/coreclr/src/inc/jithelpers.h) 中找到。
+然后，为了触发执行，需要知道存储函数指针的某个位置以便覆盖它。可以覆盖 **动态函数表（DFT）** 中的指针，.NET Core 运行时使用它来为 JIT 编译提供帮助函数。支持的函数指针列表可以在 [`jithelpers.h`](https://github.com/dotnet/runtime/blob/6072e4d3a7a2a1493f514cdf4be75a3d56580e84/src/coreclr/src/inc/jithelpers.h) 中找到。
 
-在 x64 版本中，使用 mimikatz 式的 **signature hunting** 技术来搜索 **`libcorclr.dll`** 中对符号 **`_hlpDynamicFuncTable`** 的引用是直接的，我们可以解引用：
+在 x64 版本中，使用 mimikatz 式的 **签名搜索** 技术来搜索 **`libcorclr.dll`** 中对符号 **`_hlpDynamicFuncTable`** 的引用是直接的，我们可以解引用：
 
 <figure><img src="../../../.gitbook/assets/image (1) (3).png" alt=""><figcaption></figcaption></figure>
 
 剩下的就是找到一个地址来开始我们的签名搜索。为此，我们利用另一个暴露的调试器函数，**`MT_GetDCB`**。这返回了目标进程的许多有用信息，但对我们来说，我们感兴趣的是返回的包含 **帮助函数地址** 的字段，**`m_helperRemoteStartAddr`**。使用这个地址，我们就知道 **`libcorclr.dll`** 在目标进程内存中的位置，我们可以开始搜索 DFT。
 
-知道这个地址后，就可以用我们的 shellcode 替换函数指针。
+知道这个地址后，就可以用我们的 shellcode 的指针覆盖函数指针。
 
 用于注入 PowerShell 的完整 POC 代码可以在[这里](https://gist.github.com/xpn/b427998c8b3924ab1d63c89d273734b6)找到。
 
 ## 参考资料
 
-* 这个技术取自 [https://blog.xpnsec.com/macos-injection-via-third-party-frameworks/](https://blog.xpnsec.com/macos-injection-via-third-party-frameworks/)
+* 这项技术取自 [https://blog.xpnsec.com/macos-injection-via-third-party-frameworks/](https://blog.xpnsec.com/macos-injection-via-third-party-frameworks/)
 
 <details>
 
-<summary><strong>从零开始学习 AWS 黑客攻击直到成为专家，通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>从零开始学习 AWS 黑客攻击直到成为专家，通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS 红队专家)</strong></a><strong>！</strong></summary>
 
 支持 HackTricks 的其他方式：
 
-* 如果你想在 **HackTricks** 中看到你的 **公司广告** 或 **下载 HackTricks 的 PDF**，请查看 [**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 如果你想在 **HackTricks** 中看到你的**公司广告**或**下载 HackTricks 的 PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* 发现 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)，我们独家的 [**NFTs**](https://opensea.io/collection/the-peass-family) 系列
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或在 **Twitter** 🐦 上 **关注** 我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享你的黑客技巧。
+* 发现 [**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们独家的 [**NFT 集合**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享你的黑客技巧。**
 
 </details>
 ```
