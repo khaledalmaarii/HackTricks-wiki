@@ -2,17 +2,15 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda hacking no AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-- Você trabalha em uma **empresa de cibersegurança**? Quer ver sua **empresa anunciada no HackTricks**? ou quer ter acesso à **versão mais recente do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+Outras formas de apoiar o HackTricks:
 
-- Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-
-- Adquira o [**material oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-
-- **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-me no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-
-- **Compartilhe suas técnicas de hacking enviando PRs para o repositório [hacktricks](https://github.com/carlospolop/hacktricks) e para o repositório [hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
+* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) no github.
 
 </details>
 
@@ -24,7 +22,7 @@ A maioria das **placas-mãe** possui uma **bateria**. Se você **removê-la** po
 
 ### Jumper CMOS
 
-A maioria das **placas-mãe** possui um **jumper** que pode reiniciar as configurações. Este jumper conecta um pino central com outro, se você **conectar esses pinos a placa-mãe será reiniciada**.
+A maioria das **placas-mãe** possui um **jumper** que pode reiniciar as configurações. Este jumper conecta um pino central com outro, se você **conectar esses pinos, a placa-mãe será reiniciada**.
 
 ### Ferramentas ao Vivo
 
@@ -33,12 +31,12 @@ Se você puder **executar**, por exemplo, um Linux **Kali** de um CD/USB ao vivo
 ### Recuperação de senha do BIOS online
 
 Digite a senha do BIOS **3 vezes errada**, então o BIOS mostrará uma **mensagem de erro** e será bloqueado.\
-Visite a página [https://bios-pw.org](https://bios-pw.org) e **introduza o código de erro** mostrado pelo BIOS e você pode ter sorte e obter uma **senha válida** (a **mesma pesquisa pode mostrar diferentes senhas e mais de uma pode ser válida**).
+Visite a página [https://bios-pw.org](https://bios-pw.org) e **introduza o código de erro** mostrado pelo BIOS e você pode ter sorte e obter uma **senha válida** (a **mesma busca pode mostrar diferentes senhas e mais de uma pode ser válida**).
 
 ## UEFI
 
 Para verificar as configurações do UEFI e realizar algum tipo de ataque, você deve tentar [chipsec](https://github.com/chipsec/chipsec/blob/master/chipsec-manual.pdf).\
-Usando esta ferramenta, você pode facilmente desativar o Secure Boot:
+Usando esta ferramenta, você poderia facilmente desativar o Secure Boot:
 ```
 python chipsec_main.py -module exploits.secure.boot.pk
 ```
@@ -55,7 +53,7 @@ Você deve **analisar** a memória **usando volatility**.
 ### [INCEPTION](https://github.com/carmaa/inception)
 
 Inception é uma ferramenta de **manipulação de memória física** e hacking que explora DMA baseado em PCI. A ferramenta pode atacar através de **FireWire**, **Thunderbolt**, **ExpressCard**, PC Card e qualquer outra interface HW PCI/PCIe.\
-**Conecte** seu computador ao computador vítima através de uma dessas **interfaces** e o **INCEPTION** tentará **patchear** a **memória física** para lhe dar **acesso**.
+**Conecte** seu computador ao computador da vítima através de uma dessas **interfaces** e o **INCEPTION** tentará **patchear** a **memória física** para lhe dar **acesso**.
 
 **Se o INCEPTION for bem-sucedido, qualquer senha introduzida será válida.**
 
@@ -98,7 +96,7 @@ O Kon-Boot também realiza o truque **StickyKeys** para que você possa pression
 
 * supr - BIOS
 * f8 - Modo de recuperação
-* _supr_ - ini do BIOS
+* _supr_ - BIOS ini
 * _f8_ - Modo de recuperação
 * _Shift_ (após o banner do windows) - Ir para a página de login em vez de autologon (evitar autologon)
 
@@ -129,7 +127,7 @@ Você também poderia tentar um **ataque de força bruta** usando _**Passware Ki
 
 ### Engenharia Social
 
-Finalmente, você poderia fazer o usuário adicionar uma nova senha de recuperação fazendo-o executar como administrador:
+Por fim, você poderia fazer o usuário adicionar uma nova senha de recuperação fazendo-o executar como administrador:
 ```bash
 schtasks /create /SC ONLOGON /tr "c:/windows/system32/manage-bde.exe -protectors -add c: -rp 000000-000000-000000-000000-000000-000000-000000-000000" /tn tarea /RU SYSTEM /f
 ```
@@ -141,16 +139,14 @@ manage-bde -protectors -get c:
 ```
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Aprenda hacking no AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-- Você trabalha em uma **empresa de cibersegurança**? Quer ver sua **empresa anunciada no HackTricks**? ou quer ter acesso à **versão mais recente do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+Outras formas de apoiar o HackTricks:
 
-- Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-
-- Adquira o [**material oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-
-- **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-
-- **Compartilhe seus truques de hacking enviando PRs para o repositório [hacktricks](https://github.com/carlospolop/hacktricks) e [hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Junte-se ao grupo do** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo do [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
