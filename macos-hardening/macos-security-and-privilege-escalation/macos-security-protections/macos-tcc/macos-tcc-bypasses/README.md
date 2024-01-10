@@ -54,13 +54,13 @@ Par conséquent, un utilisateur pourrait **enregistrer une application malveilla
 
 Avec le droit **`com.apple.private.icloud-account-access`**, il est possible de communiquer avec le service XPC **`com.apple.iCloudHelper`** qui fournira des **jetons iCloud**.
 
-**iMovie** et **Garageband** avaient ce droit et d'autres qui le permettaient.
+**iMovie** et **Garageband** avaient ce droit et d'autres qui permettaient.
 
 Pour plus d'**informations** sur l'exploitation pour **obtenir des jetons iCloud** à partir de ce droit, consultez la conférence : [**#OBTS v5.0 : "Ce qui se passe sur votre Mac, reste sur l'iCloud d'Apple ?!" - Wojciech Regula**](https://www.youtube.com/watch?v=\_6e2LhmxVc0)
 
 ### kTCCServiceAppleEvents / Automatisation
 
-Une application avec la permission **`kTCCServiceAppleEvents`** pourra **contrôler d'autres applications**. Cela signifie qu'elle pourrait être capable d'**abuser des permissions accordées aux autres applications**.
+Une application avec la permission **`kTCCServiceAppleEvents`** pourra **contrôler d'autres applications**. Cela signifie qu'elle pourrait **abuser des permissions accordées aux autres applications**.
 
 Pour plus d'infos sur les scripts Apple, consultez :
 
@@ -68,7 +68,7 @@ Pour plus d'infos sur les scripts Apple, consultez :
 [macos-apple-scripts.md](macos-apple-scripts.md)
 {% endcontent-ref %}
 
-Par exemple, si une application a la permission d'**Automatisation sur `iTerm`**, par exemple dans cet exemple **`Terminal`** a accès à iTerm :
+Par exemple, si une application a la permission **d'Automatisation sur `iTerm`**, par exemple dans cet exemple **`Terminal`** a accès à iTerm :
 
 <figure><img src="../../../../../.gitbook/assets/image (2) (2) (1).png" alt=""><figcaption></figcaption></figure>
 
@@ -88,7 +88,7 @@ write text "cp ~/Desktop/private.txt /tmp"
 end tell
 end tell
 ```
-Since the provided text does not contain any actual content to translate, but only a markdown end code block tag, there is nothing to translate. If you provide the relevant English text that needs to be translated into French, I can assist with that. Please provide the content for translation.
+Since the provided text does not contain any actual content to translate, but only a markdown end code block tag, there is nothing to translate. If you provide the relevant English text that needs to be translated, I can then assist with the translation to French.
 ```bash
 osascript iterm.script
 ```
@@ -108,10 +108,10 @@ do shell script "rm " & POSIX path of (copyFile as alias)
 
 ### CVE-2020–9934 - TCC <a href="#c19b" id="c19b"></a>
 
-Le **démon userland tccd** utilisait la variable d'environnement **`HOME`** pour accéder à la base de données des utilisateurs TCC depuis : **`$HOME/Library/Application Support/com.apple.TCC/TCC.db`**
+Le **daemon tccd** en espace utilisateur utilisait la variable d'environnement **`HOME`** pour accéder à la base de données des utilisateurs TCC depuis : **`$HOME/Library/Application Support/com.apple.TCC/TCC.db`**
 
-Selon [ce post sur Stack Exchange](https://stackoverflow.com/questions/135688/setting-environment-variables-on-os-x/3756686#3756686) et parce que le démon TCC fonctionne via `launchd` dans le domaine de l'utilisateur actuel, il est possible de **contrôler toutes les variables d'environnement** qui lui sont transmises.\
-Ainsi, un **attaquant pourrait définir la variable d'environnement `$HOME`** dans **`launchctl`** pour la faire pointer vers un **répertoire contrôlé**, **redémarrer** le démon **TCC**, puis **modifier directement la base de données TCC** pour s'octroyer **tous les droits TCC disponibles** sans jamais demander l'autorisation à l'utilisateur final.\
+Selon [ce post sur Stack Exchange](https://stackoverflow.com/questions/135688/setting-environment-variables-on-os-x/3756686#3756686) et parce que le daemon TCC est exécuté via `launchd` dans le domaine de l'utilisateur actuel, il est possible de **contrôler toutes les variables d'environnement** qui lui sont transmises.\
+Ainsi, un **attaquant pourrait définir la variable d'environnement `$HOME`** dans **`launchctl`** pour la faire pointer vers un **répertoire contrôlé**, **redémarrer** le daemon **TCC**, puis **modifier directement la base de données TCC** pour s'octroyer **tous les droits TCC disponibles** sans jamais demander l'autorisation à l'utilisateur final.\
 PoC :
 ```bash
 # reset database just in case (no cheating!)
@@ -243,7 +243,7 @@ Le **premier POC** utilise [**dsexport**](https://www.unix.com/man-page/osx/1/ds
 6. Arrêter le _tccd_ de l'utilisateur et redémarrer le processus.
 
 Le second POC utilisait **`/usr/libexec/configd`** qui avait `com.apple.private.tcc.allow` avec la valeur `kTCCServiceSystemPolicySysAdminFiles`.\
-Il était possible d'exécuter **`configd`** avec l'option **`-t`**, un attaquant pouvait spécifier un **Bundle personnalisé à charger**. Par conséquent, l'exploit **remplace** la méthode **`dsexport`** et **`dsimport`** de changement du répertoire personnel de l'utilisateur par une **injection de code `configd`**.
+Il était possible d'exécuter **`configd`** avec l'option **`-t`**, un attaquant pouvait spécifier un **Bundle personnalisé à charger**. Par conséquent, l'exploit **remplace** la méthode **`dsexport`** et **`dsimport`** de changement du répertoire personnel de l'utilisateur avec une **injection de code `configd`**.
 
 Pour plus d'infos, consultez le [**rapport original**](https://www.microsoft.com/en-us/security/blog/2022/01/10/new-macos-vulnerability-powerdir-could-lead-to-unauthorized-user-data-access/).
 
@@ -256,13 +256,13 @@ Il existe différentes techniques pour injecter du code dans un processus et abu
 {% endcontent-ref %}
 
 De plus, l'injection de processus la plus courante pour contourner TCC trouvée est via **plugins (chargement de bibliothèque)**.\
-Les plugins sont du code supplémentaire généralement sous forme de bibliothèques ou de plist, qui seront **chargés par l'application principale** et s'exécuteront dans son contexte. Par conséquent, si l'application principale avait accès à des fichiers restreints par TCC (via des permissions ou des droits accordés), le **code personnalisé les aura également**.
+Les plugins sont du code supplémentaire généralement sous forme de bibliothèques ou plist, qui seront **chargés par l'application principale** et s'exécuteront dans son contexte. Par conséquent, si l'application principale avait accès à des fichiers restreints par TCC (via des permissions ou des droits accordés), le **code personnalisé en aura également**.
 
 ### CVE-2020-27937 - Directory Utility
 
 L'application `/System/Library/CoreServices/Applications/Directory Utility.app` avait le droit **`kTCCServiceSystemPolicySysAdminFiles`**, chargeait des plugins avec l'extension **`.daplug`** et **n'avait pas le** runtime renforcé.
 
-Pour armer ce CVE, le **`NFSHomeDirectory`** est **changé** (abusant du droit précédent) afin de pouvoir **prendre le contrôle de la base de données TCC des utilisateurs** pour contourner TCC.
+Pour weaponize ce CVE, le **`NFSHomeDirectory`** est **changé** (abusant du droit précédent) afin de pouvoir **prendre le contrôle de la base de données TCC des utilisateurs** pour contourner TCC.
 
 Pour plus d'infos, consultez le [**rapport original**](https://wojciechregula.blog/post/change-home-directory-and-bypass-tcc-aka-cve-2020-27937/).
 
@@ -335,11 +335,11 @@ Executable=/Applications/Firefox.app/Contents/MacOS/firefox
 </dict>
 </plist>
 ```
-Pour plus d'informations sur la manière d'exploiter facilement ceci, [**consultez le rapport original**](https://wojciechregula.blog/post/how-to-rob-a-firefox/).
+Pour plus d'informations sur comment exploiter cela facilement, [**consultez le rapport original**](https://wojciechregula.blog/post/how-to-rob-a-firefox/).
 
 ### CVE-2020-10006
 
-Le binaire `/system/Library/Filesystems/acfs.fs/Contents/bin/xsanctl` possédait les droits **`com.apple.private.tcc.allow`** et **`com.apple.security.get-task-allow`**, ce qui permettait d'injecter du code dans le processus et d'utiliser les privilèges TCC.
+Le binaire `/system/Library/Filesystems/acfs.fs/Contents/bin/xsanctl` avait les droits **`com.apple.private.tcc.allow`** et **`com.apple.security.get-task-allow`**, ce qui permettait d'injecter du code dans le processus et d'utiliser les privilèges TCC.
 
 ### CVE-2023-26818 - Telegram
 
@@ -377,11 +377,11 @@ launchctl load com.telegram.launcher.plist
 ```
 ## Par des invocations de `open`
 
-Il est possible d'invoquer **`open`** même en étant dans un bac à sable&#x20;
+Il est possible d'invoquer **`open`** même en étant dans un bac à sable
 
 ### Scripts Terminal
 
-Il est assez courant d'accorder au terminal un **Accès complet au disque (FDA)**, du moins sur les ordinateurs utilisés par les techniciens. Et il est possible d'invoquer des scripts **`.terminal`** avec celui-ci.
+Il est assez courant d'accorder au terminal un **Accès complet au disque (FDA)**, du moins sur les ordinateurs utilisés par les techniciens. Et il est possible d'invoquer des scripts **`.terminal`** en l'utilisant.
 
 Les scripts **`.terminal`** sont des fichiers plist comme celui-ci avec la commande à exécuter dans la clé **`CommandString`** :
 ```xml
@@ -417,7 +417,7 @@ exploit_location]; task.standardOutput = pipe;
 ### CVE-2020-9771 - contournement de TCC et élévation de privilèges avec mount\_apfs
 
 **N'importe quel utilisateur** (même non privilégié) peut créer et monter une sauvegarde instantanée de Time Machine et **accéder à TOUS les fichiers** de cette sauvegarde.\
-Le **seul privilège** nécessaire est que l'application utilisée (comme `Terminal`) ait l'accès **Accès complet au disque** (FDA) (`kTCCServiceSystemPolicyAllfiles`) qui doit être accordé par un administrateur.
+Le **seul privilège** nécessaire est que l'application utilisée (comme `Terminal`) ait l'accès **Full Disk Access** (FDA) (`kTCCServiceSystemPolicyAllfiles`) qui doit être accordé par un administrateur.
 
 {% code overflow="wrap" %}
 ```bash
@@ -445,7 +445,7 @@ Une explication plus détaillée est disponible dans [**le rapport original**](h
 
 ### CVE-2021-1784 & CVE-2021-30808 - Montage par-dessus le fichier TCC
 
-Même si le fichier de base de données TCC est protégé, il était possible de **monter un nouveau fichier TCC.db sur le répertoire** :
+Même si le fichier de la base de données TCC est protégé, il était possible de **monter un nouveau fichier TCC.db par-dessus le répertoire** :
 
 {% code overflow="wrap" %}
 ```bash
@@ -457,7 +457,7 @@ hdiutil attach -owners off -mountpoint Library/Application\ Support/com.apple.TC
 ## Mount over ~/Library
 hdiutil attach -readonly -owners off -mountpoint ~/Library /tmp/tmp.dmg
 ```
-Since the provided text does not contain any content to translate, I cannot provide a translation. If you provide the relevant English text, I will be able to translate it into French for you.
+Since the provided text does not contain any actual content to translate, but only a closing markdown tag for a code block, there is nothing to translate. If you provide the relevant English text that needs to be translated, I can assist with the translation to French.
 ```python
 # This was the python function to create the dmg
 def create_dmg():
@@ -479,7 +479,7 @@ L'outil **`/usr/sbin/asr`** permettait de copier l'intégralité du disque et de
 Il existe une troisième base de données TCC dans **`/var/db/locationd/clients.plist`** pour indiquer les clients autorisés à **accéder aux services de localisation**.\
 Le dossier **`/var/db/locationd/` n'était pas protégé contre le montage de DMG** donc il était possible de monter notre propre plist.
 
-## Par les applications de démarrage
+## Par des applications au démarrage
 
 {% content-ref url="../../../../macos-auto-start-locations.md" %}
 [macos-auto-start-locations.md](../../../../macos-auto-start-locations.md)
@@ -493,13 +493,13 @@ Le dossier **`/var/db/locationd/` n'était pas protégé contre le montage de DM
 
 ## Clics synthétiques
 
-Cela ne fonctionne plus, mais [**c'était le cas dans le passé**](https://twitter.com/noarfromspace/status/639125916233416704/photo/1)**:**
+Cela ne fonctionne plus, mais cela [**a fonctionné dans le passé**](https://twitter.com/noarfromspace/status/639125916233416704/photo/1)**:**
 
-<figure><img src="../../../../../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Une autre méthode utilisant [**les événements CoreGraphics**](https://objectivebythesea.org/v2/talks/OBTS\_v2\_Wardle.pdf):
 
-<figure><img src="../../../../../.gitbook/assets/image (1) (1) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../../../../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt="" width="563"><figcaption></figcaption></figure>
 
 ## Référence
 
@@ -515,9 +515,9 @@ Une autre méthode utilisant [**les événements CoreGraphics**](https://objecti
 Autres moyens de soutenir HackTricks :
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-moi** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de hacking en soumettant des PR aux dépôts GitHub** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Obtenez [**le merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

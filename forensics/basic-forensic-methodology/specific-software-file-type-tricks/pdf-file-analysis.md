@@ -14,17 +14,17 @@ Autres moyens de soutenir HackTricks :
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) pour construire et **automatiser des workflows** grâce aux outils communautaires **les plus avancés**.\
+Utilisez [**Trickest**](https://trickest.com/?utm_campaign=hacktrics\&utm_medium=banner\&utm_source=hacktricks) pour construire et **automatiser des workflows** grâce aux outils communautaires **les plus avancés**.\
 Accédez-y dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 Source : [https://trailofbits.github.io/ctf/forensics/](https://trailofbits.github.io/ctf/forensics/)
 
-Le format PDF est un format de fichier document extrêmement compliqué, avec suffisamment d'astuces et de cachettes [pour en écrire pendant des années](https://www.sultanik.com/pocorgtfo/). Cela le rend également populaire pour les défis de forensics en CTF. La NSA a écrit un guide sur ces cachettes en 2008 intitulé "Hidden Data and Metadata in Adobe PDF Files: Publication Risks and Countermeasures." Il n'est plus disponible à son URL d'origine, mais vous pouvez [trouver une copie ici](http://www.itsecure.hu/library/file/Biztons%C3%A1gi%20%C3%BAtmutat%C3%B3k/Alkalmaz%C3%A1sok/Hidden%20Data%20and%20Metadata%20in%20Adobe%20PDF%20Files.pdf). Ange Albertini maintient également un wiki sur GitHub des [astuces de format de fichier PDF](https://github.com/corkami/docs/blob/master/PDF/PDF.md).
+Le format PDF est un format de fichier document extrêmement compliqué, avec suffisamment d'astuces et de cachettes [pour en écrire pendant des années](https://www.sultanik.com/pocorgtfo/). Cela le rend également populaire pour les défis de forensique en CTF. La NSA a écrit un guide sur ces cachettes en 2008 intitulé "Hidden Data and Metadata in Adobe PDF Files: Publication Risks and Countermeasures." Il n'est plus disponible à son URL d'origine, mais vous pouvez [trouver une copie ici](http://www.itsecure.hu/library/file/Biztons%C3%A1gi%20%C3%BAtmutat%C3%B3k/Alkalmaz%C3%A1sok/Hidden%20Data%20and%20Metadata%20in%20Adobe%20PDF%20Files.pdf). Ange Albertini maintient également un wiki sur GitHub des [astuces de format de fichier PDF](https://github.com/corkami/docs/blob/master/PDF/PDF.md).
 
 Le format PDF est partiellement en texte clair, comme le HTML, mais contient de nombreux "objets" binaires dans le contenu. Didier Stevens a écrit [un bon matériel d'introduction](https://blog.didierstevens.com/2008/04/09/quickpost-about-the-physical-and-logical-structure-of-pdf-files/) sur le format. Les objets binaires peuvent être des données compressées ou même cryptées, et inclure du contenu dans des langages de script comme JavaScript ou Flash. Pour afficher la structure d'un PDF, vous pouvez le parcourir avec un éditeur de texte ou l'ouvrir avec un éditeur de format de fichier conscient du PDF comme Origami.
 
@@ -34,7 +34,7 @@ Lors de l'exploration du contenu PDF à la recherche de données cachées, certa
 
 * les couches non visibles
 * le format de métadonnées d'Adobe "XMP"
-* la fonctionnalité de "génération incrémentielle" de PDF où une version précédente est conservée mais non visible par l'utilisateur
+* la fonctionnalité de "génération incrémentale" de PDF où une version précédente est conservée mais non visible par l'utilisateur
 * du texte blanc sur un fond blanc
 * du texte derrière des images
 * une image derrière une image superposée

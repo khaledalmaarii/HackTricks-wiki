@@ -2,15 +2,15 @@
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Autres moyens de soutenir HackTricks :
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -38,11 +38,11 @@ Cette autorisation permet à d'autres processus avec l'autorisation **`com.apple
 
 ### `com.apple.security.cs.debugger`
 
-Les applications avec l'autorisation de l'outil de débogage peuvent appeler `task_for_pid()` pour récupérer un port de tâche valide pour les applications non signées et tierces avec l'autorisation `Get Task Allow` définie sur `true`. Cependant, même avec l'autorisation de l'outil de débogage, un débogueur **ne peut pas obtenir les ports de tâche** des processus qui **n'ont pas l'autorisation `Get Task Allow`**, et qui sont donc protégés par la Protection de l'Intégrité du Système. Consultez [**ceci pour plus d'informations**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_debugger).
+Les applications avec l'autorisation de l'outil de débogage peuvent appeler `task_for_pid()` pour récupérer un port de tâche valide pour les applications non signées et tierces avec l'autorisation `Get Task Allow` définie sur `true`. Cependant, même avec l'autorisation de l'outil de débogage, un débogueur **ne peut pas obtenir les ports de tâche** des processus qui **n'ont pas l'autorisation `Get Task Allow`**, et qui sont donc protégés par la Protection de l'Intégrité du Système. Consultez [**ceci pour plus d'informations**](https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_security_cs_debugger).
 
 ### `com.apple.security.cs.disable-library-validation`
 
-Cette autorisation permet de **charger des frameworks, des plug-ins ou des bibliothèques sans être signés par Apple ou avec le même ID d'équipe** que l'exécutable principal, donc un attaquant pourrait abuser d'un chargement de bibliothèque arbitraire pour injecter du code. Consultez [**ceci pour plus d'informations**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation).
+Cette autorisation permet de **charger des frameworks, des plug-ins ou des bibliothèques sans être signés par Apple ou avec le même ID d'équipe** que l'exécutable principal, donc un attaquant pourrait abuser d'un chargement de bibliothèque arbitraire pour injecter du code. Consultez [**ceci pour plus d'informations**](https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_security_cs_disable-library-validation).
 
 ### `com.apple.private.security.clear-library-validation`
 
@@ -51,15 +51,15 @@ Consultez [**ceci pour plus d'informations**](https://theevilbit.github.io/posts
 
 ### `com.apple.security.cs.allow-dyld-environment-variables`
 
-Cette autorisation permet d'**utiliser les variables d'environnement DYLD** qui pourraient être utilisées pour injecter des bibliothèques et du code. Consultez [**ceci pour plus d'informations**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-dyld-environment-variables).
+Cette autorisation permet d'**utiliser les variables d'environnement DYLD** qui pourraient être utilisées pour injecter des bibliothèques et du code. Consultez [**ceci pour plus d'informations**](https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_security_cs_allow-dyld-environment-variables).
 
 ### `com.apple.private.tcc.manager` ou `com.apple.rootless.storage`.`TCC`
 
-[**Selon ce blog**](https://objective-see.org/blog/blog\_0x4C.html) **et** [**ce blog**](https://wojciechregula.blog/post/play-the-music-and-bypass-tcc-aka-cve-2020-29621/), ces autorisations permettent de **modifier** la base de données **TCC**.
+[**Selon ce blog**](https://objective-see.org/blog/blog_0x4C.html) **et** [**ce blog**](https://wojciechregula.blog/post/play-the-music-and-bypass-tcc-aka-cve-2020-29621/), ces autorisations permettent de **modifier** la base de données **TCC**.
 
 ### **`system.install.apple-software`** et **`system.install.apple-software.standar-user`**
 
-Ces autorisations permettent d'**installer des logiciels sans demander la permission** à l'utilisateur, ce qui peut être utile pour une **escalade de privilèges**.
+Ces autorisations permettent d'**installer des logiciels sans demander de permissions** à l'utilisateur, ce qui peut être utile pour une **escalade de privilèges**.
 
 ### `com.apple.private.security.kext-management`
 
@@ -71,23 +71,23 @@ Avec l'autorisation **`com.apple.private.icloud-account-access`**, il est possib
 
 **iMovie** et **Garageband** avaient cette autorisation.
 
-Pour plus **d'informations** sur l'exploitation pour **obtenir des jetons iCloud** à partir de cette autorisation, consultez la conférence : [**#OBTS v5.0 : "Ce qui se passe sur votre Mac, reste sur l'iCloud d'Apple ?!" - Wojciech Regula**](https://www.youtube.com/watch?v=\_6e2LhmxVc0)
+Pour plus **d'informations** sur l'exploitation pour **obtenir des jetons iCloud** à partir de cette autorisation, consultez la conférence : [**#OBTS v5.0: "What Happens on your Mac, Stays on Apple's iCloud?!" - Wojciech Regula**](https://www.youtube.com/watch?v=_6e2LhmxVc0)
 
 ### `com.apple.private.tcc.manager.check-by-audit-token`
 
-TODO : Je ne sais pas ce que cela permet de faire
+TODO: Je ne sais pas ce que cela permet de faire
 
 ### `com.apple.private.apfs.revert-to-snapshot`
 
-TODO : Dans [**ce rapport**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **il est mentionné que cela pourrait être utilisé pour** mettre à jour le contenu protégé par SSV après un redémarrage. Si vous savez comment faire, envoyez une PR s'il vous plaît !
+TODO: Dans [**ce rapport**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **il est mentionné que cela pourrait être utilisé pour** mettre à jour le contenu protégé par SSV après un redémarrage. Si vous savez comment faire, envoyez une PR s'il vous plaît !
 
 ### `com.apple.private.apfs.create-sealed-snapshot`
 
-TODO : Dans [**ce rapport**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **il est mentionné que cela pourrait être utilisé pour** mettre à jour le contenu protégé par SSV après un redémarrage. Si vous savez comment faire, envoyez une PR s'il vous plaît !
+TODO: Dans [**ce rapport**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **il est mentionné que cela pourrait être utilisé pour** mettre à jour le contenu protégé par SSV après un redémarrage. Si vous savez comment faire, envoyez une PR s'il vous plaît !
 
 ### `keychain-access-groups`
 
-Cette autorisation liste les groupes de **trousseaux** auxquels l'application a accès :
+Cette autorisation liste les groupes de **trousseau** auxquels l'application a accès :
 ```xml
 <key>keychain-access-groups</key>
 <array>
@@ -104,7 +104,7 @@ Donne les permissions d'**Accès complet au disque**, l'une des plus hautes perm
 
 ### **`kTCCServiceAppleEvents`**
 
-Permet à l'application d'envoyer des événements à d'autres applications qui sont couramment utilisées pour **automatiser des tâches**. En contrôlant d'autres applications, elle peut abuser des permissions accordées à ces autres applications.
+Permet à l'application d'envoyer des événements à d'autres applications qui sont couramment utilisées pour **l'automatisation des tâches**. En contrôlant d'autres applications, elle peut abuser des permissions accordées à ces autres applications.
 
 Comme les faire demander le mot de passe de l'utilisateur :
 
@@ -114,7 +114,7 @@ osascript -e 'tell app "App Store" to activate' -e 'tell app "App Store" to acti
 ```
 {% endcode %}
 
-Ou les amener à effectuer des **actions arbitraires**.
+Ou en les faisant exécuter des **actions arbitraires**.
 
 ### **`kTCCServiceEndpointSecurityClient`**
 
@@ -128,23 +128,23 @@ Permet de **modifier** l'attribut **`NFSHomeDirectory`** d'un utilisateur, ce qu
 
 Permet de modifier des fichiers à l'intérieur du paquet d'applications (dans app.app), ce qui est **interdit par défaut**.
 
-<figure><img src="../../../.gitbook/assets/image (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Il est possible de vérifier qui a cet accès dans _Préférences Système_ > _Confidentialité & Sécurité_ > _Gestion des applications._
 
 ### `kTCCServiceAccessibility`
 
-Le processus pourra **abuser des fonctionnalités d'accessibilité de macOS**, ce qui signifie qu'il pourra par exemple appuyer sur des touches. Il pourrait donc demander l'accès pour contrôler une application comme Finder et approuver la boîte de dialogue avec cette permission.
+Le processus pourra **abuser des fonctionnalités d'accessibilité de macOS**, ce qui signifie qu'il pourra par exemple simuler des frappes au clavier. Il pourrait donc demander l'accès pour contrôler une application comme Finder et approuver la boîte de dialogue avec cette permission.
 
 ## Moyen
 
 ### `com.apple.security.cs.allow-jit`
 
-Cette autorisation permet de **créer de la mémoire qui est inscriptible et exécutable** en passant le drapeau `MAP_JIT` à la fonction système `mmap()`. Consultez [**ceci pour plus d'informations**](https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_security_cs_allow-jit).
+Cette autorisation permet de **créer de la mémoire qui est à la fois inscriptible et exécutable** en passant le drapeau `MAP_JIT` à la fonction système `mmap()`. Vérifiez [**ici pour plus d'informations**](https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_security_cs_allow-jit).
 
 ### `com.apple.security.cs.allow-unsigned-executable-memory`
 
-Cette autorisation permet de **remplacer ou patcher du code C**, utiliser l'ancienne et dépréciée **`NSCreateObjectFileImageFromMemory`** (qui est fondamentalement non sécurisée), ou utiliser le framework **DVDPlayback**. Consultez [**ceci pour plus d'informations**](https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_security_cs_allow-unsigned-executable-memory).
+Cette autorisation permet de **remplacer ou patcher du code C**, utiliser l'ancienne et dépréciée **`NSCreateObjectFileImageFromMemory`** (qui est fondamentalement non sécurisée), ou utiliser le framework **DVDPlayback**. Vérifiez [**ici pour plus d'informations**](https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_security_cs_allow-unsigned-executable-memory).
 
 {% hint style="danger" %}
 Inclure cette autorisation expose votre application aux vulnérabilités communes dans les langages de code non sécurisés en mémoire. Considérez soigneusement si votre application a besoin de cette exception.
@@ -152,10 +152,10 @@ Inclure cette autorisation expose votre application aux vulnérabilités commune
 
 ### `com.apple.security.cs.disable-executable-page-protection`
 
-Cette autorisation permet de **modifier des sections de ses propres fichiers exécutables** sur disque pour forcer la sortie. Consultez [**ceci pour plus d'informations**](https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_security_cs_disable-executable-page-protection).
+Cette autorisation permet de **modifier des sections de ses propres fichiers exécutables** sur disque pour forcer la sortie. Vérifiez [**ici pour plus d'informations**](https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_security_cs_disable-executable-page-protection).
 
 {% hint style="danger" %}
-L'autorisation de désactivation de la protection des pages exécutables est une autorisation extrême qui supprime une protection de sécurité fondamentale de votre application, permettant à un attaquant de réécrire le code exécutable de votre application sans détection. Préférez des autorisations plus restreintes si possible.
+L'autorisation de désactivation de la protection des pages exécutables est une autorisation extrême qui supprime une protection de sécurité fondamentale de votre application, permettant à un attaquant de réécrire le code exécutable de votre application sans détection. Préférez des autorisations plus spécifiques si possible.
 {% endhint %}
 
 ### `com.apple.security.cs.allow-relative-library-loads`
@@ -181,11 +181,11 @@ Permettre au processus de **demander toutes les permissions TCC**.
 
 <details>
 
-<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> !</strong></summary>
+<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Autres moyens de soutenir HackTricks :
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez**-moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**

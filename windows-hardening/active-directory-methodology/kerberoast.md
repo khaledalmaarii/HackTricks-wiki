@@ -1,16 +1,16 @@
 # Kerberoast
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser des workflows** avec les outils communautaires **les plus avancés** au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser des flux de travail** alimentés par les outils communautaires **les plus avancés** au monde.\
 Obtenez l'accès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 <details>
 
-<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Autres moyens de soutenir HackTricks :
 
@@ -18,14 +18,14 @@ Autres moyens de soutenir HackTricks :
 * Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Partagez vos astuces de piratage en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
 ## Kerberoast
 
-L'objectif du **Kerberoasting** est de collecter des **tickets TGS pour des services qui fonctionnent au nom de comptes utilisateurs** dans l'AD, et non de comptes d'ordinateurs. Ainsi, une **partie** de ces tickets TGS est **chiffrée** avec des **clés** dérivées des mots de passe des utilisateurs. Par conséquent, leurs identifiants pourraient être **crackés hors ligne**.\
-Vous pouvez savoir qu'un **compte utilisateur** est utilisé comme un **service** car la propriété **"ServicePrincipalName"** est **non nulle**.
+L'objectif du **Kerberoasting** est de collecter des **tickets TGS pour des services qui fonctionnent au nom de comptes d'utilisateurs** dans l'AD, et non de comptes d'ordinateurs. Ainsi, une **partie** de ces tickets TGS est **chiffrée** avec des **clés** dérivées des mots de passe des utilisateurs. Par conséquent, leurs identifiants pourraient être **crackés hors ligne**.\
+Vous pouvez savoir qu'un **compte d'utilisateur** est utilisé comme un **service** car la propriété **"ServicePrincipalName"** est **non nulle**.
 
 Par conséquent, pour effectuer un Kerberoasting, seul un compte de domaine capable de demander des TGS est nécessaire, ce qui est le cas de n'importe qui puisqu'aucun privilège spécial n'est requis.
 
@@ -103,7 +103,7 @@ Invoke-Kerberoast -OutputFormat hashcat | % { $_.Hash } | Out-File -Encoding ASC
 Lorsqu'un TGS est demandé, l'événement Windows `4769 - Un ticket de service Kerberos a été demandé` est généré.
 {% endhint %}
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) pour construire et **automatiser des workflows** facilement, alimentés par les outils communautaires **les plus avancés**.\
@@ -125,7 +125,7 @@ Set-DomainObject -Identity <username> -Set @{serviceprincipalname='just/whatever
 ```
 Vous pouvez trouver des **outils** utiles pour les attaques **kerberoast** ici : [https://github.com/nidem/kerberoast](https://github.com/nidem/kerberoast)
 
-Si vous rencontrez cette **erreur** depuis Linux : **`Kerberos SessionError: KRB_AP_ERR_SKEW(L'écart d'horloge est trop grand)`**, c'est à cause de votre heure locale, vous devez synchroniser l'hôte avec le DC. Il y a quelques options :
+Si vous rencontrez cette **erreur** depuis Linux : **`Kerberos SessionError: KRB_AP_ERR_SKEW(L'écart de l'horloge est trop grand)`**, c'est à cause de votre heure locale, vous devez synchroniser l'hôte avec le DC. Il y a quelques options :
 
 * `ntpdate <IP du DC>` - Obsolète depuis Ubuntu 16.04
 * `rdate -n <IP du DC>`
@@ -138,7 +138,7 @@ Kerberoast est très discret si exploitable
 * Comme l'ID 4769 est très fréquent, filtrons les résultats :
 * Le nom du service ne doit pas être krbtgt
 * Le nom du service ne doit pas se terminer par $ (pour filtrer les comptes de machines utilisés pour les services)
-* Le nom du compte ne doit pas être machine@domain (pour filtrer les demandes provenant des machines)
+* Le nom du compte ne doit pas être machine@domaine (pour filtrer les demandes provenant des machines)
 * Le code d'échec est '0x0' (pour filtrer les échecs, 0x0 est un succès)
 * Plus important encore, le type de chiffrement du ticket est 0x17
 * Atténuation :
@@ -169,7 +169,7 @@ GetUserSPNs.py -no-preauth "NO_PREAUTH_USER" -usersfile "LIST_USERS" -dc-host "d
 ```bash
 Rubeus.exe kerberoast /outfile:kerberoastables.txt /domain:"domain.local" /dc:"dc.domain.local" /nopreauth:"NO_PREAUTH_USER" /spn:"TARGET_SERVICE"
 ```
-**Plus d'informations sur le Kerberoasting sur ired.team** [**ici**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1208-kerberoasting) **et** [**là**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/kerberoasting-requesting-rc4-encrypted-tgs-when-aes-is-enabled)**.**
+**Plus d'informations sur Kerberoasting sur ired.team** [**ici**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1208-kerberoasting) **et** [**là**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/kerberoasting-requesting-rc4-encrypted-tgs-when-aes-is-enabled)**.**
 
 <details>
 
@@ -180,12 +180,12 @@ Autres moyens de soutenir HackTricks :
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez**-moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez**-moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
 * **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) pour construire et **automatiser des workflows** facilement, alimentés par les outils communautaires **les plus avancés**.\

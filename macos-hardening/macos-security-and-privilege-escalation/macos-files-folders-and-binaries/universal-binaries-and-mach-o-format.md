@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Autres moyens de soutenir HackTricks :
 
@@ -10,7 +10,7 @@ Autres moyens de soutenir HackTricks :
 * Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -18,7 +18,7 @@ Autres moyens de soutenir HackTricks :
 
 Les binaires Mac OS sont généralement compilés en tant que **binaires universels**. Un **binaire universel** peut **prendre en charge plusieurs architectures dans le même fichier**.
 
-Ces binaires suivent la **structure Mach-O** qui est composée essentiellement de :
+Ces binaires suivent la **structure Mach-O** qui est composée de :
 
 * En-tête
 * Commandes de chargement
@@ -82,7 +82,7 @@ ou en utilisant l'outil [Mach-O View](https://sourceforge.net/projects/machoview
 
 Comme vous pouvez le penser, un binaire universel compilé pour 2 architectures **double généralement la taille** d'un compilé pour juste 1 arch.
 
-## En-tête **Mach-O**
+## En-tête Mach-O
 
 L'en-tête contient des informations de base sur le fichier, telles que les octets magiques pour l'identifier en tant que fichier Mach-O et des informations sur l'architecture cible. Vous pouvez le trouver dans : `mdfind loader.h | grep -i mach-o | grep -E "loader.h$"`
 ```c
@@ -129,8 +129,8 @@ Ou en utilisant [Mach-O View](https://sourceforge.net/projects/machoview/) :
 
 ## **Commandes de chargement Mach-O**
 
-Cela spécifie **la disposition du fichier en mémoire**. Il contient **l'emplacement de la table des symboles**, le contexte du thread principal au début de l'exécution, et quelles **bibliothèques partagées** sont requises.
-Les commandes instruisent essentiellement le chargeur dynamique **(dyld) sur la manière de charger le binaire en mémoire**.
+Cela spécifie **la disposition du fichier en mémoire**. Il contient **l'emplacement de la table des symboles**, le contexte du thread principal au début de l'exécution, et quelles **bibliothèques partagées** sont requises.\
+Les commandes instruisent essentiellement le chargeur dynamique **(dyld) sur la manière de charger le binaire en mémoire.**
 
 Toutes les commandes de chargement commencent par une structure **load\_command**, définie dans le **`loader.h`** mentionné précédemment :
 ```objectivec
@@ -139,7 +139,7 @@ uint32_t cmd;           /* type of load command */
 uint32_t cmdsize;       /* total size of command in bytes */
 };
 ```
-Il existe environ **50 types différents de commandes de chargement** que le système gère différemment. Les plus courantes sont : `LC_SEGMENT_64`, `LC_LOAD_DYLINKER`, `LC_MAIN`, `LC_LOAD_DYLIB` et `LC_CODE_SIGNATURE`.
+Il existe environ **50 types différents de commandes de chargement** que le système gère différemment. Les plus courantes sont : `LC_SEGMENT_64`, `LC_LOAD_DYLINKER`, `LC_MAIN`, `LC_LOAD_DYLIB`, et `LC_CODE_SIGNATURE`.
 
 ### **LC\_SEGMENT/LC\_SEGMENT\_64**
 
@@ -162,7 +162,7 @@ char		segname[16];	/* nom du segment */
 uint64_t	vmaddr;		/* adresse mémoire de ce segment */
 uint64_t	vmsize;		/* taille mémoire de ce segment */
 uint64_t	fileoff;	/* décalage du fichier de ce segment */
-uint64_t	filesize;	/* quantité à mapper depuis le fichier */
+uint64_t	filesize;	/* quantité à mapper à partir du fichier */
 int32_t		maxprot;	/* protection maximale de la VM */
 int32_t		initprot;	/* protection initiale de la VM */
 <strong>	uint32_t	nsects;		/* nombre de sections dans le segment */
@@ -191,15 +191,15 @@ uint32_t	reserved2;	/* reserved (for count or sizeof) */
 uint32_t	reserved3;	/* reserved */
 };
 ```
-Exemple de **titre de section** :
+Exemple d'**en-tête de section** :
 
 <figure><img src="../../../.gitbook/assets/image (6) (2).png" alt=""><figcaption></figcaption></figure>
 
 Si vous **ajoutez** le **décalage de section** (0x37DC) + le **décalage** où l'**architecture commence**, dans ce cas `0x18000` --> `0x37DC + 0x18000 = 0x1B7DC`
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Il est également possible d'obtenir des **informations d'en-tête** depuis la **ligne de commande** avec :
+Il est également possible d'obtenir des **informations d'en-têtes** depuis la **ligne de commande** avec :
 ```bash
 otool -lv /bin/ls
 ```
@@ -215,26 +215,26 @@ Segments courants chargés par cette cmd :
 * **`__DATA` :** Contient des données qui sont **lisibles** et **modifiables** (non exécutables)**.**
 * `__data` : Variables globales (qui ont été initialisées)
 * `__bss` : Variables statiques (qui n'ont pas été initialisées)
-* `__objc_*` (__objc_classlist, __objc_protolist, etc) : Informations utilisées par le runtime Objective-C
+* `__objc_*` (\_\_objc\_classlist, \_\_objc\_protolist, etc) : Informations utilisées par le runtime Objective-C
 * **`__LINKEDIT` :** Contient des informations pour l'éditeur de liens (dyld) telles que "les entrées de tableaux de symboles, de chaînes et de relocalisation."
-* **`__OBJC` :** Contient des informations utilisées par le runtime Objective-C. Bien que ces informations puissent également se trouver dans le segment __DATA, dans diverses sections __objc_*.
+* **`__OBJC` :** Contient des informations utilisées par le runtime Objective-C. Bien que ces informations puissent également se trouver dans le segment \_\_DATA, dans diverses sections \_\_objc\_\*.
 
 ### **`LC_MAIN`**
 
 Contient le point d'entrée dans l'**attribut entryoff.** Au moment du chargement, **dyld** ajoute simplement cette valeur à la **base (en mémoire) du binaire**, puis **saute** à cette instruction pour commencer l'exécution du code du binaire.
 
-### **LC_CODE_SIGNATURE**
+### **LC\_CODE\_SIGNATURE**
 
-Contient des informations sur la **signature de code du fichier Mach-O**. Il contient uniquement un **décalage** qui **pointe** vers le **blob de signature**. Cela se trouve généralement à la toute fin du fichier.
+Contient des informations sur la **signature de code du fichier Mach-O**. Il contient uniquement un **décalage** qui **pointe** vers le **blob de signature**. Cela se trouve généralement à la toute fin du fichier.\
 Cependant, vous pouvez trouver des informations sur cette section dans [**ce billet de blog**](https://davedelong.com/blog/2018/01/10/reading-your-own-entitlements/) et ce [**gists**](https://gist.github.com/carlospolop/ef26f8eb9fafd4bc22e69e1a32b81da4).
 
-### **LC_LOAD_DYLINKER**
+### **LC\_LOAD\_DYLINKER**
 
-Contient le **chemin vers l'exécutable du lieur dynamique** qui mappe les bibliothèques partagées dans l'espace d'adressage du processus. La **valeur est toujours définie sur `/usr/lib/dyld`**. Il est important de noter que sous macOS, le mappage de dylib se fait en **mode utilisateur**, et non en mode noyau.
+Contient le **chemin vers l'exécutable du lieur dynamique** qui mappe les bibliothèques partagées dans l'espace d'adressage du processus. La **valeur est toujours définie sur `/usr/lib/dyld`**. Il est important de noter que sous macOS, le mappage de dylib se produit en **mode utilisateur**, et non en mode noyau.
 
 ### **`LC_LOAD_DYLIB`**
 
-Cette commande de chargement décrit une dépendance de **bibliothèque dynamique** qui **instruit** le **chargeur** (dyld) de **charger et lier ladite bibliothèque**. Il y a une commande de chargement LC_LOAD_DYLIB **pour chaque bibliothèque** dont le binaire Mach-O a besoin.
+Cette commande de chargement décrit une dépendance de **bibliothèque dynamique** qui **instruit** le **chargeur** (dyld) de **charger et lier ladite bibliothèque**. Il y a une commande de chargement LC\_LOAD\_DYLIB **pour chaque bibliothèque** dont le binaire Mach-O a besoin.
 
 * Cette commande de chargement est une structure de type **`dylib_command`** (qui contient une struct dylib, décrivant la bibliothèque dynamique dépendante réelle) :
 ```objectivec
@@ -268,13 +268,13 @@ Certaines bibliothèques potentiellement liées à des malwares sont :
 * **CoreWLAN** : Scans Wifi.
 
 {% hint style="info" %}
-Un binaire Mach-O peut contenir un ou **plusieurs** **constructeurs**, qui seront **exécutés** **avant** l'adresse spécifiée dans **LC\_MAIN**.
-Les décalages de tous les constructeurs se trouvent dans la section **\_\_mod\_init\_func** du segment **\_\_DATA\_CONST**.
+Un binaire Mach-O peut contenir un ou **plusieurs** **constructeurs**, qui seront **exécutés** **avant** l'adresse spécifiée dans **LC\_MAIN**.\
+Les décalages de tous les constructeurs sont contenus dans la section **\_\_mod\_init\_func** du segment **\_\_DATA\_CONST**.
 {% endhint %}
 
 ## **Données Mach-O**
 
-Le cœur du fichier est la région finale, les données, qui se compose de plusieurs segments tels qu'organisés dans la région des commandes de chargement. **Chaque segment peut contenir un certain nombre de sections de données**. Chacune de ces sections **contient du code ou des données** d'un type particulier.
+Le cœur du fichier est la région finale, les données, qui se compose d'un certain nombre de segments tels qu'organisés dans la région des commandes de chargement. **Chaque segment peut contenir un certain nombre de sections de données**. Chacune de ces sections **contient du code ou des données** d'un type particulier.
 
 {% hint style="success" %}
 Les données sont essentiellement la partie contenant toutes les **informations** qui sont chargées par les commandes de chargement **LC\_SEGMENTS\_64**

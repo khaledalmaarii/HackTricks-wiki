@@ -1,6 +1,6 @@
 # ACLs - DACLs/SACLs/ACEs
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser des workflows** grâce aux outils communautaires **les plus avancés** au monde.\
@@ -10,15 +10,15 @@ Obtenez l'accès aujourd'hui :
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Autres moyens de soutenir HackTricks :
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Rejoignez le groupe** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-moi** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -31,7 +31,7 @@ Le descripteur de sécurité d'un objet peut contenir **deux ACLs** :
 1. Un **DACL** qui **identifie** les **utilisateurs** et **groupes** qui sont **autorisés** ou **refusés** l'accès
 2. Un **SACL** qui contrôle **comment** l'accès est **audité**
 
-Lorsqu'un utilisateur tente d'accéder à un fichier, le système Windows exécute un AccessCheck et compare le descripteur de sécurité avec le jeton d'accès de l'utilisateur et évalue si l'utilisateur se voit accorder l'accès et quel type d'accès en fonction des ACE définis.
+Lorsqu'un utilisateur tente d'accéder à un fichier, le système Windows exécute un AccessCheck et compare le descripteur de sécurité avec le jeton d'accès de l'utilisateur et évalue si l'utilisateur a le droit d'accès et quel type d'accès en fonction des ACE définis.
 
 ### **Liste de contrôle d'accès discrétionnaire (DACL)**
 
@@ -39,17 +39,17 @@ Un DACL (souvent mentionné comme l'ACL) identifie les utilisateurs et les group
 
 ### **Liste de contrôle d'accès système (SACL)**
 
-Les SACL permettent de surveiller l'accès aux objets sécurisés. Les ACE dans un SACL déterminent **quels types d'accès sont enregistrés dans le Journal des événements de sécurité**. Avec des outils de surveillance, cela pourrait déclencher une alarme pour alerter les bonnes personnes si des utilisateurs malveillants tentent d'accéder à l'objet sécurisé, et en cas d'incident, nous pouvons utiliser les journaux pour retracer les étapes dans le temps. Enfin, vous pouvez activer la journalisation pour dépanner les problèmes d'accès.
+Les SACL permettent de surveiller l'accès aux objets sécurisés. Les ACE dans un SACL déterminent **quels types d'accès sont enregistrés dans le journal des événements de sécurité**. Avec des outils de surveillance, cela pourrait déclencher une alarme pour alerter les bonnes personnes si des utilisateurs malveillants tentent d'accéder à l'objet sécurisé, et en cas d'incident, nous pouvons utiliser les journaux pour retracer les étapes dans le temps. Enfin, vous pouvez activer la journalisation pour dépanner les problèmes d'accès.
 
 ## Comment le système utilise les ACLs
 
 Chaque **utilisateur connecté** au système **possède un jeton d'accès avec des informations de sécurité** pour cette session de connexion. Le système crée un jeton d'accès lorsque l'utilisateur se connecte. **Chaque processus exécuté** au nom de l'utilisateur **a une copie du jeton d'accès**. Le jeton identifie l'utilisateur, les groupes de l'utilisateur et les privilèges de l'utilisateur. Un jeton contient également un SID de connexion (Identifiant de Sécurité) qui identifie la session de connexion actuelle.
 
-Lorsqu'un thread tente d'accéder à un objet sécurisable, le LSASS (Local Security Authority) accorde ou refuse l'accès. Pour ce faire, le **LSASS recherche dans le DACL** (Liste de contrôle d'accès discrétionnaire) dans le flux de données SDS, à la recherche d'ACE qui s'appliquent au thread.
+Lorsqu'un thread tente d'accéder à un objet sécurisable, l'LSASS (Local Security Authority) accorde ou refuse l'accès. Pour ce faire, l'**LSASS recherche dans le DACL** (Liste de contrôle d'accès discrétionnaire) dans le flux de données SDS, à la recherche d'ACE qui s'appliquent au thread.
 
-**Chaque ACE dans le DACL de l'objet** spécifie les droits d'accès qui sont autorisés ou refusés pour un principal de sécurité ou une session de connexion. Si le propriétaire de l'objet n'a créé aucun ACE dans le DACL pour cet objet, le système accorde immédiatement l'accès.
+**Chaque ACE dans le DACL de l'objet** spécifie les droits d'accès qui sont autorisés ou refusés pour un principal de sécurité ou une session de connexion. Si le propriétaire de l'objet n'a créé aucun ACE dans le DACL pour cet objet, le système accorde immédiatement le droit d'accès.
 
-Si le LSASS trouve des ACE, il compare le SID du bénéficiaire dans chaque ACE aux SIDs des bénéficiaires identifiés dans le jeton d'accès du thread.
+Si l'LSASS trouve des ACE, il compare le SID du bénéficiaire dans chaque ACE aux SIDs des bénéficiaires identifiés dans le jeton d'accès du thread.
 
 ### ACEs
 
@@ -70,7 +70,7 @@ Chaque ACE est composé des `quatre` composants suivants :
 
 Le système examine chaque ACE séquentiellement jusqu'à ce que l'un des événements suivants se produise :
 
-* **Un ACE de refus d'accès refuse explicitement** l'un des droits d'accès demandés à l'un des bénéficiaires répertoriés dans le jeton d'accès du thread.
+* **Un ACE de refus d'accès refus explicitement** l'un des droits d'accès demandés à l'un des bénéficiaires répertoriés dans le jeton d'accès du thread.
 * **Un ou plusieurs ACE d'autorisation d'accès** pour les bénéficiaires répertoriés dans le jeton d'accès du thread accordent explicitement tous les droits d'accès demandés.
 * Tous les ACE ont été vérifiés et il reste au moins **un droit d'accès demandé** qui n'a **pas été explicitement autorisé**, dans ce cas, l'accès est implicitement **refusé**.
 
@@ -80,8 +80,8 @@ Comme le **système arrête de vérifier les ACE lorsque l'accès demandé est e
 
 L'ordre préféré des ACE dans un DACL est appelé l'ordre "canonique". Pour Windows 2000 et Windows Server 2003, l'ordre canonique est le suivant :
 
-1. Tous les ACE **explicites** sont placés dans un groupe **avant** tous les ACE **hérités**.
-2. Au sein du groupe d'ACE **explicites**, les ACE de **refus d'accès** sont placés **avant les ACE d'autorisation d'accès**.
+1. Tous les ACE **explicites** sont placés dans un groupe **avant** tout ACE **hérité**.
+2. Au sein du groupe d'**ACE explicites**, les ACE de **refus d'accès** sont placés **avant les ACE d'autorisation d'accès**.
 3. Au sein du groupe **hérité**, les ACE qui sont hérités du **parent de l'objet enfant viennent en premier**, et **ensuite** les ACE hérités du **grand-parent**, **et ainsi** de suite dans l'arbre des objets. Après cela, les ACE de **refus d'accès** sont placés **avant les ACE d'autorisation d'accès**.
 
 La figure suivante montre l'ordre canonique des ACE :
@@ -93,9 +93,9 @@ La figure suivante montre l'ordre canonique des ACE :
 L'ordre canonique garantit que les éléments suivants se produisent :
 
 * Un ACE de **refus d'accès explicite est appliqué indépendamment de tout ACE d'autorisation d'accès explicite**. Cela signifie que le propriétaire de l'objet peut définir des permissions qui permettent l'accès à un groupe d'utilisateurs et refuser l'accès à un sous-ensemble de ce groupe.
-* Tous les ACE **explicites sont traités avant tout ACE hérité**. Cela est conforme au concept de contrôle d'accès discrétionnaire : l'accès à un objet enfant (par exemple un fichier) est à la discrétion du propriétaire de l'enfant, et non du propriétaire de l'objet parent (par exemple un dossier). Le propriétaire d'un objet enfant peut définir des permissions directement sur l'enfant. Le résultat est que les effets des permissions héritées sont modifiés.
+* Tous les **ACE explicites sont traités avant tout ACE hérité**. Cela est conforme au concept de contrôle d'accès discrétionnaire : l'accès à un objet enfant (par exemple un fichier) est à la discrétion du propriétaire de l'enfant, et non du propriétaire de l'objet parent (par exemple un dossier). Le propriétaire d'un objet enfant peut définir des permissions directement sur l'enfant. Le résultat est que les effets des permissions héritées sont modifiés.
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser des workflows** grâce aux outils communautaires **les plus avancés** au monde.\
@@ -125,7 +125,7 @@ Et enfin, nous avons le SACL dans l'onglet Audit :
 
 Dans cet exemple, le groupe autorisé est Tout le monde et le groupe refusé est Marketing, un sous-ensemble de Tout le monde.
 
-Vous souhaitez refuser l'accès au groupe Marketing à un dossier Coût. Si les ACEs du dossier Coût sont dans l'ordre canonique, l'ACE qui refuse l'accès au Marketing vient avant l'ACE qui autorise Tout le monde.
+Vous souhaitez refuser l'accès au groupe Marketing à un dossier Coût. Si les ACEs du dossier Coût sont dans l'ordre canonique, l'ACE qui refuse l'accès à Marketing vient avant l'ACE qui autorise Tout le monde.
 
 Lors d'une vérification d'accès, le système d'exploitation parcourt les ACE dans l'ordre dans lequel ils apparaissent dans le DACL de l'objet, de sorte que l'ACE de refus est traité avant l'ACE d'autorisation. En conséquence, les utilisateurs membres du groupe Marketing se voient refuser l'accès. Tous les autres ont accès à l'objet.
 
@@ -143,7 +143,7 @@ Comme mentionné précédemment, une ACL (Liste de contrôle d'accès) est une l
 
 * Un SID (Identifiant de Sécurité) qui identifie un utilisateur ou un groupe particulier.
 * Un masque d'accès qui spécifie les droits d'accès.
-* Un ensemble de bits qui déterminent si les objets enfants peuvent hériter de l'ACE.
+* Un ensemble de drapeaux qui déterminent si les objets enfants peuvent hériter de l'ACE.
 * Un drapeau qui indique le type d'ACE.
 
 Les ACEs sont fondamentalement similaires. Ce qui les distingue, c'est le degré de contrôle qu'ils offrent sur l'héritage et l'accès aux objets. Il existe deux types d'ACE :
@@ -169,4 +169,4 @@ Cette capacité est la raison pour laquelle les ACE spécifiques à l'objet sont
 
 Il existe des différences similaires dans la façon dont les deux catégories de types d'ACE contrôlent l'accès aux objets.
 
-Un ACE spécifique à l'objet peut s'appliquer à n'importe quelle propriété individuelle d'un objet ou à un ensemble de propriétés pour cet objet. Ce type d'ACE est utilisé uniquement dans un ACL pour les
+Un ACE spécifique à l'objet peut s'appliquer à n'importe quelle propriété individuelle d'un objet ou à un ensemble de propriétés pour cet objet. Ce type d'ACE est utilis

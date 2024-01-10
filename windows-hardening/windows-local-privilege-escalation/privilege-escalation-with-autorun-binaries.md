@@ -14,9 +14,9 @@ Autres moyens de soutenir HackTricks :
 
 </details>
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
-Si vous êtes intéressé par une **carrière en hacking** et par hacker l'inviolable - **nous recrutons !** (_polonais courant écrit et parlé requis_).
+Si vous êtes intéressé par une **carrière en hacking** et pirater l'inviolable - **nous recrutons !** (_polonais courant écrit et parlé requis_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
@@ -54,7 +54,7 @@ Get-ChildItem "C:\Users\$env:USERNAME\Start Menu\Programs\Startup"
 ## Registre
 
 {% hint style="info" %}
-Note : L'entrée de registre **Wow6432Node** indique que vous utilisez une version 64 bits de Windows. Le système d'exploitation utilise cette clé pour afficher une vue séparée de HKEY\_LOCAL\_MACHINE\SOFTWARE pour les applications 32 bits qui fonctionnent sur des versions de Windows 64 bits.
+Note : L'entrée de registre **Wow6432Node** indique que vous utilisez une version Windows 64 bits. Le système d'exploitation utilise cette clé pour afficher une vue séparée de HKEY\_LOCAL\_MACHINE\SOFTWARE pour les applications 32 bits qui fonctionnent sur des versions Windows 64 bits.
 {% endhint %}
 
 ### Exécutions
@@ -98,7 +98,7 @@ Il n'est pas créé par défaut sur Windows Vista et les versions plus récentes
 {% endhint %}
 
 {% hint style="info" %}
-**Exploit 2** : Si vous pouvez écraser l'un des binaires indiqués dans n'importe quelle entrée de registre dans **HKLM**, vous pouvez modifier ce binaire avec une porte dérobée lorsqu'un autre utilisateur se connecte et élever les privilèges.
+**Exploit 2** : Si vous pouvez écraser l'un des binaires indiqués dans n'importe quelle entrée de registre dans **HKLM**, vous pouvez modifier ce binaire avec un backdoor lorsqu'un autre utilisateur se connecte et élever les privilèges.
 {% endhint %}
 ```bash
 #CMD
@@ -162,10 +162,10 @@ Get-ItemProperty -Path 'Registry::HKCU\Software\Wow6432Node\Microsoft\Windows\Ru
 * `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders`
 * `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders`
 
-Tout raccourci créé vers l'emplacement indiqué par la sous-clé Startup lancera le service lors de la connexion/du redémarrage. L'emplacement de démarrage est spécifié à la fois pour la Machine Locale et l'Utilisateur Actuel.
+Tout raccourci créé vers l'emplacement indiqué par la sous-clé Startup lancera le service lors de la connexion/du redémarrage. L'emplacement de démarrage est spécifié à la fois au niveau de la Machine Locale et de l'Utilisateur Actuel.
 
 {% hint style="info" %}
-Si vous pouvez écraser un \[User] Shell Folder sous **HKLM**, vous serez capable de le pointer vers un dossier que vous contrôlez et de placer un backdoor qui sera exécuté à chaque fois qu'un utilisateur se connecte au système, ce qui permet d'escalader les privilèges.
+Si vous pouvez écraser n'importe quel \[User] Shell Folder sous **HKLM**, vous serez capable de le pointer vers un dossier que vous contrôlez et de placer un backdoor qui sera exécuté à chaque fois qu'un utilisateur se connecte au système, ce qui permet d'escalader les privilèges.
 {% endhint %}
 ```bash
 reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders" /v "Common Startup"
@@ -211,9 +211,9 @@ Get-ItemProperty -Path 'Registry::HKCU\Software\Microsoft\Windows\CurrentVersion
 Chemin : **`HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot`**
 
 Sous la clé de registre `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SafeBoot` se trouve la valeur **AlternateShell**, qui par défaut est définie sur `cmd.exe` (l'invite de commande). Lorsque vous appuyez sur F8 au démarrage et sélectionnez "Mode sans échec avec invite de commande", le système utilise cette invite alternative.\
-Cependant, vous pouvez créer une option de démarrage de sorte que vous n'ayez pas à appuyer sur F8, puis sélectionner "Mode sans échec avec invite de commande".
+Cependant, vous pouvez créer une option de démarrage de sorte que vous n'ayez pas à appuyer sur F8, puis à sélectionner "Mode sans échec avec invite de commande".
 
-1. Modifiez les attributs du fichier boot.ini (c:\boot.ini) pour rendre le fichier non en lecture seule, non système et non caché (attrib c:\boot.ini -r -s -h).
+1. Modifiez les attributs du fichier boot.ini (c:\boot.ini) pour que le fichier ne soit pas en lecture seule, ni un système, ni caché (attrib c:\boot.ini -r -s -h).
 2. Ouvrez boot.ini.
 3. Ajoutez une ligne similaire à la suivante : `multi(0)disk(0)rdisk(0)partition(1)\WINDOWS="Microsoft Windows XP Professional" /fastdetect /SAFEBOOT:MINIMAL(ALTERNATESHELL)`
 4. Enregistrez le fichier.
@@ -222,15 +222,15 @@ Cependant, vous pouvez créer une option de démarrage de sorte que vous n'ayez 
 Infos provenant [d'ici](https://www.itprotoday.com/cloud-computing/how-can-i-add-boot-option-starts-alternate-shell).
 
 {% hint style="info" %}
-**Exploit 1 :** Si vous pouvez modifier cette clé de registre, vous pouvez orienter votre backdoor.
+**Exploit 1 :** Si vous pouvez modifier cette clé de registre, vous pouvez diriger votre backdoor
 {% endhint %}
 
 {% hint style="info" %}
-**Exploit 2 (permissions d'écriture sur PATH) :** Si vous avez la permission d'écriture sur n'importe quel dossier du **PATH** système avant _C:\Windows\system32_ (ou si vous pouvez le changer), vous pouvez créer un fichier cmd.exe et si quelqu'un démarre la machine en Mode sans échec, votre backdoor sera exécuté.
+**Exploit 2 (permissions d'écriture sur PATH)** : Si vous avez la permission d'écriture sur n'importe quel dossier du **PATH** système avant _C:\Windows\system32_ (ou si vous pouvez le modifier), vous pouvez créer un fichier cmd.exe et si quelqu'un démarre la machine en Mode sans échec, votre backdoor sera exécuté.
 {% endhint %}
 
 {% hint style="info" %}
-**Exploit 3 (permissions d'écriture sur PATH et boot.ini) :** Si vous pouvez écrire sur boot.ini, vous pouvez automatiser le démarrage en mode sans échec pour le prochain redémarrage.
+**Exploit 3 (permissions d'écriture sur PATH et boot.ini)** : Si vous pouvez écrire sur boot.ini, vous pouvez automatiser le démarrage en mode sans échec pour le prochain redémarrage.
 {% endhint %}
 ```bash
 reg query HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot /v AlternateShell
@@ -243,7 +243,7 @@ Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Co
 * `HKCU\SOFTWARE\Microsoft\Active Setup\Installed Components`
 * `HKCU\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components`
 
-Active Setup s'exécute avant l'apparition du Bureau. Les commandes lancées par Active Setup s'exécutent de manière synchrone, bloquant la connexion pendant leur exécution. Active Setup est exécuté avant que les entrées de registre Run ou RunOnce soient évaluées.
+Active Setup s'exécute avant l'apparition du Bureau. Les commandes lancées par Active Setup s'exécutent de manière synchrone, bloquant la connexion pendant leur exécution. Active Setup est exécuté avant que toutes les entrées de registre Run ou RunOnce soient évaluées.
 
 À l'intérieur de ces clés, vous trouverez d'autres clés et chacune d'elles contiendra des valeurs-clés intéressantes. Les plus intéressantes sont :
 
@@ -255,7 +255,7 @@ Active Setup s'exécute avant l'apparition du Bureau. Les commandes lancées par
 * C'est la commande qui est exécutée si Active Setup détermine que ce composant doit être exécuté lors de la connexion.
 
 {% hint style="info" %}
-Si vous pouviez écrire/écraser sur n'importe quelle clé avec _**IsInstalled == "1"**_ la clé **StubPath**, vous pourriez la pointer vers une porte dérobée et élever les privilèges. De plus, si vous pouviez écraser n'importe quel **binaire** pointé par une clé **StubPath**, vous pourriez être en mesure d'élever les privilèges.
+Si vous pouviez écrire/écraser sur n'importe quelle clé avec _**IsInstalled == "1"**_ la clé **StubPath**, vous pourriez la pointer vers une porte dérobée et élever les privilèges. De plus, si vous pouviez écraser n'importe quel **binaire** pointé par une clé **StubPath**, vous pourriez être capable d'élever les privilèges.
 {% endhint %}
 ```bash
 reg query "HKLM\SOFTWARE\Microsoft\Active Setup\Installed Components" /s /v StubPath
@@ -323,9 +323,9 @@ Trouvez plus d'Autoruns comme les registres sur [https://www.microsoftpressstore
 * [https://attack.mitre.org/techniques/T1547/001/](https://attack.mitre.org/techniques/T1547/001/)
 * [https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2](https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2)
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
-Si vous êtes intéressé par une **carrière en hacking** et par hacker l'inviolable - **nous recrutons !** (_maîtrise du polonais écrit et parlé requise_).
+Si vous êtes intéressé par une **carrière en hacking** et à hacker l'inviolable - **nous recrutons !** (_polonais courant écrit et parlé requis_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 

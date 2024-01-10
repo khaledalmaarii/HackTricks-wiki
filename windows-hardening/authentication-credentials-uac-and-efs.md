@@ -9,23 +9,23 @@ Autres moyens de soutenir HackTricks :
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-moi** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Utilisez [**Trickest**](https://trickest.com/?utm_campaign=hacktrics\&utm_medium=banner\&utm_source=hacktricks) pour construire et **automatiser des workflows** facilement, alimentés par les outils communautaires **les plus avancés**.\
-Accédez-y dès aujourd'hui :
+Utilisez [**Trickest**](https://trickest.com/?utm_campaign=hacktrics\&utm_medium=banner\&utm_source=hacktricks) pour construire et **automatiser facilement des workflows** alimentés par les outils communautaires **les plus avancés**.\
+Obtenez l'accès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ## Politique AppLocker
 
-Une liste blanche d'applications est une liste d'applications logicielles ou d'exécutables approuvés qui sont autorisés à être présents et à fonctionner sur un système. L'objectif est de protéger l'environnement contre les logiciels malveillants nuisibles et les logiciels non approuvés qui ne correspondent pas aux besoins commerciaux spécifiques d'une organisation.
+Une liste blanche d'applications est une liste de logiciels ou d'exécutables approuvés qui sont autorisés à être présents et à fonctionner sur un système. L'objectif est de protéger l'environnement contre les logiciels malveillants nuisibles et les logiciels non approuvés qui ne correspondent pas aux besoins spécifiques de l'organisation.
 
-[AppLocker](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/what-is-applocker) est la solution de liste blanche d'applications de Microsoft et donne aux administrateurs système le contrôle sur **quelles applications et fichiers les utilisateurs peuvent exécuter**. Il offre un contrôle **granulaire** sur les exécutables, les scripts, les fichiers d'installation Windows, les DLL, les applications empaquetées et les installateurs d'applications empaquetées.\
+[AppLocker](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/what-is-applocker) est la **solution de liste blanche d'applications** de Microsoft et donne aux administrateurs système le contrôle sur **quelles applications et fichiers les utilisateurs peuvent exécuter**. Il offre un **contrôle granulaire** sur les exécutables, les scripts, les fichiers d'installation de Windows, les DLL, les applications empaquetées et les installateurs d'applications empaquetées.\
 Il est courant pour les organisations de **bloquer cmd.exe et PowerShell.exe** et l'accès en écriture à certains répertoires, **mais tout cela peut être contourné**.
 
 ### Vérification
@@ -43,7 +43,7 @@ Les règles AppLocker appliquées à un hôte peuvent également être **lues da
 
 ### Contournement
 
-* Dossiers **modifiables** utiles pour contourner la politique AppLocker : Si AppLocker autorise l'exécution de n'importe quoi dans `C:\Windows\System32` ou `C:\Windows`, il existe des **dossiers modifiables** que vous pouvez utiliser pour **contourner cela**.
+* **Dossiers modifiables** utiles pour contourner la politique AppLocker : Si AppLocker autorise l'exécution de n'importe quoi dans `C:\Windows\System32` ou `C:\Windows`, il existe des **dossiers modifiables** que vous pouvez utiliser pour **contourner cela**.
 ```
 C:\Windows\System32\Microsoft\Crypto\RSA\MachineKeys
 C:\Windows\System32\spool\drivers\color
@@ -66,7 +66,7 @@ Les identifiants locaux sont présents dans ce fichier, les mots de passe sont h
 ### Local Security Authority (LSA) - LSASS
 
 Les **identifiants** (hachés) sont **sauvegardés** dans la **mémoire** de ce sous-système pour des raisons de Single Sign-On.\
-**LSA** administre la **politique de sécurité locale** (politique de mot de passe, permissions des utilisateurs...), **l'authentification**, **les jetons d'accès**...\
+**LSA** administre la **politique de sécurité** locale (politique de mot de passe, permissions des utilisateurs...), **l'authentification**, **les jetons d'accès**...\
 LSA sera celui qui **vérifiera** les identifiants fournis dans le fichier **SAM** (pour une connexion locale) et **communiquera** avec le **contrôleur de domaine** pour authentifier un utilisateur de domaine.
 
 Les **identifiants** sont **sauvegardés** à l'intérieur du **processus LSASS** : billets Kerberos, hachages NT et LM, mots de passe facilement déchiffrables.
@@ -127,7 +127,7 @@ Exemples de fichiers déchiffrés sans que l'utilisateur ne le demande :
 * Les fichiers et dossiers sont déchiffrés avant d'être copiés sur un volume formaté avec un autre système de fichiers, comme [FAT32](https://en.wikipedia.org/wiki/File_Allocation_Table).
 * Les fichiers chiffrés sont copiés sur le réseau en utilisant le protocole SMB/CIFS, les fichiers sont déchiffrés avant d'être envoyés sur le réseau.
 
-Les fichiers chiffrés par cette méthode peuvent être **accessibles de manière transparente par l'utilisateur propriétaire** (celui qui les a chiffrés), donc si vous pouvez **devenir cet utilisateur**, vous pouvez déchiffrer les fichiers (changer le mot de passe de l'utilisateur et se connecter en tant que lui ne fonctionnera pas).
+Les fichiers chiffrés en utilisant cette méthode peuvent être **accessibles de manière transparente par l'utilisateur propriétaire** (celui qui les a chiffrés), donc si vous pouvez **devenir cet utilisateur**, vous pouvez déchiffrer les fichiers (changer le mot de passe de l'utilisateur et se connecter en tant que lui ne fonctionnera pas).
 
 ### Vérifier les infos EFS
 
@@ -148,10 +148,10 @@ Cette méthode nécessite que l'**utilisateur victime** soit en train d'**exécu
 
 ## Comptes de service gérés par groupe (gMSA)
 
-Dans la plupart des infrastructures, les comptes de service sont des comptes d'utilisateur typiques avec l'option "**Le mot de passe n'expire jamais**". La gestion de ces comptes peut être un véritable casse-tête et c'est pourquoi Microsoft a introduit les **Comptes de service gérés :**
+Dans la plupart des infrastructures, les comptes de service sont des comptes d'utilisateur typiques avec l'option "**Le mot de passe n'expire jamais**". La gestion de ces comptes peut être vraiment compliquée et c'est pourquoi Microsoft a introduit les **Comptes de service gérés :**
 
 * Plus de gestion de mot de passe. Il utilise un mot de passe complexe et aléatoire de 240 caractères et le change automatiquement lorsque la date d'expiration du mot de passe du domaine ou de l'ordinateur est atteinte.
-* Il utilise le service de distribution de clés Microsoft (KDC) pour créer et gérer les mots de passe pour le gMSA.
+* Il utilise le Service de distribution de clés Microsoft (KDC) pour créer et gérer les mots de passe pour le gMSA.
 * Il ne peut pas être verrouillé ou utilisé pour une connexion interactive
 * Supporte le partage sur plusieurs hôtes
 * Peut être utilisé pour exécuter des tâches planifiées (les comptes de service gérés ne prennent pas en charge l'exécution de tâches planifiées)
@@ -161,13 +161,13 @@ Les comptes gMSA ont leurs mots de passe stockés dans une propriété LDAP appe
 
 ![Image de https://cube0x0.github.io/Relaying-for-gMSA/](../.gitbook/assets/asd1.png)
 
-Donc, si gMSA est utilisé, vérifiez s'il a des **privilèges spéciaux** et aussi si vous avez les **permissions** pour **lire** le mot de passe des services.
+Donc, si gMSA est utilisé, découvrez s'il a des **privilèges spéciaux** et vérifiez également si vous avez les **permissions** pour **lire** le mot de passe des services.
 
 Vous pouvez lire ce mot de passe avec [**GMSAPasswordReader**](https://github.com/rvazarkar/GMSAPasswordReader)**:**
 ```
 /GMSAPasswordReader --AccountName jkohler
 ```
-Consultez également cette [page web](https://cube0x0.github.io/Relaying-for-gMSA/) sur comment réaliser une **attaque par relais NTLM** pour **lire** le **mot de passe** de **gMSA**.
+Consultez également cette [page web](https://cube0x0.github.io/Relaying-for-gMSA/) sur la manière de réaliser une **attaque par relais NTLM** pour **lire** le **mot de passe** de **gMSA**.
 
 ## LAPS
 
@@ -232,7 +232,7 @@ Plus d'informations [ici](https://blog.netspi.com/15-ways-to-bypass-the-powershe
 
 C'est l'API qui peut être utilisée pour authentifier les utilisateurs.
 
-Le SSPI sera en charge de trouver le protocole adéquat pour deux machines qui veulent communiquer. La méthode préférée pour cela est Kerberos. Ensuite, le SSPI négociera quel protocole d'authentification sera utilisé, ces protocoles d'authentification sont appelés Fournisseur de support de sécurité (SSP), sont situés à l'intérieur de chaque machine Windows sous la forme d'un DLL et les deux machines doivent supporter le même pour pouvoir communiquer.
+Le SSPI sera en charge de trouver le protocole adéquat pour deux machines qui veulent communiquer. La méthode préférée pour cela est Kerberos. Ensuite, le SSPI négociera quel protocole d'authentification sera utilisé, ces protocoles d'authentification sont appelés Fournisseur de support de sécurité (SSP), sont situés à l'intérieur de chaque machine Windows sous la forme d'une DLL et les deux machines doivent supporter le même pour pouvoir communiquer.
 
 ### Principaux SSPs
 
@@ -251,16 +251,16 @@ Le SSPI sera en charge de trouver le protocole adéquat pour deux machines qui v
 
 ## UAC - Contrôle de compte d'utilisateur
 
-[Contrôle de compte d'utilisateur (UAC)](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) est une fonctionnalité qui permet une **invite de consentement pour les activités élevées**.
+[Contrôle de compte d'utilisateur (UAC)](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) est une fonctionnalité qui permet une **demande de consentement pour les activités élevées**.
 
 {% content-ref url="windows-security-controls/uac-user-account-control.md" %}
 [uac-user-account-control.md](windows-security-controls/uac-user-account-control.md)
 {% endcontent-ref %}
 
-<figure><img src="../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser des workflows** grâce aux outils communautaires **les plus avancés**.\
+Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser des workflows** facilement, alimentés par les outils communautaires **les plus avancés**.\
 Obtenez l'accès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

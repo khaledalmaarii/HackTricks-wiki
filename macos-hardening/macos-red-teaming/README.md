@@ -27,21 +27,21 @@ Pour le red teaming dans les environnements MacOS, il est fortement recommandé 
 [macos-mdm](macos-mdm/)
 {% endcontent-ref %}
 
-### Utiliser MDM comme un C2
+### Utiliser un MDM comme un C2
 
-Un MDM aura la permission d'installer, de consulter ou de supprimer des profils, d'installer des applications, de créer des comptes administrateurs locaux, de définir un mot de passe de firmware, de changer la clé FileVault...
+Un MDM aura la permission d'installer, de requêter ou de supprimer des profils, d'installer des applications, de créer des comptes administrateurs locaux, de définir un mot de passe de firmware, de changer la clé FileVault...
 
-Pour exécuter votre propre MDM, vous devez **faire signer votre CSR par un fournisseur**, ce que vous pourriez essayer d'obtenir avec [**https://mdmcert.download/**](https://mdmcert.download/). Et pour exécuter votre propre MDM pour les appareils Apple, vous pourriez utiliser [**MicroMDM**](https://github.com/micromdm/micromdm).
+Pour exécuter votre propre MDM, vous devez faire **signer votre CSR par un fournisseur**, ce que vous pourriez essayer d'obtenir avec [**https://mdmcert.download/**](https://mdmcert.download/). Et pour exécuter votre propre MDM pour les appareils Apple, vous pourriez utiliser [**MicroMDM**](https://github.com/micromdm/micromdm).
 
-Cependant, pour installer une application sur un appareil inscrit, vous avez toujours besoin qu'elle soit signée par un compte développeur... cependant, lors de l'inscription au MDM, **l'appareil ajoute le certificat SSL du MDM comme une CA de confiance**, vous pouvez donc maintenant signer n'importe quoi.
+Cependant, pour installer une application sur un appareil inscrit, vous avez toujours besoin qu'elle soit signée par un compte développeur... cependant, lors de l'inscription au MDM, l'**appareil ajoute le certificat SSL du MDM comme une CA de confiance**, vous pouvez donc maintenant signer n'importe quoi.
 
-Pour inscrire l'appareil dans un MDM, vous devez installer un fichier **`mobileconfig`** en tant que root, qui pourrait être livré via un fichier **pkg** (vous pourriez le compresser en zip et lorsqu'il est téléchargé depuis safari, il sera décompressé).
+Pour inscrire l'appareil à un MDM, vous devez installer un fichier **`mobileconfig`** en tant que root, qui pourrait être livré via un fichier **pkg** (vous pourriez le compresser en zip et lorsqu'il est téléchargé depuis safari, il sera décompressé).
 
 **L'agent Mythic Orthrus** utilise cette technique.
 
 ### Abuser de JAMF PRO
 
-JAMF peut exécuter des **scripts personnalisés** (scripts développés par l'administrateur système), des **charges utiles natives** (création de compte local, définition du mot de passe EFI, surveillance de fichier/processus...) et **MDM** (configurations d'appareil, certificats d'appareil...).
+JAMF peut exécuter des **scripts personnalisés** (scripts développés par le sysadmin), des **charges utiles natives** (création de compte local, définition du mot de passe EFI, surveillance de fichier/processus...) et **MDM** (configurations d'appareils, certificats d'appareils...).
 
 #### Auto-inscription JAMF
 
@@ -55,14 +55,14 @@ De plus, après avoir trouvé les bons identifiants, vous pourriez être capable
 
 #### Authentification de l'appareil JAMF
 
-<figure><img src="../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Le binaire **`jamf`** contenait le secret pour ouvrir le trousseau qui, au moment de la découverte, était **partagé** entre tout le monde et c'était : **`jk23ucnq91jfu9aj`**.\
 De plus, jamf **persiste** en tant que **LaunchDaemon** dans **`/Library/LaunchAgents/com.jamf.management.agent.plist`**
 
 #### Prise de contrôle de l'appareil JAMF
 
-L'**URL JSS** (Jamf Software Server) que **`jamf`** utilisera se trouve dans **`/Library/Preferences/com.jamfsoftware.jamf.plist`**. \
+L'**URL JSS** (Jamf Software Server) que **`jamf`** utilisera se trouve dans **`/Library/Preferences/com.jamfsoftware.jamf.plist`**.\
 Ce fichier contient essentiellement l'URL :
 
 {% code overflow="wrap" %}
@@ -104,7 +104,7 @@ Avec ces informations, **créez une VM** avec le **UUID matériel volé** et ave
 
 Vous pouvez également surveiller l'emplacement `/Library/Application Support/Jamf/tmp/` pour les **scripts personnalisés** que les administrateurs pourraient vouloir exécuter via Jamf, car ils sont **placés ici, exécutés et supprimés**. Ces scripts **peuvent contenir des identifiants**.
 
-Cependant, les **identifiants** peuvent être passés à ces scripts en tant que **paramètres**, donc vous devriez surveiller `ps aux | grep -i jamf` (sans même être root).
+Cependant, les **identifiants** peuvent être transmis à ces scripts en tant que **paramètres**, donc vous devriez surveiller `ps aux | grep -i jamf` (sans même être root).
 
 Le script [**JamfExplorer.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfExplorer.py) peut écouter l'ajout de nouveaux fichiers et les nouveaux arguments de processus.
 
@@ -136,11 +136,11 @@ Un **outil MacOS local** qui peut également vous aider est `dscl` :
 ```bash
 dscl "/Active Directory/[Domain]/All Domains" ls /
 ```
-Il existe également des outils préparés pour MacOS afin d'automatiser l'énumération de l'AD et de manipuler kerberos :
+Il existe également des outils préparés pour MacOS pour énumérer automatiquement l'AD et jouer avec kerberos :
 
-* [**Machound**](https://github.com/XMCyber/MacHound) : MacHound est une extension de l'outil d'audit Bloodhound permettant de collecter et d'ingérer les relations de l'Active Directory sur les hôtes MacOS.
-* [**Bifrost**](https://github.com/its-a-feature/bifrost) : Bifrost est un projet en Objective-C conçu pour interagir avec les API krb5 de Heimdal sur macOS. L'objectif du projet est de permettre de meilleurs tests de sécurité autour de Kerberos sur les appareils macOS en utilisant les API natives sans nécessiter d'autres frameworks ou paquets sur la cible.
-* [**Orchard**](https://github.com/its-a-feature/Orchard) : Outil JavaScript for Automation (JXA) pour faire l'énumération de l'Active Directory.
+* [**Machound**](https://github.com/XMCyber/MacHound) : MacHound est une extension de l'outil d'audit Bloodhound permettant de collecter et d'ingérer les relations Active Directory sur les hôtes MacOS.
+* [**Bifrost**](https://github.com/its-a-feature/bifrost) : Bifrost est un projet Objective-C conçu pour interagir avec les API krb5 de Heimdal sur macOS. L'objectif du projet est de permettre de meilleurs tests de sécurité autour de Kerberos sur les appareils macOS en utilisant les API natives sans nécessiter d'autres frameworks ou paquets sur la cible.
+* [**Orchard**](https://github.com/its-a-feature/Orchard) : Outil JavaScript for Automation (JXA) pour faire l'énumération Active Directory.
 
 ### Informations sur le domaine
 ```bash
@@ -155,7 +155,7 @@ Les trois types d'utilisateurs MacOS sont :
 * **Utilisateurs mobiles** — Utilisateurs de l'Active Directory avec une sauvegarde locale pour leurs identifiants et fichiers.
 
 Les informations locales sur les utilisateurs et les groupes sont stockées dans le dossier _/var/db/dslocal/nodes/Default._\
-Par exemple, les informations concernant l'utilisateur appelé _mark_ sont stockées dans _/var/db/dslocal/nodes/Default/users/mark.plist_ et les informations sur le groupe _admin_ se trouvent dans _/var/db/dslocal/nodes/Default/groups/admin.plist_.
+Par exemple, les informations concernant l'utilisateur appelé _mark_ sont stockées dans _/var/db/dslocal/nodes/Default/users/mark.plist_ et les informations sur le groupe _admin_ sont dans _/var/db/dslocal/nodes/Default/groups/admin.plist_.
 
 En plus d'utiliser les arêtes HasSession et AdminTo, **MacHound ajoute trois nouvelles arêtes** à la base de données Bloodhound :
 
@@ -195,7 +195,7 @@ Le Trousseau d'accès contient très probablement des informations sensibles qui
 
 ## Services Externes
 
-Le Red Teaming sur MacOS est différent du Red Teaming régulier sur Windows car généralement, **MacOS est intégré directement avec plusieurs plateformes externes**. Une configuration commune de MacOS est d'accéder à l'ordinateur en utilisant **des identifiants synchronisés avec OneLogin, et d'accéder à plusieurs services externes** (comme github, aws...) via OneLogin :
+Le Red Teaming sur MacOS est différent du Red Teaming régulier sur Windows car **MacOS est généralement intégré directement avec plusieurs plateformes externes**. Une configuration commune de MacOS est d'accéder à l'ordinateur en utilisant **des identifiants synchronisés avec OneLogin, et d'accéder à plusieurs services externes** (comme github, aws...) via OneLogin :
 
 ![](<../../.gitbook/assets/image (563).png>)
 

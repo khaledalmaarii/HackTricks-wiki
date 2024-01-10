@@ -14,15 +14,15 @@ Autres moyens de soutenir HackTricks :
 
 </details>
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) pour construire et **automatiser des workflows** facilement, alimentés par les outils communautaires **les plus avancés**.\
+Utilisez [**Trickest**](https://trickest.com/?utm_campaign=hacktrics\&utm_medium=banner\&utm_source=hacktricks) pour construire et **automatiser des workflows** grâce aux outils communautaires **les plus avancés**.\
 Accédez-y dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-## Artéfacts des Navigateurs <a href="#3def" id="3def"></a>
+## Artéfacts des Navigateurs <a href="#id-3def" id="id-3def"></a>
 
 Quand nous parlons d'artéfacts de navigateur, nous faisons référence à l'historique de navigation, aux favoris, à la liste des fichiers téléchargés, aux données en cache, etc.
 
@@ -41,7 +41,7 @@ Examinons les artéfacts les plus couramment stockés par les navigateurs.
 * **Favicons :** Ce sont les petites icônes trouvées dans les onglets, les URL, les favoris, etc. Elles peuvent être utilisées comme une autre source pour obtenir plus d'informations sur le site web ou les endroits visités par l'utilisateur.
 * **Sessions de Navigateur :** Explicite.
 * **Téléchargements :** Explicite.
-* **Données de Formulaire :** Tout ce qui est tapé dans les formulaires est souvent stocké par le navigateur, de sorte que la prochaine fois que l'utilisateur entre quelque chose dans un formulaire, le navigateur peut suggérer des données précédemment entrées.
+* **Données de Formulaire :** Tout ce qui est tapé dans les formulaires est souvent stocké par le navigateur, de sorte que la prochaine fois que l'utilisateur saisit quelque chose dans un formulaire, le navigateur peut suggérer des données précédemment entrées.
 * **Miniatures :** Explicite.
 * **Custom Dictionary.txt :** Mots ajoutés au dictionnaire par l'utilisateur.
 
@@ -49,11 +49,11 @@ Examinons les artéfacts les plus couramment stockés par les navigateurs.
 
 Firefox crée le dossier des profils dans \~/_**.mozilla/firefox/**_ (Linux), dans **/Users/$USER/Library/Application Support/Firefox/Profiles/** (MacOS), _**%userprofile%\AppData\Roaming\Mozilla\Firefox\Profiles\\**_ (Windows)_**.**_\
 Dans ce dossier, le fichier _**profiles.ini**_ devrait apparaître avec le(s) nom(s) du ou des profil(s) utilisateur(s).\
-Chaque profil a une variable "**Path**" avec le nom du dossier où ses données vont être stockées. Le dossier devrait être **présent dans le même répertoire où le \_profiles.ini**\_\*\* existe\*\*. S'il ne l'est pas, alors, il a probablement été supprimé.
+Chaque profil a une variable "**Path**" avec le nom du dossier où ses données vont être stockées. Le dossier devrait être **présent dans le même répertoire où le \_profiles.ini**\_\*\* existe\*\*. S'il ne l'est pas, alors, probablement il a été supprimé.
 
 Dans le dossier **de chaque profil** (_\~/.mozilla/firefox/\<ProfileName>/_) vous devriez pouvoir trouver les fichiers intéressants suivants :
 
-* _**places.sqlite**_ : Historique (moz_places), favoris (moz_bookmarks), et téléchargements (moz_annos). Sous Windows, l'outil [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing_history_view.html) peut être utilisé pour lire l'historique dans _**places.sqlite**_.
+* _**places.sqlite**_ : Historique (moz\_\_places), favoris (moz\_bookmarks), et téléchargements (moz\_\_annos). Sous Windows, l'outil [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing_history_view.html) peut être utilisé pour lire l'historique dans _**places.sqlite**_.
 * Requête pour extraire l'historique : `select datetime(lastvisitdate/1000000,'unixepoch') as visit_date, url, title, visit_count, visit_type FROM moz_places,moz_historyvisits WHERE moz_places.id = moz_historyvisits.place_id;`
 * Notez qu'un type de lien est un nombre qui indique :
 * 1: L'utilisateur a suivi un lien
@@ -70,8 +70,8 @@ Dans le dossier **de chaque profil** (_\~/.mozilla/firefox/\<ProfileName>/_) vou
 * _**formhistory.sqlite**_ : **Données de formulaire web** (comme les emails)
 * _**handlers.json**_ : Gestionnaires de protocole (comme, quelle application va gérer le protocole _mailto://_)
 * _**persdict.dat**_ : Mots ajoutés au dictionnaire
-* _**addons.json**_ et _**extensions.sqlite**_ : Addons et extensions installés
-* _**cookies.sqlite**_ : Contient les **cookies.** [**MZCookiesView**](https://www.nirsoft.net/utils/mzcv.html) peut être utilisé sous Windows pour inspecter ce fichier.
+* _**addons.json**_ et \_**extensions.sqlite** \_ : Addons et extensions installés
+* _**cookies.sqlite**_ : Contient **les cookies.** [**MZCookiesView**](https://www.nirsoft.net/utils/mzcv.html) peut être utilisé sous Windows pour inspecter ce fichier.
 *   _**cache2/entries**_ ou _**startupCache**_ : Données en cache (\~350MB). Des astuces comme le **data carving** peuvent également être utilisées pour obtenir les fichiers sauvegardés dans le cache. [MozillaCacheView](https://www.nirsoft.net/utils/mozilla_cache_viewer.html) peut être utilisé pour voir les **fichiers sauvegardés dans le cache**.
 
 Informations qui peuvent être obtenues :
@@ -108,7 +108,7 @@ done < $passfile
 ## Google Chrome
 
 Google Chrome crée le profil dans le répertoire personnel de l'utilisateur _**\~/.config/google-chrome/**_ (Linux), dans _**C:\Users\XXX\AppData\Local\Google\Chrome\User Data\\**_ (Windows), ou dans _**/Users/$USER/Library/Application Support/Google/Chrome/**_ (MacOS).
-La plupart des informations seront sauvegardées dans les dossiers _**Default/**_ ou _**ChromeDefaultData/**_ à l'intérieur des chemins indiqués précédemment. Vous pouvez y trouver les fichiers intéressants suivants :
+La plupart des informations seront sauvegardées dans les dossiers _**Default/**_ ou _**ChromeDefaultData/**_ dans les chemins indiqués précédemment. Vous pouvez y trouver les fichiers intéressants suivants :
 
 * _**History**_ : URLs, téléchargements et même mots-clés recherchés. Sous Windows, vous pouvez utiliser l'outil [ChromeHistoryView](https://www.nirsoft.net/utils/chrome_history_view.html) pour lire l'historique. La colonne "Type de Transition" signifie :
   * Link : L'utilisateur a cliqué sur un lien
@@ -134,7 +134,7 @@ La plupart des informations seront sauvegardées dans les dossiers _**Default/**
 
 ## **Récupération de données SQLite DB**
 
-Comme vous pouvez l'observer dans les sections précédentes, Chrome et Firefox utilisent des bases de données **SQLite** pour stocker les données. Il est possible de **récupérer des entrées supprimées en utilisant l'outil** [**sqlparse**](https://github.com/padfoot999/sqlparse) **ou** [**sqlparse_gui**](https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases).
+Comme vous pouvez le constater dans les sections précédentes, Chrome et Firefox utilisent tous deux des bases de données **SQLite** pour stocker les données. Il est possible de **récupérer des entrées supprimées en utilisant l'outil** [**sqlparse**](https://github.com/padfoot999/sqlparse) **ou** [**sqlparse_gui**](https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases).
 
 ## **Internet Explorer 11**
 
@@ -222,26 +222,26 @@ L'outil [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing_history_vie
 
 #### **Fichiers**
 
-Cherchez dans _**userprofile%\Appdata\Local\Microsoft\Windows\History\History.IE5**_ et _**userprofile%\Appdata\Local\Microsoft\Windows\History\Low\History.IE5**_
+Cherchez dans _**%userprofile%\Appdata\Local\Microsoft\Windows\History\History.IE5**_ et _**%userprofile%\Appdata\Local\Microsoft\Windows\History\Low\History.IE5**_
 
 ### **URLs tapées**
 
 Cette information peut être trouvée dans le registre NTDUSER.DAT dans le chemin :
 
 * _**Software\Microsoft\InternetExplorer\TypedURLs**_
-* Stocke les 50 dernières URLs tapées par l'utilisateur
+* Stocke les 50 dernières URLs saisies par l'utilisateur
 * _**Software\Microsoft\InternetExplorer\TypedURLsTime**_
-* dernière fois que l'URL a été tapée
+* dernière fois que l'URL a été saisie
 
 ## Microsoft Edge
 
 Pour analyser les artefacts de Microsoft Edge, toutes les **explications sur le cache et les emplacements de la section précédente (IE 11) restent valables** avec la seule différence que l'emplacement de base, dans ce cas, est _**%userprofile%\Appdata\Local\Packages**_ (comme on peut le voir dans les chemins suivants) :
 
-* Chemin du profil : _**C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge\_XXX\AC**_
+* Chemin du profil : _**C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge_XXX\AC**_
 * Historique, Cookies et Téléchargements : _**C:\Users\XX\AppData\Local\Microsoft\Windows\WebCache\WebCacheV01.dat**_
-* Paramètres, Favoris et Liste de lecture : _**C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge\_XXX\AC\MicrosoftEdge\User\Default\DataStore\Data\nouser1\XXX\DBStore\spartan.edb**_
-* Cache : _**C:\Users\XXX\AppData\Local\Packages\Microsoft.MicrosoftEdge\_XXX\AC#!XXX\MicrosoftEdge\Cache**_
-* Dernières sessions actives : _**C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge\_XXX\AC\MicrosoftEdge\User\Default\Recovery\Active**_
+* Paramètres, Favoris et Liste de lecture : _**C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge_XXX\AC\MicrosoftEdge\User\Default\DataStore\Data\nouser1\XXX\DBStore\spartan.edb**_
+* Cache : _**C:\Users\XXX\AppData\Local\Packages\Microsoft.MicrosoftEdge_XXX\AC#!XXX\MicrosoftEdge\Cache**_
+* Dernières sessions actives : _**C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge_XXX\AC\MicrosoftEdge\User\Default\Recovery\Active**_
 
 ## **Safari**
 
@@ -250,9 +250,9 @@ Les bases de données peuvent être trouvées dans `/Users/$User/Library/Safari`
 * **History.db** : Les tables `history_visits` _et_ `history_items` contiennent des informations sur l'historique et les horodatages.
 * `sqlite3 ~/Library/Safari/History.db "SELECT h.visit_time, i.url FROM history_visits h INNER JOIN history_items i ON h.history_item = i.id"`
 * **Downloads.plist** : Contient les informations sur les fichiers téléchargés.
-* **Book-marks.plist** : URLs mis en favoris.
+* **Bookmarks.plist** : URLs des favoris.
 * **TopSites.plist** : Liste des sites Web les plus visités que l'utilisateur consulte.
-* **Extensions.plist** : Pour récupérer une liste ancienne des extensions du navigateur Safari.
+* **Extensions.plist** : Pour récupérer une ancienne liste d'extensions de navigateur Safari.
 * `plutil -p ~/Library/Safari/Extensions/Extensions.plist| grep "Bundle Directory Name" | sort --ignore-case`
 * `pluginkit -mDvvv -p com.apple.Safari.extension`
 * **UserNotificationPermissions.plist** : Domaines autorisés à envoyer des notifications.
@@ -271,7 +271,7 @@ Opera **stocke l'historique du navigateur et les données de téléchargement ex
 * **Protection anti-hameçonnage intégrée au navigateur :** `grep --color 'fraud_protection_enabled' ~/Library/Application Support/com.operasoftware.Opera/Preferences`
 * **fraud_protection_enabled** devrait être **true**
 
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Utilisez [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) pour construire et **automatiser facilement des workflows** alimentés par les outils communautaires **les plus avancés**.
@@ -281,15 +281,15 @@ Obtenez l'accès aujourd'hui :
 
 <details>
 
-<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Autres moyens de soutenir HackTricks :
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez**-moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 ```

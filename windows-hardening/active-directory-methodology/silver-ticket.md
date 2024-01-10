@@ -9,14 +9,14 @@ Autres moyens de soutenir HackTricks :
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
-Si vous êtes intéressé par une **carrière en piratage** et pirater l'inviolable - **nous recrutons !** (_polonais courant écrit et parlé requis_).
+Si vous êtes intéressé par une **carrière en piratage** et pirater l'impénétrable - **nous recrutons !** (_polonais courant écrit et parlé requis_).
 
 {% embed url="https://www.stmcyber.com/careers" %}
 
@@ -24,7 +24,7 @@ Si vous êtes intéressé par une **carrière en piratage** et pirater l'inviola
 
 L'attaque du Billet Argenté repose sur la **création d'un TGS valide pour un service une fois que le hash NTLM du service est possédé** (comme le **hash du compte PC**). Ainsi, il est possible de **gagner l'accès à ce service** en forgeant un TGS personnalisé **en tant qu'utilisateur quelconque**.
 
-Dans ce cas, le **hash NTLM d'un compte d'ordinateur** (qui est une sorte de compte utilisateur dans AD) est **possédé**. Par conséquent, il est possible de **créer** un **billet** afin de **pénétrer dans cette machine** avec des privilèges **administrateur** via le service SMB. Les comptes d'ordinateurs réinitialisent leurs mots de passe tous les 30 jours par défaut.
+Dans ce cas, le **hash NTLM d'un compte d'ordinateur** (qui est une sorte de compte utilisateur dans AD) est **possédé**. Par conséquent, il est possible de **créer** un **billet** afin de **pénétrer dans cette machine** avec des privilèges **d'administrateur** via le service SMB. Les comptes d'ordinateurs réinitialisent leurs mots de passe tous les 30 jours par défaut.
 
 Il faut également prendre en compte qu'il est possible ET **PRÉFÉRABLE** (opsec) de **forger des billets en utilisant les clés Kerberos AES (AES128 et AES256)**. Pour savoir comment générer une clé AES, lisez : [section 4.4 de MS-KILE](https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-kile/936a4878-9462-4753-aac8-087cd3ca4625) ou [Get-KerberosAESKey.ps1](https://gist.github.com/Kevin-Robertson/9e0f8bfdbf4c1e694e6ff4197f0a4372).
 
@@ -51,7 +51,7 @@ kerberos::golden /user:Administrator /domain:jurassic.park /sid:S-1-5-21-1339291
 ```
 {% endcode %}
 
-Le service **CIFS** est celui qui vous permet d'**accéder au système de fichiers de la victime**. Vous pouvez trouver d'autres services ici : [**https://adsecurity.org/?page\_id=183**](https://adsecurity.org/?page\_id=183)**.** Par exemple, vous pouvez utiliser le service **HOST** pour créer une _**tâche planifiée**_ sur un ordinateur. Ensuite, vous pouvez vérifier si cela a fonctionné en essayant de lister les tâches de la victime : `schtasks /S <hostname>` ou vous pouvez utiliser le service **HOST et RPCSS** pour exécuter des requêtes **WMI** sur un ordinateur, testez-le en faisant : `Get-WmiObject -Class win32_operatingsystem -ComputerName <hostname>`
+Le service **CIFS** est celui qui vous permet d'**accéder au système de fichiers de la victime**. Vous pouvez trouver d'autres services ici : [**https://adsecurity.org/?page\_id=183**](https://adsecurity.org/?page\_id=183)**.** Par exemple, vous pouvez utiliser le **service HOST** pour créer une _**tâche planifiée**_ sur un ordinateur. Ensuite, vous pouvez vérifier si cela a fonctionné en essayant de lister les tâches de la victime : `schtasks /S <hostname>` ou vous pouvez utiliser le **service HOST et RPCSS** pour exécuter des requêtes **WMI** sur un ordinateur, testez-le en faisant : `Get-WmiObject -Class win32_operatingsystem -ComputerName <hostname>`
 
 ### Atténuation
 
@@ -59,45 +59,39 @@ ID des événements de Silver ticket (plus discret que golden ticket) :
 
 * 4624 : Connexion de compte
 * 4634 : Déconnexion de compte
-* 4672 : Connexion Admin
+* 4672 : Connexion admin
 
 [**Plus d'informations sur les Silver Tickets chez ired.team**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/kerberos-silver-tickets)
 
 ## Services disponibles
 
-| Type de service                            | Service Silver Tickets                                                     |
+| Type de service                            | Silver Tickets pour services                                              |
 | ------------------------------------------ | -------------------------------------------------------------------------- |
 | WMI                                        | <p>HOST</p><p>RPCSS</p>                                                    |
 | PowerShell Remoting                        | <p>HOST</p><p>HTTP</p><p>Selon l'OS aussi :</p><p>WSMAN</p><p>RPCSS</p>   |
-| WinRM                                      | <p>HOST</p><p>HTTP</p><p>Dans certains cas, vous pouvez juste demander : WINRM</p> |
+| WinRM                                      | <p>HOST</p><p>HTTP</p><p>Parfois vous pouvez juste demander : WINRM</p>   |
 | Tâches planifiées                          | HOST                                                                       |
 | Partage de fichiers Windows, aussi psexec  | CIFS                                                                       |
 | Opérations LDAP, incluant DCSync           | LDAP                                                                       |
-| Outils d'administration à distance de serveurs Windows | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                       |
+| Outils d'administration à distance Windows | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                         |
 | Golden Tickets                             | krbtgt                                                                     |
 
 En utilisant **Rubeus**, vous pouvez **demander tous** ces tickets en utilisant le paramètre :
 
 * `/altservice:host,RPCSS,http,wsman,cifs,ldap,krbtgt,winrm`
 
-## Abus des tickets de service
+## Exploitation des tickets de service
 
 Dans les exemples suivants, imaginons que le ticket est récupéré en se faisant passer pour le compte administrateur.
 
 ### CIFS
 
-Avec ce ticket, vous pourrez accéder aux dossiers `C$` et `ADMIN$` via **SMB** (s'ils sont exposés) et copier des fichiers dans une partie du système de fichiers à distance juste en faisant quelque chose comme :
+Avec ce ticket, vous pourrez accéder aux dossiers `C$` et `ADMIN$` via **SMB** (s'ils sont exposés) et copier des fichiers dans une partie du système de fichiers à distance en faisant simplement quelque chose comme :
 ```bash
 dir \\vulnerable.computer\C$
 dir \\vulnerable.computer\ADMIN$
 copy afile.txt \\vulnerable.computer\C$\Windows\Temp
 ```
-Vous pourrez également obtenir un shell à l'intérieur de l'hôte ou exécuter des commandes arbitraires en utilisant **psexec** :
-
-{% content-ref url="../ntlm/psexec-and-winexec.md" %}
-[psexec-and-winexec.md](../ntlm/psexec-and-winexec.md)
-{% endcontent-ref %}
-
 ### HÔTE
 
 Avec cette permission, vous pouvez générer des tâches planifiées sur des ordinateurs distants et exécuter des commandes arbitraires :
@@ -158,7 +152,7 @@ mimikatz(commandline) # lsadump::dcsync /dc:pcdc.domain.local /domain:domain.loc
 [dcsync.md](dcsync.md)
 {% endcontent-ref %}
 
-<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
+<img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt="" data-size="original">
 
 Si vous êtes intéressé par une **carrière en hacking** et par hacker l'inviolable - **nous recrutons !** (_maîtrise du polonais écrit et parlé requise_).
 
@@ -173,7 +167,7 @@ Autres moyens de soutenir HackTricks :
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-moi** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
 * **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

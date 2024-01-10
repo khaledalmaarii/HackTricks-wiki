@@ -2,15 +2,15 @@
 
 <details>
 
-<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Autres moyens de soutenir HackTricks :
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -23,11 +23,11 @@ Il crée 2 pipes nommés par processus .Net dans [dbgtransportsession.cpp#L127](
 
 Ainsi, si vous allez dans le **`$TMPDIR`** de l'utilisateur, vous pourrez trouver des **fifos de débogage** que vous pourriez utiliser pour déboguer des applications .Net :
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 La fonction [**DbgTransportSession::TransportWorker**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L1259) gérera la communication depuis un débogueur.
 
-La première chose qu'un débogueur doit faire est de **créer une nouvelle session de débogage**. Cela se fait en **envoyant un message via le pipe `out`** commençant par une structure `MessageHeader`, que nous pouvons obtenir à partir du code source de .NET :
+La première chose qu'un débogueur doit faire est de **créer une nouvelle session de débogage**. Cela se fait en **envoyant un message via le pipe `out`** commençant par une structure `MessageHeader`, que nous pouvons obtenir à partir de la source .NET :
 ```c
 struct MessageHeader
 {
@@ -166,7 +166,7 @@ Le code POC utilisé pour cela peut être trouvé [ici](https://gist.github.com/
 
 ### Exécution de code .NET Core <a href="#net-core-code-execution" id="net-core-code-execution"></a>
 
-La première chose est d'identifier par exemple une région de mémoire avec **`rwx`** en cours d'exécution pour sauvegarder le shellcode à exécuter. Cela peut être facilement fait avec :
+La première chose est d'identifier par exemple une région de mémoire avec **`rwx`** en cours d'exécution pour sauvegarder le shellcode à exécuter. Cela peut être facilement réalisé avec :
 ```bash
 vmmap -pages [pid]
 vmmap -pages 35829 | grep "rwx/rwx"
@@ -182,7 +182,7 @@ Il ne reste plus qu'à trouver une adresse à partir de laquelle commencer notre
 
 Connaissant cette adresse, il est possible d'écraser le pointeur de fonction avec celui de nos shellcodes.
 
-Le code POC complet utilisé pour injecter dans PowerShell peut être trouvé [ici](https://gist.github.com/xpn/b427998c8b3924ab1d63c89d273734b6).
+Le code POC complet utilisé pour l'injection dans PowerShell peut être trouvé [ici](https://gist.github.com/xpn/b427998c8b3924ab1d63c89d273734b6).
 
 ## Références
 
@@ -195,7 +195,7 @@ Le code POC complet utilisé pour injecter dans PowerShell peut être trouvé [i
 Autres moyens de soutenir HackTricks :
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
 * **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).

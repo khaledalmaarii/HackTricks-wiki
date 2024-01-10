@@ -9,21 +9,21 @@ Autres moyens de soutenir HackTricks :
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Utilisez [**Trickest**](https://trickest.com/?utm_campaign=hacktrics\&utm_medium=banner\&utm_source=hacktricks) pour construire et **automatiser des workflows** facilement, alimentés par les outils communautaires **les plus avancés**.\
+Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser des workflows** grâce aux outils communautaires **les plus avancés**.\
 Accédez-y dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ## UAC
 
-[Le Contrôle de Compte d'Utilisateur (UAC)](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) est une fonctionnalité qui permet une **demande de consentement pour les activités nécessitant des privilèges élevés**. Les applications ont différents niveaux d'`intégrité`, et un programme avec un niveau **élevé** peut effectuer des tâches qui **pourraient compromettre le système**. Lorsque l'UAC est activé, les applications et les tâches s'exécutent toujours sous le contexte de sécurité d'un compte non administrateur, à moins qu'un administrateur n'autorise explicitement ces applications/tâches à avoir un accès de niveau administrateur au système pour s'exécuter. C'est une fonctionnalité pratique qui protège les administrateurs contre les modifications non intentionnelles, mais elle n'est pas considérée comme une limite de sécurité.
+[Le Contrôle de Compte d'Utilisateur (UAC)](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) est une fonctionnalité qui permet une **demande de consentement pour les activités nécessitant des privilèges élevés**. Les applications ont différents niveaux d'`intégrité`, et un programme avec un **niveau élevé** peut effectuer des tâches qui **pourraient compromettre le système**. Lorsque l'UAC est activé, les applications et les tâches s'exécutent toujours sous le contexte de sécurité d'un compte non administrateur, à moins qu'un administrateur n'autorise explicitement ces applications/tâches à avoir un accès de niveau administrateur au système pour s'exécuter. C'est une fonctionnalité pratique qui protège les administrateurs contre les modifications non intentionnelles, mais elle n'est pas considérée comme une limite de sécurité.
 
 Pour plus d'informations sur les niveaux d'intégrité :
 
@@ -38,10 +38,10 @@ Cette [page](https://docs.microsoft.com/en-us/windows/security/identity-protecti
 | Paramètre de Stratégie de Groupe                                                                                                                                                                                                                                                                                                                                                   | Clé de Registre                | Paramètre par Défaut                                              |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- | ------------------------------------------------------------ |
 | [Contrôle de Compte d'Utilisateur : Mode d'approbation administrateur pour le compte administrateur intégré](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-admin-approval-mode-for-the-built-in-administrator-account)                                                     | FilterAdministratorToken    | Désactivé                                                     |
-| [Contrôle de Compte d'Utilisateur : Permettre aux applications UIAccess de demander une élévation sans utiliser le bureau sécurisé](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-allow-uiaccess-applications-to-prompt-for-elevation-without-using-the-secure-desktop) | EnableUIADesktopToggle      | Désactivé                                                     |
+| [Contrôle de Compte d'Utilisateur : Autoriser les applications UIAccess à demander une élévation sans utiliser le bureau sécurisé](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-allow-uiaccess-applications-to-prompt-for-elevation-without-using-the-secure-desktop) | EnableUIADesktopToggle      | Désactivé                                                     |
 | [Contrôle de Compte d'Utilisateur : Comportement de l'invite d'élévation pour les administrateurs en Mode d'approbation administrateur](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-behavior-of-the-elevation-prompt-for-administrators-in-admin-approval-mode)                     | ConsentPromptBehaviorAdmin  | Demander le consentement pour les binaires non-Windows                  |
 | [Contrôle de Compte d'Utilisateur : Comportement de l'invite d'élévation pour les utilisateurs standards](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-behavior-of-the-elevation-prompt-for-standard-users)                                                                   | ConsentPromptBehaviorUser   | Demander les identifiants sur le bureau sécurisé                 |
-| [Contrôle de Compte d'Utilisateur : Détecter les installations d'applications et demander une élévation](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-detect-application-installations-and-prompt-for-elevation)                                                       | EnableInstallerDetection    | Activé (par défaut pour les particuliers) Désactivé (par défaut pour les entreprises) |
+| [Contrôle de Compte d'Utilisateur : Détecter les installations d'applications et demander une élévation](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-detect-application-installations-and-prompt-for-elevation)                                                       | EnableInstallerDetection    | Activé (par défaut pour le domicile) Désactivé (par défaut pour l'entreprise) |
 | [Contrôle de Compte d'Utilisateur : Élever uniquement les exécutables qui sont signés et validés](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-only-elevate-executables-that-are-signed-and-validated)                                                             | ValidateAdminCodeSignatures | Désactivé                                                     |
 | [Contrôle de Compte d'Utilisateur : Élever uniquement les applications UIAccess qui sont installées dans des emplacements sécurisés](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-only-elevate-uiaccess-applications-that-are-installed-in-secure-locations)                       | EnableSecureUIAPaths        | Activé                                                      |
 | [Contrôle de Compte d'Utilisateur : Exécuter tous les administrateurs en Mode d'approbation administrateur](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-run-all-administrators-in-admin-approval-mode)                                                                               | EnableLUA                   | Activé                                                      |
@@ -52,7 +52,7 @@ Cette [page](https://docs.microsoft.com/en-us/windows/security/identity-protecti
 
 Certains programmes sont **automatiquement élevés** si l'**utilisateur appartient** au **groupe des administrateurs**. Ces binaires ont dans leurs _**Manifestes**_ l'option _**autoElevate**_ avec la valeur _**True**_. Le binaire doit également être **signé par Microsoft**.
 
-Ensuite, pour **contourner** l'**UAC** (passer d'un niveau d'intégrité **moyen** à **élevé**), certains attaquants utilisent ce type de binaires pour **exécuter du code arbitraire** car il sera exécuté à partir d'un processus d'intégrité de niveau **Élevé**.
+Ensuite, pour **contourner** l'**UAC** (passer d'un niveau d'intégrité **moyen** à **élevé**), certains attaquants utilisent ce type de binaires pour **exécuter du code arbitraire** car il sera exécuté à partir d'un processus d'intégrité de **niveau élevé**.
 
 Vous pouvez **vérifier** le _**Manifeste**_ d'un binaire en utilisant l'outil _**sigcheck.exe**_ de Sysinternals. Et vous pouvez **voir** le **niveau d'intégrité** des processus en utilisant _Process Explorer_ ou _Process Monitor_ (de Sysinternals).
 
@@ -74,18 +74,18 @@ REG QUERY HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\
 HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System
 ConsentPromptBehaviorAdmin    REG_DWORD    0x5
 ```
-* Si **`0`**, alors, UAC ne demandera pas (comme **désactivé**)
-* Si **`1`**, l'admin est **demandé pour le nom d'utilisateur et le mot de passe** pour exécuter le binaire avec des droits élevés (sur le Bureau Sécurisé)
+* Si **`0`**, alors, UAC ne demandera pas de confirmation (comme **désactivé**)
+* Si **`1`**, l'administrateur est **demandé pour le nom d'utilisateur et le mot de passe** pour exécuter le binaire avec des droits élevés (sur le Bureau Sécurisé)
 * Si **`2`** (**Toujours me notifier**), UAC demandera toujours une confirmation à l'administrateur lorsqu'il essaie d'exécuter quelque chose avec des privilèges élevés (sur le Bureau Sécurisé)
 * Si **`3`**, comme `1` mais pas nécessairement sur le Bureau Sécurisé
 * Si **`4`**, comme `2` mais pas nécessairement sur le Bureau Sécurisé
 * Si **`5`**(**par défaut**), il demandera à l'administrateur de confirmer pour exécuter des binaires non Windows avec des privilèges élevés
 
 Ensuite, vous devez regarder la valeur de **`LocalAccountTokenFilterPolicy`**\
-Si la valeur est **`0`**, alors, seulement l'utilisateur **RID 500** (**Administrateur intégré**) est capable d'effectuer **des tâches d'admin sans UAC**, et si c'est `1`, **tous les comptes dans le groupe "Administrateurs"** peuvent les faire.
+Si la valeur est **`0`**, alors, seul l'utilisateur **RID 500** (**Administrateur intégré**) est capable d'effectuer **des tâches d'admin sans UAC**, et si c'est `1`, **tous les comptes dans le groupe "Administrateurs"** peuvent les faire.
 
 Et, finalement, regardez la valeur de la clé **`FilterAdministratorToken`**\
-Si **`0`**(par défaut), le **compte Administrateur intégré peut** faire des tâches d'administration à distance et si **`1`**, le compte Administrateur intégré **ne peut pas** faire des tâches d'administration à distance, à moins que `LocalAccountTokenFilterPolicy` soit réglé sur `1`.
+Si **`0`**(par défaut), le **compte Administrateur intégré peut** effectuer des tâches d'administration à distance et si **`1`**, le compte Administrateur intégré **ne peut pas** effectuer des tâches d'administration à distance, à moins que `LocalAccountTokenFilterPolicy` ne soit réglé sur `1`.
 
 #### Résumé
 
@@ -171,11 +171,14 @@ Major  Minor  Build  Revision
 -----  -----  -----  --------
 10     0      14393  0
 ```
+```markdown
+En utilisant [cette page](https://en.wikipedia.org/wiki/Windows_10_version_history), vous obtenez la version de Windows `1607` à partir des versions de build.
+
 #### Plus de contournements de l'UAC
 
-**Toutes** les techniques utilisées ici pour contourner l'UAC **nécessitent** une **session interactive complète** avec la victime (une simple shell nc.exe ne suffit pas).
+**Toutes** les techniques utilisées ici pour contourner l'UAC **nécessitent** une **shell interactive complète** avec la victime (une simple shell nc.exe ne suffit pas).
 
-Vous pouvez obtenir cela en utilisant une session **meterpreter**. Migrez vers un **processus** qui a la valeur **Session** égale à **1** :
+Vous pouvez l'obtenir en utilisant une session **meterpreter**. Migrez vers un **processus** qui a la valeur **Session** égale à **1** :
 
 ![](<../../.gitbook/assets/image (96).png>)
 
@@ -189,7 +192,7 @@ De plus, si vous obtenez une session GUI que quelqu'un utilisait (potentiellemen
 
 ### Contournement bruyant de l'UAC par force brute
 
-Si cela ne vous dérange pas de faire du bruit, vous pourriez toujours **exécuter quelque chose comme** [**https://github.com/Chainski/ForceAdmin**](https://github.com/Chainski/ForceAdmin) qui **demande à élever les permissions jusqu'à ce que l'utilisateur les accepte**.
+Si cela ne vous dérange pas d'être bruyant, vous pourriez toujours **exécuter quelque chose comme** [**https://github.com/Chainski/ForceAdmin**](https://github.com/Chainski/ForceAdmin) qui **demande à élever les permissions jusqu'à ce que l'utilisateur les accepte**.
 
 ### Votre propre contournement - Méthodologie de base de contournement de l'UAC
 
@@ -204,25 +207,26 @@ Si vous regardez **UACME**, vous remarquerez que **la plupart des contournements
 
 ### Une autre technique de contournement de l'UAC
 
-Consiste à surveiller si un **binaire autoélevé** tente de **lire** dans le **registre** le **nom/chemin** d'un **binaire** ou d'une **commande** à **exécuter** (c'est plus intéressant si le binaire recherche cette information à l'intérieur du **HKCU**).
+Consiste à surveiller si un **binaire autoElevated** tente de **lire** dans le **registre** le **nom/chemin** d'un **binaire** ou d'une **commande** à **exécuter** (c'est plus intéressant si le binaire recherche ces informations à l'intérieur du **HKCU**).
 
-<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Utilisez [**Trickest**](https://trickest.com/?utm_campaign=hacktrics\&utm_medium=banner\&utm_source=hacktricks) pour construire et **automatiser des workflows** alimentés par les outils communautaires les **plus avancés**.\
+Utilisez [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) pour construire et **automatiser des workflows** alimentés par les outils communautaires les **plus avancés**.
 Obtenez l'accès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Autres moyens de soutenir HackTricks :
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+```
