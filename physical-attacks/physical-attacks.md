@@ -2,17 +2,15 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-- Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou souhaitez-vous accéder à la **dernière version du PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+Autres moyens de soutenir HackTricks :
 
-- Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
-
-- Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-
-- **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez**-moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-
-- **Partagez vos astuces de piratage en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et au [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez**-moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -20,7 +18,7 @@
 
 ### La batterie
 
-La plupart des **cartes mères** ont une **batterie**. Si vous la **retirez** pendant **30 minutes**, les paramètres du BIOS seront **réinitialisés** (mot de passe inclus).
+La plupart des **cartes mères** ont une **batterie**. Si vous la **retirez** pendant **30min**, les paramètres du BIOS seront **réinitialisés** (mot de passe inclus).
 
 ### Cavalier CMOS
 
@@ -30,7 +28,7 @@ La plupart des **cartes mères** ont un **cavalier** qui peut réinitialiser les
 
 Si vous pouviez **exécuter** par exemple un Linux **Kali** depuis un CD/USB Live, vous pourriez utiliser des outils comme _**killCmos**_ ou _**CmosPWD**_ (ce dernier est inclus dans Kali) pour essayer de **récupérer le mot de passe du BIOS**.
 
-### Récupération de mot de passe BIOS en ligne
+### Récupération en ligne du mot de passe BIOS
 
 Entrez le mot de passe du BIOS **3 fois incorrectement**, puis le BIOS affichera un **message d'erreur** et sera bloqué.\
 Visitez la page [https://bios-pw.org](https://bios-pw.org) et **introduisez le code d'erreur** affiché par le BIOS et vous pourriez avoir de la chance et obtenir un **mot de passe valide** (la **même recherche pourrait vous montrer différents mots de passe et plus d'un pourrait être valide**).
@@ -72,9 +70,9 @@ Inception est un outil de **manipulation de la mémoire physique** et de hacking
 
 Ces binaires se trouvent dans _**C:\Windows\System32**_. Vous pouvez **changer** l'un d'eux pour une **copie** du binaire **cmd.exe** (également dans le même dossier) et chaque fois que vous invoquez l'un de ces binaires, une invite de commande en tant que **SYSTEM** apparaîtra.
 
-### Modification de SAM
+### Modification du SAM
 
-Vous pouvez utiliser l'outil _**chntpw**_ pour **modifier le fichier** _**SAM**_ d'un système de fichiers Windows monté. Ensuite, vous pourriez changer le mot de passe de l'utilisateur Administrateur, par exemple.\
+Vous pouvez utiliser l'outil _**chntpw**_ pour **modifier le** _**fichier SAM**_ d'un système de fichiers Windows monté. Ensuite, vous pourriez changer le mot de passe de l'utilisateur Administrateur, par exemple.\
 Cet outil est disponible dans KALI.
 ```
 chntpw -h
@@ -87,8 +85,8 @@ chntpw -l <path_to_SAM>
 **Kon-Boot** est l'un des meilleurs outils permettant de se connecter à Windows sans connaître le mot de passe. Il fonctionne en **s'insérant dans le BIOS du système et en modifiant temporairement le contenu du noyau de Windows** pendant le démarrage (les nouvelles versions fonctionnent également avec **UEFI**). Il vous permet ensuite de saisir **n'importe quoi comme mot de passe** lors de la connexion. La prochaine fois que vous démarrez l'ordinateur sans Kon-Boot, le mot de passe original sera de retour, les modifications temporaires seront supprimées et le système se comportera comme si rien ne s'était passé.\
 En savoir plus : [https://www.raymond.cc/blog/login-to-windows-administrator-and-linux-root-account-without-knowing-or-changing-current-password/](https://www.raymond.cc/blog/login-to-windows-administrator-and-linux-root-account-without-knowing-or-changing-current-password/)
 
-C'est un CD/USB live qui peut **patcher la mémoire** de sorte que vous **n'avez pas besoin de connaître le mot de passe pour vous connecter**.\
-Kon-Boot effectue également l'astuce **StickyKeys** pour que vous puissiez appuyer _**Shift**_ **5 fois pour obtenir une cmd Administrateur**.
+C'est un CD/USB live qui peut **patcher la mémoire** afin que vous **n'ayez pas besoin de connaître le mot de passe pour vous connecter**.\
+Kon-Boot effectue également l'astuce **StickyKeys** pour que vous puissiez appuyer _**Shift**_ **5 fois pour obtenir une invite de commande Administrateur**.
 
 ## **Exécution de Windows**
 
@@ -133,26 +131,22 @@ Enfin, vous pourriez amener l'utilisateur à ajouter un nouveau mot de passe de 
 ```bash
 schtasks /create /SC ONLOGON /tr "c:/windows/system32/manage-bde.exe -protectors -add c: -rp 000000-000000-000000-000000-000000-000000-000000-000000" /tn tarea /RU SYSTEM /f
 ```
-```markdown
 Cela ajoutera une nouvelle clé de récupération (composée de 48 zéros) lors de la prochaine connexion.
 
 Pour vérifier les clés de récupération valides, vous pouvez exécuter :
-```
 ```
 manage-bde -protectors -get c:
 ```
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-- Vous travaillez dans une **entreprise de cybersécurité** ? Vous souhaitez voir votre **entreprise annoncée dans HackTricks** ? ou souhaitez-vous accéder à la **dernière version du PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+Autres moyens de soutenir HackTricks :
 
-- Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
-
-- Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-
-- **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-moi** sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-
-- **Partagez vos astuces de hacking en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et au [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez**-moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

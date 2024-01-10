@@ -1,37 +1,52 @@
+<details>
+
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+
+Autres moyens de soutenir HackTricks :
+
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+
+</details>
+
+
 # Informations de base
 
-UART est un protocole série, ce qui signifie qu'il transfère des données entre les composants un bit à la fois. En revanche, les protocoles de communication parallèles transmettent des données simultanément via plusieurs canaux. Les protocoles série courants comprennent RS-232, I2C, SPI, CAN, Ethernet, HDMI, PCI Express et USB.
+UART est un protocole série, ce qui signifie qu'il transfère les données entre les composants un bit à la fois. En contraste, les protocoles de communication parallèles transmettent les données simultanément à travers de multiples canaux. Les protocoles séries communs incluent RS-232, I2C, SPI, CAN, Ethernet, HDMI, PCI Express et USB.
 
-Généralement, la ligne est maintenue haute (à une valeur logique 1) pendant que UART est à l'état inactif. Ensuite, pour signaler le début d'un transfert de données, l'émetteur envoie un bit de départ au récepteur, pendant lequel le signal est maintenu bas (à une valeur logique 0). Ensuite, l'émetteur envoie cinq à huit bits de données contenant le message réel, suivis d'un bit de parité facultatif et d'un ou deux bits d'arrêt (avec une valeur logique 1), selon la configuration. Le bit de parité, utilisé pour la vérification des erreurs, est rarement vu en pratique. Le bit d'arrêt (ou les bits) signifient la fin de la transmission.
+Généralement, la ligne est maintenue haute (à une valeur logique de 1) lorsque UART est en état d'inactivité. Ensuite, pour signaler le début d'un transfert de données, l'émetteur envoie un bit de départ au récepteur, pendant lequel le signal est maintenu bas (à une valeur logique de 0). Après, l'émetteur envoie de cinq à huit bits de données contenant le message réel, suivi d'un bit de parité optionnel et d'un ou deux bits d'arrêt (avec une valeur logique de 1), selon la configuration. Le bit de parité, utilisé pour la vérification d'erreur, est rarement vu en pratique. Le bit d'arrêt (ou les bits) signifie la fin de la transmission.
 
-Nous appelons la configuration la plus courante 8N1 : huit bits de données, pas de parité et un bit d'arrêt. Par exemple, si nous voulions envoyer le caractère C, ou 0x43 en ASCII, dans une configuration UART 8N1, nous enverrions les bits suivants : 0 (le bit de départ) ; 0, 1, 0, 0, 0, 0, 1, 1 (la valeur de 0x43 en binaire), et 0 (le bit d'arrêt).
+Nous appelons la configuration la plus commune 8N1 : huit bits de données, pas de parité et un bit d'arrêt. Par exemple, si nous voulions envoyer le caractère C, ou 0x43 en ASCII, dans une configuration UART 8N1, nous enverrions les bits suivants : 0 (le bit de départ) ; 0, 1, 0, 0, 0, 0, 1, 1 (la valeur de 0x43 en binaire), et 1 (le bit d'arrêt).
 
 ![](<../../.gitbook/assets/image (648) (1) (1) (1) (1).png>)
 
 Outils matériels pour communiquer avec UART :
 
-* Adaptateur USB vers série
+* Adaptateur USB-vers-série
 * Adaptateurs avec les puces CP2102 ou PL2303
-* Outil polyvalent tel que : Bus Pirate, Adafruit FT232H, Shikra ou Attify Badge
+* Outil polyvalent tel que : Bus Pirate, l'Adafruit FT232H, le Shikra, ou le Badge Attify
 
 ## Identification des ports UART
 
-UART a 4 ports : **TX** (Transmettre), **RX** (Recevoir), **Vcc** (Tension) et **GND** (Masse). Vous pourriez être en mesure de trouver 4 ports avec les lettres **`TX`** et **`RX`** **écrites** sur le PCB. Mais s'il n'y a pas d'indication, vous devrez peut-être essayer de les trouver vous-même à l'aide d'un **multimètre** ou d'un **analyseur logique**.
+UART a 4 ports : **TX**(Transmettre), **RX**(Recevoir), **Vcc**(Voltage), et **GND**(Masse). Vous pourriez être capable de trouver 4 ports avec les lettres **`TX`** et **`RX`** **écrites** sur le PCB. Mais s'il n'y a pas d'indication, vous pourriez avoir besoin de les trouver vous-même en utilisant un **multimètre** ou un **analyseur logique**.
 
 Avec un **multimètre** et l'appareil éteint :
 
-* Pour identifier la broche **GND**, utilisez le mode **Test de continuité**, placez la sonde arrière dans la masse et testez avec la sonde rouge jusqu'à ce que vous entendiez un son provenant du multimètre. Plusieurs broches GND peuvent être trouvées sur le PCB, vous avez donc peut-être trouvé ou non celle appartenant à UART.
-* Pour identifier le port **VCC**, réglez le mode **tension continue** et réglez-le jusqu'à 20 V de tension. Sonde noire sur la masse et sonde rouge sur la broche. Allumez l'appareil. Si le multimètre mesure une tension constante de 3,3 V ou 5 V, vous avez trouvé la broche Vcc. Si vous obtenez d'autres tensions, réessayez avec d'autres ports.
-* Pour identifier le port **TX**, mode **tension continue** jusqu'à 20 V de tension, sonde noire sur la masse et sonde rouge sur la broche, et allumez l'appareil. Si vous trouvez que la tension fluctue pendant quelques secondes puis se stabilise à la valeur Vcc, vous avez probablement trouvé le port TX. C'est parce que lors de la mise sous tension, il envoie des données de débogage.
-* Le **port RX** serait le plus proche des trois autres, il a la plus faible fluctuation de tension et la valeur globale la plus faible de toutes les broches UART.
+* Pour identifier la broche **GND**, utilisez le mode **Test de Continuité**, placez la sonde noire sur la masse et testez avec la rouge jusqu'à ce que vous entendiez un son du multimètre. Plusieurs broches GND peuvent être trouvées sur le PCB, donc vous pourriez avoir trouvé ou non celle appartenant à UART.
+* Pour identifier le port **VCC**, réglez le mode **tension continue** et configurez-le jusqu'à 20 V de tension. Sonde noire sur la masse et sonde rouge sur la broche. Allumez l'appareil. Si le multimètre mesure une tension constante de 3,3 V ou 5 V, vous avez trouvé la broche Vcc. Si vous obtenez d'autres tensions, réessayez avec d'autres ports.
+* Pour identifier le port **TX**, mode **tension continue** jusqu'à 20 V de tension, sonde noire sur la masse, et sonde rouge sur la broche, et allumez l'appareil. Si vous trouvez que la tension fluctue pendant quelques secondes puis se stabilise à la valeur Vcc, vous avez très probablement trouvé le port TX. Cela est dû au fait qu'au démarrage, il envoie des données de débogage.
+* Le port **RX** serait le plus proche des 3 autres, il a la fluctuation de tension la plus faible et la valeur globale la plus basse de toutes les broches UART.
 
-Vous pouvez confondre les ports TX et RX et rien ne se passera, mais si vous confondez la broche GND et la broche VCC, vous pourriez endommager le circuit.
+Vous pouvez confondre les ports TX et RX et rien ne se passerait, mais si vous confondez les ports GND et VCC, vous pourriez griller le circuit.
 
 Avec un analyseur logique :
 
-## Identification du débit binaire UART
+## Identification du débit en bauds UART
 
-La façon la plus simple d'identifier le débit binaire correct est de regarder la sortie de la broche **TX et d'essayer de lire les données**. Si les données que vous recevez ne sont pas lisibles, passez au débit binaire possible suivant jusqu'à ce que les données deviennent lisibles. Vous pouvez utiliser un adaptateur USB vers série ou un appareil polyvalent comme Bus Pirate pour cela, associé à un script d'aide, tel que [baudrate.py](https://github.com/devttys0/baudrate/). Les débits binaires les plus courants sont 9600, 38400, 19200, 57600 et 115200.
+La manière la plus simple d'identifier le bon débit en bauds est de regarder la sortie de la broche **TX et d'essayer de lire les données**. Si les données que vous recevez ne sont pas lisibles, passez au débit en bauds suivant jusqu'à ce que les données deviennent lisibles. Vous pouvez utiliser un adaptateur USB-vers-série ou un dispositif polyvalent comme Bus Pirate pour ce faire, associé à un script d'aide, tel que [baudrate.py](https://github.com/devttys0/baudrate/). Les débits en bauds les plus courants sont 9600, 38400, 19200, 57600 et 115200.
 
 {% hint style="danger" %}
 Il est important de noter que dans ce protocole, vous devez connecter le TX d'un appareil au RX de l'autre !
@@ -39,7 +54,7 @@ Il est important de noter que dans ce protocole, vous devez connecter le TX d'un
 
 # Bus Pirate
 
-Dans ce scénario, nous allons intercepter la communication UART de l'Arduino qui envoie toutes les impressions du programme au moniteur série.
+Dans ce scénario, nous allons espionner la communication UART de l'Arduino qui envoie toutes les impressions du programme au Moniteur Série.
 ```bash
 # Check the modes
 UART>m
@@ -59,39 +74,39 @@ x. exit(without change)
 # Select UART
 (1)>3
 Set serial port speed: (bps)
- 1. 300
- 2. 1200
- 3. 2400
- 4. 4800
- 5. 9600
- 6. 19200
- 7. 38400
- 8. 57600
- 9. 115200
+1. 300
+2. 1200
+3. 2400
+4. 4800
+5. 9600
+6. 19200
+7. 38400
+8. 57600
+9. 115200
 10. BRG raw value
 
 # Select the speed the communication is occurring on (you BF all this until you find readable things)
 # Or you could later use the macro (4) to try to find the speed
 (1)>5
 Data bits and parity:
- 1. 8, NONE *default
- 2. 8, EVEN
- 3. 8, ODD
- 4. 9, NONE
- 
- # From now on pulse enter for default
+1. 8, NONE *default
+2. 8, EVEN
+3. 8, ODD
+4. 9, NONE
+
+# From now on pulse enter for default
 (1)>
 Stop bits:
- 1. 1 *default
- 2. 2
+1. 1 *default
+2. 2
 (1)>
 Receive polarity:
- 1. Idle 1 *default
- 2. Idle 0
+1. Idle 1 *default
+2. Idle 0
 (1)>
 Select output type:
- 1. Open drain (H=Hi-Z, L=GND)
- 2. Normal (H=3.3V, L=GND)
+1. Open drain (H=Hi-Z, L=GND)
+2. Normal (H=3.3V, L=GND)
 
 (1)>
 Clutch disengaged!!!
@@ -113,16 +128,14 @@ waiting a few secs to repeat....
 ```
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-- Travaillez-vous dans une entreprise de **cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+Autres moyens de soutenir HackTricks :
 
-- Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-
-- Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-
-- **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) **groupe Discord** ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-
-- **Partagez vos astuces de piratage en soumettant des PR au [repo hacktricks](https://github.com/carlospolop/hacktricks) et au [repo hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez**-moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
