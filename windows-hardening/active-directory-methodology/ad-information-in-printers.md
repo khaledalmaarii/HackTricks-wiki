@@ -1,7 +1,22 @@
-Plusieurs blogs sur Internet **mettent en évidence les dangers de laisser les imprimantes configurées avec LDAP avec des identifiants de connexion par défaut/faibles**.\
-Cela est dû au fait qu'un attaquant pourrait **tromper l'imprimante pour s'authentifier contre un serveur LDAP malveillant** (généralement un `nc -vv -l -p 444` suffit) et capturer les **identifiants de l'imprimante en clair**.
+<details>
 
-De plus, plusieurs imprimantes contiendront des **logs avec des noms d'utilisateur** ou pourraient même être capables de **télécharger tous les noms d'utilisateur** du contrôleur de domaine.
+<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+
+D'autres moyens de soutenir HackTricks :
+
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm).
+* **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+
+</details>
+
+
+Plusieurs blogs sur Internet **soulignent les dangers de laisser des imprimantes configurées avec LDAP avec des identifiants de connexion par défaut/faibles**.\
+Cela est dû au fait qu'un attaquant pourrait **tromper l'imprimante pour qu'elle s'authentifie contre un serveur LDAP malveillant** (typiquement, un `nc -vv -l -p 444` suffit) et pour capturer les **identifiants de l'imprimante en clair**.
+
+De plus, plusieurs imprimantes contiendront des **journaux avec des noms d'utilisateur** ou pourraient même être capables de **télécharger tous les noms d'utilisateur** du Contrôleur de Domaine.
 
 Toutes ces **informations sensibles** et le **manque de sécurité** commun rendent les imprimantes très intéressantes pour les attaquants.
 
@@ -10,19 +25,19 @@ Quelques blogs sur le sujet :
 * [https://www.ceos3c.com/hacking/obtaining-domain-credentials-printer-netcat/](https://www.ceos3c.com/hacking/obtaining-domain-credentials-printer-netcat/)
 * [https://medium.com/@nickvangilder/exploiting-multifunction-printers-during-a-penetration-test-engagement-28d3840d8856](https://medium.com/@nickvangilder/exploiting-multifunction-printers-during-a-penetration-test-engagement-28d3840d8856)
 
-**Les informations suivantes ont été copiées depuis** [**https://grimhacker.com/2018/03/09/just-a-printer/**](https://grimhacker.com/2018/03/09/just-a-printer/)
+**Les informations suivantes ont été copiées de** [**https://grimhacker.com/2018/03/09/just-a-printer/**](https://grimhacker.com/2018/03/09/just-a-printer/)
 
 # Paramètres LDAP
 
-Sur les imprimantes Konica Minolta, il est possible de configurer un serveur LDAP auquel se connecter, ainsi que des identifiants. Dans les versions antérieures du micrologiciel de ces appareils, j'ai entendu dire qu'il était possible de récupérer les identifiants simplement en lisant la source html de la page. Maintenant, cependant, les identifiants ne sont pas renvoyés dans l'interface, nous devons donc travailler un peu plus dur.
+Sur les imprimantes Konica Minolta, il est possible de configurer un serveur LDAP pour se connecter, ainsi que des identifiants. Dans les versions antérieures du firmware de ces appareils, j'ai entendu dire qu'il était possible de récupérer les identifiants simplement en lisant le code source html de la page. Maintenant, cependant, les identifiants ne sont pas retournés dans l'interface, donc nous devons travailler un peu plus.
 
-La liste des serveurs LDAP se trouve sous : Réseau > Paramètres LDAP > Configuration de LDAP
+La liste des serveurs LDAP se trouve sous : Réseau > Paramètre LDAP > Configuration LDAP
 
-L'interface permet de modifier le serveur LDAP sans réintroduire les identifiants qui seront utilisés pour se connecter. Je présume que cela est destiné à une expérience utilisateur plus simple, mais cela donne l'occasion à un attaquant de passer de maître d'une imprimante à une prise de pied sur le domaine.
+L'interface permet de modifier le serveur LDAP sans ressaisir les identifiants qui seront utilisés pour se connecter. Je suppose que c'est pour une expérience utilisateur plus simple, mais cela donne l'opportunité à un attaquant d'escalader de maître d'une imprimante à un point d'ancrage sur le domaine.
 
-Nous pouvons reconfigurer le paramètre d'adresse du serveur LDAP vers une machine que nous contrôlons et déclencher une connexion avec la fonctionnalité "Test de connexion" utile.
+Nous pouvons reconfigurer l'adresse du serveur LDAP à une machine que nous contrôlons et déclencher une connexion avec la fonctionnalité utile "Test de connexion".
 
-# Écoute des informations
+# Écoute des biens
 
 ## netcat
 
@@ -30,31 +45,31 @@ Si vous avez plus de chance que moi, vous pourriez vous en sortir avec un simple
 ```
 sudo nc -k -v -l -p 386
 ```
-Je suis assuré par [@\_castleinthesky](https://twitter.com/\_castleinthesky) que cela fonctionne la plupart du temps, mais je n'ai pas encore eu la chance d'avoir une telle facilité.
+Je suis assuré par [@\_castleinthesky](https://twitter.com/\_castleinthesky) que cela fonctionne la plupart du temps, cependant je n'ai pas encore eu cette chance.
 
 ## Slapd
 
-J'ai constaté qu'un serveur LDAP complet est nécessaire car l'imprimante tente d'abord une liaison nulle, puis interroge les informations disponibles, et ce n'est que si ces opérations réussissent qu'elle procède à la liaison avec les informations d'identification.
+J'ai découvert qu'un serveur LDAP complet est nécessaire car l'imprimante tente d'abord une liaison nulle puis interroge les informations disponibles, et ce n'est que si ces opérations réussissent qu'elle procède à la liaison avec les identifiants.
 
-J'ai cherché un serveur LDAP simple qui répondait aux exigences, mais il semblait y avoir des options limitées. En fin de compte, j'ai opté pour la mise en place d'un serveur LDAP ouvert et j'ai utilisé le service de serveur de débogage slapd pour accepter les connexions et imprimer les messages de l'imprimante. (Si vous connaissez une alternative plus facile, je serais heureux de l'entendre)
+J'ai cherché un serveur ldap simple qui répondait aux exigences, mais les options semblaient limitées. Finalement, j'ai choisi de configurer un serveur ldap ouvert et d'utiliser le service de serveur de débogage slapd pour accepter les connexions et imprimer les messages de l'imprimante. (Si vous connaissez une alternative plus simple, je serais heureux de l'entendre)
 
 ### Installation
 
 (Notez que cette section est une version légèrement adaptée du guide ici [https://www.server-world.info/en/note?os=Fedora\_26\&p=openldap](https://www.server-world.info/en/note?os=Fedora\_26\&p=openldap) )
 
-À partir d'un terminal root :
+Depuis un terminal root :
 
-**Installer OpenLDAP,**
+**Installez OpenLDAP,**
 ```
 #> dnf install -y install openldap-servers openldap-clients
 
-#> cp /usr/share/openldap-servers/DB_CONFIG.example /var/lib/ldap/DB_CONFIG 
+#> cp /usr/share/openldap-servers/DB_CONFIG.example /var/lib/ldap/DB_CONFIG
 
 #> chown ldap. /var/lib/ldap/DB_CONFIG
 ```
-**Définir un mot de passe administrateur OpenLDAP (vous en aurez besoin à nouveau sous peu)**
+**Définir un mot de passe administrateur OpenLDAP (vous en aurez à nouveau besoin sous peu)**
 ```
-#> slappasswd 
+#> slappasswd
 New password:
 Re-enter new password:
 {SSHA}xxxxxxxxxxxxxxxxxxxxxxxx
@@ -76,58 +91,30 @@ SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
 SASL SSF: 0
 modifying entry "olcDatabase={0}config,cn=config"
 ```
-**Importer les schémas de base**
-
----
-
-**Description**
-
-Lorsque vous installez un nouveau serveur d'impression, il est recommandé d'importer les schémas de base pour les imprimantes. Cela permet de stocker des informations supplémentaires sur les imprimantes dans Active Directory, telles que le nom de l'imprimante, le modèle, l'emplacement, etc.
-
-**Instructions**
-
-1. Ouvrez une invite de commande en tant qu'administrateur.
-2. Accédez au répertoire où se trouvent les fichiers de schéma. Par exemple, `C:\Windows\System32\Printing_Admin_Scripts\fr-FR`.
-3. Exécutez la commande suivante pour importer les schémas de base :
-
+**Importer des schémas de base**
 ```
-rundll32 printui.dll,PrintUIEntry /il /f [nom du fichier de schéma]
-```
-
-4. Répétez cette étape pour chaque fichier de schéma que vous souhaitez importer.
-
-**Exemple**
-
-```
-rundll32 printui.dll,PrintUIEntry /il /f "C:\Windows\System32\Printing_Admin_Scripts\fr-FR\prnms003.inf"
-```
-
-**Résultat attendu**
-
-Les schémas de base pour les imprimantes sont importés avec succès dans Active Directory.
-```
-#> ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/cosine.ldif 
+#> ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/cosine.ldif
 SASL/EXTERNAL authentication started
 SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
 SASL SSF: 0
 adding new entry "cn=cosine,cn=schema,cn=config"
 
-#> ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/nis.ldif 
+#> ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/nis.ldif
 SASL/EXTERNAL authentication started
 SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
 SASL SSF: 0
 adding new entry "cn=nis,cn=schema,cn=config"
 
-#> ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/inetorgperson.ldif 
+#> ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/inetorgperson.ldif
 SASL/EXTERNAL authentication started
 SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
 SASL SSF: 0
 adding new entry "cn=inetorgperson,cn=schema,cn=config"
 ```
-**Définir le nom de votre domaine dans la base de données LDAP.**
+**Définissez votre nom de domaine sur la base de données LDAP.**
 ```
 # generate directory manager's password
-#> slappasswd 
+#> slappasswd
 New password:
 Re-enter new password:
 {SSHA}xxxxxxxxxxxxxxxxxxxxxxxx
@@ -163,7 +150,7 @@ dn="cn=Manager,dc=foo,dc=bar" write by anonymous auth by self write by * none
 olcAccess: {1}to dn.base="" by * read
 olcAccess: {2}to * by dn="cn=Manager,dc=foo,dc=bar" write by * read
 
-#> ldapmodify -Y EXTERNAL -H ldapi:/// -f chdomain.ldif 
+#> ldapmodify -Y EXTERNAL -H ldapi:/// -f chdomain.ldif
 SASL/EXTERNAL authentication started
 SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
 SASL SSF: 0
@@ -198,7 +185,7 @@ dn: ou=Group,dc=foo,dc=bar
 objectClass: organizationalUnit
 ou: Group
 
-#> ldapadd -x -D cn=Manager,dc=foo,dc=bar -W -f basedomain.ldif 
+#> ldapadd -x -D cn=Manager,dc=foo,dc=bar -W -f basedomain.ldif
 Enter LDAP Password: # directory manager's password
 adding new entry "dc=foo,dc=bar"
 
@@ -212,8 +199,8 @@ adding new entry "ou=Group,dc=foo,dc=bar"
 
 **Créer un certificat SSL**
 ```
-#> cd /etc/pki/tls/certs 
-#> make server.key 
+#> cd /etc/pki/tls/certs
+#> make server.key
 umask 77 ; \
 /usr/bin/openssl genrsa -aes128 2048 > server.key
 Generating RSA private key, 2048 bit long modulus
@@ -224,11 +211,11 @@ Enter pass phrase: # set passphrase
 Verifying - Enter pass phrase: # confirm
 
 # remove passphrase from private key
-#> openssl rsa -in server.key -out server.key 
+#> openssl rsa -in server.key -out server.key
 Enter pass phrase for server.key: # input passphrase
 writing RSA key
 
-#> make server.csr 
+#> make server.csr
 umask 77 ; \
 /usr/bin/openssl req -utf8 -new -key server.key -out server.csr
 You are about to be asked to enter information that will be incorporated
@@ -256,31 +243,6 @@ subject=/C=/ST=/L=/O=/OU=Foo Bar/CN=dlp.foo.bar/emailAddress=xxx@roo.bar
 Getting Private key
 ```
 **Configurer Slapd pour SSL/TLS**
-
-Pour sécuriser les communications entre les clients et le serveur LDAP, il est recommandé de configurer Slapd pour utiliser SSL/TLS. Voici les étapes à suivre pour configurer Slapd pour SSL/TLS :
-
-1. Générer un certificat SSL/TLS pour le serveur LDAP. Vous pouvez utiliser un certificat auto-signé ou un certificat signé par une autorité de certification (CA) de confiance.
-
-2. Ajouter les paramètres suivants au fichier de configuration de Slapd (/etc/openldap/slapd.conf ou /etc/ldap/slapd.conf) :
-
-```
-TLSCertificateFile /path/to/ldap.crt
-TLSCertificateKeyFile /path/to/ldap.key
-```
-
-Assurez-vous de remplacer `/path/to/ldap.crt` et `/path/to/ldap.key` par les chemins d'accès appropriés vers le certificat et la clé privée SSL/TLS que vous avez générés à l'étape 1.
-
-3. Redémarrez le service Slapd pour que les modifications prennent effet.
-
-4. Vérifiez que Slapd utilise SSL/TLS en exécutant la commande suivante :
-
-```
-ldapsearch -H ldaps://localhost -x -b "dc=example,dc=com" -D "cn=admin,dc=example,dc=com" -W
-```
-
-Assurez-vous de remplacer `dc=example,dc=com` par le nom de votre domaine LDAP et `cn=admin,dc=example,dc=com` par le nom d'utilisateur et le DN de l'administrateur LDAP.
-
-Si la commande ldapsearch réussit, cela signifie que Slapd utilise SSL/TLS pour les communications.
 ```
 #> cp /etc/pki/tls/certs/server.key \
 /etc/pki/tls/certs/server.crt \
@@ -293,7 +255,7 @@ Si la commande ldapsearch réussit, cela signifie que Slapd utilise SSL/TLS pour
 
 #> vim mod_ssl.ldif
 # create new
- dn: cn=config
+dn: cn=config
 changetype: modify
 add: olcTLSCACertificateFile
 olcTLSCACertificateFile: /etc/openldap/certs/ca-bundle.crt
@@ -304,53 +266,49 @@ olcTLSCertificateFile: /etc/openldap/certs/server.crt
 replace: olcTLSCertificateKeyFile
 olcTLSCertificateKeyFile: /etc/openldap/certs/server.key
 
-#> ldapmodify -Y EXTERNAL -H ldapi:/// -f mod_ssl.ldif 
+#> ldapmodify -Y EXTERNAL -H ldapi:/// -f mod_ssl.ldif
 SASL/EXTERNAL authentication started
 SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
 SASL SSF: 0
 modifying entry "cn=config"
 ```
 **Autoriser LDAP à travers votre pare-feu local**
-
-Pour récupérer des informations sur les utilisateurs et les groupes à partir d'un domaine Active Directory, il est nécessaire d'autoriser le trafic LDAP à travers votre pare-feu local. Cela peut être fait en ouvrant le port 389 pour le trafic LDAP non sécurisé ou le port 636 pour le trafic LDAP sécurisé (LDAPS). Assurez-vous de limiter l'accès à ces ports uniquement aux adresses IP autorisées pour des raisons de sécurité.
 ```
 firewall-cmd --add-service={ldap,ldaps}
 ```
 ## La récompense
 
-Une fois que vous avez installé et configuré votre service LDAP, vous pouvez l'exécuter avec la commande suivante :
+Une fois que vous avez installé et configuré votre service LDAP, vous pouvez le lancer avec la commande suivante :
 
 > ```
 > slapd -d 2
 > ```
 
-La capture d'écran ci-dessous montre un exemple de la sortie lorsque nous exécutons le test de connexion sur l'imprimante. Comme vous pouvez le voir, le nom d'utilisateur et le mot de passe sont transmis du client LDAP au serveur.
+La capture d'écran ci-dessous montre un exemple de sortie lorsque nous exécutons le test de connexion sur l'imprimante. Comme vous pouvez le voir, le nom d'utilisateur et le mot de passe sont transmis du client LDAP au serveur.
 
-![slapd terminal output containing the username "MyUser" and password "MyPassword"](https://i1.wp.com/grimhacker.com/wp-content/uploads/2018/03/slapd\_output.png?resize=474%2C163\&ssl=1)
+![sortie du terminal slapd contenant le nom d'utilisateur "MyUser" et le mot de passe "MyPassword"](https://i1.wp.com/grimhacker.com/wp-content/uploads/2018/03/slapd\_output.png?resize=474%2C163\&ssl=1)
 
-# À quel point cela peut-il être mauvais ?
+# Quelle peut être l'ampleur des dégâts ?
 
-Cela dépend beaucoup des informations d'identification qui ont été configurées.
+Cela dépend beaucoup des identifiants qui ont été configurés.
 
-Si le principe du moindre privilège est suivi, vous pouvez n'obtenir qu'un accès en lecture à certains éléments de l'annuaire actif. Cela est souvent encore précieux car vous pouvez utiliser ces informations pour formuler d'autres attaques plus précises.
+Si le principe du moindre privilège est suivi, alors vous ne pourriez obtenir qu'un accès en lecture à certains éléments de l'Active Directory. Cela reste souvent précieux car vous pouvez utiliser ces informations pour formuler des attaques plus précises et efficaces.
 
-En général, vous êtes susceptible d'obtenir un compte dans le groupe Domain Users, ce qui peut donner accès à des informations sensibles ou constituer l'authentification préalable à d'autres attaques.
+Typiquement, vous pourriez obtenir un compte dans le groupe des Utilisateurs du Domaine qui peut donner accès à des informations sensibles ou constituer l'authentification préalable pour d'autres attaques.
 
-Ou, comme moi, vous pouvez être récompensé pour la mise en place d'un serveur LDAP et vous voir remettre un compte Domain Admin sur un plateau d'argent.
+Ou, comme moi, vous pourriez être récompensé pour avoir mis en place un serveur LDAP et vous voir remettre un compte d'Admin du Domaine sur un plateau d'argent.
 
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-- Travaillez-vous dans une entreprise de **cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+Autres moyens de soutenir HackTricks :
 
-- Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-
-- Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-
-- **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-
-- **Partagez vos astuces de piratage en soumettant des PR au [repo hacktricks](https://github.com/carlospolop/hacktricks) et au [repo hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez**-moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
