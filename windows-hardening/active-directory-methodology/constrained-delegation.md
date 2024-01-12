@@ -1,35 +1,33 @@
-# 有限制的委派
+# 受限委派
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
+<summary><strong>从零开始学习AWS黑客攻击直到成为专家，通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-- 你在一家**网络安全公司**工作吗？你想在 HackTricks 中看到你的**公司广告**吗？或者你想获得**PEASS 的最新版本或下载 HackTricks 的 PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+支持HackTricks的其他方式：
 
-- 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-
-- 获取[**官方 PEASS & HackTricks 衣物**](https://peass.creator-spring.com)
-
-- **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-
-- **通过向[hacktricks 仓库](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud 仓库](https://github.com/carlospolop/hacktricks-cloud)提交 PR 来分享你的黑客技巧**。
+* 如果你想在**HackTricks中看到你的公司广告**或者**下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享你的黑客技巧。
 
 </details>
 
-## 有限制的委派
+## 受限委派
 
-使用这个方法，域管理员可以允许一台计算机对一台机器的服务进行用户或计算机的模拟。
+使用这个技术，域管理员可以**允许**一台计算机**模拟用户或计算机**对某台机器的**服务**进行操作。
 
-* **用户自身的服务（S4U2self）：**如果一个**服务账户**的_userAccountControl_值包含[TRUSTED\_TO\_AUTH\_FOR\_DELEGATION](https://msdn.microsoft.com/en-us/library/aa772300\(v=vs.85\).aspx)（T2A4D），那么它可以代表任何其他用户为自己（服务）获取TGS。
-* **用户代理的服务（S4U2proxy）：**一个**服务账户**可以代表任何用户为**msDS-AllowedToDelegateTo**中设置的服务获取TGS。为此，它首先需要从该用户获取一个TGS到自己，但它可以在请求另一个TGS之前使用S4U2self来获取该TGS。
+* **用户服务自助(**_**S4U2self**_**):** 如果一个**服务账户**的_userAccountControl_值包含[TRUSTED\_TO\_AUTH\_FOR\_DELEGATION](https://msdn.microsoft.com/en-us/library/aa772300\(v=vs.85\).aspx) (T2A4D)，那么它可以代表任何其他用户为自己（该服务）获取TGS。
+* **用户服务代理(**_**S4U2proxy**_**):** 一个**服务账户**可以代表任何用户获取TGS到在**msDS-AllowedToDelegateTo**中设置的服务。为此，它首先需要从该用户到自己的TGS，但它可以使用S4U2self来获取那个TGS，然后再请求另一个。
 
-**注意**：如果一个用户在 AD 中被标记为“_账户是敏感的，不能被委派_”，你将**无法模拟**他们。
+**注意**：如果一个用户在AD中被标记为‘_账户敏感且不能被委派_’，你将**无法模拟**他们。
 
-这意味着如果你**获取了服务的哈希值**，你可以**冒充用户**并以他们的名义获得对配置的**服务的访问权限**（可能的**特权升级**）。
+这意味着，如果你**破解了服务的哈希值**，你可以**模拟用户**并代表他们获取对**配置的服务的访问权限**（可能的**权限提升**）。
 
-此外，你不仅可以访问用户能够模拟的服务，还可以访问任何服务，因为没有检查 SPN（请求的服务名称），只检查权限。因此，如果你可以访问**CIFS 服务**，你也可以使用 Rubeus 中的`/altservice`标志访问**HOST 服务**。
+此外，你**不仅可以访问用户能够模拟的服务，还可以访问任何服务**，因为SPN（请求的服务名称）没有被检查，只检查权限。因此，如果你可以访问**CIFS服务**，你也可以使用Rubeus中的`/altservice`标志访问**HOST服务**。
 
-此外，利用**DCSync**需要访问**DC 上的 LDAP 服务**。
+同样，**在DC上访问LDAP服务**，是利用**DCSync**所需要的。
 
 {% code title="枚举" %}
 ```bash
@@ -40,6 +38,8 @@ Get-DomainComputer -TrustedToAuth | select userprincipalname, name, msds-allowed
 #ADSearch
 ADSearch.exe --search "(&(objectCategory=computer)(msds-allowedtodelegateto=*))" --attributes cn,dnshostname,samaccountname,msds-allowedtodelegateto --json
 ```
+{% endcode %}
+
 {% code title="获取TGT" %}
 ```bash
 # The first step is to get a TGT of the service that can impersonate others
@@ -62,9 +62,9 @@ tgt::ask /user:dcorp-adminsrv$ /domain:dollarcorp.moneycorp.local /rc4:8c6264140
 {% endcode %}
 
 {% hint style="warning" %}
-还有其他方法可以在不以计算机的SYSTEM身份获取TGT票据或RC4或AES256的情况下进行，例如打印机漏洞和非约束委派、NTLM中继和Active Directory证书服务滥用。
+还有**其他方法获取TGT票据**或**RC4**或**AES256**，而不需要在计算机中拥有SYSTEM权限，例如打印机漏洞和无约束委派、NTLM中继和Active Directory证书服务滥用。
 
-只要有了TGT票据（或散列），您就可以在不危及整个计算机的情况下执行此攻击。
+**只需拥有该TGT票据（或哈希），您就可以执行此攻击，而无需危及整台计算机。**
 {% endhint %}
 
 {% code title="使用Rubeus" %}
@@ -84,6 +84,8 @@ tgt::ask /user:dcorp-adminsrv$ /domain:dollarcorp.moneycorp.local /rc4:8c6264140
 #Load ticket in memory
 .\Rubeus.exe ptt /ticket:TGS_administrator_CIFS_HOST-dcorp-mssql.dollarcorp.moneycorp.local
 ```
+{% endcode %}
+
 {% code title="kekeo + Mimikatz" %}
 ```bash
 #Obtain a TGT for the Constained allowed user
@@ -99,24 +101,22 @@ Invoke-Mimikatz -Command '"kerberos::ptt TGS_Administrator@dollarcorp.moneycorp.
 
 ### 缓解措施
 
-* 在可能的情况下禁用Kerberos委派
-* 将DA/Admin登录限制为特定服务
-* 为特权账户设置"账户是敏感的，不能委派"
+* 尽可能禁用kerberos委派
+* 限制DA/Admin登录到特定服务
+* 为特权账户设置“账户敏感且不能被委派”。
 
-[**在ired.team上获取更多信息**](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-kerberos-constrained-delegation)
+[**在ired.team获取更多信息。**](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-kerberos-constrained-delegation)
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS红队专家)</strong></a><strong>！</strong></summary>
 
-- 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+支持HackTricks的其他方式：
 
-- 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-
-- 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-
-- **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**Telegram群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的动态[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-
-- **通过向[hacktricks仓库](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud仓库](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
+* 如果您希望在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF版本**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在**Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
