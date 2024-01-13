@@ -9,12 +9,12 @@ Outras formas de apoiar o HackTricks:
 * Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga**-me no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-## Modelos de Certificado Mal Configurados - ESC1
+## Modelos de Certificados Mal Configurados - ESC1
 
 ### Explicação
 
@@ -23,7 +23,7 @@ Outras formas de apoiar o HackTricks:
 * **Não são necessárias assinaturas autorizadas**
 * Um **modelo de certificado** com descritor de segurança excessivamente permissivo **concede direitos de inscrição de certificado a usuários com poucos privilégios**
 * O **modelo de certificado define EKUs que permitem autenticação**:
-* _Autenticação de Cliente (OID 1.3.6.1.5.5.7.3.2), Autenticação de Cliente PKINIT (1.3.6.1.5.2.3.4), Logon de Smart Card (OID 1.3.6.1.4.1.311.20.2.2), Qualquer Finalidade (OID 2.5.29.37.0), ou sem EKU (SubCA)._
+* _Autenticação do Cliente (OID 1.3.6.1.5.5.7.3.2), Autenticação do Cliente PKINIT (1.3.6.1.5.2.3.4), Logon de Smart Card (OID 1.3.6.1.4.1.311.20.2.2), Qualquer Finalidade (OID 2.5.29.37.0), ou sem EKU (SubCA)._
 * O **modelo de certificado permite que os solicitantes especifiquem um subjectAltName no CSR:**
 * O **AD** irá **usar** a identidade especificada pelo campo **subjectAltName** (SAN) de um certificado **se** estiver **presente**. Consequentemente, se um solicitante pode especificar o SAN em um CSR, o solicitante pode **solicitar um certificado como qualquer pessoa** (por exemplo, um usuário administrador de domínio). O objeto AD do modelo de certificado **especifica** se o solicitante **pode especificar o SAN** em sua propriedade **`mspki-certificate-name-`**`flag`. A propriedade `mspki-certificate-name-flag` é uma **máscara de bits** e se a flag **`CT_FLAG_ENROLLEE_SUPPLIES_SUBJECT`** estiver **presente**, um **solicitante pode especificar o SAN.**
 
@@ -31,18 +31,18 @@ Outras formas de apoiar o HackTricks:
 Essas configurações permitem que um **usuário com poucos privilégios solicite um certificado com um SAN arbitrário**, permitindo que o usuário com poucos privilégios se autentique como qualquer principal no domínio via Kerberos ou SChannel.
 {% endhint %}
 
-Isso é frequentemente habilitado, por exemplo, para permitir que produtos ou serviços de implantação gerem certificados HTTPS ou certificados de host instantaneamente. Ou por falta de conhecimento.
+Isso é frequentemente habilitado, por exemplo, para permitir que produtos ou serviços de implantação gerem certificados HTTPS ou certificados de host sob demanda. Ou por falta de conhecimento.
 
-Observe que quando um certificado com esta última opção é criado, um **aviso aparece**, mas não aparece se um **modelo de certificado** com esta configuração for **duplicado** (como o modelo `WebServer` que tem `CT_FLAG_ENROLLEE_SUPPLIES_SUBJECT` habilitado e depois o administrador pode adicionar um OID de autenticação).
+Observe que quando um certificado com essa última opção é criado, um **aviso aparece**, mas não aparece se um **modelo de certificado** com essa configuração for **duplicado** (como o modelo `WebServer` que tem `CT_FLAG_ENROLLEE_SUPPLIES_SUBJECT` habilitado e depois o administrador pode adicionar um OID de autenticação).
 
 ### Abuso
 
-Para **encontrar modelos de certificado vulneráveis** você pode executar:
+Para **encontrar modelos de certificados vulneráveis** você pode executar:
 ```bash
 Certify.exe find /vulnerable
 certipy find -username john@corp.local -password Passw0rd -dc-ip 172.16.126.128
 ```
-Para **abusar dessa vulnerabilidade para se passar por um administrador**, poderia-se executar:
+Para **abusar desta vulnerabilidade para se passar por um administrador**, poderia executar-se:
 ```bash
 Certify.exe request /ca:dc.theshire.local-DC-CA /template:VulnTemplate /altname:localadmin
 certipy req -username john@corp.local -password Passw0rd! -target-ip ca.corp.local -ca 'corp-CA' -template 'ESC1' -upn 'administrator@corp.local'
@@ -54,7 +54,7 @@ certipy auth -pfx 'administrator.pfx' -username 'administrator' -domain 'corp.lo
 ```
 Os binários do Windows "Certreq.exe" e "Certutil.exe" podem ser explorados para gerar o PFX: https://gist.github.com/b4cktr4ck2/95a9b908e57460d9958e8238f85ef8ee
 
-Além disso, a seguinte consulta LDAP, quando executada contra o esquema de configuração da Floresta AD, pode ser usada para **enumerar** **modelos de certificados** que **não exigem aprovação/assinaturas**, que possuem um **EKU de Autenticação de Cliente ou Logon de Cartão Inteligente**, e têm a flag **`CT_FLAG_ENROLLEE_SUPPLIES_SUBJECT`** ativada:
+Além disso, a seguinte consulta LDAP, quando executada contra o esquema de configuração da Floresta AD, pode ser usada para **enumerar** **modelos de certificados** que **não exigem aprovação/assinaturas**, que possuem um EKU de **Autenticação de Cliente ou Logon de Cartão Inteligente**, e têm a flag **`CT_FLAG_ENROLLEE_SUPPLIES_SUBJECT`** ativada:
 ```
 (&(objectclass=pkicertificatetemplate)(!(mspki-enrollmentflag:1.2.840.113556.1.4.804:=2))(|(mspki-ra-signature=0)(!(mspki-rasignature=*)))(|(pkiextendedkeyusage=1.3.6.1.4.1.311.20.2.2)(pkiextendedkeyusage=1.3.6.1.5.5.7.3.2)(pkiextendedkeyusage=1.3.6.1.5.2.3.4)(pkiextendedkeyusage=2.5.29.37.0)(!(pkiextendedkeyusage=*)))(mspkicertificate-name-flag:1.2.840.113556.1.4.804:=1))
 ```
@@ -67,7 +67,7 @@ O segundo cenário de abuso é uma variação do primeiro:
 1. A CA Empresarial concede direitos de inscrição a usuários com baixos privilégios.
 2. A aprovação do gerente está desativada.
 3. Não são necessárias assinaturas autorizadas.
-4. Um descritor de segurança de modelo de certificado excessivamente permissivo concede direitos de inscrição de certificado a usuários com baixos privilégios.
+4. Um descritor de segurança de modelo de certificado excessivamente permissivo concede direitos de inscrição de certificados a usuários com baixos privilégios.
 5. **O modelo de certificado define o EKU de Qualquer Propósito ou nenhum EKU.**
 
 O **EKU de Qualquer Propósito** permite que um atacante obtenha um **certificado** para **qualquer finalidade**, como autenticação de cliente, autenticação de servidor, assinatura de código, etc. A mesma **técnica usada para o ESC3** pode ser usada para abusar disso.
@@ -104,7 +104,7 @@ O **"agente de inscrição"** se inscreve em tal **modelo** e usa o **certificad
 2. A aprovação do gerente está desativada.
 3. **A versão do esquema do modelo é 1 ou é maior que 2 e especifica um Requisito de Emissão de Política de Aplicação exigindo o EKU de Agente de Solicitação de Certificado.**
 4. O modelo de certificado define um EKU que permite autenticação de domínio.
-5. As restrições do agente de inscrição não são implementadas na AC.
+5. Restrições de agente de inscrição não são implementadas na AC.
 
 ### Abuso
 
@@ -122,23 +122,23 @@ certipy req -username john@corp.local -password Pass0rd! -target-ip ca.corp.loca
 # Use Rubeus with the certificate to authenticate as the other user
 Rubeu.exe asktgt /user:CORP\itadmin /certificate:itadminenrollment.pfx /password:asdf
 ```
-As Autoridades de Certificação Empresariais podem **restringir** os **usuários** que podem **obter** um **certificado de agente de inscrição**, os modelos de inscrição nos quais os **agentes podem se inscrever** e em quais **contas** o agente de inscrição pode **agir em nome de** ao abrir o `certsrc.msc` `snap-in -> clicar com o botão direito na CA -> clicar em Propriedades -> navegar` até a aba "Agentes de Inscrição".
+As Autoridades Certificadoras Empresariais podem **restringir** os **usuários** que podem **obter** um **certificado de agente de inscrição**, os modelos de inscrição que os **agentes podem se inscrever**, e quais **contas** o agente de inscrição pode **agir em nome de** ao abrir o `certsrc.msc` `snap-in -> clicar com o botão direito na CA -> clicar em Propriedades -> navegar` até a aba "Agentes de Inscrição".
 
-No entanto, a configuração **padrão** da CA é “**Não restringir agentes de inscrição**”. Mesmo quando os administradores ativam “Restringir agentes de inscrição”, a configuração padrão é extremamente permissiva, permitindo que Todos acessem e se inscrevam em todos os modelos como qualquer um.
+No entanto, a configuração **padrão** da CA é "**Não restringir agentes de inscrição**". Mesmo quando os administradores ativam "Restringir agentes de inscrição", a configuração padrão é extremamente permissiva, permitindo que Todos acessem e se inscrevam em todos os modelos como qualquer um.
 
 ## Controle de Acesso Vulnerável a Modelos de Certificado - ESC4
 
 ### **Explicação**
 
-**Modelos de certificado** possuem um **descritor de segurança** que especifica quais **princípios do AD** têm **permissões específicas sobre o modelo**.
+**Modelos de certificado** têm um **descritor de segurança** que especifica quais **principais** do AD têm **permissões específicas sobre o modelo**.
 
-Se um **atacante** tem permissões suficientes para **modificar** um **modelo** e **criar** qualquer uma das **más configurações** exploráveis das **seções anteriores**, ele poderá explorá-las e **escalar privilégios**.
+Se um **atacante** tem **permissões** suficientes para **modificar** um **modelo** e **criar** qualquer uma das **más configurações** exploráveis das **seções anteriores**, ele poderá explorá-lo e **escalar privilégios**.
 
-Direitos interessantes sobre modelos de certificados:
+Direitos interessantes sobre modelos de certificado:
 
 * **Owner:** Controle total implícito do objeto, pode editar quaisquer propriedades.
 * **FullControl:** Controle total do objeto, pode editar quaisquer propriedades.
-* **WriteOwner:** Pode modificar o proprietário para um princípio controlado pelo atacante.
+* **WriteOwner:** Pode modificar o proprietário para um principal controlado pelo atacante.
 * **WriteDacl**: Pode modificar o controle de acesso para conceder ao atacante FullControl.
 * **WriteProperty:** Pode editar quaisquer propriedades
 
@@ -148,7 +148,7 @@ Um exemplo de privesc como o anterior:
 
 <figure><img src="../../../.gitbook/assets/image (15) (2).png" alt=""><figcaption></figcaption></figure>
 
-ESC4 ocorre quando um usuário tem privilégios de escrita sobre um modelo de certificado. Isso pode, por exemplo, ser abusado para sobrescrever a configuração do modelo de certificado para tornar o modelo vulnerável ao ESC1.
+ESC4 é quando um usuário tem privilégios de escrita sobre um modelo de certificado. Isso pode, por exemplo, ser abusado para sobrescrever a configuração do modelo de certificado para tornar o modelo vulnerável ao ESC1.
 
 Como podemos ver no caminho acima, apenas `JOHNPC` tem esses privilégios, mas nosso usuário `JOHN` tem a nova aresta `AddKeyCredentialLink` para `JOHNPC`. Como esta técnica está relacionada a certificados, eu também implementei este ataque, que é conhecido como [Shadow Credentials](https://posts.specterops.io/shadow-credentials-abusing-key-trust-account-mapping-for-takeover-8ee1a53566ab). Aqui está uma pequena prévia do comando `shadow auto` do Certipy para recuperar o hash NT da vítima.
 
@@ -169,7 +169,7 @@ certipy template -username john@corp.local -password Passw0rd -template ESC4-Tes
 
 ### Explicação
 
-A rede de relações baseadas em ACL interconectadas que podem afetar a segurança do AD CS é extensa. Vários **objetos fora dos modelos de certificado** e da própria autoridade de certificação podem ter um **impacto na segurança de todo o sistema AD CS**. Essas possibilidades incluem (mas não se limitam a):
+A rede de relações baseadas em ACL que podem afetar a segurança do AD CS é extensa. Vários **objetos fora dos modelos de certificado** e da própria autoridade de certificação podem ter um **impacto na segurança de todo o sistema AD CS**. Essas possibilidades incluem (mas não se limitam a):
 
 * O **objeto de computador AD do servidor CA** (ou seja, comprometimento através de S4U2Self ou S4U2Proxy)
 * O **servidor RPC/DCOM do servidor CA**
@@ -182,17 +182,17 @@ Se um atacante com baixos privilégios conseguir **ganhar controle sobre qualque
 ### Explicação
 
 Há outro problema semelhante, descrito no [**post da CQure Academy**](https://cqureacademy.com/blog/enhanced-key-usage), que envolve a flag **`EDITF_ATTRIBUTESUBJECTALTNAME2`**. Como a Microsoft descreve, “**Se** esta flag estiver **ativada** na CA, **qualquer solicitação** (incluindo quando o sujeito é construído a partir do Active Directory®) pode ter **valores definidos pelo usuário** no **nome alternativo do sujeito**.”\
-Isso significa que um **atacante** pode se inscrever em **QUALQUER modelo** configurado para **autenticação de domínio** que também **permita que usuários não privilegiados** se inscrevam (por exemplo, o modelo de Usuário padrão) e **obter um certificado** que nos permite **autenticar** como um administrador de domínio (ou **qualquer outro usuário/máquina ativo**).
+Isso significa que um **atacante** pode se inscrever em **QUALQUER modelo** configurado para autenticação de domínio que também **permita que usuários não privilegiados** se inscrevam (por exemplo, o modelo de Usuário padrão) e **obter um certificado** que nos permite **autenticar** como um administrador de domínio (ou **qualquer outro usuário/máquina ativo**).
 
 **Nota**: os **nomes alternativos** aqui são **incluídos** em um CSR através do argumento `-attrib "SAN:"` para `certreq.exe` (ou seja, “Pares de Valor de Nome”). Isso é **diferente** do método para **abusar de SANs** no ESC1, pois **armazena informações da conta em um atributo de certificado vs uma extensão de certificado**.
 
 ### Abuso
 
-Organizações podem **verificar se a configuração está ativada** usando o seguinte comando `certutil.exe`:
+As organizações podem **verificar se a configuração está ativada** usando o seguinte comando `certutil.exe`:
 ```bash
 certutil -config "CA_HOST\CA_NAME" -getreg "policy\EditFlags"
 ```
-Abaixo, isso apenas utiliza **remote** **registry**, então o seguinte comando também pode funcionar:
+Abaixo, isso apenas usa **remote** **registry**, então o seguinte comando também pode funcionar:
 ```
 reg.exe query \\<CA_SERVER>\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\CertSvc\Configuration\<CA_NAME>\PolicyModules\CertificateAuthority_MicrosoftDefault.Policy\ /v EditFlags
 ```
@@ -215,7 +215,7 @@ certutil -config "CA_HOST\CA_NAME" -setreg policy\EditFlags -EDITF_ATTRIBUTESUBJ
 ```
 {% hint style="warning" %}
 Após as atualizações de segurança de maio de 2022, novos **certificados** terão uma **extensão de segurança** que **incorpora** a propriedade **`objectSid` do solicitante**. Para o ESC1, essa propriedade será refletida a partir do SAN especificado, mas com o **ESC6**, essa propriedade reflete o **`objectSid` do solicitante**, e não do SAN.\
-Como tal, **para abusar do ESC6**, o ambiente deve estar **vulnerável ao ESC10** (Mapeamentos Fracos de Certificado), onde o **SAN é preferido em detrimento da nova extensão de segurança**.
+Assim, **para abusar do ESC6**, o ambiente deve ser **vulnerável ao ESC10** (Mapeamentos de Certificado Fracos), onde o **SAN é preferido sobre a nova extensão de segurança**.
 {% endhint %}
 
 ## Controle de Acesso Vulnerável à Autoridade de Certificação - ESC7
@@ -265,7 +265,7 @@ Certify.exe download /ca:dc.theshire.local\theshire-DC-CA /id:336
 #### Explicação
 
 {% hint style="warning" %}
-No **ataque anterior**, as permissões **`Manage CA`** foram usadas para **ativar** a flag **EDITF\_ATTRIBUTESUBJECTALTNAME2** para realizar o ataque **ESC6**, mas isso não terá efeito até que o serviço de CA (`CertSvc`) seja reiniciado. Quando um usuário tem o direito de acesso `Manage CA`, ele também está autorizado a **reiniciar o serviço**. No entanto, **isso não significa que o usuário possa reiniciar o serviço remotamente**. Além disso, o **ESC6 pode não funcionar imediatamente** na maioria dos ambientes atualizados devido às atualizações de segurança de maio de 2022.
+No **ataque anterior**, as permissões **`Manage CA`** foram usadas para **ativar** a flag **EDITF\_ATTRIBUTESUBJECTALTNAME2** para realizar o ataque **ESC6**, mas isso não terá efeito até que o serviço de AC (`CertSvc`) seja reiniciado. Quando um usuário tem o direito de acesso `Manage CA`, ele também está autorizado a **reiniciar o serviço**. No entanto, **isso não significa que o usuário possa reiniciar o serviço remotamente**. Além disso, o **ESC6 pode não funcionar imediatamente** na maioria dos ambientes atualizados devido às atualizações de segurança de maio de 2022.
 {% endhint %}
 
 Portanto, outro ataque é apresentado aqui.
@@ -340,20 +340,20 @@ Certipy v4.0.0 - by Oliver Lyak (ly4k)
 Resumindo, se um ambiente possui **AD CS instalado**, juntamente com um **endpoint de inscrição web vulnerável** e pelo menos um **modelo de certificado publicado** que permite a **inscrição de computadores do domínio e autenticação de cliente** (como o modelo padrão **`Machine`**), então um **atacante pode comprometer QUALQUER computador com o serviço de spooler em execução**!
 {% endhint %}
 
-O AD CS suporta vários **métodos de inscrição baseados em HTTP** por meio de funções adicionais do servidor AD CS que os administradores podem instalar. Essas interfaces de inscrição de certificados baseadas em HTTP são todas **vulneráveis a ataques de relay NTLM**. Usando relay NTLM, um atacante em uma **máquina comprometida pode se passar por qualquer conta AD que autentique via NTLM de entrada**. Enquanto se passa pela conta da vítima, um atacante poderia acessar essas interfaces web e **solicitar um certificado de autenticação de cliente baseado nos modelos de certificado `User` ou `Machine`**.
+O AD CS suporta vários **métodos de inscrição baseados em HTTP** por meio de funções adicionais do servidor AD CS que os administradores podem instalar. Essas interfaces de inscrição de certificados baseadas em HTTP são todas **vulneráveis a ataques de NTLM relay**. Usando NTLM relay, um atacante em uma **máquina comprometida pode se passar por qualquer conta do AD que autentique via NTLM**. Enquanto se passa pela conta da vítima, um atacante poderia acessar essas interfaces web e **solicitar um certificado de autenticação de cliente baseado nos modelos de certificado `User` ou `Machine`**.
 
-* A **interface de inscrição web** (um aplicativo ASP de aparência antiga acessível em `http://<caserver>/certsrv/`), por padrão, suporta apenas HTTP, o que não pode proteger contra ataques de relay NTLM. Além disso, ela explicitamente permite apenas autenticação NTLM por meio de seu cabeçalho HTTP de Autorização, então protocolos mais seguros como Kerberos são inutilizáveis.
-* O **Serviço de Inscrição de Certificados** (CES), o Serviço Web de **Política de Inscrição de Certificados** (CEP) e o **Serviço de Inscrição de Dispositivos de Rede** (NDES) suportam autenticação negociada por padrão por meio de seu cabeçalho HTTP de Autorização. A autenticação negociada **suporta** Kerberos e **NTLM**; consequentemente, um atacante pode **negociar para baixo até a autenticação NTLM** durante ataques de relay. Esses serviços web pelo menos habilitam HTTPS por padrão, mas infelizmente HTTPS por si só **não protege contra ataques de relay NTLM**. Apenas quando HTTPS é combinado com vinculação de canal os serviços HTTPS podem ser protegidos de ataques de relay NTLM. Infelizmente, o AD CS não habilita Proteção Estendida para Autenticação no IIS, que é necessária para habilitar a vinculação de canal.
+* A **interface de inscrição web** (um aplicativo ASP de aparência antiga acessível em `http://<caserver>/certsrv/`), por padrão, suporta apenas HTTP, o que não pode proteger contra ataques de NTLM relay. Além disso, ela explicitamente permite apenas autenticação NTLM por meio de seu cabeçalho HTTP de Autorização, então protocolos mais seguros como Kerberos são inutilizáveis.
+* O **Certificate Enrollment Service** (CES), **Certificate Enrollment Policy** (CEP) Web Service e **Network Device Enrollment Service** (NDES) suportam autenticação negociada por padrão por meio de seu cabeçalho HTTP de Autorização. A autenticação negociada **suporta** Kerberos e **NTLM**; consequentemente, um atacante pode **negociar para baixo até a autenticação NTLM** durante ataques de relay. Esses serviços web pelo menos habilitam HTTPS por padrão, mas infelizmente HTTPS por si só **não protege contra ataques de NTLM relay**. Apenas quando HTTPS é combinado com vinculação de canal os serviços HTTPS podem ser protegidos de ataques de NTLM relay. Infelizmente, o AD CS não habilita Proteção Estendida para Autenticação no IIS, que é necessária para habilitar a vinculação de canal.
 
-Problemas comuns com ataques de relay NTLM são que as **sessões NTLM são geralmente curtas** e que o atacante **não pode** interagir com serviços que **exigem assinatura NTLM**.
+Problemas **comuns** com ataques de NTLM relay são que as **sessões NTLM são geralmente curtas** e que o atacante **não pode** interagir com serviços que **exigem assinatura NTLM**.
 
-No entanto, abusar de um ataque de relay NTLM para obter um certificado para o usuário resolve essas limitações, pois a sessão viverá enquanto o certificado for válido e o certificado pode ser usado para usar serviços **que exigem assinatura NTLM**. Para saber como usar um certificado roubado, confira:
+No entanto, abusar de um ataque de NTLM relay para obter um certificado para o usuário resolve essas limitações, pois a sessão viverá enquanto o certificado for válido e o certificado pode ser usado para usar serviços **que exigem assinatura NTLM**. Para saber como usar um certificado roubado, confira:
 
 {% content-ref url="account-persistence.md" %}
 [account-persistence.md](account-persistence.md)
 {% endcontent-ref %}
 
-Outra limitação dos ataques de relay NTLM é que eles **requerem que uma conta vítima se autentique em uma máquina controlada pelo atacante**. Um atacante poderia esperar ou tentar **forçar** isso:
+Outra limitação dos ataques de NTLM relay é que eles **requerem que uma conta vítima se autentique em uma máquina controlada pelo atacante**. Um atacante poderia esperar ou tentar **forçar** isso:
 
 {% content-ref url="../printers-spooler-service-abuse.md" %}
 [printers-spooler-service-abuse.md](../printers-spooler-service-abuse.md)
@@ -367,15 +367,11 @@ Certify.exe cas
 ```
 <figure><img src="../../../.gitbook/assets/image (6) (1) (2).png" alt=""><figcaption></figcaption></figure>
 
-Enterprise CAs também **armazenam pontos de extremidade CES** em seu objeto AD na propriedade `msPKI-Enrollment-Servers`. **Certutil.exe** e **PSPKI** podem analisar e listar esses pontos de extremidade:
+As CAs empresariais também **armazenam pontos finais CES** em seu objeto AD na propriedade `msPKI-Enrollment-Servers`. **Certutil.exe** e **PSPKI** podem analisar e listar esses pontos finais:
 ```
 certutil.exe -enrollmentServerURL -config CORPDC01.CORP.LOCAL\CORP-CORPDC01-CA
 ```
-Como não há texto em inglês fornecido além da marcação de imagem, não há nada para traduzir. A marcação deve permanecer inalterada:
-
-```markdown
-<figure><img src="../../../.gitbook/assets/image (2) (2) (2) (1).png" alt=""><figcaption></figcaption></figure>
-```
+Como não há texto em inglês fornecido além da marcação de imagem, não há nada para traduzir. Se você tiver texto específico que precisa ser traduzido, por favor, forneça-o.
 ```powershell
 Import-Module PSPKI
 Get-CertificationAuthority | select Name,Enroll* | Format-List *
@@ -429,7 +425,7 @@ Neste caso, `John@corp.local` tem `GenericWrite` sobre `Jane@corp.local`, e dese
 
 Primeiro, obtemos o hash de `Jane` com, por exemplo, Shadow Credentials (usando nosso `GenericWrite`).
 
-<figure><img src="../../../.gitbook/assets/image (13) (1) (1) (1) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (22).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (13) (1) (1) (1) (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (22).png" alt=""><figcaption></figcaption></figure>
 
 Em seguida, mudamos o `userPrincipalName` de `Jane` para ser `Administrator`. Observe que estamos deixando de fora a parte `@corp.local`.
 
@@ -447,7 +443,7 @@ Então, mudamos de volta o `userPrincipalName` de `Jane` para ser algo diferente
 
 <figure><img src="../../../.gitbook/assets/image (24) (2).png" alt=""><figcaption></figcaption></figure>
 
-Agora, se tentarmos nos autenticar com o certificado, receberemos o hash NT do usuário `Administrator@corp.local`. Você precisará adicionar `-domain <domain>` à sua linha de comando, já que não há domínio especificado no certificado.
+Agora, se tentarmos autenticar com o certificado, receberemos o hash NT do usuário `Administrator@corp.local`. Você precisará adicionar `-domain <domain>` à sua linha de comando, já que não há domínio especificado no certificado.
 
 <figure><img src="../../../.gitbook/assets/image (3) (1) (3).png" alt=""><figcaption></figcaption></figure>
 
@@ -496,7 +492,7 @@ Então, mudamos de volta o `userPrincipalName` de `Jane` para ser algo diferente
 
 <figure><img src="../../../.gitbook/assets/image (4) (1) (3).png" alt=""><figcaption></figcaption></figure>
 
-Agora, se tentarmos nos autenticar com o certificado, receberemos o hash NT do usuário `Administrator@corp.local`. Você precisará adicionar `-domain <domain>` à sua linha de comando, já que não há domínio especificado no certificado.
+Agora, se tentarmos autenticar com o certificado, receberemos o hash NT do usuário `Administrator@corp.local`. Você precisará adicionar `-domain <domain>` à sua linha de comando, já que não há domínio especificado no certificado.
 
 <figure><img src="../../../.gitbook/assets/image (1) (2) (2).png" alt=""><figcaption></figcaption></figure>
 
@@ -527,7 +523,7 @@ Então, mudamos de volta o `userPrincipalName` de `Jane` para ser algo diferente
 
 Agora, como essa chave de registro se aplica ao Schannel, devemos usar o certificado para autenticação via Schannel. É aqui que entra a nova opção `-ldap-shell` do Certipy.
 
-Se tentarmos nos autenticar com o certificado e `-ldap-shell`, notaremos que estamos autenticados como `u:CORP\DC$`. Esta é uma string enviada pelo servidor.
+Se tentarmos autenticar com o certificado e `-ldap-shell`, notaremos que estamos autenticados como `u:CORP\DC$`. Esta é uma string enviada pelo servidor.
 
 <figure><img src="../../../.gitbook/assets/image (21) (2) (1).png" alt=""><figcaption></figcaption></figure>
 
@@ -539,31 +535,31 @@ Alternativamente, também podemos comprometer qualquer conta de usuário onde n�
 
 ## Comprometendo Florestas com Certificados
 
-### Confianças de CAs Quebrando Confianças de Florestas
+### Quebra de Confiança das CAs nas Florestas
 
 A configuração para **inscrição entre florestas** é relativamente simples. Os administradores publicam o **certificado da CA raiz** da floresta de recursos **para as florestas de contas** e adicionam os certificados da **CA empresarial** da floresta de recursos aos contêineres **`NTAuthCertificates`** e AIA **em cada floresta de contas**. Para ser claro, isso significa que a **CA** na floresta de recursos tem **controle total** sobre todas as **outras florestas que gerencia PKI para**. Se os atacantes **comprometerem esta CA**, eles podem **forjar certificados para todos os usuários nas florestas de recursos e de contas**, quebrando o limite de segurança da floresta.
 
-### Principais Estrangeiros Com Privilégios de Inscrição
+### Principais Estrangeiros com Privilégios de Inscrição
 
-Outra coisa que as organizações precisam ter cuidado em ambientes multi-floresta é CAs Empresariais **publicando modelos de certificados** que concedem **Usuários Autenticados ou principais estrangeiros** (usuários/grupos externos à floresta à qual a CA Empresarial pertence) **direitos de inscrição e edição**.\
-Quando uma conta **se autentica através de uma confiança**, o AD adiciona o SID de **Usuários Autenticados** ao token do usuário autenticado. Portanto, se um domínio tem uma CA Empresarial com um modelo que **concede direitos de inscrição a Usuários Autenticados**, um usuário em floresta diferente poderia potencialmente **se inscrever no modelo**. Da mesma forma, se um modelo concede explicitamente a um **principal estrangeiro direitos de inscrição**, então uma **relação de controle de acesso entre florestas é criada**, permitindo que um principal em uma floresta **se inscreva em um modelo em outra floresta**.
+Outra coisa que as organizações precisam ter cuidado em ambientes multi-floresta é as CAs Empresariais **publicando modelos de certificados** que concedem a **Usuários Autenticados ou principais estrangeiros** (usuários/grupos externos à floresta à qual a CA Empresarial pertence) **direitos de inscrição e edição**.\
+Quando uma conta **autentica através de uma confiança**, o AD adiciona o SID de **Usuários Autenticados** ao token do usuário autenticado. Portanto, se um domínio tem uma CA Empresarial com um modelo que **concede direitos de inscrição a Usuários Autenticados**, um usuário em floresta diferente poderia potencialmente **se inscrever no modelo**. Da mesma forma, se um modelo concede explicitamente a um **principal estrangeiro direitos de inscrição**, então uma **relação de controle de acesso entre florestas é criada**, permitindo que um principal em uma floresta **se inscreva em um modelo em outra floresta**.
 
 Em última análise, ambos os cenários **aumentam a superfície de ataque** de uma floresta para outra. Dependendo das configurações do modelo de certificado, um atacante poderia abusar disso para obter privilégios adicionais em um domínio estrangeiro.
 
 ## Referências
 
-* Todas as informações para esta página foram retiradas de [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)
+* Todas as informações desta página foram retiradas de [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)
 
 <details>
 
 <summary><strong>Aprenda hacking no AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras formas de apoiar o HackTricks:
+Outras maneiras de apoiar o HackTricks:
 
 * Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**merchandising oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
+* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas dicas de hacking enviando PRs para os repositórios do GitHub** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe suas dicas de hacking enviando PRs para os repositórios github** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
