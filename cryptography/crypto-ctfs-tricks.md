@@ -2,17 +2,15 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零开始学习 AWS 黑客技术，成为</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS 红队专家)</strong></a><strong>！</strong></summary>
 
-- 你在一家**网络安全公司**工作吗？想要在 HackTricks 中看到你的**公司广告**吗？或者你想要**获取最新版本的 PEASS 或下载 HackTricks 的 PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+支持 HackTricks 的其他方式：
 
-- 发现我们的独家 NFT 收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-
-- 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-
-- **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-
-- **通过向[hacktricks 仓库](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud 仓库](https://github.com/carlospolop/hacktricks-cloud)提交 PR 来分享你的黑客技巧。**
+* 如果你想在 **HackTricks** 上看到你的**公司广告**或**下载 HackTricks 的 PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* 发现 [**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们独家的 [**NFTs 集合**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享你的黑客技巧。
 
 </details>
 
@@ -30,36 +28,36 @@
 * [https://hashkiller.co.uk/Cracker/MD5](https://hashkiller.co.uk/Cracker/MD5)
 * [https://www.md5online.org/md5-decrypt.html](https://www.md5online.org/md5-decrypt.html)
 
-## 魔术自动求解器
+## 自动解密工具
 
 * [**https://github.com/Ciphey/Ciphey**](https://github.com/Ciphey/Ciphey)
-* [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/) (魔术模块)
+* [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/) (Magic 模块)
 * [https://github.com/dhondta/python-codext](https://github.com/dhondta/python-codext)
 * [https://www.boxentriq.com/code-breaking](https://www.boxentriq.com/code-breaking)
 
 ## 编码器
 
-大多数编码数据可以使用以下两个资源进行解码：
+大多数编码数据可以用这两个资源解码：
 
 * [https://www.dcode.fr/tools-list](https://www.dcode.fr/tools-list)
 * [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/)
 
-### 替换自动求解器
+### 替换自动解密工具
 
 * [https://www.boxentriq.com/code-breaking/cryptogram](https://www.boxentriq.com/code-breaking/cryptogram)
 * [https://quipqiup.com/](https://quipqiup.com) - 非常好！
 
-#### 凯撒密码 - ROTx 自动求解器
+#### 凯撒 - ROTx 自动解密工具
 
 * [https://www.nayuki.io/page/automatic-caesar-cipher-breaker-javascript](https://www.nayuki.io/page/automatic-caesar-cipher-breaker-javascript)
 
-#### Atbash 密码
+#### 阿特巴什密码
 
 * [http://rumkin.com/tools/cipher/atbash.php](http://rumkin.com/tools/cipher/atbash.php)
 
-### 基础编码自动求解器
+### 基础编码自动解密工具
 
-使用以下链接检查所有这些基础编码：[https://github.com/dhondta/python-codext](https://github.com/dhondta/python-codext)
+使用以下工具检查所有这些基础编码：[https://github.com/dhondta/python-codext](https://github.com/dhondta/python-codext)
 
 * **Ascii85**
 * `BQ%]q@psCd@rH0l`
@@ -128,20 +126,16 @@
 * **Citrix CTX1** \[]
 * `MNGIKCAHMOGLKPAKMMGJKNAINPHKLOBLNNHILCBHNOHLLPBK`
 
-[http://k4.cba.pl/dw/crypo/tools/eng\_atom128c.html](http://k4.cba.pl/dw/crypo/tools/eng\_atom128c.html) - 404 Dead: [https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html)
+[http://k4.cba.pl/dw/crypo/tools/eng\_atom128c.html](http://k4.cba.pl/dw/crypo/tools/eng\_atom128c.html) - 404 死链：[https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html)
 
 ### HackerizeXS \[_╫Λ↻├☰┏_]
 ```
 ╫☐↑Λ↻Λ┏Λ↻☐↑Λ
 ```
-* [http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html) - 404 页面不存在: [https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html](https://web.archive.org/web/20190228181208/http://k4.cba.pl/dw/crypo/tools/eng\_hackerize.html)
-
-### 摩尔斯密码
+### 摩尔斯电码
 ```
 .... --- .-.. -.-. .- .-. .- -.-. --- .-.. .-
 ```
-* [http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html](http://k4.cba.pl/dw/crypo/tools/eng\_morse-encode.html) - 404 页面不存在: [https://gchq.github.io/CyberChef/](https://gchq.github.io/CyberChef/)
-
 ### UU编码器
 ```
 begin 644 webutils_pl
@@ -162,21 +156,7 @@ end
 ```
 * [www.webutils.pl/index.php?idx=xx](https://github.com/carlospolop/hacktricks/tree/bf578e4c5a955b4f6cdbe67eb4a543e16a3f848d/crypto/www.webutils.pl/index.php?idx=xx)
 
-### YEncoder
-
-### YEncoder
-
-YEncoder是一种简单的编码技术，用于将二进制数据转换为可打印字符。它通常用于绕过防火墙或过滤器，以便在网络上传输二进制数据。
-
-YEncoder的工作原理如下：
-
-1. 将每个字节拆分为两个4位的字节。
-2. 将每个4位的字节转换为可打印字符。
-3. 将所有转换后的字符连接起来，形成编码后的字符串。
-
-要解码YEncoder编码的数据，只需按照相反的步骤进行操作即可。
-
-在CTF比赛中，YEncoder常常用于隐藏敏感信息或绕过简单的过滤器。因此，了解如何使用YEncoder进行编码和解码是非常有用的。
+### Y编码器
 ```
 =ybegin line=128 size=28 name=webutils_pl
 ryvkryvkryvkryvkryvkryvkryvk
@@ -185,8 +165,6 @@ ryvkryvkryvkryvkryvkryvkryvk
 * [http://www.webutils.pl/index.php?idx=yenc](http://www.webutils.pl/index.php?idx=yenc)
 
 ### BinHex
-
-BinHex是一种将二进制数据转换为可打印ASCII字符的编码方法。它通常用于在电子邮件或其他文本传输中传输二进制文件。BinHex编码使用16进制数字和字母来表示二进制数据。要解码BinHex编码的文件，可以使用专门的解码工具或在线解码服务。
 ```
 (This file must be converted with BinHex 4.0)
 :#hGPBR9dD@acAh"X!$mr2cmr2cmr!!!!!!!8!!!!!-ka5%p-38K26%&)6da"5%p
@@ -195,42 +173,38 @@ BinHex是一种将二进制数据转换为可打印ASCII字符的编码方法。
 * [http://www.webutils.pl/index.php?idx=binhex](http://www.webutils.pl/index.php?idx=binhex)
 
 ### ASCII85
-
-ASCII85是一种编码方案，用于将二进制数据转换为可打印的ASCII字符。它类似于Base64编码，但具有更高的密度。在CTF比赛中，你可能会遇到使用ASCII85编码的加密数据。要解码ASCII85编码，你可以使用在线工具或编写自己的解码脚本。
 ```
 <~85DoF85DoF85DoF85DoF85DoF85DoF~>
 ```
-* [http://www.webutils.pl/index.php?idx=ascii85](http://www.webutils.pl/index.php?idx=ascii85)
-
-### Dvorak键盘
+### 德沃夏克键盘
 ```
 drnajapajrna
 ```
-* [https://www.geocachingtoolbox.com/index.php?lang=zh\&page=dvorakKeyboard](https://www.geocachingtoolbox.com/index.php?lang=zh\&page=dvorakKeyboard)
+* [https://www.geocachingtoolbox.com/index.php?lang=en\&page=dvorakKeyboard](https://www.geocachingtoolbox.com/index.php?lang=en\&page=dvorakKeyboard)
 
 ### A1Z26
 
-字母对应的数字值
+字母转换为它们的数值
 ```
 8 15 12 1 3 1 18 1 3 15 12 1
 ```
 ### 仿射密码编码
 
-将字母转换为数字 `(ax+b)%26`（其中 _a_ 和 _b_ 是密钥，_x_ 是字母），然后将结果转换回字母
+字母转数字 `(ax+b)%26`（_a_ 和 _b_ 是密钥，_x_ 是字母）并将结果转回字母
 ```
 krodfdudfrod
 ```
-### 短信代码
+### 短信验证码
 
-**多键输入法** [通过对应的按键代码在手机[键盘](https://www.dcode.fr/phone-keypad-cipher)上重复数字来替换字母](https://www.dcode.fr/word-letter-change)（在编写短信时使用此模式）。\
-例如：2=A，22=B，222=C，3=D...\
-您可以通过看到\*\*多个重复的数字\*\*来识别此代码。
+**Multitap** 通过重复数字来[替换字母](https://www.dcode.fr/word-letter-change)，这些数字由手机[键盘密码](https://www.dcode.fr/phone-keypad-cipher)上对应的按键代码定义（这种模式在编写短信时使用）。\
+例如：2=A, 22=B, 222=C, 3=D...\
+你可以识别这种代码，因为你会看到**多个数字重复**。
 
-您可以在以下网址解码此代码：[https://www.dcode.fr/multitap-abc-cipher](https://www.dcode.fr/multitap-abc-cipher)
+你可以在此解码这个代码：[https://www.dcode.fr/multitap-abc-cipher](https://www.dcode.fr/multitap-abc-cipher)
 
 ### 培根密码
 
-将每个字母替换为4个A或B（或1和0）。
+将每个字母替换为4个A或B（或1和0）
 ```
 00111 01101 01010 00000 00010 00000 10000 00000 00010 01101 01010 00000
 AABBB ABBAB ABABA AAAAA AAABA AAAAA BAAAA AAAAA AAABA ABBAB ABABA AAAAA
@@ -241,11 +215,11 @@ AABBB ABBAB ABABA AAAAA AAABA AAAAA BAAAA AAAAA AAABA ABBAB ABABA AAAAA
 
 ## 压缩
 
-**Raw Deflate** 和 **Raw Inflate**（你可以在 Cyberchef 中找到）可以在没有头部的情况下压缩和解压数据。
+**Raw Deflate** 和 **Raw Inflate**（你可以在Cyberchef中找到它们）可以在没有头部的情况下压缩和解压数据。
 
 ## 简单加密
 
-### 异或 - 自动求解器
+### XOR - 自动求解器
 
 * [https://wiremask.eu/tools/xor-cracker/](https://wiremask.eu/tools/xor-cracker/)
 
@@ -255,16 +229,12 @@ AABBB ABBAB ABABA AAAAA AAABA AAAAA BAAAA AAAAA AAABA ABBAB ABABA AAAAA
 ```
 fgaargaamnlunesuneoa
 ```
-### 维吉尼亚密码
+### 维吉尼亚
 
-需要一个关键字
+需要一个关键词
 ```
 wodsyoidrods
 ```
-* [https://www.guballa.de/vigenere-solver](https://www.guballa.de/vigenere-solver)
-* [https://www.dcode.fr/vigenere-cipher](https://www.dcode.fr/vigenere-cipher)
-* [https://www.mygeocachingprofile.com/codebreaker.vigenerecipher.aspx](https://www.mygeocachingprofile.com/codebreaker.vigenerecipher.aspx)
-
 ## 强加密
 
 ### Fernet
@@ -279,18 +249,21 @@ Key:
 ```
 * [https://asecuritysite.com/encryption/ferdecode](https://asecuritysite.com/encryption/ferdecode)
 
-### Samir秘密分享
+### 萨米尔秘密共享
 
-一个秘密被分成X个部分，要恢复它，你需要Y个部分（_Y <=X_）。
+一个秘密被分割成X部分，要恢复它你需要Y部分（_Y <= X_）。
 ```
 8019f8fa5879aa3e07858d08308dc1a8b45
 80223035713295bddf0b0bd1b10a5340b89
 803bc8cf294b3f83d88e86d9818792e80cd
 ```
-### OpenSSL暴力破解
+```markdown
+[http://christian.gen.co/secrets/](http://christian.gen.co/secrets/)
+
+### OpenSSL 暴力破解
 
 * [https://github.com/glv2/bruteforce-salted-openssl](https://github.com/glv2/bruteforce-salted-openssl)
-* [https://github.com/carlospolop/easy\_BFopensslCTF](https://github.com/carlospolop/easy\_BFopensslCTF)
+* [https://github.com/carlospolop/easy_BFopensslCTF](https://github.com/carlospolop/easy_BFopensslCTF)
 
 ## 工具
 
@@ -300,16 +273,15 @@ Key:
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>从零开始学习AWS黑客攻击成为英雄！</strong></summary>
 
-- 你在一个**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者你想要**获取PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+其他支持HackTricks的方式：
 
-- 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-
-- 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-
-- **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-
-- **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
+* 如果您想在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF版本**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取[**官方的PEASS & HackTricks商品**](https://peass.creator-spring.com)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来**分享您的黑客技巧**。
 
 </details>
+```
