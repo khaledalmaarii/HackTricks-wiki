@@ -8,9 +8,9 @@ Outras formas de apoiar o HackTricks:
 
 * Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs exclusivos**](https://opensea.io/collection/the-peass-family)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
 * **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios do GitHub** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -44,7 +44,7 @@ Comunicação Entre Processos (IPC) refere-se a diferentes métodos pelos quais 
 
 ### Injeção em Aplicações Electron
 
-Aplicações Electron executadas com variáveis de ambiente específicas podem ser vulneráveis a injeção de processos:
+Aplicações Electron executadas com variáveis de ambiente específicas podem ser vulneráveis à injeção de processos:
 
 {% content-ref url="macos-electron-applications-injection.md" %}
 [macos-electron-applications-injection.md](macos-electron-applications-injection.md)
@@ -82,18 +82,26 @@ Confira diferentes opções para fazer um script Perl executar código arbitrár
 [macos-perl-applications-injection.md](macos-perl-applications-injection.md)
 {% endcontent-ref %}
 
+### Injeção em Ruby
+
+Também é possível abusar de variáveis de ambiente ruby para fazer scripts arbitrários executarem código arbitrário:
+
+{% content-ref url="macos-ruby-applications-injection.md" %}
+[macos-ruby-applications-injection.md](macos-ruby-applications-injection.md)
+{% endcontent-ref %}
+
 ### Injeção em Python
 
 Se a variável de ambiente **`PYTHONINSPECT`** estiver definida, o processo python entrará em um cli python assim que terminar. Também é possível usar **`PYTHONSTARTUP`** para indicar um script python a ser executado no início de uma sessão interativa.\
 No entanto, observe que o script **`PYTHONSTARTUP`** não será executado quando **`PYTHONINSPECT`** criar a sessão interativa.
 
-Outras variáveis de ambiente, como **`PYTHONPATH`** e **`PYTHONHOME`**, também podem ser úteis para fazer um comando python executar código arbitrário.
+Outras variáveis de ambiente como **`PYTHONPATH`** e **`PYTHONHOME`** também podem ser úteis para fazer um comando python executar código arbitrário.
 
-Note que executáveis compilados com **`pyinstaller`** não usarão essas variáveis ambientais mesmo que estejam rodando usando um python embutido.
+Note que executáveis compilados com **`pyinstaller`** não usarão essas variáveis de ambiente mesmo que estejam rodando usando um python embutido.
 
 {% hint style="danger" %}
-No geral, não encontrei uma maneira de fazer o python executar código arbitrário abusando de variáveis de ambiente.\
-No entanto, a maioria das pessoas instala o python usando o **Homebrew**, que instala o python em um **local gravável** para o usuário admin padrão. Você pode sequestrar isso com algo como:
+No geral, não encontrei uma maneira de fazer python executar código arbitrário abusando de variáveis de ambiente.\
+No entanto, a maioria das pessoas instala python usando o **Homebrew**, que instala python em um **local gravável** para o usuário admin padrão. Você pode sequestrar isso com algo como:
 ```bash
 mv /opt/homebrew/bin/python3 /opt/homebrew/bin/python3.old
 cat > /opt/homebrew/bin/python3 <<EOF
@@ -112,14 +120,14 @@ Mesmo o **root** executará este código ao rodar python.
 
 [**Shield**](https://theevilbit.github.io/shield/) ([**Github**](https://github.com/theevilbit/Shield)) é uma aplicação de código aberto que pode **detectar e bloquear ações de injeção de processos**:
 
-* Usando **Variáveis Ambientais**: Monitora a presença de quaisquer das seguintes variáveis ambientais: **`DYLD_INSERT_LIBRARIES`**, **`CFNETWORK_LIBRARY_PATH`**, **`RAWCAMERA_BUNDLE_PATH`** e **`ELECTRON_RUN_AS_NODE`**
+* Usando **Variáveis Ambientais**: Ele monitorará a presença de quaisquer das seguintes variáveis ambientais: **`DYLD_INSERT_LIBRARIES`**, **`CFNETWORK_LIBRARY_PATH`**, **`RAWCAMERA_BUNDLE_PATH`** e **`ELECTRON_RUN_AS_NODE`**
 * Usando chamadas **`task_for_pid`**: Para encontrar quando um processo quer obter o **porta de tarefa de outro** o que permite injetar código no processo.
-* **Parâmetros de apps Electron**: Alguém pode usar os argumentos de linha de comando **`--inspect`**, **`--inspect-brk`** e **`--remote-debugging-port`** para iniciar um app Electron em modo de depuração e, assim, injetar código nele.
-* Usando **symlinks** ou **hardlinks**: Tipicamente, o abuso mais comum é **colocar um link com nossos privilégios de usuário** e **apontá-lo para um local de privilégio mais alto**. A detecção é muito simples para ambos, hardlink e symlinks. Se o processo que cria o link tem um **nível de privilégio diferente** do arquivo alvo, criamos um **alerta**. Infelizmente, no caso de symlinks, o bloqueio não é possível, pois não temos informações sobre o destino do link antes da criação. Esta é uma limitação do framework EndpointSecuriy da Apple.
+* **Parâmetros de apps Electron**: Alguém pode usar os argumentos de linha de comando **`--inspect`**, **`--inspect-brk`** e **`--remote-debugging-port`** para iniciar um app Electron no modo de depuração, e assim injetar código nele.
+* Usando **symlinks** ou **hardlinks**: Tipicamente o abuso mais comum é **colocar um link com nossos privilégios de usuário**, e **apontá-lo para um local de privilégio mais alto**. A detecção é muito simples para ambos, hardlink e symlinks. Se o processo que cria o link tem um **nível de privilégio diferente** do arquivo alvo, criamos um **alerta**. Infelizmente, no caso de symlinks, o bloqueio não é possível, pois não temos informações sobre o destino do link antes da criação. Esta é uma limitação do framework EndpointSecuriy da Apple.
 
 ### Chamadas feitas por outros processos
 
-Neste [**post do blog**](https://knight.sc/reverse%20engineering/2019/04/15/detecting-task-modifications.html), você pode encontrar como é possível usar a função **`task_name_for_pid`** para obter informações sobre outros **processos injetando código em um processo** e depois obter informações sobre esse outro processo.
+Neste [**post do blog**](https://knight.sc/reverse%20engineering/2019/04/15/detecting-task-modifications.html) você pode encontrar como é possível usar a função **`task_name_for_pid`** para obter informações sobre outros **processos injetando código em um processo** e depois obter informações sobre esse outro processo.
 
 Note que para chamar essa função você precisa ser **o mesmo uid** que o do processo em execução ou **root** (e ela retorna informações sobre o processo, não uma maneira de injetar código).
 
@@ -134,10 +142,10 @@ Note que para chamar essa função você precisa ser **o mesmo uid** que o do pr
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**merchandising oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) no github.
+* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga**-me no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe suas dicas de hacking enviando PRs para os repositórios github do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
