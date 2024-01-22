@@ -9,7 +9,7 @@ Autres moyens de soutenir HackTricks :
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
 * **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
@@ -23,7 +23,7 @@ MacOS, comme tout autre système d'exploitation, offre une variété de méthode
 L'injection de bibliothèque est une technique par laquelle un attaquant **force un processus à charger une bibliothèque malveillante**. Une fois injectée, la bibliothèque s'exécute dans le contexte du processus cible, donnant à l'attaquant les mêmes permissions et accès que le processus.
 
 {% content-ref url="macos-library-injection/" %}
-[macos-library-injection](macos-library-injection/)
+[injection-de-bibliotheque-macos](macos-library-injection/)
 {% endcontent-ref %}
 
 ### Accrochage de fonction
@@ -31,15 +31,15 @@ L'injection de bibliothèque est une technique par laquelle un attaquant **force
 L'accrochage de fonction implique **l'interception d'appels de fonctions** ou de messages au sein d'un code logiciel. En accrochant des fonctions, un attaquant peut **modifier le comportement** d'un processus, observer des données sensibles ou même prendre le contrôle du flux d'exécution.
 
 {% content-ref url="../mac-os-architecture/macos-function-hooking.md" %}
-[macos-function-hooking.md](../mac-os-architecture/macos-function-hooking.md)
+[accrochage-de-fonction-macos.md](../mac-os-architecture/macos-function-hooking.md)
 {% endcontent-ref %}
 
 ### Communication inter-processus
 
-La communication inter-processus (IPC) fait référence à différentes méthodes par lesquelles des processus séparés **partagent et échangent des données**. Bien que l'IPC soit fondamental pour de nombreuses applications légitimes, elle peut également être détournée pour subvertir l'isolation des processus, divulguer des informations sensibles ou effectuer des actions non autorisées.
+La communication inter-processus (IPC) fait référence à différentes méthodes par lesquelles des processus séparés **partagent et échangent des données**. Bien que l'IPC soit fondamental pour de nombreuses applications légitimes, elle peut également être détournée pour subvertir l'isolation des processus, fuiter des informations sensibles ou effectuer des actions non autorisées.
 
 {% content-ref url="../mac-os-architecture/macos-ipc-inter-process-communication/" %}
-[macos-ipc-inter-process-communication](../mac-os-architecture/macos-ipc-inter-process-communication/)
+[communication-inter-processus-macos](../mac-os-architecture/macos-ipc-inter-process-communication/)
 {% endcontent-ref %}
 
 ### Injection dans les applications Electron
@@ -47,15 +47,15 @@ La communication inter-processus (IPC) fait référence à différentes méthode
 Les applications Electron exécutées avec des variables d'environnement spécifiques pourraient être vulnérables à l'injection de processus :
 
 {% content-ref url="macos-electron-applications-injection.md" %}
-[macos-electron-applications-injection.md](macos-electron-applications-injection.md)
+[injection-dans-applications-electron-macos.md](macos-electron-applications-injection.md)
 {% endcontent-ref %}
 
 ### NIB sale
 
-Les fichiers NIB **définissent les éléments de l'interface utilisateur (UI)** et leurs interactions au sein d'une application. Cependant, ils peuvent **exécuter des commandes arbitraires** et **Gatekeeper ne bloque pas** une application déjà exécutée si un **fichier NIB est modifié**. Par conséquent, ils pourraient être utilisés pour faire exécuter des commandes arbitraires par des programmes arbitraires :
+Les fichiers NIB **définissent les éléments de l'interface utilisateur (UI)** et leurs interactions au sein d'une application. Cependant, ils peuvent **exécuter des commandes arbitraires** et **Gatekeeper n'empêche pas** une application déjà exécutée d'être exécutée si un **fichier NIB est modifié**. Par conséquent, ils pourraient être utilisés pour faire exécuter des commandes arbitraires par des programmes arbitraires :
 
 {% content-ref url="macos-dirty-nib.md" %}
-[macos-dirty-nib.md](macos-dirty-nib.md)
+[nib-sale-macos.md](macos-dirty-nib.md)
 {% endcontent-ref %}
 
 ### Injection dans les applications Java
@@ -63,7 +63,7 @@ Les fichiers NIB **définissent les éléments de l'interface utilisateur (UI)**
 Il est possible d'abuser de certaines capacités Java (comme la variable d'environnement **`_JAVA_OPTS`**) pour faire exécuter **du code/commandes arbitraires** par une application Java.
 
 {% content-ref url="macos-java-apps-injection.md" %}
-[macos-java-apps-injection.md](macos-java-apps-injection.md)
+[injection-dans-applications-java-macos.md](macos-java-apps-injection.md)
 {% endcontent-ref %}
 
 ### Injection dans les applications .Net
@@ -71,7 +71,7 @@ Il est possible d'abuser de certaines capacités Java (comme la variable d'envir
 Il est possible d'injecter du code dans des applications .Net en **abusant de la fonctionnalité de débogage .Net** (non protégée par les protections macOS telles que le durcissement à l'exécution).
 
 {% content-ref url="macos-.net-applications-injection.md" %}
-[macos-.net-applications-injection.md](macos-.net-applications-injection.md)
+[injection-dans-applications-net-macos.md](macos-.net-applications-injection.md)
 {% endcontent-ref %}
 
 ### Injection Perl
@@ -79,12 +79,20 @@ Il est possible d'injecter du code dans des applications .Net en **abusant de la
 Vérifiez différentes options pour faire exécuter du code arbitraire par un script Perl dans :
 
 {% content-ref url="macos-perl-applications-injection.md" %}
-[macos-perl-applications-injection.md](macos-perl-applications-injection.md)
+[injection-dans-applications-perl-macos.md](macos-perl-applications-injection.md)
+{% endcontent-ref %}
+
+### Injection Ruby
+
+Il est également possible d'abuser des variables d'environnement Ruby pour faire exécuter du code arbitraire par des scripts arbitraires :
+
+{% content-ref url="macos-ruby-applications-injection.md" %}
+[injection-dans-applications-ruby-macos.md](macos-ruby-applications-injection.md)
 {% endcontent-ref %}
 
 ### Injection Python
 
-Si la variable d'environnement **`PYTHONINSPECT`** est définie, le processus Python passera à une interface de ligne de commande Python une fois terminé. Il est également possible d'utiliser **`PYTHONSTARTUP`** pour indiquer un script Python à exécuter au début d'une session interactive.\
+Si la variable d'environnement **`PYTHONINSPECT`** est définie, le processus Python passera dans une interface de ligne de commande Python une fois terminé. Il est également possible d'utiliser **`PYTHONSTARTUP`** pour indiquer un script Python à exécuter au début d'une session interactive.\
 Cependant, notez que le script **`PYTHONSTARTUP`** ne sera pas exécuté lorsque **`PYTHONINSPECT`** crée la session interactive.
 
 D'autres variables d'environnement telles que **`PYTHONPATH`** et **`PYTHONHOME`** pourraient également être utiles pour faire exécuter du code arbitraire par une commande Python.
@@ -93,7 +101,7 @@ Notez que les exécutables compilés avec **`pyinstaller`** n'utiliseront pas ce
 
 {% hint style="danger" %}
 Dans l'ensemble, je n'ai pas trouvé de moyen de faire exécuter du code arbitraire par Python en abusant des variables d'environnement.\
-Cependant, la plupart des gens installent Python en utilisant **Homebrew**, qui installera Python dans un **emplacement accessible en écriture** pour l'utilisateur admin par défaut. Vous pouvez le détourner avec quelque chose comme :
+Cependant, la plupart des gens installent Python via **Homebrew**, qui installera Python dans un **emplacement accessible en écriture** pour l'utilisateur admin par défaut. Vous pouvez le détourner avec quelque chose comme :
 ```bash
 mv /opt/homebrew/bin/python3 /opt/homebrew/bin/python3.old
 cat > /opt/homebrew/bin/python3 <<EOF
@@ -103,7 +111,6 @@ cat > /opt/homebrew/bin/python3 <<EOF
 EOF
 chmod +x /opt/homebrew/bin/python3
 ```
-```markdown
 Même **root** exécutera ce code lors de l'exécution de python.
 {% endhint %}
 
@@ -142,4 +149,3 @@ Autres moyens de soutenir HackTricks :
 * **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
-```
