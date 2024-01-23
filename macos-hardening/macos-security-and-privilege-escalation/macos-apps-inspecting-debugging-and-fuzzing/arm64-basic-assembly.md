@@ -9,14 +9,14 @@ Outras formas de apoiar o HackTricks:
 * Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-me no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
 * **Compartilhe suas técnicas de hacking enviando PRs para os repositórios do GitHub** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
 ## **Níveis de Exceção - EL (ARM64v8)**
 
-Na arquitetura ARMv8, os níveis de execução, conhecidos como Níveis de Exceção (ELs), definem o nível de privilégio e as capacidades do ambiente de execução. Existem quatro níveis de exceção, de EL0 a EL3, cada um com um propósito diferente:
+Na arquitetura ARMv8, os níveis de execução, conhecidos como Níveis de Exceção (ELs), definem o nível de privilégio e as capacidades do ambiente de execução. Existem quatro níveis de exceção, variando de EL0 a EL3, cada um com um propósito diferente:
 
 1. **EL0 - Modo Usuário**:
 * Este é o nível menos privilegiado e é usado para executar código de aplicativos regulares.
@@ -39,20 +39,20 @@ ARM64 tem **31 registradores de uso geral**, rotulados de `x0` a `x30`. Cada um 
 
 1. **`x0`** a **`x7`** - Tipicamente usados como registradores temporários e para passar parâmetros para sub-rotinas.
 * **`x0`** também carrega o dado de retorno de uma função
-2. **`x8`** - No kernel do Linux, `x8` é usado como o número da chamada de sistema para a instrução `svc`. **No macOS o x16 é o utilizado!**
+2. **`x8`** - No kernel do Linux, `x8` é usado como o número de chamada do sistema para a instrução `svc`. **No macOS o x16 é o utilizado!**
 3. **`x9`** a **`x15`** - Mais registradores temporários, frequentemente usados para variáveis locais.
 4. **`x16`** e **`x17`** - **Registradores de Chamada Intraprocedural**. Registradores temporários para valores imediatos. Também são usados para chamadas de função indiretas e stubs da Tabela de Ligação de Procedimentos (PLT).
-* **`x16`** é usado como o **número da chamada de sistema** para a instrução **`svc`** no **macOS**.
+* **`x16`** é usado como o **número de chamada do sistema** para a instrução **`svc`** no **macOS**.
 5. **`x18`** - **Registrador da Plataforma**. Pode ser usado como um registrador de uso geral, mas em algumas plataformas, este registrador é reservado para usos específicos da plataforma: Ponteiro para o bloco de ambiente de thread atual no Windows, ou para apontar para a estrutura de tarefa em execução no kernel do Linux.
-6. **`x19`** a **`x28`** - Estes são registradores preservados pelo chamador. Uma função deve preservar os valores destes registradores para seu chamador, então eles são armazenados na pilha e recuperados antes de voltar ao chamador.
+6. **`x19`** a **`x28`** - Estes são registradores salvos pelo chamado. Uma função deve preservar os valores destes registradores para seu chamador, então eles são armazenados na pilha e recuperados antes de voltar ao chamador.
 7. **`x29`** - **Ponteiro de quadro** para acompanhar o quadro de pilha. Quando um novo quadro de pilha é criado porque uma função é chamada, o registrador **`x29`** é **armazenado na pilha** e o **novo** endereço do ponteiro de quadro é (**`sp`** endereço) é **armazenado neste registro**.
 * Este registrador também pode ser usado como um **registro de uso geral** embora geralmente seja usado como referência para **variáveis locais**.
 8. **`x30`** ou **`lr`**- **Registrador de Link**. Ele contém o **endereço de retorno** quando uma instrução `BL` (Branch with Link) ou `BLR` (Branch with Link to Register) é executada armazenando o valor de **`pc`** neste registrador.
-* Ele também pode ser usado como qualquer outro registrador.
+* Também pode ser usado como qualquer outro registrador.
 9. **`sp`** - **Ponteiro de pilha**, usado para acompanhar o topo da pilha.
 * o valor de **`sp`** deve sempre ser mantido com pelo menos um **alinhamento de quadword** ou uma exceção de alinhamento pode ocorrer.
 10. **`pc`** - **Contador de programa**, que aponta para a próxima instrução. Este registrador só pode ser atualizado através de gerações de exceção, retornos de exceção e ramificações. As únicas instruções ordinárias que podem ler este registrador são as instruções de ramificação com link (BL, BLR) para armazenar o endereço de **`pc`** em **`lr`** (Registrador de Link).
-11. **`xzr`** - **Registrador Zero**. Também chamado de **`wzr`** na sua forma de registrador de **32 bits**. Pode ser usado para obter facilmente o valor zero (operação comum) ou para realizar comparações usando **`subs`** como **`subs XZR, Xn, #10`** armazenando os dados resultantes em lugar nenhum (em **`xzr`**).
+11. **`xzr`** - **Registrador Zero**. Também chamado de **`wzr`** em sua forma de registrador de **32 bits**. Pode ser usado para obter facilmente o valor zero (operação comum) ou para realizar comparações usando **`subs`** como **`subs XZR, Xn, #10`** armazenando os dados resultantes em lugar nenhum (em **`xzr`**).
 
 Os registradores **`Wn`** são a versão **32 bits** do registrador **`Xn`**.
 
@@ -73,7 +73,7 @@ Eles são frequentemente usados para armazenar o **endereço base do armazenamen
 
 ### **PSTATE**
 
-**PSTATE** contém vários componentes do processo serializados no registrador especial visível pelo sistema operacional **`SPSR_ELx`**, sendo X o **nível de permissão da exceção disparada** (isso permite recuperar o estado do processo quando a exceção termina).\
+**PSTATE** contém vários componentes do processo serializados no registrador especial visível pelo sistema operacional **`SPSR_ELx`**, sendo X o **nível de permissão da exceção acionada** (isso permite recuperar o estado do processo quando a exceção termina).\
 Estes são os campos acessíveis:
 
 <figure><img src="../../../.gitbook/assets/image (724).png" alt=""><figcaption></figcaption></figure>
@@ -94,14 +94,14 @@ Nem todas as instruções atualizam essas flags. Algumas como **`CMP`** ou **`TS
 * A flag de **largura do registrador atual (`nRW`)**: Se a flag tiver o valor 0, o programa rodará no estado de execução AArch64 uma vez retomado.
 * O **Nível de Exceção atual** (**`EL`**): Um programa regular rodando em EL0 terá o valor 0
 * A flag de **passo único** (**`SS`**): Usada por depuradores para passo único configurando a flag SS para 1 dentro de **`SPSR_ELx`** através de uma exceção. O programa rodará um passo e emitirá uma exceção de passo único.
-* A flag de estado de exceção ilegal (**`IL`**): É usada para marcar quando um software privilegiado executa uma transferência de nível de exceção inválida, esta flag é configurada para 1 e o processador dispara uma exceção de estado ilegal.
-* As flags **`DAIF`**: Estas flags permitem que um programa privilegiado mascare seletivamente certas exceções externas.
-* Se **`A`** for 1 significa que abortos assíncronos serão disparados. O **`I`** configura para responder a **Pedidos de Interrupção** de hardware externo (IRQs). e o F está relacionado a **Pedidos de Interrupção Rápida** (FIRs).
+* A flag de estado de exceção ilegal (**`IL`**): É usada para marcar quando um software privilegiado realiza uma transferência de nível de exceção inválida, esta flag é configurada para 1 e o processador dispara uma exceção de estado ilegal.
+* As flags **`DAIF`**: Essas flags permitem que um programa privilegiado mascare seletivamente certas exceções externas.
+* Se **`A`** for 1 significa que abortos assíncronos serão acionados. O **`I`** configura para responder a **Pedidos de Interrupção** de hardware externo (IRQs). e o F está relacionado a **Pedidos de Interrupção Rápida** (FIRs).
 * As flags de seleção do ponteiro de pilha (**`SPS`**): Programas privilegiados rodando em EL1 e acima podem alternar entre usar seu próprio registrador de ponteiro de pilha e o do modelo de usuário (por exemplo, entre `SP_EL1` e `EL0`). Esta troca é realizada escrevendo no registrador especial **`SPSel`**. Isso não pode ser feito a partir de EL0.
 
 ## **Convenção de Chamadas (ARM64v8)**
 
-A convenção de chamadas ARM64 especifica que os **primeiros oito parâmetros** para uma função são passados nos registradores **`x0` a `x7`**. **Parâmetros adicionais** são passados na **pilha**. O valor de **retorno** é passado de volta no registrador **`x0`**, ou em **`x1`** também **se tiver 128 bits de comprimento**. Os registradores **`x19`** a **`x30`** e **`sp`** devem ser **preservados** através de chamadas de função.
+A convenção de chamadas ARM64 especifica que os **primeiros oito parâmetros** para uma função são passados em registradores **`x0` a `x7`**. **Parâmetros adicionais** são passados na **pilha**. O **valor de retorno** é passado de volta no registrador **`x0`**, ou em **`x1`** também **se tiver 128 bits de comprimento**. Os registradores **`x19`** a **`x30`** e **`sp`** devem ser **preservados** através de chamadas de função.
 
 Ao ler uma função em assembly, procure pelo **prólogo e epílogo da função**. O **prólogo** geralmente envolve **salvar o ponteiro de quadro (`x29`)**, **configurar** um **novo ponteiro de quadro**, e **alocar espaço na pilha**. O **epílogo** geralmente envolve **restaurar o ponteiro de quadro salvo** e **retornar** da função.
 
@@ -111,7 +111,7 @@ Swift tem sua própria **convenção de chamadas** que pode ser encontrada em [*
 
 ## **Instruções Comuns (ARM64v8)**
 
-Instruções ARM64 geralmente têm o **formato `opcode dst, src1, src2`**, onde **`opcode`** é a **operação** a ser realizada (como `add`, `sub`, `mov`, etc.), **`dst`** é o registrador **destino** onde o resultado será armazenado, e **`src1`** e **`src2`** são os registradores **fonte**. Valores imediatos também podem ser usados no lugar de registradores fonte.
+Instruções ARM64 geralmente têm o **formato `opcode dst, src1, src2`**, onde **`opcode`** é a **operação** a ser realizada (como `add`, `sub`, `mov`, etc.), **`dst`** é o **registrador de destino** onde o resultado será armazenado, e **`src1`** e **`src2`** são os **registradores de origem**. Valores imediatos também podem ser usados no lugar de registradores de origem.
 
 * **`mov`**: **Move** um valor de um **registrador** para outro.
 * Exemplo: `mov x0, x1` — Isso move o valor de `x1` para `x0`.
@@ -124,10 +124,13 @@ Instruções ARM64 geralmente têm o **formato `opcode dst, src1, src2`**, onde 
 * **`stp`**: **Armazena Par de Registradores**. Esta instrução **armazena dois registradores** em **locais de memória consecutivos**. O endereço de memória é tipicamente formado adicionando um deslocamento ao valor em outro registrador.
 * Exemplo: `stp x0, x1, [x2]` — Isso armazena `x0` e `x1` nos locais de memória em `x2` e `x2 + 8`, respectivamente.
 * **`add`**: **Adiciona** os valores de dois registradores e armazena o resultado em um registrador.
+* Sintaxe: add(s) Xn1, Xn2, Xn3 | #imm, \[shift #N | RRX]
+* Xn1 -> Destino
+* Xn2 -> Operando 1
+* Xn3 | #imm -> Operando 2 (registrador ou imediato)
+* \[shift #N | RRX] -> Realiza um deslocamento ou chama RRX
 * Exemplo: `add x0, x1, x2` — Isso adiciona os valores em `x1` e `x2` e armazena o resultado em `x0`.
-* `add x5, x5, #1, lsl #12` — Isso é igual a 4096 (um 1 deslocado 12 vezes) -> 1 0000 0000 0000 0000&#x20;
-* **`sub`**: **Subtrai** os valores de dois registradores e armazena o resultado em um registrador.
-* Exemplo: `sub x0, x1, x2` — Isso subtrai o valor em `x2` de `x1` e armazena
+* `add x5, x5, #1, lsl #12` — Isso equivale a
 ```armasm
 ldp x29, x30, [sp], #16  ; load pair x29 and x30 from the stack and increment the stack pointer
 ```
@@ -139,10 +142,10 @@ ldp x29, x30, [sp], #16  ; load pair x29 and x30 from the stack and increment th
 
 Armv8-A suporta a execução de programas de 32 bits. **AArch32** pode rodar em um de **dois conjuntos de instruções**: **`A32`** e **`T32`** e pode alternar entre eles via **`interworking`**.\
 Programas **privilegiados** de 64 bits podem agendar a **execução de programas de 32 bits** executando uma transferência de nível de exceção para o 32 bits menos privilegiado.\
-Note que a transição de 64 bits para 32 bits ocorre com uma diminuição do nível de exceção (por exemplo, um programa de 64 bits em EL1 acionando um programa em EL0). Isso é feito configurando o **bit 4 do** **`SPSR_ELx`** registro especial **para 1** quando o processo de thread `AArch32` está pronto para ser executado e o restante do `SPSR_ELx` armazena o CPSR dos programas **`AArch32`**. Então, o processo privilegiado chama a instrução **`ERET`** para que o processador faça a transição para **`AArch32`** entrando em A32 ou T32 dependendo do CPSR**.**
+Note que a transição de 64 bits para 32 bits ocorre com uma diminuição do nível de exceção (por exemplo, um programa de 64 bits em EL1 acionando um programa em EL0). Isso é feito configurando o **bit 4 do** **`SPSR_ELx`** registro especial **para 1** quando o thread do processo `AArch32` está pronto para ser executado e o restante do `SPSR_ELx` armazena o CPSR dos programas **`AArch32`**. Então, o processo privilegiado chama a instrução **`ERET`** para que o processador faça a transição para **`AArch32`** entrando em A32 ou T32 dependendo do CPSR**.**
 
 O **`interworking`** ocorre usando os bits J e T do CPSR. `J=0` e `T=0` significa **`A32`** e `J=0` e `T=1` significa **T32**. Isso basicamente se traduz em configurar o **bit mais baixo para 1** para indicar que o conjunto de instruções é T32.\
-Isso é configurado durante as **instruções de ramificação de interworking,** mas também pode ser configurado diretamente com outras instruções quando o PC é definido como o registro de destino. Exemplo:
+Isso é configurado durante as **instruções de ramificação de interworking**, mas também pode ser configurado diretamente com outras instruções quando o PC é definido como o registro de destino. Exemplo:
 
 Outro exemplo:
 ```armasm
@@ -159,7 +162,7 @@ mov r0, #8
 
 Existem 16 registradores de 32 bits (r0-r15). **Do r0 ao r14** eles podem ser usados para **qualquer operação**, no entanto, alguns deles geralmente são reservados:
 
-* **`r15`**: Contador de programa (sempre). Contém o endereço da próxima instrução. Em A32 atual + 8, em T32, atual + 4.
+* **`r15`**: Contador de Programa (sempre). Contém o endereço da próxima instrução. Em A32 atual + 8, em T32, atual + 4.
 * **`r11`**: Ponteiro de Quadro
 * **`r12`**: Registrador de chamada intra-procedural
 * **`r13`**: Ponteiro de Pilha
@@ -170,7 +173,7 @@ Isso é feito **salvando o estado do processador do `CPSR` para o `SPSR`** do mo
 
 ### CPSR - Registrador de Status do Programa Atual
 
-Em AArch32 o CPSR funciona de forma semelhante ao **`PSTATE`** em AArch64 e também é armazenado em **`SPSR_ELx`** quando uma exceção é tomada para restaurar posteriormente a execução:
+Em AArch32, o CPSR funciona de maneira semelhante ao **`PSTATE`** em AArch64 e também é armazenado em **`SPSR_ELx`** quando uma exceção é tomada para restaurar posteriormente a execução:
 
 <figure><img src="../../../.gitbook/assets/image (725).png" alt=""><figcaption></figcaption></figure>
 
@@ -191,14 +194,14 @@ A instrução **`SEL`** usa essas flags GE para realizar ações condicionais.
 
 #### Registradores de Estado de Execução
 
-* Os bits **`J`** e **`T`**: **`J`** deve ser 0 e se **`T`** for 0 o conjunto de instruções A32 é usado, e se for 1, o T32 é usado.
+* Os bits **`J`** e **`T`**: **`J`** deve ser 0 e se **`T`** for 0, o conjunto de instruções A32 é usado, e se for 1, o T32 é usado.
 * **Registrador de Estado do Bloco IT** (`ITSTATE`): São os bits de 10-15 e 25-26. Eles armazenam condições para instruções dentro de um grupo prefixado com **`IT`**.
-* Bit **`E`**: Indica a **ordenação dos bytes**.&#x20;
-* **Bits de Máscara de Modo e Exceção** (0-4): Determinam o estado atual de execução. O **5º** indica se o programa é executado como 32 bits (um 1) ou 64 bits (um 0). Os outros 4 representam o **modo de exceção atualmente em uso** (quando ocorre uma exceção e está sendo tratada). O número definido **indica a prioridade atual** caso outra exceção seja acionada enquanto esta está sendo tratada.
+* Bit **`E`**: Indica a **ordenação dos bytes** (endianness).&#x20;
+* **Bits de Máscara de Modo e Exceção** (0-4): Determinam o estado atual de execução. O **quinto** indica se o programa é executado como 32 bits (um 1) ou 64 bits (um 0). Os outros 4 representam o **modo de exceção atualmente em uso** (quando uma exceção ocorre e está sendo tratada). O número definido **indica a prioridade atual** caso outra exceção seja acionada enquanto esta está sendo tratada.
 
 <figure><img src="../../../.gitbook/assets/image (728).png" alt=""><figcaption></figcaption></figure>
 
-* **`AIF`**: Certas exceções podem ser desativadas usando os bits **`A`**, `I`, `F`. Se **`A`** for 1 significa que **abortos assíncronos** serão acionados. O **`I`** configura para responder a **Pedidos de Interrupção de Hardware Externo** (IRQs). e o F está relacionado a **Pedidos de Interrupção Rápida** (FIRs).
+* **`AIF`**: Certas exceções podem ser desativadas usando os bits **`A`**, `I`, `F`. Se **`A`** for 1, significa que abortos assíncronos serão acionados. O **`I`** configura para responder a **Pedidos de Interrupção de Hardware Externo** (IRQs). e o F está relacionado a **Pedidos de Interrupção Rápida** (FIRs).
 
 ## macOS
 
@@ -219,7 +222,7 @@ dyldex -e libsystem_kernel.dylib /System/Volumes/Preboot/Cryptexes/OS/System/Lib
 dyldex -e libsystem_kernel.dylib /System/Library/Caches/com.apple.dyld/dyld_shared_cache_arm64
 ```
 {% hint style="success" %}
-Às vezes é mais fácil verificar o código **decompilado** de **`libsystem_kernel.dylib`** do que verificar o **código fonte** porque o código de vários syscalls (BSD e Mach) é gerado por scripts (verifique os comentários no código fonte), enquanto na dylib você pode encontrar o que está sendo chamado.
+Às vezes é mais fácil verificar o código **decompilado** de **`libsystem_kernel.dylib`** do que verificar o **código fonte** porque o código de várias syscalls (BSD e Mach) é gerado por scripts (verifique os comentários no código fonte), enquanto na dylib você pode encontrar o que está sendo chamado.
 {% endhint %}
 
 ### Shellcodes
@@ -578,6 +581,6 @@ Outras formas de apoiar o HackTricks:
 * Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
 * **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga**-me no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) no github.
 
 </details>
