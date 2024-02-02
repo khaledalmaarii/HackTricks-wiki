@@ -1,26 +1,56 @@
-# Armando Distroless
+# Armamento do Distroless
 
-Um contêiner distroless é um tipo de contêiner que contém apenas as dependências necessárias para executar um aplicativo específico, sem nenhum software ou ferramenta adicional que não seja necessário. Esses contêineres são projetados para serem o mais leves e seguros possível e visam minimizar a superfície de ataque removendo quaisquer componentes desnecessários.
+<details>
 
-Os contêineres distroless são frequentemente usados em ambientes de produção onde a segurança e a confiabilidade são primordiais.
+<summary><strong>Aprenda hacking no AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Alguns exemplos de contêineres distroless são:
+Outras formas de apoiar o HackTricks:
 
-* Fornecido pelo Google: [https://console.cloud.google.com/gcr/images/distroless/GLOBAL](https://console.cloud.google.com/gcr/images/distroless/GLOBAL)
-* Fornecido pela Chainguard: [https://github.com/chainguard-images/images/tree/main/images](https://github.com/chainguard-images/images/tree/main/images)
+* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs exclusivos**](https://opensea.io/collection/the-peass-family)
+* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
-## Armando Distroless
+</details>
 
-O objetivo de armar um contêiner distroless é ser capaz de executar binários e payloads arbitrários, mesmo com as limitações impostas pelo distroless (falta de binários comuns no sistema) e também proteções comumente encontradas em contêineres, como somente leitura ou sem execução em `/dev/shm`.
+## O que é Distroless
+
+Um container distroless é um tipo de container que **contém apenas as dependências necessárias para executar uma aplicação específica**, sem nenhum software ou ferramenta adicional que não seja necessário. Esses containers são projetados para serem o mais **leves** e **seguros** possível, e visam **minimizar a superfície de ataque** removendo quaisquer componentes desnecessários.
+
+Containers distroless são frequentemente usados em **ambientes de produção onde segurança e confiabilidade são primordiais**.
+
+Alguns **exemplos** de **containers distroless** são:
+
+* Fornecidos pelo **Google**: [https://console.cloud.google.com/gcr/images/distroless/GLOBAL](https://console.cloud.google.com/gcr/images/distroless/GLOBAL)
+* Fornecidos pela **Chainguard**: [https://github.com/chainguard-images/images/tree/main/images](https://github.com/chainguard-images/images/tree/main/images)
+
+## Armamento do Distroless
+
+O objetivo de armar um container distroless é ser capaz de **executar binários e payloads arbitrários mesmo com as limitações** implicadas pelo **distroless** (falta de binários comuns no sistema) e também proteções comumente encontradas em containers, como **somente leitura** ou **não-execução** em `/dev/shm`.
 
 ### Através da memória
 
 Chegando em algum momento de 2023...
 
-### Via binários existentes
+### Via Binários Existentes
 
 #### openssl
 
-Neste post, é explicado que o binário `openssl` é frequentemente encontrado nesses contêineres, potencialmente porque é necessário pelo software que será executado dentro do contêiner.
+****[**Neste post,**](https://www.form3.tech/engineering/content/exploiting-distroless-images) é explicado que o binário **`openssl`** é frequentemente encontrado nesses containers, potencialmente porque é **necessário** pelo software que vai ser executado dentro do container.
 
-Abusando do binário `openssl`, é possível executar coisas arbitrárias.
+Abusar do binário **`openssl`** é possível para **executar coisas arbitrariamente**.
+
+<details>
+
+<summary><strong>Aprenda hacking no AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+
+Outras formas de apoiar o HackTricks:
+
+* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs exclusivos**](https://opensea.io/collection/the-peass-family)
+* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+
+</details>
