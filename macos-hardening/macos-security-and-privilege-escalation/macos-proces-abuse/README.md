@@ -26,17 +26,17 @@ L'injection de bibliothèque est une technique par laquelle un attaquant **force
 [injection-de-bibliotheque-macos](macos-library-injection/)
 {% endcontent-ref %}
 
-### Accrochage de fonction
+### Hooking de fonction
 
-L'accrochage de fonction implique **l'interception d'appels de fonctions** ou de messages au sein d'un code logiciel. En accrochant des fonctions, un attaquant peut **modifier le comportement** d'un processus, observer des données sensibles ou même prendre le contrôle du flux d'exécution.
+Le hooking de fonction implique **l'interception d'appels de fonction** ou de messages au sein d'un code logiciel. En hookant des fonctions, un attaquant peut **modifier le comportement** d'un processus, observer des données sensibles ou même prendre le contrôle du flux d'exécution.
 
 {% content-ref url="../mac-os-architecture/macos-function-hooking.md" %}
-[accrochage-de-fonction-macos.md](../mac-os-architecture/macos-function-hooking.md)
+[hooking-de-fonction-macos.md](../mac-os-architecture/macos-function-hooking.md)
 {% endcontent-ref %}
 
 ### Communication inter-processus
 
-La communication inter-processus (IPC) fait référence à différentes méthodes par lesquelles des processus séparés **partagent et échangent des données**. Bien que l'IPC soit fondamental pour de nombreuses applications légitimes, elle peut également être détournée pour subvertir l'isolation des processus, fuiter des informations sensibles ou effectuer des actions non autorisées.
+La communication inter-processus (IPC) fait référence à différentes méthodes par lesquelles des processus séparés **partagent et échangent des données**. Bien que l'IPC soit fondamental pour de nombreuses applications légitimes, elle peut également être détournée pour subvertir l'isolation des processus, divulguer des informations sensibles ou effectuer des actions non autorisées.
 
 {% content-ref url="../mac-os-architecture/macos-ipc-inter-process-communication/" %}
 [communication-inter-processus-macos](../mac-os-architecture/macos-ipc-inter-process-communication/)
@@ -52,7 +52,7 @@ Les applications Electron exécutées avec des variables d'environnement spécif
 
 ### NIB sale
 
-Les fichiers NIB **définissent les éléments de l'interface utilisateur (UI)** et leurs interactions au sein d'une application. Cependant, ils peuvent **exécuter des commandes arbitraires** et **Gatekeeper n'empêche pas** une application déjà exécutée d'être exécutée si un **fichier NIB est modifié**. Par conséquent, ils pourraient être utilisés pour faire exécuter des commandes arbitraires par des programmes arbitraires :
+Les fichiers NIB **définissent les éléments de l'interface utilisateur (UI)** et leurs interactions au sein d'une application. Cependant, ils peuvent **exécuter des commandes arbitraires** et **Gatekeeper n'empêche pas** une application déjà exécutée de l'être à nouveau si un **fichier NIB est modifié**. Par conséquent, ils pourraient être utilisés pour faire exécuter des commandes arbitraires par des programmes arbitraires :
 
 {% content-ref url="macos-dirty-nib.md" %}
 [nib-sale-macos.md](macos-dirty-nib.md)
@@ -79,7 +79,7 @@ Il est possible d'injecter du code dans des applications .Net en **abusant de la
 Vérifiez différentes options pour faire exécuter du code arbitraire par un script Perl dans :
 
 {% content-ref url="macos-perl-applications-injection.md" %}
-[injection-dans-applications-perl-macos.md](macos-perl-applications-injection.md)
+[injection-perl-macos.md](macos-perl-applications-injection.md)
 {% endcontent-ref %}
 
 ### Injection Ruby
@@ -87,12 +87,12 @@ Vérifiez différentes options pour faire exécuter du code arbitraire par un sc
 Il est également possible d'abuser des variables d'environnement Ruby pour faire exécuter du code arbitraire par des scripts arbitraires :
 
 {% content-ref url="macos-ruby-applications-injection.md" %}
-[injection-dans-applications-ruby-macos.md](macos-ruby-applications-injection.md)
+[injection-ruby-macos.md](macos-ruby-applications-injection.md)
 {% endcontent-ref %}
 
 ### Injection Python
 
-Si la variable d'environnement **`PYTHONINSPECT`** est définie, le processus Python passera dans une interface de ligne de commande Python une fois terminé. Il est également possible d'utiliser **`PYTHONSTARTUP`** pour indiquer un script Python à exécuter au début d'une session interactive.\
+Si la variable d'environnement **`PYTHONINSPECT`** est définie, le processus Python passera dans une CLI Python une fois terminé. Il est également possible d'utiliser **`PYTHONSTARTUP`** pour indiquer un script Python à exécuter au début d'une session interactive.\
 Cependant, notez que le script **`PYTHONSTARTUP`** ne sera pas exécuté lorsque **`PYTHONINSPECT`** crée la session interactive.
 
 D'autres variables d'environnement telles que **`PYTHONPATH`** et **`PYTHONHOME`** pourraient également être utiles pour faire exécuter du code arbitraire par une commande Python.
@@ -100,8 +100,8 @@ D'autres variables d'environnement telles que **`PYTHONPATH`** et **`PYTHONHOME`
 Notez que les exécutables compilés avec **`pyinstaller`** n'utiliseront pas ces variables d'environnement même s'ils fonctionnent avec un Python intégré.
 
 {% hint style="danger" %}
-Dans l'ensemble, je n'ai pas trouvé de moyen de faire exécuter du code arbitraire par Python en abusant des variables d'environnement.\
-Cependant, la plupart des gens installent Python via **Homebrew**, qui installera Python dans un **emplacement accessible en écriture** pour l'utilisateur admin par défaut. Vous pouvez le détourner avec quelque chose comme :
+Globalement, je n'ai pas trouvé de moyen de faire exécuter du code arbitraire par Python en abusant des variables d'environnement.\
+Cependant, la plupart des gens installent Python en utilisant **Homebrew**, qui installera Python dans un **emplacement accessible en écriture** pour l'utilisateur admin par défaut. Vous pouvez le détourner avec quelque chose comme :
 ```bash
 mv /opt/homebrew/bin/python3 /opt/homebrew/bin/python3.old
 cat > /opt/homebrew/bin/python3 <<EOF
@@ -111,6 +111,7 @@ cat > /opt/homebrew/bin/python3 <<EOF
 EOF
 chmod +x /opt/homebrew/bin/python3
 ```
+```markdown
 Même **root** exécutera ce code lors de l'exécution de python.
 {% endhint %}
 
@@ -127,7 +128,7 @@ Même **root** exécutera ce code lors de l'exécution de python.
 
 ### Appels effectués par d'autres processus
 
-Dans [**ce billet de blog**](https://knight.sc/reverse%20engineering/2019/04/15/detecting-task-modifications.html), vous pouvez trouver comment il est possible d'utiliser la fonction **`task_name_for_pid`** pour obtenir des informations sur d'autres **processus injectant du code dans un processus** et ensuite obtenir des informations sur cet autre processus.
+Dans [**ce billet de blog**](https://knight.sc/reverse%20engineering/2019/04/15/detecting-task-modifications.html), vous pouvez découvrir comment il est possible d'utiliser la fonction **`task_name_for_pid`** pour obtenir des informations sur d'autres **processus injectant du code dans un processus** et ensuite obtenir des informations sur cet autre processus.
 
 Notez que pour appeler cette fonction, vous devez être **le même uid** que celui qui exécute le processus ou **root** (et cela retourne des informations sur le processus, pas un moyen d'injecter du code).
 
@@ -149,3 +150,4 @@ Autres moyens de soutenir HackTricks :
 * **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+```

