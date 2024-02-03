@@ -6,73 +6,23 @@ Outras formas de apoiar o HackTricks:
 
 * Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Participe do grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou do grupo [**telegram**](https://t.me/peass) ou **siga**-me no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) no github.
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
+* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
 
 ## Código
 
-O seguinte código foi copiado [daqui](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962). Ele permite **indicar um ID de Processo como argumento** e um CMD **executando como o usuário** do processo indicado será executado.\
-Executando em um processo de Alta Integridade, você pode **indicar o PID de um processo executando como System** (como winlogon, wininit) e executar um cmd.exe como system.
+O seguinte código de [aqui](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962). Ele permite **indicar um ID de Processo como argumento** e um CMD **executando como o usuário** do processo indicado será executado.\
+Executando em um processo de Alta Integridade, você pode **indicar o PID de um processo executando como Sistema** (como winlogon, wininit) e executar um cmd.exe como sistema.
 ```cpp
 impersonateuser.exe 1234
 ```
 ```cpp
-#include <windows.h>
-#include <stdio.h>
-
-int main() {
-    HANDLE hToken;
-    HANDLE hNewToken;
-    BOOL bRes;
-
-    // Open a handle to the current process's token with TOKEN_DUPLICATE access
-    bRes = OpenProcessToken(GetCurrentProcess(), TOKEN_DUPLICATE, &hToken);
-    if (!bRes) {
-        printf("OpenProcessToken failed. GetLastError: %d\n", GetLastError());
-        return 1;
-    }
-
-    // Duplicate the token with SecurityImpersonation and TokenImpersonation
-    bRes = DuplicateTokenEx(hToken, TOKEN_ALL_ACCESS, NULL, SecurityImpersonation, TokenImpersonation, &hNewToken);
-    if (!bRes) {
-        printf("DuplicateTokenEx failed. GetLastError: %d\n", GetLastError());
-        CloseHandle(hToken);
-        return 1;
-    }
-
-    // Use the new token for impersonation
-    bRes = SetThreadToken(NULL, hNewToken);
-    if (!bRes) {
-        printf("SetThreadToken failed. GetLastError: %d\n", GetLastError());
-        CloseHandle(hNewToken);
-        CloseHandle(hToken);
-        return 1;
-    }
-
-    // Now the current thread is running with the new token's privileges
-    // Do something with elevated privileges here...
-
-    // Revert to self to stop impersonating
-    bRes = RevertToSelf();
-    if (!bRes) {
-        printf("RevertToSelf failed. GetLastError: %d\n", GetLastError());
-        CloseHandle(hNewToken);
-        CloseHandle(hToken);
-        return 1;
-    }
-
-    // Close handles
-    CloseHandle(hNewToken);
-    CloseHandle(hToken);
-
-    return 0;
-}
+{% code title="impersonateuser.cpp" %}
 ```
-{% endcode %}
 ```cpp
 #include <windows.h>
 #include <iostream>
@@ -201,13 +151,11 @@ printf("[-] CreateProcessWithTokenW Error: %i\n", GetLastError());
 return 0;
 }
 ```
-```markdown
 {% endcode %}
 
 ## Erro
 
-Em algumas ocasiões, você pode tentar se passar por System e isso pode não funcionar, exibindo uma saída como a seguinte:
-```
+Em algumas ocasiões, você pode tentar se passar pelo System e isso pode não funcionar, exibindo uma saída como a seguinte:
 ```cpp
 [+] OpenProcess() success!
 [+] OpenProcessToken() success!
@@ -230,7 +178,7 @@ Vamos verificar as permissões atuais do Administrador sobre os processos `svcho
 
 ![](<../../.gitbook/assets/image (322).png>)
 
-A imagem anterior contém todos os privilégios que "Administradores" têm sobre o processo selecionado (como você pode ver no caso de `svchost.exe`, eles só têm privilégios de "Consulta")
+A imagem anterior contém todos os privilégios que "Administradores" têm sobre o processo selecionado (como você pode ver, no caso de `svchost.exe`, eles só têm privilégios de "Consulta")
 
 Veja os privilégios que "Administradores" têm sobre `winlogon.exe`:
 
@@ -249,7 +197,7 @@ Outras formas de apoiar o HackTricks:
 * Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* **Participe do grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou do grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas dicas de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) no github.
+* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios do GitHub** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
