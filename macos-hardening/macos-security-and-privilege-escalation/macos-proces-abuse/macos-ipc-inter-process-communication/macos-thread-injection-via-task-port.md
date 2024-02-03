@@ -8,99 +8,163 @@ Outras formas de apoiar o HackTricks:
 
 * Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
+* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios do GitHub** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
-Este post foi copiado de [https://bazad.github.io/2018/10/bypassing-platform-binary-task-threads/](https://bazad.github.io/2018/10/bypassing-platform-binary-task-threads/) (que contém mais informações)
-
-### Código
+## Código
 
 * [https://github.com/bazad/threadexec](https://github.com/bazad/threadexec)
 * [https://gist.github.com/knightsc/bd6dfeccb02b77eb6409db5601dcef36](https://gist.github.com/knightsc/bd6dfeccb02b77eb6409db5601dcef36)
 
-### 1. Sequestro de Thread
 
-A primeira coisa que fazemos é chamar **`task_threads()`** na porta de tarefa para obter uma lista de threads na tarefa remota e, em seguida, escolher uma delas para sequestrar. Ao contrário dos frameworks tradicionais de injeção de código, **não podemos criar uma nova thread remota** porque `thread_create_running()` será bloqueado pela nova mitigação.
+## 1. Sequestro de Thread
 
-Em seguida, podemos chamar **`thread_suspend()`** para parar a thread de executar.
+Inicialmente, a função **`task_threads()`** é invocada na porta de tarefa para obter uma lista de threads da tarefa remota. Uma thread é selecionada para o sequestro. Esta abordagem diverge dos métodos convencionais de injeção de código, pois a criação de uma nova thread remota é proibida devido à nova mitigação que bloqueia `thread_create_running()`.
 
-Neste ponto, o único controle útil que temos sobre a thread remota é **pará-la**, **iniciá-la**, **obter** seus valores de **registradores** e **definir** seus valores de registradores. Assim, podemos **iniciar uma chamada de função remota** definindo os registradores `x0` até `x7` na thread remota para os **argumentos**, **definindo** **`pc`** para a função que queremos executar e iniciando a thread. Neste ponto, precisamos detectar o retorno e garantir que a thread não trave.
+Para controlar a thread, **`thread_suspend()`** é chamado, interrompendo sua execução.
 
-Existem algumas maneiras de fazer isso. Uma maneira seria **registrar um manipulador de exceções** para a thread remota usando `thread_set_exception_ports()` e definir o registrador de endereço de retorno, `lr`, para um endereço inválido antes de chamar a função; dessa forma, após a execução da função, uma exceção seria gerada e uma mensagem seria enviada para nossa porta de exceção, momento em que podemos inspecionar o estado da thread para recuperar o valor de retorno. No entanto, pela simplicidade, copiei a estratégia usada no exploit triple\_fetch de Ian Beer, que era **definir `lr` para o endereço de uma instrução que faria um loop infinito** e, em seguida, sondar repetidamente os registradores da thread até que **`pc` apontasse para essa instrução**.
+As únicas operações permitidas na thread remota envolvem **parar** e **iniciar** a mesma, **recuperar** e **modificar** seus valores de registradores. Chamadas de função remotas são iniciadas configurando os registradores `x0` a `x7` para os **argumentos**, ajustando **`pc`** para a função desejada e ativando a thread. Garantir que a thread não trave após o retorno requer detecção do retorno.
 
-### 2. Portas Mach para comunicação
+Uma estratégia envolve **registrar um manipulador de exceções** para a thread remota usando `thread_set_exception_ports()`, definindo o registrador `lr` para um endereço inválido antes da chamada da função. Isso desencadeia uma exceção após a execução da função, enviando uma mensagem para a porta de exceção, permitindo a inspeção do estado da thread para recuperar o valor de retorno. Alternativamente, como adotado do exploit triple\_fetch de Ian Beer, `lr` é configurado para entrar em loop infinito. Os registradores da thread são então monitorados continuamente até que **`pc` aponte para essa instrução**.
 
-O próximo passo é **criar portas Mach pelas quais podemos nos comunicar com a thread remota**. Essas portas Mach serão úteis mais tarde para ajudar na transferência de direitos de envio e recebimento arbitrários entre as tarefas.
+## 2. Portas Mach para comunicação
 
-Para estabelecer comunicação bidirecional, precisaremos criar dois direitos de recebimento Mach: um na **tarefa local e outro na tarefa remota**. Então, precisaremos **transferir um direito de envio** para cada porta **para a outra tarefa**. Isso dará a cada tarefa uma maneira de enviar uma mensagem que pode ser recebida pela outra.
+A fase subsequente envolve o estabelecimento de portas Mach para facilitar a comunicação com a thread remota. Essas portas são fundamentais na transferência de direitos de envio e recebimento arbitrários entre tarefas.
 
-Vamos primeiro nos concentrar em configurar a porta local, ou seja, a porta para a qual a tarefa local detém o direito de recebimento. Podemos criar a porta Mach como qualquer outra, chamando `mach_port_allocate()`. O truque é conseguir um direito de envio para essa porta na tarefa remota.
+Para comunicação bidirecional, dois direitos de recebimento Mach são criados: um na tarefa local e outro na tarefa remota. Em seguida, um direito de envio para cada porta é transferido para a tarefa correspondente, possibilitando a troca de mensagens.
 
-Um truque conveniente que podemos usar para copiar um direito de envio da tarefa atual para uma tarefa remota usando apenas um primitivo de execução básico é armazenar um **direito de envio para nossa porta local no `THREAD_KERNEL_PORT` especial da thread remota** usando `thread_set_special_port()`; então, podemos fazer a thread remota chamar `mach_thread_self()` para recuperar o direito de envio.
+Focando na porta local, o direito de recebimento é mantido pela tarefa local. A porta é criada com `mach_port_allocate()`. O desafio está em transferir um direito de envio para esta porta para a tarefa remota.
 
-Em seguida, vamos configurar a porta remota, que é praticamente o inverso do que acabamos de fazer. Podemos fazer a **thread remota alocar uma porta Mach chamando `mach_reply_port()`**; não podemos usar `mach_port_allocate()` porque o último retorna o nome da porta alocada na memória e ainda não temos um primitivo de leitura. Uma vez que temos uma porta, podemos criar um direito de envio chamando `mach_port_insert_right()` na thread remota. Então, podemos armazenar a porta no kernel chamando `thread_set_special_port()`. Finalmente, de volta à tarefa local, podemos recuperar a porta chamando `thread_get_special_port()` na thread remota, **nos dando um direito de envio para a porta Mach recém-alocada na tarefa remota**.
+Uma estratégia envolve o uso de `thread_set_special_port()` para colocar um direito de envio para a porta local no `THREAD_KERNEL_PORT` da thread remota. Então, a thread remota é instruída a chamar `mach_thread_self()` para recuperar o direito de envio.
 
-Neste ponto, criamos as portas Mach que usaremos para comunicação bidirecional.
+Para a porta remota, o processo é essencialmente invertido. A thread remota é direcionada a gerar uma porta Mach através de `mach_reply_port()` (já que `mach_port_allocate()` é inadequado devido ao seu mecanismo de retorno). Após a criação da porta, `mach_port_insert_right()` é invocado na thread remota para estabelecer um direito de envio. Esse direito é então armazenado no kernel usando `thread_set_special_port()`. De volta à tarefa local, `thread_get_special_port()` é usado na thread remota para adquirir um direito de envio para a nova porta Mach alocada na tarefa remota.
 
-### 3. Leitura/Escrita Básica de Memória <a href="#step-3-basic-memory-readwrite" id="step-3-basic-memory-readwrite"></a>
+A conclusão dessas etapas resulta no estabelecimento de portas Mach, preparando o terreno para comunicação bidirecional.
 
-Agora usaremos o primitivo de execução para criar primitivos básicos de leitura e escrita de memória. Esses primitivos não serão muito usados (em breve atualizaremos para primitivos muito mais poderosos), mas são um passo chave para nos ajudar a expandir nosso controle do processo remoto.
+## 3. Primitivas Básicas de Leitura/Escrita de Memória
 
-Para ler e escrever memória usando nosso primitivo de execução, estaremos procurando por funções como estas:
+Nesta seção, o foco é utilizar a primitiva de execução para estabelecer primitivas básicas de leitura e escrita de memória. Esses passos iniciais são cruciais para obter mais controle sobre o processo remoto, embora as primitivas neste estágio não sirvam para muitos propósitos. Em breve, elas serão atualizadas para versões mais avançadas.
+
+### Leitura e Escrita de Memória Usando Primitiva de Execução
+
+O objetivo é realizar leitura e escrita de memória usando funções específicas. Para ler memória, funções com a seguinte estrutura são utilizadas:
 ```c
 uint64_t read_func(uint64_t *address) {
 return *address;
 }
+```
+E para escrever na memória, funções semelhantes a esta estrutura são usadas:
+```c
 void write_func(uint64_t *address, uint64_t value) {
 *address = value;
 }
 ```
-Eles podem corresponder à seguinte montagem:
+Estas funções correspondem às instruções de montagem dadas:
 ```
 _read_func:
-ldr     x0, [x0]
+ldr x0, [x0]
 ret
 _write_func:
-str     x1, [x0]
+str x1, [x0]
 ret
 ```
-Uma rápida análise de algumas bibliotecas comuns revelou bons candidatos. Para ler memória, podemos usar a função `property_getName()` da [biblioteca de tempo de execução do Objective-C](https://opensource.apple.com/source/objc4/objc4-723/runtime/objc-runtime-new.mm.auto.html):
+### Identificando Funções Adequadas
+
+Uma varredura de bibliotecas comuns revelou candidatos apropriados para essas operações:
+
+1. **Leitura de Memória:**
+A função `property_getName()` da [biblioteca runtime do Objective-C](https://opensource.apple.com/source/objc4/objc4-723/runtime/objc-runtime-new.mm.auto.html) é identificada como uma função adequada para leitura de memória. A função está descrita abaixo:
+
 ```c
-const char *property_getName(objc_property_t prop)
-{
+const char *property_getName(objc_property_t prop) {
 return prop->name;
 }
 ```
-Como se verifica, `prop` é o primeiro campo de `objc_property_t`, portanto, isso corresponde diretamente à hipotética `read_func` acima. Precisamos apenas realizar uma chamada de função remota com o primeiro argumento sendo o endereço que queremos ler, e o valor de retorno será os dados naquele endereço.
 
-Encontrar uma função pronta para escrever na memória é um pouco mais difícil, mas ainda existem ótimas opções sem efeitos colaterais indesejados. Na libxpc, a função `_xpc_int64_set_value()` tem o seguinte desmonte:
+Essa função efetivamente age como a `read_func` ao retornar o primeiro campo de `objc_property_t`.
+
+2. **Escrita de Memória:**
+Encontrar uma função pré-construída para escrita de memória é mais desafiador. No entanto, a função `_xpc_int64_set_value()` da libxpc é uma candidata adequada com a seguinte desmontagem:
 ```
 __xpc_int64_set_value:
-str     x1, [x0, #0x18]
+str x1, [x0, #0x18]
 ret
 ```
-Portanto, para realizar uma escrita de 64 bits no endereço `address`, podemos executar a chamada remota:
+Para realizar uma escrita de 64 bits em um endereço específico, a chamada remota é estruturada como:
 ```c
 _xpc_int64_set_value(address - 0x18, value)
 ```
-### 4. Memória compartilhada
+Com essas primitivas estabelecidas, o cenário está preparado para a criação de memória compartilhada, marcando um progresso significativo no controle do processo remoto.
 
-Nosso próximo passo é criar uma memória compartilhada entre a tarefa remota e a local. Isso nos permitirá transferir dados entre os processos mais facilmente: com uma região de memória compartilhada, a leitura e escrita de memória arbitrária é tão simples quanto uma chamada remota para `memcpy()`. Além disso, ter uma região de memória compartilhada nos permitirá configurar facilmente uma pilha para que possamos chamar funções com mais de 8 argumentos.
+## 4. Configuração de Memória Compartilhada
 
-Para facilitar, podemos reutilizar os recursos de memória compartilhada do libxpc. O libxpc fornece um tipo de objeto XPC, `OS_xpc_shmem`, que permite estabelecer regiões de memória compartilhada por meio do XPC. Ao reverter o libxpc, determinamos que `OS_xpc_shmem` é baseado em entradas de memória Mach, que são portas Mach que representam uma região de memória virtual. E como já mostramos como enviar portas Mach para a tarefa remota, podemos usar isso para configurar facilmente nossa própria memória compartilhada.
+O objetivo é estabelecer memória compartilhada entre tarefas locais e remotas, simplificando a transferência de dados e facilitando a chamada de funções com múltiplos argumentos. A abordagem envolve o uso de `libxpc` e seu tipo de objeto `OS_xpc_shmem`, que é construído sobre entradas de memória Mach.
 
-Primeiro, precisamos alocar a memória que compartilharemos usando `mach_vm_allocate()`. Precisamos usar `mach_vm_allocate()` para que possamos usar `xpc_shmem_create()` para criar um objeto `OS_xpc_shmem` para a região. `xpc_shmem_create()` cuidará de criar a entrada de memória Mach para nós e armazenará o direito de envio Mach para a entrada de memória no objeto `OS_xpc_shmem` opaco no deslocamento `0x18`.
+### Visão Geral do Processo:
 
-Uma vez que temos o porto de entrada de memória, criaremos um objeto `OS_xpc_shmem` no processo remoto representando a mesma região de memória, permitindo-nos chamar `xpc_shmem_map()` para estabelecer o mapeamento de memória compartilhada. Primeiro, realizamos uma chamada remota para `malloc()` para alocar memória para o `OS_xpc_shmem` e usamos nosso primitivo básico de escrita para copiar o conteúdo do objeto `OS_xpc_shmem` local. Infelizmente, o objeto resultante não está completamente correto: seu campo de entrada de memória Mach no deslocamento `0x18` contém o nome da tarefa local para a entrada de memória, não o nome da tarefa remota. Para corrigir isso, usamos o truque `thread_set_special_port()` para inserir um direito de envio para a entrada de memória Mach na tarefa remota e, em seguida, sobrescrever o campo `0x18` com o nome da entrada de memória remota. Neste ponto, o objeto `OS_xpc_shmem` remoto é válido e o mapeamento de memória pode ser estabelecido com uma chamada remota para `xpc_shmem_remote()`.
+1. **Alocação de Memória**:
+- Alocar a memória para compartilhamento usando `mach_vm_allocate()`.
+- Usar `xpc_shmem_create()` para criar um objeto `OS_xpc_shmem` para a região de memória alocada. Esta função gerenciará a criação da entrada de memória Mach e armazenará o direito de envio Mach no deslocamento `0x18` do objeto `OS_xpc_shmem`.
 
-### 5. Controle total <a href="#step-5-full-control" id="step-5-full-control"></a>
+2. **Criando Memória Compartilhada no Processo Remoto**:
+- Alocar memória para o objeto `OS_xpc_shmem` no processo remoto com uma chamada remota para `malloc()`.
+- Copiar o conteúdo do objeto `OS_xpc_shmem` local para o processo remoto. No entanto, esta cópia inicial terá nomes de entrada de memória Mach incorretos no deslocamento `0x18`.
 
-Com a memória compartilhada em um endereço conhecido e um primitivo de execução arbitrária, basicamente terminamos. Leituras e escritas de memória arbitrárias são implementadas chamando `memcpy()` para e da região compartilhada, respectivamente. Chamadas de função com mais de 8 argumentos são realizadas organizando argumentos adicionais além dos primeiros 8 na pilha de acordo com a convenção de chamada. A transferência de portas Mach arbitrárias entre as tarefas pode ser feita enviando mensagens Mach pelas portas estabelecidas anteriormente. Até podemos transferir descritores de arquivo entre os processos usando fileports (agradecimentos especiais a Ian Beer por demonstrar essa técnica em triple_fetch!).
+3. **Corrigindo a Entrada de Memória Mach**:
+- Utilizar o método `thread_set_special_port()` para inserir um direito de envio para a entrada de memória Mach na tarefa remota.
+- Corrigir o campo de entrada de memória Mach no deslocamento `0x18` sobrescrevendo-o com o nome da entrada de memória remota.
 
-Em resumo, agora temos controle total e fácil sobre o processo vítima. Você pode ver a implementação completa e a API exposta na biblioteca [threadexec](https://github.com/bazad/threadexec).
+4. **Finalizando a Configuração de Memória Compartilhada**:
+- Validar o objeto `OS_xpc_shmem` remoto.
+- Estabelecer o mapeamento de memória compartilhada com uma chamada remota para `xpc_shmem_remote()`.
+
+Seguindo esses passos, a memória compartilhada entre as tarefas locais e remotas será configurada de forma eficiente, permitindo transferências de dados diretas e a execução de funções que requerem múltiplos argumentos.
+
+## Trechos de Código Adicionais
+
+Para alocação de memória e criação de objeto de memória compartilhada:
+```c
+mach_vm_allocate();
+xpc_shmem_create();
+```
+Para criar e corrigir o objeto de memória compartilhada no processo remoto:
+```c
+malloc(); // for allocating memory remotely
+thread_set_special_port(); // for inserting send right
+```
+Lembre-se de lidar corretamente com os detalhes dos Mach ports e nomes de entrada de memória para garantir que a configuração de memória compartilhada funcione adequadamente.
+
+## 5. Alcançando Controle Total
+
+Após estabelecer com sucesso a memória compartilhada e obter capacidades de execução arbitrária, essencialmente ganhamos controle total sobre o processo alvo. As funcionalidades-chave que possibilitam esse controle são:
+
+1. **Operações de Memória Arbitrárias**:
+- Realize leituras de memória arbitrárias invocando `memcpy()` para copiar dados da região compartilhada.
+- Execute escritas de memória arbitrárias usando `memcpy()` para transferir dados para a região compartilhada.
+
+2. **Manipulação de Chamadas de Função com Múltiplos Argumentos**:
+- Para funções que requerem mais de 8 argumentos, organize os argumentos adicionais na pilha em conformidade com a convenção de chamadas.
+
+3. **Transferência de Mach Port**:
+- Transfira Mach ports entre tarefas através de mensagens Mach via ports previamente estabelecidos.
+
+4. **Transferência de Descritor de Arquivo**:
+- Transfira descritores de arquivo entre processos usando fileports, uma técnica destacada por Ian Beer em `triple_fetch`.
+
+Esse controle abrangente está encapsulado na biblioteca [threadexec](https://github.com/bazad/threadexec), fornecendo uma implementação detalhada e uma API amigável para interação com o processo vítima.
+
+## Considerações Importantes:
+
+- Garanta o uso adequado de `memcpy()` para operações de leitura/escrita de memória para manter a estabilidade do sistema e a integridade dos dados.
+- Ao transferir Mach ports ou descritores de arquivo, siga os protocolos adequados e gerencie os recursos de forma responsável para evitar vazamentos ou acessos não intencionais.
+
+Seguindo essas diretrizes e utilizando a biblioteca `threadexec`, é possível gerenciar e interagir com processos em um nível granular de forma eficiente, alcançando controle total sobre o processo alvo.
+
+# Referências
+* https://bazad.github.io/2018/10/bypassing-platform-binary-task-threads/
 
 <details>
 
@@ -108,10 +172,10 @@ Em resumo, agora temos controle total e fácil sobre o processo vítima. Você p
 
 Outras formas de apoiar o HackTricks:
 
-* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**merchandising oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
+* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga** me no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga**-me no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

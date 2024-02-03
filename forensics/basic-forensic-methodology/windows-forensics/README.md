@@ -12,7 +12,7 @@ Outras formas de apoiar o HackTricks:
 * Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
 * **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga**-me no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -26,19 +26,19 @@ Dentro deste banco de dados SQLite, você pode encontrar a tabela `Notification`
 
 ### Linha do Tempo
 
-Linha do Tempo é uma característica do Windows que fornece **histórico cronológico** de páginas da web visitadas, documentos editados e aplicações executadas.
+A Linha do Tempo é uma característica do Windows que fornece um **histórico cronológico** de páginas da web visitadas, documentos editados e aplicativos executados.
 
 O banco de dados fica no caminho `\Users\<username>\AppData\Local\ConnectedDevicesPlatform\<id>\ActivitiesCache.db`. Este banco de dados pode ser aberto com uma ferramenta SQLite ou com a ferramenta [**WxTCmd**](https://github.com/EricZimmerman/WxTCmd) **que gera 2 arquivos que podem ser abertos com a ferramenta** [**TimeLine Explorer**](https://ericzimmerman.github.io/#!index.md).
 
 ### ADS (Alternate Data Streams)
 
-Arquivos baixados podem conter o **ADS Zone.Identifier** indicando **como** foi **baixado** da intranet, internet, etc. Alguns softwares (como navegadores) geralmente colocam **mais** **informações**, como a **URL** de onde o arquivo foi baixado.
+Arquivos baixados podem conter o **ADS Zone.Identifier** indicando **como** foi **baixado** da intranet, internet, etc. Alguns softwares (como navegadores) geralmente colocam até **mais** **informações**, como a **URL** de onde o arquivo foi baixado.
 
 ## **Backups de Arquivos**
 
 ### Lixeira
 
-No Vista/Win7/Win8/Win10 a **Lixeira** pode ser encontrada na pasta **`$Recycle.bin`** na raiz do disco (`C:\$Recycle.bin`).\
+No Vista/Win7/Win8/Win10, a **Lixeira** pode ser encontrada na pasta **`$Recycle.bin`** na raiz do disco (`C:\$Recycle.bin`).\
 Quando um arquivo é excluído nesta pasta, 2 arquivos específicos são criados:
 
 * `$I{id}`: Informações do arquivo (data de quando foi excluído)
@@ -51,11 +51,9 @@ Tendo esses arquivos, você pode usar a ferramenta [**Rifiuti**](https://github.
 .\rifiuti-vista.exe C:\Users\student\Desktop\Recycle
 ```
 ```markdown
-![](<../../../.gitbook/assets/image (495) (1) (1) (1).png>)
-
 ### Cópias de Sombra de Volume
 
-Shadow Copy é uma tecnologia incluída no Microsoft Windows que pode criar **cópias de backup** ou instantâneos de arquivos ou volumes de computador, mesmo quando estão em uso.
+Shadow Copy é uma tecnologia incluída no Microsoft Windows que pode criar **cópias de backup** ou snapshots de arquivos de computador ou volumes, mesmo quando estão em uso.
 
 Esses backups geralmente estão localizados em `\System Volume Information` na raiz do sistema de arquivos e o nome é composto por **UIDs** mostrados na seguinte imagem:
 
@@ -88,13 +86,13 @@ O Windows **cria automaticamente** esses **atalhos** quando o usuário **abre, u
 
 Quando uma pasta é criada, um link para a pasta, para a pasta pai e para a pasta avó também é criado.
 
-Esses arquivos de link criados automaticamente **contêm informações sobre a origem** como se é um **arquivo** **ou** uma **pasta**, **tempos MAC** daquele arquivo, **informações de volume** de onde o arquivo está armazenado e **pasta do arquivo de destino**. Essas informações podem ser úteis para recuperar esses arquivos caso tenham sido removidos.
+Esses arquivos de link criados automaticamente **contêm informações sobre a origem** como se é um **arquivo** ou uma **pasta**, **tempos MAC** daquele arquivo, **informações de volume** de onde o arquivo está armazenado e **pasta do arquivo alvo**. Essas informações podem ser úteis para recuperar esses arquivos caso tenham sido removidos.
 
 Além disso, a **data de criação do arquivo de link** é a primeira **vez** que o arquivo original foi **usado** e a **data de modificação** do arquivo de link é a **última vez** que o arquivo de origem foi usado.
 
 Para inspecionar esses arquivos, você pode usar [**LinkParser**](http://4discovery.com/our-tools/).
 
-Nesta ferramenta, você encontrará **2 conjuntos** de carimbos de data/hora:
+Nessas ferramentas, você encontrará **2 conjuntos** de timestamps:
 
 * **Primeiro Conjunto:**
 1. FileModifiedDate
@@ -105,7 +103,7 @@ Nesta ferramenta, você encontrará **2 conjuntos** de carimbos de data/hora:
 2. LinkAccessDate
 3. LinkCreationDate.
 
-O primeiro conjunto de carimbos de data/hora refere-se aos **tempos do próprio arquivo**. O segundo conjunto refere-se aos **tempos do arquivo vinculado**.
+O primeiro conjunto de timestamp refere-se aos **timestamps do próprio arquivo**. O segundo conjunto refere-se aos **timestamps do arquivo vinculado**.
 
 Você pode obter as mesmas informações executando a ferramenta CLI do Windows: [**LECmd.exe**](https://github.com/EricZimmerman/LECmd)
 ```
@@ -166,13 +164,24 @@ Verifique o arquivo `C:\Windows\inf\setupapi.dev.log` para obter os carimbos de 
 
 ### Limpeza de Plug and Play
 
-A tarefa agendada 'Limpeza de Plug and Play' é responsável por **limpar** versões antigas de drivers. Parece (com base em relatórios online) que ela também pega **drivers que não foram usados nos últimos 30 dias**, apesar de sua descrição afirmar que "a versão mais atual de cada pacote de driver será mantida". Assim, **dispositivos removíveis que não foram conectados por 30 dias podem ter seus drivers removidos**.
+A tarefa agendada conhecida como 'Limpeza de Plug and Play' é projetada principalmente para a remoção de versões antigas de drivers. Ao contrário de seu propósito especificado de reter a versão mais recente do pacote de drivers, fontes online sugerem que ela também visa drivers que estiveram inativos por 30 dias. Consequentemente, drivers para dispositivos removíveis não conectados nos últimos 30 dias podem ser sujeitos à exclusão.
 
-A própria tarefa agendada está localizada em 'C:\Windows\System32\Tasks\Microsoft\Windows\Plug and Play\Plug and Play Cleanup', e seu conteúdo é exibido abaixo:
+A tarefa está localizada no seguinte caminho:
+`C:\Windows\System32\Tasks\Microsoft\Windows\Plug and Play\Plug and Play Cleanup`.
 
-![](https://2.bp.blogspot.com/-wqYubtuR\_W8/W19bV5S9XyI/AAAAAAAANhU/OHsBDEvjqmg9ayzdNwJ4y2DKZnhCdwSMgCLcBGAs/s1600/xml.png)
+Uma captura de tela mostrando o conteúdo da tarefa é fornecida:
+![](https://2.bp.blogspot.com/-wqYubtuR_W8/W19bV5S9XyI/AAAAAAAANhU/OHsBDEvjqmg9ayzdNwJ4y2DKZnhCdwSMgCLcBGAs/s1600/xml.png)
 
-A tarefa faz referência a 'pnpclean.dll', que é responsável por realizar a atividade de limpeza, além disso, vemos que o campo ‘UseUnifiedSchedulingEngine’ está definido como ‘TRUE’, o que especifica que o motor genérico de agendamento de tarefas é usado para gerenciar a tarefa. Os valores ‘Period’ e ‘Deadline’ de 'P1M' e 'P2M' dentro de ‘MaintenanceSettings’ instruem o Agendador de Tarefas a executar a tarefa uma vez por mês durante a manutenção Automática regular e, se falhar por 2 meses consecutivos, a começar a tentar a tarefa durante a manutenção Automática de emergência. **Esta seção foi copiada de** [**aqui**](https://blog.1234n6.com/2018/07/windows-plug-and-play-cleanup.html)**.**
+**Componentes e Configurações Chave da Tarefa:**
+- **pnpclean.dll**: Esta DLL é responsável pelo processo de limpeza real.
+- **UseUnifiedSchedulingEngine**: Definido como `TRUE`, indicando o uso do motor genérico de agendamento de tarefas.
+- **MaintenanceSettings**:
+- **Período ('P1M')**: Direciona o Agendador de Tarefas para iniciar a tarefa de limpeza mensalmente durante a manutenção Automática regular.
+- **Prazo ('P2M')**: Instrui o Agendador de Tarefas, se a tarefa falhar por dois meses consecutivos, a executar a tarefa durante a manutenção Automática de emergência.
+
+Esta configuração garante manutenção e limpeza regulares dos drivers, com disposições para tentar novamente a tarefa em caso de falhas consecutivas.
+
+**Para mais informações, verifique:** [**https://blog.1234n6.com/2018/07/windows-plug-and-play-cleanup.html**](https://blog.1234n6.com/2018/07/windows-plug-and-play-cleanup.html)
 
 ## Emails
 
@@ -230,7 +239,7 @@ Você pode ser capaz de encontrá-los na pasta:
 
 ## Miniaturas
 
-Quando um usuário acessa uma pasta e a organiza usando miniaturas, então um arquivo `thumbs.db` é criado. Este banco de dados **armazena as miniaturas das imagens** da pasta mesmo que elas sejam deletadas. No WinXP e Win 8-8.1 este arquivo é criado automaticamente. No Win7/Win10, é criado automaticamente se for acessado via um caminho UNC (\IP\pasta...).
+Quando um usuário acessa uma pasta e a organiza usando miniaturas, então um arquivo `thumbs.db` é criado. Este banco de dados **armazena as miniaturas das imagens** da pasta mesmo que sejam excluídas. No WinXP e Win 8-8.1 este arquivo é criado automaticamente. No Win7/Win10, é criado automaticamente se for acessado via um caminho UNC (\IP\pasta...).
 
 É possível ler este arquivo com a ferramenta [**Thumbsviewer**](https://thumbsviewer.github.io).
 
@@ -258,7 +267,7 @@ Os arquivos que contêm o registro estão localizados em:
 * %windir%\System32\Config\*_DEFAULT\*_: `HKEY_LOCAL_MACHINE`
 * %UserProfile%{User}\*_NTUSER.DAT\*_: `HKEY_CURRENT_USER`
 
-A partir do Windows Vista e Windows 2008 Server para cima existem alguns backups dos arquivos do registro `HKEY_LOCAL_MACHINE` em **`%Windir%\System32\Config\RegBack\`**.
+A partir do Windows Vista e Windows 2008 Server para cima existem alguns backups dos arquivos de registro `HKEY_LOCAL_MACHINE` em **`%Windir%\System32\Config\RegBack\`**.
 
 Também a partir dessas versões, o arquivo de registro **`%UserProfile%\{User}\AppData\Local\Microsoft\Windows\USERCLASS.DAT`** é criado salvando informações sobre execuções de programas.
 
@@ -271,9 +280,9 @@ Algumas ferramentas são úteis para analisar os arquivos de registro:
 * [**RegRipper**](https://github.com/keydet89/RegRipper3.0): Novamente, tem uma GUI que permite navegar pelo registro carregado e também contém plugins que destacam informações interessantes dentro do registro carregado.
 * [**Windows Registry Recovery**](https://www.mitec.cz/wrr.html): Outra aplicação GUI capaz de extrair as informações importantes do registro carregado.
 
-### Recuperando Elemento Deletado
+### Recuperando Elemento Excluído
 
-Quando uma chave é deletada, ela é marcada como tal, mas até que o espaço que está ocupando seja necessário, ela não será removida. Portanto, usando ferramentas como **Registry Explorer** é possível recuperar essas chaves deletadas.
+Quando uma chave é excluída, ela é marcada como tal, mas até que o espaço que está ocupando seja necessário, ela não será removida. Portanto, usando ferramentas como **Registry Explorer** é possível recuperar essas chaves excluídas.
 
 ### Último Tempo de Escrita
 
@@ -281,11 +290,11 @@ Cada Chave-Valor contém um **carimbo de data/hora** indicando a última vez que
 
 ### SAM
 
-O arquivo/colmeia **SAM** contém os **usuários, grupos e hashes das senhas dos usuários** do sistema.
+O arquivo/zona **SAM** contém os **usuários, grupos e hashes das senhas dos usuários** do sistema.
 
-Em `SAM\Domains\Account\Users` você pode obter o nome de usuário, o RID, último login, último logon falhado, contador de login, política de senha e quando a conta foi criada. Para obter os **hashes** você também **precisa** do arquivo/colmeia **SYSTEM**.
+Em `SAM\Domains\Account\Users` você pode obter o nome de usuário, o RID, último login, último logon falhado, contador de login, política de senha e quando a conta foi criada. Para obter os **hashes** você também **precisa** do arquivo/zona **SYSTEM**.
 
-### Entradas interessantes no Registro do Windows
+### Entradas Interessantes no Registro do Windows
 
 {% content-ref url="interesting-windows-registry-keys.md" %}
 [interesting-windows-registry-keys.md](interesting-windows-registry-keys.md)
@@ -305,7 +314,7 @@ Na página a seguir, você pode aprender sobre os processos básicos do Windows 
 
 Dentro do registro `NTUSER.DAT` no caminho `Software\Microsoft\Current Version\Search\RecentApps` você pode encontrar subchaves com informações sobre o **aplicativo executado**, **última vez** que foi executado e **número de vezes** que foi lançado.
 
-### BAM (Background Activity Moderator)
+### BAM (Moderador de Atividade em Segundo Plano)
 
 Você pode abrir o arquivo `SYSTEM` com um editor de registro e dentro do caminho `SYSTEM\CurrentControlSet\Services\bam\UserSettings\{SID}` você pode encontrar informações sobre os **aplicativos executados por cada usuário** (note o `{SID}` no caminho) e em **que horário** foram executados (o horário está dentro do valor de Dados do registro).
 
@@ -319,7 +328,7 @@ O nome do arquivo é criado como `{program_name}-{hash}.pf` (o hash é baseado n
 
 O arquivo `C:\Windows\Prefetch\Layout.ini` contém os **nomes das pastas dos arquivos que são prefetchados**. Este arquivo contém **informações sobre o número de execuções**, **datas** de execução e **arquivos** **abertos** pelo programa.
 
-Para inspecionar esses arquivos você pode usar a ferramenta [**PEcmd.exe**](https://github.com/EricZimmerman/PECmd):
+Para inspecionar esses arquivos, você pode usar a ferramenta [**PEcmd.exe**](https://github.com/EricZimmerman/PECmd):
 ```bash
 .\PECmd.exe -d C:\Users\student\Desktop\Prefetch --html "C:\Users\student\Desktop\out_folder"
 ```
@@ -331,7 +340,7 @@ Para inspecionar esses arquivos você pode usar a ferramenta [**PEcmd.exe**](htt
 **Superprefetch** tem o mesmo objetivo que o prefetch, **carregar programas mais rapidamente** ao prever o que será carregado a seguir. No entanto, não substitui o serviço de prefetch.
 Este serviço irá gerar arquivos de banco de dados em `C:\Windows\Prefetch\Ag*.db`.
 
-Nesses bancos de dados, você pode encontrar o **nome** do **programa**, **número** de **execuções**, **arquivos** **abertos**, **volume** **acessado**, **caminho** **completo**, **intervalos** de **tempo** e **carimbos** de **data/hora**.
+Nesses bancos de dados, você pode encontrar o **nome** do **programa**, **número** de **execuções**, **arquivos** **abertos**, **volume** **acessado**, **caminho** **completo**, **intervalos** de **tempo** e **timestamps**.
 
 Você pode acessar essas informações usando a ferramenta [**CrowdResponse**](https://www.crowdstrike.com/resources/community-tools/crowdresponse/).
 
@@ -351,7 +360,7 @@ Ele fornece as seguintes informações:
 
 Essas informações são atualizadas a cada 60 minutos.
 
-Você pode obter os dados deste arquivo usando a ferramenta [**srum\_dump**](https://github.com/MarkBaggett/srum-dump).
+Você pode obter a data deste arquivo usando a ferramenta [**srum\_dump**](https://github.com/MarkBaggett/srum-dump).
 ```
 ```bash
 .\srum_dump.exe -i C:\Users\student\Desktop\SRUDB.dat -t SRUM_TEMPLATE.xlsx -o C:\Users\student\Desktop\srum
@@ -426,7 +435,7 @@ Informações que aparecem nos eventos do Windows são:
 * Hosts envolvidos (nome do host, IP)
 * Ativos acessados (arquivos, pastas, impressoras, serviços)
 
-Os logs estão localizados em `C:\Windows\System32\config` antes do Windows Vista e em `C:\Windows\System32\winevt\Logs` após o Windows Vista. Antes do Windows Vista, os logs de eventos estavam em formato binário e depois disso, estão em **formato XML** e usam a extensão **.evtx**.
+Os logs estão localizados em `C:\Windows\System32\config` antes do Windows Vista e em `C:\Windows\System32\winevt\Logs` após o Windows Vista. Antes do Windows Vista, os logs de eventos estavam em formato binário e depois, estão em **formato XML** e usam a extensão **.evtx**.
 
 A localização dos arquivos de eventos pode ser encontrada no registro SYSTEM em **`HKLM\SYSTEM\CurrentControlSet\services\EventLog\{Application|System|Security}`**
 
@@ -450,8 +459,8 @@ Eventos relacionados à autenticação do usuário:
 | EventID   | Descrição                     |
 | --------- | ---------------------------- |
 | 4624      | Autenticação bem-sucedida     |
-| 4625      | Erro de autenticação         |
-| 4634/4647 | log off                      |
+| 4625      | Erro de autenticação          |
+| 4634/4647 | log off                       |
 | 4672      | Login com permissões de admin |
 
 Dentro do EventID 4634/4647 existem subtipos interessantes:
@@ -467,7 +476,7 @@ Dentro do EventID 4634/4647 existem subtipos interessantes:
 * **10 (interativo remoto)**: Autenticação via Serviços de Terminal ou RDP
 * **11 (cache interativo)**: Acesso usando as últimas credenciais em cache porque não foi possível contatar o controlador de domínio
 * **12 (cache interativo remoto)**: Login remoto com credenciais em cache (uma combinação de 10 e 11).
-* **13 (desbloqueio em cache)**: Desbloqueio de uma máquina bloqueada com credenciais em cache.
+* **13 (desbloqueio em cache)**: Desbloqueio de uma máquina travada com credenciais em cache.
 
 Neste post, você pode encontrar como imitar todos esses tipos de login e em quais deles você poderá despejar credenciais da memória: [https://www.alteredsecurity.com/post/fantastic-windows-logon-types-and-where-to-find-credentials-in-them](https://www.alteredsecurity.com/post/fantastic-windows-logon-types-and-where-to-find-credentials-in-them)
 
@@ -517,7 +526,7 @@ Outras maneiras de apoiar o HackTricks:
 * Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Obtenha o [**merchandising oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga** me no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas dicas de hacking enviando PRs para os repositórios github** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga**-me no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe suas dicas de hacking enviando PRs para os repositórios github do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
