@@ -2,54 +2,57 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零开始学习AWS黑客攻击直到成为专家，通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS红队专家)</strong></a><strong>！</strong></summary>
 
-* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* **通过向** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享你的黑客技巧。**
+支持HackTricks的其他方式：
+
+* 如果您想在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**telegram群组**](https://t.me/peass)或在**Twitter**上**关注**我 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
 ## 基本信息
 
-UTS（UNIX Time-Sharing System）命名空间是Linux内核的一个功能，它提供了对两个系统标识符的**隔离**：**主机名**和**NIS**（网络信息服务）域名。这种隔离允许每个UTS命名空间具有其**独立的主机名和NIS域名**，这在容器化场景中特别有用，其中每个容器应该显示为具有自己主机名的独立系统。
+UTS（UNIX时间共享系统）命名空间是Linux内核的一个特性，它提供了两个系统标识符的**隔离**：**主机名**和**NIS**（网络信息服务）域名。这种隔离允许每个UTS命名空间拥有其**独立的主机名和NIS域名**，这在容器化场景中特别有用，其中每个容器应该作为一个拥有自己主机名的独立系统出现。
 
-### 工作原理：
+### 它是如何工作的：
 
-1. 当创建一个新的UTS命名空间时，它会从其父命名空间中**复制主机名和NIS域名**。这意味着，在创建时，新的命名空间**与其父命名空间共享相同的标识符**。然而，命名空间内主机名或NIS域名的任何后续更改都不会影响其他命名空间。
-2. UTS命名空间内的进程可以使用`sethostname()`和`setdomainname()`系统调用**更改主机名和NIS域名**。这些更改仅对命名空间本身有效，不会影响其他命名空间或主机系统。
-3. 进程可以使用`setns()`系统调用在命名空间之间移动，或者使用带有`CLONE_NEWUTS`标志的`unshare()`或`clone()`系统调用创建新的命名空间。当进程移动到新的命名空间或创建新的命名空间时，它将开始使用与该命名空间关联的主机名和NIS域名。
+1. 当创建一个新的UTS命名空间时，它会从其父命名空间**复制主机名和NIS域名**。这意味着，在创建时，新命名空间**与其父命名空间共享相同的标识符**。然而，随后在命名空间内对主机名或NIS域名的任何更改都不会影响其他命名空间。
+2. UTS命名空间内的进程可以使用`sethostname()`和`setdomainname()`系统调用分别**更改主机名和NIS域名**。这些更改仅限于命名空间内部，并不影响其他命名空间或宿主系统。
+3. 进程可以使用`setns()`系统调用在命名空间之间移动，或者使用带有`CLONE_NEWUTS`标志的`unshare()`或`clone()`系统调用创建新的命名空间。当进程移动到新的命名空间或创建一个时，它将开始使用与该命名空间关联的主机名和NIS域名。
 
 ## 实验室：
 
 ### 创建不同的命名空间
 
-#### CLI
+#### 命令行界面
 ```bash
 sudo unshare -u [--mount-proc] /bin/bash
 ```
-通过挂载一个新的`/proc`文件系统，如果使用`--mount-proc`参数，你可以确保新的挂载命名空间具有**准确且隔离的进程信息视图**。
+通过挂载一个新的`/proc`文件系统实例，如果你使用参数`--mount-proc`，你确保了新的挂载命名空间有一个**准确且独立的特定于该命名空间的进程信息视图**。
 
 <details>
 
 <summary>错误：bash: fork: 无法分配内存</summary>
 
-如果你在不加`-f`的情况下运行上一行命令，你将会得到这个错误。\
-这个错误是由于新的命名空间中的PID 1进程退出引起的。
+当`unshare`在没有`-f`选项的情况下执行时，会遇到错误，这是由于Linux处理新的PID（进程ID）命名空间的方式。关键细节和解决方案如下：
 
-在bash开始运行后，bash会fork出几个新的子进程来执行一些操作。如果你在unshare命令中没有加上`-f`，bash的PID将与当前的"unshare"进程相同。当前的"unshare"进程调用unshare系统调用，创建一个新的PID命名空间，但当前的"unshare"进程不在新的PID命名空间中。这是Linux内核的预期行为：进程A创建一个新的命名空间，进程A本身不会被放入新的命名空间中，只有进程A的子进程会被放入新的命名空间中。因此，当你运行：
-```
-unshare -p /bin/bash
-```
-unshare -f will fork a new process instead of exec /bin/bash, so the PID 1 of the new namespace will not exit. This way, the PID 1 process will continue to function as the parent process for orphan processes, preventing the kernel panic and the "Cannot allocate memory" error.
-```
-unshare -fp /bin/bash
-```
-如果你使用`-f`选项运行`unshare`命令，`unshare`将在创建新的pid命名空间后fork一个新进程。然后在新进程中运行`/bin/bash`。新进程将成为新pid命名空间的pid 1。然后bash将fork几个子进程来执行一些任务。由于bash本身是新pid命名空间的pid 1，它的子进程可以正常退出。
+1. **问题解释**：
+- Linux内核允许进程使用`unshare`系统调用创建新的命名空间。然而，启动创建新的PID命名空间的进程（称为"unshare"进程）不会进入新的命名空间；只有其子进程会进入。
+- 运行`%unshare -p /bin/bash%`会在`unshare`相同的进程中启动`/bin/bash`。因此，`/bin/bash`及其子进程位于原始的PID命名空间中。
+- `/bin/bash`在新命名空间中的第一个子进程成为PID 1。当这个进程退出时，如果没有其他进程，它会触发命名空间的清理，因为PID 1有收养孤儿进程的特殊角色。Linux内核将会在该命名空间中禁用PID分配。
 
-摘自[https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory](https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory)
+2. **后果**：
+- 在新命名空间中PID 1的退出导致`PIDNS_HASH_ADDING`标志的清理。这导致`alloc_pid`函数在创建新进程时无法分配新的PID，产生"无法分配内存"错误。
+
+3. **解决方案**：
+- 通过使用`unshare`的`-f`选项可以解决这个问题。这个选项使`unshare`在创建新的PID命名空间后分叉一个新进程。
+- 执行`%unshare -fp /bin/bash%`确保`unshare`命令本身在新命名空间中成为PID 1。`/bin/bash`及其子进程随后安全地包含在这个新命名空间内，防止了PID 1的过早退出，并允许正常的PID分配。
+
+通过确保`unshare`运行时带有`-f`标志，新的PID命名空间被正确维护，允许`/bin/bash`及其子进程在不遇到内存分配错误的情况下操作。
 
 </details>
 
@@ -57,38 +60,12 @@ unshare -fp /bin/bash
 ```bash
 docker run -ti --name ubuntu1 -v /usr:/ubuntu1 ubuntu bash
 ```
-### &#x20;检查进程所在的命名空间
-
-To check which namespace your process is in, you can use the following command:
-
-要检查进程所在的命名空间，可以使用以下命令：
-
-```bash
-ls -l /proc/<PID>/ns
-```
-
-Replace `<PID>` with the process ID of the target process. This command will display the symbolic links to the different namespaces that the process is associated with.
-
-将 `<PID>` 替换为目标进程的进程ID。该命令将显示与进程关联的不同命名空间的符号链接。
-
-You can also use the `readlink` command to get the actual path of the symbolic link:
-
-您还可以使用 `readlink` 命令获取符号链接的实际路径：
-
-```bash
-readlink /proc/<PID>/ns/<NAMESPACE>
-```
-
-Replace `<PID>` with the process ID and `<NAMESPACE>` with the desired namespace (e.g., `uts`, `ipc`, `net`, `pid`, `mnt`, `user`).
-
-将 `<PID>` 替换为进程ID，将 `<NAMESPACE>` 替换为所需的命名空间（例如 `uts`、`ipc`、`net`、`pid`、`mnt`、`user`）。
-
-By checking the namespaces, you can determine the isolation level of your process and identify any potential vulnerabilities or security risks.
+### 检查您的进程在哪个命名空间中
 ```bash
 ls -l /proc/self/ns/uts
 lrwxrwxrwx 1 root root 0 Apr  4 20:49 /proc/self/ns/uts -> 'uts:[4026531838]'
 ```
-### 查找所有的UTS命名空间
+### 查找所有UTS命名空间
 
 {% code overflow="wrap" %}
 ```bash
@@ -96,29 +73,30 @@ sudo find /proc -maxdepth 3 -type l -name uts -exec readlink {} \; 2>/dev/null |
 # Find the processes with an specific namespace
 sudo find /proc -maxdepth 3 -type l -name uts -exec ls -l  {} \; 2>/dev/null | grep <ns-number>
 ```
-{% code %}
-
-### 进入 UTS 命名空间内部
-
-{% endcode %}
+### 进入UTS命名空间
 ```bash
 nsenter -u TARGET_PID --pid /bin/bash
 ```
-此外，只有在以root权限运行时，才能进入另一个进程的命名空间。而且，如果没有指向其他命名空间的描述符（例如`/proc/self/ns/uts`），则无法进入其他命名空间。
+同样，您只能**如果您是root，则进入另一个进程的命名空间**。而且您**不能** **进入** 其他没有指向它的描述符的命名空间（如`/proc/self/ns/uts`）。
 
 ### 更改主机名
 ```bash
 unshare -u /bin/bash
 hostname newhostname # Hostname won't be changed inside the host UTS ns
 ```
+# 参考资料
+* [https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory](https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory)
+
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>！</strong></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在 HackTricks 中**宣传你的公司**吗？或者你想要**获取最新版本的 PEASS 或下载 HackTricks 的 PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass)，或者**关注**我在**推特**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* **通过向**[**hacktricks 仓库**](https://github.com/carlospolop/hacktricks) **和**[**hacktricks-cloud 仓库**](https://github.com/carlospolop/hacktricks-cloud) **提交 PR 来分享你的黑客技巧。**
+支持HackTricks的其他方式：
+
+* 如果您希望在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF版本**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
