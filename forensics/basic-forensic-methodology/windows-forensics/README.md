@@ -32,7 +32,7 @@ La base de données se trouve dans le chemin `\Users\<username>\AppData\Local\Co
 
 ### ADS (Alternate Data Streams)
 
-Les fichiers téléchargés peuvent contenir **ADS Zone.Identifier** indiquant **comment** il a été **téléchargé** depuis l'intranet, internet, etc. Certains logiciels (comme les navigateurs) mettent généralement **encore plus** d'**informations** comme l'**URL** d'où le fichier a été téléchargé.
+Les fichiers téléchargés peuvent contenir **ADS Zone.Identifier** indiquant **comment** il a été **téléchargé** de l'intranet, internet, etc. Certains logiciels (comme les navigateurs) mettent généralement **encore plus** d'**informations** comme l'**URL** d'où le fichier a été téléchargé.
 
 ## **Sauvegardes de Fichiers**
 
@@ -72,9 +72,9 @@ Le registre `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\VSS` contient 
 
 Vous pouvez trouver les fichiers autosauvegardés d'Office dans : `C:\Usuarios\\AppData\Roaming\Microsoft{Excel|Word|Powerpoint}\`
 
-## Éléments Shell
+## Éléments du Shell
 
-Un élément shell est un élément qui contient des informations sur comment accéder à un autre fichier.
+Un élément du shell est un élément qui contient des informations sur comment accéder à un autre fichier.
 
 ### Documents Récents (LNK)
 
@@ -83,15 +83,15 @@ Windows **crée automatiquement** ces **raccourcis** lorsque l'utilisateur **ouv
 * Win7-Win10 : `C:\Users\\AppData\Roaming\Microsoft\Windows\Recent\`
 * Office : `C:\Users\\AppData\Roaming\Microsoft\Office\Recent\`
 
-Lorsqu'un dossier est créé, un lien vers le dossier, le dossier parent et le grand-parent est également créé.
+Lorsqu'un dossier est créé, un lien vers le dossier, le dossier parent et le grand-parent du dossier est également créé.
 
-Ces fichiers de lien créés automatiquement **contiennent des informations sur l'origine** comme s'il s'agit d'un **fichier** ou d'un **dossier**, les **temps MAC** de ce fichier, les **informations de volume** de l'endroit où le fichier est stocké et le **dossier du fichier cible**. Ces informations peuvent être utiles pour récupérer ces fichiers dans le cas où ils auraient été supprimés.
+Ces fichiers de lien créés automatiquement **contiennent des informations sur l'origine** comme s'il s'agit d'un **fichier** **ou** d'un **dossier**, **les temps MAC** de ce fichier, **les informations de volume** de l'endroit où le fichier est stocké et **le dossier du fichier cible**. Ces informations peuvent être utiles pour récupérer ces fichiers dans le cas où ils auraient été supprimés.
 
 De plus, la **date de création du fichier de lien** est la première **fois** que le fichier original a été **utilisé** et la **date de modification** du fichier de lien est la **dernière fois** que le fichier d'origine a été utilisé.
 
 Pour inspecter ces fichiers, vous pouvez utiliser [**LinkParser**](http://4discovery.com/our-tools/).
 
-Dans cet outil, vous trouverez **2 ensembles** de dates et heures :
+Dans cet outil, vous trouverez **2 ensembles** de dates :
 
 * **Premier Ensemble :**
 1. FileModifiedDate
@@ -102,7 +102,7 @@ Dans cet outil, vous trouverez **2 ensembles** de dates et heures :
 2. LinkAccessDate
 3. LinkCreationDate.
 
-Le premier ensemble de dates et heures fait référence aux **dates et heures du fichier lui-même**. Le deuxième ensemble fait référence aux **dates et heures du fichier lié**.
+Le premier ensemble de dates fait référence aux **dates du fichier lui-même**. Le deuxième ensemble fait référence aux **dates du fichier lié**.
 
 Vous pouvez obtenir les mêmes informations en exécutant l'outil CLI Windows : [**LECmd.exe**](https://github.com/EricZimmerman/LECmd)
 ```
@@ -112,13 +112,13 @@ Dans ce cas, les informations seront enregistrées dans un fichier CSV.
 
 ### Jumplists
 
-Ce sont les fichiers récents indiqués par application. C'est la liste des **fichiers récents utilisés par une application** auxquels vous pouvez accéder pour chaque application. Ils peuvent être créés **automatiquement ou personnalisés**.
+Ce sont les fichiers récents qui sont indiqués par application. C'est la liste des **fichiers récents utilisés par une application** auxquels vous pouvez accéder pour chaque application. Ils peuvent être créés **automatiquement ou personnalisés**.
 
-Les **jumplists** créées automatiquement sont stockées dans `C:\Users\{username}\AppData\Roaming\Microsoft\Windows\Recent\AutomaticDestinations\`. Les jumplists sont nommées selon le format `{id}.autmaticDestinations-ms` où l'ID initial est celui de l'application.
+Les **jumplists** créées automatiquement sont stockées dans `C:\Users\{username}\AppData\Roaming\Microsoft\Windows\Recent\AutomaticDestinations\`. Les jumplists sont nommées selon le format `{id}.autmaticDestinations-ms` où l'ID initial est l'ID de l'application.
 
-Les jumplists personnalisées sont stockées dans `C:\Users\{username}\AppData\Roaming\Microsoft\Windows\Recent\CustomDestination\` et sont créées par l'application généralement parce que quelque chose d'**important** s'est produit avec le fichier (peut-être marqué comme favori).
+Les jumplists personnalisées sont stockées dans `C:\Users\{username}\AppData\Roaming\Microsoft\Windows\Recent\CustomDestination\` et sont créées par l'application généralement parce que quelque chose d'**important** s'est produit avec le fichier (peut-être marqué comme favori)
 
-Le **temps de création** d'une jumplist indique **la première fois que le fichier a été accédé** et le **temps modifié la dernière fois**.
+Le **temps de création** de toute jumplist indique **la première fois que le fichier a été accédé** et le **temps modifié la dernière fois**.
 
 Vous pouvez inspecter les jumplists en utilisant [**JumplistExplorer**](https://ericzimmerman.github.io/#!index.md).
 
@@ -142,7 +142,7 @@ Notez que certains fichiers LNK au lieu de pointer vers le chemin d'origine, poi
 
 ![](<../../../.gitbook/assets/image (476).png>)
 
-Les fichiers dans le dossier WPDNSE sont une copie des originaux, ils ne survivront donc pas à un redémarrage du PC et le GUID est pris d'un shellbag.
+Les fichiers dans le dossier WPDNSE sont une copie des originaux, ils ne survivront pas à un redémarrage du PC et le GUID est pris d'un shellbag.
 
 ### Informations du Registre
 
@@ -150,9 +150,9 @@ Les fichiers dans le dossier WPDNSE sont une copie des originaux, ils ne survivr
 
 ### setupapi
 
-Vérifiez le fichier `C:\Windows\inf\setupapi.dev.log` pour obtenir les horodatages de quand la connexion USB a été produite (recherchez `Section start`).
+Vérifiez le fichier `C:\Windows\inf\setupapi.dev.log` pour obtenir les horodatages concernant quand la connexion USB a été produite (recherchez `Section start`).
 
-![](<../../../.gitbook/assets/image (477) (2) (2) (2) (2) (2) (2) (2) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (14).png>)
+![](<../../../.gitbook/assets/image (477) (2) (2) (2) (2) (2) (2) (2) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (14).png>)
 
 ### USB Detective
 
@@ -162,19 +162,30 @@ Vérifiez le fichier `C:\Windows\inf\setupapi.dev.log` pour obtenir les horodata
 
 ### Nettoyage Plug and Play
 
-La tâche planifiée 'Nettoyage Plug and Play' est responsable de **nettoyer** les versions obsolètes des pilotes. Il semble (d'après les rapports en ligne) qu'elle récupère également **les pilotes qui n'ont pas été utilisés pendant 30 jours**, malgré sa description indiquant que "la version la plus récente de chaque package de pilotes sera conservée". Ainsi, **les périphériques amovibles qui n'ont pas été connectés pendant 30 jours peuvent voir leurs pilotes supprimés**.
+La tâche planifiée connue sous le nom de 'Nettoyage Plug and Play' est principalement conçue pour la suppression des anciennes versions de pilotes. Contrairement à son objectif spécifié de conserver la dernière version du package de pilotes, des sources en ligne suggèrent qu'elle cible également les pilotes qui ont été inactifs pendant 30 jours. Par conséquent, les pilotes pour les périphériques amovibles non connectés au cours des 30 derniers jours peuvent être supprimés.
 
-La tâche planifiée elle-même est située à ‘C:\Windows\System32\Tasks\Microsoft\Windows\Plug and Play\Plug and Play Cleanup’, et son contenu est affiché ci-dessous :
+La tâche se trouve au chemin suivant :
+`C:\Windows\System32\Tasks\Microsoft\Windows\Plug and Play\Plug and Play Cleanup`.
 
-![](https://2.bp.blogspot.com/-wqYubtuR\_W8/W19bV5S9XyI/AAAAAAAANhU/OHsBDEvjqmg9ayzdNwJ4y2DKZnhCdwSMgCLcBGAs/s1600/xml.png)
+Une capture d'écran montrant le contenu de la tâche est fournie :
+![](https://2.bp.blogspot.com/-wqYubtuR_W8/W19bV5S9XyI/AAAAAAAANhU/OHsBDEvjqmg9ayzdNwJ4y2DKZnhCdwSMgCLcBGAs/s1600/xml.png)
 
-La tâche fait référence à 'pnpclean.dll' qui est responsable de l'activité de nettoyage et nous voyons également que le champ ‘UseUnifiedSchedulingEngine’ est défini sur ‘TRUE’, ce qui spécifie que le moteur de planification de tâches générique est utilisé pour gérer la tâche. Les valeurs ‘Period’ et ‘Deadline’ de 'P1M' et 'P2M' dans ‘MaintenanceSettings’ instruisent le Planificateur de tâches d'exécuter la tâche une fois par mois pendant la maintenance automatique régulière et si elle échoue pendant 2 mois consécutifs, de commencer à tenter la tâche pendant la maintenance automatique d'urgence. **Cette section a été copiée de** [**ici**](https://blog.1234n6.com/2018/07/windows-plug-and-play-cleanup.html)**.**
+**Composants clés et paramètres de la tâche :**
+- **pnpclean.dll** : Cette DLL est responsable du processus de nettoyage réel.
+- **UseUnifiedSchedulingEngine** : Défini sur `TRUE`, indiquant l'utilisation du moteur de planification des tâches générique.
+- **MaintenanceSettings** :
+- **Période ('P1M')** : Dirige le Planificateur de tâches pour initier la tâche de nettoyage mensuellement pendant la maintenance automatique régulière.
+- **Deadline ('P2M')** : Instruit le Planificateur de tâches, si la tâche échoue pendant deux mois consécutifs, d'exécuter la tâche pendant la maintenance automatique d'urgence.
+
+Cette configuration assure une maintenance et un nettoyage réguliers des pilotes, avec des dispositions pour retenter la tâche en cas d'échecs consécutifs.
+
+**Pour plus d'informations, consultez :** [**https://blog.1234n6.com/2018/07/windows-plug-and-play-cleanup.html**](https://blog.1234n6.com/2018/07/windows-plug-and-play-cleanup.html)
 
 ## Emails
 
 Les emails contiennent **2 parties intéressantes : Les en-têtes et le contenu** de l'email. Dans les **en-têtes**, vous pouvez trouver des informations telles que :
 
-* **Qui** a envoyé les emails (adresse email, IP, serveurs de messagerie qui ont redirigé l'email)
+* **Qui** a envoyé les emails (adresse e-mail, IP, serveurs de messagerie qui ont redirigé l'email)
 * **Quand** l'email a été envoyé
 
 Aussi, à l'intérieur des en-têtes `References` et `In-Reply-To`, vous pouvez trouver l'ID des messages :
@@ -215,14 +226,14 @@ Lorsque Microsoft Outlook est configuré **en utilisant** **IMAP** ou en utilisa
 
 ### Récupération des Pièces Jointes
 
-Vous pourriez les trouver dans le dossier :
+Vous pourriez être en mesure de les trouver dans le dossier :
 
 * `%APPDATA%\Local\Microsoft\Windows\Temporary Internet Files\Content.Outlook` -> IE10
 * `%APPDATA%\Local\Microsoft\InetCache\Content.Outlook` -> IE11+
 
 ### Thunderbird MBOX
 
-**Thunderbird** stocke les informations dans des **fichiers MBOX** dans le dossier `\Users\%USERNAME%\AppData\Roaming\Thunderbird\Profiles`
+**Thunderbird** stocke les informations dans des fichiers **MBOX** dans le dossier `\Users\%USERNAME%\AppData\Roaming\Thunderbird\Profiles`
 
 ## Miniatures
 
@@ -256,28 +267,28 @@ Les fichiers contenant le registre sont situés dans :
 
 À partir de Windows Vista et Windows 2008 Server, il y a des sauvegardes des fichiers de registre `HKEY_LOCAL_MACHINE` dans **`%Windir%\System32\Config\RegBack\`**.
 
-Également à partir de ces versions, le fichier de registre **`%UserProfile%\{User}\AppData\Local\Microsoft\Windows\USERCLASS.DAT`** est créé en enregistrant des informations sur les exécutions de programmes.
+Aussi à partir de ces versions, le fichier de registre **`%UserProfile%\{User}\AppData\Local\Microsoft\Windows\USERCLASS.DAT`** est créé en sauvegardant des informations sur les exécutions de programmes.
 
 ### Outils
 
 Certains outils sont utiles pour analyser les fichiers de registre :
 
 * **Éditeur du Registre** : Il est installé dans Windows. C'est une interface graphique pour naviguer à travers le registre Windows de la session actuelle.
-* [**Registry Explorer**](https://ericzimmerman.github.io/#!index.md) : Il vous permet de charger le fichier de registre et de naviguer à travers eux avec une interface graphique. Il contient également des signets mettant en évidence les clés avec des informations intéressantes.
+* [**Registry Explorer**](https://ericzimmerman.github.io/#!index.md) : Il vous permet de charger le fichier de registre et de naviguer à travers eux avec une interface graphique. Il contient également des signets mettant en évidence des clés avec des informations intéressantes.
 * [**RegRipper**](https://github.com/keydet89/RegRipper3.0) : Encore une fois, il a une interface graphique qui permet de naviguer à travers le registre chargé et contient également des plugins qui mettent en évidence des informations intéressantes à l'intérieur du registre chargé.
 * [**Windows Registry Recovery**](https://www.mitec.cz/wrr.html) : Une autre application graphique capable d'extraire les informations importantes du registre chargé.
 
-### Récupération d'Éléments Supprimés
+### Récupération d'éléments supprimés
 
-Lorsqu'une clé est supprimée, elle est marquée comme telle, mais tant que l'espace qu'elle occupe n'est pas nécessaire, elle ne sera pas supprimée. Par conséquent, en utilisant des outils comme **Registry Explorer**, il est possible de récupérer ces clés supprimées.
+Lorsqu'une clé est supprimée, elle est marquée comme telle, mais jusqu'à ce que l'espace qu'elle occupe soit nécessaire, elle ne sera pas supprimée. Par conséquent, en utilisant des outils comme **Registry Explorer**, il est possible de récupérer ces clés supprimées.
 
-### Dernier Temps d'Écriture
+### Dernier temps d'écriture
 
-Chaque Clé-Valeur contient un **horodatage** indiquant la dernière fois qu'elle a été modifiée.
+Chaque clé-valeur contient un **horodatage** indiquant la dernière fois qu'elle a été modifiée.
 
 ### SAM
 
-Le fichier/ruche **SAM** contient les **utilisateurs, groupes et les hachages des mots de passe des utilisateurs** du système.
+Le fichier/ruche **SAM** contient les **utilisateurs, groupes et les hachages des mots de passe** des utilisateurs du système.
 
 Dans `SAM\Domains\Account\Users`, vous pouvez obtenir le nom d'utilisateur, le RID, la dernière connexion, le dernier échec de connexion, le compteur de connexion, la politique de mot de passe et quand le compte a été créé. Pour obtenir les **hachages**, vous avez également **besoin** du fichier/ruche **SYSTEM**.
 
@@ -289,7 +300,7 @@ Dans `SAM\Domains\Account\Users`, vous pouvez obtenir le nom d'utilisateur, le R
 
 ## Programmes Exécutés
 
-### Processus Windows de Base
+### Processus Windows de base
 
 Sur la page suivante, vous pouvez en apprendre davantage sur les processus Windows de base pour détecter des comportements suspects :
 
@@ -297,7 +308,7 @@ Sur la page suivante, vous pouvez en apprendre davantage sur les processus Windo
 [windows-processes.md](windows-processes.md)
 {% endcontent-ref %}
 
-### Applications Récents Windows
+### Applications récentes Windows
 
 Dans le registre `NTUSER.DAT` dans le chemin `Software\Microsoft\Current Version\Search\RecentApps`, vous pouvez trouver des sous-clés avec des informations sur l'**application exécutée**, **la dernière fois** qu'elle a été exécutée et le **nombre de fois** qu'elle a été lancée.
 
@@ -305,15 +316,15 @@ Dans le registre `NTUSER.DAT` dans le chemin `Software\Microsoft\Current Version
 
 Vous pouvez ouvrir le fichier `SYSTEM` avec un éditeur de registre et à l'intérieur du chemin `SYSTEM\CurrentControlSet\Services\bam\UserSettings\{SID}`, vous pouvez trouver des informations sur les **applications exécutées par chaque utilisateur** (notez le `{SID}` dans le chemin) et à **quel moment** elles ont été exécutées (le temps est à l'intérieur de la valeur Data du registre).
 
-### Windows Prefetch
+### Prefetch Windows
 
-Le préchargement est une technique qui permet à un ordinateur de **récupérer silencieusement les ressources nécessaires pour afficher le contenu** qu'un utilisateur **pourrait accéder dans un avenir proche** afin que les ressources puissent être accédées plus rapidement.
+Le prefetching est une technique qui permet à un ordinateur de **récupérer silencieusement les ressources nécessaires pour afficher le contenu** qu'un utilisateur **pourrait accéder dans un avenir proche** afin que les ressources puissent être accédées plus rapidement.
 
-Le préchargement Windows consiste à créer des **caches des programmes exécutés** pour pouvoir les charger plus rapidement. Ces caches sont créés sous forme de fichiers `.pf` dans le chemin : `C:\Windows\Prefetch`. Il y a une limite de 128 fichiers dans XP/VISTA/WIN7 et 1024 fichiers dans Win8/Win10.
+Le prefetch Windows consiste à créer des **caches des programmes exécutés** pour pouvoir les charger plus rapidement. Ces caches sont créés sous forme de fichiers `.pf` dans le chemin : `C:\Windows\Prefetch`. Il y a une limite de 128 fichiers dans XP/VISTA/WIN7 et 1024 fichiers dans Win8/Win10.
 
 Le nom du fichier est créé comme `{program_name}-{hash}.pf` (le hachage est basé sur le chemin et les arguments de l'exécutable). Dans W10, ces fichiers sont compressés. Notez que la seule présence du fichier indique que **le programme a été exécuté** à un moment donné.
 
-Le fichier `C:\Windows\Prefetch\Layout.ini` contient les **noms des dossiers des fichiers qui sont préchargés**. Ce fichier contient des **informations sur le nombre d'exécutions**, les **dates** d'exécution et les **fichiers ouverts** par le programme.
+Le fichier `C:\Windows\Prefetch\Layout.ini` contient les **noms des dossiers des fichiers qui sont préchargés**. Ce fichier contient **des informations sur le nombre d'exécutions**, **les dates** de l'exécution et **les fichiers** **ouverts** par le programme.
 
 Pour inspecter ces fichiers, vous pouvez utiliser l'outil [**PEcmd.exe**](https://github.com/EricZimmerman/PECmd) :
 ```bash
@@ -323,7 +334,7 @@ Pour inspecter ces fichiers, vous pouvez utiliser l'outil [**PEcmd.exe**](https:
 
 ### Superprefetch
 
-**Superprefetch** a le même objectif que prefetch, **charger les programmes plus rapidement** en prédisant ce qui va être chargé ensuite. Cependant, il ne remplace pas le service prefetch.\
+**Superprefetch** a le même objectif que le prefetch, **charger les programmes plus rapidement** en prédisant ce qui va être chargé ensuite. Cependant, il ne remplace pas le service prefetch.\
 Ce service va générer des fichiers de base de données dans `C:\Windows\Prefetch\Ag*.db`.
 
 Dans ces bases de données, vous pouvez trouver le **nom** du **programme**, le **nombre** d'**exécutions**, les **fichiers** **ouverts**, le **volume** **accédé**, le **chemin complet**, les **plages horaires** et les **horodatages**.
@@ -344,7 +355,7 @@ Il fournit les informations suivantes :
 * Durée de connexion
 * Durée du processus
 
-Cette information est mise à jour toutes les 60 minutes.
+Ces informations sont mises à jour toutes les 60 minutes.
 
 Vous pouvez obtenir les données de ce fichier en utilisant l'outil [**srum\_dump**](https://github.com/MarkBaggett/srum-dump).
 ```bash
@@ -384,17 +395,18 @@ Vous pouvez analyser ces informations avec l'outil [**Amcacheparser**](https://g
 ```bash
 AmcacheParser.exe -f C:\Users\student\Desktop\Amcache.hve --csv C:\Users\student\Desktop\srum
 ```
+```markdown
 Le fichier CVS le plus intéressant généré est `Amcache_Unassociated file entries`.
 
 ### RecentFileCache
 
-Cet artefact ne peut être trouvé que dans W7 dans `C:\Windows\AppCompat\Programs\RecentFileCache.bcf` et il contient des informations sur l'exécution récente de certains binaires.
+Cet artefact ne peut être trouvé que dans W7 dans `C:\Windows\AppCompat\Programs\RecentFileCache.bcf` et contient des informations sur l'exécution récente de certains binaires.
 
 Vous pouvez utiliser l'outil [**RecentFileCacheParse**](https://github.com/EricZimmerman/RecentFileCacheParser) pour analyser le fichier.
 
 ### Tâches planifiées
 
-Vous pouvez les extraire de `C:\Windows\Tasks` ou `C:\Windows\System32\Tasks` et les lire comme du XML.
+Vous pouvez les extraire de `C:\Windows\Tasks` ou `C:\Windows\System32\Tasks` et les lire en tant que XML.
 
 ### Services
 
@@ -424,13 +436,13 @@ Les journaux sont situés dans `C:\Windows\System32\config` avant Windows Vista 
 
 L'emplacement des fichiers d'événements peut être trouvé dans le registre SYSTEM sous **`HKLM\SYSTEM\CurrentControlSet\services\EventLog\{Application|System|Security}`**
 
-Ils peuvent être visualisés depuis la Visionneuse d'événements Windows (**`eventvwr.msc`**) ou avec d'autres outils comme [**Event Log Explorer**](https://eventlogxp.com) **ou** [**Evtx Explorer/EvtxECmd**](https://ericzimmerman.github.io/#!index.md)**.**
+Ils peuvent être visualisés à partir de la Visionneuse d'événements Windows (**`eventvwr.msc`**) ou avec d'autres outils comme [**Event Log Explorer**](https://eventlogxp.com) **ou** [**Evtx Explorer/EvtxECmd**](https://ericzimmerman.github.io/#!index.md)**.**
 
 ### Sécurité
 
 Cela enregistre les événements d'accès et donne des informations sur la configuration de sécurité qui peuvent être trouvées dans `C:\Windows\System32\winevt\Security.evtx`.
 
-La **taille maximale** du fichier d'événement est configurable, et il commencera à écraser les anciens événements lorsque la taille maximale est atteinte.
+La **taille maximale** du fichier d'événements est configurable, et il commencera à écraser les anciens événements lorsque la taille maximale est atteinte.
 
 Les événements qui sont enregistrés comme :
 
@@ -446,7 +458,7 @@ Les événements qui sont enregistrés comme :
 | 4624      | Authentification réussie     |
 | 4625      | Erreur d'authentification    |
 | 4634/4647 | déconnexion                  |
-| 4672      | Connexion avec des permissions d'admin |
+| 4672      | Connexion avec des permissions admin |
 
 À l'intérieur de l'EventID 4634/4647, il y a des sous-types intéressants :
 
@@ -455,8 +467,8 @@ Les événements qui sont enregistrés comme :
 * **4 (Batch)** : Processus exécuté
 * **5 (service)** : Service démarré par le Gestionnaire de contrôle des services
 * **6 (proxy)** : Connexion proxy
-* **7 (déverrouillage)** : Écran déverrouillé en utilisant un mot de passe
-* **8 (texte clair réseau)** : Utilisateur authentifié en envoyant des mots de passe en texte clair. Cet événement provient généralement de l'IIS
+* **7 (Déverrouillage)** : Écran déverrouillé en utilisant un mot de passe
+* **8 (texte clair réseau)** : Utilisateur authentifié en envoyant des mots de passe en clair. Cet événement provient généralement de l'IIS
 * **9 (nouvelles informations d'identification)** : Il est généré lorsque la commande `RunAs` est utilisée ou que l'utilisateur accède à un service réseau avec des informations d'identification différentes.
 * **10 (interactif à distance)** : Authentification via les Services de Terminal ou RDP
 * **11 (cache interactif)** : Accès en utilisant les dernières informations d'identification mises en cache car il n'était pas possible de contacter le contrôleur de domaine
@@ -483,7 +495,7 @@ Une attaque par force brute peut être facilement identifiable car **plusieurs E
 
 ### Changement d'heure
 
-C'est terrible pour l'équipe de la police scientifique car tous les horodatages seront modifiés. Cet événement est enregistré par l'EventID 4616 dans le journal des événements de sécurité.
+C'est terrible pour l'équipe de forensique car tous les horodatages seront modifiés. Cet événement est enregistré par l'EventID 4616 dans le journal des événements de sécurité.
 
 ### Périphériques USB
 
@@ -500,7 +512,7 @@ L'ID 6005 du service "Event Log" indique que le PC a été allumé. L'ID 6006 in
 
 ### Suppression des journaux
 
-L'EventID 1102 de sécurité indique que les journaux ont été supprimés.
+L'EventID de sécurité 1102 indique que les journaux ont été supprimés.
 
 <details>
 
@@ -512,6 +524,7 @@ Autres moyens de soutenir HackTricks :
 * Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Partagez vos astuces de hacking en soumettant des PR aux repos github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+```
