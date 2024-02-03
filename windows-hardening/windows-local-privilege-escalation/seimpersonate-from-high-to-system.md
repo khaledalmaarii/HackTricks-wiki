@@ -1,13 +1,13 @@
 <details>
 
-<summary><strong>从零到英雄学习AWS黑客攻击，通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>！</strong></summary>
+<summary><strong>零基础学习AWS黑客攻击到高手</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS红队专家)</strong></a><strong>！</strong></summary>
 
 支持HackTricks的其他方式：
 
 * 如果您想在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
 * 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**telegram群组**](https://t.me/peass)或在**Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
 * **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
@@ -15,8 +15,8 @@
 
 ## 代码
 
-以下代码摘自[这里](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)。它允许**指定一个进程ID作为参数**，并且作为指定进程用户运行的CMD将被执行。\
-在一个高完整性进程中，您可以**指定一个作为系统运行的进程的PID**（如winlogon, wininit），并以系统身份执行cmd.exe。
+以下代码来自[这里](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)。它允许**指定一个进程ID作为参数**，并且作为指定进程用户的CMD将被运行。\
+在高完整性进程中，您可以**指定一个作为系统运行的进程的PID**（如winlogon, wininit），并以系统身份执行cmd.exe。
 ```cpp
 impersonateuser.exe 1234
 ```
@@ -166,7 +166,7 @@ return 0;
 [-] CreateProcessWithTokenW Return Code: 0
 [-] CreateProcessWithTokenW Error: 1326
 ```
-这意味着即使你在高完整性级别运行**你也没有足够的权限**。\
+这意味着即使你在高完整性级别上运行**你也没有足够的权限**。\
 让我们用**进程资源管理器**检查当前管理员对`svchost.exe`进程的权限（你也可以使用进程黑客）：
 
 1. 选择一个`svchost.exe`的进程
@@ -190,11 +190,11 @@ return 0;
 
 <details>
 
-<summary><strong>从零到英雄学习AWS黑客攻击，通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>！</strong></summary>
+<summary><strong>从零到英雄学习AWS黑客攻击，通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS 红队专家)</strong></a><strong>！</strong></summary>
 
 支持HackTricks的其他方式：
 
-* 如果你想在**HackTricks上看到你的公司广告**或**下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 如果你想在**HackTricks中看到你的公司广告**或**下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
 * 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
 * **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**

