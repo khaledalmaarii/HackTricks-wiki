@@ -2,88 +2,68 @@
 
 <details>
 
-<summary><strong>从零开始学习 AWS 黑客技术，成为</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS 红队专家)</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习 AWS 黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS 红队专家）</strong></a><strong>！</strong></summary>
 
 支持 HackTricks 的其他方式：
 
-* 如果您希望在 **HackTricks 中看到您的公司广告** 或 **下载 HackTricks 的 PDF 版本**，请查看 [**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* 发现 [**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们独家的 [**NFT 集合**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或在 **Twitter** 🐦 上 **关注** 我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。
+* 如果您想看到您的**公司在 HackTricks 中做广告**或**下载 PDF 版的 HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* 探索[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFT](https://opensea.io/collection/the-peass-family)收藏品
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)** 上**关注我。
+* 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。
 
 </details>
 
-## 使用被盗 CA 证书伪造证书 - DPERSIST1
+**这是在 [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf) 中分享的持久性技术摘要**。查看以获取更多详细信息。
 
-如何判断一个证书是 CA 证书？
+## 使用窃取的 CA 证书伪造证书 - DPERSIST1
 
-* CA 证书存在于 **CA 服务器本身**，其 **私钥受机器 DPAPI 保护**（除非操作系统使用 TPM/HSM/其他硬件进行保护）。
-* 证书的 **颁发者** 和 **主题** 都设置为 **CA 的独特名称**。
-* CA 证书（仅限 CA 证书）**具有“CA 版本”扩展**。
-* 没有 EKUs
+如何判断证书是否为 CA 证书？
 
-在 CA 服务器上使用 `certsrv.msc` 是支持的内置 GUI 方式来 **提取此证书私钥**。\
-然而，这个证书与系统中存储的其他证书**没有区别**，所以例如查看 [**THEFT2 技术**](certificate-theft.md#user-certificate-theft-via-dpapi-theft2) 来了解如何 **提取** 它们。
+如果满足以下几个条件，则可以确定证书是 CA 证书：
 
-您也可以使用 [**certipy**](https://github.com/ly4k/Certipy) 获取证书和私钥：
+- 证书存储在 CA 服务器上，其私钥由机器的 DPAPI 或硬件（如 TPM/HSM，如果操作系统支持）安全保护。
+- 证书的颁发者和主题字段与 CA 的专有名称匹配。
+- CA 证书中独占存在“CA 版本”扩展。
+- 证书缺少扩展密钥用途（EKU）字段。
+
+要提取此证书的私钥，CA 服务器上的 `certsrv.msc` 工具是通过内置 GUI 支持的方法。然而，此证书与系统中存储的其他证书无异；因此，可以应用[THEFT2 技术](certificate-theft.md#user-certificate-theft-via-dpapi-theft2)等方法进行提取。
+
+还可以使用 Certipy 获取证书和私钥，命令如下：
 ```bash
 certipy ca 'corp.local/administrator@ca.corp.local' -hashes :123123.. -backup
 ```
-一旦你拥有了带有私钥的 **CA cert** `.pfx` 格式，你可以使用 [**ForgeCert**](https://github.com/GhostPack/ForgeCert) 来创建有效的证书：
+在获取了以 `.pfx` 格式保存的 CA 证书及其私钥后，可以利用类似 [ForgeCert](https://github.com/GhostPack/ForgeCert) 的工具生成有效证书：
 ```bash
-# Create new certificate with ForgeCert
+# Generating a new certificate with ForgeCert
 ForgeCert.exe --CaCertPath ca.pfx --CaCertPassword Password123! --Subject "CN=User" --SubjectAltName localadmin@theshire.local --NewCertPath localadmin.pfx --NewCertPassword Password123!
 
-# Create new certificate with certipy
+# Generating a new certificate with certipy
 certipy forge -ca-pfx CORP-DC-CA.pfx -upn administrator@corp.local -subject 'CN=Administrator,CN=Users,DC=CORP,DC=LOCAL'
 
-# Use new certificate with Rubeus to authenticate
+# Authenticating using the new certificate with Rubeus
 Rubeus.exe asktgt /user:localdomain /certificate:C:\ForgeCert\localadmin.pfx /password:Password123!
 
-# User new certi with certipy to authenticate
+# Authenticating using the new certificate with certipy
 certipy auth -pfx administrator_forged.pfx -dc-ip 172.16.126.128
 ```
 {% hint style="warning" %}
-**注意**：伪造证书时指定的**用户**必须在AD中是**活跃/启用**状态，并且**能够认证**，因为仍将发生以该用户身份的认证交换。例如，尝试为krbtgt账户伪造证书将不起作用。
+针对证书伪造的用户必须是活跃的，并且能够在Active Directory中进行身份验证，才能成功进行该过程。对于像krbtgt这样的特殊帐户伪造证书是无效的。
 {% endhint %}
 
-这个伪造的证书将在指定的结束日期之前是**有效的**，并且只要根CA证书有效（通常为5到**10+年**），它就是有效的。它对**机器**也是有效的，所以结合**S4U2Self**，攻击者可以在CA证书有效期内**在任何域机器上维持持久性**。\
-此外，使用此方法**生成的证书无法被撤销**，因为CA并不知道它们的存在。
+这个伪造的证书将**有效**直到指定的结束日期，并且只要根CA证书有效（通常为5到**10年以上**）。它也适用于**机器**，因此结合**S4U2Self**，攻击者可以在CA证书有效的情况下在任何域机器上**保持持久性**。\
+此外，使用此方法生成的**证书**是**无法吊销**的，因为CA不知道它们的存在。
 
 ## 信任恶意CA证书 - DPERSIST2
 
-对象`NTAuthCertificates`在其`cacertificate`**属性**中定义了一个或多个**CA证书**，AD在认证过程中使用它：在认证过程中，**域控制器**检查**`NTAuthCertificates`**对象是否**包含**认证中使用的**证书的**颁发者字段中指定的**CA**的条目。如果**包含**，则认证**继续进行**。
+`NTAuthCertificates`对象被定义为在其`cacertificate`属性中包含一个或多个**CA证书**，Active Directory（AD）使用这些证书。域控制器的验证过程涉及检查`NTAuthCertificates`对象，以查找与认证**证书**的Issuer字段中指定的**CA**匹配的条目。如果找到匹配项，则进行身份验证。
 
-攻击者可以生成一个**自签名CA证书**并将其**添加**到**`NTAuthCertificates`**对象中。如果攻击者对**`NTAuthCertificates`** AD对象有**控制权**（在默认配置中，只有**企业管理员**组成员以及**森林根域**中的**域管理员**或**管理员**有这些权限），他们就可以这样做。拥有高级访问权限的人可以使用`certutil.exe -dspublish -f C:\Temp\CERT.crt NTAuthCA126`，或使用[**PKI Health Tool**](https://docs.microsoft.com/en-us/troubleshoot/windows-server/windows-security/import-third-party-ca-to-enterprise-ntauth-store#method-1---import-a-certificate-by-using-the-pki-health-tool)从任何系统**编辑** **`NTAuthCertificates`**对象。&#x20;
+攻击者可以将自签名的CA证书添加到`NTAuthCertificates`对象中，前提是他们控制了这个AD对象。通常，只有**企业管理员**组的成员，以及**域管理员**或**林根域的管理员**被授予权限修改此对象。他们可以使用`certutil.exe`编辑`NTAuthCertificates`对象，命令为`certutil.exe -dspublish -f C:\Temp\CERT.crt NTAuthCA126`，或者使用[**PKI Health Tool**](https://docs.microsoft.com/en-us/troubleshoot/windows-server/windows-security/import-third-party-ca-to-enterprise-ntauth-store#method-1---import-a-certificate-by-using-the-pki-health-tool)。
 
-指定的证书应该可以**与之前详细描述的ForgeCert伪造方法一起使用**，以按需生成证书。
+当与先前概述的使用ForgeCert动态生成证书的方法结合使用时，这种能力尤为重要。
 
 ## 恶意配置错误 - DPERSIST3
 
-通过修改AD CS组件的**安全描述符**，为**持久性**提供了大量机会。在“[域提升](domain-escalation.md)”部分描述的任何场景都可以被拥有高级访问权限的攻击者恶意实施，以及向敏感组件添加“控制权”（例如，WriteOwner/WriteDACL等）。这包括：
+通过对AD CS组件的安全描述符进行修改，可以提供大量**持久性**机会。在"[域提升](domain-escalation.md)"部分描述的修改可以被具有提升访问权限的攻击者恶意实施。这包括向敏感组件（例如**CA服务器的AD计算机**对象、CA服务器的RPC/DCOM服务器、`CN=Public Key Services,CN=Services,CN=Configuration,DC=<DOMAIN>,DC=<COM>`中的任何后代AD对象或容器（例如证书模板容器、证书颁发机构容器、NTAuthCertificates对象等）、默认或组织授予控制AD CS权限的**AD组**（例如内置的Cert Publishers组及其任何成员））添加“控制权限”（例如WriteOwner/WriteDACL等）的机会。
 
-* **CA服务器的AD计算机**对象
-* **CA服务器的RPC/DCOM服务器**
-* **`CN=Public Key Services,CN=Services,CN=Configuration,DC=<DOMAIN>,DC=<COM>`** 容器中的任何**后代AD对象或容器**（例如，证书模板容器，认证机构容器，NTAuthCertificates对象等）
-* **默认情况下或由当前组织委派控制AD CS的AD组**（例如，内置的Cert Publishers组及其任何成员）
-
-例如，一个在域中拥有**高级权限**的攻击者可以向默认的**`User`**证书模板添加**`WriteOwner`**权限，其中攻击者是该权利的主体。为了在以后滥用这一点，攻击者首先将**`User`**模板的所有权修改为自己，然后将模板上的**`mspki-certificate-name-flag`**设置为**1**，以启用**`ENROLLEE_SUPPLIES_SUBJECT`**（即，允许用户在请求中提供一个主题备用名称）。然后，攻击者可以**注册**该**模板**，指定一个**域管理员**名称作为备用名称，并使用结果证书作为DA进行认证。
-
-## 参考资料
-
-* 本页的所有信息取自 [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)
-
-<details>
-
-<summary><strong>通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>从零到英雄学习AWS hacking！</strong></summary>
-
-支持HackTricks的其他方式：
-
-* 如果您想在**HackTricks**中看到您的**公司广告**或**下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs**](https://opensea.io/collection/the-peass-family)系列
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在**Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来**分享您的黑客技巧**。
-
-</details>
+恶意实施的一个例子是，攻击者在域中具有**提升权限**，向默认的**`User`**证书模板添加**`WriteOwner`**权限，并将自己设置为权限的主体。为了利用这一点，攻击者首先会将**`User`**模板的所有权更改为自己。随后，在模板上将**`mspki-certificate-name-flag`**设置为**1**，以启用**`ENROLLEE_SUPPLIES_SUBJECT`**，允许用户在请求中提供主题备用名称。随后，攻击者可以使用**模板**进行**注册**，选择一个**域管理员**名称作为备用名称，并利用获得的证书进行DA身份验证。
