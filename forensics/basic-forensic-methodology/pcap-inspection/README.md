@@ -2,33 +2,33 @@
 
 <details>
 
-<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Autres moyens de soutenir HackTricks :
+Autres façons de soutenir HackTricks :
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) est l'événement de cybersécurité le plus pertinent en **Espagne** et l'un des plus importants en **Europe**. Avec **la mission de promouvoir la connaissance technique**, ce congrès est un point de rencontre bouillonnant pour les professionnels de la technologie et de la cybersécurité dans toutes les disciplines.
+[**RootedCON**](https://www.rootedcon.com/) est l'événement de cybersécurité le plus pertinent en **Espagne** et l'un des plus importants en **Europe**. Avec pour **mission de promouvoir les connaissances techniques**, ce congrès est un point de rencontre bouillonnant pour les professionnels de la technologie et de la cybersécurité dans chaque discipline.
 
 {% embed url="https://www.rootedcon.com/" %}
 
 {% hint style="info" %}
-Une note sur **PCAP** vs **PCAPNG** : il existe deux versions du format de fichier PCAP ; **PCAPNG est plus récent et n'est pas pris en charge par tous les outils**. Vous devrez peut-être convertir un fichier de PCAPNG en PCAP en utilisant Wireshark ou un autre outil compatible, afin de pouvoir travailler avec dans certains autres outils.
+Une note sur **PCAP** vs **PCAPNG** : il existe deux versions du format de fichier PCAP ; **PCAPNG est plus récent et n'est pas pris en charge par tous les outils**. Vous devrez peut-être convertir un fichier de PCAPNG en PCAP en utilisant Wireshark ou un autre outil compatible, pour pouvoir travailler avec d'autres outils.
 {% endhint %}
 
 ## Outils en ligne pour les pcaps
 
-* Si l'en-tête de votre pcap est **endommagé**, vous devriez essayer de le **réparer** en utilisant : [http://f00l.de/hacking/**pcapfix.php**](http://f00l.de/hacking/pcapfix.php)
-* Extrayez des **informations** et recherchez des **malwares** dans un pcap sur [**PacketTotal**](https://packettotal.com)
-* Recherchez des **activités malveillantes** en utilisant [**www.virustotal.com**](https://www.virustotal.com) et [**www.hybrid-analysis.com**](https://www.hybrid-analysis.com)
+* Si l'en-tête de votre pcap est **corrompu**, vous devriez essayer de le **réparer** en utilisant : [http://f00l.de/hacking/**pcapfix.php**](http://f00l.de/hacking/pcapfix.php)
+* Extraire des **informations** et rechercher des **logiciels malveillants** à l'intérieur d'un pcap sur [**PacketTotal**](https://packettotal.com)
+* Recherchez une **activité malveillante** en utilisant [**www.virustotal.com**](https://www.virustotal.com) et [**www.hybrid-analysis.com**](https://www.hybrid-analysis.com)
 
 ## Extraire des informations
 
@@ -37,10 +37,10 @@ Les outils suivants sont utiles pour extraire des statistiques, des fichiers, et
 ### Wireshark
 
 {% hint style="info" %}
-**Si vous allez analyser un PCAP, vous devez essentiellement savoir utiliser Wireshark**
+**Si vous allez analyser un PCAP, vous devez essentiellement savoir comment utiliser Wireshark**
 {% endhint %}
 
-Vous pouvez trouver des astuces Wireshark dans :
+Vous pouvez trouver quelques astuces Wireshark dans :
 
 {% content-ref url="wireshark-tricks.md" %}
 [wireshark-tricks.md](wireshark-tricks.md)
@@ -48,7 +48,7 @@ Vous pouvez trouver des astuces Wireshark dans :
 
 ### Cadre Xplico
 
-[**Xplico**](https://github.com/xplico/xplico) _(uniquement linux)_ peut **analyser** un **pcap** et en extraire des informations. Par exemple, à partir d'un fichier pcap, Xplico extrait chaque email (protocoles POP, IMAP et SMTP), tous les contenus HTTP, chaque appel VoIP (SIP), FTP, TFTP, etc.
+[**Xplico** ](https://github.com/xplico/xplico)_(uniquement linux)_ peut **analyser** un **pcap** et en extraire des informations. Par exemple, à partir d'un fichier pcap, Xplico extrait chaque e-mail (protocoles POP, IMAP et SMTP), tous les contenus HTTP, chaque appel VoIP (SIP), FTP, TFTP, etc.
 
 **Installer**
 ```bash
@@ -57,35 +57,35 @@ sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 791C25CE
 sudo apt-get update
 sudo apt-get install xplico
 ```
-**Exécuter**
+**Exécution**
 ```
 /etc/init.d/apache2 restart
 /etc/init.d/xplico start
 ```
 Accédez à _**127.0.0.1:9876**_ avec les identifiants _**xplico:xplico**_
 
-Ensuite, créez un **nouveau cas**, créez une **nouvelle session** dans le cas et **téléchargez le fichier pcap**.
+Ensuite, créez un **nouveau cas**, créez une **nouvelle session** à l'intérieur du cas et **téléversez le fichier pcap**.
 
 ### NetworkMiner
 
-Comme Xplico, c'est un outil pour **analyser et extraire des objets des pcaps**. Il dispose d'une édition gratuite que vous pouvez **télécharger** [**ici**](https://www.netresec.com/?page=NetworkMiner). Il fonctionne sous **Windows**.\
-Cet outil est également utile pour obtenir **d'autres informations analysées** des paquets afin de pouvoir savoir ce qui se passait de manière **plus rapide**.
+Comme Xplico, c'est un outil pour **analyser et extraire des objets des pcaps**. Il existe une édition gratuite que vous pouvez **télécharger** [**ici**](https://www.netresec.com/?page=NetworkMiner). Il fonctionne avec **Windows**.\
+Cet outil est également utile pour obtenir **d'autres informations analysées** à partir des paquets afin de pouvoir savoir ce qui se passait de manière **plus rapide**.
 
 ### NetWitness Investigator
 
 Vous pouvez télécharger [**NetWitness Investigator ici**](https://www.rsa.com/en-us/contact-us/netwitness-investigator-freeware) **(Il fonctionne sous Windows)**.\
-C'est un autre outil utile qui **analyse les paquets** et organise les informations de manière utile pour **savoir ce qui se passe à l'intérieur**.
+C'est un autre outil utile qui **analyse les paquets** et trie les informations de manière utile pour **savoir ce qui se passe à l'intérieur**.
 
 ![](<../../../.gitbook/assets/image (567) (1).png>)
 
 ### [BruteShark](https://github.com/odedshimon/BruteShark)
 
-* Extraction et codage des noms d'utilisateur et mots de passe (HTTP, FTP, Telnet, IMAP, SMTP...)
-* Extraction des hachages d'authentification et leur déchiffrement avec Hashcat (Kerberos, NTLM, CRAM-MD5, HTTP-Digest...)
-* Construction d'un diagramme de réseau visuel (nœuds de réseau & utilisateurs)
+* Extraction et encodage des noms d'utilisateur et des mots de passe (HTTP, FTP, Telnet, IMAP, SMTP...)
+* Extraction des hachages d'authentification et craquage avec Hashcat (Kerberos, NTLM, CRAM-MD5, HTTP-Digest...)
+* Création d'un diagramme visuel du réseau (Nœuds du réseau et utilisateurs)
 * Extraction des requêtes DNS
 * Reconstruction de toutes les sessions TCP & UDP
-* File Carving
+* Sculpture de fichiers
 
 ### Capinfos
 ```
@@ -93,25 +93,25 @@ capinfos capture.pcap
 ```
 ### Ngrep
 
-Si vous **cherchez** **quelque chose** à l'intérieur du pcap, vous pouvez utiliser **ngrep**. Voici un exemple utilisant les filtres principaux :
+Si vous **cherchez** quelque **chose** à l'intérieur du pcap, vous pouvez utiliser **ngrep**. Voici un exemple utilisant les filtres principaux :
 ```bash
 ngrep -I packets.pcap "^GET" "port 80 and tcp and host 192.168 and dst host 192.168 and src host 192.168"
 ```
-### Extraction
+### Carving
 
-L'utilisation de techniques d'extraction courantes peut être utile pour extraire des fichiers et des informations du pcap :
+L'utilisation de techniques de carving courantes peut être utile pour extraire des fichiers et des informations du pcap :
 
 {% content-ref url="../partitions-file-systems-carving/file-data-carving-recovery-tools.md" %}
 [file-data-carving-recovery-tools.md](../partitions-file-systems-carving/file-data-carving-recovery-tools.md)
 {% endcontent-ref %}
 
-### Capture de justificatifs d'identité
+### Capture de mots de passe
 
-Vous pouvez utiliser des outils comme [https://github.com/lgandx/PCredz](https://github.com/lgandx/PCredz) pour analyser les justificatifs d'identité à partir d'un pcap ou d'une interface en direct.
+Vous pouvez utiliser des outils comme [https://github.com/lgandx/PCredz](https://github.com/lgandx/PCredz) pour analyser les mots de passe à partir d'un pcap ou d'une interface en direct.
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) est l'événement de cybersécurité le plus pertinent en **Espagne** et l'un des plus importants en **Europe**. Avec **la mission de promouvoir la connaissance technique**, ce congrès est un point de rencontre incontournable pour les professionnels de la technologie et de la cybersécurité dans toutes les disciplines.
+[**RootedCON**](https://www.rootedcon.com/) est l'événement le plus pertinent en matière de cybersécurité en **Espagne** et l'un des plus importants en **Europe**. Avec **pour mission de promouvoir les connaissances techniques**, ce congrès est un point de rencontre bouillonnant pour les professionnels de la technologie et de la cybersécurité dans chaque discipline.
 
 {% embed url="https://www.rootedcon.com/" %}
 
@@ -119,30 +119,30 @@ Vous pouvez utiliser des outils comme [https://github.com/lgandx/PCredz](https:/
 
 ### Suricata
 
-**Installer et configurer**
+**Installation et configuration**
 ```
 apt-get install suricata
 apt-get install oinkmaster
 echo "url = http://rules.emergingthreats.net/open/suricata/emerging.rules.tar.gz" >> /etc/oinkmaster.conf
 oinkmaster -C /etc/oinkmaster.conf -o /etc/suricata/rules
 ```
-**Vérifier pcap**
+**Vérifier le pcap**
 ```
 suricata -r packets.pcap -c /etc/suricata/suricata.yaml -k none -v -l log
 ```
 ### YaraPcap
 
-[**YaraPCAP**](https://github.com/kevthehermit/YaraPcap) est un outil qui :
+[**YaraPCAP**](https://github.com/kevthehermit/YaraPcap) est un outil qui
 
 * Lit un fichier PCAP et extrait les flux Http.
-* Décompresse les flux compressés avec gzip
+* Décompresse gzip tous les flux compressés
 * Analyse chaque fichier avec yara
-* Écrit un report.txt
-* En option, sauvegarde les fichiers correspondants dans un dossier
+* Écrit un rapport.txt
+* Enregistre éventuellement les fichiers correspondants dans un répertoire
 
-### Analyse de Malware
+### Analyse de logiciels malveillants
 
-Vérifiez si vous pouvez trouver une empreinte d'un malware connu :
+Vérifiez si vous pouvez trouver une empreinte digitale d'un logiciel malveillant connu :
 
 {% content-ref url="../malware-analysis.md" %}
 [malware-analysis.md](../malware-analysis.md)
@@ -150,11 +150,9 @@ Vérifiez si vous pouvez trouver une empreinte d'un malware connu :
 
 ## Zeek
 
-> Zeek est un analyseur de trafic réseau passif et open-source. De nombreux opérateurs utilisent Zeek comme un moniteur de sécurité réseau (NSM) pour soutenir les enquêtes sur des activités suspectes ou malveillantes. Zeek prend également en charge une large gamme de tâches d'analyse de trafic au-delà du domaine de la sécurité, y compris la mesure de performance et le dépannage.
+> Zeek est un analyseur de trafic réseau passif et open source. De nombreux opérateurs utilisent Zeek comme moniteur de sécurité réseau (NSM) pour soutenir les enquêtes sur des activités suspectes ou malveillantes. Zeek prend également en charge un large éventail de tâches d'analyse du trafic au-delà du domaine de la sécurité, y compris la mesure des performances et le dépannage.
 
-En gros, les logs créés par `zeek` ne sont pas des **pcaps**. Par conséquent, vous aurez besoin d'**autres outils** pour analyser les logs où les **informations** sur les pcaps se trouvent.
-
-### Informations sur les Connexions
+En gros, les journaux créés par `zeek` ne sont pas des **pcaps**. Par conséquent, vous devrez utiliser **d'autres outils** pour analyser les journaux où les **informations** sur les pcaps se trouvent.
 ```bash
 #Get info about longest connections (add "grep udp" to see only udp traffic)
 #The longest connection might be of malware (constant reverse shell?)
@@ -239,20 +237,20 @@ rita show-exploded-dns -H --limit 10 zeek_logs
 
 <figure><img src="https://files.gitbook.com/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-L_2uGJGU7AVNRcqRvEi%2Fuploads%2FelPCTwoecVdnsfjxCZtN%2Fimage.png?alt=media&#x26;token=9ee4ff3e-92dc-471c-abfe-1c25e446a6ed" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com/) est l'événement de cybersécurité le plus pertinent en **Espagne** et l'un des plus importants en **Europe**. Avec **la mission de promouvoir le savoir technique**, ce congrès est un point de rencontre incontournable pour les professionnels de la technologie et de la cybersécurité dans toutes les disciplines.
+[**RootedCON**](https://www.rootedcon.com/) est l'événement le plus pertinent en matière de cybersécurité en **Espagne** et l'un des plus importants en **Europe**. Avec **pour mission de promouvoir les connaissances techniques**, ce congrès est un point de rencontre bouillonnant pour les professionnels de la technologie et de la cybersécurité dans chaque discipline.
 
 {% embed url="https://www.rootedcon.com/" %}
 
 <details>
 
-<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Autres moyens de soutenir HackTricks :
+Autres façons de soutenir HackTricks:
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
