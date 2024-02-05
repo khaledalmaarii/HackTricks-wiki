@@ -1,89 +1,74 @@
-# Persistance dans le domaine AD CS
+# Persistance de domaine AD CS
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
-Autres moyens de soutenir HackTricks :
+Autres façons de soutenir HackTricks :
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+
+**Il s'agit d'un résumé des techniques de persistance partagées dans [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)**. Consultez-le pour plus de détails.
 
 ## Falsification de certificats avec des certificats CA volés - DPERSIST1
 
-Comment savoir qu'un certificat est un certificat CA ?
+Comment pouvez-vous dire qu'un certificat est un certificat CA ?
 
-* Le certificat CA existe sur le **serveur CA lui-même**, avec sa **clé privée protégée par le DPAPI de la machine** (à moins que l'OS utilise un TPM/HSM/autre matériel pour la protection).
-* L'**Émetteur** et le **Sujet** du certificat sont tous deux définis sur le **nom distinctif du CA**.
-* Les certificats CA (et seulement les certificats CA) **ont une extension “Version CA”**.
-* Il n'y a **pas d'EKUs**
+Il peut être déterminé qu'un certificat est un certificat CA si plusieurs conditions sont remplies :
 
-La méthode prise en charge par l'interface graphique intégrée pour **extraire cette clé privée de certificat** est avec `certsrv.msc` sur le serveur CA.\
-Cependant, ce certificat **n'est pas différent** des autres certificats stockés dans le système, donc par exemple, consultez la technique [**THEFT2**](certificate-theft.md#user-certificate-theft-via-dpapi-theft2) pour voir comment les **extraire**.
+- Le certificat est stocké sur le serveur CA, avec sa clé privée sécurisée par le DPAPI de la machine, ou par du matériel tel qu'un TPM/HSM si le système d'exploitation le prend en charge.
+- Les champs Émetteur et Sujet du certificat correspondent au nom distinctif du CA.
+- Une extension "Version du CA" est présente exclusivement dans les certificats CA.
+- Le certificat ne contient pas de champs d'utilisation étendue de la clé (EKU).
 
-Vous pouvez également obtenir le certificat et la clé privée en utilisant [**certipy**](https://github.com/ly4k/Certipy) :
+Pour extraire la clé privée de ce certificat, l'outil `certsrv.msc` sur le serveur CA est la méthode prise en charge via l'interface graphique intégrée. Néanmoins, ce certificat ne diffère pas des autres stockés dans le système ; ainsi, des méthodes telles que la technique [THEFT2](certificate-theft.md#user-certificate-theft-via-dpapi-theft2) peuvent être appliquées pour l'extraction.
+
+Le certificat et la clé privée peuvent également être obtenus en utilisant Certipy avec la commande suivante :
 ```bash
 certipy ca 'corp.local/administrator@ca.corp.local' -hashes :123123.. -backup
 ```
-Une fois que vous avez le **certificat CA** avec la clé privée au format `.pfx`, vous pouvez utiliser [**ForgeCert**](https://github.com/GhostPack/ForgeCert) pour créer des certificats valides :
+Une fois que vous avez acquis le certificat CA et sa clé privée au format `.pfx`, des outils comme [ForgeCert](https://github.com/GhostPack/ForgeCert) peuvent être utilisés pour générer des certificats valides :
 ```bash
-# Create new certificate with ForgeCert
+# Generating a new certificate with ForgeCert
 ForgeCert.exe --CaCertPath ca.pfx --CaCertPassword Password123! --Subject "CN=User" --SubjectAltName localadmin@theshire.local --NewCertPath localadmin.pfx --NewCertPassword Password123!
 
-# Create new certificate with certipy
+# Generating a new certificate with certipy
 certipy forge -ca-pfx CORP-DC-CA.pfx -upn administrator@corp.local -subject 'CN=Administrator,CN=Users,DC=CORP,DC=LOCAL'
 
-# Use new certificate with Rubeus to authenticate
+# Authenticating using the new certificate with Rubeus
 Rubeus.exe asktgt /user:localdomain /certificate:C:\ForgeCert\localadmin.pfx /password:Password123!
 
-# User new certi with certipy to authenticate
+# Authenticating using the new certificate with certipy
 certipy auth -pfx administrator_forged.pfx -dc-ip 172.16.126.128
 ```
 {% hint style="warning" %}
-**Note** : L'**utilisateur** cible spécifié lors de la création du certificat doit être **actif/activé** dans AD et **capable de s'authentifier**, car un échange d'authentification aura toujours lieu en tant que cet utilisateur. Essayer de forger un certificat pour le compte krbtgt, par exemple, ne fonctionnera pas.
+L'utilisateur ciblé pour la falsification de certificat doit être actif et capable de s'authentifier dans Active Directory pour que le processus réussisse. Falsifier un certificat pour des comptes spéciaux comme krbtgt est inefficace.
 {% endhint %}
 
-Ce certificat forgé sera **valide** jusqu'à la date de fin spécifiée et tant que le certificat de l'autorité de certification racine est valide (généralement de 5 à **10+ ans**). Il est également valide pour les **machines**, donc combiné avec **S4U2Self**, un attaquant peut **maintenir la persistance sur n'importe quelle machine du domaine** aussi longtemps que le certificat de l'AC est valide.\
-De plus, les **certificats générés** avec cette méthode **ne peuvent pas être révoqués** car l'AC n'en est pas informée.
+Ce certificat falsifié sera **valide** jusqu'à la date de fin spécifiée et aussi **longtemps que le certificat de l'autorité de certification racine est valide** (généralement de 5 à **10+ ans**). Il est également valide pour les **machines**, donc combiné avec **S4U2Self**, un attaquant peut **maintenir une persistance sur n'importe quelle machine de domaine** aussi longtemps que le certificat de l'autorité de certification est valide.\
+De plus, les **certificats générés** avec cette méthode **ne peuvent pas être révoqués** car l'autorité de certification n'en est pas consciente.
 
-## Faire confiance aux certificats CA Rogue - DPERSIST2
+## Faire confiance aux certificats de CA malveillants - DPERSIST2
 
-L'objet `NTAuthCertificates` définit un ou plusieurs **certificats CA** dans son **attribut** `cacertificate` et AD l'utilise : Lors de l'authentification, le **contrôleur de domaine** vérifie si l'objet **`NTAuthCertificates`** **contient** une entrée pour l'**AC spécifiée** dans le champ Émetteur du **certificat** authentifiant. Si **c'est le cas, l'authentification se poursuit**.
+L'objet `NTAuthCertificates` est défini pour contenir un ou plusieurs **certificats de CA** dans son attribut `cacertificate`, que Active Directory (AD) utilise. Le processus de vérification par le **contrôleur de domaine** implique de vérifier l'objet `NTAuthCertificates` pour une entrée correspondant au **CA spécifié** dans le champ Émetteur du **certificat** d'authentification. L'authentification se poursuit si une correspondance est trouvée.
 
-Un attaquant pourrait générer un **certificat CA auto-signé** et l'**ajouter** à l'objet **`NTAuthCertificates`**. Les attaquants peuvent faire cela s'ils ont le **contrôle** de l'objet AD **`NTAuthCertificates`** (dans les configurations par défaut, seuls les membres du groupe **Enterprise Admin** et les membres des groupes **Domain Admins** ou **Administrators** dans le **domaine racine de la forêt** ont ces permissions). Avec l'accès élevé, on peut **modifier** l'objet **`NTAuthCertificates`** depuis n'importe quel système avec `certutil.exe -dspublish -f C:\Temp\CERT.crt NTAuthCA126`, ou en utilisant l'[**outil PKI Health Tool**](https://docs.microsoft.com/en-us/troubleshoot/windows-server/windows-security/import-third-party-ca-to-enterprise-ntauth-store#method-1---import-a-certificate-by-using-the-pki-health-tool).&#x20;
+Un certificat de CA auto-signé peut être ajouté à l'objet `NTAuthCertificates` par un attaquant, à condition qu'il ait le contrôle sur cet objet AD. Normalement, seuls les membres du groupe **Administrateurs d'entreprise**, ainsi que les **Administrateurs de domaine** ou les **Administrateurs** du **domaine racine de la forêt**, ont l'autorisation de modifier cet objet. Ils peuvent modifier l'objet `NTAuthCertificates` en utilisant `certutil.exe` avec la commande `certutil.exe -dspublish -f C:\Temp\CERT.crt NTAuthCA126`, ou en utilisant l'[**Outil de santé PKI**](https://docs.microsoft.com/en-us/troubleshoot/windows-server/windows-security/import-third-party-ca-to-enterprise-ntauth-store#method-1---import-a-certificate-by-using-the-pki-health-tool).
 
-Le certificat spécifié devrait **fonctionner avec la méthode de contrefaçon précédemment détaillée avec ForgeCert** pour générer des certificats à la demande.
+Cette capacité est particulièrement pertinente lorsqu'elle est utilisée en conjonction avec une méthode précédemment décrite impliquant ForgeCert pour générer dynamiquement des certificats.
 
 ## Mauvaise configuration malveillante - DPERSIST3
 
-Il existe une myriade d'opportunités pour la **persistance** via des **modifications du descripteur de sécurité des composants AD CS**. Tout scénario décrit dans la section “[Domain Escalation](domain-escalation.md)” pourrait être malicieusement mis en œuvre par un attaquant avec un accès élevé, ainsi que l'ajout de "droits de contrôle" (c'est-à-dire, WriteOwner/WriteDACL/etc.) aux composants sensibles. Cela inclut :
+Les opportunités de **persistance** grâce aux **modifications des descripteurs de sécurité des composants AD CS** sont nombreuses. Les modifications décrites dans la section "[Élévation de domaine](domain-escalation.md)" peuvent être mises en œuvre de manière malveillante par un attaquant ayant un accès élevé. Cela inclut l'ajout de "droits de contrôle" (par exemple, WriteOwner/WriteDACL/etc.) à des composants sensibles tels que :
 
-* L'objet **ordinateur AD du serveur CA**
-* Le **serveur RPC/DCOM du serveur CA**
-* Tout **objet ou conteneur AD descendant** dans le conteneur **`CN=Public Key Services,CN=Services,CN=Configuration,DC=<DOMAIN>,DC=<COM>`** (par exemple, le conteneur des modèles de certificats, le conteneur des autorités de certification, l'objet NTAuthCertificates, etc.)
-* **Groupes AD délégués des droits pour contrôler AD CS par défaut ou par l'organisation actuelle** (par exemple, le groupe Cert Publishers intégré et tous ses membres)
+- L'objet ordinateur AD du **serveur CA**
+- Le serveur RPC/DCOM du **serveur CA**
+- Tout **objet ou conteneur AD descendant** dans **`CN=Services,CN=Configuration,DC=<DOMAIN>,DC=<COM>`** (par exemple, le conteneur Modèles de certificats, le conteneur Autorités de certification, l'objet NTAuthCertificates, etc.)
+- **Groupes AD ayant des droits délégués pour contrôler AD CS** par défaut ou par l'organisation (comme le groupe Cert Publishers intégré et l'un de ses membres)
 
-Par exemple, un attaquant avec des **permissions élevées** dans le domaine pourrait ajouter la permission **`WriteOwner`** au modèle de certificat **`User`** par défaut, où l'attaquant est le principal pour le droit. Pour abuser de cela plus tard, l'attaquant modifierait d'abord la propriété du modèle **`User`** à lui-même, puis **définirait** **`mspki-certificate-name-flag`** à **1** sur le modèle pour activer **`ENROLLEE_SUPPLIES_SUBJECT`** (c'est-à-dire, permettant à un utilisateur de fournir un nom alternatif de sujet dans la demande). L'attaquant pourrait alors **s'inscrire** au **modèle**, en spécifiant un nom d'administrateur de domaine comme nom alternatif, et utiliser le certificat résultant pour l'authentification en tant que DA.
-
-## Références
-
-* Toutes les informations de cette page ont été prises de [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)
-
-<details>
-
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Autres moyens de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
-
-</details>
+Un exemple de mise en œuvre malveillante impliquerait un attaquant, ayant des **permissions élevées** dans le domaine, ajoutant la permission **`WriteOwner`** au modèle de certificat **`Utilisateur`** par défaut, l'attaquant étant le principal pour ce droit. Pour exploiter cela, l'attaquant changerait d'abord la propriété du modèle **`Utilisateur`** pour lui-même. Ensuite, le **`mspki-certificate-name-flag`** serait défini sur **1** sur le modèle pour activer **`ENROLLEE_SUPPLIES_SUBJECT`**, permettant à un utilisateur de fournir un nom alternatif de sujet dans la demande. Ensuite, l'attaquant pourrait **s'inscrire** en utilisant le **modèle**, en choisissant un nom d'administrateur de domaine comme nom alternatif, et utiliser le certificat acquis pour l'authentification en tant qu'AD.
