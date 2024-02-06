@@ -2,49 +2,49 @@
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
-Autres moyens de soutenir HackTricks :
+Autres façons de soutenir HackTricks :
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs exclusifs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 
 ## Méthodologie
 
-1. Reconnaissance de la victime
-1. Sélectionnez le **domaine de la victime**.
-2. Effectuez une énumération web de base **à la recherche de portails de connexion** utilisés par la victime et **décidez** lequel vous allez **usurper**.
-3. Utilisez de l'**OSINT** pour **trouver des emails**.
-2. Préparation de l'environnement
-1. **Achetez le domaine** que vous utiliserez pour l'évaluation du phishing
-2. **Configurez les enregistrements du service de messagerie** (SPF, DMARC, DKIM, rDNS)
-3. Configurez le VPS avec **gophish**
-3. Préparation de la campagne
-1. Préparez le **modèle d'email**
-2. Préparez la **page web** pour voler les identifiants
-4. Lancez la campagne !
+1. Faire de la reconnaissance sur la victime
+1. Sélectionner le **domaine de la victime**.
+2. Effectuer une énumération web de base **en recherchant des portails de connexion** utilisés par la victime et **décider** lequel vous allez **usurper**.
+3. Utiliser des **OSINT** pour **trouver des adresses e-mail**.
+2. Préparer l'environnement
+1. **Acheter le domaine** que vous allez utiliser pour l'évaluation du phishing
+2. **Configurer le service de messagerie électronique** les enregistrements associés (SPF, DMARC, DKIM, rDNS)
+3. Configurer le VPS avec **gophish**
+3. Préparer la campagne
+1. Préparer le **modèle d'e-mail**
+2. Préparer la **page web** pour voler les identifiants
+4. Lancer la campagne !
 
 ## Générer des noms de domaine similaires ou acheter un domaine de confiance
 
 ### Techniques de Variation de Nom de Domaine
 
-* **Mot-clé** : Le nom de domaine **contient** un mot-clé important du domaine original (par exemple, zelster.com-management.com).
-* **sous-domaine avec trait d'union** : Remplacez le **point par un trait d'union** d'un sous-domaine (par exemple, www-zelster.com).
-* **Nouveau TLD** : Même domaine en utilisant un **nouveau TLD** (par exemple, zelster.org).
-* **Homoglyphe** : Il **remplace** une lettre dans le nom de domaine par **des lettres qui se ressemblent** (par exemple, zelfser.com).
+* **Mot-clé** : Le nom de domaine **contient** un **mot-clé** important du domaine d'origine (par exemple, zelster.com-management.com).
+* **Sous-domaine avec trait d'union** : Changer le **point pour un trait d'union** d'un sous-domaine (par exemple, www-zelster.com).
+* **Nouvelle TLD** : Même domaine en utilisant une **nouvelle TLD** (par exemple, zelster.org)
+* **Homoglyphe** : Il **remplace** une lettre dans le nom de domaine par des **lettres qui se ressemblent** (par exemple, zelfser.com).
 * **Transposition** : Il **échange deux lettres** dans le nom de domaine (par exemple, zelster.com).
-* **Singularisation/Pluralisation** : Ajoute ou supprime un "s" à la fin du nom de domaine (par exemple, zeltsers.com).
+* **Singulier/Pluriel** : Ajoute ou supprime un "s" à la fin du nom de domaine (par exemple, zeltsers.com).
 * **Omission** : Il **supprime une** des lettres du nom de domaine (par exemple, zelser.com).
 * **Répétition** : Il **répète une** des lettres dans le nom de domaine (par exemple, zeltsser.com).
-* **Remplacement** : Comme homoglyphe mais moins discret. Il remplace une des lettres dans le nom de domaine, peut-être par une lettre à proximité de la lettre originale sur le clavier (par exemple, zektser.com).
-* **Sous-domainé** : Introduit un **point** à l'intérieur du nom de domaine (par exemple, ze.lster.com).
+* **Remplacement** : Comme homoglyphe mais moins discret. Il remplace une des lettres du nom de domaine, peut-être par une lettre à proximité de la lettre d'origine sur le clavier (par exemple, zektser.com).
+* **Sous-domainé** : Introduire un **point** à l'intérieur du nom de domaine (par exemple, ze.lster.com).
 * **Insertion** : Il **insère une lettre** dans le nom de domaine (par exemple, zerltser.com).
-* **Point manquant** : Ajoutez le TLD au nom de domaine. (par exemple, zelstercom.com)
+* **Point manquant** : Ajouter le TLD au nom de domaine. (par exemple, zelstercom.com)
 
 **Outils Automatiques**
 
@@ -59,25 +59,25 @@ Autres moyens de soutenir HackTricks :
 
 ### Bitflipping
 
-Dans le monde de l'informatique, tout est stocké en bits (zéros et uns) dans la mémoire en arrière-plan.\
+Dans le monde de l'informatique, tout est stocké en bits (zéros et uns) en mémoire en coulisses.\
 Cela s'applique également aux domaines. Par exemple, _windows.com_ devient _01110111..._ dans la mémoire volatile de votre appareil informatique.\
-Cependant, que se passerait-il si l'un de ces bits était automatiquement inversé à cause d'une éruption solaire, de rayons cosmiques ou d'une erreur matérielle ? C'est-à-dire qu'un des 0 devient un 1 et vice versa.\
-En appliquant ce concept à la requête DNS, il est possible que le **domaine demandé** qui arrive au serveur DNS **ne soit pas le même que le domaine initialement demandé.**
+Cependant, que se passerait-il si l'un de ces bits était automatiquement inversé en raison d'une éruption solaire, de rayons cosmiques ou d'une erreur matérielle ? C'est-à-dire qu'un des 0 devient un 1 et vice versa.\
+En appliquant ce concept à une requête DNS, il est possible que le **domaine demandé** qui arrive au serveur DNS **ne soit pas le même que le domaine initialement demandé**.
 
-Par exemple, une modification d'un bit dans le domaine windows.com peut le transformer en _windnws.com._\
-**Les attaquants peuvent enregistrer autant de domaines de bitflipping que possible liés à la victime afin de rediriger les utilisateurs légitimes vers leur infrastructure**.
+Par exemple, une modification d'un bit 1 dans le domaine windows.com peut le transformer en _windnws.com._\
+**Les attaquants peuvent enregistrer autant de domaines de basculement de bits que possible liés à la victime afin de rediriger les utilisateurs légitimes vers leur infrastructure**.
 
-Pour plus d'informations, lisez [https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/](https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/)
+Pour plus d'informations, consultez [https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/](https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/)
 
 ### Acheter un domaine de confiance
 
-Vous pouvez rechercher dans [https://www.expireddomains.net/](https://www.expireddomains.net) un domaine expiré que vous pourriez utiliser.\
-Pour vous assurer que le domaine expiré que vous allez acheter **a déjà un bon SEO**, vous pourriez vérifier comment il est catégorisé dans :
+Vous pouvez rechercher sur [https://www.expireddomains.net/](https://www.expireddomains.net) un domaine expiré que vous pourriez utiliser.\
+Pour vous assurer que le domaine expiré que vous allez acheter **a déjà un bon référencement SEO**, vous pouvez vérifier comment il est catégorisé dans :
 
 * [http://www.fortiguard.com/webfilter](http://www.fortiguard.com/webfilter)
 * [https://urlfiltering.paloaltonetworks.com/query/](https://urlfiltering.paloaltonetworks.com/query/)
 
-## Découverte d'Emails
+## Découverte des adresses e-mail
 
 * [https://github.com/laramies/theHarvester](https://github.com/laramies/theHarvester) (100% gratuit)
 * [https://phonebook.cz/](https://phonebook.cz) (100% gratuit)
@@ -85,8 +85,8 @@ Pour vous assurer que le domaine expiré que vous allez acheter **a déjà un bo
 * [https://hunter.io/](https://hunter.io)
 * [https://anymailfinder.com/](https://anymailfinder.com)
 
-Pour **découvrir plus** d'adresses email valides ou **vérifier celles** que vous avez déjà découvertes, vous pouvez vérifier si vous pouvez forcer brutalement les serveurs smtp de la victime. [Apprenez comment vérifier/découvrir des adresses email ici](../../network-services-pentesting/pentesting-smtp/#username-bruteforce-enumeration).\
-De plus, n'oubliez pas que si les utilisateurs utilisent **un portail web pour accéder à leurs mails**, vous pouvez vérifier s'il est vulnérable à la **force brute de nom d'utilisateur**, et exploiter la vulnérabilité si possible.
+Pour **découvrir plus** d'adresses e-mail valides ou **vérifier celles** que vous avez déjà découvertes, vous pouvez vérifier si vous pouvez les brute-forcer sur les serveurs SMTP de la victime. [Apprenez comment vérifier/découvrir une adresse e-mail ici](../../network-services-pentesting/pentesting-smtp/#username-bruteforce-enumeration).\
+De plus, n'oubliez pas que si les utilisateurs utilisent **un portail web pour accéder à leurs e-mails**, vous pouvez vérifier s'il est vulnérable à une **brute force de nom d'utilisateur**, et exploiter la vulnérabilité si possible.
 
 ## Configuration de GoPhish
 
@@ -94,8 +94,8 @@ De plus, n'oubliez pas que si les utilisateurs utilisent **un portail web pour a
 
 Vous pouvez le télécharger depuis [https://github.com/gophish/gophish/releases/tag/v0.11.0](https://github.com/gophish/gophish/releases/tag/v0.11.0)
 
-Téléchargez et décompressez-le dans `/opt/gophish` et exécutez `/opt/gophish/gophish`\
-Un mot de passe pour l'utilisateur admin vous sera donné pour le port 3333 dans la sortie. Par conséquent, accédez à ce port et utilisez ces identifiants pour changer le mot de passe admin. Vous pourriez avoir besoin de tunneliser ce port en local :
+Téléchargez-le et décompressez-le dans `/opt/gophish` et exécutez `/opt/gophish/gophish`\
+Vous recevrez un mot de passe pour l'utilisateur admin sur le port 3333 dans la sortie. Accédez donc à ce port et utilisez ces informations d'identification pour changer le mot de passe admin. Vous devrez peut-être tunneliser ce port en local :
 ```bash
 ssh -L 3333:127.0.0.1:3333 <user>@<ip>
 ```
@@ -103,7 +103,7 @@ ssh -L 3333:127.0.0.1:3333 <user>@<ip>
 
 **Configuration du certificat TLS**
 
-Avant cette étape, vous devriez **avoir déjà acheté le domaine** que vous allez utiliser et il doit **pointer** vers **l'IP du VPS** où vous configurez **gophish**.
+Avant cette étape, vous devez **déjà avoir acheté le domaine** que vous allez utiliser et il doit être **redirigé** vers l'**IP du VPS** où vous configurez **gophish**.
 ```bash
 DOMAIN="<domain>"
 wget https://dl.eff.org/certbot-auto
@@ -119,26 +119,26 @@ mkdir /opt/gophish/ssl_keys
 cp "/etc/letsencrypt/live/$DOMAIN/privkey.pem" /opt/gophish/ssl_keys/key.pem
 cp "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" /opt/gophish/ssl_keys/key.crt​
 ```
-**Configuration du courrier**
+**Configuration de messagerie**
 
 Commencez par installer : `apt-get install postfix`
 
-Ajoutez ensuite le domaine aux fichiers suivants :
+Ensuite, ajoutez le domaine aux fichiers suivants :
 
-* **/etc/postfix/virtual\_domains**
-* **/etc/postfix/transport**
-* **/etc/postfix/virtual\_regexp**
+- **/etc/postfix/virtual\_domains**
+- **/etc/postfix/transport**
+- **/etc/postfix/virtual\_regexp**
 
 **Modifiez également les valeurs des variables suivantes dans /etc/postfix/main.cf**
 
 `myhostname = <domain>`\
 `mydestination = $myhostname, <domain>, localhost.com, localhost`
 
-Finalement, modifiez les fichiers **`/etc/hostname`** et **`/etc/mailname`** avec le nom de votre domaine et **redémarrez votre VPS.**
+Enfin, modifiez les fichiers **`/etc/hostname`** et **`/etc/mailname`** avec votre nom de domaine et **redémarrez votre VPS.**
 
-Maintenant, créez un **enregistrement DNS A** de `mail.<domain>` pointant vers l'**adresse ip** du VPS et un enregistrement **DNS MX** pointant vers `mail.<domain>`
+Maintenant, créez un **enregistrement A DNS** de `mail.<domain>` pointant vers l'**adresse IP** du VPS et un enregistrement **MX DNS** pointant vers `mail.<domain>`
 
-Maintenant, testons l'envoi d'un courriel :
+Maintenant, testons l'envoi d'un e-mail :
 ```bash
 apt install mailutils
 echo "This is the body of the email" | mail -s "This is the subject line" test@email.com
@@ -146,7 +146,7 @@ echo "This is the body of the email" | mail -s "This is the subject line" test@e
 **Configuration de Gophish**
 
 Arrêtez l'exécution de gophish et configurons-le.\
-Modifiez `/opt/gophish/config.json` comme suit (notez l'utilisation de https):
+Modifiez `/opt/gophish/config.json` comme suit (notez l'utilisation de https) :
 ```bash
 {
 "admin_server": {
@@ -220,7 +220,7 @@ case $1 in
 start|stop|status) "$1" ;;
 esac
 ```
-Finalisez la configuration du service et vérifiez-la en faisant :
+Terminer la configuration du service et le vérifier en effectuant :
 ```bash
 mkdir /var/log/gophish
 chmod +x /etc/init.d/gophish
@@ -233,24 +233,24 @@ service gophish stop
 ```
 ## Configuration du serveur de messagerie et du domaine
 
-### Attendre
+### Attendez
 
-Plus un domaine est ancien, moins il y a de chances qu'il soit détecté comme spam. Vous devriez donc attendre le plus longtemps possible (au moins 1 semaine) avant l'évaluation de phishing.\
+Plus un domaine est ancien, moins il a de chances d'être considéré comme du spam. Vous devriez donc attendre le plus longtemps possible (au moins 1 semaine) avant l'évaluation du phishing.\
 Notez que même si vous devez attendre une semaine, vous pouvez terminer la configuration maintenant.
 
-### Configurer l'enregistrement DNS inversé (rDNS)
+### Configuration de l'enregistrement Reverse DNS (rDNS)
 
-Définissez un enregistrement rDNS (PTR) qui résout l'adresse IP du VPS vers le nom de domaine.
+Définissez un enregistrement rDNS (PTR) qui résout l'adresse IP du VPS en nom de domaine.
 
-### Enregistrement de la politique de l'expéditeur (SPF)
+### Enregistrement du cadre de politique de l'expéditeur (SPF)
 
-Vous devez **configurer un enregistrement SPF pour le nouveau domaine**. Si vous ne savez pas ce qu'est un enregistrement SPF [**lisez cette page**](../../network-services-pentesting/pentesting-smtp/#spf).
+Vous devez **configurer un enregistrement SPF pour le nouveau domaine**. Si vous ne savez pas ce qu'est un enregistrement SPF, [**lisez cette page**](../../network-services-pentesting/pentesting-smtp/#spf).
 
 Vous pouvez utiliser [https://www.spfwizard.net/](https://www.spfwizard.net) pour générer votre politique SPF (utilisez l'IP de la machine VPS)
 
 ![](<../../.gitbook/assets/image (388).png>)
 
-Voici le contenu qui doit être défini à l'intérieur d'un enregistrement TXT dans le domaine :
+Voici le contenu qui doit être défini à l'intérieur d'un enregistrement TXT dans le domaine:
 ```bash
 v=spf1 mx a ip4:ip.ip.ip.ip ?all
 ```
@@ -258,7 +258,7 @@ v=spf1 mx a ip4:ip.ip.ip.ip ?all
 
 Vous devez **configurer un enregistrement DMARC pour le nouveau domaine**. Si vous ne savez pas ce qu'est un enregistrement DMARC, [**lisez cette page**](../../network-services-pentesting/pentesting-smtp/#dmarc).
 
-Vous devez créer un nouvel enregistrement DNS TXT pointant l'hôte `_dmarc.<domain>` avec le contenu suivant :
+Vous devez créer un nouvel enregistrement DNS TXT pointant vers le nom d'hôte `_dmarc.<domain>` avec le contenu suivant:
 ```bash
 v=DMARC1; p=none
 ```
@@ -275,15 +275,15 @@ v=DKIM1; h=sha256; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0wPibdqP
 ```
 {% endhint %}
 
-### Testez le score de configuration de votre email
+### Testez votre score de configuration d'email
 
 Vous pouvez le faire en utilisant [https://www.mail-tester.com/](https://www.mail-tester.com)\
 Accédez simplement à la page et envoyez un email à l'adresse qu'ils vous donnent :
 ```bash
 echo "This is the body of the email" | mail -s "This is the subject line" test-iimosa79z@srv1.mail-tester.com
 ```
-Vous pouvez également **vérifier votre configuration d'email** en envoyant un email à `check-auth@verifier.port25.com` et **lire la réponse** (pour cela, vous devrez **ouvrir** le port **25** et voir la réponse dans le fichier _/var/mail/root_ si vous envoyez l'email en tant que root).\
-Vérifiez que vous passez tous les tests :
+Vous pouvez également **vérifier la configuration de votre e-mail** en envoyant un e-mail à `check-auth@verifier.port25.com` et **en lisant la réponse** (pour cela, vous devrez **ouvrir** le port **25** et consulter la réponse dans le fichier _/var/mail/root_ si vous envoyez l'e-mail en tant que root).\
+Vérifiez que vous réussissez tous les tests :
 ```bash
 ==========================================================
 Summary of Results
@@ -294,39 +294,39 @@ DKIM check:         pass
 Sender-ID check:    pass
 SpamAssassin check: ham
 ```
-Vous pouvez également **envoyer un message à une adresse Gmail que vous contrôlez**, **consulter** les **en-têtes de l'email reçu** dans votre boîte de réception Gmail, `dkim=pass` devrait être présent dans le champ d'en-tête `Authentication-Results`.
+Vous pouvez également envoyer un **message à une adresse Gmail que vous contrôlez**, **afficher** les **en-têtes de l'email** reçu dans votre boîte de réception Gmail, `dkim=pass` doit être présent dans le champ d'en-tête `Authentication-Results`.
 ```
 Authentication-Results: mx.google.com;
 spf=pass (google.com: domain of contact@example.com designates --- as permitted sender) smtp.mail=contact@example.com;
 dkim=pass header.i=@example.com;
 ```
-### Retirer de la liste noire de Spamhouse
+### Suppression de la liste noire de Spamhouse
 
-La page www.mail-tester.com peut vous indiquer si votre domaine est bloqué par spamhouse. Vous pouvez demander la suppression de votre domaine/IP à l'adresse : [https://www.spamhaus.org/lookup/](https://www.spamhaus.org/lookup/)
+La page www.mail-tester.com peut vous indiquer si votre domaine est bloqué par Spamhouse. Vous pouvez demander la suppression de votre domaine/IP sur : [https://www.spamhaus.org/lookup/](https://www.spamhaus.org/lookup/)
 
-### Retirer de la liste noire de Microsoft
+### Suppression de la liste noire de Microsoft
 
-Vous pouvez demander la suppression de votre domaine/IP à l'adresse [https://sender.office.com/](https://sender.office.com).
+Vous pouvez demander la suppression de votre domaine/IP sur [https://sender.office.com/](https://sender.office.com).
 
-## Créer et lancer une campagne GoPhish
+## Créer et Lancer une Campagne GoPhish
 
-### Profil d'envoi
+### Profil d'Envoi
 
-* Définissez un **nom pour identifier** le profil d'envoi
-* Décidez de quel compte vous allez envoyer les e-mails de phishing. Suggestions : _noreply, support, servicedesk, salesforce..._
-* Vous pouvez laisser vide le nom d'utilisateur et le mot de passe, mais assurez-vous de cocher la case Ignorer les erreurs de certificat
+* Définir un **nom pour identifier** le profil de l'expéditeur
+* Décider à partir de quel compte vous allez envoyer les e-mails de phishing. Suggestions : _noreply, support, servicedesk, salesforce..._
+* Vous pouvez laisser vide le nom d'utilisateur et le mot de passe, mais assurez-vous de cocher Ignorer les erreurs de certificat
 
-![](<../../.gitbook/assets/image (253) (1) (2) (1) (1) (2) (2) (3) (3) (5) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (17).png>)
+![](<../../.gitbook/assets/image (253) (1) (2) (1) (1) (2) (2) (3) (3) (5) (3) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (1) (17).png>)
 
 {% hint style="info" %}
-Il est recommandé d'utiliser la fonctionnalité "**Envoyer un e-mail de test**" pour vérifier que tout fonctionne.
-Je recommande d'**envoyer les e-mails de test à des adresses de 10min mails** afin d'éviter d'être mis sur liste noire en faisant des tests.
+Il est recommandé d'utiliser la fonctionnalité "**Envoyer un e-mail de test**" pour vérifier que tout fonctionne.\
+Je recommanderais d'**envoyer les e-mails de test aux adresses 10min mails** afin d'éviter d'être blacklisté lors des tests.
 {% endhint %}
 
-### Modèle d'e-mail
+### Modèle d'E-mail
 
-* Définissez un **nom pour identifier** le modèle
-* Ensuite, rédigez un **objet** (rien d'étrange, juste quelque chose que vous pourriez vous attendre à lire dans un e-mail ordinaire)
+* Définir un **nom pour identifier** le modèle
+* Ensuite, écrire un **sujet** (rien d'étrange, juste quelque chose que vous pourriez vous attendre à lire dans un e-mail régulier)
 * Assurez-vous d'avoir coché "**Ajouter une image de suivi**"
 * Rédigez le **modèle d'e-mail** (vous pouvez utiliser des variables comme dans l'exemple suivant) :
 ```markup
@@ -349,53 +349,53 @@ WRITE HERE SOME SIGNATURE OF SOMEONE FROM THE COMPANY
 </body>
 </html>
 ```
-Notez que **afin d'augmenter la crédibilité de l'email**, il est recommandé d'utiliser une signature provenant d'un email du client. Suggestions :
+Notez que **pour augmenter la crédibilité de l'e-mail**, il est recommandé d'utiliser une signature provenant d'un e-mail du client. Suggestions :
 
-* Envoyez un email à une **adresse inexistante** et vérifiez si la réponse contient une signature.
-* Recherchez des **emails publics** comme info@ex.com ou press@ex.com ou public@ex.com, envoyez-leur un email et attendez la réponse.
-* Essayez de contacter **un email valide découvert** et attendez la réponse.
+* Envoyez un e-mail à une **adresse inexistante** et vérifiez si la réponse contient une signature.
+* Recherchez des e-mails **publics** tels que info@ex.com ou press@ex.com ou public@ex.com et envoyez-leur un e-mail en attendant la réponse.
+* Essayez de contacter un e-mail **valide découvert** et attendez la réponse.
 
 ![](<../../.gitbook/assets/image (393).png>)
 
 {% hint style="info" %}
-Le modèle d'email permet également d'**attacher des fichiers à envoyer**. Si vous souhaitez également voler des défis NTLM en utilisant des fichiers/documents spécialement conçus [lisez cette page](../../windows-hardening/ntlm/places-to-steal-ntlm-creds.md).
+Le modèle d'e-mail permet également de **joindre des fichiers à envoyer**. Si vous souhaitez également voler des défis NTLM en utilisant des fichiers/documents spécialement conçus, [lisez cette page](../../windows-hardening/ntlm/places-to-steal-ntlm-creds.md).
 {% endhint %}
 
-### Page d'Atterrissage
+### Page de Destination
 
 * Écrivez un **nom**
 * **Écrivez le code HTML** de la page web. Notez que vous pouvez **importer** des pages web.
-* Cochez **Capture Submitted Data** et **Capture Passwords**
-* Configurez une **redirection**
+* Cochez **Capturer les données soumises** et **Capturer les mots de passe**
+* Définissez une **redirection**
 
 ![](<../../.gitbook/assets/image (394).png>)
 
 {% hint style="info" %}
-Généralement, vous devrez modifier le code HTML de la page et faire quelques tests en local (peut-être en utilisant un serveur Apache) **jusqu'à ce que le résultat vous convienne.** Ensuite, écrivez ce code HTML dans la boîte.\
-Notez que si vous avez besoin d'utiliser des ressources statiques pour le HTML (peut-être des pages CSS et JS), vous pouvez les enregistrer dans _**/opt/gophish/static/endpoint**_ et ensuite y accéder depuis _**/static/\<nomdefichier>**_
+Généralement, vous devrez modifier le code HTML de la page et effectuer des tests en local (peut-être en utilisant un serveur Apache) **jusqu'à ce que vous obteniez les résultats souhaités**. Ensuite, écrivez ce code HTML dans la case.\
+Notez que si vous avez besoin d'**utiliser des ressources statiques** pour le HTML (peut-être des pages CSS et JS), vous pouvez les enregistrer dans _**/opt/gophish/static/endpoint**_ et y accéder depuis _**/static/\<nom du fichier>**_
 {% endhint %}
 
 {% hint style="info" %}
-Pour la redirection, vous pourriez **rediriger les utilisateurs vers la page web principale légitime** de la victime, ou les rediriger vers _/static/migration.html_ par exemple, mettre un **moulinet en rotation (**[**https://loading.io/**](https://loading.io)**) pendant 5 secondes puis indiquer que le processus a été réussi**.
+Pour la redirection, vous pourriez **rediriger les utilisateurs vers la page web principale légitime** de la victime, ou les rediriger vers _/static/migration.html_ par exemple, mettre une **roue tournante (**[**https://loading.io/**](https://loading.io)**) pendant 5 secondes puis indiquer que le processus a réussi**.
 {% endhint %}
 
 ### Utilisateurs & Groupes
 
 * Définissez un nom
-* **Importez les données** (notez que pour utiliser le modèle pour l'exemple, vous avez besoin du prénom, du nom et de l'adresse email de chaque utilisateur)
+* **Importez les données** (notez que pour utiliser le modèle pour l'exemple, vous avez besoin du prénom, du nom de famille et de l'adresse e-mail de chaque utilisateur)
 
 ![](<../../.gitbook/assets/image (395).png>)
 
 ### Campagne
 
-Enfin, créez une campagne en sélectionnant un nom, le modèle d'email, la page d'atterrissage, l'URL, le profil d'envoi et le groupe. Notez que l'URL sera le lien envoyé aux victimes.
+Enfin, créez une campagne en sélectionnant un nom, le modèle d'e-mail, la page de destination, l'URL, le profil d'envoi et le groupe. Notez que l'URL sera le lien envoyé aux victimes
 
-Notez que le **Profil d'Envoi permet d'envoyer un email de test pour voir à quoi ressemblera l'email de phishing final** :
+Notez que le **Profil d'envoi permet d'envoyer un e-mail de test pour voir à quoi ressemblera l'e-mail de phishing final** :
 
 ![](<../../.gitbook/assets/image (396).png>)
 
 {% hint style="info" %}
-Je recommanderais d'**envoyer les emails de test à des adresses de 10min mails** afin d'éviter d'être mis sur liste noire en faisant des tests.
+Je recommanderais d'**envoyer les e-mails de test à des adresses de 10 minutes** afin d'éviter d'être blacklisté lors des tests.
 {% endhint %}
 
 Une fois que tout est prêt, lancez simplement la campagne !
@@ -408,10 +408,10 @@ Si pour une raison quelconque vous souhaitez cloner le site web, consultez la pa
 [clone-a-website.md](clone-a-website.md)
 {% endcontent-ref %}
 
-## Documents & Fichiers Compromis
+## Documents et Fichiers Piégés
 
-Dans certaines évaluations de phishing (principalement pour les Red Teams), vous voudrez également **envoyer des fichiers contenant une sorte de backdoor** (peut-être un C2 ou juste quelque chose qui déclenchera une authentification).\
-Consultez la page suivante pour des exemples :
+Dans certaines évaluations de phishing (principalement pour les Red Teams), vous voudrez également **envoyer des fichiers contenant une sorte de backdoor** (peut-être un C2 ou simplement quelque chose qui déclenchera une authentification).\
+Consultez la page suivante pour quelques exemples :
 
 {% content-ref url="phishing-documents.md" %}
 [phishing-documents.md](phishing-documents.md)
@@ -421,36 +421,36 @@ Consultez la page suivante pour des exemples :
 
 ### Via Proxy MitM
 
-L'attaque précédente est assez astucieuse car vous simulez un vrai site web et recueillez les informations saisies par l'utilisateur. Malheureusement, si l'utilisateur n'a pas mis le bon mot de passe ou si l'application que vous avez simulée est configurée avec 2FA, **ces informations ne vous permettront pas de vous faire passer pour l'utilisateur trompé**.
+L'attaque précédente est assez astucieuse car vous imitez un vrai site web et recueillez les informations définies par l'utilisateur. Malheureusement, si l'utilisateur n'a pas saisi le bon mot de passe ou si l'application que vous avez imitée est configurée avec une authentification à deux facteurs, **ces informations ne vous permettront pas d'usurper l'utilisateur piégé**.
 
-C'est là que des outils comme [**evilginx2**](https://github.com/kgretzky/evilginx2)**,** [**CredSniper**](https://github.com/ustayready/CredSniper) et [**muraena**](https://github.com/muraenateam/muraena) sont utiles. Cet outil vous permettra de générer une attaque de type MitM. Fondamentalement, l'attaque fonctionne de la manière suivante :
+C'est là que des outils comme [**evilginx2**](https://github.com/kgretzky/evilginx2)**,** [**CredSniper**](https://github.com/ustayready/CredSniper) et [**muraena**](https://github.com/muraenateam/muraena) sont utiles. Cet outil vous permettra de générer une attaque de type MitM. Fondamentalement, les attaques fonctionnent de la manière suivante :
 
-1. Vous **simulez le formulaire de connexion** de la vraie page web.
+1. Vous **imitez le formulaire de connexion** de la vraie page web.
 2. L'utilisateur **envoie** ses **identifiants** à votre fausse page et l'outil les envoie à la vraie page web, **vérifiant si les identifiants fonctionnent**.
-3. Si le compte est configuré avec **2FA**, la page MitM demandera cette information et une fois que **l'utilisateur l'introduit**, l'outil l'enverra à la vraie page web.
-4. Une fois l'utilisateur authentifié, vous (en tant qu'attaquant) aurez **capturé les identifiants, le 2FA, le cookie et toute information** de chaque interaction pendant que l'outil effectue un MitM.
+3. Si le compte est configuré avec **une authentification à deux facteurs**, la page MitM demandera cela et une fois que l'utilisateur l'aura introduit, l'outil l'enverra à la vraie page web.
+4. Une fois que l'utilisateur est authentifié, vous (en tant qu'attaquant) aurez **capturé les identifiants, l'authentification à deux facteurs, le cookie et toute information** de chaque interaction pendant que l'outil effectue un MitM.
 
 ### Via VNC
 
-Et si au lieu d'**envoyer la victime sur une page malveillante** ressemblant à l'originale, vous l'envoyiez sur une **session VNC avec un navigateur connecté à la vraie page web** ? Vous pourrez voir ce qu'il fait, voler le mot de passe, le MFA utilisé, les cookies...
-Vous pouvez faire cela avec [**EvilnVNC**](https://github.com/JoelGMSec/EvilnoVNC)
+Et si au lieu d'**envoyer la victime vers une page malveillante** avec le même aspect que l'original, vous l'envoyez vers une **session VNC avec un navigateur connecté à la vraie page web** ? Vous pourrez voir ce qu'il fait, voler le mot de passe, l'authentification à deux facteurs utilisée, les cookies...\
+Vous pouvez le faire avec [**EvilnVNC**](https://github.com/JoelGMSec/EvilnoVNC)
 
-## Détecter la détection
+## Détection de la détection
 
-Évidemment, l'un des meilleurs moyens de savoir si vous avez été repéré est de **rechercher votre domaine dans les listes noires**. S'il apparaît listé, d'une manière ou d'une autre, votre domaine a été détecté comme suspect.
-Un moyen facile de vérifier si votre domaine apparaît dans une liste noire est d'utiliser [https://malwareworld.com/](https://malwareworld.com)
+Évidemment, l'une des meilleures façons de savoir si vous avez été repéré est de **rechercher votre domaine dans les listes noires**. S'il apparaît répertorié, votre domaine a été détecté comme suspect d'une manière ou d'une autre.\
+Une façon simple de vérifier si votre domaine apparaît dans une liste noire est d'utiliser [https://malwareworld.com/](https://malwareworld.com)
 
-Cependant, il existe d'autres moyens de savoir si la victime est **activement à la recherche d'activités de phishing suspectes dans le monde réel** comme expliqué dans :
+Cependant, il existe d'autres moyens de savoir si la victime recherche **activement des activités de phishing suspectes dans la nature**, comme expliqué dans :
 
 {% content-ref url="detecting-phising.md" %}
 [detecting-phising.md](detecting-phising.md)
 {% endcontent-ref %}
 
-Vous pouvez **acheter un domaine avec un nom très similaire** à celui de la victime **et/ou générer un certificat** pour un **sous-domaine** d'un domaine que vous contrôlez **contenant** le **mot-clé** du domaine de la victime. Si la **victime** effectue une sorte d'**interaction DNS ou HTTP** avec eux, vous saurez qu'**elle recherche activement** des domaines suspects et vous devrez être très discret.
+Vous pouvez **acheter un domaine avec un nom très similaire** à celui du domaine de la victime **et/ou générer un certificat** pour un **sous-domaine** d'un domaine contrôlé par vous **contenant** le **mot-clé** du domaine de la victime. Si la **victime** effectue une sorte d'**interaction DNS ou HTTP** avec eux, vous saurez qu'**elle recherche activement** des domaines suspects et vous devrez être très discret.
 
 ### Évaluer le phishing
 
-Utilisez [**Phishious** ](https://github.com/Rices/Phishious)pour évaluer si votre email va finir dans le dossier spam ou s'il va être bloqué ou réussir.
+Utilisez [**Phishious** ](https://github.com/Rices/Phishious) pour évaluer si votre e-mail va finir dans le dossier spam ou s'il sera bloqué ou réussi.
 
 ## Références
 
@@ -460,14 +460,14 @@ Utilisez [**Phishious** ](https://github.com/Rices/Phishious)pour évaluer si vo
 
 <details>
 
-<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Autres moyens de soutenir HackTricks :
+Autres façons de soutenir HackTricks :
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF** Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de hacking en soumettant des PR aux repos github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez** 💬 le [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**dépôts Github**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
