@@ -2,14 +2,14 @@
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
 
 支持HackTricks的其他方式：
 
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
 * 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
@@ -53,7 +53,7 @@ cat /proc/`python -c "import os; print(os.getppid())"`/environ
 
 #### **影响每个用户行为的文件:**
 
-* _**/etc/bash.bashrc**_: 每次启动交互式 shell（普通终端）时都会读取此文件，并执行其中指定的所有命令。
+* _**/etc/bash.bashrc**_: 每次启动交互式shell（普通终端）时都会读取此文件，并执行其中指定的所有命令。
 * _**/etc/profile 和 /etc/profile.d/\***_**:** 每次用户登录时都会读取此文件。因此，此处执行的所有命令将仅在用户登录时执行一次。
 *   \*\*示例: \*\*
 
@@ -80,9 +80,9 @@ export $TEST
 * **MANPATH** – 用于搜索手册页的目录列表。
 * **OSTYPE** – 操作系统类型。
 * **PS1** – bash 中的默认提示符。
-* **PATH** – 存储所有目录的路径，这些目录包含您希望通过指定文件名而不是相对或绝对路径来执行的二进制文件。
+* **PATH** – 存储所有目录的路径，这些目录包含您希望通过文件名而不是相对或绝对路径执行的二进制文件。
 * **PWD** – 当前工作目录。
-* **SHELL** – 当前命令 shell 的路径（例如，**/bin/bash**）。
+* **SHELL** – 当前命令shell的路径（例如，**/bin/bash**）。
 * **TERM** – 当前终端类型（例如，**xterm**）。
 * **TZ** – 您的时区。
 * **USER** – 您当前的用户名。
@@ -91,7 +91,7 @@ export $TEST
 
 ### **HISTFILESIZE**
 
-将此变量的**值更改为 0**，这样当您**结束会话**时，**历史文件**（\~/.bash\_history）**将被删除**。
+将此变量的**值更改为0**，这样当您**结束会话**时，**历史文件**（\~/.bash\_history）**将被删除**。
 ```bash
 export HISTFILESIZE=0
 ```
@@ -125,7 +125,7 @@ Root:
 
 ![](<../.gitbook/assets/image (87).png>)
 
-Regular user:
+普通用户:
 
 ![](<../.gitbook/assets/image (88).png>)
 
