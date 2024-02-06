@@ -6,10 +6,10 @@
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
@@ -49,7 +49,7 @@ printenv
 cat /proc/$$/environ
 cat /proc/`python -c "import os; print(os.getppid())"`/environ
 ```
-## Variáveis de ambiente persistentes
+## Variáveis de Ambiente Persistentes
 
 #### **Arquivos que afetam o comportamento de todos os usuários:**
 
@@ -65,14 +65,14 @@ TEST=$(cat /var/somefile)
 export $TEST
 ```
 
-## Variáveis comuns
+## Variáveis Comuns
 
 De: [https://geek-university.com/linux/common-environment-variables/](https://geek-university.com/linux/common-environment-variables/)
 
 * **DISPLAY** – o display usado pelo **X**. Esta variável geralmente é definida como **:0.0**, o que significa o primeiro display no computador atual.
 * **EDITOR** – o editor de texto preferido do usuário.
 * **HISTFILESIZE** – o número máximo de linhas contidas no arquivo de histórico.
-* **HISTSIZE** – Número de linhas adicionadas ao arquivo de histórico quando o usuário termina sua sessão.
+* **HISTSIZE** – Número de linhas adicionadas ao arquivo de histórico quando o usuário encerra sua sessão.
 * **HOME** – seu diretório pessoal.
 * **HOSTNAME** – o nome do host do computador.
 * **LANG** – seu idioma atual.
@@ -87,7 +87,7 @@ De: [https://geek-university.com/linux/common-environment-variables/](https://ge
 * **TZ** – seu fuso horário.
 * **USER** – seu nome de usuário atual.
 
-## Variáveis interessantes para hacking
+## Variáveis Interessantes para Hacking
 
 ### **HISTFILESIZE**
 
