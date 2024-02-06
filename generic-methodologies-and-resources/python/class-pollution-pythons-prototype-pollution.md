@@ -1,22 +1,22 @@
-# Poluição de Classe (Poluição de Protótipo do Python)
+# Poluição de Classes (Prototype Pollution do Python)
 
 <details>
 
-<summary><strong>Aprenda hacking no AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking na AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras formas de apoiar o HackTricks:
+Outras maneiras de apoiar o HackTricks:
 
-* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* **Participe do grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou do grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) no github.
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**swag oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 
 ## Exemplo Básico
 
-Veja como é possível poluir classes de objetos com strings:
+Verifique como é possível poluir classes de objetos com strings:
 ```python
 class Company: pass
 class Developer(Company): pass
@@ -77,7 +77,7 @@ print(vars(emp)) #{'name': 'Ahemd', 'age': 23, 'manager': {'name': 'Sarah'}}
 
 <details>
 
-<summary>Criando valor padrão de propriedade de classe para RCE (subprocess)</summary>
+<summary>Criando valor padrão de propriedade de classe para RCE (subprocesso)</summary>
 ```python
 from os import popen
 class Employee: pass # Creating an empty class
@@ -128,7 +128,7 @@ print(system_admin_emp.execute_command())
 
 <details>
 
-<summary>Poluição de outras classes e variáveis globais através de <code>globals</code></summary>
+<summary>Poluindo outras classes e variáveis globais através de <code>globals</code></summary>
 ```python
 def merge(src, dst):
 # Recursive merge function
@@ -160,7 +160,7 @@ print(NotAccessibleClass) #> <class '__main__.PollutedClass'>
 
 <details>
 
-<summary>Execução arbitrária de subprocesso</summary>
+<summary>Execução arbitrária de subprocessos</summary>
 ```python
 import subprocess, json
 
@@ -192,9 +192,9 @@ subprocess.Popen('whoami', shell=True) # Calc.exe will pop up
 
 <details>
 
-<summary>Substituição do <strong><code>__kwdefaults__</code></strong></summary>
+<summary>Sobrescrevendo <strong><code>__kwdefaults__</code></strong></summary>
 
-**`__kwdefaults__`** é um atributo especial de todas as funções, baseado na [documentação](https://docs.python.org/3/library/inspect.html) do Python, é um “mapeamento de quaisquer valores padrão para parâmetros **somente de palavra-chave**”. Poluir esse atributo nos permite controlar os valores padrão dos parâmetros somente de palavra-chave de uma função, que são os parâmetros da função que vêm após \* ou \*args.
+**`__kwdefaults__`** é um atributo especial de todas as funções, com base na [documentação do Python](https://docs.python.org/3/library/inspect.html), é um "mapeamento de quaisquer valores padrão para parâmetros **apenas de palavras-chave**". Poluir esse atributo nos permite controlar os valores padrão dos parâmetros apenas de palavras-chave de uma função, que são os parâmetros da função que vêm após \* ou \*args.
 ```python
 from os import system
 import json
@@ -235,17 +235,17 @@ execute() #> Executing echo Polluted
 
 <details>
 
-<summary>Substituição do segredo do Flask entre arquivos</summary>
+<summary>Sobrescrevendo o segredo do Flask em diferentes arquivos</summary>
 
-Então, se você conseguir realizar uma poluição de classe em um objeto definido no arquivo principal do web em Python, **mas cuja classe está definida em um arquivo diferente** do principal. Porque, para acessar \_\_globals\_\_ nos payloads anteriores, você precisa acessar a classe do objeto ou métodos da classe, você será capaz de **acessar os globais naquele arquivo, mas não no principal**. \
-Portanto, você **não poderá acessar o objeto global do app Flask** que definiu a **chave secreta** na página principal:
+Portanto, se você puder fazer uma poluição de classe sobre um objeto definido no arquivo Python principal da web, mas **cuja classe é definida em um arquivo diferente** do principal. Porque para acessar \_\_globals\_\_ nos payloads anteriores, você precisa acessar a classe do objeto ou métodos da classe, você será capaz de **acessar os globais nesse arquivo, mas não no principal**. \
+Portanto, você **não poderá acessar o objeto global do aplicativo Flask** que definiu a **chave secreta** na página principal:
 ```python
 app = Flask(__name__, template_folder='templates')
 app.secret_key = '(:secret:)'
 ```
-Neste cenário, você precisa de um gadget para percorrer arquivos até chegar ao principal para **acessar o objeto global `app.secret_key`** para alterar a chave secreta do Flask e ser capaz de [**escalar privilégios conhecendo esta chave**](../../network-services-pentesting/pentesting-web/flask.md#flask-unsign).
+Neste cenário, você precisa de um dispositivo para percorrer arquivos até chegar ao principal para **acessar o objeto global `app.secret_key`** para alterar a chave secreta do Flask e ser capaz de [**escalar privilégios** conhecendo essa chave](../../network-services-pentesting/pentesting-web/flask.md#flask-unsign).
 
-Um payload como este [deste relatório](https://ctftime.org/writeup/36082):
+Um payload como este [deste artigo](https://ctftime.org/writeup/36082):
 
 {% code overflow="wrap" %}
 ```python
@@ -253,7 +253,7 @@ __init__.__globals__.__loader__.__init__.__globals__.sys.modules.__main__.app.se
 ```
 {% endcode %}
 
-Use este payload para **alterar `app.secret_key`** (o nome em seu aplicativo pode ser diferente) para poder assinar novos cookies flask com mais privilégios.
+Use este payload para **alterar `app.secret_key`** (o nome em seu aplicativo pode ser diferente) para poder assinar novos e mais privilégios em cookies flask.
 
 </details>
 
@@ -269,14 +269,14 @@ Confira também a seguinte página para mais gadgets somente leitura:
 
 <details>
 
-<summary><strong>Aprenda hacking no AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras formas de apoiar o HackTricks:
+Outras maneiras de apoiar o HackTricks:
 
-* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios do GitHub** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
