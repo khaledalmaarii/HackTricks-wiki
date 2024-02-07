@@ -30,8 +30,8 @@ L'outil le plus couramment utilisé en informatique légale pour extraire des fi
 
 ## Binwalk <a href="#binwalk" id="binwalk"></a>
 
-**Binwalk** est un outil de recherche de fichiers binaires tels que des images et des fichiers audio pour des fichiers et des données intégrés.\
-Il peut être installé avec `apt`, cependant la [source](https://github.com/ReFirmLabs/binwalk) peut être trouvée sur github.\
+**Binwalk** est un outil d'analyse des fichiers binaires pour trouver du contenu intégré. Il est installable via `apt` et son code source se trouve sur [GitHub](https://github.com/ReFirmLabs/binwalk).
+
 **Commandes utiles** :
 ```bash
 sudo apt install binwalk #Insllation
@@ -81,10 +81,10 @@ Consultez le [code](https://code.google.com/archive/p/binvis/) et l'outil de la 
 * Visualisation de la **structure** visuelle et active
 * Multiples graphiques pour différents points de focalisation
 * Focalisation sur des parties d'un échantillon
-* **Voir des chaînes et des ressources**, dans des exécutables PE ou ELF par exemple
-* Obtenir des **motifs** pour la cryptanalyse sur des fichiers
-* **Repérer** les algorithmes de compression ou de codage
-* **Identifier** la stéganographie par motifs
+* **Visualisation des chaînes et des ressources**, dans des exécutables PE ou ELF par exemple
+* Obtention de **motifs** pour la cryptanalyse des fichiers
+* **Repérage** des algorithmes de compression ou de codage
+* **Identification** de la stéganographie par motifs
 * **Différenciation** binaire visuelle
 
 BinVis est un excellent **point de départ pour se familiariser avec une cible inconnue** dans un scénario de boîte noire.
@@ -99,8 +99,8 @@ Téléchargez [ici](https://sourceforge.net/projects/findaes/).
 
 # Outils complémentaires
 
-Vous pouvez utiliser [**viu** ](https://github.com/atanunq/viu) pour voir des images depuis le terminal.\
-Vous pouvez utiliser l'outil de ligne de commande Linux **pdftotext** pour transformer un PDF en texte et le lire.
+Vous pouvez utiliser [**viu**](https://github.com/atanunq/viu) pour voir des images depuis le terminal.\
+Vous pouvez utiliser l'outil en ligne de commande Linux **pdftotext** pour transformer un PDF en texte et le lire.
 
 
 <figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
@@ -118,7 +118,7 @@ Autres façons de soutenir HackTricks :
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez** le 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Rejoignez** 💬 le groupe Discord](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

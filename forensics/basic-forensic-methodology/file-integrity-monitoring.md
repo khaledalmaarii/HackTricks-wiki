@@ -1,6 +1,6 @@
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 
@@ -22,12 +22,10 @@ Cela peut également être fait avec les comptes d'utilisateurs créés, les pro
 
 ## Surveillance de l'intégrité des fichiers
 
-La surveillance de l'intégrité des fichiers est l'une des techniques les plus puissantes utilisées pour sécuriser les infrastructures informatiques et les données commerciales contre une grande variété de menaces connues et inconnues.\
-L'objectif est de générer une **ligne de base de tous les fichiers** que vous souhaitez surveiller, puis de **vérifier périodiquement** ces fichiers pour d'éventuels **changements** (dans le contenu, les attributs, les métadonnées, etc.).
+La surveillance de l'intégrité des fichiers (FIM) est une technique de sécurité critique qui protège les environnements informatiques et les données en suivant les changements dans les fichiers. Elle implique deux étapes clés :
 
-1\. **Comparaison de la ligne de base**, où un ou plusieurs attributs de fichier seront capturés ou calculés et stockés en tant que ligne de base pouvant être comparée ultérieurement. Cela peut être aussi simple que l'heure et la date du fichier, cependant, comme ces données peuvent être facilement falsifiées, une approche plus fiable est généralement utilisée. Cela peut inclure l'évaluation périodique du hachage cryptographique d'un fichier surveillé, (par exemple en utilisant l'algorithme de hachage MD5 ou SHA-2) puis comparer le résultat au hachage précédemment calculé.
-
-2\. **Notification de changement en temps réel**, qui est généralement implémentée à l'intérieur ou en tant qu'extension du noyau du système d'exploitation qui signalera quand un fichier est accédé ou modifié.
+1. **Comparaison de la ligne de base :** Établir une ligne de base en utilisant les attributs des fichiers ou les sommes de contrôle cryptographiques (comme MD5 ou SHA-2) pour des comparaisons futures afin de détecter les modifications.
+2. **Notification de changement en temps réel :** Recevoir des alertes instantanées lorsque des fichiers sont consultés ou modifiés, généralement via des extensions de noyau OS.
 
 ## Outils
 
@@ -41,7 +39,7 @@ L'objectif est de générer une **ligne de base de tous les fichiers** que vous 
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 

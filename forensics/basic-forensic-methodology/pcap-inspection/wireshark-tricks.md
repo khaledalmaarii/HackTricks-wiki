@@ -37,7 +37,7 @@ En cliquant sur _**Analyser** --> **Informations d'expert**_, vous aurez un **ap
 
 **Adresses résolues**
 
-Sous _**Statistiques --> Adresses résolues**_, vous pouvez trouver plusieurs **informations** qui ont été "**résolues**" par Wireshark comme le port/transport au protocole, l'adresse MAC au fabricant, etc. Il est intéressant de savoir ce qui est impliqué dans la communication.
+Sous _**Statistiques --> Adresses résolues**_, vous pouvez trouver plusieurs **informations** qui ont été "**résolues**" par Wireshark comme le port/transport vers le protocole, l'adresse MAC vers le fabricant, etc. Il est intéressant de savoir ce qui est impliqué dans la communication.
 
 ![](<../../../.gitbook/assets/image (571).png>)
 
@@ -53,9 +53,9 @@ Sous _**Statistiques --> Conversations**_, vous pouvez trouver un **résumé des
 
 ![](<../../../.gitbook/assets/image (573).png>)
 
-**Points finaux**
+**Points d'extrémité**
 
-Sous _**Statistiques --> Points finaux**_, vous pouvez trouver un **résumé des points finaux** dans la communication et des données à leur sujet.
+Sous _**Statistiques --> Points d'extrémité**_, vous pouvez trouver un **résumé des points d'extrémité** dans la communication et des données sur chacun d'eux.
 
 ![](<../../../.gitbook/assets/image (575).png>)
 
@@ -85,9 +85,11 @@ Autres filtres intéressants :
 
 ### Recherche
 
-Si vous souhaitez **rechercher** du **contenu** à l'intérieur des **paquets** des sessions, appuyez sur _CTRL+f_. Vous pouvez ajouter de nouvelles couches à la barre d'informations principale (N°, Heure, Source, etc.) en appuyant sur le bouton droit, puis sur modifier la colonne.
+Si vous souhaitez **rechercher** du **contenu** à l'intérieur des **paquets** des sessions, appuyez sur _CTRL+f_. Vous pouvez ajouter de nouvelles couches à la barre d'informations principale (N°, Temps, Source, etc.) en appuyant sur le bouton droit, puis sur modifier la colonne.
 
-Pratique : [https://www.malware-traffic-analysis.net/](https://www.malware-traffic-analysis.net)
+### Laboratoires pcap gratuits
+
+**Entraînez-vous avec les défis gratuits de : [https://www.malware-traffic-analysis.net/](https://www.malware-traffic-analysis.net)**
 
 ## Identification des domaines
 
@@ -113,24 +115,25 @@ Dans Wireshark actuel, au lieu de `bootp`, vous devez rechercher `DHCP`
 
 ## Décryptage TLS
 
-### Décryptage du trafic https avec la clé privée du serveur
+### Décrypter le trafic https avec la clé privée du serveur
 
 _modifier>préférence>protocole>ssl>_
 
 ![](<../../../.gitbook/assets/image (98).png>)
 
-Appuyez sur _Modifier_ et ajoutez toutes les données du serveur et de la clé privée (_IP, Port, Protocole, Fichier clé et mot de passe_)
+Appuyez sur _Modifier_ et ajoutez toutes les données du serveur et de la clé privée (_IP, Port, Protocole, Fichier de clé et mot de passe_)
 
-### Décryptage du trafic https avec des clés de session symétriques
+### Décrypter le trafic https avec des clés de session symétriques
 
-Il s'avère que Firefox et Chrome prennent en charge tous deux l'enregistrement de la clé de session symétrique utilisée pour chiffrer le trafic TLS dans un fichier. Vous pouvez ensuite pointer Wireshark vers ledit fichier et voilà ! trafic TLS déchiffré. Plus d'informations : [https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/)\
-Pour détecter cela, recherchez dans l'environnement la variable `SSLKEYLOGFILE`
+Firefox et Chrome ont tous deux la capacité de journaliser les clés de session TLS, qui peuvent être utilisées avec Wireshark pour décrypter le trafic TLS. Cela permet une analyse approfondie des communications sécurisées. Plus de détails sur la façon d'effectuer ce décryptage peuvent être trouvés dans un guide sur [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/).
+
+Pour détecter cela, recherchez à l'intérieur de l'environnement la variable `SSLKEYLOGFILE`
 
 Un fichier de clés partagées ressemblera à ceci :
 
 ![](<../../../.gitbook/assets/image (99).png>)
 
-Pour importer ceci dans Wireshark, allez à \_modifier > préférence > protocole > ssl > et importez-le dans le fichier journal (Pré)-Master-Secret :
+Pour importer cela dans Wireshark, allez à \_modifier > préférence > protocole > ssl > et importez-le dans (Pré)-Master-Secret log filename :
 
 ![](<../../../.gitbook/assets/image (100).png>)
 
@@ -173,6 +176,6 @@ D'autres façons de soutenir HackTricks:
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
