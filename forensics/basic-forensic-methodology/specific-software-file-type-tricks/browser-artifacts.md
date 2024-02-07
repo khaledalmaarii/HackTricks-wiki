@@ -6,11 +6,11 @@
 
 Outras maneiras de apoiar o HackTricks:
 
-- Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+- Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 - Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 - Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 - **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-- **Compartilhe seus truques de hacking enviando PRs para** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+- **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 
@@ -24,70 +24,57 @@ Acesse hoje:
 
 ## Artefatos dos Navegadores <a href="#id-3def" id="id-3def"></a>
 
-Quando falamos sobre artefatos do navegador, estamos nos referindo ao histórico de navegação, favoritos, lista de arquivos baixados, dados em cache, etc.
+Os artefatos do navegador incluem vários tipos de dados armazenados pelos navegadores da web, como histórico de navegação, favoritos e dados de cache. Esses artefatos são mantidos em pastas específicas dentro do sistema operacional, diferindo em localização e nome entre os navegadores, mas geralmente armazenando tipos de dados semelhantes.
 
-Esses artefatos são arquivos armazenados em pastas específicas no sistema operacional.
+Aqui está um resumo dos artefatos de navegador mais comuns:
 
-Cada navegador armazena seus arquivos em um local diferente dos outros navegadores e todos têm nomes diferentes, mas armazenam (na maioria das vezes) o mesmo tipo de dados (artefatos).
+- **Histórico de Navegação**: Registra as visitas do usuário a sites, útil para identificar visitas a sites maliciosos.
+- **Dados de Autocompletar**: Sugestões com base em pesquisas frequentes, oferecendo insights quando combinados com o histórico de navegação.
+- **Favoritos**: Sites salvos pelo usuário para acesso rápido.
+- **Extensões e Complementos**: Extensões do navegador ou complementos instalados pelo usuário.
+- **Cache**: Armazena conteúdo da web (por exemplo, imagens, arquivos JavaScript) para melhorar os tempos de carregamento do site, valioso para análise forense.
+- **Logins**: Credenciais de login armazenadas.
+- **Favicons**: Ícones associados a sites, aparecendo em abas e favoritos, úteis para obter informações adicionais sobre as visitas do usuário.
+- **Sessões do Navegador**: Dados relacionados a sessões de navegador abertas.
+- **Downloads**: Registros de arquivos baixados pelo navegador.
+- **Dados de Formulário**: Informações inseridas em formulários da web, salvas para sugestões de preenchimento automático no futuro.
+- **Miniaturas**: Imagens de visualização de sites.
+- **Dicionário Personalizado.txt**: Palavras adicionadas pelo usuário ao dicionário do navegador.
 
-Vamos dar uma olhada nos artefatos mais comuns armazenados pelos navegadores.
-
-- **Histórico de Navegação:** Contém dados sobre o histórico de navegação do usuário. Pode ser usado para rastrear se o usuário visitou alguns sites maliciosos, por exemplo.
-- **Dados de Autocompletar:** Estes são os dados que o navegador sugere com base no que você mais procura. Pode ser usado em conjunto com o histórico de navegação para obter mais insights.
-- **Favoritos:** Autoexplicativo.
-- **Extensões e Complementos:** Autoexplicativo.
-- **Cache:** Ao navegar em sites, o navegador cria vários tipos de dados em cache (imagens, arquivos javascript, etc.) por muitas razões. Por exemplo, para acelerar o tempo de carregamento dos sites. Esses arquivos de cache podem ser uma ótima fonte de dados durante uma investigação forense.
-- **Logins:** Autoexplicativo.
-- **Favicons:** São os pequenos ícones encontrados em abas, URLs, favoritos e afins. Podem ser usados como outra fonte para obter mais informações sobre o site ou lugares visitados pelo usuário.
-- **Sessões do Navegador:** Autoexplicativo.
-- **Downloads:** Autoexplicativo.
-- **Dados de Formulário:** Qualquer coisa digitada em formulários é frequentemente armazenada pelo navegador, para que da próxima vez que o usuário inserir algo em um formulário, o navegador possa sugerir dados inseridos anteriormente.
-- **Miniaturas:** Autoexplicativo.
-- **Dicionário Personalizado.txt:** Palavras adicionadas ao dicionário pelo usuário.
 
 ## Firefox
 
-O Firefox cria a pasta de perfis em \~/_**.mozilla/firefox/**_ (Linux), em **/Users/$USER/Library/Application Support/Firefox/Profiles/** (MacOS), _**%userprofile%\AppData\Roaming\Mozilla\Firefox\Profiles\\**_ (Windows)_**.**_\
-Dentro desta pasta, o arquivo _**profiles.ini**_ deve aparecer com o(s) nome(s) do(s) perfil(is) do usuário.\
-Cada perfil tem uma variável "**Path**" com o nome da pasta onde seus dados serão armazenados. A pasta deve estar **presente no mesmo diretório onde o \_profiles.ini**\_\*\* existir\*\*. Se não estiver, provavelmente foi excluída.
+O Firefox organiza os dados do usuário em perfis, armazenados em locais específicos com base no sistema operacional:
 
-Dentro da pasta **de cada perfil** (_\~/.mozilla/firefox/\<NomePerfil>/_) você deve ser capaz de encontrar os seguintes arquivos interessantes:
+- **Linux**: `~/.mozilla/firefox/`
+- **MacOS**: `/Users/$USER/Library/Application Support/Firefox/Profiles/`
+- **Windows**: `%userprofile%\AppData\Roaming\Mozilla\Firefox\Profiles\`
 
-- _**places.sqlite**_ : Histórico (moz\_\_places), favoritos (moz\_bookmarks) e downloads (moz\_\_annos). No Windows, a ferramenta [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html) pode ser usada para ler o histórico dentro de _**places.sqlite**_.
-- Consulta para extrair o histórico: `select datetime(lastvisitdate/1000000,'unixepoch') as visit_date, url, title, visit_count, visit_type FROM moz_places,moz_historyvisits WHERE moz_places.id = moz_historyvisits.place_id;`
-- Observe que um tipo de link é um número que indica:
-- 1: Usuário seguiu um link
-- 2: Usuário digitou a URL
-- 3: Usuário usou um favorito
-- 4: Carregado de Iframe
-- 5: Acessado via redirecionamento HTTP 301
-- 6: Acessado via redirecionamento HTTP 302
-- 7: Arquivo baixado
-- 8: Usuário seguiu um link dentro de um Iframe
-- Consulta para extrair downloads: `SELECT datetime(lastModified/1000000,'unixepoch') AS down_date, content as File, url as URL FROM moz_places, moz_annos WHERE moz_places.id = moz_annos.place_id;`
-*
-- _**bookmarkbackups/**_ : Backups de favoritos
-- _**formhistory.sqlite**_ : **Dados de formulário da web** (como e-mails)
-- _**handlers.json**_ : Manipuladores de protocolo (como, qual aplicativo vai lidar com o protocolo _mailto://_)
-- _**persdict.dat**_ : Palavras adicionadas ao dicionário
-- _**addons.json**_ e \_**extensions.sqlite** \_ : Extensões e complementos instalados
-- _**cookies.sqlite**_ : Contém **cookies.** [**MZCookiesView**](https://www.nirsoft.net/utils/mzcv.html) pode ser usado no Windows para inspecionar este arquivo.
--   _**cache2/entries**_ ou _**startupCache**_ : Dados em cache (\~350MB). Truques como **escultura de dados** também podem ser usados para obter os arquivos salvos no cache. [MozillaCacheView](https://www.nirsoft.net/utils/mozilla\_cache\_viewer.html) pode ser usado para ver os **arquivos salvos no cache**.
+Um arquivo `profiles.ini` dentro desses diretórios lista os perfis de usuário. Os dados de cada perfil são armazenados em uma pasta nomeada com a variável `Path` dentro do `profiles.ini`, localizada no mesmo diretório que o `profiles.ini` em si. Se a pasta de um perfil estiver ausente, ela pode ter sido excluída.
 
-Informações que podem ser obtidas:
+Dentro de cada pasta de perfil, você pode encontrar vários arquivos importantes:
 
-- URL, Contagem de busca, Nome do arquivo, Tipo de conteúdo, Tamanho do arquivo, Última modificação, Última busca, Última modificação do servidor, Resposta do servidor
-- _**favicons.sqlite**_ : Favicons
-- _**prefs.js**_ : Configurações e Preferências
-- _**downloads.sqlite**_ : Banco de dados de downloads antigos (agora está dentro de places.sqlite)
-- _**thumbnails/**_ : Miniaturas
-- _**logins.json**_ : Nomes de usuário e senhas criptografados
-- **Anti-phishing integrado do navegador:** `grep 'browser.safebrowsing' ~/Library/Application Support/Firefox/Profiles/*/prefs.js`
-- Retornará "safebrowsing.malware.enabled" e "phishing.enabled" como falso se as configurações de pesquisa segura tiverem sido desativadas
-- _**key4.db**_ ou _**key3.db**_ : Chave mestra?
+- **places.sqlite**: Armazena histórico, favoritos e downloads. Ferramentas como [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing_history_view.html) no Windows podem acessar os dados de histórico.
+- Use consultas SQL específicas para extrair informações de histórico e downloads.
+- **bookmarkbackups**: Contém backups de favoritos.
+- **formhistory.sqlite**: Armazena dados de formulários da web.
+- **handlers.json**: Gerencia manipuladores de protocolo.
+- **persdict.dat**: Palavras do dicionário personalizado.
+- **addons.json** e **extensions.sqlite**: Informações sobre extensões e complementos instalados.
+- **cookies.sqlite**: Armazenamento de cookies, com [MZCookiesView](https://www.nirsoft.net/utils/mzcv.html) disponível para inspeção no Windows.
+- **cache2/entries** ou **startupCache**: Dados de cache, acessíveis por meio de ferramentas como [MozillaCacheView](https://www.nirsoft.net/utils/mozilla_cache_viewer.html).
+- **favicons.sqlite**: Armazena favicons.
+- **prefs.js**: Configurações e preferências do usuário.
+- **downloads.sqlite**: Banco de dados de downloads antigos, agora integrado ao places.sqlite.
+- **thumbnails**: Miniaturas de sites.
+- **logins.json**: Informações de login criptografadas.
+- **key4.db** ou **key3.db**: Armazena chaves de criptografia para proteger informações sensíveis.
+
+Além disso, verificar as configurações anti-phishing do navegador pode ser feito pesquisando por entradas `browser.safebrowsing` em `prefs.js`, indicando se os recursos de navegação segura estão ativados ou desativados.
+
 
 Para tentar descriptografar a senha mestra, você pode usar [https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt)\
-Com o script e chamada a seguir, você pode especificar um arquivo de senha para força bruta:
+Com o seguinte script e chamada, você pode especificar um arquivo de senha para força bruta:
 
 {% code title="brute.sh" %}
 ```bash
@@ -106,175 +93,100 @@ done < $passfile
 
 ## Google Chrome
 
-O Google Chrome cria o perfil dentro da pasta do usuário _**\~/.config/google-chrome/**_ (Linux), em _**C:\Users\XXX\AppData\Local\Google\Chrome\User Data\\**_ (Windows), ou em \_**/Users/$USER/Library/Application Support/Google/Chrome/** \_ (MacOS).\
-A maior parte das informações será salva dentro das pastas _**Default/**_ ou _**ChromeDefaultData/**_ nos caminhos indicados anteriormente. Aqui você pode encontrar os seguintes arquivos interessantes:
+O Google Chrome armazena perfis de usuários em locais específicos com base no sistema operacional:
 
-* _**History**_: URLs, downloads e até palavras-chave pesquisadas. No Windows, você pode usar a ferramenta [ChromeHistoryView](https://www.nirsoft.net/utils/chrome\_history\_view.html) para ler o histórico. A coluna "Tipo de Transição" significa:
-* Link: Usuário clicou em um link
-* Digitado: A URL foi escrita
-* Auto Favorito
-* Auto Subframe: Adicionar
-* Página inicial: Página inicial
-* Enviar formulário: Um formulário foi preenchido e enviado
-* Recarregado
-* _**Cookies**_: Cookies. [ChromeCookiesView](https://www.nirsoft.net/utils/chrome\_cookies\_view.html) pode ser usado para inspecionar os cookies.
-* _**Cache**_: Cache. No Windows, você pode usar a ferramenta [ChromeCacheView](https://www.nirsoft.net/utils/chrome\_cache\_view.html) para inspecionar o cache.
-* _**Favoritos**_: Favoritos
-* _**Dados da Web**_: Histórico de formulários
-* _**Favicons**_: Favicons
-* _**Dados de Login**_: Informações de login (nomes de usuário, senhas...)
-* _**Sessão Atual**_ e _**Abas Atuais**_: Dados da sessão atual e abas atuais
-* _**Última Sessão**_ e _**Últimas Abas**_: Esses arquivos contêm sites que estavam ativos no navegador quando o Chrome foi fechado pela última vez.
-* _**Extensões**_: Pasta de extensões e complementos
-* **Miniaturas** : Miniaturas
-* **Preferências**: Este arquivo contém uma infinidade de informações úteis, como plugins, extensões, sites que usam geolocalização, pop-ups, notificações, pré-busca de DNS, exceções de certificado e muito mais. Se você está tentando pesquisar se uma configuração específica do Chrome estava ativada, provavelmente encontrará essa configuração aqui.
-* **Anti-phishing integrado do navegador:** `grep 'safebrowsing' ~/Library/Application Support/Google/Chrome/Default/Preferences`
-* Você pode simplesmente procurar por “**safebrowsing**” e procurar por `{"enabled: true,"}` no resultado para indicar que a proteção contra phishing e malware está ativada.
+- **Linux**: `~/.config/google-chrome/`
+- **Windows**: `C:\Users\XXX\AppData\Local\Google\Chrome\User Data\`
+- **MacOS**: `/Users/$USER/Library/Application Support/Google/Chrome/`
+
+Dentro desses diretórios, a maioria dos dados do usuário pode ser encontrada nas pastas **Default/** ou **ChromeDefaultData/**. Os seguintes arquivos contêm dados significativos:
+
+- **History**: Contém URLs, downloads e palavras-chave de pesquisa. No Windows, [ChromeHistoryView](https://www.nirsoft.net/utils/chrome_history_view.html) pode ser usado para ler o histórico. A coluna "Tipo de Transição" tem vários significados, incluindo cliques do usuário em links, URLs digitadas, envios de formulários e recarregamentos de página.
+- **Cookies**: Armazena cookies. Para inspeção, [ChromeCookiesView](https://www.nirsoft.net/utils/chrome_cookies_view.html) está disponível.
+- **Cache**: Mantém dados em cache. Para inspeção, os usuários do Windows podem utilizar [ChromeCacheView](https://www.nirsoft.net/utils/chrome_cache_view.html).
+- **Bookmarks**: Favoritos do usuário.
+- **Web Data**: Contém histórico de formulários.
+- **Favicons**: Armazena favicons de sites.
+- **Login Data**: Inclui credenciais de login como nomes de usuário e senhas.
+- **Sessão Atual**/**Abas Atuais**: Dados sobre a sessão de navegação atual e abas abertas.
+- **Última Sessão**/**Últimas Abas**: Informações sobre os sites ativos durante a última sessão antes do fechamento do Chrome.
+- **Extensões**: Diretórios para extensões e complementos do navegador.
+- **Miniaturas**: Armazena miniaturas de sites.
+- **Preferências**: Um arquivo rico em informações, incluindo configurações para plugins, extensões, pop-ups, notificações e mais.
+- **Anti-phishing integrado do navegador**: Para verificar se a proteção contra phishing e malware está ativada, execute `grep 'safebrowsing' ~/Library/Application Support/Google/Chrome/Default/Preferences`. Procure por `{"enabled: true,"}` na saída.
+
 
 ## **Recuperação de Dados do Banco de Dados SQLite**
 
-Como você pode observar nas seções anteriores, tanto o Chrome quanto o Firefox usam bancos de dados **SQLite** para armazenar os dados. É possível **recuperar entradas excluídas usando a ferramenta** [**sqlparse**](https://github.com/padfoot999/sqlparse) **ou** [**sqlparse\_gui**](https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases).
+Como observado nas seções anteriores, tanto o Chrome quanto o Firefox usam bancos de dados **SQLite** para armazenar os dados. É possível **recuperar entradas excluídas usando a ferramenta** [**sqlparse**](https://github.com/padfoot999/sqlparse) **ou** [**sqlparse\_gui**](https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases).
 
 ## **Internet Explorer 11**
 
-O Internet Explorer armazena **dados** e **metadados** em locais diferentes. Os metadados permitirão encontrar os dados.
+O Internet Explorer 11 gerencia seus dados e metadados em vários locais, auxiliando na separação das informações armazenadas e seus detalhes correspondentes para fácil acesso e gerenciamento.
 
-Os **metadados** podem ser encontrados na pasta `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` onde VX pode ser V01, V16 ou V24.\
-Na pasta anterior, você também pode encontrar o arquivo V01.log. Caso o **horário de modificação** deste arquivo e do arquivo WebcacheVX.data **sejam diferentes**, pode ser necessário executar o comando `esentutl /r V01 /d` para **corrigir** possíveis **incompatibilidades**.
+### Armazenamento de Metadados
+Os metadados do Internet Explorer são armazenados em `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` (sendo VX V01, V16 ou V24). Além disso, o arquivo `V01.log` pode mostrar discrepâncias nos horários de modificação com `WebcacheVX.data`, indicando a necessidade de reparo usando `esentutl /r V01 /d`. Esses metadados, alojados em um banco de dados ESE, podem ser recuperados e inspecionados usando ferramentas como photorec e [ESEDatabaseView](https://www.nirsoft.net/utils/ese_database_view.html), respectivamente. Na tabela **Containers**, é possível discernir as tabelas ou containers específicos onde cada segmento de dados é armazenado, incluindo detalhes de cache para outras ferramentas da Microsoft, como o Skype.
 
-Uma vez **recuperado** este artefato (é um banco de dados ESE, o photorec pode recuperá-lo com as opções Banco de Dados de Troca ou EDB) você pode usar o programa [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html) para abri-lo. Uma vez **aberto**, vá para a tabela chamada "**Containers**".
+### Inspeção de Cache
+A ferramenta [IECacheView](https://www.nirsoft.net/utils/ie_cache_viewer.html) permite a inspeção de cache, exigindo a localização da pasta de extração de dados de cache. Os metadados para cache incluem nome do arquivo, diretório, contagem de acessos, origem do URL e carimbos de data e hora indicando a criação, acesso, modificação e expiração do cache.
 
-![](<../../../.gitbook/assets/image (446).png>)
+### Gerenciamento de Cookies
+Os cookies podem ser explorados usando [IECookiesView](https://www.nirsoft.net/utils/iecookies.html), com metadados que abrangem nomes, URLs, contagens de acesso e vários detalhes relacionados ao tempo. Cookies persistentes são armazenados em `%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies`, com cookies de sessão residindo na memória.
 
-Dentro desta tabela, você pode encontrar em quais outras tabelas ou contêineres cada parte das informações armazenadas está salva. Seguindo isso, você pode encontrar as **localizações dos dados** armazenados pelos navegadores e os **metadados** que estão dentro.
+### Detalhes de Downloads
+Metadados de downloads são acessíveis via [ESEDatabaseView](https://www.nirsoft.net/utils/ese_database_view.html), com containers específicos contendo dados como URL, tipo de arquivo e local de download. Os arquivos físicos podem ser encontrados em `%userprofile%\Appdata\Roaming\Microsoft\Windows\IEDownloadHistory`.
 
-**Observe que esta tabela indica metadados do cache para outras ferramentas da Microsoft também (por exemplo, skype)**
+### Histórico de Navegação
+Para revisar o histórico de navegação, pode-se usar [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing_history_view.html), exigindo a localização dos arquivos de histórico extraídos e a configuração para o Internet Explorer. Os metadados aqui incluem horários de modificação e acesso, juntamente com contagens de acesso. Os arquivos de histórico estão localizados em `%userprofile%\Appdata\Local\Microsoft\Windows\History`.
 
-### Cache
+### URLs Digitadas
+URLs digitadas e seus horários de uso são armazenados no registro em `NTUSER.DAT` em `Software\Microsoft\InternetExplorer\TypedURLs` e `Software\Microsoft\InternetExplorer\TypedURLsTime`, rastreando as últimas 50 URLs inseridas pelo usuário e seus últimos horários de entrada.
 
-Você pode usar a ferramenta [IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) para inspecionar o cache. Você precisa indicar a pasta onde extraiu os dados do cache.
-
-#### Metadados
-
-As informações de metadados sobre o cache armazenam:
-
-* Nome do arquivo no disco
-* SecureDIrectory: Localização do arquivo dentro dos diretórios de cache
-* AccessCount: Número de vezes que foi salvo no cache
-* URL: A origem da URL
-* CreationTime: Primeira vez que foi armazenado em cache
-* AccessedTime: Hora em que o cache foi usado
-* ModifiedTime: Última versão da página da web
-* ExpiryTime: Hora em que o cache expirará
-
-#### Arquivos
-
-As informações de cache podem ser encontradas em _**%userprofile%\Appdata\Local\Microsoft\Windows\Temporary Internet Files\Content.IE5**_ e _**%userprofile%\Appdata\Local\Microsoft\Windows\Temporary Internet Files\Content.IE5\low**_
-
-As informações dentro dessas pastas são um **instantâneo do que o usuário estava vendo**. Os caches têm um tamanho de **250 MB** e os carimbos de data e hora indicam quando a página foi visitada (primeira vez, data de criação do NTFS, última vez, hora da modificação do NTFS).
-
-### Cookies
-
-Você pode usar a ferramenta [IECookiesView](https://www.nirsoft.net/utils/iecookies.html) para inspecionar os cookies. Você precisa indicar a pasta onde extraiu os cookies.
-
-#### **Metadados**
-
-As informações de metadados sobre os cookies armazenados:
-
-* Nome do cookie no sistema de arquivos
-* URL
-* AccessCount: Número de vezes que os cookies foram enviados para o servidor
-* CreationTime: Primeira vez que o cookie foi criado
-* ModifiedTime: Última vez que o cookie foi modificado
-* AccessedTime: Última vez que o cookie foi acessado
-* ExpiryTime: Hora de expiração do cookie
-
-#### Arquivos
-
-Os dados dos cookies podem ser encontrados em _**%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies**_ e _**%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies\low**_
-
-Cookies de sessão residirão na memória e cookies persistentes no disco.
-
-### Downloads
-
-#### **Metadados**
-
-Verificando a ferramenta [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html) você pode encontrar o contêiner com os metadados dos downloads:
-
-![](<../../../.gitbook/assets/image (445).png>)
-
-Obtendo as informações da coluna "ResponseHeaders" você pode transformar essas informações de hexadecimal e obter a URL, o tipo de arquivo e a localização do arquivo baixado.
-
-#### Arquivos
-
-Procure no caminho _**%userprofile%\Appdata\Roaming\Microsoft\Windows\IEDownloadHistory**_
-
-### **Histórico**
-
-A ferramenta [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html) pode ser usada para ler o histórico. Mas primeiro, você precisa indicar o navegador nas opções avançadas e a localização dos arquivos de histórico extraídos.
-
-#### **Metadados**
-
-* ModifiedTime: Primeira vez que uma URL é encontrada
-* AccessedTime: Última vez
-* AccessCount: Número de vezes acessado
-
-#### **Arquivos**
-
-Procure em _**userprofile%\Appdata\Local\Microsoft\Windows\History\History.IE5**_ e _**userprofile%\Appdata\Local\Microsoft\Windows\History\Low\History.IE5**_
-
-### **URLs Digitadas**
-
-Essas informações podem ser encontradas no registro NTDUSER.DAT no caminho:
-
-* _**Software\Microsoft\InternetExplorer\TypedURLs**_
-* Armazena as últimas 50 URLs digitadas pelo usuário
-* _**Software\Microsoft\InternetExplorer\TypedURLsTime**_
-* última vez que a URL foi digitada
 
 ## Microsoft Edge
 
-Para analisar os artefatos do Microsoft Edge, todas as **explicações sobre cache e locais da seção anterior (IE 11) permanecem válidas** com a única diferença de que a localização base, neste caso, é _**%userprofile%\Appdata\Local\Packages**_ (como pode ser observado nos seguintes caminhos):
+O Microsoft Edge armazena dados do usuário em `%userprofile%\Appdata\Local\Packages`. Os caminhos para vários tipos de dados são:
 
-* Caminho do Perfil: _**C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge\_XXX\AC**_
-* Histórico, Cookies e Downloads: _**C:\Users\XX\AppData\Local\Microsoft\Windows\WebCache\WebCacheV01.dat**_
-* Configurações, Favoritos e Lista de Leitura: _**C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge\_XXX\AC\MicrosoftEdge\User\Default\DataStore\Data\nouser1\XXX\DBStore\spartan.edb**_
-* Cache: _**C:\Users\XXX\AppData\Local\Packages\Microsoft.MicrosoftEdge\_XXX\AC#!XXX\MicrosoftEdge\Cache**_
-* Últimas sessões ativas: _**C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge\_XXX\AC\MicrosoftEdge\User\Default\Recovery\Active**_
+- **Caminho do Perfil**: `C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge_XXX\AC`
+- **Histórico, Cookies e Downloads**: `C:\Users\XX\AppData\Local\Microsoft\Windows\WebCache\WebCacheV01.dat`
+- **Configurações, Favoritos e Lista de Leitura**: `C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge_XXX\AC\MicrosoftEdge\User\Default\DataStore\Data\nouser1\XXX\DBStore\spartan.edb`
+- **Cache**: `C:\Users\XXX\AppData\Local\Packages\Microsoft.MicrosoftEdge_XXX\AC#!XXX\MicrosoftEdge\Cache`
+- **Últimas Sessões Ativas**: `C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge_XXX\AC\MicrosoftEdge\User\Default\Recovery\Active`
 
-## **Safari**
+## Safari
 
-Os bancos de dados podem ser encontrados em `/Users/$User/Library/Safari`
+Os dados do Safari são armazenados em `/Users/$User/Library/Safari`. Arquivos-chave incluem:
 
-* **History.db**: As tabelas `history_visits` _e_ `history_items` contêm informações sobre o histórico e os carimbos de data e hora.
-* `sqlite3 ~/Library/Safari/History.db "SELECT h.visit_time, i.url FROM history_visits h INNER JOIN history_items i ON h.history_item = i.id"`
-* **Downloads.plist**: Contém informações sobre os arquivos baixados.
-* **Book-marks.plis**t: URLs marcados.
-* **TopSites.plist**: Lista dos sites mais visitados que o usuário navega.
-* **Extensions.plist**: Para recuperar uma lista de extensões antigas do navegador Safari.
-* `plutil -p ~/Library/Safari/Extensions/Extensions.plist| grep "Bundle Directory Name" | sort --ignore-case`
-* `pluginkit -mDvvv -p com.apple.Safari.extension`
-* **UserNotificationPermissions.plist**: Domínios que têm permissão para enviar notificações.
-* `plutil -p ~/Library/Safari/UserNotificationPermissions.plist | grep -a3 '"Permission" => 1'`
-* **LastSession.plist**: Abas que estavam abertas da última vez que o usuário saiu do Safari.
-* `plutil -p ~/Library/Safari/LastSession.plist | grep -iv sessionstate`
-* **Anti-phishing integrado do navegador:** `defaults read com.apple.Safari WarnAboutFraudulentWebsites`
-* A resposta deve ser 1 para indicar que a configuração está ativa
+- **History.db**: Contém tabelas `history_visits` e `history_items` com URLs e horários de visita. Use `sqlite3` para consultar.
+- **Downloads.plist**: Informações sobre arquivos baixados.
+- **Bookmarks.plist**: Armazena URLs favoritadas.
+- **TopSites.plist**: Sites mais visitados.
+- **Extensions.plist**: Lista de extensões do navegador Safari. Use `plutil` ou `pluginkit` para recuperar.
+- **UserNotificationPermissions.plist**: Domínios permitidos para enviar notificações. Use `plutil` para analisar.
+- **LastSession.plist**: Abas da última sessão. Use `plutil` para analisar.
+- **Anti-phishing integrado do navegador**: Verifique usando `defaults read com.apple.Safari WarnAboutFraudulentWebsites`. Uma resposta de 1 indica que o recurso está ativo.
 
 ## Opera
 
-Os bancos de dados podem ser encontrados em `/Users/$USER/Library/Application Support/com.operasoftware.Opera`
+Os dados do Opera estão localizados em `/Users/$USER/Library/Application Support/com.operasoftware.Opera` e compartilham o formato de histórico e downloads do Chrome.
 
-O Opera **armazena o histórico do navegador e os dados de download no mesmo formato que o Google Chrome**. Isso se aplica aos nomes dos arquivos, bem como aos nomes das tabelas.
+- **Anti-phishing integrado do navegador**: Verifique se `fraud_protection_enabled` no arquivo Preferences está definido como `true` usando `grep`.
 
-* **Anti-phishing integrado do navegador:** `grep --color 'fraud_protection_enabled' ~/Library/Application Support/com.operasoftware.Opera/Preferences`
-* **fraud\_protection\_enabled** deve ser **true**
+Esses caminhos e comandos são cruciais para acessar e entender os dados de navegação armazenados por diferentes navegadores da web.
+
+
+# Referências
+* [https://nasbench.medium.com/web-browsers-forensics-7e99940c579a](https://nasbench.medium.com/web-browsers-forensics-7e99940c579a)
+* [https://www.sentinelone.com/labs/macos-incident-response-part-3-system-manipulation/](https://www.sentinelone.com/labs/macos-incident-response-part-3-system-manipulation/)
+* [https://books.google.com/books?id=jfMqCgAAQBAJ&pg=PA128&lpg=PA128&dq=%22This+file](https://books.google.com/books?id=jfMqCgAAQBAJ&pg=PA128&lpg=PA128&dq=%22This+file)
+* **Livro: OS X Incident Response: Scripting and Analysis By Jaron Bradley pag 123**
+
 
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
 Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente com as ferramentas comunitárias mais avançadas do mundo.\
-Acesse hoje:
+Tenha acesso hoje:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -282,12 +194,12 @@ Acesse hoje:
 
 <summary><strong>Aprenda hacking AWS do zero ao avançado com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras maneiras de apoiar o HackTricks:
+Outras formas de apoiar o HackTricks:
 
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou nos siga no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe suas dicas de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Compartilhe seus truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

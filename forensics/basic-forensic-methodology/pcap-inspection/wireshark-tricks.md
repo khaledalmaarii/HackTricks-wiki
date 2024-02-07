@@ -37,37 +37,37 @@ Clicando em _**Analyze** --> **Expert Information**_ você terá uma **visão ge
 
 **Endereços Resolvidos**
 
-Sob _**Statistics --> Resolved Addresses**_ você pode encontrar várias **informações** que foram "**resolvidas**" pelo wireshark, como porta/transporte para protocolo, MAC para o fabricante, etc. É interessante saber o que está implicado na comunicação.
+Em _**Statistics --> Resolved Addresses**_ você pode encontrar várias **informações** que foram "**resolvidas**" pelo wireshark, como porta/transporte para protocolo, MAC para o fabricante, etc. É interessante saber o que está implicado na comunicação.
 
 ![](<../../../.gitbook/assets/image (571).png>)
 
 **Hierarquia de Protocolo**
 
-Sob _**Statistics --> Protocol Hierarchy**_ você pode encontrar os **protocolos** **envolvidos** na comunicação e dados sobre eles.
+Em _**Statistics --> Protocol Hierarchy**_ você pode encontrar os **protocolos** **envolvidos** na comunicação e dados sobre eles.
 
 ![](<../../../.gitbook/assets/image (572).png>)
 
 **Conversas**
 
-Sob _**Statistics --> Conversations**_ você pode encontrar um **resumo das conversas** na comunicação e dados sobre elas.
+Em _**Statistics --> Conversations**_ você pode encontrar um **resumo das conversas** na comunicação e dados sobre elas.
 
 ![](<../../../.gitbook/assets/image (573).png>)
 
 **Pontos Finais**
 
-Sob _**Statistics --> Endpoints**_ você pode encontrar um **resumo dos pontos finais** na comunicação e dados sobre cada um deles.
+Em _**Statistics --> Endpoints**_ você pode encontrar um **resumo dos pontos finais** na comunicação e dados sobre cada um deles.
 
 ![](<../../../.gitbook/assets/image (575).png>)
 
 **Informações de DNS**
 
-Sob _**Statistics --> DNS**_ você pode encontrar estatísticas sobre a solicitação de DNS capturada.
+Em _**Statistics --> DNS**_ você pode encontrar estatísticas sobre a solicitação de DNS capturada.
 
 ![](<../../../.gitbook/assets/image (577).png>)
 
 **Gráfico de E/S**
 
-Sob _**Statistics --> I/O Graph**_ você pode encontrar um **gráfico da comunicação**.
+Em _**Statistics --> I/O Graph**_ você pode encontrar um **gráfico da comunicação**.
 
 ![](<../../../.gitbook/assets/image (574).png>)
 
@@ -85,9 +85,11 @@ Outros filtros interessantes:
 
 ### Pesquisa
 
-Se você deseja **pesquisar** por **conteúdo** dentro dos **pacotes** das sessões, pressione _CTRL+f_. Você pode adicionar novas camadas à barra de informações principal (No., Time, Source, etc.) pressionando o botão direito e depois editar a coluna.
+Se você deseja **pesquisar** por **conteúdo** dentro dos **pacotes** das sessões, pressione _CTRL+f_. Você pode adicionar novas camadas à barra de informações principal (No., Time, Source, etc.) pressionando o botão direito e, em seguida, editar a coluna.
 
-Prática: [https://www.malware-traffic-analysis.net/](https://www.malware-traffic-analysis.net)
+### Laboratórios pcap gratuitos
+
+**Pratique com os desafios gratuitos em: [https://www.malware-traffic-analysis.net/](https://www.malware-traffic-analysis.net)**
 
 ## Identificando Domínios
 
@@ -123,20 +125,21 @@ Pressione _Edit_ e adicione todos os dados do servidor e da chave privada (_IP, 
 
 ### Descriptografando tráfego https com chaves de sessão simétricas
 
-Acontece que tanto o Firefox quanto o Chrome suportam o registro da chave de sessão simétrica usada para criptografar o tráfego TLS em um arquivo. Você pode então apontar o Wireshark para esse arquivo e pronto! tráfego TLS descriptografado. Mais em: [https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/)\
+Tanto o Firefox quanto o Chrome têm a capacidade de registrar chaves de sessão TLS, que podem ser usadas com o Wireshark para descriptografar o tráfego TLS. Isso permite uma análise aprofundada das comunicações seguras. Mais detalhes sobre como realizar essa descriptografia podem ser encontrados em um guia em [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/).
+
 Para detectar isso, pesquise no ambiente pela variável `SSLKEYLOGFILE`
 
-Um arquivo de chaves compartilhadas parecerá com isso:
+Um arquivo de chaves compartilhadas terá este aspecto:
 
 ![](<../../../.gitbook/assets/image (99).png>)
 
-Para importar isso no wireshark vá para \_edit > preference > protocol > ssl > e importe em (Pre)-Master-Secret log filename:
+Para importar isso no wireshark, vá para \_edit > preference > protocol > ssl > e importe em (Pre)-Master-Secret log filename:
 
 ![](<../../../.gitbook/assets/image (100).png>)
 
 ## Comunicação ADB
 
-Extrair um APK de uma comunicação ADB onde o APK foi enviado:
+Extraia um APK de uma comunicação ADB onde o APK foi enviado:
 ```python
 from scapy.all import *
 

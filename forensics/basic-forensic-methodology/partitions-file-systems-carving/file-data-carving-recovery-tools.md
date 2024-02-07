@@ -30,8 +30,8 @@ A ferramenta mais comum usada em forense para extrair arquivos de imagens é o [
 
 ## Binwalk <a href="#binwalk" id="binwalk"></a>
 
-**Binwalk** é uma ferramenta para pesquisar arquivos binários como imagens e arquivos de áudio em busca de arquivos e dados incorporados.\
-Pode ser instalado com `apt`, no entanto, a [fonte](https://github.com/ReFirmLabs/binwalk) pode ser encontrada no github.\
+**Binwalk** é uma ferramenta para analisar arquivos binários e encontrar conteúdo incorporado. É instalável via `apt` e seu código fonte está no [GitHub](https://github.com/ReFirmLabs/binwalk).
+
 **Comandos úteis**:
 ```bash
 sudo apt install binwalk #Insllation
@@ -49,7 +49,7 @@ foremost -v -i file.img -o output
 ```
 ## **Scalpel**
 
-**Scalpel** é outra ferramenta que pode ser usada para encontrar e extrair **arquivos incorporados em um arquivo**. Neste caso, você precisará descomentar no arquivo de configuração (_/etc/scalpel/scalpel.conf_) os tipos de arquivos que deseja extrair.
+**Scalpel** é outra ferramenta que pode ser usada para encontrar e extrair **arquivos incorporados em um arquivo**. Neste caso, você precisará descomentar no arquivo de configuração (_/etc/scalpel/scalpel.conf_) os tipos de arquivo que deseja extrair.
 ```bash
 sudo apt-get install scalpel
 scalpel file.img -o output
@@ -62,7 +62,7 @@ Esta ferramenta pode escanear uma imagem e irá **extrair pcaps** dentro dela, *
 ```
 bulk_extractor memory.img -o out_folder
 ```
-Navegue por **todas as informações** que a ferramenta coletou (senhas?), **analise** os **pacotes** (leia [**Análise de Pcaps**](../pcap-inspection/)), procure por **domínios estranhos** (domínios relacionados a **malware** ou **não existentes**).
+Navegue por **todas as informações** que a ferramenta reuniu (senhas?), **analise** os **pacotes** (leia [**Análise de Pcaps**](../pcap-inspection/)), procure por **domínios estranhos** (domínios relacionados a **malware** ou **não existentes**).
 
 ## PhotoRec
 
@@ -74,7 +74,7 @@ Ele vem com versões GUI e CLI. Você pode selecionar os **tipos de arquivos** q
 
 ## binvis
 
-Verifique o [código](https://code.google.com/archive/p/binvis/) e a [página da ferramenta web](https://binvis.io/#/).
+Verifique o [código](https://code.google.com/archive/p/binvis/) e a [página da ferramenta](https://binvis.io/#/).
 
 ### Recursos do BinVis
 
@@ -85,7 +85,7 @@ Verifique o [código](https://code.google.com/archive/p/binvis/) e a [página da
 * Obtendo **padrões** para criptoanálise em arquivos
 * **Identificando** algoritmos de empacotamento ou codificação
 * **Identificando** Esteganografia por padrões
-* **Diferenciando** binário visual
+* **Diferenciação** visual binária
 
 BinVis é um ótimo **ponto de partida para se familiarizar com um alvo desconhecido** em um cenário de caixa preta.
 
@@ -93,7 +93,7 @@ BinVis é um ótimo **ponto de partida para se familiarizar com um alvo desconhe
 
 ## FindAES
 
-Pesquisa por chaves AES procurando por suas agendas de chaves. Capaz de encontrar chaves de 128, 192 e 256 bits, como as usadas pelo TrueCrypt e BitLocker.
+Procura por chaves AES pesquisando por suas agendas de chaves. Capaz de encontrar chaves de 128, 192 e 256 bits, como as usadas pelo TrueCrypt e BitLocker.
 
 Baixe [aqui](https://sourceforge.net/projects/findaes/).
 
@@ -116,7 +116,7 @@ Encontre vulnerabilidades que mais importam para que você possa corrigi-las mai
 Outras maneiras de apoiar o HackTricks:
 
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Obtenha o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
