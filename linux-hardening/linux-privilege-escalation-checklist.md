@@ -14,8 +14,6 @@ Autres façons de soutenir HackTricks :
 
 </details>
 
-<figure><img src="../.gitbook/assets/image (7) (2).png" alt=""><figcaption></figcaption></figure>
-
 <figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 Rejoignez le serveur [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) pour communiquer avec des pirates expérimentés et des chasseurs de primes !
@@ -24,7 +22,7 @@ Rejoignez le serveur [**HackenProof Discord**](https://discord.com/invite/N3FrSb
 Engagez-vous avec du contenu qui explore le frisson et les défis du piratage
 
 **Actualités de piratage en temps réel**\
-Restez informé du monde du piratage en temps réel grâce aux actualités et aux informations
+Restez informé du monde du piratage en évolution rapide grâce à des actualités et des informations en temps réel
 
 **Dernières annonces**\
 Restez informé des dernières primes de bugs lancées et des mises à jour cruciales de la plateforme
@@ -39,7 +37,7 @@ Restez informé des dernières primes de bugs lancées et des mises à jour cruc
 * [ ] Vérifier le [**CHEMIN**](privilege-escalation/#path), un **dossier inscriptible** ?
 * [ ] Vérifier les [**variables d'environnement**](privilege-escalation/#env-info), des détails sensibles ?
 * [ ] Rechercher des [**exploits du noyau**](privilege-escalation/#kernel-exploits) **en utilisant des scripts** (DirtyCow ?)
-* [ ] **Vérifier** si la [**version de sudo est vulnérable**](privilege-escalation/#sudo-version)
+* [ ] **Vérifier** si la version de [**sudo est vulnérable**](privilege-escalation/#sudo-version)
 * [ ] [**Échec de la vérification de la signature Dmesg**](privilege-escalation/#dmesg-signature-verification-failed)
 * [ ] Plus d'énumération système ([date, statistiques système, infos CPU, imprimantes](privilege-escalation/#more-system-enumeration))
 * [ ] [Énumérer plus de défenses](privilege-escalation/#enumerate-possible-defenses)
@@ -62,14 +60,14 @@ Restez informé des dernières primes de bugs lancées et des mises à jour cruc
 * [ ] Rechercher des **exploits des processus en cours d'exécution** (surtout la version en cours d'exécution).
 * [ ] Pouvez-vous **modifier le binaire** de n'importe quel processus en cours d'exécution ?
 * [ ] **Surveiller les processus** et vérifier si un processus intéressant s'exécute fréquemment.
-* [ ] Pouvez-vous **lire** certaines **mémoires de processus** intéressantes (où des mots de passe pourraient être enregistrés) ?
+* [ ] Pouvez-vous **lire** une partie de la **mémoire du processus** intéressante (où des mots de passe pourraient être enregistrés) ?
 
 ### [Tâches planifiées/Cron jobs ?](privilege-escalation/#scheduled-jobs)
 
-* [ ] Le [**CHEMIN** ](privilege-escalation/#cron-path)est-il modifié par un cron et pouvez-vous **écrire** dedans ?
+* [ ] Le [**CHEMIN** ](privilege-escalation/#cron-path)est-il modifié par un cron et vous pouvez **écrire** dedans ?
 * [ ] Un [**joker** ](privilege-escalation/#cron-using-a-script-with-a-wildcard-wildcard-injection)dans une tâche cron ?
 * [ ] Un [**script modifiable** ](privilege-escalation/#cron-script-overwriting-and-symlink)est-il **exécuté** ou se trouve-t-il dans un **dossier modifiable** ?
-* [ ] Avez-vous détecté qu'un **script** pourrait être ou est [**exécuté très **fréquemment**](privilege-escalation/#frequent-cron-jobs) ? (toutes les 1, 2 ou 5 minutes)
+* [ ] Avez-vous détecté qu'un **script** pourrait être ou est **exécuté très **fréquemment**](privilege-escalation/#frequent-cron-jobs) ? (toutes les 1, 2 ou 5 minutes)
 
 ### [Services](privilege-escalation/#services)
 
@@ -102,13 +100,13 @@ Restez informé des dernières primes de bugs lancées et des mises à jour cruc
 * [ ] Énumération des utilisateurs/groupes **génériques**
 * [ ] Avez-vous un **UID très élevé** ? La **machine** est-elle **vulnérable** ?
 * [ ] Pouvez-vous [**élever les privilèges grâce à un groupe**](privilege-escalation/interesting-groups-linux-pe/) auquel vous appartenez ?
-* [ ] Données du **Presse-papiers** ?
+* [ ] Données du **presse-papiers** ?
 * [ ] Politique de mot de passe ?
 * [ ] Essayez d'**utiliser** chaque **mot de passe connu** que vous avez découvert précédemment pour vous connecter **avec chaque** utilisateur **possible**. Essayez également de vous connecter sans mot de passe.
 
 ### [CHEMIN inscriptible](privilege-escalation/#writable-path-abuses)
 
-* [ ] Si vous avez des **privilèges d'écriture sur un dossier dans le CHEMIN**, vous pourriez être en mesure d'élever les privilèges
+* [ ] Si vous avez des **privilèges d'écriture sur un dossier dans le CHEMIN**, vous pouvez peut-être élever les privilèges
 
 ### [Commandes SUDO et SUID](privilege-escalation/#sudo-and-suid)
 
@@ -130,7 +128,7 @@ Restez informé des dernières primes de bugs lancées et des mises à jour cruc
 
 ### [ACLs](privilege-escalation/#acls)
 
-* [ ] Un fichier a-t-il une **ACL inattendue** ?
+* [ ] Un fichier a-t-il un **ACL inattendu** ?
 
 ### [Sessions shell ouvertes](privilege-escalation/#open-shell-sessions)
 
@@ -140,19 +138,19 @@ Restez informé des dernières primes de bugs lancées et des mises à jour cruc
 ### [SSH](privilege-escalation/#ssh)
 
 * [ ] **Debian** [**OpenSSL PRNG Prévisible - CVE-2008-0166**](privilege-escalation/#debian-openssl-predictable-prng-cve-2008-0166)
-* [ ] [**Valeurs de configuration SSH intéressantes**](privilege-escalation/#ssh-interesting-configuration-values)
+* [**Valeurs de configuration SSH intéressantes**](privilege-escalation/#ssh-interesting-configuration-values)
 
 ### [Fichiers intéressants](privilege-escalation/#interesting-files)
 
-* [ ] Fichiers **de profil** - Lire des données sensibles ? Écrire pour l'élévation de privilèges ?
+* [ ] **Fichiers de profil** - Lire des données sensibles ? Écrire pour l'élévation de privilèges ?
 * [ ] Fichiers **passwd/shadow** - Lire des données sensibles ? Écrire pour l'élévation de privilèges ?
-* [ ] Vérifiez les dossiers couramment intéressants pour des données sensibles
-* [ ] **Emplacement étrange/Fichiers possédés**, vous pouvez avoir accès à des fichiers exécutables ou les modifier
+* [ ] **Vérifier les dossiers couramment intéressants** pour des données sensibles
+* [ ] **Emplacement étrange/Fichiers possédés**, auxquels vous pourriez avoir accès ou modifier des fichiers exécutables
 * [ ] **Modifié** dans les dernières minutes
 * [ ] Fichiers **Bases de données Sqlite**
-* [ ] Fichiers **cachés**
+* [ ] **Fichiers cachés**
 * [ ] **Script/Binaires dans le CHEMIN**
-* [ ] Fichiers **Web** (mots de passe ?)
+* [ ] **Fichiers Web** (mots de passe ?)
 * [ ] **Sauvegardes** ?
 * [ ] **Fichiers connus contenant des mots de passe** : Utilisez **Linpeas** et **LaZagne**
 * [ ] **Recherche générique**
@@ -167,7 +165,7 @@ Restez informé des dernières primes de bugs lancées et des mises à jour cruc
 ### [**Autres astuces**](privilege-escalation/#other-tricks)
 
 * [ ] Pouvez-vous **abuser de NFS pour élever les privilèges**](privilege-escalation/#nfs-privilege-escalation) ?
-* [ ] Devez-vous [**échapper à un shell restrictif**](privilege-escalation/#escaping-from-restricted-shells) ? 
+* [ ] Devez-vous [**échapper à un shell restrictif**](privilege-escalation/#escaping-from-restricted-shells) ?
 
 <figure><img src="../../.gitbook/assets/image (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
@@ -177,7 +175,7 @@ Rejoignez le serveur [**HackenProof Discord**](https://discord.com/invite/N3FrSb
 Engagez-vous avec du contenu qui explore le frisson et les défis du piratage
 
 **Actualités de piratage en temps réel**\
-Restez informé du monde du piratage en temps réel grâce aux actualités et aux informations
+Restez informé du monde du piratage en évolution rapide grâce à des actualités et des informations en temps réel
 
 **Dernières annonces**\
 Restez informé des dernières primes de bugs lancées et des mises à jour cruciales de la plateforme

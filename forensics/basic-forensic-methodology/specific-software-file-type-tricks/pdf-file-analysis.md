@@ -2,7 +2,7 @@
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert Red Team AWS HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 
@@ -17,34 +17,29 @@ Autres façons de soutenir HackTricks :
 <figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) pour construire et **automatiser facilement des workflows** alimentés par les outils communautaires les plus avancés au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) pour construire et **automatiser facilement des workflows** alimentés par les outils communautaires les plus avancés au monde.\
 Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-À partir de : [https://trailofbits.github.io/ctf/forensics/](https://trailofbits.github.io/ctf/forensics/)
+**Pour plus de détails, consultez : [https://trailofbits.github.io/ctf/forensics/](https://trailofbits.github.io/ctf/forensics/)**
 
-Le format de fichier PDF est extrêmement compliqué, avec suffisamment de trucs et de cachettes [pour écrire pendant des années](https://www.sultanik.com/pocorgtfo/). Cela le rend également populaire pour les défis de forensics CTF. La NSA a rédigé un guide sur ces cachettes en 2008 intitulé "Données cachées et métadonnées dans les fichiers Adobe PDF : Risques de publication et contre-mesures". Il n'est plus disponible à son URL d'origine, mais vous pouvez [trouver une copie ici](http://www.itsecure.hu/library/file/Biztons%C3%A1gi%20%C3%BAtmutat%C3%B3k/Alkalmaz%C3%A1sok/Hidden%20Data%20and%20Metadata%20in%20Adobe%20PDF%20Files.pdf). Ange Albertini tient également un wiki sur GitHub des [trucs du format de fichier PDF](https://github.com/corkami/docs/blob/master/PDF/PDF.md).
+Le format PDF est connu pour sa complexité et son potentiel de dissimulation de données, en en faisant un point focal pour les défis de la forensique CTF. Il combine des éléments de texte brut avec des objets binaires, qui peuvent être compressés ou chiffrés, et peut inclure des scripts dans des langages comme JavaScript ou Flash. Pour comprendre la structure PDF, on peut se référer au matériel introductif de Didier Stevens [ici](https://blog.didierstevens.com/2008/04/09/quickpost-about-the-physical-and-logical-structure-of-pdf-files/), ou utiliser des outils comme un éditeur de texte ou un éditeur spécifique au PDF tel qu'Origami.
 
-Le format PDF est partiellement en texte brut, comme HTML, mais avec de nombreux "objets" binaires dans le contenu. Didier Stevens a écrit [du matériel introductif de qualité](https://blog.didierstevens.com/2008/04/09/quickpost-about-the-physical-and-logical-structure-of-pdf-files/) sur le format. Les objets binaires peuvent être des données compressées ou même chiffrées, et incluent du contenu dans des langages de script comme JavaScript ou Flash. Pour afficher la structure d'un PDF, vous pouvez soit le parcourir avec un éditeur de texte, soit l'ouvrir avec un éditeur de format de fichier PDF comme Origami.
+Pour une exploration approfondie ou une manipulation des PDF, des outils comme [qpdf](https://github.com/qpdf/qpdf) et [Origami](https://github.com/mobmewireless/origami-pdf) sont disponibles. Les données cachées dans les PDF peuvent être dissimulées dans :
 
-[qpdf](https://github.com/qpdf/qpdf) est un outil qui peut être utile pour explorer un PDF et transformer ou extraire des informations de celui-ci. Un autre est un framework en Ruby appelé [Origami](https://github.com/mobmewireless/origami-pdf).
+* Des couches invisibles
+* Le format de métadonnées XMP par Adobe
+* Des générations incrémentielles
+* Du texte de la même couleur que l'arrière-plan
+* Du texte derrière des images ou chevauchant des images
+* Des commentaires non affichés
 
-Lors de l'exploration du contenu PDF pour trouver des données cachées, certains des endroits à vérifier incluent :
-
-* les couches non visibles
-* le format de métadonnées "XMP" d'Adobe
-* la fonction de "génération incrémentielle" du PDF où une version précédente est conservée mais n'est pas visible pour l'utilisateur
-* texte blanc sur un fond blanc
-* texte derrière des images
-* une image derrière une image superposée
-* des commentaires non affichés
-
-Il existe également plusieurs packages Python pour travailler avec le format de fichier PDF, comme [PeepDF](https://github.com/jesparza/peepdf), qui vous permettent d'écrire vos propres scripts d'analyse. 
+Pour une analyse personnalisée des PDF, des bibliothèques Python comme [PeepDF](https://github.com/jesparza/peepdf) peuvent être utilisées pour créer des scripts d'analyse sur mesure. De plus, le potentiel des PDF pour le stockage de données cachées est si vaste que des ressources comme le guide de la NSA sur les risques et les contre-mesures des PDF, bien qu'il ne soit plus hébergé à son emplacement d'origine, offrent toujours des informations précieuses. Une [copie du guide](http://www.itsecure.hu/library/file/Biztons%C3%A1gi%20%C3%BAtmutat%C3%B3k/Alkalmaz%C3%A1sok/Hidden%20Data%20and%20Metadata%20in%20Adobe%20PDF%20Files.pdf) et une collection de [astuces sur le format PDF](https://github.com/corkami/docs/blob/master/PDF/PDF.md) par Ange Albertini peuvent fournir une lecture complémentaire sur le sujet.
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert Red Team AWS HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 

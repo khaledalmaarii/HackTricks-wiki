@@ -1,6 +1,6 @@
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 
@@ -12,16 +12,15 @@ Autres façons de soutenir HackTricks :
 
 </details>
 
+**Les fichiers PNG** sont très appréciés dans les **défis CTF** pour leur **compression sans perte**, les rendant idéaux pour l'incorporation de données cachées. Des outils comme **Wireshark** permettent l'analyse des fichiers PNG en disséquant leurs données dans les paquets réseau, révélant des informations intégrées ou des anomalies.
 
-Les fichiers PNG, en particulier, sont populaires dans les défis CTF, probablement en raison de leur compression sans perte adaptée pour cacher des données non visuelles dans l'image. Les fichiers PNG peuvent être disséqués dans Wireshark. Pour vérifier la correction ou tenter de réparer des PNG corrompus, vous pouvez utiliser [pngcheck](http://libpng.org/pub/png/apps/pngcheck.html)
+Pour vérifier l'intégrité des fichiers PNG et réparer les corruptions, **pngcheck** est un outil crucial, offrant une fonctionnalité en ligne de commande pour valider et diagnostiquer les fichiers PNG ([pngcheck](http://libpng.org/pub/png/apps/pngcheck.html)). Lorsque les fichiers nécessitent des réparations plus complexes, des services en ligne comme [PixRecovery d'OfficeRecovery](https://online.officerecovery.com/pixrecovery/) fournissent une solution basée sur le web pour **réparer les PNG corrompus**, aidant à récupérer des données cruciales pour les participants aux CTF.
 
-Vous pouvez essayer de réparer des PNG corrompus en utilisant des outils en ligne comme [https://online.officerecovery.com/pixrecovery/](https://online.officerecovery.com/pixrecovery/)
-
-
+Ces stratégies soulignent l'importance d'une approche globale dans les CTF, utilisant un mélange d'outils d'analyse et de techniques de réparation pour découvrir et récupérer des données cachées ou perdues.
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
 Autres façons de soutenir HackTricks :
 

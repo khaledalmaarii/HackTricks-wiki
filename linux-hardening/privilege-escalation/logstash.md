@@ -1,28 +1,28 @@
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
-Autres moyens de soutenir HackTricks :
+Autres façons de soutenir HackTricks :
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez**-moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 
 
-# Informations de base
+## Logstash
 
-Logstash est utilisé pour collecter, transformer et sortir les logs. Cela est réalisé en utilisant des **pipelines**, qui contiennent des modules d'entrée, de filtre et de sortie. Le service devient intéressant lorsqu'on a compromis une machine qui exécute Logstash en tant que service.
+Logstash est utilisé pour **rassembler, transformer et envoyer des journaux** à travers un système appelé **pipelines**. Ces pipelines sont composés d'étapes **d'entrée**, de **filtre** et de **sortie**. Un aspect intéressant se présente lorsque Logstash fonctionne sur une machine compromise.
 
-## Pipelines
+### Configuration du pipeline
 
-Le fichier de configuration de pipeline **/etc/logstash/pipelines.yml** spécifie les emplacements des pipelines actifs :
-```bash
-# This file is where you define your pipelines. You can define multiple.
-# For more information on multiple pipelines, see the documentation:
+Les pipelines sont configurés dans le fichier **/etc/logstash/pipelines.yml**, qui répertorie les emplacements des configurations de pipeline :
+```yaml
+# Define your pipelines here. Multiple pipelines can be defined.
+# For details on multiple pipelines, refer to the documentation:
 # https://www.elastic.co/guide/en/logstash/current/multiple-pipelines.html
 
 - pipeline.id: main
@@ -31,23 +31,21 @@ path.config: "/etc/logstash/conf.d/*.conf"
 path.config: "/usr/share/logstash/pipeline/1*.conf"
 pipeline.workers: 6
 ```
-Dans cette section, vous trouverez les chemins vers les fichiers **.conf**, qui contiennent les pipelines configurés. Si le **module de sortie Elasticsearch** est utilisé, les **pipelines** sont susceptibles de **contenir** des **identifiants** valides pour une instance Elasticsearch. Ces identifiants ont souvent plus de privilèges, car Logstash doit écrire des données dans Elasticsearch. Si des caractères génériques sont utilisés, Logstash essaie d'exécuter tous les pipelines situés dans ce dossier correspondant au caractère générique.
+Ce fichier révèle où se trouvent les fichiers **.conf**, contenant les configurations de pipeline. Lors de l'utilisation d'un **module de sortie Elasticsearch**, il est courant que les **pipelines** incluent des **informations d'identification Elasticsearch**, qui possèdent souvent des privilèges étendus en raison du besoin de Logstash d'écrire des données dans Elasticsearch. Les jokers dans les chemins de configuration permettent à Logstash d'exécuter tous les pipelines correspondants dans le répertoire désigné.
 
-## Élévation de privilèges avec des pipelines modifiables
+### Élévation de privilèges via les pipelines inscriptibles
 
-Avant d'essayer d'élever vos propres privilèges, vous devriez vérifier quel utilisateur exécute le service logstash, car ce sera l'utilisateur que vous posséderez par la suite. Par défaut, le service logstash s'exécute avec les privilèges de l'utilisateur **logstash**.
+Pour tenter une élévation de privilèges, identifiez d'abord l'utilisateur sous lequel le service Logstash est en cours d'exécution, généralement l'utilisateur **logstash**. Assurez-vous de remplir **l'un** de ces critères :
 
-Vérifiez si vous avez **l'un** des droits requis :
+- Posséder un **accès en écriture** à un fichier **.conf** de pipeline **ou**
+- Le fichier **/etc/logstash/pipelines.yml** utilise un joker, et vous pouvez écrire dans le dossier cible
 
-* Vous avez des **droits d'écriture** sur un fichier de pipeline **.conf** **ou**
-* **/etc/logstash/pipelines.yml** contient un caractère générique et vous êtes autorisé à écrire dans le dossier spécifié
+De plus, **l'une** de ces conditions doit être remplie :
 
-De plus, **l'une** des conditions suivantes doit être remplie :
+- Capacité à redémarrer le service Logstash **ou**
+- Le fichier **/etc/logstash/logstash.yml** a **config.reload.automatic: true** défini
 
-* Vous êtes capable de redémarrer le service logstash **ou**
-* **/etc/logstash/logstash.yml** contient l'entrée **config.reload.automatic: true**
-
-Si un caractère générique est spécifié, essayez de créer un fichier correspondant à ce caractère générique. Le contenu suivant peut être écrit dans le fichier pour exécuter des commandes :
+Étant donné un joker dans la configuration, la création d'un fichier correspondant à ce joker permet l'exécution de commandes. Par exemple :
 ```bash
 input {
 exec {
@@ -63,11 +61,10 @@ codec => rubydebug
 }
 }
 ```
-L'**interval** spécifie le temps en secondes. Dans cet exemple, la commande **whoami** est exécutée toutes les 120 secondes. La sortie de la commande est enregistrée dans **/tmp/output.log**.
+Voici, **interval** détermine la fréquence d'exécution en secondes. Dans l'exemple donné, la commande **whoami** s'exécute toutes les 120 secondes, avec sa sortie dirigée vers **/tmp/output.log**.
 
-Si **/etc/logstash/logstash.yml** contient l'entrée **config.reload.automatic: true**, vous n'avez qu'à attendre que la commande soit exécutée, car Logstash reconnaîtra automatiquement les nouveaux fichiers de configuration de pipeline ou tout changement dans les configurations de pipeline existantes. Sinon, déclenchez un redémarrage du service logstash.
+Avec **config.reload.automatic: true** dans **/etc/logstash/logstash.yml**, Logstash détectera et appliquera automatiquement les nouvelles configurations de pipeline modifiées sans nécessiter de redémarrage. En l'absence de joker, des modifications peuvent toujours être apportées aux configurations existantes, mais il est conseillé de faire preuve de prudence pour éviter les perturbations.
 
-Si aucun joker n'est utilisé, vous pouvez appliquer ces changements à une configuration de pipeline existante. **Assurez-vous de ne rien casser !**
 
 # Références
 
@@ -76,14 +73,14 @@ Si aucun joker n'est utilisé, vous pouvez appliquer ces changements à une conf
 
 <details>
 
-<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Autres moyens de soutenir HackTricks :
+Autres façons de soutenir HackTricks:
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez**-moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

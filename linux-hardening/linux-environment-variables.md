@@ -45,23 +45,7 @@ printenv
 cat /proc/$$/environ
 cat /proc/`python -c "import os; print(os.getppid())"`/environ
 ```
-## Variables d'environnement persistantes
-
-#### **Fichiers qui affectent le comportement de chaque utilisateur:**
-
-* _**/etc/bash.bashrc**_: Ce fichier est lu chaque fois qu'un shell interactif est démarré (terminal normal) et toutes les commandes spécifiées ici sont exécutées.
-* _**/etc/profile et /etc/profile.d/\***_**:** Ce fichier est lu à chaque fois qu'un utilisateur se connecte. Ainsi, toutes les commandes exécutées ici ne seront exécutées qu'une seule fois au moment de la connexion de l'utilisateur.
-*   \*\*Exemple: \*\*
-
-`/etc/profile.d/somescript.sh`
-
-```bash
-#!/bin/bash
-TEST=$(cat /var/somefile)
-export $TEST
-```
-
-## Variables communes
+## Variables courantes
 
 From: [https://geek-university.com/linux/common-environment-variables/](https://geek-university.com/linux/common-environment-variables/)
 
@@ -93,7 +77,7 @@ export HISTFILESIZE=0
 ```
 ### **HISTSIZE**
 
-Changez la **valeur de cette variable à 0**, ainsi lorsque vous **terminez votre session**, aucune commande ne sera ajoutée au **fichier d'historique** (\~/.bash\_history).
+Changez la **valeur de cette variable à 0**, ainsi lorsque vous **terminez votre session** aucun commande ne sera ajoutée au **fichier d'historique** (\~/.bash\_history).
 ```bash
 export HISTSIZE=0
 ```

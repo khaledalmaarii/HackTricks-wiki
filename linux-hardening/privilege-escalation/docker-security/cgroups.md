@@ -2,27 +2,27 @@
 
 <details>
 
-<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
-Autres moyens de soutenir HackTricks :
+Autres façons de soutenir HackTricks:
 
 * Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 
 ## Informations de base
 
-Les **groupes de contrôle Linux**, également connus sous le nom de cgroups, sont une fonctionnalité du noyau Linux qui vous permet de **limiter**, réguler et prioriser les **ressources système** pour un ensemble de processus. Les cgroups offrent un moyen de **gérer et isoler l'utilisation des ressources** (CPU, mémoire, entrées/sorties disque, réseau, etc.) de groupes de processus dans un système. Cela peut être utile à de nombreuses fins, telles que limiter les ressources disponibles pour un groupe particulier de processus, isoler certains types de charges de travail des autres, ou prioriser l'utilisation des ressources système entre différents groupes de processus.
+Les **groupes de contrôle Linux**, ou **cgroups**, sont une fonctionnalité du noyau Linux qui permet l'allocation, la limitation et la priorisation des ressources système telles que le CPU, la mémoire et les E/S disque parmi les groupes de processus. Ils offrent un mécanisme de **gestion et d'isolation de l'utilisation des ressources** des collections de processus, bénéfique pour des objectifs tels que la limitation des ressources, l'isolation des charges de travail et la priorisation des ressources parmi différents groupes de processus.
 
-Il existe **deux versions de cgroups**, 1 et 2, et les deux sont actuellement utilisées et peuvent être configurées simultanément sur un système. La **différence la plus significative** entre la version 1 des cgroups et la **version 2** est que cette dernière a introduit une nouvelle organisation hiérarchique pour les cgroups, où les groupes peuvent être arrangés dans une **structure arborescente** avec des relations parent-enfant. Cela permet un contrôle plus flexible et plus précis de l'allocation des ressources entre différents groupes de processus.
+Il existe **deux versions de cgroups** : la version 1 et la version 2. Les deux peuvent être utilisées simultanément sur un système. La distinction principale est que **la version 2 de cgroups** introduit une **structure hiérarchique en forme d'arbre**, permettant une distribution des ressources plus nuancée et détaillée entre les groupes de processus. De plus, la version 2 apporte diverses améliorations, notamment :
 
-En plus de la nouvelle organisation hiérarchique, la version 2 des cgroups a également introduit **plusieurs autres changements et améliorations**, tels que le support pour **de nouveaux contrôleurs de ressources**, une meilleure prise en charge des applications héritées et des performances améliorées.
+En plus de la nouvelle organisation hiérarchique, la version 2 de cgroups a également introduit **plusieurs autres changements et améliorations**, tels que le support de **nouveaux contrôleurs de ressources**, un meilleur support pour les applications héritées et des performances améliorées.
 
-Dans l'ensemble, la **version 2 des cgroups offre plus de fonctionnalités et de meilleures performances** que la version 1, mais cette dernière peut encore être utilisée dans certains scénarios où la compatibilité avec les anciens systèmes est une préoccupation.
+Dans l'ensemble, cgroups **version 2 offre plus de fonctionnalités et de meilleures performances** que la version 1, mais cette dernière peut encore être utilisée dans certains scénarios où la compatibilité avec les anciens systèmes est une préoccupation.
 
 Vous pouvez lister les cgroups v1 et v2 pour n'importe quel processus en regardant son fichier cgroup dans /proc/\<pid>. Vous pouvez commencer par regarder les cgroups de votre shell avec cette commande :
 ```shell-session
@@ -39,66 +39,54 @@ $ cat /proc/self/cgroup
 1:name=systemd:/user.slice/user-1000.slice/session-2.scope
 0::/user.slice/user-1000.slice/session-2.scope
 ```
-Ne soyez pas alarmé si le **résultat est considérablement plus court** sur votre système ; cela signifie simplement que vous avez probablement **seulement les cgroups v2**. Chaque ligne de sortie commence par un numéro et correspond à un cgroup différent. Voici quelques indications pour savoir comment les lire :
+La structure de sortie est la suivante :
 
-* **Les numéros 2–12 sont pour les cgroups v1**. Les **contrôleurs** pour ceux-ci sont listés à côté du numéro.
-* **Le numéro 1** est également pour la **version 1**, mais il n'a pas de contrôleur. Ce cgroup est uniquement pour des **fins de gestion** (dans ce cas, configuré par systemd).
-* La dernière ligne, **le numéro 0**, est pour les **cgroups v2**. Aucun contrôleur n'est visible ici. Sur un système qui n'a pas de cgroups v1, ce sera la seule ligne de sortie.
-* **Les noms sont hiérarchiques et ressemblent à des parties de chemins de fichiers**. Vous pouvez voir dans cet exemple que certains des cgroups sont nommés /user.slice et d'autres /user.slice/user-1000.slice/session-2.scope.
-* Le nom /testcgroup a été créé pour montrer que dans les cgroups v1, les cgroups pour un processus peuvent être complètement indépendants.
-* **Les noms sous user.slice** qui incluent session sont des sessions de connexion, assignées par systemd. Vous les verrez lorsque vous examinerez les cgroups d'un shell. Les **cgroups** pour vos **services système** seront **sous system.slice**.
+- **Nombres 2 à 12** : cgroups v1, chaque ligne représentant un cgroup différent. Les contrôleurs pour ceux-ci sont spécifiés à côté du nombre.
+- **Nombre 1** : Également cgroups v1, mais uniquement à des fins de gestion (défini par, par exemple, systemd), et ne comporte pas de contrôleur.
+- **Nombre 0** : Représente les cgroups v2. Aucun contrôleur n'est répertorié, et cette ligne est exclusive aux systèmes exécutant uniquement des cgroups v2.
+- Les **noms sont hiérarchiques**, ressemblant à des chemins de fichiers, indiquant la structure et la relation entre différents cgroups.
+- Des noms comme /user.slice ou /system.slice spécifient la catégorisation des cgroups, avec user.slice généralement pour les sessions de connexion gérées par systemd et system.slice pour les services système.
 
 ### Visualisation des cgroups
 
-Les cgroups sont typiquement **accessibles via le système de fichiers**. Cela contraste avec l'interface d'appel système Unix traditionnelle pour interagir avec le noyau.\
-Pour explorer la configuration des cgroups d'un shell, vous pouvez regarder dans le fichier `/proc/self/cgroup` pour trouver le cgroup du shell, puis naviguer vers le répertoire `/sys/fs/cgroup` (ou `/sys/fs/cgroup/unified`) et chercher un **répertoire portant le même nom que le cgroup**. Changer pour ce répertoire et regarder autour vous permettra de voir les différents **paramètres et informations sur l'utilisation des ressources pour le cgroup**.
+Le système de fichiers est généralement utilisé pour accéder aux **cgroups**, s'éloignant de l'interface d'appel système Unix traditionnellement utilisée pour les interactions avec le noyau. Pour examiner la configuration cgroup d'un shell, il convient d'examiner le fichier **/proc/self/cgroup**, qui révèle le cgroup du shell. Ensuite, en naviguant vers le répertoire **/sys/fs/cgroup** (ou **`/sys/fs/cgroup/unified`**) et en localisant un répertoire portant le nom du cgroup, on peut observer divers paramètres et informations d'utilisation des ressources pertinentes au cgroup.
 
-<figure><img src="../../../.gitbook/assets/image (10) (2) (2).png" alt=""><figcaption></figcaption></figure>
+![Système de fichiers Cgroup](../../../.gitbook/assets/image%20(10)%20(2)%20(2).png)
 
-Parmi les nombreux fichiers qui peuvent être ici, **les principaux fichiers d'interface cgroup commencent par `cgroup`**. Commencez par regarder `cgroup.procs` (utiliser cat est correct), qui liste les processus dans le cgroup. Un fichier similaire, `cgroup.threads`, inclut également les threads.
+Les fichiers d'interface clés pour les cgroups sont préfixés par **cgroup**. Le fichier **cgroup.procs**, qui peut être consulté avec des commandes standard comme cat, répertorie les processus dans le cgroup. Un autre fichier, **cgroup.threads**, inclut des informations sur les threads.
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (5).png" alt=""><figcaption></figcaption></figure>
+![Cgroup Procs](../../../.gitbook/assets/image%20(1)%20(1)%20(5).png)
 
-La plupart des cgroups utilisés pour les shells ont ces deux contrôleurs, qui peuvent contrôler la **quantité de mémoire** utilisée et le **nombre total de processus dans le cgroup**. Pour interagir avec un contrôleur, cherchez les **fichiers qui correspondent au préfixe du contrôleur**. Par exemple, si vous voulez voir le nombre de threads exécutés dans le cgroup, consultez pids.current :
+Les cgroups gérant les shells englobent généralement deux contrôleurs qui régulent l'utilisation de la mémoire et le nombre de processus. Pour interagir avec un contrôleur, il convient de consulter les fichiers portant le préfixe du contrôleur. Par exemple, **pids.current** serait consulté pour déterminer le nombre de threads dans le cgroup.
 
-<figure><img src="../../../.gitbook/assets/image (3) (5).png" alt=""><figcaption></figcaption></figure>
+![Mémoire Cgroup](../../../.gitbook/assets/image%20(3)%20(5).png)
 
-Une valeur de **max signifie que ce cgroup n'a pas de limite spécifique**, mais comme les cgroups sont hiérarchiques, un cgroup plus bas dans la chaîne de sous-répertoires pourrait le limiter.
+L'indication de **max** dans une valeur suggère l'absence d'une limite spécifique pour le cgroup. Cependant, en raison de la nature hiérarchique des cgroups, des limites pourraient être imposées par un cgroup à un niveau inférieur dans la hiérarchie des répertoires.
 
-### Manipulation et Création de cgroups
 
-Pour mettre un processus dans un cgroup, **écrivez son PID dans son fichier `cgroup.procs` en tant que root :**
-```shell-session
-# echo pid > cgroup.procs
+### Manipulation et création de cgroups
+
+Les processus sont assignés à des cgroups en **écrivant leur ID de processus (PID) dans le fichier `cgroup.procs`**. Cela nécessite des privilèges root. Par exemple, pour ajouter un processus :
+```bash
+echo [pid] > cgroup.procs
 ```
-Voici comment fonctionnent de nombreux changements aux cgroups. Par exemple, si vous souhaitez **limiter le nombre maximum de PIDs d'un cgroup** (à, disons, 3 000 PIDs), procédez comme suit :
-```shell-session
-# echo 3000 > pids.max
+De même, **modifier les attributs du cgroup, comme définir une limite de PID**, se fait en écrivant la valeur souhaitée dans le fichier correspondant. Pour définir un maximum de 3 000 PID pour un cgroup :
+```bash
+echo 3000 > pids.max
 ```
-**Créer des cgroups est plus délicat**. Techniquement, c'est aussi simple que de créer un sous-répertoire quelque part dans l'arbre des cgroups ; lorsque vous faites cela, le noyau crée automatiquement les fichiers d'interface. Si un cgroup n'a pas de processus, vous pouvez supprimer le cgroup avec rmdir même si les fichiers d'interface sont présents. Ce qui peut vous piéger, ce sont les règles régissant les cgroups, y compris :
+**Créer de nouveaux cgroups** implique de créer un nouveau sous-répertoire dans la hiérarchie cgroup, ce qui incite le noyau à générer automatiquement les fichiers d'interface nécessaires. Bien que les cgroups sans processus actifs puissent être supprimés avec `rmdir`, soyez conscient de certaines contraintes :
 
-* Vous ne pouvez mettre des **processus que dans des cgroups de niveau extérieur ("feuille")**. Par exemple, si vous avez des cgroups nommés /mon-cgroup et /mon-cgroup/mon-sous-groupe, vous ne pouvez pas mettre de processus dans /mon-cgroup, mais /mon-cgroup/mon-sous-groupe est acceptable. (Une exception est si les cgroups n'ont pas de contrôleurs, mais ne creusons pas davantage.)
-* Un cgroup **ne peut pas avoir un contrôleur qui n'est pas dans son cgroup parent**.
-* Vous devez explicitement **spécifier les contrôleurs pour les cgroups enfants**. Vous faites cela via le fichier `cgroup.subtree_control`; par exemple, si vous voulez qu'un cgroup enfant ait les contrôleurs cpu et pids, écrivez +cpu +pids dans ce fichier.
+- **Les processus ne peuvent être placés que dans des cgroups feuilles** (c'est-à-dire les plus imbriqués dans une hiérarchie).
+- **Un cgroup ne peut pas posséder un contrôleur absent dans son parent**.
+- **Les contrôleurs pour les cgroups enfants doivent être explicitement déclarés** dans le fichier `cgroup.subtree_control`. Par exemple, pour activer les contrôleurs CPU et PID dans un cgroup enfant :
+```bash
+echo "+cpu +pids" > cgroup.subtree_control
+```
+Le **cgroup racine** est une exception à ces règles, permettant un placement direct des processus. Cela peut être utilisé pour retirer des processus de la gestion de systemd.
 
-Une exception à ces règles est le **cgroup racine** situé au bas de la hiérarchie. Vous pouvez **placer des processus dans ce cgroup**. Une raison pour laquelle vous pourriez vouloir faire cela est de détacher un processus du contrôle de systemd.
+**La surveillance de l'utilisation du CPU** au sein d'un cgroup est possible grâce au fichier `cpu.stat`, affichant le temps total du CPU consommé, utile pour suivre l'utilisation à travers les sous-processus d'un service :
 
-Même sans contrôleurs activés, vous pouvez voir l'utilisation du CPU d'un cgroup en regardant son fichier cpu.stat :
+<figure><img src="../../../.gitbook/assets/image (2) (6) (3).png" alt=""><figcaption>Statistiques d'utilisation du CPU telles qu'indiquées dans le fichier cpu.stat</figcaption></figure>
 
-<figure><img src="../../../.gitbook/assets/image (2) (6) (3).png" alt=""><figcaption></figcaption></figure>
-
-Comme il s'agit de l'utilisation cumulée du CPU sur toute la durée de vie du cgroup, vous pouvez voir comment un service consomme du temps processeur même s'il génère de nombreux sous-processus qui finissent par se terminer.
-
-<details>
-
-<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Autres moyens de soutenir HackTricks :
-
-* Si vous voulez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de hacking en soumettant des PR aux repos github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
-
-</details>
+## Références
+* **Livre : How Linux Works, 3rd Edition: What Every Superuser Should Know Par Brian Ward**
