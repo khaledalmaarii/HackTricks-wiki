@@ -1,206 +1,90 @@
 # Chaves de Registro do Windows Interessantes
 
-## Chaves de Registro do Windows Interessantes
+### Chaves de Registro do Windows Interessantes
 
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Especialista em Equipe Vermelha AWS do HackTricks)</strong></a><strong>!</strong></summary>
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe suas dicas de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 
-## **Informações do Sistema Windows**
 
-### Versão
+### **Versão do Windows e Informações do Proprietário**
+- Localizado em **`Software\Microsoft\Windows NT\CurrentVersion`**, você encontrará a versão do Windows, Service Pack, horário de instalação e o nome do proprietário registrado de forma direta.
 
-* **`Software\Microsoft\Windows NT\CurrentVersion`**: Versão do Windows, Service Pack, Hora da instalação e proprietário registrado
+### **Nome do Computador**
+- O nome do host é encontrado em **`System\ControlSet001\Control\ComputerName\ComputerName`**.
 
-### Nome do Host
+### **Configuração do Fuso Horário**
+- O fuso horário do sistema é armazenado em **`System\ControlSet001\Control\TimeZoneInformation`**.
 
-* **`System\ControlSet001\Control\ComputerName\ComputerName`**: Nome do host
+### **Rastreamento de Hora de Acesso**
+- Por padrão, o rastreamento da última hora de acesso está desativado (**`NtfsDisableLastAccessUpdate=1`**). Para ativá-lo, use:
+`fsutil behavior set disablelastaccess 0`
 
-### Fuso Horário
+### Versões do Windows e Service Packs
+- A **versão do Windows** indica a edição (por exemplo, Home, Pro) e sua versão (por exemplo, Windows 10, Windows 11), enquanto os **Service Packs** são atualizações que incluem correções e, às vezes, novos recursos.
 
-* **`System\ControlSet001\Control\TimeZoneInformation`**: Fuso horário
+### Habilitando a Última Hora de Acesso
+- Habilitar o rastreamento da última hora de acesso permite ver quando os arquivos foram abertos pela última vez, o que pode ser crítico para análise forense ou monitoramento do sistema.
 
-### Último Horário de Acesso
+### Detalhes de Informações de Rede
+- O registro contém dados extensos sobre configurações de rede, incluindo **tipos de redes (sem fio, cabo, 3G)** e **categorias de rede (Pública, Privada/Doméstica, Domínio/Trabalho)**, que são vitais para entender as configurações de segurança de rede e permissões.
 
-* **`System\ControlSet001\Control\Filesystem`**: Último horário de acesso (por padrão, está desativado com `NtfsDisableLastAccessUpdate=1`, se `0`, então está ativado).
-* Para ativar: `fsutil behavior set disablelastaccess 0`
-
-### Horário de Desligamento
-
-* `System\ControlSet001\Control\Windows`: Horário de desligamento
-* `System\ControlSet001\Control\Watchdog\Display`: Contagem de desligamentos (apenas XP)
-
-### Informações de Rede
-
-* **`System\ControlSet001\Services\Tcpip\Parameters\Interfaces{GUID_INTERFACE}`**: Interfaces de rede
-* **`Software\Microsoft\Windows NT\CurrentVersion\NetworkList\Signatures\Unmanaged` & `Software\Microsoft\Windows NT\CurrentVersion\NetworkList\Signatures\Managed` & `Software\Microsoft\Windows NT\CurrentVersion\NetworkList\Nla\Cache`**: Primeira e última vez que uma conexão de rede foi realizada e conexões através de VPN
-* **`Software\Microsoft\WZCSVC\Parameters\Interfaces{GUID}` (para XP) & `Software\Microsoft\Windows NT\CurrentVersion\NetworkList\Profiles`**: Tipo de rede (0x47-sem fio, 0x06-cabo, 0x17-3G) e categoria (0-Público, 1-Privado/Doméstico, 2-Domínio/Trabalho) e últimas conexões
-
-### Pastas Compartilhadas
-
-* **`System\ControlSet001\Services\lanmanserver\Shares\`**: Pastas compartilhadas e suas configurações. Se **Caching do Lado do Cliente** (CSCFLAGS) estiver ativado, uma cópia dos arquivos compartilhados será salva nos clientes e no servidor em `C:\Windows\CSC`
-* CSCFlag=0 -> Por padrão, o usuário precisa indicar os arquivos que deseja armazenar em cache
-* CSCFlag=16 -> Armazenamento automático de documentos. "Todos os arquivos e programas que os usuários abrem na pasta compartilhada estão automaticamente disponíveis offline" com a opção "otimizar para desempenho" desmarcada.
-* CSCFlag=32 -> Como as opções anteriores, mas com a opção "otimizar para desempenho" marcada
-* CSCFlag=48 -> Cache desativado.
-* CSCFlag=2048: Essa configuração está presente apenas no Win 7 e 8 e é a configuração padrão até você desativar o "Compartilhamento Simples de Arquivos" ou usar a opção de compartilhamento "avançada". Também parece ser a configuração padrão para o "Grupo Doméstico"
-* CSCFlag=768 -> Essa configuração foi vista apenas em dispositivos de impressão compartilhados.
+### Cache do Lado do Cliente (CSC)
+- **CSC** melhora o acesso a arquivos offline armazenando cópias de arquivos compartilhados. Diferentes configurações de **CSCFlags** controlam como e quais arquivos são armazenados em cache, afetando o desempenho e a experiência do usuário, especialmente em ambientes com conectividade intermitente.
 
 ### Programas de Inicialização Automática
+- Programas listados em várias chaves de registro `Run` e `RunOnce` são lançados automaticamente na inicialização, afetando o tempo de inicialização do sistema e potencialmente sendo pontos de interesse para identificar malware ou software indesejado.
 
-* `NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Run`
-* `NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\RunOnce`
-* `Software\Microsoft\Windows\CurrentVersion\Runonce`
-* `Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\Run`
-* `Software\Microsoft\Windows\CurrentVersion\Run`
+### Shellbags
+- **Shellbags** não apenas armazenam preferências para visualizações de pastas, mas também fornecem evidências forenses de acesso a pastas mesmo que a pasta não exista mais. São inestimáveis para investigações, revelando atividades do usuário que não são óbvias por outros meios.
 
-### Pesquisas do Explorador
-
-* `NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\WordwheelQuery`: O que o usuário pesquisou usando o explorador/assistente. O item com `MRU=0` é o último.
-
-### Caminhos Digitados
-
-* `NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\TypedPaths`: Caminhos digitados no explorador (apenas W10)
-
-### Documentos Recentes
-
-* `NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs`: Documentos recentes abertos pelo usuário
-* `NTUSER.DAT\Software\Microsoft\Office{Versão}{Excel|Word}\FileMRU`: Documentos recentes do Office. Versões:
-* 14.0 Office 2010
-* 12.0 Office 2007
-* 11.0 Office 2003
-* 10.0 Office X
-* `NTUSER.DAT\Software\Microsoft\Office{Versão}{Excel|Word} UserMRU\LiveID_###\FileMRU`: Documentos recentes do Office. Versões:
-* 15.0 Office 2013
-* 16.0 Office 2016
-
-### MRUs
-
-* `NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\LastVisitedMRU`
-* `NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\LasVisitedPidlMRU`
-
-Indica o caminho de onde o executável foi executado
-
-* `NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\Op enSaveMRU` (XP)
-* `NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\Op enSavePidlMRU`
-
-Indica arquivos abertos dentro de uma janela aberta
-
-### Últimos Comandos Executados
-
-* `NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU`
-* `NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\Policies\RunMR`
-
-### User AssistKey
-
-* `NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{GUID}\Count`
-
-O GUID é o id do aplicativo. Dados salvos:
-
-* Último Horário de Execução
-* Contagem de Execuções
-* Nome do aplicativo GUI (contém o caminho absoluto e mais informações)
-* Tempo de foco e Nome do foco
-
-## Shellbags
-
-Quando você abre um diretório, o Windows salva dados sobre como visualizar o diretório no registro. Essas entradas são conhecidas como Shellbags.
-
-Acesso ao Explorador:
-
-* `USRCLASS.DAT\Local Settings\Software\Microsoft\Windows\Shell\Bags`
-* `USRCLASS.DAT\Local Settings\Software\Microsoft\Windows\Shell\BagMRU`
-
-Acesso à Área de Trabalho:
-
-* `NTUSER.DAT\Software\Microsoft\Windows\Shell\BagMRU`
-* `NTUSER.DAT\Software\Microsoft\Windows\Shell\Bags`
-
-Para analisar os Shellbags, você pode usar [**Shellbag Explorer**](https://ericzimmerman.github.io/#!index.md) e será capaz de encontrar o **tempo MAC da pasta** e também a **data de criação e modificação do shellbag** que estão relacionadas com a **primeira vez e a última vez** que a pasta foi acessada.
-
-Observe 2 coisas na seguinte imagem:
-
-1. Sabemos o **nome das pastas do USB** que foi inserido em **E:**
-2. Sabemos quando o **shellbag foi criado e modificado** e quando a pasta foi criada e acessada
-
-![](<../../../.gitbook/assets/image (475).png>)
-
-## Informações sobre USB
-
-### Informações do Dispositivo
-
-O registro `HKLM\SYSTEM\ControlSet001\Enum\USBSTOR` monitora cada dispositivo USB que foi conectado ao PC.\
-Dentro deste registro é possível encontrar:
-
-* Nome do fabricante
-* Nome e versão do produto
-* ID da Classe do Dispositivo
-* Nome do volume (nas imagens a seguir, o nome do volume é a subchave destacada)
-
-![](<../../../.gitbook/assets/image (477).png>)
-
-![](<../../../.gitbook/assets/image (479) (1).png>)
-
-Além disso, verificando o registro `HKLM\SYSTEM\ControlSet001\Enum\USB` e comparando os valores das subchaves, é possível encontrar o valor VID.
-
-![](<../../../.gitbook/assets/image (478).png>)
-
-Com as informações anteriores, o registro `SOFTWARE\Microsoft\Windows Portable Devices\Devices` pode ser usado para obter o **`{GUID}`**:
-
-![](<../../../.gitbook/assets/image (480).png>)
-
-### Usuário que utilizou o dispositivo
-
-Tendo o **{GUID}** do dispositivo, agora é possível **verificar todos os hives NTUDER.DAT de todos os usuários**, procurando pelo GUID até encontrá-lo em um deles (`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\Mountpoints2`).
-
-![](<../../../.gitbook/assets/image (481).png>)
-
-### Último montado
-
-Verificando o registro `System\MoutedDevices`, é possível descobrir **qual dispositivo foi o último montado**. Na imagem a seguir, verifique como o último dispositivo montado em `E:` é o Toshiba (usando a ferramenta Registry Explorer).
-
-![](<../../../.gitbook/assets/image (483) (1) (1).png>)
+### Informações e Forense de USB
+- Os detalhes armazenados no registro sobre dispositivos USB podem ajudar a rastrear quais dispositivos foram conectados a um computador, potencialmente vinculando um dispositivo a transferências de arquivos sensíveis ou incidentes de acesso não autorizado.
 
 ### Número de Série do Volume
+- O **Número de Série do Volume** pode ser crucial para rastrear a instância específica de um sistema de arquivos, útil em cenários forenses onde a origem do arquivo precisa ser estabelecida em diferentes dispositivos.
 
-Em `Software\Microsoft\Windows NT\CurrentVersion\EMDMgmt`, você pode encontrar o número de série do volume. **Sabendo o nome do volume e o número de série do volume, você pode correlacionar as informações** dos arquivos LNK que usam essas informações.
+### **Detalhes de Desligamento**
+- O horário e a contagem de desligamentos (apenas para XP) são mantidos em **`System\ControlSet001\Control\Windows`** e **`System\ControlSet001\Control\Watchdog\Display`**.
 
-Observe que quando um dispositivo USB é formatado:
+### **Configuração de Rede**
+- Para informações detalhadas da interface de rede, consulte **`System\ControlSet001\Services\Tcpip\Parameters\Interfaces{GUID_INTERFACE}`**.
+- Os horários da primeira e última conexão de rede, incluindo conexões VPN, são registrados em vários caminhos em **`Software\Microsoft\Windows NT\CurrentVersion\NetworkList`**.
 
-* Um novo nome de volume é criado
-* Um novo número de série de volume é criado
-* O número de série físico é mantido
+### **Pastas Compartilhadas**
+- As pastas compartilhadas e configurações estão em **`System\ControlSet001\Services\lanmanserver\Shares`**. As configurações de Cache do Lado do Cliente (CSC) ditam a disponibilidade de arquivos offline.
 
-### Timestamps
+### **Programas que Iniciam Automaticamente**
+- Caminhos como **`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Run`** e entradas semelhantes em `Software\Microsoft\Windows\CurrentVersion` detalham programas configurados para serem executados na inicialização.
 
-Em `System\ControlSet001\Enum\USBSTOR{VEN_PROD_VERSION}{USB serial}\Properties{83da6326-97a6-4088-9453-a1923f573b29}\`, você pode encontrar a primeira e última vez que o dispositivo foi conectado:
+### **Pesquisas e Caminhos Digitados**
+- As pesquisas do Explorador e os caminhos digitados são rastreados no registro em **`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer`** para WordwheelQuery e TypedPaths, respectivamente.
 
-* 0064 -- Primeira conexão
-* 0066 -- Última conexão
-* 0067 -- Desconexão
+### **Documentos Recentes e Arquivos do Office**
+- Documentos recentes e arquivos do Office acessados são registrados em `NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs` e caminhos específicos de versões do Office.
 
-![](<../../../.gitbook/assets/image (482).png>)
+### **Itens Mais Recentes Usados (MRU)**
+- Listas MRU, indicando caminhos e comandos de arquivos recentes, são armazenadas em várias subchaves `ComDlg32` e `Explorer` em `NTUSER.DAT`.
 
-<details>
+### **Rastreamento de Atividade do Usuário**
+- O recurso User Assist registra estatísticas detalhadas de uso de aplicativos, incluindo contagem de execuções e última vez executado em **`NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{GUID}\Count`**.
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+### **Análise de Shellbags**
+- Shellbags, revelando detalhes de acesso a pastas, são armazenados em `USRCLASS.DAT` e `NTUSER.DAT` em `Software\Microsoft\Windows\Shell`. Use **[Shellbag Explorer](https://ericzimmerman.github.io/#!index.md)** para análise.
 
-Outras maneiras de apoiar o HackTricks:
+### **Histórico de Dispositivos USB**
+- **`HKLM\SYSTEM\ControlSet001\Enum\USBSTOR`** e **`HKLM\SYSTEM\ControlSet001\Enum\USB`** contêm detalhes ricos sobre dispositivos USB conectados, incluindo fabricante, nome do produto e horários de conexão.
+- O usuário associado a um dispositivo USB específico pode ser identificado pesquisando as colmeias `NTUSER.DAT` para o **{GUID}** do dispositivo.
+- O último dispositivo montado e seu número de série de volume podem ser rastreados por meio de `System\MountedDevices` e `Software\Microsoft\Windows NT\CurrentVersion\EMDMgmt`, respectivamente.
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe suas dicas de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
-
-</details>
+Este guia condensa os caminhos e métodos cruciais para acessar informações detalhadas do sistema, rede e atividade do usuário em sistemas Windows, visando clareza e usabilidade.

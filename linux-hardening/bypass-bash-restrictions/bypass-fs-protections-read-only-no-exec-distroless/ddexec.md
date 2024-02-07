@@ -6,7 +6,7 @@
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
@@ -46,13 +46,13 @@ O arquivo `/proc/$pid/mem` é um mapeamento um para um de todo o espaço de ende
 
 Agora, temos quatro problemas básicos a enfrentar:
 
-- Em geral, apenas o root e o proprietário do programa do arquivo podem modificá-lo.
+- Em geral, apenas o root e o proprietário do arquivo do programa podem modificá-lo.
 - ASLR.
 - Se tentarmos ler ou escrever em um endereço não mapeado no espaço de endereço do programa, receberemos um erro de E/S.
 
 Esses problemas têm soluções que, embora não sejam perfeitas, são boas:
 
-- A maioria dos interpretadores de shell permitem a criação de descritores de arquivo que serão herdados pelos processos filhos. Podemos criar um descritor de arquivo apontando para o arquivo `mem` do shell com permissões de escrita... assim, os processos filhos que usarem esse descritor de arquivo poderão modificar a memória do shell.
+- A maioria dos interpretadores de shell permite a criação de descritores de arquivo que serão herdados pelos processos filhos. Podemos criar um descritor de arquivo apontando para o arquivo `mem` do shell com permissões de escrita... então os processos filhos que usarem esse descritor de arquivo poderão modificar a memória do shell.
 - ASLR nem é um problema, podemos verificar o arquivo `maps` do shell ou qualquer outro do procfs para obter informações sobre o espaço de endereço do processo.
 - Então precisamos fazer `lseek()` sobre o arquivo. A partir do shell, isso não pode ser feito a menos que usando o infame `dd`.
 
@@ -60,7 +60,7 @@ Esses problemas têm soluções que, embora não sejam perfeitas, são boas:
 
 Os passos são relativamente fáceis e não exigem nenhum tipo de especialização para entendê-los:
 
-- Analisar o binário que queremos executar e o carregador para descobrir quais mapeamentos eles precisam. Em seguida, criar um "código"shell que executará, em termos gerais, as mesmas etapas que o kernel faz a cada chamada para `execve()`:
+- Analisar o binário que queremos executar e o carregador para descobrir quais mapeamentos eles precisam. Em seguida, criar um "código"shell que executará, em termos gerais, as mesmas etapas que o kernel faz em cada chamada para `execve()`:
 - Criar os mapeamentos mencionados.
 - Ler os binários neles.
 - Configurar permissões.
@@ -75,7 +75,7 @@ Os passos são relativamente fáceis e não exigem nenhum tipo de especializaç�
 
 ## EverythingExec
 
-A partir de 12/12/2022, encontrei várias alternativas para `dd`, uma das quais, `tail`, é atualmente o programa padrão usado para `lseek()` através do arquivo `mem` (que era o único propósito para usar `dd`). Tais alternativas são:
+Existem várias alternativas para `dd`, uma das quais, `tail`, é atualmente o programa padrão usado para `lseek()` através do arquivo `mem` (que era o único propósito para usar `dd`). Tais alternativas são:
 ```bash
 tail
 hexdump
@@ -86,11 +86,14 @@ Definindo a variável `SEEKER`, você pode alterar o seeker usado, _por exemplo_
 ```bash
 SEEKER=cmp bash ddexec.sh ls -l <<< $(base64 -w0 /bin/ls)
 ```
-Se encontrar outro buscador válido não implementado no script, ainda pode usá-lo definindo a variável `SEEKER_ARGS`:
+Se encontrar outro buscador válido não implementado no script, ainda pode utilizá-lo definindo a variável `SEEKER_ARGS`:
 ```bash
 SEEKER=xxd SEEKER_ARGS='-s $offset' zsh ddexec.sh ls -l <<< $(base64 -w0 /bin/ls)
 ```
 Bloqueie isso, EDRs.
+
+# Referências
+* [https://github.com/arget13/DDexec](https://github.com/arget13/DDexec)
 
 <details>
 
@@ -98,10 +101,10 @@ Bloqueie isso, EDRs.
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

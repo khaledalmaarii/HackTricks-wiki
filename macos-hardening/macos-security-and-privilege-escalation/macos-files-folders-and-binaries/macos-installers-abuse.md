@@ -1,36 +1,36 @@
-# Abuso de Instaladores macOS
+# Abuso de Instaladores no macOS
 
 <details>
 
-<summary><strong>Aprenda hacking no AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Outras formas de apoiar o HackTricks:
 
-* Se você quer ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**material oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs exclusivos**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 
-## Informações Básicas do Pkg
+## Informações Básicas sobre Pkg
 
-Um **pacote instalador** macOS (também conhecido como arquivo `.pkg`) é um formato de arquivo usado pelo macOS para **distribuir software**. Esses arquivos são como uma **caixa que contém tudo o que um software** precisa para instalar e funcionar corretamente.
+Um **pacote de instalação do macOS** (também conhecido como arquivo `.pkg`) é um formato de arquivo usado pelo macOS para **distribuir software**. Esses arquivos são como uma **caixa que contém tudo o que um software** precisa para instalar e funcionar corretamente.
 
-O próprio arquivo do pacote é um arquivo que contém uma **hierarquia de arquivos e diretórios que serão instalados no computador alvo**. Ele também pode incluir **scripts** para realizar tarefas antes e depois da instalação, como configurar arquivos de configuração ou limpar versões antigas do software.
+O arquivo do pacote em si é um arquivo compactado que contém uma **hierarquia de arquivos e diretórios que serão instalados no computador de destino**. Ele também pode incluir **scripts** para realizar tarefas antes e depois da instalação, como configurar arquivos de configuração ou limpar versões antigas do software.
 
 ### Hierarquia
 
-<figure><img src="../../../.gitbook/assets/Pasted Graphic.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/Pasted Graphic.png" alt="https://www.youtube.com/watch?v=iASSG0_zobQ"><figcaption></figcaption></figure>
 
 * **Distribuição (xml)**: Personalizações (título, texto de boas-vindas...) e verificações de script/instalação
 * **PackageInfo (xml)**: Informações, requisitos de instalação, local de instalação, caminhos para scripts a serem executados
 * **Lista de materiais (bom)**: Lista de arquivos para instalar, atualizar ou remover com permissões de arquivo
-* **Carga (arquivo CPIO comprimido com gzip)**: Arquivos para instalar no `local de instalação` do PackageInfo
-* **Scripts (arquivo CPIO comprimido com gzip)**: Scripts de pré e pós instalação e mais recursos extraídos para um diretório temporário para execução.
+* **Carga (arquivo CPIO compactado com gzip)**: Arquivos para instalar no `local de instalação` do PackageInfo
+* **Scripts (arquivo CPIO compactado com gzip)**: Scripts de pré e pós-instalação e mais recursos extraídos para um diretório temporário para execução.
 
-### Descomprimir
+### Descompactar
 ```bash
 # Tool to directly get the files inside a package
 pkgutil —expand "/path/to/package.pkg" "/path/to/out/dir"
@@ -46,7 +46,7 @@ cpio -i < Scripts
 ```
 ## Informações Básicas sobre DMG
 
-Arquivos DMG, ou Imagens de Disco Apple, são um formato de arquivo usado pelo macOS da Apple para imagens de disco. Um arquivo DMG é essencialmente uma **imagem de disco montável** (contém seu próprio sistema de arquivos) que contém dados de blocos brutos tipicamente comprimidos e às vezes criptografados. Quando você abre um arquivo DMG, o macOS **o monta como se fosse um disco físico**, permitindo que você acesse seu conteúdo.
+Os arquivos DMG, ou Imagens de Disco da Apple, são um formato de arquivo usado pelo macOS da Apple para imagens de disco. Um arquivo DMG é essencialmente uma **imagem de disco montável** (contém seu próprio sistema de arquivos) que contém dados de bloco brutos normalmente comprimidos e às vezes criptografados. Quando você abre um arquivo DMG, o macOS o **monta como se fosse um disco físico**, permitindo que você acesse seu conteúdo.
 
 ### Hierarquia
 
@@ -54,39 +54,37 @@ Arquivos DMG, ou Imagens de Disco Apple, são um formato de arquivo usado pelo m
 
 A hierarquia de um arquivo DMG pode ser diferente com base no conteúdo. No entanto, para DMGs de aplicativos, geralmente segue esta estrutura:
 
-* Nível Superior: Esta é a raiz da imagem de disco. Frequentemente contém o aplicativo e possivelmente um link para a pasta Aplicações.
-* Aplicativo (.app): Este é o aplicativo real. No macOS, um aplicativo é tipicamente um pacote que contém muitos arquivos e pastas individuais que compõem o aplicativo.
-* Link para Aplicações: Este é um atalho para a pasta Aplicações no macOS. O propósito disso é facilitar a instalação do aplicativo. Você pode arrastar o arquivo .app para este atalho para instalar o app.
+- Nível Superior: Este é a raiz da imagem do disco. Geralmente contém o aplicativo e possivelmente um link para a pasta Aplicativos.
+- Aplicativo (.app): Este é o aplicativo real. No macOS, um aplicativo é tipicamente um pacote que contém muitos arquivos e pastas individuais que compõem o aplicativo.
+- Link de Aplicativos: Este é um atalho para a pasta Aplicativos no macOS. O objetivo disso é facilitar a instalação do aplicativo. Você pode arrastar o arquivo .app para este atalho para instalar o aplicativo.
 
 ## Privesc via abuso de pkg
 
 ### Execução a partir de diretórios públicos
 
-Se um script de pré ou pós instalação está, por exemplo, executando a partir de **`/var/tmp/Installerutil`**, um atacante poderia controlar esse script para escalar privilégios sempre que ele for executado. Ou outro exemplo similar:
+Se um script de pré ou pós-instalação estiver, por exemplo, sendo executado a partir de **`/var/tmp/Installerutil`**, e um atacante puder controlar esse script, ele poderá elevar os privilégios sempre que for executado. Ou outro exemplo semelhante:
 
-<figure><img src="../../../.gitbook/assets/Pasted Graphic 5.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/Pasted Graphic 5.png" alt="https://www.youtube.com/watch?v=iASSG0_zobQ"><figcaption></figcaption></figure>
 
 ### AuthorizationExecuteWithPrivileges
 
-Esta é uma [função pública](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg) que vários instaladores e atualizadores chamarão para **executar algo como root**. Esta função aceita o **caminho** do **arquivo** a **executar** como parâmetro, no entanto, se um atacante pudesse **modificar** este arquivo, ele poderá **abusar** de sua execução com root para **escalar privilégios**.
+Esta é uma [função pública](https://developer.apple.com/documentation/security/1540038-authorizationexecutewithprivileg) que vários instaladores e atualizadores chamarão para **executar algo como root**. Esta função aceita o **caminho** do **arquivo** a **executar** como parâmetro, no entanto, se um atacante puder **modificar** este arquivo, ele poderá **abusar** de sua execução com root para **elevar os privilégios**.
 ```bash
 # Breakpoint in the function to check wich file is loaded
 (lldb) b AuthorizationExecuteWithPrivileges
 # You could also check FS events to find this missconfig
 ```
-Para mais informações, confira esta palestra: [https://www.youtube.com/watch?v=lTOItyjTTkw](https://www.youtube.com/watch?v=lTOItyjTTkw)
-
 ### Execução por montagem
 
-Se um instalador escreve em `/tmp/fixedname/bla/bla`, é possível **criar uma montagem** sobre `/tmp/fixedname` com noowners para que você possa **modificar qualquer arquivo durante a instalação** para abusar do processo de instalação.
+Se um instalador escreve em `/tmp/fixedname/bla/bla`, é possível **criar uma montagem** sobre `/tmp/fixedname` sem proprietários para que você possa **modificar qualquer arquivo durante a instalação** para abusar do processo de instalação.
 
-Um exemplo disso é o **CVE-2021-26089** que conseguiu **sobrescrever um script periódico** para obter execução como root. Para mais informações, dê uma olhada na palestra: [**OBTS v4.0: "Mount(ain) of Bugs" - Csaba Fitzl**](https://www.youtube.com/watch?v=jSYPazD4VcE)
+Um exemplo disso é o **CVE-2021-26089** que conseguiu **sobrescrever um script periódico** para obter execução como root. Para mais informações, confira a palestra: [**OBTS v4.0: "Montanha de Bugs" - Csaba Fitzl**](https://www.youtube.com/watch?v=jSYPazD4VcE)
 
 ## pkg como malware
 
-### Payload Vazio
+### Carga vazia
 
-É possível apenas gerar um arquivo **`.pkg`** com **scripts de pré e pós-instalação** sem nenhum payload.
+É possível simplesmente gerar um arquivo **`.pkg`** com **scripts de pré e pós-instalação** sem nenhuma carga útil.
 
 ### JS no xml de Distribuição
 
@@ -96,19 +94,5 @@ Um exemplo disso é o **CVE-2021-26089** que conseguiu **sobrescrever um script 
 
 ## Referências
 
-* [**DEF CON 27 - Desempacotando Pkgs Uma Olhada Dentro dos Pacotes de Instalador do MacOS e Falhas Comuns de Segurança**](https://www.youtube.com/watch?v=iASSG0_zobQ)
+* [**DEF CON 27 - Desempacotando Pkgs Uma Visão Interna dos Pacotes de Instalação do MacOS e Falhas Comuns de Segurança**](https://www.youtube.com/watch?v=iASSG0\_zobQ)
 * [**OBTS v4.0: "O Mundo Selvagem dos Instaladores do macOS" - Tony Lambert**](https://www.youtube.com/watch?v=Eow5uNHtmIg)
-
-<details>
-
-<summary><strong>Aprenda hacking no AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Outras formas de apoiar o HackTricks:
-
-* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**merchandising oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* **Junte-se ao grupo** 💬 [**Discord**](https://discord.gg/hRep4RUj7f) ou ao grupo [**telegram**](https://t.me/peass) ou **siga**-me no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Compartilhe suas técnicas de hacking enviando PRs para os repositórios github do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
-
-</details>

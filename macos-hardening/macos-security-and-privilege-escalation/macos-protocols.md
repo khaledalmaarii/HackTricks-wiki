@@ -40,11 +40,11 @@ O Apple Remote Desktop (ARD) é uma versão aprimorada do [Virtual Network Compu
 
 Instâncias vulneráveis podem ser identificadas usando o script `vnc-info` do **nmap**. Serviços que suportam `VNC Authentication (2)` são especialmente suscetíveis a ataques de força bruta devido à truncagem da senha de 8 caracteres.
 
-Para habilitar o ARD para várias tarefas administrativas como escalonamento de privilégios, acesso à GUI ou monitoramento de usuários, utilize o seguinte comando:
+Para habilitar o ARD para várias tarefas administrativas como escalonamento de privilégios, acesso GUI ou monitoramento de usuários, utilize o seguinte comando:
 ```bash
 sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -activate -configure -allowAccessFor -allUsers -privs -all -clientopts -setmenuextra -menuextra yes
 ```
-ARD fornece níveis de controle versáteis, incluindo observação, controle compartilhado e controle total, com sessões persistindo mesmo após alterações de senha do usuário. Permite o envio direto de comandos Unix, executando-os como root para usuários administrativos. O agendamento de tarefas e a busca remota do Spotlight são recursos notáveis, facilitando buscas remotas de baixo impacto para arquivos sensíveis em várias máquinas.
+ARD fornece níveis de controle versáteis, incluindo observação, controle compartilhado e controle total, com sessões persistindo mesmo após alterações de senha do usuário. Permite o envio direto de comandos Unix, executando-os como root para usuários administrativos. O agendamento de tarefas e a busca remota do Spotlight são recursos notáveis, facilitando buscas remotas de baixo impacto por arquivos sensíveis em várias máquinas.
 
 
 ## Protocolo Bonjour
@@ -52,7 +52,7 @@ ARD fornece níveis de controle versáteis, incluindo observação, controle com
 Bonjour, uma tecnologia projetada pela Apple, permite que **dispositivos na mesma rede detectem os serviços oferecidos uns pelos outros**. Conhecido também como Rendezvous, **Zero Configuration** ou Zeroconf, ele permite que um dispositivo se junte a uma rede TCP/IP, **escolha automaticamente um endereço IP** e transmita seus serviços para outros dispositivos de rede.
 
 A Rede de Configuração Zero, fornecida pelo Bonjour, garante que os dispositivos possam:
-* **Obter automaticamente um endereço IP** mesmo na ausência de um servidor DHCP.
+* **Obter automaticamente um Endereço IP** mesmo na ausência de um servidor DHCP.
 * Realizar **tradução de nome para endereço** sem a necessidade de um servidor DNS.
 * **Descobrir serviços** disponíveis na rede.
 
@@ -67,9 +67,9 @@ A descoberta de serviços dentro da rede é facilitada pelo **Serviço de Descob
 
 O utilitário `dns-sd` pode ser utilizado para **descobrir e anunciar serviços de rede**. Aqui estão alguns exemplos de seu uso:
 
-### Pesquisando por Serviços SSH
+### Procurando por Serviços SSH
 
-Para pesquisar por serviços SSH na rede, o seguinte comando é utilizado:
+Para procurar serviços SSH na rede, o seguinte comando é usado:
 ```bash
 dns-sd -B _ssh._tcp
 ```
@@ -87,9 +87,9 @@ Para então procurar por serviços HTTP na rede:
 ```bash
 dns-sd -B _http._tcp
 ```
-Quando um serviço é iniciado, ele anuncia sua disponibilidade para todos os dispositivos na sub-rede por meio de multicast. Dispositivos interessados nesses serviços não precisam enviar solicitações, apenas ouvir esses anúncios.
+Quando um serviço é iniciado, ele anuncia sua disponibilidade a todos os dispositivos na sub-rede por meio de multicast. Dispositivos interessados nesses serviços não precisam enviar solicitações, apenas ouvir esses anúncios.
 
-Para uma interface mais amigável, o aplicativo ****Discovery - DNS-SD Browser** disponível na Apple App Store pode visualizar os serviços oferecidos em sua rede local.
+Para uma interface mais amigável, o aplicativo **Discovery - DNS-SD Browser** disponível na Apple App Store pode visualizar os serviços oferecidos em sua rede local.
 
 Alternativamente, scripts personalizados podem ser escritos para navegar e descobrir serviços usando a biblioteca `python-zeroconf`. O script [**python-zeroconf**](https://github.com/jstasiak/python-zeroconf) demonstra a criação de um navegador de serviços para serviços `_http._tcp.local.`, imprimindo serviços adicionados ou removidos:
 ```python
@@ -130,8 +130,8 @@ sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.mDNSResponder.p
 Outras formas de apoiar o HackTricks:
 
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**oficial PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 

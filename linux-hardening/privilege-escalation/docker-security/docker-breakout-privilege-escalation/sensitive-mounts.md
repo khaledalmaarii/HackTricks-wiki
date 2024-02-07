@@ -1,8 +1,8 @@
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao avançado com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking na AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras formas de apoiar o HackTricks:
+Outras maneiras de apoiar o HackTricks:
 
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
@@ -15,7 +15,7 @@ Outras formas de apoiar o HackTricks:
 
 A exposição de `/proc` e `/sys` sem isolamento adequado de namespace introduz riscos significativos de segurança, incluindo aumento da superfície de ataque e divulgação de informações. Esses diretórios contêm arquivos sensíveis que, se mal configurados ou acessados por um usuário não autorizado, podem levar à fuga do contêiner, modificação do host ou fornecer informações que auxiliam em ataques adicionais. Por exemplo, montar incorretamente `-v /proc:/host/proc` pode contornar a proteção do AppArmor devido à sua natureza baseada em caminho, deixando `/host/proc` desprotegido.
 
-Você pode encontrar mais detalhes de cada vulnerabilidade potencial em [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts).
+**Você pode encontrar mais detalhes de cada vulnerabilidade potencial em [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts).**
 
 # Vulnerabilidades do procfs
 
@@ -24,7 +24,7 @@ Este diretório permite acesso para modificar variáveis do kernel, geralmente v
 
 ### **`/proc/sys/kernel/core_pattern`**
 - Descrito em [core(5)](https://man7.org/linux/man-pages/man5/core.5.html).
-- Permite definir um programa para executar na geração de arquivos de core com os primeiros 128 bytes como argumentos. Isso pode levar à execução de código se o arquivo começar com um pipe `|`.
+- Permite definir um programa para executar na geração de arquivos de núcleo com os primeiros 128 bytes como argumentos. Isso pode levar à execução de código se o arquivo começar com um pipe `|`.
 - **Exemplo de Teste e Exploração**:
 ```bash
 [ -w /proc/sys/kernel/core_pattern ] && echo Yes # Testar acesso de escrita
@@ -47,7 +47,7 @@ ls -l $(cat /proc/sys/kernel/modprobe) # Verificar acesso ao modprobe
 
 ### **`/proc/sys/fs`**
 - Conforme [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html), contém opções e informações sobre o sistema de arquivos.
-- O acesso de escrita pode habilitar vários ataques de negação de serviço contra o host.
+- O acesso de escrita pode permitir vários ataques de negação de serviço contra o host.
 
 ### **`/proc/sys/fs/binfmt_misc`**
 - Permite registrar interpretadores para formatos binários não nativos com base em seus números mágicos.
@@ -81,14 +81,14 @@ echo b > /proc/sysrq-trigger # Reinicia o host
 
 ### **`/proc/[pid]/mem`**
 - Interface com o dispositivo de memória do kernel `/dev/mem`.
-- Historicamente vulnerável a ataques de escalonamento de privilégios.
+- Historicamente vulnerável a ataques de escalada de privilégios.
 - Mais em [proc(5)](https://man7.org/linux/man-pages/man5/proc.5.html).
 
 ### **`/proc/kcore`**
-- Representa a memória física do sistema no formato de core ELF.
+- Representa a memória física do sistema no formato de núcleo ELF.
 - A leitura pode vazar conteúdos de memória do host e de outros contêineres.
-- O tamanho do arquivo grande pode levar a problemas de leitura ou falhas de software.
-- Uso detalhado em [Dumping /proc/kcore in 2019](https://schlafwandler.github.io/posts/dumping-/proc/kcore/).
+- O tamanho do arquivo grande pode levar a problemas de leitura ou travamentos de software.
+- Uso detalhado em [Despejando /proc/kcore em 2019](https://schlafwandler.github.io/posts/dumping-/proc/kcore/).
 
 ### **`/proc/kmem`**
 - Interface alternativa para `/dev/kmem`, representando a memória virtual do kernel.
@@ -99,7 +99,7 @@ echo b > /proc/sysrq-trigger # Reinicia o host
 - Permite leitura e escrita, a modificação de toda a memória requer a resolução de endereços virtuais para físicos.
 
 ### **`/proc/sched_debug`**
-- Retorna informações de agendamento de processos, contornando as proteções de namespace PID.
+- Retorna informações de agendamento de processos, contornando as proteções do namespace PID.
 - Expõe nomes de processos, IDs e identificadores de cgroup.
 
 ### **`/proc/[pid]/mountinfo`**
@@ -117,7 +117,7 @@ echo b > /proc/sysrq-trigger # Reinicia o host
 echo "#!/bin/sh" > /evil-helper
 echo "ps > /output" >> /evil-helper
 chmod +x /evil-helper
-# Encontra o caminho do host a partir do mount do OverlayFS para o contêiner
+# Encontra o caminho do host a partir da montagem do OverlayFS para o contêiner
 host_path=$(sed -n 's/.*\perdir=\([^,]*\).*/\1/p' /etc/mtab)
 # Define uevent_helper para o helper malicioso
 echo "$host_path/evil-helper" > /sys/kernel/uevent_helper
@@ -128,7 +128,7 @@ cat /output
 %%%
 
 ### **`/sys/class/thermal`**
-- Controla configurações de temperatura, potencialmente causando ataques de DoS ou danos físicos.
+- Controla configurações de temperatura, potencialmente causando ataques de negação de serviço ou danos físicos.
 
 ### **`/sys/kernel/vmcoreinfo`**
 - Vaza endereços do kernel, comprometendo potencialmente o KASLR.
@@ -154,9 +154,9 @@ cat /output
 
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao avançado com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking na AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras formas de apoiar o HackTricks:
+Outras maneiras de apoiar o HackTricks:
 
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)

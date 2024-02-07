@@ -6,11 +6,11 @@
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Compartilhe seus truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 
@@ -27,20 +27,20 @@ Outras maneiras de apoiar o HackTricks:
 3. Prepare a campanha
 1. Prepare o **modelo de email**
 2. Prepare a **página web** para roubar as credenciais
-4. Lance a campanha!
+4. Inicie a campanha!
 
 ## Gerar nomes de domínio semelhantes ou comprar um domínio confiável
 
 ### Técnicas de Variação de Nomes de Domínio
 
 * **Palavra-chave**: O nome de domínio **contém** uma **palavra-chave** importante do domínio original (por exemplo, zelster.com-management.com).
-* **Subdomínio hifenizado**: Altera o **ponto por um hífen** de um subdomínio (por exemplo, www-zelster.com).
+* **Subdomínio com hífen**: Altera o **ponto por um hífen** de um subdomínio (por exemplo, www-zelster.com).
 * **Novo TLD**: Mesmo domínio usando um **novo TLD** (por exemplo, zelster.org)
 * **Homóglifo**: Ele **substitui** uma letra no nome de domínio por **letras que se parecem** (por exemplo, zelfser.com).
 * **Transposição:** Ele **troca duas letras** dentro do nome de domínio (por exemplo, zelster.com).
-* **Singularização/Pluralização**: Adiciona ou remove um "s" no final do nome de domínio (por exemplo, zeltsers.com).
+* **Singularização/Pluralização**: Adiciona ou remove "s" no final do nome de domínio (por exemplo, zeltsers.com).
 * **Omissão**: Ele **remove uma** das letras do nome de domínio (por exemplo, zelser.com).
-* **Repetição**: Ele **repete uma** das letras no nome de domínio (por exemplo, zeltsser.com).
+* **Repetição:** Ele **repete uma** das letras no nome de domínio (por exemplo, zeltsser.com).
 * **Subdominado**: Introduz um **ponto** dentro do nome de domínio (por exemplo, ze.lster.com).
 * **Inserção**: Ele **insere uma letra** no nome de domínio (por exemplo, zerltser.com).
 * **Ponto ausente**: Anexa o TLD ao nome de domínio. (por exemplo, zelstercom.com)
@@ -58,13 +58,13 @@ Outras maneiras de apoiar o HackTricks:
 
 ### Bitflipping
 
-No mundo da computação, tudo é armazenado em bits (zeros e uns) na memória nos bastidores.\
-Isso se aplica aos domínios também. Por exemplo, _windows.com_ se torna _01110111..._ na memória volátil do seu dispositivo de computação.\
-No entanto, e se um desses bits fosse automaticamente alterado devido a uma explosão solar, raios cósmicos ou um erro de hardware? Ou seja, um dos 0's se torna um 1 e vice-versa.\
-Aplicando esse conceito a uma solicitação DNS, é possível que o **domínio solicitado** que chega ao servidor DNS **não seja o mesmo que o domínio inicialmente solicitado**.
+Existe a **possibilidade de que um ou alguns bits armazenados ou em comunicação possam ser automaticamente invertidos** devido a vários fatores como erupções solares, raios cósmicos ou erros de hardware.
 
-Por exemplo, uma modificação de 1 bit no domínio windows.com pode transformá-lo em _windnws.com._\
-**Os atacantes podem registrar o maior número possível de domínios com bit-flipping relacionados à vítima para redirecionar usuários legítimos para sua infraestrutura**.
+Quando esse conceito é **aplicado a solicitações DNS**, é possível que o **domínio recebido pelo servidor DNS** não seja o mesmo que o domínio solicitado inicialmente.
+
+Por exemplo, uma modificação de um único bit no domínio "windows.com" pode alterá-lo para "windnws.com."
+
+Os atacantes podem **aproveitar isso registrando vários domínios com inversão de bits** que são semelhantes ao domínio da vítima. Sua intenção é redirecionar usuários legítimos para sua própria infraestrutura.
 
 Para mais informações, leia [https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/](https://www.bleepingcomputer.com/news/security/hijacking-traffic-to-microsoft-s-windowscom-with-bitflipping/)
 
@@ -94,7 +94,7 @@ Além disso, não se esqueça de que se os usuários usam **qualquer portal web 
 Você pode baixá-lo em [https://github.com/gophish/gophish/releases/tag/v0.11.0](https://github.com/gophish/gophish/releases/tag/v0.11.0)
 
 Baixe e descompacte dentro de `/opt/gophish` e execute `/opt/gophish/gophish`\
-Você receberá uma senha para o usuário admin na porta 3333 na saída. Portanto, acesse essa porta e use essas credenciais para alterar a senha do admin. Talvez seja necessário tunelar essa porta para local:
+Você receberá uma senha para o usuário admin na porta 3333 na saída. Portanto, acesse essa porta e use essas credenciais para alterar a senha do admin. Você pode precisar tunelar essa porta para local:
 ```bash
 ssh -L 3333:127.0.0.1:3333 <user>@<ip>
 ```
@@ -219,7 +219,7 @@ case $1 in
 start|stop|status) "$1" ;;
 esac
 ```
-Terminar de configurar o serviço e verificá-lo fazendo:
+Termine de configurar o serviço e verifique-o fazendo:
 ```bash
 mkdir /var/log/gophish
 chmod +x /etc/init.d/gophish
@@ -232,16 +232,17 @@ service gophish stop
 ```
 ## Configurando servidor de e-mail e domínio
 
-### Aguarde
+### Aguarde e seja legítimo
 
-Quanto mais antigo for um domínio, menos provável é que ele seja considerado como spam. Portanto, você deve esperar o máximo de tempo possível (pelo menos 1 semana) antes da avaliação de phishing.\
+Quanto mais antigo for um domínio, menos provável é que ele seja identificado como spam. Portanto, você deve esperar o máximo de tempo possível (pelo menos 1 semana) antes da avaliação de phishing. Além disso, se você colocar uma página sobre um setor reputacional, a reputação obtida será melhor.
+
 Observe que mesmo que você tenha que esperar uma semana, você pode terminar de configurar tudo agora.
 
 ### Configurar registro de DNS reverso (rDNS)
 
 Defina um registro rDNS (PTR) que resolva o endereço IP do VPS para o nome de domínio.
 
-### Registro do Framework de Política do Remetente (SPF)
+### Registro de Framework de Política do Remetente (SPF)
 
 Você deve **configurar um registro SPF para o novo domínio**. Se você não sabe o que é um registro SPF, [**leia esta página**](../../network-services-pentesting/pentesting-smtp/#spf).
 
@@ -253,7 +254,7 @@ Este é o conteúdo que deve ser definido dentro de um registro TXT dentro do do
 ```bash
 v=spf1 mx a ip4:ip.ip.ip.ip ?all
 ```
-### Registro de Autenticação, Relatórios e Conformidade de Mensagens Baseadas em Domínio (DMARC)
+### Registro de Autenticação, Relatórios e Conformidade Baseados em Domínio (DMARC)
 
 Você deve **configurar um registro DMARC para o novo domínio**. Se você não sabe o que é um registro DMARC, [**leia esta página**](../../network-services-pentesting/pentesting-smtp/#dmarc).
 
@@ -281,7 +282,7 @@ Apenas acesse a página e envie um e-mail para o endereço que eles fornecem:
 ```bash
 echo "This is the body of the email" | mail -s "This is the subject line" test-iimosa79z@srv1.mail-tester.com
 ```
-Você também pode verificar sua configuração de email enviando um email para `check-auth@verifier.port25.com` e lendo a resposta (para isso você precisará abrir a porta 25 e ver a resposta no arquivo _/var/mail/root_ se enviar o email como root).\
+Você também pode **verificar a configuração do seu email** enviando um email para `check-auth@verifier.port25.com` e **lendo a resposta** (para isso você precisará **abrir** a porta **25** e ver a resposta no arquivo _/var/mail/root_ se enviar o email como root).\
 Verifique se você passa em todos os testes:
 ```bash
 ==========================================================
@@ -293,21 +294,21 @@ DKIM check:         pass
 Sender-ID check:    pass
 SpamAssassin check: ham
 ```
-Alternativamente, você pode enviar uma **mensagem para um endereço do Gmail que você controla**, **visualizar** os **cabeçalhos do email** recebido em sua caixa de entrada do Gmail, `dkim=pass` deve estar presente no campo de cabeçalho `Authentication-Results`.
+Você também pode enviar **mensagem para um Gmail sob seu controle**, e verificar os **cabeçalhos do email** na sua caixa de entrada do Gmail, `dkim=pass` deve estar presente no campo de cabeçalho `Authentication-Results`.
 ```
 Authentication-Results: mx.google.com;
 spf=pass (google.com: domain of contact@example.com designates --- as permitted sender) smtp.mail=contact@example.com;
 dkim=pass header.i=@example.com;
 ```
-### Removendo da Lista de Bloqueio do Spamhouse
+### Remoção da Lista de Spamhouse
 
-A página www.mail-tester.com pode indicar se seu domínio está sendo bloqueado pelo spamhouse. Você pode solicitar a remoção do seu domínio/IP em: [https://www.spamhaus.org/lookup/](https://www.spamhaus.org/lookup/)
+A página [www.mail-tester.com](www.mail-tester.com) pode indicar se o seu domínio está sendo bloqueado pelo spamhouse. Você pode solicitar a remoção do seu domínio/IP em: [https://www.spamhaus.org/lookup/](https://www.spamhaus.org/lookup/)
 
-### Removendo da Lista de Bloqueio da Microsoft
+### Remoção da Lista Negra da Microsoft
 
 Você pode solicitar a remoção do seu domínio/IP em [https://sender.office.com/](https://sender.office.com).
 
-## Criar e Lançar uma Campanha de Phishing com GoPhish
+## Criar e Lançar uma Campanha de Phishing com o GoPhish
 
 ### Perfil de Envio
 
@@ -319,15 +320,15 @@ Você pode solicitar a remoção do seu domínio/IP em [https://sender.office.co
 
 {% hint style="info" %}
 É recomendado usar a funcionalidade "**Enviar Email de Teste**" para verificar se tudo está funcionando.\
-Recomendo **enviar os e-mails de teste para endereços de e-mail temporários** para evitar ser colocado em listas negras durante os testes.
+Recomendo **enviar os emails de teste para endereços de email temporários** para evitar ser colocado em listas negras durante os testes.
 {% endhint %}
 
-### Modelo de E-mail
+### Modelo de Email
 
 * Defina um **nome para identificar** o modelo
-* Em seguida, escreva um **assunto** (nada estranho, apenas algo que você esperaria ler em um e-mail regular)
+* Em seguida, escreva um **assunto** (nada estranho, apenas algo que você esperaria ler em um email regular)
 * Certifique-se de marcar "**Adicionar Imagem de Rastreamento**"
-* Escreva o **modelo de e-mail** (você pode usar variáveis como no exemplo a seguir):
+* Escreva o **modelo de email** (você pode usar variáveis como no exemplo a seguir):
 ```markup
 <html>
 <head>
@@ -335,10 +336,8 @@ Recomendo **enviar os e-mails de teste para endereços de e-mail temporários** 
 </head>
 <body>
 <p class="MsoNormal"><span style="font-size:10.0pt;font-family:&quot;Verdana&quot;,sans-serif;color:black">Dear {{.FirstName}} {{.LastName}},</span></p>
-
-<p class="MsoNormal"><span style="font-size:10.0pt;font-family:&quot;Verdana&quot;,sans-serif;color:black">As you may be aware, due to the large number of employees working from home, the "PLATFORM NAME" platform is being migrated to a new domain with an improved and more secure version. To finalize account migration, please use the following link to log into the new HR portal and move your account to the new site: <a href="{{.URL}}"> "PLATFORM NAME" login portal </a><br />
 <br />
-Please Note: We require all users to move their accounts by 04/01/2021. Failure to confirm account migration may prevent you from logging into the application after the migration process is complete.<br />
+Note: We require all user to login an a very suspicios page before the end of the week, thanks!<br />
 <br />
 Regards,</span></p>
 
@@ -352,7 +351,7 @@ Observe que **para aumentar a credibilidade do e-mail**, é recomendável usar a
 
 * Envie um e-mail para um **endereço inexistente** e verifique se a resposta possui alguma assinatura.
 * Procure por **e-mails públicos** como info@ex.com ou press@ex.com ou public@ex.com e envie um e-mail para eles e aguarde a resposta.
-* Tente contatar **algum e-mail válido descoberto** e aguarde a resposta.
+* Tente contatar **algum e-mail válido descoberto** e aguarde a resposta
 
 ![](<../../.gitbook/assets/image (393).png>)
 
@@ -371,7 +370,7 @@ O Modelo de E-mail também permite **anexar arquivos para enviar**. Se você tam
 
 {% hint style="info" %}
 Normalmente você precisará modificar o código HTML da página e fazer alguns testes localmente (talvez usando um servidor Apache) **até gostar dos resultados**. Em seguida, escreva esse código HTML na caixa.\
-Observe que se precisar **usar alguns recursos estáticos** para o HTML (talvez algumas páginas CSS e JS) você pode salvá-los em _**/opt/gophish/static/endpoint**_ e depois acessá-los em _**/static/\<nome do arquivo>**_
+Observe que se precisar **usar alguns recursos estáticos** para o HTML (talvez algumas páginas CSS e JS) você pode salvá-los em _**/opt/gophish/static/endpoint**_ e depois acessá-los em _**/static/\<filename>**_
 {% endhint %}
 
 {% hint style="info" %}
@@ -420,11 +419,11 @@ Confira a seguinte página para alguns exemplos:
 
 ### Via Proxy MitM
 
-O ataque anterior é bastante inteligente, pois você está falsificando um site real e coletando as informações inseridas pelo usuário. Infelizmente, se o usuário não inserir a senha correta ou se a aplicação que você falsificou estiver configurada com 2FA, **essas informações não permitirão que você se passe pelo usuário enganado**.
+O ataque anterior é bastante inteligente, pois você está falsificando um site real e coletando as informações inseridas pelo usuário. Infelizmente, se o usuário não inserir a senha correta ou se a aplicação que você falsificou estiver configurada com autenticação de dois fatores, **essas informações não permitirão que você se passe pelo usuário enganado**.
 
 É aí que ferramentas como [**evilginx2**](https://github.com/kgretzky/evilginx2)**,** [**CredSniper**](https://github.com/ustayready/CredSniper) e [**muraena**](https://github.com/muraenateam/muraena) são úteis. Essa ferramenta permitirá que você gere um ataque tipo MitM. Basicamente, os ataques funcionam da seguinte maneira:
 
-1. Você **impersonifica o formulário de login** da página real.
+1. Você **falsifica o formulário de login** da página real.
 2. O usuário **envia** suas **credenciais** para sua página falsa e a ferramenta as envia para a página real, **verificando se as credenciais funcionam**.
 3. Se a conta estiver configurada com **2FA**, a página MitM solicitará isso e, uma vez que o **usuário o insira**, a ferramenta o enviará para a página web real.
 4. Uma vez que o usuário estiver autenticado, você (como atacante) terá **capturado as credenciais, o 2FA, o cookie e qualquer informação** de cada interação sua enquanto a ferramenta estiver realizando um MitM.
@@ -445,7 +444,7 @@ No entanto, existem outras maneiras de saber se a vítima está **procurando ati
 [detecting-phising.md](detecting-phising.md)
 {% endcontent-ref %}
 
-Você pode **comprar um domínio com um nome muito semelhante** ao domínio da vítima **e/ou gerar um certificado** para um **subdomínio** de um domínio controlado por você **contendo** a **palavra-chave** do domínio da vítima. Se o **usuário** realizar algum tipo de **interação DNS ou HTTP** com eles, você saberá que **ele está procurando ativamente** por domínios suspeitos e precisará ser muito furtivo.
+Você pode **comprar um domínio com um nome muito semelhante** ao domínio da vítima **e/ou gerar um certificado** para um **subdomínio** de um domínio controlado por você **contendo** a **palavra-chave** do domínio da vítima. Se a **vítima** realizar algum tipo de **interação DNS ou HTTP** com eles, você saberá que **ela está procurando ativamente** por domínios suspeitos e você precisará ser muito furtivo.
 
 ### Avalie o phishing
 
@@ -456,10 +455,11 @@ Use [**Phishious** ](https://github.com/Rices/Phishious)para avaliar se seu e-ma
 * [https://zeltser.com/domain-name-variations-in-phishing/](https://zeltser.com/domain-name-variations-in-phishing/)
 * [https://0xpatrik.com/phishing-domains/](https://0xpatrik.com/phishing-domains/)
 * [https://darkbyte.net/robando-sesiones-y-bypasseando-2fa-con-evilnovnc/](https://darkbyte.net/robando-sesiones-y-bypasseando-2fa-con-evilnovnc/)
+* [https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-dkim-with-postfix-on-debian-wheezy)
 
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao hero com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking AWS do zero ao avançado com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Outras maneiras de apoiar o HackTricks:
 

