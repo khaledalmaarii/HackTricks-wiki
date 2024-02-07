@@ -13,18 +13,18 @@
 </details>
 
 
-未经适当命名空间隔离的`/proc`和`/sys`的暴露会带来重大安全风险，包括增加攻击面和信息泄露。这些目录包含敏感文件，如果配置错误或被未经授权的用户访问，可能导致容器逃逸、主机修改或提供进一步攻击所需的信息。例如，不正确地挂载`-v /proc:/host/proc`可能绕过AppArmor保护，因为其基于路径的特性，使`/host/proc`无保护。
+在没有适当的命名空间隔离的情况下暴露`/proc`和`/sys`会带来重大安全风险，包括增加攻击面和信息泄露。这些目录包含敏感文件，如果配置错误或被未经授权的用户访问，可能导致容器逃逸、主机修改或提供有助于进一步攻击的信息。例如，不正确地挂载`-v /proc:/host/proc`可能会绕过AppArmor保护，因为其基于路径的特性，使`/host/proc`无保护。
 
-您可以在[https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)找到每个潜在漏洞的更多详细信息。
+**您可以在[https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)找到每个潜在漏洞的更多详细信息。**
 
 # procfs漏洞
 
 ## `/proc/sys`
-该目录允许通过`sysctl(2)`修改内核变量，并包含几个相关子目录：
+该目录允许访问以修改内核变量，通常通过`sysctl(2)`进行，包含几个相关子目录：
 
 ### **`/proc/sys/kernel/core_pattern`**
 - 在[core(5)](https://man7.org/linux/man-pages/man5/core.5.html)中描述。
-- 允许定义在生成核心文件时执行的程序，前128字节作为参数。如果文件以管道`|`开头，可能导致代码执行。
+- 允许定义一个程序，在生成核心文件时使用前128个字节作为参数。如果文件以管道`|`开头，这可能导致代码执行。
 - **测试和利用示例**：
 ```bash
 [ -w /proc/sys/kernel/core_pattern ] && echo Yes # 测试写入权限
@@ -51,7 +51,7 @@ ls -l $(cat /proc/sys/kernel/modprobe) # 检查对modprobe的访问权限
 
 ### **`/proc/sys/fs/binfmt_misc`**
 - 允许根据其魔术数字为非本机二进制格式注册解释器。
-- 如果`/proc/sys/fs/binfmt_misc/register`可写，可能导致提权或获取root shell访问权限。
+- 如果`/proc/sys/fs/binfmt_misc/register`可写，可能导致提权或获取root shell访问。
 - 相关利用和解释：
 - [通过binfmt_misc实现的简易rootkit](https://github.com/toffan/binfmt_misc)
 - 深入教程：[视频链接](https://www.youtube.com/watch?v=WBC7hhgMvQQ)
@@ -59,8 +59,8 @@ ls -l $(cat /proc/sys/kernel/modprobe) # 检查对modprobe的访问权限
 ## `/proc`中的其他内容
 
 ### **`/proc/config.gz`**
-- 如果启用了`CONFIG_IKCONFIG_PROC`，可能会泄露内核配置。
-- 对于攻击者来说，有助于识别运行中内核中的漏洞。
+- 如果启用了`CONFIG_IKCONFIG_PROC`，可能会显示内核配置。
+- 对攻击者有用，可用于识别运行中内核中的漏洞。
 
 ### **`/proc/sysrq-trigger`**
 - 允许调用Sysrq命令，可能导致立即系统重启或其他关键操作。
@@ -96,7 +96,7 @@ echo b > /proc/sysrq-trigger # 重启主机
 
 ### **`/proc/mem`**
 - `/dev/mem`的替代接口，表示物理内存。
-- 允许读取和写入，修改所有内存需要解析虚拟到物理地址。
+- 允许读取和写入，修改所有内存需要将虚拟地址解析为物理地址。
 
 ### **`/proc/sched_debug`**
 - 返回进程调度信息，绕过PID命名空间保护。
@@ -131,7 +131,7 @@ cat /output
 - 控制温度设置，可能导致拒绝服务攻击或物理损坏。
 
 ### **`/sys/kernel/vmcoreinfo`**
-- 泄露内核地址，可能危及KASLR。
+- 泄漏内核地址，可能危及KASLR。
 
 ### **`/sys/kernel/security`**
 - 包含`securityfs`接口，允许配置Linux安全模块，如AppArmor。
@@ -139,11 +139,11 @@ cat /output
 
 ### **`/sys/firmware/efi/vars`和`/sys/firmware/efi/efivars`**
 - 提供与NVRAM中的EFI变量交互的接口。
-- 配置错误或利用可能导致笔记本电脑变砖或主机无法启动。
+- 配置错误或利用可能导致笔记本电脑变砖或主机机器无法启动。
 
 ### **`/sys/kernel/debug`**
 - `debugfs`为内核提供“无规则”调试接口。
-- 由于其无限制的特性，存在安全问题的历史。
+- 由于其不受限制的性质，存在安全问题的历史。
 
 # 参考资料
 * [https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts](https://0xn3va.gitbook.io/cheat-sheets/container/escaping/sensitive-mounts)

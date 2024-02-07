@@ -1,14 +1,14 @@
-# Suricata & Iptables速查表
+# Suricata & Iptables 备忘单
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 YouTube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> - <a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
+* 您在**网络安全公司**工作吗？ 想要在 HackTricks 中看到您的**公司广告**？ 或者想要访问**PEASS 的最新版本或下载 HackTricks 的 PDF**？ 请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 发现我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 收藏品 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) **Discord 群组**](https://discord.gg/hRep4RUj7f) 或 **电报群组** 或 **关注** 我的 **Twitter** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **通过向 [hacktricks 仓库](https://github.com/carlospolop/hacktricks) 和 [hacktricks-cloud 仓库](https://github.com/carlospolop/hacktricks-cloud) 提交 PR 来分享您的黑客技巧**。
 
 </details>
 
@@ -16,11 +16,13 @@
 
 ### 链
 
-Iptables链只是按顺序处理的规则列表。你总是会找到以下3个链，但也可能支持其他链，如NAT。
+在 iptables 中，规则列表被称为链，按顺序处理。其中，有三个主要链是普遍存在的，还有像 NAT 这样的其他链可能会根据系统的功能而被支持。
 
-* **Input** - 此链用于控制传入连接的行为。
-* **Forward** - 此链用于未被本地传递的传入连接。想象一个路由器 - 数据总是被发送到它，但很少实际上是目标路由器本身；数据只是被转发到目标。除非你在系统上进行某种路由、NAT或其他需要转发的操作，否则你甚至不会使用此链。
-* **Output** - 此链用于传出连接。
+- **Input 链**：用于管理传入连接的行为。
+- **Forward 链**：用于处理不是发送到本地系统的传入连接。这对于充当路由器的设备是典型的，其中接收到的数据应转发到另一个目的地。当系统涉及路由、NAT 或类似活动时，此链主要相关。
+- **Output 链**：专用于调节传出连接。
+
+这些链确保网络流量的有序处理，允许指定详细规则来管理数据进入、通过和离开系统的流动。
 ```bash
 # Delete all rules
 iptables -F
@@ -59,74 +61,7 @@ iptables-restore < /etc/sysconfig/iptables
 ```
 ## Suricata
 
-### 安装和配置
-
-To install Suricata, follow these steps:
-
-1. Update the package manager: `sudo apt update`
-2. Install Suricata: `sudo apt install suricata`
-3. Verify the installation: `suricata --version`
-
-Once Suricata is installed, you need to configure it. The configuration file is located at `/etc/suricata/suricata.yaml`. Open the file using a text editor and make the necessary changes.
-
-Here are some important configuration options:
-
-- `HOME_NET`: Set the IP address range of your network.
-- `EXTERNAL_NET`: Set the IP address range of external networks.
-- `RULE_PATHS`: Specify the directory where the rules are located.
-- `LOG_DIR`: Set the directory where the logs will be stored.
-- `ENABLE_FILE_INSPECTION`: Enable file inspection.
-- `ENABLE_TLS`: Enable TLS inspection.
-
-Make sure to save the changes after modifying the configuration file.
-
-### Starting and Stopping Suricata
-
-To start Suricata, use the following command: `sudo suricata -c /etc/suricata/suricata.yaml -i <interface>`
-
-To stop Suricata, press `Ctrl + C` in the terminal where it is running.
-
-### Suricata Logs
-
-Suricata generates logs that can be useful for analyzing network traffic. The logs are stored in the directory specified by the `LOG_DIR` configuration option.
-
-The main log file is `eve.json`, which contains detailed information about network events. Other log files include `stats.log` for statistical information and `fast.log` for fast pattern matching alerts.
-
-### Suricata Rules
-
-Suricata uses rules to detect and alert on network events. The rules are stored in the directory specified by the `RULE_PATHS` configuration option.
-
-You can create custom rules or use existing ones from the Suricata rule set. The rule files have the extension `.rules` and are written in the Suricata rule language.
-
-### Suricata Alerts
-
-When Suricata detects a network event that matches a rule, it generates an alert. The alerts are stored in the `eve.json` log file.
-
-You can configure Suricata to send alerts to a SIEM system or an email address for further analysis.
-
-### Suricata IPS Mode
-
-Suricata can also be used as an Intrusion Prevention System (IPS). In IPS mode, Suricata can block network traffic that matches certain rules.
-
-To enable IPS mode, set the `mode` option in the Suricata configuration file to `idsips`.
-
-### Suricata and iptables
-
-You can use Suricata in conjunction with iptables to enhance network security. iptables is a firewall utility that allows you to filter and manipulate network traffic.
-
-By combining Suricata and iptables, you can create a powerful network security solution. Suricata can detect malicious traffic and iptables can block or redirect it.
-
-To redirect traffic to Suricata, use the following iptables rule: `sudo iptables -A PREROUTING -j NFQUEUE --queue-num <queue_number>`
-
-To block traffic using Suricata, use the following iptables rule: `sudo iptables -A OUTPUT -j NFQUEUE --queue-num <queue_number>`
-
-Replace `<queue_number>` with the desired queue number.
-
-Remember to save the iptables rules to persist across reboots.
-
-### Conclusion
-
-Suricata is a powerful network intrusion detection and prevention system. By properly installing, configuring, and using Suricata in conjunction with iptables, you can enhance the security of your network and detect potential threats.
+### 安装与配置
 ```bash
 # Install details from: https://suricata.readthedocs.io/en/suricata-6.0.0/install.html#install-binary-packages
 # Ubuntu
@@ -194,15 +129,15 @@ systemctl daemon-reload
 ```
 ### 规则定义
 
-规则/签名由以下部分组成：
+[来自文档：](https://github.com/OISF/suricata/blob/master/doc/userguide/rules/intro.rst) 一个规则/签名由以下部分组成：
 
-* **动作**，确定当规则匹配时会发生什么。
+* **动作**，确定规则匹配时会发生什么。
 * **头部**，定义规则的协议、IP地址、端口和方向。
 * **规则选项**，定义规则的具体内容。
-
-![](<../../../.gitbook/assets/image (642) (3).png>)
-
-#### **有效的动作包括**
+```bash
+alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HTTP GET Request Containing Rule in URI"; flow:established,to_server; http.method; content:"GET"; http.uri; content:"rule"; fast_pattern; classtype:bad-unknown; sid:123; rev:1;)
+```
+#### **有效操作包括**
 
 * alert - 生成警报
 * pass - 停止对数据包的进一步检查
@@ -210,41 +145,41 @@ systemctl daemon-reload
 * **reject** - 向匹配数据包的发送方发送RST/ICMP不可达错误。
 * rejectsrc - 与 _reject_ 相同
 * rejectdst - 向匹配数据包的接收方发送RST/ICMP错误数据包。
-* rejectboth - 向对话的双方都发送RST/ICMP错误数据包。
+* rejectboth - 向对话的双方发送RST/ICMP错误数据包。
 
 #### **协议**
 
-* tcp（用于tcp流量）
+* tcp (用于tcp流量)
 * udp
 * icmp
-* ip（ip代表“所有”或“任意”）
-* _第7层协议_：http、ftp、tls、smb、dns、ssh...（更多详细信息请参阅[**文档**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/intro.html)）
+* ip (ip代表‘所有’或‘任何’)
+* _第7层协议_: http, ftp, tls, smb, dns, ssh... (更多内容请参阅[**文档**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/intro.html))
 
 #### 源地址和目标地址
 
-它支持IP范围、否定和地址列表：
+支持IP范围、否定和地址列表：
 
-| 示例                          | 含义                                      |
-| ---------------------------- | ---------------------------------------- |
-| ! 1.1.1.1                    | 除了1.1.1.1之外的所有IP地址               |
-| !\[1.1.1.1, 1.1.1.2]         | 除了1.1.1.1和1.1.1.2之外的所有IP地址      |
-| $HOME\_NET                   | 在yaml中设置的HOME\_NET值                 |
-| \[$EXTERNAL\_NET, !$HOME\_NET] | EXTERNAL\_NET而且不是HOME\_NET            |
-| \[10.0.0.0/24, !10.0.0.5]    | 除了10.0.0.5之外的10.0.0.0/24              |
+| 示例                          | 含义                                  |
+| ------------------------------ | ---------------------------------------- |
+| ! 1.1.1.1                      | 除了1.1.1.1之外的所有IP地址             |
+| !\[1.1.1.1, 1.1.1.2]           | 除了1.1.1.1和1.1.1.2之外的所有IP地址    |
+| $HOME\_NET                     | 在yaml中设置的HOME\_NET                |
+| \[$EXTERNAL\_NET, !$HOME\_NET] | EXTERNAL\_NET而不是HOME\_NET           |
+| \[10.0.0.0/24, !10.0.0.5]      | 10.0.0.0/24，但不包括10.0.0.5           |
 
 #### 源端口和目标端口
 
-它支持端口范围、否定和端口列表
+支持端口范围、否定和端口列表
 
-| 示例           | 含义                                      |
-| -------------- | ---------------------------------------- |
-| any            | 任何地址                                  |
-| \[80, 81, 82]  | 端口80、81和82                            |
-| \[80: 82]      | 从80到82的范围                            |
-| \[1024: ]      | 从1024到最高端口号                        |
-| !80            | 除了端口80之外的所有端口                   |
-| \[80:100,!99]  | 从80到100的范围，但不包括99                |
-| \[1:80,!\[2,4]] | 从1到80的范围，但不包括端口2和4            |
+| 示例         | 含义                                |
+| --------------- | -------------------------------------- |
+| any             | 任何地址                            |
+| \[80, 81, 82]   | 端口80、81和82                     |
+| \[80: 82]       | 从80到82的范围                  |
+| \[1024: ]       | 从1024到最高端口号                  |
+| !80             | 除了80之外的所有端口                      |
+| \[80:100,!99]   | 从80到100的范围，但排除99 |
+| \[1:80,!\[2,4]] | 从1到80的范围，但排除端口2和4  |
 
 #### 方向
 
@@ -255,7 +190,7 @@ source <> destination  (both directions)
 ```
 #### 关键词
 
-Suricata有**数百个选项**可用于搜索您正在寻找的**特定数据包**，如果找到有趣的内容，将在此处提及。请查阅[**文档**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/index.html)获取更多信息！
+在Suricata中有**数百个选项**可用于搜索您正在寻找的**特定数据包**，如果发现有趣的内容，将在此处提及。查看更多信息，请查阅[**文档**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/index.html)!
 ```bash
 # Meta Keywords
 msg: "description"; #Set a description to the rule
@@ -298,12 +233,12 @@ drop tcp any any -> any 8000 (msg:"8000 port"; sid:1000;)
 ```
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> - <a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在HackTricks中**宣传你的公司**吗？或者你想要**获取PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或者 [**Telegram群组**](https://t.me/peass) 或者 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
+* 你在一家 **网络安全公司** 工作吗？想要看到你的 **公司在 HackTricks 中被宣传** 吗？或者想要访问 **PEASS 的最新版本或下载 HackTricks 的 PDF** 吗？查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 探索 [**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family)
+* 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) **Discord 群组**](https://discord.gg/hRep4RUj7f) 或者 **电报群组** 或者 **在 Twitter 上关注** 我 **🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **通过向 [hacktricks 仓库](https://github.com/carlospolop/hacktricks) 和 [hacktricks-cloud 仓库](https://github.com/carlospolop/hacktricks-cloud) 提交 PR 来分享你的黑客技巧**。
 
 </details>

@@ -9,7 +9,7 @@
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS＆HackTricks周边产品**](https://peass.creator-spring.com)
 * 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
@@ -22,25 +22,20 @@
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
-来源：[https://trailofbits.github.io/ctf/forensics/](https://trailofbits.github.io/ctf/forensics/)
+**有关更多详细信息，请查看：[https://trailofbits.github.io/ctf/forensics/](https://trailofbits.github.io/ctf/forensics/)**
 
-PDF是一种极其复杂的文档文件格式，拥有足够多的技巧和隐藏位置[可以写上几年](https://www.sultanik.com/pocorgtfo/)。这也使其在CTF取证挑战中备受欢迎。NSA在2008年撰写了一份关于这些隐藏位置的指南，标题为“Adobe PDF文件中的隐藏数据和元数据：发布风险和对策”。它不再在原始URL上提供，但您可以[在此处找到副本](http://www.itsecure.hu/library/file/Biztons%C3%A1gi%20%C3%BAtmutat%C3%B3k/Alkalmaz%C3%A1sok/Hidden%20Data%20and%20Metadata%20in%20Adobe%20PDF%20Files.pdf)。Ange Albertini还在GitHub上保留了一个关于[PDF文件格式技巧](https://github.com/corkami/docs/blob/master/PDF/PDF.md)的维基。
+PDF格式以其复杂性和潜在的数据隐藏能力而闻名，因此成为CTF取证挑战的焦点。它结合了纯文本元素和二进制对象，这些对象可能被压缩或加密，并且可以包含JavaScript或Flash等语言的脚本。要了解PDF结构，可以参考Didier Stevens的[入门材料](https://blog.didierstevens.com/2008/04/09/quickpost-about-the-physical-and-logical-structure-of-pdf-files/)，或使用文本编辑器或PDF特定编辑器（如Origami）等工具。
 
-PDF格式部分为纯文本，类似于HTML，但内容中包含许多二进制“对象”。Didier Stevens撰写了关于该格式的[良好入门材料](https://blog.didierstevens.com/2008/04/09/quickpost-about-the-physical-and-logical-structure-of-pdf-files/)。这些二进制对象可以是压缩或甚至加密数据，并包括使用脚本语言如JavaScript或Flash的内容。要显示PDF的结构，您可以使用文本编辑器浏览它，也可以使用类似Origami这样的PDF感知文件格式编辑器打开它。
+要深入探索或操作PDF，可以使用[qpdf](https://github.com/qpdf/qpdf)和[Origami](https://github.com/mobmewireless/origami-pdf)等工具。PDF中隐藏的数据可能隐藏在以下位置：
 
-[qpdf](https://github.com/qpdf/qpdf)是一个可用于探索PDF并从中转换或提取信息的工具。另一个是Ruby中的一个名为[Origami](https://github.com/mobmewireless/origami-pdf)的框架。
-
-在探索PDF内容以查找隐藏数据时，一些要检查的隐藏位置包括：
-
-* 非可见层
-* Adobe的元数据格式“XMP”
-* PDF中的“增量生成”功能，其中保留了先前版本但对用户不可见
-* 白色背景上的白色文本
-* 图像后面的文本
-* 一个图像在另一个图像上方
+* 不可见图层
+* Adobe的XMP元数据格式
+* 增量生成
+* 与背景相同颜色的文本
+* 图像后面或重叠图像的文本
 * 未显示的注释
 
-还有几个用于处理PDF文件格式的Python包，如[PeepDF](https://github.com/jesparza/peepdf)，使您能够编写自己的解析脚本。 
+对于自定义PDF分析，可以使用Python库如[PeepDF](https://github.com/jesparza/peepdf)来编写定制的解析脚本。此外，PDF隐藏数据存储的潜力是如此巨大，以至于像NSA关于PDF风险和对策的指南等资源，尽管不再托管在原始位置，仍然提供有价值的见解。[指南的副本](http://www.itsecure.hu/library/file/Biztons%C3%A1gi%20%C3%BAtmutat%C3%B3k/Alkalmaz%C3%A1sok/Hidden%20Data%20and%20Metadata%20in%20Adobe%20PDF%20Files.pdf)和Ange Albertini的[PDF格式技巧](https://github.com/corkami/docs/blob/master/PDF/PDF.md)收集可以进一步阅读有关该主题的内容。
 
 <details>
 
@@ -51,7 +46,7 @@ PDF格式部分为纯文本，类似于HTML，但内容中包含许多二进制�
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS＆HackTricks周边产品**](https://peass.creator-spring.com)
 * 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>

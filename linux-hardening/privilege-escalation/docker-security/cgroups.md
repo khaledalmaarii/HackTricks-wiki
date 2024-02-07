@@ -2,29 +2,29 @@
 
 <details>
 
-<summary><strong>从零到英雄学习AWS黑客技术</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
 
-支持HackTricks的其他方式：
+其他支持HackTricks的方式：
 
-* 如果您想在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
 ## 基本信息
 
-**Linux控制组**，也称为cgroups，是Linux内核的一个特性，允许您为一组进程**限制**、管理和优先级分配**系统资源**。Cgroups提供了一种方法来**管理和隔离**系统中一组进程的资源使用情况（CPU、内存、磁盘I/O、网络等）。这对于许多目的都很有用，例如限制特定进程组可用的资源，将某些类型的工作负载与其他工作负载隔离开来，或在不同进程组之间优先使用系统资源。
+**Linux控制组**，或**cgroups**，是Linux内核的一个功能，允许在进程组之间分配、限制和优先处理系统资源，如CPU、内存和磁盘I/O。它们提供了一种**管理和隔离进程集合的资源使用**的机制，有助于资源限制、工作负载隔离以及在不同进程组之间进行资源优先处理。
 
-目前有**两个版本的cgroups**，1和2，它们都在使用中，并且可以在系统上同时配置。cgroups版本1和**版本2**之间最**显著的区别**是后者引入了cgroups的新的层次结构组织，其中组可以在具有父子关系的**树状结构**中排列。这允许对不同进程组之间资源分配进行更灵活和细致的控制。
+**cgroups有两个版本**：版本1和版本2。两者可以同时在系统上使用。主要区别在于**cgroups版本2**引入了一个**层次化、类似树状结构**，使得在进程组之间能够进行更细致和详细的资源分配。此外，版本2带来了各种增强功能，包括：
 
-除了新的层次结构组织，cgroups版本2还引入了**其他一些变化和改进**，例如对**新资源控制器**的支持，对传统应用程序的更好支持，以及性能的提高。
+除了新的层次化组织外，cgroups版本2还引入了**其他几项更改和改进**，如支持**新的资源控制器**、更好地支持传统应用程序和改进的性能。
 
-总体而言，cgroups **版本2提供的功能更多，性能更好**，但在需要与旧系统兼容的场景中，可能仍会使用版本1。
+总体而言，**cgroups版本2提供了更多功能和更好的性能**，但在某些情况下仍可以使用版本1，特别是在需要与旧系统兼容性的情况下。
 
-您可以通过查看/proc/\<pid>中的cgroup文件来列出任何进程的v1和v2 cgroups。您可以通过以下命令开始查看您的shell的cgroups：
+您可以通过查看/proc/\<pid>中的cgroup文件来列出任何进程的v1和v2 cgroups。您可以通过以下命令查看您的shell的cgroups开始。
 ```shell-session
 $ cat /proc/self/cgroup
 12:rdma:/
@@ -39,68 +39,51 @@ $ cat /proc/self/cgroup
 1:name=systemd:/user.slice/user-1000.slice/session-2.scope
 0::/user.slice/user-1000.slice/session-2.scope
 ```
-如果您的系统上的**输出明显较短**，不要惊慌；这只意味着您可能只有**cgroups v2**。这里的每一行输出都以一个数字开头，代表一个不同的cgroup。以下是一些阅读它的指南：
+- **数字 2–12**：cgroups v1，每行代表不同的 cgroup。这些 cgroup 的控制器与数字相邻。
+- **数字 1**：也是 cgroups v1，但仅用于管理目的（例如由 systemd 设置），不包含控制器。
+- **数字 0**：代表 cgroups v2。未列出控制器，此行仅适用于仅运行 cgroups v2 的系统。
+- **名称是分层的**，类似文件路径，表示不同 cgroups 之间的结构和关系。
+- **像 /user.slice 或 /system.slice** 这样的名称指定了 cgroups 的分类，其中 user.slice 通常用于由 systemd 管理的登录会话，而 system.slice 用于系统服务。
 
-* **数字2-12是针对cgroups v1的**。这些的**控制器**列在数字旁边。
-* **数字1**也是针对**版本1**的，但它没有控制器。这个cgroup仅用于**管理目的**（在这种情况下，systemd配置了它）。
-* 最后一行，**数字0**，是针对**cgroups v2**的。这里没有可见的控制器。在没有cgroups v1的系统上，这将是唯一的输出行。
-* **名称是层次化的，看起来像文件路径的一部分**。您可以在此示例中看到，一些cgroup被命名为/user.slice，其他的则是/user.slice/user-1000.slice/session-2.scope。
-* /testcgroup的名称是为了显示在cgroups v1中，进程的cgroups可以完全独立。
-* **user.slice下的名称**包括session是登录会话，由systemd分配。当您查看shell的cgroups时，会看到它们。您的**系统服务的cgroups**将位于**system.slice下**。
+### 查看 cgroups
 
-### 查看cgroups
+通常使用文件系统访问 **cgroups**，与传统用于内核交互的 Unix 系统调用接口不同。要查看 shell 的 cgroup 配置，应检查 **/proc/self/cgroup** 文件，其中显示了 shell 的 cgroup。然后，通过导航到 **/sys/fs/cgroup**（或 **`/sys/fs/cgroup/unified`**）目录，并找到与 cgroup 名称相同的目录，可以查看与 cgroup 相关的各种设置和资源使用信息。
 
-Cgroups通常**通过文件系统访问**。这与传统的Unix系统调用接口与内核交互形成对比。\
-要探索shell的cgroup设置，您可以查看`/proc/self/cgroup`文件以找到shell的cgroup，然后导航到`/sys/fs/cgroup`（或`/sys/fs/cgroup/unified`）目录，并查找**与cgroup同名的目录**。切换到这个目录并四处查看，将允许您看到cgroup的各种**设置和资源使用信息**。
+![Cgroup 文件系统](../../../.gitbook/assets/image%20(10)%20(2)%20(2).png)
 
-<figure><img src="../../../.gitbook/assets/image (10) (2) (2).png" alt=""><figcaption></figcaption></figure>
+cgroups 的关键接口文件以 **cgroup** 为前缀。可以使用标准命令（如 cat）查看的 **cgroup.procs** 文件列出了 cgroup 中的进程。另一个文件 **cgroup.threads** 包含线程信息。
 
-在这里可以有许多文件，**主要的cgroup接口文件以`cgroup`开头**。首先查看`cgroup.procs`（使用cat就可以），它列出了cgroup中的进程。一个类似的文件，`cgroup.threads`，还包括线程。
+![Cgroup 进程](../../../.gitbook/assets/image%20(1)%20(1)%20(5).png)
 
-<figure><img src="../../../.gitbook/assets/image (1) (1) (5).png" alt=""><figcaption></figcaption></figure>
+管理 shell 的 cgroups 通常包含两个控制器，用于调节内存使用和进程计数。要与控制器交互，应查阅带有控制器前缀的文件。例如，**pids.current** 将被引用以确定 cgroup 中线程的计数。
 
-大多数用于shell的cgroups都有这两个控制器，它们可以控制**使用的内存量**和**cgroup中的进程总数**。要与控制器交互，请查找与控制器前缀匹配的**文件**。例如，如果您想查看cgroup中运行的线程数，请参阅pids.current：
+![Cgroup 内存](../../../.gitbook/assets/image%20(3)%20(5).png)
 
-<figure><img src="../../../.gitbook/assets/image (3) (5).png" alt=""><figcaption></figcaption></figure>
+数值中的 **max** 表示 cgroup 没有特定限制。但是，由于 cgroups 的分层结构，限制可能由目录层次结构中较低级别的 cgroup 强加。
 
-**max值意味着这个cgroup没有特定的限制**，但由于cgroups是层次化的，子目录链下面的cgroup可能会限制它。
+### 操作和创建 cgroups
 
-### 操作和创建cgroups
-
-要将进程放入cgroup，**以root身份将其PID写入其`cgroup.procs`文件：**
-```shell-session
-# echo pid > cgroup.procs
+通过**将其进程 ID（PID）写入 `cgroup.procs` 文件**，将进程分配给 cgroups。这需要 root 权限。例如，要添加一个进程：
+```bash
+echo [pid] > cgroup.procs
 ```
-```markdown
-这就是对 cgroups 进行更改的方式。例如，如果您想要**限制 cgroup 的最大 PID 数量**（比如说，3,000 个 PIDs），请按照以下步骤操作：
+同样，**修改 cgroup 属性，比如设置 PID 限制**，是通过将期望的值写入相关文件来完成的。要为 cgroup 设置最大 3,000 个 PID：
+```bash
+echo 3000 > pids.max
 ```
-```shell-session
-# echo 3000 > pids.max
+**创建新的 cgroups** 包括在 cgroup 层次结构中创建一个新的子目录，这会促使内核自动生成必要的接口文件。尽管可以使用 `rmdir` 删除没有活动进程的 cgroups，但要注意一些限制：
+
+- **进程只能放置在叶子 cgroups 中**（即，在层次结构中最嵌套的 cgroups）。
+- **一个 cgroup 不能拥有其父级中不存在的控制器**。
+- **子 cgroups 的控制器必须在 `cgroup.subtree_control` 文件中显式声明**。例如，要在子 cgroup 中启用 CPU 和 PID 控制器：
+```bash
+echo "+cpu +pids" > cgroup.subtree_control
 ```
-**创建 cgroups 较为复杂**。技术上来说，它和在 cgroup 树中的某处创建一个子目录一样简单；当你这样做时，内核会自动创建接口文件。如果一个 cgroup 没有进程，即使接口文件存在，你也可以使用 rmdir 删除 cgroup。可能会让你困惑的是管理 cgroups 的规则，包括：
+**根 cgroup** 是这些规则的一个例外，允许直接进程放置。这可以用来将进程从 systemd 管理中移除。
 
-* 你只能将**进程放在最外层（“叶子”）cgroups 中**。例如，如果你有名为 /my-cgroup 和 /my-cgroup/my-subgroup 的 cgroups，你不能将进程放在 /my-cgroup 中，但是 /my-cgroup/my-subgroup 是可以的。（例外情况是如果 cgroups 没有控制器，但我们不进一步探讨。）
-* 一个 cgroup **不能有其父 cgroup 中不存在的控制器**。
-* 你必须为子 cgroups 明确**指定控制器**。你可以通过 `cgroup.subtree_control` 文件来做到这一点；例如，如果你想让一个子 cgroup 拥有 cpu 和 pids 控制器，将 +cpu +pids 写入此文件。
+在 cgroup 中**监视 CPU 使用情况**是可能的，通过 `cpu.stat` 文件显示总 CPU 时间消耗，有助于跟踪服务的子进程的使用情况：
 
-这些规则的一个例外是位于层级结构底部的**根 cgroup**。你可以**将进程放在这个 cgroup 中**。你可能想这样做的一个原因是为了将进程从 systemd 的控制中分离出来。
+<figure><img src="../../../.gitbook/assets/image (2) (6) (3).png" alt=""><figcaption>在 cpu.stat 文件中显示的 CPU 使用统计信息</figcaption></figure>
 
-即使没有启用控制器，你也可以通过查看其 cpu.stat 文件来了解 cgroup 的 CPU 使用情况：
-
-<figure><img src="../../../.gitbook/assets/image (2) (6) (3).png" alt=""><figcaption></figcaption></figure>
-
-因为这是 cgroup 整个生命周期内累积的 CPU 使用情况，即使它生成了许多最终终止的子进程，你也可以看到一个服务消耗处理器时间的情况。
-
-<details>
-
-<summary><strong>从零开始学习 AWS 黑客攻击直到成为专家，通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS 红队专家)</strong></a><strong>！</strong></summary>
-
-支持 HackTricks 的其他方式：
-
-* 如果你想在 **HackTricks 中看到你的公司广告** 或者 **下载 HackTricks 的 PDF 版本**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* 发现 [**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们独家的 [**NFT 集合**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* **通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享你的黑客技巧。**
-
-</details>
+## 参考资料
+* **书籍：《How Linux Works, 第3版：每个超级用户都应该了解的内容》作者 Brian Ward**

