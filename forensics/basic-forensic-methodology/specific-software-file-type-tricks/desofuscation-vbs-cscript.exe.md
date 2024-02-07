@@ -8,27 +8,27 @@
 * [**आधिकारिक PEASS & HackTricks स्वैग**](https://peass.creator-spring.com) प्राप्त करें
 * हमारे विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) संग्रह, [**The PEASS Family**](https://opensea.io/collection/the-peass-family) खोजें
 * **शामिल हों** 💬 [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या हमें **ट्विटर** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)** पर फॉलो** करें।
-* **अपने हैकिंग ट्रिक्स साझा करें** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos में PRs सबमिट करके।
+* **अपने हैकिंग ट्रिक्स साझा करें** द्वारा PRs सबमिट करके [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos में।
 
 </details>
 
 
-कुछ ऐसी चीजें जो एक दुष्ट VBS फ़ाइल को डीबग/डीओबफ़स्केट करने में उपयोगी हो सकती हैं:
+कुछ ऐसी चीजें जो एक दुष्ट VBS फ़ाइल को डीबग/डीओबफस्केट करने में उपयोगी हो सकती हैं:
 
 ## echo
 ```bash
 Wscript.Echo "Like this?"
 ```
 ## टिप्पणियाँ
-```text
+```bas
 ' this is a comment
 ```
 ## परीक्षण
-```text
+```bas
 cscript.exe file.vbs
 ```
 ## फ़ाइल में डेटा लिखें
-```aspnet
+```js
 Function writeBinary(strBinary, strPath)
 
 Dim oFSO: Set oFSO = CreateObject("Scripting.FileSystemObject")
