@@ -6,11 +6,11 @@
 
 支持HackTricks的其他方式：
 
-- 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-- 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-- 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-- **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
-- 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
+* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
@@ -24,66 +24,54 @@
 
 ## 浏览器遗留物 <a href="#id-3def" id="id-3def"></a>
 
-当我们谈论浏览器遗留物时，我们指的是浏览历史、书签、下载文件列表、缓存数据等。
+浏览器遗留物包括由网络浏览器存储的各种数据，如浏览历史记录、书签和缓存数据。这些遗留物存储在操作系统中特定的文件夹中，不同浏览器的位置和名称各不相同，但通常存储类似的数据类型。
 
-这些遗留物是存储在操作系统特定文件夹中的文件。
+以下是最常见的浏览器遗留物摘要：
 
-每个浏览器将其文件存储在与其他浏览器不同的位置，并且它们都有不同的名称，但它们（大多数情况下）存储相同类型的数据（遗留物）。
+- **浏览历史记录**：跟踪用户访问网站的记录，有助于识别访问恶意网站的情况。
+- **自动完成数据**：基于频繁搜索的建议，结合浏览历史记录可提供洞察。
+- **书签**：用户保存的用于快速访问的网站。
+- **扩展和插件**：用户安装的浏览器扩展或插件。
+- **缓存**：存储网页内容（如图像、JavaScript文件）以提高网站加载速度，对取证分析很有价值。
+- **登录信息**：存储的登录凭据。
+- **网站图标**：与网站相关联的图标，显示在标签和书签中，可提供有关用户访问的额外信息。
+- **浏览器会话**：与打开的浏览器会话相关的数据。
+- **下载**：通过浏览器下载的文件记录。
+- **表单数据**：在网络表单中输入的信息，保存以供将来自动填充建议使用。
+- **缩略图**：网站的预览图像。
+- **自定义字典.txt**：用户添加到浏览器字典中的单词。
 
-让我们看看浏览器通常存储的最常见遗留物。
-
-- **浏览历史：** 包含用户的浏览历史数据。可用于跟踪用户是否访问过一些恶意网站，例如
-- **自动完成数据：** 这是浏览器根据您最常搜索的内容提供的数据。可以与浏览历史一起使用，以获得更多见解。
-- **书签：** 不言而喻。
-- **扩展和插件：** 不言而喻。
-- **缓存：** 在浏览网站时，浏览器为许多原因创建各种缓存数据（图像、JavaScript文件等），例如为了加快网站的加载时间。这些缓存文件在取证调查期间可以成为重要数据来源。
-- **登录信息：** 不言而喻。
-- **网站图标：** 它们是在标签、URL、书签等处找到的小图标。它们可以作为另一个信息来源，以获取有关用户访问的网站或位置的更多信息。
-- **浏览器会话：** 不言而喻。
-- **下载：** 不言而喻。
-- **表单数据：** 浏览器通常会存储用户在表单中输入的任何内容，以便用户下次在表单中输入内容时，浏览器可以建议先前输入的数据。
-- **缩略图：** 不言而喻。
-- **自定义字典.txt：** 用户添加到字典中的单词。
 
 ## 火狐浏览器
 
-Firefox在\~/_**.mozilla/firefox/**_（Linux）中创建配置文件文件夹，在**/Users/$USER/Library/Application Support/Firefox/Profiles/**（MacOS）中，在_**%userprofile%\AppData\Roaming\Mozilla\Firefox\Profiles\\**_（Windows）中。\
-在此文件夹中，应该会出现名为_**profiles.ini**_的文件，其中包含用户配置文件的名称。\
-每个配置文件都有一个“**Path**”变量，其中包含其数据将存储的文件夹的名称。该文件夹应该**位于与\_profiles.ini**\_\*\*相同目录中存在的位置\*\*。如果不存在，则可能已被删除。
+火狐浏览器将用户数据组织在配置文件中，根据操作系统存储在特定位置：
 
-在每个配置文件的文件夹（_\~/.mozilla/firefox/\<ProfileName>/_）路径中，您应该能够找到以下有趣的文件：
+- **Linux**：`~/.mozilla/firefox/`
+- **MacOS**：`/Users/$USER/Library/Application Support/Firefox/Profiles/`
+- **Windows**：`%userprofile%\AppData\Roaming\Mozilla\Firefox\Profiles\`
 
-- _**places.sqlite**_：历史记录（moz\_\_places）、书签（moz\_bookmarks）和下载文件（moz\_\_annos）。在Windows中，可以使用工具[BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html)来读取_**places.sqlite**_中的历史记录。
-- 转储历史的查询：`select datetime(lastvisitdate/1000000,'unixepoch') as visit_date, url, title, visit_count, visit_type FROM moz_places,moz_historyvisits WHERE moz_places.id = moz_historyvisits.place_id;`
-- 请注意，链接类型是一个指示数字，表示：
-  - 1：用户跟随链接
-  - 2：用户输入URL
-  - 3：用户使用收藏夹
-  - 4：从Iframe加载
-  - 5：通过HTTP重定向301访问
-  - 6：通过HTTP重定向302访问
-  - 7：下载文件
-  - 8：用户在Iframe内跟随链接
-- 转储下载的查询：`SELECT datetime(lastModified/1000000,'unixepoch') AS down_date, content as File, url as URL FROM moz_places, moz_annos WHERE moz_places.id = moz_annos.place_id;`
-- _**bookmarkbackups/**_：书签备份
-- _**formhistory.sqlite**_：**Web表单数据**（如电子邮件）
-- _**handlers.json**_：协议处理程序（例如，哪个应用程序将处理_mailto://_协议）
-- _**persdict.dat**_：用户添加到字典中的单词
-- _**addons.json**_和_**extensions.sqlite**_：已安装的插件和扩展
-- _**cookies.sqlite**_：包含**cookies**。在Windows中，可以使用[MZCookiesView](https://www.nirsoft.net/utils/mzcv.html)来检查此文件。
-- _**cache2/entries**_或_**startupCache**_：缓存数据（\~350MB）。可以使用**数据雕刻**等技巧来获取缓存中保存的文件。[MozillaCacheView](https://www.nirsoft.net/utils/mozilla\_cache\_viewer.html)可用于查看**缓存中保存的文件**。
+这些目录中的`profiles.ini`文件列出了用户配置文件。每个配置文件的数据存储在`profiles.ini`中的`Path`变量命名的文件夹中，该文件夹位于`profiles.ini`所在目录中。如果配置文件的文件夹丢失，可能已被删除。
 
-可以获取的信息：
+在每个配置文件夹中，您可以找到几个重要文件：
 
-- URL、获取次数、文件名、内容类型、文件大小、上次修改时间、上次获取时间、服务器上次修改、服务器响应
-- _**favicons.sqlite**_：网站图标
-- _**prefs.js**_：设置和首选项
-- _**downloads.sqlite**_：旧下载数据库（现在已合并到places.sqlite中）
-- _**thumbnails/**_：缩略图
-- _**logins.json**_：加密的用户名和密码
-- **浏览器内置的反钓鱼功能：** `grep 'browser.safebrowsing' ~/Library/Application Support/Firefox/Profiles/*/prefs.js`
-  - 如果安全搜索设置已禁用，则将返回“safebrowsing.malware.enabled”和“phishing.enabled”为false
-- _**key4.db**_或_**key3.db**_：主密钥？
+- **places.sqlite**：存储历史记录、书签和下载。Windows上的工具（如[BrowsingHistoryView](https://www.nirsoft.net/utils/browsing_history_view.html)）可以访问历史数据。
+- 使用特定的SQL查询提取历史和下载信息。
+- **bookmarkbackups**：包含书签的备份。
+- **formhistory.sqlite**：存储网络表单数据。
+- **handlers.json**：管理协议处理程序。
+- **persdict.dat**：自定义字典单词。
+- **addons.json** 和 **extensions.sqlite**：安装的插件和扩展信息。
+- **cookies.sqlite**：Cookie存储，可通过Windows上的[MZCookiesView](https://www.nirsoft.net/utils/mzcv.html)进行检查。
+- **cache2/entries** 或 **startupCache**：缓存数据，可通过工具（如[MozillaCacheView](https://www.nirsoft.net/utils/mozilla_cache_viewer.html)）访问。
+- **favicons.sqlite**：存储网站图标。
+- **prefs.js**：用户设置和偏好。
+- **downloads.sqlite**：旧的下载数据库，现已整合到places.sqlite中。
+- **thumbnails**：网站缩略图。
+- **logins.json**：加密的登录信息。
+- **key4.db** 或 **key3.db**：存储用于保护敏感信息的加密密钥。
+
+此外，通过搜索`prefs.js`中的`browser.safebrowsing`条目，可以检查浏览器的反钓鱼设置，以确定安全浏览功能是否已启用或已禁用。
+
 
 要尝试解密主密码，您可以使用[https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt)\
 使用以下脚本和调用，您可以指定一个密码文件进行暴力破解：
@@ -105,188 +93,81 @@ done < $passfile
 
 ## Google Chrome
 
-Google Chrome将用户配置文件创建在用户主目录下的 _**\~/.config/google-chrome/**_ (Linux)、_**C:\Users\XXX\AppData\Local\Google\Chrome\User Data\\**_ (Windows) 或者 \_**/Users/$USER/Library/Application Support/Google/Chrome/** \_ (MacOS)。\
-大部分信息将保存在之前提到的路径下的 _**Default/**_ 或 _**ChromeDefaultData/**_ 文件夹中。您可以在这里找到以下有趣的文件：
+Google Chrome将用户配置文件存储在特定位置，具体取决于操作系统：
 
-* _**History**_: 包括URL、下载记录甚至搜索关键词。在Windows中，您可以使用工具 [ChromeHistoryView](https://www.nirsoft.net/utils/chrome\_history\_view.html) 查看历史记录。"Transition Type" 列含义如下：
-  * Link: 用户点击了链接
-  * Typed: 输入了URL
-  * Auto Bookmark
-  * Auto Subframe: 添加
-  * Start page: 主页
-  * Form Submit: 填写并发送表单
-  * Reloaded
-* _**Cookies**_: Cookies。您可以使用 [ChromeCookiesView](https://www.nirsoft.net/utils/chrome\_cookies\_view.html) 工具检查Cookies。
-* _**Cache**_: 缓存。在Windows中，您可以使用工具 [ChromeCacheView](https://www.nirsoft.net/utils/chrome\_cache\_view.html) 检查缓存。
-* _**Bookmarks**_: 书签
-* _**Web Data**_: 表单历史
-* _**Favicons**_: 网站图标
-* _**Login Data**_: 登录信息（用户名、密码...）
-* _**Current Session**_ 和 _**Current Tabs**_: 当前会话数据和当前标签页
-* _**Last Session**_ 和 _**Last Tabs**_: 这些文件保存了在Chrome上次关闭时活动的网站。
-* _**Extensions**_: 扩展和插件文件夹
-* **Thumbnails** : 缩略图
-* **Preferences**: 该文件包含大量有用信息，如插件、扩展、使用地理位置的网站、弹出窗口、通知、DNS预取、证书异常等。如果您想研究特定Chrome设置是否已启用，您很可能会在这里找到该设置。
-* **浏览器内置反钓鱼:** `grep 'safebrowsing' ~/Library/Application Support/Google/Chrome/Default/Preferences`
-* 您可以简单地使用grep搜索“**safebrowsing**”，并查找结果中的 `{"enabled: true,"}`，以指示反钓鱼和恶意软件保护已开启。
+- **Linux**：`~/.config/google-chrome/`
+- **Windows**：`C:\Users\XXX\AppData\Local\Google\Chrome\User Data\`
+- **MacOS**：`/Users/$USER/Library/Application Support/Google/Chrome/`
+
+在这些目录中，大多数用户数据可以在 **Default/** 或 **ChromeDefaultData/** 文件夹中找到。以下文件包含重要数据：
+
+- **History**：包含URL、下载和搜索关键字。在Windows上，可以使用 [ChromeHistoryView](https://www.nirsoft.net/utils/chrome_history_view.html) 来查看历史记录。"Transition Type"列具有各种含义，包括用户点击链接、输入的URL、表单提交和页面重新加载。
+- **Cookies**：存储Cookies。可使用 [ChromeCookiesView](https://www.nirsoft.net/utils/chrome_cookies_view.html) 进行检查。
+- **Cache**：保存缓存数据。Windows用户可以使用 [ChromeCacheView](https://www.nirsoft.net/utils/chrome_cache_view.html) 进行检查。
+- **Bookmarks**：用户书签。
+- **Web Data**：包含表单历史。
+- **Favicons**：存储网站图标。
+- **Login Data**：包括用户名和密码等登录凭据。
+- **Current Session**/**Current Tabs**：关于当前浏览会话和打开标签页的数据。
+- **Last Session**/**Last Tabs**：关于在Chrome关闭之前最后一个会话中活动的站点的信息。
+- **Extensions**：浏览器扩展和插件的目录。
+- **Thumbnails**：存储网站缩略图。
+- **Preferences**：包含丰富信息的文件，包括插件、扩展、弹出窗口、通知等的设置。
+- **浏览器内置的反钓鱼**：要检查反钓鱼和恶意软件保护是否已启用，请运行 `grep 'safebrowsing' ~/Library/Application Support/Google/Chrome/Default/Preferences`。查看输出中的 `{"enabled: true,"}`。
 
 ## **SQLite数据库数据恢复**
 
-正如您在前面的部分中所看到的，Chrome和Firefox都使用 **SQLite** 数据库存储数据。可以使用工具 [**sqlparse**](https://github.com/padfoot999/sqlparse) 或 [**sqlparse\_gui**](https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases) **恢复已删除的条目**。
+正如前面部分所示，Chrome和Firefox都使用 **SQLite** 数据库存储数据。可以使用工具 [**sqlparse**](https://github.com/padfoot999/sqlparse) 或 [**sqlparse\_gui**](https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases) **恢复已删除的条目**。
 
 ## **Internet Explorer 11**
 
-Internet Explorer将 **数据** 和 **元数据** 存储在不同位置。元数据将帮助找到数据。
+Internet Explorer 11在各个位置管理其数据和元数据，有助于分离存储的信息及其对应的详细信息，以便轻松访问和管理。
 
-**元数据** 可以在文件夹 `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` 中找到，其中VX可以是V01、V16或V24。\
-在前面的文件夹中，您还可以找到文件V01.log。如果此文件的 **修改时间** 和 WebcacheVX.data 文件的 **不同**，则可能需要运行命令 `esentutl /r V01 /d` 来 **修复** 可能的 **不兼容性**。
+### 元数据存储
+Internet Explorer的元数据存储在 `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data`（其中VX为V01、V16或V24）。伴随的 `V01.log` 文件可能显示与 `WebcacheVX.data` 的修改时间不一致，表明需要使用 `esentutl /r V01 /d` 进行修复。这些存储在ESE数据库中的元数据可以使用工具如 photorec 和 [ESEDatabaseView](https://www.nirsoft.net/utils/ese_database_view.html) 进行恢复和检查。在 **Containers** 表中，可以区分每个数据段存储的具体表或容器，包括其他Microsoft工具（如Skype）的缓存详细信息。
 
-一旦 **恢复** 了这个工件（这是一个ESE数据库，photorec可以使用选项 Exchange Database 或 EDB 恢复它），您可以使用程序 [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html) 打开它。打开后，转到名为 "**Containers**" 的表。
+### 缓存检查
+[IECacheView](https://www.nirsoft.net/utils/ie_cache_viewer.html) 工具允许进行缓存检查，需要提供缓存数据提取文件夹的位置。缓存的元数据包括文件名、目录、访问计数、URL来源以及指示缓存创建、访问、修改和过期时间的时间戳。
 
-![](<../../../.gitbook/assets/image (446).png>)
+### Cookies管理
+可以使用 [IECookiesView](https://www.nirsoft.net/utils/iecookies.html) 探索Cookies，元数据包括名称、URL、访问计数和各种与时间相关的详细信息。持久性Cookies存储在 `%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies`，会话Cookies存储在内存中。
 
-在这个表中，您可以找到存储信息各部分的其他表或容器。随后，您可以找到浏览器存储的数据的 **位置** 和内部的 **元数据**。
+### 下载详情
+可以通过 [ESEDatabaseView](https://www.nirsoft.net/utils/ese_database_view.html) 访问下载元数据，特定容器包含URL、文件类型和下载位置等数据。物理文件可以在 `%userprofile%\Appdata\Roaming\Microsoft\Windows\IEDownloadHistory` 下找到。
 
-**请注意，此表还指示了其他Microsoft工具（例如skype）的缓存元数据**
+### 浏览历史
+要查看浏览历史，可以使用 [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing_history_view.html)，需要提供提取的历史文件位置和Internet Explorer的配置。这里的元数据包括修改和访问时间，以及访问计数。历史文件位于 `%userprofile%\Appdata\Local\Microsoft\Windows\History`。
 
-### 缓存
-
-您可以使用工具 [IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) 检查缓存。您需要指定提取缓存数据的文件夹。
-
-#### 元数据
-
-关于缓存的元数据存储了：
-
-* 磁盘中的文件名
-* SecureDIrectory: 缓存目录中文件的位置
-* AccessCount: 文件在缓存中保存的次数
-* URL: URL来源
-* CreationTime: 缓存的第一次时间
-* AccessedTime: 缓存使用时间
-* ModifiedTime: 最后的网页版本
-* ExpiryTime: 缓存将过期的时间
-
-#### 文件
-
-缓存信息可以在 _**%userprofile%\Appdata\Local\Microsoft\Windows\Temporary Internet Files\Content.IE5**_ 和 _**%userprofile%\Appdata\Local\Microsoft\Windows\Temporary Internet Files\Content.IE5\low**_ 中找到
-
-这些文件夹中的信息是用户看到的 **快照**。缓存大小为 **250 MB**，时间戳指示页面访问时间（第一次、NTFS的创建日期、最后一次、NTFS的修改时间）。
-
-### Cookies
-
-您可以使用工具 [IECookiesView](https://www.nirsoft.net/utils/iecookies.html) 检查Cookies。您需要指定提取Cookies的文件夹。
-
-#### **元数据**
-
-关于存储的Cookies的元数据包括：
-
-* 文件系统中的Cookie名称
-* URL
-* AccessCount: 将Cookie发送到服务器的次数
-* CreationTime: 创建Cookie的时间
-* ModifiedTime: 修改Cookie的时间
-* AccessedTime: 访问Cookie的时间
-* ExpiryTime: Cookie的过期时间
-
-#### 文件
-
-Cookies数据可以在 _**%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies**_ 和 _**%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies\low**_ 中找到
-
-会话Cookie存储在内存中，持久Cookie存储在磁盘中。
-
-### 下载
-
-#### **元数据**
-
-使用工具 [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html) 您可以找到包含下载元数据的容器：
-
-![](<../../../.gitbook/assets/image (445).png>)
-
-通过获取“ResponseHeaders”列的信息，您可以将其从十六进制转换为URL、文件类型和下载文件的位置。
-
-#### 文件
-
-查看路径 _**%userprofile%\Appdata\Roaming\Microsoft\Windows\IEDownloadHistory**_
-
-### **历史记录**
-
-工具 [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html) 可用于查看历史记录。但首先，您需要在高级选项中指定浏览器和提取历史记录文件的位置。
-
-#### **元数据**
-
-* ModifiedTime: 发现URL的第一次时间
-* AccessedTime: 最后一次时间
-* AccessCount: 访问次数
-
-#### **文件**
-
-搜索 _**userprofile%\Appdata\Local\Microsoft\Windows\History\History.IE5**_ 和 _**userprofile%\Appdata\Local\Microsoft\Windows\History\Low\History.IE5**_
-
-### **输入的URL**
-
-此信息可以在注册表 NTDUSER.DAT 的路径中找到：
-
-* _**Software\Microsoft\InternetExplorer\TypedURLs**_
-* 存储用户最后输入的50个URL
-* _**Software\Microsoft\InternetExplorer\TypedURLsTime**_
-* URL最后输入的时间
+### 输入的URL
+输入的URL及其使用时间存储在注册表中的 `NTUSER.DAT` 中的 `Software\Microsoft\InternetExplorer\TypedURLs` 和 `Software\Microsoft\InternetExplorer\TypedURLsTime` 下，跟踪用户输入的最后50个URL及其最后输入时间。
 
 ## Microsoft Edge
 
-要分析Microsoft Edge的工件，所有关于缓存和位置的 **解释（IE 11中）仍然有效**，唯一的区别是基本位置，在这种情况下是 _**%userprofile%\Appdata\Local\Packages**_（如下面的路径所示）：
+Microsoft Edge将用户数据存储在 `%userprofile%\Appdata\Local\Packages` 中。各种数据类型的路径如下：
 
-* 配置文件路径: _**C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge\_XXX\AC**_
-* 历史记录、Cookies和下载: _**C:\Users\XX\AppData\Local\Microsoft\Windows\WebCache\WebCacheV01.dat**_
-* 设置、书签和阅读列表: _**C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge\_XXX\AC\MicrosoftEdge\User\Default\DataStore\Data\nouser1\XXX\DBStore\spartan.edb**_
-* 缓存: _**C:\Users\XXX\AppData\Local\Packages\Microsoft.MicrosoftEdge\_XXX\AC#!XXX\MicrosoftEdge\Cache**_
-* 最后活动会话: _**C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge\_XXX\AC\MicrosoftEdge\User\Default\Recovery\Active**_
+- **配置文件路径**：`C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge_XXX\AC`
+- **历史记录、Cookies和下载**：`C:\Users\XX\AppData\Local\Microsoft\Windows\WebCache\WebCacheV01.dat`
+- **设置、书签和阅读列表**：`C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge_XXX\AC\MicrosoftEdge\User\Default\DataStore\Data\nouser1\XXX\DBStore\spartan.edb`
+- **缓存**：`C:\Users\XXX\AppData\Local\Packages\Microsoft.MicrosoftEdge_XXX\AC#!XXX\MicrosoftEdge\Cache`
+- **最后活动会话**：`C:\Users\XX\AppData\Local\Packages\Microsoft.MicrosoftEdge_XXX\AC\MicrosoftEdge\User\Default\Recovery\Active`
 
-## **Safari**
+## Safari
 
-数据库可以在 `/Users/$User/Library/Safari` 中找到
+Safari数据存储在 `/Users/$User/Library/Safari`。关键文件包括：
 
-* **History.db**: 表 `history_visits` _和_ `history_items` 包含有关历史记录和时间戳的信息。
-* `sqlite3 ~/Library/Safari/History.db "SELECT h.visit_time, i.url FROM history_visits h INNER JOIN history_items i ON h.history_item = i.id"`
-* **Downloads.plist**: 包含有关下载文件的信息。
-* **Book-marks.plist**: 书签的URL。
-* **TopSites.plist**: 用户浏览的最常访问网站列表。
-* **Extensions.plist**: 检索Safari浏览器扩展的旧式列表。
-* `plutil -p ~/Library/Safari/Extensions/Extensions.plist| grep "Bundle Directory Name" | sort --ignore-case`
-* `pluginkit -mDvvv -p com.apple.Safari.extension`
-* **UserNotificationPermissions.plist**: 允许推送通知的域。
-* `plutil -p ~/Library/Safari/UserNotificationPermissions.plist | grep -a3 '"Permission" => 1'`
-* **LastSession.plist**: 用户退出Safari时打开的标签页。
-* `plutil -p ~/Library/Safari/LastSession.plist | grep -iv sessionstate`
-* **浏览器内置反钓鱼:** `defaults read com.apple.Safari WarnAboutFraudulentWebsites`
-* 回复应为1，表示设置已激活
+- **History.db**：包含 `history_visits` 和 `history_items` 表，包含URL和访问时间戳。使用 `sqlite3` 进行查询。
+- **Downloads.plist**：有关下载文件的信息。
+- **Bookmarks.plist**：存储书签的URL。
+- **TopSites.plist**：最常访问的站点。
+- **Extensions.plist**：Safari浏览器扩展列表。使用 `plutil` 或 `pluginkit` 进行检索。
+- **UserNotificationPermissions.plist**：允许推送通知的域。使用 `plutil` 进行解析。
+- **LastSession.plist**：上次会话的标签页。使用 `plutil` 进行解析。
+- **浏览器内置的反钓鱼**：使用 `defaults read com.apple.Safari WarnAboutFraudulentWebsites` 进行检查。响应为1表示该功能已激活。
 
 ## Opera
 
-数据库可以在 `/Users/$USER/Library/Application Support/com.operasoftware.Opera` 中找到
+Opera的数据存储在 `/Users/$USER/Library/Application Support/com.operasoftware.Opera`，并与Chrome的格式相同，用于历史记录和下载。
 
-Opera **以与Google Chrome完全相同的格式存储浏览器历史记录和下载数据**。这适用于文件名以及表名。
+- **浏览器内置的反钓鱼**：通过检查偏好设置文件中 `fraud_protection_enabled` 是否设置为 `true` 来验证，使用 `grep`。
 
-* **浏览器内置反钓鱼:** `grep --color 'fraud_protection_enabled' ~/Library/Application Support/com.operasoftware.Opera/Preferences`
-* **fraud\_protection\_enabled** 应为 **true**
-
-<figure><img src="../../../.gitbook/assets/image (3) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
-
-\
-使用 [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) 可以轻松构建和 **自动化** 由全球 **最先进** 的社区工具提供支持的工作流。\
-立即获取访问权限：
-
-{% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
-
-<details>
-
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-支持HackTricks的其他方式：
-
-* 如果您想在HackTricks中看到您的 **公司广告** 或 **下载PDF版本的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 发现我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
-* 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
-
-</details>
+这些路径和命令对于访问和理解不同网络浏览器存储的浏览数据至关重要。

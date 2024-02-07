@@ -1,59 +1,74 @@
-# macOS Bundles
+# macOS捆绑包
 
 <details>
 
-<summary><strong>从零到英雄学习AWS黑客技术，通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
 
 支持HackTricks的其他方式：
 
-* 如果您想在**HackTricks中看到您的公司广告**或**以PDF格式下载HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 获取[**官方PEASS＆HackTricks周边产品**](https://peass.creator-spring.com)
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
 ## 基本信息
 
-基本上，bundle是文件系统内的**目录结构**。有趣的是，默认情况下，这个目录在Finder中**看起来像一个单一对象**。
+macOS中的捆绑包用作各种资源（包括应用程序、库和其他必要文件）的容器，使它们在Finder中显示为单个对象，例如熟悉的`*.app`文件。最常见的捆绑包是`.app`捆绑包，但其他类型如`.framework`、`.systemextension`和`.kext`也很常见。
 
-我们经常遇到的**常见**bundle是**`.app` bundle**，但许多其他可执行文件也被打包成bundle，例如**`.framework`** 和 **`.systemextension`** 或 **`.kext`**。
+### 捆绑包的基本组件
 
-bundle内包含的资源类型可能包括应用程序、库、图像、文档、头文件等。所有这些文件都在 `<application>.app/Contents/` 内。
+在捆绑包中，特别是在`<application>.app/Contents/`目录中，存储着各种重要资源：
+
+- **_CodeSignature**：此目录存储了验证应用程序完整性所必需的代码签名详细信息。您可以使用以下命令检查代码签名信息：
+```bash
+openssl dgst -binary -sha1 /Applications/Safari.app/Contents/Resources/Assets.car | openssl base64
+```
+- **MacOS**：包含应用程序在用户交互时运行的可执行二进制文件。
+- **Resources**：存储应用程序的用户界面组件，包括图像、文档和界面描述（nib/xib文件）。
+- **Info.plist**：作为应用程序的主要配置文件，对于系统识别和与应用程序交互至关重要。
+
+#### Info.plist中的重要键
+
+`Info.plist`文件是应用程序配置的基石，包含诸如以下键的内容：
+
+- **CFBundleExecutable**：指定位于`Contents/MacOS`目录中的主可执行文件的名称。
+- **CFBundleIdentifier**：为应用程序提供全局标识符，macOS广泛用于应用程序管理。
+- **LSMinimumSystemVersion**：指示应用程序运行所需的macOS最低版本。
+
+### 探索捆绑包
+
+要探索捆绑包的内容，例如`Safari.app`，可以使用以下命令：
 ```bash
 ls -lR /Applications/Safari.app/Contents
 ```
-* `Contents/_CodeSignature` -> 包含应用程序的**代码签名信息**（例如，哈希等）。
-* `openssl dgst -binary -sha1 /Applications/Safari.app/Contents/Resources/Assets.car | openssl base64`
-* `Contents/MacOS` -> 包含**应用程序的二进制文件**（当用户在UI中双击应用程序图标时执行）。
-* `Contents/Resources` -> 包含应用程序的**UI元素**，如图片、文档和nib/xib文件（描述各种用户界面）。
-* `Contents/Info.plist` -> 应用程序的主要“**配置文件**”。苹果指出，“系统依赖于此文件的存在来识别有关\[应用程序\]及任何相关文件的信息”。
-* **Plist文件**包含配置信息。您可以在[https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Introduction/Introduction.html](https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Introduction/Introduction.html)找到有关plist键含义的信息。
-*   在分析应用程序时可能感兴趣的键值对包括：
 
-* **CFBundleExecutable**
+此探索将显示诸如`_CodeSignature`、`MacOS`、`Resources`等目录，以及诸如`Info.plist`等文件，每个都具有从保护应用程序到定义其用户界面和操作参数的独特目的。
 
-包含**应用程序二进制文件的名称**（位于Contents/MacOS中）。
+#### 其他捆绑包目录
 
-* **CFBundleIdentifier**
+除了常见目录外，捆绑包还可能包括：
 
-包含应用程序的捆绑标识符（系统经常用它来**全局** **识别**应用程序）。
+- **Frameworks**：包含应用程序使用的捆绑框架。
+- **PlugIns**：用于增强应用程序功能的插件和扩展的目录。
+- **XPCServices**：保存应用程序用于进程间通信的XPC服务。
 
-* **LSMinimumSystemVersion**
+这种结构确保了所有必要组件都封装在捆绑包中，促进了模块化和安全的应用程序环境。
 
-包含应用程序兼容的**最旧**的**macOS**版本。
+有关`Info.plist`键及其含义的更详细信息，苹果开发者文档提供了广泛的资源：[Apple Info.plist键参考](https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Introduction/Introduction.html)。
 
 <details>
 
-<summary><strong>通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>从零到英雄学习AWS黑客攻击！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
 
 支持HackTricks的其他方式：
 
-* 如果您想在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 获取[**官方PEASS＆HackTricks周边产品**](https://peass.creator-spring.com)
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>

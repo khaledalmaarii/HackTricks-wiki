@@ -15,7 +15,7 @@
 
 如果您有包含通过DNSCat**进行数据外泄的pcap文件**（未使用加密），您可以找到外泄的内容。
 
-您只需要知道**前9个字节**不是真实数据，而是与**C\&C通信**相关的内容：
+您只需要知道**前9个字节**不是真实数据，而是与**C\&C通信**相关的。
 ```python
 from scapy.all import rdpcap, DNSQR, DNSRR
 import struct
@@ -38,7 +38,7 @@ last = qry
 [https://github.com/iagox86/dnscat2/blob/master/doc/protocol.md](https://github.com/iagox86/dnscat2/blob/master/doc/protocol.md)
 
 
-有一个可以与Python3一起使用的脚本: [https://github.com/josemlwdf/DNScat-Decoder](https://github.com/josemlwdf/DNScat-Decoder)
+有一个与Python3配合使用的脚本: [https://github.com/josemlwdf/DNScat-Decoder](https://github.com/josemlwdf/DNScat-Decoder)
 ```
 python3 dnscat_decoder.py sample.pcap bad_domain
 ```

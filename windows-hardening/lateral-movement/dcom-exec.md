@@ -4,10 +4,10 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 您在**网络安全公司**工作吗？ 您想看到您的**公司在HackTricks中做广告**吗？或者您想访问**PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 发现我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 您在**网络安全公司**工作吗？ 您想在**HackTricks中宣传您的公司**吗？ 或者您想访问**PEASS的最新版本或下载PDF格式的HackTricks**吗？ 请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 发现我们的独家[NFTs收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在**Twitter**上**关注**我 [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在**Twitter**上**🐦**[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
 * **通过向** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **和** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **提交PR来分享您的黑客技巧。**
 
 </details>
@@ -26,7 +26,7 @@
 ```bash
 Get-CimInstance Win32_DCOMApplication
 ```
-COM对象，[MMC Application Class (MMC20.Application)](https://technet.microsoft.com/en-us/library/cc181199.aspx)，可以对MMC插件操作进行脚本编写。特别是，该对象在`Document.ActiveView`下包含一个`ExecuteShellCommand`方法。有关此方法的更多信息可以在[此处](https://msdn.microsoft.com/en-us/library/aa815396\(v=vs.85\).aspx)找到。运行以下命令进行检查：
+COM对象，[MMC Application Class (MMC20.Application)](https://technet.microsoft.com/en-us/library/cc181199.aspx)，可以用于脚本化MMC插件操作。特别地，该对象包含在`Document.ActiveView`下的`ExecuteShellCommand`方法。有关此方法的更多信息可以在[此处](https://msdn.microsoft.com/en-us/library/aa815396\(v=vs.85\).aspx)找到。运行以下命令进行检查：
 
 此功能通过DCOM应用程序促进了通过网络执行命令的功能。要远程以管理员身份与DCOM进行交互，可以使用PowerShell进行如下操作：
 ```powershell
@@ -58,7 +58,7 @@ ls \\10.10.10.10\c$\Users
 由于缺乏显式 Launch Permissions，两个特定对象 `ShellBrowserWindow` 和 `ShellWindows` 受到关注。在 `HKCR:\AppID\{guid}` 下缺少 `LaunchPermission` 注册表项表示没有显式权限。
 
 ### ShellWindows
-对于缺乏 ProgID 的 `ShellWindows`，.NET 方法 `Type.GetTypeFromCLSID` 和 `Activator.CreateInstance` 通过其 AppID 促进对象实例化。此过程利用 OleView .NET 检索 `ShellWindows` 的 CLSID。一旦实例化，可以通过 `WindowsShell.Item` 方法进行交互，从而导致像 `Document.Application.ShellExecute` 这样的方法调用。
+对于 `ShellWindows`，缺乏 ProgID，.NET 方法 `Type.GetTypeFromCLSID` 和 `Activator.CreateInstance` 通过其 AppID 促进对象实例化。此过程利用 OleView .NET 检索 `ShellWindows` 的 CLSID。一旦实例化，可以通过 `WindowsShell.Item` 方法进行交互，从而导致像 `Document.Application.ShellExecute` 这样的方法调用。
 
 提供了示例 PowerShell 命令来实例化对象并远程执行命令：
 ```powershell
@@ -69,9 +69,9 @@ $item.Document.Application.ShellExecute("cmd.exe", "/c calc.exe", "c:\windows\sy
 ```
 ### 使用 Excel DCOM 对象进行横向移动
 
-通过利用 DCOM Excel 对象可以实现横向移动。有关详细信息，请阅读关于通过 DCOM 利用 Excel DDE 实现横向移动的讨论，可访问[Cybereason的博客](https://www.cybereason.com/blog/leveraging-excel-dde-for-lateral-movement-via-dcom)。
+可以通过利用 DCOM Excel 对象来实现横向移动。有关详细信息，请阅读关于通过 DCOM 利用 Excel DDE 实现横向移动的讨论，可访问[Cybereason的博客](https://www.cybereason.com/blog/leveraging-excel-dde-for-lateral-movement-via-dcom)。
 
-Empire 项目提供了一个 PowerShell 脚本，演示了通过操纵 DCOM 对象利用 Excel 进行远程代码执行（RCE）的方法。以下是来自[Empire 的 GitHub 代码库](https://github.com/EmpireProject/Empire/blob/master/data/module_source/lateral_movement/Invoke-DCOM.ps1)中的脚本片段，展示了滥用 Excel 进行 RCE 的不同方法：
+Empire 项目提供了一个 PowerShell 脚本，演示了通过操纵 DCOM 对象利用 Excel 进行远程代码执行（RCE）的方法。以下是从[Empire 的 GitHub 代码库](https://github.com/EmpireProject/Empire/blob/master/data/module_source/lateral_movement/Invoke-DCOM.ps1)中提取的脚本片段，展示了滥用 Excel 进行 RCE 的不同方法：
 ```powershell
 # Detection of Office version
 elseif ($Method -Match "DetectOffice") {
@@ -98,7 +98,7 @@ $Obj.DDEInitiate("cmd", "/c $Command")
 
 自动化这些技术的两个工具如下：
 
-- **Invoke-DCOM.ps1**：Empire项目提供的一个PowerShell脚本，简化了在远程计算机上执行代码的不同方法的调用。此脚本可在Empire GitHub存储库中访问。
+- **Invoke-DCOM.ps1**：Empire项目提供的一个PowerShell脚本，简化了在远程计算机上执行代码的不同方法的调用。此脚本可在Empire GitHub存储库中找到。
 
 - **SharpLateral**：一款用于远程执行代码的工具，可使用以下命令：
 ```bash
@@ -106,8 +106,8 @@ SharpLateral.exe reddcom HOSTNAME C:\Users\Administrator\Desktop\malware.exe
 ```
 ## 自动化工具
 
-* Powershell脚本[**Invoke-DCOM.ps1**](https://github.com/EmpireProject/Empire/blob/master/data/module\_source/lateral\_movement/Invoke-DCOM.ps1)允许轻松调用所有已注释的方法来在其他计算机上执行代码。
-* 您也可以使用[**SharpLateral**](https://github.com/mertdas/SharpLateral)：
+* Powershell脚本 [**Invoke-DCOM.ps1**](https://github.com/EmpireProject/Empire/blob/master/data/module\_source/lateral\_movement/Invoke-DCOM.ps1) 允许轻松调用所有已注释的在其他计算机上执行代码的方法。
+* 也可以使用 [**SharpLateral**](https://github.com/mertdas/SharpLateral)：
 ```bash
 SharpLateral.exe reddcom HOSTNAME C:\Users\Administrator\Desktop\malware.exe
 ```
@@ -118,20 +118,20 @@ SharpLateral.exe reddcom HOSTNAME C:\Users\Administrator\Desktop\malware.exe
 
 <figure><img src="../../.gitbook/assets/image (675).png" alt=""><figcaption></figcaption></figure>
 
-找到最重要的漏洞，这样您就可以更快地修复它们。Intruder跟踪您的攻击面，运行主动威胁扫描，发现整个技术堆栈中的问题，从API到Web应用程序和云系统。[**立即免费试用**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks) 。
+找到最重要的漏洞，这样您就可以更快地修复它们。Intruder跟踪您的攻击面，运行主动威胁扫描，发现整个技术堆栈中的问题，从API到Web应用程序和云系统。[**立即免费试用**](https://www.intruder.io/?utm\_source=referral\&utm\_campaign=hacktricks)。
 
 {% embed url="https://www.intruder.io/?utm_campaign=hacktricks&utm_source=referral" %}
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
 
 支持HackTricks的其他方式：
 
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
 * 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**上关注**我。
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>

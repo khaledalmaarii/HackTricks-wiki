@@ -4,7 +4,7 @@
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
 
 支持HackTricks的其他方式：
 
@@ -87,9 +87,11 @@
 
 如果您想在会话的数据包中**搜索**内容，请按下CTRL+f。您可以通过按右键然后编辑列来向主信息栏添加新层（编号、时间、来源等）。
 
-练习：[https://www.malware-traffic-analysis.net/](https://www.malware-traffic-analysis.net)
+### 免费的pcap实验室
 
-## 识别域
+**练习免费挑战：[https://www.malware-traffic-analysis.net/](https://www.malware-traffic-analysis.net)**
+
+## 识别域名
 
 您可以添加一个显示Host HTTP标头的列：
 
@@ -119,18 +121,19 @@ _edit>preference>protocol>ssl>_
 
 ![](<../../../.gitbook/assets/image (98).png>)
 
-点击_Edit_，添加服务器和私钥的所有数据（_IP、端口、协议、密钥文件和密码_）
+点击_Edit_，然后添加服务器和私钥的所有数据（_IP、端口、协议、密钥文件和密码_）
 
 ### 使用对称会话密钥解密https流量
 
-事实证明，Firefox和Chrome都支持将用于加密TLS流量的对称会话密钥记录到文件中。然后，您可以将Wireshark指向该文件，解密TLS流量。更多信息：[https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/)\
+Firefox和Chrome都可以记录TLS会话密钥，这些密钥可以与Wireshark一起用于解密TLS流量。这允许对安全通信进行深入分析。有关如何执行此解密的更多详细信息，请参阅[Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/)的指南。
+
 要检测此内容，请在环境中搜索变量`SSLKEYLOGFILE`
 
 共享密钥文件如下所示：
 
 ![](<../../../.gitbook/assets/image (99).png>)
 
-要在Wireshark中导入此文件，请转到_edit > preference > protocol > ssl > 并在(Pre)-Master-Secret log filename中导入它：
+要将其导入Wireshark，请转到_edit > preference > protocol > ssl > 并将其导入到（Pre）-Master-Secret日志文件名中：
 
 ![](<../../../.gitbook/assets/image (100).png>)
 
@@ -171,7 +174,7 @@ f.close()
 
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索我们的独家[**NFTs**]收藏品（https://opensea.io/collection/the-peass-family)
+* 探索我们的独家[**NFTs**]收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
 * **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 

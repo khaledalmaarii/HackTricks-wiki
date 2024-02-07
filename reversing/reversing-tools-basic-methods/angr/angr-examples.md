@@ -2,18 +2,18 @@
 
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> - <a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在 HackTricks 中**宣传你的公司**吗？或者你想要**获取最新版本的 PEASS 或下载 HackTricks 的 PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass)，或者**关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* **通过向[hacktricks 仓库](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud 仓库](https://github.com/carlospolop/hacktricks-cloud)提交 PR 来分享你的黑客技巧**。
+* 您在**网络安全公司**工作吗？ 想要在HackTricks中看到您的**公司广告**？ 或者您想要访问**PEASS的最新版本或下载PDF格式的HackTricks**？ 请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 发现我们的独家[NFTs收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我在**Twitter** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享您的黑客技巧**。
 
 </details>
 
 {% hint style="info" %}
-如果程序使用 \*\*`scanf` \*\* 从 stdin 中**一次获取多个值**，你需要生成一个在 **`scanf`** 之后开始的状态。
+如果程序使用\*\*`scanf` \*\* 从stdin一次性获取**多个值**，则需要生成一个在**`scanf`**之后开始的状态。
 {% endhint %}
 
 ### 输入以到达地址（指示地址）
@@ -49,7 +49,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### 输入以到达地址（指示打印）
+### 到达地址的输入（指示打印）
 ```python
 # If you don't know the address you want to recah, but you know it's printing something
 # You can also indicate that info
@@ -84,11 +84,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### 注册表值
-
-Registry values, also known as keys, are a fundamental component of the Windows operating system. They store configuration settings and other important information that is used by the system and various applications. Understanding how to work with registry values is essential for many hacking and reverse engineering tasks.
-
-注册表值，也被称为键，是Windows操作系统的基本组成部分。它们存储系统和各种应用程序使用的配置设置和其他重要信息。了解如何处理注册表值对于许多黑客和逆向工程任务至关重要。
+### 注册表数值
 ```python
 # Angr doesn't currently support reading multiple things with scanf (Ex:
 # scanf("%u %u).) You will have to tell the simulation engine to begin the
@@ -153,26 +149,6 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 ### 栈值
-
-The stack is a data structure used in computer programming to store and manage variables and function calls. In the context of reverse engineering, understanding the values stored in the stack can be crucial for analyzing and manipulating a program.
-
-栈是计算机编程中用于存储和管理变量和函数调用的数据结构。在逆向工程的背景下，理解存储在栈中的值对于分析和操作程序至关重要。
-
-When a function is called, its local variables and function arguments are typically stored on the stack. As the function executes, it pushes and pops values onto and from the stack.
-
-当调用函数时，其局部变量和函数参数通常存储在栈上。随着函数的执行，它会将值推入栈上或从栈上弹出。
-
-To analyze the stack values, you can use tools like angr. Angr is a powerful binary analysis framework that allows you to explore and manipulate programs at the binary level.
-
-要分析栈值，可以使用诸如 angr 的工具。angr 是一个强大的二进制分析框架，可以让您在二进制级别上探索和操作程序。
-
-With angr, you can load a binary and simulate its execution. This allows you to track the values stored in the stack as the program runs.
-
-使用 angr，您可以加载一个二进制文件并模拟其执行。这样，您就可以在程序运行时跟踪存储在栈中的值。
-
-By analyzing the stack values, you can gain insights into how the program works and potentially identify vulnerabilities or areas of interest for further analysis.
-
-通过分析栈值，您可以深入了解程序的工作原理，并可能识别出漏洞或进一步分析的感兴趣的领域。
 ```python
 # Put bit vectors in th stack to find out the vallue that stack position need to
 # have to reach a rogram flow
@@ -234,7 +210,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-在这种情况下，输入是使用`scanf("%u %u")`获取的，并且给出了值`"1 1"`，因此栈上的值**`0x00000001`**来自**用户输入**。您可以看到这些值从`$ebp - 8`开始。因此，在代码中，我们**从`$esp`减去了8个字节（因为在那个时刻`$ebp`和`$esp`具有相同的值）**，然后我们推入了BVS。
+在这种情况下，输入是用 `scanf("%u %u")` 获取的，给定的值是 `"1 1"`，所以栈中的值 **`0x00000001`** 来自**用户输入**。您可以看到这些值是如何从 `$ebp - 8` 开始的。因此，在代码中，我们已经**从 `$esp` 减去了 8 字节（因为在那时刻 `$ebp` 和 `$esp` 具有相同的值）**，然后我们推入了 BVS。
 
 ![](<../../../.gitbook/assets/image (614).png>)
 
@@ -300,43 +276,6 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 ### 动态内存值（Malloc）
-
-When analyzing a binary, it is often necessary to understand the values stored in dynamically allocated memory. The `malloc` function is commonly used in C programs to allocate memory dynamically. By analyzing the memory values returned by `malloc`, we can gain insights into how the program works and potentially discover vulnerabilities.
-
-To analyze the dynamic memory values, we can use the angr framework. Angr provides a powerful symbolic execution engine that allows us to explore the program's execution path and track the values of memory locations.
-
-To start, we need to create an angr project for the binary we want to analyze. We can do this by specifying the path to the binary file:
-
-```python
-import angr
-
-project = angr.Project('/path/to/binary')
-```
-
-Next, we can use the `factory` method provided by angr to create a state representing the program's initial state:
-
-```python
-state = project.factory.entry_state()
-```
-
-We can then use the `state.memory` object to access the memory and track the values stored in dynamically allocated memory. For example, if we want to track the value stored at address `0x804a000`, we can do the following:
-
-```python
-value = state.memory.load(0x804a000, 4)
-```
-
-In this example, we are loading a 4-byte value from the address `0x804a000`. The `load` method returns a symbolic expression representing the value stored at the specified address.
-
-We can also track the values stored in dynamically allocated memory regions. For example, if we want to track the values stored in a dynamically allocated buffer of size 32, we can do the following:
-
-```python
-buffer_address = state.solver.BVS('buffer', 32 * 8)
-state.memory.store(buffer_address, state.solver.BVV(0, 32 * 8))
-```
-
-In this example, we are creating a symbolic variable `buffer` representing the address of the dynamically allocated buffer. We then use the `store` method to store a symbolic expression representing the value `0` at the specified address.
-
-By tracking the values stored in dynamically allocated memory, we can gain a deeper understanding of the program's behavior and potentially identify vulnerabilities such as buffer overflows or use-after-free bugs.
 ```python
 import angr
 import claripy
@@ -396,45 +335,6 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 ### 文件模拟
-
-The `angr` framework provides a powerful feature called file simulation, which allows you to analyze the behavior of a program when interacting with files. This feature is particularly useful when reverse engineering or analyzing malware that heavily relies on file operations.
-
-To simulate file operations, `angr` provides the `SimFile` class, which represents a file object. You can create a `SimFile` object by specifying the file path, mode, and other attributes. Once you have created the `SimFile` object, you can use it to perform various file operations such as reading, writing, seeking, and closing.
-
-Here is an example that demonstrates how to use file simulation in `angr`:
-
-```python
-import angr
-
-# Create a SimFile object
-file_path = "/path/to/file"
-file_mode = "r"
-file_size = 1024
-file_data = b"file contents"
-file_obj = angr.SimFile(file_path, file_mode, size=file_size, content=file_data)
-
-# Open the file in the program under analysis
-proj = angr.Project("/path/to/program")
-state = proj.factory.entry_state(stdin=file_obj)
-
-# Perform file operations
-file_obj.seek(0)
-file_obj.read(10)
-file_obj.write(b"new contents")
-file_obj.close()
-
-# Explore the program's behavior
-simgr = proj.factory.simgr(state)
-simgr.explore()
-
-# Print the final state of the file
-final_file_obj = simgr.found[0].posix.stdin
-print(final_file_obj.content)
-```
-
-In this example, we create a `SimFile` object representing a file with a specified path, mode, size, and content. We then open the program under analysis with the `SimFile` object as the input. We perform various file operations on the `SimFile` object and explore the program's behavior using `angr`'s symbolic execution engine. Finally, we print the content of the file after the program has finished executing.
-
-File simulation in `angr` allows you to gain insights into how a program interacts with files, which can be valuable for understanding its behavior and identifying potential vulnerabilities or malicious activities.
 ```python
 #In this challenge a password is read from a file and we want to simulate its content
 
@@ -490,7 +390,7 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="info" %}
-请注意，符号文件中还可以包含与符号数据合并的常量数据：
+请注意，符号文件还可能包含与符号数据合并的常量数据：
 ```python
 # Hello world, my name is John.
 # ^                       ^
@@ -513,11 +413,11 @@ main(sys.argv)
 ```
 {% endhint %}
 
-### 应用约束条件
+### 应用约束
 
 {% hint style="info" %}
-有时候，像逐个字符比较两个长度为16的单词这样的简单人类操作，对于angr来说代价很大，因为它需要指数级地生成分支，因为它每个if生成一个分支：`2^16`\
-因此，更容易让angr回到之前的一个点（在那里已经完成了真正困难的部分），然后手动设置这些约束条件。
+有时候像逐个字符比较长度为16的两个单词这样简单的人类操作（循环），对于**angr**来说会**花费**很多资源，因为它需要**指数级地生成分支**，因为它会为每个if语句生成一个分支：`2^16`\
+因此，更容易**要求angr回到先前的一个点**（在那里真正困难的部分已经完成），然后**手动设置这些约束**。
 {% endhint %}
 ```python
 # After perform some complex poperations to the input the program checks
@@ -590,17 +490,17 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 {% hint style="danger" %}
-在某些情况下，您可以激活**veritesting**，它将合并相似的状态，以节省无用的分支并找到解决方案：`simulation = project.factory.simgr(initial_state, veritesting=True)`
+在某些情况下，您可以激活**veritesting**，它将合并类似状态，以节省无用的分支并找到解决方案：`simulation = project.factory.simgr(initial_state, veritesting=True)`
 {% endhint %}
 
 {% hint style="info" %}
-在这些情况下，您可以通过**hook函数**来给angr提供更容易理解的内容。
+在这些情况下，您可以做的另一件事是**hook the function giving angr something it can understand**更容易。
 {% endhint %}
 
-### 模拟管理器
+### Simulation Managers
 
-某些模拟管理器比其他管理器更有用。在前面的示例中，存在一个问题，即创建了许多有用的分支。在这里，**veritesting**技术将合并这些分支并找到解决方案。\
-可以使用以下方式激活此模拟管理器：`simulation = project.factory.simgr(initial_state, veritesting=True)`
+有些仿真管理器可能比其他更有用。在前面的示例中，存在一个问题，即创建了许多有用的分支。在这里，**veritesting**技术将合并这些分支并找到解决方案。\
+这个仿真管理器也可以通过以下方式激活：`simulation = project.factory.simgr(initial_state, veritesting=True)`
 ```python
 import angr
 import claripy
@@ -639,84 +539,6 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 ### 钩住/绕过对函数的一次调用
-
-In this example, we will use angr to hook and bypass a specific call to a function in a binary. The goal is to modify the behavior of the program by redirecting the call to a different function or skipping it altogether.
-
-```python
-import angr
-
-# Load the binary
-project = angr.Project("/path/to/binary")
-
-# Define the address of the function to hook
-function_address = 0x12345678
-
-# Create a blank state
-state = project.factory.blank_state()
-
-# Set the program counter to the address of the function to hook
-state.regs.pc = function_address
-
-# Create a SimProcedure to replace the hooked function
-class HookedFunction(angr.SimProcedure):
-    def run(self):
-        # Modify the behavior of the function here
-        # ...
-
-# Hook the function by replacing it with the SimProcedure
-project.hook(function_address, HookedFunction())
-
-# Create a simulation manager with the initial state
-simgr = project.factory.simulation_manager(state)
-
-# Explore the program's execution paths
-simgr.explore()
-
-# Get the state where the call to the function is bypassed
-bypassed_state = simgr.deadended[0]
-
-# Print the program's output
-print(bypassed_state.posix.dumps(1))
-```
-
-在这个例子中，我们将使用 angr 来钩住并绕过二进制文件中对特定函数的一次调用。目标是通过重定向调用到另一个函数或完全跳过它来修改程序的行为。
-
-```python
-import angr
-
-# 加载二进制文件
-project = angr.Project("/path/to/binary")
-
-# 定义要钩住的函数的地址
-function_address = 0x12345678
-
-# 创建一个空白状态
-state = project.factory.blank_state()
-
-# 将程序计数器设置为要钩住的函数的地址
-state.regs.pc = function_address
-
-# 创建一个 SimProcedure 来替换被钩住的函数
-class HookedFunction(angr.SimProcedure):
-    def run(self):
-        # 在这里修改函数的行为
-        # ...
-
-# 通过 SimProcedure 来钩住函数
-project.hook(function_address, HookedFunction())
-
-# 使用初始状态创建一个模拟管理器
-simgr = project.factory.simulation_manager(state)
-
-# 探索程序的执行路径
-simgr.explore()
-
-# 获取绕过函数调用的状态
-bypassed_state = simgr.deadended[0]
-
-# 打印程序的输出
-print(bypassed_state.posix.dumps(1))
-```
 ```python
 # This level performs the following computations:
 #
@@ -784,31 +606,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### 钩住一个函数 / Simprocedure
-
-In some cases, you may want to modify the behavior of a specific function during the execution of a binary. This can be achieved using a technique called function hooking. Function hooking allows you to intercept the execution of a function and replace it with your own custom code.
-
-In angr, function hooking is implemented using a feature called simprocedures. A simprocedure is a user-defined function that can be used to replace the behavior of a specific function. When angr encounters a function call, it checks if there is a simprocedure defined for that function. If a simprocedure is found, angr will execute the simprocedure instead of the original function.
-
-To hook a function using a simprocedure, you need to define a new class that inherits from the `SimProcedure` class provided by angr. This class should override the `run()` method, which will be called when the function is executed. Inside the `run()` method, you can define the custom behavior that you want to replace the original function with.
-
-Here is an example of how to hook the `printf()` function using a simprocedure in angr:
-
-```python
-from angr import SimProcedure
-
-class HookedPrintf(SimProcedure):
-    def run(self, fmt, *args):
-        # Custom code to replace printf()
-        # ...
-
-# Hook the printf() function
-proj.hook_symbol('printf', HookedPrintf())
-```
-
-In this example, we define a new class called `HookedPrintf` that inherits from `SimProcedure`. We override the `run()` method to define our custom behavior for the `printf()` function. Finally, we use the `hook_symbol()` method to hook the `printf()` function with our simprocedure.
-
-By hooking a function using a simprocedure, you can modify its behavior to suit your needs during the execution of a binary. This technique is particularly useful for analyzing and manipulating the output of functions, as well as for bypassing certain checks or restrictions imposed by the original function.
+### Hooking一个函数 / Simprocedure
 ```python
 # Hook to the function called check_equals_WQNDNKKWAWOLXBAC
 
@@ -892,52 +690,7 @@ raise Exception('Could not find the solution')
 if __name__ == '__main__':
 main(sys.argv)
 ```
-### 使用多个参数模拟scanf函数
-
-To simulate the `scanf` function with several parameters, you can use the `angr` framework. The `angr` framework is a powerful binary analysis tool that allows you to perform symbolic execution and solve complex constraints.
-
-Here is an example of how you can simulate `scanf` with multiple parameters using `angr`:
-
-```python
-import angr
-
-# Create an angr project
-project = angr.Project("/path/to/binary")
-
-# Define the symbolic input variables
-input1 = angr.claripy.BVS("input1", 8)
-input2 = angr.claripy.BVS("input2", 8)
-
-# Create a state with symbolic input
-state = project.factory.entry_state(stdin=angr.SimFile(fd=0, content=input1+input2))
-
-# Create a simulation manager
-simgr = project.factory.simulation_manager(state)
-
-# Explore the program's execution
-simgr.explore(find=0xADDRESS_OF_SUCCESS, avoid=0xADDRESS_OF_FAILURE)
-
-# Get the successful state
-success_state = simgr.found[0]
-
-# Get the concrete values of the symbolic inputs
-concrete_input1 = success_state.solver.eval(input1)
-concrete_input2 = success_state.solver.eval(input2)
-
-# Print the concrete values
-print("Input 1:", concrete_input1)
-print("Input 2:", concrete_input2)
-```
-
-In this example, we create an `angr` project from the binary file. We then define two symbolic input variables, `input1` and `input2`, using the `angr.claripy.BVS` function. We create a state with symbolic input by passing the symbolic inputs to the `stdin` parameter of the `entry_state` function.
-
-Next, we create a simulation manager and explore the program's execution using the `explore` function. We specify the addresses of the success and failure conditions using the `find` and `avoid` parameters.
-
-Once the exploration is complete, we retrieve the successful state from the `found` list of the simulation manager. We can then use the `solver.eval` function to obtain the concrete values of the symbolic inputs.
-
-Finally, we print the concrete values of `input1` and `input2`.
-
-By simulating `scanf` with multiple parameters using `angr`, you can analyze and understand the behavior of the program without actually executing it.
+### 模拟带有多个参数的scanf
 ```python
 # This time, the solution involves simply replacing scanf with our own version,
 # since Angr does not support requesting multiple parameters with scanf.
@@ -1000,22 +753,6 @@ if __name__ == '__main__':
 main(sys.argv)
 ```
 ### 静态二进制文件
-
-Static binaries are executable files that are compiled to include all the necessary libraries and dependencies within the binary itself. This means that the binary can be run on any system without requiring the installation of additional libraries or dependencies.
-
-静态二进制文件是编译后的可执行文件，它包含了所有必要的库和依赖项。这意味着该二进制文件可以在任何系统上运行，而无需安装额外的库或依赖项。
-
-Static binaries are commonly used in situations where portability and ease of deployment are important. They can be particularly useful in scenarios where the target system may not have internet access or where the installation of additional software is not feasible.
-
-静态二进制文件通常在需要可移植性和部署便利性的情况下使用。它们在目标系统可能没有互联网访问权限或无法安装额外软件的情况下特别有用。
-
-When analyzing static binaries, it is important to understand that all the necessary code and libraries are contained within the binary itself. This means that any vulnerabilities or weaknesses in the included libraries can potentially be exploited by an attacker.
-
-在分析静态二进制文件时，重要的是要理解所有必要的代码和库都包含在二进制文件本身中。这意味着包含的库中的任何漏洞或弱点都有可能被攻击者利用。
-
-Static binaries can be analyzed using various reverse engineering techniques and tools, such as disassemblers and debuggers, to understand their functionality and identify any potential security issues.
-
-可以使用各种逆向工程技术和工具（如反汇编器和调试器）来分析静态二进制文件，以了解其功能并识别任何潜在的安全问题。
 ```python
 # This challenge is the exact same as the first challenge, except that it was
 # compiled as a static binary. Normally, Angr automatically replaces standard
@@ -1084,12 +821,12 @@ main(sys.argv)
 ```
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> - <a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家 **网络安全公司** 工作吗？你想在 HackTricks 中看到你的 **公司广告**吗？或者你想获得 **PEASS 的最新版本或下载 HackTricks 的 PDF** 吗？请查看 [**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family) 集合 [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获得 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass)，或者在 **Twitter** 上 **关注** 我 [**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* **通过向 [hacktricks 仓库](https://github.com/carlospolop/hacktricks) 和 [hacktricks-cloud 仓库](https://github.com/carlospolop/hacktricks-cloud) 提交 PR 来分享你的黑客技巧**。
+* 你在**网络安全公司**工作吗？想要在HackTricks中看到你的**公司广告**？或者想要访问**PEASS的最新版本或下载HackTricks的PDF**？查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
+* 探索我们的独家[NFTs收藏品**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS & HackTricks周边**](https://peass.creator-spring.com)
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我在**Twitter** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享您的黑客技巧**。
 
 </details>

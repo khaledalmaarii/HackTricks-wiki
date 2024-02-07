@@ -7,19 +7,19 @@
 支持HackTricks的其他方式：
 
 * 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS和HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* 获取[**官方PEASS＆HackTricks周边产品**](https://peass.creator-spring.com)
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
-**有关该技术的更多详细信息，请查看原始帖子：[https://blog.xpnsec.com/dirtynib/**](https://blog.xpnsec.com/dirtynib/)**。以下是摘要：
+**有关该技术的更多详细信息，请查看原始文章：[https://blog.xpnsec.com/dirtynib/**](https://blog.xpnsec.com/dirtynib/)。**以下是摘要：
 
 NIB文件是苹果开发生态系统的一部分，用于定义应用程序中的**UI元素**及其交互。它们包含诸如窗口和按钮之类的序列化对象，并在运行时加载。尽管它们仍在使用中，但苹果现在倡导使用Storyboards来更全面地可视化UI流程。
 
 ### NIB文件的安全问题
-需要注意的是**NIB文件可能存在安全风险**。它们有可能**执行任意命令**，而对应用程序中NIB文件的更改不会阻止Gatekeeper执行该应用程序，构成重大威胁。
+需要注意的是，**NIB文件可能存在安全风险**。它们有可能**执行任意命令**，而对应用程序中NIB文件的更改不会阻止Gatekeeper执行该应用程序，构成重大威胁。
 
 ### Dirty NIB注入过程
 #### 创建和设置NIB文件
@@ -62,10 +62,10 @@ display dialog theDialogText
 - 可以识别未受启动约束保护的应用程序，并针对它们进行NIB文件注入。
 
 ### 其他macOS保护措施
-从macOS Sonoma开始，限制了在应用程序包内部进行修改。但是，早期的方法包括：
+从macOS Sonoma开始，限制了App捆绑包内部的修改。但是，早期的方法包括：
 1. 将应用程序复制到不同位置（例如`/tmp/`）。
-2. 重命名应用程序包内的目录以绕过初始保护。
-3. 运行应用程序以向Gatekeeper注册后，修改应用程序包（例如用Dirty.nib替换MainMenu.nib）。
+2. 重命名应用程序捆绑包中的目录以绕过初始保护。
+3. 运行应用程序以向Gatekeeper注册后，修改应用程序捆绑包（例如用Dirty.nib替换MainMenu.nib）。
 4. 将目录重新命名并重新运行应用程序以执行注入的NIB文件。
 
-**注意**：最近的macOS更新通过防止Gatekeeper缓存后应用程序包内的文件修改来减轻了此漏洞，使该漏洞失效。
+**注意**：最近的macOS更新通过防止Gatekeeper缓存后的应用程序捆绑包内文件修改来减轻了此漏洞，使该漏洞失效。

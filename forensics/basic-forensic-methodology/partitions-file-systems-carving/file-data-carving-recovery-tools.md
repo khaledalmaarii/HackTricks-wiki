@@ -1,14 +1,14 @@
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
 
 支持HackTricks的其他方式：
 
-* 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+- 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+- 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
+- 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
+- **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
+- 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
@@ -22,7 +22,7 @@
 
 # 数据碎片重组和恢复工具
 
-更多工具请参考[https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)
+更多工具请查看[https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)
 
 ## Autopsy
 
@@ -30,8 +30,8 @@
 
 ## Binwalk <a href="#binwalk" id="binwalk"></a>
 
-**Binwalk**是一种用于搜索二进制文件（如图像和音频文件）中嵌入文件和数据的工具。\
-可以使用`apt`安装，但[源代码](https://github.com/ReFirmLabs/binwalk)可以在github上找到。\
+**Binwalk**是用于分析二进制文件以查找嵌入内容的工具。可通过`apt`安装，其源代码位于[GitHub](https://github.com/ReFirmLabs/binwalk)上。
+
 **有用的命令**：
 ```bash
 sudo apt install binwalk #Insllation
@@ -41,7 +41,7 @@ binwalk --dd ".*" file #Displays and extracts all files from the given file
 ```
 ## Foremost
 
-另一个常用的查找隐藏文件的工具是**foremost**。您可以在`/etc/foremost.conf`中找到foremost的配置文件。如果您只想搜索一些特定文件，请取消注释。如果您不取消注释任何内容，foremost将搜索其默认配置的文件类型。
+另一个常用的查找隐藏文件的工具是**foremost**。您可以在`/etc/foremost.conf`中找到foremost的配置文件。如果您只想搜索一些特定文件，请取消注释。如果您没有取消注释任何内容，foremost将搜索其默认配置的文件类型。
 ```bash
 sudo apt-get install foremost
 foremost -v -i file.img -o output
@@ -87,19 +87,19 @@ bulk_extractor memory.img -o out_folder
 * 通过模式**识别**隐写术
 * **视觉**二进制差异
 
-BinVis是在黑盒测试场景中熟悉未知目标的**起点**。
+BinVis是在黑盒测试场景中熟悉未知目标的绝佳**起点**。
 
 # 特定数据刻录工具
 
 ## FindAES
 
-通过搜索密钥计划来搜索AES密钥。能够找到128、192和256位密钥，例如TrueCrypt和BitLocker使用的密钥。
+通过搜索其密钥计划来搜索AES密钥。能够找到128、192和256位密钥，例如TrueCrypt和BitLocker使用的密钥。
 
 在此处下载[here](https://sourceforge.net/projects/findaes/)。
 
 # 附加工具
 
-您可以使用[**viu**](https://github.com/atanunq/viu)在终端中查看图像。\
+您可以使用[**viu**](https://github.com/atanunq/viu)来从终端查看图像。\
 您可以使用Linux命令行工具**pdftotext**将PDF转换为文本并阅读它。
 
 
@@ -115,10 +115,10 @@ BinVis是在黑盒测试场景中熟悉未知目标的**起点**。
 
 支持HackTricks的其他方式：
 
-* 如果您想在HackTricks中看到您的**公司广告**或**下载PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 发现我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品[**The PEASS Family**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter** 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**上关注**我们。
+* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@hacktricks_live**](https://twitter.com/hacktricks_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>

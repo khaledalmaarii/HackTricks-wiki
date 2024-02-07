@@ -18,28 +18,25 @@
 攻击者可能有兴趣**更改文件的时间戳**以避免被检测。\
 可以在MFT中的属性`$STANDARD_INFORMATION`和`$FILE_NAME`中找到时间戳。
 
-这两个属性都有4个时间戳：**修改**、**访问**、**创建**和**MFT注册修改**（MACE或MACB）。
+这两个属性都有4个时间戳：**修改**，**访问**，**创建**和**MFT注册修改**（MACE或MACB）。
 
 **Windows资源管理器**和其他工具显示来自**`$STANDARD_INFORMATION`**的信息。
 
 ## TimeStomp - 反取证工具
 
-该工具**修改**了**`$STANDARD_INFORMATION`**中的时间戳信息，**但不会**修改**`$FILE_NAME`**中的信息。因此，可以**识别**出**可疑活动**。
+该工具**修改**了**`$STANDARD_INFORMATION`**中的时间戳信息**但是**没有修改**`$FILE_NAME`**中的信息。因此，可以**识别**出**可疑**的**活动**。
 
 ## Usnjrnl
 
-**USN日志**（更新序列号日志）是Windows NT文件系统（NTFS）的一个功能，**记录对卷所做更改的记录**。\
-可以使用工具[**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv)来搜索对此记录的修改。
+**USN日志**（更新序列号日志）是NTFS（Windows NT文件系统）的一个功能，用于跟踪卷的更改。[**UsnJrnl2Csv**](https://github.com/jschicht/UsnJrnl2Csv)工具允许检查这些更改。
 
 ![](<../../.gitbook/assets/image (449).png>)
 
-上图是该**工具显示的输出**，可以看到对文件进行了一些**更改**。
+上图是该**工具显示的输出**，可以观察到对文件进行了一些**更改**。
 
 ## $LogFile
 
-文件系统的所有元数据更改都会被记录下来，以确保系统崩溃后可以一致地恢复关键文件系统结构。这称为[预写式日志记录](https://en.wikipedia.org/wiki/Write-ahead_logging)。\
-记录的元数据存储在名为“**$LogFile**”的文件中，该文件位于NTFS文件系统的根目录中。\
-可以使用诸如[LogFileParser](https://github.com/jschicht/LogFileParser)之类的工具来解析此文件并查找更改。
+**文件系统中所有元数据更改都会被记录**，这个过程称为[预写式日志记录](https://en.wikipedia.org/wiki/Write-ahead_logging)。记录的元数据保存在名为`**$LogFile**`的文件中，位于NTFS文件系统的根目录中。可以使用诸如[LogFileParser](https://github.com/jschicht/LogFileParser)之类的工具来解析此文件并识别更改。
 
 ![](<../../.gitbook/assets/image (450).png>)
 
@@ -60,7 +57,7 @@
 
 ## 纳秒
 
-**NTFS**时间戳的**精度**为**100纳秒**。因此，找到时间戳为2010-10-10 10:10:**00.000:0000的文件非常可疑**。
+**NTFS**时间戳的**精度**为**100纳秒**。因此，找到时间戳为2010-10-10 10:10:**00.000:0000的文件是非常可疑的**。
 
 ## SetMace - 反取证工具
 
@@ -70,16 +67,16 @@
 
 NFTS使用一个簇和最小信息大小。这意味着如果一个文件占用一个半簇，**剩余的一半将永远不会被使用**，直到文件被删除。因此，可以**在这个空闲空间中隐藏数据**。
 
-有一些工具，如slacker，允许在这个“隐藏”空间中隐藏数据。但是，对`$logfile`和`$usnjrnl`的分析可能会显示添加了一些数据：
+有一些工具如slacker允许在这个“隐藏”空间中隐藏数据。然而，对`$logfile`和`$usnjrnl`的分析可以显示添加了一些数据：
 
 ![](<../../.gitbook/assets/image (452).png>)
 
-因此，可以使用FTK Imager等工具检索空闲空间。请注意，这种工具可能会保存内容模糊化或甚至加密。
+因此，可以使用FTK Imager等工具检索空闲空间。请注意，这种工具可以保存内容混淆或甚至加密。
 
 # UsbKill
 
 这是一个工具，如果检测到USB端口发生任何更改，将**关闭计算机**。\
-发现这一点的方法是检查运行中的进程并**查看每个运行的Python脚本**。
+发现这一点的方法是检查运行的进程并**查看每个运行的Python脚本**。
 
 # 实时Linux发行版
 
@@ -108,13 +105,13 @@ NFTS使用一个簇和最小信息大小。这意味着如果一个文件占用�
 
 * 执行`regedit`
 * 选择文件路径`HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SessionManager\Memory Management\PrefetchParameters`
-* 右键单击`EnablePrefetch`和`EnableSuperfetch`
+* 右键单击`EnablePrefetcher`和`EnableSuperfetch`
 * 对每个进行修改，将值从1（或3）更改为0
 * 重新启动
 
 ## 禁用时间戳 - 最后访问时间
 
-每当从Windows NT服务器的NTFS卷中打开文件夹时，系统会花费时间**更新列出的每个文件夹上的时间戳字段**，称为最后访问时间。在使用频繁的NTFS卷上，这可能会影响性能。
+每当从Windows NT服务器的NTFS卷上打开文件夹时，系统会花费时间**更新列出的每个文件夹上的时间戳字段**，称为最后访问时间。在使用频繁的NTFS卷上，这可能会影响性能。
 
 1. 打开注册表编辑器（Regedit.exe）。
 2. 浏览到`HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem`。
@@ -123,7 +120,7 @@ NFTS使用一个簇和最小信息大小。这意味着如果一个文件占用�
 
 ## 删除USB历史记录
 
-所有**USB设备条目**都存储在Windows注册表的**USBSTOR**注册表键下，该键包含每次将USB设备插入PC或笔记本电脑时创建的子键。您可以在此处找到此键 H`KEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`。**删除此**将删除USB历史记录。\
+所有**USB设备条目**都存储在Windows注册表的**USBSTOR**注册表键下，其中包含每次将USB设备插入PC或笔记本电脑时创建的子键。您可以在此处找到此键 H`KEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USBSTOR`。**删除此**将删除USB历史记录。\
 您还可以使用工具[**USBDeview**](https://www.nirsoft.net/utils/usb\_devices\_view.html)确保已删除它们（并删除它们）。
 
 保存有关USB的信息的另一个文件是`C:\Windows\INF`中的文件`setupapi.dev.log`。这也应该被删除。
@@ -133,17 +130,15 @@ NFTS使用一个簇和最小信息大小。这意味着如果一个文件占用�
 使用`vssadmin list shadowstorage`**列出**阴影副本\
 运行`vssadmin delete shadow`**删除**它们
 
-也可以通过GUI删除它们，按照[https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html](https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html)中提出的步骤进行操作。
+您还可以按照[https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html](https://www.ubackup.com/windows-10/how-to-delete-shadow-copies-windows-10-5740.html)中提出的步骤通过GUI删除它们。
 
-要禁用阴影副本：
+要禁用阴影副本[这里的步骤](https://support.waters.com/KB_Inf/Other/WKB15560_How_to_disable_Volume_Shadow_Copy_Service_VSS_in_Windows):
 
-1. 转到Windows开始按钮，输入“services”到文本搜索框中；打开服务程序。
-2. 从列表中找到“Volume Shadow Copy”，突出显示它，然后右键单击 > 属性。
-3. 从“启动类型”下拉菜单中选择“禁用”，然后单击应用和确定。
+1. 通过在Windows开始按钮上单击文本搜索框后键入“services”来打开服务程序。
+2. 从列表中找到“Volume Shadow Copy”，选择它，然后通过右键单击访问属性。
+3. 从“启动类型”下拉菜单中选择“禁用”，然后通过单击应用和确定来确认更改。
 
-![](<../../.gitbook/assets/image (453).png>)
-
-还可以在注册表`HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot`中修改要复制到阴影副本中的文件的配置。
+还可以在注册表`HKLM\SYSTEM\CurrentControlSet\Control\BackupRestore\FilesNotToSnapshot`中修改要复制的文件的配置。
 
 ## 覆盖已删除的文件
 
@@ -152,14 +147,14 @@ NFTS使用一个簇和最小信息大小。这意味着如果一个文件占用�
 
 ## 删除Windows事件日志
 
-* Windows + R --> eventvwr.msc --> 展开“Windows日志” --> 右键单击每个类别，选择“清除日志”
+* Windows + R --> eventvwr.msc --> 展开“Windows日志” --> 右键单击每个类别并选择“清除日志”
 * `for /F "tokens=*" %1 in ('wevtutil.exe el') DO wevtutil.exe cl "%1"`
 * `Get-EventLog -LogName * | ForEach { Clear-EventLog $_.Log }`
 
 ## 禁用Windows事件日志
 
 * `reg add 'HKLM\SYSTEM\CurrentControlSet\Services\eventlog' /v Start /t REG_DWORD /d 4 /f`
-* 在服务部分内部禁用服务“Windows事件日志”
+* 在服务部分禁用服务“Windows事件日志”
 * `WEvtUtil.exec clear-log` 或 `WEvtUtil.exe cl`
 
 ## 禁用$UsnJrnl

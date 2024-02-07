@@ -17,24 +17,22 @@
 
 基线包括对系统的某些部分进行快照，以便**将来与之进行比较以突出变化**。
 
-例如，您可以计算并存储文件系统中每个文件的哈希，以便找出哪些文件已被修改。\
-这也可以用于创建的用户帐户、运行的进程、运行的服务以及任何其他不应该或根本不应该发生变化的事物。
+例如，您可以计算并存储文件系统中每个文件的哈希值，以便找出哪些文件已被修改。\
+还可以对创建的用户帐户、运行的进程、运行的服务以及任何其他不应该或根本不应该发生太多变化的事物进行此操作。
 
 ## 文件完整性监控
 
-文件完整性监控是用于保护IT基础设施和业务数据免受各种已知和未知威胁的最强大技术之一。\
-其目标是生成您想要监控的所有文件的**基线**，然后**定期检查**这些文件以查找可能的**更改**（内容、属性、元数据等）。
+文件完整性监控（FIM）是一种关键的安全技术，通过跟踪文件的更改来保护IT环境和数据。它包括两个关键步骤：
 
-1\. **基线比较**，其中将捕获或计算一个或多个文件属性，并将其存储为可以在将来进行比较的基线。这可以简单到文件的时间和日期，但由于这些数据很容易被伪造，通常会使用更可信赖的方法。这可能包括定期评估受监控文件的加密校验和（例如使用MD5或SHA-2哈希算法），然后将结果与先前计算的校验和进行比较。
-
-2\. **实时更改通知**，通常在操作系统的内核内或作为其扩展实现，当文件被访问或修改时会发出标志。
+1. **基线比较：** 使用文件属性或加密校验和（如MD5或SHA-2）建立基线，以便将来进行比较以检测修改。
+2. **实时更改通知：** 当文件被访问或更改时立即收到警报，通常通过操作系统内核扩展。
 
 ## 工具
 
 * [https://github.com/topics/file-integrity-monitoring](https://github.com/topics/file-integrity-monitoring)
 * [https://www.solarwinds.com/security-event-manager/use-cases/file-integrity-monitoring-software](https://www.solarwinds.com/security-event-manager/use-cases/file-integrity-monitoring-software)
 
-# 参考
+# 参考资料
 
 * [https://cybersecurity.att.com/blogs/security-essentials/what-is-file-integrity-monitoring-and-why-you-need-it](https://cybersecurity.att.com/blogs/security-essentials/what-is-file-integrity-monitoring-and-why-you-need-it)
 
