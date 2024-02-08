@@ -44,13 +44,13 @@ Les étapes suivantes sont recommandées pour modifier les configurations de dé
 - Vérifiez si des fonctionnalités de débogage comme le journalisation verbose, le chargement de noyaux arbitraires ou le démarrage à partir de sources non fiables sont activées.
 
 6. **Interférence matérielle prudente** :
-- Soyez prudent lorsque vous connectez une broche à la terre et interagissez avec les puces flash SPI ou NAND pendant la séquence de démarrage de l'appareil, en particulier avant la décompression du noyau. Consultez la fiche technique de la puce flash NAND avant de court-circuiter les broches.
+- Soyez prudent en connectant une broche à la terre et en interagissant avec les puces flash SPI ou NAND pendant la séquence de démarrage de l'appareil, en particulier avant la décompression du noyau. Consultez la fiche technique de la puce flash NAND avant de court-circuiter les broches.
 
 7. **Configurer un serveur DHCP malveillant** :
-- Configurez un serveur DHCP malveillant avec des paramètres malveillants pour qu'un appareil les ingère lors d'un démarrage PXE. Utilisez des outils comme le serveur auxiliaire DHCP de Metasploit (MSF). Modifiez le paramètre 'FILENAME' avec des commandes d'injection de commande telles que `'a";/bin/sh;#'` pour tester la validation des entrées pour les procédures de démarrage de l'appareil.
+- Mettez en place un serveur DHCP malveillant avec des paramètres malveillants pour qu'un appareil les ingère lors d'un démarrage PXE. Utilisez des outils comme le serveur auxiliaire DHCP de Metasploit (MSF). Modifiez le paramètre 'FILENAME' avec des commandes d'injection de commande telles que `'a";/bin/sh;#'` pour tester la validation des entrées pour les procédures de démarrage de l'appareil.
 
 **Remarque** : Les étapes impliquant une interaction physique avec les broches de l'appareil (*marquées d'astérisques) doivent être abordées avec une extrême prudence pour éviter d'endommager l'appareil.
 
 
-# Références
+## Références
 * [https://scriptingxss.gitbook.io/firmware-security-testing-methodology/](https://scriptingxss.gitbook.io/firmware-security-testing-methodology/)

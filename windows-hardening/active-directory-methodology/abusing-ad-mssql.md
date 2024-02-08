@@ -1,4 +1,4 @@
-# Abus de MSSQL AD
+# Abus AD MSSQL
 
 <details>
 
@@ -7,14 +7,14 @@
 * Travaillez-vous dans une **entreprise de cybersécurité**? Voulez-vous voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et au [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
 ## **Énumération / Découverte MSSQL**
 
-Le module PowerShell [PowerUpSQL](https://github.com/NetSPI/PowerUpSQL) est très utile dans ce cas.
+Le module powershell [PowerUpSQL](https://github.com/NetSPI/PowerUpSQL) est très utile dans ce cas.
 ```powershell
 Import-Module .\PowerupSQL.psd1
 ```
@@ -124,7 +124,7 @@ Vous pouvez facilement vérifier les liens de confiance en utilisant Metasploit.
 msf> use exploit/windows/mssql/mssql_linkcrawler
 [msf> set DEPLOY true] #Set DEPLOY to true if you want to abuse the privileges to obtain a meterpreter session
 ```
-Noticez que Metasploit essaiera d'exploiter uniquement la fonction `openquery()` dans MSSQL (donc, si vous ne pouvez pas exécuter de commande avec `openquery()`, vous devrez essayer la méthode `EXECUTE` **manuellement** pour exécuter des commandes, voir plus ci-dessous.)
+Noticez que Metasploit essaiera d'exploiter uniquement la fonction `openquery()` dans MSSQL (donc, si vous ne pouvez pas exécuter de commande avec `openquery()`, vous devrez essayer la méthode `EXECUTE` **manuellement** pour exécuter des commandes, voir plus bas.)
 
 ### Manuel - Openquery()
 
@@ -172,8 +172,8 @@ EXECUTE('EXECUTE(''sp_addsrvrolemember ''''hacker'''' , ''''sysadmin'''' '') AT 
 ```
 ## Élévation locale des privilèges
 
-L'utilisateur local **MSSQL** a généralement un type de privilège spécial appelé **`SeImpersonatePrivilege`**. Cela permet au compte d' "usurper l'identité d'un client après l'authentification".
+L'utilisateur local **MSSQL** a généralement un type de privilège spécial appelé **`SeImpersonatePrivilege`**. Cela permet au compte d' "usurper l'identité d'un client après authentification".
 
-Une stratégie que de nombreux auteurs ont développée consiste à forcer un service **SYSTEM** à s'authentifier auprès d'un service malveillant ou de type homme du milieu que l'attaquant crée. Ce service malveillant peut ensuite usurper l'identité du service **SYSTEM** pendant qu'il tente de s'authentifier.
+Une stratégie que de nombreux auteurs ont développée consiste à forcer un service **SYSTEM** à s'authentifier auprès d'un service malveillant ou de type homme du milieu que l'attaquant crée. Ce service malveillant peut alors usurper l'identité du service **SYSTEM** pendant qu'il tente de s'authentifier.
 
 [SweetPotato](https://github.com/CCob/SweetPotato) propose une collection de ces différentes techniques qui peuvent être exécutées via la commande `execute-assembly` de Beacon.

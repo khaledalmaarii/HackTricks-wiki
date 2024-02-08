@@ -7,8 +7,8 @@
 * Travaillez-vous dans une **entreprise de cybersécurité**? Vous voulez voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR au** [**dépôt hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**dépôt hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 
@@ -24,9 +24,9 @@ Pour plus d'informations sur le fonctionnement de l'infrarouge, consultez :
 
 Flipper utilise un récepteur de signal IR numérique TSOP, qui **permet d'intercepter les signaux des télécommandes IR**. Certains **smartphones** comme Xiaomi ont également un port IR, mais gardez à l'esprit que **la plupart d'entre eux ne peuvent que transmettre** des signaux et sont **incapables de les recevoir**.
 
-Le récepteur infrarouge de Flipper est **assez sensible**. Vous pouvez même **capturer le signal** en restant **quelque part entre** la télécommande et la télévision. Il n'est pas nécessaire de pointer la télécommande directement vers le port IR de Flipper. Cela est pratique lorsque quelqu'un change de chaîne en étant près de la télévision, et que vous et Flipper êtes à une certaine distance.
+Le récepteur infrarouge de Flipper est assez sensible. Vous pouvez même **capturer le signal** en restant **quelque part entre** la télécommande et la télévision. Il n'est pas nécessaire de pointer la télécommande directement vers le port IR de Flipper. Cela est pratique lorsque quelqu'un change de chaîne en étant près de la télévision, et que vous et Flipper êtes à une certaine distance.
 
-Comme le **décodage de l'infrarouge** se fait du côté **logiciel**, Flipper Zero prend en charge potentiellement la **réception et la transmission de codes de télécommande IR**. En cas de **protocoles inconnus** qui ne peuvent pas être reconnus, il **enregistre et rejoue** le signal brut exactement tel qu'il a été reçu.
+Comme le **décodage du signal infrarouge** se fait du côté **logiciel**, Flipper Zero prend en charge potentiellement la **réception et la transmission de codes de télécommande IR**. En cas de **protocoles inconnus** qui ne peuvent pas être reconnus, il **enregistre et rejoue** le signal brut tel qu'il a été reçu.
 
 ## Actions
 
@@ -40,8 +40,8 @@ Une telle attaque en force brute prend du temps. Plus le dictionnaire est grand,
 
 ### Apprendre une Nouvelle Télécommande
 
-Il est possible de **capturer un signal infrarouge** avec Flipper Zero. Si il **trouve le signal dans la base de données**, Flipper saura automatiquement **quel appareil il s'agit** et vous permettra d'interagir avec lui.\
-Si ce n'est pas le cas, Flipper peut **stocker** le **signal** et vous permettra de le **rejouer**.
+Il est possible de **capturer un signal infrarouge** avec Flipper Zero. S'il **trouve le signal dans la base de données**, Flipper saura automatiquement **quel appareil il s'agit** et vous permettra d'interagir avec lui.\
+Sinon, Flipper peut **stocker** le **signal** et vous permettra de le **rejouer**.
 
 ## Références
 
@@ -54,7 +54,7 @@ Si ce n'est pas le cas, Flipper peut **stocker** le **signal** et vous permettra
 * Travaillez-vous dans une **entreprise de cybersécurité**? Vous voulez voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
 * Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR au** [**dépôt hacktricks**](https://github.com/carlospolop/hacktricks) **et au** [**dépôt hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

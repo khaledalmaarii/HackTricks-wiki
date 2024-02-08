@@ -1,20 +1,20 @@
-# Domaine de forêt externe - Unidirectionnel (Sortant)
+# Domaine de la forêt externe - Sortant à sens unique
 
 <details>
 
-<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
 
-Autres moyens de soutenir HackTricks :
+Autres façons de soutenir HackTricks :
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez**-moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 
-Dans ce scénario, **votre domaine** accorde **confiance** à certains **privilèges** à un principal d'un **domaine différent**.
+Dans ce scénario, **votre domaine** accorde **certains privilèges** à un principal provenant de **domaines différents**.
 
 ## Énumération
 
@@ -40,46 +40,41 @@ MemberName              : S-1-5-21-1028541967-2937615241-1935644758-1115
 MemberDistinguishedName : CN=S-1-5-21-1028541967-2937615241-1935644758-1115,CN=ForeignSecurityPrincipals,DC=DOMAIN,DC=LOCAL
 ## Note how the members aren't from the current domain (ConvertFrom-SID won't work)
 ```
-## Attaque de compte de confiance
+## Attaque du compte de confiance
 
-Lorsqu'une confiance de domaine ou de forêt Active Directory est établie d'un domaine _B_ vers un domaine _A_ (_**B**_ fait confiance à A), un compte de confiance est créé dans le domaine **A**, nommé **B. Les clés de confiance Kerberos**, dérivées du **mot de passe du compte de confiance**, sont utilisées pour **chiffrer les TGT inter-royaumes**, lorsque les utilisateurs du domaine A demandent des tickets de service pour des services dans le domaine B.
+Une vulnérabilité de sécurité existe lorsqu'une relation de confiance est établie entre deux domaines, identifiés ici comme le domaine **A** et le domaine **B**, où le domaine **B** étend sa confiance au domaine **A**. Dans cette configuration, un compte spécial est créé dans le domaine **A** pour le domaine **B**, qui joue un rôle crucial dans le processus d'authentification entre les deux domaines. Ce compte, associé au domaine **B**, est utilisé pour crypter les tickets permettant d'accéder aux services à travers les domaines.
 
-Il est possible d'obtenir le mot de passe et le hash du compte de confiance à partir d'un Contrôleur de Domaine en utilisant :
+L'aspect critique à comprendre ici est que le mot de passe et le hash de ce compte spécial peuvent être extraits d'un Contrôleur de Domaine dans le domaine **A** en utilisant un outil en ligne de commande. La commande pour effectuer cette action est :
 ```powershell
 Invoke-Mimikatz -Command '"lsadump::trust /patch"' -ComputerName dc.my.domain.local
 ```
-Le risque est dû au fait que le compte de confiance B$ est activé, **le Groupe Principal de B$ est Domain Users du domaine A**, toute permission accordée aux Domain Users s'applique à B$, et il est possible d'utiliser les identifiants de B$ pour s'authentifier contre le domaine A.
+Cette extraction est possible car le compte, identifié par un **$** après son nom, est actif et appartient au groupe "Domain Users" du domaine **A**, héritant ainsi des autorisations associées à ce groupe. Cela permet aux individus de s'authentifier contre le domaine **A** en utilisant les identifiants de ce compte.
 
-{% hint style="warning" %}
-Par conséquent, **depuis le domaine faisant confiance, il est possible d'obtenir un utilisateur à l'intérieur du domaine de confiance**. Cet utilisateur n'aura pas beaucoup de permissions (probablement juste Domain Users) mais vous serez capable de **recenser le domaine externe**.
-{% endhint %}
+**Avertissement :** Il est possible de tirer parti de cette situation pour obtenir un point d'entrée dans le domaine **A** en tant qu'utilisateur, bien que avec des autorisations limitées. Cependant, cet accès est suffisant pour effectuer une énumération sur le domaine **A**.
 
-Dans cet exemple, le domaine faisant confiance est `ext.local` et le domaine de confiance est `root.local`. Par conséquent, un utilisateur appelé `EXT$` est créé à l'intérieur de `root.local`.
+Dans un scénario où `ext.local` est le domaine faisant confiance et `root.local` est le domaine de confiance, un compte utilisateur nommé `EXT$` serait créé dans `root.local`. À l'aide d'outils spécifiques, il est possible de décharger les clés de confiance Kerberos, révélant les identifiants de `EXT$` dans `root.local`. La commande pour y parvenir est :
 ```bash
-# Use mimikatz to dump trusted keys
 lsadump::trust /patch
-# You can see in the output the old and current credentials
-# You will find clear text, AES and RC4 hashes
 ```
-Par conséquent, à ce stade, nous avons le **mot de passe en clair actuel et la clé secrète Kerberos de `root.local\EXT$`**. Les clés secrètes Kerberos AES de **`root.local\EXT$`** ne sont pas identiques aux clés de confiance AES car un sel différent est utilisé, mais **les clés RC4 sont les mêmes**. Par conséquent, nous pouvons **utiliser la clé de confiance RC4** extraite de ext.local pour **s'authentifier** en tant que `root.local\EXT$` contre `root.local`.
+Suivant cela, on pourrait utiliser la clé RC4 extraite pour s'authentifier en tant que `root.local\EXT$` au sein de `root.local` en utilisant une autre commande d'outil :
 ```bash
 .\Rubeus.exe asktgt /user:EXT$ /domain:root.local /rc4:<RC4> /dc:dc.root.local /ptt
 ```
-Avec cela, vous pouvez commencer à énumérer ce domaine et même à effectuer du kerberoasting sur les utilisateurs :
-```
+Cette étape d'authentification ouvre la possibilité d'énumérer et même d'exploiter des services au sein de `root.local`, comme réaliser une attaque Kerberoast pour extraire les identifiants de compte de service en utilisant :
+```bash
 .\Rubeus.exe kerberoast /user:svc_sql /domain:root.local /dc:dc.root.local
 ```
 ### Collecte du mot de passe de confiance en clair
 
-Dans le flux précédent, le hash de confiance a été utilisé au lieu du **mot de passe en clair** (qui a également été **extrait par mimikatz**).
+Dans le flux précédent, le hachage de confiance a été utilisé au lieu du **mot de passe en clair** (qui a également été **extrait par mimikatz**).
 
-Le mot de passe en clair peut être obtenu en convertissant la sortie \[ CLEAR ] de mimikatz de l'hexadécimal et en supprimant les octets nuls ‘\x00’ :
+Le mot de passe en clair peut être obtenu en convertissant la sortie \[ CLEAR ] de mimikatz de l'hexadécimal et en supprimant les octets nuls '\x00':
 
 ![](<../../.gitbook/assets/image (2) (1) (2) (1).png>)
 
-Parfois, lors de la création d'une relation de confiance, un mot de passe doit être saisi par l'utilisateur pour la confiance. Dans cette démonstration, la clé est le mot de passe de confiance original et donc lisible par l'homme. Comme la clé change tous les 30 jours, le texte en clair ne sera pas lisible par l'homme mais techniquement toujours utilisable.
+Parfois, lors de la création d'une relation de confiance, un mot de passe doit être saisi par l'utilisateur pour la confiance. Dans cette démonstration, la clé est le mot de passe de confiance d'origine et donc lisible par l'homme. Comme la clé change (tous les 30 jours), le texte en clair ne sera pas lisible par l'homme mais techniquement toujours utilisable.
 
-Le mot de passe en clair peut être utilisé pour effectuer une authentification régulière en tant que compte de confiance, une alternative à la demande d'un TGT en utilisant la clé secrète Kerberos du compte de confiance. Ici, interrogation de root.local depuis ext.local pour les membres des Domain Admins :
+Le mot de passe en clair peut être utilisé pour effectuer une authentification régulière en tant que compte de confiance, une alternative à la demande d'un TGT en utilisant la clé secrète Kerberos du compte de confiance. Ici, interroger root.local depuis ext.local pour les membres des administrateurs de domaine:
 
 ![](<../../.gitbook/assets/image (1) (1) (1) (2).png>)
 
@@ -89,14 +84,14 @@ Le mot de passe en clair peut être utilisé pour effectuer une authentification
 
 <details>
 
-<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-Autres moyens de soutenir HackTricks :
+Autres façons de soutenir HackTricks:
 
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**merchandising officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection d'[**NFTs**](https://opensea.io/collection/the-peass-family) exclusifs
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* **Partagez vos astuces de hacking en soumettant des PR aux dépôts github** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF** Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
+* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

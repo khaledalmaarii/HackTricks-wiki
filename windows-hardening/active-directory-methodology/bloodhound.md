@@ -7,23 +7,23 @@
 * Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou souhaitez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
 * Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
 * Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) **groupe Discord**](https://discord.gg/hRep4RUj7f) ou le **groupe Telegram**](https://t.me/peass) ou **suivez-moi** sur **Twitter** **🐦**[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
 * **Partagez vos astuces de piratage en soumettant des PR au [dépôt hacktricks](https://github.com/carlospolop/hacktricks) et au [dépôt hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
 
 </details>
 
 ## Explorateur AD
 
-[AD Explorer](https://docs.microsoft.com/en-us/sysinternals/downloads/adexplorer) est issu de la Suite Sysinternal :
+[L'Explorateur AD](https://docs.microsoft.com/en-us/sysinternals/downloads/adexplorer) est issu de la Suite Sysinternal :
 
-> Un visualiseur et éditeur avancé d'Active Directory (AD). Vous pouvez utiliser AD Explorer pour naviguer facilement dans une base de données AD, définir des emplacements favoris, afficher les propriétés et attributs des objets sans ouvrir de boîtes de dialogue, éditer les autorisations, afficher le schéma d'un objet et exécuter des recherches sophistiquées que vous pouvez enregistrer et réexécuter.
+> Un visualiseur et éditeur avancé d'Active Directory (AD). Vous pouvez utiliser l'Explorateur AD pour naviguer facilement dans une base de données AD, définir des emplacements favoris, afficher les propriétés et attributs des objets sans ouvrir de boîtes de dialogue, modifier les autorisations, afficher le schéma d'un objet et exécuter des recherches sophistiquées que vous pouvez enregistrer et réexécuter.
 
 ### Instantanés
 
-AD Explorer peut créer des instantanés d'un AD pour que vous puissiez le vérifier hors ligne.\
+L'Explorateur AD peut créer des instantanés d'un AD pour que vous puissiez le vérifier hors ligne.\
 Il peut être utilisé pour découvrir des vulnérabilités hors ligne, ou pour comparer différents états de la base de données AD à travers le temps.
 
-Vous aurez besoin du nom d'utilisateur, du mot de passe et de la direction pour vous connecter (un utilisateur AD est requis).
+Vous aurez besoin du nom d'utilisateur, du mot de passe et de la direction pour vous connecter (un utilisateur AD quelconque est requis).
 
 Pour prendre un instantané de l'AD, allez dans `Fichier` --> `Créer un instantané` et saisissez un nom pour l'instantané.
 
@@ -36,15 +36,13 @@ Pour prendre un instantané de l'AD, allez dans `Fichier` --> `Créer un instant
 ```
 ## BloodHound
 
-> BloodHound est une application web monolithique composée d'une interface React intégrée avec [Sigma.js](https://www.sigmajs.org/) et d'une API REST basée sur [Go](https://go.dev/). Elle est déployée avec une base de données d'application [Postgresql](https://www.postgresql.org/) et une base de données graphique [Neo4j](https://neo4j.com), et est alimentée par les collecteurs de données [SharpHound](https://github.com/BloodHoundAD/SharpHound) et [AzureHound](https://github.com/BloodHoundAD/AzureHound).
->
->BloodHound utilise la théorie des graphes pour révéler les relations cachées et souvent non intentionnelles au sein d'un environnement Active Directory ou Azure. Les attaquants peuvent utiliser BloodHound pour identifier facilement des chemins d'attaque très complexes qui seraient autrement impossibles à identifier rapidement. Les défenseurs peuvent utiliser BloodHound pour identifier et éliminer ces mêmes chemins d'attaque. Les équipes bleues et rouges peuvent utiliser BloodHound pour obtenir facilement une compréhension plus approfondie des relations de privilèges dans un environnement Active Directory ou Azure.
->
->BloodHound CE est créé et maintenu par l'équipe [BloodHound Enterprise Team](https://bloodhoundenterprise.io). Le BloodHound original a été créé par [@\_wald0](https://www.twitter.com/\_wald0), [@CptJesus](https://twitter.com/CptJesus), et [@harmj0y](https://twitter.com/harmj0y).
->
->De [https://github.com/SpecterOps/BloodHound](https://github.com/SpecterOps/BloodHound)
+De [https://github.com/BloodHoundAD/BloodHound](https://github.com/BloodHoundAD/BloodHound)
 
-Ainsi, [Bloodhound](https://github.com/SpecterOps/BloodHound) est un outil incroyable qui peut énumérer un domaine automatiquement, enregistrer toutes les informations, trouver des chemins potentiels d'escalade de privilèges et afficher toutes les informations à l'aide de graphiques.
+> BloodHound est une application web Javascript d'une seule page, construite sur [Linkurious](http://linkurio.us/), compilée avec [Electron](http://electron.atom.io/), avec une base de données [Neo4j](https://neo4j.com/) alimentée par un collecteur de données C#.
+
+BloodHound utilise la théorie des graphes pour révéler les relations cachées et souvent non intentionnelles au sein d'un environnement Active Directory ou Azure. Les attaquants peuvent utiliser BloodHound pour identifier facilement des chemins d'attaque très complexes qui seraient autrement impossibles à identifier rapidement. Les défenseurs peuvent utiliser BloodHound pour identifier et éliminer ces mêmes chemins d'attaque. Les équipes bleues et rouges peuvent utiliser BloodHound pour obtenir facilement une compréhension plus approfondie des relations de privilèges dans un environnement Active Directory ou Azure.
+
+Ainsi, [Bloodhound](https://github.com/BloodHoundAD/BloodHound) est un outil incroyable qui peut énumérer un domaine automatiquement, enregistrer toutes les informations, trouver des chemins potentiels d'escalade de privilèges et afficher toutes les informations à l'aide de graphiques.
 
 Bloodhound est composé de 2 parties principales : les **ingestors** et l'**application de visualisation**.
 
@@ -53,7 +51,7 @@ Les **ingestors** sont utilisés pour **énumérer le domaine et extraire toutes
 L'**application de visualisation utilise neo4j** pour montrer comment toutes les informations sont liées et pour montrer différentes façons d'escalader les privilèges dans le domaine.
 
 ### Installation
-Après la création de BloodHound CE, l'ensemble du projet a été mis à jour pour faciliter son utilisation avec Docker. La manière la plus simple de commencer est d'utiliser sa configuration Docker Compose préconfigurée.
+Après la création de BloodHound CE, l'ensemble du projet a été mis à jour pour faciliter son utilisation avec Docker. Le moyen le plus simple de commencer est d'utiliser sa configuration Docker Compose préconfigurée.
 
 1. Installez Docker Compose. Cela devrait être inclus dans l'installation de [Docker Desktop](https://www.docker.com/products/docker-desktop/).
 2. Exécutez :
@@ -80,85 +78,11 @@ runas /netonly /user:domain\user "powershell.exe -exec bypass"
 ```
 [**En savoir plus sur Bloodhound sur ired.team.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-active-directory-with-bloodhound-on-kali-linux)
 
-## Ancienne version de Bloodhound
-### Installation
-
-1. Bloodhound
-
-Pour installer l'application de visualisation, vous devrez installer **neo4j** et l'**application Bloodhound**.\
-La manière la plus simple de le faire est simplement de faire :
-```
-apt-get install bloodhound
-```
-Vous pouvez **télécharger la version communautaire de neo4j** à partir de [ici](https://neo4j.com/download-center/#community).
-
-1. Ingestors
-
-Vous pouvez télécharger les Ingestors depuis :
-
-* https://github.com/BloodHoundAD/SharpHound/releases
-* https://github.com/BloodHoundAD/BloodHound/releases
-* https://github.com/fox-it/BloodHound.py
-
-1. Apprendre le chemin à partir du graphe
-
-Bloodhound est livré avec diverses requêtes pour mettre en évidence des chemins de compromission sensibles. Il est possible d'ajouter des requêtes personnalisées pour améliorer la recherche et la corrélation entre les objets et plus encore !
-
-Ce dépôt contient une belle collection de requêtes : https://github.com/CompassSecurity/BloodHoundQueries
-
-Processus d'installation :
-```
-$ curl -o "~/.config/bloodhound/customqueries.json" "https://raw.githubusercontent.com/CompassSecurity/BloodHoundQueries/master/BloodHound_Custom_Queries/customqueries.json"
-```
-### Exécution de l'application de visualisation
-
-Après avoir téléchargé/installé les applications requises, commençons par les démarrer.\
-Tout d'abord, vous devez **démarrer la base de données neo4j**:
-```bash
-./bin/neo4j start
-#or
-service neo4j start
-```
-La première fois que vous démarrez cette base de données, vous devrez accéder à [http://localhost:7474/browser/](http://localhost:7474/browser/). Vous devrez utiliser les identifiants par défaut (neo4j:neo4j) et il vous sera **demandé de changer le mot de passe**, donc changez-le et ne l'oubliez pas.
-
-Maintenant, lancez l'application **bloodhound**:
-```bash
-./BloodHound-linux-x64
-#or
-bloodhound
-```
-Vous serez invité à saisir les informations d'identification de la base de données : **neo4j:\<Votre nouveau mot de passe>**
-
-Et BloodHound sera prêt à ingérer des données.
-
-![](<../../.gitbook/assets/image (171) (1).png>)
-
-
-### **BloodHound Python**
-
-Si vous disposez d'informations d'identification de domaine, vous pouvez exécuter un **ingesteur BloodHound Python depuis n'importe quelle plateforme** afin de ne pas dépendre de Windows.\
-Téléchargez-le depuis [https://github.com/fox-it/BloodHound.py](https://github.com/fox-it/BloodHound.py) ou en exécutant `pip3 install bloodhound`
-```bash
-bloodhound-python -u support -p '#00^BlackKnight' -ns 10.10.10.192 -d blackfield.local -c all
-```
-Si vous l'exécutez via proxychains, ajoutez `--dns-tcp` pour que la résolution DNS fonctionne à travers le proxy.
-```bash
-proxychains bloodhound-python -u support -p '#00^BlackKnight' -ns 10.10.10.192 -d blackfield.local -c all --dns-tcp
-```
-### Python SilentHound
-
-Ce script va **discrètement énumérer un domaine Active Directory via LDAP** en analysant les utilisateurs, les administrateurs, les groupes, etc.
-
-Consultez-le sur [**SilentHound github**](https://github.com/layer8secure/SilentHound).
-
-### RustHound
-
-BloodHound en Rust, [**vérifiez-le ici**](https://github.com/OPENCYBER-FR/RustHound).
 
 ## Group3r
 
-[**Group3r**](https://github.com/Group3r/Group3r) **** est un outil pour trouver des **vulnérabilités** dans les **stratégies de groupe** associées à Active Directory. \
-Vous devez **exécuter group3r** à partir d'un hôte à l'intérieur du domaine en utilisant **n'importe quel utilisateur de domaine**.
+[**Group3r**](https://github.com/Group3r/Group3r) est un outil pour trouver des **vulnérabilités** dans les **stratégies de groupe** associées à Active Directory. \
+Vous devez **exécuter group3r** à partir d'un hôte à l'intérieur du domaine en utilisant **n'importe quel utilisateur du domaine**.
 ```bash
 group3r.exe -f <filepath-name.log>
 # -s sends results to stdin
@@ -166,6 +90,6 @@ group3r.exe -f <filepath-name.log>
 ```
 ## PingCastle
 
-****[**PingCastle**](https://www.pingcastle.com/documentation/) **évalue la posture de sécurité d'un environnement AD** et fournit un **rapport** détaillé avec des graphiques.
+[**PingCastle**](https://www.pingcastle.com/documentation/) **évalue la posture de sécurité d'un environnement AD** et fournit un **rapport** détaillé avec des graphiques.
 
-Pour l'exécuter, vous pouvez lancer le binaire `PingCastle.exe` et il démarrera une **session interactive** présentant un menu d'options. L'option par défaut à utiliser est **`healthcheck`** qui établira une **vue d'ensemble** de **domaine**, et trouvera des **mauvaises configurations** et des **vulnérabilités**.&#x20;
+Pour l'exécuter, vous pouvez exécuter le binaire `PingCastle.exe` et il démarrera une **session interactive** présentant un menu d'options. L'option par défaut à utiliser est **`healthcheck`** qui établira une **vue d'ensemble** de **domaine**, et trouvera des **mauvaises configurations** et des **vulnérabilités**.&#x20;
