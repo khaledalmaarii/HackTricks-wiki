@@ -2,42 +2,42 @@
 
 <details>
 
-<summary><strong>从零到英雄学习AWS黑客技术</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
 
 支持HackTricks的其他方式：
 
-* 如果您想在**HackTricks中看到您的公司广告**或**下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。**
+- 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+- 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
+- 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
+- **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+- 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
 ## 基本信息
 
-**Grand Central Dispatch (GCD),** 也称为 **libdispatch**, 在macOS和iOS上都可用。它是苹果开发的一项技术，旨在优化应用程序对多核硬件的并发（多线程）执行支持。
+**Grand Central Dispatch (GCD)**，也称为**libdispatch**，在macOS和iOS中都可用。这是由Apple开发的技术，用于优化应用程序在多核硬件上的并发（多线程）执行支持。
 
-**GCD** 提供并管理 **FIFO队列**，您的应用程序可以向其 **提交任务**，以 **block对象** 的形式。提交到调度队列的blocks在系统完全管理的线程池上 **执行**。GCD自动为执行调度队列中的任务创建线程，并安排这些任务在可用的核心上运行。
+**GCD**提供并管理**FIFO队列**，您的应用程序可以将**任务**以**块对象**的形式**提交**到这些队列中。提交到调度队列的块会在系统完全管理的线程池上**执行**。GCD会自动为在调度队列中执行任务创建线程，并安排这些任务在可用核心上运行。
 
 {% hint style="success" %}
-总结来说，为了并行执行代码，进程可以将 **代码块发送给GCD**，GCD将负责它们的执行。因此，进程不创建新线程；**GCD使用其自己的线程池执行给定的代码**。
+简而言之，为了**并行执行**代码，进程可以将**代码块发送到GCD**，GCD将负责执行这些代码。因此，进程不会创建新线程；**GCD使用自己的线程池执行给定的代码**。
 {% endhint %}
 
-这对于成功管理并行执行非常有帮助，大大减少了进程创建的线程数量，并优化了并行执行。这对于需要 **高度并行性**（暴力破解？）的任务或不应阻塞主线程的任务来说是理想的：例如，iOS上的主线程处理UI交互，因此任何可能使应用程序挂起的其他功能（搜索、访问网页、读取文件...）都是以这种方式管理的。
+这对成功管理并行执行非常有帮助，大大减少了进程创建的线程数量，并优化了并行执行。这对于需要**大量并行性**（暴力破解？）的任务或不应阻塞主线程的任务非常有用：例如，在iOS上，主线程处理UI交互，因此通过这种方式管理任何可能使应用程序挂起的其他功能（搜索、访问网页、读取文件等）。
 
 ## Objective-C
 
-在Objective-C中，有不同的函数可以发送一个block以并行执行：
+在Objective-C中，有不同的函数可用于发送一个块以并行执行：
 
-* [**dispatch\_async**](https://developer.apple.com/documentation/dispatch/1453057-dispatch\_async): 提交一个block以在调度队列上异步执行，并立即返回。
-* [**dispatch\_sync**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync): 提交一个block对象以执行，并在该block执行完毕后返回。
-* [**dispatch\_once**](https://developer.apple.com/documentation/dispatch/1447169-dispatch\_once): 在应用程序的生命周期内只执行一次block对象。
-* [**dispatch\_async\_and\_wait**](https://developer.apple.com/documentation/dispatch/3191901-dispatch\_async\_and\_wait): 提交一个工作项以执行，并且只有在它执行完毕后才返回。与 [**`dispatch_sync`**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync) 不同，这个函数在执行block时尊重队列的所有属性。
+- [**dispatch\_async**](https://developer.apple.com/documentation/dispatch/1453057-dispatch\_async)：将一个块提交到调度队列以进行异步执行，并立即返回。
+- [**dispatch\_sync**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync)：提交一个块对象以执行，并在该块完成执行后返回。
+- [**dispatch\_once**](https://developer.apple.com/documentation/dispatch/1447169-dispatch\_once)：仅在应用程序的生命周期中执行一次块对象。
+- [**dispatch\_async\_and\_wait**](https://developer.apple.com/documentation/dispatch/3191901-dispatch\_async\_and\_wait)：提交一个工作项以执行，并仅在其完成执行后返回。与[**`dispatch_sync`**](https://developer.apple.com/documentation/dispatch/1452870-dispatch\_sync)不同，此函数在执行块时尊重队列的所有属性。
 
-这些函数期望以下参数：[**`dispatch_queue_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_queue\_t) **`queue,`** [**`dispatch_block_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_block\_t) **`block`**
+这些函数期望这些参数：[**`dispatch_queue_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_queue\_t) **`queue,`** [**`dispatch_block_t`**](https://developer.apple.com/documentation/dispatch/dispatch\_block\_t) **`block`**
 
-这是 **Block的结构**：
+这是一个**块的结构**：
 ```c
 struct Block {
 void *isa; // NSConcreteStackBlock,...
@@ -48,7 +48,7 @@ struct BlockDescriptor *descriptor;
 // captured variables go here
 };
 ```
-这是使用 **`dispatch_async`** 实现**并行性**的一个例子：
+这是一个使用**并行处理**和**`dispatch_async`**的示例：
 ```objectivec
 #import <Foundation/Foundation.h>
 
@@ -80,8 +80,8 @@ return 0;
 ```
 ## Swift
 
-**`libswiftDispatch`** 是一个提供了对 Grand Central Dispatch (GCD) 框架的 **Swift 绑定** 的库，该框架最初是用 C 语言编写的。\
-**`libswiftDispatch`** 库将 C 语言的 GCD API 封装成了更适合 Swift 的接口，使得 Swift 开发者使用 GCD 变得更加容易和直观。
+**`libswiftDispatch`** 是一个库，为 Grand Central Dispatch (GCD) 框架提供了 **Swift 绑定**，该框架最初是用 C 编写的。\
+**`libswiftDispatch`** 库将 C GCD API 封装在一个更适合 Swift 的接口中，使得 Swift 开发人员更容易更直观地使用 GCD。
 
 * **`DispatchQueue.global().sync{ ... }`**
 * **`DispatchQueue.global().async{ ... }`**
@@ -118,7 +118,7 @@ sleep(1)  // Simulate a long-running task
 ```
 ## Frida
 
-以下 Frida 脚本可用于**挂钩多个 `dispatch`** 函数并提取队列名称、回溯和块： [**https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js**](https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js)
+以下Frida脚本可用于**钩入多个`dispatch`函数并提取队列名称、回溯和块：**[**https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js**](https://github.com/seemoo-lab/frida-scripts/blob/main/scripts/libdispatch.js)
 ```bash
 frida -U <prog_name> -l libdispatch.js
 
@@ -133,9 +133,9 @@ Backtrace:
 ```
 ## Ghidra
 
-目前Ghidra既不理解ObjectiveC中的**`dispatch_block_t`**结构，也不理解**`swift_dispatch_block`**结构。
+目前 Ghidra 无法理解 ObjectiveC **`dispatch_block_t`** 结构，也无法理解 **`swift_dispatch_block`** 结构。
 
-因此，如果你想让它理解这些结构，你可以简单地**声明它们**：
+因此，如果你希望它能够理解它们，你可以简单地 **声明它们**：
 
 <figure><img src="../../.gitbook/assets/image (688).png" alt="" width="563"><figcaption></figcaption></figure>
 
@@ -143,32 +143,18 @@ Backtrace:
 
 <figure><img src="../../.gitbook/assets/image (691).png" alt="" width="563"><figcaption></figcaption></figure>
 
-然后，在代码中找到一个使用它们的地方：
+然后，在代码中找到它们被 **使用** 的地方：
 
 {% hint style="success" %}
-注意所有引用"block"的地方，以了解如何判断出结构体正在被使用。
+注意所有提到 "block" 的引用，以了解如何找出该结构体正在被使用的方式。
 {% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (692).png" alt="" width="563"><figcaption></figcaption></figure>
 
-右键点击变量 -> Retype Variable 并在这个例子中选择**`swift_dispatch_block`**：
+右键点击变量 -> 重新定义变量，然后选择这种情况下的 **`swift_dispatch_block`**：
 
 <figure><img src="../../.gitbook/assets/image (693).png" alt="" width="563"><figcaption></figcaption></figure>
 
-Ghidra会自动重写所有内容：
+Ghidra 将自动重写所有内容：
 
 <figure><img src="../../.gitbook/assets/image (694).png" alt="" width="563"><figcaption></figcaption></figure>
-
-<details>
-
-<summary><strong>通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>从零开始学习AWS黑客攻击！</strong></summary>
-
-其他支持HackTricks的方式：
-
-* 如果你想在HackTricks中看到你的**公司广告**或者**下载HackTricks的PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在**Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来**分享你的黑客技巧。
-
-</details>

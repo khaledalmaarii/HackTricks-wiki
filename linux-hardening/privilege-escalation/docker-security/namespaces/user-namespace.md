@@ -6,26 +6,26 @@
 
 支持HackTricks的其他方式：
 
-- 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+- 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 - 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
 - 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-- **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+- **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 - 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
 
 ## 基本信息
 
-用户命名空间是Linux内核的一个功能，**提供用户和组ID映射的隔离**，允许每个用户命名空间拥有**自己的用户和组ID集合**。这种隔离使得在不同用户命名空间中运行的进程可以**拥有不同的特权和所有权**，即使它们在数值上共享相同的用户和组ID。
+用户命名空间是Linux内核的一个功能，**提供用户和组ID映射的隔离**，允许每个用户命名空间拥有**自己的用户和组ID集合**。这种隔离使得在不同用户命名空间中运行的进程可以**拥有不同的特权和所有权**，即使它们在数字上共享相同的用户和组ID。
 
 用户命名空间在容器化中特别有用，每个容器应该有自己独立的用户和组ID集合，从而在容器和主机系统之间实现更好的安全性和隔离。
 
 ### 工作原理：
 
 1. 创建新用户命名空间时，它**从一个空的用户和组ID映射集开始**。这意味着在新用户命名空间中运行的任何进程**最初在命名空间外部没有特权**。
-2. 可以在新命名空间中的用户和组ID与父（或主机）命名空间中的用户和组ID之间建立ID映射。这**允许新命名空间中的进程具有与父命名空间中的用户和组ID相对应的特权和所有权**。但是，ID映射可以限制为特定范围和ID子集，从而对在新命名空间中的进程授予的特权进行精细控制。
+2. 可以在新命名空间和父（或主机）命名空间之间建立ID映射。这**允许新命名空间中的进程具有与父命名空间中的用户和组ID相对应的特权和所有权**。但是，ID映射可以限制为特定范围和ID子集，从而对在新命名空间中的进程授予的特权进行精细控制。
 3. 在用户命名空间内，**进程可以拥有完整的根特权（UID 0）用于命名空间内的操作**，同时在命名空间外部具有有限特权。这允许**容器在其自己的命名空间中以类似根用户的能力运行，而不会在主机系统上具有完整的根特权**。
-4. 进程可以使用`setns()`系统调用在命名空间之间移动，或者使用带有`CLONE_NEWUSER`标志的`unshare()`或`clone()`系统调用创建新命名空间。当进程移动到新命名空间或创建一个新命名空间时，它将开始使用与该命名空间关联的用户和组ID映射。
+4. 进程可以使用`setns()`系统调用在命名空间之间移动，或者使用带有`CLONE_NEWUSER`标志的`unshare()`或`clone()`系统调用创建新命名空间。当进程移动到新命名空间或创建一个时，它将开始使用与该命名空间关联的用户和组ID映射。
 
 ## 实验：
 
@@ -35,18 +35,18 @@
 ```bash
 sudo unshare -U [--mount-proc] /bin/bash
 ```
-通过使用参数`--mount-proc`挂载`/proc`文件系统的新实例，确保新的挂载命名空间对该命名空间特定的进程信息具有准确且隔离的视图。
+通过使用参数`--mount-proc`挂载`/proc`文件系统的新实例，确保新的挂载命名空间具有**准确且独立的进程信息视图，特定于该命名空间**。
 
 <details>
 
 <summary>错误：bash: fork: 无法分配内存</summary>
 
-当执行`unshare`时没有使用`-f`选项时，会出现错误，这是由于Linux处理新PID（进程ID）命名空间的方式。以下是关键细节和解决方案：
+当执行`unshare`时没有使用`-f`选项时，会遇到错误，这是由于Linux处理新PID（进程ID）命名空间的方式。以下是关键细节和解决方案：
 
 1. **问题解释**：
 - Linux内核允许进程使用`unshare`系统调用创建新的命名空间。然而，发起新PID命名空间创建的进程（称为“unshare”进程）不会进入新的命名空间；只有它的子进程会。
 - 运行`%unshare -p /bin/bash%`会在与`unshare`相同的进程中启动`/bin/bash`。因此，`/bin/bash`及其子进程位于原始PID命名空间中。
-- 在新命名空间中，`/bin/bash`的第一个子进程成为PID 1。当此进程退出时，如果没有其他进程，它会触发命名空间的清理，因为PID 1具有接管孤立进程的特殊角色。然后Linux内核会禁用该命名空间中的PID分配。
+- 在新命名空间中，`/bin/bash`的第一个子进程变为PID 1。当此进程退出时，如果没有其他进程，它会触发命名空间的清理，因为PID 1具有接管孤立进程的特殊角色。然后Linux内核会禁用该命名空间中的PID分配。
 
 2. **后果**：
 - 在新命名空间中，PID 1的退出导致`PIDNS_HASH_ADDING`标志的清除。这会导致`alloc_pid`函数在创建新进程时无法分配新的PID，从而产生“无法分配内存”错误。
@@ -63,7 +63,7 @@ sudo unshare -U [--mount-proc] /bin/bash
 ```bash
 docker run -ti --name ubuntu1 -v /usr:/ubuntu1 ubuntu bash
 ```
-要使用用户命名空间，Docker 守护程序需要使用 **`--userns-remap=default`** 参数启动（在 Ubuntu 14.04 中，可以通过修改 `/etc/default/docker` 文件，然后执行 `sudo service docker restart` 来实现）
+要使用用户命名空间，Docker 守护程序需要使用 **`--userns-remap=default`** 启动（在 Ubuntu 14.04 中，可以通过修改 `/etc/default/docker` 然后执行 `sudo service docker restart` 来完成）
 
 ### &#x20;检查您的进程位于哪个命名空间
 ```bash
@@ -88,13 +88,13 @@ sudo find /proc -maxdepth 3 -type l -name user -exec readlink {} \; 2>/dev/null 
 # Find the processes with an specific namespace
 sudo find /proc -maxdepth 3 -type l -name user -exec ls -l  {} \; 2>/dev/null | grep <ns-number>
 ```
-### 进入用户命名空间
-
 {% endcode %}
+
+### 进入用户命名空间
 ```bash
 nsenter -U TARGET_PID --pid /bin/bash
 ```
-另外，只有**作为root用户**才能**进入另一个进程命名空间**。而且，**没有指向它的描述符**（如`/proc/self/ns/user`），你**无法**进入其他命名空间。
+另外，只有**作为root用户**才能**进入另一个进程命名空间**。而且，**没有指向它的描述符**（比如`/proc/self/ns/user`），你**无法进入**其他命名空间。
 
 ### 创建新的用户命名空间（带映射）
 
@@ -157,7 +157,7 @@ Probando: 0x143 . . . Error
 * 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
 * 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
+* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。 
 
 </details>

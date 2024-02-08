@@ -8,8 +8,8 @@
 
 - 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 - 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-- 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFT](https://opensea.io/collection/the-peass-family)收藏品
-- **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+- 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFTs](https://opensea.io/collection/the-peass-family)收藏品
+- **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter**上关注我们 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 - 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
@@ -18,17 +18,17 @@
 
 Mac OS二进制文件通常被编译为**通用二进制文件**。**通用二进制文件**可以在同一文件中**支持多种架构**。
 
-这些二进制文件遵循**Mach-O结构**，基本上由以下组成：
+这些二进制文件遵循**Mach-O结构**，基本上由以下部分组成：
 
-- 头部（Header）
-- 装载命令（Load Commands）
-- 数据（Data）
+- 头部
+- 装载命令
+- 数据
 
 ![https://alexdremov.me/content/images/2022/10/6XLCD.gif](<../../../.gitbook/assets/image (559).png>)
 
 ## Fat Header
 
-使用以下命令查找文件：`mdfind fat.h | grep -i mach-o | grep -E "fat.h$"`
+使用以下命令搜索文件：`mdfind fat.h | grep -i mach-o | grep -E "fat.h$"`
 
 <pre class="language-c"><code class="lang-c"><strong>#define FAT_MAGIC	0xcafebabe
 </strong><strong>#define FAT_CIGAM	0xbebafeca	/* NXSwapLong(FAT_MAGIC) */
@@ -43,11 +43,11 @@ cpu_type_t	cputype;	/* CPU指定器（int） */
 cpu_subtype_t	cpusubtype;	/* 机器指定器（int） */
 uint32_t	offset;		/* 指向该目标文件的文件偏移量 */
 uint32_t	size;		/* 该目标文件的大小 */
-uint32_t	align;		/* 作为2的幂的对齐 */
+uint32_t	align;		/* 2的幂对齐 */
 };
 </code></pre>
 
-头部包含**魔数**字节，后面是文件**包含的架构**数量（`nfat_arch`），每个架构都将有一个`fat_arch`结构体。
+头部包含**魔术**字节，后面是文件**包含的**架构数（`nfat_arch`），每个架构都将有一个`fat_arch`结构体。
 
 使用以下命令检查：
 
@@ -80,11 +80,11 @@ capabilities PTR_AUTH_VERSION USERSPACE 0
 
 <figure><img src="../../../.gitbook/assets/image (5) (1) (1) (3) (1).png" alt=""><figcaption></figcaption></figure>
 
-正如您可能想到的，通常为2种架构编译的通用二进制文件**会使大小翻倍**，相比只为1种架构编译的情况。
+正如您可能在想的那样，通常为2种架构编译的通用二进制文件**会使大小翻倍**，而为单个架构编译的二进制文件。
 
 ## **Mach-O头部**
 
-头部包含有关文件的基本信息，例如用于识别其为Mach-O文件的魔数字节以及有关目标架构的信息。您可以在以下位置找到它：`mdfind loader.h | grep -i mach-o | grep -E "loader.h$"`
+头部包含有关文件的基本信息，例如用于识别其为Mach-O文件的魔术字节以及有关目标架构的信息。您可以在以下位置找到它：`mdfind loader.h | grep -i mach-o | grep -E "loader.h$"`
 ```c
 #define	MH_MAGIC	0xfeedface	/* the mach magic number */
 #define MH_CIGAM	0xcefaedfe	/* NXSwapInt(MH_MAGIC) */
@@ -127,9 +127,9 @@ MH_MAGIC_64    ARM64          E USR00     EXECUTE    19       1728   NOUNDEFS DY
 
 <figure><img src="../../../.gitbook/assets/image (4) (1) (4).png" alt=""><figcaption></figcaption></figure>
 
-## **Mach-O 加载命令**
+## **Mach-O Load commands**
 
-在这里指定了**内存中文件的布局**，详细说明了**符号表的位置**，执行开始时主线程的上下文以及所需的**共享库**。提供了关于二进制文件加载到内存中的动态加载器**(dyld)**的指令。
+**文件在内存中的布局**在这里指定，详细说明了**符号表的位置**，执行开始时主线程的上下文以及所需的**共享库**。提供了有关二进制文件加载到内存中的动态加载器**(dyld)**的指令。
 
 使用了在上述**`loader.h`**中定义的**load\_command**结构。
 ```objectivec
@@ -173,7 +173,7 @@ int32_t		initprot;	/* initial VM protection */
 
 <figure><img src="../../../.gitbook/assets/image (2) (2) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-此头部定义了**其后出现的区块头的数量**：
+此头部定义了**在其后出现的区块头的数量**：
 ```c
 struct section_64 { /* for 64-bit architectures */
 char		sectname[16];	/* name of this section */
@@ -204,7 +204,7 @@ otool -lv /bin/ls
 ```
 以下是由此命令加载的常见段：
 
-- **`__PAGEZERO`：** 它指示内核**映射****地址零**，因此**无法从中读取、写入或执行**。结构中的maxprot和minprot变量设置为零，表示此页面上**没有读写执行权限**。
+- **`__PAGEZERO`：** 它指示内核**映射**地址零，因此**无法从中读取、写入或执行**。结构中的maxprot和minprot变量设置为零，表示此页面上**没有读写执行权限**。
 - 此分配对于**缓解空指针解引用漏洞**很重要。
 - **`__TEXT`：** 包含具有**读取**和**执行**权限（不可写）的**可执行代码**。此段的常见部分：
   - `__text`：已编译的二进制代码
@@ -212,28 +212,28 @@ otool -lv /bin/ls
   - `__cstring`：字符串常量
   - `__stubs` 和 `__stubs_helper`：在动态库加载过程中涉及
 - **`__DATA`：** 包含**可读**和**可写**的数据（不可执行）。
-  - `__data`：全局变量（已初始化）
-  - `__bss`：静态变量（未初始化）
+  - `__data`：已初始化的全局变量
+  - `__bss`：未初始化的静态变量
   - `__objc_*`（\_\_objc\_classlist、\_\_objc\_protolist等）：Objective-C运行时使用的信息
 - **`__LINKEDIT`：** 包含链接器（dyld）的信息，如“符号、字符串和重定位表条目”。
 - **`__OBJC`：** 包含Objective-C运行时使用的信息。尽管此信息也可能在\_\_DATA段中的各种\_\_objc\_\*部分中找到。
 
 ### **`LC_MAIN`**
 
-包含**entryoff属性**中的入口点。在加载时，**dyld**只需将此值**添加**到（内存中的）**二进制基址**，然后**跳转**到此指令以开始执行二进制代码。
+包含**entryoff属性**中的入口点。在加载时，**dyld**只需将此值**添加**到二进制文件的（内存中的）**基址**，然后**跳转**到此指令以开始执行二进制代码。
 
 ### **LC\_CODE\_SIGNATURE**
 
-包含有关**Macho-O文件的代码签名**的信息。它只包含一个**指向签名块**的**偏移量**。这通常位于文件的末尾。\
-但是，您可以在[**此博客文章**](https://davedelong.com/blog/2018/01/10/reading-your-own-entitlements/)和此[**gists**](https://gist.github.com/carlospolop/ef26f8eb9fafd4bc22e69e1a32b81da4)中找到有关此部分的一些信息。
+包含有关Macho-O文件**代码签名**的信息。它只包含一个**指向签名块**的**偏移量**。这通常位于文件的末尾。\
+但是，您可以在[**此博客文章**](https://davedelong.com/blog/2018/01/10/reading-your-own-entitlements/)和这个[**gists**](https://gist.github.com/carlospolop/ef26f8eb9fafd4bc22e69e1a32b81da4)中找到有关此部分的一些信息。
 
 ### **LC\_LOAD\_DYLINKER**
 
-包含**动态链接器可执行文件的路径**，该文件将共享库映射到进程地址空间。**值始终设置为`/usr/lib/dyld`**。重要的是要注意，在macOS中，dylib映射发生在**用户模式**，而不是内核模式。
+包含**动态链接器可执行文件的路径**，将共享库映射到进程地址空间。**值始终设置为`/usr/lib/dyld`**。重要的是要注意，在macOS中，dylib映射发生在**用户模式**而不是内核模式中。
 
 ### **`LC_LOAD_DYLIB`**
 
-此加载命令描述了**动态** **库** 依赖项，**指示** **加载器**（dyld）**加载和链接该库**。Mach-O二进制文件所需的每个库都有一个LC\_LOAD\_DYLIB加载命令。
+此加载命令描述了一个**动态库**依赖项，指示**加载器**（dyld）**加载和链接该库**。Mach-O二进制文件所需的每个库都有一个LC\_LOAD\_DYLIB加载命令。
 
 - 此加载命令是**`dylib_command`**类型的结构（包含描述实际依赖动态库的struct dylib）：
 ```objectivec
@@ -287,7 +287,7 @@ Mach-O二进制文件可以包含一个或多个**构造函数**，这些函数�
 - **符号表**：包含二进制文件使用的外部函数的信息
 - 还可能包含内部函数、变量名称等等。
 
-您可以使用[Mach-O View](https://sourceforge.net/projects/machoview/)工具来检查：
+要检查它，您可以使用[Mach-O View](https://sourceforge.net/projects/machoview/)工具：
 
 <figure><img src="../../../.gitbook/assets/image (2) (1) (4).png" alt=""><figcaption></figcaption></figure>
 
@@ -301,10 +301,10 @@ size -m /bin/ls
 
 其他支持HackTricks的方式：
 
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
 * 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我的 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>

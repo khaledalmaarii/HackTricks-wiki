@@ -9,24 +9,24 @@
 - 如果您想看到您的**公司在 HackTricks 中做广告**或**下载 PDF 版本的 HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 - 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
 - 探索[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家[NFT](https://opensea.io/collection/the-peass-family)收藏品
-- **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或**关注**我的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-- 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。
+- **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live) 上**关注**我们。
+- 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来**分享您的黑客技巧**。
 
 </details>
 
 ## 基本信息
 
 如果您不知道 Electron 是什么，您可以在[**这里找到大量信息**](https://book.hacktricks.xyz/network-services-pentesting/pentesting-web/xss-to-rce-electron-desktop-apps)。但现在只需知道 Electron 运行 **node**。\
-而 node 具有一些可用于**使其执行其他代码**的**参数**和**环境变量**。
+而 node 具有一些**参数**和**环境变量**，可以用来**使其执行其他代码**，而不仅仅是指定的文件。
 
 ### Electron 保险丝
 
-接下来将讨论这些技术，但最近 Electron 添加了几个**安全标志以防止它们**。这些是[**Electron 保险丝**](https://www.electronjs.org/docs/latest/tutorial/fuses)，这些是用于**防止** macOS 中的 Electron 应用程序**加载任意代码**的标志：
+接下来将讨论这些技术，但近年来 Electron 已添加了几个**安全标志以防止它们**。这些是[**Electron 保险丝**](https://www.electronjs.org/docs/latest/tutorial/fuses)，这些是用于**防止** macOS 中的 Electron 应用程序**加载任意代码**的标志：
 
 - **`RunAsNode`**：如果禁用，将阻止使用环境变量 **`ELECTRON_RUN_AS_NODE`** 注入代码。
-- **`EnableNodeCliInspectArguments`**：如果禁用，参数如 `--inspect`、`--inspect-brk` 将不被尊重。避免以这种方式注入代码。
+- **`EnableNodeCliInspectArguments`**：如果禁用，像 `--inspect`、`--inspect-brk` 这样的参数将不被尊重。避免以这种方式注入代码。
 - **`EnableEmbeddedAsarIntegrityValidation`**：如果启用，macOS 将验证加载的 **`asar`** **文件**。通过这种方式**防止**通过修改此文件的内容进行**代码注入**。
-- **`OnlyLoadAppFromAsar`**：如果启用，将仅检查和使用 app.asar，而不是按照以下顺序搜索加载：**`app.asar`**、**`app`**，最后是**`default_app.asar`**。因此，当与**`embeddedAsarIntegrityValidation`** 保险丝结合使用时，**不可能**加载未经验证的代码。
+- **`OnlyLoadAppFromAsar`**：如果启用，将仅检查和使用 app.asar，而不是按照以下顺序搜索加载：**`app.asar`**、**`app`**，最后是**`default_app.asar`**。因此，当与**`embeddedAsarIntegrityValidation`**保险丝结合使用时，**不可能**加载未经验证的代码。
 - **`LoadBrowserProcessSpecificV8Snapshot`**：如果启用，浏览器进程将使用名为 `browser_v8_context_snapshot.bin` 的文件作为其 V8 快照。
 
 另一个不会阻止代码注入的有趣保险丝是：
@@ -58,28 +58,28 @@ LoadBrowserProcessSpecificV8Snapshot is Disabled
 grep -R "dL7pKGdnNz796PbbjQWNKmHXBZaB9tsX" Slack.app/
 Binary file Slack.app//Contents/Frameworks/Electron Framework.framework/Versions/A/Electron Framework matches
 ```
-您可以在 [https://hexed.it/](https://hexed.it/) 中加载此文件并搜索前述字符串。在此字符串之后，您可以在 ASCII 中看到一个数字 "0" 或 "1"，指示每个保险丝是禁用还是启用。只需修改十六进制代码（`0x30` 是 `0`，`0x31` 是 `1`）以**修改保险丝值**。
+您可以在[https://hexed.it/](https://hexed.it/)中加载此文件并搜索前述字符串。在此字符串之后，您可以在ASCII中看到一个数字“0”或“1”，指示每个保险丝是禁用还是启用。只需修改十六进制代码（`0x30`是`0`，`0x31`是`1`）以**修改保险丝值**。
 
 <figure><img src="../../../.gitbook/assets/image (2) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-请注意，如果您尝试**覆盖**应用程序中的**`Electron Framework` 二进制文件**，带有这些修改字节的应用程序将无法运行。
+请注意，如果您尝试**覆盖**应用程序中的**`Electron Framework`二进制文件**，并修改这些字节，该应用程序将无法运行。
 
-## RCE 向 Electron 应用程序添加代码
+## RCE向Electron应用程序添加代码
 
-可能存在**外部 JS/HTML 文件**，Electron 应用程序正在使用，因此攻击者可以在这些文件中注入代码，其签名不会被检查，并在应用程序的上下文中执行任意代码。
+可能存在Electron应用程序正在使用的**外部JS/HTML文件**，因此攻击者可以在这些文件中注入代码，其签名不会被检查，并在应用程序的上下文中执行任意代码。
 
 {% hint style="danger" %}
 但是，目前存在两个限制：
 
-* 需要**`kTCCServiceSystemPolicyAppBundles`** 权限来修改应用程序，因此默认情况下不再可能。
-* 编译的 **`asap`** 文件通常具有保险丝 **`embeddedAsarIntegrityValidation`** 和 **`onlyLoadAppFromAsar`** `已启用`
+* 需要**`kTCCServiceSystemPolicyAppBundles`**权限来修改应用程序，因此默认情况下不再可能。
+* 编译的**`asap`**文件通常具有保险丝**`embeddedAsarIntegrityValidation`**和**`onlyLoadAppFromAsar`**已启用
 
 使得这种攻击路径更加复杂（或不可能）。
 {% endhint %}
 
-请注意，可以通过将应用程序复制到另一个目录（如 **`/tmp`**），将文件夹重命名为 **`app.app/Contents`** 为 **`app.app/NotCon`**，**修改**带有您的**恶意**代码的 **asar** 文件，将其重新命名为 **`app.app/Contents`** 并执行它来绕过**`kTCCServiceSystemPolicyAppBundles`** 的要求。
+请注意，可以通过将应用程序复制到另一个目录（如**`/tmp`**），将文件夹**`app.app/Contents`**重命名为**`app.app/NotCon`**，**修改**带有您**恶意**代码的**asar**文件，将其重新命名为**`app.app/Contents`**并执行它来绕过**`kTCCServiceSystemPolicyAppBundles`**的要求。
 
-您可以使用以下命令从 asar 文件中解压缩代码：
+您可以使用以下命令从asar文件中解压缩代码：
 ```bash
 npx asar extract app.asar app-decomp
 ```
@@ -130,11 +130,9 @@ require('child_process').execSync('/System/Applications/Calculator.app/Contents/
 </dict>
 </plist>
 ```
-## 使用 `NODE_OPTIONS` 进行 RCE
+## 使用 `NODE_OPTIONS` 进行远程代码执行
 
-您可以将 payload 存储在不同的文件中并执行它：
-
-{% code overflow="wrap" %}
+您可以将恶意载荷存储在不同的文件中并执行它：
 ```bash
 # Content of /tmp/payload.js
 require('child_process').execSync('/System/Applications/Calculator.app/Contents/MacOS/Calculator');
@@ -147,7 +145,7 @@ NODE_OPTIONS="--require /tmp/payload.js" ELECTRON_RUN_AS_NODE=1 /Applications/Di
 {% hint style="danger" %}
 如果 **`EnableNodeOptionsEnvironmentVariable`** 保持 **禁用**，应用程序在启动时将 **忽略** 环境变量 **NODE\_OPTIONS**，除非设置了环境变量 **`ELECTRON_RUN_AS_NODE`**，如果 **`RunAsNode`** 保持禁用，那么设置了 **`ELECTRON_RUN_AS_NODE`** 也将被 **忽略**。
 
-如果不设置 **`ELECTRON_RUN_AS_NODE`**，你将会遇到这个 **错误**：`Most NODE_OPTIONs are not supported in packaged apps. See documentation for more details.`
+如果不设置 **`ELECTRON_RUN_AS_NODE`**，你将会遇到以下 **错误**：`Most NODE_OPTIONs are not supported in packaged apps. See documentation for more details.`
 {% endhint %}
 
 ### 从应用程序 Plist 注入
@@ -168,7 +166,7 @@ NODE_OPTIONS="--require /tmp/payload.js" ELECTRON_RUN_AS_NODE=1 /Applications/Di
 <true/>
 </dict>
 ```
-## 使用检查进行RCE
+## 利用检查进行RCE
 
 根据[**这里**](https://medium.com/@metnew/why-electron-apps-cant-store-your-secrets-confidentially-inspect-option-a49950d6d51f)，如果你使用诸如**`--inspect`**、**`--inspect-brk`**和**`--remote-debugging-port`**等标志来执行Electron应用程序，将会打开一个**调试端口**，这样你就可以连接到它（例如从Chrome中的`chrome://inspect`），然后你就可以**在其中注入代码**甚至启动新进程。\
 例如：
@@ -180,12 +178,12 @@ require('child_process').execSync('/System/Applications/Calculator.app/Contents/
 {% endcode %}
 
 {% hint style="danger" %}
-如果禁用了熔丝 **`EnableNodeCliInspectArguments`**，应用程序在启动时将**忽略节点参数**（如 `--inspect`），除非设置了环境变量 **`ELECTRON_RUN_AS_NODE`**，如果禁用了熔丝 **`RunAsNode`**，则环境变量也将被**忽略**。
+如果禁用了熔丝 **`EnableNodeCliInspectArguments`**，则应用程序在启动时会**忽略节点参数**（如 `--inspect`），除非设置了环境变量 **`ELECTRON_RUN_AS_NODE`**，但如果禁用了熔丝 **`RunAsNode`**，则该环境变量也会被**忽略**。
 
-然而，您仍然可以使用 **electron 参数 `--remote-debugging-port=9229`**，但之前的有效载荷将无法执行其他进程。
+但是，您仍然可以使用 **electron 参数 `--remote-debugging-port=9229`**，但之前的有效载荷将无法执行其他进程。
 {% endhint %}
 
-使用参数 **`--remote-debugging-port=9222`** 可以从 Electron 应用程序中窃取一些信息，如**历史记录**（使用 GET 命令）或浏览器中的**cookies**（因为它们在浏览器内部被**解密**，并且有一个**json 端点**可以提供它们）。
+使用参数 **`--remote-debugging-port=9222`** 可以从 Electron 应用程序中窃取一些信息，如**历史记录**（使用 GET 命令）或浏览器中的**cookies**（因为它们在浏览器内部被**解密**，并且有一个**json端点**会提供它们）。
 
 您可以在[**这里**](https://posts.specterops.io/hands-in-the-cookie-jar-dumping-cookies-with-chromiums-remote-debugger-port-34c4f468844e)和[**这里**](https://slyd0g.medium.com/debugging-cookie-dumping-failures-with-chromiums-remote-debugger-8a4c4d19429f)了解如何操作，并使用自动工具 [WhiteChocolateMacademiaNut](https://github.com/slyd0g/WhiteChocolateMacademiaNut) 或类似的简单脚本：
 ```python
@@ -197,9 +195,9 @@ print(ws.recv()
 ```
 在[**这篇博文**](https://hackerone.com/reports/1274695)中，利用这种调试方法使一个无头Chrome**在任意位置下载任意文件**。
 
-### 从应用程序 Plist 进行注入
+### 从App Plist注入
 
-您可以滥用这个环境变量在一个 plist 中，以保持持久性添加这些键：
+您可以在plist中滥用这个环境变量以保持持久性，添加这些键：
 ```xml
 <dict>
 <key>ProgramArguments</key>
@@ -221,8 +219,8 @@ macOS 的 TCC 守护程序不会检查应用程序的执行版本。因此，如
 
 ## 运行非 JS 代码
 
-先前的技术将允许您在 Electron 应用程序的进程中运行 JS 代码。但是，请记住，子进程会在与父应用程序相同的沙盒配置文件下运行，并继承它们的 TCC 权限。\
-因此，如果您想滥用权限以访问摄像头或麦克风，您可以从进程中**运行另一个二进制文件**。
+先前的技术将允许您在 **Electron 应用程序的进程中运行 JS 代码**。但是，请记住，**子进程在与父应用程序相同的沙盒配置文件下运行**，并且**继承它们的 TCC 权限**。\
+因此，如果您想滥用权限以访问摄像头或麦克风，您可以**从进程中运行另一个二进制文件**。
 
 ## 自动注入
 
@@ -272,14 +270,14 @@ Shell binding requested. Check `nc 127.0.0.1 12345`
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary><strong>从零开始学习 AWS 黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS 红队专家）</strong></a><strong>！</strong></summary>
 
-支持HackTricks的其他方式：
+支持 HackTricks 的其他方式：
 
-* 如果您想在HackTricks中看到您的**公司广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**.**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 如果您想在 HackTricks 中看到您的**公司广告**或**下载 PDF 版本的 HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
+* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
+* 探索[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFT**](https://opensea.io/collection/the-peass-family)收藏品
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live) 上**关注**我们。
+* 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来**分享您的黑客技巧**。
 
 </details>

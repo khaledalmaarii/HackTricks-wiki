@@ -2,14 +2,14 @@
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
 
 支持HackTricks的其他方式：
 
 * 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
 * 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我的 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
+* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品
+* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或在**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**上关注**我们。
 * 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
 
 </details>
@@ -20,7 +20,7 @@
 
 APFS的一些显著特点包括：
 
-1. **空间共享**：APFS允许多个卷**共享单个物理设备上的相同底层空闲存储空间**。这使得卷可以动态增长和收缩，无需手动调整大小或重新分区，从而实现更有效的空间利用。
+1. **空间共享**：APFS允许多个卷**共享单个物理设备上的相同底层空闲存储空间**。这使得空间利用更加高效，因为卷可以动态增长和收缩，无需手动调整大小或重新分区。
 1. 这意味着，与文件磁盘中的传统分区相比，**在APFS中，不同分区（卷）共享所有磁盘空间**，而常规分区通常具有固定大小。
 2. **快照**：APFS支持**创建快照**，这些快照是**只读**的，是文件系统的特定时间点实例。快照可以实现高效备份和轻松系统回滚，因为它们消耗的额外存储空间很少，可以快速创建或还原。
 3. **克隆**：APFS可以**创建共享与原始文件相同存储空间的文件或目录克隆**，直到克隆或原始文件被修改为止。此功能提供了一种有效的方式来创建文件或目录的副本，而无需复制存储空间。
@@ -43,4 +43,4 @@ cat /usr/share/firmlinks
 /Library	Library
 [...]
 ```
-在**左侧**是**系统卷**上的目录路径，在**右侧**是它在**数据卷**上的映射路径。因此，`/library` --> `/system/Volumes/data/library`
+在**左侧**是**系统卷**上的目录路径，在**右侧**是它在**数据卷**上映射的目录路径。因此，`/library` --> `/system/Volumes/data/library`
